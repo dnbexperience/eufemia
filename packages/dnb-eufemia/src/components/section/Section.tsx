@@ -41,7 +41,7 @@ export type SectionProps = {
   /**
    * To define the style of the visual helper. Use and `Style ID` from below. Defaults to `mint-green-12`.
    */
-  style_type?: SectionStyleTypes
+  style_type?: SectionStyleTypes | string
 
   /**
    * Will add the default spacing around the wrapped content. Use `large`, `medium` or `small`. Defaults to `false`. If `true`, then `large` is used. Se the <a href="/uilib/usage/layout/spacing#spacing-helpers">available sizes</a>.
@@ -56,14 +56,17 @@ export type SectionProps = {
   inner_ref?: React.RefObject<HTMLElement>
   className?: string
   children?: React.ReactNode
-} & SpacingProps &
+}
+
+export type SectionAllProps = SectionProps &
+  SpacingProps &
   React.HTMLProps<HTMLElement>
 
 const defaultProps = {
   element: 'section',
 }
 
-export default function Section(localProps: SectionProps) {
+export default function Section(localProps: SectionAllProps) {
   const context = React.useContext(Context)
 
   // use only the props from context, who are available here anyway

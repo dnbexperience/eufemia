@@ -11,6 +11,7 @@ import {
   axeComponent,
   attachToBody,
 } from '../../../core/jest/jestSetup'
+import { render, fireEvent } from '@testing-library/react'
 
 const props = fakeProps(require.resolve('../Drawer.tsx'), {
   all: true,
@@ -147,44 +148,44 @@ describe('Drawer', () => {
       noAnimation: true,
     }
 
-    const Comp = mount(
+    render(
       <Drawer
         {...props}
         id="modal-first"
         onOpen={on_open.first}
         onClose={on_close.first}
       >
-        <button id="content-first">content</button>
+        <button id="content-first">first</button>
         <Drawer
           {...props}
           id="modal-second"
           onOpen={on_open.second}
           onClose={on_close.second}
         >
-          <button id="content-second">content</button>
+          <button id="content-second">second</button>
           <Drawer
             {...props}
             id="modal-third"
             onOpen={on_open.third}
             onClose={on_close.third}
           >
-            <button id="content-third">content</button>
+            <button id="content-third">third</button>
           </Drawer>
         </Drawer>
       </Drawer>
     )
 
-    expect(Comp.exists('#content-third')).toBe(false)
+    expect(document.querySelector('#content-third')).toBeFalsy()
 
-    Comp.find('button#modal-first').simulate('click')
+    fireEvent.click(document.querySelector('button#modal-first'))
     expect(
       document.documentElement.getAttribute('data-dnb-modal-active')
     ).toBe('modal-first')
-    Comp.find('button#modal-second').simulate('click')
+    fireEvent.click(document.querySelector('button#modal-second'))
     expect(
       document.documentElement.getAttribute('data-dnb-modal-active')
     ).toBe('modal-second')
-    Comp.find('button#modal-third').simulate('click')
+    fireEvent.click(document.querySelector('button#modal-third'))
     expect(
       document.documentElement.getAttribute('data-dnb-modal-active')
     ).toBe('modal-third')
@@ -193,38 +194,42 @@ describe('Drawer', () => {
     expect(on_open.second).toHaveBeenCalledTimes(1)
     expect(on_open.third).toHaveBeenCalledTimes(1)
 
-    expect(Comp.find('button.dnb-modal__close-button').length).toBe(3)
     expect(
-      Comp.find('#content-first').instance().hasAttribute('aria-hidden')
+      document.querySelectorAll('button.dnb-modal__close-button').length
+    ).toBe(3)
+    expect(
+      document.querySelector('#content-first').hasAttribute('aria-hidden')
     ).toBe(true)
     expect(
-      Comp.find('#content-second').instance().hasAttribute('aria-hidden')
+      document.querySelector('#content-second').hasAttribute('aria-hidden')
     ).toBe(true)
     expect(
-      Comp.find('#content-third').instance().hasAttribute('aria-hidden')
+      document.querySelector('#content-third').hasAttribute('aria-hidden')
     ).toBe(false)
+
     expect(
-      Comp.find('button.dnb-modal__close-button')
-        .at(0)
-        .instance()
+      document
+        .querySelectorAll('button.dnb-modal__close-button')[0]
         .hasAttribute('aria-hidden')
     ).toBe(true)
     expect(
-      Comp.find('button.dnb-modal__close-button')
-        .at(1)
-        .instance()
+      document
+        .querySelectorAll('button.dnb-modal__close-button')[0]
         .hasAttribute('aria-hidden')
     ).toBe(true)
     expect(
-      Comp.find('button.dnb-modal__close-button')
-        .at(2)
-        .instance()
+      document
+        .querySelectorAll('button.dnb-modal__close-button')[1]
+        .hasAttribute('aria-hidden')
+    ).toBe(true)
+    expect(
+      document
+        .querySelectorAll('button.dnb-modal__close-button')[2]
         .hasAttribute('aria-hidden')
     ).toBe(false)
 
     // Close the third one
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
-    Comp.update()
     expect(on_close.first).toHaveBeenCalledTimes(0)
     expect(on_close.second).toHaveBeenCalledTimes(0)
     expect(on_close.third).toHaveBeenCalledTimes(1)
@@ -232,26 +237,23 @@ describe('Drawer', () => {
     expect(
       document.documentElement.getAttribute('data-dnb-modal-active')
     ).toBe('modal-second')
-    expect(Comp.exists('#content-third')).toBe(false)
+    expect(document.querySelector('#content-third')).toBeFalsy()
     expect(
-      Comp.find('#content-second').instance().hasAttribute('aria-hidden')
+      document.querySelector('#content-second').hasAttribute('aria-hidden')
     ).toBe(false)
     expect(
-      Comp.find('button.dnb-modal__close-button')
-        .at(0)
-        .instance()
+      document
+        .querySelectorAll('button.dnb-modal__close-button')[0]
         .hasAttribute('aria-hidden')
     ).toBe(true)
     expect(
-      Comp.find('button.dnb-modal__close-button')
-        .at(1)
-        .instance()
+      document
+        .querySelectorAll('button.dnb-modal__close-button')[1]
         .hasAttribute('aria-hidden')
     ).toBe(false)
 
     // Close the second one
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
-    Comp.update()
     expect(on_close.first).toHaveBeenCalledTimes(0)
     expect(on_close.second).toHaveBeenCalledTimes(1)
     expect(on_close.third).toHaveBeenCalledTimes(1)
@@ -259,28 +261,49 @@ describe('Drawer', () => {
     expect(
       document.documentElement.getAttribute('data-dnb-modal-active')
     ).toBe('modal-first')
-    expect(Comp.exists('#content-second')).toBe(false)
+    expect(document.querySelector('#content-second')).toBeFalsy()
     expect(
-      Comp.find('#content-first').instance().hasAttribute('aria-hidden')
+      document.querySelector('#content-first').hasAttribute('aria-hidden')
     ).toBe(false)
     expect(
-      Comp.find('button.dnb-modal__close-button')
-        .at(0)
-        .instance()
+      document
+        .querySelectorAll('button.dnb-modal__close-button')[0]
         .hasAttribute('aria-hidden')
     ).toBe(false)
 
     // Close the first one
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
-    Comp.update()
     expect(on_close.first).toHaveBeenCalledTimes(1)
     expect(on_close.second).toHaveBeenCalledTimes(1)
     expect(on_close.third).toHaveBeenCalledTimes(1)
 
-    expect(Comp.exists('#content-first')).toBe(false)
+    expect(document.querySelector('#content-first')).toBeFalsy()
     expect(
       document.documentElement.hasAttribute('data-dnb-modal-active')
     ).toBe(false)
+  })
+
+  it('will accept custom refs', () => {
+    const contentRef = React.createRef<HTMLElement>()
+    const scrollRef = React.createRef<HTMLElement>()
+
+    const MockComponent = () => {
+      return (
+        <Drawer
+          openState
+          noAnimation
+          contentRef={contentRef}
+          scrollRef={scrollRef}
+        >
+          content
+        </Drawer>
+      )
+    }
+
+    render(<MockComponent />)
+
+    expect(contentRef.current).toBeTruthy()
+    expect(scrollRef.current).toBeTruthy()
   })
 
   it('can contain drawer parts', () => {
@@ -295,12 +318,20 @@ describe('Drawer', () => {
 
     Comp.find('button').simulate('click')
 
-    const elements = document.querySelectorAll(
-      '.dnb-drawer__content > .dnb-section'
-    )
-    expect(elements[0].textContent).toContain('navigation')
-    expect(elements[1].textContent).toContain('header')
-    expect(elements[2].textContent).toContain('body')
+    {
+      const elements = document.querySelectorAll(
+        '.dnb-drawer.dnb-scroll-view > .dnb-section'
+      )
+      expect(elements[0].textContent).toContain('navigation')
+      expect(elements[1].textContent).toContain('header')
+    }
+
+    {
+      const elements = document.querySelectorAll(
+        '.dnb-drawer__content > .dnb-section'
+      )
+      expect(elements[0].textContent).toContain('body')
+    }
 
     expect(Comp.find('button.dnb-modal__close-button').length).toBe(1)
   })

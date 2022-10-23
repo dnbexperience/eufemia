@@ -284,6 +284,8 @@ import heart_rate from './heart_rate.js'
 import heart_rate_medium from './heart_rate_medium.js'
 import hide from './hide.js'
 import hide_medium from './hide_medium.js'
+import hierarchy from './hierarchy.js'
+import hierarchy_medium from './hierarchy_medium.js'
 import history from './history.js'
 import history_medium from './history_medium.js'
 import home from './home.js'
@@ -314,6 +316,8 @@ import language from './language.js'
 import language_medium from './language_medium.js'
 import launch from './launch.js'
 import launch_medium from './launch_medium.js'
+import layout_card from './layout_card.js'
+import layout_card_medium from './layout_card_medium.js'
 import leaf from './leaf.js'
 import leaf_medium from './leaf_medium.js'
 import lightbulb from './lightbulb.js'
@@ -495,6 +499,8 @@ import travel from './travel.js'
 import travel_medium from './travel_medium.js'
 import undo from './undo.js'
 import undo_medium from './undo_medium.js'
+import unlock from './unlock.js'
+import unlock_medium from './unlock_medium.js'
 import upload from './upload.js'
 import upload_medium from './upload_medium.js'
 import user_feedback from './user_feedback.js'
@@ -807,6 +813,8 @@ export {
   heart_rate_medium,
   hide,
   hide_medium,
+  hierarchy,
+  hierarchy_medium,
   history,
   history_medium,
   home,
@@ -837,6 +845,8 @@ export {
   language_medium,
   launch,
   launch_medium,
+  layout_card,
+  layout_card_medium,
   leaf,
   leaf_medium,
   lightbulb,
@@ -1018,6 +1028,8 @@ export {
   travel_medium,
   undo,
   undo_medium,
+  unlock,
+  unlock_medium,
   upload,
   upload_medium,
   user_feedback,

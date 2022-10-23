@@ -1,6 +1,6 @@
 ---
 title: 'Tag'
-description: 'The Tag component'
+description: 'The Tag component is a compact element for displaying discrete information.'
 status: null
 showTabs: true
 ---

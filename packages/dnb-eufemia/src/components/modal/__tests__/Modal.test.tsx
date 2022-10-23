@@ -12,7 +12,7 @@ import {
   attachToBody, // in order to use document.activeElement properly
   loadScss,
 } from '../../../core/jest/jestSetup'
-
+import { render } from '@testing-library/react'
 import Input from '../../input/Input'
 import Component, { OriginalComponent } from '../Modal'
 import Button from '../../button/Button'
@@ -175,6 +175,29 @@ describe('Modal component', () => {
   it('has to have the correct title', () => {
     const Comp = mount(<Component {...props} open_state={true} />)
     expect(Comp.find('h1').text()).toBe(props.title)
+  })
+
+  it('will accept custom refs', () => {
+    const contentRef = React.createRef<HTMLElement>()
+    const scrollRef = React.createRef<HTMLElement>()
+
+    const MockComponent = () => {
+      return (
+        <Component
+          openState
+          noAnimation
+          contentRef={contentRef}
+          scrollRef={scrollRef}
+        >
+          content
+        </Component>
+      )
+    }
+
+    render(<MockComponent />)
+
+    expect(contentRef.current).toBeTruthy()
+    expect(scrollRef.current).toBeTruthy()
   })
 
   it('has no trigger button once we set omitTriggerButton', () => {

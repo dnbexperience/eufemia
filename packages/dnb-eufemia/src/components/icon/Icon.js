@@ -358,6 +358,7 @@ export const prepareIcon = (props, context) => {
   }
   if (wrapperParams['aria-hidden']) {
     if (
+      !wrapperParams['data-testid'] &&
       typeof process !== 'undefined' &&
       process.env.NODE_ENV === 'test'
     ) {

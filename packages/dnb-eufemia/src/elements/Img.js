@@ -26,7 +26,7 @@ const Img = ({
   const [hasError, setError] = React.useState(false)
   return (
     <E
-      is={element}
+      as={element}
       internalClass="dnb-img"
       className={classnames(
         className,
@@ -37,7 +37,7 @@ const Img = ({
       skeleton_method="shape"
     >
       <E
-        is="img"
+        as="img"
         alt={alt}
         internalClass={classnames(
           'dnb-img__img',

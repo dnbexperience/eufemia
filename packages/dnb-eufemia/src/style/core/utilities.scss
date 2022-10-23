@@ -2,8 +2,6 @@
  * Utilities
  */
 
-$defaultEasing: cubic-bezier(0.42, 0, 0, 1);
-
 @mixin defaultDropShadow() {
   box-shadow: var(--shadow-default);
 }

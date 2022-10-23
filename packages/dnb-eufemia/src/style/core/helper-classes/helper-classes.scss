@@ -4,7 +4,7 @@
  */
 
 :root {
-  --easing-default: #{$defaultEasing};
+  --easing-default: cubic-bezier(0.42, 0, 0, 1);
 }
 
 // Focus management

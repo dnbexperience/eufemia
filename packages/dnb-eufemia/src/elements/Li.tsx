@@ -27,7 +27,7 @@ const Li = ({ className, ...p }: LiAllProps = {}) => {
     })
   }
 
-  return <E is="li" {...p} className={className} />
+  return <E as="li" {...p} className={className} />
 }
 
 export default Li

@@ -5,7 +5,7 @@
 
 import React from 'react'
 import classnames from 'classnames'
-import E from './Element'
+import E, { ElementProps, ElementIsType } from './Element'
 import Context from '../shared/Context'
 import {
   makeUniqueId,
@@ -15,7 +15,7 @@ import Tooltip from '../components/tooltip/Tooltip'
 import { SpacingProps } from '../shared/types'
 
 export type AnchorProps = {
-  element?: React.ReactNode
+  element?: ElementIsType
   href?: string
   to?: string
   targetBlankTitle?: string
@@ -76,18 +76,22 @@ function AnchorInstance(localProps: AnchorProps) {
     omitClass,
     innerRef,
     targetBlankTitle,
-    ...attributes
+    ...rest
   } = allProps
+
+  const attributes = rest as ElementProps
 
   const internalId = id || 'id' + makeUniqueId()
 
   // WCAG guide: https://www.w3.org/TR/WCAG20-TECHS/G201.html
   const showTooltip = allProps.target === '_blank' && !allProps.title
 
+  const as = (element || 'a') as string
+
   return (
     <>
       <E
-        is={element || 'a'}
+        as={as}
         className={classnames(
           omitClass !== true && 'dnb-anchor',
           className,

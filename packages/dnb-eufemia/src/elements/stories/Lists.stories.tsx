@@ -22,7 +22,7 @@ export default {
 }
 
 export const ListSandbox = () => (
-  <Wrapper className="dnb-spacing">
+  <Wrapper>
     <Provider>
       <div>
         <Box>
@@ -127,10 +127,12 @@ export const ListSandbox = () => (
             <Dd>Description 1</Dd>
             <Dd>Description 2</Dd>
             <Dd>Description 3</Dd>
-            <dl className="dnb-dl">
-              <Dt>Sub Term</Dt>
-              <Dd>Sub Description</Dd>
-            </dl>
+            <Dd>
+              <Dl>
+                <Dt>Sub Term</Dt>
+                <Dd>Sub Description</Dd>
+              </Dl>
+            </Dd>
           </Dl>
         </Box>
         <Box>
@@ -140,7 +142,18 @@ export const ListSandbox = () => (
               <Dd>Description</Dd>
             </Dl.Item>
             <Dl.Item>
+              <Dt>A term with several</Dt>
+              <Dd>
+                Description with several words lorem nulla mi posuere
+                cubilia vel vulputate
+              </Dd>
+            </Dl.Item>
+            <Dl.Item>
               <Dt>A term with several words</Dt>
+              <Dd>Description</Dd>
+            </Dl.Item>
+            <Dl.Item>
+              <Dt>Term word</Dt>
               <Dd>
                 Description with several words lorem nulla mi posuere
                 cubilia vel vulputate

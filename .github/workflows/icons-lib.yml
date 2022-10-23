@@ -114,7 +114,7 @@ jobs:
           path: ./packages/dnb-design-system-portal/public
 
       - name: Run visual tests
-        run: yarn workspace dnb-design-system-portal test:screenshots:ci:update
+        run: yarn workspace dnb-design-system-portal test:screenshots:ci
 
       - name: Commit updated snapshots
         run: yarn workspace @dnb/eufemia postbuild:commit

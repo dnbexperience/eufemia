@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`StepIndicator in loose mode have to match snapshot 1`] = `
-Array [
+[
   <StepIndicatorSidebar
     current_step={null}
-    data={Array []}
+    data={[]}
     mode={null}
     sidebar_id="unique-id-loose-snapshot"
   >
@@ -20,17 +20,17 @@ Array [
     className={null}
     current_step={1}
     data={
-      Array [
-        Object {
+      [
+        {
           "title": "Step A",
         },
-        Object {
+        {
           "title": "Step B",
         },
-        Object {
+        {
           "title": "Step C",
         },
-        Object {
+        {
           "title": "Step D",
         },
       ]
@@ -55,17 +55,17 @@ Array [
       className={null}
       current_step={1}
       data={
-        Array [
-          Object {
+        [
+          {
             "title": "Step A",
           },
-          Object {
+          {
             "title": "Step B",
           },
-          Object {
+          {
             "title": "Step C",
           },
-          Object {
+          {
             "title": "Step D",
           },
         ]
@@ -420,7 +420,7 @@ Array [
                         className={null}
                         icon="check"
                         inner_ref={
-                          Object {
+                          {
                             "current": <button
                               aria-describedby="unique-id-loose-snapshot-0"
                               class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -503,7 +503,7 @@ Array [
                           id={null}
                           innerRef={null}
                           inner_ref={
-                            Object {
+                            {
                               "current": <button
                                 aria-describedby="unique-id-loose-snapshot-0"
                                 class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -616,7 +616,7 @@ Array [
                               id={null}
                               innerRef={null}
                               inner_ref={
-                                Object {
+                                {
                                   "current": <button
                                     aria-describedby="unique-id-loose-snapshot-0"
                                     class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -844,7 +844,7 @@ Array [
                         className={null}
                         icon="check"
                         inner_ref={
-                          Object {
+                          {
                             "current": <button
                               aria-describedby="unique-id-loose-snapshot-1"
                               class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -927,7 +927,7 @@ Array [
                           id={null}
                           innerRef={null}
                           inner_ref={
-                            Object {
+                            {
                               "current": <button
                                 aria-describedby="unique-id-loose-snapshot-1"
                                 class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -1040,7 +1040,7 @@ Array [
                               id={null}
                               innerRef={null}
                               inner_ref={
-                                Object {
+                                {
                                   "current": <button
                                     aria-describedby="unique-id-loose-snapshot-1"
                                     class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -1267,7 +1267,7 @@ Array [
                         className={null}
                         icon="check"
                         inner_ref={
-                          Object {
+                          {
                             "current": <button
                               aria-describedby="unique-id-loose-snapshot-2"
                               class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -1350,7 +1350,7 @@ Array [
                           id={null}
                           innerRef={null}
                           inner_ref={
-                            Object {
+                            {
                               "current": <button
                                 aria-describedby="unique-id-loose-snapshot-2"
                                 class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -1463,7 +1463,7 @@ Array [
                               id={null}
                               innerRef={null}
                               inner_ref={
-                                Object {
+                                {
                                   "current": <button
                                     aria-describedby="unique-id-loose-snapshot-2"
                                     class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -1690,7 +1690,7 @@ Array [
                         className={null}
                         icon="check"
                         inner_ref={
-                          Object {
+                          {
                             "current": <button
                               aria-describedby="unique-id-loose-snapshot-3"
                               class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -1773,7 +1773,7 @@ Array [
                           id={null}
                           innerRef={null}
                           inner_ref={
-                            Object {
+                            {
                               "current": <button
                                 aria-describedby="unique-id-loose-snapshot-3"
                                 class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -1886,7 +1886,7 @@ Array [
                               id={null}
                               innerRef={null}
                               inner_ref={
-                                Object {
+                                {
                                   "current": <button
                                     aria-describedby="unique-id-loose-snapshot-3"
                                     class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -2095,10 +2095,10 @@ Array [
 `;
 
 exports[`StepIndicator in loose mode have to match snapshot on small screen 1`] = `
-Array [
+[
   <StepIndicatorSidebar
     current_step={null}
-    data={Array []}
+    data={[]}
     mode={null}
     sidebar_id="unique-id-loose-snapshot"
   >
@@ -2114,17 +2114,17 @@ Array [
     className={null}
     current_step={1}
     data={
-      Array [
-        Object {
+      [
+        {
           "title": "Step A",
         },
-        Object {
+        {
           "title": "Step B",
         },
-        Object {
+        {
           "title": "Step C",
         },
-        Object {
+        {
           "title": "Step D",
         },
       ]
@@ -2149,17 +2149,17 @@ Array [
       className={null}
       current_step={1}
       data={
-        Array [
-          Object {
+        [
+          {
             "title": "Step A",
           },
-          Object {
+          {
             "title": "Step B",
           },
-          Object {
+          {
             "title": "Step C",
           },
-          Object {
+          {
             "title": "Step D",
           },
         ]
@@ -2186,7 +2186,7 @@ Array [
           <StepIndicatorTriggerButton
             className={null}
             inner_ref={
-              Object {
+              {
                 "current": <button
                   aria-describedby="unique-id-loose-snapshot-overview"
                   class="dnb-button dnb-button--secondary dnb-button--has-text dnb-step-indicator__trigger__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -2303,7 +2303,7 @@ Array [
                 id="unique-id-loose-snapshot"
                 innerRef={null}
                 inner_ref={
-                  Object {
+                  {
                     "current": <button
                       aria-describedby="unique-id-loose-snapshot-overview"
                       class="dnb-button dnb-button--secondary dnb-button--has-text dnb-step-indicator__trigger__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -2417,7 +2417,7 @@ Array [
                     id="unique-id-loose-snapshot"
                     innerRef={null}
                     inner_ref={
-                      Object {
+                      {
                         "current": <button
                           aria-describedby="unique-id-loose-snapshot-overview"
                           class="dnb-button dnb-button--secondary dnb-button--has-text dnb-step-indicator__trigger__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -2722,10 +2722,10 @@ Array [
 `;
 
 exports[`StepIndicator in static mode have to match snapshot 1`] = `
-Array [
+[
   <StepIndicatorSidebar
     current_step={null}
-    data={Array []}
+    data={[]}
     mode={null}
     sidebar_id="unique-id-static-snapshot"
   >
@@ -2741,17 +2741,17 @@ Array [
     className={null}
     current_step={1}
     data={
-      Array [
-        Object {
+      [
+        {
           "title": "Step A",
         },
-        Object {
+        {
           "title": "Step B",
         },
-        Object {
+        {
           "title": "Step C",
         },
-        Object {
+        {
           "title": "Step D",
         },
       ]
@@ -2776,17 +2776,17 @@ Array [
       className={null}
       current_step={1}
       data={
-        Array [
-          Object {
+        [
+          {
             "title": "Step A",
           },
-          Object {
+          {
             "title": "Step B",
           },
-          Object {
+          {
             "title": "Step C",
           },
-          Object {
+          {
             "title": "Step D",
           },
         ]
@@ -3138,7 +3138,7 @@ Array [
                         element="span"
                         icon="check"
                         inner_ref={
-                          Object {
+                          {
                             "current": <span
                               aria-describedby="unique-id-static-snapshot-0"
                               class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -3220,7 +3220,7 @@ Array [
                           id={null}
                           innerRef={null}
                           inner_ref={
-                            Object {
+                            {
                               "current": <span
                                 aria-describedby="unique-id-static-snapshot-0"
                                 class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -3329,7 +3329,7 @@ Array [
                               id={null}
                               innerRef={null}
                               inner_ref={
-                                Object {
+                                {
                                   "current": <span
                                     aria-describedby="unique-id-static-snapshot-0"
                                     class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -3556,7 +3556,7 @@ Array [
                         element="span"
                         icon="check"
                         inner_ref={
-                          Object {
+                          {
                             "current": <span
                               aria-describedby="unique-id-static-snapshot-1"
                               class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -3638,7 +3638,7 @@ Array [
                           id={null}
                           innerRef={null}
                           inner_ref={
-                            Object {
+                            {
                               "current": <span
                                 aria-describedby="unique-id-static-snapshot-1"
                                 class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -3747,7 +3747,7 @@ Array [
                               id={null}
                               innerRef={null}
                               inner_ref={
-                                Object {
+                                {
                                   "current": <span
                                     aria-describedby="unique-id-static-snapshot-1"
                                     class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -3973,7 +3973,7 @@ Array [
                         element="span"
                         icon="check"
                         inner_ref={
-                          Object {
+                          {
                             "current": <span
                               aria-describedby="unique-id-static-snapshot-2"
                               class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -4055,7 +4055,7 @@ Array [
                           id={null}
                           innerRef={null}
                           inner_ref={
-                            Object {
+                            {
                               "current": <span
                                 aria-describedby="unique-id-static-snapshot-2"
                                 class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -4164,7 +4164,7 @@ Array [
                               id={null}
                               innerRef={null}
                               inner_ref={
-                                Object {
+                                {
                                   "current": <span
                                     aria-describedby="unique-id-static-snapshot-2"
                                     class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -4390,7 +4390,7 @@ Array [
                         element="span"
                         icon="check"
                         inner_ref={
-                          Object {
+                          {
                             "current": <span
                               aria-describedby="unique-id-static-snapshot-3"
                               class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -4472,7 +4472,7 @@ Array [
                           id={null}
                           innerRef={null}
                           inner_ref={
-                            Object {
+                            {
                               "current": <span
                                 aria-describedby="unique-id-static-snapshot-3"
                                 class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -4581,7 +4581,7 @@ Array [
                               id={null}
                               innerRef={null}
                               inner_ref={
-                                Object {
+                                {
                                   "current": <span
                                     aria-describedby="unique-id-static-snapshot-3"
                                     class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -4788,10 +4788,10 @@ Array [
 `;
 
 exports[`StepIndicator in static mode have to match snapshot on small screen 1`] = `
-Array [
+[
   <StepIndicatorSidebar
     current_step={null}
-    data={Array []}
+    data={[]}
     mode={null}
     sidebar_id="unique-id-static-snapshot"
   >
@@ -4807,17 +4807,17 @@ Array [
     className={null}
     current_step={1}
     data={
-      Array [
-        Object {
+      [
+        {
           "title": "Step A",
         },
-        Object {
+        {
           "title": "Step B",
         },
-        Object {
+        {
           "title": "Step C",
         },
-        Object {
+        {
           "title": "Step D",
         },
       ]
@@ -4842,17 +4842,17 @@ Array [
       className={null}
       current_step={1}
       data={
-        Array [
-          Object {
+        [
+          {
             "title": "Step A",
           },
-          Object {
+          {
             "title": "Step B",
           },
-          Object {
+          {
             "title": "Step C",
           },
-          Object {
+          {
             "title": "Step D",
           },
         ]
@@ -4879,7 +4879,7 @@ Array [
           <StepIndicatorTriggerButton
             className={null}
             inner_ref={
-              Object {
+              {
                 "current": <button
                   aria-describedby="unique-id-static-snapshot-overview"
                   class="dnb-button dnb-button--secondary dnb-button--has-text dnb-step-indicator__trigger__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -4996,7 +4996,7 @@ Array [
                 id="unique-id-static-snapshot"
                 innerRef={null}
                 inner_ref={
-                  Object {
+                  {
                     "current": <button
                       aria-describedby="unique-id-static-snapshot-overview"
                       class="dnb-button dnb-button--secondary dnb-button--has-text dnb-step-indicator__trigger__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -5110,7 +5110,7 @@ Array [
                     id="unique-id-static-snapshot"
                     innerRef={null}
                     inner_ref={
-                      Object {
+                      {
                         "current": <button
                           aria-describedby="unique-id-static-snapshot-overview"
                           class="dnb-button dnb-button--secondary dnb-button--has-text dnb-step-indicator__trigger__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -5415,10 +5415,10 @@ Array [
 `;
 
 exports[`StepIndicator in strict mode have to match snapshot 1`] = `
-Array [
+[
   <StepIndicatorSidebar
     current_step={null}
-    data={Array []}
+    data={[]}
     mode={null}
     sidebar_id="unique-id-strict-snapshot"
   >
@@ -5434,17 +5434,17 @@ Array [
     className={null}
     current_step={1}
     data={
-      Array [
-        Object {
+      [
+        {
           "title": "Step A",
         },
-        Object {
+        {
           "title": "Step B",
         },
-        Object {
+        {
           "title": "Step C",
         },
-        Object {
+        {
           "title": "Step D",
         },
       ]
@@ -5469,17 +5469,17 @@ Array [
       className={null}
       current_step={1}
       data={
-        Array [
-          Object {
+        [
+          {
             "title": "Step A",
           },
-          Object {
+          {
             "title": "Step B",
           },
-          Object {
+          {
             "title": "Step C",
           },
-          Object {
+          {
             "title": "Step D",
           },
         ]
@@ -5832,7 +5832,7 @@ Array [
                         className={null}
                         icon="check"
                         inner_ref={
-                          Object {
+                          {
                             "current": <button
                               aria-describedby="unique-id-strict-snapshot-0"
                               class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -5915,7 +5915,7 @@ Array [
                           id={null}
                           innerRef={null}
                           inner_ref={
-                            Object {
+                            {
                               "current": <button
                                 aria-describedby="unique-id-strict-snapshot-0"
                                 class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -6028,7 +6028,7 @@ Array [
                               id={null}
                               innerRef={null}
                               inner_ref={
-                                Object {
+                                {
                                   "current": <button
                                     aria-describedby="unique-id-strict-snapshot-0"
                                     class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -6256,7 +6256,7 @@ Array [
                         className={null}
                         icon="check"
                         inner_ref={
-                          Object {
+                          {
                             "current": <button
                               aria-describedby="unique-id-strict-snapshot-1"
                               class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -6339,7 +6339,7 @@ Array [
                           id={null}
                           innerRef={null}
                           inner_ref={
-                            Object {
+                            {
                               "current": <button
                                 aria-describedby="unique-id-strict-snapshot-1"
                                 class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -6452,7 +6452,7 @@ Array [
                               id={null}
                               innerRef={null}
                               inner_ref={
-                                Object {
+                                {
                                   "current": <button
                                     aria-describedby="unique-id-strict-snapshot-1"
                                     class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -6680,7 +6680,7 @@ Array [
                         element="span"
                         icon="check"
                         inner_ref={
-                          Object {
+                          {
                             "current": <span
                               aria-describedby="unique-id-strict-snapshot-2"
                               class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -6762,7 +6762,7 @@ Array [
                           id={null}
                           innerRef={null}
                           inner_ref={
-                            Object {
+                            {
                               "current": <span
                                 aria-describedby="unique-id-strict-snapshot-2"
                                 class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -6871,7 +6871,7 @@ Array [
                               id={null}
                               innerRef={null}
                               inner_ref={
-                                Object {
+                                {
                                   "current": <span
                                     aria-describedby="unique-id-strict-snapshot-2"
                                     class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -7097,7 +7097,7 @@ Array [
                         element="span"
                         icon="check"
                         inner_ref={
-                          Object {
+                          {
                             "current": <span
                               aria-describedby="unique-id-strict-snapshot-3"
                               class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -7179,7 +7179,7 @@ Array [
                           id={null}
                           innerRef={null}
                           inner_ref={
-                            Object {
+                            {
                               "current": <span
                                 aria-describedby="unique-id-strict-snapshot-3"
                                 class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -7288,7 +7288,7 @@ Array [
                               id={null}
                               innerRef={null}
                               inner_ref={
-                                Object {
+                                {
                                   "current": <span
                                     aria-describedby="unique-id-strict-snapshot-3"
                                     class="dnb-button dnb-button--secondary dnb-button--has-text dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -7495,10 +7495,10 @@ Array [
 `;
 
 exports[`StepIndicator in strict mode have to match snapshot on small screen 1`] = `
-Array [
+[
   <StepIndicatorSidebar
     current_step={null}
-    data={Array []}
+    data={[]}
     mode={null}
     sidebar_id="unique-id-strict-snapshot"
   >
@@ -7514,17 +7514,17 @@ Array [
     className={null}
     current_step={1}
     data={
-      Array [
-        Object {
+      [
+        {
           "title": "Step A",
         },
-        Object {
+        {
           "title": "Step B",
         },
-        Object {
+        {
           "title": "Step C",
         },
-        Object {
+        {
           "title": "Step D",
         },
       ]
@@ -7549,17 +7549,17 @@ Array [
       className={null}
       current_step={1}
       data={
-        Array [
-          Object {
+        [
+          {
             "title": "Step A",
           },
-          Object {
+          {
             "title": "Step B",
           },
-          Object {
+          {
             "title": "Step C",
           },
-          Object {
+          {
             "title": "Step D",
           },
         ]
@@ -7586,7 +7586,7 @@ Array [
           <StepIndicatorTriggerButton
             className={null}
             inner_ref={
-              Object {
+              {
                 "current": <button
                   aria-describedby="unique-id-strict-snapshot-overview"
                   class="dnb-button dnb-button--secondary dnb-button--has-text dnb-step-indicator__trigger__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -7703,7 +7703,7 @@ Array [
                 id="unique-id-strict-snapshot"
                 innerRef={null}
                 inner_ref={
-                  Object {
+                  {
                     "current": <button
                       aria-describedby="unique-id-strict-snapshot-overview"
                       class="dnb-button dnb-button--secondary dnb-button--has-text dnb-step-indicator__trigger__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -7817,7 +7817,7 @@ Array [
                     id="unique-id-strict-snapshot"
                     innerRef={null}
                     inner_ref={
-                      Object {
+                      {
                         "current": <button
                           aria-describedby="unique-id-strict-snapshot-overview"
                           class="dnb-button dnb-button--secondary dnb-button--has-text dnb-step-indicator__trigger__button dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-medium dnb-button--stretch dnb-button--wrap"
@@ -8170,8 +8170,8 @@ exports[`StepIndicator scss have to match default theme snapshot 1`] = `
   font-weight: var(--font-weight-medium);
   --border-color: var(--color-sea-green);
   box-shadow: inset 0 0 0 0.125rem var(--border-color);
-  /* iOS fix - because \\"inset\\" works not fine with border-radius */
-  /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
+  /* iOS fix - because "inset" works not fine with border-radius */
+  /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
   border-color: transparent; }
   @supports (-webkit-touch-callout: none) {
     .dnb-step-indicator-v2 .dnb-step-indicator__item--current .dnb-button {
@@ -8196,8 +8196,8 @@ exports[`StepIndicator scss have to match default theme snapshot 1`] = `
     background-color: var(--color-white);
     --border-color: var(--color-black-20);
     box-shadow: inset 0 0 0 0.0625rem var(--border-color);
-    /* iOS fix - because \\"inset\\" works not fine with border-radius */
-    /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
+    /* iOS fix - because "inset" works not fine with border-radius */
+    /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
     border-color: transparent; }
     @supports (-webkit-touch-callout: none) {
       .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:hover, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:focus, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:active {
@@ -8213,8 +8213,8 @@ exports[`StepIndicator scss have to match default theme snapshot 1`] = `
 .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:hover, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:focus, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:active {
   --border-color: var(--color-black-80);
   box-shadow: inset 0 0 0 0.125rem var(--border-color);
-  /* iOS fix - because \\"inset\\" works not fine with border-radius */
-  /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
+  /* iOS fix - because "inset" works not fine with border-radius */
+  /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
   border-color: transparent; }
   @supports (-webkit-touch-callout: none) {
     .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:hover, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:focus, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:active {
@@ -8414,23 +8414,23 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
   padding: 0 1rem;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 200ms cubic-bezier(0.42, 0, 0, 1); }
+  transition: opacity 200ms var(--easing-default); }
   .dnb-tooltip--large {
     padding: 0.25rem 1rem; }
   .dnb-tooltip--animate_position {
-    transition: all 200ms cubic-bezier(0.42, 0, 0, 1), opacity 200ms cubic-bezier(0.42, 0, 0, 1); }
+    transition: all 200ms var(--easing-default), opacity 200ms var(--easing-default); }
   .dnb-tooltip--active {
     visibility: visible;
     /*
-      because of the first \\"show\\" we also use animation
+      because of the first "show" we also use animation
       also, use forwards because of the usage of visibility
     */
-    animation: show-tooltip 200ms cubic-bezier(0.42, 0, 0, 1) forwards; }
+    animation: show-tooltip 200ms var(--easing-default) forwards; }
   html[data-visual-test] .dnb-tooltip--active, .dnb-tooltip--active.dnb-tooltip--no-animation {
-    animation: show-tooltip 1ms cubic-bezier(0.42, 0, 0, 1) forwards; }
+    animation: show-tooltip 1ms var(--easing-default) forwards; }
   .dnb-tooltip--hide {
     visibility: visible;
-    animation: hide-tooltip 200ms cubic-bezier(0.42, 0, 0, 1) forwards; }
+    animation: hide-tooltip 200ms var(--easing-default) forwards; }
   .dnb-tooltip--hide.dnb-tooltip--no-animation {
     animation: hide-tooltip 1ms linear forwards; }
   .dnb-tooltip--fixed {
@@ -8549,7 +8549,7 @@ exports[`StepIndicator scss have to match snapshot 1`] = `
 .dnb-form-status {
   display: flex;
   opacity: 1;
-  transition: height 400ms cubic-bezier(0.42, 0, 0, 1), opacity 400ms cubic-bezier(0.42, 0, 0, 1), margin 400ms cubic-bezier(0.42, 0, 0, 1), padding 400ms cubic-bezier(0.42, 0, 0, 1); }
+  transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default); }
   .dnb-form-status--hidden {
     will-change: height, opacity, margin, padding;
     width: 0;
@@ -9005,7 +9005,7 @@ button.dnb-button::-moz-focus-inner {
   justify-content: space-between;
   border-radius: 0.25rem;
   will-change: height;
-  transition: height 400ms cubic-bezier(0.42, 0, 0, 1); }
+  transition: height 400ms var(--easing-default); }
   .dnb-step-indicator-v2 .dnb-step-indicator__trigger__button .dnb-button__text,
   .dnb-step-indicator-v2 .dnb-step-indicator__item .dnb-button .dnb-button__text {
     text-align: left; }

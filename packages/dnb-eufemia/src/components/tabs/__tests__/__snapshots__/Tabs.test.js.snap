@@ -12,16 +12,16 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
     content_spacing={true}
     content_style={null}
     data={
-      Array [
-        Object {
+      [
+        {
           "key": "first",
           "title": "First",
         },
-        Object {
+        {
           "key": "second",
           "title": "Second",
         },
-        Object {
+        {
           "key": "third",
           "title": "Third",
         },
@@ -545,14 +545,14 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
 exports[`Tabs component have to match snapshot 1`] = `
 <Tabs
   0={
-    Object {
+    {
       "displayName": "Tabs",
-      "props": Object {
+      "props": {
         "align": "'left'",
-        "children": Object {},
+        "children": {},
         "class": "class",
         "className": "className",
-        "content": Object {},
+        "content": {},
         "content_spacing": "content_spacing",
         "content_style": "content_style",
         "data": "data",
@@ -570,7 +570,7 @@ exports[`Tabs component have to match snapshot 1`] = `
         "scroll": "scroll",
         "selected_key": "selected_key",
         "skeleton": "skeleton",
-        "tab_element": Object {},
+        "tab_element": {},
         "tabs_spacing": "tabs_spacing",
         "tabs_style": "tabs_style",
         "use_hash": "use_hash",
@@ -578,17 +578,17 @@ exports[`Tabs component have to match snapshot 1`] = `
     }
   }
   1={
-    Object {
+    {
       "displayName": "Dummy",
-      "props": Object {
+      "props": {
         "children": "children",
       },
     }
   }
   2={
-    Object {
+    {
       "displayName": "ScrollNavButton",
-      "props": Object {
+      "props": {
         "className": "className",
       },
     }
@@ -600,16 +600,16 @@ exports[`Tabs component have to match snapshot 1`] = `
   content_spacing={true}
   content_style={null}
   data={
-    Array [
-      Object {
+    [
+      {
         "key": "first",
         "title": "First",
       },
-      Object {
+      {
         "key": "second",
         "title": "Second",
       },
-      Object {
+      {
         "key": "third",
         "title": "Third",
       },
@@ -1426,7 +1426,7 @@ exports[`Tabs scss have to match snapshot 1`] = `
     display: flex;
     padding: 0 1rem 0 1.5rem;
     will-change: padding;
-    transition: padding 1s cubic-bezier(0.42, 0, 0, 1); }
+    transition: padding 1s var(--easing-default); }
     @media screen and (max-width: 40em) {
       .dnb-tabs__button__snap {
         padding: 0 1rem; } }

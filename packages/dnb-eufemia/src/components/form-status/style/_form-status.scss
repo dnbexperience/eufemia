@@ -12,9 +12,9 @@
 
   opacity: 1;
 
-  transition: height 400ms #{$defaultEasing},
-    opacity 400ms #{$defaultEasing}, margin 400ms #{$defaultEasing},
-    padding 400ms #{$defaultEasing};
+  transition: height 400ms var(--easing-default),
+    opacity 400ms var(--easing-default), margin 400ms var(--easing-default),
+    padding 400ms var(--easing-default);
 
   &--hidden {
     will-change: height, opacity, margin, padding;

@@ -3,15 +3,15 @@
 exports[`Checkbox component have to match snapshot 1`] = `
 <Checkbox
   0={
-    Object {
+    {
       "displayName": "Checkbox",
-      "props": Object {
+      "props": {
         "attributes": "attributes",
         "checked": "checked",
         "children": "children",
         "class": "class",
         "className": "className",
-        "custom_element": Object {},
+        "custom_element": {},
         "custom_method": [Function],
         "default_state": "default_state",
         "disabled": "disabled",
@@ -27,7 +27,7 @@ exports[`Checkbox component have to match snapshot 1`] = `
         "skeleton": "skeleton",
         "status": "status",
         "status_no_animation": "status_no_animation",
-        "status_props": Object {},
+        "status_props": {},
         "status_state": "status_state",
         "suffix": "suffix",
         "title": "title",
@@ -36,9 +36,9 @@ exports[`Checkbox component have to match snapshot 1`] = `
     }
   }
   1={
-    Object {
+    {
       "displayName": "CheckIcon",
-      "props": Object {
+      "props": {
         "size": "size",
       },
     }
@@ -436,7 +436,7 @@ legend.dnb-form-label {
 .dnb-form-status {
   display: flex;
   opacity: 1;
-  transition: height 400ms cubic-bezier(0.42, 0, 0, 1), opacity 400ms cubic-bezier(0.42, 0, 0, 1), margin 400ms cubic-bezier(0.42, 0, 0, 1), padding 400ms cubic-bezier(0.42, 0, 0, 1); }
+  transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default); }
   .dnb-form-status--hidden {
     will-change: height, opacity, margin, padding;
     width: 0;

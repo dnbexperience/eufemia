@@ -30,7 +30,7 @@ interface ModalHeaderBarState {
 }
 
 export default class ModalHeaderBar extends React.PureComponent<
-  ModalHeaderBarProps,
+  ModalHeaderBarProps & React.HTMLProps<HTMLElement>,
   ModalHeaderBarState
 > {
   static contextType = ModalContext

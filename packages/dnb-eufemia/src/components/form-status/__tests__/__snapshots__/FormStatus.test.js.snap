@@ -3,9 +3,9 @@
 exports[`FormStatus component have to match snapshot 1`] = `
 <FormStatus
   0={
-    Object {
+    {
       "displayName": "FormStatus",
-      "props": Object {
+      "props": {
         "attributes": "attributes",
         "children": "children",
         "class": "class",
@@ -27,39 +27,39 @@ exports[`FormStatus component have to match snapshot 1`] = `
         "text_id": "text_id",
         "title": "title",
         "variant": "'flat'",
-        "width_element": Object {},
+        "width_element": {},
         "width_selector": "width_selector",
       },
     }
   }
   1={
-    Object {
+    {
       "displayName": "ErrorIcon",
-      "props": Object {
+      "props": {
         "title": "title",
       },
     }
   }
   2={
-    Object {
+    {
       "displayName": "WarnIcon",
-      "props": Object {
+      "props": {
         "title": "title",
       },
     }
   }
   3={
-    Object {
+    {
       "displayName": "InfoIcon",
-      "props": Object {
+      "props": {
         "title": "title",
       },
     }
   }
   4={
-    Object {
+    {
       "displayName": "MarketingIcon",
-      "props": Object {
+      "props": {
         "title": "title",
       },
     }
@@ -324,7 +324,7 @@ exports[`FormStatus scss have to match snapshot 1`] = `
 .dnb-form-status {
   display: flex;
   opacity: 1;
-  transition: height 400ms cubic-bezier(0.42, 0, 0, 1), opacity 400ms cubic-bezier(0.42, 0, 0, 1), margin 400ms cubic-bezier(0.42, 0, 0, 1), padding 400ms cubic-bezier(0.42, 0, 0, 1); }
+  transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default); }
   .dnb-form-status--hidden {
     will-change: height, opacity, margin, padding;
     width: 0;

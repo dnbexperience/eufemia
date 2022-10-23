@@ -67,7 +67,7 @@ const CodeBlock = ({
           <Wrapper
             className={createSkeletonClass('code', context.skeleton)}
           >
-            <Tag is="pre" className={className} css={style}>
+            <Tag as="pre" className={className} css={style}>
               {cleanTokens(tokens).map((line, i) => (
                 /* eslint-disable react/jsx-key */
                 <div {...getLineProps({ line, key: i })}>

@@ -13,7 +13,7 @@ export type DdProps = {
 }
 
 const Dd = React.forwardRef((props: DdProps & SpacingProps, ref) => (
-  <E is="dd" inner_ref={ref} {...props} />
+  <E as="dd" inner_ref={ref} {...props} />
 ))
 
 export default Dd

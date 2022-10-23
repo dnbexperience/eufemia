@@ -11,6 +11,7 @@ import {
   axeComponent,
   loadScss,
 } from '../../../core/jest/jestSetup'
+import { render } from '@testing-library/react'
 import Component from '../Input'
 import { format } from '../../number-format/NumberUtils'
 
@@ -329,6 +330,27 @@ describe('Input component', () => {
     expect(Comp.find('.dnb-form-status__text').text()).toBe('status')
   })
 
+  it('shows form-status with correct classes', () => {
+    render(
+      <Component
+        value="value"
+        status="status text"
+        status_state="warn"
+        status_props={{ stretch: true }}
+      />
+    )
+
+    expect(
+      Array.from(document.querySelector('.dnb-form-status').classList)
+    ).toEqual([
+      'dnb-form-status',
+      'dnb-form-status--warn',
+      'dnb-form-status__size--default',
+      'dnb-form-status--stretch',
+      'dnb-form-status--has-content',
+    ])
+  })
+
   it('has a disabled attribute, once we set disabled to true', () => {
     const Comp = mount(<Component />)
     Comp.setProps({
@@ -441,6 +463,18 @@ describe('Input with clear button', () => {
 
     const clearButton = Comp.find('button#input-id-clear-button')
     clearButton.simulate('click')
+
+    expect(Comp.find('input').instance().getAttribute('value')).toBe('')
+    expect(clearButton.instance().getAttribute('aria-hidden')).toBe('true')
+    expect(clearButton.instance().hasAttribute('disabled')).toBe(true)
+  })
+
+  it('should have a disabled clear button when initially empty value is given', () => {
+    const Comp = mount(<Component id="input-id" clear={true} />)
+
+    expect(Comp.find('input').instance().getAttribute('value')).toBe('')
+
+    const clearButton = Comp.find('button#input-id-clear-button')
 
     expect(Comp.find('input').instance().getAttribute('value')).toBe('')
     expect(clearButton.instance().getAttribute('aria-hidden')).toBe('true')

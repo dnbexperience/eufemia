@@ -3,12 +3,17 @@ import classnames from 'classnames'
 import ModalHeaderBar, {
   ModalHeaderBarProps,
 } from '../../modal/parts/ModalHeaderBar'
+import { DrawerContentContext } from './DrawerContentContext'
 
 export default function DrawerNavigation({
   className,
   ref, //eslint-disable-line
   ...props
-}: ModalHeaderBarProps) {
+}: ModalHeaderBarProps & React.HTMLProps<HTMLElement>) {
+  const contentContext = React.useContext(DrawerContentContext)
+  if (contentContext?.navigationElement) {
+    return null
+  }
   return (
     <ModalHeaderBar
       {...props}

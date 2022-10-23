@@ -1,11 +1,13 @@
 import React from 'react'
 import classnames from 'classnames'
-import { DynamicElement, SpacingProps } from '../../shared/types'
+import { SpacingProps } from '../../shared/types'
 import {
   useHeightAnimation,
   useHeightAnimationOptions,
 } from './useHeightAnimation'
-import Space from '../space/Space'
+import Space, { SpaceProps } from '../space/Space'
+
+import type { DynamicElement } from '../../shared/types'
 
 export type HeightAnimationProps = {
   /**
@@ -13,6 +15,12 @@ export type HeightAnimationProps = {
    * Default: false
    */
   keepInDOM?: boolean
+
+  /**
+   * Set to `true` to omit the usage of "overflow: hidden;"
+   * Default: false
+   */
+  showOverflow?: boolean
 
   /**
    * Set to `true` ensure the nested children content will be kept in the DOM.
@@ -31,14 +39,17 @@ export type HeightAnimationProps = {
    * Default: null
    */
   innerRef?: React.RefObject<HTMLElement>
-
-  className?: React.ReactNode
 } & useHeightAnimationOptions
 
+export type HeightAnimationAllProps = HeightAnimationProps &
+  SpacingProps &
+  React.HTMLProps<HTMLElement>
+
 export default function HeightAnimation({
-  open = false,
+  open = true,
   animate = true,
   keepInDOM = false,
+  showOverflow = false,
   element,
   duration,
   className,
@@ -47,9 +58,10 @@ export default function HeightAnimation({
   onInit = null,
   onOpen = null,
   onAnimationEnd = null,
-  ...props
-}: HeightAnimationProps & SpacingProps) {
+  ...rest
+}: HeightAnimationAllProps) {
   const ref = React.useRef<HTMLElement>()
+  const props = rest as SpaceProps
 
   const { isInDOM, isVisible, isVisibleParallax, isAnimating } =
     useHeightAnimation(innerRef || ref, {
@@ -84,6 +96,7 @@ export default function HeightAnimation({
           !isAnimating &&
           !open &&
           'dnb-height-animation--hidden',
+        showOverflow && 'dnb-height-animation--show-overflow',
         className
       )}
       style={style}

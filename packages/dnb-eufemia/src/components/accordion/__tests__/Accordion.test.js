@@ -16,6 +16,9 @@ import {
   subtract_medium as SubtractIcon,
 } from '../../../icons'
 import { render, fireEvent } from '@testing-library/react'
+import MatchMediaMock from 'jest-matchmedia-mock'
+
+new MatchMediaMock()
 
 const props = {}
 props.id = 'accordion'
@@ -78,6 +81,29 @@ describe('Accordion component', () => {
     expect(my_event.mock.calls[1][0].expanded).toBe(false)
   })
 
+  it('uses a p element when string content is given', () => {
+    const { rerender } = render(
+      <Accordion {...props} expanded>
+        string content
+      </Accordion>
+    )
+
+    expect(document.querySelector('.dnb-p').textContent).toBe(
+      'string content'
+    )
+
+    rerender(
+      <Accordion {...props} expanded>
+        <span className="no-string">no string content</span>
+      </Accordion>
+    )
+
+    expect(document.querySelector('.dnb-p')).toBeFalsy()
+    expect(document.querySelector('.no-string').textContent).toBe(
+      'no string content'
+    )
+  })
+
   it('has a disabled attribute, once we set disabled to true', () => {
     const { rerender } = render(<Accordion {...props} />)
 
@@ -87,6 +113,18 @@ describe('Accordion component', () => {
         .querySelector('.dnb-accordion__header')
         .hasAttribute('disabled')
     ).toBe(true)
+  })
+
+  it('has correct classes when no_animation', () => {
+    render(<Accordion no_animation />)
+
+    expect(
+      Array.from(
+        document.querySelector('.dnb-accordion__header').classList
+      )
+    ).toEqual(
+      expect.arrayContaining(['dnb-accordion__header--no-animation'])
+    )
   })
 
   it('supports an icon for expanded state ', () => {
@@ -136,36 +174,18 @@ describe('Accordion component', () => {
     render(<Accordion {...props} prerender={true} />)
 
     expect(
-      Array.from(document.querySelector('.dnb-accordion__content'))
-    ).toBeTruthy()
-
-    expect(
-      document
-        .querySelector('.dnb-accordion__content__inner')
-        .classList.contains(
-          'dnb-accordion__content__inner--remove-content'
-        )
-    ).toBe(true)
+      Array.from(
+        document.querySelector('.dnb-accordion__content').classList
+      )
+    ).toEqual(expect.arrayContaining(['dnb-height-animation--hidden']))
 
     fireEvent.click(document.querySelector('.dnb-accordion__header'))
 
-    expect(document.querySelector('.dnb-accordion__content')).toBeTruthy()
     expect(
       Array.from(
         document.querySelector('.dnb-accordion__content').classList
       )
-    ).toEqual([
-      'dnb-accordion__content',
-      'dnb-accordion__content--is-animating',
-    ])
-
-    expect(
-      document
-        .querySelector('.dnb-accordion__content__inner')
-        .classList.contains(
-          'dnb-accordion__content__inner--remove-content'
-        )
-    ).toBe(false)
+    ).toEqual(expect.arrayContaining(['dnb-height-animation--is-in-dom']))
   })
 
   it('should validate with ARIA rules', async () => {
@@ -226,10 +246,8 @@ describe('Accordion group component', () => {
       document.querySelector('#accordion-1 .dnb-accordion__content')
     ).toBeTruthy()
     expect(
-      document.querySelector(
-        '#accordion-2 .dnb-accordion__content--hidden'
-      )
-    ).toBeTruthy()
+      document.querySelector('#accordion-2 .dnb-accordion__content')
+    ).toBeFalsy()
   })
 
   it('has "on_change" event which will trigger on a button click', () => {
@@ -301,8 +319,8 @@ describe('Accordion container component', () => {
     )
   }
 
-  it('has only to render the expanded accordion content', () => {
-    render(
+  const Container = (props) => {
+    return (
       <>
         <Increment />
         <Accordion.Group
@@ -310,6 +328,8 @@ describe('Accordion container component', () => {
           single_container
           prevent_rerender
           remember_state
+          no_animation
+          {...props}
         >
           <Accordion id="accordion-1" title="Accordion 1">
             Accordion 1
@@ -326,6 +346,10 @@ describe('Accordion container component', () => {
         </Accordion.Group>
       </>
     )
+  }
+
+  it('has only to render the expanded accordion content', () => {
+    render(<Container />)
 
     expect(document.querySelector('button#increment').textContent).toBe(
       '1'
@@ -387,6 +411,27 @@ describe('Accordion container component', () => {
     expect(document.querySelector('div#mounted-3').textContent).toBe(
       'true'
     )
+  })
+
+  it('will set minHeight', async () => {
+    const contentRef = React.createRef()
+
+    render(<Container contentRef={contentRef} />)
+
+    const contentElem = contentRef.current
+
+    jest.spyOn(contentElem, 'offsetHeight', 'get').mockReturnValue(48)
+    jest.spyOn(contentElem, 'offsetTop', 'get').mockReturnValue(48)
+
+    fireEvent.click(
+      document.querySelector('#accordion-1 .dnb-accordion__header')
+    )
+
+    expect(
+      document
+        .querySelector('.dnb-accordion-group--single-container')
+        .getAttribute('style')
+    ).toBe('transition-duration: 1ms; min-height: 6rem;')
   })
 })
 

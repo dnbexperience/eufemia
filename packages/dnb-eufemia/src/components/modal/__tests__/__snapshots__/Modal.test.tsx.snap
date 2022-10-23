@@ -3,9 +3,9 @@
 exports[`Modal component have to match snapshot 1`] = `
 <Modal
   0={
-    Object {
+    {
       "displayName": "Modal",
-      "props": Object {},
+      "props": {},
     }
   }
   align_content="left"
@@ -61,9 +61,9 @@ exports[`Modal component have to match snapshot 1`] = `
 >
   <Modal
     0={
-      Object {
+      {
         "displayName": "Modal",
-        "props": Object {},
+        "props": {},
       }
     }
     align_content="left"
@@ -126,7 +126,7 @@ exports[`Modal component have to match snapshot 1`] = `
       icon_position="left"
       id="modal_id"
       innerRef={
-        Object {
+        {
           "current": <button
             aria-describedby="modal_id-tooltip"
             aria-label="modal_title"
@@ -191,7 +191,7 @@ exports[`Modal component have to match snapshot 1`] = `
         icon_size={null}
         id="modal_id"
         innerRef={
-          Object {
+          {
             "current": <button
               aria-describedby="modal_id-tooltip"
               aria-label="modal_title"
@@ -279,7 +279,7 @@ exports[`Modal component have to match snapshot 1`] = `
             icon_size={null}
             id="modal_id"
             innerRef={
-              Object {
+              {
                 "current": <button
                   aria-describedby="modal_id-tooltip"
                   aria-label="modal_title"
@@ -416,7 +416,7 @@ exports[`Modal component have to match snapshot 1`] = `
         <Tooltip
           id="modal_id-tooltip"
           targetElement={
-            Object {
+            {
               "current": <button
                 aria-describedby="modal_id-tooltip"
                 aria-label="modal_title"
@@ -464,7 +464,7 @@ exports[`Modal component have to match snapshot 1`] = `
             animatePosition={false}
             arrow="center"
             attributes={
-              Object {
+              {
                 "children": "modal_title",
                 "className": "dnb-tooltip",
               }
@@ -520,7 +520,7 @@ exports[`Modal component have to match snapshot 1`] = `
               </button>
             }
             targetElement={
-              Object {
+              {
                 "current": <button
                   aria-describedby="modal_id-tooltip"
                   aria-label="modal_title"
@@ -569,7 +569,7 @@ exports[`Modal component have to match snapshot 1`] = `
               animatePosition={false}
               arrow="center"
               attributes={
-                Object {
+                {
                   "children": "modal_title",
                   "className": "dnb-tooltip",
                 }
@@ -696,7 +696,7 @@ exports[`Modal component have to match snapshot 1`] = `
                   animatePosition={false}
                   arrow="center"
                   attributes={
-                    Object {
+                    {
                       "children": "modal_title",
                       "className": "dnb-tooltip",
                     }
@@ -803,7 +803,7 @@ exports[`Modal component have to match snapshot 1`] = `
                     onMouseMove={[Function]}
                     onTouchStart={[Function]}
                     role="tooltip"
-                    style={Object {}}
+                    style={{}}
                   >
                     <span
                       className="dnb-tooltip__arrow dnb-tooltip__arrow__arrow--center dnb-tooltip__arrow__position--top"
@@ -824,9 +824,9 @@ exports[`Modal component have to match snapshot 1`] = `
     </HelpButtonInstance>
     <ModalRoot
       0={
-        Object {
+        {
           "displayName": "Modal",
-          "props": Object {},
+          "props": {},
         }
       }
       align_content="left"
@@ -870,9 +870,9 @@ exports[`Modal component have to match snapshot 1`] = `
     >
       <ModalContent
         0={
-          Object {
+          {
             "displayName": "Modal",
-            "props": Object {},
+            "props": {},
           }
         }
         align_content="left"
@@ -926,9 +926,9 @@ exports[`Modal component have to match snapshot 1`] = `
         >
           <DialogContent
             0={
-              Object {
+              {
                 "displayName": "Modal",
-                "props": Object {},
+                "props": {},
               }
             }
             alignContent="left"
@@ -967,7 +967,7 @@ exports[`Modal component have to match snapshot 1`] = `
               <ForwardRef>
                 <ScrollView
                   innerRef={
-                    Object {
+                    {
                       "current": <div
                         class="dnb-scroll-view"
                       >
@@ -1060,7 +1060,7 @@ exports[`Modal component have to match snapshot 1`] = `
                           <Section
                             className="dnb-modal__header__bar dnb-dialog__navigation dnb-dialog__navigation"
                             inner_ref={
-                              Object {
+                              {
                                 "current": <section
                                   class="dnb-section dnb-section--white dnb-modal__header__bar dnb-dialog__navigation dnb-dialog__navigation"
                                 >
@@ -1345,7 +1345,8 @@ exports[`Modal component have to match snapshot 1`] = `
 `;
 
 exports[`Modal scss have to match snapshot 1`] = `
-"/*
+"@charset "UTF-8";
+/*
 * DNB Modal
 *
 */
@@ -1501,23 +1502,23 @@ exports[`Modal scss have to match snapshot 1`] = `
   padding: 0 1rem;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 200ms cubic-bezier(0.42, 0, 0, 1); }
+  transition: opacity 200ms var(--easing-default); }
   .dnb-tooltip--large {
     padding: 0.25rem 1rem; }
   .dnb-tooltip--animate_position {
-    transition: all 200ms cubic-bezier(0.42, 0, 0, 1), opacity 200ms cubic-bezier(0.42, 0, 0, 1); }
+    transition: all 200ms var(--easing-default), opacity 200ms var(--easing-default); }
   .dnb-tooltip--active {
     visibility: visible;
     /*
-      because of the first \\"show\\" we also use animation
+      because of the first "show" we also use animation
       also, use forwards because of the usage of visibility
     */
-    animation: show-tooltip 200ms cubic-bezier(0.42, 0, 0, 1) forwards; }
+    animation: show-tooltip 200ms var(--easing-default) forwards; }
   html[data-visual-test] .dnb-tooltip--active, .dnb-tooltip--active.dnb-tooltip--no-animation {
-    animation: show-tooltip 1ms cubic-bezier(0.42, 0, 0, 1) forwards; }
+    animation: show-tooltip 1ms var(--easing-default) forwards; }
   .dnb-tooltip--hide {
     visibility: visible;
-    animation: hide-tooltip 200ms cubic-bezier(0.42, 0, 0, 1) forwards; }
+    animation: hide-tooltip 200ms var(--easing-default) forwards; }
   .dnb-tooltip--hide.dnb-tooltip--no-animation {
     animation: hide-tooltip 1ms linear forwards; }
   .dnb-tooltip--fixed {
@@ -1636,7 +1637,7 @@ exports[`Modal scss have to match snapshot 1`] = `
 .dnb-form-status {
   display: flex;
   opacity: 1;
-  transition: height 400ms cubic-bezier(0.42, 0, 0, 1), opacity 400ms cubic-bezier(0.42, 0, 0, 1), margin 400ms cubic-bezier(0.42, 0, 0, 1), padding 400ms cubic-bezier(0.42, 0, 0, 1); }
+  transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default); }
   .dnb-form-status--hidden {
     will-change: height, opacity, margin, padding;
     width: 0;
@@ -2140,34 +2141,32 @@ button.dnb-button::-moz-focus-inner {
     display: flex;
     flex-direction: column;
     z-index: 10;
-    /** Sets the color on scroll overflow (at the bottom) */
-    background-color: var(--modal-background-color, transparent);
+    /** 
+      NB: Do not use "overflow-x: hidden;" in here,
+      (overflowing one direction, will influence the other – we can't just have one at a time) 
+      To make the Drawer scroll, we use .dnb-scroll-view
+    */
     width: 100%;
-    height: 100%;
-    overflow-x: hidden; }
-  .dnb-drawer--spacing .dnb-drawer__inner {
-    padding: 0 var(--drawer-spacing) 0; }
-    @media screen and (min-width: 72em) {
-      .dnb-drawer--spacing .dnb-drawer__inner {
-        padding: 0 calc(var(--drawer-spacing) * 1.75) 0; } }
-    @media screen and (max-width: 50em) {
-      .dnb-drawer--spacing .dnb-drawer__inner {
-        padding: 0 calc(var(--drawer-spacing) / 1.333333) 0; } }
-    @media screen and (max-width: 40em) {
-      .dnb-drawer--spacing .dnb-drawer__inner {
-        padding: 0 calc(var(--drawer-spacing) / 2) 0; } }
+    height: calc(100% - var(--header-height, 0));
+    /** Sets the color on scroll overflow (at the bottom) */
+    background-color: var(--modal-background-color, transparent); }
   .dnb-drawer__align--centered .dnb-drawer__inner {
     align-items: center;
     justify-content: center; }
   .dnb-drawer__content {
     position: relative;
-    z-index: 1;
-    padding-bottom: calc(var(--drawer-spacing) * 2); }
+    z-index: 1; }
   .dnb-drawer--spacing .dnb-drawer__content {
-    padding-bottom: calc(var(--drawer-spacing) * 2); }
-    @supports (-webkit-touch-callout: none) {
+    padding: 0 var(--drawer-spacing); }
+    @media screen and (min-width: 72em) {
       .dnb-drawer--spacing .dnb-drawer__content {
-        padding-bottom: calc(var(--drawer-spacing) * 8); } }
+        padding: 0 calc(var(--drawer-spacing) * 1.75); } }
+    @media screen and (max-width: 50em) {
+      .dnb-drawer--spacing .dnb-drawer__content {
+        padding: 0 calc(var(--drawer-spacing) / 1.333333); } }
+    @media screen and (max-width: 40em) {
+      .dnb-drawer--spacing .dnb-drawer__content {
+        padding: 0 calc(var(--drawer-spacing) / 2); } }
   .dnb-drawer__align--center .dnb-drawer__content {
     align-items: center;
     text-align: center; }
@@ -2235,8 +2234,19 @@ button.dnb-button::-moz-focus-inner {
   .dnb-drawer .dnb-drawer__header::after {
     top: -500%;
     height: 600%; }
-  .dnb-drawer--spacing .dnb-drawer__header .dnb-tabs {
-    margin-top: var(--drawer-spacing); }
+  .dnb-drawer--spacing .dnb-drawer__header {
+    padding: 0 var(--drawer-spacing); }
+    @media screen and (min-width: 72em) {
+      .dnb-drawer--spacing .dnb-drawer__header {
+        padding: 0 calc(var(--drawer-spacing) * 1.75); } }
+    @media screen and (max-width: 50em) {
+      .dnb-drawer--spacing .dnb-drawer__header {
+        padding: 0 calc(var(--drawer-spacing) / 1.333333); } }
+    @media screen and (max-width: 40em) {
+      .dnb-drawer--spacing .dnb-drawer__header {
+        padding: 0 calc(var(--drawer-spacing) / 2); } }
+    .dnb-drawer--spacing .dnb-drawer__header .dnb-tabs {
+      margin-top: var(--drawer-spacing); }
   .dnb-drawer__body {
     padding-bottom: calc(var(--drawer-spacing) * 2);
     margin-bottom: calc(var(--drawer-spacing-minus) * 2); }
@@ -2251,8 +2261,17 @@ button.dnb-button::-moz-focus-inner {
     position: sticky;
     top: 0;
     z-index: 99;
-    margin: var(--drawer-spacing) calc(var(--drawer-spacing) * -1);
+    margin: var(--drawer-spacing) 0;
     padding: 0 var(--drawer-spacing); }
+    @media screen and (min-width: 72em) {
+      .dnb-drawer--spacing .dnb-drawer__navigation.dnb-section {
+        padding: 0 calc(var(--drawer-spacing) * 1.75); } }
+    @media screen and (max-width: 50em) {
+      .dnb-drawer--spacing .dnb-drawer__navigation.dnb-section {
+        padding: 0 calc(var(--drawer-spacing) / 1.333333); } }
+    @media screen and (max-width: 40em) {
+      .dnb-drawer--spacing .dnb-drawer__navigation.dnb-section {
+        padding: 0 calc(var(--drawer-spacing) / 2); } }
   .dnb-drawer--spacing .dnb-drawer__navigation.dnb-section.dnb-drawer__navigation--sticky {
     z-index: 2999; }
   .dnb-drawer .dnb-drawer__navigation--sticky::before {

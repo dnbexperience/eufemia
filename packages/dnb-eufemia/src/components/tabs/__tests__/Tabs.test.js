@@ -145,7 +145,7 @@ describe('Tabs component', () => {
         .find('.dnb-tabs__button[data-tab-key="second"]')
         .html()
     ).toMatchInlineSnapshot(
-      `"<a href=\\"/second\\"><span class=\\"dnb-tabs__button__title\\">Second</span><span aria-hidden=\\"true\\" hidden=\\"\\" class=\\"dnb-dummy\\">Second</span></a>"`
+      `"<a href="/second"><span class="dnb-tabs__button__title">Second</span><span aria-hidden="true" hidden="" class="dnb-dummy">Second</span></a>"`
     )
   })
 

@@ -1,10 +1,10 @@
 import React from 'react'
-import AnimateHeight from '../../shared/AnimateHeight'
+import HeightAnimationInstance from './HeightAnimationInstance'
 
 export type useHeightAnimationOptions = {
   /**
-   * Set to `true` when the view should animate from 0px to auto.
-   * Default: false
+   * Set to `true`, when initially `false` was given, to animate from 0px to auto.
+   * Default: true
    */
   open?: boolean
 
@@ -22,7 +22,7 @@ export type useHeightAnimationOptions = {
   /**
    * Is called once before mounting the component (useLayoutEffect)
    */
-  onInit?: (instance: AnimateHeight) => void
+  onInit?: (instance: HeightAnimationInstance) => void
 
   /**
    * Is called when fully opened or closed
@@ -45,7 +45,7 @@ export type HeightAnimationOnEndTypes = 'opened' | 'closed' | 'adjusted'
 export function useHeightAnimation(
   targetRef: React.RefObject<HTMLElement>,
   {
-    open = null,
+    open = true,
     animate = true,
     children = null,
     onInit = null,
@@ -53,7 +53,7 @@ export function useHeightAnimation(
     onAnimationEnd = null,
   }: useHeightAnimationOptions = {}
 ) {
-  const animRef = React.useRef<AnimateHeight>(null)
+  const animRef = React.useRef<HeightAnimationInstance>(null)
   const [isOpen, setIsOpen] = React.useState(open)
   const [isVisible, setIsVisible] = React.useState(false)
   const [isAnimating, setIsAnimating] = React.useState(false)
@@ -67,7 +67,7 @@ export function useHeightAnimation(
   React.useEffect(() => setIsMounted(false), []) // eslint-disable-line
 
   React.useLayoutEffect(() => {
-    animRef.current = new AnimateHeight({ animate })
+    animRef.current = new HeightAnimationInstance({ animate })
 
     if (isInitialRender && onInit) {
       onInit(animRef.current)
@@ -182,7 +182,7 @@ function useAdjust({ children, animRef, isInitialRender }) {
     if (shouldAdjust()) {
       /**
        * Ensure we don't have height, while we get the "toHeight" again
-       * We may move this inside of the AnimateHeight class later,
+       * We may move this inside of the HeightAnimationInstance class later,
        * but the "GlobalStatus" is currently relaying on "getUnknownHeight" inside of adjustTo
        */
       animRef.current.elem.style.height = ''

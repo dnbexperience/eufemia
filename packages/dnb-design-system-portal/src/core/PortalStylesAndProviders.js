@@ -19,7 +19,11 @@ import { isCI } from 'repo-utils'
  * Import Eufemia Styles
  * Use require because Webpack does not import styles after we change /src to /build
  */
-if (isCI && process.env.PREBUILD_EXISTS) {
+if (
+  isCI &&
+  process.env.PREBUILD_EXISTS &&
+  process.env.NODE_ENV === 'production'
+) {
   require('@dnb/eufemia/build/style/dnb-ui-extensions.min.css')
   require('@dnb/eufemia/build/style/dnb-ui-core.min.css')
   require('@dnb/eufemia/build/style/dnb-ui-components.min.css')

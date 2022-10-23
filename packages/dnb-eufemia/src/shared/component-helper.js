@@ -678,15 +678,8 @@ export const roundToNearest = (num, target) => {
   return diff > target / 2 ? num - diff + target : num - diff
 }
 
-export const isInsideScrollView = (
-  currentElement,
-  returnElement = false
-) => {
-  const elem = getPreviousSibling('dnb-scroll-view', currentElement)
-  if (returnElement) {
-    return elem == window ? null : elem
-  }
-  return elem == window ? false : Boolean(elem)
+export const getClosestScrollViewElement = (currentElement) => {
+  return getPreviousSibling('.dnb-scroll-view', currentElement)
 }
 
 export const convertJsxToString = (elements, separator = undefined) => {

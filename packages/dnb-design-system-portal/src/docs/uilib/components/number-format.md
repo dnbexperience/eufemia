@@ -1,6 +1,6 @@
 ---
 title: 'NumberFormat'
-description: 'A ready to use DNB number formatter'
+description: 'A ready to use DNB number formatter.'
 # status: 'new'
 showTabs: true
 tabs:

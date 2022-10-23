@@ -46,10 +46,11 @@
     flex-direction: column;
 
     overflow: hidden;
-    transition: height 400ms #{$defaultEasing};
+    transition: height 400ms var(--easing-default);
   }
   &__animation &__item {
-    transition: transform 400ms #{$defaultEasing} calc(var(--delay) * 50ms);
+    transition: transform 400ms var(--easing-default)
+      calc(var(--delay) * 50ms);
     transform: translateX(-1rem);
   }
   &__animation.dnb-height-animation--parallax &__item {

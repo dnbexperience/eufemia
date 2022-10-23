@@ -7,14 +7,14 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   aria_live_options="aria_live_options"
   class="class"
   className="className"
-  custom_element={Object {}}
+  custom_element={{}}
   custom_method={[Function]}
   data={
-    Array [
+    [
       "AA c",
       "BB cc zethx",
-      Object {
-        "content": Array [
+      {
+        "content": [
           "CC",
           "cc",
         ],
@@ -62,7 +62,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   on_type={[Function]}
   open_on_focus="open_on_focus"
   opened={true}
-  options_render={Object {}}
+  options_render={{}}
   page_offset="page_offset"
   placeholder="placeholder"
   portal_class="portal_class"
@@ -101,14 +101,14 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     cache_hash={null}
     class="class"
     className="className"
-    custom_element={Object {}}
+    custom_element={{}}
     custom_method={[Function]}
     data={
-      Array [
+      [
         "AA c",
         "BB cc zethx",
-        Object {
-          "content": Array [
+        {
+          "content": [
             "CC",
             "cc",
           ],
@@ -165,7 +165,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     on_type={[Function]}
     open_on_focus="open_on_focus"
     opened={null}
-    options_render={Object {}}
+    options_render={{}}
     page_offset="page_offset"
     placeholder="placeholder"
     portal_class="portal_class"
@@ -209,14 +209,14 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       aria_live_options="aria_live_options"
       class="class"
       className="className"
-      custom_element={Object {}}
+      custom_element={{}}
       custom_method={[Function]}
       data={
-        Array [
+        [
           "AA c",
           "BB cc zethx",
-          Object {
-            "content": Array [
+          {
+            "content": [
               "CC",
               "cc",
             ],
@@ -264,7 +264,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       on_type={[Function]}
       open_on_focus="open_on_focus"
       opened={true}
-      options_render={Object {}}
+      options_render={{}}
       page_offset="page_offset"
       placeholder="placeholder"
       portal_class="portal_class"
@@ -513,7 +513,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                     onSubmit={[Function]}
                     size={null}
                     status={null}
-                    tooltip={null}
+                    tooltip="submit_button_title"
                     type="button"
                     variant="secondary"
                   />
@@ -629,7 +629,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                           onSubmit={[Function]}
                           size={null}
                           status={null}
-                          tooltip={null}
+                          tooltip="submit_button_title"
                           type="button"
                           variant="secondary"
                         >
@@ -654,7 +654,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                             status_props={null}
                             status_state="error"
                             title={null}
-                            tooltip={null}
+                            tooltip="submit_button_title"
                             type="button"
                             value={null}
                             variant="secondary"
@@ -699,7 +699,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 text={null}
                                 title={null}
                                 to={null}
-                                tooltip={null}
+                                tooltip="submit_button_title"
                                 type="button"
                                 variant="secondary"
                                 wrap={null}
@@ -756,7 +756,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                     text={null}
                                     title={null}
                                     to={null}
-                                    tooltip={null}
+                                    tooltip="submit_button_title"
                                     type="button"
                                     variant="secondary"
                                     wrap={null}
@@ -811,6 +811,266 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                   width_element={null}
                                   width_selector={null}
                                 />
+                                <Tooltip
+                                  id="autocomplete-id-submit-button-tooltip"
+                                  targetElement={
+                                    {
+                                      "current": <button
+                                        aria-describedby="autocomplete-id-submit-button-tooltip"
+                                        aria-expanded="true"
+                                        aria-haspopup="listbox"
+                                        aria-label="submit_button_title"
+                                        class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--active dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--size-medium"
+                                        id="autocomplete-id-submit-button"
+                                        type="button"
+                                      >
+                                        <span
+                                          aria-hidden="true"
+                                          class="dnb-button__alignment"
+                                        >
+                                          ‌
+                                        </span>
+                                      </button>,
+                                    }
+                                  }
+                                  tooltip="submit_button_title"
+                                >
+                                  <TooltipWithEvents
+                                    active={null}
+                                    align={null}
+                                    animatePosition={false}
+                                    arrow="center"
+                                    attributes={
+                                      {
+                                        "children": "submit_button_title",
+                                        "className": "dnb-tooltip",
+                                      }
+                                    }
+                                    className={null}
+                                    fixedPosition={false}
+                                    group={null}
+                                    hideDelay={500}
+                                    id="autocomplete-id-submit-button-tooltip"
+                                    internalId="autocomplete-id-submit-button-tooltip"
+                                    noAnimation={false}
+                                    position="top"
+                                    showDelay={300}
+                                    size="basis"
+                                    skipPortal={null}
+                                    target={
+                                      <button
+                                        aria-describedby="autocomplete-id-submit-button-tooltip"
+                                        aria-expanded="true"
+                                        aria-haspopup="listbox"
+                                        aria-label="submit_button_title"
+                                        class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--active dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--size-medium"
+                                        id="autocomplete-id-submit-button"
+                                        type="button"
+                                      >
+                                        <span
+                                          aria-hidden="true"
+                                          class="dnb-button__alignment"
+                                        >
+                                          ‌
+                                        </span>
+                                      </button>
+                                    }
+                                    targetElement={
+                                      {
+                                        "current": <button
+                                          aria-describedby="autocomplete-id-submit-button-tooltip"
+                                          aria-expanded="true"
+                                          aria-haspopup="listbox"
+                                          aria-label="submit_button_title"
+                                          class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--active dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--size-medium"
+                                          id="autocomplete-id-submit-button"
+                                          type="button"
+                                        >
+                                          <span
+                                            aria-hidden="true"
+                                            class="dnb-button__alignment"
+                                          >
+                                            ‌
+                                          </span>
+                                        </button>,
+                                      }
+                                    }
+                                    targetSelector={null}
+                                    tooltip="submit_button_title"
+                                  >
+                                    <TooltipPortal
+                                      active={null}
+                                      align={null}
+                                      animatePosition={false}
+                                      arrow="center"
+                                      attributes={
+                                        {
+                                          "children": "submit_button_title",
+                                          "className": "dnb-tooltip",
+                                        }
+                                      }
+                                      className={null}
+                                      fixedPosition={false}
+                                      group={null}
+                                      hideDelay={500}
+                                      id="autocomplete-id-submit-button-tooltip"
+                                      internalId="autocomplete-id-submit-button-tooltip"
+                                      keepInDOM={true}
+                                      noAnimation={false}
+                                      position="top"
+                                      showDelay={300}
+                                      size="basis"
+                                      skipPortal={null}
+                                      target={
+                                        <button
+                                          aria-describedby="autocomplete-id-submit-button-tooltip"
+                                          aria-expanded="true"
+                                          aria-haspopup="listbox"
+                                          aria-label="submit_button_title"
+                                          class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--active dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--size-medium"
+                                          id="autocomplete-id-submit-button"
+                                          type="button"
+                                        >
+                                          <span
+                                            aria-hidden="true"
+                                            class="dnb-button__alignment"
+                                          >
+                                            ‌
+                                          </span>
+                                        </button>
+                                      }
+                                      targetElement={
+                                        <button
+                                          aria-describedby="autocomplete-id-submit-button-tooltip"
+                                          aria-expanded="true"
+                                          aria-haspopup="listbox"
+                                          aria-label="submit_button_title"
+                                          class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--active dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--size-medium"
+                                          id="autocomplete-id-submit-button"
+                                          type="button"
+                                        >
+                                          <span
+                                            aria-hidden="true"
+                                            class="dnb-button__alignment"
+                                          >
+                                            ‌
+                                          </span>
+                                        </button>
+                                      }
+                                      targetSelector={null}
+                                      tooltip="submit_button_title"
+                                    >
+                                      <Portal
+                                        containerInfo={
+                                          <div
+                                            class="dnb-tooltip__portal dnb-core-style"
+                                          >
+                                            <span
+                                              aria-hidden="true"
+                                              class="dnb-tooltip"
+                                              role="tooltip"
+                                            >
+                                              <span
+                                                class="dnb-tooltip__arrow dnb-tooltip__arrow__arrow--center dnb-tooltip__arrow__position--top"
+                                              />
+                                              <span
+                                                class="dnb-tooltip__content"
+                                                id="autocomplete-id-submit-button-tooltip"
+                                              >
+                                                submit_button_title
+                                              </span>
+                                            </span>
+                                          </div>
+                                        }
+                                      >
+                                        <TooltipContainer
+                                          active={null}
+                                          align={null}
+                                          animatePosition={false}
+                                          arrow="center"
+                                          attributes={
+                                            {
+                                              "children": "submit_button_title",
+                                              "className": "dnb-tooltip",
+                                            }
+                                          }
+                                          className={null}
+                                          fixedPosition={false}
+                                          group={null}
+                                          hideDelay={500}
+                                          id="autocomplete-id-submit-button-tooltip"
+                                          internalId="autocomplete-id-submit-button-tooltip"
+                                          keepInDOM={true}
+                                          noAnimation={false}
+                                          position="top"
+                                          showDelay={300}
+                                          size="basis"
+                                          skipPortal={null}
+                                          target={
+                                            <button
+                                              aria-describedby="autocomplete-id-submit-button-tooltip"
+                                              aria-expanded="true"
+                                              aria-haspopup="listbox"
+                                              aria-label="submit_button_title"
+                                              class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--active dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--size-medium"
+                                              id="autocomplete-id-submit-button"
+                                              type="button"
+                                            >
+                                              <span
+                                                aria-hidden="true"
+                                                class="dnb-button__alignment"
+                                              >
+                                                ‌
+                                              </span>
+                                            </button>
+                                          }
+                                          targetElement={
+                                            <button
+                                              aria-describedby="autocomplete-id-submit-button-tooltip"
+                                              aria-expanded="true"
+                                              aria-haspopup="listbox"
+                                              aria-label="submit_button_title"
+                                              class="dnb-button dnb-button--secondary dnb-input__submit-button__button dnb-button--input-button dnb-button--active dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--size-medium"
+                                              id="autocomplete-id-submit-button"
+                                              type="button"
+                                            >
+                                              <span
+                                                aria-hidden="true"
+                                                class="dnb-button__alignment"
+                                              >
+                                                ‌
+                                              </span>
+                                            </button>
+                                          }
+                                          targetSelector={null}
+                                          tooltip="submit_button_title"
+                                        >
+                                          <span
+                                            aria-hidden={true}
+                                            className="dnb-tooltip"
+                                            onMouseDown={[Function]}
+                                            onMouseEnter={[Function]}
+                                            onMouseLeave={[Function]}
+                                            onMouseMove={[Function]}
+                                            onTouchStart={[Function]}
+                                            role="tooltip"
+                                            style={{}}
+                                          >
+                                            <span
+                                              className="dnb-tooltip__arrow dnb-tooltip__arrow__arrow--center dnb-tooltip__arrow__position--top"
+                                            />
+                                            <span
+                                              className="dnb-tooltip__content"
+                                              id="autocomplete-id-submit-button-tooltip"
+                                            >
+                                              submit_button_title
+                                            </span>
+                                          </span>
+                                        </TooltipContainer>
+                                      </Portal>
+                                    </TooltipPortal>
+                                  </TooltipWithEvents>
+                                </Tooltip>
                               </Button>
                             </span>
                           </InputSubmitButton>
@@ -854,7 +1114,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 on_show={null}
                 on_state_update={null}
                 opened={null}
-                options_render={Object {}}
+                options_render={{}}
                 portal_class="portal_class"
                 prepared_data={null}
                 prevent_close="prevent_close"
@@ -905,7 +1165,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   on_show={null}
                   on_state_update={null}
                   opened={null}
-                  options_render={Object {}}
+                  options_render={{}}
                   portal_class="portal_class"
                   prepared_data={null}
                   prevent_close="prevent_close"
@@ -946,14 +1206,17 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                           role="listbox"
                           showFocusRing={false}
                           style={
-                            Object {
+                            {
                               "maxHeight": "1rem",
                             }
                           }
                           tabIndex="-1"
                           triangleRef={
-                            Object {
-                              "current": null,
+                            {
+                              "current": <li
+                                aria-hidden="true"
+                                class="dnb-drawer-list__triangle"
+                              />,
                             }
                           }
                         >
@@ -965,7 +1228,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                             id="autocomplete-id-ul"
                             role="listbox"
                             style={
-                              Object {
+                              {
                                 "maxHeight": "1rem",
                               }
                             }
@@ -1123,20 +1386,20 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
             <Suffix
               className="dnb-autocomplete__suffix"
               context={
-                Object {
+                {
                   "align_autocomplete": null,
                   "ariaLiveDelay": 1,
                   "aria_live_options": "aria_live_options",
                   "children": "children",
                   "class": "class",
                   "className": "className",
-                  "custom_element": Object {},
+                  "custom_element": {},
                   "custom_method": [Function],
-                  "data": Array [
+                  "data": [
                     "AA c",
                     "BB cc zethx",
-                    Object {
-                      "content": Array [
+                    {
+                      "content": [
                         "CC",
                         "cc",
                       ],
@@ -1183,7 +1446,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   "on_type": [Function],
                   "open_on_focus": "open_on_focus",
                   "opened": true,
-                  "options_render": Object {},
+                  "options_render": {},
                   "page_offset": "page_offset",
                   "placeholder": "placeholder",
                   "portal_class": "portal_class",
@@ -1460,23 +1723,23 @@ exports[`Autocomplete scss have to match snapshot 1`] = `
   padding: 0 1rem;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 200ms cubic-bezier(0.42, 0, 0, 1); }
+  transition: opacity 200ms var(--easing-default); }
   .dnb-tooltip--large {
     padding: 0.25rem 1rem; }
   .dnb-tooltip--animate_position {
-    transition: all 200ms cubic-bezier(0.42, 0, 0, 1), opacity 200ms cubic-bezier(0.42, 0, 0, 1); }
+    transition: all 200ms var(--easing-default), opacity 200ms var(--easing-default); }
   .dnb-tooltip--active {
     visibility: visible;
     /*
-      because of the first \\"show\\" we also use animation
+      because of the first "show" we also use animation
       also, use forwards because of the usage of visibility
     */
-    animation: show-tooltip 200ms cubic-bezier(0.42, 0, 0, 1) forwards; }
+    animation: show-tooltip 200ms var(--easing-default) forwards; }
   html[data-visual-test] .dnb-tooltip--active, .dnb-tooltip--active.dnb-tooltip--no-animation {
-    animation: show-tooltip 1ms cubic-bezier(0.42, 0, 0, 1) forwards; }
+    animation: show-tooltip 1ms var(--easing-default) forwards; }
   .dnb-tooltip--hide {
     visibility: visible;
-    animation: hide-tooltip 200ms cubic-bezier(0.42, 0, 0, 1) forwards; }
+    animation: hide-tooltip 200ms var(--easing-default) forwards; }
   .dnb-tooltip--hide.dnb-tooltip--no-animation {
     animation: hide-tooltip 1ms linear forwards; }
   .dnb-tooltip--fixed {
@@ -1595,7 +1858,7 @@ exports[`Autocomplete scss have to match snapshot 1`] = `
 .dnb-form-status {
   display: flex;
   opacity: 1;
-  transition: height 400ms cubic-bezier(0.42, 0, 0, 1), opacity 400ms cubic-bezier(0.42, 0, 0, 1), margin 400ms cubic-bezier(0.42, 0, 0, 1), padding 400ms cubic-bezier(0.42, 0, 0, 1); }
+  transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default); }
   .dnb-form-status--hidden {
     will-change: height, opacity, margin, padding;
     width: 0;
@@ -2380,7 +2643,6 @@ legend.dnb-form-label {
   .dnb-dropdown__inner {
     display: inline-flex;
     flex-direction: column;
-    align-items: flex-start;
     margin: 0;
     padding: 0;
     width: auto;
@@ -2834,7 +3096,6 @@ legend.dnb-form-label {
   .dnb-autocomplete__inner {
     display: inline-flex;
     flex-direction: column;
-    align-items: flex-start;
     margin: 0;
     padding: 0;
     width: auto;
@@ -2885,8 +3146,8 @@ legend.dnb-form-label {
   .dnb-autocomplete .dnb-input__submit-button__button[disabled]:not(.dnb-button--has-text) {
     --border-color: var(--color-black-55);
     box-shadow: inset 0 0 0 var(--input-border-width) var(--border-color);
-    /* iOS fix - because \\"inset\\" works not fine with border-radius */
-    /* Safari fix - because \\"inset\\" works not fine with border-radius if the user zooms the page */
+    /* iOS fix - because "inset" works not fine with border-radius */
+    /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
     border-color: transparent; }
     @supports (-webkit-touch-callout: none) {
       .dnb-autocomplete .dnb-input__submit-button__button[disabled]:not(.dnb-button--has-text) {

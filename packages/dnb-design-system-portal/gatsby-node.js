@@ -8,9 +8,6 @@ const path = require('path')
 const { isCI } = require('repo-utils')
 const getCurrentBranchName = require('current-git-branch')
 const { init } = require('./scripts/version.js')
-const {
-  defineSrcAddition,
-} = require('gatsby-plugin-eufemia-theme-handler/collectThemes')
 
 let prebuildExists = false
 const currentBranch = getCurrentBranchName()
@@ -21,7 +18,6 @@ exports.onPreInit = async () => {
   } catch (e) {
     //
   }
-  defineSrcAddition(isCI && prebuildExists ? 'build/' : 'src/')
 
   if (process.env.NODE_ENV === 'production') {
     await init()
@@ -194,7 +190,7 @@ async function createRedirects({ graphql, actions }) {
   })
 }
 
-exports.onCreateWebpackConfig = ({ actions, plugins }) => {
+exports.onCreateWebpackConfig = ({ stage, actions, plugins }) => {
   const config = {
     resolve: {
       alias: {
@@ -213,7 +209,7 @@ exports.onCreateWebpackConfig = ({ actions, plugins }) => {
     ],
   }
 
-  if (isCI && prebuildExists) {
+  if (isCI && prebuildExists &&    stage === 'build-javascript') {
     config.plugins.push(
       plugins.normalModuleReplacement(/@dnb\/eufemia\/src/, (resource) => {
         resource.request = resource.request.replace(

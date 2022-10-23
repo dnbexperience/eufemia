@@ -7,7 +7,10 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import { warn, isInsideScrollView } from '../../shared/component-helper'
+import {
+  warn,
+  getClosestScrollViewElement,
+} from '../../shared/component-helper'
 
 class DrawerListPortal extends React.PureComponent {
   static propTypes = {
@@ -126,7 +129,7 @@ class DrawerListPortal extends React.PureComponent {
       }
       const ownerElem = rootElem.parentElement
 
-      // min width as  a threshold
+      // min width as a threshold
       let width = 64
 
       // Handle width
@@ -161,15 +164,21 @@ class DrawerListPortal extends React.PureComponent {
         : window.scrollX !== undefined
         ? window.scrollX
         : window.pageXOffset
-      const top = scrollY + rect.top
-      // const top = scrollY + getOffsetTop(rootElem) // iOS 8 safe version
-      const left =
+
+      let top = scrollY + rect.top
+      let left =
         scrollX +
         rect.left +
         (include_owner_width ? parseFloat(ownerWidth || 0) : 0)
 
       if (width > window.innerWidth) {
         width = window.innerWidth
+      }
+      if (top < 0) {
+        top = 0
+      }
+      if (left < 0) {
+        left = 0
       }
 
       // NB:  before we recalculated the values to REM, but iOS rounds this and we get a wrong total value out of that!
@@ -193,20 +202,19 @@ class DrawerListPortal extends React.PureComponent {
 
     // debounce
     this.setPosition = () => {
-      clearTimeout(this._ddt)
-      this._ddt = setTimeout(() => {
+      clearTimeout(this.positionTimeout)
+      this.positionTimeout = setTimeout(() => {
         if (this.props.opened) {
           this.setState({
             random: Date.now(), // force re-render
           })
         }
-      }, 30)
+      }, 200)
     }
 
-    this.customElem = isInsideScrollView(this.props.rootRef.current, true)
-    if (this.customElem) {
-      this.customElem.addEventListener('scroll', this.setPosition)
-    }
+    this.customElem =
+      getClosestScrollViewElement(this.props.rootRef.current) || window
+    this.customElem.addEventListener('scroll', this.setPosition)
 
     try {
       this.resizeObserver = new ResizeObserver(this.setPosition)
@@ -217,7 +225,7 @@ class DrawerListPortal extends React.PureComponent {
   }
 
   removePositionObserver() {
-    clearTimeout(this._ddt)
+    clearTimeout(this.positionTimeout)
     if (typeof window !== 'undefined' && this.setPosition) {
       if (this.customElem) {
         this.customElem.removeEventListener('scroll', this.setPosition)

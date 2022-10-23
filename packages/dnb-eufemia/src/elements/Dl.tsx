@@ -6,6 +6,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import E, { ElementProps } from './Element'
+import { SpacingProps } from '../shared/types'
 
 export type DlProps = {
   /**
@@ -15,7 +16,7 @@ export type DlProps = {
 }
 
 export type DlAllProps = DlProps &
-  React.AllHTMLAttributes<Omit<HTMLDListElement, 'children'>> &
+  React.AllHTMLAttributes<HTMLDListElement> &
   ElementProps
 
 const Dl = ({ direction, ...props }: DlAllProps) => {
@@ -25,21 +26,24 @@ const Dl = ({ direction, ...props }: DlAllProps) => {
       `dnb-dl__direction--${direction}`
     )
   }
-  return <E is="dl" {...props} skeleton={false} />
-}
-
-export type DlItemProps = {
-  //
+  return <E as="dl" {...props} skeleton={false} />
 }
 
 Dl.Item = ({
   className,
   children,
-}: DlItemProps & React.AllHTMLAttributes<HTMLSpanElement>) => {
+  ...props
+}: React.AllHTMLAttributes<HTMLSpanElement> & SpacingProps) => {
   return (
-    <span className={classnames(className, 'dnb-dl__item')}>
+    <>
       {children}
-    </span>
+      <E
+        as="dd"
+        aria-hidden
+        className={classnames(className, 'dnb-dl__item')}
+        {...props}
+      />
+    </>
   )
 }
 

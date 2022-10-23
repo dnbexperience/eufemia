@@ -3,9 +3,9 @@
 exports[`Circular ProgressIndicator component have to match snapshot 1`] = `
 <ProgressIndicator
   0={
-    Object {
+    {
       "displayName": "ProgressIndicator",
-      "props": Object {
+      "props": {
         "children": "children",
         "class": "class",
         "className": "className",
@@ -81,7 +81,7 @@ exports[`Circular ProgressIndicator component have to match snapshot 1`] = `
         <ForwardRef
           className="dnb-progress-indicator__circular__line dark dark paused"
           style={
-            Object {
+            {
               "strokeDashoffset": 44,
             }
           }
@@ -90,7 +90,7 @@ exports[`Circular ProgressIndicator component have to match snapshot 1`] = `
             className="dnb-progress-indicator__circular__line dark dark paused"
             shapeRendering="geometricPrecision"
             style={
-              Object {
+              {
                 "strokeDashoffset": 44,
               }
             }
@@ -115,9 +115,9 @@ exports[`Circular ProgressIndicator component have to match snapshot 1`] = `
 exports[`Linear ProgressIndicator component have to match snapshot 1`] = `
 <ProgressIndicator
   0={
-    Object {
+    {
       "displayName": "ProgressIndicator",
-      "props": Object {
+      "props": {
         "children": "children",
         "class": "class",
         "className": "className",
@@ -174,7 +174,7 @@ exports[`Linear ProgressIndicator component have to match snapshot 1`] = `
         <div
           className="dnb-progress-indicator__linear__bar dnb-progress-indicator__linear__bar-transition"
           style={
-            Object {
+            {
               "transform": "translateX(-50%)",
             }
           }

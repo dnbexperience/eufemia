@@ -3,10 +3,8 @@
  *
  */
 
-// import React from 'react'
 import '../../../core/jest/jestSetup'
 import {
-  spacingPropTypes,
   spacePatterns,
   translateSpace,
   splitTypes,
@@ -17,7 +15,8 @@ import {
   isValidSpaceProp,
   createStyleObject,
   createSpacingClasses,
-} from '../SpacingHelper'
+} from '../SpacingUtils'
+import { spacingPropTypes } from '../SpacingHelper'
 
 describe('spacePatterns', () => {
   it('should be an object with valid keys', () => {

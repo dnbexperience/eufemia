@@ -57,6 +57,11 @@ function TooltipPortal(props: TooltipProps & TooltipPortalProps) {
     }
   }
 
+  const clearTimers = () => {
+    clearTimeout(tooltipPortal[id]?.delayTimeout)
+    clearTimeout(tooltipPortal[id]?.hiddenTimeout)
+  }
+
   const removeFromDOM = (hide?: boolean) => {
     if (isActive && hide) {
       return // stop here
@@ -85,8 +90,7 @@ function TooltipPortal(props: TooltipProps & TooltipPortalProps) {
   React.useEffect(() => {
     setIsMounted(true)
 
-    clearTimeout(tooltipPortal[id]?.delayTimeout)
-    clearTimeout(tooltipPortal[id]?.hiddenTimeout)
+    clearTimers()
 
     if (active) {
       makePortal()
@@ -127,6 +131,8 @@ function TooltipPortal(props: TooltipProps & TooltipPortalProps) {
         )
       }
     }
+
+    return clearTimers
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [children, active, id, hideDelay, noAnimation])

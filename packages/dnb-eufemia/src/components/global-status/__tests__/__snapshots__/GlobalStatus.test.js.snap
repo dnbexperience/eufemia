@@ -186,23 +186,23 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
   padding: 0 1rem;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 200ms cubic-bezier(0.42, 0, 0, 1); }
+  transition: opacity 200ms var(--easing-default); }
   .dnb-tooltip--large {
     padding: 0.25rem 1rem; }
   .dnb-tooltip--animate_position {
-    transition: all 200ms cubic-bezier(0.42, 0, 0, 1), opacity 200ms cubic-bezier(0.42, 0, 0, 1); }
+    transition: all 200ms var(--easing-default), opacity 200ms var(--easing-default); }
   .dnb-tooltip--active {
     visibility: visible;
     /*
-      because of the first \\"show\\" we also use animation
+      because of the first "show" we also use animation
       also, use forwards because of the usage of visibility
     */
-    animation: show-tooltip 200ms cubic-bezier(0.42, 0, 0, 1) forwards; }
+    animation: show-tooltip 200ms var(--easing-default) forwards; }
   html[data-visual-test] .dnb-tooltip--active, .dnb-tooltip--active.dnb-tooltip--no-animation {
-    animation: show-tooltip 1ms cubic-bezier(0.42, 0, 0, 1) forwards; }
+    animation: show-tooltip 1ms var(--easing-default) forwards; }
   .dnb-tooltip--hide {
     visibility: visible;
-    animation: hide-tooltip 200ms cubic-bezier(0.42, 0, 0, 1) forwards; }
+    animation: hide-tooltip 200ms var(--easing-default) forwards; }
   .dnb-tooltip--hide.dnb-tooltip--no-animation {
     animation: hide-tooltip 1ms linear forwards; }
   .dnb-tooltip--fixed {
@@ -321,7 +321,7 @@ exports[`GlobalStatus scss have to match snapshot 1`] = `
 .dnb-form-status {
   display: flex;
   opacity: 1;
-  transition: height 400ms cubic-bezier(0.42, 0, 0, 1), opacity 400ms cubic-bezier(0.42, 0, 0, 1), margin 400ms cubic-bezier(0.42, 0, 0, 1), padding 400ms cubic-bezier(0.42, 0, 0, 1); }
+  transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default); }
   .dnb-form-status--hidden {
     will-change: height, opacity, margin, padding;
     width: 0;
@@ -756,7 +756,7 @@ button.dnb-button::-moz-focus-inner {
  *
  */
 :root {
-  --global-status-easing: cubic-bezier(0.42, 0, 0, 1); }
+  --global-status-easing: var(--easing-default); }
 
 .dnb-global-status.dnb-section {
   display: block; }
@@ -867,13 +867,13 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
   icon_size="icon_size"
   id="main"
   items={
-    Array [
-      Object {
+    [
+      {
         "id": "id-1",
         "item_id": "item-1",
         "text": "item #1",
       },
-      Object {
+      {
         "id": "id-2",
         "item_id": "item-2",
         "text": "item #2",
@@ -1195,13 +1195,13 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                 medium={null}
               >
                 <ForwardRef
+                  as="hr"
                   className="dnb-hr--fullscreen"
-                  is="hr"
                 >
                   <ElementInstance
+                    as="hr"
                     className="dnb-hr--fullscreen"
                     innerRef={null}
-                    is="hr"
                   >
                     <hr
                       className="dnb-hr--fullscreen dnb-hr"
@@ -1219,7 +1219,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
 `;
 
 exports[`GlobalStatus snapshot have to match linked components snapshot 1`] = `
-Array [
+[
   <GlobalStatus
     autoclose={true}
     autoscroll={false}
@@ -1232,7 +1232,7 @@ Array [
     icon="error"
     icon_size="medium"
     id="linked"
-    items={Array []}
+    items={[]}
     no_animation={true}
     omit_set_focus={false}
     omit_set_focus_on_update={true}
@@ -1547,13 +1547,13 @@ Array [
                   medium={null}
                 >
                   <ForwardRef
+                    as="hr"
                     className="dnb-hr--fullscreen"
-                    is="hr"
                   >
                     <ElementInstance
+                      as="hr"
                       className="dnb-hr--fullscreen"
                       innerRef={null}
-                      is="hr"
                     >
                       <hr
                         className="dnb-hr--fullscreen dnb-hr"

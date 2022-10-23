@@ -1,6 +1,6 @@
 ---
 title: 'Badge'
-description: 'The badge component allows the user to focus on new or unread content or notifications'
+description: 'The badge component allows the user to focus on new or unread content or notifications.'
 status: 'new'
 showTabs: true
 ---

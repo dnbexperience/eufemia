@@ -38,6 +38,27 @@ describe('Section component', () => {
     ).toBe(true)
   })
 
+  it('should support any string in style_type', () => {
+    render(<Section style_type="cucstom" />)
+    expect(
+      document
+        .querySelector('section.dnb-section')
+        .classList.contains('dnb-section--cucstom')
+    ).toBe(true)
+  })
+
+  it('should support spacing props', () => {
+    render(<Section top="medium">text</Section>)
+
+    const element = document.querySelector('section.dnb-section')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-section',
+      'dnb-section--mint-green-12',
+      'dnb-space__top--medium',
+    ])
+  })
+
   it('will use props from Provider', () => {
     render(
       <Provider Section={{ style_type: 'divider' }}>

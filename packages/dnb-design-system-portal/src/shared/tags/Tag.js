@@ -7,7 +7,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 
-const Tag = ({ children, className, is: Component, ...rest }) => {
+const Tag = ({ children, className, as: Component, ...rest }) => {
   if (children === null && !/hr/.test(Component)) return <></>
   return (
     <Component
@@ -19,7 +19,7 @@ const Tag = ({ children, className, is: Component, ...rest }) => {
   )
 }
 Tag.propTypes = {
-  is: PropTypes.string.isRequired,
+  as: PropTypes.string.isRequired,
   children: PropTypes.node,
   className: PropTypes.string,
 }

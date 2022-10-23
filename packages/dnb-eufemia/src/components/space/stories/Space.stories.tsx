@@ -9,17 +9,9 @@ import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 import { css, Global } from '@emotion/react'
 
-import {
-  Space,
-  // Checkbox,
-  // Radio,
-  Input,
-  // FormLabel,
-  // FormRow
-} from '../../'
+import { Space, Input } from '../../'
 import { H1, H2 } from '../../../elements'
 import Provider from '../../../shared/Provider'
-// import { spacingPropTypes, createSpacingClasses } from '../../space/SpacingHelper'
 
 export default {
   title: 'Eufemia/Components/Space',
@@ -151,8 +143,8 @@ const Label = styled.label`
   color: var(--color-black-80);
 `
 
-const MagicBox = ({ label, ...rest }) => {
-  const ref = React.createRef()
+const MagicBox = ({ label, ...rest }: { label?: string } = {}) => {
+  const ref = React.createRef<HTMLDivElement>()
 
   const [spaceInRem, setLabel] = React.useState(label)
   const [title, setTitle] = React.useState(null)
@@ -188,8 +180,12 @@ MagicBox.defaultProps = {
   label: null,
 }
 
-const VisualSpace = ({ label, children, ...rest }) => {
-  const ref = React.createRef()
+const VisualSpace = ({
+  label,
+  children,
+  ...rest
+}: { label?: string; children?: React.ReactNode } = {}) => {
+  const ref = React.createRef<HTMLDivElement>()
 
   const [spaceInRem, setLabel] = React.useState(label)
   const [title, setTitle] = React.useState(null)
@@ -231,7 +227,7 @@ VisualSpace.defaultProps = {
   children: null,
 }
 
-const Collapsing = styled(Space)`
+const Collapsing = styled<any>(Space)`
   border: 1px solid;
 `
 

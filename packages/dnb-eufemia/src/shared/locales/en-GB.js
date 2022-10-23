@@ -122,5 +122,23 @@ export default {
     Tag: {
       removeIconTitle: 'Remove',
     },
+    Upload: {
+      title: 'Upload documents',
+      text: 'Drag & drop your files or choose files to upload.',
+      fileTypeDescription: 'Allowed formats:',
+      fileSizeDescription: 'Max. filesize:',
+      fileAmountDescription: 'Max. number of files:',
+      fileSizeContent: '%size MB',
+      buttonText: 'Choose files',
+      loadingText: 'Uploading',
+      errorLargeFile:
+        'The file you are trying to upload is too big, the maximum size supported is %size MB.',
+      errorAmountLimit:
+        'There is a limit to how many files you can upload (%amount).',
+      errorUnsupportedFile:
+        'The file you are trying to upload is not supported.',
+      deleteButton: 'Delete',
+      fileListAriaLabel: 'uploaded files',
+    },
   },
 }

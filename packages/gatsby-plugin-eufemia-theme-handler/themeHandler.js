@@ -59,19 +59,18 @@ export const onPreRenderHTML = ({
   if (!isDev) {
     let defaultElement
     for (const element of headComponents) {
-      if (element.type === 'style' && element.props['data-href']) {
+      const href = element.props['data-href']
+      if (href && href.includes('.css')) {
         if (
           availableThemesArray.some((name) => {
-            return element.props['data-href'].includes(`/${name}.`)
+            return href.includes(`/${name}.`)
           })
         ) {
-          const themeName = (element.props['data-href'].match(
-            /\/([^.]*)\./
-          ) || [])?.[1]
+          const themeName = (href.match(/\/([^.]*)\./) || [])?.[1]
 
           // Collect all theme CSS file paths
           if (availableThemes[themeName]) {
-            availableThemes[themeName].file = element.props['data-href']
+            availableThemes[themeName].file = href
 
             // Store the default inline styles,
             // and place it below data-href="/commons.*.css"

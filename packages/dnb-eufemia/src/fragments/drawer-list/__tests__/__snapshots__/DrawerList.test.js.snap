@@ -3,48 +3,48 @@
 exports[`DrawerList markup have to match snapshot 1`] = `
 <DrawerList
   0={
-    Object {
+    {
       "displayName": "DrawerList",
-      "props": Object {},
+      "props": {},
     }
   }
   1={
-    Object {
+    {
       "displayName": "DrawerListInstance",
-      "props": Object {},
+      "props": {},
     }
   }
   2={
-    Object {
+    {
       "displayName": undefined,
-      "props": Object {},
+      "props": {},
     }
   }
   3={
-    Object {
+    {
       "displayName": undefined,
-      "props": Object {},
+      "props": {},
     }
   }
   4={
-    Object {
+    {
       "displayName": "ItemContent",
-      "props": Object {
+      "props": {
         "children": "children",
         "hash": "hash",
       },
     }
   }
   5={
-    Object {
+    {
       "displayName": undefined,
-      "props": Object {},
+      "props": {},
     }
   }
   6={
-    Object {
+    {
       "displayName": "OnMounted",
-      "props": Object {
+      "props": {
         "addObservers": [Function],
         "removeObservers": [Function],
       },
@@ -58,32 +58,32 @@ exports[`DrawerList markup have to match snapshot 1`] = `
   custom_element={null}
   custom_method={null}
   data={
-    Array [
-      Object {
-        "content": Array [
+    [
+      {
+        "content": [
           "1234 56 78901",
           "Brukskonto - Kari Nordmann",
         ],
       },
-      Object {
-        "content": Array [
+      {
+        "content": [
           "1234 56 78902",
           "Sparekonto - Ole Nordmann",
         ],
       },
-      Object {
-        "content": Array [
+      {
+        "content": [
           "1134 56 78962",
           "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
         ],
       },
-      Object {
-        "content": Array [
+      {
+        "content": [
           "1534 96 48901",
           "Oppussing - Ole Nordmann",
         ],
       },
-      Object {
+      {
         "content": <React.Fragment>
           Custom content 
           123
@@ -93,7 +93,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
         Custom content 
         123
       </React.Fragment>,
-      Array [
+      [
         <React.Fragment>
           Custom content 
           123
@@ -142,48 +142,48 @@ exports[`DrawerList markup have to match snapshot 1`] = `
 >
   <DrawerListProvider
     0={
-      Object {
+      {
         "displayName": "DrawerList",
-        "props": Object {},
+        "props": {},
       }
     }
     1={
-      Object {
+      {
         "displayName": "DrawerListInstance",
-        "props": Object {},
+        "props": {},
       }
     }
     2={
-      Object {
+      {
         "displayName": undefined,
-        "props": Object {},
+        "props": {},
       }
     }
     3={
-      Object {
+      {
         "displayName": undefined,
-        "props": Object {},
+        "props": {},
       }
     }
     4={
-      Object {
+      {
         "displayName": "ItemContent",
-        "props": Object {
+        "props": {
           "children": "children",
           "hash": "hash",
         },
       }
     }
     5={
-      Object {
+      {
         "displayName": undefined,
-        "props": Object {},
+        "props": {},
       }
     }
     6={
-      Object {
+      {
         "displayName": "OnMounted",
-        "props": Object {
+        "props": {
           "addObservers": [Function],
           "removeObservers": [Function],
         },
@@ -197,32 +197,32 @@ exports[`DrawerList markup have to match snapshot 1`] = `
     custom_element={null}
     custom_method={null}
     data={
-      Array [
-        Object {
-          "content": Array [
+      [
+        {
+          "content": [
             "1234 56 78901",
             "Brukskonto - Kari Nordmann",
           ],
         },
-        Object {
-          "content": Array [
+        {
+          "content": [
             "1234 56 78902",
             "Sparekonto - Ole Nordmann",
           ],
         },
-        Object {
-          "content": Array [
+        {
+          "content": [
             "1134 56 78962",
             "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
           ],
         },
-        Object {
-          "content": Array [
+        {
+          "content": [
             "1534 96 48901",
             "Oppussing - Ole Nordmann",
           ],
         },
-        Object {
+        {
           "content": <React.Fragment>
             Custom content 
             123
@@ -232,7 +232,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
           Custom content 
           123
         </React.Fragment>,
-        Array [
+        [
           <React.Fragment>
             Custom content 
             123
@@ -285,48 +285,48 @@ exports[`DrawerList markup have to match snapshot 1`] = `
   >
     <DrawerListInstance
       0={
-        Object {
+        {
           "displayName": "DrawerList",
-          "props": Object {},
+          "props": {},
         }
       }
       1={
-        Object {
+        {
           "displayName": "DrawerListInstance",
-          "props": Object {},
+          "props": {},
         }
       }
       2={
-        Object {
+        {
           "displayName": undefined,
-          "props": Object {},
+          "props": {},
         }
       }
       3={
-        Object {
+        {
           "displayName": undefined,
-          "props": Object {},
+          "props": {},
         }
       }
       4={
-        Object {
+        {
           "displayName": "ItemContent",
-          "props": Object {
+          "props": {
             "children": "children",
             "hash": "hash",
           },
         }
       }
       5={
-        Object {
+        {
           "displayName": undefined,
-          "props": Object {},
+          "props": {},
         }
       }
       6={
-        Object {
+        {
           "displayName": "OnMounted",
-          "props": Object {
+          "props": {
             "addObservers": [Function],
             "removeObservers": [Function],
           },
@@ -340,32 +340,32 @@ exports[`DrawerList markup have to match snapshot 1`] = `
       custom_element={null}
       custom_method={null}
       data={
-        Array [
-          Object {
-            "content": Array [
+        [
+          {
+            "content": [
               "1234 56 78901",
               "Brukskonto - Kari Nordmann",
             ],
           },
-          Object {
-            "content": Array [
+          {
+            "content": [
               "1234 56 78902",
               "Sparekonto - Ole Nordmann",
             ],
           },
-          Object {
-            "content": Array [
+          {
+            "content": [
               "1134 56 78962",
               "Feriekonto - Kari Nordmann med et kjempelangt etternavnsen",
             ],
           },
-          Object {
-            "content": Array [
+          {
+            "content": [
               "1534 96 48901",
               "Oppussing - Ole Nordmann",
             ],
           },
-          Object {
+          {
             "content": <React.Fragment>
               Custom content 
               123
@@ -375,7 +375,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
             Custom content 
             123
           </React.Fragment>,
-          Array [
+          [
             <React.Fragment>
               Custom content 
               123
@@ -444,13 +444,13 @@ exports[`DrawerList markup have to match snapshot 1`] = `
               role="listbox"
               showFocusRing={false}
               style={
-                Object {
+                {
                   "maxHeight": null,
                 }
               }
               tabIndex="-1"
               triangleRef={
-                Object {
+                {
                   "current": null,
                 }
               }
@@ -463,7 +463,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
                 id="drawer-list-id-ul"
                 role="listbox"
                 style={
-                  Object {
+                  {
                     "maxHeight": null,
                   }
                 }
@@ -1106,7 +1106,10 @@ exports[`DrawerList scss have to match snapshot 1`] = `
   /* stylelint-disable-next-line  */ }
   .dnb-drawer-list__portal__style {
     position: absolute;
+    transition: all 300ms var(--easing-default);
     z-index: 3200; }
+    html[data-visual-test] .dnb-drawer-list__portal__style {
+      animation-duration: 1ms !important; }
     .dnb-drawer-list__portal__style--fixed {
       position: fixed; }
   .dnb-drawer-list__root {
@@ -1149,6 +1152,7 @@ exports[`DrawerList scss have to match snapshot 1`] = `
   .dnb-drawer-list--scroll .dnb-drawer-list__options {
     min-height: 2rem;
     max-height: 70vh;
+    transition: max-height 300ms var(--easing-default);
     overflow-y: auto;
     overscroll-behavior: contain;
     scrollbar-width: thin;
@@ -1159,6 +1163,9 @@ exports[`DrawerList scss have to match snapshot 1`] = `
       scroll-behavior: smooth; }
     html[data-visual-test] .dnb-drawer-list--scroll .dnb-drawer-list__options {
       scroll-behavior: auto !important; }
+  html[data-visual-test] .dnb-drawer-list--scroll .dnb-drawer-list__options,
+  .dnb-drawer-list--scroll.dnb-drawer-list--no-animation .dnb-drawer-list__options {
+    animation-duration: 1ms !important; }
   .dnb-drawer-list--opened .dnb-drawer-list__options {
     scroll-behavior: smooth; }
   .dnb-drawer-list--no-scroll-animation .dnb-drawer-list__options {

@@ -3469,5 +3469,47 @@
     "name": "newspaper",
     "variant": "secondary",
     "category": "objects"
+  },
+  "layout_card_medium": {
+    "tags": [],
+    "created": 1666351885521,
+    "name": "layout_card",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "layout_card": {
+    "tags": [],
+    "created": 1666351885645,
+    "name": "layout_card",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "unlock_medium": {
+    "tags": [],
+    "created": 1666351885767,
+    "name": "unlock",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "unlock": {
+    "tags": [],
+    "created": 1666351885890,
+    "name": "unlock",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "hierarchy_medium": {
+    "tags": [],
+    "created": 1666351886001,
+    "name": "hierarchy",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "hierarchy": {
+    "tags": [],
+    "created": 1666351886132,
+    "name": "hierarchy",
+    "variant": "secondary",
+    "category": "essentials"
   }
 }

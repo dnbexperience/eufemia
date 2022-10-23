@@ -9,6 +9,7 @@ import {
   isTrue,
   findElementInChildren,
 } from '../../shared/component-helper'
+import { getOffsetTop, warn } from '../../shared/helpers'
 import ScrollView from '../../fragments/scroll-view/ScrollView'
 import DrawerHeader from './parts/DrawerHeader'
 import DrawerNavigation from './parts/DrawerNavigation'
@@ -18,6 +19,7 @@ import { DrawerContentProps } from './types'
 import { checkMinMaxWidth } from './helpers'
 import ModalHeaderBar from '../modal/parts/ModalHeaderBar'
 import ModalHeader from '../modal/parts/ModalHeader'
+import { DrawerContentContext } from './parts/DrawerContentContext'
 
 export default function DrawerContent({
   modalContent = null,
@@ -69,34 +71,59 @@ export default function DrawerContent({
     ...rest,
   }
 
-  const navExists = findElementInChildren(
-    content,
-    (cur) => cur.type === DrawerNavigation || cur.type === ModalHeaderBar
-  )
+  /**
+   * Update CSS --header-height with spacing to top of page
+   */
+  React.useEffect(() => {
+    try {
+      const height = getOffsetTop(context?.contentRef.current) / 16
+      context?.contentRef.current.style.setProperty(
+        '--header-height',
+        `${height}rem`
+      )
+    } catch (e) {
+      warn(e)
+    }
+  }, [content, context?.scrollRef, context?.contentRef])
 
-  const headerExists = findElementInChildren(
+  const navigationElement = findElementInChildren(
     content,
-    (cur) => cur.type === DrawerHeader || cur.type === ModalHeader
+    (cur: React.ReactElement) =>
+      cur.type === DrawerNavigation || cur.type === ModalHeaderBar
+  )
+  const headerElement = findElementInChildren(
+    content,
+    (cur: React.ReactElement) =>
+      cur.type === DrawerHeader || cur.type === ModalHeader
   )
 
   return (
     <ScrollView {...innerParams} ref={context?.scrollRef}>
+      {navigationElement ? (
+        navigationElement
+      ) : (
+        <DrawerNavigation>{navContent}</DrawerNavigation>
+      )}
+
+      {headerElement ? (
+        headerElement
+      ) : (
+        <DrawerHeader title={context?.title}>{headerContent}</DrawerHeader>
+      )}
       <div
         tabIndex={-1}
         className="dnb-drawer__inner dnb-no-focus"
         ref={context?.contentRef}
       >
-        {!navExists && <DrawerNavigation>{navContent}</DrawerNavigation>}
-        {!headerExists && (
-          <DrawerHeader title={context?.title}>
-            {headerContent}
-          </DrawerHeader>
-        )}
         <div
           id={context?.contentId + '-content'}
           className="dnb-drawer__content"
         >
-          {content}
+          <DrawerContentContext.Provider
+            value={{ navigationElement, headerElement }}
+          >
+            {content}
+          </DrawerContentContext.Provider>
         </div>
       </div>
     </ScrollView>

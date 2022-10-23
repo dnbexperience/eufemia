@@ -11,7 +11,7 @@ import {
   makeUniqueId,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
-import AnimateHeight from '../../shared/AnimateHeight'
+import HeightAnimationInstance from '../height-animation/HeightAnimationInstance'
 import Button from '../button/Button'
 import Icon from '../icon/Icon'
 import {
@@ -95,7 +95,7 @@ export default class StepIndicatorItem extends React.PureComponent {
   constructor(props, context) {
     super(props)
 
-    this._heightAnim = new AnimateHeight({
+    this._heightAnim = new HeightAnimationInstance({
       animate: !isTrue(context.no_animation),
     })
     this._ref = React.createRef()

@@ -202,10 +202,8 @@ function AccordionWithContainer() {
   const [changeHeight] = React.useState(() => ({ ref1, ref2, ref3 }))
   const [flushCache, flushCacheNow] = React.useState(false)
   const [count, setCount] = React.useState(1)
-  // console.log('flushCache', flushCache)
   return (
     <>
-      {count}
       <Button
         bottom
         left
@@ -213,17 +211,17 @@ function AccordionWithContainer() {
         variant="signal"
         on_click={() => setCount((s) => s + 1)}
       >
-        Increment
+        Increment {count}
       </Button>
       <Accordion.Group
-        // no_animation
+        no_animation
         variant="outlined"
-        prevent_rerender
+        // prerender
+        // prevent_rerender
         // prevent_rerender_conditional
         single_container
         remember_state
         flush_remembered_state={flushCache}
-        // prerender
         // allow_close_all
         id="group-id"
       >
@@ -266,6 +264,15 @@ function AccordionWithContainer() {
                 </P>
               </div>
             </ChangingContent>
+            <Button
+              bottom
+              left
+              size="small"
+              variant="signal"
+              on_click={() => setCount((s) => s + 1)}
+            >
+              Increment {count}
+            </Button>
           </Accordion.Content>
         </Accordion>
         <Accordion
@@ -310,6 +317,15 @@ function AccordionWithContainer() {
                 </P>
               </div>
             </ChangingContent>
+            <Button
+              bottom
+              left
+              size="small"
+              variant="signal"
+              on_click={() => setCount((s) => s + 1)}
+            >
+              Increment {count}
+            </Button>
           </Accordion.Content>
         </Accordion>
         <Accordion
@@ -343,12 +359,22 @@ function AccordionWithContainer() {
                 </P>
               </div>
             </ChangingContent>
+            <Button
+              bottom
+              left
+              size="small"
+              variant="signal"
+              on_click={() => setCount((s) => s + 1)}
+            >
+              Increment {count}
+            </Button>
           </Accordion.Content>
         </Accordion>
       </Accordion.Group>
     </>
   )
 }
+
 function ChangingContent({ changeHeight, children }) {
   const [contentSize, changeContentSize] = React.useState(false)
   React.useLayoutEffect(() => {

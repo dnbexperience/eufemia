@@ -564,7 +564,7 @@ export default class Input extends React.PureComponent {
                     variant="tertiary"
                     aria-controls={id}
                     aria-label={clear_button_title}
-                    tooltip={clear_button_title}
+                    tooltip={hasValue && clear_button_title}
                     icon="close"
                     icon_size={size === 'small' ? 'small' : undefined}
                     skeleton={skeleton}

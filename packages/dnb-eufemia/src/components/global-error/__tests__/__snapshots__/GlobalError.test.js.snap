@@ -161,23 +161,23 @@ exports[`GlobalError scss have to match snapshot 1`] = `
   padding: 0 1rem;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 200ms cubic-bezier(0.42, 0, 0, 1); }
+  transition: opacity 200ms var(--easing-default); }
   .dnb-tooltip--large {
     padding: 0.25rem 1rem; }
   .dnb-tooltip--animate_position {
-    transition: all 200ms cubic-bezier(0.42, 0, 0, 1), opacity 200ms cubic-bezier(0.42, 0, 0, 1); }
+    transition: all 200ms var(--easing-default), opacity 200ms var(--easing-default); }
   .dnb-tooltip--active {
     visibility: visible;
     /*
-      because of the first \\"show\\" we also use animation
+      because of the first "show" we also use animation
       also, use forwards because of the usage of visibility
     */
-    animation: show-tooltip 200ms cubic-bezier(0.42, 0, 0, 1) forwards; }
+    animation: show-tooltip 200ms var(--easing-default) forwards; }
   html[data-visual-test] .dnb-tooltip--active, .dnb-tooltip--active.dnb-tooltip--no-animation {
-    animation: show-tooltip 1ms cubic-bezier(0.42, 0, 0, 1) forwards; }
+    animation: show-tooltip 1ms var(--easing-default) forwards; }
   .dnb-tooltip--hide {
     visibility: visible;
-    animation: hide-tooltip 200ms cubic-bezier(0.42, 0, 0, 1) forwards; }
+    animation: hide-tooltip 200ms var(--easing-default) forwards; }
   .dnb-tooltip--hide.dnb-tooltip--no-animation {
     animation: hide-tooltip 1ms linear forwards; }
   .dnb-tooltip--fixed {
@@ -296,7 +296,7 @@ exports[`GlobalError scss have to match snapshot 1`] = `
 .dnb-form-status {
   display: flex;
   opacity: 1;
-  transition: height 400ms cubic-bezier(0.42, 0, 0, 1), opacity 400ms cubic-bezier(0.42, 0, 0, 1), margin 400ms cubic-bezier(0.42, 0, 0, 1), padding 400ms cubic-bezier(0.42, 0, 0, 1); }
+  transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default); }
   .dnb-form-status--hidden {
     will-change: height, opacity, margin, padding;
     width: 0;
@@ -755,7 +755,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
             disabled={false}
             href="href"
             inner_ref={
-              Object {
+              {
                 "current": <a
                   class="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon dnb-a"
                   href="href"
@@ -800,11 +800,12 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
             onClick={[Function]}
           >
             <ForwardRef
+              as="a"
               className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon"
               disabled={false}
               href="href"
               innerRef={
-                Object {
+                {
                   "current": <a
                     class="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon dnb-a"
                     href="href"
@@ -845,16 +846,16 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                   </a>,
                 }
               }
-              is="a"
               onClick={[Function]}
               skeleton={null}
             >
               <ElementInstance
+                as="a"
                 className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon"
                 disabled={false}
                 href="href"
                 innerRef={
-                  Object {
+                  {
                     "current": <a
                       class="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon dnb-a"
                       href="href"
@@ -895,7 +896,6 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                     </a>,
                   }
                 }
-                is="a"
                 onClick={[Function]}
                 skeleton={null}
               >
@@ -1042,7 +1042,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
             fill="none"
             height={360}
             style={
-              Object {
+              {
                 "--data-height": 360,
                 "--data-width": 339,
               }
@@ -1179,25 +1179,25 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
           top="4"
         >
           <H
+            as="h1"
             bottom="large"
             className={null}
-            is="h1"
             level={null}
             size="xx-large"
             style_type={null}
             top="4"
           >
             <ForwardRef
+              as="h1"
               bottom="large"
               internalClass="dnb-h--xx-large"
-              is="h1"
               top="4"
             >
               <ElementInstance
+                as="h1"
                 bottom="large"
                 innerRef={null}
                 internalClass="dnb-h--xx-large"
-                is="h1"
                 top="4"
               >
                 <h1
@@ -1221,15 +1221,15 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
           style_type={null}
         >
           <ForwardRef
+            as="p"
             bottom="large"
             className="dnb-p"
-            is="p"
           >
             <ElementInstance
+              as="p"
               bottom="large"
               className="dnb-p"
               innerRef={null}
-              is="p"
             >
               <p
                 className="dnb-p dnb-space__bottom--large"

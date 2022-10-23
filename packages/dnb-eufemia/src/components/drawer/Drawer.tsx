@@ -49,6 +49,8 @@ function Drawer({
   triggerAttributes,
   overlayClass,
   contentClass,
+  contentRef,
+  scrollRef,
 
   top,
   bottom,
@@ -92,6 +94,8 @@ function Drawer({
     trigger,
     triggerAttributes,
     overlayClass,
+    contentRef,
+    scrollRef,
     top,
     bottom,
     left,
