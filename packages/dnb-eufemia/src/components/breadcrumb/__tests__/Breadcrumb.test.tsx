@@ -45,6 +45,27 @@ describe('Breadcrumb', () => {
     expect(screen.queryAllByTestId('breadcrumb-item')).toHaveLength(3)
   })
 
+  it('should handle children as null', () => {
+    render(
+      <Breadcrumb>
+        {null}
+        <Breadcrumb.Item text="Page item #1" />
+        {null}
+        {null}
+        <Breadcrumb.Item text="Page item #2" />
+        {null}
+        {null}
+        {null}
+        <Breadcrumb.Item text="Page item #3" />
+        {null}
+        {null}
+        <Breadcrumb.Item text="Page item #4" />
+      </Breadcrumb>
+    )
+
+    expect(screen.queryAllByTestId('breadcrumb-item')).toHaveLength(4)
+  })
+
   it('renders a breadcrumb with one item', () => {
     render(
       <Provider locale="en-GB">

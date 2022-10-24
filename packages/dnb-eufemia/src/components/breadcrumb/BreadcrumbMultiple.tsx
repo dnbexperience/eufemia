@@ -43,9 +43,11 @@ export const BreadcrumbMultiple = ({
           )
         })}
 
-        {items?.map((item, i) =>
-          React.cloneElement(item, { key: i, itemNr: i })
-        )}
+        {items
+          ?.filter((item) => React.isValidElement(item))
+          .map((item, i) =>
+            React.cloneElement(item, { key: i, itemNr: i })
+          )}
       </Section>
     </HeightAnimation>
   )
