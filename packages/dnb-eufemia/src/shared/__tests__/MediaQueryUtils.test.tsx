@@ -7,7 +7,9 @@ import {
   convertToMediaQuery,
   buildQuery,
   onMediaQueryChange,
+  makeMediaQueryList,
 } from '../MediaQueryUtils'
+import * as helpers from '../helpers'
 import { mockMediaQuery } from './helpers/MediaQueryMocker'
 const matchMedia = mockMediaQuery()
 
@@ -249,6 +251,68 @@ describe('buildQuery', () => {
     expect(buildQuery({ when: { all: true, monochrome: true } })).toBe(
       'all and monochrome'
     )
+  })
+})
+
+describe('makeMediaQueryList', () => {
+  let log = global.console.log
+
+  beforeEach(() => {
+    log = global.console.log
+    global.console.log = jest.fn()
+  })
+
+  afterEach(() => {
+    jest.resetAllMocks()
+
+    global.console.log = log
+  })
+
+  it('should return mediaQuery object', () => {
+    const query = '(min-width: 40em)'
+    matchMedia.useMediaQuery(query)
+
+    expect(makeMediaQueryList({ query })).toEqual({
+      matches: true,
+      media: query,
+      addEventListener: expect.any(Function),
+      removeEventListener: expect.any(Function),
+      addListener: expect.any(Function),
+      removeListener: expect.any(Function),
+      dispatchEvent: expect.any(Function),
+      onchange: null,
+    })
+  })
+
+  it('should warn when no mediaQuery is supported', () => {
+    const query = '(min-width: 40em)'
+    matchMedia.useMediaQuery(query)
+
+    jest.spyOn(helpers, 'warn')
+
+    window.matchMedia = undefined
+
+    expect(makeMediaQueryList({ query })).toEqual(null)
+
+    expect(helpers.warn).toHaveBeenCalledTimes(1)
+    expect(helpers.warn).toHaveBeenCalledWith(
+      'window.matchMedia is "undefined"'
+    )
+  })
+
+  it('should dismiss warning', () => {
+    const query = '(min-width: 40em)'
+    matchMedia.useMediaQuery(query)
+
+    jest.spyOn(helpers, 'warn')
+
+    window.matchMedia = undefined
+
+    expect(makeMediaQueryList({ query, dismissWarning: true })).toEqual(
+      null
+    )
+
+    expect(helpers.warn).toHaveBeenCalledTimes(0)
   })
 })
 

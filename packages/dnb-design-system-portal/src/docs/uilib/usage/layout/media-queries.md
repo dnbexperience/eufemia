@@ -4,8 +4,10 @@ order: 2
 ---
 
 import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
-import MediaQuery from '@dnb/eufemia/src/shared/MediaQuery'
-import useMediaQuery from '@dnb/eufemia/src/shared/useMediaQuery'
+import {
+MediaQueryLiveExample,
+MediaQueryUseMedia,
+} from 'dnb-design-system-portal/src/docs/uilib/usage/layout/Examples'
 
 # Media Queries and Breakpoints
 
@@ -25,9 +27,13 @@ UX designers are using a 12 column system during their design processes.
 
 <!-- | 1440  | `xxx-large` | **90em** | `--layout-xxx-large` |             | -->
 
-## MediaQuery component and the useMediaQuery hook
+## MediaQuery component and React Hooks
 
-Both the component and the hook uses the JavaScript API [matchMedia](https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia).
+Both the component and the React Hooks uses the JavaScript API [matchMedia](https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia).
+
+- [useMedia](/uilib/usage/layout/media-queries/#usemedia-hook-usage) React Hook for screen width only.
+- [useMediaQuery](/uilib/usage/layout/media-queries/#usemediaquery-hook-usage) React Hook for all kinds of media queries.
+- [MediaQuery](/uilib/usage/layout/media-queries/#mediaquery-component) Component for all kinds of media queries.
 
 ### Re-render and performance
 
@@ -51,7 +57,64 @@ During a SSR (Server Side Render) we do not have the clients `window.matchMedia`
 
 Numeric values will be handled as an `em` unit.
 
-### `MediaQuery` usage
+### `useMedia` hook usage
+
+```js
+import { useMedia } from '@dnb/eufemia/shared'
+
+function Component() {
+  const { isSmall, isMedium, isLarge, isSSR } = useMedia()
+
+  return isSmall ? 'true' : 'false'
+}
+```
+
+To lower the possibility of CLS (Cumulative Layout Shift) on larger screens – you can make use of the `isSSR` property. Try to use it in combination with `isLarge`, because the negative CLS experience is most recoginzeable on larger screens:
+
+```js
+import { useMedia } from '@dnb/eufemia/shared'
+
+function Component() {
+  const { isSmall, isMedium, isLarge, isSSR } = useMedia()
+
+  return isLarge || isSSR ? 'true' : 'false'
+}
+```
+
+<MediaQueryUseMedia />
+
+You can disable the usage of `window.matchMedia` by providing `useMedia({ disabled: true })`.
+
+You can log the media query by providing `useMedia({ log: true })`.
+
+### `useMediaQuery` hook usage
+
+This React Hook is a more extended version, where you can define all sorts of Media Queries.
+
+```js
+import { useMediaQuery } from '@dnb/eufemia/shared'
+// or
+import useMediaQuery from '@dnb/eufemia/shared/useMediaQuery'
+
+function Component() {
+  const match = useMediaQuery({
+    matchOnSSR: true,
+    when: { min: 'medium' },
+  })
+
+  return match ? 'true' : 'false'
+}
+```
+
+You can disable the usage of `window.matchMedia` by providing `useMedia({ disabled: true })`.
+
+### Live example
+
+This example uses the `not` property to reverse the behavior.
+
+<MediaQueryLiveExample />
+
+### `MediaQuery` component
 
 ```js
 import { MediaQuery } from '@dnb/eufemia/shared'
@@ -106,88 +169,13 @@ const remove = onMediaQueryChange({ min: 'medium' }, (match, event) => {
 remove()
 ```
 
-### `useMediaQuery` hook usage
-
-```js
-import { useMediaQuery } from '@dnb/eufemia/shared'
-// or
-import useMediaQuery from '@dnb/eufemia/shared/useMediaQuery'
-```
-
-```jsx
-function Component() {
-  const match = useMediaQuery({
-    matchOnSSR: true,
-    when: { min: 'medium' },
-  })
-
-  return match ? 'true' : 'false'
-}
-```
-
-You can also disable the usage of `window.matchMedia` temporally by providing `disabled: true` as an option.
-
-### Live example
-
-This example uses the `not` property to reverse the behavior.
-
-<!-- prettier-ignore-start -->
-
-<ComponentBox
-  data-visual-test="media-query"
-  scope={{ MediaQuery, useMediaQuery }}
-  useRender
-  hideCode
->
-{`
-const Playground = () => {
-  const [query, updateQuery] = React.useState({
-    screen: true,
-    not: true,
-    min: 'small',
-    max: 'large',
-  })
-  const match1 = useMediaQuery({
-    matchOnSSR: true,
-    when: query,
-  })
-  const match2 = useMediaQuery({
-    matchOnSSR: true,
-    not: true,
-    when: query,
-  })
-  // console.log('mediaQuery:', match1, match2)
-  return (<>
-    <Button
-      onClick={() => {
-        updateQuery({
-          ...query,
-          screen: !query.screen,
-        })
-      }}
-      right
-    >
-      Switch
-    </Button>
-    <MediaQuery when={query}>
-      <Code>when</Code>
-    </MediaQuery>
-    <MediaQuery not when={query}>
-      <Code>not when</Code>
-    </MediaQuery>
-  </>)
-}
-render(Playground)
-`}
-</ComponentBox>
-
-<!-- prettier-ignore-end -->
-
 ### Use different breakpoints
 
 It is possible to change the used breakpoint types by providing them to the Eufemia Provider.
 
-Both the `MediaQuery` component and the `useMediaQuery` hook will merge and use these custom breakpoints.
+Both the `MediaQuery` component and the hooks `useMedia` and `useMediaQuery` will merge and use these custom breakpoints.
+
+**NB:** It should be done only temporary, because DNB should align on one set of breakpoints for best UX and consistency.
 
 ```jsx
 import { Provider } from '@dnb/eufemia/shared'
@@ -195,17 +183,13 @@ import { Provider } from '@dnb/eufemia/shared'
 <Provider
   value={{
     breakpoints: {
-      xsmall: '20em',
-      medium: '30em',
-      large: '60em',
+      small: '40em',
+      medium: '60em',
+      large: '72em',
     },
   }}
 >
-  ...
-  <MediaQuery when={{ min: 'xsmall' }}>
-    matches all above xsmall screens
-  </MediaQuery>
-  ...
+  <App />
 </Provider>
 ```
 
