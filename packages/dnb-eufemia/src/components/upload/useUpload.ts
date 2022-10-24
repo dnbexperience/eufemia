@@ -1,4 +1,4 @@
-import { useEventEmitter } from '../../../src/shared/component-helper'
+import { useEventEmitter } from '../../shared/component-helper'
 import type { UploadFile } from './types'
 
 export type useUploadReturn = {

@@ -1,5 +1,5 @@
-import { isTrue, toKebabCase, warn } from './component-helper'
-import { IS_IE11 } from './helpers'
+import { isTrue, toKebabCase } from './component-helper'
+import { IS_IE11, warn } from './helpers'
 
 export type MediaQuerySizes =
   | 'small'
@@ -55,6 +55,11 @@ export type MediaQueryProperties = {
    * If set to true, no MediaQuery will be used.
    */
   disabled?: boolean
+
+  /**
+   * If set to true, no Eufemia warning will be shown when window.matchMedia is undefined
+   */
+  dismissWarning?: boolean
 
   /**
    * For debugging
@@ -139,10 +144,16 @@ export function makeMediaQueryList(
     not = null,
     log = false,
     disabled = false,
+    dismissWarning = false,
   }: MediaQueryProperties = {},
   breakpoints: MediaQueryBreakpoints = null
 ): MediaQueryList {
-  if (disabled || !isMatchMediaSupported()) {
+  const isSupported = isMatchMediaSupported()
+
+  if (disabled || !isSupported) {
+    if (!dismissWarning && !isSupported) {
+      warn('window.matchMedia is "undefined"')
+    }
     return null
   }
 
@@ -154,7 +165,7 @@ export function makeMediaQueryList(
   const mediaQueryList = window.matchMedia(mediaQueryString)
 
   if (log) {
-    console.log('MediaQuery:', mediaQueryString)
+    warn('MediaQuery:', mediaQueryString)
   }
 
   return mediaQueryList
@@ -169,14 +180,13 @@ export function makeMediaQueryList(
  */
 export function createMediaQueryListener(
   mediaQueryList: MediaQueryList,
-  callback: (matches: boolean, event) => void
+  callback: (matches: boolean, event: Partial<MediaQueryListEvent>) => void
 ): MediaQueryListener {
   if (!mediaQueryList) {
-    warn('Invalid MediaQueryList was given')
     return () => null
   }
 
-  const listener = (event) => {
+  const listener = (event: MediaQueryListEvent) => {
     if (typeof callback === 'function') {
       callback(event?.matches, event)
     }

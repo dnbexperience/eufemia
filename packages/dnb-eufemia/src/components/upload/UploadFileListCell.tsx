@@ -6,7 +6,7 @@ import Button from '../button/Button'
 import Icon from '../../components/Icon'
 import FormStatus from '../../components/FormStatus'
 import ProgressIndicator from '../../components/progress-indicator'
-import P from '../../../src/elements/P'
+import P from '../../elements/P'
 
 // Icons
 import {

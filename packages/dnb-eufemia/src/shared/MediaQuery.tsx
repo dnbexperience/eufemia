@@ -1,6 +1,6 @@
 import React from 'react'
 import { isTrue } from './component-helper'
-import Context from './Context'
+import Context, { ContextProps } from './Context'
 import {
   makeMediaQueryList,
   createMediaQueryListener,
@@ -23,13 +23,14 @@ export default class MediaQuery extends React.PureComponent<
 > {
   static contextType = Context
   listener: MediaQueryListener
+  context: ContextProps
 
   state = {
     match: null,
     mediaQueryList: null,
   }
 
-  constructor(props, context) {
+  constructor(props: MediaQueryProps, context: ContextProps) {
     super(props)
 
     if (!isMatchMediaSupported() && isTrue(props.matchOnSSR)) {
