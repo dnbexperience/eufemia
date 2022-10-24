@@ -745,6 +745,69 @@ describe('Autocomplete component', () => {
     ).toBe(3)
   })
 
+  it.only('data can be set in useEffect', async () => {
+    const mockData = [
+      { selected_key: 'a', content: 'A value' },
+      { selected_key: 'b', content: 'B value' },
+      { selected_key: 'c', content: 'C value' },
+    ]
+
+    const WrapperMock = (props) => {
+      const [data, setData] = React.useState(null)
+
+      React.useEffect(() => {
+        setData(mockData)
+      }, [])
+
+      return (
+        <Component
+          no_animation
+          show_submit_button
+          data={data}
+          value="b"
+          {...props}
+        />
+      )
+    }
+
+    const Comp = mount(<WrapperMock />)
+
+    // const openAndSelectNext = () => {
+    //   // then simulate changes
+    //   keydown(Comp, 40) // down
+    //   keydown(Comp, 13) // enter
+    // }
+
+    // check "cc"
+    Comp.find('.dnb-input__input').simulate('change', {
+      target: { value: 'b c' },
+    })
+
+    // open first
+    toggle(Comp)
+
+    // await wait(1000)
+
+    expect(
+      Comp.find('li.dnb-drawer-list__option')
+        .at(1)
+        .instance()
+        .classList.contains('dnb-drawer-list__option--selected')
+    ).toBe(true)
+
+    expect(Comp.find('.dnb-input__input').instance().value).toBe('B value')
+
+    // openAndSelectNext()
+
+    // expect(Comp.find('.dnb-input__input').instance().value).toBe('C value')
+    // expect(
+    //   Comp.find('li.dnb-drawer-list__option')
+    //     .at(2)
+    //     .instance()
+    //     .classList.contains('dnb-drawer-list__option--selected')
+    // ).toBe(true)
+  })
+
   it('has correct "aria-expanded"', () => {
     const Comp = mount(<Component {...props} data={mockData} />)
 
