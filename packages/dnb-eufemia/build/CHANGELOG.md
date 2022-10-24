@@ -3,6 +3,18 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.34.0](https://github.com/dnbexperience/eufemia/compare/v9.33.0...v9.34.0) (2022-10-24)
+
+
+### Bug Fixes
+
+* **Upload:** make import paths valid in released version ([#1659](https://github.com/dnbexperience/eufemia/issues/1659)) ([4eb622a](https://github.com/dnbexperience/eufemia/commit/4eb622a01bf4c8727057e84af380033c332fc480))
+
+
+### Features
+
+* **useMedia:** add React Hook to handle Eufemia layout breakpoints ([#1650](https://github.com/dnbexperience/eufemia/issues/1650)) ([d41f7dd](https://github.com/dnbexperience/eufemia/commit/d41f7dda7a6c803a6578b5021a405141608f39e8))
+
 # [9.33.0](https://github.com/dnbexperience/eufemia/compare/v9.32.1...v9.33.0) (2022-10-23)
 
 
