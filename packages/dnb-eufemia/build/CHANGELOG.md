@@ -3,6 +3,13 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.34.1](https://github.com/dnbexperience/eufemia/compare/v9.34.0...v9.34.1) (2022-10-24)
+
+
+### Bug Fixes
+
+* **Breadcrumb:** support null as children ([#1661](https://github.com/dnbexperience/eufemia/issues/1661)) ([c459ca1](https://github.com/dnbexperience/eufemia/commit/c459ca1f6e48ecd06ae2899ecf50c8b7c90497b4))
+
 # [9.34.0](https://github.com/dnbexperience/eufemia/compare/v9.33.0...v9.34.0) (2022-10-24)
 
 
