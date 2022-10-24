@@ -16,7 +16,6 @@ import {
 import Breadcrumb from '../Breadcrumb'
 import { Provider } from '../../../shared'
 import { BreadcrumbItemProps } from '../BreadcrumbItem'
-// import BreadcrumbItem from '../BreadcrumbItem'
 
 export default {
   title: 'Eufemia/Components/Breadcrumb',
@@ -147,5 +146,25 @@ export const CollapsedBreadcrumbWithSpacing = () => {
     <Provider>
       <Breadcrumb data={breadcrumbItems} variant="collapse" spacing />
     </Provider>
+  )
+}
+
+export const SupportsChildrenAsNull = () => {
+  return (
+    <Wrapper>
+      <Box>
+        <Breadcrumb>
+          {null}
+          <Breadcrumb.Item text="Page item#1" />
+          {null}
+          {null}
+          <Breadcrumb.Item text="Page item#2" />
+          <Breadcrumb.Item text="Page item#3" />
+          {null}
+          {null}
+          {null}
+        </Breadcrumb>
+      </Box>
+    </Wrapper>
   )
 }
