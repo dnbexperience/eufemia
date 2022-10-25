@@ -7,7 +7,7 @@
 // run: yarn nodemon --exec 'babel-node --extensions .js,.ts,.tsx ./scripts/postbuild/getNextReleaseVersion.js' --ext js --watch './scripts/**/*'
 // run (mjs): yarn nodemon --exec 'node --experimental-import-meta-resolve ./scripts/postbuild/getNextReleaseVersion.mjs' --ext mjs --watch './scripts/**/*'
 
-const { exec } = require('child_process')
+const { runCommand } = require('../tools/cliTools')
 const getBranchName = require('current-git-branch')
 const dotenv = require('dotenv')
 
@@ -46,24 +46,6 @@ async function getNextReleaseVersion() {
   }
 
   return null
-}
-
-function runCommand(command) {
-  return new Promise((resolve, reject) => {
-    try {
-      exec(command, (error, stdout, stderr) => {
-        if (error) {
-          return reject(error)
-        }
-        if (stderr) {
-          return reject(stderr)
-        }
-        return resolve(stdout)
-      })
-    } catch (e) {
-      reject(e)
-    }
-  })
 }
 
 exports.releaseBranches = releaseBranches

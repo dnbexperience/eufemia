@@ -7,6 +7,7 @@
 import fs from 'fs-extra'
 import path from 'path'
 import packpath from 'packpath'
+import { getCommittedFiles } from '../../tools/cliTools'
 
 const makeStagePathException = (stage) => (stage === '/esm' ? '' : stage)
 
@@ -88,6 +89,25 @@ describe('type definitions', () => {
 
 describe('babel build', () => {
   const buildStages = ['/es', '/esm', '/cjs']
+
+  it('imports inside "src" should not contain "/src/"', async () => {
+    const files = await getCommittedFiles()
+
+    files
+      .filter((filePath) => {
+        return filePath.includes('/dnb-eufemia/src/')
+      })
+      .map((filePath) => {
+        return filePath.replace('packages/dnb-eufemia/', '')
+      })
+      .forEach((filePath) => {
+        const content = fs.readFileSync(
+          path.resolve(process.cwd(), filePath),
+          'utf-8'
+        )
+        expect(content).not.toMatch(/.*import.*(\/src\/)/)
+      })
+  })
 
   it.each(buildStages)('has correctly compiled on stage "%s"', (stage) => {
     switch (stage) {
