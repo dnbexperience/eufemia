@@ -3,6 +3,13 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.34.2](https://github.com/dnbexperience/eufemia/compare/v9.34.1...v9.34.2) (2022-10-25)
+
+
+### Bug Fixes
+
+* **extendPropsWithContext:** check for invalid/null sources ([#1664](https://github.com/dnbexperience/eufemia/issues/1664)) ([38a0595](https://github.com/dnbexperience/eufemia/commit/38a05952b9ac35eaa6fd4be32d64d06b173707a8))
+
 ## [9.34.1](https://github.com/dnbexperience/eufemia/compare/v9.34.0...v9.34.1) (2022-10-24)
 
 
