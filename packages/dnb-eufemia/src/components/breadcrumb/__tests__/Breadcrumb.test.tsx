@@ -33,6 +33,14 @@ describe('Breadcrumb', () => {
     expect(screen.queryAllByTestId('breadcrumb-item')).toHaveLength(3)
   })
 
+  it('renders a breadcrumb with a single item by data prop', () => {
+    render(
+      <Breadcrumb data={[{ href: '/page1/page2', text: 'Page 2' }]} />
+    )
+
+    expect(screen.queryAllByTestId('breadcrumb-item')).toHaveLength(1)
+  })
+
   it('renders a breadcrumb with multiple items by children', () => {
     render(
       <Breadcrumb>
@@ -43,6 +51,22 @@ describe('Breadcrumb', () => {
     )
 
     expect(screen.queryAllByTestId('breadcrumb-item')).toHaveLength(3)
+  })
+
+  it('renders a breadcrumb with a single item by children', () => {
+    render(
+      <Breadcrumb>
+        <Breadcrumb.Item text="Page item #1" />
+      </Breadcrumb>
+    )
+
+    expect(screen.queryAllByTestId('breadcrumb-item')).toHaveLength(1)
+  })
+
+  it('should handle a breadcrumb with a single null as children', () => {
+    render(<Breadcrumb>{null}</Breadcrumb>)
+
+    expect(screen.queryAllByTestId('breadcrumb-item')).toHaveLength(0)
   })
 
   it('should handle children as null', () => {

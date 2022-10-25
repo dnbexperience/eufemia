@@ -7,7 +7,9 @@ type BreadcrumbMultipleProps = {
   isCollapsed: boolean
   noAnimation: boolean
   data: Array<BreadcrumbItemProps>
-  items: Array<React.ReactElement<BreadcrumbItemProps>>
+  items:
+    | React.ReactElement<BreadcrumbItemProps>
+    | Array<React.ReactElement<BreadcrumbItemProps>>
 }
 
 export const BreadcrumbMultiple = ({
@@ -43,9 +45,9 @@ export const BreadcrumbMultiple = ({
           )
         })}
 
-        {items
-          ?.filter((item) => React.isValidElement(item))
-          .map((item, i) =>
+        {React.Children.toArray(items)
+          .filter((item) => React.isValidElement(item))
+          .map((item: React.ReactElement<BreadcrumbItemProps>, i) =>
             React.cloneElement(item, { key: i, itemNr: i })
           )}
       </Section>

@@ -149,17 +149,31 @@ export const CollapsedBreadcrumbWithSpacing = () => {
   )
 }
 
+export const SingleBreadcrumb = () => {
+  return (
+    <Wrapper>
+      <Box>
+        <Breadcrumb>
+          <Breadcrumb.Item text="Page item#1" href="/" />
+        </Breadcrumb>
+        <Breadcrumb>{null}</Breadcrumb>
+        <Breadcrumb data={[{ text: 'Page item#1', href: '/' }]} />
+      </Box>
+    </Wrapper>
+  )
+}
+
 export const SupportsChildrenAsNull = () => {
   return (
     <Wrapper>
       <Box>
         <Breadcrumb>
           {null}
-          <Breadcrumb.Item text="Page item#1" />
+          <Breadcrumb.Item text="Page item#1" href="/" />
           {null}
           {null}
-          <Breadcrumb.Item text="Page item#2" />
-          <Breadcrumb.Item text="Page item#3" />
+          <Breadcrumb.Item text="Page item#2" href="/" />
+          <Breadcrumb.Item text="Page item#3" href="/" />
           {null}
           {null}
           {null}
