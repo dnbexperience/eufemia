@@ -3,6 +3,14 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.34.3](https://github.com/dnbexperience/eufemia/compare/v9.34.2...v9.34.3) (2022-10-25)
+
+
+### Bug Fixes
+
+* **Breadcrumb:** support a single child ([#1668](https://github.com/dnbexperience/eufemia/issues/1668)) ([bbb22d2](https://github.com/dnbexperience/eufemia/commit/bbb22d2e778a2ba7c612d2955d97ed1e9bd76c4f))
+* **Table Tr:** support a single child ([#1669](https://github.com/dnbexperience/eufemia/issues/1669)) ([52added](https://github.com/dnbexperience/eufemia/commit/52added81e10c21b388c72b435d82a62e793867c))
+
 ## [9.34.2](https://github.com/dnbexperience/eufemia/compare/v9.34.1...v9.34.2) (2022-10-25)
 
 
