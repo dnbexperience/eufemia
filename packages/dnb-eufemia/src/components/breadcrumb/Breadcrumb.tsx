@@ -49,7 +49,9 @@ export interface BreadcrumbProps {
    * The content of the component. Can be used instead of prop "data".
    * Default: null
    */
-  children?: Array<React.ReactElement<BreadcrumbItemProps>>
+  children?:
+    | React.ReactElement<BreadcrumbItemProps>
+    | Array<React.ReactElement<BreadcrumbItemProps>>
 
   /**
    * The variant of the component.
