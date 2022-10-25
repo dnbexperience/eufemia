@@ -6,7 +6,9 @@ export type TableTrProps = {
   /**
    * The content of the component.
    */
-  children: Array<React.ReactElement<TableTdProps>>
+  children:
+    | React.ReactElement<TableTdProps>
+    | Array<React.ReactElement<TableTdProps>>
 
   /**
    * Custom className on the component root
