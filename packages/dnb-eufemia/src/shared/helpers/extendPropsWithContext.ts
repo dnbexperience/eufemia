@@ -57,7 +57,7 @@ function reduceContextWithValue<Props>(
       (checkPropKey
         ? Object.prototype.hasOwnProperty.call(props, key)
         : true) &&
-      props[key] === defaults[key]
+      props[key] === defaults?.[key]
     ) {
       // then we use the context value
       acc[key] = value
