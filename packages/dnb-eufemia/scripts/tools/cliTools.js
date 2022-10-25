@@ -19,7 +19,7 @@ function runCommand(command) {
 }
 
 /**
- * Returns a list of files that where changed in the current branch
+ * Returns a list of files that were changed in the current branch
  *
  * NB: In order to use "git diff" fetch-depth: needs to be set to 2 or 0 (0 takes a long time) in GitHub Actions
  *
