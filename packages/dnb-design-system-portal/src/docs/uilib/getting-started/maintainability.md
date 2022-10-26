@@ -48,4 +48,4 @@ Overall, the reuse of existing adapters and APIs and using components for what t
 
 HTML and CSS is by nature declarative. But once they are used together, they quickly and certainly lead to imperative programming styles, especially when JavaScript comes in to the picture.
 
-We want to avoid creating applications with imperative programming styles, because of it's nature to make code hard to read and maintain. We encourage everyone to write code as declarative and functional as possible. Parts that belong together, should naturally be kept close to each other, but still as small independent, encapsulated blocks.
+We want to avoid creating applications with imperative programming styles, because of its nature to make code hard to read and maintain. We encourage everyone to write code as declarative and functional as possible. Parts that belong together, should naturally be kept close to each other, but still as small independent, encapsulated blocks.
