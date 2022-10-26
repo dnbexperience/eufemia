@@ -13,6 +13,7 @@ The purposes of the Eufemia Animation Principles are:
 1. To gain and foster consistency in the experience of animations
 2. To give a deeper understanding in why and when we should animate
 3. To guide and help designers and developers making user centric animations
+4. To enhance generally the universal design related user experience for all kinds of people, including those with cognitive challenges.
 
 ## Micro-Interactions
 
@@ -32,9 +33,9 @@ Micro-interactions appeal to a users desire to see the result of their action. T
 
 Animations ask the user for attention. They may delight the user and create a moment that is engaging. But not necessarily in a positive way. People will always experience animations differently. And therefore its more over important to keep animations in a DNB wide consistency.
 
-Animations can give users feelings and a certain state of mind.
-
 The users desire to use an app is often proportional to the design of the app. And so will animations contribute or deprive the enhanced experience.
+
+Animations can give users feelings and a certain state of mind. Therefore we should make them with care and follow the the best practices written in these principles.
 
 ## Do's and don'ts
 
@@ -54,14 +55,21 @@ Animations should not:
 - happen off-content.
 - start by its own.
 - use a spring or bounce easing.
+- make the user wait for it to finish.
 
 ## Consistency in the experience of animations
 
 To achieve a consistent experience of animations, we should reuse given tools and follow the guide-lines.
 
-To give the user the experience of something fading in, it does not need to animate from the very start to the very end. It often is enough to just show the last part of the animation.
+To give the user the experience of something sliding in, it does not need to animate from the very start to the very end. It often is enough to just show the last part of the animation.
 
-Timing and the easing matters. Try `300ms` to `500ms` in timing. And reuse the existing easing functions `var(--easing-default)`:
+### Helpers to use in code
+
+Timing and the easing matters.
+
+- Try `300ms` to `500ms` in timing.
+- Use the [HeightAnimation](/uilib/components/height-animation/) component.
+- Reuse the existing easing functions `var(--easing-default)` in your CSS code when creating a custom animation:
 
 ```css
 transition: height 400ms var(--easing-default);
