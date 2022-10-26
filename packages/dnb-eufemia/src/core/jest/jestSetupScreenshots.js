@@ -64,7 +64,7 @@ module.exports.testPageScreenshot = async ({
   style = null,
   rootClassName = null,
   addWrapper = true,
-  text = null,
+  executeBeforeSimulate = null,
   simulate = null,
   waitBeforeFinish = null,
   waitBeforeSimulate = null,
@@ -112,12 +112,8 @@ module.exports.testPageScreenshot = async ({
     element,
   })
 
-  if (text) {
-    await page.$eval(
-      selector,
-      (node, { text }) => (node.innerText = text),
-      { text }
-    )
+  if (executeBeforeSimulate) {
+    await page.evaluate(executeBeforeSimulate)
   }
 
   const { elementToSimulate, delaySimulation } = await handleSimulation({

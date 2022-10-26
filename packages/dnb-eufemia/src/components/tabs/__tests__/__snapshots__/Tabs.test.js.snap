@@ -1152,7 +1152,7 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
 
 .dnb-tabs__content:focus {
   position: relative; }
-  .dnb-tabs__content:focus::after {
+  .dnb-tabs__content:focus::before {
     content: '';
     position: absolute;
     z-index: -1;
@@ -1163,12 +1163,12 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
     max-width: 100vw;
     border-radius: 0.5rem;
     outline: none; }
-    html[data-whatinput='keyboard'] .dnb-tabs__content:focus::after {
+    html[data-whatinput='keyboard'] .dnb-tabs__content:focus::before {
       --border-color: var(--color-emerald-green);
       box-shadow: 0 0 0 0.125rem var(--border-color);
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
-        html[data-whatinput='keyboard'] .dnb-tabs__content:focus::after {
+        html[data-whatinput='keyboard'] .dnb-tabs__content:focus::before {
           box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
 
 .dnb-tabs__button__title {
