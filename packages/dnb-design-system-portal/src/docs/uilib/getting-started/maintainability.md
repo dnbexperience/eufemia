@@ -48,21 +48,4 @@ Overall, the reuse of existing adapters and APIs and using components for what t
 
 HTML and CSS is by nature declarative. But once they are used together, they quickly and certainly lead to imperative programming styles, especially when JavaScript comes in to the picture.
 
-As we want to avoid creating applications with imperative programming styles, because of it's nature to make code hard to read and maintain, we encourage everyone to try to write code as declarative as possible.
-
-### Web Components usage
-
-If we take HTML, and use a web component, we can easily use the property pattern to define our component. But when it comes to events, we certainly would have to use JavaScript, injecting an event handler from an unexpected place in the code base. You can't read or se that in the HTML.
-
-### Global CSS and SCSS/SASS usage
-
-We can start off by having one CSS class defined and declaring that in the HTML. Perfectly fine. But there will be no limit for us to manipulate our declaration from where ever. We can't read and see that from our CSS class. Suddenly, we entering a imperative programming style. Therefore other CSS tooling like would be preferable to be used:
-
-- Styled Components (e.g. [Linaria](https://github.com/callstack/linaria), [Emotion](https://github.com/emotion-js/emotion), [styled-components](https://github.com/styled-components/styled-components))
-- Scoped Styles (e.g. [Scoped Styles](https://github.com/featurematrix/react-scoped-styles#readme))
-- CSS Modules
-- Token based (e.g. [style9](https://github.com/johanholmerin/style9), [stitches](https://github.com/modulz/stitches))
-
-#### Token based styling
-
-A token based styling system has gained more attention the last years. And in fact, it is a highly declarative methodic with a low footprint, because of it's nature of reuse. The only downside is that it comes first to it's full potential, if both Eufemia and the applications would use that system.
+We want to avoid creating applications with imperative programming styles, because of it's nature to make code hard to read and maintain. We encourage everyone to write code as declarative and functional as possible. Parts that belong together, should naturally be kept close to each other, but still as small independent, encapsulated blocks.
