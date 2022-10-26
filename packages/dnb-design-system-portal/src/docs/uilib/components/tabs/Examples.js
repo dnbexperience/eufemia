@@ -67,6 +67,38 @@ render(
   </Wrapper>
 )
 
+export const TabsExamplePrerender = () => (
+  <Wrapper>
+    <ComponentBox>
+      {
+        /* jsx */ `
+<>
+  <Tabs
+    prerender
+    content_style="black-3"
+  >
+    <Tabs.Content title="Tab 1">
+      <H2>Content 1</H2>
+    </Tabs.Content>
+    <Tabs.Content title="Tab 2">
+      <div style={{ height: '10rem', display: 'flex', alignItems: 'flex-end' }}>
+        <H2>Content 2</H2>
+      </div>
+    </Tabs.Content>
+    <Tabs.Content title="Tab 3">
+      <div style={{ height: '20rem', display: 'flex', alignItems: 'flex-end' }}>
+        <H2>Content 3</H2>
+      </div>
+    </Tabs.Content>
+  </Tabs>
+  <P top>Smile at me 📸</P>
+</>
+`
+      }
+    </ComponentBox>
+  </Wrapper>
+)
+
 export const TabsExampleUsingData = () => (
   <Wrapper>
     <ComponentBox
