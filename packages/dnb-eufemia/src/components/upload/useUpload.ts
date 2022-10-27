@@ -6,12 +6,11 @@ export type useUploadReturn = {
   setFiles: (files: UploadFile[]) => void
   internalFiles: UploadFile[]
   setInternalFiles: (files: UploadFile[]) => void
+  existsInFiles: (file: File, fileItems?: UploadFile[]) => boolean
 }
 
 /**
  * Use together with Upload with the same id to manage the files from outside the component.
- * @param id string, must match the id of the Upload component
- * @returns { files: UploadFile[], setFiles: (file: UploadFile[]) => void }
  */
 function useUpload(id: string): useUploadReturn {
   const { data, update } = useEventEmitter(id)
@@ -24,11 +23,25 @@ function useUpload(id: string): useUploadReturn {
     update({ internalFiles })
   }
 
+  const files = data?.files || []
+  const internalFiles = data?.internalFiles || []
+
+  const existsInFiles = (file: File, fileItems: UploadFile[] = files) => {
+    return fileItems.some(({ file: f }) => {
+      return (
+        f.name === file.name &&
+        f.size === file.size &&
+        f.lastModified === file.lastModified
+      )
+    })
+  }
+
   return {
-    files: data?.files || [],
+    files,
     setFiles,
-    internalFiles: data?.internalFiles || [],
+    internalFiles,
     setInternalFiles,
+    existsInFiles,
   }
 }
 

@@ -24,6 +24,7 @@ import { UploadFile } from './types'
 
 // Shared
 import { getPreviousSibling, warn } from '../../shared/component-helper'
+import useUpload from './useUpload'
 
 const images = {
   pdf,
@@ -36,6 +37,8 @@ const images = {
 }
 
 export type UploadFileListCellProps = {
+  id: string
+
   /**
    * Uploaded file
    */
@@ -54,6 +57,7 @@ export type UploadFileListCellProps = {
 }
 
 const UploadFileListCell = ({
+  id,
   uploadFile,
   onDelete,
   loadingText,
@@ -69,6 +73,8 @@ const UploadFileListCell = ({
   const imageUrl = URL.createObjectURL(file)
 
   const cellRef = useRef<HTMLLIElement>()
+
+  const exists = useExistsHighlight(id, file)
 
   const handleDisappearFocus = () => {
     try {
@@ -96,7 +102,8 @@ const UploadFileListCell = ({
       data-testid="upload-file-list-cell"
       className={classnames(
         'dnb-upload__file-cell',
-        hasWarning && 'dnb-upload__file-cell--warning'
+        hasWarning && 'dnb-upload__file-cell--warning',
+        exists && 'dnb-upload__file-cell--highlight'
       )}
       ref={cellRef}
     >
@@ -186,3 +193,29 @@ const UploadFileListCell = ({
 }
 
 export default UploadFileListCell
+
+function useExistsHighlight(id: string, file: File) {
+  const { internalFiles } = useUpload(id)
+  const [exists, updateExists] = React.useState(false)
+  const timerRef = React.useRef<NodeJS.Timer>()
+
+  const clearTimers = () => {
+    clearTimeout(timerRef.current)
+  }
+
+  React.useEffect(() => {
+    const exists = internalFiles.some(({ exists, file: f }) => {
+      return exists && f.name === file.name && f.size === file.size
+    })
+
+    if (exists) {
+      updateExists(true)
+      clearTimers()
+      timerRef.current = setTimeout(() => updateExists(false), 1500) // transition-duration in CSS
+    }
+
+    return clearTimers
+  }, [file, internalFiles])
+
+  return exists
+}

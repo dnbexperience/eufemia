@@ -73,5 +73,6 @@ export type UploadFile = {
   file: File
   errorMessage?: React.ReactNode
   isLoading?: boolean
+  exists?: boolean
   id?: string
 }
