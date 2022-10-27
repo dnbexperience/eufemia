@@ -891,13 +891,16 @@ export default class Tabs extends React.PureComponent {
 
     const cachedContent = Object.entries(this._cache).map(
       ([key, { content }]) => {
-        const params = {}
-        if (key !== String(selected_key)) {
-          params.hidden = true
-          params['aria-hidden'] = true
-        }
+        const hide = key !== String(selected_key)
         return (
-          <div key={key} className="dnb-tabs__cached" {...params}>
+          <div
+            key={key}
+            aria-hidden={hide ? true : undefined}
+            className={classnames(
+              'dnb-tabs__cached',
+              hide && 'dnb-tabs__cached--hidden'
+            )}
+          >
             {content}
           </div>
         )
@@ -1003,7 +1006,7 @@ export default class Tabs extends React.PureComponent {
           tabs_style ? `dnb-section dnb-section--${tabs_style}` : null,
           tabs_spacing
             ? `dnb-section--spacing-${
-                isTrue(tabs_spacing) ? 'default' : tabs_spacing
+                isTrue(tabs_spacing) ? 'large' : tabs_spacing
               }`
             : null,
           hasScrollbar && 'dnb-tabs--has-scrollbar',

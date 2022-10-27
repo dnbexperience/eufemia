@@ -11,9 +11,9 @@ import { Icon } from '@dnb/eufemia/src'
 
 # Releases and versions
 
-Here you find an overview of all major releases (versions) and changes, including migration guides.
-
 You may also have a look at the [<Icon icon={GithubLogo} size="default" /> **GitHub Releases**](https://github.com/dnbexperience/eufemia/releases) for versioning of the [@dnb/eufemia](/uilib/).
+
+Here you find an overview of all major releases (versions) and changes, including migration guides:
 
 <!-- - [**@dnb/eufemia@v10**](/uilib/about-the-lib/releases/eufemia/v10-info) _June, 1. 2022_ -->
 

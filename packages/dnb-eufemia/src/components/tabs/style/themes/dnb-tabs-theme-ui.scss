@@ -36,9 +36,12 @@
     border-radius: 0;
   }
 
+  // Make focus ring when keyboard is used to navigate
   &__content:focus {
     position: relative;
-    &::after {
+
+    // Use "before" (instead of after) in order to not collide with Section styles
+    &::before {
       content: '';
       position: absolute;
       z-index: -1;

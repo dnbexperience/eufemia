@@ -705,6 +705,10 @@ button.dnb-button::-moz-focus-inner {
     padding: var(--spacing-small) 0; }
   .dnb-section--spacing-medium {
     padding: var(--spacing-medium) 0; }
+  .dnb-section--spacing-x-large {
+    padding: var(--spacing-x-large) 0; }
+  .dnb-section--spacing-xx-large {
+    padding: var(--spacing-xx-large) 0; }
   .dnb-section--spacing, .dnb-section--spacing-large {
     padding: var(--spacing-large) 0; }
 

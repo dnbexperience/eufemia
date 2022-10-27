@@ -13,6 +13,7 @@ TabsExampleMaxWidth,
 TabsExampleReachRouterNavigation,
 TabsExampleReactRouterNavigation,
 TabsNoBorder,
+TabsExamplePrerender,
 } from 'Docs/uilib/components/tabs/Examples'
 
 ## Demos
@@ -44,6 +45,12 @@ Also, this is an example of how to define a different content background color, 
 ### Tabs without bottom border
 
 <TabsNoBorder />
+
+### Tabs and `prerender`
+
+By using `prerender={true}` the content is kept inside the DOM.
+
+<TabsExamplePrerender />
 
 ### Tabs optimized for narrow screens
 
