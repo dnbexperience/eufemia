@@ -26,4 +26,4 @@ showTabs: true
 
 ## JPG vs JPEG
 
-When `jpg` is define (most commonly used) then the component will also accept `jpeg` files.
+When `jpg` is defined (most commonly used), then the component will also accept `jpeg` files.
