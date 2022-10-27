@@ -7,6 +7,8 @@ on:
       - 'portal'
       - 'beta'
       - 'alpha'
+      - 'next'
+      - 'next-major'
 
 jobs:
   action:
