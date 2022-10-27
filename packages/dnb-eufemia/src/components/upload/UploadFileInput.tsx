@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 
 // Components
 import Button from '../button/Button'
@@ -12,6 +12,7 @@ import { makeUniqueId } from '../../shared/component-helper'
 // Internal
 import { UploadContext } from './UploadContext'
 import UploadStatus from './UploadStatus'
+import { extendWithAbbreviation } from './UploadVerify'
 
 const UploadFileInput = () => {
   const fileInput = useRef<HTMLInputElement>(null)
@@ -26,19 +27,12 @@ const UploadFileInput = () => {
     filesAmountLimit,
   } = context
 
-  const accept = acceptedFileTypes.reduce((accept, format, index) => {
-    const previus = index === 0 ? '' : `${accept},`
-    return `${previus} .${format}`
-  }, '')
-
-  useEffect(() => {
-    fileInput.current.value = null
-    fileInput.current.accept = accept
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
   const openFileDialog = () => fileInput.current?.click()
 
   const sharedId = id || makeUniqueId()
+  const accept = extendWithAbbreviation(acceptedFileTypes)
+    .map((type) => `.${type}`)
+    .join(',')
 
   return (
     <div data-testid="upload-file-input">
@@ -62,6 +56,7 @@ const UploadFileInput = () => {
         aria-labelledby={`${sharedId}-input`}
         data-testid="upload-file-input-input"
         ref={fileInput}
+        accept={accept}
         className="dnb-upload__file-input"
         type="file"
         onChange={onChangeHandler}
