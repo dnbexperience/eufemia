@@ -8,6 +8,9 @@ on:
       - 'beta'
       - 'alpha'
       - 'next'
+  workflow_run:
+    workflows: [Verify, Build Check]
+    types: [completed]
 
 jobs:
   action:

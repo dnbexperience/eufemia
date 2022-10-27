@@ -8,11 +8,6 @@ on:
       - '!**--visual-reports'
       - '!wip/**'
       - '!experiments/**'
-      - '!release'
-      - '!portal'
-      - '!beta'
-      - '!alpha'
-      - '!next'
   pull_request:
     branches:
       - 'main'
