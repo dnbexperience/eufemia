@@ -104,7 +104,7 @@ describe('Upload', () => {
     })
 
     it('renders the custom accepted format', () => {
-      const acceptedFileTypes = ['png, jpg']
+      const acceptedFileTypes = ['png', 'jpg']
 
       render(
         <Upload {...defaultProps} acceptedFileTypes={acceptedFileTypes} />
