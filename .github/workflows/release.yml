@@ -7,6 +7,7 @@ on:
       - 'portal'
       - 'beta'
       - 'alpha'
+      - 'next'
 
 jobs:
   action:
@@ -32,6 +33,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           persist-credentials: false
+          fetch-depth: 2
 
       - name: Use Node.js
         uses: actions/setup-node@v3
@@ -54,16 +56,9 @@ jobs:
         run: yarn workspace @dnb/eufemia prebuild:ci
 
       - name: Build portal
-        run: yarn workspace dnb-design-system-portal build-ci
-
-      - name: Postbuild Library
-        run: yarn workspace @dnb/eufemia postbuild:ci
-
-      - name: Release
         if: (github.ref == 'refs/heads/release' ||
-          github.ref == 'refs/heads/beta' ||
-          github.ref == 'refs/heads/alpha')
-        run: yarn workspace @dnb/eufemia publish:ci
+          github.ref == 'refs/heads/portal')
+        run: yarn workspace dnb-design-system-portal build-ci
 
       - name: Deploy portal
         if: (github.ref == 'refs/heads/release' ||
@@ -72,6 +67,16 @@ jobs:
         with:
           personal_token: ${{ secrets.GH_TOKEN }}
           publish_dir: ./packages/dnb-design-system-portal/public
+
+      - name: Postbuild Library
+        run: yarn workspace @dnb/eufemia postbuild:ci
+
+      - name: Release
+        if: (github.ref == 'refs/heads/release' ||
+          github.ref == 'refs/heads/beta' ||
+          github.ref == 'refs/heads/alpha' ||
+          github.ref == 'refs/heads/next')
+        run: yarn workspace @dnb/eufemia publish:ci
 
       - name: Slack
         uses: 8398a7/action-slack@v3
