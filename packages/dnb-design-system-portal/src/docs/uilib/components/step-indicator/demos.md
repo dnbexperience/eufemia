@@ -10,7 +10,8 @@ StepIndicatorCustomized,
 StepIndicatorUrls,
 StepIndicatorSidebar,
 StepIndicatorTextOnly,
-StepIndicatorCustomRenderer
+StepIndicatorCustomRenderer,
+StepIndicatorRouter,
 } from 'Docs/uilib/components/step-indicator/Examples'
 
 ## Demos
@@ -42,6 +43,10 @@ You want to place `<StepIndicator.Sidebar sidebar_id="unique-id-static" />` some
 ### StepIndicator with sidebar
 
 <StepIndicatorSidebar />
+
+### StepIndicator with a router
+
+<StepIndicatorRouter />
 
 ### StepIndicator customized
 
