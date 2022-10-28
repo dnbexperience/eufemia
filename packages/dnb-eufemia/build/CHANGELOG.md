@@ -3,6 +3,21 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.35.0](https://github.com/dnbexperience/eufemia/compare/v9.34.3...v9.35.0) (2022-10-28)
+
+
+### Bug Fixes
+
+* **Section:** add official support for x-large and xx-large spacing ([#1672](https://github.com/dnbexperience/eufemia/issues/1672)) ([0c0e7c2](https://github.com/dnbexperience/eufemia/commit/0c0e7c2936b029d9b919619b1667ed4eb310e98d))
+* **Tabs:** align styles to properly function side by side with Section component in content ([#1671](https://github.com/dnbexperience/eufemia/issues/1671)) ([a607b5f](https://github.com/dnbexperience/eufemia/commit/a607b5ff70e39644e2640674a0322eac55914a32))
+
+
+### Features
+
+* **Tabs:** make tabs content animate its height ([#1667](https://github.com/dnbexperience/eufemia/issues/1667)) ([3f1bf5e](https://github.com/dnbexperience/eufemia/commit/3f1bf5e81aa1520cb5363c5ec26c9dba7b43949f))
+* **Upload:** accept jpeg when only jpg is defined ([#1677](https://github.com/dnbexperience/eufemia/issues/1677)) ([b5eb00b](https://github.com/dnbexperience/eufemia/commit/b5eb00bf63592e69ebbc864c3f053f18a19d6adc))
+* **Upload:** highlight existing files visually ([#1657](https://github.com/dnbexperience/eufemia/issues/1657)) ([e17f66d](https://github.com/dnbexperience/eufemia/commit/e17f66d918860c6e529f44267b628e9ec901f800))
+
 ## [9.34.3](https://github.com/dnbexperience/eufemia/compare/v9.34.2...v9.34.3) (2022-10-25)
 
 
