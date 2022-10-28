@@ -28,6 +28,8 @@ The steps, from code changes to production builds, are:
 Make sure you only make _Pull Request_ from `origin/main` into `origin/release`.
 The release branch (`origin/release`) is more like a _secondary branch_. It contains the state of the latest version as well as all the git tags – each containing a new version number.
 
+_NB:_ All example steps are for `beta` versions, but will apply for `next` or `alpha` versions as well.
+
 #### How to release the first `next`, `alpha` or `beta`?
 
 First, we need to ensure our beta branch contains the latest git tags:
@@ -57,6 +59,14 @@ Our beta version will now get released.
 6. `git push --force-with-lease`
 
 Our beta version will now get released.
+
+### How run a dry release locally
+
+If you are unsure about what version will be released, you can run a so called dry-run locally.
+
+Run the steps and prepare the git branches as above, but before you push to origin, you can run:
+
+1. `yarn publish:dry`
 
 ## How to create a local package
 
