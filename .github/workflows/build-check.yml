@@ -36,7 +36,7 @@ jobs:
       - name: Git checkout
         uses: actions/checkout@v3
         with:
-          persist-credentials: true # ensure we "persist-credentials" in order to be able to run "git diff"
+          persist-credentials: false
           fetch-depth: 2
 
       - name: Use Node.js
