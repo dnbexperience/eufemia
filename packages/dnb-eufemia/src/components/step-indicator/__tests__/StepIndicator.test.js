@@ -10,6 +10,7 @@ import {
   toJson,
   loadScss,
 } from '../../../core/jest/jestSetup'
+import { render } from '@testing-library/react'
 import Component from '../StepIndicator'
 import Provider from '../../../shared/Provider'
 import MatchMediaMock from 'jest-matchmedia-mock'
@@ -85,6 +86,39 @@ describe('StepIndicator Sidebar', () => {
         .at(0)
         .exists('.dnb-skeleton--show-font')
     ).toBe(true)
+  })
+
+  it('should support spacing props', () => {
+    render(
+      <Component.Sidebar
+        sidebar_id="unique-id-initial"
+        data={['one', 'two', 'three']}
+        showInitialData
+        top="large"
+      />
+    )
+
+    const element = document.querySelector('.dnb-step-indicator__sidebar')
+
+    expect(Array.from(element.classList)).toEqual(
+      expect.arrayContaining([
+        'dnb-step-indicator__sidebar',
+        'dnb-space__top--large',
+      ])
+    )
+  })
+})
+
+describe('StepIndicator in general', () => {
+  it('should support spacing props', () => {
+    render(<Component data={stepIndicatorListData} top="large" />)
+
+    const element = document.querySelector('.dnb-step-indicator')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-step-indicator',
+      'dnb-space__top--large',
+    ])
   })
 })
 
