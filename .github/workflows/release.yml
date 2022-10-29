@@ -11,6 +11,12 @@ on:
   workflow_run:
     workflows: [Verify, Build Check]
     types: [completed]
+    branches:
+      - 'release'
+      - 'portal'
+      - 'beta'
+      - 'alpha'
+      - 'next'
 
 jobs:
   action:
