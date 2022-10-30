@@ -185,7 +185,7 @@ class LiveCode extends React.PureComponent<
     const { code, hideToolbar, hideCode, hidePreview } = this.state
 
     const codeToUse =
-      typeof code === 'string' ? this.prepareCode(code) : null
+      typeof code === 'string' ? this.prepareCode(code) : ''
 
     if (codeToUse.trim().length === 0) {
       return <span>No Code provided</span>
