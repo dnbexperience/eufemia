@@ -58,12 +58,12 @@ function Element({
   }
 
   if (isTrue(no_collapse)) {
-    const R = E === 'span' || isInline(Element) ? 'span' : 'div'
+    const R = E === 'span' || isInline(element as string) ? 'span' : 'div'
     return (
       <R
         className={classnames(
           'dnb-space--no-collapse',
-          isInline(Element) && 'dnb-space--inline'
+          isInline(element as string) && 'dnb-space--inline'
         )}
       >
         {component}

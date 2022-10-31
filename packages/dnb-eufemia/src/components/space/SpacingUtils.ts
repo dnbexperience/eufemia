@@ -5,6 +5,17 @@
 
 import { warn } from '../../shared/component-helper'
 
+import type { SpacingProps } from './types'
+
+type Props = SpacingProps | Record<string, unknown>
+
+type StyleObjectProps = {
+  maxWidth?: string
+  maxHeight?: string
+  width?: string
+  height?: string
+}
+
 export const spacingDefaultProps = {
   space: null,
   top: null,
@@ -12,7 +23,6 @@ export const spacingDefaultProps = {
   bottom: null,
   left: null,
 }
-
 // IMPORTANT: Keep the shorthand after the long type names
 export const spacePatterns = {
   'xx-small': 0.25,
@@ -146,37 +156,42 @@ export const findNearestTypes = (num) => {
 }
 
 // Checks if a space prop is a valid string like "top"
-export const isValidSpaceProp = (prop) =>
-  prop && ['top', 'right', 'bottom', 'left'].includes(prop)
+export const isValidSpaceProp = (propName: string) =>
+  propName && ['top', 'right', 'bottom', 'left'].includes(propName)
 
-export const removeSpaceProps = ({ ...props }) => {
-  for (const i in props) {
+export const removeSpaceProps = (props: Props) => {
+  const p = Object.isFrozen(props) ? { ...props } : props
+  for (const i in p) {
     if (isValidSpaceProp(i)) {
-      delete props[i]
+      delete p[i]
     }
   }
-  return props
+  return p
 }
 
 // Creates a valid space CSS class out from given space types
-export const createSpacingClasses = (props, Element = null) => {
-  if (typeof props.space !== 'undefined') {
+export const createSpacingClasses = (props: Props, Element = null) => {
+  const p = Object.isFrozen(props) ? { ...props } : props
+
+  if (typeof p.space !== 'undefined') {
     if (
-      typeof props.space === 'string' ||
-      typeof props.space === 'number' ||
-      (typeof props.space === 'boolean' && props.space)
+      typeof p.space === 'string' ||
+      typeof p.space === 'number' ||
+      (typeof p.space === 'boolean' && p.space)
     ) {
-      props.top = props.right = props.bottom = props.left = props.space
+      p.top = p.right = p.bottom = p.left = p.space
     }
-    for (const i in props.space) {
-      if (!props[i] && isValidSpaceProp(i)) {
-        props[i] = props.space[i]
+    if (typeof p.space === 'object') {
+      for (const i in p.space) {
+        if (!p[i] && isValidSpaceProp(i)) {
+          p[i] = p.space[i]
+        }
       }
     }
-    delete props.space
+    delete p.space
   }
 
-  return Object.entries(props).reduce((acc, [direction, cur]) => {
+  return Object.entries(p).reduce((acc, [direction, cur]) => {
     if (isValidSpaceProp(direction)) {
       if (String(cur) === '0' || String(cur) === 'false') {
         acc.push(`dnb-space__${direction}--zero`)
@@ -215,26 +230,28 @@ export const createSpacingClasses = (props, Element = null) => {
 }
 
 // Creates a CSS Style Object out from given space types
-export const createStyleObject = (props) => {
-  if (props.top && !(parseFloat(props.top) > 0)) {
-    props.top = sumTypes(props.top)
+export const createStyleObject = (props: Props & StyleObjectProps) => {
+  const p = Object.isFrozen(props) ? { ...props } : props
+
+  if (p.top && !(parseFloat(String(p.top)) > 0)) {
+    p.top = sumTypes(p.top)
   }
-  if (props.bottom && !(parseFloat(props.bottom) > 0)) {
-    props.bottom = sumTypes(props.bottom)
+  if (p.bottom && !(parseFloat(String(p.bottom)) > 0)) {
+    p.bottom = sumTypes(p.bottom)
   }
-  if (props.left && !(parseFloat(props.left) > 0)) {
-    props.left = sumTypes(props.left)
+  if (p.left && !(parseFloat(String(p.left)) > 0)) {
+    p.left = sumTypes(p.left)
   }
-  if (props.right && !(parseFloat(props.right) > 0)) {
-    props.right = sumTypes(props.right)
+  if (p.right && !(parseFloat(String(p.right)) > 0)) {
+    p.right = sumTypes(p.right)
   }
   return Object.entries({
-    marginTop: props.top && `${props.top}rem`,
-    marginBottom: props.bottom && `${props.bottom}rem`,
-    maxWidth: props.maxWidth && `${props.maxWidth}rem`,
-    maxHeight: props.maxHeight && `${props.maxHeight}rem`,
-    width: props.width && `${props.width}rem`,
-    height: props.height && `${props.height}rem`,
+    marginTop: p.top && `${p.top}rem`,
+    marginBottom: p.bottom && `${p.bottom}rem`,
+    maxWidth: p.maxWidth && `${p.maxWidth}rem`,
+    maxHeight: p.maxHeight && `${p.maxHeight}rem`,
+    width: p.width && `${p.width}rem`,
+    height: p.height && `${p.height}rem`,
   }).reduce((acc, [key, val]) => {
     if (typeof val !== 'undefined') {
       acc[key] = val
@@ -243,9 +260,8 @@ export const createStyleObject = (props) => {
   }, {})
 }
 
-export const isInline = (Element) => {
-  let inline = false
-  switch (Element) {
+export const isInline = (elementName: string) => {
+  switch (elementName) {
     case 'h1':
     case 'h2':
     case 'h3':
@@ -253,9 +269,8 @@ export const isInline = (Element) => {
     case 'h5':
     case 'h6':
     case 'p':
-      inline = true
-      break
+      return true
   }
 
-  return inline
+  return false
 }
