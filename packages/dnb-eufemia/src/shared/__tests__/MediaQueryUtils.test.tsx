@@ -9,7 +9,6 @@ import {
   onMediaQueryChange,
   makeMediaQueryList,
 } from '../MediaQueryUtils'
-import * as helpers from '../helpers'
 import { mockMediaQuery } from './helpers/MediaQueryMocker'
 const matchMedia = mockMediaQuery()
 
@@ -282,37 +281,6 @@ describe('makeMediaQueryList', () => {
       dispatchEvent: expect.any(Function),
       onchange: null,
     })
-  })
-
-  it('should warn when no mediaQuery is supported', () => {
-    const query = '(min-width: 40em)'
-    matchMedia.useMediaQuery(query)
-
-    jest.spyOn(helpers, 'warn')
-
-    window.matchMedia = undefined
-
-    expect(makeMediaQueryList({ query })).toEqual(null)
-
-    expect(helpers.warn).toHaveBeenCalledTimes(1)
-    expect(helpers.warn).toHaveBeenCalledWith(
-      'window.matchMedia is "undefined"'
-    )
-  })
-
-  it('should dismiss warning', () => {
-    const query = '(min-width: 40em)'
-    matchMedia.useMediaQuery(query)
-
-    jest.spyOn(helpers, 'warn')
-
-    window.matchMedia = undefined
-
-    expect(makeMediaQueryList({ query, dismissWarning: true })).toEqual(
-      null
-    )
-
-    expect(helpers.warn).toHaveBeenCalledTimes(0)
   })
 })
 
