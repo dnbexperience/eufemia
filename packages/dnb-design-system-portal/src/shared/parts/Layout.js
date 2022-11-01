@@ -7,22 +7,29 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'gatsby'
 import classnames from 'classnames'
-import styled from '@emotion/styled'
-import { css, Global } from '@emotion/react'
-import MainMenu from '../menu/MainMenu'
 import Sidebar from '../menu/SidebarMenu'
 import StickyMenuBar from '../menu/StickyMenuBar'
-import portalStyle from './PortalStyle'
 import packageJson from '../../../package.json'
-import { MainMenuProvider } from '../menu/MainMenuContext'
-import { SidebarMenuProvider } from '../menu/SidebarMenuContext'
-import ToggleGrid from '../menu/ToggleGrid'
+import {
+  SidebarMenuProvider,
+  SidebarMenuContext,
+} from '../menu/SidebarMenuContext'
+import ToggleGrid, { GridActivator } from '../menu/ToggleGrid'
 import {
   setPageFocusElement,
   scrollToLocationHashId,
 } from '@dnb/eufemia/src/shared/helpers'
 import { Logo, GlobalStatus } from '@dnb/eufemia/src/components'
 import { P } from '@dnb/eufemia/src/elements'
+import './PortalStyle.scss'
+import {
+  portalStyle,
+  mainStyle,
+  footerStyle,
+  contentStyle,
+  wrapperStyle,
+  fullscreenStyle,
+} from './Layout.module.scss'
 
 export function scrollToAnimation() {
   // if url hash is defined, scroll to the id
@@ -95,10 +102,7 @@ class Layout extends React.PureComponent {
     const fs = this.state.fullscreen || this.isFullscreen()
 
     return (
-      <>
-        <Global styles={portalStyle} />
-        {fs && <Global styles={fullscreenStyles} />}
-
+      <div className={classnames(portalStyle, fs && fullscreenStyle)}>
         <a
           className="dnb-skip-link"
           href="#dnb-app-content"
@@ -107,62 +111,56 @@ class Layout extends React.PureComponent {
           Skip to content
         </a>
 
-        <MainMenuProvider openAsMenu>
-          <SidebarMenuProvider>
-            {!fs && <StickyMenuBar />}
-            {!fs && <MainMenu enableOverlay />}
+        <SidebarMenuProvider>
+          {!fs && <StickyMenuBar />}
 
-            <Wrapper className="content-wrapper">
-              {!fs && !hideSidebar && (
-                <Sidebar location={location} showAll={false} />
-              )}
+          <div className={wrapperStyle}>
+            {!fs && !hideSidebar && (
+              <Sidebar location={location} showAll={false} />
+            )}
 
-              <Content key="content" fullscreen={fs}>
-                <MainContent key="main" ref={this._mainRef}>
-                  <GlobalStatus id="main-status" />
+            <Content key="content" fullscreen={fs}>
+              <MainContent key="main" ref={this._mainRef}>
+                <GlobalStatus id="main-status" />
 
-                  <div key="grid" className="dev-grid">
-                    {children}
-                  </div>
-                </MainContent>
+                <div key="grid" className="dev-grid">
+                  {children}
+                </div>
+              </MainContent>
 
-                <Footer />
-              </Content>
+              <Footer />
+            </Content>
 
-              {fs && <ToggleGrid hidden />}
-            </Wrapper>
-          </SidebarMenuProvider>
-        </MainMenuProvider>
-      </>
+            {fs && <ToggleGrid hidden />}
+          </div>
+        </SidebarMenuProvider>
+
+        <GridActivator />
+      </div>
     )
   }
 }
 
-export default Layout
+const Content = ({ fullscreen = false, className = null, children }) => {
+  const { isOpen, isClosing } = React.useContext(SidebarMenuContext)
 
-const Wrapper = styled.div`
-  position: relative;
-  z-index: 2;
-
-  display: flex;
-  justify-content: space-between; /* pos Footer at the bottom */
-
-  @media screen and (max-width: 50em) {
-    display: block;
+  if (isOpen || isClosing) {
+    return null
   }
-`
 
-const Content = ({ fullscreen = false, className = null, children }) => (
-  <ContentWrapper
-    className={classnames(
-      'dnb-app-content',
-      fullscreen && 'fullscreen-page',
-      className
-    )}
-  >
-    {children}
-  </ContentWrapper>
-)
+  return (
+    <div
+      className={classnames(
+        contentStyle,
+        'dnb-app-content',
+        fullscreen && 'fullscreen-page',
+        className
+      )}
+    >
+      {children}
+    </div>
+  )
+}
 Content.propTypes = {
   fullscreen: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,
@@ -172,98 +170,19 @@ Content.defaultProps = {
   className: null,
 }
 
-const ContentWrapper = styled.div`
-  position: relative;
-
-  /* higher than nav#portal-sidebar-menu */
-  z-index: 2;
-
-  width: 100%;
-
-  margin-left: 30vw; /* fallback */
-  margin-left: var(--aside-width);
-  padding: 0;
-
-  /* we use padding here, instead of margin,
-  because applyPageFocus is else scrolling the page unwanted
-  height of StickyMenuBar - 1px border */
-  padding-top: 4rem;
-
-  .dnb-app-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-
-    min-height: calc(100vh - 4rem); /* height of StickyMenuBar */
-    padding: 2rem 5vw 2rem;
-  }
-
-  background-color: var(--color-black-background);
-  border-left: 1px solid var(--color-black-border);
-
-  /* make sure that Sidebar aside "styled.aside" gets the same max-width */
-  @media screen and (max-width: 50em) {
-    margin-left: 0;
-    padding-left: 0;
-  }
-
-  &.fullscreen-page {
-    margin: 0;
-    padding-top: 0;
-    border: none;
-  }
-
-  /* for wider screens */
-  &:not(.fullscreen-page) {
-    .dnb-app-content > div:first-of-type {
-      @media screen and (min-width: 70em) {
-        max-width: 70rem;
-      }
-    }
-  }
-`
-
 const MainContent = React.forwardRef((props, ref) => (
-  <StyledMain
+  <main
     ref={ref}
     role="main"
     id="dnb-app-content"
-    className="dnb-no-focus dnb-spacing"
+    className={classnames(mainStyle, 'dnb-no-focus', 'dnb-spacing')}
     {...props}
   />
 ))
 
-const StyledMain = styled.main`
-  width: 100%;
-  min-height: 90vh;
-  padding: 0 2rem;
-`
-
-const fullscreenStyles = css`
-  :root {
-    /* ensure the sidebar has not left over margin during fullscreen (SSR issue) */
-    --aside-width-fullscreen: 0;
-  }
-`
-
-const FooterWrapper = styled.footer`
-  position: relative;
-  z-index: 2; /* 1 higher than aside */
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2rem;
-
-  padding: 1rem;
-
-  border-top: 1px solid var(--color-black-border);
-  background-color: var(--color-emerald-green);
-  color: var(--color-white);
-`
 const Footer = () => {
   return (
-    <FooterWrapper>
+    <footer className={footerStyle}>
       <P>
         <small>
           Package release: {packageJson.releaseVersion} <br />
@@ -279,6 +198,8 @@ const Footer = () => {
       >
         Copyright (c) 2018-present DNB.no
       </Link>
-    </FooterWrapper>
+    </footer>
   )
 }
+
+export default Layout

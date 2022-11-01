@@ -4,14 +4,18 @@
  */
 
 import React from 'react'
-import styled from '@emotion/styled'
-import { ClassNames } from '@emotion/react'
+import classnames from 'classnames'
 import algoliasearch from 'algoliasearch/lite'
 import { Autocomplete } from '@dnb/eufemia/src/components'
 import { Anchor } from '@dnb/eufemia/src/elements'
 import { Link, navigate } from 'gatsby'
 import { scrollToAnimation } from '../parts/Layout'
 import { getIndexName } from '../../uilib/search/searchHelpers'
+import {
+  autocompleteStyle,
+  portalClassStyle,
+  drawerClassStyle,
+} from './SearchBar.module.scss'
 
 const indexName = getIndexName()
 const algoliaApplicationID = 'SLD6KEYMQ9'
@@ -64,91 +68,40 @@ export const SearchBarInput = () => {
   }
 
   return (
-    <ClassNames>
-      {({ css }) => (
-        <StyledAutocomplete
-          id="portal-search"
-          mode="async"
-          show_clear_button
-          no_scroll_animation
-          prevent_selection
-          disable_filter
-          fixed_position
-          size="medium"
-          align_autocomplete="right"
-          placeholder="Search ..."
-          label="Search the Eufemia documentation"
-          label_sr_only
-          status={status}
-          portal_class={css`
-            z-index: 6000;
-          `}
-          drawer_class={css`
-            .dnb-drawer-list__option__inner {
-              .dnb-drawer-list__option__item {
-                white-space: normal;
-                font-size: var(--font-size-small);
-
-                padding-bottom: 0.5rem;
-                overflow: visible; /* just to make sure we get anchors working properly */
-              }
-
-              .dnb-drawer-list__option__item:first-of-type {
-                color: var(--color-sea-green);
-                font-weight: var(--font-weight-basis);
-                font-size: var(--font-size-medium);
-                padding-bottom: 0.5rem;
-              }
-            }
-
-            .search-logo {
-              min-width: 4rem;
-              height: 1rem;
-              margin: 1rem;
-
-              filter: grayscale(1);
-            }
-          `}
-          on_type={onTypeHandler}
-          on_change={onChangeHandler}
-          on_focus={onFocusHandler}
-          className="portal-search"
-          page_offset={0} // drawer-list property
-          options_render={({ Items, data }) => (
-            <>
-              <Items />
-              {data.length > 1 && (
-                <li align="right">
-                  <SearchLogo />
-                </li>
-              )}
-            </>
+    <Autocomplete
+      id="portal-search"
+      className={classnames(autocompleteStyle, 'portal-search')}
+      mode="async"
+      show_clear_button
+      no_scroll_animation
+      prevent_selection
+      disable_filter
+      fixed_position
+      size="medium"
+      align_autocomplete="right"
+      placeholder="Search ..."
+      label="Search the Eufemia documentation"
+      label_sr_only
+      status={status}
+      portal_class={portalClassStyle}
+      drawer_class={drawerClassStyle}
+      on_type={onTypeHandler}
+      on_change={onChangeHandler}
+      on_focus={onFocusHandler}
+      page_offset={0} // drawer-list property
+      options_render={({ Items, data }) => (
+        <>
+          <Items />
+          {data.length > 1 && (
+            <li align="right">
+              <SearchLogo />
+            </li>
           )}
-        />
+        </>
       )}
-    </ClassNames>
+    />
   )
 }
-
-const StyledAutocomplete = styled(Autocomplete)`
-  margin-right: 1rem;
-  @media (max-width: 40em) {
-    margin-right: 0.5rem;
-  }
-
-  .dnb-autocomplete__shell {
-    &,
-    input {
-      width: 40vw;
-      @media (max-width: 40em) {
-        width: 50vw;
-      }
-    }
-  }
-  .dnb-form-label {
-    color: white; /* only for axe-core */
-  }
-`
 
 const SearchLogo = (props) => (
   <svg

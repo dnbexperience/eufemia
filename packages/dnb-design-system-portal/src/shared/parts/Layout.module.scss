@@ -1,0 +1,273 @@
+@import './PortalStyle.mixins.scss';
+
+:global {
+  .fullscreen-page {
+    margin: 0;
+    padding-top: 0;
+    border: none;
+  }
+
+  /* for wider screens */
+  .dnb-app-content:not(.fullscreen-page) {
+    .dnb-app-content > div:first-of-type {
+      @include allAbove(x-large) {
+        max-width: map-get($breakpoints, x-large);
+      }
+    }
+  }
+}
+
+.portalStyle {
+  :global {
+    table td.selectable {
+      position: relative;
+      z-index: 1;
+      user-select: all;
+      cursor: pointer;
+      transform: scale(1);
+      transition: transform 0.2s ease;
+    }
+    table td.selectable:hover,
+    table td.selectable:active {
+      z-index: 2;
+      transform: scale(1.2);
+      user-select: all;
+    }
+    table td em {
+      padding-right: 0.5em;
+    }
+
+    img[align='right'] {
+      padding-left: 1rem;
+    }
+
+    img[align='left'] {
+      padding-right: 1rem;
+    }
+
+    .image-box {
+      @include gridStyle(rgb(40, 180, 130), 0.4);
+
+      position: relative;
+
+      margin: 1rem 0 3rem 0;
+      padding: 2rem 2rem 0.9375rem 2rem;
+
+      text-align: center;
+
+      background-color: rgba(255, 255, 255, 0.6);
+
+      figcaption {
+        padding-top: 0.938rem; /* 15/16  because of the border */
+
+        font-style: italic;
+
+        border-top: solid 1px #c4c4c4;
+      }
+
+      img:not([width]) {
+        width: 100%;
+        margin-bottom: 2rem;
+      }
+
+      /* SVG illustration helper for increasing font-size */
+      &.x-10 img {
+        width: calc(50% + 10rem);
+      }
+
+      &.mint-green-12 {
+        background-color: var(--color-mint-green-12);
+      }
+      &.blank {
+        background-color: transparent;
+      }
+      &.blank::after {
+        background-image: none;
+        border-color: transparent;
+      }
+    }
+
+    .typography-box {
+      @include gridStyle(rgb(164, 255, 255), 0.8);
+
+      position: relative;
+
+      margin-bottom: 4rem;
+      padding: 2rem 2rem 1.9375rem 2rem;
+
+      h1 {
+        margin-top: 0;
+      }
+
+      ul {
+        margin: 0;
+        padding: 0;
+
+        line-height: var(--line-height-basis);
+        list-style: none;
+      }
+
+      li {
+        margin: 0;
+        padding: 0;
+
+        font-size: var(--font-size-basis);
+        font-family: monospace;
+        line-height: var(--line-height-basis);
+      }
+    }
+
+    .example-box {
+      @include gridStyle(rgb(236, 236, 236), 1);
+
+      padding: 2rem;
+
+      &.center {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+    :checked + .radio-label {
+      position: relative;
+      z-index: 1;
+      border-color: var(--color-sea-green);
+    }
+
+    .markdown-body::before {
+      display: table;
+      content: '';
+    }
+    .markdown-body::after {
+      display: table;
+      clear: both;
+      content: '';
+    }
+
+    .gatsby-resp-image-wrapper {
+      margin-left: 0 !important; /* align the img to the left */
+      a {
+        padding: 0;
+        box-shadow: none;
+        &[target='_blank']:not(:empty):not(.dnb-anchor--no-icon)::after {
+          content: none;
+        }
+
+        /* stylelint-disable-next-line */
+        img {
+          width: 100%;
+        }
+      }
+      a:hover img {
+        border-radius: 0.25rem; /* 4/16 */
+        box-shadow: 0 0 0 0.125rem var(--color-mint-green-50);
+      }
+    }
+
+    .contains-task-list {
+      padding-left: 0;
+    }
+    .task-list-item {
+      list-style-type: none;
+    }
+    .task-list-item + .task-list-item {
+      margin-top: 0.5rem;
+    }
+    .task-list-item .dnb-checkbox {
+      margin-right: 0.5rem;
+      margin-bottom: 0.25em;
+    }
+
+    .example-caption {
+      margin-top: 2rem;
+      padding-top: 0.9375rem;
+
+      font-size: var(--font-size-small);
+      font-style: italic;
+      text-align: center;
+
+      border-top: solid 1px #c4c4c4;
+
+      p {
+        margin: 0;
+        padding: 0;
+      }
+    }
+    .example-box + .example-caption {
+      margin-top: -2rem;
+    }
+  }
+}
+
+.mainStyle {
+  width: 100%;
+  min-height: 90vh;
+  padding: 0 2rem;
+}
+
+.footerStyle {
+  position: relative;
+  z-index: 2; /* 1 higher than aside */
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+
+  padding: 1rem;
+
+  border-top: 1px solid var(--color-black-border);
+  background-color: var(--color-emerald-green);
+  color: var(--color-white);
+}
+
+.contentStyle {
+  position: relative;
+
+  /* higher than nav#portal-sidebar-menu */
+  z-index: 2;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  width: 100%;
+  min-height: calc(100vh - 4rem); /* height of StickyMenuBar */
+
+  margin-left: 30vw; /* fallback */
+  margin-left: var(--aside-width);
+
+  padding: 0;
+
+  /* we use padding here, instead of margin,
+		because applyPageFocus is else scrolling the page unwanted
+		height of StickyMenuBar - 1px border */
+  padding-top: 4rem;
+
+  background-color: var(--color-black-background);
+  border-left: 1px solid var(--color-black-border);
+
+  /* make sure that Sidebar aside "styled.aside" gets the same max-width */
+  @media screen and (max-width: 50em) {
+    margin-left: 0;
+    padding-left: 0;
+  }
+}
+
+.wrapperStyle {
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  justify-content: space-between; /* pos Footer at the bottom */
+
+  @media screen and (max-width: 50em) {
+    display: block;
+  }
+}
+
+.fullscreenStyle {
+  /* ensure the sidebar has not left over margin during fullscreen (SSR issue) */
+  --aside-width-fullscreen: 0;
+}

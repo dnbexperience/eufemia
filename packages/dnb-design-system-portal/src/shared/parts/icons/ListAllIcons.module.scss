@@ -1,0 +1,53 @@
+.listStyle {
+  list-style: none;
+
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: flex-end;
+
+  padding: 0;
+  margin: 0;
+}
+
+.listitemStyle {
+  flex: 1 1 15rem;
+  margin: 0.5rem;
+
+  border-radius: 0.25rem;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+}
+
+.listItemInnerStyle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column wrap;
+  align-content: center;
+  text-align: center;
+
+  padding: 0.5rem 0;
+
+  :global {
+    figure {
+      margin: 2rem;
+    }
+
+    .dnb-h--medium,
+    .dnb-spacing & .dnb-h--medium {
+      margin: 0;
+      white-space: nowrap;
+    }
+    .dnb-p,
+    .dnb-spacing & .dnb-p {
+      margin: 0;
+      padding: 0;
+    }
+
+    .dnb-icon {
+      :hover {
+        color: var(--color-sea-green);
+      }
+    }
+  }
+}

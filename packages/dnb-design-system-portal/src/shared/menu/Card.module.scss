@@ -1,0 +1,115 @@
+@import './../parts/PortalStyle.mixins.scss';
+
+.liItemStyle {
+  list-style-type: none;
+  width: calc(33.333333% - 1rem);
+
+  margin: 0.5rem;
+  padding: 0;
+
+  box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);
+
+  &,
+  a {
+    border-radius: 0.5rem;
+  }
+  &.is-selected a {
+    background-color: var(--color-mint-green);
+  }
+  a:focus,
+  a:hover {
+    background-color: var(--color-mint-green-50);
+  }
+
+  /* mobile view */
+  @media screen and (max-width: 40em) {
+    & {
+      min-width: calc(100% - 1rem);
+      transition: 0.5s;
+    }
+  }
+
+  [data-whatinput='keyboard'] &:focus {
+    box-shadow: none;
+  }
+
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+      transform: scale3d(0.9, 0.9, 1) translate3d(0, -8%, 0);
+    }
+    40% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 1;
+      transform: scale3d(1, 1, 1) translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes fade-out {
+    0% {
+      opacity: 1;
+      transform: scale3d(1, 1, 1) translate3d(0, 0, 0);
+    }
+    100% {
+      opacity: 0;
+      transform: scale3d(0.9, 0.9, 1) translate3d(0, -8%, 0);
+    }
+  }
+
+  /* IE11 fix */
+  @media screen and (-ms-high-contrast: none) {
+    &.show-cards {
+      opacity: 1;
+    }
+    overflow: hidden;
+    background-color: #fff;
+    p {
+      width: 20rem;
+    }
+  }
+}
+
+.linkStyle {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  height: 100%;
+
+  color: rgba(0, 0, 0, 0.75);
+  text-decoration: none;
+  text-align: center;
+  font-weight: var(--font-weight-basis);
+
+  background-color: var(--color-white);
+  transition: background-color 0.5s ease;
+
+  &:focus {
+    outline: none;
+  }
+  html[data-whatinput='keyboard'] &:focus {
+    @include focusRing();
+  }
+}
+
+.linkInnerStyle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.boxStyle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 0 1rem;
+
+  svg {
+    width: 3rem;
+    height: 3rem;
+    margin: 3rem 0 2rem;
+  }
+}

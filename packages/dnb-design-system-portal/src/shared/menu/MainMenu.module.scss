@@ -1,0 +1,62 @@
+.navStyle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media screen and (max-width: 40em), (max-height: 55em) {
+    height: auto;
+  }
+
+  background-color: transparent;
+  transition: background-color ease-out 0.8s;
+
+  /* IE11 fix */
+  @media screen and (-ms-high-contrast: none) {
+    background-color: var(--color-emerald-green);
+  }
+}
+
+.listStyle {
+  display: flex;
+  flex-flow: row wrap;
+  flex-direction: row;
+  padding: 0;
+
+  max-width: 60rem;
+  margin-top: 5vh;
+}
+
+.lastUpdatedStyle {
+  display: block;
+  font-size: var(--font-size-small);
+}
+
+.contentWrapperStyle {
+  margin-top: 10vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  /* IE11 fix */
+  @media screen and (-ms-high-contrast: none) {
+    width: auto;
+    color: #fff;
+  }
+
+  @media screen and (max-width: 40em) {
+    .dnb-drawer-list__list {
+      width: 90vw;
+    }
+  }
+}
+
+.logoFigureStyle {
+  display: flex;
+  align-items: center;
+
+  margin-bottom: 4vh;
+
+  color: var(--color-white);
+}
