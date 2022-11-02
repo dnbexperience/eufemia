@@ -17,7 +17,6 @@ exports[`Skeleton component have to match snapshot 1`] = `
     bottom={null}
     className="dnb-skeleton__root"
     element="div"
-    id={null}
     inline={null}
     innerRef={null}
     lang="nb-NO"

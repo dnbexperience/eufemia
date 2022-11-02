@@ -24,6 +24,7 @@ import {
   skeletonDOMAttributes,
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
+import Section from '../section/Section'
 
 import type { DynamicElement, SpacingProps } from '../../shared/types'
 
@@ -37,19 +38,32 @@ function Element({
   ...props
 }: SpaceAllProps) {
   const E = element as DynamicElement<any>
-  const component = (
-    <E {...props} ref={innerRef}>
-      {children}
-    </E>
-  )
+  let component: React.ReactElement = null
+
+  if (E === Section) {
+    component = (
+      <E {...props} inner_ref={innerRef}>
+        {children}
+      </E>
+    )
+  } else {
+    // also used for code markup simulation
+    validateDOMAttributes({}, props)
+
+    component = (
+      <E {...props} ref={innerRef}>
+        {children}
+      </E>
+    )
+  }
 
   if (isTrue(no_collapse)) {
-    const R = E === 'span' || isInline(Element) ? 'span' : 'div'
+    const R = E === 'span' || isInline(element as string) ? 'span' : 'div'
     return (
       <R
         className={classnames(
           'dnb-space--no-collapse',
-          isInline(Element) && 'dnb-space--inline'
+          isInline(element as string) && 'dnb-space--inline'
         )}
       >
         {component}
@@ -107,8 +121,11 @@ export default class Space extends React.PureComponent<
   static contextType = Context
 
   static propTypes = {
-    id: PropTypes.string,
-    element: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    element: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.node,
+    ]),
     inline: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     no_collapse: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
 
@@ -126,7 +143,6 @@ export default class Space extends React.PureComponent<
   }
 
   static defaultProps = {
-    id: null,
     element: 'div',
     inline: null,
     no_collapse: null, // avoid margin collapsing
@@ -173,7 +189,6 @@ export default class Space extends React.PureComponent<
       stretch,
       skeleton,
       innerRef,
-      id: _id, // eslint-disable-line
       className,
 
       ...attributes
@@ -195,9 +210,6 @@ export default class Space extends React.PureComponent<
     }
 
     skeletonDOMAttributes(params, skeleton) // do not send along this.context
-
-    // also used for code markup simulation
-    validateDOMAttributes(this.props, params)
 
     return (
       <Element

@@ -67,6 +67,38 @@ render(
   </Wrapper>
 )
 
+export const TabsExamplePrerender = () => (
+  <Wrapper>
+    <ComponentBox>
+      {
+        /* jsx */ `
+<>
+  <Tabs
+    prerender
+    content_style="black-3"
+  >
+    <Tabs.Content title="Tab 1">
+      <H2>Content 1</H2>
+    </Tabs.Content>
+    <Tabs.Content title="Tab 2">
+      <div style={{ height: '10rem', display: 'flex', alignItems: 'flex-end' }}>
+        <H2>Content 2</H2>
+      </div>
+    </Tabs.Content>
+    <Tabs.Content title="Tab 3">
+      <div style={{ height: '20rem', display: 'flex', alignItems: 'flex-end' }}>
+        <H2>Content 3</H2>
+      </div>
+    </Tabs.Content>
+  </Tabs>
+  <P top>Smile at me 📸</P>
+</>
+`
+      }
+    </ComponentBox>
+  </Wrapper>
+)
+
 export const TabsExampleUsingData = () => (
   <Wrapper>
     <ComponentBox
@@ -127,10 +159,14 @@ export const TabsExampleLeftAligned = () => (
         /* jsx */ `
 <Tabs tabs_style="mint-green" content_style="black-3">
   <Tabs.Content title="First">
-    <H2 top={0} bottom>First</H2>
+    <Section spacing top bottom style_type="white">
+      <H2 top={0} bottom>First</H2>
+    </Section>
   </Tabs.Content>
   <Tabs.Content title="Second">
-    <H2 top={0} bottom>Second</H2>
+    <Section spacing top bottom style_type="white">
+      <H2 top={0} bottom>Second</H2>
+    </Section>
   </Tabs.Content>
 </Tabs>
 `
@@ -147,7 +183,6 @@ export const TabsExampleHorizontalAligned = () => (
   >
     {
       /* jsx */ `
-
 const FlexWrapper = styled.div\`
   display: flex;
   flex-direction: row;
@@ -237,11 +272,7 @@ render(<TabsMaxWidth />)
 export const TabsExampleReactRouterNavigation = () =>
   typeof window === 'undefined' ? null : (
     <Wrapper>
-      <ComponentBox
-        title=""
-        scope={{ BrowserRouter, Route, withRouter }}
-        useRender
-      >
+      <ComponentBox scope={{ BrowserRouter, Route, withRouter }} useRender>
         {
           /* jsx */ `
 // import { Router, Route, withRouter } from 'react-router-dom'

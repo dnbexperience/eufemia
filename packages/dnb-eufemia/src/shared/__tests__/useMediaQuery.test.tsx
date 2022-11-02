@@ -4,8 +4,8 @@
  */
 
 import React from 'react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import { renderHook } from '@testing-library/react-hooks'
-import { mount } from '../../core/jest/jestSetup'
 import MatchMediaMock from 'jest-matchmedia-mock'
 import useMediaQuery from '../useMediaQuery'
 import Provider from '../Provider'
@@ -20,6 +20,11 @@ jest.mock('../MediaQueryUtils', () => ({
   ...jest.requireActual('../MediaQueryUtils'),
   isMatchMediaSupported: jest.fn(),
 }))
+
+const RenderMediaQueryHook = (props: MediaQueryProps) => {
+  const match = useMediaQuery(props)
+  return <div id="mq-mock">{match ? props.children : null}</div>
+}
 
 describe('useMediaQuery', () => {
   let matchMedia: MatchMediaMock
@@ -40,34 +45,30 @@ describe('useMediaQuery', () => {
     matchMedia?.destroy()
   })
 
-  const RenderMediaQueryHook = (props: MediaQueryProps) => {
-    const match = useMediaQuery(props)
-    return <>{match ? props.children : null}</>
-  }
-
   it('should have valid strings inside render', () => {
     matchMedia.useMediaQuery('(min-width: 50em) and (max-width: 60em)')
 
-    const Comp = mount(
+    const { rerender } = render(
       <RenderMediaQueryHook when={{ min: 'medium', max: 'large' }}>
         medium
       </RenderMediaQueryHook>
     )
 
-    expect(Comp.text()).toBe('medium')
+    expect(document.getElementById('mq-mock').textContent).toBe('medium')
 
-    Comp.setProps({
-      when: 'medium large',
-    })
-    Comp.update()
+    rerender(
+      <RenderMediaQueryHook when={'medium large'}>
+        medium
+      </RenderMediaQueryHook>
+    )
 
-    expect(Comp.text()).toBe('')
+    expect(document.getElementById('mq-mock').textContent).toBe('')
   })
 
   it('should match for query when different breakpoints are given', () => {
     matchMedia.useMediaQuery('(min-width: 20rem) and (max-width: 80rem)')
 
-    const Comp = mount(
+    render(
       <Provider
         value={{
           breakpoints: {
@@ -82,19 +83,19 @@ describe('useMediaQuery', () => {
       </Provider>
     )
 
-    expect(Comp.text()).toBe('medium')
+    expect(document.getElementById('mq-mock').textContent).toBe('medium')
   })
 
   it('should have valid strings inside render', () => {
     matchMedia.useMediaQuery('(min-width: 0) and (max-width: 72em)')
 
-    const Comp = mount(
+    render(
       <RenderMediaQueryHook when={{ min: '0', max: 'x-large' }}>
         matches
       </RenderMediaQueryHook>
     )
 
-    expect(Comp.text()).toBe('matches')
+    expect(document.getElementById('mq-mock').textContent).toBe('matches')
   })
 
   it('should handle media query changes', () => {
@@ -137,19 +138,19 @@ describe('useMediaQuery', () => {
       )
     }
 
-    const Comp = mount(<Playground />)
+    render(<Playground />)
     expect(match1Handler).toHaveBeenCalledTimes(1)
     expect(match2Handler).toHaveBeenCalledTimes(1)
     expect(match1Handler).toHaveBeenCalledWith(true)
     expect(match2Handler).toHaveBeenCalledWith(false)
 
-    Comp.simulate('click')
+    fireEvent.click(screen.getByRole('button'))
     expect(match1Handler).toHaveBeenCalledTimes(3)
     expect(match2Handler).toHaveBeenCalledTimes(3)
     expect(match1Handler).toHaveBeenCalledWith(false)
     expect(match2Handler).toHaveBeenCalledWith(true)
 
-    Comp.simulate('click')
+    fireEvent.click(screen.getByRole('button'))
     expect(match1Handler).toHaveBeenCalledTimes(5)
     expect(match2Handler).toHaveBeenCalledTimes(5)
     expect(match1Handler).toHaveBeenCalledWith(true)
@@ -187,5 +188,20 @@ describe('useMediaQuery', () => {
 
     expect(window.matchMedia).toBeCalledTimes(2)
     expect(resultB.current).toBe(false)
+  })
+})
+
+describe('useMediaQuery without window.matchMedia', () => {
+  beforeEach(() => {
+    Object.defineProperty(window, 'matchMedia', {
+      value: undefined,
+      writable: true,
+    })
+  })
+
+  it('should not break', () => {
+    render(<RenderMediaQueryHook>matches</RenderMediaQueryHook>)
+
+    expect(document.getElementById('mq-mock').textContent).toBe('')
   })
 })

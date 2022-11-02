@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 
 // Components
 import Button from '../button/Button'
@@ -12,7 +12,7 @@ import { makeUniqueId } from '../../shared/component-helper'
 // Internal
 import { UploadContext } from './UploadContext'
 import UploadStatus from './UploadStatus'
-import useUpload from './useUpload'
+import { extendWithAbbreviation } from './UploadVerify'
 
 const UploadFileInput = () => {
   const fileInput = useRef<HTMLInputElement>(null)
@@ -27,21 +27,12 @@ const UploadFileInput = () => {
     filesAmountLimit,
   } = context
 
-  const { internalFiles } = useUpload(id)
-
-  const accept = acceptedFileTypes.reduce((accept, format, index) => {
-    const previus = index === 0 ? '' : `${accept},`
-    return `${previus} .${format}`
-  }, '')
-
-  useEffect(() => {
-    fileInput.current.value = null
-    fileInput.current.accept = accept
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
-
   const openFileDialog = () => fileInput.current?.click()
 
   const sharedId = id || makeUniqueId()
+  const accept = extendWithAbbreviation(acceptedFileTypes)
+    .map((type) => `.${type}`)
+    .join(',')
 
   return (
     <div data-testid="upload-file-input">
@@ -55,7 +46,6 @@ const UploadFileInput = () => {
         variant="secondary"
         wrap
         onClick={openFileDialog}
-        disabled={internalFiles.length > filesAmountLimit}
       >
         {buttonText}
       </Button>
@@ -66,15 +56,17 @@ const UploadFileInput = () => {
         aria-labelledby={`${sharedId}-input`}
         data-testid="upload-file-input-input"
         ref={fileInput}
+        accept={accept}
         className="dnb-upload__file-input"
         type="file"
-        onChange={handleFileInput}
+        onChange={onChangeHandler}
+        onClick={onClickHandler}
         multiple={filesAmountLimit > 1}
       />
     </div>
   )
 
-  function handleFileInput(event: React.SyntheticEvent) {
+  function onChangeHandler(event: React.SyntheticEvent) {
     const target = event.target as HTMLInputElement
     const { files } = target
 
@@ -83,6 +75,19 @@ const UploadFileInput = () => {
         return { file }
       })
     )
+  }
+
+  function onClickHandler(event: React.SyntheticEvent) {
+    const target = event.target as HTMLInputElement
+
+    /**
+     * This resets the internal state.
+     * Some browsers (chromium) to check for already selected files.
+     * But we have our own logic for that.
+     * We also align the UX to be the same to all browsers,
+     * and to be same when the drag file API is used.
+     */
+    target.value = null
   }
 }
 

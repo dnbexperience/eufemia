@@ -95,6 +95,7 @@ describe('createSpacingClasses', () => {
       'dnb-space__right--x-small',
     ])
   })
+
   it('should return a class with zero classes', () => {
     expect(createSpacingClasses({ right: false })).toEqual([
       'dnb-space__right--zero',
@@ -104,6 +105,17 @@ describe('createSpacingClasses', () => {
     ])
     expect(createSpacingClasses({ right: null })).toEqual([])
   })
+
+  it('should handle frozen props', () => {
+    const props = Object.freeze({ space: true })
+    expect(createSpacingClasses(props)).toEqual([
+      'dnb-space__left--small',
+      'dnb-space__bottom--small',
+      'dnb-space__right--small',
+      'dnb-space__top--small',
+    ])
+  })
+
   it('should handle the space prop for in all directions', () => {
     expect(createSpacingClasses({ space: false })).toEqual([]) // we may extend that with all four "--zero" in future
     expect(createSpacingClasses({ space: 0 })).toEqual([

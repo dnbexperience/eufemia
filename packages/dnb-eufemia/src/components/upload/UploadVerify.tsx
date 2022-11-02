@@ -1,5 +1,9 @@
 import { format } from '../number-format/NumberUtils'
-import { UploadContextProps, UploadFile } from './types'
+import {
+  UploadFile,
+  UploadContextProps,
+  UploadAcceptedFileTypes,
+} from './types'
 
 const BYTES_IN_A_MEGA_BYTE = 1048576
 
@@ -36,12 +40,14 @@ export function verifyFiles(
     if (acceptedFileTypes.length === 0) {
       return false
     }
-    const foundType = acceptedFileTypes.some((type) => {
-      /**
-       * "file.type" can be e.g. "images/png"
-       */
-      return file.type.includes(type)
-    })
+    const foundType = extendWithAbbreviation(acceptedFileTypes).some(
+      (type) => {
+        /**
+         * "file.type" can be e.g. "images/png"
+         */
+        return file.type.includes(type)
+      }
+    )
     return !foundType ? errorUnsupportedFile : null
   }
 
@@ -58,4 +64,19 @@ export function verifyFiles(
   })
 
   return cleanedFiles
+}
+
+export function extendWithAbbreviation(
+  acceptedFileTypes: UploadAcceptedFileTypes,
+  abbreviations = { jpg: 'jpeg' }
+) {
+  const list = [...acceptedFileTypes]
+
+  Object.entries(abbreviations).forEach(([type, abbr]) => {
+    if (list.some((t) => t === type) && !list.some((t) => t === abbr)) {
+      list.push(abbr)
+    }
+  })
+
+  return list
 }
