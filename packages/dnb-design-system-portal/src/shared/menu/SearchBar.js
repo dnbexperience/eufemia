@@ -9,13 +9,13 @@ import algoliasearch from 'algoliasearch/lite'
 import { Autocomplete } from '@dnb/eufemia/src/components'
 import { Anchor } from '@dnb/eufemia/src/elements'
 import { Link, navigate } from 'gatsby'
-import { scrollToAnimation } from '../parts/Layout'
-import { getIndexName } from '../../uilib/search/searchHelpers'
 import {
   autocompleteStyle,
   portalClassStyle,
   drawerClassStyle,
 } from './SearchBar.module.scss'
+import { scrollToAnimation } from '../parts/Layout'
+import { getIndexName } from '../../uilib/search/searchHelpers'
 
 const indexName = getIndexName()
 const algoliaApplicationID = 'SLD6KEYMQ9'

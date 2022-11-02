@@ -7,7 +7,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'gatsby'
 import classnames from 'classnames'
-import Sidebar from '../menu/SidebarMenu'
 import StickyMenuBar from '../menu/StickyMenuBar'
 import packageJson from '../../../package.json'
 import {
@@ -30,6 +29,7 @@ import {
   wrapperStyle,
   fullscreenStyle,
 } from './Layout.module.scss'
+import Sidebar from '../menu/SidebarMenu'
 
 export function scrollToAnimation() {
   // if url hash is defined, scroll to the id
