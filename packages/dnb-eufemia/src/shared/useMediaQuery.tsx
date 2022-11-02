@@ -47,7 +47,7 @@ export default function useMediaQuery(props: MediaQueryProps) {
         props,
         context.breakpoints
       )
-      matchUpdate(mediaQueryList.current?.matches)
+      matchUpdate(mediaQueryList.current.matches)
     }
 
     listenerRef.current = createMediaQueryListener(
@@ -58,5 +58,5 @@ export default function useMediaQuery(props: MediaQueryProps) {
     return listenerRef.current
   }, [query, when, not, disabled]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  return Boolean(match)
+  return match
 }

@@ -19,13 +19,11 @@ exports[`Space component have to match snapshot 1`] = `
   <Element
     className="dnb-space"
     element="div"
-    id="space"
     innerRef={null}
     no_collapse={false}
   >
     <div
       className="dnb-space"
-      id="space"
     />
   </Element>
 </Space>

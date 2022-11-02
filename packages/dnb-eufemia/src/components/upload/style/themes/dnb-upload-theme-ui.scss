@@ -35,15 +35,6 @@
     &--warning &__content__left .dnb-icon {
       color: var(--color-fire-red);
     }
-
-    /** Highlight Animation */
-    transition: background-color;
-    transition-duration: 1.5s;
-    transition-timing-function: var(--easing-default);
-
-    &--highlight {
-      background-color: var(--color-sand-yellow);
-    }
   }
 
   &__text.dnb-p {

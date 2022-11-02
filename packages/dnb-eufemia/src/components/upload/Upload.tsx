@@ -61,8 +61,7 @@ const Upload = (localProps: UploadAllProps) => {
 
   const spacingClasses = createSpacingClasses(props)
 
-  const { files, setFiles, setInternalFiles, existsInFiles } =
-    useUpload(id)
+  const { files, setFiles, setInternalFiles } = useUpload(id)
 
   return (
     <UploadContext.Provider
@@ -89,35 +88,40 @@ const Upload = (localProps: UploadAllProps) => {
   )
 
   function onInputUpload(newFiles: UploadFile[]) {
-    const mergedFiles = [
+    const existsInFiles = (file: File) =>
+      files.some(({ file: f }) => {
+        return (
+          f.name === file.name &&
+          f.size === file.size &&
+          f.lastModified === file.lastModified
+        )
+      })
+
+    const uniqueFiles = [
       ...files,
-      ...newFiles.map((fileItem) => {
-        const { file } = fileItem
-
-        if (!fileItem.id) {
-          fileItem.id = makeUniqueId()
-        }
-
-        fileItem.exists = existsInFiles(file, files)
-
-        return fileItem
-      }),
+      ...newFiles
+        .filter(({ file }) => {
+          return !existsInFiles(file)
+        })
+        .map((fileItem) => {
+          if (!fileItem.id) {
+            fileItem.id = makeUniqueId()
+          }
+          return fileItem
+        }),
     ]
 
-    const verifiedFiles = verifyFiles(
-      mergedFiles.filter(({ exists }) => !exists),
-      {
-        fileMaxSize,
-        acceptedFileTypes,
-        errorUnsupportedFile,
-        errorLargeFile,
-      }
-    )
+    const verifiedFiles = verifyFiles(uniqueFiles, {
+      fileMaxSize,
+      acceptedFileTypes,
+      errorUnsupportedFile,
+      errorLargeFile,
+    })
 
     const validFiles = [...verifiedFiles].slice(0, filesAmountLimit)
 
     setFiles(validFiles)
-    setInternalFiles(mergedFiles)
+    setInternalFiles(verifiedFiles)
 
     if (typeof onChange === 'function') {
       onChange({ files: validFiles })

@@ -179,20 +179,7 @@
     }
   }
 
-  &__cached {
-    opacity: 1;
-    transition: opacity 1s var(--easing-default);
-  }
-  &__cached--hidden {
-    opacity: 0;
-    visibility: hidden;
-
-    height: 0 !important;
-    overflow: hidden;
-  }
-
   /* stylelint-disable */
-  html[data-visual-test] & &__cached,
   html[data-visual-test] & &__button,
   html[data-visual-test] & &__button__snap,
   html[data-visual-test] & &__scroll-nav-button {
@@ -200,7 +187,7 @@
   }
   /* stylelint-enable */
 
-  &__content {
-    padding-bottom: 0;
+  &__content--spacing {
+    padding-top: 2rem;
   }
 }

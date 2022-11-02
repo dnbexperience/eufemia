@@ -2,8 +2,6 @@ import React from 'react'
 import { SkeletonShow } from '../skeleton/Skeleton'
 import { LocaleProps, SpacingProps } from '../../shared/types'
 
-export type UploadAcceptedFileTypes = string[]
-
 export type UploadProps = {
   /**
    * unique id used with the useUpload hook to manage the files
@@ -13,7 +11,7 @@ export type UploadProps = {
   /**
    * list of accepted file types.
    */
-  acceptedFileTypes: UploadAcceptedFileTypes
+  acceptedFileTypes: string[]
 
   /**
    * Skeleton should be applied when loading content
@@ -75,6 +73,5 @@ export type UploadFile = {
   file: File
   errorMessage?: React.ReactNode
   isLoading?: boolean
-  exists?: boolean
   id?: string
 }

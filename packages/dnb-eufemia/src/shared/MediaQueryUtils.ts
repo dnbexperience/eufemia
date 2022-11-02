@@ -57,6 +57,11 @@ export type MediaQueryProperties = {
   disabled?: boolean
 
   /**
+   * If set to true, no Eufemia warning will be shown when window.matchMedia is undefined
+   */
+  dismissWarning?: boolean
+
+  /**
    * For debugging
    */
   log?: boolean
@@ -139,12 +144,16 @@ export function makeMediaQueryList(
     not = null,
     log = false,
     disabled = false,
+    dismissWarning = false,
   }: MediaQueryProperties = {},
   breakpoints: MediaQueryBreakpoints = null
 ): MediaQueryList {
   const isSupported = isMatchMediaSupported()
 
   if (disabled || !isSupported) {
+    if (!dismissWarning && !isSupported) {
+      warn('window.matchMedia is "undefined"')
+    }
     return null
   }
 

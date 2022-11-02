@@ -6,7 +6,7 @@ showTabs: true
 
 | Properties                                  | Description                                                                               |
 | ------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| `acceptedFileTypes`                         | _(required)_ List of accepted file types. More details above.                             |
+| `acceptedFileTypes`                         | _(required)_ List of accepted file types.                                                 |
 | `filesAmountLimit`                          | _(optional)_ Defines the amount of files the user can select and upload. Defaults to 100. |
 | `fileMaxSize`                               | _(optional)_ `fileMaxSize` is max size of each file in MB. Defaults to 5 MB.              |
 | `title`                                     | _(optional)_ Custom text property. Replaces the default title.                            |
@@ -23,7 +23,3 @@ showTabs: true
 | `fileListAriaLabel`                         | _(optional)_ Custom text property. Replaces the default list aria label.                  |
 | `skeleton`                                  | _(optional)_ Skeleton should be applied when loading content Default: `null`.             |
 | [Space](/uilib/components/space/properties) | _(optional)_ Spacing properties like `top` or `bottom` are supported.                     |
-
-## JPG vs JPEG
-
-When `jpg` is defined (most commonly used), then the component will also accept `jpeg` files.

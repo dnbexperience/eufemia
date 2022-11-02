@@ -11,7 +11,6 @@ import {
   toJson,
   loadScss,
 } from '../../../core/jest/jestSetup'
-import { render } from '@testing-library/react'
 import Component from '../Tabs'
 import Input from '../../Input'
 
@@ -40,29 +39,21 @@ const contentWrapperData = {
 }
 
 describe('Tabs component', () => {
+  const Comp = mount(
+    <Component
+      {...props}
+      data={tablistData}
+      selected_key={startup_selected_key}
+    >
+      {contentWrapperData}
+    </Component>
+  )
+
   it('have to match snapshot', () => {
-    const Comp = mount(
-      <Component
-        {...props}
-        data={tablistData}
-        selected_key={startup_selected_key}
-      >
-        {contentWrapperData}
-      </Component>
-    )
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
   it('have a "selected_key" state have to be same as prop from startup', () => {
-    const Comp = mount(
-      <Component
-        {...props}
-        data={tablistData}
-        selected_key={startup_selected_key}
-      >
-        {contentWrapperData}
-      </Component>
-    )
     expect(Comp.state().selected_key).toBe(startup_selected_key)
     expect(
       Comp.find('.dnb-tabs__button.selected').find('span').at(0).text()
@@ -158,142 +149,7 @@ describe('Tabs component', () => {
     )
   })
 
-  it('should support "align" prop', () => {
-    render(
-      <Component {...props} data={tablistData} align="right">
-        {contentWrapperData}
-      </Component>
-    )
-
-    const element = document.querySelector('.dnb-tabs__tabs')
-
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-tabs__tabs',
-      'dnb-tabs__tabs--right',
-    ])
-  })
-
-  it('should support "no_border" prop', () => {
-    render(
-      <Component {...props} data={tablistData} no_border>
-        {contentWrapperData}
-      </Component>
-    )
-
-    const element = document.querySelector('.dnb-tabs__tabs')
-
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-tabs__tabs',
-      'dnb-tabs__tabs--left',
-      'dnb-tabs__tabs--no-border',
-    ])
-  })
-
-  it('should support "content_spacing" prop', () => {
-    render(
-      <Component {...props} data={tablistData} content_spacing="small">
-        {contentWrapperData}
-      </Component>
-    )
-
-    const element = document.querySelector('.dnb-tabs__content')
-
-    expect(Array.from(element.classList)).toEqual(
-      expect.arrayContaining([
-        'dnb-tabs__content',
-        'dnb-height-animation--is-in-dom',
-        'dnb-height-animation--show-overflow',
-      ])
-    )
-  })
-
-  it('should support "tabs_spacing" prop', () => {
-    render(
-      <Component {...props} data={tablistData} tabs_spacing="small">
-        {contentWrapperData}
-      </Component>
-    )
-
-    const element = document.querySelector('.dnb-tabs__tabs')
-
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-tabs__tabs',
-      'dnb-tabs__tabs--left',
-      'dnb-section--spacing-small',
-    ])
-  })
-
-  it('should support outer spacing props', () => {
-    render(
-      <Component {...props} data={tablistData} top="large">
-        {contentWrapperData}
-      </Component>
-    )
-
-    const element = document.querySelector('.dnb-tabs')
-
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-tabs',
-      'dnb-space__top--large',
-    ])
-  })
-
-  it('should use section component when "tabs_style" is set', () => {
-    render(
-      <Component {...props} data={tablistData} tabs_style="black-3">
-        {contentWrapperData}
-      </Component>
-    )
-
-    const element = document.querySelector('.dnb-tabs__tabs')
-
-    expect(element.tagName).toBe('DIV')
-    expect(Array.from(element.classList)).toEqual(
-      expect.arrayContaining([
-        'dnb-tabs__tabs',
-        'dnb-tabs__tabs--left',
-        'dnb-section',
-        'dnb-section--black-3',
-      ])
-    )
-  })
-
-  it('should use section component when "content_style" is set', () => {
-    render(
-      <Component {...props} data={tablistData} content_style="black-3">
-        {contentWrapperData}
-      </Component>
-    )
-
-    const element = document.querySelector('.dnb-tabs__content')
-
-    expect(element.tagName).toBe('SECTION')
-    expect(Array.from(element.classList)).toEqual(
-      expect.arrayContaining([
-        'dnb-tabs__content',
-        'dnb-section',
-        'dnb-section--black-3',
-        'dnb-section--spacing-large',
-        'dnb-no-focus',
-        'dnb-space',
-        'dnb-height-animation',
-        'dnb-height-animation--is-in-dom',
-        'dnb-height-animation--parallax',
-        'dnb-height-animation--show-overflow',
-      ])
-    )
-  })
-
   it('should validate with ARIA rules', async () => {
-    const Comp = render(
-      <Component
-        {...props}
-        data={tablistData}
-        selected_key={startup_selected_key}
-      >
-        {contentWrapperData}
-      </Component>
-    )
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })

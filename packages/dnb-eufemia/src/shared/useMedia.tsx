@@ -97,6 +97,13 @@ export default function useMedia(
         when,
         disabled,
         log,
+
+        /**
+         * Because it returns fixed variables.
+         * The developer do not need to know the cause of the not working useMedia Hook,
+         * when it's used inside other components.
+         */
+        dismissWarning: true,
       },
 
       context.breakpoints

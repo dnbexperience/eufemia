@@ -9,7 +9,6 @@ import {
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Section from '../section/Section'
 import EventEmitter from '../../shared/helpers/EventEmitter'
-import HeightAnimation from '../height-animation/HeightAnimation'
 
 export default class ContentWrapper extends React.PureComponent {
   static propTypes = {
@@ -85,34 +84,30 @@ export default class ContentWrapper extends React.PureComponent {
 
     validateDOMAttributes(this.props, params)
 
+    const Element = content_style ? Section : 'div'
+
     let content = children
     if (typeof children === 'function') {
       content = children(this.state)
     }
 
     return (
-      <HeightAnimation
-        showOverflow // in case there is a section used inside
+      <Element
         role="tabpanel"
         tabIndex="-1"
         id={`${id}-content`}
         spacing={content_style ? false : undefined}
         style_type={content_style ? content_style : undefined}
-        element={content_style ? Section : 'div'}
+        element={content_style ? 'div' : undefined}
         className={classnames(
-          'dnb-tabs__content',
-          'dnb-no-focus',
-          content_spacing
-            ? `dnb-section--spacing-${
-                isTrue(content_spacing) ? 'large' : content_spacing
-              }`
-            : null,
+          'dnb-tabs__content dnb-no-focus',
+          isTrue(content_spacing) && 'dnb-tabs__content--spacing',
           createSpacingClasses(rest)
         )}
         {...params}
       >
         {content}
-      </HeightAnimation>
+      </Element>
     )
   }
 }

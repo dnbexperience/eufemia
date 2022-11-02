@@ -22,15 +22,8 @@ exports[`Upload scss have to match default theme snapshot 1`] = `
       stroke-dasharray: 0; }
   .dnb-upload--active {
     background-color: var(--color-pistachio); }
-  .dnb-upload__file-cell {
-    /** Highlight Animation */
-    transition: background-color;
-    transition-duration: 1.5s;
-    transition-timing-function: var(--easing-default); }
-    .dnb-upload__file-cell--warning .dnb-upload__file-cell__content__left .dnb-icon {
-      color: var(--color-fire-red); }
-    .dnb-upload__file-cell--highlight {
-      background-color: var(--color-sand-yellow); }
+  .dnb-upload__file-cell--warning .dnb-upload__file-cell__content__left .dnb-icon {
+    color: var(--color-fire-red); }
   .dnb-upload__text.dnb-p {
     color: var(--color-black-55); }
   .dnb-upload__subtitle.dnb-p {

@@ -16,7 +16,7 @@ v10 of @dnb/eufemia contains _breaking changes_. As a migration process, you can
 
 1. Find the `active_item` property and replace it with `current_step`.
 1. Find `use_navigation` and remove it or replace it with `mode="strict"` or `mode="loose"`.
-1. URL support has been removed – so props like `active_url`, `url`, `url_future`, and `url_passed` are not supported anymore. You have to handle it by yourself from inside your application. Here is [an example](/uilib/components/step-indicator/#stepindicator-with-a-router).
+1. URL support has been removed – so props like `active_url`, `url`, `url_future`, and `url_passed` are not supported anymore. You have to handle it by yourself from inside your application.
 
 ### Table
 

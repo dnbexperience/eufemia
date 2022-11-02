@@ -50,7 +50,7 @@ describe('Tabs screenshot', () => {
     const screenshot = await testPageScreenshot({
       style: {
         width: '40rem',
-        height: '14rem',
+        height: '10rem',
         padding: '0 2rem 4rem 2rem',
       },
       selector: '[data-visual-test="tabs-section-styles"]',
@@ -102,20 +102,6 @@ describe('Tabs screenshot', () => {
       simulateSelector:
         '[data-visual-test="tabs-tablist"] .dnb-tabs__tabs__tablist .dnb-tabs__button__snap:nth-of-type(2) button',
       simulate: 'focus',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  it('have to match tabs content with focus ring', async () => {
-    const screenshot = await testPageScreenshot({
-      selector:
-        '[data-visual-test="tabs-section-styles"] .dnb-tabs__content',
-      simulateSelector:
-        '[data-visual-test="tabs-section-styles"] .dnb-tabs__content',
-      simulate: 'focus',
-      executeBeforeSimulate: () => {
-        document.documentElement.setAttribute('data-whatinput', 'keyboard')
-      },
     })
     expect(screenshot).toMatchImageSnapshot()
   })

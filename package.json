@@ -42,8 +42,8 @@
     "@storybook/preset-ie11@0.0.1": "patch:@storybook/preset-ie11@npm:0.0.1#.yarn/patches/@storybook-preset-ie11-npm-0.0.1-f80c765898"
   },
   "engines": {
-    "node": "14.17.0",
-    "yarn": ">=1.22.10"
+    "node": ">=12.22.1",
+    "yarn": ">=1.17.0"
   },
   "volta": {
     "node": "14.17.0",

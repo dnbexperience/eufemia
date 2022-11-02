@@ -126,66 +126,6 @@ describe('UploadFileInput', () => {
     expect(onInputUpload).toHaveBeenCalledWith([{ file }])
   })
 
-  it('will reset input value on click', async () => {
-    const file = createMockFile('fileName.png', 100, 'image/png')
-
-    const onInputUpload = jest.fn()
-
-    render(<UploadFileInput />, {
-      wrapper: makeWrapper({ onInputUpload }),
-    })
-
-    const inputElement = screen.queryByTestId(
-      'upload-file-input-input'
-    ) as HTMLInputElement
-
-    Object.defineProperty(inputElement, 'value', {
-      writable: true,
-      value: 'mock-value',
-    })
-
-    expect(inputElement.value).toBe('mock-value')
-
-    await waitFor(() => fireEvent.click(inputElement))
-
-    expect(inputElement.value).toBe(null)
-
-    await waitFor(() =>
-      fireEvent.change(inputElement, {
-        target: { files: [file] },
-      })
-    )
-    expect(onInputUpload).toHaveBeenCalledWith([{ file }])
-  })
-
-  it('accepts given acceptedFileTypes', async () => {
-    render(<UploadFileInput />, {
-      wrapper: makeWrapper({
-        acceptedFileTypes: ['png', 'pdf'],
-      }),
-    })
-
-    const inputElement = screen.queryByTestId(
-      'upload-file-input-input'
-    ) as HTMLInputElement
-
-    expect(inputElement.accept).toBe('.png,.pdf')
-  })
-
-  it('accepts jpeg when jpg is defined', async () => {
-    render(<UploadFileInput />, {
-      wrapper: makeWrapper({
-        acceptedFileTypes: ['png', 'jpg'],
-      }),
-    })
-
-    const inputElement = screen.queryByTestId(
-      'upload-file-input-input'
-    ) as HTMLInputElement
-
-    expect(inputElement.accept).toBe('.png,.jpg,.jpeg')
-  })
-
   it('can upload multiple files', async () => {
     const file1 = createMockFile('fileName1.png', 100, 'image/png')
     const file2 = createMockFile('fileName2.png', 100, 'image/png')

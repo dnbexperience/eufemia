@@ -10,8 +10,6 @@ If the user should be able to navigate back and forth, use the `mode="loose"` pr
 
 The current active step is set with the `current_step` property or within the data with the `is_current` object property.
 
-**NB:** Ensure, when ever possible, to bind the `current_step` to the browsers path location. See the [example above](/uilib/components/step-indicator/#stepindicator-with-a-router) or [the example on CodeSandbox](https://codesandbox.io/s/eufemia-step-indicator-with-reach-router-mhu0bh?file=/src/App.tsx).
-
 ## Sidebar
 
 The StepIndicator has two layouts. One for larger screens (above [medium](/uilib/usage/layout/media-queries#media-queries-properties-table)) and one for more narrow screens (below [medium](/uilib/usage/layout/media-queries#media-queries-properties-table)).

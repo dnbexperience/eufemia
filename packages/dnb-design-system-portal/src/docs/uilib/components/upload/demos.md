@@ -10,6 +10,7 @@ UploadSingleFile,
 UploadIsLoading,
 UploadErrorMessage,
 UploadAcceptedFormats,
+UploadCustomText,
 } from 'Docs/uilib/components/upload/Examples'
 
 ## Demos
@@ -45,6 +46,12 @@ The only checks we do currently is for the file size and the file type. These er
 You can pass the file formats as a string array. This will restrict which files that can be selected.
 
 <UploadAcceptedFormats />
+
+### Upload custom text
+
+All the text can be custom.
+
+<UploadCustomText />
 
 ### Upload with prefilled error
 

@@ -14,7 +14,6 @@ import {
   stepIndicatorDefaultProps,
 } from './StepIndicatorProps'
 import { StepIndicatorProvider } from './StepIndicatorContext'
-import { createSpacingClasses } from '../space/SpacingHelper'
 
 export default class StepIndicatorSidebar extends React.PureComponent {
   static contextType = Context
@@ -81,8 +80,7 @@ export default class StepIndicatorSidebar extends React.PureComponent {
           'dnb-step-indicator__sidebar',
           this._hasSkeletonData &&
             providerProps?.skeleton &&
-            'dnb-step-indicator__sidebar--ssr-skeleton',
-          createSpacingClasses(this.props)
+            'dnb-step-indicator__sidebar--ssr-skeleton'
         )}
       >
         {providerProps && (

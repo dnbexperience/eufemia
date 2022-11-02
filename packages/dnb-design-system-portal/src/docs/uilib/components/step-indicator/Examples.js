@@ -265,55 +265,10 @@ export const StepIndicatorCustomRenderer = () => (
   </ComponentBox>
 )
 
-export const StepIndicatorRouter = () => (
-  <ComponentBox scope={{ createBrowserHistory }} useRender>
-    {
-      /* jsx */ `
-const StepIndicatorWithRouter = () => {
-  const [currentStep, setCurrentStep] = React.useState(1)
-  const [history, setInstance] = React.useState(null)
-  React.useEffect(()=>{
-    const history = createBrowserHistory()
-    const step = parseFloat(history.location.search?.replace(/[?]/, '')) || 1
-    setCurrentStep(step)
-    setInstance(history)
-  }, [])
-  return (
-    <>
-      <StepIndicator
-        sidebar_id="step-indicator-router"
-        mode="loose"
-        current_step={currentStep - 1}
-        on_change={({ current_step }) => {
-          const step = current_step + 1
-          setCurrentStep(step)
-          history.push('?' + step)
-        }}
-        data={[
-          {
-            title: 'Om din nye bolig',
-          },
-          {
-            title: 'Ditt lån og egenkapital',
-          },
-          {
-            title: 'Oppsummering',
-          },
-        ]}
-        space
-      />
-      <StepIndicator.Sidebar sidebar_id="step-indicator-router" space />
-    </>
-  )
-}
-render(<StepIndicatorWithRouter />)
-`
-    }
-  </ComponentBox>
-)
-
 export const StepIndicatorUrls = () => (
   <ComponentBox
+    sidebar_id="unique-id-urls"
+    mode="strict"
     data-visual-test="step-indicator-urls"
     scope={{ createBrowserHistory }}
     hideCode
@@ -332,10 +287,10 @@ const StepIndicatorWithUrl = () => {
 	}, [])
 	return (<StepIndicator
 		active_url={activeUrl || '?a'}
-		on_change={({ event, item }) => {
+		on_change={() => {
 			try {
-				event.preventDefault()
-				history.push(item.url)
+				e.event.preventDefault()
+				history.push(e.item.url)
 			} catch (e) {
 				//
 			}

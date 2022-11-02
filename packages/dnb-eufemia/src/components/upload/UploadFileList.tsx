@@ -49,7 +49,6 @@ function UploadFileList() {
         return (
           <UploadFileListCell
             key={index}
-            id={id}
             uploadFile={uploadFile}
             onDelete={onDeleteHandler}
             deleteButtonText={deleteButton}

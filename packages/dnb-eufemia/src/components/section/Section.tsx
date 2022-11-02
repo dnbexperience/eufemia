@@ -36,8 +36,6 @@ export type SectionSpacing =
   | 'small'
   | 'medium'
   | 'large'
-  | 'x-large'
-  | 'xx-large'
 
 export type SectionProps = {
   /**
@@ -46,7 +44,7 @@ export type SectionProps = {
   style_type?: SectionStyleTypes | string
 
   /**
-   * Will add spacing around the given content. If `true`, then `large` is used. Se the [available sizes](/uilib/usage/layout/spacing#spacing-helpers). Defaults to `false`.
+   * Will add the default spacing around the wrapped content. Use `large`, `medium` or `small`. Defaults to `false`. If `true`, then `large` is used. Se the <a href="/uilib/usage/layout/spacing#spacing-helpers">available sizes</a>.
    */
   spacing?: SectionSpacing
 

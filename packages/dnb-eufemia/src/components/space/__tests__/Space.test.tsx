@@ -10,7 +10,6 @@ import {
   toJson,
   loadScss,
 } from '../../../core/jest/jestSetup'
-import { render } from '@testing-library/react'
 import Component from '../Space'
 
 const snapshotProps = fakeProps(require.resolve('../Space'))
@@ -65,18 +64,6 @@ describe('Space component', () => {
       'dnb-space__bottom--large',
       'dnb-space__left--large',
     ])
-  })
-
-  it('should accept id attribute', () => {
-    render(<Component id="custom-id" />)
-
-    const element = document.querySelector('div.dnb-space')
-    const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
-    )
-
-    expect(attributes).toEqual(['class', 'id'])
-    expect(element.getAttribute('id')).toBe('custom-id')
   })
 
   it('should have collapse CSS class', () => {

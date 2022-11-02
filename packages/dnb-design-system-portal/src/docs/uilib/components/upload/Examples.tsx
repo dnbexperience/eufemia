@@ -36,13 +36,13 @@ export const UploadPrefilledFileList = () => (
     {
       /* jsx */ `
 const Component = () => {
-  const { files, setFiles } = Upload.useUpload('file-list')
+  const {files, setFiles} = Upload.useUpload('file-list')
   useMockFiles(setFiles, { errorMessage: 'This is no real file!' })
 
   return (
     <Upload
       acceptedFileTypes={['jpg', 'png']}
-      id="file-list"
+      id='file-list'
     />
   )
 }
@@ -57,12 +57,12 @@ export const UploadBasic = () => (
     {
       /* jsx */ `
 const Component = () => {
-  const { files } = Upload.useUpload('upload-basic')
+  const {files} = Upload.useUpload('upload-basic')
 
   return (
     <Upload
       acceptedFileTypes={['jpg', 'png']}
-      id="upload-basic"
+      id='upload-basic'
     />
   )
 }
@@ -77,11 +77,11 @@ export const UploadSingleFile = () => (
     {
       /* jsx */ `
 const Component = () => {  
-  const { files, setFiles } = Upload.useUpload('upload-single-file')
+  const {files, setFiles} = Upload.useUpload('upload-single-file')
   return (
     <Upload
       acceptedFileTypes={['jpg', 'png']}
-      id="upload-single-file"
+      id='upload-single-file'
       filesAmountLimit={1}
     />
   )
@@ -97,15 +97,15 @@ export const UploadRemoveFile = () => (
     {
       /* jsx */ `
 const Component = () => {  
-  const { files, setFiles } = Upload.useUpload('upload-remove-files')
+  const {files, setFiles} = Upload.useUpload('upload-remove-files')
   return (
     <>
       <Upload
         acceptedFileTypes={['jpg', 'png']}
-        id="upload-remove-files"
+        id='upload-remove-files'
       />
       <Button 
-        top="small"
+        top='small' 
         disabled={files.length < 1} 
         onClick={() => setFiles([])}
       >
@@ -129,28 +129,21 @@ export const UploadIsLoading = () => (
     {
       /* jsx */ `
 const Component = () => {  
-  const { files, setFiles } = Upload.useUpload('upload-is-loading')
+  const {files, setFiles} = Upload.useUpload('upload-is-loading')
   useMockFiles(setFiles, { isLoading: true })
-
+  
   return (
     <>
       <Upload
         acceptedFileTypes={['jpg', 'png']}
-        id="upload-is-loading"
+        id='upload-is-loading'
       />
-      <ToggleButton
-        top="small"
-        disabled={files.length < 1}
-        checkedonChange={({ checked }) =>
-          setFiles(
-            files.map((fileItem) => {
-              return { ...fileItem, isLoading: checked }
-            })
-          )
-        }
-      >
-        Files is loading toggle
-      </ToggleButton>
+      <ToggleButton top='small' disabled={files.length < 1} checked onChange={({ checked }) => {
+        setFiles(files.map((file) => {
+          return {...file, isLoading: checked}
+        }))
+      }}
+      >Files is loading toggle</ToggleButton>
     </>
   )
 }
@@ -165,21 +158,21 @@ export const UploadErrorMessage = () => (
     {
       /* jsx */ `
 const Component = () => {  
-  const { files, setFiles } = Upload.useUpload('upload-error-message')
+  const {files, setFiles} = Upload.useUpload('upload-error-message')
   return (
     <>
       <Upload
         acceptedFileTypes={['jpg', 'png']}
-        id="upload-error-message"
+        id='upload-error-message'
       />
       <ToggleButton
-        top="small"
+        top='small'
         disabled={files.length < 1} 
         onChange={
           ({ checked }) => {
             setFiles(
-              files.map((fileItem) => {
-                return { ...fileItem, errorMessage: checked? 'custom error message': null }
+              files.map((file) => {
+                return {...file, errorMessage: checked? 'custom error message': null}
               })
             )
           }
@@ -201,17 +194,38 @@ export const UploadAcceptedFormats = () => (
     {
       /* jsx */ `
 const Component = () => {
-  const { files, setFiles } = Upload.useUpload('upload-accepted-formats')
+  const {files, setFiles} = Upload.useUpload('upload-accepted-formats')
 
   return (
     <Upload
       acceptedFileTypes={['png', 'jpg', 'pdf']}
-      id="upload-accepted-formats"
+      id='upload-accepted-formats'
     />
   )
 }
 render(<Component />)
   `
+    }
+  </ComponentBox>
+)
+
+export const UploadCustomText = () => (
+  <ComponentBox>
+    {
+      /* jsx */ `
+<Upload 
+  acceptedFileTypes={['jpg', 'png']}
+  id='upload-custom-text'
+  title='custom title'
+  text='custom text'
+  fileTypeDescription='custom fileTypeDescription'
+  fileSizeDescription='custom fileSizeDescription'
+  fileSizeContent='custom fileSizeContent'
+  buttonText='custom buttonText'
+  loadingText='custom loadingText'
+  deleteButton='custom deleteButton'
+ />
+     `
     }
   </ComponentBox>
 )

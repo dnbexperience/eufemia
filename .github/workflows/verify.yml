@@ -8,6 +8,10 @@ on:
       - '!**--visual-reports'
       - '!wip/**'
       - '!experiments/**'
+      - '!release'
+      - '!portal'
+      - '!beta'
+      - '!alpha'
   pull_request:
     branches:
       - 'main'
@@ -34,17 +38,17 @@ jobs:
 
     steps:
       - name: Git checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
         with:
           persist-credentials: false
 
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v2
         with:
-          node-version-file: 'package.json'
+          node-version: 14.17.0
 
       - name: Use node_modules cache
-        uses: actions/cache@v3
+        uses: actions/cache@v2
         id: modules-cache
         with:
           path: '**/node_modules'
