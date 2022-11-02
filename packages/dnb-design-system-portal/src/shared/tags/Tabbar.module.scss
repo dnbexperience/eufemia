@@ -1,3 +1,5 @@
+@import '@dnb/eufemia/src/style/core/utilities.scss';
+
 .tabsWrapperStyle {
   :global {
     .dnb-tabs__tabs {
@@ -17,7 +19,7 @@
       background-color: transparent;
     }
 
-    @media screen and (max-width: 40em) {
+    @include allBelow(small) {
       .fullscreen-page & {
         top: 0;
 

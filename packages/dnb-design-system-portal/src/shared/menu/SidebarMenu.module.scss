@@ -1,3 +1,5 @@
+@import '@dnb/eufemia/src/style/core/utilities.scss';
+
 :global {
   :root {
     /* stylelint-disable */
@@ -8,7 +10,7 @@
 
   .dnb-sidebar-menu {
     --level-offset: 3vw;
-    @media screen and (max-width: 50em) {
+    @include allBelow(medium) {
       --level-offset: 2rem;
     }
 
@@ -18,7 +20,7 @@
     --level-icon-adjust: -40px;
     --level: 2vw;
 
-    @media screen and (max-width: 50em) {
+    @include allBelow(medium) {
       --level: 1.3rem;
     }
 
@@ -243,7 +245,7 @@
   -ms-overflow-style: none;
 
   /* make the sidemenu accessible for screen readers on mobile devices  */
-  @media screen and (max-width: 50em) {
+  @include allBelow(medium) {
     position: relative;
     height: auto;
     overflow: auto;
@@ -264,13 +266,13 @@
 	  God for a mobile menu instead
 	  make sure that Content main "styled.main" gets the same max-width
 	*/
-  @media screen and (max-width: 50em) {
+  @include allBelow(medium) {
     &:not(.show-mobile-menu) {
       display: none;
     }
   }
 
-  @media screen and (max-width: 50em) {
+  @include allBelow(medium) {
     position: relative;
     ul {
       width: 100vw;

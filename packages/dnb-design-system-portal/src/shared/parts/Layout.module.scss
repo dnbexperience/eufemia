@@ -1,3 +1,4 @@
+@import '@dnb/eufemia/src/style/core/utilities.scss';
 @import './PortalStyle.mixins.scss';
 
 :global {
@@ -249,7 +250,7 @@
   border-left: 1px solid var(--color-black-border);
 
   /* make sure that Sidebar aside "styled.aside" gets the same max-width */
-  @media screen and (max-width: 50em) {
+  @include allBelow(medium) {
     margin-left: 0;
     padding-left: 0;
   }
@@ -262,7 +263,7 @@
   display: flex;
   justify-content: space-between; /* pos Footer at the bottom */
 
-  @media screen and (max-width: 50em) {
+  @include allBelow(medium) {
     display: block;
   }
 }

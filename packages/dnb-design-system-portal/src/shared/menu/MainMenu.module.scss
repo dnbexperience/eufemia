@@ -1,9 +1,12 @@
+@import '@dnb/eufemia/src/style/core/utilities.scss';
+
 .navStyle {
   display: flex;
   align-items: center;
   justify-content: center;
 
-  @media screen and (max-width: 40em), (max-height: 55em) {
+  @media screen and (max-width: map-get($breakpoints, small)),
+    (max-height: 55em) {
     height: auto;
   }
 
@@ -45,7 +48,7 @@
     color: #fff;
   }
 
-  @media screen and (max-width: 40em) {
+  @include allBelow(small) {
     .dnb-drawer-list__list {
       width: 90vw;
     }

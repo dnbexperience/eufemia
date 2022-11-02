@@ -1,3 +1,4 @@
+@import '@dnb/eufemia/src/style/core/utilities.scss';
 @import './../parts/PortalStyle.mixins.scss';
 
 .liItemStyle {
@@ -22,7 +23,7 @@
   }
 
   /* mobile view */
-  @media screen and (max-width: 40em) {
+  @include allBelow(small) {
     & {
       min-width: calc(100% - 1rem);
       transition: 0.5s;
