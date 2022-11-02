@@ -302,11 +302,11 @@ describe('useMedia', () => {
     it('will re-render component', async () => {
       let count = 0
       const MockComponent = (options = null) => {
-        const { isSmall, isMedium, isLarge, isSSR } = useMedia(options)
+        const props = useMedia(options)
 
         count++
 
-        return <>{JSON.stringify({ isSmall, isMedium, isLarge, isSSR })}</>
+        return <>{JSON.stringify(props)}</>
       }
       const getContent = () =>
         JSON.parse(document.querySelector('div').textContent)
@@ -566,6 +566,35 @@ describe('useMedia', () => {
           isLarge: true,
         })
       )
+    })
+  })
+})
+
+describe('useMedia without window.matchMedia', () => {
+  beforeEach(() => {
+    Object.defineProperty(window, 'matchMedia', {
+      value: undefined,
+      writable: true,
+    })
+  })
+
+  const MockComponent = (options = null) => {
+    const props = useMedia(options)
+
+    return <>{JSON.stringify(props)}</>
+  }
+
+  const getContent = () =>
+    JSON.parse(document.querySelector('div').textContent)
+
+  it('should not break', () => {
+    render(<MockComponent />)
+
+    expect(getContent()).toEqual({
+      isSmall: false,
+      isMedium: false,
+      isLarge: false,
+      isSSR: true,
     })
   })
 })
