@@ -529,14 +529,78 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
       id="linked"
       selected_key={null}
     >
-      <div
-        className="dnb-tabs__content dnb-no-focus dnb-tabs__content--spacing"
+      <HeightAnimation
+        className="dnb-tabs__content dnb-no-focus dnb-section--spacing-large"
+        element="div"
         id="linked-content"
         role="tabpanel"
+        showOverflow={true}
         tabIndex="-1"
       >
-        third
-      </div>
+        <Space
+          bottom={null}
+          className="dnb-height-animation dnb-tabs__content dnb-no-focus dnb-section--spacing-large dnb-height-animation--is-in-dom dnb-height-animation--parallax dnb-height-animation--show-overflow"
+          element="div"
+          id="linked-content"
+          inline={null}
+          innerRef={
+            {
+              "current": <div
+                class="dnb-space dnb-height-animation dnb-tabs__content dnb-no-focus dnb-section--spacing-large dnb-height-animation--is-in-dom dnb-height-animation--parallax dnb-height-animation--show-overflow"
+                id="linked-content"
+                role="tabpanel"
+                style="height: auto;"
+                tabindex="-1"
+              >
+                third
+              </div>,
+            }
+          }
+          left={null}
+          no_collapse={null}
+          right={null}
+          role="tabpanel"
+          skeleton={null}
+          space={null}
+          stretch={null}
+          style={{}}
+          tabIndex="-1"
+          top={null}
+        >
+          <Element
+            className="dnb-space dnb-height-animation dnb-tabs__content dnb-no-focus dnb-section--spacing-large dnb-height-animation--is-in-dom dnb-height-animation--parallax dnb-height-animation--show-overflow"
+            element="div"
+            id="linked-content"
+            innerRef={
+              {
+                "current": <div
+                  class="dnb-space dnb-height-animation dnb-tabs__content dnb-no-focus dnb-section--spacing-large dnb-height-animation--is-in-dom dnb-height-animation--parallax dnb-height-animation--show-overflow"
+                  id="linked-content"
+                  role="tabpanel"
+                  style="height: auto;"
+                  tabindex="-1"
+                >
+                  third
+                </div>,
+              }
+            }
+            no_collapse={null}
+            role="tabpanel"
+            style={{}}
+            tabIndex="-1"
+          >
+            <div
+              className="dnb-space dnb-height-animation dnb-tabs__content dnb-no-focus dnb-section--spacing-large dnb-height-animation--is-in-dom dnb-height-animation--parallax dnb-height-animation--show-overflow"
+              id="linked-content"
+              role="tabpanel"
+              style={{}}
+              tabIndex="-1"
+            >
+              third
+            </div>
+          </Element>
+        </Space>
+      </HeightAnimation>
     </ContentWrapper>
   </CustomContent>
 </LinkedContent>
@@ -1097,19 +1161,92 @@ exports[`Tabs component have to match snapshot 1`] = `
           id="id"
           selected_key="second"
         >
-          <div
+          <HeightAnimation
             aria-labelledby="id-tab-second"
-            className="dnb-tabs__content dnb-no-focus dnb-tabs__content--spacing"
+            className="dnb-tabs__content dnb-no-focus dnb-section--spacing-large"
+            element="div"
             id="id-content"
             role="tabpanel"
+            showOverflow={true}
             tabIndex="-1"
           >
-            <second>
-              <h2>
-                Second
-              </h2>
-            </second>
-          </div>
+            <Space
+              aria-labelledby="id-tab-second"
+              bottom={null}
+              className="dnb-height-animation dnb-tabs__content dnb-no-focus dnb-section--spacing-large dnb-height-animation--is-in-dom dnb-height-animation--parallax dnb-height-animation--show-overflow"
+              element="div"
+              id="id-content"
+              inline={null}
+              innerRef={
+                {
+                  "current": <div
+                    aria-labelledby="id-tab-second"
+                    class="dnb-space dnb-height-animation dnb-tabs__content dnb-no-focus dnb-section--spacing-large dnb-height-animation--is-in-dom dnb-height-animation--parallax dnb-height-animation--show-overflow"
+                    id="id-content"
+                    role="tabpanel"
+                    style="height: auto;"
+                    tabindex="-1"
+                  >
+                    <h2>
+                      Second
+                    </h2>
+                  </div>,
+                }
+              }
+              left={null}
+              no_collapse={null}
+              right={null}
+              role="tabpanel"
+              skeleton={null}
+              space={null}
+              stretch={null}
+              style={{}}
+              tabIndex="-1"
+              top={null}
+            >
+              <Element
+                aria-labelledby="id-tab-second"
+                className="dnb-space dnb-height-animation dnb-tabs__content dnb-no-focus dnb-section--spacing-large dnb-height-animation--is-in-dom dnb-height-animation--parallax dnb-height-animation--show-overflow"
+                element="div"
+                id="id-content"
+                innerRef={
+                  {
+                    "current": <div
+                      aria-labelledby="id-tab-second"
+                      class="dnb-space dnb-height-animation dnb-tabs__content dnb-no-focus dnb-section--spacing-large dnb-height-animation--is-in-dom dnb-height-animation--parallax dnb-height-animation--show-overflow"
+                      id="id-content"
+                      role="tabpanel"
+                      style="height: auto;"
+                      tabindex="-1"
+                    >
+                      <h2>
+                        Second
+                      </h2>
+                    </div>,
+                  }
+                }
+                no_collapse={null}
+                role="tabpanel"
+                style={{}}
+                tabIndex="-1"
+              >
+                <div
+                  aria-labelledby="id-tab-second"
+                  className="dnb-space dnb-height-animation dnb-tabs__content dnb-no-focus dnb-section--spacing-large dnb-height-animation--is-in-dom dnb-height-animation--parallax dnb-height-animation--show-overflow"
+                  id="id-content"
+                  role="tabpanel"
+                  style={{}}
+                  tabIndex="-1"
+                >
+                  <second>
+                    <h2>
+                      Second
+                    </h2>
+                  </second>
+                </div>
+              </Element>
+            </Space>
+          </HeightAnimation>
         </ContentWrapper>
       </TabContent>
     </div>
@@ -1152,7 +1289,7 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
 
 .dnb-tabs__content:focus {
   position: relative; }
-  .dnb-tabs__content:focus::after {
+  .dnb-tabs__content:focus::before {
     content: '';
     position: absolute;
     z-index: -1;
@@ -1163,12 +1300,12 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
     max-width: 100vw;
     border-radius: 0.5rem;
     outline: none; }
-    html[data-whatinput='keyboard'] .dnb-tabs__content:focus::after {
+    html[data-whatinput='keyboard'] .dnb-tabs__content:focus::before {
       --border-color: var(--color-emerald-green);
       box-shadow: 0 0 0 0.125rem var(--border-color);
       border-color: transparent; }
       @media screen and (-ms-high-contrast: none) {
-        html[data-whatinput='keyboard'] .dnb-tabs__content:focus::after {
+        html[data-whatinput='keyboard'] .dnb-tabs__content:focus::before {
           box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
 
 .dnb-tabs__button__title {
@@ -1441,11 +1578,20 @@ exports[`Tabs scss have to match snapshot 1`] = `
     /* stylelint-enable */ }
     html[data-whatinput='keyboard'] .dnb-tabs__button__snap:last-of-type.focus .dnb-tabs__button:focus {
       margin-right: 0.5rem; }
+  .dnb-tabs__cached {
+    opacity: 1;
+    transition: opacity 1s var(--easing-default); }
+  .dnb-tabs__cached--hidden {
+    opacity: 0;
+    visibility: hidden;
+    height: 0 !important;
+    overflow: hidden; }
+  html[data-visual-test] .dnb-tabs .dnb-tabs__cached,
   html[data-visual-test] .dnb-tabs .dnb-tabs__button,
   html[data-visual-test] .dnb-tabs .dnb-tabs__button__snap,
   html[data-visual-test] .dnb-tabs .dnb-tabs__scroll-nav-button {
     transition: none !important; }
-  .dnb-tabs__content--spacing {
-    padding-top: 2rem; }
+  .dnb-tabs__content {
+    padding-bottom: 0; }
 "
 `;

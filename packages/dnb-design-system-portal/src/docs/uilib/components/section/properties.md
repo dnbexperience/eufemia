@@ -4,13 +4,13 @@ showTabs: true
 
 ## Properties
 
-| Properties                                  | Description                                                                                                                                                                                                                          |
-| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `style_type`                                | _(optional)_ to define the style of the visual helper. Use and `Style ID` from below. Defaults to `mint-green-12`.                                                                                                                   |
-| `spacing`                                   | _(optional)_ will add the default spacing around the wrapped content. Use `large`, `medium` or `small`. Defaults to `false`. If `true`, then `large` is used. Se the [available sizes](/uilib/usage/layout/spacing#spacing-helpers). |
-| `element`                                   | _(optional)_ define what HTML element should be used. Defaults to `<section>`.                                                                                                                                                       |
-| `inner_ref`                                 | _(optional)_ by providing a React Ref we can get the internally used element (DOM). E.g. `inner_ref={myRef}` by using `React.createRef()` or `React.useRef()`.                                                                       |
-| [Space](/uilib/components/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                                                                                                                |
+| Properties                                  | Description                                                                                                                                                                           |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `style_type`                                | _(optional)_ to define the style of the visual helper. Use and `Style ID` from below. Defaults to `mint-green-12`.                                                                    |
+| `spacing`                                   | _(optional)_ will add spacing around the given content. If `true`, then `large` is used. Se the [available sizes](/uilib/usage/layout/spacing#spacing-helpers). Defaults to `false`. |
+| `element`                                   | _(optional)_ define what HTML element should be used. Defaults to `<section>`.                                                                                                        |
+| `inner_ref`                                 | _(optional)_ by providing a React Ref we can get the internally used element (DOM). E.g. `inner_ref={myRef}` by using `React.createRef()` or `React.useRef()`.                        |
+| [Space](/uilib/components/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                                                                 |
 
 ## Styles
 
