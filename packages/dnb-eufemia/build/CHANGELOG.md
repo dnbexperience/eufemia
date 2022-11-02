@@ -3,6 +3,24 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.36.0](https://github.com/dnbexperience/eufemia/compare/v9.35.0...v9.36.0) (2022-11-02)
+
+
+### Bug Fixes
+
+* **Section:** add official support for x-large and xx-large spacing ([#1672](https://github.com/dnbexperience/eufemia/issues/1672)) ([0c0e7c2](https://github.com/dnbexperience/eufemia/commit/0c0e7c2936b029d9b919619b1667ed4eb310e98d))
+* **StepIndicator:** add example on how to use it with a router (browser location) ([9e7e708](https://github.com/dnbexperience/eufemia/commit/9e7e708ea6f34c72a821e53ce1865db294a6f542))
+* **StepIndicator:** support spacing in Sidebar ([#1681](https://github.com/dnbexperience/eufemia/issues/1681)) ([de9735f](https://github.com/dnbexperience/eufemia/commit/de9735fab1bb4ad6a2086c6f848a104a2f1b3024))
+* **Tabs:** align styles to properly function side by side with Section component in content ([#1671](https://github.com/dnbexperience/eufemia/issues/1671)) ([a607b5f](https://github.com/dnbexperience/eufemia/commit/a607b5ff70e39644e2640674a0322eac55914a32))
+* **useMediaQuery:**  remove warning and handle environments without breaking ([#1685](https://github.com/dnbexperience/eufemia/issues/1685)) ([480c509](https://github.com/dnbexperience/eufemia/commit/480c5096f21bafb932c74af4df91f530278ff374))
+
+
+### Features
+
+* **Tabs:** make tabs content animate its height ([#1667](https://github.com/dnbexperience/eufemia/issues/1667)) ([3f1bf5e](https://github.com/dnbexperience/eufemia/commit/3f1bf5e81aa1520cb5363c5ec26c9dba7b43949f))
+* **Upload:** accept jpeg when only jpg is defined ([#1677](https://github.com/dnbexperience/eufemia/issues/1677)) ([b5eb00b](https://github.com/dnbexperience/eufemia/commit/b5eb00bf63592e69ebbc864c3f053f18a19d6adc))
+* **Upload:** highlight existing files visually ([#1657](https://github.com/dnbexperience/eufemia/issues/1657)) ([e17f66d](https://github.com/dnbexperience/eufemia/commit/e17f66d918860c6e529f44267b628e9ec901f800))
+
 # [9.35.0](https://github.com/dnbexperience/eufemia/compare/v9.34.3...v9.35.0) (2022-10-28)
 
 
