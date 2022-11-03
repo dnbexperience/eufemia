@@ -1,21 +1,18 @@
 {
-  "processors": [
-    "stylelint-processor-styled-components"
-  ],
   "extends": [
     "stylelint-config-recommended",
     "stylelint-config-standard",
-    "stylelint-config-styled-components",
     "stylelint-config-prettier"
   ],
+  "plugins": ["stylelint-scss"],
   "rules": {
     "declaration-empty-line-before": null,
-    "value-keyword-case": [
-      "lower",
+    "at-rule-no-unknown": null,
+    "no-invalid-position-at-import-rule": null,
+    "selector-pseudo-class-no-unknown": [
+      true,
       {
-        "ignoreKeywords": [
-          "/dummyValue/"
-        ]
+        "ignorePseudoClasses": ["global"]
       }
     ]
   }
