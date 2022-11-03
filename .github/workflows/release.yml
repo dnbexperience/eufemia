@@ -8,15 +8,7 @@ on:
       - 'beta'
       - 'alpha'
       - 'next'
-  workflow_run:
-    workflows: [Verify, Build Check]
-    types: [completed]
-    branches:
-      - 'release'
-      - 'portal'
-      - 'beta'
-      - 'alpha'
-      - 'next'
+      - '*.x'
 
 jobs:
   action:
@@ -60,6 +52,18 @@ jobs:
       - name: Install dependencies
         if: steps.modules-cache.outputs.cache-hit != 'true'
         run: yarn install --immutable
+
+      - name: Audit dependencies
+        run: yarn workspace @dnb/eufemia audit:ci
+
+      - name: Run lint
+        run: yarn workspace @dnb/eufemia lint:ci && yarn workspace dnb-design-system-portal lint:ci
+
+      - name: Run type checks
+        run: yarn workspace @dnb/eufemia test:types && yarn workspace dnb-design-system-portal test:types
+
+      - name: Run tests
+        run: yarn workspace @dnb/eufemia test:ci && yarn workspace dnb-design-system-portal test:ci
 
       - name: Prebuild Library
         run: yarn workspace @dnb/eufemia prebuild:ci
