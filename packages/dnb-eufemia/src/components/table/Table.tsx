@@ -20,8 +20,8 @@ import {
   StickyTableHeaderProps,
 } from './TableStickyHeader'
 
-export type TableSizes = 'medium' | 'large'
-export type TableVariants = 'basis' | 'not-defined-yet'
+export type TableSizes = 'large' | 'medium'
+export type TableVariants = 'generic'
 
 export { StickyHelper }
 
@@ -48,15 +48,15 @@ export interface TableProps extends StickyTableHeaderProps {
   size?: TableSizes
 
   /**
-   * The variant of the component.
-   * Default: basis.
+   * The style variant of the component.
+   * Default: generic.
    */
   variant?: TableVariants
 }
 
 export const defaultProps = {
   size: 'large',
-  variant: 'basis',
+  variant: 'generic',
 }
 
 const Table = (
