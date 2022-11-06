@@ -70,6 +70,7 @@ import digipass from './digipass.js'
 import digipost from './digipost.js'
 import dismiss_keyboard from './dismiss_keyboard.js'
 import dog from './dog.js'
+import e_scooter from './e_scooter.js'
 import edit from './edit.js'
 import einvoice from './einvoice.js'
 import email from './email.js'
@@ -300,6 +301,7 @@ export {
   digipost,
   dismiss_keyboard,
   dog,
+  e_scooter,
   edit,
   einvoice,
   email,

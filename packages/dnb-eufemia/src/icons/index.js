@@ -192,6 +192,8 @@ import dog from './dog.js'
 import dog_medium from './dog_medium.js'
 import download from './download.js'
 import download_medium from './download_medium.js'
+import e_scooter from './e_scooter.js'
+import e_scooter_medium from './e_scooter_medium.js'
 import edit from './edit.js'
 import edit_medium from './edit_medium.js'
 import einvoice from './einvoice.js'
@@ -721,6 +723,8 @@ export {
   dog_medium,
   download,
   download_medium,
+  e_scooter,
+  e_scooter_medium,
   edit,
   edit_medium,
   einvoice,
