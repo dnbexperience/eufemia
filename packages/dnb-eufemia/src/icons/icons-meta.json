@@ -3511,5 +3511,19 @@
     "name": "hierarchy",
     "variant": "secondary",
     "category": "essentials"
+  },
+  "e_scooter_medium": {
+    "tags": ["electric scooter"],
+    "created": 1667637717878,
+    "name": "e_scooter",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "e_scooter": {
+    "tags": ["electric scooter"],
+    "created": 1667637718230,
+    "name": "e_scooter",
+    "variant": "secondary",
+    "category": "products"
   }
 }

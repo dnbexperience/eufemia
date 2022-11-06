@@ -70,6 +70,7 @@ import digipass_medium from './digipass_medium.js'
 import digipost_medium from './digipost_medium.js'
 import dismiss_keyboard_medium from './dismiss_keyboard_medium.js'
 import dog_medium from './dog_medium.js'
+import e_scooter_medium from './e_scooter_medium.js'
 import edit_medium from './edit_medium.js'
 import einvoice_medium from './einvoice_medium.js'
 import email_medium from './email_medium.js'
@@ -300,6 +301,7 @@ export {
   digipost_medium,
   dismiss_keyboard_medium,
   dog_medium,
+  e_scooter_medium,
   edit_medium,
   einvoice_medium,
   email_medium,
