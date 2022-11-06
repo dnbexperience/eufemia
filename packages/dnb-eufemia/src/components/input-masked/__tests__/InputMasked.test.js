@@ -10,6 +10,7 @@ import {
   toJson,
   loadScss,
 } from '../../../core/jest/jestSetup'
+import { render, fireEvent } from '@testing-library/react'
 import Component from '../InputMasked'
 import Provider from '../../../shared/Provider'
 import * as helpers from '../../../shared/helpers'
@@ -693,42 +694,39 @@ describe('InputMasked component', () => {
     expect(preventDefault).toBeCalledTimes(1)
   })
 
-  it('should set correct integerLimit', () => {
-    const Comp = mount(
-      <Component
-        value={1234.912345}
-        number_mask={{ integerLimit: 10, decimalLimit: 4 }}
-      />
-    )
+  it('should set correct integerLimit during typing', () => {
+    const onChange = jest.fn()
+    const MockComponent = () => {
+      const [controlledValue, setControlledValue] = React.useState(123456)
 
-    expect(Comp.find('input').instance().value).toBe('1 234,9123')
+      const handleChange = (props) => {
+        setControlledValue(props.numberValue)
+        onChange(props)
+      }
 
-    Comp.setProps({
-      number_mask: { integerLimit: 10, decimalLimit: 0 },
-    })
+      return (
+        <Component
+          value={controlledValue}
+          number_mask={{ integerLimit: 4 }}
+          on_change={handleChange}
+        />
+      )
+    }
 
-    expect(Comp.find('input').instance().value).toBe('1 234')
+    render(<MockComponent />)
 
-    Comp.setProps({
-      value: 1234,
-      number_mask: { integerLimit: 10, decimalLimit: 0 },
-    })
+    const element = document.querySelector('input')
 
-    expect(Comp.find('input').instance().value).toBe('1 234')
+    expect(element.value).toBe('1 234')
 
-    Comp.setProps({
-      value: '0.123',
-      number_mask: { integerLimit: 10, decimalLimit: 0 },
-    })
+    fireEvent.change(element, { target: { value: '123' } })
 
-    expect(Comp.find('input').instance().value).toBe('0')
+    expect(element.value).toBe('123')
 
-    Comp.setProps({
-      value: '0000.1234',
-      number_mask: { integerLimit: 4, decimalLimit: 2 },
-    })
+    fireEvent.change(element, { target: { value: '12 345' } })
 
-    expect(Comp.find('input').instance().value).toBe('0 000,12')
+    expect(element.value).toBe('1 234')
+    expect(onChange).toHaveBeenCalledTimes(2)
   })
 })
 
@@ -1136,7 +1134,7 @@ describe('InputMasked component as_currency', () => {
   it('should set correct integerLimit', () => {
     const Comp = mount(
       <Component
-        value={12345678.912}
+        value={12345678.9124}
         as_currency
         currency_mask={{ integerLimit: 4, decimalLimit: 3 }}
         locale="en-GB"
@@ -1148,6 +1146,43 @@ describe('InputMasked component as_currency', () => {
     Comp.setProps({ locale: 'nb-NO' })
 
     expect(Comp.find('input').instance().value).toBe('1 234,912 kr')
+  })
+
+  it('should set correct integerLimit during typing', () => {
+    const onChange = jest.fn()
+    const MockComponent = () => {
+      const [controlledValue, setControlledValue] =
+        React.useState(123456.1234)
+
+      const handleChange = (props) => {
+        setControlledValue(props.numberValue)
+        onChange(props)
+      }
+
+      return (
+        <Component
+          value={controlledValue}
+          as_currency
+          currency_mask={{ integerLimit: 4, decimalLimit: 3 }}
+          on_change={handleChange}
+        />
+      )
+    }
+
+    render(<MockComponent />)
+
+    const element = document.querySelector('input')
+
+    expect(element.value).toBe('1 234,123 kr')
+
+    fireEvent.change(element, { target: { value: '123,123' } })
+
+    expect(element.value).toBe('123,123 kr')
+
+    fireEvent.change(element, { target: { value: '1 234,123' } })
+
+    expect(element.value).toBe('1 234,123 kr')
+    expect(onChange).toHaveBeenCalledTimes(2)
   })
 
   it('event "on_change" gets emmited with correct value', () => {

@@ -26,6 +26,7 @@ export default function createNumberMask({
   allowDecimal = false,
   decimalSymbol = ',',
   decimalLimit = 2,
+  integerLimit = false,
   requireDecimal = false,
   allowNegative = true,
 } = {}) {
@@ -92,6 +93,10 @@ export default function createNumberMask({
     }
 
     integer = integer.replace(nonDigitsRegExp, emptyString)
+
+    if (typeof integerLimit === number) {
+      integer = integer.slice(0, integerLimit)
+    }
 
     integer = includeThousandsSeparator
       ? addThousandsSeparator(integer, thousandsSeparatorSymbol)
