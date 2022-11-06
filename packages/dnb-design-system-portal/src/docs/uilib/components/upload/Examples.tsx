@@ -141,7 +141,7 @@ const Component = () => {
       <ToggleButton
         top="small"
         disabled={files.length < 1}
-        checkedonChange={({ checked }) =>
+        on_change={({ checked }) =>
           setFiles(
             files.map((fileItem) => {
               return { ...fileItem, isLoading: checked }
