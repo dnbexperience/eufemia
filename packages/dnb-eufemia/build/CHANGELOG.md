@@ -3,6 +3,20 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.37.0](https://github.com/dnbexperience/eufemia/compare/v9.36.0...v9.37.0) (2022-11-07)
+
+
+### Bug Fixes
+
+* **InputMasked:** fix integerLimit to work during typing ([#1694](https://github.com/dnbexperience/eufemia/issues/1694)) ([0fb697d](https://github.com/dnbexperience/eufemia/commit/0fb697df82f8717312f484b42ab14a28da6c7665))
+* **Table:** remove usage of pseudo elements inside table rows ([#1704](https://github.com/dnbexperience/eufemia/issues/1704)) ([3f678bd](https://github.com/dnbexperience/eufemia/commit/3f678bd5de334a4743f08f8801ba8d2b84e43c3d))
+* **Td:** fix children and add tests ([#1703](https://github.com/dnbexperience/eufemia/issues/1703)) ([060e84f](https://github.com/dnbexperience/eufemia/commit/060e84f4dc32427271c3159a3e3c207c40f59d5f))
+
+
+### Features
+
+* add e_scooter icon ([#1701](https://github.com/dnbexperience/eufemia/issues/1701)) ([c7024e2](https://github.com/dnbexperience/eufemia/commit/c7024e2c31a4ab1c0fe5467be5a4c46184f020f1))
+
 # [9.36.0](https://github.com/dnbexperience/eufemia/compare/v9.35.0...v9.36.0) (2022-11-02)
 
 
