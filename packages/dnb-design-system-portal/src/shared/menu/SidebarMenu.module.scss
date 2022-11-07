@@ -180,6 +180,33 @@
       }
     }
 
+    .main-menu-toggle {
+      margin-left: var(--level-offset);
+
+      .dnb-icon:nth-of-type(1) {
+        color: var(--color-sea-green);
+        margin-right: 0.5rem;
+
+        &.dnb-icon--small {
+          margin-left: 0.5rem;
+        }
+      }
+
+      &.dnb-button__text {
+        color: var(--color-sea-green);
+      }
+      &.dnb-button:hover {
+        color: var(--color-black);
+        .dnb-button__text,
+        .dnb-icon {
+          color: inherit;
+        }
+      }
+
+      margin-top: 1rem;
+      margin-bottom: 2rem;
+    }
+
     .status-badge {
       margin-right: 1rem;
 
@@ -223,6 +250,18 @@
       color: var(--color-white);
     }
   }
+
+  #portal-sidebar-menu {
+    /*
+    Good for a mobile menu instead
+    make sure that Content main "styled.main" gets the same max-width
+    */
+    &:not(.show-mobile-menu) {
+      @include allBelow(medium) {
+        display: none;
+      }
+    }
+  }
 }
 
 .navStyle {
@@ -262,16 +301,6 @@
     width: var(--aside-width);
   }
 
-  /*
-	  God for a mobile menu instead
-	  make sure that Content main "styled.main" gets the same max-width
-	*/
-  @include allBelow(medium) {
-    &:not(.show-mobile-menu) {
-      display: none;
-    }
-  }
-
   @include allBelow(medium) {
     position: relative;
     ul {
@@ -279,32 +308,5 @@
       max-height: none;
       overflow-y: visible;
     }
-  }
-
-  .main-menu-toggle {
-    margin-left: var(--level-offset);
-
-    .dnb-icon:nth-of-type(1) {
-      color: var(--color-sea-green);
-      margin-right: 0.5rem;
-
-      &.dnb-icon--small {
-        margin-left: 0.5rem;
-      }
-    }
-
-    &.dnb-button__text {
-      color: var(--color-sea-green);
-    }
-    &.dnb-button:hover {
-      color: var(--color-black);
-      .dnb-button__text,
-      .dnb-icon {
-        color: inherit;
-      }
-    }
-
-    margin-top: 1rem;
-    margin-bottom: 2rem;
   }
 }

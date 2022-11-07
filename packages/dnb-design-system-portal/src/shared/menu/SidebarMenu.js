@@ -12,7 +12,7 @@ import { resetLevels } from '@dnb/eufemia/src/components/Heading'
 import Context from '@dnb/eufemia/src/shared/Context'
 import { SidebarMenuContext } from './SidebarMenuContext'
 import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
-import { Icon } from '@dnb/eufemia/src/components'
+import { Space, Icon } from '@dnb/eufemia/src/components'
 import { MediaQuery } from '@dnb/eufemia/src/shared'
 import graphics from './SidebarGraphics'
 import keycode from 'keycode'
@@ -247,14 +247,14 @@ export default class SidebarLayout extends React.PureComponent {
                 ref={this._scrollRef}
               >
                 <MediaQuery when={{ min: 0, max: 'medium' }}>
-                  <PortalToolsMenu
-                    trigger_text="Portal Tools"
-                    trigger_icon="chevron_right"
-                    trigger_icon_position="right"
-                    tooltipPosition="bottom"
-                    left="large"
-                    top="large"
-                  />
+                  <Space left="large" top="large">
+                    <PortalToolsMenu
+                      trigger_text="Portal Tools"
+                      trigger_icon="chevron_right"
+                      trigger_icon_position="right"
+                      tooltipPosition="bottom"
+                    />
+                  </Space>
                 </MediaQuery>
                 <ul className="dev-grid">{nav}</ul>
               </nav>
