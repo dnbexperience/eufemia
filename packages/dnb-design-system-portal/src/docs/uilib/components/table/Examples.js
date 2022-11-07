@@ -224,7 +224,7 @@ export const TableSticky = () => (
       </td>
       <td>Column 4</td>
     </tr>
-    <tr>
+    <tr id="scroll-to-tr-id">
       <td colSpan="2">Column which spans over two columns</td>
       <td>Column 3</td>
       <td>Column 4</td>
