@@ -1,6 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import TableTh from '../TableTh'
+import TableSortButton from '../TableSortButton'
 
 describe('TableTh', () => {
   it('should contain children content', () => {
@@ -130,5 +131,9 @@ describe('TableTh', () => {
       'dnb-table__th',
       'custom-class',
     ])
+  })
+
+  it('should have Th.AccordionContent', () => {
+    expect(TableTh.SortButton).toBe(TableSortButton)
   })
 })
