@@ -32,6 +32,7 @@ const Td = (
       className={classnames('dnb-table__td', className)}
       {...props}
     >
+      {children}
     </td>
   )
 }
