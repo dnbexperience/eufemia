@@ -4,6 +4,7 @@ showTabs: true
 
 import {
 TableVariantBasic,
+TableVariantComplex,
 TableClassHelpers,
 TableLongHeader,
 TableSticky,
@@ -14,6 +15,12 @@ TableSticky,
 ### Default variant
 
 <TableVariantBasic />
+
+### Complex table
+
+You can force a row to overwrite the automated odd/even counting by providing e.g. `variant="even"` to a `<Tr />`. You can use this in combination with `rowSpan`.
+
+<TableVariantComplex />
 
 ### Table with sticky header
 
