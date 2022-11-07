@@ -70,7 +70,6 @@ describe('Table screenshot', () => {
       '[data-visual-test="table-classes"] th.dnb-table--sortable.dnb-table--reversed'
     const screenshot = await testPageScreenshot({
       style: {
-        // display:'block',
         'background-color': 'white',
       },
       styleSelector,
@@ -92,6 +91,20 @@ describe('Table screenshot', () => {
       selector,
       simulateSelector: `${selector} button.dnb-button`,
       simulate: 'active',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match sticky header', async () => {
+    const selector = '[data-visual-test="table-sticky"]'
+    const screenshot = await testPageScreenshot({
+      styleSelector,
+      selector,
+      executeBeforeSimulate: () => {
+        document.getElementById('scroll-to-tr-id').scrollIntoView({
+          behavior: 'auto',
+        })
+      },
     })
     expect(screenshot).toMatchImageSnapshot()
   })

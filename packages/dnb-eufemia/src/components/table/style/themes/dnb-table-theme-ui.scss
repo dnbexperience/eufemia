@@ -15,6 +15,8 @@
   & > tbody > tr > td,
   &__th,
   &__td {
+    position: relative;
+
     font-size: var(--font-size-basis);
     line-height: var(--line-height-basis);
     border-spacing: 0;
@@ -72,22 +74,16 @@
     background-color: var(--color-lavender);
   }
 
-  & > thead > tr,
-  & > tbody > tr,
-  & &__tr {
-    position: relative;
-  }
-
   // Border
-  & > thead > tr:last-of-type::after,
-  & > tbody > tr:last-of-type::after,
-  & > &__tr:last-of-type::after {
+  & > thead > tr > th::after,
+  & > tbody > tr:last-of-type > td::after,
+  & > thead > &__tr > &__th::after,
+  & > tbody > &__tr:last-of-type > &__td::after {
     content: '';
     position: absolute;
     left: 0;
     right: 0;
     bottom: -1px;
-    z-index: 1; // lower than "tr.sticky"
 
     height: 1px;
     background-color: var(--color-black-8);

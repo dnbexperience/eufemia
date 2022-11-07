@@ -9,9 +9,10 @@ import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import { SkeletonShow } from '../skeleton/Skeleton'
 import { SpacingProps } from '../../shared/types'
 import {
-  validateDOMAttributes,
   extendPropsWithContext,
+  validateDOMAttributes,
 } from '../../shared/component-helper'
+import TableContext from './TableContext'
 
 // Internal
 import {
@@ -20,8 +21,8 @@ import {
   StickyTableHeaderProps,
 } from './TableStickyHeader'
 
-export type TableSizes = 'medium' | 'large'
-export type TableVariants = 'basis' | 'not-defined-yet'
+export type TableSizes = 'large' | 'medium'
+export type TableVariants = 'generic'
 
 export { StickyHelper }
 
@@ -48,15 +49,15 @@ export interface TableProps extends StickyTableHeaderProps {
   size?: TableSizes
 
   /**
-   * The variant of the component.
-   * Default: basis.
+   * The style variant of the component.
+   * Default: generic.
    */
   variant?: TableVariants
 }
 
 export const defaultProps = {
   size: 'large',
-  variant: 'basis',
+  variant: 'generic',
 }
 
 const Table = (
@@ -81,8 +82,7 @@ const Table = (
     size,
     skeleton,
     variant,
-
-    sticky, // eslint-disable-line
+    sticky,
     stickyOffset, // eslint-disable-line
     ...props
   } = allProps
@@ -92,25 +92,33 @@ const Table = (
 
   const { elementRef } = useStickyHeader(allProps)
 
+  // Create this ref in order to "auto" set even/odd class in tr elements
+  const trTmpRef = React.useRef({ count: 0 })
+  React.useLayoutEffect(() => {
+    trTmpRef.current.count = 0
+  })
+
   validateDOMAttributes(allProps, props)
 
   return (
     <Provider skeleton={Boolean(skeleton)}>
-      <table
-        className={classnames(
-          'dnb-table',
-          `dnb-table__variant--${variant || 'basis'}`,
-          `dnb-table__size--${size || 'large'}`,
-          sticky && `dnb-table--sticky`,
-          spacingClasses,
-          skeletonClasses,
-          className
-        )}
-        ref={elementRef}
-        {...props}
-      >
-        {children}
-      </table>
+      <TableContext.Provider value={{ trTmpRef }}>
+        <table
+          className={classnames(
+            'dnb-table',
+            variant && `dnb-table__variant--${variant}`,
+            size && `dnb-table__size--${size}`,
+            sticky && `dnb-table--sticky`,
+            spacingClasses,
+            skeletonClasses,
+            className
+          )}
+          ref={elementRef}
+          {...props}
+        >
+          {children}
+        </table>
+      </TableContext.Provider>
     </Provider>
   )
 }

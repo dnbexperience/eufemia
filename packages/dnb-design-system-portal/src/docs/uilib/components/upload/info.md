@@ -11,7 +11,7 @@ The Upload component should be used in scenarios where the user has to upload an
 - Files selected by the user should be uploaded immediately (temporary location).
 - The user should be able to remove them (files) during the session.
 - If the Upload component is shown in a submit form, then a [GlobalStatus](/uilib/components/global-status) should be a part of the form.
-- Validation messages coming from the "backend" should be displayed for each file via the `useUpload` hook. See example below.
+- Validation messages coming from the "backend" should be displayed for each file via the `useUpload` hook. See [example](/uilib/components/upload/#upload-error-message) below.
 - The `useUpload` hook can be placed on any location in your application, and does not need to be where the `Upload` component is used.
 
 ```jsx
