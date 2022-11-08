@@ -12,7 +12,7 @@ You may consider using `table-layout: fixed;`. You can use the modifier class in
 
 ## Accessibility
 
-Tables do both serve a way of navigation for screen readers and other assertive technologies. But they also help to give data an ordered structure.
+Tables do both serve as a way of navigation for screen readers and other assertive technologies. But they also help to give data an ordered structure.
 
 Use the documentation from [MDN – The Table element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table) for more information on making semantic correct tables, including `scope`, `align`, `colSpan` and `rowSpan`.
 
