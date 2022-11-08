@@ -8,7 +8,7 @@ The following table has a default style. But in future, there will be several ex
 
 ## Fixed layout
 
-You may consider using `table-layout: fixed;`. You can use the modifier class in doing so: `.dnb-table--fixed`
+You may consider using `table-layout: fixed;`. You can use the modifier property `fixed` for doing so.
 
 ## Data-grid driven tables
 

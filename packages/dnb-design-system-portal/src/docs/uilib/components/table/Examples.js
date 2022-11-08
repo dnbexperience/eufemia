@@ -177,7 +177,7 @@ export const TableSticky = () => (
     <ComponentBox hideCode data-visual-test="table-sticky">
       {
         /* jsx */ `
-<Table sticky={true} sticky_offset="4rem" className="dnb-table--fixed">
+<Table sticky={true} stickyOffset="4rem" fixed>
   <caption className="dnb-sr-only">A Table Caption</caption>
   <thead>
     <tr>
