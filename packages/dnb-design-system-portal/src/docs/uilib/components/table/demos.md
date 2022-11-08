@@ -11,10 +11,6 @@ TableSticky,
 
 ## Demos
 
-### Example usage of class helpers
-
-<TableClassHelpers />
-
 ### Default variant
 
 <TableVariantBasic />
@@ -41,3 +37,7 @@ TableSticky,
 Also, the table header is set to **small** font-size.
 
 <TableLongHeader />
+
+### Example usage of class helpers
+
+<TableClassHelpers />

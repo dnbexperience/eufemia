@@ -15,12 +15,6 @@ export type TableTrProps = {
   children:
     | React.ReactElement<TableTdProps>
     | Array<React.ReactElement<TableTdProps>>
-
-  /**
-   * Custom className on the component root
-   * Default: null
-   */
-  className?: string
 }
 
 const Tr = (

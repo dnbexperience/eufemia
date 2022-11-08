@@ -8,10 +8,28 @@ export type TableThProps = {
   children: React.ReactNode
 
   /**
-   * Custom className on the component root
-   * Default: null
+   * Defines the table header as sortable
+   * Default: false
    */
-  className?: string
+  sortable?: boolean
+
+  /**
+   * Defines the sortable column as the current active
+   * Default: false
+   */
+  active?: boolean
+
+  /**
+   * Defines the sortable column as in reversed order
+   * Default: false
+   */
+  reversed?: boolean
+
+  /**
+   * If set to true, the header text will not wrap to new lines
+   * Default: false
+   */
+  noWrap?: boolean
 }
 
 const Th = (
@@ -21,7 +39,10 @@ const Th = (
   const {
     className,
     children,
-
+    sortable,
+    active,
+    reversed,
+    noWrap,
     ...props
   } = componentProps
 
@@ -30,6 +51,10 @@ const Th = (
       role="columnheader"
       className={classnames(
         'dnb-table__th',
+        sortable && 'dnb-table--sortable',
+        active && 'dnb-table--active',
+        reversed && 'dnb-table--reversed',
+        noWrap && 'dnb-table--no-wrap',
         className
       )}
       {...props}

@@ -14,11 +14,11 @@ export const TableVariantBasic = () => (
 <Table className="dnb-table">
   <caption>A Table Caption</caption>
   <thead>
-    <tr>
-      <th scope="col" colSpan="2" className="dnb-table--no-wrap">
+    <Tr>
+      <Th scope="col" colSpan={2} noWrap>
         Header
-      </th>
-      <th scope="col" className="dnb-table--sortable dnb-table--reversed">
+      </Th>
+      <Th scope="col" sortable reversed>
         <Button
           variant="tertiary"
           icon="arrow-down"
@@ -26,8 +26,8 @@ export const TableVariantBasic = () => (
           title="Sort table column"
           wrap="true"
         />
-      </th>
-      <th scope="col" align="right" className="dnb-table--sortable dnb-table--active">
+      </Th>
+      <Th scope="col" align="right" sortable active>
         <Button
           variant="tertiary"
           icon="arrow-down"
@@ -35,33 +35,33 @@ export const TableVariantBasic = () => (
           title="Sort table column"
           wrap="true"
         />
-      </th>
-    </tr>
+      </Th>
+    </Tr>
   </thead>
   <tbody>
-    <tr>
-      <td>
+    <Tr>
+      <Td>
         <P space={0}>Column 1 <b>width p</b></P>
-      </td>
-      <td>
+      </Td>
+      <Td>
         <Code>Column 2 with code</Code>
-      </td>
-      <td>
+      </Td>
+      <Td>
         <span>Column 3 with span</span>
-      </td>
-      <td align="right">Column 4</td>
-    </tr>
-    <tr>
-      <td colSpan="2">Column which spans over two columns</td>
-      <td>Column 3</td>
-      <td align="right">Column 4</td>
-    </tr>
-    <tr>
-      <td>Column 1</td>
-      <td>Column 2</td>
-      <td>Column 3</td>
-      <td align="right">Column 4</td>
-    </tr>
+      </Td>
+      <Td align="right">Column 4</Td>
+    </Tr>
+    <Tr>
+      <Td colSpan={2}>Column which spans over two columns</Td>
+      <Td>Column 3</Td>
+      <Td align="right">Column 4</Td>
+    </Tr>
+    <Tr>
+      <Td>Column 1</Td>
+      <Td>Column 2</Td>
+      <Td>Column 3</Td>
+      <Td align="right">Column 4</Td>
+    </Tr>
   </tbody>
 </Table>
 `
@@ -120,11 +120,11 @@ export const TableLongHeader = () => (
 <Table>
   <caption className="dnb-sr-only">A Table Caption</caption>
   <thead>
-    <tr className="dnb-table--small">
-      <th scope="col" colSpan="2">
+    <Tr className="dnb-table--small">
+      <Th scope="col" colSpan="2">
         Static long header senectus ornare convallis ut at  erat imperdiet commodo
-      </th>
-      <th scope="col" className="dnb-table--sortable dnb-table--reversed">
+      </Th>
+      <Th scope="col" className="dnb-table--sortable dnb-table--reversed">
         <Button
           variant="tertiary"
           icon="arrow-down"
@@ -132,8 +132,8 @@ export const TableLongHeader = () => (
           title="Sort table column"
           wrap="true"
         />
-      </th>
-      <th scope="col" align="right" className="dnb-table--sortable dnb-table--active">
+      </Th>
+      <Th scope="col" align="right" className="dnb-table--sortable dnb-table--active">
         <Button
           variant="tertiary"
           icon="arrow-down"
@@ -141,15 +141,15 @@ export const TableLongHeader = () => (
           title="Sort table column"
           wrap="true"
         />
-      </th>
-    </tr>
+      </Th>
+    </Tr>
   </thead>
   <tbody>
-    <tr>
-      <td colSpan="4">
+    <Tr>
+      <Td colSpan="4">
         <P space={0}>col span of 4</P>
-      </td>
-    </tr>
+      </Td>
+    </Tr>
   </tbody>
 </Table>
 `
@@ -180,11 +180,11 @@ export const TableSticky = () => (
 <Table sticky={true} sticky_offset="4rem" className="dnb-table--fixed">
   <caption className="dnb-sr-only">A Table Caption</caption>
   <thead>
-    <tr>
-      <th scope="col" colSpan="2">
+    <Tr>
+      <Th scope="col" colSpan="2">
         Header
-      </th>
-      <th scope="col" className="dnb-table--sortable dnb-table--reversed">
+      </Th>
+      <Th scope="col" className="dnb-table--sortable dnb-table--reversed">
         <Button
           variant="tertiary"
           icon="arrow-down"
@@ -192,8 +192,8 @@ export const TableSticky = () => (
           title="Sort table column"
           wrap="true"
         />
-      </th>
-      <th scope="col" className="dnb-table--sortable dnb-table--active">
+      </Th>
+      <Th scope="col" className="dnb-table--sortable dnb-table--active">
         <Button
           variant="tertiary"
           icon="arrow-down"
@@ -201,40 +201,40 @@ export const TableSticky = () => (
           title="Sort table column"
           wrap="true"
         />
-      </th>
-    </tr>
+      </Th>
+    </Tr>
   </thead>
   <tfoot>
-    <tr>
-      <td colSpan="3">Footer</td>
-      <td>Sum</td>
-    </tr>
+    <Tr>
+      <Td colSpan="3">Footer</Td>
+      <Td>Sum</Td>
+    </Tr>
   </tfoot>
   <tbody>
     <Table.StickyHelper />
-    <tr>
-      <td>
+    <Tr>
+      <Td>
         <P space={0}>Column 1 <b>width p</b></P>
-      </td>
-      <td>
+      </Td>
+      <Td>
         <Code>Column 2 with code</Code>
-      </td>
-      <td>
+      </Td>
+      <Td>
         <span>Column 3 with span</span>
-      </td>
-      <td>Column 4</td>
-    </tr>
+      </Td>
+      <Td>Column 4</Td>
+    </Tr>
     <tr id="scroll-to-tr-id">
-      <td colSpan="2">Column which spans over two columns</td>
-      <td>Column 3</td>
-      <td>Column 4</td>
+      <Td colSpan="2">Column which spans over two columns</Td>
+      <Td>Column 3</Td>
+      <Td>Column 4</Td>
     </tr>
-    <tr>
-      <td>Column 1</td>
-      <td>Column 2</td>
-      <td>Column 3</td>
-      <td>Column 4</td>
-    </tr>
+    <Tr>
+      <Td>Column 1</Td>
+      <Td>Column 2</Td>
+      <Td>Column 3</Td>
+      <Td>Column 4</Td>
+    </Tr>
   </tbody>
 </Table>
 `

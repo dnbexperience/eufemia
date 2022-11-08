@@ -7,12 +7,6 @@ export type TableTdProps = {
    * Default: null
    */
   children?: React.ReactNode
-
-  /**
-   * Custom className on the component root
-   * Default: null
-   */
-  className?: string
 }
 
 const Td = (
