@@ -14,7 +14,7 @@ import iconsMetaData from '@dnb/eufemia/src/icons/icons-meta.json'
 import AutoLinkHeader from '../../tags/AutoLinkHeader'
 import {
   listStyle,
-  listitemStyle,
+  listItemStyle,
   listItemInnerStyle,
 } from './ListAllIcons.module.scss'
 
@@ -101,7 +101,7 @@ export default class ListAllIcons extends React.PureComponent {
       })
 
       return (
-        <li key={iconName} className={listitemStyle}>
+        <li key={iconName} className={listItemStyle}>
           <div className={listItemInnerStyle}>
             <figure aria-labelledby={`icon-${iconName}`} aria-hidden>
               {(SvgMedium && <Icon icon={SvgMedium} size="medium" />) || (
