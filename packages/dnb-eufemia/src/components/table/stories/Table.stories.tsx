@@ -9,7 +9,6 @@ import Table from '../Table'
 import Td from '../TableTd'
 import Th from '../TableTh'
 import Tr from '../TableTr'
-import { Button } from '../../'
 import { Provider } from '../../../shared'
 
 export default {
@@ -32,22 +31,10 @@ export const StickyBasicTable = () => {
             Header
           </Th>
           <Th scope="col" reversed sortable>
-            <Button
-              variant="tertiary"
-              icon="arrow-down"
-              text="Sortable"
-              title="Sort table column"
-              wrap="true"
-            />
+            <Th.SortButton text="Sortable" title="Sort table column" />
           </Th>
           <Th scope="col" active sortable>
-            <Button
-              variant="tertiary"
-              icon="arrow-down"
-              text="Active"
-              title="Sort table column"
-              wrap="true"
-            />
+            <Th.SortButton text="Active" title="Sort table column" />
           </Th>
         </Tr>
       </thead>
@@ -114,22 +101,10 @@ export const BasicTable = () => {
               Header
             </Th>
             <Th scope="col" reversed sortable>
-              <Button
-                variant="tertiary"
-                icon="arrow-down"
-                text="Sortable"
-                title="Sort table column"
-                wrap="true"
-              />
+              <Th.SortButton text="Sortable" title="Sort table column" />
             </Th>
             <Th scope="col" align="right" active sortable>
-              <Button
-                variant="tertiary"
-                icon="arrow-down"
-                text="Active"
-                title="Sort table column"
-                wrap="true"
-              />
+              <Th.SortButton text="Active" title="Sort table column" />
             </Th>
           </Tr>
         </thead>

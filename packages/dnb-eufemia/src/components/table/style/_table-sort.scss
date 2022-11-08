@@ -1,4 +1,4 @@
-@import '../../../button/style/themes/button-mixins.scss';
+@import '../../button/style/themes/button-mixins.scss';
 
 @mixin tableFocusRing() {
   &::before {
@@ -11,14 +11,13 @@
   }
 }
 
-@mixin basisTableSortable {
+@mixin sortableTable {
   // sortable
   & > thead > tr > th#{&}--sortable,
   & &__th#{&}--sortable {
     color: var(--color-emerald-green);
 
-    .dnb-anchor,
-    .dnb-button {
+    .dnb-table__sort-button.dnb-button {
       > .dnb-icon {
         opacity: 0;
         transition: opacity 200ms ease-out, transform 500ms ease-out;
@@ -111,11 +110,31 @@
         visibility: hidden;
       }
     }
+
+    &[align='right'] {
+      padding-right: 0.5rem;
+
+      .dnb-table__sort-button.dnb-button {
+        flex-direction: row-reverse;
+
+        &--tertiary.dnb-button--icon-position-right {
+          padding-right: 0.5rem;
+
+          .dnb-button__text {
+            padding-right: 0;
+            &::after {
+              right: 0;
+            }
+          }
+        }
+      }
+    }
   }
+
+  // active
   & > thead > tr > th#{&}--active,
   & &__th#{&}--active {
-    .dnb-anchor,
-    .dnb-button {
+    .dnb-table__sort-button.dnb-button {
       // hide underline
       &:not(:hover) .dnb-button__text::after {
         opacity: 0;
@@ -145,8 +164,7 @@
   }
   & > thead > tr > th#{&}--reversed,
   & &__th#{&}--reversed {
-    .dnb-anchor,
-    .dnb-button {
+    .dnb-table__sort-button.dnb-button {
       .dnb-icon {
         transform: rotate(180deg);
         transform-origin: 50% 50%;
