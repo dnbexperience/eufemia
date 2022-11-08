@@ -22,7 +22,7 @@ export const StickyBasicTable = () => {
       top="5rem"
       // skeleton // toggle
       sticky
-      // className="dnb-table--fixed"
+      // fixed
       stickyOffset="4rem"
     >
       <caption className="dnb-sr-only">A Table Caption</caption>
