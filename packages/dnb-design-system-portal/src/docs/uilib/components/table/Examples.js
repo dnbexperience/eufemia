@@ -108,7 +108,7 @@ export const TableLongHeader = () => (
 <Table>
   <caption className="dnb-sr-only">A Table Caption</caption>
   <thead>
-    <Tr className="dnb-table--small">
+    <Tr>
       <Th scope="col" colSpan="2">
         Static long header senectus ornare convallis ut at  erat imperdiet commodo
       </Th>

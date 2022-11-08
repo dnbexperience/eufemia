@@ -33,7 +33,7 @@
 
     vertical-align: bottom;
 
-    &:not([align]):not(.dnb-table--left):not(.dnb-table--right):not(.dnb-table--center) {
+    &:not([align]) {
       text-align: inherit;
     }
 
