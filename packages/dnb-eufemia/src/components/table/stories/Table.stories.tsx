@@ -6,9 +6,9 @@
 import React from 'react'
 
 import Table from '../Table'
-// import Td from '../TableTd'
-// import Th from '../TableTh'
-// import Tr from '../TableTr'
+import Td from '../TableTd'
+import Th from '../TableTh'
+import Tr from '../TableTr'
 import { Button } from '../../'
 import { Provider } from '../../../shared'
 
@@ -27,14 +27,11 @@ export const StickyBasicTable = () => {
     >
       <caption className="dnb-sr-only">A Table Caption</caption>
       <thead>
-        <tr>
-          <th scope="col" colSpan={2}>
+        <Tr>
+          <Th scope="col" colSpan={2}>
             Header
-          </th>
-          <th
-            scope="col"
-            className="dnb-table--sortable dnb-table--reversed"
-          >
+          </Th>
+          <Th scope="col" reversed sortable>
             <Button
               variant="tertiary"
               icon="arrow-down"
@@ -42,11 +39,8 @@ export const StickyBasicTable = () => {
               title="Sort table column"
               wrap="true"
             />
-          </th>
-          <th
-            scope="col"
-            className="dnb-table--sortable dnb-table--active"
-          >
+          </Th>
+          <Th scope="col" active sortable>
             <Button
               variant="tertiary"
               icon="arrow-down"
@@ -54,54 +48,54 @@ export const StickyBasicTable = () => {
               title="Sort table column"
               wrap="true"
             />
-          </th>
-        </tr>
+          </Th>
+        </Tr>
       </thead>
       <tfoot>
-        <tr>
-          <td colSpan={3}>Footer</td>
-          <td>Sum</td>
-        </tr>
+        <Tr>
+          <Td colSpan={3}>Footer</Td>
+          <Td>Sum</Td>
+        </Tr>
       </tfoot>
       <tbody>
         <Table.StickyHelper />
-        <tr>
-          <td>
+        <Tr>
+          <Td>
             <p className="dnb-p">
               Column 1 <b>width p</b>
             </p>
-          </td>
-          <td>
+          </Td>
+          <Td>
             <code className="dnb-code">Column 2 with code</code>
-          </td>
-          <td>
+          </Td>
+          <Td>
             <span>Column 3 with span</span>
-          </td>
-          <td>Column 4</td>
-        </tr>
-        <tr>
-          <td colSpan={2}>Column which spans over two columns</td>
-          <td>Column 3</td>
-          <td>Column 4</td>
-        </tr>
-        <tr>
-          <td>Column 1</td>
-          <td>Column 2</td>
-          <td>Column 3</td>
-          <td>Column 4</td>
-        </tr>
-        <tr>
-          <td>Column 1</td>
-          <td>Column 2</td>
-          <td>Column 3</td>
-          <td>Column 4</td>
-        </tr>
-        <tr>
-          <td>Column 1</td>
-          <td>Column 2</td>
-          <td>Column 3</td>
-          <td>Column 4</td>
-        </tr>
+          </Td>
+          <Td>Column 4</Td>
+        </Tr>
+        <Tr>
+          <Td colSpan={2}>Column which spans over two columns</Td>
+          <Td>Column 3</Td>
+          <Td>Column 4</Td>
+        </Tr>
+        <Tr>
+          <Td>Column 1</Td>
+          <Td>Column 2</Td>
+          <Td>Column 3</Td>
+          <Td>Column 4</Td>
+        </Tr>
+        <Tr>
+          <Td>Column 1</Td>
+          <Td>Column 2</Td>
+          <Td>Column 3</Td>
+          <Td>Column 4</Td>
+        </Tr>
+        <Tr>
+          <Td>Column 1</Td>
+          <Td>Column 2</Td>
+          <Td>Column 3</Td>
+          <Td>Column 4</Td>
+        </Tr>
       </tbody>
     </Table>
   )
@@ -115,14 +109,11 @@ export const BasicTable = () => {
       <Table top>
         <caption>A Table Caption</caption>
         <thead>
-          <tr>
-            <th scope="col" colSpan={2} className="dnb-table--no-wrap">
+          <Tr>
+            <Th scope="col" colSpan={2} className="dnb-table--no-wrap">
               Header
-            </th>
-            <th
-              scope="col"
-              className="dnb-table--sortable dnb-table--reversed"
-            >
+            </Th>
+            <Th scope="col" reversed sortable>
               <Button
                 variant="tertiary"
                 icon="arrow-down"
@@ -130,12 +121,8 @@ export const BasicTable = () => {
                 title="Sort table column"
                 wrap="true"
               />
-            </th>
-            <th
-              scope="col"
-              align="right"
-              className="dnb-table--sortable dnb-table--active"
-            >
+            </Th>
+            <Th scope="col" align="right" active sortable>
               <Button
                 variant="tertiary"
                 icon="arrow-down"
@@ -143,35 +130,35 @@ export const BasicTable = () => {
                 title="Sort table column"
                 wrap="true"
               />
-            </th>
-          </tr>
+            </Th>
+          </Tr>
         </thead>
         <tbody>
-          <tr>
-            <td>
+          <Tr>
+            <Td>
               <p className="dnb-p">
                 Column 1 <b>width p</b>
               </p>
-            </td>
-            <td>
+            </Td>
+            <Td>
               <code className="dnb-code">Column 2 with code</code>
-            </td>
-            <td>
+            </Td>
+            <Td>
               <span>Column 3 with span</span>
-            </td>
-            <td align="right">Column 4</td>
-          </tr>
-          <tr>
-            <td colSpan={2}>Column which spans over two columns</td>
-            <td>Column 3</td>
-            <td align="right">Column 4</td>
-          </tr>
-          <tr>
-            <td>Column 1</td>
-            <td>Column 2</td>
-            <td>Column 3</td>
-            <td align="right">Column 4</td>
-          </tr>
+            </Td>
+            <Td align="right">Column 4</Td>
+          </Tr>
+          <Tr>
+            <Td colSpan={2}>Column which spans over two columns</Td>
+            <Td>Column 3</Td>
+            <Td align="right">Column 4</Td>
+          </Tr>
+          <Tr>
+            <Td>Column 1</Td>
+            <Td>Column 2</Td>
+            <Td>Column 3</Td>
+            <Td align="right">Column 4</Td>
+          </Tr>
         </tbody>
       </Table>
     </Provider>
