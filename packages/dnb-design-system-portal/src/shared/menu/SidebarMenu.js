@@ -8,13 +8,11 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Link from '../parts/Link'
 import { StaticQuery, graphql } from 'gatsby'
-import { css, Global } from '@emotion/react'
-import styled from '@emotion/styled'
 import { resetLevels } from '@dnb/eufemia/src/components/Heading'
 import Context from '@dnb/eufemia/src/shared/Context'
 import { SidebarMenuContext } from './SidebarMenuContext'
 import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
-import { Icon } from '@dnb/eufemia/src/components'
+import { Space, Icon } from '@dnb/eufemia/src/components'
 import { MediaQuery } from '@dnb/eufemia/src/shared'
 import graphics from './SidebarGraphics'
 import keycode from 'keycode'
@@ -23,291 +21,7 @@ import {
   applyPageFocus,
 } from '@dnb/eufemia/src/shared/helpers'
 import PortalToolsMenu from './PortalToolsMenu'
-
-const StyledListItem = styled.li`
-  list-style: none;
-  margin: 0;
-
-  .dnb-anchor {
-    position: relative;
-    padding: 0;
-    height: 2.5rem;
-
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-
-    transform: translateY(1px);
-    color: var(--color-emerald-green);
-    background-color: inherit;
-    font-size: inherit;
-
-    &:hover {
-      color: var(--color-black);
-      background-color: transparent;
-    }
-  }
-
-  .show-mobile-menu & {
-    opacity: 0.3;
-    animation: show-mobile-menu 600ms cubic-bezier(0.19, 1, 0.22, 1) 1
-      var(--delay) forwards;
-  }
-  .hide-mobile-menu & {
-    opacity: 1;
-    animation: hide-mobile-menu 300ms cubic-bezier(0.19, 1, 0.22, 1) 1
-      calc(10ms - var(--delay)) forwards;
-  }
-
-  &:first-of-type {
-    margin-bottom: 1rem;
-    font-size: var(--font-size-large);
-    background-color: transparent;
-  }
-
-  html:not([dev-grid]) & {
-    background-color: var(--color-white);
-  }
-
-  &.l-1 .dnb-anchor {
-    margin-left: var(--level-icon-adjust);
-    padding-left: calc(var(--level-offset) + var(--level) * 2);
-    height: 4rem;
-    color: var(--color-ocean-green);
-    font-weight: var(--font-weight-medium);
-    font-size: var(--font-size-large);
-  }
-  &.l-2 {
-    .dnb-anchor {
-      padding-left: calc(var(--level-offset) + var(--level) * 2);
-      height: 3.5rem;
-
-      .dnb-icon {
-        margin-right: 1rem;
-        margin-left: var(--level-icon-adjust);
-        color: var(--color-black-80);
-      }
-    }
-    &.is-inside {
-      html:not([dev-grid]) & {
-        background-color: var(--color-mint-green-12);
-      }
-      font-weight: var(--font-weight-medium);
-    }
-  }
-
-  &.l-3 {
-    font-size: var(--font-size-small); /* small size */
-    .dnb-anchor {
-      padding-left: calc(var(--level-offset) + var(--level) * 3);
-    }
-    &.is-inside {
-      html:not([dev-grid]) & {
-        background-color: var(--color-sea-green-30);
-      }
-      font-weight: var(--font-weight-medium);
-    }
-  }
-
-  &.l-4 .dnb-anchor {
-    padding-left: calc(var(--level-offset) + var(--level) * 4);
-  }
-  &.l-5 .dnb-anchor {
-    padding-left: calc(var(--level-offset) + var(--level) * 5);
-  }
-  &.l-6 .dnb-anchor {
-    padding-left: calc(var(--level-offset) + var(--level) * 6);
-  }
-
-  &.l-4,
-  &.l-5,
-  &.l-6 {
-    font-size: var(--font-size-small); /* small size */
-    &.is-inside {
-      html:not([dev-grid]) & {
-        background-color: var(--color-mint-green-12);
-      }
-    }
-  }
-
-  &.l-1,
-  &.l-2,
-  &.l-3,
-  &.l-4,
-  &.l-5,
-  &.l-6 {
-    &.is-active {
-      html:not([dev-grid]) & {
-        background-color: var(--color-mint-green-50);
-      }
-    }
-  }
-
-  .dnb-anchor:focus:not(:active) {
-    color: var(--color-white);
-    svg {
-      color: var(--color-white);
-    }
-    background-color: var(--color-emerald-green);
-  }
-
-  @keyframes show-mobile-menu {
-    0% {
-      opacity: 0.3;
-      transform: translate3d(0, -20%, 0);
-    }
-    40% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 1;
-      transform: translate3d(0, 0, 0);
-    }
-  }
-
-  @keyframes hide-mobile-menu {
-    0% {
-      opacity: 1;
-      transform: translate3d(0, 0, 0);
-    }
-    60% {
-      opacity: 0.5;
-      transform: translate3d(0, 0, 0);
-    }
-    100% {
-      opacity: 0.3;
-      transform: translate3d(0, -20%, 0);
-    }
-  }
-
-  .status-badge {
-    margin-right: 1rem;
-
-    display: flex;
-    justify-content: center;
-    align-items: baseline; /* then we can set line-height */
-
-    font-size: 0.4375rem; /* safari handles rem value incorrectly */
-    line-height: 1.3125rem; /* same as height + 1px */
-    font-weight: var(--font-weight-basis);
-    text-align: center;
-    text-transform: uppercase;
-    color: var(--color-black);
-
-    /* bg */
-    height: 1.25rem;
-    width: 1.25rem;
-    border-radius: 50%;
-
-    background-color: var(--color-mint-green-25);
-    &::after {
-      content: '';
-      position: absolute;
-      z-index: 1;
-    }
-  }
-  &.status-dep .status-badge {
-    color: var(--color-black-80);
-    background-color: var(--color-fire-red-8);
-  }
-  &.status-new .status-badge {
-    color: var(--color-sea-green);
-    background-color: transparent;
-  }
-  &.status-beta .status-badge {
-    color: var(--color-fire-red);
-    background-color: transparent;
-  }
-  &.status-imp .status-badge {
-    background-color: var(--color-black);
-    color: var(--color-white);
-  }
-`
-
-const Navigation = styled.nav`
-  position: fixed;
-
-  /* 
-  We use this to make header appear "over" content and sidebar
-  Lower than styled.main and header
-  */
-  z-index: 1;
-
-  /* height of StickyMenuBar */
-  height: calc(100vh - 4rem);
-  margin: 4rem 0 0;
-
-  /* make the sidebar scrollable */
-  overflow-x: hidden;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  -ms-overflow-style: none;
-
-  /* make the sidemenu accessible for screen readers on mobile devices  */
-  @media screen and (max-width: 50em) {
-    position: relative;
-    height: auto;
-    overflow: auto;
-  }
-
-  background-color: var(--color-white);
-
-  ul {
-    /* some air we need */
-    padding: 2rem 0 1rem;
-
-    /* has to be the same value as margin-left */
-    width: 30vw;
-    width: var(--aside-width);
-  }
-
-  /*
-    God for a mobile menu instead
-    make sure that Content main "styled.main" gets the same max-width
-  */
-  @media screen and (max-width: 50em) {
-    &:not(.show-mobile-menu) {
-      display: none;
-    }
-  }
-
-  @media screen and (max-width: 50em) {
-    position: relative;
-    ul {
-      width: 100vw;
-      max-height: none;
-      overflow-y: visible;
-    }
-  }
-
-  .main-menu-toggle {
-    margin-left: var(--level-offset);
-
-    .dnb-icon:nth-of-type(1) {
-      color: var(--color-sea-green);
-      margin-right: 0.5rem;
-
-      &.dnb-icon--small {
-        margin-left: 0.5rem;
-      }
-    }
-
-    &.dnb-button__text {
-      color: var(--color-sea-green);
-    }
-    &.dnb-button:hover {
-      color: var(--color-black);
-      .dnb-button__text,
-      .dnb-icon {
-        color: inherit;
-      }
-    }
-
-    margin-top: 1rem;
-    margin-bottom: 2rem;
-  }
-`
+import { navStyle } from './SidebarMenu.module.scss'
 
 const showAlwaysMenuItems = [] // like "uilib" something like that
 
@@ -330,6 +44,21 @@ export default class SidebarLayout extends React.PureComponent {
   componentDidMount() {
     if (typeof document !== 'undefined') {
       document.addEventListener('keydown', this.handleKeyDown)
+    }
+  }
+
+  componentDidUpdate() {
+    const { isOpen, isClosing } = this.context
+
+    if (isOpen && !isClosing) {
+      setTimeout(() => {
+        this.scrollToActiveItem()
+        applyPageFocus('sidebar')
+      }, 300) // after animation is done
+    } else if (isClosing) {
+      setTimeout(() => {
+        applyPageFocus('content')
+      }, 300) // after animation is done - to make sure we can get the focus on h1
     }
   }
 
@@ -362,10 +91,11 @@ export default class SidebarLayout extends React.PureComponent {
   }
 
   handleKeyDown = (e) => {
+    const { isOpen, toggleMenu } = this.context
     switch (keycode(e)) {
       case 'esc':
-        if (this.isOpen) {
-          this.toggleMenu()
+        if (isOpen) {
+          toggleMenu()
         }
         break
     }
@@ -376,34 +106,6 @@ export default class SidebarLayout extends React.PureComponent {
 
     return (
       <>
-        <Global
-          styles={css`
-            :root {
-              --level-offset: 3vw;
-              @media screen and (max-width: 50em) {
-                --level-offset: 2rem;
-              }
-
-              --delay: 0; /* polyfill fallback */
-
-              /* stylelint-disable */
-              --aside-width: 30vw; /* IE fix */
-              --aside-width: var(
-                --aside-width-fullscreen,
-                calc(25vw + 5rem)
-              );
-              /* stylelint-enable */
-
-              /* 2.5rem - but we don't want it to be responsive */
-              --level-icon-adjust: -40px;
-              --level: 2vw;
-
-              @media screen and (max-width: 50em) {
-                --level: 1.3rem;
-              }
-            }
-          `}
-        />
         <StaticQuery
           query={graphql`
             query {
@@ -530,26 +232,14 @@ export default class SidebarLayout extends React.PureComponent {
                 }
               )
 
-            const { isOpen, isClosing, toggleMenu } = this.context
-
-            this.isOpen = isOpen
-            this.toggleMenu = toggleMenu
-            if (isOpen && !isClosing) {
-              setTimeout(() => {
-                this.scrollToActiveItem()
-                applyPageFocus('sidebar')
-              }, 300) // after animation is done
-            } else if (isClosing) {
-              setTimeout(() => {
-                applyPageFocus('content')
-              }, 300) // after animation is done - to make sure we can get the focus on h1
-            }
+            const { isOpen, isClosing } = this.context
 
             return (
-              <Navigation
+              <nav
                 id="portal-sidebar-menu"
                 aria-labelledby="toggle-sidebar-menu"
                 className={classnames(
+                  navStyle,
                   'dnb-scrollbar-appearance',
                   isOpen && 'show-mobile-menu',
                   isClosing && 'hide-mobile-menu'
@@ -557,26 +247,17 @@ export default class SidebarLayout extends React.PureComponent {
                 ref={this._scrollRef}
               >
                 <MediaQuery when={{ min: 0, max: 'medium' }}>
-                  <PortalToolsMenu
-                    trigger_text="Portal Tools"
-                    trigger_icon="chevron_right"
-                    trigger_icon_position="right"
-                    tooltipPosition="bottom"
-                    left="large"
-                    top="large"
-                  />
+                  <Space left="large" top="large">
+                    <PortalToolsMenu
+                      trigger_text="Portal Tools"
+                      trigger_icon="chevron_right"
+                      trigger_icon_position="right"
+                      tooltipPosition="bottom"
+                    />
+                  </Space>
                 </MediaQuery>
                 <ul className="dev-grid">{nav}</ul>
-                {isOpen && (
-                  <Global
-                    styles={css`
-                      .dnb-app-content {
-                        display: none !important;
-                      }
-                    `}
-                  />
-                )}
-              </Navigation>
+              </nav>
             )
           }}
         />
@@ -651,8 +332,9 @@ class ListItem extends React.PureComponent {
     }
 
     return (
-      <StyledListItem
+      <li
         className={classnames(
+          'dnb-sidebar-menu',
           `l-${level}`,
           active && 'is-active', // use anchor hover style
           inside && 'is-inside',
@@ -704,7 +386,7 @@ class ListItem extends React.PureComponent {
             </span>
           )}
         </Link>
-      </StyledListItem>
+      </li>
     )
   }
 }

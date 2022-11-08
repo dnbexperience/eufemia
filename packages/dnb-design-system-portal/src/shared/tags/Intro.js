@@ -6,12 +6,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { navigate } from 'gatsby'
-import styled from '@emotion/styled'
-import {
-  Link,
-  // Hr
-} from '@dnb/eufemia/src/elements'
+import { Link } from '@dnb/eufemia/src/elements'
 import { Button, Space } from '@dnb/eufemia/src/components'
+import { wrapperStyle, innerStyle, footerStyle } from './Intro.module.scss'
 
 const ref = React.createRef()
 const Intro = ({ children }) => {
@@ -43,9 +40,11 @@ const Intro = ({ children }) => {
     }
   }, [])
   return (
-    <Wrapper>
-      <Inner ref={ref}>{children}</Inner>
-    </Wrapper>
+    <div className={wrapperStyle}>
+      <div ref={ref} className={innerStyle}>
+        {children}
+      </div>
+    </div>
   )
 }
 Intro.propTypes = {
@@ -54,7 +53,7 @@ Intro.propTypes = {
 Intro.defaultProps = {}
 
 export const IntroFooter = ({ href, text }) => (
-  <Footer top no_collapse>
+  <Space top no_collapse className={footerStyle}>
     <Button href={href} text={text} icon="chevron_right" />
     <Button
       href="/uilib/getting-started"
@@ -63,7 +62,7 @@ export const IntroFooter = ({ href, text }) => (
       icon="close"
       icon_position="left"
     />
-  </Footer>
+  </Space>
 )
 IntroFooter.propTypes = {
   href: PropTypes.string.isRequired,
@@ -71,36 +70,6 @@ IntroFooter.propTypes = {
 }
 IntroFooter.defaultProps = {}
 
-const Footer = styled(Space)`
-  display: flex;
-  justify-content: space-between;
-`
-
-const Wrapper = styled.div`
-  margin: 10vh 10vw;
-
-  .dnb-spacing & blockquote h2 {
-    margin: 0.5rem 1rem 0 0;
-  }
-
-  ${
-    '' /* a[href*='/intro/'] {
-    display: block;
-    color: red;
-  } */
-  }
-  ${
-    '' /* .dnb-hr:last-of-type {
-    color: red;
-  } */
-  }
-`
-const Inner = styled.div`
-  ${'' /* transform: scale(1.2); */}
-  margin-bottom: 4rem;
-  width: 70vw;
-  min-height: 50vh;
-`
 export const Next = (props) => (
   <>
     {/* <Hr /> */}

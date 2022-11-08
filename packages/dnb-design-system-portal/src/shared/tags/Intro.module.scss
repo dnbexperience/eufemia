@@ -1,0 +1,20 @@
+.footerStyle {
+  display: flex;
+  justify-content: space-between;
+}
+
+.wrapperStyle {
+  margin: 10vh 10vw;
+
+  :global {
+    .dnb-spacing & blockquote h2 {
+      margin: 0.5rem 1rem 0 0;
+    }
+  }
+}
+
+.innerStyle {
+  margin-bottom: 4rem;
+  width: 70vw;
+  min-height: 50vh;
+}

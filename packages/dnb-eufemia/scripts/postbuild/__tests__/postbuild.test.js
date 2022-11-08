@@ -101,11 +101,11 @@ describe('babel build', () => {
         return filePath.replace('packages/dnb-eufemia/', '')
       })
       .forEach((filePath) => {
-        const content = fs.readFileSync(
-          path.resolve(process.cwd(), filePath),
-          'utf-8'
-        )
-        expect(content).not.toMatch(/.*import.*(\/src\/)/)
+        const absolutePath = path.resolve(process.cwd(), filePath)
+        if (fs.existsSync(absolutePath)) {
+          const content = fs.readFileSync(absolutePath, 'utf-8')
+          expect(content).not.toMatch(/.*import.*(\/src\/)/)
+        }
       })
   })
 

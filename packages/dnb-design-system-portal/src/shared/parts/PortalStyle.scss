@@ -1,0 +1,95 @@
+@import '@dnb/eufemia/src/style/core/utilities.scss';
+@import './PortalStyle.mixins.scss';
+
+body,
+body #___gatsby,
+body #gatsby-focus-wrapper {
+  height: 100%;
+}
+
+@include allAbove(small) {
+  html {
+    height: 100%;
+  }
+}
+
+.home-background {
+  height: 100%;
+  background-color: var(--color-emerald-green);
+}
+
+#gatsby-noscript {
+  position: absolute;
+  z-index: 5000;
+  top: 0;
+  color: black;
+  background-color: white;
+}
+
+.dnb-live-preview p.dnb-p {
+  &:not([class*='dnb-space__bottom']) {
+    margin-bottom: 0;
+  }
+}
+
+/*
+Make sure we cut the tab and section parts on the left side
+so it's not visible "over" the sidebar.
+*/
+.dnb-app-content {
+  overflow: hidden;
+}
+
+main > .dnb-global-status {
+  transform: translateY(-2rem);
+}
+
+html[show-dev-grid] .dev-grid > .dnb-h--xx-large {
+  position: relative;
+  z-index: 2;
+}
+html[show-dev-grid] .dev-grid {
+  @include gridStyle(rgb(220, 220, 220), 0.8);
+
+  /* stylelint-disable no-descending-specificity */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  p > a,
+  p > code,
+  p > small {
+    background-color: rgba(255, 255, 122, 0.35);
+    :only-child {
+      background-color: rgba(0, 200, 200, 0.25);
+    }
+  }
+  /* stylelint-enable */
+}
+
+.margin-bottom {
+  margin-bottom: 2rem;
+}
+
+/* used in the designers guide */
+.lh-12 {
+  line-height: calc(var(--line-height-basis) - 0.25rem); /* 0.75rem */
+}
+.lh-16 {
+  line-height: var(--line-height-basis); /* 1rem */
+}
+.lh-20 {
+  line-height: calc(var(--line-height-basis) + 0.25rem); /* 1.25rem */
+}
+.lh-24 {
+  line-height: var(--line-height-basis); /* 1rem */
+}
+.lh-28 {
+  line-height: calc(var(--line-height-basis) + 0.75rem); /* 1.75rem */
+}
+.lh-32 {
+  line-height: calc(var(--line-height-basis) + 1rem); /* 2rem */
+}

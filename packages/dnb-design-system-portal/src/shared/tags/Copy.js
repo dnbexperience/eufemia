@@ -6,7 +6,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import styled from '@emotion/styled'
 import { IS_IOS, hasSelectedText } from '@dnb/eufemia/src/shared/helpers'
 import {
   convertJsxToString,
@@ -14,13 +13,10 @@ import {
 } from '@dnb/eufemia/src/shared/component-helper'
 import { runIOSSelectionFix } from '@dnb/eufemia/src/components/NumberFormat'
 import { useCopyWithNotice } from '@dnb/eufemia/src/components/number-format/NumberUtils'
+import { copyStyle } from './Copy.module.scss'
 
 // we may use this one, but for now, we just keep the build in mdx support
 // import ReactMarkdown from 'react-markdown'
-
-const StyledSpan = styled.span`
-  cursor: copy;
-`
 
 let hasiOSFix = false
 
@@ -63,14 +59,14 @@ const Copy = ({ children, className, ...rest }) => {
   }
 
   return (
-    <StyledSpan
-      className={classnames('dnb-copy', className)}
+    <span
+      className={classnames('dnb-copy', copyStyle, className)}
       ref={ref}
       {...rest}
       {...params}
     >
       {children}
-    </StyledSpan>
+    </span>
   )
 }
 Copy.propTypes = {

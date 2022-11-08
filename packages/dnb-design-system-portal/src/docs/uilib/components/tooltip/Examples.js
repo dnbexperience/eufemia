@@ -15,7 +15,7 @@ export const TooltipExampleDefault = () => (
 )
 
 export const TooltipExampleActive = () => (
-  <ComponentBox data-visual-test="tooltip-active">
+  <ComponentBox>
     {`
 <Button tooltip={<Tooltip active>Tooltip</Tooltip>} text="Active" />
 `}
@@ -32,12 +32,13 @@ export const TooltipExampleLinked = () => (
 )
 
 export const TooltipExampleAnimation = () => (
-  <ComponentBox>
+  <ComponentBox data-visual-test="tooltip-large">
     {`
 <Tooltip
   animatePosition
   group="animatePosition"
   hideDelay={1e3}
+  size="large"
   targetElement={<Span role="text" right>Top</Span>}
 >
   Tooltip 1
@@ -46,7 +47,6 @@ export const TooltipExampleAnimation = () => (
   animatePosition
   group="animatePosition"
   position="bottom"
-  size="large"
   targetElement={<Span role="text">Bottom</Span>}
 >
   Tooltip 2

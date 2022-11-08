@@ -4,31 +4,23 @@
  */
 
 import React from 'react'
-import styled from '@emotion/styled'
+import classnames from 'classnames'
 import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
-import { css } from '@emotion/react'
 import { Button, Icon } from '@dnb/eufemia/src/components'
 import { H2, H4, P, Hr, Code } from '@dnb/eufemia/src/elements'
 import { bell } from '@dnb/eufemia/src/icons'
 import LegacyCodeStylingExample from './assets/legacy-code-styling-example.png'
-import PortalStyle, {
-  gridStyle,
-} from 'dnb-design-system-portal/src/shared/parts/PortalStyle'
+import {
+  ShowPixelBounding,
+  LegacyCodeExample,
+  CoreStyleExample,
+  SpacingExample,
+} from './legacy-styling.module.scss'
+import { portalStyle } from '../../../../../shared/parts/Layout.module.scss'
 
 const LegacyCodeStyling = () => (
-  <div
-    className="dnb-core-style"
-    css={[
-      PortalStyle,
-      css`
-        .dnb-dev-grid {
-          z-index: 1;
-          ${gridStyle({ rgb: '220, 220, 220', a: 0.8 })};
-        }
-      `,
-    ]}
-  >
-    <LegacyCodeExample>
+  <div className={classnames(portalStyle, 'dnb-core-style')}>
+    <article className={LegacyCodeExample}>
       <h1>Example usage</h1>
       <p>
         Further down on this page You find visual examples of how to deal
@@ -49,9 +41,15 @@ const LegacyCodeStyling = () => (
         caption="Screenshot of how the first example would look like"
         size="auto"
       />
-    </LegacyCodeExample>
+    </article>
     {/* Use of core style reset */}
-    <CoreStyleExample className="dnb-core-style dnb-dev-grid">
+    <article
+      className={classnames(
+        CoreStyleExample,
+        'dnb-core-style',
+        'dnb-dev-grid'
+      )}
+    >
       <Code>{'<div class="dnb-core-style">'}</Code>
       <H4>
         I'm using the Eufemia CSS reset, so I'm <b>1.5rem</b> high!{' '}
@@ -64,11 +62,18 @@ const LegacyCodeStyling = () => (
       <br />
       <br />
       <Code>{'</div>'}</Code>
-      <ShowPixelBounding>I'm still on the Pixel Grid</ShowPixelBounding>
-    </CoreStyleExample>
+      <P className={ShowPixelBounding}>I'm still on the Pixel Grid</P>
+    </article>
 
     {/* Use of spacing */}
-    <SpacingExample className="dnb-core-style dnb-spacing dnb-dev-grid">
+    <article
+      className={classnames(
+        SpacingExample,
+        'dnb-core-style',
+        'dnb-spacing',
+        'dnb-dev-grid'
+      )}
+    >
       <Code>{'<div class="dnb-core-style dnb-spacing">'}</Code>
       <H2>
         I'm a <Code>{`<h2>`}</Code> in an Article, and have the default
@@ -91,40 +96,9 @@ const LegacyCodeStyling = () => (
       <br />
       <br />
       <Code>{'</div>'}</Code>
-      <ShowPixelBounding>I'm still on the Pixel Grid</ShowPixelBounding>
-    </SpacingExample>
+      <P className={ShowPixelBounding}>I'm still on the Pixel Grid</P>
+    </article>
   </div>
 )
 
 export default LegacyCodeStyling
-
-const ShowPixelBounding = styled(P)`
-  .dnb-core-style & {
-    margin-top: 3rem;
-  }
-  color: var(--color-sky-blue);
-  background-color: rgba(164, 255, 255, 0.3);
-`
-const LegacyCodeExample = styled.article`
-  padding: 3rem 2rem 4rem;
-  background-color: var(--color-mint-green-12);
-`
-const CoreStyleExample = styled.article`
-  margin: 0;
-  padding: 3rem 2rem 4rem;
-  background-color: var(--color-sea-green-30);
-  code:first-of-type,
-  code:last-of-type {
-    margin-bottom: 1rem;
-  }
-  .show-pixel-bounding {
-    background-color: rgba(255, 255, 255, 0.5);
-  }
-`
-const SpacingExample = styled.article`
-  padding: 3rem 2rem 4rem;
-  background-color: var(--color-mint-green-50);
-  .show-pixel-bounding {
-    background-color: rgba(255, 255, 255, 0.5);
-  }
-`

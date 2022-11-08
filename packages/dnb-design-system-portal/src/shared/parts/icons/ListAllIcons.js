@@ -11,8 +11,12 @@ import * as SecondaryIcons from '@dnb/eufemia/src/icons/secondary_icons'
 import * as PrimaryIconsMedium from '@dnb/eufemia/src/icons/primary_icons_medium'
 import * as SecondaryIconsMedium from '@dnb/eufemia/src/icons/secondary_icons_medium'
 import iconsMetaData from '@dnb/eufemia/src/icons/icons-meta.json'
-import styled from '@emotion/styled'
 import AutoLinkHeader from '../../tags/AutoLinkHeader'
+import {
+  listStyle,
+  listItemStyle,
+  listItemInnerStyle,
+} from './ListAllIcons.module.scss'
 
 export const getListOfIcons = (icons) => {
   return Object.entries(icons)
@@ -97,8 +101,8 @@ export default class ListAllIcons extends React.PureComponent {
       })
 
       return (
-        <ListItem key={iconName}>
-          <ListItemInner>
+        <li key={iconName} className={listItemStyle}>
+          <div className={listItemInnerStyle}>
             <figure aria-labelledby={`icon-${iconName}`} aria-hidden>
               {(SvgMedium && <Icon icon={SvgMedium} size="medium" />) || (
                 <Icon icon={Svg} />
@@ -115,8 +119,8 @@ export default class ListAllIcons extends React.PureComponent {
             </AutoLinkHeader>
 
             <P>{tags.length > 0 ? tags.join(', ') : '(no tags)'}</P>
-          </ListItemInner>
-        </ListItem>
+          </div>
+        </li>
       )
     })
   }
@@ -133,64 +137,16 @@ export default class ListAllIcons extends React.PureComponent {
             <AutoLinkHeader level={2} size="large" useSlug={categoryName}>
               {categoryName}
             </AutoLinkHeader>
-            <List>{this.renderListItem(icons)}</List>
+            <ul className={listStyle}>{this.renderListItem(icons)}</ul>
           </React.Fragment>
         )
       )
     } else {
-      return <List>{this.renderListItem(this.state.iconsToRender)}</List>
+      return (
+        <ul className={listStyle}>
+          {this.renderListItem(this.state.iconsToRender)}
+        </ul>
+      )
     }
   }
 }
-
-const List = styled.ul`
-  list-style: none;
-
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  align-items: flex-end;
-
-  padding: 0;
-  margin: 0;
-`
-
-const ListItemInner = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-flow: column wrap;
-  align-content: center;
-  text-align: center;
-
-  padding: 0.5rem 0;
-
-  figure {
-    margin: 2rem;
-  }
-
-  .dnb-h--medium,
-  .dnb-spacing & .dnb-h--medium {
-    margin: 0;
-    white-space: nowrap;
-  }
-  .dnb-p,
-  .dnb-spacing & .dnb-p {
-    margin: 0;
-    padding: 0;
-  }
-
-  .dnb-icon {
-    :hover {
-      color: var(--color-sea-green);
-    }
-  }
-`
-
-const ListItem = styled.li`
-  flex: 1 1 15rem;
-  margin: 0.5rem;
-
-  border-radius: 0.25rem;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
-`
