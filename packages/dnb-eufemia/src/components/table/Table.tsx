@@ -53,6 +53,12 @@ export interface TableProps extends StickyTableHeaderProps {
    * Default: generic.
    */
   variant?: TableVariants
+
+  /**
+   * Defines if the table should behave with a fixed table layout, using: "table-layout: fixed;"
+   * Default: null.
+   */
+  fixed?: boolean
 }
 
 export const defaultProps = {
@@ -84,6 +90,7 @@ const Table = (
     variant,
     sticky,
     stickyOffset, // eslint-disable-line
+    fixed,
     ...props
   } = allProps
 
@@ -112,6 +119,7 @@ const Table = (
             variant && `dnb-table__variant--${variant}`,
             size && `dnb-table__size--${size}`,
             sticky && `dnb-table--sticky`,
+            fixed && `dnb-table--fixed`,
             spacingClasses,
             skeletonClasses,
             className
