@@ -5,11 +5,11 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { css } from '@emotion/react'
 import { Link, navigate } from 'gatsby'
 import { Button, Tabs } from '@dnb/eufemia/src/components'
 import { fullscreen as fullscreenIcon } from '@dnb/eufemia/src/icons/secondary_icons'
 import AutoLinkHeader from './AutoLinkHeader'
+import { tabsWrapperStyle } from './Tabbar.module.scss'
 
 export default function Tabbar({
   location,
@@ -97,7 +97,7 @@ export default function Tabbar({
         }}
         render={({ Wrapper, Content, TabsList, Tabs }) => {
           return (
-            <Wrapper css={tabsWrapperStyle}>
+            <Wrapper className={tabsWrapperStyle}>
               <TabsList>
                 <Tabs />
                 {wasFullscreen ? (
@@ -152,38 +152,3 @@ Tabbar.defaultProps = {
 Tabbar.ContentWrapper = (props) => (
   <Tabs.ContentWrapper id="tabbar" content_spacing={false} {...props} />
 )
-
-const tabsWrapperStyle = css`
-  .dnb-tabs__tabs {
-    justify-content: space-between;
-  }
-  .dnb-tabs__tabs .dnb-modal__close-button {
-    position: relative;
-    top: auto; /* to force the button to center */
-    right: auto;
-  }
-  .dnb-tabs__tabs .dnb-button.dnb-modal__close-button,
-  .dnb-tabs__tabs .dnb-button.fullscreen {
-    margin-left: 1rem;
-  }
-  .dnb-tabs__tabs .dnb-button--secondary {
-    box-shadow: none;
-    background-color: transparent;
-  }
-
-  @media screen and (max-width: 40em) {
-    .fullscreen-page & {
-      top: 0;
-
-      /*
-        Will align the tabbar to the browser edges 
-        .dnb-tabs__tabs.dnb-tabs--has-scrollbar {
-          margin: 0 -2rem;
-        }
-      */
-    }
-    .dnb-tabs__tabs .dnb-button.fullscreen {
-      display: none;
-    }
-  }
-`

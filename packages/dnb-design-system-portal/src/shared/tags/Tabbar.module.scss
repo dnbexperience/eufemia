@@ -1,0 +1,38 @@
+@import '@dnb/eufemia/src/style/core/utilities.scss';
+
+.tabsWrapperStyle {
+  :global {
+    .dnb-tabs__tabs {
+      justify-content: space-between;
+    }
+    .dnb-tabs__tabs .dnb-modal__close-button {
+      position: relative;
+      top: auto; /* to force the button to center */
+      right: auto;
+    }
+    .dnb-tabs__tabs .dnb-button.dnb-modal__close-button,
+    .dnb-tabs__tabs .dnb-button.fullscreen {
+      margin-left: 1rem;
+    }
+    .dnb-tabs__tabs .dnb-button--secondary {
+      box-shadow: none;
+      background-color: transparent;
+    }
+
+    @include allBelow(small) {
+      .fullscreen-page & {
+        top: 0;
+
+        /*
+				Will align the tabbar to the browser edges 
+				.dnb-tabs__tabs.dnb-tabs--has-scrollbar {
+				  margin: 0 -2rem;
+				}
+			  */
+      }
+      .dnb-tabs__tabs .dnb-button.fullscreen {
+        display: none;
+      }
+    }
+  }
+}
