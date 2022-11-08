@@ -3,6 +3,8 @@
 *
 */
 
+@import './_table-sort.scss';
+
 .dnb-table {
   display: table;
   table-layout: auto;
@@ -132,6 +134,8 @@
       -webkit-text-fill-color: var(--skeleton-color);
     }
   }
+
+  @include sortableTable();
 }
 
 // Reset Table spacing

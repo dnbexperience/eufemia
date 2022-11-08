@@ -19,21 +19,15 @@ export const TableVariantBasic = () => (
         Header
       </Th>
       <Th scope="col" sortable reversed>
-        <Button
-          variant="tertiary"
-          icon="arrow-down"
+        <Th.SortButton
           text="Sortable"
           title="Sort table column"
-          wrap="true"
         />
       </Th>
       <Th scope="col" align="right" sortable active>
-        <Button
-          variant="tertiary"
-          icon="arrow-down"
+        <Th.SortButton
           text="Active"
           title="Sort table column"
-          wrap="true"
         />
       </Th>
     </Tr>
@@ -80,21 +74,15 @@ export const TableClassHelpers = () => (
         .dnb-table__th
       </th>
       <th scope="col" className="dnb-table__th dnb-table--sortable dnb-table--reversed">
-        <Button
-          variant="tertiary"
-          icon="arrow-down"
+        <Th.SortButton
           text="dnb-table--reversed"
           title="dnb-table__th dnb-table--sortable dnb-table--reversed"
-          wrap="true"
         />
       </th>
       <th scope="col" className="dnb-table__th dnb-table--sortable dnb-table--active">
-        <Button
-          variant="tertiary"
-          icon="arrow-down"
+        <Th.SortButton
           text="dnb-table--active"
           title="dnb-table__th dnb-table--sortable dnb-table--active"
-          wrap="true"
         />
       </th>
     </tr>
@@ -125,21 +113,15 @@ export const TableLongHeader = () => (
         Static long header senectus ornare convallis ut at  erat imperdiet commodo
       </Th>
       <Th scope="col" className="dnb-table--sortable dnb-table--reversed">
-        <Button
-          variant="tertiary"
-          icon="arrow-down"
+        <Th.SortButton
           text="Sortable long header ridiculus laoreet turpis netus at vitae"
           title="Sort table column"
-          wrap="true"
         />
       </Th>
       <Th scope="col" align="right" className="dnb-table--sortable dnb-table--active">
-        <Button
-          variant="tertiary"
-          icon="arrow-down"
+        <Th.SortButton
           text="Active and right aligned long header ridiculus laoreet turpis netus at vitae"
           title="Sort table column"
-          wrap="true"
         />
       </Th>
     </Tr>
@@ -185,21 +167,15 @@ export const TableSticky = () => (
         Header
       </Th>
       <Th scope="col" className="dnb-table--sortable dnb-table--reversed">
-        <Button
-          variant="tertiary"
-          icon="arrow-down"
+        <Th.SortButton
           text="Sortable"
           title="Sort table column"
-          wrap="true"
         />
       </Th>
       <Th scope="col" className="dnb-table--sortable dnb-table--active">
-        <Button
-          variant="tertiary"
-          icon="arrow-down"
+        <Th.SortButton
           text="Active"
           title="Sort table column"
-          wrap="true"
         />
       </Th>
     </Tr>

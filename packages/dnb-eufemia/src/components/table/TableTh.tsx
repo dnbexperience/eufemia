@@ -1,5 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
+import TableSortButton from './TableSortButton'
 
 export type TableThProps = {
   /**
@@ -32,10 +33,10 @@ export type TableThProps = {
   noWrap?: boolean
 }
 
-const Th = (
+export default function Th(
   componentProps: TableThProps &
     React.ThHTMLAttributes<HTMLTableCellElement>
-) => {
+) {
   const {
     className,
     children,
@@ -64,4 +65,4 @@ const Th = (
   )
 }
 
-export default Th
+Th.SortButton = TableSortButton
