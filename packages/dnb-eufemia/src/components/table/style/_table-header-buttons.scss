@@ -11,7 +11,7 @@
   }
 }
 
-@mixin sortableTable {
+@mixin buttonsInTable {
   // sortable
   & > thead > tr > th#{&}--sortable,
   & &__th#{&}--sortable {
@@ -175,5 +175,12 @@
   & > tbody > tr > th#{&}--no-wrap,
   & &__th#{&}--no-wrap {
     white-space: nowrap;
+  }
+
+  & &__th,
+  & > thead > tr > th {
+    .dnb-table__help-button {
+      margin-left: 0.5rem;
+    }
   }
 }
