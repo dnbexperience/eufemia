@@ -15,20 +15,25 @@ if (!globalThis.ComponentBoxMemo) {
 }
 
 type ComponentBoxProps = {
-  children: string | (() => string)
+  children: React.ReactNode | (() => React.ReactNode)
   scope?: Record<string, unknown>
   hideCode?: boolean
   useRender?: boolean
+
+  /** @deprecated Use "useRender" instead */
+  noInline?: boolean
 }
 
 function ComponentBox(props: ComponentBoxProps) {
   const { children, scope = {}, ...rest } = props
 
-  const content = typeof children === 'function' ? children() : children
-
-  const hash = content
+  const hash = children as string
   if (globalThis.ComponentBoxMemo[hash]) {
     return globalThis.ComponentBoxMemo[hash]
+  }
+
+  if (rest.noInline) {
+    rest.useRender = true
   }
 
   return (globalThis.ComponentBoxMemo[hash] = (
@@ -45,7 +50,7 @@ function ComponentBox(props: ComponentBoxProps) {
       }}
       {...rest}
     >
-      {content}
+      {children}
     </CodeBlock>
   ))
 }
