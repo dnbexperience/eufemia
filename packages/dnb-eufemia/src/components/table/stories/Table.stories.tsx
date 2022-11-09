@@ -28,7 +28,7 @@ export const StickyBasicTable = () => {
       <thead>
         <Tr>
           <Th scope="col" colSpan={2}>
-            Header
+            Header <Th.HelpButton>Help content</Th.HelpButton>
           </Th>
           <Th scope="col" reversed sortable>
             <Th.SortButton text="Sortable" title="Sort table column" />

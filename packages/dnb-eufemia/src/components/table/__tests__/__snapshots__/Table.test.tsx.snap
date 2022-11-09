@@ -440,6 +440,9 @@ thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus
   .dnb-table > tbody > tr > th.dnb-table--no-wrap,
   .dnb-table .dnb-table__th.dnb-table--no-wrap {
     white-space: nowrap; }
+  .dnb-table .dnb-table__th .dnb-table__help-button,
+  .dnb-table > thead > tr > th .dnb-table__help-button {
+    margin-left: 0.5rem; }
 
 .dnb-spacing .dnb-table p,
 .dnb-spacing .dnb-table ul,

@@ -2,6 +2,7 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import TableTh from '../TableTh'
 import TableSortButton from '../TableSortButton'
+import TableHelpButton from '../TableHelpButton'
 
 describe('TableTh', () => {
   it('should contain children content', () => {
@@ -133,7 +134,11 @@ describe('TableTh', () => {
     ])
   })
 
-  it('should have Th.AccordionContent', () => {
+  it('should have Th.SortButton', () => {
     expect(TableTh.SortButton).toBe(TableSortButton)
+  })
+
+  it('should have Th.HelpButton', () => {
+    expect(TableTh.HelpButton).toBe(TableHelpButton)
   })
 })

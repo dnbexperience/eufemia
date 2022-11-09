@@ -17,6 +17,7 @@ export const TableVariantBasic = () => (
     <Tr>
       <Th scope="col" colSpan={2} noWrap>
         Header
+        <Th.HelpButton>Help Content</Th.HelpButton>
       </Th>
       <Th scope="col" sortable reversed>
         <Th.SortButton
@@ -112,13 +113,13 @@ export const TableLongHeader = () => (
       <Th scope="col" colSpan="2">
         Static long header senectus ornare convallis ut at  erat imperdiet commodo
       </Th>
-      <Th scope="col" className="dnb-table--sortable dnb-table--reversed">
+      <Th scope="col" sortable reversed>
         <Th.SortButton
           text="Sortable long header ridiculus laoreet turpis netus at vitae"
           title="Sort table column"
         />
       </Th>
-      <Th scope="col" align="right" className="dnb-table--sortable dnb-table--active">
+      <Th scope="col" align="right" sortable active>
         <Th.SortButton
           text="Active and right aligned long header ridiculus laoreet turpis netus at vitae"
           title="Sort table column"
@@ -166,13 +167,13 @@ export const TableSticky = () => (
       <Th scope="col" colSpan="2">
         Header
       </Th>
-      <Th scope="col" className="dnb-table--sortable dnb-table--reversed">
+      <Th scope="col" sortable reversed>
         <Th.SortButton
           text="Sortable"
           title="Sort table column"
         />
       </Th>
-      <Th scope="col" className="dnb-table--sortable dnb-table--active">
+      <Th scope="col" sortable active>
         <Th.SortButton
           text="Active"
           title="Sort table column"
@@ -200,11 +201,11 @@ export const TableSticky = () => (
       </Td>
       <Td>Column 4</Td>
     </Tr>
-    <tr id="scroll-to-tr-id">
+    <Tr id="scroll-to-tr-id">
       <Td colSpan="2">Column which spans over two columns</Td>
       <Td>Column 3</Td>
       <Td>Column 4</Td>
-    </tr>
+    </Tr>
     <Tr>
       <Td>Column 1</Td>
       <Td>Column 2</Td>

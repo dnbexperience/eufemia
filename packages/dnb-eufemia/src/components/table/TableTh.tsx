@@ -1,13 +1,14 @@
 import React from 'react'
 import classnames from 'classnames'
 import TableSortButton from './TableSortButton'
+import TableHelpButton from './TableHelpButton'
+
+export type TableThChildren =
+  | React.ReactNode
+  | ReturnType<typeof TableSortButton>
+  | ReturnType<typeof TableHelpButton>
 
 export type TableThProps = {
-  /**
-   * The content of the table header given as Tr.
-   */
-  children: React.ReactNode
-
   /**
    * Defines the table header as sortable
    * Default: false
@@ -31,6 +32,11 @@ export type TableThProps = {
    * Default: false
    */
   noWrap?: boolean
+
+  /**
+   * The content of the table header given as Tr.
+   */
+  children: TableThChildren | Array<TableThChildren>
 }
 
 export default function Th(
@@ -66,3 +72,4 @@ export default function Th(
 }
 
 Th.SortButton = TableSortButton
+Th.HelpButton = TableHelpButton
