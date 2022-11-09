@@ -3,7 +3,7 @@
 *
 */
 
-@import './_table-sort.scss';
+@import './_table-header-buttons.scss';
 
 .dnb-table {
   display: table;
@@ -142,7 +142,7 @@
     }
   }
 
-  @include sortableTable();
+  @include buttonsInTable();
 }
 
 // Reset Table spacing
