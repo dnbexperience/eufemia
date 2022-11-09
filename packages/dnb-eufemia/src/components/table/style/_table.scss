@@ -28,6 +28,7 @@
     height: 0;
   }
 
+  // deprecated – can be removed in v10
   &,
   &--left {
     text-align: left;
@@ -79,6 +80,7 @@
 
   /* stylelint-disable */
 
+  // deprecated – can be removed in v10
   &--small,
   &--small > tr > th,
   &--small > tr > td,
@@ -87,6 +89,7 @@
     font-size: var(--font-size-small);
   }
 
+  // deprecated – can be removed in v10
   & > tr#{&}--small > th,
   & > tr#{&}--small > td,
   & > thead > tr#{&}--small > th,
@@ -94,6 +97,7 @@
     font-size: var(--font-size-small);
   }
 
+  // deprecated – can be removed in v10
   & > tr > th#{&}--small,
   & > tr > td#{&}--small,
   & > thead > tr > th#{&}--small,
@@ -103,6 +107,7 @@
     font-size: var(--font-size-small);
   }
 
+  // deprecated – can be removed in v10
   &--x-small,
   &--x-small > tr > th,
   &--x-small > tr > td,
@@ -111,6 +116,7 @@
     font-size: var(--font-size-x-small);
   }
 
+  // deprecated – can be removed in v10
   & > tr#{&}--x-small > th,
   & > tr#{&}--x-small > td,
   & > thead > tr#{&}--x-small > th,
@@ -118,6 +124,7 @@
     font-size: var(--font-size-x-small);
   }
 
+  // deprecated – can be removed in v10
   & > tr > th#{&}--x-small,
   & > tr > td#{&}--x-small,
   & > thead > tr > th#{&}--x-small,

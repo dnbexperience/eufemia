@@ -32,8 +32,8 @@ exports[`Table scss have to match default theme snapshot 1`] = `
     color: var(--color-black);
     vertical-align: bottom;
     background-color: var(--color-white); }
-    .dnb-table > tr > th:not([align]):not(.dnb-table--left):not(.dnb-table--right):not(.dnb-table--center),
-    .dnb-table > thead > tr > th:not([align]):not(.dnb-table--left):not(.dnb-table--right):not(.dnb-table--center), .dnb-table__th:not([align]):not(.dnb-table--left):not(.dnb-table--right):not(.dnb-table--center) {
+    .dnb-table > tr > th:not([align]),
+    .dnb-table > thead > tr > th:not([align]), .dnb-table__th:not([align]) {
       text-align: inherit; }
     @supports (-moz-appearance: meterbar) and (background-blend-mode: difference, normal) {
       .dnb-table > tr > th,
