@@ -106,6 +106,14 @@ const plugins = [
   'gatsby-plugin-sass',
   'gatsby-plugin-emotion',
   {
+    resolve: 'gatsby-plugin-babel-react-live',
+    options: {
+      componentName: 'ComponentBox',
+      filesToMatch: ['Examples.tsx' /* for MDX we could use MDXLayout */],
+      prettierPath: require.resolve('./.prettierrc'),
+    },
+  },
+  {
     resolve: 'gatsby-plugin-scroll-position',
     options: {
       elements: [
