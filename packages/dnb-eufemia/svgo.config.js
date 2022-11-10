@@ -16,5 +16,12 @@ module.exports = {
         },
       },
     },
+    {
+      name: 'prefixIds',
+      params: {
+        prefixIds: true,
+        prefixClassNames: false,
+      },
+    },
   ],
 }

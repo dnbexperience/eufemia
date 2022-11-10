@@ -93,8 +93,13 @@ const transformToJsx = (content, file) => {
         content,
         {
           icon: false, // do not use "1em"
-          plugins: ['@svgr/plugin-svgo', '@svgr/plugin-jsx'],
-          // svgoConfig: {},// We use svgo.config.js
+
+          /**
+           * Do not include "'@svgr/plugin-svgo'" here – because we did run ut in assetsExtractors (optimizeSVG) already
+           * Also, the SVGO Plugin "prefixIds" does not work properly, as it not gets the filename, so it uses "prefix" as its prefix name:
+           * https://github.com/svg/svgo/blob/main/plugins/prefixIds.js#L95
+           */
+          plugins: ['@svgr/plugin-jsx'],
         },
         { componentName }
       )
