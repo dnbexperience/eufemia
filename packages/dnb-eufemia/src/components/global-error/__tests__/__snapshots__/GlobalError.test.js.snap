@@ -754,7 +754,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
             className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon"
             disabled={false}
             href="href"
-            inner_ref={
+            innerRef={
               {
                 "current": <a
                   class="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon dnb-a"
