@@ -108,6 +108,7 @@
 
   // Easing
   --easing-default: cubic-bezier(0.42, 0, 0, 1);
+  --easing-brand: cubic-bezier(0.9, 0, 0.1, 1);
 
   @if mixin-exists('propertiesCustomisation') {
     @include propertiesCustomisation();

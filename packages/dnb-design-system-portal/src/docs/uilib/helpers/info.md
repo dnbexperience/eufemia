@@ -18,6 +18,8 @@ You can use the internal Eufemia easing function.
 }
 ```
 
+Beside the default easing, there is also DNBs Brand easing `--easing-brand`, which should only be used for slower, brand related animations.
+
 ## CSS classes
 
 - [dnb-core-style](/uilib/helpers/classes#core-style): A CSS-reset and core styling, including font, line-height and color.
