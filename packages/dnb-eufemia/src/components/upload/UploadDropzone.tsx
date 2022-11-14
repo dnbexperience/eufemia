@@ -5,6 +5,8 @@ import HeightAnimation from '../height-animation/HeightAnimation'
 import { UploadContext } from './UploadContext'
 import type { UploadAllProps, UploadFile, UploadProps } from './types'
 
+export type UploadDragEvent = React.DragEvent | DragEvent
+
 export default function UploadDropzone({
   children,
   className,
@@ -17,7 +19,7 @@ export default function UploadDropzone({
 
   const { onInputUpload } = context
 
-  const getFiles = (event: React.DragEvent | DragEvent) => {
+  const getFiles = (event: UploadDragEvent) => {
     const fileData = event.dataTransfer
 
     const files: UploadFile[] = []
@@ -29,28 +31,25 @@ export default function UploadDropzone({
     return files
   }
 
-  const hoverHandler = (
-    event: React.DragEvent | DragEvent,
-    state: boolean
-  ) => {
+  const hoverHandler = (event: UploadDragEvent, state: boolean) => {
     event.stopPropagation()
     event.preventDefault()
     clearTimers()
     setHover(state)
   }
 
-  const dropHandler = (event: React.DragEvent | DragEvent) => {
+  const dropHandler = (event: UploadDragEvent) => {
     const files = getFiles(event)
 
     onInputUpload(files)
     hoverHandler(event, false)
   }
 
-  const dragEnterHandler = (event: React.DragEvent | DragEvent) => {
+  const dragEnterHandler = (event: UploadDragEvent) => {
     hoverHandler(event, true)
   }
 
-  const dragLeaveHandler = (event: React.DragEvent | DragEvent) => {
+  const dragLeaveHandler = (event: UploadDragEvent) => {
     hoverHandler(event, false)
   }
 
