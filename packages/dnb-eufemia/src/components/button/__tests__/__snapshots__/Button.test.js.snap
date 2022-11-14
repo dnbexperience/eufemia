@@ -901,11 +901,10 @@ exports[`Button scss have to match default theme snapshot 1`] = `
           html[data-whatinput='keyboard'] .dnb-button--primary:focus:not([disabled]), html[data-whatinput='keyboard']
           html:not([data-whatintent='touch']) .dnb-button--primary:focus:not([disabled]) {
             box-shadow: 0 0 0 0.125rem var(--border-color); } }
-        @media not all and (min-resolution: 0.001dpcm) {
-          @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
-            html[data-whatinput='keyboard'] .dnb-button--primary:focus:not([disabled]), html[data-whatinput='keyboard']
-            html:not([data-whatintent='touch']) .dnb-button--primary:focus:not([disabled]) {
-              box-shadow: 0 0 0 0.125rem var(--border-color); } } }
+        @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+          html[data-whatinput='keyboard'] .dnb-button--primary:focus:not([disabled]), html[data-whatinput='keyboard']
+          html:not([data-whatintent='touch']) .dnb-button--primary:focus:not([disabled]) {
+            box-shadow: 0 0 0 0.125rem var(--border-color); } }
         @media screen and (-ms-high-contrast: none) {
           html[data-whatinput='keyboard'] .dnb-button--primary:focus:not([disabled]), html[data-whatinput='keyboard']
           html:not([data-whatintent='touch']) .dnb-button--primary:focus:not([disabled]) {
@@ -941,10 +940,9 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     @supports (-webkit-touch-callout: none) {
       .dnb-button--secondary {
         box-shadow: 0 0 0 0.0625rem var(--border-color); } }
-    @media not all and (min-resolution: 0.001dpcm) {
-      @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
-        .dnb-button--secondary {
-          box-shadow: 0 0 0 0.0625rem var(--border-color); } } }
+    @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+      .dnb-button--secondary {
+        box-shadow: 0 0 0 0.0625rem var(--border-color); } }
     @media screen and (-ms-high-contrast: none) {
       .dnb-button--secondary {
         box-shadow: inset 0 0 0 1px var(--color-sea-green); } }
@@ -983,11 +981,10 @@ exports[`Button scss have to match default theme snapshot 1`] = `
           html[data-whatinput='keyboard'] .dnb-button--secondary:focus:not([disabled]), html[data-whatinput='keyboard']
           html:not([data-whatintent='touch']) .dnb-button--secondary:focus:not([disabled]) {
             box-shadow: 0 0 0 0.125rem var(--border-color); } }
-        @media not all and (min-resolution: 0.001dpcm) {
-          @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
-            html[data-whatinput='keyboard'] .dnb-button--secondary:focus:not([disabled]), html[data-whatinput='keyboard']
-            html:not([data-whatintent='touch']) .dnb-button--secondary:focus:not([disabled]) {
-              box-shadow: 0 0 0 0.125rem var(--border-color); } } }
+        @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+          html[data-whatinput='keyboard'] .dnb-button--secondary:focus:not([disabled]), html[data-whatinput='keyboard']
+          html:not([data-whatintent='touch']) .dnb-button--secondary:focus:not([disabled]) {
+            box-shadow: 0 0 0 0.125rem var(--border-color); } }
         @media screen and (-ms-high-contrast: none) {
           html[data-whatinput='keyboard'] .dnb-button--secondary:focus:not([disabled]), html[data-whatinput='keyboard']
           html:not([data-whatintent='touch']) .dnb-button--secondary:focus:not([disabled]) {
@@ -1017,10 +1014,9 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       @supports (-webkit-touch-callout: none) {
         .dnb-button--secondary[disabled], .dnb-button--secondary[disabled]:focus {
           box-shadow: 0 0 0 0.0625rem var(--border-color); } }
-      @media not all and (min-resolution: 0.001dpcm) {
-        @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
-          .dnb-button--secondary[disabled], .dnb-button--secondary[disabled]:focus {
-            box-shadow: 0 0 0 0.0625rem var(--border-color); } } }
+      @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+        .dnb-button--secondary[disabled], .dnb-button--secondary[disabled]:focus {
+          box-shadow: 0 0 0 0.0625rem var(--border-color); } }
       @media screen and (-ms-high-contrast: none) {
         .dnb-button--secondary[disabled], .dnb-button--secondary[disabled]:focus {
           box-shadow: inset 0 0 0 1px var(--color-sea-green-30); } }
@@ -1034,10 +1030,9 @@ exports[`Button scss have to match default theme snapshot 1`] = `
     @supports (-webkit-touch-callout: none) {
       .dnb-button:not([disabled]).dnb-button--secondary.dnb-button__status--error {
         box-shadow: 0 0 0 0.0625rem var(--border-color); } }
-    @media not all and (min-resolution: 0.001dpcm) {
-      @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
-        .dnb-button:not([disabled]).dnb-button--secondary.dnb-button__status--error {
-          box-shadow: 0 0 0 0.0625rem var(--border-color); } } }
+    @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+      .dnb-button:not([disabled]).dnb-button--secondary.dnb-button__status--error {
+        box-shadow: 0 0 0 0.0625rem var(--border-color); } }
     @media screen and (-ms-high-contrast: none) {
       .dnb-button:not([disabled]).dnb-button--secondary.dnb-button__status--error {
         box-shadow: inset 0 0 0 1px var(--color-fire-red); } }
@@ -1078,11 +1073,10 @@ exports[`Button scss have to match default theme snapshot 1`] = `
         html[data-whatinput='keyboard'] .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]), html[data-whatinput='keyboard']
         html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]) {
           box-shadow: 0 0 0 0.125rem var(--border-color); } }
-      @media not all and (min-resolution: 0.001dpcm) {
-        @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
-          html[data-whatinput='keyboard'] .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]), html[data-whatinput='keyboard']
-          html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]) {
-            box-shadow: 0 0 0 0.125rem var(--border-color); } } }
+      @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+        html[data-whatinput='keyboard'] .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]), html[data-whatinput='keyboard']
+        html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]) {
+          box-shadow: 0 0 0 0.125rem var(--border-color); } }
       @media screen and (-ms-high-contrast: none) {
         html[data-whatinput='keyboard'] .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]), html[data-whatinput='keyboard']
         html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]) {
@@ -1344,11 +1338,10 @@ exports[`Button scss have to match default theme snapshot 1`] = `
           html[data-whatinput='keyboard'] .dnb-button--signal:focus:not([disabled]), html[data-whatinput='keyboard']
           html:not([data-whatintent='touch']) .dnb-button--signal:focus:not([disabled]) {
             box-shadow: 0 0 0 0.125rem var(--border-color); } }
-        @media not all and (min-resolution: 0.001dpcm) {
-          @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
-            html[data-whatinput='keyboard'] .dnb-button--signal:focus:not([disabled]), html[data-whatinput='keyboard']
-            html:not([data-whatintent='touch']) .dnb-button--signal:focus:not([disabled]) {
-              box-shadow: 0 0 0 0.125rem var(--border-color); } } }
+        @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+          html[data-whatinput='keyboard'] .dnb-button--signal:focus:not([disabled]), html[data-whatinput='keyboard']
+          html:not([data-whatintent='touch']) .dnb-button--signal:focus:not([disabled]) {
+            box-shadow: 0 0 0 0.125rem var(--border-color); } }
         @media screen and (-ms-high-contrast: none) {
           html[data-whatinput='keyboard'] .dnb-button--signal:focus:not([disabled]), html[data-whatinput='keyboard']
           html:not([data-whatintent='touch']) .dnb-button--signal:focus:not([disabled]) {
