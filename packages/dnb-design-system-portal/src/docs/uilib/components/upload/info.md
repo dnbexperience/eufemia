@@ -40,3 +40,9 @@ The "backend" receiving the files is decoupled and can be any existing or new sy
 ## Limit the amount of files
 
 By default, the Upload component accepts multiple files. You can use the prop `filesAmountLimit={1}` to make the component accept only one file.
+
+## Page wide drop support
+
+Once the Upload component mounts, it also adds support for dropping files to the entire browser body.
+
+**NB:** When you have several mounted components, all of them will receive the dropped files.
