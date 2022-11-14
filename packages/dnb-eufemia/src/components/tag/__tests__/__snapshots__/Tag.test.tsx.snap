@@ -668,10 +668,9 @@ button.dnb-button::-moz-focus-inner {
   @supports (-webkit-touch-callout: none) {
     .dnb-tag--interactive.dnb-button {
       box-shadow: 0 0 0 0.0625rem var(--border-color); } }
-  @media not all and (min-resolution: 0.001dpcm) {
-    @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
-      .dnb-tag--interactive.dnb-button {
-        box-shadow: 0 0 0 0.0625rem var(--border-color); } } }
+  @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+    .dnb-tag--interactive.dnb-button {
+      box-shadow: 0 0 0 0.0625rem var(--border-color); } }
   @media screen and (-ms-high-contrast: none) {
     .dnb-tag--interactive.dnb-button {
       box-shadow: inset 0 0 0 1px var(--color-sea-green); } }
@@ -710,11 +709,10 @@ button.dnb-button::-moz-focus-inner {
         html[data-whatinput='keyboard'] .dnb-tag--interactive.dnb-button:focus:not([disabled]), html[data-whatinput='keyboard']
         html:not([data-whatintent='touch']) .dnb-tag--interactive.dnb-button:focus:not([disabled]) {
           box-shadow: 0 0 0 0.125rem var(--border-color); } }
-      @media not all and (min-resolution: 0.001dpcm) {
-        @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
-          html[data-whatinput='keyboard'] .dnb-tag--interactive.dnb-button:focus:not([disabled]), html[data-whatinput='keyboard']
-          html:not([data-whatintent='touch']) .dnb-tag--interactive.dnb-button:focus:not([disabled]) {
-            box-shadow: 0 0 0 0.125rem var(--border-color); } } }
+      @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+        html[data-whatinput='keyboard'] .dnb-tag--interactive.dnb-button:focus:not([disabled]), html[data-whatinput='keyboard']
+        html:not([data-whatintent='touch']) .dnb-tag--interactive.dnb-button:focus:not([disabled]) {
+          box-shadow: 0 0 0 0.125rem var(--border-color); } }
       @media screen and (-ms-high-contrast: none) {
         html[data-whatinput='keyboard'] .dnb-tag--interactive.dnb-button:focus:not([disabled]), html[data-whatinput='keyboard']
         html:not([data-whatintent='touch']) .dnb-tag--interactive.dnb-button:focus:not([disabled]) {
@@ -771,11 +769,10 @@ button.dnb-button::-moz-focus-inner {
         html[data-whatinput='keyboard'] .dnb-tag--removable.dnb-button:focus:not([disabled]), html[data-whatinput='keyboard']
         html:not([data-whatintent='touch']) .dnb-tag--removable.dnb-button:focus:not([disabled]) {
           box-shadow: 0 0 0 0.125rem var(--border-color); } }
-      @media not all and (min-resolution: 0.001dpcm) {
-        @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
-          html[data-whatinput='keyboard'] .dnb-tag--removable.dnb-button:focus:not([disabled]), html[data-whatinput='keyboard']
-          html:not([data-whatintent='touch']) .dnb-tag--removable.dnb-button:focus:not([disabled]) {
-            box-shadow: 0 0 0 0.125rem var(--border-color); } } }
+      @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+        html[data-whatinput='keyboard'] .dnb-tag--removable.dnb-button:focus:not([disabled]), html[data-whatinput='keyboard']
+        html:not([data-whatintent='touch']) .dnb-tag--removable.dnb-button:focus:not([disabled]) {
+          box-shadow: 0 0 0 0.125rem var(--border-color); } }
       @media screen and (-ms-high-contrast: none) {
         html[data-whatinput='keyboard'] .dnb-tag--removable.dnb-button:focus:not([disabled]), html[data-whatinput='keyboard']
         html:not([data-whatintent='touch']) .dnb-tag--removable.dnb-button:focus:not([disabled]) {

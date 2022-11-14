@@ -1470,12 +1470,11 @@ exports[`ToggleButton scss have to match default theme snapshot 1`] = `
       .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:hover):focus .dnb-radio__button, html[data-whatinput='keyboard']
       .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:hover):focus .dnb-radio__button {
         box-shadow: 0 0 0 0.09375rem var(--border-color); } }
-    @media not all and (min-resolution: 0.001dpcm) {
-      @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
-        html[data-whatinput='keyboard'] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):focus .dnb-radio__button, html[data-whatinput='keyboard']
-        .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:hover):focus .dnb-radio__button, html[data-whatinput='keyboard']
-        .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:hover):focus .dnb-radio__button {
-          box-shadow: 0 0 0 0.09375rem var(--border-color); } } }
+    @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+      html[data-whatinput='keyboard'] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):focus .dnb-radio__button, html[data-whatinput='keyboard']
+      .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:hover):focus .dnb-radio__button, html[data-whatinput='keyboard']
+      .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:hover):focus .dnb-radio__button {
+        box-shadow: 0 0 0 0.09375rem var(--border-color); } }
     @media screen and (-ms-high-contrast: none) {
       html[data-whatinput='keyboard'] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):focus .dnb-radio__button, html[data-whatinput='keyboard']
       .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:hover):focus .dnb-radio__button, html[data-whatinput='keyboard']
@@ -1536,13 +1535,12 @@ exports[`ToggleButton scss have to match default theme snapshot 1`] = `
         .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard'] html[data-whatinput='keyboard']
         .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {
           box-shadow: 0 0 0 0.125rem var(--border-color); } }
-      @media not all and (min-resolution: 0.001dpcm) {
-        @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
-          html[data-whatinput='keyboard'] html[data-whatinput='keyboard']
+      @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+        html[data-whatinput='keyboard'] html[data-whatinput='keyboard']
 .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard'] html[data-whatinput='keyboard']
-          .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard'] html[data-whatinput='keyboard']
-          .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {
-            box-shadow: 0 0 0 0.125rem var(--border-color); } } }
+        .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard'] html[data-whatinput='keyboard']
+        .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {
+          box-shadow: 0 0 0 0.125rem var(--border-color); } }
       @media screen and (-ms-high-contrast: none) {
         html[data-whatinput='keyboard'] html[data-whatinput='keyboard']
 .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard'] html[data-whatinput='keyboard']
@@ -1576,10 +1574,9 @@ exports[`ToggleButton scss have to match default theme snapshot 1`] = `
     @supports (-webkit-touch-callout: none) {
       .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:hover):not(:focus):not(:active) {
         box-shadow: 0 0 0 0.0625rem var(--border-color); } }
-    @media not all and (min-resolution: 0.001dpcm) {
-      @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
-        .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:hover):not(:focus):not(:active) {
-          box-shadow: 0 0 0 0.0625rem var(--border-color); } } }
+    @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+      .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:hover):not(:focus):not(:active) {
+        box-shadow: 0 0 0 0.0625rem var(--border-color); } }
     @media screen and (-ms-high-contrast: none) {
       .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:hover):not(:focus):not(:active) {
         box-shadow: inset 0 0 0 1px var(--color-fire-red); } }
@@ -1592,10 +1589,9 @@ exports[`ToggleButton scss have to match default theme snapshot 1`] = `
     @supports (-webkit-touch-callout: none) {
       .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-radio__input:not([disabled]) ~ .dnb-radio__button {
         box-shadow: 0 0 0 0.09375rem var(--border-color); } }
-    @media not all and (min-resolution: 0.001dpcm) {
-      @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
-        .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-radio__input:not([disabled]) ~ .dnb-radio__button {
-          box-shadow: 0 0 0 0.09375rem var(--border-color); } } }
+    @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+      .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-radio__input:not([disabled]) ~ .dnb-radio__button {
+        box-shadow: 0 0 0 0.09375rem var(--border-color); } }
     @media screen and (-ms-high-contrast: none) {
       .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-radio__input:not([disabled]) ~ .dnb-radio__button {
         box-shadow: inset 0 0 0 1px var(--color-fire-red); } }
@@ -1613,10 +1609,9 @@ exports[`ToggleButton scss have to match default theme snapshot 1`] = `
     @supports (-webkit-touch-callout: none) {
       .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-checkbox__input ~ .dnb-checkbox__button {
         box-shadow: 0 0 0 0.09375rem var(--border-color); } }
-    @media not all and (min-resolution: 0.001dpcm) {
-      @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
-        .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-checkbox__input ~ .dnb-checkbox__button {
-          box-shadow: 0 0 0 0.09375rem var(--border-color); } } }
+    @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+      .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-checkbox__input ~ .dnb-checkbox__button {
+        box-shadow: 0 0 0 0.09375rem var(--border-color); } }
     @media screen and (-ms-high-contrast: none) {
       .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-checkbox__input ~ .dnb-checkbox__button {
         box-shadow: inset 0 0 0 1px var(--color-fire-red); } }
@@ -1633,10 +1628,9 @@ exports[`ToggleButton scss have to match default theme snapshot 1`] = `
     @supports (-webkit-touch-callout: none) {
       .dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):not(:focus):not(:active) {
         box-shadow: 0 0 0 0.0625rem var(--border-color); } }
-    @media not all and (min-resolution: 0.001dpcm) {
-      @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
-        .dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):not(:focus):not(:active) {
-          box-shadow: 0 0 0 0.0625rem var(--border-color); } } }
+    @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+      .dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):not(:focus):not(:active) {
+        box-shadow: 0 0 0 0.0625rem var(--border-color); } }
     @media screen and (-ms-high-contrast: none) {
       .dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):not(:focus):not(:active) {
         box-shadow: inset 0 0 0 1px var(--color-fire-red); } }
@@ -1649,10 +1643,9 @@ exports[`ToggleButton scss have to match default theme snapshot 1`] = `
     @supports (-webkit-touch-callout: none) {
       .dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:focus) .dnb-radio__input:not([disabled]) ~ .dnb-radio__button {
         box-shadow: 0 0 0 0.09375rem var(--border-color); } }
-    @media not all and (min-resolution: 0.001dpcm) {
-      @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
-        .dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:focus) .dnb-radio__input:not([disabled]) ~ .dnb-radio__button {
-          box-shadow: 0 0 0 0.09375rem var(--border-color); } } }
+    @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+      .dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:focus) .dnb-radio__input:not([disabled]) ~ .dnb-radio__button {
+        box-shadow: 0 0 0 0.09375rem var(--border-color); } }
     @media screen and (-ms-high-contrast: none) {
       .dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:focus) .dnb-radio__input:not([disabled]) ~ .dnb-radio__button {
         box-shadow: inset 0 0 0 1px var(--color-white); } }

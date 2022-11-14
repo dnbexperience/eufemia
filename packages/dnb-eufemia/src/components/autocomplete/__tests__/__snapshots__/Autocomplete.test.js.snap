@@ -3152,10 +3152,9 @@ legend.dnb-form-label {
     @supports (-webkit-touch-callout: none) {
       .dnb-autocomplete .dnb-input__submit-button__button[disabled]:not(.dnb-button--has-text) {
         box-shadow: 0 0 0 var(--input-border-width) var(--border-color); } }
-    @media not all and (min-resolution: 0.001dpcm) {
-      @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
-        .dnb-autocomplete .dnb-input__submit-button__button[disabled]:not(.dnb-button--has-text) {
-          box-shadow: 0 0 0 var(--input-border-width) var(--border-color); } } }
+    @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+      .dnb-autocomplete .dnb-input__submit-button__button[disabled]:not(.dnb-button--has-text) {
+        box-shadow: 0 0 0 var(--input-border-width) var(--border-color); } }
     @media screen and (-ms-high-contrast: none) {
       .dnb-autocomplete .dnb-input__submit-button__button[disabled]:not(.dnb-button--has-text) {
         box-shadow: inset 0 0 0 1px var(--color-black-55); } }
