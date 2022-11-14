@@ -64,6 +64,11 @@ const Upload = (localProps: UploadAllProps) => {
   const { files, setFiles, setInternalFiles, getExistsingFile } =
     useUpload(id)
 
+  const filesRef = React.useRef<UploadFile[]>(files)
+  React.useEffect(() => {
+    filesRef.current = files
+  }) // keep our ref updated on every re-render
+
   return (
     <UploadContext.Provider
       value={{
@@ -89,6 +94,7 @@ const Upload = (localProps: UploadAllProps) => {
   )
 
   function onInputUpload(newFiles: UploadFile[]) {
+    const files = filesRef.current
     const mergedFiles = [
       ...files,
       ...newFiles.map((fileItem) => {
