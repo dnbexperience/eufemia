@@ -16,18 +16,6 @@ import SkipLinkExample from 'Docs/uilib/usage/accessibility/examples/skip-link-e
 
 Reusing classes in the markup instead of using SCSS extends or _mixins_ will prevent duplication in the `@dnb/eufemia`. So also your application will have good benefits from reusing these helper classes.
 
-## Easing
-
-`var(--easing-default)`
-
-You can use the internal Eufemia easing function.
-
-```css
-.animation-element {
-  transition: transform 1s var(--easing-default);
-}
-```
-
 ## Core style
 
 `dnb-core-style`
