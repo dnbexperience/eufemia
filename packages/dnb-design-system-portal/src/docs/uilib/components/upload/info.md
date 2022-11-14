@@ -45,4 +45,4 @@ By default, the Upload component accepts multiple files. You can use the prop `f
 
 Once the Upload component mounts, it also adds support for dropping files to the entire browser body.
 
-**NB:** When you have several mounted components, all of them will receive the dropped files.
+**NB:** When you have several mounted components, only the first Upload component will receive the dropped files.

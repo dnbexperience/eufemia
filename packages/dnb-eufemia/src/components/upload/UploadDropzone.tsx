@@ -17,7 +17,7 @@ export default function UploadDropzone({
   const [hover, setHover] = React.useState(false)
   const hoverTimeout = React.useRef<NodeJS.Timer>()
 
-  const { onInputUpload } = context
+  const { onInputUpload, id } = context
 
   const getFiles = (event: UploadDragEvent) => {
     const fileData = event.dataTransfer
@@ -61,11 +61,13 @@ export default function UploadDropzone({
     const elem = document.body
     const execute = () => {
       try {
-        const add = elem.addEventListener
-        add('drop', dropHandler)
-        add('dragover', dragEnterHandler)
-        add('dragleave', dragLeaveHandler)
-        elem.setAttribute('data-upload-drop-zone', '')
+        if (!elem.hasAttribute('data-upload-drop-zone')) {
+          const add = elem.addEventListener
+          add('drop', dropHandler)
+          add('dragover', dragEnterHandler)
+          add('dragleave', dragLeaveHandler)
+          elem.setAttribute('data-upload-drop-zone', id)
+        }
       } catch (e) {
         //
       }
@@ -76,11 +78,13 @@ export default function UploadDropzone({
       clearTimers()
       clearTimeout(timeoutId)
       try {
-        const remove = elem.removeEventListener
-        remove('drop', dropHandler)
-        remove('dragover', dragEnterHandler)
-        remove('dragleave', dragLeaveHandler)
-        elem.removeAttribute('data-upload-drop-zone')
+        if (elem.getAttribute('data-upload-drop-zone') === id) {
+          const remove = elem.removeEventListener
+          remove('drop', dropHandler)
+          remove('dragover', dragEnterHandler)
+          remove('dragleave', dragLeaveHandler)
+          elem.removeAttribute('data-upload-drop-zone')
+        }
       } catch (e) {
         //
       }

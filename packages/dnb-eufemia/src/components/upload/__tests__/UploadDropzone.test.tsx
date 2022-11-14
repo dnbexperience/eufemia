@@ -113,7 +113,7 @@ describe('Upload', () => {
 
       await waitFor(() =>
         expect(document.body.getAttribute('data-upload-drop-zone')).toBe(
-          ''
+          'unique-id'
         )
       )
 
