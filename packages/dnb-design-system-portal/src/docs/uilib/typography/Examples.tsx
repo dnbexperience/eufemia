@@ -15,7 +15,7 @@ const Wrapper = styled.div`
 `
 
 const FontUsageExample = ({ typo_class, font_family }) => (
-  <div className="example-box">
+  <div className="typography-box">
     <h3 className={typo_class}>{font_family}</h3>
     <p className={typo_class}>
       Here is a paragraph with some nonsense{' '}
