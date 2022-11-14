@@ -8,7 +8,7 @@ import { ParagraphDefault, ParagraphSmall, ParagraphAdditional, ParagraphModifie
 
 # Paragraph
 
-## Paragraphs and other text elements
+## Paragraph class modifiers
 
 Eufemia comes with several styles you can use on paragraphs and other HTML text elements:
 
@@ -32,16 +32,16 @@ Eufemia comes with several styles you can use on paragraphs and other HTML text 
 Paragraphs using React JSX.
 
 ```jsx
-import { P, Lead, Link, ... } from '@dnb/eufemia/elements'
+import { P, Lead } from '@dnb/eufemia/elements'
 ```
 
 <ParagraphModifiers />
 
-### Paragraphs with vanilla HTML
+### Paragraphs `basis` sized
 
 <ParagraphDefault />
 
-#### Paragraph with small font-size
+#### Paragraph `small` sized
 
 <ParagraphSmall />
 
