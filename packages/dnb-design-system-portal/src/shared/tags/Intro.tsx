@@ -4,13 +4,14 @@
  */
 
 import React from 'react'
+import { Global, css } from '@emotion/react'
 import PropTypes from 'prop-types'
 import { navigate } from 'gatsby'
 import { Link } from '@dnb/eufemia/src/elements'
 import { Button, Space } from '@dnb/eufemia/src/components'
 import { wrapperStyle, innerStyle, footerStyle } from './Intro.module.scss'
 
-const ref = React.createRef()
+const ref = React.createRef<HTMLDivElement>()
 const Intro = ({ children }) => {
   React.useEffect(() => {
     const onKeyDownHandler = (e) => {
@@ -54,6 +55,13 @@ Intro.defaultProps = {}
 
 export const IntroFooter = ({ href, text }) => (
   <Space top no_collapse className={footerStyle}>
+    <Global
+      styles={css`
+        .dnb-app-content {
+          margin-left: 0;
+        }
+      `}
+    />
     <Button href={href} text={text} icon="chevron_right" />
     <Button
       href="/uilib/getting-started"

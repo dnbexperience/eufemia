@@ -13,7 +13,7 @@ import { Button } from '@dnb/eufemia/src'
 
 Components are custom made **user interaction elements** with an internal state, your application can interact with.
 
-<div className="example-box" align="center">
+<div className="image-box" align="center">
   <Button text="Button"  href="/uilib/components/button" target="_blank" />
 </div>
 
@@ -21,7 +21,7 @@ Components are custom made **user interaction elements** with an internal state,
 
 Elements are basicity ready to use styled HTML elements.
 
-<div className="example-box" align="center">
+<div className="image-box" align="center">
   <a className="dnb-anchor" href="!/uilib/elements/anchor" target="_blank">Anchor (Text Link)</a>
 </div>
 

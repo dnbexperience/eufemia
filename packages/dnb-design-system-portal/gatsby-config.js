@@ -64,7 +64,6 @@ const plugins = [
         '**/*.md',
         '**/Examples.*',
         '**/*_not_in_use*',
-        '**/TypographyExamples.js',
         '**/demos/layout/Layout.js',
         '**/skip-link-example.js',
         '**/CardProductsTable.js',

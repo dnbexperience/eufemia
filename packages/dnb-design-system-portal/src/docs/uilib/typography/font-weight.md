@@ -5,7 +5,7 @@ redirect_from:
   - /uilib/typography/font-weights
 ---
 
-import TypographyExamples from 'Docs/uilib/typography/TypographyExamples'
+import { FontWeightExample } from 'Docs/uilib/typography/Examples'
 
 # Font Weights
 
@@ -60,4 +60,4 @@ p {
 
 ## Examples
 
-<TypographyExamples />
+<FontWeightExample />
