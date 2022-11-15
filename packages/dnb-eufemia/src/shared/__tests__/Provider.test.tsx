@@ -7,8 +7,12 @@ import React from 'react'
 import HelpButton from '../../components/help-button/HelpButton'
 import ToggleButton from '../../components/toggle-button/ToggleButton'
 
-import Context from '../Context'
-import Provider from '../Provider'
+import Context, {
+  ContextProps,
+  TranslationConsumer,
+  Locales,
+} from '../Context'
+import Provider, { ProviderProps } from '../Provider'
 import { fireEvent, render } from '@testing-library/react'
 
 beforeEach(() => {
@@ -19,23 +23,20 @@ describe('Provider', () => {
   const title_nb = 'Tekst'
   const title_gb = 'Text'
 
-  const nbNO = {
+  const nbNO: TranslationConsumer = {
     'HelpButton.title': title_nb,
   }
-  const enGB = {
+  const enGB: TranslationConsumer = {
     'HelpButton.title': title_gb,
   }
 
-  const LocalProvider = (props) => {
-    return (
-      <Provider
-        locales={{
-          'nb-NO': Object.freeze(nbNO),
-          'en-GB': Object.freeze(enGB),
-        }}
-        {...props}
-      />
-    )
+  const defaultLocales: Locales = {
+    'nb-NO': nbNO,
+    'en-GB': enGB,
+  }
+
+  const LocalProvider = (props: ProviderProps) => {
+    return <Provider locales={defaultLocales} {...props} />
   }
 
   const ChangeLocale = () => {
@@ -63,7 +64,10 @@ describe('Provider', () => {
     )
   }
 
-  const MagicProvider = ({ children = null, ...props }) => {
+  const MagicProvider = ({
+    children = null,
+    ...props
+  }: Partial<ProviderProps>) => {
     return (
       <LocalProvider {...props}>
         <Context.Consumer>
@@ -218,6 +222,174 @@ describe('Provider', () => {
 
     expect(receivedLocale).toBe(locale)
     expect(document.querySelectorAll('p')[0].textContent).toBe(title_nb)
+  })
+
+  it('locale should be changed in root context', () => {
+    const Consumer = ({ id }) => {
+      const context = React.useContext(Context)
+      const { locale, setLocale } = context
+
+      const handleOnChange = () => {
+        setLocale(locale === 'nb-NO' ? 'en-GB' : 'nb-NO')
+      }
+
+      return (
+        <>
+          <p id={id + '-locale'}>{locale}</p>
+          <button id={id + '-button'} onClick={handleOnChange}>
+            change
+          </button>
+        </>
+      )
+    }
+
+    const RootConsumer = () => {
+      return <Consumer id="root" />
+    }
+
+    const NestedConsumer = () => {
+      return <Consumer id="nested" />
+    }
+
+    render(
+      <Provider locale="nb-NO">
+        <RootConsumer />
+        <Provider>
+          <NestedConsumer />
+        </Provider>
+      </Provider>
+    )
+
+    const getRootLocale = () =>
+      document.getElementById('root-locale').textContent
+    const getNestedLocale = () =>
+      document.getElementById('nested-locale').textContent
+
+    expect(getRootLocale()).toBe('nb-NO')
+    expect(getNestedLocale()).toBe('nb-NO')
+
+    fireEvent.click(document.getElementById('root-button'))
+
+    expect(getRootLocale()).toBe('en-GB')
+    expect(getNestedLocale()).toBe('en-GB')
+
+    fireEvent.click(document.getElementById('nested-button'))
+
+    expect(getRootLocale()).toBe('nb-NO')
+    expect(getNestedLocale()).toBe('nb-NO')
+  })
+
+  it('locale should be changed in local context', () => {
+    const Consumer = ({ id }) => {
+      const context = React.useContext(Context)
+      const { locale, setCurrentLocale } = context
+
+      const handleOnChange = () => {
+        setCurrentLocale(locale === 'nb-NO' ? 'en-GB' : 'nb-NO')
+      }
+
+      return (
+        <>
+          <p id={id + '-locale'}>{locale}</p>
+          <button id={id + '-button'} onClick={handleOnChange}>
+            change
+          </button>
+        </>
+      )
+    }
+
+    const RootConsumer = () => {
+      return <Consumer id="root" />
+    }
+
+    const NestedConsumer = () => {
+      return <Consumer id="nested" />
+    }
+
+    render(
+      <Provider locale="nb-NO">
+        <RootConsumer />
+        <Provider>
+          <NestedConsumer />
+        </Provider>
+      </Provider>
+    )
+
+    const getRootLocale = () =>
+      document.getElementById('root-locale').textContent
+    const getNestedLocale = () =>
+      document.getElementById('nested-locale').textContent
+
+    expect(getRootLocale()).toBe('nb-NO')
+    expect(getNestedLocale()).toBe('nb-NO')
+
+    fireEvent.click(document.getElementById('nested-button'))
+
+    expect(getRootLocale()).toBe('nb-NO')
+    expect(getNestedLocale()).toBe('en-GB')
+
+    fireEvent.click(document.getElementById('nested-button'))
+
+    expect(getRootLocale()).toBe('nb-NO')
+    expect(getNestedLocale()).toBe('nb-NO')
+
+    fireEvent.click(document.getElementById('root-button'))
+
+    expect(getRootLocale()).toBe('en-GB')
+    expect(getNestedLocale()).toBe('nb-NO')
+  })
+
+  it('will support "value" prop in nested contexts', () => {
+    type ConsumerContext = {
+      myProperty: string
+    }
+
+    const Consumer = ({ id }) => {
+      const context = React.useContext<
+        ContextProps & Partial<ConsumerContext>
+      >(Context)
+
+      return <p id={id + '-locale'}>{context.myProperty}</p>
+    }
+
+    const RootConsumer = () => {
+      return <Consumer id="root" />
+    }
+
+    const NestedConsumer = () => {
+      return <Consumer id="nested" />
+    }
+
+    const { rerender } = render(
+      <Provider value={{ myProperty: 'bar' }}>
+        <RootConsumer />
+        <Provider>
+          <NestedConsumer />
+        </Provider>
+      </Provider>
+    )
+
+    const getRootLocale = () =>
+      document.getElementById('root-locale').textContent
+    const getNestedLocale = () =>
+      document.getElementById('nested-locale').textContent
+
+    expect(getRootLocale()).toBe('bar')
+    expect(getNestedLocale()).toBe('bar')
+
+    const value: ConsumerContext = { myProperty: 'changed' }
+
+    rerender(
+      <Provider value={value}>
+        <RootConsumer />
+        <Provider>
+          <NestedConsumer />
+        </Provider>
+      </Provider>
+    )
+
+    expect(getRootLocale()).toBe('changed')
+    expect(getNestedLocale()).toBe('changed')
   })
 
   it('should support nested providers and update the root context', () => {
