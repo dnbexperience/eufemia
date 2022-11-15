@@ -1,5 +1,6 @@
 ---
 showTabs: true
+description: 'Examples of how to use headings'
 ---
 
 import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
