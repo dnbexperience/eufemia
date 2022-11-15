@@ -17,46 +17,34 @@ export type TableTrProps = {
     | Array<React.ReactElement<TableTdProps>>
 }
 
-const Tr = (
+export default function Tr(
   componentProps: TableTrProps &
     React.TableHTMLAttributes<HTMLTableRowElement>
-) => {
+) {
   const {
     variant,
-    className,
     children,
-
+    className: _className,
     ...props
   } = componentProps
 
-  const tableContext = React.useContext(TableContext)
+  const { currentVariant } = useHandleTrVariant({ variant })
 
-  const { currentVariant, trRef, trParams } = useHandleTrLogic({
-    tableContext,
-    variant,
-  })
+  const className = classnames(
+    'dnb-table__tr',
+    currentVariant && `dnb-table__tr--${currentVariant}`,
+    _className
+  )
 
   return (
-    <tr
-      role="row"
-      className={classnames(
-        'dnb-table__tr',
-        currentVariant && `dnb-table__tr--${currentVariant}`,
-        className
-      )}
-      ref={trRef}
-      {...trParams}
-      {...props}
-    >
+    <tr role="row" className={className} {...props}>
       {children}
     </tr>
   )
 }
 
-export default Tr
-
-function useHandleTrLogic({ tableContext, variant }) {
-  const trRef = React.useRef(null)
+function useHandleTrVariant({ variant }) {
+  const tableContext = React.useContext(TableContext)
 
   /**
    * Handle odd/even
@@ -112,11 +100,7 @@ function useHandleTrLogic({ tableContext, variant }) {
     currentVariant = count % 2 ? 'odd' : 'even'
   }
 
-  const trParams = {}
-
   return {
-    trRef,
     currentVariant,
-    trParams,
   }
 }
