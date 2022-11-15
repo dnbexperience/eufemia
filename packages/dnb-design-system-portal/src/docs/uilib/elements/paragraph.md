@@ -1,5 +1,7 @@
 ---
 title: 'Paragraph'
+redirect_from:
+  - /uilib/typography/paragraph
 ---
 
 import { ParagraphDefault, ParagraphSmall, ParagraphAdditional, ParagraphModifiers } from 'Docs/uilib/elements/paragraph/Examples'
