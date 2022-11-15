@@ -1,5 +1,6 @@
 ---
 showTabs: true
+description: 'Examples of how to use paragraph'
 ---
 
 import { ParagraphDefault, ParagraphSmall, ParagraphAdditional, ParagraphModifiers } from 'Docs/uilib/typography/Examples'
