@@ -9,16 +9,11 @@ export type TableTdProps = {
   children?: React.ReactNode
 }
 
-const Td = (
+export default function Td(
   componentProps: TableTdProps &
     React.TdHTMLAttributes<HTMLTableCellElement>
-) => {
-  const {
-    className,
-    children,
-
-    ...props
-  } = componentProps
+) {
+  const { className, children, ...props } = componentProps
 
   return (
     <td
@@ -30,5 +25,3 @@ const Td = (
     </td>
   )
 }
-
-export default Td

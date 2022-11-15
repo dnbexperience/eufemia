@@ -111,7 +111,15 @@ const Table = (
   return (
     <Provider skeleton={Boolean(skeleton)}>
       <TableContext.Provider
-        value={{ trCountRef, rerenderAlias, forceRerender }}
+        value={{
+          trCountRef,
+          rerenderAlias,
+          forceRerender,
+          allProps: {
+            ...context.getTranslation(componentProps).Table,
+            ...allProps,
+          },
+        }}
       >
         <table
           className={classnames(
