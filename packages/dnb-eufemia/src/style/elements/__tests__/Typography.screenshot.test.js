@@ -51,37 +51,3 @@ describe('Heading screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 })
-
-describe('Paragraph screenshot', () => {
-  setupPageScreenshot({
-    url: '/uilib/typography/paragraph',
-  })
-
-  it('have to match the paragraph example', async () => {
-    const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="paragraph-default"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  it('have to match the paragraph with small text', async () => {
-    const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="paragraph-small"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  it('have to match the paragraph with modifiers', async () => {
-    const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="paragraph-modifiers"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  it('have to match the paragraph with additional elements', async () => {
-    const screenshot = await testPageScreenshot({
-      selector: '[data-visual-test="paragraph-additional"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-})

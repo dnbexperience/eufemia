@@ -9,8 +9,6 @@ tabs:
     key: /uilib/typography
   - title: Headings
     key: /uilib/typography/heading
-  - title: Paragraphs
-    key: /uilib/typography/paragraph
 ---
 
 import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'

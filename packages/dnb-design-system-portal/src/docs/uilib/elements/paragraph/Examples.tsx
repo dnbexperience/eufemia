@@ -6,7 +6,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
-import ComponentBox from '../../../shared/tags/ComponentBox'
+import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 import Anchor from '@dnb/eufemia/src/elements/Anchor'
 import P from '@dnb/eufemia/src/elements/P'
 
