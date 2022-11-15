@@ -49,12 +49,12 @@ exports[`Table scss have to match default theme snapshot 1`] = `
     color: var(--theme-color-black-80, currentColor); }
   .dnb-table > tbody > tr,
   .dnb-table .dnb-table__tr,
-  .dnb-table .dnb-table__tr--odd {
-    background-color: var(--color-white); }
-  .dnb-table > tbody > tr:not(.dnb-table__tr--odd):nth-of-type(2n),
-  .dnb-table .dnb-table__tr:not(.dnb-table__tr--odd):nth-of-type(2n),
   .dnb-table .dnb-table__tr--even {
     background-color: var(--color-lavender); }
+  .dnb-table > tbody > tr:not(.dnb-table__tr--even):nth-of-type(2n),
+  .dnb-table .dnb-table__tr:not(.dnb-table__tr--even):nth-of-type(2n),
+  .dnb-table .dnb-table__tr--odd {
+    background-color: var(--color-white); }
   .dnb-table > thead > tr > th::after,
   .dnb-table > tbody > tr:last-of-type > td::after,
   .dnb-table > thead > .dnb-table__tr > .dnb-table__th::after,

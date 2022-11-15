@@ -171,12 +171,6 @@ export const TableSticky = () => (
             </Th>
           </Tr>
         </thead>
-        <tfoot>
-          <Tr>
-            <Td colSpan={3}>Footer</Td>
-            <Td>Sum</Td>
-          </Tr>
-        </tfoot>
         <tbody>
           <Table.StickyHelper />
           <Tr>
@@ -205,6 +199,12 @@ export const TableSticky = () => (
             <Td>Column 4</Td>
           </Tr>
         </tbody>
+        <tfoot>
+          <Tr>
+            <Td colSpan={3}>Footer</Td>
+            <Td>Sum</Td>
+          </Tr>
+        </tfoot>
       </Table>
     </ComponentBox>
   </>
