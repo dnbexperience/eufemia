@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../core/jest/jestSetupScreenshots'
 
-describe('List screenshot', () => {
+describe('Image screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/elements/image',
   })
