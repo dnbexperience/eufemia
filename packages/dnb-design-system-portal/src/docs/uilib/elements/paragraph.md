@@ -1,9 +1,12 @@
 ---
-showTabs: true
-description: 'Examples of how to use paragraph'
+title: 'Paragraph'
+redirect_from:
+  - /uilib/typography/paragraph
 ---
 
-import { ParagraphDefault, ParagraphSmall, ParagraphAdditional, ParagraphModifiers } from 'Docs/uilib/typography/Examples'
+import { ParagraphDefault, ParagraphSmall, ParagraphAdditional, ParagraphModifiers } from 'Docs/uilib/elements/paragraph/Examples'
+
+# Paragraph
 
 ## Paragraphs and other text elements
 
