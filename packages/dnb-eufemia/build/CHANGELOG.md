@@ -3,6 +3,27 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.38.0-beta.1](https://github.com/dnbexperience/eufemia/compare/v9.37.0...v9.38.0-beta.1) (2022-11-17)
+
+
+### Bug Fixes
+
+* add support to IS_SAFARI_DESKTOP for Safari v16 on macOS ([#1718](https://github.com/dnbexperience/eufemia/issues/1718)) ([54e2cba](https://github.com/dnbexperience/eufemia/commit/54e2cba903c07b8a137db84f19f4e07f8814e2b7))
+* **Anchor:** export types as AnchorAllProps and original instance ([#1715](https://github.com/dnbexperience/eufemia/issues/1715)) ([92ec784](https://github.com/dnbexperience/eufemia/commit/92ec7840e06331d77ad8eee312210b3a2b78e534))
+* **Icons:** prevent icons from having same IDs (duplicate-id violation) ([#1714](https://github.com/dnbexperience/eufemia/issues/1714)) ([5e4079d](https://github.com/dnbexperience/eufemia/commit/5e4079d8d9fe44be3eef9f4e94adaed7da22ef7f))
+* **Provider:** rewrite to functional component ([#1731](https://github.com/dnbexperience/eufemia/issues/1731)) ([b504d06](https://github.com/dnbexperience/eufemia/commit/b504d061b8cefbd14879fbda72710cca834da34b))
+* **Table:** align odd/even modifiers with CSS nth ([#1724](https://github.com/dnbexperience/eufemia/issues/1724)) ([8bdad07](https://github.com/dnbexperience/eufemia/commit/8bdad07b2c7269c77b00ee920245d4d729363092))
+
+
+### Features
+
+* **Table:** add "fixed" prop for fixed table layouts ([#1708](https://github.com/dnbexperience/eufemia/issues/1708)) ([241ee0f](https://github.com/dnbexperience/eufemia/commit/241ee0f77bc48c0dd9ac84d0035971c784ba3a8b))
+* **Table:** add Table.SortButton ([#1709](https://github.com/dnbexperience/eufemia/issues/1709)) ([288a8db](https://github.com/dnbexperience/eufemia/commit/288a8dbaf2e0622208d567b62302e5b668bd90b7))
+* **Table:** add Th.HelpButton to be used in Table Headers ([#1711](https://github.com/dnbexperience/eufemia/issues/1711)) ([c142323](https://github.com/dnbexperience/eufemia/commit/c142323b56389218b5f2451c55fc7282dec5d0c4))
+* **Th:** add table header sortable props ([#1706](https://github.com/dnbexperience/eufemia/issues/1706)) ([c40393a](https://github.com/dnbexperience/eufemia/commit/c40393addb8bc75fc84320ad21f5c0f1c5c42bc0))
+* **Tr:** automate odd/even and make it overridable ([#1705](https://github.com/dnbexperience/eufemia/issues/1705)) ([d73d3cb](https://github.com/dnbexperience/eufemia/commit/d73d3cbdc115ceb5b9e9609a719ff58b919d9c69))
+* **Upload:** support files dropped on the document body ([#1719](https://github.com/dnbexperience/eufemia/issues/1719)) ([f206243](https://github.com/dnbexperience/eufemia/commit/f20624303468789b89a907cb5157e5a975ac43a7))
+
 # [9.37.0](https://github.com/dnbexperience/eufemia/compare/v9.36.0...v9.37.0) (2022-11-07)
 
 
