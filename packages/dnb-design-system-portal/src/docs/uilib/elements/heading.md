@@ -1,11 +1,12 @@
 ---
-showTabs: true
-description: 'Examples of how to use headings'
+title: 'Heading'
+redirect_from:
+  - /uilib/typography/heading
 ---
 
 import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 
-## Headings
+# Heading
 
 Eufemia comes with three levels of heading styles:
 
@@ -24,7 +25,7 @@ Optional, you could use `.dnb-lead` (equivalent to `.dnb-h--medium`) to style a 
 
 The sizes are aligned to the [font-size definitions](/uilib/typography/font-size).
 
-### Think semantics first
+## Think semantics first
 
 You should [think semantics first](/uilib/usage/best-practices/for-typography#headings-and-styling) once you choose what level of heading you use. Always try to start with an `<h1>`. When the heading levels are properly defined, you can go ahead and define the sizes (styles).
 
@@ -37,7 +38,7 @@ If you have to use a paragraph (`<p>`) or a arbitrary heading, and it has to **l
 
 Read more about [best practices for typography](/uilib/usage/best-practices/for-typography).
 
-### Automated heading levels
+## Automated heading levels
 
 There is also [Heading](/uilib/components/heading), a component to create automated semantic headings within a boundary of some rules.
 
@@ -45,13 +46,13 @@ There is also [Heading](/uilib/components/heading), a component to create automa
 import { Heading } from '@dnb/eufemia/components'
 ```
 
-### Heading styles in React
+## Heading styles in React
 
 ```jsx
 import { H1, H2, ... } from '@dnb/eufemia/elements'
 ```
 
-#### Heading typography using React JSX
+### Heading typography using React JSX
 
 <ComponentBox>
 {`
@@ -71,7 +72,7 @@ By using the `<small>` element, we decrease the size one level (default size is 
 `}
 </ComponentBox>
 
-### Heading styles in vanilla HTML
+## Heading styles in vanilla HTML
 
 <ComponentBox hideCode data-visual-test="heading-default">
 {`
@@ -83,7 +84,7 @@ By using the `<small>` element, we decrease the size one level (default size is 
 `}
 </ComponentBox>
 
-#### Additional Heading modifiers
+### Additional Heading modifiers
 
 <ComponentBox hideCode data-visual-test="heading-additional">
 {`
@@ -101,7 +102,7 @@ By using the `<small>` element, we decrease the size one level (default size is 
 `}
 </ComponentBox>
 
-### Example of margin collapsing
+## Example of margin collapsing
 
 Only the largest margin takes effect.
 
