@@ -8,6 +8,10 @@ import { LOCALE, CURRENCY, CURRENCY_DISPLAY } from './defaults'
 import defaultLocales from './locales'
 import { extend } from './component-helper'
 
+// All TypeScript based Eufemia elements
+import type { AnchorProps } from '../elements/Anchor'
+import type { ScrollViewProps } from '../fragments/scroll-view/ScrollView'
+
 // All TypeScript based Eufemia components
 import type { ButtonProps } from '../components/button/Button'
 import type { AvatarProps } from '../components/avatar/Avatar'
@@ -26,15 +30,13 @@ import type { DrawerProps } from '../components/drawer/types'
 import type { DialogProps } from '../components/dialog/types'
 import type { TooltipProps } from '../components/tooltip/types'
 import type { SectionProps } from '../components/section/Section'
-import { UploadProps } from '../components/upload/types'
+import type { FormRowProps } from '../components/form-row/FormRowHelpers'
+import type { UploadProps } from '../components/upload/types'
+import type { SkeletonProps } from '../components/Skeleton'
+import type { HelpButtonProps } from '../components/HelpButton'
+import type { TableProps } from '../components/Table'
 
-// All TypeScript based Eufemia elements
-import type { AnchorProps } from '../elements/Anchor'
-import type { ScrollViewProps } from '../fragments/scroll-view/ScrollView'
-
-export type ContextProps = {
-  // -- All TypeScript based Eufemia components --
-
+export type ContextComponents = {
   Button?: Partial<ButtonProps>
   Anchor?: Partial<AnchorProps>
   Avatar?: Partial<AvatarProps>
@@ -55,14 +57,18 @@ export type ContextProps = {
   Section?: Partial<SectionProps>
   ScrollView?: Partial<ScrollViewProps>
   Upload?: Partial<UploadProps>
+  Skeleton?: Partial<SkeletonProps>
+  HelpButton?: Partial<HelpButtonProps>
+  Table?: Partial<TableProps>
 
   // -- TODO: Not converted yet --
-
   NumberFormat?: Record<string, unknown>
-  Table?: Record<string, unknown>
-  HelpButton?: Record<string, unknown>
   Pagination?: Record<string, unknown>
-  FormRow?: Record<string, unknown>
+  FormRow?: FormRowProps
+}
+
+export type ContextProps = ContextComponents & {
+  // -- All TypeScript based Eufemia components --
 
   // -- Global properties --
 
@@ -118,7 +124,7 @@ export type ContextProps = {
 
   // -- For internal use --
   locales?: Locales
-  __newContext?: Record<string, string>
+  __context__?: Record<string, unknown>
   updateTranslation?: (locale: Locale, translation: Translation) => void
   getTranslation?: (props: GetTranslationProps) => Translation
 }
@@ -129,22 +135,35 @@ export type GetTranslationProps = Partial<{
 }>
 
 export type Locale = string | 'nb-NO' | 'en-GB' | 'en-US'
-export type ComponentTranslationsName = string
-export type ComponentTranslations = Record<string, string>
-export type Locales = Record<Locale, Translation>
+export type ComponentTranslationsName = string | keyof ContextComponents
+export type ComponentTranslation = string
+export type ComponentTranslations = Record<string, ComponentTranslation>
+export type Locales = Record<Locale, Translation | TranslationConsumer>
 export type Translation = Record<
+  /**
+   * Support only "HelpButton"
+   */
   ComponentTranslationsName,
   ComponentTranslations
 >
+export type TranslationConsumer = Record<
+  /**
+   * Support "HelpButton.title"
+   */
+  ComponentTranslationsName,
+  ComponentTranslation | ComponentTranslations
+>
 
-export const prepareContext = (props: ContextProps = {}) => {
+export function prepareContext<Props>(
+  props: ContextProps = {}
+): Props & ContextProps {
   const locales: Locales = props.locales
     ? extend(defaultLocales, props.locales)
     : defaultLocales
 
-  if (props.__newContext) {
-    Object.assign(props, props.__newContext)
-    delete props.__newContext
+  if (props.__context__) {
+    Object.assign(props, props.__context__)
+    delete props.__context__
   }
 
   const key = handleLocaleFallbacks(props.locale || LOCALE, locales)
@@ -186,7 +205,7 @@ export const prepareContext = (props: ContextProps = {}) => {
      * Make sure we set this after props, since we update this one!
      */
     translation,
-  } as ContextProps
+  } as Props & ContextProps
 
   return context
 }
@@ -212,9 +231,9 @@ const Context = React.createContext<ContextProps>(
 export default Context
 
 function destruct(
-  source: Translation,
+  source: TranslationConsumer,
   validKeys: Record<string, unknown>
-): Translation {
+): TranslationConsumer {
   for (const k in source) {
     if (String(k).includes('.')) {
       const list = k.split('.')
