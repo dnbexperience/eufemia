@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../core/jest/jestSetupScreenshots'
 
-describe('List screenshot', () => {
+describe('Horizontal rule screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/elements/horizontal-rule',
   })

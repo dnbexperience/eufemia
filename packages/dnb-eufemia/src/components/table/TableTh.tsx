@@ -1,27 +1,55 @@
 import React from 'react'
 import classnames from 'classnames'
+import TableSortButton from './TableSortButton'
+import TableHelpButton from './TableHelpButton'
+
+export type TableThChildren =
+  | React.ReactNode
+  | ReturnType<typeof TableSortButton>
+  | ReturnType<typeof TableHelpButton>
 
 export type TableThProps = {
   /**
-   * The content of the table header given as Tr.
+   * Defines the table header as sortable
+   * Default: false
    */
-  children: React.ReactNode
+  sortable?: boolean
 
   /**
-   * Custom className on the component root
-   * Default: null
+   * Defines the sortable column as the current active
+   * Default: false
    */
-  className?: string
+  active?: boolean
+
+  /**
+   * Defines the sortable column as in reversed order
+   * Default: false
+   */
+  reversed?: boolean
+
+  /**
+   * If set to true, the header text will not wrap to new lines
+   * Default: false
+   */
+  noWrap?: boolean
+
+  /**
+   * The content of the table header given as Tr.
+   */
+  children: TableThChildren | Array<TableThChildren>
 }
 
-const Th = (
+export default function Th(
   componentProps: TableThProps &
     React.ThHTMLAttributes<HTMLTableCellElement>
-) => {
+) {
   const {
     className,
     children,
-
+    sortable,
+    active,
+    reversed,
+    noWrap,
     ...props
   } = componentProps
 
@@ -30,6 +58,10 @@ const Th = (
       role="columnheader"
       className={classnames(
         'dnb-table__th',
+        sortable && 'dnb-table--sortable',
+        active && 'dnb-table--active',
+        reversed && 'dnb-table--reversed',
+        noWrap && 'dnb-table--no-wrap',
         className
       )}
       {...props}
@@ -39,4 +71,5 @@ const Th = (
   )
 }
 
-export default Th
+Th.SortButton = TableSortButton
+Th.HelpButton = TableHelpButton

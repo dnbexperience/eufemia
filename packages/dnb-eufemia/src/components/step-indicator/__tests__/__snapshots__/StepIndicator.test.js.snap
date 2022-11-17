@@ -8176,10 +8176,9 @@ exports[`StepIndicator scss have to match default theme snapshot 1`] = `
   @supports (-webkit-touch-callout: none) {
     .dnb-step-indicator-v2 .dnb-step-indicator__item--current .dnb-button {
       box-shadow: 0 0 0 0.125rem var(--border-color); } }
-  @media not all and (min-resolution: 0.001dpcm) {
-    @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
-      .dnb-step-indicator-v2 .dnb-step-indicator__item--current .dnb-button {
-        box-shadow: 0 0 0 0.125rem var(--border-color); } } }
+  @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+    .dnb-step-indicator-v2 .dnb-step-indicator__item--current .dnb-button {
+      box-shadow: 0 0 0 0.125rem var(--border-color); } }
   @media screen and (-ms-high-contrast: none) {
     .dnb-step-indicator-v2 .dnb-step-indicator__item--current .dnb-button {
       box-shadow: inset 0 0 0 1px var(--color-sea-green); } }
@@ -8202,10 +8201,9 @@ exports[`StepIndicator scss have to match default theme snapshot 1`] = `
     @supports (-webkit-touch-callout: none) {
       .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:hover, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:focus, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:active {
         box-shadow: 0 0 0 0.0625rem var(--border-color); } }
-    @media not all and (min-resolution: 0.001dpcm) {
-      @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
-        .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:hover, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:focus, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:active {
-          box-shadow: 0 0 0 0.0625rem var(--border-color); } } }
+    @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+      .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:hover, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:focus, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:active {
+        box-shadow: 0 0 0 0.0625rem var(--border-color); } }
     @media screen and (-ms-high-contrast: none) {
       .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:hover, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:focus, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:active {
         box-shadow: inset 0 0 0 1px var(--color-black-20); } }
@@ -8219,10 +8217,9 @@ exports[`StepIndicator scss have to match default theme snapshot 1`] = `
   @supports (-webkit-touch-callout: none) {
     .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:hover, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:focus, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:active {
       box-shadow: 0 0 0 0.125rem var(--border-color); } }
-  @media not all and (min-resolution: 0.001dpcm) {
-    @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
-      .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:hover, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:focus, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:active {
-        box-shadow: 0 0 0 0.125rem var(--border-color); } } }
+  @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+    .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:hover, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:focus, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:active {
+      box-shadow: 0 0 0 0.125rem var(--border-color); } }
   @media screen and (-ms-high-contrast: none) {
     .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:hover, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:focus, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:active {
       box-shadow: inset 0 0 0 1px var(--color-black-80); } }

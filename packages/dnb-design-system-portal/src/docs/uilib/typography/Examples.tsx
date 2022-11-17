@@ -4,7 +4,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 
 const Wrapper = styled.div`
@@ -12,7 +11,7 @@ const Wrapper = styled.div`
 `
 
 const FontUsageExample = ({ typo_class, font_family }) => (
-  <div className="example-box">
+  <div className="typography-box">
     <h3 className={typo_class}>{font_family}</h3>
     <p className={typo_class}>
       Here is a paragraph with some nonsense{' '}
@@ -26,15 +25,8 @@ const FontUsageExample = ({ typo_class, font_family }) => (
     </p>
   </div>
 )
-FontUsageExample.propTypes = {
-  typo_class: PropTypes.string,
-  font_family: PropTypes.string.isRequired,
-}
-FontUsageExample.defaultProps = {
-  typo_class: null,
-}
 
-export default function StyledExample() {
+export function FontWeightExample() {
   return (
     <Wrapper>
       {/* Regular */}

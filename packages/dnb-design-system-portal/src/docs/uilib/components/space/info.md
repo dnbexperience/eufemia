@@ -84,4 +84,4 @@ The best solution is to only use one direction of margins e.g. `bottom`. Or you 
 
 ### Margin collapsing
 
-In order to help out to handle unwanted margin collapsing in typography elements, se [this example](/uilib/typography/heading#example-of-margin-collapsing)
+In order to help out to handle unwanted margin collapsing in typography elements, se [this example](/uilib/elements/heading#example-of-margin-collapsing)

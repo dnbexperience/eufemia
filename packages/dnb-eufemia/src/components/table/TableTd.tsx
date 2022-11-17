@@ -7,24 +7,13 @@ export type TableTdProps = {
    * Default: null
    */
   children?: React.ReactNode
-
-  /**
-   * Custom className on the component root
-   * Default: null
-   */
-  className?: string
 }
 
-const Td = (
+export default function Td(
   componentProps: TableTdProps &
     React.TdHTMLAttributes<HTMLTableCellElement>
-) => {
-  const {
-    className,
-    children,
-
-    ...props
-  } = componentProps
+) {
+  const { className, children, ...props } = componentProps
 
   return (
     <td
@@ -36,5 +25,3 @@ const Td = (
     </td>
   )
 }
-
-export default Td

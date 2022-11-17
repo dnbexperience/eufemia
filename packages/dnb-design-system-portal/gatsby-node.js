@@ -209,7 +209,7 @@ exports.onCreateWebpackConfig = ({ stage, actions, plugins }) => {
     ],
   }
 
-  if (isCI && prebuildExists &&    stage === 'build-javascript') {
+  if (isCI && prebuildExists && stage === 'build-javascript') {
     config.plugins.push(
       plugins.normalModuleReplacement(/@dnb\/eufemia\/src/, (resource) => {
         resource.request = resource.request.replace(

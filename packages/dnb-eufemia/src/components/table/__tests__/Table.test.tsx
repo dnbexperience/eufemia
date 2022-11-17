@@ -72,9 +72,38 @@ describe('Table', () => {
     ])
   })
 
-  it('should include custom className and HTML attributes', () => {
+  it('should include custom className', () => {
     render(
-      <Table className="dnb-table--fixed" aria-label="custom-label">
+      <Table className="custom-class" aria-label="custom-label">
+        <BasicTable />
+      </Table>
+    )
+
+    expect(Array.from(screen.queryByRole('table').classList)).toEqual(
+      expect.arrayContaining([
+        'dnb-table',
+        'dnb-table__variant--generic',
+        'dnb-table__size--large',
+        'custom-class',
+      ])
+    )
+  })
+
+  it('should include custom HTML attributes', () => {
+    render(
+      <Table aria-label="custom-label">
+        <BasicTable />
+      </Table>
+    )
+
+    expect(screen.queryByRole('table').getAttribute('aria-label')).toEqual(
+      'custom-label'
+    )
+  })
+
+  it('should set the fixed class', () => {
+    render(
+      <Table fixed>
         <BasicTable />
       </Table>
     )
@@ -86,10 +115,6 @@ describe('Table', () => {
         'dnb-table__size--large',
         'dnb-table--fixed',
       ])
-    )
-
-    expect(screen.queryByRole('table').getAttribute('aria-label')).toEqual(
-      'custom-label'
     )
   })
 

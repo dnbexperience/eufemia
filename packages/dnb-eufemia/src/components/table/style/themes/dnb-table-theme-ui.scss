@@ -4,8 +4,6 @@
 */
 
 @import '../../../../style/themes/imports.scss';
-@import '../../../button/style/themes/button-mixins.scss';
-@import './table-basis.scss';
 
 .dnb-table {
   // Header part
@@ -35,7 +33,7 @@
 
     vertical-align: bottom;
 
-    &:not([align]):not(.dnb-table--left):not(.dnb-table--right):not(.dnb-table--center) {
+    &:not([align]) {
       text-align: inherit;
     }
 
@@ -63,15 +61,15 @@
   // Needs a double & & for specificity
   & > tbody > tr,
   & &__tr,
-  & &__tr--odd {
-    background-color: var(--color-white);
+  & &__tr--even {
+    background-color: var(--color-lavender);
   }
 
   // Needs a double & & for specificity
-  & > tbody > tr:not(#{&}__tr--odd):nth-of-type(2n),
-  & &__tr:not(#{&}__tr--odd):nth-of-type(2n),
-  & &__tr--even {
-    background-color: var(--color-lavender);
+  & > tbody > tr:not(#{&}__tr--even):nth-of-type(2n),
+  & &__tr:not(#{&}__tr--even):nth-of-type(2n),
+  & &__tr--odd {
+    background-color: var(--color-white);
   }
 
   // Border
@@ -88,6 +86,4 @@
     height: 1px;
     background-color: var(--color-black-8);
   }
-
-  @include basisTableSortable();
 }

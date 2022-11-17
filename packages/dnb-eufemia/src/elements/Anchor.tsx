@@ -22,33 +22,29 @@ export type AnchorProps = {
   target?: string
   tooltip?: React.ReactNode
   skeleton?: boolean
-  className?: string
-  children?: React.ReactNode
   omitClass?: boolean
-  innerRef?: React.ForwardedRef<unknown>
-
-  // HTML Attributes
-  id?: string
-  title?: string
-  lang?: string
+  innerRef?: React.RefObject<HTMLAnchorElement>
 
   /** @deprecated use innerRef instead */
-  inner_ref?: React.ForwardedRef<unknown>
+  inner_ref?: React.RefObject<HTMLAnchorElement>
 
   /** @deprecated use targetBlankTitle instead */
   target_blank_title?: string
-} & Partial<Omit<HTMLAnchorElement, 'children'>> &
+}
+
+export type AnchorAllProps = AnchorProps &
+  React.HTMLAttributes<HTMLAnchorElement> &
   SpacingProps
 
 const defaultProps = {}
 
-function AnchorInstance(localProps: AnchorProps) {
+export function AnchorInstance(localProps: AnchorAllProps) {
   const context = React.useContext(Context)
   const allProps = extendPropsWithContext(
     localProps,
     defaultProps,
     { skeleton: context?.skeleton },
-    context?.getTranslation(localProps as Partial<AnchorProps>).Anchor,
+    context?.getTranslation(localProps as AnchorAllProps).Anchor,
     context?.Anchor
   )
 
@@ -122,8 +118,10 @@ function AnchorInstance(localProps: AnchorProps) {
   )
 }
 
-const Anchor = React.forwardRef((props: AnchorProps, ref) => {
-  return <AnchorInstance inner_ref={ref} {...props} />
-})
+const Anchor = React.forwardRef(
+  (props: AnchorAllProps, ref: React.RefObject<HTMLAnchorElement>) => {
+    return <AnchorInstance innerRef={ref} {...props} />
+  }
+)
 
 export default Anchor

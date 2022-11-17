@@ -5,7 +5,6 @@
 
 import React from 'react'
 import classnames from 'classnames'
-import styled from '@emotion/styled'
 import Highlight, { Prism, defaultProps } from 'prism-react-renderer'
 import ReactMarkdown from 'react-markdown'
 import Tag from './Tag'
@@ -16,7 +15,11 @@ import { makeUniqueId } from '@dnb/eufemia/src/shared/component-helper'
 import { Context } from '@dnb/eufemia/src/shared'
 import AutoLinkHeader from './AutoLinkHeader'
 import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
-
+import {
+  liveCodeEditorStyle,
+  toolbarStyle,
+  codeBlockStyle,
+} from './CodeBlock.module.scss'
 import {
   LiveProvider,
   LiveEditor,
@@ -26,13 +29,6 @@ import {
 
 // this theme is replaced my a css one
 import prismTheme from '@dnb/eufemia/src/style/themes/theme-ui/prism/dnb-prism-theme'
-
-const Wrapper = styled.div`
-  margin-bottom: 2rem;
-  textarea {
-    outline: inherit;
-  }
-`
 
 const CodeBlock = ({
   language,
@@ -50,9 +46,14 @@ const CodeBlock = ({
 
   if (((props && props.scope) || isReactLive) && language === 'jsx') {
     return (
-      <Wrapper className={createSkeletonClass('code', context.skeleton)}>
+      <div
+        className={classnames(
+          codeBlockStyle,
+          createSkeletonClass('code', context.skeleton)
+        )}
+      >
         <LiveCode code={exampleCode} {...props} />
-      </Wrapper>
+      </div>
     )
   } else {
     return (
@@ -64,8 +65,11 @@ const CodeBlock = ({
         theme={prismTheme}
       >
         {({ className, style, tokens, getLineProps, getTokenProps }) => (
-          <Wrapper
-            className={createSkeletonClass('code', context.skeleton)}
+          <div
+            className={classnames(
+              codeBlockStyle,
+              createSkeletonClass('code', context.skeleton)
+            )}
           >
             <Tag as="pre" className={className} css={style}>
               {cleanTokens(tokens).map((line, i) => (
@@ -77,7 +81,7 @@ const CodeBlock = ({
                 </div>
               ))}
             </Tag>
-          </Wrapper>
+          </div>
         )}
       </Highlight>
     )
@@ -181,14 +185,14 @@ class LiveCode extends React.PureComponent<
     const { code, hideToolbar, hideCode, hidePreview } = this.state
 
     const codeToUse =
-      typeof code === 'string' ? this.prepareCode(code) : null
+      typeof code === 'string' ? this.prepareCode(code) : ''
 
     if (codeToUse.trim().length === 0) {
       return <span>No Code provided</span>
     }
 
     return (
-      <LiveCodeEditor>
+      <div className={liveCodeEditorStyle}>
         <LiveProvider
           Prism={Prism}
           theme={prismTheme}
@@ -291,7 +295,7 @@ class LiveCode extends React.PureComponent<
             <LiveError className="dnb-form-status dnb-form-status__text dnb-form-status--error" />
           )}
           {!global.IS_TEST && !hideToolbar && (
-            <Toolbar className="dnb-live-toolbar">
+            <div className={classnames(toolbarStyle, 'dnb-live-toolbar')}>
               {this.props.hideCode && (
                 <Button
                   className="toggle-button"
@@ -314,89 +318,13 @@ class LiveCode extends React.PureComponent<
                   size="medium"
                 />
               )}
-            </Toolbar>
+            </div>
           )}
         </LiveProvider>
-      </LiveCodeEditor>
+      </div>
     )
   }
 }
-
-const LiveCodeEditor = styled.div`
-  position: relative;
-
-  .example-box {
-    margin-bottom: 0;
-  }
-  .example-caption {
-    margin-bottom: 1.5rem;
-  }
-  .dnb-live-editor {
-    position: relative;
-    cursor: text;
-
-    transition: box-shadow 0.2s ease-out;
-
-    &::after {
-      content: '';
-      position: absolute;
-      top: calc(-0.75rem + 1px);
-      left: 1rem;
-
-      width: 0;
-      height: 0;
-
-      border-style: solid;
-      border-width: 0 0.75rem 0.75rem;
-      border-color: transparent transparent #222 transparent;
-
-      opacity: 1;
-      transition: opacity 0.2s ease-out, border-width 0.2s ease-out;
-    }
-
-    &.dnb-pre--focus {
-      &::after {
-        opacity: 0;
-        border-top-width: 0.5rem;
-      }
-    }
-  }
-
-  .react-live-error:last-child {
-    position: absolute;
-    z-index: 1;
-
-    max-width: 40rem;
-    height: auto;
-    white-space: normal;
-    line-height: var(--input-height);
-  }
-
-  .prism-code {
-    padding: 0 !important; /* use important because of inline styles */
-    white-space: pre-wrap !important; /* use important because of inline styles */
-  }
-`
-
-const Toolbar = styled.div`
-  position: absolute;
-  z-index: 2;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-
-  display: flex;
-  flex-direction: row;
-  align-items: space-between;
-  justify-content: flex-end;
-
-  padding: 0 1rem 1rem;
-
-  pointer-events: none;
-  button {
-    pointer-events: all;
-  }
-`
 
 /** Removes the last token from a code example if it's empty. */
 const cleanTokens = (tokens) => {

@@ -53,6 +53,12 @@ export interface TableProps extends StickyTableHeaderProps {
    * Default: generic.
    */
   variant?: TableVariants
+
+  /**
+   * Defines if the table should behave with a fixed table layout, using: "table-layout: fixed;"
+   * Default: null.
+   */
+  fixed?: boolean
 }
 
 export const defaultProps = {
@@ -84,6 +90,7 @@ const Table = (
     variant,
     sticky,
     stickyOffset, // eslint-disable-line
+    fixed,
     ...props
   } = allProps
 
@@ -93,22 +100,34 @@ const Table = (
   const { elementRef } = useStickyHeader(allProps)
 
   // Create this ref in order to "auto" set even/odd class in tr elements
-  const trTmpRef = React.useRef({ count: 0 })
-  React.useLayoutEffect(() => {
-    trTmpRef.current.count = 0
-  })
+  const trCountRef = React.useRef({ count: 0 })
+
+  // When the alias changes, all tr's will rerender and get a new even/odd color
+  // This is usefull, when one tr gets removed
+  const [rerenderAlias, setRerenderAlias] = React.useState({}) // eslint-disable-line no-unused-vars
 
   validateDOMAttributes(allProps, props)
 
   return (
     <Provider skeleton={Boolean(skeleton)}>
-      <TableContext.Provider value={{ trTmpRef }}>
+      <TableContext.Provider
+        value={{
+          trCountRef,
+          rerenderAlias,
+          forceRerender,
+          allProps: {
+            ...context.getTranslation(componentProps).Table,
+            ...allProps,
+          },
+        }}
+      >
         <table
           className={classnames(
             'dnb-table',
             variant && `dnb-table__variant--${variant}`,
             size && `dnb-table__size--${size}`,
             sticky && `dnb-table--sticky`,
+            fixed && `dnb-table--fixed`,
             spacingClasses,
             skeletonClasses,
             className
@@ -121,6 +140,11 @@ const Table = (
       </TableContext.Provider>
     </Provider>
   )
+
+  function forceRerender() {
+    trCountRef.current.count = 0
+    setRerenderAlias({})
+  }
 }
 
 export default Table

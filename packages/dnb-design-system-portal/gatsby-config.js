@@ -64,7 +64,6 @@ const plugins = [
         '**/*.md',
         '**/Examples.*',
         '**/*_not_in_use*',
-        '**/TypographyExamples.js',
         '**/demos/layout/Layout.js',
         '**/skip-link-example.js',
         '**/CardProductsTable.js',
@@ -105,6 +104,14 @@ const plugins = [
   },
   'gatsby-plugin-sass',
   'gatsby-plugin-emotion',
+  {
+    resolve: 'gatsby-plugin-babel-react-live',
+    options: {
+      componentName: 'ComponentBox',
+      filesToMatch: ['Examples.tsx' /* for MDX we could use MDXLayout */],
+      prettierPath: require.resolve('./.prettierrc'),
+    },
+  },
   {
     resolve: 'gatsby-plugin-scroll-position',
     options: {

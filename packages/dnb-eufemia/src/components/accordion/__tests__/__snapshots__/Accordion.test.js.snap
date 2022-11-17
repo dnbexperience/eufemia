@@ -200,10 +200,9 @@ exports[`Accordion scss have to match default theme snapshot 1`] = `
   @supports (-webkit-touch-callout: none) {
     .dnb-accordion__variant--outlined > .dnb-accordion__header {
       box-shadow: 0 0 0 0.0625rem var(--border-color); } }
-  @media not all and (min-resolution: 0.001dpcm) {
-    @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
-      .dnb-accordion__variant--outlined > .dnb-accordion__header {
-        box-shadow: 0 0 0 0.0625rem var(--border-color); } } }
+  @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+    .dnb-accordion__variant--outlined > .dnb-accordion__header {
+      box-shadow: 0 0 0 0.0625rem var(--border-color); } }
   @media screen and (-ms-high-contrast: none) {
     .dnb-accordion__variant--outlined > .dnb-accordion__header {
       box-shadow: inset 0 0 0 1px var(--color-black-8); } }
@@ -228,11 +227,10 @@ exports[`Accordion scss have to match default theme snapshot 1`] = `
         html[data-whatinput='keyboard'] .dnb-accordion__variant--outlined > .dnb-accordion__header:focus:not([disabled]), html[data-whatinput='keyboard']
         html:not([data-whatintent='touch']) .dnb-accordion__variant--outlined > .dnb-accordion__header:focus:not([disabled]) {
           box-shadow: 0 0 0 0.125rem var(--border-color); } }
-      @media not all and (min-resolution: 0.001dpcm) {
-        @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
-          html[data-whatinput='keyboard'] .dnb-accordion__variant--outlined > .dnb-accordion__header:focus:not([disabled]), html[data-whatinput='keyboard']
-          html:not([data-whatintent='touch']) .dnb-accordion__variant--outlined > .dnb-accordion__header:focus:not([disabled]) {
-            box-shadow: 0 0 0 0.125rem var(--border-color); } } }
+      @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+        html[data-whatinput='keyboard'] .dnb-accordion__variant--outlined > .dnb-accordion__header:focus:not([disabled]), html[data-whatinput='keyboard']
+        html:not([data-whatintent='touch']) .dnb-accordion__variant--outlined > .dnb-accordion__header:focus:not([disabled]) {
+          box-shadow: 0 0 0 0.125rem var(--border-color); } }
       @media screen and (-ms-high-contrast: none) {
         html[data-whatinput='keyboard'] .dnb-accordion__variant--outlined > .dnb-accordion__header:focus:not([disabled]), html[data-whatinput='keyboard']
         html:not([data-whatintent='touch']) .dnb-accordion__variant--outlined > .dnb-accordion__header:focus:not([disabled]) {
@@ -310,10 +308,9 @@ html[data-whatinput='keyboard']
     @supports (-webkit-touch-callout: none) {
       html[data-whatinput='keyboard'] .dnb-accordion__variant--outlined.dnb-accordion--expanded > .dnb-accordion__header:not([disabled]):not(:active):not(:hover):focus {
         box-shadow: 0 0 0 0.125rem var(--border-color); } }
-    @media not all and (min-resolution: 0.001dpcm) {
-      @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-overflow-scrolling: touch)) {
-        html[data-whatinput='keyboard'] .dnb-accordion__variant--outlined.dnb-accordion--expanded > .dnb-accordion__header:not([disabled]):not(:active):not(:hover):focus {
-          box-shadow: 0 0 0 0.125rem var(--border-color); } } }
+    @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+      html[data-whatinput='keyboard'] .dnb-accordion__variant--outlined.dnb-accordion--expanded > .dnb-accordion__header:not([disabled]):not(:active):not(:hover):focus {
+        box-shadow: 0 0 0 0.125rem var(--border-color); } }
     @media screen and (-ms-high-contrast: none) {
       html[data-whatinput='keyboard'] .dnb-accordion__variant--outlined.dnb-accordion--expanded > .dnb-accordion__header:not([disabled]):not(:active):not(:hover):focus {
         box-shadow: inset 0 0 0 0.125rem var(--color-emerald-green); } }

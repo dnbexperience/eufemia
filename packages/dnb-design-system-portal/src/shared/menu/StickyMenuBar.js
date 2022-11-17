@@ -7,130 +7,24 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { useStaticQuery, graphql } from 'gatsby'
-import { css } from '@emotion/react'
-import styled from '@emotion/styled'
 import { hamburger as hamburgerIcon } from '@dnb/eufemia/src/icons/secondary_icons'
 import { close as closeIcon } from '@dnb/eufemia/src/icons/primary_icons'
 import PortalLogo from './graphics/logo'
 import { Icon, Button } from '@dnb/eufemia/src'
-import { MainMenuToggleButton } from './ToggleMainMenu'
 import { SidebarMenuContext } from './SidebarMenuContext'
 import PortalToolsMenu from './PortalToolsMenu'
 import { SearchBarInput } from './SearchBar'
 import { Context } from '@dnb/eufemia/src/shared'
 import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
 import { MediaQuery } from '@dnb/eufemia/src/shared'
-
-const Header = styled.header`
-  position: fixed;
-
-  /* 
-    - Higher than z-index of 2 by ContentWrapper (.dnb-app-content)
-    - and higher than z-index of 3200 by .dnb-drawer-list__portal__style 
-  */
-  z-index: 3201;
-
-  /* stylelint-disable-next-line */
-  html[data-dnb-modal-active] & {
-    /* Now, when the drawer tools are opened, we lower it back to appear behind the modal  */
-    z-index: 3000;
-  }
-  html[data-dnb-drawer-list-active='portal-search'] & {
-    /* Now, when the drawer tools are opened, we lower it back to appear behind the modal  */
-    z-index: 3200;
-  }
-
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 4rem;
-
-  display: flex;
-  justify-content: center;
-
-  background-color: var(--color-white);
-  border-bottom: 1px solid var(--color-black-border);
-
-  white-space: nowrap;
-
-  #toggle-sidebar-menu {
-    display: none;
-  }
-
-  /*
-    God for a mobile menu instead
-    make sure that Content main "styled.main" gets the same max-width
-   */
-  @media screen and (max-width: 50em) {
-    #toggle-sidebar-menu {
-      display: flex;
-    }
-  }
-  @media screen and (max-width: 40em) {
-    /* make the button round */
-    button:nth-of-type(1) {
-      padding: 0 0.25rem;
-      .dnb-button__text {
-        display: none;
-      }
-      .dnb-button__icon {
-        transform: translateY(0);
-      }
-    }
-  }
-
-  .portal-header-wrapper {
-    display: flex;
-    justify-content: space-between;
-
-    width: 100%;
-
-    /* make sure we are on 64px instead of 65px */
-    padding: 0.5rem 2rem;
-
-    @media screen and (max-width: 40em) {
-      padding: 0.5rem 5vw;
-    }
-
-    html[data-dnb-modal-active] & {
-      margin-right: var(--scrollbar-width);
-    }
-
-    align-items: center;
-  }
-`
-
-const Tools = styled.span`
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-`
-
-const Slogan = styled.span`
-  @media screen and (max-width: 40em) {
-    display: none;
-  }
-`
-const CenterWrapper = styled.span`
-  display: flex;
-  align-items: center;
-
-  font-size: var(--font-size-basis);
-
-  .dnb-icon:nth-of-type(1) {
-    color: var(--color-sea-green);
-  }
-
-  @media screen and (max-width: 30em) {
-    display: none;
-  }
-`
-
-const hideSidebarToggleButtonStyle = css`
-  #toggle-sidebar-menu {
-    display: none;
-  }
-`
+import {
+  headerStyle,
+  centerWrapperStyle,
+  toolsStyle,
+  sloganStyle,
+  portalHeaderWrapperStyle,
+  hideSidebarToggleButtonStyle,
+} from './StickyMenuBar.module.scss'
 
 export default function StickyMenuBar({
   hideSidebarToggleButton,
@@ -157,26 +51,43 @@ export default function StickyMenuBar({
   }
 
   return (
-    <Header
-      css={[hideSidebarToggleButton && hideSidebarToggleButtonStyle]}
-      className={classnames('sticky-menu', 'dev-grid')}
+    <header
+      className={classnames(
+        headerStyle,
+        hideSidebarToggleButton && hideSidebarToggleButtonStyle,
+        'sticky-menu',
+        'dev-grid'
+      )}
     >
-      <div className="portal-header-wrapper ">
-        <MainMenuToggleButton />
-        <CenterWrapper aria-hidden className="dnb-selection">
+      <div className={portalHeaderWrapperStyle}>
+        <Button
+          id="toggle-main-menu"
+          variant="primary"
+          text="Home"
+          title="Eufemia main sections"
+          href="/"
+          icon="chevron_left"
+          icon_position="left"
+        />
+
+        <span aria-hidden className={centerWrapperStyle}>
           <Icon
             icon={PortalLogo}
             size={48}
             right="x-small"
             color="var(--color-black-80, #333)"
           />
-          <Slogan
-            className={createSkeletonClass('font', context.skeleton)}
+          <span
+            className={classnames(
+              sloganStyle,
+              createSkeletonClass('font', context.skeleton)
+            )}
           >
             {slogan}
-          </Slogan>
-        </CenterWrapper>
-        <Tools>
+          </span>
+        </span>
+
+        <span className={toolsStyle}>
           <SearchBarInput />
           <Button
             icon={isOpen ? closeIcon : hamburgerIcon}
@@ -197,9 +108,9 @@ export default function StickyMenuBar({
           <MediaQuery when={{ min: 'medium' }} matchOnSSR>
             <PortalToolsMenu />
           </MediaQuery>
-        </Tools>
+        </span>
       </div>
-    </Header>
+    </header>
   )
 }
 StickyMenuBar.propTypes = {

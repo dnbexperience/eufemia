@@ -44,6 +44,17 @@
   }
 }
 
+@mixin whatInput($whatinput: null) {
+  html[data-whatinput='#{$whatinput}'] & {
+    @content;
+  }
+}
+@mixin whatInputNot($whatinput: null) {
+  html:not([data-whatinput='#{$whatinput}']) & {
+    @content;
+  }
+}
+
 $focusRingWidth: 0.125rem; //2px
 $focusRingColor: var(--color-emerald-green);
 @mixin fakeFocus($whatinput: null, $color: null, $inset: null) {
@@ -56,7 +67,7 @@ $focusRingColor: var(--color-emerald-green);
     $color: $focusRingColor;
   }
 
-  html[data-whatinput='#{$whatinput}'] & {
+  @include whatInput($whatinput) {
     @include fakeBorder($color, $focusRingWidth, $inset);
   }
 }
@@ -252,11 +263,9 @@ $focusRingColor: var(--color-emerald-green);
 
 // Safari Desktop fix
 @mixin IS_SAFARI_DESKTOP() {
-  @media not all and (min-resolution: 0.001dpcm) {
-    @supports (-webkit-appearance: none) and (stroke-color: transparent)
-      and (not (-webkit-overflow-scrolling: touch)) {
-      @content;
-    }
+  @supports (-webkit-appearance: none) and (stroke-color: transparent) and
+    (not (-webkit-touch-callout: none)) {
+    @content;
   }
 }
 

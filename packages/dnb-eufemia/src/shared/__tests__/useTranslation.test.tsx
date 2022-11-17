@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { mount } from '../../core/jest/jestSetup'
+import { fireEvent, render } from '@testing-library/react'
 import useTranslation, {
   getTranslation,
   Translation,
@@ -84,7 +84,7 @@ describe('Translation', () => {
   }
 
   it('"getTranslation" should return requested string inside render', () => {
-    const Comp = mount(
+    render(
       <Provider locales={defaultLocales}>
         <span className="getTranslation">
           {getTranslation('other.string', {
@@ -96,11 +96,13 @@ describe('Translation', () => {
       </Provider>
     )
 
-    expect(Comp.find('span.getTranslation').text()).toBe(expected_nbNO)
+    expect(document.querySelector('span.getTranslation').textContent).toBe(
+      expected_nbNO
+    )
   })
 
   it('"Translation" should return requested string inside render', () => {
-    const Comp = mount(
+    render(
       <Provider locales={defaultLocales}>
         <span className="Translation">
           <Translation id="other.string" foo="foo" bar="bar" max="max" />
@@ -114,14 +116,16 @@ describe('Translation', () => {
       </Provider>
     )
 
-    expect(Comp.find('span.Translation').text()).toBe(expected_nbNO)
-    expect(Comp.find('span.TranslationIdAsChildren').text()).toBe(
+    expect(document.querySelector('span.Translation').textContent).toBe(
       expected_nbNO
     )
+    expect(
+      document.querySelector('span.TranslationIdAsChildren').textContent
+    ).toBe(expected_nbNO)
   })
 
   it('"useTranslation" should have valid strings inside render', () => {
-    const Comp = mount(
+    render(
       <Provider locales={defaultLocales}>
         <span className="useTranslation">
           <RenderGetTranslation />
@@ -129,11 +133,13 @@ describe('Translation', () => {
       </Provider>
     )
 
-    expect(Comp.find('span.useTranslation').text()).toBe(expected_nbNO)
+    expect(document.querySelector('span.useTranslation').textContent).toBe(
+      expected_nbNO
+    )
   })
 
   it('should change to requested locale', () => {
-    const Comp = mount(
+    render(
       <Provider locales={defaultLocales}>
         <span className="useTranslation">
           <RenderGetTranslation />
@@ -142,57 +148,69 @@ describe('Translation', () => {
       </Provider>
     )
 
-    expect(Comp.find('span.useTranslation').text()).toBe(expected_nbNO)
+    expect(document.querySelector('span.useTranslation').textContent).toBe(
+      expected_nbNO
+    )
 
-    Comp.find('button.en-GB').simulate('click')
+    fireEvent.click(document.querySelector('button.en-GB'))
 
-    expect(Comp.find('span.useTranslation').text()).toBe(expected_enGB)
+    expect(document.querySelector('span.useTranslation').textContent).toBe(
+      expected_enGB
+    )
   })
 
   it('should have valid strings inside render', () => {
-    const Comp = mount(
+    render(
       <Provider locales={defaultLocales}>
-        <span className="Translation">
+        <span className="root">
           <Translation id="other.string" foo="foo" bar="bar" max="max" />
         </span>
 
         <Provider locales={nestedLocales}>
-          <span className="useTranslation">
+          <span className="nested">
             <RenderGetTranslation />
           </span>
 
-          <ChangeLocale className="inner" />
+          <ChangeLocale className="nested" />
         </Provider>
 
-        <ChangeLocale className="outer" />
+        <ChangeLocale className="root" />
       </Provider>
     )
 
-    expect(Comp.find('span.Translation').text()).toBe(expected_nbNO)
-    expect(Comp.find('span.useTranslation').text()).toBe(
+    expect(document.querySelector('span.root').textContent).toBe(
+      expected_nbNO
+    )
+    expect(document.querySelector('span.nested').textContent).toBe(
       expected_nbNO_nested
     )
 
-    Comp.find('div.outer button.en-GB').simulate('click')
+    fireEvent.click(document.querySelector('div.root button.en-GB'))
 
-    expect(Comp.find('span.Translation').text()).toBe(expected_enGB)
-    expect(Comp.find('span.useTranslation').text()).toBe(
-      expected_nbNO_nested
+    expect(document.querySelector('span.root').textContent).toBe(
+      expected_enGB
     )
-
-    Comp.find('div.inner button.en-GB').simulate('click')
-
-    expect(Comp.find('span.Translation').text()).toBe(expected_enGB)
-    expect(Comp.find('span.useTranslation').text()).toBe(
+    expect(document.querySelector('span.nested').textContent).toBe(
       expected_enGB_nested
     )
 
-    // if we change the inner locale ...
-    Comp.find('div.inner button.nb-NO').simulate('click')
+    fireEvent.click(document.querySelector('div.nested button.en-GB'))
 
-    // ... we also change the outer
-    expect(Comp.find('span.Translation').text()).toBe(expected_nbNO)
-    expect(Comp.find('span.useTranslation').text()).toBe(
+    expect(document.querySelector('span.root').textContent).toBe(
+      expected_enGB
+    )
+    expect(document.querySelector('span.nested').textContent).toBe(
+      expected_enGB_nested
+    )
+
+    // if we change the nested locale ...
+    fireEvent.click(document.querySelector('div.nested button.nb-NO'))
+
+    // ... we also change the root
+    expect(document.querySelector('span.root').textContent).toBe(
+      expected_nbNO
+    )
+    expect(document.querySelector('span.nested').textContent).toBe(
       expected_nbNO_nested
     )
   })
@@ -211,9 +229,8 @@ describe('Context.getTranslation', () => {
           //   context.setTranslation(props.translation)
           // }
           const title = context.getTranslation(props).HelpButton.title
-          const otherString = context.getTranslation(props).HelpButton[
-            'other.string'
-          ]
+          const otherString =
+            context.getTranslation(props).HelpButton['other.string']
           return (
             <>
               <p className="locale">{context.locale}</p>
@@ -229,67 +246,37 @@ describe('Context.getTranslation', () => {
   }
 
   it('should react on new lang prop', () => {
-    const Comp = mount(<MagicContext />)
+    const { rerender } = render(<MagicContext />)
 
-    expect(Comp.find('p.title').text()).toBe(
+    expect(document.querySelector('p.title').textContent).toBe(
       nbNO['nb-NO'].HelpButton.title
     )
-    expect(Comp.find('p.locale').text()).toBe('nb-NO')
+    expect(document.querySelector('p.locale').textContent).toBe('nb-NO')
 
-    Comp.setProps({
-      lang: 'en-GB',
-    })
+    rerender(<MagicContext lang="en-GB" />)
 
-    expect(Comp.find('p.title').text()).toBe(
+    expect(document.querySelector('p.title').textContent).toBe(
       enGB['en-GB'].HelpButton.title
     )
 
     // locale should not be changed
-    expect(Comp.find('p.locale').text()).not.toBe('en-GB')
-    expect(Comp.find('p.locale').text()).toBe('nb-NO')
+    expect(document.querySelector('p.locale').textContent).not.toBe(
+      'en-GB'
+    )
+    expect(document.querySelector('p.locale').textContent).toBe('nb-NO')
   })
 
   it('should react on new lang prop and prepare other.string', () => {
-    const Comp = mount(<MagicContext />)
+    const { rerender } = render(<MagicContext />)
 
-    expect(Comp.find('p.other-string').text()).toBe(given_nbNO)
+    expect(document.querySelector('p.other-string').textContent).toBe(
+      given_nbNO
+    )
 
-    Comp.setProps({
-      lang: 'en-GB',
-    })
+    rerender(<MagicContext lang="en-GB" />)
 
-    expect(Comp.find('p.other-string').text()).toBe(given_enGB)
+    expect(document.querySelector('p.other-string').textContent).toBe(
+      given_enGB
+    )
   })
-
-  // We may use that in future
-  // it('translation should be mutable, but not locale', () => {
-  //   const Comp = mount(
-  //     <MagicContext
-  //       translation={{
-  //         HelpButton: { title: 'ny-tittle' }
-  //       }}
-  //     />
-  //   )
-
-  //   expect(Comp.find('p.title').text()).toBe('ny-tittle')
-  //   expect(Comp.find('p.locale').text()).toBe('nb-NO')
-
-  //   Comp.setProps({
-  //     translation: {
-  //       HelpButton: { title: 'new-title' }
-  //     }
-  //   })
-
-  //   expect(Comp.find('p.title').text()).toBe('new-title')
-  //   expect(Comp.find('p.locale').text()).toBe('nb-NO')
-
-  //   Comp.setProps({
-  //     lang: 'en-GB',
-  //     translation: {
-  //       HelpButton: { title: 'new-title-update' }
-  //     }
-  //   })
-
-  //   expect(Comp.find('p.title').text()).not.toBe('new-title-update')
-  // })
 })
