@@ -5,6 +5,8 @@ import HeightAnimation from '../height-animation/HeightAnimation'
 import { UploadContext } from './UploadContext'
 import type { UploadAllProps, UploadFile, UploadProps } from './types'
 
+export type UploadDragEvent = React.DragEvent | DragEvent
+
 export default function UploadDropzone({
   children,
   className,
@@ -15,39 +17,39 @@ export default function UploadDropzone({
   const [hover, setHover] = React.useState(false)
   const hoverTimeout = React.useRef<NodeJS.Timer>()
 
-  const { onInputUpload } = context
+  const { onInputUpload, id } = context
 
-  const getFiles = (event: React.DragEvent) => {
+  const getFiles = (event: UploadDragEvent) => {
     const fileData = event.dataTransfer
 
     const files: UploadFile[] = []
 
-    Array.from(fileData.files).forEach((file, i) => {
+    Array.from(fileData.files).forEach((file) => {
       files.push({ file })
     })
 
     return files
   }
 
-  const hoverHandler = (event: React.DragEvent, state: boolean) => {
+  const hoverHandler = (event: UploadDragEvent, state: boolean) => {
     event.stopPropagation()
     event.preventDefault()
     clearTimers()
     setHover(state)
   }
 
-  const dropHandler = (event: React.DragEvent) => {
+  const dropHandler = (event: UploadDragEvent) => {
     const files = getFiles(event)
 
     onInputUpload(files)
     hoverHandler(event, false)
   }
 
-  const dragEnterHandler = (event: React.DragEvent) => {
+  const dragEnterHandler = (event: UploadDragEvent) => {
     hoverHandler(event, true)
   }
 
-  const dragLeaveHandler = (event: React.DragEvent) => {
+  const dragLeaveHandler = (event: UploadDragEvent) => {
     hoverHandler(event, false)
   }
 
@@ -55,7 +57,39 @@ export default function UploadDropzone({
     clearTimeout(hoverTimeout.current)
   }
 
-  React.useEffect(() => clearTimers, [])
+  React.useEffect(() => {
+    const elem = document.body
+    const execute = () => {
+      try {
+        if (!elem.hasAttribute('data-upload-drop-zone')) {
+          const add = elem.addEventListener
+          add('drop', dropHandler)
+          add('dragover', dragEnterHandler)
+          add('dragleave', dragLeaveHandler)
+          elem.setAttribute('data-upload-drop-zone', id)
+        }
+      } catch (e) {
+        //
+      }
+    }
+    const timeoutId = setTimeout(execute, 10) // Add the listeners delayed (ms) without prioritization, in case of re-renders
+
+    return () => {
+      clearTimers()
+      clearTimeout(timeoutId)
+      try {
+        if (elem.getAttribute('data-upload-drop-zone') === id) {
+          const remove = elem.removeEventListener
+          remove('drop', dropHandler)
+          remove('dragover', dragEnterHandler)
+          remove('dragleave', dragLeaveHandler)
+          elem.removeAttribute('data-upload-drop-zone')
+        }
+      } catch (e) {
+        //
+      }
+    }
+  }, [])
 
   return (
     <HeightAnimation

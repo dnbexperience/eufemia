@@ -6,7 +6,7 @@ export type useUploadReturn = {
   setFiles: (files: UploadFile[]) => void
   internalFiles: UploadFile[]
   setInternalFiles: (files: UploadFile[]) => void
-  existsInFiles: (file: File, fileItems?: UploadFile[]) => boolean
+  getExistsingFile: (file: File, fileItems?: UploadFile[]) => UploadFile
 }
 
 /**
@@ -26,8 +26,11 @@ function useUpload(id: string): useUploadReturn {
   const files = data?.files || []
   const internalFiles = data?.internalFiles || []
 
-  const existsInFiles = (file: File, fileItems: UploadFile[] = files) => {
-    return fileItems.some(({ file: f }) => {
+  const getExistsingFile = (
+    file: File,
+    fileItems: UploadFile[] = files
+  ) => {
+    return fileItems.find(({ file: f }) => {
       return (
         f.name === file.name &&
         f.size === file.size &&
@@ -41,7 +44,7 @@ function useUpload(id: string): useUploadReturn {
     setFiles,
     internalFiles,
     setInternalFiles,
-    existsInFiles,
+    getExistsingFile,
   }
 }
 
