@@ -38,11 +38,11 @@ render(
 - A **heading** will inherit its level from its previous sibling.
 - A **level provider** will create an isolated level context (`Heading.Level`).
 - A heading, nested inside a context (`Heading.Level`) will likewise inherit the previous context level.
-- A heading can have a set of different [size](/uilib/typography/heading#headings) properties. More details below.
+- A heading can have a set of different [size](/uilib/elements/heading#headings) properties. More details below.
 
 ### Defining heading styles / sizes
 
-For the visual part, we simply use [typography styles](/uilib/typography/heading) with the `size` property, e.g. `size="x-large"`
+For the visual part, we simply use [typography styles](/uilib/elements/heading) with the `size` property, e.g. `size="x-large"`
 
 ```jsx
 import { Heading } from '@dnb/eufemia/components'

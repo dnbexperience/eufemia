@@ -7,8 +7,6 @@ showTabs: true
 tabs:
   - title: General
     key: /uilib/typography
-  - title: Headings
-    key: /uilib/typography/heading
 ---
 
 import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
