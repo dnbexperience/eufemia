@@ -3,13 +3,11 @@ title: 'Typography'
 description: 'DNB Headings and paragraphs, their properties and styling.'
 icon: 'typography'
 order: 5
-showTabs: true
-tabs:
-  - title: General
-    key: /uilib/typography
 ---
 
 import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
+
+# Typography
 
 ## Typography in general
 
