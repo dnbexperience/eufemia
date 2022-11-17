@@ -61,8 +61,13 @@ const Upload = (localProps: UploadAllProps) => {
 
   const spacingClasses = createSpacingClasses(props)
 
-  const { files, setFiles, setInternalFiles, existsInFiles } =
+  const { files, setFiles, setInternalFiles, getExistsingFile } =
     useUpload(id)
+
+  const filesRef = React.useRef<UploadFile[]>(files)
+  React.useEffect(() => {
+    filesRef.current = files
+  }) // keep our ref updated on every re-render
 
   return (
     <UploadContext.Provider
@@ -89,16 +94,16 @@ const Upload = (localProps: UploadAllProps) => {
   )
 
   function onInputUpload(newFiles: UploadFile[]) {
+    const files = filesRef.current
     const mergedFiles = [
       ...files,
       ...newFiles.map((fileItem) => {
         const { file } = fileItem
 
-        if (!fileItem.id) {
-          fileItem.id = makeUniqueId()
-        }
+        const existingFile = getExistsingFile(file, files)
 
-        fileItem.exists = existsInFiles(file, files)
+        fileItem.exists = Boolean(existingFile)
+        fileItem.id = fileItem.exists ? existingFile.id : makeUniqueId()
 
         return fileItem
       }),
