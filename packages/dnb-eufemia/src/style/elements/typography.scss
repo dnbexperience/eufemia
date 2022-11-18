@@ -305,6 +305,14 @@
   @include paragraphStyle();
 }
 
+// Tables
+.dnb-table {
+  b,
+  strong {
+    font-weight: var(--font-weight-medium);
+  }
+}
+
 // .dnb-h1,/* deprecated */
 .dnb-h--xx-large {
   @include headingSize_xx-large();

@@ -263,6 +263,10 @@ a.dnb-button {
     line-height: var(--line-height-basis);
     font-style: italic; }
 
+.dnb-table b,
+.dnb-table strong {
+  font-weight: var(--font-weight-medium); }
+
 .dnb-h--xx-large {
   font-size: var(--font-size-xx-large);
   line-height: var(--line-height-x-large); }
