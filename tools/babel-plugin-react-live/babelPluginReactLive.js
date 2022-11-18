@@ -18,7 +18,7 @@ function babelPluginReactLive(babel, options) {
       t.templateLiteral(
         [
           t.templateElement({
-            raw: formattedCode.replace(/^;/, '').replace(/`/g, '\\\\`'),
+            raw: formattedCode.replace(/^;/, '').replace(/`/g, '\\`'),
           }),
         ],
         []
