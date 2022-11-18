@@ -19,6 +19,7 @@
 
   &--fixed {
     table-layout: fixed;
+    width: auto;
   }
 
   &__sticky-helper > td {

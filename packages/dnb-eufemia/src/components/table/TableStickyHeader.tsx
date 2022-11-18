@@ -1,7 +1,7 @@
 import React from 'react'
 import { warn } from '../../shared/component-helper'
 
-export interface StickyTableHeaderProps {
+export type StickyTableHeaderProps = {
   /**
    * Makes the Table header sticky
    * Default: false

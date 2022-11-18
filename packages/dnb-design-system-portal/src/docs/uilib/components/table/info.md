@@ -31,3 +31,17 @@ Use e.g. `align="right"` on a `<Th>`, `<Td>` or `<Tr>` to align a table header o
 ## Fixed layout
 
 You may consider using `table-layout: fixed;`. You can use the modifier property `fixed` for doing so and combine it with CSS e.g. `width: 40%` on spesific table headers.
+
+### Scrollable
+
+Depending on your situation, you may want to wrap your Table within `Table.ScrollView`:
+
+```jsx
+import { Table } from '@dnb/eufemia'
+
+render(
+  <Table.ScrollView>
+    <Table />
+  </Table.ScrollView>
+)
+```
