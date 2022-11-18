@@ -47,6 +47,10 @@ exports[`Table scss have to match default theme snapshot 1`] = `
     padding-bottom: calc(var(--spacing-small) * 1.188);
     /* 19/16 */
     color: var(--theme-color-black-80, currentColor); }
+    .dnb-table > tr > td[rowspan],
+    .dnb-table > tbody > tr > td[rowspan], .dnb-table__td[rowspan],
+    .dnb-table > tr > th[scope='row'][rowspan] {
+      vertical-align: baseline; }
   .dnb-table > tbody > tr,
   .dnb-table .dnb-table__tr,
   .dnb-table .dnb-table__tr--even {
@@ -221,6 +225,9 @@ exports[`Table scss have to match snapshot 1`] = `
   .dnb-table > thead > tr > th.dnb-table--x-small,
   .dnb-table > tbody > tr > td.dnb-table--x-small, .dnb-table__th.dnb-table--x-small, .dnb-table__td.dnb-table--x-small {
     font-size: var(--font-size-x-small); }
+  .dnb-table b,
+  .dnb-table strong {
+    font-weight: var(--font-weight-medium); }
   .dnb-table.dnb-skeleton > * {
     -webkit-text-fill-color: var(--skeleton-color); }
   .dnb-table > thead > tr > th.dnb-table--sortable,

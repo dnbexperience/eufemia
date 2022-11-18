@@ -38,6 +38,16 @@ describe('Table screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match a complex table layout', async () => {
+    const screenshot = await testPageScreenshot({
+      style: {
+        width: '50rem',
+      },
+      selector: '[data-visual-test="table-complex"] .dnb-table',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match a sortable table header on focus', async () => {
     const selector =
       '[data-visual-test="table-classes"] th.dnb-table--sortable.dnb-table--reversed'

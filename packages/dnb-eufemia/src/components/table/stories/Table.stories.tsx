@@ -125,7 +125,7 @@ export const BasicTable = () => {
           </Tr>
           <Tr>
             <Td colSpan={2}>Column which spans over two columns</Td>
-            <Td>Column 3</Td>
+            <Td rowSpan={2}>Column 3</Td>
             <Td align="right">Column 4</Td>
           </Tr>
           <Tr>

@@ -56,6 +56,10 @@
     padding-bottom: calc(var(--spacing-small) * 1.188); /* 19/16 */
 
     color: var(--theme-color-black-80, currentColor);
+
+    &[rowspan] {
+      vertical-align: baseline;
+    }
   }
 
   // Needs a double & & for specificity
