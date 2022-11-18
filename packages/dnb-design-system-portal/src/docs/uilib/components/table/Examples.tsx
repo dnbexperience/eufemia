@@ -5,10 +5,8 @@
 
 import React from 'react'
 import { css, Global } from '@emotion/react'
-import styled from '@emotion/styled'
 import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 import { P, Code } from '@dnb/eufemia/src/elements'
-import { ScrollView } from '@dnb/eufemia/src/fragments'
 import Table from '@dnb/eufemia/src/components/table/Table'
 import Th from '@dnb/eufemia/src/components/table/TableTh'
 import Td from '@dnb/eufemia/src/components/table/TableTd'

@@ -57,6 +57,7 @@ const CodeBlock = ({
     )
   } else {
     return (
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       <Highlight
         {...defaultProps}
@@ -339,6 +340,7 @@ const cleanTokens = (tokens) => {
   return tokens
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 Prism.languages.insertBefore('jsx', 'template-string', {
   'styled-template-string': {
