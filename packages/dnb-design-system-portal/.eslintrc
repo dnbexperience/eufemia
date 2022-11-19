@@ -42,5 +42,23 @@
     "react": {
       "version": ">=16.12"
     }
-  }
+  },
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "parser": "@typescript-eslint/parser",
+      "globals": { "JSX": true },
+      "plugins": ["@typescript-eslint"],
+      "extends": ["plugin:@typescript-eslint/recommended"],
+      "rules": {
+        "import/named": "off",
+        "no-unused-vars": [
+          "error",
+          { "args": "none", "ignoreRestSiblings": true }
+        ],
+        "react/prop-types": "off",
+        "react/require-default-props": "off"
+      }
+    }
+  ]
 }
