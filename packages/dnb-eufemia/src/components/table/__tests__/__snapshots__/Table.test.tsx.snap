@@ -158,7 +158,8 @@ exports[`Table scss have to match snapshot 1`] = `
   /* stylelint-disable */
   /* stylelint-enable */ }
   .dnb-table--fixed {
-    table-layout: fixed; }
+    table-layout: fixed;
+    width: auto; }
   .dnb-table__sticky-helper > td {
     display: block;
     overflow: hidden;
