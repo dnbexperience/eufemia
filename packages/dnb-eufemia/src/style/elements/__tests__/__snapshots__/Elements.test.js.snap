@@ -34,12 +34,15 @@ button.dnb-anchor {
 .dnb-anchor {
   display: inline;
   padding: 0.05575em 0.125em 0.05575em;
-  color: var(--color-sea-green);
   font-size: var(--font-size-basis);
   text-decoration: none;
-  box-shadow: 0 0.09375rem 0 0 currentColor;
   border-radius: 0;
+  box-shadow: 0 0.09375rem 0 0 currentColor;
+  color: var(--color-sea-green);
   transition: background-color 200ms ease-in-out, box-shadow 180ms ease-in-out, border-radius 200ms ease-in-out; }
+  sup .dnb-anchor,
+  sub .dnb-anchor {
+    padding: 0 0.025em 0; }
   .dnb-p .dnb-anchor,
   .dnb-lead .dnb-anchor,
   .dnb-h--xx-large .dnb-anchor,
@@ -262,6 +265,10 @@ a.dnb-button {
     font-weight: var(--font-weight-medium);
     line-height: var(--line-height-basis);
     font-style: italic; }
+  .dnb-p sup,
+  .dnb-p sub {
+    font-size: 0.777777em;
+    line-height: 0.5em; }
 
 .dnb-h--xx-large {
   font-size: var(--font-size-xx-large);
