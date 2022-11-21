@@ -10,6 +10,12 @@ export type TableTrProps = {
   variant?: 'even' | 'odd'
 
   /**
+   * If set to true, the inherited header text will not wrap to new lines
+   * Default: false
+   */
+  noWrap?: boolean
+
+  /**
    * The content of the component.
    */
   children:
@@ -23,6 +29,7 @@ export default function Tr(
 ) {
   const {
     variant,
+    noWrap,
     children,
     className: _className,
     ...props
@@ -33,6 +40,7 @@ export default function Tr(
   const className = classnames(
     'dnb-table__tr',
     currentVariant && `dnb-table__tr--${currentVariant}`,
+    noWrap && 'dnb-table--no-wrap',
     _className
   )
 

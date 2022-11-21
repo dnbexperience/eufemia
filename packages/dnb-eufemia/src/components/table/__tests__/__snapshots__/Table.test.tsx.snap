@@ -13,63 +13,17 @@ exports[`Table scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-.dnb-table {
-  /* stylelint-disable-next-line */
-  /* stylelint-disable-next-line */ }
-  .dnb-table > tr > th,
-  .dnb-table > tr > td,
-  .dnb-table > thead > tr > th,
-  .dnb-table > tbody > tr > td, .dnb-table__th, .dnb-table__td {
-    position: relative;
-    font-size: var(--font-size-basis);
-    line-height: var(--line-height-basis);
-    border-spacing: 0;
-    word-break: keep-all; }
-  .dnb-table > tr > th,
-  .dnb-table > thead > tr > th, .dnb-table__th {
-    padding: var(--spacing-x-large) var(--spacing-small) var(--spacing-x-small);
-    font-weight: var(--font-weight-medium);
-    color: var(--color-black);
-    vertical-align: bottom;
-    background-color: var(--color-white); }
-    .dnb-table > tr > th:not([align]),
-    .dnb-table > thead > tr > th:not([align]), .dnb-table__th:not([align]) {
-      text-align: inherit; }
-    @supports (-moz-appearance: meterbar) and (background-blend-mode: difference, normal) {
-      .dnb-table > tr > th,
-      .dnb-table > thead > tr > th, .dnb-table__th {
-        padding-bottom: calc(var(--spacing-x-small) - 0.5px); } }
-  .dnb-table > tr > td,
-  .dnb-table > tbody > tr > td, .dnb-table__td,
-  .dnb-table > tr > th[scope='row'] {
-    padding: var(--spacing-small);
-    padding-top: calc(var(--spacing-small) * 1.25);
-    padding-bottom: calc(var(--spacing-small) * 1.188);
-    /* 19/16 */
-    color: var(--theme-color-black-80, currentColor); }
-    .dnb-table > tr > td[rowspan],
-    .dnb-table > tbody > tr > td[rowspan], .dnb-table__td[rowspan],
-    .dnb-table > tr > th[scope='row'][rowspan] {
-      vertical-align: baseline; }
-  .dnb-table > tbody > tr,
-  .dnb-table .dnb-table__tr,
-  .dnb-table .dnb-table__tr--even {
-    background-color: var(--color-lavender); }
-  .dnb-table > tbody > tr:not(.dnb-table__tr--even):nth-of-type(2n),
-  .dnb-table .dnb-table__tr:not(.dnb-table__tr--even):nth-of-type(2n),
-  .dnb-table .dnb-table__tr--odd {
-    background-color: var(--color-white); }
-  .dnb-table > thead > tr > th::after,
-  .dnb-table > tbody > tr:last-of-type > td::after,
-  .dnb-table > thead > .dnb-table__tr > .dnb-table__th::after,
-  .dnb-table > tbody > .dnb-table__tr:last-of-type > .dnb-table__td::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -1px;
-    height: 1px;
-    background-color: var(--color-black-8); }
+.dnb-table > thead > tr > th::after,
+.dnb-table > tbody > tr:last-of-type > td::after,
+.dnb-table > thead > .dnb-table__tr > .dnb-table__th::after,
+.dnb-table > tbody > .dnb-table__tr:last-of-type > .dnb-table__td::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background-color: var(--color-black-8); }
 "
 `;
 
@@ -145,6 +99,105 @@ exports[`Table scss have to match snapshot 1`] = `
 * Button mixins
 *
 */
+/*
+* Table component
+*
+*/
+.dnb-table > tr > th,
+.dnb-table > thead > tr > th, .dnb-table__th {
+  padding: var(--spacing-x-large) var(--spacing-small) var(--spacing-x-small);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-black);
+  vertical-align: bottom;
+  background-color: var(--color-white); }
+  .dnb-table > tr > th:not([align]),
+  .dnb-table > thead > tr > th:not([align]), .dnb-table__th:not([align]) {
+    text-align: inherit; }
+  @supports (-moz-appearance: meterbar) and (background-blend-mode: difference, normal) {
+    .dnb-table > tr > th,
+    .dnb-table > thead > tr > th, .dnb-table__th {
+      padding-bottom: calc(var(--spacing-x-small) - 0.5px); } }
+
+.dnb-table__th__horizontal {
+  display: flex;
+  align-items: flex-end; }
+
+/*
+* Table component
+*
+*/
+.dnb-table > tr > td,
+.dnb-table > tbody > tr > td, .dnb-table__td,
+.dnb-table > tr > th[scope='row'] {
+  padding: var(--spacing-small);
+  padding-top: calc(var(--spacing-small) * 1.25);
+  padding-bottom: calc(var(--spacing-small) * 1.25);
+  color: var(--theme-color-black-80, currentColor);
+  vertical-align: baseline; }
+
+.dnb-table__td--no-spacing,
+.dnb-table td.dnb-table__td--no-spacing {
+  padding: 0; }
+
+/*
+* Table component
+*
+*/
+.dnb-table > tbody > tr,
+.dnb-table .dnb-table__tr,
+.dnb-table .dnb-table__tr--even {
+  background-color: var(--color-lavender); }
+
+.dnb-table > tbody > tr:not(.dnb-table__tr--even):nth-of-type(2n),
+.dnb-table .dnb-table__tr:not(.dnb-table__tr--even):nth-of-type(2n),
+.dnb-table .dnb-table__tr--odd {
+  background-color: var(--color-white); }
+
+/*
+* Table component
+*
+*/
+.dnb-table > tr > th,
+.dnb-table > tr > td,
+.dnb-table > thead > tr > th,
+.dnb-table > tbody > tr > td, .dnb-table__th, .dnb-table__td {
+  position: relative;
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+  border-spacing: 0;
+  word-break: keep-all; }
+
+/*
+* Table component
+*
+*/
+.dnb-table__sticky-helper > td {
+  display: block;
+  overflow: hidden;
+  padding: 0 !important;
+  height: 0; }
+
+.dnb-table tr.sticky th {
+  position: sticky;
+  top: var(--table-top, 0);
+  z-index: 2; }
+  .dnb-table tr.sticky th::before {
+    content: '';
+    position: absolute;
+    opacity: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 6px;
+    box-shadow: var(--shadow-default-x) -2px 12px 8px var(--shadow-default-color);
+    clip-path: inset(6px 0 -48px 0);
+    transition: opacity 300ms ease-out; }
+    [data-visual-test-wrapper] .dnb-table tr.sticky th::before {
+      transition: none; }
+
+.dnb-table tr.sticky.show-shadow th::before {
+  opacity: 1; }
+
 .dnb-table {
   display: table;
   table-layout: auto;
@@ -154,17 +207,13 @@ exports[`Table scss have to match snapshot 1`] = `
   margin-bottom: var(--spacing-small);
   border-spacing: 0;
   border-collapse: collapse;
-  /* stylelint-disable-next-line */
   /* stylelint-disable */
   /* stylelint-enable */ }
   .dnb-table--fixed {
     table-layout: fixed;
     width: auto; }
-  .dnb-table__sticky-helper > td {
-    display: block;
-    overflow: hidden;
-    padding: 0 !important;
-    height: 0; }
+  .dnb-table--no-wrap {
+    white-space: nowrap; }
   .dnb-table, .dnb-table--left {
     text-align: left; }
   .dnb-table--right {
@@ -175,25 +224,6 @@ exports[`Table scss have to match snapshot 1`] = `
     font-size: var(--font-size-small);
     margin-top: var(--spacing-x-small);
     caption-side: bottom; }
-  .dnb-table tr.sticky th {
-    position: sticky;
-    top: var(--table-top, 0);
-    z-index: 2; }
-    .dnb-table tr.sticky th::before {
-      content: '';
-      position: absolute;
-      opacity: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 6px;
-      box-shadow: var(--shadow-default-x) -2px 12px 8px var(--shadow-default-color);
-      clip-path: inset(6px 0 -48px 0);
-      transition: opacity 300ms ease-out; }
-      [data-visual-test-wrapper] .dnb-table tr.sticky th::before {
-        transition: none; }
-  .dnb-table tr.sticky.show-shadow th::before {
-    opacity: 1; }
   .dnb-table--small,
   .dnb-table--small > tr > th,
   .dnb-table--small > tr > td,
@@ -441,10 +471,6 @@ thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus
   .dnb-table .dnb-table__th.dnb-table--reversed .dnb-table__sort-button.dnb-button .dnb-icon {
     transform: rotate(180deg);
     transform-origin: 50% 50%; }
-  .dnb-table > thead > tr > th.dnb-table--no-wrap,
-  .dnb-table > tbody > tr > th.dnb-table--no-wrap,
-  .dnb-table .dnb-table__th.dnb-table--no-wrap {
-    white-space: nowrap; }
   .dnb-table .dnb-table__th .dnb-table__help-button,
   .dnb-table > thead > tr > th .dnb-table__help-button {
     margin-left: 0.5rem; }

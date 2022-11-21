@@ -1,0 +1,26 @@
+/*
+* Table component
+*
+*/
+
+@import './_table-header-buttons.scss';
+
+.dnb-table {
+  & > tr > td,
+  & > tbody > tr > td,
+  &__td,
+  & > tr > th[scope='row'] {
+    padding: var(--spacing-small);
+    padding-top: calc(var(--spacing-small) * 1.25); // 20px
+    padding-bottom: calc(var(--spacing-small) * 1.25); // 20px
+
+    color: var(--theme-color-black-80, currentColor);
+
+    vertical-align: baseline;
+  }
+
+  &__td--no-spacing,
+  td#{&}__td--no-spacing {
+    padding: 0;
+  }
+}

@@ -13,7 +13,7 @@ TableSticky,
 
 ## Demos
 
-### Default variant
+### Basic table
 
 <TableVariantBasic />
 
@@ -23,7 +23,7 @@ You can force a row to overwrite the automated odd/even counting by providing e.
 
 <TableVariantComplex />
 
-### Fixed table with Table.ScrollView
+### Fixed table
 
 <TableVariantFixed />
 

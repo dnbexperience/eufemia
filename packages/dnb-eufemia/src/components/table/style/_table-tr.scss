@@ -1,0 +1,22 @@
+/*
+* Table component
+*
+*/
+
+@import './_table-header-buttons.scss';
+
+.dnb-table {
+  // Needs a double & & for specificity
+  & > tbody > tr,
+  & &__tr,
+  & &__tr--even {
+    background-color: var(--color-lavender);
+  }
+
+  // Needs a double & & for specificity
+  & > tbody > tr:not(#{&}__tr--even):nth-of-type(2n),
+  & &__tr:not(#{&}__tr--even):nth-of-type(2n),
+  & &__tr--odd {
+    background-color: var(--color-white);
+  }
+}

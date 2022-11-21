@@ -21,6 +21,7 @@ showTabs: true
 | Properties | Description                                                                                                                                                     |
 | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `variant`  | _(optional)_ defines the variant of the current row. If set to either `odd` or `even`, the next row one will continue with the opposite. Defaults to automatic. |
+| `noWrap`   | _(optional)_ if set to `true`, the inherited header text will not wrap to new lines. Defaults to `false`.                                                       |
 
 ### Table Header `<Th>`
 
@@ -30,3 +31,9 @@ showTabs: true
 | `active`   | _(optional)_ defines the sortable column as the current active. Defaults to `false`.            |
 | `reversed` | _(optional)_ defines the sortable column as in reversed order. Defaults to `false`.             |
 | `noWrap`   | _(optional)_ if set to `true`, the header text will not wrap to new lines. Defaults to `false`. |
+
+### Table Data `<Td>`
+
+| Properties  | Description                                                                   |
+| ----------- | ----------------------------------------------------------------------------- |
+| `noSpacing` | _(optional)_ if set to `true`, no padding will be added. Defaults to `false`. |

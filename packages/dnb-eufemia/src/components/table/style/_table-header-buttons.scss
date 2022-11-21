@@ -171,11 +171,6 @@
       }
     }
   }
-  & > thead > tr > th#{&}--no-wrap,
-  & > tbody > tr > th#{&}--no-wrap,
-  & &__th#{&}--no-wrap {
-    white-space: nowrap;
-  }
 
   & &__th,
   & > thead > tr > th {
