@@ -1,32 +1,28 @@
 import React from 'react'
 import classnames from 'classnames'
-
-// Shared
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
-import { SkeletonShow } from '../skeleton/Skeleton'
-import { SpacingProps } from '../../shared/types'
 import {
   extendPropsWithContext,
   validateDOMAttributes,
 } from '../../shared/component-helper'
+import ScrollView from './TableScrollView'
 import TableContext from './TableContext'
+import { useStickyHeader, StickyHelper } from './TableStickyHeader'
 
-// Internal
-import {
-  useStickyHeader,
-  StickyHelper,
-  StickyTableHeaderProps,
-} from './TableStickyHeader'
+import type { StickyTableHeaderProps } from './TableStickyHeader'
+import type { SkeletonShow } from '../skeleton/Skeleton'
+import type { SpacingProps } from '../../shared/types'
 
 export type TableSizes = 'large' | 'medium'
 export type TableVariants = 'generic'
 
 export { StickyHelper }
+export { ScrollView }
 
-export interface TableProps extends StickyTableHeaderProps {
+export type TableProps = {
   /**
    * The content of the component.
    */
@@ -59,18 +55,18 @@ export interface TableProps extends StickyTableHeaderProps {
    * Default: null.
    */
   fixed?: boolean
-}
+} & StickyTableHeaderProps
+
+export type TableAllProps = TableProps &
+  React.TableHTMLAttributes<HTMLTableElement> &
+  SpacingProps
 
 export const defaultProps = {
   size: 'large',
   variant: 'generic',
 }
 
-const Table = (
-  componentProps: TableProps &
-    React.TableHTMLAttributes<HTMLTableElement> &
-    SpacingProps
-) => {
+const Table = (componentProps: TableAllProps) => {
   const context = React.useContext(Context)
 
   const allProps = extendPropsWithContext(
@@ -150,3 +146,4 @@ const Table = (
 export default Table
 
 Table.StickyHelper = StickyHelper
+Table.ScrollView = ScrollView

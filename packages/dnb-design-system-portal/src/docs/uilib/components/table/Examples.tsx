@@ -5,6 +5,7 @@
 
 import React from 'react'
 import { css, Global } from '@emotion/react'
+import styled from '@emotion/styled'
 import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 import { P, Code } from '@dnb/eufemia/src/elements'
 import Table from '@dnb/eufemia/src/components/table/Table'
@@ -86,32 +87,24 @@ export const TableVariantComplex = () => (
       </thead>
       <tbody>
         <Tr variant="even">
-          <th className="dnb-table__td" scope="row">
-            Row 1 header
-          </th>
+          <Td>Row 1</Td>
           <Td rowSpan={2}>Row 1 that spans</Td>
           <Td>Row 1</Td>
           <Td>Row 1</Td>
         </Tr>
         <Tr variant="even">
-          <th className="dnb-table__td" scope="row">
-            Row 2 header
-          </th>
+          <Td>Row 2</Td>
           <Td>Row 2</Td>
           <Td>Row 2</Td>
         </Tr>
         <Tr>
-          <th className="dnb-table__td" scope="row">
-            Row 3 header
-          </th>
+          <Td>Row 3</Td>
           <Td>Row 3</Td>
           <Td>Row 3</Td>
           <Td>Row 3</Td>
         </Tr>
         <Tr>
-          <th className="dnb-table__td" scope="row">
-            Row 4 header
-          </th>
+          <Td>Row 4</Td>
           <Td>Row 4</Td>
           <Td>Row 4</Td>
           <Td>Row 4</Td>
@@ -123,6 +116,120 @@ export const TableVariantComplex = () => (
         </Tr>
       </tfoot>
     </Table>
+  </ComponentBox>
+)
+
+export const TableVariantFixed = () => (
+  <ComponentBox hideCode data-visual-test="table-fixed">
+    {() => {
+      const FixedTable = styled(Table)`
+        min-width: 80rem;
+
+        thead {
+          th:nth-of-type(1) {
+            width: 30%;
+          }
+          th:nth-of-type(2) {
+            width: 20%;
+          }
+          th:nth-of-type(3) {
+            width: 10%;
+          }
+          th:nth-of-type(4) {
+            width: 10%;
+          }
+          th:nth-of-type(5) {
+            width: 5%;
+          }
+          th:nth-of-type(6) {
+            width: 5%;
+          }
+          th:nth-of-type(7) {
+            width: 5%;
+          }
+          th:nth-of-type(8) {
+            width: 5%;
+          }
+        }
+      `
+      return (
+        <Table.ScrollView bottom="large">
+          <FixedTable fixed>
+            <caption className="dnb-sr-only">A Table Caption</caption>
+            <thead>
+              <Tr>
+                <Th scope="col" noWrap>
+                  Column 1
+                </Th>
+                <Th scope="col" noWrap>
+                  Column 2
+                </Th>
+                <Th scope="col" noWrap>
+                  Column 3
+                </Th>
+                <Th scope="col" noWrap>
+                  Column 4
+                </Th>
+                <Th scope="col" noWrap>
+                  Column 5
+                </Th>
+                <Th scope="col" noWrap>
+                  Column 6
+                </Th>
+                <Th scope="col" noWrap>
+                  Column 7
+                </Th>
+                <Th scope="col" noWrap align="right">
+                  Column 8
+                </Th>
+              </Tr>
+            </thead>
+            <tbody>
+              <Tr>
+                <Td>Row 1</Td>
+                <Td>Row 1</Td>
+                <Td>Row 1</Td>
+                <Td>Row 1</Td>
+                <Td>Row 1</Td>
+                <Td>Row 1</Td>
+                <Td>Row 1</Td>
+                <Td align="right">Row 1</Td>
+              </Tr>
+              <Tr>
+                <Td>Row 2</Td>
+                <Td>Row 2</Td>
+                <Td>Row 2</Td>
+                <Td>Row 2</Td>
+                <Td>Row 2</Td>
+                <Td>Row 2</Td>
+                <Td>Row 2</Td>
+                <Td align="right">Row 2</Td>
+              </Tr>
+              <Tr>
+                <Td>Row 3</Td>
+                <Td>Row 3</Td>
+                <Td>Row 3</Td>
+                <Td>Row 3</Td>
+                <Td>Row 3</Td>
+                <Td>Row 3</Td>
+                <Td>Row 3</Td>
+                <Td align="right">Row 3</Td>
+              </Tr>
+              <Tr>
+                <Td>Row 4</Td>
+                <Td>Row 4</Td>
+                <Td>Row 4</Td>
+                <Td>Row 4</Td>
+                <Td>Row 4</Td>
+                <Td>Row 4</Td>
+                <Td>Row 4</Td>
+                <Td align="right">Row 4</Td>
+              </Tr>
+            </tbody>
+          </FixedTable>
+        </Table.ScrollView>
+      )
+    }}
   </ComponentBox>
 )
 
