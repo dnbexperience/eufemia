@@ -1,0 +1,21 @@
+/*
+* Table component
+*
+*/
+
+.dnb-table {
+  & > tr > th,
+  & > tr > td,
+  & > thead > tr > th,
+  & > tbody > tr > td,
+  &__th,
+  &__td {
+    position: relative;
+
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis);
+    border-spacing: 0;
+
+    word-break: keep-all;
+  }
+}

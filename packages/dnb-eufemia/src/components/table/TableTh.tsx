@@ -71,5 +71,18 @@ export default function Th(
   )
 }
 
+function Horizontal({
+  className = null,
+  ...rest
+}: React.ThHTMLAttributes<HTMLDivElement>) {
+  return (
+    <div
+      {...rest}
+      className={classnames('dnb-table__th__horizontal', className)}
+    />
+  )
+}
+
 Th.SortButton = TableSortButton
 Th.HelpButton = TableHelpButton
+Th.Horizontal = Horizontal

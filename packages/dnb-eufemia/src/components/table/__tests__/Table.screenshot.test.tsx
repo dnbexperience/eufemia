@@ -31,7 +31,7 @@ describe('Table screenshot', () => {
   it('have to match the default choice of table styles', async () => {
     const screenshot = await testPageScreenshot({
       style: {
-        width: '50rem',
+        width: '30rem',
       },
       selector: '[data-visual-test="table-default"] .dnb-table',
     })
