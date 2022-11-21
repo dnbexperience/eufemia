@@ -137,11 +137,6 @@
 
   /* stylelint-enable */
 
-  b,
-  strong {
-    font-weight: var(--font-weight-medium);
-  }
-
   &.dnb-skeleton {
     > * {
       -webkit-text-fill-color: var(--skeleton-color);
