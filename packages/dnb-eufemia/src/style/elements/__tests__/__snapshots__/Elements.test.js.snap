@@ -270,6 +270,10 @@ a.dnb-button {
     font-size: 0.777777em;
     line-height: 0.5em; }
 
+.dnb-table b,
+.dnb-table strong {
+  font-weight: var(--font-weight-medium); }
+
 .dnb-h--xx-large {
   font-size: var(--font-size-xx-large);
   line-height: var(--line-height-x-large); }

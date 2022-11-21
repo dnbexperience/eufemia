@@ -226,9 +226,6 @@ exports[`Table scss have to match snapshot 1`] = `
   .dnb-table > thead > tr > th.dnb-table--x-small,
   .dnb-table > tbody > tr > td.dnb-table--x-small, .dnb-table__th.dnb-table--x-small, .dnb-table__td.dnb-table--x-small {
     font-size: var(--font-size-x-small); }
-  .dnb-table b,
-  .dnb-table strong {
-    font-weight: var(--font-weight-medium); }
   .dnb-table.dnb-skeleton > * {
     -webkit-text-fill-color: var(--skeleton-color); }
   .dnb-table > thead > tr > th.dnb-table--sortable,

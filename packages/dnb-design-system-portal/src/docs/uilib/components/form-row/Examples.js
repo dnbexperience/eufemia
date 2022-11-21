@@ -5,7 +5,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import ComponentBox from '../../../../shared/tags/ComponentBox'
+import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 import { Global, css } from '@emotion/react'
 import styled from '@emotion/styled'
 import {
