@@ -182,6 +182,12 @@
     line-height: var(--line-height-basis);
     font-style: italic;
   }
+
+  sup,
+  sub {
+    font-size: 0.777777em; // ensure we get 14px (x-small) when parent font-size is 18px (default size)
+    line-height: 0.5em; // ensure the parent line-height is still the same
+  }
 }
 @mixin headingSpacing_xx-large() {
   &:not([class*='space__top']) {

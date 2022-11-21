@@ -14,16 +14,20 @@ $anchorBorderRadius: 0.25em;
 
   padding: 0.05575em 0.125em 0.05575em; // the total body height will then be 24px if font-size is 18px
 
-  color: var(--color-sea-green);
   font-size: var(--font-size-basis);
-
   text-decoration: none;
-  box-shadow: 0 $anchorBorderBottomWidth 0 0 currentColor;
   border-radius: 0;
+  box-shadow: 0 $anchorBorderBottomWidth 0 0 currentColor;
+
+  color: var(--color-sea-green);
 
   @if $theme == 'highlighted' {
     color: var(--color-emerald-green);
-    box-shadow: 0 $anchorBorderBottomWidth 0 0 currentColor;
+  }
+
+  sup &,
+  sub & {
+    padding: 0 0.025em 0;
   }
 
   .dnb-p &,

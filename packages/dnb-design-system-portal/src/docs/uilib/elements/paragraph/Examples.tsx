@@ -41,6 +41,30 @@ export function ParagraphDefault() {
         <Case>
           <cite>Cite paragraph</cite>
         </Case>
+        <Case>
+          Text <sup>1</sup>{' '}
+          <b>
+            Text <sup>1</sup>
+          </b>{' '}
+        </Case>
+        <Case>
+          Text{' '}
+          <sup>
+            <Anchor href="/">1</Anchor>
+          </sup>{' '}
+          <b>
+            Text{' '}
+            <sup>
+              <Anchor href="/">1</Anchor>
+            </sup>
+          </b>{' '}
+        </Case>
+        <Case>
+          Text <sub>1</sub>{' '}
+          <b>
+            Text <sub>1</sub>
+          </b>{' '}
+        </Case>
       </P>
     </ComponentBox>
   )
@@ -73,6 +97,30 @@ export function ParagraphSmall() {
           </Case>
           <Case>
             <cite>Cite paragraph</cite>
+          </Case>
+          <Case>
+            Text <sup>1</sup>{' '}
+            <b>
+              Text <sup>1</sup>
+            </b>{' '}
+          </Case>
+          <Case>
+            Text{' '}
+            <sup>
+              <Anchor href="/">1</Anchor>
+            </sup>{' '}
+            <b>
+              Text{' '}
+              <sup>
+                <Anchor href="/">1</Anchor>
+              </sup>
+            </b>{' '}
+          </Case>
+          <Case>
+            Text <sub>1</sub>{' '}
+            <b>
+              Text <sub>1</sub>
+            </b>{' '}
           </Case>
         </P>
         <P size="x-small">
