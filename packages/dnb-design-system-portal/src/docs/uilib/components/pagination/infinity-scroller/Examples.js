@@ -9,8 +9,8 @@ import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 
 import { Section, Space, Button } from '@dnb/eufemia/src/components'
-import { Table, H1, P, Ul } from '@dnb/eufemia/src/elements'
-import { StickyHelper } from '@dnb/eufemia/src/components/Table'
+import { H1, P, Ul } from '@dnb/eufemia/src/elements'
+import Table, { StickyHelper } from '@dnb/eufemia/src/components/Table'
 import { hasSelectedText } from '@dnb/eufemia/src/shared/helpers'
 
 import { createPagination } from '@dnb/eufemia/src/components/Pagination'

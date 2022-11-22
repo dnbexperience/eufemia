@@ -8,8 +8,8 @@ import PropTypes from 'prop-types'
 import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 
-import { Button } from '@dnb/eufemia/src/components'
-import { Table, P } from '@dnb/eufemia/src/elements'
+import { Table, Button } from '@dnb/eufemia/src/components'
+import { P } from '@dnb/eufemia/src/elements'
 import { StickyHelper } from '@dnb/eufemia/src/components/Table'
 import { hasSelectedText } from '@dnb/eufemia/src/shared/helpers'
 
