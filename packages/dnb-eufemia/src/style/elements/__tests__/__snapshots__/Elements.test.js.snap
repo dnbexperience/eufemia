@@ -217,6 +217,11 @@ a.dnb-button {
 .dnb-small {
   font-size: var(--font-size-small); }
 
+sup,
+sub {
+  font-size: 0.777777em;
+  line-height: 0.5em; }
+
 .dnb-p {
   font-size: var(--font-size-basis);
   color: var(--theme-color-black-80, currentColor);
@@ -265,10 +270,6 @@ a.dnb-button {
     font-weight: var(--font-weight-medium);
     line-height: var(--line-height-basis);
     font-style: italic; }
-  .dnb-p sup,
-  .dnb-p sub {
-    font-size: 0.777777em;
-    line-height: 0.5em; }
 
 .dnb-table b,
 .dnb-table strong {

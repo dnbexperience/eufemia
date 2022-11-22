@@ -15,7 +15,7 @@
   // sortable
   & > thead > tr > th#{&}--sortable,
   & &__th#{&}--sortable {
-    color: var(--color-emerald-green);
+    color: var(--color-sea-green);
 
     .dnb-table__sort-button.dnb-button {
       > .dnb-icon {
@@ -63,7 +63,7 @@
       // underline
       &:not(:focus) .dnb-button__text::after {
         opacity: 1;
-        color: var(--color-emerald-green);
+        color: var(--color-sea-green);
       }
 
       @include hover() {
@@ -102,7 +102,7 @@
           right: -0.5rem;
         }
 
-        color: var(--color-emerald-green);
+        color: var(--color-sea-green);
       }
 
       // webkit fix

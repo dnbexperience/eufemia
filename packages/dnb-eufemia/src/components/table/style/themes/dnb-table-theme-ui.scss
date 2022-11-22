@@ -6,11 +6,97 @@
 @import '../../../../style/themes/imports.scss';
 
 .dnb-table {
-  // Border
-  &:not(#{&}--border) > thead > tr > th::after,
-  &:not(#{&}--border) > tbody > tr:last-of-type > td::after,
-  &:not(#{&}--border) > thead > &__tr > &__th::after,
-  &:not(#{&}--border) > tbody > &__tr:last-of-type > &__td::after {
+  // head
+  & > tr > th,
+  & > thead > tr > th,
+  &__th {
+    // spacing
+    padding: 2rem 1rem 1rem;
+
+    // typography
+    font-weight: var(--font-weight-medium);
+    color: var(--theme-color-black-80, currentColor);
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis);
+    vertical-align: bottom;
+
+    background-color: var(--color-white);
+  }
+
+  // body data
+  & > tr > td,
+  & > tbody > tr > td,
+  &__td,
+  & > tr > th[scope='row'] {
+    // spacing
+    padding: 1rem;
+
+    // typography
+    color: var(--theme-color-black-80, currentColor);
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis);
+    vertical-align: baseline;
+  }
+
+  &__th {
+    .dnb-table__size--medium & {
+      // spacing
+      padding: 1.375rem 1rem 0.875rem;
+
+      // typography
+      font-size: var(--font-size-small);
+      line-height: var(--line-height-small);
+    }
+
+    .dnb-table__size--small & {
+      // spacing
+      padding: 1.25rem 1rem 0.5rem;
+
+      // typography
+      font-size: var(--font-size-small);
+      line-height: var(--line-height-small);
+    }
+  }
+
+  &__td {
+    .dnb-table__size--medium & {
+      // spacing
+      padding: 0.875rem 1rem;
+
+      // typography
+      &,
+      .dnb-p {
+        font-size: var(--font-size-small);
+        line-height: var(--line-height-small);
+      }
+    }
+
+    .dnb-table__size--small & {
+      // spacing
+      padding: 0.625rem 1rem;
+
+      // typography
+      &,
+      .dnb-p {
+        font-size: var(--font-size-small);
+        line-height: var(--line-height-small);
+      }
+    }
+  }
+
+  // NB: In case we still would need a border on the table head row
+  // &:not(#{&}--border):not(#{&}--outline) > thead > tr > th::after,
+  // &:not(#{&}--border):not(#{&}--outline) > thead > &__tr > &__th::after,
+
+  // border
+  &:not(#{&}--border):not(#{&}--outline)
+    > tbody
+    > tr:last-of-type
+    > td::after,
+  &:not(#{&}--border):not(#{&}--outline)
+    > tbody
+    > &__tr:last-of-type
+    > &__td::after {
     content: '';
     position: absolute;
     left: 0;

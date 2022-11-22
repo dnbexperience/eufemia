@@ -97,6 +97,100 @@ export const TableVariantBasic = () => (
   </ComponentBox>
 )
 
+export const TableSizeMedium = () => (
+  <ComponentBox
+    hideCode
+    data-visual-test="table-size-medium"
+    scope={{ MaxWidth }}
+  >
+    <MaxWidth>
+      <Table.ScrollView>
+        <Table size="medium">
+          <caption className="dnb-sr-only">A Table Caption</caption>
+          <thead>
+            <Tr>
+              <Th scope="col">Column</Th>
+              <Th scope="col" sortable>
+                <Th.SortButton text="Sortable" title="Sort table column" />
+              </Th>
+              <Th scope="col" align="right">
+                Column
+              </Th>
+            </Tr>
+          </thead>
+          <tbody>
+            <Tr>
+              <Td>Row 1</Td>
+              <Td>Row 1</Td>
+              <Td align="right">Row 1</Td>
+            </Tr>
+            <Tr>
+              <Td>
+                <P>Row 2 with paragraph</P>
+              </Td>
+              <Td>
+                <P>
+                  Row 2 with <b>medium paragraph</b>
+                </P>
+              </Td>
+              <Td align="right">
+                Row 2 with <b>medium text</b>
+              </Td>
+            </Tr>
+          </tbody>
+        </Table>
+      </Table.ScrollView>
+    </MaxWidth>
+  </ComponentBox>
+)
+
+export const TableSizeSmall = () => (
+  <ComponentBox
+    hideCode
+    data-visual-test="table-size-small"
+    scope={{ MaxWidth }}
+  >
+    <MaxWidth>
+      <Table.ScrollView>
+        <Table size="small">
+          <caption className="dnb-sr-only">A Table Caption</caption>
+          <thead>
+            <Tr>
+              <Th scope="col">Column</Th>
+              <Th scope="col" sortable>
+                <Th.SortButton text="Sortable" title="Sort table column" />
+              </Th>
+              <Th scope="col" align="right">
+                Column
+              </Th>
+            </Tr>
+          </thead>
+          <tbody>
+            <Tr>
+              <Td>Row 1</Td>
+              <Td>Row 1</Td>
+              <Td align="right">Row 1</Td>
+            </Tr>
+            <Tr>
+              <Td>
+                <P>Row 2 with paragraph</P>
+              </Td>
+              <Td>
+                <P>
+                  Row 2 with <b>medium paragraph</b>
+                </P>
+              </Td>
+              <Td align="right">
+                Row 2 with <b>medium text</b>
+              </Td>
+            </Tr>
+          </tbody>
+        </Table>
+      </Table.ScrollView>
+    </MaxWidth>
+  </ComponentBox>
+)
+
 export const TableVariantComplex = () => (
   <ComponentBox
     hideCode

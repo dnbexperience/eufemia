@@ -10,6 +10,8 @@ TableStackedContainer,
 TableClassHelpers,
 TableLongHeader,
 TableSticky,
+TableSizeMedium,
+TableSizeSmall,
 } from 'Docs/uilib/components/table/Examples'
 
 ## Demos
@@ -27,6 +29,11 @@ You can force a row to overwrite the automated odd/even counting by providing e.
 ### Fixed table
 
 <TableVariantFixed />
+
+### Medium and small sized
+
+<TableSizeMedium />
+<TableSizeSmall />
 
 ### Table with sticky header
 

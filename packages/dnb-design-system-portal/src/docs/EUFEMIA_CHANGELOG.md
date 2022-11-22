@@ -1,3 +1,8 @@
+## November, 22. 2022
+
+- New default [Table](https://eufemia.dnb.no/uilib/components/table) styles.
+- Support `medium` and `small` [Table](https://eufemia.dnb.no/uilib/components/table) sizes.
+
 ## November, 15. 2022
 
 - Add [typography paragraph](https://eufemia.dnb.no/uilib/typography/paragraph) styling for superscript `<sup>` and subscript `<sub>` HTML elements.
