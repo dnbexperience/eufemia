@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkdnb_design_system_portal=self.webpackChunkdnb_design_system_portal||[]).push([[521],{88947:function(e,t,n){n.r(t),n.d(t,{default:function(){return l}});var s=n(56981),i=n(52322);function l(){return(0,i.jsx)("div",{"data-visual-test":"tag-clickable",style:{margin:"2rem"},children:(0,i.jsx)(s.Z,{text:"Some filter",onClick:function(){console.log("I was sent!")}})})}}}]);
+//# sourceMappingURL=component---src-docs-uilib-components-tag-visual-tests-clickable-tag-tsx-a5f8166d55f703db81b6.js.map
