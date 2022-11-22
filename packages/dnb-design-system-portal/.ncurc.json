@@ -7,7 +7,6 @@
     "stylelint-config-prettier",
     "stylelint-config-recommended",
     "stylelint-config-standard",
-    "stylelint-scss",
-    "gatsby-plugin-emotion"
+    "stylelint-scss"
   ]
 }

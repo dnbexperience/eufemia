@@ -1,0 +1,59 @@
+@use 'sass:color';
+
+@mixin focusRing {
+  box-shadow: 0 0 0 0.125rem var(--color-accent-yellow);
+}
+
+@function get-color($rgb, $a, $c) {
+  @return hsla(hue($rgb), saturation($rgb), lightness($rgb), $a - $c);
+}
+
+@mixin gridStyle($rgb: rgb(204, 80, 72), $alpha: 0.8) {
+  --grid-gutter: 0.5rem;
+  --grid-gutter-bold: 2rem;
+  --grid-color: #{get-color($rgb, $alpha, 0.5)};
+  --grid-color-bold: #{get-color($rgb, $alpha, 0.15)};
+  --grid-line-thickness: 1px;
+  --grid-columns: repeating-linear-gradient(
+    to right,
+    var(--grid-color),
+    var(--grid-color) var(--grid-line-thickness),
+    transparent var(--grid-line-thickness),
+    transparent var(--grid-gutter)
+  );
+  --grid-columns-bold: repeating-linear-gradient(
+    to right,
+    var(--grid-color-bold),
+    var(--grid-color-bold) var(--grid-line-thickness),
+    transparent var(--grid-line-thickness),
+    transparent var(--grid-gutter-bold)
+  );
+  --grid-rows: repeating-linear-gradient(
+    to bottom,
+    var(--grid-color),
+    var(--grid-color) var(--grid-line-thickness),
+    transparent var(--grid-line-thickness),
+    transparent var(--grid-gutter)
+  );
+  --grid-rows-bold: repeating-linear-gradient(
+    to bottom,
+    var(--grid-color-bold),
+    var(--grid-color-bold) var(--grid-line-thickness),
+    transparent var(--grid-line-thickness),
+    transparent var(--grid-gutter-bold)
+  );
+
+  &::after {
+    content: '';
+
+    position: absolute;
+    z-index: -100;
+    inset: 0;
+
+    background-image: var(--grid-columns), var(--grid-columns-bold),
+      var(--grid-rows), var(--grid-rows-bold);
+
+    border-bottom: solid var(--grid-line-thickness) var(--grid-color-bold);
+    border-right: solid var(--grid-line-thickness) var(--grid-color-bold);
+  }
+}

@@ -7,19 +7,14 @@
 import React from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
 import MainMenu from 'dnb-design-system-portal/src/shared/menu/MainMenu'
-import { MainMenuProvider } from 'dnb-design-system-portal/src/shared/menu/MainMenuContext'
 
 // react component
-export default class App extends React.PureComponent {
-  render() {
-    return (
-      <main aria-label="Choose a menu section">
-        <MainMenuProvider isActive>
-          <MainMenu />
-        </MainMenuProvider>
-      </main>
-    )
-  }
+export default function App() {
+  return (
+    <main aria-label="Choose a menu section" className="home-background">
+      <MainMenu />
+    </main>
+  )
 }
 
 export const Head = () => {

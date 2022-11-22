@@ -4,90 +4,20 @@
 */
 
 @import '../../../../style/themes/imports.scss';
-@import '../../../button/style/themes/button-mixins.scss';
-@import './table-basis.scss';
 
 .dnb-table {
-  // Header part
-  & > tr > th,
-  & > tr > td,
-  & > thead > tr > th,
-  & > tbody > tr > td,
-  &__th,
-  &__td {
-    position: relative;
-
-    font-size: var(--font-size-basis);
-    line-height: var(--line-height-basis);
-    border-spacing: 0;
-
-    word-break: keep-all;
-  }
-  /* stylelint-disable-next-line */
-  & > tr > th,
-  & > thead > tr > th,
-  &__th {
-    padding: var(--spacing-x-large) var(--spacing-small)
-      var(--spacing-x-small);
-
-    font-weight: var(--font-weight-medium);
-    color: var(--color-black);
-
-    vertical-align: bottom;
-
-    &:not([align]):not(.dnb-table--left):not(.dnb-table--right):not(.dnb-table--center) {
-      text-align: inherit;
-    }
-
-    @include IS_FF {
-      // to get the perfect height of pixles, to this:
-      padding-bottom: calc(var(--spacing-x-small) - 0.5px);
-    }
-
-    background-color: var(--color-white);
-  }
-
-  // Body part
-  /* stylelint-disable-next-line */
-  & > tr > td,
-  & > tbody > tr > td,
-  &__td,
-  & > tr > th[scope='row'] {
-    padding: var(--spacing-small);
-    padding-top: calc(var(--spacing-small) * 1.25);
-    padding-bottom: calc(var(--spacing-small) * 1.188); /* 19/16 */
-
-    color: var(--theme-color-black-80, currentColor);
-  }
-
-  // Needs a double & & for specificity
-  & > tbody > tr,
-  & &__tr,
-  & &__tr--odd {
-    background-color: var(--color-white);
-  }
-
-  // Needs a double & & for specificity
-  & > tbody > tr:not(#{&}__tr--odd):nth-of-type(2n),
-  & &__tr:not(#{&}__tr--odd):nth-of-type(2n),
-  & &__tr--even {
-    background-color: var(--color-lavender);
-  }
-
   // Border
-  & > thead > tr > th::after,
-  & > tbody > tr:last-of-type > td::after,
-  & > thead > &__tr > &__th::after,
-  & > tbody > &__tr:last-of-type > &__td::after {
+  &:not(#{&}--border) > thead > tr > th::after,
+  &:not(#{&}--border) > tbody > tr:last-of-type > td::after,
+  &:not(#{&}--border) > thead > &__tr > &__th::after,
+  &:not(#{&}--border) > tbody > &__tr:last-of-type > &__td::after {
     content: '';
     position: absolute;
     left: 0;
     right: 0;
-    bottom: -1px;
+    bottom: -0.0625rem;
 
-    height: 1px;
+    height: 0.0625rem;
     background-color: var(--color-black-8);
   }
-
-  @include basisTableSortable();
 }

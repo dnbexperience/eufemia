@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { fakeProps, axeComponent } from '../../core/jest/jestSetup'
-import { render } from '@testing-library/react'
+import { act, render } from '@testing-library/react'
 import Anchor from '../Anchor'
 
 const props = fakeProps(require.resolve('../Anchor'), {
@@ -33,6 +33,21 @@ describe('Anchor element', () => {
       </Anchor>
     )
     expect(document.querySelector('.dnb-anchor--no-icon')).toBeTruthy()
+  })
+
+  it('should forward ref', () => {
+    const ref = React.createRef<HTMLAnchorElement>()
+
+    render(
+      <Anchor ref={ref} to="/url">
+        text
+      </Anchor>
+    )
+
+    act(() => {
+      const element = document.querySelector('.dnb-anchor')
+      expect(ref.current).toBe(element)
+    })
   })
 
   it('has aria-describedby when target is blank', () => {

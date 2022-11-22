@@ -106,6 +106,9 @@
   --shadow-default-blur-radius: 16px;
   --shadow-default-color: rgba(51, 51, 51, 0.08);
 
+  // Easing
+  --easing-default: cubic-bezier(0.42, 0, 0, 1);
+
   @if mixin-exists('propertiesCustomisation') {
     @include propertiesCustomisation();
   }

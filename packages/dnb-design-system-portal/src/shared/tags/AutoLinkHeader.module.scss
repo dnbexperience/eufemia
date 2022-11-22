@@ -1,0 +1,69 @@
+.anchorLinkStyle {
+  :global {
+    .anchor {
+      display: inline-block;
+      visibility: hidden;
+
+      width: 1em;
+      margin-left: -1em;
+
+      line-height: 1;
+      text-align: center;
+      border-bottom: none;
+
+      transition: opacity 400ms ease-out 200ms;
+      opacity: 0;
+    }
+
+    @keyframes link-attention-focus {
+      0%,
+      100% {
+        visibility: visible;
+        color: var(--color-sea-green);
+        background-color: transparent;
+      }
+      35% {
+        color: var(--color-white);
+        background-color: var(--color-sea-green);
+      }
+      0%,
+      80% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+
+    .anchor.focus {
+      animation: link-attention-focus 2.2s ease-in-out 1 10ms;
+    }
+
+    .focus {
+      display: inline-block;
+
+      @keyframes parent-attention-focus {
+        0%,
+        100% {
+          color: currentColor;
+          background-color: transparent;
+        }
+        35% {
+          color: var(--color-white);
+          background-color: var(--color-sea-green);
+        }
+      }
+
+      animation: parent-attention-focus 2.2s ease-in-out 1 10ms;
+      * {
+        animation: parent-attention-focus 3s ease-in-out 1 150ms;
+      }
+    }
+  }
+
+  :global(.anchor:hover),
+  &:hover :global(.anchor) {
+    visibility: visible;
+    opacity: 1;
+  }
+}

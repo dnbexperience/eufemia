@@ -1,3 +1,7 @@
+## November, 15. 2022
+
+- Add [typography paragraph](https://eufemia.dnb.no/uilib/typography/paragraph) styling for superscript `<sup>` and subscript `<sub>` HTML elements.
+
 ## October, 27. 2022
 
 - New components released:

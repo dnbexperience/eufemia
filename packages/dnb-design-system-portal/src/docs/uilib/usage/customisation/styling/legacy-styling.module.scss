@@ -1,0 +1,50 @@
+@import '../../../../../shared/parts/PortalStyle.mixins.scss';
+
+:global {
+  .dnb-dev-grid {
+    z-index: 1;
+    @include gridStyle(rgb(220, 220, 220), 0.8);
+  }
+}
+
+.ShowPixelBounding {
+  .dnb-core-style & {
+    margin-top: 3rem;
+  }
+
+  color: var(--color-sky-blue);
+  background-color: rgba(164, 255, 255, 0.3);
+}
+
+.LegacyCodeExample {
+  padding: 3rem 2rem 4rem;
+  background-color: var(--color-mint-green-12);
+}
+
+.CoreStyleExample {
+  margin: 0;
+  padding: 3rem 2rem 4rem;
+  background-color: var(--color-sea-green-30);
+
+  code:first-of-type,
+  code:last-of-type {
+    margin-bottom: 1rem;
+  }
+
+  :global {
+    .show-pixel-bounding {
+      background-color: rgba(255, 255, 255, 0.5);
+    }
+  }
+}
+
+.SpacingExample {
+  padding: 3rem 2rem 4rem;
+  background-color: var(--color-mint-green-50);
+
+  :global {
+    .show-pixel-bounding {
+      background-color: rgba(255, 255, 255, 0.5);
+    }
+  }
+}

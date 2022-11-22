@@ -31,9 +31,33 @@ describe('Table screenshot', () => {
   it('have to match the default choice of table styles', async () => {
     const screenshot = await testPageScreenshot({
       style: {
-        width: '40rem',
+        width: '30rem',
       },
       selector: '[data-visual-test="table-default"] .dnb-table',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match a complex table layout', async () => {
+    const screenshot = await testPageScreenshot({
+      style: {
+        width: '50rem',
+      },
+      selector: '[data-visual-test="table-complex"] .dnb-table',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match a fixed table layout', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="table-fixed"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match table container', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="table-container"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

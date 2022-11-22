@@ -3,38 +3,43 @@ import classnames from 'classnames'
 
 export type TableTdProps = {
   /**
+   * if set to `true`, no padding will be added
+   * Default: false
+   */
+  noSpacing?: boolean
+
+  /**
+   * Set to `horizontal` for padding on left and right side
+   * Default: false
+   */
+  spacing?: 'horizontal'
+
+  /**
    * The content of the component.
    * Default: null
    */
   children?: React.ReactNode
-
-  /**
-   * Custom className on the component root
-   * Default: null
-   */
-  className?: string
 }
 
-const Td = (
+export default function Td(
   componentProps: TableTdProps &
     React.TdHTMLAttributes<HTMLTableCellElement>
-) => {
-  const {
-    className,
-    children,
-
-    ...props
-  } = componentProps
+) {
+  const { className, children, noSpacing, spacing, ...props } =
+    componentProps
 
   return (
     <td
       role="cell"
-      className={classnames('dnb-table__td', className)}
+      className={classnames(
+        'dnb-table__td',
+        noSpacing && 'dnb-table__td--no-spacing',
+        spacing && `dnb-table__td--spacing-${spacing}`,
+        className
+      )}
       {...props}
     >
       {children}
     </td>
   )
 }
-
-export default Td

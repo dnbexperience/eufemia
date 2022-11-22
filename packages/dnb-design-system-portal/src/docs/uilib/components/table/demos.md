@@ -4,6 +4,9 @@ showTabs: true
 
 import {
 TableVariantBasic,
+TableVariantComplex,
+TableVariantFixed,
+TableStackedContainer,
 TableClassHelpers,
 TableLongHeader,
 TableSticky,
@@ -11,13 +14,19 @@ TableSticky,
 
 ## Demos
 
-### Example usage of class helpers
-
-<TableClassHelpers />
-
-### Default variant
+### Basic table
 
 <TableVariantBasic />
+
+### Complex table
+
+You can force a row to overwrite the automated odd/even counting by providing e.g. `variant="even"` to a `<Tr />`. You can use this in combination with `rowSpan`.
+
+<TableVariantComplex />
+
+### Fixed table
+
+<TableVariantFixed />
 
 ### Table with sticky header
 
@@ -27,7 +36,7 @@ TableSticky,
 
 ```jsx
 <tbody>
-  <!-- place it at the beginning of your table body -->
+  {/* place it at the beginning of your table body */}
   <Table.StickyHelper />
 
   <tr>...</tr>
@@ -38,6 +47,39 @@ TableSticky,
 
 ### Table with long header text (wrapping)
 
-Also, the table header is set to **small** font-size.
-
 <TableLongHeader />
+
+### Several tables in one container
+
+<details>
+  <summary class="dnb-p">
+    Show how the import and syntax is structured.
+  </summary>
+
+```jsx
+import TableContainer from '@dnb/eufemia/components/table/TableContainer'
+render(
+  <TableContainer>
+    <TableContainer.Head>
+      <H2>Heading</H2>
+    </TableContainer.Head>
+
+    <TableContainer.Body>
+      <Table />
+      <Table />
+    </TableContainer.Body>
+
+    <TableContainer.Foot>
+      <P>Footer</P>
+    </TableContainer.Foot>
+  </TableContainer>
+)
+```
+
+</details>
+
+<TableStackedContainer />
+
+### Example usage of class helpers
+
+<TableClassHelpers />

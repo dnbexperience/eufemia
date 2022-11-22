@@ -6,6 +6,18 @@ showTabs: true
 
 All the [components](/uilib/components) do share a couple of common used helpers. Your application can also use these helpers, but it's totally optional.
 
+## CSS properties
+
+### Animation Easing
+
+You can use the internal Eufemia easing function.
+
+```css
+.animation-element {
+  transition: transform 400ms var(--easing-default);
+}
+```
+
 ## CSS classes
 
 - [dnb-core-style](/uilib/helpers/classes#core-style): A CSS-reset and core styling, including font, line-height and color.

@@ -3,6 +3,14 @@
 *
 */
 
+@import './_table-header-buttons.scss';
+@import './_table-th.scss';
+@import './_table-td.scss';
+@import './_table-tr.scss';
+@import './_table-cell.scss';
+@import './_table-sticky.scss';
+@import './_table-container.scss';
+
 .dnb-table {
   display: table;
   table-layout: auto;
@@ -17,15 +25,14 @@
 
   &--fixed {
     table-layout: fixed;
+    width: auto;
   }
 
-  &__sticky-helper > td {
-    display: block;
-    overflow: hidden;
-    padding: 0 !important;
-    height: 0;
+  &--no-wrap {
+    white-space: nowrap;
   }
 
+  // deprecated – can be removed in v10
   &,
   &--left {
     text-align: left;
@@ -44,39 +51,9 @@
     caption-side: bottom;
   }
 
-  /* stylelint-disable-next-line */
-
-  tr.sticky th {
-    position: sticky;
-    top: var(--table-top, 0); // is set by "stickyOffset" prop
-    z-index: 2;
-
-    &::before {
-      content: '';
-      position: absolute;
-      opacity: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 6px;
-
-      // The @mixin defaultDropShadow() does not work in this case
-      // because we need only a bottom shadow (with clip-path)
-      box-shadow: var(--shadow-default-x) -2px 12px 8px var(--shadow-default-color);
-      clip-path: inset(6px 0 -48px 0);
-
-      transition: opacity 300ms ease-out;
-      [data-visual-test-wrapper] & {
-        transition: none;
-      }
-    }
-  }
-  tr.sticky.show-shadow th::before {
-    opacity: 1;
-  }
-
   /* stylelint-disable */
 
+  // deprecated – can be removed in v10
   &--small,
   &--small > tr > th,
   &--small > tr > td,
@@ -85,6 +62,7 @@
     font-size: var(--font-size-small);
   }
 
+  // deprecated – can be removed in v10
   & > tr#{&}--small > th,
   & > tr#{&}--small > td,
   & > thead > tr#{&}--small > th,
@@ -92,6 +70,7 @@
     font-size: var(--font-size-small);
   }
 
+  // deprecated – can be removed in v10
   & > tr > th#{&}--small,
   & > tr > td#{&}--small,
   & > thead > tr > th#{&}--small,
@@ -101,6 +80,7 @@
     font-size: var(--font-size-small);
   }
 
+  // deprecated – can be removed in v10
   &--x-small,
   &--x-small > tr > th,
   &--x-small > tr > td,
@@ -109,6 +89,7 @@
     font-size: var(--font-size-x-small);
   }
 
+  // deprecated – can be removed in v10
   & > tr#{&}--x-small > th,
   & > tr#{&}--x-small > td,
   & > thead > tr#{&}--x-small > th,
@@ -116,6 +97,7 @@
     font-size: var(--font-size-x-small);
   }
 
+  // deprecated – can be removed in v10
   & > tr > th#{&}--x-small,
   & > tr > td#{&}--x-small,
   & > thead > tr > th#{&}--x-small,
@@ -132,6 +114,8 @@
       -webkit-text-fill-color: var(--skeleton-color);
     }
   }
+
+  @include buttonsInTable();
 }
 
 // Reset Table spacing
