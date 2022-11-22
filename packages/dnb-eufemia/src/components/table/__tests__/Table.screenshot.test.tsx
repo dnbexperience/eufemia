@@ -55,6 +55,13 @@ describe('Table screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match table container', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="table-container"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match a sortable table header on focus', async () => {
     const selector =
       '[data-visual-test="table-classes"] th.dnb-table--sortable.dnb-table--reversed'
