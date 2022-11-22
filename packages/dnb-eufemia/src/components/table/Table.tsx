@@ -16,7 +16,7 @@ import type { StickyTableHeaderProps } from './TableStickyHeader'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import type { SpacingProps } from '../../shared/types'
 
-export type TableSizes = 'large' | 'medium'
+export type TableSizes = 'large' | 'medium' | 'small'
 export type TableVariants = 'generic'
 
 export { StickyHelper }
