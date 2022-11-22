@@ -279,6 +279,38 @@ exports[`Table scss have to match snapshot 1`] = `
 .dnb-table tr.sticky.show-shadow th::before {
   opacity: 1; }
 
+/*
+* Table component
+*
+*/
+.dnb-table__container {
+  position: relative;
+  --border: 0.0625rem solid var(--color-black-8);
+  background-color: var(--color-white); }
+  .dnb-table__container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    pointer-events: none;
+    border: var(--border); }
+  .dnb-table__container, .dnb-table__container::after {
+    border-radius: 0.5rem; }
+  .dnb-table__container, .dnb-table__container__body, .dnb-table__container__head, .dnb-table__container__foot {
+    display: flex;
+    flex-direction: column; }
+  .dnb-table__container__body .dnb-table:not([class*='space__bottom']) {
+    margin-bottom: 0; }
+  .dnb-table__container__head {
+    padding: 2rem 1rem 0; }
+    .dnb-spacing .dnb-table__container__head .dnb-h--large:not([class*='space__top']) {
+      margin: 0; }
+  .dnb-table__container__foot {
+    padding: 0.5rem 1rem 2rem; }
+
 .dnb-table {
   display: table;
   table-layout: auto;

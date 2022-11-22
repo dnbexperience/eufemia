@@ -1,0 +1,61 @@
+/*
+* Table component
+*
+*/
+
+@mixin tableBorder {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+
+  pointer-events: none;
+}
+
+.dnb-table__container {
+  position: relative;
+
+  --border: 0.0625rem solid var(--color-black-8);
+  background-color: var(--color-white);
+
+  &::after {
+    @include tableBorder();
+
+    border: var(--border);
+  }
+
+  &,
+  &::after {
+    border-radius: 0.5rem;
+  }
+
+  &,
+  &__body,
+  &__head,
+  &__foot {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__body {
+    .dnb-table {
+      &:not([class*='space__bottom']) {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  &__head {
+    padding: 2rem 1rem 0;
+
+    .dnb-spacing & .dnb-h--large:not([class*='space__top']) {
+      margin: 0;
+    }
+  }
+  &__foot {
+    padding: 0.5rem 1rem 2rem;
+  }
+}
