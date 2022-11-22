@@ -312,15 +312,17 @@ render(<StepIndicatorWithRouter />)
   </ComponentBox>
 )
 
-export const StepIndicatorUrls = () => (
-  <ComponentBox
-    data-visual-test="step-indicator-urls"
-    scope={{ createBrowserHistory }}
-    hideCode
-    useRender
-  >
-    {
-      /* jsx */ `
+export const StepIndicatorUrls = () =>
+  typeof document ===
+  'undefined' ? null /* because of createBrowserHistory */ : (
+    <ComponentBox
+      data-visual-test="step-indicator-urls"
+      scope={{ createBrowserHistory }}
+      hideCode
+      useRender
+    >
+      {
+        /* jsx */ `
 const history = createBrowserHistory()
 const StepIndicatorWithUrl = () => {
 	const [activeUrl, setActiveUrl] = React.useState(history.location.search)
@@ -362,6 +364,6 @@ render(<>
 	<Section spacing style_type="lavender"><Anchor href="?b">Navigate to B</Anchor></Section>
 </>)
 `
-    }
-  </ComponentBox>
-)
+      }
+    </ComponentBox>
+  )
