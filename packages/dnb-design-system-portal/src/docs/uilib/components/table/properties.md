@@ -8,6 +8,8 @@ showTabs: true
 
 | Properties                                  | Description                                                                                                                                                                                          |
 | ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `border`                                    | _(optional)_ use `true` to show borders between table data cells. Defaults to `false`.                                                                                                               |
+| `outline`                                   | _(optional)_ use `true` to show a outline border around the table. Defaults to `false`.                                                                                                              |
 | `sticky`                                    | _(optional)_ use `true` to enable a sticky Table header. Defaults to `false`.                                                                                                                        |
 | `stickyOffset`                              | _(optional)_ defines the offset (top) in `rem` from where the header should start to stick. You may define your app header height here, if you have a sticky header on your page. Defaults to `0`.   |
 | ~~`variant`~~ (not implemented yet)         | _(coming)_ defines the style variant of the table. Options: `basis` . Defaults to `generic`.                                                                                                         |
@@ -34,6 +36,7 @@ showTabs: true
 
 ### Table Data `<Td>`
 
-| Properties  | Description                                                                   |
-| ----------- | ----------------------------------------------------------------------------- |
-| `noSpacing` | _(optional)_ if set to `true`, no padding will be added. Defaults to `false`. |
+| Properties  | Description                                                                               |
+| ----------- | ----------------------------------------------------------------------------------------- |
+| `noSpacing` | _(optional)_ if set to `true`, no padding will be added. Defaults to `false`.             |
+| `spacing`   | _(optional)_ set to `horizontal` for padding on left and right side. Defaults to `false`. |

@@ -71,4 +71,38 @@ describe('TableTd', () => {
       'custom-class',
     ])
   })
+
+  it('should set noSpacing class', () => {
+    render(
+      <table>
+        <tbody>
+          <tr>
+            <TableTd noSpacing>td content</TableTd>
+          </tr>
+        </tbody>
+      </table>
+    )
+
+    const element = document.querySelector('td')
+    expect(Array.from(element.classList)).toContain(
+      'dnb-table__td--no-spacing'
+    )
+  })
+
+  it('should set spacing="horizontal" class', () => {
+    render(
+      <table>
+        <tbody>
+          <tr>
+            <TableTd spacing="horizontal">td content</TableTd>
+          </tr>
+        </tbody>
+      </table>
+    )
+
+    const element = document.querySelector('td')
+    expect(Array.from(element.classList)).toContain(
+      'dnb-table__td--spacing-horizontal'
+    )
+  })
 })

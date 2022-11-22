@@ -7,17 +7,17 @@
 
 .dnb-table {
   // Border
-  & > thead > tr > th::after,
-  & > tbody > tr:last-of-type > td::after,
-  & > thead > &__tr > &__th::after,
-  & > tbody > &__tr:last-of-type > &__td::after {
+  &:not(#{&}--border) > thead > tr > th::after,
+  &:not(#{&}--border) > tbody > tr:last-of-type > td::after,
+  &:not(#{&}--border) > thead > &__tr > &__th::after,
+  &:not(#{&}--border) > tbody > &__tr:last-of-type > &__td::after {
     content: '';
     position: absolute;
     left: 0;
     right: 0;
-    bottom: -1px;
+    bottom: -0.0625rem;
 
-    height: 1px;
+    height: 0.0625rem;
     background-color: var(--color-black-8);
   }
 }

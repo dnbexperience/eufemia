@@ -98,7 +98,7 @@ export const TableVariantComplex = () => (
     scope={{ MaxWidth }}
   >
     <MaxWidth>
-      <Table>
+      <Table border outline>
         <caption>A Table Caption</caption>
         <thead>
           <Tr noWrap>
@@ -130,23 +130,19 @@ export const TableVariantComplex = () => (
               newline
             </Td>
             <Td>Row 3</Td>
-            <Td noSpacing>
+            <Td spacing="horizontal">
               <Button variant="secondary">Button</Button>
             </Td>
-            <Td>Row 3</Td>
+            <Td noSpacing align="right">
+              <Code>Row 3</Code>
+            </Td>
           </Tr>
           <Tr>
             <Td>Row 4</Td>
             <Td>Row 4</Td>
-            <Td>Row 4</Td>
-            <Td>Row 4</Td>
+            <Td colSpan={2}>Row 4</Td>
           </Tr>
         </tbody>
-        <tfoot>
-          <Tr variant="odd">
-            <Td colSpan={4}>Footer</Td>
-          </Tr>
-        </tfoot>
       </Table>
     </MaxWidth>
   </ComponentBox>

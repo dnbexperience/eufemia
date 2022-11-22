@@ -9,6 +9,12 @@ export type TableTdProps = {
   noSpacing?: boolean
 
   /**
+   * Set to `horizontal` for padding on left and right side
+   * Default: false
+   */
+  spacing?: 'horizontal'
+
+  /**
    * The content of the component.
    * Default: null
    */
@@ -19,7 +25,8 @@ export default function Td(
   componentProps: TableTdProps &
     React.TdHTMLAttributes<HTMLTableCellElement>
 ) {
-  const { className, children, noSpacing, ...props } = componentProps
+  const { className, children, noSpacing, spacing, ...props } =
+    componentProps
 
   return (
     <td
@@ -27,6 +34,7 @@ export default function Td(
       className={classnames(
         'dnb-table__td',
         noSpacing && 'dnb-table__td--no-spacing',
+        spacing && `dnb-table__td--spacing-${spacing}`,
         className
       )}
       {...props}

@@ -36,6 +36,22 @@ describe('TableTr', () => {
     expect(element.textContent).toBe('content')
   })
 
+  it('should set the noWrap class', () => {
+    render(
+      <table>
+        <tbody>
+          <TableTr noWrap>
+            <td>content</td>
+          </TableTr>
+        </tbody>
+      </table>
+    )
+
+    const element = document.querySelector('tr')
+
+    expect(Array.from(element.classList)).toContain('dnb-table--no-wrap')
+  })
+
   it('should include custom attributes', () => {
     render(
       <Table>

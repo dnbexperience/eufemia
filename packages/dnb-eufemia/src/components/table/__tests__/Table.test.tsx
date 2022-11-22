@@ -118,6 +118,30 @@ describe('Table', () => {
     )
   })
 
+  it('should set the border class', () => {
+    render(
+      <Table border>
+        <BasicTable />
+      </Table>
+    )
+
+    expect(Array.from(screen.queryByRole('table').classList)).toContain(
+      'dnb-table--border'
+    )
+  })
+
+  it('should set the outline class', () => {
+    render(
+      <Table outline>
+        <BasicTable />
+      </Table>
+    )
+
+    expect(Array.from(screen.queryByRole('table').classList)).toContain(
+      'dnb-table--outline'
+    )
+  })
+
   it('should support spacing props', () => {
     render(
       <Table top="2rem">

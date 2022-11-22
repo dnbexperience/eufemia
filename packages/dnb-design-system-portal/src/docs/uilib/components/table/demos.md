@@ -35,7 +35,7 @@ You can force a row to overwrite the automated odd/even counting by providing e.
 
 ```jsx
 <tbody>
-  <!-- place it at the beginning of your table body -->
+  {/* place it at the beginning of your table body */}
   <Table.StickyHelper />
 
   <tr>...</tr>
@@ -45,8 +45,6 @@ You can force a row to overwrite the automated odd/even counting by providing e.
 <TableSticky />
 
 ### Table with long header text (wrapping)
-
-Also, the table header is set to **small** font-size.
 
 <TableLongHeader />
 

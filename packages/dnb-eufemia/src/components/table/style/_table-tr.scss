@@ -19,4 +19,13 @@
   & &__tr--odd {
     background-color: var(--color-white);
   }
+
+  &--outline thead &__tr:first-of-type {
+    // use clip-path, because border-radius does not clip on tr's
+    clip-path: inset(0 round 0.5rem 0.5rem 0 0);
+  }
+  &--outline tbody &__tr:last-of-type {
+    // use clip-path, because border-radius does not clip on tr's
+    clip-path: inset(0 round 0 0 0.5rem 0.5rem);
+  }
 }

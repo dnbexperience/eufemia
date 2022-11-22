@@ -13,16 +13,16 @@ exports[`Table scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-.dnb-table > thead > tr > th::after,
-.dnb-table > tbody > tr:last-of-type > td::after,
-.dnb-table > thead > .dnb-table__tr > .dnb-table__th::after,
-.dnb-table > tbody > .dnb-table__tr:last-of-type > .dnb-table__td::after {
+.dnb-table:not(.dnb-table--border) > thead > tr > th::after,
+.dnb-table:not(.dnb-table--border) > tbody > tr:last-of-type > td::after,
+.dnb-table:not(.dnb-table--border) > thead > .dnb-table__tr > .dnb-table__th::after,
+.dnb-table:not(.dnb-table--border) > tbody > .dnb-table__tr:last-of-type > .dnb-table__td::after {
   content: '';
   position: absolute;
   left: 0;
   right: 0;
-  bottom: -1px;
-  height: 1px;
+  bottom: -0.0625rem;
+  height: 0.0625rem;
   background-color: var(--color-black-8); }
 "
 `;
@@ -126,18 +126,93 @@ exports[`Table scss have to match snapshot 1`] = `
 * Table component
 *
 */
-.dnb-table > tr > td,
-.dnb-table > tbody > tr > td, .dnb-table__td,
-.dnb-table > tr > th[scope='row'] {
-  padding: var(--spacing-small);
-  padding-top: calc(var(--spacing-small) * 1.25);
-  padding-bottom: calc(var(--spacing-small) * 1.25);
-  color: var(--theme-color-black-80, currentColor);
-  vertical-align: baseline; }
-
-.dnb-table__td--no-spacing,
-.dnb-table td.dnb-table__td--no-spacing {
-  padding: 0; }
+.dnb-table {
+  --border: 0.0625rem solid var(--color-black-8);
+  --outline: 0.0625rem solid var(--color-black-8); }
+  .dnb-table > tr > td,
+  .dnb-table > tbody > tr > td, .dnb-table__td,
+  .dnb-table > tr > th[scope='row'] {
+    padding: var(--spacing-small);
+    padding-top: calc(var(--spacing-small) * 1.25);
+    padding-bottom: calc(var(--spacing-small) * 1.25);
+    color: var(--theme-color-black-80, currentColor);
+    vertical-align: baseline; }
+  .dnb-table--border tbody .dnb-table__td {
+    z-index: 2; }
+    .dnb-table--border tbody .dnb-table__td::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -1;
+      pointer-events: none;
+      border: var(--border);
+      border-right: none;
+      border-bottom: none; }
+    .dnb-table--border tbody .dnb-table__td:first-of-type::after {
+      border-left: none; }
+  .dnb-table:not(.dnb-table--outline) tbody .dnb-table__tr:last-of-type .dnb-table__td::after {
+    border-bottom: var(--border); }
+  .dnb-table--outline thead .dnb-table__th {
+    z-index: 2; }
+    .dnb-table--outline thead .dnb-table__th::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -1;
+      pointer-events: none;
+      border-top: var(--outline); }
+    .dnb-table--outline thead .dnb-table__th:first-of-type::after {
+      border-left: var(--outline); }
+    .dnb-table--outline thead .dnb-table__th:last-of-type::after {
+      border-right: var(--outline); }
+  .dnb-table--outline tbody .dnb-table__td {
+    z-index: 2; }
+    .dnb-table--outline tbody .dnb-table__td:first-of-type::after, .dnb-table--outline tbody .dnb-table__td:last-of-type::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -1;
+      pointer-events: none; }
+    .dnb-table--outline tbody .dnb-table__td:first-of-type::after {
+      border-left: var(--outline); }
+    .dnb-table--outline tbody .dnb-table__td:last-of-type::after {
+      border-right: var(--outline); }
+  .dnb-table--outline tbody .dnb-table__tr:last-of-type .dnb-table__td {
+    z-index: 2; }
+    .dnb-table--outline tbody .dnb-table__tr:last-of-type .dnb-table__td::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -1;
+      pointer-events: none;
+      border-bottom: var(--outline); }
+  .dnb-table--outline thead .dnb-table__th:first-of-type, .dnb-table--outline thead .dnb-table__th:first-of-type::after {
+    border-radius: 0.5rem 0 0 0; }
+  .dnb-table--outline thead .dnb-table__th:last-of-type, .dnb-table--outline thead .dnb-table__th:last-of-type::after {
+    border-radius: 0 0.5rem 0 0; }
+  .dnb-table--outline tbody .dnb-table__tr:last-of-type .dnb-table__td:first-of-type, .dnb-table--outline tbody .dnb-table__tr:last-of-type .dnb-table__td:first-of-type::after {
+    border-radius: 0 0 0 0.5rem; }
+  .dnb-table--outline tbody .dnb-table__tr:last-of-type .dnb-table__td:last-of-type, .dnb-table--outline tbody .dnb-table__tr:last-of-type .dnb-table__td:last-of-type::after {
+    border-radius: 0 0 0.5rem 0; }
+  .dnb-table__td--no-spacing,
+  .dnb-table td.dnb-table__td--no-spacing {
+    padding: 0; }
+  .dnb-table__td--spacing-horizontal,
+  .dnb-table td.dnb-table__td--spacing-horizontal {
+    padding-top: 0;
+    padding-bottom: 0; }
 
 /*
 * Table component
@@ -152,6 +227,12 @@ exports[`Table scss have to match snapshot 1`] = `
 .dnb-table .dnb-table__tr:not(.dnb-table__tr--even):nth-of-type(2n),
 .dnb-table .dnb-table__tr--odd {
   background-color: var(--color-white); }
+
+.dnb-table--outline thead .dnb-table__tr:first-of-type {
+  clip-path: inset(0 round 0.5rem 0.5rem 0 0); }
+
+.dnb-table--outline tbody .dnb-table__tr:last-of-type {
+  clip-path: inset(0 round 0 0 0.5rem 0.5rem); }
 
 /*
 * Table component
