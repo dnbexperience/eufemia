@@ -51,6 +51,18 @@ export type TableProps = {
   variant?: TableVariants
 
   /**
+   * Use `true` to show borders between table data cell
+   * Default: false
+   */
+  border?: boolean
+
+  /**
+   * Use `true` to show a outline border around the table
+   * Default: false
+   */
+  outline?: boolean
+
+  /**
    * Defines if the table should behave with a fixed table layout, using: "table-layout: fixed;"
    * Default: null.
    */
@@ -87,6 +99,8 @@ const Table = (componentProps: TableAllProps) => {
     sticky,
     stickyOffset, // eslint-disable-line
     fixed,
+    border,
+    outline,
     ...props
   } = allProps
 
@@ -124,6 +138,8 @@ const Table = (componentProps: TableAllProps) => {
             size && `dnb-table__size--${size}`,
             sticky && `dnb-table--sticky`,
             fixed && `dnb-table--fixed`,
+            border && `dnb-table--border`,
+            outline && `dnb-table--outline`,
             spacingClasses,
             skeletonClasses,
             className

@@ -40,6 +40,22 @@ describe('TableTh', () => {
     expect(attributes).toEqual(['role', 'class', 'scope'])
   })
 
+  it('should set the noWrap class', () => {
+    render(
+      <table>
+        <tbody>
+          <tr>
+            <TableTh noWrap>th content</TableTh>
+          </tr>
+        </tbody>
+      </table>
+    )
+
+    const element = document.querySelector('th')
+
+    expect(Array.from(element.classList)).toContain('dnb-table--no-wrap')
+  })
+
   it('should have role with columnheader as value', () => {
     render(
       <table>

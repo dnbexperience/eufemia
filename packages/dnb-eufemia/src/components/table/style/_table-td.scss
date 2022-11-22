@@ -5,6 +5,18 @@
 
 @import './_table-header-buttons.scss';
 
+@mixin tableBorder {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+
+  pointer-events: none;
+}
+
 .dnb-table {
   & > tr > td,
   & > tbody > tr > td,
@@ -19,8 +31,102 @@
     vertical-align: baseline;
   }
 
+  // table border
+  --border: 0.0625rem solid var(--color-black-8);
+  &--border tbody &__td {
+    z-index: 2; // ensure border is behind content
+
+    &::after {
+      @include tableBorder();
+
+      border: var(--border);
+      border-right: none;
+      border-bottom: none;
+    }
+
+    &:first-of-type::after {
+      border-left: none;
+    }
+  }
+  &:not(#{&}--outline) tbody &__tr:last-of-type &__td::after {
+    border-bottom: var(--border);
+  }
+
+  // table outline
+  --outline: 0.0625rem solid var(--color-black-8);
+  &--outline thead &__th {
+    z-index: 2; // ensure border is behind content
+
+    &::after {
+      @include tableBorder();
+
+      border-top: var(--outline);
+    }
+
+    &:first-of-type::after {
+      border-left: var(--outline);
+    }
+    &:last-of-type::after {
+      border-right: var(--outline);
+    }
+  }
+  &--outline tbody &__td {
+    z-index: 2; // ensure border is behind content
+
+    &:first-of-type::after,
+    &:last-of-type::after {
+      @include tableBorder();
+    }
+
+    &:first-of-type::after {
+      border-left: var(--outline);
+    }
+    &:last-of-type::after {
+      border-right: var(--outline);
+    }
+  }
+  &--outline tbody &__tr:last-of-type &__td {
+    z-index: 2; // ensure border is behind content
+
+    &::after {
+      @include tableBorder();
+
+      border-bottom: var(--outline);
+    }
+  }
+  &--outline thead &__th:first-of-type {
+    &,
+    &::after {
+      border-radius: 0.5rem 0 0 0;
+    }
+  }
+  &--outline thead &__th:last-of-type {
+    &,
+    &::after {
+      border-radius: 0 0.5rem 0 0;
+    }
+  }
+  &--outline tbody &__tr:last-of-type &__td:first-of-type {
+    &,
+    &::after {
+      border-radius: 0 0 0 0.5rem;
+    }
+  }
+  &--outline tbody &__tr:last-of-type &__td:last-of-type {
+    &,
+    &::after {
+      border-radius: 0 0 0.5rem 0;
+    }
+  }
+
+  // spacing
   &__td--no-spacing,
   td#{&}__td--no-spacing {
     padding: 0;
+  }
+  &__td--spacing-horizontal,
+  td#{&}__td--spacing-horizontal {
+    padding-top: 0;
+    padding-bottom: 0;
   }
 }
