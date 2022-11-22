@@ -78,5 +78,6 @@ export default {
   '--shadow-default-x': '0',
   '--shadow-default-y': '8px',
   '--shadow-default-blur-radius': '16px',
-  '--shadow-default-color': 'rgba(51, 51, 51, 0.08)'
+  '--shadow-default-color': 'rgba(51, 51, 51, 0.08)',
+  '--easing-default': 'cubic-bezier(0.42, 0, 0, 1)'
 }; // prettier-ignore
