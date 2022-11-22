@@ -3,6 +3,13 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.39.0](https://github.com/dnbexperience/eufemia/compare/v9.38.0...v9.39.0) (2022-11-22)
+
+
+### Features
+
+* **Table:** set new basis Table styles including medium and small size ([#1742](https://github.com/dnbexperience/eufemia/issues/1742)) ([d541377](https://github.com/dnbexperience/eufemia/commit/d541377c5805474c0a575edbb0bac2f30c267a2b)), closes [#1743](https://github.com/dnbexperience/eufemia/issues/1743)
+
 # [9.38.0](https://github.com/dnbexperience/eufemia/compare/v9.37.0...v9.38.0) (2022-11-22)
 
 
