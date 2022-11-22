@@ -18,7 +18,7 @@
 
   overflow: auto;
   margin-top: 0;
-  margin-bottom: var(--spacing-small);
+  margin-bottom: 0.5rem; // give room to a scrollbar
 
   border-spacing: 0;
   border-collapse: collapse;
@@ -45,10 +45,10 @@
   }
 
   & > caption {
-    font-size: var(--font-size-small);
-
-    margin-top: var(--spacing-x-small);
     caption-side: bottom;
+    margin-top: 0.5rem;
+
+    font-size: var(--font-size-basis);
   }
 
   /* stylelint-disable */

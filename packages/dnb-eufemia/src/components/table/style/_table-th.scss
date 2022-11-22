@@ -6,29 +6,6 @@
 @import './_table-header-buttons.scss';
 
 .dnb-table {
-  & > tr > th,
-  & > thead > tr > th,
-  &__th {
-    padding: var(--spacing-x-large) var(--spacing-small)
-      var(--spacing-x-small);
-
-    font-weight: var(--font-weight-medium);
-    color: var(--color-black);
-
-    vertical-align: bottom;
-
-    &:not([align]) {
-      text-align: inherit;
-    }
-
-    @include IS_FF {
-      // to get the perfect height of pixles, to this:
-      padding-bottom: calc(var(--spacing-x-small) - 0.5px);
-    }
-
-    background-color: var(--color-white);
-  }
-
   &__th__horizontal {
     display: flex;
     align-items: flex-end; // bottom align help-button or other additional elements

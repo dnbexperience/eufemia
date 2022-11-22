@@ -182,12 +182,6 @@
     line-height: var(--line-height-basis);
     font-style: italic;
   }
-
-  sup,
-  sub {
-    font-size: 0.777777em; // ensure we get 14px (x-small) when parent font-size is 18px (default size)
-    line-height: 0.5em; // ensure the parent line-height is still the same
-  }
 }
 @mixin headingSpacing_xx-large() {
   &:not([class*='space__top']) {
@@ -305,6 +299,13 @@
 // .dnb-p > .dnb-small {
 //   line-height: var(--line-height-xx-small--em); // for vertical alignment, we have to have no line-height
 // }
+
+// superscript and subscript typography
+sup,
+sub {
+  font-size: 0.777777em; // ensure we get 14px (x-small) when parent font-size is 18px (default size)
+  line-height: 0.5em; // ensure the parent line-height is still the same
+}
 
 // Paragraphs
 .dnb-p {
