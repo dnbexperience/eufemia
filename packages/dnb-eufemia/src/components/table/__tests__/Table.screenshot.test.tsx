@@ -62,6 +62,20 @@ describe('Table screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match table in medium size', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="table-size-medium"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match table in small size', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="table-size-small"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match a sortable table header on focus', async () => {
     const selector =
       '[data-visual-test="table-classes"] th.dnb-table--sortable.dnb-table--reversed'
