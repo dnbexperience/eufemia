@@ -56,6 +56,15 @@ jobs:
         if: steps.modules-cache.outputs.cache-hit != 'true'
         run: yarn install --immutable
 
+      # We stricly don't need this "prebuild" for running the visual tests.
+      # Therefore, we only run it on the important pre-release branches, like "main".
+      # The reason to make a prebuild is;
+      # - The Portal will then use "/build" (on the CI) – insted the "/src".
+      # This way, we can catch issues, before its in the "release" branch.
+      - name: Prebuild Library
+        if: github.ref == 'refs/heads/main'
+        run: yarn workspace @dnb/eufemia prebuild:ci
+
       - name: Get current date
         id: date
         run: echo "::set-output name=timestamp::$(date +'%Y-%W')"
