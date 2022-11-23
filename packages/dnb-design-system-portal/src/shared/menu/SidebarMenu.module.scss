@@ -2,10 +2,11 @@
 
 :global {
   :root {
-    /* stylelint-disable */
-    --aside-width: 30vw; /* IE fix */
-    --aside-width: var(--aside-width-fullscreen, calc(25vw + 5rem));
-    /* stylelint-enable */
+    --aside-width: calc(25vw + 5rem);
+
+    @include IS_IE {
+      --aside-width: 30vw;
+    }
   }
 
   .dnb-sidebar-menu {

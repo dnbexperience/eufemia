@@ -270,5 +270,5 @@
 
 .fullscreenStyle {
   /* ensure the sidebar has not left over margin during fullscreen (SSR issue) */
-  --aside-width-fullscreen: 0;
+  --aside-width: 0;
 }
