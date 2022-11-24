@@ -3,6 +3,13 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.39.1](https://github.com/dnbexperience/eufemia/compare/v9.39.0...v9.39.1) (2022-11-24)
+
+
+### Bug Fixes
+
+* **HeightAnimation:** avoid usage of useLayoutEffect during SSR ([#1749](https://github.com/dnbexperience/eufemia/issues/1749)) ([667059b](https://github.com/dnbexperience/eufemia/commit/667059b41652a0c92db958a019d19949c9c08655))
+
 # [9.39.0](https://github.com/dnbexperience/eufemia/compare/v9.38.0...v9.39.0) (2022-11-22)
 
 
