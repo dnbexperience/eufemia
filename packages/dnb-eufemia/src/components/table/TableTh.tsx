@@ -36,7 +36,7 @@ export type TableThProps = {
   /**
    * The content of the table header given as Tr.
    */
-  children: TableThChildren | Array<TableThChildren>
+  children?: TableThChildren | Array<TableThChildren>
 }
 
 export default function Th(

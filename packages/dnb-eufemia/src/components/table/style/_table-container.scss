@@ -6,13 +6,10 @@
 .dnb-table__container {
   position: relative;
 
-  --border: 0.0625rem solid var(--color-black-8);
-  background-color: var(--color-white);
-
   &::after {
     @include tableBorder();
 
-    border: var(--border);
+    border: var(--outline);
   }
 
   &,
