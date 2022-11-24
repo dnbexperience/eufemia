@@ -25,7 +25,7 @@ function isGridVisible() {
 }
 
 export function GridActivator() {
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
     if (isGridVisible()) {
       makeGridVisible()
     }
