@@ -1,6 +1,10 @@
 import React from 'react'
 import HeightAnimationInstance from './HeightAnimationInstance'
 
+// SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
+const useLayoutEffect =
+  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
+
 export type useHeightAnimationOptions = {
   /**
    * Set to `true`, when initially `false` was given, to animate from 0px to auto.
@@ -66,7 +70,7 @@ export function useHeightAnimation(
 
   React.useEffect(() => setIsMounted(false), []) // eslint-disable-line
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     animRef.current = new HeightAnimationInstance({ animate })
 
     if (isInitialRender && onInit) {
@@ -139,7 +143,7 @@ export function useHeightAnimation(
 }
 
 function useOpenClose({ open, animRef, targetRef, isInitialRender }) {
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (!targetRef.current) {
       return // stop here
     }
@@ -178,7 +182,7 @@ function useAdjust({ children, animRef, isInitialRender }) {
     }
   }, [children]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (shouldAdjust()) {
       /**
        * Ensure we don't have height, while we get the "toHeight" again
