@@ -8,18 +8,6 @@ import { DynamicElement } from '../../shared/types'
 
 export interface VisuallyHiddenProps {
   /**
-   * The content of the visually hidden element, can be a string or a React Element
-   * Default: null
-   */
-  children?: string | React.ReactNode // ReactNode allows multiple elements, strings, numbers, fragments, portals...
-
-  /**
-   * Custom className on the component root
-   * Default: null
-   */
-  className?: string
-
-  /**
    * Hide an element by default, but to display it when it’s focused (e.g. by a keyboard-only user)
    * Default: false
    */
@@ -32,12 +20,15 @@ export interface VisuallyHiddenProps {
   element?: DynamicElement
 }
 
+export type VisuallyHiddenAllProps = VisuallyHiddenProps &
+  React.HTMLProps<HTMLSpanElement>
+
 export const defaultProps = {
   focusable: false,
   element: 'span',
 }
 
-const VisuallyHidden = (localProps: VisuallyHiddenProps) => {
+const VisuallyHidden = (localProps: VisuallyHiddenAllProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
 
@@ -46,24 +37,20 @@ const VisuallyHidden = (localProps: VisuallyHiddenProps) => {
     extendPropsWithContext(
       localProps,
       defaultProps,
-      context?.translation?.VisuallyHidden,
       context?.VisuallyHidden
     )
 
   const visuallyHiddenClassNames = classnames(
     'dnb-visually-hidden',
-    focusable
-      ? 'dnb-visually-hidden--focusable'
-      : 'dnb-visually-hidden--default',
+    focusable ? 'dnb-visually-hidden--focusable' : 'dnb-sr-only',
     className
   )
   const Element = element || 'span'
 
   return (
     <Element
-      data-testid="visually-hidden"
       className={visuallyHiddenClassNames}
-      {...props}
+      {...(props as Record<string, unknown>)}
     >
       {children}
     </Element>
