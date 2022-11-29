@@ -52,7 +52,7 @@ exports[`NumberFormat component have to match default number-format snapshot 1`]
         12 345 678,9876
       </span>
       <span
-        className="dnb-number-format__sr-only dnb-sr-only--inline"
+        className="dnb-number-format__sr-only dnb-sr-only"
         id="unique"
       >
         12 345 678,9876
