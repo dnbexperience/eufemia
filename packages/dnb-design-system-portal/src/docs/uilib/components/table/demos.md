@@ -40,18 +40,11 @@ A `small` sized table is only for special circumstances, where a lot of data nee
 
 ### Table with sticky header
 
-**NB:** Keep in mind, you have to avoid using `overflow: hidden;` on any child elements to get `position: sticky;` to work. This is a know issue happening on every modern browser. There are various tricks, including [this deallocation / sync solution](https://uxdesign.cc/position-stuck-96c9f55d9526).
+You have two options (both have their downsides):
 
-**Optionally:** Depending on your Table markup, you may include this helper in your table syntax:
+1. use `sticky="body-scroll"` property. It works even when using a `Table.ScrollView` or a `overflow: hidden;` is used on any parent elements. The downside is, that it uses JavaScript and the browser may drop some frames, which results in a potential flickering during scrolling.
 
-```jsx
-<tbody>
-  {/* place it at the beginning of your table body */}
-  <Table.StickyHelper />
-
-  <tr>...</tr>
-</tbody>
-```
+2. use `sticky={true}` for using the CSS `position: sticky;` method. It is super smooth. But then you can not use a `overflow: hidden;` or `overflow: auto;` on any parent elements. This is a know issue happening on every modern browser. There are various tricks, including [this deallocation / sync solution](https://uxdesign.cc/position-stuck-96c9f55d9526).
 
 <TableSticky />
 

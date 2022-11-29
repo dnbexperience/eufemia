@@ -4,7 +4,6 @@
  */
 
 import React from 'react'
-import { css, Global } from '@emotion/react'
 import styled from '@emotion/styled'
 import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 import { H2, P, Code, Anchor } from '@dnb/eufemia/src/elements'
@@ -553,28 +552,6 @@ export const TableLongHeader = () => (
 
 export const TableSticky = () => (
   <>
-    <Global
-      styles={css`
-        body {
-          .dnb-app-content {
-            /** Because of position: sticky; */
-            overflow: visible;
-          }
-
-          .dnb-tabbar {
-            /** Because the tabbar has an bottom border that will be whown on top of the side-menu */
-            overflow: hidden;
-          }
-
-          [data-visual-test='table-sticky'] {
-            /** We want the width limit, but no overflow: auto */
-            .dnb-table__scroll-view {
-              overflow: initial;
-            }
-          }
-        }
-      `}
-    />
     <ComponentBox
       hideCode
       data-visual-test="table-sticky"
@@ -582,7 +559,14 @@ export const TableSticky = () => (
     >
       <MaxWidth>
         <Table.ScrollView>
-          <Table sticky={true} stickyOffset="4rem">
+          <Table
+            sticky={globalThis.IS_TEST ? true : 'body-scroll'}
+            stickyOffset={
+              globalThis?.location?.href?.includes('fullscreen')
+                ? null
+                : '3.5rem'
+            }
+          >
             <caption className="dnb-sr-only">A Table Caption</caption>
             <thead>
               <Tr>
@@ -599,8 +583,7 @@ export const TableSticky = () => (
               </Tr>
             </thead>
             <tbody>
-              <Table.StickyHelper />
-              <Tr>
+              <Tr id="scroll-to-tr-id">
                 <Td>
                   <P>
                     Column 1 <b>with p</b>
@@ -614,7 +597,7 @@ export const TableSticky = () => (
                 </Td>
                 <Td>Row 4</Td>
               </Tr>
-              <Tr id="scroll-to-tr-id">
+              <Tr>
                 <Td colSpan={2}>Column which spans over two columns</Td>
                 <Td>Row 3</Td>
                 <Td>Row 4</Td>

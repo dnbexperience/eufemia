@@ -136,10 +136,14 @@ const Table = (componentProps: TableAllProps) => {
             'dnb-table',
             variant && `dnb-table__variant--${variant}`,
             size && `dnb-table__size--${size}`,
-            sticky && `dnb-table--sticky`,
-            fixed && `dnb-table--fixed`,
-            border && `dnb-table--border`,
-            outline && `dnb-table--outline`,
+            sticky
+              ? sticky === 'body-scroll'
+                ? 'dnb-table--sticky-body-scroll'
+                : 'dnb-table--sticky'
+              : null,
+            fixed && 'dnb-table--fixed',
+            border && 'dnb-table--border',
+            outline && 'dnb-table--outline',
             spacingClasses,
             skeletonClasses,
             className

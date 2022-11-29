@@ -333,26 +333,35 @@ exports[`Table scss have to match snapshot 1`] = `
   padding: 0 !important;
   height: 0; }
 
+.dnb-table tr.sticky {
+  position: relative;
+  z-index: 3; }
+
+.dnb-table tr.sticky th::before {
+  content: '';
+  position: absolute;
+  opacity: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 6px;
+  box-shadow: var(--shadow-default-x) -2px 12px 8px var(--shadow-default-color);
+  clip-path: inset(6px 0 -48px 0);
+  transition: opacity 300ms ease-out; }
+  [data-visual-test-wrapper] .dnb-table tr.sticky th::before {
+    transition: none; }
+
+.dnb-table tr.sticky.show-shadow th::before {
+  opacity: 1; }
+
 .dnb-table tr.sticky th {
   position: sticky;
   top: var(--table-top, 0);
   z-index: 2; }
-  .dnb-table tr.sticky th::before {
-    content: '';
-    position: absolute;
-    opacity: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 6px;
-    box-shadow: var(--shadow-default-x) -2px 12px 8px var(--shadow-default-color);
-    clip-path: inset(6px 0 -48px 0);
-    transition: opacity 300ms ease-out; }
-    [data-visual-test-wrapper] .dnb-table tr.sticky th::before {
-      transition: none; }
 
-.dnb-table tr.sticky.show-shadow th::before {
-  opacity: 1; }
+.dnb-table--sticky-body-scroll tr.sticky th {
+  position: relative !important;
+  top: auto !important; }
 
 /*
 * Table component
