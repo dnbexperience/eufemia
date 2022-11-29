@@ -5,24 +5,10 @@
 
 @import './_table-header-buttons.scss';
 
-@mixin tableBorder {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: -1;
-
-  pointer-events: none;
-}
-
 .dnb-table {
   // table border
   --border: 0.0625rem solid var(--color-black-8);
   &--border tbody &__td {
-    z-index: 2; // ensure border is behind content
-
     &::after {
       @include tableBorder();
 
@@ -42,8 +28,6 @@
   // table outline
   --outline: 0.0625rem solid var(--color-black-8);
   &--outline thead &__th {
-    z-index: 2; // ensure border is behind content
-
     &::after {
       @include tableBorder();
 
@@ -58,8 +42,6 @@
     }
   }
   &--outline tbody &__td {
-    z-index: 2; // ensure border is behind content
-
     &:first-of-type::after,
     &:last-of-type::after {
       @include tableBorder();
@@ -71,10 +53,16 @@
     &:last-of-type::after {
       border-right: var(--outline);
     }
+
+    /* stylelint-disable */
+    &,
+    &::before,
+    &::after {
+      transition: border-radius 400ms var(--easing-default);
+    }
+    /* stylelint-enable */
   }
   &--outline tbody &__tr:last-of-type &__td {
-    z-index: 2; // ensure border is behind content
-
     &::after {
       @include tableBorder();
 
@@ -95,12 +83,14 @@
   }
   &--outline tbody &__tr:last-of-type &__td:first-of-type {
     &,
+    &::before,
     &::after {
       border-radius: 0 0 0 0.5rem;
     }
   }
   &--outline tbody &__tr:last-of-type &__td:last-of-type {
     &,
+    &::before,
     &::after {
       border-radius: 0 0 0.5rem 0;
     }
