@@ -89,21 +89,13 @@
   // &:not(#{&}--border):not(#{&}--outline) > thead > &__tr > &__th::after,
 
   // border
-  &:not(#{&}--border):not(#{&}--outline)
-    > tbody
-    > tr:last-of-type
-    > td::after,
-  &:not(#{&}--border):not(#{&}--outline)
-    > tbody
-    > &__tr:last-of-type
-    > &__td::after {
+  & > tbody > &__tr:last-of-type > &__td::after {
     content: '';
     position: absolute;
     left: 0;
     right: 0;
-    bottom: -0.0625rem;
+    bottom: 0; // don't use negative value, else it will be hidden when accordion
 
-    height: 0.0625rem;
-    background-color: var(--color-black-8);
+    border-bottom: var(--outline);
   }
 }
