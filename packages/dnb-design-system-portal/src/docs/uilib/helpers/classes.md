@@ -107,13 +107,13 @@ Visually hides an element, but is still reachable by screen readers. (_sr_ stand
 
 ### Screen Reader only: inline
 
-`dnb-sr-only--inline`
+`dnb-sr-only--inline` (deprecated in v10)
 
 Like `dnb-sr-only` - but with flow elements in mind. This enables a set of text (in a paragraph `<p>`) to be enhanced with spans inside without NVDA to split up reading the text.
 
 ### Not Screen Reader only
 
-`dnb-not-sr-only`
+`dnb-not-sr-only` (deprecated in v10)
 
 The opposite of `dnb-sr-only`, so not visible to screen readers.
 
