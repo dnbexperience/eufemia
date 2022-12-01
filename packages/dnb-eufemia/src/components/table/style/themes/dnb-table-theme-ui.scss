@@ -126,4 +126,9 @@
 
   // table outline
   --outline: 0.0625rem solid var(--color-black-8);
+
+  html[data-visual-test] & {
+    --border: 0.0625rem solid blue;
+    --outline: 0.0625rem solid red;
+  }
 }

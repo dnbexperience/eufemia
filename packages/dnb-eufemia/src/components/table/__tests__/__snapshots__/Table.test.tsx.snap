@@ -79,6 +79,10 @@ exports[`Table scss have to match default theme snapshot 1`] = `
 .dnb-table__container {
   --border: 0.0625rem solid var(--color-black-8);
   --outline: 0.0625rem solid var(--color-black-8); }
+  html[data-visual-test] .dnb-table, html[data-visual-test]
+  .dnb-table__container {
+    --border: 0.0625rem solid blue;
+    --outline: 0.0625rem solid red; }
 "
 `;
 

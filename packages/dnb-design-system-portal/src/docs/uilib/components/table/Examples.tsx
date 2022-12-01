@@ -29,6 +29,10 @@ const MaxWidth = styled.div`
       width: auto;
     }
   }
+
+  [data-visual-test-wrapper] {
+    margin: 0;
+  }
 `
 
 export const TableVariantBasic = () => (
