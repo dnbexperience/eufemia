@@ -329,6 +329,8 @@ $breakpoints: (
   border: 0;
 }
 
+// deprecated and can be removed in v10
+// Visual test and docs should be removed as well!
 @mixin srOnlyInline() {
   @include srOnly();
 
