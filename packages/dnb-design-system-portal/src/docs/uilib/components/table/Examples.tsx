@@ -29,6 +29,10 @@ const MaxWidth = styled.div`
       width: auto;
     }
   }
+
+  [data-visual-test-wrapper] {
+    margin: 0;
+  }
 `
 
 export const TableVariantBasic = () => (
@@ -203,11 +207,11 @@ export const TableVariantComplex = () => (
           <caption>A Table Caption</caption>
           <thead>
             <Tr noWrap>
+              <Th scope="col"></Th>
               <Th scope="col">
-                Column 1<br />
+                Column 2<br />
                 newline
               </Th>
-              <Th scope="col">Column 2</Th>
               <Th scope="col" colSpan={2}>
                 Column 3 that spans
               </Th>
@@ -215,21 +219,21 @@ export const TableVariantComplex = () => (
           </thead>
           <tbody>
             <Tr variant="even">
-              <Td>Row 1</Td>
+              <Th scope="row">Row 1 Header</Th>
               <Td rowSpan={2}>Row 1 that spans</Td>
               <Td>Row 1</Td>
               <Td>Row 1</Td>
             </Tr>
             <Tr variant="even">
-              <Td>Row 2</Td>
+              <Th scope="row">Row 2 Header</Th>
               <Td>Row 2</Td>
               <Td>Row 2</Td>
             </Tr>
             <Tr>
-              <Td>
-                Row 3 <br />
+              <Th scope="row">
+                Row 3 Header <br />
                 newline
-              </Td>
+              </Th>
               <Td>Row 3</Td>
               <Td spacing="horizontal">
                 <Button variant="secondary">Button</Button>
@@ -239,7 +243,7 @@ export const TableVariantComplex = () => (
               </Td>
             </Tr>
             <Tr>
-              <Td>Row 4</Td>
+              <Th scope="row">Row 4 Header</Th>
               <Td>Row 4</Td>
               <Td colSpan={2}>Row 4</Td>
             </Tr>

@@ -6,9 +6,11 @@
 @import '../../../../style/themes/imports.scss';
 
 .dnb-table {
+  text-align: left;
+
   // head
-  & > tr > th,
-  & > thead > tr > th,
+  & > tr > th,/* should be deprecated */
+  & > thead > tr > th,/* should be deprecated */
   &__th {
     // spacing
     padding: 2rem 1rem 1rem;
@@ -24,10 +26,11 @@
   }
 
   // body data
-  & > tr > td,
-  & > tbody > tr > td,
+  & > tr > td,/* should be deprecated */
+  & > tbody > tr > td,/* should be deprecated */
   &__td,
-  & > tr > th[scope='row'] {
+  tbody > tr > &__th,
+  & > tr > th[scope='row']/* should be deprecated */ {
     // spacing
     padding: 1rem;
 
@@ -38,6 +41,7 @@
     vertical-align: baseline;
   }
 
+  // stylelint-disable-next-line
   &__th {
     .dnb-table__size--medium & {
       // spacing
@@ -58,7 +62,18 @@
     }
   }
 
-  &__td {
+  // stylelint-disable-next-line
+  tbody > tr > &__th {
+    // spacing
+    padding: 1rem;
+
+    // typography
+    vertical-align: baseline;
+  }
+
+  // stylelint-disable-next-line
+  tbody > tr > &__th,
+  tbody > tr > &__td {
     .dnb-table__size--medium & {
       // spacing
       padding: 0.875rem 1rem;
@@ -97,5 +112,23 @@
     bottom: 0; // don't use negative value, else it will be hidden when accordion
 
     border-bottom: var(--outline);
+  }
+}
+
+.dnb-table__container {
+  background-color: var(--color-white);
+}
+
+.dnb-table,
+.dnb-table__container {
+  // table border
+  --border: 0.0625rem solid var(--color-black-8);
+
+  // table outline
+  --outline: 0.0625rem solid var(--color-black-8);
+
+  html[data-visual-test] & {
+    --border: 0.0625rem solid blue;
+    --outline: 0.0625rem solid red;
   }
 }

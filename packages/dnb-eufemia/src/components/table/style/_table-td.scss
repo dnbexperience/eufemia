@@ -7,7 +7,6 @@
 
 .dnb-table {
   // table border
-  --border: 0.0625rem solid var(--color-black-8);
   &--border tbody &__td {
     &::after {
       @include tableBorder();
@@ -26,7 +25,6 @@
   }
 
   // table outline
-  --outline: 0.0625rem solid var(--color-black-8);
   &--outline thead &__th {
     &::after {
       @include tableBorder();
@@ -93,6 +91,25 @@
     &::before,
     &::after {
       border-radius: 0 0 0.5rem 0;
+    }
+  }
+
+  // reset parts if a "th" is used before td (row header)
+  &--outline tbody &__tr &__th ~ &__td:first-of-type {
+    &:first-of-type::after {
+      border-left: none;
+    }
+  }
+  &--border tbody &__tr &__th ~ &__td:first-of-type {
+    &:first-of-type::after {
+      border-left: var(--border);
+    }
+  }
+  &--outline tbody &__tr:last-of-type &__th ~ &__td:first-of-type {
+    &,
+    &::before,
+    &::after {
+      border-radius: 0 0 0 0;
     }
   }
 
