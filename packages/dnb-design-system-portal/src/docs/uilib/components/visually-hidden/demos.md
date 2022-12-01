@@ -5,7 +5,7 @@ showTabs: true
 import {
 VisuallyHiddenDefault,
 VisuallyHiddenFocusable,
-VisuallyHiddenSpan,
+VisuallyHiddenSection,
 VisuallyHiddenUseCase,
 } from 'Docs/uilib/components/visually-hidden/Examples'
 
@@ -27,4 +27,4 @@ Use `VisuallyHidden` with `focusable={true}` to visually hide an element by defa
 
 ### VisuallyHidden with custom element
 
-<VisuallyHiddenSpan />
+<VisuallyHiddenSection />

@@ -64,6 +64,7 @@ v10 of @dnb/eufemia contains _breaking changes_. As a migration process, you can
 ### Deprecations
 
 - `use_scrollwheel` and `on_init` properties, as well as the `raw_value` event value from [Slider](/uilib/components/slider) was removed in order to support multiple buttons.
+- Helper class `.dnb-not-sr-only` and SCSS mixin `@include notSrOnly` was removed.
 
 ## Install
 
