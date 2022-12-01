@@ -41,8 +41,8 @@
   }
 
   &--information {
-    min-width: var(--dialog-min-width);
     width: var(--dialog-avg-width);
+    min-width: var(--dialog-min-width);
     max-width: var(--dialog-max-width);
   }
 
@@ -119,6 +119,9 @@
       margin-right: 1rem;
     }
   }
+  &--information &__actions {
+    justify-content: left;
+  }
 
   &__align--center &__content {
     align-items: center;
@@ -157,35 +160,6 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-  }
-
-  &__icon {
-    // Modify the border prop from the icon component
-    &__primary.dnb-icon--border::after {
-      left: -50%;
-      right: -50%;
-      top: -50%;
-      bottom: -50%;
-
-      border: none;
-      background-color: currentColor;
-      opacity: 0.1;
-    }
-
-    &__primary#{&}--warning {
-      color: var(--color-fire-red);
-
-      ::after {
-        background-color: var(--color-fire-red-8);
-      }
-    }
-    &__primary#{&}--info {
-      color: var(--color-emerald-green);
-
-      ::after {
-        background-color: var(--color-pistachio);
-      }
-    }
   }
 
   // Animation in
@@ -236,6 +210,9 @@
     }
   }
 
+  &__icon {
+    display: flex;
+  }
   &__icon ~ &__header {
     margin-top: 1.5rem;
   }
