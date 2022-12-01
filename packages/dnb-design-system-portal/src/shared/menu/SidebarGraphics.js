@@ -11,7 +11,6 @@ import helper_classes from './graphics/helper_classes'
 import components from './graphics/components'
 import extensions from './graphics/extensions'
 import development from './graphics/development'
-import performance from './graphics/performance'
 import info from './graphics/info'
 import contact from './graphics/contact'
 import email from './graphics/email'
@@ -40,7 +39,6 @@ export default {
   components,
   extensions,
   development,
-  performance,
   info,
   contact,
   email,
