@@ -16,7 +16,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "devDependencies": {
-    "babel-plugin-react-live": "*"
+    "babel-plugin-react-live": "1.0.0"
   },
   "peedDependencies": {
     "gatsby": ">=4"

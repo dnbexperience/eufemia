@@ -10419,13 +10419,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-plugin-react-live@*, babel-plugin-react-live@workspace:tools/babel-plugin-react-live":
-  version: 0.0.0-use.local
-  resolution: "babel-plugin-react-live@workspace:tools/babel-plugin-react-live"
-  dependencies:
-    prettier: 2.4.1
-  languageName: unknown
-  linkType: soft
+"babel-plugin-react-live@npm:1.0.0":
+  version: 1.0.0
+  resolution: "babel-plugin-react-live@npm:1.0.0"
+  checksum: d558f2eb329e8f8a28776672aeb670063f4fd4abfacc8e810e3abc07064f7ff9dd88654a18fe1e67d700f05f29b615676cf14e94432195b42347d612232e94c7
+  languageName: node
+  linkType: hard
 
 "babel-plugin-remove-graphql-queries@npm:^4.24.0":
   version: 4.24.0
@@ -17744,7 +17743,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "gatsby-plugin-babel-react-live@workspace:tools/gatsby-plugin-babel-react-live"
   dependencies:
-    babel-plugin-react-live: "*"
+    babel-plugin-react-live: 1.0.0
   languageName: unknown
   linkType: soft
 
