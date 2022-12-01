@@ -68,45 +68,18 @@ exports[`VisuallyHidden VisuallyHidden scss have to match snapshot 1`] = `
 * VisuallyHidden component
 *
 */
-.dnb-visually-hidden--default {
-  user-select: none;
-  -webkit-touch-callout: none;
-  pointer-events: none;
-  position: absolute;
-  clip: rect(1px, 1px, 1px, 1px);
-  overflow: hidden;
-  white-space: nowrap;
-  height: 1px;
-  width: 1px;
-  margin: -1px 0 0 -1px;
-  padding: 0;
-  border: 0; }
-  .dnb-visually-hidden--default:not(:focus):not(:active) {
-    user-select: none;
-    -webkit-touch-callout: none;
-    pointer-events: none;
-    position: absolute;
-    clip: rect(1px, 1px, 1px, 1px);
-    overflow: hidden;
-    white-space: nowrap;
-    height: 1px;
-    width: 1px;
-    margin: -1px 0 0 -1px;
-    padding: 0;
-    border: 0; }
-
 .dnb-visually-hidden--focusable:not(:focus):not(:focus-within) {
   user-select: none;
   -webkit-touch-callout: none;
   pointer-events: none;
   position: absolute;
-  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  max-width: 1px;
+  max-height: 1px;
   overflow: hidden;
   white-space: nowrap;
-  height: 1px;
-  width: 1px;
-  margin: -1px 0 0 -1px;
   padding: 0;
+  margin: 0;
   border: 0; }
 "
 `;
