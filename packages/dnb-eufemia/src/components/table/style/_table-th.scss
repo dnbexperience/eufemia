@@ -10,4 +10,24 @@
     display: flex;
     align-items: flex-end; // bottom align help-button or other additional elements
   }
+
+  // table border
+  &--outline tbody &__th {
+    &:first-of-type::after {
+      @include tableBorder();
+
+      border-left: var(--outline);
+    }
+  }
+  &--outline tbody &__tr:last-of-type &__th {
+    &::after {
+      @include tableBorder();
+
+      border-bottom: var(--outline);
+    }
+
+    &:first-of-type::after {
+      border-radius: 0 0 0 0.5rem;
+    }
+  }
 }

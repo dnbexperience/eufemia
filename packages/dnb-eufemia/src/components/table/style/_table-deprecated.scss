@@ -1,0 +1,74 @@
+/*
+* Table deprecated parts
+*
+*/
+
+.dnb-table {
+  /* stylelint-disable */
+
+  // deprecated – can be removed in v10
+  &,
+  &--left {
+    text-align: left;
+  }
+  &--right {
+    text-align: right;
+  }
+  &--center {
+    text-align: center;
+  }
+
+  // deprecated – can be removed in v10
+  &--small,
+  &--small > tr > th,
+  &--small > tr > td,
+  &--small > thead > tr > th,
+  &--small > tbody > tr > td {
+    font-size: var(--font-size-small);
+  }
+
+  // deprecated – can be removed in v10
+  & > tr#{&}--small > th,
+  & > tr#{&}--small > td,
+  & > thead > tr#{&}--small > th,
+  & > tbody > tr#{&}--small > td {
+    font-size: var(--font-size-small);
+  }
+
+  // deprecated – can be removed in v10
+  & > tr > th#{&}--small,
+  & > tr > td#{&}--small,
+  & > thead > tr > th#{&}--small,
+  & > tbody > tr > td#{&}--small,
+  &__th#{&}--small,
+  &__td#{&}--small {
+    font-size: var(--font-size-small);
+  }
+
+  // deprecated – can be removed in v10
+  &--x-small,
+  &--x-small > tr > th,
+  &--x-small > tr > td,
+  &--x-small > thead > tr > th,
+  &--x-small > tbody > tr > td {
+    font-size: var(--font-size-x-small);
+  }
+
+  // deprecated – can be removed in v10
+  & > tr#{&}--x-small > th,
+  & > tr#{&}--x-small > td,
+  & > thead > tr#{&}--x-small > th,
+  & > tbody > tr#{&}--x-small > td {
+    font-size: var(--font-size-x-small);
+  }
+
+  // deprecated – can be removed in v10
+  & > tr > th#{&}--x-small,
+  & > tr > td#{&}--x-small,
+  & > thead > tr > th#{&}--x-small,
+  & > tbody > tr > td#{&}--x-small,
+  &__th#{&}--x-small,
+  &__td#{&}--x-small {
+    font-size: var(--font-size-x-small);
+  }
+}
