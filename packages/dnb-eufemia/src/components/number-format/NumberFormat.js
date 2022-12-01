@@ -423,7 +423,7 @@ export default class NumberFormat extends React.PureComponent {
 
         <span
           id={this._id}
-          className="dnb-number-format__sr-only dnb-sr-only--inline"
+          className="dnb-number-format__sr-only dnb-sr-only"
         >
           {aria}
         </span>
