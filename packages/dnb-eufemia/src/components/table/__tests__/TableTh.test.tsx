@@ -8,11 +8,11 @@ describe('TableTh', () => {
   it('should contain children content', () => {
     render(
       <table>
-        <tbody>
+        <thead>
           <tr>
             <TableTh>th content</TableTh>
           </tr>
-        </tbody>
+        </thead>
       </table>
     )
 
@@ -24,11 +24,11 @@ describe('TableTh', () => {
   it('should include custom attributes', () => {
     render(
       <table>
-        <tbody>
+        <thead>
           <tr>
-            <TableTh scope="col">th content</TableTh>
+            <TableTh align="right">th content</TableTh>
           </tr>
-        </tbody>
+        </thead>
       </table>
     )
 
@@ -37,17 +37,17 @@ describe('TableTh', () => {
       (attr) => attr.name
     )
 
-    expect(attributes).toEqual(['role', 'class', 'scope'])
+    expect(attributes).toEqual(['role', 'scope', 'class', 'align'])
   })
 
   it('should set the noWrap class', () => {
     render(
       <table>
-        <tbody>
+        <thead>
           <tr>
             <TableTh noWrap>th content</TableTh>
           </tr>
-        </tbody>
+        </thead>
       </table>
     )
 
@@ -59,42 +59,45 @@ describe('TableTh', () => {
   it('should have role with columnheader as value', () => {
     render(
       <table>
-        <tbody>
+        <thead>
           <tr>
             <TableTh>th content</TableTh>
           </tr>
-        </tbody>
+        </thead>
       </table>
     )
 
     const element = document.querySelector('th')
 
     expect(element.getAttribute('role')).toBe('columnheader')
+    expect(element.getAttribute('scope')).toBe('col')
   })
 
-  it('should set correct sortable class', () => {
+  it('should set correct role when scope is row', () => {
     render(
       <table>
         <tbody>
           <tr>
-            <TableTh sortable>th content</TableTh>
+            <TableTh scope="row">th content</TableTh>
           </tr>
         </tbody>
       </table>
     )
 
     const element = document.querySelector('th')
-    expect(Array.from(element.classList)).toContain('dnb-table--sortable')
+
+    expect(element.getAttribute('role')).toBe('rowheader')
+    expect(element.getAttribute('scope')).toBe('row')
   })
 
   it('should set correct active class', () => {
     render(
       <table>
-        <tbody>
+        <thead>
           <tr>
             <TableTh active>th content</TableTh>
           </tr>
-        </tbody>
+        </thead>
       </table>
     )
 
@@ -105,11 +108,11 @@ describe('TableTh', () => {
   it('should set correct reversed class', () => {
     render(
       <table>
-        <tbody>
+        <thead>
           <tr>
             <TableTh reversed>th content</TableTh>
           </tr>
-        </tbody>
+        </thead>
       </table>
     )
 
@@ -120,11 +123,11 @@ describe('TableTh', () => {
   it('should set correct noWrap class', () => {
     render(
       <table>
-        <tbody>
+        <thead>
           <tr>
             <TableTh noWrap>th content</TableTh>
           </tr>
-        </tbody>
+        </thead>
       </table>
     )
 
@@ -135,11 +138,11 @@ describe('TableTh', () => {
   it('should include custom classes', () => {
     render(
       <table>
-        <tbody>
+        <thead>
           <tr>
             <TableTh className="custom-class">th content</TableTh>
           </tr>
-        </tbody>
+        </thead>
       </table>
     )
 
