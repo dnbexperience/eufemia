@@ -53,9 +53,13 @@ export default function Th(
     ...props
   } = componentProps
 
+  const role = props.scope === 'row' ? 'rowheader' : 'columnheader'
+  const scope = props.scope === 'row' ? 'row' : 'col'
+
   return (
     <th
-      role="columnheader"
+      role={role}
+      scope={scope}
       className={classnames(
         'dnb-table__th',
         sortable && 'dnb-table--sortable',
