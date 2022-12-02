@@ -4,76 +4,42 @@ import { axeComponent } from '../../../core/jest/jestSetup'
 import Table from '../Table'
 import { BasicTable } from './TableMocks'
 
-const NODE_ENV = process.env.NODE_ENV
-const log = globalThis.console.log
-
-let simulateIntersecting: (isIntersecting: boolean) => void
-
-beforeEach(() => {
-  window.IntersectionObserver = jest
-    .fn()
-    .mockImplementation((callback) => {
-      simulateIntersecting = (isIntersecting) => {
-        callback([{ isIntersecting: !isIntersecting }])
-      }
-      return {
-        observe: jest.fn(),
-        disconnect: jest.fn(),
-      }
-    })
-})
-
-afterEach(() => {
-  jest.useRealTimers()
-
-  process.env.NODE_ENV = NODE_ENV
-  globalThis.console.log = log
-
-  delete window.IntersectionObserver
-})
-
 describe('useStickyHeader', () => {
-  it('should warn when IntersectionObserver not exists', () => {
-    delete window.IntersectionObserver
-    process.env.NODE_ENV = 'development'
-    globalThis.console.log = jest.fn()
+  const setSizes = () => {
+    const tableElement = document.querySelector('table')
+    jest.spyOn(tableElement, 'offsetHeight', 'get').mockReturnValue(480)
+    jest.spyOn(tableElement, 'offsetTop', 'get').mockReturnValue(160)
 
-    render(
-      <Table sticky>
-        <BasicTable sticky />
-      </Table>
-    )
+    const thElement = document.querySelector('th')
+    jest.spyOn(thElement, 'offsetHeight', 'get').mockReturnValue(72)
 
-    expect(globalThis.console.log).toBeCalledTimes(1)
+    jest.runAllTimers() // run applyObservers
+  }
+
+  const simulateScroll = (
+    y: number,
+    scrollElement: HTMLElement = null
+  ) => {
+    if (scrollElement) {
+      jest.spyOn(scrollElement, 'scrollTop', 'get').mockReturnValue(y)
+    } else {
+      window.pageYOffset = y
+    }
+
+    fireEvent.scroll(scrollElement || document)
+  }
+
+  beforeEach(() => {
+    jest.useFakeTimers()
+  })
+
+  afterEach(() => {
+    jest.useRealTimers()
   })
 
   it('should contain valid HTML classes when sticky', () => {
     render(
       <Table sticky>
-        <BasicTable sticky />
-      </Table>
-    )
-
-    const stickyHelperElem = screen
-      .queryByRole('table')
-      .querySelector('tr.dnb-table__sticky-helper')
-
-    expect(stickyHelperElem).toBeTruthy()
-
-    expect(Array.from(stickyHelperElem.classList)).toEqual([
-      'dnb-table__sticky-helper',
-    ])
-    expect(Array.from(screen.queryByRole('table').classList)).toEqual([
-      'dnb-table',
-      'dnb-table__variant--generic',
-      'dnb-table__size--large',
-      'dnb-table--sticky',
-    ])
-  })
-
-  it('should contain valid HTML classes when sticky is set to body-scroll', () => {
-    render(
-      <Table sticky="body-scroll">
         <BasicTable />
       </Table>
     )
@@ -82,197 +48,320 @@ describe('useStickyHeader', () => {
       'dnb-table',
       'dnb-table__variant--generic',
       'dnb-table__size--large',
-      'dnb-table--sticky-body-scroll',
+      'dnb-table--sticky',
     ])
   })
 
-  it('should add "sticky" class', () => {
-    jest.useFakeTimers()
-
+  it('should contain valid HTML classes when sticky is true', () => {
     render(
       <Table sticky>
-        <BasicTable sticky />
+        <BasicTable />
       </Table>
     )
 
-    jest.runAllTimers() // run applyObservers
+    expect(Array.from(screen.queryByRole('table').classList)).toEqual([
+      'dnb-table',
+      'dnb-table__variant--generic',
+      'dnb-table__size--large',
+      'dnb-table--sticky',
+    ])
+  })
+
+  it('should add "css-position" class', () => {
+    render(
+      <Table sticky="css-position">
+        <BasicTable />
+      </Table>
+    )
+
+    setSizes()
 
     expect(Array.from(document.querySelector('tr').classList)).toEqual(
       expect.arrayContaining([
         'dnb-table__tr',
         'dnb-table__tr--odd',
         'sticky',
+        'css-position',
       ])
     )
   })
 
-  it('should add/remove shadow class when interacting', () => {
-    jest.useFakeTimers()
-
-    const getClasses = () =>
-      Array.from(screen.queryByRole('table').classList)
+  it('should add/remove is-sticky class when interacting', () => {
     const getTrClasses = () =>
       Array.from(screen.queryByRole('table').querySelector('tr').classList)
 
     render(
       <Table sticky>
-        <BasicTable sticky />
+        <BasicTable />
       </Table>
     )
 
-    jest.runAllTimers() // run applyObservers
+    setSizes()
 
-    expect(getClasses()).toEqual(
-      expect.arrayContaining(['dnb-table', 'dnb-table--sticky'])
+    expect(Array.from(screen.queryByRole('table').classList)).toContain(
+      'dnb-table--sticky'
     )
 
-    simulateIntersecting(true)
+    simulateScroll(200)
 
-    expect(getClasses()).toEqual(
-      expect.arrayContaining(['dnb-table', 'dnb-table--sticky'])
-    )
-    expect(getTrClasses()).toEqual(
-      expect.arrayContaining(['dnb-table__tr', 'show-shadow'])
-    )
+    expect(getTrClasses()).toContain('is-sticky')
 
-    simulateIntersecting(false)
+    simulateScroll(0)
 
-    expect(getClasses()).toEqual(
-      expect.arrayContaining(['dnb-table', 'dnb-table--sticky'])
-    )
+    expect(getTrClasses()).not.toContain('is-sticky')
   })
 
-  it('should set correct rootMargin and --table-top with given stickyOffset', () => {
-    jest.useFakeTimers()
-
+  it('should set --table-top with given stickyOffset when sticky="css-position"', () => {
     const { rerender } = render(
-      <Table sticky stickyOffset="4rem">
-        <BasicTable sticky />
+      <Table sticky="css-position" stickyOffset="4rem">
+        <BasicTable />
       </Table>
     )
 
     const thElement = document.querySelector('th')
     const trElem = document.querySelector('tr')
+
     jest.spyOn(thElement, 'offsetHeight', 'get').mockReturnValue(72)
 
-    jest.runAllTimers() // run applyObservers
+    setSizes()
 
     expect(trElem.style.getPropertyValue('--table-top')).toEqual('4rem')
-    expect(window.IntersectionObserver).toHaveBeenCalledTimes(1)
-    expect(window.IntersectionObserver).toHaveBeenNthCalledWith(
-      1,
-      expect.any(Function),
-      // Formula: thHeight + offsetTopPx = -(sum)px
-      { threshold: 1, rootMargin: '-136px 0px 0px 0px' } // we set a rootMargin to show/hide the shadow on a certain position ("show-shadow" class)
-    )
 
-    /** stickyOffset should support pixels as well */
+    // stickyOffset should support pixels as well
     rerender(
       <Table sticky stickyOffset={64}>
-        <BasicTable sticky />
+        <BasicTable />
       </Table>
     )
 
-    jest.runAllTimers() // run applyObservers
+    setSizes()
 
     expect(trElem.style.getPropertyValue('--table-top')).toEqual('4rem')
-    expect(window.IntersectionObserver).toHaveBeenCalledTimes(2)
-    expect(window.IntersectionObserver).toHaveBeenNthCalledWith(
-      2,
-      expect.any(Function),
-      // Formula: thHeight + offsetTopPx = -(sum)px
-      { threshold: 1, rootMargin: '-136px 0px 0px 0px' } // we set a rootMargin to show/hide the shadow on a certain position ("show-shadow" class)
-    )
   })
 
-  it('should set translate3d when sticky is body-scroll', () => {
-    jest.useFakeTimers()
-
+  it('should set --table-offset on scroll', () => {
     const { rerender } = render(
-      <Table sticky="body-scroll" stickyOffset="4rem">
-        <BasicTable sticky />
+      <Table sticky stickyOffset="4rem">
+        <BasicTable />
       </Table>
     )
 
     const tableElement = document.querySelector('table')
-    jest.spyOn(tableElement, 'offsetHeight', 'get').mockReturnValue(480)
-    jest.spyOn(tableElement, 'offsetTop', 'get').mockReturnValue(160)
-
-    const thElement = document.querySelector('th')
-    jest.spyOn(thElement, 'offsetHeight', 'get').mockReturnValue(72)
-
     const trElem = document.querySelector('tr')
 
-    jest.runAllTimers() // run applyObservers
+    setSizes()
 
-    expect(trElem.style.getPropertyValue('--table-top')).toEqual('4rem')
-    expect(window.IntersectionObserver).toHaveBeenCalledTimes(1)
-    expect(window.IntersectionObserver).toHaveBeenNthCalledWith(
-      1,
-      expect.any(Function),
-      // Formula: thHeight + offsetTopPx = -(sum)px
-      { threshold: 1, rootMargin: '-136px 0px 0px 0px' } // we set a rootMargin to show/hide the shadow on a certain position ("show-shadow" class)
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual('')
+
+    simulateScroll(0)
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual('')
+
+    // Should set correct value (320-(160-64)=224)
+    simulateScroll(320)
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
+      '224px'
     )
 
-    const simulateScroll = (y: number) => {
-      window.pageYOffset = y
-      fireEvent.scroll(document)
-    }
-
-    expect(trElem.style.transform).toEqual('')
-
-    simulateIntersecting(true)
     simulateScroll(0)
-    // Should reset to basis (0-(160-64)=-96)
-    expect(trElem.style.transform).toEqual('translate3d(0,-96px,0)')
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual('')
 
-    simulateScroll(320)
-    // Should set correct value (320-(160-64)=224)
-    expect(trElem.style.transform).toEqual('translate3d(0,224px,0)')
+    // Should set correct value (300-(160-64)=204)
+    simulateScroll(300)
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
+      '204px'
+    )
 
-    simulateIntersecting(false)
-    // Should reset to zero
-    expect(trElem.style.transform).toEqual('translate3d(0,0,0)')
-
-    simulateIntersecting(true)
-    simulateScroll(0)
-    // Should reset to basis (0-(160-64)=-96)
-    expect(trElem.style.transform).toEqual('translate3d(0,-96px,0)')
-
+    // Should keep the previous value (300-(160-64)=204)
     simulateScroll(3000)
-    // Should keep the previous value (0-(160-64)=-96)
-    expect(trElem.style.transform).toEqual('translate3d(0,-96px,0)')
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
+      '204px'
+    )
 
     // change the table offset
     jest.spyOn(tableElement, 'offsetTop', 'get').mockReturnValue(80)
     fireEvent.resize(window)
 
-    simulateScroll(320)
     // Should set correct value (320-(80-64)=304)
-    expect(trElem.style.transform).toEqual('translate3d(0,304px,0)')
+    simulateScroll(320)
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
+      '304px'
+    )
 
     // Simulate iFrame
     jest.spyOn(window, 'self', 'get').mockReturnValue(null)
 
     rerender(
-      <Table sticky="body-scroll" stickyOffset={64}>
-        <BasicTable sticky />
+      <Table sticky>
+        <BasicTable />
       </Table>
     )
 
-    jest.runAllTimers() // run applyObservers
+    setSizes()
 
-    simulateIntersecting(true)
+    // Should set correct value (320-160=160)
     simulateScroll(320)
-    // Should set correct value (320-(80-0)=240)
-    expect(trElem.style.transform).toEqual('translate3d(0,240px,0)')
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
+      '160px'
+    )
+
+    // Reset Simulate iFrame
+    jest.spyOn(window, 'self', 'get').mockReturnValue(window)
+  })
+
+  it('should check if .dnb-scroll-view has a vertical scrollbar and set shadown only, when css-position is used', () => {
+    const { rerender } = render(
+      <Table.ScrollView style={{ maxHeight: '4rem' }}>
+        <Table sticky="css-position" stickyOffset="1rem">
+          <BasicTable />
+        </Table>
+      </Table.ScrollView>
+    )
+
+    const trElem = document.querySelector('tr')
+    const scrollElem: HTMLElement =
+      document.querySelector('.dnb-scroll-view')
+
+    // Make ScrollView have a scrollbar
+    jest.spyOn(scrollElem, 'scrollHeight', 'get').mockReturnValue(120)
+    jest.spyOn(scrollElem, 'offsetHeight', 'get').mockReturnValue(80)
+
+    setSizes()
+
+    simulateScroll(0, scrollElem)
+
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual('')
+    expect(trElem.style.getPropertyValue('--table-top')).toEqual('1rem')
+    expect(Array.from(trElem.classList)).not.toContain('is-sticky')
+
+    simulateScroll(32, scrollElem)
+
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual('')
+    expect(Array.from(trElem.classList)).toContain('is-sticky')
+
+    rerender(
+      <Table.ScrollView style={{ maxHeight: '4rem' }}>
+        <Table sticky="css-position">
+          <BasicTable />
+        </Table>
+      </Table.ScrollView>
+    )
+
+    simulateScroll(46, scrollElem)
+
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual('')
+    expect(trElem.style.getPropertyValue('--table-top')).toEqual('1rem')
+  })
+
+  it('should use Modal/Drawer .dnb-scroll-view', () => {
+    const { rerender } = render(
+      <div className="dnb-modal__content">
+        <div className="dnb-modal__header__bar">bar</div>
+        <div className="dnb-scroll-view">
+          <Table sticky>
+            <BasicTable />
+          </Table>
+        </div>
+      </div>
+    )
+
+    const tableElement = document.querySelector('table')
+    const trElem = document.querySelector('tr')
+    const barElem: HTMLElement = document.querySelector(
+      '.dnb-modal__header__bar'
+    )
+    const scrollElem: HTMLElement =
+      document.querySelector('.dnb-scroll-view')
+
+    jest.spyOn(barElem, 'offsetHeight', 'get').mockReturnValue(40)
+
+    setSizes()
+
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual('')
+
+    simulateScroll(0, scrollElem)
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual('')
+
+    // Should set correct value (320-(160-40)=200)
+    simulateScroll(320, scrollElem)
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
+      '200px'
+    )
+
+    simulateScroll(0, scrollElem)
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual('')
+
+    // Should set correct value (300-(160-40)=180)
+    simulateScroll(300, scrollElem)
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
+      '180px'
+    )
+
+    // Should keep the previous value (300-(160-40)=180)
+    simulateScroll(3000, scrollElem)
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
+      '180px'
+    )
+
+    // change the table offset
+    jest.spyOn(tableElement, 'offsetTop', 'get').mockReturnValue(80)
+    fireEvent.resize(window)
+
+    // Should set correct value (320-(80-40)=280)
+    simulateScroll(320, scrollElem)
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
+      '280px'
+    )
+
+    rerender(
+      <div className="dnb-modal__content">
+        <div className="dnb-modal__header__bar">bar</div>
+        <div className="dnb-scroll-view">
+          <Table sticky stickyOffset="4rem">
+            <BasicTable />
+          </Table>
+        </div>
+      </div>
+    )
+
+    setSizes()
+
+    // Should set correct value (320-(160-64)=224)
+    simulateScroll(320, scrollElem)
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
+      '224px'
+    )
+
+    // Simulate iFrame
+    jest.spyOn(window, 'self', 'get').mockReturnValue(null)
+
+    rerender(
+      <div className="dnb-modal__content">
+        <div className="dnb-modal__header__bar">bar</div>
+        <div className="dnb-scroll-view">
+          <Table sticky>
+            <BasicTable />
+          </Table>
+        </div>
+      </div>
+    )
+
+    setSizes()
+
+    // Should set correct value (320-(160-0)=160)
+    simulateScroll(320, scrollElem)
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
+      '160px'
+    )
+
+    // Reset Simulate iFrame
+    jest.spyOn(window, 'self', 'get').mockReturnValue(window)
   })
 })
 
 describe('Table aria', () => {
   it('should validate', async () => {
     const Component = render(
-      <Table sticky>
+      <Table sticky="css-position">
         <BasicTable />
       </Table>
     )

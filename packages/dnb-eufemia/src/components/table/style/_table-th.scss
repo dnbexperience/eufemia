@@ -12,12 +12,36 @@
   }
 
   // table border
-  &--outline tbody &__th {
-    &:first-of-type::after {
+  &--outline thead &__th {
+    &::after {
       @include tableBorder();
 
+      border-top: var(--outline);
+    }
+
+    &:first-of-type::after {
       border-left: var(--outline);
     }
+    &:last-of-type::after {
+      border-right: var(--outline);
+    }
+  }
+  &--outline thead &__th:first-of-type {
+    &,
+    &::after {
+      border-radius: 0.5rem 0 0 0;
+    }
+  }
+  &--outline thead &__th:last-of-type {
+    &,
+    &::after {
+      border-radius: 0 0.5rem 0 0;
+    }
+  }
+  &--outline tbody &__th:first-of-type::after {
+    @include tableBorder();
+
+    border-left: var(--outline);
   }
   &--outline tbody &__tr:last-of-type &__th {
     &::after {

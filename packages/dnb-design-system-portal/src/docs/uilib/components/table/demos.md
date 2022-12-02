@@ -10,6 +10,7 @@ TableStackedContainer,
 TableClassHelpers,
 TableLongHeader,
 TableSticky,
+TableStickyMaxHeight,
 TableSizeMedium,
 TableSizeSmall,
 } from 'Docs/uilib/components/table/Examples'
@@ -40,17 +41,13 @@ A `small` sized table is only for special circumstances, where a lot of data nee
 
 ### Table with sticky header
 
-You have two options (both have their downsides):
-
-1. use `sticky="body-scroll"` property. It works even when using a `Table.ScrollView` or a `overflow: hidden;` is used on any parent elements. The downside is, that it uses JavaScript and the browser may drop some frames, which results in a potential flickering during scrolling.
-
-2. use `sticky={true}` for using the CSS `position: sticky;` method. It is super smooth. But then you can not use a `overflow: hidden;` or `overflow: auto;` on any parent elements. This is a know issue happening on every modern browser. There are various tricks, including [this deallocation / sync solution](https://uxdesign.cc/position-stuck-96c9f55d9526).
-
 <TableSticky />
 
-### Table with long header text (wrapping)
+### Table with a max height
 
-<TableLongHeader />
+A sticky table header with `sticky="css-position"` and `max-height` on the `Table.ScrollView`.
+
+<TableStickyMaxHeight />
 
 ### Several tables in one container
 
@@ -82,6 +79,10 @@ render(
 </details>
 
 <TableStackedContainer />
+
+### Table with long header text (wrapping)
+
+<TableLongHeader />
 
 ### Example usage of class helpers
 

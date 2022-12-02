@@ -1,5 +1,4 @@
 import React from 'react'
-import Table from '../Table'
 import Button from '../../Button'
 import { Tr, Th, Td } from '../../../elements'
 
@@ -9,7 +8,7 @@ declare global {
   }
 }
 
-export const BasicTable = ({ sticky = false } = {}) => (
+export const BasicTable = () => (
   <>
     <caption className="dnb-sr-only">A Table Caption</caption>
     <thead>
@@ -47,7 +46,6 @@ export const BasicTable = ({ sticky = false } = {}) => (
       </Tr>
     </tfoot>
     <tbody>
-      {sticky && <Table.StickyHelper />}
       <Tr>
         <Td>
           <p className="dnb-p">
