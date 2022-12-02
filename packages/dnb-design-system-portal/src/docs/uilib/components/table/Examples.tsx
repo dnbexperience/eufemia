@@ -47,20 +47,20 @@ export const TableVariantBasic = () => (
           <caption className="dnb-sr-only">A Table Caption</caption>
           <thead>
             <Tr>
-              <Th scope="col">Column</Th>
-              <Th scope="col">
+              <Th>Column</Th>
+              <Th>
                 <Th.Horizontal>
                   Help Button
                   <Th.HelpButton>Help Content</Th.HelpButton>
                 </Th.Horizontal>
               </Th>
-              <Th scope="col" sortable active>
+              <Th sortable active>
                 <Th.SortButton
                   text="Sortable Active"
                   title="Sort table column"
                 />
               </Th>
-              <Th scope="col" sortable reversed align="right">
+              <Th sortable reversed align="right">
                 <Th.SortButton text="Sortable" title="Sort table column" />
               </Th>
             </Tr>
@@ -113,13 +113,11 @@ export const TableSizeMedium = () => (
           <caption className="dnb-sr-only">A Table Caption</caption>
           <thead>
             <Tr>
-              <Th scope="col">Column</Th>
-              <Th scope="col" sortable>
+              <Th>Column</Th>
+              <Th sortable>
                 <Th.SortButton text="Sortable" title="Sort table column" />
               </Th>
-              <Th scope="col" align="right">
-                Column
-              </Th>
+              <Th align="right">Column</Th>
             </Tr>
           </thead>
           <tbody>
@@ -160,13 +158,11 @@ export const TableSizeSmall = () => (
           <caption className="dnb-sr-only">A Table Caption</caption>
           <thead>
             <Tr>
-              <Th scope="col">Column</Th>
-              <Th scope="col" sortable>
+              <Th>Column</Th>
+              <Th sortable>
                 <Th.SortButton text="Sortable" title="Sort table column" />
               </Th>
-              <Th scope="col" align="right">
-                Column
-              </Th>
+              <Th align="right">Column</Th>
             </Tr>
           </thead>
           <tbody>
@@ -207,14 +203,12 @@ export const TableVariantComplex = () => (
           <caption>A Table Caption</caption>
           <thead>
             <Tr noWrap>
-              <Th scope="col"></Th>
-              <Th scope="col">
+              <Th></Th>
+              <Th>
                 Column 2<br />
                 newline
               </Th>
-              <Th scope="col" colSpan={2}>
-                Column 3 that spans
-              </Th>
+              <Th colSpan={2}>Column 3 that spans</Th>
             </Tr>
           </thead>
           <tbody>
@@ -299,16 +293,14 @@ export const TableVariantFixed = () => (
               <caption className="dnb-sr-only">A Table Caption</caption>
               <thead>
                 <Tr noWrap>
-                  <Th scope="col">Column 1</Th>
-                  <Th scope="col">Column 2</Th>
-                  <Th scope="col">Column 3</Th>
-                  <Th scope="col">Column 4</Th>
-                  <Th scope="col">Column 5</Th>
-                  <Th scope="col">Column 6</Th>
-                  <Th scope="col">Column 7</Th>
-                  <Th scope="col" align="right">
-                    Column 8
-                  </Th>
+                  <Th>Column 1</Th>
+                  <Th>Column 2</Th>
+                  <Th>Column 3</Th>
+                  <Th>Column 4</Th>
+                  <Th>Column 5</Th>
+                  <Th>Column 6</Th>
+                  <Th>Column 7</Th>
+                  <Th align="right">Column 8</Th>
                 </Tr>
               </thead>
               <tbody>
@@ -409,15 +401,15 @@ export const TableStackedContainer = () => (
               <caption className="dnb-sr-only">Table One</caption>
               <thead>
                 <Tr noWrap>
-                  <Th scope="col">
+                  <Th>
                     I have a superscript{' '}
                     <sup>
                       <Anchor href="#unique-ref-id">1</Anchor>
                     </sup>
                   </Th>
-                  <Th scope="col">Column 2</Th>
-                  <Th scope="col">Column 3</Th>
-                  <Th scope="col">Column 4</Th>
+                  <Th>Column 2</Th>
+                  <Th>Column 3</Th>
+                  <Th>Column 4</Th>
                 </Tr>
               </thead>
               <tbody>
@@ -440,10 +432,10 @@ export const TableStackedContainer = () => (
               <caption className="dnb-sr-only">Table Two</caption>
               <thead>
                 <Tr noWrap>
-                  <Th scope="col">Column 1</Th>
-                  <Th scope="col">Column 2</Th>
-                  <Th scope="col">Column 3</Th>
-                  <Th scope="col">Column 4</Th>
+                  <Th>Column 1</Th>
+                  <Th>Column 2</Th>
+                  <Th>Column 3</Th>
+                  <Th>Column 4</Th>
                 </Tr>
               </thead>
               <tbody>
@@ -484,19 +476,13 @@ export const TableClassHelpers = () => (
           <thead>
             <tr className="dnb-table__tr">
               <th className="dnb-table__th">.dnb-table__th</th>
-              <th
-                scope="col"
-                className="dnb-table__th dnb-table--sortable dnb-table--reversed"
-              >
+              <th className="dnb-table__th dnb-table--sortable dnb-table--reversed">
                 <Th.SortButton
                   text="dnb-table--reversed"
                   title="dnb-table__th dnb-table--sortable dnb-table--reversed"
                 />
               </th>
-              <th
-                scope="col"
-                className="dnb-table__th dnb-table--sortable dnb-table--active"
-              >
+              <th className="dnb-table__th dnb-table--sortable dnb-table--active">
                 <Th.SortButton
                   text="dnb-table--active"
                   title="dnb-table__th dnb-table--sortable dnb-table--active"
@@ -534,17 +520,17 @@ export const TableLongHeader = () => (
           <caption className="dnb-sr-only">A Table Caption</caption>
           <thead>
             <Tr>
-              <Th scope="col" colSpan={2}>
+              <Th colSpan={2}>
                 Static long header senectus ornare convallis ut at erat
                 imperdiet commodo
               </Th>
-              <Th scope="col" sortable reversed>
+              <Th sortable reversed>
                 <Th.SortButton
                   text="Sortable long header ridiculus laoreet turpis netus at vitae"
                   title="Sort table column"
                 />
               </Th>
-              <Th scope="col" align="right" sortable active>
+              <Th align="right" sortable active>
                 <Th.SortButton
                   text="Active and right aligned long header ridiculus laoreet turpis netus at vitae"
                   title="Sort table column"
@@ -600,16 +586,14 @@ export const TableSticky = () => (
             <caption className="dnb-sr-only">A Table Caption</caption>
             <thead>
               <Tr>
-                <Th scope="col" colSpan={2}>
-                  Header
-                </Th>
-                <Th scope="col" sortable reversed>
+                <Th colSpan={2}>Header</Th>
+                <Th sortable reversed>
                   <Th.SortButton
                     text="Sortable"
                     title="Sort table column"
                   />
                 </Th>
-                <Th scope="col" sortable active>
+                <Th sortable active>
                   <Th.SortButton text="Active" title="Sort table column" />
                 </Th>
               </Tr>
