@@ -6,4 +6,12 @@
 .dnb-scroll-view {
   overflow-x: auto;
   @include scrollY(auto);
+
+  // interactive prop
+  &[tabindex='0'] {
+    &:focus {
+      outline: none;
+      @include fakeFocus();
+    }
+  }
 }
