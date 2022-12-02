@@ -27,12 +27,12 @@ showTabs: true
 
 ### Table Header `<Th>`
 
-| Properties | Description                                                                                     |
-| ---------- | ----------------------------------------------------------------------------------------------- |
-| `sortable` | _(optional)_ defines the table header as sortable if set to `true`. Defaults to `false`.        |
-| `active`   | _(optional)_ defines the sortable column as the current active. Defaults to `false`.            |
-| `reversed` | _(optional)_ defines the sortable column as in reversed order. Defaults to `false`.             |
-| `noWrap`   | _(optional)_ if set to `true`, the header text will not wrap to new lines. Defaults to `false`. |
+| Properties | Description                                                                                          |
+| ---------- | ---------------------------------------------------------------------------------------------------- |
+| `sortable` | _(optional)_ defines the table header as sortable if set to `true` (ascending). Defaults to `false`. |
+| `active`   | _(optional)_ defines the sortable column as the current active (ascending). Defaults to `false`.     |
+| `reversed` | _(optional)_ defines the sortable column as in reversed order (descending). Defaults to `false`.     |
+| `noWrap`   | _(optional)_ if set to `true`, the header text will not wrap to new lines. Defaults to `false`.      |
 
 ### Table Data `<Td>`
 
