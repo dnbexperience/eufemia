@@ -542,13 +542,18 @@ module.exports.loadImage = async (imagePath) =>
 
 // make sure "${url}/" has actually a slash on the end
 const createUrl = (url, fullscreen = true) => {
-  const path = `http://${config.testScreenshotOnHost}:${
-    config.testScreenshotOnPort
-  }/${url}${url.includes('?') ? '&' : '?'}data-visual-test${
-    fullscreen ? '&fullscreen' : ''
-  }`.replace(/\/\//g, '/')
+  const newURL = new URL(
+    url,
+    `http://${config.testScreenshotOnHost}:${config.testScreenshotOnPort}`
+  )
 
-  return path
+  newURL.searchParams.append('data-visual-test', 'true')
+
+  if (fullscreen) {
+    newURL.searchParams.append('fullscreen', 'true')
+  }
+
+  return newURL.toString()
 }
 
 const makeStyles = (style) =>

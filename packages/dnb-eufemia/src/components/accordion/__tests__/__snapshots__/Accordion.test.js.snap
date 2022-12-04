@@ -583,7 +583,7 @@ exports[`Accordion scss have to match snapshot 1`] = `
           right: 0;
           width: 60%; } }
   .dnb-accordion > .dnb-accordion__header--no-animation .dnb-accordion__header__icon,
-  html[data-visual-test] .dnb-accordion > .dnb-accordion__header--no-animation .dnb-accordion__header__icon {
-    transition-duration: 1ms !important; }
+  html[data-visual-test] .dnb-accordion .dnb-accordion__header .dnb-accordion__header__icon {
+    transition: none; }
 "
 `;

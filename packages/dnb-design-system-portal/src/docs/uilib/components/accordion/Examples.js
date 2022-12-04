@@ -25,7 +25,7 @@ export const AccordionDefaultExample = () => (
 <Accordion.Provider
 	top
 	remember_state
-	icon="bell"
+	icon="chevron_down"
 	icon_position="right"
 >
 	<Accordion
