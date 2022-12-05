@@ -1,14 +1,19 @@
 import React, { useContext } from 'react'
+import classNames from 'classnames'
 import Button from '../../button/Button'
+import Space from '../../space/Space'
 import { Context } from '../../../shared'
 import ModalContext from '../../modal/ModalContext'
 import { dispatchCustomElementEvent } from '../../../shared/component-helper'
+
+import type { SpacingProps } from '../../space/types'
 
 type extendedMouseEvent = {
   event: React.MouseEvent<HTMLElement>
   close: () => void
 }
-interface DialogActionProps {
+
+export type DialogActionProps = {
   /**
    * For dialog actions, give a custom text for the decline button.
    */
@@ -40,6 +45,10 @@ interface DialogActionProps {
   children?: React.ReactElement | Array<React.ReactElement>
 }
 
+export type DialogActionAllProps = DialogActionProps &
+  SpacingProps &
+  Omit<React.HTMLAttributes<HTMLElement>, 'children'>
+
 const fallbackCloseAction = ({ close }: extendedMouseEvent) => close()
 
 const DialogAction = ({
@@ -48,8 +57,10 @@ const DialogAction = ({
   hideDecline = false,
   onConfirm = fallbackCloseAction,
   onDecline = fallbackCloseAction,
+  className,
   children,
-}: DialogActionProps) => {
+  ...props
+}: DialogActionAllProps) => {
   const { translation, Button: ButtonContext } = useContext(Context)
   const { close } = useContext(ModalContext)
   let childrenWithCloseFunc: Array<React.ReactChild>
@@ -77,7 +88,11 @@ const DialogAction = ({
   }
 
   return (
-    <div className="dnb-dialog__actions">
+    <Space
+      element="section"
+      className={classNames('dnb-dialog__actions', className)}
+      {...props}
+    >
       {childrenWithCloseFunc}
 
       {!children && !hideDecline && (
@@ -106,9 +121,8 @@ const DialogAction = ({
           size={ButtonContext?.size || 'large'}
         />
       )}
-    </div>
+    </Space>
   )
 }
 
 export default DialogAction
-export type { DialogActionProps }
