@@ -4,20 +4,16 @@
 # https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
 
 version: 2
-root:
-  - package-ecosystem: "" # See documentation for possible values
-    directory: "/" # Location of package manifests
+updates:
+  - package-ecosystem: 'npm' # See documentation for possible values
+    directory: '/' # Location of package manifests
     schedule:
-      interval: "monthly"
-
-eufemia:
-  - package-ecosystem: "" # See documentation for possible values
-    directory: "/packages/dnb-eufemia" # Location of package manifests
+      interval: 'monthly'
+  - package-ecosystem: 'npm' # See documentation for possible values
+    directory: '/packages/dnb-eufemia' # Location of package manifests
     schedule:
-      interval: "monthly"
-
-portal:
-  - package-ecosystem: "" # See documentation for possible values
-    directory: "/packages/dnb-design-system-portal" # Location of package manifests
+      interval: 'monthly'
+  - package-ecosystem: 'npm' # See documentation for possible values
+    directory: '/packages/dnb-design-system-portal' # Location of package manifests
     schedule:
-      interval: "monthly"
+      interval: 'monthly'
