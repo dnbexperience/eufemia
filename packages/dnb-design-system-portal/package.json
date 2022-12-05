@@ -79,7 +79,7 @@
     "front-matter": "4.0.2",
     "fs-extra": "10.0.0",
     "gatsby": "4.24.4",
-    "gatsby-link": "4.24.1",
+    "gatsby-link": "5.2.0",
     "gatsby-plugin-algolia": "0.26.0",
     "gatsby-plugin-babel-react-live": "1.0.1",
     "gatsby-plugin-catch-links": "4.24.0",
