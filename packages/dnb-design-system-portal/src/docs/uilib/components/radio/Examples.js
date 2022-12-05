@@ -49,6 +49,29 @@ export const RadioExampleVerticalGroup = () => (
   </ComponentBox>
 )
 
+export const RadioExampleLabelAbove = () => (
+  <ComponentBox data-visual-test="radio-group-label-above">
+    {
+      /* jsx */ `
+<Radio.Group
+  vertical
+  label="Vertical Group:"
+  layout_direction="column"
+  on_change={({ value }) => { console.log('on_change', value) }}
+>
+  <Radio label="First" value="first" />
+  <Radio label="Second" value="second" />
+  <Radio
+    label="Third"
+    value="third"
+    checked
+  />
+</Radio.Group>
+`
+    }
+  </ComponentBox>
+)
+
 export const RadioExampleGroupStatus = () => (
   <ComponentBox data-visual-test="radio-group-status">
     {

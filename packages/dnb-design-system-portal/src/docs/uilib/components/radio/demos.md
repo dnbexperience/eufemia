@@ -5,6 +5,7 @@ showTabs: true
 import {
 RadioExampleDefault,
 RadioExampleVerticalGroup,
+RadioExampleLabelAbove,
 RadioExampleGroupStatus,
 RadioExampleWithoutGroup,
 RadioExampleSizes,
@@ -22,6 +23,10 @@ RadioVisualTests
 ### Vertical aligned Radio group
 
 <RadioExampleVerticalGroup />
+
+### Radio group with label above
+
+<RadioExampleLabelAbove />
 
 ### Radio group with status messages
 
