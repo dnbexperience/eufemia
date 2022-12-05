@@ -2,7 +2,6 @@
   "reject": [
     "eslint",
     "ora",
-    "react-router-dom",
     "stylelint",
     "stylelint-config-prettier",
     "stylelint-config-recommended",
