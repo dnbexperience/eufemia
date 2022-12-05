@@ -3304,7 +3304,7 @@ __metadata:
     gulp-transform: 3.0.5
     history: 5.1.0
     jest: 29.2.1
-    jest-axe: 6.0.0
+    jest-axe: 7.0.0
     jest-environment-jsdom: 29.2.1
     jest-environment-node: 29.2.1
     jest-matchmedia-mock: 1.1.0
@@ -10079,10 +10079,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axe-core@npm:4.4.1":
-  version: 4.4.1
-  resolution: "axe-core@npm:4.4.1"
-  checksum: ad14c5b71059dc3d24ef2519b8cd96e98b4a572379396201ce449d1c4262181821d6ca9550df65b22371faf06d28bbe94d391fe5675f2a08e6550f7b5da8416d
+"axe-core@npm:4.5.1":
+  version: 4.5.1
+  resolution: "axe-core@npm:4.5.1"
+  checksum: db90c6b41483e9c3452393933072fe0b8c2221e6d9b96ae0e6a03a4ce1e4c35bec539c92e9b6fcd63c4acf6678ad3c3ca7f5ab1d884210d157867cc54acd4f6a
   languageName: node
   linkType: hard
 
@@ -11641,16 +11641,6 @@ __metadata:
   version: 1.1.0
   resolution: "ccount@npm:1.1.0"
   checksum: b335a79d0aa4308919cf7507babcfa04ac63d389ebed49dbf26990d4607c8a4713cde93cc83e707d84571ddfe1e7615dad248be9bc422ae4c188210f71b08b78
-  languageName: node
-  linkType: hard
-
-"chalk@npm:4.1.0":
-  version: 4.1.0
-  resolution: "chalk@npm:4.1.0"
-  dependencies:
-    ansi-styles: ^4.1.0
-    supports-color: ^7.1.0
-  checksum: 5561c7b4c063badee3e16d04bce50bd033e1be1bf4c6948639275683ffa7a1993c44639b43c22b1c505f0f813a24b1889037eb182546b48946f9fe7cdd0e7d13
   languageName: node
   linkType: hard
 
@@ -21472,15 +21462,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-axe@npm:6.0.0":
-  version: 6.0.0
-  resolution: "jest-axe@npm:6.0.0"
+"jest-axe@npm:7.0.0":
+  version: 7.0.0
+  resolution: "jest-axe@npm:7.0.0"
   dependencies:
-    axe-core: 4.4.1
-    chalk: 4.1.0
-    jest-matcher-utils: 27.0.2
+    axe-core: 4.5.1
+    chalk: 4.1.2
+    jest-matcher-utils: 29.2.2
     lodash.merge: 4.6.2
-  checksum: 9efe60394aa90ec86bf7fbd08aa2ceb8b813cd5b8d5b24fe03192c9bd2745770a5f3c56faa53c1909b28d0f23735648290dd494d6431460e1310ff2394080879
+  checksum: 7865f376d60e34659f6e93a077ef581a7d69afa6f0746e00f9143b05580f2656fb6501fa91c1be9c60e93d29d8935eeb46fcd20e6dbdd9757ff675e2a3d42330
   languageName: node
   linkType: hard
 
@@ -21712,7 +21702,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-diff@npm:^27.0.0, jest-diff@npm:^27.0.2":
+"jest-diff@npm:^27.0.0":
   version: 27.3.1
   resolution: "jest-diff@npm:27.3.1"
   dependencies:
@@ -21862,7 +21852,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-get-type@npm:^27.0.1, jest-get-type@npm:^27.3.1":
+"jest-get-type@npm:^27.3.1":
   version: 27.3.1
   resolution: "jest-get-type@npm:27.3.1"
   checksum: b0b8db1d770c6332b4189bbf4073184489acbb1095410cf53add033daf911577ee6bd1c4f8d747dd2f3d63de42f7eb15c5527fc7288a2855a046f4a8957cd902
@@ -21949,15 +21939,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-matcher-utils@npm:27.0.2":
-  version: 27.0.2
-  resolution: "jest-matcher-utils@npm:27.0.2"
+"jest-matcher-utils@npm:29.2.2":
+  version: 29.2.2
+  resolution: "jest-matcher-utils@npm:29.2.2"
   dependencies:
     chalk: ^4.0.0
-    jest-diff: ^27.0.2
-    jest-get-type: ^27.0.1
-    pretty-format: ^27.0.2
-  checksum: 7c12409e42300199bc0a901e68f13846d86f171792798e6a93dde643cf1b752aff015a97b8db313aee59d02795f3ec540f6e54c075d0f6b41effc732fd0d5055
+    jest-diff: ^29.2.1
+    jest-get-type: ^29.2.0
+    pretty-format: ^29.2.1
+  checksum: 97ef2638ab826c25f84bfedea231cef091820ae0876ba316922da81145e950d2b9d2057d3645813b5ee880bb975ed4f22e228dda5d0d26a20715e575b675357d
   languageName: node
   linkType: hard
 
