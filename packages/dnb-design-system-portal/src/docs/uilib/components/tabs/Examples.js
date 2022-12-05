@@ -9,7 +9,6 @@ import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 import Input from '@dnb/eufemia/src/components/input/Input'
 import styled from '@emotion/styled'
 import { Location, Router, navigate } from '@reach/router'
-import { BrowserRouter, Route, withRouter } from 'react-router-dom'
 
 export const TabsExampleContentOutside = () => (
   <Wrapper>
@@ -268,48 +267,6 @@ render(<TabsMaxWidth />)
     }
   </ComponentBox>
 )
-
-export const TabsExampleReactRouterNavigation = () =>
-  typeof window === 'undefined' ? null : (
-    <Wrapper>
-      <ComponentBox scope={{ BrowserRouter, Route, withRouter }} useRender>
-        {
-          /* jsx */ `
-// import { Router, Route, withRouter } from 'react-router-dom'
-const tabsData = [
-  { title: 'Home', key: 'home' },
-  { title: 'About', key: 'about' },
-  { title: 'Topics', key: 'topics' }
-]
-const tabsContent = {
-  home: () => <H2>Home</H2>,
-  about: () => <H2>About</H2>,
-  topics: () => <H2>Topics</H2>
-}
-const TabsNav = withRouter(({ history, location }) => (
-  <Tabs
-    data={tabsData}
-    selected_key={(/path=(.*)/g.exec(location.search)||[null,''])[1]}
-    on_change={({ key }) => history.push('?path=' + key)}
-    tabs_style="mint-green"
-  >
-    {/* 1. Use either key method */}
-    {tabsContent}
-
-    {/* 2. Or the Router method */}
-    {/* <>
-    <Route path="(/|/home)" component={() => <H2>Home</H2>} />
-    <Route path="/about" component={() => <H2>About</H2>} />
-    <Route path="/topics" component={() => <H2>Topics</H2>} />
-    </> */}
-  </Tabs>
-))
-render(<BrowserRouter><TabsNav /></BrowserRouter>)
-`
-        }
-      </ComponentBox>
-    </Wrapper>
-  )
 
 export const TabsExampleReachRouterNavigation = () =>
   typeof window === 'undefined' ? null : (
