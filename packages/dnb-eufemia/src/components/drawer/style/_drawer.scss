@@ -213,6 +213,7 @@
   &--spacing &__navigation.dnb-section {
     position: sticky;
     top: 0;
+    left: 0; // when content is wider, we don't want the bar to scroll horizontal
     z-index: 99; // below #dropdown and #date-picker
 
     // on large screens
