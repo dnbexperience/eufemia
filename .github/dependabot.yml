@@ -9,11 +9,14 @@ updates:
     directory: '/' # Location of package manifests
     schedule:
       interval: 'monthly'
+    open-pull-requests-limit: 0 # disable dependeabit deps updates because of too many PRs (for each dependency)
   - package-ecosystem: 'npm' # See documentation for possible values
     directory: '/packages/dnb-eufemia' # Location of package manifests
     schedule:
       interval: 'monthly'
+    open-pull-requests-limit: 0 # disable dependeabit deps updates because of too many PRs (for each dependency)
   - package-ecosystem: 'npm' # See documentation for possible values
     directory: '/packages/dnb-design-system-portal' # Location of package manifests
     schedule:
       interval: 'monthly'
+    open-pull-requests-limit: 0 # disable dependeabit deps updates because of too many PRs (for each dependency)
