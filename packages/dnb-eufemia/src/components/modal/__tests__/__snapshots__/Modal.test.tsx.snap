@@ -2324,8 +2324,8 @@ button.dnb-button::-moz-focus-inner {
     width: 100%;
     height: 100%; }
   .dnb-dialog--information {
-    min-width: var(--dialog-min-width);
     width: var(--dialog-avg-width);
+    min-width: var(--dialog-min-width);
     max-width: var(--dialog-max-width); }
   .dnb-dialog--confirmation {
     max-width: var(--dialog-confirm-max-width);
@@ -2385,6 +2385,8 @@ button.dnb-button::-moz-focus-inner {
     width: 100%; }
     .dnb-dialog__actions > :not(:last-child) {
       margin-right: 1rem; }
+  .dnb-dialog--information .dnb-dialog__actions {
+    justify-content: left; }
   .dnb-dialog__align--center .dnb-dialog__content {
     align-items: center;
     text-align: center; }
@@ -2409,22 +2411,6 @@ button.dnb-button::-moz-focus-inner {
     display: flex;
     flex-direction: row;
     justify-content: space-between; }
-  .dnb-dialog__icon__primary.dnb-icon--border::after {
-    left: -50%;
-    right: -50%;
-    top: -50%;
-    bottom: -50%;
-    border: none;
-    background-color: currentColor;
-    opacity: 0.1; }
-  .dnb-dialog__icon__primary.dnb-dialog__icon--warning {
-    color: var(--color-fire-red); }
-    .dnb-dialog__icon__primary.dnb-dialog__icon--warning ::after {
-      background-color: var(--color-fire-red-8); }
-  .dnb-dialog__icon__primary.dnb-dialog__icon--info {
-    color: var(--color-emerald-green); }
-    .dnb-dialog__icon__primary.dnb-dialog__icon--info ::after {
-      background-color: var(--color-pistachio); }
   html:not([data-visual-test]) .dnb-dialog {
     animation: show-modal var(--modal-animation-duration) ease-out; }
   html:not([data-visual-test]) .dnb-dialog--hide {
@@ -2452,6 +2438,8 @@ button.dnb-button::-moz-focus-inner {
       margin-bottom: 0; }
   .dnb-dialog--spacing .dnb-dialog__header .dnb-tabs {
     margin-top: 3.5rem; }
+  .dnb-dialog__icon {
+    display: flex; }
   .dnb-dialog__icon ~ .dnb-dialog__header {
     margin-top: 1.5rem; }
   @supports (-webkit-touch-callout: none) {

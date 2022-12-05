@@ -7,4 +7,33 @@
 
 .dnb-dialog {
   background: var(--color-white);
+
+  &__icon {
+    // Modify the border prop from the icon component
+    &__primary.dnb-icon--border::after {
+      left: -50%;
+      right: -50%;
+      top: -50%;
+      bottom: -50%;
+
+      border: none;
+      background-color: currentColor;
+      opacity: 0.1;
+    }
+
+    &__primary#{&}--warning {
+      color: var(--color-fire-red);
+
+      ::after {
+        background-color: var(--color-fire-red-8);
+      }
+    }
+    &__primary#{&}--info {
+      color: var(--color-emerald-green);
+
+      ::after {
+        background-color: var(--color-pistachio);
+      }
+    }
+  }
 }
