@@ -3273,7 +3273,7 @@ __metadata:
     camelcase: 6.2.0
     chalk: 4.1.2
     classnames: 2.3.1
-    color: 4.0.1
+    color: 4.2.3
     core-js: 3.26.1
     cross-env: 7.0.3
     cssnano: 5.0.10
@@ -12424,16 +12424,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"color-string@npm:^1.6.0":
-  version: 1.6.0
-  resolution: "color-string@npm:1.6.0"
-  dependencies:
-    color-name: ^1.0.0
-    simple-swizzle: ^0.2.2
-  checksum: 33466a65277dd3d4ce24ef1991b47069292f75d1a43b0d2e7ea43076ba793728e965d50deed2b523f35519f4995a908253fcbcc774baceae8e439bc78c02e850
-  languageName: node
-  linkType: hard
-
 "color-string@npm:^1.9.0":
   version: 1.9.0
   resolution: "color-string@npm:1.9.0"
@@ -12453,17 +12443,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"color@npm:4.0.1":
-  version: 4.0.1
-  resolution: "color@npm:4.0.1"
-  dependencies:
-    color-convert: ^2.0.1
-    color-string: ^1.6.0
-  checksum: 46b1e7c6a5d5b1db5e0a8f1f32eea015a1923c9a591cbef67e20b439d67fe8043a7c3beb96c602f0055068909c3ee73bc8ee1817e76a25861a92f64430d6118f
-  languageName: node
-  linkType: hard
-
-"color@npm:^4.2.3":
+"color@npm:4.2.3, color@npm:^4.2.3":
   version: 4.2.3
   resolution: "color@npm:4.2.3"
   dependencies:
