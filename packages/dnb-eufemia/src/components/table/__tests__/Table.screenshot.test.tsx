@@ -9,14 +9,13 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('Table screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/table' })
+  setupPageScreenshot({ url: '/uilib/components/table/demos' })
 
   it('have to match the default choice of table styles', async () => {
     const screenshot = await testPageScreenshot({
       style: {
         width: '30rem',
       },
-      styleSelector: '[data-visual-test="table-default"] .dnb-table',
       selector: '[data-visual-test="table-default"] .dnb-table',
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -27,7 +26,6 @@ describe('Table screenshot', () => {
       style: {
         width: '50rem',
       },
-      styleSelector: '[data-visual-test="table-complex"] .dnb-table',
       selector: '[data-visual-test="table-complex"] .dnb-table',
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -67,7 +65,6 @@ describe('Table screenshot', () => {
       style: {
         width: '40rem',
       },
-      styleSelector: '[data-visual-test="table-header"] .dnb-table',
       selector,
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -76,11 +73,18 @@ describe('Table screenshot', () => {
   it('have to match sticky header', async () => {
     const selector = '[data-visual-test="table-sticky"]'
     const screenshot = await testPageScreenshot({
+      style: {
+        width: '30rem',
+      },
       selector,
       executeBeforeSimulate: () => {
-        document.getElementById('scroll-to-tr-id').scrollIntoView({
-          behavior: 'auto',
-        })
+        document
+          .querySelector(
+            '[data-visual-test="table-sticky"] table tbody tr:nth-of-type(5)'
+          )
+          .scrollIntoView({
+            behavior: 'auto',
+          })
       },
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -88,7 +92,7 @@ describe('Table screenshot', () => {
 })
 
 describe('Table screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/table' })
+  setupPageScreenshot({ url: '/uilib/components/table/demos' })
 
   // should be tested first
   it('have to match a sortable table header on focus', async () => {
@@ -98,6 +102,7 @@ describe('Table screenshot', () => {
       selector,
       simulateSelector: `${selector} .dnb-button`,
       simulate: 'focus',
+      wrapperStyle: { margin: 0 }, // will only add a padding, but avoid a negative margin
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -109,6 +114,7 @@ describe('Table screenshot', () => {
       selector,
       simulateSelector: `${selector} .dnb-button`,
       simulate: 'active',
+      wrapperStyle: { margin: 0 }, // will only add a padding, but avoid a negative margin
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -120,6 +126,7 @@ describe('Table screenshot', () => {
       selector,
       simulateSelector: `${selector} .dnb-button`,
       simulate: 'active',
+      wrapperStyle: { margin: 0 }, // will only add a padding, but avoid a negative margin
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -131,13 +138,14 @@ describe('Table screenshot', () => {
       selector,
       simulateSelector: `${selector} .dnb-button`,
       simulate: 'hover',
+      wrapperStyle: { margin: '0 2rem 0 0' }, // will only add a padding, but avoid a negative margin
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 })
 
 describe('Table with skeleton screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/table?skeleton' })
+  setupPageScreenshot({ url: '/uilib/components/table/demos?skeleton' })
 
   it('have to match default table', async () => {
     const screenshot = await testPageScreenshot({

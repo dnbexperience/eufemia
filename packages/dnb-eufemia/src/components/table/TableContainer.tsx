@@ -37,7 +37,9 @@ export default function TableContainer(props: TableContainerAllProps) {
       )}
       {...rest}
     >
-      <ScrollView>{children}</ScrollView>
+      <ScrollView className="dnb-table__scroll-view">
+        {children}
+      </ScrollView>
     </section>
   )
 }

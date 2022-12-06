@@ -1,12 +1,13 @@
 import React from 'react'
-import { warn } from '../../shared/component-helper'
+import { getPreviousSibling, warn } from '../../shared/component-helper'
+import { getOffsetTop } from '../../shared/helpers'
 
 export type StickyTableHeaderProps = {
   /**
    * Makes the Table header sticky
    * Default: false
    */
-  sticky?: boolean
+  sticky?: boolean | 'css-position'
 
   /**
    * The offset from top in rem or em unit
@@ -30,37 +31,74 @@ export const useStickyHeader = ({
   }
 
   const elementRef = React.useRef<HTMLTableElement>()
-  const intersectionObserver = React.useRef<IntersectionObserver | null>(
-    null
-  )
 
   React.useEffect(() => {
     if (sticky) {
-      if (typeof IntersectionObserver === 'undefined') {
-        stickyWarning('IntersectionObserver not supported')
-        return // stop here
-      }
-
-      if (!elementRef.current) {
-        stickyWarning('No ref element given')
-      }
-
-      const tableElem = elementRef.current
-
-      let thHeight = 80
+      let isSticky = false
+      let thHeight = 0
       let offsetTopPx = 0
+      let tableOffset = 0
+      let tableHeight = 0
+      let totalOffset = 0
+      let hasScrollbar = null
+      let scrollViewElem = null
+      let timeout: NodeJS.Timeout = null
 
       try {
+        const tableElem = elementRef.current
+
         const trElem: HTMLTableRowElement = tableElem.querySelector(
           'thead > tr:first-of-type, thead > .dnb-table__tr:first-of-type'
         )
-        offsetTopPx = parseFloat(String(stickyOffset || '0'))
+        const thElem = getThElement(tableElem)
+        const inIframe = window.self !== window.top
 
-        if (offsetTopPx > 0) {
-          if (String(stickyOffset).includes('em')) {
-            offsetTopPx = Math.round(offsetTopPx * 16)
-            trElem.style.setProperty('--table-top', String(stickyOffset))
+        const setSizes = () => {
+          offsetTopPx = parseFloat(String(stickyOffset)) || 0
+          if (offsetTopPx > 0) {
+            if (String(stickyOffset).includes('rem')) {
+              offsetTopPx = Math.round(offsetTopPx * 16)
+            }
+          }
+
+          const modalElem = getPreviousSibling(
+            '.dnb-modal__content',
+            tableElem
+          )
+
+          if (modalElem) {
+            scrollViewElem = modalElem.querySelector('.dnb-scroll-view')
+
+            if (offsetTopPx === 0) {
+              offsetTopPx =
+                (
+                  modalElem.querySelector(
+                    '.dnb-modal__header__bar'
+                  ) as HTMLElement
+                ).offsetHeight || 0
+            }
           } else {
+            const scrollElem = getPreviousSibling(
+              '.dnb-scroll-view',
+              tableElem
+            ) as HTMLElement
+
+            if (scrollElem) {
+              hasScrollbar =
+                scrollElem.scrollHeight - 1 > scrollElem.offsetHeight
+
+              if (hasScrollbar) {
+                scrollViewElem = scrollElem
+              }
+            }
+          }
+
+          thHeight = thElem.offsetHeight
+          tableHeight = tableElem.offsetHeight
+          tableOffset = getOffsetTop(tableElem)
+          totalOffset = tableOffset - (inIframe ? 0 : offsetTopPx)
+
+          if (sticky === 'css-position') {
             trElem.style.setProperty(
               '--table-top',
               `${offsetTopPx / 16}rem`
@@ -68,66 +106,101 @@ export const useStickyHeader = ({
           }
         }
 
-        const thElem = getThElement(tableElem)
-        thHeight =
-          (thElem && parseFloat(window.getComputedStyle(thElem).height)) ||
-          thHeight
-
-        intersectionObserver.current = new IntersectionObserver(
-          (entries) => {
-            const [entry] = entries
-            try {
-              if (entry.isIntersecting) {
-                trElem.classList.remove('show-shadow')
-              } else {
-                trElem.classList.add('show-shadow')
-              }
-            } catch (e) {
-              stickyWarning(e)
-            }
-          },
-          {
-            rootMargin: `-${thHeight + offsetTopPx}px 0px 0px 0px`,
+        let offset = 0
+        const onScroll = () => {
+          if (scrollViewElem) {
+            offset = scrollViewElem.scrollTop
+          } else {
+            offset = window.pageYOffset
           }
-        )
 
-        trElem.classList.add('sticky')
-        const tdElem =
-          tableElem.querySelector(
-            'tbody > tr.dnb-table__sticky-helper > td:first-of-type'
-          ) || getTdElement(tableElem)
+          offset -= hasScrollbar ? offsetTopPx : totalOffset
 
-        if (tdElem) {
-          intersectionObserver.current.observe(tdElem)
+          // By sub thHeight and checking for the height, we avoid a scrollbar inside a Table.ScrollView
+          if (offset > 0 && offset < tableHeight - thHeight) {
+            if (sticky !== 'css-position') {
+              trElem.style.setProperty(
+                '--table-offset',
+                String(offset) + 'px'
+              )
+            }
+
+            if (!isSticky) {
+              isSticky = true
+
+              trElem.classList.add('is-sticky')
+            }
+          } else {
+            if (isSticky) {
+              isSticky = false
+
+              if (offset <= 0) {
+                if (sticky !== 'css-position') {
+                  trElem.style.removeProperty('--table-offset')
+                }
+              }
+
+              trElem.classList.remove('is-sticky')
+            }
+          }
+        }
+
+        const onResize = () => {
+          setSizes()
+          onScroll()
+        }
+
+        const applyObservers = () => {
+          try {
+            trElem.classList.add('sticky')
+            if (sticky === 'css-position') {
+              trElem.classList.add('css-position')
+            }
+
+            setSizes()
+
+            const scrollElem = scrollViewElem || document
+            scrollElem.addEventListener('scroll', onScroll)
+            window.addEventListener('resize', onResize)
+          } catch (e) {
+            stickyWarning(e)
+          }
+        }
+
+        timeout = setTimeout(applyObservers, 100) // to get a more precise offset/sizes, we delay the initialisation
+
+        return () => {
+          clearTimeout(timeout)
+          document.removeEventListener('scroll', onScroll)
+          window.removeEventListener('resize', onResize)
         }
       } catch (e) {
         stickyWarning(e)
       }
-    }
-
-    return () => {
-      intersectionObserver.current?.disconnect()
     }
   }, [elementRef, sticky, stickyOffset])
 
   return { elementRef }
 }
 
+/**
+ * Deprecated in v10
+ */
 export const StickyHelper = () => {
+  warn('Table.StickyHelper is deprecated!')
   return (
-    <tr className="dnb-table__sticky-helper">
-      <td />
+    <tr
+      className="dnb-table__sticky-helper"
+      aria-hidden
+      role="presentation"
+    >
+      <td colSpan={100} />
     </tr>
   )
 }
 
 const stickyWarning = (message = '') => {
   warn('Could not enable Sticky mode in table:', message)
-}
-const getTdElement = (element: HTMLTableElement): HTMLTableCellElement => {
-  return element.querySelector(
-    'tbody > tr:not(.dnb-table__sticky-helper):first-of-type > td:first-of-type, tbody > .dnb-table__tr:first-of-type > .dnb-table__td:first-of-type'
-  )
 }
 const getThElement = (element: HTMLTableElement): HTMLTableCellElement => {
   return element.querySelector(
