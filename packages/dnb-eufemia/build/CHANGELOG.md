@@ -3,6 +3,26 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.40.0](https://github.com/dnbexperience/eufemia/compare/v9.39.1...v9.40.0) (2022-12-06)
+
+
+### Bug Fixes
+
+*  deprecate `.dnb-not-sr-only` and `.dnb-sr-only--inline` ([#1755](https://github.com/dnbexperience/eufemia/issues/1755)) ([01a3e70](https://github.com/dnbexperience/eufemia/commit/01a3e70af193e34a1bcc778d424d34a61de9492e))
+* **Dialog:** align Dialog.Action to left when used in information variant ([#1761](https://github.com/dnbexperience/eufemia/issues/1761)) ([efd92d8](https://github.com/dnbexperience/eufemia/commit/efd92d88bd6c866f9b01bd1e3cff6fa5f013d6ab))
+* **Drawer:** ensure nav bar is aligned to left when content is wider than Drawer ([#1766](https://github.com/dnbexperience/eufemia/issues/1766)) ([533177d](https://github.com/dnbexperience/eufemia/commit/533177d6ec7a85aae63bd07c3b8fcf3bdab3b871))
+* **NumberFormat:** use `dnb-sr-only` instead of `dnb-sr-only--inline` ([#1754](https://github.com/dnbexperience/eufemia/issues/1754)) ([c49e516](https://github.com/dnbexperience/eufemia/commit/c49e516e6aa2911ec86433642326191ee7b1bbd1))
+* **Table:** enhance borders ([#1753](https://github.com/dnbexperience/eufemia/issues/1753)) ([3872c8e](https://github.com/dnbexperience/eufemia/commit/3872c8eec5edfd1c853519b4722a2a8d11d34e74))
+* **Table:** fix line-height of sorting buttons in smaller table sizes ([#1752](https://github.com/dnbexperience/eufemia/issues/1752)) ([97f0019](https://github.com/dnbexperience/eufemia/commit/97f0019b542e7bd5a47bdc7f0a9f2969bbbd4bde))
+* **VisuallyHidden:** enhance space used on the underlying class .dnb-sr-only ([#1751](https://github.com/dnbexperience/eufemia/issues/1751)) ([11d6f33](https://github.com/dnbexperience/eufemia/commit/11d6f33616c2edaba3fb6688de4a8bc95920e0a8))
+
+
+### Features
+
+* **Table:** add row header style for scope="row" ([#1757](https://github.com/dnbexperience/eufemia/issues/1757)) ([34dd5c7](https://github.com/dnbexperience/eufemia/commit/34dd5c7214bdb677fa53a9fad9cd8621897d0617))
+* **Table:** add sticky header support for overflow hidden on parent elements ([#1756](https://github.com/dnbexperience/eufemia/issues/1756)) ([48cd66b](https://github.com/dnbexperience/eufemia/commit/48cd66b34292cbd48b4e79ee907e7f0729f5aab4))
+* **Th:** set scope by default to col and handle correct role ([#1764](https://github.com/dnbexperience/eufemia/issues/1764)) ([73613d6](https://github.com/dnbexperience/eufemia/commit/73613d645bc89559cf772b69fb04a51d89dc2bce))
+
 ## [9.39.1](https://github.com/dnbexperience/eufemia/compare/v9.39.0...v9.39.1) (2022-11-24)
 
 
