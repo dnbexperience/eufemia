@@ -68,6 +68,15 @@ describe('TableContainer', () => {
     expect(Array.from(element.classList)).toContain('custom-class')
   })
 
+  it('should include extra classes in scroll-view', () => {
+    render(<MockElement />)
+
+    const element = document.querySelector('.dnb-scroll-view')
+    expect(Array.from(element.classList)).toContain(
+      'dnb-table__scroll-view'
+    )
+  })
+
   it('should support spacing', () => {
     render(<MockElement top="large" />)
 

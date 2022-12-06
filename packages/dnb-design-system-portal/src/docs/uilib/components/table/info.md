@@ -32,7 +32,7 @@ Use e.g. `align="right"` on a `<Th>`, `<Td>` or `<Tr>` to align a table header o
 
 You may consider using `table-layout: fixed;`. You can use the modifier property `fixed` for doing so and combine it with CSS e.g. `width: 40%` on spesific table headers.
 
-### Scrollable
+## Scrollable
 
 Depending on your situation, you may want to wrap your Table within `Table.ScrollView`:
 
@@ -45,3 +45,21 @@ render(
   </Table.ScrollView>
 )
 ```
+
+## Sticky header
+
+You have two options (both have their downsides):
+
+1. use `sticky={true}`. It works even when using a `Table.ScrollView` or a `overflow: hidden;` is used on any parent elements. And it works inside a [Drawer](/uilib/components/drawer) as well. The downside is, that it uses JavaScript and the browser may drop some frames, which results in a potential flickering during scrolling.
+
+2. use `sticky="css-position"` for using the CSS `position: sticky;` method. It is super smooth. But then you can not use a `overflow: hidden;` or `overflow: auto;` on any parent elements. This is a know issue happening on every modern browser.
+
+Method no. 2 should be used when a `max-height` is set to the wrapping `Table.ScrollView` e.g.:
+
+```jsx
+<Table.ScrollView style={{ maxHeight: '20rem' }}>
+  <Table sticky="css-position" />
+</Table.ScrollView>
+```
+
+Have a [look at this example](/uilib/components/table/demos/#table-with-a-max-height).
