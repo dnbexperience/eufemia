@@ -43,9 +43,12 @@
 .dnb-sr-only {
   @include srOnly();
 }
+
+// deprecated and can be removed in v10
 .dnb-sr-only--inline {
   @include srOnlyInline();
 }
+// deprecated and can be removed in v10
 .dnb-not-sr-only {
   @include notSrOnly();
 }

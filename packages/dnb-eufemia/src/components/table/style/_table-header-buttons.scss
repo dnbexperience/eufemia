@@ -33,7 +33,7 @@
       // reset anchor
       box-shadow: none;
 
-      line-height: var(--line-height-basis);
+      line-height: inherit;
 
       margin: 0;
       padding: 0;
@@ -47,6 +47,7 @@
       .dnb-button__text {
         margin: 0;
         font-size: inherit;
+        line-height: inherit;
 
         // underline
         &::after {

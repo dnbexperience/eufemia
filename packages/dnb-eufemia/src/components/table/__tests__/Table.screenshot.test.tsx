@@ -8,25 +8,8 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-const styleSelector = '[data-visual-test="table-classes"] .dnb-table'
-
 describe('Table screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/table' })
-
-  it('have to match a sortable table header on hover', async () => {
-    const selector =
-      '[data-visual-test="table-classes"] th.dnb-table--sortable.dnb-table--reversed'
-    const screenshot = await testPageScreenshot({
-      style: {
-        'background-color': 'white',
-      },
-      styleSelector,
-      selector,
-      simulateSelector: `${selector} button.dnb-button`,
-      simulate: 'hover',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
+  setupPageScreenshot({ url: '/uilib/components/table/demos' })
 
   it('have to match the default choice of table styles', async () => {
     const screenshot = await testPageScreenshot({
@@ -76,29 +59,50 @@ describe('Table screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match a sortable table header on focus', async () => {
-    const selector =
-      '[data-visual-test="table-classes"] th.dnb-table--sortable.dnb-table--reversed'
-    const screenshot = await testPageScreenshot({
-      style: {
-        'background-color': 'white',
-      },
-      styleSelector,
-      selector,
-      simulateSelector: `${selector} button.dnb-button`,
-      simulate: 'focus', // should be tested first
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
   it('have to match header with wrapped text', async () => {
     const selector = '[data-visual-test="table-header"] .dnb-table'
     const screenshot = await testPageScreenshot({
       style: {
-        width: '20rem',
+        width: '40rem',
       },
-      styleSelector,
       selector,
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match sticky header', async () => {
+    const selector = '[data-visual-test="table-sticky"]'
+    const screenshot = await testPageScreenshot({
+      style: {
+        width: '30rem',
+      },
+      selector,
+      executeBeforeSimulate: () => {
+        document
+          .querySelector(
+            '[data-visual-test="table-sticky"] table tbody tr:nth-of-type(5)'
+          )
+          .scrollIntoView({
+            behavior: 'auto',
+          })
+      },
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
+
+describe('Table screenshot', () => {
+  setupPageScreenshot({ url: '/uilib/components/table/demos' })
+
+  // should be tested first
+  it('have to match a sortable table header on focus', async () => {
+    const selector =
+      '[data-visual-test="table-classes"] th.dnb-table--sortable.dnb-table--reversed'
+    const screenshot = await testPageScreenshot({
+      selector,
+      simulateSelector: `${selector} .dnb-button`,
+      simulate: 'focus',
+      wrapperStyle: { margin: 0 }, // will only add a padding, but avoid a negative margin
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -107,13 +111,10 @@ describe('Table screenshot', () => {
     const selector =
       '[data-visual-test="table-classes"] th.dnb-table--sortable.dnb-table--reversed'
     const screenshot = await testPageScreenshot({
-      style: {
-        'background-color': 'white',
-      },
-      styleSelector,
       selector,
-      simulateSelector: `${selector} button.dnb-button`,
+      simulateSelector: `${selector} .dnb-button`,
       simulate: 'active',
+      wrapperStyle: { margin: 0 }, // will only add a padding, but avoid a negative margin
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -122,34 +123,29 @@ describe('Table screenshot', () => {
     const selector =
       '[data-visual-test="table-classes"] th.dnb-table--sortable.dnb-table--active'
     const screenshot = await testPageScreenshot({
-      style: {
-        'background-color': 'white',
-      },
-      styleSelector,
       selector,
-      simulateSelector: `${selector} button.dnb-button`,
+      simulateSelector: `${selector} .dnb-button`,
       simulate: 'active',
+      wrapperStyle: { margin: 0 }, // will only add a padding, but avoid a negative margin
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match sticky header', async () => {
-    const selector = '[data-visual-test="table-sticky"]'
+  it('have to match a sortable table header on hover', async () => {
+    const selector =
+      '[data-visual-test="table-classes"] th.dnb-table--sortable.dnb-table--reversed'
     const screenshot = await testPageScreenshot({
-      styleSelector,
       selector,
-      executeBeforeSimulate: () => {
-        document.getElementById('scroll-to-tr-id').scrollIntoView({
-          behavior: 'auto',
-        })
-      },
+      simulateSelector: `${selector} .dnb-button`,
+      simulate: 'hover',
+      wrapperStyle: { margin: '0 2rem 0 0' }, // will only add a padding, but avoid a negative margin
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 })
 
 describe('Table with skeleton screenshot', () => {
-  setupPageScreenshot({ url: '/uilib/components/table?skeleton' })
+  setupPageScreenshot({ url: '/uilib/components/table/demos?skeleton' })
 
   it('have to match default table', async () => {
     const screenshot = await testPageScreenshot({

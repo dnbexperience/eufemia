@@ -3,28 +3,13 @@
 *
 */
 
-@mixin tableBorder {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1;
-
-  pointer-events: none;
-}
-
 .dnb-table__container {
   position: relative;
 
-  --border: 0.0625rem solid var(--color-black-8);
-  background-color: var(--color-white);
-
   &::after {
     @include tableBorder();
-
-    border: var(--border);
+    z-index: 3; // over sticky-header
+    border: var(--outline);
   }
 
   &,
@@ -57,5 +42,10 @@
   }
   &__foot {
     padding: 0.5rem 1rem 2rem;
+  }
+
+  // When placed inside a Modal/Drawer, let the parent scroll-bar do its job.
+  .dnb-modal__content & .dnb-table__scroll-view {
+    overflow: visible;
   }
 }

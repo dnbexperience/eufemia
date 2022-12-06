@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import VisuallyHidden from '../VisuallyHidden'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { Provider } from '../../../shared'
@@ -8,22 +8,22 @@ describe('VisuallyHidden', () => {
   it('renders without properties', () => {
     render(<VisuallyHidden />)
 
-    expect(screen.queryByTestId('visually-hidden')).not.toBeNull()
+    expect(document.querySelector('.dnb-visually-hidden')).not.toBeNull()
   })
 
   it('renders the content by children prop', () => {
     render(<VisuallyHidden>children</VisuallyHidden>)
 
-    expect(screen.queryByTestId('visually-hidden')).not.toBeNull()
+    expect(document.querySelector('.dnb-visually-hidden')).not.toBeNull()
   })
 
   it('renders the default className', () => {
-    const defaultClassName = 'default'
+    const defaultClassName = 'dnb-visually-hidden dnb-sr-only'
 
     render(<VisuallyHidden>ClassName</VisuallyHidden>)
-    expect(screen.queryByTestId('visually-hidden').className).toMatch(
-      defaultClassName
-    )
+    expect(
+      document.querySelector('.dnb-visually-hidden').className
+    ).toMatch(defaultClassName)
   })
 
   it('renders with className if className is provided', () => {
@@ -34,18 +34,18 @@ describe('VisuallyHidden', () => {
         ClassName
       </VisuallyHidden>
     )
-    expect(screen.queryByTestId('visually-hidden').className).toMatch(
-      customClassName
-    )
+    expect(
+      document.querySelector('.dnb-visually-hidden').className
+    ).toMatch(customClassName)
   })
 
   it('renders with the correct attributes if focusable is true', () => {
     const focusableClassName = 'focusable'
 
     render(<VisuallyHidden focusable>focusable</VisuallyHidden>)
-    expect(screen.queryByTestId('visually-hidden').className).toMatch(
-      focusableClassName
-    )
+    expect(
+      document.querySelector('.dnb-visually-hidden').className
+    ).toMatch(focusableClassName)
   })
 
   it('renders with span as the default element', () => {
@@ -67,7 +67,7 @@ describe('VisuallyHidden', () => {
       </Provider>
     )
 
-    expect(screen.queryByTestId('visually-hidden')).not.toBeNull()
+    expect(document.querySelector('.dnb-visually-hidden')).not.toBeNull()
   })
 
   describe('VisuallyHidden aria', () => {

@@ -11,7 +11,6 @@ TabsExampleUsingData,
 TabsExampleHorizontalAligned,
 TabsExampleMaxWidth,
 TabsExampleReachRouterNavigation,
-TabsExampleReactRouterNavigation,
 TabsNoBorder,
 TabsExamplePrerender,
 } from 'Docs/uilib/components/tabs/Examples'
@@ -66,17 +65,11 @@ Navigation buttons will be shown and the tabs-list will be scrollable.
 
 <TabsExampleMaxWidth />
 
-### Router navigation with Reach Router
+### Router integration
 
 This demo uses `@reach/router`. More [examples on CodeSandbox](https://codesandbox.io/embed/8z8xov7xyj).
 
 <TabsExampleReachRouterNavigation />
-
-### Router navigation with react-router-dom
-
-This demo uses `react-router-dom`. More [examples on CodeSandbox](https://codesandbox.io/embed/8z8xov7xyj).
-
-<TabsExampleReactRouterNavigation />
 
 ## Example Content
 

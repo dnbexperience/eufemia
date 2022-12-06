@@ -316,18 +316,21 @@ $breakpoints: (
 
   position: absolute;
 
-  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  max-width: 1px; // if less than 1px, Safari moves the focus-ring to another place
+  max-height: 1px; // if less than 1px, Safari moves the focus-ring to another place
+
   overflow: hidden;
   white-space: nowrap; // NB: so NVDA not splits up text in multi line
 
-  height: 1px;
-  width: 1px; // splits up in multiline, unless we have nowrap
-  margin: -1px 0 0 -1px;
   padding: 0;
+  margin: 0;
 
   border: 0;
 }
 
+// deprecated and can be removed in v10
+// Visual test and docs should be removed as well!
 @mixin srOnlyInline() {
   @include srOnly();
 
@@ -337,28 +340,24 @@ $breakpoints: (
   display: inline-block;
 
   visibility: visible; // should not be hidden!
-  opacity: 0;
 
   font-size: 0;
   line-height: 0;
 }
 
-// This "negates" the srOnly() helper; useful if
-// we want the default state of something to be
-// for screen readers only, but we want to force
-// it to show for sighted users under more specific
-// conditions.
+// deprecated and can be removed in v10
+// Visual test and docs should be removed as well!
 @mixin notSrOnly() {
   position: initial;
-  height: auto;
-  width: auto;
+  max-width: initial;
+  max-height: initial;
 
+  clip-path: initial;
   overflow: auto;
-  opacity: 1;
 
-  font-size: medium;
-  line-height: normal;
-  white-space: normal;
+  font-size: initial;
+  line-height: initial;
+  white-space: initial;
 }
 
 @function str-replace($string, $search, $replace: '') {

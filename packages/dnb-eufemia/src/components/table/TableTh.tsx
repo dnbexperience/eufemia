@@ -36,7 +36,7 @@ export type TableThProps = {
   /**
    * The content of the table header given as Tr.
    */
-  children: TableThChildren | Array<TableThChildren>
+  children?: TableThChildren | Array<TableThChildren>
 }
 
 export default function Th(
@@ -53,9 +53,13 @@ export default function Th(
     ...props
   } = componentProps
 
+  const role = props.scope === 'row' ? 'rowheader' : 'columnheader'
+  const scope = props.scope === 'row' ? 'row' : 'col'
+
   return (
     <th
-      role="columnheader"
+      role={role}
+      scope={scope}
       className={classnames(
         'dnb-table__th',
         sortable && 'dnb-table--sortable',

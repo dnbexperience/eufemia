@@ -24,6 +24,7 @@ v10 of @dnb/eufemia contains _breaking changes_. As a migration process, you can
 1. Find the `/elements/Table` property and replace it with `/components/Table`.
 1. Alignment classes are removed (`.dnb-table--left`, `.dnb-table--right` and `.dnb-table--center`). Use the `align` attribute instead.
 1. Font-sizing classes are removed (`.dnb-table--small` and `.dnb-table--x-small`). Use the `size` property instead.
+1. Find and remove `Table.StickyHelper`.
 
 ### [Slider](/uilib/components/slider)
 
@@ -64,6 +65,8 @@ v10 of @dnb/eufemia contains _breaking changes_. As a migration process, you can
 ### Deprecations
 
 - `use_scrollwheel` and `on_init` properties, as well as the `raw_value` event value from [Slider](/uilib/components/slider) was removed in order to support multiple buttons.
+- Helper class `.dnb-sr-only--inline` and SCSS mixin `srOnlyInline` was removed.
+- Helper class `.dnb-not-sr-only` and SCSS mixin `notSrOnly` was removed.
 
 ## Install
 

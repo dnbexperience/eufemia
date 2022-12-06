@@ -9,7 +9,11 @@ import Table from '../Table'
 import Td from '../TableTd'
 import Th from '../TableTh'
 import Tr from '../TableTr'
+import TableContainer from '../TableContainer'
 import { Provider } from '../../../shared'
+
+import { H2, P, Anchor } from '../../../elements'
+import styled from '@emotion/styled'
 
 export default {
   title: 'Eufemia/Components/Table',
@@ -18,11 +22,12 @@ export default {
 export const StickyBasicTable = () => {
   return (
     <Table
-      top="5rem"
+      // top="5rem"
       // skeleton // toggle
-      sticky
-      // fixed
-      stickyOffset="4rem"
+      border
+      outline
+      sticky="css-position"
+      // stickyOffset="2.5rem" // height of header
     >
       <caption className="dnb-sr-only">A Table Caption</caption>
       <thead>
@@ -39,7 +44,6 @@ export const StickyBasicTable = () => {
         </Tr>
       </thead>
       <tbody>
-        <Table.StickyHelper />
         <Tr>
           <Td>
             <p className="dnb-p">
@@ -85,6 +89,188 @@ export const StickyBasicTable = () => {
         </Tr>
       </tfoot>
     </Table>
+  )
+}
+
+export const ContainerTable = () => {
+  const StyledContainer = styled(TableContainer)`
+    /* Define the width of the THs so they are aligned accross tables */
+    table {
+      width: 50rem;
+      thead {
+        th:nth-of-type(1) {
+          width: 30%;
+        }
+        th:nth-of-type(2) {
+          width: 30%;
+        }
+        th:nth-of-type(3) {
+          width: 20%;
+        }
+        th:nth-of-type(4) {
+          width: 20%;
+        }
+      }
+    }
+  `
+  return (
+    <StyledContainer aria-label="I contain two tables" bottom="large">
+      <TableContainer.Head>
+        <H2>Header</H2>
+        <P top>Text</P>
+      </TableContainer.Head>
+
+      <TableContainer.Body>
+        <Table
+          fixed
+          border
+          sticky
+          // stickyOffset="2.5rem"
+        >
+          <caption className="dnb-sr-only">Table One</caption>
+          <thead>
+            <Tr noWrap>
+              <Th scope="col">
+                I have a superscript{' '}
+                <sup>
+                  <Anchor href="#unique-ref-id">1</Anchor>
+                </sup>
+              </Th>
+              <Th scope="col">Column 2</Th>
+              <Th scope="col">Column 3</Th>
+              <Th scope="col">Column 4</Th>
+            </Tr>
+          </thead>
+          <tbody>
+            <Tr>
+              <Td>Row 1</Td>
+              <Td>Row 1</Td>
+              <Td>Row 1</Td>
+              <Td>Row 1</Td>
+            </Tr>
+            <Tr>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+            </Tr>
+            <Tr>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+            </Tr>
+            <Tr>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+            </Tr>
+            <Tr>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+            </Tr>
+            <Tr>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+            </Tr>
+          </tbody>
+        </Table>
+
+        <Table
+          fixed
+          border
+          sticky
+          // stickyOffset="2.5rem"
+        >
+          <caption className="dnb-sr-only">Table Two</caption>
+          <thead>
+            <Tr noWrap>
+              <Th scope="col">Column 1</Th>
+              <Th scope="col">Column 2</Th>
+              <Th scope="col">Column 3</Th>
+              <Th scope="col">Column 4</Th>
+            </Tr>
+          </thead>
+          <tbody>
+            <Tr>
+              <Td>Row 1</Td>
+              <Td>Row 1</Td>
+              <Td>Row 1</Td>
+              <Td>Row 1</Td>
+            </Tr>
+            <Tr>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+            </Tr>
+            <Tr>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+            </Tr>
+            <Tr>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+            </Tr>
+            <Tr>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+            </Tr>
+            <Tr>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+            </Tr>
+            <Tr>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+            </Tr>
+            <Tr>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+            </Tr>
+            <Tr>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+            </Tr>
+            <Tr>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+            </Tr>
+            <Tr>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+            </Tr>
+          </tbody>
+        </Table>
+      </TableContainer.Body>
+
+      <TableContainer.Foot>
+        <P id="unique-ref-id">Footer</P>
+      </TableContainer.Foot>
+    </StyledContainer>
   )
 }
 

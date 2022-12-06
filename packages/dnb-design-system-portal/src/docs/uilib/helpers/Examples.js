@@ -81,7 +81,7 @@ export function ScreenReaderOnlyExample() {
           /* jsx */ `
 <p className="dnb-p">
   Hidden text
-  <span className="dnb-sr-only--inline">
+  <span className="dnb-sr-only">
     I am only visible to screen readers, so you probably can't see
     me. Unless you're using a screen reader.
   </span>!

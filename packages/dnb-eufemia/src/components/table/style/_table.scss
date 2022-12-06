@@ -3,6 +3,18 @@
 *
 */
 
+@mixin tableBorder {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+
+  pointer-events: none;
+}
+
 @import './_table-header-buttons.scss';
 @import './_table-th.scss';
 @import './_table-td.scss';
@@ -10,13 +22,13 @@
 @import './_table-cell.scss';
 @import './_table-sticky.scss';
 @import './_table-container.scss';
+@import './_table-deprecated.scss';
 
 .dnb-table {
   display: table;
   table-layout: auto;
   width: 100%;
 
-  overflow: auto;
   margin-top: 0;
   margin-bottom: 0.5rem; // give room to a scrollbar
 
@@ -32,82 +44,12 @@
     white-space: nowrap;
   }
 
-  // deprecated – can be removed in v10
-  &,
-  &--left {
-    text-align: left;
-  }
-  &--right {
-    text-align: right;
-  }
-  &--center {
-    text-align: center;
-  }
-
   & > caption {
     caption-side: bottom;
     margin-top: 0.5rem;
 
     font-size: var(--font-size-basis);
   }
-
-  /* stylelint-disable */
-
-  // deprecated – can be removed in v10
-  &--small,
-  &--small > tr > th,
-  &--small > tr > td,
-  &--small > thead > tr > th,
-  &--small > tbody > tr > td {
-    font-size: var(--font-size-small);
-  }
-
-  // deprecated – can be removed in v10
-  & > tr#{&}--small > th,
-  & > tr#{&}--small > td,
-  & > thead > tr#{&}--small > th,
-  & > tbody > tr#{&}--small > td {
-    font-size: var(--font-size-small);
-  }
-
-  // deprecated – can be removed in v10
-  & > tr > th#{&}--small,
-  & > tr > td#{&}--small,
-  & > thead > tr > th#{&}--small,
-  & > tbody > tr > td#{&}--small,
-  &__th#{&}--small,
-  &__td#{&}--small {
-    font-size: var(--font-size-small);
-  }
-
-  // deprecated – can be removed in v10
-  &--x-small,
-  &--x-small > tr > th,
-  &--x-small > tr > td,
-  &--x-small > thead > tr > th,
-  &--x-small > tbody > tr > td {
-    font-size: var(--font-size-x-small);
-  }
-
-  // deprecated – can be removed in v10
-  & > tr#{&}--x-small > th,
-  & > tr#{&}--x-small > td,
-  & > thead > tr#{&}--x-small > th,
-  & > tbody > tr#{&}--x-small > td {
-    font-size: var(--font-size-x-small);
-  }
-
-  // deprecated – can be removed in v10
-  & > tr > th#{&}--x-small,
-  & > tr > td#{&}--x-small,
-  & > thead > tr > th#{&}--x-small,
-  & > tbody > tr > td#{&}--x-small,
-  &__th#{&}--x-small,
-  &__td#{&}--x-small {
-    font-size: var(--font-size-x-small);
-  }
-
-  /* stylelint-enable */
 
   &.dnb-skeleton {
     > * {
