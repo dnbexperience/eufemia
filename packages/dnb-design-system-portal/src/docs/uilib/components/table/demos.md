@@ -13,6 +13,7 @@ TableSticky,
 TableStickyMaxHeight,
 TableSizeMedium,
 TableSizeSmall,
+PaginationTable,
 } from 'Docs/uilib/components/table/Examples'
 
 ## Demos
@@ -83,6 +84,10 @@ render(
 ### Table with long header text (wrapping)
 
 <TableLongHeader />
+
+### Table with pagination
+
+<PaginationTable />
 
 ### Example usage of class helpers
 
