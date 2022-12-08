@@ -10,19 +10,19 @@ export type TableThChildren =
 
 export type TableThProps = {
   /**
-   * Defines the table header as sortable
+   * Defines the table header as sortable (ascending)
    * Default: false
    */
   sortable?: boolean
 
   /**
-   * Defines the sortable column as the current active
+   * Defines the sortable column as the current active (ascending)
    * Default: false
    */
   active?: boolean
 
   /**
-   * Defines the sortable column as in reversed order
+   * Defines the sortable column as in reversed order (descending)
    * Default: false
    */
   reversed?: boolean
@@ -55,11 +55,17 @@ export default function Th(
 
   const role = props.scope === 'row' ? 'rowheader' : 'columnheader'
   const scope = props.scope === 'row' ? 'row' : 'col'
+  const ariaSort = sortable
+    ? reversed
+      ? 'descending'
+      : 'ascending'
+    : undefined
 
   return (
     <th
       role={role}
       scope={scope}
+      aria-sort={ariaSort}
       className={classnames(
         'dnb-table__th',
         sortable && 'dnb-table--sortable',
