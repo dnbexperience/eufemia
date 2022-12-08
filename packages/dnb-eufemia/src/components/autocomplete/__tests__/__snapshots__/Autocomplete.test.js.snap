@@ -2377,6 +2377,9 @@ legend.dnb-form-label {
     .dnb-input--password .dnb-input__placeholder::-ms-clear,
     .dnb-input--password .dnb-input__input::-ms-clear {
       display: none; }
+    .dnb-input--password .dnb-input__placeholder::-ms-reveal,
+    .dnb-input--password .dnb-input__input::-ms-reveal {
+      display: none; }
   .dnb-input--password .dnb-input__placeholder {
     padding-right: 4rem; }
   .dnb-input--password .dnb-input__input {
