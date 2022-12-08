@@ -90,12 +90,30 @@ describe('TableTh', () => {
     expect(element.getAttribute('scope')).toBe('row')
   })
 
+  it('should set correct sortable class', () => {
+    render(
+      <table>
+        <thead>
+          <tr>
+            <TableTh sortable>th content</TableTh>
+          </tr>
+        </thead>
+      </table>
+    )
+
+    const element = document.querySelector('th')
+    expect(Array.from(element.classList)).toContain('dnb-table--sortable')
+    expect(element.getAttribute('aria-sort')).toBe('ascending')
+  })
+
   it('should set correct active class', () => {
     render(
       <table>
         <thead>
           <tr>
-            <TableTh active>th content</TableTh>
+            <TableTh sortable active>
+              th content
+            </TableTh>
           </tr>
         </thead>
       </table>
@@ -103,6 +121,7 @@ describe('TableTh', () => {
 
     const element = document.querySelector('th')
     expect(Array.from(element.classList)).toContain('dnb-table--active')
+    expect(element.getAttribute('aria-sort')).toBe('ascending')
   })
 
   it('should set correct reversed class', () => {
@@ -110,7 +129,9 @@ describe('TableTh', () => {
       <table>
         <thead>
           <tr>
-            <TableTh reversed>th content</TableTh>
+            <TableTh sortable reversed>
+              th content
+            </TableTh>
           </tr>
         </thead>
       </table>
@@ -118,6 +139,7 @@ describe('TableTh', () => {
 
     const element = document.querySelector('th')
     expect(Array.from(element.classList)).toContain('dnb-table--reversed')
+    expect(element.getAttribute('aria-sort')).toBe('descending')
   })
 
   it('should set correct noWrap class', () => {
