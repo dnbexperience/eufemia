@@ -164,7 +164,14 @@ export function scrollToLocationHashId({
       if (id.length > 0) {
         const handleScroll = () => {
           const runScroll = () => {
-            const top = getOffsetTop(elem) - offset
+            const totalOffset = getOffsetTop(elem)
+
+            if (totalOffset <= 0) {
+              return // stop here
+            }
+
+            const top = totalOffset - offset
+
             try {
               if (typeof IntersectionObserver !== 'undefined') {
                 const intersectionObserver = new IntersectionObserver(
