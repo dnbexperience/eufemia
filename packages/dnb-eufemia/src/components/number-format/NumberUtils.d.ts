@@ -119,3 +119,6 @@ export const countDecimals: (
   value: number | string,
   currency_display?: string
 ) => number;
+
+type copy = (content: string, HTMLElement) => void;
+export const useCopyWithNotice: () => { copy: copy };
