@@ -145,6 +145,10 @@
     &::-ms-clear {
       display: none;
     }
+    // Hiding "password reveal" button in Ms Edge
+    &::-ms-reveal {
+      display: none;
+    }
   }
   &--password &__placeholder {
     padding-right: 4rem;
