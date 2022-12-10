@@ -11,6 +11,7 @@ import {
   toJson,
   loadScss,
 } from '../../../core/jest/jestSetup'
+import { render } from '@testing-library/react'
 import Component from '../FormLabel'
 import Input from '../../input/Input'
 
@@ -36,6 +37,28 @@ describe('FormLabel component', () => {
         .instance()
         .getAttribute('aria-hidden')
     ).toBe('true')
+  })
+
+  it('should support spacing props', () => {
+    render(<Component for_id="input" top="large" />)
+
+    const element = document.querySelector('.dnb-form-label')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-form-label',
+      'dnb-space__top--large',
+    ])
+  })
+
+  it('should set correct class when sr_only is set', () => {
+    render(<Component for_id="input" sr_only />)
+
+    const element = document.querySelector('.dnb-form-label')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-form-label',
+      'dnb-sr-only',
+    ])
   })
 
   it('should validate with ARIA rules', async () => {
