@@ -1,5 +1,11 @@
 @import '@dnb/eufemia/src/style/core/utilities.scss';
 
+:global {
+  html {
+    scroll-padding-top: 4rem;
+  }
+}
+
 .headerStyle {
   position: fixed;
 
@@ -22,7 +28,6 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 4rem;
 
   display: flex;
   justify-content: center;
