@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import Table from '../Table'
 import TableTr from '../TableTr'
 
@@ -133,7 +133,7 @@ describe('TableTr', () => {
     expect(Array.from(element.classList)).toContain('dnb-table__tr--even')
   })
 
-  it('should automatically set odd/even', () => {
+  it('should set odd/even', () => {
     render(
       <Table>
         <tbody>
@@ -153,7 +153,7 @@ describe('TableTr', () => {
       </Table>
     )
 
-    const elements = document.querySelectorAll('tr')
+    const elements = document.querySelectorAll('tbody tr')
     expect(Array.from(elements[0].classList)).toContain(
       'dnb-table__tr--odd'
     )
@@ -168,7 +168,7 @@ describe('TableTr', () => {
     )
   })
 
-  it('should automatically continue when variant was defined', () => {
+  it('should continue when variant was defined', () => {
     render(
       <Table>
         <tbody>
@@ -188,7 +188,7 @@ describe('TableTr', () => {
       </Table>
     )
 
-    const elements = document.querySelectorAll('tr')
+    const elements = document.querySelectorAll('tbody tr')
     expect(Array.from(elements[0].classList)).toContain(
       'dnb-table__tr--odd'
     )
@@ -203,101 +203,215 @@ describe('TableTr', () => {
     )
   })
 
-  it('should automatically re-render when tr gets removed', () => {
-    const { rerender } = render(
-      <Table>
-        <tbody>
-          <TableTr>
-            <td>content</td>
-          </TableTr>
-          <TableTr variant="odd">
-            <td>content</td>
-          </TableTr>
-          <TableTr>
-            <td>content</td>
-          </TableTr>
-          <TableTr>
-            <td>content</td>
-          </TableTr>
-        </tbody>
-      </Table>
-    )
+  describe('re-render', () => {
+    const MockComponent = () => {
+      const [list, setlist] = React.useState([
+        'content cab',
+        'content abc',
+        'content bac',
+      ])
 
-    let elements = document.querySelectorAll('tr')
-    expect(elements).toHaveLength(4)
-    expect(Array.from(elements[0].classList)).toContain(
-      'dnb-table__tr--odd'
-    )
-    expect(Array.from(elements[1].classList)).toContain(
-      'dnb-table__tr--odd'
-    )
-    expect(Array.from(elements[2].classList)).toContain(
-      'dnb-table__tr--even'
-    )
-    expect(Array.from(elements[3].classList)).toContain(
-      'dnb-table__tr--odd'
-    )
+      return (
+        <Table>
+          <thead>
+            <TableTr>
+              <th>
+                <button onClick={handleReorder}>re-order</button>
+              </th>
+            </TableTr>
+          </thead>
+          <tbody>
+            {list.map((value) => (
+              <TableTr key={value}>
+                <td>{value}</td>
+              </TableTr>
+            ))}
+          </tbody>
+        </Table>
+      )
 
-    rerender(
-      <Table>
-        <tbody>
-          <TableTr>
-            <td>content</td>
-          </TableTr>
-          <TableTr>
-            <td>content</td>
-          </TableTr>
-          <TableTr>
-            <td>content</td>
-          </TableTr>
-        </tbody>
-      </Table>
-    )
+      function sortByName(a, b) {
+        return a.localeCompare(b)
+      }
 
-    elements = document.querySelectorAll('tr')
-    expect(elements).toHaveLength(3)
-    expect(Array.from(elements[0].classList)).toContain(
-      'dnb-table__tr--odd'
-    )
-    expect(Array.from(elements[1].classList)).toContain(
-      'dnb-table__tr--even'
-    )
-    expect(Array.from(elements[2].classList)).toContain(
-      'dnb-table__tr--odd'
-    )
+      function handleReorder() {
+        setlist([...list].sort(sortByName))
+      }
+    }
 
-    rerender(
-      <Table>
-        <tbody>
-          <TableTr>
-            <td>content</td>
-          </TableTr>
-          <TableTr>
-            <td>content</td>
-          </TableTr>
-          <TableTr variant="even">
-            <td>content</td>
-          </TableTr>
-          <TableTr>
-            <td>content</td>
-          </TableTr>
-        </tbody>
-      </Table>
-    )
+    it('should re-render tr when tr gets removed', () => {
+      const { rerender } = render(
+        <Table>
+          <tbody>
+            <TableTr>
+              <td>content</td>
+            </TableTr>
+            <TableTr variant="odd">
+              <td>content</td>
+            </TableTr>
+            <TableTr>
+              <td>content</td>
+            </TableTr>
+            <TableTr>
+              <td>content</td>
+            </TableTr>
+          </tbody>
+        </Table>
+      )
 
-    elements = document.querySelectorAll('tr')
-    expect(elements).toHaveLength(4)
-    expect(Array.from(elements[0].classList)).toContain(
-      'dnb-table__tr--odd'
-    )
-    expect(Array.from(elements[1].classList)).toContain(
-      'dnb-table__tr--even'
-    )
-    expect(Array.from(elements[2].classList)).toContain(
-      'dnb-table__tr--even'
-    )
-    expect(Array.from(elements[3].classList)).toContain(
-      'dnb-table__tr--odd'
-    )
+      let elements = document.querySelectorAll('tbody tr')
+      expect(elements).toHaveLength(4)
+      expect(Array.from(elements[0].classList)).toContain(
+        'dnb-table__tr--odd'
+      )
+      expect(Array.from(elements[1].classList)).toContain(
+        'dnb-table__tr--odd'
+      )
+      expect(Array.from(elements[2].classList)).toContain(
+        'dnb-table__tr--even'
+      )
+      expect(Array.from(elements[3].classList)).toContain(
+        'dnb-table__tr--odd'
+      )
+
+      rerender(
+        <Table>
+          <tbody>
+            <TableTr>
+              <td>content</td>
+            </TableTr>
+            <TableTr>
+              <td>content</td>
+            </TableTr>
+            <TableTr>
+              <td>content</td>
+            </TableTr>
+          </tbody>
+        </Table>
+      )
+
+      elements = document.querySelectorAll('tbody tr')
+      expect(elements).toHaveLength(3)
+      expect(Array.from(elements[0].classList)).toContain(
+        'dnb-table__tr--odd'
+      )
+      expect(Array.from(elements[1].classList)).toContain(
+        'dnb-table__tr--even'
+      )
+      expect(Array.from(elements[2].classList)).toContain(
+        'dnb-table__tr--odd'
+      )
+
+      rerender(
+        <Table>
+          <tbody>
+            <TableTr>
+              <td>content</td>
+            </TableTr>
+            <TableTr>
+              <td>content</td>
+            </TableTr>
+            <TableTr variant="even">
+              <td>content</td>
+            </TableTr>
+            <TableTr>
+              <td>content</td>
+            </TableTr>
+          </tbody>
+        </Table>
+      )
+
+      elements = document.querySelectorAll('tbody tr')
+      expect(elements).toHaveLength(4)
+      // console.log('document.body', document.body.innerHTML)
+      expect(Array.from(elements[0].classList)).toContain(
+        'dnb-table__tr--odd'
+      )
+      expect(Array.from(elements[1].classList)).toContain(
+        'dnb-table__tr--even'
+      )
+      expect(Array.from(elements[2].classList)).toContain(
+        'dnb-table__tr--even'
+      )
+      expect(Array.from(elements[3].classList)).toContain(
+        'dnb-table__tr--odd'
+      )
+    })
+
+    it('should re-render table when children changes', () => {
+      render(<MockComponent />)
+
+      let elements = document.querySelectorAll('tbody tr')
+      expect(elements).toHaveLength(3)
+      expect(elements[0].textContent).toBe('content cab')
+      expect(Array.from(elements[0].classList)).toContain(
+        'dnb-table__tr--even'
+      )
+      expect(elements[1].textContent).toBe('content abc')
+      expect(Array.from(elements[1].classList)).toContain(
+        'dnb-table__tr--odd'
+      )
+      expect(elements[2].textContent).toBe('content bac')
+      expect(Array.from(elements[2].classList)).toContain(
+        'dnb-table__tr--even'
+      )
+
+      fireEvent.click(screen.queryByText('re-order'))
+
+      elements = document.querySelectorAll('tbody tr')
+      expect(elements).toHaveLength(3)
+      expect(elements[0].textContent).toBe('content abc')
+      expect(Array.from(elements[0].classList)).toContain(
+        'dnb-table__tr--even'
+      )
+      expect(elements[1].textContent).toBe('content bac')
+      expect(Array.from(elements[1].classList)).toContain(
+        'dnb-table__tr--odd'
+      )
+      expect(elements[2].textContent).toBe('content cab')
+      expect(Array.from(elements[2].classList)).toContain(
+        'dnb-table__tr--even'
+      )
+    })
+
+    it('should set correct odd/even in StrictMode', () => {
+      render(
+        <React.StrictMode>
+          <MockComponent />
+        </React.StrictMode>
+      )
+
+      let elements = document.querySelectorAll('tbody tr')
+      expect(elements).toHaveLength(3)
+      expect(elements[0].textContent).toBe('content cab')
+      expect(Array.from(elements[0].classList)).toContain(
+        'dnb-table__tr--even'
+      )
+      expect(elements[1].textContent).toBe('content abc')
+      expect(Array.from(elements[1].classList)).toContain(
+        'dnb-table__tr--odd'
+      )
+      expect(elements[2].textContent).toBe('content bac')
+      expect(Array.from(elements[2].classList)).toContain(
+        'dnb-table__tr--even'
+      )
+
+      fireEvent.click(screen.queryByText('re-order'))
+
+      elements = document.querySelectorAll('tbody tr')
+      expect(elements).toHaveLength(3)
+      expect(elements[0].textContent).toBe('content abc')
+      expect(Array.from(elements[0].classList)).toContain(
+        'dnb-table__tr--even'
+      )
+      expect(elements[1].textContent).toBe('content bac')
+      expect(Array.from(elements[1].classList)).toContain(
+        'dnb-table__tr--odd'
+      )
+      expect(elements[2].textContent).toBe('content cab')
+      expect(Array.from(elements[2].classList)).toContain(
+        'dnb-table__tr--even'
+      )
+    })
   })
 })
