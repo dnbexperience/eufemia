@@ -1,8 +1,8 @@
 import { ToCamelCasePartial } from '../../shared/helpers/withCamelCaseProps'
-import { ScrollViewProps } from '../../fragments/ScrollView'
+import { ScrollViewAllProps } from '../../fragments/ScrollView'
 import { ModalPropTypes } from '../modal/Modal'
 
-export interface DrawerProps extends ToCamelCasePartial<ModalPropTypes> {
+export type DrawerProps = {
   /**
    * Defines the placement on what side the Drawer should be opened. Can be set to `left`, `right`, `top` and `bottom`. Defaults to `right`.
    */
@@ -12,9 +12,9 @@ export interface DrawerProps extends ToCamelCasePartial<ModalPropTypes> {
    * The drawer title. Displays on the very top of the content.
    */
   title?: React.ReactNode
-}
+} & ToCamelCasePartial<ModalPropTypes>
 
-export interface DrawerContentProps extends ScrollViewProps {
+export type DrawerContentProps = {
   /**
    * The minimum Drawer content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful on using fixed `minWidth` so you don't break responsiveness. Defaults to `30rem` (average width is set to `60vw`).
    */
@@ -79,4 +79,4 @@ export interface DrawerContentProps extends ScrollViewProps {
    * Same as `no_animation`, but gets triggered only if the viewport width is less than `40em`. Defaults to false.
    */
   noAnimationOnMobile?: string | boolean
-}
+} & ScrollViewAllProps

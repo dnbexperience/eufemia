@@ -3,6 +3,9 @@
  *
  */
 
+import React from 'react'
+import { render } from '@testing-library/react'
+
 import {
   setPageFocusElement,
   applyPageFocus,
@@ -67,21 +70,95 @@ describe('"applyPageFocus" should', () => {
 describe('"scrollToLocationHashId" should', () => {
   window.location.hash = '#scroll-hash'
   const scrollElement = document.querySelector('#scroll-hash')
+
   it('have a valid dom element', () => {
     expect(scrollElement instanceof HTMLElement).toBe(true)
   })
-  it('set a focus on the given element', () => {
-    const offset = 100
-    let mock = null
-    window.scrollTo = (result) => {
-      mock = result
-    }
-    scrollToLocationHashId({ offset })
-    expect(typeof mock).toBe('object')
-    expect(typeof mock).not.toBe(null)
-    const { top, behavior } = mock
-    expect(top).toBe(-offset) // NB: minus!
-    expect(behavior).toBe('smooth')
+
+  it('should not call scrollTo when internal "totalOffset" is 0 or less', () => {
+    Object.defineProperty(window, 'location', {
+      value: {
+        hash: '#unique-id',
+      },
+    })
+
+    const scrollTo = jest.fn()
+    jest.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
+
+    render(<div id="unique-id">content</div>)
+
+    scrollToLocationHashId({ offset: 1000 })
+
+    expect(scrollTo).toHaveBeenCalledTimes(0)
+  })
+
+  it('will call scrollTo with correct top value', () => {
+    Object.defineProperty(window, 'location', {
+      value: {
+        hash: '#unique-id',
+      },
+    })
+
+    const scrollTo = jest.fn()
+    jest.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
+
+    render(<div id="unique-id">content</div>)
+
+    const elem = document.getElementById('unique-id')
+    jest.spyOn(elem, 'offsetTop', 'get').mockReturnValue(400)
+
+    scrollToLocationHashId({ offset: 100 })
+
+    expect(scrollTo).toHaveBeenCalledTimes(1)
+    expect(scrollTo).toHaveBeenCalledWith({
+      behavior: 'smooth',
+      top: 300,
+    })
+  })
+
+  it('will handle document.readyState', () => {
+    Object.defineProperty(window, 'location', {
+      value: {
+        hash: '#unique-id',
+      },
+    })
+
+    const scrollTo = jest.fn()
+    jest.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
+    jest.spyOn(document, 'readyState', 'get').mockReturnValue('loading')
+
+    render(<div id="unique-id">content</div>)
+
+    const elem = document.getElementById('unique-id')
+    jest.spyOn(elem, 'offsetTop', 'get').mockReturnValue(300)
+
+    scrollToLocationHashId({ offset: 100 })
+
+    document.dispatchEvent(new Event('DOMContentLoaded'))
+
+    expect(scrollTo).toHaveBeenCalledTimes(1)
+    expect(scrollTo).toHaveBeenCalledWith({
+      behavior: 'smooth',
+      top: 200,
+    })
+  })
+
+  it('will handle document.readyState', () => {
+    Object.defineProperty(window, 'location', {
+      value: undefined,
+    })
+
+    const scrollTo = jest.fn()
+    jest.spyOn(window, 'scrollTo').mockImplementation(scrollTo)
+
+    render(<div id="unique-id">content</div>)
+
+    const elem = document.getElementById('unique-id')
+    jest.spyOn(elem, 'offsetTop', 'get').mockReturnValue(300)
+
+    scrollToLocationHashId({ offset: 100 })
+
+    expect(scrollTo).toHaveBeenCalledTimes(0)
   })
 })
 

@@ -6,8 +6,16 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
-import { H2, P, Code, Anchor } from '@dnb/eufemia/src/elements'
-import { Button } from '@dnb/eufemia/src/components'
+import { H2, P, Dl, Dt, Dd, Code, Anchor } from '@dnb/eufemia/src/elements'
+import { copy as copyIcon } from '@dnb/eufemia/src/icons'
+import {
+  Button,
+  Pagination,
+  Checkbox,
+  Input,
+  Section,
+} from '@dnb/eufemia/src/components'
+import { useCopyWithNotice } from '@dnb/eufemia/src/components/number-format/NumberUtils'
 import Table from '@dnb/eufemia/src/components/table/Table'
 import Th from '@dnb/eufemia/src/components/table/TableTh'
 import Td from '@dnb/eufemia/src/components/table/TableTd'
@@ -318,8 +326,11 @@ export const TableStackedContainer = () => {
             Define the width of the THs so they are aligned accross tables.
             A "fixed" table width is needed in order to align all tables to act with the same column widths.
           */
+          .dnb-table__container__body {
+            min-width: 800px;
+            max-width: 70rem;
+          }
           table {
-            width: 50rem;
             thead {
               th:nth-of-type(1) {
                 width: 30%;
@@ -500,6 +511,120 @@ export const TableLongHeader = () => (
   </ComponentBox>
 )
 
+export const TableAccordion = () => (
+  <ComponentBox
+    hideCode
+    data-visual-test="table-accordion"
+    scope={{ copyIcon, useCopyWithNotice }}
+  >
+    {() => {
+      const AccordionTable = ({ id, showCheckbox = false, ...props }) => {
+        const TdCheckbox = () => {
+          return <Checkbox label="Select row" label_sr_only />
+        }
+        const TdInput = () => {
+          return <Input label="Label" label_sr_only size={4} />
+        }
+        const Content = ({ shareId }) => {
+          const ref = React.useRef()
+          const { copy } = useCopyWithNotice()
+
+          const shareHandler = () => {
+            const url = new URL(location.href)
+            url.hash = '#' + shareId
+            copy(url.toString(), ref.current)
+          }
+
+          return (
+            <>
+              <Button icon="bell" variant="secondary">
+                Ring the bell
+              </Button>
+
+              <Section top spacing>
+                <Dl>
+                  <Dt>Favorittfarge</Dt>
+                  <Dd>Grønn</Dd>
+                  <Dt>Favorittmat</Dt>
+                  <Dd>Taco</Dd>
+                </Dl>
+              </Section>
+
+              <Button
+                top
+                variant="tertiary"
+                icon={copyIcon}
+                icon_position="left"
+                on_click={shareHandler}
+                inner_ref={ref}
+              >
+                Copy link to this row
+              </Button>
+            </>
+          )
+        }
+
+        const Row = ({ nr }) => {
+          const shareId = id + '-' + nr
+          return (
+            <Tr id={shareId}>
+              <Td>{showCheckbox ? <TdCheckbox /> : 'Row ' + nr}</Td>
+              <Td>Row {nr}</Td>
+              <Td spacing="horizontal">
+                <TdInput />
+              </Td>
+              <Td align="right">Row {nr}</Td>
+
+              <Td.AccordionContent>
+                <Content shareId={shareId} />
+              </Td.AccordionContent>
+            </Tr>
+          )
+        }
+
+        return (
+          <Table accordion id={id} {...props}>
+            <caption className="dnb-sr-only">A Table Caption</caption>
+
+            <thead>
+              <Tr>
+                <Th scope="col">Column A</Th>
+                <Th scope="col">Column B</Th>
+                <Th scope="col">Column C</Th>
+                <Th scope="col" align="right">
+                  Column D
+                </Th>
+              </Tr>
+            </thead>
+
+            <tbody>
+              <Row nr="1" />
+              <Row nr="2" />
+              <Row nr="3" />
+            </tbody>
+          </Table>
+        )
+      }
+
+      return (
+        <>
+          <Table.ScrollView>
+            <AccordionTable
+              id="table-1"
+              showCheckbox
+              accordionChevronPlacement="end"
+            />
+          </Table.ScrollView>
+
+          <Table.ScrollView top>
+            <AccordionTable id="table-2" border outline />
+          </Table.ScrollView>
+        </>
+      )
+    }}
+  </ComponentBox>
+)
+
 export const TableSticky = () => {
   const isFullscreen = /data-visual-test|fullscreen/.test(
     globalThis?.location?.href
@@ -652,6 +777,76 @@ export const TableStickyMaxHeight = () => {
           </tbody>
         </Table>
       </Table.ScrollView>
+    </ComponentBox>
+  )
+}
+
+export function PaginationTable() {
+  return (
+    <ComponentBox hideCode>
+      {() => {
+        const TablePagination = () => {
+          const amountPerPage = 5
+          const [currentPage, setCurrentPage] = React.useState(1)
+          const [data] = React.useState(() => getDataFromAPI(0, 100))
+
+          return (
+            <Pagination
+              page_count={data.length / amountPerPage}
+              current_page={currentPage}
+              on_change={({ page }) => {
+                setCurrentPage(page)
+              }}
+            >
+              <MakeTable
+                currentPage={currentPage}
+                amountPerPage={amountPerPage}
+                data={data}
+              />
+            </Pagination>
+          )
+
+          function getDataFromAPI(offset, max) {
+            const list = []
+
+            for (let i = offset + 1, l = offset + max; i <= l; i++) {
+              list.push({
+                name: 'Row ' + i,
+              })
+            }
+
+            return list
+          }
+
+          function MakeTable({ currentPage, amountPerPage, data }) {
+            const offset = currentPage * amountPerPage - amountPerPage
+            const tableBody = data
+              .slice(offset, offset + amountPerPage)
+              .map(({ name }, i) => {
+                return (
+                  <Tr key={i}>
+                    <Td>{name}</Td>
+                  </Tr>
+                )
+              })
+
+            return (
+              <Table.ScrollView>
+                <Table>
+                  <thead>
+                    <Tr>
+                      <Th>Column</Th>
+                    </Tr>
+                  </thead>
+                  <tbody>{tableBody}</tbody>
+                </Table>
+              </Table.ScrollView>
+            )
+          }
+        }
+
+        return <TablePagination />
+      }}
     </ComponentBox>
   )
 }
