@@ -21,6 +21,7 @@ export default function TableScrollView(props: TableScrollViewAllProps) {
   return (
     <ScrollView
       className={classnames('dnb-table__scroll-view', className)}
+      interactive
       {...rest}
     >
       {children}
