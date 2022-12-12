@@ -363,3 +363,71 @@ export const BasicTable = () => {
     </Table>
   )
 }
+
+export const TableSortable = () => {
+  const [list, setlist] = React.useState([
+    'content cab',
+    'content abc',
+    'content bac',
+    'content x',
+    'content y',
+    'content z',
+  ])
+
+  const [count, setCount] = React.useState(0)
+
+  return (
+    <React.StrictMode>
+      <button onClick={handleCount}>count {count}</button>
+      <Table>
+        <thead>
+          <Tr>
+            <th>
+              <button onClick={handleReorder}>re-order</button>
+              <button onClick={handleRemove}>remove</button>
+              <button onClick={handleAdd}>add</button>
+              <button onClick={handleCount}>count {count}</button>
+            </th>
+          </Tr>
+        </thead>
+        <tbody>
+          {list.map((value) => (
+            <Tr key={value}>
+              <td>{value}</td>
+            </Tr>
+          ))}
+        </tbody>
+      </Table>
+    </React.StrictMode>
+  )
+
+  function sortByName(a, b) {
+    return a.localeCompare(b)
+  }
+
+  function handleReorder() {
+    setlist([...list].sort(sortByName))
+  }
+  function handleRemove() {
+    setlist([
+      'content cab',
+      'content abc',
+      'content bac',
+      'content y',
+      'content z',
+    ])
+  }
+  function handleAdd() {
+    setlist([
+      'content cab',
+      'content abc',
+      'content bac',
+      'content x2',
+      'content y',
+      'content z',
+    ])
+  }
+  function handleCount() {
+    setCount((c) => c + 1)
+  }
+}

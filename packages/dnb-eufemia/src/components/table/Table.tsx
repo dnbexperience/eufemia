@@ -15,6 +15,7 @@ import { useStickyHeader, StickyHelper } from './TableStickyHeader'
 import type { StickyTableHeaderProps } from './TableStickyHeader'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import type { SpacingProps } from '../../shared/types'
+import { useHandleOddEven } from './TableTr'
 
 export type TableSizes = 'large' | 'medium' | 'small'
 export type TableVariants = 'generic'
@@ -104,17 +105,11 @@ const Table = (componentProps: TableAllProps) => {
     ...props
   } = allProps
 
+  const { elementRef } = useStickyHeader(allProps)
+  const { trCountRef, rerenderAlias } = useHandleOddEven({ children })
+
   const skeletonClasses = createSkeletonClass('font', skeleton, context)
   const spacingClasses = createSpacingClasses(props)
-
-  const { elementRef } = useStickyHeader(allProps)
-
-  // Create this ref in order to "auto" set even/odd class in tr elements
-  const trCountRef = React.useRef({ count: 0 })
-
-  // When the alias changes, all tr's will rerender and get a new even/odd color
-  // This is usefull, when one tr gets removed
-  const [rerenderAlias, setRerenderAlias] = React.useState({}) // eslint-disable-line no-unused-vars
 
   validateDOMAttributes(allProps, props)
 
@@ -124,7 +119,6 @@ const Table = (componentProps: TableAllProps) => {
         value={{
           trCountRef,
           rerenderAlias,
-          forceRerender,
           allProps: {
             ...context.getTranslation(componentProps).Table,
             ...allProps,
@@ -152,11 +146,6 @@ const Table = (componentProps: TableAllProps) => {
       </TableContext.Provider>
     </Provider>
   )
-
-  function forceRerender() {
-    trCountRef.current.count = 0
-    setRerenderAlias({})
-  }
 }
 
 export default Table

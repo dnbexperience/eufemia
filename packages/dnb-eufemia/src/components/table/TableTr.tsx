@@ -72,30 +72,19 @@ function useHandleTrVariant({ variant }) {
 
     return countRef.count
   }
-  const decrement = () => {
-    if (typeof countRef === 'undefined') {
-      return null
+
+  const [count, setCount] = React.useState(() => {
+    // SSR Support
+    if (typeof window === 'undefined') {
+      return increment()
     }
-    if (
-      !variant ||
-      (variant === 'even' && countRef.count % 2 === 1) ||
-      (variant === 'odd' && countRef.count % 2 === 0)
-    ) {
-      countRef.count--
-      tableContext?.forceRerender()
-    }
-  }
+  })
 
-  // Run increment during SSR
-  const count = React.useMemo(increment, [tableContext?.rerenderAlias]) // eslint-disable-line react-hooks/exhaustive-deps
-
-  // Run decrement when component unmounts and force the whole table to re-render
-  React.useEffect(() => decrement, [tableContext?.trCountRef]) // eslint-disable-line react-hooks/exhaustive-deps
-
-  // For the whole table to re-render when a variant changes
+  // StrictMode support
   React.useEffect(() => {
-    tableContext?.forceRerender()
-  }, [variant]) // eslint-disable-line react-hooks/exhaustive-deps
+    // SSR will not execute useEffect
+    setCount(increment())
+  }, [tableContext?.rerenderAlias]) // eslint-disable-line react-hooks/exhaustive-deps
 
   /**
    * Find out the current odd/even when "accordionContent" is used.
@@ -110,5 +99,32 @@ function useHandleTrVariant({ variant }) {
 
   return {
     currentVariant,
+  }
+}
+
+/**
+ * Handle odd/even on re-render and React.StrictMode
+ */
+export function useHandleOddEven({ children }) {
+  // Create this ref in order to "auto" set even/odd class in tr elements
+  const trCountRef = React.useRef({ count: 0 })
+
+  // When the alias changes, all tr's will rerender and get a new even/odd color
+  // This is usefull, when one tr gets removed
+  const [rerenderAlias, setRerenderAlias] = React.useState({}) // eslint-disable-line no-unused-vars
+
+  const isMounted = React.useRef(false)
+  React.useEffect(() => {
+    if (isMounted.current) {
+      forceRerender()
+    }
+    isMounted.current = true
+  }, [children]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  return { trCountRef, rerenderAlias, setRerenderAlias }
+
+  function forceRerender() {
+    trCountRef.current.count = 0
+    setRerenderAlias({})
   }
 }
