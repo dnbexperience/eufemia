@@ -1,6 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
-import ScrollView from '../../fragments/scroll-view/ScrollView'
+import TableScrollView, { TableScrollViewProps } from './TableScrollView'
 import { createSpacingClasses } from '../space/SpacingUtils'
 
 import type { TableProps } from './Table'
@@ -22,11 +22,21 @@ export type TableContainerAllProps = TableContainerProps &
   React.TableHTMLAttributes<HTMLTableRowElement> &
   SpacingProps
 
+type InternalTableContainerTableScrollView = Omit<
+  TableScrollViewProps,
+  'children'
+> & {
+  children: React.ReactNode
+}
+
 export default function TableContainer(props: TableContainerAllProps) {
   const { children, className, ...rest } = props
   const spacingClasses = createSpacingClasses(props)
 
   validateDOMAttributes(props, rest)
+
+  const ScrollView =
+    TableScrollView as React.FunctionComponent<InternalTableContainerTableScrollView>
 
   return (
     <section
@@ -37,9 +47,7 @@ export default function TableContainer(props: TableContainerAllProps) {
       )}
       {...rest}
     >
-      <ScrollView className="dnb-table__scroll-view">
-        {children}
-      </ScrollView>
+      <ScrollView>{children}</ScrollView>
     </section>
   )
 }
