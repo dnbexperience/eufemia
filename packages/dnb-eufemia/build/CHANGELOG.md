@@ -3,6 +3,24 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.41.0](https://github.com/dnbexperience/eufemia/compare/v9.40.0...v9.41.0) (2022-12-12)
+
+
+### Bug Fixes
+
+* **FormLabel:** ensure sr_only prop will eliminate label height ([#1798](https://github.com/dnbexperience/eufemia/issues/1798)) ([e79057e](https://github.com/dnbexperience/eufemia/commit/e79057ecc043b8d47b55393097f39bda15085eec))
+* **InputPassword:** hide password reveal in Edge ([#1794](https://github.com/dnbexperience/eufemia/issues/1794)) ([1fcc541](https://github.com/dnbexperience/eufemia/commit/1fcc5418d5935f19b481b3d6b4e53a1e9d5c6236))
+* **scrollToLocationHashId:** omit calling scrollTo when element is not found ([#1796](https://github.com/dnbexperience/eufemia/issues/1796)) ([cb497de](https://github.com/dnbexperience/eufemia/commit/cb497def8f2062cdccc1783abee8ebefaa7e821d))
+* **Table:** fix odd/even re-oder and StrictMode support ([#1797](https://github.com/dnbexperience/eufemia/issues/1797)) ([d7804f0](https://github.com/dnbexperience/eufemia/commit/d7804f00b0818d20ee0c1b6c2a979066720c18ae))
+* **Table:** make Table.ScrollView accessible with keyboard navigation ([#1801](https://github.com/dnbexperience/eufemia/issues/1801)) ([0239978](https://github.com/dnbexperience/eufemia/commit/0239978ff3497e69ddbe2e16d074f7353bc9dd01))
+
+
+### Features
+
+* **ScrollView:** add `interactive` prop to support for keyboard control (accessible) ([#1791](https://github.com/dnbexperience/eufemia/issues/1791)) ([e265e4a](https://github.com/dnbexperience/eufemia/commit/e265e4a00e3fc5adb55fc9f6e2df47821a7ca955))
+* **Table:** add accordion feature to table rows ([#1737](https://github.com/dnbexperience/eufemia/issues/1737)) ([fe41e55](https://github.com/dnbexperience/eufemia/commit/fe41e554d62867091af8b546fb9cd9a3bc9a9be4))
+* **Th:** include by default aria-sort for assistive technology ([#1789](https://github.com/dnbexperience/eufemia/issues/1789)) ([23f821b](https://github.com/dnbexperience/eufemia/commit/23f821bde3e544f38ad4c49249bbd6bd42a5cbab))
+
 # [9.40.0](https://github.com/dnbexperience/eufemia/compare/v9.39.1...v9.40.0) (2022-12-06)
 
 
