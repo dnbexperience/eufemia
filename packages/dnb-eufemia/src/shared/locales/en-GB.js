@@ -122,6 +122,10 @@ export default {
     Tag: {
       removeIconTitle: 'Remove',
     },
+    Table: {
+      accordionToggleButtonSR: 'Show more content',
+      accordionMoreContentSR: 'More content in the next row',
+    },
     Upload: {
       title: 'Upload documents',
       text: 'Drag & drop your files or choose files to upload.',

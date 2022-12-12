@@ -1,5 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
+import TableAccordionContent from './TableAccordionContent'
 
 export type TableTdProps = {
   /**
@@ -43,3 +44,5 @@ export default function Td(
     </td>
   )
 }
+
+Td.AccordionContent = TableAccordionContent

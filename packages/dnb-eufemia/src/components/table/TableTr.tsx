@@ -1,5 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
+import { useTableAccordion } from './TableAccordion'
 import { TableTdProps } from './TableTd'
 import TableContext from './TableContext'
 
@@ -16,6 +17,24 @@ export type TableTrProps = {
   noWrap?: boolean
 
   /**
+   * Set true to render the tr initially as expanded
+   * Default: false
+   */
+  expanded?: boolean
+
+  /**
+   * Set true to disable the tr to be accessible as an interactive element
+   * Default: false
+   */
+  disabled?: boolean
+
+  /**
+   * Set to true to skip animation
+   * Default: false
+   */
+  noAnimation?: boolean
+
+  /**
    * The content of the component.
    */
   children:
@@ -30,6 +49,9 @@ export default function Tr(
   const {
     variant,
     noWrap,
+    expanded,
+    disabled,
+    noAnimation,
     children,
     className: _className,
     ...props
@@ -43,6 +65,19 @@ export default function Tr(
     noWrap && 'dnb-table--no-wrap',
     _className
   )
+
+  const accordionTr = useTableAccordion({
+    className,
+    children,
+    props,
+    expanded,
+    disabled,
+    noAnimation,
+  })
+
+  if (accordionTr) {
+    return accordionTr
+  }
 
   return (
     <tr role="row" className={className} {...props}>
