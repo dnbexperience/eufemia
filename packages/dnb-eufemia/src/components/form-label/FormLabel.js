@@ -115,7 +115,7 @@ export default class FormLabel extends React.PureComponent {
         'dnb-form-label',
         (isTrue(vertical) || label_direction === 'vertical') &&
           `dnb-form-label--vertical`,
-        isTrue(sr_only) && 'dnb-form-label--sr-only',
+        isTrue(sr_only) && 'dnb-sr-only',
         createSkeletonClass('font', skeleton, this.context),
         createSpacingClasses(props),
         className,
