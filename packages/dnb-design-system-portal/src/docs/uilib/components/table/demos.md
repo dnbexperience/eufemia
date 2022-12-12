@@ -14,6 +14,7 @@ TableStickyMaxHeight,
 TableSizeMedium,
 TableSizeSmall,
 PaginationTable,
+TableAccordion,
 } from 'Docs/uilib/components/table/Examples'
 
 ## Demos
@@ -39,6 +40,12 @@ You can force a row to overwrite the automated odd/even counting by providing e.
 A `small` sized table is only for special circumstances, where a lot of data needs to be shown on the screen at the same time.
 
 <TableSizeSmall />
+
+### Table with accordion rows
+
+The second example uses both a `border` and an `outline`.
+
+<TableAccordion />
 
 ### Table with sticky header
 

@@ -157,3 +157,88 @@ describe('Table with skeleton screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 })
+
+describe('Table with accordion screenshot', () => {
+  setupPageScreenshot({ url: '/uilib/components/table' })
+
+  it('have to match default state', async () => {
+    const screenshot = await testPageScreenshot({
+      style: {
+        width: '35rem',
+      },
+      selector: '[data-visual-test="table-accordion"] .dnb-table',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match hover state on first row', async () => {
+    const screenshot = await testPageScreenshot({
+      style: {
+        width: '35rem',
+      },
+      selector:
+        '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type',
+      simulateSelector:
+        '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type tbody tr:first-of-type',
+      simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match hover state on last row', async () => {
+    const screenshot = await testPageScreenshot({
+      style: {
+        width: '35rem',
+      },
+      selector:
+        '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type',
+      simulateSelector:
+        '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type tbody tr:nth-last-child(2)',
+      simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match focus state on last row', async () => {
+    const screenshot = await testPageScreenshot({
+      style: {
+        width: '35rem',
+      },
+      selector:
+        '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type',
+      simulateSelector:
+        '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type tbody tr:nth-last-child(2)',
+      simulate: 'focus',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match active state on last row', async () => {
+    const screenshot = await testPageScreenshot({
+      style: {
+        width: '35rem',
+      },
+      selector:
+        '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type',
+      simulateSelector:
+        '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type tbody tr:nth-last-child(2)',
+      simulate: 'active',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match expanded state on first row', async () => {
+    const screenshot = await testPageScreenshot({
+      style: {
+        width: '35rem',
+        height: '20rem',
+      },
+      selector:
+        '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type',
+      simulateSelector:
+        '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type tbody tr:first-of-type',
+      simulate: 'click',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})

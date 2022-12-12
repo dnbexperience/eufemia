@@ -50,6 +50,10 @@
       // typography
       font-size: var(--font-size-small);
       line-height: var(--line-height-small);
+
+      .dnb-button__text {
+        line-height: inherit;
+      }
     }
 
     .dnb-table__size--small & {
@@ -104,7 +108,11 @@
   // &:not(#{&}--border):not(#{&}--outline) > thead > &__tr > &__th::after,
 
   // border
-  & > tbody > &__tr:last-of-type > &__td::after {
+  & > tbody > &__tr:last-of-type > &__td::after,
+  &
+    > tbody
+    > &__tr#{&}__tr--has-accordion-content:not(#{&}__tr--expanded):nth-last-child(2)
+    td::after {
     content: '';
     position: absolute;
     left: 0;

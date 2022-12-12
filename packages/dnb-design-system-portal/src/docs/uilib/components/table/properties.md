@@ -8,6 +8,7 @@ showTabs: true
 
 | Properties                                  | Description                                                                                                                                                                                          |
 | ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `accordion`                                 | _(optional)_ set to `true` if you have one or more rows that contains an accordion content. Defaults to `false`.                                                                                     |
 | `border`                                    | _(optional)_ use `true` to show borders between table data cells. Defaults to `false`.                                                                                                               |
 | `outline`                                   | _(optional)_ use `true` to show a outline border around the table. Defaults to `false`.                                                                                                              |
 | `sticky`                                    | _(optional)_ use `true` to enable a sticky Table header. Or use `css-position` to enable the CSS based scroll behavior. Defaults to `false`.                                                         |
@@ -20,10 +21,13 @@ showTabs: true
 
 ### Table Row `<Tr>`
 
-| Properties | Description                                                                                                                                                     |
-| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `variant`  | _(optional)_ defines the variant of the current row. If set to either `odd` or `even`, the next row one will continue with the opposite. Defaults to automatic. |
-| `noWrap`   | _(optional)_ if set to `true`, the inherited header text will not wrap to new lines. Defaults to `false`.                                                       |
+| Properties    | Description                                                                                                                                                     |
+| ------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `variant`     | _(optional)_ defines the variant of the current row. If set to either `odd` or `even`, the next row one will continue with the opposite. Defaults to automatic. |
+| `noWrap`      | _(optional)_ if set to `true`, the inherited header text will not wrap to new lines. Defaults to `false`.                                                       |
+| `expanded`    | _(optional)_ use `true` to render the `<Tr>` initially as expanded. Defaults to `false`.                                                                        |
+| `disabled`    | _(optional)_ use `true` to disable the `<Tr>` to be accessible as an interactive element. Defaults to `false`.                                                  |
+| `noAnimation` | _(optional)_ use `true` to disable the expand/collapse animation. Defaults to `false`.                                                                          |
 
 ### Table Header `<Th>`
 

@@ -63,6 +63,16 @@ export type TableProps = {
    */
   outline?: boolean
 
+  /* Set to true if you have one or more rows that contains an accordion content.
+   * Default: false
+   */
+  accordion?: boolean
+
+  /* Defines where the chevron will be placed.
+   * Default: 'start'
+   */
+  accordionChevronPlacement?: 'start' | 'end'
+
   /**
    * Defines if the table should behave with a fixed table layout, using: "table-layout: fixed;"
    * Default: null.
@@ -102,6 +112,8 @@ const Table = (componentProps: TableAllProps) => {
     fixed,
     border,
     outline,
+    accordion,
+    accordionChevronPlacement, // eslint-disable-line
     ...props
   } = allProps
 
@@ -134,6 +146,7 @@ const Table = (componentProps: TableAllProps) => {
             fixed && 'dnb-table--fixed',
             border && 'dnb-table--border',
             outline && 'dnb-table--outline',
+            accordion && 'dnb-table--accordion',
             spacingClasses,
             skeletonClasses,
             className

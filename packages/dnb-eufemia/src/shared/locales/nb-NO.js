@@ -122,6 +122,10 @@ export default {
     Tag: {
       removeIconTitle: 'Fjern',
     },
+    Table: {
+      accordionToggleButtonSR: 'Vis mer innhold',
+      accordionMoreContentSR: 'Mer innhold i neste rad',
+    },
     Upload: {
       title: 'Last opp dokumenter',
       text: 'Dra & slipp eller velg hvilke filer du vil laste opp.',

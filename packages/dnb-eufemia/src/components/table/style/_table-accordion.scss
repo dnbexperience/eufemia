@@ -1,0 +1,280 @@
+/*
+* Table component
+*
+*/
+
+@mixin tableAccordionActiveColor {
+  .dnb-table__td__accordion-icon .dnb-icon {
+    color: var(--color-emerald-green);
+  }
+}
+@mixin tableAccordionDisabledColor {
+  .dnb-table__td__accordion-icon .dnb-icon {
+    color: var(--color-sea-green-30);
+  }
+}
+
+.dnb-table {
+  --accordion-background: var(--color-white);
+  --accordion-border-width: 0.0625rem;
+  --accordion-border: var(--accordion-border-width) solid
+    var(--color-black-20);
+
+  &__th#{&}__th__accordion-icon {
+    padding: 0;
+
+    // In case the table-layout is fixed
+    div {
+      width: 3.5rem;
+
+      .dnb-table__size--medium & {
+        width: 3rem;
+      }
+      .dnb-table__size--small & {
+        width: 2.5rem;
+      }
+
+      text-indent: -300vw;
+    }
+  }
+
+  &__td#{&}__td__accordion-icon {
+    padding: 0;
+    user-select: none; // prevent selection on double-click
+  }
+
+  &__tr--has-accordion-content &__toggle-button {
+    display: flex; // to ensure we inherit the correct size from its content
+    justify-content: center;
+
+    .dnb-icon {
+      color: var(--color-sea-green);
+      transition: transform 500ms var(--accordion-easing);
+    }
+  }
+  &__tr--has-accordion-content#{&}__tr--no-animation
+    &__toggle-button
+    .dnb-icon,
+  html[data-visual-test]
+    &__tr--has-accordion-content
+    &__toggle-button
+    .dnb-icon {
+    transition: none !important;
+  }
+
+  &__tr--has-accordion-content,
+  &__tr__accordion_content {
+    position: relative;
+    z-index: 2;
+  }
+  &__tr--has-accordion-content:hover,
+  &__tr--has-accordion-content:active,
+  &__tr--has-accordion-content:focus,
+  &__tr--has-accordion-content#{&}__tr--expanded,
+  &__tr__accordion_content {
+    // ensure borders are visible in certain states
+    z-index: 3;
+  }
+
+  &__tr--has-accordion-content#{&}__tr--expanded
+    &__toggle-button
+    .dnb-icon {
+    transform: rotate(180deg);
+  }
+
+  &__tr--has-accordion-content#{&}__tr--expanded {
+    .dnb-table--border & td::after {
+      border-bottom: none;
+    }
+    .dnb-table--border & td:not(:first-of-type)::after {
+      border-left: none;
+    }
+  }
+
+  &__tr--has-accordion-content#{&}__tr:not(&__tr--disabled) {
+    outline: none;
+
+    td::before {
+      content: '';
+      position: absolute;
+      z-index: 3; // ensure we are over the "tableBorder"
+
+      // A negative number will force the table to overflow and a scrollbar will show up
+      inset: 0;
+
+      pointer-events: none;
+
+      // Here we use border to support Safari v16 on macOS
+      // but also to only have a border on specific sides
+      border: $focusRingWidth solid transparent;
+    }
+    td:not(:first-of-type)::before {
+      border-left: none;
+    }
+    td:not(:last-of-type)::before {
+      border-right: none;
+    }
+
+    @include hover() {
+      td::before {
+        border-color: var(--color-emerald-green);
+      }
+
+      @include tableAccordionActiveColor();
+    }
+  }
+
+  &__tr--has-accordion-content#{&}__tr--expanded:not(&__tr--disabled):hover
+    &__td {
+    background-color: var(--color-white);
+  }
+
+  &__tr--has-accordion-content#{&}__tr:not(&__tr--disabled):not(:active):not(:hover):focus {
+    td::before {
+      @include whatInput(keyboard) {
+        top: 0;
+        bottom: 0;
+        border-color: var(--color-emerald-green);
+      }
+    }
+    td:first-of-type::before {
+      left: 0;
+    }
+    td:last-of-type::before {
+      right: 0;
+    }
+  }
+
+  &__tr--has-accordion-content#{&}__tr:not(&__tr--disabled):active {
+    html:not([data-whatintent='touch']) &:hover td::before,
+    td::before {
+      border-color: var(--color-emerald-green);
+      border-width: 0.0625rem; // TODO: we should have something like activeRingWidth
+    }
+  }
+
+  &__tr--has-accordion-content#{&}__tr:not(&__tr--disabled):active &__td {
+    background-color: var(--color-pistachio);
+
+    @include tableAccordionActiveColor();
+  }
+
+  &__tr--has-accordion-content#{&}__tr--expanded:not(&__tr--disabled)#{&}__tr--hover:not(:active):hover
+    &__td {
+    background-color: var(--accordion-background);
+
+    &::before {
+      border: none;
+      border-top: var(--accordion-border);
+    }
+  }
+
+  &__tr--has-accordion-content#{&}__tr#{&}__tr--expanded:not(&__tr--disabled):not(:active):not(:hover) {
+    @include whatInputNot('keyboard') {
+      background-color: var(--accordion-background);
+
+      td::before {
+        border: none;
+        border-top: var(--accordion-border);
+      }
+    }
+  }
+
+  &__tr--has-accordion-content#{&}__tr--disabled {
+    @include tableAccordionDisabledColor();
+  }
+
+  &__tr__accordion_content {
+    @include IS_SAFARI_DESKTOP {
+      &[hidden] {
+        /**
+          * By reverting the display from "none" to "block",
+          * we trick VoiceOver to not make this row as the end of the table. We still need "hidden" to get the correct number of rows (childCount).
+          */
+        display: block;
+      }
+    }
+
+    td::before {
+      content: '';
+      position: absolute;
+      top: auto;
+      left: 0;
+      right: 0;
+      bottom: calc(var(--accordion-border-width) * -1);
+
+      pointer-events: none;
+
+      border-bottom: var(--accordion-border);
+    }
+
+    // because, when table has --outline
+    .dnb-table--outline &:last-of-type td::before {
+      border-bottom: none;
+    }
+
+    // because, when table has --border
+    .dnb-table--border & td::after {
+      border-top: none;
+    }
+
+    &__inner {
+      overflow: hidden;
+      will-change: height;
+      transition: height 400ms var(--accordion-easing);
+
+      &__spacing {
+        padding: 1rem;
+
+        transform: translateY(-10px);
+        transition: transform 500ms var(--accordion-easing);
+      }
+
+      position: relative;
+    }
+    &--parallax &__inner {
+      &__spacing {
+        transform: translateY(0);
+      }
+    }
+
+    > td,
+    > td.dnb-table__td {
+      padding: 0;
+
+      .dnb-dl,
+      .dnb-dl dt {
+        margin: 0;
+      }
+    }
+
+    &--expanded > td,
+    &--expanded > td.dnb-table__td {
+      background-color: var(--color-white);
+    }
+  }
+
+  &__tr__accordion_content#{&}__tr &__td {
+    background-color: var(--accordion-background);
+
+    /**
+      * Safari on iOS and macOS has problems on animating when vertical-align is baseline.
+      * What happens is that the td is not 0, even the content inside is 0. With vertical top, we omit that.
+      * But we do not need baseline in this tr > td, so we reset it.
+      */
+    vertical-align: top;
+  }
+
+  &__tr--has-accordion-content:not(&__tr--disabled) {
+    cursor: pointer;
+  }
+  // prevent selection while animating – useful when user double-clicks
+  // TODO: Our SASS version doe sot support :has – so we may use this in future
+  // &__tr--has-accordion-content:has(& + &__tr__accordion_content--animating) {
+  //   user-select: none;
+  // }
+
+  &__td-wrapper {
+    display: flex;
+  }
+}

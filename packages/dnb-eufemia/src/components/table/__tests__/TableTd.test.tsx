@@ -1,6 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import TableTd from '../TableTd'
+import TableAccordionContent from '../TableAccordionContent'
 
 describe('TableTd', () => {
   it('should contain children content', () => {
@@ -104,5 +105,9 @@ describe('TableTd', () => {
     expect(Array.from(element.classList)).toContain(
       'dnb-table__td--spacing-horizontal'
     )
+  })
+
+  it('should have Td.AccordionContent', () => {
+    expect(TableTd.AccordionContent).toBe(TableAccordionContent)
   })
 })
