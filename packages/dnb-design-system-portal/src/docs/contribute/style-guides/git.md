@@ -15,14 +15,14 @@ Version numbers are handled automatically by using [semantic-release](https://gi
 
 Make sure to decorate your **commit messages** with either [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/#summary) or [simple-commit-message](https://github.com/bahmutov/simple-commit-message):
 
-- `fix: an example fix message`
-- `feat: this is a new feature`
-- `BREAKING CHANGE (must be in the footer of the commit)`
+- `fix: an example fix message` as the subject
+- `feat: this is a new feature` as the subject
+- `BREAKING CHANGE:` in the footer of the commit, the subject does not really matter. See example below.
 
-If you are working on a single component update, you can use
+If you are working on a single component update, you can use a decoration and a scope in parenthesis:
 
-- `fix(ExampleComponent): an example fix message` or
-- `feat(ExampleComponent): this is a new feature`.
+- `fix(ExampleComponent): an example fix message`
+- `feat(ExampleComponent): this is a new feature`
 
 You can also use the following decorators – but keep in mind, they won't be included in the [releases change log](https://github.com/dnbexperience/eufemia/releases):
 
@@ -34,6 +34,26 @@ You can also use the following decorators – but keep in mind, they won't be in
 - `refactor:`
 - `perf:`
 - `test:`
+
+Example of a breaking change commit message:
+
+```text
+commit subject with optional decorator
+
+Body with text
+Several lines
+
+BREAKING CHANGE:
+
+Subject (will be a list item):
+
+Markdown text over several lines.
+
+Additional text such as:
+
+1. List item
+2. List item
+```
 
 ### Ignore CI run
 
