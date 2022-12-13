@@ -21,64 +21,96 @@ import Th from '@dnb/eufemia/src/components/table/TableTh'
 import Td from '@dnb/eufemia/src/components/table/TableTd'
 import Tr from '@dnb/eufemia/src/components/table/TableTr'
 import TableContainer from '@dnb/eufemia/src/components/table/TableContainer'
+import useHandleSortState from '@dnb/eufemia/src/components/table/useHandleSortState'
 
 export const TableVariantBasic = () => (
-  <ComponentBox hideCode data-visual-test="table-default">
-    <Table.ScrollView>
-      <Table>
-        <caption className="dnb-sr-only">A Table Caption</caption>
-        <thead>
-          <Tr>
-            <Th>Column</Th>
-            <Th>
-              <Th.Horizontal>
-                Help Button
-                <Th.HelpButton>Help Content</Th.HelpButton>
-              </Th.Horizontal>
-            </Th>
-            <Th sortable active>
-              <Th.SortButton
-                text="Sortable Active"
-                title="Sort table column"
-              />
-            </Th>
-            <Th sortable reversed align="right">
-              <Th.SortButton text="Sortable" title="Sort table column" />
-            </Th>
-          </Tr>
-        </thead>
-        <tbody>
-          <Tr>
-            <Td>Row 1</Td>
-            <Td>Row 1</Td>
-            <Td>Row 1</Td>
-            <Td align="right">Row 1</Td>
-          </Tr>
-          <Tr>
-            <Td>Row 2</Td>
-            <Td>Row 2</Td>
-            <Td>Row 2</Td>
-            <Td align="right">Row 2</Td>
-          </Tr>
-          <Tr>
-            <Td>
-              <P>Row 3 with paragraph</P>
-            </Td>
-            <Td>
-              Row 3 with <Code>code</Code>
-            </Td>
-            <Td>
-              <P>
-                Row 3 with <b>medium paragraph</b>
-              </P>
-            </Td>
-            <Td align="right">
-              Row 3 with <b>medium text</b>
-            </Td>
-          </Tr>
-        </tbody>
-      </Table>
-    </Table.ScrollView>
+  <ComponentBox
+    hideCode
+    data-visual-test="table-default"
+    scope={{ useHandleSortState }}
+  >
+    {() => {
+      const BasicTable = () => {
+        const { sortState, sortHandler } = useHandleSortState({
+          one: { active: true },
+          two: { direction: 'desc', modes: ['asc', 'desc'] },
+        })
+
+        return (
+          <Table.ScrollView>
+            <Table>
+              <caption className="dnb-sr-only">A Table Caption</caption>
+              <thead>
+                <Tr>
+                  <Th>Column</Th>
+                  <Th>
+                    <Th.Horizontal>
+                      Help Button
+                      <Th.HelpButton>Help Content</Th.HelpButton>
+                    </Th.Horizontal>
+                  </Th>
+                  <Th
+                    sortable
+                    active={sortState.one.active}
+                    reversed={sortState.one.reversed}
+                  >
+                    <Th.SortButton
+                      text="Sortable Active"
+                      title="Sort table column"
+                      on_click={sortHandler.one}
+                    />
+                  </Th>
+                  <Th
+                    sortable
+                    active={sortState.two.active}
+                    reversed={sortState.two.reversed}
+                    align="right"
+                  >
+                    <Th.SortButton
+                      text="Sortable"
+                      title="Sort table column"
+                      on_click={sortHandler.two}
+                    />
+                  </Th>
+                </Tr>
+              </thead>
+              <tbody>
+                <Tr>
+                  <Td>Row 1</Td>
+                  <Td>Row 1</Td>
+                  <Td>Row 1</Td>
+                  <Td align="right">Row 1</Td>
+                </Tr>
+                <Tr>
+                  <Td>Row 2</Td>
+                  <Td>Row 2</Td>
+                  <Td>Row 2</Td>
+                  <Td align="right">Row 2</Td>
+                </Tr>
+                <Tr>
+                  <Td>
+                    <P>Row 3 with paragraph</P>
+                  </Td>
+                  <Td>
+                    Row 3 with <Code>code</Code>
+                  </Td>
+                  <Td>
+                    <P>
+                      Row 3 with <b>medium paragraph</b>
+                    </P>
+                  </Td>
+                  <Td align="right">
+                    Row 3 with <b>medium text</b>
+                  </Td>
+                </Tr>
+              </tbody>
+            </Table>
+          </Table.ScrollView>
+        )
+      }
+
+      return <BasicTable />
+    }}
   </ComponentBox>
 )
 
@@ -588,12 +620,10 @@ export const TableAccordion = () => (
 
             <thead>
               <Tr>
-                <Th scope="col">Column A</Th>
-                <Th scope="col">Column B</Th>
-                <Th scope="col">Column C</Th>
-                <Th scope="col" align="right">
-                  Column D
-                </Th>
+                <Th>Column A</Th>
+                <Th>Column B</Th>
+                <Th>Column C</Th>
+                <Th align="right">Column D</Th>
               </Tr>
             </thead>
 

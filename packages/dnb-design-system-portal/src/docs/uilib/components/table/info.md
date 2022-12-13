@@ -63,3 +63,49 @@ Method no. 2 should be used when a `max-height` is set to the wrapping `Table.Sc
 ```
 
 Have a [look at this example](/uilib/components/table/demos/#table-with-a-max-height).
+
+## Sortable table
+
+Optionally, make use of the following React Hook to handle sort directions together with `Th.SortButton`.
+
+By default, it will cycle trough three stages `['asc', 'desc', 'off']`.
+
+```jsx
+import { useHandleSortState } from '@dnb/eufemia/components/table'
+
+// You can also provide a default that will be used as the fallback e.g.
+const defaultOptions = { modes: ['asc', 'desc'] }
+
+export const YourComponent = () => {
+  const { sortState, sortHandler } = useHandleSortState(
+    {
+      one: { active: true }, // will cycle only through three modes, including "off"
+      two: { direction: 'desc', modes: ['asc', 'desc'] }, // will cycle only through "asc" or "desc"
+      three: { modes: ['asc'] }, // will always be "asc"
+    },
+    defaultOptions
+  )
+
+  console.log(sortState.one.direction) // returns either "asc", "desc" or "off"
+
+  return (
+    <Table>
+      <thead>
+        <Tr>
+          <Th
+            sortable
+            active={sortState.one.active}
+            reversed={sortState.one.reversed}
+          >
+            <Th.SortButton
+              text="Column 1"
+              title="Sort this column"
+              on_click={sortHandler.one}
+            />
+          </Th>
+        </Tr>
+      </thead>
+    </Table>
+  )
+}
+```

@@ -16,6 +16,7 @@ import TableContainer from '../TableContainer'
 import { H2, P, Anchor, Dl, Lead } from '../../../elements'
 import { Button, ToggleButton, NumberFormat, Avatar } from '../../'
 import shopping_cart from '../../../icons/shopping_cart'
+import { useHandleSortState } from '../'
 
 export default {
   title: 'Eufemia/Components/Table',
@@ -34,13 +35,13 @@ export const StickyBasicTable = () => {
       <caption className="dnb-sr-only">A Table Caption</caption>
       <thead>
         <Tr>
-          <Th scope="col" colSpan={2}>
+          <Th colSpan={2}>
             Header <Th.HelpButton>Help content</Th.HelpButton>
           </Th>
-          <Th scope="col" reversed sortable>
+          <Th reversed sortable>
             <Th.SortButton text="Sortable" title="Sort table column" />
           </Th>
-          <Th scope="col" active sortable>
+          <Th active sortable>
             <Th.SortButton text="Active" title="Sort table column" />
           </Th>
         </Tr>
@@ -135,15 +136,15 @@ export const ContainerTable = () => {
           <caption className="dnb-sr-only">Table One</caption>
           <thead>
             <Tr noWrap>
-              <Th scope="col">
+              <Th>
                 I have a superscript{' '}
                 <sup>
                   <Anchor href="#unique-ref-id">1</Anchor>
                 </sup>
               </Th>
-              <Th scope="col">Column 2</Th>
-              <Th scope="col">Column 3</Th>
-              <Th scope="col">Column 4</Th>
+              <Th>Column 2</Th>
+              <Th>Column 3</Th>
+              <Th>Column 4</Th>
             </Tr>
           </thead>
           <tbody>
@@ -195,10 +196,10 @@ export const ContainerTable = () => {
           <caption className="dnb-sr-only">Table Two</caption>
           <thead>
             <Tr noWrap>
-              <Th scope="col">Column 1</Th>
-              <Th scope="col">Column 2</Th>
-              <Th scope="col">Column 3</Th>
-              <Th scope="col">Column 4</Th>
+              <Th>Column 1</Th>
+              <Th>Column 2</Th>
+              <Th>Column 3</Th>
+              <Th>Column 4</Th>
             </Tr>
           </thead>
           <tbody>
@@ -280,22 +281,11 @@ export const ContainerTable = () => {
 }
 
 export const BasicTable = () => {
-  const [activeCol, setActiveCol] = React.useState('col1')
-  const [directionCol1, setSortDirectionCol1] = React.useState(false)
-  const [directionCol2, setSortDirectionCol2] = React.useState(false)
-  const [directionCol3, setSortDirectionCol3] = React.useState(false)
-  const sortCol1 = () => {
-    setActiveCol('col1')
-    setSortDirectionCol1((s) => !s)
-  }
-  const sortCol2 = () => {
-    setActiveCol('col2')
-    setSortDirectionCol2((s) => !s)
-  }
-  const sortCol3 = () => {
-    setActiveCol('col3')
-    setSortDirectionCol3((s) => !s)
-  }
+  const { sortState, sortHandler } = useHandleSortState({
+    one: { active: true, direction: 'desc' },
+    two: { modes: ['asc', 'off'] },
+    three: { modes: ['asc'] },
+  })
 
   return (
     <Table top>
@@ -303,38 +293,35 @@ export const BasicTable = () => {
       <thead>
         <Tr>
           <Th
-            scope="col"
             sortable
-            reversed={directionCol1}
-            active={activeCol === 'col1'}
+            reversed={sortState.one.reversed}
+            active={sortState.one.active}
           >
             <Th.SortButton
-              on_click={sortCol1}
+              on_click={sortHandler.one}
               text="Column 1"
               title="Sort table column"
             />
           </Th>
           <Th
-            scope="col"
             sortable
-            reversed={directionCol2}
-            active={activeCol === 'col2'}
+            reversed={sortState.two.reversed}
+            active={sortState.two.active}
           >
             <Th.SortButton
-              on_click={sortCol2}
+              on_click={sortHandler.two}
               text="Column 2"
               title="Sort table column"
             />
           </Th>
           <Th
-            scope="col"
             align="right"
             sortable
-            reversed={directionCol3}
-            active={activeCol === 'col3'}
+            reversed={sortState.three.reversed}
+            active={sortState.three.active}
           >
             <Th.SortButton
-              on_click={sortCol3}
+              on_click={sortHandler.three}
               text="Column 3"
               title="Sort table column"
             />
@@ -532,26 +519,25 @@ const TableContent = () => {
       <thead>
         <Tr>
           <Th
-            scope="col"
             // colSpan={2}
             sortable
             active
           >
             <HeaderSortButton>Fond</HeaderSortButton>
           </Th>
-          <Th scope="col" sortable reversed>
+          <Th sortable reversed>
             <HeaderSortButton>1 år</HeaderSortButton>
           </Th>
-          <Th scope="col" sortable>
+          <Th sortable>
             <HeaderSortButton>Kostnad</HeaderSortButton>
           </Th>
-          <Th scope="col" sortable>
+          <Th sortable>
             <HeaderSortButton>Kostnad</HeaderSortButton>
           </Th>
-          <Th scope="col" sortable>
+          <Th sortable>
             <HeaderSortButton>Morningstar</HeaderSortButton>
           </Th>
-          <Th scope="col" sortable align="right">
+          <Th sortable align="right">
             <HeaderSortButton>Handlekurv</HeaderSortButton>
           </Th>
         </Tr>
