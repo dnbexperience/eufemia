@@ -38,6 +38,6 @@ Read more in the [First Steps](/uilib/usage/first-steps/) section.
 
 ## Supported Browsers and Platforms
 
-| IE                   | Edge                 | Firefox              | Chrome               | Safari               | Node                 |
-| -------------------- | -------------------- | -------------------- | -------------------- | -------------------- | -------------------- |
-| <small>==</small> 11 | <small>>=</small> 14 | <small>>=</small> 45 | <small>>=</small> 49 | <small>>=</small> 10 | <small>>=</small> 10 |
+| Edge                 | Firefox              | Chrome               | Safari               | Node                 |
+| -------------------- | -------------------- | -------------------- | -------------------- | -------------------- |
+| <small>>=</small> 14 | <small>>=</small> 45 | <small>>=</small> 49 | <small>>=</small> 10 | <small>>=</small> 10 |

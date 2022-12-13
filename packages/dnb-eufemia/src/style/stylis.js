@@ -6,13 +6,12 @@
 
 import { matchAll } from '../shared/component-helper'
 import properties from './properties'
-import { IS_IE11 } from '../shared/helpers'
 
 const findRegExp = /var\(([^)]*)\)/g
 
 const stylisPlugin = (context, content, props = null) => {
   // Only use the property context
-  if (context !== 1 || (props === null && !IS_IE11)) {
+  if (context !== 1 || props === null) {
     return false
   }
 

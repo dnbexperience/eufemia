@@ -212,17 +212,11 @@ exports[`Textarea scss have to match default theme snapshot 1`] = `
   --border-color: var(--color-fire-red);
   box-shadow: 0 0 0 0.0625rem var(--border-color);
   border-color: transparent; }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled) ~ .dnb-textarea__state {
-      box-shadow: 0 0 0 0.0625rem var(--color-fire-red); } }
 
 .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):hover ~ .dnb-textarea__state {
   --border-color: var(--color-fire-red);
   box-shadow: 0 0 0 0.125rem var(--border-color);
   border-color: transparent; }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):hover ~ .dnb-textarea__state {
-      box-shadow: 0 0 0 0.125rem var(--color-fire-red); } }
 
 .dnb-textarea--has-content .dnb-textarea__textarea ~ .dnb-textarea__placeholder,
 .dnb-textarea--focus .dnb-textarea__textarea:not([disabled]):not([readonly]) ~ .dnb-textarea__placeholder {
@@ -323,9 +317,6 @@ exports[`Textarea scss have to match snapshot 1`] = `
     cursor: pointer; }
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-form-label {
-      max-width: 60vw; } }
 
 legend.dnb-form-label {
   display: inline-block; }
@@ -440,9 +431,6 @@ legend.dnb-form-label {
   .dnb-form-status--no-animation,
   html[data-visual-test] .dnb-form-status {
     transition-duration: 1ms !important; }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-form-status__shell > .dnb-icon {
-      border-width: 1px; } }
 
 .dnb-textarea {
   font-family: var(--font-family-default);
@@ -552,17 +540,11 @@ legend.dnb-form-label {
   --border-color: var(--color-fire-red);
   box-shadow: 0 0 0 0.0625rem var(--border-color);
   border-color: transparent; }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled) ~ .dnb-textarea__state {
-      box-shadow: 0 0 0 0.0625rem var(--color-fire-red); } }
 
 .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):hover ~ .dnb-textarea__state {
   --border-color: var(--color-fire-red);
   box-shadow: 0 0 0 0.125rem var(--border-color);
   border-color: transparent; }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):hover ~ .dnb-textarea__state {
-      box-shadow: 0 0 0 0.125rem var(--color-fire-red); } }
 
 .dnb-textarea--has-content .dnb-textarea__textarea ~ .dnb-textarea__placeholder,
 .dnb-textarea--focus .dnb-textarea__textarea:not([disabled]):not([readonly]) ~ .dnb-textarea__placeholder {
@@ -683,11 +665,5 @@ legend.dnb-form-label {
   .dnb-textarea.dnb-skeleton .dnb-textarea__state,
   .dnb-textarea.dnb-skeleton .dnb-textarea__textarea {
     visibility: hidden; }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-textarea__inner {
-      margin: 0; }
-    .dnb-form-row--horizontal .dnb-textarea,
-    .dnb-textarea--vertical .dnb-textarea__inner, .dnb-textarea:not(.dnb-textarea--stretch) {
-      flex: none; } }
 "
 `;

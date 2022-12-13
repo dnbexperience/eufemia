@@ -20,7 +20,6 @@ import {
   copyToClipboard,
   IS_MAC,
   IS_WIN,
-  IS_IE11,
   IS_SAFARI,
 } from '../../shared/helpers'
 
@@ -234,14 +233,6 @@ export const format = (
       currencyDisplay: 'name',
     })
     aria = enhanceSR(cleanedNumber, aria, locale) // also calls prepareMinus
-
-    // IE has a bug, where negative numbers has a parenthesis around the number
-    if (IS_IE11) {
-      display = String(display).replace(/^\((.*)\)$/, '-$1')
-      aria = String(aria).replace(/^\((.*)\)$/, '-$1')
-      display = prepareMinus(display, locale)
-      aria = prepareMinus(aria, locale)
-    }
 
     // get only the currency name
     // const num = aria.replace(/([^0-9])+$/g, '')
@@ -981,7 +972,6 @@ export function getFallbackCurrencyDisplay(
     !currency_display &&
     // Safari does not support `narrowSymbol` for now, so `symbol` will be used then.
     !IS_SAFARI &&
-    !IS_IE11 &&
     (!locale || /(no|nb|nn)$/i.test(locale))
   ) {
     currency_display = 'narrowSymbol'
@@ -1218,10 +1208,6 @@ function handleCompactBeforeAria({ value, compact, opts }) {
  * @property {string|boolean} compact "short" or "long" if true is given, "short" is used
  */
 function canHandleCompact({ value, compact }) {
-  if (IS_IE11) {
-    return false
-  }
-
   if (compact && Math.abs(value) >= 1000) {
     return true
   }

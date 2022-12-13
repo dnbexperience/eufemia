@@ -845,18 +845,12 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
         --border-color: var(--color-emerald-green);
         box-shadow: 0 0 0 0.125rem var(--border-color);
         border-color: transparent; }
-        @media screen and (-ms-high-contrast: none) {
-          html[data-whatinput='keyboard'] .dnb-drawer-list__options:focus {
-            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
     .dnb-drawer-list__options--focusring {
       outline: none; }
       html[data-whatinput='mouse'] .dnb-drawer-list__options--focusring {
         --border-color: var(--color-emerald-green);
         box-shadow: 0 0 0 0.125rem var(--border-color);
         border-color: transparent; }
-        @media screen and (-ms-high-contrast: none) {
-          html[data-whatinput='mouse'] .dnb-drawer-list__options--focusring {
-            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
   @media screen and (max-width: 40em) {
     .dnb-drawer-list__portal .dnb-drawer-list--mobile-view .dnb-drawer-list__options {
       border-radius: 0; } }
@@ -905,9 +899,6 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
       --border-color: var(--color-emerald-green);
       box-shadow: 0 0 0 var(--drawer-list-focus-border-width) var(--border-color);
       border-color: transparent; }
-      @media screen and (-ms-high-contrast: none) {
-        .dnb-drawer-list__option--focus .dnb-drawer-list__option__inner::before {
-          box-shadow: 0 0 0 var(--drawer-list-focus-border-width) var(--color-emerald-green); } }
     .dnb-drawer-list__option--ignore .dnb-drawer-list__option__inner {
       color: var(--color-black-80);
       background-color: var(--color-white); }
@@ -957,10 +948,6 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
       --border-color: var(--color-mint-green);
       box-shadow: 0 0 0 var(--drawer-list-focus-border-width) var(--border-color);
       border-color: transparent; }
-      @media screen and (-ms-high-contrast: none) {
-        html[data-whatinput='keyboard']
-.dnb-drawer-list__option--selected.dnb-drawer-list__option--focus .dnb-drawer-list__option__inner::before {
-          box-shadow: 0 0 0 var(--drawer-list-focus-border-width) var(--color-mint-green); } }
     .dnb-drawer-list__option--focus:not(.dnb-drawer-list__option--selected) .dnb-drawer-list__option__inner {
       color: var(--color-sea-green);
       background-color: var(--color-mint-green-12); }
@@ -979,9 +966,6 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
         --border-color: var(--color-white);
         box-shadow: 0 0 0 0.125rem var(--border-color);
         border-color: transparent; }
-        @media screen and (-ms-high-contrast: none) {
-          html[data-whatinput='keyboard'] .dnb-drawer-list__option--selected .dnb-drawer-list__option__item .dnb-anchor:focus {
-            box-shadow: 0 0 0 0.125rem var(--color-white); } }
   .dnb-drawer-list--scroll .dnb-drawer-list__option:not(.dnb-drawer-list__option--focus) .dnb-drawer-list__option__inner::before {
     left: 0.5rem;
     right: 0.5rem; }
@@ -1367,14 +1351,6 @@ exports[`DrawerList scss have to match snapshot 1`] = `
       height: auto !important;
       width: 100vw !important;
       box-shadow: 0 -4px 4px rgba(0, 0, 0, 0.16); } }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-drawer-list {
-      flex: none;
-      vertical-align: baseline; }
-      .dnb-drawer-list__shell {
-        top: 0; }
-      .dnb-drawer-list__options {
-        display: block; } }
 
 @keyframes drawer-list-scale-in {
   from {

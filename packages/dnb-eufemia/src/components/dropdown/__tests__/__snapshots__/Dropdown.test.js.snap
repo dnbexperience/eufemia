@@ -1365,17 +1365,11 @@ html:not([data-whatintent='touch']) .dnb-dropdown__trigger:hover:not([disabled])
     --border-color: var(--color-black-55);
     box-shadow: 0 0 0 0.0625rem var(--border-color);
     border-color: transparent; }
-    @media screen and (-ms-high-contrast: none) {
-      .dnb-dropdown__trigger[disabled]:not(.dnb-button--tertiary) {
-        box-shadow: 0 0 0 0.0625rem var(--color-black-55); } }
 
 .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger {
   --border-color: var(--color-fire-red);
   box-shadow: 0 0 0 0.0625rem var(--border-color);
   border-color: transparent; }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger {
-      box-shadow: 0 0 0 0.0625rem var(--color-fire-red); } }
   html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover[disabled] {
     cursor: not-allowed; }
   html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
@@ -1383,9 +1377,6 @@ html:not([data-whatintent='touch']) .dnb-dropdown__trigger:hover:not([disabled])
     --border-color: var(--color-fire-red);
     box-shadow: 0 0 0 0.125rem var(--border-color);
     border-color: transparent; }
-    @media screen and (-ms-high-contrast: none) {
-      html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) {
-        box-shadow: 0 0 0 0.125rem var(--color-fire-red); } }
     html:not([data-whatintent='touch']) .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:hover:not([disabled]) .dnb-dropdown__icon .dnb-icon {
       color: var(--color-fire-red); }
   .dnb-dropdown__status--error:not(.dnb-dropdown--opened) .dnb-dropdown__trigger:active[disabled],
@@ -1489,9 +1480,6 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     color: var(--skeleton-color) !important; }
     .dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
       content: none !important; }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-icon {
-      flex: none; } }
 
 /*
 * DNB Button
@@ -1746,9 +1734,6 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   .dnb-form-status--no-animation,
   html[data-visual-test] .dnb-form-status {
     transition-duration: 1ms !important; }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-form-status__shell > .dnb-icon {
-      border-width: 1px; } }
 
 .dnb-button {
   font-family: var(--font-family-default);
@@ -1959,9 +1944,6 @@ exports[`Dropdown scss have to match snapshot 1`] = `
         --border-color: var(--color-emerald-green);
         box-shadow: 0 0 0 0.125rem var(--border-color);
         border-color: transparent; }
-        @media screen and (-ms-high-contrast: none) {
-          html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
-            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
       box-shadow: none;
@@ -1980,11 +1962,6 @@ exports[`Dropdown scss have to match snapshot 1`] = `
     white-space: nowrap; }
   .dnb-button + .dnb-form-status {
     margin-top: 0.5rem; }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-button {
-      flex: none; }
-      .dnb-button__icon, .dnb-button__text {
-        transform: translateY(-0.0625rem); } }
 
 /* Firefox includes a hidden border which messes up button dimensions */
 button.dnb-button::-moz-focus-inner {
@@ -2062,9 +2039,6 @@ button.dnb-button::-moz-focus-inner {
     cursor: pointer; }
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-form-label {
-      max-width: 60vw; } }
 
 legend.dnb-form-label {
   display: inline-block; }
@@ -2314,13 +2288,5 @@ legend.dnb-form-label {
         margin-bottom: 0.5rem; }
       .dnb-responsive-component .dnb-dropdown__helper {
         display: none; } }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-dropdown {
-      flex: none;
-      vertical-align: baseline; }
-      .dnb-dropdown__shell {
-        top: 0; }
-      .dnb-dropdown__options {
-        display: block; } }
 "
 `;

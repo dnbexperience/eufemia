@@ -212,8 +212,4 @@
   html[data-visual-test] & &__header &__header__icon {
     transition: none;
   }
-
-  // IE fix
-  // @media screen and (-ms-high-contrast: none) {
-  // }
 }

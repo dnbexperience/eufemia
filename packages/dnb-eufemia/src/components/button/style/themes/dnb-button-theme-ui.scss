@@ -36,7 +36,7 @@
       color: var(--color-white);
       background-color: var(--color-fire-red);
 
-      // @include fakeBorder(var(--color-fire-red), 0.0625rem, inset, true);
+      // @include fakeBorder(var(--color-fire-red), 0.0625rem, inset);
       // .dnb-button__icon {
       //   color: inherit;
       // }
@@ -47,7 +47,7 @@
     color: var(--color-sea-green);
     background-color: var(--color-white);
 
-    @include fakeBorder(var(--color-sea-green), 0.0625rem, inset, true);
+    @include fakeBorder(var(--color-sea-green), 0.0625rem, inset);
 
     @include buttonHover(var(--color-sea-green), var(--color-white));
     @include buttonFocus(var(--color-sea-green), var(--color-white));
@@ -63,19 +63,14 @@
       background-color: var(--color-white);
 
       // only because of href/anchor button
-      @include fakeBorder(
-        var(--color-sea-green-30),
-        0.0625rem,
-        inset,
-        true
-      );
+      @include fakeBorder(var(--color-sea-green-30), 0.0625rem, inset);
     }
   }
   &:not([disabled])#{&}--secondary#{&}__status {
     &--error {
       color: var(--color-fire-red);
 
-      @include fakeBorder(var(--color-fire-red), 0.0625rem, inset, true);
+      @include fakeBorder(var(--color-fire-red), 0.0625rem, inset);
       .dnb-button__icon {
         color: inherit;
       }

@@ -190,38 +190,4 @@
       transform: translateY(-0.5rem);
     }
   }
-
-  @include IS_IE {
-    &:not(#{&}--vertical) {
-      align-items: center;
-    }
-
-    &__shell {
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      margin: auto;
-    }
-
-    flex: none;
-
-    &-group {
-      &,
-      &__shell {
-        width: 100%;
-      }
-      flex: none;
-      .dnb-form-row__indent--default & {
-        flex: 1;
-      }
-    }
-
-    // .dnb-form-row--vertical &-group {
-    //   width: 100%;
-    //   &__shell {
-    //     width: 100%;
-    //   }
-    // }
-  }
 }

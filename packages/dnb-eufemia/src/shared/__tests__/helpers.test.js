@@ -16,7 +16,6 @@ import {
   getSelectedText,
   insertElementBeforeSelection,
   debounce,
-  isIE11,
   isEdge,
   isiOS,
   isSafari,
@@ -185,10 +184,6 @@ describe('platform', () => {
 })
 
 describe('user agent', () => {
-  it('"isIE11" should result in false (no function)', () => {
-    navigator.maxTouchPoints = 2
-    expect(isIE11()).toBe(false)
-  })
   it('"isEdge" should result in true', () => {
     userAgentGetter.mockReturnValue('Edge')
     expect(isEdge()).toBe(true)

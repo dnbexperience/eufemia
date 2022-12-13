@@ -125,11 +125,6 @@ exports[`Section scss have to match default theme snapshot 1`] = `
       --border-color: var(--color-white);
       box-shadow: 0 0 0 0.125rem var(--border-color);
       border-color: transparent; }
-      @media screen and (-ms-high-contrast: none) {
-        html[data-whatinput='keyboard'] .dnb-section--fire-red .dnb-anchor:not(:disabled):focus, html[data-whatinput='keyboard']
-        .dnb-section--emerald-green .dnb-anchor:not(:disabled):focus, html[data-whatinput='keyboard']
-        .dnb-section--sea-green .dnb-anchor:not(:disabled):focus {
-          box-shadow: 0 0 0 0.125rem var(--color-white); } }
 
 .dnb-section--fire-red .dnb-button--tertiary,
 .dnb-section--emerald-green .dnb-button--tertiary,
@@ -157,11 +152,6 @@ exports[`Section scss have to match default theme snapshot 1`] = `
         --border-color: var(--color-white);
         box-shadow: 0 0 0 0.125rem var(--border-color);
         border-color: transparent; }
-        @media screen and (-ms-high-contrast: none) {
-          html[data-whatinput='keyboard'] .dnb-section--fire-red .dnb-button--tertiary:focus::before, html[data-whatinput='keyboard']
-          .dnb-section--emerald-green .dnb-button--tertiary:focus::before, html[data-whatinput='keyboard']
-          .dnb-section--sea-green .dnb-button--tertiary:focus::before {
-            box-shadow: 0 0 0 0.125rem var(--color-white); } }
 
 .dnb-section--signal-orange {
   color: var(--color-ocean-green); }

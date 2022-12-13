@@ -7,8 +7,6 @@ title: 'Polyfill'
 
 By using Eufemia properties, like [color names](/uilib/usage/customisation/colors) and [typography properties](/uilib/typography), instead of defining colors and typography directly as hard coded values, you make your code much more readable and future proof in terms of refactoring and new enhancements. [Maintainability](/uilib/getting-started/maintainability) is important. But it fits also better in thinking of the [Living system](/uilib/getting-started/living-system) terms.
 
-But as long as we have to support legacy browsers like [Internet Explorer](!/uilib/usage#supported-browsers-and-platforms) we have to deal with a fallback or polyfill.
-
 ## Post CSS
 
 Use [postcss-preset-env](https://github.com/csstools/postcss-preset-env). Example [webpack](https://webpack.js.org) loader config:
@@ -22,7 +20,7 @@ Use [postcss-preset-env](https://github.com/csstools/postcss-preset-env). Exampl
       postcssPresetEnv({
         stage: 0,
         preserve: true,
-        browsers: ['last 2 versions', 'explorer >= 11'],
+        browsers: ['last 2 versions', 'not ie > 0', 'not ie_mob > 0'],
         importFrom: [require.resolve('@dnb/eufemia/style/dnb-ui-properties.css')]
       })
     ]

@@ -1437,9 +1437,6 @@ exports[`Modal scss have to match snapshot 1`] = `
     color: var(--skeleton-color) !important; }
     .dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
       content: none !important; }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-icon {
-      flex: none; } }
 
 /*
 * DNB Tooltip
@@ -1690,9 +1687,6 @@ exports[`Modal scss have to match snapshot 1`] = `
   .dnb-form-status--no-animation,
   html[data-visual-test] .dnb-form-status {
     transition-duration: 1ms !important; }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-form-status__shell > .dnb-icon {
-      border-width: 1px; } }
 
 .dnb-button {
   font-family: var(--font-family-default);
@@ -1903,9 +1897,6 @@ exports[`Modal scss have to match snapshot 1`] = `
         --border-color: var(--color-emerald-green);
         box-shadow: 0 0 0 0.125rem var(--border-color);
         border-color: transparent; }
-        @media screen and (-ms-high-contrast: none) {
-          html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
-            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
     html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
       box-shadow: none;
@@ -1924,11 +1915,6 @@ exports[`Modal scss have to match snapshot 1`] = `
     white-space: nowrap; }
   .dnb-button + .dnb-form-status {
     margin-top: 0.5rem; }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-button {
-      flex: none; }
-      .dnb-button__icon, .dnb-button__text {
-        transform: translateY(-0.0625rem); } }
 
 /* Firefox includes a hidden border which messes up button dimensions */
 button.dnb-button::-moz-focus-inner {
@@ -2531,12 +2517,6 @@ html[data-dnb-modal-active] {
     display: flex;
     flex-direction: row;
     justify-content: space-between; }
-    @media screen and (-ms-high-contrast: none) {
-      .dnb-modal__header__bar.dnb-section {
-        align-items: center; } }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-core-style .dnb-modal__header__bar__close {
-      margin-left: auto; } }
 
 [data-visual-test].hide-page-content #___gatsby {
   opacity: 0; }

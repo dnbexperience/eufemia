@@ -5,7 +5,7 @@ This plugin is a easy to use drop-in solution to load different DNB Eufemia Them
 ## Features
 
 - The current theme used is stored in the Browsers localStorage under the key `dnb-theme`
-- You can define a theme in the URL (not IE11 supported): `https://eufemia.dnb.no/?dnb-theme=ui`
+- You can define a theme in the URL: `https://eufemia.dnb.no/?dnb-theme=ui`
 - Automatically splits theme styles into separate Webpack chunks, not matter if you have imported them already in your app or not
 - Supports both build an dev mode with fast refresh and hot module replacement
 - Loads only one theme package at a time. When the user switches to another theme, a new CSS theme file will be downloaded.

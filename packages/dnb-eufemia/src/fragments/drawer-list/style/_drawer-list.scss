@@ -470,19 +470,6 @@
       box-shadow: 0 -4px 4px rgba(0, 0, 0, 0.16);
     }
   }
-
-  @include IS_IE {
-    flex: none;
-    vertical-align: baseline;
-
-    &__shell {
-      top: 0;
-    }
-    &__options {
-      // IE has bug where the height can't be calculated property
-      display: block;
-    }
-  }
 }
 
 @keyframes drawer-list-scale-in {

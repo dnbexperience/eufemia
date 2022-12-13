@@ -195,9 +195,6 @@ exports[`FormRow scss have to match snapshot 1`] = `
     cursor: pointer; }
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-form-label {
-      max-width: 60vw; } }
 
 legend.dnb-form-label {
   display: inline-block; }
@@ -296,9 +293,6 @@ legend.dnb-form-label {
       margin-top: calc(-3rem + var(--form-bounding-height)); }
     .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content--xx-large {
       margin-top: calc(-3.5rem + var(--form-bounding-height)); } }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content {
-      margin-top: 0; } }
   @media screen and (max-width: 40em) {
     .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content {
       margin-top: 0.5rem !important; } }
@@ -352,10 +346,5 @@ legend.dnb-form-label {
     padding: 0;
     border: none;
     width: 100%; }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-form-row {
-      align-items: flex-start; }
-      .dnb-form-row__content {
-        flex: auto; } }
 "
 `;

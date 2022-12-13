@@ -93,10 +93,6 @@
           }
         }
 
-        @include IS_IE {
-          margin-top: 0;
-        }
-
         // if mobile
         @media screen and (max-width: 40em) {
           // use important, sice we want to overwrite the inline style "marginTop" set by "setLabelOffset"
@@ -203,14 +199,6 @@
     padding: 0;
     border: none;
 
-    // to make sure things are wraping in IE
     width: 100%;
-  }
-
-  @include IS_IE {
-    align-items: flex-start;
-    &__content {
-      flex: auto;
-    }
   }
 }
