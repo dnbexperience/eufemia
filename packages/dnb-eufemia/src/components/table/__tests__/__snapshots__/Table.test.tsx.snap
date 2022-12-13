@@ -796,6 +796,8 @@ thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus
           * we trick VoiceOver to not make this row as the end of the table. We still need "hidden" to get the correct number of rows (childCount).
           */
       display: block; } }
+  .dnb-table__tr__accordion_content td {
+    width: 100%; }
   .dnb-table__tr__accordion_content td::before {
     content: '';
     position: absolute;
