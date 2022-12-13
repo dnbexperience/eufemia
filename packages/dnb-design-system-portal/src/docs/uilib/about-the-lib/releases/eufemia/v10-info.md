@@ -1,12 +1,17 @@
----
-draft: true
----
-
 # v10
 
-- [Migration](#migration)
-- [Changes](#changes)
-- [Feature](#features)
+- [v10](#v10)
+  - [Migration](#migration)
+    - [StepIndicator](#stepindicator)
+    - [Table](#table)
+    - [Slider](#slider)
+    - [Timeline](#timeline)
+    - [Anchor](#anchor)
+    - [Tooltip](#tooltip)
+    - [Icon](#icon)
+    - [Lists](#lists)
+    - [Deprecations](#deprecations)
+  - [Install](#install)
 
 ## Migration
 
@@ -79,4 +84,4 @@ $ npm i @dnb/eufemia@10
 $ yarn add @dnb/eufemia@10
 ```
 
-_June, 1. 2022_
+_December, 24. 2022_
