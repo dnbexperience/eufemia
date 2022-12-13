@@ -6,6 +6,7 @@ import Td from '../TableTd'
 import Th from '../TableTh'
 import nbNO from '../../../shared/locales/nb-NO'
 import enGB from '../../../shared/locales/en-GB'
+import Provider from '../../../shared/Provider'
 
 const nb = nbNO['nb-NO'].Table
 const en = enGB['en-GB'].Table
@@ -464,6 +465,76 @@ describe('TableAccordion', () => {
 
     const divElement = trElement.querySelector('div')
     expect(divElement).toBeTruthy()
+  })
+
+  it('chevron header column should contain accordionToggleButtonSR text', () => {
+    render(
+      <Table accordion>
+        <thead>
+          <Tr>
+            <Th>heading</Th>
+          </Tr>
+        </thead>
+      </Table>
+    )
+
+    const thElement = document.querySelector('thead tr th')
+    expect(Array.from(thElement.classList)).toContain(
+      'dnb-table__th__accordion-icon'
+    )
+
+    expect(thElement.textContent).toBe(nb.accordionToggleButtonSR)
+  })
+
+  it('should support locale from prop and provider', () => {
+    const content = (
+      <thead>
+        <Tr>
+          <Th>heading</Th>
+        </Tr>
+      </thead>
+    )
+
+    const { rerender } = render(
+      <Provider>
+        <Table accordion>{content}</Table>
+      </Provider>
+    )
+
+    const thElement = document.querySelector('thead tr th')
+    expect(Array.from(thElement.classList)).toContain(
+      'dnb-table__th__accordion-icon'
+    )
+
+    expect(thElement.textContent).toBe(nb.accordionToggleButtonSR)
+
+    rerender(
+      <Provider>
+        <Table accordion locale="en-GB">
+          {content}
+        </Table>
+      </Provider>
+    )
+
+    expect(thElement.textContent).toBe(en.accordionToggleButtonSR)
+
+    rerender(
+      <Provider locale="nb-NO">
+        <Table accordion>{content}</Table>
+      </Provider>
+    )
+
+    expect(thElement.textContent).toBe(nb.accordionToggleButtonSR)
+
+    rerender(
+      <Provider>
+        <Table accordion lang="en-GB">
+          {content}
+        </Table>
+      </Provider>
+    )
+
+    expect(thElement.textContent).toBe(en.accordionToggleButtonSR)
   })
 
   it('tr should open with enter or space key on tr', () => {

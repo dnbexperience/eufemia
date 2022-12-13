@@ -14,7 +14,7 @@ import { useStickyHeader, StickyHelper } from './TableStickyHeader'
 
 import type { StickyTableHeaderProps } from './TableStickyHeader'
 import type { SkeletonShow } from '../skeleton/Skeleton'
-import type { SpacingProps } from '../../shared/types'
+import type { LocaleProps, SpacingProps } from '../../shared/types'
 import { useHandleOddEven } from './TableTr'
 
 export type TableSizes = 'large' | 'medium' | 'small'
@@ -82,6 +82,7 @@ export type TableProps = {
 
 export type TableAllProps = TableProps &
   React.TableHTMLAttributes<HTMLTableElement> &
+  LocaleProps &
   SpacingProps
 
 export const defaultProps = {
@@ -132,8 +133,8 @@ const Table = (componentProps: TableAllProps) => {
           trCountRef,
           rerenderAlias,
           allProps: {
-            ...context.getTranslation(componentProps).Table,
             ...allProps,
+            ...context.getTranslation(componentProps).Table,
           },
         }}
       >
