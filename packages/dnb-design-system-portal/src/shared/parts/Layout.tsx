@@ -4,11 +4,10 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Link } from 'gatsby'
 import classnames from 'classnames'
 import StickyMenuBar from '../menu/StickyMenuBar'
-import packageJson from '../../../package.json'
+import packageJson from '../../../package.json' // needs resolveJsonModule in tsconfig
 import {
   SidebarMenuProvider,
   SidebarMenuContext,
@@ -47,38 +46,31 @@ export function scrollToAnimation() {
   })
 }
 
-class Layout extends React.PureComponent {
-  static propTypes = {
-    fullscreen: PropTypes.bool,
-    hideSidebar: PropTypes.bool,
-    children: PropTypes.node.isRequired,
-    location: PropTypes.object.isRequired,
-  }
+type LayoutProps = {
+  fullscreen?: boolean
+  hideSidebar?: boolean
+  children: React.ReactNode
+  location: Location
+}
 
-  static defaultProps = {
-    fullscreen: false,
-    hideSidebar: false,
-  }
+function Layout(props: LayoutProps) {
+  const mainRef = React.useRef<HTMLElement>()
 
-  constructor(props) {
-    super(props)
-    this._mainRef = React.createRef()
-    this.state = { fullscreen: props.fullscreen }
-  }
+  const { fullscreen, location, hideSidebar, children } = props
 
-  componentDidMount() {
+  React.useEffect(() => {
     // gets applied on "onRouteUpdate"
     setPageFocusElement('.dnb-app-content h1:nth-of-type(1)', 'content')
 
     scrollToAnimation()
-  }
+  }, [])
 
-  skipToContentHandler = (event) => {
+  const skipToContentHandler = (event) => {
     // because we want to avoid that the hash get's set (#dnb-app-content)
     // we prevent the default and set it manually. The DOM elements have tabIndex="-1" and className="dnb-no-focus" in place
     try {
       event.preventDefault()
-      const elem = this._mainRef.current
+      const elem = mainRef.current
       elem.setAttribute('tabindex', '-1')
       elem.focus()
       elem.removeAttribute('tabindex') // don't keep tabindex arround, Chrome fucks up the selection / focus feature
@@ -87,8 +79,7 @@ class Layout extends React.PureComponent {
     }
   }
 
-  isFullscreen() {
-    const { fullscreen, location } = this.props
+  const isFullscreen = () => {
     return (
       fullscreen ||
       (typeof location !== 'undefined' &&
@@ -96,52 +87,56 @@ class Layout extends React.PureComponent {
     )
   }
 
-  render() {
-    const { children, location, hideSidebar } = this.props
+  const fs = fullscreen || isFullscreen()
 
-    const fs = this.state.fullscreen || this.isFullscreen()
+  return (
+    <div className={classnames(portalStyle, fs && fullscreenStyle)}>
+      <a
+        className="dnb-skip-link"
+        href="#dnb-app-content"
+        onClick={skipToContentHandler}
+      >
+        Skip to content
+      </a>
 
-    return (
-      <div className={classnames(portalStyle, fs && fullscreenStyle)}>
-        <a
-          className="dnb-skip-link"
-          href="#dnb-app-content"
-          onClick={this.skipToContentHandler}
-        >
-          Skip to content
-        </a>
+      <SidebarMenuProvider>
+        {!fs && <StickyMenuBar />}
 
-        <SidebarMenuProvider>
-          {!fs && <StickyMenuBar />}
+        <div className={wrapperStyle}>
+          {!fs && !hideSidebar && (
+            <Sidebar location={location} showAll={false} />
+          )}
 
-          <div className={wrapperStyle}>
-            {!fs && !hideSidebar && (
-              <Sidebar location={location} showAll={false} />
-            )}
+          <Content key="content" fullscreen={fs}>
+            <MainContent key="main" mainRef={mainRef}>
+              <GlobalStatus id="main-status" />
 
-            <Content key="content" fullscreen={fs}>
-              <MainContent key="main" ref={this._mainRef}>
-                <GlobalStatus id="main-status" />
+              <div key="grid" className="dev-grid">
+                {children}
+              </div>
+            </MainContent>
 
-                <div key="grid" className="dev-grid">
-                  {children}
-                </div>
-              </MainContent>
+            <Footer />
+          </Content>
 
-              <Footer />
-            </Content>
+          {fs && <ToggleGrid hidden />}
+        </div>
+      </SidebarMenuProvider>
 
-            {fs && <ToggleGrid hidden />}
-          </div>
-        </SidebarMenuProvider>
-
-        <GridActivator />
-      </div>
-    )
-  }
+      <GridActivator />
+    </div>
+  )
 }
 
-const Content = ({ fullscreen = false, className = null, children }) => {
+type ContentProps = {
+  fullscreen: boolean
+} & React.HTMLProps<HTMLDivElement>
+
+const Content = ({
+  fullscreen = false,
+  className = null,
+  children,
+}: ContentProps) => {
   const { isOpen, isClosing } = React.useContext(SidebarMenuContext)
 
   if (isOpen || isClosing) {
@@ -161,24 +156,16 @@ const Content = ({ fullscreen = false, className = null, children }) => {
     </div>
   )
 }
-Content.propTypes = {
-  fullscreen: PropTypes.bool.isRequired,
-  children: PropTypes.node.isRequired,
-  className: PropTypes.string,
-}
-Content.defaultProps = {
-  className: null,
-}
 
-const MainContent = React.forwardRef((props, ref) => (
+const MainContent = ({ mainRef, ...props }) => (
   <main
-    ref={ref}
+    ref={mainRef}
     role="main"
     id="dnb-app-content"
     className={classnames(mainStyle, 'dnb-no-focus', 'dnb-spacing')}
     {...props}
   />
-))
+)
 
 const Footer = () => {
   return (
@@ -192,6 +179,8 @@ const Footer = () => {
 
       <Logo height="40" color="white" />
 
+      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+      {/* @ts-ignore */}
       <Link
         to="/license"
         className="dnb-anchor dnb-anchor--contrast dnb-anchor--no-underline"
