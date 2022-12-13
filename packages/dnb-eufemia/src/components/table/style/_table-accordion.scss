@@ -195,6 +195,10 @@
       }
     }
 
+    td {
+      width: 100%;
+    }
+
     td::before {
       content: '';
       position: absolute;
