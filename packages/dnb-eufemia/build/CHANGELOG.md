@@ -3,6 +3,23 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.42.0](https://github.com/dnbexperience/eufemia/compare/v9.41.0...v9.42.0) (2022-12-14)
+
+
+### Bug Fixes
+
+* **ScrollView:** ensure an ancestor scroll area (body) can still be scrolled with mouse wheel ([#1812](https://github.com/dnbexperience/eufemia/issues/1812)) ([f35fbee](https://github.com/dnbexperience/eufemia/commit/f35fbee13123966766b41d73806935dd546b0716))
+* **TableContainer:** adjust sizes according to design updates ([#1811](https://github.com/dnbexperience/eufemia/issues/1811)) ([911680a](https://github.com/dnbexperience/eufemia/commit/911680af1d7411980a4b4d8a88c617e1bd7b317a))
+* **TableContainer:** adjust sizes according to design updates ([#1811](https://github.com/dnbexperience/eufemia/issues/1811)) ([70e8cbe](https://github.com/dnbexperience/eufemia/commit/70e8cbeee575c68778b67f53f00298b9c5339b86))
+* **Table:** ensure accordion column has always a fixed width ([#1806](https://github.com/dnbexperience/eufemia/issues/1806)) ([1b951ef](https://github.com/dnbexperience/eufemia/commit/1b951efce38786aa77c7b11a865ede8f524f9c4a))
+* **Table:** ensure accordion row content does not change table layout calculation ([#1804](https://github.com/dnbexperience/eufemia/issues/1804)) ([32fd800](https://github.com/dnbexperience/eufemia/commit/32fd80060d2c73ded75fffb54cca21c98bf563a0))
+* **Table:** fix locale support for SR accordion texts ([#1805](https://github.com/dnbexperience/eufemia/issues/1805)) ([0460280](https://github.com/dnbexperience/eufemia/commit/0460280546463e2ec84e5abc213498e7852711a1))
+
+
+### Features
+
+* **Table:** add useHandleSortState hook ([#1809](https://github.com/dnbexperience/eufemia/issues/1809)) ([6f5e93c](https://github.com/dnbexperience/eufemia/commit/6f5e93c7596ff7bbefe2dba84d07c03879586a7e))
+
 # [9.41.0](https://github.com/dnbexperience/eufemia/compare/v9.40.0...v9.41.0) (2022-12-12)
 
 
