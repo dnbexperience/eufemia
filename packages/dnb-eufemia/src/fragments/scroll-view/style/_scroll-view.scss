@@ -7,6 +7,9 @@
   overflow-x: auto;
   @include scrollY(auto);
 
+  // Ensure the user still can scroll a ancestor scrollarea (body)
+  overscroll-behavior: auto;
+
   // interactive prop
   &[tabindex='0'] {
     &:focus {
