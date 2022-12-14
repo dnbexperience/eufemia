@@ -257,12 +257,33 @@ exports[`Table scss have to match snapshot 1`] = `
       html:not([data-whatintent='touch'])
       .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled])::before {
         right: -0.5rem; }
-      .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-icon,
+      html[data-visual-test] .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-icon,
+      :not(.dnb-table--active) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]):active .dnb-icon, html[data-visual-test]
       html:not([data-whatintent='touch']) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-icon,
+      :not(.dnb-table--active)
+      html:not([data-whatintent='touch']) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]):active .dnb-icon, html[data-visual-test]
       .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-icon,
+      :not(.dnb-table--active)
+      .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]):active .dnb-icon, html[data-visual-test]
       html:not([data-whatintent='touch'])
-      .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-icon {
+      .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-icon,
+      :not(.dnb-table--active)
+      html:not([data-whatintent='touch'])
+      .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]):active .dnb-icon {
         opacity: 1; }
+      html:not([data-visual-test]) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-button__text::after, html:not([data-visual-test])
+      html:not([data-whatintent='touch']) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-button__text::after, html:not([data-visual-test])
+      .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-button__text::after, html:not([data-visual-test])
+      html:not([data-whatintent='touch'])
+      .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-button__text::after {
+        opacity: 1;
+        color: inherit; }
+      html:not([data-visual-test]) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]):not(:active) .dnb-button__text::after, html:not([data-visual-test])
+      html:not([data-whatintent='touch']) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]):not(:active) .dnb-button__text::after, html:not([data-visual-test])
+      .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]):not(:active) .dnb-button__text::after, html:not([data-visual-test])
+      html:not([data-whatintent='touch'])
+      .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]):not(:active) .dnb-button__text::after {
+        visibility: visible; }
       .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active[disabled],
       html:not([data-whatintent='touch']) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active[disabled],
       .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active[disabled],
@@ -383,6 +404,18 @@ exports[`Table scss have to match snapshot 1`] = `
   .dnb-table .dnb-table__th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:not([disabled]) .dnb-button__text::after {
     color: var(--color-sea-green);
     opacity: 1; }
+  .dnb-table > thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:focus[disabled],
+  html:not([data-whatintent='touch']) .dnb-table > thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:focus[disabled],
+  .dnb-table .dnb-table__th.dnb-table--active .dnb-table__sort-button.dnb-button:focus[disabled],
+  html:not([data-whatintent='touch'])
+  .dnb-table .dnb-table__th.dnb-table--active .dnb-table__sort-button.dnb-button:focus[disabled] {
+    cursor: not-allowed; }
+  .dnb-table > thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-button__text::after,
+  html:not([data-whatintent='touch']) .dnb-table > thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-button__text::after,
+  .dnb-table .dnb-table__th.dnb-table--active .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-button__text::after,
+  html:not([data-whatintent='touch'])
+  .dnb-table .dnb-table__th.dnb-table--active .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-button__text::after {
+    opacity: 0; }
   .dnb-table > thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus:not(:active) .dnb-button__text::after,
   .dnb-table .dnb-table__th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus:not(:active) .dnb-button__text::after {
     visibility: visible; }
@@ -644,12 +677,18 @@ thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus
     flex-direction: column; }
   .dnb-table__container__body .dnb-table:not([class*='space__bottom']) {
     margin-bottom: 0; }
+  .dnb-table__container__body .dnb-table__size--large .dnb-table__th {
+    padding-top: 1.5rem; }
   .dnb-table__container__head {
     padding: 2rem 1rem 0; }
+    .dnb-table__container__head--empty {
+      padding: 0.5rem 0 0; }
     .dnb-spacing .dnb-table__container__head .dnb-h--large:not([class*='space__top']) {
       margin: 0; }
   .dnb-table__container__foot {
-    padding: 0.5rem 1rem 2rem; }
+    padding: 1rem 1rem 1.5rem; }
+    .dnb-table__container__foot--empty {
+      padding: 0 0 1rem; }
   .dnb-modal__content .dnb-table__container .dnb-table__scroll-view {
     overflow: visible; }
 
@@ -709,12 +748,15 @@ thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus
     var(--color-black-20); }
   .dnb-table__th.dnb-table__th__accordion-icon {
     padding: 0; }
+    .dnb-table__th.dnb-table__th__accordion-icon,
     .dnb-table__th.dnb-table__th__accordion-icon div {
       width: 3.5rem;
       text-indent: -300vw; }
-      .dnb-table__size--medium .dnb-table__th.dnb-table__th__accordion-icon div {
+      .dnb-table__size--medium .dnb-table__th.dnb-table__th__accordion-icon, .dnb-table__size--medium
+      .dnb-table__th.dnb-table__th__accordion-icon div {
         width: 3rem; }
-      .dnb-table__size--small .dnb-table__th.dnb-table__th__accordion-icon div {
+      .dnb-table__size--small .dnb-table__th.dnb-table__th__accordion-icon, .dnb-table__size--small
+      .dnb-table__th.dnb-table__th__accordion-icon div {
         width: 2.5rem; }
   .dnb-table__td.dnb-table__td__accordion-icon {
     padding: 0;
@@ -796,6 +838,8 @@ thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus
           * we trick VoiceOver to not make this row as the end of the table. We still need "hidden" to get the correct number of rows (childCount).
           */
       display: block; } }
+  .dnb-table__tr__accordion_content td {
+    width: 100%; }
   .dnb-table__tr__accordion_content td::before {
     content: '';
     position: absolute;

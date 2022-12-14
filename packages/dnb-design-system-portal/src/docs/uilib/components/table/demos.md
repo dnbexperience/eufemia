@@ -21,6 +21,8 @@ TableAccordion,
 
 ### Basic table
 
+**NB:** In this example, the sort buttons do react on your input. But will not change the table data.
+
 <TableVariantBasic />
 
 ### Complex table
