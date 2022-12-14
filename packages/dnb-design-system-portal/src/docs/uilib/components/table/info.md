@@ -72,6 +72,11 @@ It can be used as a "controller" for your own sorting logic of your data.
 
 By default, it will cycle trough three stages `['asc', 'desc', 'off']`.
 
+<details>
+  <summary class="dnb-p">
+    Show how to use the useHandleSortState React Hook.
+  </summary>
+
 ```jsx
 import { useHandleSortState } from '@dnb/eufemia/components/table'
 
@@ -115,3 +120,5 @@ export const YourComponent = () => {
   )
 }
 ```
+
+</details>
