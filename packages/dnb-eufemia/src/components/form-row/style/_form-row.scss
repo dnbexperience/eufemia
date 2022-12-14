@@ -47,23 +47,19 @@
     }
 
     &[class*='__indent'] {
-      @supports (display: grid) {
-        display: grid;
-        grid-template-columns:
-          [column1-start] var(--form-row-column1-start)
-          [column1-end column2-start] var(--form-row-column2-start)
-          [column2-end];
-        grid-template-rows:
-          [row1-start] var(--form-row-row1-start)
-          [row1-end row2-start] var(--form-row-row2-start)
-          [row2-end];
-      }
+      display: grid;
+      grid-template-columns:
+        [column1-start] var(--form-row-column1-start)
+        [column1-end column2-start] var(--form-row-column2-start)
+        [column2-end];
+      grid-template-rows:
+        [row1-start] var(--form-row-row1-start)
+        [row1-end row2-start] var(--form-row-row2-start)
+        [row2-end];
 
       & > .dnb-form-row__content {
-        @supports (display: grid) {
-          grid-column: column2-start / column2-end;
-          grid-row: row2-start / row2-end;
-        }
+        grid-column: column2-start / column2-end;
+        grid-row: row2-start / row2-end;
 
         // if not mobile
         @media screen and (min-width: 40em) {
@@ -102,10 +98,8 @@
 
       & > .dnb-form-label {
         // put the label in the first column
-        @supports (display: grid) {
-          grid-column: column1-start / column1-end;
-          grid-row: row1-start / row1-end;
-        }
+        grid-column: column1-start / column1-end;
+        grid-row: row1-start / row1-end;
 
         margin-right: 1rem;
 
@@ -182,9 +176,7 @@
       align-items: flex-start;
     }
     &--vertical ~ .dnb-form-row__content {
-      @supports (display: grid) {
-        grid-column: column1-start / column1-end;
-      }
+      grid-column: column1-start / column1-end;
     }
   }
 
