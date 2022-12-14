@@ -71,7 +71,7 @@ More details in the [Focus Section](/uilib/usage/accessibility/focus#skip-link).
 
 `dnb-spacing`
 
-Sets default spacing (using _margin_) on all HTML elements inside the container with this style. The default spacing is a `margin-bottom: 1.5rem`, but spesific margins are defined for headings, lists and tables.
+Sets default spacing (using _margin_) on all HTML elements inside the container with this style. The default spacing is a `margin-bottom: 1.5rem`, but specific margins are defined for headings, lists and tables.
 
 ### Example
 
