@@ -839,7 +839,11 @@ thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus
           */
       display: block; } }
   .dnb-table__tr__accordion_content td {
-    width: 100%; }
+    width: calc(100% - 3.5rem); }
+    .dnb-table__size--medium .dnb-table__tr__accordion_content td {
+      width: calc(100% - 3rem); }
+    .dnb-table__size--small .dnb-table__tr__accordion_content td {
+      width: calc(100% - 2.5rem); }
   .dnb-table__tr__accordion_content td::before {
     content: '';
     position: absolute;

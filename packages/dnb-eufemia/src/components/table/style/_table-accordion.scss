@@ -197,7 +197,14 @@
     }
 
     td {
-      width: 100%;
+      width: calc(100% - 3.5rem);
+
+      .dnb-table__size--medium & {
+        width: calc(100% - 3rem);
+      }
+      .dnb-table__size--small & {
+        width: calc(100% - 2.5rem);
+      }
     }
 
     td::before {
