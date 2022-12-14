@@ -25,7 +25,7 @@ const presetsGeneral =
         ...basisPresets,
       ]
 
-// Used for legacy, IE11 builds
+// Used for legacy builds
 const legacyPresets =
   process.env.BABEL_ENV === 'es'
     ? []
