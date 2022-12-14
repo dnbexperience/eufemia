@@ -282,9 +282,9 @@ export const ContainerTable = () => {
 
 export const BasicTable = () => {
   const { sortState, sortHandler } = useHandleSortState({
-    one: { active: true, direction: 'desc' },
-    two: { modes: ['asc', 'off'] },
-    three: { modes: ['asc'] },
+    column1: { active: true, direction: 'desc' },
+    column2: { modes: ['asc', 'off'] },
+    column3: { modes: ['asc'] },
   })
 
   return (
@@ -294,22 +294,22 @@ export const BasicTable = () => {
         <Tr>
           <Th
             sortable
-            reversed={sortState.one.reversed}
-            active={sortState.one.active}
+            reversed={sortState.column1.reversed}
+            active={sortState.column1.active}
           >
             <Th.SortButton
-              on_click={sortHandler.one}
+              on_click={sortHandler.column1}
               text="Column 1"
               title="Sort table column"
             />
           </Th>
           <Th
             sortable
-            reversed={sortState.two.reversed}
-            active={sortState.two.active}
+            reversed={sortState.column2.reversed}
+            active={sortState.column2.active}
           >
             <Th.SortButton
-              on_click={sortHandler.two}
+              on_click={sortHandler.column2}
               text="Column 2"
               title="Sort table column"
             />
@@ -317,11 +317,11 @@ export const BasicTable = () => {
           <Th
             align="right"
             sortable
-            reversed={sortState.three.reversed}
-            active={sortState.three.active}
+            reversed={sortState.column3.reversed}
+            active={sortState.column3.active}
           >
             <Th.SortButton
-              on_click={sortHandler.three}
+              on_click={sortHandler.column3}
               text="Column 3"
               title="Sort table column"
             />

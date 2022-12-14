@@ -66,7 +66,9 @@ Have a [look at this example](/uilib/components/table/demos/#table-with-a-max-he
 
 ## Sortable table
 
-Optionally, make use of the following React Hook to handle sort directions together with `Th.SortButton`.
+Optionally, make use of the following React Hook to handle the `Th.SortButton` directions.
+
+It can be used as a "controller" for your own sorting logic of your data.
 
 By default, it will cycle trough three stages `['asc', 'desc', 'off']`.
 
