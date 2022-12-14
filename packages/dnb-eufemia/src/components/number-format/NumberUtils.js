@@ -1078,7 +1078,7 @@ function getGroupFormatter(
 }
 
 /**
- * For internal usage Not supported by IE11
+ * For internal usage
  *
  * @type {object}
  * @property {string} number - a number
