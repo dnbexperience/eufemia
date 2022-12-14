@@ -281,80 +281,91 @@ export const ContainerTable = () => {
 }
 
 export const BasicTable = () => {
-  const { sortState, sortHandler } = useHandleSortState({
+  const { sortState, sortHandler, activeSortName } = useHandleSortState({
     column1: { active: true, direction: 'desc' },
     column2: { modes: ['asc', 'off'] },
     column3: { modes: ['asc'] },
   })
 
+  console.log('activeSortName', activeSortName)
+
+  const [count, setCount] = React.useState(0)
+
   return (
-    <Table top>
-      <caption className="dnb-sr-only">A Table Caption</caption>
-      <thead>
-        <Tr>
-          <Th
-            sortable
-            reversed={sortState.column1.reversed}
-            active={sortState.column1.active}
-          >
-            <Th.SortButton
-              on_click={sortHandler.column1}
-              text="Column 1"
-              title="Sort table column"
-            />
-          </Th>
-          <Th
-            sortable
-            reversed={sortState.column2.reversed}
-            active={sortState.column2.active}
-          >
-            <Th.SortButton
-              on_click={sortHandler.column2}
-              text="Column 2"
-              title="Sort table column"
-            />
-          </Th>
-          <Th
-            align="right"
-            sortable
-            reversed={sortState.column3.reversed}
-            active={sortState.column3.active}
-          >
-            <Th.SortButton
-              on_click={sortHandler.column3}
-              text="Column 3"
-              title="Sort table column"
-            />
-          </Th>
-        </Tr>
-      </thead>
-      <tbody>
-        <Tr variant="even">
-          <Td>
-            <p className="dnb-p">
-              Row 1 <b>width p</b>
-            </p>
-          </Td>
-          <Td>
-            <span>Row 1 with span</span>
-          </Td>
-          <Td align="right">Row 1</Td>
-        </Tr>
-        <Tr>
-          <Td colSpan={2}>Row 2 which spans over two columns</Td>
-          <Td align="right">Row 2</Td>
-        </Tr>
-        <Tr>
-          <Td>Row 3</Td>
-          <Td>Row 3</Td>
-          <Td align="right">Row 3</Td>
-        </Tr>
-      </tbody>
-    </Table>
+    <React.StrictMode>
+      <button onClick={handleCount}>count {count}</button>
+      <Table top>
+        <caption className="dnb-sr-only">A Table Caption</caption>
+        <thead>
+          <Tr>
+            <Th
+              sortable
+              reversed={sortState.column1.reversed}
+              active={sortState.column1.active}
+            >
+              <Th.SortButton
+                on_click={sortHandler.column1}
+                text="Column 1"
+                title="Sort table column"
+              />
+            </Th>
+            <Th
+              sortable
+              reversed={sortState.column2.reversed}
+              active={sortState.column2.active}
+            >
+              <Th.SortButton
+                on_click={sortHandler.column2}
+                text="Column 2"
+                title="Sort table column"
+              />
+            </Th>
+            <Th
+              align="right"
+              sortable
+              reversed={sortState.column3.reversed}
+              active={sortState.column3.active}
+            >
+              <Th.SortButton
+                on_click={sortHandler.column3}
+                text="Column 3"
+                title="Sort table column"
+              />
+            </Th>
+          </Tr>
+        </thead>
+        <tbody>
+          <Tr variant="even">
+            <Td>
+              <p className="dnb-p">
+                Row 1 <b>width p</b>
+              </p>
+            </Td>
+            <Td>
+              <span>Row 1 with span</span>
+            </Td>
+            <Td align="right">Row 1</Td>
+          </Tr>
+          <Tr>
+            <Td colSpan={2}>Row 2 which spans over two columns</Td>
+            <Td align="right">Row 2</Td>
+          </Tr>
+          <Tr>
+            <Td>Row 3</Td>
+            <Td>Row 3</Td>
+            <Td align="right">Row 3</Td>
+          </Tr>
+        </tbody>
+      </Table>
+    </React.StrictMode>
   )
+
+  function handleCount() {
+    setCount((c) => c + 1)
+  }
 }
 
-export const TableSortable = () => {
+export const TableOddEven = () => {
   const [list, setlist] = React.useState([
     'content cab',
     'content abc',

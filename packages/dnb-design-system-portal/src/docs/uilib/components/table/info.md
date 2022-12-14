@@ -79,7 +79,7 @@ import { useHandleSortState } from '@dnb/eufemia/components/table'
 const defaultOptions = { direction: 'asc', modes: ['asc', 'desc', 'off'] }
 
 export const YourComponent = () => {
-  const { sortState, sortHandler, activeName } = useHandleSortState(
+  const { sortState, sortHandler, activeSortName } = useHandleSortState(
     {
       // Defiend your column names with options (optional)
       column1: { active: true }, //
@@ -92,7 +92,7 @@ export const YourComponent = () => {
 
   // Use these properties for your custom sorting logic
   console.log(sortState.column1.direction) // returns either "asc", "desc" or "off"
-  console.log(activeName) // returns the current active one: "column1"
+  console.log(activeSortName) // returns the current active one: "column1" (returns null when nothing is active)
 
   return (
     <Table>

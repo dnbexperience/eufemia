@@ -107,18 +107,23 @@ export function useHandleSortState(
     }, {})
   }, [internalState]) // eslint-disable-line react-hooks/exhaustive-deps
 
+  let activeSortName = null
   const sortState: SortState = Object.entries(internalState).reduce(
     (acc, [name, { active, direction }]) => {
       const reversed =
         direction === 'off' ? undefined : direction === 'desc'
 
       acc[name] = { active, direction, reversed }
+
+      if (active) {
+        activeSortName = name
+      }
       return acc
     },
     {}
   )
 
-  return { sortState, sortHandler }
+  return { sortState, sortHandler, activeSortName }
 
   function getNextMode({ state, opts, defaults }: GetNextMode) {
     const modes = defaults.modes.filter((mode) => {

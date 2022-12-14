@@ -7,7 +7,11 @@ describe('useHandleSortState', () => {
       initialProps: {},
     })
 
-    expect(result.current).toEqual({ sortHandler: {}, sortState: {} })
+    expect(result.current).toEqual({
+      activeSortName: null,
+      sortHandler: {},
+      sortState: {},
+    })
   })
 
   it('should return default state', () => {
@@ -18,6 +22,7 @@ describe('useHandleSortState', () => {
     })
 
     expect(result.current).toEqual({
+      activeSortName: null,
       sortHandler: {
         one: expect.any(Function),
       },
@@ -39,6 +44,7 @@ describe('useHandleSortState', () => {
     })
 
     expect(result.current).toEqual({
+      activeSortName: null,
       sortHandler: {
         one: expect.any(Function),
       },
@@ -60,6 +66,7 @@ describe('useHandleSortState', () => {
     })
 
     expect(result.current).toEqual({
+      activeSortName: null,
       sortHandler: {
         one: expect.any(Function),
       },
@@ -81,6 +88,7 @@ describe('useHandleSortState', () => {
     })
 
     expect(result.current).toEqual({
+      activeSortName: 'one',
       sortHandler: {
         one: expect.any(Function),
       },
@@ -102,6 +110,7 @@ describe('useHandleSortState', () => {
     })
 
     expect(result.current).toEqual({
+      activeSortName: 'one',
       sortHandler: {
         one: expect.any(Function),
       },
@@ -131,6 +140,7 @@ describe('useHandleSortState', () => {
     simulate()
 
     expect(result.current).toEqual({
+      activeSortName: 'one',
       sortHandler,
       sortState: {
         one: {
@@ -144,6 +154,7 @@ describe('useHandleSortState', () => {
     simulate()
 
     expect(result.current).toEqual({
+      activeSortName: 'one',
       sortHandler,
       sortState: {
         one: {
@@ -157,6 +168,7 @@ describe('useHandleSortState', () => {
     simulate()
 
     expect(result.current).toEqual({
+      activeSortName: 'one',
       sortHandler,
       sortState: {
         one: {
@@ -184,6 +196,7 @@ describe('useHandleSortState', () => {
     simulate()
 
     expect(result.current).toEqual({
+      activeSortName: 'one',
       sortHandler,
       sortState: {
         one: {
@@ -197,6 +210,7 @@ describe('useHandleSortState', () => {
     simulate()
 
     expect(result.current).toEqual({
+      activeSortName: 'one',
       sortHandler,
       sortState: {
         one: {
@@ -224,6 +238,7 @@ describe('useHandleSortState', () => {
     simulate()
 
     expect(result.current).toEqual({
+      activeSortName: null,
       sortHandler,
       sortState: {
         one: {
@@ -237,6 +252,7 @@ describe('useHandleSortState', () => {
     simulate()
 
     expect(result.current).toEqual({
+      activeSortName: 'one',
       sortHandler,
       sortState: {
         one: {
@@ -267,6 +283,7 @@ describe('useHandleSortState', () => {
     simulateOne()
 
     expect(result.current).toEqual({
+      activeSortName: 'one',
       sortHandler,
       sortState: {
         one: {
@@ -285,6 +302,7 @@ describe('useHandleSortState', () => {
     simulateOne()
 
     expect(result.current).toEqual({
+      activeSortName: null,
       sortHandler,
       sortState: {
         one: {
@@ -303,6 +321,7 @@ describe('useHandleSortState', () => {
     simulateOne()
 
     expect(result.current).toEqual({
+      activeSortName: 'one',
       sortHandler,
       sortState: {
         one: {
@@ -321,6 +340,7 @@ describe('useHandleSortState', () => {
     simulateOne()
 
     expect(result.current).toEqual({
+      activeSortName: 'one',
       sortHandler,
       sortState: {
         one: {
@@ -339,6 +359,7 @@ describe('useHandleSortState', () => {
     simulateTwo()
 
     expect(result.current).toEqual({
+      activeSortName: 'two',
       sortHandler,
       sortState: {
         one: {
@@ -357,6 +378,7 @@ describe('useHandleSortState', () => {
     simulateTwo()
 
     expect(result.current).toEqual({
+      activeSortName: 'two',
       sortHandler,
       sortState: {
         one: {
@@ -375,6 +397,7 @@ describe('useHandleSortState', () => {
     simulateTwo()
 
     expect(result.current).toEqual({
+      activeSortName: 'two',
       sortHandler,
       sortState: {
         one: {
@@ -393,6 +416,7 @@ describe('useHandleSortState', () => {
     simulateOne()
 
     expect(result.current).toEqual({
+      activeSortName: 'one',
       sortHandler,
       sortState: {
         one: {
@@ -411,6 +435,7 @@ describe('useHandleSortState', () => {
     simulateOne()
 
     expect(result.current).toEqual({
+      activeSortName: null,
       sortHandler,
       sortState: {
         one: {
@@ -429,6 +454,7 @@ describe('useHandleSortState', () => {
     simulateOne()
 
     expect(result.current).toEqual({
+      activeSortName: 'one',
       sortHandler,
       sortState: {
         one: {
@@ -447,6 +473,7 @@ describe('useHandleSortState', () => {
     simulateOne()
 
     expect(result.current).toEqual({
+      activeSortName: 'one',
       sortHandler,
       sortState: {
         one: {
