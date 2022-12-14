@@ -63,3 +63,55 @@ Method no. 2 should be used when a `max-height` is set to the wrapping `Table.Sc
 ```
 
 Have a [look at this example](/uilib/components/table/demos/#table-with-a-max-height).
+
+## Sortable table
+
+Optionally, make use of the following React Hook to handle the `Th.SortButton` directions.
+
+It can be used as a "controller" for your own sorting logic of your data.
+
+By default, it will cycle trough three stages `['asc', 'desc', 'off']`.
+
+```jsx
+import { useHandleSortState } from '@dnb/eufemia/components/table'
+
+// You can also provide a default that will be used as the fallback e.g.
+const defaultOptions = { direction: 'asc', modes: ['asc', 'desc', 'off'] }
+
+export const YourComponent = () => {
+  const { sortState, sortHandler, activeSortName } = useHandleSortState(
+    {
+      // Defiend your column names with options (optional)
+      column1: { active: true }, //
+      column2: { direction: 'desc', modes: ['asc', 'desc'] }, // overwrite the defaultOptions
+      column3: { modes: ['asc', 'off'] }, // will only allow one direciton
+      column4: {}, // etc.
+    },
+    defaultOptions
+  )
+
+  // Use these properties for your custom sorting logic
+  console.log(sortState.column1.direction) // returns either "asc", "desc" or "off"
+  console.log(activeSortName) // returns the current active one: "column1" (returns null when nothing is active)
+
+  return (
+    <Table>
+      <thead>
+        <Tr>
+          <Th
+            sortable
+            active={sortState.column1.active}
+            reversed={sortState.column1.reversed}
+          >
+            <Th.SortButton
+              text="Column 1"
+              title="Sort this column"
+              on_click={sortHandler.column1}
+            />
+          </Th>
+        </Tr>
+      </thead>
+    </Table>
+  )
+}
+```

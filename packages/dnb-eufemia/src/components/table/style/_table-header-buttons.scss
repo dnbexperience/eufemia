@@ -87,8 +87,20 @@
         &::before {
           right: -0.5rem;
         }
-        .dnb-icon {
+        html[data-visual-test] & .dnb-icon,
+        :not(.dnb-table--active) &:active .dnb-icon {
           opacity: 1;
+        }
+
+        // show underline
+        html:not([data-visual-test]) & {
+          .dnb-button__text::after {
+            opacity: 1;
+            color: inherit;
+          }
+          &:not(:active) .dnb-button__text::after {
+            visibility: visible;
+          }
         }
       }
 
@@ -149,6 +161,13 @@
         .dnb-button__text::after {
           color: var(--color-sea-green);
           opacity: 1;
+        }
+      }
+
+      @include focus() {
+        // hide underline
+        .dnb-button__text::after {
+          opacity: 0;
         }
       }
 
