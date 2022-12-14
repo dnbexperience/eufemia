@@ -88,6 +88,10 @@ export function TableContainerHead(
 ) {
   const { children, className, ...rest } = props
 
+  if (!children) {
+    return null
+  }
+
   return (
     <div
       className={classnames('dnb-table__container__head', className)}
@@ -109,6 +113,10 @@ export function TableContainerFoot(
   props: TableContainerFootProps & React.HTMLAttributes<HTMLDivElement>
 ) {
   const { children, className, ...rest } = props
+
+  if (!children) {
+    return null
+  }
 
   return (
     <div

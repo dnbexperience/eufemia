@@ -68,6 +68,24 @@ describe('TableContainer', () => {
     expect(Array.from(element.classList)).toContain('custom-class')
   })
 
+  it('should not return table head if empty', () => {
+    render(<TableContainer.Head>{null}</TableContainer.Head>)
+
+    expect(document.querySelector('body').innerHTML).toBe('<div></div>')
+    expect(
+      document.querySelector('.dnb-table__container__head')
+    ).toBeFalsy()
+  })
+
+  it('should not return table foot if empty', () => {
+    render(<TableContainer.Foot>{null}</TableContainer.Foot>)
+
+    expect(document.querySelector('body').innerHTML).toBe('<div></div>')
+    expect(
+      document.querySelector('.dnb-table__container__foot')
+    ).toBeFalsy()
+  })
+
   it('should include extra classes in scroll-view', () => {
     render(<MockElement />)
 
