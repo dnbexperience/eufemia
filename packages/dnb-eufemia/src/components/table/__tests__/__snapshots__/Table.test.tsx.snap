@@ -677,12 +677,14 @@ thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus
     flex-direction: column; }
   .dnb-table__container__body .dnb-table:not([class*='space__bottom']) {
     margin-bottom: 0; }
+  .dnb-table__container__body .dnb-table__th {
+    padding-top: 1.5rem; }
   .dnb-table__container__head {
     padding: 2rem 1rem 0; }
     .dnb-spacing .dnb-table__container__head .dnb-h--large:not([class*='space__top']) {
       margin: 0; }
   .dnb-table__container__foot {
-    padding: 0.5rem 1rem 2rem; }
+    padding: 1rem 1rem 1.5rem; }
   .dnb-modal__content .dnb-table__container .dnb-table__scroll-view {
     overflow: visible; }
 

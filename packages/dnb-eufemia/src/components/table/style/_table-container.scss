@@ -30,6 +30,10 @@
       &:not([class*='space__bottom']) {
         margin-bottom: 0;
       }
+
+      &__th {
+        padding-top: 1.5rem;
+      }
     }
   }
 
@@ -41,7 +45,7 @@
     }
   }
   &__foot {
-    padding: 0.5rem 1rem 2rem;
+    padding: 1rem 1rem 1.5rem;
   }
 
   // When placed inside a Modal/Drawer, let the parent scroll-bar do its job.
