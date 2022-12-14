@@ -31,7 +31,7 @@
         margin-bottom: 0;
       }
 
-      &__th {
+      &__size--large .dnb-table__th {
         padding-top: 1.5rem;
       }
     }
@@ -40,12 +40,20 @@
   &__head {
     padding: 2rem 1rem 0;
 
+    &--empty {
+      padding: 0.5rem 0 0;
+    }
+
     .dnb-spacing & .dnb-h--large:not([class*='space__top']) {
       margin: 0;
     }
   }
   &__foot {
     padding: 1rem 1rem 1.5rem;
+
+    &--empty {
+      padding: 0 0 1rem;
+    }
   }
 
   // When placed inside a Modal/Drawer, let the parent scroll-bar do its job.

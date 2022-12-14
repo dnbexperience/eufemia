@@ -88,13 +88,13 @@ export function TableContainerHead(
 ) {
   const { children, className, ...rest } = props
 
-  if (!children) {
-    return null
-  }
-
   return (
     <div
-      className={classnames('dnb-table__container__head', className)}
+      className={classnames(
+        'dnb-table__container__head',
+        !children && 'dnb-table__container__head--empty',
+        className
+      )}
       {...rest}
     >
       {children}
@@ -114,13 +114,13 @@ export function TableContainerFoot(
 ) {
   const { children, className, ...rest } = props
 
-  if (!children) {
-    return null
-  }
-
   return (
     <div
-      className={classnames('dnb-table__container__foot', className)}
+      className={classnames(
+        'dnb-table__container__foot',
+        !children && 'dnb-table__container__foot--empty',
+        className
+      )}
       {...rest}
     >
       {children}
