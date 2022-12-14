@@ -32,8 +32,8 @@ export const TableVariantBasic = () => (
     {() => {
       const BasicTable = () => {
         const { sortState, sortHandler } = useHandleSortState({
-          one: { active: true },
-          two: { direction: 'desc', modes: ['asc', 'desc'] },
+          column1: { active: true },
+          column2: { direction: 'desc', modes: ['asc', 'desc'] },
         })
 
         return (
@@ -51,25 +51,25 @@ export const TableVariantBasic = () => (
                   </Th>
                   <Th
                     sortable
-                    active={sortState.one.active}
-                    reversed={sortState.one.reversed}
+                    active={sortState.column1.active}
+                    reversed={sortState.column1.reversed}
                   >
                     <Th.SortButton
                       text="Sortable Active"
                       title="Sort table column"
-                      on_click={sortHandler.one}
+                      on_click={sortHandler.column1}
                     />
                   </Th>
                   <Th
                     sortable
-                    active={sortState.two.active}
-                    reversed={sortState.two.reversed}
+                    active={sortState.column2.active}
+                    reversed={sortState.column2.reversed}
                     align="right"
                   >
                     <Th.SortButton
                       text="Sortable"
                       title="Sort table column"
-                      on_click={sortHandler.two}
+                      on_click={sortHandler.column2}
                     />
                   </Th>
                 </Tr>

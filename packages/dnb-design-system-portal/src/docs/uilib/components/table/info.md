@@ -76,19 +76,23 @@ By default, it will cycle trough three stages `['asc', 'desc', 'off']`.
 import { useHandleSortState } from '@dnb/eufemia/components/table'
 
 // You can also provide a default that will be used as the fallback e.g.
-const defaultOptions = { modes: ['asc', 'desc'] }
+const defaultOptions = { direction: 'asc', modes: ['asc', 'desc', 'off'] }
 
 export const YourComponent = () => {
-  const { sortState, sortHandler } = useHandleSortState(
+  const { sortState, sortHandler, activeName } = useHandleSortState(
     {
-      one: { active: true }, // will cycle only through three modes, including "off"
-      two: { direction: 'desc', modes: ['asc', 'desc'] }, // will cycle only through "asc" or "desc"
-      three: { modes: ['asc'] }, // will always be "asc"
+      // Defiend your column names with options (optional)
+      column1: { active: true }, //
+      column2: { direction: 'desc', modes: ['asc', 'desc'] }, // overwrite the defaultOptions
+      column3: { modes: ['asc', 'off'] }, // will only allow one direciton
+      column4: {}, // etc.
     },
     defaultOptions
   )
 
-  console.log(sortState.one.direction) // returns either "asc", "desc" or "off"
+  // Use these properties for your custom sorting logic
+  console.log(sortState.column1.direction) // returns either "asc", "desc" or "off"
+  console.log(activeName) // returns the current active one: "column1"
 
   return (
     <Table>
@@ -96,13 +100,13 @@ export const YourComponent = () => {
         <Tr>
           <Th
             sortable
-            active={sortState.one.active}
-            reversed={sortState.one.reversed}
+            active={sortState.column1.active}
+            reversed={sortState.column1.reversed}
           >
             <Th.SortButton
               text="Column 1"
               title="Sort this column"
-              on_click={sortHandler.one}
+              on_click={sortHandler.column1}
             />
           </Th>
         </Tr>
