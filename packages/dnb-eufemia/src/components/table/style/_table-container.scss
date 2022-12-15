@@ -49,11 +49,15 @@
     }
   }
   &__foot {
-    padding: 1rem 1rem 1.5rem;
+    padding: 1rem;
 
     &--empty {
-      padding: 0 0 1rem;
+      padding: 0 0 0.5rem;
     }
+  }
+
+  .dnb-table__scroll-view {
+    margin-bottom: 0.5rem;
   }
 
   // When placed inside a Modal/Drawer, let the parent scroll-bar do its job.

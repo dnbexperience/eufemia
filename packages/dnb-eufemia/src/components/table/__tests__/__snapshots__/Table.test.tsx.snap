@@ -686,9 +686,11 @@ thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus
     .dnb-spacing .dnb-table__container__head .dnb-h--large:not([class*='space__top']) {
       margin: 0; }
   .dnb-table__container__foot {
-    padding: 1rem 1rem 1.5rem; }
+    padding: 1rem; }
     .dnb-table__container__foot--empty {
-      padding: 0 0 1rem; }
+      padding: 0 0 0.5rem; }
+  .dnb-table__container .dnb-table__scroll-view {
+    margin-bottom: 0.5rem; }
   .dnb-modal__content .dnb-table__container .dnb-table__scroll-view {
     overflow: visible; }
 
