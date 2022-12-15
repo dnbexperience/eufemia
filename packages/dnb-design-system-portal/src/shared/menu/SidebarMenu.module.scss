@@ -278,28 +278,22 @@
   height: calc(100vh - 4rem);
   margin: 4rem 0 0;
 
-  /* make the sidebar scrollable */
-  overflow-x: hidden;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  -ms-overflow-style: none;
+  @include scrollY(auto);
 
   /* make the sidemenu accessible for screen readers on mobile devices  */
   @include allBelow(medium) {
     position: relative;
     height: auto;
-    overflow: auto;
   }
+
+  /* has to be the same value as margin-left */
+  width: var(--aside-width);
 
   background-color: var(--color-white);
 
   ul {
     /* some air we need */
     padding: 2rem 0 1rem;
-
-    /* has to be the same value as margin-left */
-    width: 30vw;
-    width: var(--aside-width);
   }
 
   @include allBelow(medium) {
