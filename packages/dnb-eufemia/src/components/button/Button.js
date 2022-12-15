@@ -310,6 +310,7 @@ Button.propTypes = {
   id: PropTypes.string,
   class: PropTypes.string,
   href: PropTypes.string,
+  target: PropTypes.string,
   to: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.object,
@@ -354,6 +355,7 @@ Button.defaultProps = {
   icon_position: 'right',
   icon_size: null,
   href: null,
+  target: null,
   to: null,
   id: null,
   class: null,

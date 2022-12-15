@@ -361,6 +361,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                 status_props={null}
                 status_state="error"
                 stretch={null}
+                target={null}
                 text={null}
                 title={null}
                 to={null}
@@ -412,6 +413,7 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                     status_props={null}
                     status_state="error"
                     stretch={null}
+                    target={null}
                     text={null}
                     title={null}
                     to={null}
