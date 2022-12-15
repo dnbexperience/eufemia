@@ -163,7 +163,6 @@ $focusRingColor: var(--color-emerald-green);
 }
 
 @mixin scrollbarAppearance() {
-  overscroll-behavior: contain;
   scrollbar-width: thin;
 
   // older iOS safari
@@ -172,45 +171,59 @@ $focusRingColor: var(--color-emerald-green);
   // show scrollbar on IE
   -ms-overflow-style: auto;
 
-  scrollbar-color: var(--color-emerald-green) transparent;
+  scrollbar-color: var(--color-sea-green) transparent;
 
-  // This is too buggy and the UX is bad
-  // We have to rather wait until "scrollbar-color" is supported on webkit
-  // The scrollbar gets hidden in certain scenarios (e.g. portal-sidebar-menu)
-  // Safari/Chrome
-  // @supports not (scrollbar-color: auto) {
-  //   &::-webkit-scrollbar {
-  //     width: 0.5rem;
-  //     background-color: transparent;
-  //   }
-  //   &::-webkit-scrollbar-thumb {
-  //     cursor: pointer;
-  //     background-color: var(--color-emerald-green);
-  //     border-radius: 0.5rem;
-  //   }
-  // }
+  @supports not (scrollbar-color: auto) {
+    // stylelint-disable
+    &::-webkit-scrollbar {
+      &:vertical {
+        width: 0.5rem;
+      }
+      &:horizontal {
+        height: 0.5rem;
+      }
+
+      background-color: var(--color-black-8);
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--color-sea-green);
+
+      &:hover {
+        background-color: var(--color-emerald-green);
+      }
+
+      border-radius: 0.5rem;
+    }
+    // stylelint-enable
+  }
 }
 
 @mixin scrollY($mode: scroll) {
   overflow-y: $mode;
+  overscroll-behavior: contain;
+
+  @include scrollbarAppearance();
+
   html:not([data-visual-test]) & {
     scroll-behavior: smooth;
   }
   html[data-visual-test] & {
     scroll-behavior: auto !important;
   }
-  @include scrollbarAppearance();
 }
 
 @mixin scrollX($mode: scroll) {
   overflow-x: $mode;
+  overscroll-behavior: contain;
+
+  @include scrollbarAppearance();
+
   html:not([data-visual-test]) & {
     scroll-behavior: smooth;
   }
   html[data-visual-test] & {
     scroll-behavior: auto !important;
   }
-  @include scrollbarAppearance();
 }
 
 @mixin hideScrollbar() {
