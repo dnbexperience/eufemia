@@ -267,49 +267,45 @@ legend.dnb-form-label {
       white-space: nowrap; }
     .dnb-form-row:not(.dnb-form-row--vertical) > .dnb-form-row__content--wrap {
       display: block; }
-  @supports (display: grid) {
-    .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] {
-      display: grid;
-      grid-template-columns: [column1-start] var(--form-row-column1-start) [column1-end column2-start] var(--form-row-column2-start) [column2-end];
-      grid-template-rows: [row1-start] var(--form-row-row1-start) [row1-end row2-start] var(--form-row-row2-start) [row2-end]; } }
-  @supports (display: grid) {
+  .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] {
+    display: grid;
+    grid-template-columns: [column1-start] var(--form-row-column1-start) [column1-end column2-start] var(--form-row-column2-start) [column2-end];
+    grid-template-rows: [row1-start] var(--form-row-row1-start) [row1-end row2-start] var(--form-row-row2-start) [row2-end]; }
     .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content {
       grid-column: column2-start / column2-end;
-      grid-row: row2-start / row2-end; } }
-  @media screen and (min-width: 40em) {
-    .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content--default {
-      margin-top: -1.5rem; }
-    .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content--x-small {
-      margin-top: calc(-0.5rem + var(--form-bounding-height)); }
-    .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content--small {
-      margin-top: calc(-1rem + var(--form-bounding-height)); }
-    .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content--medium {
-      margin-top: calc(-1.5rem + var(--form-bounding-height)); }
-    .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content--large {
-      margin-top: calc(-2rem + var(--form-bounding-height)); }
-    .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content--m-large {
-      margin-top: calc(-2.5rem + 0.625rem); }
-    .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content--x-large {
-      margin-top: calc(-3rem + var(--form-bounding-height)); }
-    .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content--xx-large {
-      margin-top: calc(-3.5rem + var(--form-bounding-height)); } }
-  @media screen and (max-width: 40em) {
-    .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content {
-      margin-top: 0.5rem !important; } }
-  .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-label {
-    margin-right: 1rem; }
-    @supports (display: grid) {
-      .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-label {
-        grid-column: column1-start / column1-end;
-        grid-row: row1-start / row1-end; } }
-    @media screen and (min-width: 40em) {
-      .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-label {
-        text-align: right; } }
-  @media screen and (max-width: 40em) {
-    .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] {
-      display: block; } }
-  .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] .dnb-form-row__label-dummy {
-    margin-top: 0; }
+      grid-row: row2-start / row2-end; }
+      @media screen and (min-width: 40em) {
+        .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content--default {
+          margin-top: -1.5rem; }
+        .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content--x-small {
+          margin-top: calc(-0.5rem + var(--form-bounding-height)); }
+        .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content--small {
+          margin-top: calc(-1rem + var(--form-bounding-height)); }
+        .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content--medium {
+          margin-top: calc(-1.5rem + var(--form-bounding-height)); }
+        .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content--large {
+          margin-top: calc(-2rem + var(--form-bounding-height)); }
+        .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content--m-large {
+          margin-top: calc(-2.5rem + 0.625rem); }
+        .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content--x-large {
+          margin-top: calc(-3rem + var(--form-bounding-height)); }
+        .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content--xx-large {
+          margin-top: calc(-3.5rem + var(--form-bounding-height)); } }
+      @media screen and (max-width: 40em) {
+        .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-row__content {
+          margin-top: 0.5rem !important; } }
+    .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-label {
+      grid-column: column1-start / column1-end;
+      grid-row: row1-start / row1-end;
+      margin-right: 1rem; }
+      @media screen and (min-width: 40em) {
+        .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] > .dnb-form-label {
+          text-align: right; } }
+    @media screen and (max-width: 40em) {
+      .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] {
+        display: block; } }
+    .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent'] .dnb-form-row__label-dummy {
+      margin-top: 0; }
   @media screen and (max-width: 40em) {
     .dnb-form-row:not(.dnb-form-row--vertical) {
       flex-direction: column;
@@ -335,9 +331,8 @@ legend.dnb-form-label {
     display: flex;
     flex-direction: column;
     align-items: flex-start; }
-  @supports (display: grid) {
-    .dnb-form-row > .dnb-form-row__label--vertical ~ .dnb-form-row__content {
-      grid-column: column1-start / column1-end; } }
+  .dnb-form-row > .dnb-form-row__label--vertical ~ .dnb-form-row__content {
+    grid-column: column1-start / column1-end; }
   .dnb-form-row__label-dummy {
     margin: 0; }
   .dnb-form-row__fieldset,

@@ -918,22 +918,14 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
           background-color: inherit; }
       .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner::after {
         content: '';
+        grid-column: 2;
+        grid-row: 1 / -1;
+        justify-self: end;
+        align-self: center;
         width: 1rem;
         height: 1rem;
         background-size: cover;
         background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0ibm9uZSI+ICA8cGF0aCAgICBmaWxsPSIjRTlGOEY0IiAgICBkPSJNMyA4LjhhLjc1Ljc1IDAgMSAwLTEuMjIuODZMMyA4Ljc5em0xLjg0IDMuOWwuNjMtLjQxdi0uMDFoLS4wMWwtLjYyLjQyem0xLjcxLjA1bC0uNTktLjQ2di4wMWwuNTkuNDV6bTguNDMtOS40NWEuNzUuNzUgMCAwIDAtMS4xOC0uOTNsMS4xOC45M3pNMS43OCA5LjY2bDIuNDUgMy40OCAxLjIzLS44N0wzIDguOGwtMS4yMy44N3ptMi40NCAzLjQ2Yy4zMi40OC44Ni43OCAxLjQ0LjhsLjA1LTEuNWEuMy4zIDAgMCAxLS4yNC0uMTNsLTEuMjUuODN6bTEuNDQuOGExLjggMS44IDAgMCAwIDEuNDktLjcxbC0xLjItLjlhLjMuMyAwIDAgMS0uMjQuMWwtLjA1IDEuNXptMS40OC0uN2w3Ljg0LTkuOTItMS4xOC0uOTMtNy44NCA5LjkyIDEuMTguOTN6Ii8+PC9zdmc+); }
-        @supports not (display: grid) {
-          .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner::after {
-            position: absolute;
-            z-index: 1;
-            top: calc(50% - 0.5rem);
-            right: 1rem; } }
-        @supports (display: grid) {
-          .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner::after {
-            grid-column: 2;
-            grid-row: 1 / -1;
-            justify-self: end;
-            align-self: center; } }
       .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner::before {
         visibility: hidden; }
     @media screen and (min-width: 40em) {
@@ -1165,21 +1157,14 @@ exports[`DrawerList scss have to match snapshot 1`] = `
     .dnb-drawer-list__option__inner {
       position: relative;
       z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-template-rows: repeat(10, min-content);
       outline: none;
       margin: 0;
       padding: 1rem;
       color: inherit;
       background-color: var(--color-white); }
-      @supports not (display: grid) {
-        .dnb-drawer-list__option__inner {
-          display: flex;
-          flex-direction: column;
-          justify-content: center; } }
-      @supports (display: grid) {
-        .dnb-drawer-list__option__inner {
-          display: grid;
-          grid-template-columns: 1fr auto;
-          grid-template-rows: repeat(10, min-content); } }
       .dnb-drawer-list__option__inner > * {
         align-self: self-start; }
     .dnb-drawer-list__option__item {
