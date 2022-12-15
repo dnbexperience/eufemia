@@ -868,15 +868,11 @@ thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus
       transition: transform 500ms var(--accordion-easing); }
   .dnb-table__tr__accordion_content--parallax .dnb-table__tr__accordion_content__inner__spacing {
     transform: translateY(0); }
-  .dnb-table__tr__accordion_content > td,
   .dnb-table__tr__accordion_content > td.dnb-table__td {
     padding: 0; }
-    .dnb-table__tr__accordion_content > td .dnb-dl,
-    .dnb-table__tr__accordion_content > td .dnb-dl dt,
     .dnb-table__tr__accordion_content > td.dnb-table__td .dnb-dl,
     .dnb-table__tr__accordion_content > td.dnb-table__td .dnb-dl dt {
       margin: 0; }
-  .dnb-table__tr__accordion_content--expanded > td,
   .dnb-table__tr__accordion_content--expanded > td.dnb-table__td {
     background-color: var(--color-white); }
   .dnb-table__tr__accordion_content.dnb-table__tr .dnb-table__td {
