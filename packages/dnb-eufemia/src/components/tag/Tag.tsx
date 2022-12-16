@@ -157,7 +157,6 @@ const Tag = (localProps: TagProps & SpacingProps) => {
 
   return (
     <Button
-      data-testid="tag"
       variant="unstyled"
       size="small"
       icon_position={isRemovable ? 'right' : 'left'}
