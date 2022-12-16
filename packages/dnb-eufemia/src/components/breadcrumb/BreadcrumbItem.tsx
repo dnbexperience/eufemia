@@ -99,7 +99,6 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
   return (
     <li
       className="dnb-breadcrumb__item"
-      data-testid="breadcrumb-item"
       aria-current={variant === 'current' ? 'page' : undefined}
       style={style}
     >
@@ -120,9 +119,7 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
             icon={currentIcon}
             className="dnb-breadcrumb__item__span__icon"
           />
-          <P left="0" data-testid="breadcrumb-item-text">
-            {currentText}
-          </P>
+          <P left="0">{currentText}</P>
         </span>
       )}
     </li>

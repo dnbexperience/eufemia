@@ -16,21 +16,25 @@ describe('Breadcrumb', () => {
   it('renders without properties', () => {
     render(<Breadcrumb />)
 
-    expect(screen.queryByTestId('breadcrumb-nav')).not.toBeNull()
+    expect(screen.queryByRole('button')).not.toBeNull()
   })
 
   it('renders a breadcrumb with multiple items by data prop', () => {
     render(
       <Breadcrumb
         data={[
-          { href: '/' },
+          { href: '/', text: 'Home' },
           { href: '/page1', text: 'Page 1' },
           { href: '/page1/page2', text: 'Page 2' },
         ]}
       />
     )
 
-    expect(screen.queryAllByTestId('breadcrumb-item')).toHaveLength(3)
+    expect(screen.queryByText('Home')).toBeTruthy()
+    expect(screen.queryByText('Page 1')).toBeTruthy()
+    expect(screen.queryByText('Page 2')).toBeTruthy()
+
+    expect(screen.queryAllByRole('link')).toHaveLength(2)
   })
 
   it('renders a breadcrumb with a single item by data prop', () => {
@@ -38,56 +42,67 @@ describe('Breadcrumb', () => {
       <Breadcrumb data={[{ href: '/page1/page2', text: 'Page 2' }]} />
     )
 
-    expect(screen.queryAllByTestId('breadcrumb-item')).toHaveLength(1)
+    expect(screen.queryByText('Page 2')).toBeTruthy()
+    expect(screen.queryAllByRole('link')).toHaveLength(1)
   })
 
   it('renders a breadcrumb with multiple items by children', () => {
     render(
       <Breadcrumb>
-        <Breadcrumb.Item text="Home" />
-        <Breadcrumb.Item text="Page item" />
-        <Breadcrumb.Item text="Page item" />
+        <Breadcrumb.Item href="/" text="Home" />
+        <Breadcrumb.Item href="/page1" text="Page 1" />
+        <Breadcrumb.Item href="/page1/page2" text="Page 2" />
       </Breadcrumb>
     )
 
-    expect(screen.queryAllByTestId('breadcrumb-item')).toHaveLength(3)
+    expect(screen.queryByText('Home')).toBeTruthy()
+    expect(screen.queryByText('Page 1')).toBeTruthy()
+    expect(screen.queryByText('Page 2')).toBeTruthy()
+
+    expect(screen.queryAllByRole('link')).toHaveLength(3)
   })
 
   it('renders a breadcrumb with a single item by children', () => {
     render(
       <Breadcrumb>
-        <Breadcrumb.Item text="Page item #1" />
+        <Breadcrumb.Item text="Page item #1" href="/page1" />
       </Breadcrumb>
     )
 
-    expect(screen.queryAllByTestId('breadcrumb-item')).toHaveLength(1)
+    expect(screen.queryByText('Page item #1')).toBeTruthy()
+    expect(screen.queryAllByRole('link')).toHaveLength(1)
   })
 
   it('should handle a breadcrumb with a single null as children', () => {
     render(<Breadcrumb>{null}</Breadcrumb>)
 
-    expect(screen.queryAllByTestId('breadcrumb-item')).toHaveLength(0)
+    expect(screen.queryAllByRole('link')).toHaveLength(0)
   })
 
   it('should handle children as null', () => {
     render(
       <Breadcrumb>
         {null}
-        <Breadcrumb.Item text="Page item #1" />
+        <Breadcrumb.Item text="Page item #1" href="/page1" />
         {null}
         {null}
-        <Breadcrumb.Item text="Page item #2" />
+        <Breadcrumb.Item text="Page item #2" href="/page2" />
         {null}
         {null}
         {null}
-        <Breadcrumb.Item text="Page item #3" />
+        <Breadcrumb.Item text="Page item #3" href="/page3" />
         {null}
         {null}
-        <Breadcrumb.Item text="Page item #4" />
+        <Breadcrumb.Item text="Page item #4" href="/page4" />
       </Breadcrumb>
     )
 
-    expect(screen.queryAllByTestId('breadcrumb-item')).toHaveLength(4)
+    expect(screen.queryByText('Page item #1')).toBeTruthy()
+    expect(screen.queryByText('Page item #2')).toBeTruthy()
+    expect(screen.queryByText('Page item #3')).toBeTruthy()
+    expect(screen.queryByText('Page item #4')).toBeTruthy()
+
+    expect(screen.queryAllByRole('link')).toHaveLength(4)
   })
 
   it('renders a breadcrumb with one item', () => {
@@ -97,7 +112,8 @@ describe('Breadcrumb', () => {
       </Provider>
     )
 
-    expect(screen.queryAllByTestId('breadcrumb-item')).toHaveLength(0)
+    expect(screen.queryAllByRole('link')).toHaveLength(1)
+
     expect(screen.queryByRole('link').getAttribute('href')).toBe('/url')
 
     expect(screen.getByText('Back')).toBeDefined()
@@ -118,11 +134,11 @@ describe('Breadcrumb', () => {
       />
     )
 
-    expect(screen.queryByTestId('breadcrumb-collapse')).toBeNull()
+    expect(document.querySelector('.dnb-breadcrumb__animation')).toBeNull()
 
     fireEvent.click(screen.getByRole('button'))
 
-    expect(screen.queryByTestId('breadcrumb-collapse')).toBeNull()
+    expect(document.querySelector('.dnb-breadcrumb__animation')).toBeNull()
   })
 
   it('will handle last item as current', () => {
@@ -131,16 +147,15 @@ describe('Breadcrumb', () => {
         data={[
           { href: '/' },
           { href: '/page1', text: 'Page 1' },
-          { href: '/page1/page2', text: 'Page 2' },
+          { href: '/page1/page2', text: 'Last Item' },
         ]}
       />
     )
 
-    expect(screen.getAllByTestId('breadcrumb-item')).toHaveLength(3)
-    const lastElem = screen.getAllByTestId('breadcrumb-item').slice(-1)[0]
+    const lastElem = screen.getByText('Last Item')
     expect(
-      lastElem.querySelector('.dnb-breadcrumb__item__span').textContent
-    ).toBe('Page 2')
+      lastElem.parentElement.parentElement.getAttribute('aria-current')
+    ).toBe('page')
   })
 
   it('current item will have aria-current="page', () => {
@@ -148,14 +163,17 @@ describe('Breadcrumb', () => {
       <Breadcrumb
         data={[
           { href: '/' },
-          { href: '/page1', text: 'Page 1' },
+          { href: '/page1', text: 'Current Item', variant: 'current' },
           { href: '/page1/page2', text: 'Page 2' },
         ]}
       />
     )
 
-    const lastElem = screen.getAllByTestId('breadcrumb-item').slice(-1)[0]
-    expect(lastElem.getAttribute('aria-current')).toBe('page')
+    const currentItem = screen.getByText('Current Item')
+
+    expect(
+      currentItem.parentElement.parentElement.getAttribute('aria-current')
+    ).toBe('page')
   })
 
   it('variant collapse opens the collapsed content on click', () => {
@@ -173,7 +191,9 @@ describe('Breadcrumb', () => {
 
     fireEvent.click(screen.getByRole('button'))
 
-    expect(screen.queryByTestId('breadcrumb-collapse')).toBeDefined()
+    expect(
+      document.querySelector('.dnb-breadcrumb__animation')
+    ).toBeDefined()
   })
 
   it('inherits skeleton prop from provider', () => {
@@ -200,12 +220,12 @@ describe('Breadcrumb', () => {
       />
     )
 
-    const element = screen.getByTestId('breadcrumb-nav')
+    const element = document.querySelector('.dnb-breadcrumb')
     const attributes = Array.from(element.attributes).map(
       (attr) => attr.name
     )
 
-    expect(attributes).toEqual(['aria-label', 'class', 'data-testid'])
+    expect(attributes).toEqual(['aria-label', 'class'])
     expect(Array.from(element.classList)).toEqual([
       'dnb-breadcrumb',
       'dnb-space__top--large',
@@ -235,13 +255,12 @@ describe('Breadcrumb', () => {
     })
 
     it('renders breadcrumbitem as text, not button or link', () => {
-      render(<BreadcrumbItem text="Just text" />)
+      const text = 'Just text'
+      render(<BreadcrumbItem text={text} />)
 
       expect(screen.queryByRole('link')).toBeNull()
       expect(screen.queryByRole('button')).toBeNull()
-      expect(
-        screen.queryByTestId('breadcrumb-item-text').textContent
-      ).toBe('Just text')
+      expect(screen.queryByText(text)).toBeTruthy()
     })
 
     it('will render custom icon', () => {

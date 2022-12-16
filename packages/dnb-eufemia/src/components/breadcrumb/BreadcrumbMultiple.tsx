@@ -22,7 +22,6 @@ export const BreadcrumbMultiple = ({
     <HeightAnimation
       open={!isCollapsed}
       animate={!noAnimation}
-      data-testid="breadcrumb-collapse"
       className="dnb-breadcrumb__animation"
     >
       <Section
