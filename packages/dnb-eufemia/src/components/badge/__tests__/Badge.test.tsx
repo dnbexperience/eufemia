@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, within } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import Badge from '../Badge'
 import { confetti as Confetti } from '../../../icons'
 import Icon from '../../Icon'
@@ -15,14 +15,14 @@ describe('Badge', () => {
   it('renders without properties', () => {
     render(<Badge />)
 
-    expect(screen.queryByTestId('badge')).not.toBeNull()
+    expect(document.querySelector('.dnb-badge')).not.toBeNull()
   })
 
   it('renders content as text', () => {
     const string = 'A'
     render(<Badge content={string} />)
 
-    expect(screen.queryByTestId('badge').textContent).toBe(string)
+    expect(screen.queryByText(string)).toBeTruthy()
   })
 
   it('renders content as number', () => {
@@ -30,9 +30,8 @@ describe('Badge', () => {
     const label = 'Notifications:'
     render(<Badge content={number} label={label} />)
 
-    expect(screen.queryByTestId('badge').textContent).toBe(
-      `${label} ${number}`
-    )
+    expect(screen.queryByText(number)).toBeTruthy()
+    expect(screen.queryByText(label)).toBeTruthy()
   })
 
   it('renders 9+ when content is a number with value greater than 9', () => {
@@ -40,7 +39,8 @@ describe('Badge', () => {
     const label = 'Notifications:'
     render(<Badge content={number} variant="notification" label={label} />)
 
-    expect(screen.queryByTestId('badge').textContent).toBe(`${label} 9+`)
+    expect(screen.queryByText('9+')).toBeTruthy()
+    expect(screen.queryByText(label)).toBeTruthy()
   })
 
   it('renders the label as string', () => {
@@ -48,23 +48,15 @@ describe('Badge', () => {
     const content = 100
     render(<Badge label={label} content={content} />)
 
-    expect(screen.queryByTestId('badge-label').textContent).toBe(
-      `${label} `
-    )
-    expect(screen.queryByTestId('badge').textContent).toBe(
-      `${label} ${content}`
-    )
+    expect(screen.queryByText(label)).toBeTruthy()
+    expect(screen.queryByText(content)).toBeTruthy()
   })
 
   it('renders the label as a react node', () => {
     const label = <span data-testid="react-node">ReactNode</span>
     render(<Badge label={label} content="something" />)
 
-    expect(
-      within(screen.queryByTestId('badge-label')).queryByTestId(
-        'react-node'
-      )
-    ).not.toBeNull()
+    expect(screen.queryByTestId('react-node')).not.toBeNull()
   })
 
   it('renders children as content', () => {
@@ -76,8 +68,7 @@ describe('Badge', () => {
       </Badge>
     )
 
-    const badgeRoot = screen.queryByTestId('badge-root')
-    expect(within(badgeRoot).queryByTestId('confetti icon')).not.toBeNull()
+    expect(screen.queryByTestId('confetti icon')).not.toBeNull()
   })
 
   it('warns when notification badge content is a string', () => {
@@ -120,9 +111,10 @@ describe('Badge', () => {
   describe('default values', () => {
     it('has variant information as default', () => {
       render(<Badge />)
-      expect(screen.queryByTestId('badge').className).toMatch(
-        'dnb-badge--variant-information'
-      )
+
+      expect(
+        document.getElementsByClassName('dnb-badge--variant-information')
+      ).toHaveLength(1)
     })
   })
 })
