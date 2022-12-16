@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, within } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import Avatar from '../Avatar'
 import { confetti as Confetti } from '../../../icons'
 import Icon from '../../Icon'
@@ -19,7 +19,7 @@ describe('Avatar', () => {
       </Avatar.Group>
     )
 
-    expect(screen.queryByTestId('avatar')).not.toBeNull()
+    expect(document.querySelector('.dnb-avatar')).not.toBeNull()
   })
 
   it('renders children as text', () => {
@@ -30,7 +30,7 @@ describe('Avatar', () => {
       </Avatar.Group>
     )
 
-    expect(screen.queryByTestId('avatar-text').textContent).toBe(children)
+    expect(screen.queryAllByText(children)).toBeTruthy()
   })
 
   it('renders text children by first char uppercased', () => {
@@ -41,7 +41,7 @@ describe('Avatar', () => {
       </Avatar.Group>
     )
 
-    expect(screen.queryByTestId('avatar-text').textContent).toBe('E')
+    expect(screen.queryByText('E')).toBeTruthy()
   })
 
   it('renders a label for screen readers when passing children as text', () => {
@@ -52,7 +52,7 @@ describe('Avatar', () => {
       </Avatar.Group>
     )
 
-    expect(screen.queryByTestId('avatar-label').textContent).toBe(children)
+    expect(screen.queryByText(children)).toBeTruthy()
   })
 
   it('renders children as Icon', () => {
@@ -64,8 +64,7 @@ describe('Avatar', () => {
       </Avatar.Group>
     )
 
-    const avatar = screen.queryByTestId('avatar')
-    expect(within(avatar).queryByTestId('confetti icon')).not.toBeNull()
+    expect(screen.queryByTestId('confetti icon')).not.toBeNull()
     expect(screen.queryByTestId('avatar-label')).toBeNull()
   })
 
@@ -78,7 +77,6 @@ describe('Avatar', () => {
     )
 
     expect(screen.queryByRole('img').getAttribute('src')).toBe(img_src)
-    expect(screen.queryByTestId('avatar-label')).toBeNull()
   })
 
   it('renders alt for img from src', () => {
@@ -91,7 +89,6 @@ describe('Avatar', () => {
 
     expect(screen.findByAltText(img_alt)).not.toBeNull()
     expect(screen.queryByRole('img').getAttribute('alt')).toBe(img_alt)
-    expect(screen.queryByTestId('avatar-label')).toBeNull()
   })
 
   it('renders imgProps', () => {
@@ -112,8 +109,7 @@ describe('Avatar', () => {
       </Avatar.Group>
     )
 
-    const avatar = screen.queryByTestId('avatar')
-    const image = within(avatar).queryByRole('img')
+    const image = screen.queryByRole('img')
 
     expect(image.getAttribute('src')).toBe(img_src)
     expect(image.getAttribute('alt')).toBe(img_alt)
@@ -139,14 +135,13 @@ describe('Avatar', () => {
     const skeletonClassName = 'dnb-skeleton'
 
     render(
-      <Avatar.Group label="label">
-        <Avatar skeleton>A</Avatar>
+      <Avatar.Group skeleton label="label">
+        <Avatar>A</Avatar>
       </Avatar.Group>
     )
-
-    expect(screen.queryByTestId('avatar').className).toMatch(
-      skeletonClassName
-    )
+    expect(
+      document.getElementsByClassName(skeletonClassName)
+    ).toHaveLength(1)
   })
 
   it('inherits skeleton prop from provider', () => {
@@ -160,9 +155,9 @@ describe('Avatar', () => {
       </Provider>
     )
 
-    expect(screen.queryByTestId('avatar').className).toMatch(
-      skeletonClassName
-    )
+    expect(
+      document.getElementsByClassName(skeletonClassName)
+    ).toHaveLength(1)
   })
 
   it('should support spacing props', () => {
@@ -178,12 +173,12 @@ describe('Avatar', () => {
       </Avatar.Group>
     )
 
-    const element = screen.getByTestId('avatar')
+    const element = document.querySelector('.dnb-avatar')
     const attributes = Array.from(element.attributes).map(
       (attr) => attr.name
     )
 
-    expect(attributes).toEqual(['class', 'data-testid'])
+    expect(attributes).toEqual(['class'])
     expect(Array.from(element.classList)).toEqual([
       'dnb-avatar',
       'dnb-avatar--primary',
@@ -202,10 +197,8 @@ describe('Avatar', () => {
           <Avatar>C</Avatar>
         </Avatar.Group>
       )
-      expect(screen.queryByTestId('avatar-group-label')).not.toBeNull()
-      expect(screen.queryByTestId('avatar-group-label').textContent).toBe(
-        label
-      )
+
+      expect(screen.queryByText(label)).toBeTruthy()
     })
 
     it('renders the label as react node', () => {
@@ -217,12 +210,7 @@ describe('Avatar', () => {
           <Avatar>C</Avatar>
         </Avatar.Group>
       )
-      expect(screen.queryByTestId('avatar-group-label')).not.toBeNull()
-      expect(
-        within(screen.queryByTestId('avatar-group-label')).queryByTestId(
-          'react-node'
-        )
-      ).not.toBeNull()
+      expect(screen.queryByTestId('react-node')).not.toBeNull()
     })
 
     it('renders the "elements left"-avatar when having more avatars than maxElements', () => {
@@ -234,13 +222,12 @@ describe('Avatar', () => {
         </Avatar.Group>
       )
 
-      const avatarsDisplayed = screen.queryAllByTestId('avatar')
-      const avatarElementsLeft = screen.queryByTestId('elements-left')
+      const avatarsDisplayed =
+        document.getElementsByClassName('dnb-avatar')
 
-      expect(avatarElementsLeft).not.toBeNull()
-      expect(avatarElementsLeft.textContent).toBe('+2')
+      expect(screen.queryByText('+2')).toBeTruthy()
 
-      expect(avatarsDisplayed.length).toBe(1)
+      expect(avatarsDisplayed).toHaveLength(1)
     })
 
     it('renders the "elements left"-avatar when having multiple avatars, and maxElement 1', () => {
@@ -252,13 +239,12 @@ describe('Avatar', () => {
         </Avatar.Group>
       )
 
-      const avatarsDisplayed = screen.queryAllByTestId('avatar')
-      const avatarElementsLeft = screen.queryByTestId('elements-left')
+      const avatarsDisplayed =
+        document.getElementsByClassName('dnb-avatar')
 
-      expect(avatarElementsLeft).not.toBeNull()
-      expect(avatarElementsLeft.textContent).toBe('+3')
+      expect(screen.queryByText('+3')).toBeTruthy()
 
-      expect(avatarsDisplayed.length).toBe(0)
+      expect(avatarsDisplayed).toHaveLength(0)
     })
 
     it('does not render "elements left"-avatar when num of avatars is the same as maxElements', () => {
@@ -270,10 +256,14 @@ describe('Avatar', () => {
         </Avatar.Group>
       )
 
-      const avatarsDisplayed = screen.queryAllByTestId('avatar')
+      const avatarsDisplayed =
+        document.getElementsByClassName('dnb-avatar')
 
-      expect(screen.queryByTestId('elements-left')).toBeNull()
-      expect(avatarsDisplayed.length).toBe(3)
+      expect(
+        document.querySelector('.dnb-avatar__group--elements-left')
+      ).toBeNull()
+
+      expect(avatarsDisplayed).toHaveLength(3)
     })
 
     it('does not render "elements left"-avatar when num of avatars is less than maxElements', () => {
@@ -285,10 +275,13 @@ describe('Avatar', () => {
         </Avatar.Group>
       )
 
-      const avatarsDisplayed = screen.queryAllByTestId('avatar')
+      const avatarsDisplayed =
+        document.getElementsByClassName('dnb-avatar')
 
-      expect(screen.queryByTestId('elements-left')).toBeNull()
-      expect(avatarsDisplayed.length).toBe(3)
+      expect(
+        document.querySelector('.dnb-avatar__group--elements-left')
+      ).toBeNull()
+      expect(avatarsDisplayed).toHaveLength(3)
     })
 
     it('does not render "elements left"-avatar when maxElements is 0', () => {
@@ -300,10 +293,13 @@ describe('Avatar', () => {
         </Avatar.Group>
       )
 
-      const avatarsDisplayed = screen.queryAllByTestId('avatar')
+      const avatarsDisplayed =
+        document.getElementsByClassName('dnb-avatar')
 
-      expect(screen.queryByTestId('elements-left')).toBeNull()
-      expect(avatarsDisplayed.length).toBe(3)
+      expect(
+        document.querySelector('.dnb-avatar__group--elements-left')
+      ).toBeNull()
+      expect(avatarsDisplayed).toHaveLength(3)
     })
 
     it('does not render "elements left"-avatar when maxElements is not a number', () => {
@@ -314,10 +310,13 @@ describe('Avatar', () => {
         </Avatar.Group>
       )
 
-      const avatarsDisplayed = screen.queryAllByTestId('avatar')
+      const avatarsDisplayed =
+        document.getElementsByClassName('dnb-avatar')
 
-      expect(screen.queryByTestId('elements-left')).toBeNull()
-      expect(avatarsDisplayed.length).toBe(2)
+      expect(
+        document.querySelector('.dnb-avatar__group--elements-left')
+      ).toBeNull()
+      expect(avatarsDisplayed).toHaveLength(2)
     })
 
     it('renders "elements left"-avatar when maxElements is not a number, and five or more avatars', () => {
@@ -331,24 +330,13 @@ describe('Avatar', () => {
         </Avatar.Group>
       )
 
-      const avatarsDisplayed = screen.queryAllByTestId('avatar')
+      const avatarsDisplayed =
+        document.getElementsByClassName('dnb-avatar')
 
-      expect(screen.queryByTestId('elements-left')).not.toBeNull()
-      expect(avatarsDisplayed.length).toBe(3)
-    })
-
-    it('renders skeleton if skeleton is true', () => {
-      const skeletonClassName = 'dnb-skeleton'
-
-      render(
-        <Avatar.Group skeleton label="label">
-          <Avatar>A</Avatar>
-        </Avatar.Group>
-      )
-
-      expect(screen.queryByTestId('avatar').className).toMatch(
-        skeletonClassName
-      )
+      expect(
+        document.querySelector('.dnb-avatar__group--elements-left')
+      ).not.toBeNull()
+      expect(avatarsDisplayed).toHaveLength(3)
     })
   })
 })
