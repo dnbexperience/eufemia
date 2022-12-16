@@ -28,15 +28,9 @@ const UploadInfo = () => {
 
   return (
     <>
-      <Lead data-testid="upload-title" space="0">
-        {title}
-      </Lead>
+      <Lead space="0">{title}</Lead>
 
-      <P
-        data-testid="upload-text"
-        top="xx-small"
-        className="dnb-upload__text"
-      >
+      <P top="xx-small" className="dnb-upload__text">
         {text}
       </P>
 
@@ -47,14 +41,12 @@ const UploadInfo = () => {
         className="dnb-upload__condition-list"
       >
         <Dl.Item>
-          <Dt data-testid="upload-accepted-formats">
-            {fileTypeDescription}
-          </Dt>
+          <Dt>{fileTypeDescription}</Dt>
           <Dd>{prettyfiedAcceptedFileFormats}</Dd>
         </Dl.Item>
 
         <Dl.Item>
-          <Dt data-testid="upload-file-size">{fileSizeDescription}</Dt>
+          <Dt>{fileSizeDescription}</Dt>
           <Dd>
             {String(fileSizeContent).replace(
               '%size',
@@ -65,9 +57,7 @@ const UploadInfo = () => {
 
         {filesAmountLimit < defaultProps.filesAmountLimit && (
           <Dl.Item>
-            <Dt data-testid="upload-file-amount-limit">
-              {fileAmountDescription}
-            </Dt>
+            <Dt>{fileAmountDescription}</Dt>
             <Dd>{filesAmountLimit}</Dd>
           </Dl.Item>
         )}

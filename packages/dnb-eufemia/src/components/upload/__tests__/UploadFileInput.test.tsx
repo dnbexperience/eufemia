@@ -30,19 +30,11 @@ describe('UploadFileInput', () => {
     }
   }
 
-  it('renders the component', () => {
-    render(<UploadFileInput />, {
-      wrapper: makeWrapper(),
-    })
-
-    expect(screen.queryByTestId('upload-file-input')).not.toBeNull()
-  })
-
   it('renders the upload button', () => {
     render(<UploadFileInput />, {
       wrapper: makeWrapper(),
     })
-    expect(screen.queryByTestId('upload-file-input-button')).not.toBeNull()
+    expect(screen.getByRole('button')).not.toBeNull()
   })
 
   it('renders the upload button text', () => {
@@ -52,9 +44,18 @@ describe('UploadFileInput', () => {
         buttonText: buttonText,
       }),
     })
+
+    expect(screen.queryByText(buttonText)).toBeTruthy()
+  })
+
+  it('renders the upload input', () => {
+    render(<UploadFileInput />, {
+      wrapper: makeWrapper(),
+    })
+
     expect(
-      screen.queryByTestId('upload-file-input-button').textContent
-    ).toMatch(buttonText)
+      document.querySelector('.dnb-upload__file-input')
+    ).not.toBeNull()
   })
 
   it('accepts multiple files by default', () => {
@@ -62,7 +63,7 @@ describe('UploadFileInput', () => {
       wrapper: makeWrapper(),
     })
 
-    const element = screen.queryByTestId('upload-file-input-input')
+    const element = document.querySelector('.dnb-upload__file-input')
 
     expect(element.hasAttribute('multiple')).toBeTruthy()
   })
@@ -74,7 +75,7 @@ describe('UploadFileInput', () => {
       }),
     })
 
-    const element = screen.queryByTestId('upload-file-input-input')
+    const element = document.querySelector('.dnb-upload__file-input')
 
     expect(element.hasAttribute('multiple')).toBeFalsy()
   })
@@ -83,7 +84,7 @@ describe('UploadFileInput', () => {
     render(<UploadFileInput />, {
       wrapper: makeWrapper(),
     })
-    const element = screen.queryByTestId('upload-file-input-input')
+    const element = document.querySelector('.dnb-upload__file-input')
 
     expect(element).not.toBeNull()
     expect(element.getAttribute('class')).toMatch('dnb-upload__file-input')
@@ -94,9 +95,9 @@ describe('UploadFileInput', () => {
       wrapper: makeWrapper(),
     })
 
-    const buttonElement = screen.queryByTestId('upload-file-input-button')
+    const buttonElement = screen.getByRole('button')
 
-    const inputElement = screen.queryByTestId('upload-file-input-input')
+    const inputElement = document.querySelector('.dnb-upload__file-input')
 
     const clickEventListener = jest.fn()
     inputElement.addEventListener('click', clickEventListener)
@@ -115,7 +116,7 @@ describe('UploadFileInput', () => {
       wrapper: makeWrapper({ onInputUpload }),
     })
 
-    const inputElement = screen.queryByTestId('upload-file-input-input')
+    const inputElement = document.querySelector('.dnb-upload__file-input')
 
     await waitFor(() =>
       fireEvent.change(inputElement, {
@@ -135,8 +136,8 @@ describe('UploadFileInput', () => {
       wrapper: makeWrapper({ onInputUpload }),
     })
 
-    const inputElement = screen.queryByTestId(
-      'upload-file-input-input'
+    const inputElement = document.querySelector(
+      '.dnb-upload__file-input'
     ) as HTMLInputElement
 
     Object.defineProperty(inputElement, 'value', {
@@ -165,8 +166,8 @@ describe('UploadFileInput', () => {
       }),
     })
 
-    const inputElement = screen.queryByTestId(
-      'upload-file-input-input'
+    const inputElement = document.querySelector(
+      '.dnb-upload__file-input'
     ) as HTMLInputElement
 
     expect(inputElement.accept).toBe('.png,.pdf')
@@ -179,8 +180,8 @@ describe('UploadFileInput', () => {
       }),
     })
 
-    const inputElement = screen.queryByTestId(
-      'upload-file-input-input'
+    const inputElement = document.querySelector(
+      '.dnb-upload__file-input'
     ) as HTMLInputElement
 
     expect(inputElement.accept).toBe('.png,.jpg,.jpeg')
@@ -196,7 +197,7 @@ describe('UploadFileInput', () => {
       wrapper: makeWrapper({ onInputUpload }),
     })
 
-    const inputElement = screen.queryByTestId('upload-file-input-input')
+    const inputElement = document.querySelector('.dnb-upload__file-input')
 
     await waitFor(() =>
       fireEvent.change(inputElement, {
