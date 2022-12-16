@@ -16,7 +16,7 @@ import TableContainer from '../TableContainer'
 import { H2, P, Anchor, Dl, Lead } from '../../../elements'
 import { Button, ToggleButton, NumberFormat, Avatar } from '../../'
 import shopping_cart from '../../../icons/shopping_cart'
-import { useHandleSortState } from '../'
+import useHandleSortState from '../useHandleSortState'
 
 export default {
   title: 'Eufemia/Components/Table',

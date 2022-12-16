@@ -78,7 +78,7 @@ By default, it will cycle trough three stages `['asc', 'desc', 'off']`.
   </summary>
 
 ```jsx
-import { useHandleSortState } from '@dnb/eufemia/components/table'
+import useHandleSortState from '@dnb/eufemia/components/table/useHandleSortState'
 
 // You can also provide a default that will be used as the fallback e.g.
 const defaultOptions = { direction: 'asc', modes: ['asc', 'desc', 'off'] }
@@ -98,6 +98,24 @@ export const YourComponent = () => {
   // Use these properties for your custom sorting logic
   console.log(sortState.column1.direction) // returns either "asc", "desc" or "off"
   console.log(activeSortName) // returns the current active one: "column1" (returns null when nothing is active)
+
+  // Handle your logic
+  useEffect(() => {
+    switch (sortState.column1.direction) {
+      default:
+      case 'asc':
+        setYourLocalState(mockData.sort(compareFunctionAsc))
+        break
+
+      case 'desc':
+        setYourLocalState(mockData.sort(compareFunctionsDesc))
+        break
+
+      case 'off':
+        setYourLocalState(mockData)
+        break
+    }
+  }, [sortState.column1.direction])
 
   return (
     <Table>
