@@ -36,6 +36,21 @@ export const TableVariantBasic = () => (
           column2: { direction: 'desc', modes: ['asc', 'desc'] },
         })
 
+        // Handle your "column1" logic
+        React.useEffect(() => {
+          switch (sortState.column1.direction) {
+            case 'asc':
+              break
+
+            case 'desc':
+              break
+
+            default:
+            case 'off':
+              break
+          }
+        }, [sortState.column1.direction])
+
         return (
           <Table.ScrollView>
             <Table>

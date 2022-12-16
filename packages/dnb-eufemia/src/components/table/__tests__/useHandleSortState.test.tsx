@@ -28,9 +28,9 @@ describe('useHandleSortState', () => {
       },
       sortState: {
         one: {
-          active: undefined,
-          reversed: false,
-          direction: 'asc',
+          active: false,
+          reversed: undefined,
+          direction: 'off',
         },
       },
     })
@@ -102,7 +102,7 @@ describe('useHandleSortState', () => {
     })
   })
 
-  it('should return active with reverted direction', () => {
+  it('should return active with default direction', () => {
     const { result } = renderHook(useHandleSortState, {
       initialProps: {
         one: { active: true },
@@ -117,8 +117,8 @@ describe('useHandleSortState', () => {
       sortState: {
         one: {
           active: true,
-          reversed: false,
-          direction: 'asc',
+          reversed: undefined,
+          direction: 'off',
         },
       },
     })
@@ -238,6 +238,20 @@ describe('useHandleSortState', () => {
     simulate()
 
     expect(result.current).toEqual({
+      activeSortName: 'one',
+      sortHandler,
+      sortState: {
+        one: {
+          active: true,
+          reversed: false,
+          direction: 'asc',
+        },
+      },
+    })
+
+    simulate()
+
+    expect(result.current).toEqual({
       activeSortName: null,
       sortHandler,
       sortState: {
@@ -288,6 +302,25 @@ describe('useHandleSortState', () => {
       sortState: {
         one: {
           active: true,
+          reversed: false,
+          direction: 'asc',
+        },
+        two: {
+          active: false,
+          reversed: true,
+          direction: 'desc',
+        },
+      },
+    })
+
+    simulateOne()
+
+    expect(result.current).toEqual({
+      activeSortName: 'one',
+      sortHandler,
+      sortState: {
+        one: {
+          active: true,
           reversed: true,
           direction: 'desc',
         },
@@ -326,8 +359,8 @@ describe('useHandleSortState', () => {
       sortState: {
         one: {
           active: true,
-          reversed: false,
           direction: 'asc',
+          reversed: false,
         },
         two: {
           active: false,
@@ -345,8 +378,8 @@ describe('useHandleSortState', () => {
       sortState: {
         one: {
           active: true,
-          reversed: true,
           direction: 'desc',
+          reversed: true,
         },
         two: {
           active: false,

@@ -274,7 +274,7 @@ export const ContainerTable = () => {
       </TableContainer.Body>
 
       <TableContainer.Foot>
-        <P id="unique-ref-id">Footer</P>
+        {/* <P id="unique-ref-id">Footer</P> */}
       </TableContainer.Foot>
     </StyledContainer>
   )
@@ -613,4 +613,81 @@ export const TableAccordion = () => {
       />
     </main>
   )
+}
+
+export function TableSort() {
+  const { sortState, sortHandler } = useHandleSortState({
+    column1: {
+      active: true,
+      direction: 'off',
+    },
+  })
+
+  interface Column1 {
+    name: string
+    minAmount: number
+  }
+
+  const product1: Column1 = { name: 'cab', minAmount: 1 }
+  const product2: Column1 = { name: 'abc', minAmount: 3 }
+  const product3: Column1 = { name: 'bac', minAmount: 2 }
+
+  const mockData = [product1, product2, product3]
+
+  const [sortedColumn1, setColumn1Data] =
+    React.useState<Column1[]>(mockData)
+
+  React.useEffect(() => {
+    switch (sortState.column1.direction) {
+      case 'asc':
+        setColumn1Data([...mockData].sort(compareAsc))
+        break
+
+      case 'desc':
+        setColumn1Data([...mockData].sort(compareDesc))
+        break
+
+      default:
+      case 'off':
+        setColumn1Data(mockData)
+        break
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sortState.column1.direction])
+
+  return (
+    <Table>
+      <thead>
+        <Tr>
+          <Th
+            scope="col"
+            sortable
+            active={sortState.column1.active}
+            reversed={sortState.column1.reversed}
+          >
+            <Th.SortButton text={'Name'} onClick={sortHandler.column1} />
+          </Th>
+          <Th scope="col" sortable>
+            <Th.SortButton text={'Min amount'} />
+          </Th>
+        </Tr>
+      </thead>
+      <tbody>
+        {sortedColumn1.map((product) => (
+          <Tr key={product.minAmount}>
+            <Td>{product.name}</Td>
+            <Td>{product.minAmount}</Td>
+          </Tr>
+        ))}
+      </tbody>
+    </Table>
+  )
+
+  function compareDesc(a: Column1, b: Column1) {
+    return b.name.localeCompare(a.name)
+  }
+
+  function compareAsc(a: Column1, b: Column1) {
+    return a.name.localeCompare(b.name)
+  }
 }
