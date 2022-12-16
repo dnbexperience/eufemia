@@ -50,14 +50,30 @@
   }
   &__foot {
     padding: 1rem;
+    padding-bottom: 1.25rem; // because of 8px scrollbar
 
     &--empty {
-      padding: 0 0 0.5rem;
+      padding-bottom: 1.5rem;
     }
   }
 
   .dnb-table__scroll-view {
-    margin-bottom: 0.5rem;
+    // Clip the native Scrollbar as per defined by UX
+    clip-path: inset(0 round 0 0 0.5rem 0.5rem);
+  }
+
+  // Ensure our outline on bottom is not overlaying the scrollbar on webkit
+  // We also need to escape the "selector" because its not supported by "node-sass".
+  @supports (-webkit-appearance: none) and
+    (not (-moz-appearance: meterbar)) {
+    &::after {
+      bottom: calc(var(--outline-width) * -1);
+    }
+
+    // TODO: Our SASS version c support :has – so we may use this in future
+    // &:has(#{&}__foot--empty)::after {
+    //   bottom: 0;
+    // }
   }
 
   // When placed inside a Modal/Drawer, let the parent scroll-bar do its job.
