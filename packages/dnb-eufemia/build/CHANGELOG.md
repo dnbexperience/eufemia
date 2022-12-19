@@ -3,6 +3,23 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.43.0](https://github.com/dnbexperience/eufemia/compare/v9.42.0...v9.43.0) (2022-12-19)
+
+
+### Bug Fixes
+
+* **Button:** support target property ([#1817](https://github.com/dnbexperience/eufemia/issues/1817)) ([71f5ee3](https://github.com/dnbexperience/eufemia/commit/71f5ee3746f6381eeb72221bac013126a5ea84ad))
+* **TableContainer:** align always visible scrollbar ([#1819](https://github.com/dnbexperience/eufemia/issues/1819)) ([c16519d](https://github.com/dnbexperience/eufemia/commit/c16519d136228e0ec9e246b13e4aba4c9972329d))
+* **TableContainer:** no space on empty foot + clip scrollbar ([#1827](https://github.com/dnbexperience/eufemia/issues/1827)) ([04dd93b](https://github.com/dnbexperience/eufemia/commit/04dd93bba6c7d92778b2c3a16e4046263edbb5f0))
+* **Table:** prevent expanded row to not change column width ([#1816](https://github.com/dnbexperience/eufemia/issues/1816)) ([bbf94a8](https://github.com/dnbexperience/eufemia/commit/bbf94a86850b09fb7bf028c8d5365a2df2b43ad2))
+* **useHandleSortState:** change default direction from asc to off ([#1826](https://github.com/dnbexperience/eufemia/issues/1826)) ([c7e4d6f](https://github.com/dnbexperience/eufemia/commit/c7e4d6f44be68a139ff59b6520a4a6da95533264))
+* **useHandleSortState:** fix import issue ([#1823](https://github.com/dnbexperience/eufemia/issues/1823)) ([c595ff1](https://github.com/dnbexperience/eufemia/commit/c595ff1c51b59cc0ec275b571fbbbee3b0c02910))
+
+
+### Features
+
+* **Scrollbar:** add new look to scrollbars ([#1815](https://github.com/dnbexperience/eufemia/issues/1815)) ([a590b50](https://github.com/dnbexperience/eufemia/commit/a590b5081fae29140846e054d4a2d4bbebf2eccd))
+
 # [9.42.0](https://github.com/dnbexperience/eufemia/compare/v9.41.0...v9.42.0) (2022-12-14)
 
 
