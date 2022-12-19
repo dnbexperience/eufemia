@@ -126,10 +126,7 @@ const TimelineItem = (localProps: TimelineItemAllProps) => {
       (stateIsCurrent && alt_label_current) ||
       (stateIsUpcoming && alt_label_upcoming)
     return (
-      <span
-        className="dnb-timeline__item__label__icon"
-        data-testid="timeline-item-label-icon"
-      >
+      <span className="dnb-timeline__item__label__icon">
         <span key="icon-alignment" aria-hidden>
           &zwnj;
         </span>
@@ -146,12 +143,7 @@ const TimelineItem = (localProps: TimelineItemAllProps) => {
 
   const TimelineItemTitle = () => {
     return (
-      <span
-        className="dnb-timeline__item__label__title"
-        data-testid="timeline-item-label-title"
-      >
-        {title}
-      </span>
+      <span className="dnb-timeline__item__label__title">{title}</span>
     )
   }
 
@@ -170,10 +162,7 @@ const TimelineItem = (localProps: TimelineItemAllProps) => {
     }: {
       subtitle: React.ReactNode
     }) => (
-      <div
-        className="dnb-timeline__item__content__subtitle"
-        data-testid="timeline-item-content-subtitle"
-      >
+      <div className="dnb-timeline__item__content__subtitle">
         {subtitle}
       </div>
     )
@@ -199,7 +188,6 @@ const TimelineItem = (localProps: TimelineItemAllProps) => {
             text={infoMessage}
             state="info"
             className="dnb-timeline__item__content__info"
-            data-testid="timeline-item-content-info"
             stretch
           />
         )}
@@ -210,7 +198,6 @@ const TimelineItem = (localProps: TimelineItemAllProps) => {
   return (
     <li
       className={classes}
-      data-testid="timeline-item"
       aria-current={stateIsCurrent ? 'step' : undefined}
       {...props}
     >

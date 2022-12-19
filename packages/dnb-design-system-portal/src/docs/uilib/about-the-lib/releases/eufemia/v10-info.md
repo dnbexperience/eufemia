@@ -158,6 +158,7 @@ When you convert from `<Modal />` or `<Modal mode="dialog" />` to `<Dialog />` â
 - [InfoCard](/uilib/components/info-card).
 - [Tag](/uilib/components/tag).
 - [Upload](/uilib/components/upload).
+- [Timeline](/uilib/components/timeline).
 
 ### [Stopped supporting Internet Explorer (IE)](/uilib/usage/#supported-browsers-and-platforms)
 
