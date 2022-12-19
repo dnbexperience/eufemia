@@ -67,12 +67,17 @@ v10 of @dnb/eufemia contains _breaking changes_. As a migration process, you can
 
 1. New **Definition List** layout direction: `direction="horizontal"` including `Dl.Item` [demo](https://eufemia.dnb.no/uilib/elements/lists/#definition-list-in-horizontal-direction).
 
+### [Stopped supporting Internet Explorer (IE)](/uilib/usage/#supported-browsers-and-platforms)
+
+Stopped supporting Internet Explorer (IE), as Microsoft formally ended support for IE in June, 2022.
+
 ### Deprecations
 
 - `use_scrollwheel` and `on_init` properties, as well as the `raw_value` event value from [Slider](/uilib/components/slider) was removed in order to support multiple buttons.
 - Helper class `.dnb-sr-only--inline` and SCSS mixin `srOnlyInline` was removed.
 - Helper class `.dnb-not-sr-only` and SCSS mixin `notSrOnly` was removed.
 - `import { SpacingHelper } from '@dnb/eufemia/shared'` was removed due to low usage. Use one of the [other exported helpers](/uilib/usage/layout/spacing).
+- `isIE11` and `IS_IE11` is deprecated as we have stopped supporting Internet Explorer (IE).
 
 ## Install
 

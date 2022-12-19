@@ -86,7 +86,6 @@ $focusRingColor: var(--color-emerald-green);
   $color: null,
   $width: null /* 1px */,
   $inset: null,
-  $is1px: false /* IE11 fix */,
   $important: null
 ) {
   @if $color == null {
@@ -121,17 +120,6 @@ $focusRingColor: var(--color-emerald-green);
     }
   }
 
-  @include IS_IE() {
-    @if $is1px {
-      // Since 0.0625rem gets not rendered correctly
-      // and gives an artifact, we do use px instead
-      box-shadow: $inset 0 0 0 1px $color $important;
-    } @else {
-      // IE color fallback
-      box-shadow: $inset 0 0 0 $width $color $important;
-    }
-  }
-
   @if $color != null {
     border-color: transparent;
   }
@@ -144,10 +132,6 @@ $focusRingColor: var(--color-emerald-green);
 ) {
   $second: 0 0 0 ($focusRingWidth + $width) $second-color;
   box-shadow: 0 0 0 $width $first-color, $second;
-
-  @include IS_IE() {
-    border: 0 solid transparent; // only to trigger the renderering correctly in IE11
-  }
 }
 
 @mixin dummySpacing() {
@@ -168,7 +152,7 @@ $focusRingColor: var(--color-emerald-green);
   // older iOS safari
   -webkit-overflow-scrolling: touch;
 
-  // show scrollbar on IE
+  // show scrollbar in IE & Edge
   -ms-overflow-style: auto;
 
   scrollbar-color: var(--color-sea-green) transparent;
@@ -234,13 +218,6 @@ $focusRingColor: var(--color-emerald-green);
   }
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
-}
-
-// IE fix
-@mixin IS_IE() {
-  @media screen and (-ms-high-contrast: none) {
-    @content;
-  }
 }
 
 // Edge fix

@@ -175,22 +175,13 @@
       position: relative;
       z-index: 1; // only to go over &__triangle
 
-      // IE11 support
-      @supports not (display: grid) {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-      }
+      display: grid;
 
-      @supports (display: grid) {
-        display: grid;
+      // Use two columns
+      grid-template-columns: 1fr auto;
 
-        // Use two columns
-        grid-template-columns: 1fr auto;
-
-        // Use a high number in order to be able to vertically center the check icon (among others) and suffix with "grid-row: 1 / -1;"
-        grid-template-rows: repeat(10, min-content);
-      }
+      // Use a high number in order to be able to vertically center the check icon (among others) and suffix with "grid-row: 1 / -1;"
+      grid-template-rows: repeat(10, min-content);
 
       outline: none;
 
@@ -468,19 +459,6 @@
       width: 100vw !important;
 
       box-shadow: 0 -4px 4px rgba(0, 0, 0, 0.16);
-    }
-  }
-
-  @include IS_IE {
-    flex: none;
-    vertical-align: baseline;
-
-    &__shell {
-      top: 0;
-    }
-    &__options {
-      // IE has bug where the height can't be calculated property
-      display: block;
     }
   }
 }

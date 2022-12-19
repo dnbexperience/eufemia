@@ -25,7 +25,6 @@ import {
 import {
   IS_MAC,
   IS_WIN,
-  IS_IE11,
   IS_EDGE,
   debounce,
   hasSelectedText,
@@ -1828,7 +1827,7 @@ class AutocompleteInstance extends React.PureComponent {
 
     if (!(parseFloat(selected_item) > -1)) {
       inputParams.placeholder = placeholder || title
-      if (!(IS_WIN && (IS_IE11 || IS_EDGE))) {
+      if (!(IS_WIN && IS_EDGE)) {
         inputParams['aria-placeholder'] = undefined
       }
     }

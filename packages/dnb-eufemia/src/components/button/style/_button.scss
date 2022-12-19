@@ -284,14 +284,6 @@
   & + .dnb-form-status {
     margin-top: 0.5rem;
   }
-
-  @include IS_IE {
-    flex: none;
-    &__icon,
-    &__text {
-      transform: translateY(-0.0625rem);
-    }
-  }
 }
 
 /* Firefox includes a hidden border which messes up button dimensions */
