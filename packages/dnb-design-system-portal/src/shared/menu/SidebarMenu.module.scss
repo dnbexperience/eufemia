@@ -274,34 +274,25 @@
 	*/
   z-index: 1;
 
-  /* height of StickyMenuBar */
-  height: calc(100vh - 4rem);
-  margin: 4rem 0 0;
-
   @include scrollY(auto);
 
-  /* make the sidemenu accessible for screen readers on mobile devices  */
   @include allBelow(medium) {
     position: relative;
+
+    width: 100%;
     height: auto;
   }
 
-  /* has to be the same value as margin-left */
-  width: var(--aside-width);
+  @include allAbove(medium) {
+    width: var(--aside-width); // has to be the same value as margin-left
+    height: calc(100vh - 4rem); // height of StickyMenuBar
+  }
 
-  background-color: var(--color-white);
+  margin: 4rem 0 0;
 
   ul {
-    /* some air we need */
     padding: 2rem 0 1rem;
   }
 
-  @include allBelow(medium) {
-    position: relative;
-    ul {
-      width: 100vw;
-      max-height: none;
-      overflow-y: visible;
-    }
-  }
+  background-color: var(--color-white);
 }
