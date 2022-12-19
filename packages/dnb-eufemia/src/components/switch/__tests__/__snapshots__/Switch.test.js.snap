@@ -245,9 +245,6 @@ exports[`Switch scss have to match default theme snapshot 1`] = `
       content: '';
       position: absolute;
       transition: transform 0.3s ease-out, position 0.3s ease-out; }
-      @media screen and (-ms-high-contrast: none) {
-        .dnb-switch__background::after {
-          top: 0.25rem; } }
   .dnb-switch__input:not(:checked) ~ .dnb-switch__button {
     background-color: var(--color-white);
     border-color: var(--color-sea-green); }
@@ -296,10 +293,6 @@ exports[`Switch scss have to match default theme snapshot 1`] = `
       --border-color: var(--color-emerald-green);
       box-shadow: 0 0 0 0.125rem var(--border-color);
       border-color: transparent; }
-      @media screen and (-ms-high-contrast: none) {
-        html[data-whatinput='keyboard'] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background, html[data-whatinput='keyboard']
-        .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background {
-          box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
   .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__button .dnb-switch__focus,
   .dnb-switch__input:not([disabled]):active ~ .dnb-switch__button .dnb-switch__focus {
     display: block; }
@@ -323,9 +316,6 @@ exports[`Switch scss have to match default theme snapshot 1`] = `
     --border-color: var(--color-fire-red);
     box-shadow: 0 0 0 0.125rem var(--border-color);
     border-color: transparent; }
-    @media screen and (-ms-high-contrast: none) {
-      .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active) ~ .dnb-switch__background {
-        box-shadow: 0 0 0 0.125rem var(--color-fire-red); } }
   .dnb-switch__status--error .dnb-switch__input:not(:focus):not([disabled]):not(:active):checked ~ .dnb-switch__background::after {
     background-color: var(--color-fire-red); }
   .dnb-switch__status--error .dnb-switch__input:not(:focus):not([disabled]):not(:active):not(:checked) ~ .dnb-switch__background::after {
@@ -335,9 +325,6 @@ exports[`Switch scss have to match default theme snapshot 1`] = `
     --border-color: var(--color-fire-red);
     box-shadow: 0 0 0 0.125rem var(--border-color);
     border-color: transparent; }
-    @media screen and (-ms-high-contrast: none) {
-      .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active) ~ .dnb-switch__button .dnb-switch__focus {
-        box-shadow: 0 0 0 0.125rem var(--color-fire-red); } }
   .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active):checked ~ .dnb-switch__button .dnb-switch__focus {
     transform: rotate(180deg); }
   .dnb-switch > .dnb-form-status {
@@ -438,9 +425,6 @@ exports[`Switch scss have to match snapshot 1`] = `
     cursor: pointer; }
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-form-label {
-      max-width: 60vw; } }
 
 legend.dnb-form-label {
   display: inline-block; }
@@ -555,9 +539,6 @@ legend.dnb-form-label {
   .dnb-form-status--no-animation,
   html[data-visual-test] .dnb-form-status {
     transition-duration: 1ms !important; }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-form-status__shell > .dnb-icon {
-      border-width: 1px; } }
 
 .dnb-switch {
   font-family: var(--font-family-default);
@@ -675,9 +656,6 @@ legend.dnb-form-label {
       --border-color: var(--color-emerald-green);
       box-shadow: 0 0 0 0.125rem var(--border-color);
       border-color: transparent; }
-      @media screen and (-ms-high-contrast: none) {
-        html[data-whatinput='keyboard'] .dnb-switch__focus {
-          box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
   .dnb-switch__input:not(:checked) ~ .dnb-switch__button {
     transform: translateX(0);
     transform: translateX(calc(1px - 1px - var(--switch-border-width--medium))); }
@@ -747,17 +725,6 @@ legend.dnb-form-label {
     background-color: var(--skeleton-color); }
   .dnb-switch.dnb-skeleton .dnb-switch__input[disabled]:not(:checked) ~ .dnb-switch__background::after {
     border-color: var(--skeleton-color--contrast); }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-switch {
-      vertical-align: text-bottom; }
-      .dnb-switch__order {
-        align-items: flex-start; }
-      .dnb-switch__shell {
-        transform: translateY(0); }
-      .dnb-switch__input, .dnb-switch__focus, .dnb-switch__button {
-        top: 0;
-        bottom: 0;
-        margin: auto 0; } }
   @supports (-ms-ime-align: auto) {
     .dnb-switch__input:not(:checked) ~ .dnb-switch__button {
       transform: translateX(0); }

@@ -57,7 +57,7 @@ The reason why there are two sizes, is mainly due to the SVG artifact, that the 
 
 ### Scalability in web
 
-To ensure that the relative size of the SVG icons is scalable by the inherited CSS font size, do not explicitly specify the SVG, unless for older browsers like Internet Explorer.
+To ensure that the relative size of the SVG icons is scalable by the inherited CSS font size, do not explicitly specify the SVG.
 
 **Example size definition by CSS**
 
