@@ -23,11 +23,6 @@
   @include hover() {
     @include buttonHoverStyle($color, $background-color, $border-color);
 
-    @include IS_IE {
-      // by setting opacity to 1, we make sure we don't get the artifact of a cutted border on top and bottom
-      opacity: 1;
-    }
-
     @content;
   }
 
@@ -110,11 +105,6 @@
     // using box-shadow works well to get 1.5px
     // but not for the transition to opacity
     // box-shadow: 0 0 0 calc(0.0625rem / 2) currentColor;
-
-    @include IS_IE {
-      height: 1px;
-      border-radius: 0.5px;
-    }
 
     @content;
   }

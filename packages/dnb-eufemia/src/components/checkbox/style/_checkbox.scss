@@ -169,23 +169,4 @@
     }
     border-color: var(--skeleton-color);
   }
-
-  @include IS_IE {
-    vertical-align: text-bottom;
-
-    &__order {
-      align-items: flex-start;
-    }
-    &__gfx,
-    &__input {
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      margin: auto;
-    }
-    &__shell {
-      transform: translateY(0);
-    }
-  }
 }

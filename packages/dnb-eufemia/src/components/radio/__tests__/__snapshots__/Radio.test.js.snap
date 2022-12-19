@@ -695,9 +695,6 @@ exports[`Radio scss have to match default theme snapshot 1`] = `
     --border-color: var(--color-fire-red);
     box-shadow: 0 0 0 0.125rem var(--border-color);
     border-color: transparent; }
-    @media screen and (-ms-high-contrast: none) {
-      .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active) ~ .dnb-radio__focus {
-        box-shadow: 0 0 0 0.125rem var(--color-fire-red); } }
   .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:checked):not([data-checked='true']):hover ~ .dnb-radio__button {
     background-color: var(--color-fire-red-8); }
   .dnb-radio__status--error .dnb-radio__input:not([disabled]):not(:focus):not(:active):not(:hover):checked ~ .dnb-radio__dot,
@@ -805,9 +802,6 @@ exports[`Radio scss have to match snapshot 1`] = `
     cursor: pointer; }
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-form-label {
-      max-width: 60vw; } }
 
 legend.dnb-form-label {
   display: inline-block; }
@@ -922,9 +916,6 @@ legend.dnb-form-label {
   .dnb-form-status--no-animation,
   html[data-visual-test] .dnb-form-status {
     transition-duration: 1ms !important; }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-form-status__shell > .dnb-icon {
-      border-width: 1px; } }
 
 .dnb-radio {
   font-family: var(--font-family-default);
@@ -1012,9 +1003,6 @@ legend.dnb-form-label {
       --border-color: var(--color-emerald-green);
       box-shadow: 0 0 0 0.125rem var(--border-color);
       border-color: transparent; }
-      @media screen and (-ms-high-contrast: none) {
-        html[data-whatinput='keyboard'] .dnb-radio__focus {
-          box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
   .dnb-radio__focus, .dnb-radio__button {
     width: calc(var(--radio-width--medium) - 0.25rem);
     height: calc(var(--radio-height--medium) - 0.25rem);
@@ -1118,20 +1106,5 @@ legend.dnb-form-label {
         font-size: var(--font-size-basis); }
   .dnb-skeleton .dnb-radio__input[disabled] ~ .dnb-radio__button {
     border-color: var(--skeleton-color); }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-radio {
-      vertical-align: text-bottom; }
-      .dnb-radio__input, .dnb-radio__focus, .dnb-radio__button, .dnb-radio__dot {
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        margin: auto; }
-      .dnb-radio__order {
-        align-items: center; }
-      .dnb-radio, .dnb-radio-group {
-        flex: none; }
-      .dnb-radio-group {
-        vertical-align: middle; } }
 "
 `;

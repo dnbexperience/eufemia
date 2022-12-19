@@ -203,9 +203,6 @@ exports[`Accordion scss have to match default theme snapshot 1`] = `
   @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
     .dnb-accordion__variant--outlined > .dnb-accordion__header {
       box-shadow: 0 0 0 0.0625rem var(--border-color); } }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-accordion__variant--outlined > .dnb-accordion__header {
-      box-shadow: inset 0 0 0 1px var(--color-black-8); } }
   .dnb-accordion__variant--outlined > .dnb-accordion__header:focus[disabled],
   html:not([data-whatintent='touch']) .dnb-accordion__variant--outlined > .dnb-accordion__header:focus[disabled] {
     cursor: not-allowed; }
@@ -231,10 +228,6 @@ exports[`Accordion scss have to match default theme snapshot 1`] = `
         html[data-whatinput='keyboard'] .dnb-accordion__variant--outlined > .dnb-accordion__header:focus:not([disabled]), html[data-whatinput='keyboard']
         html:not([data-whatintent='touch']) .dnb-accordion__variant--outlined > .dnb-accordion__header:focus:not([disabled]) {
           box-shadow: 0 0 0 0.125rem var(--border-color); } }
-      @media screen and (-ms-high-contrast: none) {
-        html[data-whatinput='keyboard'] .dnb-accordion__variant--outlined > .dnb-accordion__header:focus:not([disabled]), html[data-whatinput='keyboard']
-        html:not([data-whatintent='touch']) .dnb-accordion__variant--outlined > .dnb-accordion__header:focus:not([disabled]) {
-          box-shadow: inset 0 0 0 0.125rem var(--color-emerald-green); } }
   html:not([data-whatintent='touch']) .dnb-accordion__variant--outlined > .dnb-accordion__header:hover[disabled] {
     cursor: not-allowed; }
   html:not([data-whatintent='touch']) .dnb-accordion__variant--outlined > .dnb-accordion__header:hover:not([disabled]) {
@@ -243,12 +236,6 @@ exports[`Accordion scss have to match default theme snapshot 1`] = `
     --border-color: var(--color-emerald-green);
     box-shadow: 0 0 0 0.125rem var(--border-color);
     border-color: transparent; }
-    @media screen and (-ms-high-contrast: none) {
-      html:not([data-whatintent='touch']) .dnb-accordion__variant--outlined > .dnb-accordion__header:hover:not([disabled]) {
-        box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
-    @media screen and (-ms-high-contrast: none) {
-      html:not([data-whatintent='touch']) .dnb-accordion__variant--outlined > .dnb-accordion__header:hover:not([disabled]) {
-        opacity: 1; } }
   .dnb-accordion__variant--outlined > .dnb-accordion__header:active[disabled],
   html:not([data-whatintent='touch']) .dnb-accordion__variant--outlined > .dnb-accordion__header:active[disabled] {
     cursor: not-allowed; }
@@ -259,19 +246,12 @@ exports[`Accordion scss have to match default theme snapshot 1`] = `
     --border-color: var(--color-emerald-green);
     box-shadow: 0 0 0 0.0625rem var(--border-color);
     border-color: transparent; }
-    @media screen and (-ms-high-contrast: none) {
-      .dnb-accordion__variant--outlined > .dnb-accordion__header:active:not([disabled]),
-      html:not([data-whatintent='touch']) .dnb-accordion__variant--outlined > .dnb-accordion__header:active:not([disabled]) {
-        box-shadow: 0 0 0 0.0625rem var(--color-emerald-green); } }
 
 .dnb-accordion__variant--outlined > .dnb-accordion__header[disabled] {
   background-color: var(--color-white);
   --border-color: var(--color-sea-green-30);
   box-shadow: 0 0 0 0.0625rem var(--border-color);
   border-color: transparent; }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-accordion__variant--outlined > .dnb-accordion__header[disabled] {
-      box-shadow: 0 0 0 0.0625rem var(--color-sea-green-30); } }
   .dnb-accordion__variant--outlined > .dnb-accordion__header[disabled] * {
     color: var(--color-sea-green-30); }
 
@@ -281,9 +261,6 @@ exports[`Accordion scss have to match default theme snapshot 1`] = `
   --border-color: transparent;
   box-shadow: 0 0 0 0.0625rem var(--border-color);
   border-color: transparent; }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-accordion__variant--outlined.dnb-accordion--expanded > .dnb-accordion__header {
-      box-shadow: 0 0 0 0.0625rem transparent; } }
 
 .dnb-accordion__variant--outlined.dnb-accordion--expanded > .dnb-accordion__header[disabled] {
   background-color: var(--color-sea-green-30); }
@@ -311,9 +288,6 @@ html[data-whatinput='keyboard']
     @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
       html[data-whatinput='keyboard'] .dnb-accordion__variant--outlined.dnb-accordion--expanded > .dnb-accordion__header:not([disabled]):not(:active):not(:hover):focus {
         box-shadow: 0 0 0 0.125rem var(--border-color); } }
-    @media screen and (-ms-high-contrast: none) {
-      html[data-whatinput='keyboard'] .dnb-accordion__variant--outlined.dnb-accordion--expanded > .dnb-accordion__header:not([disabled]):not(:active):not(:hover):focus {
-        box-shadow: inset 0 0 0 0.125rem var(--color-emerald-green); } }
 
 .dnb-accordion__variant--outlined.dnb-accordion--expanded > .dnb-accordion__header:not(:hover):not([disabled]) * {
   color: var(--color-white); }
@@ -327,9 +301,6 @@ html:not([data-whatintent='touch']) .dnb-accordion__variant--outlined.dnb-accord
   --border-color: var(--color-sea-green);
   box-shadow: 0 0 0 0.0625rem var(--border-color);
   border-color: transparent; }
-  @media screen and (-ms-high-contrast: none) {
-    html:not([data-whatintent='touch']) .dnb-accordion__variant--outlined.dnb-accordion--expanded > .dnb-accordion__header.dnb-accordion--hover:not(:active):hover:not([disabled]) {
-      box-shadow: 0 0 0 0.0625rem var(--color-sea-green); } }
 
 .dnb-accordion__variant--outlined.dnb-accordion--expanded > .dnb-accordion__header.dnb-accordion--hover:not(:active) * {
   color: var(--color-white); }
@@ -420,9 +391,6 @@ exports[`Accordion scss have to match snapshot 1`] = `
     color: var(--skeleton-color) !important; }
     .dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
       content: none !important; }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-icon {
-      flex: none; } }
 
 .dnb-accordion {
   font-family: var(--font-family-default);

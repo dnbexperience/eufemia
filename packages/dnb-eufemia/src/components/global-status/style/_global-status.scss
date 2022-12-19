@@ -123,10 +123,4 @@
       margin: 0;
     }
   }
-
-  @include IS_IE {
-    &__icon > .dnb-icon {
-      border-width: 1px;
-    }
-  }
 }

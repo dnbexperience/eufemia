@@ -253,9 +253,6 @@ exports[`Checkbox scss have to match default theme snapshot 1`] = `
     --border-color: var(--color-fire-red);
     box-shadow: 0 0 0 0.125rem var(--border-color);
     border-color: transparent; }
-    @media screen and (-ms-high-contrast: none) {
-      .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):not(:active) ~ .dnb-checkbox__button .dnb-checkbox__focus {
-        box-shadow: 0 0 0 0.125rem var(--color-fire-red); } }
   .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):hover ~ .dnb-checkbox__button {
     background-color: var(--color-fire-red-8); }
     .dnb-checkbox__status--error .dnb-checkbox__input:not([disabled]):hover ~ .dnb-checkbox__button[data-checked='true'] {
@@ -365,9 +362,6 @@ exports[`Checkbox scss have to match snapshot 1`] = `
     cursor: pointer; }
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-form-label {
-      max-width: 60vw; } }
 
 legend.dnb-form-label {
   display: inline-block; }
@@ -482,9 +476,6 @@ legend.dnb-form-label {
   .dnb-form-status--no-animation,
   html[data-visual-test] .dnb-form-status {
     transition-duration: 1ms !important; }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-form-status__shell > .dnb-icon {
-      border-width: 1px; } }
 
 .dnb-checkbox {
   font-family: var(--font-family-default);
@@ -571,9 +562,6 @@ legend.dnb-form-label {
       --border-color: var(--color-emerald-green);
       box-shadow: 0 0 0 0.125rem var(--border-color);
       border-color: transparent; }
-      @media screen and (-ms-high-contrast: none) {
-        html[data-whatinput='keyboard'] .dnb-checkbox__focus {
-          box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
   .dnb-checkbox__focus, .dnb-checkbox__button {
     position: relative;
     z-index: 4;
@@ -643,18 +631,5 @@ legend.dnb-form-label {
     border-color: var(--skeleton-color); }
     .dnb-checkbox.dnb-skeleton .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button::before {
       border-radius: 0; }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-checkbox {
-      vertical-align: text-bottom; }
-      .dnb-checkbox__order {
-        align-items: flex-start; }
-      .dnb-checkbox__gfx, .dnb-checkbox__input {
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        margin: auto; }
-      .dnb-checkbox__shell {
-        transform: translateY(0); } }
 "
 `;
