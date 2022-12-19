@@ -58,9 +58,6 @@ exports[`Timeline scss have to match default theme snapshot 1`] = `
     @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
       .dnb-timeline__item__label__icon {
         box-shadow: 0 0 0 0.0625rem var(--border-color); } }
-    @media screen and (-ms-high-contrast: none) {
-      .dnb-timeline__item__label__icon {
-        box-shadow: inset 0 0 0 1px var(--color-black-80); } }
   .dnb-timeline__item__label__title {
     margin-left: var(--timeline-border-spacing--icon-adjusted);
     font-size: var(--font-size-small);
@@ -104,9 +101,6 @@ exports[`Timeline scss have to match default theme snapshot 1`] = `
     @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
       .dnb-timeline__item--upcoming:not(.dnb-skeleton) .dnb-timeline__item__label__icon {
         box-shadow: 0 0 0 0.0625rem var(--border-color); } }
-    @media screen and (-ms-high-contrast: none) {
-      .dnb-timeline__item--upcoming:not(.dnb-skeleton) .dnb-timeline__item__label__icon {
-        box-shadow: inset 0 0 0 1px var(--color-black-3); } }
   .dnb-timeline__item:only-child {
     margin-left: 0; }
   .dnb-timeline__item:last-child .dnb-timeline__item__content {
@@ -236,9 +230,6 @@ exports[`Timeline scss have to match snapshot 1`] = `
     @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
       .dnb-timeline__item__label__icon {
         box-shadow: 0 0 0 0.0625rem var(--border-color); } }
-    @media screen and (-ms-high-contrast: none) {
-      .dnb-timeline__item__label__icon {
-        box-shadow: inset 0 0 0 1px var(--color-black-80); } }
   .dnb-timeline__item__label__title {
     margin-left: var(--timeline-border-spacing--icon-adjusted);
     font-size: var(--font-size-small);
@@ -282,9 +273,6 @@ exports[`Timeline scss have to match snapshot 1`] = `
     @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
       .dnb-timeline__item--upcoming:not(.dnb-skeleton) .dnb-timeline__item__label__icon {
         box-shadow: 0 0 0 0.0625rem var(--border-color); } }
-    @media screen and (-ms-high-contrast: none) {
-      .dnb-timeline__item--upcoming:not(.dnb-skeleton) .dnb-timeline__item__label__icon {
-        box-shadow: inset 0 0 0 1px var(--color-black-3); } }
   .dnb-timeline__item:only-child {
     margin-left: 0; }
   .dnb-timeline__item:last-child .dnb-timeline__item__content {

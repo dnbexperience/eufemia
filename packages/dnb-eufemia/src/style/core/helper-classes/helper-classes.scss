@@ -20,13 +20,7 @@
   }
 }
 .dnb-focus-ring {
-  @include fakeBorder(
-    $focusRingColor,
-    $focusRingWidth,
-    null,
-    null,
-    !important
-  );
+  @include fakeBorder($focusRingColor, $focusRingWidth, null, !important);
 }
 .dnb-scrollbar-appearance {
   @include scrollbarAppearance();

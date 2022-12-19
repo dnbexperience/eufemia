@@ -3,10 +3,6 @@
 :global {
   :root {
     --aside-width: calc(25vw + 5rem);
-
-    @include IS_IE {
-      --aside-width: 30vw;
-    }
   }
 
   .dnb-sidebar-menu {
