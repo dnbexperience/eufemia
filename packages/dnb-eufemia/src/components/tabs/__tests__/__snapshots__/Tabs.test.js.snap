@@ -1312,9 +1312,6 @@ exports[`Tabs scss have to match default theme snapshot 1`] = `
       --border-color: var(--color-emerald-green);
       box-shadow: 0 0 0 0.125rem var(--border-color);
       border-color: transparent; }
-      @media screen and (-ms-high-contrast: none) {
-        html[data-whatinput='keyboard'] .dnb-tabs__content:focus::before {
-          box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
 
 .dnb-tabs__button__title {
   font-weight: var(--font-weight-regular);
@@ -1351,9 +1348,6 @@ html:not([data-whatintent='touch']) .dnb-tabs__button:hover:not([disabled]) {
       --border-color: var(--color-emerald-green);
       box-shadow: 0 0 0 0.125rem var(--border-color);
       border-color: transparent; }
-      @media screen and (-ms-high-contrast: none) {
-        html[data-whatinput='keyboard'] .dnb-tabs__button:focus::before {
-          box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
   .dnb-tabs__button:focus::before {
     top: 0.5rem;
     left: -0.375rem;
@@ -1480,9 +1474,6 @@ exports[`Tabs scss have to match snapshot 1`] = `
           --border-color: var(--color-emerald-green);
           box-shadow: 0 0 0 0.125rem var(--border-color);
           border-color: transparent; }
-          @media screen and (-ms-high-contrast: none) {
-            html[data-whatinput='keyboard'] .dnb-tabs__tabs__tablist:focus {
-              box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
       @supports not (scrollbar-color: auto) {
         .dnb-tabs__tabs__tablist::-webkit-scrollbar {
           background-color: var(--color-black-8); }

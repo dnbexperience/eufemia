@@ -278,7 +278,6 @@ copyToClipboard(string) // returns success: String|Boolean|Error
 
 | Function   | Description                                        | Parameters | Return    |
 | ---------- | -------------------------------------------------- | ---------- | --------- |
-| `isIE11`   | Returns true or false, depending on the detection. | none       | `Boolean` |
 | `isEdge`   | Returns true or false, depending on the detection. | none       | `Boolean` |
 | `isSafari` | Returns true or false, depending on the detection. | none       | `Boolean` |
 | `isiOS`    | Returns true or false, depending on the detection. | none       | `Boolean` |
@@ -290,7 +289,6 @@ copyToClipboard(string) // returns success: String|Boolean|Error
 
 | Constant    | Description                                                         | Value     |
 | ----------- | ------------------------------------------------------------------- | --------- |
-| `IS_IE11`   | Gives you true or false, depending on the detection during startup. | `Boolean` |
 | `IS_EDGE`   | Gives you true or false, depending on the detection during startup. | `Boolean` |
 | `IS_SAFARI` | Gives you true or false, depending on the detection during startup. | `Boolean` |
 | `IS_IOS`    | Gives you true or false, depending on the detection during startup. | `Boolean` |

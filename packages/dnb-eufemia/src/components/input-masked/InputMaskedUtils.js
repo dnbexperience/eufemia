@@ -9,7 +9,7 @@ import {
   getThousandsSeparator,
 } from '../number-format/NumberUtils'
 import { warn } from '../../shared/component-helper'
-import { IS_IE11, IS_ANDROID, IS_IOS } from '../../shared/helpers'
+import { IS_ANDROID, IS_IOS } from '../../shared/helpers'
 import { safeSetSelection } from './text-mask/createTextMaskInputElement'
 
 const enableLocaleSupportWhen = ['as_number', 'as_percent', 'as_currency']
@@ -340,11 +340,6 @@ export function handleThousandsSeparator(locale) {
  */
 export function handleDecimalSeparator(locale) {
   let decimalSymbol = getDecimalSeparator(locale)
-
-  // To make the separator IE11 compatible
-  if (IS_IE11 && decimalSymbol === ',' && locale && !/no/i.test(locale)) {
-    decimalSymbol = '.'
-  }
 
   return decimalSymbol
 }

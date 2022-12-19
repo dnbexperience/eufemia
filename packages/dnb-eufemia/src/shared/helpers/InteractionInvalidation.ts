@@ -1,5 +1,3 @@
-import { IS_IE11 } from '../helpers'
-
 export type TargetElement = HTMLElement
 export type TargetSelector = string
 export type HTMLElementNode = TargetElement & {
@@ -149,10 +147,10 @@ export class InteractionInvalidation {
 
     const selector = `${rootSelector} ${elementSelector}:not(script):not(style):not(path):not(head *)`
 
-    // JSDOM and IE11 has issues with the selector :not(x *), so we used it only in the browser,
+    // JSDOM has issues with the selector :not(x *), so we used it only in the browser,
     // so we remove the asterisk from the selector, but add it to the exclude selectors list and make another querySelectorAll call
     // - so we query all bypass selectors with "asterisk" manually
-    if (IS_IE11 || process.env.NODE_ENV === 'test') {
+    if (process.env.NODE_ENV === 'test') {
       const excludeSelectors = []
 
       const testSelector = selector
