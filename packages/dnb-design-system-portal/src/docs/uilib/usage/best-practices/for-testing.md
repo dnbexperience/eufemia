@@ -4,7 +4,7 @@ menuTitle: 'for testing'
 order: 4
 ---
 
-# Testing frontend Code
+# Testing frontend code
 
 It is a good idea to include some tips and tricks for frontend testing
 Since accessibility and user experience are major factors in any design system, it may be sensible to include some tips and tricks for frontend testing.
@@ -23,9 +23,13 @@ Frontend code is changing and moving fast. So 100% code coverage should never be
 
 ### Integration tests
 
-Do not write unit tests in frontend code. But make integration tests. Avoid testing implementation details, but rather thread front-end related components as an independent, changeable and maintainable individuals.
+Do not write unit tests in frontend code. But make integration tests. Avoid testing implementation details, but rather treat front-end related components as an independent, changeable and maintainable individuals.
 
 Think as a user. Think how the user will interact with your application. Do not shallow test, but test components like a user would interact (use mount or render to also test their children).
+
+Try to use queries that help you to find elements in the same way that users will find them. React Testing Library provides queries that allow you to find elements by their role, label, placeholder, text contents, display value, alt text, title, test ID(it is only recommended to use this only after the other queries don't work for your use case).
+
+_"Using data-testid attributes do not resemble how your software is used and should be avoided if possible"_ - [React Testing Library](https://testing-library.com/docs/queries/bytestid/)
 
 ### Automatic accessibility testing
 
