@@ -108,11 +108,3 @@ const { InfinityMarker, endInfinity, resetInfinity } =
 
 render(<InfinityMarker>ReactComponent</InfinityMarker>)
 ```
-
-### Legacy browser support (Internet Explorer 11)
-
-The **infinity scroller** is using the [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API). This API is supported by all nowadays browsers. But if your applications need support for outdated browser, you can install e.g. [this IntersectionObserver polyfill](https://www.npmjs.com/package/intersection-observer) and import it:
-
-```js
-import 'intersection-observer'
-```

@@ -16,7 +16,6 @@ import { isMac } from '../../../shared/helpers'
 import Provider from '../../../shared/Provider'
 import NumberFormat from '../NumberFormat'
 import { format } from '../NumberUtils'
-import * as helpers from '../../../shared/helpers'
 
 const Component = (props) => {
   return <NumberFormat id="unique" {...props} />
@@ -515,24 +514,6 @@ describe('NumberFormat compact', () => {
       expect(Comp.find(ariaSelector).first().text()).toBe(aria)
     }
   )
-
-  it('should omit IE11', () => {
-    // eslint-disable-next-line
-    Object.defineProperty(helpers, 'IS_IE11', {
-      value: true,
-      writable: true,
-    })
-
-    const Comp = mount(<Component value={-value} compact decimals={1} />)
-    expect(Comp.find(displaySelector).first().text()).toBe('-12 345 679,0')
-    expect(Comp.find(ariaSelector).first().text()).toBe('-12 345 679,0')
-
-    // eslint-disable-next-line
-    Object.defineProperty(helpers, 'IS_IE11', {
-      value: false,
-      writable: true,
-    })
-  })
 })
 
 describe('NumberFormat component with provider', () => {

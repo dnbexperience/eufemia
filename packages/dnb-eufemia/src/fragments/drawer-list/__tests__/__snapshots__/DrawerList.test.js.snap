@@ -845,18 +845,12 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
         --border-color: var(--color-emerald-green);
         box-shadow: 0 0 0 0.125rem var(--border-color);
         border-color: transparent; }
-        @media screen and (-ms-high-contrast: none) {
-          html[data-whatinput='keyboard'] .dnb-drawer-list__options:focus {
-            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
     .dnb-drawer-list__options--focusring {
       outline: none; }
       html[data-whatinput='mouse'] .dnb-drawer-list__options--focusring {
         --border-color: var(--color-emerald-green);
         box-shadow: 0 0 0 0.125rem var(--border-color);
         border-color: transparent; }
-        @media screen and (-ms-high-contrast: none) {
-          html[data-whatinput='mouse'] .dnb-drawer-list__options--focusring {
-            box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
   @media screen and (max-width: 40em) {
     .dnb-drawer-list__portal .dnb-drawer-list--mobile-view .dnb-drawer-list__options {
       border-radius: 0; } }
@@ -905,9 +899,6 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
       --border-color: var(--color-emerald-green);
       box-shadow: 0 0 0 var(--drawer-list-focus-border-width) var(--border-color);
       border-color: transparent; }
-      @media screen and (-ms-high-contrast: none) {
-        .dnb-drawer-list__option--focus .dnb-drawer-list__option__inner::before {
-          box-shadow: 0 0 0 var(--drawer-list-focus-border-width) var(--color-emerald-green); } }
     .dnb-drawer-list__option--ignore .dnb-drawer-list__option__inner {
       color: var(--color-black-80);
       background-color: var(--color-white); }
@@ -927,22 +918,14 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
           background-color: inherit; }
       .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner::after {
         content: '';
+        grid-column: 2;
+        grid-row: 1 / -1;
+        justify-self: end;
+        align-self: center;
         width: 1rem;
         height: 1rem;
         background-size: cover;
         background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0ibm9uZSI+ICA8cGF0aCAgICBmaWxsPSIjRTlGOEY0IiAgICBkPSJNMyA4LjhhLjc1Ljc1IDAgMSAwLTEuMjIuODZMMyA4Ljc5em0xLjg0IDMuOWwuNjMtLjQxdi0uMDFoLS4wMWwtLjYyLjQyem0xLjcxLjA1bC0uNTktLjQ2di4wMWwuNTkuNDV6bTguNDMtOS40NWEuNzUuNzUgMCAwIDAtMS4xOC0uOTNsMS4xOC45M3pNMS43OCA5LjY2bDIuNDUgMy40OCAxLjIzLS44N0wzIDguOGwtMS4yMy44N3ptMi40NCAzLjQ2Yy4zMi40OC44Ni43OCAxLjQ0LjhsLjA1LTEuNWEuMy4zIDAgMCAxLS4yNC0uMTNsLTEuMjUuODN6bTEuNDQuOGExLjggMS44IDAgMCAwIDEuNDktLjcxbC0xLjItLjlhLjMuMyAwIDAgMS0uMjQuMWwtLjA1IDEuNXptMS40OC0uN2w3Ljg0LTkuOTItMS4xOC0uOTMtNy44NCA5LjkyIDEuMTguOTN6Ii8+PC9zdmc+); }
-        @supports not (display: grid) {
-          .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner::after {
-            position: absolute;
-            z-index: 1;
-            top: calc(50% - 0.5rem);
-            right: 1rem; } }
-        @supports (display: grid) {
-          .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner::after {
-            grid-column: 2;
-            grid-row: 1 / -1;
-            justify-self: end;
-            align-self: center; } }
       .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner::before {
         visibility: hidden; }
     @media screen and (min-width: 40em) {
@@ -957,10 +940,6 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
       --border-color: var(--color-mint-green);
       box-shadow: 0 0 0 var(--drawer-list-focus-border-width) var(--border-color);
       border-color: transparent; }
-      @media screen and (-ms-high-contrast: none) {
-        html[data-whatinput='keyboard']
-.dnb-drawer-list__option--selected.dnb-drawer-list__option--focus .dnb-drawer-list__option__inner::before {
-          box-shadow: 0 0 0 var(--drawer-list-focus-border-width) var(--color-mint-green); } }
     .dnb-drawer-list__option--focus:not(.dnb-drawer-list__option--selected) .dnb-drawer-list__option__inner {
       color: var(--color-sea-green);
       background-color: var(--color-mint-green-12); }
@@ -979,9 +958,6 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
         --border-color: var(--color-white);
         box-shadow: 0 0 0 0.125rem var(--border-color);
         border-color: transparent; }
-        @media screen and (-ms-high-contrast: none) {
-          html[data-whatinput='keyboard'] .dnb-drawer-list__option--selected .dnb-drawer-list__option__item .dnb-anchor:focus {
-            box-shadow: 0 0 0 0.125rem var(--color-white); } }
   .dnb-drawer-list--scroll .dnb-drawer-list__option:not(.dnb-drawer-list__option--focus) .dnb-drawer-list__option__inner::before {
     left: 0.5rem;
     right: 0.5rem; }
@@ -1193,21 +1169,14 @@ exports[`DrawerList scss have to match snapshot 1`] = `
     .dnb-drawer-list__option__inner {
       position: relative;
       z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-template-rows: repeat(10, min-content);
       outline: none;
       margin: 0;
       padding: 1rem;
       color: inherit;
       background-color: var(--color-white); }
-      @supports not (display: grid) {
-        .dnb-drawer-list__option__inner {
-          display: flex;
-          flex-direction: column;
-          justify-content: center; } }
-      @supports (display: grid) {
-        .dnb-drawer-list__option__inner {
-          display: grid;
-          grid-template-columns: 1fr auto;
-          grid-template-rows: repeat(10, min-content); } }
       .dnb-drawer-list__option__inner > * {
         align-self: self-start; }
     .dnb-drawer-list__option__item {
@@ -1379,14 +1348,6 @@ exports[`DrawerList scss have to match snapshot 1`] = `
       height: auto !important;
       width: 100vw !important;
       box-shadow: 0 -4px 4px rgba(0, 0, 0, 0.16); } }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-drawer-list {
-      flex: none;
-      vertical-align: baseline; }
-      .dnb-drawer-list__shell {
-        top: 0; }
-      .dnb-drawer-list__options {
-        display: block; } }
 
 @keyframes drawer-list-scale-in {
   from {
