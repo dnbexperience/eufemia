@@ -264,10 +264,4 @@
       background-color: var(--skeleton-color);
     }
   }
-
-  @include IS_IE {
-    &__wrapper {
-      flex: none;
-    }
-  }
 }

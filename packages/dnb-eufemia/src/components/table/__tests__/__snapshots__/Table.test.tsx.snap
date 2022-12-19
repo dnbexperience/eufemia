@@ -321,13 +321,6 @@ exports[`Table scss have to match snapshot 1`] = `
             --border-color: var(--color-emerald-green);
             box-shadow: 0 0 0 0.125rem var(--border-color);
             border-color: transparent; }
-            @media screen and (-ms-high-contrast: none) {
-              html[data-whatinput='mouse'] .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html[data-whatinput='mouse']
-              html:not([data-whatintent='touch']) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html[data-whatinput='mouse']
-              .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html[data-whatinput='mouse']
-              html:not([data-whatintent='touch'])
-              .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before {
-                box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
         .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before,
         html:not([data-whatintent='touch']) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before,
         .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before,
@@ -351,13 +344,6 @@ exports[`Table scss have to match snapshot 1`] = `
             --border-color: var(--color-emerald-green);
             box-shadow: 0 0 0 0.125rem var(--border-color);
             border-color: transparent; }
-            @media screen and (-ms-high-contrast: none) {
-              html[data-whatinput='touch'] .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html[data-whatinput='touch']
-              html:not([data-whatintent='touch']) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html[data-whatinput='touch']
-              .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html[data-whatinput='touch']
-              html:not([data-whatintent='touch'])
-              .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before {
-                box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
         .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before,
         html:not([data-whatintent='touch']) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before,
         .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before,
