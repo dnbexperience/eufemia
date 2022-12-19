@@ -10,7 +10,7 @@
   &__item {
     &--current .dnb-button {
       font-weight: var(--font-weight-medium);
-      @include fakeBorder(var(--color-sea-green), 0.125rem, inset, true);
+      @include fakeBorder(var(--color-sea-green), 0.125rem, inset);
     }
     &--visited .dnb-button {
       background-color: var(--color-pistachio);
@@ -26,7 +26,7 @@
       &.dnb-button--secondary:active {
         color: var(--color-black-80);
         background-color: var(--color-white);
-        @include fakeBorder(var(--color-black-20), 0.0625rem, inset, true);
+        @include fakeBorder(var(--color-black-20), 0.0625rem, inset);
       }
     }
     &--inactive.dnb-step-indicator__item--current {
@@ -35,12 +35,7 @@
         &.dnb-button--secondary:hover,
         &.dnb-button--secondary:focus,
         &.dnb-button--secondary:active {
-          @include fakeBorder(
-            var(--color-black-80),
-            0.125rem,
-            inset,
-            true
-          );
+          @include fakeBorder(var(--color-black-80), 0.125rem, inset);
         }
       }
     }

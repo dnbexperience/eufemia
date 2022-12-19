@@ -178,7 +178,7 @@ If you only want to change the colors, you can swap out `fill='%23007272'` with 
 }
 ```
 
-To ensure compatibility for Internet Explorer and older Edge versions, you may still use **base64**. Use e.g. [this base64 converter](https://www.base64encode.org)
+To ensure compatibility for older Edge versions, you may still use **base64**. Use e.g. [this base64 converter](https://www.base64encode.org)
 
 ```css
 .dnb-anchor::after {
