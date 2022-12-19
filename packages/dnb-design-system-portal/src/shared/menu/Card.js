@@ -7,7 +7,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Link from 'gatsby-link'
 import { Button } from '@dnb/eufemia/src'
-import { IS_IE11 } from '@dnb/eufemia/src/shared/helpers'
 import classnames from 'classnames'
 import { P, Span } from '@dnb/eufemia/src/elements'
 import {
@@ -36,25 +35,6 @@ export default class Card extends React.PureComponent {
   render() {
     const { url, title, about, icon: Svg } = this.props
 
-    // size is else defined in css
-    const svgParams = IS_IE11 ? { width: '48', height: '48' } : null
-
-    const Anchor = IS_IE11
-      ? ({ children, to, ...rest }) =>
-          to && (
-            <a
-              {...rest}
-              href={url}
-              onClick={(event) => {
-                event.preventDefault()
-                window.location.assign(url)
-              }}
-            >
-              {children}
-            </a>
-          )
-      : Link
-
     return (
       <li
         className={classnames(
@@ -62,7 +42,7 @@ export default class Card extends React.PureComponent {
           this.isSelected() && 'is-selected'
         )}
       >
-        <Anchor
+        <Link
           className={classnames(
             linkStyle,
             'dnb-anchor--no-style',
@@ -73,7 +53,7 @@ export default class Card extends React.PureComponent {
         >
           <Span className={linkInnerStyle}>
             <Span className={boxStyle}>
-              {Svg && <Svg {...svgParams} />}
+              {Svg && <Svg />}
               <P style_type="lead">{title}</P>
               <P top="x-small">{about}</P>
             </Span>
@@ -88,7 +68,7 @@ export default class Card extends React.PureComponent {
               />
             </Span>
           </Span>
-        </Anchor>
+        </Link>
       </li>
     )
   }

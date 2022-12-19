@@ -152,10 +152,6 @@
 .dnb-space {
   &--no-collapse {
     display: flow-root;
-
-    @include IS_IE {
-      overflow: auto;
-    }
   }
   &--stretch {
     width: 100%;

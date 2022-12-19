@@ -183,15 +183,4 @@
   &.dnb-skeleton &__textarea {
     visibility: hidden;
   }
-
-  @include IS_IE {
-    &__inner {
-      margin: 0;
-    }
-    .dnb-form-row--horizontal &,
-    &--vertical &__inner,
-    &:not(#{&}--stretch) {
-      flex: none;
-    }
-  }
 }
