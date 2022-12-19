@@ -112,8 +112,7 @@
     @include fakeBorder(
       var(--color-black-55),
       var(--input-border-width),
-      inset,
-      true
+      inset
     );
   }
   .dnb-input__submit-button__button .dnb-icon {
@@ -292,18 +291,5 @@
   // Search highlight wrapper
   &__list .dnb-drawer-list__option__item > span {
     padding-right: 0.125em; // add one space because of the word split
-  }
-
-  @include IS_IE {
-    flex: none;
-    vertical-align: baseline;
-
-    &__shell {
-      top: 0;
-    }
-    &__options {
-      // IE has bug where the height can't be calculated propery
-      display: block;
-    }
   }
 }

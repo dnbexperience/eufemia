@@ -43,10 +43,9 @@ if (isCI) {
       expect(global.css[0]).toMatch(new RegExp('.dnb-icon\\s?{'))
     })
 
-    it('has to contain a polyfill for font-family', () => {
-      // because else we have font-family:var(--font-family-default)
-      expect(global.css[0]).toMatch(
-        new RegExp('font-family:\\s?.*,\\s?sans-serif;')
+    it('should not contain a polyfill for font-family', () => {
+      expect(global.css[0]).toContain(
+        'font-family: var(--font-family-default);'
       )
     })
 

@@ -216,8 +216,6 @@ You can import Eufemia _mixins_ directly into your SCSS styles:
 } // .dnb-sr-only--inline
 
 /** Browser Checks */
-@include IS_IE {
-}
 @include IS_EDGE {
 }
 @include IS_FF {

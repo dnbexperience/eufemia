@@ -69,9 +69,6 @@ button.dnb-anchor {
       --border-color: var(--color-emerald-green);
       box-shadow: 0 0 0 0.125rem var(--border-color);
       border-color: transparent; }
-      @media screen and (-ms-high-contrast: none) {
-        html[data-whatinput='keyboard'] .dnb-anchor:focus {
-          box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
   .dnb-anchor:hover, .dnb-anchor:active {
     color: var(--color-sea-green);
     background-color: var(--color-mint-green-50);
@@ -144,9 +141,6 @@ button.dnb-anchor {
     --border-color: var(--color-emerald-green);
     box-shadow: 0 0 0 0.125rem var(--border-color);
     border-color: transparent; }
-    @media screen and (-ms-high-contrast: none) {
-      html[data-whatinput='mouse'] .dnb-anchor--focus {
-        box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
 
 .dnb-anchor--no-style {
   color: inherit;
@@ -189,9 +183,6 @@ button.dnb-anchor {
       --border-color: var(--color-white);
       box-shadow: 0 0 0 0.125rem var(--border-color);
       border-color: transparent; }
-      @media screen and (-ms-high-contrast: none) {
-        html[data-whatinput='keyboard'] .dnb-anchor--contrast:not(:disabled):focus {
-          box-shadow: 0 0 0 0.125rem var(--color-white); } }
 
 a.dnb-button {
   transition: none; }
@@ -571,10 +562,6 @@ sub {
         --border-color: var(--color-white);
         box-shadow: 0 0 0 0.125rem var(--border-color);
         border-color: transparent; }
-        @media screen and (-ms-high-contrast: none) {
-          html[data-whatinput='keyboard'] .dnb-blockquote:not(.dnb-blockquote--no-background) .dnb-anchor:not(:disabled):focus, html[data-whatinput='keyboard']
-          .dnb-blockquote:not(.dnb-blockquote--no-background) a:not(:disabled):focus {
-            box-shadow: 0 0 0 0.125rem var(--color-white); } }
   .dnb-blockquote:not(.dnb-blockquote--no-background) h1,
   .dnb-blockquote:not(.dnb-blockquote--no-background) h2,
   .dnb-blockquote:not(.dnb-blockquote--no-background) h3,
@@ -879,9 +866,6 @@ sub {
     --border-color: var(--color-sea-green);
     box-shadow: 0 0 0 0.25rem var(--border-color);
     border-color: transparent; }
-    @media screen and (-ms-high-contrast: none) {
-      .dnb-pre.dnb-pre--focus {
-        box-shadow: 0 0 0 0.25rem var(--color-sea-green); } }
 
 .dnb-spacing .dnb-pre:not([class*='dnb-space__top']) {
   margin-top: 0; }

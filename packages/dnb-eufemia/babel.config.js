@@ -25,7 +25,7 @@ const presetsGeneral =
         ...basisPresets,
       ]
 
-// Used for legacy, IE11 builds
+// Used for legacy builds
 const legacyPresets =
   process.env.BABEL_ENV === 'es'
     ? []
@@ -99,7 +99,6 @@ const config = {
     '@babel/plugin-proposal-object-rest-spread',
     '@babel/plugin-proposal-class-properties',
     '@babel/plugin-proposal-optional-chaining',
-    '@babel/plugin-transform-object-assign', // for IE support
   ],
   sourceMaps: true,
   comments: false,

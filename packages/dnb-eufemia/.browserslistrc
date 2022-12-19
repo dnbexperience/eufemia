@@ -1,5 +1,6 @@
-ie 11
 edge >= 14
 firefox >= 52
 chrome >= 49
 safari >= 10
+not ie > 0
+not ie_mob > 0

@@ -162,9 +162,6 @@ exports[`Avatar scss have to match snapshot 1`] = `
       --border-color: var(--color-black-3);
       box-shadow: 0 0 0 0.125rem var(--border-color);
       border-color: transparent; }
-      @media screen and (-ms-high-contrast: none) {
-        .dnb-avatar__group .dnb-avatar {
-          box-shadow: 0 0 0 0.125rem var(--color-black-3); } }
       .dnb-avatar__group .dnb-avatar--size-small {
         margin-left: -0.5rem; }
       .dnb-avatar__group .dnb-avatar--size-medium {

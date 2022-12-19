@@ -47,7 +47,7 @@
         border-radius: var(--timeline-icon-border-radius--small);
         color: var(--color-black-80);
         background-color: var(--color-white);
-        @include fakeBorder(var(--color-black-80), 0.0625rem, inset, true);
+        @include fakeBorder(var(--color-black-80), 0.0625rem, inset);
       }
       &__title {
         margin-left: var(--timeline-border-spacing--icon-adjusted);
@@ -93,7 +93,7 @@
     &--upcoming:not(.dnb-skeleton) &__label__icon {
       color: var(--color-black-55);
       background-color: var(--color-black-3);
-      @include fakeBorder(var(--color-black-3), 0.0625rem, inset, true);
+      @include fakeBorder(var(--color-black-3), 0.0625rem, inset);
     }
     &:only-child {
       margin-left: 0;
