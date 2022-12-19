@@ -279,7 +279,7 @@
     cursor: pointer;
   }
   // prevent selection while animating – useful when user double-clicks
-  // TODO: Our SASS version doe sot support :has – so we may use this in future
+  // TODO: Our SASS version does not support :has – so we may use this in future
   // &__tr--has-accordion-content:has(& + &__tr__accordion_content--animating) {
   //   user-select: none;
   // }

@@ -98,9 +98,12 @@ export const StickyBasicTable = () => {
 export const ContainerTable = () => {
   const StyledContainer = styled(TableContainer)`
     /* Define the width of the THs so they are aligned accross tables */
+    &,
+    .dnb-table__scroll-view {
+      max-width: 70rem;
+    }
     .dnb-table__container__body {
       min-width: 800px;
-      max-width: 70rem;
     }
     table {
       thead {
@@ -274,7 +277,7 @@ export const ContainerTable = () => {
       </TableContainer.Body>
 
       <TableContainer.Foot>
-        {/* <P id="unique-ref-id">Footer</P> */}
+        <P id="unique-ref-id">Footer</P>
       </TableContainer.Foot>
     </StyledContainer>
   )
