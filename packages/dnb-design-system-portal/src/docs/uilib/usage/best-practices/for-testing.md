@@ -27,7 +27,9 @@ Do not write unit tests in frontend code. But make integration tests. Avoid test
 
 Think as a user. Think how the user will interact with your application. Do not shallow test, but test components like a user would interact (use mount or render to also test their children).
 
-Try to use queries that help you to find elements in the same way that users will find them. React Testing Library provides queries that allow you to find elements by their role, label, placeholder, text contents, display value, alt text, title, test ID(it is only recommended to use this only after the other queries don't work for your use case).
+Try to use queries that help you to find elements in the same way that end-users will find them. 
+
+React Testing Library provides queries that allow you to find elements by their role, label, placeholder, text contents, display value, alt text, title, test ID (it is only recommended to use this after the other queries don't work for your use case).
 
 _"Using data-testid attributes do not resemble how your software is used and should be avoided if possible"_ - [React Testing Library](https://testing-library.com/docs/queries/bytestid/)
 
