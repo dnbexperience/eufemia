@@ -131,9 +131,6 @@ exports[`FormLabel scss have to match snapshot 1`] = `
     cursor: pointer; }
   .dnb-form-label[disabled] {
     cursor: not-allowed; }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-form-label {
-      max-width: 60vw; } }
 
 legend.dnb-form-label {
   display: inline-block; }

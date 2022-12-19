@@ -53,8 +53,7 @@
           @include fakeBorder(
             var(--color-emerald-green),
             0.09375rem,
-            inset,
-            true
+            inset
           );
         }
 
@@ -149,18 +148,13 @@
     &:not(:hover):not(:focus):not(:active) {
       background-color: var(--color-white);
       color: var(--color-fire-red);
-      @include fakeBorder(var(--color-fire-red), 0.0625rem, inset, true);
+      @include fakeBorder(var(--color-fire-red), 0.0625rem, inset);
     }
 
     .dnb-radio {
       &__input:not([disabled]) {
         & ~ .dnb-radio__button {
-          @include fakeBorder(
-            var(--color-fire-red),
-            0.09375rem,
-            inset,
-            true
-          );
+          @include fakeBorder(var(--color-fire-red), 0.09375rem, inset);
         }
         & ~ .dnb-radio__focus {
           box-shadow: none;
@@ -175,12 +169,7 @@
       &__input {
         & ~ .dnb-checkbox__button {
           border: none;
-          @include fakeBorder(
-            var(--color-fire-red),
-            0.09375rem,
-            inset,
-            true
-          );
+          @include fakeBorder(var(--color-fire-red), 0.09375rem, inset);
         }
         &:not(:hover) ~ .dnb-checkbox__button .dnb-checkbox__focus {
           box-shadow: none;
@@ -193,14 +182,14 @@
     &__button:not([disabled]):not(:hover):not(:focus):not(:active) {
     color: var(--color-white);
     background-color: var(--color-fire-red);
-    @include fakeBorder(var(--color-fire-red), 0.0625rem, inset, true);
+    @include fakeBorder(var(--color-fire-red), 0.0625rem, inset);
   }
 
   &__status--error#{&}--checked &__button:not([disabled]) {
     &:not(:active):not(:focus) .dnb-radio {
       &__input:not([disabled]) {
         & ~ .dnb-radio__button {
-          @include fakeBorder(var(--color-white), 0.09375rem, inset, true);
+          @include fakeBorder(var(--color-white), 0.09375rem, inset);
         }
         &:not(:hover) ~ .dnb-radio__dot {
           background-color: var(--color-white);

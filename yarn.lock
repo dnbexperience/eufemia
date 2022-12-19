@@ -2372,17 +2372,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/plugin-transform-object-assign@npm:7.16.0":
-  version: 7.16.0
-  resolution: "@babel/plugin-transform-object-assign@npm:7.16.0"
-  dependencies:
-    "@babel/helper-plugin-utils": ^7.14.5
-  peerDependencies:
-    "@babel/core": ^7.0.0-0
-  checksum: 7e997adfb7d05a5666a67d9280ffc4d594f1dc0f0cea7e1aaa4173d227eaa151b5cbde7d15f9bff5e00846a6201befdd00bd944bc44ccfd384e3a0fb1400243e
-  languageName: node
-  linkType: hard
-
 "@babel/plugin-transform-object-super@npm:^7.0.0":
   version: 7.16.7
   resolution: "@babel/plugin-transform-object-super@npm:7.16.7"
@@ -2729,7 +2718,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/preset-env@npm:7.16.0, @babel/preset-env@npm:^7.12.11, @babel/preset-env@npm:^7.12.7, @babel/preset-env@npm:^7.15.4":
+"@babel/preset-env@npm:7.16.0, @babel/preset-env@npm:^7.12.11, @babel/preset-env@npm:^7.15.4":
   version: 7.16.0
   resolution: "@babel/preset-env@npm:7.16.0"
   dependencies:
@@ -3224,7 +3213,6 @@ __metadata:
     "@babel/plugin-syntax-dynamic-import": 7.8.3
     "@babel/plugin-syntax-typescript": 7.16.0
     "@babel/plugin-transform-modules-commonjs": 7.16.0
-    "@babel/plugin-transform-object-assign": 7.16.0
     "@babel/plugin-transform-react-constant-elements": 7.16.0
     "@babel/plugin-transform-runtime": 7.16.0
     "@babel/preset-env": 7.16.0
@@ -3248,7 +3236,6 @@ __metadata:
     "@storybook/addons": 6.5.12
     "@storybook/builder-webpack5": ^6.5.12
     "@storybook/manager-webpack5": ^6.5.12
-    "@storybook/preset-ie11": "patch:@storybook/preset-ie11@0.0.1#../../.yarn/patches/@storybook-preset-ie11-npm-0.0.1-f80c765898"
     "@storybook/preset-scss": 1.0.3
     "@storybook/react": 6.5.12
     "@storybook/theming": 6.5.12
@@ -6493,19 +6480,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@storybook/node-logger@npm:*":
-  version: 6.3.12
-  resolution: "@storybook/node-logger@npm:6.3.12"
-  dependencies:
-    "@types/npmlog": ^4.1.2
-    chalk: ^4.1.0
-    core-js: ^3.8.2
-    npmlog: ^4.1.2
-    pretty-hrtime: ^1.0.3
-  checksum: 1cac2cef9450e87c46fd7da0240f43c3d00ca5543db4a97834a07837c289d20f0defb8819ea58deff0c7ba534ab70cec73e95e9729a346d0754c333754f73477
-  languageName: node
-  linkType: hard
-
 "@storybook/node-logger@npm:6.5.12":
   version: 6.5.12
   resolution: "@storybook/node-logger@npm:6.5.12"
@@ -6516,34 +6490,6 @@ __metadata:
     npmlog: ^5.0.1
     pretty-hrtime: ^1.0.3
   checksum: 7589477486a25e67d9119e9c363e8bde23e52601043a506ac0d28f4d353f3a228face79b40a2eb0cc0c7c8b05ed084336fef5dcc3213ed4484527c6631eafeb0
-  languageName: node
-  linkType: hard
-
-"@storybook/preset-ie11@npm:0.0.1":
-  version: 0.0.1
-  resolution: "@storybook/preset-ie11@npm:0.0.1"
-  dependencies:
-    "@babel/plugin-transform-classes": ^7.12.1
-    "@babel/preset-env": ^7.12.7
-    "@storybook/node-logger": "*"
-    "@types/babel__core": ^7.1.6
-    "@types/webpack": ^4.41.13
-    babel-loader: ^8.2.1
-  checksum: 50e95d50e5f2235570c89bdbfcf6b22ce8bbe199bd6b6428a75bf936ce9c11d985ddc4ba396b58a2c1495757e04847a49cc04b558e92feabb317774241c1f15e
-  languageName: node
-  linkType: hard
-
-"@storybook/preset-ie11@patch:@storybook/preset-ie11@0.0.1#../../.yarn/patches/@storybook-preset-ie11-npm-0.0.1-f80c765898::locator=%40dnb%2Feufemia%40workspace%3Apackages%2Fdnb-eufemia":
-  version: 0.0.1
-  resolution: "@storybook/preset-ie11@patch:@storybook/preset-ie11@npm%3A0.0.1#../../.yarn/patches/@storybook-preset-ie11-npm-0.0.1-f80c765898::version=0.0.1&hash=3a7f56&locator=%40dnb%2Feufemia%40workspace%3Apackages%2Fdnb-eufemia"
-  dependencies:
-    "@babel/plugin-transform-classes": ^7.12.1
-    "@babel/preset-env": ^7.12.7
-    "@storybook/node-logger": "*"
-    "@types/babel__core": ^7.1.6
-    "@types/webpack": ^4.41.13
-    babel-loader: ^8.2.1
-  checksum: 9eee97ef4c66e6cc2925b2b5654cfad7701a4027260811532717e9b2bd60dc4575d84fcad214f39641dc57cd9bab5ef96f7e776f52a78956c7f9fbca063641d1
   languageName: node
   linkType: hard
 
@@ -7121,7 +7067,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/babel__core@npm:^7.1.14, @types/babel__core@npm:^7.1.6":
+"@types/babel__core@npm:^7.1.14":
   version: 7.1.16
   resolution: "@types/babel__core@npm:7.1.16"
   dependencies:
@@ -7862,7 +7808,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/webpack@npm:^4.4.10, @types/webpack@npm:^4.41.13, @types/webpack@npm:^4.41.26, @types/webpack@npm:^4.41.8":
+"@types/webpack@npm:^4.4.10, @types/webpack@npm:^4.41.26, @types/webpack@npm:^4.41.8":
   version: 4.41.31
   resolution: "@types/webpack@npm:4.41.31"
   dependencies:
@@ -9957,7 +9903,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-loader@npm:^8.0.0, babel-loader@npm:^8.2.1, babel-loader@npm:^8.2.3":
+"babel-loader@npm:^8.0.0, babel-loader@npm:^8.2.3":
   version: 8.2.3
   resolution: "babel-loader@npm:8.2.3"
   dependencies:
