@@ -197,7 +197,14 @@
     }
 
     td {
-      width: 100%;
+      width: calc(100% - 3.5rem);
+
+      .dnb-table__size--medium & {
+        width: calc(100% - 3rem);
+      }
+      .dnb-table__size--small & {
+        width: calc(100% - 2.5rem);
+      }
     }
 
     td::before {
@@ -243,7 +250,6 @@
       }
     }
 
-    > td,
     > td.dnb-table__td {
       padding: 0;
 
@@ -253,7 +259,6 @@
       }
     }
 
-    &--expanded > td,
     &--expanded > td.dnb-table__td {
       background-color: var(--color-white);
     }
@@ -274,7 +279,7 @@
     cursor: pointer;
   }
   // prevent selection while animating – useful when user double-clicks
-  // TODO: Our SASS version doe sot support :has – so we may use this in future
+  // TODO: Our SASS version does not support :has – so we may use this in future
   // &__tr--has-accordion-content:has(& + &__tr__accordion_content--animating) {
   //   user-select: none;
   // }

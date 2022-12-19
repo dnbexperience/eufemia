@@ -171,11 +171,23 @@ exports[`Textarea scss have to match default theme snapshot 1`] = `
   scrollbar-width: thin;
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: auto;
-  scrollbar-color: var(--color-emerald-green) transparent; }
+  scrollbar-color: var(--color-sea-green) transparent; }
   .dnb-textarea__textarea ::selection {
     background-color: var(--color-mint-green);
     color: var(--color-black);
     text-shadow: none; }
+  @supports not (scrollbar-color: auto) {
+    .dnb-textarea__textarea::-webkit-scrollbar {
+      background-color: var(--color-black-8); }
+      .dnb-textarea__textarea::-webkit-scrollbar:vertical {
+        width: 0.5rem; }
+      .dnb-textarea__textarea::-webkit-scrollbar:horizontal {
+        height: 0.5rem; }
+    .dnb-textarea__textarea::-webkit-scrollbar-thumb {
+      background-color: var(--color-sea-green);
+      border-radius: 0.5rem; }
+      .dnb-textarea__textarea::-webkit-scrollbar-thumb:hover {
+        background-color: var(--color-emerald-green); } }
   html:not([data-visual-test]) .dnb-textarea__textarea {
     scroll-behavior: smooth; }
   html[data-visual-test] .dnb-textarea__textarea {
@@ -511,11 +523,23 @@ legend.dnb-form-label {
   scrollbar-width: thin;
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: auto;
-  scrollbar-color: var(--color-emerald-green) transparent; }
+  scrollbar-color: var(--color-sea-green) transparent; }
   .dnb-textarea__textarea ::selection {
     background-color: var(--color-mint-green);
     color: var(--color-black);
     text-shadow: none; }
+  @supports not (scrollbar-color: auto) {
+    .dnb-textarea__textarea::-webkit-scrollbar {
+      background-color: var(--color-black-8); }
+      .dnb-textarea__textarea::-webkit-scrollbar:vertical {
+        width: 0.5rem; }
+      .dnb-textarea__textarea::-webkit-scrollbar:horizontal {
+        height: 0.5rem; }
+    .dnb-textarea__textarea::-webkit-scrollbar-thumb {
+      background-color: var(--color-sea-green);
+      border-radius: 0.5rem; }
+      .dnb-textarea__textarea::-webkit-scrollbar-thumb:hover {
+        background-color: var(--color-emerald-green); } }
   html:not([data-visual-test]) .dnb-textarea__textarea {
     scroll-behavior: smooth; }
   html[data-visual-test] .dnb-textarea__textarea {

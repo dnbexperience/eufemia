@@ -36,6 +36,21 @@ export const TableVariantBasic = () => (
           column2: { direction: 'desc', modes: ['asc', 'desc'] },
         })
 
+        // Handle your "column1" logic
+        React.useEffect(() => {
+          switch (sortState.column1.direction) {
+            case 'asc':
+              break
+
+            case 'desc':
+              break
+
+            default:
+            case 'off':
+              break
+          }
+        }, [sortState.column1.direction])
+
         return (
           <Table.ScrollView>
             <Table>
@@ -358,9 +373,12 @@ export const TableStackedContainer = () => {
             Define the width of the THs so they are aligned accross tables.
             A "fixed" table width is needed in order to align all tables to act with the same column widths.
           */
+          &,
+          .dnb-table__scroll-view {
+            max-width: 70rem;
+          }
           .dnb-table__container__body {
             min-width: 800px;
-            max-width: 70rem;
           }
           table {
             thead {

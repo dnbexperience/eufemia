@@ -8,8 +8,8 @@ export type useHandleSortStateOptions = {
   active?: boolean
 
   /**
-   * Define the sorting direction. Can be "asc" or "desc".
-   * Defaults to "asc".
+   * Define the sorting direction. Can be "asc", "desc" or "off".
+   * Defaults to "off".
    */
   direction?: useHandleSortStateDirection
 
@@ -19,7 +19,7 @@ export type useHandleSortStateOptions = {
    */
   modes?: Array<useHandleSortStateMode>
 }
-export type useHandleSortStateDirection = 'asc' | 'desc'
+export type useHandleSortStateDirection = 'asc' | 'desc' | 'off'
 export type useHandleSortStateMode = 'asc' | 'desc' | 'off'
 export type useHandleSortStateName = string
 export type useHandleSortStateConfig = Record<
@@ -50,7 +50,7 @@ type SortStateInternalEntry = Record<
   SortStateInternalStateOptions
 >
 type GetNextMode = {
-  state: SortStateInternalState
+  direction: useHandleSortStateDirection
   opts: SortStateInternalStateOptions
   defaults: useHandleSortStateOptions
 }
@@ -58,16 +58,14 @@ type GetNextMode = {
 export function useHandleSortState(
   config: useHandleSortStateConfig,
   defaults: useHandleSortStateOptions = {
-    direction: 'asc',
+    direction: 'off',
     modes: ['asc', 'desc', 'off'],
   }
 ) {
   const initialState = React.useMemo(() => {
     return Object.entries(config).reduce((acc, [name, opts]) => {
       acc[name] = { ...defaults, ...opts }
-      if (!acc[name].active && !acc[name].lastDirection) {
-        acc[name].lastDirection = acc[name].direction
-      }
+
       return acc
     }, {})
   }, [config, defaults])
@@ -86,7 +84,11 @@ export function useHandleSortState(
           state.active = true
           state.lastDirection = null
         } else {
-          state.direction = getNextMode({ state, opts, defaults })
+          state.direction = getNextMode({
+            direction: state.direction,
+            opts,
+            defaults,
+          })
           state.active = state.direction !== 'off'
         }
 
@@ -113,11 +115,14 @@ export function useHandleSortState(
       const reversed =
         direction === 'off' ? undefined : direction === 'desc'
 
-      acc[name] = { active, direction, reversed }
-
       if (active) {
         activeSortName = name
+      } else {
+        active = false
       }
+
+      acc[name] = { active, direction, reversed }
+
       return acc
     },
     {}
@@ -125,25 +130,31 @@ export function useHandleSortState(
 
   return { sortState, sortHandler, activeSortName }
 
-  function getNextMode({ state, opts, defaults }: GetNextMode) {
+  function getNextMode({ direction, opts, defaults }: GetNextMode) {
     const modes = defaults.modes.filter((mode) => {
       return opts.modes.includes(mode)
     })
 
+    if (!modes.includes(direction)) {
+      direction = modes[0]
+    }
+
+    let next = direction
+
     for (let i = 0, l = modes.length; i < l; i++) {
       const mode = modes[i]
 
-      if (mode === state.direction) {
+      if (direction === mode) {
         let c = i + 1
         if (c >= l) {
           c = 0
         }
-        state.direction = modes[c]
+        next = modes[c]
         break
       }
     }
 
-    return state.direction
+    return next
   }
 }
 

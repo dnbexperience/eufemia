@@ -87,6 +87,7 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
                 status_state="error"
                 stretch={null}
                 tabIndex="-1"
+                target={null}
                 text={null}
                 title={null}
                 to={null}
@@ -133,6 +134,7 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
                     status_state="error"
                     stretch={null}
                     tabIndex="-1"
+                    target={null}
                     text={null}
                     title={null}
                     to={null}
@@ -365,6 +367,7 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
                 status_state="error"
                 stretch={null}
                 tabIndex="-1"
+                target={null}
                 text={null}
                 title={null}
                 to={null}
@@ -411,6 +414,7 @@ exports[`A single Tab component has to work with "Tabs.Content" from outside 1`]
                     status_state="error"
                     stretch={null}
                     tabIndex="-1"
+                    target={null}
                     text={null}
                     title={null}
                     to={null}
@@ -739,6 +743,7 @@ exports[`Tabs component have to match snapshot 1`] = `
               status_state="error"
               stretch={null}
               tabIndex="-1"
+              target={null}
               text={null}
               title={null}
               to={null}
@@ -785,6 +790,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                   status_state="error"
                   stretch={null}
                   tabIndex="-1"
+                  target={null}
                   text={null}
                   title={null}
                   to={null}
@@ -1017,6 +1023,7 @@ exports[`Tabs component have to match snapshot 1`] = `
               status_state="error"
               stretch={null}
               tabIndex="-1"
+              target={null}
               text={null}
               title={null}
               to={null}
@@ -1063,6 +1070,7 @@ exports[`Tabs component have to match snapshot 1`] = `
                   status_state="error"
                   stretch={null}
                   tabIndex="-1"
+                  target={null}
                   text={null}
                   title={null}
                   to={null}
@@ -1459,7 +1467,7 @@ exports[`Tabs scss have to match snapshot 1`] = `
       scrollbar-width: thin;
       -webkit-overflow-scrolling: touch;
       -ms-overflow-style: auto;
-      scrollbar-color: var(--color-emerald-green) transparent;
+      scrollbar-color: var(--color-sea-green) transparent;
       /* Hide scrollbar for Chrome, Safari */
       /* stylelint-disable-next-line */
       -ms-overflow-style: none;
@@ -1475,6 +1483,18 @@ exports[`Tabs scss have to match snapshot 1`] = `
           @media screen and (-ms-high-contrast: none) {
             html[data-whatinput='keyboard'] .dnb-tabs__tabs__tablist:focus {
               box-shadow: 0 0 0 0.125rem var(--color-emerald-green); } }
+      @supports not (scrollbar-color: auto) {
+        .dnb-tabs__tabs__tablist::-webkit-scrollbar {
+          background-color: var(--color-black-8); }
+          .dnb-tabs__tabs__tablist::-webkit-scrollbar:vertical {
+            width: 0.5rem; }
+          .dnb-tabs__tabs__tablist::-webkit-scrollbar:horizontal {
+            height: 0.5rem; }
+        .dnb-tabs__tabs__tablist::-webkit-scrollbar-thumb {
+          background-color: var(--color-sea-green);
+          border-radius: 0.5rem; }
+          .dnb-tabs__tabs__tablist::-webkit-scrollbar-thumb:hover {
+            background-color: var(--color-emerald-green); } }
       html:not([data-visual-test]) .dnb-tabs__tabs__tablist {
         scroll-behavior: smooth; }
       html[data-visual-test] .dnb-tabs__tabs__tablist {

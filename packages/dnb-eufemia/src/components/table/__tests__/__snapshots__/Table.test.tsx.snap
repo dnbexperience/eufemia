@@ -81,8 +81,10 @@ exports[`Table scss have to match default theme snapshot 1`] = `
 
 .dnb-table,
 .dnb-table__container {
-  --border: 0.0625rem solid var(--color-black-8);
-  --outline: 0.0625rem solid var(--color-black-8); }
+  --border-width: 0.0625rem;
+  --outline-width: 0.0625rem;
+  --border: var(--border-width) solid var(--color-black-8);
+  --outline: var(--outline-width) solid var(--color-black-8); }
   html[data-visual-test] .dnb-table, html[data-visual-test]
   .dnb-table__container {
     --border: 0.0625rem solid blue;
@@ -686,9 +688,15 @@ thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus
     .dnb-spacing .dnb-table__container__head .dnb-h--large:not([class*='space__top']) {
       margin: 0; }
   .dnb-table__container__foot {
-    padding: 1rem 1rem 1.5rem; }
+    padding: 1rem;
+    padding-bottom: 1.25rem; }
     .dnb-table__container__foot--empty {
-      padding: 0 0 1rem; }
+      padding-bottom: 1.5rem; }
+  .dnb-table__container .dnb-table__scroll-view {
+    clip-path: inset(0 round 0 0 0.5rem 0.5rem); }
+  @supports (-webkit-appearance: none) and (not (-moz-appearance: meterbar)) {
+    .dnb-table__container::after {
+      bottom: calc(var(--outline-width) * -1); } }
   .dnb-modal__content .dnb-table__container .dnb-table__scroll-view {
     overflow: visible; }
 
@@ -839,7 +847,11 @@ thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus
           */
       display: block; } }
   .dnb-table__tr__accordion_content td {
-    width: 100%; }
+    width: calc(100% - 3.5rem); }
+    .dnb-table__size--medium .dnb-table__tr__accordion_content td {
+      width: calc(100% - 3rem); }
+    .dnb-table__size--small .dnb-table__tr__accordion_content td {
+      width: calc(100% - 2.5rem); }
   .dnb-table__tr__accordion_content td::before {
     content: '';
     position: absolute;
@@ -864,15 +876,11 @@ thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus
       transition: transform 500ms var(--accordion-easing); }
   .dnb-table__tr__accordion_content--parallax .dnb-table__tr__accordion_content__inner__spacing {
     transform: translateY(0); }
-  .dnb-table__tr__accordion_content > td,
   .dnb-table__tr__accordion_content > td.dnb-table__td {
     padding: 0; }
-    .dnb-table__tr__accordion_content > td .dnb-dl,
-    .dnb-table__tr__accordion_content > td .dnb-dl dt,
     .dnb-table__tr__accordion_content > td.dnb-table__td .dnb-dl,
     .dnb-table__tr__accordion_content > td.dnb-table__td .dnb-dl dt {
       margin: 0; }
-  .dnb-table__tr__accordion_content--expanded > td,
   .dnb-table__tr__accordion_content--expanded > td.dnb-table__td {
     background-color: var(--color-white); }
   .dnb-table__tr__accordion_content.dnb-table__tr .dnb-table__td {
