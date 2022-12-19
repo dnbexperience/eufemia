@@ -7,7 +7,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { convertJsxToString, isTrue } from '../../shared/component-helper'
 import classnames from 'classnames'
-import { IS_IE11 } from '../../shared/helpers'
 
 export const skeletonDOMAttributes = (
   params,
@@ -85,9 +84,7 @@ export class AutoSize extends React.PureComponent {
             'data-skeleton-chars': String(countChars),
             style: {
               ...(style || {}),
-              [IS_IE11
-                ? 'maxWidth'
-                : '--skeleton-chars']: `${countChars}ch`,
+              '--skeleton-chars': `${countChars}ch`,
             },
             ...props,
           },

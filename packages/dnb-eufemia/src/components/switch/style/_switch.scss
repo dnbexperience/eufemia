@@ -107,7 +107,7 @@
     * aka when the switch is not :checked
     */
   &__input:not(:checked) ~ &__button {
-    transform: translateX(0); // IE fix
+    transform: translateX(0);
     transform: translateX(
       calc(1px - 1px - var(--switch-border-width--medium))
     );
@@ -118,7 +118,7 @@
   * aka when the switch is :checked
   */
   &__input:checked ~ &__button {
-    transform: translateX(1rem); // IE fix
+    transform: translateX(1rem);
     transform: translateX(
       calc(
         var(--switch-width--medium) - 1.5rem +
@@ -242,24 +242,6 @@
     &__input[disabled]:not(:checked)
     ~ .dnb-switch__background::after {
     border-color: var(--skeleton-color--contrast);
-  }
-
-  @include IS_IE {
-    vertical-align: text-bottom;
-
-    &__order {
-      align-items: flex-start;
-    }
-    &__shell {
-      transform: translateY(0);
-    }
-    &__input,
-    &__focus,
-    &__button {
-      top: 0;
-      bottom: 0;
-      margin: auto 0;
-    }
   }
 
   // Edge fix
