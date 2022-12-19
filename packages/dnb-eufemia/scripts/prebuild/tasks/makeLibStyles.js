@@ -70,12 +70,7 @@ export const runFactory = (
             transformPaths('../../../../assets/', '../../../assets/')
           )
         )
-        .pipe(
-          transform(
-            'utf8',
-            transformPostcss(postcssConfig({ IE11: true, sass }))
-          )
-        )
+        .pipe(transform('utf8', transformPostcss(postcssConfig({ sass }))))
         .pipe(cloneSink)
         .pipe(transform('utf8', transformCssnano({ reduceIdents: false })))
         .pipe(rename({ suffix: '.min' }))

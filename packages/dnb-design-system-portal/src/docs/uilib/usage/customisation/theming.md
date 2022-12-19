@@ -195,4 +195,4 @@ If your applications only need new colors or other CSS properties, you could sim
 
 ### Using CSS (vars) Custom Properties
 
-This is for sure a very nice and powerful solution, but lacks Internet Explorer support.
+This is a very nice and powerful solution.

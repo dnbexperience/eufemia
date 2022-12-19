@@ -122,16 +122,6 @@ html[data-dnb-modal-active] {
       display: flex;
       flex-direction: row;
       justify-content: space-between;
-
-      @include IS_IE() {
-        align-items: center; // IE11 uses top as default
-      }
-    }
-
-    @include IS_IE() {
-      .dnb-core-style &__close {
-        margin-left: auto; // place the button to the right side
-      }
     }
   }
 }
