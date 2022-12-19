@@ -233,30 +233,4 @@
   .dnb-skeleton &__input[disabled] ~ &__button {
     border-color: var(--skeleton-color);
   }
-
-  @include IS_IE {
-    vertical-align: text-bottom;
-
-    &__input,
-    &__focus,
-    &__button,
-    &__dot {
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      margin: auto;
-    }
-    &__order {
-      align-items: center;
-    }
-
-    &,
-    &-group {
-      flex: none;
-    }
-    &-group {
-      vertical-align: middle;
-    }
-  }
 }

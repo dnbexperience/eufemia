@@ -397,7 +397,6 @@
     left: 1rem;
     right: auto;
 
-    // IE fix
     top: 0;
     bottom: 0;
     margin: auto;
@@ -446,23 +445,6 @@
       & > .dnb-form-label {
         margin-bottom: 0.5rem;
       }
-    }
-  }
-
-  @include IS_IE {
-    vertical-align: baseline;
-    .dnb-form-row--horizontal &,
-    &:not(#{&}--stretch) {
-      flex: none;
-    }
-    &__inner {
-      width: 100%; // fix overflow on parent
-    }
-
-    &__input,
-    &__placeholder {
-      // vertical alignment
-      transform: translateY(-0.0625rem);
     }
   }
 }
