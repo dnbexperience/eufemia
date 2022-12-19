@@ -129,11 +129,14 @@
 
 .dnb-table,
 .dnb-table__container {
+  --border-width: 0.0625rem;
+  --outline-width: 0.0625rem;
+
   // table border
-  --border: 0.0625rem solid var(--color-black-8);
+  --border: var(--border-width) solid var(--color-black-8);
 
   // table outline
-  --outline: 0.0625rem solid var(--color-black-8);
+  --outline: var(--outline-width) solid var(--color-black-8);
 
   html[data-visual-test] & {
     --border: 0.0625rem solid blue;

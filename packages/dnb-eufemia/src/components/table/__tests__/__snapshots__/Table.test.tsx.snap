@@ -81,8 +81,10 @@ exports[`Table scss have to match default theme snapshot 1`] = `
 
 .dnb-table,
 .dnb-table__container {
-  --border: 0.0625rem solid var(--color-black-8);
-  --outline: 0.0625rem solid var(--color-black-8); }
+  --border-width: 0.0625rem;
+  --outline-width: 0.0625rem;
+  --border: var(--border-width) solid var(--color-black-8);
+  --outline: var(--outline-width) solid var(--color-black-8); }
   html[data-visual-test] .dnb-table, html[data-visual-test]
   .dnb-table__container {
     --border: 0.0625rem solid blue;
@@ -686,11 +688,15 @@ thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus
     .dnb-spacing .dnb-table__container__head .dnb-h--large:not([class*='space__top']) {
       margin: 0; }
   .dnb-table__container__foot {
-    padding: 1rem; }
+    padding: 1rem;
+    padding-bottom: 1.25rem; }
     .dnb-table__container__foot--empty {
-      padding: 0 0 0.5rem; }
+      padding-bottom: 1.5rem; }
   .dnb-table__container .dnb-table__scroll-view {
-    margin-bottom: 0.5rem; }
+    clip-path: inset(0 round 0 0 0.5rem 0.5rem); }
+  @supports (-webkit-appearance: none) and (not (-moz-appearance: meterbar)) {
+    .dnb-table__container::after {
+      bottom: calc(var(--outline-width) * -1); } }
   .dnb-modal__content .dnb-table__container .dnb-table__scroll-view {
     overflow: visible; }
 
