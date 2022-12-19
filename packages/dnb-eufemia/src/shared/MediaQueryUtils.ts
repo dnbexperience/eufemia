@@ -1,5 +1,5 @@
 import { isTrue, toKebabCase } from './component-helper'
-import { IS_IE11, warn } from './helpers'
+import { warn } from './helpers'
 
 export type MediaQuerySizes =
   | 'small'
@@ -182,7 +182,7 @@ export function createMediaQueryListener(
       callback(event?.matches, event)
     }
   }
-  if (IS_IE11 || !mediaQueryList?.addEventListener) {
+  if (!mediaQueryList?.addEventListener) {
     // Deprecated
     mediaQueryList.addListener(listener)
   } else {
@@ -190,7 +190,7 @@ export function createMediaQueryListener(
   }
 
   return () => {
-    if (IS_IE11 || !mediaQueryList?.removeEventListener) {
+    if (!mediaQueryList?.removeEventListener) {
       // Deprecated
       mediaQueryList.removeListener(listener)
     } else {

@@ -35,7 +35,6 @@ import GlobalStatusProvider from './GlobalStatusProvider'
 import Icon from '../icon/Icon'
 import { InfoIcon, ErrorIcon } from '../form-status/FormStatus'
 import Section from '../section/Section'
-import { IS_IE11 } from '../../shared/helpers'
 import Button from '../button/Button'
 
 export default class GlobalStatus extends React.PureComponent {
@@ -501,11 +500,7 @@ export default class GlobalStatus extends React.PureComponent {
     try {
       const element = this._wrapperRef.current
       this._scrollToStatusTimeout = isElementVisible(element, isDone)
-      if (
-        element &&
-        !IS_IE11 &&
-        typeof element.scrollIntoView === 'function'
-      ) {
+      if (element && typeof element.scrollIntoView === 'function') {
         element.scrollIntoView({
           block: 'center',
           behavior: 'smooth',
@@ -569,10 +564,7 @@ export default class GlobalStatus extends React.PureComponent {
           }
         })
 
-        // block: 'center' is not supported on IE - now we se the element above
-        if (IS_IE11) {
-          window.scrollTop = element.offsetTop
-        } else if (typeof element.scrollIntoView === 'function') {
+        if (typeof element.scrollIntoView === 'function') {
           // then go there
           element.scrollIntoView({
             block: 'center', // center of page

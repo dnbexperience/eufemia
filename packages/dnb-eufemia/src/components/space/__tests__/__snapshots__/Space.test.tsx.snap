@@ -379,9 +379,6 @@ exports[`Space scss have to match snapshot 1`] = `
 /* stylelint-disable */
 .dnb-space--no-collapse {
   display: flow-root; }
-  @media screen and (-ms-high-contrast: none) {
-    .dnb-space--no-collapse {
-      overflow: auto; } }
 
 .dnb-space--stretch {
   width: 100%; }

@@ -37,10 +37,6 @@
   &[disabled] {
     cursor: not-allowed;
   }
-
-  @include IS_IE {
-    max-width: 60vw;
-  }
 }
 legend.dnb-form-label {
   display: inline-block;
