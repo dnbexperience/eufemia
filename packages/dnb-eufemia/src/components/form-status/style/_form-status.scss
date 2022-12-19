@@ -128,10 +128,4 @@
   //   max-height: 0;
   //   animation: form-status-fade-in 2s ease-out 400ms forwards;
   // }
-
-  @include IS_IE {
-    &__shell > .dnb-icon {
-      border-width: 1px;
-    }
-  }
 }

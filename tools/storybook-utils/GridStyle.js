@@ -3,7 +3,6 @@
  *
  */
 
-import { IS_IE11 } from '@dnb/eufemia/src/shared/helpers'
 import { css } from '@emotion/react'
 
 export const gridStyle = ({
@@ -12,11 +11,6 @@ export const gridStyle = ({
   a = 0.8,
   returnOnlyVars = false,
 } = {}) => {
-  // sorry IE user, here is nothing funn to get
-  if (IS_IE11) {
-    return ''
-  }
-
   const color = (c) =>
     rgb ? `rgba(${rgb}, ${a - c})` : `hsla(${hsl}, ${a - c})`
 

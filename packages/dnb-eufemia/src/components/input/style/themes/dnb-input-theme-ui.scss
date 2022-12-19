@@ -20,8 +20,7 @@
     @include fakeBorder(
       var(--color-sea-green),
       var(--input-border-width),
-      inset,
-      true
+      inset
     );
   }
 
@@ -39,8 +38,7 @@
     @include fakeBorder(
       var(--color-black-55),
       var(--input-border-width),
-      inset,
-      true
+      inset
     );
     background-color: var(--color-black-3);
   }

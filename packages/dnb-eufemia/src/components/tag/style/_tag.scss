@@ -38,7 +38,7 @@
     &.dnb-button {
       color: var(--color-sea-green);
 
-      @include fakeBorder(var(--color-sea-green), 0.0625rem, inset, true);
+      @include fakeBorder(var(--color-sea-green), 0.0625rem, inset);
       @include buttonHover(var(--color-sea-green), var(--color-black-8));
       @include buttonFocus(var(--color-sea-green), var(--color-black-8));
       @include buttonActive(
@@ -93,14 +93,5 @@
     display: inline-flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-
-    @include IS_IE {
-      .dnb-button:not([class*='dnb-space']) {
-        margin-bottom: 0.5rem;
-        &:not(:last-of-type) {
-          margin-right: 0.5rem;
-        }
-      }
-    }
   }
 }

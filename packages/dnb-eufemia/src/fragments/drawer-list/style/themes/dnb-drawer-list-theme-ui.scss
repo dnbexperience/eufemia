@@ -141,21 +141,11 @@
       &::after {
         content: '';
 
-        // IE11 support
-        @supports not (display: grid) {
-          position: absolute;
-          z-index: 1;
-          top: calc(50% - 0.5rem);
-          right: 1rem;
-        }
+        grid-column: 2;
+        grid-row: 1 / -1;
 
-        @supports (display: grid) {
-          grid-column: 2;
-          grid-row: 1 / -1;
-
-          justify-self: end;
-          align-self: center;
-        }
+        justify-self: end;
+        align-self: center;
 
         width: 1rem;
         height: 1rem;
