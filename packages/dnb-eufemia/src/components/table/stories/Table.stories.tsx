@@ -601,6 +601,7 @@ export const TableAccordion = () => {
           outline
           border
           size="large"
+          sticky
           // lang="no"
         >
           <TableContent />
