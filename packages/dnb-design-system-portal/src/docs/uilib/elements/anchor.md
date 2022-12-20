@@ -111,6 +111,16 @@ To force a specific state of style, use the following classes to do so:
       I'm a Button!
     </button>
   </li>
+  <li>
+    <Anchor href="/uilib/elements/anchor" data-visual-test="anchor-newline">
+      Newline <br /> Newline
+    </Anchor>
+  </li>
+  <li>
+    <Anchor skeleton href="/uilib/elements/anchor" data-visual-test="anchor-skeleton">
+      Skeleton
+    </Anchor>
+  </li>
 </ul>
 `}
 </ComponentBox>
