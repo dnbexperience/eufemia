@@ -229,7 +229,7 @@ export const createSpacingClasses = (props: Props, Element = null) => {
   }, [])
 }
 
-// Creates a CSS Style Object out from given space types
+// deprecated and can be removed in v10 (remove tests as well)
 export const createStyleObject = (props: Props & StyleObjectProps) => {
   const p = Object.isFrozen(props) ? { ...props } : props
 
