@@ -433,6 +433,8 @@ thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus
   .dnb-table .dnb-table__th .dnb-table__help-button,
   .dnb-table > thead > tr > th .dnb-table__help-button {
     margin-left: 0.5rem; }
+  .dnb-table > thead > .dnb-table--no-wrap .dnb-table__sort-button {
+    white-space: nowrap; }
 
 /*
 * Table component
