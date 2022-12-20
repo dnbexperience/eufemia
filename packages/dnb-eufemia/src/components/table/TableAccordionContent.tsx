@@ -38,7 +38,8 @@ export default function TableAccordionContent(
 
   const allProps = React.useContext(TableContext)?.allProps
   const trContext = React.useContext(TrContext)
-  const innerRef = React.useRef(null)
+  const innerRef = React.useRef<HTMLDivElement>(null)
+  const trRef = React.useRef<HTMLTableRowElement>(null)
   const [ariaLive, setAriaLive] = React.useState(null)
 
   const { isInDOM, isAnimating, isVisibleParallax } = useHeightAnimation(
@@ -46,7 +47,21 @@ export default function TableAccordionContent(
     {
       open: Boolean(expanded || trContext?.trIsOpen),
       animate: Boolean(!noAnimation && !trContext?.noAnimation),
-      onOpen: (state) => setAriaLive(state ? true : null),
+      onOpen: (state) => {
+        setAriaLive(state ? true : null)
+      },
+      onAnimationEnd: (state) => {
+        const event = { target: trRef.current }
+        switch (state) {
+          case 'opened':
+            trContext.onOpened?.(event)
+            break
+
+          case 'closed':
+            trContext.onClosed?.(event)
+            break
+        }
+      },
     }
   )
 
@@ -72,6 +87,7 @@ export default function TableAccordionContent(
         isVisibleParallax && 'dnb-table__tr__accordion_content--parallax',
         className
       )}
+      ref={trRef}
       {...props}
     >
       <td

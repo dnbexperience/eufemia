@@ -12,18 +12,12 @@ import HeightAnimation, {
   HeightAnimationProps,
 } from '../HeightAnimation'
 import HeightAnimationInstance from '../HeightAnimationInstance'
+import {
+  testSetupInit,
+  simulateAnimationEnd,
+} from './HeightAnimationUtils'
 
-beforeEach(() => {
-  global.IS_TEST = false
-
-  window.requestAnimationFrame = jest.fn((callback) => {
-    return setTimeout(callback, 0)
-  })
-  window.cancelAnimationFrame = jest.fn((id) => {
-    clearTimeout(id)
-    return id
-  })
-})
+testSetupInit()
 
 const getStates = () => {
   const classes = document.querySelector(
@@ -444,10 +438,3 @@ describe('HeightAnimation', () => {
     })
   })
 })
-
-function simulateAnimationEnd(
-  element: Element = document.querySelector('.dnb-height-animation')
-) {
-  const event = new CustomEvent('transitionend')
-  element.dispatchEvent(event)
-}
