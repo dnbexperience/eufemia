@@ -455,6 +455,9 @@ const ContentTr = ({
       expanded={expanded}
       disabled={disabled}
       // noAnimation
+      onClick={trClickHandler}
+      onOpened={trOpenHandler}
+      onClosed={trCloseHandler}
       {...rest}
     >
       <Td>
@@ -517,6 +520,15 @@ const ContentTr = ({
     </Tr>
   )
 
+  function trClickHandler(event) {
+    console.log('trClickHandler', event)
+  }
+  function trOpenHandler(event) {
+    console.log('trOpenHandler', event)
+  }
+  function trCloseHandler(event) {
+    console.log('trCloseHandler', event)
+  }
   function buttonClickHandler({ event }) {
     event.preventDefault()
   }

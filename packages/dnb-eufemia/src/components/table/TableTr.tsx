@@ -18,21 +18,42 @@ export type TableTrProps = {
 
   /**
    * Set true to render the tr initially as expanded
+   * Is part of the accordion feature and needs to be enabled with `accordion` prop in main Table
    * Default: false
    */
   expanded?: boolean
 
   /**
    * Set true to disable the tr to be accessible as an interactive element
+   * Is part of the accordion feature and needs to be enabled with `accordion` prop in main Table
    * Default: false
    */
   disabled?: boolean
 
   /**
    * Set to true to skip animation
+   * Is part of the accordion feature and needs to be enabled with `accordion` prop in main Table
    * Default: false
    */
   noAnimation?: boolean
+
+  /**
+   * Will emit when user clicks/expands the table row
+   * Is part of the accordion feature and needs to be enabled with `accordion` prop in main Table
+   */
+  onClick?: (event?: React.SyntheticEvent) => void
+
+  /**
+   * Will emit when table row is expanded
+   * Is part of the accordion feature and needs to be enabled with `accordion` prop in main Table
+   */
+  onOpened?: (event?: React.SyntheticEvent) => void
+
+  /**
+   * Will emit when table row is closed (after it was open)
+   * Is part of the accordion feature and needs to be enabled with `accordion` prop in main Table
+   */
+  onClosed?: (event?: React.SyntheticEvent) => void
 
   /**
    * The content of the component.
@@ -52,6 +73,9 @@ export default function Tr(
     expanded,
     disabled,
     noAnimation,
+    onClick,
+    onOpened,
+    onClosed,
     children,
     className: _className,
     ...props
@@ -73,6 +97,9 @@ export default function Tr(
     expanded,
     disabled,
     noAnimation,
+    onClick,
+    onOpened,
+    onClosed,
   })
 
   if (accordionTr) {

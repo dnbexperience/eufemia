@@ -19,6 +19,9 @@ export function useTableAccordion({
   expanded,
   disabled,
   noAnimation,
+  onClick,
+  onOpened,
+  onClosed,
 }) {
   const tableContext = React.useContext(TableContext)
 
@@ -106,6 +109,8 @@ export function useTableAccordion({
         noAnimation,
         countTds,
         hasAccordionContent,
+        onOpened,
+        onClosed,
       }}
     >
       <tr
@@ -174,6 +179,8 @@ export function useTableAccordion({
     ) {
       setOpen(!trIsOpen)
       setHadClick(true)
+
+      onClick?.(event)
     }
   }
 }
