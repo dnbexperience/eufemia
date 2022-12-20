@@ -1,3 +1,7 @@
+---
+showTabs: true
+---
+
 ## Events
 
 Events are a part of the accordion feature and needs to be enabled with the `accordion` property on the main Table.
