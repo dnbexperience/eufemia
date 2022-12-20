@@ -4,13 +4,9 @@
  */
 
 import PropTypes from 'prop-types'
-import {
-  createSpacingClasses,
-  removeSpaceProps,
-  createStyleObject,
-} from './SpacingUtils'
+import { createSpacingClasses, removeSpaceProps } from './SpacingUtils'
 
-export { createSpacingClasses, removeSpaceProps, createStyleObject } // because of ESLint import plugin
+export { createSpacingClasses, removeSpaceProps } // because of ESLint import plugin
 
 export const spacingPropTypes = {
   space: PropTypes.oneOfType([

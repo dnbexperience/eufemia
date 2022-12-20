@@ -240,10 +240,7 @@ import {
   validateDOMAttributes,
   extendPropsWithContext,
 } from '../../shared/component-helper'
-import {
-  spacingPropTypes, // In case you need them as PropTypes
-  createSpacingClasses,
-} from '../space/SpacingHelper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 
 import type { SpacingProps } from '../../shared/types'
 

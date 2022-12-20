@@ -56,21 +56,17 @@ const Custom = styled(Space)`
 </Custom>
 ```
 
-## Using a Spacing helper
+## Using Spacing helpers
 
-The **SpacingHelper** can be used for all kinds of systems.
-The idea is, You send in `createStyleObject({ top: 'large' })` and will get `{ marginTop: 2rem }` in return.
+You may use the internals to build helpers suited to your needs.
 
-### Styled Components (Emotion)
+```tsx
+import { sumTypes } from '@dnb/eufemia/components/space/SpacingUtils'
 
-```js
-import { SpacingHelper } from '@dnb/eufemia/shared'
+const spacing = (space) => sumTypes(space) + 'rem'
 
 // With Styled Components
-const Spacing = styled.div(SpacingHelper)
-
-// A div with a margin-top of 2rem
-<Spacing top="large">
-  ...
-</Spacing>
+const StyledDiv = styled.div`
+  margin-top: ${spacing('medium large')};
+`
 ```

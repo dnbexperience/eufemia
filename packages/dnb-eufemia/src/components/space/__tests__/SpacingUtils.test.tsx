@@ -145,6 +145,9 @@ describe('createStyleObject', () => {
     expect(createStyleObject({ top: 'medium large' })).toEqual({
       marginTop: '3.5rem',
     })
+    expect(createStyleObject({ top: '3.5' })).toEqual({
+      marginTop: '3.5rem',
+    })
   })
 })
 
