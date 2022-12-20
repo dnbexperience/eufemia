@@ -165,7 +165,7 @@
     "babel-plugin-optimize-clsx": "2.6.2",
     "babel-plugin-search-and-replace": "1.1.0",
     "babel-plugin-transform-react-remove-prop-types": "0.4.24",
-    "browserslist": "4.18.0",
+    "browserslist": "4.21.4",
     "camelcase": "6.2.0",
     "chalk": "4.1.2",
     "color": "4.0.1",

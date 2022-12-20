@@ -38,6 +38,8 @@ Read more in the [First Steps](/uilib/usage/first-steps/) section.
 
 ## Supported Browsers and Platforms
 
-We use the following config in our browserlists(.browserslistrc): `'last 2 versions, > 0.2%, not dead'`.
+Eufemia uses the following config for the bundle output, defined in `.browserslistrc`:
 
-To see exactly which browsers this config supports, take a look [here](https://browsersl.ist/#q=last+2+versions%2C+%3E+0.2%25%2C+not+dead).
+- `defaults and supports es6-module, maintained node versions`
+
+To see exactly which browsers this config supports, take a look [here](https://browsersl.ist/#q=defaults+and+supports+es6-module%2C+maintained+node+versions).

@@ -1,2 +1,2 @@
 # Should reflect: https://eufemia.dnb.no/uilib/usage#supported-browsers-and-platforms
-last 2 versions, > 0.2%, not dead
+defaults and supports es6-module, maintained node versions

@@ -20,7 +20,7 @@ Use [postcss-preset-env](https://github.com/csstools/postcss-preset-env). Exampl
       postcssPresetEnv({
         stage: 0,
         preserve: true,
-        browsers: ['last 2 versions, > 0.2%, not dead'],
+        browsers: ['defaults and supports es6-module, maintained node versions'],
         importFrom: [require.resolve('@dnb/eufemia/style/dnb-ui-properties.css')]
       })
     ]
