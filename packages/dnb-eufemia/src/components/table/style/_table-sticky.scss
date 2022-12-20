@@ -12,18 +12,14 @@
     height: 0;
   }
 
-  // Target th because of Safari transparent issue
-  tr.sticky:not(.css-position) th {
-    position: relative;
-    z-index: 3; // over borders and TDs
+  tr.sticky {
+    position: sticky;
+    z-index: 4; // over borders and TDs
 
-    will-change: transform;
     transform: translate3d(0, var(--table-offset, 0), 0);
   }
 
   tr.sticky.css-position {
-    position: sticky;
-    z-index: 3; // over borders and TDs
     top: var(--table-top, 0); // is set by "stickyOffset" prop
   }
 

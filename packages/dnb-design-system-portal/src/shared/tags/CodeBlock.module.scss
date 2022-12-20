@@ -10,7 +10,7 @@
 
 .toolbarStyle {
   position: absolute;
-  z-index: 2;
+  z-index: 100; // over generally used z-indexes, like table rows
   bottom: 0;
   left: 0;
   width: 100%;
