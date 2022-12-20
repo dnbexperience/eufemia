@@ -198,4 +198,8 @@
       margin-left: 0.5rem;
     }
   }
+
+  & > thead > &--no-wrap &__sort-button {
+    white-space: nowrap;
+  }
 }
