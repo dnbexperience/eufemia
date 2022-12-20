@@ -3,6 +3,19 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.44.0](https://github.com/dnbexperience/eufemia/compare/v9.43.0...v9.44.0) (2022-12-20)
+
+
+### Bug Fixes
+
+* **Table:** inherit Tr noWrap to Th.SortButton ([#1836](https://github.com/dnbexperience/eufemia/issues/1836)) ([0ce4763](https://github.com/dnbexperience/eufemia/commit/0ce4763d1baf687d6d71f16b0732f5480b747342))
+* **Table:** make sticky header work when used in combination with accordion rows ([#1835](https://github.com/dnbexperience/eufemia/issues/1835)) ([dec1ddb](https://github.com/dnbexperience/eufemia/commit/dec1ddb9e87632a3e9c478b836ea8b6111f52061))
+
+
+### Features
+
+* **Table:** add accordion row events ([#1834](https://github.com/dnbexperience/eufemia/issues/1834)) ([c7be834](https://github.com/dnbexperience/eufemia/commit/c7be834f7daf7708cec25906a03caef1a1366554))
+
 # [9.43.0](https://github.com/dnbexperience/eufemia/compare/v9.42.0...v9.43.0) (2022-12-19)
 
 
