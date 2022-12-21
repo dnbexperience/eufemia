@@ -3,6 +3,18 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.45.0](https://github.com/dnbexperience/eufemia/compare/v9.44.0...v9.45.0) (2022-12-21)
+
+
+### Bug Fixes
+
+* **Anchor:** use text-decoration instead of box-shadow for chromium breaking underline support ([#1841](https://github.com/dnbexperience/eufemia/issues/1841)) ([eba73da](https://github.com/dnbexperience/eufemia/commit/eba73daf984cb811439a3c0d12748c38dc81efc8))
+
+
+### Features
+
+* **Spacing:** add calc helper ([#1845](https://github.com/dnbexperience/eufemia/issues/1845)) ([0e7f99e](https://github.com/dnbexperience/eufemia/commit/0e7f99ea4580a51e77d168954825cc6fde8139e7))
+
 # [9.44.0](https://github.com/dnbexperience/eufemia/compare/v9.43.0...v9.44.0) (2022-12-20)
 
 
