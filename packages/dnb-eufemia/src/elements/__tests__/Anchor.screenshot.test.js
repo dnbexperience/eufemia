@@ -13,10 +13,24 @@ describe('Anchor screenshot', () => {
   setupPageScreenshot({
     url: '/uilib/elements/anchor',
   })
-  // the first one is on 5.54%
+
   it('have to match the "default" state', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="anchor-default"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match breaking lines', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="anchor-newline"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match anchor with skeleton', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="anchor-skeleton"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

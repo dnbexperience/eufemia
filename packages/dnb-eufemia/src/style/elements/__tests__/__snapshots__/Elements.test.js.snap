@@ -35,11 +35,13 @@ button.dnb-anchor {
   display: inline;
   padding: 0.05575em 0.125em 0.05575em;
   font-size: var(--font-size-basis);
-  text-decoration: none;
+  text-decoration: underline;
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 0.0938rem;
+  text-underline-offset: 0.25em;
   border-radius: 0;
-  box-shadow: 0 0.09375rem 0 0 currentColor;
   color: var(--color-sea-green);
-  transition: background-color 200ms ease-in-out, box-shadow 180ms ease-in-out, border-radius 200ms ease-in-out; }
+  transition: background-color 200ms ease-in-out, border-radius 200ms ease-in-out; }
   sup .dnb-anchor,
   sub .dnb-anchor {
     padding: 0 0.025em 0; }
@@ -62,7 +64,6 @@ button.dnb-anchor {
       transition: none; }
       .dnb-anchor:focus:not(:active),
       .dnb-section .dnb-anchor:focus:not(:active).dnb-anchor {
-        box-shadow: none;
         text-decoration: none; }
     html[data-whatinput='keyboard'] .dnb-anchor:focus {
       --border-color: var(--color-emerald-green);
@@ -78,7 +79,6 @@ button.dnb-anchor {
     .dnb-anchor:hover,
     .dnb-section .dnb-anchor:hover.dnb-anchor, .dnb-anchor:active,
     .dnb-section .dnb-anchor:active.dnb-anchor {
-      box-shadow: none;
       text-decoration: none; }
   .dnb-anchor:active {
     color: var(--color-mint-green);
@@ -86,7 +86,6 @@ button.dnb-anchor {
     border-radius: 0.25em; }
     .dnb-anchor:active,
     .dnb-section .dnb-anchor:active.dnb-anchor {
-      box-shadow: none;
       text-decoration: none; }
   .dnb-anchor[target='_blank']:not(:empty):not(.dnb-anchor--no-icon) {
     position: relative;
@@ -121,7 +120,6 @@ button.dnb-anchor {
   border-radius: 0.25em; }
   .dnb-anchor--hover,
   .dnb-section .dnb-anchor--hover.dnb-anchor {
-    box-shadow: none;
     text-decoration: none; }
 
 .dnb-anchor--active {
@@ -130,7 +128,6 @@ button.dnb-anchor {
   border-radius: 0.25em; }
   .dnb-anchor--active,
   .dnb-section .dnb-anchor--active.dnb-anchor {
-    box-shadow: none;
     text-decoration: none; }
 
 .dnb-anchor--focus {
@@ -142,7 +139,6 @@ button.dnb-anchor {
     transition: none; }
     .dnb-anchor--focus:not(:active),
     .dnb-section .dnb-anchor--focus:not(:active).dnb-anchor {
-      box-shadow: none;
       text-decoration: none; }
   html[data-whatinput='mouse'] .dnb-anchor--focus {
     --border-color: var(--color-emerald-green);
@@ -157,7 +153,6 @@ button.dnb-anchor {
   transition: none; }
   .dnb-anchor--no-style,
   .dnb-section .dnb-anchor--no-style.dnb-anchor {
-    box-shadow: none;
     text-decoration: none; }
   .dnb-anchor--no-style:hover {
     color: inherit;
@@ -165,7 +160,6 @@ button.dnb-anchor {
 
 .dnb-anchor--no-underline,
 .dnb-section .dnb-anchor--no-underline.dnb-anchor {
-  box-shadow: none;
   text-decoration: none; }
 
 .dnb-anchor--no-hover:hover {
@@ -179,12 +173,11 @@ button.dnb-anchor {
   transition: none; }
 
 .dnb-anchor--contrast {
-  color: var(--color-white);
-  box-shadow: 0 0.09375rem 0 0 var(--color-white); }
+  color: var(--color-white); }
   .dnb-anchor--contrast:hover, .dnb-anchor--contrast:active {
     color: var(--color-emerald-green);
     background-color: var(--color-white);
-    box-shadow: none; }
+    text-decoration: none; }
   .dnb-anchor--contrast:active {
     color: var(--color-emerald-green);
     background-color: var(--color-white); }
@@ -205,7 +198,7 @@ a.dnb-button {
 
 .dnb-skeleton > .dnb-anchor,
 .dnb-anchor.dnb-skeleton {
-  box-shadow: none; }
+  text-decoration: none; }
   .dnb-skeleton > .dnb-anchor::after,
   .dnb-anchor.dnb-skeleton::after {
     filter: grayscale(100%) opacity(0.3); }
@@ -557,14 +550,13 @@ sub {
     font-size: inherit; }
   .dnb-blockquote:not(.dnb-blockquote--no-background) .dnb-anchor,
   .dnb-blockquote:not(.dnb-blockquote--no-background) a {
-    color: var(--color-white);
-    box-shadow: 0 0.09375rem 0 0 var(--color-white); }
+    color: var(--color-white); }
     .dnb-blockquote:not(.dnb-blockquote--no-background) .dnb-anchor:hover, .dnb-blockquote:not(.dnb-blockquote--no-background) .dnb-anchor:active,
     .dnb-blockquote:not(.dnb-blockquote--no-background) a:hover,
     .dnb-blockquote:not(.dnb-blockquote--no-background) a:active {
       color: var(--color-emerald-green);
       background-color: var(--color-white);
-      box-shadow: none; }
+      text-decoration: none; }
     .dnb-blockquote:not(.dnb-blockquote--no-background) .dnb-anchor:active,
     .dnb-blockquote:not(.dnb-blockquote--no-background) a:active {
       color: var(--color-emerald-green);

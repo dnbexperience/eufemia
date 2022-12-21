@@ -5,9 +5,6 @@
 
 @import '../core/utilities.scss';
 
-$anchorBorderBottomWidth: 0.09375rem; // we can use 1.5px incase we use box-shadow instead of border-bottom
-$anchorBorderRadius: 0.25em;
-
 @mixin anchorDefaultStyle($theme: null) {
   // make sure we have always `display: inline;` as inline-block is breaking the border-bottom
   display: inline;
@@ -15,9 +12,11 @@ $anchorBorderRadius: 0.25em;
   padding: 0.05575em 0.125em 0.05575em; // the total body height will then be 24px if font-size is 18px
 
   font-size: var(--font-size-basis);
-  text-decoration: none;
+  text-decoration: underline;
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 0.0938rem;
+  text-underline-offset: 0.25em;
   border-radius: 0;
-  box-shadow: 0 $anchorBorderBottomWidth 0 0 currentColor;
 
   color: var(--color-sea-green);
 
@@ -51,9 +50,6 @@ $anchorBorderRadius: 0.25em;
 @mixin resetUnderlineStyle() {
   &,
   .dnb-section &.dnb-anchor {
-    box-shadow: none;
-
-    // legacy reset
     text-decoration: none;
   }
 }
@@ -80,7 +76,7 @@ $anchorBorderRadius: 0.25em;
 @mixin anchorHoverStyle() {
   color: var(--color-sea-green);
   background-color: var(--color-mint-green-50);
-  border-radius: $anchorBorderRadius;
+  border-radius: 0.25em;
   @include resetUnderlineStyle();
   @if mixin-exists('anchorHoverStyleCustomisation') {
     @include anchorHoverStyleCustomisation();
@@ -89,7 +85,7 @@ $anchorBorderRadius: 0.25em;
 @mixin anchorActiveStyle() {
   color: var(--color-mint-green);
   background-color: var(--color-emerald-green);
-  border-radius: $anchorBorderRadius;
+  border-radius: 0.25em;
   @include resetUnderlineStyle();
   @if mixin-exists('anchorActiveStyleCustomisation') {
     @include anchorActiveStyleCustomisation();
@@ -107,19 +103,18 @@ $anchorBorderRadius: 0.25em;
   } @else {
     @include fakeFocus();
   }
-  border-radius: $anchorBorderRadius;
+  border-radius: 0.25em;
 }
 
 // other styles
 @mixin useAnchorContrastStyle($contrastColor: var(--color-emerald-green)) {
   color: var(--color-white);
-  box-shadow: 0 $anchorBorderBottomWidth 0 0 var(--color-white);
 
   &:hover,
   &:active {
     color: $contrastColor;
     background-color: var(--color-white);
-    box-shadow: none;
+    text-decoration: none;
   }
   &:active {
     color: $contrastColor;
@@ -193,7 +188,7 @@ $anchorBorderRadius: 0.25em;
   }
 
   transition: background-color 200ms ease-in-out,
-    box-shadow 180ms ease-in-out, border-radius 200ms ease-in-out;
+    border-radius 200ms ease-in-out;
   [data-visual-test-wrapper] & {
     transition: none;
   }

@@ -8,14 +8,24 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
+const style = { width: '25rem' }
+
 describe('GlobalStatus screenshot', () => {
-  const style = { width: '20rem' }
   setupPageScreenshot({ url: '/uilib/components/global-status/demos' })
 
   it('have to match the default state with custom content', async () => {
     const screenshot = await testPageScreenshot({
       style,
       selector: '[data-visual-test="global-status"] .dnb-global-status',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match the info state and custom content', async () => {
+    const screenshot = await testPageScreenshot({
+      style,
+      selector:
+        '[data-visual-test="global-status-info"] .dnb-global-status',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -41,19 +51,4 @@ describe('GlobalStatus screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-
-  it('have to match the info state and custom content', async () => {
-    const screenshot = await testPageScreenshot({
-      style,
-      selector:
-        '[data-visual-test="global-status-info"] .dnb-global-status',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-  // it.skip('have to match custom content', async () => {
-  //   const screenshot = await testPageScreenshot({
-  //     selector: '[data-visual-test="global-status-custom"]'
-  //   })
-  //   expect(screenshot).toMatchImageSnapshot()
-  // })
 })
