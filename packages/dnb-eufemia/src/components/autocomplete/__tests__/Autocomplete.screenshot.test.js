@@ -106,7 +106,7 @@ describe('Autocomplete screenshot', () => {
         '[data-visual-test="autocomplete-suffix"] .dnb-autocomplete .dnb-input',
       simulate: 'click',
       style: {
-        height: '35rem',
+        height: '31rem',
       },
     })
     expect(screenshot).toMatchImageSnapshot()

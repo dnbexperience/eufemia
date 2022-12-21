@@ -9,6 +9,7 @@ import {
   translateSpace,
   splitTypes,
   sumTypes,
+  calc,
   createTypeModifiers,
   findType,
   findNearestTypes,
@@ -59,6 +60,79 @@ describe('sumTypes', () => {
   })
 })
 
+describe('calc', () => {
+  it('should return null if invalid', () => {
+    expect(calc()).toEqual(null)
+    expect(calc(null)).toEqual(null)
+    expect(calc(undefined)).toEqual(null)
+  })
+
+  it('should output calc based on string types', () => {
+    expect(calc('large x-small')).toEqual(
+      'calc(var(--spacing-large) + var(--spacing-x-small))'
+    )
+  })
+
+  it('should output calc based on argument types', () => {
+    expect(calc('large', 'x-small')).toEqual(
+      'calc(var(--spacing-large) + var(--spacing-x-small))'
+    )
+  })
+
+  it('should output calc based on rem numbers', () => {
+    expect(calc(2, 0.5)).toEqual(
+      'calc(var(--spacing-large) + var(--spacing-x-small))'
+    )
+  })
+
+  it('should output calc based on rem strings', () => {
+    expect(calc('2rem', '0.5rem')).toEqual(
+      'calc(var(--spacing-large) + var(--spacing-x-small))'
+    )
+  })
+
+  it('should output calc based on pixel values', () => {
+    expect(calc('32px', '8px')).toEqual(
+      'calc(var(--spacing-large) + var(--spacing-x-small))'
+    )
+  })
+
+  it('should output calc with mixed spacing types', () => {
+    expect(calc('32px', 'x-small', 1)).toEqual(
+      'calc(var(--spacing-large) + var(--spacing-x-small) + var(--spacing-small))'
+    )
+  })
+
+  it('should correct to its nearest type', () => {
+    expect(calc('17px')).toEqual('calc(var(--spacing-small))')
+    expect(calc('33px')).toEqual('calc(var(--spacing-large))')
+    expect(calc('43px')).toEqual(
+      'calc(var(--spacing-large) + var(--spacing-x-small))'
+    )
+  })
+
+  it('should sum all types', () => {
+    expect(calc('800px')).toEqual(
+      'calc(var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-small))'
+    )
+  })
+
+  it('should calc documented examples', () => {
+    expect(calc('medium large')).toEqual(
+      'calc(var(--spacing-medium) + var(--spacing-large))'
+    )
+    expect(calc('medium', 'large')).toEqual(
+      'calc(var(--spacing-medium) + var(--spacing-large))'
+    )
+    expect(calc('1.5rem', '2rem')).toEqual(
+      'calc(var(--spacing-medium) + var(--spacing-large))'
+    )
+    expect(calc('24px', '32px')).toEqual(
+      'calc(var(--spacing-medium) + var(--spacing-large))'
+    )
+  })
+})
+
 describe('createTypeModifiers', () => {
   it('should return an array with modifiers', () => {
     expect(createTypeModifiers('0.5 1 2')).toEqual([
@@ -77,7 +151,11 @@ describe('findNearestTypes', () => {
   it('should find the nearest type in correct order', () => {
     expect(findNearestTypes(2.5)).toEqual(['large', 'x-small'])
     expect(findNearestTypes(5)).toEqual(['xx-large', 'medium'])
-    expect(findNearestTypes(8)).toEqual(['xx-large-x2', 'small'])
+    expect(findNearestTypes(8)).toEqual(['xx-large', 'xx-large', 'small'])
+  })
+
+  it('should multiply type duplications', () => {
+    expect(findNearestTypes(8, true)).toEqual(['xx-large-x2', 'small'])
   })
 })
 
@@ -143,6 +221,9 @@ describe('createSpacingClasses', () => {
 describe('createStyleObject', () => {
   it('should create a valid style object', () => {
     expect(createStyleObject({ top: 'medium large' })).toEqual({
+      marginTop: '3.5rem',
+    })
+    expect(createStyleObject({ top: '3.5' })).toEqual({
       marginTop: '3.5rem',
     })
   })
