@@ -61,12 +61,17 @@ const Custom = styled(Space)`
 You may use the internals to build helpers suited to your needs.
 
 ```tsx
-import { sumTypes } from '@dnb/eufemia/components/space/SpacingUtils'
-
-const spacing = (space) => sumTypes(space) + 'rem'
+import { calc } from '@dnb/eufemia/components/space/SpacingUtils'
 
 // With Styled Components
 const StyledDiv = styled.div`
-  margin-top: ${spacing('medium large')};
+  margin-top: ${calc('medium large')};
+  margin-top: ${calc('medium', 'large')};
+  margin-top: ${calc('1.5rem', '2rem')};
+  margin-top: ${calc('24px', '32px')};
 `
 ```
+
+All of the examples do output: `calc(var(--spacing-medium) + var(--spacing-large))`
+
+Invalid values will be corrected to its nearest spacing type (e.g. 17px to `var(--spacing-small)`).
