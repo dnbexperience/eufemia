@@ -73,7 +73,7 @@ a.dnb-button {
 // because of the underline, we hide anchors
 .dnb-skeleton > .dnb-anchor,
 .dnb-anchor.dnb-skeleton {
-  box-shadow: none;
+  text-decoration: none;
   &::after {
     filter: grayscale(100%) opacity(0.3);
   }
