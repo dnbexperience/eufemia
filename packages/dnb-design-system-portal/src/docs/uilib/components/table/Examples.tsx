@@ -32,7 +32,7 @@ export const TableVariantBasic = () => (
     {() => {
       const BasicTable = () => {
         const { sortState, sortHandler } = useHandleSortState({
-          column1: { active: true },
+          column1: { direction: 'asc', active: true },
           column2: { direction: 'desc', modes: ['asc', 'desc'] },
         })
 
