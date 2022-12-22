@@ -17,6 +17,10 @@
 
 v10 of @dnb/eufemia contains _breaking changes_. As a migration process, you can simply search and replace:
 
+## Features
+
+1. [Browser support](/uilib/usage/#supported-browsers-and-platforms) has been updated to support modern browsers only (es6).
+
 ### StepIndicator
 
 1. Find the `active_item` property and replace it with `current_step`.
