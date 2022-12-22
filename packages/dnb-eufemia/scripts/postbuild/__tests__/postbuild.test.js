@@ -184,7 +184,7 @@ describe('babel build', () => {
               'utf-8'
             )
             expect(content).toContain('export default class Input extends')
-            expect(content).toContain('core-js/modules/es')
+            expect(content).not.toContain('core-js/modules/es')
             expect(content).toContain(
               'import _extends from "@babel/runtime/helpers/esm/extends";'
             )
