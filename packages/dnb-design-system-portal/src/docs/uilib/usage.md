@@ -38,10 +38,8 @@ Read more in the [First Steps](/uilib/usage/first-steps/) section.
 
 ## Supported Browsers and Platforms
 
-We use the following config in our browserlists(.browserslistrc): `edge >= 14, firefox >= 52, chrome >= 49, safari >= 10, not ie > 0, not ie_mob > 0`.
+Eufemia uses the following config for the bundle output, defined in `.browserslistrc`:
 
-To see exactly which browsers this config supports, take a look [here](https://browsersl.ist/#q=edge+%3E%3D+14%2C+firefox+%3E%3D+52%2C+chrome+%3E%3D+49%2C+safari+%3E%3D+10%2C+not+ie+%3E+0%2C+not+ie_mob+%3E+0).
+- `defaults and supports es6-module, maintained node versions`
 
-| Edge                 | Firefox              | Chrome               | Safari               | Node                 |
-| -------------------- | -------------------- | -------------------- | -------------------- | -------------------- |
-| <small>>=</small> 14 | <small>>=</small> 45 | <small>>=</small> 49 | <small>>=</small> 10 | <small>>=</small> 10 |
+To see exactly which browsers this config supports, take a look [here](https://browsersl.ist/#q=defaults+and+supports+es6-module%2C+maintained+node+versions).
