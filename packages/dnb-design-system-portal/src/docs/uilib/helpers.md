@@ -11,6 +11,8 @@ tabs:
     key: /uilib/helpers/classes
   - title: Functions
     key: /uilib/helpers/functions
+  - title: Tools
+    key: /uilib/helpers/tools
 redirect_from:
   - /uilib/helper-classes
 ---
