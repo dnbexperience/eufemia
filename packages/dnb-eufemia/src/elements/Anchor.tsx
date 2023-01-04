@@ -33,7 +33,7 @@ export type AnchorProps = {
 }
 
 export type AnchorAllProps = AnchorProps &
-  React.HTMLAttributes<HTMLAnchorElement> &
+  React.HTMLProps<HTMLAnchorElement> &
   SpacingProps
 
 const defaultProps = {}
