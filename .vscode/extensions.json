@@ -1,5 +1,6 @@
 {
   "recommendations": [
+    "dnbexperience.vscode-eufemia",
     "esbenp.prettier-vscode",
     "dbaeumer.vscode-eslint",
     "stylelint.vscode-stylelint",
@@ -7,7 +8,6 @@
     "darkriszty.markdown-table-prettify",
     "davidanson.vscode-markdownlint",
     "razio.es6-string-jsx",
-    "cipchk.cssrem",
     "yzhang.markdown-all-in-one"
   ]
 }

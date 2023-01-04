@@ -20,6 +20,10 @@ For details about what values Typographic elements do use, have a loot at the [F
 
 <!-- - Used for `<h5>` and `<h6>`, who are not a part of the design system. -->
 
+### Code Editor Extensions
+
+You may be interested to install an [Eufemia code editor extension](/uilib/helpers/tools/#code-editor-extensions) that allows you to quickly auto complete the correct `line-height`.
+
 ## Additional `line-height` **em** table
 
 | Pixel | Type           | Em          | Custom Property              | Info   |

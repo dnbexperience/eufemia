@@ -30,4 +30,8 @@ And for sure, check out the code in the [**Demo Apps**](/uilib/getting-started/d
   <Button href="/uilib/intro" size="large" text="Quick Intro" />
 </Section>
 
+## Code Editor Extensions
+
+You may be interested to install an [Eufemia code editor extension](/uilib/helpers/tools/#code-editor-extensions).
+
 <WelcomeAdvice />

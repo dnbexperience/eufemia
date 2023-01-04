@@ -19,6 +19,10 @@ For details about what values Typographic elements do use, have a loot at the [F
 | 34px  | `x-large`  | **2.125rem** | `--font-size-x-large`  |                                 |
 | 48px  | `xx-large` | **3rem**     | `--font-size-xx-large` |                                 |
 
+### Code Editor Extensions
+
+You may be interested to install an [Eufemia code editor extension](/uilib/helpers/tools/#code-editor-extensions) that allows you to quickly auto complete the correct `font-size`.
+
 ## Additional `font-size` **em** table
 
 | Pixel | Type        | Em      | Custom Property         | Info |
