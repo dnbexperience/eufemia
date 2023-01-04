@@ -169,6 +169,49 @@ describe('StepIndicator in general', () => {
 
     expect(Array.from(element.classList)).toEqual(['dnb-step-indicator'])
   })
+
+  it('should support aria-labelledby', () => {
+    render(
+      <>
+        <Component.Sidebar sidebar_id="unique-id-aria-labelledby" />
+        <Component
+          top="large"
+          current_step={1}
+          mode="loose"
+          sidebar_id="unique-id-aria-labelledby"
+          data={stepIndicatorListData}
+          aria-labelledby="element"
+        />
+      </>
+    )
+
+    const element = document.querySelector('.dnb-step-indicator')
+
+    expect(element.getAttribute('aria-labelledby')).toBe(
+      'element unique-id-aria-labelledby'
+    )
+  })
+
+  it('should support aria-labelledby with no sidebar', () => {
+    render(
+      <Component
+        sidebar_id="unique-id-aria-labelledby-no-sidebar"
+        top="large"
+        mode="static"
+        current_step={1}
+        data={stepIndicatorListData}
+        aria-labelledby="element"
+      />
+    )
+
+    document.querySelector('button').click()
+
+    const element = document.querySelector('.dnb-step-indicator__list')
+
+    expect(element.getAttribute('aria-labelledby')).toBe(
+      'element unique-id-aria-labelledby-no-sidebar'
+    )
+  })
 })
 
 describe('StepIndicator in loose mode', () => {

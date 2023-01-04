@@ -89,6 +89,7 @@ exports[`StepIndicator in loose mode have to match snapshot 1`] = `
                 id="sidebar__unique-id-loose-snapshot"
               >
                 <nav
+                  aria-labelledby="unique-id-loose-snapshot"
                   class="dnb-step-indicator"
                 >
                   <ol
@@ -378,6 +379,7 @@ exports[`StepIndicator in loose mode have to match snapshot 1`] = `
           >
             <StepIndicatorList>
               <nav
+                aria-labelledby="unique-id-loose-snapshot"
                 className="dnb-step-indicator"
               >
                 <ol
@@ -2789,6 +2791,7 @@ exports[`StepIndicator in static mode have to match snapshot 1`] = `
                   class="dnb-step-indicator"
                 >
                   <ol
+                    aria-labelledby="unique-id-static-snapshot"
                     class="dnb-step-indicator__list"
                   >
                     <li
@@ -3074,6 +3077,7 @@ exports[`StepIndicator in static mode have to match snapshot 1`] = `
                 className="dnb-step-indicator"
               >
                 <ol
+                  aria-labelledby="unique-id-static-snapshot"
                   className="dnb-step-indicator__list"
                 >
                   <StepIndicatorItem
@@ -5455,6 +5459,7 @@ exports[`StepIndicator in strict mode have to match snapshot 1`] = `
                 id="sidebar__unique-id-strict-snapshot"
               >
                 <nav
+                  aria-labelledby="unique-id-strict-snapshot"
                   class="dnb-step-indicator"
                 >
                   <ol
@@ -5742,6 +5747,7 @@ exports[`StepIndicator in strict mode have to match snapshot 1`] = `
           >
             <StepIndicatorList>
               <nav
+                aria-labelledby="unique-id-strict-snapshot"
                 className="dnb-step-indicator"
               >
                 <ol

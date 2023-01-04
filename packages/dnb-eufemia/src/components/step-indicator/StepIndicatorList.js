@@ -29,6 +29,7 @@ export default class StepIndicatorList extends React.PureComponent {
       data,
       countSteps,
       sidebar_id,
+      ...rest
     } = this.context
 
     const params = {
@@ -53,16 +54,12 @@ export default class StepIndicatorList extends React.PureComponent {
         ? 'div'
         : 'nav'
 
-    const useParams = Element === 'nav' ? params : listParams
-    if (useParams) {
-      // prettier-ignore
-      [useParams]['aria-labelledby'] = combineLabelledBy(
-        {},
-        params.sidebar_id
-      )
+    const ariaLabelledbyValue = combineLabelledBy(rest, params.sidebar_id)
 
-      // We may use this
-      // params.id = params.sidebar_id + '-list'
+    if (Element === 'nav') {
+      params['aria-labelledby'] = ariaLabelledbyValue
+    } else {
+      listParams['aria-labelledby'] = ariaLabelledbyValue
     }
 
     Object.keys(params).forEach((key) => {
