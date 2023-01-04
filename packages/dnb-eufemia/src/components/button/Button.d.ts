@@ -232,7 +232,7 @@ export type ButtonProps = {
   on_click?: ButtonOnClick;
 } & Partial<
   DataAttributeTypes &
-    Partial<React.HTMLAttributes<HTMLButtonElement | HTMLAnchorElement>>
+    Partial<React.HTMLProps<HTMLButtonElement | HTMLAnchorElement>>
 >;
 
 export default class Button extends React.Component<ButtonProps, any> {
