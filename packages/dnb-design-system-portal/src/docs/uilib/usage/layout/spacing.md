@@ -21,6 +21,10 @@ Spacing follows a specific pattern:
 
 <SpacingTable />
 
+### Code Editor Extensions
+
+You may be interested to install an [Eufemia code editor extension](/uilib/helpers/tools/#code-editor-extensions) that allows you to quickly auto complete the correct spacing.
+
 ## Components and Spacing
 
 Also, have a look at the [Space](/uilib/components/space) component and the fact that every component supports [spacing out of the box](/uilib/components/space#components-and-spacing).

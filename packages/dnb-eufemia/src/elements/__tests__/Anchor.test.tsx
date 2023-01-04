@@ -81,6 +81,15 @@ describe('Anchor element', () => {
     expect(document.body.querySelector('#' + id)).toBe(null)
   })
 
+  it('supports rel', () => {
+    render(
+      <Anchor rel="external" href="http://www.externallink.com/">
+        text
+      </Anchor>
+    )
+    expect(document.querySelector('[rel="external"]')).toBeTruthy()
+  })
+
   it('should validate with ARIA rules as a Anchor element', async () => {
     const Component = render(<Anchor {...props} />)
     expect(await axeComponent(Component)).toHaveNoViolations()
