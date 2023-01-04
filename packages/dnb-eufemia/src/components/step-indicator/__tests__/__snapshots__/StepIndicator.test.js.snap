@@ -9,13 +9,11 @@ exports[`StepIndicator in loose mode have to match snapshot 1`] = `
     sidebar_id="unique-id-loose-snapshot"
   >
     <div
-      className="dnb-step-indicator-v2 dnb-step-indicator__sidebar"
+      className="dnb-step-indicator-wrapper dnb-step-indicator__sidebar"
       id="sidebar__unique-id-loose-snapshot"
     />
   </StepIndicatorSidebar>,
   <StepIndicator
-    active_item={null}
-    active_url={null}
     class={null}
     className={null}
     current_step={1}
@@ -46,11 +44,8 @@ exports[`StepIndicator in loose mode have to match snapshot 1`] = `
     skeleton={false}
     step_title={null}
     step_title_extended={null}
-    use_navigation={null}
   >
     <StepIndicatorProvider
-      active_item={null}
-      active_url={null}
       class={null}
       className={null}
       current_step={1}
@@ -72,7 +67,6 @@ exports[`StepIndicator in loose mode have to match snapshot 1`] = `
       }
       hide_numbers={false}
       isSidebar={false}
-      isV1={false}
       mode="loose"
       no_animation={null}
       on_change={null}
@@ -83,16 +77,15 @@ exports[`StepIndicator in loose mode have to match snapshot 1`] = `
       skeleton={false}
       step_title={null}
       step_title_extended={null}
-      use_navigation={null}
     >
       <div
-        className="dnb-step-indicator-v2"
+        className="dnb-step-indicator-wrapper"
       >
         <StepIndicatorModal>
           <Portal
             containerInfo={
               <div
-                class="dnb-step-indicator-v2 dnb-step-indicator__sidebar"
+                class="dnb-step-indicator-wrapper dnb-step-indicator__sidebar"
                 id="sidebar__unique-id-loose-snapshot"
               >
                 <nav
@@ -395,7 +388,6 @@ exports[`StepIndicator in loose mode have to match snapshot 1`] = `
                     disabled={null}
                     hide_numbers={false}
                     inactive={null}
-                    is_active={null}
                     is_current={null}
                     key="0"
                     mode={null}
@@ -407,10 +399,6 @@ exports[`StepIndicator in loose mode have to match snapshot 1`] = `
                     status_state="warn"
                     step_title="%step"
                     title="Step A"
-                    url={null}
-                    url_future={null}
-                    url_passed={null}
-                    use_navigation={null}
                   >
                     <li
                       className="dnb-step-indicator__item dnb-step-indicator__item--visited"
@@ -820,7 +808,6 @@ exports[`StepIndicator in loose mode have to match snapshot 1`] = `
                     disabled={null}
                     hide_numbers={false}
                     inactive={null}
-                    is_active={null}
                     is_current={null}
                     key="1"
                     mode={null}
@@ -832,10 +819,6 @@ exports[`StepIndicator in loose mode have to match snapshot 1`] = `
                     status_state="warn"
                     step_title="%step"
                     title="Step B"
-                    url={null}
-                    url_future={null}
-                    url_passed={null}
-                    use_navigation={null}
                   >
                     <li
                       aria-current="step"
@@ -1246,7 +1229,6 @@ exports[`StepIndicator in loose mode have to match snapshot 1`] = `
                     disabled={null}
                     hide_numbers={false}
                     inactive={null}
-                    is_active={null}
                     is_current={null}
                     key="2"
                     mode={null}
@@ -1258,10 +1240,6 @@ exports[`StepIndicator in loose mode have to match snapshot 1`] = `
                     status_state="warn"
                     step_title="%step"
                     title="Step C"
-                    url={null}
-                    url_future={null}
-                    url_passed={null}
-                    use_navigation={null}
                   >
                     <li
                       className="dnb-step-indicator__item"
@@ -1671,7 +1649,6 @@ exports[`StepIndicator in loose mode have to match snapshot 1`] = `
                     disabled={null}
                     hide_numbers={false}
                     inactive={null}
-                    is_active={null}
                     is_current={null}
                     key="3"
                     mode={null}
@@ -1683,10 +1660,6 @@ exports[`StepIndicator in loose mode have to match snapshot 1`] = `
                     status_state="warn"
                     step_title="%step"
                     title="Step D"
-                    url={null}
-                    url_future={null}
-                    url_passed={null}
-                    use_navigation={null}
                   >
                     <li
                       className="dnb-step-indicator__item"
@@ -2111,13 +2084,11 @@ exports[`StepIndicator in loose mode have to match snapshot on small screen 1`] 
     sidebar_id="unique-id-loose-snapshot"
   >
     <div
-      className="dnb-step-indicator-v2 dnb-step-indicator__sidebar"
+      className="dnb-step-indicator-wrapper dnb-step-indicator__sidebar"
       id="sidebar__unique-id-loose-snapshot"
     />
   </StepIndicatorSidebar>,
   <StepIndicator
-    active_item={null}
-    active_url={null}
     class={null}
     className={null}
     current_step={1}
@@ -2148,11 +2119,8 @@ exports[`StepIndicator in loose mode have to match snapshot on small screen 1`] 
     skeleton={false}
     step_title={null}
     step_title_extended={null}
-    use_navigation={null}
   >
     <StepIndicatorProvider
-      active_item={null}
-      active_url={null}
       class={null}
       className={null}
       current_step={1}
@@ -2174,7 +2142,6 @@ exports[`StepIndicator in loose mode have to match snapshot on small screen 1`] 
       }
       hide_numbers={false}
       isSidebar={false}
-      isV1={false}
       mode="loose"
       no_animation={null}
       on_change={null}
@@ -2185,10 +2152,9 @@ exports[`StepIndicator in loose mode have to match snapshot on small screen 1`] 
       skeleton={false}
       step_title={null}
       step_title_extended={null}
-      use_navigation={null}
     >
       <div
-        className="dnb-step-indicator-v2"
+        className="dnb-step-indicator-wrapper"
       >
         <StepIndicatorModal>
           <StepIndicatorTriggerButton
@@ -2740,13 +2706,11 @@ exports[`StepIndicator in static mode have to match snapshot 1`] = `
     sidebar_id="unique-id-static-snapshot"
   >
     <div
-      className="dnb-step-indicator-v2 dnb-step-indicator__sidebar"
+      className="dnb-step-indicator-wrapper dnb-step-indicator__sidebar"
       id="sidebar__unique-id-static-snapshot"
     />
   </StepIndicatorSidebar>,
   <StepIndicator
-    active_item={null}
-    active_url={null}
     class={null}
     className={null}
     current_step={1}
@@ -2777,11 +2741,8 @@ exports[`StepIndicator in static mode have to match snapshot 1`] = `
     skeleton={false}
     step_title={null}
     step_title_extended={null}
-    use_navigation={null}
   >
     <StepIndicatorProvider
-      active_item={null}
-      active_url={null}
       class={null}
       className={null}
       current_step={1}
@@ -2803,7 +2764,6 @@ exports[`StepIndicator in static mode have to match snapshot 1`] = `
       }
       hide_numbers={false}
       isSidebar={false}
-      isV1={false}
       mode="static"
       no_animation={null}
       on_change={null}
@@ -2814,16 +2774,15 @@ exports[`StepIndicator in static mode have to match snapshot 1`] = `
       skeleton={false}
       step_title={null}
       step_title_extended={null}
-      use_navigation={null}
     >
       <div
-        className="dnb-step-indicator-v2"
+        className="dnb-step-indicator-wrapper"
       >
         <StepIndicatorModal>
           <Portal
             containerInfo={
               <div
-                class="dnb-step-indicator-v2 dnb-step-indicator__sidebar"
+                class="dnb-step-indicator-wrapper dnb-step-indicator__sidebar"
                 id="sidebar__unique-id-static-snapshot"
               >
                 <div
@@ -3122,7 +3081,6 @@ exports[`StepIndicator in static mode have to match snapshot 1`] = `
                     disabled={null}
                     hide_numbers={false}
                     inactive={null}
-                    is_active={null}
                     is_current={null}
                     key="0"
                     mode={null}
@@ -3134,10 +3092,6 @@ exports[`StepIndicator in static mode have to match snapshot 1`] = `
                     status_state="warn"
                     step_title="%step"
                     title="Step A"
-                    url={null}
-                    url_future={null}
-                    url_passed={null}
-                    use_navigation={null}
                   >
                     <li
                       className="dnb-step-indicator__item dnb-step-indicator__item--inactive dnb-step-indicator__item--visited"
@@ -3541,7 +3495,6 @@ exports[`StepIndicator in static mode have to match snapshot 1`] = `
                     disabled={null}
                     hide_numbers={false}
                     inactive={null}
-                    is_active={null}
                     is_current={null}
                     key="1"
                     mode={null}
@@ -3553,10 +3506,6 @@ exports[`StepIndicator in static mode have to match snapshot 1`] = `
                     status_state="warn"
                     step_title="%step"
                     title="Step B"
-                    url={null}
-                    url_future={null}
-                    url_passed={null}
-                    use_navigation={null}
                   >
                     <li
                       aria-current="step"
@@ -3961,7 +3910,6 @@ exports[`StepIndicator in static mode have to match snapshot 1`] = `
                     disabled={null}
                     hide_numbers={false}
                     inactive={null}
-                    is_active={null}
                     is_current={null}
                     key="2"
                     mode={null}
@@ -3973,10 +3921,6 @@ exports[`StepIndicator in static mode have to match snapshot 1`] = `
                     status_state="warn"
                     step_title="%step"
                     title="Step C"
-                    url={null}
-                    url_future={null}
-                    url_passed={null}
-                    use_navigation={null}
                   >
                     <li
                       className="dnb-step-indicator__item dnb-step-indicator__item--inactive"
@@ -4380,7 +4324,6 @@ exports[`StepIndicator in static mode have to match snapshot 1`] = `
                     disabled={null}
                     hide_numbers={false}
                     inactive={null}
-                    is_active={null}
                     is_current={null}
                     key="3"
                     mode={null}
@@ -4392,10 +4335,6 @@ exports[`StepIndicator in static mode have to match snapshot 1`] = `
                     status_state="warn"
                     step_title="%step"
                     title="Step D"
-                    url={null}
-                    url_future={null}
-                    url_passed={null}
-                    use_navigation={null}
                   >
                     <li
                       className="dnb-step-indicator__item dnb-step-indicator__item--inactive"
@@ -4814,13 +4753,11 @@ exports[`StepIndicator in static mode have to match snapshot on small screen 1`]
     sidebar_id="unique-id-static-snapshot"
   >
     <div
-      className="dnb-step-indicator-v2 dnb-step-indicator__sidebar"
+      className="dnb-step-indicator-wrapper dnb-step-indicator__sidebar"
       id="sidebar__unique-id-static-snapshot"
     />
   </StepIndicatorSidebar>,
   <StepIndicator
-    active_item={null}
-    active_url={null}
     class={null}
     className={null}
     current_step={1}
@@ -4851,11 +4788,8 @@ exports[`StepIndicator in static mode have to match snapshot on small screen 1`]
     skeleton={false}
     step_title={null}
     step_title_extended={null}
-    use_navigation={null}
   >
     <StepIndicatorProvider
-      active_item={null}
-      active_url={null}
       class={null}
       className={null}
       current_step={1}
@@ -4877,7 +4811,6 @@ exports[`StepIndicator in static mode have to match snapshot on small screen 1`]
       }
       hide_numbers={false}
       isSidebar={false}
-      isV1={false}
       mode="static"
       no_animation={null}
       on_change={null}
@@ -4888,10 +4821,9 @@ exports[`StepIndicator in static mode have to match snapshot on small screen 1`]
       skeleton={false}
       step_title={null}
       step_title_extended={null}
-      use_navigation={null}
     >
       <div
-        className="dnb-step-indicator-v2"
+        className="dnb-step-indicator-wrapper"
       >
         <StepIndicatorModal>
           <StepIndicatorTriggerButton
@@ -5443,13 +5375,11 @@ exports[`StepIndicator in strict mode have to match snapshot 1`] = `
     sidebar_id="unique-id-strict-snapshot"
   >
     <div
-      className="dnb-step-indicator-v2 dnb-step-indicator__sidebar"
+      className="dnb-step-indicator-wrapper dnb-step-indicator__sidebar"
       id="sidebar__unique-id-strict-snapshot"
     />
   </StepIndicatorSidebar>,
   <StepIndicator
-    active_item={null}
-    active_url={null}
     class={null}
     className={null}
     current_step={1}
@@ -5480,11 +5410,8 @@ exports[`StepIndicator in strict mode have to match snapshot 1`] = `
     skeleton={false}
     step_title={null}
     step_title_extended={null}
-    use_navigation={null}
   >
     <StepIndicatorProvider
-      active_item={null}
-      active_url={null}
       class={null}
       className={null}
       current_step={1}
@@ -5506,7 +5433,6 @@ exports[`StepIndicator in strict mode have to match snapshot 1`] = `
       }
       hide_numbers={false}
       isSidebar={false}
-      isV1={false}
       mode="strict"
       no_animation={null}
       on_change={null}
@@ -5517,16 +5443,15 @@ exports[`StepIndicator in strict mode have to match snapshot 1`] = `
       skeleton={false}
       step_title={null}
       step_title_extended={null}
-      use_navigation={null}
     >
       <div
-        className="dnb-step-indicator-v2"
+        className="dnb-step-indicator-wrapper"
       >
         <StepIndicatorModal>
           <Portal
             containerInfo={
               <div
-                class="dnb-step-indicator-v2 dnb-step-indicator__sidebar"
+                class="dnb-step-indicator-wrapper dnb-step-indicator__sidebar"
                 id="sidebar__unique-id-strict-snapshot"
               >
                 <nav
@@ -5827,7 +5752,6 @@ exports[`StepIndicator in strict mode have to match snapshot 1`] = `
                     disabled={null}
                     hide_numbers={false}
                     inactive={null}
-                    is_active={null}
                     is_current={null}
                     key="0"
                     mode={null}
@@ -5839,10 +5763,6 @@ exports[`StepIndicator in strict mode have to match snapshot 1`] = `
                     status_state="warn"
                     step_title="%step"
                     title="Step A"
-                    url={null}
-                    url_future={null}
-                    url_passed={null}
-                    use_navigation={null}
                   >
                     <li
                       className="dnb-step-indicator__item dnb-step-indicator__item--visited"
@@ -6252,7 +6172,6 @@ exports[`StepIndicator in strict mode have to match snapshot 1`] = `
                     disabled={null}
                     hide_numbers={false}
                     inactive={null}
-                    is_active={null}
                     is_current={null}
                     key="1"
                     mode={null}
@@ -6264,10 +6183,6 @@ exports[`StepIndicator in strict mode have to match snapshot 1`] = `
                     status_state="warn"
                     step_title="%step"
                     title="Step B"
-                    url={null}
-                    url_future={null}
-                    url_passed={null}
-                    use_navigation={null}
                   >
                     <li
                       aria-current="step"
@@ -6678,7 +6593,6 @@ exports[`StepIndicator in strict mode have to match snapshot 1`] = `
                     disabled={null}
                     hide_numbers={false}
                     inactive={null}
-                    is_active={null}
                     is_current={null}
                     key="2"
                     mode={null}
@@ -6690,10 +6604,6 @@ exports[`StepIndicator in strict mode have to match snapshot 1`] = `
                     status_state="warn"
                     step_title="%step"
                     title="Step C"
-                    url={null}
-                    url_future={null}
-                    url_passed={null}
-                    use_navigation={null}
                   >
                     <li
                       className="dnb-step-indicator__item dnb-step-indicator__item--inactive"
@@ -7097,7 +7007,6 @@ exports[`StepIndicator in strict mode have to match snapshot 1`] = `
                     disabled={null}
                     hide_numbers={false}
                     inactive={null}
-                    is_active={null}
                     is_current={null}
                     key="3"
                     mode={null}
@@ -7109,10 +7018,6 @@ exports[`StepIndicator in strict mode have to match snapshot 1`] = `
                     status_state="warn"
                     step_title="%step"
                     title="Step D"
-                    url={null}
-                    url_future={null}
-                    url_passed={null}
-                    use_navigation={null}
                   >
                     <li
                       className="dnb-step-indicator__item dnb-step-indicator__item--inactive"
@@ -7531,13 +7436,11 @@ exports[`StepIndicator in strict mode have to match snapshot on small screen 1`]
     sidebar_id="unique-id-strict-snapshot"
   >
     <div
-      className="dnb-step-indicator-v2 dnb-step-indicator__sidebar"
+      className="dnb-step-indicator-wrapper dnb-step-indicator__sidebar"
       id="sidebar__unique-id-strict-snapshot"
     />
   </StepIndicatorSidebar>,
   <StepIndicator
-    active_item={null}
-    active_url={null}
     class={null}
     className={null}
     current_step={1}
@@ -7568,11 +7471,8 @@ exports[`StepIndicator in strict mode have to match snapshot on small screen 1`]
     skeleton={false}
     step_title={null}
     step_title_extended={null}
-    use_navigation={null}
   >
     <StepIndicatorProvider
-      active_item={null}
-      active_url={null}
       class={null}
       className={null}
       current_step={1}
@@ -7594,7 +7494,6 @@ exports[`StepIndicator in strict mode have to match snapshot on small screen 1`]
       }
       hide_numbers={false}
       isSidebar={false}
-      isV1={false}
       mode="strict"
       no_animation={null}
       on_change={null}
@@ -7605,10 +7504,9 @@ exports[`StepIndicator in strict mode have to match snapshot on small screen 1`]
       skeleton={false}
       step_title={null}
       step_title_extended={null}
-      use_navigation={null}
     >
       <div
-        className="dnb-step-indicator-v2"
+        className="dnb-step-indicator-wrapper"
       >
         <StepIndicatorModal>
           <StepIndicatorTriggerButton
@@ -8164,39 +8062,7 @@ exports[`StepIndicator scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-/*
-* Deprecated v1
-*
-*/
-.dnb-step-indicator-v1 .dnb-step-indicator__item-content--static {
-  color: var(--color-emerald-green); }
-
-.dnb-step-indicator-v1 .dnb-step-indicator__item-content--link {
-  color: var(--color-sea-green); }
-
-.dnb-step-indicator-v1 .dnb-step-indicator__item {
-  margin-left: 4.5rem; }
-  .dnb-step-indicator-v1 .dnb-step-indicator__item:first-child {
-    margin-left: 0; }
-  @media screen and (max-width: 50em) {
-    .dnb-step-indicator-v1 .dnb-step-indicator__item {
-      margin-left: 2rem; } }
-
-.dnb-step-indicator-v1 .dnb-step-indicator::after {
-  color: var(--color-mint-green); }
-
-.dnb-step-indicator-v1 .dnb-step-indicator--active.dnb-step-indicator-v1 .dnb-step-indicator__item::after,
-.dnb-step-indicator-v1 .dnb-step-indicator--active .dnb-step-indicator__item-content::after {
-  background-color: var(--color-sea-green); }
-
-.dnb-step-indicator-v1 .dnb-step-indicator span[hidden],
-.dnb-step-indicator-v1 .dnb-step-indicator--active .dnb-step-indicator__item-content {
-  font-weight: var(--font-weight-medium); }
-  .dnb-step-indicator-v1 .dnb-step-indicator span[hidden]:not(:hover),
-  .dnb-step-indicator-v1 .dnb-step-indicator--active .dnb-step-indicator__item-content:not(:hover) {
-    color: var(--color-emerald-green); }
-
-.dnb-step-indicator-v2 .dnb-step-indicator__item--current .dnb-button {
+.dnb-step-indicator-wrapper .dnb-step-indicator__item--current .dnb-button {
   font-weight: var(--font-weight-medium);
   --border-color: var(--color-sea-green);
   box-shadow: inset 0 0 0 0.125rem var(--border-color);
@@ -8204,20 +8070,20 @@ exports[`StepIndicator scss have to match default theme snapshot 1`] = `
   /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
   border-color: transparent; }
   @supports (-webkit-touch-callout: none) {
-    .dnb-step-indicator-v2 .dnb-step-indicator__item--current .dnb-button {
+    .dnb-step-indicator-wrapper .dnb-step-indicator__item--current .dnb-button {
       box-shadow: 0 0 0 0.125rem var(--border-color); } }
   @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
-    .dnb-step-indicator-v2 .dnb-step-indicator__item--current .dnb-button {
+    .dnb-step-indicator-wrapper .dnb-step-indicator__item--current .dnb-button {
       box-shadow: 0 0 0 0.125rem var(--border-color); } }
 
-.dnb-step-indicator-v2 .dnb-step-indicator__item--visited .dnb-button {
+.dnb-step-indicator-wrapper .dnb-step-indicator__item--visited .dnb-button {
   background-color: var(--color-pistachio); }
 
-.dnb-step-indicator-v2 .dnb-step-indicator__item--inactive .dnb-button {
+.dnb-step-indicator-wrapper .dnb-step-indicator__item--inactive .dnb-button {
   cursor: text;
   pointer-events: initial;
   user-select: initial; }
-  .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:hover, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:focus, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:active {
+  .dnb-step-indicator-wrapper .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary, .dnb-step-indicator-wrapper .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:hover, .dnb-step-indicator-wrapper .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:focus, .dnb-step-indicator-wrapper .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:active {
     color: var(--color-black-80);
     background-color: var(--color-white);
     --border-color: var(--color-black-20);
@@ -8226,52 +8092,52 @@ exports[`StepIndicator scss have to match default theme snapshot 1`] = `
     /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
     border-color: transparent; }
     @supports (-webkit-touch-callout: none) {
-      .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:hover, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:focus, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:active {
+      .dnb-step-indicator-wrapper .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary, .dnb-step-indicator-wrapper .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:hover, .dnb-step-indicator-wrapper .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:focus, .dnb-step-indicator-wrapper .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:active {
         box-shadow: 0 0 0 0.0625rem var(--border-color); } }
     @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
-      .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:hover, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:focus, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:active {
+      .dnb-step-indicator-wrapper .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary, .dnb-step-indicator-wrapper .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:hover, .dnb-step-indicator-wrapper .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:focus, .dnb-step-indicator-wrapper .dnb-step-indicator__item--inactive .dnb-button.dnb-button--secondary:active {
         box-shadow: 0 0 0 0.0625rem var(--border-color); } }
 
-.dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:hover, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:focus, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:active {
+.dnb-step-indicator-wrapper .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary, .dnb-step-indicator-wrapper .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:hover, .dnb-step-indicator-wrapper .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:focus, .dnb-step-indicator-wrapper .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:active {
   --border-color: var(--color-black-80);
   box-shadow: inset 0 0 0 0.125rem var(--border-color);
   /* iOS fix - because "inset" works not fine with border-radius */
   /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
   border-color: transparent; }
   @supports (-webkit-touch-callout: none) {
-    .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:hover, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:focus, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:active {
+    .dnb-step-indicator-wrapper .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary, .dnb-step-indicator-wrapper .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:hover, .dnb-step-indicator-wrapper .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:focus, .dnb-step-indicator-wrapper .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:active {
       box-shadow: 0 0 0 0.125rem var(--border-color); } }
   @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
-    .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:hover, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:focus, .dnb-step-indicator-v2 .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:active {
+    .dnb-step-indicator-wrapper .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary, .dnb-step-indicator-wrapper .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:hover, .dnb-step-indicator-wrapper .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:focus, .dnb-step-indicator-wrapper .dnb-step-indicator__item--inactive.dnb-step-indicator__item--current .dnb-button.dnb-button--secondary:active {
       box-shadow: 0 0 0 0.125rem var(--border-color); } }
 
 html[data-whatinput='keyboard']
-.dnb-step-indicator-v2 .dnb-step-indicator__item--current .dnb-button:not([disabled]):not(:active):not(:hover):focus {
+.dnb-step-indicator-wrapper .dnb-step-indicator__item--current .dnb-button:not([disabled]):not(:active):not(:hover):focus {
   color: var(--color-emerald-green);
   background-color: var(--color-mint-green); }
 
-.dnb-step-indicator-v2 .dnb-step-indicator__label, .dnb-step-indicator-v2 .dnb-step-indicator__label.dnb-p {
+.dnb-step-indicator-wrapper .dnb-step-indicator__label, .dnb-step-indicator-wrapper .dnb-step-indicator__label.dnb-p {
   font-size: var(--font-size-small);
   margin-bottom: 0.5rem; }
 
-.dnb-step-indicator-v2 .dnb-step-indicator__button__status.dnb-button--secondary {
+.dnb-step-indicator-wrapper .dnb-step-indicator__button__status.dnb-button--secondary {
   background-color: var(--color-sand-yellow); }
 
-.dnb-step-indicator-v2 .dnb-step-indicator__button__status--error.dnb-button--secondary {
+.dnb-step-indicator-wrapper .dnb-step-indicator__button__status--error.dnb-button--secondary {
   background-color: var(--color-fire-red-8); }
 
-.dnb-step-indicator-v2 .dnb-step-indicator__button__status--info.dnb-button--secondary {
+.dnb-step-indicator-wrapper .dnb-step-indicator__button__status--info.dnb-button--secondary {
   background-color: var(--color-pistachio); }
 
-.dnb-step-indicator-v2 .dnb-step-indicator__button__status .dnb-button__icon {
+.dnb-step-indicator-wrapper .dnb-step-indicator__button__status .dnb-button__icon {
   align-self: flex-start;
   margin-top: 1rem;
   margin-right: 0.75rem; }
 
-.dnb-step-indicator-v2 .dnb-step-indicator__button__status .dnb-step-indicator__item-content__number, .dnb-step-indicator-v2 .dnb-step-indicator__button__status .dnb-step-indicator__item-content__status {
+.dnb-step-indicator-wrapper .dnb-step-indicator__button__status .dnb-step-indicator__item-content__number, .dnb-step-indicator-wrapper .dnb-step-indicator__button__status .dnb-step-indicator__item-content__status {
   font-weight: var(--font-weight-basis); }
 
-.dnb-step-indicator-v2 .dnb-step-indicator__button__status .dnb-step-indicator__item-content__status {
+.dnb-step-indicator-wrapper .dnb-step-indicator__button__status .dnb-step-indicator__item-content__status {
   margin-top: 0.5rem;
   font-size: var(--font-size-x-small);
   line-height: var(--font-size-basis);
@@ -8897,83 +8763,6 @@ button.dnb-button::-moz-focus-inner {
  * StepIndicator component
  *
  */
-/*
- * Deprecated v1
- *
- */
-.dnb-step-indicator-v1 .dnb-step-indicator {
-  position: relative;
-  z-index: 1;
-  display: block;
-  padding: 0; }
-  .dnb-step-indicator-v1 .dnb-step-indicator__list {
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
-    padding: 0;
-    margin: 0;
-    list-style: none; }
-  .dnb-spacing .dnb-step-indicator-v1 .dnb-step-indicator__list,
-  .dnb-spacing .dnb-step-indicator-v1 .dnb-step-indicator__list li {
-    margin-top: 0;
-    margin-bottom: 0; }
-  .dnb-step-indicator-v1 .dnb-step-indicator__item {
-    align-self: flex-end; }
-  .dnb-step-indicator-v1 .dnb-step-indicator__item-content {
-    font-size: var(--font-size-basis); }
-    .dnb-step-indicator-v1 .dnb-step-indicator__item-contenta, .dnb-step-indicator-v1 .dnb-step-indicator__item-content.dnb-anchor, .dnb-step-indicator-v1 .dnb-step-indicator__item-content--static, .dnb-step-indicator-v1 .dnb-step-indicator__item-content--link {
-      position: relative;
-      z-index: 2;
-      display: inline-flex;
-      align-items: flex-end;
-      margin: 0;
-      padding: 0.25rem 0.25rem;
-      height: 100%;
-      border-bottom: none;
-      text-decoration: none;
-      box-shadow: none; }
-    .dnb-step-indicator-v1 .dnb-step-indicator__item-content--link.dnb-anchor {
-      line-height: var(--line-height-basis); }
-    .dnb-step-indicator-v1 .dnb-step-indicator__item-content--link:focus[disabled],
-    html:not([data-whatintent='touch']) .dnb-step-indicator-v1 .dnb-step-indicator__item-content--link:focus[disabled] {
-      cursor: not-allowed; }
-    .dnb-step-indicator-v1 .dnb-step-indicator__item-content--link:focus:not([disabled]),
-    html:not([data-whatintent='touch']) .dnb-step-indicator-v1 .dnb-step-indicator__item-content--link:focus:not([disabled]) {
-      outline: none; }
-      html[data-whatinput='keyboard'] .dnb-step-indicator-v1 .dnb-step-indicator__item-content--link:focus:not([disabled]), html[data-whatinput='keyboard']
-      html:not([data-whatintent='touch']) .dnb-step-indicator-v1 .dnb-step-indicator__item-content--link:focus:not([disabled]) {
-        --border-color: var(--color-emerald-green);
-        box-shadow: 0 0 0 0.125rem var(--border-color);
-        border-color: transparent; }
-      .dnb-step-indicator-v1 .dnb-step-indicator__item-content--link:focus:not([disabled])::after,
-      html:not([data-whatintent='touch']) .dnb-step-indicator-v1 .dnb-step-indicator__item-content--link:focus:not([disabled])::after {
-        content: none; }
-    .dnb-step-indicator-v1 .dnb-step-indicator__item-content--number {
-      padding-right: 0.25rem;
-      white-space: nowrap; }
-    .dnb-step-indicator-v1 .dnb-step-indicator__item-content--text {
-      text-align: left; }
-    .dnb-step-indicator-v1 .dnb-step-indicator__item-content::after {
-      content: '';
-      position: absolute;
-      z-index: 1;
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      height: 3px;
-      border-radius: 1.5px; }
-  .dnb-step-indicator-v1 .dnb-step-indicator::after {
-    content: '';
-    position: absolute;
-    z-index: -1;
-    left: -100vw;
-    bottom: 0;
-    width: 100vw;
-    height: 1px;
-    color: var(--color-black);
-    background-color: currentColor;
-    box-shadow: 100vw 0 0 0 currentColor; }
-
 @media screen and (min-width: 50.1em) {
   .dnb-step-indicator__sidebar {
     max-width: 20rem;
@@ -8988,63 +8777,63 @@ button.dnb-button::-moz-focus-inner {
     width: 0;
     height: 5.5rem; } }
 
-.dnb-step-indicator-v2 .dnb-step-indicator__list {
+.dnb-step-indicator-wrapper .dnb-step-indicator__list {
   display: flex;
   flex-direction: column;
   padding: 0;
   margin: 0;
   list-style: none; }
 
-.dnb-step-indicator-v2 .dnb-step-indicator__trigger {
+.dnb-step-indicator-wrapper .dnb-step-indicator__trigger {
   display: flex;
   flex-direction: column; }
 
-.dnb-step-indicator-v2 .dnb-step-indicator__trigger__button,
-.dnb-step-indicator-v2 .dnb-step-indicator__item .dnb-button {
+.dnb-step-indicator-wrapper .dnb-step-indicator__trigger__button,
+.dnb-step-indicator-wrapper .dnb-step-indicator__item .dnb-button {
   overflow: hidden;
   justify-content: space-between;
   border-radius: 0.25rem;
   will-change: height;
   transition: height 400ms var(--easing-default); }
-  .dnb-step-indicator-v2 .dnb-step-indicator__trigger__button .dnb-button__text,
-  .dnb-step-indicator-v2 .dnb-step-indicator__item .dnb-button .dnb-button__text {
+  .dnb-step-indicator-wrapper .dnb-step-indicator__trigger__button .dnb-button__text,
+  .dnb-step-indicator-wrapper .dnb-step-indicator__item .dnb-button .dnb-button__text {
     text-align: left; }
-  .dnb-step-indicator-v2 .dnb-step-indicator__trigger__button.dnb-button--has-icon .dnb-button__text,
-  .dnb-step-indicator-v2 .dnb-step-indicator__item .dnb-button.dnb-button--has-icon .dnb-button__text {
+  .dnb-step-indicator-wrapper .dnb-step-indicator__trigger__button.dnb-button--has-icon .dnb-button__text,
+  .dnb-step-indicator-wrapper .dnb-step-indicator__item .dnb-button.dnb-button--has-icon .dnb-button__text {
     margin-right: 1rem; }
-  .dnb-step-indicator-v2 .dnb-step-indicator__trigger__button .dnb-button__alignment,
-  .dnb-step-indicator-v2 .dnb-step-indicator__item .dnb-button .dnb-button__alignment {
+  .dnb-step-indicator-wrapper .dnb-step-indicator__trigger__button .dnb-button__alignment,
+  .dnb-step-indicator-wrapper .dnb-step-indicator__item .dnb-button .dnb-button__alignment {
     order: 2; }
-  html[data-visual-test] .dnb-step-indicator-v2 .dnb-step-indicator__trigger__button, html[data-visual-test]
-  .dnb-step-indicator-v2 .dnb-step-indicator__item .dnb-button {
+  html[data-visual-test] .dnb-step-indicator-wrapper .dnb-step-indicator__trigger__button, html[data-visual-test]
+  .dnb-step-indicator-wrapper .dnb-step-indicator__item .dnb-button {
     transition-duration: 1ms !important; }
 
-.dnb-step-indicator-v2 .dnb-step-indicator__trigger button.dnb-step-indicator-v2 .dnb-step-indicator__trigger__button {
+.dnb-step-indicator-wrapper .dnb-step-indicator__trigger button.dnb-step-indicator-wrapper .dnb-step-indicator__trigger__button {
   margin-top: 0.5rem; }
 
-.dnb-step-indicator-v2 .dnb-step-indicator__item {
+.dnb-step-indicator-wrapper .dnb-step-indicator__item {
   margin-bottom: 1rem; }
-  .dnb-step-indicator-v2 .dnb-step-indicator__item .dnb-button__icon {
+  .dnb-step-indicator-wrapper .dnb-step-indicator__item .dnb-button__icon {
     opacity: 1;
     transition: opacity 1400ms ease-in-out; }
-    html[data-visual-test] .dnb-step-indicator-v2 .dnb-step-indicator__item .dnb-button__icon {
+    html[data-visual-test] .dnb-step-indicator-wrapper .dnb-step-indicator__item .dnb-button__icon {
       transition-duration: 1ms !important; }
-  .dnb-step-indicator-v2 .dnb-step-indicator__item:not(.dnb-step-indicator__item--visited) .dnb-button:not(.dnb-step-indicator__button__status)
+  .dnb-step-indicator-wrapper .dnb-step-indicator__item:not(.dnb-step-indicator__item--visited) .dnb-button:not(.dnb-step-indicator__button__status)
 .dnb-button__icon {
     opacity: 0; }
 
-.dnb-step-indicator-v2 .dnb-step-indicator__item-content {
+.dnb-step-indicator-wrapper .dnb-step-indicator__item-content {
   display: flex;
   flex-wrap: nowrap;
   padding: 0.5rem 0; }
-  .dnb-step-indicator-v2 .dnb-step-indicator__item-content__number {
+  .dnb-step-indicator-wrapper .dnb-step-indicator__item-content__number {
     padding-right: 0.5rem;
     white-space: nowrap; }
-  .dnb-step-indicator-v2 .dnb-step-indicator__item-content__wrapper {
+  .dnb-step-indicator-wrapper .dnb-step-indicator__item-content__wrapper {
     display: flex;
     flex-direction: column; }
 
-.dnb-step-indicator-v2 .dnb-step-indicator__button__status .dnb-step-indicator__item-content__status {
+.dnb-step-indicator-wrapper .dnb-step-indicator__button__status .dnb-step-indicator__item-content__status {
   color: var(--color-black-80);
   font-size: var(--font-size-x-small); }
 "
