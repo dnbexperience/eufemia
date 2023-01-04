@@ -3,6 +3,13 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.45.1](https://github.com/dnbexperience/eufemia/compare/v9.45.0...v9.45.1) (2023-01-04)
+
+
+### Bug Fixes
+
+* **Anchor:** allow rel property in TS ([#1849](https://github.com/dnbexperience/eufemia/issues/1849)) ([e3b1be1](https://github.com/dnbexperience/eufemia/commit/e3b1be10a986e5789de48814ffdabbc5363f7494))
+
 # [9.45.0](https://github.com/dnbexperience/eufemia/compare/v9.44.0...v9.45.0) (2022-12-21)
 
 
