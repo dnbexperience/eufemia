@@ -45,7 +45,7 @@ Fix the resulted warnings and error before you commit and merge.
 TypeScript types are mandatory for merging commits in Eufemia. During a commit (locally), your commit content (code) should be tested. You may run:
 
 ```bash
-yarn workspace dnb-eufemia test:types
+yarn workspace @dnb/eufemia test:types
 ```
 
 Fix the resulted warnings and errors before you commit and merge.
