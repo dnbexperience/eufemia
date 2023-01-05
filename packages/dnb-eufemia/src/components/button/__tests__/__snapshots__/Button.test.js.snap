@@ -1095,11 +1095,11 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       .dnb-skeleton .dnb-button--tertiary .dnb-button__text::after {
         content: none; }
     .dnb-button--tertiary.dnb-button--has-text {
-      padding-left: 0.5rem;
-      padding-right: 0.5rem; }
+      padding-left: 0;
+      padding-right: 0; }
     .dnb-button--tertiary.dnb-button--has-icon .dnb-button__text::after {
-      left: -0.5rem;
-      right: -0.5rem; }
+      left: -1rem;
+      right: -1rem; }
     .dnb-button--tertiary:focus[disabled],
     html:not([data-whatintent='touch']) .dnb-button--tertiary:focus[disabled] {
       cursor: not-allowed; }
@@ -1182,36 +1182,48 @@ exports[`Button scss have to match default theme snapshot 1`] = `
       .dnb-button--tertiary.dnb-button--icon-position-top .dnb-button__alignment {
         order: 3;
         height: 0; }
-    .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left {
+    .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left .dnb-button__text {
+      padding-left: 1rem; }
+      .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left .dnb-button__text::after {
+        left: -0.5rem;
+        right: 0; }
+    .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left .dnb-button__icon {
+      margin-right: -0.5rem;
+      margin-left: 0; }
+    .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left.dnb-button--icon-size-medium .dnb-button__text, .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left.dnb-button--icon-size-large .dnb-button__text {
       padding-left: 0;
-      padding-right: 0.5rem; }
-      .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left .dnb-button__text {
-        padding-left: 1rem; }
-        .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left .dnb-button__text::after {
-          right: 0; }
-      .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left .dnb-button__icon {
-        margin-right: -0.5rem; }
-      .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left.dnb-button--icon-size-medium .dnb-button__text, .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left.dnb-button--icon-size-large .dnb-button__text {
-        padding-left: 0;
-        margin-left: 1rem; }
-        .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left.dnb-button--icon-size-medium .dnb-button__text::after, .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left.dnb-button--icon-size-large .dnb-button__text::after {
-          left: 0; }
+      margin-left: 1rem; }
+      .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left.dnb-button--icon-size-medium .dnb-button__text::after, .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left.dnb-button--icon-size-large .dnb-button__text::after {
+        left: -0.5rem;
+        right: 0; }
+    .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left:focus[disabled],
+    html:not([data-whatintent='touch']) .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left:focus[disabled] {
+      cursor: not-allowed; }
+    .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left:focus:not([disabled])::before,
+    html:not([data-whatintent='touch']) .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left:focus:not([disabled])::before {
+      right: -1rem; }
     .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right {
-      padding-right: 0;
-      padding-left: 0.5rem;
       /* stylelint-disable */
       /* stylelint-enable */ }
       .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right .dnb-button__text {
         padding-right: 1rem; }
         .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right .dnb-button__text::after {
-          left: 0; }
+          left: 0;
+          right: -0.5rem; }
       .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right .dnb-button__icon {
-        margin-left: -0.5rem; }
+        margin-left: -0.5rem;
+        margin-right: 0; }
       .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right.dnb-button--icon-size-medium .dnb-button__text, .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right.dnb-button--icon-size-large .dnb-button__text {
         padding-right: 0;
         margin-right: 1rem; }
         .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right.dnb-button--icon-size-medium .dnb-button__text::after, .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right.dnb-button--icon-size-large .dnb-button__text::after {
           right: 0; }
+      .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right:focus[disabled],
+      html:not([data-whatintent='touch']) .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right:focus[disabled] {
+        cursor: not-allowed; }
+      .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right:focus:not([disabled])::before,
+      html:not([data-whatintent='touch']) .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right:focus:not([disabled])::before {
+        left: -1rem; }
     .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):focus[disabled],
     html:not([data-whatintent='touch']) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):focus[disabled] {
       cursor: not-allowed; }
