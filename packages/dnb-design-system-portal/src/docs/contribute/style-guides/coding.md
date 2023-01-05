@@ -35,7 +35,7 @@ You may consider to install plugins for your editor of choice - to visualize and
 Either include the plugins in your code editor, or run the following command after you made changes:
 
 ```bash
-yarn workspace dnb-design-system-portal lint:js && yarn workspace dnb-eufemia lint:styles
+yarn workspace dnb-design-system-portal lint:js && yarn workspace @dnb/eufemia lint:styles
 ```
 
 Fix the resulted warnings and error before you commit and merge.
