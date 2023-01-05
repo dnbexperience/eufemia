@@ -22,7 +22,7 @@ Other helpful tools:
 
 ## Linting
 
-JavaScript and Style linting is mandatory for merging commits in Eufemia. During a commit (locally), your commit content (code) will be tested with both static and integration tests. You may run `yarn test` or `yarn test:update` before you try to commit. You may also write new tests for your code before committing.
+JavaScript and Style linting is mandatory for merging commits in Eufemia. During a commit (locally), your commit content (code) should be tested with both static and integration tests. You may run `yarn test` or `yarn test:update` before you try to commit. You may also write new tests for your code before committing.
 
 The Code Base is based on several Static Tests to help the code to be uniform:
 
@@ -35,8 +35,17 @@ You may consider to install plugins for your editor of choice - to visualize and
 Either include the plugins in your code editor, or run the following command after you made changes:
 
 ```bash
-# In workspace dnb-design-system-portal or dnb-eufemia
-yarn lint:js && yarn lint:styles
+yarn workspace dnb-design-system-portal lint:js && yarn workspace dnb-eufemia lint:styles
 ```
 
 Fix the resulted warnings and error before you commit and merge.
+
+## TypeScript and type checking
+
+TypeScript types are mandatory for merging commits in Eufemia. During a commit (locally), your commit content (code) should be tested. You may run:
+
+```bash
+yarn workspace dnb-eufemia test:types
+```
+
+Fix the resulted warnings and errors before you commit and merge.
