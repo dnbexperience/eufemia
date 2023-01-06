@@ -7,7 +7,6 @@ StepIndicatorStatic,
 StepIndicatorStrict,
 StepIndicatorLoose,
 StepIndicatorCustomized,
-StepIndicatorUrls,
 StepIndicatorSidebar,
 StepIndicatorTextOnly,
 StepIndicatorCustomRenderer,
@@ -61,11 +60,3 @@ Completely customized step indicator.
 ### StepIndicator with a custom renderer.
 
 <StepIndicatorCustomRenderer />
-
-### StepIndicator with urls
-
-**NB:** The URL support is deprecated. You have to handle this kind of logic internally in your application from v10 of `@dnb/eufemia`.
-
-You find more [v1 demos here](/uilib/components/step-indicator/demos-v1).
-
-<StepIndicatorUrls />
