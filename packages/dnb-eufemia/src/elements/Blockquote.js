@@ -11,8 +11,8 @@ import E from './Element'
 const Blockquote = React.forwardRef((props, ref) => (
   <E
     as="blockquote"
-    skeleton_method="font-only"
-    inner_ref={ref}
+    skeletonMethod="font-only"
+    innerRef={ref}
     {...props}
   />
 ))
