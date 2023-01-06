@@ -735,6 +735,8 @@ button.dnb-button::-moz-focus-inner {
     .dnb-breadcrumb__item__span__icon {
       margin-left: calc(var(--button-icon-size) / 2);
       margin-right: 0.5rem; }
+  .dnb-breadcrumb__item:not(:first-of-type) .dnb-button.dnb-button--has-text {
+    padding-left: 0.5rem; }
   .dnb-breadcrumb__animation {
     display: flex;
     flex-direction: column;
