@@ -48,7 +48,6 @@ export default class Switch extends React.PureComponent {
     ]),
     label_position: PropTypes.oneOf(['left', 'right']),
     title: PropTypes.string,
-    default_state: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]), // Deprecated
     checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     id: PropTypes.string,
@@ -93,7 +92,6 @@ export default class Switch extends React.PureComponent {
     label: null,
     label_position: null,
     title: null,
-    default_state: null, // Deprecated
     checked: null,
     disabled: null,
     id: null,
@@ -130,14 +128,7 @@ export default class Switch extends React.PureComponent {
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
       if (props.checked !== state._checked) {
-        if (
-          props.default_state !== null &&
-          typeof state.checked === 'undefined'
-        ) {
-          state.checked = Switch.parseChecked(props.default_state)
-        } else {
-          state.checked = Switch.parseChecked(props.checked)
-        }
+        state.checked = Switch.parseChecked(props.checked)
       }
     }
     state._listenForPropChanges = true

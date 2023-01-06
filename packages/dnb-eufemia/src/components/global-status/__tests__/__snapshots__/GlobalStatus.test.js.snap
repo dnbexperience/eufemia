@@ -1565,7 +1565,6 @@ exports[`GlobalStatus snapshot have to match linked components snapshot 1`] = `
     className={null}
     custom_element={null}
     custom_method={null}
-    default_state={null}
     disabled={null}
     global_status_id="linked"
     id="switch"
