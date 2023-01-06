@@ -36,7 +36,6 @@
   font-size: var(--font-size-xx-large);
   line-height: var(--line-height-x-large);
 
-  // &__size--small,/* deprecated */
   & > small {
     display: block;
     font-size: var(--font-size-x-large);
@@ -51,7 +50,6 @@
   font-size: var(--font-size-x-large);
   line-height: var(--line-height-large);
 
-  // &__size--small,/* deprecated */
   & > small {
     display: block;
     font-size: var(--font-size-x-large);
@@ -66,7 +64,6 @@
   font-size: var(--font-size-large);
   line-height: var(--line-height-medium);
 
-  // &__size--small,/* deprecated */
   & > small {
     font-size: var(--font-size-medium);
     line-height: calc(var(--line-height-medium) - 0.125rem);
@@ -81,7 +78,6 @@
   font-size: var(--font-size-medium);
   line-height: calc(var(--line-height-medium) - 0.25rem);
 
-  // &__size--small,/* deprecated */
   & > small {
     font-size: var(--font-size-basis);
     line-height: var(--line-height-basis);
@@ -320,7 +316,6 @@ sub {
   }
 }
 
-// .dnb-h1,/* deprecated */
 .dnb-h--xx-large {
   @include headingSize_xx-large();
 }
@@ -329,13 +324,11 @@ sub {
   @include headingSize_x-large();
 }
 
-// .dnb-h2,/* deprecated */
 .dnb-h--large {
   @include headingSize_large();
 }
 
 /* dnb-h--medium looks the same as .dnb-lead */
-// .dnb-h3,/* deprecated */
 .dnb-lead,
 .dnb-h--medium {
   @include headingSize_medium();
@@ -343,33 +336,15 @@ sub {
 }
 
 // The rest of the Headings are nod defned by the Eufemia Typography
-// .dnb-h4,/* deprecated */
 .dnb-h--basis {
   @include headingSize_basis();
 }
-// .dnb-h5,/* deprecated */
 .dnb-h--small {
   @include headingSize_small();
 }
-// .dnb-h6,/* deprecated */
 .dnb-h--x-small {
   @include headingSize_x-small();
 }
-
-// Headings
-// .dnb-h1,/* deprecated */
-// .dnb-h2,/* deprecated */
-// .dnb-h3,/* deprecated */
-// .dnb-h4,/* deprecated */
-// .dnb-h5,/* deprecated */
-// .dnb-h6,/* deprecated */
-// make exception on headings wtich are inside of dnb-core-style
-// .dnb-core-style .dnb-h1,/* deprecated */
-// .dnb-core-style .dnb-h2,/* deprecated */
-// .dnb-core-style .dnb-h3,/* deprecated */
-// .dnb-core-style .dnb-h4,/* deprecated */
-// .dnb-core-style .dnb-h5,/* deprecated */
-// .dnb-core-style .dnb-h6,/* deprecated */
 
 // Headings
 .dnb-lead,
@@ -380,7 +355,7 @@ sub {
 .dnb-h--basis,
 .dnb-h--small,
 .dnb-h--x-small,
-// make exception on headings wtich are inside of dnb-core-style
+// make exception on headings which are inside of dnb-core-style
 .dnb-core-style .dnb-lead,
 .dnb-core-style .dnb-h--xx-large,
 .dnb-core-style .dnb-h--x-large,
@@ -394,9 +369,7 @@ sub {
 
 // Spacing
 .dnb-spacing {
-  // .dnb-h1,/* deprecated */
   .dnb-h--xx-large,
-  // .dnb-core-style & .dnb-h1,/* deprecated */
   .dnb-core-style & .dnb-h--xx-large {
     @include headingSpacing_xx-large();
   }
@@ -404,21 +377,11 @@ sub {
   .dnb-core-style & .dnb-h--x-large {
     @include headingSpacing_x-large();
   }
-  // .dnb-h2,/* deprecated */
-  // .dnb-core-style & .dnb-h2,/* deprecated */
   .dnb-h--large,
   .dnb-core-style & .dnb-h--large {
     @include headingSpacing_large();
   }
 
-  // .dnb-h3,/* deprecated */
-  // .dnb-h4,/* deprecated */
-  // .dnb-h5,/* deprecated */
-  // .dnb-h6,/* deprecated */
-  // .dnb-core-style & .dnb-h3,/* deprecated */
-  // .dnb-core-style & .dnb-h4,/* deprecated */
-  // .dnb-core-style & .dnb-h5,/* deprecated */
-  // .dnb-core-style & .dnb-h6,/* deprecated */
   .dnb-lead,
   .dnb-h--medium,
   .dnb-h--basis,
