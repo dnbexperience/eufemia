@@ -25,44 +25,47 @@ describe('P element', () => {
     expect(toJson(Comp)).toMatchSnapshot()
   })
   it('has correct size when size is defined', () => {
-    const { container } = render(<Component size="large" />)
+    render(<Component size="large" />)
+    const element = document.querySelector('.dnb-p__size--large')
 
-    expect(
-      container.firstChild.classList.contains('dnb-p__size--large')
-    ).toBe(true)
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-p',
+      'dnb-p__size--large',
+    ])
   })
   it('has correct style when size and a modifier is defined', () => {
-    const { container } = render(
-      <Component size="medium" modifier="medium" />
-    )
-    expect(
-      container.firstChild.classList.contains('dnb-p__size--medium')
-    ).toBe(true)
-    expect(container.firstChild.classList.contains('dnb-p--medium')).toBe(
-      true
-    )
+    render(<Component size="medium" modifier="medium" />)
+    const element = document.querySelector('.dnb-p__size--medium')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-p',
+      'dnb-p--medium',
+      'dnb-p__size--medium',
+    ])
   })
   it('has correct style when several modifiers are defined', () => {
     render(<Component modifier="medium small" />)
-    const { container } = render(<Component modifier="medium small" />)
-    expect(
-      container.firstChild.classList.contains('dnb-p__size--small')
-    ).toBe(true)
-    expect(container.firstChild.classList.contains('dnb-p--medium')).toBe(
-      true
-    )
+    const element = document.querySelector('.dnb-p__size--small')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-p',
+      'dnb-p--medium',
+      'dnb-p__size--small',
+    ])
   })
   it('has correct style when medium is set to true', () => {
-    const { container } = render(<Component medium />)
-    expect(container.firstChild.classList.contains('dnb-p--medium')).toBe(
-      true
-    )
+    render(<Component medium />)
+    const element = document.querySelector('.dnb-p--medium')
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-p',
+      'dnb-p--medium',
+    ])
   })
   it('has correct style when bold is set to true', () => {
-    const { container } = render(<Component bold />)
-    expect(container.firstChild.classList.contains('dnb-p--bold')).toBe(
-      true
-    )
+    render(<Component bold />)
+    const element = document.querySelector('.dnb-p--bold')
+
+    expect(Array.from(element.classList)).toEqual(['dnb-p', 'dnb-p--bold'])
   })
   it('should validate with ARIA rules as a p element', async () => {
     const Comp = render(<Component {...props} />)
