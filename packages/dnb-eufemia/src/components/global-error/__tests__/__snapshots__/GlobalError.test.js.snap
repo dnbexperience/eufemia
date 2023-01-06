@@ -1206,7 +1206,6 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
           modifier={null}
           size={null}
           small={null}
-          style_type={null}
         >
           <ForwardRef
             as="p"
