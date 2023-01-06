@@ -4,9 +4,8 @@
 */
 
 @import '../../../../style/themes/imports.scss';
-@import './dnb-step-indicator-v1-theme-ui.scss';
 
-.dnb-step-indicator-v2 .dnb-step-indicator {
+.dnb-step-indicator-wrapper .dnb-step-indicator {
   &__item {
     &--current .dnb-button {
       font-weight: var(--font-weight-medium);
