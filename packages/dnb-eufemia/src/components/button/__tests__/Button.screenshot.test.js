@@ -75,6 +75,9 @@ describe('Button secondary screenshot', () => {
 
   it('have to match "dnb-button--secondary" with focus state', async () => {
     const screenshot = await testPageScreenshot({
+      style: {
+        'padding-right': '2rem',
+      },
       selector: '[data-visual-test="button-secondary"]',
       simulate: 'focus', // should be tested first
     })
