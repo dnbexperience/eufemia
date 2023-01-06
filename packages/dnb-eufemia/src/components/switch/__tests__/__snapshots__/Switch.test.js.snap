@@ -8,7 +8,6 @@ exports[`Switch component have to match snapshot 1`] = `
   className="className"
   custom_element={{}}
   custom_method={[Function]}
-  default_state="default_state"
   disabled="disabled"
   global_status_id="main"
   id="id"
@@ -146,7 +145,6 @@ exports[`Switch component have to match snapshot 1`] = `
                 "className": "className",
                 "custom_element": {},
                 "custom_method": [Function],
-                "default_state": "default_state",
                 "disabled": "disabled",
                 "global_status_id": "main",
                 "id": "id",
