@@ -17,9 +17,6 @@ export default class H extends React.PureComponent {
     className: PropTypes.string,
     as: PropTypes.string,
 
-    /** @deprecated use as instead */
-    is: PropTypes.string,
-
     level: PropTypes.string,
     size: PropTypes.oneOf([
       'xx-large',
@@ -30,7 +27,6 @@ export default class H extends React.PureComponent {
       'small',
       'x-small',
     ]),
-    style_type: PropTypes.string, // deprecated
     children: PropTypes.node,
   }
   static defaultProps = {
@@ -38,7 +34,6 @@ export default class H extends React.PureComponent {
     level: null,
     as: 'h1',
     size: 'xx-large',
-    style_type: null, // deprecated
     children: null,
   }
 
@@ -54,15 +49,10 @@ export default class H extends React.PureComponent {
       as,
       is,
       level, // eslint-disable-line
-      style_type,
       size,
       className,
       ...props
     } = this.props
-
-    if (style_type) {
-      size = style_type // deprecated
-    }
 
     return (
       <E
