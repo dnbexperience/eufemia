@@ -11,6 +11,7 @@ import {
   axeComponent,
 } from '../../core/jest/jestSetup'
 import Component from '../P'
+import { render } from '@testing-library/react'
 
 const props = fakeProps(require.resolve('../P'), {
   optional: true,
@@ -24,29 +25,50 @@ describe('P element', () => {
     expect(toJson(Comp)).toMatchSnapshot()
   })
   it('has correct size when size is defined', () => {
-    const Comp = mount(<Component size="large" />)
-    expect(Comp.find('.dnb-p__size--large').exists()).toBe(true)
+    render(<Component size="large" />)
+    const element = document.querySelector('.dnb-p__size--large')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-p',
+      'dnb-p__size--large',
+    ])
   })
   it('has correct style when size and a modifier is defined', () => {
-    const Comp = mount(<Component size="medium" modifier="medium" />)
-    expect(Comp.find('.dnb-p__size--medium').exists()).toBe(true)
-    expect(Comp.find('.dnb-p--medium').exists()).toBe(true)
+    render(<Component size="medium" modifier="medium" />)
+    const element = document.querySelector('.dnb-p__size--medium')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-p',
+      'dnb-p--medium',
+      'dnb-p__size--medium',
+    ])
   })
   it('has correct style when several modifiers are defined', () => {
-    const Comp = mount(<Component modifier="medium small" />)
-    expect(Comp.find('.dnb-p__size--small').exists()).toBe(true)
-    expect(Comp.find('.dnb-p--medium').exists()).toBe(true)
+    render(<Component modifier="medium small" />)
+    const element = document.querySelector('.dnb-p__size--small')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-p',
+      'dnb-p--medium',
+      'dnb-p__size--small',
+    ])
   })
   it('has correct style when medium is set to true', () => {
-    const Comp = mount(<Component medium />)
-    expect(Comp.find('.dnb-p--medium').exists()).toBe(true)
+    render(<Component medium />)
+    const element = document.querySelector('.dnb-p--medium')
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-p',
+      'dnb-p--medium',
+    ])
   })
   it('has correct style when bold is set to true', () => {
-    const Comp = mount(<Component bold />)
-    expect(Comp.find('.dnb-p--bold').exists()).toBe(true)
+    render(<Component bold />)
+    const element = document.querySelector('.dnb-p--bold')
+
+    expect(Array.from(element.classList)).toEqual(['dnb-p', 'dnb-p--bold'])
   })
   it('should validate with ARIA rules as a p element', async () => {
-    const Comp = mount(<Component {...props} />)
+    const Comp = render(<Component {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
