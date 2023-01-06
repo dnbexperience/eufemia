@@ -9,7 +9,7 @@ import { spacingPropTypes } from '../components/space/SpacingHelper'
 import E from './Element'
 
 const Span = React.forwardRef((props, ref) => (
-  <E as="span" inner_ref={ref} {...props} />
+  <E as="span" innerRef={ref} {...props} />
 ))
 Span.tagName = 'dnb-span'
 Span.propTypes = {
