@@ -13,6 +13,7 @@ import {
 } from '../../../core/jest/jestSetup'
 import Component from '../Button'
 import IconPrimary from '../../IconPrimary'
+import { fireEvent, render } from '@testing-library/react'
 
 const props = fakeProps(require.resolve('../Button'), {
   optional: true,
@@ -48,53 +49,56 @@ describe('Button component', () => {
 
   it('has a button tag', () => {
     const title = 'title'
-    const Comp = mount(<Component {...props} title={title} href={null} />)
-    expect(Comp.find('button').exists()).toBe(true)
-    expect(Comp.find('button').props().title).toBe(title)
+    render(<Component {...props} title={title} href={null} />)
+    const button = document.querySelector('button')
+
+    expect(button.getAttribute('title')).toBe(title)
   })
 
   it('icon only has to have some extra classes', () => {
-    const Comp = mount(<Component icon="question" />)
+    render(<Component icon="question" />)
+    const button = document.querySelector('button')
 
-    // size "medium"
-    expect(Comp.find('.dnb-button--size-medium').exists()).toBe(true)
-
+    // size "medium" and has icon
+    expect(button.classList.contains('dnb-button--size-medium')).toBe(true)
     // has icon class, but not has text
-    expect(Comp.find('.dnb-button--has-icon').exists()).toBe(true)
-    expect(Comp.find('.dnb-button--has-text').exists()).toBe(false)
+    expect(button.classList.contains('dnb-button--has-icon')).toBe(true)
+    expect(button.classList.contains('dnb-button--has-text')).toBe(false)
   })
 
   it('has size set to medium when button size is default', () => {
-    const Comp = mount(<Component icon="question" size="default" />)
-    expect(Comp.find('.dnb-button--icon-size-medium').exists()).toBe(true)
-    expect(Comp.find('.dnb-icon--medium').exists()).toBe(true)
+    render(<Component icon="question" size="default" />)
+    const button = document.querySelector('button')
+    const icon = document.querySelector('.dnb-icon')
+    expect(button.classList.contains('dnb-button--icon-size-medium')).toBe(
+      true
+    )
+    expect(icon.classList.contains('dnb-icon--medium')).toBe(true)
   })
 
   it('has medium icon if button size is large', () => {
-    const Comp = mount(
-      <Component text="Button" size="large" icon="question" />
-    )
-
+    render(<Component text="Button" size="large" icon="question" />)
+    const button = document.querySelector('button')
+    const icon = document.querySelector('.dnb-icon')
     // size "large
-    expect(Comp.find('.dnb-button--size-large').exists()).toBe(true)
-    expect(Comp.find('.dnb-icon--default').exists()).toBe(true)
+    expect(button.classList.contains('dnb-button--size-large')).toBe(true)
+    expect(icon.classList.contains('dnb-icon--default')).toBe(true)
   })
 
   it('has to have a bounding tag if property is set', () => {
-    const Comp = mount(<Component bounding={true} />)
-    expect(Comp.find('.dnb-button__bounding').exists()).toBe(true)
+    render(<Component bounding={true} />)
+    const bounding = document.querySelector('.dnb-button__bounding')
+    expect(bounding !== null).toBe(true)
   })
 
   it('has a anchor tag', () => {
-    const Comp = mount(
-      <Component {...props} href="https://url" icon={null} />
-    )
-    expect(Comp.find('a').exists()).toBe(true)
-    expect(Comp.find('svg').exists()).toBe(false)
+    render(<Component {...props} href="https://url" icon={null} />)
+    expect(document.querySelector('a') !== null).toBe(true)
+    expect(document.querySelector('svg') !== null).toBe(false)
   })
 
   it('has a anchor tag and includes a launch icon', () => {
-    const Comp = mount(
+    render(
       <Component
         {...props}
         href="https://url"
@@ -102,37 +106,42 @@ describe('Button component', () => {
         icon={null}
       />
     )
-    expect(Comp.find('svg').exists()).toBe(true)
+    expect(document.querySelector('svg') !== undefined).toBe(true)
   })
 
   it('has a disabled attribute, once we set disabled to true', () => {
-    const Comp = mount(<Component />)
-    Comp.setProps({
-      disabled: true,
-    })
-    expect(Comp.find('button').instance().hasAttribute('disabled')).toBe(
+    const { rerender } = render(<Component />)
+    expect(document.querySelector('button').hasAttribute('disabled')).toBe(
+      false
+    )
+    rerender(<Component disabled />)
+
+    expect(document.querySelector('button').hasAttribute('disabled')).toBe(
       true
     )
   })
 
   it('should be able to omit button type', () => {
-    const Comp = mount(<Component type="" />)
-    expect(Comp.find('button').instance().hasAttribute('type')).toBe(false)
+    render(<Component type="" />)
+    expect(document.querySelector('button').hasAttribute('type')).toBe(
+      false
+    )
   })
 
   it('should use span element if defined', () => {
-    const Comp = mount(<Component element="span" />)
-    expect(Comp.find('.dnb-button').instance().tagName).toBe('SPAN')
-    expect(Comp.find('.dnb-button').instance().getAttribute('type')).toBe(
-      'button'
-    )
+    render(<Component element="span" />)
+    expect(document.querySelector('.dnb-button').tagName).toBe('SPAN')
+    expect(
+      document.querySelector('.dnb-button').getAttribute('type')
+    ).toBe('button')
   })
 
   it('has "on_click" event which will trigger on a click', () => {
     const my_event = jest.fn()
     const myEvent = jest.fn()
-    const Comp = mount(<Component on_click={my_event} onClick={myEvent} />)
-    Comp.simulate('click')
+    render(<Component on_click={my_event} onClick={myEvent} />)
+    const button = document.querySelector('button')
+    fireEvent.click(button)
     expect(my_event.mock.calls.length).toBe(1)
     expect(myEvent.mock.calls.length).toBe(1)
   })
@@ -140,126 +149,141 @@ describe('Button component', () => {
   it('has set innerRef if ref was given', () => {
     const ref = React.createRef()
     expect(ref.current).toBe(null)
-    mount(<Component {...props} innerRef={ref} />)
+    render(<Component {...props} innerRef={ref} />)
     expect(ref.current).not.toBe(null)
     expect(typeof ref.current).toBe('object')
   })
 
   it('has type of button', () => {
-    const Comp = mount(<Component />)
-    expect(Comp.find('button').instance().getAttribute('type')).toBe(
-      'button'
-    )
+    render(<Component />)
+    const button = document.querySelector('button')
+    expect(button.getAttribute('type')).toBe('button')
   })
 
   it('has alignment helper with aria-hidden', () => {
-    const Comp = mount(<Component text="Button" />)
-    expect(
-      Comp.find('.dnb-button__alignment')
-        .instance()
-        .getAttribute('aria-hidden')
-    ).toBe('true')
-    expect(Comp.find('.dnb-button__text').text()).toBe('Button')
-
-    Comp.setProps({ text: undefined, icon: 'bell' })
+    const text = 'Button'
+    const { rerender } = render(<Component text={text} />)
 
     expect(
-      Comp.find('.dnb-button__alignment')
-        .instance()
+      document
+        .querySelector('.dnb-button__alignment')
         .getAttribute('aria-hidden')
     ).toBe('true')
-    expect(Comp.exists('.dnb-button__text')).toBe(false)
+    expect(document.querySelector('.dnb-button__text').textContent).toBe(
+      text
+    )
+
+    rerender(<Component icon="bell" />)
+
+    expect(
+      document
+        .querySelector('.dnb-button__alignment')
+        .getAttribute('aria-hidden')
+    ).toBe('true')
+    expect(document.querySelector('.dnb-button__text') === null).toBe(true)
   })
 
   it('should validate with ARIA rules as a button', async () => {
-    const Comp = mount(<Component {...props} />)
+    const Comp = render(<Component {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
   it('should validate with ARIA rules as a anchor', async () => {
-    const Comp = mount(<Component {...props} href="https://url" />)
+    const Comp = render(<Component {...props} href="https://url" />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
   it('has variant set to primary as default', () => {
-    const Comp = mount(<Component />)
-    expect(Comp.find('.dnb-button--primary').exists()).toBe(true)
+    render(<Component />)
+    const button = document.querySelector('button')
+    expect(button.classList.contains('dnb-button--primary')).toBe(true)
   })
 
   it('has variant set to primary when only setting text', () => {
-    const Comp = mount(<Component text="Button" />)
-    expect(Comp.find('.dnb-button--primary').exists()).toBe(true)
+    render(<Component text="Button" />)
+    const button = document.querySelector('button')
+    expect(button.classList.contains('dnb-button--primary')).toBe(true)
   })
 
   it('has variant set to secondary when only setting icon', () => {
-    const Comp = mount(<Component icon="question" />)
-    expect(Comp.find('.dnb-button--secondary').exists()).toBe(true)
+    render(<Component icon="question" />)
+    const button = document.querySelector('button')
+    expect(button.classList.contains('dnb-button--secondary')).toBe(true)
   })
 
   it('has variant tertiary', () => {
-    const Comp = mount(
-      <Component text="Button" variant="tertiary" icon="question" />
-    )
-    expect(Comp.find('.dnb-button--tertiary').exists()).toBe(true)
+    render(<Component text="Button" variant="tertiary" icon="question" />)
+    const button = document.querySelector('button')
+    expect(button.classList.contains('dnb-button--tertiary')).toBe(true)
   })
 
   it('has variant unstyled', () => {
-    const Comp = mount(<Component text="Button" variant="unstyled" />)
-    expect(Comp.find('.dnb-button--unstyled').exists()).toBe(true)
+    render(<Component text="Button" variant="unstyled" />)
+    const button = document.querySelector('button')
+    expect(button.classList.contains('dnb-button--unstyled')).toBe(true)
   })
 
   it('will replace icon with icon component', () => {
-    const Comp = mount(
+    const { rerender } = render(
       <Component
         icon={<span className="dnb-icon custom-icon">icon</span>}
       />
     )
-    expect(Comp.find('.custom-icon').exists()).toBe(true)
+    expect(document.querySelector('.custom-icon') !== null).toBe(true)
 
-    Comp.setProps({
-      icon: <IconPrimary icon="bell" className="custom-icon-component" />,
-    })
+    rerender(
+      <Component
+        icon={
+          <IconPrimary icon="bell" className="custom-icon-component" />
+        }
+      />
+    )
 
-    expect(Comp.find('.custom-icon').exists()).toBe(false)
-    expect(Comp.find('.custom-icon-component').exists()).toBe(true)
+    expect(document.querySelector('.custom-icon') !== null).toBe(false)
+    expect(document.querySelector('.custom-icon-component') !== null).toBe(
+      true
+    )
   })
 
   it('will only have attached event listener if one is given', () => {
     const on_click = jest.fn()
-    const Comp = mount(<Component text="Button" on_click={on_click} />)
+    const { rerender } = render(
+      <Component text="Button" on_click={on_click} />
+    )
+    const button = document.querySelector('button')
 
-    Comp.instance().onClickHandler = on_click
+    button.onClickHandler = on_click
 
-    const button = Comp.find('button')
-
-    button.simulate('click')
-    button.simulate('click')
+    fireEvent.click(button)
+    fireEvent.click(button)
 
     expect(on_click).toHaveBeenCalledTimes(2)
-    expect(Comp.instance().onClickHandler).toHaveBeenCalledTimes(2)
+    expect(button.onClickHandler).toHaveBeenCalledTimes(2)
 
-    Comp.setProps({
-      on_click: undefined,
-    })
+    rerender(<Component text="Button" onClick={undefined} />)
 
-    button.simulate('click')
+    fireEvent.click(button)
 
     // still 2
     expect(on_click).toHaveBeenCalledTimes(2)
-    expect(Comp.instance().onClickHandler).toHaveBeenCalledTimes(2)
+    expect(button.onClickHandler).toHaveBeenCalledTimes(2)
   })
 
   it('will warn when tertiary is used without an icon', () => {
     process.env.NODE_ENV = 'development'
     global.console.log = jest.fn()
-    mount(<Component text="Button" variant="tertiary" />)
+    render(<Component text="Button" variant="tertiary" />)
     expect(global.console.log).toBeCalled()
   })
 
   it('has no size when only setting text', () => {
-    const Comp = mount(<Component text="Button" />)
-    expect(Comp.find('.dnb-button--size-medium').exists()).toBe(false)
-    expect(Comp.find('.dnb-button--size-large').exists()).toBe(false)
+    render(<Component text="Button" />)
+    expect(
+      document.querySelector('.dnb-button--size-medium') !== null
+    ).toBe(false)
+    expect(
+      document.querySelector('.dnb-button--size-large') !== null
+    ).toBe(false)
   })
 })
 
