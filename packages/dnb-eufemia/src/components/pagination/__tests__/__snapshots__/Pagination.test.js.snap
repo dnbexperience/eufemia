@@ -2466,8 +2466,7 @@ button.dnb-button::-moz-focus-inner {
       height: 1px;
       opacity: 0; }
   .dnb-pagination__bar__skip {
-    margin-top: 0.5rem;
-    margin-left: -0.5rem; }
+    margin-top: 0.5rem; }
   .dnb-pagination__bar__skip .dnb-button:first-of-type {
     margin-right: 1.5rem; }
 "
