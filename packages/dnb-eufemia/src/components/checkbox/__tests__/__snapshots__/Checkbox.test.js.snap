@@ -13,7 +13,6 @@ exports[`Checkbox component have to match snapshot 1`] = `
         "className": "className",
         "custom_element": {},
         "custom_method": [Function],
-        "default_state": "default_state",
         "disabled": "disabled",
         "element": "element",
         "global_status_id": "global_status_id",
@@ -49,7 +48,6 @@ exports[`Checkbox component have to match snapshot 1`] = `
   className={null}
   custom_element={null}
   custom_method={null}
-  default_state={null}
   disabled={null}
   element="input"
   global_status_id={null}
