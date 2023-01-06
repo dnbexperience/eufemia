@@ -49,7 +49,6 @@ export default class Checkbox extends React.PureComponent {
     label_position: PropTypes.oneOf(['left', 'right']),
     title: PropTypes.string,
     element: PropTypes.node,
-    default_state: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]), // Deprecated
     checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     id: PropTypes.string,
@@ -94,7 +93,6 @@ export default class Checkbox extends React.PureComponent {
     label_position: null,
     title: null,
     element: 'input',
-    default_state: null, // Deprecated
     checked: null,
     disabled: null,
     id: null,
@@ -130,14 +128,7 @@ export default class Checkbox extends React.PureComponent {
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
       if (props.checked !== state._checked) {
-        if (
-          props.default_state !== null &&
-          typeof state.checked === 'undefined'
-        ) {
-          state.checked = Checkbox.parseChecked(props.default_state)
-        } else {
-          state.checked = Checkbox.parseChecked(props.checked)
-        }
+        state.checked = Checkbox.parseChecked(props.checked)
       }
     }
     state._listenForPropChanges = true
@@ -217,7 +208,6 @@ export default class Checkbox extends React.PureComponent {
       class: _className,
 
       id: _id, // eslint-disable-line
-      default_state: _default_state, // eslint-disable-line
       checked: _checked, // eslint-disable-line
       children, // eslint-disable-line
       on_change, // eslint-disable-line
