@@ -3,32 +3,22 @@
 exports[`Element have to match default Element snapshot 1`] = `
 <ForwardRef
   as="p"
-  class="class"
-  css="css"
-  innerRef="Error, unknown type"
-  inner_ref={null}
+  innerRef={null}
   internalClass={null}
-  is="Error, unknown type"
   skeleton={true}
-  skeletonMethod="Error, unknown type"
-  skeleton_method="font"
+  skeletonMethod="font"
 >
   <ElementInstance
     as="p"
-    class="class"
-    css="css"
-    innerRef="Error, unknown type"
-    inner_ref={null}
+    innerRef={null}
     internalClass={null}
-    is="Error, unknown type"
     skeleton={true}
-    skeletonMethod="Error, unknown type"
-    skeleton_method="font"
+    skeletonMethod="font"
   >
     <p
       aria-disabled={true}
       aria-label="Behandler data ..."
-      className="class css dnb-skeleton dnb-skeleton--font dnb-p"
+      className="dnb-skeleton dnb-skeleton--font dnb-p"
       disabled={true}
     >
       text
