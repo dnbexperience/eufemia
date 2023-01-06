@@ -21,9 +21,6 @@ import {
 } from '../../components/form-status/FormStatus'
 import StepIndicatorContext from './StepIndicatorContext'
 
-// Deprecated
-import { deprecated_v1 } from './StepIndicatorItem-v1'
-
 export default class StepIndicatorItem extends React.PureComponent {
   static contextType = StepIndicatorContext
 
@@ -47,20 +44,6 @@ export default class StepIndicatorItem extends React.PureComponent {
     status_state: PropTypes.oneOf(['warn', 'info', 'error']),
 
     currentItemNum: PropTypes.number.isRequired,
-
-    /* Deprecated */
-    use_navigation: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-    ]),
-    /* Deprecated */
-    is_active: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    /* Deprecated */
-    url: PropTypes.string,
-    /* Deprecated */
-    url_future: PropTypes.string,
-    /* Deprecated */
-    url_passed: PropTypes.string,
   }
 
   static defaultProps = {
@@ -79,17 +62,6 @@ export default class StepIndicatorItem extends React.PureComponent {
     disabled: null,
     status: null,
     status_state: 'warn',
-
-    /* Deprecated */
-    use_navigation: null,
-    /* Deprecated */
-    is_active: null,
-    /* Deprecated */
-    url: null,
-    /* Deprecated */
-    url_future: null,
-    /* Deprecated */
-    url_passed: null,
   }
 
   constructor(props, context) {
@@ -160,17 +132,7 @@ export default class StepIndicatorItem extends React.PureComponent {
     }
   }
 
-  // Deprecated warning
-  canWarn = () =>
-    typeof process !== 'undefined' &&
-    process.env.NODE_ENV === 'development'
-
   render() {
-    // Deprecated
-    if (this.context.isV1) {
-      return new deprecated_v1(this)
-    }
-
     const {
       mode,
       filterAttributes,
@@ -188,7 +150,6 @@ export default class StepIndicatorItem extends React.PureComponent {
 
       title,
       is_current,
-      is_active, // Deprecated
       inactive,
       disabled,
       status,
@@ -213,9 +174,7 @@ export default class StepIndicatorItem extends React.PureComponent {
       listOfReachedSteps.includes(currentItemNum)
     const isNavigateable = mode === 'strict' || mode === 'loose'
     let isInactive =
-      isTrue(inactive) ||
-      is_active === false /* deprecated */ ||
-      (mode === 'strict' && !hasPassedAndIsCurrent)
+      isTrue(inactive) || (mode === 'strict' && !hasPassedAndIsCurrent)
     let isVisited = currentItemNum < activeStep
 
     const id = `${sidebar_id || makeUniqueId()}-${currentItemNum}`
@@ -268,11 +227,7 @@ export default class StepIndicatorItem extends React.PureComponent {
       buttonParams['disabled'] = true
     }
 
-    if (
-      (isNavigateable && !isInactive) ||
-      // Deprecated
-      isTrue(this.context.use_navigation)
-    ) {
+    if (isNavigateable && !isInactive) {
       buttonParams.onClick = ({ event }) =>
         this.onClickHandler({
           event,

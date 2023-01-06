@@ -28,22 +28,18 @@ export default class StepIndicatorList extends React.PureComponent {
       skeleton,
       data,
       countSteps,
-      isV1, // deprecated
-      mainTitle,
-      listAttributes = {},
+      sidebar_id,
+      ...rest
     } = this.context
 
     const params = {
-      // 'aria-label': 'progress', // used before in v1
-      ...listAttributes,
+      sidebar_id,
       className: classnames(
         'dnb-step-indicator',
         createSkeletonClass('font', skeleton),
-        createSpacingClasses(listAttributes),
+        this.context.hasSidebar && createSpacingClasses(this.context),
         this.context.className,
-        this.context.class,
-        listAttributes.className,
-        listAttributes.class
+        this.context.class
       ),
     }
 
@@ -53,27 +49,17 @@ export default class StepIndicatorList extends React.PureComponent {
 
     const Element =
       mode === 'static' ||
-      // deprecated
-      (!this.context.isV1 && !this.context.hasSidebar) ||
+      !this.context.hasSidebar ||
       isTrue(this.context.use_navigation)
         ? 'div'
         : 'nav'
 
-    const useParams = Element === 'nav' ? params : listParams
+    const ariaLabelledbyValue = combineLabelledBy(rest, params.sidebar_id)
 
-    // deprecated
-    if (!isV1) {
-      // prettier-ignore
-      [useParams]['aria-labelledby'] = combineLabelledBy(
-        listAttributes,
-        params.sidebar_id
-      )
-
-      // We may use this
-      // params.id = params.sidebar_id + '-list'
-    } else if (!params['aria-label']) {
-      // prettier-ignore
-      [useParams]['aria-label'] = mainTitle
+    if (Element === 'nav') {
+      params['aria-labelledby'] = ariaLabelledbyValue
+    } else {
+      listParams['aria-labelledby'] = ariaLabelledbyValue
     }
 
     Object.keys(params).forEach((key) => {
