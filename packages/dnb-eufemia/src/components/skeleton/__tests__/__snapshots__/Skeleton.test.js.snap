@@ -50,7 +50,6 @@ exports[`Skeleton component have to match snapshot 1`] = `
             modifier={null}
             size={null}
             small={null}
-            style_type={null}
           >
             <ForwardRef
               as="p"
