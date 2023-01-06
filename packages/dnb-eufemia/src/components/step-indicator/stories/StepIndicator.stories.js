@@ -5,8 +5,6 @@
 
 import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
-// import styled from '@emotion/styled'
-import { createBrowserHistory } from 'history'
 import { StepIndicator, Button, Space } from '../../'
 import { Code } from '../../../elements'
 import { Provider } from '../../../shared'
@@ -241,128 +239,6 @@ export const StepIndicatorSandbox = () => {
           data={data}
         />
       </Box>
-      <Box>
-        <StepIndicator
-          use_navigation={true}
-          active_item={1}
-          // on_change={({ currentItem }) => {
-          //   console.log('on_change', currentItem)
-          // }}
-          // on_item_render={({ StepItem }) => {
-          //   return (
-          //     <StepItem
-          //       onClick={(e) => {
-          //         console.log('on_item_render.onClick', e)
-          //       }}
-          //     />
-          //   )
-          // }}
-          data={data}
-        />
-      </Box>
-      <Box>
-        <h1>Deprecated</h1>
-        <StepIndicator
-          hide_numbers
-          active_url="?path=/story/components--stepindicator&current"
-          data={[
-            {
-              title: 'First',
-              url_passed: '?path=/story/components--stepindicator&passed',
-              url: '?path=/story/components--stepindicator',
-            },
-            {
-              title: 'Second',
-              // url_passed: '?path=/story/components--stepindicator&passed',
-              url: '?path=/story/components--stepindicator&current',
-            },
-            {
-              title: 'Third',
-              url: '?path=/story/components--stepindicator',
-              // url_future: '?path=/story/components--stepindicator&future'
-            },
-          ]}
-        />
-      </Box>
-      <Box>
-        <StepIndicator
-          // current_step={1}
-          data={[
-            {
-              title: 'First',
-            },
-            {
-              title: 'Second',
-              is_current: true,
-            },
-            {
-              title: 'Third',
-            },
-          ]}
-        />
-      </Box>
-      <Box>
-        <StepIndicator
-          current_step="2"
-          data={['First', 'Second', 'Third']}
-        />
-      </Box>
-      <Box>
-        <DeprecatedURLCase />
-      </Box>
     </Wrapper>
-  )
-}
-
-function DeprecatedURLCase() {
-  const history = createBrowserHistory()
-  const StepIndicatorWithUrl = () => {
-    const [activeUrl, setActiveUrl] = React.useState(
-      history.location.search
-    )
-    React.useState(() => {
-      const unlisten = history.listen(({ search }) => {
-        setActiveUrl(search)
-      })
-      return () => unlisten()
-    }, [])
-    console.log('activeUrl', activeUrl)
-    return (
-      <StepIndicator
-        active_item="0"
-        active_url={activeUrl}
-        on_change={(e) => {
-          try {
-            e.event.preventDefault()
-            history.push(e.item.url)
-          } catch (e) {
-            //
-          }
-        }}
-        data={[
-          {
-            title: 'Om din nye bolig',
-            url: '?id=eufemia-components-stepindicator--step-indicator-sandbox&a=&viewMode=story',
-          },
-          {
-            title: 'Ditt lån og egenkapital',
-            url: '?id=eufemia-components-stepindicator--step-indicator-sandbox&b=&viewMode=story',
-          },
-          {
-            title: 'Oppsummering',
-            url: '?id=eufemia-components-stepindicator--step-indicator-sandbox&c=&viewMode=story',
-            url_future: '',
-          },
-        ]}
-      />
-    )
-  }
-  return (
-    <>
-      <StepIndicatorWithUrl />
-      <a href="/iframe.html?id=eufemia-components-stepindicator--step-indicator-sandbox&b">
-        Navigate to B
-      </a>
-    </>
   )
 }
