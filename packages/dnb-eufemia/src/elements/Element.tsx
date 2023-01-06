@@ -26,9 +26,6 @@ export type ElementInternalProps = {
    * Defines the Element Type, like "div"
    */
   as: ElementIsType
-
-  /** @deprecated use as instead */
-  is?: ElementIsType
 }
 
 export type ElementProps = {
@@ -37,18 +34,6 @@ export type ElementProps = {
   internalClass?: string
   innerRef?: React.RefObject<HTMLElement> | React.ForwardedRef<unknown>
   children?: React.ReactNode
-
-  /** @deprecated use className instead */
-  css?: string
-
-  /** @deprecated use className instead */
-  class?: string
-
-  /** @deprecated use innerRef instead */
-  inner_ref?: React.RefObject<HTMLElement> | React.ForwardedRef<unknown>
-
-  /** @deprecated use skeletonMethod instead */
-  skeleton_method?: SkeletonMethods
 } & SpacingProps
 
 export type ElementAllProps = ElementProps &
@@ -71,31 +56,17 @@ function ElementInstance(localProps: ElementAllProps) {
     skeleton: context?.skeleton,
   })
 
-  // deprecated
-  if (typeof props.inner_ref !== 'undefined') {
-    props.innerRef = props.inner_ref
-    delete props.inner_ref
-  }
-  // deprecated
-  if (typeof props.skeleton_method !== 'undefined') {
-    props.skeletonMethod = props.skeleton_method
-    delete props.skeleton_method
-  }
-
   const {
     className,
-    class: _className,
     internalClass,
-    css,
     as,
-    is, // deprecated
     innerRef,
     skeleton,
     skeletonMethod,
     ...rest
   } = props
 
-  const Tag = (as || is) as DynamicElement
+  const Tag = as as DynamicElement
   const attributes = rest as Attributes
 
   const tagClass =
@@ -103,8 +74,6 @@ function ElementInstance(localProps: ElementAllProps) {
   const internalClassName = classnames(
     !new RegExp(`${tagClass}(\\s|$)`).test(String(className)) && tagClass,
     className,
-    _className,
-    css,
     createSkeletonClass(skeletonMethod, skeleton, context),
     createSpacingClasses(
       attributes,

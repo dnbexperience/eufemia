@@ -6,7 +6,6 @@
 import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 
-import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 
 import {
@@ -67,13 +66,7 @@ export const OtherElementSandbox = () => (
     <Box>
       <CustomStyles>
         <H1 className="dnb-small">H1</H1>
-        <H2
-          css={css`
-            color: red;
-          `}
-        >
-          H2
-        </H2>
+        <H2>H2</H2>
         <P>
           Fermentum sapien ipsum cursus lorem iaculis sagittis elit euismod
           non
