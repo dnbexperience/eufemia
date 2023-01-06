@@ -42,7 +42,7 @@ function Element({
 
   if (E === Section) {
     component = (
-      <E {...props} inner_ref={innerRef}>
+      <E {...props} innerRef={innerRef}>
         {children}
       </E>
     )
