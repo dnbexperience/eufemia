@@ -9,7 +9,7 @@ import { spacingPropTypes } from '../components/space/SpacingHelper'
 import E from './Element'
 
 const Div = React.forwardRef((props, ref) => (
-  <E as="div" skeleton_method="shape" inner_ref={ref} {...props} />
+  <E as="div" skeletonMethod="shape" innerRef={ref} {...props} />
 ))
 Div.tagName = 'dnb-div'
 Div.propTypes = {
