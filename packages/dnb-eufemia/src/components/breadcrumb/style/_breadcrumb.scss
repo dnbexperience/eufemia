@@ -41,6 +41,12 @@
     }
   }
 
+  &__item:not(:first-of-type) {
+    .dnb-button.dnb-button--has-text {
+      padding-left: 0.5rem;
+    }
+  }
+
   &__animation {
     display: flex;
     flex-direction: column;
