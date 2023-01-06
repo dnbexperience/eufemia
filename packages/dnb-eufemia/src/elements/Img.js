@@ -34,7 +34,7 @@ const Img = ({
         createSpacingClasses(p, p.is)
       )}
       skeleton={skeleton}
-      skeleton_method="shape"
+      skeletonMethod="shape"
     >
       <E
         as="img"
