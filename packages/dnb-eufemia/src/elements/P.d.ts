@@ -38,7 +38,6 @@ export interface PProps
   medium?: boolean;
   bold?: boolean;
   size?: PSize;
-  style_type?: string;
   modifier?: string;
   children?: React.ReactNode;
 }
