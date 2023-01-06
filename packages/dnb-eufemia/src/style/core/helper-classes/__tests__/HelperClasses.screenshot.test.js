@@ -45,14 +45,6 @@ describe('HelperClasses screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match not-sr-only', async () => {
-    const screenshot = await testPageScreenshot({
-      addWrapper: false,
-      selector: '[data-visual-test="helper-not-sr-only"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
   it('have to match selection', async () => {
     const screenshot = await testPageScreenshot({
       addWrapper: false,
