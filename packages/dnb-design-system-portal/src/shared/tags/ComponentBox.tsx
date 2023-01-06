@@ -19,9 +19,6 @@ type ComponentBoxProps = {
   scope?: Record<string, unknown>
   hideCode?: boolean
   useRender?: boolean
-
-  /** @deprecated Use "useRender" instead */
-  noInline?: boolean
 }
 
 function ComponentBox(props: ComponentBoxProps) {
@@ -30,10 +27,6 @@ function ComponentBox(props: ComponentBoxProps) {
   const hash = children as string
   if (globalThis.ComponentBoxMemo[hash]) {
     return globalThis.ComponentBoxMemo[hash]
-  }
-
-  if (rest.noInline) {
-    rest.useRender = true
   }
 
   return (globalThis.ComponentBoxMemo[hash] = (
