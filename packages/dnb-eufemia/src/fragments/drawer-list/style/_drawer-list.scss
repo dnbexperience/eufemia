@@ -71,7 +71,7 @@
     transition: all 300ms var(--easing-default);
 
     html[data-visual-test] & {
-      animation-duration: 1ms !important;
+      transition: none !important;
     }
 
     // higher than modal --modal-z-index:
@@ -148,7 +148,7 @@
   }
   html[data-visual-test] &--scroll &__options,
   &--scroll#{&}--no-animation &__options {
-    animation-duration: 1ms !important;
+    transition: none !important;
   }
   &--opened &__options {
     scroll-behavior: smooth;
