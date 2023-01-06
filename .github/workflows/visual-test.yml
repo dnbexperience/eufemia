@@ -143,4 +143,4 @@ jobs:
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
           MATRIX_CONTEXT: ${{ toJson(matrix) }}
-        if: ${{ always() && github.repository_owner == 'dnbexperience' }}
+        if: ${{ always() && !github.event.pull_request.head.repo.fork }}
