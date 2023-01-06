@@ -3,8 +3,6 @@
  *
  */
 
-@import './_step-indicator-v1.scss';
-
 .dnb-step-indicator__sidebar {
   @media screen and (min-width: 50.1em) {
     max-width: 20rem;
@@ -27,7 +25,7 @@
   }
 }
 
-.dnb-step-indicator-v2 .dnb-step-indicator {
+.dnb-step-indicator-wrapper .dnb-step-indicator {
   &__list {
     display: flex;
     flex-direction: column;

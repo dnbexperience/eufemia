@@ -110,6 +110,3 @@ The API has been simplified and some properties have to be changed by the next m
 - Add a property called `mode="strict"` (choose your mode)
 - Add a property called `sidebar_id` with an unique ID.
 - Optional, place `<StepIndicator.Sidebar sidebar_id="unique-step-indicator" />` in your layout.
-- URL handling is deprecated and will be removed in v10
-
-The documentation is updated and every property name that will be deprecated is clearly marked with a strike-through line. You will get a console warning during development when you use outdated properties.

@@ -77,7 +77,7 @@ export default class StepIndicatorSidebar extends React.PureComponent {
       <div
         id={'sidebar__' + this.props.sidebar_id}
         className={classnames(
-          'dnb-step-indicator-v2',
+          'dnb-step-indicator-wrapper',
           'dnb-step-indicator__sidebar',
           this._hasSkeletonData &&
             providerProps?.skeleton &&
