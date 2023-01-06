@@ -17,9 +17,9 @@ const props = fakeProps(require.resolve('../Element'), {
   optional: true,
 })
 props.as = 'p'
-props.inner_ref = null
+props.innerRef = null
 props.internalClass = null
-props.skeleton_method = 'font'
+props.skeletonMethod = 'font'
 
 describe('Element', () => {
   it('have to match default Element snapshot', () => {
@@ -35,7 +35,7 @@ describe('Element', () => {
     )
 
     expect(container.querySelector('p').getAttribute('class')).toBe(
-      'extra class css dnb-skeleton dnb-skeleton--font dnb-p'
+      'extra dnb-skeleton dnb-skeleton--font dnb-p'
     )
   })
 
@@ -66,7 +66,7 @@ describe('Element', () => {
     )
 
     rerender(
-      <Element as="p" skeleton skeleton_method="shape">
+      <Element as="p" skeleton skeletonMethod="shape">
         text
       </Element>
     )
@@ -76,17 +76,7 @@ describe('Element', () => {
     )
   })
 
-  it('supports deprecated "is"', () => {
-    const { container } = render(
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      <Element is="p">text</Element>
-    )
-
-    expect(container.querySelector('p')).toBeTruthy()
-  })
-
-  it('does not have inner_ref null inside default propes', () => {
+  it('does not have inner_ref null inside default props', () => {
     expect(defaultProps['inner_ref']).toBe(undefined)
   })
 
