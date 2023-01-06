@@ -26,13 +26,13 @@ import {
   Input,
   Textarea,
   Section,
-  StepIndicator,
   ToggleButton,
   Icon,
   Button,
   Switch,
   Space,
   GlobalStatus,
+  Tabs,
 } from '@dnb/eufemia/src/components'
 import {
   save as SaveIcon,
@@ -61,21 +61,14 @@ const Header = () => (
       <HeaderTitleWrapper top="x-large">
         <Heading size="x-large">Card complaint</Heading>
       </HeaderTitleWrapper>
-
-      <StepIndicator
-        current_step={0}
-        // mode="strict" // The design is not ready for v2
+      <Tabs
         data={[
           {
             title: 'Information about the complaint',
+            key: 'Information about the complaint',
           },
-          {
-            title: 'Summary',
-          },
+          { title: 'Summary', key: 'Summary' },
         ]}
-        on_change={(e) => {
-          console.log('StepIndicator.on_change', e)
-        }}
       />
     </HeaderSection>
     <GlobalStatus />
