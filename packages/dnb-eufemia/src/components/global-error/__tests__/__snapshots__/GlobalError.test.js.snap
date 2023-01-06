@@ -1172,7 +1172,6 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
             className={null}
             level={null}
             size="xx-large"
-            style_type={null}
             top="4"
           >
             <ForwardRef
