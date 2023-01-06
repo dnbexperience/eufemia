@@ -20,13 +20,9 @@
   @include olTag();
   @include dlTag();
 
-  // table
-  // @include tableTag(); // Deprecated since v10
-
   // form
   @include formTag();
   @include labelTag();
-  // @include textareaTag(); // Deprecated since v3.23.0
 
   // additional
   @include codeTag();
