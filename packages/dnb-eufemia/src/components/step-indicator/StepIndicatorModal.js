@@ -71,7 +71,7 @@ export default class StepIndicatorModal extends React.PureComponent {
           on_close={this.closeHandler}
         >
           <Modal.Content style_type="white">
-            <div className="dnb-step-indicator-v2">
+            <div className="dnb-step-indicator-wrapper">
               <p className="dnb-p dnb-step-indicator__label">
                 {this.context.stepsLabelExtended}
               </p>
