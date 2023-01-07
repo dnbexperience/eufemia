@@ -635,7 +635,10 @@ export function TableSort() {
   const { sortState, sortHandler } = useHandleSortState({
     column1: {
       active: true,
-      direction: 'off',
+      direction: 'asc',
+    },
+    column2: {
+      direction: 'desc',
     },
   })
 
@@ -681,10 +684,18 @@ export function TableSort() {
             active={sortState.column1.active}
             reversed={sortState.column1.reversed}
           >
-            <Th.SortButton text={'Name'} onClick={sortHandler.column1} />
+            <Th.SortButton text="Name" onClick={sortHandler.column1} />
           </Th>
-          <Th scope="col" sortable>
-            <Th.SortButton text={'Min amount'} />
+          <Th
+            scope="col"
+            sortable
+            active={sortState.column2.active}
+            reversed={sortState.column2.reversed}
+          >
+            <Th.SortButton
+              text="Min amount"
+              onClick={sortHandler.column2}
+            />
           </Th>
         </Tr>
       </thead>
