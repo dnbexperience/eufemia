@@ -522,4 +522,100 @@ describe('useHandleSortState', () => {
       },
     })
   })
+
+  it('should set correct direction/active state when switching from active column', () => {
+    const { result } = renderHook(useHandleSortState, {
+      initialProps: {
+        one: {
+          active: true,
+          direction: 'asc',
+        },
+        two: {
+          direction: 'desc',
+        },
+      },
+    })
+
+    const sortHandler = {
+      one: expect.any(Function),
+      two: expect.any(Function),
+    }
+
+    const simulateOne = () => act(() => result.current.sortHandler.one())
+    const simulateTwo = () => act(() => result.current.sortHandler.two())
+
+    expect(result.current).toEqual({
+      activeSortName: 'one',
+      sortHandler,
+      sortState: {
+        one: {
+          active: true,
+          direction: 'asc',
+          reversed: false,
+        },
+        two: {
+          active: false,
+          direction: 'desc',
+          reversed: true,
+        },
+      },
+    })
+
+    simulateTwo()
+
+    expect(result.current).toEqual({
+      activeSortName: 'two',
+      sortHandler,
+      sortState: {
+        one: {
+          active: false,
+          direction: 'asc',
+          reversed: false,
+        },
+        two: {
+          active: true,
+          direction: 'desc',
+          reversed: true,
+        },
+      },
+    })
+
+    simulateTwo()
+
+    expect(result.current).toEqual({
+      activeSortName: null,
+      sortHandler,
+      sortState: {
+        one: {
+          active: false,
+          direction: 'asc',
+          reversed: false,
+        },
+        two: {
+          active: false,
+          direction: 'off',
+          reversed: undefined,
+        },
+      },
+    })
+
+    simulateOne()
+
+    expect(result.current).toEqual({
+      activeSortName: 'one',
+      sortHandler,
+      sortState: {
+        one: {
+          active: true,
+          direction: 'asc',
+          reversed: false,
+        },
+        two: {
+          active: false,
+          direction: 'off',
+          reversed: undefined,
+        },
+      },
+    })
+  })
 })
