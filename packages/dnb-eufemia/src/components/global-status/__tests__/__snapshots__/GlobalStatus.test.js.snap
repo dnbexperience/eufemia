@@ -1638,6 +1638,7 @@ exports[`GlobalStatus snapshot have to match linked components snapshot 1`] = `
               className="dnb-form-status dnb-form-status--error dnb-form-status__size--default dnb-form-status--has-content"
               id="switch-form-status"
               role="alert"
+              status="error"
             >
               <span
                 className="dnb-form-status__shell"
