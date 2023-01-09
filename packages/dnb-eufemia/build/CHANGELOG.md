@@ -3,6 +3,13 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.45.2](https://github.com/dnbexperience/eufemia/compare/v9.45.1...v9.45.2) (2023-01-09)
+
+
+### Bug Fixes
+
+* **useHandleSortState:** fix correct direction when switching from other active column ([#1876](https://github.com/dnbexperience/eufemia/issues/1876)) ([126a2fa](https://github.com/dnbexperience/eufemia/commit/126a2fa5d7f82fe72c9dbaa716c7043a32ddf7a8))
+
 ## [9.45.1](https://github.com/dnbexperience/eufemia/compare/v9.45.0...v9.45.1) (2023-01-04)
 
 
