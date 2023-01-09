@@ -15,8 +15,7 @@ exports[`Table scss have to match default theme snapshot 1`] = `
  */
 .dnb-table {
   text-align: left; }
-  .dnb-table > tr > th,
-  .dnb-table > thead > tr > th, .dnb-table__th {
+  .dnb-table__th {
     padding: 2rem 1rem 1rem;
     font-weight: var(--font-weight-medium);
     color: var(--theme-color-black-80, currentColor);
@@ -24,10 +23,8 @@ exports[`Table scss have to match default theme snapshot 1`] = `
     line-height: var(--line-height-basis);
     vertical-align: bottom;
     background-color: var(--color-white); }
-  .dnb-table > tr > td,
-  .dnb-table > tbody > tr > td, .dnb-table__td,
-  tbody > tr > .dnb-table__th,
-  .dnb-table > tr > th[scope='row'] {
+  .dnb-table__td,
+  tbody > tr > .dnb-table__th {
     padding: 1rem;
     color: var(--theme-color-black-80, currentColor);
     font-size: var(--font-size-basis);
