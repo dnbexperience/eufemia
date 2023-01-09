@@ -804,13 +804,16 @@ legend.dnb-form-label {
     z-index: 2; }
   .dnb-slider--vertical .dnb-slider__button.dnb-button--size-small {
     transform: translateX(0.25rem); }
-  .dnb-slider__state--animate .dnb-slider__thumb,
-  .dnb-slider__state--animate .dnb-slider__line {
-    transition: left 250ms var(--easing-default), top 250ms var(--easing-default), bottom 250ms var(--easing-default), right 250ms var(--easing-default), box-shadow 250ms var(--easing-default); }
   .dnb-slider__state--disabled .dnb-slider__track,
   .dnb-slider__state--disabled .dnb-slider__thumb,
   .dnb-slider__state--disabled .dnb-slider__line {
     cursor: not-allowed; }
+  .dnb-slider__state--animate .dnb-slider__thumb,
+  .dnb-slider__state--animate .dnb-slider__line {
+    transition: left 250ms var(--easing-default), top 250ms var(--easing-default), bottom 250ms var(--easing-default), right 250ms var(--easing-default), box-shadow 250ms var(--easing-default); }
+  html[data-visual-test] .dnb-slider__thumb,
+  html[data-visual-test] .dnb-slider__line {
+    transition: none !important; }
   .dnb-slider__button-helper {
     pointer-events: none;
     z-index: 2;

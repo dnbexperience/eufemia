@@ -182,6 +182,12 @@
     transform: translateX(0.25rem);
   }
 
+  &__state--disabled &__track,
+  &__state--disabled &__thumb,
+  &__state--disabled &__line {
+    cursor: not-allowed;
+  }
+
   &__state--animate &__thumb,
   &__state--animate &__line {
     transition: left 250ms var(--easing-default),
@@ -190,10 +196,9 @@
       box-shadow 250ms var(--easing-default);
   }
 
-  &__state--disabled &__track,
-  &__state--disabled &__thumb,
-  &__state--disabled &__line {
-    cursor: not-allowed;
+  html[data-visual-test] &__thumb,
+  html[data-visual-test] &__line {
+    transition: none !important;
   }
 
   // make sure the helper is not click able
