@@ -686,51 +686,6 @@ thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus
     overflow: visible; }
 
 /*
-* Table deprecated parts
-*
-*/
-.dnb-table {
-  /* stylelint-disable */ }
-  .dnb-table, .dnb-table--left {
-    text-align: left; }
-  .dnb-table--right {
-    text-align: right; }
-  .dnb-table--center {
-    text-align: center; }
-  .dnb-table--small,
-  .dnb-table--small > tr > th,
-  .dnb-table--small > tr > td,
-  .dnb-table--small > thead > tr > th,
-  .dnb-table--small > tbody > tr > td {
-    font-size: var(--font-size-small); }
-  .dnb-table > tr.dnb-table--small > th,
-  .dnb-table > tr.dnb-table--small > td,
-  .dnb-table > thead > tr.dnb-table--small > th,
-  .dnb-table > tbody > tr.dnb-table--small > td {
-    font-size: var(--font-size-small); }
-  .dnb-table > tr > th.dnb-table--small,
-  .dnb-table > tr > td.dnb-table--small,
-  .dnb-table > thead > tr > th.dnb-table--small,
-  .dnb-table > tbody > tr > td.dnb-table--small, .dnb-table__th.dnb-table--small, .dnb-table__td.dnb-table--small {
-    font-size: var(--font-size-small); }
-  .dnb-table--x-small,
-  .dnb-table--x-small > tr > th,
-  .dnb-table--x-small > tr > td,
-  .dnb-table--x-small > thead > tr > th,
-  .dnb-table--x-small > tbody > tr > td {
-    font-size: var(--font-size-x-small); }
-  .dnb-table > tr.dnb-table--x-small > th,
-  .dnb-table > tr.dnb-table--x-small > td,
-  .dnb-table > thead > tr.dnb-table--x-small > th,
-  .dnb-table > tbody > tr.dnb-table--x-small > td {
-    font-size: var(--font-size-x-small); }
-  .dnb-table > tr > th.dnb-table--x-small,
-  .dnb-table > tr > td.dnb-table--x-small,
-  .dnb-table > thead > tr > th.dnb-table--x-small,
-  .dnb-table > tbody > tr > td.dnb-table--x-small, .dnb-table__th.dnb-table--x-small, .dnb-table__td.dnb-table--x-small {
-    font-size: var(--font-size-x-small); }
-
-/*
 * Table component
 *
 */
