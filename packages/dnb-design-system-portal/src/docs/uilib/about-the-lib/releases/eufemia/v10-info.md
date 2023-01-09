@@ -51,6 +51,10 @@ v10 of @dnb/eufemia contains _breaking changes_. As a migration process, you can
 
 1. Find the `target_blank_title` property and replace it with `targetBlankTitle`.
 
+### [Button](/uilib/components/button)
+
+1. The padding of the `teriary` button is removed. Please, check your application and add back the padding of `0.5rem` if needed.
+
 ### [Tooltip](/uilib/components/tooltip)
 
 1. Find the `target_element` property and replace it with `targetElement`.
