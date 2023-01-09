@@ -80,19 +80,25 @@ const flatten = (arr) =>
                 .reverse()
                 .find(({ slug: _slug }) => slug.includes(_slug))
 
+              let newTitle = null
+
               if (category) {
                 const {
                   frontmatter: { title, search },
                 } = category
 
-                let newTitle = title || search
+                newTitle = title || search
+              }
 
-                if (first && first.depth === 2) {
-                  headings.shift()
-                  // eslint-disable-next-line no-irregular-whitespace
-                  newTitle = `${newTitle} → ${first.value}`
-                }
+              if (first && first.depth === 2) {
+                headings.shift()
+                newTitle = newTitle
+                  ? // eslint-disable-next-line no-irregular-whitespace
+                    `${newTitle} → ${first.value}`
+                  : first.value
+              }
 
+              if (newTitle) {
                 frontmatter = {
                   ...frontmatter,
                   title: newTitle,
