@@ -9,13 +9,6 @@ import type { SpacingProps } from './types'
 
 type Props = SpacingProps | Record<string, unknown>
 
-type StyleObjectProps = {
-  maxWidth?: string
-  maxHeight?: string
-  width?: string
-  height?: string
-}
-
 export const spacingDefaultProps = {
   space: null,
   top: null,
@@ -227,37 +220,6 @@ export const createSpacingClasses = (props: Props, Element = null) => {
 
     return acc
   }, [])
-}
-
-// deprecated and can be removed in v10 (remove tests as well)
-export const createStyleObject = (props: Props & StyleObjectProps) => {
-  const p = Object.isFrozen(props) ? { ...props } : props
-
-  if (p.top && !(parseFloat(String(p.top)) > 0)) {
-    p.top = sumTypes(p.top)
-  }
-  if (p.bottom && !(parseFloat(String(p.bottom)) > 0)) {
-    p.bottom = sumTypes(p.bottom)
-  }
-  if (p.left && !(parseFloat(String(p.left)) > 0)) {
-    p.left = sumTypes(p.left)
-  }
-  if (p.right && !(parseFloat(String(p.right)) > 0)) {
-    p.right = sumTypes(p.right)
-  }
-  return Object.entries({
-    marginTop: p.top && `${p.top}rem`,
-    marginBottom: p.bottom && `${p.bottom}rem`,
-    maxWidth: p.maxWidth && `${p.maxWidth}rem`,
-    maxHeight: p.maxHeight && `${p.maxHeight}rem`,
-    width: p.width && `${p.width}rem`,
-    height: p.height && `${p.height}rem`,
-  }).reduce((acc, [key, val]) => {
-    if (typeof val !== 'undefined') {
-      acc[key] = val
-    }
-    return acc
-  }, {})
 }
 
 export const isInline = (elementName: string) => {

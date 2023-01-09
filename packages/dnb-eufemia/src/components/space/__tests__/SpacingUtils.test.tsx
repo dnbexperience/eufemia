@@ -13,7 +13,6 @@ import {
   findType,
   findNearestTypes,
   isValidSpaceProp,
-  createStyleObject,
   createSpacingClasses,
 } from '../SpacingUtils'
 import { spacingPropTypes } from '../SpacingHelper'
@@ -137,17 +136,6 @@ describe('createSpacingClasses', () => {
       'dnb-space__top--small',
     ])
     expect(createSpacingClasses({ space: null })).toEqual([])
-  })
-})
-
-describe('createStyleObject', () => {
-  it('should create a valid style object', () => {
-    expect(createStyleObject({ top: 'medium large' })).toEqual({
-      marginTop: '3.5rem',
-    })
-    expect(createStyleObject({ top: '3.5' })).toEqual({
-      marginTop: '3.5rem',
-    })
   })
 })
 
