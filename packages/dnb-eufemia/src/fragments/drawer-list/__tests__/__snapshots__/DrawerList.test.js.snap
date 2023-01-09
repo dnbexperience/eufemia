@@ -1109,7 +1109,7 @@ exports[`DrawerList scss have to match snapshot 1`] = `
     transition: all 300ms var(--easing-default);
     z-index: 3200; }
     html[data-visual-test] .dnb-drawer-list__portal__style {
-      animation-duration: 1ms !important; }
+      transition: none !important; }
     .dnb-drawer-list__portal__style--fixed {
       position: fixed; }
   .dnb-drawer-list__root {
@@ -1177,7 +1177,7 @@ exports[`DrawerList scss have to match snapshot 1`] = `
       scroll-behavior: auto !important; }
   html[data-visual-test] .dnb-drawer-list--scroll .dnb-drawer-list__options,
   .dnb-drawer-list--scroll.dnb-drawer-list--no-animation .dnb-drawer-list__options {
-    animation-duration: 1ms !important; }
+    transition: none !important; }
   .dnb-drawer-list--opened .dnb-drawer-list__options {
     scroll-behavior: smooth; }
   .dnb-drawer-list--no-scroll-animation .dnb-drawer-list__options {

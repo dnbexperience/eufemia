@@ -83,6 +83,8 @@ export function useHandleSortState(
           state.direction = state.lastDirection
           state.active = true
           state.lastDirection = null
+        } else if (!state.active && state.direction !== 'off') {
+          state.active = true
         } else {
           state.direction = getNextMode({
             direction: state.direction,
