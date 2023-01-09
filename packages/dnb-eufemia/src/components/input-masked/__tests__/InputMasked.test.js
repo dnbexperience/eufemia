@@ -1355,6 +1355,44 @@ describe('InputMasked component as_currency', () => {
     expect(Comp.find('input').instance().value).toBe('12 345,67 kr')
   })
 
+  it('should handle decimal values less than 1', () => {
+    const MockComponent = () => {
+      const [value, setState] = React.useState(1.5)
+
+      return (
+        <>
+          <Component
+            value={value}
+            number_mask={{
+              allowLeadingZeroes: true,
+              allowNegative: false,
+              allowDecimal: true,
+            }}
+          />
+
+          <button
+            onClick={() => {
+              setState(value - 0.4)
+            }}
+          />
+        </>
+      )
+    }
+
+    render(<MockComponent />)
+
+    const element = document.querySelector('input')
+    const button = document.querySelector('button')
+
+    expect(element.value).toBe('1,5')
+
+    fireEvent.click(button) // 1,1
+    fireEvent.click(button) // 0,7
+    fireEvent.click(button) // 0,3
+
+    expect(element.value).toBe('0,30')
+  })
+
   it('should change both value and locale', () => {
     const Comp = mount(
       <Component locale="en-GB" as_currency value="12345.678" />
