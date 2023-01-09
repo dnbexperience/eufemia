@@ -87,14 +87,13 @@ describe('Button component', () => {
 
   it('has to have a bounding tag if property is set', () => {
     render(<Component bounding={true} />)
-    const bounding = document.querySelector('.dnb-button__bounding')
-    expect(bounding !== null).toBe(true)
+    expect(document.querySelector('.dnb-button__bounding')).toBeTruthy()
   })
 
   it('has a anchor tag', () => {
     render(<Component {...props} href="https://url" icon={null} />)
-    expect(document.querySelector('a') !== null).toBe(true)
-    expect(document.querySelector('svg') !== null).toBe(false)
+    expect(document.querySelector('a')).toBeTruthy()
+    expect(document.querySelector('svg')).toBeFalsy()
   })
 
   it('has a anchor tag and includes a launch icon', () => {
@@ -106,7 +105,7 @@ describe('Button component', () => {
         icon={null}
       />
     )
-    expect(document.querySelector('svg') !== undefined).toBe(true)
+    expect(document.querySelector('svg')).toBeTruthy()
   })
 
   it('has a disabled attribute, once we set disabled to true', () => {
@@ -180,7 +179,7 @@ describe('Button component', () => {
         .querySelector('.dnb-button__alignment')
         .getAttribute('aria-hidden')
     ).toBe('true')
-    expect(document.querySelector('.dnb-button__text') === null).toBe(true)
+    expect(document.querySelector('.dnb-button__text')).toBeFalsy()
   })
 
   it('should validate with ARIA rules as a button', async () => {
@@ -229,7 +228,7 @@ describe('Button component', () => {
         icon={<span className="dnb-icon custom-icon">icon</span>}
       />
     )
-    expect(document.querySelector('.custom-icon') !== null).toBe(true)
+    expect(document.querySelector('.custom-icon')).toBeTruthy()
 
     rerender(
       <Component
@@ -239,10 +238,8 @@ describe('Button component', () => {
       />
     )
 
-    expect(document.querySelector('.custom-icon') !== null).toBe(false)
-    expect(document.querySelector('.custom-icon-component') !== null).toBe(
-      true
-    )
+    expect(document.querySelector('.custom-icon')).toBeFalsy()
+    expect(document.querySelector('.custom-icon-component')).toBeTruthy()
   })
 
   it('will only have attached event listener if one is given', () => {
@@ -278,12 +275,8 @@ describe('Button component', () => {
 
   it('has no size when only setting text', () => {
     render(<Component text="Button" />)
-    expect(
-      document.querySelector('.dnb-button--size-medium') !== null
-    ).toBe(false)
-    expect(
-      document.querySelector('.dnb-button--size-large') !== null
-    ).toBe(false)
+    expect(document.querySelector('.dnb-button--size-medium')).toBeFalsy()
+    expect(document.querySelector('.dnb-button--size-large')).toBeFalsy()
   })
 })
 
