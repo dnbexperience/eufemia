@@ -3,6 +3,13 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.45.3](https://github.com/dnbexperience/eufemia/compare/v9.45.2...v9.45.3) (2023-01-09)
+
+
+### Bug Fixes
+
+* **InputMasked:** add replace decimal in parseFloat ([#1854](https://github.com/dnbexperience/eufemia/issues/1854)) ([b3446cc](https://github.com/dnbexperience/eufemia/commit/b3446cc77888f51cbb39a060a7ee310d7ac4ce44)), closes [#1853](https://github.com/dnbexperience/eufemia/issues/1853)
+
 ## [9.45.2](https://github.com/dnbexperience/eufemia/compare/v9.45.1...v9.45.2) (2023-01-09)
 
 
