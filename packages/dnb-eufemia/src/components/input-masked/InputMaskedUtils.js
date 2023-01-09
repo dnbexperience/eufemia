@@ -148,8 +148,7 @@ export const correctNumberValue = ({
     if (
       localNumberValue !== '0' &&
       localNumberValue.startsWith('0') &&
-      parseFloat(numberValue.replace(decimalSymbol, '.')) ===
-        parseFloat(localNumberValue.replace(decimalSymbol, '.'))
+      parseFloat(numberValue) === parseFloat(localNumberValue)
     ) {
       value = localValue
     }
