@@ -4,7 +4,6 @@ import {
   TabFocusExample,
   UnstyledListExample,
   ScreenReaderOnlyExample,
-  NoScreenReaderExample,
   SelectionExample,
 } from '../Examples'
 import { warn } from '@dnb/eufemia/src/shared/component-helper'
@@ -36,7 +35,6 @@ export default function VisualTests() {
       <TabFocusExample />
       <UnstyledListExample />
       <ScreenReaderOnlyExample />
-      <NoScreenReaderExample />
       <SelectionExample />
     </>
   )
