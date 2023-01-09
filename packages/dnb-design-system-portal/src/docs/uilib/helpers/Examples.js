@@ -93,23 +93,6 @@ export function ScreenReaderOnlyExample() {
   )
 }
 
-export function NoScreenReaderExample() {
-  return (
-    <Wrapper className="dnb-spacing">
-      <ComponentBox hideCode data-visual-test="helper-not-sr-only">
-        {
-          /* jsx */ `
-<p className="dnb-p dnb-sr-only dnb-not-sr-only">
-  I'm the opposite of .dnb-sr-only, so you should be able to see
-  me.
-</p>
-        `
-        }
-      </ComponentBox>
-    </Wrapper>
-  )
-}
-
 export function SelectionExample() {
   return (
     <Wrapper className="dnb-spacing">
