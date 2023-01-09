@@ -319,37 +319,6 @@ $breakpoints: (
   border: 0;
 }
 
-// deprecated and can be removed in v10
-// Visual test and docs should be removed as well!
-@mixin srOnlyInline() {
-  @include srOnly();
-
-  // since we do use it also as positioning helper
-  // we then do not want it absolute positioned
-  position: static;
-  display: inline-block;
-
-  visibility: visible; // should not be hidden!
-
-  font-size: 0;
-  line-height: 0;
-}
-
-// deprecated and can be removed in v10
-// Visual test and docs should be removed as well!
-@mixin notSrOnly() {
-  position: initial;
-  max-width: initial;
-  max-height: initial;
-
-  clip-path: initial;
-  overflow: auto;
-
-  font-size: initial;
-  line-height: initial;
-  white-space: initial;
-}
-
 @function str-replace($string, $search, $replace: '') {
   $index: str-index($string, $search);
 
