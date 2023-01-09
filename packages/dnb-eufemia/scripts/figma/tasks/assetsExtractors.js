@@ -57,10 +57,8 @@ export function IconsConfig(overwrite = {}) {
     'calendar',
   ]
 
-  const iconRenameList = process.env.FIGMA_ICONS_RENAME_LIST
-
-  const iconCloneList = process.env.FIGMA_ICONS_CLONE_LIST
-
+  const iconRenameList = process.env.FIGMA_ICONS_RENAME_LIST || []
+  const iconCloneList = process.env.FIGMA_ICONS_CLONE_LIST || []
   const canvasNameSelector =
     process.env.FIGMA_ICONS_PAGE_SELECTOR || /^Icons$/ // before we have used: ^[0-9]+[_\- ]Icons$
   const frameNameSelector =
