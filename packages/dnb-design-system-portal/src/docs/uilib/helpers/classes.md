@@ -7,7 +7,6 @@ CoreStyleExample,
 TabFocusExample,
 UnstyledListExample,
 ScreenReaderOnlyExample,
-NoScreenReaderExample,
 SelectionExample
 } from 'Docs/uilib/helpers/Examples'
 import SkipLinkExample from 'Docs/uilib/usage/accessibility/examples/skip-link-example.js'
@@ -105,24 +104,6 @@ Visually hides an element, but is still reachable by screen readers. (_sr_ stand
 
 <ScreenReaderOnlyExample />
 
-### Screen Reader only: inline
-
-`dnb-sr-only--inline` (deprecated in v10)
-
-Like `dnb-sr-only` - but with flow elements in mind. This enables a set of text (in a paragraph `<p>`) to be enhanced with spans inside without NVDA to split up reading the text.
-
-### Not Screen Reader only
-
-`dnb-not-sr-only` (deprecated in v10)
-
-The opposite of `dnb-sr-only`, so not visible to screen readers.
-
-```html
-<p>text <span class="dnb-sr-only--inline">sr-only</span> text</p>
-```
-
-<NoScreenReaderExample />
-
 ## Drop shadow
 
 `dnb-drop-shadow`
@@ -212,8 +193,6 @@ You can import Eufemia _mixins_ directly into your SCSS styles:
 /** Screen Reader Only */
 @include srOnly() {
 } // .dnb-sr-only
-@include srOnlyInline() {
-} // .dnb-sr-only--inline
 
 /** Browser Checks */
 @include IS_EDGE {
