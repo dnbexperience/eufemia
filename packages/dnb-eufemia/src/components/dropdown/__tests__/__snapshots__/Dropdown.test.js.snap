@@ -222,7 +222,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     title="title"
     triangle_position={null}
     trigger_element={null}
-    use_drawer_on_mobile={null}
     value={2}
     variant="secondary"
     wrapper_element={null}
@@ -739,7 +738,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 skip_keysearch={false}
                 skip_portal={true}
                 triangle_position="right"
-                use_drawer_on_mobile={null}
                 value={2}
                 wrapper_element={null}
               >
@@ -788,7 +786,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   skip_keysearch={false}
                   skip_portal={true}
                   triangle_position="right"
-                  use_drawer_on_mobile={null}
                   value={2}
                   wrapper_element={null}
                 >
@@ -808,7 +805,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                           aria-activedescendant="option-dropdown-id-2"
                           aria-expanded={true}
                           aria-labelledby="dropdown-id-label"
-                          cache_hash="22undefinedundefinedbottom1"
+                          cache_hash="2277bottom1"
                           class={null}
                           className={null}
                           id="dropdown-id-ul"
@@ -1164,7 +1161,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                               <DrawerList.Item
                                 active={false}
                                 class={null}
-                                className="last-of-type"
+                                className="closest-to-top closest-to-bottom last-of-type"
                                 data-item={7}
                                 hash="option-dropdown-id-7-7"
                                 id="option-dropdown-id-7"
@@ -1178,7 +1175,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                               >
                                 <li
                                   aria-selected={false}
-                                  className="last-of-type dnb-drawer-list__option"
+                                  className="closest-to-top closest-to-bottom last-of-type dnb-drawer-list__option"
                                   data-item={7}
                                   id="option-dropdown-id-7"
                                   key="lioption-dropdown-id-7-7"
