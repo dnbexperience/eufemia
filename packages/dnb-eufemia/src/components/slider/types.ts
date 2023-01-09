@@ -112,9 +112,6 @@ export type SliderProps = IncludeSnakeCase<{
   /** @deprecated */
   onInit?: (props: Omit<onChangeEventProps, 'rawValue'>) => void
 
-  /** @deprecated The Slider does not support mouse wheel  */
-  use_scrollwheel?: boolean
-
   children?: React.ReactChild
 }>
 
