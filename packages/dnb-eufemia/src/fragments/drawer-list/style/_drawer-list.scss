@@ -306,11 +306,7 @@
   &--opened &__list {
     @include openDrawerList();
   }
-  @media screen and (max-width: 40em), screen and (max-height: 40em) {
-    &__portal &--mobile-view#{&}--opened &__list {
-      @include openDrawerList('scale');
-    }
-  }
+
   &--hidden &__list {
     @include drawer-listClosed();
   }
@@ -394,33 +390,8 @@
     bottom: 0;
   }
 
-  @media screen and (max-width: 40em), screen and (max-height: 40em) {
-    &__portal &--mobile-view,
-    &__portal__style--mobile-view {
-      top: 0 !important;
-      right: 0 !important;
-      left: auto !important;
-    }
-    &__portal__style--mobile-view {
-      position: fixed;
-    }
-
-    &__portal &--mobile-view &__list,
-    &__portal &--mobile-view &__options {
-      height: 100vh;
-      top: 0 !important;
-      max-height: 100vh !important;
-      border-radius: 0;
-    }
-  }
-
   &:not(.dnb-drawer-list--opened) &__list {
     @include closDrawerList();
-  }
-  @media screen and (max-width: 40em), screen and (max-height: 40em) {
-    &__portal &--mobile-view#{&}:not(.dnb-drawer-list--opened) &__list {
-      @include closDrawerList('scale');
-    }
   }
 
   // action-menu
@@ -437,28 +408,6 @@
     }
     &--action-menu#{&}--is-popup#{&}--right &__list {
       right: 0;
-    }
-  }
-  @media screen and (max-width: 40em), screen and (max-height: 40em) {
-    &__portal &--mobile-view#{&}--action-menu &__list {
-      @include openDrawerList('up');
-    }
-    &__portal
-      &--mobile-view#{&}--action-menu#{&}:not(.dnb-drawer-list--opened)
-      &__list {
-      @include closDrawerList('up');
-    }
-    &__portal &--mobile-view#{&}--action-menu &__list,
-    &__portal &--mobile-view#{&}--action-menu &__options {
-      position: fixed;
-      top: auto !important;
-      right: 0 !important;
-      left: 0 !important;
-      bottom: 0 !important;
-      height: auto !important;
-      width: 100vw !important;
-
-      box-shadow: 0 -4px 4px rgba(0, 0, 0, 0.16);
     }
   }
 }
