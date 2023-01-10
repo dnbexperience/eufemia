@@ -1,7 +1,6 @@
 import React from 'react'
 import { includeValidProps } from '../../components/form-row/FormRowHelpers'
 import {
-  warn,
   isTrue,
   makeUniqueId,
   dispatchCustomElementEvent,
@@ -121,13 +120,6 @@ export function SliderProvider(localProps: SliderAllProps) {
     if (!isNaN(index)) {
       thumbIndex.current = index
     }
-  }
-
-  /**
-   * Deprecated
-   */
-  if (allProps.use_scrollwheel) {
-    warn('use_scrollwheel is not supported anymore!')
   }
 
   const getAndUpdateCurrentIndex = (currentValue: number) => {
