@@ -10,7 +10,7 @@ import styled from '@emotion/styled'
 
 import { Section, Space, Button } from '@dnb/eufemia/src/components'
 import { H1, P, Ul } from '@dnb/eufemia/src/elements'
-import Table, { StickyHelper } from '@dnb/eufemia/src/components/Table'
+import Table from '@dnb/eufemia/src/components/Table'
 import { hasSelectedText } from '@dnb/eufemia/src/shared/helpers'
 
 import { createPagination } from '@dnb/eufemia/src/components/Pagination'
@@ -317,7 +317,6 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
         </tr>
       </thead>
       <tbody>
-        <StickyHelper />
         <Pagination
           mode="infinity"
           // use_load_button // disables infinity scroller, but will add a button to do so
