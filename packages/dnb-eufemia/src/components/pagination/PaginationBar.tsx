@@ -136,8 +136,6 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     updatePageContent(currentPage)
 
     dispatchCustomElementEvent(props, 'on_change', {
-      page: currentPage, // deprecated
-      pageNo: currentPage, // deprecated
       pageNumber: currentPage,
       ...props,
       event,
