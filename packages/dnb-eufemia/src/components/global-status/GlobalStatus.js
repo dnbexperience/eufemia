@@ -812,8 +812,6 @@ export default class GlobalStatus extends React.PureComponent {
 
 // Extend our component with controllers
 GlobalStatus.create = (...args) => new GlobalStatusInterceptor(...args)
-GlobalStatus.Set = GlobalStatus.create // Deprecated
-GlobalStatus.AddStatus = GlobalStatus.create // Deprecated
 GlobalStatus.Update = GlobalStatus.create
 GlobalStatus.Add = GlobalStatusController
 GlobalStatus.Remove = GlobalStatusController.Remove
