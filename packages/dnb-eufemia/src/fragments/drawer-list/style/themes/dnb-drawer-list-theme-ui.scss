@@ -20,11 +20,6 @@
       var(--drawer-list-options-border-radius) + 0.15rem
     );
   }
-  @media screen and (max-width: 40em) {
-    &__portal &--mobile-view &__list {
-      border-radius: 0;
-    }
-  }
 
   // ul element
   &__options {
@@ -38,11 +33,6 @@
     }
     &--focusring {
       @include fakeFocus('mouse');
-    }
-  }
-  @media screen and (max-width: 40em) {
-    &__portal &--mobile-view &__options {
-      border-radius: 0;
     }
   }
 
@@ -235,12 +225,6 @@
   &--top &__option--focus.closest-to-top &__option__inner::before {
     border-radius: var(--drawer-list-options-border-radius)
       var(--drawer-list-options-border-radius) 0 0;
-  }
-
-  @media screen and (max-width: 40em) {
-    &__portal &--mobile-view &__option__inner {
-      border-radius: 0;
-    }
   }
 
   // error status

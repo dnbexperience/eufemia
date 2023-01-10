@@ -389,7 +389,6 @@ export const AutocompleteSandbox = () => {
         />
         <Autocomplete
           mode="async"
-          enable_closest_observer
           // label="Search"
           // label_sr_only="true"
           keep_value
