@@ -296,8 +296,6 @@ export default class PaginationProvider extends React.PureComponent {
       () => {
         const pageNumber = this.state.currentPage + 1
         dispatchCustomElementEvent(this, 'on_end', {
-          page: pageNumber, // deprecated
-          pageNo: pageNumber, // deprecated
           pageNumber,
           ...this,
         })
