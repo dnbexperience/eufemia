@@ -221,7 +221,7 @@ sub {
     .dnb-p--lead > small {
       font-size: var(--font-size-basis);
       line-height: var(--line-height-basis); }
-  .dnb-p--ingress, .dnb-p--medium {
+  .dnb-p--medium {
     font-weight: var(--font-weight-medium); }
   .dnb-p b,
   .dnb-p strong {
