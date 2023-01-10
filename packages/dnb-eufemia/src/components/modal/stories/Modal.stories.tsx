@@ -18,6 +18,7 @@ import {
   FormSet,
   FormRow,
   Tabs,
+  Table,
   FormStatus,
   ProgressIndicator,
   // Space,
@@ -25,7 +26,7 @@ import {
 } from '../../'
 import Modal from '../../modal/Modal'
 import { ScrollView } from '../../../fragments'
-import { H1, H2, P, Hr, Table } from '../../../elements'
+import { H1, H2, P, Hr } from '../../../elements'
 
 export default {
   title: 'Eufemia/Components/Modal',
