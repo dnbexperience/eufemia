@@ -10,8 +10,6 @@
   text-align: left;
 
   // head
-  & > tr > th,/* should be deprecated */
-  & > thead > tr > th,/* should be deprecated */
   &__th {
     // spacing
     padding: 2rem 1rem 1rem;
@@ -27,11 +25,8 @@
   }
 
   // body data
-  & > tr > td,/* should be deprecated */
-  & > tbody > tr > td,/* should be deprecated */
   &__td,
-  tbody > tr > &__th,
-  & > tr > th[scope='row']/* should be deprecated */ {
+  tbody > tr > &__th {
     // spacing
     padding: 1rem;
 
