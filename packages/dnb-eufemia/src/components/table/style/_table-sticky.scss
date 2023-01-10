@@ -4,14 +4,6 @@
 */
 
 .dnb-table {
-  // Deprecated in v10
-  &__sticky-helper > td {
-    display: block;
-    overflow: hidden;
-    padding: 0 !important;
-    height: 0;
-  }
-
   tr.sticky {
     position: sticky;
     z-index: 4; // over borders and TDs

@@ -173,22 +173,6 @@ export const useStickyHeader = ({
   return { elementRef }
 }
 
-/**
- * Deprecated in v10
- */
-export const StickyHelper = () => {
-  warn('Table.StickyHelper is deprecated!')
-  return (
-    <tr
-      className="dnb-table__sticky-helper"
-      aria-hidden
-      role="presentation"
-    >
-      <td colSpan={100} />
-    </tr>
-  )
-}
-
 const stickyWarning = (message = '') => {
   warn('Could not enable Sticky mode in table:', message)
 }

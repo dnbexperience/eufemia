@@ -10,7 +10,7 @@ import {
 } from '../../shared/component-helper'
 import ScrollView from './TableScrollView'
 import TableContext from './TableContext'
-import { useStickyHeader, StickyHelper } from './TableStickyHeader'
+import { useStickyHeader } from './TableStickyHeader'
 
 import type { StickyTableHeaderProps } from './TableStickyHeader'
 import type { SkeletonShow } from '../skeleton/Skeleton'
@@ -20,7 +20,6 @@ import { useHandleOddEven } from './TableTr'
 export type TableSizes = 'large' | 'medium' | 'small'
 export type TableVariants = 'generic'
 
-export { StickyHelper }
 export { ScrollView }
 
 export type TableProps = {
@@ -164,5 +163,4 @@ const Table = (componentProps: TableAllProps) => {
 
 export default Table
 
-Table.StickyHelper = StickyHelper
 Table.ScrollView = ScrollView
