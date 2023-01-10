@@ -152,12 +152,7 @@ exports[`Section scss have to match default theme snapshot 1`] = `
         box-shadow: 0 0 0 0.125rem var(--border-color);
         border-color: transparent; }
 
-.dnb-section--signal-orange {
-  color: var(--color-ocean-green); }
-  .dnb-section--signal-orange::after {
-    color: var(--color-signal-orange); }
-
-.dnb-section--signal-orange ::selection, .dnb-section--fire-red ::selection, .dnb-section--mint-green ::selection {
+.dnb-section--fire-red ::selection, .dnb-section--mint-green ::selection {
   background-color: var(--color-white); }
 "
 `;
