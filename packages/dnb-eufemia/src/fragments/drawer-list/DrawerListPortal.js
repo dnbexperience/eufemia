@@ -26,7 +26,6 @@ class DrawerListPortal extends React.PureComponent {
     include_owner_width: PropTypes.bool,
     independent_width: PropTypes.bool,
     fixed_position: PropTypes.bool,
-    use_drawer_on_mobile: PropTypes.bool,
     className: PropTypes.string,
   }
 
@@ -36,7 +35,6 @@ class DrawerListPortal extends React.PureComponent {
     include_owner_width: false,
     independent_width: false,
     fixed_position: false,
-    use_drawer_on_mobile: false,
     className: null,
   }
 
@@ -245,13 +243,7 @@ class DrawerListPortal extends React.PureComponent {
     }
 
     if (typeof window !== 'undefined' && this.state.isMounted) {
-      const {
-        opened,
-        fixed_position,
-        use_drawer_on_mobile,
-        className,
-        children,
-      } = this.props
+      const { opened, fixed_position, className, children } = this.props
 
       if (opened) {
         this.addPositionObserver()
@@ -264,8 +256,6 @@ class DrawerListPortal extends React.PureComponent {
           className={classnames(
             'dnb-drawer-list__portal__style',
             fixed_position && 'dnb-drawer-list__portal__style--fixed',
-            use_drawer_on_mobile &&
-              'dnb-drawer-list__portal__style--mobile-view',
             className
           )}
           style={style}
