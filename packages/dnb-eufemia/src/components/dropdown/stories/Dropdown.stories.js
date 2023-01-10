@@ -201,11 +201,7 @@ const DropdownStory = () => {
       <CustomWidth>
         <Box>
           <Modal mode="drawer">
-            <Dropdown
-              use_drawer_on_mobile
-              label={label}
-              data={dropdownDataScrollable}
-            />
+            <Dropdown label={label} data={dropdownDataScrollable} />
           </Modal>
         </Box>
         <Box>
@@ -224,7 +220,6 @@ const DropdownStory = () => {
           <Dropdown
             size="small"
             opened={opened}
-            use_drawer_on_mobile
             // no_animation
             direction={direction}
             align_dropdown={align_dropdown}
@@ -384,9 +379,6 @@ const DropdownStory = () => {
       </CustomWidth>
       <Box>
         <CurrencyDropdown />
-      </Box>
-      <Box>
-        <DropdownStates />
       </Box>
       <Box>
         <DropdownStatesSync />
@@ -768,33 +760,6 @@ CurrencySelector.propTypes = {
 }
 CurrencySelector.defaultProps = {
   value: null,
-}
-
-function DropdownStates() {
-  const [state, setState] = React.useState({})
-
-  const handleOnChange = (props) => {
-    console.log('DropdownStates', props)
-    setState({ state: Math.random() })
-  }
-
-  return (
-    <FormRow vertical>
-      <>{JSON.stringify(state)}</>
-      <Dropdown
-        data={dropdownDataScrollable}
-        title="use_drawer_on_mobile"
-        use_drawer_on_mobile
-        on_change={handleOnChange}
-      />
-      <Dropdown
-        top
-        data={dropdownDataScrollable}
-        title="Dropdown 2"
-        on_change={handleOnChange}
-      />
-    </FormRow>
-  )
 }
 
 function DropdownStatesSync() {
