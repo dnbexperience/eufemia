@@ -14,10 +14,11 @@ import {
   Tabs,
   FormStatus,
   NumberFormat,
+  Table,
 } from '../../'
 import { Provider } from '../../../shared'
 import Drawer from '../../drawer/Drawer'
-import { H1, H2, P, Table } from '../../../elements'
+import { H1, H2, P } from '../../../elements'
 
 export default {
   title: 'Eufemia/Components/Drawer',
