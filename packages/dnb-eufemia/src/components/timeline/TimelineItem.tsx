@@ -55,16 +55,6 @@ export interface TimelineItemProps {
    * Default: null
    */
   skeleton?: SkeletonShow
-
-  /**
-   * @deprecated Please use `title`
-   */
-  name?: unknown
-
-  /**
-   * @deprecated Please use `subtitle`
-   */
-  date?: unknown
 }
 
 const defaultProps = {
@@ -97,17 +87,6 @@ const TimelineItem = (localProps: TimelineItemProps) => {
     context?.TimelineItem,
     { skeleton: context?.skeleton }
   )
-
-  // deprecated
-  if (allProps.name) {
-    delete allProps.name
-    allProps.title = allProps.name
-  }
-  // deprecated
-  if (allProps.date) {
-    delete allProps.date
-    allProps.subtitle = allProps.date
-  }
 
   const {
     icon,
