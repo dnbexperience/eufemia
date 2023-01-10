@@ -9,7 +9,6 @@ import styled from '@emotion/styled'
 
 import { Section, Space, Button, Table } from '../../'
 import { H1, P, Ul } from '../../../elements'
-import { StickyHelper } from '../../../components/table/Table'
 import { hasSelectedText } from '../../../shared/helpers'
 
 import { createPagination } from '../../Pagination'
@@ -152,7 +151,6 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
         </tr>
       </thead>
       <tbody>
-        <StickyHelper />
         <InfinityMarker
           marker_element="tr"
           fallback_element={({ className, ...props }) => (
