@@ -802,10 +802,6 @@ sub {
     margin-left: 0; }
 
 /*
- * Table
- * The styles are located inside /components/table/styles/...
- */
-/*
  * Label
  *
  */
