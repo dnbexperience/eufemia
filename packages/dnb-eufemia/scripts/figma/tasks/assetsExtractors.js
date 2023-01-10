@@ -57,18 +57,8 @@ export function IconsConfig(overwrite = {}) {
     'calendar',
   ]
 
-  const iconRenameList = process.env.FIGMA_ICONS_RENAME_LIST || [
-    { from: 'checkmark', to: 'check' }, // deprecated, can be removed in next minor versjon
-    { from: 'repeat', to: 'refresh' }, // deprecated, can be removed in next minor versjon
-    { from: 'document', to: 'file' }, // deprecated, can be removed in next minor versjon
-    { from: 'more_horizontal', to: 'more' }, // deprecated, can be removed in next minor versjon
-  ]
-
-  const iconCloneList = process.env.FIGMA_ICONS_CLONE_LIST || [
-    // As of now, we only clone these icons
-    { from: 'document', to: 'file' }, // deprecated, can be removed in next minor versjon
-  ]
-
+  const iconRenameList = process.env.FIGMA_ICONS_RENAME_LIST || []
+  const iconCloneList = process.env.FIGMA_ICONS_CLONE_LIST || []
   const canvasNameSelector =
     process.env.FIGMA_ICONS_PAGE_SELECTOR || /^Icons$/ // before we have used: ^[0-9]+[_\- ]Icons$
   const frameNameSelector =
