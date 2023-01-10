@@ -121,6 +121,8 @@
     .example-box {
       @include gridStyle(rgb(236, 236, 236), 1);
 
+      position: relative;
+
       padding: 2rem;
 
       &.center {
