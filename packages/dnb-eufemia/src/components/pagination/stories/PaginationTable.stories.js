@@ -7,8 +7,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 
-import { Section, Space, Button } from '../../'
-import { Table, H1, P, Ul } from '../../../elements'
+import { Section, Space, Button, Table } from '../../'
+import { H1, P, Ul } from '../../../elements'
 import { StickyHelper } from '../../../components/table/Table'
 import { hasSelectedText } from '../../../shared/helpers'
 
