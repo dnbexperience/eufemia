@@ -160,7 +160,6 @@ class DrawerListInstance extends React.PureComponent {
       role,
       align_drawer,
       fixed_position,
-      use_drawer_on_mobile,
       independent_width,
       scrollable,
       focusable,
@@ -234,7 +233,6 @@ class DrawerListInstance extends React.PureComponent {
         isTrue(scrollable) && 'dnb-drawer-list--scroll',
         isTrue(no_scroll_animation) &&
           'dnb-drawer-list--no-scroll-animation',
-        isTrue(use_drawer_on_mobile) && 'dnb-drawer-list--mobile-view',
         createSpacingClasses(props),
         _className,
         className
@@ -405,7 +403,6 @@ class DrawerListInstance extends React.PureComponent {
             include_owner_width={align_drawer === 'right'}
             independent_width={isTrue(independent_width)}
             fixed_position={isTrue(fixed_position)}
-            use_drawer_on_mobile={isTrue(use_drawer_on_mobile)}
             className={portal_class}
           >
             {mainList}
