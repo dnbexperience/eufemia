@@ -10,6 +10,3 @@ import useMediaQuery from './useMediaQuery'
 import useMedia from './useMedia'
 
 export { Context, Provider, MediaQuery, useMediaQuery, useMedia }
-
-// deprecated can be removed in v10
-export * from '../components/space/SpacingHelper'
