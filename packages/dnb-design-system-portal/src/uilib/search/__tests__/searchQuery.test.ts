@@ -164,7 +164,7 @@ describe('searchQuery', () => {
     ])
   })
 
-  it('should use title from siblings, when slug matche', () => {
+  it('should use title from siblings, when slug matches', () => {
     expect(
       transformer(
         makeNode({
