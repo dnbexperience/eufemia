@@ -151,8 +151,6 @@ export default class InfinityScroller extends React.PureComponent {
             pageNumber = 1
           }
           const ret = dispatchCustomElementEvent(context, eventName, {
-            page: pageNumber, // deprecated
-            pageNo: pageNumber, // deprecated
             pageNumber,
             ...context,
           })

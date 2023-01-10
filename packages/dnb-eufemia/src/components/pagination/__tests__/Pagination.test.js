@@ -221,11 +221,11 @@ describe('Pagination bar', () => {
 
     nextButton.simulate('click')
     expect(on_change).toHaveBeenCalledTimes(1)
-    expect(on_change.mock.calls[0][0].page).toBe(16)
+    expect(on_change.mock.calls[0][0].pageNumber).toBe(16)
 
     nextButton.simulate('click')
     expect(on_change).toHaveBeenCalledTimes(2)
-    expect(on_change.mock.calls[1][0].page).toBe(17)
+    expect(on_change.mock.calls[1][0].pageNumber).toBe(17)
   })
 
   // compare the snapshot
