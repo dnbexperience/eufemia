@@ -174,12 +174,7 @@ export const processElements = async () => {
       '../../../src/core/templates/elements-lib-template.js'
     ),
     destFile: path.resolve(__dirname, '../../../src/elements/lib.js'),
-    processToNamesIgnoreList: [
-      'index',
-      'lib',
-      'Element',
-      '/elements/Table', // deprecated after v9
-    ],
+    processToNamesIgnoreList: ['index', 'lib', 'Element'],
   }).then((res) => {
     if (isCLI) {
       log.info('> Created the index template with all the elements')
@@ -243,9 +238,6 @@ export const processMainIndex = async ({ components, elements }) => {
     ),
     destFile: path.resolve(__dirname, '../../../src/index.js'),
     processToNamesList: [...components, ...elements],
-    processToNamesIgnoreList: [
-      '/elements/Table', // deprecated after v9
-    ],
     transformNamesList: ({ result }) => {
       // because elements don't have a folder, we remove the last part of the path
       if (/\/elements\//.test(result)) {
