@@ -199,7 +199,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     tagName="dnb-autocomplete"
     title="title"
     triangle_position={null}
-    use_drawer_on_mobile={null}
     value={2}
     wrapper_element={null}
   >
@@ -1129,7 +1128,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 skip_keysearch={false}
                 skip_portal={true}
                 triangle_position={null}
-                use_drawer_on_mobile={false}
                 value={2}
                 wrapper_element={null}
               >
@@ -1180,7 +1178,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   skip_keysearch={false}
                   skip_portal={true}
                   triangle_position={null}
-                  use_drawer_on_mobile={false}
                   value={2}
                   wrapper_element={null}
                 >
@@ -1201,7 +1198,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                           aria-activedescendant="option-autocomplete-id-2"
                           aria-expanded={true}
                           aria-labelledby="autocomplete-id-label"
-                          cache_hash="22undefinedundefinedbottom1"
+                          cache_hash="2222bottom1"
                           class={null}
                           className={null}
                           id="autocomplete-id-ul"
@@ -1322,7 +1319,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                               <DrawerList.Item
                                 active={true}
                                 class={null}
-                                className="last-of-type"
+                                className="closest-to-top closest-to-bottom last-of-type"
                                 data-item={2}
                                 hash="option-autocomplete-id-2-2"
                                 id="option-autocomplete-id-2"
@@ -1337,7 +1334,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 <li
                                   aria-current={true}
                                   aria-selected={true}
-                                  className="last-of-type dnb-drawer-list__option dnb-drawer-list__option--selected dnb-drawer-list__option--focus"
+                                  className="closest-to-top closest-to-bottom last-of-type dnb-drawer-list__option dnb-drawer-list__option--selected dnb-drawer-list__option--focus"
                                   data-item={2}
                                   id="option-autocomplete-id-2"
                                   key="lioption-autocomplete-id-2-2"
