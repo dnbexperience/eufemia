@@ -25,12 +25,6 @@ import makeMainStyle from './tasks/makeMainStyle'
 import makePropertiesFile from './tasks/makePropertiesFile'
 import generateTypes from './tasks/generateTypes'
 
-// NB: Deprecated and replaced by Babel only build
-// import makeLibModules from './tasks/makeLibModules'
-// import makeIconLib from './tasks/makeIconLib'
-// import makeIconsUMDBundle from './tasks/makeIconsUMDBundle'
-// import makeMainUMDBundle from './tasks/makeMainUMDBundle'
-
 export {
   log,
   prepareTemplates,
@@ -41,12 +35,6 @@ export {
   makeMainStyle,
   makePropertiesFile,
   generateTypes,
-
-  // NB: Deprecated and replaced by Babel only build
-  // makeLibModules,
-  // makeIconLib,
-  // makeIconsUMDBundle,
-  // makeMainUMDBundle
 }
 
 export const runPrepublishTasks = async ({
@@ -59,10 +47,6 @@ export const runPrepublishTasks = async ({
     await cleanupLib({ preventDelete })
     await convertSvgToJsx({ preventDelete })
 
-    // NB: Deprecated and replaced by Babel only build
-    // await makeIconLib()
-    // await makeIconsUMDBundle({ doRefetch })
-
     await makeReleaseVersion()
     await runStyleFactory()
     await runThemeFactory()
@@ -71,9 +55,6 @@ export const runPrepublishTasks = async ({
     await makePropertiesFile()
     await prepareTemplates()
 
-    // NB: Deprecated and replaced by Babel only build
-    // await makeLibModules()
-    // await makeMainUMDBundle()
     log.succeed('Prepublishing has Succeeded!')
   } catch (e) {
     log.fail('Failed to run prepublish!')
