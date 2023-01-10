@@ -14,22 +14,12 @@ export type StickyTableHeaderProps = {
    * Default: false
    */
   stickyOffset?: string | number
-
-  /**
-   * @deprecated Please use `stickyOffset`
-   */
-  sticky_offset?: string | number
 }
 
 export const useStickyHeader = ({
   sticky,
   stickyOffset,
-  sticky_offset,
 }: StickyTableHeaderProps) => {
-  if (sticky_offset) {
-    stickyOffset = sticky_offset
-  }
-
   const elementRef = React.useRef<HTMLTableElement>()
 
   React.useEffect(() => {
