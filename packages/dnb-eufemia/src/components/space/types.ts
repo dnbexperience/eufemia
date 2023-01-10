@@ -29,13 +29,3 @@ export type SpaceTypes = string | boolean | number
 export type SpacingProps = SpacingElementProps & {
   space?: SpaceTypes | SpacingElementProps
 }
-
-/**
- * @deprecated Use SpacingElementProps instead
- */
-export type ISpacingElementProps = SpacingElementProps
-
-/**
- * @deprecated Use SpacingProps instead
- */
-export type ISpacingProps = SpacingProps
