@@ -141,11 +141,7 @@ export default class DrawerListProvider extends React.PureComponent {
   }
 
   setScrollObserver() {
-    if (
-      !isTrue(this.props.enable_closest_observer) ||
-      typeof window === 'undefined' ||
-      !this._refUl.current
-    ) {
+    if (typeof window === 'undefined' || !this._refUl.current) {
       return
     }
 
@@ -232,7 +228,6 @@ export default class DrawerListProvider extends React.PureComponent {
 
     const {
       enable_body_lock,
-      use_drawer_on_mobile,
       scrollable,
       min_height,
       max_height,
@@ -243,7 +238,6 @@ export default class DrawerListProvider extends React.PureComponent {
 
     // const skipPortal = isTrue(skip_portal)
     const useBodyLock = isTrue(enable_body_lock)
-    const useDrawer = isTrue(use_drawer_on_mobile)
     const isScrollable = isTrue(scrollable)
     const customMinHeight = parseFloat(min_height) * 16
     const customMaxHeight = parseFloat(max_height) || 0
@@ -344,23 +338,9 @@ export default class DrawerListProvider extends React.PureComponent {
     }
 
     // debounce
-    this.setDirection = (e) => {
+    this.setDirection = () => {
       clearTimeout(this._directionTimeout)
       this._directionTimeout = setTimeout(renderDirection, 50)
-
-      if (e.type === 'resize') {
-        if (useDrawer) {
-          if (
-            !this._bodyLockIsEnabled &&
-            // Like @media screen and (max-width: 40em) { ...
-            (window.innerWidth / 16 <= 40 || window.innerHeight / 16 <= 40)
-          ) {
-            this.enableBodyLock()
-          } else if (this._bodyLockIsEnabled && !useBodyLock) {
-            this.disableBodyLock()
-          }
-        }
-      }
     }
 
     // customElem can be a dnb-scroll-view
@@ -375,11 +355,7 @@ export default class DrawerListProvider extends React.PureComponent {
       window.addEventListener('resize', this.setDirection)
     }
 
-    if (
-      useBodyLock ||
-      (useDrawer && // Like @media screen and (max-width: 40em) { ...
-        (window.innerWidth / 16 <= 40 || window.innerHeight / 16 <= 40))
-    ) {
+    if (useBodyLock) {
       this.enableBodyLock()
     }
 
