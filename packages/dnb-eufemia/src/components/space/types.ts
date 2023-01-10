@@ -36,13 +36,3 @@ export type StyleObjectProps = SpacingProps & {
   width?: string
   height?: string
 }
-
-/**
- * @deprecated Use SpacingElementProps instead
- */
-export type ISpacingElementProps = SpacingElementProps
-
-/**
- * @deprecated Use SpacingProps instead
- */
-export type ISpacingProps = SpacingProps
