@@ -603,12 +603,6 @@ thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus
 * Table component
 *
 */
-.dnb-table__sticky-helper > td {
-  display: block;
-  overflow: hidden;
-  padding: 0 !important;
-  height: 0; }
-
 .dnb-table tr.sticky {
   position: sticky;
   z-index: 4;
