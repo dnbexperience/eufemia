@@ -119,16 +119,7 @@
     }
   }
 
-  // Deprecated
-  &--signal-orange {
-    color: var(--color-ocean-green);
-    &::after {
-      color: var(--color-signal-orange);
-    }
-  }
-
   // contrast color
-  &--signal-orange,
   &--fire-red,
   &--mint-green {
     ::selection {
