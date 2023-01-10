@@ -101,7 +101,7 @@ describe('searchQuery', () => {
     ])
   })
 
-  it('should collect siblings and use it as categoy', () => {
+  it('should collect siblings and use it as category', () => {
     expect(
       transformer(
         makeNode({
