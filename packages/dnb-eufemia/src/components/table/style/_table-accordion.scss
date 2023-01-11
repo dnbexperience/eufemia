@@ -21,7 +21,9 @@
     var(--color-black-20);
 
   &__th#{&}__th__accordion-icon {
-    padding: 0;
+    &.dnb-table__th {
+      padding: 0;
+    }
 
     // In case the table-layout is fixed
     &,
@@ -40,7 +42,9 @@
   }
 
   &__td#{&}__td__accordion-icon {
-    padding: 0;
+    &.dnb-table__td {
+      padding: 0;
+    }
     user-select: none; // prevent selection on double-click
   }
 

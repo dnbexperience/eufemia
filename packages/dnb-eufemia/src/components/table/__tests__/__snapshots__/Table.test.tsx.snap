@@ -753,21 +753,22 @@ thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus
   --accordion-border-width: 0.0625rem;
   --accordion-border: var(--accordion-border-width) solid
     var(--color-black-20); }
-  .dnb-table__th.dnb-table__th__accordion-icon {
+  .dnb-table__th.dnb-table__th__accordion-icon.dnb-table__th {
     padding: 0; }
-    .dnb-table__th.dnb-table__th__accordion-icon,
+  .dnb-table__th.dnb-table__th__accordion-icon,
+  .dnb-table__th.dnb-table__th__accordion-icon div {
+    width: 3.5rem;
+    text-indent: -300vw; }
+    .dnb-table__size--medium .dnb-table__th.dnb-table__th__accordion-icon, .dnb-table__size--medium
     .dnb-table__th.dnb-table__th__accordion-icon div {
-      width: 3.5rem;
-      text-indent: -300vw; }
-      .dnb-table__size--medium .dnb-table__th.dnb-table__th__accordion-icon, .dnb-table__size--medium
-      .dnb-table__th.dnb-table__th__accordion-icon div {
-        width: 3rem; }
-      .dnb-table__size--small .dnb-table__th.dnb-table__th__accordion-icon, .dnb-table__size--small
-      .dnb-table__th.dnb-table__th__accordion-icon div {
-        width: 2.5rem; }
+      width: 3rem; }
+    .dnb-table__size--small .dnb-table__th.dnb-table__th__accordion-icon, .dnb-table__size--small
+    .dnb-table__th.dnb-table__th__accordion-icon div {
+      width: 2.5rem; }
   .dnb-table__td.dnb-table__td__accordion-icon {
-    padding: 0;
     user-select: none; }
+    .dnb-table__td.dnb-table__td__accordion-icon.dnb-table__td {
+      padding: 0; }
   .dnb-table__tr--has-accordion-content .dnb-table__toggle-button {
     display: flex;
     justify-content: center; }
