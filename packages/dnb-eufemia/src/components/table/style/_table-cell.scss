@@ -4,10 +4,6 @@
 */
 
 .dnb-table {
-  & > tr > th, /* should be deprecated */
-  & > tr > td, /* should be deprecated */
-  & > thead > tr > th, /* should be deprecated */
-  & > tbody > tr > td, /* should be deprecated */
   &__th,
   &__td {
     position: relative;
