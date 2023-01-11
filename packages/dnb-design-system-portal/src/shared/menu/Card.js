@@ -54,7 +54,7 @@ export default class Card extends React.PureComponent {
           <Span className={linkInnerStyle}>
             <Span className={boxStyle}>
               {Svg && <Svg />}
-              <P style_type="lead">{title}</P>
+              <P className="dnb-p--lead">{title}</P>
               <P top="x-small">{about}</P>
             </Span>
 
