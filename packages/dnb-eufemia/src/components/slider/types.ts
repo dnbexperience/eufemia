@@ -109,9 +109,6 @@ export type SliderProps = IncludeSnakeCase<{
   /** will be called once the user starts dragging. Returns `{ event }`. */
   onDragEnd?: (props: { event: MouseEvent | TouchEvent }) => void
 
-  /** @deprecated */
-  onInit?: (props: Omit<onChangeEventProps, 'rawValue'>) => void
-
   children?: React.ReactChild
 }>
 
