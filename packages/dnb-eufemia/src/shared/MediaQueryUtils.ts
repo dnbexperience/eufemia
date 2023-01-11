@@ -187,10 +187,7 @@ export function createMediaQueryListener(
   }
 
   return () => {
-    if (!mediaQueryList?.removeEventListener) {
-      // Deprecated
-      mediaQueryList.removeListener(listener)
-    } else {
+    if (mediaQueryList?.removeEventListener) {
       mediaQueryList.removeEventListener('change', listener)
     }
   }
