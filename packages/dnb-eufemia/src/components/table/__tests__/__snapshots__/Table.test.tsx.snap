@@ -601,10 +601,7 @@ thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus
 * Table component
 *
 */
-.dnb-table > tr > th,
-.dnb-table > tr > td,
-.dnb-table > thead > tr > th,
-.dnb-table > tbody > tr > td, .dnb-table__th, .dnb-table__td {
+.dnb-table__th, .dnb-table__td {
   position: relative;
   border-spacing: 0;
   word-break: keep-all; }
