@@ -85,6 +85,7 @@ Stopped supporting Internet Explorer (IE), as Microsoft formally ended support f
 - Helper class `.dnb-sr-only--inline` and SCSS mixin `srOnlyInline` was removed.
 - Helper class `.dnb-not-sr-only` and SCSS mixin `notSrOnly` was removed.
 - `import { SpacingHelper } from '@dnb/eufemia/shared'` was removed due to low usage. Use one of the [other exported helpers](/uilib/usage/layout/spacing).
+- `import { LocaleProps, DataAttributeTypes, DynamicElement } from '@dnb/eufemia/shared/interfaces'` was removed, and moved to `@dnb/eufemia/shared/types`.
 - `isIE11` and `IS_IE11` is deprecated as we have stopped supporting Internet Explorer (IE).
 
 ## Install
