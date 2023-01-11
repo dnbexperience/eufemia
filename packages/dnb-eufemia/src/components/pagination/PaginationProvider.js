@@ -395,7 +395,6 @@ export default class PaginationProvider extends React.PureComponent {
             setContent: this.setContent,
             resetContent: this.resetContent,
             resetInfinity: this.resetInfinity,
-            resetPagination: this.resetInfinity, // deprecated
             endInfinity: this.endInfinity,
             setItems: this.setItems,
             prefillItems: this.prefillItems,
