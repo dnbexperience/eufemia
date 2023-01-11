@@ -3,6 +3,13 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.45.4](https://github.com/dnbexperience/eufemia/compare/v9.45.3...v9.45.4) (2023-01-11)
+
+
+### Bug Fixes
+
+* **Table:** correct with on medium and small accordion chevron icon cell ([#1901](https://github.com/dnbexperience/eufemia/issues/1901)) ([3df6e40](https://github.com/dnbexperience/eufemia/commit/3df6e40ddac14539d11e44c7a44069e43c10b582))
+
 ## [9.45.3](https://github.com/dnbexperience/eufemia/compare/v9.45.2...v9.45.3) (2023-01-09)
 
 
