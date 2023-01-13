@@ -269,7 +269,7 @@ export default class Checkbox extends React.PureComponent {
         text_id={id + '-status'} // used for "aria-describedby"
         width_selector={id + ', ' + id + '-label'}
         text={status}
-        status={status_state}
+        state={status_state}
         no_animation={status_no_animation}
         skeleton={skeleton}
         {...status_props}
