@@ -194,7 +194,6 @@ export function SliderProvider(localProps: SliderAllProps) {
         const obj: onChangeEventProps = {
           value: multiValues,
           rawValue,
-          raw_value: rawValue, // deprecated
           event,
           number: null,
         }
