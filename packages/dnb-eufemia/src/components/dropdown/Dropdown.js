@@ -8,7 +8,6 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
 import {
-  warn,
   isTrue,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
@@ -270,12 +269,6 @@ class DropdownInstance extends React.PureComponent {
     this._ref = React.createRef()
     this._refShell = React.createRef()
     this._refButton = React.createRef()
-
-    // deprecated, use value instead
-    const dep = 'selected_item'
-    if (typeof props[dep] !== 'undefined') {
-      warn(`Dropdown: Please use "value" instead of "${dep}".`)
-    }
   }
 
   componentDidMount() {
@@ -388,7 +381,6 @@ class DropdownInstance extends React.PureComponent {
       const attributes = this.attributes || {}
       dispatchCustomElementEvent(this, 'on_select', {
         ...args,
-        // selected_item: args.value, // deprecated
         attributes,
       })
     }
