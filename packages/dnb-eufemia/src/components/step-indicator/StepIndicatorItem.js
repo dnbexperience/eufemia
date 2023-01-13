@@ -106,7 +106,6 @@ export default class StepIndicatorItem extends React.PureComponent {
       item,
       current_step: currentItemNum,
       currentStep: currentItemNum,
-      currentItem: currentItemNum, // deprecated
     }
     const onClickItem = dispatchCustomElementEvent(
       this,
