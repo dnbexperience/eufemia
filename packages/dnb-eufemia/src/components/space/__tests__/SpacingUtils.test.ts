@@ -131,6 +131,29 @@ describe('calc', () => {
       'calc(var(--spacing-medium) + var(--spacing-large))'
     )
   })
+
+  it('should cache valid calls', () => {
+    globalThis.CALC_CACHE = {}
+
+    calc('medium', 'large')
+    calc('medium small')
+    calc('0.5rem', '24px')
+
+    expect(globalThis.CALC_CACHE).toEqual({
+      '0.5rem|24px':
+        'calc(var(--spacing-x-small) + var(--spacing-medium))',
+      'medium small': 'calc(var(--spacing-medium) + var(--spacing-small))',
+      'medium|large': 'calc(var(--spacing-medium) + var(--spacing-large))',
+    })
+  })
+
+  it('should not cache invalid calls', () => {
+    globalThis.CALC_CACHE = {}
+
+    expect(calc(undefined)).toBe(null)
+
+    expect(globalThis.CALC_CACHE).toEqual({})
+  })
 })
 
 describe('createTypeModifiers', () => {
