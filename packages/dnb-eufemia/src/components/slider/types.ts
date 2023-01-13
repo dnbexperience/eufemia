@@ -17,9 +17,6 @@ export type onChangeEventProps = {
   rawValue: number
   number?: formatReturnType | null
   event?: Event
-
-  /** @deprecated use rawValue instead */
-  raw_value?: number
 }
 
 export type SliderProps = IncludeSnakeCase<{
