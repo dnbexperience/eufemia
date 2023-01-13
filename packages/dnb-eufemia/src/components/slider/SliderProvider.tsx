@@ -90,7 +90,6 @@ export function SliderProvider(localProps: SliderAllProps) {
     disabled,
     className, // eslint-disable-line
     id, // eslint-disable-line
-    onInit, // eslint-disable-line
     onChange,
     onDragStart, // eslint-disable-line
     onDragEnd, // eslint-disable-line
