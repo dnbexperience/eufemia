@@ -74,11 +74,11 @@ const data = [
     // title: 'First',
     title: <>Bestill eller erstatt</>,
     // 'Second Sapien vivamus convallis fermentum euismod quam platea tellus nullam mollis',
-    // on_click: ({ currentItem }) => console.log('on_click', currentItem),
+    // on_click: ({ currentStep }) => console.log('on_click', currentStep),
     status:
       'Du må velge bestill nytt kort eller erstatt kort for å kunne fullføre bestillingen din.',
     // status_state: 'warn',
-    // on_click: ({ currentItem }) => console.log('on_click', currentItem),
+    // on_click: ({ currentStep }) => console.log('on_click', currentStep),
     // on_render: ({ StepItem }) => (
     //   <StepItem
     //     onClick={e => {
@@ -90,7 +90,7 @@ const data = [
   {
     title:
       'Second Sapien vivamus convallis fermentum euismod quam platea tellus nullam mollis',
-    // on_click: ({ currentItem }) => console.log('on_click', currentItem),
+    // on_click: ({ currentStep }) => console.log('on_click', currentStep),
     // disabled: true,
     // inactive: true,
     // is_current: true,
@@ -98,7 +98,7 @@ const data = [
   {
     title:
       'Third Sapien vivamus convallis fermentum euismod quam platea tellus nullam mollis',
-    // on_click: ({ currentItem }) => console.log('on_click', currentItem),
+    // on_click: ({ currentStep }) => console.log('on_click', currentStep),
   },
 ]
 
@@ -191,10 +191,10 @@ export const StepIndicatorSandbox = () => {
           // mode="strict"
           mode="loose"
           current_step={current_step}
-          on_change={({ currentItem }) => {
-            console.log('on_change', currentItem)
-            setCurrentStep(currentItem)
-            // console.log('on_change', currentItem)
+          on_change={({ currentStep }) => {
+            console.log('on_change', currentStep)
+            setCurrentStep(currentStep)
+            // console.log('on_change', currentStep)
           }}
           // on_item_render={({ StepItem }) => {
           //   return (
@@ -222,10 +222,10 @@ export const StepIndicatorSandbox = () => {
           // mode="static"
           mode="strict"
           current_step={current_step}
-          on_change={({ currentItem }) => {
-            console.log('on_change', currentItem)
-            setCurrentStep(currentItem)
-            // console.log('on_change', currentItem)
+          on_change={({ currentStep }) => {
+            console.log('on_change', currentStep)
+            setCurrentStep(currentStep)
+            // console.log('on_change', currentStep)
           }}
           // on_item_render={({ StepItem }) => {
           //   return (
