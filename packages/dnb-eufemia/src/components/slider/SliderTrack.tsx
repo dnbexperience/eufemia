@@ -1,33 +1,19 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react'
-import { dispatchCustomElementEvent } from '../../shared/component-helper'
 import { useSliderEvents } from './hooks/useSliderEvents'
 import { useSliderProps } from './hooks/useSliderProps'
-import { clamp, getFormattedNumber } from './SliderHelpers'
+import { clamp } from './SliderHelpers'
 
 export function SliderMainTrack({
   children,
 }: {
   children: React.ReactNode | React.ReactNode[]
 }) {
-  const { isMulti, value, allProps, trackRef, animationTimeout } =
-    useSliderProps()
-  const { id, numberFormat, onInit } = allProps
+  const { allProps, trackRef, animationTimeout } = useSliderProps()
+  const { id } = allProps
   const { onTrackMouseDownHandler, removeEvents } = useSliderEvents()
 
   React.useEffect(() => {
-    // onInit is deprecated
-    if (typeof onInit === 'function' && !isMulti) {
-      const obj = {
-        value,
-        number: null,
-      }
-      if (numberFormat) {
-        obj.number = getFormattedNumber(value as number, numberFormat)
-      }
-      dispatchCustomElementEvent(allProps, 'onInit', obj)
-    }
-
     return () => {
       removeEvents()
       clearTimeout(animationTimeout.current)
