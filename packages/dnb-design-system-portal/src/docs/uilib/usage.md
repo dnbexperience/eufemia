@@ -40,6 +40,6 @@ Read more in the [First Steps](/uilib/usage/first-steps/) section.
 
 Eufemia uses the following config for the bundle output, defined in `.browserslistrc`:
 
-- `defaults and supports es6-module, maintained node versions`
+- `defaults and supports es6-module`
 
-To see exactly which browsers this config supports, take a look [here](https://browsersl.ist/#q=defaults+and+supports+es6-module%2C+maintained+node+versions).
+To see exactly which browsers this config supports, take a look [here](https://browsersl.ist/#q=defaults+and+supports+es6-module).
