@@ -9,9 +9,7 @@ module.exports = (options) => {
     // preset-env processes the most of our old legacy browsers
     require('postcss-preset-env')({
       stage: 2,
-      browsers: [
-        'defaults and supports es6-module, maintained node versions',
-      ].filter((i) => i),
+      browsers: ['defaults and supports es6-module'].filter((i) => i),
       ...options,
     }),
   ].filter((i) => i) // remove the first
