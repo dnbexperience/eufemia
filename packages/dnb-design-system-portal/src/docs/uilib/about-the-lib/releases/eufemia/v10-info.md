@@ -78,6 +78,26 @@ v10 of @dnb/eufemia contains _breaking changes_. As a migration process, you can
 1. Find the `data-test-id` property and replace it with `data-testid`.
    The usage of `data-test-id` will most likely be found in your tests.
 
+### [Modal](/uilib/components/modal), [Dialog](/uilib/components/dialog) and [Drawer](/uilib/components/drawer)
+
+When you convert from `<Modal mode="drawer" />` to `<Drawer />` – follow these steps:
+
+- All `trigger_*` props are not supported for Drawer, use `triggerAttributes` instead to pass in props for the trigger button.
+  - Change prop `trigger_hidden` to `omitTriggerButton` to omit the default trigger button from Modal.
+- Only camelCase props are supported for Drawer, so you will need to update the prop names.
+- `Modal.Inner` or `Modal.Content` converts to `Drawer.Body`.
+- `Modal.Bar` converts to `Drawer.Navigaton`.
+- `Modal` was a class component and `Drawer` is a functional component.
+
+When you convert from `<Modal />` to `<Dialog />` – follow these steps:
+
+- All `trigger_*` props are not supported for Dialog, use `triggerAttributes` instead to pass in props for the trigger button.
+  - Change prop `trigger_hidden` to `omitTriggerButton` to omit the default trigger button from Modal.
+- Only camelCase props are supported for Dialog, so you will need to update the prop names.
+- `Modal.Content` converts to `Dialog.Body`.
+- `Modal.Bar` converts to `Dialog.Navigaton`.
+- `Modal` was a class component and `Dialog` is a functional component.
+
 ### [Lists](/uilib/elements/lists)
 
 1. New **Definition List** layout direction: `direction="horizontal"` including `Dl.Item` [demo](https://eufemia.dnb.no/uilib/elements/lists/#definition-list-in-horizontal-direction).
