@@ -53,7 +53,6 @@ class Modal extends React.PureComponent<
   static Bar = ModalHeaderBar
   static Header = ModalHeader
   static Content = ModalInner
-  static Inner = ModalInner // deprecated
 
   static getContent(props) {
     if (typeof props.modal_content === 'string') {
