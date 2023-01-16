@@ -5,7 +5,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-// import Color from 'color'
+import { Tr, Th, Td } from '@dnb/eufemia/src/elements'
 import { Table as TableElement } from '@dnb/eufemia/src/components'
 
 export default class Table extends React.PureComponent {
@@ -31,53 +31,47 @@ export default class Table extends React.PureComponent {
         if (checkChild.length === 0) {
           return null
         }
-        // in case we will color only the filed with the hex color
-        // if (0 && checkChild[0] === '#') {
-        //   return <span style={{ background: child }}>{child}</span>
-        // }
         return child
       }
-
-      // Not used anymore
-      // in case we will color the whole tr
-      // } else if (0 && child.props.originalType === 'tr') {
-      //   const hex = findColor(child.props.children)
-      //   if (hex && hex.length === 7) {
-      //     return (
-      //       <tr style={this.prepareWithContrastColor(hex)}>
-      //         {recursiveMap(child.props.children, child => child)}
-      //       </tr>
-      //     )
-      //   }
 
       // in case we will color the whole td
       if (child.props.originalType === 'td') {
         const hex = child.props.color ? child.props.color : null
-        // : findColor(child.props.children)
         if (hex && hex.length === 7) {
           return (
-            <td
+            <Td
               // style={prepareWithContrastColor(hex)}
               style={prepareWithSameColor(hex)}
               className="selectable"
               aria-hidden
             >
               {hex}
-            </td>
+            </Td>
           )
         } else if (this.props.selectable) {
-          return (
-            <td className="selectable">
-              {recursiveMap(child.props.children, (child) => child)}
-            </td>
-          )
+          return <Td className="selectable">{getChildren(child)}</Td>
+        } else {
+          return <Td>{getChildren(child)}</Td>
         }
+      }
+
+      if (child.props.originalType === 'th') {
+        return <Th>{getChildren(child)}</Th>
+      }
+
+      if (child.props.originalType === 'tr') {
+        return <Tr>{getChildren(child)}</Tr>
       }
 
       return child
     })
+
     return <TableElement>{children}</TableElement>
   }
+}
+
+const getChildren = (children) => {
+  return recursiveMap(children.props.children, (child) => child)
 }
 
 const recursiveFind = (children, func) => {
@@ -118,36 +112,3 @@ const prepareWithSameColor = (hex) => ({
   color: hex,
   background: hex,
 })
-
-// Not used anymore
-// const findColor = children => {
-//   if (children) {
-//     for (let found, i = 0, l = children.length; i < l; i++) {
-//       const child = children[i]
-//       if (typeof child === 'string' && child[0] === '#') {
-//         return child
-//       } else if (child.props && child.props.children) {
-//         found = findColor(child.props.children)
-//         if (found) return found
-//       }
-//     }
-//   }
-//   return null
-// }
-
-// Not used anymore
-// const prepareWithContrastColor = hex => {
-//   const color = Color(hex)
-//   let textColor =
-//     color.luminosity() > 0.5
-//       ? color.negate().grayscale()
-//       : color.negate()
-//   const contrast = color.contrast(textColor)
-//   if (contrast < 3) {
-//     textColor = color.rotate(60)
-//   }
-//   return {
-//     color: textColor,
-//     background: color.rgb()
-//   }
-// }
