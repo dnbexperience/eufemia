@@ -305,7 +305,7 @@ export default class Switch extends React.PureComponent {
               text_id={id + '-status'} // used for "aria-describedby"
               width_selector={id + ', ' + id + '-label'}
               text={status}
-              status={status_state}
+              state={status_state}
               skeleton={skeleton}
               no_animation={status_no_animation}
               {...status_props}
