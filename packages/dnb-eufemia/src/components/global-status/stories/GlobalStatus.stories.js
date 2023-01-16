@@ -218,7 +218,7 @@ const InputWithError = () => {
 
 const ModalExample = () => (
   <Modal
-    trigger_text="Open Modal"
+    trigger_attributes={{ text: 'Open Modal' }}
     title="Modal Title"
     // width="80vw"
     on_open={() => {
