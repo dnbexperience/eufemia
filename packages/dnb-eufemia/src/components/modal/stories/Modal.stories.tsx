@@ -284,7 +284,7 @@ export const DrawerSandbox = () => (
         // max_width="40vw"
         // overlay_class="overlay_class"
         // content_class="content_class"
-        // class="inner_class"
+        // className="inner_class"
         // header_content={
         //   <>
         //     <P bottom>This is a lorem ipsum dolor</P>
