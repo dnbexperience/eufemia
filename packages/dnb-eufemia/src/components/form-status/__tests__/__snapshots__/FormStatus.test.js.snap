@@ -21,7 +21,6 @@ exports[`FormStatus component have to match snapshot 1`] = `
         "size": "'default'",
         "skeleton": "skeleton",
         "state": true,
-        "status": true,
         "stretch": "stretch",
         "text": "text",
         "text_id": "text_id",

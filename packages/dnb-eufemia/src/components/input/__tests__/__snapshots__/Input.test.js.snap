@@ -176,7 +176,6 @@ exports[`Input component have to match type="search" snapshot 1`] = `
         size="default"
         skeleton={null}
         state="error"
-        status="error"
         stretch={null}
         text={null}
         text_id="input-status"
@@ -488,7 +487,6 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                   size="default"
                   skeleton={null}
                   state="error"
-                  status="error"
                   stretch={null}
                   text={null}
                   text_id="input-submit-button-status"
@@ -683,7 +681,6 @@ exports[`Input component have to match type="text" snapshot 1`] = `
         size="default"
         skeleton={null}
         state="error"
-        status="error"
         stretch={null}
         text={null}
         text_id="input-status"

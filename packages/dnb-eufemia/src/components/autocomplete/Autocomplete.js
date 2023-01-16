@@ -1921,7 +1921,7 @@ class AutocompleteInstance extends React.PureComponent {
             label={label}
             text_id={id + '-status'} // used for "aria-describedby"
             text={status}
-            status={status_state}
+            state={status_state}
             no_animation={status_no_animation}
             skeleton={skeleton}
             {...status_props}
