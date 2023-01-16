@@ -49,15 +49,6 @@ exports[`Modal component have to match snapshot 1`] = `
   title="modal_title"
   trigger={null}
   trigger_attributes={null}
-  trigger_class={null}
-  trigger_disabled={null}
-  trigger_hidden={false}
-  trigger_icon={null}
-  trigger_icon_position="left"
-  trigger_size={null}
-  trigger_text={null}
-  trigger_title={null}
-  trigger_variant="secondary"
 >
   <Modal
     0={
@@ -107,22 +98,10 @@ exports[`Modal component have to match snapshot 1`] = `
     title="modal_title"
     trigger={null}
     trigger_attributes={null}
-    trigger_class={null}
-    trigger_disabled={null}
-    trigger_hidden={false}
-    trigger_icon={null}
-    trigger_icon_position="left"
-    trigger_size={null}
-    trigger_text={null}
-    trigger_title={null}
-    trigger_variant="secondary"
   >
     <HelpButtonInstance
-      class={null}
       className="dnb-modal__trigger"
-      disabled={false}
       hidden={false}
-      icon={null}
       icon_position="left"
       id="modal_id"
       innerRef={
@@ -167,8 +146,6 @@ exports[`Modal component have to match snapshot 1`] = `
         }
       }
       onClick={[Function]}
-      size={null}
-      text={null}
       title="modal_title"
       variant="secondary"
     >
@@ -181,7 +158,7 @@ exports[`Modal component have to match snapshot 1`] = `
         custom_content={null}
         custom_element={null}
         custom_method={null}
-        disabled={false}
+        disabled={null}
         element={null}
         global_status_id={null}
         hidden={false}
@@ -270,7 +247,7 @@ exports[`Modal component have to match snapshot 1`] = `
             custom_content={null}
             custom_element={null}
             custom_method={null}
-            disabled={false}
+            disabled={null}
             element={null}
             global_status_id={null}
             hidden={false}

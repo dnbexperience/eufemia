@@ -2623,15 +2623,6 @@ exports[`StepIndicator in loose mode have to match snapshot on small screen 1`] 
             title="Stegoversikt"
             trigger={null}
             trigger_attributes={null}
-            trigger_class={null}
-            trigger_disabled={null}
-            trigger_hidden={false}
-            trigger_icon={null}
-            trigger_icon_position="left"
-            trigger_size={null}
-            trigger_text={null}
-            trigger_title={null}
-            trigger_variant="secondary"
           >
             <Modal
               align_content="left"
@@ -2676,15 +2667,6 @@ exports[`StepIndicator in loose mode have to match snapshot on small screen 1`] 
               title="Stegoversikt"
               trigger={null}
               trigger_attributes={null}
-              trigger_class={null}
-              trigger_disabled={null}
-              trigger_hidden={false}
-              trigger_icon={null}
-              trigger_icon_position="left"
-              trigger_size={null}
-              trigger_text={null}
-              trigger_title={null}
-              trigger_variant="secondary"
             />
           </Modal>
         </StepIndicatorModal>
@@ -5289,15 +5271,6 @@ exports[`StepIndicator in static mode have to match snapshot on small screen 1`]
             title="Stegoversikt"
             trigger={null}
             trigger_attributes={null}
-            trigger_class={null}
-            trigger_disabled={null}
-            trigger_hidden={false}
-            trigger_icon={null}
-            trigger_icon_position="left"
-            trigger_size={null}
-            trigger_text={null}
-            trigger_title={null}
-            trigger_variant="secondary"
           >
             <Modal
               align_content="left"
@@ -5342,15 +5315,6 @@ exports[`StepIndicator in static mode have to match snapshot on small screen 1`]
               title="Stegoversikt"
               trigger={null}
               trigger_attributes={null}
-              trigger_class={null}
-              trigger_disabled={null}
-              trigger_hidden={false}
-              trigger_icon={null}
-              trigger_icon_position="left"
-              trigger_size={null}
-              trigger_text={null}
-              trigger_title={null}
-              trigger_variant="secondary"
             />
           </Modal>
         </StepIndicatorModal>
@@ -7969,15 +7933,6 @@ exports[`StepIndicator in strict mode have to match snapshot on small screen 1`]
             title="Stegoversikt"
             trigger={null}
             trigger_attributes={null}
-            trigger_class={null}
-            trigger_disabled={null}
-            trigger_hidden={false}
-            trigger_icon={null}
-            trigger_icon_position="left"
-            trigger_size={null}
-            trigger_text={null}
-            trigger_title={null}
-            trigger_variant="secondary"
           >
             <Modal
               align_content="left"
@@ -8022,15 +7977,6 @@ exports[`StepIndicator in strict mode have to match snapshot on small screen 1`]
               title="Stegoversikt"
               trigger={null}
               trigger_attributes={null}
-              trigger_class={null}
-              trigger_disabled={null}
-              trigger_hidden={false}
-              trigger_icon={null}
-              trigger_icon_position="left"
-              trigger_size={null}
-              trigger_text={null}
-              trigger_title={null}
-              trigger_variant="secondary"
             />
           </Modal>
         </StepIndicatorModal>
