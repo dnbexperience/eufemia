@@ -39,7 +39,13 @@ export const spacePatterns = {
  * @param types 'small', '16px', '1rem'
  * @returns e.g. calc(var(--spacing-large) + var(--spacing-small))
  */
+globalThis.CALC_CACHE = {}
 export const calc = (...types: Array<SpaceType>) => {
+  const hash = types.join('|')
+  if (globalThis.CALC_CACHE[hash]) {
+    return globalThis.CALC_CACHE[hash]
+  }
+
   const result: Array<string> = []
 
   types.forEach((rawTypes) => {
@@ -48,7 +54,9 @@ export const calc = (...types: Array<SpaceType>) => {
     })
   })
 
-  return result.length ? `calc(${result.join(' + ')})` : null
+  return result.length
+    ? (globalThis.CALC_CACHE[hash] = `calc(${result.join(' + ')})`)
+    : null
 }
 
 /**
