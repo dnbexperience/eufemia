@@ -173,7 +173,6 @@ exports[`Skeleton component have to match snapshot 1`] = `
                   size="default"
                   skeleton={null}
                   state="error"
-                  status="error"
                   stretch={null}
                   text={null}
                   text_id="input-status"

@@ -103,7 +103,7 @@ export function SliderInstance() {
           label={label}
           text_id={id + '-status'} // used for "aria-describedby"
           text={status}
-          status={statusState}
+          state={statusState}
           no_animation={statusNoAnimation}
           skeleton={skeleton}
           {...statusProps}
