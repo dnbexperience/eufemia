@@ -120,18 +120,8 @@ class Modal extends React.PureComponent<
     open_modal: null,
     close_modal: null,
 
-    // All "trigger_" are deprecated
     trigger: null,
     trigger_attributes: null,
-    trigger_hidden: false,
-    trigger_disabled: null,
-    trigger_variant: 'secondary',
-    trigger_text: null,
-    trigger_title: null,
-    trigger_size: null,
-    trigger_icon: null,
-    trigger_icon_position: 'left',
-    trigger_class: null,
 
     overlay_class: null,
     content_class: null,
@@ -429,18 +419,8 @@ class Modal extends React.PureComponent<
       open_delay, // eslint-disable-line
 
       omit_trigger_button = false,
-      // All "trigger_" are deprecated
       trigger = null,
       trigger_attributes = null,
-      trigger_hidden = 'false',
-      trigger_disabled = null,
-      trigger_variant = 'secondary',
-      trigger_text = null,
-      trigger_title = null,
-      trigger_size = null,
-      trigger_icon,
-      trigger_icon_position = 'left',
-      trigger_class = null,
 
       ...rest
     } = props
@@ -454,17 +434,12 @@ class Modal extends React.PureComponent<
 
     const render = (suffixProps) => {
       const triggerAttributes = {
-        hidden: isTrue(trigger_hidden),
-        disabled: isTrue(trigger_disabled),
-        variant: trigger_variant,
-        text: trigger_text,
-        title: trigger_title,
-        size: trigger_size,
-        icon: trigger_icon,
-        icon_position: trigger_icon_position,
-        class: trigger_class,
+        hidden: false,
+        variant: 'secondary',
+        icon_position: 'left',
         ...trigger_attributes,
       } as ButtonProps
+
       if (isTrue(disabled)) {
         triggerAttributes.disabled = true
       }

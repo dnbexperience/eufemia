@@ -64,15 +64,6 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
     title="drawer_title"
     trigger={null}
     trigger_attributes={null}
-    trigger_class={null}
-    trigger_disabled={null}
-    trigger_hidden={false}
-    trigger_icon={null}
-    trigger_icon_position="left"
-    trigger_size={null}
-    trigger_text={null}
-    trigger_title={null}
-    trigger_variant="secondary"
   >
     <Modal
       align_content="left"
@@ -116,22 +107,10 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
       title="drawer_title"
       trigger={null}
       trigger_attributes={null}
-      trigger_class={null}
-      trigger_disabled={null}
-      trigger_hidden={false}
-      trigger_icon={null}
-      trigger_icon_position="left"
-      trigger_size={null}
-      trigger_text={null}
-      trigger_title={null}
-      trigger_variant="secondary"
     >
       <HelpButtonInstance
-        class={null}
         className="dnb-modal__trigger"
-        disabled={false}
         hidden={false}
-        icon={null}
         icon_position="left"
         id="drawer_id"
         innerRef={
@@ -176,8 +155,6 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
           }
         }
         onClick={[Function]}
-        size={null}
-        text={null}
         title="drawer_title"
         variant="secondary"
       >
@@ -190,7 +167,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
           custom_content={null}
           custom_element={null}
           custom_method={null}
-          disabled={false}
+          disabled={null}
           element={null}
           global_status_id={null}
           hidden={false}
@@ -279,7 +256,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
               custom_content={null}
               custom_element={null}
               custom_method={null}
-              disabled={false}
+              disabled={null}
               element={null}
               global_status_id={null}
               hidden={false}
