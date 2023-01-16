@@ -48,24 +48,14 @@ exports[`Table scss have to match default theme snapshot 1`] = `
     vertical-align: baseline; }
   .dnb-table__size--medium tbody > tr > .dnb-table__th, .dnb-table__size--medium
   tbody > tr > .dnb-table__td {
-    padding: 0.875rem 1rem; }
-    .dnb-table__size--medium tbody > tr > .dnb-table__th,
-    .dnb-table__size--medium tbody > tr > .dnb-table__th .dnb-p, .dnb-table__size--medium
-    tbody > tr > .dnb-table__td,
-    .dnb-table__size--medium
-    tbody > tr > .dnb-table__td .dnb-p {
-      font-size: var(--font-size-small);
-      line-height: var(--line-height-small); }
+    padding: 0.875rem 1rem;
+    font-size: var(--font-size-small);
+    line-height: var(--line-height-small); }
   .dnb-table__size--small tbody > tr > .dnb-table__th, .dnb-table__size--small
   tbody > tr > .dnb-table__td {
-    padding: 0.625rem 1rem; }
-    .dnb-table__size--small tbody > tr > .dnb-table__th,
-    .dnb-table__size--small tbody > tr > .dnb-table__th .dnb-p, .dnb-table__size--small
-    tbody > tr > .dnb-table__td,
-    .dnb-table__size--small
-    tbody > tr > .dnb-table__td .dnb-p {
-      font-size: var(--font-size-small);
-      line-height: var(--line-height-small); }
+    padding: 0.625rem 1rem;
+    font-size: var(--font-size-small);
+    line-height: var(--line-height-small); }
   .dnb-table > tbody > .dnb-table__tr:last-of-type > .dnb-table__td::after,
   .dnb-table > tbody
 > .dnb-table__tr.dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) td::after {

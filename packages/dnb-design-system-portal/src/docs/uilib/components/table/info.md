@@ -18,6 +18,8 @@ Here is a list of things you may follow along in order to ensure your coded tabl
 - Let tables align the column width, when possible.
 - Do not use CSS `display` property on any table element.
 - Do not overwrite styles in general, but rather get in touch with DNB UX.
+- Never put a table inside a table.
+- Text inside tables do not need to be wrapped inside a paragraph as well. They give screen readers no additional useful information.
 
 ## Table header components
 
