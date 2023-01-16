@@ -3,6 +3,18 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.46.0](https://github.com/dnbexperience/eufemia/compare/v9.45.4...v9.46.0) (2023-01-16)
+
+
+### Bug Fixes
+
+* **Table:** keep paragraph font-size when table size is medium or small ([#1922](https://github.com/dnbexperience/eufemia/issues/1922)) ([a3d678e](https://github.com/dnbexperience/eufemia/commit/a3d678e96aead2b3c4ca55fb4ad7a94fdadf6316))
+
+
+### Features
+
+* **SpacingUtils:** add caching to `calc` method ([#1910](https://github.com/dnbexperience/eufemia/issues/1910)) ([b48941a](https://github.com/dnbexperience/eufemia/commit/b48941ac61cc14968e991acea0e6df9ccafc3f1a))
+
 ## [9.45.4](https://github.com/dnbexperience/eufemia/compare/v9.45.3...v9.45.4) (2023-01-11)
 
 
