@@ -665,7 +665,7 @@ export const TableAccordion = () => (
           </Table.ScrollView>
 
           <Table.ScrollView top>
-            <AccordionTable id="table-2" border outline />
+            <AccordionTable id="table-2" border outline size="medium" />
           </Table.ScrollView>
         </>
       )
