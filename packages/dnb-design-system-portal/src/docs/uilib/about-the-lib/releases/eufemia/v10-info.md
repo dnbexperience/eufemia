@@ -2,14 +2,17 @@
 
 - [v10](#v10)
   - [Migration](#migration)
+  - [Features](#features)
     - [StepIndicator](#stepindicator)
     - [Table](#table)
     - [Slider](#slider)
     - [Timeline](#timeline)
     - [Anchor](#anchor)
+    - [Button](#button)
     - [Tooltip](#tooltip)
     - [Icon](#icon)
     - [Lists](#lists)
+    - [Stopped supporting Internet Explorer (IE)](#stopped-supporting-internet-explorer-ie)
     - [Deprecations](#deprecations)
   - [Install](#install)
 
@@ -29,6 +32,10 @@ v10 of @dnb/eufemia contains _breaking changes_. As a migration process, you can
 
 ### Table
 
+1. Ensure all table sub elements have a CSS Class:
+   1. `tr` => `.dnb-table__tr`
+   1. `th` => `.dnb-table__th`
+   1. `td` => `.dnb-table__td`
 1. Find the `sticky_offset` property and replace it with `stickyOffset`.
 1. Find the `/elements/Table` property and replace it with `/components/Table`.
 1. Alignment classes are removed (`.dnb-table--left`, `.dnb-table--right` and `.dnb-table--center`). Use the `align` attribute instead.
