@@ -3,6 +3,8 @@
 *
 */
 
+@import '../../../style/core/utilities.scss';
+
 :root {
   --input-font-size: var(--font-size-basis);
   --input-font-size--small: var(--font-size-basis);

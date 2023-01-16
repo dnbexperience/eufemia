@@ -3,6 +3,8 @@
 *
 */
 
+@import '../../../style/core/utilities.scss';
+
 .dnb-height-animation {
   transition: height var(--duration, 400ms) var(--easing-default);
 

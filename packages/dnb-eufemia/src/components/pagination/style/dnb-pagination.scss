@@ -3,6 +3,8 @@
  *
  */
 
+@import '../../../style/core/utilities.scss';
+
 .dnb-pagination {
   display: flex;
   flex-direction: column-reverse; // because of screen readers

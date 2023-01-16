@@ -3,6 +3,8 @@
 *
 */
 
+@import '../../../style/core/utilities.scss';
+
 .dnb-visually-hidden {
   &--focusable {
     &:not(:focus):not(:focus-within) {

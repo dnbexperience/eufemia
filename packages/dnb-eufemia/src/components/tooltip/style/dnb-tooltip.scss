@@ -3,6 +3,8 @@
 *
 */
 
+@import '../../../style/core/utilities.scss';
+
 .dnb-tooltip {
   position: absolute;
   z-index: 3100; // over modal

@@ -3,6 +3,8 @@
  *
  */
 
+@import '../../../style/core/utilities.scss';
+
 :root {
   --progress-indicator-timing: cubic-bezier(0.5, 0, 0.5, 0.99);
   --progress-indicator-circular-circle: 88;

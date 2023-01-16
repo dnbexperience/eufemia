@@ -5,6 +5,8 @@
  *
  */
 
+@import '../../../style/core/utilities.scss';
+
 @mixin direction($direction) {
   // 0rem
   &--zero {

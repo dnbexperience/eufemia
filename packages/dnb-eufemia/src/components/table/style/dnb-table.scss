@@ -3,6 +3,8 @@
 *
 */
 
+@import '../../../style/core/utilities.scss';
+
 @mixin tableBorder {
   content: '';
   position: absolute;

@@ -3,6 +3,8 @@
  *
  */
 
+@import '../../../style/core/utilities.scss';
+
 .dnb-step-indicator__sidebar {
   @media screen and (min-width: 50.1em) {
     max-width: 20rem;

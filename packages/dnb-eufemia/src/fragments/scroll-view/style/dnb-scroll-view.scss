@@ -3,6 +3,8 @@
 *
 */
 
+@import '../../../style/core/utilities.scss';
+
 .dnb-scroll-view {
   overflow-x: auto;
   @include scrollY(auto);

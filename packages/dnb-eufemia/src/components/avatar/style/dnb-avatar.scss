@@ -3,6 +3,8 @@
 *
 */
 
+@import '../../../style/core/utilities.scss';
+
 :root {
   --avatar-font-size--small: var(--font-size-x-small);
   --avatar-font-size--medium: var(--font-size-basis);
