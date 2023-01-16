@@ -12,7 +12,7 @@ export const ModalExampleDrawerHeader = () => (
       /* jsx */ `
 <Modal
   mode="drawer"
-  trigger_text="Open Drawer"
+  triggerAttributes={{ text: "Open Drawer" }}
 >
   <Modal.Bar>
     <Breadcrumb />
@@ -94,7 +94,7 @@ export const ModalExampleDrawerBasic = () => (
 <Modal
   mode="drawer"
   title="Drawer Title"
-  trigger_text="Open Drawer"
+  triggerAttributes={{ text: "Open Drawer" }}
 >
   <Modal.Content>
     <P top>This is a left aligned Drawer content.</P>
@@ -111,7 +111,7 @@ export const DrawerWithoutSpacing = () => (
 <Modal
   mode="drawer"
   title="Drawer without spacing"
-  trigger_text="Open Drawer with no spacing"
+  triggerAttributes={{ text: "Open Drawer with no spacing" }}
   spacing={false}
 >
   <Modal.Content>
@@ -164,9 +164,7 @@ export const ModalExampleFullscreen = () => (
 <Modal
   title={<span className="dnb-sr-only">"Hidden" Modal title</span>}
   fullscreen="true"
-  trigger_variant="tertiary"
-  trigger_text="Click me"
-  trigger_icon="bell"
+  triggerAttributes={{ text: "Click me", icon: "bell", variant: "tertiary" }}
   modal_content="This is the modal text. Triggered by a tertiary button."
 />
 	`

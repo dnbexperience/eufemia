@@ -151,7 +151,7 @@ render(<ChangeValue />)
   fullscreen={false}
   align_content="centered"
   hide_close_button
-  trigger_text="Show"
+  triggerAttributes={{ text: "Show" }}
   prevent_close={false}
 >
   <ProgressIndicator
@@ -310,7 +310,7 @@ render(<ChangeValue />)
   fullscreen={false}
   align_content="centered"
   hide_close_button
-  trigger_text="Show"
+  triggerAttributes={{ text: "Show" }}
   prevent_close={false}
 >
   <ProgressIndicator

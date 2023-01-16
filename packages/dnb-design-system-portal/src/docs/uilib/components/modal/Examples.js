@@ -70,7 +70,7 @@ export const ModalExampleCloseByHandler = () => (
       /* jsx */ `
 <Modal
   title="Auto close"
-  trigger_text="Click me"
+  triggerAttributes={{ text: "Click me" }}
   align_content="center"
   max_width="40rem"
   close_modal={close => {
