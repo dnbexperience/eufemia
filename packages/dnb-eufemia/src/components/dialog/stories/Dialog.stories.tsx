@@ -204,7 +204,6 @@ export const DialogSandbox = () => (
         triggerAttributes={{ text: 'Click me' }}
         focusSelector=".dnb-input__input:first-of-type"
         preventClose="true"
-        hideCloseButton="true"
         onOpen={(e) => console.log('on_open', e)}
         onClose={(e) => console.log('on_close', e)}
         onClosePrevent={({ close, triggeredBy }) => {
@@ -236,7 +235,6 @@ export const DialogSandbox = () => (
         spacing={false}
         fullscreen={false}
         alignContent="centered"
-        hideCloseButton
         triggerAttributes={{ text: 'Show' }}
         // prevent_close
         maxWidth="12rem"
@@ -256,7 +254,6 @@ export const DialogSandbox = () => (
         spacing={false}
         fullscreen={false}
         alignContent="centered"
-        hideCloseButton
         triggerAttributes={{ icon: 'bell' }}
         // prevent_close
         maxWidth="12rem"
@@ -775,7 +772,6 @@ function CloseWithAnimation() {
       triggerAttributes={{
         text: 'CloseWithAnimation',
       }}
-      hideCloseButton
       openState={modalOpen}
       onOpen={() => setModalOpen(true)}
       onClose={() => setModalOpen(false)}

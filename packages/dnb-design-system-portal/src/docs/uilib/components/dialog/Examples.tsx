@@ -79,7 +79,6 @@ export const DialogExampleDelayClose = () => (
       }}
       focusSelector=".dnb-input__input:first-of-type"
       preventClose
-      hideCloseButton
       onOpen={(e) => console.log('on_open', e)}
       onClose={(e) => console.log('on_close', e)}
       onClosePrevent={({ close, triggeredBy }) => {
@@ -147,7 +146,6 @@ export const DialogExampleProgressIndicator = () => (
       spacing={false}
       fullscreen={false}
       alignContent="centered"
-      hideCloseButton
       triggerAttributes={{
         text: 'Show',
       }}

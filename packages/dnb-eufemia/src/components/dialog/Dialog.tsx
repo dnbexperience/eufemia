@@ -49,7 +49,6 @@ function Dialog(
     noAnimationOnMobile,
     animationDuration,
     triggerAttributes,
-    hideCloseButton,
     fullscreen,
 
     onOpen,
@@ -78,14 +77,11 @@ function Dialog(
     ...props
   } = propsWithContext
 
-  let currentHideCloseButton = hideCloseButton
   let currentOmitTriggerButton = omitTriggerButton
   let currentFullscreen = fullscreen
   let currentPreventOverlayClose = preventOverlayClose
 
   if (variant === 'confirmation') {
-    currentHideCloseButton =
-      hideCloseButton !== undefined ? hideCloseButton : true
     currentOmitTriggerButton =
       triggerAttributes !== undefined ? omitTriggerButton : true
     currentPreventOverlayClose =
@@ -107,7 +103,6 @@ function Dialog(
     contentId,
     dialogTitle,
     closeTitle,
-    hideCloseButton: currentHideCloseButton,
     closeButtonAttributes,
     preventClose,
     preventOverlayClose: currentPreventOverlayClose,

@@ -76,12 +76,7 @@ describe('Drawer', () => {
     const on_close = jest.fn()
     const on_open = jest.fn()
     const Comp = mount(
-      <Drawer
-        noAnimation={true}
-        onOpen={on_open}
-        onClose={on_close}
-        hideCloseButton
-      >
+      <Drawer noAnimation={true} onOpen={on_open} onClose={on_close}>
         {({ close }) => (
           <Button id="close-me" text="close" on_click={close} />
         )}

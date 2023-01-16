@@ -146,7 +146,6 @@ export const DrawerCallbackExample = () => (
 <Drawer 
   title="Drawer title"
   triggerAttributes={{text: "Open drawer"}}
-  hideCloseButton
 > 
   {({ close }) => (
     <>
@@ -167,7 +166,6 @@ export const DrawerNoAnimationNoSpacing = () => (
   title="No spacing or animation"
   noAnimation
   spacing={false}
-  hideCloseButton
 > 
 <Drawer.Body>
     <P top bottom>This is a lorem ipsum dolor</P>

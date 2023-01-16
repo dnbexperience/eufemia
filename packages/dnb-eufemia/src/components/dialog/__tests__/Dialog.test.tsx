@@ -76,12 +76,7 @@ describe('Dialog', () => {
     const on_close = jest.fn()
     const on_open = jest.fn()
     const Comp = mount(
-      <Dialog
-        noAnimation
-        onOpen={on_open}
-        onClose={on_close}
-        hideCloseButton
-      >
+      <Dialog noAnimation onOpen={on_open} onClose={on_close}>
         {({ close }) => (
           <Button id="close-me" text="close" on_click={close} />
         )}

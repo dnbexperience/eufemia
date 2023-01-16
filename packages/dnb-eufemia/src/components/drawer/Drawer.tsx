@@ -20,7 +20,6 @@ function Drawer({
   focusSelector,
   labelledBy,
   directDomReturn,
-  hideCloseButton,
   closeButtonAttributes,
   disabled,
 
@@ -73,7 +72,6 @@ function Drawer({
     contentId,
     dialogTitle,
     closeTitle,
-    hideCloseButton,
     closeButtonAttributes,
     preventClose,
     preventOverlayClose,

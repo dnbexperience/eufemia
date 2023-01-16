@@ -444,10 +444,7 @@ const dropdownData = [
 
 function CloseByCallback() {
   return (
-    <Drawer
-      triggerAttributes={{ text: 'CloseByCallback' }}
-      hideCloseButton
-    >
+    <Drawer triggerAttributes={{ text: 'CloseByCallback' }}>
       {({ close }) => <Button text="Close by callback" on_click={close} />}
     </Drawer>
   )
