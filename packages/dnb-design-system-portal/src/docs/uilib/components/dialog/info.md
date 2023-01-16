@@ -32,14 +32,3 @@ To provide custom content to parts of the Dialog, a set of component parts are p
 ### More detailed information
 
 For more details regarding the component functionality, check out the [Modal documentation](/uilib/components/modal).
-
-#### Converting from Modal
-
-If you are converting from `<Modal />` to `<Dialog />`, there are a few differences you need to take into consideration:
-
-- All `trigger_*` props are not supported for Dialog, use `triggerAttributes` instead to pass in props for the trigger button.
-  - Change prop `trigger_hidden` to `omitTriggerButton` to omit the default trigger button from Modal.
-- Only camelCase props are supported for Dialog, so you will need to update the prop names.
-- `Modal.Inner`/`Modal.Content` converts to `Dialog.Body`.
-- `Modal.Bar` converts to `Dialog.Navigaton`.
-- `Modal` was a class component and `Dialog` is a functional component.
