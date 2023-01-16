@@ -249,9 +249,11 @@ export default class SidebarLayout extends React.PureComponent {
                 <MediaQuery when={{ min: 0, max: 'medium' }}>
                   <Space left="large" top="large">
                     <PortalToolsMenu
-                      trigger_text="Portal Tools"
-                      trigger_icon="chevron_right"
-                      trigger_icon_position="right"
+                      triggerAttributes={{
+                        text: 'Portal Tools',
+                        icon: 'chevron_right',
+                        icon_position: 'right',
+                      }}
                       tooltipPosition="bottom"
                     />
                   </Space>
