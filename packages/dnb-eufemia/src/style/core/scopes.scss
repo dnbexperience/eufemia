@@ -64,6 +64,8 @@
   @include resetLegacyStyles();
 }
 
+// Can be used to include the most important "CSS reset" rules to one component.
+// Should only be used when this component is imported in isolation.
 @mixin componentReset() {
   @include coreDefault();
   @include coreReset();
