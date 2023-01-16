@@ -45,7 +45,7 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     context?.Anchor
   )
 
-  // deprecated
+  // deprecated: inner_ref is still needed to support Button's usage of Anchor
   if (typeof allProps.inner_ref !== 'undefined') {
     allProps.innerRef = allProps.inner_ref
     delete allProps.inner_ref
