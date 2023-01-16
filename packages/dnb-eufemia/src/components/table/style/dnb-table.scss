@@ -15,7 +15,7 @@
   pointer-events: none;
 }
 
-@import './_table-header-buttons.scss';
+@import './table-header-buttons.scss';
 
 .dnb-table {
   display: table;
@@ -53,13 +53,13 @@
   @include buttonsInTable();
 }
 
-@import './_table-th.scss';
-@import './_table-td.scss';
-@import './_table-tr.scss';
-@import './_table-cell.scss';
-@import './_table-sticky.scss';
-@import './_table-container.scss';
-@import './_table-accordion.scss';
+@import './table-th.scss';
+@import './table-td.scss';
+@import './table-tr.scss';
+@import './table-cell.scss';
+@import './table-sticky.scss';
+@import './table-container.scss';
+@import './table-accordion.scss';
 
 // Reset Table spacing
 .dnb-spacing .dnb-table {

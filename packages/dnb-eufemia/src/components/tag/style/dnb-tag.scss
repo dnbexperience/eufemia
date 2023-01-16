@@ -3,8 +3,8 @@
 *
 */
 
-@import '../../button/style/themes/_button-mixins.scss';
-@import './themes/_tag-mixins.scss';
+@import '../../button/style/themes/button-mixins.scss';
+@import './themes/tag-mixins.scss';
 
 .dnb-tag {
   &.dnb-button {

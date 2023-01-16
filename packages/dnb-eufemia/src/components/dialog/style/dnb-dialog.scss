@@ -3,7 +3,7 @@
  *
  */
 
-@import '../../modal/style/_modal-mixins';
+@import '../../modal/style/modal-mixins.scss';
 
 :root {
   // we do this because SCSS fails by using min(100vw, 50rem) = "Incompatible units: 'rem' and 'vw'"
