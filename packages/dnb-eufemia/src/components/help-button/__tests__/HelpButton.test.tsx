@@ -137,7 +137,7 @@ describe('HelpButton component', () => {
 
 describe('HelpButton scss', () => {
   it('have to match snapshot', () => {
-    const scss = loadScss(require.resolve('../style/dnb-help-button.scss'))
+    const scss = loadScss(require.resolve('../style/deps.scss'))
     expect(scss).toMatchSnapshot()
   })
   it('have to match default theme snapshot', () => {

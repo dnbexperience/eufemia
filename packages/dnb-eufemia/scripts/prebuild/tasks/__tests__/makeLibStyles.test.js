@@ -22,13 +22,13 @@ if (isCI) {
   describe('makeLibStyles transform main SASS to CSS', () => {
     beforeAll(async () => {
       global.css = await runFactory(
-        './src/components/button/style/dnb-button.scss',
+        './src/components/button/style/deps.scss',
         {
           returnResult: true,
         }
       )
       global.files = await runFactory(
-        './src/components/button/style/dnb-button.scss',
+        './src/components/button/style/deps.scss',
         {
           returnFiles: true,
         }

@@ -147,9 +147,7 @@ describe('PaymentCard', () => {
 
 describe('PaymentCard scss', () => {
   it('have to match snapshot', () => {
-    const scss = loadScss(
-      require.resolve('../style/dnb-payment-card.scss')
-    )
+    const scss = loadScss(require.resolve('../style/depsscss'))
     expect(scss).toMatchSnapshot()
   })
   it('have to match default theme snapshot', () => {
