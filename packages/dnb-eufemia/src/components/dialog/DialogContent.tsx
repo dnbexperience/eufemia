@@ -28,7 +28,6 @@ export default function DialogContent({
   headerContent = null,
   alignContent = null,
   className = null,
-  class: _className = null,
   preventCoreStyle = null,
   spacing = true,
   fullscreen,
@@ -75,8 +74,7 @@ export default function DialogContent({
       isTrue(context?.hide) && `dnb-dialog--hide`,
       isTrue(noAnimation) && `dnb-dialog--no-animation`,
       isTrue(noAnimationOnMobile) && `dnb-dialog--no-animation-on-mobile`,
-      className,
-      _className
+      className
     ),
     style: (minWidth || maxWidth) && { minWidth, maxWidth },
     onClick: context?.preventClick,
