@@ -1004,7 +1004,6 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
           size="default"
           skeleton={null}
           state="error"
-          status="error"
           stretch={null}
           text={null}
           text_id="null-status"
