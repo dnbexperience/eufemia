@@ -5,7 +5,7 @@
 
 @import '../../../style/core/utilities.scss';
 
-@import '../../input/style/dnb-input.scss';
-@import '../../dropdown/style/dnb-dropdown.scss';
-@import '../../progress-indicator/style/dnb-progress-indicator.scss';
+@import '../../input/style/deps.scss';
+@import '../../dropdown/style/deps.scss';
+@import '../../progress-indicator/style/deps.scss';
 @import './_autocomplete.scss';

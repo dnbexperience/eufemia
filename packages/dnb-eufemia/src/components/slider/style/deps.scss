@@ -5,9 +5,9 @@
 
 @import '../../../style/core/utilities.scss';
 
-@import '../../button/style/dnb-button.scss';
-@import '../../tooltip/style/dnb-tooltip.scss';
-@import '../../form-label/style/dnb-form-label.scss';
-@import '../../form-status/style/dnb-form-status.scss';
+@import '../../button/style/deps.scss';
+@import '../../tooltip/style/deps.scss';
+@import '../../form-label/style/deps.scss';
+@import '../../form-status/style/deps.scss';
 
 @import './_slider.scss';

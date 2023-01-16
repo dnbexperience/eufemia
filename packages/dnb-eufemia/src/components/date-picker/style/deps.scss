@@ -5,10 +5,10 @@
 
 @import '../../../style/core/utilities.scss';
 
-@import '../../input/style/dnb-input.scss'; // used in DatePickerInput
-@import '../../button/style/dnb-button.scss'; // used in DatePickerCalendar
-@import '../../toggle-button/style/dnb-toggle-button.scss'; // used in DatePickerAddon
-@import '../../form-label/style/dnb-form-label.scss'; // used in DatePicker
-@import '../../form-status/style/dnb-form-status.scss'; // used in DatePicker
+@import '../../input/style/deps.scss'; // used in DatePickerInput
+@import '../../button/style/deps.scss'; // used in DatePickerCalendar
+@import '../../toggle-button/style/deps.scss'; // used in DatePickerAddon
+@import '../../form-label/style/deps.scss'; // used in DatePicker
+@import '../../form-status/style/deps.scss'; // used in DatePicker
 
 @import './_date-picker.scss';
