@@ -44,6 +44,15 @@ jobs:
         with:
           node-version-file: 'package.json'
 
+      - name: Split branch name
+        env:
+          BRANCH_NAME: ${{ github.ref_name }}
+        id: branch_name
+        run: echo "::set-output name=fragment::${BRANCH_NAME*/##}"
+
+      - name: Test variable
+        run: echo ${{ steps.branch_name.outputs.fragment }}
+
       - name: Use node_modules cache
         uses: actions/cache@v3
         id: modules-cache
@@ -76,7 +85,7 @@ jobs:
           path: |
             ./packages/dnb-design-system-portal/.cache
             ./packages/dnb-design-system-portal/public
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-gatsby-dev-${{ steps.date.outputs.timestamp }}
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-gatsby-dev-${{ steps.branch_name.outputs.fragment }}-${{ steps.date.outputs.timestamp }}
           restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-gatsby-dev-
 
       - name: Build portal
