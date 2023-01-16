@@ -29,11 +29,6 @@ export interface DialogContentProps
   className?: string
 
   /**
-   * @deprecated Please use `className`.
-   */
-  class?: string
-
-  /**
    * If set to `false` then the dialog content will be shown without any spacing. Defaults to `true`.
    */
   spacing?: string | boolean
