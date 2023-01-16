@@ -515,7 +515,7 @@ export default class Input extends React.PureComponent {
             global_status_id={global_status_id}
             label={label}
             text={status}
-            status={status_state}
+            state={status_state}
             text_id={id + '-status'} // used for "aria-describedby"
             no_animation={status_no_animation}
             skeleton={skeleton}
