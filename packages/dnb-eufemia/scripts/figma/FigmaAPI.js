@@ -3,7 +3,6 @@
  *
  */
 
-import { ConvertAndSaveComponentsStyle } from './tasks/componentsStyleConverter'
 import {
   extractIconsAsSVG,
   extractIconsAsPDF,
@@ -13,32 +12,6 @@ import { getRequiredBranchName } from './../prebuild/commitToBranch'
 import { log, ErrorHandler } from '../lib'
 
 log.start('> Figma: Preparing for connecting to the Figma API ...')
-
-export const fetchFigmaStyles = async ({
-  figmaFile = process.env.FIGMA_STYLES_FILE,
-  ...args
-} = {}) => {
-  if (!figmaFile) {
-    return log.info(
-      '> Figma: No "FIGMA_STYLES_FILE" defined, skipped to run fetchFigmaStyles'
-    )
-  }
-
-  try {
-    log.start('> Figma: Starting the style fetch')
-    const styles = await ConvertAndSaveComponentsStyle(
-      { figmaFile, ...args },
-      {
-        doReplaceVars: true,
-      }
-    )
-    log.succeed(
-      `> Figma: Style conversion done (${styles?.length} styles)`
-    )
-  } catch (e) {
-    log.fail(new ErrorHandler('Failed during fetchFigmaStyles', e))
-  }
-}
 
 export const fetchFigmaIcons = async ({
   figmaFile = process.env.FIGMA_ICONS_FILE,
@@ -95,7 +68,6 @@ export const fetchFigmaAll = async ({
       return
     }
 
-    await fetchFigmaStyles(args)
     await fetchFigmaIcons(args)
 
     log.succeed('> Figma: All done')
