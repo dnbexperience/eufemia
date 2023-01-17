@@ -1019,7 +1019,7 @@ describe('Modal component', () => {
               return (
                 <Component
                   {...props}
-                  trigger_attributes={{ hidden: 'true' }}
+                  trigger_attributes={{ hidden: true }}
                   open_state="opened"
                 >
                   content
