@@ -22,13 +22,13 @@ if (isCI) {
   describe('makeLibStyles transform main SASS to CSS', () => {
     beforeAll(async () => {
       global.css = await runFactory(
-        './src/components/button/style/deps.scss',
+        './src/components/button/style/dnb-button.scss',
         {
           returnResult: true,
         }
       )
       global.files = await runFactory(
-        './src/components/button/style/deps.scss',
+        './src/components/button/style/dnb-button.scss',
         {
           returnFiles: true,
         }
@@ -43,16 +43,12 @@ if (isCI) {
       expect(global.css[0]).toMatch(new RegExp('.dnb-icon\\s?{'))
     })
 
-    it('should not contain a polyfill for font-family', () => {
-      expect(global.css[0]).toContain(
-        'font-family: var(--font-family-default);'
-      )
+    it('should not contain a reset scope like font-family', () => {
+      expect(global.css[0]).not.toContain('font-family')
     })
 
     it('should contain a non minified and a minified content', () => {
-      expect(global.css[0]).toContain(
-        'This file is only used to make components independent'
-      )
+      expect(global.css[0]).toContain(':root {')
       expect(global.css[1]).toContain(':root{--')
     })
 
