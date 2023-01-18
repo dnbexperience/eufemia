@@ -79,9 +79,7 @@ describe('VisuallyHidden', () => {
 
   describe('VisuallyHidden scss', () => {
     it('have to match snapshot', () => {
-      const scss = loadScss(
-        require.resolve('../style/dnb-visually-hidden.scss')
-      )
+      const scss = loadScss(require.resolve('../style/deps.scss'))
       expect(scss).toMatchSnapshot()
     })
   })

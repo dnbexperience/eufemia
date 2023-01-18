@@ -151,11 +151,6 @@ exports[`Textarea scss have to match default theme snapshot 1`] = `
 * Textarea theme
 *
 */
-/**
- * This file is only used to make themes independent
- * so that they can get imported individually, without the core styles
- *
- */
 /*
  * Utilities
  */
@@ -237,72 +232,16 @@ exports[`Textarea scss have to match default theme snapshot 1`] = `
 
 exports[`Textarea scss have to match snapshot 1`] = `
 "/*
-* DNB Textarea
+* Used for snapshot testing
 *
 */
-/**
- * This file is only used to make components independent
- * so that they can get imported individually, without the core styles
- *
- */
 /*
  * Utilities
  */
 /*
- * Scopes
- *
- */
-/*
- * Document Reset
- *
- */
-/*
-* DNB FormLabel
+* Used for snapshot testing
 *
 */
-.dnb-form-label {
-  font-family: var(--font-family-default);
-  font-weight: var(--font-weight-basis);
-  font-size: var(--font-size-small);
-  font-style: normal;
-  line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  /**
-  * Ensure consistency and use the same as HTML reset -> html {...}
-  * between base and code package
-  */
-  -moz-tab-size: 4;
-  tab-size: 4;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  word-break: break-word;
-  /**
-  * 1. Remove repeating backgrounds in all browsers (opinionated).
-  * 2. Add border box sizing in all browsers (opinionated).
-  */
-  /**
-  * 1. Add text decoration inheritance in all browsers (opinionated).
-  * 2. Add vertical alignment inheritance in all browsers (opinionated).
-  */
-  margin: 0;
-  padding: 0; }
-  .dnb-form-label *,
-  .dnb-form-label ::before,
-  .dnb-form-label ::after {
-    background-repeat: no-repeat;
-    /* 1 */
-    box-sizing: border-box;
-    /* 2 */ }
-  .dnb-form-label ::before,
-  .dnb-form-label ::after {
-    text-decoration: inherit;
-    /* 1 */
-    vertical-align: inherit;
-    /* 2 */ }
-
 /*
  * FormLabel component
  *
@@ -333,52 +272,9 @@ legend.dnb-form-label {
   display: inline-block; }
 
 /*
-* DNB FormStatus
+* Used for snapshot testing
 *
 */
-.dnb-form-status {
-  font-family: var(--font-family-default);
-  font-weight: var(--font-weight-basis);
-  font-size: var(--font-size-small);
-  font-style: normal;
-  line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  /**
-  * Ensure consistency and use the same as HTML reset -> html {...}
-  * between base and code package
-  */
-  -moz-tab-size: 4;
-  tab-size: 4;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  word-break: break-word;
-  /**
-  * 1. Remove repeating backgrounds in all browsers (opinionated).
-  * 2. Add border box sizing in all browsers (opinionated).
-  */
-  /**
-  * 1. Add text decoration inheritance in all browsers (opinionated).
-  * 2. Add vertical alignment inheritance in all browsers (opinionated).
-  */
-  margin: 0;
-  padding: 0; }
-  .dnb-form-status *,
-  .dnb-form-status ::before,
-  .dnb-form-status ::after {
-    background-repeat: no-repeat;
-    /* 1 */
-    box-sizing: border-box;
-    /* 2 */ }
-  .dnb-form-status ::before,
-  .dnb-form-status ::after {
-    text-decoration: inherit;
-    /* 1 */
-    vertical-align: inherit;
-    /* 2 */ }
-
 /*
  * FormStatus component
  *
@@ -443,136 +339,10 @@ legend.dnb-form-label {
   html[data-visual-test] .dnb-form-status {
     transition-duration: 1ms !important; }
 
-.dnb-textarea {
-  font-family: var(--font-family-default);
-  font-weight: var(--font-weight-basis);
-  font-size: var(--font-size-small);
-  font-style: normal;
-  line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  /**
-  * Ensure consistency and use the same as HTML reset -> html {...}
-  * between base and code package
-  */
-  -moz-tab-size: 4;
-  tab-size: 4;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  word-break: break-word;
-  /**
-  * 1. Remove repeating backgrounds in all browsers (opinionated).
-  * 2. Add border box sizing in all browsers (opinionated).
-  */
-  /**
-  * 1. Add text decoration inheritance in all browsers (opinionated).
-  * 2. Add vertical alignment inheritance in all browsers (opinionated).
-  */
-  margin: 0;
-  padding: 0; }
-  .dnb-textarea *,
-  .dnb-textarea ::before,
-  .dnb-textarea ::after {
-    background-repeat: no-repeat;
-    /* 1 */
-    box-sizing: border-box;
-    /* 2 */ }
-  .dnb-textarea ::before,
-  .dnb-textarea ::after {
-    text-decoration: inherit;
-    /* 1 */
-    vertical-align: inherit;
-    /* 2 */ }
-
 /*
 * Textarea component
 *
 */
-/*
-* Textarea theme
-*
-*/
-/**
- * This file is only used to make themes independent
- * so that they can get imported individually, without the core styles
- *
- */
-:root {
-  --textarea-rows: 2; }
-
-.dnb-textarea__textarea {
-  color: var(--color-black);
-  background-color: var(--color-white);
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  scrollbar-width: thin;
-  -webkit-overflow-scrolling: touch;
-  -ms-overflow-style: auto;
-  scrollbar-color: var(--color-sea-green) transparent; }
-  .dnb-textarea__textarea ::selection {
-    background-color: var(--color-mint-green);
-    color: var(--color-black);
-    text-shadow: none; }
-  @supports not (scrollbar-color: auto) {
-    .dnb-textarea__textarea::-webkit-scrollbar {
-      background-color: var(--color-black-8); }
-      .dnb-textarea__textarea::-webkit-scrollbar:vertical {
-        width: 0.5rem; }
-      .dnb-textarea__textarea::-webkit-scrollbar:horizontal {
-        height: 0.5rem; }
-    .dnb-textarea__textarea::-webkit-scrollbar-thumb {
-      background-color: var(--color-sea-green);
-      border-radius: 0.5rem; }
-      .dnb-textarea__textarea::-webkit-scrollbar-thumb:hover {
-        background-color: var(--color-emerald-green); } }
-  html:not([data-visual-test]) .dnb-textarea__textarea {
-    scroll-behavior: smooth; }
-  html[data-visual-test] .dnb-textarea__textarea {
-    scroll-behavior: auto !important; }
-
-.dnb-textarea__placeholder {
-  color: var(--color-black-55);
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: var(--textarea-rows, 2); }
-
-.dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):focus ~ .dnb-textarea__state,
-.dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):hover ~ .dnb-textarea__state {
-  box-shadow: 0 0 0 0.125rem var(--color-emerald-green); }
-
-.dnb-textarea--disabled .dnb-textarea__textarea, .dnb-textarea__textarea[disabled] {
-  user-select: none;
-  -webkit-user-select: none;
-  color: var(--color-black-55);
-  background-color: var(--color-black-3); }
-  .dnb-textarea--disabled .dnb-textarea__textarea::-webkit-scrollbar, .dnb-textarea__textarea[disabled]::-webkit-scrollbar {
-    width: 0; }
-
-.dnb-textarea--disabled .dnb-textarea__state,
-.dnb-textarea__textarea[disabled] ~ .dnb-textarea__state {
-  box-shadow: 0 0 0 0.0625rem var(--color-black-55);
-  background-color: var(--color-black-3); }
-
-.dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled),
-.dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):hover {
-  color: var(--color-fire-red); }
-
-.dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled) ~ .dnb-textarea__state {
-  --border-color: var(--color-fire-red);
-  box-shadow: 0 0 0 0.0625rem var(--border-color);
-  border-color: transparent; }
-
-.dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):hover ~ .dnb-textarea__state {
-  --border-color: var(--color-fire-red);
-  box-shadow: 0 0 0 0.125rem var(--border-color);
-  border-color: transparent; }
-
-.dnb-textarea--has-content .dnb-textarea__textarea ~ .dnb-textarea__placeholder,
-.dnb-textarea--focus .dnb-textarea__textarea:not([disabled]):not([readonly]) ~ .dnb-textarea__placeholder {
-  display: none; }
-
 :root {
   --textarea-padding-width: 0.5rem; }
 

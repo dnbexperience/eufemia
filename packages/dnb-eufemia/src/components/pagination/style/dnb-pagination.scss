@@ -1,16 +1,107 @@
 /*
-* DNB Pagination
-*
-*/
+ * Pagination component
+ *
+ */
 
-@import '../../../style/components/imports.scss';
-
-// import dependencies
-@import '../../button/style/dnb-button.scss';
-@import '../../progress-indicator/style/progress-indicator.scss';
+@import '../../../style/core/utilities.scss';
 
 .dnb-pagination {
-  @include componentReset();
-}
+  display: flex;
+  flex-direction: column-reverse; // because of screen readers
 
-@import './_pagination.scss';
+  &__bar,
+  &__loadbar,
+  &__bar__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  &--left &__bar {
+    justify-content: flex-start;
+  }
+  &--center &__bar {
+    justify-content: center;
+    @media screen and (max-width: 40em) {
+      justify-content: flex-start;
+    }
+  }
+  &--right &__bar {
+    justify-content: flex-end;
+  }
+
+  &__bar__wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column-reverse; // because of screen readers
+  }
+  &--center &__bar__wrapper {
+    align-items: center;
+  }
+  &--right &__bar__wrapper {
+    align-items: flex-end;
+  }
+
+  &__bar__inner {
+    gap: 0.5rem;
+  }
+
+  &__button {
+    max-width: 3.5rem;
+  }
+  &__button--large-number {
+    max-width: unset;
+  }
+
+  &__loadbar {
+    cursor: default;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  &__indicator {
+    cursor: default;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    &__inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  &__dots {
+    align-self: flex-end;
+  }
+
+  // used by the infinity scroller
+  &__marker {
+    pointer-events: none;
+    position: relative; // because of the marker
+
+    height: 1px;
+    width: 1px;
+    margin: -1px 0 0 -1px;
+    overflow: hidden;
+
+    td,
+    &__inner {
+      padding: 0 !important; // because if it is used in table
+
+      width: 1px;
+      height: 1px;
+
+      opacity: 0;
+    }
+  }
+
+  &__bar__skip {
+    margin-top: 0.5rem;
+  }
+  &__bar__skip .dnb-button:first-of-type {
+    margin-right: 1.5rem;
+  }
+}

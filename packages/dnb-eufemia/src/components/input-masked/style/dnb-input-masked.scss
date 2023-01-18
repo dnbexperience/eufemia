@@ -1,15 +1,12 @@
 /*
-* DNB Input
+* InputMasked component
 *
 */
 
-@import '../../../style/components/imports.scss';
-
-// import dependencies
-@import '../../input/style/dnb-input.scss';
+@import '../../../style/core/utilities.scss';
 
 .dnb-input-masked {
-  @include componentReset();
+  &--guide {
+    font-family: var(--font-family-monospace);
+  }
 }
-
-@import './_input-masked.scss';
