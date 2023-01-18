@@ -44,7 +44,7 @@ Some [breakpoints](https://eufemia.dnb.no/uilib/usage/layout/media-queries) size
 1. Find `--layout-x-large` and replace with `--layout-large`
 1. Find `--layout-xx-large` and replace with `--layout-x-large`
 
-Remember, you import and use the Eufemia breakpoints directly in your code:
+**NB:** Import and use the Eufemia breakpoints directly in your code:
 
 ```scss
 // breakpoints.scss

@@ -263,8 +263,8 @@ $breakpoints: (
   'small': 40em,
   'medium': 60em,
   'large': 72em,
-  'x-large': 80em,
-  'xx-large': 90em /* deprecated? */,
+  'x-large': 80em /* not documented yet */,
+  'xx-large': 90em /* not documented yet */,
 );
 
 // Example usage:
