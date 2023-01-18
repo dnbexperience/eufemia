@@ -1472,9 +1472,7 @@ describe('InputMasked component as_currency', () => {
 
 describe('InputMasked scss', () => {
   it('have to match snapshot', () => {
-    const scss = loadScss(
-      require.resolve('../style/dnb-input-masked.scss')
-    )
+    const scss = loadScss(require.resolve('../style/deps.scss'))
     expect(scss).toMatchSnapshot()
   })
 })

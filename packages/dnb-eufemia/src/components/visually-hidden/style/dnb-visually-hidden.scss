@@ -1,12 +1,14 @@
 /*
-* DNB Visually Hidden
+* VisuallyHidden component
 *
 */
 
-@import '../../../style/components/imports.scss';
+@import '../../../style/core/utilities.scss';
 
 .dnb-visually-hidden {
-  @include componentReset();
+  &--focusable {
+    &:not(:focus):not(:focus-within) {
+      @include srOnly();
+    }
+  }
 }
-
-@import './_visually-hidden.scss';
