@@ -536,9 +536,7 @@ describe('NumberFormat component with provider', () => {
 
 describe('NumberFormat scss', () => {
   it('have to match snapshot', () => {
-    const scss = loadScss(
-      require.resolve('../style/dnb-number-format.scss')
-    )
+    const scss = loadScss(require.resolve('../style/deps.scss'))
     expect(scss).toMatchSnapshot()
   })
 })

@@ -264,7 +264,7 @@ describe('InfoCard', () => {
 
   describe('InfoCard scss', () => {
     it('have to match snapshot', () => {
-      const scss = loadScss(require.resolve('../style/dnb-info-card.scss'))
+      const scss = loadScss(require.resolve('../style/deps.scss'))
       expect(scss).toMatchSnapshot()
     })
   })

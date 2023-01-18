@@ -5,11 +5,6 @@ exports[`Tooltip scss have to match default theme snapshot 1`] = `
 * Tooltip theme
 *
 */
-/**
- * This file is only used to make themes independent
- * so that they can get imported individually, without the core styles
- *
- */
 /*
  * Utilities
  */
@@ -26,68 +21,12 @@ exports[`Tooltip scss have to match default theme snapshot 1`] = `
 
 exports[`Tooltip scss have to match snapshot 1`] = `
 "/*
-* DNB Tooltip
+* Used for snapshot testing
 *
 */
-/**
- * This file is only used to make components independent
- * so that they can get imported individually, without the core styles
- *
- */
 /*
  * Utilities
  */
-/*
- * Scopes
- *
- */
-/*
- * Document Reset
- *
- */
-.dnb-tooltip {
-  font-family: var(--font-family-default);
-  font-weight: var(--font-weight-basis);
-  font-size: var(--font-size-small);
-  font-style: normal;
-  line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  /**
-  * Ensure consistency and use the same as HTML reset -> html {...}
-  * between base and code package
-  */
-  -moz-tab-size: 4;
-  tab-size: 4;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  word-break: break-word;
-  /**
-  * 1. Remove repeating backgrounds in all browsers (opinionated).
-  * 2. Add border box sizing in all browsers (opinionated).
-  */
-  /**
-  * 1. Add text decoration inheritance in all browsers (opinionated).
-  * 2. Add vertical alignment inheritance in all browsers (opinionated).
-  */
-  margin: 0;
-  padding: 0; }
-  .dnb-tooltip *,
-  .dnb-tooltip ::before,
-  .dnb-tooltip ::after {
-    background-repeat: no-repeat;
-    /* 1 */
-    box-sizing: border-box;
-    /* 2 */ }
-  .dnb-tooltip ::before,
-  .dnb-tooltip ::after {
-    text-decoration: inherit;
-    /* 1 */
-    vertical-align: inherit;
-    /* 2 */ }
-
 /*
 * Tooltip component
 *

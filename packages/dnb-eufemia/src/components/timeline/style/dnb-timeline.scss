@@ -1,12 +1,42 @@
 /*
-* DNB Timeline
+* Timeline component
 *
 */
 
-@import '../../../style/components/imports.scss';
+@import '../../../style/core/utilities.scss';
 
 .dnb-timeline {
-  @include componentReset();
+  display: flex;
+  flex-direction: column;
+  &__item {
+    &__label {
+      display: flex;
+      align-items: center;
+      text-align: left;
+      padding: 0;
+      &__icon {
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        height: auto;
+        justify-content: center;
+        padding: 0;
+      }
+      &__title {
+        cursor: text;
+      }
+    }
+    &__content {
+      padding-bottom: var(--spacing-small);
+      &__subtitle {
+        cursor: text;
+        font-size: var(--font-size-x-small);
+        font-weight: var(--font-weight-basis);
+        color: var(--color-black-55);
+      }
+      &__info {
+        padding-top: var(--spacing-x-small);
+      }
+    }
+  }
 }
-
-@import './_timeline.scss';

@@ -1,7 +1,97 @@
 /*
-* DNB icon
+* Icon component
 *
 */
 
-@import '../../../style/components/imports.scss';
-@import './_icon.scss';
+@import '../../../style/core/utilities.scss';
+
+.dnb-icon {
+  display: inline-block;
+
+  // sine we use vertical-align: top on the SVG
+  // we have to move center the alignment here again
+  // else basic text aferwars will get aligned on top
+  vertical-align: middle;
+
+  font-size: 1rem; // to make sure we have always the same starting point
+  line-height: 1rem; // for vertical alignment, we have to have no line-height
+  color: inherit;
+
+  width: 1em;
+  height: 1em;
+
+  // responsive
+  img,
+  svg {
+    width: inherit;
+    height: inherit;
+    shape-rendering: geometricPrecision;
+    vertical-align: top;
+  }
+
+  // auto size
+  svg[width='100%'] {
+    width: inherit;
+  }
+  svg[height='100%'] {
+    height: inherit;
+  }
+
+  // color
+  &--inherit-color svg:not([fill]),
+  &--inherit-color svg [fill] {
+    fill: currentColor;
+  }
+  &--inherit-color svg [stroke] {
+    stroke: currentColor;
+  }
+
+  // sizes
+  &--small {
+    font-size: 0.75rem;
+  }
+  &--default {
+    font-size: 1rem;
+  }
+  &--medium {
+    font-size: 1.5rem;
+  }
+  &--large {
+    font-size: 2rem;
+  }
+  &--x-large {
+    font-size: 2.5rem;
+  }
+  &--xx-large {
+    font-size: 3rem;
+  }
+  &--custom-size {
+    width: auto; // only to feed the svg
+    height: auto; // only to feed the svg
+  }
+  &--auto {
+    font-size: 1em;
+  }
+  &--auto > &--wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  h1 &,
+  h2 &,
+  h3 &,
+  h4 &,
+  h5 &,
+  h6 & {
+    vertical-align: middle;
+  }
+
+  &.dnb-skeleton {
+    &::before,
+    &::after {
+      content: none !important;
+    }
+    color: var(--skeleton-color) !important;
+  }
+}
