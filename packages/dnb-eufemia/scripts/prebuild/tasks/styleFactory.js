@@ -35,7 +35,7 @@ const runStyleFactory = async () => {
 @import './core/utilities.scss';
 @import './dnb-ui-fragments.scss';
 `,
-    scssTemplateToFill: `@import '../components/{name}/style/_{name}.scss';`,
+    scssTemplateToFill: `@import '../components/{name}/style/dnb-{name}.scss';`,
     processToNamesList: [
       path.resolve(__dirname, '../../../src/components/*'),
     ].concat(processToNamesIgnoreList),
@@ -59,7 +59,7 @@ const runStyleFactory = async () => {
     customContent: `
 @import './core/utilities.scss';
 `,
-    scssTemplateToFill: `@import '../fragments/{name}/style/_{name}.scss';`,
+    scssTemplateToFill: `@import '../fragments/{name}/style/dnb-{name}.scss';`,
     processToNamesList: [
       path.resolve(__dirname, '../../../src/fragments/*'),
     ].concat(processToNamesIgnoreList),
@@ -83,7 +83,7 @@ const runStyleFactory = async () => {
     customContent: `
 @import './core/utilities.scss';
 `,
-    scssTemplateToFill: `@import '../extensions/{name}/style/_{name}.scss';`,
+    scssTemplateToFill: `@import '../extensions/{name}/style/dnb-{name}.scss';`,
     processToNamesList: [
       path.resolve(__dirname, '../../../src/extensions/*'),
     ].concat(processToNamesIgnoreList),
