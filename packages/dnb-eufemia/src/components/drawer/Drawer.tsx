@@ -21,7 +21,6 @@ function Drawer({
   labelledBy,
   directDomReturn,
   hideCloseButton,
-  closeButtonAttributes,
   disabled,
 
   title,
@@ -74,7 +73,6 @@ function Drawer({
     dialogTitle,
     closeTitle,
     hideCloseButton,
-    closeButtonAttributes,
     preventClose,
     preventOverlayClose,
     animationDuration,
