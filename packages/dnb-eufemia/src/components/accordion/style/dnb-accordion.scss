@@ -1,15 +1,217 @@
 /*
-* DNB Accordion
+* Accordion component
 *
 */
 
-@import '../../../style/components/imports.scss';
+@import '../../../style/core/utilities.scss';
 
-// import dependencies
-@import '../../icon/style/dnb-icon.scss';
-
-.dnb-accordion {
-  @include componentReset();
+:root {
+  // Props
+  --accordion-border-width: 0.0625rem;
+  --accordion-border-radius: 0.25rem;
+  --accordion-easing: var(--easing-default);
 }
 
-@import './_accordion.scss';
+.dnb-accordion {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-basis);
+
+  &__header {
+    display: flex;
+    align-items: center;
+
+    cursor: pointer;
+    outline: none;
+
+    border: var(--accordion-border-width) solid transparent;
+    border-radius: var(--accordion-border-radius);
+
+    &:focus {
+      user-select: none;
+    }
+
+    // ensure that onMouseOutHandler works properly
+    * {
+      pointer-events: none;
+    }
+
+    &--prevent-click {
+      user-select: none;
+      pointer-events: none;
+    }
+
+    &__wrapper {
+      display: flex;
+      flex-direction: column;
+      width: 100%; // this pushes the &__container to the right
+
+      margin: 1.5rem 0 1.5rem 2rem;
+    }
+    &--description &__wrapper {
+      margin: 1rem 0 1rem 2rem;
+    }
+    &__icon + &__wrapper {
+      margin-left: 0;
+      margin-right: 2rem;
+    }
+
+    &__container {
+      margin: 0 1rem;
+    }
+    &__icon {
+      align-self: flex-start;
+
+      margin: 1.5rem 1rem;
+
+      font-size: var(--font-size-small);
+      line-height: var(
+        --line-height-small
+      ); // to ensure correct icon height
+      transition: transform 400ms var(--accordion-easing);
+    }
+    &--description &__icon {
+      margin-top: 1rem;
+    }
+    &__icon--right {
+      justify-content: space-between;
+    }
+    &__icon--right &__icon {
+      order: 3;
+    }
+    &__icon--right &__container {
+      order: 1;
+    }
+    &__icon--right &__wrapper {
+      order: 2;
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
+    &__icon--right &__wrapper + &__container {
+      margin-right: 0;
+    }
+    &__icon--right &__container + &__wrapper {
+      margin-left: 0;
+    }
+
+    &__title {
+      font-size: var(--font-size-basis);
+      line-height: var(--line-height-basis);
+    }
+
+    &__description {
+      font-size: var(--font-size-small);
+      line-height: var(--line-height-small);
+      font-weight: var(--font-weight-basis);
+    }
+    &__title + &__description {
+      margin-top: 0.25rem;
+    }
+    &__description + &__title {
+      margin-top: 0.25rem;
+    }
+  }
+
+  &--expanded > &__header &__header__icon {
+    transform: rotate(-180deg);
+  }
+
+  &__content {
+    display: flex;
+    width: 100%;
+
+    will-change: height;
+    transition: height 400ms var(--accordion-easing),
+      opacity 600ms var(--accordion-easing);
+
+    &__inner {
+      width: 100%;
+      margin-top: 1rem;
+    }
+
+    // When "prerender" prop is true
+    &.dnb-height-animation--hidden &__inner {
+      display: none;
+    }
+  }
+
+  &-group--single-container {
+    transition: min-height 1s var(--accordion-easing);
+  }
+
+  &-group--single-container & {
+    position: static;
+    max-width: 60rem;
+
+    @media screen and (min-width: 40em) {
+      &__header {
+        width: 40%; // 40% / 60%
+      }
+
+      // Only to make sure we have a spacing. But would be typcally project specific
+      &__content {
+        margin-left: 1rem;
+
+        // Slower down the animation if single container is used
+        transition: opacity 1s var(--accordion-easing);
+
+        &__inner {
+          margin-top: 0;
+        }
+      }
+    }
+
+    // NB: This has a negative side effect once it is integrated in a 60rem max-width container
+    // @media screen and (min-width: 80em) {
+    //   &__header {
+    //     width: 44rem;
+    //   }
+    // }
+  }
+  &-group--single-container & > &__header &__header__icon {
+    @media screen and (min-width: 40em) {
+      transform: rotate(-90deg);
+    }
+  }
+
+  &-group {
+    &--single-container & {
+      &__children {
+        max-width: 60rem;
+
+        @media screen and (min-width: 40em) {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+
+          .dnb-accordion__content {
+            position: absolute;
+            z-index: 10;
+            top: 0;
+            right: 0;
+            // Do not set bottom here, it messes up the offsetHeight in JS
+
+            width: 60%; // 40% / 60%
+          }
+        }
+
+        // NB: This has a negative side effect once it is integrated in a 60rem max-width container
+        // @media screen and (min-width: 80em) {
+        //   .dnb-accordion__content {
+        //     left: 44rem;
+        //   }
+        // }
+      }
+    }
+  }
+
+  // stylelint-disable-next-line
+  & > &__header--no-animation &__header__icon,
+  html[data-visual-test] & &__header &__header__icon {
+    transition: none;
+  }
+}

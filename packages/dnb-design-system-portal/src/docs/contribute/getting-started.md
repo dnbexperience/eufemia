@@ -83,15 +83,13 @@ Each component has two or three SCSS files.
 
 All layout and position related styles go here:
 
-- `./packages/dnb-eufemia/src/components/button/style/_button.scss` (with leading underscore)
+- `./packages/dnb-eufemia/src/components/button/style/dnb-button.scss`
 
 #### SCSS dependencies
 
-SCSS file names staring with `dnb-` are later possible to get imported as self-contained, individual packages:
+SCSS file names staring with `dnb-` are later possible to get imported as individual packages:
 
 - `./packages/dnb-eufemia/src/components/button/style/dnb-button.scss`
-
-There you can `@import` related **SCSS dependencies**. Like the button component also includes the icon component styles.
 
 #### SCSS Theming
 

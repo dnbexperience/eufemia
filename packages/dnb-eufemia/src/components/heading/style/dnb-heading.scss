@@ -1,12 +1,22 @@
 /*
-* DNB Heading
-*
-*/
+ * Heading Component
+ *
+ */
 
-@import '../../../style/components/imports.scss';
+@import '../../../style/core/utilities.scss';
 
-// .dnb-heading {
-//   @include componentReset();
-// }
-
-@import './_heading.scss';
+.dnb-heading {
+  &__debug {
+    color: var(--color-black-20);
+    // color: var(--color-fire-red);
+    font-weight: var(--font-weight-basis);
+    .dnb-code {
+      color: var(--color-black);
+      font-size: 12px !important;
+    }
+  }
+  &__context {
+    display: block;
+    padding: 1rem 0 2rem;
+  }
+}

@@ -1,19 +1,452 @@
 /*
-* DNB Input
+* Input component
 *
 */
 
-@import '../../../style/components/imports.scss';
+@import '../../../style/core/utilities.scss';
 
-// import dependencies
-@import '../../button/style/dnb-button.scss';
-@import '../../icon/style/dnb-icon.scss';
-@import '../../tooltip/style/dnb-tooltip.scss';
-@import '../../form-label/style/dnb-form-label.scss';
-@import '../../form-status/style/dnb-form-status.scss';
-
-.dnb-input {
-  @include componentReset();
+:root {
+  --input-font-size: var(--font-size-basis);
+  --input-font-size--small: var(--font-size-basis);
+  --input-font-size--medium: var(--font-size-basis);
+  --input-font-size--large: var(--font-size-medium);
+  --input-padding: 1rem;
+  --input-padding--small: 1rem;
+  --input-padding--medium: 1rem;
+  --input-padding--large: 1rem;
+  --input-height: 2rem;
+  --input-height--small: 1.5rem;
+  --input-height--medium: 2.5rem;
+  --input-height--large: 3rem;
+  --input-border-width: 0.0625rem;
+  --input-border-radius: 0.25rem;
 }
 
-@import './_input.scss';
+.dnb-input {
+  display: inline-flex;
+  align-items: center;
+
+  font-size: var(--input-font-small);
+  line-height: var(--input-height);
+  text-align: left;
+
+  &__inner {
+    display: inline-flex;
+    flex-direction: column;
+
+    width: auto;
+  }
+
+  &__shell {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    border: var(--input-border-width) solid var(--color-sea-green);
+  }
+
+  &__input {
+    border: none;
+    outline: none;
+    word-break: normal;
+
+    position: relative;
+    z-index: 2; // to make sure we are over the placeholder
+  }
+
+  &__input[disabled] {
+    user-select: none;
+    -webkit-user-select: none; // Safari / Touch fix
+    opacity: 1; // iOS fix
+  }
+
+  &__shell,
+  &__input {
+    height: var(--input-height);
+    border-radius: var(--input-border-radius);
+  }
+
+  &__placeholder,
+  &__input {
+    width: 100%; // to get overflow working properly
+    padding-left: var(--input-padding);
+    padding-right: var(
+      --input-padding
+    ); // we may expand things because of the ellipsis
+  }
+
+  &__placeholder,
+  &__input,
+  input#{&}__input // Safari fix
+  {
+    // reset browser styling
+    padding-top: 0; // Safari fix
+    padding-bottom: 0; // Safari fix
+
+    color: inherit;
+    background-color: transparent;
+
+    // because we inherit the size on the input (reset.css)
+    font-size: var(--input-font-size);
+
+    // because we inherit the size on the input (reset.css)
+    line-height: inherit; // Safari fix
+  }
+
+  &__placeholder {
+    pointer-events: none;
+
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+
+    // NB: We may considder moving this part to include &__input
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  // centering type="file" - here we can actually keep it as pixels
+  input#{&}__input[type='file'] {
+    line-height: calc(var(--input-height) - 2px);
+  }
+
+  // hide the clear button on input type="search"
+  &__input::-webkit-search-cancel-button {
+    display: none;
+  }
+  &__input::-ms-clear {
+    display: none;
+  }
+
+  // change file type appearance on type="file"
+  ::-webkit-file-upload-button {
+    cursor: pointer;
+    outline: none;
+    color: var(--color-sea-green);
+    &:active,
+    &:hover {
+      color: var(--color-emerald-green);
+    }
+  }
+
+  &--has-submit-element &__placeholder,
+  &--has-submit-element &__input,
+  &--has-clear-button &__placeholder,
+  &--has-clear-button &__input {
+    padding-right: calc(var(--input-padding) * 2.5);
+  }
+  // Because of password managers
+  &--password &__placeholder,
+  &--password &__input {
+    margin-right: 2.5rem;
+    padding-right: 0;
+
+    &::-ms-clear {
+      display: none;
+    }
+    // Hiding "password reveal" button in Ms Edge
+    &::-ms-reveal {
+      display: none;
+    }
+  }
+  &--password &__placeholder {
+    padding-right: 4rem;
+  }
+  &--password &__input {
+    font-family: var(--font-family-monospace);
+  }
+
+  &__row {
+    display: inline-flex;
+    align-items: center; // Safari gets wired if we use "baseline"
+  }
+
+  &__suffix {
+    color: inherit;
+  }
+
+  &__submit-element {
+    z-index: 3; // over placeholder
+
+    margin-left: calc(1px - 1px - var(--input-height));
+    line-height: var(--line-height-basis);
+  }
+
+  &__submit-button {
+    position: relative;
+
+    // place the button vertically
+    align-self: center; /* IE needs this to stay centered */
+
+    &__button {
+      // For now we don't support a button on the left side
+      border-radius: 0 var(--input-border-radius)
+        var(--input-border-radius) 0;
+    }
+  }
+
+  > .dnb-form-label {
+    line-height: var(--line-height-basis);
+  }
+  @include formLabelWrap();
+
+  &:not(&--vertical)[class*='__status'] {
+    align-items: flex-start;
+
+    & > .dnb-form-label {
+      // vertical align the current font
+      margin-top: 0.25rem;
+    }
+  }
+
+  &--small {
+    line-height: var(--input-height--small);
+    .dnb-input__shell,
+    .dnb-input__input {
+      height: var(--input-height--small);
+    }
+    .dnb-input__placeholder,
+    .dnb-input__input {
+      padding-left: var(--input-padding--small);
+      padding-right: var(--input-padding--small);
+      font-size: var(--input-font-size--small);
+    }
+    .dnb-input__submit-element {
+      margin-left: calc(1px - 1px - var(--input-height--small));
+
+      .dnb-button--input-button {
+        width: var(--input-height--small);
+        height: var(--input-height--small);
+        line-height: var(--input-height--small);
+      }
+    }
+  }
+  &--small#{&}--has-submit-element &__placeholder,
+  &--small#{&}--has-submit-element &__input,
+  &--small#{&}--has-clear-button &__placeholder,
+  &--small#{&}--has-clear-button &__input {
+    padding-right: calc(var(--input-padding--small) * 2);
+  }
+
+  &--medium {
+    line-height: var(--input-height--medium);
+    .dnb-input__shell,
+    .dnb-input__input {
+      height: var(--input-height--medium);
+    }
+
+    .dnb-input__placeholder,
+    .dnb-input__input {
+      padding-left: var(--input-padding--medium);
+      padding-right: var(--input-padding--medium);
+      font-size: var(--input-font-size--medium);
+    }
+    .dnb-input__submit-element {
+      margin-left: calc(1px - 1px - var(--input-height--medium));
+
+      .dnb-button--input-button {
+        width: var(--input-height--medium);
+        height: var(--input-height--medium);
+        line-height: var(--input-height--medium);
+      }
+    }
+  }
+  &--medium#{&}--has-submit-element &__placeholder,
+  &--medium#{&}--has-submit-element &__input,
+  &--medium#{&}--has-clear-button &__placeholder,
+  &--medium#{&}--has-clear-button &__input {
+    padding-right: calc(var(--input-padding--medium) * 3);
+  }
+
+  &--large {
+    line-height: var(--input-height--large);
+    .dnb-input__shell,
+    .dnb-input__input {
+      height: var(--input-height--large);
+    }
+    .dnb-input__placeholder,
+    .dnb-input__input {
+      padding-left: var(--input-padding--large);
+      padding-right: var(--input-padding--large);
+      font-size: var(--input-font-size--large);
+    }
+    .dnb-input__submit-element {
+      margin-left: calc(1px - 1px - var(--input-height--large));
+
+      .dnb-button--input-button {
+        width: var(--input-height--large);
+        height: var(--input-height--large);
+
+        // NB: before we used to scale the icon additionally
+        // .dnb-button__icon {
+        //   transform: scale(1.33333);
+        // }
+      }
+    }
+  }
+  &--large#{&}--has-submit-element &__placeholder,
+  &--large#{&}--has-submit-element &__input,
+  &--large#{&}--has-clear-button &__placeholder,
+  &--large#{&}--has-clear-button &__input {
+    padding-right: calc(var(--input-padding--large) * 3);
+  }
+  &--large#{&}--has-clear-button:not(#{&}--has-submit-element)
+    .dnb-input__submit-element {
+    margin-left: calc(1px - 1px - var(--input-height--large) + 0.5rem);
+  }
+
+  &__align--center &__placeholder,
+  &__align--center &__input {
+    text-align: center;
+  }
+  &__align--right &__placeholder,
+  &__align--right &__input {
+    text-align: right;
+  }
+
+  // Input clear button styles
+  &--clear.dnb-input__submit-element {
+    opacity: 0;
+    transition: opacity 200ms ease-in-out;
+    .dnb-button {
+      width: var(--input-height--small);
+      height: var(--input-height--small);
+      border-radius: var(--button-border-radius);
+
+      .dnb-button__icon {
+        margin: auto;
+      }
+
+      html:not([data-whatintent='touch'])
+        &:not(.dnb-button--has-text):hover[disabled] {
+        cursor: default;
+      }
+    }
+  }
+  &--small &--clear.dnb-input__submit-element {
+    .dnb-button {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+  &--medium &--clear,
+  &--large &--clear {
+    &.dnb-input__submit-element {
+      .dnb-button {
+        width: var(--input-height--small);
+        height: var(--input-height--small);
+      }
+    }
+  }
+  &[data-has-content='true'] &--clear {
+    opacity: 1;
+  }
+  &--has-submit-element &--clear.dnb-input__submit-element {
+    margin-right: 2.5rem;
+  }
+  &--small#{&}--has-submit-element &--clear.dnb-input__submit-element {
+    margin-right: 2rem;
+  }
+  &--medium#{&}--has-submit-element &--clear.dnb-input__submit-element {
+    margin-right: 3rem;
+  }
+  &--large#{&}--has-submit-element &--clear.dnb-input__submit-element {
+    margin-right: 3.5rem;
+  }
+
+  &__inner > .dnb-form-status {
+    order: 2;
+    margin-top: 0.5rem;
+  }
+
+  &--vertical {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  // make full width
+  &--stretch {
+    display: flex;
+    flex-grow: 1;
+  }
+  &--stretch & {
+    &__inner {
+      flex-grow: 1;
+    }
+    &__inner,
+    &__shell {
+      width: 100%;
+    }
+  }
+  &--stretch .dnb-form-label + &__inner {
+    width: auto;
+  }
+  &--vertical#{&}--stretch &__inner {
+    width: 100%;
+  }
+  .dnb-form-row--horizontal &--stretch {
+    width: 100%;
+  }
+
+  // Icon
+  &__icon {
+    order: 0;
+    position: absolute;
+    left: 1rem;
+    right: auto;
+
+    top: 0;
+    bottom: 0;
+    margin: auto;
+  }
+  &--icon-position-right &__icon {
+    order: 1;
+    left: auto;
+    right: 1rem;
+  }
+  &--icon-position-left#{&}--has-icon &__input,
+  &--icon-position-left#{&}--has-icon &__placeholder {
+    padding-left: 2.5rem;
+  }
+  &--icon-position-right#{&}--has-icon &__input,
+  &--icon-position-right#{&}--has-icon &__placeholder {
+    padding-right: 2.5rem;
+  }
+  &--icon-size-medium#{&}--icon-position-left#{&}--has-icon &__input,
+  &--icon-size-medium#{&}--icon-position-left#{&}--has-icon
+    &__placeholder {
+    padding-left: 3rem;
+  }
+  &--icon-size-medium#{&}--icon-position-right#{&}--has-icon &__input,
+  &--icon-size-medium#{&}--icon-position-right#{&}--has-icon
+    &__placeholder {
+    padding-right: 3rem;
+  }
+
+  html[data-visual-test] &__input {
+    caret-color: var(--color-white);
+  }
+
+  .dnb-responsive-component & {
+    @media screen and (max-width: 40em) {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
+      margin-bottom: 0.5rem;
+
+      // helps to stay in alignment with suffix
+      &__row {
+        align-items: flex-start;
+      }
+
+      & > .dnb-form-label {
+        margin-bottom: 0.5rem;
+      }
+    }
+  }
+}

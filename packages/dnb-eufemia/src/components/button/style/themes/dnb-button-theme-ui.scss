@@ -3,8 +3,8 @@
 *
 */
 
-@import '../../../../style/themes/imports.scss';
-@import './_button-mixins.scss';
+@import '../../../../style/core/utilities.scss';
+@import './button-mixins.scss';
 
 .dnb-button {
   border: none;

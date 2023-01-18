@@ -1,12 +1,17 @@
 /*
-* DNB Visually Hidden
+* HeightAnimation component
 *
 */
 
-@import '../../../style/components/imports.scss';
+@import '../../../style/core/utilities.scss';
 
 .dnb-height-animation {
-  @include componentReset();
-}
+  transition: height var(--duration, 400ms) var(--easing-default);
 
-@import './_height-animation.scss';
+  &--animating {
+    overflow: hidden;
+  }
+  &--show-overflow {
+    overflow: visible;
+  }
+}

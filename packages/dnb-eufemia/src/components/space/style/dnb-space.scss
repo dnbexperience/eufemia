@@ -1,12 +1,180 @@
 /*
-* DNB Space
-*
-*/
+ * Space component
+ *
+ * TODO: Set spacing in the theme file, as theme comes later in the stack
+ *
+ */
 
-@import '../../../style/components/imports.scss';
+@import '../../../style/core/utilities.scss';
 
-.dnb-space {
-  @include componentReset();
+@mixin direction($direction) {
+  // 0rem
+  &--zero {
+    margin-#{$direction}: 0;
+  }
+  // 0.25rem
+  &--xx-small {
+    margin-#{$direction}: var(--spacing-xx-small);
+  }
+  // 0.5rem
+  &--x-small {
+    margin-#{$direction}: var(--spacing-x-small);
+  }
+  // 1rem
+  &--small {
+    margin-#{$direction}: var(--spacing-small);
+  }
+  // 1.5rem
+  &--medium {
+    margin-#{$direction}: var(--spacing-medium);
+  }
+  // 2rem
+  &--large {
+    margin-#{$direction}: var(--spacing-large);
+  }
+  // 2.5rem
+  &--large#{&}--x-small {
+    margin-#{$direction}: calc(
+      var(--spacing-large) + var(--spacing-x-small)
+    );
+  }
+  // 3rem
+  &--x-large {
+    margin-#{$direction}: var(--spacing-x-large);
+  }
+  // 3.5rem
+  &--xx-large {
+    margin-#{$direction}: var(--spacing-xx-large);
+  }
+  // 4rem
+  &--xx-large#{&}--x-small {
+    margin-#{$direction}: calc(
+      var(--spacing-large) + var(--spacing-large)
+    );
+  }
+  // 4.5rem
+  &--xx-large#{&}--small {
+    margin-#{$direction}: calc(
+      var(--spacing-x-large) + var(--spacing-medium)
+    );
+  }
+  // 5rem
+  &--xx-large#{&}--medium {
+    margin-#{$direction}: calc(
+      var(--spacing-x-large) + var(--spacing-large)
+    );
+  }
+  // 5.5rem
+  &--xx-large#{&}--large {
+    margin-#{$direction}: calc(
+      var(--spacing-x-large) + var(--spacing-large) +
+        var(--spacing-x-small)
+    );
+  }
+  // 6rem
+  &--xx-large#{&}--large#{&}--x-small {
+    margin-#{$direction}: calc(
+      var(--spacing-x-large) + var(--spacing-large) + var(--spacing-small)
+    );
+  }
+  // 6.5rem
+  &--xx-large#{&}--x-large {
+    margin-#{$direction}: calc(
+      var(--spacing-xx-large) + var(--spacing-x-large)
+    );
+  }
+  // 7rem
+  &--xx-large-x2 {
+    margin-#{$direction}: calc(
+      var(--spacing-x-large) + var(--spacing-large) + var(--spacing-large)
+    );
+  }
+  // 7.5rem
+  &--xx-large-x2#{&}--x-small {
+    margin-#{$direction}: calc(
+      var(--spacing-xx-large) + var(--spacing-large) + var(--spacing-large)
+    );
+  }
+  // 8rem
+  &--xx-large-x2#{&}--small {
+    margin-#{$direction}: calc(
+      var(--spacing-x-large) + var(--spacing-x-large) +
+        var(--spacing-large)
+    );
+  }
+  // 8.5rem
+  &--xx-large-x2#{&}--medium {
+    margin-#{$direction}: calc(
+      var(--spacing-xx-large) + var(--spacing-x-large) +
+        var(--spacing-large)
+    );
+  }
+  // 9rem
+  &--xx-large-x2#{&}--large {
+    margin-#{$direction}: calc(
+      var(--spacing-x-large) + var(--spacing-x-large) +
+        var(--spacing-x-large)
+    );
+  }
+  // 9.5rem
+  &--xx-large-x2#{&}--large#{&}--x-small {
+    margin-#{$direction}: calc(
+      var(--spacing-xx-large) + var(--spacing-x-large) +
+        var(--spacing-x-large)
+    );
+  }
+  // 10rem
+  &--xx-large-x2#{&}--x-large {
+    margin-#{$direction}: calc(
+      var(--spacing-xx-large) + var(--spacing-xx-large) +
+        var(--spacing-x-large)
+    );
+  }
 }
 
-@import './_space.scss';
+/** NB: Because CSS specificity ".dnb-core-style .dnb-space"
+    has to come before the next ".dnb-space"
+  */
+.dnb-core-style .dnb-space {
+  &__top {
+    @include direction(top);
+  }
+  &__right {
+    @include direction(right);
+  }
+  &__bottom {
+    @include direction(bottom);
+  }
+  &__left {
+    @include direction(left);
+  }
+}
+
+/* stylelint-disable */
+.dnb-space {
+  &--no-collapse {
+    display: flow-root;
+  }
+  &--stretch {
+    width: 100%;
+  }
+  &--inline {
+    display: inline-block;
+  }
+  &__top {
+    @include direction(top);
+  }
+  &__right {
+    @include direction(right);
+  }
+  &__bottom {
+    @include direction(bottom);
+  }
+  &__left {
+    @include direction(left);
+  }
+}
+span.dnb-space--no-collapse > span {
+  display: block;
+}
+/* stylelint-enable */
