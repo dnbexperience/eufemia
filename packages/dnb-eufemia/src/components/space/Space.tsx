@@ -37,28 +37,31 @@ function Element({
   innerRef,
   ...props
 }: SpaceAllProps) {
-  const E = element as DynamicElement<any>
+  const ElementDynamic = element as DynamicElement<any>
   let component: React.ReactElement = null
 
-  if (E === Section) {
+  if (ElementDynamic === Section) {
     component = (
-      <E {...props} innerRef={innerRef}>
+      <ElementDynamic {...props} inner_ref={innerRef}>
         {children}
-      </E>
+      </ElementDynamic>
     )
   } else {
     // also used for code markup simulation
     validateDOMAttributes({}, props)
 
     component = (
-      <E {...props} ref={innerRef}>
+      <ElementDynamic {...props} ref={innerRef}>
         {children}
-      </E>
+      </ElementDynamic>
     )
   }
 
   if (isTrue(no_collapse)) {
-    const R = E === 'span' || isInline(element as string) ? 'span' : 'div'
+    const R =
+      ElementDynamic === 'span' || isInline(element as string)
+        ? 'span'
+        : 'div'
     return (
       <R
         className={classnames(
