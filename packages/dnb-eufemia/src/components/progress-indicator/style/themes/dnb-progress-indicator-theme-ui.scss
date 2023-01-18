@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../../style/themes/imports.scss';
+@import '../../../../style/core/utilities.scss';
 
 // to get a reverse #v3 - use the following setup, strokeDashoffset has also to be:
 // const strokeDashoffset = -((maxOffset / 100) * progress-indicator)

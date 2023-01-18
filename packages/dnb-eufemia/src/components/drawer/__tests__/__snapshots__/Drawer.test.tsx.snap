@@ -1351,39 +1351,26 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
 exports[`Drawer scss have to match snapshot 1`] = `
 "@charset "UTF-8";
 /*
-* DNB Drawer
+* Used for snapshot testing
 *
 */
-/**
- * This file is only used to make components independent
- * so that they can get imported individually, without the core styles
- *
- */
 /*
  * Utilities
  */
 /*
- * Scopes
- *
- */
-/*
- * Document Reset
- *
- */
-/*
-* DNB Modal
+* Used for snapshot testing
 *
 */
 /*
-* DNB HelpButton
+* Used for snapshot testing
 *
 */
 /*
-* DNB Button
+* Used for snapshot testing
 *
 */
 /*
-* DNB icon
+* Used for snapshot testing
 *
 */
 /*
@@ -1447,52 +1434,9 @@ exports[`Drawer scss have to match snapshot 1`] = `
       content: none !important; }
 
 /*
-* DNB Tooltip
+* Used for snapshot testing
 *
 */
-.dnb-tooltip {
-  font-family: var(--font-family-default);
-  font-weight: var(--font-weight-basis);
-  font-size: var(--font-size-small);
-  font-style: normal;
-  line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  /**
-  * Ensure consistency and use the same as HTML reset -> html {...}
-  * between base and code package
-  */
-  -moz-tab-size: 4;
-  tab-size: 4;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  word-break: break-word;
-  /**
-  * 1. Remove repeating backgrounds in all browsers (opinionated).
-  * 2. Add border box sizing in all browsers (opinionated).
-  */
-  /**
-  * 1. Add text decoration inheritance in all browsers (opinionated).
-  * 2. Add vertical alignment inheritance in all browsers (opinionated).
-  */
-  margin: 0;
-  padding: 0; }
-  .dnb-tooltip *,
-  .dnb-tooltip ::before,
-  .dnb-tooltip ::after {
-    background-repeat: no-repeat;
-    /* 1 */
-    box-sizing: border-box;
-    /* 2 */ }
-  .dnb-tooltip ::before,
-  .dnb-tooltip ::after {
-    text-decoration: inherit;
-    /* 1 */
-    vertical-align: inherit;
-    /* 2 */ }
-
 /*
 * Tooltip component
 *
@@ -1586,52 +1530,9 @@ exports[`Drawer scss have to match snapshot 1`] = `
     visibility: hidden; } }
 
 /*
-* DNB FormStatus
+* Used for snapshot testing
 *
 */
-.dnb-form-status {
-  font-family: var(--font-family-default);
-  font-weight: var(--font-weight-basis);
-  font-size: var(--font-size-small);
-  font-style: normal;
-  line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  /**
-  * Ensure consistency and use the same as HTML reset -> html {...}
-  * between base and code package
-  */
-  -moz-tab-size: 4;
-  tab-size: 4;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  word-break: break-word;
-  /**
-  * 1. Remove repeating backgrounds in all browsers (opinionated).
-  * 2. Add border box sizing in all browsers (opinionated).
-  */
-  /**
-  * 1. Add text decoration inheritance in all browsers (opinionated).
-  * 2. Add vertical alignment inheritance in all browsers (opinionated).
-  */
-  margin: 0;
-  padding: 0; }
-  .dnb-form-status *,
-  .dnb-form-status ::before,
-  .dnb-form-status ::after {
-    background-repeat: no-repeat;
-    /* 1 */
-    box-sizing: border-box;
-    /* 2 */ }
-  .dnb-form-status ::before,
-  .dnb-form-status ::after {
-    text-decoration: inherit;
-    /* 1 */
-    vertical-align: inherit;
-    /* 2 */ }
-
 /*
  * FormStatus component
  *
@@ -1695,49 +1596,6 @@ exports[`Drawer scss have to match snapshot 1`] = `
   .dnb-form-status--no-animation,
   html[data-visual-test] .dnb-form-status {
     transition-duration: 1ms !important; }
-
-.dnb-button {
-  font-family: var(--font-family-default);
-  font-weight: var(--font-weight-basis);
-  font-size: var(--font-size-small);
-  font-style: normal;
-  line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  /**
-  * Ensure consistency and use the same as HTML reset -> html {...}
-  * between base and code package
-  */
-  -moz-tab-size: 4;
-  tab-size: 4;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  word-break: break-word;
-  /**
-  * 1. Remove repeating backgrounds in all browsers (opinionated).
-  * 2. Add border box sizing in all browsers (opinionated).
-  */
-  /**
-  * 1. Add text decoration inheritance in all browsers (opinionated).
-  * 2. Add vertical alignment inheritance in all browsers (opinionated).
-  */
-  margin: 0;
-  padding: 0; }
-  .dnb-button *,
-  .dnb-button ::before,
-  .dnb-button ::after {
-    background-repeat: no-repeat;
-    /* 1 */
-    box-sizing: border-box;
-    /* 2 */ }
-  .dnb-button ::before,
-  .dnb-button ::after {
-    text-decoration: inherit;
-    /* 1 */
-    vertical-align: inherit;
-    /* 2 */ }
 
 /*
 * Button component
@@ -1928,102 +1786,16 @@ exports[`Drawer scss have to match snapshot 1`] = `
 button.dnb-button::-moz-focus-inner {
   border: none; }
 
-.dnb-help-button {
-  font-family: var(--font-family-default);
-  font-weight: var(--font-weight-basis);
-  font-size: var(--font-size-small);
-  font-style: normal;
-  line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  /**
-  * Ensure consistency and use the same as HTML reset -> html {...}
-  * between base and code package
-  */
-  -moz-tab-size: 4;
-  tab-size: 4;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  word-break: break-word;
-  /**
-  * 1. Remove repeating backgrounds in all browsers (opinionated).
-  * 2. Add border box sizing in all browsers (opinionated).
-  */
-  /**
-  * 1. Add text decoration inheritance in all browsers (opinionated).
-  * 2. Add vertical alignment inheritance in all browsers (opinionated).
-  */
-  margin: 0;
-  padding: 0; }
-  .dnb-help-button *,
-  .dnb-help-button ::before,
-  .dnb-help-button ::after {
-    background-repeat: no-repeat;
-    /* 1 */
-    box-sizing: border-box;
-    /* 2 */ }
-  .dnb-help-button ::before,
-  .dnb-help-button ::after {
-    text-decoration: inherit;
-    /* 1 */
-    vertical-align: inherit;
-    /* 2 */ }
-
 /*
  * HelpButton component
  *
  * TODO: Set spacing in the theme file, as theme comes later in the stack
  *
  */
-.dnb-modal__content {
-  font-family: var(--font-family-default);
-  font-weight: var(--font-weight-basis);
-  font-size: var(--font-size-small);
-  font-style: normal;
-  line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  /**
-  * Ensure consistency and use the same as HTML reset -> html {...}
-  * between base and code package
-  */
-  -moz-tab-size: 4;
-  tab-size: 4;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  word-break: break-word;
-  /**
-  * 1. Remove repeating backgrounds in all browsers (opinionated).
-  * 2. Add border box sizing in all browsers (opinionated).
-  */
-  /**
-  * 1. Add text decoration inheritance in all browsers (opinionated).
-  * 2. Add vertical alignment inheritance in all browsers (opinionated).
-  */
-  margin: 0;
-  padding: 0; }
-  .dnb-modal__content *,
-  .dnb-modal__content ::before,
-  .dnb-modal__content ::after {
-    background-repeat: no-repeat;
-    /* 1 */
-    box-sizing: border-box;
-    /* 2 */ }
-  .dnb-modal__content ::before,
-  .dnb-modal__content ::after {
-    text-decoration: inherit;
-    /* 1 */
-    vertical-align: inherit;
-    /* 2 */ }
-
 /*
-* Drawer component
-*
-*/
+ * Modal component
+ *
+ */
 /*
  * Modal component
  *
@@ -2093,6 +1865,90 @@ button.dnb-button::-moz-focus-inner {
   to {
     opacity: 0; } }
 
+:root {
+  --modal-z-index: 3000;
+  --modal-animation-duration: 300ms; }
+
+html[data-dnb-modal-active] {
+  user-select: none;
+  -webkit-user-select: none; }
+
+#dnb-modal-root {
+  position: absolute;
+  top: 0;
+  left: 0; }
+
+.dnb-modal {
+  /* stylelint-disable-next-line */ }
+  .dnb-modal__content {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: calc(var(--modal-z-index) + 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 100vw;
+    width: 100%;
+    height: 100%;
+    user-select: none;
+    -webkit-user-select: none; }
+    @media screen and (max-width: 40em) {
+      .dnb-modal__content--auto-fullscreen {
+        height: auto; } }
+    .dnb-modal__content--fullscreen {
+      align-items: flex-start;
+      justify-content: flex-start; }
+    .dnb-modal__content--fullscreen .dnb-modal__content__content {
+      height: auto; }
+    .dnb-modal__content--left, .dnb-modal__content--top {
+      align-items: flex-start;
+      justify-content: flex-start; }
+    .dnb-modal__content--right {
+      align-items: flex-start;
+      justify-content: flex-end; }
+    .dnb-modal__content--bottom {
+      align-items: flex-end;
+      justify-content: flex-start; }
+  .dnb-modal__overlay {
+    position: fixed;
+    z-index: var(--modal-z-index);
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%; }
+  .dnb-modal-root__inner .dnb-modal__overlay {
+    animation: hide-modal-overlay var(--modal-animation-duration) ease-out forwards; }
+  .dnb-modal-root__inner:last-of-type .dnb-modal__overlay {
+    animation: show-modal-overlay var(--modal-animation-duration) ease-out; }
+    .dnb-modal-root__inner:last-of-type .dnb-modal__overlay--hide {
+      animation: hide-modal-overlay var(--modal-animation-duration) ease-out forwards; }
+  html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
+    animation-delay: 0ms !important;
+    animation-duration: 0ms !important; }
+  .dnb-modal-root__inner {
+    position: relative;
+    z-index: calc(var(--modal-z-index) + 1); }
+  .dnb-modal-root__inner ~ .dnb-modal-root__inner {
+    z-index: calc(var(--modal-z-index) + 2); }
+  .dnb-modal-root__inner ~ .dnb-modal-root__inner ~ .dnb-modal-root__inner {
+    z-index: calc(var(--modal-z-index) + 3); }
+  .dnb-modal-root__inner ~ .dnb-modal-root__inner ~ .dnb-modal-root__inner ~ .dnb-modal-root__inner {
+    z-index: calc(var(--modal-z-index) + 4); }
+  .dnb-modal__close-button {
+    z-index: calc(var(--modal-z-index) + 1); }
+  .dnb-modal__header__bar.dnb-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; }
+
+[data-visual-test].hide-page-content #___gatsby {
+  opacity: 0; }
+
+/*
+* Drawer component
+*
+*/
 :root {
   --drawer-width: 40vw;
   --drawer-min-width: 25rem;
@@ -2287,289 +2143,5 @@ button.dnb-button::-moz-focus-inner {
 
 [data-visual-test].hide-page-content #___gatsby {
   opacity: 0; }
-
-/*
- * Dialog component
- *
- */
-:root {
-  --dialog-min-width: 320px;
-  --dialog-avg-width: 60vw;
-  --dialog-max-width: 49rem;
-  --dialog-confirm-max-width: 40rem;
-  --dialog-spacing: 2rem;
-  --dialog-spacing-minus: -2rem; }
-
-.dnb-dialog {
-  position: relative;
-  border-radius: 0.5rem;
-  box-shadow: var(--shadow-default);
-  user-select: text;
-  -webkit-user-select: text;
-  border: none;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  max-height: 100vh;
-  overflow: hidden; }
-  .dnb-dialog .dnb-scroll-view {
-    max-height: 90vh; }
-  .dnb-dialog__inner {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%; }
-  .dnb-dialog--information {
-    width: var(--dialog-avg-width);
-    min-width: var(--dialog-min-width);
-    max-width: var(--dialog-max-width); }
-  .dnb-dialog--confirmation {
-    max-width: var(--dialog-confirm-max-width);
-    margin-left: 1rem;
-    margin-right: 1rem; }
-  @media screen and (max-width: 40em) {
-    .dnb-dialog--auto-fullscreen {
-      width: 100%;
-      height: 100vh;
-      max-width: 100%;
-      max-height: 100vh;
-      border-radius: 0;
-      box-shadow: none;
-      margin: auto 0; } }
-  .dnb-dialog--fullscreen {
-    width: 100%;
-    height: 100vh;
-    max-width: 100%;
-    max-height: 100vh;
-    border-radius: 0;
-    box-shadow: none;
-    margin: auto 0; }
-  .dnb-dialog--spacing.dnb-dialog--information .dnb-dialog__content {
-    padding-bottom: calc(var(--dialog-spacing) * 2); }
-  .dnb-dialog--spacing.dnb-dialog--information .dnb-dialog__inner {
-    padding-left: calc(var(--dialog-spacing) * 1.75);
-    padding-right: calc(var(--dialog-spacing) * 1.75); }
-    @media screen and (max-width: 60em) {
-      .dnb-dialog--spacing.dnb-dialog--information .dnb-dialog__inner {
-        padding-left: calc(var(--dialog-spacing));
-        padding-right: calc(var(--dialog-spacing)); } }
-    @media screen and (max-width: 40em) {
-      .dnb-dialog--spacing.dnb-dialog--information .dnb-dialog__inner {
-        padding-left: calc(var(--dialog-spacing) / 2);
-        padding-right: calc(var(--dialog-spacing) / 2); } }
-  .dnb-dialog--spacing.dnb-dialog--information .dnb-dialog__navigation.dnb-section {
-    margin-top: calc(var(--dialog-spacing));
-    margin-bottom: calc(var(--dialog-spacing) / 2); }
-    @media screen and (max-width: 50em) {
-      .dnb-dialog--spacing.dnb-dialog--information .dnb-dialog__navigation.dnb-section {
-        margin-top: calc(var(--dialog-spacing) / 2); } }
-  .dnb-dialog--spacing.dnb-dialog--confirmation .dnb-dialog__inner {
-    padding: calc(var(--dialog-spacing)); }
-  .dnb-dialog__align--centered .dnb-dialog__inner {
-    align-items: center;
-    justify-content: center; }
-  .dnb-dialog__align--centered .dnb-dialog__title,
-  .dnb-dialog__align--centered.dnb-dialog--confirmation .dnb-dialog__content {
-    text-align: center; }
-  .dnb-dialog__content {
-    position: relative;
-    z-index: 1; }
-  .dnb-dialog__actions {
-    padding-top: 1.5rem;
-    display: flex;
-    justify-content: center;
-    width: 100%; }
-    .dnb-dialog__actions > :not(:last-child) {
-      margin-right: 1rem; }
-  .dnb-dialog--information .dnb-dialog__actions {
-    justify-content: left; }
-  .dnb-dialog__align--center .dnb-dialog__content {
-    align-items: center;
-    text-align: center; }
-  .dnb-dialog__align--right .dnb-dialog__content {
-    align-items: flex-end;
-    text-align: right; }
-  .dnb-dialog__title ~ .dnb-dialog__content {
-    padding-top: calc(var(--dialog-spacing) / 2); }
-  @media screen and (max-width: 50em) {
-    .dnb-dialog__title {
-      font-size: var(--font-size-large) !important;
-      line-height: var(--line-height-medium) !important; } }
-  @media screen and (max-width: 40em) {
-    .dnb-dialog__title {
-      font-size: var(--font-size-medium) !important;
-      line-height: calc(var(--line-height-medium) - 0.25rem) !important; } }
-  .dnb-dialog--information .dnb-dialog__title {
-    margin-bottom: var(--spacing-small) !important; }
-  .dnb-dialog--confirmation .dnb-dialog__title {
-    margin-bottom: var(--spacing-x-small) !important; }
-  .dnb-dialog__navigation.dnb-section {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between; }
-  html:not([data-visual-test]) .dnb-dialog {
-    animation: show-modal var(--modal-animation-duration) ease-out; }
-  html:not([data-visual-test]) .dnb-dialog--hide {
-    animation: hide-modal 220ms ease-in-out forwards; }
-  .dnb-dialog--no-animation {
-    animation-duration: 0ms !important; }
-  @media screen and (max-width: 40em) {
-    .dnb-dialog--no-animation-on-mobile {
-      animation-delay: 0ms !important;
-      animation-duration: 0ms !important; } }
-  .dnb-dialog__body {
-    padding-bottom: calc(var(--dialog-spacing) * 2);
-    margin-bottom: calc(var(--dialog-spacing-minus) * 2); }
-  .dnb-dialog__header::after {
-    top: -500%;
-    height: 600%; }
-  .dnb-dialog__header [class*='dnb-h--'],
-  .dnb-dialog__header .dnb-modal__title {
-    padding: 0; }
-    .dnb-dialog__header [class*='dnb-h--']:not([class*='__top']),
-    .dnb-dialog__header .dnb-modal__title:not([class*='__top']) {
-      margin-top: 0; }
-    .dnb-dialog__header [class*='dnb-h--']:not([class*='__bottom']),
-    .dnb-dialog__header .dnb-modal__title:not([class*='__bottom']) {
-      margin-bottom: 0; }
-  .dnb-dialog--spacing .dnb-dialog__header .dnb-tabs {
-    margin-top: 3.5rem; }
-  .dnb-dialog__icon {
-    display: flex; }
-  .dnb-dialog__icon ~ .dnb-dialog__header {
-    margin-top: 1.5rem; }
-  @supports (-webkit-touch-callout: none) {
-    @media (max-height: 40em) {
-      .dnb-dialog .dnb-scroll-view {
-        max-height: 82vh; } } }
-
-[data-visual-test].hide-page-content #___gatsby {
-  opacity: 0; }
-
-/*
- * Modal component
- *
- */
-:root {
-  --modal-z-index: 3000;
-  --modal-animation-duration: 300ms; }
-
-html[data-dnb-modal-active] {
-  user-select: none;
-  -webkit-user-select: none; }
-
-#dnb-modal-root {
-  position: absolute;
-  top: 0;
-  left: 0; }
-
-.dnb-modal {
-  /* stylelint-disable-next-line */ }
-  .dnb-modal__content {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: calc(var(--modal-z-index) + 1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    max-width: 100vw;
-    width: 100%;
-    height: 100%;
-    user-select: none;
-    -webkit-user-select: none; }
-    @media screen and (max-width: 40em) {
-      .dnb-modal__content--auto-fullscreen {
-        height: auto; } }
-    .dnb-modal__content--fullscreen {
-      align-items: flex-start;
-      justify-content: flex-start; }
-    .dnb-modal__content--fullscreen .dnb-modal__content__content {
-      height: auto; }
-    .dnb-modal__content--left, .dnb-modal__content--top {
-      align-items: flex-start;
-      justify-content: flex-start; }
-    .dnb-modal__content--right {
-      align-items: flex-start;
-      justify-content: flex-end; }
-    .dnb-modal__content--bottom {
-      align-items: flex-end;
-      justify-content: flex-start; }
-  .dnb-modal__overlay {
-    position: fixed;
-    z-index: var(--modal-z-index);
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%; }
-  .dnb-modal-root__inner .dnb-modal__overlay {
-    animation: hide-modal-overlay var(--modal-animation-duration) ease-out forwards; }
-  .dnb-modal-root__inner:last-of-type .dnb-modal__overlay {
-    animation: show-modal-overlay var(--modal-animation-duration) ease-out; }
-    .dnb-modal-root__inner:last-of-type .dnb-modal__overlay--hide {
-      animation: hide-modal-overlay var(--modal-animation-duration) ease-out forwards; }
-  html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
-    animation-delay: 0ms !important;
-    animation-duration: 0ms !important; }
-  .dnb-modal-root__inner {
-    position: relative;
-    z-index: calc(var(--modal-z-index) + 1); }
-  .dnb-modal-root__inner ~ .dnb-modal-root__inner {
-    z-index: calc(var(--modal-z-index) + 2); }
-  .dnb-modal-root__inner ~ .dnb-modal-root__inner ~ .dnb-modal-root__inner {
-    z-index: calc(var(--modal-z-index) + 3); }
-  .dnb-modal-root__inner ~ .dnb-modal-root__inner ~ .dnb-modal-root__inner ~ .dnb-modal-root__inner {
-    z-index: calc(var(--modal-z-index) + 4); }
-  .dnb-modal__close-button {
-    z-index: calc(var(--modal-z-index) + 1); }
-  .dnb-modal__header__bar.dnb-section {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between; }
-
-[data-visual-test].hide-page-content #___gatsby {
-  opacity: 0; }
-
-.dnb-drawer {
-  font-family: var(--font-family-default);
-  font-weight: var(--font-weight-basis);
-  font-size: var(--font-size-small);
-  font-style: normal;
-  line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  /**
-  * Ensure consistency and use the same as HTML reset -> html {...}
-  * between base and code package
-  */
-  -moz-tab-size: 4;
-  tab-size: 4;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  word-break: break-word;
-  /**
-  * 1. Remove repeating backgrounds in all browsers (opinionated).
-  * 2. Add border box sizing in all browsers (opinionated).
-  */
-  /**
-  * 1. Add text decoration inheritance in all browsers (opinionated).
-  * 2. Add vertical alignment inheritance in all browsers (opinionated).
-  */
-  margin: 0;
-  padding: 0; }
-  .dnb-drawer *,
-  .dnb-drawer ::before,
-  .dnb-drawer ::after {
-    background-repeat: no-repeat;
-    /* 1 */
-    box-sizing: border-box;
-    /* 2 */ }
-  .dnb-drawer ::before,
-  .dnb-drawer ::after {
-    text-decoration: inherit;
-    /* 1 */
-    vertical-align: inherit;
-    /* 2 */ }
 "
 `;

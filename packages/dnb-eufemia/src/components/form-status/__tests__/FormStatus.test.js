@@ -160,7 +160,7 @@ describe('FormStatus component', () => {
 
 describe('FormStatus scss', () => {
   it('have to match snapshot', () => {
-    const scss = loadScss(require.resolve('../style/dnb-form-status.scss'))
+    const scss = loadScss(require.resolve('../style/deps.scss'))
     expect(scss).toMatchSnapshot()
   })
 
