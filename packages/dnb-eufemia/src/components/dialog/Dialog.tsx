@@ -37,7 +37,6 @@ function Dialog(
     focusSelector,
     labelledBy,
     directDomReturn,
-    closeButtonAttributes,
     disabled,
 
     variant,
@@ -108,7 +107,6 @@ function Dialog(
     dialogTitle,
     closeTitle,
     hideCloseButton: currentHideCloseButton,
-    closeButtonAttributes,
     preventClose,
     preventOverlayClose: currentPreventOverlayClose,
     animationDuration,
