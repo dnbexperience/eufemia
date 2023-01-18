@@ -6,7 +6,6 @@ import { ModalRootProps } from './ModalRoot'
 export type ExtendedBoolean = string | boolean
 export type ReactChildType = React.ReactNode | ((...args: any[]) => any)
 
-export type ModalMode = 'modal' | 'drawer' | 'dialog' | 'custom'
 export type ModalFullscreen = 'auto' | ExtendedBoolean
 export type ModalAlignContent = 'left' | 'center' | 'centered' | 'right'
 export type ModalContainerPlacement = 'left' | 'right' | 'top' | 'bottom'
@@ -123,11 +122,6 @@ export interface ModalProps extends ModalRootProps {
   trigger_attributes?: TriggerAttributes
 
   /**
-   * The content which will appear when triggering the modal/drawer.
-   */
-  modal_content?: ReactChildType
-
-  /**
    * If truthy, the drawer will not open in a new DOM but directly in current DOM. Defaults to `false`.
    */
   direct_dom_return?: string | boolean
@@ -144,26 +138,6 @@ export interface ModalProps extends ModalRootProps {
 }
 
 export interface ModalContentProps {
-  /**
-   * The content which will appear when triggering the modal/drawer.
-   */
-  modal_content?: ReactChildType
-
-  /**
-   * The modal/drawer mode (deprecated). Can be set to `drawer`, `dialog` or `custom`. Defaults to `modal`.
-   * It is recommended to use the Drawer/Dialog components instead
-   */
-  mode?: ModalMode
-
-  /**
-   * The content which will appear in the bar, above the header, and side-by-side the close button.
-   */
-  bar_content?: ReactChildType
-
-  /**
-   * The content which will appear in the header of the modal/drawer the modal/drawer.
-   */
-  header_content?: ReactChildType
   hide?: boolean
 
   /**
@@ -211,15 +185,6 @@ export interface ModalContentProps {
    */
   close_button_attributes?: CloseButtonProps
 
-  /**
-   * If set to `false` then the modal/drawer content will be shown without any spacing. Defaults to `true`.
-   */
-  spacing?: ExtendedBoolean
-
-  /**
-   * By default the modal/drawer content gets added the core style class `dnb-core-style`. Use `false` to disable this behavior.
-   */
-  prevent_core_style?: ExtendedBoolean
   animation_duration?: string | number
 
   /**
@@ -238,34 +203,14 @@ export interface ModalContentProps {
   no_animation_on_mobile?: ExtendedBoolean
 
   /**
-   * The minimum Modal content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful on using fixed `min_width` so you don&#39;t break responsiveness. Defaults to `30rem` (average width is set to `60vw`).
-   */
-  min_width?: ModalContentMinWidth
-
-  /**
-   * The maximum Modal content width, defined by a CSS width value like `20rem`. Defaults to `60rem` (average width is set to `60vw`).
-   */
-  max_width?: ModalContentMaxWidth
-
-  /**
    * If set to `true` then the modal/drawer content will be shown as fullscreen, without showing the original content behind. Can be set to `false` to omit the auto fullscreen. Defaults to `auto`.
    */
   fullscreen?: ModalFullscreen
 
   /**
-   * Define the inner horizontal alignment of the content. Can be set to `left`, `center`, `right` and `centered`. If `centered`, then the content will also be centered vertically. Defaults to `left`.
-   */
-  align_content?: 'right' | 'left' | 'centered' | 'center'
-
-  /**
    * For `drawer` mode only. Defines the placement on what side the Drawer should be opened. Can be set to `left`, `right`, `top` and `bottom`. Defaults to `right`.
    */
   container_placement?: 'left' | 'right' | 'top' | 'bottom'
-
-  /**
-   * Give the inner Dialog or Drawer component a class (only works with mode)
-   */
-  class?: string
 
   /**
    * Give the content wrapper a custom class name (maps to `dnb-modal__content`).
@@ -287,11 +232,6 @@ export interface ModalContentProps {
    * Will close the modal
    */
   close?: (...args: any[]) => any
-
-  /**
-   * Give the inner Dialog or Drawer component a className (only works with mode)
-   */
-  className?: string
 
   /**
    * The content which will appear when triggering the modal/drawer.

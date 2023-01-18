@@ -9,12 +9,12 @@ import {
   isTrue,
   findElementInChildren,
   validateDOMAttributes,
+  processChildren,
 } from '../../shared/component-helper'
 import ScrollView from '../../fragments/scroll-view/ScrollView'
 import DialogHeader from './parts/DialogHeader'
 import DialogNavigation from './parts/DialogNavigation'
 import DialogAction from './parts/DialogAction'
-import { getContent } from '../modal/helpers'
 import ModalContext from '../modal/ModalContext'
 import { checkMinMaxWidth } from '../drawer/helpers'
 import { DialogContentProps } from './types'
@@ -50,7 +50,7 @@ export default function DialogContent({
   const { minWidth, maxWidth } = checkMinMaxWidth(min_width, max_width)
   const content =
     modalContent ||
-    getContent(
+    processChildren(
       typeof rest.children === 'function'
         ? Object.freeze({ ...rest, close: context?.close })
         : rest

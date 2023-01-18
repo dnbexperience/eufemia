@@ -11,7 +11,7 @@ import { SectionProps } from '../../Section'
 
 export interface ModalInnerProps extends SectionProps {
   /**
-   * Give the inner content wrapper a class name (maps to `dnb-modal__content__inner`).
+   * Give the inner content wrapper a class name.
    */
   className?: string
 }
@@ -35,18 +35,11 @@ export default class ModalInner extends React.PureComponent<
       ref, // eslint-disable-line
       ...props
     } = this.props
-    const { mode } = this.context
 
     return (
       <Section
         style_type={style_type}
-        className={classnames(
-          className,
-
-          // Deprecated - for backward compatibility
-          mode == 'drawer' && 'dnb-drawer__body',
-          (mode == 'modal' || mode == 'dialog') && 'dnb-dialog__body'
-        )}
+        className={classnames(className)}
         {...props}
       />
     )

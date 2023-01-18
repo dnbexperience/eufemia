@@ -295,12 +295,7 @@ describe('Modal component', () => {
     const on_close = jest.fn()
     const on_open = jest.fn()
     const Comp = mount(
-      <Component
-        no_animation={true}
-        on_open={on_open}
-        on_close={on_close}
-        hide_close_button
-      >
+      <Component no_animation={true} on_open={on_open} on_close={on_close}>
         {({ close }) => (
           <Button id="close-me" text="close" on_click={close} />
         )}
@@ -315,9 +310,7 @@ describe('Modal component', () => {
 
   it('will set focus on content div if no h1 and close button is given', async () => {
     const Comp = mount(
-      <Component no_animation={true} hide_close_button>
-        modal content
-      </Component>,
+      <Component no_animation={true}>modal content</Component>,
       { attachTo: attachToBody() }
     )
     Comp.find('button').simulate('click')

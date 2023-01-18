@@ -17,14 +17,8 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
   title="dialog_title"
 >
   <Modal
-    align_content="left"
     animation_duration={300}
-    bar_content={null}
-    class={null}
-    className={null}
-    close_button_attributes={null}
     close_modal={null}
-    close_title="Lukk"
     container_placement={null}
     contentClass="dnb-dialog__root"
     contentId={null}
@@ -37,14 +31,8 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
     disabled={null}
     focus_selector={null}
     fullscreen="auto"
-    header_content={null}
-    hide_close_button={false}
     id="dialog_id"
     labelled_by={null}
-    max_width={null}
-    min_width={null}
-    modal_content={null}
-    mode="custom"
     noAnimation={true}
     no_animation={false}
     no_animation_on_mobile={false}
@@ -59,7 +47,6 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
     open_state={null}
     overlay_class={null}
     prevent_close={false}
-    prevent_core_style={false}
     root_id="root"
     spacing={true}
     title="dialog_title"
@@ -67,14 +54,8 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
     trigger_attributes={null}
   >
     <Modal
-      align_content="left"
       animation_duration={300}
-      bar_content={null}
-      class={null}
-      className={null}
-      close_button_attributes={null}
       close_modal={null}
-      close_title="Lukk"
       container_placement={null}
       content_class="dnb-dialog__root"
       content_id={null}
@@ -84,14 +65,8 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
       disabled={null}
       focus_selector={null}
       fullscreen="auto"
-      header_content={null}
-      hide_close_button={false}
       id="dialog_id"
       labelled_by={null}
-      max_width={null}
-      min_width={null}
-      modal_content={null}
-      mode="custom"
       no_animation={true}
       no_animation_on_mobile={false}
       omit_trigger_button={false}
@@ -103,7 +78,6 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
       open_state={true}
       overlay_class={null}
       prevent_close={false}
-      prevent_core_style={false}
       root_id="root"
       spacing={true}
       title="dialog_title"
@@ -812,14 +786,9 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
         </Button>
       </HelpButtonInstance>
       <ModalRoot
-        align_content="left"
         animation_duration={300}
-        bar_content={null}
         bypass_invalidation_selectors={null}
-        class={null}
-        className={null}
         close={[Function]}
-        close_button_attributes={null}
         close_modal={null}
         close_title="Lukk"
         container_placement={null}
@@ -830,29 +799,9 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
         direct_dom_return={true}
         focus_selector={null}
         fullscreen="auto"
-        header_content={null}
         hide={false}
-        hide_close_button={false}
         id="dialog_id"
         labelled_by={null}
-        max_width={null}
-        min_width={null}
-        modal_content={
-          <DialogContent
-            0={
-              {
-                "displayName": "Dialog",
-                "props": {},
-              }
-            }
-            fullscreen="auto"
-            modalContent="unique_modal_content"
-            noAnimation={true}
-            spacing={true}
-            variant="information"
-          />
-        }
-        mode="custom"
         no_animation={true}
         no_animation_on_mobile={false}
         on_close={null}
@@ -861,20 +810,14 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
         open_modal={null}
         overlay_class={null}
         prevent_close={false}
-        prevent_core_style={false}
         root_id="root"
         spacing={true}
         title="dialog_title"
       >
         <ModalContent
-          align_content="left"
           animation_duration={300}
-          bar_content={null}
           bypass_invalidation_selectors={null}
-          class={null}
-          className={null}
           close={[Function]}
-          close_button_attributes={null}
           close_modal={null}
           close_title="Lukk"
           container_placement={null}
@@ -884,29 +827,9 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
           dialog_title="Separat Vindu"
           focus_selector={null}
           fullscreen="auto"
-          header_content={null}
           hide={false}
-          hide_close_button={false}
           id="dialog_id"
           labelled_by={null}
-          max_width={null}
-          min_width={null}
-          modal_content={
-            <DialogContent
-              0={
-                {
-                  "displayName": "Dialog",
-                  "props": {},
-                }
-              }
-              fullscreen="auto"
-              modalContent="unique_modal_content"
-              noAnimation={true}
-              spacing={true}
-              variant="information"
-            />
-          }
-          mode="custom"
           no_animation={true}
           no_animation_on_mobile={false}
           on_close={null}
@@ -915,7 +838,6 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
           open_modal={null}
           overlay_class={null}
           prevent_close={false}
-          prevent_core_style={false}
           root_id="root"
           spacing={true}
           title="dialog_title"
@@ -924,7 +846,7 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
             aria-describedby="dnb-modal-dialog_id-content"
             aria-labelledby="dnb-modal-dialog_id-title"
             aria-modal={true}
-            className="dnb-modal__content dnb-modal__content--auto-fullscreen dnb-dialog__root dnb-modal__content--custom"
+            className="dnb-modal__content dnb-modal__content--auto-fullscreen dnb-dialog__root"
             id="dnb-modal-dialog_id"
             onClick={[Function]}
             onMouseDown={[Function]}

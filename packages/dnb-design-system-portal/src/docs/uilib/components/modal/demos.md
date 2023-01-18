@@ -3,7 +3,7 @@ showTabs: true
 ---
 
 import {
-ModalExampleModeCustom,
+ModalExample,
 ModalExampleStateOnly,
 ModalExampleCloseByHandler
 } from 'Docs/uilib/components/modal/Examples'
@@ -12,11 +12,9 @@ ModalExampleCloseByHandler
 
 The following examples are to demonstrate the functionality of Modal. Please go to [Drawer demos](/uilib/components/drawer/demos) or [Dialog demos](/uilib/components/dialog/demos) for complete component demos.
 
-### Mode custom
+### Mode example
 
-Use `mode="custom"` in the Modal component to create other components with overlay.
-
-<ModalExampleModeCustom />
+<ModalExample />
 
 ### Open Modal by the state only
 

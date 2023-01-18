@@ -8,13 +8,13 @@ import classnames from 'classnames'
 import {
   isTrue,
   findElementInChildren,
+  processChildren,
 } from '../../shared/component-helper'
 import { getOffsetTop, warn } from '../../shared/helpers'
 import ScrollView from '../../fragments/scroll-view/ScrollView'
 import DrawerHeader from './parts/DrawerHeader'
 import DrawerNavigation from './parts/DrawerNavigation'
 import ModalContext from '../modal/ModalContext'
-import { getContent } from '../modal/helpers'
 import { DrawerContentProps } from './types'
 import { checkMinMaxWidth } from './helpers'
 import ModalHeaderBar from '../modal/parts/ModalHeaderBar'
@@ -41,7 +41,7 @@ export default function DrawerContent({
   const { minWidth, maxWidth } = checkMinMaxWidth(min_width, max_width)
   const content =
     modalContent ||
-    getContent(
+    processChildren(
       typeof rest.children === 'function'
         ? Object.freeze({ ...rest, close: context?.close })
         : rest

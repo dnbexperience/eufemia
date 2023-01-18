@@ -56,7 +56,7 @@ describe('Dialog.Action', () => {
     expect(element.textContent).toBe('‌Button')
   })
 
-  it('should be seciton element', () => {
+  it('should be section element', () => {
     const MockComponent = () => {
       return (
         <Dialog openState>

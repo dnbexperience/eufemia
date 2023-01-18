@@ -13,7 +13,6 @@ const ModalContext = React.createContext({
   hide_close_button: null,
   close_button_attributes: null,
   close_title: null,
-  mode: null,
   setBackgroundColor: null,
   onCloseClickHandler: null,
   contentRef: null,

@@ -54,14 +54,6 @@ class Modal extends React.PureComponent<
   static Header = ModalHeader
   static Content = ModalInner
 
-  static getContent(props) {
-    if (typeof props.modal_content === 'string') {
-      return props.modal_content
-    } else if (typeof props.modal_content === 'function') {
-      return props.modal_content(props)
-    }
-    return processChildren(props)
-  }
   static enableWebComponent() {
     registerElement(Modal?.tagName, Modal, Modal.defaultProps)
   }
@@ -87,30 +79,20 @@ class Modal extends React.PureComponent<
     labelled_by: null,
     title: null,
     disabled: null,
-    spacing: true,
     open_delay: null,
     content_id: null,
     dialog_title: 'Vindu',
-    close_title: 'Lukk', // Close Modal Window
-    hide_close_button: false,
-    close_button_attributes: null,
     prevent_close: false,
-    prevent_core_style: false,
-    animation_duration: ANIMATION_DURATION, // Not documented!
+    animation_duration: ANIMATION_DURATION,
     no_animation: false,
     no_animation_on_mobile: false,
     fullscreen: 'auto',
-    min_width: null,
-    max_width: null,
-    align_content: 'left',
     container_placement: null,
     open_state: null,
     direct_dom_return: false,
-    class: null,
     root_id: 'root',
     omit_trigger_button: false,
 
-    className: null,
     children: null,
 
     on_open: null,
@@ -124,10 +106,6 @@ class Modal extends React.PureComponent<
 
     overlay_class: null,
     content_class: null,
-
-    modal_content: null,
-    header_content: null,
-    bar_content: null,
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -409,8 +387,7 @@ class Modal extends React.PureComponent<
       disabled = null,
       labelled_by = null,
       focus_selector = null,
-      header_content = null,
-      bar_content = null,
+
       bypass_invalidation_selectors = null,
 
       id, // eslint-disable-line
@@ -425,7 +402,7 @@ class Modal extends React.PureComponent<
     } = props
 
     const { hide, modalActive } = this.state
-    const modal_content = Modal.getContent(
+    const modal_content = processChildren(
       typeof this.props.children === 'function'
         ? Object.freeze({ ...this.props, close: this.close })
         : this.props
@@ -491,9 +468,6 @@ class Modal extends React.PureComponent<
               content_id={content_id || `dnb-modal-${this._id}`}
               labelled_by={labelled_by}
               focus_selector={focus_selector}
-              modal_content={modal_content}
-              header_content={header_content}
-              bar_content={bar_content}
               bypass_invalidation_selectors={bypass_invalidation_selectors}
               close={this.close}
               hide={hide}

@@ -94,13 +94,10 @@ export const ModalSandbox = () => (
 
     <Box>
       <Modal
-        spacing={false}
         fullscreen={false}
-        align_content="centered"
         hide_close_button
         triggerAttributes={{ text: 'Show' }}
         // prevent_close
-        max_width="12rem"
       >
         <ProgressIndicator
           show_label
@@ -111,13 +108,10 @@ export const ModalSandbox = () => (
         />
       </Modal>
       <Modal
-        spacing={false}
         fullscreen={false}
-        align_content="centered"
         hide_close_button
         triggerAttributes={{ icon: 'bell' }}
         // prevent_close
-        max_width="12rem"
       >
         <ProgressIndicator
           show_label
@@ -136,7 +130,7 @@ export const ModalSandbox = () => (
         // open_state="opened"
         // no_animation
       >
-        <Modal.Content spacing style_type="mint-green">
+        <Modal.Content style_type="mint-green">
           <P>This is the modal text.</P>
         </Modal.Content>
       </Modal>
@@ -180,8 +174,6 @@ export const ModalSandbox = () => (
     </Box>
     <Box>
       <Modal
-        // min_width="90vw"
-        // max_width="2rem"
         // open_state="opened"
         fullscreen
         title="Modal Title"
@@ -192,15 +184,13 @@ export const ModalSandbox = () => (
     </Box>
     <Box>
       <Modal
-        // min_width="60vw"
-        max_width="40rem"
         triggerAttributes={{ text: 'Open modal' }}
         title="Modal Title"
         on_close={(e) => {
           console.log('on_close', e)
         }}
       >
-        <Modal.Content spacing>
+        <Modal.Content>
           <Hr />
           <H2 top>Some content</H2>
           <Input>Focus me with Tab key</Input>
@@ -264,45 +254,11 @@ export const DrawerSandbox = () => (
         mode="drawer"
         // fullscreen
         // container_placement="left"
-        // align_content="right"
-        // align_content="center"
         // drawer_offset={}
         title="Original title"
         // title={<span className="dnb-sr-only">Test</span>}
-        // min_width="20vw"
-        // max_width="40vw"
         // overlay_class="overlay_class"
         // content_class="content_class"
-        // className="inner_class"
-        // header_content={
-        //   <>
-        //     <P bottom>This is a lorem ipsum dolor</P>
-        //     <Button bottom size="large">
-        //       Lorem ipsum
-        //     </Button>
-        //     <Button bottom size="large" variant="secondary">
-        //       Dolor sit
-        //     </Button>
-        //     <FormStatus state="info">
-        //       This is a lorem ipsum dolor
-        //     </FormStatus>
-        //     <Tabs
-        //       id="unique-linked-id"
-        //       data={[
-        //         {
-        //           title: 'One',
-        //           key: 'one',
-        //         },
-        //         {
-        //           title: 'Two',
-        //           key: 'two',
-        //         },
-        //       ]}
-        //     >
-        //       content
-        //     </Tabs>
-        //   </>
-        // }
       >
         <Modal.Bar>
           <Button
@@ -411,13 +367,9 @@ export const DrawerSandbox = () => (
         triggerAttributes={{ text: 'Drawer in Drawer' }}
         // fullscreen
         // container_placement="left"
-        // align_content="right"
-        // align_content="center"
         // drawer_offset={}
         title="Tertiary test"
         // title={<span className="dnb-sr-only">Test</span>}
-        // min_width="20vw"
-        // max_width="40vw"
         // overlay_class="overlay_class"
         // content_class="content_class"
         // class="inner_class"
@@ -432,12 +384,7 @@ export const DrawerSandbox = () => (
       </Modal>
     </Box>
     <Box>
-      <Modal
-        mode="drawer"
-        title="Top drawer"
-        container_placement="top"
-        modal_content="something"
-      />
+      <Modal mode="drawer" title="Top drawer" container_placement="top" />
     </Box>
   </Wrapper>
 )
@@ -467,7 +414,7 @@ class ModalRerenderExample extends React.PureComponent {
         triggerAttributes={{ text: this.state.triggerText }}
         title={this.state.title}
       >
-        <Modal.Content spacing>
+        <Modal.Content>
           {/* <Hr /> */}
           {/* <Box>
           <H2>Some content</H2>

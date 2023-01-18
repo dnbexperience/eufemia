@@ -165,7 +165,6 @@ export const ModalExampleFullscreen = () => (
   title={<span className="dnb-sr-only">"Hidden" Modal title</span>}
   fullscreen="true"
   triggerAttributes={{ text: "Click me", icon: "bell", variant: "tertiary" }}
-  modal_content="This is the modal text. Triggered by a tertiary button."
 />
 	`
     }
@@ -180,7 +179,6 @@ export const DrawerExamplePlacementLeft = () => (
   mode="drawer"
   title="Modal title"
   container_placement="left"
-  modal_content="This is the modal text. Triggered by a tertiary button."
 />
 	`
     }

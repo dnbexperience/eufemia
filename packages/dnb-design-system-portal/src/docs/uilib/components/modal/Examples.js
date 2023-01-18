@@ -14,14 +14,14 @@ export const ExampleCard = ({ children }) => (
     {children}
   </div>
 )
-export const ModalExampleModeCustom = () => (
+export const ModalExample = () => (
   <ComponentBox data-visual-test="modal-custom" scope={{ ExampleCard }}>
     {
       /* jsx */ `
-<Modal mode="custom">
+<Modal>
   <ExampleCard>
     <P>
-      This is a Modal mode that you can use to make custom variations
+      This is a Modal that can be used to make custom variations
     </P>
   </ExampleCard>
 </Modal>
@@ -49,7 +49,6 @@ const Component = () => {
         open_state={modalIsActive}
         labelled_by="custom-triggerer"
         on_close={() => setModalState(false)}
-        mode="custom"
       >
         <ExampleCard>
           <P>This Modal was opened by a custom trigger button.</P>
@@ -71,13 +70,10 @@ export const ModalExampleCloseByHandler = () => (
 <Modal
   title="Auto close"
   triggerAttributes={{ text: "Click me" }}
-  align_content="center"
-  max_width="40rem"
   close_modal={close => {
     const timeout = setTimeout(close, 3e3)
     return () => clearTimeout(timeout) 
   }}
-  mode="custom"
 >
   <ExampleCard>
     <P>This Modal will close in 3 seconds.</P>

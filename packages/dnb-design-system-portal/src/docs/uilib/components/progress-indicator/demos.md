@@ -141,18 +141,20 @@ render(<ChangeValue />)
 `}
 </ComponentBox>
 
-### Circular ProgressIndicator inside a Modal
+### Circular ProgressIndicator inside a Dialog
 
 <ComponentBox>
 	{/* jsx */ `
-<Modal
+<Dialog
   spacing={false}
-  max_width="12rem"
   fullscreen={false}
-  align_content="centered"
-  hide_close_button
-  triggerAttributes={{ text: "Show" }}
-  prevent_close={false}
+  alignContent="centered"
+  hideCloseButton
+  triggerAttributes={{
+    text: 'Show',
+  }}
+  preventClose={false}
+  maxWidth="12rem"
 >
   <ProgressIndicator
     type="circular"
@@ -162,7 +164,7 @@ render(<ChangeValue />)
     bottom="large"
     size="large"
   />
-</Modal>
+</Dialog>
 `}
 </ComponentBox>
 
@@ -300,18 +302,20 @@ render(<ChangeValue />)
 `}
 </ComponentBox>
 
-### Linear ProgressIndicator inside a Modal
+### Linear ProgressIndicator inside a Dialog
 
 <ComponentBox>
 	{/* jsx */ `
-<Modal
+<Dialog
   spacing={false}
-  max_width="12rem"
   fullscreen={false}
-  align_content="centered"
-  hide_close_button
-  triggerAttributes={{ text: "Show" }}
-  prevent_close={false}
+  alignContent="centered"
+  hideCloseButton
+  triggerAttributes={{
+    text: 'Show',
+  }}
+  preventClose={false}
+  maxWidth="12rem"
 >
   <ProgressIndicator
     type="linear"
@@ -320,6 +324,6 @@ render(<ChangeValue />)
     top="large"
     bottom="large"
   />
-</Modal>
+</Dialog>
 `}
 </ComponentBox>

@@ -17,14 +17,8 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
   title="drawer_title"
 >
   <Modal
-    align_content="left"
     animation_duration={300}
-    bar_content={null}
-    class={null}
-    className={null}
-    close_button_attributes={null}
     close_modal={null}
-    close_title="Lukk"
     containerPlacement="right"
     container_placement={null}
     contentClass="dnb-drawer__root"
@@ -37,14 +31,8 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
     disabled={null}
     focus_selector={null}
     fullscreen="auto"
-    header_content={null}
-    hide_close_button={false}
     id="drawer_id"
     labelled_by={null}
-    max_width={null}
-    min_width={null}
-    modal_content={null}
-    mode="custom"
     noAnimation={true}
     no_animation={false}
     no_animation_on_mobile={false}
@@ -58,7 +46,6 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
     open_state={null}
     overlay_class={null}
     prevent_close={false}
-    prevent_core_style={false}
     root_id="root"
     spacing={true}
     title="drawer_title"
@@ -66,14 +53,8 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
     trigger_attributes={null}
   >
     <Modal
-      align_content="left"
       animation_duration={300}
-      bar_content={null}
-      class={null}
-      className={null}
-      close_button_attributes={null}
       close_modal={null}
-      close_title="Lukk"
       container_placement="right"
       content_class="dnb-drawer__root"
       content_id={null}
@@ -82,14 +63,8 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
       disabled={null}
       focus_selector={null}
       fullscreen="auto"
-      header_content={null}
-      hide_close_button={false}
       id="drawer_id"
       labelled_by={null}
-      max_width={null}
-      min_width={null}
-      modal_content={null}
-      mode="custom"
       no_animation={true}
       no_animation_on_mobile={false}
       omit_trigger_button={false}
@@ -101,7 +76,6 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
       open_state={true}
       overlay_class={null}
       prevent_close={false}
-      prevent_core_style={false}
       root_id="root"
       spacing={true}
       title="drawer_title"
@@ -810,16 +784,10 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
         </Button>
       </HelpButtonInstance>
       <ModalRoot
-        align_content="left"
         animation_duration={300}
-        bar_content={null}
         bypass_invalidation_selectors={null}
-        class={null}
-        className={null}
         close={[Function]}
-        close_button_attributes={null}
         close_modal={null}
-        close_title="Lukk"
         container_placement="right"
         content_class="dnb-drawer__root"
         content_id="dnb-modal-drawer_id"
@@ -827,29 +795,9 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
         direct_dom_return={true}
         focus_selector={null}
         fullscreen="auto"
-        header_content={null}
         hide={false}
-        hide_close_button={false}
         id="drawer_id"
         labelled_by={null}
-        max_width={null}
-        min_width={null}
-        modal_content={
-          <DrawerContent
-            0={
-              {
-                "displayName": "Drawer",
-                "props": {},
-              }
-            }
-            containerPlacement="right"
-            fullscreen="auto"
-            modalContent="unique_modal_content"
-            noAnimation={true}
-            spacing={true}
-          />
-        }
-        mode="custom"
         no_animation={true}
         no_animation_on_mobile={false}
         on_close={null}
@@ -858,51 +806,24 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
         open_modal={null}
         overlay_class={null}
         prevent_close={false}
-        prevent_core_style={false}
         root_id="root"
         spacing={true}
         title="drawer_title"
       >
         <ModalContent
-          align_content="left"
           animation_duration={300}
-          bar_content={null}
           bypass_invalidation_selectors={null}
-          class={null}
-          className={null}
           close={[Function]}
-          close_button_attributes={null}
           close_modal={null}
-          close_title="Lukk"
           container_placement="right"
           content_class="dnb-drawer__root"
           content_id="dnb-modal-drawer_id"
           dialog_title="Separat Vindu"
           focus_selector={null}
           fullscreen="auto"
-          header_content={null}
           hide={false}
-          hide_close_button={false}
           id="drawer_id"
           labelled_by={null}
-          max_width={null}
-          min_width={null}
-          modal_content={
-            <DrawerContent
-              0={
-                {
-                  "displayName": "Drawer",
-                  "props": {},
-                }
-              }
-              containerPlacement="right"
-              fullscreen="auto"
-              modalContent="unique_modal_content"
-              noAnimation={true}
-              spacing={true}
-            />
-          }
-          mode="custom"
           no_animation={true}
           no_animation_on_mobile={false}
           on_close={null}
@@ -911,7 +832,6 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
           open_modal={null}
           overlay_class={null}
           prevent_close={false}
-          prevent_core_style={false}
           root_id="root"
           spacing={true}
           title="drawer_title"
@@ -920,7 +840,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
             aria-describedby="dnb-modal-drawer_id-content"
             aria-labelledby="dnb-modal-drawer_id-title"
             aria-modal={true}
-            className="dnb-modal__content dnb-modal__content--auto-fullscreen dnb-modal__content--right dnb-drawer__root dnb-modal__content--custom"
+            className="dnb-modal__content dnb-modal__content--auto-fullscreen dnb-drawer__root dnb-modal__content--right"
             id="dnb-modal-drawer_id"
             onClick={[Function]}
             onMouseDown={[Function]}
