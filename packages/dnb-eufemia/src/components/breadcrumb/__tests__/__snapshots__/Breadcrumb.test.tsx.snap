@@ -2,31 +2,18 @@
 
 exports[`Breadcrumb scss have to match snapshot 1`] = `
 "/*
-* DNB Breadcrumb
+* Used for snapshot testing
 *
 */
-/**
- * This file is only used to make components independent
- * so that they can get imported individually, without the core styles
- *
- */
 /*
  * Utilities
  */
 /*
- * Scopes
- *
- */
-/*
- * Document Reset
- *
- */
-/*
-* DNB Button
+* Used for snapshot testing
 *
 */
 /*
-* DNB icon
+* Used for snapshot testing
 *
 */
 /*
@@ -90,52 +77,9 @@ exports[`Breadcrumb scss have to match snapshot 1`] = `
       content: none !important; }
 
 /*
-* DNB Tooltip
+* Used for snapshot testing
 *
 */
-.dnb-tooltip {
-  font-family: var(--font-family-default);
-  font-weight: var(--font-weight-basis);
-  font-size: var(--font-size-small);
-  font-style: normal;
-  line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  /**
-  * Ensure consistency and use the same as HTML reset -> html {...}
-  * between base and code package
-  */
-  -moz-tab-size: 4;
-  tab-size: 4;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  word-break: break-word;
-  /**
-  * 1. Remove repeating backgrounds in all browsers (opinionated).
-  * 2. Add border box sizing in all browsers (opinionated).
-  */
-  /**
-  * 1. Add text decoration inheritance in all browsers (opinionated).
-  * 2. Add vertical alignment inheritance in all browsers (opinionated).
-  */
-  margin: 0;
-  padding: 0; }
-  .dnb-tooltip *,
-  .dnb-tooltip ::before,
-  .dnb-tooltip ::after {
-    background-repeat: no-repeat;
-    /* 1 */
-    box-sizing: border-box;
-    /* 2 */ }
-  .dnb-tooltip ::before,
-  .dnb-tooltip ::after {
-    text-decoration: inherit;
-    /* 1 */
-    vertical-align: inherit;
-    /* 2 */ }
-
 /*
 * Tooltip component
 *
@@ -229,52 +173,9 @@ exports[`Breadcrumb scss have to match snapshot 1`] = `
     visibility: hidden; } }
 
 /*
-* DNB FormStatus
+* Used for snapshot testing
 *
 */
-.dnb-form-status {
-  font-family: var(--font-family-default);
-  font-weight: var(--font-weight-basis);
-  font-size: var(--font-size-small);
-  font-style: normal;
-  line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  /**
-  * Ensure consistency and use the same as HTML reset -> html {...}
-  * between base and code package
-  */
-  -moz-tab-size: 4;
-  tab-size: 4;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  word-break: break-word;
-  /**
-  * 1. Remove repeating backgrounds in all browsers (opinionated).
-  * 2. Add border box sizing in all browsers (opinionated).
-  */
-  /**
-  * 1. Add text decoration inheritance in all browsers (opinionated).
-  * 2. Add vertical alignment inheritance in all browsers (opinionated).
-  */
-  margin: 0;
-  padding: 0; }
-  .dnb-form-status *,
-  .dnb-form-status ::before,
-  .dnb-form-status ::after {
-    background-repeat: no-repeat;
-    /* 1 */
-    box-sizing: border-box;
-    /* 2 */ }
-  .dnb-form-status ::before,
-  .dnb-form-status ::after {
-    text-decoration: inherit;
-    /* 1 */
-    vertical-align: inherit;
-    /* 2 */ }
-
 /*
  * FormStatus component
  *
@@ -338,49 +239,6 @@ exports[`Breadcrumb scss have to match snapshot 1`] = `
   .dnb-form-status--no-animation,
   html[data-visual-test] .dnb-form-status {
     transition-duration: 1ms !important; }
-
-.dnb-button {
-  font-family: var(--font-family-default);
-  font-weight: var(--font-weight-basis);
-  font-size: var(--font-size-small);
-  font-style: normal;
-  line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  /**
-  * Ensure consistency and use the same as HTML reset -> html {...}
-  * between base and code package
-  */
-  -moz-tab-size: 4;
-  tab-size: 4;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  word-break: break-word;
-  /**
-  * 1. Remove repeating backgrounds in all browsers (opinionated).
-  * 2. Add border box sizing in all browsers (opinionated).
-  */
-  /**
-  * 1. Add text decoration inheritance in all browsers (opinionated).
-  * 2. Add vertical alignment inheritance in all browsers (opinionated).
-  */
-  margin: 0;
-  padding: 0; }
-  .dnb-button *,
-  .dnb-button ::before,
-  .dnb-button ::after {
-    background-repeat: no-repeat;
-    /* 1 */
-    box-sizing: border-box;
-    /* 2 */ }
-  .dnb-button ::before,
-  .dnb-button ::after {
-    text-decoration: inherit;
-    /* 1 */
-    vertical-align: inherit;
-    /* 2 */ }
 
 /*
 * Button component
@@ -572,52 +430,9 @@ button.dnb-button::-moz-focus-inner {
   border: none; }
 
 /*
-* DNB Section
+* Used for snapshot testing
 *
 */
-.dnb-section {
-  font-family: var(--font-family-default);
-  font-weight: var(--font-weight-basis);
-  font-size: var(--font-size-small);
-  font-style: normal;
-  line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  /**
-  * Ensure consistency and use the same as HTML reset -> html {...}
-  * between base and code package
-  */
-  -moz-tab-size: 4;
-  tab-size: 4;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  word-break: break-word;
-  /**
-  * 1. Remove repeating backgrounds in all browsers (opinionated).
-  * 2. Add border box sizing in all browsers (opinionated).
-  */
-  /**
-  * 1. Add text decoration inheritance in all browsers (opinionated).
-  * 2. Add vertical alignment inheritance in all browsers (opinionated).
-  */
-  margin: 0;
-  padding: 0; }
-  .dnb-section *,
-  .dnb-section ::before,
-  .dnb-section ::after {
-    background-repeat: no-repeat;
-    /* 1 */
-    box-sizing: border-box;
-    /* 2 */ }
-  .dnb-section ::before,
-  .dnb-section ::after {
-    text-decoration: inherit;
-    /* 1 */
-    vertical-align: inherit;
-    /* 2 */ }
-
 /*
  * Section component
  *
@@ -664,49 +479,6 @@ button.dnb-button::-moz-focus-inner {
     padding: var(--spacing-xx-large) 0; }
   .dnb-section--spacing, .dnb-section--spacing-large {
     padding: var(--spacing-large) 0; }
-
-.dnb-breadcrumb {
-  font-family: var(--font-family-default);
-  font-weight: var(--font-weight-basis);
-  font-size: var(--font-size-small);
-  font-style: normal;
-  line-height: var(--line-height-basis);
-  color: var(--color-black-80, #333);
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  /**
-  * Ensure consistency and use the same as HTML reset -> html {...}
-  * between base and code package
-  */
-  -moz-tab-size: 4;
-  tab-size: 4;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  word-break: break-word;
-  /**
-  * 1. Remove repeating backgrounds in all browsers (opinionated).
-  * 2. Add border box sizing in all browsers (opinionated).
-  */
-  /**
-  * 1. Add text decoration inheritance in all browsers (opinionated).
-  * 2. Add vertical alignment inheritance in all browsers (opinionated).
-  */
-  margin: 0;
-  padding: 0; }
-  .dnb-breadcrumb *,
-  .dnb-breadcrumb ::before,
-  .dnb-breadcrumb ::after {
-    background-repeat: no-repeat;
-    /* 1 */
-    box-sizing: border-box;
-    /* 2 */ }
-  .dnb-breadcrumb ::before,
-  .dnb-breadcrumb ::after {
-    text-decoration: inherit;
-    /* 1 */
-    vertical-align: inherit;
-    /* 2 */ }
 
 /*
 * Breadcrumb component

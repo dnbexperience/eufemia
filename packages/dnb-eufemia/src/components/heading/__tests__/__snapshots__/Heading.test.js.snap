@@ -441,24 +441,11 @@ NB: This warning was triggered by:",
 
 exports[`Heading component have to match snapshot 1`] = `
 "/*
-* DNB Heading
+* Used for snapshot testing
 *
 */
-/**
- * This file is only used to make components independent
- * so that they can get imported individually, without the core styles
- *
- */
 /*
  * Utilities
- */
-/*
- * Scopes
- *
- */
-/*
- * Document Reset
- *
  */
 /*
  * Heading Component

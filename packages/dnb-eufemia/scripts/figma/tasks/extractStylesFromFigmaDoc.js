@@ -60,13 +60,11 @@ export const extractFigmaStylesFromComponents = async (componentsDocs) => {
         }
 
         // prepare our styles
-        const {
-          scssStyle,
-          scssVars,
-        } = await composeFigmaStyleFromComponent(
-          { componentName, styleName, ...componentDoc },
-          { doForceScssOutput }
-        )
+        const { scssStyle, scssVars } =
+          await composeFigmaStyleFromComponent(
+            { componentName, styleName, ...componentDoc },
+            { doForceScssOutput }
+          )
 
         // create empty data holders
         res[componentName] = res[componentName] || []
@@ -99,7 +97,7 @@ export const composeFigmaStyleFromComponent = async (
       styleNameSub.match(/&\[(.*)\]/) || // remove &[disabled]
       [])[1] || null
   const existingSassVars = await extractSassVars({
-    file: `./src/components/${componentName}/style/_${componentName}.scss`,
+    file: `./src/components/${componentName}/style/dnb-${componentName}.scss`,
     replaceCallback: (scssContent) =>
       String(scssContent).replace(
         /(@import '\.\/)/g,

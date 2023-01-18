@@ -1,12 +1,76 @@
 /*
-* DNB Table
+* Table component
 *
 */
 
-@import '../../../style/components/imports.scss';
+@import '../../../style/core/utilities.scss';
 
-.dnb-table {
-  @include componentReset();
+@mixin tableBorder {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+
+  pointer-events: none;
 }
 
-@import './_table.scss';
+@import './table-header-buttons.scss';
+
+.dnb-table {
+  display: table;
+  table-layout: auto;
+  width: 100%;
+
+  margin-top: 0;
+  margin-bottom: 0.5rem; // give room to a scrollbar
+
+  border-spacing: 0;
+  border-collapse: collapse;
+
+  &--fixed {
+    table-layout: fixed;
+    width: auto;
+  }
+
+  &--no-wrap {
+    white-space: nowrap;
+  }
+
+  & > caption {
+    caption-side: bottom;
+    margin-top: 0.5rem;
+
+    font-size: var(--font-size-basis);
+  }
+
+  &.dnb-skeleton {
+    > * {
+      -webkit-text-fill-color: var(--skeleton-color);
+    }
+  }
+
+  @include buttonsInTable();
+}
+
+@import './table-th.scss';
+@import './table-td.scss';
+@import './table-tr.scss';
+@import './table-cell.scss';
+@import './table-sticky.scss';
+@import './table-container.scss';
+@import './table-accordion.scss';
+
+// Reset Table spacing
+.dnb-spacing .dnb-table {
+  p,
+  ul,
+  ol,
+  dl,
+  pre {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
