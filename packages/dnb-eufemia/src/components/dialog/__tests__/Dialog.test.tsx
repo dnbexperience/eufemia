@@ -389,7 +389,7 @@ describe('Dialog aria', () => {
 
 describe('Dialog scss', () => {
   it('have to match snapshot', () => {
-    const scss = loadScss(require.resolve('../style/dnb-dialog.scss'))
+    const scss = loadScss(require.resolve('../style/deps.scss'))
     expect(scss).toMatchSnapshot()
   })
 })

@@ -1415,7 +1415,7 @@ describe('Modal trigger', () => {
 
 describe('Modal scss', () => {
   it('have to match snapshot', () => {
-    const scss = loadScss(require.resolve('../style/dnb-modal.scss'))
+    const scss = loadScss(require.resolve('../style/deps.scss'))
     expect(scss).toMatchSnapshot()
   })
 })

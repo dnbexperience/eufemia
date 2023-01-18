@@ -42,7 +42,7 @@ All the CSS packages are ready to use, **minified CSS files**. You will find the
 
 ### Individual styles
 
-Additionally, it is also possible to import a style and theme for every single component separately. You find the styles here, like: `@dnb/eufemia/components/[button]/style/dnb-button.min.css` - read more about [how to import a single-component style](/uilib/usage/customisation/styling/consume-styles#single-component-only)
+Additionally, it is also possible to import a style and theme for every single component separately. You find the styles here, like: `@dnb/eufemia/components/{button}/style/dnb-{button}.min.css` - read more about [how to import a single-component style](/uilib/usage/customisation/styling/consume-styles#single-component-only)
 
 ## CSS Structure Diagram
 

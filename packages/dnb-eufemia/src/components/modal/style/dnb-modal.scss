@@ -1,17 +1,133 @@
 /*
-* DNB Modal
-*
-*/
+ * Modal component
+ *
+ */
 
-@import '../../../style/components/imports.scss';
+@import '../../../style/core/utilities.scss';
+@import './modal-mixins.scss';
 
-// import dependencies
-@import '../../help-button/style/dnb-help-button.scss';
-
-.dnb-modal__content {
-  @include componentReset();
+:root {
+  --modal-z-index: 3000;
+  --modal-animation-duration: 300ms;
 }
 
-@import '../../drawer/style/_drawer.scss';
-@import '../../dialog/style/_dialog.scss';
-@import './_modal.scss';
+html[data-dnb-modal-active] {
+  user-select: none;
+  -webkit-user-select: none; // Safari / Touch fix
+}
+
+#dnb-modal-root {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.dnb-modal {
+  &__content {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: calc(var(--modal-z-index) + 1);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 100vw;
+    width: 100%;
+    height: 100%;
+
+    user-select: none;
+    -webkit-user-select: none; // Safari / Touch fix
+
+    &--auto-fullscreen {
+      @include allBelow(small) {
+        height: auto;
+      }
+    }
+
+    &--fullscreen {
+      align-items: flex-start;
+      justify-content: flex-start;
+    }
+
+    // Is this used?
+    &--fullscreen &__content {
+      height: auto;
+    }
+
+    &--left,
+    &--top {
+      align-items: flex-start;
+      justify-content: flex-start;
+    }
+    &--right {
+      align-items: flex-start;
+      justify-content: flex-end;
+    }
+    &--bottom {
+      align-items: flex-end;
+      justify-content: flex-start;
+    }
+  }
+
+  &__overlay {
+    position: fixed;
+    z-index: var(--modal-z-index);
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+  }
+
+  &-root__inner &__overlay {
+    animation: hide-modal-overlay var(--modal-animation-duration) ease-out
+      forwards;
+  }
+
+  &-root__inner:last-of-type &__overlay {
+    animation: show-modal-overlay var(--modal-animation-duration) ease-out;
+
+    &--hide {
+      animation: hide-modal-overlay var(--modal-animation-duration)
+        ease-out forwards;
+    }
+  }
+
+  /* stylelint-disable-next-line */
+  html[data-visual-test] &__overlay,
+  &__overlay--no-animation {
+    animation-delay: 0ms !important;
+    animation-duration: 0ms !important;
+  }
+
+  &-root__inner {
+    position: relative;
+    z-index: calc(var(--modal-z-index) + 1);
+  }
+  &-root__inner ~ &-root__inner {
+    z-index: calc(var(--modal-z-index) + 2);
+  }
+  &-root__inner ~ &-root__inner ~ &-root__inner {
+    z-index: calc(var(--modal-z-index) + 3);
+  }
+  &-root__inner ~ &-root__inner ~ &-root__inner ~ &-root__inner {
+    z-index: calc(var(--modal-z-index) + 4);
+  }
+  &__close-button {
+    z-index: calc(var(--modal-z-index) + 1);
+  }
+
+  &__header__bar {
+    &.dnb-section {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+}
+
+[data-visual-test].hide-page-content #___gatsby {
+  // NB: visibility: hidden; does not work here, because puppeteer does not find the selectors anymore
+  opacity: 0;
+}

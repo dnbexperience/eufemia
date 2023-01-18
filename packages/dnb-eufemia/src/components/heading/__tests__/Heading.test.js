@@ -439,7 +439,7 @@ describe('Heading component', () => {
   })
 
   it('have to match snapshot', () => {
-    const scss = loadScss(require.resolve('../style/dnb-heading.scss'))
+    const scss = loadScss(require.resolve('../style/deps.scss'))
     expect(scss).toMatchSnapshot()
   })
 })
