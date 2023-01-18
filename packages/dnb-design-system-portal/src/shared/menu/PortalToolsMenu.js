@@ -37,7 +37,6 @@ export default function PortalToolsMenu({
           </Tooltip>
         ),
       }}
-      closeButtonAttributes={{ skeleton: false }}
       {...props}
     >
       <Modal.Content spacing>
