@@ -235,7 +235,7 @@
     "rollup-plugin-node-globals": "1.4.0",
     "rollup-plugin-size-snapshot": "0.12.0",
     "rollup-plugin-terser": "7.0.2",
-    "sass": "1.43.4",
+    "sass": "1.57.1",
     "sass-loader": "10.2.0",
     "sass-variable-parser": "1.2.2",
     "semantic-release": "19.0.3",
