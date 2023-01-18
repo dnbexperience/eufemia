@@ -1,12 +1,80 @@
 /*
-* DNB Section
-*
-*/
+ * Section component
+ *
+ */
 
-@import '../../../style/components/imports.scss';
+@import '../../../style/core/utilities.scss';
 
 .dnb-section {
-  @include componentReset();
-}
+  position: relative;
 
-@import './_section.scss';
+  // flow-root allows content to have margin top and bottom
+  // it eliminates margin-collapsing
+  display: flow-root;
+
+  &::after {
+    content: '';
+    position: absolute;
+    z-index: -15;
+    left: -100vw;
+    top: 0;
+    width: 100vw;
+    height: 100%;
+    color: var(--color-mint-green-12);
+    background-color: currentColor;
+
+    // we use box-shadow to avoid a horizontal scrollbar
+    // We lower the left position, so we get an overlap
+    box-shadow: 99vw 0 0 0 currentColor, 198vw 0 0 0 currentColor,
+      297vw 0 0 0 currentColor, 396vw 0 0 0 currentColor;
+  }
+  & &::after {
+    z-index: -14;
+  }
+  & & &::after {
+    z-index: -13;
+  }
+  & & & &::after {
+    z-index: -12;
+  }
+  & & & & &::after {
+    z-index: -11;
+  }
+  & & & & & &::after {
+    z-index: -10;
+  }
+  & & & & & & &::after {
+    z-index: -9;
+  }
+  & & & & & & & &::after {
+    z-index: -8;
+  }
+  & & & & & & & & &::after {
+    z-index: -7;
+  }
+
+  &--spacing-x-small {
+    padding: var(--spacing-x-small) 0;
+  }
+
+  &--spacing-small {
+    padding: var(--spacing-small) 0;
+  }
+
+  &--spacing-medium {
+    padding: var(--spacing-medium) 0;
+  }
+
+  &--spacing-x-large {
+    padding: var(--spacing-x-large) 0;
+  }
+
+  &--spacing-xx-large {
+    padding: var(--spacing-xx-large) 0;
+  }
+
+  &--spacing,
+  &--spacing-large {
+    padding: var(--spacing-large) 0;
+  }
+}
