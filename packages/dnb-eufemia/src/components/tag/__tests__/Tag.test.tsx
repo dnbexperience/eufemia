@@ -475,7 +475,7 @@ describe('Tag aria', () => {
 
 describe('Tag scss', () => {
   it('have to match snapshot', () => {
-    const scss = loadScss(require.resolve('../style/dnb-tag.scss'))
+    const scss = loadScss(require.resolve('../style/deps.scss'))
     expect(scss).toMatchSnapshot()
   })
 })

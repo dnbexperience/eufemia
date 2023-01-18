@@ -219,7 +219,7 @@ describe('Textarea component', () => {
 
 describe('Textarea scss', () => {
   it('have to match snapshot', () => {
-    const scss = loadScss(require.resolve('../style/dnb-textarea.scss'))
+    const scss = loadScss(require.resolve('../style/deps.scss'))
     expect(scss).toMatchSnapshot()
   })
 

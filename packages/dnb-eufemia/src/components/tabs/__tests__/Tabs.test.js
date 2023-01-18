@@ -544,7 +544,7 @@ describe('A single Tab component', () => {
 
 describe('Tabs scss', () => {
   it('have to match snapshot', () => {
-    const scss = loadScss(require.resolve('../style/dnb-tabs.scss'))
+    const scss = loadScss(require.resolve('../style/deps.scss'))
     expect(scss).toMatchSnapshot()
   })
   it('have to match default theme snapshot', () => {
