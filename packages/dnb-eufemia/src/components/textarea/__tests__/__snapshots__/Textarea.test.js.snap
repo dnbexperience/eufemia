@@ -607,6 +607,20 @@ legend.dnb-form-label {
     display: inline-flex;
     position: relative;
     font-size: var(--font-size-basis); }
+    .dnb-textarea__shell::after {
+      content: '';
+      pointer-events: none;
+      position: absolute;
+      cursor: e-resize;
+      z-index: 2;
+      bottom: -4px;
+      right: -4px;
+      width: 1rem;
+      height: 1rem;
+      background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2IiByeD0iMiIgZmlsbD0iIzczNzM3MyIvPgo8bGluZSB4MT0iNS4zMzEzNCIgeTE9IjEuNzc1NzYiIHgyPSIxLjQyMDIzIiB5Mj0iNS42ODY4NyIgc3Ryb2tlPSIjRkY1NDAwIi8+CjxsaW5lIHgxPSI5LjU5OCIgeTE9IjEuNzc1NzYiIHgyPSIxLjc3NTc4IiB5Mj0iOS41OTc5OSIgc3Ryb2tlPSIjRkY1NDAwIi8+CjxsaW5lIHgxPSIxNC41NzU4IiB5MT0iMS43NzU3NiIgeDI9IjEuNzc1NzgiIHkyPSIxNC41NzU4IiBzdHJva2U9IiNGRjU0MDAiLz4KPC9zdmc+Cg==");
+      background-size: cover; }
+  .dnb-textarea__autoresize .dnb-textarea__shell::after {
+    content: none; }
   .dnb-textarea__state {
     position: absolute;
     z-index: 1;
@@ -630,7 +644,10 @@ legend.dnb-form-label {
     padding: 0 var(--textarea-padding-width);
     outline: none;
     font-size: var(--font-size-basis);
-    line-height: var(--line-height-basis); }
+    line-height: var(--line-height-basis);
+    resize: vertical; }
+  .dnb-textarea textarea::-webkit-resizer {
+    display: none; }
   .dnb-textarea__placeholder {
     pointer-events: none;
     position: absolute;

@@ -40,6 +40,28 @@
 
     // because of inheritance, we set the font-size and line-height here as well
     font-size: var(--font-size-basis);
+
+    &::after {
+      content: '';
+      pointer-events: none;
+
+      position: absolute;
+      cursor: e-resize;
+      z-index: 2;
+
+      bottom: -4px;
+      right: -4px;
+
+      width: 1rem;
+      height: 1rem;
+
+      background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2IiByeD0iMiIgZmlsbD0iIzczNzM3MyIvPgo8bGluZSB4MT0iNS4zMzEzNCIgeTE9IjEuNzc1NzYiIHgyPSIxLjQyMDIzIiB5Mj0iNS42ODY4NyIgc3Ryb2tlPSIjRkY1NDAwIi8+CjxsaW5lIHgxPSI5LjU5OCIgeTE9IjEuNzc1NzYiIHgyPSIxLjc3NTc4IiB5Mj0iOS41OTc5OSIgc3Ryb2tlPSIjRkY1NDAwIi8+CjxsaW5lIHgxPSIxNC41NzU4IiB5MT0iMS43NzU3NiIgeDI9IjEuNzc1NzgiIHkyPSIxNC41NzU4IiBzdHJva2U9IiNGRjU0MDAiLz4KPC9zdmc+Cg==');
+      background-size: cover;
+    }
+  }
+
+  &__autoresize &__shell::after {
+    content: none;
   }
 
   &__state {
@@ -68,6 +90,12 @@
     position: relative;
     z-index: 2;
     @include textareaStyleCommon();
+
+    resize: vertical;
+  }
+
+  textarea::-webkit-resizer {
+    display: none;
   }
 
   &__placeholder {
