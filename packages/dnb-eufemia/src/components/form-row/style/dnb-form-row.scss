@@ -1,13 +1,198 @@
 /*
-* DNB FormRow
-*
-*/
+ * FormRow component
+ *
+ */
 
-@import '../../../style/components/imports.scss';
-@import '../../form-label/style/dnb-form-label.scss';
+@import '../../../style/core/utilities.scss';
 
-.dnb-form-row {
-  @include componentReset();
+:root {
+  --form-row-column1-start: auto;
+  --form-row-column2-start: 1fr;
+  --form-row-row1-start: auto;
+  --form-row-row2-start: auto;
+  --form-bounding-height: 0.25rem;
 }
 
-@import './_form-row.scss';
+.dnb-form-row {
+  &,
+  &.dnb-section {
+    display: flex;
+  }
+  align-items: baseline;
+
+  &__content {
+    display: inline-flex;
+    flex: 1; // to help #input stretch
+    width: 100%; // to help #input stretch
+  }
+
+  // for hoizontal direction
+  &:not(#{&}--vertical) {
+    & > .dnb-form-row__content {
+      align-items: baseline;
+
+      .dnb-form-label {
+        white-space: nowrap;
+      }
+
+      &--wrap {
+        // so components gets wrapper on overflow, we use block here
+        display: block;
+      }
+
+      // TODO: We may considder to wrap horizontal direction to vertical
+      // overwrite display to be block on small screens
+      // @media screen and (max-width: 40em) {
+      //   flex-direction: column;
+      // }
+      // justify-self: start;
+    }
+
+    &[class*='__indent'] {
+      display: grid;
+      grid-template-columns:
+        [column1-start] var(--form-row-column1-start)
+        [column1-end column2-start] var(--form-row-column2-start)
+        [column2-end];
+      grid-template-rows:
+        [row1-start] var(--form-row-row1-start)
+        [row1-end row2-start] var(--form-row-row2-start)
+        [row2-end];
+
+      & > .dnb-form-row__content {
+        grid-column: column2-start / column2-end;
+        grid-row: row2-start / row2-end;
+
+        // if not mobile
+        @media screen and (min-width: 40em) {
+          &--default {
+            margin-top: -1.5rem;
+          }
+          &--x-small {
+            margin-top: calc(-0.5rem + var(--form-bounding-height));
+          }
+          &--small {
+            margin-top: calc(-1rem + var(--form-bounding-height));
+          }
+          &--medium {
+            margin-top: calc(-1.5rem + var(--form-bounding-height));
+          }
+          &--large {
+            margin-top: calc(-2rem + var(--form-bounding-height));
+          }
+          &--m-large {
+            margin-top: calc(-2.5rem + 0.625rem);
+          }
+          &--x-large {
+            margin-top: calc(-3rem + var(--form-bounding-height));
+          }
+          &--xx-large {
+            margin-top: calc(-3.5rem + var(--form-bounding-height));
+          }
+        }
+
+        // if mobile
+        @media screen and (max-width: 40em) {
+          // use important, sice we want to overwrite the inline style "marginTop" set by "setLabelOffset"
+          margin-top: 0.5rem !important;
+        }
+      }
+
+      & > .dnb-form-label {
+        // put the label in the first column
+        grid-column: column1-start / column1-end;
+        grid-row: row1-start / row1-end;
+
+        margin-right: 1rem;
+
+        @media screen and (min-width: 40em) {
+          text-align: right;
+        }
+      }
+
+      // overwrite display to be block on small screens
+      @media screen and (max-width: 40em) {
+        display: block;
+      }
+
+      .dnb-form-row__label-dummy {
+        margin-top: 0;
+      }
+    }
+
+    @media screen and (max-width: 40em) {
+      flex-direction: column;
+      align-items: flex-start;
+      & > .dnb-form-label {
+        margin-bottom: 0.5rem;
+      }
+      & > .dnb-form-row__content {
+        flex-direction: column;
+        & > .dnb-form-label {
+          margin-top: 1rem;
+        }
+      }
+    }
+  }
+  &--centered#{&}:not(#{&}--vertical) &__content {
+    @media screen and (min-width: 40em) {
+      align-items: center;
+    }
+  }
+
+  // This is currently not needed
+  // &--nested#{&}:not(#{&}--vertical)#{&}:not(#{&}--vertical-label)
+  //   > .dnb-form-label {
+  //   @media screen and (max-width: 40em) {
+  //     margin-bottom: 1rem;
+  //     margin-right: 0;
+  //   }
+  // }
+
+  // for vertical direction
+  &--vertical > .dnb-form-row__label {
+    margin-bottom: 0.5rem;
+  }
+  &--vertical > &__content,
+  &--vertical#{&}:not(#{&}--nested) {
+    flex-direction: column;
+  }
+
+  // TODO: we may considder this to be included with a prop later on
+  // default spacing
+  // &:not(#{&}--nested) {
+  //   margin-bottom: 1.5rem;
+  // }
+
+  &--vertical-label {
+    flex-direction: column;
+  }
+
+  > .dnb-form-status {
+    margin: 0.5rem 0;
+  }
+  > .dnb-form-row__label {
+    &--vertical {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    &--vertical ~ .dnb-form-row__content {
+      grid-column: column1-start / column1-end;
+    }
+  }
+
+  &__label-dummy {
+    margin: 0;
+  }
+
+  // reset the fieldset
+  &__fieldset,
+  .dnb-core-style &__fieldset {
+    margin: 0;
+    padding: 0;
+    border: none;
+
+    width: 100%;
+  }
+}

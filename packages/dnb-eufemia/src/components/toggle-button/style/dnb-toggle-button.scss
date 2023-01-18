@@ -1,19 +1,195 @@
 /*
-* DNB ToggleButton
+* ToggleButton component
 *
 */
 
-@import '../../../style/components/imports.scss';
+@import '../../../style/core/utilities.scss';
 
-// import dependencies
-@import '../../form-label/style/dnb-form-label.scss';
-@import '../../button/style/dnb-button.scss';
-@import '../../checkbox/style/dnb-checkbox.scss';
-@import '../../radio/style/dnb-radio.scss';
-@import '../../form-status/style/dnb-form-status.scss';
-
-.dnb-toggle-button {
-  @include componentReset();
+:root {
+  --toggle-button-margin-right: 1rem;
+  --toggle-button-margin-bottom: 1rem;
 }
 
-@import './_toggle-button.scss';
+.dnb-toggle-button {
+  display: inline-flex;
+  align-items: center; // because, with this we v align it to the label
+
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-basis);
+
+  &__inner {
+    display: inline-flex;
+    flex-direction: column;
+  }
+
+  &__shell {
+    position: relative;
+    left: 0;
+
+    user-select: none;
+    -webkit-user-select: none; // Safari / Touch fix
+  }
+
+  &--vertical {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  &__component {
+    padding-right: 0.5rem;
+
+    display: inline-flex;
+    align-items: center;
+  }
+
+  &__button {
+    &.dnb-button--has-text {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+
+    // checkbox
+    .dnb-checkbox {
+      margin-left: -0.5rem;
+      &__input {
+        pointer-events: none;
+      }
+      &__button {
+        display: unset;
+      }
+      &__focus,
+      &__button {
+        width: calc(var(--checkbox-width--medium) - 0.5rem);
+        height: calc(var(--checkbox-height--medium) - 0.5rem);
+
+        // We used this before for more precise sizing
+        border-width: 0.0625rem; // to get 1.5px we use 1px here, and 0.5px with box-shadow
+      }
+
+      &__dot {
+        width: calc(var(--checkbox-width--medium) - 1rem);
+        height: calc(var(--checkbox-height--medium) - 1rem);
+      }
+      &__gfx {
+        width: calc(var(--checkbox-width--medium) - 0.75rem);
+        height: calc(var(--checkbox-height--medium) - 0.75rem);
+      }
+    }
+
+    // radio button
+    .dnb-radio {
+      margin-left: -0.5rem;
+      &__input {
+        pointer-events: none;
+      }
+      &__focus,
+      &__button {
+        width: calc(var(--radio-width--medium) - 0.5rem);
+        height: calc(var(--radio-height--medium) - 0.5rem);
+
+        // We used this before for more precise sizing
+        border-width: 0.0625rem; // to get 1.5px we use 1px here, and 0.5px with box-shadow
+      }
+      &__dot {
+        width: calc(var(--radio-width--medium) - 1rem);
+        height: calc(var(--radio-height--medium) - 1rem);
+      }
+    }
+  }
+
+  // default "active" style
+  &--checked &__button:not([disabled]):not(:active) {
+    &.dnb-button--secondary,
+    &.dnb-button--secondary:hover {
+      background-color: var(--color-emerald-green);
+      color: var(--color-mint-green);
+    }
+  }
+
+  // in case we don't define a wrapping group
+  // and have a custom label component before the toggle-button (and not inside)
+  :not(#{&}-group) > .dnb-form-label + & {
+    vertical-align: top;
+  }
+
+  // &__suffix,
+  &-group__suffix {
+    font-size: var(--font-size-basis);
+  }
+
+  // status
+  .dnb-form-status {
+    order: 2;
+    margin-top: 0.5rem;
+  }
+
+  // label
+  .dnb-form-label {
+    margin-right: 1rem;
+  }
+
+  &-group {
+    display: inline-flex;
+
+    // default spacing
+    .dnb-toggle-button {
+      margin-right: var(--toggle-button-margin-right);
+      margin-bottom: var(--toggle-button-margin-bottom);
+    }
+    &--column .dnb-toggle-button {
+      display: flex;
+      margin-right: 0;
+    }
+    .dnb-toggle-button:last-of-type {
+      margin-right: 0;
+    }
+
+    // correct the bottom on the last row
+    &__shell {
+      display: flex;
+      flex-direction: column;
+
+      &__children {
+        order: 1;
+      }
+
+      & > .dnb-form-status {
+        order: 2;
+        transform: translateY(-0.5rem);
+      }
+    }
+
+    .dnb-form-row {
+      // to make sure we vertical align centered to the text
+      align-items: baseline;
+
+      &--vertical-label {
+        align-items: flex-start;
+      }
+
+      margin-bottom: calc(1px - 1px - var(--toggle-button-margin-bottom));
+
+      &::before {
+        // move the group 2px up if label exists
+        font-size: var(--font-size-basis);
+      }
+    }
+
+    // vertical alignment - if no label is given
+    &--no-label > .dnb-alignment-helper {
+      line-height: var(--button-height);
+    }
+
+    // correct for horizontal form-row direction
+    &--row#{&}:not(.dnb-form-row--vertical-label) > .dnb-alignment-helper {
+      line-height: var(--button-height);
+    }
+  }
+
+  // default spacing for a single toggle button
+  @media screen and (min-width: 40em) {
+    .dnb-form-label + & {
+      transform: translateY(-0.5rem);
+    }
+  }
+}

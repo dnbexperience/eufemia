@@ -3,8 +3,8 @@
 *
 */
 
-@import '../../../../style/themes/imports.scss';
-@import '../../../button/style/themes/_button-mixins.scss';
+@import '../../../../style/core/utilities.scss';
+@import '../../../button/style/themes/button-mixins.scss';
 
 :root {
   --timeline-icon-height--small: var(--button-height--small);
