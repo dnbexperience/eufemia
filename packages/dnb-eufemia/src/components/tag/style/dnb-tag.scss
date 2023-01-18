@@ -1,15 +1,98 @@
 /*
-* DNB Tag
+* Tag component
 *
 */
 
-@import '../../../style/components/imports.scss';
-
-// import dependencies
-@import '../../button/style/dnb-button.scss';
+@import '../../../style/core/utilities.scss';
+@import '../../button/style/themes/button-mixins.scss';
+@import './themes/tag-mixins.scss';
 
 .dnb-tag {
-  @include componentReset();
-}
+  &.dnb-button {
+    appearance: none;
+    background-color: var(--color-black-8);
 
-@import './_tag.scss';
+    &.dnb-button--size-small {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+
+    &.dnb-button--size-small.dnb-button--has-icon {
+      padding-left: 0;
+    }
+
+    .dnb-button__text {
+      font-size: var(--font-size-x-small);
+      transform: none;
+    }
+  }
+
+  &:not(#{&}--interactive) {
+    user-select: unset;
+    cursor: unset;
+    .dnb-button__text {
+      cursor: text;
+    }
+  }
+
+  &--interactive {
+    &.dnb-button {
+      color: var(--color-sea-green);
+
+      @include fakeBorder(var(--color-sea-green), 0.0625rem, inset);
+      @include buttonHover(var(--color-sea-green), var(--color-black-8));
+      @include buttonFocus(var(--color-sea-green), var(--color-black-8));
+      @include buttonActive(
+        var(--color-sea-green),
+        var(--color-mint-green-50)
+      );
+      &[disabled] {
+        color: var(--color-sea-green-30);
+        background-color: var(--color-white);
+        @include fakeBorder(var(--color-sea-green-30));
+      }
+    }
+  }
+
+  &--removable {
+    &.dnb-button {
+      color: var(--color-white);
+      background-color: var(--color-sea-green);
+      @include deleteIcon(var(--color-white), var(--color-sea-green));
+
+      @include buttonFocus(var(--color-sea-green), var(--color-white)) {
+        @include deleteIcon();
+      }
+      @include buttonHover(var(--color-sea-green), var(--color-white)) {
+        @include deleteIcon();
+      }
+      @include buttonActive(
+        var(--color-sea-green),
+        var(--color-mint-green-50)
+      ) {
+        @include deleteIcon();
+      }
+      &[disabled] {
+        @include deleteIcon(
+          var(--color-mint-green-50),
+          var(--color-sea-green-30)
+        );
+      }
+
+      .dnb-button__text {
+        padding-left: 0.5rem;
+      }
+    }
+
+    &.dnb-button--size-small.dnb-button--has-icon {
+      padding-right: 0;
+    }
+  }
+
+  // Default space between tags
+  &__group {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}

@@ -1,12 +1,39 @@
 /*
-* DNB Logo
-*
-*/
+ * Logo Component
+ *
+ */
 
-@import '../../../style/components/imports.scss';
+@import '../../../style/core/utilities.scss';
 
 .dnb-logo {
-  @include componentReset();
-}
+  display: inline-flex;
+  vertical-align: baseline;
+  font-size: inherit;
+  line-height: var(
+    --line-height-xx-small--em
+  ); // for vertical alignment, we have to have no line-height
 
-@import './_logo.scss';
+  color: var(--color-sea-green);
+  &--inherit-color {
+    color: currentColor;
+  }
+  svg {
+    fill: currentColor;
+    shape-rendering: geometricPrecision;
+  }
+
+  height: 1em;
+
+  &--has-size {
+    width: auto;
+    height: auto;
+  }
+  &--inherit-size {
+    height: inherit;
+  }
+
+  svg:not([width]):not([height]) {
+    width: inherit;
+    height: inherit;
+  }
+}
