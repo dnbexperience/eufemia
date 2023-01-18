@@ -61,24 +61,11 @@ exports[`Icon component have to match snapshot 1`] = `
 
 exports[`Icon scss have to match snapshot 1`] = `
 "/*
-* DNB icon
+* Used for snapshot testing
 *
 */
-/**
- * This file is only used to make components independent
- * so that they can get imported individually, without the core styles
- *
- */
 /*
  * Utilities
- */
-/*
- * Scopes
- *
- */
-/*
- * Document Reset
- *
  */
 /*
 * Icon component

@@ -1,15 +1,261 @@
 /*
-* DNB Drawer
+* Drawer component
 *
 */
 
-@import '../../../style/components/imports.scss';
+@import '../../../style/core/utilities.scss';
+@import '../../modal/style/modal-mixins.scss';
 
-// import dependencies
-@import '../../modal/style/dnb-modal.scss';
-
-.dnb-drawer {
-  @include componentReset();
+:root {
+  --drawer-width: 40vw;
+  --drawer-min-width: 25rem;
+  --drawer-max-width: 40rem;
+  --drawer-spacing: 2rem; // should reflect --spacing-large
+  --drawer-spacing-minus: -2rem; // should reflect --spacing-large
 }
 
-@import './_drawer.scss';
+@mixin drawerSpacing {
+  padding: 0 var(--drawer-spacing); // should be 56px – but then the whole width should be larger
+
+  @include allAbove(x-large) {
+    padding: 0 calc(var(--drawer-spacing) * 1.75); // 3.5rem (56px)
+  }
+  @include allBelow(medium) {
+    padding: 0 calc(var(--drawer-spacing) / 1.333333); // 2rem (32px)
+  }
+  @include allBelow(small) {
+    padding: 0 calc(var(--drawer-spacing) / 2); // 1rem (16px)
+  }
+}
+
+.dnb-drawer {
+  position: relative;
+  max-height: 100vh;
+
+  @include modalFullscreen();
+  width: var(--drawer-width);
+  min-width: var(--drawer-min-width);
+  max-width: var(--drawer-max-width);
+
+  @include allBelow(small) {
+    width: 100vw;
+    min-width: auto;
+    max-width: auto;
+  }
+
+  @include defaultDropShadow();
+  user-select: text;
+  -webkit-user-select: text; // Safari / Touch fix
+  border: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+  &--auto-fullscreen {
+    @include allBelow(small) {
+      @include modalFullscreen();
+    }
+  }
+
+  &__inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+
+    /** 
+      NB: Do not use "overflow-x: hidden;" in here,
+      (overflowing one direction, will influence the other – we can't just have one at a time) 
+      To make the Drawer scroll, we use .dnb-scroll-view
+    */
+
+    width: 100%;
+    height: calc(100% - var(--header-height, 0));
+
+    /** Sets the color on scroll overflow (at the bottom) */
+    background-color: var(--modal-background-color, transparent);
+  }
+
+  &__align--centered &__inner {
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__content {
+    position: relative;
+    z-index: 1;
+  }
+  &--spacing &__content {
+    @include drawerSpacing();
+  }
+  &__align--center &__content {
+    align-items: center;
+    text-align: center;
+  }
+  &__align--right &__content {
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  // Container placement
+  &--top,
+  &--bottom {
+    max-width: 100%; // Edge/IE overflow fix
+    width: 100vw;
+    height: 40vh;
+
+    @media screen and (max-height: 40em) {
+      height: 100vw;
+      min-height: auto;
+      max-height: auto;
+    }
+  }
+
+  &--fullscreen {
+    @include modalFullscreen();
+  }
+
+  html:not([data-visual-test]) & {
+    opacity: 0.1;
+    animation: show-drawer var(--modal-animation-duration) ease-out
+      forwards;
+  }
+  // Animations in
+  html:not([data-visual-test]) &--left {
+    transform: translate3d(-20rem, 0, 0);
+  }
+  html:not([data-visual-test]) &--right {
+    transform: translate3d(20rem, 0, 0);
+  }
+  html:not([data-visual-test]) &--top {
+    transform: translate3d(0, -20rem, 0);
+  }
+  html:not([data-visual-test]) &--bottom {
+    transform: translate3d(0, 20rem, 0);
+  }
+  // Animations out
+  html:not([data-visual-test]) &--hide#{&}--left {
+    animation: hide-drawer-left var(--modal-animation-duration) ease-in-out
+      forwards;
+  }
+  html:not([data-visual-test]) &--hide#{&}--right {
+    animation: hide-drawer-right var(--modal-animation-duration)
+      ease-in-out forwards;
+  }
+  html:not([data-visual-test]) &--hide#{&}--top {
+    animation: hide-drawer-top var(--modal-animation-duration) ease-in-out
+      forwards;
+  }
+  html:not([data-visual-test]) &--hide#{&}--bottom {
+    animation: hide-drawer-bottom var(--modal-animation-duration)
+      ease-in-out forwards;
+  }
+  &--no-animation {
+    animation-duration: 0ms !important;
+  }
+  @include allBelow(small) {
+    &--no-animation-on-mobile {
+      animation-duration: 0ms !important;
+    }
+  }
+
+  &__root {
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  &__title {
+    @include allBelow(medium) {
+      font-size: var(--font-size-large) !important;
+      line-height: var(--line-height-medium) !important;
+    }
+  }
+
+  &__title ~ &__content {
+    padding-top: calc(var(--drawer-spacing) / 1.333333);
+  }
+
+  & &__header [class*='dnb-h--'],
+  & &__header &__title {
+    padding: 0;
+    &:not([class*='__top']) {
+      margin-top: 0;
+    }
+    &:not([class*='__bottom']) {
+      margin-bottom: 0;
+    }
+  }
+  & &__header {
+    &::after {
+      top: -500%;
+      height: 600%;
+    }
+  }
+
+  &--spacing &__header {
+    @include drawerSpacing();
+    .dnb-tabs {
+      margin-top: var(--drawer-spacing);
+    }
+  }
+
+  &__body {
+    padding-bottom: calc(var(--drawer-spacing) * 2);
+    margin-bottom: calc(var(--drawer-spacing-minus) * 2);
+
+    @include IS_SAFARI_MOBILE {
+      padding-bottom: calc(var(--drawer-spacing-minus) * 8);
+    }
+  }
+
+  &__navigation.dnb-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  &--spacing &__navigation.dnb-section {
+    position: sticky;
+    top: 0;
+    left: 0; // when content is wider, we don't want the bar to scroll horizontal
+    z-index: 99; // below #dropdown and #date-picker
+
+    // on large screens
+    margin: var(--drawer-spacing) 0;
+    @include drawerSpacing();
+  }
+  &--spacing &__navigation.dnb-section#{&}__navigation--sticky {
+    z-index: 2999; // above #dropdown and #date-picker and below #modal
+  }
+
+  // is this correct?
+  & &__navigation--sticky {
+    &::before {
+      content: '';
+      position: absolute;
+      z-index: -1;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 300%; // hide the top shadow
+
+      @include defaultDropShadow();
+    }
+  }
+  // is this correct?
+  & &__navigation:not(#{&}__navigation--sticky) {
+    &::after {
+      color: transparent;
+    }
+  }
+
+  @include allBelow(small) {
+    &--no-animation-on-mobile {
+      animation-delay: 0ms !important;
+      animation-duration: 0ms !important;
+    }
+  }
+}
+
+[data-visual-test].hide-page-content #___gatsby {
+  // NB: visibility: hidden; does not work here, because puppeteer does not find the selectors anymore
+  opacity: 0;
+}

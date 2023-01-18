@@ -3,8 +3,8 @@
 *
 */
 
-@import '../../../../style/themes/imports.scss';
-@import '../dnb-table-mixins.scss';
+@import '../../../../style/core/utilities.scss';
+@import '../table-mixins.scss';
 
 .dnb-table {
   text-align: left;

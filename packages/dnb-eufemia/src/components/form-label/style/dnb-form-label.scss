@@ -1,12 +1,45 @@
 /*
-* DNB FormLabel
-*
-*/
+ * FormLabel component
+ *
+ */
 
-@import '../../../style/components/imports.scss';
+@import '../../../style/core/utilities.scss';
 
 .dnb-form-label {
-  @include componentReset();
-}
+  display: inline-block;
 
-@import './_form-label.scss';
+  width: auto;
+  padding: 0;
+  margin-right: 1rem;
+
+  text-align: left;
+  vertical-align: baseline;
+
+  white-space: pre-wrap;
+  word-break: normal;
+
+  font-size: var(--font-size-basis);
+  color: inherit;
+
+  &--vertical {
+    display: block;
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  // Is not in use
+  // &--vertical-label {
+  // }
+
+  &[for]:not([disabled]) {
+    user-select: none;
+    -webkit-user-select: none; // Safari / Touch fix
+    cursor: pointer;
+  }
+  &[disabled] {
+    cursor: not-allowed;
+  }
+}
+legend.dnb-form-label {
+  display: inline-block;
+}

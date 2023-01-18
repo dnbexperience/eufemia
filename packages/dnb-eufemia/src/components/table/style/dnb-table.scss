@@ -1,12 +1,73 @@
 /*
-* DNB Table
+* Table component
 *
 */
 
-@import '../../../style/components/imports.scss';
+@import './table-mixins.scss';
+@import './table-header-buttons.scss';
 
 .dnb-table {
-  @include componentReset();
+  display: table;
+  table-layout: auto;
+  width: 100%;
+
+  margin-top: 0;
+  margin-bottom: 0.5rem; // give room to a scrollbar
+
+  border-spacing: 0;
+  border-collapse: collapse;
+
+  &--fixed {
+    table-layout: fixed;
+    width: auto;
+  }
+
+  &--no-wrap {
+    white-space: nowrap;
+  }
+
+  & > caption {
+    caption-side: bottom;
+    padding: 0.5rem 0 0.5rem 1rem;
+
+    font-size: var(--font-size-basis);
+    background-color: var(--color-white);
+    text-align: left;
+  }
+  &--border > caption:not(.dnb-sr-only) {
+    position: relative;
+    &::after {
+      @include tableBorder();
+      top: -0.0625rem; // so we are behind the border-bottom (end of table)
+      border-top: var(--border);
+    }
+  }
+
+  &.dnb-skeleton {
+    > * {
+      -webkit-text-fill-color: var(--skeleton-color);
+    }
+  }
+
+  @include buttonsInTable();
 }
 
-@import './_table.scss';
+@import './table-th.scss';
+@import './table-td.scss';
+@import './table-tr.scss';
+@import './table-cell.scss';
+@import './table-sticky.scss';
+@import './table-container.scss';
+@import './table-accordion.scss';
+
+// Reset Table spacing
+.dnb-spacing .dnb-table {
+  p,
+  ul,
+  ol,
+  dl,
+  pre {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
