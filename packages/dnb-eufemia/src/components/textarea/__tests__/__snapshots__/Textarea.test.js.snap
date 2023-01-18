@@ -155,7 +155,8 @@ exports[`Textarea scss have to match default theme snapshot 1`] = `
  * Utilities
  */
 :root {
-  --textarea-rows: 2; }
+  --textarea-rows: 2;
+}
 
 .dnb-textarea__textarea {
   color: var(--color-black);
@@ -165,69 +166,75 @@ exports[`Textarea scss have to match default theme snapshot 1`] = `
   scrollbar-width: thin;
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: auto;
-  scrollbar-color: var(--color-sea-green) transparent; }
-  .dnb-textarea__textarea ::selection {
-    background-color: var(--color-mint-green);
-    color: var(--color-black);
-    text-shadow: none; }
-  @supports not (scrollbar-color: auto) {
-    .dnb-textarea__textarea::-webkit-scrollbar {
-      background-color: var(--color-black-8); }
-      .dnb-textarea__textarea::-webkit-scrollbar:vertical {
-        width: 0.5rem; }
-      .dnb-textarea__textarea::-webkit-scrollbar:horizontal {
-        height: 0.5rem; }
-    .dnb-textarea__textarea::-webkit-scrollbar-thumb {
-      background-color: var(--color-sea-green);
-      border-radius: 0.5rem; }
-      .dnb-textarea__textarea::-webkit-scrollbar-thumb:hover {
-        background-color: var(--color-emerald-green); } }
-  html:not([data-visual-test]) .dnb-textarea__textarea {
-    scroll-behavior: smooth; }
-  html[data-visual-test] .dnb-textarea__textarea {
-    scroll-behavior: auto !important; }
-
+  scrollbar-color: var(--color-sea-green) transparent;
+}
+.dnb-textarea__textarea ::selection {
+  background-color: var(--color-mint-green);
+  color: var(--color-black);
+  text-shadow: none;
+}
+@supports not (scrollbar-color: auto) {
+  .dnb-textarea__textarea::-webkit-scrollbar {
+    background-color: var(--color-black-8);
+  }
+  .dnb-textarea__textarea::-webkit-scrollbar:vertical {
+    width: 0.5rem;
+  }
+  .dnb-textarea__textarea::-webkit-scrollbar:horizontal {
+    height: 0.5rem;
+  }
+  .dnb-textarea__textarea::-webkit-scrollbar-thumb {
+    background-color: var(--color-sea-green);
+    border-radius: 0.5rem;
+  }
+  .dnb-textarea__textarea::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-emerald-green);
+  }
+}
+html:not([data-visual-test]) .dnb-textarea__textarea {
+  scroll-behavior: smooth;
+}
+html[data-visual-test] .dnb-textarea__textarea {
+  scroll-behavior: auto !important;
+}
 .dnb-textarea__placeholder {
   color: var(--color-black-55);
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: var(--textarea-rows, 2); }
-
-.dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):focus ~ .dnb-textarea__state,
-.dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):hover ~ .dnb-textarea__state {
-  box-shadow: 0 0 0 0.125rem var(--color-emerald-green); }
-
+  -webkit-line-clamp: var(--textarea-rows, 2);
+}
+.dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):focus ~ .dnb-textarea__state, .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):hover ~ .dnb-textarea__state {
+  box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+}
 .dnb-textarea--disabled .dnb-textarea__textarea, .dnb-textarea__textarea[disabled] {
   user-select: none;
   -webkit-user-select: none;
   color: var(--color-black-55);
-  background-color: var(--color-black-3); }
-  .dnb-textarea--disabled .dnb-textarea__textarea::-webkit-scrollbar, .dnb-textarea__textarea[disabled]::-webkit-scrollbar {
-    width: 0; }
-
-.dnb-textarea--disabled .dnb-textarea__state,
-.dnb-textarea__textarea[disabled] ~ .dnb-textarea__state {
+  background-color: var(--color-black-3);
+}
+.dnb-textarea--disabled .dnb-textarea__textarea::-webkit-scrollbar, .dnb-textarea__textarea[disabled]::-webkit-scrollbar {
+  width: 0;
+}
+.dnb-textarea--disabled .dnb-textarea__state, .dnb-textarea__textarea[disabled] ~ .dnb-textarea__state {
   box-shadow: 0 0 0 0.0625rem var(--color-black-55);
-  background-color: var(--color-black-3); }
-
-.dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled),
-.dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):hover {
-  color: var(--color-fire-red); }
-
+  background-color: var(--color-black-3);
+}
+.dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled), .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):hover {
+  color: var(--color-fire-red);
+}
 .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled) ~ .dnb-textarea__state {
   --border-color: var(--color-fire-red);
   box-shadow: 0 0 0 0.0625rem var(--border-color);
-  border-color: transparent; }
-
+  border-color: transparent;
+}
 .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):hover ~ .dnb-textarea__state {
   --border-color: var(--color-fire-red);
   box-shadow: 0 0 0 0.125rem var(--border-color);
-  border-color: transparent; }
-
-.dnb-textarea--has-content .dnb-textarea__textarea ~ .dnb-textarea__placeholder,
-.dnb-textarea--focus .dnb-textarea__textarea:not([disabled]):not([readonly]) ~ .dnb-textarea__placeholder {
-  display: none; }
-"
+  border-color: transparent;
+}
+.dnb-textarea--has-content .dnb-textarea__textarea ~ .dnb-textarea__placeholder, .dnb-textarea--focus .dnb-textarea__textarea:not([disabled]):not([readonly]) ~ .dnb-textarea__placeholder {
+  display: none;
+}"
 `;
 
 exports[`Textarea scss have to match snapshot 1`] = `
@@ -243,8 +250,14 @@ exports[`Textarea scss have to match snapshot 1`] = `
 *
 */
 /*
+ * Utilities
+ */
+/*
  * FormLabel component
  *
+ */
+/*
+ * Utilities
  */
 .dnb-form-label {
   display: inline-block;
@@ -256,207 +269,268 @@ exports[`Textarea scss have to match snapshot 1`] = `
   white-space: pre-wrap;
   word-break: normal;
   font-size: var(--font-size-basis);
-  color: inherit; }
-  .dnb-form-label--vertical {
-    display: block;
-    margin-right: 0;
-    margin-bottom: 0.5rem; }
-  .dnb-form-label[for]:not([disabled]) {
-    user-select: none;
-    -webkit-user-select: none;
-    cursor: pointer; }
-  .dnb-form-label[disabled] {
-    cursor: not-allowed; }
+  color: inherit;
+}
+.dnb-form-label--vertical {
+  display: block;
+  margin-right: 0;
+  margin-bottom: 0.5rem;
+}
+.dnb-form-label[for]:not([disabled]) {
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: pointer;
+}
+.dnb-form-label[disabled] {
+  cursor: not-allowed;
+}
 
 legend.dnb-form-label {
-  display: inline-block; }
+  display: inline-block;
+}
 
 /*
 * Used for snapshot testing
 *
 */
 /*
+ * Utilities
+ */
+/*
  * FormStatus component
  *
  */
+/*
+ * Utilities
+ */
 :root {
-  --form-status-radius: 0.25rem; }
+  --form-status-radius: 0.25rem;
+}
 
 .dnb-form-status {
   display: flex;
   opacity: 1;
-  transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default); }
-  .dnb-form-status--hidden {
-    will-change: height, opacity, margin, padding;
-    width: 0;
-    height: 0;
-    opacity: 0; }
-  .dnb-form-status--is-animating {
-    overflow: hidden;
-    width: auto; }
-  .dnb-form-status--disappear, .dnb-form-status--hidden {
-    margin: 0 !important;
-    padding: 0 !important; }
-  .dnb-form-status__shell {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    min-width: inherit;
-    border-radius: var(--form-status-radius); }
-  .dnb-form-status__text {
-    padding: 0.625rem 1rem;
-    cursor: text;
-    color: inherit;
-    line-height: var(--line-height-small);
-    font-size: var(--font-size-small);
-    white-space: normal; }
-    button .dnb-form-status__text {
-      cursor: inherit; }
-    .dnb-form-status__text .dnb-anchor {
-      font-size: inherit; }
-  .dnb-icon + .dnb-form-status__text {
-    padding-left: 0.5rem; }
-  .dnb-form-status__shell > .dnb-icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em; }
-  .dnb-form-status__size--large .dnb-form-status__text {
-    padding-top: 1.125rem;
-    padding-bottom: 1.125rem; }
-  .dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
-    margin-top: 0.6666666em;
-    margin-bottom: 0.6666666em; }
-  .dnb-form-status--stretch {
-    flex-grow: 1; }
-  .dnb-form-status--stretch .dnb-form-status__shell {
-    width: 100%; }
-  .dnb-form-status--stretch .dnb-form-status__text {
-    max-width: 47rem; }
-  .dnb-form-status[hidden] {
-    display: none; }
-  .dnb-form-status--no-animation,
-  html[data-visual-test] .dnb-form-status {
-    transition-duration: 1ms !important; }
+  transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default);
+}
+.dnb-form-status--hidden {
+  will-change: height, opacity, margin, padding;
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+.dnb-form-status--is-animating {
+  overflow: hidden;
+  width: auto;
+}
+.dnb-form-status--disappear, .dnb-form-status--hidden {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.dnb-form-status__shell {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  min-width: inherit;
+  border-radius: var(--form-status-radius);
+}
+.dnb-form-status__text {
+  padding: 0.625rem 1rem;
+  cursor: text;
+  color: inherit;
+  line-height: var(--line-height-small);
+  font-size: var(--font-size-small);
+  white-space: normal;
+}
+button .dnb-form-status__text {
+  cursor: inherit;
+}
+.dnb-form-status__text .dnb-anchor {
+  font-size: inherit;
+}
+.dnb-icon + .dnb-form-status__text {
+  padding-left: 0.5rem;
+}
+.dnb-form-status__shell > .dnb-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em;
+}
+.dnb-form-status__size--large .dnb-form-status__text {
+  padding-top: 1.125rem;
+  padding-bottom: 1.125rem;
+}
+.dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
+  margin-top: 0.6666666em;
+  margin-bottom: 0.6666666em;
+}
+.dnb-form-status--stretch {
+  flex-grow: 1;
+}
+.dnb-form-status--stretch .dnb-form-status__shell {
+  width: 100%;
+}
+.dnb-form-status--stretch .dnb-form-status__text {
+  max-width: 47rem;
+}
+.dnb-form-status[hidden] {
+  display: none;
+}
+.dnb-form-status--no-animation, html[data-visual-test] .dnb-form-status {
+  transition-duration: 1ms !important;
+}
 
 /*
 * Textarea component
 *
 */
+/*
+ * Utilities
+ */
 :root {
-  --textarea-padding-width: 0.5rem; }
+  --textarea-padding-width: 0.5rem;
+}
 
 .dnb-textarea {
   display: inline-flex;
   font-size: var(--font-size-small);
-  line-height: var(--line-height-basis); }
-  .dnb-textarea__inner {
-    display: inline-flex;
-    flex-direction: column;
-    margin: var(--textarea-padding-width); }
-  .dnb-textarea__shell {
-    display: inline-flex;
-    position: relative;
-    font-size: var(--font-size-basis); }
-  .dnb-textarea__state {
-    position: absolute;
-    z-index: 1;
-    top: -0.5rem;
-    left: -0.5rem;
-    bottom: -0.5rem;
-    right: -0.5rem;
-    background-color: var(--color-white);
-    box-shadow: 0 0 0 0.0625rem var(--color-sea-green);
-    border-radius: 0.25rem; }
-  .dnb-textarea__row {
-    display: inline-flex; }
-  .dnb-textarea__suffix {
-    padding-left: 1.5rem; }
-  .dnb-textarea__textarea {
-    position: relative;
-    z-index: 2;
-    cursor: auto;
-    border: none;
-    margin: 0;
-    padding: 0 var(--textarea-padding-width);
-    outline: none;
-    font-size: var(--font-size-basis);
-    line-height: var(--line-height-basis); }
-  .dnb-textarea__placeholder {
-    pointer-events: none;
-    position: absolute;
-    z-index: 3;
-    top: 0;
-    left: 0;
-    overflow: hidden;
-    width: 100%;
-    height: 100%;
-    cursor: auto;
-    border: none;
-    margin: 0;
-    padding: 0 var(--textarea-padding-width);
-    outline: none;
-    font-size: var(--font-size-basis);
-    line-height: var(--line-height-basis); }
-  .dnb-textarea__textarea, .dnb-textarea__placeholder {
-    text-align: left; }
-  .dnb-textarea__align--right .dnb-textarea__textarea,
-  .dnb-textarea__align--right .dnb-textarea__placeholder {
-    text-align: right; }
-  .dnb-textarea__autoresize .dnb-textarea__textarea {
-    resize: none; }
-  .dnb-textarea--has-content .dnb-textarea__textarea ~ .dnb-textarea__placeholder,
-  .dnb-textarea--focus .dnb-textarea__textarea:not([disabled]):not([readonly]) ~ .dnb-textarea__placeholder {
-    opacity: 0.5; }
-  .dnb-textarea__inner > .dnb-form-status {
-    order: 2;
-    margin: 1rem 0 0 calc(1px - 1px - var(--textarea-padding-width)); }
-  .dnb-textarea:not(.dnb-textarea--vertical) .dnb-form-label {
-    margin-top: 0.5rem; }
-  .dnb-textarea--vertical {
+  line-height: var(--line-height-basis);
+}
+.dnb-textarea__inner {
+  display: inline-flex;
+  flex-direction: column;
+  margin: var(--textarea-padding-width);
+}
+.dnb-textarea__shell {
+  display: inline-flex;
+  position: relative;
+  font-size: var(--font-size-basis);
+}
+.dnb-textarea__state {
+  position: absolute;
+  z-index: 1;
+  top: -0.5rem;
+  left: -0.5rem;
+  bottom: -0.5rem;
+  right: -0.5rem;
+  background-color: var(--color-white);
+  box-shadow: 0 0 0 0.0625rem var(--color-sea-green);
+  border-radius: 0.25rem;
+}
+.dnb-textarea__row {
+  display: inline-flex;
+}
+.dnb-textarea__suffix {
+  padding-left: 1.5rem;
+}
+.dnb-textarea__textarea {
+  position: relative;
+  z-index: 2;
+  cursor: auto;
+  border: none;
+  margin: 0;
+  padding: 0 var(--textarea-padding-width);
+  outline: none;
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+}
+.dnb-textarea__placeholder {
+  pointer-events: none;
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  cursor: auto;
+  border: none;
+  margin: 0;
+  padding: 0 var(--textarea-padding-width);
+  outline: none;
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+}
+.dnb-textarea__textarea, .dnb-textarea__placeholder {
+  text-align: left;
+}
+.dnb-textarea__align--right .dnb-textarea__textarea, .dnb-textarea__align--right .dnb-textarea__placeholder {
+  text-align: right;
+}
+.dnb-textarea__autoresize .dnb-textarea__textarea {
+  resize: none;
+}
+.dnb-textarea--has-content .dnb-textarea__textarea ~ .dnb-textarea__placeholder, .dnb-textarea--focus .dnb-textarea__textarea:not([disabled]):not([readonly]) ~ .dnb-textarea__placeholder {
+  opacity: 0.5;
+}
+.dnb-textarea__inner > .dnb-form-status {
+  order: 2;
+  margin: 1rem 0 0 calc(0px - var(--textarea-padding-width));
+}
+.dnb-textarea:not(.dnb-textarea--vertical) .dnb-form-label {
+  margin-top: 0.5rem;
+}
+.dnb-textarea--vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.dnb-textarea:not(.dnb-textarea--vertical)[class*=__status] {
+  align-items: flex-start;
+}
+.dnb-textarea:not(.dnb-textarea--vertical)[class*=__status] > .dnb-form-label {
+  margin-top: 0.25rem;
+}
+@media screen and (max-width: 40em) {
+  .dnb-textarea {
+    flex-wrap: wrap;
+  }
+  .dnb-textarea > .dnb-form-label {
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+  }
+}
+.dnb-textarea--stretch {
+  display: flex;
+  flex-grow: 1;
+}
+.dnb-textarea--stretch .dnb-textarea__inner {
+  flex-grow: 1;
+}
+.dnb-textarea--stretch .dnb-textarea__shell, .dnb-textarea--stretch .dnb-textarea__inner, .dnb-textarea--stretch .dnb-textarea__textarea {
+  width: 100%;
+}
+.dnb-textarea--stretch .dnb-form-label + .dnb-textarea__inner {
+  width: auto;
+}
+.dnb-textarea--vertical.dnb-textarea--stretch .dnb-textarea__inner {
+  width: 100%;
+}
+.dnb-form-row--horizontal .dnb-textarea--stretch {
+  width: 100%;
+}
+@media screen and (max-width: 40em) {
+  .dnb-responsive-component .dnb-textarea {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; }
-  .dnb-textarea:not(.dnb-textarea--vertical)[class*='__status'] {
-    align-items: flex-start; }
-    .dnb-textarea:not(.dnb-textarea--vertical)[class*='__status'] > .dnb-form-label {
-      margin-top: 0.25rem; }
-  @media screen and (max-width: 40em) {
-    .dnb-textarea {
-      flex-wrap: wrap; }
-      .dnb-textarea > .dnb-form-label {
-        margin-bottom: 0.5rem;
-        margin-top: 0.5rem; } }
-  .dnb-textarea--stretch {
-    display: flex;
-    flex-grow: 1; }
-  .dnb-textarea--stretch .dnb-textarea__inner {
-    flex-grow: 1; }
-  .dnb-textarea--stretch .dnb-textarea__shell, .dnb-textarea--stretch .dnb-textarea__inner, .dnb-textarea--stretch .dnb-textarea__textarea {
-    width: 100%; }
-  .dnb-textarea--stretch .dnb-form-label + .dnb-textarea__inner {
-    width: auto; }
-  .dnb-textarea--vertical.dnb-textarea--stretch .dnb-textarea__inner {
-    width: 100%; }
-  .dnb-form-row--horizontal .dnb-textarea--stretch {
-    width: 100%; }
-  @media screen and (max-width: 40em) {
-    .dnb-responsive-component .dnb-textarea {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      margin-bottom: 0.5rem; }
-      .dnb-responsive-component .dnb-textarea > .dnb-form-label {
-        margin-bottom: 0.5rem; } }
-  html[data-visual-test] .dnb-textarea__textarea {
-    caret-color: var(--color-white); }
-  .dnb-textarea.dnb-skeleton .dnb-textarea__inner {
-    margin: 0;
-    border-radius: 0.25rem; }
-  .dnb-textarea.dnb-skeleton .dnb-textarea__inner .dnb-textarea__shell {
-    margin: var(--textarea-padding-width); }
-  .dnb-textarea.dnb-skeleton .dnb-textarea__state,
-  .dnb-textarea.dnb-skeleton .dnb-textarea__textarea {
-    visibility: hidden; }
-"
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+  }
+  .dnb-responsive-component .dnb-textarea > .dnb-form-label {
+    margin-bottom: 0.5rem;
+  }
+}
+html[data-visual-test] .dnb-textarea__textarea {
+  caret-color: var(--color-white);
+}
+.dnb-textarea.dnb-skeleton .dnb-textarea__inner {
+  margin: 0;
+  border-radius: 0.25rem;
+}
+.dnb-textarea.dnb-skeleton .dnb-textarea__inner .dnb-textarea__shell {
+  margin: var(--textarea-padding-width);
+}
+.dnb-textarea.dnb-skeleton .dnb-textarea__state, .dnb-textarea.dnb-skeleton .dnb-textarea__textarea {
+  visibility: hidden;
+}"
 `;
