@@ -145,7 +145,7 @@
       border-radius: 50%;
     }
   }
-  @media screen and (min-width: 40em) {
+  @include allAbove(small) {
     &--action-menu &__shell &__text {
       padding: 0 0.5rem;
     }
