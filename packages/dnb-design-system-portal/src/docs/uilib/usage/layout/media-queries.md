@@ -17,15 +17,14 @@ In order to make it as declarative and easy to handle media queries from JavaScr
 
 UX designers are using a 12 column system during their design processes.
 
-| Pixel | Type       | Rem      | Custom Property     | Comments    |
-| ----- | ---------- | -------- | ------------------- | ----------- |
-| 640   | `small`    | **40em** | `--layout-small`    | Mobile      |
-| 800   | `medium`   | **50em** | `--layout-medium`   |             |
-| 960   | `large`    | **60em** | `--layout-large`    | DNB default |
-| 1152  | `x-large`  | **72em** | `--layout-x-large`  |             |
-| 1280  | `xx-large` | **80em** | `--layout-xx-large` |             |
+| Pixel | Type     | Rem      | Custom Property   | Comments   |
+| ----- | -------- | -------- | ----------------- | ---------- |
+| 640   | `small`  | **40em** | `--layout-small`  | 4 columns  |
+| 960   | `medium` | **60em** | `--layout-medium` | 6 columns  |
+| 1152  | `large`  | **72em** | `--layout-large`  | 12 columns |
 
-<!-- | 1440  | `xxx-large` | **90em** | `--layout-xxx-large` |             | -->
+<!-- (not documented yet) | 1280  | `x-large`  | **80em** | `--layout-x-large`  | 12 columns | -->
+<!-- (not documented yet) | 1440  | `xx-large` | **90em** | `--layout-xx-large` |            | -->
 
 ## MediaQuery component and React Hooks
 
@@ -41,7 +40,7 @@ By using `matchMedia` we only render when the requested media query actually cha
 
 ### CSS similarity
 
-It uses the same query API as CSS uses. You are able to provide your query also raw, by using e.g. `query="(min-width: 50em)"`. But your custom queries will quickly grow and mess up your application code unnecessarily.
+It uses the same query API as CSS uses. You are able to provide your query also raw, by using e.g. `query="(min-width: 60em)"`. But your custom queries will quickly grow and mess up your application code unnecessarily.
 
 ### Properties
 
@@ -141,12 +140,12 @@ You have plenty of possibilities to mix and match:
   matches small and medium screens and during SSR
 </MediaQuery>
 
-<MediaQuery when={[{ min: 'small', max: 'x-large' }, { print: true }]}>
-  matches all between small and x-large screens or all print media
+<MediaQuery when={[{ min: 'small', max: 'large' }, { print: true }]}>
+  matches all between small and large screens or all print media
 </MediaQuery>
 
-<MediaQuery when={{ max: '80em' }}>
-  matches screens to a max of 80em
+<MediaQuery when={{ max: '60em' }}>
+  matches screens to a max of 60em
 </MediaQuery>
 
 <MediaQuery query="(min-width: 40em) and (max-width: 72em)">
@@ -206,7 +205,17 @@ import { defaultBreakpoints } from '@dnb/eufemia/shared/MediaQueryUtils'
 You can re-use the SASS mixins from Eufemia:
 
 ```scss
-@import '@dnb/eufemia/style/core/utilities.scss';
+// breakpoints.scss
+@import '@dnb/eufemia/style/core/utilities';
+$layout-small: map-get($breakpoints, 'small');
+$layout-medium: map-get($breakpoints, 'medium');
+$layout-large: map-get($breakpoints, 'large');
+```
+
+or like this:
+
+```scss
+@import '@dnb/eufemia/style/core/utilities';
 
 @include allBelow(large) {
   /* Your CSS */
@@ -221,19 +230,13 @@ You can re-use the SASS mixins from Eufemia:
 
 ```css
 @media screen and (max-width: 40em) {
-  /* small (mobile) */
-}
-@media screen and (max-width: 50em) {
-  /* medium */
+  /* small */
 }
 @media screen and (max-width: 60em) {
-  /* large (default) */
+  /* medium */
 }
-@media screen and (min-width: 60em) and (max-width: 72em) {
-  /* x-large */
-}
-@media screen and (min-width: 70em) and (max-width: 80em) {
-  /* xx-large */
+@media screen and (max-width: 72em) {
+  /* large */
 }
 ```
 
@@ -249,7 +252,7 @@ import MatchMediaMock from 'jest-matchmedia-mock'
 const matchMedia = new MatchMediaMock()
 
 it('your test', () => {
-  matchMedia.useMediaQuery('(min-width: 50em) and (max-width: 60em)')
+  matchMedia.useMediaQuery('(min-width: 40em) and (max-width: 60em)')
   ...
 })
 ```
