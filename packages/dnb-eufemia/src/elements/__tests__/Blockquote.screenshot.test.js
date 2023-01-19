@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../core/jest/jestSetupScreenshots'
 
-describe('Blockquote screenshot', () => {
+describe('Blockquote ', () => {
   setupPageScreenshot({ url: '/uilib/elements/blockquote' })
   const style = {
     width: '30rem', // make sure our input gets an explicit width, because of mac/linux rendering differences

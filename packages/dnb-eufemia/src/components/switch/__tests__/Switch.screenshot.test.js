@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Switch unchecked screenshot', () => {
+describe('Switch unchecked ', () => {
   setupPageScreenshot({ url: '/uilib/components/switch/demos' })
 
   it('have to match switch in unchecked state', async () => {
@@ -41,7 +41,7 @@ describe('Switch unchecked screenshot', () => {
 
 // NB: Because of focus simulation and screenshotElement.press('Tab')
 // we have to run the two focus simulations in a separate run each
-describe('Switch checked screenshot', () => {
+describe('Switch checked ', () => {
   setupPageScreenshot({ url: '/uilib/components/switch/demos' })
 
   it('have to match switch in checked state', async () => {

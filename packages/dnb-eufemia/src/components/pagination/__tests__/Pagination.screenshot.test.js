@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Pagination screenshot', () => {
+describe('Pagination ', () => {
   setupPageScreenshot({
     url: '/uilib/components/pagination/demos',
   })
@@ -50,7 +50,7 @@ describe('Pagination screenshot', () => {
   })
 })
 
-describe('Pagination screenshot', () => {
+describe('Pagination ', () => {
   setupPageScreenshot({
     url: '/uilib/components/pagination/demos',
     pageViewport: {

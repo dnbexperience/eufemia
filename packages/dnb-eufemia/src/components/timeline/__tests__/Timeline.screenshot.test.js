@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Timeline screenshot', () => {
+describe('Timeline ', () => {
   setupPageScreenshot({ url: '/uilib/components/timeline/demos' })
 
   it('have to match Timeline single completed', async () => {

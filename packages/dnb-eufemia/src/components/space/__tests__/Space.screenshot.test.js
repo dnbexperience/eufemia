@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Space screenshot', () => {
+describe('Space ', () => {
   setupPageScreenshot({
     url: '/uilib/components/space/demos',
   })

@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Breadcrumb screenshot', () => {
+describe('Breadcrumb ', () => {
   setupPageScreenshot({ url: '/uilib/components/breadcrumb/demos' })
 
   it('have to match Breadcrumb single', async () => {

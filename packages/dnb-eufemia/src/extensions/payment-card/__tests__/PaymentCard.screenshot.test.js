@@ -9,7 +9,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('PaymentCard screenshot', () => {
+describe('PaymentCard ', () => {
   setupPageScreenshot({ url: '/uilib/extensions/payment-card/demos' })
 
   it('have to match a basic card', async () => {

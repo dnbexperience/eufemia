@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Icon screenshot', () => {
+describe('Icon ', () => {
   setupPageScreenshot({
     url: '/uilib/components/icon/demos',
   })
@@ -74,7 +74,7 @@ describe('Icon screenshot', () => {
   })
 })
 
-describe('Icon screenshot', () => {
+describe('Icon ', () => {
   setupPageScreenshot({
     url: '/uilib/components/icon/demos',
   })

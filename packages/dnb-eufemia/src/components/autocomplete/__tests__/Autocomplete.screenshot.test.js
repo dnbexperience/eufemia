@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Autocomplete screenshot', () => {
+describe('Autocomplete ', () => {
   setupPageScreenshot({
     url: '/uilib/components/autocomplete/demos',
   })
@@ -90,7 +90,7 @@ describe('Autocomplete screenshot', () => {
   })
 })
 
-describe('Autocomplete screenshot', () => {
+describe('Autocomplete ', () => {
   setupPageScreenshot({
     url: '/uilib/components/autocomplete/demos',
     pageViewport: {

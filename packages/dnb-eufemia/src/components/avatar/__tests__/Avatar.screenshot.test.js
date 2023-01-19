@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Avatar screenshot', () => {
+describe('Avatar ', () => {
   setupPageScreenshot({ url: '/uilib/components/avatar/demos' })
 
   describe('size', () => {

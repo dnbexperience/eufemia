@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Table screenshot', () => {
+describe('Table ', () => {
   setupPageScreenshot({ url: '/uilib/components/table/demos' })
 
   it('have to match the default choice of table styles', async () => {
@@ -91,7 +91,7 @@ describe('Table screenshot', () => {
   })
 })
 
-describe('Table screenshot', () => {
+describe('Table ', () => {
   setupPageScreenshot({ url: '/uilib/components/table/demos' })
 
   // should be tested first
@@ -144,7 +144,7 @@ describe('Table screenshot', () => {
   })
 })
 
-describe('Table with skeleton screenshot', () => {
+describe('Table with skeleton ', () => {
   setupPageScreenshot({ url: '/uilib/components/table/demos?skeleton' })
 
   it('have to match default table', async () => {
@@ -158,7 +158,7 @@ describe('Table with skeleton screenshot', () => {
   })
 })
 
-describe('Table with accordion screenshot', () => {
+describe('Table with accordion ', () => {
   setupPageScreenshot({ url: '/uilib/components/table' })
 
   it('have to match default state', async () => {

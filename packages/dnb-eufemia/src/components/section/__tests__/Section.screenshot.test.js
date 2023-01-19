@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Section screenshot', () => {
+describe('Section ', () => {
   setupPageScreenshot({ url: '/uilib/components/section/demos' })
 
   it('have to match default section', async () => {

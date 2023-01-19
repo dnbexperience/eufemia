@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('ToggleButton unchecked screenshot', () => {
+describe('ToggleButton unchecked ', () => {
   setupPageScreenshot({
     url: '/uilib/components/toggle-button/demos',
   })
@@ -43,7 +43,7 @@ describe('ToggleButton unchecked screenshot', () => {
 
 // NB: Because of focus simulation and screenshotElement.press('Tab')
 // we have to run the two focus simulations in a separate run each
-describe('ToggleButton checked screenshot', () => {
+describe('ToggleButton checked ', () => {
   setupPageScreenshot({ url: '/uilib/components/toggle-button/demos' })
 
   it('have to match toggle-button in checked state', async () => {

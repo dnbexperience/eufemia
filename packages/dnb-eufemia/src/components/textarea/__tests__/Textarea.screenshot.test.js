@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Textarea screenshot', () => {
+describe('Textarea ', () => {
   const style = {
     width: '14rem', // make sure our textarea gets an explicit width, because of mac/linux rendering differences
   }

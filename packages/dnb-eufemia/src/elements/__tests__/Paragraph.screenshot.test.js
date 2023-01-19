@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
   // isCI
 } from '../../core/jest/jestSetupScreenshots'
-describe('Paragraph screenshot', () => {
+describe('Paragraph ', () => {
   setupPageScreenshot({
     url: '/uilib/elements/paragraph',
   })

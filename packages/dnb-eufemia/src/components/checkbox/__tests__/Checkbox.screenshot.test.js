@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Checkbox unchecked screenshot', () => {
+describe('Checkbox unchecked ', () => {
   setupPageScreenshot({ url: '/uilib/components/checkbox/demos' })
 
   it('have to match checkbox in unchecked state', async () => {
@@ -41,7 +41,7 @@ describe('Checkbox unchecked screenshot', () => {
 
 // NB: Because of focus simulation and screenshotElement.press('Tab')
 // we have to run the two focus simulations in a separate run each
-describe('Checkbox checked screenshot', () => {
+describe('Checkbox checked ', () => {
   setupPageScreenshot({ url: '/uilib/components/checkbox/demos' })
 
   it('have to match checkbox in checked state', async () => {

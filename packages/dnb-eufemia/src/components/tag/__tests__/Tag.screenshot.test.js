@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Tag screenshot', () => {
+describe('Tag ', () => {
   setupPageScreenshot({ url: '/uilib/components/tag/demos' })
 
   it('have to match Tag default', async () => {
@@ -54,7 +54,7 @@ describe('Tag screenshot', () => {
   })
 })
 
-describe('Clickable tag screenshot', () => {
+describe('Clickable tag ', () => {
   setupPageScreenshot({
     url: '/uilib/components/tag/visual-tests/clickable-tag',
   })

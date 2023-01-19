@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Badge screenshot', () => {
+describe('Badge ', () => {
   setupPageScreenshot({ url: '/uilib/components/badge/demos' })
   describe('variant', () => {
     it('have to match variant notification', async () => {

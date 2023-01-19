@@ -13,7 +13,7 @@ const pageViewport = {
   height: 600,
 }
 
-describe('Dialog screenshot', () => {
+describe('Dialog ', () => {
   setupPageScreenshot({
     url: '/uilib/components/dialog/demos',
   })
@@ -41,7 +41,7 @@ describe('Dialog screenshot', () => {
   })
 })
 
-describe('Dialog suffix screenshot', () => {
+describe('Dialog suffix ', () => {
   setupPageScreenshot({
     url: '/uilib/components/dialog/demos',
     pageViewport,
@@ -60,7 +60,7 @@ describe('Dialog suffix screenshot', () => {
   })
 })
 
-describe('Dialog fullscreen screenshot', () => {
+describe('Dialog fullscreen ', () => {
   setupPageScreenshot({
     url: '/uilib/components/dialog/demos',
     pageViewport,
@@ -79,7 +79,7 @@ describe('Dialog fullscreen screenshot', () => {
   })
 })
 
-describe('Dialog custom trigger screenshot', () => {
+describe('Dialog custom trigger ', () => {
   setupPageScreenshot({
     url: '/uilib/components/dialog/demos',
     pageViewport,
@@ -98,7 +98,7 @@ describe('Dialog custom trigger screenshot', () => {
   })
 })
 
-describe('Dialog progressindicator screenshot', () => {
+describe('Dialog progressindicator ', () => {
   setupPageScreenshot({
     url: '/uilib/components/dialog/demos',
     pageViewport,
@@ -117,7 +117,7 @@ describe('Dialog progressindicator screenshot', () => {
   })
 })
 
-describe('Dialog custom screenshot', () => {
+describe('Dialog custom ', () => {
   setupPageScreenshot({
     url: '/uilib/components/dialog/demos',
     pageViewport,
@@ -136,7 +136,7 @@ describe('Dialog custom screenshot', () => {
   })
 })
 
-describe('Dialog confirmation screenshot', () => {
+describe('Dialog confirmation ', () => {
   setupPageScreenshot({
     url: '/uilib/components/dialog/demos',
     pageViewport,
@@ -155,7 +155,7 @@ describe('Dialog confirmation screenshot', () => {
   })
 })
 
-describe('Dialog confirmation screenshot', () => {
+describe('Dialog confirmation ', () => {
   setupPageScreenshot({
     url: '/uilib/components/dialog/demos',
     pageViewport,
@@ -174,7 +174,7 @@ describe('Dialog confirmation screenshot', () => {
   })
 })
 
-describe('Dialog confirmation screenshot', () => {
+describe('Dialog confirmation ', () => {
   setupPageScreenshot({
     url: '/uilib/components/dialog/demos',
     pageViewport,
@@ -192,7 +192,7 @@ describe('Dialog confirmation screenshot', () => {
   })
 })
 
-describe('Dialog confirmation screenshot', () => {
+describe('Dialog confirmation ', () => {
   setupPageScreenshot({
     url: '/uilib/components/dialog/demos',
     pageViewport,
@@ -210,7 +210,7 @@ describe('Dialog confirmation screenshot', () => {
   })
 })
 
-describe('Dialog simple screenshot', () => {
+describe('Dialog simple ', () => {
   setupPageScreenshot({
     url: '/uilib/components/dialog/demos',
     pageViewport,
@@ -230,7 +230,7 @@ describe('Dialog simple screenshot', () => {
   })
 })
 
-describe('Dialog scrollable content screenshot', () => {
+describe('Dialog scrollable content ', () => {
   const pageViewport = {
     width: 400,
     height: 400,

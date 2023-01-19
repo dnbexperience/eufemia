@@ -9,7 +9,7 @@ import {
   isCI,
 } from '../../core/jest/jestSetupScreenshots'
 
-describe('Anchor screenshot', () => {
+describe('Anchor ', () => {
   setupPageScreenshot({
     url: '/uilib/elements/anchor',
   })
@@ -118,7 +118,7 @@ describe('Anchor screenshot', () => {
   // })
 })
 
-describe('Anchor target blank screenshot', () => {
+describe('Anchor target blank ', () => {
   setupPageScreenshot({
     url: '/uilib/elements/anchor',
   })

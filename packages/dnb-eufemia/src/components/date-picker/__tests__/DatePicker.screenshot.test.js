@@ -9,7 +9,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('DatePicker screenshot', () => {
+describe('DatePicker ', () => {
   setupPageScreenshot({ url: '/uilib/components/date-picker/demos' })
 
   if (!isCI) {

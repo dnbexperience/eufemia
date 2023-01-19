@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Logo screenshot', () => {
+describe('Logo ', () => {
   setupPageScreenshot({ url: '/uilib/components/logo/demos' })
 
   it('have to match the default "Logo"', async () => {

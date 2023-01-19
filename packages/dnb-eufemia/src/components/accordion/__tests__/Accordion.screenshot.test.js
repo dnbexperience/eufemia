@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Accordion closed screenshot', () => {
+describe('Accordion closed ', () => {
   setupPageScreenshot({
     url: '/uilib/components/accordion/demos',
   })
@@ -38,7 +38,7 @@ describe('Accordion closed screenshot', () => {
   })
 })
 
-describe('Accordion closed screenshot', () => {
+describe('Accordion closed ', () => {
   setupPageScreenshot({
     url: '/uilib/components/accordion/demos',
     reload: true,
@@ -81,7 +81,7 @@ describe('Accordion closed screenshot', () => {
   })
 })
 
-describe('Accordion container screenshot', () => {
+describe('Accordion container ', () => {
   setupPageScreenshot({
     url: '/uilib/components/accordion/demos',
   })
@@ -95,7 +95,7 @@ describe('Accordion container screenshot', () => {
   })
 })
 
-describe('Accordion container screenshot', () => {
+describe('Accordion container ', () => {
   setupPageScreenshot({
     url: '/uilib/components/accordion/demos',
     pageViewport: {
@@ -113,7 +113,7 @@ describe('Accordion container screenshot', () => {
   })
 })
 
-describe('Accordion group screenshot', () => {
+describe('Accordion group ', () => {
   setupPageScreenshot({ url: '/uilib/components/accordion/demos' })
 
   it('have to match accordion in first state', async () => {
@@ -136,7 +136,7 @@ describe('Accordion group screenshot', () => {
   })
 })
 
-describe('Accordion plain variant screenshot', () => {
+describe('Accordion plain variant ', () => {
   setupPageScreenshot({ url: '/uilib/components/accordion/demos' })
 
   it('have to match with plain variant', async () => {

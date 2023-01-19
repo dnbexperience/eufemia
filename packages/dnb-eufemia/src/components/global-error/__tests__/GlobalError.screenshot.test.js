@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('GlobalError screenshot', () => {
+describe('GlobalError ', () => {
   const style = { width: '25em' }
   setupPageScreenshot({
     url: '/uilib/components/global-error/demos',

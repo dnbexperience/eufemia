@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('StepIndicator screenshot', () => {
+describe('StepIndicator ', () => {
   setupPageScreenshot({ url: '/uilib/components/step-indicator/demos' })
 
   it('have to match loose mode', async () => {
@@ -58,7 +58,7 @@ describe('StepIndicator screenshot', () => {
   })
 })
 
-describe('StepIndicator screenshot', () => {
+describe('StepIndicator ', () => {
   setupPageScreenshot({
     url: '/uilib/components/step-indicator/demos',
     pageViewport: {

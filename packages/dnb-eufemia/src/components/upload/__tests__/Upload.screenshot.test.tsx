@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Upload screenshot', () => {
+describe('Upload ', () => {
   setupPageScreenshot({ url: '/uilib/components/upload/demos' })
 
   it('have to match the default', async () => {
@@ -33,7 +33,7 @@ describe('Upload screenshot', () => {
   })
 })
 
-describe('Upload screenshot', () => {
+describe('Upload ', () => {
   setupPageScreenshot({
     url: '/uilib/components/upload/demos',
     pageViewport: {

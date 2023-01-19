@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Slider screenshot', () => {
+describe('Slider ', () => {
   setupPageScreenshot({ url: '/uilib/components/slider/demos' })
 
   it('have to match default slider', async () => {

@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('InfoCard screenshot', () => {
+describe('InfoCard ', () => {
   setupPageScreenshot({ url: '/uilib/components/info-card/demos' })
 
   it('renders correct default component', async () => {

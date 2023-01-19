@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('FormSet screenshot', () => {
+describe('FormSet ', () => {
   // const style = {
   //   width: '60rem' // make sure our input gets an explicit width, because of mac/linux rendering differences
   // }

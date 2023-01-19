@@ -9,7 +9,7 @@ import {
   // isCI
 } from '../../core/jest/jestSetupScreenshots'
 
-describe('List screenshot', () => {
+describe('List ', () => {
   setupPageScreenshot({
     url: '/uilib/elements/lists',
   })
@@ -66,7 +66,7 @@ describe('List screenshot', () => {
   })
 })
 
-describe('Lists with skeleton screenshot', () => {
+describe('Lists with skeleton ', () => {
   setupPageScreenshot({ url: '/uilib/elements/lists?skeleton' })
 
   it('have to match ul list', async () => {

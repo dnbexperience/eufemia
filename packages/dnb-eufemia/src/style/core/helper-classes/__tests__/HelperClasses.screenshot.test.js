@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../../core/jest/jestSetupScreenshots'
 
-describe('HelperClasses screenshot', () => {
+describe('HelperClasses ', () => {
   setupPageScreenshot({
     url: '/uilib/helpers/classes/visual-tests',
   })

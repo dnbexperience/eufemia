@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('ProgressIndicator screenshot', () => {
+describe('ProgressIndicator ', () => {
   setupPageScreenshot({
     url: '/uilib/components/progress-indicator/demos',
   })
@@ -33,7 +33,7 @@ describe('ProgressIndicator screenshot', () => {
   })
 })
 
-describe('ProgressIndicator circular screenshot', () => {
+describe('ProgressIndicator circular ', () => {
   setupPageScreenshot({
     url: '/uilib/components/progress-indicator/visual-tests',
   })

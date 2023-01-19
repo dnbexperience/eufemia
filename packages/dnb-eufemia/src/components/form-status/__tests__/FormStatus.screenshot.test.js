@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('FormStatus screenshot', () => {
+describe('FormStatus ', () => {
   setupPageScreenshot({ url: '/uilib/components/form-status/demos' })
   const style = {
     'max-width': '60rem', // make sure our input gets an explicit width, because of mac/linux rendering differences
@@ -52,7 +52,8 @@ describe('FormStatus screenshot', () => {
   it('have to match the marketing state', async () => {
     const screenshot = await testPageScreenshot({
       style,
-      selector: '[data-visual-test="form-status-marketing"] .dnb-form-status',
+      selector:
+        '[data-visual-test="form-status-marketing"] .dnb-form-status',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
