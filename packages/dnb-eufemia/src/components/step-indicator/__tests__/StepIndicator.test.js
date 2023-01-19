@@ -18,12 +18,12 @@ import MatchMediaMock from 'jest-matchmedia-mock'
 const matchMedia = new MatchMediaMock()
 
 beforeEach(() => {
-  matchMedia.useMediaQuery('(min-width: 50em)')
+  matchMedia.useMediaQuery('(min-width: 60em)')
   document.body.innerHTML = `<div id="root"></div>`
 })
 
 function simulateSmallScreen() {
-  matchMedia.useMediaQuery('(min-width: 0) and (max-width: 50em)')
+  matchMedia.useMediaQuery('(min-width: 0) and (max-width: 60em)')
 }
 
 const stepIndicatorListData = [

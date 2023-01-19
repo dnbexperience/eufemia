@@ -159,7 +159,7 @@ describe('Breadcrumb', () => {
   })
 
   it('variant collapse opens the collapsed content on click', () => {
-    matchMedia.useMediaQuery('(max-width: 50em)')
+    matchMedia.useMediaQuery('(max-width: 60em)')
 
     render(
       <Breadcrumb
