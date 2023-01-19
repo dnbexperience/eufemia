@@ -53,7 +53,6 @@ export default class ModalHeader extends React.PureComponent<
       ref, // eslint-disable-line
       ...sectionProps
     } = this.props
-    const { mode } = this.context
 
     const customHeader = findElementInChildren(children, (cur) => {
       return cur.type === 'h1' || cur.type === H1
@@ -61,19 +60,12 @@ export default class ModalHeader extends React.PureComponent<
 
     const usedTitle = title || this.context.title
     const showTitle = !customHeader && usedTitle
-    const fontSize =
-      size || (this.context.mode === 'drawer' && 'x-large') || 'large'
+    const fontSize = size || 'large'
 
     return (
       <Section
         style_type="white"
-        className={classnames(
-          className,
-
-          // Deprecated - For backward compatibility
-          mode == 'drawer' && 'dnb-drawer__header',
-          (mode == 'modal' || mode == 'dialog') && 'dnb-dialog__header'
-        )}
+        className={classnames(className)}
         id={
           showTitle ? 'dnb-modal-' + this.context.id + '-title' : undefined
         }
@@ -86,11 +78,7 @@ export default class ModalHeader extends React.PureComponent<
               'dnb-space__top--zero',
               'dnb-space__bottom--small',
               `dnb-h--${fontSize}`,
-              title_class,
-
-              // Deprecated - For backward compatibility
-              mode == 'drawer' && 'dnb-drawer__title',
-              (mode == 'modal' || mode == 'dialog') && 'dnb-dialog__title'
+              title_class
             )}
           >
             {usedTitle}

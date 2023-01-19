@@ -352,7 +352,6 @@ export default class ModalContent extends React.PureComponent<
 
   render() {
     const {
-      mode = 'modal',
       hide,
       title,
       labelled_by,
@@ -431,10 +430,9 @@ export default class ModalContent extends React.PureComponent<
         isTrue(fullscreen)
           ? 'dnb-modal__content--fullscreen'
           : fullscreen === 'auto' && 'dnb-modal__content--auto-fullscreen',
-        container_placement || mode === 'drawer'
+        container_placement
           ? `dnb-modal__content--${container_placement || 'right'}`
           : null,
-        mode && `dnb-modal__content--${mode}`,
 
         content_class
       ),
@@ -442,6 +440,7 @@ export default class ModalContent extends React.PureComponent<
       onClick: this.onContentClickHandler,
     }
 
+    // eslint-disable-next-line
     const modeParams = {
       minWidth: min_width,
       maxWidth: max_width,
@@ -468,7 +467,6 @@ export default class ModalContent extends React.PureComponent<
           hide_close_button,
           close_button_attributes,
           close_title,
-          mode,
           hide,
           setBackgroundColor: this.setBackgroundColor,
           onCloseClickHandler: this.onCloseClickHandler,
@@ -490,22 +488,7 @@ export default class ModalContent extends React.PureComponent<
           }
           {...contentParams}
         >
-          {/* Deprecated: Only to provide backward compatibility */}
-          {mode == 'drawer' && (
-            <DrawerContent
-              className="dnb-modal__content__inner" // backward compatibility
-              {...modeParams}
-            />
-          )}
-          {(mode == 'modal' || mode == 'dialog') && (
-            <DialogContent
-              className="dnb-modal__content__inner" // backward compatibility
-              {...modeParams}
-            />
-          )}
-
-          {/* New method of using Modal */}
-          {mode == 'custom' && children}
+          {children}
         </div>
 
         <span

@@ -5,7 +5,7 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Modal from '../modal/Modal'
+import Drawer from '../drawer/Drawer'
 import StepIndicatorTriggerButton from './StepIndicatorTriggerButton'
 import StepIndicatorList from './StepIndicatorList'
 import StepIndicatorContext from './StepIndicatorContext'
@@ -60,25 +60,24 @@ export default class StepIndicatorModal extends React.PureComponent {
           on_click={this.context.openHandler}
           inner_ref={this._triggerRef}
         />
-        <Modal
+        <Drawer
           id={this.context.sidebar_id}
           title={this.context.overview_title}
           omitTriggerButton
-          mode="drawer"
           animation_direction="bottom"
-          open_state={this.context.openState}
-          on_open={this.context.openHandler}
-          on_close={this.closeHandler}
+          openState={this.context.openState}
+          onOpen={this.context.openHandler}
+          onClose={this.closeHandler}
         >
-          <Modal.Content style_type="white">
+          <Drawer.Body style_type="white">
             <div className="dnb-step-indicator-wrapper">
               <p className="dnb-p dnb-step-indicator__label">
                 {this.context.stepsLabelExtended}
               </p>
               <StepIndicatorList />
             </div>
-          </Modal.Content>
-        </Modal>
+          </Drawer.Body>
+        </Drawer>
       </>
     )
   }

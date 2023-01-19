@@ -10,14 +10,14 @@ export const ModalExampleDrawerHeader = () => (
   <ComponentBox data-visual-test="modal-drawer-header">
     {
       /* jsx */ `
-<Modal
+<Drawer
   mode="drawer"
   triggerAttributes={{ text: "Open Drawer" }}
 >
-  <Modal.Bar>
+  <Drawer.Navigaton>
     <Breadcrumb />
-  </Modal.Bar>
-  <Modal.Header>
+  </Drawer.Navigaton>
+  <Drawer.Header>
     <H1 size="x-large" bottom>
       Title
     </H1>
@@ -42,8 +42,8 @@ export const ModalExampleDrawerHeader = () => (
         },
       ]}
     />
-  </Modal.Header>
-  <Modal.Content>
+  </Drawer.Header>
+  <Drawer.Body>
     <Tabs.Content id="unique-linked-id">
       {({ title }) => {
         return (
@@ -80,8 +80,8 @@ export const ModalExampleDrawerHeader = () => (
       massa sapien tristique cum senectus sed tortor natoque
       amet hendrerit ut fusce ipsum quis
     </P>
-  </Modal.Content>
-</Modal>
+  </Drawer.Body>
+</Drawer>
 	`
     }
   </ComponentBox>
@@ -91,15 +91,14 @@ export const ModalExampleDrawerBasic = () => (
   <ComponentBox data-visual-test="modal-drawer-basic">
     {
       /* jsx */ `
-<Modal
-  mode="drawer"
+<Drawer
   title="Drawer Title"
   triggerAttributes={{ text: "Open Drawer" }}
 >
-  <Modal.Content>
+  <Drawer.Body>
     <P top>This is a left aligned Drawer content.</P>
-  </Modal.Content>
-</Modal>
+  </Drawer.Body>
+</Drawer>
 	`
     }
   </ComponentBox>
@@ -108,16 +107,15 @@ export const DrawerWithoutSpacing = () => (
   <ComponentBox data-visual-test="drawer-no-spacing">
     {
       /* jsx */ `
-<Modal
-  mode="drawer"
+<Drawer
   title="Drawer without spacing"
   triggerAttributes={{ text: "Open Drawer with no spacing" }}
   spacing={false}
 >
-  <Modal.Content>
+  <Drawer.Body>
     <P top>This is a left aligned Drawer content.</P>
-  </Modal.Content>
-</Modal>
+  </Drawer.Body>
+</Drawer>
   `
     }
   </ComponentBox>
@@ -127,11 +125,11 @@ export const ModalExampleDefault = () => (
   <ComponentBox data-visual-test="modal-trigger-default">
     {
       /* jsx */ `
-<Modal title="Modal Title">
-  <Modal.Content spacing style_type="mint-green">
+<Dialog title="Modal Title">
+  <Dialog.Body spacing styleType="mint-green">
     <P>This is the modal text.</P>
-  </Modal.Content>
-</Modal>
+  </Dialog.Body>
+</Dialog>
 	`
     }
   </ComponentBox>
@@ -145,11 +143,11 @@ export const ModalExampleHelpButton = () => (
   label="Input"
   placeholder="Placeholder ..."
   suffix={
-    <Modal>
-      <Modal.Content spacing style_type="pistachio">
+    <Dialog>
+      <Dialog.Body spacing styleType="pistachio">
         <P>Help text</P>
-      </Modal.Content>
-    </Modal>
+      </Dialog.Body>
+    </Dialog>
   }
 />
 	`
@@ -161,11 +159,11 @@ export const ModalExampleFullscreen = () => (
   <ComponentBox data-visual-test="modal-fullscreen">
     {
       /* jsx */ `
-<Modal
+<Dialog
   title={<span className="dnb-sr-only">"Hidden" Modal title</span>}
   fullscreen="true"
   triggerAttributes={{ text: "Click me", icon: "bell", variant: "tertiary" }}
-  modal_content="This is the modal text. Triggered by a tertiary button."
+  modalContent="This is the modal text. Triggered by a tertiary button."
 />
 	`
     }
@@ -176,11 +174,10 @@ export const DrawerExamplePlacementLeft = () => (
   <ComponentBox data-visual-test="modal-drawer-leftsided">
     {
       /* jsx */ `
-<Modal
-  mode="drawer"
+<Drawer
   title="Modal title"
-  container_placement="left"
-  modal_content="This is the modal text. Triggered by a tertiary button."
+  containerPlacement="left"
+  modalContent="This is the modal text. Triggered by a tertiary button."
 />
 	`
     }

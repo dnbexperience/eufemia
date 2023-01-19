@@ -138,7 +138,7 @@ export const FormStatusSandbox = () => {
               bottom="small"
               status="Long text with status vitae tortor metus nulla nunc habitasse adipiscing purus porttitor viverra"
             />
-            <Modal right="small">Modal Content</Modal>
+            <Dialog right="small">Modal Content</Dialog>
             <Button text="Submit" type="submit" />
           </FormRow>
         </FormSet>
@@ -182,9 +182,6 @@ export const ToggleAnimation = () => {
               }
               suffix={<Modal>Modal Content</Modal>}
             />
-            {/* <Modal right="small" top="small">
-            Modal Content
-          </Modal> */}
             <Button text="Submit" type="submit" top="small" />
           </FormRow>
         </FormSet>

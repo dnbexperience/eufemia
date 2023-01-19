@@ -2559,54 +2559,16 @@ exports[`StepIndicator in loose mode have to match snapshot on small screen 1`] 
               </Button>
             </div>
           </StepIndicatorTriggerButton>
-          <Modal
-            align_content="left"
+          <Drawer
             animation_direction="bottom"
-            animation_duration={300}
-            bar_content={null}
-            class={null}
-            className={null}
-            close_button_attributes={null}
-            close_modal={null}
-            close_title="Lukk"
-            container_placement={null}
-            content_class={null}
-            content_id={null}
-            dialog_title="Vindu"
-            direct_dom_return={false}
-            disabled={null}
-            focus_selector={null}
-            fullscreen="auto"
-            header_content={null}
-            hide_close_button={false}
             id="unique-id-loose-snapshot"
-            labelled_by={null}
-            max_width={null}
-            min_width={null}
-            modal_content={null}
-            mode="drawer"
-            no_animation={false}
-            no_animation_on_mobile={false}
             omitTriggerButton={true}
-            omit_trigger_button={false}
-            on_close={[Function]}
-            on_close_prevent={null}
-            on_open={[Function]}
-            open_delay={null}
-            open_modal={null}
-            open_state={null}
-            overlay_class={null}
-            prevent_close={false}
-            prevent_core_style={false}
-            root_id="root"
-            spacing={true}
+            onClose={[Function]}
+            onOpen={[Function]}
             title="Stegoversikt"
-            trigger={null}
-            trigger_attributes={null}
           >
             <Modal
               align_content="left"
-              animation_direction="bottom"
               animation_duration={300}
               bar_content={null}
               class={null}
@@ -2614,7 +2576,9 @@ exports[`StepIndicator in loose mode have to match snapshot on small screen 1`] 
               close_button_attributes={null}
               close_modal={null}
               close_title="Lukk"
+              containerPlacement="right"
               container_placement={null}
+              contentClass="dnb-drawer__root"
               content_class={null}
               content_id={null}
               dialog_title="Vindu"
@@ -2629,13 +2593,15 @@ exports[`StepIndicator in loose mode have to match snapshot on small screen 1`] 
               max_width={null}
               min_width={null}
               modal_content={null}
-              mode="drawer"
               no_animation={false}
               no_animation_on_mobile={false}
-              omit_trigger_button={true}
-              on_close={[Function]}
+              omitTriggerButton={true}
+              omit_trigger_button={false}
+              onClose={[Function]}
+              onOpen={[Function]}
+              on_close={null}
               on_close_prevent={null}
-              on_open={[Function]}
+              on_open={null}
               open_delay={null}
               open_modal={null}
               open_state={null}
@@ -2647,8 +2613,51 @@ exports[`StepIndicator in loose mode have to match snapshot on small screen 1`] 
               title="Stegoversikt"
               trigger={null}
               trigger_attributes={null}
-            />
-          </Modal>
+            >
+              <Modal
+                align_content="left"
+                animation_duration={300}
+                bar_content={null}
+                class={null}
+                className={null}
+                close_button_attributes={null}
+                close_modal={null}
+                close_title="Lukk"
+                container_placement="right"
+                content_class="dnb-drawer__root"
+                content_id={null}
+                dialog_title="Vindu"
+                direct_dom_return={false}
+                disabled={null}
+                focus_selector={null}
+                fullscreen="auto"
+                header_content={null}
+                hide_close_button={false}
+                id="unique-id-loose-snapshot"
+                labelled_by={null}
+                max_width={null}
+                min_width={null}
+                modal_content={null}
+                no_animation={false}
+                no_animation_on_mobile={false}
+                omit_trigger_button={true}
+                on_close={[Function]}
+                on_close_prevent={null}
+                on_open={[Function]}
+                open_delay={null}
+                open_modal={null}
+                open_state={null}
+                overlay_class={null}
+                prevent_close={false}
+                prevent_core_style={false}
+                root_id="root"
+                spacing={true}
+                title="Stegoversikt"
+                trigger={null}
+                trigger_attributes={null}
+              />
+            </Modal>
+          </Drawer>
         </StepIndicatorModal>
       </div>
     </StepIndicatorProvider>
@@ -5187,54 +5196,16 @@ exports[`StepIndicator in static mode have to match snapshot on small screen 1`]
               </Button>
             </div>
           </StepIndicatorTriggerButton>
-          <Modal
-            align_content="left"
+          <Drawer
             animation_direction="bottom"
-            animation_duration={300}
-            bar_content={null}
-            class={null}
-            className={null}
-            close_button_attributes={null}
-            close_modal={null}
-            close_title="Lukk"
-            container_placement={null}
-            content_class={null}
-            content_id={null}
-            dialog_title="Vindu"
-            direct_dom_return={false}
-            disabled={null}
-            focus_selector={null}
-            fullscreen="auto"
-            header_content={null}
-            hide_close_button={false}
             id="unique-id-static-snapshot"
-            labelled_by={null}
-            max_width={null}
-            min_width={null}
-            modal_content={null}
-            mode="drawer"
-            no_animation={false}
-            no_animation_on_mobile={false}
             omitTriggerButton={true}
-            omit_trigger_button={false}
-            on_close={[Function]}
-            on_close_prevent={null}
-            on_open={[Function]}
-            open_delay={null}
-            open_modal={null}
-            open_state={null}
-            overlay_class={null}
-            prevent_close={false}
-            prevent_core_style={false}
-            root_id="root"
-            spacing={true}
+            onClose={[Function]}
+            onOpen={[Function]}
             title="Stegoversikt"
-            trigger={null}
-            trigger_attributes={null}
           >
             <Modal
               align_content="left"
-              animation_direction="bottom"
               animation_duration={300}
               bar_content={null}
               class={null}
@@ -5242,7 +5213,9 @@ exports[`StepIndicator in static mode have to match snapshot on small screen 1`]
               close_button_attributes={null}
               close_modal={null}
               close_title="Lukk"
+              containerPlacement="right"
               container_placement={null}
+              contentClass="dnb-drawer__root"
               content_class={null}
               content_id={null}
               dialog_title="Vindu"
@@ -5257,13 +5230,15 @@ exports[`StepIndicator in static mode have to match snapshot on small screen 1`]
               max_width={null}
               min_width={null}
               modal_content={null}
-              mode="drawer"
               no_animation={false}
               no_animation_on_mobile={false}
-              omit_trigger_button={true}
-              on_close={[Function]}
+              omitTriggerButton={true}
+              omit_trigger_button={false}
+              onClose={[Function]}
+              onOpen={[Function]}
+              on_close={null}
               on_close_prevent={null}
-              on_open={[Function]}
+              on_open={null}
               open_delay={null}
               open_modal={null}
               open_state={null}
@@ -5275,8 +5250,51 @@ exports[`StepIndicator in static mode have to match snapshot on small screen 1`]
               title="Stegoversikt"
               trigger={null}
               trigger_attributes={null}
-            />
-          </Modal>
+            >
+              <Modal
+                align_content="left"
+                animation_duration={300}
+                bar_content={null}
+                class={null}
+                className={null}
+                close_button_attributes={null}
+                close_modal={null}
+                close_title="Lukk"
+                container_placement="right"
+                content_class="dnb-drawer__root"
+                content_id={null}
+                dialog_title="Vindu"
+                direct_dom_return={false}
+                disabled={null}
+                focus_selector={null}
+                fullscreen="auto"
+                header_content={null}
+                hide_close_button={false}
+                id="unique-id-static-snapshot"
+                labelled_by={null}
+                max_width={null}
+                min_width={null}
+                modal_content={null}
+                no_animation={false}
+                no_animation_on_mobile={false}
+                omit_trigger_button={true}
+                on_close={[Function]}
+                on_close_prevent={null}
+                on_open={[Function]}
+                open_delay={null}
+                open_modal={null}
+                open_state={null}
+                overlay_class={null}
+                prevent_close={false}
+                prevent_core_style={false}
+                root_id="root"
+                spacing={true}
+                title="Stegoversikt"
+                trigger={null}
+                trigger_attributes={null}
+              />
+            </Modal>
+          </Drawer>
         </StepIndicatorModal>
       </div>
     </StepIndicatorProvider>
@@ -7829,54 +7847,16 @@ exports[`StepIndicator in strict mode have to match snapshot on small screen 1`]
               </Button>
             </div>
           </StepIndicatorTriggerButton>
-          <Modal
-            align_content="left"
+          <Drawer
             animation_direction="bottom"
-            animation_duration={300}
-            bar_content={null}
-            class={null}
-            className={null}
-            close_button_attributes={null}
-            close_modal={null}
-            close_title="Lukk"
-            container_placement={null}
-            content_class={null}
-            content_id={null}
-            dialog_title="Vindu"
-            direct_dom_return={false}
-            disabled={null}
-            focus_selector={null}
-            fullscreen="auto"
-            header_content={null}
-            hide_close_button={false}
             id="unique-id-strict-snapshot"
-            labelled_by={null}
-            max_width={null}
-            min_width={null}
-            modal_content={null}
-            mode="drawer"
-            no_animation={false}
-            no_animation_on_mobile={false}
             omitTriggerButton={true}
-            omit_trigger_button={false}
-            on_close={[Function]}
-            on_close_prevent={null}
-            on_open={[Function]}
-            open_delay={null}
-            open_modal={null}
-            open_state={null}
-            overlay_class={null}
-            prevent_close={false}
-            prevent_core_style={false}
-            root_id="root"
-            spacing={true}
+            onClose={[Function]}
+            onOpen={[Function]}
             title="Stegoversikt"
-            trigger={null}
-            trigger_attributes={null}
           >
             <Modal
               align_content="left"
-              animation_direction="bottom"
               animation_duration={300}
               bar_content={null}
               class={null}
@@ -7884,7 +7864,9 @@ exports[`StepIndicator in strict mode have to match snapshot on small screen 1`]
               close_button_attributes={null}
               close_modal={null}
               close_title="Lukk"
+              containerPlacement="right"
               container_placement={null}
+              contentClass="dnb-drawer__root"
               content_class={null}
               content_id={null}
               dialog_title="Vindu"
@@ -7899,13 +7881,15 @@ exports[`StepIndicator in strict mode have to match snapshot on small screen 1`]
               max_width={null}
               min_width={null}
               modal_content={null}
-              mode="drawer"
               no_animation={false}
               no_animation_on_mobile={false}
-              omit_trigger_button={true}
-              on_close={[Function]}
+              omitTriggerButton={true}
+              omit_trigger_button={false}
+              onClose={[Function]}
+              onOpen={[Function]}
+              on_close={null}
               on_close_prevent={null}
-              on_open={[Function]}
+              on_open={null}
               open_delay={null}
               open_modal={null}
               open_state={null}
@@ -7917,8 +7901,51 @@ exports[`StepIndicator in strict mode have to match snapshot on small screen 1`]
               title="Stegoversikt"
               trigger={null}
               trigger_attributes={null}
-            />
-          </Modal>
+            >
+              <Modal
+                align_content="left"
+                animation_duration={300}
+                bar_content={null}
+                class={null}
+                className={null}
+                close_button_attributes={null}
+                close_modal={null}
+                close_title="Lukk"
+                container_placement="right"
+                content_class="dnb-drawer__root"
+                content_id={null}
+                dialog_title="Vindu"
+                direct_dom_return={false}
+                disabled={null}
+                focus_selector={null}
+                fullscreen="auto"
+                header_content={null}
+                hide_close_button={false}
+                id="unique-id-strict-snapshot"
+                labelled_by={null}
+                max_width={null}
+                min_width={null}
+                modal_content={null}
+                no_animation={false}
+                no_animation_on_mobile={false}
+                omit_trigger_button={true}
+                on_close={[Function]}
+                on_close_prevent={null}
+                on_open={[Function]}
+                open_delay={null}
+                open_modal={null}
+                open_state={null}
+                overlay_class={null}
+                prevent_close={false}
+                prevent_core_style={false}
+                root_id="root"
+                spacing={true}
+                title="Stegoversikt"
+                trigger={null}
+                trigger_attributes={null}
+              />
+            </Modal>
+          </Drawer>
         </StepIndicatorModal>
       </div>
     </StepIndicatorProvider>

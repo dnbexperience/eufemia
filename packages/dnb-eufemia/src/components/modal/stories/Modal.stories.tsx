@@ -261,7 +261,6 @@ export const DrawerSandbox = () => (
       <Modal
         // no_animation
         // open_state="opened"
-        mode="drawer"
         // fullscreen
         // container_placement="left"
         // align_content="right"
@@ -392,7 +391,6 @@ export const DrawerSandbox = () => (
 
     <Box>
       <Modal
-        mode="drawer"
         title="Drawer Title"
         triggerAttributes={{ text: 'Open Drawer', title: 'Click me' }}
       >
@@ -407,7 +405,6 @@ export const DrawerSandbox = () => (
       <Modal
         // no_animation
         // open_state="opened"
-        mode="drawer"
         triggerAttributes={{ text: 'Drawer in Drawer' }}
         // fullscreen
         // container_placement="left"
@@ -424,7 +421,7 @@ export const DrawerSandbox = () => (
       >
         <Modal.Content style_type="pistachio">
           Modal.Content
-          <Modal mode="drawer" title="Title 2" open_state="opened">
+          <Modal title="Title 2" open_state="opened">
             New content 2 <Modal title="Title 3">New content 3</Modal>
           </Modal>
           {/* <FillContent /> */}
@@ -433,7 +430,6 @@ export const DrawerSandbox = () => (
     </Box>
     <Box>
       <Modal
-        mode="drawer"
         title="Top drawer"
         container_placement="top"
         modal_content="something"
@@ -859,7 +855,6 @@ function CloseWithAnimation() {
 function CloseByCallback() {
   return (
     <Modal
-      mode="drawer"
       triggerAttributes={{ text: 'CloseByCallback' }}
       hide_close_button
     >
@@ -888,11 +883,7 @@ const LargeListOfTrs = () => {
 
 export const ModalPerformance = () => (
   <div>
-    <Modal
-      mode="drawer"
-      triggerAttributes={{ text: 'Open Drawer' }}
-      bottom
-    >
+    <Modal triggerAttributes={{ text: 'Open Drawer' }} bottom>
       Content
     </Modal>
 
