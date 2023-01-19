@@ -46,7 +46,7 @@ describe('useMediaQuery', () => {
   })
 
   it('should have valid strings inside render', () => {
-    matchMedia.useMediaQuery('(min-width: 50em) and (max-width: 60em)')
+    matchMedia.useMediaQuery('(min-width: 60em) and (max-width: 72em)')
 
     const { rerender } = render(
       <RenderMediaQueryHook when={{ min: 'medium', max: 'large' }}>
@@ -87,7 +87,7 @@ describe('useMediaQuery', () => {
   })
 
   it('should have valid strings inside render', () => {
-    matchMedia.useMediaQuery('(min-width: 0) and (max-width: 72em)')
+    matchMedia.useMediaQuery('(min-width: 0) and (max-width: 80em)')
 
     render(
       <RenderMediaQueryHook when={{ min: '0', max: 'x-large' }}>
@@ -100,7 +100,7 @@ describe('useMediaQuery', () => {
 
   it('should handle media query changes', () => {
     matchMedia.useMediaQuery(
-      'not screen and (min-width: 40em) and (max-width: 60em)'
+      'not screen and (min-width: 40em) and (max-width: 72em)'
     )
 
     const match1Handler = jest.fn()
@@ -162,7 +162,7 @@ describe('useMediaQuery', () => {
       .spyOn(window, 'matchMedia')
       .mockImplementationOnce(jest.fn(window.matchMedia))
 
-    matchMedia.useMediaQuery('(min-width: 0) and (max-width: 72em)')
+    matchMedia.useMediaQuery('(min-width: 0) and (max-width: 80em)')
 
     const when = { min: '0', max: 'x-large' }
 

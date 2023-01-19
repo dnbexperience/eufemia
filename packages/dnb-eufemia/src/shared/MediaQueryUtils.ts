@@ -13,10 +13,10 @@ export type MediaQueryBreakpoints = Partial<
 
 export const defaultBreakpoints: MediaQueryBreakpoints = {
   small: '40em',
-  medium: '50em',
-  large: '60em',
-  'x-large': '72em',
-  'xx-large': '80em',
+  medium: '60em',
+  large: '72em',
+  'x-large': '80em',
+  'xx-large': '90em',
 }
 
 export type MediaQueryCondition =
