@@ -140,15 +140,15 @@ You have plenty of possibilities to mix and match:
   matches small and medium screens and during SSR
 </MediaQuery>
 
-<MediaQuery when={[{ min: 'small', max: 'x-large' }, { print: true }]}>
-  matches all between small and x-large screens or all print media
+<MediaQuery when={[{ min: 'small', max: 'large' }, { print: true }]}>
+  matches all between small and large screens or all print media
 </MediaQuery>
 
-<MediaQuery when={{ max: '80em' }}>
-  matches screens to a max of 80em
+<MediaQuery when={{ max: '60em' }}>
+  matches screens to a max of 60em
 </MediaQuery>
 
-<MediaQuery query="(min-width: 40em) and (max-width: 80em)">
+<MediaQuery query="(min-width: 40em) and (max-width: 72em)">
   matches screens between 40em and 72em
 </MediaQuery>
 ```
@@ -238,9 +238,6 @@ or like this:
 @media screen and (max-width: 72em) {
   /* large */
 }
-@media screen and (min-width: 80em) {
-  /* x-large */
-}
 ```
 
 Based of the findings of [this article](https://zellwk.com/blog/media-query-units/) and [this webkit bug](https://bugs.webkit.org/show_bug.cgi?id=156684) Eufemia recommends to use `em` units for media query usage to meet the best overall browser support. Read [more about units](/uilib/usage/best-practices/for-styling#units).
@@ -255,7 +252,7 @@ import MatchMediaMock from 'jest-matchmedia-mock'
 const matchMedia = new MatchMediaMock()
 
 it('your test', () => {
-  matchMedia.useMediaQuery('(min-width: 50em) and (max-width: 60em)')
+  matchMedia.useMediaQuery('(min-width: 40em) and (max-width: 60em)')
   ...
 })
 ```
