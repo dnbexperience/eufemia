@@ -3,7 +3,6 @@
  *
  */
 
-const { slugify } = require('../../../src/shared/component-helper')
 const { configureToMatchImageSnapshot } = require('jest-image-snapshot')
 const { config } = require('./jestSetupScreenshots')
 
@@ -18,13 +17,8 @@ jest.setTimeout(
     : 30e3
 )
 
-const customSnapshotIdentifier = ({ currentTestName }) => {
-  return slugify(currentTestName) + '.snap'
-}
-
-const toMatchImageSnapshot = configureToMatchImageSnapshot({
-  failureThresholdType: 'percent',
-  customSnapshotIdentifier,
-})
+const toMatchImageSnapshot = configureToMatchImageSnapshot(
+  config.matchConfig
+)
 
 expect.extend({ toMatchImageSnapshot })

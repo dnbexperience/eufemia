@@ -5,44 +5,44 @@
 
 const fs = require('fs-extra')
 const path = require('path')
-const { isCI } = require('repo-utils')
 const os = require('os')
-const { makeUniqueId } = require('../../shared/component-helper')
 const ora = require('ora')
+const { isCI } = require('repo-utils')
+const { slugify } = require('../../../src/shared/component-helper')
+const { makeUniqueId } = require('../../shared/component-helper')
 
 const log = ora()
-
-// We may use one of these: load, domcontentloaded, networkidle2
-const waitUntil = isCI ? 'load' : 'load'
 
 const config = {
   DIR: path.join(os.tmpdir(), 'jest_puppeteer_global_setup'),
   testScreenshotOnHost: 'localhost',
   testScreenshotOnPort: 8000,
-  headless: true,
-  delayDuringNonheadless: 0,
   retryTimes: isCI ? 5 : 0,
   timeout: 30e3,
-  blockFontRequest: false,
-  allowedFonts: [], // e.g. 'LiberationMono'
   pixelGrid: 8,
-  defaultViewport: {},
   pageViewport: {
     width: 1280,
     height: 1024,
-    isMobile: false,
-    hasTouch: false,
-    isLandscape: false,
-    deviceScaleFactor: 1,
   },
+  matchConfig: {
+    failureThreshold: 0.01,
+    failureThresholdType: 'percent',
+    comparisonMethod: 'pixelmatch',
+    customSnapshotIdentifier: ({ currentTestName }) => {
+      return slugify(currentTestName) + '.snap'
+    },
+  },
+  // We may use one of these: load, domcontentloaded, networkidle2
+  waitUntil: isCI ? 'load' : 'load',
 }
 module.exports.config = config
 module.exports.isCI = isCI
 
 const makeScreenshot = async ({
-  page = global.__PAGE__,
+  page = global.page,
   url = null,
   pageViewport = null,
+  headers = null,
   reload = null,
   fullscreen = false,
   selector,
@@ -62,30 +62,26 @@ const makeScreenshot = async ({
   wrapperStyle = null,
   measureElement = null,
 } = {}) => {
-  if (!page) {
-    const pages = await global.__BROWSER__.pages()
-    if (pages[0]) {
-      page = pages[0]
-    }
-  }
-
-  if (reload || global.__EVENT_FAILURE__) {
-    global.__EVENT_FAILURE__ = false
-    await page.reload({ waitUntil })
-  }
-
   await makePageReady({
     page,
     url,
     pageViewport,
+    headers,
     fullscreen,
-    selector,
-    style,
-    rootClassName,
-    styleSelector,
   })
 
-  const element = await page.$(selector)
+  if (reload) {
+    await page.reload()
+  }
+
+  const element = await handleElement({
+    page,
+    selector,
+    style,
+    styleSelector,
+    rootClassName,
+  })
+
   const screenshotElement = await handleWrapper({
     page,
     selector,
@@ -123,9 +119,10 @@ const makeScreenshot = async ({
     await page.evaluate(executeBeforeScreenshot)
   }
 
-  if (config.delayDuringNonheadless > 0) {
-    await page.waitForTimeout(config.delayDuringNonheadless)
-  }
+  // Only for dev
+  // if (!isCI) {
+  //   await page.waitForTimeout(300000)
+  // }
 
   const screenshot = await takeScreenshot({
     page,
@@ -150,49 +147,20 @@ const makeScreenshot = async ({
 module.exports.makeScreenshot = makeScreenshot
 
 const setupPageScreenshot = async ({
-  page = global.__PAGE__,
+  page = global.page,
   url,
   pageViewport = null,
+  headers = null,
   fullscreen = false,
   each = false,
   timeout = null,
 } = {}) => {
   const before = async () => {
-    if (!page) {
-      const pages = await global.__BROWSER__.pages()
-      if (pages[0]) {
-        page = pages[0]
-      }
-    }
-
-    if (config.blockFontRequest) {
-      await page.setRequestInterception(true) // is needed in order to use on "request"
-      page.on('request', (req) => {
-        const url = req.url()
-
-        if (
-          config.allowedFonts &&
-          config.allowedFonts.some((f) => url.includes(f))
-        ) {
-          return req.continue()
-        }
-
-        const type = req.resourceType()
-        switch (type) {
-          case 'font':
-            req.abort()
-            break
-
-          default:
-            req.continue()
-        }
-      })
-    }
-
     await makePageReady({
       page,
       url,
       pageViewport,
+      headers,
       fullscreen,
     })
   }
@@ -204,51 +172,15 @@ const setupPageScreenshot = async ({
 }
 module.exports.setupPageScreenshot = setupPageScreenshot
 
-async function makePageReady({
+async function handleElement({
   page,
-  url = null,
-  pageViewport = null,
-  fullscreen = false,
   selector = null,
   style = null,
   rootClassName = null,
   styleSelector = null,
 }) {
-  if (url) {
-    if (pageViewport || (pageViewport !== false && config.pageViewport)) {
-      if (pageViewport && config.pageViewport) {
-        pageViewport = { ...config.pageViewport, ...pageViewport }
-      } else {
-        pageViewport = config.pageViewport
-      }
-      await page.setViewport(pageViewport)
-    }
-
-    await page.goto(createUrl(url, fullscreen), { waitUntil })
-  }
-
-  global.IS_TEST = true
-  await page.evaluate(() => {
-    try {
-      window.IS_TEST = true
-      document.documentElement.setAttribute('data-visual-test', true)
-    } catch (e) {
-      //
-    }
-  })
-
-  if (rootClassName) {
-    await handleRootClassName({ page, rootClassName })
-  }
-
-  // Keep in mind, we also import this file in dev/prod portal (gatsby-browser),
-  // just because it makes local dev easier
-  await page.addStyleTag({
-    path: path.resolve(__dirname, './jestSetupScreenshots.css'),
-  })
-
   if (selector) {
-    await page.waitForSelector(selector)
+    await page.waitForSelector(selector, { state: 'attached' }) // Dialog selector "div#dnb-modal-root" is not visible yet, and needs the state "attached"
   }
 
   if (style) {
@@ -261,6 +193,56 @@ async function makePageReady({
       makeStyles(style)
     )
   }
+
+  if (rootClassName) {
+    await handleRootClassName({ page, rootClassName })
+  }
+
+  return await page.$(selector)
+}
+
+async function makePageReady({
+  page,
+  url = null,
+  pageViewport = null,
+  headers = null,
+  fullscreen = false,
+}) {
+  if (url) {
+    if (pageViewport || (pageViewport !== false && config.pageViewport)) {
+      if (pageViewport && config.pageViewport) {
+        pageViewport = { ...config.pageViewport, ...pageViewport }
+      } else {
+        pageViewport = config.pageViewport
+      }
+      await page.setViewportSize(pageViewport)
+    }
+
+    if (headers) {
+      await page.setExtraHTTPHeaders(headers)
+    }
+
+    await page.goto(createUrl(url, fullscreen), {
+      waitUntil: config.waitUntil,
+      timeout: config.timeout,
+    })
+  }
+
+  global.IS_TEST = true
+  await page.evaluate(() => {
+    try {
+      window.IS_TEST = true
+      document.documentElement.setAttribute('data-visual-test', true)
+    } catch (e) {
+      //
+    }
+  })
+
+  // Keep in mind, we also import this file in dev/prod portal (gatsby-browser),
+  // just because it makes local dev easier
+  await page.addStyleTag({
+    path: path.resolve(__dirname, './jestSetupScreenshots.css'),
+  })
 }
 
 async function handleRootClassName({ page, rootClassName }) {
@@ -376,10 +358,14 @@ async function handleSimulation({
       elementToSimulate = element
     }
 
+    /**
+     * Because our Slider uses an input element, we need to use "force"
+     */
+
     switch (simulate) {
       case 'hover': {
         await page.mouse.move(0, 0)
-        await elementToSimulate.hover()
+        await elementToSimulate.hover({ force: true })
         break
       }
 
@@ -411,7 +397,11 @@ async function handleSimulation({
       }
 
       case 'active': {
-        await elementToSimulate.click()
+        delaySimulation = isCI ? 200 : 100
+        await elementToSimulate.click({
+          force: true,
+          delay: delaySimulation, // Slider needs a delay, in order to make "active" state work
+        })
 
         const { pageXOffset, pageYOffset } = await page.evaluate(() => {
           const pageXOffset = window.pageXOffset

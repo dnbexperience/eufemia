@@ -112,6 +112,17 @@ jobs:
           key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-deps-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-deps-
 
+      - name: Use Playwright cache
+        uses: actions/cache@v3
+        id: playwright-cache
+        with:
+          path: ~/Library/Caches/ms-playwright
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-${{ hashFiles('**/yarn.lock') }}
+      - run: npx playwright-firefox install --with-deps firefox
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+      - run: npx playwright-firefox install-deps firefox
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+
       - name: Install dependencies
         run: yarn install --immutable
 
