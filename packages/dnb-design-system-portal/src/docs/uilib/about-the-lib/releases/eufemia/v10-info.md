@@ -30,6 +30,30 @@ v10 of @dnb/eufemia contains _breaking changes_. As a migration process, you can
 1. Find `use_navigation` and remove it or replace it with `mode="strict"` or `mode="loose"`.
 1. URL support has been removed – so props like `active_url`, `url`, `url_future`, and `url_passed` are not supported anymore. You have to handle it by yourself from inside your application. Here is [an example](/uilib/components/step-indicator/#stepindicator-with-a-router).
 
+### Breakpoints
+
+Some [breakpoints](https://eufemia.dnb.no/uilib/usage/layout/media-queries) sizes have changed:
+
+- **xx-large:** `1280` is now `1440` – and `80em` is now `90em`
+- **x-large:** `1152` is now `1280` – and `72em` is now `80em`
+- **large:** `960` is now `1152` – and `60em` is now `72em`
+- **medium:** `800` is now `960` – and `50em` is now `60em`
+
+1. Find `$layout-x-large` and replace with `$layout-large`
+1. Find `$layout-xx-large` and replace with `$layout-x-large`
+1. Find `--layout-x-large` and replace with `--layout-large`
+1. Find `--layout-xx-large` and replace with `--layout-x-large`
+
+**NB:** Import and use the Eufemia breakpoints directly in your code:
+
+```scss
+// breakpoints.scss
+@import '@dnb/eufemia/style/core/utilities';
+$layout-small: map-get($breakpoints, 'small');
+$layout-medium: map-get($breakpoints, 'medium');
+$layout-large: map-get($breakpoints, 'large');
+```
+
 ### Table
 
 1. Ensure all table sub elements have a CSS Class:
