@@ -3112,7 +3112,7 @@ legend.dnb-form-label {
     display: flex;
     user-select: none;
     -webkit-user-select: none; }
-    @media screen and (max-width: 50em) {
+    @media screen and (max-width: 60em) {
       .dnb-date-picker__views {
         flex-direction: column; } }
   .dnb-date-picker__calendar {

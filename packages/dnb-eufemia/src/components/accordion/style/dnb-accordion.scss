@@ -147,7 +147,7 @@
     position: static;
     max-width: 60rem;
 
-    @media screen and (min-width: 40em) {
+    @include allAbove(small) {
       &__header {
         width: 40%; // 40% / 60%
       }
@@ -173,7 +173,7 @@
     // }
   }
   &-group--single-container & > &__header &__header__icon {
-    @media screen and (min-width: 40em) {
+    @include allAbove(small) {
       transform: rotate(-90deg);
     }
   }
@@ -183,7 +183,7 @@
       &__children {
         max-width: 60rem;
 
-        @media screen and (min-width: 40em) {
+        @include allAbove(small) {
           position: relative;
           display: flex;
           flex-direction: column;

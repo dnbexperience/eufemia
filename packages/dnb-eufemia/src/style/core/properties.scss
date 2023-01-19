@@ -93,11 +93,10 @@
 
   // Layout
   --layout-small: 40em; // 640
-  --layout-medium: 50em; // 800
-  --layout-large: 60em; // 960
-  --layout-x-large: 72em; // 1152
-  --layout-xx-large: 80em; // 1280
-  --layout-xxx-large: 90em; // 1440
+  --layout-medium: 60em; // 960
+  --layout-large: 72em; // 1152
+  --layout-x-large: 80em; // 1280 (not documented yet)
+  --layout-xx-large: 90em; // 1440 (not documented yet)
 
   // Shadow
   --shadow-default: 0 8px 16px rgba(51, 51, 51, 0.08);

@@ -1988,7 +1988,7 @@ html[data-dnb-modal-active] {
   .dnb-dialog--spacing.dnb-dialog--information .dnb-dialog__inner {
     padding-left: calc(var(--dialog-spacing) * 1.75);
     padding-right: calc(var(--dialog-spacing) * 1.75); }
-    @media screen and (max-width: 60em) {
+    @media screen and (max-width: 72em) {
       .dnb-dialog--spacing.dnb-dialog--information .dnb-dialog__inner {
         padding-left: calc(var(--dialog-spacing));
         padding-right: calc(var(--dialog-spacing)); } }
@@ -1999,7 +1999,7 @@ html[data-dnb-modal-active] {
   .dnb-dialog--spacing.dnb-dialog--information .dnb-dialog__navigation.dnb-section {
     margin-top: calc(var(--dialog-spacing));
     margin-bottom: calc(var(--dialog-spacing) / 2); }
-    @media screen and (max-width: 50em) {
+    @media screen and (max-width: 60em) {
       .dnb-dialog--spacing.dnb-dialog--information .dnb-dialog__navigation.dnb-section {
         margin-top: calc(var(--dialog-spacing) / 2); } }
   .dnb-dialog--spacing.dnb-dialog--confirmation .dnb-dialog__inner {
@@ -2030,7 +2030,7 @@ html[data-dnb-modal-active] {
     text-align: right; }
   .dnb-dialog__title ~ .dnb-dialog__content {
     padding-top: calc(var(--dialog-spacing) / 2); }
-  @media screen and (max-width: 50em) {
+  @media screen and (max-width: 60em) {
     .dnb-dialog__title {
       font-size: var(--font-size-large) !important;
       line-height: var(--line-height-medium) !important; } }
