@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Heading ', () => {
+describe('Heading', () => {
   setupPageScreenshot({
     url: '/uilib/components/heading/demos',
   })

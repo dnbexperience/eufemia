@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Input ', () => {
+describe('Input', () => {
   const extend = (selector) => ({
     style: {
       width: '200px', // make sure our input gets an explicit width, because of mac/linux rendering differences

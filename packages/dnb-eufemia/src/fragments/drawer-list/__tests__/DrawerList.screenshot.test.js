@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('DrawerList ', () => {
+describe('DrawerList', () => {
   setupPageScreenshot({
     url: '/uilib/components/fragments/drawer-list/demos',
   })

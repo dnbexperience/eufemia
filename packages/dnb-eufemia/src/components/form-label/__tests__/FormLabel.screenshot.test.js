@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('FormLabel ', () => {
+describe('FormLabel', () => {
   setupPageScreenshot({ url: '/uilib/components/form-label/demos' })
   // const style = {
   //   // Grid makes the pixel height 100% correct

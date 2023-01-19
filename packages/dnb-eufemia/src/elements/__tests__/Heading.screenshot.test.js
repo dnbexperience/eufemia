@@ -9,7 +9,7 @@ import {
   // isCI
 } from '../../core/jest/jestSetupScreenshots'
 
-describe('Heading ', () => {
+describe('Heading', () => {
   setupPageScreenshot({
     url: '/uilib/elements/heading',
     // screenshotConfig: {

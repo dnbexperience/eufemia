@@ -10,7 +10,7 @@ import {
 
 const style = { width: '25rem' }
 
-describe('GlobalStatus ', () => {
+describe('GlobalStatus', () => {
   setupPageScreenshot({ url: '/uilib/components/global-status/demos' })
 
   it('have to match the default state with custom content', async () => {

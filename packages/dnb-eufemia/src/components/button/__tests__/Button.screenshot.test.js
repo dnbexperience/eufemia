@@ -9,7 +9,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Button primary ', () => {
+describe('Button primary', () => {
   setupPageScreenshot({ url: '/uilib/components/button/demos' })
 
   if (!isCI) {
@@ -63,7 +63,7 @@ describe('Button primary ', () => {
   })
 })
 
-describe('Button secondary ', () => {
+describe('Button secondary', () => {
   setupPageScreenshot({ url: '/uilib/components/button/demos' })
 
   it('have to match "dnb-button--secondary"', async () => {
@@ -101,7 +101,7 @@ describe('Button secondary ', () => {
   })
 })
 
-describe('Button icon ', () => {
+describe('Button icon', () => {
   setupPageScreenshot({ url: '/uilib/components/button/demos' })
 
   it('have to match icon button', async () => {
@@ -151,7 +151,7 @@ describe('Button target blank', () => {
   })
 })
 
-describe('Button unstyled ', () => {
+describe('Button unstyled', () => {
   setupPageScreenshot({ url: '/uilib/components/button/demos' })
 
   it('have to match "dnb-button--unstyled" with icon', async () => {
@@ -162,7 +162,7 @@ describe('Button unstyled ', () => {
   })
 })
 
-describe('Button tertiary ', () => {
+describe('Button tertiary', () => {
   setupPageScreenshot({ url: '/uilib/components/button/demos' })
 
   it('have to match "dnb-button--tertiary" without icon', async () => {
@@ -243,7 +243,7 @@ describe('Button tertiary ', () => {
   })
 })
 
-describe('Button signal ', () => {
+describe('Button signal', () => {
   setupPageScreenshot({ url: '/uilib/components/button/demos' })
 
   it('have to match "dnb-button--signal"', async () => {

@@ -9,7 +9,7 @@ import {
   // isCI,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Typography ', () => {
+describe('Typography', () => {
   setupPageScreenshot({
     url: '/uilib/typography',
   })

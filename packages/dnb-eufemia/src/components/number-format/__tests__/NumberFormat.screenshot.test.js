@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('NumberFormat ', () => {
+describe('NumberFormat', () => {
   setupPageScreenshot({
     url: '/uilib/components/number-format/demos',
   })
@@ -85,7 +85,7 @@ describe('NumberFormat ', () => {
   })
 })
 
-describe('NumberFormat with skeleton ', () => {
+describe('NumberFormat with skeleton', () => {
   setupPageScreenshot({
     url: '/uilib/components/number-format/demos?skeleton',
   })

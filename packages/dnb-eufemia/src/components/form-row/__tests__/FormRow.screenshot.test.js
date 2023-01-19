@@ -13,7 +13,7 @@ if (isCI) {
   jest.setTimeout(20e3)
 }
 
-describe('FormRow ', () => {
+describe('FormRow', () => {
   setupPageScreenshot({
     url: '/uilib/components/form-row/demos',
   })

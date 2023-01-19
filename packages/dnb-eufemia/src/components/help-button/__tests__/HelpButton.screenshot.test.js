@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('HelpButton ', () => {
+describe('HelpButton', () => {
   setupPageScreenshot({
     url: '/uilib/components/help-button/demos',
   })

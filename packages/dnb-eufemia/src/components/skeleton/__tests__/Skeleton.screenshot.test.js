@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Skeleton ', () => {
+describe('Skeleton', () => {
   setupPageScreenshot({ url: '/uilib/components/skeleton/demos' })
 
   it('have to match skeleton article figure', async () => {

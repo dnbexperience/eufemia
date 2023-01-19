@@ -13,7 +13,7 @@ const pageViewport = {
   height: 600,
 }
 
-describe('Drawer ', () => {
+describe('Drawer', () => {
   setupPageScreenshot({
     url: '/uilib/components/drawer/demos',
   })
@@ -40,7 +40,7 @@ describe('Drawer ', () => {
   })
 })
 
-describe('Drawer simple ', () => {
+describe('Drawer simple', () => {
   setupPageScreenshot({
     url: '/uilib/components/drawer/demos',
     pageViewport,
@@ -59,7 +59,7 @@ describe('Drawer simple ', () => {
   })
 })
 
-describe('Drawer full ', () => {
+describe('Drawer full', () => {
   setupPageScreenshot({
     url: '/uilib/components/drawer/demos',
     pageViewport,
@@ -78,7 +78,7 @@ describe('Drawer full ', () => {
   })
 })
 
-describe('Drawer custom trigger ', () => {
+describe('Drawer custom trigger', () => {
   setupPageScreenshot({
     url: '/uilib/components/drawer/demos',
     pageViewport,
@@ -97,7 +97,7 @@ describe('Drawer custom trigger ', () => {
   })
 })
 
-describe('Drawer no animation/spacing ', () => {
+describe('Drawer no animation/spacing', () => {
   setupPageScreenshot({
     url: '/uilib/components/drawer/demos',
     pageViewport,
@@ -116,7 +116,7 @@ describe('Drawer no animation/spacing ', () => {
   })
 })
 
-describe('Drawer ', () => {
+describe('Drawer', () => {
   setupPageScreenshot({
     url: '/uilib/components/drawer/visual-tests/hidden-tests',
     pageViewport,

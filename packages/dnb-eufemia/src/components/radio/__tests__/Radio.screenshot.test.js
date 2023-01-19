@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Radio unchecked ', () => {
+describe('Radio unchecked', () => {
   setupPageScreenshot({ url: '/uilib/components/radio/demos' })
 
   it('have to match radio in unchecked state', async () => {
@@ -41,7 +41,7 @@ describe('Radio unchecked ', () => {
 
 // NB: Because of focus simulation and screenshotElement.press('Tab')
 // we have to run the two focus simulations in a separate run each
-describe('Radio checked ', () => {
+describe('Radio checked', () => {
   setupPageScreenshot({ url: '/uilib/components/radio/demos' })
 
   it('have to match radio in checked state', async () => {

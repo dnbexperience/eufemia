@@ -13,7 +13,7 @@ const pageViewport = {
   height: 600,
 }
 
-describe('Modal ', () => {
+describe('Modal', () => {
   setupPageScreenshot({
     url: '/uilib/components/modal/visual-tests/hidden-tests',
   })
@@ -44,7 +44,7 @@ describe('Modal ', () => {
   })
 })
 
-describe('Modal ', () => {
+describe('Modal', () => {
   setupPageScreenshot({
     url: '/uilib/components/modal/visual-tests/hidden-tests',
     pageViewport,
@@ -63,7 +63,7 @@ describe('Modal ', () => {
   })
 })
 
-describe('Additional Modal ', () => {
+describe('Additional Modal', () => {
   const pageViewport = {
     width: 400,
     height: 400,

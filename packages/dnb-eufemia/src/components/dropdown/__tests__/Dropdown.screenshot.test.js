@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Dropdown ', () => {
+describe('Dropdown', () => {
   setupPageScreenshot({
     url: '/uilib/components/dropdown/demos',
     timeout: 300e3,
@@ -137,7 +137,7 @@ describe('Dropdown ', () => {
   })
 })
 
-describe('Dropdown ', () => {
+describe('Dropdown', () => {
   setupPageScreenshot({
     url: '/uilib/components/dropdown/demos?action_menu-custom',
     pageViewport: {
@@ -154,7 +154,7 @@ describe('Dropdown ', () => {
   })
 })
 
-describe('Dropdown ', () => {
+describe('Dropdown', () => {
   setupPageScreenshot({
     url: '/uilib/components/dropdown/demos?action_menu-custom',
     pageViewport: {
@@ -173,7 +173,7 @@ describe('Dropdown ', () => {
   })
 })
 
-describe('Dropdown ', () => {
+describe('Dropdown', () => {
   setupPageScreenshot({
     url: '/uilib/components/dropdown/demos?item-directions',
     pageViewport: {
@@ -192,7 +192,7 @@ describe('Dropdown ', () => {
   })
 })
 
-describe('Dropdown ', () => {
+describe('Dropdown', () => {
   setupPageScreenshot({
     url: '/uilib/components/dropdown/demos?left-side',
     pageViewport: {
@@ -208,7 +208,7 @@ describe('Dropdown ', () => {
   })
 })
 
-describe('Dropdown ', () => {
+describe('Dropdown', () => {
   setupPageScreenshot({
     url: '/uilib/components/dropdown/demos?right-side',
     pageViewport: {

@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Tabs ', () => {
+describe('Tabs', () => {
   setupPageScreenshot({ url: '/uilib/components/tabs/demos' })
 
   it('have to match the "Tablist"', async () => {
@@ -71,7 +71,7 @@ describe('Tabs ', () => {
   })
 })
 
-describe('Tabs ', () => {
+describe('Tabs', () => {
   setupPageScreenshot({ url: '/uilib/components/tabs/demos' })
 
   it('have to match ignored scrollable tabs', async () => {
@@ -121,7 +121,7 @@ describe('Tabs ', () => {
   })
 })
 
-describe('Tabs ', () => {
+describe('Tabs', () => {
   setupPageScreenshot({
     pageViewport: {
       width: 480, // 30rem
@@ -141,7 +141,7 @@ describe('Tabs ', () => {
   })
 })
 
-describe('Tabs ', () => {
+describe('Tabs', () => {
   setupPageScreenshot({
     pageViewport: {
       width: 800, // 50rem
@@ -161,7 +161,7 @@ describe('Tabs ', () => {
   })
 })
 
-describe('Tabs ', () => {
+describe('Tabs', () => {
   setupPageScreenshot({
     pageViewport: {
       width: 800, // 50rem
@@ -184,7 +184,7 @@ describe('Tabs ', () => {
   })
 })
 
-describe('Tabs ', () => {
+describe('Tabs', () => {
   setupPageScreenshot({
     pageViewport: {
       width: 800, // 50rem
