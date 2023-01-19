@@ -4,7 +4,7 @@
  */
 
 import {
-  testPageScreenshot,
+  makeScreenshot,
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
@@ -15,7 +15,7 @@ describe('InputMasked', () => {
   }
 
   it('have to match masked input', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style,
       selector:
         '[data-visual-test="input-masked-phone"] .dnb-input__shell',
@@ -24,7 +24,7 @@ describe('InputMasked', () => {
   })
 
   it('have to match currency_mask', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       // style,
       selector: '[data-visual-test="input-masked-currency_mask"]',
     })
@@ -32,7 +32,7 @@ describe('InputMasked', () => {
   })
 
   it('have to match number_mask', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       // style,
       selector: '[data-visual-test="input-masked-number_mask"]',
     })
@@ -40,7 +40,7 @@ describe('InputMasked', () => {
   })
 
   it('have to match locale number', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       // style,
       selector: '[data-visual-test="input-masked-number"]',
     })
@@ -48,7 +48,7 @@ describe('InputMasked', () => {
   })
 
   it('have to match locale currency', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       // style,
       selector: '[data-visual-test="input-masked-currency"]',
     })

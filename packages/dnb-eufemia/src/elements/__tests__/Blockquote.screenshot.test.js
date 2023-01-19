@@ -4,7 +4,7 @@
  */
 
 import {
-  testPageScreenshot,
+  makeScreenshot,
   setupPageScreenshot,
 } from '../../core/jest/jestSetupScreenshots'
 
@@ -15,7 +15,7 @@ describe('Blockquote', () => {
   }
 
   it('have to match default "blockquote"', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="blockquote-default"]',
     })
@@ -23,7 +23,7 @@ describe('Blockquote', () => {
   })
 
   it('have to match "blockquote" with top aligned graphic', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="blockquote-top"]',
     })
@@ -31,7 +31,7 @@ describe('Blockquote', () => {
   })
 
   it('have to match "blockquote" with top aligned graphic and no background', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="blockquote-top-no-background"]',
     })
@@ -39,7 +39,7 @@ describe('Blockquote', () => {
   })
 
   it('have to match "blockquote" with no background', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="blockquote-no-background"]',
     })

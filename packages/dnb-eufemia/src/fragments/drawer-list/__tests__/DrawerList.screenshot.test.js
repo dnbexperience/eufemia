@@ -4,7 +4,7 @@
  */
 
 import {
-  testPageScreenshot,
+  makeScreenshot,
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
@@ -14,7 +14,7 @@ describe('DrawerList', () => {
   })
 
   it('have to match the default drawer-list', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style: {
         width: '14rem',
       },

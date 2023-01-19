@@ -4,7 +4,7 @@
  */
 
 import {
-  testPageScreenshot,
+  makeScreenshot,
   setupPageScreenshot,
 } from '../../../../core/jest/jestSetupScreenshots'
 
@@ -14,7 +14,7 @@ describe('HelperClasses', () => {
   })
 
   it('have to match core-style', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       addWrapper: false,
       selector: '[data-visual-test="helper-core-style"]',
     })
@@ -22,7 +22,7 @@ describe('HelperClasses', () => {
   })
 
   it('have to match tap-focus', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       addWrapper: false,
       selector: '[data-visual-test="helper-tap-focus"]',
     })
@@ -30,7 +30,7 @@ describe('HelperClasses', () => {
   })
 
   it('have to match unstyled-list', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       addWrapper: false,
       selector: '[data-visual-test="helper-unstyled-list"]',
     })
@@ -38,7 +38,7 @@ describe('HelperClasses', () => {
   })
 
   it('have to match sr-only', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       addWrapper: false,
       selector: '[data-visual-test="helper-sr-only"]',
     })
@@ -46,7 +46,7 @@ describe('HelperClasses', () => {
   })
 
   it('have to match selection', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       addWrapper: false,
       selector: '[data-visual-test="helper-selection"]',
     })

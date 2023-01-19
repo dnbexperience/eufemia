@@ -4,7 +4,7 @@
  */
 
 import {
-  testPageScreenshot,
+  makeScreenshot,
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
@@ -14,7 +14,7 @@ describe('Pagination', () => {
   })
 
   it('have to match the default pagination bar', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       selector: '[data-visual-test="pagination-default"]',
       style: {
         width: '50rem',
@@ -24,7 +24,7 @@ describe('Pagination', () => {
   })
 
   it('have to match pagination bar at page one', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       selector: '[data-visual-test="pagination-default"]',
       style: {
         width: '50rem',
@@ -37,7 +37,7 @@ describe('Pagination', () => {
   })
 
   it('have to match pagination bar at last page', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       selector: '[data-visual-test="pagination-default"]',
       style: {
         width: '50rem',
@@ -60,7 +60,7 @@ describe('Pagination', () => {
   })
 
   it('have to match the default pagination bar in small viewport', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       selector: '[data-visual-test="pagination-default"]',
       style: {
         width: '30rem',

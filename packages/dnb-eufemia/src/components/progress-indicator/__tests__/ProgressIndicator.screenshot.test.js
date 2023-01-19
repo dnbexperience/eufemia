@@ -4,7 +4,7 @@
  */
 
 import {
-  testPageScreenshot,
+  makeScreenshot,
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
@@ -14,7 +14,7 @@ describe('ProgressIndicator', () => {
   })
 
   it('have to match the static primary circular with 50 percentage', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="progress-indicator-circular--primary"] .dnb-progress-indicator',
     })
@@ -22,7 +22,7 @@ describe('ProgressIndicator', () => {
   })
 
   it('have to match the static primary linear with 50 percentage', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style: {
         width: '20rem',
       },
@@ -39,7 +39,7 @@ describe('ProgressIndicator circular', () => {
   })
 
   it('have to match static primary circular sizes', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style: {
         height: '3.5rem',
         width: '8rem',

@@ -4,7 +4,7 @@
  */
 
 import {
-  testPageScreenshot,
+  makeScreenshot,
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
@@ -14,7 +14,7 @@ describe('Tooltip', () => {
   })
 
   it('have to match tooltip on button hover state', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style: {
         height: '4rem',
         'padding-top': '2rem',
@@ -27,7 +27,7 @@ describe('Tooltip', () => {
   })
 
   it('have to match tooltip in large size', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style: {
         height: '5rem',
         padding: '3rem 0 0 2rem',

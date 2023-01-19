@@ -4,7 +4,7 @@
  */
 
 import {
-  testPageScreenshot,
+  makeScreenshot,
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
@@ -12,21 +12,21 @@ describe('Tabs', () => {
   setupPageScreenshot({ url: '/uilib/components/tabs/demos' })
 
   it('have to match the "Tablist"', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       selector: '[data-visual-test="tabs-tablist"] .dnb-tabs__tabs',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
   it('have to match a tablist with a click handler', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       selector: '[data-visual-test="tabs-clickhandler"] .dnb-tabs__tabs',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
   it('have to match horizontal aligned tabs', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style: {
         width: '60rem',
       },
@@ -36,7 +36,7 @@ describe('Tabs', () => {
   })
 
   it('have to match max-width tabs', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style: {
         width: '40rem',
         height: '4rem',
@@ -47,7 +47,7 @@ describe('Tabs', () => {
   })
 
   it('have to match custom section styles', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style: {
         width: '40rem',
         height: '14rem',
@@ -59,7 +59,7 @@ describe('Tabs', () => {
   })
 
   it('have to match tabs with no bottom border', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style: {
         width: '40rem',
         height: '10rem',
@@ -75,7 +75,7 @@ describe('Tabs', () => {
   setupPageScreenshot({ url: '/uilib/components/tabs/demos' })
 
   it('have to match ignored scrollable tabs', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style: {
         width: '80rem',
         padding: '0 2rem 4rem 2rem',
@@ -86,7 +86,7 @@ describe('Tabs', () => {
   })
 
   it('have to match the "Tablist" on focus state', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       selector: '[data-visual-test="tabs-tablist"] .dnb-tabs__tabs',
       style: { margin: '0 2rem' },
       simulateSelector:
@@ -97,7 +97,7 @@ describe('Tabs', () => {
   })
 
   it('have to match a tab button in focus state', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       selector: '[data-visual-test="tabs-tablist"] .dnb-tabs__tabs',
       simulateSelector:
         '[data-visual-test="tabs-tablist"] .dnb-tabs__tabs__tablist .dnb-tabs__button__snap:nth-of-type(2) button',
@@ -107,7 +107,7 @@ describe('Tabs', () => {
   })
 
   it('have to match tabs content with focus ring', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="tabs-section-styles"] .dnb-tabs__content',
       simulateSelector:
@@ -130,7 +130,7 @@ describe('Tabs', () => {
   })
 
   it('have to match scrollable tabs narrow', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style: {
         width: '30rem',
         padding: '0 3rem 4rem 3rem',
@@ -150,7 +150,7 @@ describe('Tabs', () => {
   })
 
   it('have to match scrollable tabs', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style: {
         width: '50rem',
         padding: '0 3rem 4rem 3rem',
@@ -170,7 +170,7 @@ describe('Tabs', () => {
   })
 
   it('have to match first scrollable tabs', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style: {
         width: '50rem',
         padding: '0 3rem 4rem 3rem',
@@ -193,7 +193,7 @@ describe('Tabs', () => {
   })
 
   it('have to match last scrollable tabs', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style: {
         width: '50rem',
         padding: '0 3rem 4rem 3rem',

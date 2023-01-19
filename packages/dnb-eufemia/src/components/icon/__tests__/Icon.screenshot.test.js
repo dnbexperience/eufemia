@@ -4,7 +4,7 @@
  */
 
 import {
-  testPageScreenshot,
+  makeScreenshot,
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
@@ -14,7 +14,7 @@ describe('Icon', () => {
   })
 
   it('have to match default icons setup', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style: {
         // Flex makes the pixel height 100% correct
         display: 'flex',
@@ -26,7 +26,7 @@ describe('Icon', () => {
   })
 
   it('have to match inherited sized icons', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style: {
         // Flex makes the pixel height 100% correct
         display: 'flex',
@@ -38,7 +38,7 @@ describe('Icon', () => {
   })
 
   it('have to match icons with border', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style: {
         // Flex makes the pixel height 100% correct
         display: 'flex',
@@ -50,7 +50,7 @@ describe('Icon', () => {
   })
 
   it('have to match icons with colors', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style: {
         // Flex makes the pixel height 100% correct
         display: 'flex',
@@ -62,7 +62,7 @@ describe('Icon', () => {
   })
 
   it('have to match responsive icons', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style: {
         // Flex makes the pixel height 100% correct
         display: 'flex',
@@ -80,7 +80,7 @@ describe('Icon', () => {
   })
 
   it('have to match all primary icons', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style: {
         display: 'inline-flex',
         'flex-wrap': 'wrap',
@@ -92,7 +92,7 @@ describe('Icon', () => {
   })
 
   it('have to match all secondary icons', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style: {
         display: 'inline-flex',
         'flex-wrap': 'wrap',
@@ -104,7 +104,7 @@ describe('Icon', () => {
   })
 
   it('have to match all primary icons with color', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style: {
         display: 'inline-flex',
         'flex-wrap': 'wrap',
@@ -117,7 +117,7 @@ describe('Icon', () => {
   })
 
   it('have to match all secondary icons with color', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style: {
         display: 'inline-flex',
         'flex-wrap': 'wrap',

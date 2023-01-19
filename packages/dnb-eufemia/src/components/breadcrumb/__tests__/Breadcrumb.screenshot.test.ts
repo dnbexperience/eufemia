@@ -49,7 +49,7 @@ describe('Breadcrumb', () => {
   })
 
   it('have to match Breadcrumb focus state', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       selector: '[data-visual-test="breadcrumb-multiple"] .dnb-breadcrumb',
       screenshotSelector:
         '[data-visual-test="breadcrumb-multiple"] .dnb-breadcrumb .dnb-breadcrumb__bar',

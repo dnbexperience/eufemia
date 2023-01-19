@@ -5,7 +5,7 @@
 
 import {
   isCI,
-  testPageScreenshot,
+  makeScreenshot,
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
@@ -19,49 +19,49 @@ describe('FormRow', () => {
   })
 
   it('have to match default form-row', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       selector: '[data-visual-test="form-row-default"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
   it('have to match vertical form-row label', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       selector: '[data-visual-test="form-row-vertical-label"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
   it('have to match legend usage', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       selector: '[data-visual-test="form-row-legend"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
   it('have to match vertical form-row label with a button', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       selector: '[data-visual-test="form-row-vertical-label-button"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
   it('have to match vertical form-row', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       selector: '[data-visual-test="form-row-vertical"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
   it('have to match horizontal form-row', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       selector: '[data-visual-test="form-row-horizontal-no_wrap"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
   it('have to match horizontal wrap', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       wrapperStyle: {
         width: '80rem',
       },
@@ -71,7 +71,7 @@ describe('FormRow', () => {
   })
 
   it('have to match a combined form-row', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       selector: '[data-visual-test="form-row-combined"]',
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -83,7 +83,7 @@ describe('FormRow', () => {
     }
 
     it('have to match "horizontal direction" with all components', async () => {
-      const screenshot = await testPageScreenshot({
+      const screenshot = await makeScreenshot({
         wrapperStyle,
         selector: '[data-visual-test="form-row-all-horizontal-direction"]',
       })
@@ -91,7 +91,7 @@ describe('FormRow', () => {
     })
 
     it('have to match "vertical direction" with all components', async () => {
-      const screenshot = await testPageScreenshot({
+      const screenshot = await makeScreenshot({
         wrapperStyle,
         selector: '[data-visual-test="form-row-all-vertical-direction"]',
       })
@@ -99,7 +99,7 @@ describe('FormRow', () => {
     })
 
     it('have to match "vertical everything" with all components', async () => {
-      const screenshot = await testPageScreenshot({
+      const screenshot = await makeScreenshot({
         wrapperStyle,
         selector: '[data-visual-test="form-row-all-vertical-everything"]',
       })
@@ -107,7 +107,7 @@ describe('FormRow', () => {
     })
 
     it('have to match "vertical label direction" with all components', async () => {
-      const screenshot = await testPageScreenshot({
+      const screenshot = await makeScreenshot({
         wrapperStyle,
         selector:
           '[data-visual-test="form-row-all-vertical-label-direction"]',
@@ -116,7 +116,7 @@ describe('FormRow', () => {
     })
 
     it('have to match "vertical label direction" (no label) with all components', async () => {
-      const screenshot = await testPageScreenshot({
+      const screenshot = await makeScreenshot({
         wrapperStyle,
         selector:
           '[data-visual-test="form-row-all-vertical-label-direction-no-label"]',
@@ -125,14 +125,14 @@ describe('FormRow', () => {
     })
 
     it('have to match centered form-row', async () => {
-      const screenshot = await testPageScreenshot({
+      const screenshot = await makeScreenshot({
         selector: '[data-visual-test="form-row-centered"]',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
 
     it('have to match all stretch components', async () => {
-      const screenshot = await testPageScreenshot({
+      const screenshot = await makeScreenshot({
         selector: '[data-visual-test="form-row-all-stretch-components"]',
       })
       expect(screenshot).toMatchImageSnapshot()

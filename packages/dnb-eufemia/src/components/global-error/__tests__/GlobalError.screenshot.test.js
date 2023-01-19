@@ -4,7 +4,7 @@
  */
 
 import {
-  testPageScreenshot,
+  makeScreenshot,
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
@@ -15,7 +15,7 @@ describe('GlobalError', () => {
   })
 
   it('have to match the 404 status', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="global-error-404"]',
     })
@@ -23,7 +23,7 @@ describe('GlobalError', () => {
   })
 
   it('have to match the 500 status', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="global-error-500"]',
     })

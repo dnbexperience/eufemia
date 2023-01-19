@@ -4,7 +4,7 @@
  */
 
 import {
-  testPageScreenshot,
+  makeScreenshot,
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
@@ -12,7 +12,7 @@ describe('Skeleton', () => {
   setupPageScreenshot({ url: '/uilib/components/skeleton/demos' })
 
   it('have to match skeleton article figure', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style: { width: '20rem', height: '20rem' },
       selector: '[data-visual-test="skeleton-figure-article"]',
     })
@@ -20,7 +20,7 @@ describe('Skeleton', () => {
   })
 
   it('have to match excluded components', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style: { width: '20rem', height: '20rem' },
       selector: '[data-visual-test="skeleton-exclude"]',
     })
@@ -28,7 +28,7 @@ describe('Skeleton', () => {
   })
 
   it('have to match a removed skeleton', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style: { width: '20rem', height: '20rem' },
       selector: '[data-visual-test="skeleton-exclude"]',
       simulateSelector:
@@ -39,7 +39,7 @@ describe('Skeleton', () => {
   })
 
   it('have to match all components - vertical', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style: { width: '60rem' },
       selector: '[data-visual-test="skeleton-all-vertical"]',
     })
@@ -47,7 +47,7 @@ describe('Skeleton', () => {
   })
 
   it('have to match all components - horizontal', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style: { width: '60rem' },
       selector: '[data-visual-test="skeleton-all-horizontal"]',
     })

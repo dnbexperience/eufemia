@@ -4,7 +4,7 @@
  */
 
 import {
-  testPageScreenshot,
+  makeScreenshot,
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
@@ -15,7 +15,7 @@ describe('FormSet', () => {
   setupPageScreenshot({ url: '/uilib/components/form-set/demos' })
 
   it('have to match default form-set', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style: {
         width: '40rem', // make sure our input gets an explicit width, because of mac/linux rendering differences
       },
@@ -25,7 +25,7 @@ describe('FormSet', () => {
   })
 
   it('have to match vertical form-set', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style: {
         width: '30rem', // make sure our input gets an explicit width, because of mac/linux rendering differences
       },

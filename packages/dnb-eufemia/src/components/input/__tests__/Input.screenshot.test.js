@@ -4,7 +4,7 @@
  */
 
 import {
-  testPageScreenshot,
+  makeScreenshot,
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
@@ -19,7 +19,7 @@ describe('Input', () => {
   setupPageScreenshot({ url: '/uilib/components/input/demos' })
 
   it('have to match input with placeholder', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       ...extend('input-placeholder'),
       selector: '[data-visual-test="input-placeholder"]',
     })
@@ -27,7 +27,7 @@ describe('Input', () => {
   })
 
   it('have to match input with icon', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       ...extend('input-icon'),
       selector: '[data-visual-test="input-icon"]',
     })
@@ -35,7 +35,7 @@ describe('Input', () => {
   })
 
   it('have to match disabled input', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       ...extend('input-disabled'),
       selector: '[data-visual-test="input-disabled"]',
     })
@@ -43,7 +43,7 @@ describe('Input', () => {
   })
 
   it('have to match search type', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       ...extend('input-search'),
       selector: '[data-visual-test="input-search"]',
     })
@@ -51,7 +51,7 @@ describe('Input', () => {
   })
 
   it('have to match search type with focus state', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       ...extend('input-search'),
       selector: '[data-visual-test="input-search"]',
       simulate: 'focus', // should be tested first
@@ -60,7 +60,7 @@ describe('Input', () => {
   })
 
   it('have to match stretched and medium size', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       ...{ ...extend('input-medium'), style: { width: '300px' } },
       selector: '[data-visual-test="input-medium"]',
     })
@@ -68,7 +68,7 @@ describe('Input', () => {
   })
 
   it('have to match stretched input with status', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       ...{ ...extend('input-stretch'), style: { width: '300px' } },
       selector: '[data-visual-test="input-stretch"]',
     })
@@ -76,7 +76,7 @@ describe('Input', () => {
   })
 
   it('have to match error state', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       ...extend('input-error'),
       selector: '[data-visual-test="input-error"]',
     })
@@ -84,14 +84,14 @@ describe('Input', () => {
   })
 
   it('have to match input with clear button', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       selector: '[data-visual-test="input-clear"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
   it('have to match input with clear button in hover state', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       selector: '[data-visual-test="input-clear"]',
       simulateSelector:
         '[data-visual-test="input-clear"] .dnb-input:nth-of-type(3) .dnb-input__clear-button',
@@ -101,7 +101,7 @@ describe('Input', () => {
   })
 
   it('have to match password input', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       ...extend('input-password'),
       selector: '[data-visual-test="input-password"]',
     })
@@ -109,7 +109,7 @@ describe('Input', () => {
   })
 
   it('have to match text align with icon', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       ...extend('input-align'),
       selector: '[data-visual-test="input-align"]',
     })

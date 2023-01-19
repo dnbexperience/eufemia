@@ -4,7 +4,7 @@
  */
 
 import {
-  testPageScreenshot,
+  makeScreenshot,
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
@@ -14,7 +14,7 @@ describe('GlobalStatus', () => {
   setupPageScreenshot({ url: '/uilib/components/global-status/demos' })
 
   it('have to match the default state with custom content', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="global-status"] .dnb-global-status',
     })
@@ -22,7 +22,7 @@ describe('GlobalStatus', () => {
   })
 
   it('have to match the info state and custom content', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style,
       selector:
         '[data-visual-test="global-status-info"] .dnb-global-status',
@@ -31,7 +31,7 @@ describe('GlobalStatus', () => {
   })
 
   it('have to match the close button in focus state', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="global-status"] .dnb-global-status',
       simulateSelector:
@@ -42,7 +42,7 @@ describe('GlobalStatus', () => {
   })
 
   it('have to match the close button in hover state', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="global-status"] .dnb-global-status',
       simulateSelector:

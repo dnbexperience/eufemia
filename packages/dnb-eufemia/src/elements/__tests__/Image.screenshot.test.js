@@ -4,7 +4,7 @@
  */
 
 import {
-  testPageScreenshot,
+  makeScreenshot,
   setupPageScreenshot,
 } from '../../core/jest/jestSetupScreenshots'
 
@@ -14,28 +14,28 @@ describe('Image', () => {
   })
 
   it('have to match default image element', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       selector: '[data-visual-test="image-plain"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
   it('have to match image element with no source', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       selector: '[data-visual-test="image-no-source"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
   it('have to match image element with caption', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       selector: '[data-visual-test="image-caption"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
   it('have to match image element with skeleton', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       selector: '[data-visual-test="image-skeleton"]',
     })
     expect(screenshot).toMatchImageSnapshot()

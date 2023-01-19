@@ -4,7 +4,7 @@
  */
 
 import {
-  testPageScreenshot,
+  makeScreenshot,
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
@@ -15,7 +15,7 @@ describe('Textarea', () => {
   setupPageScreenshot({ url: '/uilib/components/textarea/demos' })
 
   it('have to match the "default" textarea style', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="textarea-default"]',
       // Only for screenshot testing - make textarea having same width on linux chromium
@@ -25,7 +25,7 @@ describe('Textarea', () => {
   })
 
   it('have to match the default error textarea style', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="textarea-error"]',
       // Only for screenshot testing - make textarea having same width on linux chromium
@@ -35,7 +35,7 @@ describe('Textarea', () => {
   })
 
   it('have to match stretched textarea style', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style: {
         width: '30rem', // make sure our textarea gets an explicit width, because of mac/linux rendering differences
       },
@@ -48,7 +48,7 @@ describe('Textarea', () => {
   // we do not make a active state, due to the differences of font rendering
 
   it('have to match the "focus" textarea style', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="textarea-default"]',
       simulateSelector: '[data-visual-test="textarea-default"] textarea',
@@ -61,7 +61,7 @@ describe('Textarea', () => {
   // we do not make a active state, due to the differences of font rendering
 
   it('have to match the "hover" textarea style', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="textarea-default"]',
       simulateSelector: '[data-visual-test="textarea-default"] textarea',
