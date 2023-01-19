@@ -7,6 +7,7 @@ import {
   makeUniqueId,
   warn,
   convertJsxToString,
+  slugify,
 } from '../../shared/component-helper'
 
 export class GlobalStatusProviderItem {
@@ -318,10 +319,3 @@ if (typeof window !== 'undefined') {
 }
 
 export default GlobalStatusProvider
-
-const slugify = (s) =>
-  s
-    .toLowerCase()
-    .replace(/[^\w\s-]/g, '')
-    .replace(/[\s_-]+/g, '-')
-    .replace(/^-+|-+$/g, '')
