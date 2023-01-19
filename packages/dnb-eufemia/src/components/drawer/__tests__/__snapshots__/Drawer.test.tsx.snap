@@ -2008,10 +2008,10 @@ html[data-dnb-modal-active] {
     z-index: 1; }
   .dnb-drawer--spacing .dnb-drawer__content {
     padding: 0 var(--drawer-spacing); }
-    @media screen and (min-width: 72em) {
+    @media screen and (min-width: 80em) {
       .dnb-drawer--spacing .dnb-drawer__content {
         padding: 0 calc(var(--drawer-spacing) * 1.75); } }
-    @media screen and (max-width: 50em) {
+    @media screen and (max-width: 60em) {
       .dnb-drawer--spacing .dnb-drawer__content {
         padding: 0 calc(var(--drawer-spacing) / 1.333333); } }
     @media screen and (max-width: 40em) {
@@ -2066,7 +2066,7 @@ html[data-dnb-modal-active] {
   .dnb-drawer__root {
     align-items: flex-start;
     justify-content: flex-start; }
-  @media screen and (max-width: 50em) {
+  @media screen and (max-width: 60em) {
     .dnb-drawer__title {
       font-size: var(--font-size-large) !important;
       line-height: var(--line-height-medium) !important; } }
@@ -2086,10 +2086,10 @@ html[data-dnb-modal-active] {
     height: 600%; }
   .dnb-drawer--spacing .dnb-drawer__header {
     padding: 0 var(--drawer-spacing); }
-    @media screen and (min-width: 72em) {
+    @media screen and (min-width: 80em) {
       .dnb-drawer--spacing .dnb-drawer__header {
         padding: 0 calc(var(--drawer-spacing) * 1.75); } }
-    @media screen and (max-width: 50em) {
+    @media screen and (max-width: 60em) {
       .dnb-drawer--spacing .dnb-drawer__header {
         padding: 0 calc(var(--drawer-spacing) / 1.333333); } }
     @media screen and (max-width: 40em) {
@@ -2114,10 +2114,10 @@ html[data-dnb-modal-active] {
     z-index: 99;
     margin: var(--drawer-spacing) 0;
     padding: 0 var(--drawer-spacing); }
-    @media screen and (min-width: 72em) {
+    @media screen and (min-width: 80em) {
       .dnb-drawer--spacing .dnb-drawer__navigation.dnb-section {
         padding: 0 calc(var(--drawer-spacing) * 1.75); } }
-    @media screen and (max-width: 50em) {
+    @media screen and (max-width: 60em) {
       .dnb-drawer--spacing .dnb-drawer__navigation.dnb-section {
         padding: 0 calc(var(--drawer-spacing) / 1.333333); } }
     @media screen and (max-width: 40em) {

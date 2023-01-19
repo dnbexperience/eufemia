@@ -22,8 +22,8 @@ describe('useMedia', () => {
     const ABOVE = '100em'
 
     const SMALL = '39em' // 40em
-    const MEDIUM = '49em' // 50em
-    const LARGE = '59em' // 60em
+    const MEDIUM = '59em' // 60em
+    const LARGE = '79em' // 80em
 
     beforeEach(() => {
       jest.spyOn(window, 'matchMedia').mockImplementation(matchMedia)
@@ -423,8 +423,8 @@ describe('useMedia', () => {
         setMedia({ width: ABOVE })
 
         const SMALL = '39em' // 40em
-        const MEDIUM = '59em' // 60em
-        const LARGE = '71em' // 72em
+        const MEDIUM = '71em' // 72em
+        const LARGE = '79em' // 80em
 
         const wrapper = (props) => (
           <Provider
@@ -432,8 +432,8 @@ describe('useMedia', () => {
             value={{
               breakpoints: {
                 small: '40em',
-                medium: '60em',
-                large: '72em',
+                medium: '72em',
+                large: '80em',
               },
             }}
           />
@@ -514,7 +514,7 @@ describe('useMedia', () => {
 
   describe('using jest-matchmedia-mock mocker', () => {
     const SMALL = '40em'
-    const MEDIUM = '50em'
+    const MEDIUM = '60em'
 
     const matchMedia = mockMediaQuery()
     const matchMediaMock = window.matchMedia // set in mockMediaQuery
