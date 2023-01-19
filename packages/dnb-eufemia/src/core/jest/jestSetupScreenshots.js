@@ -35,35 +35,22 @@ const config = {
     isLandscape: false,
     deviceScaleFactor: 1,
   },
-  screenshotConfig: {
-    detectAntialiasing: true,
-    colorThreshold: 0.3,
-    // pixelThresholdAbsolute: 10,// when having this enabled, the Jest logs shows pixel values instead of %
-
-    // If the CI is macOS, we can have a low threshold there as well
-    // Else we opt for a slightly difference in font-rendering form setup to setup
-    pixelThresholdRelative: 0, // isCI ? 0.01 : 0
-  },
 }
 module.exports.config = config
 module.exports.isCI = isCI
 
-let currentScreenshotSetup = null
-const setScreenshotSetup = (custom) => {
-  currentScreenshotSetup = { ...config.screenshotConfig, ...custom }
-  setupJestScreenshot(currentScreenshotSetup)
-}
-
-module.exports.testPageScreenshot = async ({
+const makeScreenshot = async ({
+  page = global.__PAGE__,
   url = null,
+  pageViewport = null,
   reload = null,
   fullscreen = false,
-  page = global.__PAGE__,
   selector,
   style = null,
   rootClassName = null,
   addWrapper = true,
   executeBeforeSimulate = null,
+  executeBeforeScreenshot = null,
   simulate = null,
   waitBeforeFinish = null,
   waitBeforeSimulate = null,
@@ -74,7 +61,6 @@ module.exports.testPageScreenshot = async ({
   simulateSelector = null,
   wrapperStyle = null,
   measureElement = null,
-  screenshotConfig = null,
 } = {}) => {
   if (!page) {
     const pages = await global.__BROWSER__.pages()
@@ -88,13 +74,10 @@ module.exports.testPageScreenshot = async ({
     await page.reload({ waitUntil })
   }
 
-  if (screenshotConfig) {
-    setScreenshotSetup(screenshotConfig)
-  }
-
   await makePageReady({
     page,
     url,
+    pageViewport,
     fullscreen,
     selector,
     style,
@@ -136,6 +119,10 @@ module.exports.testPageScreenshot = async ({
     await page.mouse.move(0, 0)
   }
 
+  if (executeBeforeScreenshot) {
+    await page.evaluate(executeBeforeScreenshot)
+  }
+
   if (config.delayDuringNonheadless > 0) {
     await page.waitForTimeout(config.delayDuringNonheadless)
   }
@@ -158,37 +145,29 @@ module.exports.testPageScreenshot = async ({
     await page.waitForTimeout(waitBeforeFinish)
   }
 
-  if (screenshotConfig) {
-    setScreenshotSetup(currentScreenshotSetup)
-  }
-
   return screenshot
 }
+module.exports.makeScreenshot = makeScreenshot
 
-const setupPageScreenshot = ({
+const setupPageScreenshot = async ({
+  page = global.__PAGE__,
   url,
-  fullscreen = false,
   pageViewport = null,
-  screenshotConfig = null,
+  fullscreen = false,
+  each = false,
   timeout = null,
 } = {}) => {
-  beforeAll(async () => {
-    if (screenshotConfig) {
-      setScreenshotSetup(screenshotConfig)
-    }
-
-    if (pageViewport || (pageViewport !== false && config.pageViewport)) {
-      if (pageViewport && config.pageViewport) {
-        pageViewport = { ...config.pageViewport, ...pageViewport }
-      } else {
-        pageViewport = config.pageViewport
+  const before = async () => {
+    if (!page) {
+      const pages = await global.__BROWSER__.pages()
+      if (pages[0]) {
+        page = pages[0]
       }
-      await global.__PAGE__.setViewport(pageViewport)
     }
 
     if (config.blockFontRequest) {
-      await global.__PAGE__.setRequestInterception(true) // is needed in order to use on "request"
-      global.__PAGE__.on('request', (req) => {
+      await page.setRequestInterception(true) // is needed in order to use on "request"
+      page.on('request', (req) => {
         const url = req.url()
 
         if (
@@ -210,27 +189,41 @@ const setupPageScreenshot = ({
       })
     }
 
-    if (url) {
-      await global.__PAGE__.goto(createUrl(url, fullscreen), { waitUntil })
-    }
-  }, timeout)
-
-  afterAll(async () => {
-    setScreenshotSetup(config.screenshotConfig)
-  })
+    await makePageReady({
+      page,
+      url,
+      pageViewport,
+      fullscreen,
+    })
+  }
+  if (each) {
+    beforeEach(before, timeout)
+  } else {
+    beforeAll(before, timeout)
+  }
 }
 module.exports.setupPageScreenshot = setupPageScreenshot
 
 async function makePageReady({
   page,
-  url,
-  fullscreen,
-  selector,
-  style,
-  rootClassName,
-  styleSelector,
+  url = null,
+  pageViewport = null,
+  fullscreen = false,
+  selector = null,
+  style = null,
+  rootClassName = null,
+  styleSelector = null,
 }) {
   if (url) {
+    if (pageViewport || (pageViewport !== false && config.pageViewport)) {
+      if (pageViewport && config.pageViewport) {
+        pageViewport = { ...config.pageViewport, ...pageViewport }
+      } else {
+        pageViewport = config.pageViewport
+      }
+      await page.setViewport(pageViewport)
+    }
+
     await page.goto(createUrl(url, fullscreen), { waitUntil })
   }
 
@@ -244,7 +237,9 @@ async function makePageReady({
     }
   })
 
-  await handleRootClassName({ page, rootClassName })
+  if (rootClassName) {
+    await handleRootClassName({ page, rootClassName })
+  }
 
   // Keep in mind, we also import this file in dev/prod portal (gatsby-browser),
   // just because it makes local dev easier
@@ -252,7 +247,9 @@ async function makePageReady({
     path: path.resolve(__dirname, './jestSetupScreenshots.css'),
   })
 
-  await page.waitForSelector(selector)
+  if (selector) {
+    await page.waitForSelector(selector)
+  }
 
   if (style) {
     await page.$eval(
