@@ -40,7 +40,7 @@ describe('MediaQuery', () => {
   })
 
   it('should match for query with medium width', () => {
-    matchMedia.useMediaQuery('(min-width: 50em) and (max-width: 60em)')
+    matchMedia.useMediaQuery('(min-width: 60em) and (max-width: 72em)')
 
     const Comp = mount(
       <MediaQuery when={{ min: 'medium', max: 'large' }}>
@@ -52,7 +52,7 @@ describe('MediaQuery', () => {
 
   it('should match for query when different breakpoints are given', () => {
     matchMedia.useMediaQuery(
-      '(min-width: 40em) and (max-width: 72em), (min-width: 0) and (max-width: 30rem), (max-width: 80em)'
+      '(min-width: 40em) and (max-width: 80em), (min-width: 0) and (max-width: 30rem), (max-width: 90em)'
     )
 
     const Comp = mount(
@@ -145,7 +145,7 @@ describe('MediaQuery', () => {
 
   it('should match for query with medium and large width', () => {
     matchMedia.useMediaQuery(
-      '(min-width: 50em) and (max-width: 60em), (min-width: 60em) and (max-width: 72em)'
+      '(min-width: 60em) and (max-width: 72em), (min-width: 72em) and (max-width: 80em)'
     )
 
     const Comp = mount(
@@ -163,7 +163,7 @@ describe('MediaQuery', () => {
 
   it('should handle media query changes', () => {
     matchMedia.useMediaQuery(
-      'not screen and (min-width: 0) and (max-width: 60em)'
+      'not screen and (min-width: 0) and (max-width: 72em)'
     )
 
     const Playground = () => {

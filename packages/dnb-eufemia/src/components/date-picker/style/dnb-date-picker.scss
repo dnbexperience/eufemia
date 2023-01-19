@@ -217,17 +217,13 @@
     margin-left: 0;
   }
 
-  // &--separator {
-  //   margin: 0 -0.2rem;
-  // }
-
   &__views {
     display: flex;
     user-select: none;
     -webkit-user-select: none; // Safari / Touch fix
 
-    // Wrap aleady on 50em, because 40em is too narrow in range mode
-    @media screen and (max-width: 50em) {
+    // Wrap already on "medium", because "small" is too narrow in range mode
+    @include allBelow(medium) {
       flex-direction: column;
     }
   }
