@@ -54,25 +54,33 @@ exports[`Logo scss have to match snapshot 1`] = `
  * Logo Component
  *
  */
+/*
+ * Utilities
+ */
 .dnb-logo {
   display: inline-flex;
   vertical-align: baseline;
   font-size: inherit;
   line-height: var(--line-height-xx-small--em);
   color: var(--color-sea-green);
-  height: 1em; }
-  .dnb-logo--inherit-color {
-    color: currentColor; }
-  .dnb-logo svg {
-    fill: currentColor;
-    shape-rendering: geometricPrecision; }
-  .dnb-logo--has-size {
-    width: auto;
-    height: auto; }
-  .dnb-logo--inherit-size {
-    height: inherit; }
-  .dnb-logo svg:not([width]):not([height]) {
-    width: inherit;
-    height: inherit; }
-"
+  height: 1em;
+}
+.dnb-logo--inherit-color {
+  color: currentColor;
+}
+.dnb-logo svg {
+  fill: currentColor;
+  shape-rendering: geometricPrecision;
+}
+.dnb-logo--has-size {
+  width: auto;
+  height: auto;
+}
+.dnb-logo--inherit-size {
+  height: inherit;
+}
+.dnb-logo svg:not([width]):not([height]) {
+  width: inherit;
+  height: inherit;
+}"
 `;

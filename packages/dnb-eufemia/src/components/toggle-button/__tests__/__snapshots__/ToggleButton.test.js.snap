@@ -1421,207 +1421,220 @@ exports[`ToggleButton scss have to match default theme snapshot 1`] = `
     *
     */
   /* stylelint-disable */
-  /* stylelint-enable */ }
-  .dnb-toggle-button .dnb-checkbox__gfx path {
-    stroke-width: 0.125rem; }
-  .dnb-toggle-button .dnb-radio__input:not([disabled]) ~ .dnb-radio__button {
-    box-shadow: 0 0 0 0.0318rem var(--color-sea-green); }
-  .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active),
-  .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active),
-  .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active) {
-    background-color: var(--color-emerald-green);
-    color: var(--color-mint-green); }
-  .dnb-toggle-button--checked .dnb-toggle-button__button .dnb-icon,
-  .dnb-toggle-button--checked .dnb-toggle-button__button:focus .dnb-icon,
-  .dnb-toggle-button--checked .dnb-toggle-button__button:hover .dnb-icon {
-    color: inherit; }
-  .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]) .dnb-radio__button,
-  .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]) .dnb-radio__button,
-  .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]) .dnb-radio__button {
-    background-color: transparent;
-    border-color: var(--color-mint-green);
-    box-shadow: 0 0 0 0.0318rem var(--color-mint-green); }
-  .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]) .dnb-radio__dot,
-  .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]) .dnb-radio__dot,
-  .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]) .dnb-radio__dot {
-    background-color: var(--color-mint-green); }
-  html[data-whatinput='keyboard'] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):focus .dnb-radio__button, html[data-whatinput='keyboard']
-  .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:hover):focus .dnb-radio__button, html[data-whatinput='keyboard']
-  .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:hover):focus .dnb-radio__button {
-    --border-color: var(--color-emerald-green);
-    box-shadow: inset 0 0 0 0.09375rem var(--border-color);
-    /* iOS fix - because "inset" works not fine with border-radius */
-    /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
-    border-color: transparent; }
-    @supports (-webkit-touch-callout: none) {
-      html[data-whatinput='keyboard'] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):focus .dnb-radio__button, html[data-whatinput='keyboard']
-      .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:hover):focus .dnb-radio__button, html[data-whatinput='keyboard']
-      .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:hover):focus .dnb-radio__button {
-        box-shadow: 0 0 0 0.09375rem var(--border-color); } }
-    @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
-      html[data-whatinput='keyboard'] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):focus .dnb-radio__button, html[data-whatinput='keyboard']
-      .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:hover):focus .dnb-radio__button, html[data-whatinput='keyboard']
-      .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:hover):focus .dnb-radio__button {
-        box-shadow: 0 0 0 0.09375rem var(--border-color); } }
-  html[data-whatinput='keyboard'] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):focus .dnb-radio__input:not([disabled]):not(:hover):not(:active):not(:hover) ~ .dnb-radio__dot, html[data-whatinput='keyboard']
-  .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:hover):focus .dnb-radio__input:not([disabled]):not(:hover):not(:active):not(:hover) ~ .dnb-radio__dot, html[data-whatinput='keyboard']
-  .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:hover):focus .dnb-radio__input:not([disabled]):not(:hover):not(:active):not(:hover) ~ .dnb-radio__dot {
-    background-color: var(--color-emerald-green); }
-  .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]) .dnb-checkbox__button,
-  .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]) .dnb-checkbox__button,
-  .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]) .dnb-checkbox__button {
-    background-color: var(--color-mint-green);
-    border-color: var(--color-emerald-green);
-    box-shadow: 0 0 0 0.0318rem var(--color-emerald-green); }
-  .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]) .dnb-checkbox__gfx,
-  .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]) .dnb-checkbox__gfx,
-  .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]) .dnb-checkbox__gfx {
-    color: var(--color-emerald-green); }
-  html[data-whatinput='keyboard'] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):focus .dnb-checkbox__button, html[data-whatinput='keyboard']
-  .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:hover):focus .dnb-checkbox__button, html[data-whatinput='keyboard']
-  .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:hover):focus .dnb-checkbox__button {
-    background-color: var(--color-emerald-green); }
-  html[data-whatinput='keyboard'] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):focus .dnb-checkbox__gfx, html[data-whatinput='keyboard']
-  .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:hover):focus .dnb-checkbox__gfx, html[data-whatinput='keyboard']
-  .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:hover):focus .dnb-checkbox__gfx {
-    color: var(--color-mint-green); }
-  .dnb-toggle-button--checked .dnb-toggle-button__button[disabled] .dnb-radio__button,
-  .dnb-toggle-button--checked .dnb-toggle-button__button[disabled] .dnb-checkbox__button,
-  .dnb-toggle-button--checked .dnb-toggle-button__button:focus[disabled] .dnb-radio__button,
-  .dnb-toggle-button--checked .dnb-toggle-button__button:focus[disabled] .dnb-checkbox__button,
-  .dnb-toggle-button--checked .dnb-toggle-button__button:hover[disabled] .dnb-radio__button,
-  .dnb-toggle-button--checked .dnb-toggle-button__button:hover[disabled] .dnb-checkbox__button {
-    box-shadow: none; }
-  html[data-whatinput='keyboard']
-.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard']
-  .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard']
-  .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {
-    color: var(--color-emerald-green);
-    background-color: var(--color-mint-green); }
-  html[data-whatinput='keyboard']
-.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard']
-  .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard']
-  .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {
-    outline: none; }
-    html[data-whatinput='keyboard'] html[data-whatinput='keyboard']
-.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard'] html[data-whatinput='keyboard']
-    .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard'] html[data-whatinput='keyboard']
-    .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {
-      --border-color: var(--color-emerald-green);
-      box-shadow: inset 0 0 0 0.125rem var(--border-color);
-      /* iOS fix - because "inset" works not fine with border-radius */
-      /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
-      border-color: transparent; }
-      @supports (-webkit-touch-callout: none) {
-        html[data-whatinput='keyboard'] html[data-whatinput='keyboard']
-.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard'] html[data-whatinput='keyboard']
-        .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard'] html[data-whatinput='keyboard']
-        .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {
-          box-shadow: 0 0 0 0.125rem var(--border-color); } }
-      @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
-        html[data-whatinput='keyboard'] html[data-whatinput='keyboard']
-.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard'] html[data-whatinput='keyboard']
-        .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput='keyboard'] html[data-whatinput='keyboard']
-        .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {
-          box-shadow: 0 0 0 0.125rem var(--border-color); } }
-  .dnb-toggle-button__button:not([disabled]):active .dnb-radio__button,
-  .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):active .dnb-radio__button {
-    background-color: transparent;
-    border-color: var(--color-sea-green);
-    box-shadow: 0 0 0 0.0318rem var(--color-sea-green); }
-  .dnb-toggle-button__button:not([disabled]):active .dnb-radio__dot,
-  .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):active .dnb-radio__dot {
-    background-color: var(--color-sea-green); }
-  .dnb-toggle-button__button:not([disabled]):active .dnb-checkbox__button,
-  .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):active .dnb-checkbox__button {
-    background-color: transparent;
-    border-color: var(--color-sea-green);
-    box-shadow: 0 0 0 0.0318rem var(--color-sea-green); }
-  .dnb-toggle-button__button:not([disabled]):active .dnb-checkbox__gfx,
-  .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):active .dnb-checkbox__gfx {
-    color: var(--color-sea-green); }
+  /* stylelint-enable */
+}
+.dnb-toggle-button .dnb-checkbox__gfx path {
+  stroke-width: 0.125rem;
+}
+.dnb-toggle-button .dnb-radio__input:not([disabled]) ~ .dnb-radio__button {
+  box-shadow: 0 0 0 0.0318rem var(--color-sea-green);
+}
+.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active), .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active), .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active) {
+  background-color: var(--color-emerald-green);
+  color: var(--color-mint-green);
+}
+.dnb-toggle-button--checked .dnb-toggle-button__button .dnb-icon, .dnb-toggle-button--checked .dnb-toggle-button__button:focus .dnb-icon, .dnb-toggle-button--checked .dnb-toggle-button__button:hover .dnb-icon {
+  color: inherit;
+}
+.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]) .dnb-radio__button, .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]) .dnb-radio__button, .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]) .dnb-radio__button {
+  background-color: transparent;
+  border-color: var(--color-mint-green);
+  box-shadow: 0 0 0 0.0318rem var(--color-mint-green);
+}
+.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]) .dnb-radio__dot, .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]) .dnb-radio__dot, .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]) .dnb-radio__dot {
+  background-color: var(--color-mint-green);
+}
+html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):focus .dnb-radio__button, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:hover):focus .dnb-radio__button, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:hover):focus .dnb-radio__button {
+  --border-color: var(--color-emerald-green);
+  box-shadow: inset 0 0 0 0.09375rem var(--border-color);
+  /* iOS fix - because "inset" works not fine with border-radius */
+  /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
+  border-color: transparent;
+}
+@supports (-webkit-touch-callout: none) {
+  html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):focus .dnb-radio__button, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:hover):focus .dnb-radio__button, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:hover):focus .dnb-radio__button {
+    box-shadow: 0 0 0 0.09375rem var(--border-color);
+  }
+}
+@supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+  html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):focus .dnb-radio__button, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:hover):focus .dnb-radio__button, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:hover):focus .dnb-radio__button {
+    box-shadow: 0 0 0 0.09375rem var(--border-color);
+  }
+}
+html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):focus .dnb-radio__input:not([disabled]):not(:hover):not(:active):not(:hover) ~ .dnb-radio__dot, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:hover):focus .dnb-radio__input:not([disabled]):not(:hover):not(:active):not(:hover) ~ .dnb-radio__dot, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:hover):focus .dnb-radio__input:not([disabled]):not(:hover):not(:active):not(:hover) ~ .dnb-radio__dot {
+  background-color: var(--color-emerald-green);
+}
+.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]) .dnb-checkbox__button, .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]) .dnb-checkbox__button, .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]) .dnb-checkbox__button {
+  background-color: var(--color-mint-green);
+  border-color: var(--color-emerald-green);
+  box-shadow: 0 0 0 0.0318rem var(--color-emerald-green);
+}
+.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]) .dnb-checkbox__gfx, .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]) .dnb-checkbox__gfx, .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]) .dnb-checkbox__gfx {
+  color: var(--color-emerald-green);
+}
+html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):focus .dnb-checkbox__button, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:hover):focus .dnb-checkbox__button, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:hover):focus .dnb-checkbox__button {
+  background-color: var(--color-emerald-green);
+}
+html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):focus .dnb-checkbox__gfx, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:hover):focus .dnb-checkbox__gfx, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:hover):focus .dnb-checkbox__gfx {
+  color: var(--color-mint-green);
+}
+.dnb-toggle-button--checked .dnb-toggle-button__button[disabled] .dnb-radio__button,
+.dnb-toggle-button--checked .dnb-toggle-button__button[disabled] .dnb-checkbox__button, .dnb-toggle-button--checked .dnb-toggle-button__button:focus[disabled] .dnb-radio__button,
+.dnb-toggle-button--checked .dnb-toggle-button__button:focus[disabled] .dnb-checkbox__button, .dnb-toggle-button--checked .dnb-toggle-button__button:hover[disabled] .dnb-radio__button,
+.dnb-toggle-button--checked .dnb-toggle-button__button:hover[disabled] .dnb-checkbox__button {
+  box-shadow: none;
+}
+html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {
+  color: var(--color-emerald-green);
+  background-color: var(--color-mint-green);
+}
+html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {
+  outline: none;
+}
+html[data-whatinput=keyboard] html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {
+  --border-color: var(--color-emerald-green);
+  box-shadow: inset 0 0 0 0.125rem var(--border-color);
+  /* iOS fix - because "inset" works not fine with border-radius */
+  /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
+  border-color: transparent;
+}
+@supports (-webkit-touch-callout: none) {
+  html[data-whatinput=keyboard] html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {
+    box-shadow: 0 0 0 0.125rem var(--border-color);
+  }
+}
+@supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+  html[data-whatinput=keyboard] html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {
+    box-shadow: 0 0 0 0.125rem var(--border-color);
+  }
+}
+.dnb-toggle-button__button:not([disabled]):active .dnb-radio__button, .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):active .dnb-radio__button {
+  background-color: transparent;
+  border-color: var(--color-sea-green);
+  box-shadow: 0 0 0 0.0318rem var(--color-sea-green);
+}
+.dnb-toggle-button__button:not([disabled]):active .dnb-radio__dot, .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):active .dnb-radio__dot {
+  background-color: var(--color-sea-green);
+}
+.dnb-toggle-button__button:not([disabled]):active .dnb-checkbox__button, .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):active .dnb-checkbox__button {
+  background-color: transparent;
+  border-color: var(--color-sea-green);
+  box-shadow: 0 0 0 0.0318rem var(--color-sea-green);
+}
+.dnb-toggle-button__button:not([disabled]):active .dnb-checkbox__gfx, .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):active .dnb-checkbox__gfx {
+  color: var(--color-sea-green);
+}
+.dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:hover):not(:focus):not(:active) {
+  background-color: var(--color-white);
+  color: var(--color-fire-red);
+  --border-color: var(--color-fire-red);
+  box-shadow: inset 0 0 0 0.0625rem var(--border-color);
+  /* iOS fix - because "inset" works not fine with border-radius */
+  /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
+  border-color: transparent;
+}
+@supports (-webkit-touch-callout: none) {
   .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:hover):not(:focus):not(:active) {
-    background-color: var(--color-white);
-    color: var(--color-fire-red);
-    --border-color: var(--color-fire-red);
-    box-shadow: inset 0 0 0 0.0625rem var(--border-color);
-    /* iOS fix - because "inset" works not fine with border-radius */
-    /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
-    border-color: transparent; }
-    @supports (-webkit-touch-callout: none) {
-      .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:hover):not(:focus):not(:active) {
-        box-shadow: 0 0 0 0.0625rem var(--border-color); } }
-    @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
-      .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:hover):not(:focus):not(:active) {
-        box-shadow: 0 0 0 0.0625rem var(--border-color); } }
+    box-shadow: 0 0 0 0.0625rem var(--border-color);
+  }
+}
+@supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+  .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:hover):not(:focus):not(:active) {
+    box-shadow: 0 0 0 0.0625rem var(--border-color);
+  }
+}
+.dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-radio__input:not([disabled]) ~ .dnb-radio__button {
+  --border-color: var(--color-fire-red);
+  box-shadow: inset 0 0 0 0.09375rem var(--border-color);
+  /* iOS fix - because "inset" works not fine with border-radius */
+  /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
+  border-color: transparent;
+}
+@supports (-webkit-touch-callout: none) {
   .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-radio__input:not([disabled]) ~ .dnb-radio__button {
-    --border-color: var(--color-fire-red);
-    box-shadow: inset 0 0 0 0.09375rem var(--border-color);
-    /* iOS fix - because "inset" works not fine with border-radius */
-    /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
-    border-color: transparent; }
-    @supports (-webkit-touch-callout: none) {
-      .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-radio__input:not([disabled]) ~ .dnb-radio__button {
-        box-shadow: 0 0 0 0.09375rem var(--border-color); } }
-    @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
-      .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-radio__input:not([disabled]) ~ .dnb-radio__button {
-        box-shadow: 0 0 0 0.09375rem var(--border-color); } }
-  .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-radio__input:not([disabled]) ~ .dnb-radio__focus {
-    box-shadow: none; }
-  .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-radio__input:not([disabled]) ~ .dnb-radio__dot {
-    background-color: transparent; }
+    box-shadow: 0 0 0 0.09375rem var(--border-color);
+  }
+}
+@supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+  .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-radio__input:not([disabled]) ~ .dnb-radio__button {
+    box-shadow: 0 0 0 0.09375rem var(--border-color);
+  }
+}
+.dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-radio__input:not([disabled]) ~ .dnb-radio__focus {
+  box-shadow: none;
+}
+.dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-radio__input:not([disabled]) ~ .dnb-radio__dot {
+  background-color: transparent;
+}
+.dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-checkbox__input ~ .dnb-checkbox__button {
+  border: none;
+  --border-color: var(--color-fire-red);
+  box-shadow: inset 0 0 0 0.09375rem var(--border-color);
+  /* iOS fix - because "inset" works not fine with border-radius */
+  /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
+  border-color: transparent;
+}
+@supports (-webkit-touch-callout: none) {
   .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-checkbox__input ~ .dnb-checkbox__button {
-    border: none;
-    --border-color: var(--color-fire-red);
-    box-shadow: inset 0 0 0 0.09375rem var(--border-color);
-    /* iOS fix - because "inset" works not fine with border-radius */
-    /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
-    border-color: transparent; }
-    @supports (-webkit-touch-callout: none) {
-      .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-checkbox__input ~ .dnb-checkbox__button {
-        box-shadow: 0 0 0 0.09375rem var(--border-color); } }
-    @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
-      .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-checkbox__input ~ .dnb-checkbox__button {
-        box-shadow: 0 0 0 0.09375rem var(--border-color); } }
-  .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-checkbox__input:not(:hover) ~ .dnb-checkbox__button .dnb-checkbox__focus {
-    box-shadow: none; }
+    box-shadow: 0 0 0 0.09375rem var(--border-color);
+  }
+}
+@supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+  .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-checkbox__input ~ .dnb-checkbox__button {
+    box-shadow: 0 0 0 0.09375rem var(--border-color);
+  }
+}
+.dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-checkbox__input:not(:hover) ~ .dnb-checkbox__button .dnb-checkbox__focus {
+  box-shadow: none;
+}
+.dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):not(:focus):not(:active) {
+  color: var(--color-white);
+  background-color: var(--color-fire-red);
+  --border-color: var(--color-fire-red);
+  box-shadow: inset 0 0 0 0.0625rem var(--border-color);
+  /* iOS fix - because "inset" works not fine with border-radius */
+  /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
+  border-color: transparent;
+}
+@supports (-webkit-touch-callout: none) {
   .dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):not(:focus):not(:active) {
-    color: var(--color-white);
-    background-color: var(--color-fire-red);
-    --border-color: var(--color-fire-red);
-    box-shadow: inset 0 0 0 0.0625rem var(--border-color);
-    /* iOS fix - because "inset" works not fine with border-radius */
-    /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
-    border-color: transparent; }
-    @supports (-webkit-touch-callout: none) {
-      .dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):not(:focus):not(:active) {
-        box-shadow: 0 0 0 0.0625rem var(--border-color); } }
-    @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
-      .dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):not(:focus):not(:active) {
-        box-shadow: 0 0 0 0.0625rem var(--border-color); } }
+    box-shadow: 0 0 0 0.0625rem var(--border-color);
+  }
+}
+@supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+  .dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):not(:focus):not(:active) {
+    box-shadow: 0 0 0 0.0625rem var(--border-color);
+  }
+}
+.dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:focus) .dnb-radio__input:not([disabled]) ~ .dnb-radio__button {
+  --border-color: var(--color-white);
+  box-shadow: inset 0 0 0 0.09375rem var(--border-color);
+  /* iOS fix - because "inset" works not fine with border-radius */
+  /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
+  border-color: transparent;
+}
+@supports (-webkit-touch-callout: none) {
   .dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:focus) .dnb-radio__input:not([disabled]) ~ .dnb-radio__button {
-    --border-color: var(--color-white);
-    box-shadow: inset 0 0 0 0.09375rem var(--border-color);
-    /* iOS fix - because "inset" works not fine with border-radius */
-    /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
-    border-color: transparent; }
-    @supports (-webkit-touch-callout: none) {
-      .dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:focus) .dnb-radio__input:not([disabled]) ~ .dnb-radio__button {
-        box-shadow: 0 0 0 0.09375rem var(--border-color); } }
-    @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
-      .dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:focus) .dnb-radio__input:not([disabled]) ~ .dnb-radio__button {
-        box-shadow: 0 0 0 0.09375rem var(--border-color); } }
-  .dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:focus) .dnb-radio__input:not([disabled]):not(:hover) ~ .dnb-radio__dot {
-    background-color: var(--color-white); }
-  .dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]) .dnb-checkbox__input:not([disabled]):not(:hover):not(:active) ~ .dnb-checkbox__button .dnb-checkbox__focus {
-    background-color: var(--color-white); }
-  .dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]) .dnb-checkbox
-.dnb-checkbox__input:not([disabled]):not(:focus):not(:active):not(:hover)
-~ .dnb-checkbox__gfx {
-    color: var(--color-fire-red); }
-  .dnb-toggle-button > .dnb-form-status {
-    transform: translateY(0.1875rem); }
-"
+    box-shadow: 0 0 0 0.09375rem var(--border-color);
+  }
+}
+@supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+  .dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:focus) .dnb-radio__input:not([disabled]) ~ .dnb-radio__button {
+    box-shadow: 0 0 0 0.09375rem var(--border-color);
+  }
+}
+.dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:focus) .dnb-radio__input:not([disabled]):not(:hover) ~ .dnb-radio__dot {
+  background-color: var(--color-white);
+}
+.dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]) .dnb-checkbox__input:not([disabled]):not(:hover):not(:active) ~ .dnb-checkbox__button .dnb-checkbox__focus {
+  background-color: var(--color-white);
+}
+.dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]) .dnb-checkbox .dnb-checkbox__input:not([disabled]):not(:focus):not(:active):not(:hover) ~ .dnb-checkbox__gfx {
+  color: var(--color-fire-red);
+}
+.dnb-toggle-button > .dnb-form-status {
+  transform: translateY(0.1875rem);
+}"
 `;
 
 exports[`ToggleButton scss have to match snapshot 1`] = `
@@ -1637,8 +1650,14 @@ exports[`ToggleButton scss have to match snapshot 1`] = `
 *
 */
 /*
+ * Utilities
+ */
+/*
  * FormLabel component
  *
+ */
+/*
+ * Utilities
  */
 .dnb-form-label {
   display: inline-block;
@@ -1650,33 +1669,47 @@ exports[`ToggleButton scss have to match snapshot 1`] = `
   white-space: pre-wrap;
   word-break: normal;
   font-size: var(--font-size-basis);
-  color: inherit; }
-  .dnb-form-label--vertical {
-    display: block;
-    margin-right: 0;
-    margin-bottom: 0.5rem; }
-  .dnb-form-label[for]:not([disabled]) {
-    user-select: none;
-    -webkit-user-select: none;
-    cursor: pointer; }
-  .dnb-form-label[disabled] {
-    cursor: not-allowed; }
+  color: inherit;
+}
+.dnb-form-label--vertical {
+  display: block;
+  margin-right: 0;
+  margin-bottom: 0.5rem;
+}
+.dnb-form-label[for]:not([disabled]) {
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: pointer;
+}
+.dnb-form-label[disabled] {
+  cursor: not-allowed;
+}
 
 legend.dnb-form-label {
-  display: inline-block; }
+  display: inline-block;
+}
 
 /*
 * Used for snapshot testing
 *
 */
 /*
+ * Utilities
+ */
+/*
 * Used for snapshot testing
 *
 */
+/*
+ * Utilities
+ */
 /*
 * Icon component
 *
 */
+/*
+ * Utilities
+ */
 .dnb-icon {
   display: inline-block;
   vertical-align: middle;
@@ -1684,63 +1717,81 @@ legend.dnb-form-label {
   line-height: 1rem;
   color: inherit;
   width: 1em;
-  height: 1em; }
-  .dnb-icon img,
-  .dnb-icon svg {
-    width: inherit;
-    height: inherit;
-    shape-rendering: geometricPrecision;
-    vertical-align: top; }
-  .dnb-icon svg[width='100%'] {
-    width: inherit; }
-  .dnb-icon svg[height='100%'] {
-    height: inherit; }
-  .dnb-icon--inherit-color svg:not([fill]),
-  .dnb-icon--inherit-color svg [fill] {
-    fill: currentColor; }
-  .dnb-icon--inherit-color svg [stroke] {
-    stroke: currentColor; }
-  .dnb-icon--small {
-    font-size: 0.75rem; }
-  .dnb-icon--default {
-    font-size: 1rem; }
-  .dnb-icon--medium {
-    font-size: 1.5rem; }
-  .dnb-icon--large {
-    font-size: 2rem; }
-  .dnb-icon--x-large {
-    font-size: 2.5rem; }
-  .dnb-icon--xx-large {
-    font-size: 3rem; }
-  .dnb-icon--custom-size {
-    width: auto;
-    height: auto; }
-  .dnb-icon--auto {
-    font-size: 1em; }
-  .dnb-icon--auto > .dnb-icon--wrapper {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center; }
-  h1 .dnb-icon,
-  h2 .dnb-icon,
-  h3 .dnb-icon,
-  h4 .dnb-icon,
-  h5 .dnb-icon,
-  h6 .dnb-icon {
-    vertical-align: middle; }
-  .dnb-icon.dnb-skeleton {
-    color: var(--skeleton-color) !important; }
-    .dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
-      content: none !important; }
+  height: 1em;
+}
+.dnb-icon img,
+.dnb-icon svg {
+  width: inherit;
+  height: inherit;
+  shape-rendering: geometricPrecision;
+  vertical-align: top;
+}
+.dnb-icon svg[width="100%"] {
+  width: inherit;
+}
+.dnb-icon svg[height="100%"] {
+  height: inherit;
+}
+.dnb-icon--inherit-color svg:not([fill]), .dnb-icon--inherit-color svg [fill] {
+  fill: currentColor;
+}
+.dnb-icon--inherit-color svg [stroke] {
+  stroke: currentColor;
+}
+.dnb-icon--small {
+  font-size: 0.75rem;
+}
+.dnb-icon--default {
+  font-size: 1rem;
+}
+.dnb-icon--medium {
+  font-size: 1.5rem;
+}
+.dnb-icon--large {
+  font-size: 2rem;
+}
+.dnb-icon--x-large {
+  font-size: 2.5rem;
+}
+.dnb-icon--xx-large {
+  font-size: 3rem;
+}
+.dnb-icon--custom-size {
+  width: auto;
+  height: auto;
+}
+.dnb-icon--auto {
+  font-size: 1em;
+}
+.dnb-icon--auto > .dnb-icon--wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+h1 .dnb-icon, h2 .dnb-icon, h3 .dnb-icon, h4 .dnb-icon, h5 .dnb-icon, h6 .dnb-icon {
+  vertical-align: middle;
+}
+.dnb-icon.dnb-skeleton {
+  color: var(--skeleton-color) !important;
+}
+.dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
+  content: none !important;
+}
 
 /*
 * Used for snapshot testing
 *
 */
 /*
+ * Utilities
+ */
+/*
 * Tooltip component
 *
 */
+/*
+ * Utilities
+ */
 .dnb-tooltip {
   position: absolute;
   z-index: 3100;
@@ -1751,156 +1802,205 @@ legend.dnb-form-label {
   padding: 0 1rem;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 200ms var(--easing-default); }
-  .dnb-tooltip--large {
-    padding: 0.25rem 1rem; }
-  .dnb-tooltip--animate_position {
-    transition: all 200ms var(--easing-default), opacity 200ms var(--easing-default); }
-  .dnb-tooltip--active {
-    visibility: visible;
-    /*
-      because of the first "show" we also use animation
-      also, use forwards because of the usage of visibility
-    */
-    animation: show-tooltip 200ms var(--easing-default) forwards; }
-  html[data-visual-test] .dnb-tooltip--active, .dnb-tooltip--active.dnb-tooltip--no-animation {
-    animation: show-tooltip 1ms var(--easing-default) forwards; }
-  .dnb-tooltip--hide {
-    visibility: visible;
-    animation: hide-tooltip 200ms var(--easing-default) forwards; }
-  .dnb-tooltip--hide.dnb-tooltip--no-animation {
-    animation: hide-tooltip 1ms linear forwards; }
-  .dnb-tooltip--fixed {
-    position: fixed; }
-  html[data-visual-test] .dnb-tooltip--hide {
-    animation: hide-tooltip 1ms linear 1s forwards; }
-  .dnb-tooltip__portal {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0; }
-  .dnb-tooltip__content {
-    min-width: 2rem;
-    min-height: 1.5rem;
-    padding: 0; }
-  .dnb-tooltip__arrow {
-    position: absolute;
-    pointer-events: none;
-    margin: 0;
-    width: 1rem;
-    height: 0.5rem;
-    overflow: hidden; }
-    .dnb-tooltip__arrow::before {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 1rem;
-      height: 1rem;
-      transform: translateY(70%) rotate(45deg); }
-    .dnb-tooltip__arrow__position--bottom {
-      top: -0.5rem; }
-    .dnb-tooltip__arrow__position--top {
-      bottom: -0.5rem;
-      transform: rotate(180deg); }
-    .dnb-tooltip__arrow__position--left {
-      right: -0.75rem;
-      margin-right: 3px;
-      transform: rotate(90deg); }
-    .dnb-tooltip__arrow__position--right {
-      left: -0.75rem;
-      margin-left: 3px;
-      transform: rotate(270deg); }
-    .dnb-tooltip__arrow__arrow--left {
-      align-self: flex-start; }
-    .dnb-tooltip__arrow__arrow--right {
-      align-self: flex-end; }
+  transition: opacity 200ms var(--easing-default);
+}
+.dnb-tooltip--large {
+  padding: 0.25rem 1rem;
+}
+.dnb-tooltip--animate_position {
+  transition: all 200ms var(--easing-default), opacity 200ms var(--easing-default);
+}
+.dnb-tooltip--active {
+  visibility: visible;
+  /*
+    because of the first "show" we also use animation
+    also, use forwards because of the usage of visibility
+  */
+  animation: show-tooltip 200ms var(--easing-default) forwards;
+}
+html[data-visual-test] .dnb-tooltip--active, .dnb-tooltip--active.dnb-tooltip--no-animation {
+  animation: show-tooltip 1ms var(--easing-default) forwards;
+}
+.dnb-tooltip--hide {
+  visibility: visible;
+  animation: hide-tooltip 200ms var(--easing-default) forwards;
+}
+.dnb-tooltip--hide.dnb-tooltip--no-animation {
+  animation: hide-tooltip 1ms linear forwards;
+}
+.dnb-tooltip--fixed {
+  position: fixed;
+}
+html[data-visual-test] .dnb-tooltip--hide {
+  animation: hide-tooltip 1ms linear 1s forwards;
+}
+.dnb-tooltip__portal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+.dnb-tooltip__content {
+  min-width: 2rem;
+  min-height: 1.5rem;
+  padding: 0;
+}
+.dnb-tooltip__arrow {
+  position: absolute;
+  pointer-events: none;
+  margin: 0;
+  width: 1rem;
+  height: 0.5rem;
+  overflow: hidden;
+}
+.dnb-tooltip__arrow::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 1rem;
+  height: 1rem;
+  transform: translateY(70%) rotate(45deg);
+}
+.dnb-tooltip__arrow__position--bottom {
+  top: -0.5rem;
+}
+.dnb-tooltip__arrow__position--top {
+  bottom: -0.5rem;
+  transform: rotate(180deg);
+}
+.dnb-tooltip__arrow__position--left {
+  right: -0.75rem;
+  margin-right: 3px;
+  transform: rotate(90deg);
+}
+.dnb-tooltip__arrow__position--right {
+  left: -0.75rem;
+  margin-left: 3px;
+  transform: rotate(270deg);
+}
+.dnb-tooltip__arrow__arrow--left {
+  align-self: flex-start;
+}
+.dnb-tooltip__arrow__arrow--right {
+  align-self: flex-end;
+}
 
 @keyframes show-tooltip {
   from {
-    opacity: 0; }
+    opacity: 0;
+  }
   to {
-    opacity: 1; } }
-
+    opacity: 1;
+  }
+}
 @keyframes hide-tooltip {
   from {
-    opacity: 1; }
+    opacity: 1;
+  }
   to {
     opacity: 0;
-    visibility: hidden; } }
-
+    visibility: hidden;
+  }
+}
 /*
 * Used for snapshot testing
 *
 */
 /*
+ * Utilities
+ */
+/*
  * FormStatus component
  *
  */
+/*
+ * Utilities
+ */
 :root {
-  --form-status-radius: 0.25rem; }
+  --form-status-radius: 0.25rem;
+}
 
 .dnb-form-status {
   display: flex;
   opacity: 1;
-  transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default); }
-  .dnb-form-status--hidden {
-    will-change: height, opacity, margin, padding;
-    width: 0;
-    height: 0;
-    opacity: 0; }
-  .dnb-form-status--is-animating {
-    overflow: hidden;
-    width: auto; }
-  .dnb-form-status--disappear, .dnb-form-status--hidden {
-    margin: 0 !important;
-    padding: 0 !important; }
-  .dnb-form-status__shell {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    min-width: inherit;
-    border-radius: var(--form-status-radius); }
-  .dnb-form-status__text {
-    padding: 0.625rem 1rem;
-    cursor: text;
-    color: inherit;
-    line-height: var(--line-height-small);
-    font-size: var(--font-size-small);
-    white-space: normal; }
-    button .dnb-form-status__text {
-      cursor: inherit; }
-    .dnb-form-status__text .dnb-anchor {
-      font-size: inherit; }
-  .dnb-icon + .dnb-form-status__text {
-    padding-left: 0.5rem; }
-  .dnb-form-status__shell > .dnb-icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em; }
-  .dnb-form-status__size--large .dnb-form-status__text {
-    padding-top: 1.125rem;
-    padding-bottom: 1.125rem; }
-  .dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
-    margin-top: 0.6666666em;
-    margin-bottom: 0.6666666em; }
-  .dnb-form-status--stretch {
-    flex-grow: 1; }
-  .dnb-form-status--stretch .dnb-form-status__shell {
-    width: 100%; }
-  .dnb-form-status--stretch .dnb-form-status__text {
-    max-width: 47rem; }
-  .dnb-form-status[hidden] {
-    display: none; }
-  .dnb-form-status--no-animation,
-  html[data-visual-test] .dnb-form-status {
-    transition-duration: 1ms !important; }
+  transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default);
+}
+.dnb-form-status--hidden {
+  will-change: height, opacity, margin, padding;
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+.dnb-form-status--is-animating {
+  overflow: hidden;
+  width: auto;
+}
+.dnb-form-status--disappear, .dnb-form-status--hidden {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.dnb-form-status__shell {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  min-width: inherit;
+  border-radius: var(--form-status-radius);
+}
+.dnb-form-status__text {
+  padding: 0.625rem 1rem;
+  cursor: text;
+  color: inherit;
+  line-height: var(--line-height-small);
+  font-size: var(--font-size-small);
+  white-space: normal;
+}
+button .dnb-form-status__text {
+  cursor: inherit;
+}
+.dnb-form-status__text .dnb-anchor {
+  font-size: inherit;
+}
+.dnb-icon + .dnb-form-status__text {
+  padding-left: 0.5rem;
+}
+.dnb-form-status__shell > .dnb-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em;
+}
+.dnb-form-status__size--large .dnb-form-status__text {
+  padding-top: 1.125rem;
+  padding-bottom: 1.125rem;
+}
+.dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
+  margin-top: 0.6666666em;
+  margin-bottom: 0.6666666em;
+}
+.dnb-form-status--stretch {
+  flex-grow: 1;
+}
+.dnb-form-status--stretch .dnb-form-status__shell {
+  width: 100%;
+}
+.dnb-form-status--stretch .dnb-form-status__text {
+  max-width: 47rem;
+}
+.dnb-form-status[hidden] {
+  display: none;
+}
+.dnb-form-status--no-animation, html[data-visual-test] .dnb-form-status {
+  transition-duration: 1ms !important;
+}
 
 /*
 * Button component
 *
 */
+/*
+ * Utilities
+ */
 :root {
   --button-font-size: var(--font-size-basis);
   --button-font-size-small: var(--font-size-small);
@@ -1918,7 +2018,8 @@ legend.dnb-form-label {
   --button-border-radius: calc(var(--button-height) / 2);
   --button-border-radius--small: calc(var(--button-height--small) / 2);
   --button-border-radius--medium: calc(var(--button-height--medium) / 2);
-  --button-border-radius--large: calc(var(--button-height--large) / 2); }
+  --button-border-radius--large: calc(var(--button-height--large) / 2);
+}
 
 .dnb-button {
   position: relative;
@@ -1936,280 +2037,633 @@ legend.dnb-form-label {
   border-radius: var(--button-border-radius);
   text-decoration: none;
   font-size: var(--font-size-small);
-  /* stylelint-disable-next-line */ }
-  .dnb-button--wrap {
-    overflow-wrap: break-word;
-    white-space: normal; }
-  .dnb-button,
-  .dnb-core-style .dnb-button {
-    line-height: var(--button-height); }
-  .dnb-button__text {
-    margin: 0.5rem 0;
-    font-size: var(--button-font-size);
-    line-height: var(--line-height-basis);
-    color: inherit;
-    transform: translateY(-0.03125rem); }
-    .dnb-button__text [data-os='linux'] {
-      transform: translateY(-0.035rem); }
-  .dnb-button__alignment {
-    display: inline-block;
-    width: 0; }
-  .dnb-button__bounding {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    transform: scale(1.1, 1.4);
-    background-color: transparent;
-    border-radius: var(--button-border-radius); }
-  .dnb-button--has-text {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem; }
-  .dnb-button--size-small {
-    width: var(--button-width--small);
-    font-size: var(--button-font-size-small);
-    border-radius: var(--button-border-radius--small); }
-    .dnb-button--size-small,
-    .dnb-core-style .dnb-button--size-small {
-      line-height: var(--button-height--small); }
-  .dnb-button--size-small .dnb-button__text {
-    margin: 0; }
-  .dnb-button--has-text.dnb-button--size-small {
-    padding-left: 1rem;
-    padding-right: 1rem; }
-  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-small {
-    padding-left: 0.5rem; }
-  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-small {
-    padding-right: 0.5rem; }
-  .dnb-button--size-medium {
-    width: var(--button-width--medium);
-    border-radius: var(--button-border-radius--medium); }
-    .dnb-button--size-medium,
-    .dnb-core-style .dnb-button--size-medium {
-      line-height: var(--button-height--medium); }
-  .dnb-button--size-medium .dnb-button__text {
-    margin: 0; }
-  .dnb-button--has-text.dnb-button--size-medium {
-    padding-left: 1rem;
-    padding-right: 1rem; }
-  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-medium {
-    padding-left: 0.5rem; }
-  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-medium {
-    padding-right: 0.5rem; }
-  .dnb-button--size-large {
-    width: var(--button-width--large);
-    border-radius: var(--button-border-radius--large); }
-    .dnb-button--size-large,
-    .dnb-core-style .dnb-button--size-large {
-      line-height: var(--button-height--large); }
-  .dnb-button--has-text.dnb-button--size-large {
-    padding-left: 2rem;
-    padding-right: 2rem; }
-  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-large {
-    padding-left: 1rem; }
-  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-large {
-    padding-right: 1rem; }
-  .dnb-button--has-text {
-    width: auto; }
-  .dnb-button--has-text .dnb-button__icon {
-    margin: 0 calc(var(--button-icon-size) / 2); }
-  .dnb-button--has-text.dnb-button--icon-position-left {
-    padding-left: 0.5rem; }
-  .dnb-button--has-text.dnb-button--icon-position-right {
-    padding-right: 0.5rem; }
-  .dnb-button--has-text.dnb-button--has-icon .dnb-button__icon {
-    order: 2; }
-  .dnb-button--has-text.dnb-button--has-icon .dnb-button__text {
-    order: 1; }
-  .dnb-button:not(.dnb-button--has-text) .dnb-button__icon {
-    width: inherit; }
-  .dnb-button__icon.dnb-icon svg:not([width]):not([height]) {
-    width: var(--button-icon-size);
-    height: var(--button-icon-size); }
-  [href] > .dnb-button__icon.dnb-icon {
-    line-height: var(--button-font-size); }
-  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__icon {
-    order: 1; }
-  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left > *,
-  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top > *,
-  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__text {
-    order: 2; }
-  .dnb-button--stretch {
-    width: 100%; }
-  .dnb-button--reset {
-    margin: 0;
-    padding: 0;
-    width: auto;
-    height: auto;
-    overflow: visible;
-    border: none;
-    border-radius: 0;
-    background-color: transparent;
-    appearance: none;
-    box-shadow: none;
-    color: inherit;
-    font: inherit;
-    text-align: inherit;
-    line-height: inherit; }
-    html:not([data-whatintent='touch']) .dnb-button--reset:hover[disabled] {
-      cursor: not-allowed; }
-    html:not([data-whatintent='touch']) .dnb-button--reset:hover:not([disabled]) {
-      box-shadow: none;
-      border: none; }
-    .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
-      outline: none; }
-      html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
-        --border-color: var(--color-emerald-green);
-        box-shadow: 0 0 0 0.125rem var(--border-color);
-        border-color: transparent; }
-    html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
-    html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
-      box-shadow: none;
-      color: inherit;
-      border: none; }
-  .dnb-button[type='button'], .dnb-button[type='reset'], .dnb-button[type='submit'] {
-    appearance: none;
-    -moz-appearance: none;
-    -webkit-appearance: none; }
-  .dnb-button[disabled] {
-    cursor: not-allowed;
-    outline: none; }
-  .dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
-    align-self: flex-start; }
-  .dnb-form-row--horizontal .dnb-form-row__content .dnb-button__text {
-    white-space: nowrap; }
-  .dnb-button + .dnb-form-status {
-    margin-top: 0.5rem; }
+  /* stylelint-disable-next-line */
+}
+.dnb-button--wrap {
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+.dnb-button, .dnb-core-style .dnb-button {
+  line-height: var(--button-height);
+}
+.dnb-button__text {
+  margin: 0.5rem 0;
+  font-size: var(--button-font-size);
+  line-height: var(--line-height-basis);
+  color: inherit;
+  transform: translateY(-0.03125rem);
+}
+.dnb-button__text [data-os=linux] {
+  transform: translateY(-0.035rem);
+}
+.dnb-button__alignment {
+  display: inline-block;
+  width: 0;
+}
+.dnb-button__bounding {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  transform: scale(1.1, 1.4);
+  background-color: transparent;
+  border-radius: var(--button-border-radius);
+}
+.dnb-button--has-text {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+.dnb-button--size-small {
+  width: var(--button-width--small);
+  font-size: var(--button-font-size-small);
+  border-radius: var(--button-border-radius--small);
+}
+.dnb-button--size-small, .dnb-core-style .dnb-button--size-small {
+  line-height: var(--button-height--small);
+}
+.dnb-button--size-small .dnb-button__text {
+  margin: 0;
+}
+.dnb-button--has-text.dnb-button--size-small {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-small {
+  padding-left: 0.5rem;
+}
+.dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-small {
+  padding-right: 0.5rem;
+}
+.dnb-button--size-medium {
+  width: var(--button-width--medium);
+  border-radius: var(--button-border-radius--medium);
+}
+.dnb-button--size-medium, .dnb-core-style .dnb-button--size-medium {
+  line-height: var(--button-height--medium);
+}
+.dnb-button--size-medium .dnb-button__text {
+  margin: 0;
+}
+.dnb-button--has-text.dnb-button--size-medium {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-medium {
+  padding-left: 0.5rem;
+}
+.dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-medium {
+  padding-right: 0.5rem;
+}
+.dnb-button--size-large {
+  width: var(--button-width--large);
+  border-radius: var(--button-border-radius--large);
+}
+.dnb-button--size-large, .dnb-core-style .dnb-button--size-large {
+  line-height: var(--button-height--large);
+}
+.dnb-button--has-text.dnb-button--size-large {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+.dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-large {
+  padding-left: 1rem;
+}
+.dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-large {
+  padding-right: 1rem;
+}
+.dnb-button--has-text {
+  width: auto;
+}
+.dnb-button--has-text .dnb-button__icon {
+  margin: 0 calc(var(--button-icon-size) / 2);
+}
+.dnb-button--has-text.dnb-button--icon-position-left {
+  padding-left: 0.5rem;
+}
+.dnb-button--has-text.dnb-button--icon-position-right {
+  padding-right: 0.5rem;
+}
+.dnb-button--has-text.dnb-button--has-icon .dnb-button__icon {
+  order: 2;
+}
+.dnb-button--has-text.dnb-button--has-icon .dnb-button__text {
+  order: 1;
+}
+.dnb-button:not(.dnb-button--has-text) .dnb-button__icon {
+  width: inherit;
+}
+.dnb-button__icon.dnb-icon svg:not([width]):not([height]) {
+  width: var(--button-icon-size);
+  height: var(--button-icon-size);
+}
+[href] > .dnb-button__icon.dnb-icon {
+  line-height: var(--button-font-size);
+}
+.dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__icon {
+  order: 1;
+}
+.dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left > *,
+.dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top > *,
+.dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__text {
+  order: 2;
+}
+.dnb-button--stretch {
+  width: 100%;
+}
+.dnb-button--reset {
+  margin: 0;
+  padding: 0;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+  appearance: none;
+  box-shadow: none;
+  color: inherit;
+  font: inherit;
+  text-align: inherit;
+  line-height: inherit;
+}
+html:not([data-whatintent=touch]) .dnb-button--reset:hover[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatintent=touch]) .dnb-button--reset:hover:not([disabled]) {
+  box-shadow: none;
+  border: none;
+}
+.dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
+  outline: none;
+}
+html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):active {
+  --border-color: var(--color-emerald-green);
+  box-shadow: 0 0 0 0.125rem var(--border-color);
+  border-color: transparent;
+}
+html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):active {
+  box-shadow: none;
+  color: inherit;
+  border: none;
+}
+.dnb-button[type=button], .dnb-button[type=reset], .dnb-button[type=submit] {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}
+.dnb-button[disabled] {
+  cursor: not-allowed;
+  outline: none;
+}
+.dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
+  align-self: flex-start;
+}
+.dnb-form-row--horizontal .dnb-form-row__content .dnb-button__text {
+  white-space: nowrap;
+}
+.dnb-button + .dnb-form-status {
+  margin-top: 0.5rem;
+}
 
 /* Firefox includes a hidden border which messes up button dimensions */
 button.dnb-button::-moz-focus-inner {
-  border: none; }
+  border: none;
+}
 
 /*
 * Used for snapshot testing
 *
 */
 /*
+ * Utilities
+ */
+/*
+* Used for snapshot testing
+*
+*/
+/*
+ * Utilities
+ */
+/*
+ * FormLabel component
+ *
+ */
+/*
+ * Utilities
+ */
+.dnb-form-label {
+  display: inline-block;
+  width: auto;
+  padding: 0;
+  margin-right: 1rem;
+  text-align: left;
+  vertical-align: baseline;
+  white-space: pre-wrap;
+  word-break: normal;
+  font-size: var(--font-size-basis);
+  color: inherit;
+}
+.dnb-form-label--vertical {
+  display: block;
+  margin-right: 0;
+  margin-bottom: 0.5rem;
+}
+.dnb-form-label[for]:not([disabled]) {
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: pointer;
+}
+.dnb-form-label[disabled] {
+  cursor: not-allowed;
+}
+
+legend.dnb-form-label {
+  display: inline-block;
+}
+
+/*
+* Used for snapshot testing
+*
+*/
+/*
+ * Utilities
+ */
+/*
+ * FormStatus component
+ *
+ */
+/*
+ * Utilities
+ */
+:root {
+  --form-status-radius: 0.25rem;
+}
+
+.dnb-form-status {
+  display: flex;
+  opacity: 1;
+  transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default);
+}
+.dnb-form-status--hidden {
+  will-change: height, opacity, margin, padding;
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+.dnb-form-status--is-animating {
+  overflow: hidden;
+  width: auto;
+}
+.dnb-form-status--disappear, .dnb-form-status--hidden {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.dnb-form-status__shell {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  min-width: inherit;
+  border-radius: var(--form-status-radius);
+}
+.dnb-form-status__text {
+  padding: 0.625rem 1rem;
+  cursor: text;
+  color: inherit;
+  line-height: var(--line-height-small);
+  font-size: var(--font-size-small);
+  white-space: normal;
+}
+button .dnb-form-status__text {
+  cursor: inherit;
+}
+.dnb-form-status__text .dnb-anchor {
+  font-size: inherit;
+}
+.dnb-icon + .dnb-form-status__text {
+  padding-left: 0.5rem;
+}
+.dnb-form-status__shell > .dnb-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em;
+}
+.dnb-form-status__size--large .dnb-form-status__text {
+  padding-top: 1.125rem;
+  padding-bottom: 1.125rem;
+}
+.dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
+  margin-top: 0.6666666em;
+  margin-bottom: 0.6666666em;
+}
+.dnb-form-status--stretch {
+  flex-grow: 1;
+}
+.dnb-form-status--stretch .dnb-form-status__shell {
+  width: 100%;
+}
+.dnb-form-status--stretch .dnb-form-status__text {
+  max-width: 47rem;
+}
+.dnb-form-status[hidden] {
+  display: none;
+}
+.dnb-form-status--no-animation, html[data-visual-test] .dnb-form-status {
+  transition-duration: 1ms !important;
+}
+
+/*
 * Checkbox component
 *
 */
+/*
+ * Utilities
+ */
 :root {
   --checkbox-width--medium: 1.5rem;
   --checkbox-height--medium: 1.5rem;
   --checkbox-width--large: 2rem;
   --checkbox-height--large: 2rem;
-  --checkbox-border-width: 0.125rem; }
+  --checkbox-border-width: 0.125rem;
+}
 
 .dnb-checkbox {
   display: inline-flex;
   flex-direction: column;
   font-size: var(--font-size-small);
-  line-height: var(--line-height-basis); }
-  .dnb-checkbox__inner {
-    display: inline-flex;
-    flex-direction: column;
-    align-self: center; }
-  .dnb-checkbox__shell {
-    user-select: none;
-    -webkit-user-select: none;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: var(--checkbox-width--medium);
-    height: var(--checkbox-height--medium); }
-  .dnb-checkbox--large .dnb-checkbox__shell {
-    width: var(--checkbox-width--large);
-    height: var(--checkbox-height--large); }
-  .dnb-checkbox__button {
-    display: inline-block;
-    border: var(--checkbox-border-width) solid transparent; }
-  .dnb-checkbox__focus {
-    display: none;
-    outline: none; }
-    html[data-whatinput='keyboard'] .dnb-checkbox__focus {
-      --border-color: var(--color-emerald-green);
-      box-shadow: 0 0 0 0.125rem var(--border-color);
-      border-color: transparent; }
-  .dnb-checkbox__focus, .dnb-checkbox__button {
-    position: relative;
-    z-index: 4;
-    width: calc(var(--checkbox-width--medium) - 0.25rem);
-    height: calc(var(--checkbox-height--medium) - 0.25rem);
-    border-radius: 0.25rem; }
-    .dnb-checkbox--large .dnb-checkbox__focus, .dnb-checkbox--large .dnb-checkbox__button {
-      width: var(--checkbox-width--large);
-      height: var(--checkbox-height--large);
-      border-radius: 0.25rem; }
-  .dnb-checkbox__gfx {
-    position: absolute;
-    z-index: 5;
-    top: auto;
-    left: auto;
-    width: calc(var(--checkbox-width--medium) - 0.5rem);
-    height: calc(var(--checkbox-height--medium) - 0.5rem);
-    shape-rendering: geometricPrecision; }
-  .dnb-checkbox--large {
-    line-height: var(--checkbox-height--large); }
-  .dnb-checkbox--large .dnb-checkbox__gfx {
-    width: calc(var(--checkbox-width--large) - 0.5rem);
-    height: calc(var(--checkbox-height--large) - 0.5rem); }
-  .dnb-checkbox__input {
-    opacity: 0;
-    position: absolute;
-    top: auto;
-    left: auto;
-    z-index: 6;
-    width: var(--checkbox-width--medium);
-    height: var(--checkbox-height--medium);
-    margin: 0;
-    padding: 0;
-    border: 0; }
-  .dnb-checkbox--large .dnb-checkbox__input {
-    width: var(--checkbox-width--large);
-    height: var(--checkbox-height--large); }
-  .dnb-checkbox__input:not([disabled]) {
-    cursor: pointer; }
-  .dnb-checkbox .dnb-form-label {
-    margin-bottom: 0;
-    margin-right: 0;
-    margin-left: 0; }
-  .dnb-checkbox__order {
-    display: inline-flex;
-    align-items: baseline; }
-  .dnb-checkbox__suffix {
-    order: 4; }
-  .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-checkbox__inner {
-    order: 2; }
-  .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-form-label {
-    order: 1;
-    padding-right: 0.5rem; }
-  .dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-form-status {
-    order: 3;
-    margin-top: 0.5rem; }
-  .dnb-checkbox--label-position-right .dnb-checkbox__order .dnb-checkbox__inner {
-    order: 1; }
-  .dnb-checkbox--label-position-right .dnb-checkbox__order .dnb-form-label {
-    order: 2;
-    padding-left: 0.5rem; }
-  .dnb-checkbox--label-position-right .dnb-checkbox__order + .dnb-form-status {
-    order: 3;
-    vertical-align: top;
-    margin-top: 0.5rem; }
-  .dnb-checkbox.dnb-skeleton .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button {
-    border-color: var(--skeleton-color); }
-    .dnb-checkbox.dnb-skeleton .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button::before {
-      border-radius: 0; }
+  line-height: var(--line-height-basis);
+}
+.dnb-checkbox__inner {
+  display: inline-flex;
+  flex-direction: column;
+  align-self: center;
+}
+.dnb-checkbox__shell {
+  user-select: none;
+  -webkit-user-select: none;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--checkbox-width--medium);
+  height: var(--checkbox-height--medium);
+}
+.dnb-checkbox--large .dnb-checkbox__shell {
+  width: var(--checkbox-width--large);
+  height: var(--checkbox-height--large);
+}
+.dnb-checkbox__button {
+  display: inline-block;
+  border: var(--checkbox-border-width) solid transparent;
+}
+.dnb-checkbox__focus {
+  display: none;
+  outline: none;
+}
+html[data-whatinput=keyboard] .dnb-checkbox__focus {
+  --border-color: var(--color-emerald-green);
+  box-shadow: 0 0 0 0.125rem var(--border-color);
+  border-color: transparent;
+}
+.dnb-checkbox__focus, .dnb-checkbox__button {
+  position: relative;
+  z-index: 4;
+  width: calc(var(--checkbox-width--medium) - 0.25rem);
+  height: calc(var(--checkbox-height--medium) - 0.25rem);
+  border-radius: 0.25rem;
+}
+.dnb-checkbox--large .dnb-checkbox__focus, .dnb-checkbox--large .dnb-checkbox__button {
+  width: var(--checkbox-width--large);
+  height: var(--checkbox-height--large);
+  border-radius: 0.25rem;
+}
+.dnb-checkbox__gfx {
+  position: absolute;
+  z-index: 5;
+  top: auto;
+  left: auto;
+  width: calc(var(--checkbox-width--medium) - 0.5rem);
+  height: calc(var(--checkbox-height--medium) - 0.5rem);
+  shape-rendering: geometricPrecision;
+}
+.dnb-checkbox--large {
+  line-height: var(--checkbox-height--large);
+}
+.dnb-checkbox--large .dnb-checkbox__gfx {
+  width: calc(var(--checkbox-width--large) - 0.5rem);
+  height: calc(var(--checkbox-height--large) - 0.5rem);
+}
+.dnb-checkbox__input {
+  opacity: 0;
+  position: absolute;
+  top: auto;
+  left: auto;
+  z-index: 6;
+  width: var(--checkbox-width--medium);
+  height: var(--checkbox-height--medium);
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.dnb-checkbox--large .dnb-checkbox__input {
+  width: var(--checkbox-width--large);
+  height: var(--checkbox-height--large);
+}
+.dnb-checkbox__input:not([disabled]) {
+  cursor: pointer;
+}
+.dnb-checkbox .dnb-form-label {
+  margin-bottom: 0;
+  margin-right: 0;
+  margin-left: 0;
+}
+.dnb-checkbox__order {
+  display: inline-flex;
+  align-items: baseline;
+}
+.dnb-checkbox__suffix {
+  order: 4;
+}
+.dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-checkbox__inner {
+  order: 2;
+}
+.dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-form-label {
+  order: 1;
+  padding-right: 0.5rem;
+}
+.dnb-checkbox--label-position-left .dnb-checkbox__order .dnb-form-status {
+  order: 3;
+  margin-top: 0.5rem;
+}
+.dnb-checkbox--label-position-right .dnb-checkbox__order .dnb-checkbox__inner {
+  order: 1;
+}
+.dnb-checkbox--label-position-right .dnb-checkbox__order .dnb-form-label {
+  order: 2;
+  padding-left: 0.5rem;
+}
+.dnb-checkbox--label-position-right .dnb-checkbox__order + .dnb-form-status {
+  order: 3;
+  vertical-align: top;
+  margin-top: 0.5rem;
+}
+.dnb-checkbox.dnb-skeleton .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button {
+  border-color: var(--skeleton-color);
+}
+.dnb-checkbox.dnb-skeleton .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button::before {
+  border-radius: 0;
+}
 
 /*
 * Used for snapshot testing
 *
 */
 /*
+ * Utilities
+ */
+/*
+* Used for snapshot testing
+*
+*/
+/*
+ * Utilities
+ */
+/*
+ * FormLabel component
+ *
+ */
+/*
+ * Utilities
+ */
+.dnb-form-label {
+  display: inline-block;
+  width: auto;
+  padding: 0;
+  margin-right: 1rem;
+  text-align: left;
+  vertical-align: baseline;
+  white-space: pre-wrap;
+  word-break: normal;
+  font-size: var(--font-size-basis);
+  color: inherit;
+}
+.dnb-form-label--vertical {
+  display: block;
+  margin-right: 0;
+  margin-bottom: 0.5rem;
+}
+.dnb-form-label[for]:not([disabled]) {
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: pointer;
+}
+.dnb-form-label[disabled] {
+  cursor: not-allowed;
+}
+
+legend.dnb-form-label {
+  display: inline-block;
+}
+
+/*
+* Used for snapshot testing
+*
+*/
+/*
+ * Utilities
+ */
+/*
+ * FormStatus component
+ *
+ */
+/*
+ * Utilities
+ */
+:root {
+  --form-status-radius: 0.25rem;
+}
+
+.dnb-form-status {
+  display: flex;
+  opacity: 1;
+  transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default);
+}
+.dnb-form-status--hidden {
+  will-change: height, opacity, margin, padding;
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+.dnb-form-status--is-animating {
+  overflow: hidden;
+  width: auto;
+}
+.dnb-form-status--disappear, .dnb-form-status--hidden {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.dnb-form-status__shell {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  min-width: inherit;
+  border-radius: var(--form-status-radius);
+}
+.dnb-form-status__text {
+  padding: 0.625rem 1rem;
+  cursor: text;
+  color: inherit;
+  line-height: var(--line-height-small);
+  font-size: var(--font-size-small);
+  white-space: normal;
+}
+button .dnb-form-status__text {
+  cursor: inherit;
+}
+.dnb-form-status__text .dnb-anchor {
+  font-size: inherit;
+}
+.dnb-icon + .dnb-form-status__text {
+  padding-left: 0.5rem;
+}
+.dnb-form-status__shell > .dnb-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em;
+}
+.dnb-form-status__size--large .dnb-form-status__text {
+  padding-top: 1.125rem;
+  padding-bottom: 1.125rem;
+}
+.dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
+  margin-top: 0.6666666em;
+  margin-bottom: 0.6666666em;
+}
+.dnb-form-status--stretch {
+  flex-grow: 1;
+}
+.dnb-form-status--stretch .dnb-form-status__shell {
+  width: 100%;
+}
+.dnb-form-status--stretch .dnb-form-status__text {
+  max-width: 47rem;
+}
+.dnb-form-status[hidden] {
+  display: none;
+}
+.dnb-form-status--no-animation, html[data-visual-test] .dnb-form-status {
+  transition-duration: 1ms !important;
+}
+
+/*
 * Radio component
 *
 */
+/*
+ * Utilities
+ */
 :root {
   --radio-width--medium: 1.5rem;
   --radio-height--medium: 1.5rem;
@@ -2217,243 +2671,413 @@ button.dnb-button::-moz-focus-inner {
   --radio-height--large: 2rem;
   --radio-border-width: 0.125rem;
   --radio-margin-right: 1rem;
-  --radio-margin-bottom: 0.5rem; }
+  --radio-margin-bottom: 0.5rem;
+}
 
 .dnb-radio {
   display: inline-flex;
   flex-direction: column;
   font-size: var(--font-size-small);
-  line-height: var(--line-height-basis); }
-  .dnb-radio__inner {
-    display: inline-flex;
-    flex-direction: column;
-    align-self: center; }
-  .dnb-radio__shell {
-    position: relative;
-    user-select: none;
-    -webkit-user-select: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: var(--radio-width--medium);
-    height: var(--radio-height--medium); }
-  .dnb-radio__focus, .dnb-radio__button, .dnb-radio__dot {
-    position: absolute;
-    z-index: 4; }
-  .dnb-radio__button {
-    border: var(--radio-border-width) solid transparent; }
-  .dnb-radio__focus {
-    display: none;
-    outline: none; }
-    html[data-whatinput='keyboard'] .dnb-radio__focus {
-      --border-color: var(--color-emerald-green);
-      box-shadow: 0 0 0 0.125rem var(--border-color);
-      border-color: transparent; }
-  .dnb-radio__focus, .dnb-radio__button {
-    width: calc(var(--radio-width--medium) - 0.25rem);
-    height: calc(var(--radio-height--medium) - 0.25rem);
-    border-radius: 50%; }
-    .dnb-radio--large .dnb-radio__focus, .dnb-radio--large .dnb-radio__button {
-      width: calc(var(--radio-width--large) - 0.125rem);
-      height: calc(var(--radio-height--large) - 0.125rem); }
-  .dnb-radio__dot {
-    width: calc(var(--radio-width--medium) - 0.75rem);
-    height: calc(var(--radio-height--medium) - 0.75rem);
-    border-radius: 50%; }
-    .dnb-radio--large .dnb-radio__dot {
-      width: calc(var(--radio-width--large) - 0.875rem);
-      height: calc(var(--radio-height--large) - 0.875rem); }
-  .dnb-radio__input {
-    opacity: 0;
-    position: absolute;
-    top: auto;
-    left: auto;
-    z-index: 5;
-    width: var(--radio-width--medium);
-    height: var(--radio-height--medium);
-    margin: 0;
-    padding: 0;
-    border: 0; }
-  .dnb-radio--large .dnb-radio__input {
-    width: var(--radio-width--large);
-    height: var(--radio-height--large); }
-  .dnb-radio__input:not([disabled]) {
-    cursor: pointer; }
-  .dnb-radio__order {
-    display: inline-flex;
-    align-items: baseline; }
-    .dnb-radio-group--column .dnb-radio__order {
-      display: flex; }
-  .dnb-radio__row {
-    display: inline-flex; }
-  .dnb-radio__suffix {
-    order: 3; }
-    .dnb-radio__suffix .dnb-modal__trigger {
-      margin-top: -0.25rem;
-      margin-bottom: -0.25rem; }
-  .dnb-radio-group__suffix {
-    font-size: var(--font-size-basis); }
-  .dnb-radio--large {
-    line-height: var(--radio-height--large); }
-  .dnb-radio--large .dnb-radio__suffix {
-    line-height: var(--radio-height--large); }
-  .dnb-radio--large .dnb-radio__shell {
-    width: var(--radio-width--large);
-    height: var(--radio-height--large); }
-  .dnb-radio .dnb-form-label {
-    margin-right: 0;
-    margin-left: 0;
-    margin-bottom: 0; }
-  .dnb-radio--label-position-left .dnb-radio__order .dnb-radio__inner {
-    order: 2; }
-  .dnb-radio--label-position-left .dnb-radio__order .dnb-form-label {
-    order: 1;
-    padding-right: 0.5rem; }
-  .dnb-radio--label-position-right .dnb-radio__order .dnb-radio__inner {
-    order: 1; }
-  .dnb-radio--label-position-right .dnb-radio__order .dnb-form-label {
-    order: 2;
-    padding-left: 0.5rem; }
-  .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent']
+  line-height: var(--line-height-basis);
+}
+.dnb-radio__inner {
+  display: inline-flex;
+  flex-direction: column;
+  align-self: center;
+}
+.dnb-radio__shell {
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--radio-width--medium);
+  height: var(--radio-height--medium);
+}
+.dnb-radio__focus, .dnb-radio__button, .dnb-radio__dot {
+  position: absolute;
+  z-index: 4;
+}
+.dnb-radio__button {
+  border: var(--radio-border-width) solid transparent;
+}
+.dnb-radio__focus {
+  display: none;
+  outline: none;
+}
+html[data-whatinput=keyboard] .dnb-radio__focus {
+  --border-color: var(--color-emerald-green);
+  box-shadow: 0 0 0 0.125rem var(--border-color);
+  border-color: transparent;
+}
+.dnb-radio__focus, .dnb-radio__button {
+  width: calc(var(--radio-width--medium) - 0.25rem);
+  height: calc(var(--radio-height--medium) - 0.25rem);
+  border-radius: 50%;
+}
+.dnb-radio--large .dnb-radio__focus, .dnb-radio--large .dnb-radio__button {
+  width: calc(var(--radio-width--large) - 0.125rem);
+  height: calc(var(--radio-height--large) - 0.125rem);
+}
+.dnb-radio__dot {
+  width: calc(var(--radio-width--medium) - 0.75rem);
+  height: calc(var(--radio-height--medium) - 0.75rem);
+  border-radius: 50%;
+}
+.dnb-radio--large .dnb-radio__dot {
+  width: calc(var(--radio-width--large) - 0.875rem);
+  height: calc(var(--radio-height--large) - 0.875rem);
+}
+.dnb-radio__input {
+  opacity: 0;
+  position: absolute;
+  top: auto;
+  left: auto;
+  z-index: 5;
+  width: var(--radio-width--medium);
+  height: var(--radio-height--medium);
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.dnb-radio--large .dnb-radio__input {
+  width: var(--radio-width--large);
+  height: var(--radio-height--large);
+}
+.dnb-radio__input:not([disabled]) {
+  cursor: pointer;
+}
+.dnb-radio__order {
+  display: inline-flex;
+  align-items: baseline;
+}
+.dnb-radio-group--column .dnb-radio__order {
+  display: flex;
+}
+.dnb-radio__row {
+  display: inline-flex;
+}
+.dnb-radio__suffix {
+  order: 3;
+}
+.dnb-radio__suffix .dnb-modal__trigger {
+  margin-top: -0.25rem;
+  margin-bottom: -0.25rem;
+}
+.dnb-radio-group__suffix {
+  font-size: var(--font-size-basis);
+}
+.dnb-radio--large {
+  line-height: var(--radio-height--large);
+}
+.dnb-radio--large .dnb-radio__suffix {
+  line-height: var(--radio-height--large);
+}
+.dnb-radio--large .dnb-radio__shell {
+  width: var(--radio-width--large);
+  height: var(--radio-height--large);
+}
 .dnb-radio .dnb-form-label {
-    margin-top: 0; }
-  :not(.dnb-radio-group) > .dnb-form-label + .dnb-radio {
-    vertical-align: top; }
-  .dnb-radio .dnb-form-status {
-    order: 4;
-    margin-top: 0.375rem;
-    /* 6/16 */
-    margin-bottom: 0; }
-  .dnb-radio + .dnb-form-status {
-    margin-top: 0.5rem;
-    margin-bottom: 1rem; }
-  .dnb-radio-group {
-    display: inline-flex;
-    flex-direction: row; }
-    .dnb-radio-group .dnb-radio {
-      margin-right: var(--radio-margin-right);
-      margin-bottom: var(--radio-margin-bottom); }
-    .dnb-radio-group--column .dnb-radio {
-      display: flex;
-      margin-right: 0; }
-    .dnb-radio-group .dnb-radio:last-of-type {
-      margin-right: 0; }
-    .dnb-radio-group [role='radiogroup'], .dnb-radio-group__shell {
-      display: block; }
-    .dnb-radio-group__shell > .dnb-form-status {
-      margin-top: 0;
-      margin-bottom: 0; }
-    .dnb-radio-group--column .dnb-radio-group__shell {
-      flex-direction: column; }
-    .dnb-radio-group .dnb-form-row {
-      align-items: flex-start;
-      margin-bottom: calc(1px - 1px - var(--radio-margin-bottom)); }
-      .dnb-radio-group .dnb-form-row::before {
-        font-size: var(--font-size-basis); }
-  .dnb-skeleton .dnb-radio__input[disabled] ~ .dnb-radio__button {
-    border-color: var(--skeleton-color); }
+  margin-right: 0;
+  margin-left: 0;
+  margin-bottom: 0;
+}
+.dnb-radio--label-position-left .dnb-radio__order .dnb-radio__inner {
+  order: 2;
+}
+.dnb-radio--label-position-left .dnb-radio__order .dnb-form-label {
+  order: 1;
+  padding-right: 0.5rem;
+}
+.dnb-radio--label-position-right .dnb-radio__order .dnb-radio__inner {
+  order: 1;
+}
+.dnb-radio--label-position-right .dnb-radio__order .dnb-form-label {
+  order: 2;
+  padding-left: 0.5rem;
+}
+.dnb-form-row:not(.dnb-form-row--vertical)[class*=__indent] .dnb-radio .dnb-form-label {
+  margin-top: 0;
+}
+:not(.dnb-radio-group) > .dnb-form-label + .dnb-radio {
+  vertical-align: top;
+}
+.dnb-radio .dnb-form-status {
+  order: 4;
+  margin-top: 0.375rem; /* 6/16 */
+  margin-bottom: 0;
+}
+.dnb-radio + .dnb-form-status {
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+.dnb-radio-group {
+  display: inline-flex;
+  flex-direction: row;
+}
+.dnb-radio-group .dnb-radio {
+  margin-right: var(--radio-margin-right);
+  margin-bottom: var(--radio-margin-bottom);
+}
+.dnb-radio-group--column .dnb-radio {
+  display: flex;
+  margin-right: 0;
+}
+.dnb-radio-group .dnb-radio:last-of-type {
+  margin-right: 0;
+}
+.dnb-radio-group [role=radiogroup], .dnb-radio-group__shell {
+  display: block;
+}
+.dnb-radio-group__shell > .dnb-form-status {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.dnb-radio-group--column .dnb-radio-group__shell {
+  flex-direction: column;
+}
+.dnb-radio-group .dnb-form-row {
+  align-items: flex-start;
+  margin-bottom: calc(0px - var(--radio-margin-bottom));
+}
+.dnb-radio-group .dnb-form-row::before {
+  font-size: var(--font-size-basis);
+}
+.dnb-skeleton .dnb-radio__input[disabled] ~ .dnb-radio__button {
+  border-color: var(--skeleton-color);
+}
+
+/*
+* Used for snapshot testing
+*
+*/
+/*
+ * Utilities
+ */
+/*
+ * FormStatus component
+ *
+ */
+/*
+ * Utilities
+ */
+:root {
+  --form-status-radius: 0.25rem;
+}
+
+.dnb-form-status {
+  display: flex;
+  opacity: 1;
+  transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default);
+}
+.dnb-form-status--hidden {
+  will-change: height, opacity, margin, padding;
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+.dnb-form-status--is-animating {
+  overflow: hidden;
+  width: auto;
+}
+.dnb-form-status--disappear, .dnb-form-status--hidden {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.dnb-form-status__shell {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  min-width: inherit;
+  border-radius: var(--form-status-radius);
+}
+.dnb-form-status__text {
+  padding: 0.625rem 1rem;
+  cursor: text;
+  color: inherit;
+  line-height: var(--line-height-small);
+  font-size: var(--font-size-small);
+  white-space: normal;
+}
+button .dnb-form-status__text {
+  cursor: inherit;
+}
+.dnb-form-status__text .dnb-anchor {
+  font-size: inherit;
+}
+.dnb-icon + .dnb-form-status__text {
+  padding-left: 0.5rem;
+}
+.dnb-form-status__shell > .dnb-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em;
+}
+.dnb-form-status__size--large .dnb-form-status__text {
+  padding-top: 1.125rem;
+  padding-bottom: 1.125rem;
+}
+.dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
+  margin-top: 0.6666666em;
+  margin-bottom: 0.6666666em;
+}
+.dnb-form-status--stretch {
+  flex-grow: 1;
+}
+.dnb-form-status--stretch .dnb-form-status__shell {
+  width: 100%;
+}
+.dnb-form-status--stretch .dnb-form-status__text {
+  max-width: 47rem;
+}
+.dnb-form-status[hidden] {
+  display: none;
+}
+.dnb-form-status--no-animation, html[data-visual-test] .dnb-form-status {
+  transition-duration: 1ms !important;
+}
 
 /*
 * ToggleButton component
 *
 */
+/*
+ * Utilities
+ */
 :root {
   --toggle-button-margin-right: 1rem;
-  --toggle-button-margin-bottom: 1rem; }
+  --toggle-button-margin-bottom: 1rem;
+}
 
 .dnb-toggle-button {
   display: inline-flex;
   align-items: center;
   font-size: var(--font-size-small);
-  line-height: var(--line-height-basis); }
-  .dnb-toggle-button__inner {
-    display: inline-flex;
-    flex-direction: column; }
-  .dnb-toggle-button__shell {
-    position: relative;
-    left: 0;
-    user-select: none;
-    -webkit-user-select: none; }
-  .dnb-toggle-button--vertical {
-    flex-direction: column;
-    align-items: flex-start; }
-  .dnb-toggle-button__component {
-    padding-right: 0.5rem;
-    display: inline-flex;
-    align-items: center; }
-  .dnb-toggle-button__button.dnb-button--has-text {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem; }
-  .dnb-toggle-button__button .dnb-checkbox {
-    margin-left: -0.5rem; }
-    .dnb-toggle-button__button .dnb-checkbox__input {
-      pointer-events: none; }
-    .dnb-toggle-button__button .dnb-checkbox__button {
-      display: unset; }
-    .dnb-toggle-button__button .dnb-checkbox__focus, .dnb-toggle-button__button .dnb-checkbox__button {
-      width: calc(var(--checkbox-width--medium) - 0.5rem);
-      height: calc(var(--checkbox-height--medium) - 0.5rem);
-      border-width: 0.0625rem; }
-    .dnb-toggle-button__button .dnb-checkbox__dot {
-      width: calc(var(--checkbox-width--medium) - 1rem);
-      height: calc(var(--checkbox-height--medium) - 1rem); }
-    .dnb-toggle-button__button .dnb-checkbox__gfx {
-      width: calc(var(--checkbox-width--medium) - 0.75rem);
-      height: calc(var(--checkbox-height--medium) - 0.75rem); }
-  .dnb-toggle-button__button .dnb-radio {
-    margin-left: -0.5rem; }
-    .dnb-toggle-button__button .dnb-radio__input {
-      pointer-events: none; }
-    .dnb-toggle-button__button .dnb-radio__focus, .dnb-toggle-button__button .dnb-radio__button {
-      width: calc(var(--radio-width--medium) - 0.5rem);
-      height: calc(var(--radio-height--medium) - 0.5rem);
-      border-width: 0.0625rem; }
-    .dnb-toggle-button__button .dnb-radio__dot {
-      width: calc(var(--radio-width--medium) - 1rem);
-      height: calc(var(--radio-height--medium) - 1rem); }
-  .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active).dnb-button--secondary, .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active).dnb-button--secondary:hover {
-    background-color: var(--color-emerald-green);
-    color: var(--color-mint-green); }
-  :not(.dnb-toggle-button-group) > .dnb-form-label + .dnb-toggle-button {
-    vertical-align: top; }
-  .dnb-toggle-button-group__suffix {
-    font-size: var(--font-size-basis); }
-  .dnb-toggle-button .dnb-form-status {
-    order: 2;
-    margin-top: 0.5rem; }
-  .dnb-toggle-button .dnb-form-label {
-    margin-right: 1rem; }
-  .dnb-toggle-button-group {
-    display: inline-flex; }
-    .dnb-toggle-button-group .dnb-toggle-button {
-      margin-right: var(--toggle-button-margin-right);
-      margin-bottom: var(--toggle-button-margin-bottom); }
-    .dnb-toggle-button-group--column .dnb-toggle-button {
-      display: flex;
-      margin-right: 0; }
-    .dnb-toggle-button-group .dnb-toggle-button:last-of-type {
-      margin-right: 0; }
-    .dnb-toggle-button-group__shell {
-      display: flex;
-      flex-direction: column; }
-      .dnb-toggle-button-group__shell__children {
-        order: 1; }
-      .dnb-toggle-button-group__shell > .dnb-form-status {
-        order: 2;
-        transform: translateY(-0.5rem); }
-    .dnb-toggle-button-group .dnb-form-row {
-      align-items: baseline;
-      margin-bottom: calc(1px - 1px - var(--toggle-button-margin-bottom)); }
-      .dnb-toggle-button-group .dnb-form-row--vertical-label {
-        align-items: flex-start; }
-      .dnb-toggle-button-group .dnb-form-row::before {
-        font-size: var(--font-size-basis); }
-    .dnb-toggle-button-group--no-label > .dnb-alignment-helper {
-      line-height: var(--button-height); }
-    .dnb-toggle-button-group--row.dnb-toggle-button-group:not(.dnb-form-row--vertical-label) > .dnb-alignment-helper {
-      line-height: var(--button-height); }
-  @media screen and (min-width: 40em) {
-    .dnb-form-label + .dnb-toggle-button {
-      transform: translateY(-0.5rem); } }
-"
+  line-height: var(--line-height-basis);
+}
+.dnb-toggle-button__inner {
+  display: inline-flex;
+  flex-direction: column;
+}
+.dnb-toggle-button__shell {
+  position: relative;
+  left: 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.dnb-toggle-button--vertical {
+  flex-direction: column;
+  align-items: flex-start;
+}
+.dnb-toggle-button__component {
+  padding-right: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+}
+.dnb-toggle-button__button.dnb-button--has-text {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+.dnb-toggle-button__button .dnb-checkbox {
+  margin-left: -0.5rem;
+}
+.dnb-toggle-button__button .dnb-checkbox__input {
+  pointer-events: none;
+}
+.dnb-toggle-button__button .dnb-checkbox__button {
+  display: unset;
+}
+.dnb-toggle-button__button .dnb-checkbox__focus, .dnb-toggle-button__button .dnb-checkbox__button {
+  width: calc(var(--checkbox-width--medium) - 0.5rem);
+  height: calc(var(--checkbox-height--medium) - 0.5rem);
+  border-width: 0.0625rem;
+}
+.dnb-toggle-button__button .dnb-checkbox__dot {
+  width: calc(var(--checkbox-width--medium) - 1rem);
+  height: calc(var(--checkbox-height--medium) - 1rem);
+}
+.dnb-toggle-button__button .dnb-checkbox__gfx {
+  width: calc(var(--checkbox-width--medium) - 0.75rem);
+  height: calc(var(--checkbox-height--medium) - 0.75rem);
+}
+.dnb-toggle-button__button .dnb-radio {
+  margin-left: -0.5rem;
+}
+.dnb-toggle-button__button .dnb-radio__input {
+  pointer-events: none;
+}
+.dnb-toggle-button__button .dnb-radio__focus, .dnb-toggle-button__button .dnb-radio__button {
+  width: calc(var(--radio-width--medium) - 0.5rem);
+  height: calc(var(--radio-height--medium) - 0.5rem);
+  border-width: 0.0625rem;
+}
+.dnb-toggle-button__button .dnb-radio__dot {
+  width: calc(var(--radio-width--medium) - 1rem);
+  height: calc(var(--radio-height--medium) - 1rem);
+}
+.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active).dnb-button--secondary, .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active).dnb-button--secondary:hover {
+  background-color: var(--color-emerald-green);
+  color: var(--color-mint-green);
+}
+:not(.dnb-toggle-button-group) > .dnb-form-label + .dnb-toggle-button {
+  vertical-align: top;
+}
+.dnb-toggle-button-group__suffix {
+  font-size: var(--font-size-basis);
+}
+.dnb-toggle-button .dnb-form-status {
+  order: 2;
+  margin-top: 0.5rem;
+}
+.dnb-toggle-button .dnb-form-label {
+  margin-right: 1rem;
+}
+.dnb-toggle-button-group {
+  display: inline-flex;
+}
+.dnb-toggle-button-group .dnb-toggle-button {
+  margin-right: var(--toggle-button-margin-right);
+  margin-bottom: var(--toggle-button-margin-bottom);
+}
+.dnb-toggle-button-group--column .dnb-toggle-button {
+  display: flex;
+  margin-right: 0;
+}
+.dnb-toggle-button-group .dnb-toggle-button:last-of-type {
+  margin-right: 0;
+}
+.dnb-toggle-button-group__shell {
+  display: flex;
+  flex-direction: column;
+}
+.dnb-toggle-button-group__shell__children {
+  order: 1;
+}
+.dnb-toggle-button-group__shell > .dnb-form-status {
+  order: 2;
+  transform: translateY(-0.5rem);
+}
+.dnb-toggle-button-group .dnb-form-row {
+  align-items: baseline;
+  margin-bottom: calc(0px - var(--toggle-button-margin-bottom));
+}
+.dnb-toggle-button-group .dnb-form-row--vertical-label {
+  align-items: flex-start;
+}
+.dnb-toggle-button-group .dnb-form-row::before {
+  font-size: var(--font-size-basis);
+}
+.dnb-toggle-button-group--no-label > .dnb-alignment-helper {
+  line-height: var(--button-height);
+}
+.dnb-toggle-button-group--row.dnb-toggle-button-group:not(.dnb-form-row--vertical-label) > .dnb-alignment-helper {
+  line-height: var(--button-height);
+}
+@media screen and (min-width: 40em) {
+  .dnb-form-label + .dnb-toggle-button {
+    transform: translateY(-0.5rem);
+  }
+}"
 `;
