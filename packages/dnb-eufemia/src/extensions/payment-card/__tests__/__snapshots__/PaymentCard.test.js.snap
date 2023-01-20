@@ -342,8 +342,7 @@ exports[`PaymentCard scss have to match default theme snapshot 1`] = `
 "/*
 * PaymentCard theme
 *
-*/
-"
+*/"
 `;
 
 exports[`PaymentCard scss have to match snapshot 1`] = `
@@ -357,6 +356,9 @@ exports[`PaymentCard scss have to match snapshot 1`] = `
 /*
  * PaymentCard component
  *
+ */
+/*
+ * Utilities
  */
 :root {
   --dnb-payment-bg-default: linear-gradient(
@@ -399,156 +401,189 @@ exports[`PaymentCard scss have to match snapshot 1`] = `
     184.55deg,
     #2cc48e 6.31%,
     var(--color-summer-green) 82.66%
-  ); }
+  );
+}
 
 .dnb-payment-card {
-  margin: 0; }
-  .dnb-payment-card__card {
-    position: relative;
-    width: 85.6mm;
-    height: 53.98mm;
-    padding: 6mm;
-    border-radius: 3.48mm;
-    border: 1px solid;
-    border-left-color: transparent;
-    border-right-color: transparent;
-    border-top-color: rgba(255, 255, 255, 0.1);
-    border-bottom-color: rgba(0, 0, 0, 0.2);
-    color: var(--color-white);
-    box-shadow: var(--shadow-default);
-    background: var(--color-sea-green);
-    transition: all 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
-    /* White, Youth, MyFirst */ }
-    .dnb-payment-card__card--design-default {
-      background: var(--dnb-payment-bg-default);
-      color: var(--color-white); }
-    .dnb-payment-card__card--design-pluss {
-      background: var(--dnb-payment-bg-pluss);
-      color: var(--color-white); }
-    .dnb-payment-card__card--design-white {
-      background: var(--dnb-payment-bg-white);
-      color: var(--color-black-80); }
-    .dnb-payment-card__card--design-silver {
-      background: var(--dnb-payment-bg-silver);
-      color: var(--color-black-80); }
-    .dnb-payment-card__card--design-gold {
-      background: var(--dnb-payment-bg-gold);
-      color: var(--color-white); }
-    .dnb-payment-card__card--design-saga {
-      background: var(--dnb-payment-bg-saga);
-      color: var(--color-white); }
-    .dnb-payment-card__card--design-private {
-      background: var(--color-black-80);
-      color: var(--color-white); }
-    .dnb-payment-card__card--design-black {
-      background: var(--color-black);
-      color: var(--color-white); }
-    .dnb-payment-card__card--design-business-no-visa {
-      background: var(--dnb-payment-bg-business-no-visa);
-      color: var(--color-white); }
-    .dnb-payment-card__card--design-business-with-visa {
-      background: var(--dnb-payment-bg-business-with-visa);
-      color: var(--color-white); }
-    .dnb-payment-card__card::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: radial-gradient(farthest-corner at 80% 30%, #f7f6e61f 0%, #06060600 60%, #06060600 99%);
-      border-radius: inherit; }
-    .dnb-payment-card__card__content {
-      display: flex;
-      height: 100%;
-      width: 100%;
-      position: relative; }
-    .dnb-payment-card__card__wrapper {
-      position: absolute;
-      bottom: 0;
-      left: 0; }
-    .dnb-spacing .dnb-payment-card__card .dnb-p {
-      margin-bottom: 0 !important; }
-    .dnb-payment-card__card__holder {
-      text-transform: uppercase;
-      text-align: left;
-      opacity: 0.5; }
-      .dnb-payment-card__card__holder.dnb-p {
-        font-size: 0.625rem; }
-    .dnb-payment-card__card__numbers {
-      font-size: var(--font-size-medium); }
-    .dnb-payment-card__card__credit-type {
-      height: 51px;
-      position: absolute;
-      bottom: 0;
-      right: 0; }
-    .dnb-payment-card__card__bank-logo {
-      position: absolute;
-      top: 0;
-      left: 0; }
-    .dnb-payment-card__card__product-type {
-      height: 45px;
-      position: absolute;
-      top: 0;
-      right: 0; }
-  .dnb-payment-card__blocking__overlay {
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    border-radius: inherit;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(184.55deg, rgba(204, 204, 204, 0.5) 4.63%, rgba(232, 232, 232, 0.5) 84.83%); }
-  .dnb-payment-card__blocking__center {
-    width: 77px;
-    height: 77px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    background: var(--color-black-80);
-    color: var(--color-sand-yellow);
-    border-radius: 4px; }
-  .dnb-payment-card__blocking svg {
-    shape-rendering: geometricPrecision; }
-  .dnb-payment-card.dnb-skeleton .dnb-payment-card__card__holder {
-    opacity: 1; }
-  .dnb-payment-card--compact .dnb-payment-card__card {
-    padding: 0;
-    height: 32.8mm;
-    border-radius: 3.48mm 3.48mm 0 0;
-    box-shadow: var(--shadow-default); }
-    .dnb-payment-card--compact .dnb-payment-card__card__top {
-      position: absolute;
-      top: 4mm;
-      left: 6mm;
-      right: 6mm; }
-    .dnb-payment-card--compact .dnb-payment-card__card__bottom {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 14mm;
-      background-color: var(--color-white); }
-    .dnb-payment-card--compact .dnb-payment-card__card__wrapper {
-      padding: 1.5mm 6mm;
-      color: var(--color-black-80); }
-    .dnb-payment-card--compact .dnb-payment-card__card__numbers {
-      font-size: var(--font-size-basis); }
-    .dnb-payment-card--compact .dnb-payment-card__card__credit-type {
-      top: 0;
-      bottom: auto; }
-  .dnb-payment-card--compact .dnb-payment-card__blocking__center {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: row;
-    height: 100%;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.739);
-    border-radius: inherit; }
-"
+  margin: 0;
+}
+.dnb-payment-card__card {
+  position: relative;
+  width: 85.6mm;
+  height: 53.98mm;
+  padding: 6mm;
+  border-radius: 3.48mm;
+  border: 1px solid;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  border-top-color: rgba(255, 255, 255, 0.1);
+  border-bottom-color: rgba(0, 0, 0, 0.2);
+  color: var(--color-white);
+  box-shadow: var(--shadow-default);
+  background: var(--color-sea-green);
+  transition: all 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+  /* White, Youth, MyFirst */
+}
+.dnb-payment-card__card--design-default {
+  background: var(--dnb-payment-bg-default);
+  color: var(--color-white);
+}
+.dnb-payment-card__card--design-pluss {
+  background: var(--dnb-payment-bg-pluss);
+  color: var(--color-white);
+}
+.dnb-payment-card__card--design-white {
+  background: var(--dnb-payment-bg-white);
+  color: var(--color-black-80);
+}
+.dnb-payment-card__card--design-silver {
+  background: var(--dnb-payment-bg-silver);
+  color: var(--color-black-80);
+}
+.dnb-payment-card__card--design-gold {
+  background: var(--dnb-payment-bg-gold);
+  color: var(--color-white);
+}
+.dnb-payment-card__card--design-saga {
+  background: var(--dnb-payment-bg-saga);
+  color: var(--color-white);
+}
+.dnb-payment-card__card--design-private {
+  background: var(--color-black-80);
+  color: var(--color-white);
+}
+.dnb-payment-card__card--design-black {
+  background: var(--color-black);
+  color: var(--color-white);
+}
+.dnb-payment-card__card--design-business-no-visa {
+  background: var(--dnb-payment-bg-business-no-visa);
+  color: var(--color-white);
+}
+.dnb-payment-card__card--design-business-with-visa {
+  background: var(--dnb-payment-bg-business-with-visa);
+  color: var(--color-white);
+}
+.dnb-payment-card__card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(farthest-corner at 80% 30%, rgba(247, 246, 230, 0.1215686275) 0%, rgba(6, 6, 6, 0) 60%, rgba(6, 6, 6, 0) 99%);
+  border-radius: inherit;
+}
+.dnb-payment-card__card__content {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+.dnb-payment-card__card__wrapper {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.dnb-spacing .dnb-payment-card__card .dnb-p {
+  margin-bottom: 0 !important;
+}
+.dnb-payment-card__card__holder {
+  text-transform: uppercase;
+  text-align: left;
+  opacity: 0.5;
+}
+.dnb-payment-card__card__holder.dnb-p {
+  font-size: 0.625rem;
+}
+.dnb-payment-card__card__numbers {
+  font-size: var(--font-size-medium);
+}
+.dnb-payment-card__card__credit-type {
+  height: 51px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+.dnb-payment-card__card__bank-logo {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.dnb-payment-card__card__product-type {
+  height: 45px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.dnb-payment-card__blocking__overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(184.55deg, rgba(204, 204, 204, 0.5) 4.63%, rgba(232, 232, 232, 0.5) 84.83%);
+}
+.dnb-payment-card__blocking__center {
+  width: 77px;
+  height: 77px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: var(--color-black-80);
+  color: var(--color-sand-yellow);
+  border-radius: 4px;
+}
+.dnb-payment-card__blocking svg {
+  shape-rendering: geometricPrecision;
+}
+.dnb-payment-card.dnb-skeleton .dnb-payment-card__card__holder {
+  opacity: 1;
+}
+.dnb-payment-card--compact .dnb-payment-card__card {
+  padding: 0;
+  height: 32.8mm;
+  border-radius: 3.48mm 3.48mm 0 0;
+  box-shadow: var(--shadow-default);
+}
+.dnb-payment-card--compact .dnb-payment-card__card__top {
+  position: absolute;
+  top: 4mm;
+  left: 6mm;
+  right: 6mm;
+}
+.dnb-payment-card--compact .dnb-payment-card__card__bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 14mm;
+  background-color: var(--color-white);
+}
+.dnb-payment-card--compact .dnb-payment-card__card__wrapper {
+  padding: 1.5mm 6mm;
+  color: var(--color-black-80);
+}
+.dnb-payment-card--compact .dnb-payment-card__card__numbers {
+  font-size: var(--font-size-basis);
+}
+.dnb-payment-card--compact .dnb-payment-card__card__credit-type {
+  top: 0;
+  bottom: auto;
+}
+.dnb-payment-card--compact .dnb-payment-card__blocking__center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.739);
+  border-radius: inherit;
+}"
 `;

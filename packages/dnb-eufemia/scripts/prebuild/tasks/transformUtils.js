@@ -1,4 +1,5 @@
-import sass from 'node-sass'
+import path from 'path'
+import sass from 'sass'
 import postcss from 'postcss'
 import cssnano from 'cssnano'
 import { log } from '../../lib'
@@ -21,13 +22,30 @@ export const transformCssnano = (config) => async (content, file) => {
 export const transformSass = (config) => (content, file) => {
   log.info(`> PrePublish: sass process | ${file.path}`)
 
+  let before
+  if (typeof window !== 'undefined') {
+    before = window.location
+
+    delete window.location
+    window.location = {
+      href: 'file://',
+    }
+  }
+
+  const importPath1 = path.dirname(file.path)
+  const importPath2 = path.resolve(__dirname, '../../../src/style/core/')
+
   content = sass.renderSync({
-    data: content,
     file: file.path,
+    includePaths: [importPath1, importPath2], // use loadPaths for new API
     ...config,
   })
 
-  return content.css.toString()
+  if (typeof window !== 'undefined') {
+    window.location = before
+  }
+
+  return String(content.css)
 }
 
 export const transformPostcss = (config) => async (content, file) => {
