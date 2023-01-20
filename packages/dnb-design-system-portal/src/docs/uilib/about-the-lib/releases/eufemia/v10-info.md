@@ -128,7 +128,7 @@ When you convert from `<Modal />` to `<Dialog />` – follow these steps:
 
 ### [InputMasked](/uilib/components/input-masked)
 
-1. In v10, InputMasked **allows leading zeros**. To prevent that behaviour, the property `disallowLeadingZeroes` has changed to `disdisallowLeadingZeroes`.
+1. In v10, InputMasked **allows leading zeros**. To prevent that behaviour, the property `allowLeadingZeroes` has changed to `disallowLeadingZeroes`.
 
 ### [Stopped supporting Internet Explorer (IE)](/uilib/usage/#supported-browsers-and-platforms)
 
