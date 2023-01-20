@@ -25,18 +25,6 @@ LINT_STAGED=1
 
 - v14 has changed a good amount of their default styling rules. Updating would require us to refactor a good amount of SCSS code. We are currently on v13.
 
-### Storybook
-
-The Storybook setup is using the default `@storybook/preset-scss` addon with the recommended dependencies. But for some reason, we can't use the latest versions of the following dependencies:
-
-- `sass-loader` v10.2.0
-- `style-loader` v2.0.0
-- `css-loader` v5.2.7
-
-We get else this error:
-
-> Type Error: this.getOptions is not a function for style-loader
-
 ## Babel
 
 Due to this bug: https://github.com/babel/babel/issues/11394 we add `.png,.snap` so they not get copied: `--extensions '.js,.ts,.tsx,.png,.snap'`
