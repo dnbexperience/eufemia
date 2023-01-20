@@ -171,65 +171,66 @@ exports[`FormStatus scss have to match default theme snapshot 1`] = `
  */
 .dnb-form-status__shell {
   color: var(--color-black-80);
-  font-size: var(--font-size-small); }
-
+  font-size: var(--font-size-small);
+}
 .dnb-form-status--error .dnb-form-status__shell {
-  background-color: var(--color-fire-red-8); }
-  .dnb-form-status--error .dnb-form-status__shell > .dnb-icon {
-    color: var(--color-fire-red);
-    border: none; }
-
+  background-color: var(--color-fire-red-8);
+}
+.dnb-form-status--error .dnb-form-status__shell > .dnb-icon {
+  color: var(--color-fire-red);
+  border: none;
+}
 .dnb-form-status--warn .dnb-form-status__shell {
-  background-color: var(--color-sand-yellow); }
-
+  background-color: var(--color-sand-yellow);
+}
 .dnb-form-status--info .dnb-form-status__shell {
-  background-color: var(--color-pistachio); }
-
+  background-color: var(--color-pistachio);
+}
 .dnb-form-status--marketing .dnb-form-status__shell {
-  background-color: var(--color-lavender); }
-
+  background-color: var(--color-lavender);
+}
 .dnb-form-status:not(.dnb-form-status--attention-focus).dnb-form-status__text {
-  color: var(--color-black-80); }
-
+  color: var(--color-black-80);
+}
 .dnb-form-status__variant--outlined.dnb-form-status--error .dnb-form-status__shell {
   --border-color: var(--color-fire-red);
   box-shadow: 0 0 0 0.0625rem var(--border-color);
-  border-color: transparent; }
-
+  border-color: transparent;
+}
 .dnb-form-status__variant--outlined.dnb-form-status--warn .dnb-form-status__shell {
   --border-color: var(--color-accent-yellow);
   box-shadow: 0 0 0 0.0625rem var(--border-color);
-  border-color: transparent; }
-
+  border-color: transparent;
+}
 .dnb-form-status__variant--outlined.dnb-form-status--info .dnb-form-status__shell {
   --border-color: var(--color-sea-green);
   box-shadow: 0 0 0 0.0625rem var(--border-color);
-  border-color: transparent; }
-
+  border-color: transparent;
+}
 .dnb-form-status__variant--outlined.dnb-form-status--marketing .dnb-form-status__shell {
   --border-color: var(--color-black-55);
   box-shadow: 0 0 0 0.0625rem var(--border-color);
-  border-color: transparent; }
-
-.dnb-form-status--error.dnb-form-status--attention-focus .dnb-form-status__shell,
-.dnb-form-status--error.dnb-form-status:focus .dnb-form-status__shell {
-  animation: attention-focus 2s ease-in-out 1 200ms; }
-
-.dnb-form-status--error.dnb-form-status--attention-focus .dnb-form-status__shell > .dnb-icon,
-.dnb-form-status--error.dnb-form-status:focus .dnb-form-status__shell > .dnb-icon {
-  animation: attention-focus 2s ease-in-out 1 200ms; }
+  border-color: transparent;
+}
+.dnb-form-status--error.dnb-form-status--attention-focus .dnb-form-status__shell, .dnb-form-status--error.dnb-form-status:focus .dnb-form-status__shell {
+  animation: attention-focus 2s ease-in-out 1 200ms;
+}
+.dnb-form-status--error.dnb-form-status--attention-focus .dnb-form-status__shell > .dnb-icon, .dnb-form-status--error.dnb-form-status:focus .dnb-form-status__shell > .dnb-icon {
+  animation: attention-focus 2s ease-in-out 1 200ms;
+}
 
 @keyframes attention-focus {
-  0%,
-  100% {
+  0%, 100% {
     color: var(--color-fire-red);
     background-color: var(--color-fire-red-8);
-    border-color: var(--color-fire-red); }
+    border-color: var(--color-fire-red);
+  }
   35% {
     color: var(--color-white);
     background-color: var(--color-fire-red);
-    border-color: var(--color-fire-red); } }
-"
+    border-color: var(--color-fire-red);
+  }
+}"
 `;
 
 exports[`FormStatus scss have to match snapshot 1`] = `
@@ -244,64 +245,83 @@ exports[`FormStatus scss have to match snapshot 1`] = `
  * FormStatus component
  *
  */
+/*
+ * Utilities
+ */
 :root {
-  --form-status-radius: 0.25rem; }
+  --form-status-radius: 0.25rem;
+}
 
 .dnb-form-status {
   display: flex;
   opacity: 1;
-  transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default); }
-  .dnb-form-status--hidden {
-    will-change: height, opacity, margin, padding;
-    width: 0;
-    height: 0;
-    opacity: 0; }
-  .dnb-form-status--is-animating {
-    overflow: hidden;
-    width: auto; }
-  .dnb-form-status--disappear, .dnb-form-status--hidden {
-    margin: 0 !important;
-    padding: 0 !important; }
-  .dnb-form-status__shell {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    min-width: inherit;
-    border-radius: var(--form-status-radius); }
-  .dnb-form-status__text {
-    padding: 0.625rem 1rem;
-    cursor: text;
-    color: inherit;
-    line-height: var(--line-height-small);
-    font-size: var(--font-size-small);
-    white-space: normal; }
-    button .dnb-form-status__text {
-      cursor: inherit; }
-    .dnb-form-status__text .dnb-anchor {
-      font-size: inherit; }
-  .dnb-icon + .dnb-form-status__text {
-    padding-left: 0.5rem; }
-  .dnb-form-status__shell > .dnb-icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em; }
-  .dnb-form-status__size--large .dnb-form-status__text {
-    padding-top: 1.125rem;
-    padding-bottom: 1.125rem; }
-  .dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
-    margin-top: 0.6666666em;
-    margin-bottom: 0.6666666em; }
-  .dnb-form-status--stretch {
-    flex-grow: 1; }
-  .dnb-form-status--stretch .dnb-form-status__shell {
-    width: 100%; }
-  .dnb-form-status--stretch .dnb-form-status__text {
-    max-width: 47rem; }
-  .dnb-form-status[hidden] {
-    display: none; }
-  .dnb-form-status--no-animation,
-  html[data-visual-test] .dnb-form-status {
-    transition-duration: 1ms !important; }
-"
+  transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default);
+}
+.dnb-form-status--hidden {
+  will-change: height, opacity, margin, padding;
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+.dnb-form-status--is-animating {
+  overflow: hidden;
+  width: auto;
+}
+.dnb-form-status--disappear, .dnb-form-status--hidden {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.dnb-form-status__shell {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  min-width: inherit;
+  border-radius: var(--form-status-radius);
+}
+.dnb-form-status__text {
+  padding: 0.625rem 1rem;
+  cursor: text;
+  color: inherit;
+  line-height: var(--line-height-small);
+  font-size: var(--font-size-small);
+  white-space: normal;
+}
+button .dnb-form-status__text {
+  cursor: inherit;
+}
+.dnb-form-status__text .dnb-anchor {
+  font-size: inherit;
+}
+.dnb-icon + .dnb-form-status__text {
+  padding-left: 0.5rem;
+}
+.dnb-form-status__shell > .dnb-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em;
+}
+.dnb-form-status__size--large .dnb-form-status__text {
+  padding-top: 1.125rem;
+  padding-bottom: 1.125rem;
+}
+.dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
+  margin-top: 0.6666666em;
+  margin-bottom: 0.6666666em;
+}
+.dnb-form-status--stretch {
+  flex-grow: 1;
+}
+.dnb-form-status--stretch .dnb-form-status__shell {
+  width: 100%;
+}
+.dnb-form-status--stretch .dnb-form-status__text {
+  max-width: 47rem;
+}
+.dnb-form-status[hidden] {
+  display: none;
+}
+.dnb-form-status--no-animation, html[data-visual-test] .dnb-form-status {
+  transition-duration: 1ms !important;
+}"
 `;
