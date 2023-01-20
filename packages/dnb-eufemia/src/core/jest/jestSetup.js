@@ -8,9 +8,8 @@ import fakeProps from 'react-fake-props'
 import { mount, render } from './enzyme'
 import ReactDOMServer from 'react-dom/server'
 import fs from 'fs-extra'
-import onceImporter from 'node-sass-once-importer'
 import path from 'path'
-import sass from 'node-sass'
+import sass from 'sass'
 import { toBeType } from 'jest-tobetype'
 import toJson from 'enzyme-to-json'
 
@@ -28,12 +27,25 @@ expect.extend(toHaveNoViolations)
 
 export const loadScss = (file, options = {}) => {
   try {
+    const before = window.location
+
+    const importPath1 = path.dirname(file)
+    const importPath2 = path.resolve(__dirname, '../../style/core/')
+
+    delete window.location
+    window.location = {
+      href: 'file://',
+    }
+
     const sassResult = sass.renderSync({
       file,
-      includePaths: [path.resolve(__dirname, '../../style/core/')],
-      importer: [onceImporter()],
+      includePaths: [importPath1, importPath2], // use loadPaths for new API
+      sourceMap: false,
       ...options,
     })
+
+    window.location = before
+
     return String(sassResult.css)
   } catch (e) {
     console.error('loadScss error:', e)

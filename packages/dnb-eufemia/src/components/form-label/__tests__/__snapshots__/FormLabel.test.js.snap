@@ -36,10 +36,11 @@ exports[`FormLabel scss have to match default theme snapshot 1`] = `
  *
  */
 .dnb-form-label {
-  color: var(--color-black-80); }
-  .dnb-form-label[for]:not([disabled]):hover {
-    color: var(--color-sea-green); }
-"
+  color: var(--color-black-80);
+}
+.dnb-form-label[for]:not([disabled]):hover {
+  color: var(--color-sea-green);
+}"
 `;
 
 exports[`FormLabel scss have to match snapshot 1`] = `
@@ -54,6 +55,9 @@ exports[`FormLabel scss have to match snapshot 1`] = `
  * FormLabel component
  *
  */
+/*
+ * Utilities
+ */
 .dnb-form-label {
   display: inline-block;
   width: auto;
@@ -64,19 +68,23 @@ exports[`FormLabel scss have to match snapshot 1`] = `
   white-space: pre-wrap;
   word-break: normal;
   font-size: var(--font-size-basis);
-  color: inherit; }
-  .dnb-form-label--vertical {
-    display: block;
-    margin-right: 0;
-    margin-bottom: 0.5rem; }
-  .dnb-form-label[for]:not([disabled]) {
-    user-select: none;
-    -webkit-user-select: none;
-    cursor: pointer; }
-  .dnb-form-label[disabled] {
-    cursor: not-allowed; }
+  color: inherit;
+}
+.dnb-form-label--vertical {
+  display: block;
+  margin-right: 0;
+  margin-bottom: 0.5rem;
+}
+.dnb-form-label[for]:not([disabled]) {
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: pointer;
+}
+.dnb-form-label[disabled] {
+  cursor: not-allowed;
+}
 
 legend.dnb-form-label {
-  display: inline-block; }
-"
+  display: inline-block;
+}"
 `;

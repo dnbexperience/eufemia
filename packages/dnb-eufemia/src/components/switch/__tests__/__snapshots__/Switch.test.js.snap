@@ -225,103 +225,130 @@ exports[`Switch scss have to match default theme snapshot 1`] = `
     * On error state
     *
     */
-  /* stylelint-disable-next-line */ }
-  .dnb-switch__background {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    overflow: hidden;
-    background-color: var(--color-sea-green-30); }
-    .dnb-switch__background::after {
-      content: '';
-      position: absolute;
-      transition: transform 0.3s ease-out, position 0.3s ease-out; }
-  .dnb-switch__input:not(:checked) ~ .dnb-switch__button {
-    background-color: var(--color-white);
-    border-color: var(--color-sea-green); }
-  .dnb-switch__input:checked ~ .dnb-switch__button {
-    background-color: var(--color-sea-green); }
-  .dnb-switch__input:not(:checked) ~ .dnb-switch__background::after {
-    right: 0;
-    transform: translateX(calc(var(--switch-width--medium) - 2.8rem));
-    width: 0.5rem;
-    height: 0.5rem;
-    border-radius: 50%;
-    border: 0.0625rem solid var(--color-sea-green); }
-  .dnb-switch__input:checked ~ .dnb-switch__background::after {
-    left: 0;
-    transform: translateX(calc(var(--switch-width--medium) - 1.87rem));
-    width: 0.0625rem;
-    height: 0.5rem;
-    border-radius: 0.0625rem;
-    background-color: var(--color-sea-green); }
-  .dnb-switch--large .dnb-switch__input:not(:checked) ~ .dnb-switch__background::after {
-    width: 0.625rem;
-    height: 0.625rem;
-    transform: translateX(calc(var(--switch-width--large) - 3.7rem)); }
-  .dnb-switch--large .dnb-switch__input:checked ~ .dnb-switch__background::after {
-    height: 0.625rem;
-    transform: translateX(calc(var(--switch-width--large) - 2.5rem)); }
-  .dnb-switch__input[disabled] ~ .dnb-switch__background {
-    background-color: var(--color-mint-green-25); }
-  .dnb-switch__input[disabled]:checked ~ .dnb-switch__background::after {
-    background-color: var(--color-sea-green-30); }
-  .dnb-switch__input[disabled]:not(:checked) ~ .dnb-switch__background::after {
-    border-color: var(--color-sea-green-30); }
-  .dnb-switch__input[disabled] ~ .dnb-switch__button {
-    border-color: var(--color-sea-green-30); }
-  .dnb-switch__input[disabled]:checked ~ .dnb-switch__button {
-    background-color: var(--color-sea-green-30); }
-  html[data-whatinput='keyboard'] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__button {
-    border: none; }
-  html[data-whatinput='keyboard'] .dnb-switch__input:not([disabled]):not(:checked):focus ~ .dnb-switch__button {
-    background-color: var(--color-mint-green-50); }
-  .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background,
-  .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background {
-    outline: none; }
-    html[data-whatinput='keyboard'] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background, html[data-whatinput='keyboard']
-    .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background {
-      --border-color: var(--color-emerald-green);
-      box-shadow: 0 0 0 0.125rem var(--border-color);
-      border-color: transparent; }
-  .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__button .dnb-switch__focus,
-  .dnb-switch__input:not([disabled]):active ~ .dnb-switch__button .dnb-switch__focus {
-    display: block; }
-  .dnb-switch__input:not([disabled]):checked ~ .dnb-switch__button .dnb-switch__focus {
-    transform: rotate(180deg); }
-  .dnb-switch__input:not([disabled]):not(:focus):not(:active):hover ~ .dnb-switch__button {
-    border-color: var(--color-sea-green);
-    background-color: var(--color-mint-green-50); }
-  .dnb-switch__input:not([disabled]):active ~ .dnb-switch__button {
-    background-color: var(--color-mint-green-50);
-    border-color: transparent; }
-  .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):hover ~ .dnb-switch__button {
-    border-color: var(--color-fire-red);
-    background-color: var(--color-fire-red-8); }
-  .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active):not(:hover) ~ .dnb-switch__button {
-    border-color: var(--color-fire-red-8); }
-  .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active):not(:hover):checked ~ .dnb-switch__button {
-    background-color: var(--color-fire-red); }
-  .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active) ~ .dnb-switch__background {
-    background-color: var(--color-fire-red-8);
-    --border-color: var(--color-fire-red);
-    box-shadow: 0 0 0 0.125rem var(--border-color);
-    border-color: transparent; }
-  .dnb-switch__status--error .dnb-switch__input:not(:focus):not([disabled]):not(:active):checked ~ .dnb-switch__background::after {
-    background-color: var(--color-fire-red); }
-  .dnb-switch__status--error .dnb-switch__input:not(:focus):not([disabled]):not(:active):not(:checked) ~ .dnb-switch__background::after {
-    border-color: var(--color-fire-red); }
-  .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active) ~ .dnb-switch__button .dnb-switch__focus {
-    display: block;
-    --border-color: var(--color-fire-red);
-    box-shadow: 0 0 0 0.125rem var(--border-color);
-    border-color: transparent; }
-  .dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active):checked ~ .dnb-switch__button .dnb-switch__focus {
-    transform: rotate(180deg); }
-  .dnb-switch > .dnb-form-status {
-    transform: translateY(0.1875rem); }
-"
+  /* stylelint-disable-next-line */
+}
+.dnb-switch__background {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow: hidden;
+  background-color: var(--color-sea-green-30);
+}
+.dnb-switch__background::after {
+  content: "";
+  position: absolute;
+  transition: transform 0.3s ease-out, position 0.3s ease-out;
+}
+.dnb-switch__input:not(:checked) ~ .dnb-switch__button {
+  background-color: var(--color-white);
+  border-color: var(--color-sea-green);
+}
+.dnb-switch__input:checked ~ .dnb-switch__button {
+  background-color: var(--color-sea-green);
+}
+.dnb-switch__input:not(:checked) ~ .dnb-switch__background::after {
+  right: 0;
+  transform: translateX(calc(var(--switch-width--medium) - 2.8rem));
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  border: 0.0625rem solid var(--color-sea-green);
+}
+.dnb-switch__input:checked ~ .dnb-switch__background::after {
+  left: 0;
+  transform: translateX(calc(var(--switch-width--medium) - 1.87rem));
+  width: 0.0625rem;
+  height: 0.5rem;
+  border-radius: 0.0625rem;
+  background-color: var(--color-sea-green);
+}
+.dnb-switch--large .dnb-switch__input:not(:checked) ~ .dnb-switch__background::after {
+  width: 0.625rem;
+  height: 0.625rem;
+  transform: translateX(calc(var(--switch-width--large) - 3.7rem));
+}
+.dnb-switch--large .dnb-switch__input:checked ~ .dnb-switch__background::after {
+  height: 0.625rem;
+  transform: translateX(calc(var(--switch-width--large) - 2.5rem));
+}
+.dnb-switch__input[disabled] ~ .dnb-switch__background {
+  background-color: var(--color-mint-green-25);
+}
+.dnb-switch__input[disabled]:checked ~ .dnb-switch__background::after {
+  background-color: var(--color-sea-green-30);
+}
+.dnb-switch__input[disabled]:not(:checked) ~ .dnb-switch__background::after {
+  border-color: var(--color-sea-green-30);
+}
+.dnb-switch__input[disabled] ~ .dnb-switch__button {
+  border-color: var(--color-sea-green-30);
+}
+.dnb-switch__input[disabled]:checked ~ .dnb-switch__button {
+  background-color: var(--color-sea-green-30);
+}
+html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__button {
+  border: none;
+}
+html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):not(:checked):focus ~ .dnb-switch__button {
+  background-color: var(--color-mint-green-50);
+}
+.dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background, .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background {
+  outline: none;
+}
+html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background, html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background {
+  --border-color: var(--color-emerald-green);
+  box-shadow: 0 0 0 0.125rem var(--border-color);
+  border-color: transparent;
+}
+.dnb-switch__input:not([disabled]):focus ~ .dnb-switch__button .dnb-switch__focus, .dnb-switch__input:not([disabled]):active ~ .dnb-switch__button .dnb-switch__focus {
+  display: block;
+}
+.dnb-switch__input:not([disabled]):checked ~ .dnb-switch__button .dnb-switch__focus {
+  transform: rotate(180deg);
+}
+.dnb-switch__input:not([disabled]):not(:focus):not(:active):hover ~ .dnb-switch__button {
+  border-color: var(--color-sea-green);
+  background-color: var(--color-mint-green-50);
+}
+.dnb-switch__input:not([disabled]):active ~ .dnb-switch__button {
+  background-color: var(--color-mint-green-50);
+  border-color: transparent;
+}
+.dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):hover ~ .dnb-switch__button {
+  border-color: var(--color-fire-red);
+  background-color: var(--color-fire-red-8);
+}
+.dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active):not(:hover) ~ .dnb-switch__button {
+  border-color: var(--color-fire-red-8);
+}
+.dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active):not(:hover):checked ~ .dnb-switch__button {
+  background-color: var(--color-fire-red);
+}
+.dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active) ~ .dnb-switch__background {
+  background-color: var(--color-fire-red-8);
+  --border-color: var(--color-fire-red);
+  box-shadow: 0 0 0 0.125rem var(--border-color);
+  border-color: transparent;
+}
+.dnb-switch__status--error .dnb-switch__input:not(:focus):not([disabled]):not(:active):checked ~ .dnb-switch__background::after {
+  background-color: var(--color-fire-red);
+}
+.dnb-switch__status--error .dnb-switch__input:not(:focus):not([disabled]):not(:active):not(:checked) ~ .dnb-switch__background::after {
+  border-color: var(--color-fire-red);
+}
+.dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active) ~ .dnb-switch__button .dnb-switch__focus {
+  display: block;
+  --border-color: var(--color-fire-red);
+  box-shadow: 0 0 0 0.125rem var(--border-color);
+  border-color: transparent;
+}
+.dnb-switch__status--error .dnb-switch__input:not([disabled]):not(:focus):not(:active):checked ~ .dnb-switch__button .dnb-switch__focus {
+  transform: rotate(180deg);
+}
+.dnb-switch > .dnb-form-status {
+  transform: translateY(0.1875rem);
+}"
 `;
 
 exports[`Switch scss have to match snapshot 1`] = `
@@ -337,8 +364,14 @@ exports[`Switch scss have to match snapshot 1`] = `
 *
 */
 /*
+ * Utilities
+ */
+/*
  * FormLabel component
  *
+ */
+/*
+ * Utilities
  */
 .dnb-form-label {
   display: inline-block;
@@ -350,100 +383,132 @@ exports[`Switch scss have to match snapshot 1`] = `
   white-space: pre-wrap;
   word-break: normal;
   font-size: var(--font-size-basis);
-  color: inherit; }
-  .dnb-form-label--vertical {
-    display: block;
-    margin-right: 0;
-    margin-bottom: 0.5rem; }
-  .dnb-form-label[for]:not([disabled]) {
-    user-select: none;
-    -webkit-user-select: none;
-    cursor: pointer; }
-  .dnb-form-label[disabled] {
-    cursor: not-allowed; }
+  color: inherit;
+}
+.dnb-form-label--vertical {
+  display: block;
+  margin-right: 0;
+  margin-bottom: 0.5rem;
+}
+.dnb-form-label[for]:not([disabled]) {
+  user-select: none;
+  -webkit-user-select: none;
+  cursor: pointer;
+}
+.dnb-form-label[disabled] {
+  cursor: not-allowed;
+}
 
 legend.dnb-form-label {
-  display: inline-block; }
+  display: inline-block;
+}
 
 /*
 * Used for snapshot testing
 *
 */
 /*
+ * Utilities
+ */
+/*
  * FormStatus component
  *
  */
+/*
+ * Utilities
+ */
 :root {
-  --form-status-radius: 0.25rem; }
+  --form-status-radius: 0.25rem;
+}
 
 .dnb-form-status {
   display: flex;
   opacity: 1;
-  transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default); }
-  .dnb-form-status--hidden {
-    will-change: height, opacity, margin, padding;
-    width: 0;
-    height: 0;
-    opacity: 0; }
-  .dnb-form-status--is-animating {
-    overflow: hidden;
-    width: auto; }
-  .dnb-form-status--disappear, .dnb-form-status--hidden {
-    margin: 0 !important;
-    padding: 0 !important; }
-  .dnb-form-status__shell {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    min-width: inherit;
-    border-radius: var(--form-status-radius); }
-  .dnb-form-status__text {
-    padding: 0.625rem 1rem;
-    cursor: text;
-    color: inherit;
-    line-height: var(--line-height-small);
-    font-size: var(--font-size-small);
-    white-space: normal; }
-    button .dnb-form-status__text {
-      cursor: inherit; }
-    .dnb-form-status__text .dnb-anchor {
-      font-size: inherit; }
-  .dnb-icon + .dnb-form-status__text {
-    padding-left: 0.5rem; }
-  .dnb-form-status__shell > .dnb-icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em; }
-  .dnb-form-status__size--large .dnb-form-status__text {
-    padding-top: 1.125rem;
-    padding-bottom: 1.125rem; }
-  .dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
-    margin-top: 0.6666666em;
-    margin-bottom: 0.6666666em; }
-  .dnb-form-status--stretch {
-    flex-grow: 1; }
-  .dnb-form-status--stretch .dnb-form-status__shell {
-    width: 100%; }
-  .dnb-form-status--stretch .dnb-form-status__text {
-    max-width: 47rem; }
-  .dnb-form-status[hidden] {
-    display: none; }
-  .dnb-form-status--no-animation,
-  html[data-visual-test] .dnb-form-status {
-    transition-duration: 1ms !important; }
+  transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default);
+}
+.dnb-form-status--hidden {
+  will-change: height, opacity, margin, padding;
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+.dnb-form-status--is-animating {
+  overflow: hidden;
+  width: auto;
+}
+.dnb-form-status--disappear, .dnb-form-status--hidden {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.dnb-form-status__shell {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  min-width: inherit;
+  border-radius: var(--form-status-radius);
+}
+.dnb-form-status__text {
+  padding: 0.625rem 1rem;
+  cursor: text;
+  color: inherit;
+  line-height: var(--line-height-small);
+  font-size: var(--font-size-small);
+  white-space: normal;
+}
+button .dnb-form-status__text {
+  cursor: inherit;
+}
+.dnb-form-status__text .dnb-anchor {
+  font-size: inherit;
+}
+.dnb-icon + .dnb-form-status__text {
+  padding-left: 0.5rem;
+}
+.dnb-form-status__shell > .dnb-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em;
+}
+.dnb-form-status__size--large .dnb-form-status__text {
+  padding-top: 1.125rem;
+  padding-bottom: 1.125rem;
+}
+.dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
+  margin-top: 0.6666666em;
+  margin-bottom: 0.6666666em;
+}
+.dnb-form-status--stretch {
+  flex-grow: 1;
+}
+.dnb-form-status--stretch .dnb-form-status__shell {
+  width: 100%;
+}
+.dnb-form-status--stretch .dnb-form-status__text {
+  max-width: 47rem;
+}
+.dnb-form-status[hidden] {
+  display: none;
+}
+.dnb-form-status--no-animation, html[data-visual-test] .dnb-form-status {
+  transition-duration: 1ms !important;
+}
 
 /*
 * Switch component
 *
 */
+/*
+ * Utilities
+ */
 :root {
   --switch-width--medium: 2.5rem;
   --switch-height--medium: 1.5rem;
   --switch-width--large: 3.25rem;
   --switch-height--large: 2rem;
   --switch-border-width--medium: 0.0625rem;
-  --switch-border-width--large: 0.125rem; }
+  --switch-border-width--large: 0.125rem;
+}
 
 .dnb-switch {
   display: inline-flex;
@@ -457,128 +522,162 @@ legend.dnb-form-label {
   /*
   * When switched ON
   * aka when the switch is :checked
-  */ }
-  .dnb-switch__inner {
-    display: inline-flex;
-    flex-direction: column;
-    justify-content: center;
-    font-size: var(--font-size-basis); }
-  .dnb-switch__shell {
-    user-select: none;
-    -webkit-user-select: none;
-    position: relative;
-    display: flex;
-    align-items: center; }
-  .dnb-switch--large {
-    line-height: var(--switch-height--large); }
-  .dnb-switch--large .dnb-switch__shell {
-    height: var(--switch-height--large); }
-  .dnb-switch__row {
-    display: inline-flex;
-    align-items: center;
-    height: var(--switch-height--medium); }
-  .dnb-switch__focus, .dnb-switch__button {
-    position: absolute;
-    z-index: 4;
-    border-radius: 50%; }
-  .dnb-switch__button {
-    left: 0;
-    width: var(--switch-height--medium);
-    height: var(--switch-height--medium);
-    transform: translateX(0);
-    transition: transform 160ms ease-out 125ms;
-    border: var(--switch-border-width--medium) solid transparent; }
-    .dnb-switch--large .dnb-switch__button {
-      width: var(--switch-height--large);
-      height: var(--switch-height--large);
-      border-width: var(--switch-border-width--large); }
-  .dnb-switch__focus {
-    display: none;
-    position: absolute;
-    z-index: 2;
-    width: 100%;
-    height: 100%;
-    transition: transform 150ms ease-out;
-    transform: rotate(0deg);
-    clip-path: polygon(50% 15%, 110% 15%, 110% -10%, -10% -10%, -10% 110%, 110% 110%, 110% 85%, 50% 85%);
-    outline: none; }
-    html[data-whatinput='keyboard'] .dnb-switch__focus {
-      --border-color: var(--color-emerald-green);
-      box-shadow: 0 0 0 0.125rem var(--border-color);
-      border-color: transparent; }
+  */
+}
+.dnb-switch__inner {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: var(--font-size-basis);
+}
+.dnb-switch__shell {
+  user-select: none;
+  -webkit-user-select: none;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.dnb-switch--large {
+  line-height: var(--switch-height--large);
+}
+.dnb-switch--large .dnb-switch__shell {
+  height: var(--switch-height--large);
+}
+.dnb-switch__row {
+  display: inline-flex;
+  align-items: center;
+  height: var(--switch-height--medium);
+}
+.dnb-switch__focus, .dnb-switch__button {
+  position: absolute;
+  z-index: 4;
+  border-radius: 50%;
+}
+.dnb-switch__button {
+  left: 0;
+  width: var(--switch-height--medium);
+  height: var(--switch-height--medium);
+  transform: translateX(0);
+  transition: transform 160ms ease-out 125ms;
+  border: var(--switch-border-width--medium) solid transparent;
+}
+.dnb-switch--large .dnb-switch__button {
+  width: var(--switch-height--large);
+  height: var(--switch-height--large);
+  border-width: var(--switch-border-width--large);
+}
+.dnb-switch__focus {
+  display: none;
+  position: absolute;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  transition: transform 150ms ease-out;
+  transform: rotate(0deg);
+  clip-path: polygon(50% 15%, 110% 15%, 110% -10%, -10% -10%, -10% 110%, 110% 110%, 110% 85%, 50% 85%);
+  outline: none;
+}
+html[data-whatinput=keyboard] .dnb-switch__focus {
+  --border-color: var(--color-emerald-green);
+  box-shadow: 0 0 0 0.125rem var(--border-color);
+  border-color: transparent;
+}
+.dnb-switch__input:not(:checked) ~ .dnb-switch__button {
+  transform: translateX(0);
+  transform: translateX(calc(0px - var(--switch-border-width--medium)));
+}
+.dnb-switch__input:checked ~ .dnb-switch__button {
+  transform: translateX(1rem);
+  transform: translateX(calc(var(--switch-width--medium) - 1.5rem + var(--switch-border-width--medium)));
+}
+.dnb-switch--large .dnb-switch__input:not(:checked) ~ .dnb-switch__button {
+  transform: translateX(calc(0px - var(--switch-border-width--large)));
+}
+.dnb-switch--large .dnb-switch__input:checked ~ .dnb-switch__button {
+  transform: translateX(calc(var(--switch-width--large) - 2rem + var(--switch-border-width--large)));
+}
+.dnb-switch__background {
+  width: var(--switch-width--medium);
+  height: calc(var(--switch-height--medium) - 0.5rem);
+  border-radius: calc(var(--switch-height--medium) - 0.25rem);
+}
+.dnb-switch--large .dnb-switch__background {
+  width: var(--switch-width--large);
+  height: calc(var(--switch-height--large) - 0.75rem);
+  border-radius: calc(var(--switch-height--large) - 0.375rem);
+}
+.dnb-switch__input {
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  display: block;
+  width: var(--switch-width--medium);
+  height: var(--switch-height--medium);
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.dnb-switch--large .dnb-switch__input {
+  width: var(--switch-width--large);
+  height: var(--switch-height--large);
+}
+.dnb-switch__input:not([disabled]) {
+  cursor: pointer;
+}
+.dnb-switch .dnb-form-label {
+  padding-right: 0.5rem;
+  margin-right: 0;
+  margin-left: 0;
+  margin-bottom: 0;
+}
+.dnb-switch__order {
+  display: inline-flex;
+}
+.dnb-switch__suffix {
+  order: 4;
+}
+.dnb-switch--label-position-left .dnb-switch__suffix {
+  padding-left: 1rem;
+}
+.dnb-switch--label-position-left .dnb-switch__order .dnb-switch__inner {
+  order: 2;
+}
+.dnb-switch--label-position-left .dnb-switch__order .dnb-form-label {
+  order: 1;
+  align-self: flex-start;
+}
+.dnb-switch--label-position-left .dnb-switch__order .dnb-form-status {
+  order: 3;
+  margin-top: 0.5rem;
+}
+.dnb-switch--label-position-right .dnb-switch__order .dnb-switch__inner {
+  order: 1;
+}
+.dnb-switch--label-position-right .dnb-switch__order .dnb-form-label {
+  order: 2;
+  padding-left: 0.5rem;
+}
+.dnb-switch--label-position-right .dnb-switch__order .dnb-form-status {
+  order: 3;
+  margin-top: 0.5rem;
+}
+.dnb-switch.dnb-skeleton .dnb-switch__input[disabled] ~ .dnb-switch__button, .dnb-switch.dnb-skeleton .dnb-switch__input[disabled] ~ .dnb-switch__background::after {
+  border-color: var(--skeleton-color);
+}
+.dnb-switch.dnb-skeleton .dnb-switch__input[disabled] ~ .dnb-switch__background {
+  background-color: var(--skeleton-color);
+}
+.dnb-switch.dnb-skeleton .dnb-switch__input[disabled]:not(:checked) ~ .dnb-switch__background::after {
+  border-color: var(--skeleton-color--contrast);
+}
+@supports (-ms-ime-align: auto) {
   .dnb-switch__input:not(:checked) ~ .dnb-switch__button {
     transform: translateX(0);
-    transform: translateX(calc(1px - 1px - var(--switch-border-width--medium))); }
+  }
   .dnb-switch__input:checked ~ .dnb-switch__button {
-    transform: translateX(1rem);
-    transform: translateX(calc( var(--switch-width--medium) - 1.5rem + var(--switch-border-width--medium))); }
-  .dnb-switch--large .dnb-switch__input:not(:checked) ~ .dnb-switch__button {
-    transform: translateX(calc(1px - 1px - var(--switch-border-width--large))); }
-  .dnb-switch--large .dnb-switch__input:checked ~ .dnb-switch__button {
-    transform: translateX(calc( var(--switch-width--large) - 2rem + var(--switch-border-width--large))); }
-  .dnb-switch__background {
-    width: var(--switch-width--medium);
-    height: calc(var(--switch-height--medium) - 0.5rem);
-    border-radius: calc(var(--switch-height--medium) - 0.5rem / 2); }
-    .dnb-switch--large .dnb-switch__background {
-      width: var(--switch-width--large);
-      height: calc(var(--switch-height--large) - 0.75rem);
-      border-radius: calc(var(--switch-height--large) - 0.75rem / 2); }
-  .dnb-switch__input {
-    opacity: 0;
-    position: absolute;
-    left: 0;
-    right: 0;
-    z-index: 5;
-    display: block;
-    width: var(--switch-width--medium);
-    height: var(--switch-height--medium);
-    margin: 0;
-    padding: 0;
-    border: 0; }
-    .dnb-switch--large .dnb-switch__input {
-      width: var(--switch-width--large);
-      height: var(--switch-height--large); }
-  .dnb-switch__input:not([disabled]) {
-    cursor: pointer; }
-  .dnb-switch .dnb-form-label {
-    padding-right: 0.5rem;
-    margin-right: 0;
-    margin-left: 0;
-    margin-bottom: 0; }
-  .dnb-switch__order {
-    display: inline-flex; }
-  .dnb-switch__suffix {
-    order: 4; }
-  .dnb-switch--label-position-left .dnb-switch__suffix {
-    padding-left: 1rem; }
-  .dnb-switch--label-position-left .dnb-switch__order .dnb-switch__inner {
-    order: 2; }
-  .dnb-switch--label-position-left .dnb-switch__order .dnb-form-label {
-    order: 1;
-    align-self: flex-start; }
-  .dnb-switch--label-position-left .dnb-switch__order .dnb-form-status {
-    order: 3;
-    margin-top: 0.5rem; }
-  .dnb-switch--label-position-right .dnb-switch__order .dnb-switch__inner {
-    order: 1; }
-  .dnb-switch--label-position-right .dnb-switch__order .dnb-form-label {
-    order: 2;
-    padding-left: 0.5rem; }
-  .dnb-switch--label-position-right .dnb-switch__order .dnb-form-status {
-    order: 3;
-    margin-top: 0.5rem; }
-  .dnb-switch.dnb-skeleton .dnb-switch__input[disabled] ~ .dnb-switch__button,
-  .dnb-switch.dnb-skeleton .dnb-switch__input[disabled] ~ .dnb-switch__background::after {
-    border-color: var(--skeleton-color); }
-  .dnb-switch.dnb-skeleton .dnb-switch__input[disabled] ~ .dnb-switch__background {
-    background-color: var(--skeleton-color); }
-  .dnb-switch.dnb-skeleton .dnb-switch__input[disabled]:not(:checked) ~ .dnb-switch__background::after {
-    border-color: var(--skeleton-color--contrast); }
-  @supports (-ms-ime-align: auto) {
-    .dnb-switch__input:not(:checked) ~ .dnb-switch__button {
-      transform: translateX(0); }
-    .dnb-switch__input:checked ~ .dnb-switch__button {
-      transform: translateX(calc(var(--switch-width--medium) - 1.5rem)); } }
-"
+    transform: translateX(calc(var(--switch-width--medium) - 1.5rem));
+  }
+}"
 `;
