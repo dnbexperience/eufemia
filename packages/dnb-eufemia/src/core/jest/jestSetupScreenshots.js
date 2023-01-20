@@ -7,7 +7,6 @@ const fs = require('fs-extra')
 const path = require('path')
 const { isCI } = require('repo-utils')
 const os = require('os')
-const { setupJestScreenshot } = require('jest-screenshot')
 const { makeUniqueId } = require('../../shared/component-helper')
 const ora = require('ora')
 
@@ -536,7 +535,6 @@ async function handleWrapper({
   return element
 }
 
-module.exports.setupJestScreenshot = setupJestScreenshot
 module.exports.loadImage = async (imagePath) =>
   await fs.readFile(path.resolve(imagePath))
 

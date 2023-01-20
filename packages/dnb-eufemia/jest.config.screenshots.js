@@ -8,7 +8,10 @@ module.exports = {
     globalTeardown: './src/core/jest/jestPuppeteerTeardown.js',
     testEnvironment: './src/core/jest/jestPuppeteerEnvironment.js',
     setupFilesAfterEnv: ['./src/core/jest/setupJestScreenshot.js'],
-    reporters: ['default', 'jest-screenshot/reporter'],
+    reporters: [
+      'default',
+      'jest-image-snapshot/src/outdated-snapshot-reporter.js',
+    ],
     testPathIgnorePatterns: config.testPathIgnorePatterns.filter((i) => {
       return i !== 'screenshot'
     }),
