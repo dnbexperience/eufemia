@@ -66,7 +66,7 @@ const UploadFileListCell = ({
   const { file, errorMessage, isLoading } = uploadFile
   const { name, type } = file
 
-  const fileType = type.split('/')[1]
+  const fileType = type.split('/')[1] || ''
 
   const hasWarning = errorMessage != null
 
