@@ -12,6 +12,9 @@ exports[`VisuallyHidden VisuallyHidden scss have to match snapshot 1`] = `
 * VisuallyHidden component
 *
 */
+/*
+ * Utilities
+ */
 .dnb-visually-hidden--focusable:not(:focus):not(:focus-within) {
   user-select: none;
   -webkit-touch-callout: none;
@@ -24,6 +27,6 @@ exports[`VisuallyHidden VisuallyHidden scss have to match snapshot 1`] = `
   white-space: nowrap;
   padding: 0;
   margin: 0;
-  border: 0; }
-"
+  border: 0;
+}"
 `;
