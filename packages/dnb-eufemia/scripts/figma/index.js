@@ -3,9 +3,5 @@
  *
  */
 
-import {
-  fetchFigmaAll,
-  fetchFigmaStyles,
-  fetchFigmaIcons,
-} from './FigmaAPI'
-export { fetchFigmaAll, fetchFigmaStyles, fetchFigmaIcons }
+import { fetchFigmaAll, fetchFigmaIcons } from './FigmaAPI'
+export { fetchFigmaAll, fetchFigmaIcons }
