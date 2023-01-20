@@ -164,7 +164,7 @@ describe('InputMasked component', () => {
     expect(on_change.mock.calls[0][0].numberValue).toBe(123456789.678)
   })
 
-  it('should prevent leading zero by default', () => {
+  it('should prevent leading zero when disallowLeadingZeroes is set', () => {
     const newValue = 'NOK 1 234,56 kr'
 
     const onKeyDown = jest.fn()
@@ -208,12 +208,12 @@ describe('InputMasked component', () => {
       },
       preventDefault,
     })
-    expect(preventDefault).toHaveBeenCalledTimes(1)
+    expect(preventDefault).toHaveBeenCalledTimes(0)
     expect(onKeyDown).toHaveBeenCalledTimes(2)
 
     Comp.setProps({
       number_mask: {
-        allowLeadingZeroes: true,
+        disallowLeadingZeroes: true,
       },
     })
 
@@ -232,7 +232,7 @@ describe('InputMasked component', () => {
 
     Comp.setProps({
       number_mask: {
-        allowLeadingZeroes: false,
+        disallowLeadingZeroes: false,
         allowDecimal: false,
       },
     })
@@ -246,7 +246,7 @@ describe('InputMasked component', () => {
       },
       preventDefault,
     })
-    expect(preventDefault).toHaveBeenCalledTimes(3)
+    expect(preventDefault).toHaveBeenCalledTimes(2)
     expect(onKeyDown).toHaveBeenCalledTimes(4)
   })
 
@@ -424,7 +424,7 @@ describe('InputMasked component', () => {
     expect(Comp.find('input').instance().value).toBe('1 234')
   })
 
-  it('should not set leading zero when entering decimal separator', () => {
+  it('should not set leading zero when entering decimal separator and disallowLeadingZeroes is set', () => {
     const onKeyDown = jest.fn()
     const preventDefault = jest.fn()
 
@@ -446,12 +446,12 @@ describe('InputMasked component', () => {
       },
       preventDefault,
     })
-    expect(preventDefault).toHaveBeenCalledTimes(1)
+    expect(preventDefault).toHaveBeenCalledTimes(0)
     expect(onKeyDown).toHaveBeenCalledTimes(1)
 
     Comp.setProps({
       number_mask: {
-        allowLeadingZeroes: true,
+        disallowLeadingZeroes: true,
       },
     })
 
@@ -513,7 +513,7 @@ describe('InputMasked component', () => {
 
     Comp.setProps({
       mask_options: {
-        allowLeadingZeroes: false,
+        disallowLeadingZeroes: true,
       },
     })
 
@@ -1364,7 +1364,7 @@ describe('InputMasked component as_currency', () => {
           <Component
             value={value}
             number_mask={{
-              allowLeadingZeroes: true,
+              disallowLeadingZeroes: true,
               allowNegative: false,
               allowDecimal: true,
             }}
