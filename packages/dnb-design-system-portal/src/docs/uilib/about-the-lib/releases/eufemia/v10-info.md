@@ -126,6 +126,10 @@ When you convert from `<Modal />` to `<Dialog />` – follow these steps:
 
 1. New **Definition List** layout direction: `direction="horizontal"` including `Dl.Item` [demo](https://eufemia.dnb.no/uilib/elements/lists/#definition-list-in-horizontal-direction).
 
+### [InputMasked](/uilib/components/input-masked)
+
+1. In v10, InputMasked **allows leading zeros**. To prevent that behaviour, the property `allowLeadingZeroes` has changed to `disallowLeadingZeroes`.
+
 ### [Stopped supporting Internet Explorer (IE)](/uilib/usage/#supported-browsers-and-platforms)
 
 Stopped supporting Internet Explorer (IE), as Microsoft formally ended support for IE in June, 2022.
