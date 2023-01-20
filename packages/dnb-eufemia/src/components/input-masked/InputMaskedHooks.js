@@ -335,8 +335,7 @@ const useCallEvent = ({ setLocalValue }) => {
     if (
       name === 'on_key_down' &&
       !isUnidentified &&
-      ((isNumberMask && !maskParams?.allowLeadingZeroes) ||
-        (!isNumberMask && maskParams?.allowLeadingZeroes === false)) &&
+      maskParams?.disallowLeadingZeroes &&
       (keyCode === '0' ||
         keyCode === 'numpad 0' ||
         (value.replace(/[^\d]/g, '') === '' &&
