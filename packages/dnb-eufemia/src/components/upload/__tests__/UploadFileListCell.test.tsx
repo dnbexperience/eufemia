@@ -40,6 +40,19 @@ describe('UploadFileListCell', () => {
     expect(element.className).toMatch('dnb-upload__file-cell--warning')
   })
 
+  it('supports special file extensions', async () => {
+    render(
+      <UploadFileListCell
+        {...defaultProps}
+        uploadFile={{ file: createMockFile('file.dat', 100, 'dat') }}
+      />
+    )
+
+    const element = document.querySelector('.dnb-upload__file-cell__title')
+
+    expect(element.textContent).toMatch('file.dat')
+  })
+
   it('renders the no error styling', () => {
     render(
       <UploadFileListCell
