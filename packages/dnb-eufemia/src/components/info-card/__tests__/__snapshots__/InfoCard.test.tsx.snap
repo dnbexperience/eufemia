@@ -12,6 +12,9 @@ exports[`InfoCard InfoCard scss have to match snapshot 1`] = `
 * InfoCard component
 *
 */
+/*
+ * Utilities
+ */
 .dnb-info-card {
   display: flex;
   flex-direction: row;
@@ -20,29 +23,36 @@ exports[`InfoCard InfoCard scss have to match snapshot 1`] = `
   border-radius: 0.25rem;
   padding: 1rem;
   overflow: hidden;
-  box-shadow: var(--shadow-default); }
-  .dnb-info-card--centered {
-    flex-direction: column;
-    align-items: center;
-    text-align: center; }
-  .dnb-info-card--content {
-    flex-direction: column;
-    margin-top: 0.1875rem; }
-  .dnb-info-card--centered .dnb-info-card--content {
-    flex-direction: column;
-    margin-top: 0; }
-  .dnb-info-card--icon {
-    color: var(--color-emerald-green); }
-  .dnb-info-card--image {
-    height: 4rem;
-    width: 4rem; }
-  .dnb-info-card--buttons {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap; }
-    .dnb-info-card--buttons-centered {
-      flex-direction: column;
-      align-items: center;
-      text-align: center; }
-"
+  box-shadow: var(--shadow-default);
+}
+.dnb-info-card--centered {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.dnb-info-card--content {
+  flex-direction: column;
+  margin-top: 0.1875rem;
+}
+.dnb-info-card--centered .dnb-info-card--content {
+  flex-direction: column;
+  margin-top: 0;
+}
+.dnb-info-card--icon {
+  color: var(--color-emerald-green);
+}
+.dnb-info-card--image {
+  height: 4rem;
+  width: 4rem;
+}
+.dnb-info-card--buttons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.dnb-info-card--buttons-centered {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}"
 `;
