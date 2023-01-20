@@ -3,6 +3,14 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.46.1](https://github.com/dnbexperience/eufemia/compare/v9.46.0...v9.46.1) (2023-01-20)
+
+
+### Bug Fixes
+
+* **GlobalStatus:** use existing slugify ([#1936](https://github.com/dnbexperience/eufemia/issues/1936)) ([f57f9fe](https://github.com/dnbexperience/eufemia/commit/f57f9fe7d421e73fc4d6d0b64b3f886e551c6ff9))
+* **Upload:** support special file extensions like .dat ([#1938](https://github.com/dnbexperience/eufemia/issues/1938)) ([1f07d0c](https://github.com/dnbexperience/eufemia/commit/1f07d0cd568d9d6cc63222752df4cff8e462da4d))
+
 # [9.46.0](https://github.com/dnbexperience/eufemia/compare/v9.45.4...v9.46.0) (2023-01-16)
 
 
