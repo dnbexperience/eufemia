@@ -4,7 +4,7 @@
  */
 
 import gulp from 'gulp'
-import sass from 'node-sass'
+import sass from 'sass'
 import clone from 'gulp-clone'
 import rename from 'gulp-rename'
 import transform from 'gulp-transform'
