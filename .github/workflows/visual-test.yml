@@ -133,6 +133,20 @@ jobs:
       - name: Run visual tests
         run: yarn workspace dnb-design-system-portal test:screenshots:ci
 
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: visual-test-artifact
+          path: ./packages/dnb-eufemia/src/**/*.snap-diff.png
+
+      - name: Run visual tests info
+        if: failure()
+        run: echo '\n\n👉 Download the diff files as a ZIP file. \nIt is called "visual-test-artifact" and you find it in the test "Summary" under "Artifacts".\n\n\n'
+
+      - uses: geekyeggo/delete-artifact@v2
+        with:
+          name: portal-build-artifact
+
       - name: Slack
         uses: 8398a7/action-slack@v3
         with:
