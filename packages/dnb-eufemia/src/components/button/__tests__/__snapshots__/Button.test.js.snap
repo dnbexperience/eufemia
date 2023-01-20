@@ -876,470 +876,539 @@ exports[`Button scss have to match default theme snapshot 1`] = `
 .dnb-button {
   border: none;
   box-shadow: none;
-  text-align: left; }
-  .dnb-button--primary {
-    color: var(--color-white);
-    background-color: var(--color-sea-green); }
-    html:not([data-whatintent='touch']) .dnb-button--primary:hover[disabled] {
-      cursor: not-allowed; }
-    html:not([data-whatintent='touch']) .dnb-button--primary:hover:not([disabled]) {
-      color: var(--color-sea-green);
-      background-color: var(--color-white);
-      --border-color: var(--color-emerald-green);
-      box-shadow: 0 0 0 0.125rem var(--border-color);
-      border-color: transparent; }
-    .dnb-button--primary:focus[disabled],
-    html:not([data-whatintent='touch']) .dnb-button--primary:focus[disabled] {
-      cursor: not-allowed; }
-    .dnb-button--primary:focus:not([disabled]),
-    html:not([data-whatintent='touch']) .dnb-button--primary:focus:not([disabled]) {
-      outline: none; }
-      html[data-whatinput='keyboard'] .dnb-button--primary:focus:not([disabled]), html[data-whatinput='keyboard']
-      html:not([data-whatintent='touch']) .dnb-button--primary:focus:not([disabled]) {
-        color: var(--color-sea-green);
-        background-color: var(--color-white); }
-      html[data-whatinput='keyboard'] .dnb-button--primary:focus:not([disabled]), html[data-whatinput='keyboard']
-      html:not([data-whatintent='touch']) .dnb-button--primary:focus:not([disabled]) {
-        --border-color: var(--color-emerald-green);
-        box-shadow: inset 0 0 0 0.125rem var(--border-color);
-        /* iOS fix - because "inset" works not fine with border-radius */
-        /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
-        border-color: transparent; }
-        @supports (-webkit-touch-callout: none) {
-          html[data-whatinput='keyboard'] .dnb-button--primary:focus:not([disabled]), html[data-whatinput='keyboard']
-          html:not([data-whatintent='touch']) .dnb-button--primary:focus:not([disabled]) {
-            box-shadow: 0 0 0 0.125rem var(--border-color); } }
-        @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
-          html[data-whatinput='keyboard'] .dnb-button--primary:focus:not([disabled]), html[data-whatinput='keyboard']
-          html:not([data-whatintent='touch']) .dnb-button--primary:focus:not([disabled]) {
-            box-shadow: 0 0 0 0.125rem var(--border-color); } }
-    .dnb-button--primary:active[disabled],
-    html:not([data-whatintent='touch']) .dnb-button--primary:active[disabled] {
-      cursor: not-allowed; }
-    .dnb-button--primary:active:not([disabled]),
-    html:not([data-whatintent='touch']) .dnb-button--primary:active:not([disabled]) {
-      color: var(--color-sea-green);
-      background-color: var(--color-mint-green-50);
-      --border-color: transparent;
-      box-shadow: 0 0 0 0.0625rem var(--border-color);
-      border-color: transparent; }
-    .dnb-button--primary[disabled] {
-      color: var(--color-white);
-      background-color: var(--color-sea-green-30); }
-  .dnb-button:not([disabled]).dnb-button--primary.dnb-button__status--error {
-    color: var(--color-white);
-    background-color: var(--color-fire-red); }
+  text-align: left;
+}
+.dnb-button--primary {
+  color: var(--color-white);
+  background-color: var(--color-sea-green);
+}
+html:not([data-whatintent=touch]) .dnb-button--primary:hover[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatintent=touch]) .dnb-button--primary:hover:not([disabled]) {
+  color: var(--color-sea-green);
+  background-color: var(--color-white);
+  --border-color: var(--color-emerald-green);
+  box-shadow: 0 0 0 0.125rem var(--border-color);
+  border-color: transparent;
+}
+.dnb-button--primary:focus[disabled], html:not([data-whatintent=touch]) .dnb-button--primary:focus[disabled] {
+  cursor: not-allowed;
+}
+.dnb-button--primary:focus:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--primary:focus:not([disabled]) {
+  outline: none;
+}
+html[data-whatinput=keyboard] .dnb-button--primary:focus:not([disabled]), html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-button--primary:focus:not([disabled]) {
+  color: var(--color-sea-green);
+  background-color: var(--color-white);
+}
+html[data-whatinput=keyboard] .dnb-button--primary:focus:not([disabled]), html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-button--primary:focus:not([disabled]) {
+  --border-color: var(--color-emerald-green);
+  box-shadow: inset 0 0 0 0.125rem var(--border-color);
+  /* iOS fix - because "inset" works not fine with border-radius */
+  /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
+  border-color: transparent;
+}
+@supports (-webkit-touch-callout: none) {
+  html[data-whatinput=keyboard] .dnb-button--primary:focus:not([disabled]), html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-button--primary:focus:not([disabled]) {
+    box-shadow: 0 0 0 0.125rem var(--border-color);
+  }
+}
+@supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+  html[data-whatinput=keyboard] .dnb-button--primary:focus:not([disabled]), html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-button--primary:focus:not([disabled]) {
+    box-shadow: 0 0 0 0.125rem var(--border-color);
+  }
+}
+.dnb-button--primary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--primary:active[disabled] {
+  cursor: not-allowed;
+}
+.dnb-button--primary:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--primary:active:not([disabled]) {
+  color: var(--color-sea-green);
+  background-color: var(--color-mint-green-50);
+  --border-color: transparent;
+  box-shadow: 0 0 0 0.0625rem var(--border-color);
+  border-color: transparent;
+}
+.dnb-button--primary[disabled] {
+  color: var(--color-white);
+  background-color: var(--color-sea-green-30);
+}
+.dnb-button:not([disabled]).dnb-button--primary.dnb-button__status--error {
+  color: var(--color-white);
+  background-color: var(--color-fire-red);
+}
+.dnb-button--secondary {
+  color: var(--color-sea-green);
+  background-color: var(--color-white);
+  --border-color: var(--color-sea-green);
+  box-shadow: inset 0 0 0 0.0625rem var(--border-color);
+  /* iOS fix - because "inset" works not fine with border-radius */
+  /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
+  border-color: transparent;
+}
+@supports (-webkit-touch-callout: none) {
   .dnb-button--secondary {
-    color: var(--color-sea-green);
-    background-color: var(--color-white);
-    --border-color: var(--color-sea-green);
-    box-shadow: inset 0 0 0 0.0625rem var(--border-color);
-    /* iOS fix - because "inset" works not fine with border-radius */
-    /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
-    border-color: transparent; }
-    @supports (-webkit-touch-callout: none) {
-      .dnb-button--secondary {
-        box-shadow: 0 0 0 0.0625rem var(--border-color); } }
-    @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
-      .dnb-button--secondary {
-        box-shadow: 0 0 0 0.0625rem var(--border-color); } }
-    html:not([data-whatintent='touch']) .dnb-button--secondary:hover[disabled] {
-      cursor: not-allowed; }
-    html:not([data-whatintent='touch']) .dnb-button--secondary:hover:not([disabled]) {
-      color: var(--color-sea-green);
-      background-color: var(--color-white);
-      --border-color: var(--color-emerald-green);
-      box-shadow: 0 0 0 0.125rem var(--border-color);
-      border-color: transparent; }
-    .dnb-button--secondary:focus[disabled],
-    html:not([data-whatintent='touch']) .dnb-button--secondary:focus[disabled] {
-      cursor: not-allowed; }
-    .dnb-button--secondary:focus:not([disabled]),
-    html:not([data-whatintent='touch']) .dnb-button--secondary:focus:not([disabled]) {
-      outline: none; }
-      html[data-whatinput='keyboard'] .dnb-button--secondary:focus:not([disabled]), html[data-whatinput='keyboard']
-      html:not([data-whatintent='touch']) .dnb-button--secondary:focus:not([disabled]) {
-        color: var(--color-sea-green);
-        background-color: var(--color-white); }
-      html[data-whatinput='keyboard'] .dnb-button--secondary:focus:not([disabled]), html[data-whatinput='keyboard']
-      html:not([data-whatintent='touch']) .dnb-button--secondary:focus:not([disabled]) {
-        --border-color: var(--color-emerald-green);
-        box-shadow: inset 0 0 0 0.125rem var(--border-color);
-        /* iOS fix - because "inset" works not fine with border-radius */
-        /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
-        border-color: transparent; }
-        @supports (-webkit-touch-callout: none) {
-          html[data-whatinput='keyboard'] .dnb-button--secondary:focus:not([disabled]), html[data-whatinput='keyboard']
-          html:not([data-whatintent='touch']) .dnb-button--secondary:focus:not([disabled]) {
-            box-shadow: 0 0 0 0.125rem var(--border-color); } }
-        @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
-          html[data-whatinput='keyboard'] .dnb-button--secondary:focus:not([disabled]), html[data-whatinput='keyboard']
-          html:not([data-whatintent='touch']) .dnb-button--secondary:focus:not([disabled]) {
-            box-shadow: 0 0 0 0.125rem var(--border-color); } }
-    .dnb-button--secondary:active[disabled],
-    html:not([data-whatintent='touch']) .dnb-button--secondary:active[disabled] {
-      cursor: not-allowed; }
-    .dnb-button--secondary:active:not([disabled]),
-    html:not([data-whatintent='touch']) .dnb-button--secondary:active:not([disabled]) {
-      color: var(--color-sea-green);
-      background-color: var(--color-mint-green-50);
-      --border-color: transparent;
-      box-shadow: 0 0 0 0.0625rem var(--border-color);
-      border-color: transparent; }
-    .dnb-button--secondary[disabled], .dnb-button--secondary[disabled]:focus {
-      color: var(--color-sea-green-30);
-      background-color: var(--color-white);
-      --border-color: var(--color-sea-green-30);
-      box-shadow: inset 0 0 0 0.0625rem var(--border-color);
-      /* iOS fix - because "inset" works not fine with border-radius */
-      /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
-      border-color: transparent; }
-      @supports (-webkit-touch-callout: none) {
-        .dnb-button--secondary[disabled], .dnb-button--secondary[disabled]:focus {
-          box-shadow: 0 0 0 0.0625rem var(--border-color); } }
-      @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
-        .dnb-button--secondary[disabled], .dnb-button--secondary[disabled]:focus {
-          box-shadow: 0 0 0 0.0625rem var(--border-color); } }
-  .dnb-button:not([disabled]).dnb-button--secondary.dnb-button__status--error {
-    color: var(--color-fire-red);
-    --border-color: var(--color-fire-red);
-    box-shadow: inset 0 0 0 0.0625rem var(--border-color);
-    /* iOS fix - because "inset" works not fine with border-radius */
-    /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
-    border-color: transparent; }
-    @supports (-webkit-touch-callout: none) {
-      .dnb-button:not([disabled]).dnb-button--secondary.dnb-button__status--error {
-        box-shadow: 0 0 0 0.0625rem var(--border-color); } }
-    @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
-      .dnb-button:not([disabled]).dnb-button--secondary.dnb-button__status--error {
-        box-shadow: 0 0 0 0.0625rem var(--border-color); } }
-    .dnb-button:not([disabled]).dnb-button--secondary.dnb-button__status--error .dnb-button__icon {
-      color: inherit; }
-  html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):hover[disabled] {
-    cursor: not-allowed; }
-  html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):hover:not([disabled]) {
-    color: var(--color-emerald-green);
-    background-color: var(--color-white);
-    --border-color: var(--color-emerald-green);
-    box-shadow: 0 0 0 0.125rem var(--border-color);
-    border-color: transparent; }
-  .dnb-button--secondary:not(.dnb-button--has-text):focus[disabled],
-  html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):focus[disabled] {
-    cursor: not-allowed; }
-  .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]),
-  html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]) {
-    outline: none; }
-    html[data-whatinput='keyboard'] .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]), html[data-whatinput='keyboard']
-    html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]) {
-      color: var(--color-emerald-green);
-      background-color: var(--color-white); }
-    html[data-whatinput='keyboard'] .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]), html[data-whatinput='keyboard']
-    html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]) {
-      --border-color: var(--color-emerald-green);
-      box-shadow: inset 0 0 0 0.125rem var(--border-color);
-      /* iOS fix - because "inset" works not fine with border-radius */
-      /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
-      border-color: transparent; }
-      @supports (-webkit-touch-callout: none) {
-        html[data-whatinput='keyboard'] .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]), html[data-whatinput='keyboard']
-        html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]) {
-          box-shadow: 0 0 0 0.125rem var(--border-color); } }
-      @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
-        html[data-whatinput='keyboard'] .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]), html[data-whatinput='keyboard']
-        html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]) {
-          box-shadow: 0 0 0 0.125rem var(--border-color); } }
-  .dnb-button--secondary:not(.dnb-button--has-text):active[disabled],
-  html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):active[disabled] {
-    cursor: not-allowed; }
-  .dnb-button--secondary:not(.dnb-button--has-text):active:not([disabled]),
-  html:not([data-whatintent='touch']) .dnb-button--secondary:not(.dnb-button--has-text):active:not([disabled]) {
-    color: var(--color-emerald-green);
-    background-color: var(--color-mint-green-50);
-    --border-color: transparent;
     box-shadow: 0 0 0 0.0625rem var(--border-color);
-    border-color: transparent; }
-  .dnb-button--active {
-    --border-color: var(--color-emerald-green);
+  }
+}
+@supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+  .dnb-button--secondary {
+    box-shadow: 0 0 0 0.0625rem var(--border-color);
+  }
+}
+html:not([data-whatintent=touch]) .dnb-button--secondary:hover[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatintent=touch]) .dnb-button--secondary:hover:not([disabled]) {
+  color: var(--color-sea-green);
+  background-color: var(--color-white);
+  --border-color: var(--color-emerald-green);
+  box-shadow: 0 0 0 0.125rem var(--border-color);
+  border-color: transparent;
+}
+.dnb-button--secondary:focus[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:focus[disabled] {
+  cursor: not-allowed;
+}
+.dnb-button--secondary:focus:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:focus:not([disabled]) {
+  outline: none;
+}
+html[data-whatinput=keyboard] .dnb-button--secondary:focus:not([disabled]), html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-button--secondary:focus:not([disabled]) {
+  color: var(--color-sea-green);
+  background-color: var(--color-white);
+}
+html[data-whatinput=keyboard] .dnb-button--secondary:focus:not([disabled]), html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-button--secondary:focus:not([disabled]) {
+  --border-color: var(--color-emerald-green);
+  box-shadow: inset 0 0 0 0.125rem var(--border-color);
+  /* iOS fix - because "inset" works not fine with border-radius */
+  /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
+  border-color: transparent;
+}
+@supports (-webkit-touch-callout: none) {
+  html[data-whatinput=keyboard] .dnb-button--secondary:focus:not([disabled]), html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-button--secondary:focus:not([disabled]) {
     box-shadow: 0 0 0 0.125rem var(--border-color);
-    border-color: transparent; }
-  .dnb-button--tertiary {
-    position: relative;
-    color: var(--color-sea-green);
-    background-color: transparent; }
-    .dnb-button--tertiary .dnb-button__text {
-      position: relative; }
-      .dnb-button--tertiary .dnb-button__text::after {
-        content: '';
-        position: absolute;
-        z-index: 1;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        width: auto;
-        height: 0.095rem;
-        border-radius: calc(0.095rem / 2);
-        color: var(--color-sea-green);
-        background-color: currentColor;
-        bottom: -0.0625rem;
-        color: transparent;
-        transition: color 250ms ease-in-out; }
-        [data-visual-test-wrapper] .dnb-button--tertiary .dnb-button__text::after {
-          transition: none; }
-      .dnb-skeleton .dnb-button--tertiary .dnb-button__text::after {
-        content: none; }
-    .dnb-button--tertiary.dnb-button--has-text {
-      padding-left: 0;
-      padding-right: 0; }
-    .dnb-button--tertiary.dnb-button--has-icon .dnb-button__text::after {
-      left: -1rem;
-      right: -1rem; }
-    .dnb-button--tertiary:focus[disabled],
-    html:not([data-whatintent='touch']) .dnb-button--tertiary:focus[disabled] {
-      cursor: not-allowed; }
-    .dnb-button--tertiary:focus:not([disabled]),
-    html:not([data-whatintent='touch']) .dnb-button--tertiary:focus:not([disabled]) {
-      outline: initial; }
-      html[data-whatinput='keyboard'] .dnb-button--tertiary:focus:not([disabled]), html[data-whatinput='keyboard']
-      html:not([data-whatintent='touch']) .dnb-button--tertiary:focus:not([disabled]) {
-        box-shadow: none; }
-      .dnb-button--tertiary:focus:not([disabled])::before,
-      html:not([data-whatintent='touch']) .dnb-button--tertiary:focus:not([disabled])::before {
-        content: '';
-        position: absolute;
-        z-index: 1;
-        top: 0;
-        left: -0.5rem;
-        bottom: 0;
-        right: -0.5rem;
-        height: inherit;
-        border-radius: inherit;
-        outline: none; }
-        html[data-whatinput='keyboard'] .dnb-button--tertiary:focus:not([disabled])::before, html[data-whatinput='keyboard']
-        html:not([data-whatintent='touch']) .dnb-button--tertiary:focus:not([disabled])::before {
-          --border-color: var(--color-emerald-green);
-          box-shadow: 0 0 0 0.125rem var(--border-color);
-          border-color: transparent; }
-      .dnb-button--tertiary:focus:not([disabled]) .dnb-button__text::after,
-      html:not([data-whatintent='touch']) .dnb-button--tertiary:focus:not([disabled]) .dnb-button__text::after {
-        visibility: hidden; }
-    html:not([data-whatintent='touch']) .dnb-button--tertiary:hover[disabled] {
-      cursor: not-allowed; }
-    html:not([data-whatintent='touch']) .dnb-button--tertiary:hover:not([disabled]) .dnb-button__text::after {
-      visibility: visible;
-      color: var(--color-emerald-green); }
-    .dnb-button--tertiary:active[disabled],
-    html:not([data-whatintent='touch']) .dnb-button--tertiary:active[disabled] {
-      cursor: not-allowed; }
-    .dnb-button--tertiary:active:not([disabled]),
-    html:not([data-whatintent='touch']) .dnb-button--tertiary:active:not([disabled]) {
-      outline: initial; }
-      html[data-whatinput='keyboard'] .dnb-button--tertiary:active:not([disabled]), html[data-whatinput='keyboard']
-      html:not([data-whatintent='touch']) .dnb-button--tertiary:active:not([disabled]) {
-        box-shadow: none; }
-      html[data-whatintent='touch'] .dnb-button--tertiary:active:not([disabled]) .dnb-button__text::after, html[data-whatintent='touch']
-      html:not([data-whatintent='touch']) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text::after {
-        transition: none;
-        visibility: visible;
-        opacity: 1;
-        color: var(--color-emerald-green); }
-      html:not([data-whatintent='touch']) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text::after, html:not([data-whatintent='touch'])
-      html:not([data-whatintent='touch']) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text::after {
-        visibility: hidden; }
-    .dnb-button--tertiary .dnb-button__icon {
-      align-self: flex-start;
-      margin-top: calc(var(--button-height) / 2 - 0.5rem); }
-    .dnb-button--tertiary.dnb-button--size-large .dnb-button__icon {
-      margin-top: calc(var(--button-height--large) / 2 - 0.5rem); }
-    .dnb-button--tertiary.dnb-button--size-medium .dnb-button__icon {
-      margin-top: calc(var(--button-height--medium) / 2 - 0.5rem); }
-    .dnb-button--tertiary.dnb-button--size-small .dnb-button__icon {
-      margin-top: calc(var(--button-height--small) / 2 - 0.5rem); }
-    .dnb-button--tertiary.dnb-button--icon-position-top {
-      flex-direction: column;
-      border-radius: 0.5rem;
-      vertical-align: middle; }
-      .dnb-button--tertiary.dnb-button--icon-position-top.dnb-button--has-text {
-        padding: 0; }
-      .dnb-button--tertiary.dnb-button--icon-position-top .dnb-button__icon {
-        margin-top: 0.5rem;
-        align-self: center; }
-      .dnb-button--tertiary.dnb-button--icon-position-top .dnb-button__text {
-        margin-top: 0;
-        margin-bottom: 0.25rem;
-        font-size: var(--font-size-x-small); }
-        .dnb-button--tertiary.dnb-button--icon-position-top .dnb-button__text::after {
-          left: 0;
-          right: 0; }
-      .dnb-button--tertiary.dnb-button--icon-position-top.dnb-button--size-large .dnb-button__text {
-        font-size: var(--font-size-small); }
-      .dnb-button--tertiary.dnb-button--icon-position-top .dnb-button__alignment {
-        order: 3;
-        height: 0; }
-    .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left .dnb-button__text {
-      padding-left: 1rem; }
-      .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left .dnb-button__text::after {
-        left: -0.5rem;
-        right: 0; }
-    .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left .dnb-button__icon {
-      margin-right: -0.5rem;
-      margin-left: 0; }
-    .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left.dnb-button--icon-size-medium .dnb-button__text, .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left.dnb-button--icon-size-large .dnb-button__text {
-      padding-left: 0;
-      margin-left: 1rem; }
-      .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left.dnb-button--icon-size-medium .dnb-button__text::after, .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left.dnb-button--icon-size-large .dnb-button__text::after {
-        left: -0.5rem;
-        right: 0; }
-    .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left:focus[disabled],
-    html:not([data-whatintent='touch']) .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left:focus[disabled] {
-      cursor: not-allowed; }
-    .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left:focus:not([disabled])::before,
-    html:not([data-whatintent='touch']) .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left:focus:not([disabled])::before {
-      right: -1rem; }
-    .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right {
-      /* stylelint-disable */
-      /* stylelint-enable */ }
-      .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right .dnb-button__text {
-        padding-right: 1rem; }
-        .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right .dnb-button__text::after {
-          left: 0;
-          right: -0.5rem; }
-      .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right .dnb-button__icon {
-        margin-left: -0.5rem;
-        margin-right: 0; }
-      .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right.dnb-button--icon-size-medium .dnb-button__text, .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right.dnb-button--icon-size-large .dnb-button__text {
-        padding-right: 0;
-        margin-right: 1rem; }
-        .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right.dnb-button--icon-size-medium .dnb-button__text::after, .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right.dnb-button--icon-size-large .dnb-button__text::after {
-          right: 0; }
-      .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right:focus[disabled],
-      html:not([data-whatintent='touch']) .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right:focus[disabled] {
-        cursor: not-allowed; }
-      .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right:focus:not([disabled])::before,
-      html:not([data-whatintent='touch']) .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right:focus:not([disabled])::before {
-        left: -1rem; }
-    .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):focus[disabled],
-    html:not([data-whatintent='touch']) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):focus[disabled] {
-      cursor: not-allowed; }
-    .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):focus:not([disabled])::before,
-    html:not([data-whatintent='touch']) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):focus:not([disabled])::before {
-      left: 0;
-      right: 0; }
-    html:not([data-whatintent='touch']) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):hover[disabled] {
-      cursor: not-allowed; }
-    html:not([data-whatintent='touch']) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):hover:not([disabled]) {
-      --border-color: var(--color-sea-green);
-      box-shadow: 0 0 0 0.0625rem var(--border-color);
-      border-color: transparent; }
-    .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active[disabled],
-    html:not([data-whatintent='touch']) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active[disabled] {
-      cursor: not-allowed; }
-    .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active:not([disabled]),
-    html:not([data-whatintent='touch']) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active:not([disabled]) {
-      --border-color: var(--color-sea-green-30);
-      box-shadow: 0 0 0 0.0625rem var(--border-color);
-      border-color: transparent; }
-    html[data-whatinput='keyboard']
-.dnb-button--tertiary:hover:focus .dnb-button__text::after {
-      visibility: hidden; }
-    .dnb-button--tertiary[disabled] {
-      color: var(--color-sea-green-30); }
-  .dnb-button--signal {
-    color: var(--color-ocean-green);
-    background-color: var(--color-accent-yellow); }
-    html:not([data-whatintent='touch']) .dnb-button--signal:hover[disabled] {
-      cursor: not-allowed; }
-    html:not([data-whatintent='touch']) .dnb-button--signal:hover:not([disabled]) {
-      color: var(--color-ocean-green);
-      background-color: var(--color-accent-yellow);
-      --border-color: var(--color-ocean-green);
-      box-shadow: 0 0 0 0.125rem var(--border-color);
-      border-color: transparent; }
-    html[data-whatintent='touch'] .dnb-button--signal:active[disabled],
-    html:not([data-whatintent='touch']) html[data-whatintent='touch'] .dnb-button--signal:active[disabled] {
-      cursor: not-allowed; }
-    html[data-whatintent='touch'] .dnb-button--signal:active:not([disabled]),
-    html:not([data-whatintent='touch']) html[data-whatintent='touch'] .dnb-button--signal:active:not([disabled]) {
-      color: var(--color-ocean-green);
-      background-color: var(--color-accent-yellow);
-      --border-color: var(--color-ocean-green);
-      box-shadow: 0 0 0 0.125rem var(--border-color);
-      border-color: transparent; }
-    .dnb-button--signal:focus[disabled],
-    html:not([data-whatintent='touch']) .dnb-button--signal:focus[disabled] {
-      cursor: not-allowed; }
-    .dnb-button--signal:focus:not([disabled]),
-    html:not([data-whatintent='touch']) .dnb-button--signal:focus:not([disabled]) {
-      outline: none; }
-      html[data-whatinput='keyboard'] .dnb-button--signal:focus:not([disabled]), html[data-whatinput='keyboard']
-      html:not([data-whatintent='touch']) .dnb-button--signal:focus:not([disabled]) {
-        color: var(--color-ocean-green);
-        background-color: var(--color-accent-yellow); }
-      html[data-whatinput='keyboard'] .dnb-button--signal:focus:not([disabled]), html[data-whatinput='keyboard']
-      html:not([data-whatintent='touch']) .dnb-button--signal:focus:not([disabled]) {
-        --border-color: var(--color-emerald-green);
-        box-shadow: inset 0 0 0 0.125rem var(--border-color);
-        /* iOS fix - because "inset" works not fine with border-radius */
-        /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
-        border-color: transparent; }
-        @supports (-webkit-touch-callout: none) {
-          html[data-whatinput='keyboard'] .dnb-button--signal:focus:not([disabled]), html[data-whatinput='keyboard']
-          html:not([data-whatintent='touch']) .dnb-button--signal:focus:not([disabled]) {
-            box-shadow: 0 0 0 0.125rem var(--border-color); } }
-        @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
-          html[data-whatinput='keyboard'] .dnb-button--signal:focus:not([disabled]), html[data-whatinput='keyboard']
-          html:not([data-whatintent='touch']) .dnb-button--signal:focus:not([disabled]) {
-            box-shadow: 0 0 0 0.125rem var(--border-color); } }
-    .dnb-button--signal:active[disabled],
-    html:not([data-whatintent='touch']) .dnb-button--signal:active[disabled] {
-      cursor: not-allowed; }
-    .dnb-button--signal:active:not([disabled]),
-    html:not([data-whatintent='touch']) .dnb-button--signal:active:not([disabled]) {
-      color: var(--color-ocean-green);
-      background-color: var(--color-accent-yellow);
-      --border-color: transparent;
-      box-shadow: 0 0 0 0.0625rem var(--border-color);
-      border-color: transparent; }
-    .dnb-button--signal[disabled] {
-      color: var(--color-black-20);
-      background-color: var(--color-accent-yellow-30); }
-  .dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]) {
-    background-color: transparent;
-    box-shadow: none; }
-    .dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled])::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      width: 0.0625rem;
-      background-color: currentColor; }
-  html:not([data-whatintent='touch'])
-.dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):focus, html:not([data-whatintent='touch'])
-.dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):hover {
-    color: var(--color-white);
-    box-shadow: none; }
-    html:not([data-whatintent='touch'])
-.dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):focus, html:not([data-whatintent='touch'])
-.dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):focus::after, html:not([data-whatintent='touch'])
-.dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):hover, html:not([data-whatintent='touch'])
-.dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):hover::after {
-      background-color: var(--color-sea-green); }
-  html:not([data-whatintent='touch'])
-.dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):not(:active):hover {
-    border-radius: 0; }
-  html:not([data-whatintent='touch'])
-.dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):active {
-    color: var(--color-sea-green);
-    box-shadow: none; }
-    html:not([data-whatintent='touch'])
-.dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):active, html:not([data-whatintent='touch'])
-.dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):active::after {
-      background-color: var(--color-mint-green-50); }
-  html:not([data-whatintent='touch'])
-.dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text)[disabled] {
-    color: var(--color-black-55);
-    background-color: var(--color-black-3); }
-"
+  }
+}
+@supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+  html[data-whatinput=keyboard] .dnb-button--secondary:focus:not([disabled]), html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-button--secondary:focus:not([disabled]) {
+    box-shadow: 0 0 0 0.125rem var(--border-color);
+  }
+}
+.dnb-button--secondary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:active[disabled] {
+  cursor: not-allowed;
+}
+.dnb-button--secondary:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:active:not([disabled]) {
+  color: var(--color-sea-green);
+  background-color: var(--color-mint-green-50);
+  --border-color: transparent;
+  box-shadow: 0 0 0 0.0625rem var(--border-color);
+  border-color: transparent;
+}
+.dnb-button--secondary[disabled], .dnb-button--secondary[disabled]:focus {
+  color: var(--color-sea-green-30);
+  background-color: var(--color-white);
+  --border-color: var(--color-sea-green-30);
+  box-shadow: inset 0 0 0 0.0625rem var(--border-color);
+  /* iOS fix - because "inset" works not fine with border-radius */
+  /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
+  border-color: transparent;
+}
+@supports (-webkit-touch-callout: none) {
+  .dnb-button--secondary[disabled], .dnb-button--secondary[disabled]:focus {
+    box-shadow: 0 0 0 0.0625rem var(--border-color);
+  }
+}
+@supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+  .dnb-button--secondary[disabled], .dnb-button--secondary[disabled]:focus {
+    box-shadow: 0 0 0 0.0625rem var(--border-color);
+  }
+}
+.dnb-button:not([disabled]).dnb-button--secondary.dnb-button__status--error {
+  color: var(--color-fire-red);
+  --border-color: var(--color-fire-red);
+  box-shadow: inset 0 0 0 0.0625rem var(--border-color);
+  /* iOS fix - because "inset" works not fine with border-radius */
+  /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
+  border-color: transparent;
+}
+@supports (-webkit-touch-callout: none) {
+  .dnb-button:not([disabled]).dnb-button--secondary.dnb-button__status--error {
+    box-shadow: 0 0 0 0.0625rem var(--border-color);
+  }
+}
+@supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+  .dnb-button:not([disabled]).dnb-button--secondary.dnb-button__status--error {
+    box-shadow: 0 0 0 0.0625rem var(--border-color);
+  }
+}
+.dnb-button:not([disabled]).dnb-button--secondary.dnb-button__status--error .dnb-button__icon {
+  color: inherit;
+}
+html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-text):hover[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-text):hover:not([disabled]) {
+  color: var(--color-emerald-green);
+  background-color: var(--color-white);
+  --border-color: var(--color-emerald-green);
+  box-shadow: 0 0 0 0.125rem var(--border-color);
+  border-color: transparent;
+}
+.dnb-button--secondary:not(.dnb-button--has-text):focus[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-text):focus[disabled] {
+  cursor: not-allowed;
+}
+.dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]) {
+  outline: none;
+}
+html[data-whatinput=keyboard] .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]), html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]) {
+  color: var(--color-emerald-green);
+  background-color: var(--color-white);
+}
+html[data-whatinput=keyboard] .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]), html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]) {
+  --border-color: var(--color-emerald-green);
+  box-shadow: inset 0 0 0 0.125rem var(--border-color);
+  /* iOS fix - because "inset" works not fine with border-radius */
+  /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
+  border-color: transparent;
+}
+@supports (-webkit-touch-callout: none) {
+  html[data-whatinput=keyboard] .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]), html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]) {
+    box-shadow: 0 0 0 0.125rem var(--border-color);
+  }
+}
+@supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+  html[data-whatinput=keyboard] .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]), html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-text):focus:not([disabled]) {
+    box-shadow: 0 0 0 0.125rem var(--border-color);
+  }
+}
+.dnb-button--secondary:not(.dnb-button--has-text):active[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-text):active[disabled] {
+  cursor: not-allowed;
+}
+.dnb-button--secondary:not(.dnb-button--has-text):active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-text):active:not([disabled]) {
+  color: var(--color-emerald-green);
+  background-color: var(--color-mint-green-50);
+  --border-color: transparent;
+  box-shadow: 0 0 0 0.0625rem var(--border-color);
+  border-color: transparent;
+}
+.dnb-button--active {
+  --border-color: var(--color-emerald-green);
+  box-shadow: 0 0 0 0.125rem var(--border-color);
+  border-color: transparent;
+}
+.dnb-button--tertiary {
+  position: relative;
+  color: var(--color-sea-green);
+  background-color: transparent;
+}
+.dnb-button--tertiary .dnb-button__text {
+  position: relative;
+}
+.dnb-button--tertiary .dnb-button__text::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: auto;
+  height: 0.095rem;
+  border-radius: 0.0475rem;
+  color: var(--color-sea-green);
+  background-color: currentColor;
+  bottom: -0.0625rem;
+  color: transparent;
+  transition: color 250ms ease-in-out;
+}
+[data-visual-test-wrapper] .dnb-button--tertiary .dnb-button__text::after {
+  transition: none;
+}
+.dnb-skeleton .dnb-button--tertiary .dnb-button__text::after {
+  content: none;
+}
+.dnb-button--tertiary.dnb-button--has-text {
+  padding-left: 0;
+  padding-right: 0;
+}
+.dnb-button--tertiary.dnb-button--has-icon .dnb-button__text::after {
+  left: -1rem;
+  right: -1rem;
+}
+.dnb-button--tertiary:focus[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:focus[disabled] {
+  cursor: not-allowed;
+}
+.dnb-button--tertiary:focus:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--tertiary:focus:not([disabled]) {
+  outline: initial;
+}
+html[data-whatinput=keyboard] .dnb-button--tertiary:focus:not([disabled]), html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-button--tertiary:focus:not([disabled]) {
+  box-shadow: none;
+}
+.dnb-button--tertiary:focus:not([disabled])::before, html:not([data-whatintent=touch]) .dnb-button--tertiary:focus:not([disabled])::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: -0.5rem;
+  bottom: 0;
+  right: -0.5rem;
+  height: inherit;
+  border-radius: inherit;
+  outline: none;
+}
+html[data-whatinput=keyboard] .dnb-button--tertiary:focus:not([disabled])::before, html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-button--tertiary:focus:not([disabled])::before {
+  --border-color: var(--color-emerald-green);
+  box-shadow: 0 0 0 0.125rem var(--border-color);
+  border-color: transparent;
+}
+.dnb-button--tertiary:focus:not([disabled]) .dnb-button__text::after, html:not([data-whatintent=touch]) .dnb-button--tertiary:focus:not([disabled]) .dnb-button__text::after {
+  visibility: hidden;
+}
+html:not([data-whatintent=touch]) .dnb-button--tertiary:hover[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatintent=touch]) .dnb-button--tertiary:hover:not([disabled]) .dnb-button__text::after {
+  visibility: visible;
+  color: var(--color-emerald-green);
+}
+.dnb-button--tertiary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:active[disabled] {
+  cursor: not-allowed;
+}
+.dnb-button--tertiary:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) {
+  outline: initial;
+}
+html[data-whatinput=keyboard] .dnb-button--tertiary:active:not([disabled]), html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) {
+  box-shadow: none;
+}
+html[data-whatintent=touch] .dnb-button--tertiary:active:not([disabled]) .dnb-button__text::after, html[data-whatintent=touch] html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text::after {
+  transition: none;
+  visibility: visible;
+  opacity: 1;
+  color: var(--color-emerald-green);
+}
+html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text::after, html:not([data-whatintent=touch]) html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text::after {
+  visibility: hidden;
+}
+.dnb-button--tertiary .dnb-button__icon {
+  align-self: flex-start;
+  margin-top: calc(var(--button-height) / 2 - 0.5rem);
+}
+.dnb-button--tertiary.dnb-button--size-large .dnb-button__icon {
+  margin-top: calc(var(--button-height--large) / 2 - 0.5rem);
+}
+.dnb-button--tertiary.dnb-button--size-medium .dnb-button__icon {
+  margin-top: calc(var(--button-height--medium) / 2 - 0.5rem);
+}
+.dnb-button--tertiary.dnb-button--size-small .dnb-button__icon {
+  margin-top: calc(var(--button-height--small) / 2 - 0.5rem);
+}
+.dnb-button--tertiary.dnb-button--icon-position-top {
+  flex-direction: column;
+  border-radius: 0.5rem;
+  vertical-align: middle;
+}
+.dnb-button--tertiary.dnb-button--icon-position-top.dnb-button--has-text {
+  padding: 0;
+}
+.dnb-button--tertiary.dnb-button--icon-position-top .dnb-button__icon {
+  margin-top: 0.5rem;
+  align-self: center;
+}
+.dnb-button--tertiary.dnb-button--icon-position-top .dnb-button__text {
+  margin-top: 0;
+  margin-bottom: 0.25rem;
+  font-size: var(--font-size-x-small);
+}
+.dnb-button--tertiary.dnb-button--icon-position-top .dnb-button__text::after {
+  left: 0;
+  right: 0;
+}
+.dnb-button--tertiary.dnb-button--icon-position-top.dnb-button--size-large .dnb-button__text {
+  font-size: var(--font-size-small);
+}
+.dnb-button--tertiary.dnb-button--icon-position-top .dnb-button__alignment {
+  order: 3;
+  height: 0;
+}
+.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left .dnb-button__text {
+  padding-left: 1rem;
+}
+.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left .dnb-button__text::after {
+  left: -0.5rem;
+  right: 0;
+}
+.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left .dnb-button__icon {
+  margin-right: -0.5rem;
+  margin-left: 0;
+}
+.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left.dnb-button--icon-size-medium .dnb-button__text, .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left.dnb-button--icon-size-large .dnb-button__text {
+  padding-left: 0;
+  margin-left: 1rem;
+}
+.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left.dnb-button--icon-size-medium .dnb-button__text::after, .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left.dnb-button--icon-size-large .dnb-button__text::after {
+  left: -0.5rem;
+  right: 0;
+}
+.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left:focus[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left:focus[disabled] {
+  cursor: not-allowed;
+}
+.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left:focus:not([disabled])::before, html:not([data-whatintent=touch]) .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left:focus:not([disabled])::before {
+  right: -1rem;
+}
+.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right {
+  /* stylelint-disable */
+  /* stylelint-enable */
+}
+.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right .dnb-button__text {
+  padding-right: 1rem;
+}
+.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right .dnb-button__text::after {
+  left: 0;
+  right: -0.5rem;
+}
+.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right .dnb-button__icon {
+  margin-left: -0.5rem;
+  margin-right: 0;
+}
+.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right.dnb-button--icon-size-medium .dnb-button__text, .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right.dnb-button--icon-size-large .dnb-button__text {
+  padding-right: 0;
+  margin-right: 1rem;
+}
+.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right.dnb-button--icon-size-medium .dnb-button__text::after, .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right.dnb-button--icon-size-large .dnb-button__text::after {
+  right: 0;
+}
+.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right:focus[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right:focus[disabled] {
+  cursor: not-allowed;
+}
+.dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right:focus:not([disabled])::before, html:not([data-whatintent=touch]) .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right:focus:not([disabled])::before {
+  left: -1rem;
+}
+.dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):focus[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):focus[disabled] {
+  cursor: not-allowed;
+}
+.dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):focus:not([disabled])::before, html:not([data-whatintent=touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):focus:not([disabled])::before {
+  left: 0;
+  right: 0;
+}
+html:not([data-whatintent=touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):hover[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatintent=touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):hover:not([disabled]) {
+  --border-color: var(--color-sea-green);
+  box-shadow: 0 0 0 0.0625rem var(--border-color);
+  border-color: transparent;
+}
+.dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active[disabled] {
+  cursor: not-allowed;
+}
+.dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):active:not([disabled]) {
+  --border-color: var(--color-sea-green-30);
+  box-shadow: 0 0 0 0.0625rem var(--border-color);
+  border-color: transparent;
+}
+html[data-whatinput=keyboard] .dnb-button--tertiary:hover:focus .dnb-button__text::after {
+  visibility: hidden;
+}
+.dnb-button--tertiary[disabled] {
+  color: var(--color-sea-green-30);
+}
+.dnb-button--signal {
+  color: var(--color-ocean-green);
+  background-color: var(--color-accent-yellow);
+}
+html:not([data-whatintent=touch]) .dnb-button--signal:hover[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatintent=touch]) .dnb-button--signal:hover:not([disabled]) {
+  color: var(--color-ocean-green);
+  background-color: var(--color-accent-yellow);
+  --border-color: var(--color-ocean-green);
+  box-shadow: 0 0 0 0.125rem var(--border-color);
+  border-color: transparent;
+}
+html[data-whatintent=touch] .dnb-button--signal:active[disabled], html:not([data-whatintent=touch]) html[data-whatintent=touch] .dnb-button--signal:active[disabled] {
+  cursor: not-allowed;
+}
+html[data-whatintent=touch] .dnb-button--signal:active:not([disabled]), html:not([data-whatintent=touch]) html[data-whatintent=touch] .dnb-button--signal:active:not([disabled]) {
+  color: var(--color-ocean-green);
+  background-color: var(--color-accent-yellow);
+  --border-color: var(--color-ocean-green);
+  box-shadow: 0 0 0 0.125rem var(--border-color);
+  border-color: transparent;
+}
+.dnb-button--signal:focus[disabled], html:not([data-whatintent=touch]) .dnb-button--signal:focus[disabled] {
+  cursor: not-allowed;
+}
+.dnb-button--signal:focus:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--signal:focus:not([disabled]) {
+  outline: none;
+}
+html[data-whatinput=keyboard] .dnb-button--signal:focus:not([disabled]), html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-button--signal:focus:not([disabled]) {
+  color: var(--color-ocean-green);
+  background-color: var(--color-accent-yellow);
+}
+html[data-whatinput=keyboard] .dnb-button--signal:focus:not([disabled]), html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-button--signal:focus:not([disabled]) {
+  --border-color: var(--color-emerald-green);
+  box-shadow: inset 0 0 0 0.125rem var(--border-color);
+  /* iOS fix - because "inset" works not fine with border-radius */
+  /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
+  border-color: transparent;
+}
+@supports (-webkit-touch-callout: none) {
+  html[data-whatinput=keyboard] .dnb-button--signal:focus:not([disabled]), html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-button--signal:focus:not([disabled]) {
+    box-shadow: 0 0 0 0.125rem var(--border-color);
+  }
+}
+@supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+  html[data-whatinput=keyboard] .dnb-button--signal:focus:not([disabled]), html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-button--signal:focus:not([disabled]) {
+    box-shadow: 0 0 0 0.125rem var(--border-color);
+  }
+}
+.dnb-button--signal:active[disabled], html:not([data-whatintent=touch]) .dnb-button--signal:active[disabled] {
+  cursor: not-allowed;
+}
+.dnb-button--signal:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--signal:active:not([disabled]) {
+  color: var(--color-ocean-green);
+  background-color: var(--color-accent-yellow);
+  --border-color: transparent;
+  box-shadow: 0 0 0 0.0625rem var(--border-color);
+  border-color: transparent;
+}
+.dnb-button--signal[disabled] {
+  color: var(--color-black-20);
+  background-color: var(--color-accent-yellow-30);
+}
+.dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]) {
+  background-color: transparent;
+  box-shadow: none;
+}
+.dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled])::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 0.0625rem;
+  background-color: currentColor;
+}
+html:not([data-whatintent=touch]) .dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):focus, html:not([data-whatintent=touch]) .dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):hover {
+  color: var(--color-white);
+  box-shadow: none;
+}
+html:not([data-whatintent=touch]) .dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):focus, html:not([data-whatintent=touch]) .dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):focus::after, html:not([data-whatintent=touch]) .dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):hover, html:not([data-whatintent=touch]) .dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):hover::after {
+  background-color: var(--color-sea-green);
+}
+html:not([data-whatintent=touch]) .dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):not(:active):hover {
+  border-radius: 0;
+}
+html:not([data-whatintent=touch]) .dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):active {
+  color: var(--color-sea-green);
+  box-shadow: none;
+}
+html:not([data-whatintent=touch]) .dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):active, html:not([data-whatintent=touch]) .dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text):not([disabled]):active::after {
+  background-color: var(--color-mint-green-50);
+}
+html:not([data-whatintent=touch]) .dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text)[disabled] {
+  color: var(--color-black-55);
+  background-color: var(--color-black-3);
+}"
 `;
 
 exports[`Button scss have to match snapshot 1`] = `
@@ -1355,9 +1424,15 @@ exports[`Button scss have to match snapshot 1`] = `
 *
 */
 /*
+ * Utilities
+ */
+/*
 * Icon component
 *
 */
+/*
+ * Utilities
+ */
 .dnb-icon {
   display: inline-block;
   vertical-align: middle;
@@ -1365,63 +1440,81 @@ exports[`Button scss have to match snapshot 1`] = `
   line-height: 1rem;
   color: inherit;
   width: 1em;
-  height: 1em; }
-  .dnb-icon img,
-  .dnb-icon svg {
-    width: inherit;
-    height: inherit;
-    shape-rendering: geometricPrecision;
-    vertical-align: top; }
-  .dnb-icon svg[width='100%'] {
-    width: inherit; }
-  .dnb-icon svg[height='100%'] {
-    height: inherit; }
-  .dnb-icon--inherit-color svg:not([fill]),
-  .dnb-icon--inherit-color svg [fill] {
-    fill: currentColor; }
-  .dnb-icon--inherit-color svg [stroke] {
-    stroke: currentColor; }
-  .dnb-icon--small {
-    font-size: 0.75rem; }
-  .dnb-icon--default {
-    font-size: 1rem; }
-  .dnb-icon--medium {
-    font-size: 1.5rem; }
-  .dnb-icon--large {
-    font-size: 2rem; }
-  .dnb-icon--x-large {
-    font-size: 2.5rem; }
-  .dnb-icon--xx-large {
-    font-size: 3rem; }
-  .dnb-icon--custom-size {
-    width: auto;
-    height: auto; }
-  .dnb-icon--auto {
-    font-size: 1em; }
-  .dnb-icon--auto > .dnb-icon--wrapper {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center; }
-  h1 .dnb-icon,
-  h2 .dnb-icon,
-  h3 .dnb-icon,
-  h4 .dnb-icon,
-  h5 .dnb-icon,
-  h6 .dnb-icon {
-    vertical-align: middle; }
-  .dnb-icon.dnb-skeleton {
-    color: var(--skeleton-color) !important; }
-    .dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
-      content: none !important; }
+  height: 1em;
+}
+.dnb-icon img,
+.dnb-icon svg {
+  width: inherit;
+  height: inherit;
+  shape-rendering: geometricPrecision;
+  vertical-align: top;
+}
+.dnb-icon svg[width="100%"] {
+  width: inherit;
+}
+.dnb-icon svg[height="100%"] {
+  height: inherit;
+}
+.dnb-icon--inherit-color svg:not([fill]), .dnb-icon--inherit-color svg [fill] {
+  fill: currentColor;
+}
+.dnb-icon--inherit-color svg [stroke] {
+  stroke: currentColor;
+}
+.dnb-icon--small {
+  font-size: 0.75rem;
+}
+.dnb-icon--default {
+  font-size: 1rem;
+}
+.dnb-icon--medium {
+  font-size: 1.5rem;
+}
+.dnb-icon--large {
+  font-size: 2rem;
+}
+.dnb-icon--x-large {
+  font-size: 2.5rem;
+}
+.dnb-icon--xx-large {
+  font-size: 3rem;
+}
+.dnb-icon--custom-size {
+  width: auto;
+  height: auto;
+}
+.dnb-icon--auto {
+  font-size: 1em;
+}
+.dnb-icon--auto > .dnb-icon--wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+h1 .dnb-icon, h2 .dnb-icon, h3 .dnb-icon, h4 .dnb-icon, h5 .dnb-icon, h6 .dnb-icon {
+  vertical-align: middle;
+}
+.dnb-icon.dnb-skeleton {
+  color: var(--skeleton-color) !important;
+}
+.dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
+  content: none !important;
+}
 
 /*
 * Used for snapshot testing
 *
 */
 /*
+ * Utilities
+ */
+/*
 * Tooltip component
 *
 */
+/*
+ * Utilities
+ */
 .dnb-tooltip {
   position: absolute;
   z-index: 3100;
@@ -1432,156 +1525,205 @@ exports[`Button scss have to match snapshot 1`] = `
   padding: 0 1rem;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 200ms var(--easing-default); }
-  .dnb-tooltip--large {
-    padding: 0.25rem 1rem; }
-  .dnb-tooltip--animate_position {
-    transition: all 200ms var(--easing-default), opacity 200ms var(--easing-default); }
-  .dnb-tooltip--active {
-    visibility: visible;
-    /*
-      because of the first "show" we also use animation
-      also, use forwards because of the usage of visibility
-    */
-    animation: show-tooltip 200ms var(--easing-default) forwards; }
-  html[data-visual-test] .dnb-tooltip--active, .dnb-tooltip--active.dnb-tooltip--no-animation {
-    animation: show-tooltip 1ms var(--easing-default) forwards; }
-  .dnb-tooltip--hide {
-    visibility: visible;
-    animation: hide-tooltip 200ms var(--easing-default) forwards; }
-  .dnb-tooltip--hide.dnb-tooltip--no-animation {
-    animation: hide-tooltip 1ms linear forwards; }
-  .dnb-tooltip--fixed {
-    position: fixed; }
-  html[data-visual-test] .dnb-tooltip--hide {
-    animation: hide-tooltip 1ms linear 1s forwards; }
-  .dnb-tooltip__portal {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0; }
-  .dnb-tooltip__content {
-    min-width: 2rem;
-    min-height: 1.5rem;
-    padding: 0; }
-  .dnb-tooltip__arrow {
-    position: absolute;
-    pointer-events: none;
-    margin: 0;
-    width: 1rem;
-    height: 0.5rem;
-    overflow: hidden; }
-    .dnb-tooltip__arrow::before {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 1rem;
-      height: 1rem;
-      transform: translateY(70%) rotate(45deg); }
-    .dnb-tooltip__arrow__position--bottom {
-      top: -0.5rem; }
-    .dnb-tooltip__arrow__position--top {
-      bottom: -0.5rem;
-      transform: rotate(180deg); }
-    .dnb-tooltip__arrow__position--left {
-      right: -0.75rem;
-      margin-right: 3px;
-      transform: rotate(90deg); }
-    .dnb-tooltip__arrow__position--right {
-      left: -0.75rem;
-      margin-left: 3px;
-      transform: rotate(270deg); }
-    .dnb-tooltip__arrow__arrow--left {
-      align-self: flex-start; }
-    .dnb-tooltip__arrow__arrow--right {
-      align-self: flex-end; }
+  transition: opacity 200ms var(--easing-default);
+}
+.dnb-tooltip--large {
+  padding: 0.25rem 1rem;
+}
+.dnb-tooltip--animate_position {
+  transition: all 200ms var(--easing-default), opacity 200ms var(--easing-default);
+}
+.dnb-tooltip--active {
+  visibility: visible;
+  /*
+    because of the first "show" we also use animation
+    also, use forwards because of the usage of visibility
+  */
+  animation: show-tooltip 200ms var(--easing-default) forwards;
+}
+html[data-visual-test] .dnb-tooltip--active, .dnb-tooltip--active.dnb-tooltip--no-animation {
+  animation: show-tooltip 1ms var(--easing-default) forwards;
+}
+.dnb-tooltip--hide {
+  visibility: visible;
+  animation: hide-tooltip 200ms var(--easing-default) forwards;
+}
+.dnb-tooltip--hide.dnb-tooltip--no-animation {
+  animation: hide-tooltip 1ms linear forwards;
+}
+.dnb-tooltip--fixed {
+  position: fixed;
+}
+html[data-visual-test] .dnb-tooltip--hide {
+  animation: hide-tooltip 1ms linear 1s forwards;
+}
+.dnb-tooltip__portal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+.dnb-tooltip__content {
+  min-width: 2rem;
+  min-height: 1.5rem;
+  padding: 0;
+}
+.dnb-tooltip__arrow {
+  position: absolute;
+  pointer-events: none;
+  margin: 0;
+  width: 1rem;
+  height: 0.5rem;
+  overflow: hidden;
+}
+.dnb-tooltip__arrow::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 1rem;
+  height: 1rem;
+  transform: translateY(70%) rotate(45deg);
+}
+.dnb-tooltip__arrow__position--bottom {
+  top: -0.5rem;
+}
+.dnb-tooltip__arrow__position--top {
+  bottom: -0.5rem;
+  transform: rotate(180deg);
+}
+.dnb-tooltip__arrow__position--left {
+  right: -0.75rem;
+  margin-right: 3px;
+  transform: rotate(90deg);
+}
+.dnb-tooltip__arrow__position--right {
+  left: -0.75rem;
+  margin-left: 3px;
+  transform: rotate(270deg);
+}
+.dnb-tooltip__arrow__arrow--left {
+  align-self: flex-start;
+}
+.dnb-tooltip__arrow__arrow--right {
+  align-self: flex-end;
+}
 
 @keyframes show-tooltip {
   from {
-    opacity: 0; }
+    opacity: 0;
+  }
   to {
-    opacity: 1; } }
-
+    opacity: 1;
+  }
+}
 @keyframes hide-tooltip {
   from {
-    opacity: 1; }
+    opacity: 1;
+  }
   to {
     opacity: 0;
-    visibility: hidden; } }
-
+    visibility: hidden;
+  }
+}
 /*
 * Used for snapshot testing
 *
 */
 /*
+ * Utilities
+ */
+/*
  * FormStatus component
  *
  */
+/*
+ * Utilities
+ */
 :root {
-  --form-status-radius: 0.25rem; }
+  --form-status-radius: 0.25rem;
+}
 
 .dnb-form-status {
   display: flex;
   opacity: 1;
-  transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default); }
-  .dnb-form-status--hidden {
-    will-change: height, opacity, margin, padding;
-    width: 0;
-    height: 0;
-    opacity: 0; }
-  .dnb-form-status--is-animating {
-    overflow: hidden;
-    width: auto; }
-  .dnb-form-status--disappear, .dnb-form-status--hidden {
-    margin: 0 !important;
-    padding: 0 !important; }
-  .dnb-form-status__shell {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    min-width: inherit;
-    border-radius: var(--form-status-radius); }
-  .dnb-form-status__text {
-    padding: 0.625rem 1rem;
-    cursor: text;
-    color: inherit;
-    line-height: var(--line-height-small);
-    font-size: var(--font-size-small);
-    white-space: normal; }
-    button .dnb-form-status__text {
-      cursor: inherit; }
-    .dnb-form-status__text .dnb-anchor {
-      font-size: inherit; }
-  .dnb-icon + .dnb-form-status__text {
-    padding-left: 0.5rem; }
-  .dnb-form-status__shell > .dnb-icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em; }
-  .dnb-form-status__size--large .dnb-form-status__text {
-    padding-top: 1.125rem;
-    padding-bottom: 1.125rem; }
-  .dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
-    margin-top: 0.6666666em;
-    margin-bottom: 0.6666666em; }
-  .dnb-form-status--stretch {
-    flex-grow: 1; }
-  .dnb-form-status--stretch .dnb-form-status__shell {
-    width: 100%; }
-  .dnb-form-status--stretch .dnb-form-status__text {
-    max-width: 47rem; }
-  .dnb-form-status[hidden] {
-    display: none; }
-  .dnb-form-status--no-animation,
-  html[data-visual-test] .dnb-form-status {
-    transition-duration: 1ms !important; }
+  transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default);
+}
+.dnb-form-status--hidden {
+  will-change: height, opacity, margin, padding;
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+.dnb-form-status--is-animating {
+  overflow: hidden;
+  width: auto;
+}
+.dnb-form-status--disappear, .dnb-form-status--hidden {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.dnb-form-status__shell {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  min-width: inherit;
+  border-radius: var(--form-status-radius);
+}
+.dnb-form-status__text {
+  padding: 0.625rem 1rem;
+  cursor: text;
+  color: inherit;
+  line-height: var(--line-height-small);
+  font-size: var(--font-size-small);
+  white-space: normal;
+}
+button .dnb-form-status__text {
+  cursor: inherit;
+}
+.dnb-form-status__text .dnb-anchor {
+  font-size: inherit;
+}
+.dnb-icon + .dnb-form-status__text {
+  padding-left: 0.5rem;
+}
+.dnb-form-status__shell > .dnb-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em;
+}
+.dnb-form-status__size--large .dnb-form-status__text {
+  padding-top: 1.125rem;
+  padding-bottom: 1.125rem;
+}
+.dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
+  margin-top: 0.6666666em;
+  margin-bottom: 0.6666666em;
+}
+.dnb-form-status--stretch {
+  flex-grow: 1;
+}
+.dnb-form-status--stretch .dnb-form-status__shell {
+  width: 100%;
+}
+.dnb-form-status--stretch .dnb-form-status__text {
+  max-width: 47rem;
+}
+.dnb-form-status[hidden] {
+  display: none;
+}
+.dnb-form-status--no-animation, html[data-visual-test] .dnb-form-status {
+  transition-duration: 1ms !important;
+}
 
 /*
 * Button component
 *
 */
+/*
+ * Utilities
+ */
 :root {
   --button-font-size: var(--font-size-basis);
   --button-font-size-small: var(--font-size-small);
@@ -1599,7 +1741,8 @@ exports[`Button scss have to match snapshot 1`] = `
   --button-border-radius: calc(var(--button-height) / 2);
   --button-border-radius--small: calc(var(--button-height--small) / 2);
   --button-border-radius--medium: calc(var(--button-height--medium) / 2);
-  --button-border-radius--large: calc(var(--button-height--large) / 2); }
+  --button-border-radius--large: calc(var(--button-height--large) / 2);
+}
 
 .dnb-button {
   position: relative;
@@ -1617,154 +1760,197 @@ exports[`Button scss have to match snapshot 1`] = `
   border-radius: var(--button-border-radius);
   text-decoration: none;
   font-size: var(--font-size-small);
-  /* stylelint-disable-next-line */ }
-  .dnb-button--wrap {
-    overflow-wrap: break-word;
-    white-space: normal; }
-  .dnb-button,
-  .dnb-core-style .dnb-button {
-    line-height: var(--button-height); }
-  .dnb-button__text {
-    margin: 0.5rem 0;
-    font-size: var(--button-font-size);
-    line-height: var(--line-height-basis);
-    color: inherit;
-    transform: translateY(-0.03125rem); }
-    .dnb-button__text [data-os='linux'] {
-      transform: translateY(-0.035rem); }
-  .dnb-button__alignment {
-    display: inline-block;
-    width: 0; }
-  .dnb-button__bounding {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    transform: scale(1.1, 1.4);
-    background-color: transparent;
-    border-radius: var(--button-border-radius); }
-  .dnb-button--has-text {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem; }
-  .dnb-button--size-small {
-    width: var(--button-width--small);
-    font-size: var(--button-font-size-small);
-    border-radius: var(--button-border-radius--small); }
-    .dnb-button--size-small,
-    .dnb-core-style .dnb-button--size-small {
-      line-height: var(--button-height--small); }
-  .dnb-button--size-small .dnb-button__text {
-    margin: 0; }
-  .dnb-button--has-text.dnb-button--size-small {
-    padding-left: 1rem;
-    padding-right: 1rem; }
-  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-small {
-    padding-left: 0.5rem; }
-  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-small {
-    padding-right: 0.5rem; }
-  .dnb-button--size-medium {
-    width: var(--button-width--medium);
-    border-radius: var(--button-border-radius--medium); }
-    .dnb-button--size-medium,
-    .dnb-core-style .dnb-button--size-medium {
-      line-height: var(--button-height--medium); }
-  .dnb-button--size-medium .dnb-button__text {
-    margin: 0; }
-  .dnb-button--has-text.dnb-button--size-medium {
-    padding-left: 1rem;
-    padding-right: 1rem; }
-  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-medium {
-    padding-left: 0.5rem; }
-  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-medium {
-    padding-right: 0.5rem; }
-  .dnb-button--size-large {
-    width: var(--button-width--large);
-    border-radius: var(--button-border-radius--large); }
-    .dnb-button--size-large,
-    .dnb-core-style .dnb-button--size-large {
-      line-height: var(--button-height--large); }
-  .dnb-button--has-text.dnb-button--size-large {
-    padding-left: 2rem;
-    padding-right: 2rem; }
-  .dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-large {
-    padding-left: 1rem; }
-  .dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-large {
-    padding-right: 1rem; }
-  .dnb-button--has-text {
-    width: auto; }
-  .dnb-button--has-text .dnb-button__icon {
-    margin: 0 calc(var(--button-icon-size) / 2); }
-  .dnb-button--has-text.dnb-button--icon-position-left {
-    padding-left: 0.5rem; }
-  .dnb-button--has-text.dnb-button--icon-position-right {
-    padding-right: 0.5rem; }
-  .dnb-button--has-text.dnb-button--has-icon .dnb-button__icon {
-    order: 2; }
-  .dnb-button--has-text.dnb-button--has-icon .dnb-button__text {
-    order: 1; }
-  .dnb-button:not(.dnb-button--has-text) .dnb-button__icon {
-    width: inherit; }
-  .dnb-button__icon.dnb-icon svg:not([width]):not([height]) {
-    width: var(--button-icon-size);
-    height: var(--button-icon-size); }
-  [href] > .dnb-button__icon.dnb-icon {
-    line-height: var(--button-font-size); }
-  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__icon {
-    order: 1; }
-  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left > *,
-  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top > *,
-  .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__text {
-    order: 2; }
-  .dnb-button--stretch {
-    width: 100%; }
-  .dnb-button--reset {
-    margin: 0;
-    padding: 0;
-    width: auto;
-    height: auto;
-    overflow: visible;
-    border: none;
-    border-radius: 0;
-    background-color: transparent;
-    appearance: none;
-    box-shadow: none;
-    color: inherit;
-    font: inherit;
-    text-align: inherit;
-    line-height: inherit; }
-    html:not([data-whatintent='touch']) .dnb-button--reset:hover[disabled] {
-      cursor: not-allowed; }
-    html:not([data-whatintent='touch']) .dnb-button--reset:hover:not([disabled]) {
-      box-shadow: none;
-      border: none; }
-    .dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
-      outline: none; }
-      html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):focus, html[data-whatinput='keyboard'] .dnb-button--reset:not([disabled]):active {
-        --border-color: var(--color-emerald-green);
-        box-shadow: 0 0 0 0.125rem var(--border-color);
-        border-color: transparent; }
-    html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):focus,
-    html[data-whatinput='mouse'] .dnb-button--reset:not([disabled]):active {
-      box-shadow: none;
-      color: inherit;
-      border: none; }
-  .dnb-button[type='button'], .dnb-button[type='reset'], .dnb-button[type='submit'] {
-    appearance: none;
-    -moz-appearance: none;
-    -webkit-appearance: none; }
-  .dnb-button[disabled] {
-    cursor: not-allowed;
-    outline: none; }
-  .dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
-    align-self: flex-start; }
-  .dnb-form-row--horizontal .dnb-form-row__content .dnb-button__text {
-    white-space: nowrap; }
-  .dnb-button + .dnb-form-status {
-    margin-top: 0.5rem; }
+  /* stylelint-disable-next-line */
+}
+.dnb-button--wrap {
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+.dnb-button, .dnb-core-style .dnb-button {
+  line-height: var(--button-height);
+}
+.dnb-button__text {
+  margin: 0.5rem 0;
+  font-size: var(--button-font-size);
+  line-height: var(--line-height-basis);
+  color: inherit;
+  transform: translateY(-0.03125rem);
+}
+.dnb-button__text [data-os=linux] {
+  transform: translateY(-0.035rem);
+}
+.dnb-button__alignment {
+  display: inline-block;
+  width: 0;
+}
+.dnb-button__bounding {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  transform: scale(1.1, 1.4);
+  background-color: transparent;
+  border-radius: var(--button-border-radius);
+}
+.dnb-button--has-text {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+.dnb-button--size-small {
+  width: var(--button-width--small);
+  font-size: var(--button-font-size-small);
+  border-radius: var(--button-border-radius--small);
+}
+.dnb-button--size-small, .dnb-core-style .dnb-button--size-small {
+  line-height: var(--button-height--small);
+}
+.dnb-button--size-small .dnb-button__text {
+  margin: 0;
+}
+.dnb-button--has-text.dnb-button--size-small {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-small {
+  padding-left: 0.5rem;
+}
+.dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-small {
+  padding-right: 0.5rem;
+}
+.dnb-button--size-medium {
+  width: var(--button-width--medium);
+  border-radius: var(--button-border-radius--medium);
+}
+.dnb-button--size-medium, .dnb-core-style .dnb-button--size-medium {
+  line-height: var(--button-height--medium);
+}
+.dnb-button--size-medium .dnb-button__text {
+  margin: 0;
+}
+.dnb-button--has-text.dnb-button--size-medium {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-medium {
+  padding-left: 0.5rem;
+}
+.dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-medium {
+  padding-right: 0.5rem;
+}
+.dnb-button--size-large {
+  width: var(--button-width--large);
+  border-radius: var(--button-border-radius--large);
+}
+.dnb-button--size-large, .dnb-core-style .dnb-button--size-large {
+  line-height: var(--button-height--large);
+}
+.dnb-button--has-text.dnb-button--size-large {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+.dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-large {
+  padding-left: 1rem;
+}
+.dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-large {
+  padding-right: 1rem;
+}
+.dnb-button--has-text {
+  width: auto;
+}
+.dnb-button--has-text .dnb-button__icon {
+  margin: 0 calc(var(--button-icon-size) / 2);
+}
+.dnb-button--has-text.dnb-button--icon-position-left {
+  padding-left: 0.5rem;
+}
+.dnb-button--has-text.dnb-button--icon-position-right {
+  padding-right: 0.5rem;
+}
+.dnb-button--has-text.dnb-button--has-icon .dnb-button__icon {
+  order: 2;
+}
+.dnb-button--has-text.dnb-button--has-icon .dnb-button__text {
+  order: 1;
+}
+.dnb-button:not(.dnb-button--has-text) .dnb-button__icon {
+  width: inherit;
+}
+.dnb-button__icon.dnb-icon svg:not([width]):not([height]) {
+  width: var(--button-icon-size);
+  height: var(--button-icon-size);
+}
+[href] > .dnb-button__icon.dnb-icon {
+  line-height: var(--button-font-size);
+}
+.dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__icon {
+  order: 1;
+}
+.dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left > *,
+.dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top > *,
+.dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__text {
+  order: 2;
+}
+.dnb-button--stretch {
+  width: 100%;
+}
+.dnb-button--reset {
+  margin: 0;
+  padding: 0;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+  appearance: none;
+  box-shadow: none;
+  color: inherit;
+  font: inherit;
+  text-align: inherit;
+  line-height: inherit;
+}
+html:not([data-whatintent=touch]) .dnb-button--reset:hover[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatintent=touch]) .dnb-button--reset:hover:not([disabled]) {
+  box-shadow: none;
+  border: none;
+}
+.dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
+  outline: none;
+}
+html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):active {
+  --border-color: var(--color-emerald-green);
+  box-shadow: 0 0 0 0.125rem var(--border-color);
+  border-color: transparent;
+}
+html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):active {
+  box-shadow: none;
+  color: inherit;
+  border: none;
+}
+.dnb-button[type=button], .dnb-button[type=reset], .dnb-button[type=submit] {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+}
+.dnb-button[disabled] {
+  cursor: not-allowed;
+  outline: none;
+}
+.dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
+  align-self: flex-start;
+}
+.dnb-form-row--horizontal .dnb-form-row__content .dnb-button__text {
+  white-space: nowrap;
+}
+.dnb-button + .dnb-form-status {
+  margin-top: 0.5rem;
+}
 
 /* Firefox includes a hidden border which messes up button dimensions */
 button.dnb-button::-moz-focus-inner {
-  border: none; }
-"
+  border: none;
+}"
 `;

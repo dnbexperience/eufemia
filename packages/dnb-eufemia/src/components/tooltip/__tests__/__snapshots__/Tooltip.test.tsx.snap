@@ -12,11 +12,12 @@ exports[`Tooltip scss have to match default theme snapshot 1`] = `
   border-radius: 1rem;
   color: var(--color-white);
   background-color: var(--color-black-80);
-  box-shadow: var(--shadow-default); }
-  .dnb-tooltip__arrow::before {
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    background-color: var(--color-black-80); }
-"
+  box-shadow: var(--shadow-default);
+}
+.dnb-tooltip__arrow::before {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: var(--color-black-80);
+}"
 `;
 
 exports[`Tooltip scss have to match snapshot 1`] = `
@@ -31,6 +32,9 @@ exports[`Tooltip scss have to match snapshot 1`] = `
 * Tooltip component
 *
 */
+/*
+ * Utilities
+ */
 .dnb-tooltip {
   position: absolute;
   z-index: 3100;
@@ -41,82 +45,105 @@ exports[`Tooltip scss have to match snapshot 1`] = `
   padding: 0 1rem;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 200ms var(--easing-default); }
-  .dnb-tooltip--large {
-    padding: 0.25rem 1rem; }
-  .dnb-tooltip--animate_position {
-    transition: all 200ms var(--easing-default), opacity 200ms var(--easing-default); }
-  .dnb-tooltip--active {
-    visibility: visible;
-    /*
-      because of the first "show" we also use animation
-      also, use forwards because of the usage of visibility
-    */
-    animation: show-tooltip 200ms var(--easing-default) forwards; }
-  html[data-visual-test] .dnb-tooltip--active, .dnb-tooltip--active.dnb-tooltip--no-animation {
-    animation: show-tooltip 1ms var(--easing-default) forwards; }
-  .dnb-tooltip--hide {
-    visibility: visible;
-    animation: hide-tooltip 200ms var(--easing-default) forwards; }
-  .dnb-tooltip--hide.dnb-tooltip--no-animation {
-    animation: hide-tooltip 1ms linear forwards; }
-  .dnb-tooltip--fixed {
-    position: fixed; }
-  html[data-visual-test] .dnb-tooltip--hide {
-    animation: hide-tooltip 1ms linear 1s forwards; }
-  .dnb-tooltip__portal {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0; }
-  .dnb-tooltip__content {
-    min-width: 2rem;
-    min-height: 1.5rem;
-    padding: 0; }
-  .dnb-tooltip__arrow {
-    position: absolute;
-    pointer-events: none;
-    margin: 0;
-    width: 1rem;
-    height: 0.5rem;
-    overflow: hidden; }
-    .dnb-tooltip__arrow::before {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 1rem;
-      height: 1rem;
-      transform: translateY(70%) rotate(45deg); }
-    .dnb-tooltip__arrow__position--bottom {
-      top: -0.5rem; }
-    .dnb-tooltip__arrow__position--top {
-      bottom: -0.5rem;
-      transform: rotate(180deg); }
-    .dnb-tooltip__arrow__position--left {
-      right: -0.75rem;
-      margin-right: 3px;
-      transform: rotate(90deg); }
-    .dnb-tooltip__arrow__position--right {
-      left: -0.75rem;
-      margin-left: 3px;
-      transform: rotate(270deg); }
-    .dnb-tooltip__arrow__arrow--left {
-      align-self: flex-start; }
-    .dnb-tooltip__arrow__arrow--right {
-      align-self: flex-end; }
+  transition: opacity 200ms var(--easing-default);
+}
+.dnb-tooltip--large {
+  padding: 0.25rem 1rem;
+}
+.dnb-tooltip--animate_position {
+  transition: all 200ms var(--easing-default), opacity 200ms var(--easing-default);
+}
+.dnb-tooltip--active {
+  visibility: visible;
+  /*
+    because of the first "show" we also use animation
+    also, use forwards because of the usage of visibility
+  */
+  animation: show-tooltip 200ms var(--easing-default) forwards;
+}
+html[data-visual-test] .dnb-tooltip--active, .dnb-tooltip--active.dnb-tooltip--no-animation {
+  animation: show-tooltip 1ms var(--easing-default) forwards;
+}
+.dnb-tooltip--hide {
+  visibility: visible;
+  animation: hide-tooltip 200ms var(--easing-default) forwards;
+}
+.dnb-tooltip--hide.dnb-tooltip--no-animation {
+  animation: hide-tooltip 1ms linear forwards;
+}
+.dnb-tooltip--fixed {
+  position: fixed;
+}
+html[data-visual-test] .dnb-tooltip--hide {
+  animation: hide-tooltip 1ms linear 1s forwards;
+}
+.dnb-tooltip__portal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+.dnb-tooltip__content {
+  min-width: 2rem;
+  min-height: 1.5rem;
+  padding: 0;
+}
+.dnb-tooltip__arrow {
+  position: absolute;
+  pointer-events: none;
+  margin: 0;
+  width: 1rem;
+  height: 0.5rem;
+  overflow: hidden;
+}
+.dnb-tooltip__arrow::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 1rem;
+  height: 1rem;
+  transform: translateY(70%) rotate(45deg);
+}
+.dnb-tooltip__arrow__position--bottom {
+  top: -0.5rem;
+}
+.dnb-tooltip__arrow__position--top {
+  bottom: -0.5rem;
+  transform: rotate(180deg);
+}
+.dnb-tooltip__arrow__position--left {
+  right: -0.75rem;
+  margin-right: 3px;
+  transform: rotate(90deg);
+}
+.dnb-tooltip__arrow__position--right {
+  left: -0.75rem;
+  margin-left: 3px;
+  transform: rotate(270deg);
+}
+.dnb-tooltip__arrow__arrow--left {
+  align-self: flex-start;
+}
+.dnb-tooltip__arrow__arrow--right {
+  align-self: flex-end;
+}
 
 @keyframes show-tooltip {
   from {
-    opacity: 0; }
+    opacity: 0;
+  }
   to {
-    opacity: 1; } }
-
+    opacity: 1;
+  }
+}
 @keyframes hide-tooltip {
   from {
-    opacity: 1; }
+    opacity: 1;
+  }
   to {
     opacity: 0;
-    visibility: hidden; } }
-"
+    visibility: hidden;
+  }
+}"
 `;

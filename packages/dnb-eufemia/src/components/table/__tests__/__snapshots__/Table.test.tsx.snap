@@ -9,73 +9,79 @@ exports[`Table scss have to match default theme snapshot 1`] = `
  * Utilities
  */
 .dnb-table {
-  text-align: left; }
-  .dnb-table__th {
-    padding: 2rem 1rem 1rem;
-    font-weight: var(--font-weight-medium);
-    color: var(--theme-color-black-80, currentColor);
-    font-size: var(--font-size-basis);
-    line-height: var(--line-height-basis);
-    vertical-align: bottom;
-    background-color: var(--color-white); }
-  .dnb-table__td,
-  tbody > tr > .dnb-table__th {
-    padding: 1rem;
-    color: var(--theme-color-black-80, currentColor);
-    font-size: var(--font-size-basis);
-    line-height: var(--line-height-basis);
-    vertical-align: baseline; }
-  .dnb-table__size--medium .dnb-table__th {
-    padding: 1.375rem 1rem 0.875rem;
-    font-size: var(--font-size-small);
-    line-height: var(--line-height-small); }
-    .dnb-table__size--medium .dnb-table__th .dnb-button__text {
-      line-height: inherit; }
-  .dnb-table__size--small .dnb-table__th {
-    padding: 1.25rem 1rem 0.5rem;
-    font-size: var(--font-size-small);
-    line-height: var(--line-height-small); }
-  tbody > tr > .dnb-table__th {
-    padding: 1rem;
-    vertical-align: baseline; }
-  .dnb-table__size--medium tbody > tr > .dnb-table__th, .dnb-table__size--medium
-  tbody > tr > .dnb-table__td {
-    padding: 0.875rem 1rem;
-    font-size: var(--font-size-small);
-    line-height: var(--line-height-small); }
-  .dnb-table__size--small tbody > tr > .dnb-table__th, .dnb-table__size--small
-  tbody > tr > .dnb-table__td {
-    padding: 0.625rem 1rem;
-    font-size: var(--font-size-small);
-    line-height: var(--line-height-small); }
-  .dnb-table:not(.dnb-table--outline) > tbody > .dnb-table__tr:last-of-type > .dnb-table__td::after,
-  .dnb-table:not(.dnb-table--outline) > tbody > .dnb-table__tr:last-of-type > .dnb-table__th::after,
-  .dnb-table:not(.dnb-table--outline) > tbody
-> .dnb-table__tr.dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) td::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-    pointer-events: none;
-    border-bottom: var(--border); }
+  text-align: left;
+}
+.dnb-table__th {
+  padding: 2rem 1rem 1rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--theme-color-black-80, currentColor);
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+  vertical-align: bottom;
+  background-color: var(--color-white);
+}
+.dnb-table__td, tbody > tr > .dnb-table__th {
+  padding: 1rem;
+  color: var(--theme-color-black-80, currentColor);
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+  vertical-align: baseline;
+}
+.dnb-table__size--medium .dnb-table__th {
+  padding: 1.375rem 1rem 0.875rem;
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+.dnb-table__size--medium .dnb-table__th .dnb-button__text {
+  line-height: inherit;
+}
+.dnb-table__size--small .dnb-table__th {
+  padding: 1.25rem 1rem 0.5rem;
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+tbody > tr > .dnb-table__th {
+  padding: 1rem;
+  vertical-align: baseline;
+}
+.dnb-table__size--medium tbody > tr > .dnb-table__th, .dnb-table__size--medium tbody > tr > .dnb-table__td {
+  padding: 0.875rem 1rem;
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+.dnb-table__size--small tbody > tr > .dnb-table__th, .dnb-table__size--small tbody > tr > .dnb-table__td {
+  padding: 0.625rem 1rem;
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+.dnb-table:not(.dnb-table--outline) > tbody > .dnb-table__tr:last-of-type > .dnb-table__td::after, .dnb-table:not(.dnb-table--outline) > tbody > .dnb-table__tr:last-of-type > .dnb-table__th::after, .dnb-table:not(.dnb-table--outline) > tbody > .dnb-table__tr.dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) td::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  pointer-events: none;
+  border-bottom: var(--border);
+}
 
 .dnb-table__container {
-  background-color: var(--color-white); }
+  background-color: var(--color-white);
+}
 
 .dnb-table,
 .dnb-table__container {
   --border-width: 0.0625rem;
   --outline-width: 0.0625rem;
   --border: var(--border-width) solid var(--color-black-8);
-  --outline: var(--outline-width) solid var(--color-black-8); }
-  html[data-visual-test] .dnb-table, html[data-visual-test]
-  .dnb-table__container {
-    --border: 0.0625rem solid blue;
-    --outline: 0.0625rem solid red; }
-"
+  --outline: var(--outline-width) solid var(--color-black-8);
+}
+html[data-visual-test] .dnb-table,
+html[data-visual-test] .dnb-table__container {
+  --border: 0.0625rem solid blue;
+  --outline: 0.0625rem solid red;
+}"
 `;
 
 exports[`Table scss have to match snapshot 1`] = `
@@ -101,282 +107,27 @@ exports[`Table scss have to match snapshot 1`] = `
   margin-top: 0;
   margin-bottom: 0.5rem;
   border-spacing: 0;
-  border-collapse: collapse; }
-  .dnb-table--fixed {
-    table-layout: fixed;
-    width: auto; }
-  .dnb-table--no-wrap {
-    white-space: nowrap; }
-  .dnb-table > caption {
-    caption-side: bottom;
-    padding: 0.5rem 0 0.5rem 1rem;
-    font-size: var(--font-size-basis);
-    background-color: var(--color-white);
-    text-align: left; }
-  .dnb-table--border > caption:not(.dnb-sr-only) {
-    position: relative; }
-    .dnb-table--border > caption:not(.dnb-sr-only)::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 1;
-      pointer-events: none;
-      top: -0.0625rem;
-      border-top: var(--border); }
-  .dnb-table.dnb-skeleton > * {
-    -webkit-text-fill-color: var(--skeleton-color); }
-  .dnb-table > thead > tr > th.dnb-table--sortable,
-  .dnb-table .dnb-table__th.dnb-table--sortable {
-    color: var(--color-sea-green); }
-    .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button,
-    .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button {
-      position: relative;
-      z-index: 1;
-      align-items: flex-end;
-      box-shadow: none;
-      line-height: inherit;
-      margin: 0;
-      padding: 0;
-      padding-right: 0.5rem;
-      color: inherit;
-      font-weight: var(--font-weight-medium);
-      text-align: inherit;
-      font-size: inherit; }
-      .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button > .dnb-icon,
-      .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button > .dnb-icon {
-        opacity: 0;
-        transition: opacity 200ms ease-out, transform 500ms ease-out; }
-        [data-visual-test-wrapper] .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button > .dnb-icon, [data-visual-test-wrapper]
-        .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button > .dnb-icon {
-          transition: none; }
-      .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button .dnb-button__text,
-      .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button .dnb-button__text {
-        margin: 0;
-        font-size: inherit;
-        line-height: inherit; }
-        .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button .dnb-button__text::after,
-        .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button .dnb-button__text::after {
-          right: 1rem; }
-      .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button .dnb-button__icon,
-      .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button .dnb-button__icon {
-        align-self: flex-end;
-        margin-top: auto;
-        margin-bottom: 0.25rem; }
-      .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:not(:focus) .dnb-button__text::after,
-      .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:not(:focus) .dnb-button__text::after {
-        opacity: 1;
-        color: var(--color-sea-green); }
-      html:not([data-whatintent='touch']) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:hover[disabled], html:not([data-whatintent='touch'])
-      .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:hover[disabled] {
-        cursor: not-allowed; }
-      html:not([data-whatintent='touch']) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:hover:not([disabled]), html:not([data-whatintent='touch'])
-      .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:hover:not([disabled]) {
-        color: var(--color-sea-green); }
-        html:not([data-whatintent='touch']) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:hover:not([disabled]):not(:focus) .dnb-icon, html:not([data-whatintent='touch'])
-        .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:hover:not([disabled]):not(:focus) .dnb-icon {
-          opacity: 1; }
-        html:not([data-whatintent='touch']) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:hover:not([disabled]) .dnb-button__text::after, html:not([data-whatintent='touch'])
-        .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:hover:not([disabled]) .dnb-button__text::after {
-          opacity: 0; }
-      .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus[disabled],
-      html:not([data-whatintent='touch']) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus[disabled],
-      .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus[disabled],
-      html:not([data-whatintent='touch'])
-      .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus[disabled] {
-        cursor: not-allowed; }
-      .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled])::before,
-      html:not([data-whatintent='touch']) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled])::before,
-      .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled])::before,
-      html:not([data-whatintent='touch'])
-      .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled])::before {
-        content: '';
-        position: absolute;
-        top: -0.5rem;
-        bottom: -0.5rem;
-        left: -1rem;
-        right: 0.5rem; }
-      .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled])::before,
-      html:not([data-whatintent='touch']) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled])::before,
-      .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled])::before,
-      html:not([data-whatintent='touch'])
-      .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled])::before {
-        right: -0.5rem; }
-      html[data-visual-test] .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-icon,
-      :not(.dnb-table--active) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]):active .dnb-icon, html[data-visual-test]
-      html:not([data-whatintent='touch']) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-icon,
-      :not(.dnb-table--active)
-      html:not([data-whatintent='touch']) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]):active .dnb-icon, html[data-visual-test]
-      .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-icon,
-      :not(.dnb-table--active)
-      .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]):active .dnb-icon, html[data-visual-test]
-      html:not([data-whatintent='touch'])
-      .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-icon,
-      :not(.dnb-table--active)
-      html:not([data-whatintent='touch'])
-      .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]):active .dnb-icon {
-        opacity: 1; }
-      html:not([data-visual-test]) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-button__text::after, html:not([data-visual-test])
-      html:not([data-whatintent='touch']) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-button__text::after, html:not([data-visual-test])
-      .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-button__text::after, html:not([data-visual-test])
-      html:not([data-whatintent='touch'])
-      .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-button__text::after {
-        opacity: 1;
-        color: inherit; }
-      html:not([data-visual-test]) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]):not(:active) .dnb-button__text::after, html:not([data-visual-test])
-      html:not([data-whatintent='touch']) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]):not(:active) .dnb-button__text::after, html:not([data-visual-test])
-      .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]):not(:active) .dnb-button__text::after, html:not([data-visual-test])
-      html:not([data-whatintent='touch'])
-      .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]):not(:active) .dnb-button__text::after {
-        visibility: visible; }
-      .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active[disabled],
-      html:not([data-whatintent='touch']) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active[disabled],
-      .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active[disabled],
-      html:not([data-whatintent='touch'])
-      .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active[disabled] {
-        cursor: not-allowed; }
-      .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled]),
-      html:not([data-whatintent='touch']) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled]),
-      .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled]),
-      html:not([data-whatintent='touch'])
-      .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled]) {
-        color: var(--color-sea-green); }
-        .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before,
-        html:not([data-whatintent='touch']) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before,
-        .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before,
-        html:not([data-whatintent='touch'])
-        .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before {
-          content: '';
-          position: absolute;
-          z-index: 1;
-          top: 0;
-          left: -0.5rem;
-          bottom: 0;
-          right: -0.5rem;
-          height: inherit;
-          border-radius: inherit;
-          outline: none; }
-          html[data-whatinput='mouse'] .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html[data-whatinput='mouse']
-          html:not([data-whatintent='touch']) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html[data-whatinput='mouse']
-          .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html[data-whatinput='mouse']
-          html:not([data-whatintent='touch'])
-          .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before {
-            --border-color: var(--color-emerald-green);
-            box-shadow: 0 0 0 0.125rem var(--border-color);
-            border-color: transparent; }
-        .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before,
-        html:not([data-whatintent='touch']) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before,
-        .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before,
-        html:not([data-whatintent='touch'])
-        .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before {
-          content: '';
-          position: absolute;
-          z-index: 1;
-          top: 0;
-          left: -0.5rem;
-          bottom: 0;
-          right: -0.5rem;
-          height: inherit;
-          border-radius: inherit;
-          outline: none; }
-          html[data-whatinput='touch'] .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html[data-whatinput='touch']
-          html:not([data-whatintent='touch']) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html[data-whatinput='touch']
-          .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html[data-whatinput='touch']
-          html:not([data-whatintent='touch'])
-          .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before {
-            --border-color: var(--color-emerald-green);
-            box-shadow: 0 0 0 0.125rem var(--border-color);
-            border-color: transparent; }
-        .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before,
-        html:not([data-whatintent='touch']) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before,
-        .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before,
-        html:not([data-whatintent='touch'])
-        .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before {
-          content: '';
-          position: absolute;
-          top: -0.5rem;
-          bottom: -0.5rem;
-          left: -1rem;
-          right: 0.5rem; }
-        .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before,
-        html:not([data-whatintent='touch']) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before,
-        .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before,
-        html:not([data-whatintent='touch'])
-        .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before {
-          right: -0.5rem; }
-      .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:hover:focus:not(:active) .dnb-button__text::after,
-      .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:hover:focus:not(:active) .dnb-button__text::after {
-        visibility: hidden; }
-    .dnb-table > thead > tr > th.dnb-table--sortable[align='right'],
-    .dnb-table .dnb-table__th.dnb-table--sortable[align='right'] {
-      padding-right: 0.5rem; }
-      .dnb-table > thead > tr > th.dnb-table--sortable[align='right'] .dnb-table__sort-button.dnb-button,
-      .dnb-table .dnb-table__th.dnb-table--sortable[align='right'] .dnb-table__sort-button.dnb-button {
-        flex-direction: row-reverse; }
-        .dnb-table > thead > tr > th.dnb-table--sortable[align='right'] .dnb-table__sort-button.dnb-button--tertiary.dnb-button--icon-position-right,
-        .dnb-table .dnb-table__th.dnb-table--sortable[align='right'] .dnb-table__sort-button.dnb-button--tertiary.dnb-button--icon-position-right {
-          padding-right: 0.5rem; }
-          .dnb-table > thead > tr > th.dnb-table--sortable[align='right'] .dnb-table__sort-button.dnb-button--tertiary.dnb-button--icon-position-right .dnb-button__text,
-          .dnb-table .dnb-table__th.dnb-table--sortable[align='right'] .dnb-table__sort-button.dnb-button--tertiary.dnb-button--icon-position-right .dnb-button__text {
-            padding-right: 0; }
-            .dnb-table > thead > tr > th.dnb-table--sortable[align='right'] .dnb-table__sort-button.dnb-button--tertiary.dnb-button--icon-position-right .dnb-button__text::after,
-            .dnb-table .dnb-table__th.dnb-table--sortable[align='right'] .dnb-table__sort-button.dnb-button--tertiary.dnb-button--icon-position-right .dnb-button__text::after {
-              right: 0; }
-  .dnb-table > thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:not(:hover) .dnb-button__text::after,
-  .dnb-table .dnb-table__th.dnb-table--active .dnb-table__sort-button.dnb-button:not(:hover) .dnb-button__text::after {
-    opacity: 0; }
-  .dnb-table > thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button .dnb-icon,
-  .dnb-table .dnb-table__th.dnb-table--active .dnb-table__sort-button.dnb-button .dnb-icon {
-    opacity: 1; }
-  html:not([data-whatintent='touch']) .dnb-table > thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover[disabled], html:not([data-whatintent='touch'])
-  .dnb-table .dnb-table__th.dnb-table--active .dnb-table__sort-button.dnb-button:hover[disabled] {
-    cursor: not-allowed; }
-  html:not([data-whatintent='touch']) .dnb-table > thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:not([disabled]) .dnb-button__text::after, html:not([data-whatintent='touch'])
-  .dnb-table .dnb-table__th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:not([disabled]) .dnb-button__text::after {
-    color: var(--color-sea-green);
-    opacity: 1; }
-  .dnb-table > thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:focus[disabled],
-  html:not([data-whatintent='touch']) .dnb-table > thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:focus[disabled],
-  .dnb-table .dnb-table__th.dnb-table--active .dnb-table__sort-button.dnb-button:focus[disabled],
-  html:not([data-whatintent='touch'])
-  .dnb-table .dnb-table__th.dnb-table--active .dnb-table__sort-button.dnb-button:focus[disabled] {
-    cursor: not-allowed; }
-  .dnb-table > thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-button__text::after,
-  html:not([data-whatintent='touch']) .dnb-table > thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-button__text::after,
-  .dnb-table .dnb-table__th.dnb-table--active .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-button__text::after,
-  html:not([data-whatintent='touch'])
-  .dnb-table .dnb-table__th.dnb-table--active .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-button__text::after {
-    opacity: 0; }
-  .dnb-table > thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus:not(:active) .dnb-button__text::after,
-  .dnb-table .dnb-table__th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus:not(:active) .dnb-button__text::after {
-    visibility: visible; }
-  html[data-whatinput='keyboard']
-.dnb-table >
-thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus .dnb-button__text::after, html[data-whatinput='keyboard']
-  .dnb-table .dnb-table__th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus .dnb-button__text::after {
-    visibility: hidden; }
-  .dnb-table > thead > tr > th.dnb-table--reversed .dnb-table__sort-button.dnb-button .dnb-icon,
-  .dnb-table .dnb-table__th.dnb-table--reversed .dnb-table__sort-button.dnb-button .dnb-icon {
-    transform: rotate(180deg);
-    transform-origin: 50% 50%; }
-  .dnb-table .dnb-table__th .dnb-table__help-button,
-  .dnb-table > thead > tr > th .dnb-table__help-button {
-    margin-left: 0.5rem; }
-  .dnb-table > thead > .dnb-table--no-wrap .dnb-table__sort-button {
-    white-space: nowrap; }
-
-/*
-* Table component
-*
-*/
-.dnb-table__th__horizontal {
-  display: flex;
-  align-items: flex-end; }
-
-.dnb-table--border tbody .dnb-table__th::after {
-  content: '';
+  border-collapse: collapse;
+}
+.dnb-table--fixed {
+  table-layout: fixed;
+  width: auto;
+}
+.dnb-table--no-wrap {
+  white-space: nowrap;
+}
+.dnb-table > caption {
+  caption-side: bottom;
+  padding: 0.5rem 0 0.5rem 1rem;
+  font-size: var(--font-size-basis);
+  background-color: var(--color-white);
+  text-align: left;
+}
+.dnb-table--border > caption:not(.dnb-sr-only) {
+  position: relative;
+}
+.dnb-table--border > caption:not(.dnb-sr-only)::after {
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -384,96 +135,315 @@ thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus
   bottom: 0;
   z-index: 1;
   pointer-events: none;
-  border-top: var(--border); }
+  top: -0.0625rem;
+  border-top: var(--border);
+}
+.dnb-table.dnb-skeleton > * {
+  -webkit-text-fill-color: var(--skeleton-color);
+}
+.dnb-table > thead > tr > th.dnb-table--sortable, .dnb-table .dnb-table__th.dnb-table--sortable {
+  color: var(--color-sea-green);
+}
+.dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button {
+  position: relative;
+  z-index: 1;
+  align-items: flex-end;
+  box-shadow: none;
+  line-height: inherit;
+  margin: 0;
+  padding: 0;
+  padding-right: 0.5rem;
+  color: inherit;
+  font-weight: var(--font-weight-medium);
+  text-align: inherit;
+  font-size: inherit;
+}
+.dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button > .dnb-icon, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button > .dnb-icon {
+  opacity: 0;
+  transition: opacity 200ms ease-out, transform 500ms ease-out;
+}
+[data-visual-test-wrapper] .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button > .dnb-icon, [data-visual-test-wrapper] .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button > .dnb-icon {
+  transition: none;
+}
+.dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button .dnb-button__text, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button .dnb-button__text {
+  margin: 0;
+  font-size: inherit;
+  line-height: inherit;
+}
+.dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button .dnb-button__text::after, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button .dnb-button__text::after {
+  right: 1rem;
+}
+.dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button .dnb-button__icon, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button .dnb-button__icon {
+  align-self: flex-end;
+  margin-top: auto;
+  margin-bottom: 0.25rem;
+}
+.dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:not(:focus) .dnb-button__text::after, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:not(:focus) .dnb-button__text::after {
+  opacity: 1;
+  color: var(--color-sea-green);
+}
+html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:hover[disabled], html:not([data-whatintent=touch]) .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:hover[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:hover:not([disabled]) {
+  color: var(--color-sea-green);
+}
+html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:hover:not([disabled]):not(:focus) .dnb-icon, html:not([data-whatintent=touch]) .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:hover:not([disabled]):not(:focus) .dnb-icon {
+  opacity: 1;
+}
+html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:hover:not([disabled]) .dnb-button__text::after, html:not([data-whatintent=touch]) .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:hover:not([disabled]) .dnb-button__text::after {
+  opacity: 0;
+}
+.dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus[disabled], html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus[disabled], .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus[disabled], html:not([data-whatintent=touch]) .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus[disabled] {
+  cursor: not-allowed;
+}
+.dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled])::before, html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled])::before, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled])::before, html:not([data-whatintent=touch]) .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled])::before {
+  content: "";
+  position: absolute;
+  top: -0.5rem;
+  bottom: -0.5rem;
+  left: -1rem;
+  right: 0.5rem;
+}
+.dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled])::before, html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled])::before, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled])::before, html:not([data-whatintent=touch]) .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled])::before {
+  right: -0.5rem;
+}
+html[data-visual-test] .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-icon, :not(.dnb-table--active) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]):active .dnb-icon, html[data-visual-test] html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-icon, :not(.dnb-table--active) html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]):active .dnb-icon, html[data-visual-test] .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-icon, :not(.dnb-table--active) .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]):active .dnb-icon, html[data-visual-test] html:not([data-whatintent=touch]) .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-icon, :not(.dnb-table--active) html:not([data-whatintent=touch]) .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]):active .dnb-icon {
+  opacity: 1;
+}
+html:not([data-visual-test]) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-button__text::after, html:not([data-visual-test]) html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-button__text::after, html:not([data-visual-test]) .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-button__text::after, html:not([data-visual-test]) html:not([data-whatintent=touch]) .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-button__text::after {
+  opacity: 1;
+  color: inherit;
+}
+html:not([data-visual-test]) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]):not(:active) .dnb-button__text::after, html:not([data-visual-test]) html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]):not(:active) .dnb-button__text::after, html:not([data-visual-test]) .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]):not(:active) .dnb-button__text::after, html:not([data-visual-test]) html:not([data-whatintent=touch]) .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:focus:not([disabled]):not(:active) .dnb-button__text::after {
+  visibility: visible;
+}
+.dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active[disabled], html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active[disabled], .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active[disabled], html:not([data-whatintent=touch]) .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active[disabled] {
+  cursor: not-allowed;
+}
+.dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled]), .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled]) {
+  color: var(--color-sea-green);
+}
+.dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html:not([data-whatintent=touch]) .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: -0.5rem;
+  bottom: 0;
+  right: -0.5rem;
+  height: inherit;
+  border-radius: inherit;
+  outline: none;
+}
+html[data-whatinput=mouse] .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html[data-whatinput=mouse] html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html[data-whatinput=mouse] .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html[data-whatinput=mouse] html:not([data-whatintent=touch]) .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before {
+  --border-color: var(--color-emerald-green);
+  box-shadow: 0 0 0 0.125rem var(--border-color);
+  border-color: transparent;
+}
+.dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html:not([data-whatintent=touch]) .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: -0.5rem;
+  bottom: 0;
+  right: -0.5rem;
+  height: inherit;
+  border-radius: inherit;
+  outline: none;
+}
+html[data-whatinput=touch] .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html[data-whatinput=touch] html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html[data-whatinput=touch] .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html[data-whatinput=touch] html:not([data-whatintent=touch]) .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before {
+  --border-color: var(--color-emerald-green);
+  box-shadow: 0 0 0 0.125rem var(--border-color);
+  border-color: transparent;
+}
+.dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html:not([data-whatintent=touch]) .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before {
+  content: "";
+  position: absolute;
+  top: -0.5rem;
+  bottom: -0.5rem;
+  left: -1rem;
+  right: 0.5rem;
+}
+.dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before, html:not([data-whatintent=touch]) .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:active:not([disabled])::before {
+  right: -0.5rem;
+}
+.dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button:hover:focus:not(:active) .dnb-button__text::after, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button:hover:focus:not(:active) .dnb-button__text::after {
+  visibility: hidden;
+}
+.dnb-table > thead > tr > th.dnb-table--sortable[align=right], .dnb-table .dnb-table__th.dnb-table--sortable[align=right] {
+  padding-right: 0.5rem;
+}
+.dnb-table > thead > tr > th.dnb-table--sortable[align=right] .dnb-table__sort-button.dnb-button, .dnb-table .dnb-table__th.dnb-table--sortable[align=right] .dnb-table__sort-button.dnb-button {
+  flex-direction: row-reverse;
+}
+.dnb-table > thead > tr > th.dnb-table--sortable[align=right] .dnb-table__sort-button.dnb-button--tertiary.dnb-button--icon-position-right, .dnb-table .dnb-table__th.dnb-table--sortable[align=right] .dnb-table__sort-button.dnb-button--tertiary.dnb-button--icon-position-right {
+  padding-right: 0.5rem;
+}
+.dnb-table > thead > tr > th.dnb-table--sortable[align=right] .dnb-table__sort-button.dnb-button--tertiary.dnb-button--icon-position-right .dnb-button__text, .dnb-table .dnb-table__th.dnb-table--sortable[align=right] .dnb-table__sort-button.dnb-button--tertiary.dnb-button--icon-position-right .dnb-button__text {
+  padding-right: 0;
+}
+.dnb-table > thead > tr > th.dnb-table--sortable[align=right] .dnb-table__sort-button.dnb-button--tertiary.dnb-button--icon-position-right .dnb-button__text::after, .dnb-table .dnb-table__th.dnb-table--sortable[align=right] .dnb-table__sort-button.dnb-button--tertiary.dnb-button--icon-position-right .dnb-button__text::after {
+  right: 0;
+}
+.dnb-table > thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:not(:hover) .dnb-button__text::after, .dnb-table .dnb-table__th.dnb-table--active .dnb-table__sort-button.dnb-button:not(:hover) .dnb-button__text::after {
+  opacity: 0;
+}
+.dnb-table > thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button .dnb-icon, .dnb-table .dnb-table__th.dnb-table--active .dnb-table__sort-button.dnb-button .dnb-icon {
+  opacity: 1;
+}
+html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover[disabled], html:not([data-whatintent=touch]) .dnb-table .dnb-table__th.dnb-table--active .dnb-table__sort-button.dnb-button:hover[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:not([disabled]) .dnb-button__text::after, html:not([data-whatintent=touch]) .dnb-table .dnb-table__th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:not([disabled]) .dnb-button__text::after {
+  color: var(--color-sea-green);
+  opacity: 1;
+}
+.dnb-table > thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:focus[disabled], html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:focus[disabled], .dnb-table .dnb-table__th.dnb-table--active .dnb-table__sort-button.dnb-button:focus[disabled], html:not([data-whatintent=touch]) .dnb-table .dnb-table__th.dnb-table--active .dnb-table__sort-button.dnb-button:focus[disabled] {
+  cursor: not-allowed;
+}
+.dnb-table > thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-button__text::after, html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-button__text::after, .dnb-table .dnb-table__th.dnb-table--active .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-button__text::after, html:not([data-whatintent=touch]) .dnb-table .dnb-table__th.dnb-table--active .dnb-table__sort-button.dnb-button:focus:not([disabled]) .dnb-button__text::after {
+  opacity: 0;
+}
+.dnb-table > thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus:not(:active) .dnb-button__text::after, .dnb-table .dnb-table__th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus:not(:active) .dnb-button__text::after {
+  visibility: visible;
+}
+html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus .dnb-button__text::after, html[data-whatinput=keyboard] .dnb-table .dnb-table__th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus .dnb-button__text::after {
+  visibility: hidden;
+}
+.dnb-table > thead > tr > th.dnb-table--reversed .dnb-table__sort-button.dnb-button .dnb-icon, .dnb-table .dnb-table__th.dnb-table--reversed .dnb-table__sort-button.dnb-button .dnb-icon {
+  transform: rotate(180deg);
+  transform-origin: 50% 50%;
+}
+.dnb-table .dnb-table__th .dnb-table__help-button, .dnb-table > thead > tr > th .dnb-table__help-button {
+  margin-left: 0.5rem;
+}
+.dnb-table > thead > .dnb-table--no-wrap .dnb-table__sort-button {
+  white-space: nowrap;
+}
 
 /*
 * Table component
+*
+*/
+/*
+* Button mixins
+*
+*/
+.dnb-table__th__horizontal {
+  display: flex;
+  align-items: flex-end;
+}
+.dnb-table--border tbody .dnb-table__th::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  pointer-events: none;
+  border-top: var(--border);
+}
+
+/*
+* Table component
+*
+*/
+/*
+* Button mixins
 *
 */
 .dnb-table {
   /* stylelint-disable */
-  /* stylelint-enable */ }
-  .dnb-table--border tbody .dnb-table__td::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-    pointer-events: none;
-    border: var(--border);
-    border-right: none;
-    border-bottom: none; }
-  .dnb-table--outline {
-    position: relative; }
-    .dnb-table--outline, .dnb-table--outline::after {
-      border-radius: 0.5rem; }
-    .dnb-table--outline::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 1;
-      pointer-events: none;
-      z-index: 3;
-      border: var(--outline); }
-  .dnb-table--outline tbody .dnb-table__tr .dnb-table__th ~ .dnb-table__td:first-of-type:first-of-type::after {
-    border-left: none; }
-  .dnb-table--border tbody .dnb-table__tr .dnb-table__th ~ .dnb-table__td:first-of-type:first-of-type::after {
-    border-left: var(--border); }
-  .dnb-table--outline tbody .dnb-table__tr:last-of-type .dnb-table__th ~ .dnb-table__td:first-of-type, .dnb-table--outline tbody .dnb-table__tr:last-of-type .dnb-table__th ~ .dnb-table__td:first-of-type::before, .dnb-table--outline tbody .dnb-table__tr:last-of-type .dnb-table__th ~ .dnb-table__td:first-of-type::after {
-    border-radius: 0 0 0 0; }
-  .dnb-table--outline tbody:first-child .dnb-table__tr:first-of-type .dnb-table__th::after,
-  .dnb-table--outline > :not(thead) + tbody .dnb-table__tr:first-of-type .dnb-table__th::after {
-    border-top: var(--outline); }
-  .dnb-table--outline tbody:first-child .dnb-table__tr:first-of-type .dnb-table__th:first-of-type, .dnb-table--outline tbody:first-child .dnb-table__tr:first-of-type .dnb-table__th:first-of-type::after,
-  .dnb-table--outline > :not(thead) + tbody .dnb-table__tr:first-of-type .dnb-table__th:first-of-type,
-  .dnb-table--outline > :not(thead) + tbody .dnb-table__tr:first-of-type .dnb-table__th:first-of-type::after {
-    border-radius: 0.5rem 0 0 0; }
-  .dnb-table--outline > tbody:first-child .dnb-table__tr:first-of-type .dnb-table__td::after,
-  .dnb-table--outline > :not(thead) + tbody .dnb-table__tr:first-of-type .dnb-table__td::after {
-    border-top: var(--outline); }
-  .dnb-table--outline > tbody:first-child .dnb-table__tr:first-of-type .dnb-table__td:last-of-type, .dnb-table--outline > tbody:first-child .dnb-table__tr:first-of-type .dnb-table__td:last-of-type::after,
-  .dnb-table--outline > :not(thead) + tbody .dnb-table__tr:first-of-type .dnb-table__td:last-of-type,
-  .dnb-table--outline > :not(thead) + tbody .dnb-table__tr:first-of-type .dnb-table__td:last-of-type::after {
-    border-radius: 0 0.5rem 0 0; }
-  .dnb-table:not(.dnb-table--outline).dnb-table--border > tbody:first-child .dnb-table__td:last-of-type::after,
-  .dnb-table:not(.dnb-table--outline).dnb-table--border > :not(thead) + tbody .dnb-table__td:last-of-type::after {
-    border-right: var(--border); }
-  .dnb-table__td--no-spacing,
-  .dnb-table td.dnb-table__td--no-spacing {
-    padding: 0; }
-  .dnb-table__td--spacing-horizontal,
-  .dnb-table td.dnb-table__td--spacing-horizontal {
-    padding-top: 0;
-    padding-bottom: 0; }
+  /* stylelint-enable */
+}
+.dnb-table--border tbody .dnb-table__td::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  pointer-events: none;
+  border: var(--border);
+  border-right: none;
+  border-bottom: none;
+}
+.dnb-table--outline {
+  position: relative;
+}
+.dnb-table--outline, .dnb-table--outline::after {
+  border-radius: 0.5rem;
+}
+.dnb-table--outline::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  pointer-events: none;
+  z-index: 3;
+  border: var(--outline);
+}
+.dnb-table--outline tbody .dnb-table__tr .dnb-table__th ~ .dnb-table__td:first-of-type:first-of-type::after {
+  border-left: none;
+}
+.dnb-table--border tbody .dnb-table__tr .dnb-table__th ~ .dnb-table__td:first-of-type:first-of-type::after {
+  border-left: var(--border);
+}
+.dnb-table--outline tbody .dnb-table__tr:last-of-type .dnb-table__th ~ .dnb-table__td:first-of-type, .dnb-table--outline tbody .dnb-table__tr:last-of-type .dnb-table__th ~ .dnb-table__td:first-of-type::before, .dnb-table--outline tbody .dnb-table__tr:last-of-type .dnb-table__th ~ .dnb-table__td:first-of-type::after {
+  border-radius: 0 0 0 0;
+}
+.dnb-table--outline tbody:first-child .dnb-table__tr:first-of-type .dnb-table__th::after, .dnb-table--outline > :not(thead) + tbody .dnb-table__tr:first-of-type .dnb-table__th::after {
+  border-top: var(--outline);
+}
+.dnb-table--outline tbody:first-child .dnb-table__tr:first-of-type .dnb-table__th:first-of-type, .dnb-table--outline tbody:first-child .dnb-table__tr:first-of-type .dnb-table__th:first-of-type::after, .dnb-table--outline > :not(thead) + tbody .dnb-table__tr:first-of-type .dnb-table__th:first-of-type, .dnb-table--outline > :not(thead) + tbody .dnb-table__tr:first-of-type .dnb-table__th:first-of-type::after {
+  border-radius: 0.5rem 0 0 0;
+}
+.dnb-table--outline > tbody:first-child .dnb-table__tr:first-of-type .dnb-table__td::after, .dnb-table--outline > :not(thead) + tbody .dnb-table__tr:first-of-type .dnb-table__td::after {
+  border-top: var(--outline);
+}
+.dnb-table--outline > tbody:first-child .dnb-table__tr:first-of-type .dnb-table__td:last-of-type, .dnb-table--outline > tbody:first-child .dnb-table__tr:first-of-type .dnb-table__td:last-of-type::after, .dnb-table--outline > :not(thead) + tbody .dnb-table__tr:first-of-type .dnb-table__td:last-of-type, .dnb-table--outline > :not(thead) + tbody .dnb-table__tr:first-of-type .dnb-table__td:last-of-type::after {
+  border-radius: 0 0.5rem 0 0;
+}
+.dnb-table:not(.dnb-table--outline).dnb-table--border > tbody:first-child .dnb-table__td:last-of-type::after, .dnb-table:not(.dnb-table--outline).dnb-table--border > :not(thead) + tbody .dnb-table__td:last-of-type::after {
+  border-right: var(--border);
+}
+.dnb-table__td--no-spacing,
+.dnb-table td.dnb-table__td--no-spacing {
+  padding: 0;
+}
+.dnb-table__td--spacing-horizontal,
+.dnb-table td.dnb-table__td--spacing-horizontal {
+  padding-top: 0;
+  padding-bottom: 0;
+}
 
 /*
 * Table component
 *
 */
-.dnb-table > tbody > tr,
-.dnb-table .dnb-table__tr,
-.dnb-table .dnb-table__tr--even {
-  background-color: var(--color-black-3); }
-
-.dnb-table > tbody > tr:not(.dnb-table__tr--even):nth-of-type(2n),
-.dnb-table .dnb-table__tr:not(.dnb-table__tr--even):nth-of-type(2n),
-.dnb-table .dnb-table__tr--odd {
-  background-color: var(--color-white); }
-
-.dnb-table--outline thead .dnb-table__tr:first-of-type,
-.dnb-table--outline tbody
-.dnb-table__tr.dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) {
-  clip-path: inset(0 0 -1rem 0 round 0.5rem 0.5rem 0 0); }
-
-.dnb-table--outline tbody .dnb-table__tr:last-of-type,
-.dnb-table--outline tbody
-.dnb-table__tr.dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) {
-  clip-path: inset(0 round 0 0 0.5rem 0.5rem); }
+/*
+* Button mixins
+*
+*/
+.dnb-table > tbody > tr, .dnb-table .dnb-table__tr, .dnb-table .dnb-table__tr--even {
+  background-color: var(--color-black-3);
+}
+.dnb-table > tbody > tr:not(.dnb-table__tr--even):nth-of-type(2n), .dnb-table .dnb-table__tr:not(.dnb-table__tr--even):nth-of-type(2n), .dnb-table .dnb-table__tr--odd {
+  background-color: var(--color-white);
+}
+.dnb-table--outline thead .dnb-table__tr:first-of-type, .dnb-table--outline tbody .dnb-table__tr.dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) {
+  clip-path: inset(0 0 -1rem 0 round 0.5rem 0.5rem 0 0);
+}
+.dnb-table--outline tbody .dnb-table__tr:last-of-type, .dnb-table--outline tbody .dnb-table__tr.dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) {
+  clip-path: inset(0 round 0 0 0.5rem 0.5rem);
+}
 
 /*
 * Table component
@@ -482,7 +452,8 @@ thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus
 .dnb-table__th, .dnb-table__td {
   position: relative;
   border-spacing: 0;
-  word-break: keep-all; }
+  word-break: keep-all;
+}
 
 /*
 * Table component
@@ -491,86 +462,104 @@ thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus
 .dnb-table tr.sticky {
   position: sticky;
   z-index: 4;
-  transform: translate3d(0, var(--table-offset, 0), 0); }
-
+  transform: translate3d(0, var(--table-offset, 0), 0);
+}
 .dnb-table tr.sticky.css-position {
-  top: var(--table-top, 0); }
-
+  top: var(--table-top, 0);
+}
 .dnb-table tr.sticky.is-sticky th::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
   height: 6px;
   box-shadow: var(--shadow-default-x) -2px 12px 8px var(--shadow-default-color);
-  clip-path: inset(6px 0 -48px 0); }
+  clip-path: inset(6px 0 -48px 0);
+}
 
 /*
 * Table component
 *
 */
 .dnb-table__container {
-  position: relative; }
+  position: relative;
+}
+.dnb-table__container::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  pointer-events: none;
+  z-index: 3;
+  border: var(--outline);
+}
+.dnb-table__container, .dnb-table__container::after {
+  border-radius: 0.5rem;
+}
+.dnb-table__container, .dnb-table__container__body, .dnb-table__container__head, .dnb-table__container__foot {
+  display: flex;
+  flex-direction: column;
+}
+.dnb-table__container__body .dnb-table {
+  position: relative;
+  /* stylelint-disable */
+  /* stylelint-enable */
+}
+.dnb-table__container__body .dnb-table:not([class*=space__bottom]) {
+  margin-bottom: 0;
+}
+.dnb-table__container__body .dnb-table__size--large .dnb-table__th {
+  padding-top: 1.5rem;
+}
+.dnb-table__container__body .dnb-table::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  pointer-events: none;
+  border-bottom: var(--border);
+}
+.dnb-table__container__body .dnb-table tbody:first-child .dnb-table__tr:first-of-type .dnb-table__th::after,
+.dnb-table__container__body .dnb-table tbody:first-child .dnb-table__tr:first-of-type .dnb-table__td::after, .dnb-table__container__body .dnb-table > :not(thead) + tbody .dnb-table__tr:first-of-type .dnb-table__th::after,
+.dnb-table__container__body .dnb-table > :not(thead) + tbody .dnb-table__tr:first-of-type .dnb-table__td::after {
+  border-top: none;
+}
+.dnb-table__container__head {
+  padding: 2rem 1rem 0;
+}
+.dnb-table__container__head--empty {
+  padding: 0;
+  min-height: 1.5rem;
+}
+.dnb-spacing .dnb-table__container__head .dnb-h--large:not([class*=space__top]) {
+  margin: 0;
+}
+.dnb-table__container__foot {
+  padding: 1rem;
+  padding-bottom: 1.25rem;
+}
+.dnb-table__container__foot--empty {
+  padding: 0;
+  min-height: 1rem;
+}
+.dnb-table__container .dnb-table__scroll-view {
+  clip-path: inset(0 round 0 0 0.5rem 0.5rem);
+}
+@supports (-webkit-appearance: none) and (not (-moz-appearance: meterbar)) {
   .dnb-table__container::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-    pointer-events: none;
-    z-index: 3;
-    border: var(--outline); }
-  .dnb-table__container, .dnb-table__container::after {
-    border-radius: 0.5rem; }
-  .dnb-table__container, .dnb-table__container__body, .dnb-table__container__head, .dnb-table__container__foot {
-    display: flex;
-    flex-direction: column; }
-  .dnb-table__container__body .dnb-table {
-    position: relative;
-    /* stylelint-disable */
-    /* stylelint-enable */ }
-    .dnb-table__container__body .dnb-table:not([class*='space__bottom']) {
-      margin-bottom: 0; }
-    .dnb-table__container__body .dnb-table__size--large .dnb-table__th {
-      padding-top: 1.5rem; }
-    .dnb-table__container__body .dnb-table::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 1;
-      pointer-events: none;
-      border-bottom: var(--border); }
-    .dnb-table__container__body .dnb-table tbody:first-child .dnb-table__tr:first-of-type .dnb-table__th::after,
-    .dnb-table__container__body .dnb-table tbody:first-child .dnb-table__tr:first-of-type .dnb-table__td::after,
-    .dnb-table__container__body .dnb-table > :not(thead) + tbody .dnb-table__tr:first-of-type .dnb-table__th::after,
-    .dnb-table__container__body .dnb-table > :not(thead) + tbody .dnb-table__tr:first-of-type .dnb-table__td::after {
-      border-top: none; }
-  .dnb-table__container__head {
-    padding: 2rem 1rem 0; }
-    .dnb-table__container__head--empty {
-      padding: 0;
-      min-height: 1.5rem; }
-    .dnb-spacing .dnb-table__container__head .dnb-h--large:not([class*='space__top']) {
-      margin: 0; }
-  .dnb-table__container__foot {
-    padding: 1rem;
-    padding-bottom: 1.25rem; }
-    .dnb-table__container__foot--empty {
-      padding: 0;
-      min-height: 1rem; }
-  .dnb-table__container .dnb-table__scroll-view {
-    clip-path: inset(0 round 0 0 0.5rem 0.5rem); }
-  @supports (-webkit-appearance: none) and (not (-moz-appearance: meterbar)) {
-    .dnb-table__container::after {
-      bottom: calc(var(--outline-width) * -1); } }
-  .dnb-modal__content .dnb-table__container .dnb-table__scroll-view {
-    overflow: visible; }
+    bottom: calc(var(--outline-width) * -1);
+  }
+}
+.dnb-modal__content .dnb-table__container .dnb-table__scroll-view {
+  overflow: visible;
+}
 
 /*
 * Table component
@@ -580,171 +569,214 @@ thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus
   --accordion-background: var(--color-white);
   --accordion-border-width: 0.0625rem;
   --accordion-border: var(--accordion-border-width) solid
-    var(--color-black-20); }
-  .dnb-table__th.dnb-table__th__accordion-icon.dnb-table__th {
-    padding: 0; }
-  .dnb-table__th.dnb-table__th__accordion-icon,
-  .dnb-table__th.dnb-table__th__accordion-icon div {
-    width: 3.5rem;
-    text-indent: -300vw; }
-    .dnb-table__size--medium .dnb-table__th.dnb-table__th__accordion-icon, .dnb-table__size--medium
-    .dnb-table__th.dnb-table__th__accordion-icon div {
-      width: 3rem; }
-    .dnb-table__size--small .dnb-table__th.dnb-table__th__accordion-icon, .dnb-table__size--small
-    .dnb-table__th.dnb-table__th__accordion-icon div {
-      width: 2.5rem; }
-  .dnb-table__td.dnb-table__td__accordion-icon {
-    user-select: none; }
-    .dnb-table__td.dnb-table__td__accordion-icon.dnb-table__td {
-      padding: 0; }
-  .dnb-table__tr--has-accordion-content .dnb-table__toggle-button {
-    display: flex;
-    justify-content: center; }
-    .dnb-table__tr--has-accordion-content .dnb-table__toggle-button .dnb-icon {
-      color: var(--color-sea-green);
-      transition: transform 500ms var(--accordion-easing); }
-  .dnb-table__tr--has-accordion-content.dnb-table__tr--no-animation .dnb-table__toggle-button .dnb-icon,
-  html[data-visual-test]
+    var(--color-black-20);
+}
+.dnb-table__th.dnb-table__th__accordion-icon.dnb-table__th {
+  padding: 0;
+}
+.dnb-table__th.dnb-table__th__accordion-icon,
+.dnb-table__th.dnb-table__th__accordion-icon div {
+  width: 3.5rem;
+  text-indent: -300vw;
+}
+.dnb-table__size--medium .dnb-table__th.dnb-table__th__accordion-icon,
+.dnb-table__size--medium .dnb-table__th.dnb-table__th__accordion-icon div {
+  width: 3rem;
+}
+.dnb-table__size--small .dnb-table__th.dnb-table__th__accordion-icon,
+.dnb-table__size--small .dnb-table__th.dnb-table__th__accordion-icon div {
+  width: 2.5rem;
+}
+.dnb-table__td.dnb-table__td__accordion-icon {
+  user-select: none;
+}
+.dnb-table__td.dnb-table__td__accordion-icon.dnb-table__td {
+  padding: 0;
+}
+.dnb-table__tr--has-accordion-content .dnb-table__toggle-button {
+  display: flex;
+  justify-content: center;
+}
 .dnb-table__tr--has-accordion-content .dnb-table__toggle-button .dnb-icon {
-    transition: none !important; }
-  .dnb-table__tr--has-accordion-content, .dnb-table__tr__accordion_content {
-    position: relative;
-    z-index: 2; }
-  .dnb-table__tr--has-accordion-content.dnb-table__tr--expanded, .dnb-table__tr__accordion_content {
-    z-index: 3; }
-  .dnb-table__tr--has-accordion-content:hover, .dnb-table__tr--has-accordion-content:active,
-  html[data-whatinput='keyboard'] .dnb-table__tr--has-accordion-content:focus {
-    z-index: 5; }
-  .dnb-table__tr--has-accordion-content.dnb-table__tr--expanded .dnb-table__toggle-button .dnb-icon {
-    transform: rotate(180deg); }
-  .dnb-table--border .dnb-table__tr--has-accordion-content.dnb-table__tr--expanded td::after {
-    border-bottom: none; }
-  .dnb-table--border .dnb-table__tr--has-accordion-content.dnb-table__tr--expanded td:not(:first-of-type)::after {
-    border-left: none; }
-  .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled) {
-    outline: none; }
-    .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled) td::before {
-      content: '';
-      position: absolute;
-      z-index: 3;
-      inset: 0;
-      pointer-events: none;
-      border: 0.125rem solid transparent; }
-    .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled) td:not(:first-of-type)::before {
-      border-left: none; }
-    .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled) td:not(:last-of-type)::before {
-      border-right: none; }
-    html:not([data-whatintent='touch']) .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):hover[disabled] {
-      cursor: not-allowed; }
-    html:not([data-whatintent='touch']) .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):hover:not([disabled]) td::before {
-      border-color: var(--color-emerald-green); }
-    html:not([data-whatintent='touch']) .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):hover:not([disabled]) .dnb-table__td__accordion-icon .dnb-icon {
-      color: var(--color-emerald-green); }
-  .dnb-table--outline tbody
-.dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):not(:nth-last-child(2)) .dnb-table__td::before {
-    bottom: -0.0625rem; }
-  .dnb-table__tr--has-accordion-content.dnb-table__tr--expanded:not(.dnb-table__tr--disabled):hover .dnb-table__td {
-    background-color: var(--color-white); }
-  html[data-whatinput='keyboard'] .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):not(:active):not(:hover):focus td::before {
-    top: 0;
-    bottom: 0;
-    border-color: var(--color-emerald-green); }
-  .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):not(:active):not(:hover):focus td:first-of-type::before {
-    left: 0; }
-  .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):not(:active):not(:hover):focus td:last-of-type::before {
-    right: 0; }
-  html:not([data-whatintent='touch']) .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):active:hover td::before,
-  .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):active td::before {
-    border-color: var(--color-emerald-green);
-    border-width: 0.0625rem; }
-  .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):active .dnb-table__td {
-    background-color: var(--color-pistachio); }
-    .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):active .dnb-table__td .dnb-table__td__accordion-icon .dnb-icon {
-      color: var(--color-emerald-green); }
-  .dnb-table__tr--has-accordion-content.dnb-table__tr--expanded:not(.dnb-table__tr--disabled).dnb-table__tr--hover:not(:active):hover .dnb-table__td {
-    background-color: var(--accordion-background); }
-    .dnb-table__tr--has-accordion-content.dnb-table__tr--expanded:not(.dnb-table__tr--disabled).dnb-table__tr--hover:not(:active):hover .dnb-table__td::before {
-      border: none;
-      border-top: var(--accordion-border); }
-  html:not([data-whatinput='keyboard']) .dnb-table__tr--has-accordion-content.dnb-table__tr.dnb-table__tr--expanded:not(.dnb-table__tr--disabled):not(:active):not(:hover) {
-    background-color: var(--accordion-background); }
-    html:not([data-whatinput='keyboard']) .dnb-table__tr--has-accordion-content.dnb-table__tr.dnb-table__tr--expanded:not(.dnb-table__tr--disabled):not(:active):not(:hover) td::before {
-      border: none;
-      border-top: var(--accordion-border); }
-  .dnb-table__tr--has-accordion-content.dnb-table__tr--disabled .dnb-table__td__accordion-icon .dnb-icon {
-    color: var(--color-sea-green-30); }
-  @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
-    .dnb-table__tr__accordion_content[hidden] {
-      /**
-        * By reverting the display from "none" to "block",
-        * we trick VoiceOver to not make this row as the end of the table. We still need "hidden" to get the correct number of rows (childCount).
-        */
-      display: block; } }
-  .dnb-table__tr__accordion_content td {
-    padding: 0 !important;
-    width: calc(100% - 3.5rem); }
-    .dnb-table__size--medium .dnb-table__tr__accordion_content td {
-      width: calc(100% - 3rem); }
-    .dnb-table__size--small .dnb-table__tr__accordion_content td {
-      width: calc(100% - 2.5rem); }
-  .dnb-table__tr__accordion_content td::before {
-    content: '';
-    position: absolute;
-    top: auto;
-    left: 0;
-    right: 0;
-    bottom: calc(var(--accordion-border-width) * -1);
-    pointer-events: none;
-    border-bottom: var(--accordion-border); }
-  .dnb-table--outline .dnb-table__tr__accordion_content:last-of-type td::before {
-    border-bottom: none; }
-  .dnb-table--border .dnb-table__tr__accordion_content td::after {
-    border-top: none; }
-  .dnb-table__tr__accordion_content__inner {
-    overflow: hidden;
-    will-change: height;
-    transition: height 400ms var(--accordion-easing);
-    position: relative; }
-    .dnb-table__tr__accordion_content__inner__spacing {
-      padding: 1rem;
-      transform: translateY(-10px);
-      transition: transform 500ms var(--accordion-easing); }
-  .dnb-table__tr__accordion_content--parallax .dnb-table__tr__accordion_content__inner__spacing {
-    transform: translateY(0); }
-  .dnb-table__tr__accordion_content > td.dnb-table__td {
-    padding: 0; }
-    .dnb-table__tr__accordion_content > td.dnb-table__td .dnb-dl,
-    .dnb-table__tr__accordion_content > td.dnb-table__td .dnb-dl dt {
-      margin: 0; }
-  .dnb-table__tr__accordion_content--expanded > td.dnb-table__td {
-    background-color: var(--color-white); }
-  .dnb-table__tr__accordion_content.dnb-table__tr .dnb-table__td {
-    background-color: var(--accordion-background);
+  color: var(--color-sea-green);
+  transition: transform 500ms var(--accordion-easing);
+}
+.dnb-table__tr--has-accordion-content.dnb-table__tr--no-animation .dnb-table__toggle-button .dnb-icon, html[data-visual-test] .dnb-table__tr--has-accordion-content .dnb-table__toggle-button .dnb-icon {
+  transition: none !important;
+}
+.dnb-table__tr--has-accordion-content, .dnb-table__tr__accordion_content {
+  position: relative;
+  z-index: 2;
+}
+.dnb-table__tr--has-accordion-content.dnb-table__tr--expanded, .dnb-table__tr__accordion_content {
+  z-index: 3;
+}
+.dnb-table__tr--has-accordion-content:hover, .dnb-table__tr--has-accordion-content:active, html[data-whatinput=keyboard] .dnb-table__tr--has-accordion-content:focus {
+  z-index: 5;
+}
+.dnb-table__tr--has-accordion-content.dnb-table__tr--expanded .dnb-table__toggle-button .dnb-icon {
+  transform: rotate(180deg);
+}
+.dnb-table--border .dnb-table__tr--has-accordion-content.dnb-table__tr--expanded td::after {
+  border-bottom: none;
+}
+.dnb-table--border .dnb-table__tr--has-accordion-content.dnb-table__tr--expanded td:not(:first-of-type)::after {
+  border-left: none;
+}
+.dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled) {
+  outline: none;
+}
+.dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled) td::before {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  pointer-events: none;
+  border: 0.125rem solid transparent;
+}
+.dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled) td:not(:first-of-type)::before {
+  border-left: none;
+}
+.dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled) td:not(:last-of-type)::before {
+  border-right: none;
+}
+html:not([data-whatintent=touch]) .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):hover[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatintent=touch]) .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):hover:not([disabled]) td::before {
+  border-color: var(--color-emerald-green);
+}
+html:not([data-whatintent=touch]) .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):hover:not([disabled]) .dnb-table__td__accordion-icon .dnb-icon {
+  color: var(--color-emerald-green);
+}
+.dnb-table--outline tbody .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):not(:nth-last-child(2)) .dnb-table__td::before {
+  bottom: -0.0625rem;
+}
+.dnb-table__tr--has-accordion-content.dnb-table__tr--expanded:not(.dnb-table__tr--disabled):hover .dnb-table__td {
+  background-color: var(--color-white);
+}
+html[data-whatinput=keyboard] .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):not(:active):not(:hover):focus td::before {
+  top: 0;
+  bottom: 0;
+  border-color: var(--color-emerald-green);
+}
+.dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):not(:active):not(:hover):focus td:first-of-type::before {
+  left: 0;
+}
+.dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):not(:active):not(:hover):focus td:last-of-type::before {
+  right: 0;
+}
+html:not([data-whatintent=touch]) .dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):active:hover td::before,
+.dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):active td::before {
+  border-color: var(--color-emerald-green);
+  border-width: 0.0625rem;
+}
+.dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):active .dnb-table__td {
+  background-color: var(--color-pistachio);
+}
+.dnb-table__tr--has-accordion-content.dnb-table__tr:not(.dnb-table__tr--disabled):active .dnb-table__td .dnb-table__td__accordion-icon .dnb-icon {
+  color: var(--color-emerald-green);
+}
+.dnb-table__tr--has-accordion-content.dnb-table__tr--expanded:not(.dnb-table__tr--disabled).dnb-table__tr--hover:not(:active):hover .dnb-table__td {
+  background-color: var(--accordion-background);
+}
+.dnb-table__tr--has-accordion-content.dnb-table__tr--expanded:not(.dnb-table__tr--disabled).dnb-table__tr--hover:not(:active):hover .dnb-table__td::before {
+  border: none;
+  border-top: var(--accordion-border);
+}
+html:not([data-whatinput=keyboard]) .dnb-table__tr--has-accordion-content.dnb-table__tr.dnb-table__tr--expanded:not(.dnb-table__tr--disabled):not(:active):not(:hover) {
+  background-color: var(--accordion-background);
+}
+html:not([data-whatinput=keyboard]) .dnb-table__tr--has-accordion-content.dnb-table__tr.dnb-table__tr--expanded:not(.dnb-table__tr--disabled):not(:active):not(:hover) td::before {
+  border: none;
+  border-top: var(--accordion-border);
+}
+.dnb-table__tr--has-accordion-content.dnb-table__tr--disabled .dnb-table__td__accordion-icon .dnb-icon {
+  color: var(--color-sea-green-30);
+}
+@supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
+  .dnb-table__tr__accordion_content[hidden] {
     /**
-      * Safari on iOS and macOS has problems on animating when vertical-align is baseline.
-      * What happens is that the td is not 0, even the content inside is 0. With vertical top, we omit that.
-      * But we do not need baseline in this tr > td, so we reset it.
-      */
-    vertical-align: top; }
-  .dnb-table--outline tbody
-.dnb-table__tr.dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__td:first-of-type, .dnb-table--outline tbody
-.dnb-table__tr.dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__td:first-of-type::before, .dnb-table--outline tbody
-.dnb-table__tr.dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__td:first-of-type::after {
-    border-radius: 0 0 0 0.5rem; }
-  .dnb-table--outline tbody .dnb-table__tr:last-of-type .dnb-table__td:last-of-type, .dnb-table--outline tbody .dnb-table__tr:last-of-type .dnb-table__td:last-of-type::before, .dnb-table--outline tbody .dnb-table__tr:last-of-type .dnb-table__td:last-of-type::after,
-  .dnb-table--outline tbody
-.dnb-table__tr.dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__td:last-of-type,
-  .dnb-table--outline tbody
-.dnb-table__tr.dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__td:last-of-type::before,
-  .dnb-table--outline tbody
-.dnb-table__tr.dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__td:last-of-type::after {
-    border-radius: 0 0 0.5rem 0; }
-  .dnb-table--outline tbody .dnb-table__tr.dnb-table__tr__accordion_content:last-of-type .dnb-table__td, .dnb-table--outline tbody .dnb-table__tr.dnb-table__tr__accordion_content:last-of-type .dnb-table__td::before, .dnb-table--outline tbody .dnb-table__tr.dnb-table__tr__accordion_content:last-of-type .dnb-table__td::after {
-    border-radius: 0 0 0.5rem 0.5rem; }
-  .dnb-table__tr--has-accordion-content:not(.dnb-table__tr--disabled) {
-    cursor: pointer; }
-  .dnb-table__td-wrapper {
-    display: flex; }
+    * By reverting the display from "none" to "block",
+    * we trick VoiceOver to not make this row as the end of the table. We still need "hidden" to get the correct number of rows (childCount).
+    */
+    display: block;
+  }
+}
+.dnb-table__tr__accordion_content td {
+  padding: 0 !important;
+  width: calc(100% - 3.5rem);
+}
+.dnb-table__size--medium .dnb-table__tr__accordion_content td {
+  width: calc(100% - 3rem);
+}
+.dnb-table__size--small .dnb-table__tr__accordion_content td {
+  width: calc(100% - 2.5rem);
+}
+.dnb-table__tr__accordion_content td::before {
+  content: "";
+  position: absolute;
+  top: auto;
+  left: 0;
+  right: 0;
+  bottom: calc(var(--accordion-border-width) * -1);
+  pointer-events: none;
+  border-bottom: var(--accordion-border);
+}
+.dnb-table--outline .dnb-table__tr__accordion_content:last-of-type td::before {
+  border-bottom: none;
+}
+.dnb-table--border .dnb-table__tr__accordion_content td::after {
+  border-top: none;
+}
+.dnb-table__tr__accordion_content__inner {
+  overflow: hidden;
+  will-change: height;
+  transition: height 400ms var(--accordion-easing);
+  position: relative;
+}
+.dnb-table__tr__accordion_content__inner__spacing {
+  padding: 1rem;
+  transform: translateY(-10px);
+  transition: transform 500ms var(--accordion-easing);
+}
+.dnb-table__tr__accordion_content--parallax .dnb-table__tr__accordion_content__inner__spacing {
+  transform: translateY(0);
+}
+.dnb-table__tr__accordion_content > td.dnb-table__td {
+  padding: 0;
+}
+.dnb-table__tr__accordion_content > td.dnb-table__td .dnb-dl,
+.dnb-table__tr__accordion_content > td.dnb-table__td .dnb-dl dt {
+  margin: 0;
+}
+.dnb-table__tr__accordion_content--expanded > td.dnb-table__td {
+  background-color: var(--color-white);
+}
+.dnb-table__tr__accordion_content.dnb-table__tr .dnb-table__td {
+  background-color: var(--accordion-background);
+  /**
+    * Safari on iOS and macOS has problems on animating when vertical-align is baseline.
+    * What happens is that the td is not 0, even the content inside is 0. With vertical top, we omit that.
+    * But we do not need baseline in this tr > td, so we reset it.
+    */
+  vertical-align: top;
+}
+.dnb-table--outline tbody .dnb-table__tr.dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__td:first-of-type, .dnb-table--outline tbody .dnb-table__tr.dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__td:first-of-type::before, .dnb-table--outline tbody .dnb-table__tr.dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__td:first-of-type::after {
+  border-radius: 0 0 0 0.5rem;
+}
+.dnb-table--outline tbody .dnb-table__tr:last-of-type .dnb-table__td:last-of-type, .dnb-table--outline tbody .dnb-table__tr:last-of-type .dnb-table__td:last-of-type::before, .dnb-table--outline tbody .dnb-table__tr:last-of-type .dnb-table__td:last-of-type::after, .dnb-table--outline tbody .dnb-table__tr.dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__td:last-of-type, .dnb-table--outline tbody .dnb-table__tr.dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__td:last-of-type::before, .dnb-table--outline tbody .dnb-table__tr.dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__td:last-of-type::after {
+  border-radius: 0 0 0.5rem 0;
+}
+.dnb-table--outline tbody .dnb-table__tr.dnb-table__tr__accordion_content:last-of-type .dnb-table__td, .dnb-table--outline tbody .dnb-table__tr.dnb-table__tr__accordion_content:last-of-type .dnb-table__td::before, .dnb-table--outline tbody .dnb-table__tr.dnb-table__tr__accordion_content:last-of-type .dnb-table__td::after {
+  border-radius: 0 0 0.5rem 0.5rem;
+}
+.dnb-table__tr--has-accordion-content:not(.dnb-table__tr--disabled) {
+  cursor: pointer;
+}
+.dnb-table__td-wrapper {
+  display: flex;
+}
 
 .dnb-spacing .dnb-table p,
 .dnb-spacing .dnb-table ul,
@@ -752,6 +784,6 @@ thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus
 .dnb-spacing .dnb-table dl,
 .dnb-spacing .dnb-table pre {
   margin-top: 0;
-  margin-bottom: 0; }
-"
+  margin-bottom: 0;
+}"
 `;

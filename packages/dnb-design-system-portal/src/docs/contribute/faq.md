@@ -17,21 +17,6 @@ LINT_STAGED=1
 
 ## Dependency issues
 
-### node-sass vs sass
-
-The Portal (documentations) uses dart based `sass`, while the bundle and build process of the package `@dnb/eufemia` uses `node-sass` – because:
-
-- we render sass styles during jest tests with `sass.renderSync` – even that should work with `sass` as well, it can't find the [file it says](https://github.com/sass/dart-sass/issues/710).
-- several places a module called `node-sass-once-importer` is used, that is compatible only with `node-sass`.
-- it uses `sass-loader` v10 because `TypeError: this.getOptions is not a function`.
-- it uses `node-sass` v5, else we get this error message during portal run:
-
-  ```
-  ERROR in polyfill
-  Module not found: TypeError: Cannot read property 'indexOf' of
-  undefined
-  ```
-
 ### puppeteer
 
 - When upgrading to a newer version than v8, puppeteer behaves inconsistent. Sometimes the content is just tiny bit off. But most importantly, > v10.4 is very inconsistent and off running on the GitHub Actions maxOS.

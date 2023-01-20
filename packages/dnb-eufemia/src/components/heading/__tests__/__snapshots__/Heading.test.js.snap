@@ -451,15 +451,19 @@ exports[`Heading component have to match snapshot 1`] = `
  * Heading Component
  *
  */
+/*
+ * Utilities
+ */
 .dnb-heading__debug {
   color: var(--color-black-20);
-  font-weight: var(--font-weight-basis); }
-  .dnb-heading__debug .dnb-code {
-    color: var(--color-black);
-    font-size: 12px !important; }
-
+  font-weight: var(--font-weight-basis);
+}
+.dnb-heading__debug .dnb-code {
+  color: var(--color-black);
+  font-size: 12px !important;
+}
 .dnb-heading__context {
   display: block;
-  padding: 1rem 0 2rem; }
-"
+  padding: 1rem 0 2rem;
+}"
 `;
