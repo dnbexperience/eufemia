@@ -77,7 +77,7 @@ function BasicNumberMask() {
       value={floatval}
       // placeholder="En placeholder"
       number_mask
-      mask_options={{ allowLeadingZeroes: true, allowNegative: false }}
+      mask_options={{ disallowLeadingZeroes: true, allowNegative: false }}
       suffix={<Pre>{JSON.stringify(floatval)}</Pre>}
       on_change={({ numberValue }) => {
         setState(numberValue)
@@ -101,7 +101,7 @@ function BasicCurrencyMask() {
         // allowDecimal: false,
         allowNegative: false,
       }}
-      // mask_options={{ allowLeadingZeroes: true }}
+      // mask_options={{ disallowLeadingZeroes: true }}
       suffix={<Pre>{JSON.stringify(floatval)}</Pre>}
       on_change={({ numberValue }) => {
         setState(numberValue)
@@ -119,7 +119,7 @@ function CurrencyInput() {
       label="as_currency"
       value={floatval}
       as_currency="NOK"
-      // mask_options={{ allowLeadingZeroes: true }}
+      // mask_options={{ disallowLeadingZeroes: true }}
       suffix={<Pre>{JSON.stringify(floatval)}</Pre>}
       on_change={({ numberValue }) => {
         setState(numberValue)
@@ -155,7 +155,7 @@ function PercentInput() {
       label="as_percent"
       value={floatval}
       as_percent
-      mask_options={{ allowDecimal: true, allowLeadingZeroes: true }}
+      mask_options={{ allowDecimal: true, disallowLeadingZeroes: true }}
       // number_mask={{ allowDecimal: true, decimalLimit: 1 }}
       suffix={<Pre>{JSON.stringify(floatval)}</Pre>}
       on_change={({ numberValue }) => {
