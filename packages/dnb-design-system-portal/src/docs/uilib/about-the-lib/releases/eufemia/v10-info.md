@@ -24,6 +24,10 @@ v10 of @dnb/eufemia contains _breaking changes_. As a migration process, you can
 
 1. [Browser support](/uilib/usage/#supported-browsers-and-platforms) has been updated to support modern browsers only (es6).
 
+## Web Components
+
+1. The support for [Web Components](uilib/usage/first-steps/web-components) was removed.
+
 ### Breakpoints
 
 Some [breakpoints](https://eufemia.dnb.no/uilib/usage/layout/media-queries) sizes have changed:
