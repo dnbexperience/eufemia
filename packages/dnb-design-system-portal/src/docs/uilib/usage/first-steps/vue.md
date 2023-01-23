@@ -1,4 +1,4 @@
-# Vue JS
+# Vue JS (Not supported anymore)
 
 ## How to
 

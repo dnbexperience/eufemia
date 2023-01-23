@@ -1,4 +1,4 @@
-# Frameworks support
+# Frameworks support (Not supported anymore)
 
 Eufemia components can be consumed in a number of different ways, like:
 

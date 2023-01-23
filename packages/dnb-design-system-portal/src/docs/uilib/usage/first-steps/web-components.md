@@ -5,9 +5,7 @@ order: 9
 draft: true
 ---
 
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
-
-# Web Components
+# Web Components (Not supported anymore)
 
 So called [Custom Elements](https://www.w3.org/TR/custom-elements/) running as a [Web Component](https://github.com/w3c/webcomponents/) can be used to run the `@dnb/eufemia` components in all other frameworks like Dojo.
 
@@ -153,33 +151,7 @@ To support [importmap](https://github.com/WICG/import-maps), we can load a polyf
 
 ### Web Component example: Button
 
-<ComponentBox noFragments={false}>
-{`
-() => {
-  Button.enableWebComponent()
-  
-  return (<dnb-button icon="chevron_right" text="Custom Element" />)
-}
-`}
-</ComponentBox>
-
-### Web Component example: Input
-
-<ComponentBox noFragments={false}>
-{`
-() => {
-  Button.enableWebComponent()
-  Input.enableWebComponent()
-  
-  return (
-    <form>
-      <dnb-input label="Label" placeholder="My Placeholder" right="small">My Value</dnb-input>
-      <dnb-button type="submit" text="Submit" />
-    </form>
-  )
-}
-`}
-</ComponentBox>
+(Not supported anymore)
 
 ## Events
 
