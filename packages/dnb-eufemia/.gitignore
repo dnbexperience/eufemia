@@ -34,8 +34,6 @@
 /index.*
 !index.js
 /lib.js
-/web-components.*
-/web-components
 @dnb/eufemia*.tgz
 
 # misc
