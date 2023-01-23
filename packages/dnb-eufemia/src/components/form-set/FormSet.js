@@ -11,7 +11,6 @@ import {
   makeUniqueId,
   extend,
   extendPropsWithContextInClassComponent,
-  registerElement,
   validateDOMAttributes,
   processChildren,
   dispatchCustomElementEvent,
@@ -53,10 +52,6 @@ export default class FormSet extends React.PureComponent {
 
     custom_element: null,
     custom_method: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(FormSet?.tagName, FormSet, FormSet.defaultProps)
   }
 
   static getContent(props) {

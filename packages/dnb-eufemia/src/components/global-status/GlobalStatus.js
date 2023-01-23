@@ -12,7 +12,6 @@ import {
   warn,
   isTrue,
   makeUniqueId,
-  registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent,
   processChildren,
@@ -132,14 +131,6 @@ export default class GlobalStatus extends React.PureComponent {
     on_show: null,
     on_close: null,
     on_hide: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(
-      GlobalStatus?.tagName,
-      GlobalStatus,
-      GlobalStatus.defaultProps
-    )
   }
 
   static getContent(props) {

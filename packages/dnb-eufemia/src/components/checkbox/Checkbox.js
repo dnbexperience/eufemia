@@ -11,7 +11,6 @@ import {
   isTrue,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
-  registerElement,
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
@@ -117,10 +116,6 @@ export default class Checkbox extends React.PureComponent {
 
     on_change: null,
     on_state_update: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(Checkbox?.tagName, Checkbox, Checkbox.defaultProps)
   }
 
   static parseChecked = (state) => /true|on/.test(String(state))

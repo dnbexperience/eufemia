@@ -13,7 +13,6 @@ import {
   slugify,
   isTrue,
   makeUniqueId,
-  registerElement,
   extendPropsWithContextInClassComponent,
   validateDOMAttributes,
   dispatchCustomElementEvent,
@@ -150,10 +149,6 @@ export default class Tabs extends React.PureComponent {
 
   static Content = CustomContent
   static ContentWrapper = ContentWrapper
-
-  static enableWebComponent() {
-    registerElement(Tabs?.tagName, Tabs, Tabs.defaultProps)
-  }
 
   static getSelectedKeyOrFallback(selected_key, data) {
     let useKey = selected_key

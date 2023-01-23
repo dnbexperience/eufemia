@@ -11,7 +11,6 @@ import {
   extendPropsWithContextInClassComponent,
   isTrue,
   makeUniqueId,
-  registerElement,
   validateDOMAttributes,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -109,10 +108,6 @@ export default class FormRow extends React.PureComponent {
 
   static defaultProps = {
     ...formRowDefaultProps,
-  }
-
-  static enableWebComponent() {
-    registerElement(FormRow?.tagName, FormRow, FormRow.defaultProps)
   }
 
   static getContent(props) {

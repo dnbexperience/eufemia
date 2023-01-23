@@ -11,7 +11,6 @@ import {
   warn,
   isTrue,
   makeUniqueId,
-  registerElement,
   extendPropsWithContextInClassComponent,
   validateDOMAttributes,
   getStatusState,
@@ -141,14 +140,6 @@ export default class ToggleButton extends React.PureComponent {
 
     on_change: null,
     on_state_update: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(
-      ToggleButton?.tagName,
-      ToggleButton,
-      ToggleButton.defaultProps
-    )
   }
 
   static parseChecked = (state) => /true|on/.test(String(state))

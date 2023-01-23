@@ -11,7 +11,6 @@ import {
   isTrue,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
-  registerElement,
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
@@ -221,10 +220,6 @@ export default class Dropdown extends React.PureComponent {
     on_change: null,
     on_select: null,
     on_state_update: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(Dropdown?.tagName, Dropdown, Dropdown.defaultProps)
   }
 
   render() {

@@ -12,7 +12,6 @@ import {
   isTrue,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
-  registerElement,
   validateDOMAttributes,
   processChildren,
   getStatusState,
@@ -150,10 +149,6 @@ export default class Textarea extends React.PureComponent {
     on_blur: null,
     on_key_down: null,
     on_state_update: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(Textarea?.tagName, Textarea, Textarea.defaultProps)
   }
 
   static getDerivedStateFromProps(props, state) {

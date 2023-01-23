@@ -11,7 +11,6 @@ import {
   isTrue,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
-  registerElement,
   validateDOMAttributes,
   processChildren,
   getStatusState,
@@ -193,10 +192,6 @@ export default class Input extends React.PureComponent {
     on_submit_focus: null,
     on_submit_blur: null,
     on_state_update: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(Input?.tagName, Input, Input.defaultProps)
   }
 
   static getDerivedStateFromProps(props, state) {

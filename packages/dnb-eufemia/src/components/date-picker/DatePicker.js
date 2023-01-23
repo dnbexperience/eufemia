@@ -11,7 +11,6 @@ import {
   isTrue,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
-  registerElement,
   dispatchCustomElementEvent,
   detectOutsideClick,
   getStatusState,
@@ -264,14 +263,6 @@ export default class DatePicker extends React.PureComponent {
   }
 
   static blurDelay = 201 // some ms more than "dropdownSlideDown 200ms"
-
-  static enableWebComponent() {
-    registerElement(
-      DatePicker?.tagName,
-      DatePicker,
-      DatePicker.defaultProps
-    )
-  }
 
   constructor(props) {
     super(props)

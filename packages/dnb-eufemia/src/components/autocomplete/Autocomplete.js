@@ -13,7 +13,6 @@ import {
   isTouchDevice,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
-  registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent,
   getStatusState,
@@ -334,14 +333,6 @@ export default class Autocomplete extends React.PureComponent {
     on_select: null,
     on_state_update: null,
     input_element: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(
-      Autocomplete?.tagName,
-      Autocomplete,
-      Autocomplete.defaultProps
-    )
   }
 
   constructor(props) {

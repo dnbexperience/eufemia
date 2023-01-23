@@ -10,7 +10,6 @@ import {
   isTrue,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
-  registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
@@ -40,14 +39,6 @@ export default class AccordionGroup extends React.PureComponent {
 
     expanded_id: null,
     onInit: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(
-      AccordionGroup?.tagName,
-      AccordionGroup,
-      AccordionGroup.defaultProps
-    )
   }
 
   constructor(props) {

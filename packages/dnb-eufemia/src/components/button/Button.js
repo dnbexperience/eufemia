@@ -12,7 +12,6 @@ import {
   makeUniqueId,
   isTrue,
   extendPropsWithContextInClassComponent,
-  registerElement,
   validateDOMAttributes,
   processChildren,
   getStatusState,
@@ -53,10 +52,6 @@ export const buttonVariantPropType = {
 export default class Button extends React.PureComponent {
   static tagName = 'dnb-button'
   static contextType = Context
-
-  static enableWebComponent() {
-    registerElement(Button?.tagName, Button, Button.defaultProps)
-  }
 
   static getContent(props) {
     return processChildren(props)

@@ -9,7 +9,6 @@ import classnames from 'classnames'
 import Context from '../../shared/Context'
 import {
   validateDOMAttributes,
-  registerElement,
   extendPropsWithContextInClassComponent,
 } from '../../shared/component-helper'
 import { includeValidProps } from '../form-row/FormRowHelpers'
@@ -47,10 +46,6 @@ export default class Logo extends React.PureComponent {
     inherit_color: null,
     class: null,
     className: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(Logo?.tagName, Logo, Logo.defaultProps)
   }
 
   render() {

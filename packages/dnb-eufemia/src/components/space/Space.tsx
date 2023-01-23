@@ -9,7 +9,6 @@ import classnames from 'classnames'
 import {
   isTrue,
   extendPropsWithContextInClassComponent,
-  registerElement,
   processChildren,
   validateDOMAttributes,
 } from '../../shared/component-helper'
@@ -158,10 +157,6 @@ export default class Space extends React.PureComponent<
     innerRef: null,
     className: null,
     children: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(Space?.tagName, Space, Space.defaultProps)
   }
 
   static getContent(props) {

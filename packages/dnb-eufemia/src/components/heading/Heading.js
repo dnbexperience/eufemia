@@ -9,7 +9,6 @@ import classnames from 'classnames'
 import {
   isTrue,
   validateDOMAttributes,
-  registerElement,
 } from '../../shared/component-helper'
 import '../../shared/helpers'
 import {
@@ -114,10 +113,6 @@ export default class Heading extends React.PureComponent {
 
     className: null,
     children: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(Heading?.tagName, Heading, Heading.defaultProps)
   }
 
   static getDerivedStateFromProps(props, state) {

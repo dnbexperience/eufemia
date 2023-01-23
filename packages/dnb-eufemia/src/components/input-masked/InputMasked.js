@@ -6,10 +6,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  registerElement,
-  extendPropsWithContext,
-} from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/component-helper'
 import InputMaskedContext from './InputMaskedContext'
 import InputMaskedElement from './InputMaskedElement'
 import Input, { inputPropTypes } from '../input/Input'
@@ -41,14 +38,6 @@ const InputMasked = React.forwardRef((props, ref) => {
 })
 
 export default InputMasked
-
-InputMasked.enableWebComponent = () => {
-  registerElement(
-    InputMasked?.tagName,
-    InputMasked,
-    InputMasked.defaultProps
-  )
-}
 
 InputMasked.tagName = 'dnb-input-masked'
 

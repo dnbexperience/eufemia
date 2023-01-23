@@ -9,7 +9,6 @@ import classnames from 'classnames'
 import {
   extendPropsWithContextInClassComponent,
   makeUniqueId,
-  registerElement,
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
@@ -120,14 +119,6 @@ export default class RadioGroup extends React.PureComponent {
     custom_method: null,
 
     on_change: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(
-      RadioGroup?.tagName,
-      RadioGroup,
-      RadioGroup.defaultProps
-    )
   }
 
   static parseChecked = (state) => /true|on/.test(String(state))

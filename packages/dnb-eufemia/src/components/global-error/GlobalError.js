@@ -7,11 +7,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
-import {
-  warn,
-  registerElement,
-  processChildren,
-} from '../../shared/component-helper'
+import { warn, processChildren } from '../../shared/component-helper'
 import {
   spacingPropTypes,
   createSpacingClasses,
@@ -66,13 +62,6 @@ export default class GlobalError extends React.PureComponent {
     class: null,
   }
 
-  static enableWebComponent() {
-    registerElement(
-      GlobalError?.tagName,
-      GlobalError,
-      GlobalError.defaultProps
-    )
-  }
   static getContent(props) {
     return processChildren(props)
   }

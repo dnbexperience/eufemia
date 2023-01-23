@@ -12,7 +12,6 @@ import {
   isTrue,
   makeUniqueId,
   validateDOMAttributes,
-  registerElement,
   convertJsxToString,
   extendPropsWithContextInClassComponent,
   extend,
@@ -133,14 +132,6 @@ export default class NumberFormat extends React.PureComponent {
 
     className: null,
     children: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(
-      NumberFormat?.tagName,
-      NumberFormat,
-      NumberFormat.defaultProps
-    )
   }
 
   constructor(props) {

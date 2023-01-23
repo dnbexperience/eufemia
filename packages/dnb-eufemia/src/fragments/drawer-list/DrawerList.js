@@ -11,7 +11,6 @@ import {
   isTrue,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
-  registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
@@ -58,14 +57,6 @@ export default class DrawerList extends React.PureComponent {
     super(props)
 
     this._id = props.id || makeUniqueId()
-  }
-
-  static enableWebComponent() {
-    registerElement(
-      DrawerList.tagName,
-      DrawerList,
-      DrawerList.defaultProps
-    )
   }
 
   render() {

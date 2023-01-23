@@ -10,7 +10,6 @@ import {
   isTrue,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
-  registerElement,
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
@@ -126,14 +125,6 @@ export default class ToggleButtonGroup extends React.PureComponent {
     custom_element: null,
     custom_method: null,
     on_change: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(
-      ToggleButtonGroup?.tagName,
-      ToggleButtonGroup,
-      ToggleButtonGroup.defaultProps
-    )
   }
 
   static getDerivedStateFromProps(props, state) {

@@ -9,7 +9,6 @@ import classnames from 'classnames'
 import { ErrorHandler } from '../../shared/error-helper'
 import {
   isTrue,
-  registerElement,
   validateDOMAttributes,
   processChildren,
   extendPropsWithContextInClassComponent,
@@ -103,14 +102,6 @@ export default class Icon extends React.PureComponent {
 
     className: null,
     children: null,
-  }
-
-  static enableWebComponent(
-    tag = Icon?.tagName,
-    inst = Icon,
-    props = Icon.defaultProps
-  ) {
-    registerElement(tag, inst, props)
   }
 
   static getIcon(props) {

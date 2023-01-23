@@ -9,7 +9,6 @@ import classnames from 'classnames'
 import Context from '../../shared/Context'
 import {
   isTrue,
-  registerElement,
   makeUniqueId,
   validateDOMAttributes,
   processChildren,
@@ -101,14 +100,6 @@ export default class FormStatus extends React.PureComponent {
 
     className: null,
     children: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(
-      FormStatus?.tagName,
-      FormStatus,
-      FormStatus.defaultProps
-    )
   }
 
   static getContent(props) {

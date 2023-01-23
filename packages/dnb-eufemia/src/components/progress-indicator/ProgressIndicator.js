@@ -9,7 +9,6 @@ import classnames from 'classnames'
 import Context from '../../shared/Context'
 import {
   isTrue,
-  registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent,
   extendPropsWithContextInClassComponent,
@@ -68,14 +67,6 @@ export default class ProgressIndicator extends React.PureComponent {
     children: null,
 
     on_complete: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(
-      ProgressIndicator?.tagName,
-      ProgressIndicator,
-      ProgressIndicator.defaultProps
-    )
   }
 
   static getDerivedStateFromProps(props, state) {

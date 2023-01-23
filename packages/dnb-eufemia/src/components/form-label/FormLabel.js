@@ -9,7 +9,6 @@ import classnames from 'classnames'
 import {
   extendPropsWithContextInClassComponent,
   isTrue,
-  registerElement,
   validateDOMAttributes,
   processChildren,
 } from '../../shared/component-helper'
@@ -70,10 +69,6 @@ export default class FormLabel extends React.PureComponent {
 
     className: null,
     children: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(FormLabel?.tagName, FormLabel, FormLabel.defaultProps)
   }
 
   static getContent(props) {

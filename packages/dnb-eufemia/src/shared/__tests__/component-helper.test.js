@@ -5,7 +5,6 @@
 
 import React from 'react'
 import { mount } from '../../core/jest/jestSetup'
-import { registerElement } from '../custom-element'
 import {
   isTrue,
   extend,
@@ -252,13 +251,6 @@ describe('"validateDOMAttributes" should', () => {
 })
 
 describe('"processChildren" should', () => {
-  registerElement('custom-element', () => {})
-
-  it('a given amount of registered custom elements', () => {
-    expect(global.registeredElements).toBeType('array')
-    expect(global.registeredElements.length).toBe(1)
-  })
-
   it('return a joined string if we send in a children property with an array', () => {
     const children = ['foo', 'bar', 123]
     const props = { children }

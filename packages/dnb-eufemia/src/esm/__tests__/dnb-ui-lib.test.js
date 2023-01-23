@@ -4,8 +4,7 @@
  */
 
 import '../../core/jest/jestSetup'
-import { Button, Anchor, enableWebComponents } from '../dnb-ui-lib'
-import { registeredElements } from '../../shared/custom-element'
+import { Button, Anchor } from '../dnb-ui-lib'
 
 describe('ESM main library package', () => {
   it('has to have a Button Component', () => {
@@ -13,12 +12,5 @@ describe('ESM main library package', () => {
   })
   it('has to have a Anchor Element', () => {
     expect(Anchor).toBeType('object')
-  })
-  it('has no Web Components enabled in registeredElements', () => {
-    expect(registeredElements).not.toContain('dnb-button')
-  })
-  it('has Web Components enabled in registeredElements', () => {
-    enableWebComponents()
-    expect(registeredElements).toContain('dnb-button')
   })
 })

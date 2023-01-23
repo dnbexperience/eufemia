@@ -10,7 +10,6 @@ import {
   warn,
   isTrue,
   makeUniqueId,
-  registerElement,
   findElementInChildren,
   extendPropsWithContextInClassComponent,
   validateDOMAttributes,
@@ -62,10 +61,6 @@ export default class Accordion extends React.PureComponent {
 
   static defaultProps = {
     ...accordionDefaultProps,
-  }
-
-  static enableWebComponent() {
-    registerElement(Accordion?.tagName, Accordion, Accordion.defaultProps)
   }
 
   static getDerivedStateFromProps(props, state) {
