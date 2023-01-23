@@ -35,7 +35,6 @@ import ContentWrapper from './TabsContentWrapper'
 import EventEmitter from '../../shared/helpers/EventEmitter'
 
 export default class Tabs extends React.PureComponent {
-  static tagName = 'dnb-tabs'
   static contextType = Context
 
   static propTypes = {

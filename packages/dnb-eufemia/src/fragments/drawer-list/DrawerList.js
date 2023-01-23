@@ -40,7 +40,6 @@ const propsToFilterOut = {
 }
 
 export default class DrawerList extends React.PureComponent {
-  static tagName = 'dnb-drawer-list'
   static contextType = DrawerListContext // only used for the hasProvide check
 
   static blurDelay = DrawerListProvider.blurDelay // some ms more than "DrawerListSlideDown 200ms" = 201 // some ms more than "DrawerListSlideDown 200ms"

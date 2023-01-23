@@ -129,7 +129,6 @@ export const inputPropTypes = {
 }
 
 export default class Input extends React.PureComponent {
-  static tagName = 'dnb-input'
   static contextType = Context
 
   static propTypes = {

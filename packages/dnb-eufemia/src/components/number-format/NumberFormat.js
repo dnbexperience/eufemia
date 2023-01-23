@@ -29,7 +29,6 @@ import Tooltip, { injectTooltipSemantic } from '../tooltip/Tooltip'
 import { format, showSelectionNotice } from './NumberUtils'
 
 export default class NumberFormat extends React.PureComponent {
-  static tagName = 'dnb-number-format'
   static contextType = Context
 
   static propTypes = {

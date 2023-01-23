@@ -23,7 +23,6 @@ import ProgressIndicatorLinear from './ProgressIndicatorLinear'
 import { format } from '../number-format/NumberUtils'
 
 export default class ProgressIndicator extends React.PureComponent {
-  static tagName = 'dnb-progress-indicator'
   static contextType = Context
 
   static propTypes = {

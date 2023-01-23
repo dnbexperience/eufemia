@@ -37,7 +37,6 @@ import Section from '../section/Section'
 import Button from '../button/Button'
 
 export default class GlobalStatus extends React.PureComponent {
-  static tagName = 'dnb-global-status'
   static contextType = Context
 
   static propTypes = {

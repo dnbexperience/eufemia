@@ -22,7 +22,6 @@ const Hr = ({ fullscreen, light, medium, ...props } = {}) => {
 
   return <E as="hr" {...props} />
 }
-Hr.tagName = 'dnb-hr'
 Hr.propTypes = {
   ...spacingPropTypes,
 

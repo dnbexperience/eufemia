@@ -53,8 +53,6 @@ import {
 } from '../../fragments/drawer-list/DrawerListHelpers'
 
 export default class Autocomplete extends React.PureComponent {
-  static tagName = 'dnb-autocomplete'
-
   static propTypes = {
     ...spacingPropTypes,
     ...drawerListPropTypes,

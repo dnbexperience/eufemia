@@ -31,7 +31,6 @@ import RadioGroupContext from './RadioGroupContext'
  * The radio component is our enhancement of the classic radio button. It acts like a radio. Example: On/off, yes/no.
  */
 export default class RadioGroup extends React.PureComponent {
-  static tagName = 'dnb-radio-group'
   static contextType = Context
 
   static propTypes = {

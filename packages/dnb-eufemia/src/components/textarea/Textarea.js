@@ -37,7 +37,6 @@ import Suffix from '../../shared/helpers/Suffix'
  * The textarea component is an umbrella component for all textareas which share the same style as the classic `text` textarea field.
  */
 export default class Textarea extends React.PureComponent {
-  static tagName = 'dnb-textarea'
   static contextType = Context
 
   static propTypes = {

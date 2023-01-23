@@ -48,7 +48,7 @@ class Modal extends React.PureComponent<
   ModalState
 > {
   static contextType = Context
-  static tagName = 'dnb-modal'
+
   static Bar = ModalHeaderBar
   static Header = ModalHeader
   static Content = ModalInner

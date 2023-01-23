@@ -17,7 +17,6 @@ import H1 from '../../elements/H1'
 import P from '../../elements/P'
 
 export default class GlobalError extends React.PureComponent {
-  static tagName = 'dnb-global-error'
   static contextType = Context
 
   static propTypes = {

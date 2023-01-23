@@ -38,7 +38,6 @@ import { includeValidProps } from '../form-row/FormRowHelpers'
  * The radio component is our enhancement of the classic radio button.
  */
 export default class Radio extends React.PureComponent {
-  static tagName = 'dnb-radio'
   static contextType = RadioGroupContext
 
   static propTypes = {

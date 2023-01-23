@@ -29,7 +29,6 @@ import ToggleButtonGroupContext from './ToggleButtonGroupContext'
 import { includeValidProps } from '../form-row/FormRowHelpers'
 
 export default class ToggleButtonGroup extends React.PureComponent {
-  static tagName = 'dnb-toggle-button-group'
   static contextType = Context
 
   static propTypes = {

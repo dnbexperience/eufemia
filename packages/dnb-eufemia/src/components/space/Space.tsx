@@ -119,7 +119,6 @@ export type SpaceAllProps = SpaceProps & React.HTMLProps<HTMLElement>
 export default class Space extends React.PureComponent<
   SpaceAllProps | React.HTMLProps<HTMLElement>
 > {
-  static tagName = 'dnb-space'
   static contextType = Context
 
   static propTypes = {

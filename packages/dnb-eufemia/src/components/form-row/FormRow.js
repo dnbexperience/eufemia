@@ -99,7 +99,6 @@ export const formRowDefaultProps = {
 }
 
 export default class FormRow extends React.PureComponent {
-  static tagName = 'dnb-form-row'
   static contextType = Context
 
   static propTypes = {

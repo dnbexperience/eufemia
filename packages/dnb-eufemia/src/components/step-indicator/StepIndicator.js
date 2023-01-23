@@ -16,8 +16,6 @@ import {
 } from './StepIndicatorProps'
 
 export default class StepIndicator extends React.PureComponent {
-  static tagName = 'dnb-step-indicator'
-
   static Sidebar = StepIndicatorSidebar
 
   static propTypes = {

@@ -36,7 +36,6 @@ import FormStatus from '../form-status/FormStatus'
  * The checkbox component is our enhancement of the classic checkbox button. It acts like a checkbox. Example: On/off, yes/no.
  */
 export default class Checkbox extends React.PureComponent {
-  static tagName = 'dnb-checkbox'
   static contextType = Context
 
   static propTypes = {

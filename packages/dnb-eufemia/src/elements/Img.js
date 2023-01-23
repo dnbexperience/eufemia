@@ -52,7 +52,6 @@ const Img = ({
     </E>
   )
 }
-Img.tagName = 'dnb-img'
 Img.propTypes = {
   ...spacingPropTypes,
 

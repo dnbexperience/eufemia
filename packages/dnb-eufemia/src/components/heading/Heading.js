@@ -43,7 +43,6 @@ export const levelResolution = {
 }
 
 export default class Heading extends React.PureComponent {
-  static tagName = 'dnb-heading'
   static contextType = HeadingContext
 
   static propTypes = {

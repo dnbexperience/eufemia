@@ -20,7 +20,6 @@ import Context from '../../shared/Context'
 import { formRowDefaultProps, formRowPropTypes } from '../form-row/FormRow'
 
 export default class FormSet extends React.PureComponent {
-  static tagName = 'dnb-form-set'
   static contextType = Context
 
   static propTypes = {

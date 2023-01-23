@@ -40,8 +40,6 @@ import {
 } from '../../fragments/drawer-list/DrawerListHelpers'
 
 export default class Dropdown extends React.PureComponent {
-  static tagName = 'dnb-dropdown'
-
   static propTypes = {
     ...spacingPropTypes,
     ...drawerListPropTypes,

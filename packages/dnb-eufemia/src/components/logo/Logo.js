@@ -18,7 +18,6 @@ import {
 } from '../space/SpacingHelper'
 
 export default class Logo extends React.PureComponent {
-  static tagName = 'dnb-logo'
   static contextType = Context
 
   static propTypes = {

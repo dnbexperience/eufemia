@@ -41,7 +41,6 @@ import DatePickerAddon from './DatePickerAddon'
 import DatePickerFooter from './DatePickerFooter'
 
 export default class DatePicker extends React.PureComponent {
-  static tagName = 'dnb-date-picker'
   static contextType = Context
 
   static propTypes = {

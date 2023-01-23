@@ -49,7 +49,6 @@ class AccordionStore {
 }
 
 export default class Accordion extends React.PureComponent {
-  static tagName = 'dnb-accordion'
   static contextType = AccordionProviderContext
   static Provider = AccordionProvider
   static Header = AccordionHeader

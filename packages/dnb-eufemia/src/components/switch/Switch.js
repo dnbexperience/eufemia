@@ -36,7 +36,6 @@ import FormStatus from '../form-status/FormStatus'
  * The switch component is our enhancement of the classic radio button. It acts like a switch. Example: On/off, yes/no.
  */
 export default class Switch extends React.PureComponent {
-  static tagName = 'dnb-switch'
   static contextType = Context
 
   static propTypes = {

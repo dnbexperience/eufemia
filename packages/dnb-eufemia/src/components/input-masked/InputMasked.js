@@ -39,8 +39,6 @@ const InputMasked = React.forwardRef((props, ref) => {
 
 export default InputMasked
 
-InputMasked.tagName = 'dnb-input-masked'
-
 InputMasked.propTypes = {
   mask: PropTypes.oneOfType([
     PropTypes.object,

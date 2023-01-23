@@ -39,7 +39,7 @@ import Suffix from '../../shared/helpers/Suffix'
  */
 export default class ToggleButton extends React.PureComponent {
   static Group = ToggleButtonGroup
-  static tagName = 'dnb-toggle-button'
+
   static contextType = ToggleButtonGroupContext
 
   static propTypes = {

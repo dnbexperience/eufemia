@@ -46,7 +46,6 @@ const translationDefaultPropsProps = {
 }
 
 export default class PaymentCard extends React.PureComponent {
-  static tagName = 'dnb-payment-card'
   static contextType = Context
 
   static propTypes = {

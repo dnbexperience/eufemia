@@ -25,7 +25,6 @@ const icons = { ...primary_icons, ...primary_icons_medium }
 export { DefaultIconSize }
 
 export default class IconPrimary extends React.PureComponent {
-  static tagName = 'dnb-icon-primary'
   static contextType = Context
 
   static propTypes = {

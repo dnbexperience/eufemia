@@ -24,7 +24,6 @@ import Context from '../../shared/Context'
 import AccordionGroupContext from './AccordionProviderContext'
 
 export default class AccordionGroup extends React.PureComponent {
-  static tagName = 'dnb-accordion-group'
   static contextType = Context
 
   static propTypes = {

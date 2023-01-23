@@ -28,7 +28,6 @@ import {
 import { includeValidProps } from '../form-row/FormRowHelpers'
 
 export default class FormStatus extends React.PureComponent {
-  static tagName = 'dnb-form-status'
   static contextType = Context
 
   static propTypes = {

@@ -143,7 +143,6 @@ const paginationDefaultProps = {
 }
 
 export default class Pagination extends React.PureComponent {
-  static tagName = 'dnb-pagination'
   static propTypes = { ...paginationPropTypes }
   static defaultProps = paginationDefaultProps
 
@@ -247,7 +246,6 @@ class PaginationInstance extends React.PureComponent {
 }
 
 export class InfinityMarker extends React.PureComponent {
-  static tagName = 'dnb-infinity-marker'
   static propTypes = { ...paginationPropTypes }
   static defaultProps = paginationDefaultProps
 
