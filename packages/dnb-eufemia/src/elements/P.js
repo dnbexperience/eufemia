@@ -53,7 +53,6 @@ const P = ({
     />
   )
 }
-P.tagName = 'dnb-p'
 P.propTypes = {
   ...spacingPropTypes,
 

@@ -11,7 +11,6 @@ import {
   isTrue,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
-  registerElement,
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
@@ -41,8 +40,6 @@ import {
 } from '../../fragments/drawer-list/DrawerListHelpers'
 
 export default class Dropdown extends React.PureComponent {
-  static tagName = 'dnb-dropdown'
-
   static propTypes = {
     ...spacingPropTypes,
     ...drawerListPropTypes,
@@ -155,9 +152,6 @@ export default class Dropdown extends React.PureComponent {
       PropTypes.array,
     ]),
 
-    custom_element: PropTypes.object,
-    custom_method: PropTypes.func,
-
     on_show: PropTypes.func,
     on_hide: PropTypes.func,
     on_change: PropTypes.func,
@@ -212,19 +206,12 @@ export default class Dropdown extends React.PureComponent {
     className: null,
     children: null,
 
-    custom_element: null,
-    custom_method: null,
-
     on_show: null,
     on_hide: null,
 
     on_change: null,
     on_select: null,
     on_state_update: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(Dropdown?.tagName, Dropdown, Dropdown.defaultProps)
   }
 
   render() {

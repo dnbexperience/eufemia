@@ -58,8 +58,6 @@ export const accordionPropTypes = {
 
   ...spacingPropTypes,
 
-  custom_element: PropTypes.object,
-  custom_method: PropTypes.func,
   on_change: PropTypes.func,
   on_state_update: PropTypes.func,
 }
@@ -94,9 +92,6 @@ export const accordionDefaultProps = {
 
   className: null,
   children: null,
-
-  custom_element: null,
-  custom_method: null,
 
   on_change: null,
   on_state_update: null,

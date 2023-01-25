@@ -11,7 +11,6 @@ import {
   isTrue,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
-  registerElement,
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
@@ -39,7 +38,6 @@ import { includeValidProps } from '../form-row/FormRowHelpers'
  * The radio component is our enhancement of the classic radio button.
  */
 export default class Radio extends React.PureComponent {
-  static tagName = 'dnb-radio'
   static contextType = RadioGroupContext
 
   static propTypes = {
@@ -85,8 +83,6 @@ export default class Radio extends React.PureComponent {
     className: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 
-    custom_element: PropTypes.object,
-    custom_method: PropTypes.func,
     on_change: PropTypes.func,
     on_state_update: PropTypes.func,
   }
@@ -116,18 +112,11 @@ export default class Radio extends React.PureComponent {
     className: null,
     children: null,
 
-    custom_element: null,
-    custom_method: null,
-
     on_change: null,
     on_state_update: null,
   }
 
   static Group = RadioGroup
-
-  static enableWebComponent() {
-    registerElement(Radio?.tagName, Radio, Radio.defaultProps)
-  }
 
   static parseChecked = (state) => /true|on/.test(String(state))
 
@@ -308,8 +297,6 @@ export default class Radio extends React.PureComponent {
             children, // eslint-disable-line
             on_change, // eslint-disable-line
             on_state_update, // eslint-disable-line
-            custom_method, // eslint-disable-line
-            custom_element, // eslint-disable-line
 
             ...rest
           } = props
