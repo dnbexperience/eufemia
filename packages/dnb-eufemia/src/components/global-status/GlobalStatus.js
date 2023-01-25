@@ -12,7 +12,6 @@ import {
   warn,
   isTrue,
   makeUniqueId,
-  registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent,
   processChildren,
@@ -38,7 +37,6 @@ import Section from '../section/Section'
 import Button from '../button/Button'
 
 export default class GlobalStatus extends React.PureComponent {
-  static tagName = 'dnb-global-status'
   static contextType = Context
 
   static propTypes = {
@@ -132,14 +130,6 @@ export default class GlobalStatus extends React.PureComponent {
     on_show: null,
     on_close: null,
     on_hide: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(
-      GlobalStatus?.tagName,
-      GlobalStatus,
-      GlobalStatus.defaultProps
-    )
   }
 
   static getContent(props) {

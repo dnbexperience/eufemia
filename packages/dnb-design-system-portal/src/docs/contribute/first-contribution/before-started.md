@@ -205,7 +205,6 @@ As an example, we show the folder structure of component Breadcrumb. You can als
 #### Modifications
 
 - Adding theming files under a folder `style/themes` will unlock the possibility of having different themes in the future. Check out the [source for theming in Button](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/button/style).
-- Adding support for [Web Components](https://developer.mozilla.org/en-US/docs/Web/Web_Components) by including a file `web-component.js` in the folder structure. Check out how this is carried out by Button in the [source code](https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/components/button/web-component.js). You also have to add a tag name and register the web component inside the component declaration.
 
 ## Development environments
 

@@ -9,7 +9,6 @@ import classnames from 'classnames'
 import Context from '../../shared/Context'
 import {
   validateDOMAttributes,
-  registerElement,
   extendPropsWithContextInClassComponent,
 } from '../../shared/component-helper'
 import {
@@ -18,7 +17,6 @@ import {
 } from '../space/SpacingHelper'
 
 export default class Logo extends React.PureComponent {
-  static tagName = 'dnb-logo'
   static contextType = Context
 
   static propTypes = {
@@ -46,10 +44,6 @@ export default class Logo extends React.PureComponent {
     inherit_color: null,
     class: null,
     className: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(Logo?.tagName, Logo, Logo.defaultProps)
   }
 
   render() {

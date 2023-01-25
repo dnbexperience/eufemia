@@ -61,8 +61,6 @@ The DNB Design System Eufemia uses the following naming conventions.
 
 The decision to use `snake_case` was made to not just adopt React terms (`camelCase`), because we wanted to be open for future changes in the front end world.
 
-But also the technical limitation that **Web Components** do not support `camelCase` made us more confident to use another case style.
-
 HTML attributes uses `kebab-case`, so we needed something between.
 
 The aspect to distinguish between case styles will also make code easier to read and support future code changes and refactoring.

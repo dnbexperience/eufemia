@@ -291,9 +291,8 @@ describe('rollup build', () => {
               ),
               'utf-8'
             )
-            expect(content).toContain(
-              'require("react"),require("react-dom")'
-            )
+            expect(content).toContain('require("react")')
+            expect(content).toContain('require("react-dom")')
           }
         }
         break

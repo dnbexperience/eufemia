@@ -10,7 +10,6 @@ import {
   isTrue,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
-  registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
@@ -24,7 +23,6 @@ import Context from '../../shared/Context'
 import AccordionGroupContext from './AccordionProviderContext'
 
 export default class AccordionGroup extends React.PureComponent {
-  static tagName = 'dnb-accordion-group'
   static contextType = Context
 
   static propTypes = {
@@ -39,14 +37,6 @@ export default class AccordionGroup extends React.PureComponent {
 
     expanded_id: null,
     onInit: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(
-      AccordionGroup?.tagName,
-      AccordionGroup,
-      AccordionGroup.defaultProps
-    )
   }
 
   constructor(props) {
