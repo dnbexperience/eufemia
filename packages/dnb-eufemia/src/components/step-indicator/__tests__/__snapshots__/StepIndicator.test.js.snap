@@ -481,8 +481,6 @@ exports[`StepIndicator in loose mode have to match snapshot 1`] = `
                           class={null}
                           className=""
                           custom_content={null}
-                          custom_element={null}
-                          custom_method={null}
                           disabled={null}
                           element={null}
                           global_status_id={null}
@@ -595,8 +593,6 @@ exports[`StepIndicator in loose mode have to match snapshot 1`] = `
                                 </StepItemWrapper>
                               }
                               custom_content={null}
-                              custom_element={null}
-                              custom_method={null}
                               disabled={null}
                               element={null}
                               global_status_id={null}
@@ -901,8 +897,6 @@ exports[`StepIndicator in loose mode have to match snapshot 1`] = `
                           class={null}
                           className=""
                           custom_content={null}
-                          custom_element={null}
-                          custom_method={null}
                           disabled={null}
                           element={null}
                           global_status_id={null}
@@ -1015,8 +1009,6 @@ exports[`StepIndicator in loose mode have to match snapshot 1`] = `
                                 </StepItemWrapper>
                               }
                               custom_content={null}
-                              custom_element={null}
-                              custom_method={null}
                               disabled={null}
                               element={null}
                               global_status_id={null}
@@ -1320,8 +1312,6 @@ exports[`StepIndicator in loose mode have to match snapshot 1`] = `
                           class={null}
                           className=""
                           custom_content={null}
-                          custom_element={null}
-                          custom_method={null}
                           disabled={null}
                           element={null}
                           global_status_id={null}
@@ -1434,8 +1424,6 @@ exports[`StepIndicator in loose mode have to match snapshot 1`] = `
                                 </StepItemWrapper>
                               }
                               custom_content={null}
-                              custom_element={null}
-                              custom_method={null}
                               disabled={null}
                               element={null}
                               global_status_id={null}
@@ -1739,8 +1727,6 @@ exports[`StepIndicator in loose mode have to match snapshot 1`] = `
                           class={null}
                           className=""
                           custom_content={null}
-                          custom_element={null}
-                          custom_method={null}
                           disabled={null}
                           element={null}
                           global_status_id={null}
@@ -1853,8 +1839,6 @@ exports[`StepIndicator in loose mode have to match snapshot 1`] = `
                                 </StepItemWrapper>
                               }
                               custom_content={null}
-                              custom_element={null}
-                              custom_method={null}
                               disabled={null}
                               element={null}
                               global_status_id={null}
@@ -2263,8 +2247,6 @@ exports[`StepIndicator in loose mode have to match snapshot on small screen 1`] 
                 class={null}
                 className="dnb-step-indicator__trigger__button"
                 custom_content={null}
-                custom_element={null}
-                custom_method={null}
                 disabled={null}
                 element={null}
                 global_status_id={null}
@@ -2378,8 +2360,6 @@ exports[`StepIndicator in loose mode have to match snapshot on small screen 1`] 
                       </StepItemWrapper>
                     }
                     custom_content={null}
-                    custom_element={null}
-                    custom_method={null}
                     disabled={null}
                     element={null}
                     global_status_id={null}
@@ -3153,8 +3133,6 @@ exports[`StepIndicator in static mode have to match snapshot 1`] = `
                           class={null}
                           className=""
                           custom_content={null}
-                          custom_element={null}
-                          custom_method={null}
                           disabled={null}
                           element="span"
                           global_status_id={null}
@@ -3263,8 +3241,6 @@ exports[`StepIndicator in static mode have to match snapshot 1`] = `
                                 </StepItemWrapper>
                               }
                               custom_content={null}
-                              custom_element={null}
-                              custom_method={null}
                               disabled={null}
                               element="span"
                               global_status_id={null}
@@ -3567,8 +3543,6 @@ exports[`StepIndicator in static mode have to match snapshot 1`] = `
                           class={null}
                           className=""
                           custom_content={null}
-                          custom_element={null}
-                          custom_method={null}
                           disabled={null}
                           element="span"
                           global_status_id={null}
@@ -3677,8 +3651,6 @@ exports[`StepIndicator in static mode have to match snapshot 1`] = `
                                 </StepItemWrapper>
                               }
                               custom_content={null}
-                              custom_element={null}
-                              custom_method={null}
                               disabled={null}
                               element="span"
                               global_status_id={null}
@@ -3980,8 +3952,6 @@ exports[`StepIndicator in static mode have to match snapshot 1`] = `
                           class={null}
                           className=""
                           custom_content={null}
-                          custom_element={null}
-                          custom_method={null}
                           disabled={null}
                           element="span"
                           global_status_id={null}
@@ -4090,8 +4060,6 @@ exports[`StepIndicator in static mode have to match snapshot 1`] = `
                                 </StepItemWrapper>
                               }
                               custom_content={null}
-                              custom_element={null}
-                              custom_method={null}
                               disabled={null}
                               element="span"
                               global_status_id={null}
@@ -4393,8 +4361,6 @@ exports[`StepIndicator in static mode have to match snapshot 1`] = `
                           class={null}
                           className=""
                           custom_content={null}
-                          custom_element={null}
-                          custom_method={null}
                           disabled={null}
                           element="span"
                           global_status_id={null}
@@ -4503,8 +4469,6 @@ exports[`StepIndicator in static mode have to match snapshot 1`] = `
                                 </StepItemWrapper>
                               }
                               custom_content={null}
-                              custom_element={null}
-                              custom_method={null}
                               disabled={null}
                               element="span"
                               global_status_id={null}
@@ -4911,8 +4875,6 @@ exports[`StepIndicator in static mode have to match snapshot on small screen 1`]
                 class={null}
                 className="dnb-step-indicator__trigger__button"
                 custom_content={null}
-                custom_element={null}
-                custom_method={null}
                 disabled={null}
                 element={null}
                 global_status_id={null}
@@ -5026,8 +4988,6 @@ exports[`StepIndicator in static mode have to match snapshot on small screen 1`]
                       </StepItemWrapper>
                     }
                     custom_content={null}
-                    custom_element={null}
-                    custom_method={null}
                     disabled={null}
                     element={null}
                     global_status_id={null}
@@ -5803,8 +5763,6 @@ exports[`StepIndicator in strict mode have to match snapshot 1`] = `
                           class={null}
                           className=""
                           custom_content={null}
-                          custom_element={null}
-                          custom_method={null}
                           disabled={null}
                           element={null}
                           global_status_id={null}
@@ -5917,8 +5875,6 @@ exports[`StepIndicator in strict mode have to match snapshot 1`] = `
                                 </StepItemWrapper>
                               }
                               custom_content={null}
-                              custom_element={null}
-                              custom_method={null}
                               disabled={null}
                               element={null}
                               global_status_id={null}
@@ -6223,8 +6179,6 @@ exports[`StepIndicator in strict mode have to match snapshot 1`] = `
                           class={null}
                           className=""
                           custom_content={null}
-                          custom_element={null}
-                          custom_method={null}
                           disabled={null}
                           element={null}
                           global_status_id={null}
@@ -6337,8 +6291,6 @@ exports[`StepIndicator in strict mode have to match snapshot 1`] = `
                                 </StepItemWrapper>
                               }
                               custom_content={null}
-                              custom_element={null}
-                              custom_method={null}
                               disabled={null}
                               element={null}
                               global_status_id={null}
@@ -6642,8 +6594,6 @@ exports[`StepIndicator in strict mode have to match snapshot 1`] = `
                           class={null}
                           className=""
                           custom_content={null}
-                          custom_element={null}
-                          custom_method={null}
                           disabled={null}
                           element="span"
                           global_status_id={null}
@@ -6752,8 +6702,6 @@ exports[`StepIndicator in strict mode have to match snapshot 1`] = `
                                 </StepItemWrapper>
                               }
                               custom_content={null}
-                              custom_element={null}
-                              custom_method={null}
                               disabled={null}
                               element="span"
                               global_status_id={null}
@@ -7055,8 +7003,6 @@ exports[`StepIndicator in strict mode have to match snapshot 1`] = `
                           class={null}
                           className=""
                           custom_content={null}
-                          custom_element={null}
-                          custom_method={null}
                           disabled={null}
                           element="span"
                           global_status_id={null}
@@ -7165,8 +7111,6 @@ exports[`StepIndicator in strict mode have to match snapshot 1`] = `
                                 </StepItemWrapper>
                               }
                               custom_content={null}
-                              custom_element={null}
-                              custom_method={null}
                               disabled={null}
                               element="span"
                               global_status_id={null}
@@ -7573,8 +7517,6 @@ exports[`StepIndicator in strict mode have to match snapshot on small screen 1`]
                 class={null}
                 className="dnb-step-indicator__trigger__button"
                 custom_content={null}
-                custom_element={null}
-                custom_method={null}
                 disabled={null}
                 element={null}
                 global_status_id={null}
@@ -7688,8 +7630,6 @@ exports[`StepIndicator in strict mode have to match snapshot on small screen 1`]
                       </StepItemWrapper>
                     }
                     custom_content={null}
-                    custom_element={null}
-                    custom_method={null}
                     disabled={null}
                     element={null}
                     global_status_id={null}
