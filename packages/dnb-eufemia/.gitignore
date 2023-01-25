@@ -30,7 +30,6 @@
 /dnb-ui-resources
 **/test-files/dist
 /docs
-/vue.js
 /index.*
 !index.js
 /lib.js

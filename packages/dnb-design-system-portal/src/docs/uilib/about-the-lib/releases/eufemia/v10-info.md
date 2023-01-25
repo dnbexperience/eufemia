@@ -26,7 +26,7 @@ v10 of @dnb/eufemia contains _breaking changes_. As a migration process, you can
 
 ## Web Components
 
-1. The support for [Web Components](uilib/usage/first-steps/web-components) was removed.
+1. The support for Web Components, Vue and Angular was removed.
 
 ### Breakpoints
 

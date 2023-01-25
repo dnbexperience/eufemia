@@ -484,36 +484,6 @@ describe('"toKebabCase" should', () => {
   })
 })
 
-// Removed as we now run function props from Web Components (custom-element)
-// describe('"pickRenderProps" should', () => {
-//   it('only pass function props which don't exists in renderProps', () => {
-//     const renderProp = jest.fn()
-//     const customRenderer = jest.fn()
-//     const children = jest.fn()
-//     const custom_method = jest.fn()
-//     const props = {
-//       foo: 'bar',
-//       renderProp,
-//       customRenderer,
-//       children,
-//       custom_method
-//     }
-//     const renderProps = {
-//       customRenderer
-//     }
-//     const res = pickRenderProps(props, renderProps)
-
-//     expect(res).not.toHaveProperty([
-//       'custom_method',
-//       'children',
-//       'customRenderer',
-//       'foo'
-//     ])
-//     expect(res).toHaveProperty(['renderProp'])
-//     expect(res.renderProp).toBe(renderProp)
-//   })
-// })
-
 describe('"filterProps" should', () => {
   const attributes = {
     key1: 'value1',

@@ -44,7 +44,7 @@ export const processComponents = async () => {
       __dirname,
       '../../../src/components/'
     ),
-    processToNamesIgnoreList: ['web-components', 'fragments', 'style'],
+    processToNamesIgnoreList: ['fragments', 'style'],
     processToNamesListByUsingFolders: true,
   }
   const components = await runFactory(componentsTemplateConfig).then(
@@ -103,7 +103,7 @@ export const processFragments = async () => {
     ),
     destFile: path.resolve(__dirname, '../../../src/fragments/index.js'),
     processToNamesList: path.resolve(__dirname, '../../../src/fragments/'),
-    processToNamesIgnoreList: ['web-components', 'style'],
+    processToNamesIgnoreList: ['style'],
     processToNamesListByUsingFolders: true,
   }
   await runFactory(fragmentsTemplateConfig).then((res) => {
@@ -199,7 +199,7 @@ export const processExtensions = async () => {
       __dirname,
       '../../../src/extensions/'
     ),
-    processToNamesIgnoreList: ['web-components', 'style'],
+    processToNamesIgnoreList: ['style'],
     processToNamesListByUsingFolders: true,
   }
   // we don't export extensions anymore!

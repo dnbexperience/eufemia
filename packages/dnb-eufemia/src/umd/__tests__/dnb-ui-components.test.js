@@ -6,7 +6,7 @@
 import '../../core/jest/jestSetup'
 import * as dnbComponents from '../dnb-ui-components'
 
-describe('UMD Web Components package', () => {
+describe('UMD Components package', () => {
   it('has to have a named export of dnbComponents', () => {
     expect(dnbComponents).toBeType('object')
   })
