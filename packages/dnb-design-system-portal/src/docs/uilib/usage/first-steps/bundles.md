@@ -23,10 +23,9 @@ All the code examples are only quick demos, showing how to load the bundles. Kee
 
 Requires React and ReactDOM to be loaded. Supports `ES5`.
 
-- **dnb-ui-lib.min.js** - includes all [components](/uilib/components) and [elements](/uilib/elements) and individual [Web Component](/uilib/usage/first-steps/web-components) support.
+- **dnb-ui-lib.min.js** - includes all [components](/uilib/components) and [elements](/uilib/elements).
 - **dnb-ui-components.min.js** - includes all [components](/uilib/components).
 - **dnb-ui-extensions.min.js** - includes all [extensions](/uilib/extensions).
-- **dnb-ui-web-components.min.js** - includes all [components](/uilib/components) and enables all [custom elements](/uilib/usage/first-steps/web-components) by default.
 - **dnb-ui-icons.min.js** - includes all [primary icons](/icons/primary) in default and medium size.
 - **dnb-ui-basis.min.js** - includes just the core methods like: `isTouchDevice`, `defineNavigator`.
 
@@ -59,10 +58,9 @@ Requires React and ReactDOM to be loaded. Supports `ES5`.
 
 Requires React and ReactDOM to be loaded as a module resolution ([importmap](https://github.com/WICG/import-maps)). Supports `ES6` (**NB:** That is the aim, right now it is also compiled down to ES5).
 
-- **dnb-ui-lib.min.mjs** - includes all [components](/uilib/components) and [elements](/uilib/elements) and individual [Web Component](/uilib/usage/first-steps/web-components) support.
+- **dnb-ui-lib.min.mjs** - includes all [components](/uilib/components) and [elements](/uilib/elements).
 - **dnb-ui-components.min.mjs** - includes all [components](/uilib/components).
 - **dnb-ui-extensions.min.mjs** - includes all [extensions](/uilib/extensions).
-- **dnb-ui-web-components.min.mjs** - includes all [components](/uilib/components) and enables all [custom elements](/uilib/usage/first-steps/web-components) by default.
 - **dnb-ui-icons.min.mjs** - includes all [primary icons](/icons/primary) in default and medium size.
 - **dnb-ui-basis.min.mjs** - includes just the core methods like: `isTouchDevice`, `defineNavigator`.
 
@@ -114,5 +112,3 @@ Because `importmap` is still not supported by the majority of browsers, we use a
 _Note:_ Because React don't delivers an ESM bundle right now, we have to create our own.
 
 Have a look at [this UDM example app](https://github.com/dnbexperience/eufemia-examples/tree/main/packages/example-umd-bundle) as well as the [this ESM example app](https://github.com/dnbexperience/eufemia-examples/tree/main/packages/example-esm-bundle).
-
-Read more about [Web Components](/uilib/usage/first-steps/web-components#web-components-with-esm-mjs) usage in ESM.

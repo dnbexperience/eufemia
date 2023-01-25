@@ -20,7 +20,6 @@ const runThemeFactory = async () => {
   const processToNamesIgnoreList = [
     '!**/__tests__/',
     '!**/stories/',
-    '!**/web-components/',
     '!**/style/',
     '!**/helper-classes/',
     '!**/*_not_in_use*',

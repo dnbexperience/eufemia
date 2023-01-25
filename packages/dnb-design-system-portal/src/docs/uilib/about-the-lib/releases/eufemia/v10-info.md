@@ -24,11 +24,9 @@ v10 of @dnb/eufemia contains _breaking changes_. As a migration process, you can
 
 1. [Browser support](/uilib/usage/#supported-browsers-and-platforms) has been updated to support modern browsers only (es6).
 
-### StepIndicator
+## Web Components
 
-1. Find the `active_item` property and replace it with `current_step`.
-1. Find `use_navigation` and remove it or replace it with `mode="strict"` or `mode="loose"`.
-1. URL support has been removed – so props like `active_url`, `url`, `url_future`, and `url_passed` are not supported anymore. You have to handle it by yourself from inside your application. Here is [an example](/uilib/components/step-indicator/#stepindicator-with-a-router).
+1. The support for Web Components, Vue and Angular was removed.
 
 ### Breakpoints
 
@@ -54,6 +52,12 @@ $layout-medium: map-get($breakpoints, 'medium');
 $layout-large: map-get($breakpoints, 'large');
 ```
 
+### StepIndicator
+
+1. Find the `active_item` property and replace it with `current_step`.
+1. Find `use_navigation` and remove it or replace it with `mode="strict"` or `mode="loose"`.
+1. URL support has been removed – so props like `active_url`, `url`, `url_future`, and `url_passed` are not supported anymore. You have to handle it by yourself from inside your application. Here is [an example](/uilib/components/step-indicator/#stepindicator-with-a-router).
+
 ### Table
 
 1. Ensure all table sub elements have a CSS Class:
@@ -72,6 +76,7 @@ $layout-large: map-get($breakpoints, 'large');
 1. Find the snake_case `add_title` property and replace it with `addTitle`.
 1. Find the snake_case `subtract_title` property and replace it with `subtractTitle`.
 1. Remove `@dnb/eufemia/components/slider/style/dnb-range.min.css` and use the Eufemia Slider component instead.
+1. `use_scrollwheel` and `on_init` properties, as well as the `raw_value` event value from Slider was removed in order to support multiple buttons.
 
 ### [Timeline](/uilib/components/timeline)
 
@@ -136,7 +141,6 @@ Stopped supporting Internet Explorer (IE), as Microsoft formally ended support f
 
 ### Deprecations
 
-- `use_scrollwheel` and `on_init` properties, as well as the `raw_value` event value from [Slider](/uilib/components/slider) was removed in order to support multiple buttons.
 - Helper class `.dnb-sr-only--inline` and SCSS mixin `srOnlyInline` was removed.
 - Helper class `.dnb-not-sr-only` and SCSS mixin `notSrOnly` was removed.
 - `import { SpacingHelper } from '@dnb/eufemia/shared'` was removed due to low usage. Use one of the [other exported helpers](/uilib/usage/layout/spacing).
@@ -153,4 +157,4 @@ $ npm i @dnb/eufemia@10
 $ yarn add @dnb/eufemia@10
 ```
 
-_December, 24. 2022_
+_February, 1. 2023_

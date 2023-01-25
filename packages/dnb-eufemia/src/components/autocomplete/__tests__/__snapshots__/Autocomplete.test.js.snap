@@ -7,8 +7,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   aria_live_options="aria_live_options"
   class="class"
   className="className"
-  custom_element={{}}
-  custom_method={[Function]}
   data={
     [
       "AA c",
@@ -101,8 +99,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     cache_hash={null}
     class="class"
     className="className"
-    custom_element={{}}
-    custom_method={[Function]}
     data={
       [
         "AA c",
@@ -208,8 +204,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       aria_live_options="aria_live_options"
       class="class"
       className="className"
-      custom_element={{}}
-      custom_method={[Function]}
       data={
         [
           "AA c",
@@ -451,8 +445,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 className="dnb-autocomplete__input"
                 clear={false}
                 clear_button_title={null}
-                custom_element={null}
-                custom_method={null}
                 disabled="disabled"
                 global_status_id={null}
                 icon="input_icon"
@@ -672,8 +664,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 class={null}
                                 className="dnb-input__submit-button__button dnb-button--input-button dnb-button--active"
                                 custom_content={null}
-                                custom_element={null}
-                                custom_method={null}
                                 disabled="disabled"
                                 element={null}
                                 global_status_id={null}
@@ -730,8 +720,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                     className="dnb-input__submit-button__button dnb-button--input-button dnb-button--active"
                                     content={null}
                                     custom_content={null}
-                                    custom_element={null}
-                                    custom_method={null}
                                     disabled="disabled"
                                     element={null}
                                     global_status_id={null}
@@ -1090,8 +1078,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 cache_hash={null}
                 class={null}
                 className="dnb-autocomplete__root drawer_class"
-                custom_element={null}
-                custom_method={null}
                 data={null}
                 default_value="default_value"
                 direction="bottom"
@@ -1140,8 +1126,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   cache_hash={null}
                   class={null}
                   className="dnb-autocomplete__root drawer_class"
-                  custom_element={null}
-                  custom_method={null}
                   data={null}
                   default_value="default_value"
                   direction="bottom"
@@ -1395,8 +1379,6 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   "children": "children",
                   "class": "class",
                   "className": "className",
-                  "custom_element": {},
-                  "custom_method": [Function],
                   "data": [
                     "AA c",
                     "BB cc zethx",
