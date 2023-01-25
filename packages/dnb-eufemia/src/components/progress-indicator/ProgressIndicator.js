@@ -9,7 +9,6 @@ import classnames from 'classnames'
 import Context from '../../shared/Context'
 import {
   isTrue,
-  registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent,
   extendPropsWithContextInClassComponent,
@@ -24,7 +23,6 @@ import ProgressIndicatorLinear from './ProgressIndicatorLinear'
 import { format } from '../number-format/NumberUtils'
 
 export default class ProgressIndicator extends React.PureComponent {
-  static tagName = 'dnb-progress-indicator'
   static contextType = Context
 
   static propTypes = {
@@ -68,14 +66,6 @@ export default class ProgressIndicator extends React.PureComponent {
     children: null,
 
     on_complete: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(
-      ProgressIndicator?.tagName,
-      ProgressIndicator,
-      ProgressIndicator.defaultProps
-    )
   }
 
   static getDerivedStateFromProps(props, state) {

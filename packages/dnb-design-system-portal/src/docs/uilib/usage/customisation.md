@@ -13,7 +13,6 @@ import { Icon } from '@dnb/eufemia/src'
 For details, have a look at the submenu for all the customizations topics:
 
 - [Component Properties](/uilib/usage/customisation/component-properties)
-- [Event Handling](/uilib/usage/customisation/event-handling)
 - [CSS Styles](/uilib/usage/customisation/styling)
   - [Importing the CSS](/uilib/usage/customisation/styling/consume-styles)
   - [Polyfill](/uilib/usage/customisation/styling/polyfill)

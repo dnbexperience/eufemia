@@ -11,7 +11,6 @@ import {
   isTrue,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
-  registerElement,
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
@@ -37,7 +36,6 @@ import FormStatus from '../form-status/FormStatus'
  * The checkbox component is our enhancement of the classic checkbox button. It acts like a checkbox. Example: On/off, yes/no.
  */
 export default class Checkbox extends React.PureComponent {
-  static tagName = 'dnb-checkbox'
   static contextType = Context
 
   static propTypes = {
@@ -82,8 +80,6 @@ export default class Checkbox extends React.PureComponent {
     className: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 
-    custom_element: PropTypes.object,
-    custom_method: PropTypes.func,
     on_change: PropTypes.func,
     on_state_update: PropTypes.func,
   }
@@ -112,15 +108,8 @@ export default class Checkbox extends React.PureComponent {
     className: null,
     children: null,
 
-    custom_element: null,
-    custom_method: null,
-
     on_change: null,
     on_state_update: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(Checkbox?.tagName, Checkbox, Checkbox.defaultProps)
   }
 
   static parseChecked = (state) => /true|on/.test(String(state))
@@ -212,8 +201,6 @@ export default class Checkbox extends React.PureComponent {
       children, // eslint-disable-line
       on_change, // eslint-disable-line
       on_state_update, // eslint-disable-line
-      custom_method, // eslint-disable-line
-      custom_element, // eslint-disable-line
 
       ...rest
     } = props

@@ -10,7 +10,6 @@ import {
   warn,
   isTrue,
   makeUniqueId,
-  registerElement,
   findElementInChildren,
   extendPropsWithContextInClassComponent,
   validateDOMAttributes,
@@ -50,7 +49,6 @@ class AccordionStore {
 }
 
 export default class Accordion extends React.PureComponent {
-  static tagName = 'dnb-accordion'
   static contextType = AccordionProviderContext
   static Provider = AccordionProvider
   static Header = AccordionHeader
@@ -62,10 +60,6 @@ export default class Accordion extends React.PureComponent {
 
   static defaultProps = {
     ...accordionDefaultProps,
-  }
-
-  static enableWebComponent() {
-    registerElement(Accordion?.tagName, Accordion, Accordion.defaultProps)
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -285,8 +279,7 @@ export default class Accordion extends React.PureComponent {
                 icon_size, // eslint-disable-line
                 on_change, // eslint-disable-line
                 on_state_update, // eslint-disable-line
-                custom_method, // eslint-disable-line
-                custom_element, // eslint-disable-line
+
                 contentRef, // eslint-disable-line
 
                 ...rest
