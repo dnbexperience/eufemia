@@ -20,7 +20,6 @@ export {
   extendPropsWithContext,
   extendPropsWithContextInClassComponent,
 } from './helpers/extendPropsWithContext'
-export { registerElement } from './custom-element'
 export { useEventEmitter } from './helpers/useEventEmitter'
 
 export { getPreviousSibling, warn }
@@ -342,13 +341,6 @@ export const dispatchCustomElementEvent = (
 
   const props = (src && src.props) || src
 
-  // call Web Component events
-  if (props.custom_element) {
-    if (typeof props.custom_element.fireEvent === 'function') {
-      ret = props.custom_element.fireEvent(eventName, eventObject)
-    }
-  }
-
   // call the default snake case event
   if (eventName.includes('_')) {
     if (typeof props[eventName] === 'function') {
@@ -430,23 +422,6 @@ export const toSnakeCase = (str) =>
 // transform MyComponent to my-component
 export const toKebabCase = (str) =>
   str.replace(/\B[A-Z]/g, (letter) => `-${letter}`).toLowerCase()
-
-// Removed as we now run function props from Web Components (custom-element)
-// export const pickRenderProps = (props, renderProps) =>
-//   Object.entries(props)
-//     .filter(([key, value]) => {
-//       if (
-//         typeof renderProps[key] !== 'undefined' || // TODO: remove this because of security notation
-//         key === 'children' ||
-//         key === 'custom_method'
-//       )
-//         return false
-//       return typeof value === 'function'
-//     })
-//     .reduce((obj, [key, value]) => {
-//       obj[key] = value // TODO: remove this because of security notation
-//       return obj
-//     }, {})
 
 /**
  * [detectOutsideClick Detects a click outside a given DOM element]

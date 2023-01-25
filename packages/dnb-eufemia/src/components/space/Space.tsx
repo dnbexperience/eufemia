@@ -9,7 +9,6 @@ import classnames from 'classnames'
 import {
   isTrue,
   extendPropsWithContextInClassComponent,
-  registerElement,
   processChildren,
   validateDOMAttributes,
 } from '../../shared/component-helper'
@@ -120,7 +119,6 @@ export type SpaceAllProps = SpaceProps & React.HTMLProps<HTMLElement>
 export default class Space extends React.PureComponent<
   SpaceAllProps | React.HTMLProps<HTMLElement>
 > {
-  static tagName = 'dnb-space'
   static contextType = Context
 
   static propTypes = {
@@ -158,10 +156,6 @@ export default class Space extends React.PureComponent<
     innerRef: null,
     className: null,
     children: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(Space?.tagName, Space, Space.defaultProps)
   }
 
   static getContent(props) {

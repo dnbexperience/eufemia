@@ -9,7 +9,6 @@ import classnames from 'classnames'
 import {
   extendPropsWithContextInClassComponent,
   isTrue,
-  registerElement,
   validateDOMAttributes,
   processChildren,
 } from '../../shared/component-helper'
@@ -25,7 +24,6 @@ import { includeValidProps } from '../form-row/FormRowHelpers'
 import Context from '../../shared/Context'
 
 export default class FormLabel extends React.PureComponent {
-  static tagName = 'dnb-form-label'
   static contextType = Context
 
   static propTypes = {
@@ -70,10 +68,6 @@ export default class FormLabel extends React.PureComponent {
 
     className: null,
     children: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(FormLabel?.tagName, FormLabel, FormLabel.defaultProps)
   }
 
   static getContent(props) {
