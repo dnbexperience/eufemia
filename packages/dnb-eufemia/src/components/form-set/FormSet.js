@@ -11,7 +11,6 @@ import {
   makeUniqueId,
   extend,
   extendPropsWithContextInClassComponent,
-  registerElement,
   validateDOMAttributes,
   processChildren,
   dispatchCustomElementEvent,
@@ -21,7 +20,6 @@ import Context from '../../shared/Context'
 import { formRowDefaultProps, formRowPropTypes } from '../form-row/FormRow'
 
 export default class FormSet extends React.PureComponent {
-  static tagName = 'dnb-form-set'
   static contextType = Context
 
   static propTypes = {
@@ -37,9 +35,6 @@ export default class FormSet extends React.PureComponent {
     ...formRowPropTypes,
 
     on_submit: PropTypes.func,
-
-    custom_element: PropTypes.object,
-    custom_method: PropTypes.func,
   }
 
   static defaultProps = {
@@ -50,13 +45,6 @@ export default class FormSet extends React.PureComponent {
     prevent_submit: false,
 
     on_submit: null,
-
-    custom_element: null,
-    custom_method: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(FormSet?.tagName, FormSet, FormSet.defaultProps)
   }
 
   static getContent(props) {

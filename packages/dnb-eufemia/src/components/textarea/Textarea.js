@@ -12,7 +12,6 @@ import {
   isTrue,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
-  registerElement,
   validateDOMAttributes,
   processChildren,
   getStatusState,
@@ -38,7 +37,6 @@ import Suffix from '../../shared/helpers/Suffix'
  * The textarea component is an umbrella component for all textareas which share the same style as the classic `text` textarea field.
  */
 export default class Textarea extends React.PureComponent {
-  static tagName = 'dnb-textarea'
   static contextType = Context
 
   static propTypes = {
@@ -100,9 +98,6 @@ export default class Textarea extends React.PureComponent {
     ]),
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 
-    custom_element: PropTypes.object,
-    custom_method: PropTypes.func,
-
     on_change: PropTypes.func,
     on_focus: PropTypes.func,
     on_blur: PropTypes.func,
@@ -142,18 +137,11 @@ export default class Textarea extends React.PureComponent {
     textarea_element: null,
     children: null,
 
-    custom_element: null,
-    custom_method: null,
-
     on_change: null,
     on_focus: null,
     on_blur: null,
     on_key_down: null,
     on_state_update: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(Textarea?.tagName, Textarea, Textarea.defaultProps)
   }
 
   static getDerivedStateFromProps(props, state) {
