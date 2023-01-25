@@ -90,8 +90,6 @@ import '@dnb/eufemia/components/button/style'
 import '@dnb/eufemia/components/button/style/themes/ui'
 ```
 
-And finally bind an [event listener](/uilib/usage/customisation/event-handling):
-
 ```jsx
 <Button text="Button" on_click={myClickHandler} />
 ```
