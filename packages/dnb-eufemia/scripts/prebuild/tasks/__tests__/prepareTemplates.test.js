@@ -139,13 +139,6 @@ describe('prepareTemplates', () => {
       2,
       dest2,
       expect.stringContaining(
-        `import { registerElement } from '../shared/component-helper'`
-      )
-    )
-    expect(writeFile).toHaveBeenNthCalledWith(
-      2,
-      dest2,
-      expect.stringContaining(
         `import ComponentA from './component-a/ComponentA'`
       )
     )
@@ -165,11 +158,6 @@ describe('prepareTemplates', () => {
       2,
       dest2,
       expect.stringContaining(`return { ComponentA, ComponentB }`)
-    )
-    expect(writeFile).toHaveBeenNthCalledWith(
-      2,
-      dest2,
-      expect.stringContaining(`export const enableWebComponents`)
     )
 
     const dest3 = expect.stringContaining('/src/components/ComponentA.js')

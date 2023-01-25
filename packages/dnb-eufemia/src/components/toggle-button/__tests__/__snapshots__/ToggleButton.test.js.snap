@@ -6,8 +6,6 @@ exports[`ToggleButton component have to match snapshot 1`] = `
   checked="checked"
   class="class"
   className="className"
-  custom_element={{}}
-  custom_method={[Function]}
   disabled="disabled"
   global_status_id="main"
   icon="icon"
@@ -111,8 +109,6 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                 checked={false}
                 class={null}
                 className={null}
-                custom_element={null}
-                custom_method={null}
                 data-checked="false"
                 disabled="disabled"
                 element="span"
@@ -136,8 +132,6 @@ exports[`ToggleButton component have to match snapshot 1`] = `
               />
             </span>
           }
-          custom_element={null}
-          custom_method={null}
           disabled="disabled"
           element={null}
           global_status_id={null}
@@ -196,8 +190,6 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                     checked={false}
                     class={null}
                     className={null}
-                    custom_element={null}
-                    custom_method={null}
                     data-checked="false"
                     disabled="disabled"
                     element="span"
@@ -221,8 +213,6 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                   />
                 </span>
               }
-              custom_element={null}
-              custom_method={null}
               disabled="disabled"
               element={null}
               global_status_id={null}
@@ -262,8 +252,6 @@ exports[`ToggleButton component have to match snapshot 1`] = `
                   checked={false}
                   class={null}
                   className={null}
-                  custom_element={null}
-                  custom_method={null}
                   data-checked="false"
                   disabled="disabled"
                   element="span"
@@ -439,8 +427,6 @@ exports[`ToggleButton component have to match snapshot 1`] = `
               "children": "children",
               "class": "class",
               "className": "className",
-              "custom_element": {},
-              "custom_method": [Function],
               "disabled": "disabled",
               "global_status_id": "main",
               "icon": "icon",
@@ -486,8 +472,6 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
   attributes={null}
   class={null}
   className={null}
-  custom_element={null}
-  custom_method={null}
   disabled={null}
   global_status_id={null}
   id="group"
@@ -525,8 +509,6 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
       centered={null}
       class={null}
       className={null}
-      custom_element={null}
-      custom_method={null}
       direction={null}
       disabled={null}
       global_status_id={null}
@@ -634,8 +616,6 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                       attributes={null}
                       class={null}
                       className={null}
-                      custom_element={null}
-                      custom_method={null}
                       disabled={null}
                       global_status_id={null}
                       icon={null}
@@ -714,8 +694,6 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                                     checked={true}
                                     class={null}
                                     className={null}
-                                    custom_element={null}
-                                    custom_method={null}
                                     data-checked="true"
                                     disabled={null}
                                     element="span"
@@ -741,8 +719,6 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                                   />
                                 </span>
                               }
-                              custom_element={null}
-                              custom_method={null}
                               disabled={null}
                               element={null}
                               global_status_id={null}
@@ -798,8 +774,6 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                                         checked={true}
                                         class={null}
                                         className={null}
-                                        custom_element={null}
-                                        custom_method={null}
                                         data-checked="true"
                                         disabled={null}
                                         element="span"
@@ -825,8 +799,6 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                                       />
                                     </span>
                                   }
-                                  custom_element={null}
-                                  custom_method={null}
                                   disabled={null}
                                   element={null}
                                   global_status_id={null}
@@ -866,8 +838,6 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                                       checked={true}
                                       class={null}
                                       className={null}
-                                      custom_element={null}
-                                      custom_method={null}
                                       data-checked="true"
                                       disabled={null}
                                       element="span"
@@ -1016,8 +986,6 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                       checked={true}
                       class={null}
                       className={null}
-                      custom_element={null}
-                      custom_method={null}
                       disabled={null}
                       global_status_id={null}
                       icon={null}
@@ -1096,8 +1064,6 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                                     checked={true}
                                     class={null}
                                     className={null}
-                                    custom_element={null}
-                                    custom_method={null}
                                     data-checked="true"
                                     disabled={null}
                                     element="span"
@@ -1123,8 +1089,6 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                                   />
                                 </span>
                               }
-                              custom_element={null}
-                              custom_method={null}
                               disabled={null}
                               element={null}
                               global_status_id={null}
@@ -1180,8 +1144,6 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                                         checked={true}
                                         class={null}
                                         className={null}
-                                        custom_element={null}
-                                        custom_method={null}
                                         data-checked="true"
                                         disabled={null}
                                         element="span"
@@ -1207,8 +1169,6 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                                       />
                                     </span>
                                   }
-                                  custom_element={null}
-                                  custom_method={null}
                                   disabled={null}
                                   element={null}
                                   global_status_id={null}
@@ -1248,8 +1208,6 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                                       checked={true}
                                       class={null}
                                       className={null}
-                                      custom_element={null}
-                                      custom_method={null}
                                       data-checked="true"
                                       disabled={null}
                                       element="span"

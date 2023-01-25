@@ -13,8 +13,6 @@ exports[`Input component have to match type="search" snapshot 1`] = `
         "className": "className",
         "clear": "clear",
         "clear_button_title": "clear_button_title",
-        "custom_element": {},
-        "custom_method": [Function],
         "disabled": "disabled",
         "global_status_id": "global_status_id",
         "icon": "icon",
@@ -101,8 +99,6 @@ exports[`Input component have to match type="search" snapshot 1`] = `
   className={null}
   clear={null}
   clear_button_title={null}
-  custom_element={null}
-  custom_method={null}
   disabled={false}
   global_status_id={null}
   icon={null}
@@ -220,8 +216,6 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                   "className": "className",
                   "clear": "clear",
                   "clear_button_title": "clear_button_title",
-                  "custom_element": {},
-                  "custom_method": [Function],
                   "disabled": "disabled",
                   "global_status_id": "global_status_id",
                   "icon": "icon",
@@ -303,8 +297,6 @@ exports[`Input component have to match type="search" snapshot 1`] = `
               }
             }
             className={null}
-            custom_element={null}
-            custom_method={null}
             disabled={false}
             icon="loupe"
             icon_size="default"
@@ -337,8 +329,6 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                 class={null}
                 className="dnb-input__submit-button__button dnb-button--input-button"
                 custom_content={null}
-                custom_element={null}
-                custom_method={null}
                 disabled={false}
                 element={null}
                 global_status_id={null}
@@ -388,8 +378,6 @@ exports[`Input component have to match type="search" snapshot 1`] = `
                     className="dnb-input__submit-button__button dnb-button--input-button"
                     content={null}
                     custom_content={null}
-                    custom_element={null}
-                    custom_method={null}
                     disabled={false}
                     element={null}
                     global_status_id={null}
@@ -518,8 +506,6 @@ exports[`Input component have to match type="text" snapshot 1`] = `
         "className": "className",
         "clear": "clear",
         "clear_button_title": "clear_button_title",
-        "custom_element": {},
-        "custom_method": [Function],
         "disabled": "disabled",
         "global_status_id": "global_status_id",
         "icon": "icon",
@@ -606,8 +592,6 @@ exports[`Input component have to match type="text" snapshot 1`] = `
   className={null}
   clear={null}
   clear_button_title={null}
-  custom_element={null}
-  custom_method={null}
   disabled={false}
   global_status_id={null}
   icon={null}
