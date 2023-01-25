@@ -5,7 +5,6 @@
 
 import React from 'react'
 import { mount } from '../../core/jest/jestSetup'
-import { registerElement } from '../custom-element'
 import {
   isTrue,
   extend,
@@ -252,13 +251,6 @@ describe('"validateDOMAttributes" should', () => {
 })
 
 describe('"processChildren" should', () => {
-  registerElement('custom-element', () => {})
-
-  it('a given amount of registered custom elements', () => {
-    expect(global.registeredElements).toBeType('array')
-    expect(global.registeredElements.length).toBe(1)
-  })
-
   it('return a joined string if we send in a children property with an array', () => {
     const children = ['foo', 'bar', 123]
     const props = { children }
@@ -285,17 +277,6 @@ describe('"processChildren" should', () => {
     const props = { children }
     const res = processChildren(props)
     expect(res).toMatch(children.join(''))
-  })
-
-  it('return a joined string, even with only one child', () => {
-    const props = {
-      content: 'foo',
-      render_func: (props) => {
-        return props.content + ' new content'
-      },
-    }
-    const res = processChildren(props)
-    expect(res.props).toEqual({ children: 'foo new content' })
   })
 })
 
@@ -408,21 +389,6 @@ describe('"dispatchCustomElementEvent" should', () => {
     expect(myEvent).toBeCalledWith(eventResult)
   })
 
-  it('call a custom event function, set as a property in props', () => {
-    const fireEvent = jest.fn()
-    const instance = {
-      props: {
-        custom_element: {
-          fireEvent,
-        },
-      },
-    }
-    const event = {}
-    dispatchCustomElementEvent(instance, 'eventName', event)
-    expect(fireEvent).toBeCalledTimes(1)
-    expect(fireEvent.mock.calls[0][0]).toBe('eventName')
-  })
-
   it('call an event and return dataset properties as well "data-*" attributes', () => {
     const my_event = jest.fn()
     const instance = {
@@ -502,36 +468,6 @@ describe('"toKebabCase" should', () => {
     expect(toKebabCase('MyEventIsLong')).toBe('my-event-is-long')
   })
 })
-
-// Removed as we now run function props from Web Components (custom-element)
-// describe('"pickRenderProps" should', () => {
-//   it('only pass function props which don't exists in renderProps', () => {
-//     const renderProp = jest.fn()
-//     const customRenderer = jest.fn()
-//     const children = jest.fn()
-//     const custom_method = jest.fn()
-//     const props = {
-//       foo: 'bar',
-//       renderProp,
-//       customRenderer,
-//       children,
-//       custom_method
-//     }
-//     const renderProps = {
-//       customRenderer
-//     }
-//     const res = pickRenderProps(props, renderProps)
-
-//     expect(res).not.toHaveProperty([
-//       'custom_method',
-//       'children',
-//       'customRenderer',
-//       'foo'
-//     ])
-//     expect(res).toHaveProperty(['renderProp'])
-//     expect(res.renderProp).toBe(renderProp)
-//   })
-// })
 
 describe('"filterProps" should', () => {
   const attributes = {

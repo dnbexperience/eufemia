@@ -55,8 +55,6 @@ exports[`DrawerList markup have to match snapshot 1`] = `
   cache_hash={null}
   class={null}
   className={null}
-  custom_element={null}
-  custom_method={null}
   data={
     [
       {
@@ -193,8 +191,6 @@ exports[`DrawerList markup have to match snapshot 1`] = `
     cache_hash={null}
     class={null}
     className={null}
-    custom_element={null}
-    custom_method={null}
     data={
       [
         {
@@ -335,8 +331,6 @@ exports[`DrawerList markup have to match snapshot 1`] = `
       cache_hash={null}
       class={null}
       className={null}
-      custom_element={null}
-      custom_method={null}
       data={
         [
           {

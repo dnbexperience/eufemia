@@ -10,7 +10,6 @@ import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
 import {
   isTrue,
-  registerElement,
   validateDOMAttributes,
   extendPropsWithContextInClassComponent,
 } from '../../shared/component-helper'
@@ -47,7 +46,6 @@ const translationDefaultPropsProps = {
 }
 
 export default class PaymentCard extends React.PureComponent {
-  static tagName = 'dnb-payment-card'
   static contextType = Context
 
   static propTypes = {
@@ -88,14 +86,6 @@ export default class PaymentCard extends React.PureComponent {
     children: null,
 
     ...translationDefaultPropsProps,
-  }
-
-  static enableWebComponent() {
-    registerElement(
-      PaymentCard.tagName,
-      PaymentCard,
-      PaymentCard.defaultProps
-    )
   }
 
   render() {

@@ -9,7 +9,6 @@ import { spacingPropTypes } from '../components/space/SpacingHelper'
 import H from './H'
 
 const H5 = (props) => <H as="h5" {...props} />
-H5.tagName = 'dnb-h5'
 H5.propTypes = {
   ...spacingPropTypes,
   level: PropTypes.string,

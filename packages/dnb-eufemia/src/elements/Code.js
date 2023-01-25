@@ -11,7 +11,6 @@ import E from './Element'
 const Code = React.forwardRef((props, ref) => (
   <E as="code" innerRef={ref} {...props} />
 ))
-Code.tagName = 'dnb-code'
 Code.propTypes = {
   ...spacingPropTypes,
   children: PropTypes.node,

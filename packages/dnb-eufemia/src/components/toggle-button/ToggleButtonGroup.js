@@ -10,7 +10,6 @@ import {
   isTrue,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
-  registerElement,
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
@@ -30,7 +29,6 @@ import ToggleButtonGroupContext from './ToggleButtonGroupContext'
 import { includeValidProps } from '../form-row/FormRowHelpers'
 
 export default class ToggleButtonGroup extends React.PureComponent {
-  static tagName = 'dnb-toggle-button-group'
   static contextType = Context
 
   static propTypes = {
@@ -89,8 +87,6 @@ export default class ToggleButtonGroup extends React.PureComponent {
       PropTypes.node,
     ]),
 
-    custom_element: PropTypes.object,
-    custom_method: PropTypes.func,
     on_change: PropTypes.func,
   }
 
@@ -123,17 +119,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
     className: null,
     children: null,
 
-    custom_element: null,
-    custom_method: null,
     on_change: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(
-      ToggleButtonGroup?.tagName,
-      ToggleButtonGroup,
-      ToggleButtonGroup.defaultProps
-    )
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -236,8 +222,6 @@ export default class ToggleButtonGroup extends React.PureComponent {
       values: _values, // eslint-disable-line
       children, // eslint-disable-line
       on_change, // eslint-disable-line
-      custom_method, // eslint-disable-line
-      custom_element, // eslint-disable-line
 
       ...rest
     } = props

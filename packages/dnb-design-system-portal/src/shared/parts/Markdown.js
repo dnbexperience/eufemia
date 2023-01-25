@@ -6,7 +6,6 @@
 import React from 'react'
 
 import PropTypes from 'prop-types'
-import { enableWebComponents } from '@dnb/eufemia/src/lib'
 
 export class Html extends React.PureComponent {
   static propTypes = {
@@ -16,14 +15,6 @@ export class Html extends React.PureComponent {
   static defaultProps = {
     children: null,
     value: null,
-  }
-  componentDidMount() {
-    if (
-      this.props.children ||
-      (this.props.value && /<dnb/.test(this.props.value))
-    ) {
-      enableWebComponents()
-    }
   }
   state = {
     visible: true,

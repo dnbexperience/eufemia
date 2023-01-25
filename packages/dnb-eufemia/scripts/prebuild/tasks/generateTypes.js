@@ -33,8 +33,6 @@ export default async function generateTypes({
     '!./src/cjs/',
     '!./src/umd/',
     '!./src/style/',
-    '!./src/**/web-component.js',
-    '!./src/**/web-components.js',
   ],
 } = {}) {
   if (process.env.NODE_ENV !== 'test') {
