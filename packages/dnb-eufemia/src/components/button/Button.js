@@ -333,9 +333,6 @@ Button.propTypes = {
 
   ...spacingPropTypes,
 
-  custom_element: PropTypes.object,
-  custom_method: PropTypes.func,
-
   on_click: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 }
 
@@ -371,9 +368,6 @@ Button.defaultProps = {
   innerRef: null,
   children: null,
   element: null,
-
-  custom_element: null,
-  custom_method: null,
 
   on_click: null,
 }

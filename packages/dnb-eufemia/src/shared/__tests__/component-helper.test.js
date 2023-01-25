@@ -389,21 +389,6 @@ describe('"dispatchCustomElementEvent" should', () => {
     expect(myEvent).toBeCalledWith(eventResult)
   })
 
-  it('call a custom event function, set as a property in props', () => {
-    const fireEvent = jest.fn()
-    const instance = {
-      props: {
-        custom_element: {
-          fireEvent,
-        },
-      },
-    }
-    const event = {}
-    dispatchCustomElementEvent(instance, 'eventName', event)
-    expect(fireEvent).toBeCalledTimes(1)
-    expect(fireEvent.mock.calls[0][0]).toBe('eventName')
-  })
-
   it('call an event and return dataset properties as well "data-*" attributes', () => {
     const my_event = jest.fn()
     const instance = {

@@ -61,9 +61,6 @@ export const formRowPropTypes = {
     PropTypes.func,
     PropTypes.node,
   ]),
-
-  custom_element: PropTypes.object,
-  custom_method: PropTypes.func,
 }
 
 export const formRowDefaultProps = {
@@ -93,9 +90,6 @@ export const formRowDefaultProps = {
   skipContentWrapperIfNested: false,
   className: null,
   children: null,
-
-  custom_element: null,
-  custom_method: null,
 }
 
 export default class FormRow extends React.PureComponent {

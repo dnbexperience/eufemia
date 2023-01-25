@@ -82,8 +82,6 @@ export default class RadioGroup extends React.PureComponent {
       PropTypes.node,
     ]),
 
-    custom_element: PropTypes.object,
-    custom_method: PropTypes.func,
     on_change: PropTypes.func,
   }
 
@@ -113,9 +111,6 @@ export default class RadioGroup extends React.PureComponent {
 
     className: null,
     children: null,
-
-    custom_element: null,
-    custom_method: null,
 
     on_change: null,
   }
@@ -188,8 +183,6 @@ export default class RadioGroup extends React.PureComponent {
       value: _value, // eslint-disable-line
       children, // eslint-disable-line
       on_change, // eslint-disable-line
-      custom_method, // eslint-disable-line
-      custom_element, // eslint-disable-line
 
       ...rest
     } = props

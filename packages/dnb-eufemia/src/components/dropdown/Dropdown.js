@@ -152,9 +152,6 @@ export default class Dropdown extends React.PureComponent {
       PropTypes.array,
     ]),
 
-    custom_element: PropTypes.object,
-    custom_method: PropTypes.func,
-
     on_show: PropTypes.func,
     on_hide: PropTypes.func,
     on_change: PropTypes.func,
@@ -208,9 +205,6 @@ export default class Dropdown extends React.PureComponent {
 
     className: null,
     children: null,
-
-    custom_element: null,
-    custom_method: null,
 
     on_show: null,
     on_hide: null,

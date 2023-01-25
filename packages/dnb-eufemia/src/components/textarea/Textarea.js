@@ -98,9 +98,6 @@ export default class Textarea extends React.PureComponent {
     ]),
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 
-    custom_element: PropTypes.object,
-    custom_method: PropTypes.func,
-
     on_change: PropTypes.func,
     on_focus: PropTypes.func,
     on_blur: PropTypes.func,
@@ -139,9 +136,6 @@ export default class Textarea extends React.PureComponent {
     className: null,
     textarea_element: null,
     children: null,
-
-    custom_element: null,
-    custom_method: null,
 
     on_change: null,
     on_focus: null,

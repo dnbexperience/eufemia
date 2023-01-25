@@ -176,8 +176,6 @@ export default class DatePicker extends React.PureComponent {
 
     ...spacingPropTypes,
 
-    custom_element: PropTypes.object,
-    custom_method: PropTypes.func,
     on_days_render: PropTypes.func,
     on_change: PropTypes.func,
     on_type: PropTypes.func,
@@ -247,9 +245,6 @@ export default class DatePicker extends React.PureComponent {
     align_picker: null,
     class: null,
     className: null,
-
-    custom_element: null,
-    custom_method: null,
 
     on_days_render: null,
     on_change: null,

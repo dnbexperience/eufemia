@@ -230,9 +230,6 @@ export default class Autocomplete extends React.PureComponent {
       PropTypes.array,
     ]),
 
-    custom_element: PropTypes.object,
-    custom_method: PropTypes.func,
-
     /**
      * For internal use
      */
@@ -318,8 +315,6 @@ export default class Autocomplete extends React.PureComponent {
     className: null,
     children: null,
 
-    custom_element: null,
-    custom_method: null,
     ariaLiveDelay: null,
 
     on_show: null,

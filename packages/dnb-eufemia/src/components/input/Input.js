@@ -117,8 +117,6 @@ export const inputPropTypes = {
   className: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 
-  custom_element: PropTypes.object,
-  custom_method: PropTypes.func,
   on_change: PropTypes.func,
   on_submit: PropTypes.func,
   on_focus: PropTypes.func,
@@ -180,9 +178,6 @@ export default class Input extends React.PureComponent {
 
     className: null,
     children: null,
-
-    custom_element: null,
-    custom_method: null,
 
     on_change: null,
     on_submit: null,

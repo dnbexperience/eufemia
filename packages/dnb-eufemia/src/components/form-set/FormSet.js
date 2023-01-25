@@ -35,9 +35,6 @@ export default class FormSet extends React.PureComponent {
     ...formRowPropTypes,
 
     on_submit: PropTypes.func,
-
-    custom_element: PropTypes.object,
-    custom_method: PropTypes.func,
   }
 
   static defaultProps = {
@@ -48,9 +45,6 @@ export default class FormSet extends React.PureComponent {
     prevent_submit: false,
 
     on_submit: null,
-
-    custom_element: null,
-    custom_method: null,
   }
 
   static getContent(props) {

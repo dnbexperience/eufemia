@@ -279,8 +279,7 @@ export default class Accordion extends React.PureComponent {
                 icon_size, // eslint-disable-line
                 on_change, // eslint-disable-line
                 on_state_update, // eslint-disable-line
-                custom_method, // eslint-disable-line
-                custom_element, // eslint-disable-line
+
                 contentRef, // eslint-disable-line
 
                 ...rest
