@@ -13,7 +13,6 @@ import {
   slugify,
   isTrue,
   makeUniqueId,
-  registerElement,
   extendPropsWithContextInClassComponent,
   validateDOMAttributes,
   dispatchCustomElementEvent,
@@ -36,7 +35,6 @@ import ContentWrapper from './TabsContentWrapper'
 import EventEmitter from '../../shared/helpers/EventEmitter'
 
 export default class Tabs extends React.PureComponent {
-  static tagName = 'dnb-tabs'
   static contextType = Context
 
   static propTypes = {
@@ -150,10 +148,6 @@ export default class Tabs extends React.PureComponent {
 
   static Content = CustomContent
   static ContentWrapper = ContentWrapper
-
-  static enableWebComponent() {
-    registerElement(Tabs?.tagName, Tabs, Tabs.defaultProps)
-  }
 
   static getSelectedKeyOrFallback(selected_key, data) {
     let useKey = selected_key

@@ -223,8 +223,6 @@ export type ButtonProps = {
    * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
    */
   left?: ButtonLeft;
-  custom_element?: any;
-  custom_method?: (...args: any[]) => any;
 
   /**
    * Will be called on a click event. Returns an object with the native event: `{ event }`.

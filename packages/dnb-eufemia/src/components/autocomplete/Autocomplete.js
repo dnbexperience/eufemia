@@ -13,7 +13,6 @@ import {
   isTouchDevice,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
-  registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent,
   getStatusState,
@@ -54,8 +53,6 @@ import {
 } from '../../fragments/drawer-list/DrawerListHelpers'
 
 export default class Autocomplete extends React.PureComponent {
-  static tagName = 'dnb-autocomplete'
-
   static propTypes = {
     ...spacingPropTypes,
     ...drawerListPropTypes,
@@ -233,9 +230,6 @@ export default class Autocomplete extends React.PureComponent {
       PropTypes.array,
     ]),
 
-    custom_element: PropTypes.object,
-    custom_method: PropTypes.func,
-
     /**
      * For internal use
      */
@@ -321,8 +315,6 @@ export default class Autocomplete extends React.PureComponent {
     className: null,
     children: null,
 
-    custom_element: null,
-    custom_method: null,
     ariaLiveDelay: null,
 
     on_show: null,
@@ -334,14 +326,6 @@ export default class Autocomplete extends React.PureComponent {
     on_select: null,
     on_state_update: null,
     input_element: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(
-      Autocomplete?.tagName,
-      Autocomplete,
-      Autocomplete.defaultProps
-    )
   }
 
   constructor(props) {

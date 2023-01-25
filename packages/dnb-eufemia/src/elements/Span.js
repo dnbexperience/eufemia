@@ -11,7 +11,6 @@ import E from './Element'
 const Span = React.forwardRef((props, ref) => (
   <E as="span" innerRef={ref} {...props} />
 ))
-Span.tagName = 'dnb-span'
 Span.propTypes = {
   ...spacingPropTypes,
   children: PropTypes.node,

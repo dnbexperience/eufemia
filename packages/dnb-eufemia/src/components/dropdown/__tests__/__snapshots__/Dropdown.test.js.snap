@@ -6,8 +6,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
   align_dropdown={null}
   class="class"
   className="className"
-  custom_element={{}}
-  custom_method={[Function]}
   data={
     [
       {
@@ -110,8 +108,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     cache_hash={null}
     class="class"
     className="className"
-    custom_element={{}}
-    custom_method={[Function]}
     data={
       [
         {
@@ -231,8 +227,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
       align_dropdown={null}
       class="class"
       className="className"
-      custom_element={{}}
-      custom_method={[Function]}
       data={
         [
           {
@@ -511,8 +505,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                     </span>
                   </React.Fragment>
                 }
-                custom_element={null}
-                custom_method={null}
                 disabled="disabled"
                 element={null}
                 global_status_id={null}
@@ -602,8 +594,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                         </span>
                       </React.Fragment>
                     }
-                    custom_element={null}
-                    custom_method={null}
                     disabled="disabled"
                     element={null}
                     global_status_id={null}
@@ -697,8 +687,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 cache_hash={null}
                 class={null}
                 className={null}
-                custom_element={null}
-                custom_method={null}
                 data={null}
                 default_value="default_value"
                 direction="bottom"
@@ -745,8 +733,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   cache_hash={null}
                   class={null}
                   className={null}
-                  custom_element={null}
-                  custom_method={null}
                   data={null}
                   default_value="default_value"
                   direction="bottom"
@@ -1223,8 +1209,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   "children": "children",
                   "class": "class",
                   "className": "className",
-                  "custom_element": {},
-                  "custom_method": [Function],
                   "data": [
                     {
                       "content": [

@@ -12,7 +12,7 @@ Every [Component](/uilib/components) has its own `properties` to make them work 
 
 ## Naming
 
-Both the properties- and event names are using **snake case** to support a universal [naming convention](/contribute/naming), with a background and requirement on supporting [Web Components](/uilib/usage/first-steps/web-components).
+Both the properties- and event names should use **camelCase** to support a universal [naming convention](/contribute/naming).
 
 ## Large Buttons & Icons
 
@@ -66,38 +66,5 @@ render(
     </Button>
   </Wrapper>
 )
-`}
-</ComponentBox>
-
-## Web Components and properties
-
-> What if a property has to change at runtime?
-
-Changing a property (`props`) at runtime is a common thing in React. But also `@dnb/eufemia` web components support `prop` changes.
-Keep in mind that not all components are tested to the last detail.
-So, if you come over some special use cases, please contribute back and make a pull request.
-
-<ComponentBox useRender>
-{`
-const Component = () => {
-  const time = new Date().toLocaleTimeString()
-  React.useEffect(() => {
-    Button.enableWebComponent()
-  }, [])
-  return (
-    <dnb-input
-      label="Web Component property updates:"
-      value={time}
-    ></dnb-input>
-  )
-}
-const RenderHelper = () => {
-  React.useEffect(() => {
-    const timer = setInterval(() => render(<RenderHelper />), 1e3)
-    return () => clearInterval(timer)
-  }, [])
-  return <Component />
-}
-render(<RenderHelper />)
 `}
 </ComponentBox>

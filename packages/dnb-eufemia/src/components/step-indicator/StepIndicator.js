@@ -5,11 +5,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  makeUniqueId,
-  warn,
-  registerElement,
-} from '../../shared/component-helper'
+import { makeUniqueId, warn } from '../../shared/component-helper'
 import StepIndicatorSidebar from './StepIndicatorSidebar'
 
 import StepIndicatorModal from './StepIndicatorModal'
@@ -20,8 +16,6 @@ import {
 } from './StepIndicatorProps'
 
 export default class StepIndicator extends React.PureComponent {
-  static tagName = 'dnb-step-indicator'
-
   static Sidebar = StepIndicatorSidebar
 
   static propTypes = {
@@ -32,14 +26,6 @@ export default class StepIndicator extends React.PureComponent {
   static defaultProps = {
     sidebar_id: null,
     ...stepIndicatorDefaultProps,
-  }
-
-  static enableWebComponent() {
-    registerElement(
-      StepIndicator?.tagName,
-      StepIndicator,
-      StepIndicator.defaultProps
-    )
   }
 
   constructor(props) {

@@ -11,7 +11,6 @@ import {
   extendPropsWithContextInClassComponent,
   isTrue,
   makeUniqueId,
-  registerElement,
   validateDOMAttributes,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -62,9 +61,6 @@ export const formRowPropTypes = {
     PropTypes.func,
     PropTypes.node,
   ]),
-
-  custom_element: PropTypes.object,
-  custom_method: PropTypes.func,
 }
 
 export const formRowDefaultProps = {
@@ -94,13 +90,9 @@ export const formRowDefaultProps = {
   skipContentWrapperIfNested: false,
   className: null,
   children: null,
-
-  custom_element: null,
-  custom_method: null,
 }
 
 export default class FormRow extends React.PureComponent {
-  static tagName = 'dnb-form-row'
   static contextType = Context
 
   static propTypes = {
@@ -109,10 +101,6 @@ export default class FormRow extends React.PureComponent {
 
   static defaultProps = {
     ...formRowDefaultProps,
-  }
-
-  static enableWebComponent() {
-    registerElement(FormRow?.tagName, FormRow, FormRow.defaultProps)
   }
 
   static getContent(props) {

@@ -11,7 +11,6 @@ import {
   isTrue,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
-  registerElement,
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
@@ -37,7 +36,6 @@ import FormStatus from '../form-status/FormStatus'
  * The switch component is our enhancement of the classic radio button. It acts like a switch. Example: On/off, yes/no.
  */
 export default class Switch extends React.PureComponent {
-  static tagName = 'dnb-switch'
   static contextType = Context
 
   static propTypes = {
@@ -81,8 +79,6 @@ export default class Switch extends React.PureComponent {
     className: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 
-    custom_element: PropTypes.object,
-    custom_method: PropTypes.func,
     on_change: PropTypes.func,
     on_change_end: PropTypes.func,
     on_state_update: PropTypes.func,
@@ -111,16 +107,9 @@ export default class Switch extends React.PureComponent {
     className: null,
     children: null,
 
-    custom_element: null,
-    custom_method: null,
-
     on_change: null,
     on_change_end: null,
     on_state_update: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(Switch?.tagName, Switch, Switch.defaultProps)
   }
 
   static parseChecked = (state) => /true|on/.test(String(state))
@@ -231,8 +220,6 @@ export default class Switch extends React.PureComponent {
       children, // eslint-disable-line
       on_change, // eslint-disable-line
       on_state_update, // eslint-disable-line
-      custom_method, // eslint-disable-line
-      custom_element, // eslint-disable-line
 
       ...rest
     } = props

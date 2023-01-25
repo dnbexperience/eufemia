@@ -9,7 +9,6 @@ import classnames from 'classnames'
 import { ErrorHandler } from '../../shared/error-helper'
 import {
   isTrue,
-  registerElement,
   validateDOMAttributes,
   processChildren,
   extendPropsWithContextInClassComponent,
@@ -77,7 +76,6 @@ export const iconPropTypes = {
  * The icon component is a span wrapping an inline svg. When using this component in your preferred framework. To load an svg file dynamically, you may need a "svg-loader". Feel free to use whatever tool you want (regarding the setup/tooling), as long as the output is the same markup as shown below.
  */
 export default class Icon extends React.PureComponent {
-  static tagName = 'dnb-icon'
   static contextType = Context
 
   static propTypes = {
@@ -103,14 +101,6 @@ export default class Icon extends React.PureComponent {
 
     className: null,
     children: null,
-  }
-
-  static enableWebComponent(
-    tag = Icon?.tagName,
-    inst = Icon,
-    props = Icon.defaultProps
-  ) {
-    registerElement(tag, inst, props)
   }
 
   static getIcon(props) {

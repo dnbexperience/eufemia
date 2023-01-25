@@ -2,8 +2,6 @@
 
 exports[`FormSet component have to match snapshot 1`] = `
 <FormSet
-  custom_element={{}}
-  custom_method={[Function]}
   direction="horizontal"
   disabled="disabled"
   element="form"

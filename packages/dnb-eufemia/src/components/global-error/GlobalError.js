@@ -7,11 +7,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Context from '../../shared/Context'
-import {
-  warn,
-  registerElement,
-  processChildren,
-} from '../../shared/component-helper'
+import { warn, processChildren } from '../../shared/component-helper'
 import {
   spacingPropTypes,
   createSpacingClasses,
@@ -21,7 +17,6 @@ import H1 from '../../elements/H1'
 import P from '../../elements/P'
 
 export default class GlobalError extends React.PureComponent {
-  static tagName = 'dnb-global-error'
   static contextType = Context
 
   static propTypes = {
@@ -66,13 +61,6 @@ export default class GlobalError extends React.PureComponent {
     class: null,
   }
 
-  static enableWebComponent() {
-    registerElement(
-      GlobalError?.tagName,
-      GlobalError,
-      GlobalError.defaultProps
-    )
-  }
   static getContent(props) {
     return processChildren(props)
   }
