@@ -6,8 +6,6 @@ exports[`Radio component have to match snapshot 1`] = `
   checked="checked"
   class="class"
   className="className"
-  custom_element={{}}
-  custom_method={[Function]}
   direction="horizontal"
   disabled="disabled"
   element="input"
@@ -137,8 +135,6 @@ exports[`Radio component have to match snapshot 1`] = `
                 "children": "children",
                 "class": "class",
                 "className": "className",
-                "custom_element": {},
-                "custom_method": [Function],
                 "direction": "horizontal",
                 "disabled": "disabled",
                 "element": "input",
@@ -182,8 +178,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
   attributes={null}
   class={null}
   className={null}
-  custom_element={null}
-  custom_method={null}
   disabled={null}
   global_status_id={null}
   id="group"
@@ -247,8 +241,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
       centered={null}
       class={null}
       className={null}
-      custom_element={null}
-      custom_method={null}
       direction={null}
       disabled={null}
       global_status_id={null}
@@ -332,8 +324,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
                     checked={null}
                     class={null}
                     className={null}
-                    custom_element={null}
-                    custom_method={null}
                     disabled={null}
                     element="input"
                     global_status_id={null}
@@ -460,8 +450,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
                     checked={true}
                     class={null}
                     className={null}
-                    custom_element={null}
-                    custom_method={null}
                     disabled={null}
                     element="input"
                     global_status_id={null}

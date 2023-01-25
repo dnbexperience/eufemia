@@ -12,7 +12,6 @@ import {
   isTrue,
   makeUniqueId,
   validateDOMAttributes,
-  registerElement,
   convertJsxToString,
   extendPropsWithContextInClassComponent,
   extend,
@@ -30,7 +29,6 @@ import Tooltip, { injectTooltipSemantic } from '../tooltip/Tooltip'
 import { format, showSelectionNotice } from './NumberUtils'
 
 export default class NumberFormat extends React.PureComponent {
-  static tagName = 'dnb-number-format'
   static contextType = Context
 
   static propTypes = {
@@ -133,14 +131,6 @@ export default class NumberFormat extends React.PureComponent {
 
     className: null,
     children: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(
-      NumberFormat?.tagName,
-      NumberFormat,
-      NumberFormat.defaultProps
-    )
   }
 
   constructor(props) {

@@ -12,7 +12,6 @@ import {
   isTrue,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
-  registerElement,
   processChildren,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
@@ -49,7 +48,7 @@ class Modal extends React.PureComponent<
   ModalState
 > {
   static contextType = Context
-  static tagName = 'dnb-modal'
+
   static Bar = ModalHeaderBar
   static Header = ModalHeader
   static Content = ModalInner
@@ -61,9 +60,6 @@ class Modal extends React.PureComponent<
       return props.modal_content(props)
     }
     return processChildren(props)
-  }
-  static enableWebComponent() {
-    registerElement(Modal?.tagName, Modal, Modal.defaultProps)
   }
 
   _id: string

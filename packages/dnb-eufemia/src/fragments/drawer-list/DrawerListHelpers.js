@@ -108,9 +108,6 @@ export const drawerListPropTypes = {
     PropTypes.array,
   ]),
 
-  custom_element: PropTypes.object,
-  custom_method: PropTypes.func,
-
   on_show: PropTypes.func,
   on_hide: PropTypes.func,
   handle_dismiss_focus: PropTypes.func,
@@ -158,9 +155,6 @@ export const drawerListDefaultProps = {
 
   className: null,
   children: null,
-
-  custom_element: null,
-  custom_method: null,
 
   on_show: null,
   on_hide: null,
