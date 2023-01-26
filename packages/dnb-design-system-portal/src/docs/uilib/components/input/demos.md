@@ -9,7 +9,6 @@ InputExampleSearch,
 InputExampleMedium,
 InputExampleWithIcon,
 InputExampleDisabled,
-InputExampleFailureStatus,
 InputExampleFormStatus,
 InputExampleSuffix,
 InputExampleStretched,
@@ -42,10 +41,6 @@ With left / right aligned text
 ### Disabled input
 
 <InputExampleDisabled />
-
-### Show failure status
-
-<InputExampleFailureStatus />
 
 ### With FormStatus
 

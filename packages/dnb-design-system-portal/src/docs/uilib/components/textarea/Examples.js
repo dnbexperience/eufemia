@@ -136,22 +136,6 @@ export const TextareaExampleFormStatus = () => (
   </Wrapper>
 )
 
-export const TextareaExampleError = () => (
-  <Wrapper>
-    <ComponentBox>
-      {
-        /* jsx */ `
-<Textarea
-  label="Show status:"
-  status="error"
-  value="Shows status with border only"
-/>
-`
-      }
-    </ComponentBox>
-  </Wrapper>
-)
-
 export const TextareaExampleDisabled = () => (
   <Wrapper>
     <ComponentBox>
