@@ -45,7 +45,6 @@
     display: flex;
     flex-direction: column;
 
-    overflow: hidden;
     transition: height 400ms var(--easing-default);
   }
   &__animation &__item {
