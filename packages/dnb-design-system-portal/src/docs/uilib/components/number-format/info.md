@@ -126,7 +126,7 @@ The number component is style-independent, so it has no visual styles. By defaul
 
 **VoiceOver** on mobile devices (iOS) only supports numbers read out properly to a maximum of `99,999.00`. On amounts above this value, VO reads numbers digit by digit.
 
-To enhance the **Copy & Paste** experience of copying numbers into other applications (Excel), you may use the `clean_copy_value` property – it will then provide a second number, without thousand separators and to have a coma/dot (depending on the locale) as the decimal separator. This number is not visible, but will be used when selecting & coping the whole number on the first click to the system clipboard.
+To enhance the **Copy & Paste** experience of copying numbers into other applications (Excel), you may use the `clean_copy_value` property – it will then provide a second number, without thousand separators and to have a comma/dot (depending on the locale) as the decimal separator. This number is not visible, but will be used when selecting & copying the whole number on the first click to the system clipboard.
 
 You can enable this feature on all your NumberFormat components by using the `Provider`:
 
