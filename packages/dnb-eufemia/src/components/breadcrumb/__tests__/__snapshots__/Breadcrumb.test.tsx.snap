@@ -752,7 +752,6 @@ button.dnb-button::-moz-focus-inner {
   .dnb-breadcrumb__animation {
     display: flex;
     flex-direction: column;
-    overflow: hidden;
     transition: height 400ms var(--easing-default); }
   .dnb-breadcrumb__animation .dnb-breadcrumb__item {
     transition: transform 400ms var(--easing-default) calc(var(--delay) * 50ms);
