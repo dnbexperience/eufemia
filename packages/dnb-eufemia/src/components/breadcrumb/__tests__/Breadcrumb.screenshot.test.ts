@@ -47,4 +47,16 @@ describe('Breadcrumb screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match Breadcrumb focus state', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="breadcrumb-multiple"] .dnb-breadcrumb',
+      screenshotSelector:
+        '[data-visual-test="breadcrumb-multiple"] .dnb-breadcrumb .dnb-breadcrumb__bar',
+      simulateSelector:
+        '[data-visual-test="breadcrumb-multiple"] .dnb-breadcrumb__list .dnb-breadcrumb__item:nth-of-type(2) a',
+      simulate: 'focus',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
