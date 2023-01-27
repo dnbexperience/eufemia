@@ -7,11 +7,10 @@ import React from 'react'
 import { MDXProvider } from '@mdx-js/react'
 import { MDXRenderer } from 'gatsby-plugin-mdx'
 import { graphql } from 'gatsby'
-
+import Tabbar from '../shared/tags/Tabbar'
 import Layout from '../shared/parts/Layout'
 import tags from '../shared/tags'
 
-const Tabbar = tags.Tabbar
 const ContentWrapper = Tabbar.ContentWrapper
 
 export default function MdxTemplate(props) {
