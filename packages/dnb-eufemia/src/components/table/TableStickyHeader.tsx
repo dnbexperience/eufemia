@@ -51,7 +51,6 @@ export const useStickyHeader = ({
           'thead > tr:first-of-type, thead > .dnb-table__tr:first-of-type'
         )
         const thElem = getThElement(tableElem)
-        const inIframe = window.self !== window.top
 
         const setSizes = () => {
           offsetTopPx = parseFloat(String(stickyOffset)) || 0
@@ -96,7 +95,7 @@ export const useStickyHeader = ({
           thHeight = thElem.offsetHeight
           tableHeight = tableElem.offsetHeight
           tableOffset = getOffsetTop(tableElem)
-          totalOffset = tableOffset - (inIframe ? 0 : offsetTopPx)
+          totalOffset = tableOffset - offsetTopPx
 
           if (sticky === 'css-position') {
             trElem.style.setProperty(
