@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { MDXProvider } from '@mdx-js/react'
-import { MDXRenderer } from 'gatsby-plugin-mdx'
+import { MDXRenderer } from 'gatsby-plugin-mdx' // deprecated, remove in MDX v2
 import { graphql } from 'gatsby'
 import Tabbar from '../shared/tags/Tabbar'
 import Layout from '../shared/parts/Layout'
@@ -15,8 +15,10 @@ const ContentWrapper = Tabbar.ContentWrapper
 
 export default function MdxTemplate(props) {
   const {
+    pageContext,
     location,
     data: { mdx },
+    // children, // used in MDX v2 instead of body
   } = props
 
   const { body, siblings } = mdx
@@ -34,7 +36,7 @@ export default function MdxTemplate(props) {
       location={location}
       fullscreen={
         Boolean(currentFm.fullscreen || categoryFm.fullscreen) ||
-        props.pageContext.fullscreen
+        pageContext.fullscreen
       }
     >
       {currentFm.showTabs && (
@@ -55,9 +57,13 @@ export default function MdxTemplate(props) {
       )}
 
       <ContentWrapper>
+        {/* (deprecated) MDX v1 */}
         <MDXProvider components={tags}>
           <MDXRenderer>{body}</MDXRenderer>
         </MDXProvider>
+
+        {/* MDX V2 */}
+        {/* <MDXProvider components={tags}>{children}</MDXProvider> */}
       </ContentWrapper>
     </Layout>
   )
@@ -98,7 +104,7 @@ export const Head = ({
 }
 
 export const pageQuery = graphql`
-  query MDXQuery($id: String!) {
+  query ($id: String!) {
     site {
       siteMetadata {
         title
@@ -123,7 +129,7 @@ export const pageQuery = graphql`
         }
       }
       tableOfContents
-      body
+      body # deprecated (remove in MDX v2)
       siblings {
         fields {
           slug
