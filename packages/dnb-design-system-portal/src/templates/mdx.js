@@ -41,7 +41,12 @@ export default function MdxTemplate(props) {
         <Tabbar
           key="tabbar"
           location={location}
-          rootPath={'/' + (makeUseOfCategory ? category?.slug : mdx?.slug)}
+          rootPath={
+            '/' +
+            (makeUseOfCategory
+              ? category?.fields?.slug
+              : mdx?.fields?.slug)
+          }
           title={currentFm.title || categoryFm.title}
           tabs={currentFm.tabs || categoryFm.tabs}
           defaultTabs={currentFm.defaultTabs || categoryFm.defaultTabs}
@@ -101,7 +106,9 @@ export const pageQuery = graphql`
       }
     }
     mdx(id: { eq: $id }) {
-      slug
+      fields {
+        slug
+      }
       frontmatter {
         title
         description
@@ -118,7 +125,9 @@ export const pageQuery = graphql`
       tableOfContents
       body
       siblings {
-        slug
+        fields {
+          slug
+        }
         frontmatter {
           menuTitle
           title

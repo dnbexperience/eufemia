@@ -15,7 +15,9 @@ const docsQuery = /* GraphQL */ `
       edges {
         node {
           objectID: id
-          slug
+          fields {
+            slug
+          }
           frontmatter {
             title
             description
@@ -28,7 +30,9 @@ const docsQuery = /* GraphQL */ `
           }
           # use the first siblings as the category
           siblings {
-            slug
+            fields {
+              slug
+            }
             frontmatter {
               title
             }
@@ -44,13 +48,21 @@ const flatten = (arr) =>
     .filter(
       ({
         node: {
-          slug,
+          fields: { slug },
           frontmatter: { skipSearch },
         },
       }) => !slug.includes('not_in_use') && skipSearch !== true
     )
     .map(
-      ({ node: { siblings, slug, frontmatter, headings, ...rest } }) => {
+      ({
+        node: {
+          siblings,
+          fields: { slug },
+          frontmatter,
+          headings,
+          ...rest
+        },
+      }) => {
         if (headings && Array.isArray(headings)) {
           headings = headings.map((item) => ({
             ...item,
@@ -78,7 +90,9 @@ const flatten = (arr) =>
             } else if (Array.isArray(siblings)) {
               const category = siblings
                 .reverse()
-                .find(({ slug: _slug }) => slug.includes(_slug))
+                .find(({ fields: { slug: _slug } }) =>
+                  slug.includes(_slug)
+                )
 
               let newTitle = null
 
@@ -122,7 +136,11 @@ const flatten = (arr) =>
 
         // handle category
         if (siblings[0]) {
-          const { slug, frontmatter, ...rest } = siblings[0]
+          const {
+            fields: { slug },
+            frontmatter,
+            ...rest
+          } = siblings[0]
           result.category = {
             slug,
             ...frontmatter,

@@ -12,16 +12,18 @@ const ListSummaryFromDocs = ({ slug, useAsIndex = false }) => {
       allMdx(
         filter: {
           frontmatter: { title: { ne: "" }, draft: { ne: true } }
-          fileAbsolutePath: { glob: "**/uilib/**" }
+          internal: { contentFilePath: { glob: "**/uilib/**" } }
         }
       ) {
         edges {
           node {
+            fields {
+              slug
+            }
             frontmatter {
               title
               description
             }
-            slug
           }
         }
       }
@@ -33,8 +35,12 @@ const ListSummaryFromDocs = ({ slug, useAsIndex = false }) => {
   return (
     <>
       {edges
-        .filter(({ node: { slug: s } }) =>
-          s.includes(String(slug).replace(/^\//, ''))
+        .filter(
+          ({
+            node: {
+              fields: { slug: s },
+            },
+          }) => s.includes(String(slug).replace(/^\//, ''))
         )
         .sort(
           (
@@ -57,7 +63,7 @@ const ListSummaryFromDocs = ({ slug, useAsIndex = false }) => {
             {
               node: {
                 frontmatter: { title, description },
-                slug,
+                fields: { slug },
               },
             },
             i
