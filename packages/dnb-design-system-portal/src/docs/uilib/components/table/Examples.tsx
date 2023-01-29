@@ -461,16 +461,20 @@ export const TableStackedContainer = () => {
                 </thead>
                 <tbody>
                   <Tr>
-                    <Td>Row 1</Td>
+                    <Td rowSpan={2}>Row 1</Td>
                     <Td>Row 1</Td>
                     <Td>Row 1</Td>
                     <Td>Row 1</Td>
                   </Tr>
                   <Tr>
+                    <Td rowSpan={2}>Row 2</Td>
                     <Td>Row 2</Td>
                     <Td>Row 2</Td>
-                    <Td>Row 2</Td>
-                    <Td>Row 2</Td>
+                  </Tr>
+                  <Tr>
+                    <Td>Row 3</Td>
+                    <Td>Row 3</Td>
+                    <Td>Row 3</Td>
                   </Tr>
                 </tbody>
               </Table>
