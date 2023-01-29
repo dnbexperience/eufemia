@@ -499,10 +499,9 @@ thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus
   border-right: none;
   border-bottom: none; }
 
-.dnb-table--border tbody .dnb-table__td:first-of-type::after {
-  border-left: none; }
-
-.dnb-table:not(.dnb-table--outline) tbody .dnb-table__tr:last-of-type .dnb-table__td::after {
+.dnb-table:not(.dnb-table--outline) tbody .dnb-table__tr:last-of-type .dnb-table__td::after,
+.dnb-table:not(.dnb-table--outline) tbody .dnb-table__tr .dnb-table__td[rowspan]::after {
+  bottom: -0.0625rem;
   border-bottom: var(--border); }
 
 .dnb-table--outline tbody .dnb-table__td {

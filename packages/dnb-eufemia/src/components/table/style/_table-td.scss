@@ -15,12 +15,10 @@
       border-right: none;
       border-bottom: none;
     }
-
-    &:first-of-type::after {
-      border-left: none;
-    }
   }
-  &:not(#{&}--outline) tbody &__tr:last-of-type &__td::after {
+  &:not(#{&}--outline) tbody &__tr:last-of-type &__td::after,
+  &:not(#{&}--outline) tbody &__tr &__td[rowspan]::after {
+    bottom: -0.0625rem;
     border-bottom: var(--border);
   }
 
