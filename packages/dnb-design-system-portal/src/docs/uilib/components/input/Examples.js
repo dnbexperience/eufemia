@@ -119,22 +119,6 @@ export const InputExampleDisabled = () => (
   </Wrapper>
 )
 
-export const InputExampleFailureStatus = () => (
-  <Wrapper>
-    <ComponentBox>
-      {
-        /* jsx */ `
-<Input
-  label="Show status:"
-  status="error"
-  value="Shows status with border only"
-/>
-`
-      }
-    </ComponentBox>
-  </Wrapper>
-)
-
 export const InputExampleFormStatus = () => (
   <Wrapper>
     <ComponentBox data-visual-test="input-error">
