@@ -6,6 +6,9 @@
 import React from 'react'
 import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 import styled from '@emotion/styled'
+import { Provider } from '@dnb/eufemia/src/shared'
+import NumberFormat from '@dnb/eufemia/src/components/NumberFormat'
+import P from '@dnb/eufemia/src/elements/P'
 
 const Style = styled.div`
   *:not([data-visual-test='number-format-spacing'])
@@ -68,6 +71,28 @@ export const NumberCurrency = () => (
 </P>
 `
       }
+    </ComponentBox>
+  </Style>
+)
+
+export const NumberProvider = () => (
+  <Style>
+    <ComponentBox scope={{ Provider }}>
+      <Provider
+        value={{
+          NumberFormat: {
+            currency: true,
+            omit_rounding: true,
+            clean_copy_value: true,
+          },
+        }}
+      >
+        <P>
+          <NumberFormat>12345</NumberFormat>
+          <NumberFormat value={-12345.123} decimals={0} />
+          <NumberFormat value={-12345678.955} currency_position="before" />
+        </P>
+      </Provider>
     </ComponentBox>
   </Style>
 )

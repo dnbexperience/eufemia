@@ -15,6 +15,7 @@ NumberNationalIdentification,
 NumberOrganization,
 NumberLocales,
 NumberSpacing,
+NumberProvider,
 } from 'Docs/uilib/components/number-format/Examples'
 import ChangeLocale from 'dnb-design-system-portal/src/core/ChangeLocale'
 
@@ -67,3 +68,9 @@ By using `selectall={false}` you disable the auto-select all feature.
 The NumberFormat uses `display: inline-block;` in order to make the [spacing system](/uilib/components/space) to work.
 
 <NumberSpacing />
+
+### Using the Provider with NumberFormat
+
+In this example every NumberFormat will receive the Provider defined properties, including `clean_copy_value`.
+
+<NumberProvider />
