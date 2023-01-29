@@ -140,6 +140,21 @@ async function createPages({ graphql, actions }) {
   edges.forEach(({ node }) => {
     const slug = node.fields.slug
 
+    // MDX v2 crashes during dev/build without filter out some pages:
+    // JavaScript heap out of memory
+    // if (
+    //   slug.includes('uilib/') &&
+    //   ![
+    //     '/button',
+    //     '/input',
+    //     '/switch', // When one more is enabled, we get the out of memory error
+    //   ].some((s) => {
+    //     return slug.includes(s)
+    //   })
+    // ) {
+    //   return
+    // }
+
     // check if the slug is valid, in case we deleted one during build
     if (slug) {
       createPage({
