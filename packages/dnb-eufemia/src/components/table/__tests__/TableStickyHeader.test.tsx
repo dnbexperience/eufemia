@@ -187,9 +187,6 @@ describe('useStickyHeader', () => {
       '304px'
     )
 
-    // Simulate iFrame
-    jest.spyOn(window, 'self', 'get').mockReturnValue(null)
-
     rerender(
       <Table sticky>
         <BasicTable />
@@ -203,9 +200,6 @@ describe('useStickyHeader', () => {
     expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
       '160px'
     )
-
-    // Reset Simulate iFrame
-    jest.spyOn(window, 'self', 'get').mockReturnValue(window)
   })
 
   it('should check if .dnb-scroll-view has a vertical scrollbar and set shadown only, when css-position is used', () => {
@@ -331,9 +325,6 @@ describe('useStickyHeader', () => {
       '224px'
     )
 
-    // Simulate iFrame
-    jest.spyOn(window, 'self', 'get').mockReturnValue(null)
-
     rerender(
       <div className="dnb-modal__content">
         <div className="dnb-modal__header__bar">bar</div>
@@ -347,14 +338,11 @@ describe('useStickyHeader', () => {
 
     setSizes()
 
-    // Should set correct value (320-(160-0)=160)
+    // Should set correct value (320-(160-40)=200)
     simulateScroll(320, scrollElem)
     expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
-      '160px'
+      '200px'
     )
-
-    // Reset Simulate iFrame
-    jest.spyOn(window, 'self', 'get').mockReturnValue(window)
   })
 })
 
