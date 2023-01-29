@@ -10,7 +10,6 @@ TextareaExampleStretched,
 TextareaExampleAutoresize,
 TextareaExampleMaxLength,
 TextareaExampleFormStatus,
-TextareaExampleError,
 TextareaExampleDisabled,
 TextareaExampleSuffix
 } from 'Docs/uilib/components/textarea/Examples'
@@ -44,10 +43,6 @@ TextareaExampleSuffix
 ### With FormStatus failure message
 
 <TextareaExampleFormStatus />
-
-### Show failure status
-
-<TextareaExampleError />
 
 ### Disabled textarea
 
