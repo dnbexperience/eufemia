@@ -3,6 +3,15 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.46.2](https://github.com/dnbexperience/eufemia/compare/v9.46.1...v9.46.2) (2023-01-29)
+
+
+### Bug Fixes
+
+* **Breadcrumb:** ensure focus state is not partially hidden ([#1949](https://github.com/dnbexperience/eufemia/issues/1949)) ([954d570](https://github.com/dnbexperience/eufemia/commit/954d570bc58a3b26a4a7cacba3a32f05a547d12a)), closes [#1860](https://github.com/dnbexperience/eufemia/issues/1860)
+* **Table:** fix fist border on rowSpan={2} is used in first column ([#1956](https://github.com/dnbexperience/eufemia/issues/1956)) ([48ff543](https://github.com/dnbexperience/eufemia/commit/48ff543b468e6c697e1ab6ce0bd34cf27a55accf))
+* **Table:** fix sticky table when in iFrame ([#1954](https://github.com/dnbexperience/eufemia/issues/1954)) ([ac4f254](https://github.com/dnbexperience/eufemia/commit/ac4f254973a517faced6edbcb3bf01ca5e672d52))
+
 ## [9.46.1](https://github.com/dnbexperience/eufemia/compare/v9.46.0...v9.46.1) (2023-01-20)
 
 
