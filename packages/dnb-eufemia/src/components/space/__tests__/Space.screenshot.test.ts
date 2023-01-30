@@ -54,4 +54,11 @@ describe('Space', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match the spacing reset', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="spacing-reset"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
