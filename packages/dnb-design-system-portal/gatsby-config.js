@@ -77,9 +77,13 @@ const plugins = [
     resolve: 'gatsby-plugin-mdx',
     options: {
       extensions: ['.md'],
-      // More info of using plugins: https://github.com/mdx-js/mdx/blob/d4154b8c4a546d0b675826826f85014cc04098c2/docs/plugins.md
-      // rehypePlugins: [], // hastPlugins
-      // remarkPlugins: [], // mdPlugins
+      mdxOptions: {
+        // More info of using plugins: https://github.com/mdx-js/mdx/blob/d4154b8c4a546d0b675826826f85014cc04098c2/docs/plugins.md
+        // rehypePlugins: [], // hastPlugins
+        remarkPlugins: [
+          require('remark-gfm'), // for markdown Table support
+        ],
+      },
       gatsbyRemarkPlugins: [
         process.env.SKIP_IMAGE_PROCESSING !== '1' && {
           resolve: 'gatsby-remark-images',
