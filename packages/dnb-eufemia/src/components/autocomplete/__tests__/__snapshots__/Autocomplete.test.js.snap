@@ -3915,6 +3915,18 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
   width: auto;
   animation: progress-indicator-linear-bar-2 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite;
 }
+html[data-visual-test] .dnb-progress-indicator__linear__bar1-animation {
+  left: -35%;
+  right: 100%;
+  animation-duration: 0ms;
+  animation-iteration-count: 0;
+}
+html[data-visual-test] .dnb-progress-indicator__linear__bar2-animation {
+  left: -200%;
+  right: 100%;
+  animation-duration: 0ms;
+  animation-iteration-count: 0;
+}
 .dnb-progress-indicator, .dnb-progress-indicator--visible {
   opacity: 0;
   animation: progress-indicator-fade-in 200ms ease-out 1 forwards;
@@ -3922,12 +3934,12 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
 .dnb-progress-indicator--complete:not(.dnb-progress-indicator--visible) {
   animation: progress-indicator-fade-out 600ms ease-out 1 forwards;
 }
-.dnb-progress-indicator--no-animation {
+html[data-visual-test] .dnb-progress-indicator {
+  opacity: 1;
   animation-duration: 0ms;
 }
-html[data-visual-test] .dnb-progress-indicator__circular__line {
+.dnb-progress-indicator--no-animation {
   animation-duration: 0ms;
-  animation-iteration-count: 0;
 }
 html[data-visual-test] .dnb-progress-indicator__bar-transition {
   transition: none;
