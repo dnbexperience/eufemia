@@ -1405,6 +1405,9 @@ html[data-whatinput=keyboard] .dnb-tabs__tabs__tablist:focus {
   box-shadow: 0 0 0 0.125rem var(--border-color);
   border-color: transparent;
 }
+html:not([data-visual-test]) .dnb-tabs__tabs__tablist {
+  scroll-behavior: smooth;
+}
 @supports not (scrollbar-color: auto) {
   .dnb-tabs__tabs__tablist::-webkit-scrollbar {
     background-color: var(--color-black-8);
@@ -1422,12 +1425,6 @@ html[data-whatinput=keyboard] .dnb-tabs__tabs__tablist:focus {
   .dnb-tabs__tabs__tablist::-webkit-scrollbar-thumb:hover {
     background-color: var(--color-emerald-green);
   }
-}
-html:not([data-visual-test]) .dnb-tabs__tabs__tablist {
-  scroll-behavior: smooth;
-}
-html[data-visual-test] .dnb-tabs__tabs__tablist {
-  scroll-behavior: auto !important;
 }
 .dnb-tabs__tabs__tablist::-webkit-scrollbar {
   display: none;

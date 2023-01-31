@@ -162,7 +162,7 @@ exports[`Table scss have to match snapshot 1`] = `
   opacity: 0;
   transition: opacity 200ms ease-out, transform 500ms ease-out;
 }
-[data-visual-test-wrapper] .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button > .dnb-icon, [data-visual-test-wrapper] .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button > .dnb-icon {
+html[data-visual-test] .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button > .dnb-icon, html[data-visual-test] .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button > .dnb-icon {
   transition: none;
 }
 .dnb-table > thead > tr > th.dnb-table--sortable .dnb-table__sort-button.dnb-button .dnb-button__text, .dnb-table .dnb-table__th.dnb-table--sortable .dnb-table__sort-button.dnb-button .dnb-button__text {

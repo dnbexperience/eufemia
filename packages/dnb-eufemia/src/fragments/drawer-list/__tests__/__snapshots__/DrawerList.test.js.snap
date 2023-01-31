@@ -1104,6 +1104,9 @@ html[data-visual-test] .dnb-drawer-list__portal__style {
   -ms-overflow-style: auto;
   scrollbar-color: var(--color-sea-green) transparent;
 }
+html:not([data-visual-test]) .dnb-drawer-list--scroll .dnb-drawer-list__options {
+  scroll-behavior: smooth;
+}
 @supports not (scrollbar-color: auto) {
   .dnb-drawer-list--scroll .dnb-drawer-list__options::-webkit-scrollbar {
     background-color: var(--color-black-8);
@@ -1121,12 +1124,6 @@ html[data-visual-test] .dnb-drawer-list__portal__style {
   .dnb-drawer-list--scroll .dnb-drawer-list__options::-webkit-scrollbar-thumb:hover {
     background-color: var(--color-emerald-green);
   }
-}
-html:not([data-visual-test]) .dnb-drawer-list--scroll .dnb-drawer-list__options {
-  scroll-behavior: smooth;
-}
-html[data-visual-test] .dnb-drawer-list--scroll .dnb-drawer-list__options {
-  scroll-behavior: auto !important;
 }
 html[data-visual-test] .dnb-drawer-list--scroll .dnb-drawer-list__options, .dnb-drawer-list--scroll.dnb-drawer-list--no-animation .dnb-drawer-list__options {
   transition: none !important;
