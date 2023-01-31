@@ -47,7 +47,9 @@
 
 @mixin htmlDefault() {
   html {
-    scroll-behavior: smooth;
+    html:not([data-visual-test]) & {
+      scroll-behavior: smooth;
+    }
     font-size: 100%;
 
     // IS_SAFARI_MOBILE

@@ -186,28 +186,22 @@ $focusRingColor: var(--color-emerald-green);
   overflow-y: $mode;
   overscroll-behavior: contain;
 
-  @include scrollbarAppearance();
-
   html:not([data-visual-test]) & {
     scroll-behavior: smooth;
   }
-  html[data-visual-test] & {
-    scroll-behavior: auto !important;
-  }
+
+  @include scrollbarAppearance();
 }
 
 @mixin scrollX($mode: scroll) {
   overflow-x: $mode;
   overscroll-behavior: contain;
 
-  @include scrollbarAppearance();
-
   html:not([data-visual-test]) & {
     scroll-behavior: smooth;
   }
-  html[data-visual-test] & {
-    scroll-behavior: auto !important;
-  }
+
+  @include scrollbarAppearance();
 }
 
 @mixin hideScrollbar() {

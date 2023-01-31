@@ -21,7 +21,7 @@
       > .dnb-icon {
         opacity: 0;
         transition: opacity 200ms ease-out, transform 500ms ease-out;
-        [data-visual-test-wrapper] & {
+        html[data-visual-test] & {
           transition: none;
         }
       }
