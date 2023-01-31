@@ -133,5 +133,3 @@ import Input from '@dnb/eufemia/cjs/components/input-masked/InputMasked'
 ```js
 import { InputMasked } from '@dnb/eufemia/es/components'
 ```
-
-<!-- You also have to make sure your application gets [minified and mangled](https://webpack.js.org/guides/tree-shaking/#minify-the-output). -->

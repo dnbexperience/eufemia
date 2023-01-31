@@ -89,8 +89,6 @@ import { Article } from '@dnb/eufemia/components/skeleton/figures'
 `}
 </ComponentBox>
 
-<!-- prettier-ignore-start -->
-
 export const SkeletonVisualTests = () => {
   if(!(typeof window !== 'undefined' && window.IS_TEST)){
     return <></>
@@ -120,5 +118,3 @@ export const SkeletonVisualTests = () => {
 }
 
 <SkeletonVisualTests />
-
-<!-- prettier-ignore-end -->
