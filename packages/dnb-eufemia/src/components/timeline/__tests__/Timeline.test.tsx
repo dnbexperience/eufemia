@@ -43,7 +43,7 @@ describe('Timeline', () => {
     expect(screen.queryAllByTestId('timeline-item')).toHaveLength(3)
   })
 
-  it('current will have aria-current="step', () => {
+  it('current will have aria-current="step"', () => {
     render(
       <Timeline
         data={[
@@ -59,6 +59,29 @@ describe('Timeline', () => {
 
     const lastElem = screen.getAllByTestId('timeline-item').slice(-1)[0]
     expect(lastElem.getAttribute('aria-current')).toBe('step')
+  })
+
+  it('uses ordered list semantic elements', () => {
+    render(
+      <Timeline
+        data={[
+          {
+            title: 'Upcoming',
+            state: 'upcoming',
+          },
+          { title: 'Completed', state: 'completed' },
+          { title: 'Current', state: 'current' },
+        ]}
+      />
+    )
+
+    const element = document.querySelector('.dnb-timeline')
+    const firstChild = element.firstChild as HTMLLIElement
+    const lastChild = element.lastChild as HTMLLIElement
+
+    expect(element.tagName).toBe('OL')
+    expect(firstChild.tagName).toBe('LI')
+    expect(lastChild.tagName).toBe('LI')
   })
 
   it('inherits skeleton prop from provider', () => {
@@ -85,13 +108,13 @@ describe('Timeline', () => {
   it('should support spacing props', () => {
     render(
       <Timeline
+        top="2rem"
         data={[
           {
             title: 'Upcoming',
             state: 'upcoming',
           },
         ]}
-        top="2rem"
       />
     )
 
@@ -103,8 +126,29 @@ describe('Timeline', () => {
     expect(attributes).toEqual(['class', 'data-testid'])
     expect(Array.from(element.classList)).toEqual([
       'dnb-timeline',
+      'dnb-space__reset',
       'dnb-space__top--large',
     ])
+  })
+
+  it('should support extra attributes', () => {
+    render(
+      <Timeline
+        aria-label="extra-label"
+        data={[
+          {
+            title: 'Upcoming',
+            state: 'upcoming',
+          },
+          { title: 'Completed', state: 'completed' },
+          { title: 'Current', state: 'current' },
+        ]}
+      />
+    )
+
+    const element = document.querySelector('.dnb-timeline')
+
+    expect(element.getAttribute('aria-label')).toBe('extra-label')
   })
 
   describe('TimelineItem', () => {
