@@ -142,6 +142,19 @@
       animation: progress-indicator-linear-bar-2 2.1s
         cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite;
     }
+
+    html[data-visual-test] &__bar1-animation {
+      left: -35%;
+      right: 100%;
+      animation-duration: 0ms;
+      animation-iteration-count: 0;
+    }
+    html[data-visual-test] &__bar2-animation {
+      left: -200%;
+      right: 100%;
+      animation-duration: 0ms;
+      animation-iteration-count: 0;
+    }
   }
 
   &,
@@ -152,14 +165,14 @@
   &--complete:not(#{&}--visible) {
     animation: progress-indicator-fade-out 600ms ease-out 1 forwards;
   }
+  html[data-visual-test] & {
+    opacity: 1;
+    animation-duration: 0ms;
+  }
   &--no-animation {
     animation-duration: 0ms;
   }
 
-  html[data-visual-test] &__circular__line {
-    animation-duration: 0ms;
-    animation-iteration-count: 0;
-  }
   html[data-visual-test] &__bar-transition {
     transition: none;
   }

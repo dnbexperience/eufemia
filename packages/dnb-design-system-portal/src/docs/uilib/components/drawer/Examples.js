@@ -89,19 +89,6 @@ export const FullDrawerExample = () => (
               phasellus praesent justo mollis montes velit taciti gravida
               lacus commodo senectus feugiat lorem etiam consequat
               penatibus cum hendrerit accumsan orci potenti purus nulla
-              interdum metus sollicitudin magnis libero sapien habitant non
-              class ridiculus consectetur congue nec litora sociosqu
-              aliquet felis in rhoncus nascetur odio ultricies nullam a
-              iaculis massa nisi ante nam cras aenean erat facilisi vivamus
-              ut cursus auctor arcu lobortis himenaeos dictum habitasse
-              tristique mauris at blandit sagittis nibh dignissim
-              condimentum per integer duis lacinia malesuada est adipiscing
-              maecenas donec eleifend turpis dictumst dapibus tempor fusce
-              aliquam torquent hac ac curabitur venenatis et tincidunt
-              augue porta vehicula enim facilisis posuere primis molestie
-              convallis diam vel fringilla dolor leo quis diam cursus massa
-              sapien tristique cum senectus sed tortor natoque amet
-              hendrerit ut fusce ipsum quis
             </P>
           </>
         )
