@@ -16,13 +16,7 @@ import {
   extendPropsWithContext,
 } from '../../shared/component-helper'
 
-export interface TimelineProps {
-  /**
-   * Custom className on the component root
-   * Default: null
-   */
-  className?: string
-
+export type TimelineProps = {
   /**
    * Skeleton should be applied when loading content
    * Default: null
@@ -44,6 +38,10 @@ export interface TimelineProps {
     | React.ReactElement<TimelineItemProps>
 }
 
+export type TimelineAllProps = TimelineProps &
+  Omit<React.AllHTMLAttributes<HTMLOListElement>, 'type' | 'data'> &
+  SpacingProps
+
 export const defaultProps = {
   className: null,
   skeleton: false,
@@ -51,7 +49,7 @@ export const defaultProps = {
   children: null,
 }
 
-const Timeline = (localProps: TimelineProps & SpacingProps) => {
+const Timeline = (localProps: TimelineAllProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
 
@@ -88,8 +86,13 @@ const Timeline = (localProps: TimelineProps & SpacingProps) => {
   validateDOMAttributes(allProps, props)
 
   return (
-    <div
-      className={classnames('dnb-timeline', spacingClasses, className)}
+    <ol
+      className={classnames(
+        'dnb-timeline',
+        'dnb-space__reset',
+        spacingClasses,
+        className
+      )}
       data-testid="timeline"
       {...props}
     >
@@ -98,7 +101,7 @@ const Timeline = (localProps: TimelineProps & SpacingProps) => {
       ))}
 
       {children}
-    </div>
+    </ol>
   )
 }
 

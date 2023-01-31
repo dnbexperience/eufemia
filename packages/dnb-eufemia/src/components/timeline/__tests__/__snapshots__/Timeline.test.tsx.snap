@@ -12,7 +12,7 @@ exports[`Timeline scss have to match default theme snapshot 1`] = `
 * Button mixins
 *
 */
-:root {
+.dnb-timeline {
   --timeline-icon-height--small: var(--button-height--small);
   --timeline-icon-width--small: var(--button-width--small);
   --timeline-icon-border-radius--small: calc(
@@ -34,7 +34,6 @@ exports[`Timeline scss have to match default theme snapshot 1`] = `
     var(--timeline-icon-width-diff) + var(--timeline-border-spacing)
   );
 }
-
 .dnb-timeline__item {
   margin-left: var(--timeline-icon-width-diff);
 }
@@ -143,19 +142,21 @@ exports[`Timeline scss have to match snapshot 1`] = `
 .dnb-timeline {
   display: flex;
   flex-direction: column;
+  padding: 0;
+  list-style: none;
 }
 .dnb-timeline__item__label {
   display: flex;
   align-items: center;
-  text-align: left;
   padding: 0;
+  text-align: left;
 }
 .dnb-timeline__item__label__icon {
   display: flex;
   flex-shrink: 0;
   align-items: center;
-  height: auto;
   justify-content: center;
+  height: auto;
   padding: 0;
 }
 .dnb-timeline__item__label__title {
