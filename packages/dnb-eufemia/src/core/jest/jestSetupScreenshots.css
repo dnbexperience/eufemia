@@ -1,18 +1,19 @@
 /* stop scrolling */
-html[data-visual-test] {
+*,
+html {
   scroll-behavior: auto !important;
 }
 
-html[data-visual-test] .sticky-menu,
-html[data-visual-test] #portal-sidebar-menu {
+.sticky-menu,
+#portal-sidebar-menu {
   display: none !important;
 }
 
-html[data-visual-test] .dnb-live-editor,
-html[data-visual-test] .dnb-live-toolbar {
+.dnb-live-editor,
+.dnb-live-toolbar {
   padding: 0 !important;
 }
-html[data-visual-test] .dnb-app-content {
+.dnb-app-content {
   margin-left: 0 !important;
 }
 
