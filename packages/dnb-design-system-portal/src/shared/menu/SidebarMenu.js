@@ -119,7 +119,9 @@ export default class SidebarLayout extends React.PureComponent {
               ) {
                 edges {
                   node {
-                    slug
+                    fields {
+                      slug
+                    }
                     frontmatter {
                       title
                       menuTitle
@@ -402,7 +404,13 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
   }
 
   const navItems = allMdx.edges
-    .map(({ node: { slug } }) => slug)
+    .map(
+      ({
+        node: {
+          fields: { slug },
+        },
+      }) => slug
+    )
     .filter((slug) => slug !== '/')
     // preorder
     .sort()
@@ -448,10 +456,16 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
     .map((slugPath) => {
       const {
         node: {
-          slug,
+          fields: { slug },
           frontmatter: { title, order, ...rest },
         },
-      } = allMdx.edges.find(({ node: { slug } }) => slug === slugPath)
+      } = allMdx.edges.find(
+        ({
+          node: {
+            fields: { slug },
+          },
+        }) => slug === slugPath
+      )
 
       const level = slug.split('/').filter(Boolean).length
       level > countLevels ? (countLevels = level) : countLevels

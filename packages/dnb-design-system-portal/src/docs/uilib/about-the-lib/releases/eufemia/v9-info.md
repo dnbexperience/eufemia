@@ -13,7 +13,7 @@ v9 of @dnb/eufemia contains _breaking changes_. As a migration process, you can 
 1. Uninstall `dnb-ui-lib` and install `@dnb/eufemia`.
 1. Rename with Regex `("|')dnb-ui-lib` and replace with `$1@dnb/eufemia`.
 1. Rename `node_modules/dnb-ui-lib/` and replace with `node_modules/dnb/eufemia/`.
-1. Find `formRow` inside a (e.g. <Provider formRow= ...) and replace it with `FormRow` (PascalCase).
+1. Find `formRow` inside a (e.g. \<Provider formRow= ...) and replace it with `FormRow` (PascalCase).
 
 ### Number to NumberFormat
 
