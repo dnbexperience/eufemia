@@ -110,7 +110,7 @@ In CSS You simply do it this way:
 }
 ```
 
-## Spacing for Articles {#spacing}
+## Spacing for Articles \{#spacing\}
 
 To ensure more flexibility in styling, all the margins / spacings are reset to zero. But more often we have to have a by default defined spacing, e.g. `margin` on HTML Elements like headings or paragraphs.
 
