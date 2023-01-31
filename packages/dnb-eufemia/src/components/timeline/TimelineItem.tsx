@@ -16,7 +16,7 @@ import Context from '../../shared/Context'
 import { SkeletonShow } from '../skeleton/Skeleton'
 import { extendPropsWithContext } from '../../shared/component-helper'
 
-export interface TimelineItemProps {
+export type TimelineItemProps = {
   /**
    * Icon displaying on the left side.
    * Default: `check` for state `completed`, `pin` for state `current`, and `calendar` for state `upcoming` .
@@ -57,6 +57,9 @@ export interface TimelineItemProps {
   skeleton?: SkeletonShow
 }
 
+export type TimelineItemAllProps = TimelineItemProps &
+  Omit<React.AllHTMLAttributes<HTMLLIElement>, 'title' | 'name'>
+
 const defaultProps = {
   icon: null,
   iconAlt: null,
@@ -67,7 +70,7 @@ const defaultProps = {
   skeleton: false,
 }
 
-const TimelineItem = (localProps: TimelineItemProps) => {
+const TimelineItem = (localProps: TimelineItemAllProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
   const {
@@ -205,7 +208,7 @@ const TimelineItem = (localProps: TimelineItemProps) => {
   }
 
   return (
-    <div
+    <li
       className={classes}
       data-testid="timeline-item"
       aria-current={stateIsCurrent ? 'step' : undefined}
@@ -213,7 +216,7 @@ const TimelineItem = (localProps: TimelineItemProps) => {
     >
       <TimelineItemLabel />
       <TimelineItemContent />
-    </div>
+    </li>
   )
 }
 
