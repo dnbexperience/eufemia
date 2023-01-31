@@ -5,7 +5,6 @@ description: 'Project overview, development guides, conventions etc.'
 
 import { Button } from '@dnb/eufemia/src'
 import Card from 'dnb-design-system-portal/src/shared/menu/Card'
-import DevIcon from 'dnb-design-system-portal/src/shared/menu/graphics/development'
 import { NewContributor, GettingStarted, Principles } from 'Docs/contribute/assets/graphics'
 
 # Contributing to Eufemia
@@ -28,8 +27,6 @@ There are more ways to contribute than submitting code. Other contributions are 
 - Fix spelling
 - Add more documentation
 - Give feedback on design and usage
-  <!-- More thats not listed? -->
-  <!-- Add links -->
 
 ## DNB Brand Guidelines
 
@@ -50,7 +47,12 @@ Colors, fonts and logo guidelines are set in the DNB Brandbook and the digital v
 <Button href="/contribute/contact" size="large" variant="secondary" text="Contact" icon="chevron_right" top/>
 </div>
 
-<!-- Include contents here -->
+    <Button href="/contribute/style-guides" size="large" variant="secondary" text="Style guides" icon="chevron_right" right />
+    <Button href="/contribute/deploy" size="large" variant="secondary" text="Deployment" icon="chevron_right" right />
+    <Button href="/contribute/faq" size="large" variant="secondary" text="FAQ" icon="chevron_right" right />
+    <Button href="/contribute/contact" size="large" variant="secondary" text="Contact" icon="chevron_right" />
+
+</div>
 
 ### Links to important resources
 
@@ -59,8 +61,6 @@ Colors, fonts and logo guidelines are set in the DNB Brandbook and the digital v
 [Slack channel #eufemia-web](https://dnb-it.slack.com/archives/CMXABCHEY): For all kinds of discussions topics and questions
 
 [Jira Issue Tracking](https://jira.tech.dnb.no/projects/EDS/summary) or [Github Issue Tracking](https://github.com/dnbexperience/eufemia/issues): Where you can report or find new issues
-
-<!-- TODO: Agree on one issue tracking-->
 
 ### People of Eufemia
 

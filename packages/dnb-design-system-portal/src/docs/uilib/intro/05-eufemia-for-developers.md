@@ -3,6 +3,8 @@ fullscreen: true
 search: 'Intro - for Developers'
 ---
 
+import Intro, { IntroFooter } from 'dnb-design-system-portal/src/shared/tags/Intro'
+
 <Intro>
 
 # Eufemia for Developers
