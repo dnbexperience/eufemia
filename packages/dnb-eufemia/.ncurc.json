@@ -4,8 +4,6 @@
     "ora",
     "react",
     "react-dom",
-    "node-sass",
-    "puppeteer",
     "stylelint",
     "stylelint-config-prettier",
     "stylelint-config-recommended",
