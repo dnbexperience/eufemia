@@ -12,7 +12,6 @@ const config = {
     '<rootDir>/build/',
     '<rootDir>/assets/',
     '<rootDir>/stories/',
-    '<rootDir>/jest-screenshot-report/',
   ],
   transformIgnorePatterns: ['/node_modules/(?!(ora|globby)/)'],
   transform: {

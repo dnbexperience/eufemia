@@ -3,7 +3,8 @@
 
 # testing
 /coverage
-/jest-screenshot-report
+/__diff_output__
+.jest-image-snapshot-touched-files
 jest.config.screenshots.js
 /reports
 __tests__
