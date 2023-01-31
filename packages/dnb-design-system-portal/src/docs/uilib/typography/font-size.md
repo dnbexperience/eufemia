@@ -41,9 +41,3 @@ You may be interested to install an [Eufemia code editor extension](/uilib/helpe
 ## Fallback font-size
 
 If no specific `font-size` is defined, we use still `1rem` as the basis. This is due to the fact that we use the basis `font-size` for many other layout related purposes.
-
-<!-- ### Usage in HTML (Helper Classes)
-
-```html
-<h3 class="dnb-font-size--small">Heading</h3>
-``` -->
