@@ -5,8 +5,6 @@ order: 2
 
 import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 
-<!-- They don't rely on any global style-sheets such as **normalize.css** beside the main DNB Stylesheet. -->
-
 # The Basics
 
 The `@dnb/eufemia` is hosted on the global NPM registry. It includes all the necessary parts to build an independent layer on top of a frontend framework of your choice.

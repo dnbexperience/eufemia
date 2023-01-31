@@ -50,8 +50,6 @@ showTabs: true
 | `size`                                      | _(optional)_ the sizes you can choose is `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem) are supported component sizes. Defaults to `default` / `null`.                                                                                                                                                                                                     |
 | [Space](/uilib/components/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                                                                                                                                                                                                                                                                |
 
-<!-- | `enable_keyboard_nav`                       | _(optional)_ Enables easy keyboard navigation inside the calendar dates. **NB!** this feature suppresses Screen Reader navigation on NVDA since we then use the arrow keys to navigate in the table of dates. Defaults to `false`.                                                                                                                                                  | -->
-
 ## Shortcuts
 
 You may use [date-fns](https://date-fns.org) to make date calculations.
