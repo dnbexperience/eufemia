@@ -173,6 +173,20 @@
   &__left {
     @include direction(left);
   }
+  &__reset {
+    &:not([class*='dnb-space__top']) {
+      margin-top: 0;
+    }
+    &:not([class*='dnb-space__bottom']) {
+      margin-bottom: 0;
+    }
+    &:not([class*='dnb-space__left']) {
+      margin-left: 0;
+    }
+    &:not([class*='dnb-space__right']) {
+      margin-right: 0;
+    }
+  }
 }
 span.dnb-space--no-collapse > span {
   display: block;
