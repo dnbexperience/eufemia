@@ -170,21 +170,6 @@ For those familiar with CSS, we establish typographic rules in the following way
     Alternatively, refer to these test pages which show various font sizes embedded in various body font sizes.
     Here is a good one: http://pxtoem.com/
 
-<!--
-
-### How we space things
-
-Padding and vertical margins : .......
-
-So, how do we establish a system for ALL probable combinations of elements in a GUI?
-
-Answer: We provide a set of spacing units and a **guide** for how the spacing should be applied.
-
-The spatial system doesn’t care what elements are in the design guide. It doesn’t care how they look or feel.
-
-Rules dictate which slugs are placed adjacent to which blocks.
--->
-
 ## Eufemia Spatial System ≠ A Grid System
 
 A spatial system and a grid system are two different things. A grid is a component that _uses_ space.
@@ -239,10 +224,3 @@ Layout design is not limited to these selected sizing blocks. If you need more s
 ### Examples
 
 The [example demo apps](/uilib/getting-started/demos) shows the 8px system in practice.
-
-<!-- import ExampleAarsoppgaveGuidesSvg from 'Docs/quickguide-designer/assets/example-aarsoppgave-guides.svg'
-import ExampleAarsoppgaveSvg from 'Docs/quickguide-designer/assets/example-aarsoppgave.svg'
-
-<InlineImg src={ExampleAarsoppgaveSvg} caption="A simple example of the 8px system in use" alt="Aarsoppgave example" />
-
-<InlineImg src={ExampleAarsoppgaveGuidesSvg} caption="The 8px system highlighted" alt="Aarsoppgave example" /> -->

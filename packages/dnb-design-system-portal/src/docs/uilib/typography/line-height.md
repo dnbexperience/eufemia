@@ -18,8 +18,6 @@ For details about what values Typographic elements do use, have a loot at the [F
 | 40px  | `large`   | **2.5rem**   | `--line-height-large`   |
 | 56px  | `x-large` | **3.5rem**   | `--line-height-x-large` |
 
-<!-- - Used for `<h5>` and `<h6>`, who are not a part of the design system. -->
-
 ### Code Editor Extensions
 
 You may be interested to install an [Eufemia code editor extension](/uilib/helpers/tools/#code-editor-extensions) that allows you to quickly auto complete the correct `line-height`.

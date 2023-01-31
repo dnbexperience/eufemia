@@ -3,7 +3,6 @@ title: 'Media Queries'
 order: 2
 ---
 
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 import {
 MediaQueryLiveExample,
 MediaQueryUseMedia,
@@ -22,9 +21,6 @@ UX designers are using a 12 column system during their design processes.
 | 640   | `small`  | **40em** | `--layout-small`  | 4 columns  |
 | 960   | `medium` | **60em** | `--layout-medium` | 6 columns  |
 | 1152  | `large`  | **72em** | `--layout-large`  | 12 columns |
-
-<!-- (not documented yet) | 1280  | `x-large`  | **80em** | `--layout-x-large`  | 12 columns | -->
-<!-- (not documented yet) | 1440  | `xx-large` | **90em** | `--layout-xx-large` |            | -->
 
 ## MediaQuery component and React Hooks
 

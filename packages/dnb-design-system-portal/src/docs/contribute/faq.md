@@ -44,6 +44,11 @@ When switching over to Yarn PnP, there are some issues:
   gatsby-plugin-mdx tried to access mkdirp, but it isn't declared in its dependencies; this makes the require call ambiguous and unsound.
   ```
 
+### MDX v2
+
+- When upgrading the deps to MDX v2, we get `JavaScript heap out of memory`. Some more notes about this in `gatsby-node.js`.
+- In addition we get SCSS `mini-css-extract-plugin` conflicting order.
+
 ## How can I make faster builds?
 
 This is only meant for "setup testing" purposes! In order to make faster local builds, you can:

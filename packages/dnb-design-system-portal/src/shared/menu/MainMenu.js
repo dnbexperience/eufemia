@@ -30,22 +30,26 @@ function MainMenu() {
     query {
       categories: allMdx(
         filter: {
-          slug: {
-            in: [
-              "uilib"
-              "quickguide-designer"
-              "icons"
-              "design-system"
-              "brand"
-              "principles"
-              "contribute"
-            ]
+          fields: {
+            slug: {
+              in: [
+                "uilib"
+                "quickguide-designer"
+                "icons"
+                "design-system"
+                "brand"
+                "principles"
+                "contribute"
+              ]
+            }
           }
         }
       ) {
         edges {
           node {
-            slug
+            fields {
+              slug
+            }
             frontmatter {
               title
               description
@@ -60,14 +64,25 @@ function MainMenu() {
     categories: { edges },
   } = data
 
-  const items = edges.reduce((acc, { node: { slug, frontmatter } }) => {
-    acc[slug] = {
-      url: `/${slug}/`,
-      slug,
-      ...frontmatter,
-    }
-    return acc
-  }, {})
+  const items = edges.reduce(
+    (
+      acc,
+      {
+        node: {
+          fields: { slug },
+          frontmatter,
+        },
+      }
+    ) => {
+      acc[slug] = {
+        url: `/${slug}/`,
+        slug,
+        ...frontmatter,
+      }
+      return acc
+    },
+    {}
+  )
 
   return (
     <nav className={navStyle}>

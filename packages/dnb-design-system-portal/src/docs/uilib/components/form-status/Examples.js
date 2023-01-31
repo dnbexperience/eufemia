@@ -90,6 +90,9 @@ export const FormStatusInput = () => (
   </ComponentBox>
 )
 
+/**
+ * Not used for now (may be reconsidered)
+ */
 export const FormStatusAnimation = () => (
   <ComponentBox useRender>
     {
