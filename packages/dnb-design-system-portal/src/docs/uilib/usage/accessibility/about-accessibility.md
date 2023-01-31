@@ -43,7 +43,7 @@ Should be able to use the most common used screen readers like VoiceOver (Apple 
 
 Good keyboard support is crucial to make web application accessible on for assistive technologies. So - [think landmark and semantics first](!/uilib/usage/accessibility#landmark--and-semantics-example). This includes also [typography](!/uilib/usage/best-practices/for-typography#think-semantics-first) and best practices for [images and illustrations](!/uilib/usage/accessibility/screenreader).
 
-## **200%** in `font-size` {#font-size}
+## **200%** in `font-size` \{#font-size\}
 
 The [WCAG 2.1](https://www.w3.org/TR/WCAG21/) document is describing it clearly:
 
