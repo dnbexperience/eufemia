@@ -183,7 +183,7 @@ describe('NumberFormat component', () => {
       currency_position: 'before',
     })
     expect(Comp.find(displaySelector).first().text()).toBe(
-      'NOK -12 345 678,99'
+      'NOK −12 345 678,99'
     )
   })
 
@@ -193,7 +193,7 @@ describe('NumberFormat component', () => {
     )
 
     expect(Comp.find(displaySelector).first().text()).toBe(
-      'kr -12 345 678,99'
+      'kr −12 345 678,99'
     )
 
     expect(Comp.find(ariaSelector).first().text()).toBe(

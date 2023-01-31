@@ -7,6 +7,6 @@ echo 'Building umd and esm (mjs) bundles ...'
 cross-env \
 NODE_ENV=production \
 BABEL_ENV=umd \
-rollup -c ./rollup.config.js
+rollup -c ./rollup.config.js --bundleConfigAsCjs
 
 echo 'Building umd and esm (mjs) bundles done!'
