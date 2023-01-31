@@ -393,6 +393,8 @@ yarn test:update breadcrumb avatar
 
 3. Run the visual test against the portal:
 
+**NB:** Make sure you have the portal running locally on port 8000.
+
 ```bash
 # 1. First start the portal
 yarn start
@@ -401,22 +403,26 @@ yarn start
 yarn test:screenshots breadcrumb avatar
 ```
 
-You can also create a screenshot report for all components running `yarn test:screenshots`. Check the result / reports, located in: `open ./packages/dnb-eufemia/jest-screenshot-report/index.html`
-
-4. Update eventually new or valid PNG snapshots:
+4. Update eventually new or valid visual PNG snapshots:
 
 ```bash
 # Update all screenshot tests including 'breadcrumb'
 yarn test:screenshots:update breadcrumb
 ```
 
-5. How to deal with failing tests on the CI server?
+You can also press the `u` during a watch mode to update outdated snapshots.
 
-You may check out the logs for detailed reports.
+5. How to deal with failing visual tests?
 
-**Failing visual screenshot tests**
+When a visual test fails, a visual comparison file (diff) will be created. Its location and name will be:
 
-If visual screenshot tests are failing on the CI, you can scroll all the way to the end of the logs. There you will find a link **Download the Report** you can use to download a zip file containing the visual test reports and diffs.
+- `**/__tests__/__image_snapshots__/__diff_output__/*.snap-diff.png`
+
+Please do not commit these files.
+
+You may check out the CI/CLI logs for more details.
+
+**GitHub Actions:** If visual screenshot test is failing on the CI, you can navigate to the test "Summary" where you find "Artifacts". There you can download the **visual-test-artifact** zip file, containing the visual diff files.
 
 ### Support SCSS snapshot test
 
@@ -475,3 +481,13 @@ From a clone:
 - Make your changes and commit it to the repo in a new branch.
 - Make a _Pull Request_ to `origin/main`.
 - Watch the result of the tests.
+
+### Run Algolia search queries locally
+
+In order to commit Algolia search queries to the `dev_eufemia_docs` index, you have to:
+
+Create a `.env` file inside `dnb-design-system-portal` with valid:
+
+- `ALGOLIA_INDEX_NAME=dev_eufemia_docs`
+- `ALGOLIA_APP_ID=SLD6KEYMQ9`
+- `ALGOLIA_API_KEY=secret`
