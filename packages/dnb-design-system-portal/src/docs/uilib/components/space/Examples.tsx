@@ -6,9 +6,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-// import { Space } from '@dnb/eufemia/src/components'
 import styled from '@emotion/styled'
-import { Space } from '@dnb/eufemia/src/components'
+import { Space, Input, FormRow, Button, P, Code } from '@dnb/eufemia/src'
 
 export const SpaceExamplesMethod1 = () => (
   <TestStyles>
@@ -16,15 +15,11 @@ export const SpaceExamplesMethod1 = () => (
       data-visual-test="spacing-method-space"
       scope={{ RedBox }}
     >
-      {
-        /* jsx */ `
-<RedBox>
-  <Space top="large x-small">
-    <Input label="Input:" />
-  </Space>
-</RedBox>
-`
-      }
+      <RedBox>
+        <Space top="large x-small">
+          <Input label="Input:" />
+        </Space>
+      </RedBox>
     </ComponentBox>
   </TestStyles>
 )
@@ -32,16 +27,12 @@ export const SpaceExamplesMethod1 = () => (
 export const SpaceExamplesMethod2 = () => (
   <TestStyles>
     <ComponentBox data-visual-test="spacing-method-form-row">
-      {
-        /* jsx */ `
-<FormRow>
-  <Input label="Input A:" />
-</FormRow>
-<FormRow top="medium">
-  <Input label="Input B:" />
-</FormRow>
-`
-      }
+      <FormRow>
+        <Input label="Input A:" />
+      </FormRow>
+      <FormRow top="medium">
+        <Input label="Input B:" />
+      </FormRow>
     </ComponentBox>
   </TestStyles>
 )
@@ -49,14 +40,10 @@ export const SpaceExamplesMethod2 = () => (
 export const SpaceExamplesMethod3 = () => (
   <TestStyles>
     <ComponentBox data-visual-test="spacing-method-component">
-      {
-        /* jsx */ `
-<FormRow>
-  <Input label="Input A:" right="small" />
-  <Input label="Input B:" />
-</FormRow>
-`
-      }
+      <FormRow>
+        <Input label="Input A:" right="small" />
+        <Input label="Input B:" />
+      </FormRow>
     </ComponentBox>
   </TestStyles>
 )
@@ -65,20 +52,22 @@ export const SpaceExampleMarginCollapse = () => (
   <TestStyles>
     <ComponentBox hideCode scope={{ RedBox, Vertical }}>
       {
-        /* jsx */ `
-<Vertical>
-  <RedBox>
-    <Space bottom="small">
-      <>I have <code className="dnb-code">bottom="small"</code></>
-    </Space>
-  </RedBox>
-  <RedBox>
-    <Space top="large">
-      <>I have <code className="dnb-code">top="large"</code></>
-    </Space>
-  </RedBox>
-</Vertical>
-`
+        <Vertical>
+          <RedBox>
+            <Space bottom="small">
+              <>
+                I have <code className="dnb-code">bottom="small"</code>
+              </>
+            </Space>
+          </RedBox>
+          <RedBox>
+            <Space top="large">
+              <>
+                I have <code className="dnb-code">top="large"</code>
+              </>
+            </Space>
+          </RedBox>
+        </Vertical>
       }
     </ComponentBox>
   </TestStyles>
@@ -87,18 +76,20 @@ export const SpaceExampleMarginCollapse = () => (
 export const SpaceExampleMargins = () => (
   <TestStyles>
     <ComponentBox data-visual-test="spacing-margins" hideCode>
-      {
-        /* jsx */ `
-<Space top="large x-small" right="2.5" bottom="2.5rem" left="40px" >
-  <details>
-    <summary>
-      I have four <code className="dnb-code">2.5rem</code> margins!
-    </summary>
-    And this are my CSS classes: <code className="dnb-code">dnb-space dnb-space__top--large dnb-space__top--x-small dnb-space__right--large dnb-space__right--x-small dnb-space__bottom--large dnb-space__bottom--x-small dnb-space__left--large dnb-space__left--x-small</code>
-  </details>
-</Space>
-`
-      }
+      <Space top="large x-small" right="2.5" bottom="2.5rem" left="40px">
+        <details>
+          <summary>
+            I have four <code className="dnb-code">2.5rem</code> margins!
+          </summary>
+          And this are my CSS classes:{' '}
+          <code className="dnb-code">
+            dnb-space dnb-space__top--large dnb-space__top--x-small
+            dnb-space__right--large dnb-space__right--x-small
+            dnb-space__bottom--large dnb-space__bottom--x-small
+            dnb-space__left--large dnb-space__left--x-small
+          </code>
+        </details>
+      </Space>
     </ComponentBox>
   </TestStyles>
 )
@@ -109,33 +100,38 @@ export const SpaceVisualTestPatterns = () => (
       data-visual-test="spacing-patterns"
       scope={{ MagicBox, CustomStyle }}
       hideCode
-      useRender
     >
-      {
-        /* jsx */ `
-const TestCase = (props) => {
-  return <CustomStyle {...props}>{listOfBoxes.map((v) => (
-    <Space key={v} top={v}>
-      <MagicBox />
-    </Space>
-  ))}</CustomStyle>
-}
-const listOfBoxes = []
-for (let i = 0, c = 0, l = 20; i <= l; i++) {
-  listOfBoxes.push(String(c))
-  c += 0.5
-}
-render(
-  <div className="spacing-patterns">
-    <P bottom>With <Code>dnb-core-style</Code></P>
-    <TestCase className="dnb-core-style" />
-    
-    <P top bottom>Without</P>
-    <TestCase />
-  </div>
-)
-`
-      }
+      {() => {
+        const TestCase = (props) => {
+          return (
+            <CustomStyle {...props}>
+              {listOfBoxes.map((v) => (
+                <Space key={v} top={v}>
+                  <MagicBox />
+                </Space>
+              ))}
+            </CustomStyle>
+          )
+        }
+        const listOfBoxes = []
+        for (let i = 0, c = 0, l = 20; i <= l; i++) {
+          listOfBoxes.push(String(c))
+          c += 0.5
+        }
+        return (
+          <div className="spacing-patterns">
+            <P bottom>
+              With <Code>dnb-core-style</Code>
+            </P>
+            <TestCase className="dnb-core-style" />
+
+            <P top bottom>
+              Without
+            </P>
+            <TestCase />
+          </div>
+        )
+      }}
     </ComponentBox>
   </TestStyles>
 )
@@ -144,47 +140,73 @@ render(
  * This test case exists because of the reset.css margin=0 for buttons
  */
 export const SpaceVisualTestElements = () =>
-  !(typeof window !== 'undefined' && window.IS_TEST) ? null : (
+  !globalThis.IS_TEST ? null : (
     <TestStyles>
       <ComponentBox
         data-visual-test="spacing-elements"
         scope={{ MagicBox, CustomStyle }}
         hideCode
-        useRender
       >
-        {
-          /* jsx */ `
-const listOfBoxes = []
-for (let i = 0, c = 0, l = 10; i <= l; i++) {
-  listOfBoxes.push(String(c))
-  c += 1
-}
-const TestCase = (props) => {
-  return <CustomStyle {...props}>
-    {listOfBoxes.map((v) => (
-      <Button
-        key={v}
-        left="x-small"
-        top={v}
-        size="small"
-        custom_content={<MagicBox />}
-      />
-    ))}
-  </CustomStyle>
-}
-render(
-  <div className="spacing-elements">
-    <P bottom>With <Code>dnb-core-style</Code></P>
-    <TestCase className="dnb-core-style" />
-    
-    <P top bottom>Without</P>
-    <TestCase />
-  </div>
-)
-`
-        }
+        {() => {
+          const listOfBoxes = []
+          for (let i = 0, c = 0, l = 10; i <= l; i++) {
+            listOfBoxes.push(String(c))
+            c += 1
+          }
+          const TestCase = (props) => {
+            return (
+              <CustomStyle {...props}>
+                {listOfBoxes.map((v) => (
+                  <Button
+                    key={v}
+                    left="x-small"
+                    top={v}
+                    size="small"
+                    custom_content={<MagicBox />}
+                  />
+                ))}
+              </CustomStyle>
+            )
+          }
+          return (
+            <div className="spacing-elements">
+              <P bottom>
+                With <Code>dnb-core-style</Code>
+              </P>
+              <TestCase className="dnb-core-style" />
+
+              <P top bottom>
+                Without
+              </P>
+              <TestCase />
+            </div>
+          )
+        }}
       </ComponentBox>
     </TestStyles>
+  )
+
+export const SpaceVisualTestReset = () =>
+  !globalThis.IS_TEST ? null : (
+    <ComponentBox data-visual-test="spacing-reset">
+      {() => {
+        const BlueBox = styled.div`
+          display: inline-block;
+          padding: 0.5rem;
+          background: blue;
+          ul {
+            background: white;
+          }
+        `
+        return (
+          <BlueBox>
+            <ul className="dnb-space__reset dnb-space__top--small dnb-space__right--small dnb-space__bottom--small dnb-space__left--small">
+              <li> </li>
+            </ul>
+          </BlueBox>
+        )
+      }}
+    </ComponentBox>
   )
 
 const TestStyles = styled.div`
@@ -281,8 +303,8 @@ const Label = styled.label`
   color: var(--color-black-80);
 `
 
-const MagicBox = ({ label, ...rest }) => {
-  const ref = React.createRef()
+const MagicBox = ({ label = null, ...rest }) => {
+  const ref = React.createRef<HTMLDivElement>()
 
   const [spaceInRem, setLabel] = React.useState(label)
   const [title, setTitle] = React.useState(null)
@@ -340,8 +362,8 @@ MagicBox.defaultProps = {
   label: null,
 }
 
-const VisualSpace = ({ label, children, ...rest }) => {
-  const ref = React.createRef()
+const VisualSpace = ({ label = null, children, ...rest }) => {
+  const ref = React.createRef<HTMLDivElement>()
 
   const [direction, setDirection] = React.useState('top')
   const [spaceInRem, setLabel] = React.useState(label)

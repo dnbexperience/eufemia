@@ -9,7 +9,8 @@ SpaceExamplesMethod3,
 SpaceExampleMarginCollapse,
 SpaceExampleMargins,
 SpaceVisualTestPatterns,
-SpaceVisualTestElements
+SpaceVisualTestElements,
+SpaceVisualTestReset,
 } from 'Docs/uilib/components/space/Examples'
 
 ## Demos
@@ -39,3 +40,5 @@ SpaceVisualTestElements
 <SpaceVisualTestPatterns />
 
 <SpaceVisualTestElements />
+
+<SpaceVisualTestReset />
