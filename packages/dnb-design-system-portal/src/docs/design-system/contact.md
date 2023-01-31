@@ -23,5 +23,5 @@ order: 2
 ## People
 
 - **[Kirsti Merete Frelsøy](https://dnb.enterprise.slack.com/user/@U02DQ8G2KAN)** (Seksjonsleder UX)
-- **[Tobias Høegh](https://dnb.enterprise.slack.com/user/@WE2M4E65N)** (Frontend Develop and Technology Advocate)
+- **[Tobias Høegh](https://dnb.enterprise.slack.com/user/@WE2M4E65N)** (Frontend Developer and Technology Advocate)
 - **[Anders Langseth](https://dnb.enterprise.slack.com/user/@U01MN8KA0UU)** (Frontend Developer)
