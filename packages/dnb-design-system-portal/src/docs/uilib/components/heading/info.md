@@ -60,7 +60,7 @@ The correction will ensure that:
 
 1. a heading will start with a level **1**.
 1. the second level will get corrected be level **2**.
-1. if a level will increase with a factor of more than one (level={>1}), it will get corrected to only increase by one (**1**).
+1. if a level will increase with a factor of more than one (level=\{>1\}), it will get corrected to only increase by one (**1**).
 1. if a level will be set to **1** a second time, it will get corrected to level **2**.
 
 You get a `console.warn` warning (only in development) about corrections. You can attach a custom warning / handler if you need that: `<Heading.Level debug={(...logs) => console.info(...logs)}>`

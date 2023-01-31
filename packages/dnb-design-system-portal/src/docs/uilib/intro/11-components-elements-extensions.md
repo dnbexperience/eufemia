@@ -3,6 +3,7 @@ fullscreen: true
 search: 'Intro - Components, Elements and Extensions'
 ---
 
+import Intro, { IntroFooter } from 'dnb-design-system-portal/src/shared/tags/Intro'
 import { Button } from '@dnb/eufemia/src'
 
 <Intro>

@@ -20,14 +20,17 @@ describe('searchQuery', () => {
 
   it('should skip node when no title is found', () => {
     expect(
-      transformer(makeNode({ slug: '/page', frontmatter: {} }))
+      transformer(makeNode({ fields: { slug: '/page' }, frontmatter: {} }))
     ).toHaveLength(0)
   })
 
   it('should remove node when skipSearch is given', () => {
     expect(
       transformer(
-        makeNode({ slug: '/page', frontmatter: { skipSearch: true } })
+        makeNode({
+          fields: { slug: '/page' },
+          frontmatter: { skipSearch: true },
+        })
       )
     ).toHaveLength(0)
   })
@@ -36,7 +39,7 @@ describe('searchQuery', () => {
     expect(
       transformer(
         makeNode({
-          slug: '/page',
+          fields: { slug: '/page' },
           frontmatter: {},
           headings: [{ value: 'Heading 1', depth: 1 }],
         })
@@ -48,7 +51,7 @@ describe('searchQuery', () => {
     expect(
       transformer(
         makeNode({
-          slug: '/page',
+          fields: { slug: '/page' },
           frontmatter: { title: 'Title 1' },
           headings: [
             { value: 'Heading 1', depth: 1 },
@@ -80,7 +83,7 @@ describe('searchQuery', () => {
     expect(
       transformer(
         makeNode({
-          slug: '/page',
+          fields: { slug: '/page' },
           frontmatter: { search: 'search string' },
           headings: [{ value: 'Heading 1', depth: 1 }],
         })
@@ -105,12 +108,12 @@ describe('searchQuery', () => {
     expect(
       transformer(
         makeNode({
-          slug: '/page-1',
+          fields: { slug: '/page-1' },
           frontmatter: { title: 'Title 1' },
           headings: [{ value: 'Heading 1', depth: 1 }],
           siblings: [
             {
-              slug: '/page-2',
+              fields: { slug: '/page-2' },
               frontmatter: { title: 'Title 2' },
               headings: [{ value: 'Heading 2', depth: 1 }],
             },
@@ -135,7 +138,7 @@ describe('searchQuery', () => {
     expect(
       transformer(
         makeNode({
-          slug: '/page-1',
+          fields: { slug: '/page-1' },
           frontmatter: {},
           headings: [
             { value: 'Heading 2', depth: 2 },
@@ -143,7 +146,7 @@ describe('searchQuery', () => {
           ],
           siblings: [
             {
-              slug: '/page-2',
+              fields: { slug: '/page-2' },
               frontmatter: { title: 'Title 2' },
               headings: [{ value: 'Heading 2', depth: 1 }],
             },
@@ -168,7 +171,7 @@ describe('searchQuery', () => {
     expect(
       transformer(
         makeNode({
-          slug: '/page-1',
+          fields: { slug: '/page-1' },
           frontmatter: {},
           headings: [
             { value: 'Heading 2', depth: 2 },
@@ -176,7 +179,7 @@ describe('searchQuery', () => {
           ],
           siblings: [
             {
-              slug: '/page-1',
+              fields: { slug: '/page-1' },
               frontmatter: { title: 'Title 1' },
               headings: [{ value: 'Heading 1', depth: 1 }],
             },
