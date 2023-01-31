@@ -66,16 +66,6 @@ import { toKebabCase } from '@dnb/eufemia/shared/component-helper'
 toKebabCase(String) // returns String
 ```
 
-<!--### detectOutsideClick
-Detects an click outside of the defined target HTML `element` and will then emit the `callback`. You can also provide an array with elements.
-
-```js
-detectOutsideClick(ignoreElements: HTMLElement|array, onSuccess: (event) => {...}) // returns Void
-```
-
-THIS FUNCTION WAS INCONSISTENT WITH THE FUNCTION IN component-helper.js
--->
-
 ### filterProps
 
 Filters out unwanted entries from either an object or array.

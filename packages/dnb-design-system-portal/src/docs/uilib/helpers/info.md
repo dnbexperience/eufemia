@@ -50,7 +50,6 @@ You can use the internal Eufemia easing function.
 - [setPageFocusElement](/uilib/helpers/functions#setpagefocuselement): Defines a focus element to applyPageFocus.
 - [debounce](/uilib/helpers/functions#debounce): Creates a debounced function that delays invoking func until after wait milliseconds have elapsed since the last time the debounced function was invoked.
 - [copyToClipboard](/uilib/helpers/functions#copytoclipboard): Copies a given string to clipboard.
-<!-- [detectOutsideClick](/uilib/helpers/functions)-->
 
 ### Device checks
 

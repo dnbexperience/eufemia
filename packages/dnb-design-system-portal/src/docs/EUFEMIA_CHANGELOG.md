@@ -119,9 +119,6 @@ These icons got replaced:
 - `bankid_with_qr` to `bankid_qr`
 - `check_alt_01` removed
 
-  <!-- - `refresh` to `repeat` -->
-  <!-- - `settings` to `cog` -->
-
 ## November, 8. 2020
 
 - New [grey colors](/uilib/usage/customisation/colors):

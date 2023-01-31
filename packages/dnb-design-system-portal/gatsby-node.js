@@ -8,6 +8,7 @@ const path = require('path')
 const { isCI } = require('repo-utils')
 const getCurrentBranchName = require('current-git-branch')
 const { init } = require('./scripts/version.js')
+const { createFilePath } = require('gatsby-source-filesystem')
 
 let prebuildExists = false
 const currentBranch = getCurrentBranchName()
@@ -45,12 +46,25 @@ exports.createSchemaCustomization = ({ actions: { createTypes } }) => {
   createTypes(typeDefs)
 }
 
+exports.onCreateNode = ({ node, actions, getNode }) => {
+  const { createNodeField } = actions
+
+  if (node.internal.type === 'Mdx') {
+    createNodeField({
+      node,
+      name: 'slug',
+      value: createFilePath({ node, getNode }).replace(/^\/|\/$/g, ''),
+    })
+  }
+}
+
 exports.createResolvers = ({ createResolvers }) => {
   const resolvers = {
     Mdx: {
       siblings: {
+        type: ['Mdx'],
         resolve: (source, args, context) => {
-          const slug = context?.slug // during dev: source?.__gatsby_resolved?.slug
+          const slug = context.slug
 
           if (typeof slug !== 'string') {
             return []
@@ -65,7 +79,7 @@ exports.createResolvers = ({ createResolvers }) => {
                 context.nodeModel.findOne({
                   type: 'Mdx',
                   query: {
-                    filter: { slug: { eq } },
+                    filter: { fields: { slug: { eq } } },
                   },
                 })
               )
@@ -84,6 +98,8 @@ exports.createPages = async (params) => {
   await createRedirects(params)
 }
 
+const mdxTemplate = path.resolve('./src/templates/mdx.js')
+
 async function createPages({ graphql, actions }) {
   const mdxResult = await graphql(/* GraphQL */ `
     {
@@ -97,10 +113,15 @@ async function createPages({ graphql, actions }) {
         edges {
           node {
             id
-            slug
+            fields {
+              slug
+            }
             frontmatter {
               title
               description
+            }
+            internal {
+              contentFilePath
             }
           }
         }
@@ -116,22 +137,32 @@ async function createPages({ graphql, actions }) {
   const { createPage } = actions
   const { edges } = mdxResult.data.allMdx
 
-  edges.forEach(({ node }, i) => {
-    const prev = i === 0 ? null : edges[i - 1].node
-    const next = i === edges.length - 1 ? null : edges[i + 1].node
+  edges.forEach(({ node }) => {
+    const slug = node.fields.slug
+
+    // MDX v2 crashes during dev/build without filter out some pages:
+    // JavaScript heap out of memory
+    // if (
+    //   slug.includes('uilib/') &&
+    //   ![
+    //     '/button',
+    //     '/input',
+    //     '/switch', // When one more is enabled, we get the out of memory error
+    //   ].some((s) => {
+    //     return slug.includes(s)
+    //   })
+    // ) {
+    //   return
+    // }
 
     // check if the slug is valid, in case we deleted one during build
-    if (node?.slug) {
-      const slug = node.slug
-
+    if (slug) {
       createPage({
         path: slug,
-        component: path.resolve(__dirname, 'src/templates/mdx.js'),
+        component: `${mdxTemplate}?__contentFilePath=${node.internal.contentFilePath}`,
         context: {
           id: node.id,
           slug,
-          prev,
-          next,
         },
       })
     }
@@ -144,7 +175,9 @@ async function createRedirects({ graphql, actions }) {
       allMdx(filter: { frontmatter: { redirect_from: { ne: null } } }) {
         edges {
           node {
-            slug
+            fields {
+              slug
+            }
             frontmatter {
               redirect_from
             }
@@ -165,11 +198,13 @@ async function createRedirects({ graphql, actions }) {
   // For all posts with redirect_from frontmatter,
   // extract all values and push to redirects array
   const redirects = edges.reduce((acc, { node }) => {
+    const slug = node.fields.slug
+
     // check if the slug is valid, in case we deleted one during build
-    if (node?.slug) {
+    if (slug) {
       acc.push({
         fromItems: node.frontmatter.redirect_from,
-        toPath: node.slug,
+        toPath: slug,
       })
     }
     return acc
@@ -194,7 +229,7 @@ exports.onCreateWebpackConfig = ({ stage, actions, plugins }) => {
   const config = {
     resolve: {
       alias: {
-        Docs: path.resolve(__dirname, 'src/docs'),
+        Docs: path.resolve('./src/docs'),
       },
     },
     plugins: [

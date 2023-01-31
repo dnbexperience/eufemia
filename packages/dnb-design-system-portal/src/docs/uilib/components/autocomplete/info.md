@@ -75,7 +75,7 @@ and if you need to decouple the searchable content from what's displayed, then y
 
 Numbers are often different than a word filter. You can use `search_numbers={true}` to enable a number specialized filtering. See example in the demos.
 
-Now the user could search for e.g. bank account numbers by just entering `201`, even if you format it like `2000 12 34567` (e.g. use format(20001234567, { ban: true }) from /components/number-format/NumberUtils)
+Now the user could search for e.g. bank account numbers by just entering `201`, even if you format it like `2000 12 34567` (e.g. use format(20001234567, \{ ban: true \}) from /components/number-format/NumberUtils)
 
 ### Screen reader support
 
