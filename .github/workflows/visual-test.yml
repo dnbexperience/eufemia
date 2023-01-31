@@ -112,6 +112,17 @@ jobs:
           key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-deps-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-deps-
 
+      - name: Use Playwright cache
+        uses: actions/cache@v3
+        id: playwright-cache
+        with:
+          path: ~/Library/Caches/ms-playwright
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-${{ hashFiles('**/yarn.lock') }}
+      - run: npx playwright-firefox install --with-deps firefox
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+      - run: npx playwright-firefox install-deps firefox
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+
       - name: Install dependencies
         run: yarn install --immutable
 
@@ -132,6 +143,20 @@ jobs:
 
       - name: Run visual tests
         run: yarn workspace dnb-design-system-portal test:screenshots:ci
+
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: visual-test-artifact
+          path: ./packages/dnb-eufemia/src/**/*.snap-diff.png
+
+      - name: Run visual tests info
+        if: failure()
+        run: echo '\n\n👉 Download the diff files as a ZIP file. \nIt is called "visual-test-artifact" and you find it in the test "Summary" under "Artifacts".\n\n\n'
+
+      - uses: geekyeggo/delete-artifact@v2
+        with:
+          name: portal-build-artifact
 
       - name: Slack
         uses: 8398a7/action-slack@v3

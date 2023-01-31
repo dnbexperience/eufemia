@@ -169,6 +169,9 @@ exports[`Textarea scss have to match default theme snapshot 1`] = `
   color: var(--color-black);
   text-shadow: none;
 }
+html:not([data-visual-test]) .dnb-textarea__textarea {
+  scroll-behavior: smooth;
+}
 @supports not (scrollbar-color: auto) {
   .dnb-textarea__textarea::-webkit-scrollbar {
     background-color: var(--color-black-8);
@@ -186,12 +189,6 @@ exports[`Textarea scss have to match default theme snapshot 1`] = `
   .dnb-textarea__textarea::-webkit-scrollbar-thumb:hover {
     background-color: var(--color-emerald-green);
   }
-}
-html:not([data-visual-test]) .dnb-textarea__textarea {
-  scroll-behavior: smooth;
-}
-html[data-visual-test] .dnb-textarea__textarea {
-  scroll-behavior: auto !important;
 }
 .dnb-textarea__placeholder {
   color: var(--color-black-55);
