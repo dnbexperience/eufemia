@@ -6,7 +6,15 @@
 @import '../../../../style/core/utilities.scss';
 @import '../../../button/style/themes/button-mixins.scss';
 
-:root {
+@mixin centerBorder(
+  $width: var(--timeline-icon-width--medium),
+  $spacing: var(--timeline-border-spacing--icon-adjusted)
+) {
+  margin-left: calc(#{$width} / 2);
+  padding-left: calc(#{$width} / 2 + #{$spacing});
+}
+
+.dnb-timeline {
   --timeline-icon-height--small: var(--button-height--small);
   --timeline-icon-width--small: var(--button-width--small);
   --timeline-icon-border-radius--small: calc(
@@ -27,17 +35,7 @@
   --timeline-border-spacing--icon-adjusted: calc(
     var(--timeline-icon-width-diff) + var(--timeline-border-spacing)
   );
-}
 
-@mixin centerBorder(
-  $width: var(--timeline-icon-width--medium),
-  $spacing: var(--timeline-border-spacing--icon-adjusted)
-) {
-  margin-left: calc(#{$width} / 2);
-  padding-left: calc(#{$width} / 2 + #{$spacing});
-}
-
-.dnb-timeline {
   &__item {
     margin-left: var(--timeline-icon-width-diff);
     &__label {
