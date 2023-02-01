@@ -5,6 +5,7 @@
 /coverage
 **/__diff_output__/
 .jest-image-snapshot-touched-files
+/jest-visual-diff-report/*
 
 # production
 *.min.mjs
