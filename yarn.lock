@@ -9069,6 +9069,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ansi-html@npm:0.0.9":
+  version: 0.0.9
+  resolution: "ansi-html@npm:0.0.9"
+  bin:
+    ansi-html: bin/ansi-html
+  checksum: a03754d6f66bae33938ed8bb3dd98174b7f4895ebe45226185036ed4a1388a7aaf2f2b9581608f0626432ba7add92cfc590aa6475a78bbb90d9d1e1d1af8cbe6
+  languageName: node
+  linkType: hard
+
 "ansi-red@npm:^0.1.1":
   version: 0.1.1
   resolution: "ansi-red@npm:0.1.1"
@@ -21335,6 +21344,14 @@ __metadata:
   checksum: 97ea26af0c28a2ba568c9c65d06211487bbcd501cb4944f9d55e07fd2b00ad96653ea2cc9033f3d5b7dc1feda33e47ae9cc56b400191ea4533be213c9f82e67c
   languageName: node
   linkType: hard
+
+"jest-image-snapshot-reporter@workspace:tools/jest-image-snapshot-reporter":
+  version: 0.0.0-use.local
+  resolution: "jest-image-snapshot-reporter@workspace:tools/jest-image-snapshot-reporter"
+  dependencies:
+    ansi-html: 0.0.9
+  languageName: unknown
+  linkType: soft
 
 "jest-image-snapshot@npm:6.1.0":
   version: 6.1.0
