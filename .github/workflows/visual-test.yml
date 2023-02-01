@@ -148,7 +148,9 @@ jobs:
         if: failure()
         with:
           name: visual-test-artifact
-          path: ./packages/dnb-eufemia/src/**/*.snap-diff.png
+          path: |
+            ./packages/dnb-eufemia/src/**/*.snap-diff.png
+            ./packages/dnb-eufemia/jest-visual-diff-report/*
 
       - name: Run visual tests info
         if: failure()
