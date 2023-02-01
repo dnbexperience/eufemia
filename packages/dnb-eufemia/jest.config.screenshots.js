@@ -20,6 +20,7 @@ module.exports = {
     reporters: [
       'default',
       'jest-image-snapshot/src/outdated-snapshot-reporter.js',
+      'jest-image-snapshot-reporter',
     ],
     testPathIgnorePatterns: config.testPathIgnorePatterns.filter((i) => {
       return i !== 'screenshot'
