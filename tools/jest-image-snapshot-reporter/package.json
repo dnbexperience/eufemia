@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "name": "jest-image-snapshot-reporter",
+  "description": "DNB Design System Portal Repo Utils",
+  "license": "SEE LICENSE IN LICENSE FILE",
+  "author": "DNB Team & Tobias Høegh",
+  "version": "1.0.0",
+  "main": "jest-reporter.js",
+  "dependencies": {
+    "ansi-html": "0.0.9"
+  },
+  "volta": {
+    "extends": "../../package.json"
+  }
+}

@@ -418,11 +418,13 @@ When a visual test fails, a visual comparison file (diff) will be created. Its l
 
 - `**/__tests__/__image_snapshots__/__diff_output__/*.snap-diff.png`
 
-Please do not commit these files.
+You find a report entry (`index.html`), that lists all of the failed tests here:
+
+- `/packages/dnb-eufemia/jest-visual-diff-report/index.html`
 
 You may check out the CI/CLI logs for more details.
 
-**GitHub Actions:** If visual screenshot test is failing on the CI, you can navigate to the test "Summary" where you find "Artifacts". There you can download the **visual-test-artifact** zip file, containing the visual diff files.
+**GitHub Actions:** If visual screenshot test is failing on the CI, you can navigate to the test "Summary" where you find "Artifacts". There you can download the **visual-test-artifact** zip file, containing the visual diff files as well as the report entry inside `/jest-visual-diff-report`.
 
 ### Support SCSS snapshot test
 
