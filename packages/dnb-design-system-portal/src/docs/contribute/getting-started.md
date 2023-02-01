@@ -85,11 +85,17 @@ All layout and position related styles go here:
 
 - `./packages/dnb-eufemia/src/components/button/style/dnb-button.scss`
 
-#### SCSS dependencies
+#### CSS packages
 
 SCSS file names staring with `dnb-` are later possible to get imported as individual packages:
 
 - `./packages/dnb-eufemia/src/components/button/style/dnb-button.scss`
+
+#### Style dependencies
+
+In order to test related style dependence of components, we add style imports in the `deps.scss` file, which again is used in Jest tests to perform a snapshot comparison:
+
+- `./packages/dnb-eufemia/src/components/button/style/deps.scss`
 
 #### SCSS Theming
 
@@ -101,7 +107,7 @@ Theming file names ending with `-ui` will during the package release get packed 
 
 #### SCSS utilities and properties
 
-Use the same sass setup as all the other components. You may re-use all the [helper classes](/uilib/helpers/classes):
+Use the same SASS setup as all the other components. You may re-use all the [helper classes](/uilib/helpers/classes):
 
 - `./packages/dnb-eufemia/src/style/core/utilities.scss`
 - `./packages/dnb-eufemia/src/style/core/properties.scss`

@@ -14,43 +14,57 @@ Otherwise you will find yourself making a fix of a fix, and so on. Also, refacto
 
 ## Styling structure
 
-To write more structured and uniform CSS code, stick with the following approach:
+To write more structured and uniform CSS code, so both you and your coworker can more easily read and use your code. It even helps during development, because you always are aware of where and what you have used of CSS properties already.
 
-1. start the most influential and important properties first then work progressively toward aesthetics and motion effects.
-1. leave one empty line between these groups
+Using the same principles helps coworkers quickly find and understand the sentence and meaning of your CSS code.
 
-This helps coworkers quickly find and understand the sentence and meaning of the CSS code.
+### Rational CSS properties order
 
-### Example structure of CSS
+1. start the most influential and important properties first then work progressively toward aesthetics and animations.
+1. leave one empty line between these "logical" groups.
+
+For the "logical" groups we recommend the following rational order principle:
 
 ```css
 .my-selector {
-  /* -- 1. Layout -- */
-  position: relative;
-  z-index: 1;
-  display: block;
+  /* Positioning */
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  inset: 0;
+  z-index: 10;
+  display: flex;
 
-  /* -- 2. Sizes & Spaces -- */
-  width: 0.5rem;
-  height: 0.5rem;
-  /* will be the same as our local font-size of 1.5rem */
+  /* Box Model */
+  width: 16rem;
+  height: 16rem;
+  margin: 2rem;
   padding: 1rem;
+  color: #111;
 
-  /* -- 3. Fonts & Typography -- */
-  font-family: var(--font-family-default);
-  font-weight: var(--font-weight-basis);
-  font-size: var(--font-size-large);
-  color: var(--color-sea-green);
+  /* Typography */
+  font: normal 1rem Helvetica, sans-serif;
+  line-height: 1.5rem;
+  text-align: left;
 
-  /* -- 4. Styling -- */
-  /* use Pixel for borders. They don't need to be dynamic */
-  border: 1px solid var(--color-mint-green);
+  /* Visual */
+  background-color: #eee;
+  border: 1px solid #888;
+  border-radius: 0.25rem;
   opacity: 1;
 
-  /* -- 5. Animations -- */
-  transition: opacity 0.2s linear;
+  /* Animation */
+  transition: all 1s;
+
+  /* Misc */
+  user-select: none;
+  cursor: pointer;
 }
 ```
+
+You may check out this [Prettier Plugin](https://www.npmjs.com/package/prettier-plugin-rational-order) for handling it automatic with [prettier](https://prettier.io/).
 
 ## CSS Units
 
