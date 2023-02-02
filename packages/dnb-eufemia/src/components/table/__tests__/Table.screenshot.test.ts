@@ -142,6 +142,14 @@ describe('Table', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match table without inner classes', async () => {
+    const selector = '[data-visual-test="table-no-classes"]'
+    const screenshot = await makeScreenshot({
+      selector,
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
 describe('Table with skeleton', () => {

@@ -10,8 +10,10 @@ exports[`Table scss have to match default theme snapshot 1`] = `
  */
 .dnb-table {
   text-align: left;
+  /* stylelint-disable */
+  /* stylelint-enable */
 }
-.dnb-table__th {
+.dnb-table__th, .dnb-table thead th {
   padding: 2rem 1rem 1rem;
   font-weight: var(--font-weight-medium);
   color: var(--theme-color-black-80, currentColor);
@@ -20,41 +22,45 @@ exports[`Table scss have to match default theme snapshot 1`] = `
   vertical-align: bottom;
   background-color: var(--color-white);
 }
-.dnb-table__td, tbody > tr > .dnb-table__th {
+.dnb-table__size--medium .dnb-table__th, .dnb-table__size--medium .dnb-table thead th {
+  padding: 1.375rem 1rem 0.875rem;
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+.dnb-table__size--medium .dnb-table__th .dnb-button__text, .dnb-table__size--medium .dnb-table thead th .dnb-button__text {
+  line-height: inherit;
+}
+.dnb-table__size--small .dnb-table__th, .dnb-table__size--small .dnb-table thead th {
+  padding: 1.25rem 1rem 0.5rem;
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+.dnb-table__td, .dnb-table tbody .dnb-table__th, .dnb-table tbody td, .dnb-table tbody th {
   padding: 1rem;
   color: var(--theme-color-black-80, currentColor);
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
   vertical-align: baseline;
 }
-.dnb-table__size--medium .dnb-table__th {
-  padding: 1.375rem 1rem 0.875rem;
-  font-size: var(--font-size-small);
-  line-height: var(--line-height-small);
-}
-.dnb-table__size--medium .dnb-table__th .dnb-button__text {
-  line-height: inherit;
-}
-.dnb-table__size--small .dnb-table__th {
-  padding: 1.25rem 1rem 0.5rem;
-  font-size: var(--font-size-small);
-  line-height: var(--line-height-small);
-}
-tbody > tr > .dnb-table__th {
+.dnb-table tbody .dnb-table__th, .dnb-table tbody th {
   padding: 1rem;
   vertical-align: baseline;
 }
-.dnb-table__size--medium tbody > tr > .dnb-table__th, .dnb-table__size--medium tbody > tr > .dnb-table__td {
+.dnb-table__size--medium tbody .dnb-table__th, .dnb-table__size--medium tbody .dnb-table__td,
+.dnb-table__size--medium .dnb-table tbody th,
+.dnb-table__size--medium .dnb-table tbody td {
   padding: 0.875rem 1rem;
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
 }
-.dnb-table__size--small tbody > tr > .dnb-table__th, .dnb-table__size--small tbody > tr > .dnb-table__td {
+.dnb-table__size--small tbody .dnb-table__th, .dnb-table__size--small tbody .dnb-table__td,
+.dnb-table__size--small .dnb-table tbody th,
+.dnb-table__size--small .dnb-table tbody td {
   padding: 0.625rem 1rem;
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
 }
-.dnb-table > tbody > .dnb-table__tr:last-of-type > .dnb-table__td::after, .dnb-table > tbody > .dnb-table__tr.dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) td::after {
+.dnb-table tbody .dnb-table__tr:last-of-type .dnb-table__td::after, .dnb-table tbody .dnb-table__tr.dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) td::after {
   content: "";
   position: absolute;
   left: 0;
@@ -485,7 +491,7 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
 * Table component
 *
 */
-.dnb-table__th, .dnb-table__td {
+.dnb-table thead th, .dnb-table tbody td, .dnb-table__th, .dnb-table__td {
   position: relative;
   border-spacing: 0;
   word-break: keep-all;

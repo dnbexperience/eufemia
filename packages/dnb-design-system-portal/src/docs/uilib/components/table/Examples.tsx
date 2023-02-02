@@ -528,6 +528,43 @@ export const TableClassHelpers = () => (
   </ComponentBox>
 )
 
+export const TableWithoutClasses = () => (
+  <ComponentBox hideCode data-visual-test="table-no-classes">
+    <Table.ScrollView>
+      <table className="dnb-table">
+        <thead>
+          <tr>
+            <th>Header</th>
+            <th className="dnb-table--sortable dnb-table--reversed">
+              <Th.SortButton text="Sortable" />
+            </th>
+            <th className="dnb-table--sortable dnb-table--active">
+              <Th.SortButton text="Active" />
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Row 1</td>
+            <td>Row 1</td>
+            <td>Row 1</td>
+          </tr>
+          <tr>
+            <td>Row 2</td>
+            <td>Row 2</td>
+            <td>Row 2</td>
+          </tr>
+          <tr>
+            <td>Row 3</td>
+            <td>Row 3</td>
+            <td>Row 3</td>
+          </tr>
+        </tbody>
+      </table>
+    </Table.ScrollView>
+  </ComponentBox>
+)
+
 export const TableLongHeader = () => (
   <ComponentBox hideCode data-visual-test="table-header">
     <Table.ScrollView>

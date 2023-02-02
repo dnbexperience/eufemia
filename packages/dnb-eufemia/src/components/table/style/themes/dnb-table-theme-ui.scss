@@ -9,7 +9,8 @@
   text-align: left;
 
   // head
-  &__th {
+  &__th,
+  & thead th {
     // spacing
     padding: 2rem 1rem 1rem;
 
@@ -21,23 +22,7 @@
     vertical-align: bottom;
 
     background-color: var(--color-white);
-  }
 
-  // body data
-  &__td,
-  tbody > tr > &__th {
-    // spacing
-    padding: 1rem;
-
-    // typography
-    color: var(--theme-color-black-80, currentColor);
-    font-size: var(--font-size-basis);
-    line-height: var(--line-height-basis);
-    vertical-align: baseline;
-  }
-
-  // stylelint-disable-next-line
-  &__th {
     .dnb-table__size--medium & {
       // spacing
       padding: 1.375rem 1rem 0.875rem;
@@ -61,8 +46,24 @@
     }
   }
 
-  // stylelint-disable-next-line
-  tbody > tr > &__th {
+  // body data
+  /* stylelint-disable */
+  &__td,
+  & tbody &__th,
+  & tbody td,
+  & tbody th {
+    // spacing
+    padding: 1rem;
+
+    // typography
+    color: var(--theme-color-black-80, currentColor);
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis);
+    vertical-align: baseline;
+  }
+
+  & tbody &__th,
+  & tbody th {
     // spacing
     padding: 1rem;
 
@@ -70,9 +71,10 @@
     vertical-align: baseline;
   }
 
-  // stylelint-disable-next-line
-  tbody > tr > &__th,
-  tbody > tr > &__td {
+  tbody &__th,
+  tbody &__td,
+  tbody th,
+  tbody td {
     .dnb-table__size--medium & {
       // spacing
       padding: 0.875rem 1rem;
@@ -91,16 +93,17 @@
       line-height: var(--line-height-small);
     }
   }
+  /* stylelint-enable */
 
   // NB: In case we still would need a border on the table head row
   // &:not(#{&}--border):not(#{&}--outline) > thead > tr > th::after,
   // &:not(#{&}--border):not(#{&}--outline) > thead > &__tr > &__th::after,
 
   // border
-  & > tbody > &__tr:last-of-type > &__td::after,
+  & tbody &__tr:last-of-type &__td::after,
   &
-    > tbody
-    > &__tr#{&}__tr--has-accordion-content:not(#{&}__tr--expanded):nth-last-child(2)
+    tbody
+    &__tr#{&}__tr--has-accordion-content:not(#{&}__tr--expanded):nth-last-child(2)
     td::after {
     content: '';
     position: absolute;

@@ -8,6 +8,7 @@ TableVariantComplex,
 TableVariantFixed,
 TableStackedContainer,
 TableClassHelpers,
+TableWithoutClasses,
 TableLongHeader,
 TableSticky,
 TableStickyMaxHeight,
@@ -98,6 +99,7 @@ render(
 
 <PaginationTable />
 
-### Example usage of class helpers
+### Example usage without and with classes
 
+<TableWithoutClasses />
 <TableClassHelpers />
