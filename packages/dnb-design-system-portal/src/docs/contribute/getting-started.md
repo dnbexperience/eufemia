@@ -87,7 +87,7 @@ All layout and position related styles go here:
 
 #### CSS packages
 
-SCSS file names staring with `dnb-` are later possible to get imported as individual packages:
+SCSS file names starting with `dnb-` are later possible to get imported as individual packages:
 
 - `./packages/dnb-eufemia/src/components/button/style/dnb-button.scss`
 
