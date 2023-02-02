@@ -4,6 +4,8 @@
 */
 
 .dnb-table {
+  & thead th,
+  & tbody td,
   &__th,
   &__td {
     position: relative;
