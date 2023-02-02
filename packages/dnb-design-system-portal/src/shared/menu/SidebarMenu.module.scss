@@ -137,6 +137,7 @@
 
     .dnb-anchor:hover {
       color: var(--color-black);
+      text-decoration: underline;
       background-color: transparent;
     }
 
@@ -202,49 +203,6 @@
 
       margin-top: 1rem;
       margin-bottom: 2rem;
-    }
-
-    .status-badge {
-      margin-right: 1rem;
-
-      display: flex;
-      justify-content: center;
-      align-items: baseline; /* then we can set line-height */
-
-      font-size: 0.4375rem; /* safari handles rem value incorrectly */
-      line-height: 1.3125rem; /* same as height + 1px */
-      font-weight: var(--font-weight-basis);
-      text-align: center;
-      text-transform: uppercase;
-      color: var(--color-black);
-
-      /* bg */
-      height: 1.25rem;
-      width: 1.25rem;
-      border-radius: 50%;
-
-      background-color: var(--color-mint-green-25);
-      &::after {
-        content: '';
-        position: absolute;
-        z-index: 1;
-      }
-    }
-    &.status-dep .status-badge {
-      color: var(--color-black-80);
-      background-color: var(--color-fire-red-8);
-    }
-    &.status-new .status-badge {
-      color: var(--color-sea-green);
-      background-color: transparent;
-    }
-    &.status-beta .status-badge {
-      color: var(--color-fire-red);
-      background-color: transparent;
-    }
-    &.status-imp .status-badge {
-      background-color: var(--color-black);
-      color: var(--color-white);
     }
   }
 

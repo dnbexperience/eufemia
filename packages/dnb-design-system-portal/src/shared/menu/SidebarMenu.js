@@ -12,7 +12,7 @@ import { resetLevels } from '@dnb/eufemia/src/components/Heading'
 import Context from '@dnb/eufemia/src/shared/Context'
 import { SidebarMenuContext } from './SidebarMenuContext'
 import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
-import { Space, Icon } from '@dnb/eufemia/src/components'
+import { Space, Icon, Badge } from '@dnb/eufemia/src/components'
 import { MediaQuery } from '@dnb/eufemia/src/shared'
 import graphics from './SidebarGraphics'
 import keycode from 'keycode'
@@ -378,17 +378,7 @@ class ListItem extends React.PureComponent {
               {children}
             </span>
           </span>
-          {status && (
-            <span
-              className={classnames(
-                'status-badge',
-                createSkeletonClass('font', this.context.skeleton)
-              )}
-              title={statusTitle}
-            >
-              {status}
-            </span>
-          )}
+          {status && <Badge content={statusTitle} />}
         </Link>
       </li>
     )
