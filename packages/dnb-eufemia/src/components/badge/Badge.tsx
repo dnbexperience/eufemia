@@ -89,9 +89,7 @@ function Badge(localProps: BadgeAndSpacingProps) {
   )
 
   const BadgeRoot = ({ children }: { children: React.ReactNode }) => (
-    <span className="dnb-badge__root" data-testid="badge-root">
-      {children}
-    </span>
+    <span className="dnb-badge__root">{children}</span>
   )
 
   const BadgeElem = (localProps: BadgeAndSpacingProps) => {
@@ -139,14 +137,9 @@ function Badge(localProps: BadgeAndSpacingProps) {
           spacingClasses,
           className
         )}
-        data-testid="badge"
         {...props}
       >
-        {label && (
-          <span data-testid="badge-label" className="dnb-sr-only">
-            {label}{' '}
-          </span>
-        )}
+        {label && <span className="dnb-sr-only">{label} </span>}
         {content}
       </span>
     )
