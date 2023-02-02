@@ -10,6 +10,7 @@ import {
   axeComponent,
   mount,
 } from '../../../core/jest/jestSetup'
+import { Provider } from '../../../shared'
 
 describe('Badge', () => {
   it('renders without properties', () => {
@@ -106,6 +107,53 @@ describe('Badge', () => {
     global.console.log = jest.fn()
     mount(<Badge content="text" label="Notifications:" />)
     expect(global.console.log).not.toBeCalled()
+  })
+
+  it('should support spacing props', () => {
+    render(
+      <Badge
+        top="2rem"
+        aria-label="Info about the badge"
+        content="content"
+      />
+    )
+
+    const element = document.querySelector('.dnb-badge')
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+
+    expect(attributes).toEqual(['role', 'class', 'aria-label'])
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-badge',
+      'dnb-badge--variant-information',
+      'dnb-space__top--large',
+    ])
+  })
+
+  it('should have role="status"', () => {
+    render(<Badge content="content" />)
+
+    const element = document.querySelector('.dnb-badge')
+
+    expect(element.getAttribute('role')).toBe('status')
+  })
+
+  it('should inherit skeleton prop from provider', () => {
+    render(
+      <Provider skeleton>
+        <Badge content="content" />
+      </Provider>
+    )
+
+    const element = document.querySelector('.dnb-badge')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-badge',
+      'dnb-badge--variant-information',
+      'dnb-skeleton',
+      'dnb-skeleton--shape',
+    ])
   })
 
   describe('default values', () => {
