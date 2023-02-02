@@ -12,6 +12,7 @@ import { SkeletonShow } from '../skeleton/Skeleton'
 import {
   warn,
   extendPropsWithContext,
+  validateDOMAttributes,
 } from '../../shared/component-helper'
 
 export interface BadgeProps {
@@ -82,31 +83,45 @@ function Badge(localProps: BadgeAndSpacingProps) {
   const context = React.useContext(Context)
 
   // Extract additional props from global context
-  const { children, ...props } = extendPropsWithContext(
+  const allProps = extendPropsWithContext(
     localProps,
     defaultProps,
-    context?.Badge
+    context?.Badge,
+    { skeleton: context?.skeleton }
   )
 
-  const BadgeRoot = ({ children }: { children: React.ReactNode }) => (
-    <span className="dnb-badge__root">{children}</span>
-  )
+  const {
+    label,
+    className,
+    children, // eslint-disable-line
+    skeleton,
+    horizontal,
+    vertical,
+    content: contentProp,
+    variant,
+    ...props
+  } = allProps
 
-  const BadgeElem = (localProps: BadgeAndSpacingProps) => {
-    const {
-      label,
-      className,
-      children,
-      skeleton,
-      horizontal,
-      vertical,
-      content: contentProp,
-      variant,
-      ...props
-    } = localProps
+  validateDOMAttributes(allProps, props)
 
+  if (children) {
+    return (
+      <BadgeRoot>
+        {children}
+        <BadgeElem />
+      </BadgeRoot>
+    )
+  }
+
+  return <BadgeElem />
+
+  function BadgeRoot({ children }: { children: React.ReactNode }) {
+    return <span className="dnb-badge__root">{children}</span>
+  }
+
+  function BadgeElem() {
     const skeletonClasses = createSkeletonClass('shape', skeleton, context)
-    const spacingClasses = createSpacingClasses(props)
+    const spacingClasses = createSpacingClasses(allProps)
     const contentIsNum = typeof contentProp === 'number'
     const variantIsNotification = variant === 'notification'
 
@@ -128,6 +143,7 @@ function Badge(localProps: BadgeAndSpacingProps) {
 
     return (
       <span
+        role="status"
         className={classnames(
           'dnb-badge',
           `dnb-badge--variant-${variant}`,
@@ -144,17 +160,6 @@ function Badge(localProps: BadgeAndSpacingProps) {
       </span>
     )
   }
-
-  if (children) {
-    return (
-      <BadgeRoot>
-        {children}
-        <BadgeElem {...props} />
-      </BadgeRoot>
-    )
-  }
-
-  return <BadgeElem {...props} />
 }
 
 export default Badge
