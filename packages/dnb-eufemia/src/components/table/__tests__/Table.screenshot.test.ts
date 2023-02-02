@@ -32,7 +32,7 @@ describe('Table', () => {
   })
 
   it('have to match a row scope only table layout', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       selector: '[data-visual-test="table-row-scope-only"] .dnb-table',
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -53,7 +53,7 @@ describe('Table', () => {
   })
 
   it('have to match table empty container head and foot', async () => {
-    const screenshot = await testPageScreenshot({
+    const screenshot = await makeScreenshot({
       selector: '[data-visual-test="table-container-empty"]',
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -153,6 +153,14 @@ describe('Table', () => {
       simulateSelector: `${selector} .dnb-button`,
       simulate: 'hover',
       wrapperStyle: { margin: '0 2rem 0 0' }, // will only add a padding, but avoid a negative margin
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match table without inner classes', async () => {
+    const selector = '[data-visual-test="table-no-classes"]'
+    const screenshot = await makeScreenshot({
+      selector,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
