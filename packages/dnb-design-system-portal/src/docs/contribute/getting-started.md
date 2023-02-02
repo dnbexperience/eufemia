@@ -93,7 +93,7 @@ SCSS file names starting with `dnb-` are later possible to get imported as indiv
 
 #### Style dependencies
 
-In order to test related style dependence of components, we add style imports in the `deps.scss` file, which again is used in Jest tests to perform a snapshot comparison:
+In order to test related style dependencies of components, we add style imports in the `deps.scss` file, which again is used in Jest tests to perform a snapshot comparison:
 
 - `./packages/dnb-eufemia/src/components/button/style/deps.scss`
 
