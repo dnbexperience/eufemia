@@ -10,6 +10,7 @@ TableVariantFixed,
 TableStackedContainer,
 TableContainerEmptyHeaderFooter,
 TableClassHelpers,
+TableWithoutClasses,
 TableLongHeader,
 TableSticky,
 TableStickyMaxHeight,
@@ -112,6 +113,7 @@ With no (empty) `head` and `foot` content.
 
 <PaginationTable />
 
-### Example usage of class helpers
+### Example usage without and with classes
 
+<TableWithoutClasses />
 <TableClassHelpers />
