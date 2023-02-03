@@ -56,15 +56,18 @@ exports[`Table scss have to match default theme snapshot 1`] = `
     padding: 0.625rem 1rem;
     font-size: var(--font-size-small);
     line-height: var(--line-height-small); }
-  .dnb-table > tbody > .dnb-table__tr:last-of-type > .dnb-table__td::after,
-  .dnb-table > tbody
+  .dnb-table:not(.dnb-table--outline) > tbody > .dnb-table__tr:last-of-type > .dnb-table__td::after,
+  .dnb-table:not(.dnb-table--outline) > tbody
 > .dnb-table__tr.dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) td::after {
     content: '';
     position: absolute;
+    top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    border-bottom: var(--outline); }
+    z-index: 1;
+    pointer-events: none;
+    border-bottom: var(--border); }
 
 .dnb-table__container {
   background-color: var(--color-white); }
@@ -499,11 +502,6 @@ thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus
   border-right: none;
   border-bottom: none; }
 
-.dnb-table:not(.dnb-table--outline) tbody .dnb-table__tr:last-of-type .dnb-table__td::after,
-.dnb-table:not(.dnb-table--outline) tbody .dnb-table__tr .dnb-table__td[rowspan]::after {
-  bottom: -0.0625rem;
-  border-bottom: var(--border); }
-
 .dnb-table--outline tbody .dnb-table__td {
   /* stylelint-disable */
   /* stylelint-enable */ }
@@ -523,7 +521,9 @@ thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus
   .dnb-table--outline tbody .dnb-table__td, .dnb-table--outline tbody .dnb-table__td::before, .dnb-table--outline tbody .dnb-table__td::after {
     transition: border-radius 400ms var(--easing-default); }
 
-.dnb-table--outline tbody .dnb-table__tr:last-of-type .dnb-table__td::after {
+.dnb-table--outline tbody .dnb-table__tr:last-of-type .dnb-table__td::after,
+.dnb-table--outline tbody
+.dnb-table__tr.dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) .dnb-table__td::after {
   content: '';
   position: absolute;
   top: 0;
@@ -665,10 +665,22 @@ thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus
   .dnb-table__container, .dnb-table__container__body, .dnb-table__container__head, .dnb-table__container__foot {
     display: flex;
     flex-direction: column; }
-  .dnb-table__container__body .dnb-table:not([class*='space__bottom']) {
-    margin-bottom: 0; }
-  .dnb-table__container__body .dnb-table__size--large .dnb-table__th {
-    padding-top: 1.5rem; }
+  .dnb-table__container__body .dnb-table {
+    position: relative; }
+    .dnb-table__container__body .dnb-table:not([class*='space__bottom']) {
+      margin-bottom: 0; }
+    .dnb-table__container__body .dnb-table__size--large .dnb-table__th {
+      padding-top: 1.5rem; }
+    .dnb-table__container__body .dnb-table::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 1;
+      pointer-events: none;
+      border-bottom: var(--border); }
   .dnb-table__container__head {
     padding: 2rem 1rem 0; }
     .dnb-table__container__head--empty {
