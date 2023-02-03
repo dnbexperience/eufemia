@@ -822,7 +822,7 @@ html[data-whatinput=keyboard] .dnb-blockquote:not(.dnb-blockquote--no-background
     margin-top: 0;
   }
   .dnb-dl dd.dnb-dl__item {
-    width: 100%;
+    flex-basis: 100%;
     height: 0;
     margin: 0;
   }
