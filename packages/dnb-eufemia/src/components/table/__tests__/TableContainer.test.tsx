@@ -9,7 +9,8 @@ describe('TableContainer', () => {
     return (
       <TableContainer {...props}>
         <TableContainer.Head>
-          <H2>text</H2>
+          <H2>Header</H2>
+          <P>Text</P>
         </TableContainer.Head>
         <TableContainer.Body>
           <Table>
@@ -39,7 +40,15 @@ describe('TableContainer', () => {
 
     const element = document.querySelector('.dnb-table__container')
 
-    expect(element.textContent).toBe('texttable 1table 2text')
+    expect(element.textContent).toBe('HeaderTexttable 1table 2text')
+
+    expect(
+      document.querySelector('.dnb-table__container__head--empty')
+    ).toBeFalsy()
+
+    expect(
+      document.querySelector('.dnb-table__container__foot--empty')
+    ).toBeFalsy()
   })
 
   it('should include custom attributes', () => {
@@ -69,7 +78,7 @@ describe('TableContainer', () => {
   })
 
   it('should not return table head if empty modifier', () => {
-    render(<TableContainer.Head>{null}</TableContainer.Head>)
+    render(<TableContainer.Head />)
 
     expect(
       document.querySelector('.dnb-table__container__head--empty')
@@ -77,7 +86,31 @@ describe('TableContainer', () => {
   })
 
   it('should not return table foot if empty modifier', () => {
-    render(<TableContainer.Foot>{null}</TableContainer.Foot>)
+    render(<TableContainer.Foot />)
+
+    expect(
+      document.querySelector('.dnb-table__container__foot--empty')
+    ).toBeTruthy()
+  })
+
+  it('should handle empty/no table head and foot ', () => {
+    render(
+      <TableContainer>
+        <TableContainer.Body>
+          <Table>
+            <tbody>
+              <tr>
+                <td>table 1</td>
+              </tr>
+            </tbody>
+          </Table>
+        </TableContainer.Body>
+      </TableContainer>
+    )
+
+    expect(
+      document.querySelector('.dnb-table__container__head--empty')
+    ).toBeTruthy()
 
     expect(
       document.querySelector('.dnb-table__container__foot--empty')

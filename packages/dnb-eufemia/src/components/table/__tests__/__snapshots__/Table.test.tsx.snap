@@ -684,14 +684,16 @@ thead > tr > th.dnb-table--active .dnb-table__sort-button.dnb-button:hover:focus
   .dnb-table__container__head {
     padding: 2rem 1rem 0; }
     .dnb-table__container__head--empty {
-      padding: 0.5rem 0 0; }
+      padding: 0;
+      min-height: 1.5rem; }
     .dnb-spacing .dnb-table__container__head .dnb-h--large:not([class*='space__top']) {
       margin: 0; }
   .dnb-table__container__foot {
     padding: 1rem;
     padding-bottom: 1.25rem; }
     .dnb-table__container__foot--empty {
-      padding-bottom: 1.5rem; }
+      padding: 0;
+      min-height: 1rem; }
   .dnb-table__container .dnb-table__scroll-view {
     clip-path: inset(0 round 0 0 0.5rem 0.5rem); }
   @supports (-webkit-appearance: none) and (not (-moz-appearance: meterbar)) {

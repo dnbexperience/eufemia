@@ -7,6 +7,7 @@ TableVariantBasic,
 TableVariantComplex,
 TableVariantFixed,
 TableStackedContainer,
+TableContainerEmptyHeaderFooter,
 TableClassHelpers,
 TableLongHeader,
 TableSticky,
@@ -89,6 +90,10 @@ render(
 </details>
 
 <TableStackedContainer />
+
+With no (empty) `head` and `foot` content.
+
+<TableContainerEmptyHeaderFooter />
 
 ### Table with long header text (wrapping)
 

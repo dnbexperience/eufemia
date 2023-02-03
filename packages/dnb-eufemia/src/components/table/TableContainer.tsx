@@ -11,11 +11,13 @@ export type TableContainerProps = {
   /**
    * The content of the component.
    */
-  children: [
-    React.ReactElement<TableContainerHeadProps>,
-    React.ReactElement<TableContainerBodyProps>,
-    React.ReactElement<TableContainerFootProps>
-  ]
+  children:
+    | [
+        React.ReactElement<TableContainerHeadProps>,
+        React.ReactElement<TableContainerBodyProps>,
+        React.ReactElement<TableContainerFootProps>
+      ]
+    | React.ReactElement<TableContainerBodyProps>
 }
 
 export type TableContainerAllProps = TableContainerProps &
@@ -38,6 +40,16 @@ export default function TableContainer(props: TableContainerAllProps) {
   const ScrollView =
     TableScrollView as React.FunctionComponent<InternalTableContainerTableScrollView>
 
+  const isArray = Array.isArray(children)
+  const content = isArray ? children : [children]
+
+  if (content[0]?.type !== TableContainer.Head) {
+    content.unshift(<TableContainer.Head key="head" />)
+  }
+  if (content[2]?.type !== TableContainer.Foot) {
+    content.push(<TableContainer.Foot key="foot" />)
+  }
+
   return (
     <section
       className={classnames(
@@ -47,7 +59,7 @@ export default function TableContainer(props: TableContainerAllProps) {
       )}
       {...rest}
     >
-      <ScrollView>{children}</ScrollView>
+      <ScrollView>{content}</ScrollView>
     </section>
   )
 }
@@ -80,7 +92,7 @@ export type TableContainerHeadProps = {
   /**
    * The content of the component.
    */
-  children: React.ReactNode
+  children?: React.ReactNode
 }
 
 export function TableContainerHead(
@@ -106,7 +118,7 @@ export type TableContainerFootProps = {
   /**
    * The content of the component.
    */
-  children: React.ReactNode
+  children?: React.ReactNode
 }
 
 export function TableContainerFoot(
