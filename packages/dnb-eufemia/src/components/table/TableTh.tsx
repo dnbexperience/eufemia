@@ -53,8 +53,11 @@ export default function Th(
     ...props
   } = componentProps
 
-  const role = props.scope === 'row' ? 'rowheader' : 'columnheader'
-  const scope = props.scope === 'row' ? 'row' : 'col'
+  const role =
+    props.scope === 'row' || props.scope === 'rowgroup'
+      ? 'rowheader'
+      : 'columnheader'
+  const scope = props.scope === 'row' ? 'row' : props.scope || 'col'
   const ariaSort = sortable
     ? reversed
       ? 'descending'

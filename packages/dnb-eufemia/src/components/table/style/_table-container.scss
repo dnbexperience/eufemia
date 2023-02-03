@@ -40,6 +40,16 @@
         @include tableBorder();
         border-bottom: var(--border);
       }
+
+      /* stylelint-disable */
+      & tbody:first-child,
+      & > :not(thead) + tbody {
+        .dnb-table__tr:first-of-type .dnb-table__th::after,
+        .dnb-table__tr:first-of-type .dnb-table__td::after {
+          border-top: none;
+        }
+      }
+      /* stylelint-enable */
     }
   }
 

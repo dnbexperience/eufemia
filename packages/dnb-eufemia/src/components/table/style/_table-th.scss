@@ -12,46 +12,53 @@
   }
 
   // table border
-  &--outline thead &__th {
+  &--border tbody &__th {
     &::after {
       @include tableBorder();
 
-      border-top: var(--outline);
+      border-top: var(--border);
     }
+  }
+  // &--outline thead &__th {
+  //   &::after {
+  //     @include tableBorder();
 
-    &:first-of-type::after {
-      border-left: var(--outline);
-    }
-    &:last-of-type::after {
-      border-right: var(--outline);
-    }
-  }
-  &--outline thead &__th:first-of-type {
-    &,
-    &::after {
-      border-radius: 0.5rem 0 0 0;
-    }
-  }
-  &--outline thead &__th:last-of-type {
-    &,
-    &::after {
-      border-radius: 0 0.5rem 0 0;
-    }
-  }
-  &--outline tbody &__th:first-of-type::after {
-    @include tableBorder();
+  //     border-top: var(--outline);
+  //   }
 
-    border-left: var(--outline);
-  }
-  &--outline tbody &__tr:last-of-type &__th {
-    &::after {
-      @include tableBorder();
+  //   &:first-of-type::after {
+  //     border-left: var(--outline);
+  //   }
+  //   &:last-of-type::after {
+  //     border-right: var(--outline);
+  //   }
+  // }
+  // &--outline thead &__th:first-of-type {
+  //   &,
+  //   &::after {
+  //     border-radius: 0.5rem 0 0 0;
+  //   }
+  // }
+  // &--outline thead &__th:last-of-type {
+  //   &,
+  //   &::after {
+  //     border-radius: 0 0.5rem 0 0;
+  //   }
+  // }
+  // &--outline tbody &__th:first-of-type::after {
+  //   @include tableBorder();
 
-      border-bottom: var(--outline);
-    }
+  //   border-left: var(--outline);
+  // }
+  // &--outline tbody &__tr:last-of-type &__th {
+  //   &::after {
+  //     @include tableBorder();
 
-    &:first-of-type::after {
-      border-radius: 0 0 0 0.5rem;
-    }
-  }
+  //     border-bottom: var(--outline);
+  //   }
+
+  //   &:first-of-type::after {
+  //     border-radius: 0 0 0 0.5rem;
+  //   }
+  // }
 }
