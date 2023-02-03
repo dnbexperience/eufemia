@@ -34,6 +34,12 @@
       &__size--large .dnb-table__th {
         padding-top: 1.5rem;
       }
+
+      position: relative; // because of bottom border
+      &::after {
+        @include tableBorder();
+        border-bottom: var(--border);
+      }
     }
   }
 
