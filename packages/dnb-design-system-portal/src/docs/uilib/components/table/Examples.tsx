@@ -490,6 +490,49 @@ export const TableStackedContainer = () => {
   )
 }
 
+export const TableContainerEmptyHeaderFooter = () => {
+  return (
+    <ComponentBox
+      hideCode
+      data-visual-test="table-container-empty"
+      scope={{ TableContainer }}
+    >
+      {() => {
+        return (
+          <TableContainer bottom="large">
+            <TableContainer.Body>
+              <Table border>
+                <thead>
+                  <Tr>
+                    <Th>Column 1</Th>
+                    <Th>Column 2</Th>
+                    <Th>Column 3</Th>
+                    <Th>Column 4</Th>
+                  </Tr>
+                </thead>
+                <tbody>
+                  <Tr>
+                    <Td>Row 1</Td>
+                    <Td>Row 1</Td>
+                    <Td>Row 1</Td>
+                    <Td>Row 1</Td>
+                  </Tr>
+                  <Tr>
+                    <Td>Row 2</Td>
+                    <Td>Row 2</Td>
+                    <Td>Row 2</Td>
+                    <Td>Row 2</Td>
+                  </Tr>
+                </tbody>
+              </Table>
+            </TableContainer.Body>
+          </TableContainer>
+        )
+      }}
+    </ComponentBox>
+  )
+}
+
 export const TableClassHelpers = () => (
   <ComponentBox hideCode data-visual-test="table-classes">
     <Table.ScrollView>

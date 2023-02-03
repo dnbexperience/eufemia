@@ -45,6 +45,13 @@ describe('Table screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match table empty container head and foot', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="table-container-empty"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match table in medium size', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="table-size-medium"]',
