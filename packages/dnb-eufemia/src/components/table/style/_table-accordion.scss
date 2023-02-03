@@ -72,13 +72,17 @@
     position: relative;
     z-index: 2;
   }
-  &__tr--has-accordion-content:hover,
-  &__tr--has-accordion-content:active,
-  &__tr--has-accordion-content:focus,
   &__tr--has-accordion-content#{&}__tr--expanded,
   &__tr__accordion_content {
-    // ensure borders are visible in certain states
-    z-index: 3;
+    z-index: 3; // ensure borders are visible in certain states
+  }
+
+  &__tr--has-accordion-content {
+    &:hover,
+    &:active,
+    html[data-whatinput='keyboard'] &:focus {
+      z-index: 5; // over table outline border
+    }
   }
 
   &__tr--has-accordion-content#{&}__tr--expanded
@@ -127,6 +131,13 @@
 
       @include tableAccordionActiveColor();
     }
+  }
+
+  &--outline
+    tbody
+    &__tr--has-accordion-content:not(#{&}__tr--expanded):not(:nth-last-child(2))
+    &__td::before {
+    bottom: -0.0625rem;
   }
 
   &__tr--has-accordion-content#{&}__tr--expanded:not(&__tr--disabled):hover
@@ -193,14 +204,16 @@
     @include IS_SAFARI_DESKTOP {
       &[hidden] {
         /**
-          * By reverting the display from "none" to "block",
-          * we trick VoiceOver to not make this row as the end of the table. We still need "hidden" to get the correct number of rows (childCount).
-          */
+        * By reverting the display from "none" to "block",
+        * we trick VoiceOver to not make this row as the end of the table. We still need "hidden" to get the correct number of rows (childCount).
+        */
         display: block;
       }
     }
 
     td {
+      padding: 0 !important; // medium and small size sets padding – but we never want a padding on this td
+
       width: calc(100% - 3.5rem);
 
       .dnb-table__size--medium & {
@@ -279,9 +292,40 @@
     vertical-align: top;
   }
 
+  &--outline
+    tbody
+    &__tr#{&}__tr--has-accordion-content:not(#{&}__tr--expanded):nth-last-child(2)
+    &__td:first-of-type {
+    &,
+    &::before,
+    &::after {
+      border-radius: 0 0 0 0.5rem;
+    }
+  }
+  &--outline tbody &__tr:last-of-type &__td:last-of-type,
+  &--outline
+    tbody
+    &__tr#{&}__tr--has-accordion-content:not(#{&}__tr--expanded):nth-last-child(2)
+    &__td:last-of-type {
+    &,
+    &::before,
+    &::after {
+      border-radius: 0 0 0.5rem 0;
+    }
+  }
+  &--outline tbody &__tr#{&}__tr__accordion_content:last-of-type &__td {
+    &,
+    &::before,
+    &::after {
+      border-radius: 0 0 0.5rem 0.5rem;
+    }
+  }
+
+  // stylelint-disable-next-line
   &__tr--has-accordion-content:not(&__tr--disabled) {
     cursor: pointer;
   }
+
   // prevent selection while animating – useful when user double-clicks
   // TODO: Our SASS version does not support :has – so we may use this in future
   // &__tr--has-accordion-content:has(& + &__tr__accordion_content--animating) {
