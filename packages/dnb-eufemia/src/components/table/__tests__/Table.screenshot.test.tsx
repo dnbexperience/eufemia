@@ -31,6 +31,13 @@ describe('Table screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match a row scope only table layout', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="table-row-scope-only"] .dnb-table',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match a fixed table layout', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="table-fixed"]',

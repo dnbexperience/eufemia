@@ -214,7 +214,7 @@ export const TableVariantComplex = () => (
         <caption>A Table Caption</caption>
         <thead>
           <Tr noWrap>
-            <Th></Th>
+            <Th />
             <Th>
               Column 2<br />
               newline
@@ -224,13 +224,14 @@ export const TableVariantComplex = () => (
         </thead>
         <tbody>
           <Tr variant="even">
-            <Th scope="row">Row 1 Header</Th>
+            <Th scope="rowgroup" rowSpan={2}>
+              Row 1+2 Header
+            </Th>
             <Td rowSpan={2}>Row 1 that spans</Td>
             <Td>Row 1</Td>
             <Td>Row 1</Td>
           </Tr>
           <Tr variant="even">
-            <Th scope="row">Row 2 Header</Th>
             <Td>Row 2</Td>
             <Td>Row 2</Td>
           </Tr>
@@ -251,6 +252,28 @@ export const TableVariantComplex = () => (
             <Th scope="row">Row 4 Header</Th>
             <Td>Row 4</Td>
             <Td colSpan={2}>Row 4</Td>
+          </Tr>
+        </tbody>
+      </Table>
+    </Table.ScrollView>
+  </ComponentBox>
+)
+
+export const TableRowScopeOnly = () => (
+  <ComponentBox hideCode data-visual-test="table-row-scope-only">
+    <Table.ScrollView>
+      <Table outline border>
+        <caption>A Table Caption</caption>
+        <tbody>
+          <Tr>
+            <Th scope="row">Header A</Th>
+            <Td>Row 1</Td>
+            <Td>Row 1</Td>
+          </Tr>
+          <Tr>
+            <Th>Header B</Th>
+            <Td>Row 2</Td>
+            <Td>Row 2</Td>
           </Tr>
         </tbody>
       </Table>
@@ -381,19 +404,18 @@ export const TableStackedContainer = () => {
             min-width: 800px;
           }
           table {
-            thead {
-              th:nth-of-type(1) {
-                width: 30%;
-              }
-              th:nth-of-type(2) {
-                width: 30%;
-              }
-              th:nth-of-type(3) {
-                width: 20%;
-              }
-              th:nth-of-type(4) {
-                width: 20%;
-              }
+            th:nth-of-type(1),
+            td:nth-of-type(1) {
+              width: 30%;
+            }
+            th:nth-of-type(2) {
+              width: 30%;
+            }
+            th:nth-of-type(3) {
+              width: 20%;
+            }
+            th:nth-of-type(4) {
+              width: 20%;
             }
           }
         `
@@ -475,6 +497,22 @@ export const TableStackedContainer = () => {
                     <Td>Row 3</Td>
                     <Td>Row 3</Td>
                     <Td>Row 3</Td>
+                  </Tr>
+                </tbody>
+              </Table>
+
+              <Table fixed border>
+                <tbody>
+                  <Tr>
+                    <Th scope="rowgroup" rowSpan={2}>
+                      Row Header Group
+                    </Th>
+                    <Td>Row 1</Td>
+                    <Td>Row 1</Td>
+                  </Tr>
+                  <Tr>
+                    <Td>Row 2</Td>
+                    <Td>Row 2</Td>
                   </Tr>
                 </tbody>
               </Table>
@@ -634,7 +672,7 @@ export const TableAccordion = () => (
 
           return (
             <>
-              <Button icon="bell" variant="secondary">
+              <Button top icon="bell" variant="secondary">
                 Ring the bell
               </Button>
 

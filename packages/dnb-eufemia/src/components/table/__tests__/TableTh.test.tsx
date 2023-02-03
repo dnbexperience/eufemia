@@ -90,6 +90,23 @@ describe('TableTh', () => {
     expect(element.getAttribute('scope')).toBe('row')
   })
 
+  it('should set correct role when scope is rowgroup', () => {
+    render(
+      <table>
+        <tbody>
+          <tr>
+            <TableTh scope="rowgroup">th content</TableTh>
+          </tr>
+        </tbody>
+      </table>
+    )
+
+    const element = document.querySelector('th')
+
+    expect(element.getAttribute('role')).toBe('rowheader')
+    expect(element.getAttribute('scope')).toBe('rowgroup')
+  })
+
   it('should set correct sortable class', () => {
     render(
       <table>
