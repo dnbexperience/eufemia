@@ -3,18 +3,7 @@
 *
 */
 
-@mixin tableBorder {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1;
-
-  pointer-events: none;
-}
-
+@import './dnb-table-mixins.scss';
 @import './_table-header-buttons.scss';
 
 .dnb-table {
@@ -39,9 +28,19 @@
 
   & > caption {
     caption-side: bottom;
-    margin-top: 0.5rem;
+    padding: 0.5rem 0 0.5rem 1rem;
 
     font-size: var(--font-size-basis);
+    background-color: var(--color-white);
+    text-align: left;
+  }
+  &--border > caption:not(.dnb-sr-only) {
+    position: relative;
+    &::after {
+      @include tableBorder();
+      top: -0.0625rem; // so we are behind the border-bottom (end of table)
+      border-top: var(--border);
+    }
   }
 
   &.dnb-skeleton {

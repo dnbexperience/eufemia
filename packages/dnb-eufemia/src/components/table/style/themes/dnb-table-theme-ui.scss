@@ -4,6 +4,7 @@
 */
 
 @import '../../../../style/themes/imports.scss';
+@import '../dnb-table-mixins.scss';
 
 .dnb-table {
   text-align: left;
@@ -97,23 +98,16 @@
     }
   }
 
-  // NB: In case we still would need a border on the table head row
-  // &:not(#{&}--border):not(#{&}--outline) > thead > tr > th::after,
-  // &:not(#{&}--border):not(#{&}--outline) > thead > &__tr > &__th::after,
-
   // border
-  & > tbody > &__tr:last-of-type > &__td::after,
-  &
+  &:not(&--outline) > tbody > &__tr:last-of-type > &__td::after,
+  &:not(&--outline) > tbody > &__tr:last-of-type > &__th::after,
+  &:not(&--outline)
     > tbody
     > &__tr#{&}__tr--has-accordion-content:not(#{&}__tr--expanded):nth-last-child(2)
     td::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0; // don't use negative value, else it will be hidden when accordion
+    @include tableBorder();
 
-    border-bottom: var(--outline);
+    border-bottom: var(--border);
   }
 }
 

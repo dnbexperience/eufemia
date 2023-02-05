@@ -34,6 +34,22 @@
       &__size--large .dnb-table__th {
         padding-top: 1.5rem;
       }
+
+      position: relative; // because of bottom border
+      &::after {
+        @include tableBorder();
+        border-bottom: var(--border);
+      }
+
+      /* stylelint-disable */
+      & tbody:first-child,
+      & > :not(thead) + tbody {
+        .dnb-table__tr:first-of-type .dnb-table__th::after,
+        .dnb-table__tr:first-of-type .dnb-table__td::after {
+          border-top: none;
+        }
+      }
+      /* stylelint-enable */
     }
   }
 
@@ -41,7 +57,8 @@
     padding: 2rem 1rem 0;
 
     &--empty {
-      padding: 0.5rem 0 0;
+      padding: 0;
+      min-height: 1.5rem;
     }
 
     .dnb-spacing & .dnb-h--large:not([class*='space__top']) {
@@ -53,7 +70,8 @@
     padding-bottom: 1.25rem; // because of 8px scrollbar
 
     &--empty {
-      padding-bottom: 1.5rem;
+      padding: 0;
+      min-height: 1rem;
     }
   }
 

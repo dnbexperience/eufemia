@@ -5,8 +5,10 @@ showTabs: true
 import {
 TableVariantBasic,
 TableVariantComplex,
+TableRowScopeOnly,
 TableVariantFixed,
 TableStackedContainer,
+TableContainerEmptyHeaderFooter,
 TableClassHelpers,
 TableLongHeader,
 TableSticky,
@@ -29,7 +31,15 @@ TableAccordion,
 
 You can force a row to overwrite the automated odd/even counting by providing e.g. `variant="even"` to a `<Tr />`. You can use this in combination with `rowSpan`.
 
+**NB:** The table header in the first column needs to have `scope="row"`!
+
 <TableVariantComplex />
+
+### Row scope headers only
+
+This table has only `scope="row"` and `scope="rowgroup"` headers – without the default `scope="col"`.
+
+<TableRowScopeOnly />
 
 ### Fixed table
 
@@ -89,6 +99,10 @@ render(
 </details>
 
 <TableStackedContainer />
+
+With no (empty) `head` and `foot` content.
+
+<TableContainerEmptyHeaderFooter />
 
 ### Table with long header text (wrapping)
 

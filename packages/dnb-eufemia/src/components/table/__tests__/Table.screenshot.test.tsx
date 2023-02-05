@@ -31,6 +31,13 @@ describe('Table screenshot', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match a row scope only table layout', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="table-row-scope-only"] .dnb-table',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match a fixed table layout', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="table-fixed"]',
@@ -41,6 +48,13 @@ describe('Table screenshot', () => {
   it('have to match table container', async () => {
     const screenshot = await testPageScreenshot({
       selector: '[data-visual-test="table-container"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match table empty container head and foot', async () => {
+    const screenshot = await testPageScreenshot({
+      selector: '[data-visual-test="table-container-empty"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
