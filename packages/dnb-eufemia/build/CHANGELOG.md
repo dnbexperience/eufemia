@@ -3,6 +3,19 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [9.47.0](https://github.com/dnbexperience/eufemia/compare/v9.46.2...v9.47.0) (2023-02-05)
+
+
+### Bug Fixes
+
+* **TableContainer:** enhance handling of empty head and foot area ([#1970](https://github.com/dnbexperience/eufemia/issues/1970)) ([762c667](https://github.com/dnbexperience/eufemia/commit/762c667f48c3039d23dd9c66901fe0776bd77f57))
+* **TableContainer:** ensure bottom border on all tables ([#1969](https://github.com/dnbexperience/eufemia/issues/1969)) ([4583ba8](https://github.com/dnbexperience/eufemia/commit/4583ba83f1ff8144851770219333a74d535efbce))
+
+
+### Features
+
+* **Table:** add support for row scope only header ([#1971](https://github.com/dnbexperience/eufemia/issues/1971)) ([aff2e40](https://github.com/dnbexperience/eufemia/commit/aff2e403b991c8ec53d4eccfbed9a92234c47e13))
+
 ## [9.46.2](https://github.com/dnbexperience/eufemia/compare/v9.46.1...v9.46.2) (2023-01-29)
 
 
