@@ -44,7 +44,6 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
     max_width={null}
     min_width={null}
     modal_content={null}
-    mode="custom"
     noAnimation={true}
     no_animation={false}
     no_animation_on_mobile={false}
@@ -91,7 +90,6 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
       max_width={null}
       min_width={null}
       modal_content={null}
-      mode="custom"
       no_animation={true}
       no_animation_on_mobile={false}
       omit_trigger_button={false}
@@ -848,7 +846,6 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
             variant="information"
           />
         }
-        mode="custom"
         no_animation={true}
         no_animation_on_mobile={false}
         on_close={null}
@@ -902,7 +899,6 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
               variant="information"
             />
           }
-          mode="custom"
           no_animation={true}
           no_animation_on_mobile={false}
           on_close={null}
@@ -920,7 +916,7 @@ exports[`Dialog component snapshot should match component snapshot 1`] = `
             aria-describedby="dnb-modal-dialog_id-content"
             aria-labelledby="dnb-modal-dialog_id-title"
             aria-modal={true}
-            className="dnb-modal__content dnb-modal__content--auto-fullscreen dnb-dialog__root dnb-modal__content--custom"
+            className="dnb-modal__content dnb-modal__content--auto-fullscreen dnb-dialog__root"
             id="dnb-modal-dialog_id"
             onClick={[Function]}
             onMouseDown={[Function]}

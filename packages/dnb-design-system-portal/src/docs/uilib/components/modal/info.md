@@ -4,7 +4,7 @@ showTabs: true
 
 ## Description
 
-Modal is the root component for [Drawer](/uilib/components/drawer) and [Dialog](/uilib/components/dialog). If one of these satisfy your needs, you probably want to use those rather than directly using Modal. It is possible to implement other modal variants using `mode="custom"`. The new Modal is backward compatible with the previous Modal version using `mode="dialog"` (default) or `mode="drawer"`. The old documentation for Modal can be viewed in [Previous Modal (v1)](/uilib/components/modal/modal-v1).
+Modal is the root component for [Drawer](/uilib/components/drawer) and [Dialog](/uilib/components/dialog). If one of these satisfy your needs, you probably want to use those rather than directly using Modal. It is possible to implement other modal variants Modal.
 
 NB! Modal dialogs interrupt users and demand an action. They are appropriate when the user’s attention needs to be directed toward important information.
 

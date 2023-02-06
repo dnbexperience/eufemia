@@ -145,14 +145,14 @@ render(<ChangeValue />)
 
 <ComponentBox>
 	{/* jsx */ `
-<Modal
+<Dialog
   spacing={false}
-  max_width="12rem"
+  maxWidth="12rem"
   fullscreen={false}
-  align_content="centered"
-  hide_close_button
+  alignContent="centered"
+  hideCloseButton
   triggerAttributes={{ text: "Show" }}
-  prevent_close={false}
+  preventClose={false}
 >
   <ProgressIndicator
     type="circular"
@@ -162,7 +162,7 @@ render(<ChangeValue />)
     bottom="large"
     size="large"
   />
-</Modal>
+</Dialog>
 `}
 </ComponentBox>
 
@@ -304,14 +304,14 @@ render(<ChangeValue />)
 
 <ComponentBox>
 	{/* jsx */ `
-<Modal
+<Dialog
   spacing={false}
-  max_width="12rem"
+  maxWidth="12rem"
   fullscreen={false}
-  align_content="centered"
-  hide_close_button
+  alignContent="centered"
+  hideCloseButton
   triggerAttributes={{ text: "Show" }}
-  prevent_close={false}
+  preventClose={false}
 >
   <ProgressIndicator
     type="linear"
@@ -320,6 +320,6 @@ render(<ChangeValue />)
     top="large"
     bottom="large"
   />
-</Modal>
+</Dialog>
 `}
 </ComponentBox>

@@ -44,7 +44,6 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
     max_width={null}
     min_width={null}
     modal_content={null}
-    mode="custom"
     noAnimation={true}
     no_animation={false}
     no_animation_on_mobile={false}
@@ -89,7 +88,6 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
       max_width={null}
       min_width={null}
       modal_content={null}
-      mode="custom"
       no_animation={true}
       no_animation_on_mobile={false}
       omit_trigger_button={false}
@@ -845,7 +843,6 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
             spacing={true}
           />
         }
-        mode="custom"
         no_animation={true}
         no_animation_on_mobile={false}
         on_close={null}
@@ -898,7 +895,6 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
               spacing={true}
             />
           }
-          mode="custom"
           no_animation={true}
           no_animation_on_mobile={false}
           on_close={null}
@@ -916,7 +912,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
             aria-describedby="dnb-modal-drawer_id-content"
             aria-labelledby="dnb-modal-drawer_id-title"
             aria-modal={true}
-            className="dnb-modal__content dnb-modal__content--auto-fullscreen dnb-modal__content--right dnb-drawer__root dnb-modal__content--custom"
+            className="dnb-modal__content dnb-modal__content--auto-fullscreen dnb-drawer__root dnb-modal__content--right"
             id="dnb-modal-drawer_id"
             onClick={[Function]}
             onMouseDown={[Function]}
