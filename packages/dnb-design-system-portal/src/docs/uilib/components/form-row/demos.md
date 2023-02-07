@@ -4,10 +4,8 @@ showTabs: true
 
 import FormRowVisualTests, {
 FormRowVerticalAlignedLabels,
-FormRowLegendIndentUsage,
 FormRowSectionStyle,
 FormRowCombineVerticalAndHorizontal,
-FormRowCustomIndentLayout,
 FormRowDefault,
 FormRowVertical,
 FormRowVerticalDirection,
@@ -56,10 +54,6 @@ Vertical label direction in combination with a button
 
 <FormRowLegendUsage />
 
-### Legend and indent usage
-
-<FormRowLegendIndentUsage />
-
 ### Inherit context
 
 <FormRowInheritContext />
@@ -73,11 +67,5 @@ Vertical label direction in combination with a button
 The `label` property can be used to set a row label as well as the `section_style` is supported
 
 <FormRowSectionStyle />
-
-### Custom indent layout
-
-Customize the `.dnb-form-row` styles. Instead of using the built in `indent` property.
-
-<FormRowCustomIndentLayout />
 
 <FormRowVisualTests />

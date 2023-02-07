@@ -90,9 +90,10 @@ export const FormRowSectionStyle = () => (
   <TestStyles>
     <ComponentBox>
       <FormRow
+        vertical
         section_style="mint-green"
-        section_spacing="default"
-        label="A long horizontal legend (FormLabel) with a lot of informative text and a default indent:"
+        section_spacing
+        label="A long horizontal legend (FormLabel) with a lot of informative text:"
       >
         <Checkbox label="Checkbox" />
       </FormRow>
@@ -133,28 +134,6 @@ export const FormRowCombineVerticalAndHorizontal = () => (
             </FormRow>
             <Input label="Vertical input C" top="medium" />
           </FormRow>
-        )
-      }}
-    </ComponentBox>
-  </TestStyles>
-)
-
-export const FormRowCustomIndentLayout = () => (
-  <TestStyles>
-    <ComponentBox>
-      {() => {
-        const CustomRow = styled(FormRow)`
-          align-items: flex-end;
-          > .dnb-form-label {
-            max-width: 12rem;
-            background: var(--color-white);
-            color: var(--color-fire-red);
-          }
-        `
-        return (
-          <CustomRow label="A long horizontal legend (FormLabel) with a lot of informative text and a max-width of 12rem:">
-            <Checkbox label="Checkbox" />
-          </CustomRow>
         )
       }}
     </ComponentBox>
@@ -231,8 +210,6 @@ export const FormRowNoWrap = () => (
     <ComponentBox data-visual-test="form-row-horizontal-no_wrap">
       <FormRow
         label="A long horizontal legend (FormLabel) with a lot of informative text:"
-        indent="true"
-        indent_offset="large"
         direction="horizontal"
       >
         <Input label="Input label A:" right="small" />
@@ -247,10 +224,8 @@ export const FormRowWrap = () => (
     <ComponentBox data-visual-test="form-row-horizontal-wrap">
       <FormRow
         label="Long label labwl Adipiscing mauris dis proin nec Condimentum egestas class blandit netus non a suscipit id urna:"
-        indent
-        indent_offset="x-large"
-        wrap
         direction="horizontal"
+        wrap
       >
         <Input label="Input A:" top="small" right="small" />
         <Input label="Input B:" top="small" right="small" />
@@ -345,9 +320,6 @@ const VisualTestHorizontalDirection = () => (
     {
       /* jsx */ `
 <FormRow
-  // label="Horizontal:"
-  // indent="true"
-  // indent_offset="large"
   direction="horizontal"
 >
   <AllComponents horizontal />
