@@ -4755,9 +4755,6 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
   order: 2;
   padding-left: 0.5rem;
 }
-.dnb-form-row:not(.dnb-form-row--vertical)[class*=__indent] .dnb-radio .dnb-form-label {
-  margin-top: 0;
-}
 :not(.dnb-radio-group) > .dnb-form-label + .dnb-radio {
   vertical-align: top;
 }
