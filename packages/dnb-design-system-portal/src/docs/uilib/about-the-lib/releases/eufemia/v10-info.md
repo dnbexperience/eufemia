@@ -139,6 +139,10 @@ When you convert from `<Modal />` to `<Dialog />` – follow these steps:
 
 1. In v10, InputMasked **allows leading zeros**. To prevent that behaviour, the property `allowLeadingZeroes` has changed to `disallowLeadingZeroes`.
 
+### [FormRow](/uilib/components/form-row)
+
+1. The FormRow properties `indent` and `indent_offset` where removed.
+
 ### Removal of `data-testid` in components
 
 - [InfoCard](/uilib/components/info-card).

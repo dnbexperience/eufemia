@@ -90,49 +90,6 @@ export const FormRowSandbox = () => (
       </Box>
 
       <Box>
-        <FormRow direction="horizontal" indent="default">
-          <FormLabel for_id="alone-1">
-            A long horizontal FormLabel with a lot of informative text and
-            a default indent:
-          </FormLabel>
-          <Checkbox id="alone-1" label="Checkbox" />
-        </FormRow>
-      </Box>
-
-      <Box>
-        <FormRow
-          direction="horizontal"
-          indent
-          section_style="mint-green"
-          section_spacing="large"
-        >
-          <FormLabel for_id="alone-2">
-            A long horizontal FormLabel with a lot of informative text and
-            a default indent:
-          </FormLabel>
-          <Radio.Group
-            id="alone-2"
-            // label="Group:"
-            // label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
-            on_change={({ value }) => {
-              console.log('on_change', value)
-            }}
-            value="first"
-            // disabled
-            // name="MyGroup" // The Group Name
-          >
-            <Radio label="First" value="first" />
-            <Radio label="Second" value="second" />
-            <Radio
-              label="Third"
-              value="third"
-              // checked
-            />
-          </Radio.Group>
-        </FormRow>
-      </Box>
-
-      <Box>
         <H2 bottom="large">Combine vertical and horizontal</H2>
         <FormRow
           label={
@@ -149,8 +106,6 @@ export const FormRowSandbox = () => (
           <FormRow
             // label="Horizontal legend:"
             // direction="horizontal"
-            // indent
-            // indent_offset="medium"
 
             vertical="false"
             label_direction="horizontal"

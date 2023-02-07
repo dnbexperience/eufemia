@@ -245,8 +245,6 @@ exports[`Radio group component have to match group snapshot 1`] = `
       disabled={null}
       global_status_id={null}
       id="group"
-      indent={null}
-      indent_offset={null}
       label="Label"
       label_class={null}
       label_direction={null}
@@ -311,7 +309,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
                 </label>
               </FormLabel>
               <div
-                className="dnb-form-row__content dnb-form-row__content--default"
+                className="dnb-form-row__content"
               >
                 <span
                   aria-labelledby="group-label"
