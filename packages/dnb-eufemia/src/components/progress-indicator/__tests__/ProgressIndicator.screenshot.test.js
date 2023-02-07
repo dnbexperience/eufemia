@@ -35,7 +35,7 @@ describe('ProgressIndicator screenshot', () => {
 
 describe('ProgressIndicator circular screenshot', () => {
   setupPageScreenshot({
-    url: '/uilib/components/progress-indicator/visual-tests',
+    url: '/uilib/components/progress-indicator/demos',
   })
 
   it('have to match static primary circular sizes', async () => {
@@ -44,7 +44,6 @@ describe('ProgressIndicator circular screenshot', () => {
         height: '3.5rem',
         width: '8rem',
       },
-      // addWrapper: false,
       selector: '[data-visual-test="progress-indicator-sizes"]',
     })
     expect(screenshot).toMatchImageSnapshot()
