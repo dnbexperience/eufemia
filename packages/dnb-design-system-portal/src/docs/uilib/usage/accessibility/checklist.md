@@ -13,6 +13,7 @@ description: 'Accessibility checklist to help you remember the most important ta
 - [ ] Group form elements inside `<fieldset />` and `<legend />`. The [FormRow](/uilib/components/form-row) is doing this by default.
 - [ ] Do never expose a form element as `disabled` to the user. Use good UX instead.
 - [ ] Have a [Skip Link](/uilib/usage/accessibility/focus#skip-link) in place if the user has to tab many times to reach the main content.
+- [ ] Use the [SkipContent](/uilib/components/skip-content/) helper to let the user skip large parts of content, while using keyboard navigation.
 - [ ] Make good use of [`aria-label`](/uilib/usage/accessibility/screenreader#usage-of-aria-label-aria-labelledby-and-aria-describedby) and `aria-hidden`, e.g. of [decorative content](/uilib/usage/accessibility/icons#decorative-icons).
 - [ ] Make [images and illustrations](/uilib/usage/accessibility/screenreader#images-and-illustrations) accessible.
 - [ ] Have `aria-live` in place for dynamic content, like updates coming from the server.
@@ -22,7 +23,7 @@ description: 'Accessibility checklist to help you remember the most important ta
 
 ## Viewport
 
-Allow zooming in web pages, especially important on touch and mobile devices.
+Allow zooming in web pages, especially important on touch and touch devices.
 
 ```html
 <meta
@@ -38,25 +39,25 @@ Example usage of HTML5 `landmarks` (e.g. `<nav>` or `<section>` etc.):
 ```html
 <body>
   <header>Header</header>
-  <nav>Main navigation</nav>
+  <nav>Main navigation landmark</nav>
 
   <main role="main">
 
-    <section aria-label="I'm now a region">
+    <section aria-label="I need a label to be a region landmark">
       <h1 class="dnb-h--large">h1 styled as h2</h1>
       <p class="dnb-o">text</p>
     </section>
 
-    <article>
-      <h2 class="dnb-h--xx-large">h2 styled as h1</h2>
+    <article aria-labelledby="article-1">
+      <h2 id="article-1" class="dnb-h--xx-large">h2 styled as h1</h2>
       <h3 class="dnb-h--medium">h3</h2>
       <h4 class="dnb-h--basis">h4</h2>
       ...
     </article>
 
-    <article>
+    <article aria-labelledby="article-2">
       <header>I'm not a landmark anymore, because I'm inside article</header>
-      <h2 class="dnb-h--large">Another article h2</h2>
+      <h2 id="article-2" class="dnb-h--large">Another article h2</h2>
       ...
       <footer>I'm not a landmark anymore, because I'm inside article</footer>
     </article>
@@ -65,7 +66,7 @@ Example usage of HTML5 `landmarks` (e.g. `<nav>` or `<section>` etc.):
 
   <aside>Aside the main landmark</aside>
 
-  <footer>Footer</footer>
+  <footer>Footer landmark</footer>
 </body>
 ```
 

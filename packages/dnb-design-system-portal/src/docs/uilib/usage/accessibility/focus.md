@@ -46,6 +46,19 @@ This helper also handles both the `tabindex="-1"` and the `class="dnb-no-focus"`
 
 ### Focus helper
 
+Set focus on a HTML Element, that exists inside the DOM. It can be any HTML Element, not matter if its an interactive element or not. No interactive elements will be handled by changing the `tabindex` to 0 alongside a CSS class `dnb-no-focus`, so no blue focus border is visible.
+
+Simple example:
+
+```js
+import { applyPageFocus } from '@dnb/eufemia/shared/helpers'
+
+applyPageFocus('.my-selector')
+applyPageFocus('#my-id')
+```
+
+Asynchronous example:
+
 ```js
 import {
   setPageFocusElement,

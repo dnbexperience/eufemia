@@ -98,6 +98,11 @@ Responsive components and layout design should be planned from the beginning and
 
 ## Focus management
 
+There are several situations, where we need to help the user to overcome focus management. One of the two most important are:
+
+- If your page contains large parts of content (tables, lists etc.), you need to give the user, when using a keyboard for navigation, the ability to skip these parts – similar to a Skip-Link. Use the [SkipContent](/uilib/components/skip-content) component to handling such situations.
+- If you open a many or something similar, you need to set focus actively focus via JavaScript in order to let the user continue the correct tab placement and order. You may consider if this [focus-helper](/uilib/usage/accessibility/focus/#focus-helper) could help you out with your focus management.
+
 ### Where should the focus start on the first page init?
 
 If there is a Skip-Link then this should focus first since the point of having it is to avoid having to go through blocks of material that are repeated on multiple pages.

@@ -1,0 +1,16 @@
+/*
+* SkipContent component
+*
+*/
+
+@import '../../../style/core/utilities.scss';
+
+.dnb-skip-content {
+  &--visible {
+    display: flex;
+  }
+
+  .dnb-button {
+    margin: 1rem 0;
+  }
+}

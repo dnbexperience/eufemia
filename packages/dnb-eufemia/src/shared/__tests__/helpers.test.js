@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { render } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 
 import {
   setPageFocusElement,
@@ -38,37 +38,91 @@ beforeAll(() => {
   mockGetSelection()
 })
 
-const bodyElement = document.body
-bodyElement.insertAdjacentHTML(
-  'afterbegin',
-  `<div class="focus-content">My Content</div>`
-)
-bodyElement.insertAdjacentHTML(
-  'afterbegin',
-  `<div id="scroll-hash">My Content</div>`
-)
-
-beforeAll(() => {
-  setPageFocusElement('.focus-content', 'content')
-  applyPageFocus('content')
-})
-
 describe('"applyPageFocus" should', () => {
-  const focusElement = document.querySelector('.focus-content')
-  it('set a focus on the given element', () => {
-    expect(focusElement === document.activeElement).toBe(true)
+  beforeAll(() => {
+    const bodyElement = document.body
+    bodyElement.insertAdjacentHTML(
+      'afterbegin',
+      `
+      <div id="focus-content" class="focus-content">My Content</div>
+      <button class="focus-button">My Button</button>
+      `
+    )
+
+    setPageFocusElement('.focus-content', 'content')
   })
-  it('have attribute "tabindex" with the value -1', () => {
+
+  beforeEach(() => {
+    setPageFocusElement(undefined, 'content')
+  })
+
+  it('set a focus on the given element', () => {
+    expect(document.activeElement.tagName).toBe('BODY')
+
+    setPageFocusElement('.focus-content', 'content')
+    applyPageFocus('content')
+
+    const focusElement = document.querySelector('.focus-content')
+    expect(focusElement === document.activeElement).toBe(true)
+    expect(document.activeElement.tagName).toBe('DIV')
+  })
+
+  it('set attribute "tabindex" with the value -1', () => {
+    applyPageFocus('.focus-content')
+
+    const focusElement = document.querySelector('.focus-content')
     expect(focusElement.getAttribute('tabindex')).toBe('-1')
   })
-  it('have a css class called "dnb-no-focus"', () => {
+
+  it('not set attribute "tabindex" with the value -1', () => {
+    applyPageFocus('.focus-button')
+
+    const focusElement = document.querySelector('.focus-button')
+    expect(focusElement.hasAttribute('tabindex')).toBeFalsy()
+  })
+
+  it('set a css class called "dnb-no-focus"', () => {
+    applyPageFocus('#focus-content')
+
+    const focusElement = document.querySelector('.focus-content')
     expect(focusElement.getAttribute('class')).toContain('dnb-no-focus')
+  })
+
+  it('remove the "tabindex" on blur', () => {
+    applyPageFocus('.focus-content')
+
+    const focusElement = document.querySelector('.focus-content')
+    fireEvent.blur(focusElement)
+
+    expect(focusElement.getAttribute('tabindex')).toBe(null)
+  })
+
+  it('remove the "dnb-no-focus" class on blur', () => {
+    applyPageFocus('#focus-content')
+
+    const focusElement = document.querySelector('.focus-content')
+    fireEvent.blur(focusElement)
+
+    expect(focusElement.getAttribute('class')).not.toContain(
+      'dnb-no-focus'
+    )
   })
 })
 
 describe('"scrollToLocationHashId" should', () => {
+  let scrollElement
+
+  beforeAll(() => {
+    const bodyElement = document.body
+    bodyElement.insertAdjacentHTML(
+      'afterbegin',
+      `<div id="scroll-hash">My Content</div>`
+    )
+
+    scrollElement = document.querySelector('#scroll-hash')
+  })
+
   window.location.hash = '#scroll-hash'
-  const scrollElement = document.querySelector('#scroll-hash')
 
   it('have a valid dom element', () => {
     expect(scrollElement instanceof HTMLElement).toBe(true)
