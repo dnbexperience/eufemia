@@ -157,4 +157,4 @@ $ npm i @dnb/eufemia@10
 $ yarn add @dnb/eufemia@10
 ```
 
-_February, 1. 2023_
+_February, 20. 2023_
