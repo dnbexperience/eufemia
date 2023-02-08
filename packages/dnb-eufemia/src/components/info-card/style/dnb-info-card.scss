@@ -9,13 +9,26 @@
   display: flex;
   flex-direction: row;
 
-  background: white;
-
-  border: 1px solid var(--color-black-8);
-  border-radius: 0.25rem;
+  position: relative;
   padding: 1rem;
 
   overflow: hidden;
+  max-width: 60ch;
+
+  background: var(--color-white);
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border: 1px solid var(--color-black-8);
+  }
+
+  &,
+  &::after {
+    border-radius: 0.25rem;
+  }
 
   @include defaultDropShadow();
 
@@ -25,33 +38,33 @@
     text-align: center;
   }
 
-  &--content {
+  &__content {
     flex-direction: column;
     margin-top: 0.1875rem;
   }
 
-  &--centered &--content {
-    flex-direction: column;
+  &--centered &__content {
     margin-top: 0;
   }
 
-  &--icon {
+  &__icon {
     color: var(--color-emerald-green);
   }
 
-  &--image {
+  &__image {
     height: 4rem;
     width: 4rem;
   }
 
-  &--buttons {
+  &__buttons {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    &-centered {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
+  }
+
+  &--centered &__buttons {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
 }
