@@ -146,6 +146,11 @@
   &--submit &__label {
     margin: 0;
 
+    .dnb-p {
+      display: flex;
+      align-items: center;
+    }
+
     & i {
       padding-left: 0.0625rem;
 

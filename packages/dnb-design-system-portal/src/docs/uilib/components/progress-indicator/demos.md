@@ -28,7 +28,7 @@ ProgressIndicatorSizes
 
 ## Demos
 
-### Default ProgressIndicator is Circular
+### Submit form activity indicator
 
 Use this indicator in forms, side by side a submit button. Its a light weight and dense way to tell the user whats happening at the moment.
 

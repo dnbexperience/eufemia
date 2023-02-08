@@ -125,6 +125,7 @@ exports[`Infinity scroller have to match snapshot 1`] = `
                     section_style={null}
                     show_label={false}
                     size="default"
+                    state={null}
                     title={null}
                     type="circular"
                     visible={true}
@@ -2312,6 +2313,9 @@ button.dnb-button::-moz-focus-inner {
       animation: progress-indicator-linear-bar-2 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite; }
   .dnb-progress-indicator--submit .dnb-progress-indicator__label {
     margin: 0; }
+    .dnb-progress-indicator--submit .dnb-progress-indicator__label .dnb-p {
+      display: flex;
+      align-items: center; }
     .dnb-progress-indicator--submit .dnb-progress-indicator__label i {
       padding-left: 0.0625rem;
       animation-name: progress-indicator-submit;

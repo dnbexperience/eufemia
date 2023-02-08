@@ -5,27 +5,56 @@ import {
   Modal,
   FormRow,
   Button,
+  HeightAnimation,
 } from '@dnb/eufemia/src/components'
 
 export const ProgressIndicatorSubmit = () => (
   <ComponentBox data-visual-test="progress-indicator-submit">
     {() => {
       const Component = () => {
-        const [show, setShow] = React.useState(false)
+        const [state, setState] = React.useState('idle')
 
         return (
-          <FormRow
-            centered
-            section_spacing="small"
-            section_style="divider"
-          >
-            <Button onClick={() => setShow((s) => !s)} disabled={show}>
-              Save
-            </Button>
-            {show && (
-              <ProgressIndicator left label="Saving" type="submit" />
-            )}
-          </FormRow>
+          <>
+            <FormRow
+              centered
+              section_spacing="small"
+              section_style="divider"
+            >
+              <Button
+                onClick={() => setState('saving')}
+                disabled={state === 'saving'}
+              >
+                Save
+              </Button>
+
+              {state === 'saving' && (
+                <ProgressIndicator left label="Saving" type="submit" />
+              )}
+
+              {state === 'success' && (
+                <ProgressIndicator
+                  left
+                  label="Saved"
+                  type="submit"
+                  state="success"
+                />
+              )}
+            </FormRow>
+
+            <HeightAnimation showOverflow>
+              {state === 'saving' ? (
+                <Button
+                  variant="tertiary"
+                  onClick={() => setState('success')}
+                >
+                  Make it a success
+                </Button>
+              ) : (
+                ' '
+              )}
+            </HeightAnimation>
+          </>
         )
       }
       return <Component />

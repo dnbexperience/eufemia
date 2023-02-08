@@ -21,6 +21,7 @@ import {
 } from '../space/SpacingHelper'
 import ProgressIndicatorCircular from './ProgressIndicatorCircular'
 import ProgressIndicatorLinear from './ProgressIndicatorLinear'
+import IconPrimary from '../IconPrimary'
 import { format } from '../number-format/NumberUtils'
 
 export default class ProgressIndicator extends React.PureComponent {
@@ -30,6 +31,7 @@ export default class ProgressIndicator extends React.PureComponent {
   static propTypes = {
     visible: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     type: PropTypes.oneOf(['circular', 'linear', 'submit']),
+    state: PropTypes.oneOf(['success', 'failure']),
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     size: PropTypes.oneOf(['default', 'small', 'medium', 'large', 'huge']),
     progress: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -53,6 +55,7 @@ export default class ProgressIndicator extends React.PureComponent {
   static defaultProps = {
     visible: true,
     type: 'circular',
+    state: null,
     no_animation: false,
     size: 'default',
     progress: null,
@@ -125,6 +128,7 @@ export default class ProgressIndicator extends React.PureComponent {
 
     const {
       type,
+      state,
       size,
       no_animation,
       on_complete,
@@ -192,8 +196,13 @@ export default class ProgressIndicator extends React.PureComponent {
         {indicatorLabel && (
           <div className="dnb-progress-indicator__label">
             <p className="dnb-p" role="alert">
+              {type === 'submit' && state === 'success' && (
+                <IconPrimary icon="check" right="x-small" />
+              )}
+
               {indicatorLabel}
-              {type === 'submit' && (
+
+              {type === 'submit' && state !== 'success' && (
                 <span>
                   <i>.</i>
                   <i>.</i>
