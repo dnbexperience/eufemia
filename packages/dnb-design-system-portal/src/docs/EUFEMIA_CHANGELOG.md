@@ -1,3 +1,7 @@
+## February, 20. 2023
+
+- [New major version 10](/uilib/about-the-lib/releases/eufemia/v10-info/)
+
 ## November, 22. 2022
 
 - New default [Table](https://eufemia.dnb.no/uilib/components/table) styles.

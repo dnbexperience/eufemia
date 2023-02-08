@@ -15,7 +15,7 @@ You may also have a look at the [<Icon icon={GithubLogo} size="default" /> **Git
 
 Here you find an overview of all major releases (versions) and changes, including migration guides:
 
-- [**@dnb/eufemia@v10**](/uilib/about-the-lib/releases/eufemia/v10-info) _February, 1. 2023_
+- [**@dnb/eufemia@v10**](/uilib/about-the-lib/releases/eufemia/v10-info) _February, 20. 2023_
 - [**@dnb/eufemia@v9**](/uilib/about-the-lib/releases/eufemia/v9-info) _March, 3. 2021_
 - [**dnb-ui-lib@v8**](/uilib/about-the-lib/releases/dnb-ui-lib/v8-info) _December, 15. 2020_
 - [**dnb-ui-lib@v7.2**](/uilib/about-the-lib/releases/dnb-ui-lib/v7.2-info) _November, 8. 2020_
