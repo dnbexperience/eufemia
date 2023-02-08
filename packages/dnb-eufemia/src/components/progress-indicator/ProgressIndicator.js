@@ -29,7 +29,7 @@ export default class ProgressIndicator extends React.PureComponent {
 
   static propTypes = {
     visible: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    type: PropTypes.oneOf(['circular', 'linear']),
+    type: PropTypes.oneOf(['circular', 'linear', 'submit']),
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     size: PropTypes.oneOf(['default', 'small', 'medium', 'large', 'huge']),
     progress: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -153,10 +153,19 @@ export default class ProgressIndicator extends React.PureComponent {
 
     validateDOMAttributes(this.props, params)
 
+    let Progress = null
+    if (type === 'circular') {
+      Progress = ProgressIndicatorCircular
+    }
+    if (type === 'linear') {
+      Progress = ProgressIndicatorLinear
+    }
+
     return (
       <div
         className={classnames(
           'dnb-progress-indicator',
+          'dnb-progress-indicator--' + type,
           visible && 'dnb-progress-indicator--visible',
           complete && 'dnb-progress-indicator--complete',
           type === 'linear' && 'dnb-progress-indicator--full-width',
@@ -168,8 +177,8 @@ export default class ProgressIndicator extends React.PureComponent {
         )}
         {...params}
       >
-        {type === 'circular' && (
-          <ProgressIndicatorCircular
+        {Progress && (
+          <Progress
             size={size}
             progress={progress}
             visible={visible}
@@ -179,20 +188,19 @@ export default class ProgressIndicator extends React.PureComponent {
             title={progressTitle}
           />
         )}
-        {type === 'linear' && (
-          <ProgressIndicatorLinear
-            size={size}
-            progress={progress}
-            visible={visible}
-            complete={complete}
-            onComplete={on_complete}
-            callOnCompleteHandler={this.callOnCompleteHandler}
-            title={progressTitle}
-          />
-        )}
+
         {indicatorLabel && (
           <div className="dnb-progress-indicator__label">
-            <p className="dnb-p">{indicatorLabel}</p>
+            <p className="dnb-p" role="alert">
+              {indicatorLabel}
+              {type === 'submit' && (
+                <span>
+                  <i>.</i>
+                  <i>.</i>
+                  <i>.</i>
+                </span>
+              )}
+            </p>
           </div>
         )}
       </div>

@@ -130,7 +130,7 @@ exports[`Infinity scroller have to match snapshot 1`] = `
                     visible={true}
                   >
                     <div
-                      className="dnb-progress-indicator dnb-progress-indicator--visible dnb-progress-indicator--horizontal"
+                      className="dnb-progress-indicator dnb-progress-indicator--circular dnb-progress-indicator--visible dnb-progress-indicator--horizontal"
                     >
                       <ProgressIndicatorCircular
                         callOnCompleteHandler={[Function]}
@@ -2310,6 +2310,21 @@ button.dnb-button::-moz-focus-inner {
     .dnb-progress-indicator__linear__bar2-animation {
       width: auto;
       animation: progress-indicator-linear-bar-2 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite; }
+  .dnb-progress-indicator--submit .dnb-progress-indicator__label {
+    margin: 0; }
+    .dnb-progress-indicator--submit .dnb-progress-indicator__label i {
+      padding-left: 0.0625rem;
+      animation-name: progress-indicator-submit;
+      animation-iteration-count: infinite;
+      animation-duration: 2s; }
+      .dnb-progress-indicator--submit .dnb-progress-indicator__label i:nth-of-type(1) {
+        padding-left: 0.25rem; }
+      .dnb-progress-indicator--submit .dnb-progress-indicator__label i:nth-of-type(2) {
+        animation-delay: 0.2s; }
+      .dnb-progress-indicator--submit .dnb-progress-indicator__label i:nth-of-type(3) {
+        animation-delay: 0.4s; }
+      html[data-visual-test] .dnb-progress-indicator--submit .dnb-progress-indicator__label i {
+        animation: none; }
   .dnb-progress-indicator, .dnb-progress-indicator--visible {
     opacity: 0;
     animation: progress-indicator-fade-in 200ms ease-out 1 forwards; }
@@ -2375,6 +2390,18 @@ button.dnb-button::-moz-focus-inner {
   100% {
     left: 107%;
     right: -8%; } }
+
+@keyframes progress-indicator-submit {
+  0% {
+    opacity: 0.1; }
+  20% {
+    opacity: 1; }
+  40% {
+    opacity: 1; }
+  50% {
+    opacity: 0.2; }
+  100% {
+    opacity: 0.1; } }
 
 .dnb-pagination {
   font-family: var(--font-family-default);

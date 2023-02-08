@@ -5,7 +5,7 @@ redirect_from:
 ---
 
 import {
-ProgressIndicatorDefault,
+ProgressIndicatorSubmit,
 ProgressIndicatorCircular,
 ProgressIndicatorCircularHorizontal,
 ProgressIndicatorCircularVertical,
@@ -30,7 +30,9 @@ ProgressIndicatorSizes
 
 ### Default ProgressIndicator is Circular
 
-<ProgressIndicatorDefault />
+Use this indicator in forms, side by side a submit button. Its a light weight and dense way to tell the user whats happening at the moment.
+
+<ProgressIndicatorSubmit />
 
 ### Default Circular ProgressIndicator
 

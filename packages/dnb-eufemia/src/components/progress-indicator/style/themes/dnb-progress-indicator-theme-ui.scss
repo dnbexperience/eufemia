@@ -86,4 +86,12 @@
       background-color: var(--color-sea-green);
     }
   }
+
+  &--submit &__label {
+    color: var(--color-black);
+
+    & i {
+      font-size: 1.25em;
+    }
+  }
 }

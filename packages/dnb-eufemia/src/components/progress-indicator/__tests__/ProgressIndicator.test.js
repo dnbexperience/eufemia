@@ -11,6 +11,7 @@ import {
   toJson,
   loadScss,
 } from '../../../core/jest/jestSetup'
+import { render } from '@testing-library/react'
 import Component from '../ProgressIndicator'
 import { format } from '../../number-format/NumberUtils'
 
@@ -331,6 +332,41 @@ describe('Linear ProgressIndicator component', () => {
   })
 
   it('should validate with ARIA rules', async () => {
+    expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+})
+
+describe('ProgressIndicator submit type', () => {
+  it('have to match snapshot', () => {
+    const Comp = mount(
+      <Component {...props} type="submit" label="Saving" />
+    )
+    expect(toJson(Comp)).toMatchSnapshot()
+  })
+
+  it('should have label + dots', () => {
+    render(<Component {...props} type="submit" label="Saving" />)
+
+    const element = document.querySelector(
+      '.dnb-progress-indicator--submit'
+    )
+    expect(element.textContent).toBe('Saving...')
+  })
+
+  it('should have role="alert"', () => {
+    render(<Component {...props} type="submit" label="Saving" />)
+
+    const element = document.querySelector(
+      '.dnb-progress-indicator--submit'
+    )
+    expect(element.querySelector('p').getAttribute('role')).toBe('alert')
+  })
+
+  it('should validate with ARIA rules', async () => {
+    const Comp = render(
+      <Component {...props} type="submit" label="Saving" />
+    )
+
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })

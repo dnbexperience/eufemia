@@ -7,9 +7,29 @@ import {
   Button,
 } from '@dnb/eufemia/src/components'
 
-export const ProgressIndicatorDefault = () => (
-  <ComponentBox>
-    <ProgressIndicator />
+export const ProgressIndicatorSubmit = () => (
+  <ComponentBox data-visual-test="progress-indicator-submit">
+    {() => {
+      const Component = () => {
+        const [show, setShow] = React.useState(false)
+
+        return (
+          <FormRow
+            centered
+            section_spacing="small"
+            section_style="divider"
+          >
+            <Button onClick={() => setShow((s) => !s)} disabled={show}>
+              Save
+            </Button>
+            {show && (
+              <ProgressIndicator left label="Saving" type="submit" />
+            )}
+          </FormRow>
+        )
+      }
+      return <Component />
+    }}
   </ComponentBox>
 )
 
@@ -22,7 +42,6 @@ export const ProgressIndicatorCircular = () => (
 export const ProgressIndicatorCircularHorizontal = () => (
   <ComponentBox>
     <ProgressIndicator
-      // label="Custom label ..."
       type="circular"
       show_label={true}
       label_direction="horizontal"
@@ -33,7 +52,6 @@ export const ProgressIndicatorCircularHorizontal = () => (
 export const ProgressIndicatorCircularVertical = () => (
   <ComponentBox>
     <ProgressIndicator
-      // label="Custom label ..."
       type="circular"
       show_label={true}
       label_direction="vertical"

@@ -142,6 +142,35 @@
     }
   }
 
+  // submit variant
+  &--submit &__label {
+    margin: 0;
+
+    & i {
+      padding-left: 0.0625rem;
+
+      animation-name: progress-indicator-submit;
+      animation-iteration-count: infinite;
+      animation-duration: 2s;
+
+      &:nth-of-type(1) {
+        padding-left: 0.25rem;
+      }
+
+      &:nth-of-type(2) {
+        animation-delay: 0.2s;
+      }
+
+      &:nth-of-type(3) {
+        animation-delay: 0.4s;
+      }
+
+      html[data-visual-test] & {
+        animation: none;
+      }
+    }
+  }
+
   &,
   &--visible {
     opacity: 0;
@@ -248,5 +277,23 @@
   100% {
     left: 107%;
     right: -8%;
+  }
+}
+
+@keyframes progress-indicator-submit {
+  0% {
+    opacity: 0.1;
+  }
+  20% {
+    opacity: 1;
+  }
+  40% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 0.1;
   }
 }

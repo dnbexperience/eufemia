@@ -31,6 +31,16 @@ describe('ProgressIndicator screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match the submit type', async () => {
+    const screenshot = await testPageScreenshot({
+      simulate: 'click',
+      simulateSelector:
+        '[data-visual-test="progress-indicator-submit"] button',
+      selector: '[data-visual-test="progress-indicator-submit"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
 describe('ProgressIndicator circular screenshot', () => {
