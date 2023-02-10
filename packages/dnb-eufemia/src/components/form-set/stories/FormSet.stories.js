@@ -39,12 +39,8 @@ export const FormSetSandbox = () => {
         <ToggleButton on_change={() => setDisabled((s) => !s)}>
           ToggleButton
         </ToggleButton>
-        <Provider FormRow={{ indent: true, vertical: false }}>
-          <FormSet
-            disabled={disabled}
-            skeleton={disabled}
-            // indent="true" vertical="false"
-          >
+        <Provider FormRow={{ vertical: false }}>
+          <FormSet disabled={disabled} skeleton={disabled}>
             <Box>
               <FormRow no_label>
                 <H2>A h2 in a FormRow without a label</H2>
@@ -59,14 +55,13 @@ export const FormSetSandbox = () => {
               <FormRow
                 // disabled={disabled}
                 label="Button:"
-                indent_offset="m-large"
               >
                 <Button text="Button" />
               </FormRow>
             </Box>
             <Box>
               <Provider FormRow={{ vertical: true }}>
-                <FormRow label="Input:" indent_offset="large">
+                <FormRow label="Input:">
                   <Input value="Value" />
                 </FormRow>
               </Provider>

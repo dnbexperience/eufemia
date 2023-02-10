@@ -18,13 +18,6 @@ describe('FormRow', () => {
     url: '/uilib/components/form-row/demos',
   })
 
-  it('have to match default form-row', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="form-row-default"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
   it('have to match vertical form-row label', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="form-row-vertical-label"]',
@@ -62,8 +55,8 @@ describe('FormRow', () => {
 
   it('have to match horizontal wrap', async () => {
     const screenshot = await makeScreenshot({
-      wrapperStyle: {
-        width: '80rem',
+      style: {
+        width: '50rem',
       },
       selector: '[data-visual-test="form-row-horizontal-wrap"]',
     })
