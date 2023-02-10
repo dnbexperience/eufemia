@@ -160,7 +160,6 @@ const Content = ({
 const MainContent = ({ mainRef, ...props }) => (
   <main
     ref={mainRef}
-    role="main"
     id="dnb-app-content"
     className={classnames(mainStyle, 'dnb-no-focus', 'dnb-spacing')}
     {...props}
