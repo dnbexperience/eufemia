@@ -77,19 +77,6 @@ describe('FormSet component', () => {
     ).toBe(false)
   })
 
-  it('should have working provider have correct indent classes on form-row', () => {
-    const Comp = mount(
-      <Component {...props} indent="large">
-        <FormRow />
-      </Component>
-    )
-    expect(
-      Comp.find('.dnb-form-row')
-        .last()
-        .hasClass('dnb-form-row__indent--large')
-    ).toBe(true)
-  })
-
   it('should support locale context forwarding', () => {
     const Comp = mount(
       <Component>

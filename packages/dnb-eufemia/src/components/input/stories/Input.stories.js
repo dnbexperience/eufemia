@@ -117,8 +117,6 @@ export const InputSandbox = () => {
         <Box>
           <FormSet>
             <FormRow
-              indent
-              indent_offset="x-large"
               wrap
               label="Long label labwl Adipiscing mauris dis proin nec Condimentum egestas class blandit netus non a suscipit id urna:"
             >
