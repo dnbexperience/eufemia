@@ -55,8 +55,8 @@ describe('FormRow', () => {
 
   it('have to match horizontal wrap', async () => {
     const screenshot = await makeScreenshot({
-      wrapperStyle: {
-        width: '80rem',
+      style: {
+        width: '50rem',
       },
       selector: '[data-visual-test="form-row-horizontal-wrap"]',
     })
