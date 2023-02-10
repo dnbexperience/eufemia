@@ -166,12 +166,6 @@
     }
   }
 
-  .dnb-form-row:not(.dnb-form-row--vertical)[class*='__indent']
-    &
-    .dnb-form-label {
-    margin-top: 0;
-  }
-
   // in case we don't define a wrapping group
   // and have a custom label component before the radio (and not inside)
   :not(#{&}-group) > .dnb-form-label + & {

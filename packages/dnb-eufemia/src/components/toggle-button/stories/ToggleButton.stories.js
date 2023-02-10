@@ -127,11 +127,7 @@ export const ToggleButtonSandbox = () => (
       </Provider>
     </Box>
     <Box>
-      <FormRow
-        indent
-        label="Horizontal Legend Aptent maecenas non pharetra libero massa auctor pretium vulputate vivamus:"
-        indent_offset="m-large"
-      >
+      <FormRow label="Horizontal Legend Aptent maecenas non pharetra libero massa auctor pretium vulputate vivamus:">
         <ToggleButton.Group label="Group A label:">
           <ToggleButton text="First" value="first" />
           <ToggleButton text="Second" value="second" />
@@ -228,14 +224,10 @@ export const ToggleButtonSandbox = () => (
       </p>
     </Box>
     <Box>
-      <FormRow indent no_label>
+      <FormRow no_label>
         <H2>A h2 in a FormRow without a label</H2>
       </FormRow>
-      <FormRow
-        indent
-        indent_offset="m-large"
-        label="Long Group name with on_change dapibus eros viverra torquent euismod at dignissim vel mattis:"
-      >
+      <FormRow label="Long Group name with on_change dapibus eros viverra torquent euismod at dignissim vel mattis:">
         <ToggleButton.Group
           // label="Group:"
           // label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
@@ -259,11 +251,7 @@ export const ToggleButtonSandbox = () => (
       </FormRow>
     </Box>
     <Box>
-      <FormRow
-        indent
-        indent_offset="m-large"
-        label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
-      >
+      <FormRow label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:">
         <ToggleButton.Group
           on_change={({ value }) => {
             console.log('on_change', value)
