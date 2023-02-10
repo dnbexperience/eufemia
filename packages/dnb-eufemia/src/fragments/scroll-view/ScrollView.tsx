@@ -15,10 +15,10 @@ import { SpacingProps } from '../../shared/types'
 
 export type ScrollViewProps = {
   /**
-   * Set to `true` to make the content accessible to keyboard navigation
+   * To make the content accessible to keyboard navigation. Use `true` or `auto`. Auto will detect if a scrollbar is visible and make the ScrollView accessible for keyboard navigation.
    * Default: false
    */
-  interactive?: boolean
+  interactive?: boolean | 'auto'
 }
 
 export type ScrollViewAllProps = ScrollViewProps &
@@ -61,19 +61,65 @@ function ScrollView(localProps: ScrollViewAllProps) {
     ...(attributes as React.HTMLAttributes<unknown>),
   }
 
-  if (innerRef) {
-    mainParams.ref = innerRef as React.RefObject<HTMLDivElement>
-  }
+  const ref = React.useRef<HTMLDivElement>()
+  mainParams.ref = innerRef
+    ? (innerRef as React.RefObject<HTMLDivElement>)
+    : ref
 
-  if (interactive) {
-    mainParams.tabIndex = 0 // Ensure that scrollable region has keyboard access
-  }
+  mainParams.tabIndex = useInteractive({
+    interactive,
+    children,
+    ref: mainParams.ref,
+  })
 
   validateDOMAttributes(props, mainParams)
 
   return <div {...mainParams}>{children}</div>
 }
 
+function useInteractive({ interactive, children, ref }) {
+  const [isInteractive, setAsInteractive] = React.useState(
+    Boolean(interactive)
+  )
+
+  React.useLayoutEffect(() => {
+    if (interactive === 'auto') {
+      setAsInteractive(hasScrollbar())
+    }
+  }, [interactive, children]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  React.useLayoutEffect(() => {
+    if (interactive === 'auto' && typeof ResizeObserver !== 'undefined') {
+      const observer = new ResizeObserver(() => {
+        setAsInteractive(hasScrollbar())
+      })
+      observer.observe(ref.current)
+      return () => observer?.disconnect()
+    }
+  }, [interactive, ref]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (isInteractive) {
+    return 0 // Ensure that scrollable region has keyboard access
+  }
+
+  return undefined
+
+  function hasScrollbar() {
+    if (!ref.current) {
+      return true // fallback and assume, there is a scrollbar
+    }
+
+    /**
+     * Safari Desktop adds one pixel "on zoom" level 1
+     * therefore we just remove it here
+     */
+    return (
+      ref.current.scrollWidth - 1 > ref.current.offsetWidth ||
+      ref.current.scrollHeight - 1 > ref.current.offsetHeight
+    )
+  }
+}
+
 export default React.forwardRef((props: ScrollViewAllProps, ref) => {
-  return <ScrollView {...props} innerRef={ref} />
+  return <ScrollView {...props} innerRef={props.innerRef || ref} />
 })
