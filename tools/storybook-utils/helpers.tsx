@@ -27,7 +27,6 @@ export const Wrapper = ({
 }: IWrapper) => (
   <React.StrictMode>
     <MainWrapper
-      role="main"
       className={classnames(
         !skipCoreStyle && 'dnb-core-style',
         showOverflow && 'show-overflow',
@@ -42,10 +41,10 @@ export const Wrapper = ({
 )
 
 interface IWrapper {
-  className?: string;
-  skipCoreStyle?: boolean;
-  showOverflow?: boolean;
-  children: React.ReactNode;
+  className?: string
+  skipCoreStyle?: boolean
+  showOverflow?: boolean
+  children: React.ReactNode
 }
 
 export const Box = styled(Space)`
