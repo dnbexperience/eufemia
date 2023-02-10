@@ -1,6 +1,7 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { act, render } from '@testing-library/react'
 import ScrollView from '../ScrollView'
+import { setResizeObserver } from './__mocks__/ResizeObserver'
 
 describe('ScrollView', () => {
   it('should contain children content', () => {
@@ -15,11 +16,90 @@ describe('ScrollView', () => {
     render(<ScrollView interactive>overflow content</ScrollView>)
 
     const element = document.querySelector('.dnb-scroll-view')
-    const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+
+    expect(element.getAttribute('tabindex')).toBe('0')
+  })
+
+  it('should set tabindex based on children when interactive is set to auto', () => {
+    setResizeObserver()
+
+    const ref = React.createRef<HTMLDivElement>()
+    const { rerender } = render(
+      <ScrollView ref={ref} interactive="auto">
+        overflow content
+      </ScrollView>
     )
 
-    expect(attributes).toEqual(['class', 'tabindex'])
+    const element = document.querySelector('.dnb-scroll-view')
+    expect(element.hasAttribute('tabindex')).toBeFalsy()
+
+    act(() => {
+      jest.spyOn(ref.current, 'scrollWidth', 'get').mockReturnValue(102)
+      jest.spyOn(ref.current, 'offsetWidth', 'get').mockReturnValue(100)
+
+      rerender(
+        <ScrollView ref={ref} interactive="auto">
+          new content to force hook re-render
+        </ScrollView>
+      )
+    })
+
+    expect(element.getAttribute('tabindex')).toBe('0')
+
+    act(() => {
+      jest.spyOn(ref.current, 'scrollWidth', 'get').mockReturnValue(101)
+      jest.spyOn(ref.current, 'offsetWidth', 'get').mockReturnValue(100)
+
+      rerender(
+        <ScrollView ref={ref} interactive="auto">
+          again, new content to force hook re-render
+        </ScrollView>
+      )
+    })
+
+    expect(element.hasAttribute('tabindex')).toBeFalsy()
+  })
+
+  it('should set tabindex based on ResizeObserver when interactive is set to auto', () => {
+    let renderResizeObserver = null
+
+    const observe = jest.fn()
+    const init = jest.fn((callback) => {
+      renderResizeObserver = callback
+    })
+    setResizeObserver({ init, observe })
+
+    const ref = React.createRef<HTMLDivElement>()
+    render(
+      <ScrollView ref={ref} interactive="auto">
+        overflow content
+      </ScrollView>
+    )
+
+    const element = document.querySelector('.dnb-scroll-view')
+    expect(element.hasAttribute('tabindex')).toBeFalsy()
+
+    act(() => {
+      jest.spyOn(ref.current, 'scrollWidth', 'get').mockReturnValue(102)
+      jest.spyOn(ref.current, 'offsetWidth', 'get').mockReturnValue(100)
+
+      renderResizeObserver()
+    })
+
+    expect(element.getAttribute('tabindex')).toBe('0')
+
+    act(() => {
+      jest.spyOn(ref.current, 'scrollWidth', 'get').mockReturnValue(101)
+      jest.spyOn(ref.current, 'offsetWidth', 'get').mockReturnValue(100)
+
+      renderResizeObserver()
+    })
+
+    expect(element.hasAttribute('tabindex')).toBeFalsy()
+
+    expect(init).toHaveBeenCalledTimes(1)
+    expect(observe).toHaveBeenCalledTimes(1)
+    expect(observe).toHaveBeenCalledWith(ref.current)
   })
 
   it('should include custom classes', () => {
