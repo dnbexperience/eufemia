@@ -1,6 +1,8 @@
 import React from 'react'
 import classnames from 'classnames'
-import ScrollView from '../../fragments/scroll-view/ScrollView'
+import ScrollView, {
+  ScrollViewAllProps,
+} from '../../fragments/scroll-view/ScrollView'
 
 import type { SpacingProps } from '../../shared/types'
 
@@ -13,7 +15,8 @@ export type TableScrollViewProps = {
 
 export type TableScrollViewAllProps = TableScrollViewProps &
   Omit<React.TableHTMLAttributes<HTMLDivElement>, 'children'> &
-  SpacingProps
+  SpacingProps &
+  ScrollViewAllProps
 
 export default function TableScrollView(props: TableScrollViewAllProps) {
   const { className, children, ...rest } = props
@@ -21,7 +24,7 @@ export default function TableScrollView(props: TableScrollViewAllProps) {
   return (
     <ScrollView
       className={classnames('dnb-table__scroll-view', className)}
-      interactive
+      interactive="auto"
       {...rest}
     >
       {children}
