@@ -141,7 +141,7 @@ When you convert from `<Modal />` to `<Dialog />` – follow these steps:
 
 ### [FormRow](/uilib/components/form-row)
 
-1. The FormRow properties `indent` and `indent_offset` where removed.
+1. The FormRow properties `indent` and `indent_offset` were removed.
 
 ### Removal of `data-testid` in components
 
