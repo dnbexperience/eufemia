@@ -18,39 +18,48 @@ exports[`InfoCard InfoCard scss have to match snapshot 1`] = `
 .dnb-info-card {
   display: flex;
   flex-direction: row;
-  background: white;
-  border: 1px solid var(--color-black-8);
-  border-radius: 0.25rem;
+  position: relative;
   padding: 1rem;
   overflow: hidden;
+  max-width: 60ch;
+  background: var(--color-white);
   box-shadow: var(--shadow-default);
+}
+.dnb-info-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border: 1px solid var(--color-black-8);
+}
+.dnb-info-card, .dnb-info-card::after {
+  border-radius: 0.25rem;
 }
 .dnb-info-card--centered {
   flex-direction: column;
   align-items: center;
   text-align: center;
 }
-.dnb-info-card--content {
+.dnb-info-card__content {
   flex-direction: column;
   margin-top: 0.1875rem;
 }
-.dnb-info-card--centered .dnb-info-card--content {
-  flex-direction: column;
+.dnb-info-card--centered .dnb-info-card__content {
   margin-top: 0;
 }
-.dnb-info-card--icon {
+.dnb-info-card__icon {
   color: var(--color-emerald-green);
 }
-.dnb-info-card--image {
+.dnb-info-card__image {
   height: 4rem;
   width: 4rem;
 }
-.dnb-info-card--buttons {
+.dnb-info-card__buttons {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 }
-.dnb-info-card--buttons-centered {
+.dnb-info-card--centered .dnb-info-card__buttons {
   flex-direction: column;
   align-items: center;
   text-align: center;
