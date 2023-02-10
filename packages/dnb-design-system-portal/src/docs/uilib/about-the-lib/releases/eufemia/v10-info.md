@@ -139,6 +139,10 @@ When you convert from `<Modal />` to `<Dialog />` – follow these steps:
 
 1. In v10, InputMasked **allows leading zeros**. To prevent that behaviour, the property `allowLeadingZeroes` has changed to `disallowLeadingZeroes`.
 
+### Removal of `data-testid` in components
+
+- [InfoCard](/uilib/components/info-card).
+
 ### [Stopped supporting Internet Explorer (IE)](/uilib/usage/#supported-browsers-and-platforms)
 
 Stopped supporting Internet Explorer (IE), as Microsoft formally ended support for IE in June, 2022.
