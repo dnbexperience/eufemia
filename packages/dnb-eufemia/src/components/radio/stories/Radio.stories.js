@@ -114,13 +114,10 @@ export const RadioButtonSandbox = () => (
       </p>
     </Box>
     <Box>
-      <FormRow indent no_label>
+      <FormRow no_label>
         <H2>A h2 in a FormRow without a label</H2>
       </FormRow>
-      <FormRow
-        indent
-        label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
-      >
+      <FormRow label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:">
         <Radio.Group
           // label="Group:"
           // label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
@@ -143,10 +140,7 @@ export const RadioButtonSandbox = () => (
       </FormRow>
     </Box>
     <Box>
-      <FormRow
-        indent
-        label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
-      >
+      <FormRow label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:">
         <Radio.Group
           // direction="vertical"
           label="Group label:"
