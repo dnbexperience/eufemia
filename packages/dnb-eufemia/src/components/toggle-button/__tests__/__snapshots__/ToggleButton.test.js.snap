@@ -513,8 +513,6 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
       disabled={null}
       global_status_id={null}
       id="group"
-      indent={null}
-      indent_offset={null}
       label="Label"
       label_class={null}
       label_direction={null}
@@ -578,7 +576,7 @@ exports[`ToggleButton group component have to match group snapshot 1`] = `
                 </legend>
               </FormLabel>
               <div
-                className="dnb-form-row__content dnb-form-row__content--default"
+                className="dnb-form-row__content"
               >
                 <span
                   aria-labelledby="group-label"
@@ -2754,9 +2752,6 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
 .dnb-radio--label-position-right .dnb-radio__order .dnb-form-label {
   order: 2;
   padding-left: 0.5rem;
-}
-.dnb-form-row:not(.dnb-form-row--vertical)[class*=__indent] .dnb-radio .dnb-form-label {
-  margin-top: 0;
 }
 :not(.dnb-radio-group) > .dnb-form-label + .dnb-radio {
   vertical-align: top;
