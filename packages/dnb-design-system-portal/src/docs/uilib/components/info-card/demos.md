@@ -27,13 +27,11 @@ InfoCardCustomImageCentered,
 
 ### InfoCard with Buttons
 
-Two buttons
-
 <InfoCardButtons />
 
 <InfoCardButtonsCentered />
 
-Each button can be used independently
+Each button can be used independently.
 
 <InfoCardAcceptButton />
 
