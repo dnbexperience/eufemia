@@ -1,8 +1,9 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { act, render } from '@testing-library/react'
 import Table from '../Table'
 import ScrollView from '../TableScrollView'
 import { BasicTable } from './TableMocks'
+import { setResizeObserver } from '../../../fragments/scroll-view/__tests__/__mocks__/ResizeObserver'
 
 describe('Table.ScrollView', () => {
   it('should support spacing props', () => {
@@ -24,8 +25,18 @@ describe('Table.ScrollView', () => {
   })
 
   it('should have tabindex="0"', () => {
+    let renderResizeObserver = null
+
+    const observe = jest.fn()
+    const init = jest.fn((callback) => {
+      renderResizeObserver = callback
+    })
+    setResizeObserver({ init, observe })
+
+    const ref = React.createRef<HTMLDivElement>()
+
     render(
-      <ScrollView>
+      <ScrollView innerRef={ref}>
         <Table>
           <BasicTable />
         </Table>
@@ -33,11 +44,23 @@ describe('Table.ScrollView', () => {
     )
 
     const element = document.querySelector('.dnb-table__scroll-view')
-    const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
-    )
 
-    expect(attributes).toEqual(['class', 'tabindex'])
+    act(() => {
+      jest.spyOn(ref.current, 'scrollWidth', 'get').mockReturnValue(102)
+      jest.spyOn(ref.current, 'offsetWidth', 'get').mockReturnValue(100)
+
+      renderResizeObserver()
+    })
+
     expect(element.getAttribute('tabindex')).toBe('0')
+
+    act(() => {
+      jest.spyOn(ref.current, 'scrollWidth', 'get').mockReturnValue(101)
+      jest.spyOn(ref.current, 'offsetWidth', 'get').mockReturnValue(100)
+
+      renderResizeObserver()
+    })
+
+    expect(element.hasAttribute('tabindex')).toBeFalsy()
   })
 })
