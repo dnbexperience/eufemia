@@ -15,21 +15,21 @@ const defaultProps: UploadContextProps = {
   filesAmountLimit: 2,
 }
 
-describe('UploadFileInput', () => {
-  const makeWrapper = (props = null) => {
-    const defaultContext: UploadContextProps = {
-      ...defaultProps,
-      ...props,
-    }
-    return ({ children }) => {
-      return (
-        <UploadContext.Provider value={defaultContext}>
-          {children}
-        </UploadContext.Provider>
-      )
-    }
+const makeWrapper = (props = null) => {
+  const defaultContext: UploadContextProps = {
+    ...defaultProps,
+    ...props,
   }
+  return ({ children }) => {
+    return (
+      <UploadContext.Provider value={defaultContext}>
+        {children}
+      </UploadContext.Provider>
+    )
+  }
+}
 
+describe('UploadFileInput', () => {
   it('renders the upload button', () => {
     render(<UploadFileInput />, {
       wrapper: makeWrapper(),

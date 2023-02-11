@@ -40,10 +40,12 @@ const UploadInfo = () => {
         direction="horizontal"
         className="dnb-upload__condition-list"
       >
-        <Dl.Item>
-          <Dt>{fileTypeDescription}</Dt>
-          <Dd>{prettyfiedAcceptedFileFormats}</Dd>
-        </Dl.Item>
+        {prettyfiedAcceptedFileFormats && (
+          <Dl.Item>
+            <Dt>{fileTypeDescription}</Dt>
+            <Dd>{prettyfiedAcceptedFileFormats}</Dd>
+          </Dl.Item>
+        )}
 
         <Dl.Item>
           <Dt>{fileSizeDescription}</Dt>

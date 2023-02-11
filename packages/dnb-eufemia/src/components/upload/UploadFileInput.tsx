@@ -12,7 +12,7 @@ import { makeUniqueId } from '../../shared/component-helper'
 // Internal
 import { UploadContext } from './UploadContext'
 import UploadStatus from './UploadStatus'
-import { extendWithAbbreviation } from './UploadVerify'
+import { getAcceptedFileTypes } from './UploadVerify'
 
 const UploadFileInput = () => {
   const fileInput = useRef<HTMLInputElement>(null)
@@ -30,9 +30,7 @@ const UploadFileInput = () => {
   const openFileDialog = () => fileInput.current?.click()
 
   const sharedId = id || makeUniqueId()
-  const accept = extendWithAbbreviation(acceptedFileTypes)
-    .map((type) => `.${type}`)
-    .join(',')
+  const accept = getAcceptedFileTypes(acceptedFileTypes)
 
   return (
     <div>

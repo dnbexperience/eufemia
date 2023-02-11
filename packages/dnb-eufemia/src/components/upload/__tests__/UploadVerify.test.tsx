@@ -1,4 +1,4 @@
-import { verifyFiles } from '../UploadVerify'
+import { verifyFiles, getFileTypeFromExtension } from '../UploadVerify'
 import { createMockFile } from './testHelpers'
 
 describe('verifyFiles', () => {
@@ -61,5 +61,20 @@ describe('verifyFiles', () => {
     expect(files[0]).toEqual({
       file: file1,
     })
+  })
+})
+
+describe('getFileTypeFromExtension', () => {
+  it('returns the file extension when given', () => {
+    const file1 = createMockFile('fileName1.txt', 100, 'text/plain')
+    expect(getFileTypeFromExtension(file1)).toBe('txt')
+
+    const file2 = createMockFile('fileName1.test.txt', 100, 'text/plain')
+    expect(getFileTypeFromExtension(file2)).toBe('txt')
+  })
+
+  it('returns the file type when given', () => {
+    const file1 = createMockFile('fileName1', 100, 'text/plain')
+    expect(getFileTypeFromExtension(file1)).toBe(null)
   })
 })
