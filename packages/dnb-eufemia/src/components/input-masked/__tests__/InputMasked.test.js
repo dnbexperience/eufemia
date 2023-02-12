@@ -557,6 +557,26 @@ describe('InputMasked component', () => {
     expect(Comp.find('input').instance().value).toBe('110203 12345')
   })
 
+  it('should ignore mask types from provider, when custom mask is used', () => {
+    render(
+      <Provider
+        value={{
+          InputMasked: {
+            as_number: true,
+            as_currency: true,
+            as_percent: true,
+            number_mask: {},
+            currency_mask: {},
+          },
+        }}
+      >
+        <Component value="123" mask={() => [/\d/, ' ', /\d/, ' ', /\d/]} />
+      </Provider>
+    )
+
+    expect(document.querySelector('input').value).toBe('1 2 3')
+  })
+
   it('should show placeholder chars when show_mask is true', () => {
     const Comp = mount(
       <Component

@@ -18,6 +18,16 @@ import Context from '../../shared/Context'
 const InputMasked = React.forwardRef((props, ref) => {
   const context = React.useContext(Context)
 
+  // Remove masks defined in Provider/Context, because it overwrites a custom mask
+  if (props?.mask) {
+    const alias = context?.InputMasked
+    for (const key in alias) {
+      if (/^as[_A-Z]|number_mask|currency_mask/.test(key)) {
+        delete alias[key]
+      }
+    }
+  }
+
   const contextAndProps = React.useCallback(
     extendPropsWithContext(
       props,
@@ -97,7 +107,7 @@ InputMasked.propTypes = {
 InputMasked.defaultProps = {
   ...Input.defaultProps,
 
-  mask: [],
+  mask: null,
   number_mask: null,
   currency_mask: null,
   mask_options: null,
