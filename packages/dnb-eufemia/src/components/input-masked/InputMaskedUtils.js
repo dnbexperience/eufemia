@@ -112,8 +112,8 @@ export const correctNumberValue = ({
   value = value.replace('.', decimalSymbol)
 
   if (localValue !== null) {
-    const localNumberValue = localValue.replace(/[^\d,.]/g, '')
-    const numberValue = value.replace(/[^\d,.]/g, '')
+    const localNumberValue = localValue.replace(/[^\d,.-]/g, '')
+    const numberValue = value.replace(/[^\d,.-]/g, '')
 
     const endsWithDecimal = localNumberValue.endsWith(decimalSymbol)
     const endsWithZeroAndDecimal = localNumberValue.endsWith(
@@ -154,8 +154,12 @@ export const correctNumberValue = ({
       value = localValue
     }
 
-    // If the local value is - or -0 we use it
-    if (/^-|-0$/.test(localValue)) {
+    /**
+     * While typing;
+     * If the local value is - or -0 we use it.
+     * Also, because of invisible whitespace we remove everyting else
+     */
+    if (/^(-|-0)$/.test(localValue.replace(/[^\d-0]/g, ''))) {
       value = localValue
     } else if (localNumberValue === '' && numberValue === '0') {
       value = ''
