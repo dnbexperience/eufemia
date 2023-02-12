@@ -22,6 +22,8 @@ UploadAcceptedFormats,
 
 By using the `Upload.useUpload` you can remove or add files or the status displayed in the component.
 
+You can also use the file blob in combination with the [FileReader](https://developer.mozilla.org/en-US/docs/Web/API/File_API) API.
+
 <UploadRemoveFile />
 
 ### Upload single file/fixed amount of files
