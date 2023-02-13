@@ -79,7 +79,6 @@ const Upload = (localProps: UploadAllProps) => {
     >
       <Provider skeleton={skeleton}>
         <UploadDropzone
-          data-testid="upload"
           className={classnames('dnb-upload', spacingClasses, className)}
           {...props}
         >
