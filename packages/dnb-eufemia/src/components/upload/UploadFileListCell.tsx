@@ -25,6 +25,7 @@ import { UploadFile } from './types'
 // Shared
 import { getPreviousSibling, warn } from '../../shared/component-helper'
 import useUpload from './useUpload'
+import { getFileTypeFromExtension } from './UploadVerify'
 
 const images = {
   pdf,
@@ -64,16 +65,13 @@ const UploadFileListCell = ({
   deleteButtonText,
 }: UploadFileListCellProps) => {
   const { file, errorMessage, isLoading } = uploadFile
-  const { name, type } = file
-
-  const fileType = type.split('/')[1] || ''
-
   const hasWarning = errorMessage != null
 
+  const fileType = getFileTypeFromExtension(file)
+  const humanFileType = fileType.toUpperCase()
+
   const imageUrl = URL.createObjectURL(file)
-
   const cellRef = useRef<HTMLLIElement>()
-
   const exists = useExistsHighlight(id, file)
 
   const handleDisappearFocus = () => {
@@ -99,7 +97,6 @@ const UploadFileListCell = ({
 
   return (
     <li
-      data-testid="upload-file-list-cell"
       className={classnames(
         'dnb-upload__file-cell',
         hasWarning && 'dnb-upload__file-cell--warning',
@@ -114,7 +111,6 @@ const UploadFileListCell = ({
         </div>
         <div>
           <Button
-            data-testid="upload-delete-button"
             icon={TrashIcon}
             variant="tertiary"
             onClick={onDeleteHandler}
@@ -131,16 +127,22 @@ const UploadFileListCell = ({
 
   function getIcon() {
     if (isLoading) {
-      return <ProgressIndicator data-testid="upload-progress-indicator" />
+      return <ProgressIndicator />
     }
 
     if (hasWarning) return <Icon icon={ExclamationIcon} />
 
     let iconFileType = fileType
 
-    if (!Object.prototype.hasOwnProperty.call(images, fileType)) {
+    if (!iconFileType) {
+      const mimeParts = file.type.split('/')
+      iconFileType = images[mimeParts[0]] || images[mimeParts[1]]
+    }
+
+    if (!Object.prototype.hasOwnProperty.call(images, iconFileType)) {
       iconFileType = 'file'
     }
+
     return <Icon icon={images[iconFileType]} />
   }
 
@@ -157,7 +159,6 @@ const UploadFileListCell = ({
     ) : (
       <div className="dnb-upload__file-cell__text-container">
         <a
-          data-testid="upload-file-anchor"
           target="_blank"
           href={imageUrl}
           className={classnames(
@@ -166,15 +167,14 @@ const UploadFileListCell = ({
           )}
           rel="noopener noreferrer"
         >
-          {name}
+          {file.name}
         </a>
         <P
-          data-testid="upload-subtitle"
           className="dnb-upload__file-cell__subtitle"
           size="x-small"
           top="xx-small"
         >
-          {fileType.toUpperCase()}
+          {humanFileType}
         </P>
       </div>
     )
@@ -182,12 +182,7 @@ const UploadFileListCell = ({
 
   function getWarning() {
     return hasWarning ? (
-      <FormStatus
-        data-testid="upload-warning"
-        top="small"
-        text={errorMessage}
-        stretch
-      />
+      <FormStatus top="small" text={errorMessage} stretch />
     ) : null
   }
 }

@@ -5,6 +5,8 @@
 
 import React from 'react'
 import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
+import { Button, ToggleButton, Img, Section } from '@dnb/eufemia/src'
+import Upload from '@dnb/eufemia/src/components/upload/Upload'
 
 const createMockFile = (name: string, size: number, type: string) => {
   const file = new File([], name, { type })
@@ -29,189 +31,216 @@ const useMockFiles = (setFiles, extend) => {
 
 export const UploadPrefilledFileList = () => (
   <ComponentBox
-    useRender
     data-visual-test="upload-file-list"
     scope={{ useMockFiles }}
   >
-    {
-      /* jsx */ `
-const Component = () => {
-  const { files, setFiles } = Upload.useUpload('file-list')
-  useMockFiles(setFiles, { errorMessage: 'This is no real file!' })
+    {() => {
+      const Component = () => {
+        const { files, setFiles } = Upload.useUpload('file-list')
+        console.log('files', files)
 
-  return (
-    <Upload
-      acceptedFileTypes={['jpg', 'png']}
-      id="file-list"
-    />
-  )
-}
-render(<Component />)
-  `
-    }
+        useMockFiles(setFiles, { errorMessage: 'This is no real file!' })
+
+        return <Upload acceptedFileTypes={['jpg', 'png']} id="file-list" />
+      }
+
+      return <Component />
+    }}
   </ComponentBox>
 )
 
 export const UploadBasic = () => (
-  <ComponentBox useRender data-visual-test="upload-basic">
-    {
-      /* jsx */ `
-const Component = () => {
-  const { files } = Upload.useUpload('upload-basic')
-
-  return (
-    <Upload
-      acceptedFileTypes={['jpg', 'png']}
-      id="upload-basic"
-    />
-  )
-}
-render(<Component />)
-  `
-    }
+  <ComponentBox data-visual-test="upload-basic">
+    <Upload acceptedFileTypes={['jpg', 'png']} id="upload-basic" />
   </ComponentBox>
 )
 
 export const UploadSingleFile = () => (
-  <ComponentBox useRender>
-    {
-      /* jsx */ `
-const Component = () => {  
-  const { files, setFiles } = Upload.useUpload('upload-single-file')
-  return (
-    <Upload
-      acceptedFileTypes={['jpg', 'png']}
-      id="upload-single-file"
-      filesAmountLimit={1}
-    />
-  )
-}
-render(<Component />)
-  `
-    }
+  <ComponentBox>
+    {() => {
+      const Component = () => {
+        const { files, setFiles } = Upload.useUpload('upload-single-file')
+        console.log('files', files, setFiles)
+
+        return (
+          <Upload
+            acceptedFileTypes={['jpg', 'png']}
+            id="upload-single-file"
+            filesAmountLimit={1}
+          />
+        )
+      }
+
+      return <Component />
+    }}
   </ComponentBox>
 )
 
 export const UploadRemoveFile = () => (
-  <ComponentBox useRender data-visual-test="upload-remove-files">
-    {
-      /* jsx */ `
-const Component = () => {  
-  const { files, setFiles } = Upload.useUpload('upload-remove-files')
-  return (
-    <>
-      <Upload
-        acceptedFileTypes={['jpg', 'png']}
-        id="upload-remove-files"
-      />
-      <Button 
-        top="small"
-        disabled={files.length < 1} 
-        onClick={() => setFiles([])}
-      >
-        Remove selected files
-      </Button>
-    </>
-  )
-}
-render(<Component />)
-  `
-    }
+  <ComponentBox data-visual-test="upload-remove-files">
+    {() => {
+      const Component = () => {
+        const { files, setFiles } = Upload.useUpload('upload-remove-files')
+
+        return (
+          <>
+            <Upload
+              acceptedFileTypes={['jpg', 'png']}
+              id="upload-remove-files"
+            />
+
+            <Button
+              top="small"
+              disabled={files.length < 1}
+              onClick={() => setFiles([])}
+            >
+              Remove selected files
+            </Button>
+
+            <Preview files={files} />
+          </>
+        )
+
+        function Preview({ files }) {
+          const [images, setImages] = React.useState([])
+
+          React.useEffect(() => {
+            files.map(({ file }) => {
+              let reader = new FileReader()
+
+              reader.addEventListener(
+                'load',
+                (event) => {
+                  images.push({ blob: event.target, file })
+                  setImages([...images])
+                  reader = null
+                },
+                false
+              )
+
+              reader.readAsDataURL(file)
+            })
+          }, [files])
+
+          return (
+            <Section aira-label="List of choosen images">
+              {images.map((img, i) => (
+                <Img
+                  top
+                  key={i}
+                  src={img.blob.result}
+                  alt={img.file.name}
+                  height={100}
+                />
+              ))}
+            </Section>
+          )
+        }
+      }
+
+      return <Component />
+    }}
   </ComponentBox>
 )
 
 export const UploadIsLoading = () => (
   <ComponentBox
     scope={{ useMockFiles }}
-    useRender
     data-visual-test="upload-is-loading"
   >
-    {
-      /* jsx */ `
-const Component = () => {  
-  const { files, setFiles } = Upload.useUpload('upload-is-loading')
-  useMockFiles(setFiles, { isLoading: true })
+    {() => {
+      const Component = () => {
+        const { files, setFiles } = Upload.useUpload('upload-is-loading')
 
-  return (
-    <>
-      <Upload
-        acceptedFileTypes={['jpg', 'png']}
-        id="upload-is-loading"
-      />
-      <ToggleButton
-        top="small"
-        disabled={files.length < 1}
-        on_change={({ checked }) =>
-          setFiles(
-            files.map((fileItem) => {
-              return { ...fileItem, isLoading: checked }
-            })
-          )
-        }
-      >
-        Files is loading toggle
-      </ToggleButton>
-    </>
-  )
-}
-render(<Component />)
-  `
-    }
+        useMockFiles(setFiles, { isLoading: true })
+
+        return (
+          <>
+            <Upload
+              acceptedFileTypes={['jpg', 'png']}
+              id="upload-is-loading"
+            />
+            <ToggleButton
+              top="small"
+              disabled={files.length < 1}
+              on_change={({ checked }) =>
+                setFiles(
+                  files.map((fileItem) => {
+                    return { ...fileItem, isLoading: checked }
+                  })
+                )
+              }
+            >
+              Files is loading toggle
+            </ToggleButton>
+          </>
+        )
+      }
+
+      return <Component />
+    }}
   </ComponentBox>
 )
 
 export const UploadErrorMessage = () => (
-  <ComponentBox useRender data-visual-test="upload-error-message">
-    {
-      /* jsx */ `
-const Component = () => {  
-  const { files, setFiles } = Upload.useUpload('upload-error-message')
-  return (
-    <>
-      <Upload
-        acceptedFileTypes={['jpg', 'png']}
-        id="upload-error-message"
-      />
-      <ToggleButton
-        top="small"
-        disabled={files.length < 1} 
-        onChange={
-          ({ checked }) => {
-            setFiles(
-              files.map((fileItem) => {
-                return { ...fileItem, errorMessage: checked? 'custom error message': null }
-              })
-            )
-          }
-        }
-      >
-        Toggle error message
-      </ToggleButton>
-    </>
-  )
-}
-render(<Component />)
-  `
-    }
+  <ComponentBox data-visual-test="upload-error-message">
+    {() => {
+      const Component = () => {
+        const { files, setFiles } = Upload.useUpload(
+          'upload-error-message'
+        )
+
+        return (
+          <>
+            <Upload
+              acceptedFileTypes={['jpg', 'png']}
+              id="upload-error-message"
+            />
+            <ToggleButton
+              top="small"
+              disabled={files.length < 1}
+              onChange={({ checked }) => {
+                setFiles(
+                  files.map((fileItem) => {
+                    return {
+                      ...fileItem,
+                      errorMessage: checked
+                        ? 'custom error message'
+                        : null,
+                    }
+                  })
+                )
+              }}
+            >
+              Toggle error message
+            </ToggleButton>
+          </>
+        )
+      }
+
+      return <Component />
+    }}
   </ComponentBox>
 )
 
 export const UploadAcceptedFormats = () => (
-  <ComponentBox useRender>
-    {
-      /* jsx */ `
-const Component = () => {
-  const { files, setFiles } = Upload.useUpload('upload-accepted-formats')
+  <ComponentBox>
+    {() => {
+      const Component = () => {
+        const { files, setFiles } = Upload.useUpload(
+          'upload-accepted-formats'
+        )
+        console.log('files', files, setFiles)
 
-  return (
-    <Upload
-      acceptedFileTypes={['png', 'jpg', 'pdf']}
-      id="upload-accepted-formats"
-    />
-  )
-}
-render(<Component />)
-  `
-    }
+        return (
+          <Upload
+            acceptedFileTypes={['png', 'jpg', 'pdf']}
+            id="upload-accepted-formats"
+          />
+        )
+      }
+
+      return <Component />
+    }}
   </ComponentBox>
 )

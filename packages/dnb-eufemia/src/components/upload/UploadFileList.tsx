@@ -23,11 +23,7 @@ function UploadFileList() {
   }
 
   return (
-    <ul
-      data-testid="upload-file-list"
-      className="dnb-upload__file-list"
-      aria-label={fileListAriaLabel}
-    >
+    <ul className="dnb-upload__file-list" aria-label={fileListAriaLabel}>
       {files.map((uploadFile: UploadFile, index: number) => {
         const onDeleteHandler = () => {
           if (typeof onFileDelete === 'function') {

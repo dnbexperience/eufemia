@@ -4,6 +4,8 @@ import UploadFileListCell, {
 import { createMockFile } from './testHelpers'
 import { render, screen } from '@testing-library/react'
 import React from 'react'
+import { UploadContext } from '../UploadContext'
+import { UploadContextProps } from '../types'
 
 global.URL.createObjectURL = jest.fn(() => 'url')
 
@@ -15,13 +17,25 @@ const defaultProps: UploadFileListCellProps = {
   loadingText: 'loading',
 }
 
+const makeWrapper = (props = null) => {
+  const defaultContext: UploadContextProps = {
+    ...defaultProps,
+    ...props,
+  }
+  return ({ children }) => {
+    return (
+      <UploadContext.Provider value={defaultContext}>
+        {children}
+      </UploadContext.Provider>
+    )
+  }
+}
+
 describe('UploadFileListCell', () => {
   it('renders the component', () => {
     render(<UploadFileListCell {...defaultProps} />)
 
-    const element = screen.queryByTestId('upload-file-list-cell')
-
-    expect(element).not.toBeNull()
+    expect(document.querySelector('.dnb-upload__file-cell')).not.toBeNull()
   })
 
   it('renders the error styling', () => {
@@ -35,7 +49,7 @@ describe('UploadFileListCell', () => {
       />
     )
 
-    const element = screen.queryByTestId('upload-file-list-cell')
+    const element = document.querySelector('.dnb-upload__file-cell')
 
     expect(element.className).toMatch('dnb-upload__file-cell--warning')
   })
@@ -61,13 +75,13 @@ describe('UploadFileListCell', () => {
       />
     )
 
-    const element = screen.queryByTestId('upload-file-list-cell')
+    const element = document.querySelector('.dnb-upload__file-cell')
 
     expect(element.className).not.toMatch('dnb-upload__file-cell--error')
     expect(element.className).toMatch('dnb-upload__file-cell')
   })
 
-  it('renders the subtitle', () => {
+  it('renders the subtitle and uses the file mime', () => {
     render(
       <UploadFileListCell
         {...defaultProps}
@@ -75,29 +89,49 @@ describe('UploadFileListCell', () => {
       />
     )
 
-    const element = screen.queryByTestId('upload-subtitle')
-
-    expect(element).not.toBeNull()
-    expect(element.textContent).toMatch('PNG')
+    expect(screen.queryByText('PNG')).toBeTruthy()
   })
 
-  it('renders the form errorMessage warning', () => {
+  it('renders the subtitle and uses the extension if mime is missing', () => {
     render(
       <UploadFileListCell
         {...defaultProps}
-        uploadFile={{
-          file: createMockFile('file.png', 100, 'image/png'),
-          errorMessage: 'errorMessage',
-        }}
+        uploadFile={{ file: createMockFile('file.png', 100, '') }}
       />
     )
 
-    const element = screen.queryByTestId('upload-warning')
-
-    expect(element).not.toBeNull()
+    expect(screen.queryByText('PNG')).toBeTruthy()
   })
 
-  it('renders the form errorMessage warning message', () => {
+  it('renders the subtitle with file extension when set by acceptedFileTypes', () => {
+    render(
+      <UploadFileListCell
+        {...defaultProps}
+        uploadFile={{ file: createMockFile('file.png', 100, 'image/png') }}
+      />,
+      {
+        wrapper: makeWrapper({ acceptedFileTypes: ['png'] }),
+      }
+    )
+
+    expect(screen.queryByText('PNG')).toBeTruthy()
+  })
+
+  it('renders the subtitle with file mime when set by acceptedFileTypes', () => {
+    render(
+      <UploadFileListCell
+        {...defaultProps}
+        uploadFile={{ file: createMockFile('file.png', 100, 'image/png') }}
+      />,
+      {
+        wrapper: makeWrapper({ acceptedFileTypes: ['image/png'] }),
+      }
+    )
+
+    expect(screen.queryByText('PNG')).toBeTruthy()
+  })
+
+  it('renders the form errorMessage warning', () => {
     const errorMessage = 'error message'
 
     render(
@@ -110,9 +144,7 @@ describe('UploadFileListCell', () => {
       />
     )
 
-    const element = screen.queryByTestId('upload-warning')
-
-    expect(element.textContent).toMatch(errorMessage)
+    expect(screen.queryByText(errorMessage)).toBeTruthy()
   })
 
   describe('Icons', () => {
@@ -226,13 +258,6 @@ describe('UploadFileListCell', () => {
 
   describe('File Anchor', () => {
     it('renders the anchor', () => {
-      render(<UploadFileListCell {...defaultProps} />)
-      const anchorElement = screen.queryByTestId('upload-file-anchor')
-
-      expect(anchorElement).not.toBeNull()
-    })
-
-    it('renders the anchor text', () => {
       const fileName = 'file.png'
 
       render(
@@ -241,11 +266,11 @@ describe('UploadFileListCell', () => {
           uploadFile={{ file: createMockFile(fileName, 100, 'image/png') }}
         />
       )
-      const anchorElement = screen.queryByTestId('upload-file-anchor')
-      expect(anchorElement.textContent).toMatch(fileName)
+      expect(screen.queryByText(fileName)).toBeTruthy()
     })
 
     it('renders the anchor href', () => {
+      const fileName = 'file.png'
       const mockUrl = 'mock-url'
 
       global.URL.createObjectURL = jest.fn().mockReturnValueOnce(mockUrl)
@@ -254,27 +279,29 @@ describe('UploadFileListCell', () => {
         <UploadFileListCell
           {...defaultProps}
           uploadFile={{
-            file: createMockFile('file.png', 100, 'image/png'),
+            file: createMockFile(fileName, 100, 'image/png'),
           }}
         />
       )
-      const anchorElement = screen.queryByTestId(
-        'upload-file-anchor'
+      const anchorElement = screen.queryByText(
+        fileName
       ) as HTMLAnchorElement
       expect(anchorElement.href).toMatch(mockUrl)
     })
 
     it('renders without the error style', () => {
+      const fileName = 'file.png'
+
       render(
         <UploadFileListCell
           {...defaultProps}
           uploadFile={{
-            file: createMockFile('file.png', 100, 'image/png'),
+            file: createMockFile(fileName, 100, 'image/png'),
           }}
         />
       )
 
-      const anchorElement = screen.queryByTestId('upload-file-anchor')
+      const anchorElement = screen.queryByText(fileName)
 
       expect(anchorElement.className).not.toMatch(
         'dnb-upload__file-cell--error'
@@ -286,7 +313,7 @@ describe('UploadFileListCell', () => {
     it('renders the delete button', () => {
       render(<UploadFileListCell {...defaultProps} />)
 
-      const element = screen.queryByTestId('upload-delete-button')
+      const element = screen.getByRole('button')
 
       expect(element).not.toBeNull()
     })
@@ -301,7 +328,7 @@ describe('UploadFileListCell', () => {
         />
       )
 
-      const element = screen.queryByTestId('upload-delete-button')
+      const element = screen.getByRole('button')
 
       expect(element.textContent).toMatch(deleteButtonText)
     })
@@ -309,7 +336,7 @@ describe('UploadFileListCell', () => {
     it('renders button as tertiary', () => {
       render(<UploadFileListCell {...defaultProps} />)
 
-      const element = screen.queryByTestId('upload-delete-button')
+      const element = screen.getByRole('button')
 
       expect(element.className).toMatch('dnb-button--tertiary')
     })
@@ -325,9 +352,9 @@ describe('UploadFileListCell', () => {
         />
       )
 
-      const element = screen.queryByTestId('upload-progress-indicator')
-
-      expect(element).not.toBeNull()
+      expect(
+        document.querySelector('.dnb-progress-indicator')
+      ).not.toBeNull()
     })
 
     it('does not render the loading state when not loading', () => {
@@ -341,9 +368,7 @@ describe('UploadFileListCell', () => {
         />
       )
 
-      const element = screen.queryByTestId('upload-progress-indicator')
-
-      expect(element).toBeNull()
+      expect(document.querySelector('.dnb-progress-indicator')).toBeNull()
     })
   })
 })

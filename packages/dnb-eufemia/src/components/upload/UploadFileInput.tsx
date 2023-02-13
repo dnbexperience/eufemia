@@ -12,7 +12,7 @@ import { makeUniqueId } from '../../shared/component-helper'
 // Internal
 import { UploadContext } from './UploadContext'
 import UploadStatus from './UploadStatus'
-import { extendWithAbbreviation } from './UploadVerify'
+import { getAcceptedFileTypes } from './UploadVerify'
 
 const UploadFileInput = () => {
   const fileInput = useRef<HTMLInputElement>(null)
@@ -30,16 +30,13 @@ const UploadFileInput = () => {
   const openFileDialog = () => fileInput.current?.click()
 
   const sharedId = id || makeUniqueId()
-  const accept = extendWithAbbreviation(acceptedFileTypes)
-    .map((type) => `.${type}`)
-    .join(',')
+  const accept = getAcceptedFileTypes(acceptedFileTypes)
 
   return (
-    <div data-testid="upload-file-input">
+    <div>
       <Button
         top="medium"
         id={`${sharedId}-input`}
-        data-testid="upload-file-input-button"
         className="dnb-upload__file-input-button"
         icon={FolderIcon}
         icon_position="left"
@@ -54,7 +51,6 @@ const UploadFileInput = () => {
 
       <input
         aria-labelledby={`${sharedId}-input`}
-        data-testid="upload-file-input-input"
         ref={fileInput}
         accept={accept}
         className="dnb-upload__file-input"

@@ -557,6 +557,26 @@ describe('InputMasked component', () => {
     expect(Comp.find('input').instance().value).toBe('110203 12345')
   })
 
+  it('should ignore mask types from provider, when custom mask is used', () => {
+    render(
+      <Provider
+        value={{
+          InputMasked: {
+            as_number: true,
+            as_currency: true,
+            as_percent: true,
+            number_mask: {},
+            currency_mask: {},
+          },
+        }}
+      >
+        <Component value="123" mask={() => [/\d/, ' ', /\d/, ' ', /\d/]} />
+      </Provider>
+    )
+
+    expect(document.querySelector('input').value).toBe('1 2 3')
+  })
+
   it('should show placeholder chars when show_mask is true', () => {
     const Comp = mount(
       <Component
@@ -1391,6 +1411,45 @@ describe('InputMasked component as_currency', () => {
     fireEvent.click(button) // 0,3
 
     expect(element.value).toBe('0,30')
+  })
+
+  it('should handle negative (minus) value updates', () => {
+    const MockComponent = () => {
+      const [value, setState] = React.useState(-1.5)
+
+      return (
+        <>
+          <Component
+            value={value}
+            as_number
+            number_mask={{
+              allowDecimal: true,
+            }}
+          />
+
+          <button
+            onClick={() => {
+              setState(value + 1)
+            }}
+          />
+        </>
+      )
+    }
+
+    render(<MockComponent />)
+
+    const element = document.querySelector('input')
+    const button = document.querySelector('button')
+
+    expect(element.value).toBe('-1,5')
+
+    fireEvent.click(button)
+
+    expect(element.value).toBe('-0,5')
+
+    fireEvent.click(button)
+
+    expect(element.value).toBe('0,5')
   })
 
   it('should change both value and locale', () => {
