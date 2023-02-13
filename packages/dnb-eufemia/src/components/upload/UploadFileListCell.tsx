@@ -25,6 +25,7 @@ import { UploadFile } from './types'
 // Shared
 import { getPreviousSibling, warn } from '../../shared/component-helper'
 import useUpload from './useUpload'
+import { getFileTypeFromExtension } from './UploadVerify'
 
 const images = {
   pdf,
@@ -64,16 +65,13 @@ const UploadFileListCell = ({
   deleteButtonText,
 }: UploadFileListCellProps) => {
   const { file, errorMessage, isLoading } = uploadFile
-  const { name, type } = file
-
-  const fileType = type.split('/')[1] || ''
-
   const hasWarning = errorMessage != null
 
+  const fileType = getFileTypeFromExtension(file)
+  const humanFileType = fileType.toUpperCase()
+
   const imageUrl = URL.createObjectURL(file)
-
   const cellRef = useRef<HTMLLIElement>()
-
   const exists = useExistsHighlight(id, file)
 
   const handleDisappearFocus = () => {
@@ -136,9 +134,15 @@ const UploadFileListCell = ({
 
     let iconFileType = fileType
 
-    if (!Object.prototype.hasOwnProperty.call(images, fileType)) {
+    if (!iconFileType) {
+      const mimeParts = file.type.split('/')
+      iconFileType = images[mimeParts[0]] || images[mimeParts[1]]
+    }
+
+    if (!Object.prototype.hasOwnProperty.call(images, iconFileType)) {
       iconFileType = 'file'
     }
+
     return <Icon icon={images[iconFileType]} />
   }
 
@@ -163,14 +167,14 @@ const UploadFileListCell = ({
           )}
           rel="noopener noreferrer"
         >
-          {name}
+          {file.name}
         </a>
         <P
           className="dnb-upload__file-cell__subtitle"
           size="x-small"
           top="xx-small"
         >
-          {fileType.toUpperCase()}
+          {humanFileType}
         </P>
       </div>
     )

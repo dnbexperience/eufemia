@@ -40,12 +40,15 @@ export function verifyFiles(
     if (acceptedFileTypes.length === 0) {
       return false
     }
+    const fileType = hasPreferredMimeType(acceptedFileTypes, file)
+      ? file.type
+      : getFileTypeFromExtension(file) || file.type
     const foundType = extendWithAbbreviation(acceptedFileTypes).some(
       (type) => {
         /**
          * "file.type" can be e.g. "images/png"
          */
-        return file.type.includes(type)
+        return fileType.includes(type)
       }
     )
     return !foundType ? errorUnsupportedFile : null
@@ -64,6 +67,34 @@ export function verifyFiles(
   })
 
   return cleanedFiles
+}
+
+export function getFileTypeFromExtension(file: File) {
+  return (
+    (file.name.includes('.') && file.name.replace(/.*\.([^.]+)$/, '$1')) ||
+    null
+  )
+}
+
+export function getAcceptedFileTypes(
+  acceptedFileTypes: UploadAcceptedFileTypes
+) {
+  return extendWithAbbreviation(acceptedFileTypes)
+    .map((type) => (type.includes('/') ? type : `.${type}`))
+    .join(',')
+}
+
+export function hasPreferredMimeType(
+  acceptedFileTypes: UploadAcceptedFileTypes,
+  file: File
+) {
+  return (
+    file.type.split('/')[1] &&
+    (!acceptedFileTypes?.length ||
+      acceptedFileTypes?.some(
+        (type) => type.toLowerCase() === file.type.toLowerCase()
+      ))
+  )
 }
 
 export function extendWithAbbreviation(

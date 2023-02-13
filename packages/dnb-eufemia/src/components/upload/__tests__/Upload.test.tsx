@@ -87,6 +87,16 @@ describe('Upload', () => {
       expect(screen.queryByText(customFormatDescription)).toBeTruthy()
     })
 
+    it('does not render fileTypeDescription when acceptedFileTypes is empty', () => {
+      const acceptedFileTypes = []
+
+      render(
+        <Upload {...defaultProps} acceptedFileTypes={acceptedFileTypes} />
+      )
+
+      expect(screen.queryByText(nb.fileTypeDescription)).toBeFalsy()
+    })
+
     it('renders the custom accepted format', () => {
       const acceptedFileTypes = ['png', 'jpg']
 
