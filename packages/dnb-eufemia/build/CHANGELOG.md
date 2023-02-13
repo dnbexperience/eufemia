@@ -3,6 +3,15 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.47.1](https://github.com/dnbexperience/eufemia/compare/v9.47.0...v9.47.1) (2023-02-13)
+
+
+### Bug Fixes
+
+* **InputMasked:** avoid inherit mask options and types when custom mask is used ([#1988](https://github.com/dnbexperience/eufemia/issues/1988)) ([8937bcc](https://github.com/dnbexperience/eufemia/commit/8937bcc7842ba079318215c23d5e47c38fc91aeb))
+* **InputMasked:** fix negative value updates (number mask) ([#1792](https://github.com/dnbexperience/eufemia/issues/1792)) ([e2b9482](https://github.com/dnbexperience/eufemia/commit/e2b94826d08572cb3008cb837658186644b8d0ba))
+* **Upload:** fix handling of file types in combination with file extension ([#1986](https://github.com/dnbexperience/eufemia/issues/1986)) ([3fd9bfa](https://github.com/dnbexperience/eufemia/commit/3fd9bfab541dba28980edb1ef00c403723d8b4e7))
+
 # [9.47.0](https://github.com/dnbexperience/eufemia/compare/v9.46.2...v9.47.0) (2023-02-05)
 
 
