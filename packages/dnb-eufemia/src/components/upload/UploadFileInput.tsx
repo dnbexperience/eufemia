@@ -35,11 +35,10 @@ const UploadFileInput = () => {
     .join(',')
 
   return (
-    <div data-testid="upload-file-input">
+    <div>
       <Button
         top="medium"
         id={`${sharedId}-input`}
-        data-testid="upload-file-input-button"
         className="dnb-upload__file-input-button"
         icon={FolderIcon}
         icon_position="left"
@@ -54,7 +53,6 @@ const UploadFileInput = () => {
 
       <input
         aria-labelledby={`${sharedId}-input`}
-        data-testid="upload-file-input-input"
         ref={fileInput}
         accept={accept}
         className="dnb-upload__file-input"
