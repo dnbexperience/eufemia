@@ -4,6 +4,7 @@ icon: 'tools'
 order: 3
 ---
 
+import ListSummaryFromPages from 'dnb-design-system-portal/src/shared/parts/ListSummaryFromPages'
 import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
 import { Hr } from '@dnb/eufemia/src'
 
@@ -13,6 +14,8 @@ You are now ready to get started. Here you will find a step-by-step guide to mak
 If you are new to the repository, first check out [what I should know before getting started](/contribute/first-contribution#what-should-i-know-before-getting-started).
 
 **Table of Contents**
+
+<ListSummaryFromPages slug="contribute/getting-started/" returnListItems />
 
 - [Getting started](#getting-started)
   - [1. Get the repo on your local computer](#1-get-the-repo-on-your-local-computer)
@@ -42,17 +45,7 @@ If you are new to the repository, first check out [what I should know before get
 
 <Hr top="large" light />
 
-## 1. Get the repo on your local computer
-
-- **Clone** the repo if you have commit access,
-
-```bash
-git clone https://github.com/dnbexperience/eufemia.git
-```
-
-- or **Fork** the repo by clicking `Fork` in the top right corner in [Eufemia on GitHub](https://github.com/dnbexperience/eufemia).
-
-<InlineImg src="/images/fork-repo.png" width="500" alt="Fork button location on Github" />
+<ListSummaryFromPages slug="contribute/getting-started/" showBody />
 
 ## 2. Install the dependencies
 

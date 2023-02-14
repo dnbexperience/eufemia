@@ -1,10 +1,14 @@
 import React from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
-
+import { MDXRenderer } from 'gatsby-plugin-mdx' // deprecated, remove in MDX v2
 import { P, Anchor, Ul, Li } from '@dnb/eufemia/src/elements'
 import AutoLinkHeader from '../tags/AutoLinkHeader'
 
-const ListSummaryFromDocs = ({ slug, useAsIndex = false }) => {
+const ListSummaryFromPages = ({
+  slug,
+  returnListItems = false,
+  showBody = false,
+}) => {
   const {
     allMdx: { edges },
   } = useStaticQuery(graphql`
@@ -28,13 +32,14 @@ const ListSummaryFromDocs = ({ slug, useAsIndex = false }) => {
               title
               description
             }
+            body
           }
         }
       }
     }
   `)
 
-  const Wrapper = useAsIndex ? Ul : React.Fragment
+  const Wrapper = returnListItems ? Ul : React.Fragment
 
   return (
     <>
@@ -68,18 +73,27 @@ const ListSummaryFromDocs = ({ slug, useAsIndex = false }) => {
               node: {
                 frontmatter: { title, description },
                 fields: { slug },
+                body,
               },
             },
             i
           ) => {
             return (
-              <Wrapper key={i}>
-                {useAsIndex ? (
+              <Wrapper key={i}>{showBody ? <Body /> : <Title />}</Wrapper>
+            )
+
+            function Title() {
+              if (returnListItems) {
+                return (
                   <Li>
                     <Anchor href={'/' + slug}>{title}</Anchor>
                     <br />
                   </Li>
-                ) : (
+                )
+              }
+
+              return (
+                <>
                   <AutoLinkHeader
                     level="2"
                     useSlug={'/' + slug}
@@ -87,15 +101,18 @@ const ListSummaryFromDocs = ({ slug, useAsIndex = false }) => {
                   >
                     <Anchor href={'/' + slug}>{title}</Anchor>
                   </AutoLinkHeader>
-                )}
+                  {description && <P>{description}</P>}
+                </>
+              )
+            }
 
-                {description && <P>{description}</P>}
-              </Wrapper>
-            )
+            function Body() {
+              return <MDXRenderer>{body}</MDXRenderer>
+            }
           }
         )}
     </>
   )
 }
 
-export default ListSummaryFromDocs
+export default ListSummaryFromPages
