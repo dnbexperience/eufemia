@@ -151,9 +151,14 @@ export type ButtonProps = {
   href?: string;
 
   /**
-   * When button behaves as a link. Used to specifiy where to open the linked document, specified by `href`. Possible values are `_self`, `_blank`, `_parent` and `_top`.
+   * When button behaves as a link. Used to specify where to open the linked document, specified by `href`. Possible values are `_self`, `_blank`, `_parent` and `_top`.
    */
   target?: string;
+
+  /**
+   * Used to specify the relationship between a linked resource and the current document. Examples(non-exhaustive list) of values are `nofollow`, `search`, and `tag`.
+   */
+  rel?: string;
 
   /**
    * Use this prop only if you are using a router Link component as the `element` that uses the `to` property to declare the navigation url.
