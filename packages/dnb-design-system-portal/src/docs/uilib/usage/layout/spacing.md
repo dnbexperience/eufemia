@@ -32,7 +32,7 @@ Also, have a look at the [Space](/uilib/components/space) component and the fact
 ```jsx
 <Button top="small" />
 <Button right="large x-small medium" />
-<Button space={{ top='small', right: 'large x-small medium' }} />
+<Button space={{ top:'small', right: 'large x-small medium' }} />
 ```
 
 ### CSS Custom Property
