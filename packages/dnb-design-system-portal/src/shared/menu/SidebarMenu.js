@@ -378,7 +378,9 @@ class ListItem extends React.PureComponent {
               {children}
             </span>
           </span>
-          {status && <Badge content={statusTitle} />}
+          {status && (
+            <Badge space={{ right: 'xx-small' }} content={statusTitle} />
+          )}
         </Link>
       </li>
     )
