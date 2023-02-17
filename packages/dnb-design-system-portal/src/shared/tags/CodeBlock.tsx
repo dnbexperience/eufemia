@@ -6,14 +6,10 @@
 import React from 'react'
 import classnames from 'classnames'
 import Highlight, { Prism, defaultProps } from 'prism-react-renderer'
-import ReactMarkdown from 'react-markdown'
 import Tag from './Tag'
-import components from './index'
 import { Button } from '@dnb/eufemia/src/components'
-import { P } from '@dnb/eufemia/src/elements'
 import { makeUniqueId } from '@dnb/eufemia/src/shared/component-helper'
 import { Context } from '@dnb/eufemia/src/shared'
-import AutoLinkHeader from './AutoLinkHeader'
 import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
 import {
   liveCodeEditorStyle,
@@ -99,7 +95,6 @@ type LiveCodeProps = {
   caption?: string
   useRender?: boolean
   noFragments?: boolean
-  addToSearchIndex?: () => void
   hideToolbar?: boolean
   hideCode?: boolean
   hidePreview?: boolean
@@ -165,14 +160,10 @@ class LiveCode extends React.PureComponent<
 
   render() {
     const {
-      title,
-      description,
-      caption,
       scope = {},
       useRender,
       noFragments = true,
       language = 'jsx',
-      addToSearchIndex,
 
       code: _code, // eslint-disable-line
       hideToolbar: _hideToolbar, // eslint-disable-line
@@ -207,56 +198,12 @@ class LiveCode extends React.PureComponent<
           {...props}
         >
           {!hidePreview && (
-            <>
-              {title && (
-                <AutoLinkHeader
-                  level={3}
-                  useSlug={visualTest}
-                  title={title}
-                  addToSearchIndex={addToSearchIndex}
-                >
-                  <ReactMarkdown
-                    // eslint-disable-next-line react/no-children-prop
-                    children={title}
-                    components={
-                      {
-                        ...components,
-                        paragraph: ({ children }) => children,
-                      } as Record<string, React.ReactNode>
-                    }
-                  />
-                </AutoLinkHeader>
-              )}
-              {description && (
-                <ReactMarkdown
-                  // eslint-disable-next-line react/no-children-prop
-                  children={description}
-                  components={
-                    {
-                      ...components,
-                      paragraph: ({ children }) => <P>{children}</P>,
-                    } as Record<string, React.ReactNode>
-                  }
-                />
-              )}
-
-              <div className="example-box">
-                <LivePreview
-                  className="dnb-live-preview"
-                  data-visual-test={visualTest}
-                />
-                {!global.IS_TEST && caption && (
-                  <ReactMarkdown
-                    // eslint-disable-next-line react/no-children-prop
-                    children={caption}
-                    components={
-                      components as Record<string, React.ReactNode>
-                    }
-                    className="example-caption"
-                  />
-                )}
-              </div>
-            </>
+            <div className="example-box">
+              <LivePreview
+                className="dnb-live-preview"
+                data-visual-test={visualTest}
+              />
+            </div>
           )}
           {!global.IS_TEST && !hideCode && (
             <div
