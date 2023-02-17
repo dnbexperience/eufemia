@@ -1,6 +1,8 @@
 ## February, 20. 2023
 
 - [New major version 10](/uilib/about-the-lib/releases/eufemia/v10-info/)
+- New components released:
+  - [SkipContent](/uilib/components/skip-content)
 
 ## November, 22. 2022
 
