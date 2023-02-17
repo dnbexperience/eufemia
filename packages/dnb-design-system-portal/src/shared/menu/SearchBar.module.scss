@@ -3,6 +3,7 @@
 .autocompleteStyle {
   :global {
     margin-right: 1rem;
+
     @include allBelow(small) {
       margin-right: 0.5rem;
     }
@@ -11,11 +12,13 @@
       &,
       input {
         width: 40vw;
+
         @include allBelow(small) {
           width: 50vw;
         }
       }
     }
+
     .dnb-form-label {
       color: white; /* only for axe-core */
     }
