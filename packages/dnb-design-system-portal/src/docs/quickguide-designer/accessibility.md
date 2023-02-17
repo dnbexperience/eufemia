@@ -98,32 +98,20 @@ Responsive components and layout design should be planned from the beginning and
 
 ## Focus management
 
+There are several situations, where we need to help the user to overcome focus management. The two most important are:
+
+- If your page contains large parts of content (tables, lists etc.), you need to give the user, when using a keyboard for navigation, the ability to skip these parts – similar to a Skip-Link. Use the [SkipContent](/uilib/components/skip-content) component to handle such situations.
+- If you open a context menu or something similar, you need to set focus actively via JavaScript in order to let the user continue the correct tab placement and order. You may consider if this [focus-helper](/uilib/usage/accessibility/focus/#focus-helper) could help you out with your focus management.
+
 ### Where should the focus start on the first page init?
 
-If there is a Skip-Link then this should focus first since the point of having it is to avoid having to go through blocks of material that are repeated on multiple pages.
-The order in which tabbed focus occurs is up to the UX designer if the Skip-Link link is bypassed. For example:
-Tab 1: Skip-Link
-Enter: Focus is applied to the main content
-
-There are no fixed rules for the order of what becomes focusable after the Skip-Link link. It can be based on context for example:
-
-**If on index**
-
-- Tab 1: Skip-Link
-- Tab 2: First link in the main menu or main menu button or search field
-
-**If not on index**
-
-- Tab 1: Skip-Link
-- Tab 2: Logo with link to the homepage
-- Tab 3: First link in the main menu or main menu button or search field
-
-Or, it can be based on user needs. For example, it may be more beneficial for a search field to be in focus rather than the main menu.
+A Skip-Link is typical placed as the very first focusable element.
+It helps people using keyboard navigation, skipping header areas with many focusable elements. And lets the user directly navigate to the main content.
 
 ### Is a Skip Link required?
 
-Again, this is dependent on both content, context, and user needs which ultimately affect the user experience. If there are blocks of repeating content on multiple pages then it may improve user experience to add a Skip-Link.
-It is not a requirement to have a Skip-Link but an asset.
+It depends on content, context, and user needs. If your page has blocks of content, which are identical throughout many pages, then you should give the user the ability to skip these blocks.
+It is not a requirement to have a Skip-Link but a needed assesity.
 
 ## Accessibility checklist for designers
 
