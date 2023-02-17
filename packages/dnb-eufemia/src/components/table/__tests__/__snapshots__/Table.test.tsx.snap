@@ -409,7 +409,7 @@ html[data-whatinput=keyboard] .dnb-table > thead > tr > th.dnb-table--active .dn
   border-left: var(--border);
 }
 .dnb-table--outline tbody .dnb-table__tr:last-of-type .dnb-table__th ~ .dnb-table__td:first-of-type, .dnb-table--outline tbody .dnb-table__tr:last-of-type .dnb-table__th ~ .dnb-table__td:first-of-type::before, .dnb-table--outline tbody .dnb-table__tr:last-of-type .dnb-table__th ~ .dnb-table__td:first-of-type::after {
-  border-radius: 0 0 0 0;
+  border-radius: 0;
 }
 .dnb-table--outline tbody:first-child .dnb-table__tr:first-of-type .dnb-table__th::after, .dnb-table--outline > :not(thead) + tbody .dnb-table__tr:first-of-type .dnb-table__th::after {
   border-top: var(--outline);

@@ -737,7 +737,7 @@ exports[`Input scss have to match default theme snapshot 1`] = `
   color: var(--color-sea-green);
 }
 .dnb-input[data-input-state=disabled] .dnb-input__shell {
-  -webkit-text-fill-color: currentColor;
+  -webkit-text-fill-color: currentcolor;
   --border-color: var(--color-black-55);
   box-shadow: inset 0 0 0 var(--input-border-width) var(--border-color);
   /* iOS fix - because "inset" works not fine with border-radius */
@@ -782,10 +782,10 @@ exports[`Input scss have to match default theme snapshot 1`] = `
   box-shadow: 0 0 0 0.125rem var(--border-color);
   border-color: transparent;
 }
-html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button__button--has-text):not([disabled]):hover, html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button__button--has-text):not([disabled]):hover::after, html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button__button--has-text):not([disabled]):focus, html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button__button--has-text):not([disabled]):focus::after {
+html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button__button--has-text, [disabled]):hover, html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button__button--has-text, [disabled]):hover::after, html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button__button--has-text, [disabled]):focus, html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button__button--has-text, [disabled]):focus::after {
   background-color: var(--color-fire-red);
 }
-html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button__button--has-text):not([disabled]):hover:active, html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button__button--has-text):not([disabled]):focus:active {
+html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button__button--has-text, [disabled]):hover:active, html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-input__status--error .dnb-input__submit-button__button--has-text, [disabled]):focus:active {
   color: var(--color-white);
 }
 .dnb-input__status--error .dnb-input__icon {
@@ -850,7 +850,7 @@ exports[`Input scss have to match snapshot 1`] = `
 .dnb-icon svg {
   width: inherit;
   height: inherit;
-  shape-rendering: geometricPrecision;
+  shape-rendering: geometricprecision;
   vertical-align: top;
 }
 .dnb-icon svg[width="100%"] {
@@ -860,10 +860,10 @@ exports[`Input scss have to match snapshot 1`] = `
   height: inherit;
 }
 .dnb-icon--inherit-color svg:not([fill]), .dnb-icon--inherit-color svg [fill] {
-  fill: currentColor;
+  fill: currentcolor;
 }
 .dnb-icon--inherit-color svg [stroke] {
-  stroke: currentColor;
+  stroke: currentcolor;
 }
 .dnb-icon--small {
   font-size: 0.75rem;
@@ -1151,6 +1151,7 @@ button .dnb-form-status__text {
 .dnb-button {
   position: relative;
   user-select: none;
+  /* stylelint-disable-next-line */
   -webkit-user-select: none;
   cursor: pointer;
   white-space: nowrap;
@@ -1336,7 +1337,9 @@ html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-w
 }
 .dnb-button[type=button], .dnb-button[type=reset], .dnb-button[type=submit] {
   appearance: none;
+  /* stylelint-disable-next-line */
   -moz-appearance: none;
+  /* stylelint-disable-next-line */
   -webkit-appearance: none;
 }
 .dnb-button[disabled] {
@@ -1385,7 +1388,7 @@ button.dnb-button::-moz-focus-inner {
 .dnb-icon svg {
   width: inherit;
   height: inherit;
-  shape-rendering: geometricPrecision;
+  shape-rendering: geometricprecision;
   vertical-align: top;
 }
 .dnb-icon svg[width="100%"] {
@@ -1395,10 +1398,10 @@ button.dnb-button::-moz-focus-inner {
   height: inherit;
 }
 .dnb-icon--inherit-color svg:not([fill]), .dnb-icon--inherit-color svg [fill] {
-  fill: currentColor;
+  fill: currentcolor;
 }
 .dnb-icon--inherit-color svg [stroke] {
-  stroke: currentColor;
+  stroke: currentcolor;
 }
 .dnb-icon--small {
   font-size: 0.75rem;
@@ -1598,7 +1601,6 @@ html[data-visual-test] .dnb-tooltip--hide {
 }
 .dnb-form-label[for]:not([disabled]) {
   user-select: none;
-  -webkit-user-select: none;
   cursor: pointer;
 }
 .dnb-form-label[disabled] {
@@ -1751,7 +1753,6 @@ button .dnb-form-status__text {
 }
 .dnb-input__input[disabled] {
   user-select: none;
-  -webkit-user-select: none;
   opacity: 1;
 }
 .dnb-input__shell, .dnb-input__input {
