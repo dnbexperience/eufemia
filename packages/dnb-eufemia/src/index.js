@@ -71,6 +71,7 @@ import ProgressIndicator from './components/progress-indicator/ProgressIndicator
 import Radio from './components/radio/Radio'
 import Section from './components/section/Section'
 import Skeleton from './components/skeleton/Skeleton'
+import SkipContent from './components/skip-content/SkipContent'
 import Slider from './components/slider/Slider'
 import Space from './components/space/Space'
 import StepIndicator from './components/step-indicator/StepIndicator'
@@ -148,6 +149,7 @@ export {
   Radio,
   Section,
   Skeleton,
+  SkipContent,
   Slider,
   Space,
   StepIndicator,

@@ -34,6 +34,8 @@ Eufemia includes a range of tools to help you make better accessible application
 - [Heading](!/uilib/components/heading) handles heading leveling automatically.
 - [GlobalStatus](!/uilib/components/global-status) includes grouping of form status messages and live announcements for screen readers.
 - [FormRow](!/uilib/components/form-row) includes `<fieldset>` and `<legend>`.
+- [VisuallyHidden](!/uilib/components/visually-hidden) hides text visually, while makes it available for screen readers. Its based on the helper HTML class `dnb-sr-only`.
+- [SkipContent](!/uilib/components/skip-content) similar to a skip link. It allows a user, while tabbing, to skip large parts of content, to reach quickly a save button etc.
 
 All form components includes a `label` property to bind automatically the FormLabel to the components (HTML element).
 
