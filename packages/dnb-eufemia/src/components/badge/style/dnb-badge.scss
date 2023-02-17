@@ -23,9 +23,8 @@
 
   display: inline-flex;
   font-weight: var(--font-weight-medium);
-  flex-direction: row;
+  flex-flow: row wrap;
   white-space: nowrap;
-  flex-wrap: wrap;
   justify-content: center;
   align-content: center;
   align-items: center;
@@ -39,6 +38,7 @@
     display: inline-flex;
     vertical-align: middle;
     flex-shrink: 0;
+
     .dnb-badge {
       display: flex;
       overflow: hidden;

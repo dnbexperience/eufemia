@@ -20,14 +20,17 @@
       width: 1rem;
       height: 1rem;
     }
+
     &--medium {
       width: 1.5rem;
       height: 1.5rem;
     }
+
     &--large {
       width: 3.5rem;
       height: 3.5rem;
     }
+
     &--huge {
       width: 20rem;
       height: 20rem;
@@ -40,6 +43,7 @@
     &__line.light &__circle {
       stroke: var(--color-mint-green);
     }
+
     &__line.dark &__circle {
       stroke: var(--color-emerald-green);
     }
@@ -48,15 +52,19 @@
     &--small &__line.dark &__circle {
       stroke-width: 3.1;
     }
+
     &--medium &__line.dark &__circle {
       stroke-width: 3.3;
     }
+
     &--default &__line.dark &__circle {
       stroke-width: 3.5;
     }
+
     &--large &__line.dark &__circle {
       stroke-width: 3.7;
     }
+
     &--huge &__line.dark &__circle {
       stroke-width: 3.9;
     }
@@ -65,18 +73,22 @@
   // linear variant
   &__linear {
     background-color: var(--color-black-8);
+
     &--small {
       height: 0.25rem;
       border-radius: 0.125rem;
     }
+
     &--medium {
       height: 1rem;
       border-radius: 0.5rem;
     }
+
     &--large {
       height: 1.5rem;
       border-radius: 0.75rem;
     }
+
     &--huge {
       height: 2rem;
       border-radius: 1rem;

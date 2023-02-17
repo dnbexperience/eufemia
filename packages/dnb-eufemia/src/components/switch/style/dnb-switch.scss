@@ -30,16 +30,17 @@
   }
 
   &__shell {
-    user-select: none;
-    -webkit-user-select: none; // Safari / Touch fix
+    user-select: none; // Safari / Touch fix
     position: relative;
 
     display: flex;
     align-items: center;
   }
+
   &--large {
     line-height: var(--switch-height--large);
   }
+
   &--large &__shell {
     height: var(--switch-height--large);
   }
@@ -88,8 +89,8 @@
     transition: transform 150ms ease-out;
     transform: rotate(0deg);
 
-    //15% is the top value
-    //85% is the bottom value
+    // 15% is the top value
+    // 85% is the bottom value
     clip-path: polygon(
       50% 15%,
       110% 15%,
@@ -134,6 +135,7 @@
       calc(1px - 1px - var(--switch-border-width--large))
     );
   }
+
   &--large &__input:checked ~ &__button {
     transform: translateX(
       calc(
@@ -201,6 +203,7 @@
   &__suffix {
     order: 4;
   }
+
   &--label-position-left &__suffix {
     padding-left: 1rem;
   }
@@ -209,10 +212,12 @@
     .dnb-switch__inner {
       order: 2;
     }
+
     .dnb-form-label {
       order: 1;
       align-self: flex-start;
     }
+
     .dnb-form-status {
       order: 3;
       margin-top: 0.5rem;
@@ -223,10 +228,12 @@
     .dnb-switch__inner {
       order: 1;
     }
+
     .dnb-form-label {
       order: 2;
       padding-left: 0.5rem;
     }
+
     .dnb-form-status {
       order: 3;
       margin-top: 0.5rem;
@@ -237,9 +244,11 @@
   &.dnb-skeleton &__input[disabled] ~ &__background::after {
     border-color: var(--skeleton-color);
   }
+
   &.dnb-skeleton &__input[disabled] ~ &__background {
     background-color: var(--skeleton-color);
   }
+
   &.dnb-skeleton
     &__input[disabled]:not(:checked)
     ~ .dnb-switch__background::after {
@@ -247,7 +256,7 @@
   }
 
   // Edge fix
-  @include IS_EDGE {
+  @include IS_EDGE() {
     // fix are a problem with transition and complex transforms
     &__input:not(:checked) ~ &__button {
       transform: translateX(0);

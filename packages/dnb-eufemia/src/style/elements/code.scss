@@ -14,7 +14,7 @@
   &:not([class*='dnb-space']) {
     margin: -0.25em 0;
   }
-  padding: 0.25em 0.25em; /* 2px 4px */
+  padding: 0.25em; /* 2px 4px */
 
   font-size: inherit;
   text-decoration: inherit;
@@ -25,6 +25,7 @@
 
   border-radius: 0.1875em;
 }
+
 @mixin preStyle() {
   display: block;
   overflow: auto;
@@ -56,18 +57,22 @@
   pre {
     padding: 1rem;
   }
+
   .dnb-spacing pre {
     @include defaultSpacing();
   }
+
   &.dnb-pre--focus {
     @include fakeBorder(var(--color-sea-green), 0.25rem);
   }
 }
+
 @mixin codeTag() {
   code {
     @include codeStyle();
   }
 }
+
 @mixin preTag() {
   pre {
     @include preStyle();
@@ -77,9 +82,11 @@
 .dnb-code {
   @include codeStyle();
 }
+
 .dnb-pre {
   @include preStyle();
 }
+
 .dnb-spacing .dnb-pre {
   @include defaultSpacing();
 }

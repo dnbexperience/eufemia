@@ -201,7 +201,7 @@
   }
 
   &__tr__accordion_content {
-    @include IS_SAFARI_DESKTOP {
+    @include IS_SAFARI_DESKTOP() {
       &[hidden] {
         /**
         * By reverting the display from "none" to "block",
@@ -310,6 +310,7 @@
     &,
     &::before,
     &::after {
+      // stylelint-disable-next-line
       border-radius: 0 0 0.5rem 0;
     }
   }
