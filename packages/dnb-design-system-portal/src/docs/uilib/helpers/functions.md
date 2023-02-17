@@ -209,12 +209,12 @@ More info about that function in the [focus section about better accessibility](
 ```js
 import { applyPageFocus } from '@dnb/eufemia/shared/helpers'
 
-applyPageFocus(key*: Number, callback*: Function)
+applyPageFocus(selector*: String, callback*: Function)
 ```
 
 #### \* Optional values (defaults)
 
-- key = _'default'_
+- selector = _'default'_ (can be a HTML element selector, starting with a `.` or `#`)
 - callback = _null_
 
 ### setPageFocusElement
@@ -224,7 +224,7 @@ More info about that function in the [focus section about better accessibility](
 ```js
 import { setPageFocusElement } from '@dnb/eufemia/shared/helpers'
 
-setPageFocusElement(selectorOrElement, key*: String) // returns Void
+setPageFocusElement(selectorOrElement: String|HTMLElement, key*: String) // returns Void
 ```
 
 #### \* Optional values (defaults)
