@@ -738,7 +738,6 @@ exports[`Radio scss have to match snapshot 1`] = `
 }
 .dnb-form-label[for]:not([disabled]) {
   user-select: none;
-  -webkit-user-select: none;
   cursor: pointer;
 }
 .dnb-form-label[disabled] {
@@ -871,7 +870,6 @@ button .dnb-form-status__text {
 .dnb-radio__shell {
   position: relative;
   user-select: none;
-  -webkit-user-select: none;
   display: flex;
   align-items: center;
   justify-content: center;

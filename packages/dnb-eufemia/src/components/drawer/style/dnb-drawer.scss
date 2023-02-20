@@ -20,9 +20,11 @@
   @include allAbove(x-large) {
     padding: 0 calc(var(--drawer-spacing) * 1.75); // 3.5rem (56px)
   }
+
   @include allBelow(medium) {
     padding: 0 calc(var(--drawer-spacing) / 1.333333); // 2rem (32px)
   }
+
   @include allBelow(small) {
     padding: 0 calc(var(--drawer-spacing) / 2); // 1rem (16px)
   }
@@ -44,10 +46,9 @@
   }
 
   @include defaultDropShadow();
-  user-select: text;
-  -webkit-user-select: text; // Safari / Touch fix
+  user-select: text; // Safari / Touch fix
   border: none;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: rgb(0 0 0 / 0%);
 
   &--auto-fullscreen {
     @include allBelow(small) {
@@ -83,13 +84,16 @@
     position: relative;
     z-index: 1;
   }
+
   &--spacing &__content {
     @include drawerSpacing();
   }
+
   &__align--center &__content {
     align-items: center;
     text-align: center;
   }
+
   &__align--right &__content {
     align-items: flex-end;
     text-align: right;
@@ -118,19 +122,24 @@
     animation: show-drawer var(--modal-animation-duration) ease-out
       forwards;
   }
+
   // Animations in
   html:not([data-visual-test]) &--left {
     transform: translate3d(-20rem, 0, 0);
   }
+
   html:not([data-visual-test]) &--right {
     transform: translate3d(20rem, 0, 0);
   }
+
   html:not([data-visual-test]) &--top {
     transform: translate3d(0, -20rem, 0);
   }
+
   html:not([data-visual-test]) &--bottom {
     transform: translate3d(0, 20rem, 0);
   }
+
   // Animations out
   html:not([data-visual-test]) &--hide#{&}--left {
     animation: hide-drawer-left var(--modal-animation-duration) ease-in-out
@@ -148,9 +157,11 @@
     animation: hide-drawer-bottom var(--modal-animation-duration)
       ease-in-out forwards;
   }
+
   &--no-animation {
     animation-duration: 0ms !important;
   }
+
   @include allBelow(small) {
     &--no-animation-on-mobile {
       animation-duration: 0ms !important;
@@ -176,13 +187,16 @@
   & &__header [class*='dnb-h--'],
   & &__header &__title {
     padding: 0;
+
     &:not([class*='__top']) {
       margin-top: 0;
     }
+
     &:not([class*='__bottom']) {
       margin-bottom: 0;
     }
   }
+
   & &__header {
     &::after {
       top: -500%;
@@ -192,6 +206,7 @@
 
   &--spacing &__header {
     @include drawerSpacing();
+
     .dnb-tabs {
       margin-top: var(--drawer-spacing);
     }
@@ -201,7 +216,7 @@
     padding-bottom: calc(var(--drawer-spacing) * 2);
     margin-bottom: calc(var(--drawer-spacing-minus) * 2);
 
-    @include IS_SAFARI_MOBILE {
+    @include IS_SAFARI_MOBILE () {
       padding-bottom: calc(var(--drawer-spacing-minus) * 8);
     }
   }
@@ -220,6 +235,7 @@
 
     // on large screens
     margin: var(--drawer-spacing) 0;
+
     @include drawerSpacing();
   }
   &--spacing &__navigation.dnb-section#{&}__navigation--sticky {
@@ -240,6 +256,7 @@
       @include defaultDropShadow();
     }
   }
+
   // is this correct?
   & &__navigation:not(#{&}__navigation--sticky) {
     &::after {

@@ -49,6 +49,7 @@
     width: var(--avatar-width--small);
     height: var(--avatar-height--small);
     font-size: var(--avatar-font-size--small);
+
     // Safari needs a correct CSS specificity
     &,
     .dnb-core-style & {
@@ -60,6 +61,7 @@
     width: var(--avatar-width--medium);
     height: var(--avatar-height--medium);
     font-size: var(--avatar-font-size--medium);
+
     // Safari needs a correct CSS specificity
     &,
     .dnb-core-style & {
@@ -71,6 +73,7 @@
     width: var(--avatar-width--large);
     height: var(--avatar-height--large);
     font-size: var(--avatar-font-size--large);
+
     // Safari needs a correct CSS specificity
     &,
     .dnb-core-style & {
@@ -82,6 +85,7 @@
     width: var(--avatar-width--x-large);
     height: var(--avatar-height--x-large);
     font-size: var(--avatar-font-size--x-large);
+
     // Safari needs a correct CSS specificity
     &,
     .dnb-core-style & {

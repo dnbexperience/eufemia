@@ -8,15 +8,17 @@
   margin: 0.5rem;
   padding: 0;
 
-  box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 2px 2px rgb(0 0 0 / 10%);
 
   &,
   a {
     border-radius: 0.5rem;
   }
+
   &.is-selected a {
     background-color: var(--color-mint-green);
   }
+
   a:focus,
   a:hover {
     background-color: var(--color-mint-green-50);
@@ -39,9 +41,11 @@
       opacity: 0;
       transform: scale3d(0.9, 0.9, 1) translate3d(0, -8%, 0);
     }
+
     40% {
       opacity: 1;
     }
+
     100% {
       opacity: 1;
       transform: scale3d(1, 1, 1) translate3d(0, 0, 0);
@@ -53,6 +57,7 @@
       opacity: 1;
       transform: scale3d(1, 1, 1) translate3d(0, 0, 0);
     }
+
     100% {
       opacity: 0;
       transform: scale3d(0.9, 0.9, 1) translate3d(0, -8%, 0);
@@ -67,7 +72,7 @@
 
   height: 100%;
 
-  color: rgba(0, 0, 0, 0.75);
+  color: rgb(0 0 0 / 75%);
   text-decoration: none;
   text-align: center;
   font-weight: var(--font-weight-basis);
@@ -78,6 +83,7 @@
   &:focus {
     outline: none;
   }
+
   html[data-whatinput='keyboard'] &:focus {
     @include focusRing();
   }
