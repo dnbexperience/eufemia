@@ -29,7 +29,7 @@ export type AccordionGroupClosed =
   | React.ReactNode
   | ((...args: any[]) => any);
 export type AccordionGroupIconPosition = 'left' | 'right';
-export type AccordionGroupAttributes = string | Object;
+export type AccordionGroupAttributes = string | Record<string, string>;
 export type AccordionGroupSpace =
   | string
   | number
@@ -57,7 +57,7 @@ export interface AccordionGroupProps extends React.HTMLProps<HTMLElement> {
   prevent_rerender?: AccordionGroupPreventRerender;
   prevent_rerender_conditional?: AccordionGroupPreventRerenderConditional;
   remember_state?: AccordionGroupRememberState;
-  contentRef?: Object;
+  contentRef?: Record<string, string>;
   flush_remembered_state?: AccordionGroupFlushRememberedState;
   single_container?: AccordionGroupSingleContainer;
   variant?: AccordionGroupVariant;

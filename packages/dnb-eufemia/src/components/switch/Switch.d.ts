@@ -17,7 +17,7 @@ export type SwitchSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type SwitchAttributes = string | Object;
+export type SwitchAttributes = string | Record<string, string>;
 export type SwitchReadOnly = string | boolean;
 export type SwitchSkeleton = string | boolean;
 export type SwitchSpace =
@@ -95,7 +95,7 @@ export interface SwitchProps extends React.HTMLProps<HTMLElement> {
   /**
    * Use an object to define additional FormStatus properties.
    */
-  status_props?: Object;
+  status_props?: Record<string, string>;
 
   /**
    * The `status_id` used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.

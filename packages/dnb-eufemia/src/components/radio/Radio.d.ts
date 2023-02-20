@@ -19,7 +19,7 @@ export type RadioSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type RadioAttributes = string | Object;
+export type RadioAttributes = string | Record<string, string>;
 export type RadioSkeleton = string | boolean;
 export type RadioReadOnly = string | boolean;
 export type RadioSpace =
@@ -84,7 +84,7 @@ export interface RadioProps extends React.HTMLProps<HTMLElement> {
   /**
    * Use an object to define additional FormStatus properties.
    */
-  status_props?: Object;
+  status_props?: Record<string, string>;
   status_no_animation?: RadioStatusNoAnimation;
 
   /**

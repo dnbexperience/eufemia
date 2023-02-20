@@ -11,12 +11,12 @@ export type TabsData =
     }[]
   | any;
 export type TabsContent =
-  | Object
+  | Record<string, string>
   | React.ReactNode
   | ((...args: any[]) => any);
 export type TabsContentSpacing = string | boolean;
 export type TabsTabElement =
-  | Object
+  | Record<string, string>
   | React.ReactNode
   | ((...args: any[]) => any);
 export type TabsSelectedKey = string | number;
@@ -59,7 +59,7 @@ export type TabsRight = string | number | boolean;
 export type TabsBottom = string | number | boolean;
 export type TabsLeft = string | number | boolean;
 export type TabsChildren =
-  | Object
+  | Record<string, string>
   | React.ReactNode
   | ((...args: any[]) => any);
 /**

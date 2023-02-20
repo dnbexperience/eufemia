@@ -17,7 +17,7 @@ export type CheckboxSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type CheckboxAttributes = string | Object;
+export type CheckboxAttributes = string | Record<string, string>;
 export type CheckboxReadOnly = string | boolean;
 export type CheckboxSkeleton = string | boolean;
 export type CheckboxSpace =
@@ -96,7 +96,7 @@ export interface CheckboxProps extends React.HTMLProps<HTMLElement> {
   /**
    * Use an object to define additional FormStatus properties.
    */
-  status_props?: Object;
+  status_props?: Record<string, string>;
   status_no_animation?: CheckboxStatusNoAnimation;
 
   /**

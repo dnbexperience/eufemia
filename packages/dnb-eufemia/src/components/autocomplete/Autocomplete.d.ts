@@ -32,7 +32,7 @@ export type AutocompleteActionMenu = string | boolean;
 export type AutocompleteIsPopup = string | boolean;
 export type AutocompleteAlignDrawer = 'left' | 'right';
 export type AutocompleteWrapperElement =
-  | Object
+  | Record<string, string>
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type AutocompleteIndependentWidth = string | boolean;
@@ -44,7 +44,7 @@ export type AutocompleteSuffixValue = string | React.ReactNode;
 export type AutocompleteContent = string | React.ReactNode | string[];
 export type AutocompleteRawData =
   | any[]
-  | Object
+  | Record<string, string>
   | ((...args: any[]) => any);
 export type AutocompleteIgnoreEvents = string | boolean;
 export type AutocompleteMode = 'sync' | 'async';
@@ -58,7 +58,9 @@ export type AutocompleteSubmitButtonIcon =
   | string
   | React.ReactNode
   | ((...args: any[]) => any);
-export type AutocompleteInputRef = ((...args: any[]) => any) | Object;
+export type AutocompleteInputRef =
+  | ((...args: any[]) => any)
+  | Record<string, string>;
 export type AutocompleteIcon = string | React.ReactNode;
 export type AutocompleteIconPosition = 'left' | 'right';
 export type AutocompleteTrianglePosition = 'left' | 'right';
@@ -99,7 +101,7 @@ export type AutocompletePreventSelection = string | boolean;
 export type AutocompleteSize = 'default' | 'small' | 'medium' | 'large';
 export type AutocompleteAlignAutocomplete = 'left' | 'right';
 export type AutocompleteOptionsRender =
-  | Object
+  | Record<string, string>
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type AutocompleteInputElement =
@@ -109,7 +111,7 @@ export type AutocompleteData =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode
-  | Object
+  | Record<string, string>
   | (
       | string
       | React.ReactNode
@@ -136,7 +138,7 @@ export type AutocompleteChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode
-  | Object
+  | Record<string, string>
   | any[];
 /**
  * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
@@ -345,7 +347,7 @@ export interface AutocompleteProps extends React.HTMLProps<HTMLElement> {
   /**
    * Use an object to define additional FormStatus properties.
    */
-  status_props?: Object;
+  status_props?: Record<string, string>;
   status_no_animation?: AutocompleteStatusNoAnimation;
 
   /**

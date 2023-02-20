@@ -38,7 +38,7 @@ export type IconHeight = string | number;
 export type IconBorder = string | boolean;
 export type IconInheritColor = string | boolean;
 export type IconSkeleton = string | boolean;
-export type IconAttributes = string | Object;
+export type IconAttributes = string | Record<string, string>;
 export type IconChildren = React.ReactNode | ((...args: any[]) => any);
 /**
  * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".

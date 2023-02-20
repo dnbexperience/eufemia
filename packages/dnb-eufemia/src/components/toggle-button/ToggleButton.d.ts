@@ -20,13 +20,17 @@ export type ToggleButtonSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type ToggleButtonValue = string | number | Object | any[];
+export type ToggleButtonValue =
+  | string
+  | number
+  | Record<string, string>
+  | any[];
 export type ToggleButtonIcon =
   | string
   | React.ReactNode
   | ((...args: any[]) => any);
 export type ToggleButtonIconPosition = 'left' | 'right';
-export type ToggleButtonAttributes = string | Object;
+export type ToggleButtonAttributes = string | Record<string, string>;
 export type ToggleButtonReadOnly = string | boolean;
 export type ToggleButtonSpace =
   | string
@@ -107,7 +111,7 @@ export interface ToggleButtonProps extends React.HTMLProps<HTMLElement> {
   /**
    * Use an object to define additional FormStatus properties.
    */
-  status_props?: Object;
+  status_props?: Record<string, string>;
   status_no_animation?: ToggleButtonStatusNoAnimation;
 
   /**

@@ -18,7 +18,7 @@ export type FormStatusState =
   | 'marketing';
 export type FormStatusVariant = 'flat' | 'outlined';
 export type FormStatusSize = 'default' | 'large';
-export type FormStatusAttributes = string | Object;
+export type FormStatusAttributes = string | Record<string, string>;
 export type FormStatusNoAnimation = string | boolean;
 export type FormStatusSkeleton = string | boolean;
 export type FormStatusStretch = string | boolean;
@@ -110,7 +110,7 @@ export interface FormStatusProps extends React.HTMLProps<HTMLElement> {
   attributes?: FormStatusAttributes;
   text_id?: string;
   width_selector?: string;
-  width_element?: Object;
+  width_element?: Record<string, string>;
   class?: string;
 
   /**

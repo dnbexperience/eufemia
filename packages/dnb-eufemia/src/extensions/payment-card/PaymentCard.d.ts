@@ -10,9 +10,9 @@ export interface PaymentCardRawData {
   productCode: string;
   productName: string;
   displayName: string;
-  cardDesign: Object;
-  cardType: Object;
-  productType: Object;
+  cardDesign: Record<string, string>;
+  cardType: Record<string, string>;
+  productType: Record<string, string>;
 }
 export type PaymentCardSkeleton = string | boolean;
 export type PaymentCardSpace =

@@ -20,12 +20,12 @@ export default class InfinityScroller extends React.Component<
   render(): JSX.Element;
 }
 export type InfinityLoadButtonElement =
-  | Object
+  | Record<string, string>
   | React.ReactNode
   | ((...args: any[]) => any)
   | string;
 export type InfinityLoadButtonPressedElement =
-  | Object
+  | Record<string, string>
   | React.ReactNode
   | ((...args: any[]) => any);
 /**

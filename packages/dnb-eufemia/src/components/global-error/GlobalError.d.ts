@@ -1,5 +1,5 @@
 import * as React from 'react';
-export type GlobalErrorStatusContent = string | Object;
+export type GlobalErrorStatusContent = string | Record<string, string>;
 export type GlobalErrorTitle = string | React.ReactNode;
 export type GlobalErrorText = string | React.ReactNode;
 export type GlobalErrorBack = string | React.ReactNode;

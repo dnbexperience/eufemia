@@ -31,11 +31,11 @@ export type DropdownLeft = string | number | boolean;
 export type DropdownIsPopup = string | boolean;
 export type DropdownAlignDrawer = 'left' | 'right';
 export type DropdownOptionsRender =
-  | Object
+  | Record<string, string>
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type DropdownWrapperElement =
-  | Object
+  | Record<string, string>
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type DropdownFixedPosition = string | boolean;
@@ -44,7 +44,10 @@ export type DropdownSkipKeysearch = string | boolean;
 export type DropdownSelectedValue = string | React.ReactNode;
 export type DropdownSuffixValue = string | React.ReactNode;
 export type DropdownContent = string | React.ReactNode | string[];
-export type DropdownRawData = any[] | Object | ((...args: any[]) => any);
+export type DropdownRawData =
+  | any[]
+  | Record<string, string>
+  | ((...args: any[]) => any);
 export type DropdownIgnoreEvents = string | boolean;
 export type DropdownPageOffset = string | number;
 export type DropdownObserverElement = string | React.ReactNode;
@@ -97,7 +100,7 @@ export type DropdownData =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode
-  | Object
+  | Record<string, string>
   | (
       | string
       | React.ReactNode
@@ -119,7 +122,7 @@ export type DropdownChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode
-  | Object
+  | Record<string, string>
   | any[];
 /**
  * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
@@ -277,7 +280,7 @@ export interface DropdownProps extends React.HTMLProps<HTMLElement> {
   /**
    * Use an object to define additional FormStatus properties.
    */
-  status_props?: Object;
+  status_props?: Record<string, string>;
   status_no_animation?: DropdownStatusNoAnimation;
 
   /**

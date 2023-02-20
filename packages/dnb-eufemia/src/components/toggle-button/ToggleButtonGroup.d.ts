@@ -22,9 +22,13 @@ export type ToggleButtonGroupSuffix =
   | React.ReactNode;
 export type ToggleButtonGroupVertical = string | boolean;
 export type ToggleButtonGroupLayoutDirection = 'column' | 'row';
-export type ToggleButtonGroupValue = string | number | Object | any[];
+export type ToggleButtonGroupValue =
+  | string
+  | number
+  | Record<string, string>
+  | any[];
 export type ToggleButtonGroupValues = string | any[];
-export type ToggleButtonGroupAttributes = string | Object;
+export type ToggleButtonGroupAttributes = string | Record<string, string>;
 export type ToggleButtonGroupSpace =
   | string
   | number
@@ -101,7 +105,7 @@ export interface ToggleButtonGroupProps
   /**
    * Use an object to define additional FormStatus properties.
    */
-  status_props?: Object;
+  status_props?: Record<string, string>;
   status_no_animation?: ToggleButtonGroupStatusNoAnimation;
 
   /**

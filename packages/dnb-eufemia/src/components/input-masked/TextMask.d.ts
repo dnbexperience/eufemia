@@ -17,7 +17,7 @@ export type TextMaskValue = string | number;
 
 export interface TextMaskProps extends React.HTMLProps<HTMLElement> {
   mask: TextMaskMask;
-  inputRef?: Object;
+  inputRef?: Record<string, string>;
   inputElement?: TextMaskInputElement;
   onChange?: (...args: any[]) => any;
   guide?: boolean;
