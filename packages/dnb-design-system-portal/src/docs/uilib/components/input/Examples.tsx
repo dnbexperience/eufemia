@@ -129,7 +129,7 @@ export const InputExampleSuffix = () => (
         autocomplete="on"
         placeholder="Placeholder text"
         suffix={
-          <HelpButton title="Info" trigger_size="large">
+          <HelpButton title="Info" size="large">
             Some content
           </HelpButton>
         }
@@ -198,9 +198,6 @@ export const InputExampleSubmit = () => (
             }}
             on_change={({ value }) => {
               console.log('on_change:', value)
-            }}
-            onChange={({ value }) => {
-              console.log('onChange:', value)
             }}
             right="small"
             bottom="x-small"

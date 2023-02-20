@@ -50,10 +50,10 @@ export type SwitchRight = string | number | boolean;
 export type SwitchBottom = string | number | boolean;
 export type SwitchLeft = string | number | boolean;
 export type SwitchChildren = string | ((...args: any[]) => any);
+
 /**
  * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
  */
-
 export interface SwitchProps extends React.HTMLProps<HTMLElement> {
   /**
    * Use either the `label` property or provide a custom one.
@@ -64,6 +64,11 @@ export interface SwitchProps extends React.HTMLProps<HTMLElement> {
    * Defines the position of the `label`. Use either `left` or `right`. Defaults to `right`.
    */
   label_position?: SwitchLabelPosition;
+
+  /**
+   * Use `true` to make the label only readable by screen readers.
+   */
+  label_sr_only?: boolean;
 
   /**
    * <em>(required)</em> the `title` of the input - describing it a bit further for accessibility reasons.

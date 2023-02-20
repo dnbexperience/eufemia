@@ -59,6 +59,8 @@ const CodeBlock = ({
         {...defaultProps}
         code={String(exampleCode).trim()}
         language={language}
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         theme={prismTheme}
       >
         {({ className, style, tokens, getLineProps, getTokenProps }) => (
