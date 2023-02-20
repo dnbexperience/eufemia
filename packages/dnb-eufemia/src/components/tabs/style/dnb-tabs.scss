@@ -93,6 +93,8 @@
     z-index: 1;
 
     user-select: none;
+
+    /* stylelint-disable-next-line */
     -webkit-user-select: none; // Safari / Touch fix
 
     margin: 0;

@@ -349,7 +349,7 @@ exports[`Accordion scss have to match snapshot 1`] = `
 .dnb-icon svg {
   width: inherit;
   height: inherit;
-  shape-rendering: geometricPrecision;
+  shape-rendering: geometricprecision;
   vertical-align: top;
 }
 .dnb-icon svg[width="100%"] {
@@ -359,10 +359,10 @@ exports[`Accordion scss have to match snapshot 1`] = `
   height: inherit;
 }
 .dnb-icon--inherit-color svg:not([fill]), .dnb-icon--inherit-color svg [fill] {
-  fill: currentColor;
+  fill: currentcolor;
 }
 .dnb-icon--inherit-color svg [stroke] {
-  stroke: currentColor;
+  stroke: currentcolor;
 }
 .dnb-icon--small {
   font-size: 0.75rem;

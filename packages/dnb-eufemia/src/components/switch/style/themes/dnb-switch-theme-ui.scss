@@ -80,9 +80,6 @@
     * On disabled
     *
     */
-  // &__input[disabled] ~ &__button,
-  // &__input[disabled] ~ &__background {
-  // }
   &__input[disabled] ~ &__background {
     background-color: var(--color-mint-green-25);
   }
@@ -177,6 +174,7 @@
     background-color: var(--color-fire-red-8);
     @include fakeBorder(var(--color-fire-red), $focusRingWidth);
   }
+
   // change gfx 1 color
   &__status--error
     &__input:not(:focus):not([disabled]):not(:active):checked
@@ -185,6 +183,7 @@
       background-color: var(--color-fire-red);
     }
   }
+
   // change gfx 0 color
   &__status--error
     &__input:not(:focus):not([disabled]):not(:active):not(:checked)
@@ -193,6 +192,7 @@
       border-color: var(--color-fire-red);
     }
   }
+
   // fake border outside
   &__status--error
     &__input:not([disabled]):not(:focus):not(:active)
@@ -201,6 +201,7 @@
     display: block;
     @include fakeBorder(var(--color-fire-red), $focusRingWidth);
   }
+
   // and rotate in checked state
   &__status--error
     &__input:not([disabled]):not(:focus):not(:active):checked

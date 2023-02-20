@@ -8,10 +8,11 @@
 .dnb-section {
   &--divider {
     color: var(--color-black-80);
+
     &::after {
       color: var(--color-white);
-      box-shadow: 99vw 0 0 0 currentColor, 198vw 0 0 0 currentColor,
-        297vw 0 0 0 currentColor, 396vw 0 0 0 currentColor,
+      box-shadow: 99vw 0 0 0 currentcolor, 198vw 0 0 0 currentcolor,
+        297vw 0 0 0 currentcolor, 396vw 0 0 0 currentcolor,
         0 0.0625rem 0 0 var(--color-mint-green-50),
         99vw 0.0625rem 0 0 var(--color-mint-green-50),
         0 -0.0625rem 0 0 var(--color-mint-green-50),
@@ -20,73 +21,96 @@
         198vw -0.0625rem 0 0 var(--color-mint-green-50);
     }
   }
+
   &--transparent {
     &::after {
       color: transparent;
     }
   }
+
   &--mint-green-12 {
     color: var(--color-black-80);
+
     &::after {
       color: var(--color-mint-green-12);
     }
   }
+
   &--white {
     color: var(--color-black-80);
+
     &::after {
       color: var(--color-white);
     }
   }
+
   &--mint-green {
     color: var(--color-black-80);
+
     &::after {
       color: var(--color-mint-green);
     }
   }
+
   &--lavender {
     color: var(--color-black-80);
+
     &::after {
       color: var(--color-lavender);
     }
   }
+
   &--sand-yellow {
     color: var(--color-black-80);
+
     &::after {
       color: var(--color-sand-yellow);
     }
   }
+
   &--pistachio {
     color: var(--color-black-80);
+
     &::after {
       color: var(--color-pistachio);
     }
   }
+
   &--black-3 {
     color: var(--color-black-80);
+
     &::after {
       color: var(--color-black-3);
     }
   }
+
   &--emerald-green {
     color: var(--color-mint-green);
+
     &::after {
       color: var(--color-emerald-green);
     }
   }
+
   &--sea-green {
     color: var(--color-white);
+
     &::after {
       color: var(--color-sea-green);
     }
   }
+
   &--fire-red {
     color: var(--color-white);
+
     &::after {
       color: var(--color-fire-red);
     }
   }
+
   &--fire-red-8 {
     color: var(--color-black-80);
+
     &::after {
       color: var(--color-fire-red-8);
     }
@@ -103,9 +127,11 @@
   &--emerald-green .dnb-button--tertiary,
   &--sea-green .dnb-button--tertiary {
     color: var(--color-white);
+
     &:hover {
       color: var(--color-white);
     }
+
     &:hover .dnb-button__text::after {
       color: var(--color-white) !important;
     }

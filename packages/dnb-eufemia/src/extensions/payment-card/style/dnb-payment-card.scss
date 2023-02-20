@@ -14,7 +14,7 @@
   --dnb-payment-bg-pluss: linear-gradient(
       187.2deg,
       #14555a 6.31%,
-      rgba(0, 52, 62, 0.4) 82.66%
+      rgb(0 52 62 / 40%) 82.66%
     ),
     #14555a;
   --dnb-payment-bg-white: linear-gradient(
@@ -61,10 +61,7 @@
     border-radius: 3.48mm;
 
     border: 1px solid;
-    border-left-color: transparent;
-    border-right-color: transparent;
-    border-top-color: rgba(255, 255, 255, 0.1);
-    border-bottom-color: rgba(0, 0, 0, 0.2);
+    border-color: rgb(255 255 255 / 10%) transparent rgb(0 0 0 / 20%) transparent;
 
     color: var(--color-white);
     box-shadow: var(--shadow-default);
@@ -208,8 +205,8 @@
 
       background: linear-gradient(
         184.55deg,
-        rgba(204, 204, 204, 0.5) 4.63%,
-        rgba(232, 232, 232, 0.5) 84.83%
+        rgb(204 204 204 / 50%) 4.63%,
+        rgb(232 232 232 / 50%) 84.83%
       );
     }
 
@@ -227,7 +224,7 @@
     }
 
     svg {
-      shape-rendering: geometricPrecision;
+      shape-rendering: geometricprecision;
     }
   }
 
@@ -292,7 +289,7 @@
       height: 100%;
       width: 100%;
 
-      background: rgba(0, 0, 0, 0.739);
+      background: rgb(0 0 0 / 73.9%);
       border-radius: inherit;
     }
   }

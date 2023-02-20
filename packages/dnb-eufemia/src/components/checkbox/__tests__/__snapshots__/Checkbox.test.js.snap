@@ -313,7 +313,6 @@ exports[`Checkbox scss have to match snapshot 1`] = `
 }
 .dnb-form-label[for]:not([disabled]) {
   user-select: none;
-  -webkit-user-select: none;
   cursor: pointer;
 }
 .dnb-form-label[disabled] {
@@ -443,7 +442,6 @@ button .dnb-form-status__text {
 }
 .dnb-checkbox__shell {
   user-select: none;
-  -webkit-user-select: none;
   position: relative;
   display: flex;
   align-items: center;
@@ -487,7 +485,7 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
   left: auto;
   width: calc(var(--checkbox-width--medium) - 0.5rem);
   height: calc(var(--checkbox-height--medium) - 0.5rem);
-  shape-rendering: geometricPrecision;
+  shape-rendering: geometricprecision;
 }
 .dnb-checkbox--large {
   line-height: var(--checkbox-height--large);

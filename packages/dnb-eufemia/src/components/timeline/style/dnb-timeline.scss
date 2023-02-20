@@ -28,6 +28,7 @@
         height: auto;
         padding: 0;
       }
+
       &__title {
         cursor: text;
       }
@@ -43,6 +44,7 @@
         font-weight: var(--font-weight-basis);
         color: var(--color-black-55);
       }
+
       &__info {
         padding-top: var(--spacing-x-small);
       }
