@@ -13,7 +13,7 @@ import {
   attachToBody,
 } from '../../../core/jest/jestSetup'
 import Component from '../FormStatus'
-import Input from '../../Input'
+import Input from '../../input/Input'
 
 const props = fakeProps(require.resolve('../FormStatus'), {
   optional: true,
