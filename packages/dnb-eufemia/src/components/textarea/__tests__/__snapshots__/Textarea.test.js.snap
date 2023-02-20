@@ -201,7 +201,6 @@ html:not([data-visual-test]) .dnb-textarea__textarea {
 }
 .dnb-textarea--disabled .dnb-textarea__textarea, .dnb-textarea__textarea[disabled] {
   user-select: none;
-  -webkit-user-select: none;
   color: var(--color-black-55);
   background-color: var(--color-black-3);
 }
@@ -225,7 +224,7 @@ html:not([data-visual-test]) .dnb-textarea__textarea {
   box-shadow: 0 0 0 0.125rem var(--border-color);
   border-color: transparent;
 }
-.dnb-textarea--has-content .dnb-textarea__textarea ~ .dnb-textarea__placeholder, .dnb-textarea--focus .dnb-textarea__textarea:not([disabled]):not([readonly]) ~ .dnb-textarea__placeholder {
+.dnb-textarea--has-content .dnb-textarea__textarea ~ .dnb-textarea__placeholder, .dnb-textarea--focus .dnb-textarea__textarea:not([disabled], [readonly]) ~ .dnb-textarea__placeholder {
   display: none;
 }"
 `;
@@ -271,7 +270,6 @@ exports[`Textarea scss have to match snapshot 1`] = `
 }
 .dnb-form-label[for]:not([disabled]) {
   user-select: none;
-  -webkit-user-select: none;
   cursor: pointer;
 }
 .dnb-form-label[disabled] {
@@ -453,7 +451,7 @@ button .dnb-form-status__text {
 .dnb-textarea__autoresize .dnb-textarea__textarea {
   resize: none;
 }
-.dnb-textarea--has-content .dnb-textarea__textarea ~ .dnb-textarea__placeholder, .dnb-textarea--focus .dnb-textarea__textarea:not([disabled]):not([readonly]) ~ .dnb-textarea__placeholder {
+.dnb-textarea--has-content .dnb-textarea__textarea ~ .dnb-textarea__placeholder, .dnb-textarea--focus .dnb-textarea__textarea:not([disabled], [readonly]) ~ .dnb-textarea__placeholder {
   opacity: 0.5;
 }
 .dnb-textarea__inner > .dnb-form-status {

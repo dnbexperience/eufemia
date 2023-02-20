@@ -56,8 +56,7 @@
   }
 
   &__input[disabled] {
-    user-select: none;
-    -webkit-user-select: none; // Safari / Touch fix
+    user-select: none; // Safari / Touch fix
     opacity: 1; // iOS fix
   }
 
@@ -117,6 +116,7 @@
   &__input::-webkit-search-cancel-button {
     display: none;
   }
+
   &__input::-ms-clear {
     display: none;
   }
@@ -126,6 +126,7 @@
     cursor: pointer;
     outline: none;
     color: var(--color-sea-green);
+
     &:active,
     &:hover {
       color: var(--color-emerald-green);
@@ -138,6 +139,7 @@
   &--has-clear-button &__input {
     padding-right: calc(var(--input-padding) * 2.5);
   }
+
   // Because of password managers
   &--password &__placeholder,
   &--password &__input {
@@ -147,14 +149,17 @@
     &::-ms-clear {
       display: none;
     }
+
     // Hiding "password reveal" button in Ms Edge
     &::-ms-reveal {
       display: none;
     }
   }
+
   &--password &__placeholder {
     padding-right: 4rem;
   }
+
   &--password &__input {
     font-family: var(--font-family-monospace);
   }
@@ -191,6 +196,7 @@
   > .dnb-form-label {
     line-height: var(--line-height-basis);
   }
+
   @include formLabelWrap();
 
   &:not(&--vertical)[class*='__status'] {
@@ -204,16 +210,19 @@
 
   &--small {
     line-height: var(--input-height--small);
+
     .dnb-input__shell,
     .dnb-input__input {
       height: var(--input-height--small);
     }
+
     .dnb-input__placeholder,
     .dnb-input__input {
       padding-left: var(--input-padding--small);
       padding-right: var(--input-padding--small);
       font-size: var(--input-font-size--small);
     }
+
     .dnb-input__submit-element {
       margin-left: calc(1px - 1px - var(--input-height--small));
 
@@ -233,6 +242,7 @@
 
   &--medium {
     line-height: var(--input-height--medium);
+
     .dnb-input__shell,
     .dnb-input__input {
       height: var(--input-height--medium);
@@ -244,6 +254,7 @@
       padding-right: var(--input-padding--medium);
       font-size: var(--input-font-size--medium);
     }
+
     .dnb-input__submit-element {
       margin-left: calc(1px - 1px - var(--input-height--medium));
 
@@ -263,16 +274,19 @@
 
   &--large {
     line-height: var(--input-height--large);
+
     .dnb-input__shell,
     .dnb-input__input {
       height: var(--input-height--large);
     }
+
     .dnb-input__placeholder,
     .dnb-input__input {
       padding-left: var(--input-padding--large);
       padding-right: var(--input-padding--large);
       font-size: var(--input-font-size--large);
     }
+
     .dnb-input__submit-element {
       margin-left: calc(1px - 1px - var(--input-height--large));
 
@@ -302,6 +316,7 @@
   &__align--center &__input {
     text-align: center;
   }
+
   &__align--right &__placeholder,
   &__align--right &__input {
     text-align: right;
@@ -311,6 +326,7 @@
   &--clear.dnb-input__submit-element {
     opacity: 0;
     transition: opacity 200ms ease-in-out;
+
     .dnb-button {
       width: var(--input-height--small);
       height: var(--input-height--small);
@@ -326,12 +342,14 @@
       }
     }
   }
+
   &--small &--clear.dnb-input__submit-element {
     .dnb-button {
       width: 1rem;
       height: 1rem;
     }
   }
+
   &--medium &--clear,
   &--large &--clear {
     &.dnb-input__submit-element {
@@ -341,9 +359,11 @@
       }
     }
   }
+
   &[data-has-content='true'] &--clear {
     opacity: 1;
   }
+
   &--has-submit-element &--clear.dnb-input__submit-element {
     margin-right: 2.5rem;
   }
@@ -373,21 +393,25 @@
     display: flex;
     flex-grow: 1;
   }
+
   &--stretch & {
     &__inner {
       flex-grow: 1;
     }
+
     &__inner,
     &__shell {
       width: 100%;
     }
   }
+
   &--stretch .dnb-form-label + &__inner {
     width: auto;
   }
   &--vertical#{&}--stretch &__inner {
     width: 100%;
   }
+
   .dnb-form-row--horizontal &--stretch {
     width: 100%;
   }
@@ -403,6 +427,7 @@
     bottom: 0;
     margin: auto;
   }
+
   &--icon-position-right &__icon {
     order: 1;
     left: auto;

@@ -46,9 +46,8 @@ exports[`Badge scss have to match snapshot 1`] = `
 .dnb-badge {
   display: inline-flex;
   font-weight: var(--font-weight-medium);
-  flex-direction: row;
+  flex-flow: row wrap;
   white-space: nowrap;
-  flex-wrap: wrap;
   justify-content: center;
   align-content: center;
   align-items: center;

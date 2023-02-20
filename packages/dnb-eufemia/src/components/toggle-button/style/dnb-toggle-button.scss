@@ -25,9 +25,7 @@
   &__shell {
     position: relative;
     left: 0;
-
-    user-select: none;
-    -webkit-user-select: none; // Safari / Touch fix
+    user-select: none; // Safari / Touch fix
   }
 
   &--vertical {
@@ -51,12 +49,15 @@
     // checkbox
     .dnb-checkbox {
       margin-left: -0.5rem;
+
       &__input {
         pointer-events: none;
       }
+
       &__button {
         display: unset;
       }
+
       &__focus,
       &__button {
         width: calc(var(--checkbox-width--medium) - 0.5rem);
@@ -70,6 +71,7 @@
         width: calc(var(--checkbox-width--medium) - 1rem);
         height: calc(var(--checkbox-height--medium) - 1rem);
       }
+
       &__gfx {
         width: calc(var(--checkbox-width--medium) - 0.75rem);
         height: calc(var(--checkbox-height--medium) - 0.75rem);
@@ -79,9 +81,11 @@
     // radio button
     .dnb-radio {
       margin-left: -0.5rem;
+
       &__input {
         pointer-events: none;
       }
+
       &__focus,
       &__button {
         width: calc(var(--radio-width--medium) - 0.5rem);
@@ -90,6 +94,7 @@
         // We used this before for more precise sizing
         border-width: 0.0625rem; // to get 1.5px we use 1px here, and 0.5px with box-shadow
       }
+
       &__dot {
         width: calc(var(--radio-width--medium) - 1rem);
         height: calc(var(--radio-height--medium) - 1rem);
@@ -98,7 +103,7 @@
   }
 
   // default "active" style
-  &--checked &__button:not([disabled]):not(:active) {
+  &--checked &__button:not([disabled], :active) {
     &.dnb-button--secondary,
     &.dnb-button--secondary:hover {
       background-color: var(--color-emerald-green);
@@ -136,10 +141,12 @@
       margin-right: var(--toggle-button-margin-right);
       margin-bottom: var(--toggle-button-margin-bottom);
     }
+
     &--column .dnb-toggle-button {
       display: flex;
       margin-right: 0;
     }
+
     .dnb-toggle-button:last-of-type {
       margin-right: 0;
     }

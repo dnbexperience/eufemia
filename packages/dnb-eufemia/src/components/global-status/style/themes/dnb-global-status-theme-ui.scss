@@ -7,8 +7,8 @@
 
 .dnb-global-status {
   &:not(#{&}--no-animation)#{&}--fade-in#{&}.dnb-section::after {
-    box-shadow: 99vw 0 0 0 currentColor, 198vw 0 0 0 currentColor,
-      297vw 0 0 0 currentColor, 396vw 0 0 0 currentColor,
+    box-shadow: 99vw 0 0 0 currentcolor, 198vw 0 0 0 currentcolor,
+      297vw 0 0 0 currentcolor, 396vw 0 0 0 currentcolor,
       0 0.0625rem 0 0 var(--color-black-80),
       100vw 0.0625rem 0 0 var(--color-black-80);
   }
@@ -16,6 +16,7 @@
   &__icon {
     font-size: 1rem;
   }
+
   &__message {
     &__content {
       color: var(--color-black-80);
@@ -29,6 +30,7 @@
   &__content .dnb-hr {
     color: var(--color-fire-red);
   }
+
   &--info &__content .dnb-hr {
     color: var(--color-sea-green);
   }

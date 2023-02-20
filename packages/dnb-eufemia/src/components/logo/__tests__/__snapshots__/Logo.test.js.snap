@@ -66,11 +66,11 @@ exports[`Logo scss have to match snapshot 1`] = `
   height: 1em;
 }
 .dnb-logo--inherit-color {
-  color: currentColor;
+  color: currentcolor;
 }
 .dnb-logo svg {
-  fill: currentColor;
-  shape-rendering: geometricPrecision;
+  fill: currentcolor;
+  shape-rendering: geometricprecision;
 }
 .dnb-logo--has-size {
   width: auto;
@@ -79,7 +79,7 @@ exports[`Logo scss have to match snapshot 1`] = `
 .dnb-logo--inherit-size {
   height: inherit;
 }
-.dnb-logo svg:not([width]):not([height]) {
+.dnb-logo svg:not([width], [height]) {
   width: inherit;
   height: inherit;
 }"

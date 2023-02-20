@@ -27,8 +27,7 @@
   }
 
   &__shell {
-    user-select: none;
-    -webkit-user-select: none; // Safari / Touch fix
+    user-select: none; // Safari / Touch fix
     position: relative;
 
     display: flex;
@@ -38,6 +37,7 @@
     width: var(--checkbox-width--medium);
     height: var(--checkbox-height--medium);
   }
+
   &--large &__shell {
     width: var(--checkbox-width--large);
     height: var(--checkbox-height--large);
@@ -48,10 +48,13 @@
 
     border: var(--checkbox-border-width) solid transparent;
   }
+
   &__focus {
     display: none;
+
     @include fakeFocus();
   }
+
   &__focus,
   &__button {
     position: relative;
@@ -69,6 +72,7 @@
       border-radius: 0.25rem;
     }
   }
+
   &__gfx {
     position: absolute;
     z-index: 5;
@@ -82,11 +86,13 @@
     height: calc(var(--checkbox-height--medium) - 0.5rem);
 
     // fill: currentColor; // old svg fix
-    shape-rendering: geometricPrecision;
+    shape-rendering: geometricprecision;
   }
+
   &--large {
     line-height: var(--checkbox-height--large);
   }
+
   &--large &__gfx {
     // width: var(--checkbox-width--large); // old svg size
     // height: var(--checkbox-height--large); // old svg size
@@ -110,6 +116,7 @@
 
     border: 0;
   }
+
   &--large &__input {
     width: var(--checkbox-width--large);
     height: var(--checkbox-height--large);
@@ -138,10 +145,12 @@
     .dnb-checkbox__inner {
       order: 2;
     }
+
     .dnb-form-label {
       order: 1;
       padding-right: 0.5rem;
     }
+
     .dnb-form-status {
       order: 3;
       margin-top: 0.5rem;
@@ -152,12 +161,15 @@
     .dnb-checkbox__inner {
       order: 1;
     }
+
     .dnb-form-label {
       order: 2;
       padding-left: 0.5rem;
     }
+
     & + .dnb-form-status {
       order: 3;
+
       // in case the status did not wrap, we want to have the status on the same line
       vertical-align: top;
 
