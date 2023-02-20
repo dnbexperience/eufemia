@@ -16,20 +16,13 @@
 
   html {
     cursor: default; /* 1 */
-    font-family: system-ui, /* macOS 10.11-10.12 */ -apple-system,
-      /* Windows 6+ */ Segoe UI, /* Android 4+ */ Roboto,
-      /* Ubuntu 10.10+ */ Ubuntu, /* Gnome 3+ */ Cantarell,
-      /* KDE Plasma 5+ */ Noto Sans, /* fallback */ sans-serif,
-      /* macOS emoji */ 'Apple Color Emoji',
-      /* Windows emoji */ 'Segoe UI Emoji',
-      /* Windows emoji */ 'Segoe UI Symbol',
-      /* Linux emoji */ 'Noto Color Emoji'; /* 2 */
+    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Ubuntu,
+      Cantarell, 'Noto Sans', sans-serif, 'Apple Color Emoji',
+      'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; /* 2 */
 
-    line-height: var(--line-height-basis); /* 3 */
-    -moz-tab-size: 4; /* 4 */
-    tab-size: 4; /* 4 */
-    -ms-text-size-adjust: 100%; /* 5 */
-    -webkit-text-size-adjust: 100%; /* 5 */
+    line-height: var(--line-height-basis); /* 3 */ /* 4 */
+    tab-size: 4; /* 4 */ /* 5 */
+    text-size-adjust: 100%; /* 5 */
     word-break: break-word; /* 6 */
   }
 
@@ -142,7 +135,7 @@
    *    in all browsers (opinionated).
    */
 
-  ::-moz-selection {
+  ::selection {
     background-color: #b3d4fc; /* 1 */
     color: #000; /* 1 */
     text-shadow: none;
@@ -195,7 +188,7 @@
    */
 
   svg:not([fill]) {
-    fill: currentColor;
+    fill: currentcolor;
   }
 
   /**
@@ -327,7 +320,7 @@
    */
 
   input[type='search'] {
-    -webkit-appearance: textfield; /* 1 */
+    appearance: textfield; /* 1 */
     outline-offset: -2px; /* 2 */
   }
 
@@ -344,7 +337,8 @@
    * Correct the text style of placeholders in Chrome, Edge, and Safari.
    */
 
-  ::-webkit-input-placeholder {
+  // stylelint-disable-next-line
+  ::input-placeholder {
     color: inherit;
     opacity: 0.54;
   }
@@ -354,7 +348,7 @@
    */
 
   ::-webkit-search-decoration {
-    -webkit-appearance: none;
+    appearance: none;
   }
 
   /**
@@ -432,7 +426,7 @@
   summary,
   textarea,
   [tabindex] {
-    -ms-touch-action: manipulation; /* 1 */
+    /* 1 */
     touch-action: manipulation; /* 2 */
   }
 
@@ -493,12 +487,15 @@
     a:hover {
       text-decoration: none;
     }
+
     .dnb-anchor--active {
       color: var(--color-mint-green) !important;
     }
+
     .dnb-anchor--contrast:not(:hover) {
       color: var(--color-white) !important;
     }
+
     a.dnb-button--primary {
       color: var(--color-white);
     }
@@ -514,6 +511,7 @@
       text-align: inherit;
       background-color: initial;
     }
+
     i {
       font-style: italic;
     }
@@ -523,6 +521,7 @@
     #root {
       width: 100%;
     }
+
     body#dnbLayoutDefault #wrapper,
     body#dnbLayoutDefaultStartPage #wrapper {
       width: 100%;

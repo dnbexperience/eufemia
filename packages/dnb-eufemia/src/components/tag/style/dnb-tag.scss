@@ -30,6 +30,7 @@
   &:not(#{&}--interactive) {
     user-select: unset;
     cursor: unset;
+
     .dnb-button__text {
       cursor: text;
     }
@@ -46,9 +47,11 @@
         var(--color-sea-green),
         var(--color-mint-green-50)
       );
+
       &[disabled] {
         color: var(--color-sea-green-30);
         background-color: var(--color-white);
+
         @include fakeBorder(var(--color-sea-green-30));
       }
     }
@@ -58,20 +61,24 @@
     &.dnb-button {
       color: var(--color-white);
       background-color: var(--color-sea-green);
+
       @include deleteIcon(var(--color-white), var(--color-sea-green));
 
       @include buttonFocus(var(--color-sea-green), var(--color-white)) {
         @include deleteIcon();
       }
+
       @include buttonHover(var(--color-sea-green), var(--color-white)) {
         @include deleteIcon();
       }
+
       @include buttonActive(
         var(--color-sea-green),
         var(--color-mint-green-50)
       ) {
         @include deleteIcon();
       }
+
       &[disabled] {
         @include deleteIcon(
           var(--color-mint-green-50),

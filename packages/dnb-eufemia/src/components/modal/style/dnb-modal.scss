@@ -13,6 +13,8 @@
 
 html[data-dnb-modal-active] {
   user-select: none;
+
+  /* stylelint-disable-next-line */
   -webkit-user-select: none; // Safari / Touch fix
 }
 
@@ -37,6 +39,8 @@ html[data-dnb-modal-active] {
     height: 100%;
 
     user-select: none;
+
+    /* stylelint-disable-next-line */
     -webkit-user-select: none; // Safari / Touch fix
 
     &--auto-fullscreen {

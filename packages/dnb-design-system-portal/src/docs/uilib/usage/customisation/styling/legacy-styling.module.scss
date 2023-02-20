@@ -3,6 +3,7 @@
 :global {
   .dnb-dev-grid {
     z-index: 1;
+
     @include gridStyle(rgb(220, 220, 220), 0.8);
   }
 }
@@ -13,7 +14,7 @@
   }
 
   color: var(--color-sky-blue);
-  background-color: rgba(164, 255, 255, 0.3);
+  background-color: rgb(164 255 255 / 30%);
 }
 
 .LegacyCodeExample {
@@ -33,7 +34,7 @@
 
   :global {
     .show-pixel-bounding {
-      background-color: rgba(255, 255, 255, 0.5);
+      background-color: rgb(255 255 255 / 50%);
     }
   }
 }
@@ -44,7 +45,7 @@
 
   :global {
     .show-pixel-bounding {
-      background-color: rgba(255, 255, 255, 0.5);
+      background-color: rgb(255 255 255 / 50%);
     }
   }
 }

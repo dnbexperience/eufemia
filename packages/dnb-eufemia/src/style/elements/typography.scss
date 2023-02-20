@@ -5,6 +5,7 @@
 
 @mixin headingDefaults() {
   padding: 0;
+
   &:not([class*='dnb-space']) {
     margin: 0;
   }
@@ -17,6 +18,7 @@
   .dnb-icon--default {
     font-size: 1em;
   }
+
   .dnb-icon--medium {
     font-size: 1.5em;
   }
@@ -32,6 +34,7 @@
     @include headingDefaultsCustomisation();
   }
 }
+
 @mixin headingSize_xx-large() {
   font-size: var(--font-size-xx-large);
   line-height: var(--line-height-x-large);
@@ -46,6 +49,7 @@
     @include headingSize_xx-largeCustomisation();
   }
 }
+
 @mixin headingSize_x-large() {
   font-size: var(--font-size-x-large);
   line-height: var(--line-height-large);
@@ -60,6 +64,7 @@
     @include headingSize_x-largeCustomisation();
   }
 }
+
 @mixin headingSize_large() {
   font-size: var(--font-size-large);
   line-height: var(--line-height-medium);
@@ -73,6 +78,7 @@
     @include headingSize_largeCustomisation();
   }
 }
+
 // Like Lead / --lead
 @mixin headingSize_medium() {
   font-size: var(--font-size-medium);
@@ -87,6 +93,7 @@
     @include headingSize_mediumCustomisation();
   }
 }
+
 @mixin headingSize_basis() {
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
@@ -96,6 +103,7 @@
     line-height: var(--line-height-small);
   }
 }
+
 @mixin headingSize_small() {
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
@@ -105,10 +113,12 @@
     line-height: var(--line-height-small);
   }
 }
+
 @mixin headingSize_x-small() {
   font-size: var(--font-size-x-small);
   line-height: var(--line-height-x-small);
 }
+
 @mixin paragraphStyle() {
   font-size: var(--font-size-basis);
   color: var(--theme-color-black-80, currentColor);
@@ -117,6 +127,7 @@
   &:not([class*='space__top']) {
     margin-top: 0;
   }
+
   &:not([class*='space__bottom']) {
     margin-bottom: 0;
   }
@@ -144,28 +155,34 @@
     font-size: var(--font-size-xx-large);
     line-height: var(--line-height-x-large);
   }
+
   &__size--x-large {
     font-size: var(--font-size-x-large);
     line-height: var(--line-height-x-large);
   }
+
   &__size--large {
     font-size: var(--font-size-large);
     line-height: var(--line-height-large);
   }
+
   &__size--basis {
     font-size: var(--font-size-basis);
     line-height: var(--line-height-basis);
   }
+
   &__size--medium {
     font-size: var(--font-size-medium);
     line-height: var(--line-height-medium);
   }
+
   &--small ,// backwards compatibility
   &__size--small,
   & > small {
     font-size: var(--font-size-small);
     line-height: var(--line-height-small);
   }
+
   &--x-small ,// backwards compatibility
   &__size--x-small {
     font-size: var(--font-size-x-small);
@@ -178,46 +195,57 @@
     font-style: italic;
   }
 }
+
 @mixin headingSpacing_xx-large() {
   &:not([class*='space__top']) {
     margin-top: 3rem;
   }
+
   &:not([class*='space__bottom']) {
     margin-bottom: 2.5rem;
   }
 }
+
 @mixin headingSpacing_x-large() {
   &:not([class*='space__top']) {
     margin-top: 3rem;
   }
+
   &:not([class*='space__bottom']) {
     margin-bottom: 1rem;
   }
 }
+
 @mixin headingSpacing_large() {
   &:not([class*='space__top']) {
     margin-top: 3rem;
   }
+
   &:not([class*='space__bottom']) {
     margin-bottom: 1rem;
   }
 }
+
 @mixin headingSpacing() {
   &:not([class*='space__top']) {
     margin-top: 2rem;
   }
+
   &:not([class*='space__bottom']) {
     margin-bottom: 1rem;
   }
 }
+
 @mixin typographyTags() {
   p {
     @include paragraphStyle();
   }
+
   b,
   strong {
     font-weight: var(--font-weight-bold);
   }
+
   small {
     font-size: var(--font-size-small);
   }
@@ -230,21 +258,27 @@
   h6 {
     @include headingDefaults();
   }
+
   h1 {
     @include headingSize_xx-large();
   }
+
   h2 {
     @include headingSize_large();
   }
+
   h3 {
     @include headingSize_medium();
   }
+
   h4 {
     @include headingSize_basis();
   }
+
   h5 {
     @include headingSize_small();
   }
+
   h6 {
     @include headingSize_x-small();
   }
@@ -264,10 +298,12 @@
     .dnb-core-style & h1 {
       @include headingSpacing_xx-large();
     }
+
     h2,
     .dnb-core-style & h2 {
       @include headingSpacing_large();
     }
+
     h3,
     h4,
     h5,
@@ -278,6 +314,7 @@
     .dnb-core-style & h6 {
       @include headingSpacing();
     }
+
     p,
     .dnb-core-style & p {
       @include defaultSpacing();
@@ -338,9 +375,11 @@ sub {
 .dnb-h--basis {
   @include headingSize_basis();
 }
+
 .dnb-h--small {
   @include headingSize_small();
 }
+
 .dnb-h--x-small {
   @include headingSize_x-small();
 }
@@ -372,10 +411,12 @@ sub {
   .dnb-core-style & .dnb-h--xx-large {
     @include headingSpacing_xx-large();
   }
+
   .dnb-h--x-large,
   .dnb-core-style & .dnb-h--x-large {
     @include headingSpacing_x-large();
   }
+
   .dnb-h--large,
   .dnb-core-style & .dnb-h--large {
     @include headingSpacing_large();

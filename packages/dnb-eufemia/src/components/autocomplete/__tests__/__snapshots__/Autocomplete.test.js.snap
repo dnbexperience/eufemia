@@ -1581,7 +1581,7 @@ exports[`Autocomplete scss have to match snapshot 1`] = `
 .dnb-icon svg {
   width: inherit;
   height: inherit;
-  shape-rendering: geometricPrecision;
+  shape-rendering: geometricprecision;
   vertical-align: top;
 }
 .dnb-icon svg[width="100%"] {
@@ -1591,10 +1591,10 @@ exports[`Autocomplete scss have to match snapshot 1`] = `
   height: inherit;
 }
 .dnb-icon--inherit-color svg:not([fill]), .dnb-icon--inherit-color svg [fill] {
-  fill: currentColor;
+  fill: currentcolor;
 }
 .dnb-icon--inherit-color svg [stroke] {
-  stroke: currentColor;
+  stroke: currentcolor;
 }
 .dnb-icon--small {
   font-size: 0.75rem;
@@ -1882,6 +1882,7 @@ button .dnb-form-status__text {
 .dnb-button {
   position: relative;
   user-select: none;
+  /* stylelint-disable-next-line */
   -webkit-user-select: none;
   cursor: pointer;
   white-space: nowrap;
@@ -2067,7 +2068,9 @@ html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-w
 }
 .dnb-button[type=button], .dnb-button[type=reset], .dnb-button[type=submit] {
   appearance: none;
+  /* stylelint-disable-next-line */
   -moz-appearance: none;
+  /* stylelint-disable-next-line */
   -webkit-appearance: none;
 }
 .dnb-button[disabled] {
@@ -2116,7 +2119,7 @@ button.dnb-button::-moz-focus-inner {
 .dnb-icon svg {
   width: inherit;
   height: inherit;
-  shape-rendering: geometricPrecision;
+  shape-rendering: geometricprecision;
   vertical-align: top;
 }
 .dnb-icon svg[width="100%"] {
@@ -2126,10 +2129,10 @@ button.dnb-button::-moz-focus-inner {
   height: inherit;
 }
 .dnb-icon--inherit-color svg:not([fill]), .dnb-icon--inherit-color svg [fill] {
-  fill: currentColor;
+  fill: currentcolor;
 }
 .dnb-icon--inherit-color svg [stroke] {
-  stroke: currentColor;
+  stroke: currentcolor;
 }
 .dnb-icon--small {
   font-size: 0.75rem;
@@ -2329,7 +2332,6 @@ html[data-visual-test] .dnb-tooltip--hide {
 }
 .dnb-form-label[for]:not([disabled]) {
   user-select: none;
-  -webkit-user-select: none;
   cursor: pointer;
 }
 .dnb-form-label[disabled] {
@@ -2482,7 +2484,6 @@ button .dnb-form-status__text {
 }
 .dnb-input__input[disabled] {
   user-select: none;
-  -webkit-user-select: none;
   opacity: 1;
 }
 .dnb-input__shell, .dnb-input__input {
@@ -2810,7 +2811,7 @@ html[data-visual-test] .dnb-input__input {
 .dnb-icon svg {
   width: inherit;
   height: inherit;
-  shape-rendering: geometricPrecision;
+  shape-rendering: geometricprecision;
   vertical-align: top;
 }
 .dnb-icon svg[width="100%"] {
@@ -2820,10 +2821,10 @@ html[data-visual-test] .dnb-input__input {
   height: inherit;
 }
 .dnb-icon--inherit-color svg:not([fill]), .dnb-icon--inherit-color svg [fill] {
-  fill: currentColor;
+  fill: currentcolor;
 }
 .dnb-icon--inherit-color svg [stroke] {
-  stroke: currentColor;
+  stroke: currentcolor;
 }
 .dnb-icon--small {
   font-size: 0.75rem;
@@ -2899,7 +2900,7 @@ h1 .dnb-icon, h2 .dnb-icon, h3 .dnb-icon, h4 .dnb-icon, h5 .dnb-icon, h6 .dnb-ic
 .dnb-icon svg {
   width: inherit;
   height: inherit;
-  shape-rendering: geometricPrecision;
+  shape-rendering: geometricprecision;
   vertical-align: top;
 }
 .dnb-icon svg[width="100%"] {
@@ -2909,10 +2910,10 @@ h1 .dnb-icon, h2 .dnb-icon, h3 .dnb-icon, h4 .dnb-icon, h5 .dnb-icon, h6 .dnb-ic
   height: inherit;
 }
 .dnb-icon--inherit-color svg:not([fill]), .dnb-icon--inherit-color svg [fill] {
-  fill: currentColor;
+  fill: currentcolor;
 }
 .dnb-icon--inherit-color svg [stroke] {
-  stroke: currentColor;
+  stroke: currentcolor;
 }
 .dnb-icon--small {
   font-size: 0.75rem;
@@ -3200,6 +3201,7 @@ button .dnb-form-status__text {
 .dnb-button {
   position: relative;
   user-select: none;
+  /* stylelint-disable-next-line */
   -webkit-user-select: none;
   cursor: pointer;
   white-space: nowrap;
@@ -3385,7 +3387,9 @@ html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-w
 }
 .dnb-button[type=button], .dnb-button[type=reset], .dnb-button[type=submit] {
   appearance: none;
+  /* stylelint-disable-next-line */
   -moz-appearance: none;
+  /* stylelint-disable-next-line */
   -webkit-appearance: none;
 }
 .dnb-button[disabled] {
@@ -3440,7 +3444,6 @@ button.dnb-button::-moz-focus-inner {
 }
 .dnb-form-label[for]:not([disabled]) {
   user-select: none;
-  -webkit-user-select: none;
   cursor: pointer;
 }
 .dnb-form-label[disabled] {
@@ -3603,7 +3606,6 @@ button .dnb-form-status__text {
   position: relative;
   z-index: 1;
   user-select: none;
-  -webkit-user-select: none;
   width: 100%;
 }
 .dnb-dropdown__trigger.dnb-button {
