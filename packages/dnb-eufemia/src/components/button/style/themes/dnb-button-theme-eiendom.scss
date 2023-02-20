@@ -34,6 +34,7 @@
 
 .dnb-button--secondary {
   color: var(--color-emerald-green);
+
   @include fakeBorder(var(--color-emerald-green));
 
   // // This is just not good – it gives the feeling that its not clickable, as the change is almost not noticeable

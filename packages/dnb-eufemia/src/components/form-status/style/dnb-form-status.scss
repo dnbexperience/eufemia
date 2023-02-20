@@ -26,10 +26,12 @@
 
     opacity: 0;
   }
+
   &--is-animating {
     overflow: hidden; // because of animation
     width: auto;
   }
+
   &--disappear,
   &--hidden {
     margin: 0 !important;
@@ -50,6 +52,7 @@
     padding: 0.625rem 1rem;
 
     cursor: text;
+
     button & {
       cursor: inherit;
     }
@@ -81,6 +84,7 @@
     padding-top: 1.125rem;
     padding-bottom: 1.125rem;
   }
+
   &__size--large &__shell > .dnb-icon {
     margin-top: 0.6666666em;
     margin-bottom: 0.6666666em;
@@ -101,9 +105,11 @@
   &--stretch {
     flex-grow: 1;
   }
+
   &--stretch &__shell {
     width: 100%;
   }
+
   &--stretch &__text {
     max-width: 47rem;
   }

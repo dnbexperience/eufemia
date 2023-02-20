@@ -30,9 +30,7 @@
 
   &__shell {
     position: relative;
-
-    user-select: none;
-    -webkit-user-select: none; // Safari / Touch fix
+    user-select: none; // Safari / Touch fix
 
     display: flex;
     align-items: center;
@@ -49,13 +47,17 @@
     position: absolute;
     z-index: 4;
   }
+
   &__button {
     border: var(--radio-border-width) solid transparent;
   }
+
   &__focus {
     display: none;
+
     @include fakeFocus();
   }
+
   &__focus,
   &__button {
     width: calc(var(--radio-width--medium) - 0.25rem);
@@ -67,6 +69,7 @@
       height: calc(var(--radio-height--large) - 0.125rem);
     }
   }
+
   &__dot {
     width: calc(var(--radio-width--medium) - 0.75rem);
     height: calc(var(--radio-height--medium) - 0.75rem);
@@ -94,6 +97,7 @@
 
     border: 0;
   }
+
   &--large &__input {
     width: var(--radio-width--large);
     height: var(--radio-height--large);
@@ -125,6 +129,7 @@
       margin-bottom: -0.25rem;
     }
   }
+
   &-group__suffix {
     font-size: var(--font-size-basis);
   }
@@ -132,9 +137,11 @@
   &--large {
     line-height: var(--radio-height--large);
   }
+
   &--large &__suffix {
     line-height: var(--radio-height--large);
   }
+
   &--large &__shell {
     width: var(--radio-width--large);
     height: var(--radio-height--large);
@@ -150,6 +157,7 @@
     .dnb-radio__inner {
       order: 2;
     }
+
     .dnb-form-label {
       order: 1;
       padding-right: 0.5rem;
@@ -160,6 +168,7 @@
     .dnb-radio__inner {
       order: 1;
     }
+
     .dnb-form-label {
       order: 2;
       padding-left: 0.5rem;
@@ -178,6 +187,7 @@
     margin-top: 0.375rem; /* 6/16 */
     margin-bottom: 0;
   }
+
   & + .dnb-form-status {
     margin-top: 0.5rem;
     margin-bottom: 1rem;
@@ -192,10 +202,12 @@
       margin-right: var(--radio-margin-right);
       margin-bottom: var(--radio-margin-bottom);
     }
+
     &--column .dnb-radio {
       display: flex;
       margin-right: 0;
     }
+
     .dnb-radio:last-of-type {
       margin-right: 0;
     }
@@ -204,12 +216,14 @@
     &__shell {
       display: block;
     }
+
     &__shell {
       & > .dnb-form-status {
         margin-top: 0;
         margin-bottom: 0;
       }
     }
+
     &--column &__shell {
       flex-direction: column;
     }

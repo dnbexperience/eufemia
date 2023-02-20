@@ -48,6 +48,7 @@ html[show-dev-grid] .dev-grid > .dnb-h--xx-large {
   position: relative;
   z-index: 2;
 }
+
 html[show-dev-grid] .dev-grid {
   @include gridStyle(rgb(220, 220, 220), 0.8);
 
@@ -62,9 +63,10 @@ html[show-dev-grid] .dev-grid {
   p > a,
   p > code,
   p > small {
-    background-color: rgba(255, 255, 122, 0.35);
+    background-color: rgb(255 255 122 / 35%);
+
     :only-child {
-      background-color: rgba(0, 200, 200, 0.25);
+      background-color: rgb(0 200 200 / 25%);
     }
   }
   /* stylelint-enable */
@@ -78,18 +80,23 @@ html[show-dev-grid] .dev-grid {
 .lh-12 {
   line-height: calc(var(--line-height-basis) - 0.25rem); /* 0.75rem */
 }
+
 .lh-16 {
   line-height: var(--line-height-basis); /* 1rem */
 }
+
 .lh-20 {
   line-height: calc(var(--line-height-basis) + 0.25rem); /* 1.25rem */
 }
+
 .lh-24 {
   line-height: var(--line-height-basis); /* 1rem */
 }
+
 .lh-28 {
   line-height: calc(var(--line-height-basis) + 0.75rem); /* 1.75rem */
 }
+
 .lh-32 {
   line-height: calc(var(--line-height-basis) + 1rem); /* 2rem */
 }

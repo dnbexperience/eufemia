@@ -7,10 +7,12 @@
 @mixin anchorDefaultStyleCustomisation() {
   color: var(--color-emerald-green);
 }
+
 @mixin anchorHoverStyleCustomisation() {
   color: var(--color-sea-green);
   background-color: transparent;
 }
+
 @mixin anchorActiveStyleCustomisation() {
   color: var(--color-sea-green);
   background-color: var(--color-pistachio);

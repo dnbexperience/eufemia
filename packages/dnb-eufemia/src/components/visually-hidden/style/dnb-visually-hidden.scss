@@ -7,7 +7,7 @@
 
 .dnb-visually-hidden {
   &--focusable {
-    &:not(:focus):not(:focus-within) {
+    &:not(:focus, :focus-within) {
       @include srOnly();
     }
   }

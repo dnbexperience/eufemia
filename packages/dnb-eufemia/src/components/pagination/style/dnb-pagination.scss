@@ -20,24 +20,28 @@
   &--left &__bar {
     justify-content: flex-start;
   }
+
   &--center &__bar {
     justify-content: center;
+
     @media screen and (max-width: 40em) {
       justify-content: flex-start;
     }
   }
+
   &--right &__bar {
     justify-content: flex-end;
   }
 
   &__bar__wrapper {
     display: flex;
-    flex-wrap: wrap;
-    flex-direction: column-reverse; // because of screen readers
+    flex-flow: column-reverse wrap; // because of screen readers
   }
+
   &--center &__bar__wrapper {
     align-items: center;
   }
+
   &--right &__bar__wrapper {
     align-items: flex-end;
   }
@@ -49,6 +53,7 @@
   &__button {
     max-width: 3.5rem;
   }
+
   &__button--large-number {
     max-width: unset;
   }
@@ -59,6 +64,7 @@
     align-items: center;
     justify-content: center;
   }
+
   &__indicator {
     cursor: default;
     display: flex;
@@ -101,6 +107,7 @@
   &__bar__skip {
     margin-top: 0.5rem;
   }
+
   &__bar__skip .dnb-button:first-of-type {
     margin-right: 1.5rem;
   }

@@ -1640,7 +1640,6 @@ exports[`ToggleButton scss have to match snapshot 1`] = `
 }
 .dnb-form-label[for]:not([disabled]) {
   user-select: none;
-  -webkit-user-select: none;
   cursor: pointer;
 }
 .dnb-form-label[disabled] {
@@ -1685,7 +1684,7 @@ legend.dnb-form-label {
 .dnb-icon svg {
   width: inherit;
   height: inherit;
-  shape-rendering: geometricPrecision;
+  shape-rendering: geometricprecision;
   vertical-align: top;
 }
 .dnb-icon svg[width="100%"] {
@@ -1695,10 +1694,10 @@ legend.dnb-form-label {
   height: inherit;
 }
 .dnb-icon--inherit-color svg:not([fill]), .dnb-icon--inherit-color svg [fill] {
-  fill: currentColor;
+  fill: currentcolor;
 }
 .dnb-icon--inherit-color svg [stroke] {
-  stroke: currentColor;
+  stroke: currentcolor;
 }
 .dnb-icon--small {
   font-size: 0.75rem;
@@ -1986,6 +1985,7 @@ button .dnb-form-status__text {
 .dnb-button {
   position: relative;
   user-select: none;
+  /* stylelint-disable-next-line */
   -webkit-user-select: none;
   cursor: pointer;
   white-space: nowrap;
@@ -2171,7 +2171,9 @@ html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-w
 }
 .dnb-button[type=button], .dnb-button[type=reset], .dnb-button[type=submit] {
   appearance: none;
+  /* stylelint-disable-next-line */
   -moz-appearance: none;
+  /* stylelint-disable-next-line */
   -webkit-appearance: none;
 }
 .dnb-button[disabled] {
@@ -2233,7 +2235,6 @@ button.dnb-button::-moz-focus-inner {
 }
 .dnb-form-label[for]:not([disabled]) {
   user-select: none;
-  -webkit-user-select: none;
   cursor: pointer;
 }
 .dnb-form-label[disabled] {
@@ -2363,7 +2364,6 @@ button .dnb-form-status__text {
 }
 .dnb-checkbox__shell {
   user-select: none;
-  -webkit-user-select: none;
   position: relative;
   display: flex;
   align-items: center;
@@ -2407,7 +2407,7 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
   left: auto;
   width: calc(var(--checkbox-width--medium) - 0.5rem);
   height: calc(var(--checkbox-height--medium) - 0.5rem);
-  shape-rendering: geometricPrecision;
+  shape-rendering: geometricprecision;
 }
 .dnb-checkbox--large {
   line-height: var(--checkbox-height--large);
@@ -2517,7 +2517,6 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
 }
 .dnb-form-label[for]:not([disabled]) {
   user-select: none;
-  -webkit-user-select: none;
   cursor: pointer;
 }
 .dnb-form-label[disabled] {
@@ -2650,7 +2649,6 @@ button .dnb-form-status__text {
 .dnb-radio__shell {
   position: relative;
   user-select: none;
-  -webkit-user-select: none;
   display: flex;
   align-items: center;
   flex-shrink: 0;
@@ -2925,7 +2923,6 @@ button .dnb-form-status__text {
   position: relative;
   left: 0;
   user-select: none;
-  -webkit-user-select: none;
 }
 .dnb-toggle-button--vertical {
   flex-direction: column;
@@ -2977,7 +2974,7 @@ button .dnb-form-status__text {
   width: calc(var(--radio-width--medium) - 1rem);
   height: calc(var(--radio-height--medium) - 1rem);
 }
-.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active).dnb-button--secondary, .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active).dnb-button--secondary:hover {
+.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled], :active).dnb-button--secondary, .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled], :active).dnb-button--secondary:hover {
   background-color: var(--color-emerald-green);
   color: var(--color-mint-green);
 }

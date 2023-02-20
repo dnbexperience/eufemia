@@ -21,6 +21,7 @@
       > .dnb-icon {
         opacity: 0;
         transition: opacity 200ms ease-out, transform 500ms ease-out;
+
         html[data-visual-test] & {
           transition: none;
         }
@@ -87,6 +88,7 @@
         &::before {
           right: -0.5rem;
         }
+
         html[data-visual-test] & .dnb-icon,
         :not(.dnb-table--active) &:active .dnb-icon {
           opacity: 1;
@@ -98,6 +100,7 @@
             opacity: 1;
             color: inherit;
           }
+
           &:not(:active) .dnb-button__text::after {
             visibility: visible;
           }
@@ -107,7 +110,6 @@
       @include active() {
         @include buttonFocusRing('mouse'); // also, make a mouse ring
         @include buttonFocusRing('touch'); // also, make a touch ring
-
         @include tableFocusRing();
 
         // focus ring
@@ -135,6 +137,7 @@
 
           .dnb-button__text {
             padding-right: 0;
+
             &::after {
               right: 0;
             }
@@ -152,6 +155,7 @@
       &:not(:hover) .dnb-button__text::after {
         opacity: 0;
       }
+
       .dnb-icon {
         opacity: 1;
       }
@@ -175,6 +179,7 @@
       &:hover:focus:not(:active) .dnb-button__text::after {
         visibility: visible;
       }
+
       html[data-whatinput='keyboard']
         &:hover:focus
         .dnb-button__text::after {

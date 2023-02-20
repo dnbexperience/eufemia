@@ -22,14 +22,19 @@
         color: var(--color-sea-green);
         background-color: transparent;
       }
+
       35% {
         color: var(--color-white);
         background-color: var(--color-sea-green);
       }
+
+      // stylelint-disable-next-line
       0%,
       80% {
         opacity: 1;
       }
+
+      // stylelint-disable-next-line
       100% {
         opacity: 0;
       }
@@ -45,9 +50,10 @@
       @keyframes parent-attention-focus {
         0%,
         100% {
-          color: currentColor;
+          color: currentcolor;
           background-color: transparent;
         }
+
         35% {
           color: var(--color-white);
           background-color: var(--color-sea-green);
@@ -55,6 +61,7 @@
       }
 
       animation: parent-attention-focus 2.2s ease-in-out 1 10ms;
+
       * {
         animation: parent-attention-focus 3s ease-in-out 1 150ms;
       }
