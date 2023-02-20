@@ -16,9 +16,11 @@
   position: relative;
   display: inline-flex;
   align-items: center;
+
   &--vertical {
     flex-direction: column;
   }
+
   &--horizontal {
     justify-content: center;
   }
@@ -26,19 +28,23 @@
   // circular variant
   &__label {
     display: inline-flex;
+
     .dnb-p {
       align-self: center;
     }
   }
+
   @at-root .dnb-spacing & {
     .dnb-p,
     .dnb-p:not([class*='dnb-space']) {
       margin: 0;
     }
   }
+
   &--horizontal &__label {
     margin: 0 1rem;
   }
+
   &--vertical &__label {
     margin-top: 0.5rem;
   }
@@ -72,6 +78,7 @@
         --progress-indicator-circular-circle-offset--max
       );
     }
+
     &__line.light {
       animation-name: progress-indicator-circular-line-light;
       stroke-dasharray: var(--progress-indicator-circular-circle),
@@ -80,6 +87,7 @@
         --progress-indicator-circular-circle-offset--max
       );
     }
+
     &__line.dark {
       animation-name: progress-indicator-circular-line-dark;
       stroke-dasharray: var(--progress-indicator-circular-circle),
@@ -88,9 +96,11 @@
         --progress-indicator-circular-circle-offset--min
       );
     }
+
     &__line.paused {
       animation-play-state: paused;
     }
+
     // for static progress-indicator animation
     &--has-progress-value &__line.dark {
       transition: stroke-dashoffset 600ms var(--progress-indicator-timing);
@@ -99,9 +109,11 @@
     &__circle {
       stroke-linecap: round;
     }
+
     &__line.light &__circle {
       stroke: grey;
     }
+
     &__line.dark &__circle {
       stroke: var(--color-black);
     }
@@ -137,6 +149,7 @@
       animation: progress-indicator-linear-bar-1 2.1s
         cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
     }
+
     &__bar2-animation {
       width: auto;
       animation: progress-indicator-linear-bar-2 2.1s
@@ -149,6 +162,7 @@
       animation-duration: 0ms;
       animation-iteration-count: 0;
     }
+
     html[data-visual-test] &__bar2-animation {
       left: -200%;
       right: 100%;
@@ -165,10 +179,12 @@
   &--complete:not(#{&}--visible) {
     animation: progress-indicator-fade-out 600ms ease-out 1 forwards;
   }
+
   html[data-visual-test] & {
     opacity: 1;
     animation-duration: 0ms;
   }
+
   &--no-animation {
     animation-duration: 0ms;
   }
@@ -186,14 +202,17 @@
     0% {
       opacity: 0;
     }
+
     100% {
       opacity: 1;
     }
   }
+
   @keyframes progress-indicator-fade-out {
     0% {
       opacity: 1;
     }
+
     100% {
       opacity: 0;
     }
@@ -206,11 +225,13 @@
       --progress-indicator-circular-circle-offset--min
     );
   }
+
   50% {
     stroke-dashoffset: var(
       --progress-indicator-circular-circle-offset--min
     );
   }
+
   100% {
     stroke-dashoffset: var(
       --progress-indicator-circular-circle-offset--max
@@ -224,11 +245,13 @@
       --progress-indicator-circular-circle-offset--min
     );
   }
+
   50% {
     stroke-dashoffset: var(
       --progress-indicator-circular-circle-offset--max
     );
   }
+
   100% {
     stroke-dashoffset: var(
       --progress-indicator-circular-circle-offset--max
@@ -241,10 +264,12 @@
     left: -35%;
     right: 100%;
   }
+
   60% {
     left: 100%;
     right: -90%;
   }
+
   100% {
     left: 100%;
     right: -90%;
@@ -256,10 +281,12 @@
     left: -200%;
     right: 100%;
   }
+
   60% {
     left: 107%;
     right: -8%;
   }
+
   100% {
     left: 107%;
     right: -8%;

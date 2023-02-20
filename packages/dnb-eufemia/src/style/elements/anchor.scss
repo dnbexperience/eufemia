@@ -8,24 +8,26 @@
 button.dnb-anchor {
   cursor: pointer;
 
-  // to get the buton to 32px
-  line-height: calc(var(--line-height-basis) + 0.125rem); //26px
+  // to get the button to 32px
+  line-height: calc(var(--line-height-basis) + 0.125rem); // 26px
 
   border: none;
-  background: none;
-  appearance: none; // because we have "appearance: button" in reset.scss
-  -moz-appearance: none; // and use prefix to make sure webkit does  a good job
-  -webkit-appearance: none; // and use prefix to make sure webkit does  a good job
+  background: none; // because we have "appearance: button" in reset.scss // and use prefix to make sure webkit does  a good job
+  appearance: none; // and use prefix to make sure webkit does  a good job
 }
+
 .dnb-anchor {
   @include anchorStyle();
 }
+
 .dnb-anchor--hover {
   @include anchorHoverStyle();
 }
+
 .dnb-anchor--active {
   @include anchorActiveStyle();
 }
+
 .dnb-anchor--focus {
   @include anchorFocusStyle('mouse');
 }
@@ -42,18 +44,23 @@ button.dnb-anchor {
   @include resetanchorHoverStyle();
   @include resetAnimationStyle();
 }
+
 .dnb-anchor--no-underline {
   @include resetUnderlineStyle();
 }
+
 .dnb-anchor--no-hover {
   @include resetanchorHoverStyle();
 }
+
 .dnb-anchor--no-radius {
   @include resetBorderRadius();
 }
+
 .dnb-anchor--no-animation {
   @include resetAnimationStyle();
 }
+
 .dnb-anchor--contrast {
   @include useAnchorContrastStyle();
 }
@@ -74,6 +81,7 @@ a.dnb-button {
 .dnb-skeleton > .dnb-anchor,
 .dnb-anchor.dnb-skeleton {
   text-decoration: none;
+
   &::after {
     filter: grayscale(100%) opacity(0.3);
   }

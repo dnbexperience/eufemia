@@ -15,7 +15,7 @@ exports[`VisuallyHidden VisuallyHidden scss have to match snapshot 1`] = `
 /*
  * Utilities
  */
-.dnb-visually-hidden--focusable:not(:focus):not(:focus-within) {
+.dnb-visually-hidden--focusable:not(:focus, :focus-within) {
   user-select: none;
   -webkit-touch-callout: none;
   pointer-events: none;

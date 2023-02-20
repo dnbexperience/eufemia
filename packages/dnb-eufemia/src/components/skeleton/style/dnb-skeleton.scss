@@ -76,6 +76,7 @@
     font-family: var(--font-family-default) !important;
     font-style: unset !important;
   }
+
   &--font,
   &--font &--show-font,
   &--font .dnb-p {
@@ -84,9 +85,7 @@
     background-size: 30rem 100% !important;
 
     -webkit-text-fill-color: transparent !important;
-
     background-clip: text !important;
-    -webkit-background-clip: text !important;
 
     html[data-visual-test] & {
       animation: none !important;
@@ -107,6 +106,7 @@
       display: flex;
       align-items: center;
     }
+
     &--product &--circle + div {
       width: 50%;
       margin-left: 1rem;

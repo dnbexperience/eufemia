@@ -27,10 +27,12 @@
     transition: height 800ms var(--global-status-easing),
       opacity 600ms var(--global-status-easing);
   }
+
   &--hidden &__shell {
     height: 0;
     opacity: 0;
   }
+
   &--no-animation &__shell,
   html[data-visual-test] &__shell {
     transition-duration: 1ms !important;
@@ -54,10 +56,7 @@
       display: flex;
       align-items: center;
 
-      padding-top: 1rem;
-      padding-bottom: 1rem;
-      padding-right: 5rem;
-      padding-left: 2.5rem;
+      padding: 1rem 5rem 1rem 2.5rem;
       margin-bottom: 0.5rem;
     }
 
@@ -86,6 +85,7 @@
       }
     }
   }
+
   &__icon {
     position: absolute;
     top: 0;
@@ -93,6 +93,7 @@
 
     margin-top: 1.5rem;
   }
+
   &__close-button,
   &__close-button.dnb-button--tertiary {
     position: absolute;
@@ -100,6 +101,7 @@
     right: 1rem; // also because of the focus-ring
     left: auto;
   }
+
   .dnb-modal__content__inner &__close-button {
     right: 0;
   }

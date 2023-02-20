@@ -29,6 +29,8 @@
   position: relative;
 
   user-select: none;
+
+  /* stylelint-disable-next-line */
   -webkit-user-select: none; // Safari / Touch fix
 
   cursor: pointer;
@@ -41,8 +43,8 @@
 
   // we use flex, even if they don't has effect in safari and webkit
   display: inline-flex;
-  align-items: center; //centering icons
-  justify-content: center; //centering icons
+  align-items: center; // centering icons
+  justify-content: center; // centering icons
 
   width: var(--button-width);
   height: auto;
@@ -267,7 +269,11 @@
   &[type='reset'],
   &[type='submit'] {
     appearance: none;
+
+    /* stylelint-disable-next-line */
     -moz-appearance: none;
+
+    /* stylelint-disable-next-line */
     -webkit-appearance: none;
   }
 

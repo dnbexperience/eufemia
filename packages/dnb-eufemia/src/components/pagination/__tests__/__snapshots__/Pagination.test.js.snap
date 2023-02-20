@@ -1576,16 +1576,16 @@ exports[`Pagination scss have to match default theme snapshot 1`] = `
 .dnb-pagination__indicator__inner {
   animation: show-page 300ms ease-out forwards;
 }
-.dnb-core-style .dnb-pagination__button.dnb-button--primary, .dnb-core-style .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):hover, .dnb-pagination__button.dnb-button--primary, .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):hover {
+.dnb-core-style .dnb-pagination__button.dnb-button--primary, .dnb-core-style .dnb-pagination__button.dnb-button--primary:not([disabled], :active):hover, .dnb-pagination__button.dnb-button--primary, .dnb-pagination__button.dnb-button--primary:not([disabled], :active):hover {
   background-color: var(--color-emerald-green);
   color: var(--color-mint-green);
 }
-.dnb-core-style .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus, .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus {
+.dnb-core-style .dnb-pagination__button.dnb-button--primary:not([disabled], :active, :hover):focus, .dnb-pagination__button.dnb-button--primary:not([disabled], :active, :hover):focus {
   color: var(--color-emerald-green);
   background-color: var(--color-mint-green);
   outline: none;
 }
-html[data-whatinput=keyboard] .dnb-core-style .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus {
+html[data-whatinput=keyboard] .dnb-core-style .dnb-pagination__button.dnb-button--primary:not([disabled], :active, :hover):focus, html[data-whatinput=keyboard] .dnb-pagination__button.dnb-button--primary:not([disabled], :active, :hover):focus {
   --border-color: var(--color-emerald-green);
   box-shadow: 0 0 0 0.125rem var(--border-color);
   border-color: transparent;
@@ -1649,7 +1649,7 @@ exports[`Pagination scss have to match snapshot 1`] = `
 .dnb-icon svg {
   width: inherit;
   height: inherit;
-  shape-rendering: geometricPrecision;
+  shape-rendering: geometricprecision;
   vertical-align: top;
 }
 .dnb-icon svg[width="100%"] {
@@ -1659,10 +1659,10 @@ exports[`Pagination scss have to match snapshot 1`] = `
   height: inherit;
 }
 .dnb-icon--inherit-color svg:not([fill]), .dnb-icon--inherit-color svg [fill] {
-  fill: currentColor;
+  fill: currentcolor;
 }
 .dnb-icon--inherit-color svg [stroke] {
-  stroke: currentColor;
+  stroke: currentcolor;
 }
 .dnb-icon--small {
   font-size: 0.75rem;
@@ -1950,6 +1950,7 @@ button .dnb-form-status__text {
 .dnb-button {
   position: relative;
   user-select: none;
+  /* stylelint-disable-next-line */
   -webkit-user-select: none;
   cursor: pointer;
   white-space: nowrap;
@@ -2135,7 +2136,9 @@ html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-w
 }
 .dnb-button[type=button], .dnb-button[type=reset], .dnb-button[type=submit] {
   appearance: none;
+  /* stylelint-disable-next-line */
   -moz-appearance: none;
+  /* stylelint-disable-next-line */
   -webkit-appearance: none;
 }
 .dnb-button[disabled] {
@@ -2411,8 +2414,7 @@ html[data-visual-test] .dnb-progress-indicator__bar-transition {
 }
 .dnb-pagination__bar__wrapper {
   display: flex;
-  flex-wrap: wrap;
-  flex-direction: column-reverse;
+  flex-flow: column-reverse wrap;
 }
 .dnb-pagination--center .dnb-pagination__bar__wrapper {
   align-items: center;

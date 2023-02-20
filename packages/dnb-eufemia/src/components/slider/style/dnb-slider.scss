@@ -13,8 +13,7 @@
 }
 
 .dnb-slider {
-  user-select: none;
-  -webkit-user-select: none; // Safari / Touch fix
+  user-select: none; // Safari / Touch fix
   -webkit-touch-callout: none; // Safari / Touch fix
 
   // use flex to make sure we have the whole space available
@@ -43,6 +42,7 @@
     flex: 1;
     width: 100%;
   }
+
   &--vertical &__wrapper {
     align-items: center;
 
@@ -60,6 +60,7 @@
   &__suffix {
     align-self: center;
   }
+
   &--vertical &__suffix {
     padding-left: 0;
     padding-top: 0.5rem;
@@ -80,6 +81,7 @@
 
     cursor: pointer;
   }
+
   &--vertical &__track {
     margin: calc(var(--slider-space) * 1.5) 0;
 
@@ -87,6 +89,7 @@
     min-height: 2rem;
     min-width: auto;
   }
+
   &--no-buttons &__track {
     margin: 0 calc(var(--slider-space));
   }
@@ -119,6 +122,7 @@
     background-color: grey;
     border-radius: var(--slider-track-height);
   }
+
   &--vertical &__line {
     width: var(--slider-track-height);
     height: auto;
@@ -134,15 +138,18 @@
   &__line__before {
     z-index: 2;
   }
+
   &__line__after {
     z-index: 1;
     right: 0;
     background-color: #ddd;
   }
+
   &--vertical &__line__before {
     top: 0;
     bottom: 0;
   }
+
   &--vertical &__line__after {
     bottom: 0;
   }
@@ -167,6 +174,7 @@
       width: var(--slider-thumb-size);
     }
   }
+
   &--vertical &__thumb {
     transform: translate3d(0, -50%, 0);
   }
@@ -180,6 +188,7 @@
 
     z-index: 2;
   }
+
   &--vertical &__button.dnb-button--size-small {
     transform: translateX(0.25rem);
   }
@@ -211,6 +220,7 @@
 
     transform: translate3d(0.0625rem, 0, 0);
   }
+
   &__button-helper:not(:disabled):focus ~ .dnb-button {
     @include fakeFocus();
   }
@@ -220,15 +230,18 @@
     margin-right: 1rem;
     line-height: var(--slider-thumb-size);
   }
+
   > .dnb-form-label--vertical {
     margin-right: 0;
     line-height: var(--line-height-basis);
   }
+
   &__label--vertical {
     flex-direction: column;
   }
   &__label--vertical#{&}--vertical {
     align-items: center;
+
     .dnb-form-label {
       text-align: center;
       width: 100%;
@@ -242,6 +255,7 @@
     order: 2;
     margin-top: 0.5rem;
   }
+
   &--vertical .dnb-form-status {
     margin-top: 1rem;
   }
