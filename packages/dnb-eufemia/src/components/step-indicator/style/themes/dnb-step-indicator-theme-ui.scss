@@ -9,11 +9,14 @@
   &__item {
     &--current .dnb-button {
       font-weight: var(--font-weight-medium);
+
       @include fakeBorder(var(--color-sea-green), 0.125rem, inset);
     }
+
     &--visited .dnb-button {
       background-color: var(--color-pistachio);
     }
+
     &--inactive .dnb-button {
       cursor: text;
       pointer-events: initial;
@@ -25,9 +28,11 @@
       &.dnb-button--secondary:active {
         color: var(--color-black-80);
         background-color: var(--color-white);
+
         @include fakeBorder(var(--color-black-20), 0.0625rem, inset);
       }
     }
+
     &--inactive.dnb-step-indicator__item--current {
       .dnb-button {
         &.dnb-button--secondary,
@@ -42,7 +47,7 @@
 
   html[data-whatinput='keyboard']
     &__item--current
-    .dnb-button:not([disabled]):not(:active):not(:hover):focus {
+    .dnb-button:not([disabled], :active, :hover):focus {
     color: var(--color-emerald-green);
     background-color: var(--color-mint-green);
   }
@@ -57,12 +62,15 @@
     &.dnb-button--secondary {
       background-color: var(--color-sand-yellow);
     }
+
     &--error.dnb-button--secondary {
       background-color: var(--color-fire-red-8);
     }
+
     &--info.dnb-button--secondary {
       background-color: var(--color-pistachio);
     }
+
     .dnb-button__icon {
       align-self: flex-start;
       margin-top: 1rem;

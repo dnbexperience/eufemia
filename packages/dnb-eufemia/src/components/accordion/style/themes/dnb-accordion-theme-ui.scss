@@ -10,6 +10,7 @@
   &__header {
     border: none;
   }
+
   &__header__icon,
   &__header__container {
     color: var(--color-sea-green);
@@ -32,9 +33,9 @@
     background-color: var(--color-white);
 
     @include fakeBorder(var(--color-black-8), 0.0625rem, inset);
-
     @include buttonFocus(var(--color-emerald-green), var(--color-white));
     @include buttonHover(var(--color-emerald-green), var(--color-white));
+
     @include active() {
       color: var(--color-emerald-green);
       background-color: var(--color-pistachio);
@@ -42,9 +43,12 @@
       @include fakeBorder(var(--color-emerald-green), 0.0625rem);
     }
   }
+
   &__variant--outlined > &__header[disabled] {
     background-color: var(--color-white);
+
     @include fakeBorder(var(--color-sea-green-30), 0.0625rem);
+
     * {
       color: var(--color-sea-green-30);
     }
@@ -57,6 +61,7 @@
   }
   &__variant--outlined#{&}--expanded > &__header[disabled] {
     background-color: var(--color-sea-green-30);
+
     * {
       color: var(--color-white);
     }
@@ -67,6 +72,7 @@
     &__variant--outlined#{&}--expanded
     > &__header:not([disabled]):not(:active):not(:hover):focus {
     background-color: var(--color-mint-green);
+
     * {
       color: var(--color-emerald-green);
     }
@@ -82,9 +88,10 @@
       color: var(--color-white);
     }
   }
+
   // we have this hover variant, because of the default html focus/hover handling
   &__variant--outlined#{&}--expanded > &__header#{&}--hover:not(:active) {
-    @include hover {
+    @include hover () {
       color: var(--color-white);
       background-color: var(--color-sea-green);
 
@@ -92,6 +99,7 @@
       // @include fakeBorder(transparent);
       @include fakeBorder(var(--color-sea-green));
     }
+
     * {
       color: var(--color-white);
     }

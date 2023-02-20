@@ -34,8 +34,10 @@
     background-color: var(--color-white);
     text-align: left;
   }
+
   &--border > caption:not(.dnb-sr-only) {
     position: relative;
+
     &::after {
       @include tableBorder();
       top: -0.0625rem; // so we are behind the border-bottom (end of table)

@@ -32,6 +32,7 @@
     background-color: var(--color-black-8);
   }
 }
+
 @mixin imageTag() {
   img {
     @include imageStyle();
@@ -41,6 +42,7 @@
 .dnb-img {
   display: inline-flex;
   flex-direction: column;
+
   &:not([class*='dnb-space']) {
     margin: 0;
   }

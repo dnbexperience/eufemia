@@ -21,34 +21,42 @@
     width: 100vw;
     height: 100%;
     color: var(--color-mint-green-12);
-    background-color: currentColor;
+    background-color: currentcolor;
 
     // we use box-shadow to avoid a horizontal scrollbar
     // We lower the left position, so we get an overlap
-    box-shadow: 99vw 0 0 0 currentColor, 198vw 0 0 0 currentColor,
-      297vw 0 0 0 currentColor, 396vw 0 0 0 currentColor;
+    box-shadow: 99vw 0 0 0 currentcolor, 198vw 0 0 0 currentcolor,
+      297vw 0 0 0 currentcolor, 396vw 0 0 0 currentcolor;
   }
+
   & &::after {
     z-index: -14;
   }
+
   & & &::after {
     z-index: -13;
   }
+
   & & & &::after {
     z-index: -12;
   }
+
   & & & & &::after {
     z-index: -11;
   }
+
   & & & & & &::after {
     z-index: -10;
   }
+
   & & & & & & &::after {
     z-index: -9;
   }
+
   & & & & & & & &::after {
     z-index: -8;
   }
+
   & & & & & & & & &::after {
     z-index: -7;
   }

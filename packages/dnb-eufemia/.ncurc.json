@@ -1,13 +1,3 @@
 {
-  "reject": [
-    "globby",
-    "ora",
-    "react",
-    "react-dom",
-    "stylelint",
-    "stylelint-config-prettier",
-    "stylelint-config-recommended",
-    "stylelint-config-standard",
-    "stylelint-scss"
-  ]
+  "reject": ["globby", "ora", "react", "react-dom"]
 }

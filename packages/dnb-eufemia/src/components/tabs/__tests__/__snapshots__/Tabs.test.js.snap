@@ -1304,7 +1304,7 @@ html[data-whatinput=keyboard] .dnb-tabs__content:focus::before {
   text-align: center;
   display: block;
   color: var(--color-sea-green);
-  padding: 0.5rem 0 0.25rem 0;
+  padding: 0.5rem 0 0.25rem;
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button:hover[disabled] {
   cursor: not-allowed;
@@ -1485,6 +1485,7 @@ html:not([data-visual-test]) .dnb-tabs__tabs__tablist {
   position: relative;
   z-index: 1;
   user-select: none;
+  /* stylelint-disable-next-line */
   -webkit-user-select: none;
   margin: 0;
   padding: 0 0.125rem; /* 1/16*4 */
