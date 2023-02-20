@@ -67,6 +67,7 @@
   &__textarea {
     position: relative;
     z-index: 2;
+
     @include textareaStyleCommon();
   }
 
@@ -101,7 +102,7 @@
 
   // hide placeholder on focus
   &--has-content &__textarea ~ &__placeholder,
-  &--focus &__textarea:not([disabled]):not([readonly]) ~ &__placeholder {
+  &--focus &__textarea:not([disabled], [readonly]) ~ &__placeholder {
     opacity: 0.5;
   }
 
@@ -122,11 +123,13 @@
 
   &:not(&--vertical)[class*='__status'] {
     align-items: flex-start;
+
     > .dnb-form-label {
       // vertical align the current font
       margin-top: 0.25rem;
     }
   }
+
   @include formLabelWrap();
 
   // make full width
@@ -134,22 +137,26 @@
     display: flex;
     flex-grow: 1;
   }
+
   &--stretch & {
     &__inner {
       flex-grow: 1;
     }
+
     &__shell,
     &__inner,
     &__textarea {
       width: 100%;
     }
   }
+
   &--stretch .dnb-form-label + &__inner {
     width: auto;
   }
   &--vertical#{&}--stretch &__inner {
     width: 100%;
   }
+
   .dnb-form-row--horizontal &--stretch {
     width: 100%;
   }
@@ -176,9 +183,11 @@
     margin: 0;
     border-radius: 0.25rem;
   }
+
   &.dnb-skeleton &__inner &__shell {
     margin: var(--textarea-padding-width);
   }
+
   &.dnb-skeleton &__state,
   &.dnb-skeleton &__textarea {
     visibility: hidden;

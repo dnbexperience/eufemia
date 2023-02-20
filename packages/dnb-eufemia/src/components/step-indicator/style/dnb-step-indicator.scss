@@ -51,9 +51,11 @@
     .dnb-button__text {
       text-align: left;
     }
+
     &.dnb-button--has-icon .dnb-button__text {
       margin-right: 1rem;
     }
+
     .dnb-button__alignment {
       order: 2;
     }
@@ -83,6 +85,7 @@
         transition-duration: 1ms !important;
       }
     }
+
     &:not(.dnb-step-indicator__item--visited)
       .dnb-button:not(.dnb-step-indicator__button__status)
       .dnb-button__icon {
@@ -100,6 +103,7 @@
       padding-right: 0.5rem;
       white-space: nowrap;
     }
+
     &__wrapper {
       display: flex;
       flex-direction: column;

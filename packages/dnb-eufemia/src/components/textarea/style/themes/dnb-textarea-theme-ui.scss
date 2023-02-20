@@ -48,8 +48,7 @@
   // disabled
   &--disabled &__textarea,
   &__textarea[disabled] {
-    user-select: none;
-    -webkit-user-select: none; // Safari / Touch fix
+    user-select: none; // Safari / Touch fix
     &::-webkit-scrollbar {
       width: 0;
     }
@@ -57,6 +56,7 @@
     color: var(--color-black-55);
     background-color: var(--color-black-3);
   }
+
   &--disabled &__state,
   &__textarea[disabled] ~ &__state {
     box-shadow: 0 0 0 0.0625rem var(--color-black-55);
@@ -83,7 +83,7 @@
 
   // hide placeholder on focus
   &--has-content &__textarea ~ &__placeholder,
-  &--focus &__textarea:not([disabled]):not([readonly]) ~ &__placeholder {
+  &--focus &__textarea:not([disabled], [readonly]) ~ &__placeholder {
     display: none;
   }
 }

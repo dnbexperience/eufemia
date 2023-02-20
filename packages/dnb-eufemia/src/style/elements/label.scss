@@ -12,6 +12,7 @@
     cursor: not-allowed;
   }
 }
+
 @mixin labelTag() {
   label {
     @include labelStyle();

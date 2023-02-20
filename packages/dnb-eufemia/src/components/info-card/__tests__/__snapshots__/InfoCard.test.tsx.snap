@@ -56,8 +56,7 @@ exports[`InfoCard InfoCard scss have to match snapshot 1`] = `
 }
 .dnb-info-card__buttons {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
 }
 .dnb-info-card--centered .dnb-info-card__buttons {
   flex-direction: column;

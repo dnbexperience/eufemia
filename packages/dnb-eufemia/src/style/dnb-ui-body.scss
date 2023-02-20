@@ -6,7 +6,6 @@
 @import './core/utilities.scss';
 @import './core/properties.scss';
 @import './core/scopes.scss';
-
 @include globalReset();
 
 // make sure we have dynamic root font size

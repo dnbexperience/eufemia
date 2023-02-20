@@ -34,7 +34,8 @@
     .dnb-icon {
       color: var(--color-black-55);
     }
-    -webkit-text-fill-color: currentColor;
+    -webkit-text-fill-color: currentcolor;
+
     @include fakeBorder(
       var(--color-black-55),
       var(--input-border-width),
@@ -65,20 +66,23 @@
   &__status--error#{&}:not([data-input-state='disabled']):hover &__shell {
     @include fakeBorder(var(--color-fire-red), 0.125rem);
   }
+
   &__status--error &__submit-button {
     html:not([data-whatintent='touch'])
-      &__button.dnb-button--secondary:not(&__button--has-text):not([disabled]):hover,
+      &__button.dnb-button--secondary:not(&__button--has-text, [disabled]):hover,
     html:not([data-whatintent='touch'])
-      &__button.dnb-button--secondary:not(&__button--has-text):not([disabled]):focus {
+      &__button.dnb-button--secondary:not(&__button--has-text, [disabled]):focus {
       &,
       &::after {
         background-color: var(--color-fire-red);
       }
+
       &:active {
         color: var(--color-white);
       }
     }
   }
+
   &__status--error &__icon {
     color: var(--color-fire-red);
   }
@@ -92,9 +96,11 @@
   &__placeholder {
     color: var(--color-black-55);
   }
+
   &[data-input-state='focus'] &__placeholder {
     display: none;
   }
+
   &--keep-placeholder &[data-input-state='focus'] &__placeholder {
     display: block;
     color: var(--color-black-20);

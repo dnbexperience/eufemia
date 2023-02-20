@@ -30,6 +30,7 @@
     position: relative;
     z-index: 2;
   }
+
   &--selected &__visible {
     color: var(--color-black);
     background-color: var(--color-mint-green);
@@ -46,6 +47,7 @@
 
     user-select: none; // important, so this number not gets copied if only marked/selected
   }
+
   &--selected &__selection {
     z-index: 3;
     user-select: all;

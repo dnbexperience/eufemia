@@ -55,7 +55,7 @@
   }
 }
 
-$focusRingWidth: 0.125rem; //2px
+$focusRingWidth: 0.125rem; // 2px
 $focusRingColor: var(--color-emerald-green);
 @mixin fakeFocus($whatinput: null, $color: null, $inset: null) {
   outline: none;
@@ -314,7 +314,7 @@ $breakpoints: (
 }
 
 @function str-replace($string, $search, $replace: '') {
-  $index: str-index($string, $search);
+  $index: string.index($string, $search);
 
   @if $index {
     @return str-slice($string, 1, $index - 1) + $replace +
