@@ -1473,6 +1473,7 @@ exports[`GlobalStatus snapshot have to match linked components snapshot 1`] = `
       </span>
     }
     label_position={null}
+    label_sr_only={null}
     on_change={null}
     on_change_end={null}
     on_state_update={null}
