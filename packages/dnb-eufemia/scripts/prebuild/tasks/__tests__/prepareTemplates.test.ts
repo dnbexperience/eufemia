@@ -16,7 +16,7 @@ import {
 jest.mock('fs-extra', () => {
   return {
     ...jest.requireActual('fs-extra'),
-    writeFile: jest.fn().mockResolvedValue(),
+    writeFile: jest.fn().mockResolvedValue(false),
     readdir: jest.fn((source) => {
       if (source.endsWith('/components')) {
         return ['component-a', 'component-b']

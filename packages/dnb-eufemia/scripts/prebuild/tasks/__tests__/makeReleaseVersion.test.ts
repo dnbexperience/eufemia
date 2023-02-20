@@ -11,14 +11,14 @@ import * as getNextReleaseVersion from '../../../postbuild/getNextReleaseVersion
 jest.mock('../../../postbuild/getNextReleaseVersion', () => {
   return {
     ...jest.requireActual('../../../postbuild/getNextReleaseVersion'),
-    getNextReleaseVersion: jest.fn().mockResolvedValue(),
+    getNextReleaseVersion: jest.fn().mockResolvedValue(false),
   }
 })
 
 jest.mock('fs-extra', () => {
   return {
     ...jest.requireActual('fs-extra'),
-    writeFile: jest.fn().mockResolvedValue(),
+    writeFile: jest.fn().mockResolvedValue(false),
   }
 })
 
