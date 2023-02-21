@@ -3,6 +3,6 @@
  *
  */
 
-import Drawer from './Drawer'
-export default Drawer
-export * from './Drawer'
+import Dialog from './Dialog'
+export default Dialog
+export * from './Dialog'
