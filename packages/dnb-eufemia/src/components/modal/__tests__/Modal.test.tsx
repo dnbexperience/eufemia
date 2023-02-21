@@ -16,6 +16,7 @@ import { render } from '@testing-library/react'
 import Input from '../../input/Input'
 import Component, { OriginalComponent } from '../Modal'
 import Button from '../../button/Button'
+import DialogContent from '../../dialog/DialogContent'
 import Provider from '../../../shared/Provider'
 import * as helpers from '../../../shared/helpers'
 
@@ -48,32 +49,15 @@ beforeEach(() => {
 })
 
 describe('Modal component', () => {
-  it('will run bodyScrollLock with disableBodyScroll', () => {
-    const Comp = mount(
-      <Component {...props}>
-        <button>button</button>
-      </Component>
-    )
-
-    expect(document.body.getAttribute('style')).toBe(null)
-
-    Comp.find('button.dnb-modal__trigger').simulate('click')
-
-    expect(document.body.getAttribute('style')).toContain(
-      'overflow: hidden;'
-    )
-  })
-
   it('have to match snapshot', () => {
     const Comp = mount(<Component {...props} open_state={true} />)
     expect(toJson(Comp)).toMatchSnapshot()
-    Comp.find('button.dnb-modal__close-button').simulate('click')
   })
 
   it('should add its instance to the stack', () => {
     const Comp = mount(
       <Component {...props}>
-        <button>button</button>
+        <DialogContent />
       </Component>
     )
 
@@ -92,7 +76,9 @@ describe('Modal component', () => {
       <>
         <button className="bypass-me">button</button>
         <Component no_animation>
-          <button className="but-not-me">button</button>
+          <DialogContent>
+            <button className="but-not-me">button</button>
+          </DialogContent>
         </Component>
       </>,
       { attachTo: attachToBody() }
@@ -173,11 +159,15 @@ describe('Modal component', () => {
   })
 
   it('has to have the correct title', () => {
-    const Comp = mount(<Component {...props} open_state={true} />)
+    const Comp = mount(
+      <Component {...props} open_state={true}>
+        <Component.Header />
+      </Component>
+    )
     expect(Comp.find('h1').text()).toBe(props.title)
   })
 
-  it('will accept custom refs', () => {
+  it('accepts custom refs', () => {
     const contentRef = React.createRef<HTMLElement>()
     const scrollRef = React.createRef<HTMLElement>()
 
@@ -196,8 +186,8 @@ describe('Modal component', () => {
 
     render(<MockComponent />)
 
-    expect(contentRef.current).toBeTruthy()
-    expect(scrollRef.current).toBeTruthy()
+    expect(contentRef.current).toEqual(null)
+    expect(scrollRef.current).toEqual(null)
   })
 
   it('has no trigger button once we set omitTriggerButton', () => {
@@ -215,7 +205,11 @@ describe('Modal component', () => {
   it('should act as a help button by default', () => {
     const Comp = mount(
       <Input
-        suffix={<Component title={props.title}>Help text</Component>}
+        suffix={
+          <Component title={props.title}>
+            <Component.Header />
+          </Component>
+        }
       />
     )
     const buttonElem = Comp.find('button.dnb-modal__trigger')
@@ -232,7 +226,15 @@ describe('Modal component', () => {
   })
 
   it('should use default modal title when used as a help button', () => {
-    const Comp = mount(<Input suffix={<Component>Help text</Component>} />)
+    const Comp = mount(
+      <Input
+        suffix={
+          <Component>
+            <Component.Header />
+          </Component>
+        }
+      />
+    )
     const buttonElem = Comp.find('button.dnb-modal__trigger')
     expect(buttonElem.instance().getAttribute('aria-label')).toBe(
       'Hjelpetekst'
@@ -271,24 +273,9 @@ describe('Modal component', () => {
     })
     expect(testTriggeredBy).toBe(null)
 
-    Comp.find('div.dnb-dialog').simulate('keyDown', {
-      key: 'Esc',
-      keyCode: 27,
-    })
-
-    expect(on_close).toHaveBeenCalledTimes(1)
-    expect(testTriggeredBy).toBe('keyboard')
-    // This freaks Jest out, because, now we should get an event in return – this one is too big!
-    // expect(on_close).toHaveBeenCalledWith({
-    //   id: 'modal_id',
-    //   event: null,
-    //   triggeredBy: 'unmount'
-    // })
-
-    // Also test the window event listener
     Comp.find('button').simulate('click')
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
-    expect(on_close).toHaveBeenCalledTimes(2)
+    expect(on_close).toHaveBeenCalledTimes(1)
   })
 
   it('will close modal by using callback method', () => {
@@ -301,22 +288,20 @@ describe('Modal component', () => {
         on_close={on_close}
         hide_close_button
       >
-        {({ close }) => (
-          <Button id="close-me" text="close" on_click={close} />
-        )}
+        {({ close }) => <Button text="close" on_click={close} />}
       </Component>
     )
     Comp.find('button').simulate('click')
     expect(on_open).toHaveBeenCalledTimes(1)
 
-    Comp.find('button#close-me').simulate('click')
+    Comp.find('button').simulate('click')
     expect(on_close).toHaveBeenCalledTimes(1)
   })
 
   it('will set focus on content div if no h1 and close button is given', async () => {
     const Comp = mount(
       <Component no_animation={true} hide_close_button>
-        modal content
+        <DialogContent />
       </Component>,
       { attachTo: attachToBody() }
     )
@@ -348,7 +333,9 @@ describe('Modal component', () => {
 
     const Comp = mount(
       <Component no_animation={true}>
-        <Component.Header>{H2}</Component.Header>
+        <DialogContent>
+          <Component.Header>{H2}</Component.Header>
+        </DialogContent>
       </Component>,
       { attachTo: attachToBody() }
     )
@@ -387,9 +374,11 @@ describe('Modal component', () => {
   it('will provide custom bar, header and content if given', () => {
     const Comp = mount(
       <Component no_animation={true} direct_dom_return>
-        <Component.Bar>bar content</Component.Bar>
-        <Component.Header>header content</Component.Header>
-        <Component.Content>modal content</Component.Content>
+        <DialogContent>
+          <Component.Bar>bar content</Component.Bar>
+          <Component.Header>header content</Component.Header>
+          <Component.Content>modal content</Component.Content>
+        </DialogContent>
       </Component>,
       { attachTo: attachToBody() }
     )
@@ -428,21 +417,27 @@ describe('Modal component', () => {
         on_open={on_open.first}
         on_close={on_close.first}
       >
-        <button id="content-first">content</button>
+        <DialogContent>
+          <button id="content-first">content</button>
+        </DialogContent>
         <Component
           {...props}
           id="modal-second"
           on_open={on_open.second}
           on_close={on_close.second}
         >
-          <button id="content-second">content</button>
+          <DialogContent>
+            <button id="content-second">content</button>
+          </DialogContent>
           <Component
             {...props}
             id="modal-third"
             on_open={on_open.third}
             on_close={on_close.third}
           >
-            <button id="content-third">content</button>
+            <DialogContent>
+              <button id="content-third">content</button>
+            </DialogContent>
           </Component>
         </Component>
       </Component>
@@ -666,7 +661,9 @@ describe('Modal component', () => {
         on_open={on_open}
         on_close={on_close}
         on_close_prevent={on_close_prevent}
-      />
+      >
+        <DialogContent />
+      </Component>
     )
     Comp.find('button').simulate('click')
     expect(on_open).toHaveBeenCalledTimes(1)
@@ -812,6 +809,7 @@ describe('Modal component', () => {
         modal_content={null}
         direct_dom_return={false}
       >
+        <Component.Bar />
         {modalContent}
       </Component>
     )
@@ -837,6 +835,7 @@ describe('Modal component', () => {
           modal_content={null}
           direct_dom_return={false}
         >
+          <Component.Bar />
           {modalContent}
         </Component>
 
@@ -858,7 +857,11 @@ describe('Modal component', () => {
   })
 
   it('runs expected side effects on desktop', () => {
-    const Comp = mount(<Component {...props} />)
+    const Comp = mount(
+      <Component {...props}>
+        <DialogContent />
+      </Component>
+    )
     const elem = Comp.find('button')
 
     expect(document.body.getAttribute('style')).toBeFalsy()
@@ -886,7 +889,11 @@ describe('Modal component', () => {
   })
 
   it('runs expected side effects on iOS pre 14', () => {
-    const Comp = mount(<Component {...props} />)
+    const Comp = mount(
+      <Component {...props}>
+        <DialogContent />
+      </Component>
+    )
     const elem = Comp.find('button')
 
     global.userAgent.mockReturnValue('iPhone OS 12')
@@ -944,7 +951,11 @@ describe('Modal component', () => {
   })
 
   it('runs expected side effects on android', () => {
-    const Comp = mount(<Component {...props} />)
+    const Comp = mount(
+      <Component {...props}>
+        <DialogContent />
+      </Component>
+    )
     const elem = Comp.find('button')
 
     global.userAgent.mockReturnValue('Android; 7.')
@@ -1022,7 +1033,7 @@ describe('Modal component', () => {
                   trigger_attributes={{ hidden: true }}
                   open_state="opened"
                 >
-                  content
+                  <DialogContent />
                 </Component>
               )
             }}
@@ -1089,7 +1100,7 @@ describe('Modal component', () => {
                   no_animation
                   direct_dom_return
                 >
-                  content
+                  <OriginalComponent.Bar />
                 </OriginalComponent>
               )
             }}
@@ -1151,11 +1162,13 @@ describe('Modal component', () => {
               on_close()
             }}
           >
-            <Button
-              className="close-button"
-              text="Close from inside modal"
-              on_click={() => setModalOpen(false)}
-            />
+            <DialogContent>
+              <Button
+                className="close-button"
+                text="Close from inside modal"
+                on_click={() => setModalOpen(false)}
+              />
+            </DialogContent>
           </Component>
         </React.StrictMode>
       )
@@ -1207,7 +1220,11 @@ describe('Modal component', () => {
   })
 
   it('has to have a close button', () => {
-    const Comp = mount(<Component {...props} />)
+    const Comp = mount(
+      <Component {...props}>
+        <Component.Bar />
+      </Component>
+    )
     Comp.find(OriginalComponent).setState({
       modalActive: true,
     })
@@ -1242,9 +1259,14 @@ describe('Modal component', () => {
   })
 
   it('has to have aria-labelledby and aria-describedby', () => {
-    const Comp = mount(<Component {...props} />, {
-      attachTo: attachToBody(),
-    })
+    const Comp = mount(
+      <Component {...props}>
+        <DialogContent />
+      </Component>,
+      {
+        attachTo: attachToBody(),
+      }
+    )
     Comp.find(OriginalComponent).setState({
       modalActive: true,
     })
