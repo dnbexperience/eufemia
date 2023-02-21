@@ -14,11 +14,11 @@ export type DrawerListProviderActionMenu = string | boolean;
 export type DrawerListProviderIsPopup = string | boolean;
 export type DrawerListProviderAlignDrawer = 'left' | 'right';
 export type DrawerListProviderOptionsRender =
-  | Record<string, string>
+  | Record<string, unknown>
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type DrawerListProviderWrapperElement =
-  | Record<string, string>
+  | Record<string, unknown>
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type DrawerListProviderDefaultValue = string | number;
@@ -35,7 +35,7 @@ export type DrawerListProviderData =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode
-  | Record<string, string>
+  | Record<string, unknown>
   | (
       | string
       | React.ReactNode
@@ -53,7 +53,7 @@ export type DrawerListProviderContent =
   | string[];
 export type DrawerListProviderRawData =
   | any[]
-  | Record<string, string>
+  | Record<string, unknown>
   | ((...args: any[]) => any);
 export type DrawerListProviderIgnoreEvents = string | boolean;
 export type DrawerListProviderSpace =

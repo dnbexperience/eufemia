@@ -24,7 +24,7 @@ export type InputSelectall = string | boolean;
 export type InputStretch = string | boolean;
 export type InputDisabled = string | boolean;
 export type InputSkeleton = string | boolean;
-export type InputInputAttributes = string | Record<string, string>;
+export type InputInputAttributes = string | Record<string, unknown>;
 export type InputInputElement =
   | ((...args: any[]) => any)
   | React.ReactNode;
@@ -36,7 +36,7 @@ export type InputIconSize = string | number;
 export type InputIconPosition = 'left' | 'right';
 export type InputInnerRef =
   | ((...args: any[]) => any)
-  | Record<string, string>;
+  | Record<string, unknown>;
 export type InputReadOnly = string | boolean;
 export type InputSubmitElement =
   | ((...args: any[]) => any)
@@ -130,7 +130,7 @@ export interface InputProps extends React.HTMLProps<HTMLElement> {
   /**
    * Use an object to define additional FormStatus properties.
    */
-  status_props?: Record<string, string>;
+  status_props?: Record<string, unknown>;
   status_no_animation?: InputStatusNoAnimation;
 
   /**

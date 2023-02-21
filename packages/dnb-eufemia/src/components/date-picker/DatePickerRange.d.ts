@@ -1,5 +1,5 @@
 import * as React from 'react';
-export type DatePickerRangeViews = number | Record<string, string>[];
+export type DatePickerRangeViews = number | Record<string, unknown>[];
 /**
  * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
  */

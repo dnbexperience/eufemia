@@ -28,8 +28,8 @@ export interface DatePickerProviderProps
    */
   range: DatePickerProviderRange;
   setReturnObject: (...args: any[]) => any;
-  enhanceWithMethods?: Record<string, string>;
-  attributes?: Record<string, string>;
+  enhanceWithMethods?: Record<string, unknown>;
+  attributes?: Record<string, unknown>;
   children: React.ReactNode;
 }
 export default class DatePickerProvider extends React.Component<

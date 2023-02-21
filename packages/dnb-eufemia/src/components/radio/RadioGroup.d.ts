@@ -22,7 +22,7 @@ export type RadioGroupSuffix =
   | React.ReactNode;
 export type RadioGroupLayoutDirection = 'column' | 'row';
 export type RadioGroupVertical = string | boolean;
-export type RadioGroupAttributes = string | Record<string, string>;
+export type RadioGroupAttributes = string | Record<string, unknown>;
 export type RadioGroupSpace =
   | string
   | number
@@ -82,7 +82,7 @@ export interface RadioGroupProps extends React.HTMLProps<HTMLElement> {
   /**
    * Use an object to define additional FormStatus properties.
    */
-  status_props?: Record<string, string>;
+  status_props?: Record<string, unknown>;
   status_no_animation?: RadioGroupStatusNoAnimation;
 
   /**

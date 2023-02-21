@@ -21,13 +21,13 @@ export type TextareaDisabled = string | boolean;
 export type TextareaSkeleton = string | boolean;
 export type TextareaAutoresize = string | boolean;
 export type TextareaAutoresizeMaxRows = string | number;
-export type TextareaTextareaAttributes = string | Record<string, string>;
+export type TextareaTextareaAttributes = string | Record<string, unknown>;
 export type TextareaReadOnly = string | boolean;
 export type TextareaRows = number | string;
 export type TextareaCols = number | string;
 export type TextareaInnerRef =
   | ((...args: any[]) => any)
-  | Record<string, string>;
+  | Record<string, unknown>;
 export type TextareaSpace =
   | string
   | number
@@ -105,7 +105,7 @@ export interface TextareaProps extends React.HTMLProps<HTMLElement> {
   /**
    * Use an object to define additional FormStatus properties.
    */
-  status_props?: Record<string, string>;
+  status_props?: Record<string, unknown>;
   status_no_animation?: TextareaStatusNoAnimation;
 
   /**

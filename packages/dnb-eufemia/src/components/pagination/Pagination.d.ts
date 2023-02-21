@@ -25,17 +25,17 @@ export type PaginationEndInfinityHandler =
   | string
   | ((...args: any[]) => any);
 export type PaginationPageElement =
-  | Record<string, string>
+  | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any)
   | string;
 export type PaginationFallbackElement =
-  | Record<string, string>
+  | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any)
   | string;
 export type PaginationMarkerElement =
-  | Record<string, string>
+  | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any)
   | string;
@@ -301,17 +301,17 @@ export type PaginationInstanceEndInfinityHandler =
   | string
   | ((...args: any[]) => any);
 export type PaginationInstancePageElement =
-  | Record<string, string>
+  | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any)
   | string;
 export type PaginationInstanceFallbackElement =
-  | Record<string, string>
+  | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any)
   | string;
 export type PaginationInstanceMarkerElement =
-  | Record<string, string>
+  | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any)
   | string;
@@ -579,17 +579,17 @@ export type InfinityMarkerEndInfinityHandler =
   | string
   | ((...args: any[]) => any);
 export type InfinityMarkerPageElement =
-  | Record<string, string>
+  | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any)
   | string;
 export type InfinityMarkerFallbackElement =
-  | Record<string, string>
+  | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any)
   | string;
 export type InfinityMarkerMarkerElement =
-  | Record<string, string>
+  | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any)
   | string;

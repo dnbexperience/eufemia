@@ -31,11 +31,11 @@ export type DropdownLeft = string | number | boolean;
 export type DropdownIsPopup = string | boolean;
 export type DropdownAlignDrawer = 'left' | 'right';
 export type DropdownOptionsRender =
-  | Record<string, string>
+  | Record<string, unknown>
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type DropdownWrapperElement =
-  | Record<string, string>
+  | Record<string, unknown>
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type DropdownFixedPosition = string | boolean;
@@ -46,7 +46,7 @@ export type DropdownSuffixValue = string | React.ReactNode;
 export type DropdownContent = string | React.ReactNode | string[];
 export type DropdownRawData =
   | any[]
-  | Record<string, string>
+  | Record<string, unknown>
   | ((...args: any[]) => any);
 export type DropdownIgnoreEvents = string | boolean;
 export type DropdownPageOffset = string | number;
@@ -100,7 +100,7 @@ export type DropdownData =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode
-  | Record<string, string>
+  | Record<string, unknown>
   | (
       | string
       | React.ReactNode
@@ -122,7 +122,7 @@ export type DropdownChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode
-  | Record<string, string>
+  | Record<string, unknown>
   | any[];
 /**
  * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
@@ -280,7 +280,7 @@ export interface DropdownProps extends React.HTMLProps<HTMLElement> {
   /**
    * Use an object to define additional FormStatus properties.
    */
-  status_props?: Record<string, string>;
+  status_props?: Record<string, unknown>;
   status_no_animation?: DropdownStatusNoAnimation;
 
   /**

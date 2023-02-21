@@ -10,11 +10,11 @@ export type DrawerListActionMenu = string | boolean;
 export type DrawerListIsPopup = string | boolean;
 export type DrawerListAlignDrawer = 'left' | 'right';
 export type DrawerListOptionsRender =
-  | Record<string, string>
+  | Record<string, unknown>
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type DrawerListWrapperElement =
-  | Record<string, string>
+  | Record<string, unknown>
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type DrawerListDefaultValue = string | number;
@@ -31,7 +31,7 @@ export type DrawerListData =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode
-  | Record<string, string>
+  | Record<string, unknown>
   | (
       | string
       | React.ReactNode
@@ -46,7 +46,7 @@ export type DrawerListSuffixValue = string | React.ReactNode;
 export type DrawerListContent = string | React.ReactNode | string[];
 export type DrawerListRawData =
   | any[]
-  | Record<string, string>
+  | Record<string, unknown>
   | ((...args: any[]) => any);
 export type DrawerListIgnoreEvents = string | boolean;
 export type DrawerListSpace =
@@ -67,7 +67,7 @@ export type DrawerListChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode
-  | Record<string, string>
+  | Record<string, unknown>
   | any[];
 /**
  * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
@@ -134,7 +134,9 @@ export default class DrawerList extends React.Component<
   static defaultProps: object;
   render(): JSX.Element;
 }
-export type ItemContentChildren = React.ReactNode | Record<string, string>;
+export type ItemContentChildren =
+  | React.ReactNode
+  | Record<string, unknown>;
 /**
  * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
  */

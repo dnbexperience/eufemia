@@ -30,7 +30,7 @@ export type AccordionIcon =
     };
 export type AccordionClosed = React.ReactNode | ((...args: any[]) => any);
 export type AccordionIconPosition = 'left' | 'right';
-export type AccordionAttributes = string | Record<string, string>;
+export type AccordionAttributes = string | Record<string, unknown>;
 export type AccordionSpace =
   | string
   | number
@@ -108,7 +108,7 @@ export interface AccordionProps extends React.HTMLProps<HTMLElement> {
   /**
    * Send along a custom React Ref for `.dnb-accordion__content`.
    */
-  contentRef?: Record<string, string>;
+  contentRef?: Record<string, unknown>;
 
   /**
    * If set to `true`, the saved (remembered) will be removed and the initial component state will be used and set.

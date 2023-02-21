@@ -1,6 +1,6 @@
 import * as React from 'react';
 export type PaginationIndicatorIndicatorElement =
-  | Record<string, string>
+  | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any)
   | string;

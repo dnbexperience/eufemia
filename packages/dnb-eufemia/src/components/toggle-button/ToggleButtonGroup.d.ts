@@ -25,10 +25,10 @@ export type ToggleButtonGroupLayoutDirection = 'column' | 'row';
 export type ToggleButtonGroupValue =
   | string
   | number
-  | Record<string, string>
+  | Record<string, unknown>
   | any[];
 export type ToggleButtonGroupValues = string | any[];
-export type ToggleButtonGroupAttributes = string | Record<string, string>;
+export type ToggleButtonGroupAttributes = string | Record<string, unknown>;
 export type ToggleButtonGroupSpace =
   | string
   | number
@@ -105,7 +105,7 @@ export interface ToggleButtonGroupProps
   /**
    * Use an object to define additional FormStatus properties.
    */
-  status_props?: Record<string, string>;
+  status_props?: Record<string, unknown>;
   status_no_animation?: ToggleButtonGroupStatusNoAnimation;
 
   /**

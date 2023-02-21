@@ -211,7 +211,7 @@ export interface DatePickerProps extends React.HTMLProps<HTMLElement> {
   /**
    * To define the locale used in the calendar. Needs to be an `date-fns` "v2" locale object, like `import enLocale from &#39;date-fns/locale/en-GB&#39;`. Defaults to `nb-NO`.
    */
-  locale?: Record<string, string>;
+  locale?: Record<string, unknown>;
 
   /**
    * If the date picker should support a range of two dates (starting and ending date). Defaults to `false`.
@@ -287,7 +287,7 @@ export interface DatePickerProps extends React.HTMLProps<HTMLElement> {
   /**
    * Use an object to define additional FormStatus properties.
    */
-  status_props?: Record<string, string>;
+  status_props?: Record<string, unknown>;
   status_no_animation?: DatePickerStatusNoAnimation;
 
   /**

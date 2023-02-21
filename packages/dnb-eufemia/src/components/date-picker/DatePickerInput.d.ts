@@ -21,7 +21,7 @@ export interface DatePickerInputProps
   maskOrder?: string;
   maskPlaceholder?: string;
   separatorRexExp?: RegExp;
-  submitAttributes?: Record<string, string>;
+  submitAttributes?: Record<string, unknown>;
   isRange?: boolean;
 
   /**
@@ -42,7 +42,7 @@ export interface DatePickerInputProps
   /**
    * Use an object to define additional FormStatus properties.
    */
-  status_props?: Record<string, string>;
+  status_props?: Record<string, unknown>;
 
   /**
    * Gives you the possibility to use a plain/vanilla `<input />` HTML element by defining it as a string `input_element="input"`, a React element, or a render function `input_element={(internalProps) => (<Return />)}`. Can also be used in circumstances where the `react-text-mask` not should be used, e.g. in testing environments. Defaults to custom masked input.
@@ -52,7 +52,7 @@ export interface DatePickerInputProps
   /**
    * To define the locale used in the calendar. Needs to be an `date-fns` "v2" locale object, like `import enLocale from &#39;date-fns/locale/en-GB&#39;`. Defaults to `nb-NO`.
    */
-  locale?: Record<string, string>;
+  locale?: Record<string, unknown>;
   disabled?: boolean;
 
   /**

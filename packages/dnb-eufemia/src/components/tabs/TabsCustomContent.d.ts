@@ -1,6 +1,6 @@
 import * as React from 'react';
 export type CustomContentTitle =
-  | Record<string, string>
+  | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any);
 export type CustomContentSelected = string | boolean;

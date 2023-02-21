@@ -1,18 +1,18 @@
 import * as React from 'react';
 export type InputMaskedMask =
-  | Record<string, string>
+  | Record<string, unknown>
   | any[]
   | ((...args: any[]) => any);
 export type InputMaskedNumberMask =
   | string
   | boolean
-  | Record<string, string>;
+  | Record<string, unknown>;
 export type InputMaskedCurrencyMask =
   | string
   | boolean
-  | Record<string, string>;
-export type InputMaskedMaskOptions = string | Record<string, string>;
-export type InputMaskedNumberFormat = string | Record<string, string>;
+  | Record<string, unknown>;
+export type InputMaskedMaskOptions = string | Record<string, unknown>;
+export type InputMaskedNumberFormat = string | Record<string, unknown>;
 export type InputMaskedAsCurrency = string | boolean;
 export type InputMaskedAsNumber = string | boolean;
 export type InputMaskedAsPercent = string | boolean;
@@ -49,7 +49,7 @@ export type InputMaskedSelectall = string | boolean;
 export type InputMaskedStretch = string | boolean;
 export type InputMaskedDisabled = string | boolean;
 export type InputMaskedSkeleton = string | boolean;
-export type InputMaskedInputAttributes = string | Record<string, string>;
+export type InputMaskedInputAttributes = string | Record<string, unknown>;
 export type InputMaskedInputElement =
   | ((...args: any[]) => any)
   | React.ReactNode;
@@ -173,7 +173,7 @@ export interface InputMaskedProps extends React.HTMLProps<HTMLElement> {
   /**
    * By providing a React.ref we can get the internally used input element (DOM). E.g. `inner_ref={myRef}` by using `React.createRef()` or `React.useRef()`.
    */
-  inner_ref?: Record<string, string>;
+  inner_ref?: Record<string, unknown>;
 
   /**
    * Will be called on value changes made by the user. Returns an object with the value as a string and the native event: `{ value, event }`.
@@ -241,7 +241,7 @@ export interface InputMaskedProps extends React.HTMLProps<HTMLElement> {
   /**
    * Use an object to define additional FormStatus properties.
    */
-  status_props?: Record<string, string>;
+  status_props?: Record<string, unknown>;
   status_no_animation?: InputMaskedStatusNoAnimation;
 
   /**

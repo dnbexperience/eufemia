@@ -14,19 +14,19 @@ export interface PaginationProviderRerender {
  */
 
 export interface PaginationProviderStore {
-  current?: Record<string, string> | ((...args: any[]) => any);
+  current?: Record<string, unknown> | ((...args: any[]) => any);
 }
 export type PaginationProviderInternalContent =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode
-  | Record<string, string>
+  | Record<string, unknown>
   | any[];
 export type PaginationProviderChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode
-  | Record<string, string>
+  | Record<string, unknown>
   | any[];
 /**
  * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".

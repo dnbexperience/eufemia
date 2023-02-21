@@ -56,7 +56,7 @@ export default class StepIndicatorItem extends React.Component<
 
 export interface StepItemButtonProps {
   children?: React.ReactNode;
-  inner_ref?: Record<string, string>;
+  inner_ref?: Record<string, unknown>;
   className?: string;
   status?: string;
   status_state?: string;
