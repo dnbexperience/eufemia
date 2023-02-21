@@ -16,6 +16,8 @@
     - [Modal, Dialog and Drawer](#modal-dialog-and-drawer)
     - [Lists](#lists)
     - [InputMasked](#inputmasked)
+    - [FormRow](#formrow)
+    - [Removal of `data-testid` in components](#removal-of-data-testid-in-components)
     - [Stopped supporting Internet Explorer (IE)](#stopped-supporting-internet-explorer-ie)
     - [Deprecations](#deprecations)
   - [Install](#install)
@@ -137,7 +139,7 @@ When you convert from `<Modal />` to `<Dialog />` – follow these steps:
 
 ### [InputMasked](/uilib/components/input-masked)
 
-1. In v10, InputMasked **allows leading zeros**. To prevent that behaviour, the property `allowLeadingZeroes` has changed to `disallowLeadingZeroes`.
+1. In v10, InputMasked **allows leading zeros**. To prevent that behavior, the property `allowLeadingZeroes` has changed to `disallowLeadingZeroes`.
 
 ### [FormRow](/uilib/components/form-row)
 
@@ -169,4 +171,4 @@ $ npm i @dnb/eufemia@10
 $ yarn add @dnb/eufemia@10
 ```
 
-_February, 20. 2023_
+_February, 24. 2023_
