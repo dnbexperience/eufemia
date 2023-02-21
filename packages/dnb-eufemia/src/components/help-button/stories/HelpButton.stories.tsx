@@ -6,7 +6,7 @@
 import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 
-import { HelpButton, Modal, Button, Section, Input } from '../..'
+import { HelpButton, Dialog, Button, Section, Input } from '../..'
 
 export default {
   title: 'Eufemia/Components/HelpButton',
@@ -33,19 +33,19 @@ export const HelpButtonSandbox = () => (
     </Box>
 
     <Box>
-      <Modal title="Title">
+      <Dialog title="Title">
         <Button variant="tertiary" text="Button" />
         <Section>
           <Button variant="tertiary" text="Button" />
         </Section>
-      </Modal>
+      </Dialog>
     </Box>
 
     <Box>
       <Input
         label="Input"
         placeholder="Placeholder ..."
-        suffix={<Modal title="Title">Help text</Modal>}
+        suffix={<Dialog title="Title">Help text</Dialog>}
       />
     </Box>
   </Wrapper>
