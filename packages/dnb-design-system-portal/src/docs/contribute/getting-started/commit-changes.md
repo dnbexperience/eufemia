@@ -1,0 +1,29 @@
+---
+title: '6. Commit changes'
+order: 5
+---
+
+## 6. Commit changes
+
+Commit your change and create a _Pull Request_ to the `origin/main` branch. Check out the [Git convention](/contribute/style-guides/git) for how to commit and make _Pull Request_.
+
+From a Fork:
+
+- Make your changes in your Fork and create a _Pull Request_ back to the Eufemia repo and `origin/main`.
+- Watch the result of the tests.
+
+From a clone:
+
+- Make your changes and commit it to the repo in a new branch.
+- Make a _Pull Request_ to `origin/main`.
+- Watch the result of the tests.
+
+### Run Algolia search queries locally
+
+In order to commit Algolia search queries to the `dev_eufemia_docs` index, you have to:
+
+Create a `.env` file inside `dnb-design-system-portal` with valid:
+
+- `ALGOLIA_INDEX_NAME=dev_eufemia_docs`
+- `ALGOLIA_APP_ID=SLD6KEYMQ9`
+- `ALGOLIA_API_KEY=secret`

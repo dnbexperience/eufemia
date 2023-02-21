@@ -1,5 +1,6 @@
 ---
 title: '1. Clone the repo'
+order: 0
 ---
 
 import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
