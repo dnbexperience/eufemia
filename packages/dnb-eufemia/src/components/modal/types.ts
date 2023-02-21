@@ -6,7 +6,6 @@ import { ModalRootProps } from './ModalRoot'
 export type ExtendedBoolean = string | boolean
 export type ReactChildType = React.ReactNode | ((...args: any[]) => any)
 
-export type ModalMode = 'modal' | 'drawer' | 'dialog' | 'custom'
 export type ModalFullscreen = 'auto' | ExtendedBoolean
 export type ModalAlignContent = 'left' | 'center' | 'centered' | 'right'
 export type ModalContainerPlacement = 'left' | 'right' | 'top' | 'bottom'
@@ -148,12 +147,6 @@ export interface ModalContentProps {
    * The content which will appear when triggering the modal/drawer.
    */
   modal_content?: ReactChildType
-
-  /**
-   * The modal/drawer mode (deprecated). Can be set to `drawer`, `dialog` or `custom`. Defaults to `modal`.
-   * It is recommended to use the Drawer/Dialog components instead
-   */
-  mode?: ModalMode
 
   /**
    * The content which will appear in the bar, above the header, and side-by-side the close button.

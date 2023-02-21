@@ -146,7 +146,6 @@ function Dialog(
   return (
     <Modal
       {...modalProps}
-      mode="custom"
       dialogRole={variant == 'information' ? 'dialog' : 'alertdialog'}
       contentClass={classnames('dnb-dialog__root', contentClass)}
     >

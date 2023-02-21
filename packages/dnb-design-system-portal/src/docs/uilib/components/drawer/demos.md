@@ -5,6 +5,8 @@ showTabs: true
 import {
 SimpleDrawerExample,
 FullDrawerExample,
+FullscreenDrawerExample,
+LeftPlacementDrawerExample,
 DrawerCallbackExample,
 DrawerCustomTriggerExample,
 DrawerNoAnimationNoSpacing,
@@ -15,6 +17,14 @@ DrawerNoAnimationNoSpacing,
 ### Basic Drawer
 
 <SimpleDrawerExample />
+
+### Basic Drawer left placement
+
+<LeftPlacementDrawerExample />
+
+### Basic Drawer in fullscreen
+
+<FullscreenDrawerExample />
 
 ### Drawer with custom content
 
