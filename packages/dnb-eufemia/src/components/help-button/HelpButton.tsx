@@ -5,7 +5,7 @@
 
 import React from 'react'
 import Context from '../../shared/Context'
-import Modal from '../modal/Modal'
+import Dialog from '../dialog/Dialog'
 import HelpButtonInstance from './HelpButtonInstance'
 import { ButtonProps } from '../button/Button'
 import { ModalProps } from '../modal/types'
@@ -52,9 +52,9 @@ export default function HelpButton(localProps: HelpButtonProps) {
     }
 
     return (
-      <Modal trigger_attributes={params} {...modal_props}>
+      <Dialog triggerAttributes={params} {...modal_props}>
         {content}
-      </Modal>
+      </Dialog>
     )
   }
 

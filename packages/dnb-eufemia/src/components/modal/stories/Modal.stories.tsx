@@ -21,6 +21,7 @@ import {
   Table,
   FormStatus,
   ProgressIndicator,
+  Drawer,
   // Space,
   NumberFormat,
 } from '../../'
@@ -258,10 +259,9 @@ export const DrawerSandbox = () => (
 
     <Box>
       {/* <Button variant="tertiary" text="Button" /> */}
-      <Modal
+      <Drawer
         // no_animation
         // open_state="opened"
-        mode="drawer"
         // fullscreen
         // container_placement="left"
         // align_content="right"
@@ -304,7 +304,7 @@ export const DrawerSandbox = () => (
         //   </>
         // }
       >
-        <Modal.Bar>
+        <Drawer.Navigation>
           <Button
             variant="tertiary"
             icon="chevron_left"
@@ -315,8 +315,8 @@ export const DrawerSandbox = () => (
           </Button>
           {/* Tilbake Lorem ipsum Praesent rutrum ipsum Praesent rutrum ipsum
           Praesent rutrum ipsum Praesent rutrum ipsum Praesent rutrum */}
-        </Modal.Bar>
-        <Modal.Header>
+        </Drawer.Navigation>
+        <Drawer.Header>
           <div>
             {/* <h1>Custom heading</h1> */}
             <H1 size="x-large" bottom>
@@ -344,8 +344,8 @@ export const DrawerSandbox = () => (
               },
             ]}
           />
-        </Modal.Header>
-        <Modal.Content>
+        </Drawer.Header>
+        <Drawer.Body>
           <Tabs.Content id="unique-linked-id">
             {({ title }) => {
               return (
@@ -386,28 +386,26 @@ export const DrawerSandbox = () => (
             }}
           </Tabs.Content>
           <FillContent />
-        </Modal.Content>
-      </Modal>
+        </Drawer.Body>
+      </Drawer>
     </Box>
 
     <Box>
-      <Modal
-        mode="drawer"
+      <Drawer
         title="Drawer Title"
         triggerAttributes={{ text: 'Open Drawer', title: 'Click me' }}
       >
-        <Modal.Content>
+        <Drawer.Body>
           <P top>This is a left aligned Drawer content.</P>
-        </Modal.Content>
-      </Modal>
+        </Drawer.Body>
+      </Drawer>
     </Box>
 
     <Box>
       {/* <Button variant="tertiary" text="Button" /> */}
-      <Modal
+      <Drawer
         // no_animation
         // open_state="opened"
-        mode="drawer"
         triggerAttributes={{ text: 'Drawer in Drawer' }}
         // fullscreen
         // container_placement="left"
@@ -422,21 +420,20 @@ export const DrawerSandbox = () => (
         // content_class="content_class"
         // class="inner_class"
       >
-        <Modal.Content style_type="pistachio">
+        <Drawer.Body style_type="pistachio">
           Modal.Content
-          <Modal mode="drawer" title="Title 2" open_state="opened">
-            New content 2 <Modal title="Title 3">New content 3</Modal>
-          </Modal>
+          <Drawer title="Title 2" openState="opened">
+            New content 2 <Drawer title="Title 3">New content 3</Drawer>
+          </Drawer>
           {/* <FillContent /> */}
-        </Modal.Content>
-      </Modal>
+        </Drawer.Body>
+      </Drawer>
     </Box>
     <Box>
-      <Modal
-        mode="drawer"
+      <Drawer
         title="Top drawer"
-        container_placement="top"
-        modal_content="something"
+        containerPlacement="top"
+        modalContent="something"
       />
     </Box>
   </Wrapper>
@@ -858,13 +855,12 @@ function CloseWithAnimation() {
 
 function CloseByCallback() {
   return (
-    <Modal
-      mode="drawer"
+    <Drawer
       triggerAttributes={{ text: 'CloseByCallback' }}
-      hide_close_button
+      hideCloseButton
     >
       {({ close }) => <Button text="Close by callback" on_click={close} />}
-    </Modal>
+    </Drawer>
   )
 }
 
@@ -888,17 +884,11 @@ const LargeListOfTrs = () => {
 
 export const ModalPerformance = () => (
   <div>
-    <Modal
-      mode="drawer"
-      triggerAttributes={{ text: 'Open Drawer' }}
-      bottom
-    >
+    <Drawer triggerAttributes={{ text: 'Open Drawer' }} bottom>
       Content
-    </Modal>
+    </Drawer>
 
-    <Table
-    //  className="dnb-modal--bypass_invalidation_deep"
-    >
+    <Table>
       <caption>A Table Caption</caption>
       <thead>
         <tr>

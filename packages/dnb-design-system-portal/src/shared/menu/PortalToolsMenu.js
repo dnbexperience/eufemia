@@ -1,5 +1,5 @@
 import React from 'react'
-import { Modal, Space, Tooltip } from '@dnb/eufemia/src/components'
+import { Drawer, Space, Tooltip } from '@dnb/eufemia/src/components'
 import { H2 } from '@dnb/eufemia/src/elements'
 import ToggleGrid from './ToggleGrid'
 import { Context } from '@dnb/eufemia/src/shared'
@@ -14,9 +14,8 @@ export default function PortalToolsMenu({
 }) {
   const { skeleton } = React.useContext(Context)
   return (
-    <Modal
+    <Drawer
       id="portal-tools"
-      mode="drawer"
       title="Portal Tools"
       triggerAttributes={{
         size: 'default',
@@ -39,7 +38,7 @@ export default function PortalToolsMenu({
       }}
       {...props}
     >
-      <Modal.Content spacing>
+      <Drawer.Body spacing>
         <Space>
           <H2 skeleton={false} size="small">
             Show everything behind skeletons
@@ -69,7 +68,7 @@ export default function PortalToolsMenu({
             <ToggleGrid />
           </Space>
         </Space>
-      </Modal.Content>
-    </Modal>
+      </Drawer.Body>
+    </Drawer>
   )
 }

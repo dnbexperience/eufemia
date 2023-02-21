@@ -114,7 +114,6 @@ function Drawer({
     <Modal
       {...context.Drawer}
       {...modalProps}
-      mode="custom"
       contentClass={classnames('dnb-drawer__root', contentClass)}
     >
       <DrawerContent {...context.Drawer} {...drawerProps} />
