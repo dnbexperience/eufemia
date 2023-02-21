@@ -66,6 +66,30 @@ describe('Drawer', () => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
+    it('have to match fullscreen drawer', async () => {
+      const screenshot = await makeScreenshot({
+        selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
+        simulate: 'click',
+        simulateSelector:
+          '[data-visual-test="fullscreen-drawer"] button:first-of-type',
+        screenshotSelector: '.dnb-modal__content',
+        ...defaults,
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match left placement drawer', async () => {
+      const screenshot = await makeScreenshot({
+        selector: 'div#dnb-modal-root', // only to make sure we have a valid selector
+        simulate: 'click',
+        simulateSelector:
+          '[data-visual-test="left-placement-drawer"] button:first-of-type',
+        screenshotSelector: '.dnb-modal__content',
+        ...defaults,
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
     it('have to match full drawer window', async () => {
       const screenshot = await makeScreenshot({
         selector: 'div#dnb-modal-root', // only to make sure we have a valid selector

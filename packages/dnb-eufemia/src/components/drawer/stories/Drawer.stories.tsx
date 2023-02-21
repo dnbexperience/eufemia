@@ -8,7 +8,6 @@ import { Wrapper, Box } from 'storybook-utils/helpers'
 import { Global, css } from '@emotion/react'
 
 import {
-  Modal,
   Button,
   Dropdown,
   Tabs,
@@ -205,9 +204,9 @@ export const DrawerSandbox = () => (
         // class="inner_class"
       >
         <Drawer.Body styleType="pistachio">
-          Modal.Content
+          Drawer.Body
           <Drawer title="Title 2" openState="opened">
-            New content 2 <Modal title="Title 3">New content 3</Modal>
+            New content 2 <Drawer title="Title 3">New content 3</Drawer>
           </Drawer>
           {/* <FillContent /> */}
         </Drawer.Body>
@@ -222,7 +221,7 @@ export const DrawerSandbox = () => (
 function FillContent() {
   return (
     <P>
-      This is the modal text. Triggered by a tertiary button. Hac eleifend
+      This is the drawer text. Triggered by a tertiary button. Hac eleifend
       consectetur massa lobortis diam netus congue a nibh dolor faucibus
       vivamus taciti neque accumsan urna varius dis egestas
       <Dropdown
@@ -469,9 +468,7 @@ export const DrawerPerformance = () => (
       Content
     </Drawer>
 
-    <Table
-    //  className="dnb-modal--bypass_invalidation_deep"
-    >
+    <Table>
       <caption>A Table Caption</caption>
       <thead>
         <tr>
