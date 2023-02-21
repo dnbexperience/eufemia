@@ -16,7 +16,7 @@ import {
   FormSet,
   FormRow,
   NumberFormat,
-  Modal,
+  Drawer,
   // Checkbox
 } from '../../'
 import { Link } from '../../../'
@@ -200,9 +200,9 @@ const DropdownStory = () => {
       </Box>
       <CustomWidth>
         <Box>
-          <Modal mode="drawer">
+          <Drawer>
             <Dropdown label={label} data={dropdownDataScrollable} />
-          </Modal>
+          </Drawer>
         </Box>
         <Box>
           <Dropdown

@@ -13,11 +13,11 @@ import {
   FormSet,
   FormRow,
   DatePicker,
-  Modal,
   Switch,
   Button,
   ToggleButton,
   Space,
+  Dialog,
   HelpButton,
 } from '../../'
 import { Link } from '../../../elements'
@@ -138,7 +138,7 @@ export const FormStatusSandbox = () => {
               bottom="small"
               status="Long text with status vitae tortor metus nulla nunc habitasse adipiscing purus porttitor viverra"
             />
-            <Modal right="small">Modal Content</Modal>
+            <Dialog right="small">Modal Content</Dialog>
             <Button text="Submit" type="submit" />
           </FormRow>
         </FormSet>
@@ -180,11 +180,8 @@ export const ToggleAnimation = () => {
                 showError &&
                 'Long text with status vitae tortor metus nulla nunc habitasse adipiscing purus porttitor viverra'
               }
-              suffix={<Modal>Modal Content</Modal>}
+              suffix={<HelpButton>Modal Content</HelpButton>}
             />
-            {/* <Modal right="small" top="small">
-            Modal Content
-          </Modal> */}
             <Button text="Submit" type="submit" top="small" />
           </FormRow>
         </FormSet>

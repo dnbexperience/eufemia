@@ -7,7 +7,7 @@ import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 // import { Global, css } from '@emotion/react'
 
-import { Modal, Dropdown } from '../../components'
+import { Dialog, Dropdown } from '../../components'
 import { Provider, Context } from '../'
 // import { useTranslation as t } from '../'
 // import t from '../useTranslation'
@@ -109,14 +109,14 @@ export const TranslationSandbox = () => (
             other.string
           </Translation>
 
-          <Modal
+          <Dialog
             title="Modal Title"
             //  open_state="opened"
           >
-            <Modal.Content spacing style_type="mint-green">
+            <Dialog.Body spacing style_type="mint-green">
               <P>This is the modal text.</P>
-            </Modal.Content>
-          </Modal>
+            </Dialog.Body>
+          </Dialog>
         </Provider>
       </Provider>
     </Box>
