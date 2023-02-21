@@ -115,6 +115,11 @@ $layout-large: map-get($breakpoints, 'large');
 
 ### [Modal](/uilib/components/modal), [Dialog](/uilib/components/dialog) and [Drawer](/uilib/components/drawer)
 
+Modal's `mode` property is now deprecated and removed.
+`<Modal />` now behaves as `<Modal mode="custom" />` did previously.
+
+When you convert from `<Modal mode="custom" />` simply change to `<Modal />`.
+
 When you convert from `<Modal mode="drawer" />` to `<Drawer />` – follow these steps:
 
 - All `trigger_*` props are not supported for Drawer, use `triggerAttributes` instead to pass in props for the trigger button.
@@ -124,12 +129,12 @@ When you convert from `<Modal mode="drawer" />` to `<Drawer />` – follow these
 - `Modal.Bar` converts to `Drawer.Navigaton`.
 - `Modal` was a class component and `Drawer` is a functional component.
 
-When you convert from `<Modal />` to `<Dialog />` – follow these steps:
+When you convert from `<Modal />` or `<Modal mode="dialog" />` to `<Dialog />` – follow these steps:
 
 - All `trigger_*` props are not supported for Dialog, use `triggerAttributes` instead to pass in props for the trigger button.
   - Change prop `trigger_hidden` to `omitTriggerButton` to omit the default trigger button from Modal.
 - Only camelCase props are supported for Dialog, so you will need to update the prop names.
-- `Modal.Content` converts to `Dialog.Body`.
+- `Modal.Inner` or `Modal.Content` converts to `Dialog.Body`.
 - `Modal.Bar` converts to `Dialog.Navigaton`.
 - `Modal` was a class component and `Dialog` is a functional component.
 
