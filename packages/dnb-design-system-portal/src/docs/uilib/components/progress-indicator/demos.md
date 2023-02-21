@@ -30,7 +30,7 @@ ProgressIndicatorSizes
 
 ### Submit form activity indicator
 
-Use this indicator in forms, side by side a submit button. Its a light weight and dense way to tell the user whats happening at the moment.
+Use this indicator in forms, side by side a submit button. It's a lightweight and dense way to tell the user what's happening at the moment.
 
 <ProgressIndicatorSubmit />
 
