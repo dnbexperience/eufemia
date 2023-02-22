@@ -15,8 +15,6 @@ babel ./src \
 --no-copy-ignored \
 --ignore 'src/esm,src/umd,src/core,**/*.test.*,**/__tests__/**/*,**/*.stories.*,**/stories,**/*.d.ts'
 
-echo 'Building cjs bundle done!'
-
 echo 'Copy additional files to cjs ...'
 
 OUT_DIR=./build/cjs babel-node --extensions .js,.ts,.tsx ./scripts/postbuild/copyTypeScriptFiles.js
@@ -25,3 +23,5 @@ OUT_DIR=./build/cjs babel-node --extensions .js,.ts,.tsx ./scripts/postbuild/cop
 echo 'Copy extra cjs package.json ...'
 
 cp ./src/cjs/package.json ./build/cjs/package.json
+
+echo 'Building cjs bundle done!'
