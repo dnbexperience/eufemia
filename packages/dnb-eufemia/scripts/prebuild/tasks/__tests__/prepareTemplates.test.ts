@@ -16,7 +16,7 @@ import {
 jest.mock('fs-extra', () => {
   return {
     ...jest.requireActual('fs-extra'),
-    writeFile: jest.fn().mockResolvedValue(),
+    writeFile: jest.fn().mockResolvedValue(false),
     readdir: jest.fn((source) => {
       if (source.endsWith('/components')) {
         return ['component-a', 'component-b']
@@ -62,7 +62,7 @@ describe('prepareTemplates', () => {
 
     expect(writeFile).toHaveBeenCalledTimes(7)
 
-    const dest7 = expect.stringContaining('/src/index.js')
+    const dest7 = expect.stringContaining('/src/index.ts')
     expect(writeFile).toHaveBeenNthCalledWith(
       7,
       dest7,
@@ -113,7 +113,7 @@ describe('prepareTemplates', () => {
 
     expect(writeFile).toHaveBeenCalledTimes(4)
 
-    const dest1 = expect.stringContaining('/src/components/index.js')
+    const dest1 = expect.stringContaining('/src/components/index.ts')
     expect(writeFile).toHaveBeenNthCalledWith(
       1,
       dest1,
@@ -134,7 +134,7 @@ describe('prepareTemplates', () => {
       expect.stringContaining(`export { ComponentA, ComponentB }`)
     )
 
-    const dest2 = expect.stringContaining('/src/components/lib.js')
+    const dest2 = expect.stringContaining('/src/components/lib.ts')
     expect(writeFile).toHaveBeenNthCalledWith(
       2,
       dest2,
@@ -160,7 +160,7 @@ describe('prepareTemplates', () => {
       expect.stringContaining(`return { ComponentA, ComponentB }`)
     )
 
-    const dest3 = expect.stringContaining('/src/components/ComponentA.js')
+    const dest3 = expect.stringContaining('/src/components/ComponentA.ts')
     expect(writeFile).toHaveBeenNthCalledWith(
       3,
       dest3,
@@ -179,7 +179,7 @@ describe('prepareTemplates', () => {
       expect.stringContaining(`export default ComponentA`)
     )
 
-    const dest4 = expect.stringContaining('/src/components/ComponentB.js')
+    const dest4 = expect.stringContaining('/src/components/ComponentB.ts')
     expect(writeFile).toHaveBeenNthCalledWith(
       4,
       dest4,
@@ -207,21 +207,21 @@ describe('prepareTemplates', () => {
 
     expect(writeFile).toHaveBeenCalledTimes(4)
 
-    const dest1 = expect.stringContaining('/src/fragments/index.js')
+    const dest1 = expect.stringContaining('/src/fragments/index.ts')
     expect(writeFile).toHaveBeenNthCalledWith(
       1,
       dest1,
       expect.stringContaining(`export { FragmentA, FragmentB }`)
     )
 
-    const dest2 = expect.stringContaining('/src/fragments/lib.js')
+    const dest2 = expect.stringContaining('/src/fragments/lib.ts')
     expect(writeFile).toHaveBeenNthCalledWith(
       2,
       dest2,
       expect.stringContaining(`return { FragmentA, FragmentB }`)
     )
 
-    const dest3 = expect.stringContaining('/fragments/FragmentA.js')
+    const dest3 = expect.stringContaining('/fragments/FragmentA.ts')
     expect(writeFile).toHaveBeenNthCalledWith(
       3,
       dest3,
@@ -230,7 +230,7 @@ describe('prepareTemplates', () => {
       )
     )
 
-    const dest4 = expect.stringContaining('/fragments/FragmentB.js')
+    const dest4 = expect.stringContaining('/fragments/FragmentB.ts')
     expect(writeFile).toHaveBeenNthCalledWith(
       4,
       dest4,
@@ -246,14 +246,14 @@ describe('prepareTemplates', () => {
 
     expect(writeFile).toHaveBeenCalledTimes(2)
 
-    const dest1 = expect.stringContaining('/src/elements/index.js')
+    const dest1 = expect.stringContaining('/src/elements/index.ts')
     expect(writeFile).toHaveBeenNthCalledWith(
       1,
       dest1,
       expect.stringContaining(`export { ElementA, ElementB }`)
     )
 
-    const dest2 = expect.stringContaining('/src/elements/lib.js')
+    const dest2 = expect.stringContaining('/src/elements/lib.ts')
     expect(writeFile).toHaveBeenNthCalledWith(
       2,
       dest2,
@@ -269,14 +269,14 @@ describe('prepareTemplates', () => {
 
     expect(writeFile).toHaveBeenCalledTimes(2)
 
-    const dest1 = expect.stringContaining('/src/extensions/index.js')
+    const dest1 = expect.stringContaining('/src/extensions/index.ts')
     expect(writeFile).toHaveBeenNthCalledWith(
       1,
       dest1,
       expect.stringContaining(`export { ExtensionA, ExtensionB }`)
     )
 
-    const dest2 = expect.stringContaining('/src/extensions/lib.js')
+    const dest2 = expect.stringContaining('/src/extensions/lib.ts')
     expect(writeFile).toHaveBeenNthCalledWith(
       2,
       dest2,
