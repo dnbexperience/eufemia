@@ -598,7 +598,7 @@ export const TableAccordion = () => {
     <main aria-label="main area">
       <h1 className="dnb-sr-only">Table with accordion row</h1>
       <ToggleButton
-        size="small"
+        // size="small"
         on_change={() => {
           setSkeleton((s) => !s)
         }}

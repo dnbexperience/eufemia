@@ -39,7 +39,7 @@ export const processComponents = async () => {
       __dirname,
       '../../../src/core/templates/components-index-template.js'
     ),
-    destFile: path.resolve(__dirname, '../../../src/components/index.js'),
+    destFile: path.resolve(__dirname, '../../../src/components/index.ts'),
     processToNamesList: path.resolve(
       __dirname,
       '../../../src/components/'
@@ -63,7 +63,7 @@ export const processComponents = async () => {
       __dirname,
       '../../../src/core/templates/components-lib-template.js'
     ),
-    destFile: path.resolve(__dirname, '../../../src/components/lib.js'),
+    destFile: path.resolve(__dirname, '../../../src/components/lib.ts'),
   }).then((res) => {
     if (isCLI) {
       log.succeed(
@@ -101,7 +101,7 @@ export const processFragments = async () => {
       __dirname,
       '../../../src/core/templates/components-index-template.js'
     ),
-    destFile: path.resolve(__dirname, '../../../src/fragments/index.js'),
+    destFile: path.resolve(__dirname, '../../../src/fragments/index.ts'),
     processToNamesList: path.resolve(__dirname, '../../../src/fragments/'),
     processToNamesIgnoreList: ['style'],
     processToNamesListByUsingFolders: true,
@@ -120,7 +120,7 @@ export const processFragments = async () => {
       __dirname,
       '../../../src/core/templates/fragments-lib-template.js'
     ),
-    destFile: path.resolve(__dirname, '../../../src/fragments/lib.js'),
+    destFile: path.resolve(__dirname, '../../../src/fragments/lib.ts'),
   }).then((res) => {
     if (isCLI) {
       log.succeed(
@@ -156,7 +156,7 @@ export const processElements = async () => {
       __dirname,
       '../../../src/core/templates/elements-index-template.js'
     ),
-    destFile: path.resolve(__dirname, '../../../src/elements/index.js'),
+    destFile: path.resolve(__dirname, '../../../src/elements/index.ts'),
     processToNamesList: path.resolve(__dirname, '../../../src/elements/'),
     processToNamesIgnoreList: ['index', 'lib', 'Element'],
     processToNamesListByUsingFolders: false,
@@ -173,7 +173,7 @@ export const processElements = async () => {
       __dirname,
       '../../../src/core/templates/elements-lib-template.js'
     ),
-    destFile: path.resolve(__dirname, '../../../src/elements/lib.js'),
+    destFile: path.resolve(__dirname, '../../../src/elements/lib.ts'),
     processToNamesIgnoreList: ['index', 'lib', 'Element'],
   }).then((res) => {
     if (isCLI) {
@@ -194,7 +194,7 @@ export const processExtensions = async () => {
       __dirname,
       '../../../src/core/templates/components-index-template.js'
     ),
-    destFile: path.resolve(__dirname, '../../../src/extensions/index.js'),
+    destFile: path.resolve(__dirname, '../../../src/extensions/index.ts'),
     processToNamesList: path.resolve(
       __dirname,
       '../../../src/extensions/'
@@ -216,7 +216,7 @@ export const processExtensions = async () => {
         __dirname,
         '../../../src/core/templates/extensions-lib-template.js'
       ),
-      destFile: path.resolve(__dirname, '../../../src/extensions/lib.js'),
+      destFile: path.resolve(__dirname, '../../../src/extensions/lib.ts'),
     },
   }).then((res) => {
     if (isCLI) {
@@ -236,7 +236,7 @@ export const processMainIndex = async ({ components, elements }) => {
       __dirname,
       '../../../src/core/templates/main-index-template.js'
     ),
-    destFile: path.resolve(__dirname, '../../../src/index.js'),
+    destFile: path.resolve(__dirname, '../../../src/index.ts'),
     processToNamesList: [...components, ...elements],
     transformNamesList: ({ result }) => {
       // because elements don't have a folder, we remove the last part of the path
@@ -309,7 +309,7 @@ export const runFactory = async ({
     await asyncForEach(processToNamesList, async ({ file }) => {
       const destFile = path.resolve(
         destPath,
-        `${camelCase(file, { pascalCase: true })}.js`
+        `${camelCase(file, { pascalCase: true })}.ts`
       )
 
       try {

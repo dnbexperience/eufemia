@@ -12,30 +12,38 @@ import {
   getClosestScrollViewElement,
 } from '../../shared/component-helper'
 
-class DrawerListPortal extends React.PureComponent {
+const drawerListPropTypes = {
+  id: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
+  opened: PropTypes.bool.isRequired,
+  innerRef: PropTypes.shape({
+    current: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
+  }),
+  rootRef: PropTypes.shape({
+    current: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
+  }).isRequired,
+  include_owner_width: PropTypes.bool,
+  independent_width: PropTypes.bool,
+  fixed_position: PropTypes.bool,
+  className: PropTypes.string,
+}
+
+const drawerListDefaultProps = {
+  rootRef: { current: null },
+  innerRef: null,
+  include_owner_width: false,
+  independent_width: false,
+  fixed_position: false,
+  className: null,
+}
+
+export class DrawerListPortal extends React.PureComponent {
   static propTypes = {
-    id: PropTypes.string.isRequired,
-    children: PropTypes.node.isRequired,
-    opened: PropTypes.bool.isRequired,
-    innerRef: PropTypes.shape({
-      current: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
-    }),
-    rootRef: PropTypes.shape({
-      current: PropTypes.oneOfType([PropTypes.node, PropTypes.object]),
-    }).isRequired,
-    include_owner_width: PropTypes.bool,
-    independent_width: PropTypes.bool,
-    fixed_position: PropTypes.bool,
-    className: PropTypes.string,
+    ...drawerListPropTypes,
   }
 
   static defaultProps = {
-    rootRef: { current: null },
-    innerRef: null,
-    include_owner_width: false,
-    independent_width: false,
-    fixed_position: false,
-    className: null,
+    ...drawerListDefaultProps,
   }
 
   state = { isMounted: false }

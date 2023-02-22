@@ -39,10 +39,10 @@ export type SkeletonChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-
 /**
  * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
  */
+
 export interface SkeletonProps extends React.HTMLProps<HTMLElement> {
   /**
    * Use `true` to enable/show the skeleton for the component used inside. Defaults to `false`.
