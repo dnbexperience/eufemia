@@ -108,6 +108,13 @@ describe('Button component', () => {
     expect(document.querySelector('svg')).toBeTruthy()
   })
 
+  it('supports anchor rel property', () => {
+    render(
+      <Component {...props} href="https://url" icon={null} rel="me" />
+    )
+    expect(document.querySelector('a').getAttribute('rel')).toBe('me')
+  })
+
   it('has a disabled attribute, once we set disabled to true', () => {
     const { rerender } = render(<Component />)
     expect(document.querySelector('button').hasAttribute('disabled')).toBe(
