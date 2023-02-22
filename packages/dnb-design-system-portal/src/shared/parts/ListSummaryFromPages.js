@@ -12,7 +12,11 @@ const ListSummaryFromDocs = ({ slug, useAsIndex = false }) => {
       allMdx(
         filter: {
           frontmatter: { title: { ne: "" }, draft: { ne: true } }
-          internal: { contentFilePath: { glob: "**/uilib/**" } }
+          # MDX v1
+          fileAbsolutePath: { glob: "**/uilib/**" }
+
+          # TODO MDX v2
+          # internal: { contentFilePath: { glob: "**/uilib/**" } }
         }
       ) {
         edges {
