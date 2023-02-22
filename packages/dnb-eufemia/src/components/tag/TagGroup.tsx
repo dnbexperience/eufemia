@@ -78,12 +78,9 @@ const TagGroup = (localProps: TagGroupProps & SpacingProps) => {
     <TagGroupContext.Provider value={props}>
       <span
         className={classnames('dnb-tag__group', spacingClasses, className)}
-        data-testid="tag-group"
         {...attributes}
       >
-        <span data-testid="tag-group-label" className="dnb-sr-only">
-          {label}
-        </span>
+        <span className="dnb-sr-only">{label}</span>
         {children}
       </span>
     </TagGroupContext.Provider>
