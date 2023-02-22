@@ -98,6 +98,7 @@ describe('Autocomplete', () => {
 
   it('have to match the status with status_state info', async () => {
     const screenshot = await makeScreenshot({
+      ...defaults,
       selector:
         '[data-visual-test="autocomplete-status"] .dnb-autocomplete__inner',
     })
