@@ -46,6 +46,10 @@ export interface RadioProps extends React.HTMLProps<HTMLElement> {
    * Use either the `label` property or provide a custom one.
    */
   label?: RadioLabel;
+
+  /**
+   * Use `true` to make the label only readable by screen readers.
+   */
   label_sr_only?: RadioLabelSrOnly;
 
   /**

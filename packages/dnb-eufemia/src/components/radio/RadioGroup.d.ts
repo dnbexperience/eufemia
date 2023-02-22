@@ -51,6 +51,10 @@ export interface RadioGroupProps extends React.HTMLProps<HTMLElement> {
    */
   label?: RadioGroupLabel;
   label_direction?: RadioGroupLabelDirection;
+
+  /**
+   * Use `true` to make the label only readable by screen readers.
+   */
   label_sr_only?: RadioGroupLabelSrOnly;
 
   /**
