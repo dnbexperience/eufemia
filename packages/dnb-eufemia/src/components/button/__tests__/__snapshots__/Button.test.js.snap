@@ -21,6 +21,7 @@ exports[`Button component have to match default button snapshot 1`] = `
       "current": <button
         class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
         id="button"
+        rel="rel"
         target="target"
         title="This is a button title"
         type="type"
@@ -66,6 +67,7 @@ exports[`Button component have to match default button snapshot 1`] = `
       "current": <button
         class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
         id="button"
+        rel="rel"
         target="target"
         title="This is a button title"
         type="type"
@@ -107,6 +109,7 @@ exports[`Button component have to match default button snapshot 1`] = `
     }
   }
   on_click="on_click"
+  rel="rel"
   size={null}
   skeleton="skeleton"
   status={null}
@@ -128,6 +131,7 @@ exports[`Button component have to match default button snapshot 1`] = `
     disabled={false}
     id="button"
     onClick={[Function]}
+    rel="rel"
     target="target"
     title="This is a button title"
     type="type"
@@ -153,6 +157,7 @@ exports[`Button component have to match default button snapshot 1`] = `
           "current": <button
             class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
             id="button"
+            rel="rel"
             target="target"
             title="This is a button title"
             type="type"
@@ -198,6 +203,7 @@ exports[`Button component have to match default button snapshot 1`] = `
           "current": <button
             class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
             id="button"
+            rel="rel"
             target="target"
             title="This is a button title"
             type="type"
@@ -240,6 +246,7 @@ exports[`Button component have to match default button snapshot 1`] = `
       }
       isIconOnly={false}
       on_click="on_click"
+      rel="rel"
       size={null}
       skeleton={false}
       status={null}
@@ -361,6 +368,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
       "current": <a
         class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
         href="https://url"
+        rel="rel"
         target="target"
         title="This is a button title"
         type="type"
@@ -406,6 +414,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
       "current": <a
         class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
         href="https://url"
+        rel="rel"
         target="target"
         title="This is a button title"
         type="type"
@@ -447,6 +456,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
     }
   }
   on_click="on_click"
+  rel="rel"
   size={null}
   skeleton="skeleton"
   status={null}
@@ -470,6 +480,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
     id="button"
     omitClass={true}
     onClick={[Function]}
+    rel="rel"
     target="target"
     title="This is a button title"
     type="type"
@@ -484,6 +495,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
           "current": <a
             class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
             href="https://url"
+            rel="rel"
             target="target"
             title="This is a button title"
             type="type"
@@ -526,6 +538,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
       }
       omitClass={true}
       onClick={[Function]}
+      rel="rel"
       target="target"
       title="This is a button title"
       type="type"
@@ -540,6 +553,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
             "current": <a
               class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
               href="https://url"
+              rel="rel"
               target="target"
               title="This is a button title"
               type="type"
@@ -581,6 +595,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
           }
         }
         onClick={[Function]}
+        rel="rel"
         skeleton={null}
         target="target"
         title="This is a button title"
@@ -596,6 +611,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
               "current": <a
                 class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
                 href="https://url"
+                rel="rel"
                 target="target"
                 title="This is a button title"
                 type="type"
@@ -637,6 +653,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
             }
           }
           onClick={[Function]}
+          rel="rel"
           skeleton={null}
           target="target"
           title="This is a button title"
@@ -647,6 +664,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
             disabled={false}
             href="https://url"
             onClick={[Function]}
+            rel="rel"
             target="target"
             title="This is a button title"
             type="type"
@@ -672,6 +690,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
                   "current": <a
                     class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
                     href="https://url"
+                    rel="rel"
                     target="target"
                     title="This is a button title"
                     type="type"
@@ -717,6 +736,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
                   "current": <a
                     class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
                     href="https://url"
+                    rel="rel"
                     target="target"
                     title="This is a button title"
                     type="type"
@@ -759,6 +779,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
               }
               isIconOnly={false}
               on_click="on_click"
+              rel="rel"
               size={null}
               skeleton={false}
               status={null}
