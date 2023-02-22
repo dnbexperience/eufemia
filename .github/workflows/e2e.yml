@@ -76,8 +76,8 @@ jobs:
           path: |
             ./packages/dnb-design-system-portal/.cache
             ./packages/dnb-design-system-portal/public
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-gatsby-dev-${{ steps.date.outputs.timestamp }}
-          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-gatsby-dev-
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-gatsby-${{ steps.date.outputs.timestamp }}
+          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-gatsby-
 
       - name: Build portal
         run: yarn workspace dnb-design-system-portal build-visual-test
@@ -165,11 +165,11 @@ jobs:
         with:
           channel: '#eufemia-dev'
           status: ${{ job.status }}
-          fields: author,ref,action,workflow
+          fields: author,ref,workflow,job,took
+          job_name: Visual Tests
           github_base_url: https://github.com/
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
-          MATRIX_CONTEXT: ${{ toJson(matrix) }}
         if: ${{ always() && !github.event.pull_request.head.repo.fork }}
 
   portal-test:
@@ -240,9 +240,9 @@ jobs:
         with:
           channel: '#eufemia-dev'
           status: ${{ job.status }}
-          fields: author,ref,action,workflow
+          fields: author,ref,workflow,job,took
+          job_name: Portal Tests
           github_base_url: https://github.com/
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
-          MATRIX_CONTEXT: ${{ toJson(matrix) }}
         if: ${{ always() && !github.event.pull_request.head.repo.fork }}

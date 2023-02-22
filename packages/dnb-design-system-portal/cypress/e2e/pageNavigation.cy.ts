@@ -36,11 +36,10 @@ describe('Page Navigation', () => {
 
       cy.get('h2').should('contain', 'Components')
 
-      // TODO: fix this in PR
-      // cy.get('a[href="/uilib/components/accordion"]').should(
-      //   'contain',
-      //   'Accordion'
-      // )
+      cy.get('a[href="/uilib/components/accordion"]').should(
+        'contain',
+        'Accordion'
+      )
     })
   })
 
@@ -87,11 +86,10 @@ describe('Page Navigation', () => {
 
       cy.get('h1').should('contain', 'Components')
 
-      // TODO: fix this in PR
-      // cy.get('a[href="/uilib/components/accordion"]').should(
-      //   'contain',
-      //   'Accordion'
-      // )
+      cy.get('a[href="/uilib/components/accordion"]').should(
+        'contain',
+        'Accordion'
+      )
     })
   })
 })
