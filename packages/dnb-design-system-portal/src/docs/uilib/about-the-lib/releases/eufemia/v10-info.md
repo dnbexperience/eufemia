@@ -152,7 +152,12 @@ When you convert from `<Modal />` or `<Modal mode="dialog" />` to `<Dialog />` â
 
 ### Removal of `data-testid` in components
 
+- [Avatar](/uilib/components/avatar).
+- [Badge](/uilib/components/badge).
+- [Breadcrumb](/uilib/components/breadcrumb).
 - [InfoCard](/uilib/components/info-card).
+- [Tag](/uilib/components/tag).
+- [Upload](/uilib/components/upload).
 
 ### [Stopped supporting Internet Explorer (IE)](/uilib/usage/#supported-browsers-and-platforms)
 
