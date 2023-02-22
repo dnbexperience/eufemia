@@ -1,103 +1,72 @@
 import { Anchor, Ul, Li } from '@dnb/eufemia/src/elements'
 
-type Headings = Array<{ value: string; depth: number }>
+type TableOfContents = {
+  url: string
+  title: string
+  items?: Array<{ url: string; title: string }>
+}
 
 type TableOfContentsProps = {
+  mainTitle?: { title: string; url: string }
   edges: Array<{
-    node: { headings: Headings }
+    node: {
+      frontmatter: { order: number }
+      tableOfContents: {
+        items: Array<TableOfContents>
+      }
+    }
   }>
 }
 
-const TableOfContents = ({ edges }: TableOfContentsProps) => {
-  const orderedHeadings = edges.map((edge) =>
-    orderHeadings(edge.node.headings)
-  )
+const TableOfContents = ({ mainTitle, edges }: TableOfContentsProps) => {
+  const orderedContents = edges
+    .sort((edgeA, edgeB) =>
+      edgeA.node.frontmatter.order > edgeB.node.frontmatter.order ? 1 : -1
+    )
+    .map(({ node }) => node.tableOfContents.items)
+    .reduce<Array<TableOfContents>>((allContent, currentContent) => {
+      currentContent.forEach((content) => allContent.push(content))
+      return allContent
+    }, [])
+
+  const contentsToRender = mainTitle
+    ? [{ ...mainTitle, items: orderedContents }]
+    : orderedContents
 
   return (
     <Ul>
-      {orderedHeadings.map((heading) => (
+      {contentsToRender.map((content, index) => (
         <TableOfContentsItem
-          key={`${heading.value}-${heading.depth}`}
-          {...heading}
+          key={`${content.title}-${index}`}
+          {...content}
         />
       ))}
     </Ul>
   )
 }
 
-type TableOfContentsItemProps = {
-  slug?: string
-  value: string
-  depth: number
-  subheadings: TableOfContentsItemProps[]
-}
+type TableOfContentsItemProps = TableOfContents
 
 function TableOfContentsItem({
-  slug,
-  value,
-  subheadings,
+  title,
+  url,
+  items,
 }: TableOfContentsItemProps) {
-  const itemSlug =
-    value
-      .replace(/((\.|,|\(|\))+)/gim, '')
-      .replace(/\s+/gim, '-')
-      .toLocaleLowerCase() ?? ''
-
   return (
     <Li>
-      <Anchor href={`/${slug}#${itemSlug}`}>{value}</Anchor>
-      {subheadings.length > 0 && (
+      <Anchor href={url}>{title}</Anchor>
+      {items?.length > 0 && (
         <Ul>
-          {subheadings.map((heading) => (
+          {items.map((item, index) => (
             <TableOfContentsItem
-              key={`${heading.value}-${heading.depth}`}
-              slug={slug}
-              {...heading}
+              key={`${item.title}-${index}`}
+              {...item}
             />
           ))}
         </Ul>
       )}
     </Li>
   )
-}
-
-function orderHeadings(headings: Headings) {
-  let parentId = undefined
-  let previousDepthLevel = undefined
-  const mainHeading = headings[0]
-  const subHeadings = headings.slice(1)
-
-  const mapParentIdsToHeadings = subHeadings.map(
-    ({ value, depth }, index, array) => {
-      if (depth > previousDepthLevel) {
-        parentId = array[index - 1].value
-      }
-
-      if (depth < previousDepthLevel) {
-        parentId = undefined
-      }
-
-      if (previousDepthLevel !== depth) {
-        previousDepthLevel = depth
-      }
-
-      return { value, depth, parentId }
-    }
-  )
-
-  const convertToTree = (array, parentId = undefined) => {
-    return array
-      .filter((heading) => heading.parentId === parentId)
-      .map((heading) => ({
-        ...heading,
-        subheadings: convertToTree(array, heading.value),
-      }))
-  }
-
-  return {
-    ...mainHeading,
-    subheadings: convertToTree(mapParentIdsToHeadings),
-  }
 }
 
 export default TableOfContents
