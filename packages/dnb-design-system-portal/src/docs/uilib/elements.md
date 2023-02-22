@@ -9,7 +9,7 @@ import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 import { Link } from '@dnb/eufemia/src/elements'
 import NotSupportedElements from 'Docs/uilib/elements/not-supported'
 import UnstyledElementsDemos from 'Docs/uilib/elements/unstyled'
-import ListSummaryFromPages from 'dnb-design-system-portal/src/shared/parts/ListSummaryFromPages'
+import ListElements from 'dnb-design-system-portal/src/shared/parts/ListElements'
 
 # HTML Elements
 
@@ -17,7 +17,7 @@ The `@dnb/eufemia` contains styling for the most commonly used [HTML Elements](h
 
 ## Elements
 
-<ListSummaryFromPages useAsIndex slug="uilib/elements/" />
+<ListElements />
 
 ### Vanilla HTML
 

@@ -6,7 +6,7 @@ redirect_from:
   - /uilib/patterns
 ---
 
-import ListSummaryFromPages from 'dnb-design-system-portal/src/shared/parts/ListSummaryFromPages'
+import ListExtensions from 'dnb-design-system-portal/src/shared/parts/ListExtensions'
 
 # Extensions
 
@@ -24,4 +24,4 @@ import '@dnb/eufemia/style/extensions'
 
 ## Available Extensions
 
-<ListSummaryFromPages slug="uilib/extensions/" />
+<ListSummaryFromPages />
