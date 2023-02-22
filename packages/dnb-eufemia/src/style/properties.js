@@ -73,10 +73,10 @@ export default {
   '--layout-large': '72em',
   '--layout-x-large': '80em',
   '--layout-xx-large': '90em',
-  '--shadow-default': '0 8px 16px rgba(51, 51, 51, 0.08)',
+  '--shadow-default': '0 8px 16px rgb(51 51 51 / 8%)',
   '--shadow-default-x': '0',
   '--shadow-default-y': '8px',
   '--shadow-default-blur-radius': '16px',
-  '--shadow-default-color': 'rgba(51, 51, 51, 0.08)',
+  '--shadow-default-color': 'rgb(51 51 51 / 8%)',
   '--easing-default': 'cubic-bezier(0.42, 0, 0, 1)'
 }; // prettier-ignore

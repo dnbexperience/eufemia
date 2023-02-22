@@ -236,7 +236,7 @@ export const DialogConfirmLoggedOut = () => {
                   setOpen(false)
                   loginHandler()
                 }}
-                labelled_by="custom-triggerer"
+                labelledBy="custom-triggerer"
               />
             </>
           )
