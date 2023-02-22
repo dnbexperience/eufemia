@@ -15,10 +15,10 @@ export type ImgBottom = string | number | boolean;
 export type ImgLeft = string | number | boolean;
 export type ImgSkeleton = string | boolean;
 export type ImgClassName = string | any | any[];
-
 /**
  * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
  */
+
 export interface ImgProps extends React.HTMLProps<HTMLElement> {
   space?: ImgSpace;
   top?: ImgTop;
