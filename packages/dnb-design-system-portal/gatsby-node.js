@@ -159,7 +159,13 @@ async function createPages({ graphql, actions }) {
     if (slug) {
       createPage({
         path: slug,
-        component: `${mdxTemplate}?__contentFilePath=${node.internal.contentFilePath}`,
+
+        // MDX V1
+        component: mdxTemplate,
+
+        // TODO MDX v2: The docs says we should use "node.internal.contentFilePath"
+        // component: `${mdxTemplate}?__contentFilePath=${node.internal.contentFilePath}`,
+
         context: {
           id: node.id,
           slug,
