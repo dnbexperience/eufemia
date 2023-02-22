@@ -13,7 +13,7 @@ import {
 } from '../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
 import Component from '../Tabs'
-import Input from '../../Input'
+import Input from '../../input/Input'
 
 const props = fakeProps(require.resolve('../Tabs'), {
   all: true,

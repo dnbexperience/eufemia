@@ -2,7 +2,6 @@ import * as React from 'react';
 import { SkeletonShow } from '../skeleton/Skeleton';
 import { IconPrimaryIcon } from '../icon-primary/IconPrimary';
 import { DataAttributeTypes } from '../../shared/types';
-
 export type ButtonText = string | React.ReactNode;
 export type ButtonVariant =
   | 'primary'
@@ -68,10 +67,10 @@ export type ButtonRight = string | number | boolean;
 export type ButtonBottom = string | number | boolean;
 export type ButtonLeft = string | number | boolean;
 export type ButtonOnClick = string | ((...args: any[]) => any);
-
 /**
  * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
  */
+
 export type ButtonProps = {
   /**
    * The content of the button can be a string or a React Element.
@@ -79,7 +78,7 @@ export type ButtonProps = {
   text?: ButtonText;
 
   /**
-   * `button`, `reset` or `submit` for the `type` HTML attribute (default to `button`) .
+   * `button`, `reset` or `submit` for the `type` HTML attribute. Defaults to `button` for legacy reasons.
    */
   type?: string;
 
@@ -89,7 +88,7 @@ export type ButtonProps = {
   title?: React.ReactNode;
 
   /**
-   * Defines the kind of button. Possible values are `primary`, `secondary`, `tertiary` and `signal`.
+   * Defines the kind of button. Possible values are `primary`, `secondary`, `tertiary` and `signal`. Defaults to `primary`.
    */
   variant?: ButtonVariant;
 
@@ -205,7 +204,7 @@ export type ButtonProps = {
   element?: ButtonElement;
 
   /**
-   * Has to be an any with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
+   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
    */
   space?: ButtonSpace;
 
@@ -237,7 +236,6 @@ export type ButtonProps = {
   DataAttributeTypes &
     Partial<React.HTMLAttributes<HTMLButtonElement | HTMLAnchorElement>>
 >;
-
 export default class Button extends React.Component<ButtonProps, any> {
   render(): JSX.Element;
 }

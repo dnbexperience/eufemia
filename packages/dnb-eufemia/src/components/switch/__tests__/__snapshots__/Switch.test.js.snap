@@ -12,6 +12,7 @@ exports[`Switch component have to match snapshot 1`] = `
   label="label"
   label_direction="horizontal"
   label_position="left"
+  label_sr_only={true}
   on_change={[Function]}
   on_change_end={[Function]}
   on_state_update={[Function]}
@@ -41,14 +42,14 @@ exports[`Switch component have to match snapshot 1`] = `
         id="id-label"
         label_direction={null}
         skeleton="skeleton"
-        sr_only={null}
+        sr_only={true}
         text="label"
         title={null}
         vertical={null}
       >
         <label
           aria-disabled={true}
-          className="dnb-form-label"
+          className="dnb-form-label dnb-sr-only"
           disabled={true}
           htmlFor="id"
           id="id-label"
@@ -146,6 +147,7 @@ exports[`Switch component have to match snapshot 1`] = `
                 "label": "label",
                 "label_direction": "horizontal",
                 "label_position": "left",
+                "label_sr_only": true,
                 "on_change": [Function],
                 "on_change_end": [Function],
                 "on_state_update": [Function],

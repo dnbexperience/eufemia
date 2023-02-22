@@ -141,7 +141,7 @@ const SliderStory = () => {
           <Input
             align="center"
             value={String(value)}
-            onChange={({ value }) => {
+            on_change={({ value }) => {
               setValue(value as number)
             }}
           />

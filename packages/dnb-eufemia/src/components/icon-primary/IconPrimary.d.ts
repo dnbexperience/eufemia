@@ -49,14 +49,14 @@ export type IconPrimaryAttributes =
 export type IconPrimaryChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
-
 /**
  * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
  */
+
 export interface IconPrimaryProps
   extends Omit<React.HTMLProps<HTMLElement>, 'size'> {
   /**
-   * A React SVG Component or the icon name (in case we use `IconPrimary` or `dnb-icon-primary`).
+   * <em>(required)</em> a React SVG Component or the icon name (in case we use `IconPrimary` or `dnb-icon-primary`).
    */
   icon?: IconPrimaryIcon;
 
@@ -66,7 +66,7 @@ export interface IconPrimaryProps
   modifier?: string;
 
   /**
-   * The dimension of the icon. This will be the `viewBox` and represent `width` and `height`. Defaults to `16`. You can use `small`,`medium`, `large` or `auto`. Auto will enable that the icon size gets inherited by the mother HTML element, if it provides a `font-size`.
+   * The dimension of the icon. This will be the `viewBox` and represent `width` and `height`. Defaults to `16`. You can use `small`,`medium`, `large` or `auto`. Auto will enable that the icon size gets inherited by the parent HTML element if it provides a `font-size`.
    */
   size?: IconPrimarySize;
 
@@ -103,7 +103,7 @@ export interface IconPrimaryProps
   border?: IconPrimaryBorder;
 
   /**
-   * Sets a color property to the `svg` markup. Default is no color, which means <em>black</em>
+   * The color can be any valid color property, such as Hex, RGB or preferable – any CSS variable from the <a href="/uilib/usage/customisation/colors">colors table</a>, e.g. `var(--color-ocean-green)`. Default is no color, which means `--color-black-80`.
    */
   color?: string;
 
