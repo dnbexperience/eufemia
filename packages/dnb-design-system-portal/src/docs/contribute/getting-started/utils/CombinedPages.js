@@ -9,11 +9,9 @@ const CombinedPages = () => {
       allMdx(
         filter: {
           frontmatter: { title: { ne: "" }, draft: { ne: true } }
-          # MDX v1
-          fileAbsolutePath: { glob: "**/contribute/getting-started/**" }
-
-          # TODO MDX v2
-          # internal: { contentFilePath: { glob: "**/contribute/getting-started/**"  } }
+          internal: {
+            contentFilePath: { glob: "**/contribute/getting-started/**" }
+          }
         }
       ) {
         edges {

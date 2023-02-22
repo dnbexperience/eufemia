@@ -1,6 +1,5 @@
 import React from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
-import { MDXRenderer } from 'gatsby-plugin-mdx' // deprecated, remove in MDX v2
 import { P, Anchor, Ul, Li } from '@dnb/eufemia/src/elements'
 import AutoLinkHeader from '../tags/AutoLinkHeader'
 
@@ -17,11 +16,7 @@ const ListSummaryFromPages = ({
       allMdx(
         filter: {
           frontmatter: { title: { ne: "" }, draft: { ne: true } }
-          # MDX v1
-          fileAbsolutePath: { glob: "**/uilib/**" }
-
-          # TODO MDX v2
-          # internal: { contentFilePath: { glob: "**/uilib/**" } }
+          internal: { contentFilePath: { glob: "**/uilib/**" } }
         }
       ) {
         edges {
@@ -114,7 +109,7 @@ const ListSummaryFromPages = ({
             }
 
             function Body() {
-              return <MDXRenderer>{body}</MDXRenderer>
+              return body
             }
           }
         )}

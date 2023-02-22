@@ -15,6 +15,8 @@ import stylisPlugin from '@dnb/eufemia/src/style/stylis'
 import { isTrue } from '@dnb/eufemia/src/shared/component-helper'
 import { isCI } from 'repo-utils'
 
+import PortalLayout from './PortalLayout'
+
 /**
  * Import Eufemia Styles
  * Use require because Webpack does not import styles after we change /src to /build
@@ -51,8 +53,8 @@ const emotionCache = createCacheInstance()
 
 export const pageElement =
   () =>
-  ({ element }) => {
-    return element
+  ({ props, element }) => {
+    return <PortalLayout location={props.location}>{element}</PortalLayout>
   }
 
 export const rootElement =
