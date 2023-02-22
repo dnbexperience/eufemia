@@ -199,7 +199,7 @@ export const UploadErrorMessage = () => (
             <ToggleButton
               top="small"
               disabled={files.length < 1}
-              onChange={({ checked }) => {
+              on_change={({ checked }) => {
                 setFiles(
                   files.map((fileItem) => {
                     return {
