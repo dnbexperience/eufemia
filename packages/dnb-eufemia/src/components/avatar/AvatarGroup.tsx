@@ -134,12 +134,9 @@ const AvatarGroup = (localProps: AvatarGroupProps & SpacingProps) => {
           spacingClasses,
           className
         )}
-        data-testid="avatar-group"
         {...attributes}
       >
-        <span data-testid="avatar-group-label" className="dnb-sr-only">
-          {label}
-        </span>
+        <span className="dnb-sr-only">{label}</span>
 
         {children}
 
@@ -175,7 +172,6 @@ function ElementsHidden(props: ElementsHiddenProps) {
         'dnb-avatar__group--elements-left',
         `dnb-avatar__group--elements-left--size-${size || 'medium'}`
       )}
-      data-testid="elements-left"
     >
       {children}
     </span>
