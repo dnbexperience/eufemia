@@ -15,6 +15,7 @@ AutocompleteCustomWidth,
 AutocompleteSuffix,
 AutocompleteOpened,
 AutocompleteDisabledExample,
+AutocompleteStatusExample,
 } from 'Docs/uilib/components/autocomplete/Examples'
 
 ## Demos
@@ -88,3 +89,7 @@ const data = [
 <AutocompleteOpened />
 
 <AutocompleteDisabledExample />
+
+### Autocomplete with status message
+
+<AutocompleteStatusExample />

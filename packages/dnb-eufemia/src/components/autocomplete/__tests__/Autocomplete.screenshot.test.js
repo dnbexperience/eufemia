@@ -88,6 +88,14 @@ describe('Autocomplete screenshot', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match the status with status_state info', async () => {
+    const screenshot = await testPageScreenshot({
+      selector:
+        '[data-visual-test="autocomplete-status"] .dnb-autocomplete__inner',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
 describe('Autocomplete screenshot', () => {
