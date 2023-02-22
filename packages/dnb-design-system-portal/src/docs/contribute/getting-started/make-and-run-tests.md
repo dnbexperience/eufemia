@@ -1,9 +1,9 @@
 ---
-title: '4. Make and run tests'
-order: 3
+title: 'Make and run tests'
+order: 4
 ---
 
-## 4. Make and run tests
+## Make and run tests
 
 Make tests for the new component (or for your current issue) and set up screenshot tests from the Eufemia portal. The tests should be located under `__tests__` in the component folder.
 

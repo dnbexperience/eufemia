@@ -1,9 +1,9 @@
 ---
-title: '6. Commit changes'
-order: 5
+title: 'Commit changes'
+order: 6
 ---
 
-## 6. Commit changes
+## Commit changes
 
 Commit your change and create a _Pull Request_ to the `origin/main` branch. Check out the [Git convention](/contribute/style-guides/git) for how to commit and make _Pull Request_.
 

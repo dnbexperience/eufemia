@@ -1,12 +1,12 @@
 ---
-title: '1. Clone the repo'
-order: 0
+title: 'Clone the repo'
+order: 1
 ---
 
 import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
 import { Hr } from '@dnb/eufemia/src'
 
-## 1. Get the repo on your local computer
+## Get the repo on your local computer
 
 - **Clone** the repo if you have commit access,
 

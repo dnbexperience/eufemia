@@ -1,9 +1,9 @@
 ---
-title: '3. Making changes'
-order: 2
+title: 'Making changes'
+order: 3
 ---
 
-## 3. Making changes
+## Making changes
 
 ### Check out a new branch
 

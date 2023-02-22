@@ -7,7 +7,6 @@ type TableOfContents = {
 }
 
 type TableOfContentsProps = {
-  mainTitle?: { title: string; url: string }
   edges: Array<{
     node: {
       frontmatter: { order: number }
@@ -18,7 +17,7 @@ type TableOfContentsProps = {
   }>
 }
 
-const TableOfContents = ({ mainTitle, edges }: TableOfContentsProps) => {
+const TableOfContents = ({ edges }: TableOfContentsProps) => {
   const orderedContents = edges
     .sort((edgeA, edgeB) =>
       edgeA.node.frontmatter.order > edgeB.node.frontmatter.order ? 1 : -1
@@ -29,13 +28,9 @@ const TableOfContents = ({ mainTitle, edges }: TableOfContentsProps) => {
       return allContent
     }, [])
 
-  const contentsToRender = mainTitle
-    ? [{ ...mainTitle, items: orderedContents }]
-    : orderedContents
-
   return (
     <Ul>
-      {contentsToRender.map((content, index) => (
+      {orderedContents.map((content, index) => (
         <TableOfContentsItem
           key={`${content.title}-${index}`}
           {...content}

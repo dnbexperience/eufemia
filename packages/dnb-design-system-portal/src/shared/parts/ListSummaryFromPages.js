@@ -5,12 +5,13 @@ import { P, Anchor, Ul, Li } from '@dnb/eufemia/src/elements'
 import AutoLinkHeader from '../tags/AutoLinkHeader'
 
 const ListSummaryFromPages = ({
-  slug,
+  slug = null,
   returnListItems = false,
   showBody = false,
+  edges = null,
 }) => {
   const {
-    allMdx: { edges },
+    allMdx: { edges: defaultEdges },
   } = useStaticQuery(graphql`
     {
       allMdx(
@@ -43,27 +44,33 @@ const ListSummaryFromPages = ({
 
   return (
     <>
-      {edges
+      {(edges ? edges : defaultEdges)
         .filter(
           ({
             node: {
               fields: { slug: s },
             },
-          }) => s.includes(String(slug).replace(/^\//, ''))
+          }) => (slug ? s.includes(String(slug).replace(/^\//, '')) : true)
         )
         .sort(
           (
             {
               node: {
-                frontmatter: { title: titleA },
+                frontmatter: { title: titleA, order: orderA },
               },
             },
             {
               node: {
-                frontmatter: { title: titleB },
+                frontmatter: { title: titleB, order: orderB },
               },
             }
           ) => {
+            if (
+              typeof orderA !== 'undefined' &&
+              typeof orderB !== 'undefined'
+            ) {
+              return (orderA > orderB) - (orderA < orderB)
+            }
             return (titleA > titleB) - (titleA < titleB)
           }
         )

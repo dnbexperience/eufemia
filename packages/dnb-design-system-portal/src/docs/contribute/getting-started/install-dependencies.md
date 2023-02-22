@@ -1,9 +1,9 @@
 ---
-title: '2. Install the dependencies'
-order: 1
+title: 'Install the dependencies'
+order: 2
 ---
 
-## 2. Install the dependencies
+## Install the dependencies
 
 ```bash
 yarn install

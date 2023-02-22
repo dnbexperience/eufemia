@@ -1,7 +1,7 @@
 import { useStaticQuery, graphql } from 'gatsby'
 import TableOfContents from 'dnb-design-system-portal/src/shared/parts/TableOfContents'
 
-const Toc = ({ mainTitle }) => {
+const Toc = () => {
   const {
     allMdx: { edges },
   } = useStaticQuery(graphql`
@@ -23,7 +23,7 @@ const Toc = ({ mainTitle }) => {
     }
   `)
 
-  return <TableOfContents mainTitle={mainTitle} edges={edges} />
+  return <TableOfContents edges={edges} />
 }
 
 export default Toc
