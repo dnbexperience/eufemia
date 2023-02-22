@@ -3,7 +3,7 @@ import { Anchor, Ul, Li } from '@dnb/eufemia/src/elements'
 type TableOfContents = {
   url: string
   title: string
-  items?: Array<{ url: string; title: string }>
+  items?: Array<TableOfContents>
 }
 
 type TableOfContentsProps = {
