@@ -205,7 +205,6 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
         spacingClasses,
         className
       )}
-      data-testid="breadcrumb-nav"
       {...props}
     >
       <Section
