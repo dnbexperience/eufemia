@@ -126,11 +126,7 @@ const Avatar = (localProps: AvatarProps & SpacingProps) => {
     children = <Img {...imageProps} />
   } else if (childrenIsString) {
     const firstLetterUpperCase = childrenProp.charAt(0).toUpperCase()
-    children = (
-      <span data-testid="avatar-text" aria-hidden>
-        {firstLetterUpperCase}
-      </span>
-    )
+    children = <span aria-hidden>{firstLetterUpperCase}</span>
   } else {
     children = childrenProp
   }
@@ -153,13 +149,10 @@ const Avatar = (localProps: AvatarProps & SpacingProps) => {
         spacingClasses,
         className
       )}
-      data-testid="avatar"
       {...props}
     >
       {childrenIsString && (
-        <span data-testid="avatar-label" className="dnb-sr-only">
-          {childrenProp}
-        </span>
+        <span className="dnb-sr-only">{childrenProp}</span>
       )}
       {children}
     </span>
