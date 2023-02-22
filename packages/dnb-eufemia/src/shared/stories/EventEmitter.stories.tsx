@@ -39,7 +39,7 @@ const MyComponent = ({ storeId }) => {
       <ToggleButton
         right
         checked={data.myData === 'bar'}
-        onChange={onChangeHandler}
+        on_change={onChangeHandler}
       >
         Intern
       </ToggleButton>
@@ -64,7 +64,7 @@ const MyApp = () => {
         top
         right
         checked={myData === 'bar'}
-        onChange={onChangeHandler}
+        on_change={onChangeHandler}
       >
         Extern
       </ToggleButton>

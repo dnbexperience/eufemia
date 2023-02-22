@@ -63,5 +63,7 @@ if (isCI) {
     })
   })
 } else {
-  it('skipping local tests', () => {})
+  it('skipping local tests', () => {
+    return null
+  })
 }

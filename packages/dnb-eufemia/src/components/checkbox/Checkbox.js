@@ -45,6 +45,7 @@ export default class Checkbox extends React.PureComponent {
       PropTypes.node,
     ]),
     label_position: PropTypes.oneOf(['left', 'right']),
+    label_sr_only: PropTypes.bool,
     title: PropTypes.string,
     element: PropTypes.node,
     checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -87,6 +88,7 @@ export default class Checkbox extends React.PureComponent {
   static defaultProps = {
     label: null,
     label_position: null,
+    label_sr_only: null,
     title: null,
     element: 'input',
     checked: null,

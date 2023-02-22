@@ -17,6 +17,7 @@ exports[`Checkbox component have to match snapshot 1`] = `
         "id": "id",
         "label": "label",
         "label_position": "'left'",
+        "label_sr_only": true,
         "on_change": [Function],
         "on_state_update": [Function],
         "readOnly": "readOnly",
@@ -50,6 +51,7 @@ exports[`Checkbox component have to match snapshot 1`] = `
   id="checkbox"
   label="checkbox"
   label_position="left"
+  label_sr_only={null}
   on_change={null}
   on_state_update={null}
   readOnly={false}
