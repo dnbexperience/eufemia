@@ -1,0 +1,19 @@
+---
+title: 'Clone the repo'
+order: 1
+---
+
+import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
+import { Hr } from '@dnb/eufemia/src'
+
+## Get the repo on your local computer
+
+- **Clone** the repo if you have commit access,
+
+```bash
+git clone https://github.com/dnbexperience/eufemia.git
+```
+
+- or **Fork** the repo by clicking `Fork` in the top right corner in [Eufemia on GitHub](https://github.com/dnbexperience/eufemia).
+
+<InlineImg src="/images/fork-repo.png" width="500" alt="Fork button location on Github" />
