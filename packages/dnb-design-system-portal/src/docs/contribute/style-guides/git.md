@@ -17,7 +17,7 @@ Make sure to decorate your **commit messages** with either [Conventional Commits
 
 - `fix: an example fix message` as the subject
 - `feat: this is a new feature` as the subject
-- `BREAKING CHANGE:` in the footer of the commit, the subject does not really matter. See example below.
+- `e.g. feat: message` + `BREAKING CHANGE:` in the footer of the commit. See example below.
 
 If you are working on a single component update, you can use a decoration and a scope in parenthesis:
 
@@ -38,7 +38,7 @@ You can also use the following decorators – but keep in mind, they won't be in
 Example of a breaking change commit message:
 
 ```text
-commit subject with optional decorator
+feat: commit subject with optional decorator
 
 Body with text
 Several lines
@@ -54,6 +54,8 @@ Additional text such as:
 1. List item
 2. List item
 ```
+
+You find more info in the [docs of semantic-release](https://github.com/semantic-release/semantic-release#how-does-it-work) and [Conventional Commits](https://www.conventionalcommits.org/).
 
 ### Ignore CI run
 
