@@ -64,6 +64,6 @@ if (isCI) {
   })
 } else {
   it('skipping local tests', () => {
-    return null
+    expect(true).toBe(true)
   })
 }
