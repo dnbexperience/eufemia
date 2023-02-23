@@ -17,7 +17,7 @@ The `@dnb/eufemia` contains styling for the most commonly used [HTML Elements](h
 
 ## Elements
 
-<ListSummaryFromPages useAsIndex slug="uilib/elements/" />
+<ListSummaryFromPages returnListItems slug="uilib/elements/" />
 
 ### Vanilla HTML
 
