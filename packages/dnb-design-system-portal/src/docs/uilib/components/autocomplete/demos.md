@@ -13,8 +13,6 @@ AutocompletePredefinedInput,
 AutocompleteDifferentSizes,
 AutocompleteCustomWidth,
 AutocompleteSuffix,
-AutocompleteOpened,
-AutocompleteDisabledExample,
 AutocompleteStatusExample,
 } from 'Docs/uilib/components/autocomplete/Examples'
 
