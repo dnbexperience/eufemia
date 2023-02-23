@@ -93,7 +93,6 @@ const Timeline = (localProps: TimelineAllProps) => {
         spacingClasses,
         className
       )}
-      data-testid="timeline"
       {...props}
     >
       {data?.map((timelineItem, i) => (
