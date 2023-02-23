@@ -406,7 +406,7 @@ describe('Dialog component snapshot', () => {
 })
 describe('Dialog aria', () => {
   it('should validate with ARIA rules as a dialog', async () => {
-    const Comp = mount(<Dialog {...props} openState={true} />)
+    const Comp = render(<Dialog {...props} openState={true} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
