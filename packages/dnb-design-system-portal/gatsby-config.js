@@ -68,6 +68,7 @@ const plugins = [
         '**/skip-link-example.js',
         '**/CardProductsTable.js',
         '**/assets/*.js',
+        '**/utils/*.{js,ts,tsx}',
       ],
       path: `${__dirname}/src/docs`, // for .js files
       name: 'docs',
