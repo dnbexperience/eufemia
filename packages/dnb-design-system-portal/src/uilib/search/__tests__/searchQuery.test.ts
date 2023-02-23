@@ -5,7 +5,9 @@ jest.mock('../searchHelpers', () => {
 })
 
 describe('searchQuery', () => {
-  const { indexName, transformer } = queries[0]
+  const { indexName, transformer } = queries?.[0] || {
+    transformer: () => null,
+  }
 
   const makeNode = (node) => {
     const edges = [
