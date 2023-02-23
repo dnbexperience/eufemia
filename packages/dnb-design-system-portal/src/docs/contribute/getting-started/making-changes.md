@@ -1,0 +1,298 @@
+---
+title: 'Making changes'
+order: 3
+---
+
+## Making changes
+
+### Check out a new branch
+
+Make a new working branch and name it e.g. `fix/my-branch-name` or `feat/my-feature-name`. Check out [Git convention](/contribute/style-guides/git) for naming.
+
+```bash
+# Make a Feature branch
+$ git checkout -b feat/my-feature
+```
+
+### Add changes
+
+Inside `./packages/dnb-eufemia` you will find the directory `/src/components`, `/src/elements` or `/src/extensions`. There you can place a new directory with all the necessary sub folders. As a reference, take a look at Component folder section in [Before getting started](/contribute/first-contribution/before-started#component-folder).
+
+Run an environment with either `yarn dev` (for Storybook) or `yarn start` (for Eufemia Portal). Make sure you follow the [Code guide](/contribute/style-guides/coding) under development.
+
+### Styling, CSS and SCSS of components
+
+Each component has two or three SCSS files.
+
+All layout and position related styles go here:
+
+- `./packages/dnb-eufemia/src/components/button/style/dnb-button.scss`
+
+#### CSS packages
+
+SCSS file names starting with `dnb-` are later possible to get imported as individual packages:
+
+- `./packages/dnb-eufemia/src/components/button/style/dnb-button.scss`
+
+#### Style dependencies
+
+In order to test related style dependencies of components, we add style imports in the `deps.scss` file, which again is used in Jest tests to perform a snapshot comparison:
+
+- `./packages/dnb-eufemia/src/components/button/style/deps.scss`
+
+#### SCSS Theming
+
+Styles that belong to a "theming footprint" – like colors or individual variants – can be put inside the `/themes` directory:
+
+- `./packages/dnb-eufemia/src/components/button/style/themes/dnb-button-theme-ui.scss`
+
+Theming file names ending with `-ui` will during the package release get packed into the global theming package. More details in the [theming section](/uilib/usage/customisation/theming).
+
+#### SCSS utilities and properties
+
+Use the same SASS setup as all the other components. You may re-use all the [helper classes](/uilib/helpers/classes):
+
+- `./packages/dnb-eufemia/src/style/core/utilities.scss`
+- `./packages/dnb-eufemia/src/style/core/properties.scss`
+
+### Create a local build
+
+Next, we need to create a local build (prebuild) by using `yarn build` again.
+
+Running the build command will walk through all parts and tie together all needed parts (index files of new components) in order to generate valid build bundles.
+
+```bash
+$ yarn build
+```
+
+You find the output in the `./packages/dnb-eufemia/build` folder.
+
+### Additional component support
+
+#### Locale support
+
+Put your translation inside: `./packages/dnb-eufemia/src/shared/locales/nb-NO.js` as well as to the `en-GB.js` file:
+
+```js
+export default {
+  'nb-NO': {
+    MyComponent: {
+      myString: '...',
+    },
+  },
+}
+```
+
+And use it as so:
+
+```tsx
+import { Context } from '../../shared'
+import { extendPropsWithContext } from '../../shared/component-helper'
+
+import type { LocaleProps } from '../../shared/types'
+
+export type ComponentProps = {
+  myParam?: string
+}
+export type ComponentAllProps = ComponentProps &
+  LocaleProps &
+  React.HTMLProps<HTMLElement>
+
+const defaultProps = {
+  myParam: 'value',
+}
+
+function MyComponent(props: ComponentAllProps) {
+  const context = React.useContext(Context)
+
+  const { myString } = extendPropsWithContext(
+    props,
+    defaultProps,
+    context.getTranslation(props).MyComponent // details below 👇
+    // ...
+  )
+
+  // Use myString ...
+}
+```
+
+The function `getTranslation` will along with the properties support both `locale` and the HTML `lang` attribute. This way, these properties can be set by a component basis and a context basis.
+
+#### Provider support
+
+```tsx
+import { Context } from '../../shared'
+import { extendPropsWithContext } from '../../shared/component-helper'
+
+export type ComponentProps = {
+  myParam?: string
+}
+export type ComponentAllProps = ComponentProps &
+  LocaleProps &
+  React.HTMLProps<HTMLElement>
+
+const defaultProps = {
+  myParam: 'value',
+}
+
+function MyComponent(props: ComponentAllProps) {
+  const context = React.useContext(Context)
+
+  const { myParam, ...rest } = extendPropsWithContext(
+    props,
+    defaultProps,
+    context.MyComponent
+    // ...
+  )
+
+  // Use myParam and spread the ...rest
+}
+```
+
+#### FormRow support with `includeValidProps`
+
+Form elements, like input, checkbox, slider etc. do support some [FormRow](/uilib/components/form-row) properties. In order to support them, you can use `includeValidProps`, so only valid properties will effected the component.
+
+```tsx
+import { Context } from '../../shared'
+import { extendPropsWithContext } from '../../shared/component-helper'
+import { includeValidProps } from '../../components/form-row/FormRowHelpers'
+
+const defaultProps = {
+  myParam: 'value',
+}
+
+function MyComponent(props: Types) {
+  const context = React.useContext(Context)
+
+  const { myParam, skeleton, ...rest } = extendPropsWithContext(
+    props,
+    defaultProps,
+    includeValidProps(context?.FormRow)
+    context.MyComponent,
+  )
+
+  // Use myParam and spread the ...rest
+}
+```
+
+#### Spacing support
+
+It depends from case to case on how you would make [spacing](/uilib/components/space) support available. But you may always give the developer to send in the spacing properties to the very root element of your component.
+
+```tsx
+import { Context } from '../../shared'
+import classnames from 'classnames'
+import {
+  validateDOMAttributes,
+  extendPropsWithContext,
+} from '../../shared/component-helper'
+import { createSpacingClasses } from '../space/SpacingHelper'
+
+import type { SpacingProps } from '../../shared/types'
+
+export type ComponentProps = {
+  myParam?: string
+}
+export type ComponentAllProps = ComponentProps & SpacingProps
+
+const defaultProps = {
+  myParam: 'value',
+}
+
+function MyComponent(props: ComponentAllProps) {
+  const context = React.useContext(Context)
+
+  const { myParam, className, ...rest } = extendPropsWithContext(
+    props,
+    defaultProps
+    // ...
+  )
+
+  // This helper will remove e.g. all spacing properties so you get only valid HTML attributes
+  validateDOMAttributes(props, rest)
+
+  // This helper will add needed spacing css classes based on the given properties
+  rest.className = classnames(
+    'dnb-my-component',
+    createSpacingClasses(props),
+    className
+  )
+
+  // Spread the ...rest on your root element
+}
+```
+
+#### Skeleton support
+
+It depends from case to case on how you would make skeleton support available. There are also more info on how to create a [custom skeleton](/uilib/components/skeleton#create-custom-skeleton). But in case your component supports the `skeleton` boolean property, then you may ensure it both can be set locally on the component, and it reacts on the global Context.
+
+```tsx
+import { Context } from '../../shared'
+import { extendPropsWithContext } from '../../shared/component-helper'
+import {
+  skeletonDOMAttributes,
+  createSkeletonClass,
+} from '../skeleton/SkeletonHelper'
+
+import type { SkeletonShow } from '../skeleton/Skeleton'
+
+export type ComponentProps = {
+  /**
+   * Skeleton should be applied when loading content
+   * Default: null
+   */
+  skeleton?: SkeletonShow
+}
+export type ComponentAllProps = ComponentProps &
+  React.HTMLProps<HTMLElement>
+
+const defaultProps = {}
+
+function MyComponent(props: ComponentAllProps) {
+  const context = React.useContext(Context)
+
+  const { skeleton, className, ...rest } = extendPropsWithContext(
+    props,
+    defaultProps,
+    { skeleton: context?.skeleton }
+    // ...
+  )
+
+  // This helper will add some needed HTML attributes like "disabled", "aria-disabled" and "aria-label"
+  skeletonDOMAttributes(rest, skeleton, context)
+
+  // This helper will add needed skeleton css classes in order to create a custom skeleton
+  rest.className = createSkeletonClass(
+    'shape',
+    skeleton,
+    context,
+    className
+  )
+
+  // Use skeleton and spread the ...rest
+}
+```
+
+#### TypeScript types
+
+```tsx
+import React from 'react'
+import type { SpacingProps } from '../../shared/types'
+import type { ComponentProps } from './my-component/types'
+
+export type * from './new-component/types'
+
+export type ComponentAllProps = ComponentProps &
+  React.HTMLProps<HTMLElement>
+
+function MyComponent(props: ComponentAllProps) {}
+```
+
+### Write documentation
+
+All components have their own directory inside:
+
+- `./packages/dnb-design-system-portal/src/docs/uilib/...`
+
+You may have a look at [Documentation guide](/contribute/style-guides/documentation) and existing docs in order to get the right structure.
