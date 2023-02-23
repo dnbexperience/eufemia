@@ -1,4 +1,4 @@
-name: Visual Tests
+name: e2e Tests
 
 on:
   push:
@@ -76,8 +76,8 @@ jobs:
           path: |
             ./packages/dnb-design-system-portal/.cache
             ./packages/dnb-design-system-portal/public
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-gatsby-dev-${{ steps.date.outputs.timestamp }}
-          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-gatsby-dev-
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-gatsby-${{ steps.date.outputs.timestamp }}
+          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-gatsby-
 
       - name: Build portal
         run: yarn workspace dnb-design-system-portal build-visual-test
@@ -89,7 +89,7 @@ jobs:
           path: ./packages/dnb-design-system-portal/public
 
   visual-test:
-    name: Visual Test Action
+    name: Visual Tests
 
     runs-on: macos-latest
 
@@ -165,9 +165,84 @@ jobs:
         with:
           channel: '#eufemia-dev'
           status: ${{ job.status }}
-          fields: author,ref,action,workflow
+          fields: author,ref,workflow,job,took
+          job_name: Visual Tests
           github_base_url: https://github.com/
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
-          MATRIX_CONTEXT: ${{ toJson(matrix) }}
+        if: ${{ always() && !github.event.pull_request.head.repo.fork }}
+
+  portal-test:
+    name: Portal Tests
+
+    runs-on: ubuntu-latest
+
+    env:
+      CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: 'package.json'
+
+      - name: Use node_modules cache
+        uses: actions/cache@v3
+        id: modules-cache
+        with:
+          path: '**/node_modules'
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-
+
+      - name: Use Cypress cache
+        uses: actions/cache@v3
+        id: cypress-binary-cache
+        with:
+          path: ~/.cache/Cypress
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-cypress-binary-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Install Cypress
+        if: steps.cypress-binary-cache.outputs.cache-hit != 'true'
+        run: yarn workspace dnb-design-system-portal cypress install
+
+      - name: Wait for build to succeed
+        uses: fountainhead/action-wait-for-check@v1.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          checkName: Build Portal
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          intervalSeconds: 3
+          timeoutSeconds: 900
+
+      - name: Re-store portal artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: portal-build-artifact
+          path: ./packages/dnb-design-system-portal/public
+
+      - name: Run Cypress
+        run: yarn workspace dnb-design-system-portal cypress:ci
+
+      - name: Store cypress artifacts
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: cypress-develop-artifact
+          path: ./packages/dnb-design-system-portal/cypress
+
+      - name: Slack
+        uses: 8398a7/action-slack@v3
+        with:
+          channel: '#eufemia-dev'
+          status: ${{ job.status }}
+          fields: author,ref,workflow,job,took
+          job_name: Portal Tests
+          github_base_url: https://github.com/
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
         if: ${{ always() && !github.event.pull_request.head.repo.fork }}
