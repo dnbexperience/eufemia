@@ -1,0 +1,10 @@
+---
+title: 'Install the dependencies'
+order: 2
+---
+
+## Install the dependencies
+
+```bash
+yarn install
+```
