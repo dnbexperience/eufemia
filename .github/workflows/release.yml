@@ -96,9 +96,9 @@ jobs:
         with:
           channel: '#eufemia-dev'
           status: ${{ job.status }}
-          fields: author,ref,action,workflow
+          fields: author,ref,workflow,job,took
+          job_name: Release and Deploy
           github_base_url: https://github.com/
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
-          MATRIX_CONTEXT: ${{ toJson(matrix) }}
         if: ${{ always() && !github.event.pull_request.head.repo.fork }}
