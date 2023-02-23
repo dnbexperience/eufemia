@@ -8,7 +8,3 @@ order: 2
 ```bash
 yarn install
 ```
-
-```
-
-```
