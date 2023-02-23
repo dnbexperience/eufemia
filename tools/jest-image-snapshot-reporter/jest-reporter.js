@@ -21,7 +21,7 @@ class JestReporter {
             return status === 'failed'
           })
           .forEach(({ failureDetails, fullName }) => {
-            const failureMessage = failureDetails[0].matcherResult.message
+            const failureMessage = failureDetails[0].matcherResult?.message
 
             if (failureMessage) {
               const regex = `.*${cwd}(.*)diff\\.png.*`
