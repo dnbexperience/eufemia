@@ -1,19 +1,8 @@
 {
-  "extends": [
-    "stylelint-config-recommended",
-    "stylelint-config-standard",
-    "stylelint-config-prettier"
-  ],
-  "plugins": ["stylelint-scss"],
+  "extends": ["@dnb/eufemia/.stylelintrc"],
   "rules": {
-    "declaration-empty-line-before": null,
-    "at-rule-no-unknown": null,
-    "no-invalid-position-at-import-rule": null,
-    "selector-pseudo-class-no-unknown": [
-      true,
-      {
-        "ignorePseudoClasses": ["global"]
-      }
-    ]
+    "selector-pseudo-class-no-unknown": null,
+    "scss/no-global-function-names": null,
+    "shorthand-property-no-redundant-values": null
   }
 }

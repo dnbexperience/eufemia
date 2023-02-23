@@ -1,12 +1,24 @@
 /*
-* DNB ScrollView
+* ScrollView component
 *
 */
 
-@import '../../../style/components/imports.scss';
+@import '../../../style/core/utilities.scss';
 
 .dnb-scroll-view {
-  @include componentReset();
-}
+  overflow-x: auto;
 
-@import './_scroll-view.scss';
+  @include scrollY(auto);
+
+  // Ensure the user still can scroll a ancestor scrollarea (body)
+  overscroll-behavior: auto;
+
+  // interactive prop
+  &[tabindex='0'] {
+    &:focus {
+      outline: none;
+
+      @include fakeFocus();
+    }
+  }
+}

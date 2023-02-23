@@ -11,7 +11,6 @@ import {
   isTrue,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
-  registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
@@ -41,7 +40,6 @@ const propsToFilterOut = {
 }
 
 export default class DrawerList extends React.PureComponent {
-  static tagName = 'dnb-drawer-list'
   static contextType = DrawerListContext // only used for the hasProvide check
 
   static blurDelay = DrawerListProvider.blurDelay // some ms more than "DrawerListSlideDown 200ms" = 201 // some ms more than "DrawerListSlideDown 200ms"
@@ -58,14 +56,6 @@ export default class DrawerList extends React.PureComponent {
     super(props)
 
     this._id = props.id || makeUniqueId()
-  }
-
-  static enableWebComponent() {
-    registerElement(
-      DrawerList.tagName,
-      DrawerList,
-      DrawerList.defaultProps
-    )
   }
 
   render() {
@@ -160,7 +150,6 @@ class DrawerListInstance extends React.PureComponent {
       role,
       align_drawer,
       fixed_position,
-      use_drawer_on_mobile,
       independent_width,
       scrollable,
       focusable,
@@ -234,7 +223,6 @@ class DrawerListInstance extends React.PureComponent {
         isTrue(scrollable) && 'dnb-drawer-list--scroll',
         isTrue(no_scroll_animation) &&
           'dnb-drawer-list--no-scroll-animation',
-        isTrue(use_drawer_on_mobile) && 'dnb-drawer-list--mobile-view',
         createSpacingClasses(props),
         _className,
         className
@@ -405,7 +393,6 @@ class DrawerListInstance extends React.PureComponent {
             include_owner_width={align_drawer === 'right'}
             independent_width={isTrue(independent_width)}
             fixed_position={isTrue(fixed_position)}
-            use_drawer_on_mobile={isTrue(use_drawer_on_mobile)}
             className={portal_class}
           >
             {mainList}

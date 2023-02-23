@@ -18,14 +18,16 @@ import {
   FormSet,
   FormRow,
   Tabs,
+  Table,
   FormStatus,
   ProgressIndicator,
+  Drawer,
   // Space,
   NumberFormat,
 } from '../../'
 import Modal from '../../modal/Modal'
 import { ScrollView } from '../../../fragments'
-import { H1, H2, P, Hr, Table } from '../../../elements'
+import { H1, H2, P, Hr } from '../../../elements'
 
 export default {
   title: 'Eufemia/Components/Modal',
@@ -64,7 +66,7 @@ export const ModalSandbox = () => (
     <Box>
       <Modal
         title="1s close delay"
-        trigger_text="Click me"
+        triggerAttributes={{ text: 'Click me' }}
         focus_selector=".dnb-input__input:first-of-type"
         prevent_close="true"
         // hide_close_button="true"
@@ -93,14 +95,11 @@ export const ModalSandbox = () => (
 
     <Box>
       <Modal
-        // trigger_attributes={{
-        //   'aria-label': 'My Label'
-        // }}
         spacing={false}
         fullscreen={false}
         align_content="centered"
         hide_close_button
-        trigger_text="Show"
+        triggerAttributes={{ text: 'Show' }}
         // prevent_close
         max_width="12rem"
       >
@@ -113,14 +112,11 @@ export const ModalSandbox = () => (
         />
       </Modal>
       <Modal
-        // trigger_attributes={{
-        //   'aria-label': 'My Label'
-        // }}
         spacing={false}
         fullscreen={false}
         align_content="centered"
         hide_close_button
-        trigger_icon="bell"
+        triggerAttributes={{ icon: 'bell' }}
         // prevent_close
         max_width="12rem"
       >
@@ -158,7 +154,7 @@ export const ModalSandbox = () => (
     <Box>
       <Modal
         title="Title 1"
-        trigger_text="Modal in modal"
+        triggerAttributes={{ text: 'Modal in modal' }}
         // open_state="opened"
         style={{
           minHeight: '25rem',
@@ -190,9 +186,7 @@ export const ModalSandbox = () => (
         // open_state="opened"
         fullscreen
         title="Modal Title"
-        trigger_variant="tertiary"
-        // trigger_icon={null}
-        trigger_text="Click me"
+        triggerAttributes={{ text: 'Click me', variant: 'tertiary' }}
       >
         <FillContent />
       </Modal>
@@ -201,7 +195,7 @@ export const ModalSandbox = () => (
       <Modal
         // min_width="60vw"
         max_width="40rem"
-        trigger_text="Open Modal"
+        triggerAttributes={{ text: 'Open modal' }}
         title="Modal Title"
         on_close={(e) => {
           console.log('on_close', e)
@@ -245,9 +239,6 @@ export const ModalV2Sandbox = () => (
       text: 'Custom',
       'data-testid': 'html-selector',
     }}
-    closeButtonAttributes={{
-      'data-testid': 'html-selector',
-    }}
   >
     The informational content
   </Modal>
@@ -268,10 +259,9 @@ export const DrawerSandbox = () => (
 
     <Box>
       {/* <Button variant="tertiary" text="Button" /> */}
-      <Modal
+      <Drawer
         // no_animation
         // open_state="opened"
-        mode="drawer"
         // fullscreen
         // container_placement="left"
         // align_content="right"
@@ -283,7 +273,7 @@ export const DrawerSandbox = () => (
         // max_width="40vw"
         // overlay_class="overlay_class"
         // content_class="content_class"
-        // class="inner_class"
+        // className="inner_class"
         // header_content={
         //   <>
         //     <P bottom>This is a lorem ipsum dolor</P>
@@ -314,7 +304,7 @@ export const DrawerSandbox = () => (
         //   </>
         // }
       >
-        <Modal.Bar>
+        <Drawer.Navigation>
           <Button
             variant="tertiary"
             icon="chevron_left"
@@ -325,8 +315,8 @@ export const DrawerSandbox = () => (
           </Button>
           {/* Tilbake Lorem ipsum Praesent rutrum ipsum Praesent rutrum ipsum
           Praesent rutrum ipsum Praesent rutrum ipsum Praesent rutrum */}
-        </Modal.Bar>
-        <Modal.Header>
+        </Drawer.Navigation>
+        <Drawer.Header>
           <div>
             {/* <h1>Custom heading</h1> */}
             <H1 size="x-large" bottom>
@@ -354,8 +344,8 @@ export const DrawerSandbox = () => (
               },
             ]}
           />
-        </Modal.Header>
-        <Modal.Content>
+        </Drawer.Header>
+        <Drawer.Body>
           <Tabs.Content id="unique-linked-id">
             {({ title }) => {
               return (
@@ -396,30 +386,27 @@ export const DrawerSandbox = () => (
             }}
           </Tabs.Content>
           <FillContent />
-        </Modal.Content>
-      </Modal>
+        </Drawer.Body>
+      </Drawer>
     </Box>
 
     <Box>
-      <Modal
-        mode="drawer"
+      <Drawer
         title="Drawer Title"
-        trigger_text="Open Drawer"
-        trigger_title="Click me"
+        triggerAttributes={{ text: 'Open Drawer', title: 'Click me' }}
       >
-        <Modal.Content>
+        <Drawer.Body>
           <P top>This is a left aligned Drawer content.</P>
-        </Modal.Content>
-      </Modal>
+        </Drawer.Body>
+      </Drawer>
     </Box>
 
     <Box>
       {/* <Button variant="tertiary" text="Button" /> */}
-      <Modal
+      <Drawer
         // no_animation
         // open_state="opened"
-        mode="drawer"
-        trigger_text="Drawer in Drawer"
+        triggerAttributes={{ text: 'Drawer in Drawer' }}
         // fullscreen
         // container_placement="left"
         // align_content="right"
@@ -433,21 +420,20 @@ export const DrawerSandbox = () => (
         // content_class="content_class"
         // class="inner_class"
       >
-        <Modal.Content style_type="pistachio">
+        <Drawer.Body style_type="pistachio">
           Modal.Content
-          <Modal mode="drawer" title="Title 2" open_state="opened">
-            New content 2 <Modal title="Title 3">New content 3</Modal>
-          </Modal>
+          <Drawer title="Title 2" openState="opened">
+            New content 2 <Drawer title="Title 3">New content 3</Drawer>
+          </Drawer>
           {/* <FillContent /> */}
-        </Modal.Content>
-      </Modal>
+        </Drawer.Body>
+      </Drawer>
     </Box>
     <Box>
-      <Modal
-        mode="drawer"
+      <Drawer
         title="Top drawer"
-        container_placement="top"
-        modal_content="something"
+        containerPlacement="top"
+        modalContent="something"
       />
     </Box>
   </Wrapper>
@@ -456,14 +442,14 @@ export const DrawerSandbox = () => (
 class ModalRerenderExample extends React.PureComponent {
   state = {
     title: 'Modal Title',
-    trigger_text: 'Open Modal',
+    triggerText: 'Open Modal',
   }
   timeout
 
   componentDidMount() {
     this.timeout = setTimeout(() => {
       this.setState({ title: 'New Title' })
-      this.setState({ trigger_text: 'New Open Modal' })
+      this.setState({ triggerText: 'New Open Modal' })
     }, 1e3)
   }
 
@@ -475,10 +461,8 @@ class ModalRerenderExample extends React.PureComponent {
     return (
       <Modal
         // open_state="opened"
-        trigger_text={this.state.trigger_text}
+        triggerAttributes={{ text: this.state.triggerText }}
         title={this.state.title}
-        // trigger_disabled
-        // trigger_hidden
       >
         <Modal.Content spacing>
           {/* <Hr /> */}
@@ -590,8 +574,7 @@ const ModalCloseExample = () => {
         on_click={() => setOpenState('opened')}
       />
       <Modal
-        // trigger_hidden
-        trigger_text="Open Modal and auto close"
+        triggerAttributes={{ text: 'Open Modal and auto close' }}
         title="Modal Title"
         open_state={open_state}
         open_modal={(open) => {
@@ -653,7 +636,7 @@ const ModalTriggerExample = () => {
             return (
               <Modal
                 title="Modal Title"
-                trigger_hidden="true"
+                triggerAttributes={{ hidden: true }}
                 open_state="opened"
                 labelled_by="custom-triggerer"
               >
@@ -856,7 +839,7 @@ function CloseWithAnimation() {
   const [modalOpen, setModalOpen] = React.useState(false)
   return (
     <Modal
-      trigger_text="CloseWithAnimation"
+      triggerAttributes={{ text: 'CloseWithAnimation' }}
       hide_close_button
       open_state={modalOpen}
       on_open={() => setModalOpen(true)}
@@ -872,9 +855,12 @@ function CloseWithAnimation() {
 
 function CloseByCallback() {
   return (
-    <Modal mode="drawer" trigger_text="CloseByCallback" hide_close_button>
+    <Drawer
+      triggerAttributes={{ text: 'CloseByCallback' }}
+      hideCloseButton
+    >
       {({ close }) => <Button text="Close by callback" on_click={close} />}
-    </Modal>
+    </Drawer>
   )
 }
 
@@ -898,13 +884,11 @@ const LargeListOfTrs = () => {
 
 export const ModalPerformance = () => (
   <div>
-    <Modal mode="drawer" trigger_text="Open Drawer" bottom>
+    <Drawer triggerAttributes={{ text: 'Open Drawer' }} bottom>
       Content
-    </Modal>
+    </Drawer>
 
-    <Table
-    //  className="dnb-modal--bypass_invalidation_deep"
-    >
+    <Table>
       <caption>A Table Caption</caption>
       <thead>
         <tr>

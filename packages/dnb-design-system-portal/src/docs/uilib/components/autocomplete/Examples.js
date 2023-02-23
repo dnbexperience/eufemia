@@ -37,6 +37,27 @@ export const AutocompleteDefaultExample = () => (
   </Wrapper>
 )
 
+export const AutocompleteStatusExample = () => (
+  <Wrapper>
+    <ComponentBox
+      data-visual-test="autocomplete-status"
+      scope={{ topMovies }}
+    >
+      {
+        /* jsx */ `
+<Autocomplete
+  data={topMovies}
+  label="Label:"
+  status='Please select a valid date'
+  status_state='info'
+  show_submit_button
+/>
+`
+      }
+    </ComponentBox>
+  </Wrapper>
+)
+
 export const AutocompleteNumbersExample = () => (
   <Wrapper>
     <ComponentBox useRender scope={{ format }}>

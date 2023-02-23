@@ -3,9 +3,9 @@
 
 # testing
 /coverage
-/jest-screenshot-report
-/reports/*
-!/reports/*.tgz
+**/__diff_output__/
+.jest-image-snapshot-touched-files
+/jest-visual-diff-report/*
 
 # production
 *.min.mjs
@@ -30,12 +30,9 @@
 /dnb-ui-resources
 **/test-files/dist
 /docs
-/vue.js
 /index.*
 !index.js
 /lib.js
-/web-components.*
-/web-components
 @dnb/eufemia*.tgz
 
 # misc

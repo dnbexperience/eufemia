@@ -108,6 +108,13 @@ describe('Button component', () => {
     expect(document.querySelector('svg')).toBeTruthy()
   })
 
+  it('supports anchor rel property', () => {
+    render(
+      <Component {...props} href="https://url" icon={null} rel="me" />
+    )
+    expect(document.querySelector('a').getAttribute('rel')).toBe('me')
+  })
+
   it('has a disabled attribute, once we set disabled to true', () => {
     const { rerender } = render(<Component />)
     expect(document.querySelector('button').hasAttribute('disabled')).toBe(
@@ -282,7 +289,7 @@ describe('Button component', () => {
 
 describe('Button scss', () => {
   it('have to match snapshot', () => {
-    const scss = loadScss(require.resolve('../style/dnb-button.scss'))
+    const scss = loadScss(require.resolve('../style/deps.scss'))
     expect(scss).toMatchSnapshot()
   })
   it('have to match default theme snapshot', () => {

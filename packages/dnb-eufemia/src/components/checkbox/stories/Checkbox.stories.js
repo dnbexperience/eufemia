@@ -57,7 +57,7 @@ export const CheckboxSandbox = () => (
         </p>
       </Box>
       <Box>
-        <CustomRow indent>
+        <CustomRow>
           <FormLabel for_id="checkbox-2">
             Vertical FormLabel for a Checkbox component Sapien rhoncus
             sagittis pharetra ornare platea feugiat cras senectus viverra:

@@ -11,7 +11,6 @@ import {
   isTrue,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
-  registerElement,
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
@@ -37,7 +36,6 @@ import FormStatus from '../form-status/FormStatus'
  * The switch component is our enhancement of the classic radio button. It acts like a switch. Example: On/off, yes/no.
  */
 export default class Switch extends React.PureComponent {
-  static tagName = 'dnb-switch'
   static contextType = Context
 
   static propTypes = {
@@ -47,8 +45,8 @@ export default class Switch extends React.PureComponent {
       PropTypes.node,
     ]),
     label_position: PropTypes.oneOf(['left', 'right']),
+    label_sr_only: PropTypes.bool,
     title: PropTypes.string,
-    default_state: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]), // Deprecated
     checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     id: PropTypes.string,
@@ -82,8 +80,6 @@ export default class Switch extends React.PureComponent {
     className: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 
-    custom_element: PropTypes.object,
-    custom_method: PropTypes.func,
     on_change: PropTypes.func,
     on_change_end: PropTypes.func,
     on_state_update: PropTypes.func,
@@ -92,8 +88,8 @@ export default class Switch extends React.PureComponent {
   static defaultProps = {
     label: null,
     label_position: null,
+    label_sr_only: null,
     title: null,
-    default_state: null, // Deprecated
     checked: null,
     disabled: null,
     id: null,
@@ -113,16 +109,9 @@ export default class Switch extends React.PureComponent {
     className: null,
     children: null,
 
-    custom_element: null,
-    custom_method: null,
-
     on_change: null,
     on_change_end: null,
     on_state_update: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(Switch?.tagName, Switch, Switch.defaultProps)
   }
 
   static parseChecked = (state) => /true|on/.test(String(state))
@@ -130,14 +119,7 @@ export default class Switch extends React.PureComponent {
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
       if (props.checked !== state._checked) {
-        if (
-          props.default_state !== null &&
-          typeof state.checked === 'undefined'
-        ) {
-          state.checked = Switch.parseChecked(props.default_state)
-        } else {
-          state.checked = Switch.parseChecked(props.checked)
-        }
+        state.checked = Switch.parseChecked(props.checked)
       }
     }
     state._listenForPropChanges = true
@@ -240,8 +222,6 @@ export default class Switch extends React.PureComponent {
       children, // eslint-disable-line
       on_change, // eslint-disable-line
       on_state_update, // eslint-disable-line
-      custom_method, // eslint-disable-line
-      custom_element, // eslint-disable-line
 
       ...rest
     } = props
@@ -314,7 +294,7 @@ export default class Switch extends React.PureComponent {
               text_id={id + '-status'} // used for "aria-describedby"
               width_selector={id + ', ' + id + '-label'}
               text={status}
-              status={status_state}
+              state={status_state}
               skeleton={skeleton}
               no_animation={status_no_animation}
               {...status_props}

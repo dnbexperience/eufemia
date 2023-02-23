@@ -38,15 +38,6 @@ describe('FormRow component', () => {
     ).toBe(true)
   })
 
-  it('should have correct indent class', () => {
-    const Comp = mount(<Component {...props} indent="large" />)
-    expect(
-      Comp.find('.dnb-form-row')
-        .last()
-        .hasClass('dnb-form-row__indent--large')
-    ).toBe(true)
-  })
-
   it('should have an isolated state on nested FormRows', () => {
     const Comp = mount(
       <Component vertical>
@@ -131,7 +122,7 @@ describe('FormRow component', () => {
 
 describe('FormRow scss', () => {
   it('have to match snapshot', () => {
-    const scss = loadScss(require.resolve('../style/dnb-form-row.scss'))
+    const scss = loadScss(require.resolve('../style/deps.scss'))
     expect(scss).toMatchSnapshot()
   })
   it('have to match default theme snapshot', () => {

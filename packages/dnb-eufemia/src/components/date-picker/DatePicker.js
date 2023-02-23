@@ -11,7 +11,6 @@ import {
   isTrue,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
-  registerElement,
   dispatchCustomElementEvent,
   detectOutsideClick,
   getStatusState,
@@ -42,7 +41,6 @@ import DatePickerAddon from './DatePickerAddon'
 import DatePickerFooter from './DatePickerFooter'
 
 export default class DatePicker extends React.PureComponent {
-  static tagName = 'dnb-date-picker'
   static contextType = Context
 
   static propTypes = {
@@ -178,8 +176,6 @@ export default class DatePicker extends React.PureComponent {
 
     ...spacingPropTypes,
 
-    custom_element: PropTypes.object,
-    custom_method: PropTypes.func,
     on_days_render: PropTypes.func,
     on_change: PropTypes.func,
     on_type: PropTypes.func,
@@ -250,9 +246,6 @@ export default class DatePicker extends React.PureComponent {
     class: null,
     className: null,
 
-    custom_element: null,
-    custom_method: null,
-
     on_days_render: null,
     on_change: null,
     on_type: null,
@@ -264,14 +257,6 @@ export default class DatePicker extends React.PureComponent {
   }
 
   static blurDelay = 201 // some ms more than "dropdownSlideDown 200ms"
-
-  static enableWebComponent() {
-    registerElement(
-      DatePicker?.tagName,
-      DatePicker,
-      DatePicker.defaultProps
-    )
-  }
 
   constructor(props) {
     super(props)
@@ -647,7 +632,7 @@ export default class DatePicker extends React.PureComponent {
               text_id={id + '-status'} // used for "aria-describedby"
               width_selector={id + '-shell'}
               text={status}
-              status={status_state}
+              state={status_state}
               no_animation={status_no_animation}
               skeleton={skeleton}
               {...status_props}

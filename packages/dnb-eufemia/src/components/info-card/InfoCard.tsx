@@ -5,8 +5,7 @@ import classnames from 'classnames'
 import Button, { ButtonProps } from '../button/Button'
 import IconPrimary, { IconPrimaryIcon } from '../icon-primary/IconPrimary'
 import Img, { ImgProps } from '../../elements/Img'
-import Div from '../../elements/Div'
-import H3 from '../../elements/H3'
+import Space from '../space/Space'
 import P from '../../elements/P'
 
 // Icons
@@ -14,11 +13,14 @@ import { lightbulb_medium as LightbulbIcon } from '../../icons'
 
 // Shared
 import { createSpacingClasses } from '../space/SpacingHelper'
-import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import { SkeletonShow } from '../skeleton/Skeleton'
 import Context from '../../shared/Context'
+import Provider from '../../shared/Provider'
 import { SpacingProps } from '../../shared/types'
-import { extendPropsWithContext } from '../../shared/component-helper'
+import {
+  extendPropsWithContext,
+  validateDOMAttributes,
+} from '../../shared/component-helper'
 
 export interface InfoCardProps {
   /**
@@ -31,11 +33,6 @@ export interface InfoCardProps {
    * Default: false
    */
   centered?: boolean
-  /**
-   * Custom className on the component root
-   * Default: null
-   */
-  className?: string
   /**
    * Replace the default icon with custom icon.
    * Default: Lightbulb (icon)
@@ -98,15 +95,24 @@ export interface InfoCardProps {
   acceptButtonAttributes?: ButtonProps
 }
 
+export type InfoCardAllProps = InfoCardProps &
+  Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> &
+  SpacingProps
+
 export const defaultProps = {
   centered: false,
   skeleton: false,
   icon: LightbulbIcon,
 }
 
-const InfoCard = (localProps: InfoCardProps & SpacingProps) => {
+const InfoCard = (localProps: InfoCardAllProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
+
+  const allProps = extendPropsWithContext(localProps, defaultProps, {
+    skeleton: context?.skeleton,
+  })
+
   // Extract additional props from global context
   const {
     alt,
@@ -125,70 +131,62 @@ const InfoCard = (localProps: InfoCardProps & SpacingProps) => {
     closeButtonAttributes,
     acceptButtonAttributes,
     ...props
-  } = extendPropsWithContext(localProps, defaultProps, {
-    skeleton: context?.skeleton,
-  })
+  } = allProps
 
-  const skeletonClasses = createSkeletonClass('shape', skeleton, context)
   const spacingClasses = createSpacingClasses(props)
 
   const closeButtonIsHidden = !onClose && !closeButtonText
   const acceptButtonIsHidden = !onAccept && !acceptButtonText
 
+  validateDOMAttributes(allProps, props)
+
   return (
-    <Div
+    <div
       className={classnames(
         'dnb-info-card',
-        skeletonClasses,
-        spacingClasses,
         centered && 'dnb-info-card--centered',
+        spacingClasses,
         className
       )}
-      data-testid="info-card"
       {...props}
     >
-      <Div right={!centered && 'small'} bottom={centered && 'small'}>
-        {getIllustration()}
-      </Div>
+      <Provider skeleton={skeleton}>
+        <Space right={!centered && 'small'} bottom={centered && 'small'}>
+          {getIllustration()}
+        </Space>
 
-      <div
-        className="dnb-info-card--content"
-        data-testid="info-card-content"
-      >
-        {title && (
-          <H3
-            size="small"
-            data-testid="info-card-title"
-            bottom="x-small"
-            top="0"
-          >
-            {title}
-          </H3>
-        )}
-        <P size="small" data-testid="info-card-text" bottom="0">
-          {text}
-        </P>
+        <div className="dnb-info-card__content">
+          {title && (
+            <P
+              className="dnb-info-card__title"
+              size="small"
+              modifier="medium"
+              bottom="x-small"
+            >
+              {title}
+            </P>
+          )}
 
-        {getButtons()}
-      </div>
-    </Div>
+          <P size="small" className="dnb-info-card__text" bottom="0">
+            {text}
+          </P>
+
+          {getButtons()}
+        </div>
+      </Provider>
+    </div>
   )
 
   function getButtons() {
     if (closeButtonIsHidden && acceptButtonIsHidden) return null
 
     return (
-      <Div
-        className={classnames(
-          'dnb-info-card--buttons',
-          centered && 'dnb-info-card--buttons-centered'
-        )}
-      >
+      <div className="dnb-info-card__buttons">
         {!acceptButtonIsHidden && (
           <Button
             top={centered ? 'medium' : 'small'}
             type="button"
-            data-testid="info-card-accept-button"
+            className="dnb-info-card__buttons__accept-button"
             variant="secondary"
             right={!centered && 'small'}
             on_click={onAccept}
@@ -199,7 +197,7 @@ const InfoCard = (localProps: InfoCardProps & SpacingProps) => {
         {!closeButtonIsHidden && (
           <Button
             type="button"
-            data-testid="info-card-close-button"
+            className="dnb-info-card__buttons__close-button"
             variant="tertiary"
             top="small"
             on_click={onClose}
@@ -209,27 +207,20 @@ const InfoCard = (localProps: InfoCardProps & SpacingProps) => {
             {...closeButtonAttributes}
           />
         )}
-      </Div>
+      </div>
     )
   }
 
   function getIllustration() {
     if (src || imgProps) {
       const imageProps = { src, alt, ...imgProps }
-      return (
-        <Img
-          data-testid="info-card-image"
-          className="dnb-info-card--image"
-          {...imageProps}
-        />
-      )
+      return <Img className="dnb-info-card__image" {...imageProps} />
     }
     return (
       <IconPrimary
         size="medium"
-        className="dnb-info-card--icon"
+        className="dnb-info-card__icon"
         icon={icon}
-        data-testid="info-card-icon"
       />
     )
   }

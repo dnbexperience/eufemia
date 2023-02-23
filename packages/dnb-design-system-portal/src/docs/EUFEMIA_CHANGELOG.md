@@ -1,3 +1,9 @@
+## February, 20. 2023
+
+- [New major version 10](/uilib/about-the-lib/releases/eufemia/v10-info/)
+- New components released:
+  - [SkipContent](/uilib/components/skip-content)
+
 ## November, 22. 2022
 
 - New default [Table](https://eufemia.dnb.no/uilib/components/table) styles.
@@ -118,9 +124,6 @@ These icons got replaced:
 - `bankid_on_mobile` to `bankid_mobile`
 - `bankid_with_qr` to `bankid_qr`
 - `check_alt_01` removed
-
-  <!-- - `refresh` to `repeat` -->
-  <!-- - `settings` to `cog` -->
 
 ## November, 8. 2020
 

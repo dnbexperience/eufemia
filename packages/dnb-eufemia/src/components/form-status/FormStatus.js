@@ -9,7 +9,6 @@ import classnames from 'classnames'
 import Context from '../../shared/Context'
 import {
   isTrue,
-  registerElement,
   makeUniqueId,
   validateDOMAttributes,
   processChildren,
@@ -29,7 +28,6 @@ import {
 import { includeValidProps } from '../form-row/FormRowHelpers'
 
 export default class FormStatus extends React.PureComponent {
-  static tagName = 'dnb-form-status'
   static contextType = Context
 
   static propTypes = {
@@ -56,12 +54,6 @@ export default class FormStatus extends React.PureComponent {
     ]),
     variant: PropTypes.oneOf(['flat', 'outlined']),
     size: PropTypes.oneOf(['default', 'large']),
-    // status is Deprecated
-    status: PropTypes.oneOfType([
-      PropTypes.bool,
-      PropTypes.string,
-      PropTypes.oneOf(['error', 'warn', 'info']),
-    ]),
     global_status_id: PropTypes.string,
     attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     text_id: PropTypes.string,
@@ -94,7 +86,6 @@ export default class FormStatus extends React.PureComponent {
     size: 'default',
     variant: null,
     state: 'error',
-    status: null, // Deprecated
     global_status_id: null,
     attributes: null,
     text_id: null,
@@ -108,14 +99,6 @@ export default class FormStatus extends React.PureComponent {
 
     className: null,
     children: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(
-      FormStatus?.tagName,
-      FormStatus,
-      FormStatus.defaultProps
-    )
   }
 
   static getContent(props) {
@@ -356,7 +339,6 @@ export default class FormStatus extends React.PureComponent {
     const {
       show, // eslint-disable-line
       title,
-      status: rawStatus,
       state: rawState,
       size,
       variant,
@@ -379,7 +361,7 @@ export default class FormStatus extends React.PureComponent {
       ...rest
     } = props
 
-    const state = FormStatus.correctStatus(rawStatus || rawState)
+    const state = FormStatus.correctStatus(rawState)
     const iconToRender = FormStatus.getIcon({
       state,
       icon,

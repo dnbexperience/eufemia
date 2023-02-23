@@ -4,8 +4,6 @@ icon: 'usage'
 order: 3
 ---
 
-<!-- import ReleasesInfo from 'Docs/design-system/changelog/info-about-releases' -->
-
 import WatchingReleases from 'Docs/uilib/info/about-watching-releases.md'
 
 # Usage
@@ -38,6 +36,8 @@ Read more in the [First Steps](/uilib/usage/first-steps/) section.
 
 ## Supported Browsers and Platforms
 
-| IE                   | Edge                 | Firefox              | Chrome               | Safari               | Node                 |
-| -------------------- | -------------------- | -------------------- | -------------------- | -------------------- | -------------------- |
-| <small>==</small> 11 | <small>>=</small> 14 | <small>>=</small> 45 | <small>>=</small> 49 | <small>>=</small> 10 | <small>>=</small> 10 |
+Eufemia uses the following config for the bundle output, defined in `.browserslistrc`:
+
+- `defaults and supports es6-module`
+
+To see exactly which browsers this config supports, take a look [here](https://browsersl.ist/#q=defaults+and+supports+es6-module).

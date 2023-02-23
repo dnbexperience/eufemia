@@ -12,7 +12,6 @@ import {
   warn,
   isTrue,
   makeUniqueId,
-  registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent,
   processChildren,
@@ -35,11 +34,9 @@ import GlobalStatusProvider from './GlobalStatusProvider'
 import Icon from '../icon/Icon'
 import { InfoIcon, ErrorIcon } from '../form-status/FormStatus'
 import Section from '../section/Section'
-import { IS_IE11 } from '../../shared/helpers'
 import Button from '../button/Button'
 
 export default class GlobalStatus extends React.PureComponent {
-  static tagName = 'dnb-global-status'
   static contextType = Context
 
   static propTypes = {
@@ -133,14 +130,6 @@ export default class GlobalStatus extends React.PureComponent {
     on_show: null,
     on_close: null,
     on_hide: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(
-      GlobalStatus?.tagName,
-      GlobalStatus,
-      GlobalStatus.defaultProps
-    )
   }
 
   static getContent(props) {
@@ -501,11 +490,7 @@ export default class GlobalStatus extends React.PureComponent {
     try {
       const element = this._wrapperRef.current
       this._scrollToStatusTimeout = isElementVisible(element, isDone)
-      if (
-        element &&
-        !IS_IE11 &&
-        typeof element.scrollIntoView === 'function'
-      ) {
+      if (element && typeof element.scrollIntoView === 'function') {
         element.scrollIntoView({
           block: 'center',
           behavior: 'smooth',
@@ -569,10 +554,7 @@ export default class GlobalStatus extends React.PureComponent {
           }
         })
 
-        // block: 'center' is not supported on IE - now we se the element above
-        if (IS_IE11) {
-          window.scrollTop = element.offsetTop
-        } else if (typeof element.scrollIntoView === 'function') {
+        if (typeof element.scrollIntoView === 'function') {
           // then go there
           element.scrollIntoView({
             block: 'center', // center of page
@@ -820,8 +802,6 @@ export default class GlobalStatus extends React.PureComponent {
 
 // Extend our component with controllers
 GlobalStatus.create = (...args) => new GlobalStatusInterceptor(...args)
-GlobalStatus.Set = GlobalStatus.create // Deprecated
-GlobalStatus.AddStatus = GlobalStatus.create // Deprecated
 GlobalStatus.Update = GlobalStatus.create
 GlobalStatus.Add = GlobalStatusController
 GlobalStatus.Remove = GlobalStatusController.Remove

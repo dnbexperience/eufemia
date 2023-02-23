@@ -6,6 +6,5 @@
 import React from 'react'
 import P from './P'
 
-const Lead = (p) => <P style_type="lead" {...p} />
-Lead.tagName = 'dnb-p--lead'
+const Lead = (p) => <P className="dnb-p--lead" {...p} />
 export default Lead

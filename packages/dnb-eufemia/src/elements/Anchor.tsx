@@ -27,9 +27,6 @@ export type AnchorProps = {
 
   /** @deprecated use innerRef instead */
   inner_ref?: React.RefObject<HTMLAnchorElement>
-
-  /** @deprecated use targetBlankTitle instead */
-  target_blank_title?: string
 }
 
 export type AnchorAllProps = AnchorProps &
@@ -48,15 +45,10 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     context?.Anchor
   )
 
-  // deprecated
+  // deprecated: inner_ref is still needed to support Button's usage of Anchor
   if (typeof allProps.inner_ref !== 'undefined') {
     allProps.innerRef = allProps.inner_ref
     delete allProps.inner_ref
-  }
-  // deprecated
-  if (typeof allProps.target_blank_title !== 'undefined') {
-    allProps.targetBlankTitle = allProps.target_blank_title
-    delete allProps.target_blank_title
   }
 
   if (!allProps.innerRef) {

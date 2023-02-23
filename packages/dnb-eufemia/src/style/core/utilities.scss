@@ -55,7 +55,7 @@
   }
 }
 
-$focusRingWidth: 0.125rem; //2px
+$focusRingWidth: 0.125rem; // 2px
 $focusRingColor: var(--color-emerald-green);
 @mixin fakeFocus($whatinput: null, $color: null, $inset: null) {
   outline: none;
@@ -86,7 +86,6 @@ $focusRingColor: var(--color-emerald-green);
   $color: null,
   $width: null /* 1px */,
   $inset: null,
-  $is1px: false /* IE11 fix */,
   $important: null
 ) {
   @if $color == null {
@@ -121,17 +120,6 @@ $focusRingColor: var(--color-emerald-green);
     }
   }
 
-  @include IS_IE() {
-    @if $is1px {
-      // Since 0.0625rem gets not rendered correctly
-      // and gives an artifact, we do use px instead
-      box-shadow: $inset 0 0 0 1px $color $important;
-    } @else {
-      // IE color fallback
-      box-shadow: $inset 0 0 0 $width $color $important;
-    }
-  }
-
   @if $color != null {
     border-color: transparent;
   }
@@ -144,10 +132,6 @@ $focusRingColor: var(--color-emerald-green);
 ) {
   $second: 0 0 0 ($focusRingWidth + $width) $second-color;
   box-shadow: 0 0 0 $width $first-color, $second;
-
-  @include IS_IE() {
-    border: 0 solid transparent; // only to trigger the renderering correctly in IE11
-  }
 }
 
 @mixin dummySpacing() {
@@ -168,7 +152,7 @@ $focusRingColor: var(--color-emerald-green);
   // older iOS safari
   -webkit-overflow-scrolling: touch;
 
-  // show scrollbar on IE
+  // show scrollbar in IE & Edge
   -ms-overflow-style: auto;
 
   scrollbar-color: var(--color-sea-green) transparent;
@@ -202,28 +186,22 @@ $focusRingColor: var(--color-emerald-green);
   overflow-y: $mode;
   overscroll-behavior: contain;
 
-  @include scrollbarAppearance();
-
   html:not([data-visual-test]) & {
     scroll-behavior: smooth;
   }
-  html[data-visual-test] & {
-    scroll-behavior: auto !important;
-  }
+
+  @include scrollbarAppearance();
 }
 
 @mixin scrollX($mode: scroll) {
   overflow-x: $mode;
   overscroll-behavior: contain;
 
-  @include scrollbarAppearance();
-
   html:not([data-visual-test]) & {
     scroll-behavior: smooth;
   }
-  html[data-visual-test] & {
-    scroll-behavior: auto !important;
-  }
+
+  @include scrollbarAppearance();
 }
 
 @mixin hideScrollbar() {
@@ -234,13 +212,6 @@ $focusRingColor: var(--color-emerald-green);
   }
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
-}
-
-// IE fix
-@mixin IS_IE() {
-  @media screen and (-ms-high-contrast: none) {
-    @content;
-  }
 }
 
 // Edge fix
@@ -284,10 +255,10 @@ $focusRingColor: var(--color-emerald-green);
 
 $breakpoints: (
   'small': 40em,
-  'medium': 50em,
-  'large': 60em,
-  'x-large': 72em,
-  'xx-large': 80em,
+  'medium': 60em,
+  'large': 72em,
+  'x-large': 80em /* not documented yet */,
+  'xx-large': 90em /* not documented yet */,
 );
 
 // Example usage:
@@ -342,39 +313,8 @@ $breakpoints: (
   border: 0;
 }
 
-// deprecated and can be removed in v10
-// Visual test and docs should be removed as well!
-@mixin srOnlyInline() {
-  @include srOnly();
-
-  // since we do use it also as positioning helper
-  // we then do not want it absolute positioned
-  position: static;
-  display: inline-block;
-
-  visibility: visible; // should not be hidden!
-
-  font-size: 0;
-  line-height: 0;
-}
-
-// deprecated and can be removed in v10
-// Visual test and docs should be removed as well!
-@mixin notSrOnly() {
-  position: initial;
-  max-width: initial;
-  max-height: initial;
-
-  clip-path: initial;
-  overflow: auto;
-
-  font-size: initial;
-  line-height: initial;
-  white-space: initial;
-}
-
 @function str-replace($string, $search, $replace: '') {
-  $index: str-index($string, $search);
+  $index: string.index($string, $search);
 
   @if $index {
     @return str-slice($string, 1, $index - 1) + $replace +

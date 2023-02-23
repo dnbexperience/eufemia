@@ -4,7 +4,7 @@
  */
 
 import gulp from 'gulp'
-import sass from 'node-sass'
+import sass from 'sass'
 import clone from 'gulp-clone'
 import rename from 'gulp-rename'
 import transform from 'gulp-transform'
@@ -70,12 +70,7 @@ export const runFactory = (
             transformPaths('../../../../assets/', '../../../assets/')
           )
         )
-        .pipe(
-          transform(
-            'utf8',
-            transformPostcss(postcssConfig({ IE11: true, sass }))
-          )
-        )
+        .pipe(transform('utf8', transformPostcss(postcssConfig({ sass }))))
         .pipe(cloneSink)
         .pipe(transform('utf8', transformCssnano({ reduceIdents: false })))
         .pipe(rename({ suffix: '.min' }))

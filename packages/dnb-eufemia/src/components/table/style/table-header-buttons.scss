@@ -1,0 +1,210 @@
+@import '../../button/style/themes/button-mixins.scss';
+
+@mixin tableFocusRing() {
+  &::before {
+    content: '';
+    position: absolute;
+    top: -0.5rem;
+    bottom: -0.5rem;
+    left: -1rem;
+    right: 0.5rem;
+  }
+}
+
+@mixin buttonsInTable {
+  // sortable
+  & > thead > tr > th#{&}--sortable,
+  & &__th#{&}--sortable {
+    color: var(--color-sea-green);
+
+    .dnb-table__sort-button.dnb-button {
+      > .dnb-icon {
+        opacity: 0;
+        transition: opacity 200ms ease-out, transform 500ms ease-out;
+
+        html[data-visual-test] & {
+          transition: none;
+        }
+      }
+
+      position: relative;
+      z-index: 1;
+      align-items: flex-end;
+
+      // reset anchor
+      box-shadow: none;
+
+      line-height: inherit;
+
+      margin: 0;
+      padding: 0;
+      padding-right: 0.5rem;
+
+      color: inherit;
+      font-weight: var(--font-weight-medium);
+      text-align: inherit;
+      font-size: inherit;
+
+      .dnb-button__text {
+        margin: 0;
+        font-size: inherit;
+        line-height: inherit;
+
+        // underline
+        &::after {
+          right: 1rem;
+        }
+      }
+
+      .dnb-button__icon {
+        align-self: flex-end;
+        margin-top: auto;
+        margin-bottom: 0.25rem;
+      }
+
+      // underline
+      &:not(:focus) .dnb-button__text::after {
+        opacity: 1;
+        color: var(--color-sea-green);
+      }
+
+      @include hover() {
+        color: var(--color-sea-green);
+
+        &:not(:focus) .dnb-icon {
+          opacity: 1;
+        }
+
+        // hide underline
+        .dnb-button__text::after {
+          opacity: 0;
+        }
+      }
+
+      @include focus() {
+        @include tableFocusRing();
+
+        // focus ring
+        &::before {
+          right: -0.5rem;
+        }
+
+        html[data-visual-test] & .dnb-icon,
+        :not(.dnb-table--active) &:active .dnb-icon {
+          opacity: 1;
+        }
+
+        // show underline
+        html:not([data-visual-test]) & {
+          .dnb-button__text::after {
+            opacity: 1;
+            color: inherit;
+          }
+
+          &:not(:active) .dnb-button__text::after {
+            visibility: visible;
+          }
+        }
+      }
+
+      @include active() {
+        @include buttonFocusRing('mouse'); // also, make a mouse ring
+        @include buttonFocusRing('touch'); // also, make a touch ring
+        @include tableFocusRing();
+
+        // focus ring
+        &::before {
+          right: -0.5rem;
+        }
+
+        color: var(--color-sea-green);
+      }
+
+      // webkit fix
+      &:hover:focus:not(:active) .dnb-button__text::after {
+        visibility: hidden;
+      }
+    }
+
+    &[align='right'] {
+      padding-right: 0.5rem;
+
+      .dnb-table__sort-button.dnb-button {
+        flex-direction: row-reverse;
+
+        &--tertiary.dnb-button--icon-position-right {
+          padding-right: 0.5rem;
+
+          .dnb-button__text {
+            padding-right: 0;
+
+            &::after {
+              right: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // active
+  & > thead > tr > th#{&}--active,
+  & &__th#{&}--active {
+    .dnb-table__sort-button.dnb-button {
+      // hide underline
+      &:not(:hover) .dnb-button__text::after {
+        opacity: 0;
+      }
+
+      .dnb-icon {
+        opacity: 1;
+      }
+
+      // and underline on hover
+      @include hover() {
+        .dnb-button__text::after {
+          color: var(--color-sea-green);
+          opacity: 1;
+        }
+      }
+
+      @include focus() {
+        // hide underline
+        .dnb-button__text::after {
+          opacity: 0;
+        }
+      }
+
+      // webkit fix
+      &:hover:focus:not(:active) .dnb-button__text::after {
+        visibility: visible;
+      }
+
+      html[data-whatinput='keyboard']
+        &:hover:focus
+        .dnb-button__text::after {
+        visibility: hidden;
+      }
+    }
+  }
+  & > thead > tr > th#{&}--reversed,
+  & &__th#{&}--reversed {
+    .dnb-table__sort-button.dnb-button {
+      .dnb-icon {
+        transform: rotate(180deg);
+        transform-origin: 50% 50%;
+      }
+    }
+  }
+
+  & &__th,
+  & > thead > tr > th {
+    .dnb-table__help-button {
+      margin-left: 0.5rem;
+    }
+  }
+
+  & > thead > &--no-wrap &__sort-button {
+    white-space: nowrap;
+  }
+}

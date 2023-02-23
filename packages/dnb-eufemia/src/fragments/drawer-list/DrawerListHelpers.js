@@ -27,10 +27,7 @@ export const drawerListPropTypes = {
     PropTypes.string,
     PropTypes.bool,
   ]),
-  use_drawer_on_mobile: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-  ]),
+
   prevent_selection: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.bool,
@@ -111,9 +108,6 @@ export const drawerListPropTypes = {
     PropTypes.array,
   ]),
 
-  custom_element: PropTypes.object,
-  custom_method: PropTypes.func,
-
   on_show: PropTypes.func,
   on_hide: PropTypes.func,
   handle_dismiss_focus: PropTypes.func,
@@ -136,7 +130,6 @@ export const drawerListDefaultProps = {
   size: 'default',
   no_animation: false,
   no_scroll_animation: false,
-  use_drawer_on_mobile: false,
   prevent_selection: false,
   action_menu: false,
   is_popup: false,
@@ -163,9 +156,6 @@ export const drawerListDefaultProps = {
   className: null,
   children: null,
 
-  custom_element: null,
-  custom_method: null,
-
   on_show: null,
   on_hide: null,
   handle_dismiss_focus: null,
@@ -179,10 +169,6 @@ export const drawerListDefaultProps = {
 
 export const drawerListProviderPropTypes = {
   enable_body_lock: PropTypes.bool,
-  use_drawer_on_mobile: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.bool,
-  ]),
   page_offset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   observer_element: PropTypes.oneOfType([
     PropTypes.string,
@@ -193,7 +179,6 @@ export const drawerListProviderPropTypes = {
 
 export const drawerListProviderDefaultProps = {
   enable_body_lock: false,
-  use_drawer_on_mobile: null,
   page_offset: null,
   observer_element: null,
   min_height: 10, // 10rem = 10x16=160,

@@ -61,7 +61,7 @@ describe('useHeightAnimation', () => {
 
     return (
       <>
-        <ToggleButton checked={openState} onChange={onChangeHandler}>
+        <ToggleButton checked={openState} on_change={onChangeHandler}>
           Toggle me
         </ToggleButton>
 

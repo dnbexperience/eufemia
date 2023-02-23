@@ -21,6 +21,7 @@ import {
   mockImplementationForDirectionObserver,
   testDirectionObserver,
 } from '../../../fragments/drawer-list/__tests__/DrawerListTestMocks'
+import { render } from '@testing-library/react'
 
 const snapshotProps = {
   ...fakeProps(require.resolve('../Autocomplete'), {
@@ -1939,6 +1940,104 @@ describe('Autocomplete component', () => {
 
     await testDirectionObserver(Comp)
   })
+
+  it('has error status when only providing status', () => {
+    render(
+      <Component
+        data={mockData}
+        {...mockProps}
+        status="status text"
+        show_submit_button
+      />
+    )
+
+    expect(
+      document
+        .querySelector('.dnb-autocomplete')
+        .classList.contains('dnb-autocomplete__status--error')
+    ).toBe(true)
+    expect(
+      document
+        .querySelector('.dnb-form-status')
+        .classList.contains('dnb-form-status--error')
+    ).toBe(true)
+    expect(
+      document
+        .querySelector('.dnb-input')
+        .classList.contains('dnb-input__status--error')
+    ).toBe(true)
+    expect(
+      document
+        .querySelector('button.dnb-input__submit-button__button')
+        .classList.contains('dnb-button__status--error')
+    ).toBe(true)
+  })
+
+  it('has correct status when status_state is error', () => {
+    render(
+      <Component
+        data={mockData}
+        {...mockProps}
+        status="status text"
+        status_state="error"
+        show_submit_button
+      />
+    )
+
+    expect(
+      document
+        .querySelector('.dnb-autocomplete')
+        .classList.contains('dnb-autocomplete__status--error')
+    ).toBe(true)
+    expect(
+      document
+        .querySelector('.dnb-form-status')
+        .classList.contains('dnb-form-status--error')
+    ).toBe(true)
+    expect(
+      document
+        .querySelector('.dnb-input')
+        .classList.contains('dnb-input__status--error')
+    ).toBe(true)
+    expect(
+      document
+        .querySelector('button.dnb-input__submit-button__button')
+        .classList.contains('dnb-button__status--error')
+    ).toBe(true)
+  })
+
+  it('has correct status when status_state is info', () => {
+    render(
+      <Component
+        data={mockData}
+        {...mockProps}
+        status="status text"
+        status_state="info"
+        show_submit_button
+      />
+    )
+
+    expect(
+      document
+        .querySelector('.dnb-autocomplete')
+        .classList.contains('dnb-autocomplete__status--info')
+    ).toBe(true)
+    expect(
+      document
+        .querySelector('.dnb-form-status')
+        .classList.contains('dnb-form-status--info')
+    ).toBe(true)
+    expect(
+      document
+        .querySelector('.dnb-input')
+        .classList.contains('dnb-input__status--info')
+    ).toBe(true)
+    expect(
+      document
+        .querySelector('button.dnb-input__submit-button__button')
+        .classList.contains('dnb-button__status--info')
+    ).toBe(true)
+  })
 })
 
 describe('Autocomplete markup', () => {
@@ -1968,9 +2067,7 @@ describe('Autocomplete markup', () => {
 
 describe('Autocomplete scss', () => {
   it('have to match snapshot', () => {
-    const scss = loadScss(
-      require.resolve('../style/dnb-autocomplete.scss')
-    )
+    const scss = loadScss(require.resolve('../style/deps.scss'))
     expect(scss).toMatchSnapshot()
   })
   it('have to match default theme snapshot', () => {

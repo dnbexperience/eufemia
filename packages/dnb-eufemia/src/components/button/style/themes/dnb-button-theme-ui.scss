@@ -3,8 +3,8 @@
 *
 */
 
-@import '../../../../style/themes/imports.scss';
-@import './_button-mixins.scss';
+@import '../../../../style/core/utilities.scss';
+@import './button-mixins.scss';
 
 .dnb-button {
   border: none;
@@ -36,7 +36,7 @@
       color: var(--color-white);
       background-color: var(--color-fire-red);
 
-      // @include fakeBorder(var(--color-fire-red), 0.0625rem, inset, true);
+      // @include fakeBorder(var(--color-fire-red), 0.0625rem, inset);
       // .dnb-button__icon {
       //   color: inherit;
       // }
@@ -47,7 +47,7 @@
     color: var(--color-sea-green);
     background-color: var(--color-white);
 
-    @include fakeBorder(var(--color-sea-green), 0.0625rem, inset, true);
+    @include fakeBorder(var(--color-sea-green), 0.0625rem, inset);
 
     @include buttonHover(var(--color-sea-green), var(--color-white));
     @include buttonFocus(var(--color-sea-green), var(--color-white));
@@ -63,19 +63,14 @@
       background-color: var(--color-white);
 
       // only because of href/anchor button
-      @include fakeBorder(
-        var(--color-sea-green-30),
-        0.0625rem,
-        inset,
-        true
-      );
+      @include fakeBorder(var(--color-sea-green-30), 0.0625rem, inset);
     }
   }
   &:not([disabled])#{&}--secondary#{&}__status {
     &--error {
       color: var(--color-fire-red);
 
-      @include fakeBorder(var(--color-fire-red), 0.0625rem, inset, true);
+      @include fakeBorder(var(--color-fire-red), 0.0625rem, inset);
       .dnb-button__icon {
         color: inherit;
       }
@@ -118,14 +113,14 @@
     }
 
     &.dnb-button--has-text {
-      padding-left: 0.5rem;
-      padding-right: 0.5rem;
+      padding-left: 0;
+      padding-right: 0;
     }
 
     // change underline if has icon
     &.dnb-button--has-icon .dnb-button__text::after {
-      left: -0.5rem;
-      right: -0.5rem;
+      left: -1rem;
+      right: -1rem;
     }
 
     @include focus() {
@@ -192,6 +187,7 @@
       }
 
       .dnb-button__text {
+        // underline
         &::after {
           left: 0;
           right: 0;
@@ -216,18 +212,18 @@
     &.dnb-button--has-icon {
       &.dnb-button--has-text {
         &.dnb-button--icon-position-left {
-          padding-left: 0;
-          padding-right: 0.5rem;
-
           .dnb-button__text {
             padding-left: 1rem;
 
+            // underline
             &::after {
+              left: -0.5rem;
               right: 0;
             }
           }
           .dnb-button__icon {
             margin-right: -0.5rem;
+            margin-left: 0;
           }
           &.dnb-button--icon-size-medium,
           &.dnb-button--icon-size-large {
@@ -235,26 +231,34 @@
               padding-left: 0;
               margin-left: 1rem;
 
+              // underline
               &::after {
-                left: 0;
+                left: -0.5rem;
+                right: 0;
               }
+            }
+          }
+
+          @include focus() {
+            &::before {
+              right: -1rem;
             }
           }
         }
         &.dnb-button--icon-position-right {
-          padding-right: 0;
-          padding-left: 0.5rem;
-
           /* stylelint-disable */
           .dnb-button__text {
             padding-right: 1rem;
 
+            // underline
             &::after {
               left: 0;
+              right: -0.5rem;
             }
           }
           .dnb-button__icon {
             margin-left: -0.5rem;
+            margin-right: 0;
           }
           /* stylelint-enable */
           &.dnb-button--icon-size-medium,
@@ -263,9 +267,16 @@
               padding-right: 0;
               margin-right: 1rem;
 
+              // underline
               &::after {
                 right: 0;
               }
+            }
+          }
+
+          @include focus() {
+            &::before {
+              left: -1rem;
             }
           }
         }
@@ -343,7 +354,7 @@
       left: 0;
 
       width: 0.0625rem;
-      background-color: currentColor;
+      background-color: currentcolor;
     }
   }
   html:not([data-whatintent='touch'])

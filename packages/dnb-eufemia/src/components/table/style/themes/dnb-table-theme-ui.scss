@@ -3,16 +3,15 @@
 *
 */
 
-@import '../../../../style/themes/imports.scss';
-@import '../dnb-table-mixins.scss';
+@import '../../../../style/core/utilities.scss';
+@import '../table-mixins.scss';
 
 .dnb-table {
   text-align: left;
 
   // head
-  & > tr > th,/* should be deprecated */
-  & > thead > tr > th,/* should be deprecated */
-  &__th {
+  &__th,
+  & thead th {
     // spacing
     padding: 2rem 1rem 1rem;
 
@@ -24,26 +23,7 @@
     vertical-align: bottom;
 
     background-color: var(--color-white);
-  }
 
-  // body data
-  & > tr > td,/* should be deprecated */
-  & > tbody > tr > td,/* should be deprecated */
-  &__td,
-  tbody > tr > &__th,
-  & > tr > th[scope='row']/* should be deprecated */ {
-    // spacing
-    padding: 1rem;
-
-    // typography
-    color: var(--theme-color-black-80, currentColor);
-    font-size: var(--font-size-basis);
-    line-height: var(--line-height-basis);
-    vertical-align: baseline;
-  }
-
-  // stylelint-disable-next-line
-  &__th {
     .dnb-table__size--medium & {
       // spacing
       padding: 1.375rem 1rem 0.875rem;
@@ -67,8 +47,24 @@
     }
   }
 
-  // stylelint-disable-next-line
-  tbody > tr > &__th {
+  // body data
+  /* stylelint-disable */
+  &__td,
+  & tbody &__th,
+  & tbody td,
+  & tbody th {
+    // spacing
+    padding: 1rem;
+
+    // typography
+    color: var(--theme-color-black-80, currentColor);
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis);
+    vertical-align: baseline;
+  }
+
+  & tbody &__th,
+  & tbody th {
     // spacing
     padding: 1rem;
 
@@ -76,9 +72,10 @@
     vertical-align: baseline;
   }
 
-  // stylelint-disable-next-line
-  tbody > tr > &__th,
-  tbody > tr > &__td {
+  tbody &__th,
+  tbody &__td,
+  tbody th,
+  tbody td {
     .dnb-table__size--medium & {
       // spacing
       padding: 0.875rem 1rem;
@@ -97,6 +94,7 @@
       line-height: var(--line-height-small);
     }
   }
+  /* stylelint-enable */
 
   // border
   &:not(&--outline) > tbody > &__tr:last-of-type > &__td::after,

@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../../style/themes/imports.scss';
+@import '../../../../style/core/utilities.scss';
 
 .dnb-dropdown {
   // button
@@ -16,6 +16,7 @@
   &__trigger[disabled] {
     color: var(--color-black-55);
     background-color: var(--color-black-3);
+
     &:not(.dnb-button--tertiary) {
       @include fakeBorder(var(--color-black-55));
     }
@@ -31,13 +32,17 @@
   // error status
   &__status--error:not(#{&}--opened) &__trigger {
     @include fakeBorder(var(--color-fire-red));
+
     @include hover() {
       color: var(--color-fire-red);
+
       @include fakeBorder(var(--color-fire-red), 0.125rem);
+
       & .dnb-dropdown__icon .dnb-icon {
         color: var(--color-fire-red);
       }
     }
+
     @include active() {
       color: var(--color-fire-red);
       background-color: var(--color-fire-red-8);

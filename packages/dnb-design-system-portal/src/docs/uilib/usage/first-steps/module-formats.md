@@ -109,7 +109,6 @@ import Button from '@dnb/eufemia/es/components/Button'
 Make sure your environment has a production build with:
 
 - Tree Shaking
-- Compile to ES5 for IE support
 - Minify and mangle the Output
 
 By default, [webpack v4](https://webpack.js.org) does this fine.
@@ -134,5 +133,3 @@ import Input from '@dnb/eufemia/cjs/components/input-masked/InputMasked'
 ```js
 import { InputMasked } from '@dnb/eufemia/es/components'
 ```
-
-<!-- You also have to make sure your application gets [minified and mangled](https://webpack.js.org/guides/tree-shaking/#minify-the-output). -->

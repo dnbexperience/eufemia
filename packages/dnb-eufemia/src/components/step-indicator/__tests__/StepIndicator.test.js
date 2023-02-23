@@ -18,12 +18,12 @@ import MatchMediaMock from 'jest-matchmedia-mock'
 const matchMedia = new MatchMediaMock()
 
 beforeEach(() => {
-  matchMedia.useMediaQuery('(min-width: 50em)')
+  matchMedia.useMediaQuery('(min-width: 60em)')
   document.body.innerHTML = `<div id="root"></div>`
 })
 
 function simulateSmallScreen() {
-  matchMedia.useMediaQuery('(min-width: 0) and (max-width: 50em)')
+  matchMedia.useMediaQuery('(min-width: 0) and (max-width: 60em)')
 }
 
 const stepIndicatorListData = [
@@ -111,7 +111,19 @@ describe('StepIndicator Sidebar', () => {
 
 describe('StepIndicator in general', () => {
   it('should support spacing props', () => {
-    render(<Component data={stepIndicatorListData} top="large" />)
+    const id = 'unique-id-spacing'
+    render(
+      <>
+        <Component.Sidebar sidebar_id={id} />
+        <Component
+          top="large"
+          current_step={1}
+          mode="loose"
+          sidebar_id={id}
+          data={stepIndicatorListData}
+        />
+      </>
+    )
 
     const element = document.querySelector('.dnb-step-indicator')
 
@@ -119,6 +131,86 @@ describe('StepIndicator in general', () => {
       'dnb-step-indicator',
       'dnb-space__top--large',
     ])
+  })
+
+  it('should support spacing props with no sidebar', () => {
+    render(
+      <Component
+        sidebar_id="unique-id-no-sidebar"
+        top="large"
+        mode="static"
+        current_step={1}
+        data={stepIndicatorListData}
+      />
+    )
+
+    const element = document.querySelector('.dnb-step-indicator__trigger')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-step-indicator__trigger',
+      'dnb-space__top--large',
+    ])
+  })
+
+  it('should not add spacing props to dnb-step-indicator with no sidebar', () => {
+    render(
+      <Component
+        sidebar_id="unique-id-no-sidebar"
+        top="large"
+        mode="static"
+        current_step={1}
+        data={stepIndicatorListData}
+      />
+    )
+
+    document.querySelector('button').click()
+
+    const element = document.querySelector('.dnb-step-indicator')
+
+    expect(Array.from(element.classList)).toEqual(['dnb-step-indicator'])
+  })
+
+  it('should support aria-labelledby', () => {
+    render(
+      <>
+        <Component.Sidebar sidebar_id="unique-id-aria-labelledby" />
+        <Component
+          top="large"
+          current_step={1}
+          mode="loose"
+          sidebar_id="unique-id-aria-labelledby"
+          data={stepIndicatorListData}
+          aria-labelledby="element"
+        />
+      </>
+    )
+
+    const element = document.querySelector('.dnb-step-indicator')
+
+    expect(element.getAttribute('aria-labelledby')).toBe(
+      'element unique-id-aria-labelledby'
+    )
+  })
+
+  it('should support aria-labelledby with no sidebar', () => {
+    render(
+      <Component
+        sidebar_id="unique-id-aria-labelledby-no-sidebar"
+        top="large"
+        mode="static"
+        current_step={1}
+        data={stepIndicatorListData}
+        aria-labelledby="element"
+      />
+    )
+
+    document.querySelector('button').click()
+
+    const element = document.querySelector('.dnb-step-indicator__list')
+
+    expect(element.getAttribute('aria-labelledby')).toBe(
+      'element unique-id-aria-labelledby-no-sidebar'
+    )
   })
 })
 
@@ -537,9 +629,7 @@ describe('StepIndicator in static mode', () => {
 
 describe('StepIndicator scss', () => {
   it('have to match snapshot', () => {
-    const scss = loadScss(
-      require.resolve('../style/dnb-step-indicator.scss')
-    )
+    const scss = loadScss(require.resolve('../style/deps.scss'))
     expect(scss).toMatchSnapshot()
   })
   it('have to match default theme snapshot', () => {

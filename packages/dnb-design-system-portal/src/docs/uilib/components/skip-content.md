@@ -1,0 +1,12 @@
+---
+title: 'SkipContent'
+description: 'SkipContent gives users – using their keyboard for navigation – the option to skip over content which contains a large amount of interactive elements.'
+status: 'new'
+showTabs: true
+---
+
+import SkipContentInfo from 'Docs/uilib/components/skip-content/info'
+import SkipContentDemos from 'Docs/uilib/components/skip-content/demos'
+
+<SkipContentInfo />
+<SkipContentDemos />

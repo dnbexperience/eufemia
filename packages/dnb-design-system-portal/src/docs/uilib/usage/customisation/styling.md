@@ -42,7 +42,7 @@ All the CSS packages are ready to use, **minified CSS files**. You will find the
 
 ### Individual styles
 
-Additionally, it is also possible to import a style and theme for every single component separately. You find the styles here, like: `@dnb/eufemia/components/[button]/style/dnb-button.min.css` - read more about [how to import a single-component style](/uilib/usage/customisation/styling/consume-styles#single-component-only)
+Additionally, it is also possible to import a style and theme for every single component separately. You find the styles here, like: `@dnb/eufemia/components/{button}/style/dnb-{button}.min.css` - read more about [how to import a single-component style](/uilib/usage/customisation/styling/consume-styles#single-component-only)
 
 ## CSS Structure Diagram
 
@@ -110,7 +110,7 @@ In CSS You simply do it this way:
 }
 ```
 
-## Spacing for Articles {#spacing}
+## Spacing for Articles \{#spacing\}
 
 To ensure more flexibility in styling, all the margins / spacings are reset to zero. But more often we have to have a by default defined spacing, e.g. `margin` on HTML Elements like headings or paragraphs.
 

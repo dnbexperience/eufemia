@@ -77,19 +77,6 @@ describe('FormSet component', () => {
     ).toBe(false)
   })
 
-  it('should have working provider have correct indent classes on form-row', () => {
-    const Comp = mount(
-      <Component {...props} indent="large">
-        <FormRow />
-      </Component>
-    )
-    expect(
-      Comp.find('.dnb-form-row')
-        .last()
-        .hasClass('dnb-form-row__indent--large')
-    ).toBe(true)
-  })
-
   it('should support locale context forwarding', () => {
     const Comp = mount(
       <Component>
@@ -131,7 +118,7 @@ describe('FormSet component', () => {
 
 describe('FormSet scss', () => {
   it('have to match snapshot', () => {
-    const scss = loadScss(require.resolve('../style/dnb-form-set.scss'))
+    const scss = loadScss(require.resolve('../style/deps.scss'))
     expect(scss).toMatchSnapshot()
   })
   it('have to match default theme snapshot', () => {

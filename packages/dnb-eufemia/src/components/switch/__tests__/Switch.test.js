@@ -65,26 +65,6 @@ describe('Switch component', () => {
     expect(my_event.mock.calls[0][0].checked).toBe(true)
   })
 
-  it('uses "default_value" as the startup state – if given', () => {
-    expect(
-      mount(<Component default_state={true} />)
-        .find('input')
-        .instance().checked
-    ).toBe(true)
-
-    expect(
-      mount(<Component default_state={true} checked={false} />)
-        .find('input')
-        .instance().checked
-    ).toBe(true)
-
-    const Comp = mount(<Component default_state={false} checked={true} />)
-    expect(Comp.find('input').instance().checked).toBe(false)
-
-    Comp.find('input').simulate('change')
-    expect(Comp.find('input').instance().checked).toBe(true)
-  })
-
   it('does handle controlled vs uncontrolled state properly', () => {
     const ControlledVsUncontrolled = () => {
       const [checked, setChecked] = React.useState(true)
@@ -162,7 +142,7 @@ describe('Switch component', () => {
 
 describe('Switch scss', () => {
   it('have to match snapshot', () => {
-    const scss = loadScss(require.resolve('../style/dnb-switch.scss'))
+    const scss = loadScss(require.resolve('../style/deps.scss'))
     expect(scss).toMatchSnapshot()
   })
   it('have to match default theme snapshot', () => {

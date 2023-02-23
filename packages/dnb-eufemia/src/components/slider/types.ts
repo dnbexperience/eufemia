@@ -17,9 +17,6 @@ export type onChangeEventProps = {
   rawValue: number
   number?: formatReturnType | null
   event?: Event
-
-  /** @deprecated use rawValue instead */
-  raw_value?: number
 }
 
 export type SliderProps = IncludeSnakeCase<{
@@ -108,12 +105,6 @@ export type SliderProps = IncludeSnakeCase<{
 
   /** will be called once the user starts dragging. Returns `{ event }`. */
   onDragEnd?: (props: { event: MouseEvent | TouchEvent }) => void
-
-  /** @deprecated */
-  onInit?: (props: Omit<onChangeEventProps, 'rawValue'>) => void
-
-  /** @deprecated The Slider does not support mouse wheel  */
-  use_scrollwheel?: boolean
 
   children?: React.ReactChild
 }>

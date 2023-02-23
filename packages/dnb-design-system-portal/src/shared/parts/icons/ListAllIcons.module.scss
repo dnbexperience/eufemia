@@ -2,8 +2,7 @@
   list-style: none;
 
   display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
+  flex-flow: row wrap;
   align-items: flex-end;
 
   padding: 0;
@@ -15,7 +14,7 @@
   margin: 0.5rem;
 
   border-radius: 0.25rem;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 4px rgb(0 0 0 / 20%);
 }
 
 .listItemInnerStyle {
@@ -38,6 +37,7 @@
       margin: 0;
       white-space: nowrap;
     }
+
     .dnb-p,
     .dnb-spacing & .dnb-p {
       margin: 0;

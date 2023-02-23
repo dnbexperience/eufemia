@@ -5,8 +5,7 @@
 
 import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
-import Section from '../../section/web-component'
-import { Button } from '../../'
+import { Button, Section } from '../../'
 import { P } from '../../../elements'
 import styled from '@emotion/styled'
 

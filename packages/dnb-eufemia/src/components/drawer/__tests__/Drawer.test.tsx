@@ -115,6 +115,30 @@ describe('Drawer', () => {
   })
 
   it('is closed by keyboardevent esc', () => {
+    let testTriggeredBy = null
+    const on_close = jest.fn(
+      ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
+    )
+
+    const props = {
+      directDomReturn: false,
+      noAnimation: true,
+    }
+    const Comp = mount(
+      <Drawer {...props} id="modal-drawer" onClose={on_close} />
+    )
+
+    Comp.find('button#modal-drawer').simulate('click')
+    Comp.find('div.dnb-drawer').simulate('keyDown', {
+      key: 'Esc',
+      keyCode: 27,
+    })
+    Comp.update()
+    expect(on_close).toHaveBeenCalledTimes(1)
+    expect(testTriggeredBy).toBe('keyboard')
+  })
+
+  it('is closed by keyboardevent esc by window listener', () => {
     const on_close = jest.fn()
 
     const props = {
@@ -353,7 +377,7 @@ describe('Drawer aria', () => {
 
 describe('Drawer scss', () => {
   it('have to match snapshot', () => {
-    const scss = loadScss(require.resolve('../style/dnb-drawer.scss'))
+    const scss = loadScss(require.resolve('../style/deps.scss'))
     expect(scss).toMatchSnapshot()
   })
 })

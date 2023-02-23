@@ -10,7 +10,6 @@ import { spacingPropTypes } from '../components/space/SpacingHelper'
 import E from './Element'
 
 const P = ({
-  style_type,
   modifier,
   element,
   className,
@@ -25,10 +24,6 @@ const P = ({
     modifier = modifier.split(/ /g)
   } else if (!Array.isArray(modifier)) {
     modifier = [modifier]
-  }
-
-  if (style_type) {
-    modifier.push(style_type) // deprecated
   }
 
   if (medium === true) {
@@ -58,7 +53,6 @@ const P = ({
     />
   )
 }
-P.tagName = 'dnb-p'
 P.propTypes = {
   ...spacingPropTypes,
 
@@ -76,7 +70,6 @@ P.propTypes = {
     'x-large',
     'xx-large',
   ]),
-  style_type: PropTypes.string, // deprecated
   modifier: PropTypes.string,
   children: PropTypes.node,
 }
@@ -87,7 +80,6 @@ P.defaultProps = {
   medium: null,
   bold: null,
   size: null,
-  style_type: null, // deprecated
   modifier: null,
   children: null,
 }

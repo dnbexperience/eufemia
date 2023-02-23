@@ -15,9 +15,6 @@ import { runIOSSelectionFix } from '@dnb/eufemia/src/components/NumberFormat'
 import { useCopyWithNotice } from '@dnb/eufemia/src/components/number-format/NumberUtils'
 import { copyStyle } from './Copy.module.scss'
 
-// we may use this one, but for now, we just keep the build in mdx support
-// import ReactMarkdown from 'react-markdown'
-
 let hasiOSFix = false
 
 const Copy = ({ children, className, ...rest }) => {

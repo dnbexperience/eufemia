@@ -6,7 +6,6 @@ import { ModalRootProps } from './ModalRoot'
 export type ExtendedBoolean = string | boolean
 export type ReactChildType = React.ReactNode | ((...args: any[]) => any)
 
-export type ModalMode = 'modal' | 'drawer' | 'dialog' | 'custom'
 export type ModalFullscreen = 'auto' | ExtendedBoolean
 export type ModalAlignContent = 'left' | 'center' | 'centered' | 'right'
 export type ModalContainerPlacement = 'left' | 'right' | 'top' | 'bottom'
@@ -123,47 +122,6 @@ export interface ModalProps extends ModalRootProps {
   trigger_attributes?: TriggerAttributes
 
   /**
-   * If truthy, no trigger button will be show. This can be used in combination with `open_state="opened"`.
-   */
-  trigger_hidden?: ExtendedBoolean
-
-  /**
-   * If truthy, then the trigger button can&#39;t be opened.
-   */
-  trigger_disabled?: ExtendedBoolean
-
-  /**
-   * The modal/drawer triggering button variant. Defaults to `secondary`.
-   */
-  trigger_variant?: ModalTriggerVariant
-
-  /**
-   * If type is set to `text`, this will be the text which triggers the modal/drawer. If set to `button` it will be the `title` attribute of the button.
-   */
-  trigger_text?: string
-
-  /**
-   * The modal/drawer triggering button title.
-   */
-  trigger_title?: string
-  trigger_size?: string
-
-  /**
-   * The modal/drawer triggering button icon. Can be used instead of a `trigger_text`. Defaults to `question`.
-   */
-  trigger_icon?: ReactChildType
-
-  /**
-   * Defines the modal/drawer triggering icon position. Defaults to `left` because of the tertiary button variant.
-   */
-  trigger_icon_position?: ModalTriggerIconPosition
-
-  /**
-   * Adds a custom modal trigger class name.
-   */
-  trigger_class?: string
-
-  /**
    * The content which will appear when triggering the modal/drawer.
    */
   modal_content?: ReactChildType
@@ -191,12 +149,6 @@ export interface ModalContentProps {
   modal_content?: ReactChildType
 
   /**
-   * The modal/drawer mode (deprecated). Can be set to `drawer`, `dialog` or `custom`. Defaults to `modal`.
-   * It is recommended to use the Drawer/Dialog components instead
-   */
-  mode?: ModalMode
-
-  /**
    * The content which will appear in the bar, above the header, and side-by-side the close button.
    */
   bar_content?: ReactChildType
@@ -218,7 +170,7 @@ export interface ModalContentProps {
   root_id?: string
 
   /**
-   * The ID of the trigger component, describing the modal/drawer content. Defaults to the internal `trigger`, so make sure You define the `trigger_title`.
+   * The ID of the trigger component, describing the modal/drawer content. Defaults to the internal `trigger`, so make sure You define the trigger title.
    */
   labelled_by?: string
 

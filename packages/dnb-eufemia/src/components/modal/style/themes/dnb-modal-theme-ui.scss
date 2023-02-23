@@ -3,10 +3,10 @@
 *
 */
 
-@import '../../../../style/themes/imports.scss';
+@import '../../../../style/core/utilities.scss';
 
 :root {
-  --modal-overlay-bg: rgba(0, 0, 0, 0.32);
+  --modal-overlay-bg: rgb(0 0 0 / 32%);
 }
 
 .dnb-modal {

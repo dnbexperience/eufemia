@@ -11,7 +11,7 @@ describe('Timeline', () => {
   it('renders without properties', () => {
     render(<Timeline />)
 
-    expect(screen.queryByTestId('timeline')).not.toBeNull()
+    expect(document.querySelector('.dnb-timeline')).not.toBeNull()
   })
 
   it('renders a timeline with multiple items by data prop', () => {
@@ -28,7 +28,9 @@ describe('Timeline', () => {
       />
     )
 
-    expect(screen.queryAllByTestId('timeline-item')).toHaveLength(3)
+    expect(document.querySelectorAll('.dnb-timeline__item')).toHaveLength(
+      3
+    )
   })
 
   it('renders a timeline with multiple items by children', () => {
@@ -40,10 +42,12 @@ describe('Timeline', () => {
       </Timeline>
     )
 
-    expect(screen.queryAllByTestId('timeline-item')).toHaveLength(3)
+    expect(document.querySelectorAll('.dnb-timeline__item')).toHaveLength(
+      3
+    )
   })
 
-  it('current will have aria-current="step', () => {
+  it('current will have aria-current="step"', () => {
     render(
       <Timeline
         data={[
@@ -57,8 +61,33 @@ describe('Timeline', () => {
       />
     )
 
-    const lastElem = screen.getAllByTestId('timeline-item').slice(-1)[0]
-    expect(lastElem.getAttribute('aria-current')).toBe('step')
+    const currentItem = screen.getByText('Current')
+    expect(
+      currentItem.parentElement.parentElement.getAttribute('aria-current')
+    ).toBe('step')
+  })
+
+  it('uses ordered list semantic elements', () => {
+    render(
+      <Timeline
+        data={[
+          {
+            title: 'Upcoming',
+            state: 'upcoming',
+          },
+          { title: 'Completed', state: 'completed' },
+          { title: 'Current', state: 'current' },
+        ]}
+      />
+    )
+
+    const element = document.querySelector('.dnb-timeline')
+    const firstChild = element.firstChild as HTMLLIElement
+    const lastChild = element.lastChild as HTMLLIElement
+
+    expect(element.tagName).toBe('OL')
+    expect(firstChild.tagName).toBe('LI')
+    expect(lastChild.tagName).toBe('LI')
   })
 
   it('inherits skeleton prop from provider', () => {
@@ -77,43 +106,62 @@ describe('Timeline', () => {
       </Provider>
     )
 
-    expect(screen.queryByTestId('timeline-item').className).toMatch(
-      skeletonClassName
-    )
+    expect(
+      document.getElementsByClassName(skeletonClassName)
+    ).toHaveLength(1)
   })
 
   it('should support spacing props', () => {
     render(
       <Timeline
+        top="2rem"
         data={[
           {
             title: 'Upcoming',
             state: 'upcoming',
           },
         ]}
-        top="2rem"
       />
     )
 
-    const element = screen.getByTestId('timeline')
+    const element = document.querySelector('.dnb-timeline')
     const attributes = Array.from(element.attributes).map(
       (attr) => attr.name
     )
 
-    expect(attributes).toEqual(['class', 'data-testid'])
+    expect(attributes).toEqual(['class'])
     expect(Array.from(element.classList)).toEqual([
       'dnb-timeline',
+      'dnb-space__reset',
       'dnb-space__top--large',
     ])
+  })
+
+  it('should support extra attributes', () => {
+    render(
+      <Timeline
+        aria-label="extra-label"
+        data={[
+          {
+            title: 'Upcoming',
+            state: 'upcoming',
+          },
+          { title: 'Completed', state: 'completed' },
+          { title: 'Current', state: 'current' },
+        ]}
+      />
+    )
+
+    const element = document.querySelector('.dnb-timeline')
+
+    expect(element.getAttribute('aria-label')).toBe('extra-label')
   })
 
   describe('TimelineItem', () => {
     it('renders title', () => {
       const title = 'Completed'
       render(<TimelineItem title={title} state="completed" />)
-      expect(
-        screen.queryByTestId('timeline-item-label-title').textContent
-      ).toBe(title)
+      expect(screen.queryByText(title)).toBeTruthy()
     })
 
     it('renders subtitle', () => {
@@ -125,9 +173,7 @@ describe('Timeline', () => {
           state="completed"
         />
       )
-      expect(
-        screen.queryByTestId('timeline-item-content-subtitle').textContent
-      ).toBe(subtitle)
+      expect(screen.queryByText(subtitle)).toBeTruthy()
     })
 
     it('renders subtitles', () => {
@@ -140,18 +186,8 @@ describe('Timeline', () => {
         />
       )
 
-      expect(
-        screen.queryAllByTestId('timeline-item-content-subtitle')
-      ).toHaveLength(2)
-
-      expect(
-        screen.queryAllByTestId('timeline-item-content-subtitle')[0]
-          .textContent
-      ).toBe(subtitles[0])
-      expect(
-        screen.queryAllByTestId('timeline-item-content-subtitle')[1]
-          .textContent
-      ).toBe(subtitles[1])
+      expect(screen.queryByText(subtitles[0])).toBeTruthy()
+      expect(screen.queryByText(subtitles[1])).toBeTruthy()
     })
 
     it('renders info message', () => {
@@ -163,9 +199,7 @@ describe('Timeline', () => {
           state="completed"
         />
       )
-      expect(
-        screen.queryByTestId('timeline-item-content-info').textContent
-      ).toBe(infoMessage)
+      expect(screen.queryByText(infoMessage)).toBeTruthy()
     })
 
     it('renders custom icon', () => {
@@ -201,9 +235,9 @@ describe('Timeline', () => {
 
       render(<TimelineItem skeleton title="title" state="completed" />)
 
-      expect(screen.queryByTestId('timeline-item').className).toMatch(
-        skeletonClassName
-      )
+      expect(
+        document.getElementsByClassName(skeletonClassName)
+      ).toHaveLength(1)
     })
 
     it('inherits skeleton prop from provider', () => {
@@ -215,9 +249,9 @@ describe('Timeline', () => {
         </Provider>
       )
 
-      expect(screen.queryByTestId('timeline-item').className).toMatch(
-        skeletonClassName
-      )
+      expect(
+        document.getElementsByClassName(skeletonClassName)
+      ).toHaveLength(1)
     })
 
     describe('renders default icon based on state property', () => {
@@ -298,7 +332,7 @@ describe('Timeline aria', () => {
 
 describe('Timeline scss', () => {
   it('have to match snapshot', () => {
-    const scss = loadScss(require.resolve('../style/dnb-timeline.scss'))
+    const scss = loadScss(require.resolve('../style/deps.scss'))
     expect(scss).toMatchSnapshot()
   })
   it('have to match default theme snapshot', () => {
