@@ -34,7 +34,7 @@ describe('Page Navigation', () => {
     it('components page should include summary list of components', () => {
       cy.visitAsHtml('/uilib/components')
 
-      cy.get('h2').should('contain', 'Components')
+      cy.get('h1').should('contain', 'Components')
 
       cy.get('a[href="/uilib/components/accordion"]').should(
         'contain',
