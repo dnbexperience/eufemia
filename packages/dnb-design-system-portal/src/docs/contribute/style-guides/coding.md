@@ -49,3 +49,7 @@ yarn workspace @dnb/eufemia test:types
 ```
 
 Fix the resulted warnings and errors before you commit and merge.
+
+#### CSS code formatting
+
+Eufemia uses [CSS rational order](/uilib/usage/best-practices/for-styling/#styling-structure).

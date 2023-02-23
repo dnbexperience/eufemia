@@ -11,7 +11,6 @@ export const PLATFORM_ANDROID = 'Android'
 export const PLATFORM_LINUX = 'Linux'
 export const PLATFORM_IOS = 'iOS|iPhone|iPad|iPod'
 
-export let IS_IE11 = false
 export let IS_EDGE = false
 export let IS_IOS = false
 export let IS_SAFARI = false
@@ -51,17 +50,10 @@ export const isSafari = () =>
     /safari/i.test(navigator?.userAgent) &&
     !/chrome/i.test(navigator?.userAgent))
 
-export const isIE11 = () =>
-  (IS_IE11 =
-    typeof window !== 'undefined' && typeof document !== 'undefined'
-      ? !!window.MSInputMethodContext && !!document.documentMode
-      : false)
-
 export const isEdge = () =>
   (IS_EDGE =
     typeof navigator !== 'undefined' && /edge/i.test(navigator?.userAgent))
 
-isIE11()
 isEdge()
 isiOS()
 isSafari()
@@ -75,49 +67,62 @@ export function setPageFocusElement(selectorOrElement, key = 'default') {
   return (pageFocusElements[key] = selectorOrElement)
 }
 
-export function applyPageFocus(key = 'default', callback = null) {
+export function applyPageFocus(selector = 'default', callback = null) {
   try {
-    let element = pageFocusElements[key]
+    let element = /^[.#]/.test(selector)
+      ? selector
+      : pageFocusElements[selector]
     if (typeof element === 'string' && typeof document !== 'undefined') {
       element = document.querySelector(element)
     } else if (!element && typeof document !== 'undefined') {
       element = document.querySelector('.dnb-no-focus')
     }
-    if (element instanceof HTMLElement) {
-      if (
-        [
-          'h1',
-          'h2',
-          'h3',
-          'h4',
-          'h5',
-          'h6',
-          'p',
-          'div',
-          'main',
-          'nav',
-          'header',
-          'footer',
-          'aside',
-          'section',
-          'article',
-        ].includes(String(element.nodeName).toLowerCase())
-      ) {
-        if (!element.hasAttribute('tabindex')) {
-          element.setAttribute('tabindex', '-1')
-        }
-        if (
-          element.classList &&
-          !element.classList.contains('dnb-no-focus')
-        ) {
-          element.classList.add('dnb-no-focus')
-        }
-      }
 
-      element.focus({ preventScroll: true })
-      if (typeof callback === 'function') {
-        callback(element)
+    if (!(element instanceof HTMLElement)) {
+      return // stop here
+    }
+
+    const role = element.getAttribute('role')
+    const list = [
+      'a',
+      'button',
+      'input',
+      'textarea',
+      'select',
+      'label',
+      'menu',
+    ]
+    const isInteractive =
+      list.includes(String(element.nodeName).toLowerCase()) ||
+      list.includes(String(role).toLowerCase())
+    const hasTabIndex = element.hasAttribute('tabindex')
+    const hasNoFocus = element.classList.contains('dnb-no-focus')
+
+    if (!isInteractive) {
+      if (!hasTabIndex) {
+        element.setAttribute('tabindex', '-1')
       }
+      if (!hasNoFocus) {
+        element.classList.add('dnb-no-focus')
+      }
+    }
+
+    element.focus()
+
+    const onBlur = () => {
+      if (!isInteractive) {
+        if (!hasTabIndex) {
+          element.removeAttribute('tabindex')
+        }
+        if (!hasNoFocus) {
+          element.classList.remove('dnb-no-focus')
+        }
+      }
+    }
+    element.addEventListener('blur', onBlur, { once: true })
+
+    if (typeof callback === 'function') {
+      callback(element)
     }
   } catch (e) {
     warn('Error on applyPageFocus:', e)

@@ -12,7 +12,6 @@ import {
   makeUniqueId,
   isTrue,
   extendPropsWithContextInClassComponent,
-  registerElement,
   validateDOMAttributes,
   processChildren,
   getStatusState,
@@ -51,12 +50,7 @@ export const buttonVariantPropType = {
  * The button component should be used as the call-to-action in a form, or as a user interaction mechanism. Generally speaking, a button should not be used when a link would do the trick. Exceptions are made at times when it is used as a navigation element in the action-nav element.
  */
 export default class Button extends React.PureComponent {
-  static tagName = 'dnb-button'
   static contextType = Context
-
-  static enableWebComponent() {
-    registerElement(Button?.tagName, Button, Button.defaultProps)
-  }
 
   static getContent(props) {
     return processChildren(props)
@@ -257,7 +251,7 @@ export default class Button extends React.PureComponent {
           global_status_id={global_status_id}
           label={text}
           text={status}
-          status={status_state}
+          state={status_state}
           text_id={this._id + '-status'} // used for "aria-describedby"
           no_animation={status_no_animation}
           skeleton={skeleton}
@@ -311,6 +305,7 @@ Button.propTypes = {
   class: PropTypes.string,
   href: PropTypes.string,
   target: PropTypes.string,
+  rel: PropTypes.string,
   to: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.object,
@@ -339,9 +334,6 @@ Button.propTypes = {
 
   ...spacingPropTypes,
 
-  custom_element: PropTypes.object,
-  custom_method: PropTypes.func,
-
   on_click: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 }
 
@@ -356,6 +348,7 @@ Button.defaultProps = {
   icon_size: null,
   href: null,
   target: null,
+  rel: null,
   to: null,
   id: null,
   class: null,
@@ -377,9 +370,6 @@ Button.defaultProps = {
   innerRef: null,
   children: null,
   element: null,
-
-  custom_element: null,
-  custom_method: null,
 
   on_click: null,
 }

@@ -149,7 +149,7 @@ Contributions are welcome. Heres the [source code](https://github.com/dnbexperie
 By default, all the HTML Elements (components) are built by separating the "visual styling" parts from the "functional layout" parts. This way we can create new custom visual styles:
 
 ```js
-/button/style/_button.scss // layout styles
+/button/style/dnb-button.scss // layout styles
 /button/style/themes/dnb-button-theme-ui.scss // main theme styles
 /button/style/themes/dnb-button-theme-eiendom.scss// additional theme styles
 ```
@@ -195,4 +195,4 @@ If your applications only need new colors or other CSS properties, you could sim
 
 ### Using CSS (vars) Custom Properties
 
-This is for sure a very nice and powerful solution, but lacks Internet Explorer support.
+This is a very nice and powerful solution.

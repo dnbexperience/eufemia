@@ -12,7 +12,7 @@ import { resetLevels } from '@dnb/eufemia/src/components/Heading'
 import Context from '@dnb/eufemia/src/shared/Context'
 import { SidebarMenuContext } from './SidebarMenuContext'
 import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
-import { Space, Icon } from '@dnb/eufemia/src/components'
+import { Space, Icon, Badge } from '@dnb/eufemia/src/components'
 import { MediaQuery } from '@dnb/eufemia/src/shared'
 import graphics from './SidebarGraphics'
 import keycode from 'keycode'
@@ -119,7 +119,9 @@ export default class SidebarLayout extends React.PureComponent {
               ) {
                 edges {
                   node {
-                    slug
+                    fields {
+                      slug
+                    }
                     frontmatter {
                       title
                       menuTitle
@@ -249,9 +251,11 @@ export default class SidebarLayout extends React.PureComponent {
                 <MediaQuery when={{ min: 0, max: 'medium' }}>
                   <Space left="large" top="large">
                     <PortalToolsMenu
-                      trigger_text="Portal Tools"
-                      trigger_icon="chevron_right"
-                      trigger_icon_position="right"
+                      triggerAttributes={{
+                        text: 'Portal Tools',
+                        icon: 'chevron_right',
+                        icon_position: 'right',
+                      }}
                       tooltipPosition="bottom"
                     />
                   </Space>
@@ -375,15 +379,7 @@ class ListItem extends React.PureComponent {
             </span>
           </span>
           {status && (
-            <span
-              className={classnames(
-                'status-badge',
-                createSkeletonClass('font', this.context.skeleton)
-              )}
-              title={statusTitle}
-            >
-              {status}
-            </span>
+            <Badge space={{ right: 'xx-small' }} content={statusTitle} />
           )}
         </Link>
       </li>
@@ -400,7 +396,13 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
   }
 
   const navItems = allMdx.edges
-    .map(({ node: { slug } }) => slug)
+    .map(
+      ({
+        node: {
+          fields: { slug },
+        },
+      }) => slug
+    )
     .filter((slug) => slug !== '/')
     // preorder
     .sort()
@@ -446,10 +448,16 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
     .map((slugPath) => {
       const {
         node: {
-          slug,
+          fields: { slug },
           frontmatter: { title, order, ...rest },
         },
-      } = allMdx.edges.find(({ node: { slug } }) => slug === slugPath)
+      } = allMdx.edges.find(
+        ({
+          node: {
+            fields: { slug },
+          },
+        }) => slug === slugPath
+      )
 
       const level = slug.split('/').filter(Boolean).length
       level > countLevels ? (countLevels = level) : countLevels

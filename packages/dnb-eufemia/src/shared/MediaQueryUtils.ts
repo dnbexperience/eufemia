@@ -1,5 +1,5 @@
 import { isTrue, toKebabCase } from './component-helper'
-import { IS_IE11, warn } from './helpers'
+import { warn } from './helpers'
 
 export type MediaQuerySizes =
   | 'small'
@@ -13,10 +13,10 @@ export type MediaQueryBreakpoints = Partial<
 
 export const defaultBreakpoints: MediaQueryBreakpoints = {
   small: '40em',
-  medium: '50em',
-  large: '60em',
-  'x-large': '72em',
-  'xx-large': '80em',
+  medium: '60em',
+  large: '72em',
+  'x-large': '80em',
+  'xx-large': '90em',
 }
 
 export type MediaQueryCondition =
@@ -182,18 +182,12 @@ export function createMediaQueryListener(
       callback(event?.matches, event)
     }
   }
-  if (IS_IE11 || !mediaQueryList?.addEventListener) {
-    // Deprecated
-    mediaQueryList.addListener(listener)
-  } else {
+  if (mediaQueryList?.addEventListener) {
     mediaQueryList.addEventListener('change', listener)
   }
 
   return () => {
-    if (IS_IE11 || !mediaQueryList?.removeEventListener) {
-      // Deprecated
-      mediaQueryList.removeListener(listener)
-    } else {
+    if (mediaQueryList?.removeEventListener) {
       mediaQueryList.removeEventListener('change', listener)
     }
   }

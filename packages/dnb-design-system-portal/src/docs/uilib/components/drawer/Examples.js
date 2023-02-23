@@ -33,6 +33,54 @@ export const SimpleDrawerExample = () => (
     }
   </ComponentBox>
 )
+
+export const LeftPlacementDrawerExample = () => (
+  <ComponentBox data-visual-test="left-placement-drawer">
+    {
+      /* jsx */ `
+<Drawer 
+  title="Drawer title"
+  containerPlacement="left"
+> 
+  <P top>
+    Some informational content
+  </P>
+  <P top>
+    Elementum eu suspendisse sit platea elit porttitor magna
+    laoreet ad ultrices tempus urna curae parturient conubia
+    quisque viverra eget vestibulum neque pulvinar semper
+    vulputate id dis varius pellentesque nunc egestas risus amet
+  </P>
+</Drawer>    
+    `
+    }
+  </ComponentBox>
+)
+
+export const FullscreenDrawerExample = () => (
+  <ComponentBox data-visual-test="fullscreen-drawer">
+    {
+      /* jsx */ `
+<Drawer 
+  fullscreen
+  title="Drawer title"
+  triggerAttributes={{text: "Open drawer"}}
+> 
+  <P top>
+    Some informational content
+  </P>
+  <P top>
+    Elementum eu suspendisse sit platea elit porttitor magna
+    laoreet ad ultrices tempus urna curae parturient conubia
+    quisque viverra eget vestibulum neque pulvinar semper
+    vulputate id dis varius pellentesque nunc egestas risus amet
+  </P>
+</Drawer>    
+    `
+    }
+  </ComponentBox>
+)
+
 export const FullDrawerExample = () => (
   <ComponentBox
     data-visual-test="full-drawer"
@@ -89,19 +137,6 @@ export const FullDrawerExample = () => (
               phasellus praesent justo mollis montes velit taciti gravida
               lacus commodo senectus feugiat lorem etiam consequat
               penatibus cum hendrerit accumsan orci potenti purus nulla
-              interdum metus sollicitudin magnis libero sapien habitant non
-              class ridiculus consectetur congue nec litora sociosqu
-              aliquet felis in rhoncus nascetur odio ultricies nullam a
-              iaculis massa nisi ante nam cras aenean erat facilisi vivamus
-              ut cursus auctor arcu lobortis himenaeos dictum habitasse
-              tristique mauris at blandit sagittis nibh dignissim
-              condimentum per integer duis lacinia malesuada est adipiscing
-              maecenas donec eleifend turpis dictumst dapibus tempor fusce
-              aliquam torquent hac ac curabitur venenatis et tincidunt
-              augue porta vehicula enim facilisis posuere primis molestie
-              convallis diam vel fringilla dolor leo quis diam cursus massa
-              sapien tristique cum senectus sed tortor natoque amet
-              hendrerit ut fusce ipsum quis
             </P>
           </>
         )

@@ -4,14 +4,12 @@
  */
 
 import path from 'path'
-import nodeResolve from '@rollup/plugin-node-resolve'
+import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
-import babel from '@rollup/plugin-babel'
+import { babel } from '@rollup/plugin-babel'
 import replace from '@rollup/plugin-replace'
 import nodeGlobals from 'rollup-plugin-node-globals'
 import { terser } from 'rollup-plugin-terser'
-import { sizeSnapshot } from 'rollup-plugin-size-snapshot'
-import { isCI } from 'repo-utils'
 import branchName from 'current-git-branch'
 
 const excludes = [
@@ -28,7 +26,7 @@ const excludes = [
 ]
 
 const currentBranch = branchName()
-export default !/^(release|beta|alpha)$/.test(currentBranch)
+export default !/^(release|beta|alpha|next)$/.test(currentBranch)
   ? [
       // NB: rollup needs at least one config
       makeRollupConfig(
@@ -55,15 +53,6 @@ export default !/^(release|beta|alpha)$/.test(currentBranch)
         'build/umd/dnb-ui-lib.min.js',
         {
           name: 'dnbLib',
-          format: 'umd',
-          excludes,
-        }
-      ),
-      makeRollupConfig(
-        './src/umd/dnb-ui-web-components.js',
-        'build/umd/dnb-ui-web-components.min.js',
-        {
-          name: 'dnbWebComponents',
           format: 'umd',
           excludes,
         }
@@ -144,14 +133,6 @@ export default !/^(release|beta|alpha)$/.test(currentBranch)
       makeRollupConfig(
         './src/esm/dnb-ui-elements.js',
         'build/esm/dnb-ui-elements.min.mjs',
-        {
-          format: 'esm',
-          excludes,
-        }
-      ),
-      makeRollupConfig(
-        './src/esm/dnb-ui-web-components.js',
-        'build/esm/dnb-ui-web-components.min.mjs',
         {
           format: 'esm',
           excludes,
@@ -247,8 +228,11 @@ function makeRollupConfig(
         preventAssignment: true,
         'process.env.NODE_ENV': JSON.stringify('production'),
       }),
-      isCI ? sizeSnapshot({ snapshotPath: 'size-snapshot.json' }) : null,
-      terser(),
+      terser({
+        format: {
+          comments: false,
+        },
+      }),
     ],
   }
 }

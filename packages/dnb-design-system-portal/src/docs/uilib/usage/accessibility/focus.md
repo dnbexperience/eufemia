@@ -18,7 +18,7 @@ From the technical side, we have to assign an _invisible_ focus, so the user can
 ```html
 <body>
   <nav><!-- focusable navigation --></nav>
-  <main role="main">
+  <main>
     <!-- more markup with focusable HTMLElements -->
     <h1 class="dnb-h--xx-large dnb-no-focus" tabindex="-1">Main Title</h1>
     <a href="/path">I'm now focusable on next tab</a>
@@ -45,6 +45,19 @@ This helper also handles both the `tabindex="-1"` and the `class="dnb-no-focus"`
 1. Later one, once the focus should be set, you call a second function **_applyPageFocus_**. This function will use the beforehand defined selector and execute `domNode.focus()`.
 
 ### Focus helper
+
+Set focus on a HTML Element, that exists inside the DOM. It can be any HTML Element, no matter if it's an interactive element or not. No interactive elements will be handled by changing the `tabindex` to 0 alongside a CSS class `dnb-no-focus`, so no blue focus border is visible.
+
+Simple example:
+
+```js
+import { applyPageFocus } from '@dnb/eufemia/shared/helpers'
+
+applyPageFocus('.my-selector')
+applyPageFocus('#my-id')
+```
+
+Asynchronous example:
 
 ```js
 import {

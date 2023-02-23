@@ -17,58 +17,13 @@ LINT_STAGED=1
 
 ## Dependency issues
 
-### node-sass vs sass
-
-The Portal (documentations) uses dart based `sass`, while the bundle and build process of the package `@dnb/eufemia` uses `node-sass` – because:
-
-- we render sass styles during jest tests with `sass.renderSync` – even that should work with `sass` as well, it can't find the [file it says](https://github.com/sass/dart-sass/issues/710).
-- several places a module called `node-sass-once-importer` is used, that is compatible only with `node-sass`.
-- it uses `sass-loader` v10 because `TypeError: this.getOptions is not a function`.
-- it uses `node-sass` v5, else we get this error message during portal run:
-
-  ```
-  ERROR in polyfill
-  Module not found: TypeError: Cannot read property 'indexOf' of
-  undefined
-  ```
-
-### puppeteer
-
-- When upgrading to a newer version than v8, puppeteer behaves inconsistent. Sometimes the content is just tiny bit off. But most importantly, > v10.4 is very inconsistent and off running on the GitHub Actions maxOS.
-
 ### Stylelint
 
 - v14 has changed a good amount of their default styling rules. Updating would require us to refactor a good amount of SCSS code. We are currently on v13.
 
-### Storybook
-
-The Storybook setup is using the default `@storybook/preset-scss` addon with the recommended dependencies. But for some reason, we can't use the latest versions of the following dependencies:
-
-- `sass-loader` v10.2.0
-- `style-loader` v2.0.0
-- `css-loader` v5.2.7
-
-We get else this error:
-
-> Type Error: this.getOptions is not a function for style-loader
-
-### gatsby-plugin-emotion
-
-Newer versions than `7.1.0` have an issue with our Emotion setup. We may either switch complately to SASS or ensure the root (home) on the portal looks OK.
-
 ## Babel
 
 Due to this bug: https://github.com/babel/babel/issues/11394 we add `.png,.snap` so they not get copied: `--extensions '.js,.ts,.tsx,.png,.snap'`
-
-### Gatsby Cloud
-
-The plugin `gatsby-plugin-gatsby-cloud` relays on a newer Webpack version than other plugins. In order to let the Portal run on the latest version, we set the yarn resolutions:
-
-```json
-"resolutions": {
-  "webpack": "5.61.0"
-}
-```
 
 ### Yarn PnP
 
@@ -88,6 +43,11 @@ When switching over to Yarn PnP, there are some issues:
   ```bash
   gatsby-plugin-mdx tried to access mkdirp, but it isn't declared in its dependencies; this makes the require call ambiguous and unsound.
   ```
+
+### MDX v2
+
+- When upgrading the deps to MDX v2, we get `JavaScript heap out of memory`. Some more notes about this in `gatsby-node.js`.
+- In addition we get SCSS `mini-css-extract-plugin` conflicting order.
 
 ## How can I make faster builds?
 

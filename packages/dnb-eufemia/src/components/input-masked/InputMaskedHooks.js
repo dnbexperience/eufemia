@@ -335,8 +335,7 @@ const useCallEvent = ({ setLocalValue }) => {
     if (
       name === 'on_key_down' &&
       !isUnidentified &&
-      ((isNumberMask && !maskParams?.allowLeadingZeroes) ||
-        (!isNumberMask && maskParams?.allowLeadingZeroes === false)) &&
+      maskParams?.disallowLeadingZeroes &&
       (keyCode === '0' ||
         keyCode === 'numpad 0' ||
         (value.replace(/[^\d]/g, '') === '' &&
@@ -423,7 +422,6 @@ const useCallEvent = ({ setLocalValue }) => {
 
     // We may have to check against a negative value: && 1 / +0 === 1 / numberValue
     const cleanedValue = numberValue === 0 ? '' : num
-    const cleaned_value = cleanedValue // Deprecated
 
     if (name === 'on_change' && numberValue === 0) {
       correctCaretPosition(event.target, maskParams)
@@ -434,7 +432,6 @@ const useCallEvent = ({ setLocalValue }) => {
       value,
       numberValue,
       cleanedValue,
-      cleaned_value, // Deprecated
     })
 
     if (name === 'on_change') {

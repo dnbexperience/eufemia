@@ -9,14 +9,6 @@ export const percentToValue = (
   max: number,
   isReverse: boolean
 ) => {
-  // Deprecated, can be removed in v10
-  if (typeof min === 'string') {
-    min = parseFloat(min)
-  }
-  if (typeof max === 'string') {
-    max = parseFloat(max)
-  }
-
   let num = ((max - min) * percent) / 100 + min
 
   if (isReverse) {

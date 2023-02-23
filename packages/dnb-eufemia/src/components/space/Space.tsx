@@ -9,7 +9,6 @@ import classnames from 'classnames'
 import {
   isTrue,
   extendPropsWithContextInClassComponent,
-  registerElement,
   processChildren,
   validateDOMAttributes,
 } from '../../shared/component-helper'
@@ -37,28 +36,31 @@ function Element({
   innerRef,
   ...props
 }: SpaceAllProps) {
-  const E = element as DynamicElement<any>
+  const ElementDynamic = element as DynamicElement<any>
   let component: React.ReactElement = null
 
-  if (E === Section) {
+  if (ElementDynamic === Section) {
     component = (
-      <E {...props} inner_ref={innerRef}>
+      <ElementDynamic {...props} inner_ref={innerRef}>
         {children}
-      </E>
+      </ElementDynamic>
     )
   } else {
     // also used for code markup simulation
     validateDOMAttributes({}, props)
 
     component = (
-      <E {...props} ref={innerRef}>
+      <ElementDynamic {...props} ref={innerRef}>
         {children}
-      </E>
+      </ElementDynamic>
     )
   }
 
   if (isTrue(no_collapse)) {
-    const R = E === 'span' || isInline(element as string) ? 'span' : 'div'
+    const R =
+      ElementDynamic === 'span' || isInline(element as string)
+        ? 'span'
+        : 'div'
     return (
       <R
         className={classnames(
@@ -117,7 +119,6 @@ export type SpaceAllProps = SpaceProps & React.HTMLProps<HTMLElement>
 export default class Space extends React.PureComponent<
   SpaceAllProps | React.HTMLProps<HTMLElement>
 > {
-  static tagName = 'dnb-space'
   static contextType = Context
 
   static propTypes = {
@@ -155,10 +156,6 @@ export default class Space extends React.PureComponent<
     innerRef: null,
     className: null,
     children: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(Space?.tagName, Space, Space.defaultProps)
   }
 
   static getContent(props) {

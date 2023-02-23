@@ -87,7 +87,6 @@ export default class ModalHeaderBar extends React.PureComponent<
       close_button_attributes,
       onCloseClickHandler,
       close_title,
-      mode,
     } = this.context
 
     if (!title && isTrue(hide_close_button) && !this._ref.current) {
@@ -100,18 +99,7 @@ export default class ModalHeaderBar extends React.PureComponent<
         className={classnames(
           'dnb-modal__header__bar',
           showShadow && shadow_class,
-          className,
-
-          // Deprecated - for backward compatibility
-          mode == 'drawer' && 'dnb-drawer__navigation',
-          (mode == 'modal' || mode == 'dialog') &&
-            'dnb-dialog__navigation',
-          mode == 'drawer' &&
-            showShadow &&
-            'dnb-drawer__navigation--sticky',
-          (mode == 'modal' || mode == 'dialog') &&
-            showShadow &&
-            'dnb-dialog__navigation--sticky'
+          className
         )}
         inner_ref={this._ref}
         {...props}

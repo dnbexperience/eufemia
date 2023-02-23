@@ -3,7 +3,7 @@
  *
  */
 
-@import '../../../../style/themes/imports.scss';
+@import '../../../../style/core/utilities.scss';
 
 .dnb-form-status {
   &__shell {
@@ -13,14 +13,17 @@
 
   &--error &__shell {
     background-color: var(--color-fire-red-8);
+
     & > .dnb-icon {
       color: var(--color-fire-red);
       border: none;
     }
   }
+
   &--warn &__shell {
     background-color: var(--color-sand-yellow);
   }
+
   &--info &__shell {
     background-color: var(--color-pistachio);
   }
@@ -63,6 +66,7 @@
     background-color: var(--color-fire-red-8);
     border-color: var(--color-fire-red);
   }
+
   35% {
     color: var(--color-white);
     background-color: var(--color-fire-red);

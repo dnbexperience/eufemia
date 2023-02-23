@@ -11,7 +11,6 @@ import {
   isTrue,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
-  registerElement,
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
@@ -37,7 +36,6 @@ import FormStatus from '../form-status/FormStatus'
  * The checkbox component is our enhancement of the classic checkbox button. It acts like a checkbox. Example: On/off, yes/no.
  */
 export default class Checkbox extends React.PureComponent {
-  static tagName = 'dnb-checkbox'
   static contextType = Context
 
   static propTypes = {
@@ -47,9 +45,9 @@ export default class Checkbox extends React.PureComponent {
       PropTypes.node,
     ]),
     label_position: PropTypes.oneOf(['left', 'right']),
+    label_sr_only: PropTypes.bool,
     title: PropTypes.string,
     element: PropTypes.node,
-    default_state: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]), // Deprecated
     checked: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     id: PropTypes.string,
@@ -83,8 +81,6 @@ export default class Checkbox extends React.PureComponent {
     className: PropTypes.string,
     children: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 
-    custom_element: PropTypes.object,
-    custom_method: PropTypes.func,
     on_change: PropTypes.func,
     on_state_update: PropTypes.func,
   }
@@ -92,9 +88,9 @@ export default class Checkbox extends React.PureComponent {
   static defaultProps = {
     label: null,
     label_position: null,
+    label_sr_only: null,
     title: null,
     element: 'input',
-    default_state: null, // Deprecated
     checked: null,
     disabled: null,
     id: null,
@@ -114,15 +110,8 @@ export default class Checkbox extends React.PureComponent {
     className: null,
     children: null,
 
-    custom_element: null,
-    custom_method: null,
-
     on_change: null,
     on_state_update: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(Checkbox?.tagName, Checkbox, Checkbox.defaultProps)
   }
 
   static parseChecked = (state) => /true|on/.test(String(state))
@@ -130,14 +119,7 @@ export default class Checkbox extends React.PureComponent {
   static getDerivedStateFromProps(props, state) {
     if (state._listenForPropChanges) {
       if (props.checked !== state._checked) {
-        if (
-          props.default_state !== null &&
-          typeof state.checked === 'undefined'
-        ) {
-          state.checked = Checkbox.parseChecked(props.default_state)
-        } else {
-          state.checked = Checkbox.parseChecked(props.checked)
-        }
+        state.checked = Checkbox.parseChecked(props.checked)
       }
     }
     state._listenForPropChanges = true
@@ -217,13 +199,10 @@ export default class Checkbox extends React.PureComponent {
       class: _className,
 
       id: _id, // eslint-disable-line
-      default_state: _default_state, // eslint-disable-line
       checked: _checked, // eslint-disable-line
       children, // eslint-disable-line
       on_change, // eslint-disable-line
       on_state_update, // eslint-disable-line
-      custom_method, // eslint-disable-line
-      custom_element, // eslint-disable-line
 
       ...rest
     } = props
@@ -279,7 +258,7 @@ export default class Checkbox extends React.PureComponent {
         text_id={id + '-status'} // used for "aria-describedby"
         width_selector={id + ', ' + id + '-label'}
         text={status}
-        status={status_state}
+        state={status_state}
         no_animation={status_no_animation}
         skeleton={skeleton}
         {...status_props}

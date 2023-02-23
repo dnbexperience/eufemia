@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../../style/themes/imports.scss';
+@import '../../../../style/core/utilities.scss';
 
 .dnb-badge {
   color: var(--color-white);
@@ -11,6 +11,7 @@
   &--variant-information {
     background-color: var(--color-emerald-green);
   }
+
   &--variant-notification {
     background-color: var(--color-fire-red);
   }

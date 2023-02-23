@@ -66,16 +66,6 @@ import { toKebabCase } from '@dnb/eufemia/shared/component-helper'
 toKebabCase(String) // returns String
 ```
 
-<!--### detectOutsideClick
-Detects an click outside of the defined target HTML `element` and will then emit the `callback`. You can also provide an array with elements.
-
-```js
-detectOutsideClick(ignoreElements: HTMLElement|array, onSuccess: (event) => {...}) // returns Void
-```
-
-THIS FUNCTION WAS INCONSISTENT WITH THE FUNCTION IN component-helper.js
--->
-
 ### filterProps
 
 Filters out unwanted entries from either an object or array.
@@ -219,12 +209,12 @@ More info about that function in the [focus section about better accessibility](
 ```js
 import { applyPageFocus } from '@dnb/eufemia/shared/helpers'
 
-applyPageFocus(key*: Number, callback*: Function)
+applyPageFocus(selector*: String, callback*: Function)
 ```
 
 #### \* Optional values (defaults)
 
-- key = _'default'_
+- selector = _'default'_ (can be a HTML element selector, starting with a `.` or `#`)
 - callback = _null_
 
 ### setPageFocusElement
@@ -234,7 +224,7 @@ More info about that function in the [focus section about better accessibility](
 ```js
 import { setPageFocusElement } from '@dnb/eufemia/shared/helpers'
 
-setPageFocusElement(selectorOrElement, key*: String) // returns Void
+setPageFocusElement(selectorOrElement: String|HTMLElement, key*: String) // returns Void
 ```
 
 #### \* Optional values (defaults)
@@ -278,7 +268,6 @@ copyToClipboard(string) // returns success: String|Boolean|Error
 
 | Function   | Description                                        | Parameters | Return    |
 | ---------- | -------------------------------------------------- | ---------- | --------- |
-| `isIE11`   | Returns true or false, depending on the detection. | none       | `Boolean` |
 | `isEdge`   | Returns true or false, depending on the detection. | none       | `Boolean` |
 | `isSafari` | Returns true or false, depending on the detection. | none       | `Boolean` |
 | `isiOS`    | Returns true or false, depending on the detection. | none       | `Boolean` |
@@ -290,7 +279,6 @@ copyToClipboard(string) // returns success: String|Boolean|Error
 
 | Constant    | Description                                                         | Value     |
 | ----------- | ------------------------------------------------------------------- | --------- |
-| `IS_IE11`   | Gives you true or false, depending on the detection during startup. | `Boolean` |
 | `IS_EDGE`   | Gives you true or false, depending on the detection during startup. | `Boolean` |
 | `IS_SAFARI` | Gives you true or false, depending on the detection during startup. | `Boolean` |
 | `IS_IOS`    | Gives you true or false, depending on the detection during startup. | `Boolean` |

@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../../style/themes/imports.scss';
+@import '../../../../style/core/utilities.scss';
 
 .dnb-pagination {
   &__page,
@@ -28,14 +28,15 @@
   @at-root .dnb-core-style &__button.dnb-button--primary,
     &__button.dnb-button--primary {
     &,
-    &:not([disabled]):not(:active):hover {
+    &:not([disabled], :active):hover {
       background-color: var(--color-emerald-green);
       color: var(--color-mint-green);
     }
 
-    &:not([disabled]):not(:active):not(:hover):focus {
+    &:not([disabled], :active, :hover):focus {
       color: var(--color-emerald-green);
       background-color: var(--color-mint-green);
+
       @include fakeFocus(null, var(--color-emerald-green));
     }
   }
@@ -50,6 +51,7 @@
     transform: translate3d(0, -8px, 0);
     opacity: 0.1;
   }
+
   to {
     transform: translate3d(0, 0, 0);
     opacity: 1;

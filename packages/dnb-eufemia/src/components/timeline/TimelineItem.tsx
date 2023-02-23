@@ -16,7 +16,7 @@ import Context from '../../shared/Context'
 import { SkeletonShow } from '../skeleton/Skeleton'
 import { extendPropsWithContext } from '../../shared/component-helper'
 
-export interface TimelineItemProps {
+export type TimelineItemProps = {
   /**
    * Icon displaying on the left side.
    * Default: `check` for state `completed`, `pin` for state `current`, and `calendar` for state `upcoming` .
@@ -55,17 +55,10 @@ export interface TimelineItemProps {
    * Default: null
    */
   skeleton?: SkeletonShow
-
-  /**
-   * @deprecated Please use `title`
-   */
-  name?: unknown
-
-  /**
-   * @deprecated Please use `subtitle`
-   */
-  date?: unknown
 }
+
+export type TimelineItemAllProps = TimelineItemProps &
+  Omit<React.AllHTMLAttributes<HTMLLIElement>, 'title' | 'name'>
 
 const defaultProps = {
   icon: null,
@@ -77,7 +70,7 @@ const defaultProps = {
   skeleton: false,
 }
 
-const TimelineItem = (localProps: TimelineItemProps) => {
+const TimelineItem = (localProps: TimelineItemAllProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
   const {
@@ -97,17 +90,6 @@ const TimelineItem = (localProps: TimelineItemProps) => {
     context?.TimelineItem,
     { skeleton: context?.skeleton }
   )
-
-  // deprecated
-  if (allProps.name) {
-    delete allProps.name
-    allProps.title = allProps.name
-  }
-  // deprecated
-  if (allProps.date) {
-    delete allProps.date
-    allProps.subtitle = allProps.date
-  }
 
   const {
     icon,
@@ -144,10 +126,7 @@ const TimelineItem = (localProps: TimelineItemProps) => {
       (stateIsCurrent && alt_label_current) ||
       (stateIsUpcoming && alt_label_upcoming)
     return (
-      <span
-        className="dnb-timeline__item__label__icon"
-        data-testid="timeline-item-label-icon"
-      >
+      <span className="dnb-timeline__item__label__icon">
         <span key="icon-alignment" aria-hidden>
           &zwnj;
         </span>
@@ -164,12 +143,7 @@ const TimelineItem = (localProps: TimelineItemProps) => {
 
   const TimelineItemTitle = () => {
     return (
-      <span
-        className="dnb-timeline__item__label__title"
-        data-testid="timeline-item-label-title"
-      >
-        {title}
-      </span>
+      <span className="dnb-timeline__item__label__title">{title}</span>
     )
   }
 
@@ -188,10 +162,7 @@ const TimelineItem = (localProps: TimelineItemProps) => {
     }: {
       subtitle: React.ReactNode
     }) => (
-      <div
-        className="dnb-timeline__item__content__subtitle"
-        data-testid="timeline-item-content-subtitle"
-      >
+      <div className="dnb-timeline__item__content__subtitle">
         {subtitle}
       </div>
     )
@@ -217,7 +188,6 @@ const TimelineItem = (localProps: TimelineItemProps) => {
             text={infoMessage}
             state="info"
             className="dnb-timeline__item__content__info"
-            data-testid="timeline-item-content-info"
             stretch
           />
         )}
@@ -226,15 +196,14 @@ const TimelineItem = (localProps: TimelineItemProps) => {
   }
 
   return (
-    <div
+    <li
       className={classes}
-      data-testid="timeline-item"
       aria-current={stateIsCurrent ? 'step' : undefined}
       {...props}
     >
       <TimelineItemLabel />
       <TimelineItemContent />
-    </div>
+    </li>
   )
 }
 

@@ -46,7 +46,7 @@ describe('Skeleton component', () => {
 
 describe('Skeleton scss', () => {
   it('have to match snapshot', () => {
-    const scss = loadScss(require.resolve('../style/dnb-skeleton.scss'))
+    const scss = loadScss(require.resolve('../style/deps.scss'))
     expect(scss).toMatchSnapshot()
   })
 })

@@ -29,14 +29,16 @@
     height: 1px;
 
     color: inherit;
-    background-color: currentColor;
+    background-color: currentcolor;
     border-radius: 0.5px;
   }
 }
+
 @mixin hrTag() {
   hr {
     @include hrStyle();
   }
+
   .dnb-spacing hr {
     @include defaultSpacing();
   }
@@ -59,7 +61,7 @@
     */
     background-image: linear-gradient(
       to bottom,
-      currentColor 60%,
+      currentcolor 60%,
       transparent 65%
     );
     background-size: 100% 1px;
@@ -73,13 +75,14 @@
     /* Revert the hairline halv */
     background-image: linear-gradient(
       to bottom,
-      currentColor 51%,
+      currentcolor 51%,
       transparent 51%
     );
     background-size: 100% 3px;
     background-color: transparent;
   }
 }
+
 .dnb-spacing .dnb-hr {
   @include defaultSpacing();
 }

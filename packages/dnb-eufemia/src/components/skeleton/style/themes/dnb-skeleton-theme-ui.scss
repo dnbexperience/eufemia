@@ -46,6 +46,7 @@
       color: var(--skeleton-color);
     }
   }
+
   // Font with Lines
   &--font,
   &--font &--show-font,
@@ -69,9 +70,11 @@
   0% {
     clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
   }
+
   50% {
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
   }
+
   100% {
     clip-path: polygon(0 0, 0% 0, 0% 100%, 0 100%);
   }
@@ -81,6 +84,7 @@
   0% {
     background-position-x: 30rem;
   }
+
   100% {
     background-position-x: -30rem;
   }

@@ -1,6 +1,5 @@
 import Table from 'dnb-design-system-portal/src/shared/tags/Table'
 
-<!-- This is the Source of the Colors Table -->
 <Table selectable>
   <thead>
     <tr>

@@ -1,12 +1,69 @@
 /*
-* DNB InfoCard
+* InfoCard component
 *
 */
 
-@import '../../../style/components/imports.scss';
+@import '../../../style/core/utilities.scss';
 
 .dnb-info-card {
-  @include componentReset();
-}
+  display: flex;
+  flex-direction: row;
 
-@import './_info-card.scss';
+  position: relative;
+  padding: 1rem;
+
+  overflow: hidden;
+  max-width: 60ch;
+
+  background: var(--color-white);
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border: 1px solid var(--color-black-8);
+  }
+
+  &,
+  &::after {
+    border-radius: 0.25rem;
+  }
+
+  @include defaultDropShadow();
+
+  &--centered {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  &__content {
+    flex-direction: column;
+    margin-top: 0.1875rem;
+  }
+
+  &--centered &__content {
+    margin-top: 0;
+  }
+
+  &__icon {
+    color: var(--color-emerald-green);
+  }
+
+  &__image {
+    height: 4rem;
+    width: 4rem;
+  }
+
+  &__buttons {
+    display: flex;
+    flex-flow: row wrap;
+  }
+
+  &--centered &__buttons {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}

@@ -85,3 +85,20 @@ The best solution is to only use one direction of margins e.g. `bottom`. Or you 
 ### Margin collapsing
 
 In order to help out to handle unwanted margin collapsing in typography elements, se [this example](/uilib/elements/heading#example-of-margin-collapsing)
+
+### Conditional Rest
+
+For resetting spacing (`margin: 0`) only when no spacing is defined, you can make use of `dnb-space__reset`.
+
+The following example will result in `margin: 0.5rem 0 0 0`:
+
+```html
+<ul class="my-list dnb-space__reset dnb-space__top--small">
+  <!-- some content -->
+</ul>
+```
+
+More details:
+
+1. Because of the browser default styles, our list has some margin.
+1. If we would want to "reset" these styles to a margin of 0 directly on `.my-list`, we would not be able to use `dnb-space__top--small` because of the CSS specificity is lower.

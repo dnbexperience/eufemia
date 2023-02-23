@@ -2,7 +2,6 @@ import * as React from 'react';
 import { SkeletonShow } from '../skeleton/Skeleton';
 import { IconPrimaryIcon } from '../icon-primary/IconPrimary';
 import { DataAttributeTypes } from '../../shared/types';
-
 export type ButtonText = string | React.ReactNode;
 export type ButtonVariant =
   | 'primary'
@@ -68,10 +67,10 @@ export type ButtonRight = string | number | boolean;
 export type ButtonBottom = string | number | boolean;
 export type ButtonLeft = string | number | boolean;
 export type ButtonOnClick = string | ((...args: any[]) => any);
-
 /**
  * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
  */
+
 export type ButtonProps = {
   /**
    * The content of the button can be a string or a React Element.
@@ -79,7 +78,7 @@ export type ButtonProps = {
   text?: ButtonText;
 
   /**
-   * `button`, `reset` or `submit` for the `type` HTML attribute (default to `button`) .
+   * `button`, `reset` or `submit` for the `type` HTML attribute. Defaults to `button` for legacy reasons.
    */
   type?: string;
 
@@ -89,7 +88,7 @@ export type ButtonProps = {
   title?: React.ReactNode;
 
   /**
-   * Defines the kind of button. Possible values are `primary`, `secondary`, `tertiary` and `signal`.
+   * Defines the kind of button. Possible values are `primary`, `secondary`, `tertiary` and `signal`. Defaults to `primary`.
    */
   variant?: ButtonVariant;
 
@@ -151,9 +150,14 @@ export type ButtonProps = {
   href?: string;
 
   /**
-   * When button behaves as a link. Used to specifiy where to open the linked document, specified by `href`. Possible values are `_self`, `_blank`, `_parent` and `_top`.
+   * When button behaves as a link. Used to specify where to open the linked document, specified by `href`. Possible values are `_self`, `_blank`, `_parent` and `_top`.
    */
   target?: string;
+
+  /**
+   * Used to specify the relationship between a linked resource and the current document. Examples(non-exhaustive list) of values are `nofollow`, `search`, and `tag`.
+   */
+  rel?: string;
 
   /**
    * Use this prop only if you are using a router Link component as the `element` that uses the `to` property to declare the navigation url.
@@ -200,7 +204,7 @@ export type ButtonProps = {
   element?: ButtonElement;
 
   /**
-   * Has to be an any with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
+   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
    */
   space?: ButtonSpace;
 
@@ -223,8 +227,6 @@ export type ButtonProps = {
    * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
    */
   left?: ButtonLeft;
-  custom_element?: any;
-  custom_method?: (...args: any[]) => any;
 
   /**
    * Will be called on a click event. Returns an object with the native event: `{ event }`.
@@ -234,7 +236,6 @@ export type ButtonProps = {
   DataAttributeTypes &
     Partial<React.HTMLAttributes<HTMLButtonElement | HTMLAnchorElement>>
 >;
-
 export default class Button extends React.Component<ButtonProps, any> {
   render(): JSX.Element;
 }

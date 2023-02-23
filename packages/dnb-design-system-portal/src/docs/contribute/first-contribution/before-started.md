@@ -205,7 +205,6 @@ As an example, we show the folder structure of component Breadcrumb. You can als
 #### Modifications
 
 - Adding theming files under a folder `style/themes` will unlock the possibility of having different themes in the future. Check out the [source for theming in Button](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/button/style).
-- Adding support for [Web Components](https://developer.mozilla.org/en-US/docs/Web/Web_Components) by including a file `web-component.js` in the folder structure. Check out how this is carried out by Button in the [source code](https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/components/button/web-component.js). You also have to add a tag name and register the web component inside the component declaration.
 
 ## Development environments
 
@@ -261,34 +260,6 @@ The build will be exported to the `/public` directory. You can now also run a lo
 # In the `dnb-design-system-portal` directory, run:
 $ yarn serve
 ```
-
-### Testing
-
-Testing is currently handled by [Jest](https://jestjs.io/) and written using [Testing Library](https://testing-library.com/).
-
-Run the integration tests with
-
-```bash
-yarn test <file/folder>
-```
-
-Run the screenshot tests (make sure to have a portal running locally) with
-
-```bash
-yarn test:screenshots <file/folder>
-```
-
-Check out the results of the screenshot test with `open ./packages/dnb-eufemia/jest-screenshot-report/index.html`.
-
-### Run Algolia search queries locally
-
-In order to commit Algolia search queries to the `dev_eufemia_docs` index, you have to:
-
-Create a `.env` file inside `dnb-design-system-portal` with valid:
-
-- `ALGOLIA_INDEX_NAME=dev_eufemia_docs`
-- `ALGOLIA_APP_ID=SLD6KEYMQ9`
-- `ALGOLIA_API_KEY=secret`
 
 ## What happens in the build steps
 

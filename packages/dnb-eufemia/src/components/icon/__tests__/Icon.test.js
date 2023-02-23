@@ -143,7 +143,7 @@ describe('Icon component', () => {
 })
 
 describe('Icon scss', () => {
-  const scss = loadScss(require.resolve('../style/dnb-icon.scss'))
+  const scss = loadScss(require.resolve('../style/deps.scss'))
   it('have to match snapshot', () => {
     expect(scss).toMatchSnapshot()
   })
