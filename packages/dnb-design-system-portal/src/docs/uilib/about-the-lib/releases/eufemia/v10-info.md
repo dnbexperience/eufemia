@@ -16,6 +16,8 @@
     - [Modal, Dialog and Drawer](#modal-dialog-and-drawer)
     - [Lists](#lists)
     - [InputMasked](#inputmasked)
+    - [FormRow](#formrow)
+    - [Removal of `data-testid` in components](#removal-of-data-testid-in-components)
     - [Stopped supporting Internet Explorer (IE)](#stopped-supporting-internet-explorer-ie)
     - [Deprecations](#deprecations)
   - [Install](#install)
@@ -113,6 +115,11 @@ $layout-large: map-get($breakpoints, 'large');
 
 ### [Modal](/uilib/components/modal), [Dialog](/uilib/components/dialog) and [Drawer](/uilib/components/drawer)
 
+Modal's `mode` property is now deprecated and removed.
+`<Modal />` now behaves as `<Modal mode="custom" />` did previously.
+
+When you convert from `<Modal mode="custom" />` simply change to `<Modal />`.
+
 When you convert from `<Modal mode="drawer" />` to `<Drawer />` – follow these steps:
 
 - All `trigger_*` props are not supported for Drawer, use `triggerAttributes` instead to pass in props for the trigger button.
@@ -122,12 +129,12 @@ When you convert from `<Modal mode="drawer" />` to `<Drawer />` – follow these
 - `Modal.Bar` converts to `Drawer.Navigaton`.
 - `Modal` was a class component and `Drawer` is a functional component.
 
-When you convert from `<Modal />` to `<Dialog />` – follow these steps:
+When you convert from `<Modal />` or `<Modal mode="dialog" />` to `<Dialog />` – follow these steps:
 
 - All `trigger_*` props are not supported for Dialog, use `triggerAttributes` instead to pass in props for the trigger button.
   - Change prop `trigger_hidden` to `omitTriggerButton` to omit the default trigger button from Modal.
 - Only camelCase props are supported for Dialog, so you will need to update the prop names.
-- `Modal.Content` converts to `Dialog.Body`.
+- `Modal.Inner` or `Modal.Content` converts to `Dialog.Body`.
 - `Modal.Bar` converts to `Dialog.Navigaton`.
 - `Modal` was a class component and `Dialog` is a functional component.
 
@@ -137,7 +144,7 @@ When you convert from `<Modal />` to `<Dialog />` – follow these steps:
 
 ### [InputMasked](/uilib/components/input-masked)
 
-1. In v10, InputMasked **allows leading zeros**. To prevent that behaviour, the property `allowLeadingZeroes` has changed to `disallowLeadingZeroes`.
+1. In v10, InputMasked **allows leading zeros**. To prevent that behavior, the property `allowLeadingZeroes` has changed to `disallowLeadingZeroes`.
 
 ### [FormRow](/uilib/components/form-row)
 
@@ -145,7 +152,12 @@ When you convert from `<Modal />` to `<Dialog />` – follow these steps:
 
 ### Removal of `data-testid` in components
 
+- [Avatar](/uilib/components/avatar).
+- [Badge](/uilib/components/badge).
+- [Breadcrumb](/uilib/components/breadcrumb).
 - [InfoCard](/uilib/components/info-card).
+- [Tag](/uilib/components/tag).
+- [Upload](/uilib/components/upload).
 
 ### [Stopped supporting Internet Explorer (IE)](/uilib/usage/#supported-browsers-and-platforms)
 
@@ -169,4 +181,4 @@ $ npm i @dnb/eufemia@10
 $ yarn add @dnb/eufemia@10
 ```
 
-_February, 20. 2023_
+_February, 24. 2023_
