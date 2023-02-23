@@ -21,6 +21,7 @@ describe('Autocomplete', () => {
   it('have to match disabled state', async () => {
     const screenshot = await makeScreenshot({
       ...defaults,
+      url: '/uilib/components/autocomplete/visual-tests',
       selector: '[data-visual-test="autocomplete-disabled"]',
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -69,6 +70,7 @@ describe('Autocomplete', () => {
   it('have to match autocomplete opened list', async () => {
     const screenshot = await makeScreenshot({
       ...defaults,
+      url: '/uilib/components/autocomplete/visual-tests',
       selector: '[data-visual-test="autocomplete-opened"]',
       simulateSelector:
         '[data-visual-test="autocomplete-opened"] .focus-trigger .dnb-drawer-list:last-of-type li.first-of-type',
