@@ -17,14 +17,14 @@ Good reasons for why we have this is to:
 
 ### Supported formats
 
-- Numbers in general e.g. <pre className="dnb-code"><NumberFormat value="12345678.90" /></pre>
-- Currency e.g. <pre className="dnb-code"><NumberFormat currency value="12345678.90" /></pre>
-- Percentage e.g. <pre className="dnb-code"><NumberFormat percent value="12.34" /></pre>
-- Phone numbers e.g. <pre className="dnb-code"><NumberFormat phone value="004799999999" /></pre>
-- Bank account number e.g. <pre className="dnb-code"><NumberFormat ban value="20001234567" /></pre>
-- National identification number e.g. <pre className="dnb-code"><NumberFormat nin value="18089212345" /></pre>
-- Organization number e.g. <pre className="dnb-code"><NumberFormat org value="123456789" /></pre>
-- Compact (shorten) numbers e.g. <pre className="dnb-code"><NumberFormat compact value="123456" decimals={1} /></pre>
+- Numbers in general e.g. <code className="dnb-code"><NumberFormat value="12345678.90" /></code>
+- Currency e.g. <code className="dnb-code"><NumberFormat currency value="12345678.90" /></code>
+- Percentage e.g. <code className="dnb-code"><NumberFormat percent value="12.34" /></code>
+- Phone numbers e.g. <code className="dnb-code"><NumberFormat phone value="004799999999" /></code>
+- Bank account number e.g. <code className="dnb-code"><NumberFormat ban value="20001234567" /></code>
+- National identification number e.g. <code className="dnb-code"><NumberFormat nin value="18089212345" /></code>
+- Organization number e.g. <code className="dnb-code"><NumberFormat org value="123456789" /></code>
+- Compact (shorten) numbers e.g. <code className="dnb-code"><NumberFormat compact value="123456" decimals={1} /></code>
 
 ### Defaults
 
