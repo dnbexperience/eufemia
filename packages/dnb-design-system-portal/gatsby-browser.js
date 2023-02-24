@@ -40,7 +40,8 @@ export const wrapPageElement = pageElement('browser')
 // scroll to top on route change
 export const shouldUpdateScroll = () => true
 
-export const onRouteUpdate = ({ prevLocation }) => {
+export const onRouteUpdate = ({ location, prevLocation }) => {
+  // Ensure heading levels are reset before each page SSR starts
   resetLevels(1)
 
   try {
