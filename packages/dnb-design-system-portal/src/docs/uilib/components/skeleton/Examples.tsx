@@ -95,7 +95,7 @@ export const SkeletonFiguresExample = () => (
 )
 
 export const SkeletonVisualTests = () => {
-  if (!(typeof window !== 'undefined' && window.IS_TEST)) {
+  if (!globalThis.IS_TEST) {
     return <></>
   }
   return (
