@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import CodeBlock from './CodeBlock'
+import CodeBlock, { LiveCodeProps } from './CodeBlock'
 import styled from '@emotion/styled'
 import { getComponents } from '@dnb/eufemia/src/components/lib'
 import { getFragments } from '@dnb/eufemia/src/fragments/lib'
@@ -16,13 +16,11 @@ if (!globalThis.ComponentBoxMemo) {
 
 type ComponentBoxProps = {
   children: React.ReactNode | (() => React.ReactNode)
-  scope?: Record<string, unknown>
-  hideCode?: boolean
   useRender?: boolean
 
   /** @deprecated Use "useRender" instead */
   noInline?: boolean
-}
+} & Omit<LiveCodeProps, 'code'>
 
 function ComponentBox(props: ComponentBoxProps) {
   const { children, scope = {}, ...rest } = props
