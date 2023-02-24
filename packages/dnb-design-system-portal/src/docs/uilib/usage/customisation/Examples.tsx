@@ -1,0 +1,60 @@
+import React from 'react'
+import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
+import { Button, Icon, P } from '@dnb/eufemia/src'
+import styled from '@emotion/styled'
+import { hamburger as hamburgerIcon } from '@dnb/eufemia/src/icons/secondary_icons'
+
+export const LargeButtonsAndIconsExample = () => (
+  <ComponentBox>
+    <Button
+      variant="secondary"
+      text="Secondary Button"
+      icon="chevron_right_medium"
+      size="large"
+    />
+    <Button icon="chevron_right" icon_size="medium" size="large" />
+  </ComponentBox>
+)
+
+export const ExtendedExample = () => (
+  <ComponentBox scope={{ hamburgerIcon }}>
+    {() => {
+      const Wrapper = styled.div`
+        .dnb-button {
+          --button-width: 4rem;
+          --button-height: 4rem;
+          --button-border-radius: 2rem;
+          svg {
+            color: fuchsia;
+          }
+        }
+      `
+      const myHandler = () => alert('Hello')
+
+      return (
+        <Wrapper>
+          <Button
+            variant="secondary"
+            icon={hamburgerIcon}
+            size="default"
+            on_click={myHandler}
+          />
+          <Button variant="secondary" size="default" on_click={myHandler}>
+            <Icon icon={hamburgerIcon} />
+          </Button>
+        </Wrapper>
+      )
+    }}
+  </ComponentBox>
+)
+
+export const ColorsExample = () => (
+  <ComponentBox hideCode>
+    {() => {
+      const ParagraphStyled = styled(P)`
+        color: var(--color-sky-blue);
+      `
+      return <ParagraphStyled>I'm Sky blue.</ParagraphStyled>
+    }}
+  </ComponentBox>
+)

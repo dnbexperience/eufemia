@@ -76,7 +76,7 @@ export interface StepIndicatorProps extends React.HTMLProps<HTMLElement> {
    * <em>(required)</em> defines the data/steps showing up in a JavaScript Array or JSON format like `[{title,is_current}]`. See parameters and the example above.
    */
   data?: StepIndicatorData;
-  title: StepIndicatorTitle;
+  title?: StepIndicatorTitle;
   is_current?: boolean;
   inactive?: boolean;
   disabled?: boolean;

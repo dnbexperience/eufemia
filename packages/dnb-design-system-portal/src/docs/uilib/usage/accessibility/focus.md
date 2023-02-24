@@ -3,7 +3,7 @@ title: 'Focus'
 description: 'Accessibility helpers to handle focus management and Skip Link usage.'
 ---
 
-import SkipLinkExample from 'Docs/uilib/usage/accessibility/examples/skip-link-example.js'
+import SkipLinkExample from 'Docs/uilib/usage/accessibility/examples/skip-link-example.tsx'
 
 # Focus Management
 
