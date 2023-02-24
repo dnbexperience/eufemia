@@ -5,11 +5,12 @@ order: 6
 ---
 
 import CodeBlock from 'dnb-design-system-portal/src/shared/tags/CodeBlock'
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
-import { Link } from '@dnb/eufemia/src/elements'
 import NotSupportedElements from 'Docs/uilib/elements/not-supported'
 import UnstyledElementsDemos from 'Docs/uilib/elements/unstyled'
 import ListSummaryFromPages from 'dnb-design-system-portal/src/shared/parts/ListSummaryFromPages'
+import {
+StyledComponentsExample,
+} from 'Docs/uilib/Examples'
 
 # HTML Elements
 
@@ -23,14 +24,12 @@ The `@dnb/eufemia` contains styling for the most commonly used [HTML Elements](h
 
 In order to apply a style, you have to define a CSS class, like:
 
-<CodeBlock reactLive hidePreview>
-{`
+```jsx
 <a href="/" className="dnb-anchor">Text Link</a>
 <blockquote className="dnb-blockquote">
   Dis leo ala tractatos ei quo.
 </blockquote>
-`}
-</CodeBlock>
+```
 
 ### React JSX
 
@@ -53,14 +52,7 @@ render(
 
 They work seamlessly with Styled Components (emotion) as well:
 
-<ComponentBox useRender scope={{Link}}>
-{`
-const StyledLink = styled(Link)\`
-  color: var(--color-fire-red);
-\`
-render(<StyledLink href="/" target="_blank">Styled Link</StyledLink>)
-`}
-</ComponentBox>
+<StyledComponentsExample/>
 
 <UnstyledElementsDemos />
 

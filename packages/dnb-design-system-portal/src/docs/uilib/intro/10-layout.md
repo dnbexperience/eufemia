@@ -4,7 +4,9 @@ search: 'Intro - Layout'
 ---
 
 import Intro, { IntroFooter } from 'dnb-design-system-portal/src/shared/tags/Intro'
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
+import {
+LayoutExample,
+} from 'Docs/uilib/intro/Examples'
 
 <Intro>
 
@@ -28,12 +30,7 @@ But there is also support for basic spacing in every component:
 
 ### Example
 
-<ComponentBox>
-{`
-<Input label="My Input" value="Input" right="small" />
-<Button text="Button" />
-`}
-</ComponentBox>
+<LayoutExample />
 
 ---
 

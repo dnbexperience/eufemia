@@ -3,8 +3,11 @@ title: 'Colors'
 order: 5
 ---
 
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 import ColorsTable from 'Docs/quickguide-designer/colors-table.md'
+
+import {
+ColorsExample
+} from 'Docs/uilib/usage/customisation/Examples'
 
 # Colors
 
@@ -18,14 +21,7 @@ Read more about why and how to [use a polyfill](/uilib/usage/customisation/styli
 
 ## Example usage
 
-<ComponentBox hideCode useRender>
-{`
-const ParagraphStyled = styled(P)\`
-  color: var(--color-sky-blue);
-\`
-render(<ParagraphStyled>I'm Sky blue.</ParagraphStyled>)
-`}
-</ComponentBox>
+<ColorsExample />
 
 ## Colors Table
 

@@ -2,8 +2,6 @@
 showTabs: true
 ---
 
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
-
 import {
 SectionDemo,
 SectionDemoSpacing,
