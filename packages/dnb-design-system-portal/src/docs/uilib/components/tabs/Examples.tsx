@@ -8,8 +8,14 @@ import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 
 import Input from '@dnb/eufemia/src/components/input/Input'
 import styled from '@emotion/styled'
-import { Location, Router, navigate } from '@reach/router'
+import {
+  useLocation,
+  Router as ReachRouter,
+  navigate,
+} from '@reach/router'
 import { Tabs, Section, H2, P, ToggleButton } from '@dnb/eufemia/src'
+
+const Router = ReachRouter as any
 
 export const TabsExampleContentOutside = () => (
   <Wrapper>
@@ -171,11 +177,6 @@ export const TabsExampleHorizontalAligned = () => (
         flex-direction: row;
       `
 
-      const MaxWidthWrapper = styled.div`
-        max-width: 30rem;
-        background: var(--color-mint-green-12);
-      `
-
       const LeftArea = styled.div`
         /* Ensure no-wrap */
         flex-shrink: 0;
@@ -247,38 +248,38 @@ export const TabsExampleMaxWidth = () => (
 export const TabsExampleReachRouterNavigation = () =>
   typeof window === 'undefined' ? null : (
     <Wrapper>
-      <ComponentBox scope={{ Location, Router, navigate }}>
+      <ComponentBox scope={{ useLocation, Router, navigate }}>
         {() => {
-          const Home = () => <H2>Home</H2>
-          const About = () => <H2>About</H2>
-          const Topics = () => <H2>Topics</H2>
+          const Home = ({ path, default: d }) => <H2>Home</H2>
+          const About = ({ path }) => <H2>About</H2>
+          const Topics = ({ path }) => <H2>Topics</H2>
 
-          return (
-            <Location>
-              {({ location: { pathname } }) => {
-                return (
-                  <Tabs
-                    data={[
-                      { title: 'Home', key: '/' },
-                      { title: 'About', key: '/about' },
-                      { title: 'Topics', key: '/topics' },
-                    ]}
-                    selected_key={pathname}
-                    on_change={({ key }) => navigate(key)}
-                    tabs_style="mint-green"
-                  >
-                    <React.Suspense fallback={<em>Loading ...</em>}>
-                      <Router>
-                        <Home path="/" default />
-                        <About path="/about" />
-                        <Topics path="/topics" />
-                      </Router>
-                    </React.Suspense>
-                  </Tabs>
-                )
-              }}
-            </Location>
-          )
+          const Component = () => {
+            const { pathname } = useLocation()
+
+            return (
+              <Tabs
+                data={[
+                  { title: 'Home', key: '/' },
+                  { title: 'About', key: '/about' },
+                  { title: 'Topics', key: '/topics' },
+                ]}
+                selected_key={pathname}
+                on_change={({ key }) => navigate(key)}
+                tabs_style="mint-green"
+              >
+                <React.Suspense fallback={<em>Loading ...</em>}>
+                  <Router>
+                    <Home path="/" default />
+                    <About path="/about" />
+                    <Topics path="/topics" />
+                  </Router>
+                </React.Suspense>
+              </Tabs>
+            )
+          }
+
+          return <Component />
         }}
       </ComponentBox>
     </Wrapper>
