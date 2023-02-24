@@ -58,7 +58,7 @@ export const onRouteUpdate = ({ location, prevLocation }) => {
   // if previous location is not null
   // which means that this was an page change/switch
   //  then we apply the page content focus for accissibility
-  if (prevLocation) {
+  if (prevLocation && prevLocation?.pathname !== location?.pathname) {
     applyPageFocus('content')
   }
 }
