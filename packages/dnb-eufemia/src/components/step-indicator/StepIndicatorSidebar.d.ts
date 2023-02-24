@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { SpacingProps } from '../../shared/types';
 export type StepIndicatorSidebarMode = 'static' | 'strict' | 'loose';
 export type StepIndicatorSidebarCurrentStep = string | number;
 export type StepIndicatorSidebarData =
@@ -23,7 +24,8 @@ export type StepIndicatorSidebarData =
  */
 
 export interface StepIndicatorSidebarProps
-  extends React.HTMLProps<HTMLElement> {
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   /**
    * <em>(required)</em> a unique string-based ID in order to bind together the main component and the sidebar (`<StepIndicator.Sidebar />`). Both have to get the same ID.
    */
