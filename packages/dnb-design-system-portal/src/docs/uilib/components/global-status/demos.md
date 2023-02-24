@@ -37,6 +37,4 @@ GlobalStatusScrolling,
 
 ### To showcase the scrolling
 
-Some browsers (Safari, Edge) will need a polyfill like `smoothscroll-polyfill`.
-
 <GlobalStatusScrolling />
