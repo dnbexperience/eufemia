@@ -34,19 +34,23 @@ export function PaymentCardAllCardsExample() {
           'BK1',
           'VB2',
         ]
-        const Cards = () =>
-          demoCards.map((product_code) => {
-            const cardData = getCardData(product_code)
-            return (
-              <article key={product_code}>
-                <H4>{cardData.cardDesign.name}</H4>
-                <PaymentCard
-                  product_code={product_code}
-                  card_number="************1337"
-                />
-              </article>
-            )
-          })
+
+        const Cards = () => (
+          <>
+            {demoCards.map((product_code) => {
+              const cardData = getCardData(product_code)
+              return (
+                <article key={product_code}>
+                  <H4>{cardData.cardDesign.name}</H4>
+                  <PaymentCard
+                    product_code={product_code}
+                    card_number="************1337"
+                  />
+                </article>
+              )
+            })}
+          </>
+        )
 
         return <Cards />
       }}
