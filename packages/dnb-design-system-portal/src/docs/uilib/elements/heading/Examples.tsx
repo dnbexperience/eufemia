@@ -59,11 +59,5 @@ export const HeadingMarginCollapsingExample = () => (
     <P top="large" bottom="small">
       Spacing with top margin: large
     </P>
-    <P no_collapse top="large" bottom="small">
-      Spacing + no_collapse with top margin: large
-    </P>
-    <P no_collapse top="large">
-      Spacing + no_collapse with top margin: large
-    </P>
   </ComponentBox>
 )
