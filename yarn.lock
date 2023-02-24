@@ -14488,7 +14488,6 @@ __metadata:
     remark-gfm: 1.0.0
     repo-utils: "workspace:*"
     sass: 1.43.4
-    smoothscroll-polyfill: 0.4.4
     start-server-and-test: 1.15.4
     storybook-utils: "workspace:*"
     stylelint: 15.1.0
@@ -31568,13 +31567,6 @@ __metadata:
   version: 4.2.0
   resolution: "smart-buffer@npm:4.2.0"
   checksum: b5167a7142c1da704c0e3af85c402002b597081dd9575031a90b4f229ca5678e9a36e8a374f1814c8156a725d17008ae3bde63b92f9cfd132526379e580bec8b
-  languageName: node
-  linkType: hard
-
-"smoothscroll-polyfill@npm:0.4.4":
-  version: 0.4.4
-  resolution: "smoothscroll-polyfill@npm:0.4.4"
-  checksum: b99ff7d91689d563ec69cb1d29713b332a24c88ac3dc4ef9ef9fbe4137305336e67253211067c5f786478dbdabd2aa6c2033709d4d8feca327b09eca8d5a0e7b
   languageName: node
   linkType: hard
 
