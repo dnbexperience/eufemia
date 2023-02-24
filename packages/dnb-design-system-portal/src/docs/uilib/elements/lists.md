@@ -38,17 +38,23 @@ render(
 
 ## Ordered Lists (nested)
 
+Nested `<ol>` list by using `.dnb-ol--nested`.
+
 <OrderedListNestedExample />
 
 ### Ordered list style position (outside vs inside)
 
 The list marker will be inside of wrapped text / text with newlines.
 
+Nested `<ol>` with inside modifier `.dnb-ol--inside`.
+
 <OrderedListStylePositionExample />
 
 ### Ordered list with other types
 
 Ordered lists do support natively other types, like _letters_ and _roman numerals_. You can define that by using the `type` HTML attribute.
+
+`<ol>` with custom type.
 
 <OrderedListOtherTypesExample />
 
