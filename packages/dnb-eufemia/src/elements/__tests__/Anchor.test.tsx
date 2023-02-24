@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { fakeProps, axeComponent } from '../../core/jest/jestSetup'
-import { act, render } from '@testing-library/react'
+import { act, fireEvent, render } from '@testing-library/react'
 import Anchor from '../Anchor'
 
 const props = fakeProps(require.resolve('../Anchor'), {
@@ -24,6 +24,61 @@ describe('Anchor element', () => {
   it('has href', () => {
     render(<Anchor href="/url">text</Anchor>)
     expect(document.querySelector('[href]')).toBeTruthy()
+  })
+
+  it('should forward id', () => {
+    render(
+      <Anchor href="/url" id="unique-id">
+        text
+      </Anchor>
+    )
+    expect(document.querySelector('a').getAttribute('id')).toBe(
+      'unique-id'
+    )
+  })
+
+  it('should have tooltip markup in DOM', () => {
+    render(
+      <Anchor href="/url" id="unique-id" tooltip="Tooltip">
+        text
+      </Anchor>
+    )
+
+    expect(
+      document.querySelector('#unique-id-tooltip.dnb-tooltip__content')
+        .textContent
+    ).toBe('Tooltip')
+  })
+
+  it('should aria-describedby set by tooltip', () => {
+    render(
+      <Anchor href="/url" id="unique-id" tooltip="Tooltip">
+        text
+      </Anchor>
+    )
+
+    const element = document.getElementById('unique-id')
+
+    expect(element.getAttribute('aria-describedby')).toBe(
+      'unique-id-tooltip'
+    )
+  })
+
+  it('should show tooltip on mouseover', () => {
+    render(
+      <Anchor href="/url" id="unique-id" tooltip="Tooltip">
+        text
+      </Anchor>
+    )
+
+    const element = document.getElementById('unique-id')
+    fireEvent.mouseEnter(element)
+
+    expect(
+      document
+        .querySelector('#unique-id-tooltip.dnb-tooltip__content')
+        .parentElement.classList.contains('dnb-tooltip--active')
+    ).toBeTruthy()
   })
 
   it('has no-icon class when element was given', () => {
