@@ -59,6 +59,7 @@ export const MediaQueryLiveExample = () => (
           min: 'small',
           max: 'large',
         })
+
         const match1 = useMediaQuery({
           matchOnSSR: true,
           when: query,
@@ -68,7 +69,11 @@ export const MediaQueryLiveExample = () => (
           not: true,
           when: query,
         })
-        // console.log('mediaQuery:', match1, match2)
+
+        React.useEffect(() => {
+          console.log('mediaQuery:', match1, match2)
+        }, [match1, match2])
+
         return (
           <>
             <Button
