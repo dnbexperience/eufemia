@@ -2,7 +2,14 @@
 showTabs: true
 ---
 
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
+import {
+FormRowLabelDirectionInfo,
+FormRowDirectionInfo,
+FormRowVerticalInfo,
+FormRowDefaultInfo,
+FormRowSpacingInfo,
+FormRowResponsiveInfo
+} from 'Docs/uilib/components/form-row/Examples'
 
 ## Description
 
@@ -24,65 +31,27 @@ There are three possible layout properties for the FormRow children:
 
 ### The property: **`label_direction`**
 
-<ComponentBox>
-{`
-<FormRow label_direction="vertical">
-  <Input label="Label:" right />
-  <Input label="Label:" />
-</FormRow>
-`}
-</ComponentBox>
+<FormRowLabelDirectionInfo />
 
 ### The property: **`direction`**
 
-<ComponentBox>
-{`
-<FormRow direction="vertical">
-  <Input label="Label:" bottom />
-  <Input label="Label:" />
-</FormRow>
-`}
-</ComponentBox>
+<FormRowDirectionInfo />
 
 ### The property: **`vertical`**
 
-<ComponentBox>
-{`
-<FormRow vertical>
-  <Input label="Label:" bottom />
-  <Input label="Label:" />
-</FormRow>
-`}
-</ComponentBox>
+<FormRowVerticalInfo />
 
 ### Default
 
 This is how it looks if you don't make any definitions.
 
-<ComponentBox>
-{`
-<FormRow>
-  <Input label="Label:" right />
-  <Input label="Label:" />
-</FormRow>
-`}
-</ComponentBox>
+<FormRowDefaultInfo />
 
 ## Spacing
 
 To give a FormRow space, properties from [Space](/uilib/components/space/properties) are supported:
 
-```jsx
-/** The FormRow will then have a "margin-top: 2.5rem;" */
-<FormRow top="large x-small" ... >
-  ...
-</FormRow>
-
-/** ... or go crazy */
-<FormRow top="large medium small" ... >
-  ...
-</FormRow>
-```
+<FormRowSpacingInfo />
 
 ## Provider
 
@@ -93,11 +62,7 @@ You can send down the `FormRow` as an application-wide property (Context). More 
 The FormRow component provides by default responsiveness.
 But if you also want the form components to be responsive. E.g. the label of the input should be wrapped to be vertical / above the input, then you have to set the `responsive` prop to `true`.
 
-```jsx
-<FormRow responsive="true">
-  <Input label="Input label">Value</Input>
-</FormRow>
-```
+<FormRowResponsiveInfo />
 
 Wrapping happens then if the viewport (screen) is less than `max-width: 40em`.
 

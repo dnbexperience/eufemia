@@ -4,322 +4,97 @@ redirect_from:
   - /uilib/components/progress/demos
 ---
 
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
+import {
+ProgressIndicatorDefaultExample,
+ProgressIndicatorCircularExample,
+ProgressIndicatorCircularLabelHorizontalExample,
+ProgressIndicatorCircularLabelVerticalExample,
+ProgressIndicatorCircularPrimaryExample,
+ProgressIndicatorCircularRandomExample,
+ProgressIndicatorCircularRandomTransitionExample,
+ProgressIndicatorCircularRandomOnCompleteExample,
+ProgressIndicatorCircularDialogExample,
+ProgressIndicatorLinearDefaultExample,
+ProgressIndicatorLinearSmallExample,
+ProgressIndicatorLinearLabelHorizontalExample,
+ProgressIndicatorLinearLabelVerticalExample,
+ProgressIndicatorLinearLargeExample,
+ProgressIndicatorLinearRandomExample,
+ProgressIndicatorLinearRandomTransitionExample,
+ProgressIndicatorLinearRandomOnCompleteExample,
+ProgressIndicatorLinearDialogExample,
+} from 'Docs/uilib/components/progress-indicator/Examples'
 
 ## Demos
 
 ### Default ProgressIndicator is Circular
 
-<ComponentBox>
-	{/* jsx */ `
-<ProgressIndicator />
-`}
-</ComponentBox>
+<ProgressIndicatorDefaultExample />
 
 ### Default Circular ProgressIndicator
 
-<ComponentBox>
-	{/* jsx */ `
-<ProgressIndicator
-  type="circular"
-/>
-`}
-</ComponentBox>
+<ProgressIndicatorCircularExample />
 
 ### Circular ProgressIndicator with a label in a horizontal direction
 
-<ComponentBox>
-	{/* jsx */ `
-<ProgressIndicator
-  // label="Custom label ..."
-  type="circular"
-  show_label="true"
-  label_direction="horizontal"
-/>
-`}
-</ComponentBox>
+<ProgressIndicatorCircularLabelHorizontalExample />
 
 ### Circular ProgressIndicator with a label in a vertical direction
 
-<ComponentBox>
-	{/* jsx */ `
-<ProgressIndicator
-  // label="Custom label ..."
-  type="circular"
-  show_label="true"
-  label_direction="vertical"
-/>
-`}
-</ComponentBox>
+<ProgressIndicatorCircularLabelVerticalExample />
 
 ### Shows a large Circular ProgressIndicator with a static 50% in progress
 
-<ComponentBox data-visual-test="progress-indicator-circular--primary">
-	{/* jsx */ `
-  <ProgressIndicator
-    type="circular"
-    progress="50"
-    size="large"
-    no_animation
-  />
-`}
-</ComponentBox>
+<ProgressIndicatorCircularPrimaryExample />
 
 ### Circular ProgressIndicator with random value
 
-<ComponentBox useRender>
-	{/* jsx */ `
-const ChangeValue = () => {
-	const [value, setValue] = React.useState(50)
-	return (
-		<FormRow centered>
-			<ProgressIndicator
-        type="circular"
-				progress={value}
-				show_label
-				no_animation
-			/>
-			<Button
-				left
-				size="small"
-				variant="secondary"
-				onClick={() => setValue(Math.random()*100)}
-			>
-				Change
-			</Button>
-		</FormRow>
-	)
-}
-render(<ChangeValue />)
-`}
-</ComponentBox>
+<ProgressIndicatorCircularRandomExample />
 
 ### Circular ProgressIndicator with random progress value to show the transition
 
-<ComponentBox noFragments={false}>
-	{/* jsx */ `
-() => {
-  const random = (min, max) => (Math.floor( Math.random () * (max - min + 1)) + min)
-  const [progress, setProgressIndicator] = React.useState(random(1, 100))
-  React.useEffect(() => {
-    const timer = setInterval(() => setProgressIndicator(random(1, 100)), 1e3)
-    return () => clearInterval(timer)
-  })
-  return (
-    <ProgressIndicator
-      type="circular"
-      size="large"
-      progress={progress}
-    />
-  )
-}
-`}
-</ComponentBox>
+<ProgressIndicatorCircularRandomTransitionExample />
 
 ### Circular ProgressIndicator with random `on_complete` callback
 
-<ComponentBox noFragments={false}>
-	{/* jsx */ `
-() => {
-  const random = (min, max) => (Math.floor( Math.random () * (max - min + 1)) + min)
-  const [visible, setVisible] = React.useState(true)
-  React.useEffect(() => {
-    const timer = setInterval(() => setVisible(!visible), random(2400, 4200))
-    return () => clearTimeout(timer)
-  })
-  return (
-    <ProgressIndicator
-      type="circular"
-      size="large"  
-      visible={visible}
-      on_complete={() => {
-        console.log('on_complete_circular')
-      }}
-    />
-  )
-}
-`}
-</ComponentBox>
+<ProgressIndicatorCircularRandomOnCompleteExample />
 
 ### Circular ProgressIndicator inside a Dialog
 
-<ComponentBox>
-	{/* jsx */ `
-<Dialog
-  spacing={false}
-  maxWidth="12rem"
-  fullscreen={false}
-  alignContent="centered"
-  hideCloseButton
-  triggerAttributes={{ text: "Show" }}
-  preventClose={false}
->
-  <ProgressIndicator
-    type="circular"
-    show_label
-    label_direction="vertical"
-    top="large"
-    bottom="large"
-    size="large"
-  />
-</Dialog>
-`}
-</ComponentBox>
+<ProgressIndicatorCircularDialogExample />
 
 ### Default Linear ProgressIndicator
 
-<ComponentBox>
-	{/* jsx */ `
-  <ProgressIndicator 
-    type="linear" 
-  />
-`}
-</ComponentBox>
+<ProgressIndicatorLinearDefaultExample />
 
 ### Small Linear ProgressIndicator
 
-<ComponentBox>
-	{/* jsx */ `
-  <ProgressIndicator 
-    type="linear"
-    size="small"
-  />
-`}
-</ComponentBox>
+<ProgressIndicatorLinearSmallExample />
 
 ### Linear ProgressIndicator with a label in a horizontal direction
 
-<ComponentBox>
-	{/* jsx */ `
-<ProgressIndicator
-  type="linear"
-  // label="Custom label ..."
-  show_label="true"
-  label_direction="horizontal"
-/>
-`}
-</ComponentBox>
+<ProgressIndicatorLinearLabelHorizontalExample />
 
 ### Linear ProgressIndicator with a label in a vertical direction
 
-<ComponentBox>
-	{/* jsx */ `
-<ProgressIndicator
-  type="linear"
-  // label="Custom label ..."
-  show_label="true"
-  label_direction="vertical"
-/>
-`}
-</ComponentBox>
+<ProgressIndicatorLinearLabelVerticalExample />
 
 ### Shows a large Linear ProgressIndicator with a static 50% in progress
 
-<ComponentBox data-visual-test="progress-indicator-linear--primary">
-	{/* jsx */ `
-  <ProgressIndicator 
-    type="linear" 
-    progress="50"
-    size="large"
-    no_animation
-  />
-`}
-</ComponentBox>
+<ProgressIndicatorLinearLargeExample />
 
 ### Linear ProgressIndicator with random value
 
-<ComponentBox useRender>
-	{/* jsx */ `
-const ChangeValue = () => {
-	const [value, setValue] = React.useState(50)
-	return (
-		<FormRow centered>
-			<ProgressIndicator
-        type="linear" 
-				progress={value}
-				no_animation
-			/>
-			<Button
-				left
-				size="small"
-				variant="secondary"
-				onClick={() => setValue(Math.random()*100)}
-			>
-				Change
-			</Button>
-		</FormRow>
-	)
-}
-render(<ChangeValue />)
-`}
-</ComponentBox>
+<ProgressIndicatorLinearRandomExample />
 
 ### Linear ProgressIndicator with random progress value to show the transition
 
-<ComponentBox noFragments={false}>
-	{/* jsx */ `
-() => {
-  const random = (min, max) => (Math.floor( Math.random () * (max - min + 1)) + min)
-  const [progress, setProgressIndicator] = React.useState(random(1, 100))
-  React.useEffect(() => {
-    const timer = setInterval(() => setProgressIndicator(random(1, 100)), 1e3)
-    return () => clearInterval(timer)
-  })
-  return (
-    <ProgressIndicator
-      type="linear"
-      progress={progress}
-    />
-  )
-}
-`}
-</ComponentBox>
+<ProgressIndicatorLinearRandomTransitionExample />
 
 ### Linear ProgressIndicator with random `on_complete` callback
 
-<ComponentBox noFragments={false}>
-	{/* jsx */ `
-() => {
-  const random = (min, max) => (Math.floor( Math.random () * (max - min + 1)) + min)
-  const [visible, setVisible] = React.useState(true)
-  React.useEffect(() => {
-    const timer = setInterval(() => setVisible(!visible), random(2400, 4200))
-    return () => clearTimeout(timer)
-  })
-  return (
-    <ProgressIndicator
-      type="linear"
-      size="large"  
-      visible={visible}
-      on_complete={() => {
-        console.log('on_complete_linear')
-      }}
-    />
-  )
-}
-`}
-</ComponentBox>
+<ProgressIndicatorLinearRandomOnCompleteExample />
 
 ### Linear ProgressIndicator inside a Dialog
 
-<ComponentBox>
-	{/* jsx */ `
-<Dialog
-  spacing={false}
-  maxWidth="12rem"
-  fullscreen={false}
-  alignContent="centered"
-  hideCloseButton
-  triggerAttributes={{ text: "Show" }}
-  preventClose={false}
->
-  <ProgressIndicator
-    type="linear"
-    show_label
-    label_direction="vertical"
-    top="large"
-    bottom="large"
-  />
-</Dialog>
-`}
-</ComponentBox>
+<ProgressIndicatorLinearDialogExample />

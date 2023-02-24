@@ -2,7 +2,12 @@
 title: 'Image'
 ---
 
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
+import {
+ImagePlainExample,
+ImageInvalidSourceExample,
+ImageCaptionExample,
+ImageSkeletonExample
+} from 'Docs/uilib/elements/image/Examples'
 
 # Image
 
@@ -18,87 +23,16 @@ render(<InlineImg alt="..." src="..." width="100" height="100" />)
 
 ## Basic image element
 
-<ComponentBox data-visual-test="image-plain" useRender hideCode>
-{`
-const StyledImg = styled(Img)\`
-  border-radius: 1rem;
-\`
-const CustomImage = () => {
-	return (
-    <StyledImg
-      width="100"
-      height="100"
-      alt="DNB logo"
-      src="/android-chrome-192x192.png"
-    />
-	)
-}
-render(<CustomImage />)
-`}
-</ComponentBox>
+<ImagePlainExample />
 
 ## Image with invalid source
 
-<ComponentBox data-visual-test="image-no-source" useRender hideCode>
-{`
-const MyImg = Img
-render(
-  <MyImg
-    width="100"
-    height="100"
-    alt="Alt text"
-    src="https://invalid"
-  />
-)
-`}
-</ComponentBox>
+<ImageInvalidSourceExample />
 
 ## Image with caption
 
-<ComponentBox data-visual-test="image-caption" useRender hideCode>
-{`
-const StyledImg = styled(Img)\`
-  border-radius: 1rem;
-\`
-const CustomImage = () => {
-	return (
-    <StyledImg
-      width="100"
-      height="100"
-      alt="Alt text"
-      caption="Caption text"
-      src="/android-chrome-192x192.png"
-    />
-	)
-}
-render(<CustomImage />)
-`}
-</ComponentBox>
+<ImageCaptionExample />
 
 ## Image element with skeleton
 
-<ComponentBox data-visual-test="image-skeleton" useRender>
-{`
-const StyledImg = styled(Img)\`
-  border-radius: 1rem;
-\`
-const CustomImage = () => {
-	const [state, setState] = React.useState(true)
-	return (
-    <Skeleton show={state}>
-      <StyledImg
-        width="100"
-        height="100"
-        alt="DNB logo"
-        src="/android-chrome-192x192.png"
-      />
-      <br />
-      <Skeleton.Exclude>
-        <ToggleButton checked={state} on_change={({ checked }) => setState(checked)} top="large">Toggle</ToggleButton>
-      </Skeleton.Exclude>
-    </Skeleton>
-	)
-}
-render(<CustomImage />)
-`}
-</ComponentBox>
+<ImageSkeletonExample />
