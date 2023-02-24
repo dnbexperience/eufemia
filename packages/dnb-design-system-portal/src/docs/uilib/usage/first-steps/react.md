@@ -3,9 +3,10 @@ title: 'React & TypeScript'
 order: 5
 ---
 
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
-import { Button, IconPrimary } from '@dnb/eufemia/src'
-import { hamburger as hamburgerIcon } from '@dnb/eufemia/src/icons/secondary_icons'
+import {
+BasicButtonsExample,
+EventsExample
+} from 'Docs/uilib/usage/first-steps/Examples'
 
 # React JS for the web
 
@@ -13,11 +14,7 @@ The most basic way to use the `@dnb/eufemia` is like this:
 
 ## Basic Buttons
 
-<ComponentBox>
-{`
-<Button text="Basic Button" />
-`}
-</ComponentBox>
+<BasicButtonsExample />
 
 ### Importing the Components
 
@@ -37,11 +34,7 @@ import { hamburger as hamburgerIcon } from '@dnb/eufemia/icons/secondary_icons'
 
 ### Events
 
-<ComponentBox>
-{`
-<Button text="Button" on_click={() => console.log('click')} />
-`}
-</ComponentBox>
+<EventsExample />
 
 Now, let's jump to the [Button Docs](/uilib/components/button) for more details.
 

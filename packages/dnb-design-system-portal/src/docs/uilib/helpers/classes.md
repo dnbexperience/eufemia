@@ -9,7 +9,7 @@ UnstyledListExample,
 ScreenReaderOnlyExample,
 SelectionExample
 } from 'Docs/uilib/helpers/Examples'
-import SkipLinkExample from 'Docs/uilib/usage/accessibility/examples/skip-link-example.js'
+import SkipLinkExample from 'Docs/uilib/usage/accessibility/examples/skip-link-example.tsx'
 
 ## Description
 

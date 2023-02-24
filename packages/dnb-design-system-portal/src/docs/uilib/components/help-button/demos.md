@@ -2,73 +2,32 @@
 showTabs: true
 ---
 
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
+import {
+HelpButtonDefaultExample,
+HelpButtonSuffixExample,
+HelpButtonSizesExample,
+HelpButtonInfoIconExample,
+HelpButtonInsideTextExample,
+} from 'Docs/uilib/components/help-button/Examples'
 
 ## Demos
 
 ### Default HelpButton
 
-<ComponentBox data-visual-test="help-button-default">
-    {
-    /* jsx */ `
-<HelpButton>
-    Text
-</HelpButton>
-`}
-</ComponentBox>
+<HelpButtonDefaultExample />
 
 ### Help button inside a suffix
 
-<ComponentBox data-visual-test="help-button-suffix">
-    {
-    /* jsx */ `
-<Input
-    size={10}
-    placeholder="Input ..."
-    suffix={<HelpButton title="Custom title">Text</HelpButton>}
-/>
-`}
-</ComponentBox>
+<HelpButtonSuffixExample />
 
 ### Help button in different sizes
 
-<ComponentBox data-visual-test="help-button-sizes">
-    {
-    /* jsx */ `
-<HelpButton title="Custom title">Text</HelpButton>
-<HelpButton
-    size="small"
-    left
-    on_click={() => {
-        console.log('on_click')
-    }}
->Text</HelpButton>
-`}
-</ComponentBox>
+<HelpButtonSizesExample />
 
 ### Help button with an information icon
 
-<ComponentBox>
-    {/* jsx */ `
-<HelpButton icon="information" tooltip="More info">
-    <Dl>
-        <Dt>Term</Dt>
-        <Dd>Description</Dd>
-        <Dd>Description</Dd>
-        <Dt>Term</Dt>
-        <Dd>Description</Dd>
-    </Dl>
-</HelpButton>
-`}
-</ComponentBox>
+<HelpButtonInfoIconExample />
 
 ### Help button used inside text
 
-<ComponentBox data-visual-test="help-button-inline">
-    {
-    /* jsx */ `
-Text <HelpButton>
-    Text
-</HelpButton> Text
-`}
-</ComponentBox>
+<HelpButtonInsideTextExample />
