@@ -89,12 +89,9 @@ const CodeBlock = ({
 
 export default CodeBlock
 
-type LiveCodeProps = {
+export type LiveCodeProps = {
   code: string
   scope?: Record<string, unknown>
-  title?: string
-  description?: string
-  caption?: string
   useRender?: boolean
   noFragments?: boolean
   hideToolbar?: boolean
