@@ -58,7 +58,7 @@
 
 @mixin htmlDefault() {
   html {
-    html:not([data-visual-test]) & {
+    &:not([data-visual-test]) {
       scroll-behavior: smooth;
     }
     font-size: 100%;
