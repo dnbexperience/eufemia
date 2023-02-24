@@ -2,22 +2,17 @@
 showTabs: true
 ---
 
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
+import {
+GlobalError404Example,
+GlobalError500Example,
+} from 'Docs/uilib/components/global-error/Examples'
 
 ## Demos
 
 ### To showcase the 404 status component
 
-<ComponentBox data-visual-test="global-error-404">
-{/* jsx */ `
-<GlobalError status="404" />
-`}
-</ComponentBox>
+<GlobalError404Example />
 
 ### To showcase the 500 status component
 
-<ComponentBox data-visual-test="global-error-500">
-{/* jsx */ `
-<GlobalError status="500" />
-`}
-</ComponentBox>
+<GlobalError500Example />

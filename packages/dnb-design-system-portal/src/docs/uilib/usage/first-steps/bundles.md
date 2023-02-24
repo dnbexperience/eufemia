@@ -3,8 +3,6 @@ title: 'Bundles: UMD and ESM (mjs)'
 order: 10
 ---
 
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
-
 # Bundles
 
 The `@dnb/eufemia` also supports ready to use `UMD` and `ESM` bundles.
