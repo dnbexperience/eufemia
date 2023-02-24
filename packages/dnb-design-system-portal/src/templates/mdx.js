@@ -10,6 +10,7 @@ import { graphql } from 'gatsby'
 import Tabbar from '../shared/tags/Tabbar'
 import Layout from '../shared/parts/Layout'
 import tags from '../shared/tags'
+import { resetLevels } from '@dnb/eufemia/src/components/Heading'
 
 const ContentWrapper = Tabbar.ContentWrapper
 
@@ -29,6 +30,9 @@ export default function MdxTemplate(props) {
   const category = siblings?.[0]
   const categoryFm = category?.frontmatter || {}
   const currentFm = mdx?.frontmatter || {}
+
+  // Ensure heading levels are reset before each page SSR starts
+  resetLevels(1)
 
   return (
     <Layout
