@@ -4,7 +4,11 @@ redirect_from:
   - /uilib/elements/hr
 ---
 
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
+import {
+HorizontalRuleDefaultExample,
+HorizontalRuleFullscreenExample,
+HorizontalRuleThicknessExample
+} from 'Docs/uilib/elements/horizontal-rule/Examples'
 
 # Horizontal Rule
 
@@ -19,55 +23,19 @@ The `<hr />` tag in HTML stands for horizontal rule and is used to insert a hori
 }
 ```
 
-<ComponentBox hideCode useRender data-visual-test="hr-default">
-{`
-// import { Hr } from '@dnb/eufemia/elements'
-render(<>
-  Something
-  <Hr />
-  Something
-</>)
-`}
-</ComponentBox>
+<HorizontalRuleDefaultExample />
 
 ## Horizontal Rule in fullscreen
 
 Use the modifier `dnb-hr--fullscreen` to get a full screen rule. You can also set just `fullscreen={true}`.
 
-<ComponentBox hideCode useRender data-visual-test="hr-fullscreen">
-{`
-// import { Hr } from '@dnb/eufemia/elements'
-render(<>
-  Something
-  <Hr fullscreen />
-  Something
-</>)
-`}
-</ComponentBox>
+<HorizontalRuleFullscreenExample />
 
 ## Horizontal Rule thickness / hairline
 
 Use the modifier `dnb-hr--light` to get a `0.5px` rule. You can also set just `light={true}` or `medium={true}`.
 
-<ComponentBox hideCode useRender data-visual-test="hr-thickness">
-{`
-// import { Hr } from '@dnb/eufemia/elements'
-render(<>
-  <Dl>
-    <Dt>Light 0.5px</Dt>
-    <Dd><Hr light /></Dd>
-  </Dl>
-  <Dl>
-    <Dt>Default 1px</Dt>
-    <Dd><Hr /></Dd>
-  </Dl>
-  <Dl>
-    <Dt>Medium 1.5px</Dt>
-    <Dd><Hr medium /></Dd>
-  </Dl>
-</>)
-`}
-</ComponentBox>
+<HorizontalRuleThicknessExample />
 
 ## Horizontal Rule thickness tests
 
