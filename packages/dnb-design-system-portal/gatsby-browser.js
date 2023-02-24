@@ -9,9 +9,6 @@ import {
   rootElement,
   pageElement,
 } from './src/core/PortalStylesAndProviders'
-import smoothscroll from 'smoothscroll-polyfill'
-
-smoothscroll.polyfill()
 
 if (typeof window !== 'undefined') {
   setIsTest(window.location)
