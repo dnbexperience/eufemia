@@ -72,7 +72,8 @@ export function AnchorInstance(localProps: AnchorAllProps) {
   const internalId = id || 'id' + makeUniqueId()
 
   // WCAG guide: https://www.w3.org/TR/WCAG20-TECHS/G201.html
-  const showTooltip = allProps.target === '_blank' && !allProps.title
+  const showTooltip =
+    tooltip || (allProps.target === '_blank' && !allProps.title)
 
   const as = (element || 'a') as string
 
@@ -80,6 +81,7 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     <>
       <E
         as={as}
+        id={id}
         className={classnames(
           omitClass !== true && 'dnb-anchor',
           className,

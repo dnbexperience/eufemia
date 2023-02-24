@@ -361,6 +361,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
       "current": <a
         class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
         href="https://url"
+        id="button"
         rel="rel"
         target="target"
         title="This is a button title"
@@ -407,6 +408,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
       "current": <a
         class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
         href="https://url"
+        id="button"
         rel="rel"
         target="target"
         title="This is a button title"
@@ -488,6 +490,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
           "current": <a
             class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
             href="https://url"
+            id="button"
             rel="rel"
             target="target"
             title="This is a button title"
@@ -541,11 +544,13 @@ exports[`Button component have to match href="..." snapshot 1`] = `
         className="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
         disabled={false}
         href="https://url"
+        id="button"
         innerRef={
           {
             "current": <a
               class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
               href="https://url"
+              id="button"
               rel="rel"
               target="target"
               title="This is a button title"
@@ -599,11 +604,13 @@ exports[`Button component have to match href="..." snapshot 1`] = `
           className="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
           disabled={false}
           href="https://url"
+          id="button"
           innerRef={
             {
               "current": <a
                 class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
                 href="https://url"
+                id="button"
                 rel="rel"
                 target="target"
                 title="This is a button title"
@@ -656,6 +663,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
             className="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
             disabled={false}
             href="https://url"
+            id="button"
             onClick={[Function]}
             rel="rel"
             target="target"
@@ -681,6 +689,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
                   "current": <a
                     class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
                     href="https://url"
+                    id="button"
                     rel="rel"
                     target="target"
                     title="This is a button title"
@@ -727,6 +736,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
                   "current": <a
                     class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
                     href="https://url"
+                    id="button"
                     rel="rel"
                     target="target"
                     title="This is a button title"
