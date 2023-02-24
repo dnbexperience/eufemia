@@ -91,7 +91,7 @@ export const TextareaExampleMaxLength = () => (
         label="Length limit:"
         rows="3"
         cols="33"
-        maxLength="20"
+        maxLength={20}
         required
         value="Nec litora inceptos vestibulum id interdum donec gravida."
       />
