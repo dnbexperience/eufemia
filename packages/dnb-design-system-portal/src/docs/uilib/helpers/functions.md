@@ -199,7 +199,7 @@ Get the HTML Element offset to the top of the browser window, minus `offset`.
 ```js
 import { getOffsetTop } from '@dnb/eufemia/shared/helpers'
 
-getOffsetTop(offset: Number) // returns Number
+getOffsetTop(element: HTMLElement) // returns Number
 ```
 
 ### applyPageFocus
