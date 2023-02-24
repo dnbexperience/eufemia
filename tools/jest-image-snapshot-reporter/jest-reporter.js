@@ -73,6 +73,7 @@ class JestReporter {
       .map(
         (
           {
+            fullName,
             message,
             absoluteImgPath,
             relativeImgPath,
@@ -107,8 +108,9 @@ class JestReporter {
           return /* jsx */ `
             <li>
               <dl class="dnb-dl">
-                <dt class="dnb-lead"><code>${relativeTestFilePath}</code></dt>
+                <dt class="dnb-lead">${fullName}</dt>
                 <dd>
+                  <p class="dnb-lead"><code>${relativeTestFilePath}</code></p>
                   <p>${message}</p>
                   ${image}
                 </dd>
