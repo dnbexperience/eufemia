@@ -69,11 +69,7 @@ export const UnorderedListExample = () => (
 )
 
 export const OrderedListNestedExample = () => (
-  <ComponentBox
-    hideCode
-    data-visual-test="lists-ol"
-    caption="Nested ol list by using '.dnb-ol--nested'"
-  >
+  <ComponentBox hideCode data-visual-test="lists-ol">
     <Ol nested>
       <Li>Item</Li>
       <Li>
@@ -101,11 +97,7 @@ export const OrderedListNestedExample = () => (
 )
 
 export const OrderedListStylePositionExample = () => (
-  <ComponentBox
-    hideCode
-    data-visual-test="lists-ol-style-position"
-    caption="Nested ol with inside modifier '.dnb-ol--inside'"
-  >
+  <ComponentBox hideCode data-visual-test="lists-ol-style-position">
     {() => {
       const WidthLimit = styled.div`
         max-width: 22rem;
@@ -149,11 +141,7 @@ export const OrderedListStylePositionExample = () => (
 )
 
 export const OrderedListOtherTypesExample = () => (
-  <ComponentBox
-    hideCode
-    data-visual-test="lists-ol-types"
-    caption="ol with custom type"
-  >
+  <ComponentBox hideCode data-visual-test="lists-ol-types">
     <Ol type="A">
       <Li>Item</Li>
       <Li>
