@@ -96,6 +96,6 @@ export default class MediaQuery extends React.PureComponent<
 
   render() {
     const { children } = this.props
-    return this.state.match ? children : null
+    return <>{this.state.match ? children : null}</>
   }
 }
