@@ -94,8 +94,8 @@ export const AccordionContainerExample = () => (
   >
     {() => {
       function AccordionWithContainer() {
-        const ref1 = React.useRef()
-        const ref2 = React.useRef()
+        const ref1 = React.useRef(null)
+        const ref2 = React.useRef(null)
         const [changeHeight] = React.useState(() => ({ ref1, ref2 }))
         return (
           <Accordion.Group
