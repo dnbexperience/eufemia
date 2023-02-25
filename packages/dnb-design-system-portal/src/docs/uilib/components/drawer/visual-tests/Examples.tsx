@@ -10,8 +10,8 @@ export const DrawerScrollViewSetup = () => (
   <ComponentBox data-visual-test="drawer-scroll-view">
     {() => {
       const DrawerMock = () => {
-        const scrollRef = React.useRef()
-        const innerRef = React.useRef()
+        const scrollRef = React.useRef(null)
+        const innerRef = React.useRef(null)
         const [errorMessage, setErrorMessage] = React.useState(null)
 
         const message = errorMessage
