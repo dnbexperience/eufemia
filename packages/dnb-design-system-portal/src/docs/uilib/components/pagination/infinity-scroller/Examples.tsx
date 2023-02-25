@@ -53,10 +53,10 @@ export const PaginationExampleInfinityLoadButton = () => (
         use_load_button
         startup_page={5}
         min_wait_time={0}
-        on_load={({ page, setContent }) => {
+        on_load={({ pageNumber, setContent }) => {
           // simulate server communication delay
           const timeout = setTimeout(() => {
-            setContent(page, <LargePage>{page}</LargePage>)
+            setContent(pageNumber, <LargePage>{pageNumber}</LargePage>)
           }, Math.ceil(Math.random() * 500))
 
           return () => clearTimeout(timeout)
@@ -77,16 +77,19 @@ export const PaginationExampleInfinityIndicator = () => (
         startup_page={3}
         page_count={10}
         min_wait_time={0}
-        on_load={({ page, setContent }) => {
+        on_load={({ pageNumber, setContent }) => {
           // simulate server communication delay
           const timeout = setTimeout(() => {
-            setContent(page, <LargePage>{page}</LargePage>)
+            setContent(pageNumber, <LargePage>{pageNumber}</LargePage>)
           }, Math.ceil(Math.random() * 500))
 
           return () => clearTimeout(timeout)
         }}
-        on_end={({ page, setContent }) => {
-          setContent(page, <LargePage color="lightgreen">End</LargePage>)
+        on_end={({ pageNumber, setContent }) => {
+          setContent(
+            pageNumber,
+            <LargePage color="lightgreen">End</LargePage>
+          )
         }}
       />
     </HeightLimit>
@@ -100,20 +103,23 @@ export const PaginationExampleInfinityUnknown = () => (
         mode="infinity"
         parallel_load_count={2}
         min_wait_time={0}
-        on_load={({ page, setContent, endInfinity }) => {
+        on_load={({ pageNumber, setContent, endInfinity }) => {
           // simulate server communication delay
           const timeout = setTimeout(() => {
-            if (page > 10) {
+            if (pageNumber > 10) {
               endInfinity()
             } else {
-              setContent(page, <LargePage>{page}</LargePage>)
+              setContent(pageNumber, <LargePage>{pageNumber}</LargePage>)
             }
           }, Math.ceil(Math.random() * 1e3))
 
           return () => clearTimeout(timeout)
         }}
-        on_end={({ page, setContent }) => {
-          setContent(page, <LargePage color="lightgreen">End</LargePage>)
+        on_end={({ pageNumber, setContent }) => {
+          setContent(
+            pageNumber,
+            <LargePage color="lightgreen">End</LargePage>
+          )
         }}
       />
     </HeightLimit>
@@ -229,18 +235,18 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   let serverDelayTimeout
   React.useEffect(() => () => clearTimeout(serverDelayTimeout))
 
-  const action = ({ page }) => {
-    console.log('on_change: with page', page)
+  const action = ({ pageNumber }) => {
+    console.log('on_change: with page', pageNumber)
 
     // simulate server delay
     clearTimeout(serverDelayTimeout)
     serverDelayTimeout = setTimeout(() => {
-      if (page === currentPage) {
+      if (pageNumber === currentPage) {
         // once we set current page, we force a re-render, and sync of data
         // but only if we are on the same page
         forceRerender(new Date().getTime())
       } else {
-        setLocalPage(page)
+        setLocalPage(pageNumber)
       }
     }, Math.ceil(Math.random() * 1e3)) // simulate random delay
   }
