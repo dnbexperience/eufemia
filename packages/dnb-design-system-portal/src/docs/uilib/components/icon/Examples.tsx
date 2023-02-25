@@ -89,19 +89,24 @@ export const IconPrimaryTest = () => {
       scope={{ getListOfIcons, PrimaryIconsMedium }}
     >
       {() => {
-        const Icons = () =>
-          getListOfIcons(PrimaryIconsMedium).map(({ iconName, Svg }) => {
-            return (
-              <Icon
-                title={iconName}
-                key={iconName}
-                icon={Svg}
-                size="medium"
-                right="small"
-                bottom="small"
-              />
-            )
-          })
+        const Icons = () => (
+          <>
+            {getListOfIcons(PrimaryIconsMedium).map(
+              ({ iconName, Svg }) => {
+                return (
+                  <Icon
+                    title={iconName}
+                    key={iconName}
+                    icon={Svg}
+                    size="medium"
+                    right="small"
+                    bottom="small"
+                  />
+                )
+              }
+            )}
+          </>
+        )
         return <Icons />
       }}
     </ComponentBox>
@@ -120,24 +125,29 @@ export const IconSecondary = () => {
     >
       {() => {
         const uniqueList = {}
-        const Icons = () =>
-          getListOfIcons(SecondaryIconsMedium).map(({ iconName, Svg }) => {
-            if (uniqueList[iconName]) {
-              console.warn('The icon is already used:', iconName, Svg)
-            }
-            uniqueList[iconName] = true
+        const Icons = () => (
+          <>
+            {getListOfIcons(SecondaryIconsMedium).map(
+              ({ iconName, Svg }) => {
+                if (uniqueList[iconName]) {
+                  console.warn('The icon is already used:', iconName, Svg)
+                }
+                uniqueList[iconName] = true
 
-            return (
-              <Icon
-                title={iconName}
-                key={iconName}
-                icon={Svg}
-                size="medium"
-                right="small"
-                bottom="small"
-              />
-            )
-          })
+                return (
+                  <Icon
+                    title={iconName}
+                    key={iconName}
+                    icon={Svg}
+                    size="medium"
+                    right="small"
+                    bottom="small"
+                  />
+                )
+              }
+            )}
+          </>
+        )
         return <Icons />
       }}
     </ComponentBox>
