@@ -13,7 +13,19 @@ import {
   FormRow,
   Link,
   HelpButton,
+  P,
 } from '@dnb/eufemia/src'
+
+import type { DropdownProps } from '@dnb/eufemia/src/components/dropdown/Dropdown'
+
+type VisualTestReturn = Pick<
+  DropdownProps,
+  | 'opened'
+  | 'prevent_close'
+  | 'independent_width'
+  | 'skip_portal'
+  | 'direction'
+>
 
 const Wrapper = styled.div`
   .dnb-form-label {
@@ -88,7 +100,7 @@ export const DropdownFind = () => (
               </NumberFormat>
             ),
             content: [
-              <NumberFormat always_selectall ban>
+              <NumberFormat key="ban-1" always_selectall ban>
                 11345678962
               </NumberFormat>,
               'C',
@@ -101,7 +113,7 @@ export const DropdownFind = () => (
               </NumberFormat>
             ),
             content: [
-              <NumberFormat always_selectall ban>
+              <NumberFormat key="ban-2" always_selectall ban>
                 15349648901
               </NumberFormat>,
               'D',
@@ -162,7 +174,7 @@ export const DropdownNoValue = () => (
               </NumberFormat>
             ),
             content: [
-              <NumberFormat always_selectall ban>
+              <NumberFormat key="ban" always_selectall ban>
                 11345678962
               </NumberFormat>,
               'Bank account number',
@@ -196,7 +208,7 @@ export const DropdownNoValue = () => (
 )
 
 export const DropdownEllipsisOverflow = () =>
-  typeof window !== 'undefined' && (window as any).IS_TEST ? (
+  globalThis.IS_TEST ? (
     <Wrapper>
       <ComponentBox data-visual-test="dropdown-ellipsis">
         <Dropdown
@@ -209,7 +221,7 @@ export const DropdownEllipsisOverflow = () =>
   ) : null
 
 export const DropdownDirections = () => {
-  const visualTestProps = (enabled) => {
+  const visualTestProps = (enabled: boolean): VisualTestReturn => {
     if (!enabled) {
       return {}
     }
@@ -241,8 +253,7 @@ export const DropdownDirections = () => {
             </Dropdown.HorizontalItem>,
           ]}
           {...visualTestProps(
-            typeof window !== 'undefined' &&
-              window.IS_TEST &&
+            globalThis.IS_TEST &&
               window.location.search.includes('item-directions')
           )}
         />
@@ -308,7 +319,7 @@ export const DropdownTertiary = () => (
 )
 
 export const DropdownMoreMenu = () => {
-  const visualTestProps = (enabled) => {
+  const visualTestProps = (enabled: boolean): VisualTestReturn => {
     if (!enabled) {
       return {}
     }
@@ -338,8 +349,7 @@ export const DropdownMoreMenu = () => {
           ]}
           right="small"
           {...visualTestProps(
-            typeof window !== 'undefined' &&
-              window.IS_TEST &&
+            globalThis.IS_TEST &&
               window.location.search.includes('left-side')
           )}
         />
@@ -358,8 +368,7 @@ export const DropdownMoreMenu = () => {
           ]}
           right="small"
           {...visualTestProps(
-            typeof window !== 'undefined' &&
-              window.IS_TEST &&
+            globalThis.IS_TEST &&
               window.location.search.includes('right-side')
           )}
         />
@@ -421,7 +430,7 @@ export const DropdownDisabledTertiary = () => (
 )
 
 export const DropdownCustomEvent = () => {
-  const visualTestProps = (enabled) => {
+  const visualTestProps = (enabled: boolean): VisualTestReturn => {
     if (!enabled) {
       return {}
     }
@@ -473,7 +482,7 @@ export const DropdownCustomEvent = () => {
                   Go to this Link
                 </Link>,
                 'Or press on me',
-                <CustomComponent />,
+                <CustomComponent key="item-2" />,
               ]}
               on_change={({ value }) => {
                 console.log('More menu:', value)
@@ -482,8 +491,7 @@ export const DropdownCustomEvent = () => {
                 <HelpButton title="Modal Title">Modal content</HelpButton>
               }
               {...visualTestProps(
-                typeof window !== 'undefined' &&
-                  window.IS_TEST &&
+                globalThis.IS_TEST &&
                   window.location.search.includes('action_menu-custom')
               )}
             />
