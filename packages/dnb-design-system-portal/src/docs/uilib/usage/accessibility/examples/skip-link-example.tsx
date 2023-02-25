@@ -15,9 +15,12 @@ const ChangeStylesOfSkipLink = styled.div`
 `
 
 export default function SkipLinkExample() {
-  const onClick = (e) => {
+  const onClick = (e: React.MouseEvent) => {
+    const element = document.querySelector(
+      'a.dnb-skip-link'
+    ) as HTMLAnchorElement
     try {
-      document.querySelector('a.dnb-skip-link').focus()
+      element.focus()
       e.preventDefault()
     } catch (e) {
       console.log(e)
