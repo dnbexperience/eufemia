@@ -8,6 +8,7 @@ import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 import { NumberFormat, ToggleButton, HelpButton } from '@dnb/eufemia/src'
 import { DrawerList } from '@dnb/eufemia/src/fragments'
+import { Link } from '@dnb/eufemia/src/elements'
 
 export const DrawerListExampleInteractive = () => (
   <Wrapper>
@@ -148,13 +149,15 @@ export const DrawerListExampleSingleItem = () => (
             skip_portal
             opened
             prevent_close
-            more_menu
+            // more_menu
             right
             title="Choose an item"
             data={() => [
-              <Link href="/">Go to this Link</Link>,
+              <Link key="link" href="/">
+                Go to this Link
+              </Link>,
               'Or press on me',
-              <CustomComponent />,
+              <CustomComponent key="custom" />,
             ]}
             on_change={({ value }) => {
               console.log('More menu:', value)
@@ -179,7 +182,7 @@ export const DrawerListExampleMarkup = () => (
             width: var(--drawer-list-width);
           }
         `
-        const DrawerListWithState = (props) => {
+        const DrawerListWithState = () => {
           const [selected, setSelected] = React.useState('C')
 
           return (
@@ -188,7 +191,6 @@ export const DrawerListExampleMarkup = () => (
                 {list.map(({ value, ...props }, i) => (
                   <DrawerList.Item
                     key={i}
-                    {...props}
                     selected={value === selected}
                     value={value}
                     on_click={({ value }) => setSelected(value)}
