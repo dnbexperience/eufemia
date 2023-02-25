@@ -150,5 +150,8 @@ export interface HeadingProps extends React.HTMLProps<HTMLElement> {
 }
 export default class Heading extends React.Component<HeadingProps, any> {
   static defaultProps: object;
+  static Level: (props: HeadingProps) => JSX.Element;
+  static Increase: (props: HeadingProps) => JSX.Element;
+  static Decrease: (props: HeadingProps) => JSX.Element;
   render(): JSX.Element;
 }
