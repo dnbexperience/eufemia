@@ -49,8 +49,8 @@ import { Pagination } from '@dnb/eufemia/components'
 
 render(
   <Pagination page_count={2}>
-    {({ page, setContent }) => {
-      setContent(page, ReactComponent)
+    {({ pageNumber, setContent }) => {
+      setContent(pageNumber, ReactComponent)
     }}
   </Pagination>
 )
@@ -66,8 +66,8 @@ import { Pagination } from '@dnb/eufemia/components'
 render(
   <Pagination
     page_count={2}
-    on_change={({ page, setContent }) => {
-      setContent(page, ReactComponent)
+    on_change={({ pageNumber, setContent }) => {
+      setContent(pageNumber, ReactComponent)
     }}
   />
 )
@@ -84,7 +84,7 @@ import { createPagination } from '@dnb/eufemia/components/Pagination'
 const { Pagination, setContent, resetContent } = createPagination()
 
 // Later we can do call this
-setContent(page, ReactComponent)
+setContent(pageNumber, ReactComponent)
 
 render(<Pagination page_count={2} />)
 ```
