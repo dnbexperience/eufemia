@@ -179,5 +179,20 @@ export default class AccordionHeader extends React.Component<
   any
 > {
   static defaultProps: object;
+  static Container: ({
+    children
+  }: {
+    children: React.ReactNode;
+  }) => JSX.Element;
+  static Title: ({
+    children
+  }: {
+    children: React.ReactNode;
+  }) => JSX.Element;
+  static Description: ({
+    children
+  }: {
+    children: React.ReactNode;
+  }) => JSX.Element;
   render(): JSX.Element;
 }

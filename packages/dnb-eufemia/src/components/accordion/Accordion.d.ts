@@ -71,6 +71,11 @@ export interface AccordionProps extends React.HTMLProps<HTMLElement> {
   title?: React.ReactNode;
 
   /**
+   * A description as a string or React element. It will be used as an additional text.
+   */
+  description?: React.ReactNode;
+
+  /**
    * If set to `true` the accordion will be expanded as its initial state.
    */
   expanded?: AccordionExpanded;
@@ -221,6 +226,7 @@ export default class Accordion extends React.Component<
   static Content = AccordionContent;
   static Header = AccordionHeader;
   static Provider = AccordionProvider;
+  static Group: (props: GroupProps) => JSX.Element;
   render(): JSX.Element;
 }
 export type GroupRememberState = string | boolean;
@@ -228,7 +234,7 @@ export type GroupRememberState = string | boolean;
  * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
  */
 
-export interface GroupProps {
+export type GroupProps = {
   /**
    * A unique `id` that will be used on the button element. If you use `remember_state`, an id is required.
    */
@@ -239,7 +245,9 @@ export interface GroupProps {
    * If set to `true`, it will remember a changed state initiated by the user. It requires a unique `id`. It will store the sate in the local storage.
    */
   remember_state?: GroupRememberState;
-}
+
+  children: React.ReactNode;
+} & AccordionProps;
 
 declare class Group extends React.Component<GroupProps, any> {
   static defaultProps: object;
