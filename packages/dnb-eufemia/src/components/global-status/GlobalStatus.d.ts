@@ -198,10 +198,58 @@ export interface GlobalStatusProps extends React.HTMLProps<HTMLElement> {
    */
   on_hide?: (...args: any[]) => any;
 }
+
+export type GlobalStatusStatusId = string;
+
+export type GlobalStatusAddProps = {
+  id: string;
+  status_id: GlobalStatusStatusId;
+  title?: string;
+  text: string;
+  item: string;
+  on_close: ({ status_id }: { status_id: GlobalStatusStatusId }) => void;
+};
+
+export type GlobalStatusUpdateProps = {
+  id: string;
+  text: string;
+};
+
+export type GlobalStatusRemoveProps = {
+  id: string;
+  status_id: GlobalStatusStatusId;
+};
+
+export type GlobalStatusInterceptorProps = {
+  id: string;
+  title: string;
+  text: string;
+  status_id: GlobalStatusStatusId;
+  show: boolean;
+};
+
+export type GlobalStatusInterceptorUpdateEvents = {
+  on_show?: () => void;
+  on_hide?: () => void;
+  on_close?: () => void;
+  show?: boolean;
+};
+
+export type GlobalStatusInterceptor = {
+  update: (props: GlobalStatusInterceptorUpdateEvents) => void;
+  remove: () => void;
+};
+
 export default class GlobalStatus extends React.Component<
   GlobalStatusProps,
   any
 > {
   static defaultProps: object;
+  static create: (
+    props: GlobalStatusInterceptorProps
+  ) => GlobalStatusInterceptor;
+  static Add: (props: GlobalStatusAddProps) => JSX.Element;
+  static Update: (props: GlobalStatusUpdateProps) => JSX.Element;
+  static Remove: (props: GlobalStatusRemoveProps) => JSX.Element;
   render(): JSX.Element;
 }
