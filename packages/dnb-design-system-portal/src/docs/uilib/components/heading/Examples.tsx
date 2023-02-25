@@ -75,7 +75,6 @@ export const HeadingIsolation = () => (
               <Heading.Increase>
                 <ToggleButton
                   text="Toggle h3"
-                  size="small"
                   checked={showHeading}
                   onChange={() => setShowHeading((c) => !c)}
                 />
