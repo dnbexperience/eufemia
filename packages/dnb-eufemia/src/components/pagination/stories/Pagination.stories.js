@@ -72,16 +72,16 @@ export const PaginationNoChildren = () => (
     <Bar
       page_count={10}
       currentPage={2}
-      on_change={(page) => {
-        console.log(page)
+      on_change={(params) => {
+        console.log(params)
       }}
     />
     <Box>
       <Bar
         page_count={10}
         currentPage={2}
-        on_change={(page) => {
-          console.log(page)
+        on_change={(params) => {
+          console.log(params)
         }}
         align="right"
       />
@@ -90,8 +90,8 @@ export const PaginationNoChildren = () => (
       <Bar
         page_count={10}
         currentPage={2}
-        on_change={(page) => {
-          console.log(page)
+        on_change={(params) => {
+          console.log(params)
         }}
         align="left"
       />
@@ -100,8 +100,8 @@ export const PaginationNoChildren = () => (
       <Bar
         page_count={10}
         currentPage={2}
-        on_change={(page) => {
-          console.log(page)
+        on_change={(params) => {
+          console.log(params)
         }}
         align="center"
       />
@@ -109,8 +109,8 @@ export const PaginationNoChildren = () => (
     <Bar
       page_count={3}
       currentPage={2}
-      on_change={(page) => {
-        console.log(page)
+      on_change={(params) => {
+        console.log(params)
       }}
     />
   </Wrapper>
@@ -125,17 +125,17 @@ export const PaginationSandbox = () => (
       <Pagination
         page_count={10}
         currentPage={2}
-        on_change={(page) => {
-          console.log(page)
+        on_change={(params) => {
+          console.log(params)
         }}
       />
     </Box>
     <Box>
       <Pagination page_count={2}>
-        {({ page, setContent }) => {
+        {({ pageNumber, setContent }) => {
           // simulate server communication delay
           const timeout = setTimeout(() => {
-            setContent(page, <LargePage>{page}</LargePage>)
+            setContent(pageNumber, <LargePage>{pageNumber}</LargePage>)
           }, Math.ceil(Math.random() * 500))
 
           return () => clearTimeout(timeout)
@@ -207,17 +207,20 @@ export const PaginationSandbox = () => (
           // parallel_load_count={1}
           // page_count={10} // the last one we fill with "End"
           min_wait_time={0}
-          on_load={({ page, setContent, endInfinity }) => {
-            console.log('on_load: ', page)
-            if (page > 10) {
+          on_load={({ pageNumber, setContent, endInfinity }) => {
+            console.log('on_load: ', pageNumber)
+            if (pageNumber > 10) {
               endInfinity()
             } else {
-              setContent(page, <LargePage>{page}</LargePage>)
+              setContent(pageNumber, <LargePage>{pageNumber}</LargePage>)
             }
           }}
-          on_end={({ page, setContent }) => {
-            console.log('on_end: ', page)
-            setContent(page, <LargePage color="lightgreen">End</LargePage>)
+          on_end={({ pageNumber, setContent }) => {
+            console.log('on_end: ', pageNumber)
+            setContent(
+              pageNumber,
+              <LargePage color="lightgreen">End</LargePage>
+            )
           }}
         />
       </HeightLimit>
@@ -254,18 +257,18 @@ const PaginationWithState = ({ children, ...props }) => {
       {...props}
       page_count={30}
       current_page={currentPage}
-      on_change={({ page }) => {
-        console.log('PaginationWithState on_change:', page)
-        setCurrentPage(page)
+      on_change={({ pageNumber }) => {
+        console.log('PaginationWithState on_change:', pageNumber)
+        setCurrentPage(pageNumber)
 
         // setTimeout(() => {
-        //   setContent(page, children(page))
+        //   setContent(pageNumber, children(pageNumber))
         // }, Math.ceil(Math.random() * 1e3))
       }}
     >
-      {/* {({ page, setContent }) => {
+      {/* {({ pageNumber, setContent }) => {
         setTimeout(() => {
-          setContent(page, children(page))
+          setContent(pageNumber, children(pageNumber))
         }, Math.ceil(Math.random() * 1e3))
       }} */}
     </PaginationInstance>
@@ -278,16 +281,16 @@ const InfinityPagination = ({ children, ...props }) => {
     <Pagination
       mode="infinity"
       {...props}
-      on_load={({ page, setContent }) => {
-        console.log('InfinityPagination on_load:', page)
+      on_load={({ pageNumber, setContent }) => {
+        console.log('InfinityPagination on_load:', pageNumber)
 
         setTimeout(() => {
-          setContent(page, children(page))
+          setContent(pageNumber, children(pageNumber))
         }, Math.ceil(Math.random() * 1e3))
       }}
-      on_end={({ page, setContent }) => {
-        console.log('InfinityPagination on_end:', page)
-        setContent(page, <LargePage>End</LargePage>)
+      on_end={({ pageNumber, setContent }) => {
+        console.log('InfinityPagination on_end:', pageNumber)
+        setContent(pageNumber, <LargePage>End</LargePage>)
       }}
     >
       {/* just a child */}
@@ -332,8 +335,8 @@ function PaginationRender() {
         page_count={pageCount}
         startup_page={startupPage}
         current_page={delayedCount}
-        on_change={({ page }) => {
-          setCurrentPage(page)
+        on_change={({ pageNumber }) => {
+          setCurrentPage(pageNumber)
         }}
       >
         <div className="pagination-content">
