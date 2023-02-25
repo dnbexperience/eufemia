@@ -32,9 +32,7 @@ export function HeightAnimationDefault() {
             <>
               <ToggleButton
                 checked={openState}
-                onChange={({ checked }) => {
-                  setOpenState(checked)
-                }}
+                on_change={onChangeHandler}
                 right
               >
                 Open/close
@@ -42,7 +40,7 @@ export function HeightAnimationDefault() {
               <ToggleButton
                 checked={contentState || !openState}
                 disabled={!isOpen}
-                onChange={({ checked }) => {
+                on_change={({ checked }) => {
                   setContentState(checked)
                 }}
                 space={{ top: true, bottom: true }}
@@ -127,9 +125,7 @@ export function HeightAnimationKeepInDOM() {
             <>
               <ToggleButton
                 checked={openState}
-                on_change={({ checked }) => {
-                  setOpenState(checked)
-                }}
+                on_change={onChangeHandler}
                 right
               >
                 Open/close
