@@ -97,6 +97,10 @@ $layout-large: map-get($breakpoints, 'large');
 
 1. The padding of the `teriary` button is removed. Please, check your application and add back the padding of `0.5rem` if needed.
 
+### [Pagination](/uilib/components/pagination) and [InfinityScroller](/uilib/components/pagination/infinity-scroller)
+
+1. Replace the deprecated event return parameter `page` with `pageNumber`.
+
 ### [Tooltip](/uilib/components/tooltip)
 
 1. Find the `target_element` property and replace it with `targetElement`.
