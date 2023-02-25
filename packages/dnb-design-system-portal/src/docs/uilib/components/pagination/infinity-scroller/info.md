@@ -60,8 +60,8 @@ import { Pagination } from '@dnb/eufemia/components'
 render(
   <Pagination
     mode="infinity"
-    on_change={({ page, setContent }) => {
-      setContent(page, ReactComponent)
+    on_change={({ pageNumber, setContent }) => {
+      setContent(pageNumber, ReactComponent)
     }}
   />
 )
@@ -84,8 +84,8 @@ React.useEffect(() => {
 render(
   <InfinityScroller
     set_content_handler={(fn) => (setContent = fn)}
-    on_change={({ page }) => {
-      setLocalPage(page)
+    on_change={({ pageNumber }) => {
+      setLocalPage(pageNumber)
     }}
   />
 )

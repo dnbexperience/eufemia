@@ -36,8 +36,8 @@ export const PaginationExampleDefault = () => (
     <Pagination
       page_count={888}
       current_page={4}
-      on_change={({ page }) => {
-        console.log('on_change:', page)
+      on_change={({ pageNumber }) => {
+        console.log('on_change:', pageNumber)
       }}
     >
       <P>Current Page Content</P>
@@ -50,8 +50,8 @@ export const PaginationExampleWithCallback = () => (
     <Pagination
       page_count={5}
       startup_page={3}
-      on_change={({ page }) => {
-        console.log('on_change:', page)
+      on_change={({ pageNumber }) => {
+        console.log('on_change:', pageNumber)
       }}
     >
       {({ pageNumber }) => <P>Page {pageNumber}</P>}
@@ -62,10 +62,10 @@ export const PaginationExampleWithCallback = () => (
 export const PaginationExampleCentered = () => (
   <ComponentBox scope={{ LargePage }}>
     <Pagination align="center" page_count={30}>
-      {({ page, setContent }) => {
+      {({ pageNumber, setContent }) => {
         // simulate server communication delay
         const timeout = setTimeout(() => {
-          setContent(page, <LargePage>{page}</LargePage>)
+          setContent(pageNumber, <LargePage>{pageNumber}</LargePage>)
         }, Math.ceil(Math.random() * 500))
 
         return () => clearTimeout(timeout)
@@ -153,18 +153,18 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   let serverDelayTimeout
   React.useEffect(() => () => clearTimeout(serverDelayTimeout))
 
-  const action = ({ page }) => {
-    console.log('on_change: with page', page)
+  const action = ({ pageNumber }) => {
+    console.log('on_change: with page', pageNumber)
 
     // simulate server delay
     clearTimeout(serverDelayTimeout)
     serverDelayTimeout = setTimeout(() => {
-      if (page === currentPage) {
+      if (pageNumber === currentPage) {
         // once we set current page, we force a re-render, and sync of data
         // but only if we are on the same page
         forceRerender(new Date().getTime())
       } else {
-        setLocalPage(page)
+        setLocalPage(pageNumber)
       }
     }, Math.ceil(Math.random() * 1e3)) // simulate random delay
   }
