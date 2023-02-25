@@ -115,18 +115,18 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
   let serverDelayTimeout
   React.useEffect(() => () => clearTimeout(serverDelayTimeout))
 
-  const action = ({ page }) => {
-    console.log('on_change: with page', page)
+  const action = ({ pageNumber }) => {
+    console.log('on_change: with page', pageNumber)
 
     // simulate server delay
     clearTimeout(serverDelayTimeout)
     serverDelayTimeout = setTimeout(() => {
-      if (page === currentPage) {
+      if (pageNumber === currentPage) {
         // once we set current page, we force a re-render, and sync of data
         // but only if we are on the same page
         forceRerender(new Date().getTime())
       } else {
-        setLocalPage(page)
+        setLocalPage(pageNumber)
       }
     }, Math.ceil(Math.random() * 1e3)) // simulate random delay
   }
