@@ -69,6 +69,7 @@ export type DrawerListChildren =
   | React.ReactNode
   | Record<string, unknown>
   | any[];
+export type DrawerListSuffix = React.ReactNode;
 /**
  * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
  */
@@ -118,6 +119,7 @@ export interface DrawerListProps extends React.HTMLProps<HTMLElement> {
   left?: DrawerListLeft;
   className?: string;
   children?: DrawerListChildren;
+  suffix?: DrawerListSuffix;
   on_show?: (...args: any[]) => any;
   on_hide?: (...args: any[]) => any;
   handle_dismiss_focus?: (...args: any[]) => any;
@@ -127,11 +129,25 @@ export interface DrawerListProps extends React.HTMLProps<HTMLElement> {
   on_select?: (...args: any[]) => any;
   on_state_update?: (...args: any[]) => any;
 }
+
+export type DrawerListOptionsProps = {
+  children: React.ReactNode;
+};
+
+export type DrawerListItemProps = {
+  children: React.ReactNode;
+  selected: boolean;
+  value: string;
+  on_click: ({ value }: { value: string }) => void;
+};
+
 export default class DrawerList extends React.Component<
   DrawerListProps,
   any
 > {
   static defaultProps: object;
+  static Options: (props: DrawerListOptionsProps) => JSX.Element;
+  static Item: (props: DrawerListItemProps) => JSX.Element;
   render(): JSX.Element;
 }
 export type ItemContentChildren =
