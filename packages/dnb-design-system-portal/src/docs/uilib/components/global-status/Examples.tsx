@@ -158,11 +158,11 @@ export const GlobalStatusScrolling = () => (
 export const GlobalStatusUpdate = () => (
   <ComponentBox hideCode>
     {() => {
-      const Context = React.createContext()
+      const Context = React.createContext(null)
 
       const UpdateDemo = () => {
-        const [errorA, setErrorA] = React.useState()
-        const [errorB, setErrorB] = React.useState()
+        const [errorA, setErrorA] = React.useState(false)
+        const [errorB, setErrorB] = React.useState(false)
 
         const [isVisible, setVisibility] = React.useState(false)
 
@@ -230,7 +230,7 @@ export const GlobalStatusUpdate = () => (
         } = React.useContext(Context)
 
         // Only to demonstrate the usage of an interceptor situation
-        const inst = React.useRef()
+        const inst = React.useRef(null)
         React.useEffect(() => {
           if (!inst.current) {
             inst.current = GlobalStatus.create({
