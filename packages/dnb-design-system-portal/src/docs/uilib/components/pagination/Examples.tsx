@@ -103,7 +103,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
 
   const onToggleExpanded = (
     { ssn: _ssn },
-    { pageNumber, element = null, onExpanded = null } = {}
+    { pageNumber, element = null, onExpanded = null }
   ) => {
     const index = tableItems.findIndex(({ ssn }) => ssn === _ssn)
     if (index > -1) {
@@ -223,7 +223,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
           marker_element="tr"
           fallback_element={({ className, ...props }) => (
             <TableRow className={className}>
-              <TableData colSpan="2" {...props} />
+              <TableData colSpan={2} {...props} />
             </TableRow>
           )} // in order to show the injected "indicator" and "load button" in the middle of the orw
           current_page={currentPage}
@@ -241,7 +241,7 @@ InfinityPaginationTable.propTypes = {
 }
 
 const InfinityPagination = ({
-  children,
+  children = null,
   items,
   currentPage,
   perPageCount,
@@ -270,8 +270,8 @@ const InfinityPagination = ({
     const params = {
       onClick: (e) => {
         if (
-          !hasSelectedText(e.currentTarget) ||
-          /button/.test(document.activeElement.type)
+          !hasSelectedText() ||
+          /button/.test(document.activeElement.tagName)
         ) {
           let element = e.currentTarget
           onToggleExpanded(item, {
@@ -293,7 +293,7 @@ const InfinityPagination = ({
     }
 
     // we do this only to have a working useEffect, so we can call onMounted
-    const trRef = React.createRef(null)
+    const trRef = React.createRef<HTMLTableRowElement>()
     mountedItems.push({ ...item, element: trRef })
 
     return (
@@ -326,9 +326,9 @@ const InfinityPagination = ({
           className={`expanded-content dnb-no-focus ${
             item.expanded ? 'expanded' : ''
           }`}
-          tabIndex="-1"
+          tabIndex={-1}
         >
-          <TableData colSpan="2">
+          <TableData colSpan={2}>
             {item.expanded && (
               <div className="expanded-content__outer">
                 <div className="expanded-content__inner">
@@ -428,11 +428,7 @@ const TableData = styled.td`
   }
 `
 
-const setHeight = ({
-  element,
-  expanded = false,
-  animation = true,
-} = {}) => {
+const setHeight = ({ element, expanded = false, animation = true }) => {
   if (
     element &&
     typeof window !== 'undefined' &&
