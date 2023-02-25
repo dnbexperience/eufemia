@@ -580,5 +580,10 @@ export default class Autocomplete extends React.Component<
   any
 > {
   static defaultProps: object;
+  static HorizontalItem: ({
+    children
+  }: {
+    children: React.ReactNode;
+  }) => JSX.Element;
   render(): JSX.Element;
 }
