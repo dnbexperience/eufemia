@@ -13,11 +13,18 @@ import { H1, P, Ul } from '@dnb/eufemia/src/elements'
 import Table from '@dnb/eufemia/src/components/Table'
 import { hasSelectedText } from '@dnb/eufemia/src/shared/helpers'
 
-import { createPagination } from '@dnb/eufemia/src/components/Pagination'
+import {
+  createPagination,
+  CreatePaginationReturn,
+} from '@dnb/eufemia/src/components/Pagination'
 
 import { Pagination } from '@dnb/eufemia/src'
 
-const HeightLimit = styled.div`
+type HeightLimitProps = {
+  height?: string
+}
+
+const HeightLimit = styled.div<HeightLimitProps>`
   height: ${(props) => props.height || '20rem'};
   overflow-y: scroll;
   background-color: var(--color-white);
@@ -157,7 +164,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
   // create our Pagination instance
   const [
     { Pagination, setContent, resetContent, resetInfinity, endInfinity },
-  ] = React.useState(createPagination)
+  ] = React.useState<CreatePaginationReturn>(createPagination)
   const [orderDirection, setOrderDirection] = React.useState('asc')
   const [currentPage, setLocalPage] = React.useState(null)
   const [cacheHash, forceRerender] = React.useState(null) // eslint-disable-line
@@ -172,7 +179,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
 
   const onToggleExpanded = (
     { ssn: _ssn },
-    { pageNumber, element = null, onExpanded = null } = {}
+    { pageNumber, element = null, onExpanded = null }
   ) => {
     const index = tableItems.findIndex(({ ssn }) => ssn === _ssn)
     if (index > -1) {
@@ -292,7 +299,7 @@ export const InfinityPaginationTable = ({ tableItems, ...props }) => {
           marker_element="tr"
           fallback_element={({ className, ...props }) => (
             <TableRow className={className}>
-              <TableData colSpan="2" {...props} />
+              <TableData colSpan={2} {...props} />
             </TableRow>
           )} // in order to show the injected "indicator" and "load button" in the middle of the row
           current_page={currentPage}
@@ -310,7 +317,7 @@ InfinityPaginationTable.propTypes = {
 }
 
 const InfinityPagination = ({
-  children,
+  children = null,
   items,
   currentPage,
   perPageCount,
@@ -337,19 +344,18 @@ const InfinityPagination = ({
 
   return items.map((item, i) => {
     const params = {
-      onClick: (e) => {
+      onClick: (e: React.MouseEvent) => {
         if (
-          !hasSelectedText(e.currentTarget) ||
-          /button/.test(document.activeElement.type)
+          !hasSelectedText() ||
+          /button/.test(document.activeElement.tagName)
         ) {
-          let element = e.currentTarget
+          let element = e.currentTarget as HTMLButtonElement
           onToggleExpanded(item, {
             pageNumber: currentPage,
-            // element,
             onExpanded: () => {
               try {
                 // rather find the next tr
-                element = element.nextElementSibling
+                element = element.nextElementSibling as HTMLButtonElement
                 setHeight({ element, expanded: !item.expanded })
                 element.focus() // for better ally we set the focus to the new content
               } catch (e) {
@@ -362,7 +368,7 @@ const InfinityPagination = ({
     }
 
     // we do this only to have a working useEffect, so we can call onMounted
-    const trRef = React.createRef(null)
+    const trRef = React.createRef<HTMLTableRowElement>()
     mountedItems.push({ ...item, element: trRef })
 
     return (
@@ -395,9 +401,9 @@ const InfinityPagination = ({
           className={`expanded-content dnb-no-focus ${
             item.expanded ? 'expanded' : ''
           }`}
-          tabIndex="-1"
+          tabIndex={-1}
         >
-          <TableData colSpan="2">
+          <TableData colSpan={2}>
             {item.expanded && (
               <div className="expanded-content__outer">
                 <div className="expanded-content__inner">
@@ -497,19 +503,25 @@ const TableData = styled.td`
   }
 `
 
+type HeightProps = {
+  element: HTMLButtonElement | HTMLTableCellElement
+  expanded?: boolean
+  animation?: boolean
+}
+
 const setHeight = ({
   element,
   expanded = false,
   animation = true,
-} = {}) => {
+}: HeightProps) => {
   if (
     element &&
     typeof window !== 'undefined' &&
     window.requestAnimationFrame
   ) {
     // get tr element
-    if (String(element.nodeName).toLowerCase() === 'td') {
-      element = element.parentElement
+    if (/td/.test(element.nodeName)) {
+      element = element.parentElement as HTMLTableCellElement
     }
 
     // get the new height
