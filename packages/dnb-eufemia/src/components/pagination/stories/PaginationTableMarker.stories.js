@@ -216,7 +216,7 @@ const InfinityPagination = ({
   return items.map((item) => {
     const params = {
       onClick: (e) => {
-        if (!hasSelectedText(e.currentTarget)) {
+        if (!hasSelectedText()) {
           onToggleExpanded(item, currentPage, e.currentTarget)
         }
       },

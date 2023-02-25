@@ -843,3 +843,15 @@ export interface PaginationContentProps {
   children: PaginationContentChildren;
 }
 declare const PaginationContent: React.FC<PaginationContentProps>;
+
+export type CreatePaginationReturn = {
+  Pagination: (props?: Record<string, unknown>) => JSX.Element;
+  InfinityMarker: (props?: Record<string, unknown>) => void;
+  setContent: (pageNumber: number, content: React.ReactDom) => void;
+  resetContent: () => void;
+  resetInfinity: () => void;
+  endInfinity: () => void;
+};
+
+export const createPagination = (initProps?: Record<string, unknown>) =>
+  CreatePaginationReturn;
