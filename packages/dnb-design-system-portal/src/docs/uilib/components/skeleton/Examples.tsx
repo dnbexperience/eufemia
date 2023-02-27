@@ -12,6 +12,7 @@ import {
   Button,
   Skeleton,
   ToggleButton,
+  FormRow,
 } from '@dnb/eufemia/src'
 import { AllComponents } from 'dnb-design-system-portal/src/docs/uilib/components/form-row/Examples'
 import Provider from '@dnb/eufemia/src/shared/Provider'
@@ -104,13 +105,21 @@ export const SkeletonVisualTests = () => {
         data-visual-test="skeleton-all-horizontal"
         scope={{ AllComponents }}
       >
-        {`<FormRow> <Skeleton show no_animation> <AllComponents /> </Skeleton> </FormRow>`}
+        <FormRow>
+          <Skeleton show no_animation>
+            <AllComponents />
+          </Skeleton>
+        </FormRow>
       </ComponentBox>
       <ComponentBox
         data-visual-test="skeleton-all-vertical"
         scope={{ AllComponents }}
       >
-        {`<FormRow vertical="true"> <Skeleton show no_animation> <AllComponents /> </Skeleton> </FormRow>`}
+        <FormRow vertical="true">
+          <Skeleton show no_animation>
+            <AllComponents />
+          </Skeleton>
+        </FormRow>
       </ComponentBox>
     </>
   )
