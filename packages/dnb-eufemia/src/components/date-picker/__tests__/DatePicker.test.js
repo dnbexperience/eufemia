@@ -1088,9 +1088,9 @@ describe('DatePicker component', () => {
   it('should validate with ARIA rules', async () => {
     const Comp = mount(
       <Component
-        range="true"
-        opened="true"
-        disable_autofocus="true"
+        range={true}
+        opened={true}
+        disable_autofocus={true}
         start_date="2019-05-05"
         end_date="2019-06-05"
       />

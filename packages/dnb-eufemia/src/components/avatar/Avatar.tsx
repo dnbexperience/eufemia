@@ -74,7 +74,7 @@ export interface AvatarProps {
   variant?: AvatarVariants
 
   /**
-   * If an avatar is hidden from the screen reader (by setting aria-hidden="true") or if label is given, typical inside a table or dl (definition list), then you can disable Avatar.Group as a dependent of Avatar.
+   * If an avatar is hidden from the screen reader (by setting aria-hidden={true}) or if label is given, typical inside a table or dl (definition list), then you can disable Avatar.Group as a dependent of Avatar.
    * Use `true` to omit the `Avatar group required:` warning.
    * Default: null
    */

@@ -66,7 +66,7 @@ HTML attributes uses `kebab-case`, so we needed something between.
 The aspect to distinguish between case styles will also make code easier to read and support future code changes and refactoring.
 
 ```jsx
-<Component aria-hidden="true" myReactProp={...} on_click={...} />
+<Component aria-hidden={true} myReactProp={...} on_click={...} />
 ```
 
 _Update:_ Eufemia does not need to support **Web Components** anymore. That makes it possible to use **camel case** for React Component Properties.
