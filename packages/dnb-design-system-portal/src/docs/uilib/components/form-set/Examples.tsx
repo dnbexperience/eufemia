@@ -17,7 +17,7 @@ import { H2 } from '@dnb/eufemia/src/elements'
 
 export const FormSetDefault = () => (
   <ComponentBox data-visual-test="form-set-default">
-    <FormSet vertical>
+    <FormSet vertical="true">
       <FormRow no_label>
         <H2>A semantic h2 in a FormRow without a label</H2>
       </FormRow>
