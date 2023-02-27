@@ -51,24 +51,22 @@ export const SpaceExamplesMethod3 = () => (
 export const SpaceExampleMarginCollapse = () => (
   <TestStyles>
     <ComponentBox hideCode scope={{ RedBox, Vertical }}>
-      {
-        <Vertical>
-          <RedBox>
-            <Space bottom="small">
-              <>
-                I have <code className="dnb-code">bottom="small"</code>
-              </>
-            </Space>
-          </RedBox>
-          <RedBox>
-            <Space top="large">
-              <>
-                I have <code className="dnb-code">top="large"</code>
-              </>
-            </Space>
-          </RedBox>
-        </Vertical>
-      }
+      <Vertical>
+        <RedBox>
+          <Space bottom="small">
+            <>
+              I have <code className="dnb-code">bottom="small"</code>
+            </>
+          </Space>
+        </RedBox>
+        <RedBox>
+          <Space top="large">
+            <>
+              I have <code className="dnb-code">top="large"</code>
+            </>
+          </Space>
+        </RedBox>
+      </Vertical>
     </ComponentBox>
   </TestStyles>
 )
