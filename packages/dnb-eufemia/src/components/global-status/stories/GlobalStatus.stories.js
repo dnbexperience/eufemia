@@ -93,9 +93,9 @@ export const GlobalStatuseSandbox = () => (
       //     status_anchor_url: '/uilib/components/global-status'
       //   }
       // ]}
-      // show="true"
-      // no_animation="true"
-      // autoscroll="false"
+      // show={true}
+      // no_animation={true}
+      // autoscroll={false}
       id="demo-1"
     />
     <Box>
@@ -120,7 +120,7 @@ export const GlobalStatuseSandbox = () => (
       <GlobalStatus
         show
         no_animation
-        autoscroll="false"
+        autoscroll={false}
         state="info"
         title="Custom Title"
         id="custom-id"
@@ -211,7 +211,7 @@ const InputWithError = () => {
           </FormRow>
         </FormRow>
       </FormSet>
-      <GlobalStatus id="form-status" autoscroll="false" top="small" />
+      <GlobalStatus id="form-status" autoscroll={false} top="small" />
     </>
   )
 }
@@ -251,7 +251,7 @@ const ModalExample = () => (
         // show
         // no_animation
         // autoclose={false}
-        autoscroll="false"
+        autoscroll={false}
         // id="default-1"
         // delay={300}
         on_close={(props) => {
@@ -271,9 +271,9 @@ export const SimulateSteps = () => {
     <>
       <GlobalStatus
         id="custom-status"
-        // autoscroll="false"
+        // autoscroll={false}
         // show={count === 1}
-        // autoclose="false"
+        // autoclose={false}
         on_open={() => {
           console.log('on_open')
         }}
@@ -400,7 +400,7 @@ const NestedSections = () => (
         show
         no_animation
         // autoclose={false}
-        autoscroll="false"
+        autoscroll={false}
         // delay={300}
         on_close={(props) => {
           console.log('on_close', props)
@@ -621,20 +621,20 @@ export const AsFigmaGlobalStatus = () => {
         <GlobalStatus
           state="info"
           title="Kortet vil bli sendt til adresse: Osloveien 68b, 1234 Oslo"
-          show="true"
-          autoscroll="false"
-          no_animation="true"
-          omit_set_focus="true"
+          show={true}
+          autoscroll={false}
+          no_animation={true}
+          omit_set_focus={true}
           id="demo-1"
         />
       </Box>
       <Box>
         <GlobalStatus
           title="Custom Title"
-          show="true"
-          autoscroll="false"
-          no_animation="true"
-          omit_set_focus="true"
+          show={true}
+          autoscroll={false}
+          no_animation={true}
+          omit_set_focus={true}
           id="demo-1"
         />
       </Box>
@@ -651,10 +651,10 @@ export const AsFigmaGlobalStatus = () => {
               text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Faucibus cursus turpis massased senectus consequat nec in. Quam in egestas sed commodo fames commodo ornare erat.',
             },
           ]}
-          show="true"
-          autoscroll="false"
-          no_animation="true"
-          omit_set_focus="true"
+          show={true}
+          autoscroll={false}
+          no_animation={true}
+          omit_set_focus={true}
           id="demo-1"
         />
       </Box>
@@ -669,10 +669,10 @@ export const AsFigmaGlobalStatus = () => {
               status_anchor_label: 'eksempel',
             },
           ]}
-          show="true"
-          autoscroll="false"
-          no_animation="true"
-          omit_set_focus="true"
+          show={true}
+          autoscroll={false}
+          no_animation={true}
+          omit_set_focus={true}
           id="demo-1"
         />
       </Box>

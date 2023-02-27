@@ -325,7 +325,7 @@ const DropdownStory = () => {
               skip_portal
             />
             <Dropdown
-              more_menu="true"
+              more_menu={true}
               opened={opened}
               label={label}
               no_animation
@@ -342,7 +342,7 @@ const DropdownStory = () => {
             />
             <Dropdown
               size="medium"
-              more_menu="true"
+              more_menu={true}
               opened={opened}
               label={label}
               no_animation
@@ -514,7 +514,7 @@ const DropdownStory = () => {
           // direction="top"
           data={dropdownDataScrollable}
           value={4}
-          no_scroll_animation="true"
+          no_scroll_animation={true}
           status="Message to the user"
           right
         />

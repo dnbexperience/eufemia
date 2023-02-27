@@ -42,7 +42,7 @@ describe('FormRow component', () => {
     const Comp = mount(
       <Component vertical>
         <Input label="Vertical" />
-        <Component vertical="false" label_direction="horizontal">
+        <Component vertical={false} label_direction="horizontal">
           <Input label="Horizontal" />
         </Component>
         <Input label="Vertical" />

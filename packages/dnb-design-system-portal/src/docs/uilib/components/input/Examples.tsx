@@ -192,7 +192,7 @@ export const InputExampleSubmit = () => (
             type="search"
             label="Label:"
             value="Input ..."
-            selectall="true"
+            selectall={true}
             on_submit={(event) => {
               console.log('Input.on_submit', event)
             }}

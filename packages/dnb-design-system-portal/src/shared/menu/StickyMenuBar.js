@@ -95,7 +95,7 @@ export default function StickyMenuBar({
             id="toggle-sidebar-menu"
             size="default"
             icon_size="default"
-            aria-haspopup="true"
+            aria-haspopup={true}
             aria-controls="portal-sidebar-menu"
             aria-expanded={isOpen}
             aria-label="Section Content Menu"

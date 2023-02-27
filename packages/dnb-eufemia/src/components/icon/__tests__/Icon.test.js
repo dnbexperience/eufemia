@@ -71,7 +71,7 @@ describe('Icon component', () => {
   })
 
   it('should have border class', () => {
-    const Comp = mount(<Component {...props} border="true" />)
+    const Comp = mount(<Component {...props} border={true} />)
     expect(Comp.find('span.dnb-icon').hasClass('dnb-icon--border')).toBe(
       true
     )
@@ -96,7 +96,7 @@ describe('Icon component', () => {
     ).toBe(false)
   })
 
-  it('should not be hidden, given aria-hidden="false"', () => {
+  it('should not be hidden, given aria-hidden={false}', () => {
     const Comp = mount(<Component {...props} aria-hidden={false} />)
     expect(
       Comp.find('span.dnb-icon').instance().getAttribute('aria-hidden')

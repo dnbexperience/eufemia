@@ -54,8 +54,8 @@ export const ModalSandbox = () => (
         title="1s close delay"
         triggerAttributes={{ text: 'Click me' }}
         focus_selector=".dnb-input__input:first-of-type"
-        prevent_close="true"
-        // hide_close_button="true"
+        prevent_close={true}
+        // hide_close_button={true}
         on_open={(e) => console.log('on_open', e)}
         on_close={(e) => console.log('on_close', e)}
         on_close_prevent={({ close, triggeredBy }) => {
