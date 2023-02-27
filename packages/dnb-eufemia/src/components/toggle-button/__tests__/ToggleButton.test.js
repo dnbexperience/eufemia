@@ -336,7 +336,7 @@ describe('ToggleButton group component', () => {
         id="group"
         on_change={my_event}
         values={['second']}
-        multiselect="true"
+        multiselect={true}
       >
         <Component
           id="toggle-button-1"
@@ -424,7 +424,7 @@ describe('ToggleButton group component', () => {
 
   it('will let their items to be check/uncheck by its siblings', () => {
     const Comp = mount(
-      <Component.Group id="group" multiselect="true">
+      <Component.Group id="group" multiselect={true}>
         <Component
           variant="checkbox"
           id="toggle-button-1"

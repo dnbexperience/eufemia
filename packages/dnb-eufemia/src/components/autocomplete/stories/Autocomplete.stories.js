@@ -175,7 +175,7 @@ const AutocompleteWithState = () => {
       // prevent_selection
       placeholder="Search ..."
       // label="Search"
-      // label_sr_only="true"
+      // label_sr_only={true}
       on_type={({
         value,
         showIndicator,
@@ -238,7 +238,7 @@ export const AutocompleteSandbox = () => {
       <Box>
         <Autocomplete
           label="Label:"
-          show_submit_button="true"
+          show_submit_button={true}
           show_clear_button
           // icon="bell"
           // input_icon="bell"
@@ -359,7 +359,7 @@ export const AutocompleteSandbox = () => {
         <Autocomplete
           mode="async" // prevents showing no options message og typing
           label="No selection / no filter"
-          // label_sr_only="true"
+          // label_sr_only={true}
           prevent_selection
           disable_filter
           data={topMovies}
@@ -385,12 +385,12 @@ export const AutocompleteSandbox = () => {
               return () => clearTimeout(timeout)
             })
           }}
-          no_scroll_animation="true"
+          no_scroll_animation={true}
         />
         <Autocomplete
           mode="async"
           // label="Search"
-          // label_sr_only="true"
+          // label_sr_only={true}
           keep_value
           on_type={({ value /* updateData, ... */ }) => {
             console.log('on_type', value)
@@ -409,7 +409,7 @@ export const AutocompleteSandbox = () => {
               }, 100)
             }
           }}
-          no_scroll_animation="true"
+          no_scroll_animation={true}
         />
         <AutocompleteWithState />
       </Box>

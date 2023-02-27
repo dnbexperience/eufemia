@@ -269,7 +269,7 @@ export const InputSandbox = () => {
               /\d/,
               /\d/,
             ]}
-            show_mask="true"
+            show_mask={true}
           />
         </Box>
         <Box>
