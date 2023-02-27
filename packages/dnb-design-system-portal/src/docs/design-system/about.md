@@ -34,6 +34,7 @@ Thank you to all who have contributed to build Eufemia. People who have contribu
 - Kevin Murphy
 - Tobias Høegh
 - Anders Langseth
+- Joakim Bjerknes
 - Dina Rosvoll
 - Thayanan Tharmapalan
 - Hans Kristian Smedsrød
