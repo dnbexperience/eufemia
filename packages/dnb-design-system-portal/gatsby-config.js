@@ -52,7 +52,7 @@ const plugins = [
   {
     resolve: 'gatsby-source-filesystem',
     options: {
-      path: `${__dirname}/src/docs`, //for .md (mdx) files
+      path: `${__dirname}/src/docs`, // for .mdx files
       name: 'docs',
       ignore: ['**/Examples.*', '**/*_not_in_use*'],
     },
@@ -62,6 +62,7 @@ const plugins = [
     options: {
       ignore: [
         '**/*.md',
+        '**/*.mdx',
         '**/Examples.*',
         '**/*_not_in_use*',
         '**/demos/layout/Layout.js',
@@ -77,7 +78,7 @@ const plugins = [
   {
     resolve: 'gatsby-plugin-mdx',
     options: {
-      extensions: ['.md'],
+      extensions: ['.mdx'],
       mdxOptions: {
         // More info of using plugins: https://github.com/mdx-js/mdx/blob/d4154b8c4a546d0b675826826f85014cc04098c2/docs/plugins.md
         // rehypePlugins: [], // hastPlugins
