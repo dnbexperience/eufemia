@@ -324,7 +324,7 @@ class ListItem extends React.PureComponent {
       {
         new: 'New',
         beta: 'Beta',
-        wip: 'Work in Progress',
+        wip: 'WIP',
         cs: 'Coming soon',
         dep: 'Deprecated',
         imp: 'Needs improvement',
