@@ -473,7 +473,7 @@ export default class ModalContent extends React.PureComponent<
               'dnb-modal__overlay--no-animation-on-mobile',
             overlay_class
           )}
-          aria-hidden="true"
+          aria-hidden={true}
         />
       </ModalContext.Provider>
     )

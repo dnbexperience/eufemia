@@ -14,7 +14,7 @@ By using inline SVG, we have the possibility to make graphical assets both **res
 
 ## Decorative Icons
 
-If your icons are purely **decorative**, you’ll need to manually add an **aria-hidden** (results in `aria-hidden="true"`) attribute to each of your icons so your app is "accessible".
+If your icons are purely **decorative**, you’ll need to manually add an **aria-hidden** (results in `aria-hidden={true}`) attribute to each of your icons so your app is "accessible".
 
 <IconsDecorativeExample />
 

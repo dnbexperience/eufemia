@@ -342,7 +342,7 @@ const VisualTestVerticalEverything = () => (
     data-visual-test="form-row-all-vertical-everything"
   >
     <WidthLimit>
-      <FormRow label="Vertical everything:" vertical="true">
+      <FormRow label="Vertical everything:" vertical={true}>
         <AllComponents />
       </FormRow>
     </WidthLimit>
@@ -641,7 +641,7 @@ export function FormRowSpacingInfo() {
 export function FormRowResponsiveInfo() {
   return (
     <ComponentBox>
-      <FormRow responsive="true">
+      <FormRow responsive={true}>
         <Input label="Input label">Value</Input>
       </FormRow>
     </ComponentBox>

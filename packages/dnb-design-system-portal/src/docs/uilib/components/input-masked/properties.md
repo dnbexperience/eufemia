@@ -95,7 +95,7 @@ render(
     label="Email:"
     mask={emailMask}
     placeholder="@."
-    keep_placeholder="true"
+    keep_placeholder={true}
   />
 )
 ```
