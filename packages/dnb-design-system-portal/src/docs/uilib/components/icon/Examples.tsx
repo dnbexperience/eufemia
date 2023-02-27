@@ -33,11 +33,11 @@ export const IconBorder = () => (
     scope={{ Bell, BellMedium }}
   >
     <P>
-      <Icon border="true" icon={Bell} right />
-      <Icon border="true" icon={BellMedium} size="medium" right />
-      <IconPrimary border="true" icon={'information'} right />
+      <Icon border={true} icon={Bell} right />
+      <Icon border={true} icon={BellMedium} size="medium" right />
+      <IconPrimary border={true} icon={'information'} right />
       <IconPrimary
-        border="true"
+        border={true}
         icon={'information'}
         size="medium"
         right

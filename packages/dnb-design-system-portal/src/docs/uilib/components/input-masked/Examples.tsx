@@ -170,7 +170,7 @@ export const InputMaskedExamplePrefix = () => (
         number_mask={{
           prefix: 'NOK ',
         }}
-        stretch="true"
+        stretch={true}
         placeholder="Enter a number"
         on_change={({ numberValue }) => {
           console.log(numberValue)
