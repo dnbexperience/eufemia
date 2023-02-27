@@ -394,7 +394,7 @@ describe('Drawer component snapshot', () => {
 })
 describe('Drawer aria', () => {
   it('should validate with ARIA rules as a drawer', async () => {
-    const Comp = mount(<Drawer {...props} openState={true} />)
+    const Comp = render(<Drawer {...props} openState={true} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
