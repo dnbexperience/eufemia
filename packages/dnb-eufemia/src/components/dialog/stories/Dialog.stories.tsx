@@ -203,8 +203,8 @@ export const DialogSandbox = () => (
         title="1s close delay"
         triggerAttributes={{ text: 'Click me' }}
         focusSelector=".dnb-input__input:first-of-type"
-        preventClose="true"
-        hideCloseButton="true"
+        preventClose={true}
+        hideCloseButton={true}
         onOpen={(e) => console.log('on_open', e)}
         onClose={(e) => console.log('on_close', e)}
         onClosePrevent={({ close, triggeredBy }) => {

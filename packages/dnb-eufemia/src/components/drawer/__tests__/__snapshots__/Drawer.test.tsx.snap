@@ -1330,7 +1330,7 @@ exports[`Drawer component snapshot should match component snapshot 1`] = `
             </DrawerContent>
           </div>
           <span
-            aria-hidden="true"
+            aria-hidden={true}
             className="dnb-modal__overlay dnb-modal__overlay--no-animation"
           />
         </ModalContent>

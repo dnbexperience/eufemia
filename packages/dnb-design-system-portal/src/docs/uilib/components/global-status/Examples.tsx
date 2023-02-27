@@ -25,10 +25,10 @@ export const GlobalStatusError = () => (
           status_anchor_label: 'eksempel',
         },
       ]}
-      show="true"
+      show={true}
       autoscroll="false"
-      no_animation="true"
-      omit_set_focus="true"
+      no_animation={true}
+      omit_set_focus={true}
       id="demo-1"
     />
   </ComponentBox>
@@ -41,10 +41,10 @@ export const GlobalStatusInfo = () => (
       title="Custom info title ..."
       text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus"
       items={['Status text 1', 'Status text 2']}
-      show="true"
+      show={true}
       autoscroll="false"
-      no_animation="true"
-      omit_set_focus="true"
+      no_animation={true}
+      omit_set_focus={true}
       id="demo-4"
     />
   </ComponentBox>

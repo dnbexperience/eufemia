@@ -22,11 +22,11 @@ When you need to provide a considerable amount of options to the user and do not
 
 ## Action Menu
 
-The Dropdown component can easily be used as a so-called **action button** by setting the prop `action_menu="true"`. In mobile view, the title/text will be hidden, only showing the icon and the DrawerList will open from the browser bottom.
+The Dropdown component can easily be used as a so-called **action button** by setting the prop `action_menu={true}`. In mobile view, the title/text will be hidden, only showing the icon and the DrawerList will open from the browser bottom.
 
 ## Menu Button
 
-The Dropdown component can easily be used as a so called **menu button** by setting the prop `more_menu="true"` which shows then the [more](/icons/primary#icon-more) icon, appears as dots. You also could use `prevent_selection="true"` together with an empty title `title=""` and `aria-label="Choose an item"`.
+The Dropdown component can easily be used as a so called **menu button** by setting the prop `more_menu={true}` which shows then the [more](/icons/primary#icon-more) icon, appears as dots. You also could use `prevent_selection={true}` together with an empty title `title=""` and `aria-label="Choose an item"`.
 
 ## Accessibility
 
@@ -55,7 +55,7 @@ You can also set the width directly, but then it has to be defined like so (incl
   width: 10rem;
 }
 
-/** If more_menu="true" is used */
+/** If more_menu={true} is used */
 .dnb-dropdown--is-popup .dnb-drawer-list__root {
   width: 10rem;
 }

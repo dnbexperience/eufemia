@@ -484,7 +484,7 @@ export const DrawerPerformance = () => (
               icon="arrow-down"
               text="Sortable"
               title="Sort table column"
-              wrap="true"
+              wrap={true}
             />
           </th>
           <th
@@ -497,7 +497,7 @@ export const DrawerPerformance = () => (
               icon="arrow-down"
               text="Active"
               title="Sort table column"
-              wrap="true"
+              wrap={true}
             />
           </th>
         </tr>
@@ -505,7 +505,7 @@ export const DrawerPerformance = () => (
       <tbody>
         <tr>
           <td>
-            <p className="dnb-p" aria-hidden="true">
+            <p className="dnb-p" aria-hidden={true}>
               Column 1 <b>width p</b> <Button text="Focus me" />
             </p>
           </td>

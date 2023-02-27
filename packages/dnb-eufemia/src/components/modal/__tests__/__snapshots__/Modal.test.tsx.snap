@@ -901,7 +901,7 @@ exports[`Modal component have to match snapshot 1`] = `
           style={null}
         />
         <span
-          aria-hidden="true"
+          aria-hidden={true}
           className="dnb-modal__overlay dnb-modal__overlay--no-animation"
         />
       </ModalContent>

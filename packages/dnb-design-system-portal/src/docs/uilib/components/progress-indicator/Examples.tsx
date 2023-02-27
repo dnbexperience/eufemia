@@ -29,7 +29,7 @@ export const ProgressIndicatorCircularLabelHorizontalExample = () => (
     <ProgressIndicator
       // label="Custom label ..."
       type="circular"
-      show_label="true"
+      show_label={true}
       label_direction="horizontal"
     />
   </ComponentBox>
@@ -40,7 +40,7 @@ export const ProgressIndicatorCircularLabelVerticalExample = () => (
     <ProgressIndicator
       // label="Custom label ..."
       type="circular"
-      show_label="true"
+      show_label={true}
       label_direction="vertical"
     />
   </ComponentBox>
@@ -186,7 +186,7 @@ export const ProgressIndicatorLinearLabelHorizontalExample = () => (
     <ProgressIndicator
       type="linear"
       // label="Custom label ..."
-      show_label="true"
+      show_label={true}
       label_direction="horizontal"
     />
   </ComponentBox>
@@ -197,7 +197,7 @@ export const ProgressIndicatorLinearLabelVerticalExample = () => (
     <ProgressIndicator
       type="linear"
       // label="Custom label ..."
-      show_label="true"
+      show_label={true}
       label_direction="vertical"
     />
   </ComponentBox>
