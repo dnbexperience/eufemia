@@ -337,7 +337,7 @@ export const DropdownMoreMenu = () => {
         data-visual-test="dropdown-more_menu"
       >
         <Dropdown
-          more_menu="true"
+          more_menu={true}
           size="small"
           title="Choose an item"
           data={() => [
@@ -354,7 +354,7 @@ export const DropdownMoreMenu = () => {
           )}
         />
         <Dropdown
-          prevent_selection="true"
+          prevent_selection={true}
           align_dropdown="right"
           size="small"
           title={null}
@@ -373,7 +373,7 @@ export const DropdownMoreMenu = () => {
           )}
         />
         <Dropdown
-          more_menu="true"
+          more_menu={true}
           title="Choose an item"
           data={[
             <Link href="/" key="item-1">
@@ -385,7 +385,7 @@ export const DropdownMoreMenu = () => {
           right="small"
         />
         <Dropdown
-          prevent_selection="true"
+          prevent_selection={true}
           align_dropdown="right"
           title={null}
           aria-label="Choose an item"

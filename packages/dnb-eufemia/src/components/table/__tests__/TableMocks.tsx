@@ -25,7 +25,7 @@ export const BasicTable = () => (
             icon="arrow-down"
             text="Sortable"
             title="Sort table column"
-            wrap="true"
+            wrap={true}
           />
         </Th>
         <Th scope="col" className="dnb-table--sortable dnb-table--active">
@@ -34,7 +34,7 @@ export const BasicTable = () => (
             icon="arrow-down"
             text="Active"
             title="Sort table column"
-            wrap="true"
+            wrap={true}
           />
         </Th>
       </Tr>

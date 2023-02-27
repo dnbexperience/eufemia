@@ -46,7 +46,7 @@ export const ToggleButtonMultiselect = () => (
   <ComponentBox data-visual-test="toggle-button-group-multiselect">
     <ToggleButton.Group
       label="Multi-select:"
-      multiselect="true"
+      multiselect={true}
       values={['first', 'third']}
       on_change={({ values }) => {
         console.log('on_change', values)
@@ -89,7 +89,7 @@ export const ToggleButtonStatus = () => (
     >
       <ToggleButton text="First" value="first" />
       <ToggleButton text="Second" value="second" checked />
-      <ToggleButton text="Third" value="third" checked="true" />
+      <ToggleButton text="Third" value="third" checked={true} />
     </ToggleButton.Group>
   </ComponentBox>
 )

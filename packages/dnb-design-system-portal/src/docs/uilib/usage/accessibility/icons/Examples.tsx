@@ -6,7 +6,7 @@ import Beach from 'dnb-design-system-portal/src/docs/uilib/usage/accessibility/a
 
 export const IconsDecorativeExample = () => (
   <ComponentBox scope={{ Beach }}>
-    <Icon icon={Beach} size="64" title="Beach" aria-hidden="true" />
+    <Icon icon={Beach} size="64" title="Beach" aria-hidden={true} />
   </ComponentBox>
 )
 

@@ -180,7 +180,7 @@ export const RadioButtonSandbox = () => (
         label="Vertical group with error:"
         layout_direction="column"
         label_direction="vertical"
-        // vertical="true"
+        // vertical={true}
         status="Error message Potenti viverra facilisi blandit sodales lorem est fusce pulvinar a imperdiet quis mi parturient mattis feugiat tellus ipsum magnis rutrum"
       >
         <Radio label="First" value="first" />

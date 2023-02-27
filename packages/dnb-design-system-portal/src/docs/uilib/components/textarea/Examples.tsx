@@ -57,7 +57,7 @@ export const TextareaExampleStretched = () => (
     <ComponentBox data-visual-test="textarea-stretch">
       <Textarea
         label="Horizontal:"
-        stretch="true"
+        stretch={true}
         rows="3"
         value="Nec litora inceptos vestibulum id interdum donec gravida."
       />
