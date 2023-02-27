@@ -115,7 +115,7 @@ export const SkeletonVisualTests = () => {
         data-visual-test="skeleton-all-vertical"
         scope={{ AllComponents }}
       >
-        <FormRow vertical="true">
+        <FormRow vertical={true}>
           <Skeleton show no_animation>
             <AllComponents />
           </Skeleton>

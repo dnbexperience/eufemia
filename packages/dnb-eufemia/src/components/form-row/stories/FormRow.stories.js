@@ -77,7 +77,7 @@ export const FormRowSandbox = () => (
 
       {/* <Box>
         <H3 bottom="large">Vertical everything</H3>
-        <FormRow label="Vertical everything:" vertical="true">
+        <FormRow label="Vertical everything:" vertical={true}>
           <AllComponents showText />
         </FormRow>
       </Box> */}
@@ -107,7 +107,7 @@ export const FormRowSandbox = () => (
             // label="Horizontal legend:"
             // direction="horizontal"
 
-            vertical="false"
+            vertical={false}
             label_direction="horizontal"
             top="medium"
           >
