@@ -109,5 +109,10 @@ export interface SkeletonProps extends React.HTMLProps<HTMLElement> {
 }
 export default class Skeleton extends React.Component<SkeletonProps, any> {
   static defaultProps: object;
+  static Exclude: ({
+    children
+  }: {
+    children: React.ReactNode;
+  }) => JSX.Element;
   render(): JSX.Element;
 }

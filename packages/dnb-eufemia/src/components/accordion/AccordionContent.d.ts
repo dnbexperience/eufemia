@@ -22,7 +22,7 @@ export type AccordionContentChildren =
 
 export interface AccordionContentProps
   extends React.HTMLProps<HTMLElement> {
-  instance?: Record<string, unknown>;
+  instance?: React.LegacyRef;
   space?: AccordionContentSpace;
   top?: AccordionContentTop;
   right?: AccordionContentRight;

@@ -3,8 +3,10 @@ title: 'Component Properties'
 order: 1
 ---
 
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
-import { hamburger as hamburgerIcon } from '@dnb/eufemia/src/icons/secondary_icons'
+import {
+LargeButtonsAndIconsExample,
+ExtendedExample
+} from 'Docs/uilib/usage/customisation/Examples'
 
 # Component Properties
 
@@ -18,53 +20,8 @@ Both the properties- and event names should use **camelCase** to support a unive
 
 Below are some examples. You can even modify them right away in the Browser.
 
-<ComponentBox>
-{`
-<Button
-  variant="secondary"
-  text="Secondary Button"
-  icon="chevron_right_medium"
-  size="large"
-/>
-<Button
-  icon="chevron_right"
-  icon_size="medium"
-  size="large"
-/>
-`}
-</ComponentBox>
+<LargeButtonsAndIconsExample />
 
 ## Extended example
 
-<ComponentBox scope={{hamburgerIcon}} useRender>
-{`
-const Wrapper = styled.div\`
-  .dnb-button {
-    --button-width: 4rem;
-    --button-height: 4rem;
-    --button-border-radius: 2rem;
-    svg {
-      color: fuchsia;
-    }
-  }
-\`
-const myHandler = () => alert('Hello')
-render(
-  <Wrapper>
-    <Button
-      variant="secondary"
-      icon={hamburgerIcon}
-      size="default"
-      on_click={myHandler}
-    />
-    <Button
-      variant="secondary"
-      size="default"
-      on_click={myHandler}
-    >
-      <Icon icon={hamburgerIcon} />
-    </Button>
-  </Wrapper>
-)
-`}
-</ComponentBox>
+<ExtendedExample />

@@ -964,8 +964,8 @@ export function PaginationTable() {
             <Pagination
               page_count={data.length / amountPerPage}
               current_page={currentPage}
-              on_change={({ page }) => {
-                setCurrentPage(page)
+              on_change={({ pageNumber }) => {
+                setCurrentPage(pageNumber)
               }}
             >
               <MakeTable

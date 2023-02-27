@@ -2,31 +2,17 @@
 showTabs: true
 ---
 
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
+import {
+IconPrimaryDefaultExample,
+IconPrimaryFixedSizeExample,
+} from 'Docs/uilib/components/icon-primary/Examples'
 
 ## Demos
 
 ### Default and Medium-sized icons (responsive)
 
-<ComponentBox>
-	{/* jsx */ `
-<IconPrimary icon="question" title="Give icons a title" />
-<IconPrimary
-  icon="question_medium"
-  title="Size defined in name"
-  aria-hidden
-/>
-	`}
-</ComponentBox>
+<IconPrimaryDefaultExample />
 
 ### Default Icon with custom, but fixed size (64)
 
-<ComponentBox>
-	{/* jsx */ `
-<IconPrimary
-  icon="question"
-  size="64"
-  title="I'm not responsive!"
-/>
-	`}
-</ComponentBox>
+<IconPrimaryFixedSizeExample />

@@ -4,7 +4,13 @@ redirect_from:
   - /uilib/typography/heading
 ---
 
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
+import {
+HeadingTypographyExample,
+HeadingTypographyXLargeExample,
+HeadingVanillaHTMLExample,
+HeadingModifiersExample,
+HeadingMarginCollapsingExample
+} from 'Docs/uilib/elements/heading/Examples'
 
 # Heading
 
@@ -54,63 +60,22 @@ import { H1, H2, ... } from '@dnb/eufemia/elements'
 
 ### Heading typography using React JSX
 
-<ComponentBox>
-{`
-<H1 bottom="large">Heading style xx-large</H1>
-<H1 size="x-large">Heading style x-large (one down)</H1>
-<H1 size="small">Heading style small</H1>
-<H2>Heading style large</H2>
-`}
-</ComponentBox>
+<HeadingTypographyExample />
 
 By using the `<small>` element, we decrease the size one level (default size is `xx-large`):
 
-<ComponentBox>
-{`
-<H1 size="x-large">Heading style x-large</H1>
-<H1><small>Heading style x-large</small></H1>
-`}
-</ComponentBox>
+<HeadingTypographyXLargeExample />
 
 ## Heading styles in vanilla HTML
 
-<ComponentBox hideCode data-visual-test="heading-default">
-{`
-<h1 className="dnb-h--xx-large">Heading style xx-large</h1>
-<h2 className="dnb-h--x-large">Heading style x-large</h2>
-<h5 className="dnb-h--large">Heading style large</h5>
-<h3 className="dnb-h--small">Heading style small</h3>
-<h3 className="dnb-h--basis">Heading style basis</h3>
-`}
-</ComponentBox>
+<HeadingVanillaHTMLExample />
 
 ### Additional Heading modifiers
 
-<ComponentBox hideCode data-visual-test="heading-additional">
-{`
-<article>
-  <h1 className="dnb-h--xx-large">
-    <small>dnb-h--x-large</small> Normal dnb-h--xx-large
-  </h1>
-  <h2 className="dnb-h--large">
-    Normal dnb-h--large <small>dnb-h--medium</small>
-  </h2>
-  <h3 className="dnb-lead">
-    Normal dnb-h--medium <small>dnb-h--basis</small>
-  </h3>
-</article>
-`}
-</ComponentBox>
+<HeadingModifiersExample />
 
 ## Example of margin collapsing
 
 Only the largest margin takes effect.
 
-<ComponentBox>
-{`
-<H1 size="small" top bottom="small">Spacing with bottom margin: small</H1>
-<P top="large" bottom="small">Spacing with top margin: large</P>
-<P no_collapse top="large" bottom="small">Spacing + no_collapse with top margin: large</P>
-<P no_collapse top="large">Spacing + no_collapse with top margin: large</P>
-`}
-</ComponentBox>
+<HeadingMarginCollapsingExample />

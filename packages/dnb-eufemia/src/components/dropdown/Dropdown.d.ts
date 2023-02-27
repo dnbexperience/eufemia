@@ -444,5 +444,10 @@ export interface DropdownProps extends React.HTMLProps<HTMLElement> {
 }
 export default class Dropdown extends React.Component<DropdownProps, any> {
   static defaultProps: object;
+  static HorizontalItem: ({
+    children
+  }: {
+    children: React.ReactNode;
+  }) => JSX.Element;
   render(): JSX.Element;
 }

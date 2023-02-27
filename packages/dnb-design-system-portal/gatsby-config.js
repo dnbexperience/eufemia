@@ -65,7 +65,7 @@ const plugins = [
         '**/Examples.*',
         '**/*_not_in_use*',
         '**/demos/layout/Layout.js',
-        '**/skip-link-example.js',
+        '**/skip-link-example.tsx',
         '**/CardProductsTable.js',
         '**/assets/*.js',
         '**/utils/*.{js,ts,tsx}',
