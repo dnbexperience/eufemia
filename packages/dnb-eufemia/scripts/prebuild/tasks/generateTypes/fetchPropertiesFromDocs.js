@@ -70,21 +70,17 @@ function extractPathParts({ file }) {
 export async function fetchPropertiesFromDocs({
   file, // Component file
   docsDir = ROOT_DIR, // The dir, where the docs are placed
-  findFiles = ['properties.md', 'events.md'], // type of .md files to look for
+  findFiles = ['properties.mdx', 'events.mdx'], // type of .md files to look for
 } = {}) {
   if (process.env.NODE_ENV !== 'test') {
     log.start('> PrePublish: generating docs for types')
   }
 
   try {
-    const {
-      groupDir,
-      componentDir,
-      componentName,
-      unsureSituation,
-    } = extractPathParts({
-      file,
-    })
+    const { groupDir, componentDir, componentName, unsureSituation } =
+      extractPathParts({
+        file,
+      })
 
     const markdownFiles = findFiles.map((filename) => {
       let file = path.resolve(docsDir, groupDir, componentDir, filename)
@@ -177,7 +173,7 @@ async function extractorFactory({
               const filename = href
                 .replace(/^\//, '')
                 .replace(path.extname(href), '')
-              const file = path.resolve(dir, filename + '.md')
+              const file = path.resolve(dir, filename + '.mdx')
               const { componentName } = extractPathParts({
                 file,
               })
