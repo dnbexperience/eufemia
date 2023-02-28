@@ -137,7 +137,9 @@
 
     .dnb-anchor:hover {
       color: var(--color-black);
-      text-decoration: underline;
+      span:first-child {
+        text-decoration: underline;
+      }
       background-color: transparent;
     }
 
