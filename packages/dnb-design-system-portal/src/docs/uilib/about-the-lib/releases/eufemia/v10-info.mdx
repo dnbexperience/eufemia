@@ -60,7 +60,18 @@ $layout-large: map-get($breakpoints, 'large');
 
 ### Font
 
-The DNB font is moved inside a subfolder in `/assets/fonts/dnb/...`. As long as you don't import them manually, you don't need to make any changes in your codebase.
+The DNB font is moved inside a subfolder in `/assets/fonts/dnb/...`.
+
+The CSS package `dnb-ui-fonts` is moved inside a theme folder `/themes/theme-ui`.
+
+CSS Packages such as:
+
+- `dnb-ui-basis`
+- `dnb-ui-core`
+
+do not contain the fonts anymore. Fonts are now only a part of a theme file, such as: `/style/themes/theme-ui/dnb-theme-ui.*`.
+
+As long as you don't import them manually, you don't need to make any changes in your codebase.
 
 ### StepIndicator
 
