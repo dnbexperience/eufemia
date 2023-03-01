@@ -35,7 +35,9 @@ if (isCI) {
     })
 
     it('has to have correct core path to fonts', () => {
-      expect(global.core[0]).toMatch(new RegExp('("|\\()../assets/fonts/'))
+      expect(global.core[0]).toMatch(
+        new RegExp('("|\\()../assets/fonts/dnb/')
+      )
     })
   })
 
