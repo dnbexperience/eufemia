@@ -38,7 +38,7 @@ export default async function makeMainStyle() {
   })
 
   const listWithPackagesToProcess = await globby(
-    './src/style/dnb-ui-*.scss'
+    './src/style/**/dnb-ui-*.scss'
   )
   await asyncForEach(listWithPackagesToProcess, async (packageFile) => {
     // in order to keep the folder structure, we have to add these asterisks
