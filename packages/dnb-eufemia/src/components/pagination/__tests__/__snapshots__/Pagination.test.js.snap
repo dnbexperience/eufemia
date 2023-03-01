@@ -1588,19 +1588,13 @@ exports[`Pagination scss have to match default theme snapshot 1`] = `
 .dnb-pagination__indicator__inner {
   animation: show-page 300ms ease-out forwards;
 }
-.dnb-core-style .dnb-pagination__button.dnb-button--primary, .dnb-core-style .dnb-pagination__button.dnb-button--primary:not([disabled], :active):hover, .dnb-pagination__button.dnb-button--primary, .dnb-pagination__button.dnb-button--primary:not([disabled], :active):hover {
+.dnb-core-style .dnb-pagination__button.dnb-button--primary, .dnb-core-style .dnb-pagination__button.dnb-button--primary:not(:active):hover:not([disabled]), .dnb-pagination__button.dnb-button--primary, .dnb-pagination__button.dnb-button--primary:not(:active):hover:not([disabled]) {
   background-color: var(--color-emerald-green);
   color: var(--color-mint-green);
 }
-.dnb-core-style .dnb-pagination__button.dnb-button--primary:not([disabled], :active, :hover):focus, .dnb-pagination__button.dnb-button--primary:not([disabled], :active, :hover):focus {
+html[data-whatinput=keyboard] .dnb-core-style .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus {
   color: var(--color-emerald-green);
   background-color: var(--color-mint-green);
-  outline: none;
-}
-html[data-whatinput=keyboard] .dnb-core-style .dnb-pagination__button.dnb-button--primary:not([disabled], :active, :hover):focus, html[data-whatinput=keyboard] .dnb-pagination__button.dnb-button--primary:not([disabled], :active, :hover):focus {
-  --border-color: var(--color-emerald-green);
-  box-shadow: 0 0 0 0.125rem var(--border-color);
-  border-color: transparent;
 }
 
 .dnb-pagination__dots {
