@@ -1,41 +1,81 @@
+import { Accordion } from '@dnb/eufemia/src'
+
 # v10
 
+<Accordion title="Table of Content">
+
 - [v10](#v10)
-  - [Migration](#migration)
-  - [Features](#features)
-  - [Web Components](#web-components)
-    - [Breakpoints](#breakpoints)
+  - [How to migrate](#how-to-migrate)
+  - [Install](#install)
+  - [Deprecations](#deprecations)
+    - [TypeScript](#typescript)
+  - [Discontinued Internet Explorer (IE) support](#discontinued-internet-explorer-ie-support)
+  - [Web Components support](#web-components-support)
+  - [Breakpoints](#breakpoints)
+  - [Breaking changes to CSS packages and imports](#breaking-changes-to-css-packages-and-imports)
+  - [Properties](#properties)
+  - [Removal of `data-testid` in components](#removal-of-data-testid-in-components)
+  - [SCSS mixins](#scss-mixins)
+  - [Fonts assets](#fonts-assets)
+  - [SVG assets](#svg-assets)
+  - [Browser assets](#browser-assets)
+  - [Component changes](#component-changes)
     - [StepIndicator](#stepindicator)
     - [Table](#table)
     - [Slider](#slider)
     - [Timeline](#timeline)
     - [Anchor](#anchor)
     - [Button](#button)
+    - [Pagination and InfinityScroller](#pagination-and-infinityscroller)
     - [Tooltip](#tooltip)
     - [Icon](#icon)
     - [Modal, Dialog and Drawer](#modal-dialog-and-drawer)
     - [Lists](#lists)
     - [InputMasked](#inputmasked)
     - [FormRow](#formrow)
-    - [Removal of `data-testid` in components](#removal-of-data-testid-in-components)
-    - [Stopped supporting Internet Explorer (IE)](#stopped-supporting-internet-explorer-ie)
-    - [Deprecations](#deprecations)
-  - [TypeScript](#typescript)
-  - [Install](#install)
 
-## Migration
+</Accordion>
 
-v10 of @dnb/eufemia contains _breaking changes_. As a migration process, you can simply search and replace:
+## How to migrate
 
-## Features
+v10 of [@dnb/eufemia](https://www.npmjs.com/package/@dnb/eufemia) contains _breaking changes_. As a migration process from v9, you should follow all of the above guides.
 
-1. [Browser support](/uilib/usage/#supported-browsers-and-platforms) has been updated to support modern browsers only (es6).
+## Install
 
-## Web Components
+To upgrade to @dnb/eufemia v10 with Yarn, run:
 
-1. The support for Web Components, Vue and Angular was removed.
+```bash
+yarn workspace <your-workspace> add @dnb/eufemia@10
+# or
+yarn add @dnb/eufemia@10
+```
 
-### Breakpoints
+## Deprecations
+
+1. Helper class `.dnb-sr-only--inline` and SCSS mixin `srOnlyInline` was removed.
+1. Helper class `.dnb-not-sr-only` and SCSS mixin `notSrOnly` was removed.
+1. `import { SpacingHelper } from '@dnb/eufemia/shared'` was removed due to low usage. Use one of the [other exported helpers](/uilib/usage/layout/spacing).
+1. Stylis plugin, `import stylisPlugin from '@dnb/eufemia/style/stylis'`, has been removed.
+
+### TypeScript
+
+1. Updated multiple types from `string | boolean` to `boolean`, as there was a lot of properties who should only support boolean values and not strings.
+   1. Examples of changes to do would be to find Eufemia components using `"false"` or `"true"`, and replace it with boolean values. i.e., `vertical="false"` to `vertical={false}` or `selectall="true"` to `selectall={true}`.
+2. `import { LocaleProps, DataAttributeTypes, DynamicElement } from '@dnb/eufemia/shared/interfaces'` was removed, and moved to `@dnb/eufemia/shared/types`.
+
+## Discontinued Internet Explorer (IE) support
+
+The support for Internet Explorer (IE) was removed, as Microsoft formally ended support for IE in June, 2022. Have a look at the updated table about supported [browsers and paltforms](/uilib/usage/#supported-browsers-and-platforms).
+
+With that change, Eufemia will support modern browsers that supports ES6.
+
+1. The helpers `isIE11` and `IS_IE11` where removed.
+
+## Web Components support
+
+The support for Web Components, Vue and Angular was discontinued and removed.
+
+## Breakpoints
 
 Some [breakpoints](https://eufemia.dnb.no/uilib/usage/layout/media-queries) sizes have changed:
 
@@ -61,14 +101,24 @@ $layout-large: map-get($breakpoints, 'large');
 
 ## Breaking changes to CSS packages and imports
 
-Example imports of the new style structure:
+Find the place where you import the Eufemia styles.
+
+1. If you did import them as so:
+
+```js
+import '@dnb/eufemia/style'
+```
+
+then you don't need to make any changes.
+
+2. If you did import `/components` etc. – then you have to change it to the above:
 
 ```js
 import '@dnb/eufemia/style/core'
 import '@dnb/eufemia/style/themes/ui'
 ```
 
-Or as CSS imports:
+3. If you did import the styles as CSS files, then you have to change it to the above:
 
 ```js
 import '@dnb/eufemia/style/dnb-ui-core.min.css'
@@ -76,13 +126,43 @@ import '@dnb/eufemia/style/themes/theme-ui/dnb-theme-components.min.css'
 import '@dnb/eufemia/style/themes/theme-ui/dnb-theme-basis.min.css'
 ```
 
-In detail:
+More details about the change:
 
 - The package `dnb-theme-ui` was renamed to `dnb-theme-basis`.
 - The package `dnb-ui-components` was renamed and moved inside a theme `/style/themes/theme-ui/dnb-theme-components.*`.
 - `dnb-ui-tags` was renamed and moved form `/style/dnb-ui-tags.*` to `/style/themes/theme-ui/dnb-theme-tags.*`.
 
-### Font
+## Properties
+
+The DNB `properties.scss` and `properties.js` files were moved inside a theme folder `/style/themes/theme-ui/properties.*`.
+
+Packages such as:
+
+- `dnb-ui-basis`
+- `dnb-ui-core`
+
+do not contain the properties anymore. Properties are only a part of a theme file, such as: `/style/themes/theme-ui/dnb-theme-basis.*`.
+
+As long as you don't import them in your application, you don't need to make any changes in your codebase.
+
+## Removal of `data-testid` in components
+
+You may [use other methods](/uilib/usage/best-practices/for-testing/) to select and test the inner parts of Eufemia components. You could use e.g. `screen.queryByRole`, `screen.queryByRole` or `document.querySelector`. All of the following components are effected by the change:
+
+1. [Avatar](/uilib/components/avatar).
+1. [Badge](/uilib/components/badge).
+1. [Breadcrumb](/uilib/components/breadcrumb).
+1. [InfoCard](/uilib/components/info-card).
+1. [Tag](/uilib/components/tag).
+1. [Timeline](/uilib/components/timeline).
+1. [Upload](/uilib/components/upload).
+
+## SCSS mixins
+
+Find the SCSS @mixin `fakeFocus` and replace it with `focusRing`.
+Find the SCSS @mixin `removeFakeFocus` and replace it with `removeFocusRing`.
+
+## Fonts assets
 
 The DNB font is moved inside a subfolder in `/assets/fonts/dnb/...`.
 
@@ -97,40 +177,33 @@ do not contain the fonts anymore. Fonts are now only a part of a theme file, suc
 
 As long as you don't import them manually, you don't need to make any changes in your codebase.
 
-### Properties
-
-The DNB `properties.scss` and `properties.js` files were moved inside a theme folder `/style/themes/theme-ui/properties.*`.
-
-Packages such as:
-
-- `dnb-ui-basis`
-- `dnb-ui-core`
-
-do not contain the properties anymore. Properties are only a part of a theme file, such as: `/style/themes/theme-ui/dnb-theme-basis.*`.
-
-As long as you don't import them in your application, you don't need to make any changes in your codebase.
-
-### SVG assets
+## SVG assets
 
 All `svg` icon files were moved inside a subfolder in `/assets/icons/dnb/...`.
 
-### StepIndicator
+## Browser assets
+
+1. DNB browser assets (`assets/browser`) have been moved inside a subfolder: `assets/browser/dnb`.
+
+## Component changes
+
+### [StepIndicator](/uilib/components/step-indicator)
 
 1. Find the `active_item` property and replace it with `current_step`.
 1. Find `use_navigation` and remove it or replace it with `mode="strict"` or `mode="loose"`.
 1. URL support has been removed – so props like `active_url`, `url`, `url_future`, and `url_passed` are not supported anymore. You have to handle it by yourself from inside your application. Here is [an example](/uilib/components/step-indicator/#stepindicator-with-a-router).
 
-### Table
+### [Table](/uilib/components/table)
 
-1. Ensure all table sub elements have a CSS Class:
-   1. `tr` => `.dnb-table__tr`
-   1. `th` => `.dnb-table__th`
-   1. `td` => `.dnb-table__td`
 1. Find the `sticky_offset` property and replace it with `stickyOffset`.
 1. Find the `/elements/Table` property and replace it with `/components/Table`.
 1. Alignment classes are removed (`.dnb-table--left`, `.dnb-table--right` and `.dnb-table--center`). Use the `align` attribute instead.
 1. Font-sizing classes are removed (`.dnb-table--small` and `.dnb-table--x-small`). Use the `size` property instead.
 1. Find and remove `Table.StickyHelper`.
+1. Consider to add a CSS Class to each sub element or import it from the package:
+   1. `tr` => `.dnb-table__tr` or `import { Tr } from '@dnb/eufemia'`.
+   1. `th` => `.dnb-table__th` or `import { Th } from '@dnb/eufemia'`.
+   1. `td` => `.dnb-table__td` or `import { Td } from '@dnb/eufemia'`.
 
 ### [Slider](/uilib/components/slider)
 
@@ -182,21 +255,25 @@ When you convert from `<Modal mode="custom" />` simply change to `<Modal />`.
 
 When you convert from `<Modal mode="drawer" />` to `<Drawer />` – follow these steps:
 
-- All `trigger_*` props are not supported for Drawer, use `triggerAttributes` instead to pass in props for the trigger button.
-  - Change prop `trigger_hidden` to `omitTriggerButton` to omit the default trigger button from Modal.
-- Only camelCase props are supported for Drawer, so you will need to update the prop names.
-- `Modal.Inner` or `Modal.Content` converts to `Drawer.Body`.
-- `Modal.Bar` converts to `Drawer.Navigaton`.
-- `Modal` was a class component and `Drawer` is a functional component.
+1. All `trigger_*` props are not supported for Drawer, use `triggerAttributes` instead to pass in props for the trigger button.
+
+   - Change prop `trigger_hidden` to `omitTriggerButton` to omit the default trigger button from Modal.
+
+2. Only camelCase props are supported for Drawer, so you will need to update the prop names.
+3. `Modal.Inner` or `Modal.Content` converts to `Drawer.Body`.
+4. `Modal.Bar` converts to `Drawer.Navigaton`.
+5. `Modal` was a class component and `Drawer` is a functional component.
 
 When you convert from `<Modal />` or `<Modal mode="dialog" />` to `<Dialog />` – follow these steps:
 
-- All `trigger_*` props are not supported for Dialog, use `triggerAttributes` instead to pass in props for the trigger button.
-  - Change prop `trigger_hidden` to `omitTriggerButton` to omit the default trigger button from Modal.
-- Only camelCase props are supported for Dialog, so you will need to update the prop names.
-- `Modal.Inner` or `Modal.Content` converts to `Dialog.Body`.
-- `Modal.Bar` converts to `Dialog.Navigaton`.
-- `Modal` was a class component and `Dialog` is a functional component.
+1. All `trigger_*` props are not supported for Dialog, use `triggerAttributes` instead to pass in props for the trigger button.
+
+   - Change prop `trigger_hidden` to `omitTriggerButton` to omit the default trigger button from Modal.
+
+2. Only camelCase props are supported for Dialog, so you will need to update the prop names.
+3. `Modal.Inner` or `Modal.Content` converts to `Dialog.Body`.
+4. `Modal.Bar` converts to `Dialog.Navigaton`.
+5. `Modal` was a class component and `Dialog` is a functional component.
 
 ### [Lists](/uilib/elements/lists)
 
@@ -209,48 +286,5 @@ When you convert from `<Modal />` or `<Modal mode="dialog" />` to `<Dialog />` �
 ### [FormRow](/uilib/components/form-row)
 
 1. The FormRow properties `indent` and `indent_offset` were removed.
-
-### Removal of `data-testid` in components
-
-- [Avatar](/uilib/components/avatar).
-- [Badge](/uilib/components/badge).
-- [Breadcrumb](/uilib/components/breadcrumb).
-- [InfoCard](/uilib/components/info-card).
-- [Tag](/uilib/components/tag).
-- [Upload](/uilib/components/upload).
-- [Timeline](/uilib/components/timeline).
-
-### [Stopped supporting Internet Explorer (IE)](/uilib/usage/#supported-browsers-and-platforms)
-
-Stopped supporting Internet Explorer (IE), as Microsoft formally ended support for IE in June, 2022.
-
-### TypeScript
-
-- Updated multiple types from `string | boolean` to `boolean`, as there was a lot of properties who should only support boolean values and not strings.
-  Examples of changes to do would be to find Eufemia components using `"false"` or `"true"`, and replace it with boolean values. i.e., `vertical="false"` to `vertical={false}` or `selectall="true"` to `selectall={true}`.
-
-### SCSS
-
-Find the SCSS @mixin `fakeFocus` and replace it with `focusRing`.
-Find the SCSS @mixin `removeFakeFocus` and replace it with `removeFocusRing`.
-
-### Deprecations
-
-- Helper class `.dnb-sr-only--inline` and SCSS mixin `srOnlyInline` was removed.
-- Helper class `.dnb-not-sr-only` and SCSS mixin `notSrOnly` was removed.
-- `import { SpacingHelper } from '@dnb/eufemia/shared'` was removed due to low usage. Use one of the [other exported helpers](/uilib/usage/layout/spacing).
-- `import { LocaleProps, DataAttributeTypes, DynamicElement } from '@dnb/eufemia/shared/interfaces'` was removed, and moved to `@dnb/eufemia/shared/types`.
-- `isIE11` and `IS_IE11` is deprecated as we have stopped supporting Internet Explorer (IE).
-- Stylis plugin, `import stylisPlugin from '@dnb/eufemia/style/stylis'`, has been removed.
-
-## Install
-
-To upgrade to @dnb/eufemia v10 with NPM, use:
-
-```bash
-$ npm i @dnb/eufemia@10
-# or
-$ yarn add @dnb/eufemia@10
-```
 
 _April, 20. 2023_
