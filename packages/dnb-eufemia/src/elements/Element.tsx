@@ -16,7 +16,6 @@ import {
   skeletonDOMAttributes,
   SkeletonMethods,
 } from '../components/skeleton/SkeletonHelper'
-import { includeValidProps } from '../components/form-row/FormRowHelpers'
 
 import type { DynamicElement, SpacingProps } from '../shared/types'
 
@@ -53,12 +52,9 @@ const Element = React.forwardRef((props: ElementAllProps, ref) => {
 
 function ElementInstance(localProps: ElementAllProps) {
   const context = React.useContext(Context)
-  const props = extendPropsWithContext(
-    localProps,
-    defaultProps,
-    { skeleton: context?.skeleton },
-    includeValidProps(context?.FormRow)
-  )
+  const props = extendPropsWithContext(localProps, defaultProps, {
+    skeleton: context?.skeleton,
+  })
 
   const {
     className,
