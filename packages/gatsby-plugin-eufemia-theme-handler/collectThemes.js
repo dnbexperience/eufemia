@@ -1,6 +1,7 @@
 const path = require('path')
 const fs = require('fs')
 const globby = require('globby')
+const { slash } = require('gatsby-core-utils')
 
 /**
  * We want to run this in sync,
@@ -20,7 +21,9 @@ function createThemesImport({ reporter, pluginOptions }) {
     path.join(packageRoot, '**', selector),
   ]
 
-  const rawThemesFiles = globby.sync(globbyPaths)
+  const rawThemesFiles = globby.sync(globbyPaths).map((file) => {
+    return slash(file)
+  })
   const hasSRC = rawThemesFiles.some((file) =>
     file.includes('/src/style/themes')
   )
