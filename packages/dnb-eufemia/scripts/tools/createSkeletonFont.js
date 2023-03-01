@@ -28,7 +28,7 @@ asyncForEach(
     const soruceFile = `${fontName}-${styleName}.ttf`
     const sourcePath = path.resolve(
       __dirname,
-      '../../assets/fonts/',
+      '../../assets/fonts/dnb/',
       soruceFile
     )
 
@@ -47,8 +47,8 @@ asyncForEach(
 
       log.info(`Created new font: ${familyName}`)
 
-      const cachedFileName = `./assets/fonts/skeleton/${fileName}-${styleName}-${makeUniqueId()}.otf`
-      const destFileName = `./assets/fonts/skeleton/${fileName}-${styleName}.otf`
+      const cachedFileName = `./assets/fonts/dnb/skeleton/${fileName}-${styleName}-${makeUniqueId()}.otf`
+      const destFileName = `./assets/fonts/dnb/skeleton/${fileName}-${styleName}.otf`
 
       if (fs.existsSync(destFileName)) {
         await fs.remove(destFileName)
@@ -134,14 +134,16 @@ async function minifyFonts() {
     const fontmin = new Fontmin()
 
     fontmin.src(
-      path.resolve(__dirname, '../../assets/fonts/skeleton/*.otf')
+      path.resolve(__dirname, '../../assets/fonts/dnb/skeleton/*.otf')
     )
 
     fontmin.use(Fontmin.otf2ttf())
     fontmin.use(Fontmin.ttf2woff())
     fontmin.use(Fontmin.ttf2woff2())
 
-    fontmin.dest(path.resolve(__dirname, '../../assets/fonts/skeleton/'))
+    fontmin.dest(
+      path.resolve(__dirname, '../../assets/fonts/dnb/skeleton/')
+    )
 
     fontmin.run(function (err) {
       reject(err)
