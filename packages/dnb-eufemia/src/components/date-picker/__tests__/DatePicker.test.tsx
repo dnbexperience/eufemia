@@ -46,14 +46,14 @@ describe('DatePicker component', () => {
     separatorRexExp: null,
   }
 
-  const Comp = mount(<Component {...defaultProps} />)
-
   // compare the snapshot
   it('have to match snapshot', () => {
+    const Comp = mount(<Component {...defaultProps} />)
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
   it('has correct state at startup', () => {
+    const Comp = mount(<Component {...defaultProps} />)
     expect(Comp.state().opened).toBe(false)
     expect(Comp.state().hidden).toBe(true)
   })
@@ -69,6 +69,7 @@ describe('DatePicker component', () => {
   })
 
   it('has correct state after "click" trigger', () => {
+    const Comp = mount(<Component {...defaultProps} />)
     Comp.find('button.dnb-input__submit-button__button').simulate('click')
     expect(Comp.state().opened).toBe(true)
     expect(Comp.state().hidden).toBe(false)
@@ -179,8 +180,8 @@ describe('DatePicker component', () => {
     ).toContain('dnb-date-picker--opened')
 
     expect(on_days_render).toHaveBeenCalledTimes(1)
-    expect(on_days_render.mock.calls[0][0].length).toBe(42)
-    expect(on_days_render.mock.calls[0][1]).toBe(0)
+    expect(on_days_render.mock.calls[0].at(0).length).toBe(42)
+    expect(on_days_render.mock.calls[0].at(1)).toBe(0)
 
     const singleTd = Comp.find('td.dnb-date-picker__day').at(12)
     const singleButton = singleTd.find('button')
@@ -228,12 +229,14 @@ describe('DatePicker component', () => {
   })
 
   it('has two calendar views', () => {
+    const Comp = mount(<Component {...defaultProps} />)
     Comp.find('button.dnb-input__submit-button__button').simulate('click')
     expect(Comp.find('.dnb-date-picker__views').exists()).toBe(true)
     expect(Comp.find('.dnb-date-picker__calendar').length).toBe(2)
   })
 
   it('has a reacting start date input with valid value', () => {
+    const Comp = mount(<Component {...defaultProps} />)
     const elem = Comp.find('input.dnb-date-picker__input--day').at(0)
 
     // by default we have the start day
