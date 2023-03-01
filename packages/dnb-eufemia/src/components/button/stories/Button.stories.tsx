@@ -69,6 +69,7 @@ export const ButtonSandbox = () => (
         icon="chevron_right"
         text="Netus cursus vel himenaeos venenatis torquent ac lobortis
           consectetur risus"
+        variant='secondary'
         size="small"
         wrap
       />

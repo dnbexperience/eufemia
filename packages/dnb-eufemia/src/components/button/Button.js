@@ -128,7 +128,7 @@ export default class Button extends React.PureComponent {
     const showStatus = getStatusState(status)
 
     let { text, icon } = props
-    let usedVariant = variant
+    let usedVariant = "secondary"
     let usedSize = size
     let iconSize = icon_size
     const content = Button.getContent(this.props)
