@@ -7,10 +7,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 // preload our default fonts
-import fontRegular from '@dnb/eufemia/assets/fonts/DNB-Regular.woff2'
-import fontMedium from '@dnb/eufemia/assets/fonts/DNB-Medium.woff2'
-// import fontBold from '@dnb/eufemia/assets/fonts/DNB-Bold.woff2'// we do not use bold for now
-import fontMonoRegular from '@dnb/eufemia/assets/fonts/DNBMono-Regular.woff2'
+import fontRegular from '@dnb/eufemia/assets/fonts/dnb/DNB-Regular.woff2'
+import fontMedium from '@dnb/eufemia/assets/fonts/dnb/DNB-Medium.woff2'
+// import fontBold from '@dnb/eufemia/assets/fonts/dnb/DNB-Bold.woff2'// we do not use bold for now
+import fontMonoRegular from '@dnb/eufemia/assets/fonts/dnb/DNBMono-Regular.woff2'
 
 // load icons
 import { withPrefix } from 'gatsby' // use it like this: withPrefix('/safari-pinned-tab.svg')
