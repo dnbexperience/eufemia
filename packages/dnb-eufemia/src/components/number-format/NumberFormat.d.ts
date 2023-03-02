@@ -9,26 +9,26 @@ export type NumberFormatSuffix =
 export type NumberFormatCurrency = string | boolean;
 export type NumberFormatCurrencyPosition = 'auto' | 'before' | 'after';
 export type NumberFormatCompact = 'short' | 'long' | boolean;
-export type NumberFormatBan = string | boolean;
-export type NumberFormatNin = string | boolean;
-export type NumberFormatPhone = string | boolean;
-export type NumberFormatOrg = string | boolean;
-export type NumberFormatPercent = string | boolean;
-export type NumberFormatLink = string | boolean;
+export type NumberFormatBan = boolean;
+export type NumberFormatNin = boolean;
+export type NumberFormatPhone = boolean;
+export type NumberFormatOrg = boolean;
+export type NumberFormatPercent = boolean;
+export type NumberFormatLink = 'tel' | 'sms';
 export type NumberFormatOptions = Record<string, unknown> | string;
 export type NumberFormatDecimals = number | string;
-export type NumberFormatSelectall = string | boolean;
-export type NumberFormatAlwaysSelectall = string | boolean;
-export type NumberFormatCopySelection = string | boolean;
-export type NumberFormatCleanCopyValue = string | boolean;
-export type NumberFormatOmitRounding = string | boolean;
-export type NumberFormatClean = string | boolean;
-export type NumberFormatElement = string | boolean;
+export type NumberFormatSelectall = boolean;
+export type NumberFormatAlwaysSelectall = boolean;
+export type NumberFormatCopySelection = boolean;
+export type NumberFormatCleanCopyValue = boolean;
+export type NumberFormatOmitRounding = boolean;
+export type NumberFormatClean = boolean;
+export type NumberFormatElement = string;
 export type NumberFormatTooltip =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type NumberFormatSkeleton = string | boolean;
+export type NumberFormatSkeleton = boolean;
 export type NumberFormatSpace =
   | string
   | number

@@ -4,22 +4,22 @@ export type CheckboxLabel =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type CheckboxLabelPosition = 'left' | 'right';
-export type CheckboxChecked = string | boolean;
-export type CheckboxDisabled = string | boolean;
+export type CheckboxChecked = boolean;
+export type CheckboxDisabled = boolean;
 export type CheckboxSize = 'default' | 'medium' | 'large';
 export type CheckboxStatus =
   | string
   | boolean
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type CheckboxStatusNoAnimation = string | boolean;
+export type CheckboxStatusNoAnimation = boolean;
 export type CheckboxSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type CheckboxAttributes = string | Record<string, unknown>;
-export type CheckboxReadOnly = string | boolean;
-export type CheckboxSkeleton = string | boolean;
+export type CheckboxReadOnly = boolean;
+export type CheckboxSkeleton = boolean;
 export type CheckboxSpace =
   | string
   | number

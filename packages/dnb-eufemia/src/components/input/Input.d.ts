@@ -6,24 +6,24 @@ export type InputLabel =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type InputLabelDirection = 'horizontal' | 'vertical';
-export type InputLabelSrOnly = string | boolean;
+export type InputLabelSrOnly = boolean;
 export type InputStatus =
   | string
   | boolean
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type InputStatusNoAnimation = string | boolean;
-export type InputClear = string | boolean;
-export type InputKeepPlaceholder = string | boolean;
+export type InputStatusNoAnimation = boolean;
+export type InputClear = boolean;
+export type InputKeepPlaceholder = boolean;
 export type InputSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type InputAlign = 'left' | 'center' | 'right';
-export type InputSelectall = string | boolean;
-export type InputStretch = string | boolean;
-export type InputDisabled = string | boolean;
-export type InputSkeleton = string | boolean;
+export type InputSelectall = boolean;
+export type InputStretch = boolean;
+export type InputDisabled = boolean;
+export type InputSkeleton = boolean;
 export type InputInputAttributes = string | Record<string, unknown>;
 export type InputInputElement =
   | ((...args: any[]) => any)
@@ -37,7 +37,7 @@ export type InputIconPosition = 'left' | 'right';
 export type InputInnerRef =
   | ((...args: any[]) => any)
   | Record<string, unknown>;
-export type InputReadOnly = string | boolean;
+export type InputReadOnly = boolean;
 export type InputSubmitElement =
   | ((...args: any[]) => any)
   | React.ReactNode;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-export type FormStatusShow = string | boolean;
+export type FormStatusShow = boolean;
 export type FormStatusText =
   | string
   | boolean
@@ -19,9 +19,9 @@ export type FormStatusState =
 export type FormStatusVariant = 'flat' | 'outlined';
 export type FormStatusSize = 'default' | 'large';
 export type FormStatusAttributes = string | Record<string, unknown>;
-export type FormStatusNoAnimation = string | boolean;
-export type FormStatusSkeleton = string | boolean;
-export type FormStatusStretch = string | boolean;
+export type FormStatusNoAnimation = boolean;
+export type FormStatusSkeleton = boolean;
+export type FormStatusStretch = boolean;
 export type FormStatusSpace =
   | string
   | number

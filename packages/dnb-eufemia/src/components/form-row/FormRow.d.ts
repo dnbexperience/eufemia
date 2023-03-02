@@ -1,20 +1,19 @@
 import * as React from 'react';
+import { SectionSpacing, SectionStyleTypes } from '../Section';
 export type FormRowLabel =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type FormRowLabelDirection = 'vertical' | 'horizontal';
-export type FormRowLabelSrOnly = string | boolean;
-export type FormRowNoLabel = string | boolean;
-export type FormRowNoFieldset = string | boolean;
-export type FormRowWrap = string | boolean;
+export type FormRowLabelSrOnly = boolean;
+export type FormRowNoLabel = boolean;
+export type FormRowNoFieldset = boolean;
+export type FormRowWrap = boolean;
 export type FormRowDirection = 'vertical' | 'horizontal';
-export type FormRowVertical = string | boolean;
-export type FormRowCentered = string | boolean;
-export type FormRowSectionSpacing = string | boolean;
-export type FormRowResponsive = string | boolean;
-export type FormRowDisabled = string | boolean;
-export type FormRowSkeleton = string | boolean;
+export type FormRowCentered = boolean;
+export type FormRowResponsive = boolean;
+export type FormRowDisabled = boolean;
+export type FormRowSkeleton = boolean;
 export type FormRowSpace =
   | string
   | number
@@ -100,7 +99,7 @@ export interface FormRowProps extends React.HTMLProps<HTMLElement> {
   /**
    * Will force both `direction` and `label_direction` to be "vertical" if set to `true`.
    */
-  vertical?: FormRowVertical;
+  vertical?: boolean;
 
   /**
    * Will center all children vertically as long as the screen does not hit a mobile width.
@@ -110,12 +109,12 @@ export interface FormRowProps extends React.HTMLProps<HTMLElement> {
   /**
    * To enable the visual helper `.dnb-section` class. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to null.
    */
-  section_style?: string;
+  section_style?: SectionStyleTypes;
 
   /**
    * To modify the `spacing`. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to null.
    */
-  section_spacing?: FormRowSectionSpacing;
+  section_spacing?: SectionSpacing;
   global_status_id?: string;
 
   /**

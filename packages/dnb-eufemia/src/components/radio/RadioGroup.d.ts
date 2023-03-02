@@ -4,24 +4,24 @@ export type RadioGroupLabel =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type RadioGroupLabelDirection = 'horizontal' | 'vertical';
-export type RadioGroupLabelSrOnly = string | boolean;
+export type RadioGroupLabelSrOnly = boolean;
 export type RadioGroupLabelPosition = 'left' | 'right';
-export type RadioGroupNoFieldset = string | boolean;
-export type RadioGroupDisabled = string | boolean;
-export type RadioGroupSkeleton = string | boolean;
+export type RadioGroupNoFieldset = boolean;
+export type RadioGroupDisabled = boolean;
+export type RadioGroupSkeleton = boolean;
 export type RadioGroupSize = 'default' | 'medium' | 'large';
 export type RadioGroupStatus =
   | string
   | boolean
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type RadioGroupStatusNoAnimation = string | boolean;
+export type RadioGroupStatusNoAnimation = boolean;
 export type RadioGroupSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type RadioGroupLayoutDirection = 'column' | 'row';
-export type RadioGroupVertical = string | boolean;
+export type RadioGroupVertical = boolean;
 export type RadioGroupAttributes = string | Record<string, unknown>;
 export type RadioGroupSpace =
   | string

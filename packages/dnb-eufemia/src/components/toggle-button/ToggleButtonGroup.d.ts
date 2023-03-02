@@ -4,23 +4,23 @@ export type ToggleButtonGroupLabel =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type ToggleButtonGroupLabelDirection = 'horizontal' | 'vertical';
-export type ToggleButtonGroupLabelSrOnly = string | boolean;
-export type ToggleButtonGroupMultiselect = string | boolean;
+export type ToggleButtonGroupLabelSrOnly = boolean;
+export type ToggleButtonGroupMultiselect = boolean;
 export type ToggleButtonGroupVariant = 'default' | 'checkbox' | 'radio';
-export type ToggleButtonGroupNoFieldset = string | boolean;
-export type ToggleButtonGroupDisabled = string | boolean;
-export type ToggleButtonGroupSkeleton = string | boolean;
+export type ToggleButtonGroupNoFieldset = boolean;
+export type ToggleButtonGroupDisabled = boolean;
+export type ToggleButtonGroupSkeleton = boolean;
 export type ToggleButtonGroupStatus =
   | string
   | boolean
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type ToggleButtonGroupStatusNoAnimation = string | boolean;
+export type ToggleButtonGroupStatusNoAnimation = boolean;
 export type ToggleButtonGroupSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type ToggleButtonGroupVertical = string | boolean;
+export type ToggleButtonGroupVertical = boolean;
 export type ToggleButtonGroupLayoutDirection = 'column' | 'row';
 export type ToggleButtonGroupValue =
   | string

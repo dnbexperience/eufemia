@@ -4,22 +4,22 @@ export type SwitchLabel =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type SwitchLabelPosition = 'left' | 'right';
-export type SwitchChecked = string | boolean;
-export type SwitchDisabled = string | boolean;
+export type SwitchChecked = boolean;
+export type SwitchDisabled = boolean;
 export type SwitchSize = 'default' | 'medium' | 'large';
 export type SwitchStatus =
   | string
   | boolean
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type SwitchStatusNoAnimation = string | boolean;
+export type SwitchStatusNoAnimation = boolean;
 export type SwitchSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type SwitchAttributes = string | Record<string, unknown>;
-export type SwitchReadOnly = string | boolean;
-export type SwitchSkeleton = string | boolean;
+export type SwitchReadOnly = boolean;
+export type SwitchSkeleton = boolean;
 export type SwitchSpace =
   | string
   | number

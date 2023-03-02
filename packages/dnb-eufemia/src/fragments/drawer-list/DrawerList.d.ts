@@ -1,13 +1,13 @@
 import * as React from 'react';
-export type DrawerListScrollable = string | boolean;
-export type DrawerListFocusable = string | boolean;
+export type DrawerListScrollable = boolean;
+export type DrawerListFocusable = boolean;
 export type DrawerListDirection = 'auto' | 'top' | 'bottom';
 export type DrawerListSize = 'default' | 'small' | 'medium' | 'large';
-export type DrawerListNoAnimation = string | boolean;
-export type DrawerListNoScrollAnimation = string | boolean;
-export type DrawerListPreventSelection = string | boolean;
-export type DrawerListActionMenu = string | boolean;
-export type DrawerListIsPopup = string | boolean;
+export type DrawerListNoAnimation = boolean;
+export type DrawerListNoScrollAnimation = boolean;
+export type DrawerListPreventSelection = boolean;
+export type DrawerListActionMenu = boolean;
+export type DrawerListIsPopup = boolean;
 export type DrawerListAlignDrawer = 'left' | 'right';
 export type DrawerListOptionsRender =
   | Record<string, unknown>
@@ -19,14 +19,14 @@ export type DrawerListWrapperElement =
   | React.ReactNode;
 export type DrawerListDefaultValue = string | number;
 export type DrawerListValue = string | number;
-export type DrawerListSkipPortal = string | boolean;
-export type DrawerListPreventClose = string | boolean;
-export type DrawerListIndependentWidth = string | boolean;
-export type DrawerListFixedPosition = string | boolean;
-export type DrawerListKeepOpen = string | boolean;
-export type DrawerListPreventFocus = string | boolean;
-export type DrawerListSkipKeysearch = string | boolean;
-export type DrawerListOpened = string | boolean;
+export type DrawerListSkipPortal = boolean;
+export type DrawerListPreventClose = boolean;
+export type DrawerListIndependentWidth = boolean;
+export type DrawerListFixedPosition = boolean;
+export type DrawerListKeepOpen = boolean;
+export type DrawerListPreventFocus = boolean;
+export type DrawerListSkipKeysearch = boolean;
+export type DrawerListOpened = boolean;
 export type DrawerListData =
   | string
   | ((...args: any[]) => any)
@@ -48,7 +48,7 @@ export type DrawerListRawData =
   | any[]
   | Record<string, unknown>
   | ((...args: any[]) => any);
-export type DrawerListIgnoreEvents = string | boolean;
+export type DrawerListIgnoreEvents = boolean;
 export type DrawerListSpace =
   | string
   | number

@@ -1,22 +1,22 @@
 import * as React from 'react';
-export type FormSetNoForm = string | boolean;
-export type FormSetDisabled = string | boolean;
-export type FormSetSkeleton = string | boolean;
-export type FormSetPreventSubmit = string | boolean;
+import { SectionSpacing, SectionStyleTypes } from '../Section';
+export type FormSetNoForm = boolean;
+export type FormSetDisabled = boolean;
+export type FormSetSkeleton = boolean;
+export type FormSetPreventSubmit = boolean;
 export type FormSetLabel =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type FormSetLabelDirection = 'vertical' | 'horizontal';
-export type FormSetLabelSrOnly = string | boolean;
-export type FormSetNoLabel = string | boolean;
-export type FormSetNoFieldset = string | boolean;
-export type FormSetWrap = string | boolean;
+export type FormSetLabelSrOnly = boolean;
+export type FormSetNoLabel = boolean;
+export type FormSetNoFieldset = boolean;
+export type FormSetWrap = boolean;
 export type FormSetDirection = 'vertical' | 'horizontal';
-export type FormSetVertical = string | boolean;
-export type FormSetCentered = string | boolean;
-export type FormSetSectionSpacing = string | boolean;
-export type FormSetResponsive = string | boolean;
+export type FormSetVertical = boolean;
+export type FormSetCentered = boolean;
+export type FormSetResponsive = boolean;
 export type FormSetSpace =
   | string
   | number
@@ -136,12 +136,12 @@ export interface FormSetProps extends React.HTMLProps<HTMLElement> {
   /**
    * To enable the visual helper `.dnb-section` class. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to null.
    */
-  section_style?: string;
+  section_style?: SectionStyleTypes;
 
   /**
    * To modify the `spacing`. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to null.
    */
-  section_spacing?: FormSetSectionSpacing;
+  section_spacing?: SectionSpacing;
   global_status_id?: string;
 
   /**

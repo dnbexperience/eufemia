@@ -7,51 +7,51 @@ export type DatePickerStartMonth = Date | string;
 export type DatePickerEndMonth = Date | string;
 export type DatePickerMinDate = Date | string;
 export type DatePickerMaxDate = Date | string;
-export type DatePickerCorrectInvalidDate = string | boolean;
-export type DatePickerHideNavigation = string | boolean;
-export type DatePickerHideNavigationButtons = string | boolean;
-export type DatePickerHideDays = string | boolean;
-export type DatePickerOnlyMonth = string | boolean;
-export type DatePickerHideLastWeek = string | boolean;
-export type DatePickerDisableAutofocus = string | boolean;
-export type DatePickerEnableKeyboardNav = string | boolean;
-export type DatePickerShowInput = string | boolean;
-export type DatePickerShowSubmitButton = string | boolean;
-export type DatePickerShowCancelButton = string | boolean;
-export type DatePickerShowResetButton = string | boolean;
-export type DatePickerResetDate = string | boolean;
-export type DatePickerRange = string | boolean;
-export type DatePickerLink = string | boolean;
-export type DatePickerSync = string | boolean;
+export type DatePickerCorrectInvalidDate = boolean;
+export type DatePickerHideNavigation = boolean;
+export type DatePickerHideNavigationButtons = boolean;
+export type DatePickerHideDays = boolean;
+export type DatePickerOnlyMonth = boolean;
+export type DatePickerHideLastWeek = boolean;
+export type DatePickerDisableAutofocus = boolean;
+export type DatePickerEnableKeyboardNav = boolean;
+export type DatePickerShowInput = boolean;
+export type DatePickerShowSubmitButton = boolean;
+export type DatePickerShowCancelButton = boolean;
+export type DatePickerShowResetButton = boolean;
+export type DatePickerResetDate = boolean;
+export type DatePickerRange = boolean;
+export type DatePickerLink = boolean;
+export type DatePickerSync = boolean;
 export type DatePickerLabel =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type DatePickerLabelDirection = 'horizontal' | 'vertical';
-export type DatePickerLabelSrOnly = string | boolean;
+export type DatePickerLabelSrOnly = boolean;
 export type DatePickerInputElement =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type DatePickerAddonElement = string | React.ReactNode;
 export type DatePickerShortcuts = any[] | ((...args: any[]) => any);
-export type DatePickerDisabled = string | boolean;
-export type DatePickerStretch = string | boolean;
-export type DatePickerSkeleton = string | boolean;
+export type DatePickerDisabled = boolean;
+export type DatePickerStretch = boolean;
+export type DatePickerSkeleton = boolean;
 export type DatePickerSize = 'default' | 'small' | 'medium' | 'large';
 export type DatePickerStatus =
   | string
   | boolean
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type DatePickerStatusNoAnimation = string | boolean;
+export type DatePickerStatusNoAnimation = boolean;
 export type DatePickerSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type DatePickerOpened = string | boolean;
-export type DatePickerPreventClose = string | boolean;
-export type DatePickerNoAnimation = string | boolean;
+export type DatePickerOpened = boolean;
+export type DatePickerPreventClose = boolean;
+export type DatePickerNoAnimation = boolean;
 export type DatePickerDirection = 'auto' | 'top' | 'bottom';
 export type DatePickerAlignPicker = 'auto' | 'left' | 'right';
 export type DatePickerSpace =

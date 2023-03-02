@@ -1,11 +1,11 @@
 import * as React from 'react';
 export type HeadingProviderLevel = number | string;
-export type HeadingProviderIncrease = string | boolean;
-export type HeadingProviderDecrease = string | boolean;
-export type HeadingProviderUp = string | boolean;
-export type HeadingProviderDown = string | boolean;
-export type HeadingProviderInherit = string | boolean;
-export type HeadingProviderReset = number | string | boolean;
+export type HeadingProviderIncrease = boolean;
+export type HeadingProviderDecrease = boolean;
+export type HeadingProviderUp = boolean;
+export type HeadingProviderDown = boolean;
+export type HeadingProviderInherit = boolean;
+export type HeadingProviderReset = number | boolean;
 /**
  * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
  */

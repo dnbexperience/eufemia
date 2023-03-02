@@ -1,5 +1,5 @@
 import * as React from 'react';
-export type GlobalStatusControllerRemoveOnUnmount = string | boolean;
+export type GlobalStatusControllerRemoveOnUnmount = boolean;
 /**
  * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
  */

@@ -4,24 +4,24 @@ export type RadioLabel =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type RadioLabelSrOnly = string | boolean;
+export type RadioLabelSrOnly = boolean;
 export type RadioLabelPosition = 'left' | 'right';
-export type RadioChecked = string | boolean;
-export type RadioDisabled = string | boolean;
+export type RadioChecked = boolean;
+export type RadioDisabled = boolean;
 export type RadioSize = 'default' | 'medium' | 'large';
 export type RadioStatus =
   | string
   | boolean
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type RadioStatusNoAnimation = string | boolean;
+export type RadioStatusNoAnimation = boolean;
 export type RadioSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type RadioAttributes = string | Record<string, unknown>;
-export type RadioSkeleton = string | boolean;
-export type RadioReadOnly = string | boolean;
+export type RadioSkeleton = boolean;
+export type RadioReadOnly = boolean;
 export type RadioSpace =
   | string
   | number

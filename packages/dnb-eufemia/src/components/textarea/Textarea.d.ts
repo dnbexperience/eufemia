@@ -4,25 +4,25 @@ export type TextareaLabel =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type TextareaLabelDirection = 'horizontal' | 'vertical';
-export type TextareaLabelSrOnly = string | boolean;
+export type TextareaLabelSrOnly = boolean;
 export type TextareaStatus =
   | string
   | boolean
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type TextareaStatusNoAnimation = string | boolean;
+export type TextareaStatusNoAnimation = boolean;
 export type TextareaSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type TextareaAlign = 'left' | 'right';
-export type TextareaStretch = string | boolean;
-export type TextareaDisabled = string | boolean;
-export type TextareaSkeleton = string | boolean;
-export type TextareaAutoresize = string | boolean;
+export type TextareaStretch = boolean;
+export type TextareaDisabled = boolean;
+export type TextareaSkeleton = boolean;
+export type TextareaAutoresize = boolean;
 export type TextareaAutoresizeMaxRows = string | number;
 export type TextareaTextareaAttributes = string | Record<string, unknown>;
-export type TextareaReadOnly = string | boolean;
+export type TextareaReadOnly = boolean;
 export type TextareaRows = number | string;
 export type TextareaCols = number | string;
 export type TextareaInnerRef =

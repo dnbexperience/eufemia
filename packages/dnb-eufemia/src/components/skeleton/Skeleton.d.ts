@@ -1,6 +1,6 @@
 import * as React from 'react';
-export type SkeletonShow = string | boolean;
-export type SkeletonNoAnimation = string | boolean;
+export type SkeletonShow = boolean;
+export type SkeletonNoAnimation = boolean;
 export type SkeletonStyleType = 'lines' | string;
 export type SkeletonFigure =
   | string

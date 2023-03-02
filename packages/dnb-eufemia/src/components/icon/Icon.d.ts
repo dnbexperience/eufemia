@@ -35,9 +35,9 @@ export type IconBottom = string | number | boolean;
 export type IconLeft = string | number | boolean;
 export type IconWidth = string | number;
 export type IconHeight = string | number;
-export type IconBorder = string | boolean;
-export type IconInheritColor = string | boolean;
-export type IconSkeleton = string | boolean;
+export type IconBorder = boolean;
+export type IconInheritColor = boolean;
+export type IconSkeleton = boolean;
 export type IconAttributes = string | Record<string, unknown>;
 export type IconChildren = React.ReactNode | ((...args: any[]) => any);
 /**

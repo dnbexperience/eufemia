@@ -1,21 +1,21 @@
 import * as React from 'react';
-export type AccordionGroupExpanded = string | boolean;
-export type AccordionGroupNoAnimation = string | boolean;
-export type AccordionGroupExpandedSsr = string | boolean;
-export type AccordionGroupPrerender = string | boolean;
-export type AccordionGroupPreventRerender = string | boolean;
-export type AccordionGroupPreventRerenderConditional = string | boolean;
-export type AccordionGroupRememberState = string | boolean;
-export type AccordionGroupFlushRememberedState = string | boolean;
-export type AccordionGroupSingleContainer = string | boolean;
+export type AccordionGroupExpanded = boolean;
+export type AccordionGroupNoAnimation = boolean;
+export type AccordionGroupExpandedSsr = boolean;
+export type AccordionGroupPrerender = boolean;
+export type AccordionGroupPreventRerender = boolean;
+export type AccordionGroupPreventRerenderConditional = boolean;
+export type AccordionGroupRememberState = boolean;
+export type AccordionGroupFlushRememberedState = boolean;
+export type AccordionGroupSingleContainer = boolean;
 export type AccordionGroupVariant =
   | 'plain'
   | 'default'
   | 'outlined'
   | 'filled';
-export type AccordionGroupAllowCloseAll = string | boolean;
-export type AccordionGroupDisabled = string | boolean;
-export type AccordionGroupSkeleton = string | boolean;
+export type AccordionGroupAllowCloseAll = boolean;
+export type AccordionGroupDisabled = boolean;
+export type AccordionGroupSkeleton = boolean;
 export type AccordionGroupHeading = boolean | React.ReactNode;
 export type AccordionGroupHeadingLevel = string | number;
 export type AccordionGroupIcon =

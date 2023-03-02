@@ -14,11 +14,11 @@ export type InputMaskedCurrencyMask =
 export type InputMaskedMaskOptions = string | Record<string, unknown>;
 export type InputMaskedNumberFormat = string | Record<string, unknown>;
 export type InputMaskedAsCurrency = string | boolean;
-export type InputMaskedAsNumber = string | boolean;
-export type InputMaskedAsPercent = string | boolean;
-export type InputMaskedShowMask = string | boolean;
-export type InputMaskedShowGuide = string | boolean;
-export type InputMaskedKeepCharPositions = string | boolean;
+export type InputMaskedAsNumber = boolean;
+export type InputMaskedAsPercent = boolean;
+export type InputMaskedShowMask = boolean;
+export type InputMaskedShowGuide = boolean;
+export type InputMaskedKeepCharPositions = boolean;
 export type InputMaskedSize =
   | 'default'
   | 'small'
@@ -31,24 +31,24 @@ export type InputMaskedLabel =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type InputMaskedLabelDirection = 'horizontal' | 'vertical';
-export type InputMaskedLabelSrOnly = string | boolean;
+export type InputMaskedLabelSrOnly = boolean;
 export type InputMaskedStatus =
   | string
   | boolean
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type InputMaskedStatusNoAnimation = string | boolean;
-export type InputMaskedClear = string | boolean;
-export type InputMaskedKeepPlaceholder = string | boolean;
+export type InputMaskedStatusNoAnimation = boolean;
+export type InputMaskedClear = boolean;
+export type InputMaskedKeepPlaceholder = boolean;
 export type InputMaskedSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type InputMaskedAlign = 'left' | 'center' | 'right';
-export type InputMaskedSelectall = string | boolean;
-export type InputMaskedStretch = string | boolean;
-export type InputMaskedDisabled = string | boolean;
-export type InputMaskedSkeleton = string | boolean;
+export type InputMaskedSelectall = boolean;
+export type InputMaskedStretch = boolean;
+export type InputMaskedDisabled = boolean;
+export type InputMaskedSkeleton = boolean;
 export type InputMaskedInputAttributes = string | Record<string, unknown>;
 export type InputMaskedInputElement =
   | ((...args: any[]) => any)
@@ -59,7 +59,7 @@ export type InputMaskedIcon =
   | ((...args: any[]) => any);
 export type InputMaskedIconSize = string | number;
 export type InputMaskedIconPosition = 'left' | 'right';
-export type InputMaskedReadOnly = string | boolean;
+export type InputMaskedReadOnly = boolean;
 export type InputMaskedSubmitElement =
   | ((...args: any[]) => any)
   | React.ReactNode;

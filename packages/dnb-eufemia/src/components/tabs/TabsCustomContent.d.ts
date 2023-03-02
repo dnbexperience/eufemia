@@ -3,8 +3,8 @@ export type CustomContentTitle =
   | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any);
-export type CustomContentSelected = string | boolean;
-export type CustomContentDisabled = string | boolean;
+export type CustomContentSelected = boolean;
+export type CustomContentDisabled = boolean;
 export type CustomContentSpace =
   | string
   | number

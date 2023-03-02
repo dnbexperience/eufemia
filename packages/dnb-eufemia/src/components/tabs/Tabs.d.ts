@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { SectionSpacing, SectionStyleTypes } from '../Section';
 import ContentWrapper from './TabsContentWrapper';
 import CustomContent from './TabsCustomContent';
 export type TabsData =
@@ -14,21 +15,20 @@ export type TabsContent =
   | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any);
-export type TabsContentSpacing = string | boolean;
 export type TabsTabElement =
   | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any);
 export type TabsSelectedKey = string | number;
 export type TabsAlign = 'left' | 'center' | 'right';
-export type TabsTabsSpacing = string | boolean;
-export type TabsNoBorder = string | boolean;
-export type TabsNavButtonEdge = string | boolean;
-export type TabsUseHash = string | boolean;
-export type TabsPrerender = string | boolean;
-export type TabsPreventRerender = string | boolean;
-export type TabsScroll = string | boolean;
-export type TabsSkeleton = string | boolean;
+export type TabsTabsSpacing = boolean;
+export type TabsNoBorder = boolean;
+export type TabsNavButtonEdge = boolean;
+export type TabsUseHash = boolean;
+export type TabsPrerender = boolean;
+export type TabsPreventRerender = boolean;
+export type TabsScroll = boolean;
+export type TabsSkeleton = boolean;
 export type TabsSpace =
   | string
   | number
@@ -80,12 +80,12 @@ export interface TabsProps extends React.HTMLProps<HTMLElement> {
   /**
    * To enable the visual helper `.dnb-section` on to the content wrapper. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to `null`.
    */
-  content_style?: string;
+  content_style?: SectionStyleTypes;
 
   /**
    * To modify the `spacing` onto the content wrapper. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to `large`.
    */
-  content_spacing?: TabsContentSpacing;
+  content_spacing?: SectionSpacing;
   label?: string;
 
   /**
@@ -106,7 +106,7 @@ export interface TabsProps extends React.HTMLProps<HTMLElement> {
   /**
    * To enable the visual helper `.dnb-section` inside the tabs list. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to `null`.
    */
-  tabs_style?: string;
+  tabs_style?: SectionStyleTypes;
 
   /**
    * To modify the `spacing` inside the tab list. Defaults to `null`.

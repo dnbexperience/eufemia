@@ -40,9 +40,9 @@ export type IconPrimaryBottom = string | number | boolean;
 export type IconPrimaryLeft = string | number | boolean;
 export type IconPrimaryWidth = string | number;
 export type IconPrimaryHeight = string | number;
-export type IconPrimaryBorder = string | boolean;
-export type IconPrimaryInheritColor = string | boolean;
-export type IconPrimarySkeleton = string | boolean;
+export type IconPrimaryBorder = boolean;
+export type IconPrimaryInheritColor = boolean;
+export type IconPrimarySkeleton = boolean;
 export type IconPrimaryAttributes =
   | string
   | React.AllHTMLAttributes<string>;

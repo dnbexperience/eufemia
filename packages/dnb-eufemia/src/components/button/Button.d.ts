@@ -22,13 +22,13 @@ export type ButtonStatus =
   | boolean
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type ButtonStatusNoAnimation = string | boolean;
+export type ButtonStatusNoAnimation = boolean;
 export type ButtonTo = string | any | ((...args: any[]) => any);
-export type ButtonWrap = string | boolean;
-export type ButtonBounding = string | boolean;
-export type ButtonStretch = string | boolean;
+export type ButtonWrap = boolean;
+export type ButtonBounding = boolean;
+export type ButtonStretch = boolean;
 export type ButtonSkeleton = SkeletonShow;
-export type ButtonDisabled = string | boolean;
+export type ButtonDisabled = boolean;
 export type ButtonChildren =
   | string
   | ((...args: any[]) => any)

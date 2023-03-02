@@ -1,7 +1,8 @@
 import * as React from 'react';
-export type ProgressIndicatorVisible = string | boolean;
+import { SectionSpacing, SectionStyleTypes } from '../Section';
+export type ProgressIndicatorVisible = boolean;
 export type ProgressIndicatorType = 'circular' | 'linear';
-export type ProgressIndicatorNoAnimation = string | boolean;
+export type ProgressIndicatorNoAnimation = boolean;
 export type ProgressIndicatorSize =
   | 'default'
   | 'small'
@@ -9,7 +10,7 @@ export type ProgressIndicatorSize =
   | 'large'
   | 'huge';
 export type ProgressIndicatorProgress = string | number;
-export type ProgressIndicatorShowLabel = string | boolean;
+export type ProgressIndicatorShowLabel = boolean;
 export type ProgressIndicatorSpace =
   | string
   | number
@@ -92,12 +93,12 @@ export interface ProgressIndicatorProps
   /**
    * To enable the visual helper `.dnb-section` class. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to null.
    */
-  section_style?: string;
+  section_style?: SectionStyleTypes;
 
   /**
    * To modify the `spacing`. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to null.
    */
-  section_spacing?: string;
+  section_spacing?: SectionSpacing;
 
   /**
    * Used to set title and aria-label. Defaults to the value of progress property, formatted as a percent.

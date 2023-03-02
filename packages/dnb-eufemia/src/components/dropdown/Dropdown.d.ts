@@ -28,7 +28,7 @@ export type DropdownTop = string | number | boolean;
 export type DropdownRight = string | number | boolean;
 export type DropdownBottom = string | number | boolean;
 export type DropdownLeft = string | number | boolean;
-export type DropdownIsPopup = string | boolean;
+export type DropdownIsPopup = boolean;
 export type DropdownAlignDrawer = 'left' | 'right';
 export type DropdownOptionsRender =
   | Record<string, unknown>
@@ -38,9 +38,9 @@ export type DropdownWrapperElement =
   | Record<string, unknown>
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type DropdownFixedPosition = string | boolean;
-export type DropdownPreventFocus = string | boolean;
-export type DropdownSkipKeysearch = string | boolean;
+export type DropdownFixedPosition = boolean;
+export type DropdownPreventFocus = boolean;
+export type DropdownSkipKeysearch = boolean;
 export type DropdownSelectedValue = string | React.ReactNode;
 export type DropdownSuffixValue = string | React.ReactNode;
 export type DropdownContent = string | React.ReactNode | string[];
@@ -48,7 +48,7 @@ export type DropdownRawData =
   | any[]
   | Record<string, unknown>
   | ((...args: any[]) => any);
-export type DropdownIgnoreEvents = string | boolean;
+export type DropdownIgnoreEvents = boolean;
 export type DropdownPageOffset = string | number;
 export type DropdownObserverElement = string | React.ReactNode;
 export type DropdownMinHeight = string | number;
@@ -70,27 +70,27 @@ export type DropdownLabel =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type DropdownLabelDirection = 'horizontal' | 'vertical';
-export type DropdownLabelSrOnly = string | boolean;
+export type DropdownLabelSrOnly = boolean;
 export type DropdownStatus =
   | string
   | boolean
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type DropdownStatusNoAnimation = string | boolean;
+export type DropdownStatusNoAnimation = boolean;
 export type DropdownSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type DropdownScrollable = string | boolean;
-export type DropdownFocusable = string | boolean;
+export type DropdownScrollable = boolean;
+export type DropdownFocusable = boolean;
 export type DropdownDirection = 'auto' | 'top' | 'bottom';
-export type DropdownSkipPortal = string | boolean;
-export type DropdownNoAnimation = string | boolean;
-export type DropdownNoScrollAnimation = string | boolean;
-export type DropdownPreventSelection = string | boolean;
-export type DropdownMoreMenu = string | boolean;
-export type DropdownActionMenu = string | boolean;
-export type DropdownIndependentWidth = string | boolean;
+export type DropdownSkipPortal = boolean;
+export type DropdownNoAnimation = boolean;
+export type DropdownNoScrollAnimation = boolean;
+export type DropdownPreventSelection = boolean;
+export type DropdownMoreMenu = boolean;
+export type DropdownActionMenu = boolean;
+export type DropdownIndependentWidth = boolean;
 export type DropdownSize = 'default' | 'small' | 'medium' | 'large';
 export type DropdownAlignDropdown = 'left' | 'right';
 export type DropdownTriggerElement =
@@ -111,13 +111,13 @@ export type DropdownData =
     )[];
 export type DropdownDefaultValue = string | number;
 export type DropdownValue = string | number;
-export type DropdownOpenOnFocus = string | boolean;
-export type DropdownPreventClose = string | boolean;
-export type DropdownKeepOpen = string | boolean;
-export type DropdownOpened = string | boolean;
-export type DropdownDisabled = string | boolean;
-export type DropdownStretch = string | boolean;
-export type DropdownSkeleton = string | boolean;
+export type DropdownOpenOnFocus = boolean;
+export type DropdownPreventClose = boolean;
+export type DropdownKeepOpen = boolean;
+export type DropdownOpened = boolean;
+export type DropdownDisabled = boolean;
+export type DropdownStretch = boolean;
+export type DropdownSkeleton = boolean;
 export type DropdownChildren =
   | string
   | ((...args: any[]) => any)

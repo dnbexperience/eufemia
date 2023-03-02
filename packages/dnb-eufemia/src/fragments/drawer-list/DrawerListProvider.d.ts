@@ -1,17 +1,17 @@
 import * as React from 'react';
-export type DrawerListProviderScrollable = string | boolean;
-export type DrawerListProviderFocusable = string | boolean;
+export type DrawerListProviderScrollable = boolean;
+export type DrawerListProviderFocusable = boolean;
 export type DrawerListProviderDirection = 'auto' | 'top' | 'bottom';
 export type DrawerListProviderSize =
   | 'default'
   | 'small'
   | 'medium'
   | 'large';
-export type DrawerListProviderNoAnimation = string | boolean;
-export type DrawerListProviderNoScrollAnimation = string | boolean;
-export type DrawerListProviderPreventSelection = string | boolean;
-export type DrawerListProviderActionMenu = string | boolean;
-export type DrawerListProviderIsPopup = string | boolean;
+export type DrawerListProviderNoAnimation = boolean;
+export type DrawerListProviderNoScrollAnimation = boolean;
+export type DrawerListProviderPreventSelection = boolean;
+export type DrawerListProviderActionMenu = boolean;
+export type DrawerListProviderIsPopup = boolean;
 export type DrawerListProviderAlignDrawer = 'left' | 'right';
 export type DrawerListProviderOptionsRender =
   | Record<string, unknown>
@@ -23,14 +23,14 @@ export type DrawerListProviderWrapperElement =
   | React.ReactNode;
 export type DrawerListProviderDefaultValue = string | number;
 export type DrawerListProviderValue = string | number;
-export type DrawerListProviderSkipPortal = string | boolean;
-export type DrawerListProviderPreventClose = string | boolean;
-export type DrawerListProviderIndependentWidth = string | boolean;
-export type DrawerListProviderFixedPosition = string | boolean;
-export type DrawerListProviderKeepOpen = string | boolean;
-export type DrawerListProviderPreventFocus = string | boolean;
-export type DrawerListProviderSkipKeysearch = string | boolean;
-export type DrawerListProviderOpened = string | boolean;
+export type DrawerListProviderSkipPortal = boolean;
+export type DrawerListProviderPreventClose = boolean;
+export type DrawerListProviderIndependentWidth = boolean;
+export type DrawerListProviderFixedPosition = boolean;
+export type DrawerListProviderKeepOpen = boolean;
+export type DrawerListProviderPreventFocus = boolean;
+export type DrawerListProviderSkipKeysearch = boolean;
+export type DrawerListProviderOpened = boolean;
 export type DrawerListProviderData =
   | string
   | ((...args: any[]) => any)
@@ -55,7 +55,7 @@ export type DrawerListProviderRawData =
   | any[]
   | Record<string, unknown>
   | ((...args: any[]) => any);
-export type DrawerListProviderIgnoreEvents = string | boolean;
+export type DrawerListProviderIgnoreEvents = boolean;
 export type DrawerListProviderSpace =
   | string
   | number

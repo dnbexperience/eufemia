@@ -28,17 +28,17 @@ export type AutocompleteTop = string | number | boolean;
 export type AutocompleteRight = string | number | boolean;
 export type AutocompleteBottom = string | number | boolean;
 export type AutocompleteLeft = string | number | boolean;
-export type AutocompleteActionMenu = string | boolean;
-export type AutocompleteIsPopup = string | boolean;
+export type AutocompleteActionMenu = boolean;
+export type AutocompleteIsPopup = boolean;
 export type AutocompleteAlignDrawer = 'left' | 'right';
 export type AutocompleteWrapperElement =
   | Record<string, unknown>
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type AutocompleteIndependentWidth = string | boolean;
-export type AutocompleteFixedPosition = string | boolean;
-export type AutocompletePreventFocus = string | boolean;
-export type AutocompleteSkipKeysearch = string | boolean;
+export type AutocompleteIndependentWidth = boolean;
+export type AutocompleteFixedPosition = boolean;
+export type AutocompletePreventFocus = boolean;
+export type AutocompleteSkipKeysearch = boolean;
 export type AutocompleteSelectedValue = string | React.ReactNode;
 export type AutocompleteSuffixValue = string | React.ReactNode;
 export type AutocompleteContent = string | React.ReactNode | string[];
@@ -46,7 +46,7 @@ export type AutocompleteRawData =
   | any[]
   | Record<string, unknown>
   | ((...args: any[]) => any);
-export type AutocompleteIgnoreEvents = string | boolean;
+export type AutocompleteIgnoreEvents = boolean;
 export type AutocompleteMode = 'sync' | 'async';
 export type AutocompleteTitle = string | React.ReactNode;
 export type AutocompletePlaceholder = string | React.ReactNode;
@@ -73,31 +73,31 @@ export type AutocompleteLabel =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type AutocompleteLabelDirection = 'horizontal' | 'vertical';
-export type AutocompleteLabelSrOnly = string | boolean;
-export type AutocompleteKeepValue = string | boolean;
-export type AutocompleteKeepValueAndSelection = string | boolean;
-export type AutocompleteShowClearButton = string | boolean;
+export type AutocompleteLabelSrOnly = boolean;
+export type AutocompleteKeepValue = boolean;
+export type AutocompleteKeepValueAndSelection = boolean;
+export type AutocompleteShowClearButton = boolean;
 export type AutocompleteStatus =
   | string
   | boolean
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type AutocompleteStatusNoAnimation = string | boolean;
+export type AutocompleteStatusNoAnimation = boolean;
 export type AutocompleteSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type AutocompleteDisableFilter = string | boolean;
-export type AutocompleteDisableReorder = string | boolean;
-export type AutocompleteScrollable = string | boolean;
-export type AutocompleteFocusable = string | boolean;
-export type AutocompleteDisableHighlighting = string | boolean;
+export type AutocompleteDisableFilter = boolean;
+export type AutocompleteDisableReorder = boolean;
+export type AutocompleteScrollable = boolean;
+export type AutocompleteFocusable = boolean;
+export type AutocompleteDisableHighlighting = boolean;
 export type AutocompleteDirection = 'auto' | 'top' | 'bottom';
-export type AutocompleteSkipPortal = string | boolean;
-export type AutocompleteNoAnimation = string | boolean;
-export type AutocompleteNoScrollAnimation = string | boolean;
-export type AutocompleteShowSubmitButton = string | boolean;
-export type AutocompletePreventSelection = string | boolean;
+export type AutocompleteSkipPortal = boolean;
+export type AutocompleteNoAnimation = boolean;
+export type AutocompleteNoScrollAnimation = boolean;
+export type AutocompleteShowSubmitButton = boolean;
+export type AutocompletePreventSelection = boolean;
 export type AutocompleteSize = 'default' | 'small' | 'medium' | 'large';
 export type AutocompleteAlignAutocomplete = 'left' | 'right';
 export type AutocompleteOptionsRender =
@@ -122,16 +122,16 @@ export type AutocompleteData =
         }
     )[];
 export type AutocompleteSearchInWordIndex = string | number;
-export type AutocompleteSearchNumbers = string | boolean;
+export type AutocompleteSearchNumbers = boolean;
 export type AutocompleteDefaultValue = string | number;
 export type AutocompleteValue = string | number;
-export type AutocompleteOpenOnFocus = string | boolean;
-export type AutocompletePreventClose = string | boolean;
-export type AutocompleteKeepOpen = string | boolean;
-export type AutocompleteOpened = string | boolean;
-export type AutocompleteDisabled = string | boolean;
-export type AutocompleteStretch = string | boolean;
-export type AutocompleteSkeleton = string | boolean;
+export type AutocompleteOpenOnFocus = boolean;
+export type AutocompletePreventClose = boolean;
+export type AutocompleteKeepOpen = boolean;
+export type AutocompleteOpened = boolean;
+export type AutocompleteDisabled = boolean;
+export type AutocompleteStretch = boolean;
+export type AutocompleteSkeleton = boolean;
 export type AutocompletePageOffset = string | number;
 export type AutocompleteObserverElement = string | React.ReactNode;
 export type AutocompleteChildren =

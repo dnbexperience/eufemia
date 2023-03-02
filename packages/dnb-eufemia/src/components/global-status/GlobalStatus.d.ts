@@ -11,14 +11,13 @@ export type GlobalStatusIcon =
   | React.ReactNode;
 export type GlobalStatusState = 'error' | 'info';
 export type GlobalStatusShow = 'auto' | any | any | 'true' | 'false';
-export type GlobalStatusAutoscroll = string | boolean;
-export type GlobalStatusAutoclose = string | boolean;
-export type GlobalStatusNoAnimation = string | boolean;
+export type GlobalStatusAutoclose = boolean;
+export type GlobalStatusNoAnimation = boolean;
 export type GlobalStatusDelay = string | number;
-export type GlobalStatusHideCloseButton = string | boolean;
-export type GlobalStatusOmitSetFocus = string | boolean;
-export type GlobalStatusOmitSetFocusOnUpdate = string | boolean;
-export type GlobalStatusSkeleton = string | boolean;
+export type GlobalStatusHideCloseButton = boolean;
+export type GlobalStatusOmitSetFocus = boolean;
+export type GlobalStatusOmitSetFocusOnUpdate = boolean;
+export type GlobalStatusSkeleton = boolean;
 export type GlobalStatusSpace =
   | string
   | number
@@ -102,7 +101,7 @@ export interface GlobalStatusProps extends React.HTMLProps<HTMLElement> {
   /**
    * Set to `true` to automatically scroll the page to the appeared global status. Defaults to `true`.
    */
-  autoscroll?: GlobalStatusAutoscroll;
+  autoscroll?: boolean;
 
   /**
    * Set to `true` to automatically close the global status if there are no more left items in the provider stack. Defaults to `true`.

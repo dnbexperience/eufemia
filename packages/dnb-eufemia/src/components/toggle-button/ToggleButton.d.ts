@@ -5,17 +5,17 @@ export type ToggleButtonLabel =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type ToggleButtonLabelDirection = 'horizontal' | 'vertical';
-export type ToggleButtonLabelSrOnly = string | boolean;
-export type ToggleButtonChecked = string | boolean;
+export type ToggleButtonLabelSrOnly = boolean;
+export type ToggleButtonChecked = boolean;
 export type ToggleButtonVariant = 'default' | 'checkbox' | 'radio';
-export type ToggleButtonDisabled = string | boolean;
-export type ToggleButtonSkeleton = string | boolean;
+export type ToggleButtonDisabled = boolean;
+export type ToggleButtonSkeleton = boolean;
 export type ToggleButtonStatus =
   | string
   | boolean
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type ToggleButtonStatusNoAnimation = string | boolean;
+export type ToggleButtonStatusNoAnimation = boolean;
 export type ToggleButtonSuffix =
   | string
   | ((...args: any[]) => any)
@@ -31,7 +31,7 @@ export type ToggleButtonIcon =
   | ((...args: any[]) => any);
 export type ToggleButtonIconPosition = 'left' | 'right';
 export type ToggleButtonAttributes = string | Record<string, unknown>;
-export type ToggleButtonReadOnly = string | boolean;
+export type ToggleButtonReadOnly = boolean;
 export type ToggleButtonSpace =
   | string
   | number

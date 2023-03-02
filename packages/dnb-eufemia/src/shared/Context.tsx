@@ -75,7 +75,7 @@ export type ContextProps = ContextComponents & {
   /**
    * Will enable all skeletons inside this provider/context scope
    */
-  skeleton?: boolean | string // SkeletonShow
+  skeleton?: boolean // SkeletonShow
 
   /**
    * Define what breakpoints should be used by the MediaQuery component and hook

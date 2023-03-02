@@ -1,6 +1,6 @@
 import * as React from 'react';
 export type StepIndicatorItemTitle = string | React.ReactNode;
-export type StepIndicatorItemHideNumbers = string | boolean;
+export type StepIndicatorItemHideNumbers = boolean;
 export type StepIndicatorItemStatus = string | React.ReactNode;
 export type StepIndicatorItemStatusState = 'warn' | 'info' | 'error';
 /**

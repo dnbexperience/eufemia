@@ -22,7 +22,7 @@ export const FormSetDefault = () => (
         <H2>A semantic h2 in a FormRow without a label</H2>
       </FormRow>
       <FormRow
-        section_style="default"
+        section_style="mint-green-12"
         section_spacing
         label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:"
       >

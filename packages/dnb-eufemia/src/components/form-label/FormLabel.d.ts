@@ -3,11 +3,11 @@ export type FormLabelText =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type FormLabelDisabled = string | boolean;
-export type FormLabelSkeleton = string | boolean;
+export type FormLabelDisabled = boolean;
+export type FormLabelSkeleton = boolean;
 export type FormLabelLabelDirection = 'vertical' | 'horizontal';
-export type FormLabelVertical = string | boolean;
-export type FormLabelSrOnly = string | boolean;
+export type FormLabelVertical = boolean;
+export type FormLabelSrOnly = boolean;
 export type FormLabelSpace =
   | string
   | number

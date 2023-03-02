@@ -10,15 +10,15 @@ export type HeadingSize =
   | 'small'
   | 'x-small';
 export type HeadingLevel = number | string;
-export type HeadingIncrease = string | boolean;
-export type HeadingDecrease = string | boolean;
-export type HeadingUp = string | boolean;
-export type HeadingDown = string | boolean;
+export type HeadingIncrease = boolean;
+export type HeadingDecrease = boolean;
+export type HeadingUp = boolean;
+export type HeadingDown = boolean;
 export type HeadingDebug = boolean | ((...args: any[]) => any);
 export type HeadingDebugCounter = boolean | ((...args: any[]) => any);
-export type HeadingInherit = string | boolean;
-export type HeadingReset = number | string | boolean;
-export type HeadingSkeleton = string | boolean;
+export type HeadingInherit = boolean;
+export type HeadingReset = number | boolean;
+export type HeadingSkeleton = boolean;
 export type HeadingSpace =
   | string
   | number

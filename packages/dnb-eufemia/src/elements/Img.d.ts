@@ -13,7 +13,7 @@ export type ImgTop = string | number | boolean;
 export type ImgRight = string | number | boolean;
 export type ImgBottom = string | number | boolean;
 export type ImgLeft = string | number | boolean;
-export type ImgSkeleton = string | boolean;
+export type ImgSkeleton = boolean;
 export type ImgClassName = string | any | any[];
 /**
  * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".

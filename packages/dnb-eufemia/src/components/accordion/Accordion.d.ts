@@ -2,19 +2,19 @@ import * as React from 'react';
 import AccordionContent from './AccordionContent';
 import AccordionHeader from './AccordionHeader';
 import AccordionProvider from './AccordionProvider';
-export type AccordionExpanded = string | boolean;
-export type AccordionNoAnimation = string | boolean;
-export type AccordionExpandedSsr = string | boolean;
-export type AccordionPrerender = string | boolean;
-export type AccordionPreventRerender = string | boolean;
-export type AccordionPreventRerenderConditional = string | boolean;
-export type AccordionRememberState = string | boolean;
-export type AccordionFlushRememberedState = string | boolean;
-export type AccordionSingleContainer = string | boolean;
+export type AccordionExpanded = boolean;
+export type AccordionNoAnimation = boolean;
+export type AccordionExpandedSsr = boolean;
+export type AccordionPrerender = boolean;
+export type AccordionPreventRerender = boolean;
+export type AccordionPreventRerenderConditional = boolean;
+export type AccordionRememberState = boolean;
+export type AccordionFlushRememberedState = boolean;
+export type AccordionSingleContainer = boolean;
 export type AccordionVariant = 'plain' | 'default' | 'outlined' | 'filled';
-export type AccordionAllowCloseAll = string | boolean;
-export type AccordionDisabled = string | boolean;
-export type AccordionSkeleton = string | boolean;
+export type AccordionAllowCloseAll = boolean;
+export type AccordionDisabled = boolean;
+export type AccordionSkeleton = boolean;
 export type AccordionHeading = boolean | React.ReactNode;
 export type AccordionHeadingLevel = string | number;
 export type AccordionIcon =
@@ -229,7 +229,7 @@ export default class Accordion extends React.Component<
   static Group: (props: GroupProps) => JSX.Element;
   render(): JSX.Element;
 }
-export type GroupRememberState = string | boolean;
+export type GroupRememberState = boolean;
 /**
  * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
  */

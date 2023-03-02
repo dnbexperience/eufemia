@@ -1,6 +1,6 @@
 import * as React from 'react';
+import { SectionSpacing, SectionStyleTypes } from '../Section';
 export type ContentWrapperSelectedKey = string | number;
-export type ContentWrapperContentSpacing = string | boolean;
 export type ContentWrapperChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
@@ -19,12 +19,12 @@ export interface ContentWrapperProps extends React.HTMLProps<HTMLElement> {
   /**
    * To enable the visual helper `.dnb-section` on to the content wrapper. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to `null`.
    */
-  content_style?: string;
+  content_style?: SectionStyleTypes;
 
   /**
    * To modify the `spacing` onto the content wrapper. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to `large`.
    */
-  content_spacing?: ContentWrapperContentSpacing;
+  content_spacing?: SectionSpacing;
 
   /**
    * <em>(required)</em> the content to render. Can be a function, returning the current tab content `(key) => (&#39;Current tab&#39;)`, a React Component or an object with the keys and content `{key1: &#39;Current tab&#39;}`.

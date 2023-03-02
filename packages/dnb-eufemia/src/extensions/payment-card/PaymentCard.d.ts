@@ -14,7 +14,7 @@ export interface PaymentCardRawData {
   cardType: Record<string, unknown>;
   productType: Record<string, unknown>;
 }
-export type PaymentCardSkeleton = string | boolean;
+export type PaymentCardSkeleton = boolean;
 export type PaymentCardSpace =
   | string
   | number

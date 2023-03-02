@@ -23,9 +23,9 @@ export type StepIndicatorTitle = string | React.ReactNode;
 export type StepIndicatorStatus = string | React.ReactNode;
 export type StepIndicatorStatusState = 'warn' | 'info' | 'error';
 export type StepIndicatorCurrentStep = string | number;
-export type StepIndicatorHideNumbers = string | boolean;
-export type StepIndicatorNoAnimation = string | boolean;
-export type StepIndicatorSkeleton = string | boolean;
+export type StepIndicatorHideNumbers = boolean;
+export type StepIndicatorNoAnimation = boolean;
+export type StepIndicatorSkeleton = boolean;
 export type StepIndicatorChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
