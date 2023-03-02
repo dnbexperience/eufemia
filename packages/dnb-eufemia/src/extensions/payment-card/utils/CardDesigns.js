@@ -1,4 +1,4 @@
-import properties from '../../../style/properties'
+import properties from '../../../style/themes/theme-ui/properties'
 import { DNB, Saga, PB, Mastercard, BankAxept, Visa } from './Types'
 
 const defaultDesign = {
