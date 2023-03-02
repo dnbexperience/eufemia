@@ -20,7 +20,7 @@ import { withPrefix } from 'gatsby' // use it like this: withPrefix('/safari-pin
 // import safariPinnedTab from '@dnb/eufemia/assets/browser/safari-pinned-tab.svg'
 
 // load properties
-import properties from '@dnb/eufemia/src/style/properties.js'
+import properties from '@dnb/eufemia/src/style/themes/theme-ui/properties'
 const mainColor = properties['--color-sea-green']
 
 export default class HTML extends React.PureComponent {
