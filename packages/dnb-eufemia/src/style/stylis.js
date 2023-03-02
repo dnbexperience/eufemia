@@ -5,7 +5,7 @@
  */
 
 import { matchAll } from '../shared/component-helper'
-import properties from './properties'
+import properties from './themes/theme-ui/properties'
 
 const findRegExp = /var\(([^)]*)\)/g
 
