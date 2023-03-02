@@ -73,6 +73,23 @@ do not contain the fonts anymore. Fonts are now only a part of a theme file, suc
 
 As long as you don't import them manually, you don't need to make any changes in your codebase.
 
+### Properties
+
+The DNB `properties.scss` and `properties.js` files where moved inside a theme folder `/style/themes/theme-ui/properties.*`.
+
+Packages such as:
+
+- `dnb-ui-basis`
+- `dnb-ui-body`
+- `dnb-ui-core`
+- `dnb-ui-elements`
+- `dnb-ui-tags`
+- `dnb-ui-fonts` (moved to theme as well)
+
+do not contain the properties anymore. Properties are only a part of a theme file, such as: `/style/themes/theme-ui/dnb-theme-ui.*`.
+
+As long as you don't import them in your application, you don't need to make any changes in your codebase.
+
 ### StepIndicator
 
 1. Find the `active_item` property and replace it with `current_step`.
