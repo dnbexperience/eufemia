@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`InputMasked component have to match type="text" snapshot 1`] = `
-<ForwardRef
+<InputMasked
   align={null}
   as_currency={null}
   as_number={null}
@@ -232,7 +232,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
       </span>
     </Input>
   </InputMaskedElement>
-</ForwardRef>
+</InputMasked>
 `;
 
 exports[`InputMasked scss have to match snapshot 1`] = `

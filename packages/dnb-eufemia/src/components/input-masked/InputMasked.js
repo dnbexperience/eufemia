@@ -12,7 +12,7 @@ import InputMaskedElement from './InputMaskedElement'
 import Input, { inputPropTypes } from '../input/Input'
 import Context from '../../shared/Context'
 
-const InputMasked = React.forwardRef((props, ref) => {
+const InputMasked = (props) => {
   const context = React.useContext(Context)
 
   // Remove masks defined in Provider/Context, because it overwrites a custom mask
@@ -37,7 +37,6 @@ const InputMasked = React.forwardRef((props, ref) => {
   return (
     <InputMaskedContext.Provider
       value={{
-        inner_ref: ref,
         props: contextAndProps,
         context,
       }}
@@ -45,7 +44,7 @@ const InputMasked = React.forwardRef((props, ref) => {
       <InputMaskedElement />
     </InputMaskedContext.Provider>
   )
-})
+}
 
 export default InputMasked
 
