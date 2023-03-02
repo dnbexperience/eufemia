@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { SkeletonShow } from '../Skeleton';
 export type PaginationStartupPage = string | number;
 export type PaginationCurrentPage = string | number;
 export type PaginationPageCount = string | number;
@@ -118,7 +119,7 @@ export interface PaginationProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: boolean;
+  skeleton?: SkeletonShow;
 
   /**
    * If set to `infinity`, then the pagination bar will be now shown and but infinity scrolling will do the content presentation. For more information, check out the <a href="https://eufemia.dnb.no/uilib/components/pagination/infinity-scroller">Infinity Scroller</a>. Defaults to `pagination`.
@@ -389,7 +390,7 @@ export interface PaginationInstanceProps {
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: boolean;
+  skeleton?: SkeletonShow;
 
   /**
    * If set to `infinity`, then the pagination bar will be now shown and but infinity scrolling will do the content presentation. For more information, check out the <a href="https://eufemia.dnb.no/uilib/components/pagination/infinity-scroller">Infinity Scroller</a>. Defaults to `pagination`.
@@ -662,7 +663,7 @@ export interface InfinityMarkerProps {
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: boolean;
+  skeleton?: SkeletonShow;
 
   /**
    * If set to `infinity`, then the pagination bar will be now shown and but infinity scrolling will do the content presentation. For more information, check out the <a href="https://eufemia.dnb.no/uilib/components/pagination/infinity-scroller">Infinity Scroller</a>. Defaults to `pagination`.

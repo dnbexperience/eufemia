@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { SkeletonShow } from '../Skeleton';
 import AccordionContent from './AccordionContent';
 import AccordionHeader from './AccordionHeader';
 import AccordionProvider from './AccordionProvider';
@@ -132,7 +133,7 @@ export interface AccordionProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: boolean;
+  skeleton?: SkeletonShow;
 
   /**
    * A unique `id` that will be used on the button element. If you use `remember_state`, an id is required.

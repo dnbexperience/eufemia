@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { SkeletonShow } from '../Skeleton';
 export type IconPrimaryIcon =
   | string
   | React.ReactNode
@@ -122,7 +123,7 @@ export interface IconPrimaryProps
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: boolean;
+  skeleton?: SkeletonShow;
   attributes?: IconPrimaryAttributes;
   className?: string;
   children?: IconPrimaryChildren;

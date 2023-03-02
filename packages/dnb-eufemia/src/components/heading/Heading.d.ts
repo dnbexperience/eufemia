@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { SkeletonShow } from '../Skeleton';
 export type HeadingText = React.ReactNode | ((...args: any[]) => any);
 export type HeadingSize =
   | 'auto'
@@ -103,7 +104,7 @@ export interface HeadingProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: boolean;
+  skeleton?: SkeletonShow;
 
   /**
    * Define what HTML element should be used. If you use, e.g. a `span`, then `role="heading"` and `aria-level` gets set. Defaults to semantic heading element.

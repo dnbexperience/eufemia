@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { SkeletonShow } from '../Skeleton';
 export type AccordionGroupVariant =
   | 'plain'
   | 'default'
@@ -52,7 +53,7 @@ export interface AccordionGroupProps extends React.HTMLProps<HTMLElement> {
   left_component?: React.ReactNode;
   allow_close_all?: boolean;
   disabled?: boolean;
-  skeleton?: boolean;
+  skeleton?: SkeletonShow;
   id?: string;
   group?: string;
   element?: React.ReactNode;

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { SectionSpacing, SectionStyleTypes } from '../Section';
+import { SkeletonShow } from '../Skeleton';
 export type FormSetLabel =
   | string
   | ((...args: any[]) => any)
@@ -62,7 +63,7 @@ export interface FormSetProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true`, it enables skeleton for nested components. Defaults to `false`.
    */
-  skeleton?: boolean;
+  skeleton?: SkeletonShow;
 
   /**
    * If set to `true`, components inside can&#39;t cause a page refresh. The event `on_submit` will still be triggered. Defaults to `false`.

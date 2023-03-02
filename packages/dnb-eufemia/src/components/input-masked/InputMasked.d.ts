@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { SkeletonShow } from '../Skeleton';
 export type InputMaskedMask =
   | Record<string, unknown>
   | any[]
@@ -290,7 +291,7 @@ export interface InputMaskedProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: boolean;
+  skeleton?: SkeletonShow;
   class?: string;
 
   /**

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { SkeletonShow } from '../Skeleton';
 export type TextareaLabel =
   | string
   | ((...args: any[]) => any)
@@ -130,7 +131,7 @@ export interface TextareaProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: boolean;
+  skeleton?: SkeletonShow;
 
   /**
    * Use `true` to make the Textarea grow and shrink depending on how many lines the user has filled.

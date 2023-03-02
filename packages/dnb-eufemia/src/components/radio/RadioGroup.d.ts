@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { SkeletonShow } from '../Skeleton';
 export type RadioGroupLabel =
   | string
   | ((...args: any[]) => any)
@@ -58,7 +59,7 @@ export interface RadioGroupProps extends React.HTMLProps<HTMLElement> {
   title?: string;
   no_fieldset?: boolean;
   disabled?: boolean;
-  skeleton?: boolean;
+  skeleton?: SkeletonShow;
   id?: string;
   name?: string;
 

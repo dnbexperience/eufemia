@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { SkeletonShow } from '../Skeleton';
 export type GlobalStatusTitle = React.ReactNode | boolean;
 export type GlobalStatusText =
   | string
@@ -132,7 +133,7 @@ export interface GlobalStatusProps extends React.HTMLProps<HTMLElement> {
    * Defines the anchor text showing up after every item, in case there is a `status_id` defined. Defaults to `Gå til %s`. The `%s` represents the optional and internal handled label addition.
    */
   status_anchor_text?: React.ReactNode;
-  skeleton?: boolean;
+  skeleton?: SkeletonShow;
 
   /**
    * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.

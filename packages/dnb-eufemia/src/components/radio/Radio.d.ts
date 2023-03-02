@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { SkeletonShow } from '../Skeleton';
 import RadioGroup from './RadioGroup';
 export type RadioLabel =
   | string
@@ -96,7 +97,7 @@ export interface RadioProps extends React.HTMLProps<HTMLElement> {
    */
   value?: string;
   attributes?: RadioAttributes;
-  skeleton?: boolean;
+  skeleton?: SkeletonShow;
   readOnly?: boolean;
   space?: RadioSpace;
   top?: RadioTop;

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { SkeletonShow } from '../Skeleton';
 export type DatePickerInputSize = 'default' | 'small' | 'medium' | 'large';
 export type DatePickerInputStatus =
   | string
@@ -58,7 +59,7 @@ export interface DatePickerInputProps
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: boolean;
+  skeleton?: SkeletonShow;
 
   /**
    * To open the date-picker by default. Defaults to `false`.

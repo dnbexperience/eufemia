@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { SkeletonShow } from '../Skeleton';
 import ToggleButtonGroup from './ToggleButtonGroup';
 export type ToggleButtonLabel =
   | string
@@ -89,7 +90,7 @@ export interface ToggleButtonProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: boolean;
+  skeleton?: SkeletonShow;
   id?: string;
 
   /**

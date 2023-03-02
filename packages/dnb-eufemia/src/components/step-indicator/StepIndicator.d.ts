@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { SpacingProps } from '../../shared/types';
+import { SkeletonShow } from '../Skeleton';
 import StepIndicatorSidebar from './StepIndicatorSidebar';
 export type StepIndicatorMode = 'static' | 'strict' | 'loose';
 export type StepIndicatorData =
@@ -82,7 +83,7 @@ export interface StepIndicatorProps
    * If set to `true`, the height animation on the step items and the drawer button will be omitted. Defaults to false.
    */
   no_animation?: boolean;
-  skeleton?: boolean;
+  skeleton?: SkeletonShow;
 
   class?: string;
   className?: string;

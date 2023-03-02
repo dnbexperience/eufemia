@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { SkeletonShow } from '../Skeleton';
 export type FormStatusText =
   | string
   | boolean
@@ -117,7 +118,7 @@ export interface FormStatusProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: boolean;
+  skeleton?: SkeletonShow;
 
   /**
    * If set to `true`, then the FormStatus will be 100% in available `width`. "NB:" Only use this on independent status messages.

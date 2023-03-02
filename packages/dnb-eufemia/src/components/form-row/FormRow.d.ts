@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { SectionSpacing, SectionStyleTypes } from '../Section';
+import { SkeletonShow } from '../Skeleton';
 export type FormRowLabel =
   | string
   | ((...args: any[]) => any)
@@ -122,7 +123,7 @@ export interface FormRowProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true`, it enables skeleton for nested components. Defaults to `false`.
    */
-  skeleton?: boolean;
+  skeleton?: SkeletonShow;
   class?: string;
   skipContentWrapperIfNested?: boolean;
 

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { SkeletonShow } from '../Skeleton';
 export type AccordionHeaderTitleSpace =
   | string
   | number
@@ -161,7 +162,7 @@ export interface AccordionHeaderProps
   icon_position?: AccordionHeaderIconPosition;
   icon_size?: string;
   disabled?: boolean;
-  skeleton?: boolean;
+  skeleton?: SkeletonShow;
   no_animation?: boolean;
   space?: AccordionHeaderSpace;
   top?: AccordionHeaderTop;

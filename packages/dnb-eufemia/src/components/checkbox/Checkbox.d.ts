@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { SkeletonShow } from '../Skeleton';
 export type CheckboxLabel =
   | string
   | ((...args: any[]) => any)
@@ -115,7 +116,7 @@ export interface CheckboxProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: boolean;
+  skeleton?: SkeletonShow;
   class?: string;
 
   /**

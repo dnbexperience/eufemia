@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { SkeletonShow } from '../Skeleton';
 export type InputSize = 'default' | 'small' | 'medium' | 'large' | number;
 export type InputValue = string | number;
 export type InputLabel =
@@ -184,7 +185,7 @@ export interface InputProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: boolean;
+  skeleton?: SkeletonShow;
   class?: string;
 
   /**

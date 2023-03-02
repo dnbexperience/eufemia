@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { SkeletonShow } from '../Skeleton';
 export type FormLabelText =
   | string
   | ((...args: any[]) => any)
@@ -68,7 +69,7 @@ export interface FormLabelProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: boolean;
+  skeleton?: SkeletonShow;
   label_direction?: FormLabelLabelDirection;
 
   /**

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { SkeletonShow } from '../components/skeleton/Skeleton';
 export type ImgSpace =
   | string
   | number
@@ -26,7 +27,7 @@ export interface ImgProps extends React.HTMLProps<HTMLElement> {
   left?: ImgLeft;
   src: string;
   alt: string;
-  skeleton?: boolean;
+  skeleton?: SkeletonShow;
   className?: ImgClassName;
   class?: string;
   img_class?: string;

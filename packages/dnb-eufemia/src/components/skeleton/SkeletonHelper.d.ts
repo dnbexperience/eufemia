@@ -37,6 +37,6 @@ export interface skeletonDOMAttributesContext {
 }
 export const skeletonDOMAttributes: (
   params: React.HTMLProps<HTMLElement>,
-  skeleton: boolean,
+  skeleton: SkeletonShow,
   context?: SkeletonContextProps
 ) => void;

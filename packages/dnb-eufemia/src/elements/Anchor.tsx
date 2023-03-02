@@ -12,6 +12,7 @@ import {
   extendPropsWithContext,
 } from '../shared/component-helper'
 import Tooltip from '../components/tooltip/Tooltip'
+import { SkeletonShow } from '../components/skeleton/Skeleton'
 import { SpacingProps } from '../shared/types'
 
 export type AnchorProps = {
@@ -21,7 +22,7 @@ export type AnchorProps = {
   targetBlankTitle?: string
   target?: string
   tooltip?: React.ReactNode
-  skeleton?: boolean
+  skeleton?: SkeletonShow
   omitClass?: boolean
   innerRef?: React.RefObject<HTMLAnchorElement>
 

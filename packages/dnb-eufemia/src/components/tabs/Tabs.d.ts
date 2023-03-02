@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { SectionSpacing, SectionStyleTypes } from '../Section';
+import { SkeletonShow } from '../Skeleton';
 import ContentWrapper from './TabsContentWrapper';
 import CustomContent from './TabsCustomContent';
 export type TabsData =
@@ -134,7 +135,7 @@ export interface TabsProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: boolean;
+  skeleton?: SkeletonShow;
   id?: string;
 
   /**
