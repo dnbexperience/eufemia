@@ -4,24 +4,18 @@ export type RadioGroupLabel =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type RadioGroupLabelDirection = 'horizontal' | 'vertical';
-export type RadioGroupLabelSrOnly = boolean;
 export type RadioGroupLabelPosition = 'left' | 'right';
-export type RadioGroupNoFieldset = boolean;
-export type RadioGroupDisabled = boolean;
-export type RadioGroupSkeleton = boolean;
 export type RadioGroupSize = 'default' | 'medium' | 'large';
 export type RadioGroupStatus =
   | string
   | boolean
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type RadioGroupStatusNoAnimation = boolean;
 export type RadioGroupSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type RadioGroupLayoutDirection = 'column' | 'row';
-export type RadioGroupVertical = boolean;
 export type RadioGroupAttributes = string | Record<string, unknown>;
 export type RadioGroupSpace =
   | string
@@ -55,16 +49,16 @@ export interface RadioGroupProps extends React.HTMLProps<HTMLElement> {
   /**
    * Use `true` to make the label only readable by screen readers.
    */
-  label_sr_only?: RadioGroupLabelSrOnly;
+  label_sr_only?: boolean;
 
   /**
    * Defines the position of the `label`. Use either `left` or `right`. Defaults to `right`.
    */
   label_position?: RadioGroupLabelPosition;
   title?: string;
-  no_fieldset?: RadioGroupNoFieldset;
-  disabled?: RadioGroupDisabled;
-  skeleton?: RadioGroupSkeleton;
+  no_fieldset?: boolean;
+  disabled?: boolean;
+  skeleton?: boolean;
   id?: string;
   name?: string;
 
@@ -87,7 +81,7 @@ export interface RadioGroupProps extends React.HTMLProps<HTMLElement> {
    * Use an object to define additional FormStatus properties.
    */
   status_props?: Record<string, unknown>;
-  status_no_animation?: RadioGroupStatusNoAnimation;
+  status_no_animation?: boolean;
 
   /**
    * The `status_id` used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
@@ -95,7 +89,7 @@ export interface RadioGroupProps extends React.HTMLProps<HTMLElement> {
   global_status_id?: string;
   suffix?: RadioGroupSuffix;
   layout_direction?: RadioGroupLayoutDirection;
-  vertical?: RadioGroupVertical;
+  vertical?: boolean;
 
   /**
    * <em>(required)</em> defines the `value` as a string. Use it to get the value during the `on_change` event listener callback in the "RadioGroup".

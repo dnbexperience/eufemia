@@ -4,24 +4,18 @@ export type RadioLabel =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type RadioLabelSrOnly = boolean;
 export type RadioLabelPosition = 'left' | 'right';
-export type RadioChecked = boolean;
-export type RadioDisabled = boolean;
 export type RadioSize = 'default' | 'medium' | 'large';
 export type RadioStatus =
   | string
   | boolean
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type RadioStatusNoAnimation = boolean;
 export type RadioSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type RadioAttributes = string | Record<string, unknown>;
-export type RadioSkeleton = boolean;
-export type RadioReadOnly = boolean;
 export type RadioSpace =
   | string
   | number
@@ -50,7 +44,7 @@ export interface RadioProps extends React.HTMLProps<HTMLElement> {
   /**
    * Use `true` to make the label only readable by screen readers.
    */
-  label_sr_only?: RadioLabelSrOnly;
+  label_sr_only?: boolean;
 
   /**
    * Defines the position of the `label`. Use either `left` or `right`. Defaults to `right`.
@@ -60,8 +54,8 @@ export interface RadioProps extends React.HTMLProps<HTMLElement> {
   /**
    * Determine whether the radio is checked or not. Default will be `false`.
    */
-  checked?: RadioChecked;
-  disabled?: RadioDisabled;
+  checked?: boolean;
+  disabled?: boolean;
   id?: string;
   element?: React.ReactNode;
 
@@ -102,8 +96,8 @@ export interface RadioProps extends React.HTMLProps<HTMLElement> {
    */
   value?: string;
   attributes?: RadioAttributes;
-  skeleton?: RadioSkeleton;
-  readOnly?: RadioReadOnly;
+  skeleton?: boolean;
+  readOnly?: boolean;
   space?: RadioSpace;
   top?: RadioTop;
   right?: RadioRight;

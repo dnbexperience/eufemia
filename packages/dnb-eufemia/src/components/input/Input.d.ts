@@ -6,24 +6,16 @@ export type InputLabel =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type InputLabelDirection = 'horizontal' | 'vertical';
-export type InputLabelSrOnly = boolean;
 export type InputStatus =
   | string
   | boolean
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type InputStatusNoAnimation = boolean;
-export type InputClear = boolean;
-export type InputKeepPlaceholder = boolean;
 export type InputSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type InputAlign = 'left' | 'center' | 'right';
-export type InputSelectall = boolean;
-export type InputStretch = boolean;
-export type InputDisabled = boolean;
-export type InputSkeleton = boolean;
 export type InputInputAttributes = string | Record<string, unknown>;
 export type InputInputElement =
   | ((...args: any[]) => any)
@@ -37,7 +29,6 @@ export type InputIconPosition = 'left' | 'right';
 export type InputInnerRef =
   | ((...args: any[]) => any)
   | Record<string, unknown>;
-export type InputReadOnly = boolean;
 export type InputSubmitElement =
   | ((...args: any[]) => any)
   | React.ReactNode;
@@ -115,7 +106,7 @@ export interface InputProps extends React.HTMLProps<HTMLElement> {
   /**
    * Use `true` to make the label only readable by screen readers.
    */
-  label_sr_only?: InputLabelSrOnly;
+  label_sr_only?: boolean;
 
   /**
    * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
@@ -131,7 +122,7 @@ export interface InputProps extends React.HTMLProps<HTMLElement> {
    * Use an object to define additional FormStatus properties.
    */
   status_props?: Record<string, unknown>;
-  status_no_animation?: InputStatusNoAnimation;
+  status_no_animation?: boolean;
 
   /**
    * Defines a custom visual state of the input. Use it only if you have to simulate a custom state. Currently are three statuses `virgin` , `focus` and `dirty`. Defaults to `null`.
@@ -162,12 +153,12 @@ export interface InputProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true`, then a clear button will be shown which lets the user clear any given input value.
    */
-  clear?: InputClear;
+  clear?: boolean;
 
   /**
    * Set to `true` in case the `placeholder` has to be kept during focus. By default, the placeholder disappears on focus.
    */
-  keep_placeholder?: InputKeepPlaceholder;
+  keep_placeholder?: boolean;
 
   /**
    * Text describing the content of the input more than the label. You can also send in a React component, so it gets wrapped inside the Input component.
@@ -182,18 +173,18 @@ export interface InputProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true`, then the whole input value gets selected on the entry focus. A second click will place the cursor on the wanted position.
    */
-  selectall?: InputSelectall;
+  selectall?: boolean;
 
   /**
    * If set to `true`, then the input field will be 100% in `width`.
    */
-  stretch?: InputStretch;
-  disabled?: InputDisabled;
+  stretch?: boolean;
+  disabled?: boolean;
 
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: InputSkeleton;
+  skeleton?: boolean;
   class?: string;
 
   /**
@@ -230,7 +221,7 @@ export interface InputProps extends React.HTMLProps<HTMLElement> {
    * By providing a React.ref we can get the internally used input element (DOM). E.g. `inner_ref={myRef}` by using `React.createRef()` or `React.useRef()`.
    */
   inner_ref?: InputInnerRef;
-  readOnly?: InputReadOnly;
+  readOnly?: boolean;
 
   /**
    * <em>(internal)</em> by providing a new component to be rendered inside the "shell" – we can add a freely customizable internal element. Used by the Autocomplete component.

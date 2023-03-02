@@ -1,21 +1,9 @@
 import * as React from 'react';
-export type AccordionGroupExpanded = boolean;
-export type AccordionGroupNoAnimation = boolean;
-export type AccordionGroupExpandedSsr = boolean;
-export type AccordionGroupPrerender = boolean;
-export type AccordionGroupPreventRerender = boolean;
-export type AccordionGroupPreventRerenderConditional = boolean;
-export type AccordionGroupRememberState = boolean;
-export type AccordionGroupFlushRememberedState = boolean;
-export type AccordionGroupSingleContainer = boolean;
 export type AccordionGroupVariant =
   | 'plain'
   | 'default'
   | 'outlined'
   | 'filled';
-export type AccordionGroupAllowCloseAll = boolean;
-export type AccordionGroupDisabled = boolean;
-export type AccordionGroupSkeleton = boolean;
 export type AccordionGroupHeading = boolean | React.ReactNode;
 export type AccordionGroupHeadingLevel = string | number;
 export type AccordionGroupIcon =
@@ -50,21 +38,21 @@ export type AccordionGroupLeft = string | number | boolean;
 
 export interface AccordionGroupProps extends React.HTMLProps<HTMLElement> {
   title?: React.ReactNode;
-  expanded?: AccordionGroupExpanded;
-  no_animation?: AccordionGroupNoAnimation;
-  expanded_ssr?: AccordionGroupExpandedSsr;
-  prerender?: AccordionGroupPrerender;
-  prevent_rerender?: AccordionGroupPreventRerender;
-  prevent_rerender_conditional?: AccordionGroupPreventRerenderConditional;
-  remember_state?: AccordionGroupRememberState;
+  expanded?: boolean;
+  no_animation?: boolean;
+  expanded_ssr?: boolean;
+  prerender?: boolean;
+  prevent_rerender?: boolean;
+  prevent_rerender_conditional?: boolean;
+  remember_state?: boolean;
   contentRef?: Record<string, unknown>;
-  flush_remembered_state?: AccordionGroupFlushRememberedState;
-  single_container?: AccordionGroupSingleContainer;
+  flush_remembered_state?: boolean;
+  single_container?: boolean;
   variant?: AccordionGroupVariant;
   left_component?: React.ReactNode;
-  allow_close_all?: AccordionGroupAllowCloseAll;
-  disabled?: AccordionGroupDisabled;
-  skeleton?: AccordionGroupSkeleton;
+  allow_close_all?: boolean;
+  disabled?: boolean;
+  skeleton?: boolean;
   id?: string;
   group?: string;
   element?: React.ReactNode;

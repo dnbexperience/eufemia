@@ -4,25 +4,18 @@ export type TextareaLabel =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type TextareaLabelDirection = 'horizontal' | 'vertical';
-export type TextareaLabelSrOnly = boolean;
 export type TextareaStatus =
   | string
   | boolean
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type TextareaStatusNoAnimation = boolean;
 export type TextareaSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type TextareaAlign = 'left' | 'right';
-export type TextareaStretch = boolean;
-export type TextareaDisabled = boolean;
-export type TextareaSkeleton = boolean;
-export type TextareaAutoresize = boolean;
 export type TextareaAutoresizeMaxRows = string | number;
 export type TextareaTextareaAttributes = string | Record<string, unknown>;
-export type TextareaReadOnly = boolean;
 export type TextareaRows = number | string;
 export type TextareaCols = number | string;
 export type TextareaInnerRef =
@@ -85,7 +78,7 @@ export interface TextareaProps extends React.HTMLProps<HTMLElement> {
   /**
    * Use `true` to make the label only readable by screen readers.
    */
-  label_sr_only?: TextareaLabelSrOnly;
+  label_sr_only?: boolean;
 
   /**
    * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
@@ -106,7 +99,7 @@ export interface TextareaProps extends React.HTMLProps<HTMLElement> {
    * Use an object to define additional FormStatus properties.
    */
   status_props?: Record<string, unknown>;
-  status_no_animation?: TextareaStatusNoAnimation;
+  status_no_animation?: boolean;
 
   /**
    * The `status_id` used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
@@ -131,18 +124,18 @@ export interface TextareaProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true`, then the Textarea field will be 100% in `width`.
    */
-  stretch?: TextareaStretch;
-  disabled?: TextareaDisabled;
+  stretch?: boolean;
+  disabled?: boolean;
 
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: TextareaSkeleton;
+  skeleton?: boolean;
 
   /**
    * Use `true` to make the Textarea grow and shrink depending on how many lines the user has filled.
    */
-  autoresize?: TextareaAutoresize;
+  autoresize?: boolean;
 
   /**
    * Set a number to define how many rows the Textarea can auto grow.
@@ -159,7 +152,7 @@ export interface TextareaProps extends React.HTMLProps<HTMLElement> {
    * Provide the Textarea element with any attributes by using an Object `textarea_attributes={{size:&#39;2&#39;}}` or a JSON Object `textarea_attributes=&#39;{"size":"2"}&#39;`. "NB:" Keep in mind, that also every not listed component property will be sent along and set as a Textarea element attribute.
    */
   textarea_attributes?: TextareaTextareaAttributes;
-  readOnly?: TextareaReadOnly;
+  readOnly?: boolean;
   rows?: TextareaRows;
   cols?: TextareaCols;
 

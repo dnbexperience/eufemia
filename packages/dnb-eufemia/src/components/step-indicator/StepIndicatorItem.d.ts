@@ -1,6 +1,5 @@
 import * as React from 'react';
 export type StepIndicatorItemTitle = string | React.ReactNode;
-export type StepIndicatorItemHideNumbers = boolean;
 export type StepIndicatorItemStatus = string | React.ReactNode;
 export type StepIndicatorItemStatusState = 'warn' | 'info' | 'error';
 /**
@@ -19,7 +18,7 @@ export interface StepIndicatorItemProps
   /**
    * Define whether to show automatically counted numbers or not. Defaults to `false`.
    */
-  hide_numbers?: StepIndicatorItemHideNumbers;
+  hide_numbers?: boolean;
 
   /**
    * Callback function to manipulate or wrap every item. Has to return a React Node. You receive an object you can use in your custom HOC `{ StepItem, element, attributes, props, context }`.

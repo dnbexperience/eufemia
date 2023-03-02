@@ -21,14 +21,6 @@ export type TabsTabElement =
   | ((...args: any[]) => any);
 export type TabsSelectedKey = string | number;
 export type TabsAlign = 'left' | 'center' | 'right';
-export type TabsTabsSpacing = boolean;
-export type TabsNoBorder = boolean;
-export type TabsNavButtonEdge = boolean;
-export type TabsUseHash = boolean;
-export type TabsPrerender = boolean;
-export type TabsPreventRerender = boolean;
-export type TabsScroll = boolean;
-export type TabsSkeleton = boolean;
 export type TabsSpace =
   | string
   | number
@@ -111,38 +103,38 @@ export interface TabsProps extends React.HTMLProps<HTMLElement> {
   /**
    * To modify the `spacing` inside the tab list. Defaults to `null`.
    */
-  tabs_spacing?: TabsTabsSpacing;
+  tabs_spacing?: boolean;
 
   /**
    * If set to `true`, the default horizontal border line under the tablist will be removed. Defaults to `false`.
    */
-  no_border?: TabsNoBorder;
+  no_border?: boolean;
 
   /**
    * If set to `true`, the navigation icons will have a straight border at their outside. This feature is meant to be used when the Tabs component goes all the way to the browser window. Defaults to `false`.
    */
-  nav_button_edge?: TabsNavButtonEdge;
-  use_hash?: TabsUseHash;
+  nav_button_edge?: boolean;
+  use_hash?: boolean;
 
   /**
    * If set to `true`, the Tabs content will pre-render all contents. The visibility will be handled by using the `hidden` and `aria-hidden` HTML attributes. Defaults to `false`.
    */
-  prerender?: TabsPrerender;
+  prerender?: boolean;
 
   /**
    * If set to `true`, the Tabs content will stay in the DOM. The visibility will be handled by using the `hidden` and `aria-hidden` HTML attributes. Similar to `prerender`, but in contrast, the content will render once the user is activating a tab. Defaults to `false`.
    */
-  prevent_rerender?: TabsPreventRerender;
+  prevent_rerender?: boolean;
 
   /**
    * If set to `true`, the content will scroll on tab change, until all tabs will be visible on the upper side of the browser window view. Defaults to `false`.
    */
-  scroll?: TabsScroll;
+  scroll?: boolean;
 
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: TabsSkeleton;
+  skeleton?: boolean;
   id?: string;
 
   /**

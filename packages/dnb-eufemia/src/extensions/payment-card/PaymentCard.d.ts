@@ -14,7 +14,6 @@ export interface PaymentCardRawData {
   cardType: Record<string, unknown>;
   productType: Record<string, unknown>;
 }
-export type PaymentCardSkeleton = boolean;
 export type PaymentCardSpace =
   | string
   | number
@@ -92,7 +91,7 @@ export interface PaymentCardProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: PaymentCardSkeleton;
+  skeleton?: boolean;
 
   /**
    * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.

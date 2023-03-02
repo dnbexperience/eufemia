@@ -127,9 +127,6 @@ export type AccordionHeaderIcon =
       expanded?: React.ReactNode | ((...args: any[]) => any);
     };
 export type AccordionHeaderIconPosition = 'left' | 'right';
-export type AccordionHeaderDisabled = boolean;
-export type AccordionHeaderSkeleton = boolean;
-export type AccordionHeaderNoAnimation = boolean;
 export type AccordionHeaderSpace =
   | string
   | number
@@ -163,9 +160,9 @@ export interface AccordionHeaderProps
   icon?: AccordionHeaderIcon;
   icon_position?: AccordionHeaderIconPosition;
   icon_size?: string;
-  disabled?: AccordionHeaderDisabled;
-  skeleton?: AccordionHeaderSkeleton;
-  no_animation?: AccordionHeaderNoAnimation;
+  disabled?: boolean;
+  skeleton?: boolean;
+  no_animation?: boolean;
   space?: AccordionHeaderSpace;
   top?: AccordionHeaderTop;
   right?: AccordionHeaderRight;

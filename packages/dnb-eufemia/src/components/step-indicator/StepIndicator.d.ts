@@ -23,9 +23,6 @@ export type StepIndicatorTitle = string | React.ReactNode;
 export type StepIndicatorStatus = string | React.ReactNode;
 export type StepIndicatorStatusState = 'warn' | 'info' | 'error';
 export type StepIndicatorCurrentStep = string | number;
-export type StepIndicatorHideNumbers = boolean;
-export type StepIndicatorNoAnimation = boolean;
-export type StepIndicatorSkeleton = boolean;
 export type StepIndicatorChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
@@ -74,7 +71,7 @@ export interface StepIndicatorProps
   /**
    * Define whether to show automatically counted numbers or not. Defaults to `false`.
    */
-  hide_numbers?: StepIndicatorHideNumbers;
+  hide_numbers?: boolean;
 
   /**
    * Callback function to manipulate or wrap every item. Has to return a React Node. You receive an object you can use in your custom HOC `{ StepItem, element, attributes, props, context }`.
@@ -84,8 +81,8 @@ export interface StepIndicatorProps
   /**
    * If set to `true`, the height animation on the step items and the drawer button will be omitted. Defaults to false.
    */
-  no_animation?: StepIndicatorNoAnimation;
-  skeleton?: StepIndicatorSkeleton;
+  no_animation?: boolean;
+  skeleton?: boolean;
 
   class?: string;
   className?: string;

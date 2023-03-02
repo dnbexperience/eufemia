@@ -4,23 +4,16 @@ export type ToggleButtonGroupLabel =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type ToggleButtonGroupLabelDirection = 'horizontal' | 'vertical';
-export type ToggleButtonGroupLabelSrOnly = boolean;
-export type ToggleButtonGroupMultiselect = boolean;
 export type ToggleButtonGroupVariant = 'default' | 'checkbox' | 'radio';
-export type ToggleButtonGroupNoFieldset = boolean;
-export type ToggleButtonGroupDisabled = boolean;
-export type ToggleButtonGroupSkeleton = boolean;
 export type ToggleButtonGroupStatus =
   | string
   | boolean
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type ToggleButtonGroupStatusNoAnimation = boolean;
 export type ToggleButtonGroupSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type ToggleButtonGroupVertical = boolean;
 export type ToggleButtonGroupLayoutDirection = 'column' | 'row';
 export type ToggleButtonGroupValue =
   | string
@@ -73,22 +66,22 @@ export interface ToggleButtonGroupProps
    */
   label?: ToggleButtonGroupLabel;
   label_direction?: ToggleButtonGroupLabelDirection;
-  label_sr_only?: ToggleButtonGroupLabelSrOnly;
+  label_sr_only?: boolean;
 
   /**
    * The `title` of the input - describing it a bit further for accessibility reasons.
    */
   title?: string;
-  multiselect?: ToggleButtonGroupMultiselect;
+  multiselect?: boolean;
   variant?: ToggleButtonGroupVariant;
   left_component?: React.ReactNode;
-  no_fieldset?: ToggleButtonGroupNoFieldset;
-  disabled?: ToggleButtonGroupDisabled;
+  no_fieldset?: boolean;
+  disabled?: boolean;
 
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: ToggleButtonGroupSkeleton;
+  skeleton?: boolean;
   id?: string;
   name?: string;
 
@@ -106,7 +99,7 @@ export interface ToggleButtonGroupProps
    * Use an object to define additional FormStatus properties.
    */
   status_props?: Record<string, unknown>;
-  status_no_animation?: ToggleButtonGroupStatusNoAnimation;
+  status_no_animation?: boolean;
 
   /**
    * The `status_id` used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
@@ -117,7 +110,7 @@ export interface ToggleButtonGroupProps
    * Text describing the content of the ToggleButton more than the label. You can also send in a React component, so it gets wrapped inside the ToggleButton component.
    */
   suffix?: ToggleButtonGroupSuffix;
-  vertical?: ToggleButtonGroupVertical;
+  vertical?: boolean;
   layout_direction?: ToggleButtonGroupLayoutDirection;
 
   /**

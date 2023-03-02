@@ -1,13 +1,6 @@
 import * as React from 'react';
-export type DrawerListScrollable = boolean;
-export type DrawerListFocusable = boolean;
 export type DrawerListDirection = 'auto' | 'top' | 'bottom';
 export type DrawerListSize = 'default' | 'small' | 'medium' | 'large';
-export type DrawerListNoAnimation = boolean;
-export type DrawerListNoScrollAnimation = boolean;
-export type DrawerListPreventSelection = boolean;
-export type DrawerListActionMenu = boolean;
-export type DrawerListIsPopup = boolean;
 export type DrawerListAlignDrawer = 'left' | 'right';
 export type DrawerListOptionsRender =
   | Record<string, unknown>
@@ -19,14 +12,6 @@ export type DrawerListWrapperElement =
   | React.ReactNode;
 export type DrawerListDefaultValue = string | number;
 export type DrawerListValue = string | number;
-export type DrawerListSkipPortal = boolean;
-export type DrawerListPreventClose = boolean;
-export type DrawerListIndependentWidth = boolean;
-export type DrawerListFixedPosition = boolean;
-export type DrawerListKeepOpen = boolean;
-export type DrawerListPreventFocus = boolean;
-export type DrawerListSkipKeysearch = boolean;
-export type DrawerListOpened = boolean;
 export type DrawerListData =
   | string
   | ((...args: any[]) => any)
@@ -48,7 +33,6 @@ export type DrawerListRawData =
   | any[]
   | Record<string, unknown>
   | ((...args: any[]) => any);
-export type DrawerListIgnoreEvents = boolean;
 export type DrawerListSpace =
   | string
   | number
@@ -79,31 +63,31 @@ export interface DrawerListProps extends React.HTMLProps<HTMLElement> {
   role?: string;
   cache_hash?: string;
   triangle_position?: string;
-  scrollable?: DrawerListScrollable;
-  focusable?: DrawerListFocusable;
+  scrollable?: boolean;
+  focusable?: boolean;
   direction?: DrawerListDirection;
   size?: DrawerListSize;
   max_height?: number;
-  no_animation?: DrawerListNoAnimation;
-  no_scroll_animation?: DrawerListNoScrollAnimation;
-  prevent_selection?: DrawerListPreventSelection;
-  action_menu?: DrawerListActionMenu;
-  is_popup?: DrawerListIsPopup;
+  no_animation?: boolean;
+  no_scroll_animation?: boolean;
+  prevent_selection?: boolean;
+  action_menu?: boolean;
+  is_popup?: boolean;
   align_drawer?: DrawerListAlignDrawer;
   options_render?: DrawerListOptionsRender;
   wrapper_element?: DrawerListWrapperElement;
   default_value?: DrawerListDefaultValue;
   value?: DrawerListValue;
-  skip_portal?: DrawerListSkipPortal;
+  skip_portal?: boolean;
   portal_class?: string;
   list_class?: string;
-  prevent_close?: DrawerListPreventClose;
-  independent_width?: DrawerListIndependentWidth;
-  fixed_position?: DrawerListFixedPosition;
-  keep_open?: DrawerListKeepOpen;
-  prevent_focus?: DrawerListPreventFocus;
-  skip_keysearch?: DrawerListSkipKeysearch;
-  opened?: DrawerListOpened;
+  prevent_close?: boolean;
+  independent_width?: boolean;
+  fixed_position?: boolean;
+  keep_open?: boolean;
+  prevent_focus?: boolean;
+  skip_keysearch?: boolean;
+  opened?: boolean;
   class?: string;
   data?: DrawerListData;
   selected_value?: DrawerListSelectedValue;
@@ -111,7 +95,7 @@ export interface DrawerListProps extends React.HTMLProps<HTMLElement> {
   content?: DrawerListContent;
   prepared_data?: any[];
   raw_data?: DrawerListRawData;
-  ignore_events?: DrawerListIgnoreEvents;
+  ignore_events?: boolean;
   space?: DrawerListSpace;
   top?: DrawerListTop;
   right?: DrawerListRight;

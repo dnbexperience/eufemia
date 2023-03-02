@@ -1,6 +1,5 @@
 import * as React from 'react';
 export type SkeletonShow = boolean;
-export type SkeletonNoAnimation = boolean;
 export type SkeletonStyleType = 'lines' | string;
 export type SkeletonFigure =
   | string
@@ -47,12 +46,12 @@ export interface SkeletonProps extends React.HTMLProps<HTMLElement> {
   /**
    * Use `true` to enable/show the skeleton for the component used inside. Defaults to `false`.
    */
-  show?: SkeletonShow;
+  show?: boolean;
 
   /**
    * Use `true` to disable the animation.
    */
-  no_animation?: SkeletonNoAnimation;
+  no_animation?: boolean;
 
   /**
    * Defines the style type to use (`shine`). Defaults to `lines`.

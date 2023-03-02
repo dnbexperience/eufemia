@@ -3,11 +3,7 @@ export type FormLabelText =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type FormLabelDisabled = boolean;
-export type FormLabelSkeleton = boolean;
 export type FormLabelLabelDirection = 'vertical' | 'horizontal';
-export type FormLabelVertical = boolean;
-export type FormLabelSrOnly = boolean;
 export type FormLabelSpace =
   | string
   | number
@@ -67,19 +63,19 @@ export interface FormLabelProps extends React.HTMLProps<HTMLElement> {
   text?: FormLabelText;
   id?: string;
   class?: string;
-  disabled?: FormLabelDisabled;
+  disabled?: boolean;
 
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: FormLabelSkeleton;
+  skeleton?: boolean;
   label_direction?: FormLabelLabelDirection;
 
   /**
    * Will force both `direction` and `label_direction` to be "vertical" if set to `true`.
    */
-  vertical?: FormLabelVertical;
-  sr_only?: FormLabelSrOnly;
+  vertical?: boolean;
+  sr_only?: boolean;
 
   /**
    * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.

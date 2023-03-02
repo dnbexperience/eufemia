@@ -1,10 +1,5 @@
 import * as React from 'react';
 export type HeadingProviderLevel = number | string;
-export type HeadingProviderIncrease = boolean;
-export type HeadingProviderDecrease = boolean;
-export type HeadingProviderUp = boolean;
-export type HeadingProviderDown = boolean;
-export type HeadingProviderInherit = boolean;
 export type HeadingProviderReset = number | boolean;
 /**
  * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
@@ -19,19 +14,19 @@ export interface HeadingProviderProps
   /**
    * If set to true, the heading level will be incremented by 1.
    */
-  increase?: HeadingProviderIncrease;
+  increase?: boolean;
 
   /**
    * If set to true, the heading level will be decremented by 1.
    */
-  decrease?: HeadingProviderDecrease;
-  up?: HeadingProviderUp;
-  down?: HeadingProviderDown;
+  decrease?: boolean;
+  up?: boolean;
+  down?: boolean;
 
   /**
    * If set to true, the heading last used level will be inherited. Also from inside a level context.
    */
-  inherit?: HeadingProviderInherit;
+  inherit?: boolean;
   counter?: any;
 
   /**

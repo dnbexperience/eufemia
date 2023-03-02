@@ -28,7 +28,6 @@ export type DropdownTop = string | number | boolean;
 export type DropdownRight = string | number | boolean;
 export type DropdownBottom = string | number | boolean;
 export type DropdownLeft = string | number | boolean;
-export type DropdownIsPopup = boolean;
 export type DropdownAlignDrawer = 'left' | 'right';
 export type DropdownOptionsRender =
   | Record<string, unknown>
@@ -38,9 +37,6 @@ export type DropdownWrapperElement =
   | Record<string, unknown>
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type DropdownFixedPosition = boolean;
-export type DropdownPreventFocus = boolean;
-export type DropdownSkipKeysearch = boolean;
 export type DropdownSelectedValue = string | React.ReactNode;
 export type DropdownSuffixValue = string | React.ReactNode;
 export type DropdownContent = string | React.ReactNode | string[];
@@ -48,7 +44,6 @@ export type DropdownRawData =
   | any[]
   | Record<string, unknown>
   | ((...args: any[]) => any);
-export type DropdownIgnoreEvents = boolean;
 export type DropdownPageOffset = string | number;
 export type DropdownObserverElement = string | React.ReactNode;
 export type DropdownMinHeight = string | number;
@@ -70,27 +65,16 @@ export type DropdownLabel =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type DropdownLabelDirection = 'horizontal' | 'vertical';
-export type DropdownLabelSrOnly = boolean;
 export type DropdownStatus =
   | string
   | boolean
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type DropdownStatusNoAnimation = boolean;
 export type DropdownSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type DropdownScrollable = boolean;
-export type DropdownFocusable = boolean;
 export type DropdownDirection = 'auto' | 'top' | 'bottom';
-export type DropdownSkipPortal = boolean;
-export type DropdownNoAnimation = boolean;
-export type DropdownNoScrollAnimation = boolean;
-export type DropdownPreventSelection = boolean;
-export type DropdownMoreMenu = boolean;
-export type DropdownActionMenu = boolean;
-export type DropdownIndependentWidth = boolean;
 export type DropdownSize = 'default' | 'small' | 'medium' | 'large';
 export type DropdownAlignDropdown = 'left' | 'right';
 export type DropdownTriggerElement =
@@ -111,13 +95,6 @@ export type DropdownData =
     )[];
 export type DropdownDefaultValue = string | number;
 export type DropdownValue = string | number;
-export type DropdownOpenOnFocus = boolean;
-export type DropdownPreventClose = boolean;
-export type DropdownKeepOpen = boolean;
-export type DropdownOpened = boolean;
-export type DropdownDisabled = boolean;
-export type DropdownStretch = boolean;
-export type DropdownSkeleton = boolean;
 export type DropdownChildren =
   | string
   | ((...args: any[]) => any)
@@ -159,7 +136,7 @@ export interface DropdownProps extends React.HTMLProps<HTMLElement> {
    * Set a `cache_hash` as a string to enable internal memorizing of the list to enhance rerendering performance. Components like Autocomplete is using this because of the huge data changes due to search and reorder. Defaults to `null`.
    */
   cache_hash?: string;
-  is_popup?: DropdownIsPopup;
+  is_popup?: boolean;
 
   /**
    * Use `right` to change the options alignment direction. Makes only sense to use in combination with `prevent_selection` or `more_menu` - or if a independent width is used. Defaults to `left`.
@@ -180,13 +157,13 @@ export interface DropdownProps extends React.HTMLProps<HTMLElement> {
    * Define a HTML class that will be set on the list, beside `dnb-drawer-list__list`.
    */
   list_class?: string;
-  fixed_position?: DropdownFixedPosition;
-  prevent_focus?: DropdownPreventFocus;
+  fixed_position?: boolean;
+  prevent_focus?: boolean;
 
   /**
    * If set to true, search items by the first key will be ignored. Defaults to `false`.
    */
-  skip_keysearch?: DropdownSkipKeysearch;
+  skip_keysearch?: boolean;
   selected_value?: DropdownSelectedValue;
   suffix_value?: DropdownSuffixValue;
   content?: DropdownContent;
@@ -196,7 +173,7 @@ export interface DropdownProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to true, all keyboard and mouse events will be ignored. Defaults to `false`.
    */
-  ignore_events?: DropdownIgnoreEvents;
+  ignore_events?: boolean;
   handle_dismiss_focus?: (...args: any[]) => any;
   on_pre_change?: (...args: any[]) => any;
   on_resize?: (...args: any[]) => any;
@@ -265,7 +242,7 @@ export interface DropdownProps extends React.HTMLProps<HTMLElement> {
   /**
    * Use `true` to make the label only readable by screen readers.
    */
-  label_sr_only?: DropdownLabelSrOnly;
+  label_sr_only?: boolean;
 
   /**
    * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
@@ -281,7 +258,7 @@ export interface DropdownProps extends React.HTMLProps<HTMLElement> {
    * Use an object to define additional FormStatus properties.
    */
   status_props?: Record<string, unknown>;
-  status_no_animation?: DropdownStatusNoAnimation;
+  status_no_animation?: boolean;
 
   /**
    * The `status_id` used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
@@ -296,12 +273,12 @@ export interface DropdownProps extends React.HTMLProps<HTMLElement> {
   /**
    * Defines if the options list should be scrollable (the `max-height` is set by default to `50vh`). Defaults to `true`.
    */
-  scrollable?: DropdownScrollable;
+  scrollable?: boolean;
 
   /**
    * If set to true, the element is then focusable by assertive technologies.
    */
-  focusable?: DropdownFocusable;
+  focusable?: boolean;
 
   /**
    * Defines the direction of how the drawer-list shows the options list. Can be `bottom` or `top`. Defaults to `auto`.
@@ -316,7 +293,7 @@ export interface DropdownProps extends React.HTMLProps<HTMLElement> {
   /**
    * To disable the React Portal behavior. Defaults to `false`.
    */
-  skip_portal?: DropdownSkipPortal;
+  skip_portal?: boolean;
 
   /**
    * Define a HTML class that will be set on the DOM portal beside `dnb-drawer-list__portal__style`. Can be useful to handle e.g. a custom `z-index` in relation to a header.
@@ -326,32 +303,32 @@ export interface DropdownProps extends React.HTMLProps<HTMLElement> {
   /**
    * To disable appear/disappear (show/hide) animation. Defaults to `false`.
    */
-  no_animation?: DropdownNoAnimation;
+  no_animation?: boolean;
 
   /**
    * To disable scrolling animation. Defaults to `false`.
    */
-  no_scroll_animation?: DropdownNoScrollAnimation;
+  no_scroll_animation?: boolean;
 
   /**
    * If set to true, the DrawerList will then not make any permanent selection. Defaults to `false`.
    */
-  prevent_selection?: DropdownPreventSelection;
+  prevent_selection?: boolean;
 
   /**
    * Same as `prevent_selection`, but the "selection area" (given title) will not be visible and the icon `more` (three dots) is used. Defaults to `false`.
    */
-  more_menu?: DropdownMoreMenu;
+  more_menu?: boolean;
 
   /**
    * Same as `prevent_selection`, but the DrawerList will be opened from the bottom of the page for mobile devices. Defaults to `false`.
    */
-  action_menu?: DropdownActionMenu;
+  action_menu?: boolean;
 
   /**
    * If set to true, the DrawerList will handle it&#39;s width and position handling independent to the parent/mother element. Defaults to `false`.
    */
-  independent_width?: DropdownIndependentWidth;
+  independent_width?: boolean;
 
   /**
    * Define the height of the Dropdown. Can be set to `small`, `default`, `medium` and `large`. Defaults to `default`.
@@ -386,33 +363,33 @@ export interface DropdownProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true`, the Dropdown will be opened when the users enter the trigger button with a focus action.
    */
-  open_on_focus?: DropdownOpenOnFocus;
+  open_on_focus?: boolean;
 
   /**
    * If set to true, the DrawerList will not close on any events. Defaults to `false`.
    */
-  prevent_close?: DropdownPreventClose;
+  prevent_close?: boolean;
 
   /**
    * If set to true, the DrawerList will close on outside clicks, but not on selection. Defaults to `false`.
    */
-  keep_open?: DropdownKeepOpen;
+  keep_open?: boolean;
 
   /**
    * If set to `true`, the Dropdown will be rendered initially with a visible and accessible data list / options.
    */
-  opened?: DropdownOpened;
-  disabled?: DropdownDisabled;
+  opened?: boolean;
+  disabled?: boolean;
 
   /**
    * If set to `true`, then the dropdown will be 100% in available `width`.
    */
-  stretch?: DropdownStretch;
+  stretch?: boolean;
 
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: DropdownSkeleton;
+  skeleton?: boolean;
   class?: string;
   className?: string;
 

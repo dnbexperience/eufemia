@@ -13,7 +13,6 @@ export type ImgTop = string | number | boolean;
 export type ImgRight = string | number | boolean;
 export type ImgBottom = string | number | boolean;
 export type ImgLeft = string | number | boolean;
-export type ImgSkeleton = boolean;
 export type ImgClassName = string | any | any[];
 /**
  * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
@@ -27,7 +26,7 @@ export interface ImgProps extends React.HTMLProps<HTMLElement> {
   left?: ImgLeft;
   src: string;
   alt: string;
-  skeleton?: ImgSkeleton;
+  skeleton?: boolean;
   className?: ImgClassName;
   class?: string;
   img_class?: string;

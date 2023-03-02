@@ -5,17 +5,12 @@ export type ToggleButtonLabel =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type ToggleButtonLabelDirection = 'horizontal' | 'vertical';
-export type ToggleButtonLabelSrOnly = boolean;
-export type ToggleButtonChecked = boolean;
 export type ToggleButtonVariant = 'default' | 'checkbox' | 'radio';
-export type ToggleButtonDisabled = boolean;
-export type ToggleButtonSkeleton = boolean;
 export type ToggleButtonStatus =
   | string
   | boolean
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type ToggleButtonStatusNoAnimation = boolean;
 export type ToggleButtonSuffix =
   | string
   | ((...args: any[]) => any)
@@ -31,7 +26,6 @@ export type ToggleButtonIcon =
   | ((...args: any[]) => any);
 export type ToggleButtonIconPosition = 'left' | 'right';
 export type ToggleButtonAttributes = string | Record<string, unknown>;
-export type ToggleButtonReadOnly = boolean;
 export type ToggleButtonSpace =
   | string
   | number
@@ -77,7 +71,7 @@ export interface ToggleButtonProps extends React.HTMLProps<HTMLElement> {
    */
   label?: ToggleButtonLabel;
   label_direction?: ToggleButtonLabelDirection;
-  label_sr_only?: ToggleButtonLabelSrOnly;
+  label_sr_only?: boolean;
 
   /**
    * The `title` of the input - describing it a bit further for accessibility reasons.
@@ -87,15 +81,15 @@ export interface ToggleButtonProps extends React.HTMLProps<HTMLElement> {
   /**
    * Determine whether the ToggleButton is checked or not. The default will be `false`.
    */
-  checked?: ToggleButtonChecked;
+  checked?: boolean;
   variant?: ToggleButtonVariant;
   left_component?: React.ReactNode;
-  disabled?: ToggleButtonDisabled;
+  disabled?: boolean;
 
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: ToggleButtonSkeleton;
+  skeleton?: boolean;
   id?: string;
 
   /**
@@ -112,7 +106,7 @@ export interface ToggleButtonProps extends React.HTMLProps<HTMLElement> {
    * Use an object to define additional FormStatus properties.
    */
   status_props?: Record<string, unknown>;
-  status_no_animation?: ToggleButtonStatusNoAnimation;
+  status_no_animation?: boolean;
 
   /**
    * The `status_id` used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
@@ -144,7 +138,7 @@ export interface ToggleButtonProps extends React.HTMLProps<HTMLElement> {
    */
   icon_size?: string;
   attributes?: ToggleButtonAttributes;
-  readOnly?: ToggleButtonReadOnly;
+  readOnly?: boolean;
 
   /**
    * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.

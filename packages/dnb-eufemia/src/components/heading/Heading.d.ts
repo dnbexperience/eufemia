@@ -10,15 +10,9 @@ export type HeadingSize =
   | 'small'
   | 'x-small';
 export type HeadingLevel = number | string;
-export type HeadingIncrease = boolean;
-export type HeadingDecrease = boolean;
-export type HeadingUp = boolean;
-export type HeadingDown = boolean;
 export type HeadingDebug = boolean | ((...args: any[]) => any);
 export type HeadingDebugCounter = boolean | ((...args: any[]) => any);
-export type HeadingInherit = boolean;
 export type HeadingReset = number | boolean;
-export type HeadingSkeleton = boolean;
 export type HeadingSpace =
   | string
   | number
@@ -71,14 +65,14 @@ export interface HeadingProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to true, the heading level will be incremented by 1.
    */
-  increase?: HeadingIncrease;
+  increase?: boolean;
 
   /**
    * If set to true, the heading level will be decremented by 1.
    */
-  decrease?: HeadingDecrease;
-  up?: HeadingUp;
-  down?: HeadingDown;
+  decrease?: boolean;
+  up?: boolean;
+  down?: boolean;
 
   /**
    * If set to true, the heading will not be corrected and warnings will not be shown. Warnings do not show up in "production builds" else either.
@@ -99,7 +93,7 @@ export interface HeadingProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to true, the heading last used level will be inherited. Also from inside a level context.
    */
-  inherit?: HeadingInherit;
+  inherit?: boolean;
 
   /**
    * If set to true, the heading level will be reset to 2. You can give it a custom level if you need to, e.g. `reset(1)`.
@@ -109,7 +103,7 @@ export interface HeadingProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: HeadingSkeleton;
+  skeleton?: boolean;
 
   /**
    * Define what HTML element should be used. If you use, e.g. a `span`, then `role="heading"` and `aria-level` gets set. Defaults to semantic heading element.

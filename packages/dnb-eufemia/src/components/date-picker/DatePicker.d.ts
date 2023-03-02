@@ -7,51 +7,27 @@ export type DatePickerStartMonth = Date | string;
 export type DatePickerEndMonth = Date | string;
 export type DatePickerMinDate = Date | string;
 export type DatePickerMaxDate = Date | string;
-export type DatePickerCorrectInvalidDate = boolean;
-export type DatePickerHideNavigation = boolean;
-export type DatePickerHideNavigationButtons = boolean;
-export type DatePickerHideDays = boolean;
-export type DatePickerOnlyMonth = boolean;
-export type DatePickerHideLastWeek = boolean;
-export type DatePickerDisableAutofocus = boolean;
-export type DatePickerEnableKeyboardNav = boolean;
-export type DatePickerShowInput = boolean;
-export type DatePickerShowSubmitButton = boolean;
-export type DatePickerShowCancelButton = boolean;
-export type DatePickerShowResetButton = boolean;
-export type DatePickerResetDate = boolean;
-export type DatePickerRange = boolean;
-export type DatePickerLink = boolean;
-export type DatePickerSync = boolean;
 export type DatePickerLabel =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type DatePickerLabelDirection = 'horizontal' | 'vertical';
-export type DatePickerLabelSrOnly = boolean;
 export type DatePickerInputElement =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type DatePickerAddonElement = string | React.ReactNode;
 export type DatePickerShortcuts = any[] | ((...args: any[]) => any);
-export type DatePickerDisabled = boolean;
-export type DatePickerStretch = boolean;
-export type DatePickerSkeleton = boolean;
 export type DatePickerSize = 'default' | 'small' | 'medium' | 'large';
 export type DatePickerStatus =
   | string
   | boolean
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type DatePickerStatusNoAnimation = boolean;
 export type DatePickerSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type DatePickerOpened = boolean;
-export type DatePickerPreventClose = boolean;
-export type DatePickerNoAnimation = boolean;
 export type DatePickerDirection = 'auto' | 'top' | 'bottom';
 export type DatePickerAlignPicker = 'auto' | 'left' | 'right';
 export type DatePickerSpace =
@@ -130,7 +106,7 @@ export interface DatePickerProps extends React.HTMLProps<HTMLElement> {
    * To limit a date range to a maximum `end_date`. Defaults to null.
    */
   max_date?: DatePickerMaxDate;
-  correct_invalid_date?: DatePickerCorrectInvalidDate;
+  correct_invalid_date?: boolean;
 
   /**
    * To define the order of the masked placeholder input fields. Defaults to `dd/mm/yyyy`
@@ -155,53 +131,53 @@ export interface DatePickerProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true`, the navigation will be hidden. Defaults to `false`.
    */
-  hide_navigation?: DatePickerHideNavigation;
-  hide_navigation_buttons?: DatePickerHideNavigationButtons;
+  hide_navigation?: boolean;
+  hide_navigation_buttons?: boolean;
 
   /**
    * If set to `true`, the week days will be hidden. Defaults to `false`.
    */
-  hide_days?: DatePickerHideDays;
+  hide_days?: boolean;
 
   /**
    * Use `true` to only show the defined month. Disables the month navigation possibility. Defaults to `false`.
    */
-  only_month?: DatePickerOnlyMonth;
+  only_month?: boolean;
 
   /**
    * Use `true` to only show the last week in the current month if it needs to be shown. The result is that there will mainly be shows five (5) weeks (rows) instead of six (6). Defaults to `false`.
    */
-  hide_last_week?: DatePickerHideLastWeek;
+  hide_last_week?: boolean;
 
   /**
    * Once the date picker gets opened, there is a focus handling to ensure good accessibility. This can be disabled with this property. Defaults to `false`.
    */
-  disable_autofocus?: DatePickerDisableAutofocus;
-  enable_keyboard_nav?: DatePickerEnableKeyboardNav;
+  disable_autofocus?: boolean;
+  enable_keyboard_nav?: boolean;
 
   /**
    * If the input fields with the mask should be visible. Defaults to `false`.
    */
-  show_input?: DatePickerShowInput;
+  show_input?: boolean;
 
   /**
    * If set to `true`, a submit button will be shown. You can change the default text by using `submit_button_text="Ok"`. Defaults to `false`. If the `range` prop is `true`, then the submit button is shown.
    */
-  show_submit_button?: DatePickerShowSubmitButton;
+  show_submit_button?: boolean;
 
   /**
    * If set to `true`, a cancel button will be shown. You can change the default text by using `cancel_button_text="Avbryt"` Defaults to `false`. If the `range` prop is `true`, then the cancel button is shown.
    */
-  show_cancel_button?: DatePickerShowCancelButton;
+  show_cancel_button?: boolean;
 
   /**
    * If set to `true`, a reset button will be shown. You can change the default text by using `reset_button_text="Tilbakestill"` Defaults to `false`.
    */
-  show_reset_button?: DatePickerShowResetButton;
+  show_reset_button?: boolean;
   submit_button_text?: string;
   cancel_button_text?: string;
   reset_button_text?: string;
-  reset_date?: DatePickerResetDate;
+  reset_date?: boolean;
 
   /**
    * To define the first day of the week. Defaults to `monday`.
@@ -216,17 +192,17 @@ export interface DatePickerProps extends React.HTMLProps<HTMLElement> {
   /**
    * If the date picker should support a range of two dates (starting and ending date). Defaults to `false`.
    */
-  range?: DatePickerRange;
+  range?: boolean;
 
   /**
    * Link both calendars, once to the user is navigating between months. Only meant to use if the range is set to true. Defaults to `false`.
    */
-  link?: DatePickerLink;
+  link?: boolean;
 
   /**
    * Sync input values with the calendars views. Once the input values get changed, the calendar changes its views in sync. Defaults to `true`.
    */
-  sync?: DatePickerSync;
+  sync?: boolean;
 
   /**
    * A prepending label in sync with the date input field.
@@ -241,7 +217,7 @@ export interface DatePickerProps extends React.HTMLProps<HTMLElement> {
   /**
    * Use `true` to make the label only readable by screen readers.
    */
-  label_sr_only?: DatePickerLabelSrOnly;
+  label_sr_only?: boolean;
 
   /**
    * Gives you the possibility to use a plain/vanilla `<input />` HTML element by defining it as a string `input_element="input"`, a React element, or a render function `input_element={(internalProps) => (<Return />)}`. Can also be used in circumstances where the `react-text-mask` not should be used, e.g. in testing environments. Defaults to custom masked input.
@@ -257,17 +233,17 @@ export interface DatePickerProps extends React.HTMLProps<HTMLElement> {
    * Gives you the possibility to set predefined dates and date ranges so the user can select these by one click. Define either a JSON or an object with the defined shortcuts. More info is below.
    */
   shortcuts?: DatePickerShortcuts;
-  disabled?: DatePickerDisabled;
+  disabled?: boolean;
 
   /**
    * If set to `true`, then the date-picker input field will be 100% in `width`.
    */
-  stretch?: DatePickerStretch;
+  stretch?: boolean;
 
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: DatePickerSkeleton;
+  skeleton?: boolean;
 
   /**
    * The sizes you can choose is `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem) are supported component sizes. Defaults to `default` / `null`.
@@ -288,7 +264,7 @@ export interface DatePickerProps extends React.HTMLProps<HTMLElement> {
    * Use an object to define additional FormStatus properties.
    */
   status_props?: Record<string, unknown>;
-  status_no_animation?: DatePickerStatusNoAnimation;
+  status_no_animation?: boolean;
 
   /**
    * The `status_id` used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
@@ -303,9 +279,9 @@ export interface DatePickerProps extends React.HTMLProps<HTMLElement> {
   /**
    * To open the date-picker by default. Defaults to `false`.
    */
-  opened?: DatePickerOpened;
-  prevent_close?: DatePickerPreventClose;
-  no_animation?: DatePickerNoAnimation;
+  opened?: boolean;
+  prevent_close?: boolean;
+  no_animation?: boolean;
   direction?: DatePickerDirection;
 
   /**

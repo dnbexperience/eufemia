@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { SectionSpacing, SectionStyleTypes } from '../Section';
-export type ProgressIndicatorVisible = boolean;
 export type ProgressIndicatorType = 'circular' | 'linear';
-export type ProgressIndicatorNoAnimation = boolean;
 export type ProgressIndicatorSize =
   | 'default'
   | 'small'
@@ -10,7 +8,6 @@ export type ProgressIndicatorSize =
   | 'large'
   | 'huge';
 export type ProgressIndicatorProgress = string | number;
-export type ProgressIndicatorShowLabel = boolean;
 export type ProgressIndicatorSpace =
   | string
   | number
@@ -52,7 +49,7 @@ export interface ProgressIndicatorProps
   /**
    * Defines the visibility of the progress. Toggling the `visible` property to false will force a fade-out animation. Defaults to `true`.
    */
-  visible?: ProgressIndicatorVisible;
+  visible?: boolean;
 
   /**
    * Defines the "type" of progress, like `circular` or `linear`. Defaults to `circular`.
@@ -62,7 +59,7 @@ export interface ProgressIndicatorProps
   /**
    * Disables the fade-in and fade-out animation. Defaults to false.
    */
-  no_animation?: ProgressIndicatorNoAnimation;
+  no_animation?: boolean;
 
   /**
    * Defines the size, like `large` or `medium`. Defaults to `medium`.
@@ -87,7 +84,7 @@ export interface ProgressIndicatorProps
   /**
    * If set to `true` a default label will be shown.
    */
-  show_label?: ProgressIndicatorShowLabel;
+  show_label?: boolean;
   indicator_label?: string;
 
   /**

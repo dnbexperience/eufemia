@@ -4,22 +4,17 @@ export type CheckboxLabel =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type CheckboxLabelPosition = 'left' | 'right';
-export type CheckboxChecked = boolean;
-export type CheckboxDisabled = boolean;
 export type CheckboxSize = 'default' | 'medium' | 'large';
 export type CheckboxStatus =
   | string
   | boolean
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type CheckboxStatusNoAnimation = boolean;
 export type CheckboxSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type CheckboxAttributes = string | Record<string, unknown>;
-export type CheckboxReadOnly = boolean;
-export type CheckboxSkeleton = boolean;
 export type CheckboxSpace =
   | string
   | number
@@ -79,8 +74,8 @@ export interface CheckboxProps extends React.HTMLProps<HTMLElement> {
   /**
    * Determine whether the checkbox is checked or not. The default is `false`.
    */
-  checked?: CheckboxChecked;
-  disabled?: CheckboxDisabled;
+  checked?: boolean;
+  disabled?: boolean;
   id?: string;
 
   /**
@@ -102,7 +97,7 @@ export interface CheckboxProps extends React.HTMLProps<HTMLElement> {
    * Use an object to define additional FormStatus properties.
    */
   status_props?: Record<string, unknown>;
-  status_no_animation?: CheckboxStatusNoAnimation;
+  status_no_animation?: boolean;
 
   /**
    * The `status_id` used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
@@ -115,12 +110,12 @@ export interface CheckboxProps extends React.HTMLProps<HTMLElement> {
   suffix?: CheckboxSuffix;
   value?: string;
   attributes?: CheckboxAttributes;
-  readOnly?: CheckboxReadOnly;
+  readOnly?: boolean;
 
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: CheckboxSkeleton;
+  skeleton?: boolean;
   class?: string;
 
   /**
