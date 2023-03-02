@@ -17,8 +17,8 @@ function createThemesImport({ reporter, pluginOptions }) {
   const packageRoot = path.dirname(require.resolve('@dnb/eufemia'))
   const selector = 'style/themes/**/dnb-theme-*.{scss,css}'
   const globbyPaths = [
-    path.join(packageRoot, selector),
-    path.join(packageRoot, '**', selector),
+    slash(path.join(packageRoot, selector)),
+    slash(path.join(packageRoot, '**', selector)),
   ]
 
   const rawThemesFiles = globby.sync(globbyPaths).map((file) => {
