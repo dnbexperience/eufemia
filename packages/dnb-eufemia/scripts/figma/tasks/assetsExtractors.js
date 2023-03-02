@@ -20,7 +20,7 @@ import {
   saveToFile,
   md5,
 } from '../helpers/docHelpers'
-import properties from '../../../src/style/properties'
+import properties from '../../../src/style/themes/theme-ui/properties'
 import { create, extract } from 'tar'
 
 const ICON_SIZES = {
