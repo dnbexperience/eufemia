@@ -32,9 +32,6 @@ export type RadioRight = string | number | boolean;
 export type RadioBottom = string | number | boolean;
 export type RadioLeft = string | number | boolean;
 export type RadioChildren = string | ((...args: any[]) => any);
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface RadioProps extends React.HTMLProps<HTMLElement> {
   /**

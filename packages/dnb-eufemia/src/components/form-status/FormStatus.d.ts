@@ -52,9 +52,6 @@ export type FormStatusChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface FormStatusProps extends React.HTMLProps<HTMLElement> {
   id?: string;
@@ -168,9 +165,6 @@ export default class FormStatus extends React.Component<
   static defaultProps: object;
   render(): JSX.Element;
 }
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface ErrorIconProps {
   /**
@@ -179,9 +173,6 @@ export interface ErrorIconProps {
   title?: string;
 }
 export const ErrorIcon: React.FC<ErrorIconProps>;
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface WarnIconProps {
   /**
@@ -190,9 +181,6 @@ export interface WarnIconProps {
   title?: string;
 }
 export const WarnIcon: React.FC<WarnIconProps>;
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface InfoIconProps {
   /**
@@ -201,9 +189,6 @@ export interface InfoIconProps {
   title?: string;
 }
 export const InfoIcon: React.FC<InfoIconProps>;
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface MarketingIconProps {
   /**

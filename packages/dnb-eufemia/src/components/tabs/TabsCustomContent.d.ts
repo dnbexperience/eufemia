@@ -35,9 +35,6 @@ export type CustomContentLeft = string | number | boolean;
 export type CustomContentChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface CustomContentProps extends React.HTMLProps<HTMLElement> {
   displayName?: string;

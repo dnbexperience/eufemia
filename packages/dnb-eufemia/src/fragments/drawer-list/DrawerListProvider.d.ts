@@ -57,9 +57,6 @@ export type DrawerListProviderLeft = string | number | boolean;
 export type DrawerListProviderPageOffset = string | number;
 export type DrawerListProviderObserverElement = string | React.ReactNode;
 export type DrawerListProviderMinHeight = string | number;
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface DrawerListProviderProps
   extends React.HTMLProps<HTMLElement> {

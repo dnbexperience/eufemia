@@ -14,9 +14,6 @@ export type AccordionHeaderTitleTop = string | number | boolean;
 export type AccordionHeaderTitleRight = string | number | boolean;
 export type AccordionHeaderTitleBottom = string | number | boolean;
 export type AccordionHeaderTitleLeft = string | number | boolean;
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface AccordionHeaderTitleProps {
   space?: AccordionHeaderTitleSpace;
@@ -41,9 +38,6 @@ export type AccordionHeaderDescriptionTop = string | number | boolean;
 export type AccordionHeaderDescriptionRight = string | number | boolean;
 export type AccordionHeaderDescriptionBottom = string | number | boolean;
 export type AccordionHeaderDescriptionLeft = string | number | boolean;
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface AccordionHeaderDescriptionProps {
   space?: AccordionHeaderDescriptionSpace;
@@ -68,9 +62,6 @@ export type AccordionHeaderContainerTop = string | number | boolean;
 export type AccordionHeaderContainerRight = string | number | boolean;
 export type AccordionHeaderContainerBottom = string | number | boolean;
 export type AccordionHeaderContainerLeft = string | number | boolean;
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface AccordionHeaderContainerProps {
   space?: AccordionHeaderContainerSpace;
@@ -88,9 +79,6 @@ export type AccordionHeaderIconIcon =
       closed?: React.ReactNode | ((...args: any[]) => any);
       expanded?: React.ReactNode | ((...args: any[]) => any);
     };
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface AccordionHeaderIconProps {
   icon?: AccordionHeaderIconIcon;
@@ -146,9 +134,6 @@ export type AccordionHeaderChildren =
   | string
   | React.ReactNode
   | ((...args: any[]) => any);
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface AccordionHeaderProps
   extends React.HTMLProps<HTMLElement> {
