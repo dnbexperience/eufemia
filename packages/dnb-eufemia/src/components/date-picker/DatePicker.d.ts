@@ -60,9 +60,6 @@ export type DatePickerTop = string | number | boolean;
 export type DatePickerRight = string | number | boolean;
 export type DatePickerBottom = string | number | boolean;
 export type DatePickerLeft = string | number | boolean;
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface DatePickerProps extends React.HTMLProps<HTMLElement> {
   id?: string;

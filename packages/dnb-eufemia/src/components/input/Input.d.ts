@@ -73,9 +73,6 @@ export type InputRight = string | number | boolean;
 export type InputBottom = string | number | boolean;
 export type InputLeft = string | number | boolean;
 export type InputChildren = React.ReactNode | ((...args: any[]) => any);
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface InputProps extends React.HTMLProps<HTMLElement> {
   /**

@@ -21,9 +21,6 @@ export type H3Size =
   | 'basis'
   | 'small'
   | 'x-small';
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface H3Props extends React.HTMLProps<HTMLElement> {
   space?: H3Space;

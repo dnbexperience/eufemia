@@ -2,16 +2,10 @@ import * as React from 'react';
 export type PaginationProviderStartupPage = string | number;
 export type PaginationProviderCurrentPage = string | number;
 export type PaginationProviderPageCount = string | number;
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface PaginationProviderRerender {
   current?: (...args: any[]) => any;
 }
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface PaginationProviderStore {
   current?: Record<string, unknown> | ((...args: any[]) => any);
@@ -28,9 +22,6 @@ export type PaginationProviderChildren =
   | React.ReactNode
   | Record<string, unknown>
   | any[];
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface PaginationProviderProps
   extends React.HTMLProps<HTMLElement> {
