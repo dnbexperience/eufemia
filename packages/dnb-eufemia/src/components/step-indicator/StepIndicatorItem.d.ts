@@ -2,9 +2,6 @@ import * as React from 'react';
 export type StepIndicatorItemTitle = string | React.ReactNode;
 export type StepIndicatorItemStatus = string | React.ReactNode;
 export type StepIndicatorItemStatusState = 'warn' | 'info' | 'error';
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface StepIndicatorItemProps
   extends React.HTMLProps<HTMLElement> {
@@ -49,9 +46,6 @@ export default class StepIndicatorItem extends React.Component<
   static defaultProps: object;
   render(): JSX.Element;
 }
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface StepItemButtonProps {
   children?: React.ReactNode;
@@ -61,9 +55,6 @@ export interface StepItemButtonProps {
   status_state?: string;
 }
 export const StepItemButton: React.FC<StepItemButtonProps>;
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface StepItemWrapperProps {
   children?: React.ReactNode;

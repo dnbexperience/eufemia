@@ -10,9 +10,6 @@ export type DatePickerInputInputElement =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface DatePickerInputProps
   extends React.HTMLProps<HTMLElement> {

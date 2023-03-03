@@ -46,9 +46,6 @@ export type CheckboxRight = string | number | boolean;
 export type CheckboxBottom = string | number | boolean;
 export type CheckboxLeft = string | number | boolean;
 export type CheckboxChildren = string | ((...args: any[]) => any);
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface CheckboxProps extends React.HTMLProps<HTMLElement> {
   /**
@@ -156,9 +153,6 @@ export default class Checkbox extends React.Component<CheckboxProps, any> {
   static defaultProps: object;
   render(): JSX.Element;
 }
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface CheckIconProps {
   /**

@@ -13,9 +13,6 @@ export type DivTop = string | number | boolean;
 export type DivRight = string | number | boolean;
 export type DivBottom = string | number | boolean;
 export type DivLeft = string | number | boolean;
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface DivProps extends React.HTMLProps<HTMLElement> {
   space?: DivSpace;

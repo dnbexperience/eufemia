@@ -3,9 +3,6 @@ import type { SkeletonShow } from '../components/skeleton/Skeleton';
 export type PaymentCardCardStatus = 'active' | 'blocked' | 'expired';
 export type PaymentCardVariant = 'normal' | 'compact';
 export type PaymentCardDigits = string | number;
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface PaymentCardRawData {
   productCode: string;
@@ -48,9 +45,6 @@ export type PaymentCardChildren =
   | string
   | React.ReactNode
   | ((...args: any[]) => any);
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface PaymentCardProps extends React.HTMLProps<HTMLElement> {
   /**
