@@ -6,7 +6,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import { createSkeletonClass } from '../../components/skeleton/SkeletonHelper'
-import { SkeletonShow } from '../../components/skeleton/Skeleton'
+import type { SkeletonShow } from '../../components/skeleton/Skeleton'
 
 const SuffixContext = React.createContext(null)
 

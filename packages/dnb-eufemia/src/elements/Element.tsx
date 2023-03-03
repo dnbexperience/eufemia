@@ -16,7 +16,7 @@ import {
   skeletonDOMAttributes,
   SkeletonMethods,
 } from '../components/skeleton/SkeletonHelper'
-import { SkeletonShow } from '../components/skeleton/Skeleton'
+import type { SkeletonShow } from '../components/skeleton/Skeleton'
 
 import type { DynamicElement, SpacingProps } from '../shared/types'
 

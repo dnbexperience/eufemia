@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SkeletonShow } from '../components/skeleton/Skeleton';
+import type { SkeletonShow } from '../components/skeleton/Skeleton';
 export type PaymentCardCardStatus = 'active' | 'blocked' | 'expired';
 export type PaymentCardVariant = 'normal' | 'compact';
 export type PaymentCardDigits = string | number;

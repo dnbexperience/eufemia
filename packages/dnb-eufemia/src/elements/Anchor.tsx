@@ -12,7 +12,7 @@ import {
   extendPropsWithContext,
 } from '../shared/component-helper'
 import Tooltip from '../components/tooltip/Tooltip'
-import { SkeletonShow } from '../components/skeleton/Skeleton'
+import type { SkeletonShow } from '../components/skeleton/Skeleton'
 import { SpacingProps } from '../shared/types'
 
 export type AnchorProps = {

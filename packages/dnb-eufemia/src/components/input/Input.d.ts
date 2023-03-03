@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SkeletonShow } from '../Skeleton';
+import type { SkeletonShow } from '../Skeleton';
 export type InputSize = 'default' | 'small' | 'medium' | 'large' | number;
 export type InputValue = string | number;
 export type InputLabel =

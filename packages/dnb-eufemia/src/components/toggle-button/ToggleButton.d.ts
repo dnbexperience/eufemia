@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SkeletonShow } from '../Skeleton';
+import type { SkeletonShow } from '../Skeleton';
 import ToggleButtonGroup from './ToggleButtonGroup';
 export type ToggleButtonLabel =
   | string

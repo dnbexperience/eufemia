@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SectionSpacing, SectionStyleTypes } from '../Section';
+import type { SectionSpacing, SectionStyleTypes } from '../Section';
 export type ContentWrapperSelectedKey = string | number;
 export type ContentWrapperChildren =
   | React.ReactNode

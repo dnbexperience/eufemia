@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SkeletonShow } from '../Skeleton';
+import type { SkeletonShow } from '../Skeleton';
 import RadioGroup from './RadioGroup';
 export type RadioLabel =
   | string

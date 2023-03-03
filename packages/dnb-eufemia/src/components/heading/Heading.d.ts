@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SkeletonShow } from '../Skeleton';
+import type { SkeletonShow } from '../Skeleton';
 export type HeadingText = React.ReactNode | ((...args: any[]) => any);
 export type HeadingSize =
   | 'auto'

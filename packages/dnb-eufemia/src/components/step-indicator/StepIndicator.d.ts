@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { SpacingProps } from '../../shared/types';
-import { SkeletonShow } from '../Skeleton';
+import type { SkeletonShow } from '../Skeleton';
 import StepIndicatorSidebar from './StepIndicatorSidebar';
 export type StepIndicatorMode = 'static' | 'strict' | 'loose';
 export type StepIndicatorData =

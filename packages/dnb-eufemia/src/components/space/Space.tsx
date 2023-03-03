@@ -26,7 +26,7 @@ import {
 import Section from '../section/Section'
 
 import type { DynamicElement, SpacingProps } from '../../shared/types'
-import { SkeletonShow } from '../Skeleton'
+import type { SkeletonShow } from '../Skeleton'
 
 export { spacingPropTypes }
 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SkeletonShow } from '../Skeleton';
+import type { SkeletonShow } from '../Skeleton';
 export type DatePickerDate = Date | string;
 export type DatePickerStartDate = Date | string;
 export type DatePickerEndDate = Date | string;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SkeletonShow } from '../skeleton/Skeleton';
+import type { SkeletonShow } from '../skeleton/Skeleton';
 import { IconPrimaryIcon } from '../icon-primary/IconPrimary';
 import { DataAttributeTypes } from '../../shared/types';
 export type ButtonText = string | React.ReactNode;

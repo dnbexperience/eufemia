@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SectionSpacing, SectionStyleTypes } from '../Section';
+import type { SectionSpacing, SectionStyleTypes } from '../Section';
 export type ProgressIndicatorType = 'circular' | 'linear';
 export type ProgressIndicatorSize =
   | 'default'

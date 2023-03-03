@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SkeletonShow } from '../Skeleton';
+import type { SkeletonShow } from '../Skeleton';
 export type GlobalStatusTitle = React.ReactNode | boolean;
 export type GlobalStatusText =
   | string

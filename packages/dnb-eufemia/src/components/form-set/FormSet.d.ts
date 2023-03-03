@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { SectionSpacing, SectionStyleTypes } from '../Section';
-import { SkeletonShow } from '../Skeleton';
+import type { SectionSpacing, SectionStyleTypes } from '../Section';
+import type { SkeletonShow } from '../Skeleton';
 export type FormSetLabel =
   | string
   | ((...args: any[]) => any)

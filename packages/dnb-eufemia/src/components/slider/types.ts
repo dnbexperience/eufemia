@@ -6,8 +6,8 @@ import type {
   formatOptionParams,
 } from '../number-format/NumberUtils'
 import { IncludeSnakeCase } from '../../shared/helpers/withSnakeCaseProps'
-import { SpacingProps } from '../../shared/types'
-import { SkeletonShow } from '../Skeleton'
+import type { SpacingProps } from '../../shared/types'
+import type { SkeletonShow } from '../Skeleton'
 
 export type ValueTypes = number | Array<number>
 export type NumberFormatTypes =
