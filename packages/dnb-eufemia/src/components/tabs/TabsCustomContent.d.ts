@@ -3,8 +3,6 @@ export type CustomContentTitle =
   | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any);
-export type CustomContentSelected = string | boolean;
-export type CustomContentDisabled = string | boolean;
 export type CustomContentSpace =
   | string
   | number
@@ -45,8 +43,8 @@ export interface CustomContentProps extends React.HTMLProps<HTMLElement> {
   displayName?: string;
   title?: CustomContentTitle;
   hash?: string;
-  selected?: CustomContentSelected;
-  disabled?: CustomContentDisabled;
+  selected?: boolean;
+  disabled?: boolean;
 
   /**
    * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.

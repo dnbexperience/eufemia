@@ -21,6 +21,7 @@ props.as = 'p'
 props.innerRef = null
 props.internalClass = null
 props.skeletonMethod = 'font'
+props.skeleton = true
 
 describe('Element', () => {
   it('have to match default Element snapshot', () => {

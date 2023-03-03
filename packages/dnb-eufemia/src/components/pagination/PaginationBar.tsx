@@ -20,7 +20,7 @@ import Button from '../button/Button'
 import IconPrimary from '../icon-primary/IconPrimary'
 import styleProperties from '../../style/themes/theme-ui/properties'
 import { LocaleProps } from '../../shared/types'
-import { SkeletonShow } from '../Skeleton'
+import type { SkeletonShow } from '../Skeleton'
 
 export type PaginationBarProps = {
   /**

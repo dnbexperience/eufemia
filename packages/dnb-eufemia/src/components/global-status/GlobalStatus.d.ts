@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { SkeletonShow } from '../Skeleton';
 export type GlobalStatusTitle = React.ReactNode | boolean;
 export type GlobalStatusText =
   | string
@@ -11,14 +12,7 @@ export type GlobalStatusIcon =
   | React.ReactNode;
 export type GlobalStatusState = 'error' | 'info';
 export type GlobalStatusShow = 'auto' | any | any | 'true' | 'false';
-export type GlobalStatusAutoscroll = string | boolean;
-export type GlobalStatusAutoclose = string | boolean;
-export type GlobalStatusNoAnimation = string | boolean;
 export type GlobalStatusDelay = string | number;
-export type GlobalStatusHideCloseButton = string | boolean;
-export type GlobalStatusOmitSetFocus = string | boolean;
-export type GlobalStatusOmitSetFocusOnUpdate = string | boolean;
-export type GlobalStatusSkeleton = string | boolean;
 export type GlobalStatusSpace =
   | string
   | number
@@ -102,17 +96,17 @@ export interface GlobalStatusProps extends React.HTMLProps<HTMLElement> {
   /**
    * Set to `true` to automatically scroll the page to the appeared global status. Defaults to `true`.
    */
-  autoscroll?: GlobalStatusAutoscroll;
+  autoscroll?: boolean;
 
   /**
    * Set to `true` to automatically close the global status if there are no more left items in the provider stack. Defaults to `true`.
    */
-  autoclose?: GlobalStatusAutoclose;
+  autoclose?: boolean;
 
   /**
    * Set to `true` to disable the show/hide/slide/fade/grow/shrink animation. Defaults to `false`.
    */
-  no_animation?: GlobalStatusNoAnimation;
+  no_animation?: boolean;
 
   /**
    * Defines the delay on how long the automated visibility should wait before it appears to the user. Defaults to `200ms`.
@@ -127,19 +121,19 @@ export interface GlobalStatusProps extends React.HTMLProps<HTMLElement> {
   /**
    * Set to `true` if the close button should be hidden for the user. Defaults to `false`.
    */
-  hide_close_button?: GlobalStatusHideCloseButton;
+  hide_close_button?: boolean;
 
   /**
    * Set to `true` to omit setting the focus during visibility. Defaults to `false`. Additionally, there is `omit_set_focus_on_update` which is set to `true` by default.
    */
-  omit_set_focus?: GlobalStatusOmitSetFocus;
-  omit_set_focus_on_update?: GlobalStatusOmitSetFocusOnUpdate;
+  omit_set_focus?: boolean;
+  omit_set_focus_on_update?: boolean;
 
   /**
    * Defines the anchor text showing up after every item, in case there is a `status_id` defined. Defaults to `Gå til %s`. The `%s` represents the optional and internal handled label addition.
    */
   status_anchor_text?: React.ReactNode;
-  skeleton?: GlobalStatusSkeleton;
+  skeleton?: SkeletonShow;
 
   /**
    * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.

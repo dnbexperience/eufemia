@@ -125,7 +125,7 @@ export const FormRowCombineVerticalAndHorizontal = () => (
             <Input label="Vertical input A" />
             <Input label="Vertical input B" top="medium" />
             <FormRow
-              vertical="false"
+              vertical={false}
               label_direction="horizontal"
               top="medium"
             >
