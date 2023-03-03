@@ -4,22 +4,22 @@ showTabs: true
 
 ## Card Properties
 
-| Properties                                  | Description                                                                                                                                         |
-| ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Properties                                  | Description                                                                                                                                        |
+| ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `product_code`                              | _(required)_ if product code matches one of the codes in the list the card will get that design, if no match is found Default design will be used. |
-| `raw_data`                                  | _(optional)_ useful if you want to create custom cards. See Card data properties.                                                                   |
-| `card_status`                               | _(optional)_ use one of these: `active`, `blocked`, `expired`. Defaults to `active`.                                                                |
-| `variant`                                   | _(optional)_ defines the appearance. Use one of these: `normal` or `compact`. Defaults to `normal`.                                                 |
-| `digits`                                    | _(optional)_ will use 8 digits if none are specified.                                                                                               |
-| `card_number`                               | _(optional)_ masked card number.                                                                                                                    |
-| `locale`                                    | _(optional)_ use `nb-NO` or `en-GB`. Defaults to the Eufemia provider.                                                                              |
-| `skeleton`                                  | _(optional)_ if set to `true`, an overlaying skeleton with animation will be shown.                                                                 |
-| [Space](/uilib/components/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                               |
+| `raw_data`                                  | _(optional)_ useful if you want to create custom cards. See Card data properties.                                                                  |
+| `card_status`                               | _(optional)_ use one of these: `active`, `blocked`, `expired`. Defaults to `active`.                                                               |
+| `variant`                                   | _(optional)_ defines the appearance. Use one of these: `normal` or `compact`. Defaults to `normal`.                                                |
+| `digits`                                    | _(optional)_ will use 8 digits if none are specified.                                                                                              |
+| `card_number`                               | _(optional)_ masked card number.                                                                                                                   |
+| `locale`                                    | _(optional)_ use `nb-NO` or `en-GB`. Defaults to the Eufemia provider.                                                                             |
+| `skeleton`                                  | _(optional)_ if set to `true`, an overlaying skeleton with animation will be shown.                                                                |
+| [Space](/uilib/components/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                              |
 
 ## Card Data
 
-| Properties    | Type         | Description                                                                                                                                                                                                       |
-| ------------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Properties    | Type         | Description                                                                                                                                                                                                      |
+| ------------- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `productCode` | `string`     | _(required)_ product code for the given card.                                                                                                                                                                    |
 | `productName` | `string`     | _(required)_ product name. Can be blank.                                                                                                                                                                         |
 | `displayName` | `string`     | _(required)_ the visible product name. Can be empty.                                                                                                                                                             |
@@ -29,8 +29,8 @@ showTabs: true
 
 ## Card Design
 
-| Properties       | Type         | Description                                                                                                                                                                  |
-| ---------------- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Properties       | Type         | Description                                                                                                                                                                 |
+| ---------------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `name`           | `string`     | _(required)_ string Name of design                                                                                                                                          |
 | `cardStyle`      | `string`     | _(required)_ css class. mainly to set background and color                                                                                                                  |
 | `bankLogo`       | `Union Type` | _(required)_ Union Type. import DNB from ./card/utils/Types to use. Can be DNB.Colored('HexValue') or DNB.Metalic                                                           |
