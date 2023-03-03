@@ -54,9 +54,6 @@ export type DrawerListChildren =
   | Record<string, unknown>
   | any[];
 export type DrawerListSuffix = React.ReactNode;
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface DrawerListProps extends React.HTMLProps<HTMLElement> {
   id?: string;
@@ -137,9 +134,6 @@ export default class DrawerList extends React.Component<
 export type ItemContentChildren =
   | React.ReactNode
   | Record<string, unknown>;
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface ItemContentProps {
   hash?: string;

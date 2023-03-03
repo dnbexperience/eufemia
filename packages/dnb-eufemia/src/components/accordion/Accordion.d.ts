@@ -49,9 +49,6 @@ export type AccordionTop = string | number | boolean;
 export type AccordionRight = string | number | boolean;
 export type AccordionBottom = string | number | boolean;
 export type AccordionLeft = string | number | boolean;
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface AccordionProps extends React.HTMLProps<HTMLElement> {
   /**
@@ -218,9 +215,6 @@ export default class Accordion extends React.Component<
   static Group: (props: GroupProps) => JSX.Element;
   render(): JSX.Element;
 }
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export type GroupProps = {
   /**

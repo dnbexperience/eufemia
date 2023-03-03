@@ -55,9 +55,6 @@ export type TabsChildren =
   | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any);
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface TabsProps extends React.HTMLProps<HTMLElement> {
   /**
@@ -197,9 +194,6 @@ export default class Tabs extends React.Component<TabsProps, any> {
   static Content = CustomContent;
   render(): JSX.Element;
 }
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface DummyProps {
   /**

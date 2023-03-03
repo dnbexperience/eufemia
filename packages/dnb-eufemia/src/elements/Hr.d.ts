@@ -13,9 +13,6 @@ export type HrTop = string | number | boolean;
 export type HrRight = string | number | boolean;
 export type HrBottom = string | number | boolean;
 export type HrLeft = string | number | boolean;
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface HrProps extends React.HTMLProps<HTMLElement> {
   space?: HrSpace;
