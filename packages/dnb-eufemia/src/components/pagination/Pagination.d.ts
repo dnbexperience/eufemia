@@ -1,17 +1,13 @@
 import * as React from 'react';
+import type { SkeletonShow } from '../Skeleton';
 export type PaginationStartupPage = string | number;
 export type PaginationCurrentPage = string | number;
 export type PaginationPageCount = string | number;
 export type PaginationStartupCount = string | number;
 export type PaginationParallelLoadCount = string | number;
-export type PaginationPlaceMakerBeforeContent = string | boolean;
 export type PaginationMinWaitTime = string | number;
-export type PaginationDisabled = string | boolean;
-export type PaginationSkeleton = string | boolean;
 export type PaginationMode = 'pagination' | 'infinity';
-export type PaginationUseLoadButton = string | boolean;
 export type PaginationItems = string | any[];
-export type PaginationHideProgressIndicator = string | boolean;
 export type PaginationSetContentHandler =
   | string
   | ((...args: any[]) => any);
@@ -108,7 +104,7 @@ export interface PaginationProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true`, the infinity marker will be placed before the content (on top off). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`.
    */
-  place_maker_before_content?: PaginationPlaceMakerBeforeContent;
+  place_maker_before_content?: boolean;
 
   /**
    * The minimum time to wait, if the infinity scroll was invoked under that time threshold. This prevents not intentional infinity scroll loop calls. Defaults to `400` milliseconds.
@@ -118,12 +114,12 @@ export interface PaginationProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true`, all pagination bar buttons are disabled.
    */
-  disabled?: PaginationDisabled;
+  disabled?: boolean;
 
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: PaginationSkeleton;
+  skeleton?: SkeletonShow;
 
   /**
    * If set to `infinity`, then the pagination bar will be now shown and but infinity scrolling will do the content presentation. For more information, check out the <a href="https://eufemia.dnb.no/uilib/components/pagination/infinity-scroller">Infinity Scroller</a>. Defaults to `pagination`.
@@ -133,13 +129,13 @@ export interface PaginationProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true` it will disable the automated infinity scrolling, but shows a load more button at the of the content instead.
    */
-  use_load_button?: PaginationUseLoadButton;
+  use_load_button?: boolean;
   items?: PaginationItems;
 
   /**
    * If set to `true` no indicator will be shown.
    */
-  hide_progress_indicator?: PaginationHideProgressIndicator;
+  hide_progress_indicator?: boolean;
 
   /**
    * Callback function to get the `setContent` handler from the current pagination instance. e.g. `set_content_handler={fn => (...)}`. Use this handler to insert content during infinity mode.
@@ -280,14 +276,9 @@ export type PaginationInstanceCurrentPage = string | number;
 export type PaginationInstancePageCount = string | number;
 export type PaginationInstanceStartupCount = string | number;
 export type PaginationInstanceParallelLoadCount = string | number;
-export type PaginationInstancePlaceMakerBeforeContent = string | boolean;
 export type PaginationInstanceMinWaitTime = string | number;
-export type PaginationInstanceDisabled = string | boolean;
-export type PaginationInstanceSkeleton = string | boolean;
 export type PaginationInstanceMode = 'pagination' | 'infinity';
-export type PaginationInstanceUseLoadButton = string | boolean;
 export type PaginationInstanceItems = string | any[];
-export type PaginationInstanceHideProgressIndicator = string | boolean;
 export type PaginationInstanceSetContentHandler =
   | string
   | ((...args: any[]) => any);
@@ -384,7 +375,7 @@ export interface PaginationInstanceProps {
   /**
    * If set to `true`, the infinity marker will be placed before the content (on top off). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`.
    */
-  place_maker_before_content?: PaginationInstancePlaceMakerBeforeContent;
+  place_maker_before_content?: boolean;
 
   /**
    * The minimum time to wait, if the infinity scroll was invoked under that time threshold. This prevents not intentional infinity scroll loop calls. Defaults to `400` milliseconds.
@@ -394,12 +385,12 @@ export interface PaginationInstanceProps {
   /**
    * If set to `true`, all pagination bar buttons are disabled.
    */
-  disabled?: PaginationInstanceDisabled;
+  disabled?: boolean;
 
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: PaginationInstanceSkeleton;
+  skeleton?: SkeletonShow;
 
   /**
    * If set to `infinity`, then the pagination bar will be now shown and but infinity scrolling will do the content presentation. For more information, check out the <a href="https://eufemia.dnb.no/uilib/components/pagination/infinity-scroller">Infinity Scroller</a>. Defaults to `pagination`.
@@ -409,13 +400,13 @@ export interface PaginationInstanceProps {
   /**
    * If set to `true` it will disable the automated infinity scrolling, but shows a load more button at the of the content instead.
    */
-  use_load_button?: PaginationInstanceUseLoadButton;
+  use_load_button?: boolean;
   items?: PaginationInstanceItems;
 
   /**
    * If set to `true` no indicator will be shown.
    */
-  hide_progress_indicator?: PaginationInstanceHideProgressIndicator;
+  hide_progress_indicator?: boolean;
 
   /**
    * Callback function to get the `setContent` handler from the current pagination instance. e.g. `set_content_handler={fn => (...)}`. Use this handler to insert content during infinity mode.
@@ -558,14 +549,9 @@ export type InfinityMarkerCurrentPage = string | number;
 export type InfinityMarkerPageCount = string | number;
 export type InfinityMarkerStartupCount = string | number;
 export type InfinityMarkerParallelLoadCount = string | number;
-export type InfinityMarkerPlaceMakerBeforeContent = string | boolean;
 export type InfinityMarkerMinWaitTime = string | number;
-export type InfinityMarkerDisabled = string | boolean;
-export type InfinityMarkerSkeleton = string | boolean;
 export type InfinityMarkerMode = 'pagination' | 'infinity';
-export type InfinityMarkerUseLoadButton = string | boolean;
 export type InfinityMarkerItems = string | any[];
-export type InfinityMarkerHideProgressIndicator = string | boolean;
 export type InfinityMarkerSetContentHandler =
   | string
   | ((...args: any[]) => any);
@@ -662,7 +648,7 @@ export interface InfinityMarkerProps {
   /**
    * If set to `true`, the infinity marker will be placed before the content (on top off). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`.
    */
-  place_maker_before_content?: InfinityMarkerPlaceMakerBeforeContent;
+  place_maker_before_content?: boolean;
 
   /**
    * The minimum time to wait, if the infinity scroll was invoked under that time threshold. This prevents not intentional infinity scroll loop calls. Defaults to `400` milliseconds.
@@ -672,12 +658,12 @@ export interface InfinityMarkerProps {
   /**
    * If set to `true`, all pagination bar buttons are disabled.
    */
-  disabled?: InfinityMarkerDisabled;
+  disabled?: boolean;
 
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: InfinityMarkerSkeleton;
+  skeleton?: SkeletonShow;
 
   /**
    * If set to `infinity`, then the pagination bar will be now shown and but infinity scrolling will do the content presentation. For more information, check out the <a href="https://eufemia.dnb.no/uilib/components/pagination/infinity-scroller">Infinity Scroller</a>. Defaults to `pagination`.
@@ -687,13 +673,13 @@ export interface InfinityMarkerProps {
   /**
    * If set to `true` it will disable the automated infinity scrolling, but shows a load more button at the of the content instead.
    */
-  use_load_button?: InfinityMarkerUseLoadButton;
+  use_load_button?: boolean;
   items?: InfinityMarkerItems;
 
   /**
    * If set to `true` no indicator will be shown.
    */
-  hide_progress_indicator?: InfinityMarkerHideProgressIndicator;
+  hide_progress_indicator?: boolean;
 
   /**
    * Callback function to get the `setContent` handler from the current pagination instance. e.g. `set_content_handler={fn => (...)}`. Use this handler to insert content during infinity mode.

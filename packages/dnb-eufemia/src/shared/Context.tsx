@@ -32,7 +32,7 @@ import type { TooltipProps } from '../components/tooltip/types'
 import type { SectionProps } from '../components/section/Section'
 import type { FormRowProps } from '../components/form-row/FormRowHelpers'
 import type { UploadProps } from '../components/upload/types'
-import type { SkeletonProps } from '../components/Skeleton'
+import type { SkeletonProps, SkeletonShow } from '../components/Skeleton'
 import type { HelpButtonProps } from '../components/HelpButton'
 import type { TableProps } from '../components/Table'
 
@@ -75,7 +75,7 @@ export type ContextProps = ContextComponents & {
   /**
    * Will enable all skeletons inside this provider/context scope
    */
-  skeleton?: boolean | string // SkeletonShow
+  skeleton?: SkeletonShow
 
   /**
    * Define what breakpoints should be used by the MediaQuery component and hook

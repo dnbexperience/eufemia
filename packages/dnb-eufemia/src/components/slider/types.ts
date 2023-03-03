@@ -6,7 +6,8 @@ import type {
   formatOptionParams,
 } from '../number-format/NumberUtils'
 import { IncludeSnakeCase } from '../../shared/helpers/withSnakeCaseProps'
-import { SpacingProps } from '../../shared/types'
+import type { SpacingProps } from '../../shared/types'
+import type { SkeletonShow } from '../Skeleton'
 
 export type ValueTypes = number | Array<number>
 export type NumberFormatTypes =
@@ -91,7 +92,7 @@ export type SliderProps = IncludeSnakeCase<{
   multiThumbBehavior?: 'swap' | 'omit' | 'push'
 
   /** if set to `true`, an overlaying skeleton with animation will be shown. */
-  skeleton?: boolean
+  skeleton?: SkeletonShow
 
   id?: string
   disabled?: boolean
