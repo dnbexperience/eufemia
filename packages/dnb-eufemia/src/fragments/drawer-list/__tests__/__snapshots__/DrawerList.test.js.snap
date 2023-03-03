@@ -1099,30 +1099,30 @@ html[data-visual-test] .dnb-drawer-list__portal__style {
   transition: max-height 300ms var(--easing-default);
   overflow-y: auto;
   overscroll-behavior: contain;
-  scrollbar-width: thin;
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: auto;
-  scrollbar-color: var(--color-sea-green) transparent;
+  scrollbar-color: var(--scrollbar-thumb-color, #888) transparent;
 }
 html:not([data-visual-test]) .dnb-drawer-list--scroll .dnb-drawer-list__options {
   scroll-behavior: smooth;
 }
 @supports not (scrollbar-color: auto) {
   .dnb-drawer-list--scroll .dnb-drawer-list__options::-webkit-scrollbar {
-    background-color: var(--color-black-8);
+    border-radius: var(--scrollbar-thumb-width, 0.5rem);
+    background-color: var(--scrollbar-track-color, #eee);
   }
   .dnb-drawer-list--scroll .dnb-drawer-list__options::-webkit-scrollbar:vertical {
-    width: 0.5rem;
+    width: var(--scrollbar-track-width, 0.5rem);
   }
   .dnb-drawer-list--scroll .dnb-drawer-list__options::-webkit-scrollbar:horizontal {
-    height: 0.5rem;
+    height: var(--scrollbar-track-width, 0.5rem);
   }
   .dnb-drawer-list--scroll .dnb-drawer-list__options::-webkit-scrollbar-thumb {
-    background-color: var(--color-sea-green);
-    border-radius: 0.5rem;
+    background-color: var(--scrollbar-thumb-color, #888);
+    border-radius: var(--scrollbar-thumb-width, 0.5rem);
   }
   .dnb-drawer-list--scroll .dnb-drawer-list__options::-webkit-scrollbar-thumb:hover {
-    background-color: var(--color-emerald-green);
+    background-color: var(--scrollbar-thumb-hover-color, #666);
   }
 }
 html[data-visual-test] .dnb-drawer-list--scroll .dnb-drawer-list__options, .dnb-drawer-list--scroll.dnb-drawer-list--no-animation .dnb-drawer-list__options {
