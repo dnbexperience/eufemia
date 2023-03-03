@@ -16,6 +16,7 @@ import {
   skeletonDOMAttributes,
   SkeletonMethods,
 } from '../components/skeleton/SkeletonHelper'
+import type { SkeletonShow } from '../components/skeleton/Skeleton'
 
 import type { DynamicElement, SpacingProps } from '../shared/types'
 
@@ -29,7 +30,7 @@ export type ElementInternalProps = {
 }
 
 export type ElementProps = {
-  skeleton?: boolean
+  skeleton?: SkeletonShow
   skeletonMethod?: SkeletonMethods
   internalClass?: string
   innerRef?: React.RefObject<HTMLElement> | React.ForwardedRef<unknown>
