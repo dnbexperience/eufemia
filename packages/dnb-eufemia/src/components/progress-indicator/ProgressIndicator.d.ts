@@ -1,7 +1,6 @@
 import * as React from 'react';
-export type ProgressIndicatorVisible = string | boolean;
+import type { SectionSpacing, SectionStyleTypes } from '../Section';
 export type ProgressIndicatorType = 'circular' | 'linear';
-export type ProgressIndicatorNoAnimation = string | boolean;
 export type ProgressIndicatorSize =
   | 'default'
   | 'small'
@@ -9,7 +8,6 @@ export type ProgressIndicatorSize =
   | 'large'
   | 'huge';
 export type ProgressIndicatorProgress = string | number;
-export type ProgressIndicatorShowLabel = string | boolean;
 export type ProgressIndicatorSpace =
   | string
   | number
@@ -51,7 +49,7 @@ export interface ProgressIndicatorProps
   /**
    * Defines the visibility of the progress. Toggling the `visible` property to false will force a fade-out animation. Defaults to `true`.
    */
-  visible?: ProgressIndicatorVisible;
+  visible?: boolean;
 
   /**
    * Defines the "type" of progress, like `circular` or `linear`. Defaults to `circular`.
@@ -61,7 +59,7 @@ export interface ProgressIndicatorProps
   /**
    * Disables the fade-in and fade-out animation. Defaults to false.
    */
-  no_animation?: ProgressIndicatorNoAnimation;
+  no_animation?: boolean;
 
   /**
    * Defines the size, like `large` or `medium`. Defaults to `medium`.
@@ -86,18 +84,18 @@ export interface ProgressIndicatorProps
   /**
    * If set to `true` a default label will be shown.
    */
-  show_label?: ProgressIndicatorShowLabel;
+  show_label?: boolean;
   indicator_label?: string;
 
   /**
    * To enable the visual helper `.dnb-section` class. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to null.
    */
-  section_style?: string;
+  section_style?: SectionStyleTypes;
 
   /**
    * To modify the `spacing`. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to null.
    */
-  section_spacing?: string;
+  section_spacing?: SectionSpacing;
 
   /**
    * Used to set title and aria-label. Defaults to the value of progress property, formatted as a percent.

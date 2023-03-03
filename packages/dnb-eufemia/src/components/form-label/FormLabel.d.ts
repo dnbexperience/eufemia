@@ -1,13 +1,10 @@
 import * as React from 'react';
+import type { SkeletonShow } from '../Skeleton';
 export type FormLabelText =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type FormLabelDisabled = string | boolean;
-export type FormLabelSkeleton = string | boolean;
 export type FormLabelLabelDirection = 'vertical' | 'horizontal';
-export type FormLabelVertical = string | boolean;
-export type FormLabelSrOnly = string | boolean;
 export type FormLabelSpace =
   | string
   | number
@@ -67,19 +64,19 @@ export interface FormLabelProps extends React.HTMLProps<HTMLElement> {
   text?: FormLabelText;
   id?: string;
   class?: string;
-  disabled?: FormLabelDisabled;
+  disabled?: boolean;
 
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: FormLabelSkeleton;
+  skeleton?: SkeletonShow;
   label_direction?: FormLabelLabelDirection;
 
   /**
    * Will force both `direction` and `label_direction` to be "vertical" if set to `true`.
    */
-  vertical?: FormLabelVertical;
-  sr_only?: FormLabelSrOnly;
+  vertical?: boolean;
+  sr_only?: boolean;
 
   /**
    * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.

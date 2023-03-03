@@ -1,17 +1,10 @@
 import * as React from 'react';
-export type DrawerListProviderScrollable = string | boolean;
-export type DrawerListProviderFocusable = string | boolean;
 export type DrawerListProviderDirection = 'auto' | 'top' | 'bottom';
 export type DrawerListProviderSize =
   | 'default'
   | 'small'
   | 'medium'
   | 'large';
-export type DrawerListProviderNoAnimation = string | boolean;
-export type DrawerListProviderNoScrollAnimation = string | boolean;
-export type DrawerListProviderPreventSelection = string | boolean;
-export type DrawerListProviderActionMenu = string | boolean;
-export type DrawerListProviderIsPopup = string | boolean;
 export type DrawerListProviderAlignDrawer = 'left' | 'right';
 export type DrawerListProviderOptionsRender =
   | Record<string, unknown>
@@ -23,14 +16,6 @@ export type DrawerListProviderWrapperElement =
   | React.ReactNode;
 export type DrawerListProviderDefaultValue = string | number;
 export type DrawerListProviderValue = string | number;
-export type DrawerListProviderSkipPortal = string | boolean;
-export type DrawerListProviderPreventClose = string | boolean;
-export type DrawerListProviderIndependentWidth = string | boolean;
-export type DrawerListProviderFixedPosition = string | boolean;
-export type DrawerListProviderKeepOpen = string | boolean;
-export type DrawerListProviderPreventFocus = string | boolean;
-export type DrawerListProviderSkipKeysearch = string | boolean;
-export type DrawerListProviderOpened = string | boolean;
 export type DrawerListProviderData =
   | string
   | ((...args: any[]) => any)
@@ -55,7 +40,6 @@ export type DrawerListProviderRawData =
   | any[]
   | Record<string, unknown>
   | ((...args: any[]) => any);
-export type DrawerListProviderIgnoreEvents = string | boolean;
 export type DrawerListProviderSpace =
   | string
   | number
@@ -83,31 +67,31 @@ export interface DrawerListProviderProps
   role?: string;
   cache_hash?: string;
   triangle_position?: string;
-  scrollable?: DrawerListProviderScrollable;
-  focusable?: DrawerListProviderFocusable;
+  scrollable?: boolean;
+  focusable?: boolean;
   direction?: DrawerListProviderDirection;
   size?: DrawerListProviderSize;
   max_height?: number;
-  no_animation?: DrawerListProviderNoAnimation;
-  no_scroll_animation?: DrawerListProviderNoScrollAnimation;
-  prevent_selection?: DrawerListProviderPreventSelection;
-  action_menu?: DrawerListProviderActionMenu;
-  is_popup?: DrawerListProviderIsPopup;
+  no_animation?: boolean;
+  no_scroll_animation?: boolean;
+  prevent_selection?: boolean;
+  action_menu?: boolean;
+  is_popup?: boolean;
   align_drawer?: DrawerListProviderAlignDrawer;
   options_render?: DrawerListProviderOptionsRender;
   wrapper_element?: DrawerListProviderWrapperElement;
   default_value?: DrawerListProviderDefaultValue;
   value?: DrawerListProviderValue;
-  skip_portal?: DrawerListProviderSkipPortal;
+  skip_portal?: boolean;
   portal_class?: string;
   list_class?: string;
-  prevent_close?: DrawerListProviderPreventClose;
-  independent_width?: DrawerListProviderIndependentWidth;
-  fixed_position?: DrawerListProviderFixedPosition;
-  keep_open?: DrawerListProviderKeepOpen;
-  prevent_focus?: DrawerListProviderPreventFocus;
-  skip_keysearch?: DrawerListProviderSkipKeysearch;
-  opened?: DrawerListProviderOpened;
+  prevent_close?: boolean;
+  independent_width?: boolean;
+  fixed_position?: boolean;
+  keep_open?: boolean;
+  prevent_focus?: boolean;
+  skip_keysearch?: boolean;
+  opened?: boolean;
   class?: string;
   data?: DrawerListProviderData;
   selected_value?: DrawerListProviderSelectedValue;
@@ -115,7 +99,7 @@ export interface DrawerListProviderProps
   content?: DrawerListProviderContent;
   prepared_data?: any[];
   raw_data?: DrawerListProviderRawData;
-  ignore_events?: DrawerListProviderIgnoreEvents;
+  ignore_events?: boolean;
   space?: DrawerListProviderSpace;
   top?: DrawerListProviderTop;
   right?: DrawerListProviderRight;

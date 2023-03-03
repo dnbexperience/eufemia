@@ -12,7 +12,7 @@ import homeIcon from '../../icons/home'
 
 // Shared
 import Context from '../../shared/Context'
-import { SkeletonShow } from '../skeleton/Skeleton'
+import type { SkeletonShow } from '../skeleton/Skeleton'
 import { extendPropsWithContext } from '../../shared/component-helper'
 
 export interface BreadcrumbItemProps {

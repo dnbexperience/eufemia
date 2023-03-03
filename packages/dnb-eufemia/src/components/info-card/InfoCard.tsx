@@ -13,7 +13,7 @@ import { lightbulb_medium as LightbulbIcon } from '../../icons'
 
 // Shared
 import { createSpacingClasses } from '../space/SpacingHelper'
-import { SkeletonShow } from '../skeleton/Skeleton'
+import type { SkeletonShow } from '../skeleton/Skeleton'
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
 import { SpacingProps } from '../../shared/types'

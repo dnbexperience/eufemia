@@ -26,6 +26,7 @@ import {
 import Section from '../section/Section'
 
 import type { DynamicElement, SpacingProps } from '../../shared/types'
+import type { SkeletonShow } from '../Skeleton'
 
 export { spacingPropTypes }
 
@@ -105,7 +106,7 @@ export type SpaceProps = {
    * If set to `true`, a loading skeleton will be shown.
    * Default: false
    */
-  skeleton?: boolean
+  skeleton?: SkeletonShow
 
   /**
    * Send along a custom React Ref.

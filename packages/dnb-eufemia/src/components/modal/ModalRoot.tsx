@@ -16,7 +16,7 @@ export interface ModalRootProps extends ModalContentProps {
    */
   id?: string
   root_id?: string
-  direct_dom_return?: string | boolean
+  direct_dom_return?: boolean
 
   /**
    * The content which will appear when triggering the modal/drawer.

@@ -1,25 +1,21 @@
 import * as React from 'react';
+import type { SkeletonShow } from '../Skeleton';
 export type SwitchLabel =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type SwitchLabelPosition = 'left' | 'right';
-export type SwitchChecked = string | boolean;
-export type SwitchDisabled = string | boolean;
 export type SwitchSize = 'default' | 'medium' | 'large';
 export type SwitchStatus =
   | string
   | boolean
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type SwitchStatusNoAnimation = string | boolean;
 export type SwitchSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type SwitchAttributes = string | Record<string, unknown>;
-export type SwitchReadOnly = string | boolean;
-export type SwitchSkeleton = string | boolean;
 export type SwitchSpace =
   | string
   | number
@@ -78,8 +74,8 @@ export interface SwitchProps extends React.HTMLProps<HTMLElement> {
   /**
    * Determine whether the switch is checked or not. The default will be `false`.
    */
-  checked?: SwitchChecked;
-  disabled?: SwitchDisabled;
+  checked?: boolean;
+  disabled?: boolean;
   id?: string;
 
   /**
@@ -106,7 +102,7 @@ export interface SwitchProps extends React.HTMLProps<HTMLElement> {
    * The `status_id` used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
    */
   global_status_id?: string;
-  status_no_animation?: SwitchStatusNoAnimation;
+  status_no_animation?: boolean;
 
   /**
    * Text describing the content of the Switch more than the label. You can also send in a React component, so it gets wrapped inside the Switch component.
@@ -114,12 +110,12 @@ export interface SwitchProps extends React.HTMLProps<HTMLElement> {
   suffix?: SwitchSuffix;
   value?: string;
   attributes?: SwitchAttributes;
-  readOnly?: SwitchReadOnly;
+  readOnly?: boolean;
 
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: SwitchSkeleton;
+  skeleton?: SkeletonShow;
 
   /**
    * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.

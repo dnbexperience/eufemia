@@ -1,20 +1,9 @@
 import * as React from 'react';
+import type { SkeletonShow } from '../Skeleton';
 import AccordionContent from './AccordionContent';
 import AccordionHeader from './AccordionHeader';
 import AccordionProvider from './AccordionProvider';
-export type AccordionExpanded = string | boolean;
-export type AccordionNoAnimation = string | boolean;
-export type AccordionExpandedSsr = string | boolean;
-export type AccordionPrerender = string | boolean;
-export type AccordionPreventRerender = string | boolean;
-export type AccordionPreventRerenderConditional = string | boolean;
-export type AccordionRememberState = string | boolean;
-export type AccordionFlushRememberedState = string | boolean;
-export type AccordionSingleContainer = string | boolean;
 export type AccordionVariant = 'plain' | 'default' | 'outlined' | 'filled';
-export type AccordionAllowCloseAll = string | boolean;
-export type AccordionDisabled = string | boolean;
-export type AccordionSkeleton = string | boolean;
 export type AccordionHeading = boolean | React.ReactNode;
 export type AccordionHeadingLevel = string | number;
 export type AccordionIcon =
@@ -78,37 +67,37 @@ export interface AccordionProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true` the accordion will be expanded as its initial state.
    */
-  expanded?: AccordionExpanded;
+  expanded?: boolean;
 
   /**
    * If set to `true`, the open and close animation will be omitted.
    */
-  no_animation?: AccordionNoAnimation;
+  no_animation?: boolean;
 
   /**
    * If set to `true` the accordion will be expanded during SSR. Can be potentially useful for SEO, although it will disturb client hydration, where React expects the same state. But that&#39;s mainly a technical aspect to consider.
    */
-  expanded_ssr?: AccordionExpandedSsr;
+  expanded_ssr?: boolean;
 
   /**
    * If set to `true` the content will be present, even the accordion is not expanded. Can be useful for assistive technology or SEO.
    */
-  prerender?: AccordionPrerender;
+  prerender?: boolean;
 
   /**
    * If set to `true` the accordion component will not re-render its content – can be useful for widgets you don&#39;t have control of storing the temporary state during an interaction.
    */
-  prevent_rerender?: AccordionPreventRerender;
+  prevent_rerender?: boolean;
 
   /**
    * Use this prop together with `prevent_rerender` – and if it is to `true`, the accordion component will re-render if the children are a new React element and does not match anymore the previews one.
    */
-  prevent_rerender_conditional?: AccordionPreventRerenderConditional;
+  prevent_rerender_conditional?: boolean;
 
   /**
    * If set to `true`, it will remember a changed state initiated by the user. It requires a unique `id`. It will store the sate in the local storage.
    */
-  remember_state?: AccordionRememberState;
+  remember_state?: boolean;
 
   /**
    * Send along a custom React Ref for `.dnb-accordion__content`.
@@ -118,12 +107,12 @@ export interface AccordionProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true`, the saved (remembered) will be removed and the initial component state will be used and set.
    */
-  flush_remembered_state?: AccordionFlushRememberedState;
+  flush_remembered_state?: boolean;
 
   /**
    * If set to `true`, a group of accordions will be wrapped to sidebar looking menu for medium and larger screens.
    */
-  single_container?: AccordionSingleContainer;
+  single_container?: boolean;
 
   /**
    * Defines the used styling. As of now, only `outlined` is available. Use `plain` for no styles. It defaults to `outlined`.
@@ -134,17 +123,17 @@ export interface AccordionProps extends React.HTMLProps<HTMLElement> {
    * Will add a React element on the left side of the `title`, inside `AccordionHeaderContainer`.
    */
   left_component?: React.ReactNode;
-  allow_close_all?: AccordionAllowCloseAll;
+  allow_close_all?: boolean;
 
   /**
    * If set to `true`, the accordion button will be disabled (dimmed).
    */
-  disabled?: AccordionDisabled;
+  disabled?: boolean;
 
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: AccordionSkeleton;
+  skeleton?: SkeletonShow;
 
   /**
    * A unique `id` that will be used on the button element. If you use `remember_state`, an id is required.
@@ -229,7 +218,6 @@ export default class Accordion extends React.Component<
   static Group: (props: GroupProps) => JSX.Element;
   render(): JSX.Element;
 }
-export type GroupRememberState = string | boolean;
 /**
  * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
  */
@@ -244,7 +232,7 @@ export type GroupProps = {
   /**
    * If set to `true`, it will remember a changed state initiated by the user. It requires a unique `id`. It will store the sate in the local storage.
    */
-  remember_state?: GroupRememberState;
+  remember_state?: boolean;
 
   children: React.ReactNode;
 } & AccordionProps;

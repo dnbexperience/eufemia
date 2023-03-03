@@ -1,3 +1,5 @@
+import { NumberFormatCurrency } from './NumberFormat';
+
 export type formatTypes =
   | 'phone'
   | 'org'
@@ -54,7 +56,7 @@ export interface formatOptionParams {
   /** percent type */
   percent?: boolean;
   /** Currency code (ISO 4217) or `true` to use the default, `NOK`. */
-  currency?: string | boolean;
+  currency?: NumberFormatCurrency;
 
   /** Intl.NumberFormat currency option – you can use false or empty string to hide the sign/name. Defaults to narrowSymbol when the locale is no else we default to code. */
   currency_display?:
