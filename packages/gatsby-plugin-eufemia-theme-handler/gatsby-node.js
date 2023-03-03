@@ -3,6 +3,7 @@
  *
  */
 
+const { slash } = require('gatsby-core-utils')
 const { createThemesImport } = require('./collectThemes')
 
 global.themeNames = []
@@ -52,8 +53,9 @@ exports.onCreateWebpackConfig = (
     config.optimization.splitChunks.cacheGroups.styles = {
       ...config.optimization.splitChunks.cacheGroups.styles,
       name(module) {
-        if (module.context.includes('/style/themes')) {
-          const match = module.context.match(/\/([^/]*)$/)
+        const path = slash(module.context)
+        if (path.includes('/style/themes')) {
+          const match = path.match(/\/([^/]*)$/)
           const moduleName = match[1].replace('theme-', '')
 
           global.themeNames.push(moduleName)
