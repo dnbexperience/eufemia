@@ -44,9 +44,6 @@ export type HeadingRight = string | number | boolean;
 export type HeadingBottom = string | number | boolean;
 export type HeadingLeft = string | number | boolean;
 export type HeadingChildren = React.ReactNode | ((...args: any[]) => any);
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface HeadingProps extends React.HTMLProps<HTMLElement> {
   id?: string;

@@ -1,9 +1,6 @@
 import * as React from 'react';
 export type HeadingProviderLevel = number | string;
 export type HeadingProviderReset = number | boolean;
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface HeadingProviderProps
   extends React.HTMLProps<HTMLElement> {

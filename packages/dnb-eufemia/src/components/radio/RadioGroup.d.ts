@@ -36,9 +36,6 @@ export type RadioGroupChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface RadioGroupProps extends React.HTMLProps<HTMLElement> {
   /**

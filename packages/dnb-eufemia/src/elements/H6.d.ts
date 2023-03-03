@@ -21,9 +21,6 @@ export type H6Size =
   | 'basis'
   | 'small'
   | 'x-small';
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface H6Props extends React.HTMLProps<HTMLElement> {
   space?: H6Space;

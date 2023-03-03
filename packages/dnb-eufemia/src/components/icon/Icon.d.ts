@@ -38,9 +38,6 @@ export type IconWidth = string | number;
 export type IconHeight = string | number;
 export type IconAttributes = string | Record<string, unknown>;
 export type IconChildren = React.ReactNode | ((...args: any[]) => any);
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface IconProps extends React.HTMLProps<HTMLElement> {
   /**
