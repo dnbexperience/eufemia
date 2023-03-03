@@ -125,7 +125,7 @@ export const NumberPhone = () => (
         <NumberFormat value="4799999999" phone />
         <NumberFormat value="++4799999999" phone />
         <NumberFormat value="+4780022222" phone link="sms" />
-        <NumberFormat value="+47116000" phone selectall="false" />
+        <NumberFormat value="+47116000" phone selectall={false} />
         <NumberFormat value="+4702000" phone />
       </P>
     </ComponentBox>

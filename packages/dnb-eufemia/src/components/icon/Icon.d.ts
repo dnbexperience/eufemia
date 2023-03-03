@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { SkeletonShow } from '../Skeleton';
 export type IconIcon =
   | string
   | React.ReactNode
@@ -35,9 +36,6 @@ export type IconBottom = string | number | boolean;
 export type IconLeft = string | number | boolean;
 export type IconWidth = string | number;
 export type IconHeight = string | number;
-export type IconBorder = string | boolean;
-export type IconInheritColor = string | boolean;
-export type IconSkeleton = string | boolean;
 export type IconAttributes = string | Record<string, unknown>;
 export type IconChildren = React.ReactNode | ((...args: any[]) => any);
 /**
@@ -90,7 +88,7 @@ export interface IconProps extends React.HTMLProps<HTMLElement> {
   /**
    * Use `true` to display a rounded border with an inherited color. Keep in mind that the icon will have a larger total width and height of `+0.5em`.
    */
-  border?: IconBorder;
+  border?: boolean;
 
   /**
    * The color can be any valid color property, such as Hex, RGB or preferable – any CSS variable from the <a href="/uilib/usage/customisation/colors">colors table</a>, e.g. `var(--color-ocean-green)`. Default is no color, which means `--color-black-80`.
@@ -100,7 +98,7 @@ export interface IconProps extends React.HTMLProps<HTMLElement> {
   /**
    * Default to `true`. Set to `false` if you do not want to inherit the color by `currentColor`.
    */
-  inherit_color?: IconInheritColor;
+  inherit_color?: boolean;
 
   /**
    * The alternative label (text version) of the icon. Defaults to the imported icon name.
@@ -115,7 +113,7 @@ export interface IconProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: IconSkeleton;
+  skeleton?: SkeletonShow;
   attributes?: IconAttributes;
   className?: string;
   children?: IconChildren;

@@ -3,10 +3,9 @@ import { CloseButtonProps } from './parts/CloseButton'
 import { ButtonProps } from '../button/Button'
 import { ModalRootProps } from './ModalRoot'
 
-export type ExtendedBoolean = string | boolean
 export type ReactChildType = React.ReactNode | ((...args: any[]) => any)
 
-export type ModalFullscreen = 'auto' | ExtendedBoolean
+export type ModalFullscreen = 'auto' | boolean
 export type ModalAlignContent = 'left' | 'center' | 'centered' | 'right'
 export type ModalContainerPlacement = 'left' | 'right' | 'top' | 'bottom'
 export type ModalOpenState = 'opened' | 'closed' | boolean
@@ -28,7 +27,7 @@ export interface ModalProps extends ModalRootProps {
   /**
    * Will disable the trigger button
    */
-  disabled?: ExtendedBoolean
+  disabled?: boolean
 
   /**
    * Forces the modal/drawer to delay the opening. The delay is given in `ms`.
@@ -38,7 +37,7 @@ export interface ModalProps extends ModalRootProps {
   /**
    * If set to `true` (boolean or string), then the user can&#39;t close the modal/drawer.
    */
-  prevent_close?: ExtendedBoolean
+  prevent_close?: boolean
 
   /**
    * Duration of animation open/close in ms. Defaults to 300ms.
@@ -48,7 +47,7 @@ export interface ModalProps extends ModalRootProps {
   /**
    * If set to `true`, no open/close animation will be shown. Defaults to false.
    */
-  no_animation?: ExtendedBoolean
+  no_animation?: boolean
 
   /**
    * Use this prop to control the open/close state by setting either: `opened` / `closed` or `true` / `false`.
@@ -127,9 +126,9 @@ export interface ModalProps extends ModalRootProps {
   modal_content?: ReactChildType
 
   /**
-   * If truthy, the drawer will not open in a new DOM but directly in current DOM. Defaults to `false`.
+   * If true, the drawer will not open in a new DOM but directly in current DOM. Defaults to `false`.
    */
-  direct_dom_return?: string | boolean
+  direct_dom_return?: boolean
 
   /**
    * To get the inner content Element, pass in your own React ref
@@ -195,9 +194,9 @@ export interface ModalContentProps {
   dialog_title?: string
 
   /**
-   * If truthy, the close button will not be shown.
+   * If boolean, the close button will not be shown.
    */
-  hide_close_button?: ExtendedBoolean
+  hide_close_button?: boolean
 
   /**
    * Define any valid Eufemia Button property or HTML attribute inside an object.
@@ -207,28 +206,28 @@ export interface ModalContentProps {
   /**
    * If set to `false` then the modal/drawer content will be shown without any spacing. Defaults to `true`.
    */
-  spacing?: ExtendedBoolean
+  spacing?: boolean
 
   /**
    * By default the modal/drawer content gets added the core style class `dnb-core-style`. Use `false` to disable this behavior.
    */
-  prevent_core_style?: ExtendedBoolean
+  prevent_core_style?: boolean
   animation_duration?: string | number
 
   /**
    * Disable clicking the background overlay to close the modal
    */
-  prevent_overlay_close?: ExtendedBoolean
+  prevent_overlay_close?: boolean
 
   /**
    * If set to `true`, no open/close animation will be shown. Defaults to false.
    */
-  no_animation?: ExtendedBoolean
+  no_animation?: boolean
 
   /**
    * Same as `no_animation`, but gets triggered only if the viewport width is less than `40em`. Defaults to false.
    */
-  no_animation_on_mobile?: ExtendedBoolean
+  no_animation_on_mobile?: boolean
 
   /**
    * The minimum Modal content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful on using fixed `min_width` so you don&#39;t break responsiveness. Defaults to `30rem` (average width is set to `60vw`).

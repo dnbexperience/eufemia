@@ -1,5 +1,5 @@
 import * as React from 'react';
-export type FormStatusShow = string | boolean;
+import type { SkeletonShow } from '../Skeleton';
 export type FormStatusText =
   | string
   | boolean
@@ -19,9 +19,6 @@ export type FormStatusState =
 export type FormStatusVariant = 'flat' | 'outlined';
 export type FormStatusSize = 'default' | 'large';
 export type FormStatusAttributes = string | Record<string, unknown>;
-export type FormStatusNoAnimation = string | boolean;
-export type FormStatusSkeleton = string | boolean;
-export type FormStatusStretch = string | boolean;
 export type FormStatusSpace =
   | string
   | number
@@ -70,7 +67,7 @@ export interface FormStatusProps extends React.HTMLProps<HTMLElement> {
   /**
    * Provide `false` if you want to animate the visibility. Defaults to `true`.
    */
-  show?: FormStatusShow;
+  show?: boolean;
 
   /**
    * The `text` appears as the status message. Beside plain text, You can send in a React component as well.
@@ -116,17 +113,17 @@ export interface FormStatusProps extends React.HTMLProps<HTMLElement> {
   /**
    * NB: Animation is disabled as of now. <del>use `true` to omit the animation on content visibility. Defaults to `false`.</del>
    */
-  no_animation?: FormStatusNoAnimation;
+  no_animation?: boolean;
 
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: FormStatusSkeleton;
+  skeleton?: SkeletonShow;
 
   /**
    * If set to `true`, then the FormStatus will be 100% in available `width`. "NB:" Only use this on independent status messages.
    */
-  stretch?: FormStatusStretch;
+  stretch?: boolean;
 
   /**
    * The `role` attribute for accessibility, defaults to `alert`

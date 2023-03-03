@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { SkeletonShow } from '../Skeleton';
 export type AutocompleteSpace =
   | string
   | number
@@ -28,17 +29,11 @@ export type AutocompleteTop = string | number | boolean;
 export type AutocompleteRight = string | number | boolean;
 export type AutocompleteBottom = string | number | boolean;
 export type AutocompleteLeft = string | number | boolean;
-export type AutocompleteActionMenu = string | boolean;
-export type AutocompleteIsPopup = string | boolean;
 export type AutocompleteAlignDrawer = 'left' | 'right';
 export type AutocompleteWrapperElement =
   | Record<string, unknown>
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type AutocompleteIndependentWidth = string | boolean;
-export type AutocompleteFixedPosition = string | boolean;
-export type AutocompletePreventFocus = string | boolean;
-export type AutocompleteSkipKeysearch = string | boolean;
 export type AutocompleteSelectedValue = string | React.ReactNode;
 export type AutocompleteSuffixValue = string | React.ReactNode;
 export type AutocompleteContent = string | React.ReactNode | string[];
@@ -46,7 +41,6 @@ export type AutocompleteRawData =
   | any[]
   | Record<string, unknown>
   | ((...args: any[]) => any);
-export type AutocompleteIgnoreEvents = string | boolean;
 export type AutocompleteMode = 'sync' | 'async';
 export type AutocompleteTitle = string | React.ReactNode;
 export type AutocompletePlaceholder = string | React.ReactNode;
@@ -73,31 +67,16 @@ export type AutocompleteLabel =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type AutocompleteLabelDirection = 'horizontal' | 'vertical';
-export type AutocompleteLabelSrOnly = string | boolean;
-export type AutocompleteKeepValue = string | boolean;
-export type AutocompleteKeepValueAndSelection = string | boolean;
-export type AutocompleteShowClearButton = string | boolean;
 export type AutocompleteStatus =
   | string
   | boolean
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type AutocompleteStatusNoAnimation = string | boolean;
 export type AutocompleteSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type AutocompleteDisableFilter = string | boolean;
-export type AutocompleteDisableReorder = string | boolean;
-export type AutocompleteScrollable = string | boolean;
-export type AutocompleteFocusable = string | boolean;
-export type AutocompleteDisableHighlighting = string | boolean;
 export type AutocompleteDirection = 'auto' | 'top' | 'bottom';
-export type AutocompleteSkipPortal = string | boolean;
-export type AutocompleteNoAnimation = string | boolean;
-export type AutocompleteNoScrollAnimation = string | boolean;
-export type AutocompleteShowSubmitButton = string | boolean;
-export type AutocompletePreventSelection = string | boolean;
 export type AutocompleteSize = 'default' | 'small' | 'medium' | 'large';
 export type AutocompleteAlignAutocomplete = 'left' | 'right';
 export type AutocompleteOptionsRender =
@@ -122,16 +101,8 @@ export type AutocompleteData =
         }
     )[];
 export type AutocompleteSearchInWordIndex = string | number;
-export type AutocompleteSearchNumbers = string | boolean;
 export type AutocompleteDefaultValue = string | number;
 export type AutocompleteValue = string | number;
-export type AutocompleteOpenOnFocus = string | boolean;
-export type AutocompletePreventClose = string | boolean;
-export type AutocompleteKeepOpen = string | boolean;
-export type AutocompleteOpened = string | boolean;
-export type AutocompleteDisabled = string | boolean;
-export type AutocompleteStretch = string | boolean;
-export type AutocompleteSkeleton = string | boolean;
 export type AutocompletePageOffset = string | number;
 export type AutocompleteObserverElement = string | React.ReactNode;
 export type AutocompleteChildren =
@@ -175,8 +146,8 @@ export interface AutocompleteProps extends React.HTMLProps<HTMLElement> {
    * Set a `cache_hash` as a string to enable internal memorizing of the list to enhance rerendering performance. Components like Autocomplete is using this because of the huge data changes due to search and reorder. Defaults to `null`.
    */
   cache_hash?: string;
-  action_menu?: AutocompleteActionMenu;
-  is_popup?: AutocompleteIsPopup;
+  action_menu?: boolean;
+  is_popup?: boolean;
 
   /**
    * Use `right` to change the options alignment direction. Makes only sense to use in combination with `prevent_selection` or `more_menu` - or if a independent width is used. Defaults to `left`.
@@ -196,14 +167,14 @@ export interface AutocompleteProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to true, the DrawerList will handle it&#39;s width and position handling independent to the parent/mother element. Defaults to `false`.
    */
-  independent_width?: AutocompleteIndependentWidth;
-  fixed_position?: AutocompleteFixedPosition;
-  prevent_focus?: AutocompletePreventFocus;
+  independent_width?: boolean;
+  fixed_position?: boolean;
+  prevent_focus?: boolean;
 
   /**
    * If set to true, search items by the first key will be ignored. Defaults to `false`.
    */
-  skip_keysearch?: AutocompleteSkipKeysearch;
+  skip_keysearch?: boolean;
   selected_value?: AutocompleteSelectedValue;
   suffix_value?: AutocompleteSuffixValue;
   content?: AutocompleteContent;
@@ -213,7 +184,7 @@ export interface AutocompleteProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to true, all keyboard and mouse events will be ignored. Defaults to `false`.
    */
-  ignore_events?: AutocompleteIgnoreEvents;
+  ignore_events?: boolean;
   handle_dismiss_focus?: (...args: any[]) => any;
   on_pre_change?: (...args: any[]) => any;
   on_resize?: (...args: any[]) => any;
@@ -317,22 +288,22 @@ export interface AutocompleteProps extends React.HTMLProps<HTMLElement> {
   /**
    * Use `true` to make the label only readable by screen readers.
    */
-  label_sr_only?: AutocompleteLabelSrOnly;
+  label_sr_only?: boolean;
 
   /**
    * Use `true` to not remove the typed value on input blur, if it is invalid. By default, the typed value will disappear / replaced by a selected value from the data list during the input field blur.
    */
-  keep_value?: AutocompleteKeepValue;
+  keep_value?: boolean;
 
   /**
    * Like `keep_value` – but would not reset to the selected value during input field blur. Also, the selected value would still be kept.
    */
-  keep_value_and_selection?: AutocompleteKeepValueAndSelection;
+  keep_value_and_selection?: boolean;
 
   /**
    * If set to `true`, a clear button is shown inside the input field. Defaults to `false`.
    */
-  show_clear_button?: AutocompleteShowClearButton;
+  show_clear_button?: boolean;
 
   /**
    * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
@@ -348,7 +319,7 @@ export interface AutocompleteProps extends React.HTMLProps<HTMLElement> {
    * Use an object to define additional FormStatus properties.
    */
   status_props?: Record<string, unknown>;
-  status_no_animation?: AutocompleteStatusNoAnimation;
+  status_no_animation?: boolean;
 
   /**
    * The `status_id` used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
@@ -363,27 +334,27 @@ export interface AutocompleteProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true`, word highlighting will still be active, but no options will be filtered out. Defaults to `false`.
    */
-  disable_filter?: AutocompleteDisableFilter;
+  disable_filter?: boolean;
 
   /**
    * If set to `true`, reordering of search results will be disabled. Defaults to `false`.
    */
-  disable_reorder?: AutocompleteDisableReorder;
+  disable_reorder?: boolean;
 
   /**
    * Defines if the options list should be scrollable (the `max-height` is set by default to `50vh`). Defaults to `true`.
    */
-  scrollable?: AutocompleteScrollable;
+  scrollable?: boolean;
 
   /**
    * If set to true, the element is then focusable by assertive technologies.
    */
-  focusable?: AutocompleteFocusable;
+  focusable?: boolean;
 
   /**
    * If set to `true`, word highlighting will be disabled, but the options will still get filtered. Defaults to `false`.
    */
-  disable_highlighting?: AutocompleteDisableHighlighting;
+  disable_highlighting?: boolean;
 
   /**
    * Defines the direction of how the drawer-list shows the options list. Can be `bottom` or `top`. Defaults to `auto`.
@@ -398,22 +369,22 @@ export interface AutocompleteProps extends React.HTMLProps<HTMLElement> {
   /**
    * To disable the React Portal behavior. Defaults to `false`.
    */
-  skip_portal?: AutocompleteSkipPortal;
+  skip_portal?: boolean;
 
   /**
    * To disable appear/disappear (show/hide) animation. Defaults to `false`.
    */
-  no_animation?: AutocompleteNoAnimation;
+  no_animation?: boolean;
 
   /**
    * To disable scrolling animation. Defaults to `false`.
    */
-  no_scroll_animation?: AutocompleteNoScrollAnimation;
+  no_scroll_animation?: boolean;
 
   /**
    * Use `true` to show a Autocomplete button to toggle the <a href="/uilib/components/fragments/drawer-list">DrawerList</a>. Defaults to `false`.
    */
-  show_submit_button?: AutocompleteShowSubmitButton;
+  show_submit_button?: boolean;
 
   /**
    * Replace the dropdown / submit button with a custom React element. Defaults to the input SubmitButton `import { SubmitButton } from &#39;@dnb/eufemia/components/input/Input&#39;`.
@@ -423,7 +394,7 @@ export interface AutocompleteProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to true, the DrawerList will then not make any permanent selection. Defaults to `false`.
    */
-  prevent_selection?: AutocompletePreventSelection;
+  prevent_selection?: boolean;
 
   /**
    * Define the height of the Autocomplete. Can be set to `small`, `default`, `medium` and `large`. Defaults to `default`.
@@ -458,7 +429,7 @@ export interface AutocompleteProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true` and `search_in_word_index` is not set, the user will be able to more easily search and filter e.g. bank account numbers. Defaults to `false`.
    */
-  search_numbers?: AutocompleteSearchNumbers;
+  search_numbers?: boolean;
 
   /**
    * If you want to define only a startup value (integer) or have to handle a re-render without handling the state during the re-render by yourself, then using `default_value` is a good choice. Defaults to `null`.
@@ -478,33 +449,33 @@ export interface AutocompleteProps extends React.HTMLProps<HTMLElement> {
   /**
    * Use `true` to auto open the list once the user is entering the input field with the keyboard.
    */
-  open_on_focus?: AutocompleteOpenOnFocus;
+  open_on_focus?: boolean;
 
   /**
    * If set to true, the DrawerList will not close on any events. Defaults to `false`.
    */
-  prevent_close?: AutocompletePreventClose;
+  prevent_close?: boolean;
 
   /**
    * If set to true, the DrawerList will close on outside clicks, but not on selection. Defaults to `false`.
    */
-  keep_open?: AutocompleteKeepOpen;
+  keep_open?: boolean;
 
   /**
    * If set to `true`, the Autocomplete will be rendered initially with a visible and accessible data list / options.
    */
-  opened?: AutocompleteOpened;
-  disabled?: AutocompleteDisabled;
+  opened?: boolean;
+  disabled?: boolean;
 
   /**
    * If set to `true`, then the autocomplete will be 100% in available `width`.
    */
-  stretch?: AutocompleteStretch;
+  stretch?: boolean;
 
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: AutocompleteSkeleton;
+  skeleton?: SkeletonShow;
 
   /**
    * Define a HTML class that will be set on the DOM portal beside `dnb-drawer-list__portal__style`. Can be useful to handle e.g. a custom `z-index` in relation to a header.

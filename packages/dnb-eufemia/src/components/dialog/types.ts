@@ -31,12 +31,12 @@ export interface DialogContentProps
   /**
    * If set to `false` then the dialog content will be shown without any spacing. Defaults to `true`.
    */
-  spacing?: string | boolean
+  spacing?: boolean
 
   /**
    * By default the dialog content gets added the core style class `dnb-core-style`. Use `false` to disable this behavior.
    */
-  preventCoreStyle?: string | boolean
+  preventCoreStyle?: boolean
 
   /**
    * The content which will appear in the navigation, above the header, and side-by-side the close button.
@@ -61,17 +61,17 @@ export interface DialogContentProps
   /**
    * If set to `true` then the dialog content will be shown as fullscreen, without showing the original content behind. Can be set to `false` to omit the auto fullscreen. Defaults to `auto`.
    */
-  fullscreen?: string | boolean
+  fullscreen?: boolean | string
 
   /**
    * If set to `true`, no open/close animation will be shown. Defaults to false.
    */
-  noAnimation?: string | boolean
+  noAnimation?: boolean
 
   /**
    * Same as `noAnimation`, but gets triggered only if the viewport width is less than `40em`. Defaults to false.
    */
-  noAnimationOnMobile?: string | boolean
+  noAnimationOnMobile?: boolean
 
   /**
    * Variant of Dialog. Defaults to 'information'.

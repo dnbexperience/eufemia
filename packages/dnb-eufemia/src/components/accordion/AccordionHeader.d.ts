@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { SkeletonShow } from '../Skeleton';
 export type AccordionHeaderTitleSpace =
   | string
   | number
@@ -127,9 +128,6 @@ export type AccordionHeaderIcon =
       expanded?: React.ReactNode | ((...args: any[]) => any);
     };
 export type AccordionHeaderIconPosition = 'left' | 'right';
-export type AccordionHeaderDisabled = string | boolean;
-export type AccordionHeaderSkeleton = string | boolean;
-export type AccordionHeaderNoAnimation = string | boolean;
 export type AccordionHeaderSpace =
   | string
   | number
@@ -163,9 +161,9 @@ export interface AccordionHeaderProps
   icon?: AccordionHeaderIcon;
   icon_position?: AccordionHeaderIconPosition;
   icon_size?: string;
-  disabled?: AccordionHeaderDisabled;
-  skeleton?: AccordionHeaderSkeleton;
-  no_animation?: AccordionHeaderNoAnimation;
+  disabled?: boolean;
+  skeleton?: SkeletonShow;
+  no_animation?: boolean;
   space?: AccordionHeaderSpace;
   top?: AccordionHeaderTop;
   right?: AccordionHeaderRight;
