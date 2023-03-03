@@ -73,7 +73,7 @@
     "gatsby": "4.24.4",
     "gatsby-link": "4.24.1",
     "gatsby-plugin-algolia": "0.26.0",
-    "gatsby-plugin-babel-react-live": "1.2.0",
+    "gatsby-plugin-babel-react-live": "1.2.1",
     "gatsby-plugin-catch-links": "4.24.0",
     "gatsby-plugin-emotion": "8.0.0",
     "gatsby-plugin-eufemia-theme-handler": "workspace:*",
