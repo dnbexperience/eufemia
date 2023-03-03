@@ -32,9 +32,6 @@ export type LogoTop = string | number | boolean;
 export type LogoRight = string | number | boolean;
 export type LogoBottom = string | number | boolean;
 export type LogoLeft = string | number | boolean;
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface LogoProps extends React.HTMLProps<HTMLElement> {
   /**

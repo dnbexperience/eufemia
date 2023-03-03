@@ -40,9 +40,6 @@ export type FormSetChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface FormSetProps extends React.HTMLProps<HTMLElement> {
   /**

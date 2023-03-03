@@ -71,9 +71,6 @@ export type PaginationLeft = string | number | boolean;
 export type PaginationChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface PaginationProps extends React.HTMLProps<HTMLElement> {
   /**
@@ -342,9 +339,6 @@ export type PaginationInstanceLeft = string | number | boolean;
 export type PaginationInstanceChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface PaginationInstanceProps {
   /**
@@ -615,9 +609,6 @@ export type InfinityMarkerLeft = string | number | boolean;
 export type InfinityMarkerChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface InfinityMarkerProps {
   /**
@@ -818,9 +809,6 @@ export class InfinityMarker extends React.Component<
 export type PaginationContentChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface PaginationContentProps {
   /**

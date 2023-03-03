@@ -55,9 +55,6 @@ export type TextareaTextareaElement =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type TextareaChildren = React.ReactNode | ((...args: any[]) => any);
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface TextareaProps extends React.HTMLProps<HTMLElement> {
   /**
