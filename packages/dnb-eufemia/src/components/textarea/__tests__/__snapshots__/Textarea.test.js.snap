@@ -159,10 +159,9 @@ exports[`Textarea scss have to match default theme snapshot 1`] = `
   background-color: var(--color-white);
   overflow-y: auto;
   overscroll-behavior: contain;
-  scrollbar-width: thin;
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: auto;
-  scrollbar-color: var(--color-sea-green) transparent;
+  scrollbar-color: var(--scrollbar-thumb-color, #888) transparent;
 }
 .dnb-textarea__textarea ::selection {
   background-color: var(--color-mint-green);
@@ -174,20 +173,21 @@ html:not([data-visual-test]) .dnb-textarea__textarea {
 }
 @supports not (scrollbar-color: auto) {
   .dnb-textarea__textarea::-webkit-scrollbar {
-    background-color: var(--color-black-8);
+    border-radius: var(--scrollbar-thumb-width, 0.5rem);
+    background-color: var(--scrollbar-track-color, #eee);
   }
   .dnb-textarea__textarea::-webkit-scrollbar:vertical {
-    width: 0.5rem;
+    width: var(--scrollbar-track-width, 0.5rem);
   }
   .dnb-textarea__textarea::-webkit-scrollbar:horizontal {
-    height: 0.5rem;
+    height: var(--scrollbar-track-width, 0.5rem);
   }
   .dnb-textarea__textarea::-webkit-scrollbar-thumb {
-    background-color: var(--color-sea-green);
-    border-radius: 0.5rem;
+    background-color: var(--scrollbar-thumb-color, #888);
+    border-radius: var(--scrollbar-thumb-width, 0.5rem);
   }
   .dnb-textarea__textarea::-webkit-scrollbar-thumb:hover {
-    background-color: var(--color-emerald-green);
+    background-color: var(--scrollbar-thumb-hover-color, #666);
   }
 }
 .dnb-textarea__placeholder {
