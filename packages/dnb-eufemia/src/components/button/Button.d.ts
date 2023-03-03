@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SkeletonShow } from '../skeleton/Skeleton';
+import type { SkeletonShow } from '../skeleton/Skeleton';
 import { IconPrimaryIcon } from '../icon-primary/IconPrimary';
 import { DataAttributeTypes } from '../../shared/types';
 export type ButtonText = string | React.ReactNode;
@@ -22,13 +22,8 @@ export type ButtonStatus =
   | boolean
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type ButtonStatusNoAnimation = string | boolean;
 export type ButtonTo = string | any | ((...args: any[]) => any);
-export type ButtonWrap = string | boolean;
-export type ButtonBounding = string | boolean;
-export type ButtonStretch = string | boolean;
 export type ButtonSkeleton = SkeletonShow;
-export type ButtonDisabled = string | boolean;
 export type ButtonChildren =
   | string
   | ((...args: any[]) => any)
@@ -131,7 +126,7 @@ export type ButtonProps = {
    * Use an object to define additional FormStatus properties.
    */
   status_props?: any;
-  status_no_animation?: ButtonStatusNoAnimation;
+  status_no_animation?: boolean;
 
   /**
    * The `status_id` used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
@@ -172,23 +167,23 @@ export type ButtonProps = {
   /**
    * If set to `true` the button text will wrap in to new lines if the overflow point is reached. Defaults to `false`.
    */
-  wrap?: ButtonWrap;
+  wrap?: boolean;
 
   /**
    * Set it to `true` in order to extend the bounding box (above the visual button background). You may also look into the HTML class `dnb-button__bounding` if it needs some CSS customization in order to get the particular button right for your use-case.
    */
-  bounding?: ButtonBounding;
+  bounding?: boolean;
 
   /**
    * Set it to `true` in order to stretch the button to the available space. Defaults to false.
    */
-  stretch?: ButtonStretch;
+  stretch?: boolean;
 
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
   skeleton?: ButtonSkeleton;
-  disabled?: ButtonDisabled;
+  disabled?: boolean;
   inner_ref?: any;
   className?: string;
   innerRef?: any;

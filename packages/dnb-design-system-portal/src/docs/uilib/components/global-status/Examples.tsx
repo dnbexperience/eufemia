@@ -26,7 +26,7 @@ export const GlobalStatusError = () => (
         },
       ]}
       show={true}
-      autoscroll="false"
+      autoscroll={false}
       no_animation={true}
       omit_set_focus={true}
       id="demo-1"
@@ -42,7 +42,7 @@ export const GlobalStatusInfo = () => (
       text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus"
       items={['Status text 1', 'Status text 2']}
       show={true}
-      autoscroll="false"
+      autoscroll={false}
       no_animation={true}
       omit_set_focus={true}
       id="demo-4"

@@ -1,22 +1,12 @@
 import * as React from 'react';
-export type FormSetNoForm = string | boolean;
-export type FormSetDisabled = string | boolean;
-export type FormSetSkeleton = string | boolean;
-export type FormSetPreventSubmit = string | boolean;
+import type { SectionSpacing, SectionStyleTypes } from '../Section';
+import type { SkeletonShow } from '../Skeleton';
 export type FormSetLabel =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type FormSetLabelDirection = 'vertical' | 'horizontal';
-export type FormSetLabelSrOnly = string | boolean;
-export type FormSetNoLabel = string | boolean;
-export type FormSetNoFieldset = string | boolean;
-export type FormSetWrap = string | boolean;
 export type FormSetDirection = 'vertical' | 'horizontal';
-export type FormSetVertical = string | boolean;
-export type FormSetCentered = string | boolean;
-export type FormSetSectionSpacing = string | boolean;
-export type FormSetResponsive = string | boolean;
 export type FormSetSpace =
   | string
   | number
@@ -63,22 +53,22 @@ export interface FormSetProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true`, then a `div` HTML element will be used instead of `form`. Defaults to `false`.
    */
-  no_form?: FormSetNoForm;
+  no_form?: boolean;
 
   /**
    * If set to `true`, every component inside will be disabled. Defaults to `false`.
    */
-  disabled?: FormSetDisabled;
+  disabled?: boolean;
 
   /**
    * If set to `true`, it enables skeleton for nested components. Defaults to `false`.
    */
-  skeleton?: FormSetSkeleton;
+  skeleton?: SkeletonShow;
 
   /**
    * If set to `true`, components inside can&#39;t cause a page refresh. The event `on_submit` will still be triggered. Defaults to `false`.
    */
-  prevent_submit?: FormSetPreventSubmit;
+  prevent_submit?: boolean;
   id?: string;
 
   /**
@@ -94,19 +84,19 @@ export interface FormSetProps extends React.HTMLProps<HTMLElement> {
   /**
    * Use `true` to make the label only readable by screen readers.
    */
-  label_sr_only?: FormSetLabelSrOnly;
+  label_sr_only?: boolean;
   label_id?: string;
 
   /**
    * If you need to style the "legend", then you can either send in a custom Component, like `label={ <H2> }`, or define Your styling class with the `label_class` property.
    */
   label_class?: string;
-  no_label?: FormSetNoLabel;
+  no_label?: boolean;
 
   /**
    * If set to `true`, then the internal `legend` element will be a `label` instead, and no `<fieldset>` is used. Keep in mind, that `<legend>` and `<fieldset>` <strong>is only used if a `label` is provided</strong>. Defaults to `false`.
    */
-  no_fieldset?: FormSetNoFieldset;
+  no_fieldset?: boolean;
 
   /**
    * Send along a different locale to all nested components.
@@ -116,7 +106,7 @@ export interface FormSetProps extends React.HTMLProps<HTMLElement> {
   /**
    * Forces the content of a FormRow to wrap. Make sure you always define spacing as `right="..."` and not `left`, this way components will align left once they wrap. Defaults to `false`.
    */
-  wrap?: FormSetWrap;
+  wrap?: boolean;
 
   /**
    * To define the layout direction on how the next component should be placed on. Can be either `vertical` or `horizontal`. Defaults to `horizontal`.
@@ -126,28 +116,28 @@ export interface FormSetProps extends React.HTMLProps<HTMLElement> {
   /**
    * Will force both `direction` and `label_direction` to be "vertical" if set to `true`.
    */
-  vertical?: FormSetVertical;
+  vertical?: boolean;
 
   /**
    * Will center all children vertically as long as the screen does not hit a mobile width.
    */
-  centered?: FormSetCentered;
+  centered?: boolean;
 
   /**
    * To enable the visual helper `.dnb-section` class. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to null.
    */
-  section_style?: string;
+  section_style?: SectionStyleTypes;
 
   /**
    * To modify the `spacing`. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to null.
    */
-  section_spacing?: FormSetSectionSpacing;
+  section_spacing?: SectionSpacing;
   global_status_id?: string;
 
   /**
    * To force responsiveness on form components (like <a href="/uilib/components/input">Input</a> and their labels (<a href="/uilib/components/form-label">FormLabel</a>), set the prop to `true`. Defaults to `false`.
    */
-  responsive?: FormSetResponsive;
+  responsive?: boolean;
   class?: string;
   skipContentWrapperIfNested?: boolean;
 
