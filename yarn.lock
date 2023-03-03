@@ -3001,6 +3001,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.20.13":
+  version: 7.21.0
+  resolution: "@babel/runtime@npm:7.21.0"
+  dependencies:
+    regenerator-runtime: ^0.13.11
+  checksum: 7b33e25bfa9e0e1b9e8828bb61b2d32bdd46b41b07ba7cb43319ad08efc6fda8eb89445193e67d6541814627df0ca59122c0ea795e412b99c5183a0540d338ab
+  languageName: node
+  linkType: hard
+
 "@babel/runtime@npm:^7.9.2":
   version: 7.17.2
   resolution: "@babel/runtime@npm:7.17.2"
@@ -10427,10 +10436,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-plugin-react-live@npm:1.2.0":
-  version: 1.2.0
-  resolution: "babel-plugin-react-live@npm:1.2.0"
-  checksum: fce92891d8dea0ecd2dd0fbd440e4e4528871f6ec33863a8ff3921cb2afafb99fae9dbe8583b680dedf711ba306c9fe1f26606f497b39e2413254b448aaef0e8
+"babel-plugin-react-live@npm:1.2.1":
+  version: 1.2.1
+  resolution: "babel-plugin-react-live@npm:1.2.1"
+  checksum: 2d3bdc7c3a1c85336803e5344f529ad5ac8f1e1ff80f141db20f7da91dfc272f567ee35270f42e7c49769659d96dab51b37e1b93b41ed2da6fc4850fca679b4c
   languageName: node
   linkType: hard
 
@@ -14451,7 +14460,7 @@ __metadata:
     gatsby: 4.24.4
     gatsby-link: 4.24.1
     gatsby-plugin-algolia: 0.26.0
-    gatsby-plugin-babel-react-live: 1.2.0
+    gatsby-plugin-babel-react-live: 1.2.1
     gatsby-plugin-catch-links: 4.24.0
     gatsby-plugin-emotion: 8.0.0
     gatsby-plugin-eufemia-theme-handler: "workspace:*"
@@ -17479,7 +17488,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fs-extra@npm:^11.0.0":
+"fs-extra@npm:^11.0.0, fs-extra@npm:^11.1.0":
   version: 11.1.0
   resolution: "fs-extra@npm:11.1.0"
   dependencies:
@@ -17713,6 +17722,30 @@ __metadata:
   languageName: node
   linkType: hard
 
+"gatsby-core-utils@npm:4.7.0":
+  version: 4.7.0
+  resolution: "gatsby-core-utils@npm:4.7.0"
+  dependencies:
+    "@babel/runtime": ^7.20.13
+    ci-info: 2.0.0
+    configstore: ^5.0.1
+    fastq: ^1.13.0
+    file-type: ^16.5.3
+    fs-extra: ^11.1.0
+    got: ^11.8.5
+    hash-wasm: ^4.9.0
+    import-from: ^4.0.0
+    lmdb: 2.5.3
+    lock: ^1.1.0
+    node-object-hash: ^2.3.10
+    proper-lockfile: ^4.1.2
+    resolve-from: ^5.0.0
+    tmp: ^0.2.1
+    xdg-basedir: ^4.0.0
+  checksum: aeda55878fae68701050c539862ca71462328a2849a04098a90dd380de28f87ce9aa093b5228afa3194b1e89f2571e51dbafd04db1ba21cdc1420cbf92c5ca44
+  languageName: node
+  linkType: hard
+
 "gatsby-core-utils@npm:^3.20.0":
   version: 3.25.0
   resolution: "gatsby-core-utils@npm:3.25.0"
@@ -17844,12 +17877,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gatsby-plugin-babel-react-live@npm:1.2.0":
-  version: 1.2.0
-  resolution: "gatsby-plugin-babel-react-live@npm:1.2.0"
+"gatsby-plugin-babel-react-live@npm:1.2.1":
+  version: 1.2.1
+  resolution: "gatsby-plugin-babel-react-live@npm:1.2.1"
   dependencies:
-    babel-plugin-react-live: 1.2.0
-  checksum: 8d90e3208f1a9d6b18d465a54afb530110b4aa1d628d6ff75f311b66d0532406bf4014be0d92b1d5704687099001eb9ccaa8c160d921e7d9ca6dcfc5ca25f78d
+    babel-plugin-react-live: 1.2.1
+  checksum: 57fe9bba4fd70593351fb81f5d0bb2890ad622451252c87a8c7224cd87dae3313d168d5cfc1214eb40d47731b5f26d771563a22fc1268b7001541dcf9e57c4ff
   languageName: node
   linkType: hard
 
@@ -17885,6 +17918,7 @@ __metadata:
   dependencies:
     "@dnb/eufemia": "workspace:*"
     "@emotion/react": 11.9.3
+    gatsby-core-utils: 4.7.0
     globby: 11.0.4
     raw-loader: 4.0.2
     terser-loader: 2.0.2
@@ -19447,6 +19481,13 @@ __metadata:
     readable-stream: ^3.6.0
     safe-buffer: ^5.2.0
   checksum: 26b7e97ac3de13cb23fc3145e7e3450b0530274a9562144fc2bf5c1e2983afd0e09ed7cc3b20974ba66039fad316db463da80eb452e7373e780cbee9a0d2f2dc
+  languageName: node
+  linkType: hard
+
+"hash-wasm@npm:^4.9.0":
+  version: 4.9.0
+  resolution: "hash-wasm@npm:4.9.0"
+  checksum: b8734247fb7f69941f6564179dd891b7de21aa5877b9e32a5c6d777c2ab45cf5a6b021ade2b0156ec780ac41188486d571d9d526ef8206dda1ad306c81112a8a
   languageName: node
   linkType: hard
 
@@ -29929,6 +29970,13 @@ __metadata:
   version: 0.13.10
   resolution: "regenerator-runtime@npm:0.13.10"
   checksum: 09893f5a9e82932642d9a999716b6c626dc53ef2a01307c952ebbf8e011802360163a37c304c18a6c358548be5a72b448e37209954a18696f21e438c81cbb4b9
+  languageName: node
+  linkType: hard
+
+"regenerator-runtime@npm:^0.13.11":
+  version: 0.13.11
+  resolution: "regenerator-runtime@npm:0.13.11"
+  checksum: 27481628d22a1c4e3ff551096a683b424242a216fee44685467307f14d58020af1e19660bf2e26064de946bad7eff28950eae9f8209d55723e2d9351e632bbb4
   languageName: node
   linkType: hard
 
