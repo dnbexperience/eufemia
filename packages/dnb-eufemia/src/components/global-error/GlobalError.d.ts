@@ -21,9 +21,6 @@ export type GlobalErrorChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface GlobalErrorProps extends React.HTMLProps<HTMLElement> {
   /**

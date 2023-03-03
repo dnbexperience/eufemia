@@ -2,9 +2,6 @@ import * as React from 'react';
 export type InfinityScrollerChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface InfinityScrollerProps
   extends React.HTMLProps<HTMLElement> {
@@ -28,9 +25,6 @@ export type InfinityLoadButtonPressedElement =
   | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any);
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface InfinityLoadButtonProps {
   element?: InfinityLoadButtonElement;

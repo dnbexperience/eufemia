@@ -46,9 +46,6 @@ export type SwitchRight = string | number | boolean;
 export type SwitchBottom = string | number | boolean;
 export type SwitchLeft = string | number | boolean;
 export type SwitchChildren = string | ((...args: any[]) => any);
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface SwitchProps extends React.HTMLProps<HTMLElement> {
   /**

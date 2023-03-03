@@ -13,9 +13,6 @@ export type BlockquoteTop = string | number | boolean;
 export type BlockquoteRight = string | number | boolean;
 export type BlockquoteBottom = string | number | boolean;
 export type BlockquoteLeft = string | number | boolean;
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface BlockquoteProps extends React.HTMLProps<HTMLElement> {
   space?: BlockquoteSpace;

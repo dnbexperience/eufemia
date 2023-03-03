@@ -57,9 +57,6 @@ export type ToggleButtonRight = string | number | boolean;
 export type ToggleButtonBottom = string | number | boolean;
 export type ToggleButtonLeft = string | number | boolean;
 export type ToggleButtonChildren = string | ((...args: any[]) => any);
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface ToggleButtonProps extends React.HTMLProps<HTMLElement> {
   /**
