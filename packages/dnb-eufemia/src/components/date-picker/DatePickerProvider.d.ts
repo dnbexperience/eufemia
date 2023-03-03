@@ -1,7 +1,6 @@
 import * as React from 'react';
 export type DatePickerProviderMinDate = Date | string;
 export type DatePickerProviderMaxDate = Date | string;
-export type DatePickerProviderRange = boolean | string;
 /**
  * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
  */
@@ -26,7 +25,7 @@ export interface DatePickerProviderProps
   /**
    * If the date picker should support a range of two dates (starting and ending date). Defaults to `false`.
    */
-  range: DatePickerProviderRange;
+  range: boolean;
   setReturnObject: (...args: any[]) => any;
   enhanceWithMethods?: Record<string, unknown>;
   attributes?: Record<string, unknown>;

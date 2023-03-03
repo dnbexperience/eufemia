@@ -11,7 +11,7 @@ import Img, { ImgProps } from '../../elements/Img'
 // Shared
 import Context from '../../shared/Context'
 import { SpacingProps } from '../../shared/types'
-import { SkeletonShow } from '../skeleton/Skeleton'
+import type { SkeletonShow } from '../skeleton/Skeleton'
 import {
   validateDOMAttributes,
   extendPropsWithContext,

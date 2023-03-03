@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { SkeletonShow } from '../Skeleton';
 export type InputMaskedMask =
   | Record<string, unknown>
   | any[]
@@ -14,11 +15,6 @@ export type InputMaskedCurrencyMask =
 export type InputMaskedMaskOptions = string | Record<string, unknown>;
 export type InputMaskedNumberFormat = string | Record<string, unknown>;
 export type InputMaskedAsCurrency = string | boolean;
-export type InputMaskedAsNumber = string | boolean;
-export type InputMaskedAsPercent = string | boolean;
-export type InputMaskedShowMask = string | boolean;
-export type InputMaskedShowGuide = string | boolean;
-export type InputMaskedKeepCharPositions = string | boolean;
 export type InputMaskedSize =
   | 'default'
   | 'small'
@@ -31,24 +27,16 @@ export type InputMaskedLabel =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type InputMaskedLabelDirection = 'horizontal' | 'vertical';
-export type InputMaskedLabelSrOnly = string | boolean;
 export type InputMaskedStatus =
   | string
   | boolean
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type InputMaskedStatusNoAnimation = string | boolean;
-export type InputMaskedClear = string | boolean;
-export type InputMaskedKeepPlaceholder = string | boolean;
 export type InputMaskedSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type InputMaskedAlign = 'left' | 'center' | 'right';
-export type InputMaskedSelectall = string | boolean;
-export type InputMaskedStretch = string | boolean;
-export type InputMaskedDisabled = string | boolean;
-export type InputMaskedSkeleton = string | boolean;
 export type InputMaskedInputAttributes = string | Record<string, unknown>;
 export type InputMaskedInputElement =
   | ((...args: any[]) => any)
@@ -59,7 +47,6 @@ export type InputMaskedIcon =
   | ((...args: any[]) => any);
 export type InputMaskedIconSize = string | number;
 export type InputMaskedIconPosition = 'left' | 'right';
-export type InputMaskedReadOnly = string | boolean;
 export type InputMaskedSubmitElement =
   | ((...args: any[]) => any)
   | React.ReactNode;
@@ -142,28 +129,28 @@ export interface InputMaskedProps extends React.HTMLProps<HTMLElement> {
   /**
    * Set to `true` to automatically set a number mask based on the given or inherited locale.
    */
-  as_number?: InputMaskedAsNumber;
+  as_number?: boolean;
 
   /**
    * Set to `true` to automatically set a number mask with a percentage sign based on the given or inherited locale.
    */
-  as_percent?: InputMaskedAsPercent;
+  as_percent?: boolean;
 
   /**
    * Show mask when input is empty and has no focus. Defaults to `false`.
    */
-  show_mask?: InputMaskedShowMask;
+  show_mask?: boolean;
 
   /**
    * When `false` is given, it doesn&#39;t print out placeholder characters and only adds mask characters when the user reaches them as they&#39;re typing. Defaults to `true`.
    */
-  show_guide?: InputMaskedShowGuide;
+  show_guide?: boolean;
   pipe?: (...args: any[]) => any;
 
   /**
    * When `true`, adding or deleting characters will not affect the positions of existing characters. Defaults to `false`.
    */
-  keep_char_positions?: InputMaskedKeepCharPositions;
+  keep_char_positions?: boolean;
 
   /**
    * The placeholder character represents the fillable spot in the mask (e.g. `_`). Defaults to invisible space.
@@ -226,7 +213,7 @@ export interface InputMaskedProps extends React.HTMLProps<HTMLElement> {
   /**
    * Use `true` to make the label only readable by screen readers.
    */
-  label_sr_only?: InputMaskedLabelSrOnly;
+  label_sr_only?: boolean;
 
   /**
    * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
@@ -242,7 +229,7 @@ export interface InputMaskedProps extends React.HTMLProps<HTMLElement> {
    * Use an object to define additional FormStatus properties.
    */
   status_props?: Record<string, unknown>;
-  status_no_animation?: InputMaskedStatusNoAnimation;
+  status_no_animation?: boolean;
 
   /**
    * Defines a custom visual state of the input. Use it only if you have to simulate a custom state. Currently are three statuses `virgin` , `focus` and `dirty`. Defaults to `null`.
@@ -273,12 +260,12 @@ export interface InputMaskedProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true`, then a clear button will be shown which lets the user clear any given input value.
    */
-  clear?: InputMaskedClear;
+  clear?: boolean;
 
   /**
    * Set to `true` in case the `placeholder` has to be kept during focus. By default, the placeholder disappears on focus.
    */
-  keep_placeholder?: InputMaskedKeepPlaceholder;
+  keep_placeholder?: boolean;
 
   /**
    * Text describing the content of the input more than the label. You can also send in a React component, so it gets wrapped inside the Input component.
@@ -293,18 +280,18 @@ export interface InputMaskedProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true`, then the whole input value gets selected on the entry focus. A second click will place the cursor on the wanted position.
    */
-  selectall?: InputMaskedSelectall;
+  selectall?: boolean;
 
   /**
    * If set to `true`, then the input field will be 100% in `width`.
    */
-  stretch?: InputMaskedStretch;
-  disabled?: InputMaskedDisabled;
+  stretch?: boolean;
+  disabled?: boolean;
 
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: InputMaskedSkeleton;
+  skeleton?: SkeletonShow;
   class?: string;
 
   /**
@@ -336,7 +323,7 @@ export interface InputMaskedProps extends React.HTMLProps<HTMLElement> {
    * Defines the position of icon inside the input. Set to `left` or `right`. Defaults to `left` if not set.
    */
   icon_position?: InputMaskedIconPosition;
-  readOnly?: InputMaskedReadOnly;
+  readOnly?: boolean;
 
   /**
    * <em>(internal)</em> by providing a new component to be rendered inside the "shell" – we can add a freely customizable internal element. Used by the Autocomplete component.
