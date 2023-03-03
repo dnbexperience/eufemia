@@ -20,6 +20,7 @@
     - [Removal of `data-testid` in components](#removal-of-data-testid-in-components)
     - [Stopped supporting Internet Explorer (IE)](#stopped-supporting-internet-explorer-ie)
     - [Deprecations](#deprecations)
+  - [TypeScript](#typescript)
   - [Install](#install)
 
 ## Migration
@@ -182,6 +183,11 @@ When you convert from `<Modal />` or `<Modal mode="dialog" />` to `<Dialog />` â
 ### [Stopped supporting Internet Explorer (IE)](/uilib/usage/#supported-browsers-and-platforms)
 
 Stopped supporting Internet Explorer (IE), as Microsoft formally ended support for IE in June, 2022.
+
+### TypeScript
+
+- Updated multiple types from `string | boolean` to `boolean`, as there was a lot of properties who should only support boolean values and not strings.
+  Examples of changes to do would be to find Eufemia components using `"false"` or `"true"`, and replace it with boolean values. i.e., `vertical="false"` to `vertical={false}` or `selectall="true"` to `selectall={true}`.
 
 ### Deprecations
 
