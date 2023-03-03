@@ -69,11 +69,18 @@ describe('InputMasked component', () => {
   })
 
   it('gets valid ref element', () => {
-    const ref = React.createRef()
-    mount(<Component {...props} inner_ref={ref} />)
+    let ref
+
+    function MockComponent() {
+      ref = React.useRef()
+      return <Component {...props} inner_ref={ref} />
+    }
+
+    render(<MockComponent />)
 
     expect(ref.current instanceof window.HTMLInputElement).toBe(true)
     expect(ref.current.id).toBe(props.id)
+    expect(ref.current.tagName).toBe('INPUT')
   })
 
   it('event "on_change" gets emmited with correct value', () => {
