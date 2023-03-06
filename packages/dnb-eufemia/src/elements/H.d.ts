@@ -1,18 +1,5 @@
 import * as React from 'react';
-export type HSpace =
-  | string
-  | number
-  | boolean
-  | {
-      top?: string | number | boolean;
-      right?: string | number | boolean;
-      bottom?: string | number | boolean;
-      left?: string | number | boolean;
-    };
-export type HTop = string | number | boolean;
-export type HRight = string | number | boolean;
-export type HBottom = string | number | boolean;
-export type HLeft = string | number | boolean;
+import type { SpacingProps } from '../shared/types';
 export type HSize =
   | 'xx-large'
   | 'x-large'
@@ -22,12 +9,9 @@ export type HSize =
   | 'small'
   | 'x-small';
 
-export interface HProps extends React.HTMLProps<HTMLElement> {
-  space?: HSpace;
-  top?: HTop;
-  right?: HRight;
-  bottom?: HBottom;
-  left?: HLeft;
+export interface HProps
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   className?: string;
   as?: string;
   level?: string;

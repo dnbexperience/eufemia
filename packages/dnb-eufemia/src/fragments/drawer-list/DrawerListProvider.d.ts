@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { SpacingProps } from '../../shared/types';
 export type DrawerListProviderDirection = 'auto' | 'top' | 'bottom';
 export type DrawerListProviderSize =
   | 'default'
@@ -40,26 +41,13 @@ export type DrawerListProviderRawData =
   | any[]
   | Record<string, unknown>
   | ((...args: any[]) => any);
-export type DrawerListProviderSpace =
-  | string
-  | number
-  | boolean
-  | {
-      top?: string | number | boolean;
-      right?: string | number | boolean;
-      bottom?: string | number | boolean;
-      left?: string | number | boolean;
-    };
-export type DrawerListProviderTop = string | number | boolean;
-export type DrawerListProviderRight = string | number | boolean;
-export type DrawerListProviderBottom = string | number | boolean;
-export type DrawerListProviderLeft = string | number | boolean;
 export type DrawerListProviderPageOffset = string | number;
 export type DrawerListProviderObserverElement = string | React.ReactNode;
 export type DrawerListProviderMinHeight = string | number;
 
 export interface DrawerListProviderProps
-  extends React.HTMLProps<HTMLElement> {
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   id?: string;
   role?: string;
   cache_hash?: string;
@@ -97,11 +85,6 @@ export interface DrawerListProviderProps
   prepared_data?: any[];
   raw_data?: DrawerListProviderRawData;
   ignore_events?: boolean;
-  space?: DrawerListProviderSpace;
-  top?: DrawerListProviderTop;
-  right?: DrawerListProviderRight;
-  bottom?: DrawerListProviderBottom;
-  left?: DrawerListProviderLeft;
   className?: string;
   on_show?: (...args: any[]) => any;
   on_hide?: (...args: any[]) => any;

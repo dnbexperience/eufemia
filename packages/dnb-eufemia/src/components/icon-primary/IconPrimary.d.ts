@@ -1,5 +1,6 @@
 import * as React from 'react';
 import type { SkeletonShow } from '../Skeleton';
+import type { SpacingProps } from '../space/types';
 export type IconPrimaryIcon =
   | string
   | React.ReactNode
@@ -10,35 +11,6 @@ export type IconPrimarySize =
   | 'default'
   | 'medium'
   | 'large';
-export type IconPrimarySpace =
-  | string
-  | number
-  | boolean
-  | {
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-       */
-      top?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-       */
-      right?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-       */
-      bottom?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-       */
-      left?: string | number | boolean;
-    };
-export type IconPrimaryTop = string | number | boolean;
-export type IconPrimaryRight = string | number | boolean;
-export type IconPrimaryBottom = string | number | boolean;
-export type IconPrimaryLeft = string | number | boolean;
 export type IconPrimaryWidth = string | number;
 export type IconPrimaryHeight = string | number;
 export type IconPrimaryAttributes =
@@ -49,7 +21,8 @@ export type IconPrimaryChildren =
   | ((...args: any[]) => any);
 
 export interface IconPrimaryProps
-  extends Omit<React.HTMLProps<HTMLElement>, 'size'> {
+  extends Omit<React.HTMLProps<HTMLElement>, 'size'>,
+    SpacingProps {
   /**
    * <em>(required)</em> a React SVG Component or the icon name (in case we use `IconPrimary` or `dnb-icon-primary`).
    */
@@ -65,30 +38,6 @@ export interface IconPrimaryProps
    */
   size?: IconPrimarySize;
 
-  /**
-   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
-   */
-  space?: IconPrimarySpace;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-   */
-  top?: IconPrimaryTop;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-   */
-  right?: IconPrimaryRight;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-   */
-  bottom?: IconPrimaryBottom;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-   */
-  left?: IconPrimaryLeft;
   width?: IconPrimaryWidth;
   height?: IconPrimaryHeight;
 

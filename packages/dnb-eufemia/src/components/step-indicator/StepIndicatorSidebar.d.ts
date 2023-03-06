@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SpacingProps } from '../../shared/types';
+import type { SpacingProps } from '../../shared/types';
 export type StepIndicatorSidebarMode = 'static' | 'strict' | 'loose';
 export type StepIndicatorSidebarCurrentStep = string | number;
 export type StepIndicatorSidebarData =

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import type { SkeletonShow } from '../Skeleton';
+import type { SpacingProps } from '../space/types';
 export type AccordionGroupVariant =
   | 'plain'
   | 'default'
@@ -19,22 +20,10 @@ export type AccordionGroupClosed =
   | ((...args: any[]) => any);
 export type AccordionGroupIconPosition = 'left' | 'right';
 export type AccordionGroupAttributes = string | Record<string, unknown>;
-export type AccordionGroupSpace =
-  | string
-  | number
-  | boolean
-  | {
-      top?: string | number | boolean;
-      right?: string | number | boolean;
-      bottom?: string | number | boolean;
-      left?: string | number | boolean;
-    };
-export type AccordionGroupTop = string | number | boolean;
-export type AccordionGroupRight = string | number | boolean;
-export type AccordionGroupBottom = string | number | boolean;
-export type AccordionGroupLeft = string | number | boolean;
 
-export interface AccordionGroupProps extends React.HTMLProps<HTMLElement> {
+export interface AccordionGroupProps
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   title?: React.ReactNode;
   expanded?: boolean;
   no_animation?: boolean;
@@ -64,11 +53,6 @@ export interface AccordionGroupProps extends React.HTMLProps<HTMLElement> {
   class?: string;
   className?: string;
   children?: React.ReactNode;
-  space?: AccordionGroupSpace;
-  top?: AccordionGroupTop;
-  right?: AccordionGroupRight;
-  bottom?: AccordionGroupBottom;
-  left?: AccordionGroupLeft;
 
   /**
    * Will be called by user click interaction. Returns an object with a boolean state `expanded` inside `{ expanded, id, event, ...event }`.
@@ -80,6 +64,7 @@ export interface AccordionGroupProps extends React.HTMLProps<HTMLElement> {
 }
 export default class AccordionGroup extends React.Component<
   AccordionGroupProps,
+  SpacingProps,
   any
 > {
   render(): JSX.Element;

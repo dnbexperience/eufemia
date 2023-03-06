@@ -1,34 +1,6 @@
 import * as React from 'react';
 import type { SkeletonShow } from '../Skeleton';
-export type AutocompleteSpace =
-  | string
-  | number
-  | boolean
-  | {
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-       */
-      top?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-       */
-      right?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-       */
-      bottom?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-       */
-      left?: string | number | boolean;
-    };
-export type AutocompleteTop = string | number | boolean;
-export type AutocompleteRight = string | number | boolean;
-export type AutocompleteBottom = string | number | boolean;
-export type AutocompleteLeft = string | number | boolean;
+import type { SpacingProps } from '../space/types';
 export type AutocompleteAlignDrawer = 'left' | 'right';
 export type AutocompleteWrapperElement =
   | Record<string, unknown>
@@ -112,31 +84,9 @@ export type AutocompleteChildren =
   | Record<string, unknown>
   | any[];
 
-export interface AutocompleteProps extends React.HTMLProps<HTMLElement> {
-  /**
-   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
-   */
-  space?: AutocompleteSpace;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-   */
-  top?: AutocompleteTop;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-   */
-  right?: AutocompleteRight;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-   */
-  bottom?: AutocompleteBottom;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-   */
-  left?: AutocompleteLeft;
+export interface AutocompleteProps
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   role?: string;
 
   /**

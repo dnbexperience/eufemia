@@ -1,5 +1,6 @@
 import * as React from 'react';
 import type { SkeletonShow } from '../Skeleton';
+import type { SpacingProps } from '../space/types';
 export type HeadingText = React.ReactNode | ((...args: any[]) => any);
 export type HeadingSize =
   | 'auto'
@@ -14,38 +15,11 @@ export type HeadingLevel = number | string;
 export type HeadingDebug = boolean | ((...args: any[]) => any);
 export type HeadingDebugCounter = boolean | ((...args: any[]) => any);
 export type HeadingReset = number | boolean;
-export type HeadingSpace =
-  | string
-  | number
-  | boolean
-  | {
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-       */
-      top?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-       */
-      right?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-       */
-      bottom?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-       */
-      left?: string | number | boolean;
-    };
-export type HeadingTop = string | number | boolean;
-export type HeadingRight = string | number | boolean;
-export type HeadingBottom = string | number | boolean;
-export type HeadingLeft = string | number | boolean;
 export type HeadingChildren = React.ReactNode | ((...args: any[]) => any);
 
-export interface HeadingProps extends React.HTMLProps<HTMLElement> {
+export interface HeadingProps
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   id?: string;
   group?: string;
 
@@ -108,30 +82,6 @@ export interface HeadingProps extends React.HTMLProps<HTMLElement> {
    */
   element?: string;
 
-  /**
-   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
-   */
-  space?: HeadingSpace;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-   */
-  top?: HeadingTop;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-   */
-  right?: HeadingRight;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-   */
-  bottom?: HeadingBottom;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-   */
-  left?: HeadingLeft;
   class?: string;
   className?: string;
 
