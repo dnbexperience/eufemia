@@ -1,5 +1,6 @@
 import * as React from 'react';
 import type { SectionSpacing, SectionStyleTypes } from '../Section';
+import type { SpacingProps } from '../space/types';
 export type ProgressIndicatorType = 'circular' | 'linear';
 export type ProgressIndicatorSize =
   | 'default'
@@ -8,41 +9,13 @@ export type ProgressIndicatorSize =
   | 'large'
   | 'huge';
 export type ProgressIndicatorProgress = string | number;
-export type ProgressIndicatorSpace =
-  | string
-  | number
-  | boolean
-  | {
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-       */
-      top?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-       */
-      right?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-       */
-      bottom?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-       */
-      left?: string | number | boolean;
-    };
-export type ProgressIndicatorTop = string | number | boolean;
-export type ProgressIndicatorRight = string | number | boolean;
-export type ProgressIndicatorBottom = string | number | boolean;
-export type ProgressIndicatorLeft = string | number | boolean;
 export type ProgressIndicatorChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
 
 export interface ProgressIndicatorProps
-  extends React.HTMLProps<HTMLElement> {
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   /**
    * Defines the visibility of the progress. Toggling the `visible` property to false will force a fade-out animation. Defaults to `true`.
    */
@@ -99,30 +72,6 @@ export interface ProgressIndicatorProps
    */
   title?: string;
 
-  /**
-   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
-   */
-  space?: ProgressIndicatorSpace;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-   */
-  top?: ProgressIndicatorTop;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-   */
-  right?: ProgressIndicatorRight;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-   */
-  bottom?: ProgressIndicatorBottom;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-   */
-  left?: ProgressIndicatorLeft;
   class?: string;
   className?: string;
   children?: ProgressIndicatorChildren;

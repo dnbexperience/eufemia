@@ -1,6 +1,7 @@
 import * as React from 'react';
 import type { SectionSpacing, SectionStyleTypes } from '../Section';
 import type { SkeletonShow } from '../Skeleton';
+import type { SpacingProps } from '../space/types';
 import ContentWrapper from './TabsContentWrapper';
 import CustomContent from './TabsCustomContent';
 export type TabsData =
@@ -22,41 +23,14 @@ export type TabsTabElement =
   | ((...args: any[]) => any);
 export type TabsSelectedKey = string | number;
 export type TabsAlign = 'left' | 'center' | 'right';
-export type TabsSpace =
-  | string
-  | number
-  | boolean
-  | {
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-       */
-      top?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-       */
-      right?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-       */
-      bottom?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-       */
-      left?: string | number | boolean;
-    };
-export type TabsTop = string | number | boolean;
-export type TabsRight = string | number | boolean;
-export type TabsBottom = string | number | boolean;
-export type TabsLeft = string | number | boolean;
 export type TabsChildren =
   | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any);
 
-export interface TabsProps extends React.HTMLProps<HTMLElement> {
+export interface TabsProps
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   /**
    * <em>(required)</em> defines the data structure to load as a JSON. e.g. `[{title: &#39;...&#39;, content: &#39;Current tab&#39;, key: &#39;...&#39;, hash: &#39;...&#39;}]`
    */
@@ -135,30 +109,6 @@ export interface TabsProps extends React.HTMLProps<HTMLElement> {
   skeleton?: SkeletonShow;
   id?: string;
 
-  /**
-   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
-   */
-  space?: TabsSpace;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-   */
-  top?: TabsTop;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-   */
-  right?: TabsRight;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-   */
-  bottom?: TabsBottom;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-   */
-  left?: TabsLeft;
   class?: string;
   className?: string;
 

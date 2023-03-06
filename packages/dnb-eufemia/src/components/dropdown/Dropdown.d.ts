@@ -1,34 +1,6 @@
 import * as React from 'react';
 import type { SkeletonShow } from '../Skeleton';
-export type DropdownSpace =
-  | string
-  | number
-  | boolean
-  | {
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-       */
-      top?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-       */
-      right?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-       */
-      bottom?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-       */
-      left?: string | number | boolean;
-    };
-export type DropdownTop = string | number | boolean;
-export type DropdownRight = string | number | boolean;
-export type DropdownBottom = string | number | boolean;
-export type DropdownLeft = string | number | boolean;
+import type { SpacingProps } from '../space/types';
 export type DropdownAlignDrawer = 'left' | 'right';
 export type DropdownOptionsRender =
   | Record<string, unknown>
@@ -103,31 +75,9 @@ export type DropdownChildren =
   | Record<string, unknown>
   | any[];
 
-export interface DropdownProps extends React.HTMLProps<HTMLElement> {
-  /**
-   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
-   */
-  space?: DropdownSpace;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-   */
-  top?: DropdownTop;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-   */
-  right?: DropdownRight;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-   */
-  bottom?: DropdownBottom;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-   */
-  left?: DropdownLeft;
+export interface DropdownProps
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   role?: string;
 
   /**

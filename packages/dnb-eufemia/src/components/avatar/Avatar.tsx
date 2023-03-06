@@ -10,7 +10,7 @@ import Img, { ImgProps } from '../../elements/Img'
 
 // Shared
 import Context from '../../shared/Context'
-import { SpacingProps } from '../../shared/types'
+import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import {
   validateDOMAttributes,

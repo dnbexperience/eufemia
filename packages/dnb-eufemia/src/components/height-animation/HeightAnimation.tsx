@@ -1,6 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
-import { SpacingProps } from '../../shared/types'
+import type { SpacingProps } from '../../shared/types'
 import {
   useHeightAnimation,
   useHeightAnimationOptions,

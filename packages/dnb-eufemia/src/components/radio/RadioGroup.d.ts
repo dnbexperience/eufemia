@@ -1,5 +1,6 @@
 import * as React from 'react';
 import type { SkeletonShow } from '../Skeleton';
+import type { SpacingProps } from '../space/types';
 export type RadioGroupLabel =
   | string
   | ((...args: any[]) => any)
@@ -18,26 +19,14 @@ export type RadioGroupSuffix =
   | React.ReactNode;
 export type RadioGroupLayoutDirection = 'column' | 'row';
 export type RadioGroupAttributes = string | Record<string, unknown>;
-export type RadioGroupSpace =
-  | string
-  | number
-  | boolean
-  | {
-      top?: string | number | boolean;
-      right?: string | number | boolean;
-      bottom?: string | number | boolean;
-      left?: string | number | boolean;
-    };
-export type RadioGroupTop = string | number | boolean;
-export type RadioGroupRight = string | number | boolean;
-export type RadioGroupBottom = string | number | boolean;
-export type RadioGroupLeft = string | number | boolean;
 export type RadioGroupChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
 
-export interface RadioGroupProps extends React.HTMLProps<HTMLElement> {
+export interface RadioGroupProps
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   /**
    * Use either the `label` property or provide a custom one.
    */
@@ -94,11 +83,6 @@ export interface RadioGroupProps extends React.HTMLProps<HTMLElement> {
    */
   value?: string;
   attributes?: RadioGroupAttributes;
-  space?: RadioGroupSpace;
-  top?: RadioGroupTop;
-  right?: RadioGroupRight;
-  bottom?: RadioGroupBottom;
-  left?: RadioGroupLeft;
   class?: string;
   className?: string;
   children?: RadioGroupChildren;
