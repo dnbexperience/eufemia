@@ -12,7 +12,7 @@ import {
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
-import { DynamicElement, SpacingProps } from '../../shared/types'
+import type { DynamicElement, SpacingProps } from '../../shared/types'
 
 export type SectionStyleTypes =
   | 'divider'

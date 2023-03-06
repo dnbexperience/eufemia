@@ -1,5 +1,6 @@
 import * as React from 'react';
 import type { SkeletonShow } from '../Skeleton';
+import type { SpacingProps } from '../space/types';
 export type InputSize = 'default' | 'small' | 'medium' | 'large' | number;
 export type InputValue = string | number;
 export type InputLabel =
@@ -43,38 +44,11 @@ export type InputSubmitButtonIcon =
   | string
   | React.ReactNode
   | ((...args: any[]) => any);
-export type InputSpace =
-  | string
-  | number
-  | boolean
-  | {
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-       */
-      top?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-       */
-      right?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-       */
-      bottom?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-       */
-      left?: string | number | boolean;
-    };
-export type InputTop = string | number | boolean;
-export type InputRight = string | number | boolean;
-export type InputBottom = string | number | boolean;
-export type InputLeft = string | number | boolean;
 export type InputChildren = React.ReactNode | ((...args: any[]) => any);
 
-export interface InputProps extends React.HTMLProps<HTMLElement> {
+export interface InputProps
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   /**
    * Choose between `text`, `number`, `email`, `password`, `url`, `tel` and `search`.
    */
@@ -234,30 +208,6 @@ export interface InputProps extends React.HTMLProps<HTMLElement> {
   submit_button_icon?: InputSubmitButtonIcon;
   submit_button_status?: string;
 
-  /**
-   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
-   */
-  space?: InputSpace;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-   */
-  top?: InputTop;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-   */
-  right?: InputRight;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-   */
-  bottom?: InputBottom;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-   */
-  left?: InputLeft;
   className?: string;
   children?: InputChildren;
 

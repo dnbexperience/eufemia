@@ -1,47 +1,21 @@
 import * as React from 'react';
 import type { SectionSpacing, SectionStyleTypes } from '../Section';
 import type { SkeletonShow } from '../Skeleton';
+import type { SpacingProps } from '../space/types';
 export type FormSetLabel =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type FormSetLabelDirection = 'vertical' | 'horizontal';
 export type FormSetDirection = 'vertical' | 'horizontal';
-export type FormSetSpace =
-  | string
-  | number
-  | boolean
-  | {
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-       */
-      top?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-       */
-      right?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-       */
-      bottom?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-       */
-      left?: string | number | boolean;
-    };
-export type FormSetTop = string | number | boolean;
-export type FormSetRight = string | number | boolean;
-export type FormSetBottom = string | number | boolean;
-export type FormSetLeft = string | number | boolean;
 export type FormSetChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
 
-export interface FormSetProps extends React.HTMLProps<HTMLElement> {
+export interface FormSetProps
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   /**
    * Define what HTML element should be used. Defaults to `<form>`.
    */
@@ -137,31 +111,6 @@ export interface FormSetProps extends React.HTMLProps<HTMLElement> {
   responsive?: boolean;
   class?: string;
   skipContentWrapperIfNested?: boolean;
-
-  /**
-   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
-   */
-  space?: FormSetSpace;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-   */
-  top?: FormSetTop;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-   */
-  right?: FormSetRight;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-   */
-  bottom?: FormSetBottom;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-   */
-  left?: FormSetLeft;
   className?: string;
   children?: FormSetChildren;
 

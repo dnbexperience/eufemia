@@ -1,5 +1,6 @@
 import * as React from 'react';
 import type { SkeletonShow } from '../Skeleton';
+import type { SpacingProps } from '../space/types';
 import AccordionContent from './AccordionContent';
 import AccordionHeader from './AccordionHeader';
 import AccordionProvider from './AccordionProvider';
@@ -20,37 +21,10 @@ export type AccordionIcon =
 export type AccordionClosed = React.ReactNode | ((...args: any[]) => any);
 export type AccordionIconPosition = 'left' | 'right';
 export type AccordionAttributes = string | Record<string, unknown>;
-export type AccordionSpace =
-  | string
-  | number
-  | boolean
-  | {
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-       */
-      top?: string | number | boolean;
 
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-       */
-      right?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-       */
-      bottom?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-       */
-      left?: string | number | boolean;
-    };
-export type AccordionTop = string | number | boolean;
-export type AccordionRight = string | number | boolean;
-export type AccordionBottom = string | number | boolean;
-export type AccordionLeft = string | number | boolean;
-
-export interface AccordionProps extends React.HTMLProps<HTMLElement> {
+export interface AccordionProps
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   /**
    * A title as a string or React element. It will be used as the button text.
    */
@@ -172,31 +146,6 @@ export interface AccordionProps extends React.HTMLProps<HTMLElement> {
   class?: string;
   className?: string;
   children?: React.ReactNode;
-
-  /**
-   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
-   */
-  space?: AccordionSpace;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-   */
-  top?: AccordionTop;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-   */
-  right?: AccordionRight;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-   */
-  bottom?: AccordionBottom;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-   */
-  left?: AccordionLeft;
 
   /**
    * Will be called by user click interaction. Returns an object with a boolean state `expanded` inside `{ expanded, id, event, ...event }`.

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import type { SkeletonShow } from '../Skeleton';
+import type { SpacingProps } from '../space/types';
 import RadioGroup from './RadioGroup';
 export type RadioLabel =
   | string
@@ -17,23 +18,11 @@ export type RadioSuffix =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type RadioAttributes = string | Record<string, unknown>;
-export type RadioSpace =
-  | string
-  | number
-  | boolean
-  | {
-      top?: string | number | boolean;
-      right?: string | number | boolean;
-      bottom?: string | number | boolean;
-      left?: string | number | boolean;
-    };
-export type RadioTop = string | number | boolean;
-export type RadioRight = string | number | boolean;
-export type RadioBottom = string | number | boolean;
-export type RadioLeft = string | number | boolean;
 export type RadioChildren = string | ((...args: any[]) => any);
 
-export interface RadioProps extends React.HTMLProps<HTMLElement> {
+export interface RadioProps
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   /**
    * Use either the `label` property or provide a custom one.
    */
@@ -96,11 +85,6 @@ export interface RadioProps extends React.HTMLProps<HTMLElement> {
   attributes?: RadioAttributes;
   skeleton?: SkeletonShow;
   readOnly?: boolean;
-  space?: RadioSpace;
-  top?: RadioTop;
-  right?: RadioRight;
-  bottom?: RadioBottom;
-  left?: RadioLeft;
   class?: string;
   className?: string;
   children?: RadioChildren;

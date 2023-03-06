@@ -1,5 +1,6 @@
 import * as React from 'react';
 import type { SkeletonShow } from '../Skeleton';
+import type { SpacingProps } from '../space/types';
 export type NumberFormatValue = number | string;
 export type NumberFormatPrefix =
   | React.ReactNode
@@ -18,40 +19,13 @@ export type NumberFormatTooltip =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type NumberFormatSpace =
-  | string
-  | number
-  | boolean
-  | {
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-       */
-      top?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-       */
-      right?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-       */
-      bottom?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-       */
-      left?: string | number | boolean;
-    };
-export type NumberFormatTop = string | number | boolean;
-export type NumberFormatRight = string | number | boolean;
-export type NumberFormatBottom = string | number | boolean;
-export type NumberFormatLeft = string | number | boolean;
 export type NumberFormatChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
 
-export interface NumberFormatProps extends React.HTMLProps<HTMLElement> {
+export interface NumberFormatProps
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   id?: string;
 
   /**
@@ -184,30 +158,6 @@ export interface NumberFormatProps extends React.HTMLProps<HTMLElement> {
    */
   skeleton?: SkeletonShow;
 
-  /**
-   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
-   */
-  space?: NumberFormatSpace;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-   */
-  top?: NumberFormatTop;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-   */
-  right?: NumberFormatRight;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-   */
-  bottom?: NumberFormatBottom;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-   */
-  left?: NumberFormatLeft;
   class?: string;
   className?: string;
 

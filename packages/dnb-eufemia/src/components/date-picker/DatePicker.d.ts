@@ -1,5 +1,6 @@
 import * as React from 'react';
 import type { SkeletonShow } from '../Skeleton';
+import type { SpacingProps } from '../space/types';
 export type DatePickerDate = Date | string;
 export type DatePickerStartDate = Date | string;
 export type DatePickerEndDate = Date | string;
@@ -31,37 +32,10 @@ export type DatePickerSuffix =
   | React.ReactNode;
 export type DatePickerDirection = 'auto' | 'top' | 'bottom';
 export type DatePickerAlignPicker = 'auto' | 'left' | 'right';
-export type DatePickerSpace =
-  | string
-  | number
-  | boolean
-  | {
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-       */
-      top?: string | number | boolean;
 
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-       */
-      right?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-       */
-      bottom?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-       */
-      left?: string | number | boolean;
-    };
-export type DatePickerTop = string | number | boolean;
-export type DatePickerRight = string | number | boolean;
-export type DatePickerBottom = string | number | boolean;
-export type DatePickerLeft = string | number | boolean;
-
-export interface DatePickerProps extends React.HTMLProps<HTMLElement> {
+export interface DatePickerProps
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   id?: string;
   title?: string;
 
@@ -288,31 +262,6 @@ export interface DatePickerProps extends React.HTMLProps<HTMLElement> {
   align_picker?: DatePickerAlignPicker;
   class?: string;
   className?: string;
-
-  /**
-   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
-   */
-  space?: DatePickerSpace;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-   */
-  top?: DatePickerTop;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-   */
-  right?: DatePickerRight;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-   */
-  bottom?: DatePickerBottom;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-   */
-  left?: DatePickerLeft;
 
   /**
    * Will be called right before every new calendar view gets rendered. See the example above.
