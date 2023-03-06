@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { SkeletonShow } from '../skeleton/Skeleton';
 import { IconPrimaryIcon } from '../icon-primary/IconPrimary';
-import { DataAttributeTypes } from '../../shared/types';
+import type { DataAttributeTypes, SpacingProps } from '../../shared/types';
 export type ButtonText = string | React.ReactNode;
 export type ButtonVariant =
   | 'primary'
@@ -32,35 +32,6 @@ export type ButtonElement =
   | ((...args: any[]) => any)
   | any
   | React.ReactNode;
-export type ButtonSpace =
-  | string
-  | number
-  | boolean
-  | {
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-       */
-      top?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-       */
-      right?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-       */
-      bottom?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-       */
-      left?: string | number | boolean;
-    };
-export type ButtonTop = string | number | boolean;
-export type ButtonRight = string | number | boolean;
-export type ButtonBottom = string | number | boolean;
-export type ButtonLeft = string | number | boolean;
 export type ButtonOnClick = string | ((...args: any[]) => any);
 
 export type ButtonProps = {
@@ -196,38 +167,14 @@ export type ButtonProps = {
   element?: ButtonElement;
 
   /**
-   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
-   */
-  space?: ButtonSpace;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-   */
-  top?: ButtonTop;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-   */
-  right?: ButtonRight;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-   */
-  bottom?: ButtonBottom;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-   */
-  left?: ButtonLeft;
-
-  /**
    * Will be called on a click event. Returns an object with the native event: `{ event }`.
    */
   on_click?: ButtonOnClick;
 } & Partial<
   DataAttributeTypes &
     Partial<React.HTMLAttributes<HTMLButtonElement | HTMLAnchorElement>>
->;
+> &
+  SpacingProps;
 export default class Button extends React.Component<ButtonProps, any> {
   render(): JSX.Element;
 }

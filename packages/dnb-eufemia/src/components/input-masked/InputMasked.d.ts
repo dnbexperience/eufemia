@@ -1,5 +1,6 @@
 import * as React from 'react';
 import type { SkeletonShow } from '../Skeleton';
+import type { SpacingProps } from '../space/types';
 export type InputMaskedMask =
   | Record<string, unknown>
   | any[]
@@ -54,40 +55,13 @@ export type InputMaskedSubmitButtonIcon =
   | string
   | React.ReactNode
   | ((...args: any[]) => any);
-export type InputMaskedSpace =
-  | string
-  | number
-  | boolean
-  | {
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-       */
-      top?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-       */
-      right?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-       */
-      bottom?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-       */
-      left?: string | number | boolean;
-    };
-export type InputMaskedTop = string | number | boolean;
-export type InputMaskedRight = string | number | boolean;
-export type InputMaskedBottom = string | number | boolean;
-export type InputMaskedLeft = string | number | boolean;
 export type InputMaskedChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
 
-export interface InputMaskedProps extends React.HTMLProps<HTMLElement> {
+export interface InputMaskedProps
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   /**
    * A mask can be defined both as a <a href="https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#readme">RegExp style of characters</a> or a callback function. Example below.
    */
@@ -335,30 +309,6 @@ export interface InputMaskedProps extends React.HTMLProps<HTMLElement> {
   submit_button_icon?: InputMaskedSubmitButtonIcon;
   submit_button_status?: string;
 
-  /**
-   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
-   */
-  space?: InputMaskedSpace;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-   */
-  top?: InputMaskedTop;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-   */
-  right?: InputMaskedRight;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-   */
-  bottom?: InputMaskedBottom;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-   */
-  left?: InputMaskedLeft;
   className?: string;
   children?: InputMaskedChildren;
   on_state_update?: (...args: any[]) => any;

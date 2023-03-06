@@ -1,5 +1,6 @@
 import * as React from 'react';
 import type { SkeletonShow } from '../Skeleton';
+import type { SpacingProps } from '../space/types';
 export type GlobalStatusTitle = React.ReactNode | boolean;
 export type GlobalStatusText =
   | string
@@ -13,41 +14,14 @@ export type GlobalStatusIcon =
 export type GlobalStatusState = 'error' | 'info';
 export type GlobalStatusShow = 'auto' | any | any | 'true' | 'false';
 export type GlobalStatusDelay = string | number;
-export type GlobalStatusSpace =
-  | string
-  | number
-  | boolean
-  | {
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-       */
-      top?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-       */
-      right?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-       */
-      bottom?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-       */
-      left?: string | number | boolean;
-    };
-export type GlobalStatusTop = string | number | boolean;
-export type GlobalStatusRight = string | number | boolean;
-export type GlobalStatusBottom = string | number | boolean;
-export type GlobalStatusLeft = string | number | boolean;
 export type GlobalStatusChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
 
-export interface GlobalStatusProps extends React.HTMLProps<HTMLElement> {
+export interface GlobalStatusProps
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   /**
    * The main ID. Defaults to the prop
    */
@@ -131,31 +105,6 @@ export interface GlobalStatusProps extends React.HTMLProps<HTMLElement> {
    */
   status_anchor_text?: React.ReactNode;
   skeleton?: SkeletonShow;
-
-  /**
-   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
-   */
-  space?: GlobalStatusSpace;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-   */
-  top?: GlobalStatusTop;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-   */
-  right?: GlobalStatusRight;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-   */
-  bottom?: GlobalStatusBottom;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-   */
-  left?: GlobalStatusLeft;
   class?: string;
   className?: string;
 

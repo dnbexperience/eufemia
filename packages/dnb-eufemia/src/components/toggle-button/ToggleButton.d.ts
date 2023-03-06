@@ -1,5 +1,6 @@
 import * as React from 'react';
 import type { SkeletonShow } from '../Skeleton';
+import type { SpacingProps } from '../space/types';
 import ToggleButtonGroup from './ToggleButtonGroup';
 export type ToggleButtonLabel =
   | string
@@ -27,38 +28,11 @@ export type ToggleButtonIcon =
   | ((...args: any[]) => any);
 export type ToggleButtonIconPosition = 'left' | 'right';
 export type ToggleButtonAttributes = string | Record<string, unknown>;
-export type ToggleButtonSpace =
-  | string
-  | number
-  | boolean
-  | {
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-       */
-      top?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-       */
-      right?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-       */
-      bottom?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-       */
-      left?: string | number | boolean;
-    };
-export type ToggleButtonTop = string | number | boolean;
-export type ToggleButtonRight = string | number | boolean;
-export type ToggleButtonBottom = string | number | boolean;
-export type ToggleButtonLeft = string | number | boolean;
 export type ToggleButtonChildren = string | ((...args: any[]) => any);
 
-export interface ToggleButtonProps extends React.HTMLProps<HTMLElement> {
+export interface ToggleButtonProps
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   /**
    * <em>(required)</em> the text shown in the ToggleButton.
    */
@@ -138,30 +112,6 @@ export interface ToggleButtonProps extends React.HTMLProps<HTMLElement> {
   attributes?: ToggleButtonAttributes;
   readOnly?: boolean;
 
-  /**
-   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
-   */
-  space?: ToggleButtonSpace;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-   */
-  top?: ToggleButtonTop;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-   */
-  right?: ToggleButtonRight;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-   */
-  bottom?: ToggleButtonBottom;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-   */
-  left?: ToggleButtonLeft;
   class?: string;
   className?: string;
   children?: ToggleButtonChildren;

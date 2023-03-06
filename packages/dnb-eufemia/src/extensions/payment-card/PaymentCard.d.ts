@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { SpacingProps } from '../shared/types';
 import type { SkeletonShow } from '../components/skeleton/Skeleton';
 export type PaymentCardCardStatus = 'active' | 'blocked' | 'expired';
 export type PaymentCardVariant = 'normal' | 'compact';
@@ -12,41 +13,15 @@ export interface PaymentCardRawData {
   cardType: Record<string, unknown>;
   productType: Record<string, unknown>;
 }
-export type PaymentCardSpace =
-  | string
-  | number
-  | boolean
-  | {
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-       */
-      top?: string | number | boolean;
 
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-       */
-      right?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-       */
-      bottom?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-       */
-      left?: string | number | boolean;
-    };
-export type PaymentCardTop = string | number | boolean;
-export type PaymentCardRight = string | number | boolean;
-export type PaymentCardBottom = string | number | boolean;
-export type PaymentCardLeft = string | number | boolean;
 export type PaymentCardChildren =
   | string
   | React.ReactNode
   | ((...args: any[]) => any);
 
-export interface PaymentCardProps extends React.HTMLProps<HTMLElement> {
+export interface PaymentCardProps
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   /**
    * <em>(required)</em> if product code matches one of the codes in the list the card will get that design, if no match is found Default design will be used.
    */
@@ -88,30 +63,6 @@ export interface PaymentCardProps extends React.HTMLProps<HTMLElement> {
    */
   skeleton?: SkeletonShow;
 
-  /**
-   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
-   */
-  space?: PaymentCardSpace;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-   */
-  top?: PaymentCardTop;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-   */
-  right?: PaymentCardRight;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-   */
-  bottom?: PaymentCardBottom;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-   */
-  left?: PaymentCardLeft;
   class?: string;
   className?: string;
   children?: PaymentCardChildren;
