@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
+import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
   Input,
   H2,
@@ -14,7 +14,7 @@ import {
   ToggleButton,
   FormRow,
 } from '@dnb/eufemia/src'
-import { AllComponents } from 'dnb-design-system-portal/src/docs/uilib/components/form-row/Examples'
+import { AllComponents } from '../form-row/Examples'
 import Provider from '@dnb/eufemia/src/shared/Provider'
 import { Article } from '@dnb/eufemia/src/components/skeleton/figures'
 

@@ -6,7 +6,7 @@
 
 import React from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
-import MainMenu from 'dnb-design-system-portal/src/shared/menu/MainMenu'
+import MainMenu from '../shared/menu/MainMenu'
 
 export default function App() {
   React.useEffect(() => {

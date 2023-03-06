@@ -1,8 +1,8 @@
 import React from 'react'
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
+import ComponentBox from '../../../../../shared/tags/ComponentBox'
 import { H1, Icon, H4 } from '@dnb/eufemia/src'
 import styled from '@emotion/styled'
-import Beach from 'dnb-design-system-portal/src/docs/uilib/usage/accessibility/assets/beach'
+import Beach from '../assets/beach'
 
 export const IconsDecorativeExample = () => (
   <ComponentBox scope={{ Beach }}>
