@@ -52,6 +52,17 @@
       "extends": ["plugin:@typescript-eslint/recommended"],
       "rules": {
         "import/named": "off",
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["../../../../shared/*"],
+                "message": "You may rather import like this 'dnb-design-system-portal/src/shared/'"
+              }
+            ]
+          }
+        ],
         "no-unused-vars": [
           "error",
           { "args": "none", "ignoreRestSiblings": true }
