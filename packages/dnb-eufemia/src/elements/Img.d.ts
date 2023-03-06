@@ -1,27 +1,11 @@
 import * as React from 'react';
+import type { SpacingProps } from '../shared/types';
 import type { SkeletonShow } from '../components/skeleton/Skeleton';
-export type ImgSpace =
-  | string
-  | number
-  | boolean
-  | {
-      top?: string | number | boolean;
-      right?: string | number | boolean;
-      bottom?: string | number | boolean;
-      left?: string | number | boolean;
-    };
-export type ImgTop = string | number | boolean;
-export type ImgRight = string | number | boolean;
-export type ImgBottom = string | number | boolean;
-export type ImgLeft = string | number | boolean;
 export type ImgClassName = string | any | any[];
 
-export interface ImgProps extends React.HTMLProps<HTMLElement> {
-  space?: ImgSpace;
-  top?: ImgTop;
-  right?: ImgRight;
-  bottom?: ImgBottom;
-  left?: ImgLeft;
+export interface ImgProps
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   src: string;
   alt: string;
   skeleton?: SkeletonShow;

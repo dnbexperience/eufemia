@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { SpacingProps } from '../../shared/types';
 export type DrawerListDirection = 'auto' | 'top' | 'bottom';
 export type DrawerListSize = 'default' | 'small' | 'medium' | 'large';
 export type DrawerListAlignDrawer = 'left' | 'right';
@@ -33,20 +34,6 @@ export type DrawerListRawData =
   | any[]
   | Record<string, unknown>
   | ((...args: any[]) => any);
-export type DrawerListSpace =
-  | string
-  | number
-  | boolean
-  | {
-      top?: string | number | boolean;
-      right?: string | number | boolean;
-      bottom?: string | number | boolean;
-      left?: string | number | boolean;
-    };
-export type DrawerListTop = string | number | boolean;
-export type DrawerListRight = string | number | boolean;
-export type DrawerListBottom = string | number | boolean;
-export type DrawerListLeft = string | number | boolean;
 export type DrawerListChildren =
   | string
   | ((...args: any[]) => any)
@@ -55,7 +42,9 @@ export type DrawerListChildren =
   | any[];
 export type DrawerListSuffix = React.ReactNode;
 
-export interface DrawerListProps extends React.HTMLProps<HTMLElement> {
+export interface DrawerListProps
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   id?: string;
   role?: string;
   cache_hash?: string;
@@ -93,11 +82,6 @@ export interface DrawerListProps extends React.HTMLProps<HTMLElement> {
   prepared_data?: any[];
   raw_data?: DrawerListRawData;
   ignore_events?: boolean;
-  space?: DrawerListSpace;
-  top?: DrawerListTop;
-  right?: DrawerListRight;
-  bottom?: DrawerListBottom;
-  left?: DrawerListLeft;
   className?: string;
   children?: DrawerListChildren;
   suffix?: DrawerListSuffix;

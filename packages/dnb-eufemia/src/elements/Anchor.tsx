@@ -13,7 +13,7 @@ import {
 } from '../shared/component-helper'
 import Tooltip from '../components/tooltip/Tooltip'
 import type { SkeletonShow } from '../components/skeleton/Skeleton'
-import { SpacingProps } from '../shared/types'
+import type { SpacingProps } from '../shared/types'
 
 export type AnchorProps = {
   element?: ElementIsType
