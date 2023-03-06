@@ -55,9 +55,19 @@ export const createTypes = async (
   { isTest = false, ...opts } = {}
 ) => {
   try {
-    const prettierrc = await prettier.resolveConfig()
-    prettierrc.semi = true
-    prettierrc.trailingComma = 'none'
+    const prettierrc = await fs.readJSON(
+      nodePath.resolve('./.prettierrc'),
+      'utf-8'
+    )
+
+    // "prettier.format" does not handle "overwrites", so we merge it manually
+    prettierrc.overrides.forEach(({ files, options }) => {
+      if (new RegExp(`.${files}`).test('file.d.ts')) {
+        for (const key in options) {
+          prettierrc[key] = options[key]
+        }
+      }
+    })
 
     return await asyncForEach(listOfAllFiles, async (file) => {
       if (!isTest && file.includes('__tests__')) {
@@ -187,7 +197,7 @@ export const createTypes = async (
                   babelPluginIncludeDocs,
                   {
                     docs,
-                    insertLeadingComment: true,
+                    insertLeadingComment: false,
                     onComplete: !unsureSituation
                       ? warnAboutMissingPropTypes
                       : null,
@@ -203,7 +213,7 @@ export const createTypes = async (
 
         definitionContent = prettier.format(definitionContent, {
           ...prettierrc,
-          filepath: destFile,
+          filepath: 'file.d.ts',
         })
 
         if (isTest) {
