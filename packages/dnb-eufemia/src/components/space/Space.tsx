@@ -4,7 +4,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
   isTrue,
@@ -122,29 +121,7 @@ export default class Space extends React.PureComponent<
 > {
   static contextType = Context
 
-  static propTypes = {
-    element: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-    inline: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    no_collapse: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-
-    ...spacingPropTypes,
-
-    stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    innerRef: PropTypes.object,
-    className: PropTypes.string,
-    children: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
-  }
-
-  static defaultProps = {
+  defaultProps = {
     element: 'div',
     inline: null,
     no_collapse: null, // avoid margin collapsing
@@ -169,7 +146,7 @@ export default class Space extends React.PureComponent<
       ? // use only the props from context, who are available here anyway
         extendPropsWithContextInClassComponent(
           this.props,
-          Space.defaultProps,
+          this.defaultProps,
           { skeleton: this.context?.skeleton },
           this.context.space
         )
