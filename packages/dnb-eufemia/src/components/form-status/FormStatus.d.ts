@@ -1,5 +1,6 @@
 import * as React from 'react';
 import type { SkeletonShow } from '../Skeleton';
+import type { SpacingProps } from '../space/types';
 export type FormStatusText =
   | string
   | boolean
@@ -19,41 +20,14 @@ export type FormStatusState =
 export type FormStatusVariant = 'flat' | 'outlined';
 export type FormStatusSize = 'default' | 'large';
 export type FormStatusAttributes = string | Record<string, unknown>;
-export type FormStatusSpace =
-  | string
-  | number
-  | boolean
-  | {
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-       */
-      top?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-       */
-      right?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-       */
-      bottom?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-       */
-      left?: string | number | boolean;
-    };
-export type FormStatusTop = string | number | boolean;
-export type FormStatusRight = string | number | boolean;
-export type FormStatusBottom = string | number | boolean;
-export type FormStatusLeft = string | number | boolean;
 export type FormStatusChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
 
-export interface FormStatusProps extends React.HTMLProps<HTMLElement> {
+export interface FormStatusProps
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   id?: string;
 
   /**
@@ -126,31 +100,6 @@ export interface FormStatusProps extends React.HTMLProps<HTMLElement> {
    * The `role` attribute for accessibility, defaults to `alert`
    */
   role?: string;
-
-  /**
-   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
-   */
-  space?: FormStatusSpace;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-   */
-  top?: FormStatusTop;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-   */
-  right?: FormStatusRight;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-   */
-  bottom?: FormStatusBottom;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-   */
-  left?: FormStatusLeft;
   className?: string;
 
   /**

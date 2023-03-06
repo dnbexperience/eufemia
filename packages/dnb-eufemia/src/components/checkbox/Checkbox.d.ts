@@ -1,5 +1,6 @@
 import * as React from 'react';
 import type { SkeletonShow } from '../Skeleton';
+import type { SpacingProps } from '../space/types';
 export type CheckboxLabel =
   | string
   | ((...args: any[]) => any)
@@ -16,38 +17,11 @@ export type CheckboxSuffix =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type CheckboxAttributes = string | Record<string, unknown>;
-export type CheckboxSpace =
-  | string
-  | number
-  | boolean
-  | {
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-       */
-      top?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-       */
-      right?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-       */
-      bottom?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-       */
-      left?: string | number | boolean;
-    };
-export type CheckboxTop = string | number | boolean;
-export type CheckboxRight = string | number | boolean;
-export type CheckboxBottom = string | number | boolean;
-export type CheckboxLeft = string | number | boolean;
 export type CheckboxChildren = string | ((...args: any[]) => any);
 
-export interface CheckboxProps extends React.HTMLProps<HTMLElement> {
+export interface CheckboxProps
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   /**
    * Use either the `label` property or provide a custom one.
    */
@@ -115,31 +89,6 @@ export interface CheckboxProps extends React.HTMLProps<HTMLElement> {
    */
   skeleton?: SkeletonShow;
   class?: string;
-
-  /**
-   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
-   */
-  space?: CheckboxSpace;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-   */
-  top?: CheckboxTop;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-   */
-  right?: CheckboxRight;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-   */
-  bottom?: CheckboxBottom;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-   */
-  left?: CheckboxLeft;
   className?: string;
   children?: CheckboxChildren;
 

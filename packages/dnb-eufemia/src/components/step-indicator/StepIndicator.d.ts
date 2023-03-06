@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SpacingProps } from '../../shared/types';
+import type { SpacingProps } from '../../shared/types';
 import type { SkeletonShow } from '../Skeleton';
 import StepIndicatorSidebar from './StepIndicatorSidebar';
 export type StepIndicatorMode = 'static' | 'strict' | 'loose';

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import type { SkeletonShow } from '../Skeleton';
+import type { SpacingProps } from '../space/types';
 export type PaginationStartupPage = string | number;
 export type PaginationCurrentPage = string | number;
 export type PaginationPageCount = string | number;
@@ -39,40 +40,13 @@ export type PaginationIndicatorElement =
   | React.ReactNode
   | ((...args: any[]) => any)
   | string;
-export type PaginationSpace =
-  | string
-  | number
-  | boolean
-  | {
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-       */
-      top?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-       */
-      right?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-       */
-      bottom?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-       */
-      left?: string | number | boolean;
-    };
-export type PaginationTop = string | number | boolean;
-export type PaginationRight = string | number | boolean;
-export type PaginationBottom = string | number | boolean;
-export type PaginationLeft = string | number | boolean;
 export type PaginationChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
 
-export interface PaginationProps extends React.HTMLProps<HTMLElement> {
+export interface PaginationProps
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   /**
    * The page shown in the very beginning. If `current_page` is set, then it may not make too much sense to set this as well.
    */
@@ -209,30 +183,6 @@ export interface PaginationProps extends React.HTMLProps<HTMLElement> {
    */
   load_button_text?: string;
 
-  /**
-   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
-   */
-  space?: PaginationSpace;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-   */
-  top?: PaginationTop;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-   */
-  right?: PaginationRight;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-   */
-  bottom?: PaginationBottom;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-   */
-  left?: PaginationLeft;
   class?: string;
   className?: string;
 
@@ -307,40 +257,11 @@ export type PaginationInstanceIndicatorElement =
   | React.ReactNode
   | ((...args: any[]) => any)
   | string;
-export type PaginationInstanceSpace =
-  | string
-  | number
-  | boolean
-  | {
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-       */
-      top?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-       */
-      right?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-       */
-      bottom?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-       */
-      left?: string | number | boolean;
-    };
-export type PaginationInstanceTop = string | number | boolean;
-export type PaginationInstanceRight = string | number | boolean;
-export type PaginationInstanceBottom = string | number | boolean;
-export type PaginationInstanceLeft = string | number | boolean;
 export type PaginationInstanceChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
 
-export interface PaginationInstanceProps {
+export interface PaginationInstanceProps extends SpacingProps {
   /**
    * The page shown in the very beginning. If `current_page` is set, then it may not make too much sense to set this as well.
    */
@@ -477,30 +398,6 @@ export interface PaginationInstanceProps {
    */
   load_button_text?: string;
 
-  /**
-   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
-   */
-  space?: PaginationInstanceSpace;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-   */
-  top?: PaginationInstanceTop;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-   */
-  right?: PaginationInstanceRight;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-   */
-  bottom?: PaginationInstanceBottom;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-   */
-  left?: PaginationInstanceLeft;
   class?: string;
   className?: string;
 
@@ -577,40 +474,11 @@ export type InfinityMarkerIndicatorElement =
   | React.ReactNode
   | ((...args: any[]) => any)
   | string;
-export type InfinityMarkerSpace =
-  | string
-  | number
-  | boolean
-  | {
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-       */
-      top?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-       */
-      right?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-       */
-      bottom?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-       */
-      left?: string | number | boolean;
-    };
-export type InfinityMarkerTop = string | number | boolean;
-export type InfinityMarkerRight = string | number | boolean;
-export type InfinityMarkerBottom = string | number | boolean;
-export type InfinityMarkerLeft = string | number | boolean;
 export type InfinityMarkerChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
 
-export interface InfinityMarkerProps {
+export interface InfinityMarkerProps extends SpacingProps {
   /**
    * The page shown in the very beginning. If `current_page` is set, then it may not make too much sense to set this as well.
    */
@@ -747,30 +615,6 @@ export interface InfinityMarkerProps {
    */
   load_button_text?: string;
 
-  /**
-   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
-   */
-  space?: InfinityMarkerSpace;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-   */
-  top?: InfinityMarkerTop;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-   */
-  right?: InfinityMarkerRight;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-   */
-  bottom?: InfinityMarkerBottom;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-   */
-  left?: InfinityMarkerLeft;
   class?: string;
   className?: string;
 

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import type { SkeletonShow } from '../Skeleton';
+import type { SpacingProps } from '../space/types';
 export type TextareaLabel =
   | string
   | ((...args: any[]) => any)
@@ -22,41 +23,14 @@ export type TextareaCols = number | string;
 export type TextareaInnerRef =
   | ((...args: any[]) => any)
   | Record<string, unknown>;
-export type TextareaSpace =
-  | string
-  | number
-  | boolean
-  | {
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-       */
-      top?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-       */
-      right?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-       */
-      bottom?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-       */
-      left?: string | number | boolean;
-    };
-export type TextareaTop = string | number | boolean;
-export type TextareaRight = string | number | boolean;
-export type TextareaBottom = string | number | boolean;
-export type TextareaLeft = string | number | boolean;
 export type TextareaTextareaElement =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type TextareaChildren = React.ReactNode | ((...args: any[]) => any);
 
-export interface TextareaProps extends React.HTMLProps<HTMLElement> {
+export interface TextareaProps
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   /**
    * The content value of the Textarea.
    */
@@ -159,30 +133,6 @@ export interface TextareaProps extends React.HTMLProps<HTMLElement> {
    */
   inner_ref?: TextareaInnerRef;
 
-  /**
-   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
-   */
-  space?: TextareaSpace;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-   */
-  top?: TextareaTop;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-   */
-  right?: TextareaRight;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-   */
-  bottom?: TextareaBottom;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-   */
-  left?: TextareaLeft;
   className?: string;
   textarea_element?: TextareaTextareaElement;
   children?: TextareaChildren;
