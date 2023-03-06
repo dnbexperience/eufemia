@@ -79,18 +79,22 @@ All you need to do to add a new page is to create a new markdown (`.md`) file wi
 
 ### About Types
 
-As of now, the TypeScript types are mainly generated during the package build step on the CI. The two main purposes of delivering TypeScript types are:
+The two main purposes of delivering TypeScript types are:
 
 - Inline property documentation
 - Property validation and type safety
 
-While the documentation, including the property tables, have to be kept in Markdown Tables, they get extracted, parsed, and inserted in the type definition files.
+As of now, some components are written in TypeScript (`.tsx`) and some in JavaScript and type definition files (`.d.ts`).
 
-#### Manual type definitions
+#### Legacy type handling
 
-If a `*.d.ts` file is included in the source code, it will not be overwritten. But the documentation part about property types will still be inserted during the build.
+For JavaScript based components, the documentation for properties (`properties.mdx`) is kept as a Markdown Table, they get extracted, parsed, and inserted in the type definition files.
 
-#### Sharing PropTypes between components
+You can still sync/update the documentation of these files (`d.ts`), by running: `yarn @dnb/eufemia build:types:docs`
+
+**NB:** After you have synced/updated the files, you will see that some newlines where removed. Thats a negative side-effect we have no solution at the moment.
+
+#### Sharing PropTypes between components (legacy)
 
 You can share PropTypes between files. You can either export them explicitly (named export):
 
@@ -153,7 +157,7 @@ There are a couple of components doing so. You may have a look at:
 
 **NB:** In order to activate the type generation, a component needs to import the `prop-types` dependency.
 
-#### Shared Properties docs
+#### Shared Properties docs (legacy)
 
 If you have one `/properties.md` file, but e.g. two components share most or all of the properties. Like a component and a provider for that component (Accordion and AccordionProvider) – then you can define in the markdown table header name both of the components: You can then provide a second table with a more specific table for a second component.
 
@@ -169,10 +173,6 @@ If you have one `/properties.md` file, but e.g. two components share most or all
 | ---------------------------- | ------------------------------ |
 | `expanded_id`                | _(optional)_ expanded_id docs. |
 ```
-
-#### Local development
-
-You can either run `yarn build:types` to generate type for all files, or use `yarn build:types:dev` to only build a certain and custom defined amount of files. Have a look at the `const isOfInterest = ...` part in `generateTypes.js`.
 
 ## About component structure
 
