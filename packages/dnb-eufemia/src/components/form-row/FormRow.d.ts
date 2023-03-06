@@ -1,47 +1,21 @@
 import * as React from 'react';
 import type { SectionSpacing, SectionStyleTypes } from '../Section';
 import type { SkeletonShow } from '../Skeleton';
+import type { SpacingProps } from '../space/types';
 export type FormRowLabel =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type FormRowLabelDirection = 'vertical' | 'horizontal';
 export type FormRowDirection = 'vertical' | 'horizontal';
-export type FormRowSpace =
-  | string
-  | number
-  | boolean
-  | {
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-       */
-      top?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-       */
-      right?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-       */
-      bottom?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-       */
-      left?: string | number | boolean;
-    };
-export type FormRowTop = string | number | boolean;
-export type FormRowRight = string | number | boolean;
-export type FormRowBottom = string | number | boolean;
-export type FormRowLeft = string | number | boolean;
 export type FormRowChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
 
-export interface FormRowProps extends React.HTMLProps<HTMLElement> {
+export interface FormRowProps
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   id?: string;
 
   /**
@@ -123,31 +97,6 @@ export interface FormRowProps extends React.HTMLProps<HTMLElement> {
   skeleton?: SkeletonShow;
   class?: string;
   skipContentWrapperIfNested?: boolean;
-
-  /**
-   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
-   */
-  space?: FormRowSpace;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-   */
-  top?: FormRowTop;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-   */
-  right?: FormRowRight;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-   */
-  bottom?: FormRowBottom;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-   */
-  left?: FormRowLeft;
   className?: string;
   children?: FormRowChildren;
 }
