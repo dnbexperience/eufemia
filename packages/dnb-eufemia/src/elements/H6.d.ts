@@ -1,18 +1,6 @@
 import * as React from 'react';
-export type H6Space =
-  | string
-  | number
-  | boolean
-  | {
-      top?: string | number | boolean;
-      right?: string | number | boolean;
-      bottom?: string | number | boolean;
-      left?: string | number | boolean;
-    };
-export type H6Top = string | number | boolean;
-export type H6Right = string | number | boolean;
-export type H6Bottom = string | number | boolean;
-export type H6Left = string | number | boolean;
+import type { SpacingProps } from '../shared/types';
+
 export type H6Size =
   | 'xx-large'
   | 'x-large'
@@ -22,12 +10,9 @@ export type H6Size =
   | 'small'
   | 'x-small';
 
-export interface H6Props extends React.HTMLProps<HTMLElement> {
-  space?: H6Space;
-  top?: H6Top;
-  right?: H6Right;
-  bottom?: H6Bottom;
-  left?: H6Left;
+export interface H6Props
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   level?: string;
   size?: H6Size;
   children?: React.ReactNode;

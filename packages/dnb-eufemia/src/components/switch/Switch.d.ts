@@ -1,5 +1,6 @@
 import * as React from 'react';
 import type { SkeletonShow } from '../Skeleton';
+import type { SpacingProps } from '../space/types';
 export type SwitchLabel =
   | string
   | ((...args: any[]) => any)
@@ -16,38 +17,11 @@ export type SwitchSuffix =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type SwitchAttributes = string | Record<string, unknown>;
-export type SwitchSpace =
-  | string
-  | number
-  | boolean
-  | {
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-       */
-      top?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-       */
-      right?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-       */
-      bottom?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-       */
-      left?: string | number | boolean;
-    };
-export type SwitchTop = string | number | boolean;
-export type SwitchRight = string | number | boolean;
-export type SwitchBottom = string | number | boolean;
-export type SwitchLeft = string | number | boolean;
 export type SwitchChildren = string | ((...args: any[]) => any);
 
-export interface SwitchProps extends React.HTMLProps<HTMLElement> {
+export interface SwitchProps
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   /**
    * Use either the `label` property or provide a custom one.
    */
@@ -114,30 +88,6 @@ export interface SwitchProps extends React.HTMLProps<HTMLElement> {
    */
   skeleton?: SkeletonShow;
 
-  /**
-   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
-   */
-  space?: SwitchSpace;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-   */
-  top?: SwitchTop;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-   */
-  right?: SwitchRight;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-   */
-  bottom?: SwitchBottom;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-   */
-  left?: SwitchLeft;
   class?: string;
   className?: string;
   children?: SwitchChildren;

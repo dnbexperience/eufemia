@@ -1,74 +1,18 @@
 import * as React from 'react';
 import type { SkeletonShow } from '../Skeleton';
-export type AccordionHeaderTitleSpace =
-  | string
-  | number
-  | boolean
-  | {
-      top?: string | number | boolean;
-      right?: string | number | boolean;
-      bottom?: string | number | boolean;
-      left?: string | number | boolean;
-    };
-export type AccordionHeaderTitleTop = string | number | boolean;
-export type AccordionHeaderTitleRight = string | number | boolean;
-export type AccordionHeaderTitleBottom = string | number | boolean;
-export type AccordionHeaderTitleLeft = string | number | boolean;
+import type { SpacingProps } from '../space/types';
 
-export interface AccordionHeaderTitleProps {
-  space?: AccordionHeaderTitleSpace;
-  top?: AccordionHeaderTitleTop;
-  right?: AccordionHeaderTitleRight;
-  bottom?: AccordionHeaderTitleBottom;
-  left?: AccordionHeaderTitleLeft;
+export interface AccordionHeaderTitleProps extends SpacingProps {
   children?: React.ReactNode;
 }
 declare const AccordionHeaderTitle: React.FC<AccordionHeaderTitleProps>;
-export type AccordionHeaderDescriptionSpace =
-  | string
-  | number
-  | boolean
-  | {
-      top?: string | number | boolean;
-      right?: string | number | boolean;
-      bottom?: string | number | boolean;
-      left?: string | number | boolean;
-    };
-export type AccordionHeaderDescriptionTop = string | number | boolean;
-export type AccordionHeaderDescriptionRight = string | number | boolean;
-export type AccordionHeaderDescriptionBottom = string | number | boolean;
-export type AccordionHeaderDescriptionLeft = string | number | boolean;
 
-export interface AccordionHeaderDescriptionProps {
-  space?: AccordionHeaderDescriptionSpace;
-  top?: AccordionHeaderDescriptionTop;
-  right?: AccordionHeaderDescriptionRight;
-  bottom?: AccordionHeaderDescriptionBottom;
-  left?: AccordionHeaderDescriptionLeft;
+export interface AccordionHeaderDescriptionProps extends SpacingProps {
   children?: React.ReactNode;
 }
 declare const AccordionHeaderDescription: React.FC<AccordionHeaderDescriptionProps>;
-export type AccordionHeaderContainerSpace =
-  | string
-  | number
-  | boolean
-  | {
-      top?: string | number | boolean;
-      right?: string | number | boolean;
-      bottom?: string | number | boolean;
-      left?: string | number | boolean;
-    };
-export type AccordionHeaderContainerTop = string | number | boolean;
-export type AccordionHeaderContainerRight = string | number | boolean;
-export type AccordionHeaderContainerBottom = string | number | boolean;
-export type AccordionHeaderContainerLeft = string | number | boolean;
 
-export interface AccordionHeaderContainerProps {
-  space?: AccordionHeaderContainerSpace;
-  top?: AccordionHeaderContainerTop;
-  right?: AccordionHeaderContainerRight;
-  bottom?: AccordionHeaderContainerBottom;
-  left?: AccordionHeaderContainerLeft;
+export interface AccordionHeaderContainerProps extends SpacingProps {
   children?: React.ReactNode;
 }
 declare const AccordionHeaderContainer: React.FC<AccordionHeaderContainerProps>;
@@ -116,27 +60,14 @@ export type AccordionHeaderIcon =
       expanded?: React.ReactNode | ((...args: any[]) => any);
     };
 export type AccordionHeaderIconPosition = 'left' | 'right';
-export type AccordionHeaderSpace =
-  | string
-  | number
-  | boolean
-  | {
-      top?: string | number | boolean;
-      right?: string | number | boolean;
-      bottom?: string | number | boolean;
-      left?: string | number | boolean;
-    };
-export type AccordionHeaderTop = string | number | boolean;
-export type AccordionHeaderRight = string | number | boolean;
-export type AccordionHeaderBottom = string | number | boolean;
-export type AccordionHeaderLeft = string | number | boolean;
 export type AccordionHeaderChildren =
   | string
   | React.ReactNode
   | ((...args: any[]) => any);
 
 export interface AccordionHeaderProps
-  extends React.HTMLProps<HTMLElement> {
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   title?: AccordionHeaderTitle;
   description?: AccordionHeaderDescription;
   left_component?: AccordionHeaderLeftComponent;
@@ -149,11 +80,6 @@ export interface AccordionHeaderProps
   disabled?: boolean;
   skeleton?: SkeletonShow;
   no_animation?: boolean;
-  space?: AccordionHeaderSpace;
-  top?: AccordionHeaderTop;
-  right?: AccordionHeaderRight;
-  bottom?: AccordionHeaderBottom;
-  left?: AccordionHeaderLeft;
   className?: string;
   children?: AccordionHeaderChildren;
 }

@@ -16,7 +16,7 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
-import { SpacingProps } from '../../shared/types'
+import type { SpacingProps } from '../../shared/types'
 import {
   extendPropsWithContext,
   validateDOMAttributes,
