@@ -61,8 +61,3 @@ Run `yarn workspace dnb-design-system-portal build-visual-test`
 
 - Try cleaning cache: `yarn workspace dnb-design-system-portal gatsby clean`
 - Try running `yarn build` again
-
-## I get an error importing other components in my .tsx file
-
-You might get an error importing .js files in typescript files.
-Then you have to extract their typescript files .d.ts by changing _included files_ in `generateTypes.js` and then run `yarn build:types:dev`.
