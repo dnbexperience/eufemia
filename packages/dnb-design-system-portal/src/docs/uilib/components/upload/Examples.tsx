@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
+import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { Button, ToggleButton, Img, Section } from '@dnb/eufemia/src'
 import Upload from '@dnb/eufemia/src/components/upload/Upload'
 
