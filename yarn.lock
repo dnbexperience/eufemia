@@ -14455,6 +14455,7 @@ __metadata:
     eslint-plugin-jsx-a11y: 6.5.1
     eslint-plugin-react: 7.30.0
     eslint-plugin-react-hooks: 4.5.0
+    eslint-plugin-workspaces: 0.8.0
     front-matter: 4.0.2
     fs-extra: 10.0.0
     gatsby: 4.24.4
@@ -15759,6 +15760,15 @@ __metadata:
   dependencies:
     safe-regex: ^2.1.1
   checksum: c51c9d43d1ef1eaf803d136ae73522369f1e0b4f2633a56fc3226afd64ad3936943080bf506353c25422d1d73e8395946d016847e0ac5c0b5886c394fe848b9f
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-workspaces@npm:0.8.0":
+  version: 0.8.0
+  resolution: "eslint-plugin-workspaces@npm:0.8.0"
+  dependencies:
+    find-workspaces: ^0.1.0
+  checksum: d942078502979b8049ff1cc1651f65b629d92402158bdd27e9c79aed44466f939d7e3acebcc6162f4aef612f1a6090bcdae88b517853e5ebe897dd31af43ba0b
   languageName: node
   linkType: hard
 
@@ -17082,6 +17092,17 @@ __metadata:
   dependencies:
     semver-regex: ^4.0.5
   checksum: 680bdb0081f631f7bfb6f0f8edcfa0b74ab8cabc82097a4527a37b0d042aabc56685bf459ff27991eab0baddc04eb8e3bba8a2869f5004ecf7cdd2779b6e51de
+  languageName: node
+  linkType: hard
+
+"find-workspaces@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "find-workspaces@npm:0.1.0"
+  dependencies:
+    fast-glob: ^3.2.12
+    type-fest: ^3.2.0
+    yaml: ^2.1.3
+  checksum: ced008960974722816bbad5ac84eef9deb7132769efca760e3a780d64594d56c1ffe731c6d17e9bfd8702ac2e6460cab1c5bd462d072a3a3c1fc0ced839edd98
   languageName: node
   linkType: hard
 
@@ -34143,6 +34164,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"type-fest@npm:^3.2.0":
+  version: 3.6.1
+  resolution: "type-fest@npm:3.6.1"
+  checksum: f7e39bf6b74a883661ec8642707f49c33cfcdc6221e1ba36b1d329c1cf301d87351b3ca0839b894cbfe47dc62140c0ce47e69c88f76800b678e0b67b7fe826e6
+  languageName: node
+  linkType: hard
+
 "type-is@npm:^1.6.4, type-is@npm:~1.6.17, type-is@npm:~1.6.18":
   version: 1.6.18
   resolution: "type-is@npm:1.6.18"
@@ -36233,6 +36261,13 @@ __metadata:
   version: 1.10.2
   resolution: "yaml@npm:1.10.2"
   checksum: ce4ada136e8a78a0b08dc10b4b900936912d15de59905b2bf415b4d33c63df1d555d23acb2a41b23cf9fb5da41c256441afca3d6509de7247daa062fd2c5ea5f
+  languageName: node
+  linkType: hard
+
+"yaml@npm:^2.1.3":
+  version: 2.2.1
+  resolution: "yaml@npm:2.2.1"
+  checksum: 84f68cbe462d5da4e7ded4a8bded949ffa912bc264472e5a684c3d45b22d8f73a3019963a32164023bdf3d83cfb6f5b58ff7b2b10ef5b717c630f40bd6369a23
   languageName: node
   linkType: hard
 

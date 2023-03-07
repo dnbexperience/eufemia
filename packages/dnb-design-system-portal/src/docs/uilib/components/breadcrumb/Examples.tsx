@@ -3,7 +3,7 @@
  *
  */
 
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
+import ComponentBox from '../../../../shared/tags/ComponentBox'
 import Breadcrumb from '@dnb/eufemia/src/components/Breadcrumb'
 
 export const BreadcrumbSingle = () => (

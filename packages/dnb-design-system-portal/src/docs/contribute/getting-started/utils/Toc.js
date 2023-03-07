@@ -1,5 +1,5 @@
 import { useStaticQuery, graphql } from 'gatsby'
-import TableOfContents from 'dnb-design-system-portal/src/shared/parts/TableOfContents'
+import TableOfContents from '../../../../shared/parts/TableOfContents'
 
 const Toc = () => {
   const {
