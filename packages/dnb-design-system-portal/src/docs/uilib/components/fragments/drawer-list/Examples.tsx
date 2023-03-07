@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
+import ComponentBox from '../../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 import { NumberFormat, ToggleButton, HelpButton } from '@dnb/eufemia/src'
 import { DrawerList } from '@dnb/eufemia/src/fragments'

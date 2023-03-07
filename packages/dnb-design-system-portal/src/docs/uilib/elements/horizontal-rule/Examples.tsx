@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
+import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { Hr, Dl, Dt, Dd, Div } from '@dnb/eufemia/src/elements'
 
 export const HorizontalRuleDefaultExample = () => (

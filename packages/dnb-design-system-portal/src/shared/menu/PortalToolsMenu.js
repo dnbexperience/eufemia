@@ -3,7 +3,7 @@ import { Drawer, Space, Tooltip } from '@dnb/eufemia/src/components'
 import { H2 } from '@dnb/eufemia/src/elements'
 import ToggleGrid from './ToggleGrid'
 import { Context } from '@dnb/eufemia/src/shared'
-import PortalSkeleton from 'dnb-design-system-portal/src/shared/parts/uilib/PortalSkeleton'
+import PortalSkeleton from '../parts/uilib/PortalSkeleton'
 import ChangeLocale from '../../core/ChangeLocale'
 import ChangeStyleTheme from '../../core/ChangeStyleTheme'
 

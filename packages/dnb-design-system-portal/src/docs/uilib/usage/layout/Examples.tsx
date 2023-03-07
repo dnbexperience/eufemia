@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
+import ComponentBox from '../../../../shared/tags/ComponentBox'
 import MediaQuery from '@dnb/eufemia/src/shared/MediaQuery'
 import { useMedia, useMediaQuery } from '@dnb/eufemia/src/shared'
 import { Code, Button } from '@dnb/eufemia/src'
