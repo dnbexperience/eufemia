@@ -68,6 +68,7 @@
     "eslint-plugin-jsx-a11y": "6.5.1",
     "eslint-plugin-react": "7.30.0",
     "eslint-plugin-react-hooks": "4.5.0",
+    "eslint-plugin-workspaces": "0.8.0",
     "front-matter": "4.0.2",
     "fs-extra": "10.0.0",
     "gatsby": "4.24.4",

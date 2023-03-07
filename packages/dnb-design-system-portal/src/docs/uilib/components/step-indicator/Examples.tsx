@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
+import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { createBrowserHistory } from 'history'
 import { StepIndicator, Space, Button, Section } from '@dnb/eufemia/src'
 
