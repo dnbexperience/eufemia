@@ -5,7 +5,7 @@
 
 import styled from '@emotion/styled'
 import React from 'react'
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
+import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { format } from '@dnb/eufemia/src/components/number-format/NumberUtils'
 import { Slider, HelpButton, FormRow, Input } from '@dnb/eufemia/src'
 
