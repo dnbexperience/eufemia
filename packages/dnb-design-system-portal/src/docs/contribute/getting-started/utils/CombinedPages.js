@@ -1,5 +1,5 @@
 import { useStaticQuery, graphql } from 'gatsby'
-import ListSummaryFromPages from 'dnb-design-system-portal/src/shared/parts/ListSummaryFromPages'
+import ListSummaryFromPages from '../../../../shared/parts/ListSummaryFromPages'
 
 const CombinedPages = () => {
   const {

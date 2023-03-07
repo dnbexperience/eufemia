@@ -5,7 +5,7 @@
 
 import React from 'react'
 import styled from '@emotion/styled'
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
+import ComponentBox from '../../../shared/tags/ComponentBox'
 import { Code, H4, Lead, P } from '@dnb/eufemia/src'
 
 const Wrapper = styled.div`

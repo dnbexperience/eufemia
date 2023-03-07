@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
+import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { Button, Tooltip, Span, NumberFormat } from '@dnb/eufemia/src'
 
 export const TooltipExampleDefault = () => (
