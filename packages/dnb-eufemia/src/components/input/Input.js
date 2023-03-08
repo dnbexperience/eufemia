@@ -118,6 +118,7 @@ export const inputPropTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 
   on_change: PropTypes.func,
+  on_key_down: PropTypes.func,
   on_submit: PropTypes.func,
   on_focus: PropTypes.func,
   on_blur: PropTypes.func,
@@ -180,6 +181,7 @@ export default class Input extends React.PureComponent {
     children: null,
 
     on_change: null,
+    on_key_down: null,
     on_submit: null,
     on_focus: null,
     on_blur: null,
