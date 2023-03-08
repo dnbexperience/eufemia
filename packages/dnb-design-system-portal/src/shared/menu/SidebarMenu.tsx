@@ -3,8 +3,7 @@
  *
  */
 
-import React, { useContext, useEffect, useRef } from 'react'
-import PropTypes from 'prop-types'
+import React, { useContext, useEffect, useRef, ReactNode } from 'react'
 import classnames from 'classnames'
 import Link from '../parts/Link'
 import { StaticQuery, graphql } from 'gatsby'
@@ -137,7 +136,6 @@ export default function SidebarLayout({
             pathPrefix,
           })
             .filter(({ title, menuTitle }) => title || menuTitle)
-
             .map((props) => {
               const path = `/${props.path.replace(/(\/)$/, '')}`
 
@@ -189,7 +187,6 @@ export default function SidebarLayout({
               }
               return curr
             })
-
             .map(
               (
                 {
@@ -260,121 +257,105 @@ export default function SidebarLayout({
   )
 }
 
-class ListItem extends React.PureComponent {
-  static contextType = Context
+type ListItemProps = {
+  onOffsetTop?: (offsetTop: number) => number
+  children: ReactNode | ReactNode[]
+  className?: string
+  to: string
+  level?: number
+  nr?: number
+  status?: string
+  icon?: string
+  active?: boolean
+  inside?: boolean
+}
 
-  static propTypes = {
-    onOffsetTop: PropTypes.func,
-    children: PropTypes.node.isRequired,
-    className: PropTypes.string,
-    to: PropTypes.string.isRequired,
-    level: PropTypes.number,
-    nr: PropTypes.number,
-    status: PropTypes.string,
-    icon: PropTypes.string,
-    active: PropTypes.bool,
-    inside: PropTypes.bool,
+function ListItem({
+  className = null,
+  to,
+  active = false,
+  inside = false,
+  level = 0,
+  nr,
+  status,
+  icon,
+  onOffsetTop,
+  children,
+}: ListItemProps) {
+  const { skeleton } = useContext(Context)
+  const ref = useRef(null)
+
+  useEffect(() => {
+    if ((!active && !ref?.current) || !onOffsetTop) return
+    onOffsetTop(ref.current.offsetTop)
+  }, [])
+
+  const statusTitle =
+    status &&
+    {
+      new: 'New',
+      beta: 'Beta',
+      wip: 'WIP',
+      cs: 'Coming soon',
+      dep: 'Deprecated',
+      imp: 'Needs improvement',
+    }[status]
+
+  const params = {}
+
+  if (active) {
+    params['aria-current'] = true
   }
-  static defaultProps = {
-    className: null,
-    active: false,
-    inside: false,
-    level: 0,
-    nr: null,
-    status: null,
-    icon: null,
-    onOffsetTop: null,
-  }
 
-  constructor(props) {
-    super(props)
-    this.ref = React.createRef()
-  }
-  componentDidMount() {
-    if (this.props.active && this.ref.current) {
-      this.props.onOffsetTop(this.ref.current.offsetTop)
-    }
-  }
-
-  render() {
-    const {
-      className,
-      active,
-      inside,
-      to,
-      level,
-      nr,
-      status,
-      icon,
-      children,
-    } = this.props
-
-    const statusTitle =
-      status &&
-      {
-        new: 'New',
-        beta: 'Beta',
-        wip: 'WIP',
-        cs: 'Coming soon',
-        dep: 'Deprecated',
-        imp: 'Needs improvement',
-      }[status]
-
-    const params = {}
-    if (active) {
-      params['aria-current'] = true
-    }
-
-    return (
-      <li
-        className={classnames(
-          'dnb-sidebar-menu',
-          `l-${level}`,
-          active && 'is-active', // use anchor hover style
-          inside && 'is-inside',
-          status ? `status-${status}` : null,
-          className
-        )}
-        ref={this.ref}
-        style={{
+  return (
+    <li
+      className={classnames(
+        'dnb-sidebar-menu',
+        `l-${level}`,
+        active && 'is-active', // use anchor hover style
+        inside && 'is-inside',
+        status ? `status-${status}` : null,
+        className
+      )}
+      ref={ref}
+      style={
+        {
           '--delay': `${
-            nr !== null && nr < 20 ? nr * 12 : 0 // random(1, 160)
+            nr && nr < 20 ? nr * 12 : 0 // random(1, 160)
           }ms`,
+        } as React.CSSProperties /* Casting to allow css variable in JSX inline styling */
+      }
+    >
+      <Link
+        to={to}
+        onClick={() => {
+          resetLevels(1)
         }}
+        className={classnames(
+          'dnb-anchor',
+          'dnb-anchor--no-underline',
+          'dnb-anchor--no-radius',
+          'dnb-anchor--no-hover',
+          icon && graphics[icon] ? 'has-icon' : null
+        )}
+        {...params}
       >
-        <Link
-          to={to}
-          onClick={() => {
-            resetLevels(1)
-          }}
-          className={classnames(
-            'dnb-anchor',
-            'dnb-anchor--no-underline',
-            'dnb-anchor--no-radius',
-            'dnb-anchor--no-hover',
-            icon && graphics[icon] ? 'has-icon' : null
+        <span>
+          {icon && graphics[icon] && (
+            <Icon icon={graphics[icon]} size="medium" />
           )}
-          {...params}
-        >
-          <span>
-            {icon && graphics[icon] && (
-              <Icon icon={graphics[icon]} size="medium" />
-            )}
-            <span
-              className={classnames(
-                createSkeletonClass('font', this.context.skeleton)
-              )}
-            >
-              {children}
-            </span>
+          <span
+            className={classnames(createSkeletonClass('font', skeleton))}
+          >
+            {children}
           </span>
-          {status && (
-            <Badge space={{ right: 'xx-small' }} content={statusTitle} />
-          )}
-        </Link>
-      </li>
-    )
-  }
+        </span>
+        {status && (
+          <Badge space={{ right: 'xx-small' }} content={statusTitle} />
+        )}
+      </Link>
+    </li>
+  )
 }
 
 const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
