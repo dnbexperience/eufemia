@@ -4,11 +4,7 @@
  */
 
 import { applyPageFocus } from '@dnb/eufemia/src/shared/helpers'
-import { resetLevels } from '@dnb/eufemia/src/components/Heading'
-import {
-  rootElement,
-  pageElement,
-} from './src/core/PortalStylesAndProviders'
+import { rootElement, pageElement } from './src/core/PortalProviders'
 
 if (typeof window !== 'undefined') {
   setIsTest(window.location)
@@ -23,7 +19,7 @@ function setIsTest(location) {
 }
 
 export const wrapRootElement = rootElement('browser')
-export const wrapPageElement = pageElement('browser')
+export const wrapPageElement = pageElement()
 
 // This was used before during visual testing
 // but it looks like they do not safe us any time
@@ -38,9 +34,6 @@ export const wrapPageElement = pageElement('browser')
 export const shouldUpdateScroll = () => true
 
 export const onRouteUpdate = ({ location, prevLocation }) => {
-  // Ensure heading levels are reset before each page SSR starts
-  resetLevels(1)
-
   try {
     // in order to use our own focus management by using applyPageFocus
     // we have to disable the focus management from Reach Router

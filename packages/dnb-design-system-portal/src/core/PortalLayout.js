@@ -70,10 +70,6 @@ export default function PortalLayout(props) {
       })
     }, [data, slug])?.node || {}
 
-  if (!mdx?.frontmatter) {
-    return children
-  }
-
   const { siblings } = mdx
 
   const makeUseOfCategory = Boolean(
@@ -85,6 +81,38 @@ export default function PortalLayout(props) {
 
   // Ensure heading levels are reset before each page SSR starts
   resetLevels(1)
+
+  if (!mdx?.frontmatter) {
+    return children
+  }
+
+  // Share frontmatter in pageContext during SSG
+  if (pageContext?.frontmatter) {
+    const { title, description } = currentFm.title ? currentFm : categoryFm
+    pageContext.frontmatter.meta = { title, description }
+
+    // Update meta during hydration render
+    if (typeof document !== 'undefined') {
+      const existingElem = document.head.getElementsByTagName('title')
+      existingElem[0]?.parentNode?.removeChild(existingElem[0])
+
+      const newElem = document.createElement('title')
+      newElem.textContent = title
+      document.head.appendChild(newElem)
+    }
+  }
+
+  const Content = () => {
+    if (currentFm.showTabs) {
+      resetLevels(2)
+    }
+
+    return (
+      <ContentWrapper>
+        <MDXProvider components={tags}>{children}</MDXProvider>
+      </ContentWrapper>
+    )
+  }
 
   return (
     <Layout
@@ -112,9 +140,17 @@ export default function PortalLayout(props) {
         />
       )}
 
-      <ContentWrapper>
-        <MDXProvider components={tags}>{children}</MDXProvider>
-      </ContentWrapper>
+      <Content />
     </Layout>
+  )
+}
+
+export function HeadComponents({ pageContext }) {
+  const { title, description } = pageContext?.frontmatter?.meta || {}
+  return (
+    <>
+      {title && <title>{title} | Eufemia</title>}
+      {description && <meta name="description" content={description} />}
+    </>
   )
 }

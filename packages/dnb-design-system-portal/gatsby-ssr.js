@@ -6,7 +6,9 @@
 import {
   rootElement,
   pageElement,
-} from './src/core/PortalStylesAndProviders'
+  renderBody,
+} from './src/core/PortalProviders'
 
 export const wrapRootElement = rootElement('ssr')
-export const wrapPageElement = pageElement('ssr')
+export const wrapPageElement = pageElement()
+export const onRenderBody = renderBody()
