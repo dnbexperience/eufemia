@@ -1,18 +1,13 @@
 import React from 'react'
 
 import type { SuffixChildren } from '../../shared/helpers/Suffix'
-import type {
-  formatReturnType,
-  formatOptionParams,
-} from '../number-format/NumberUtils'
+import type { formatReturnType } from '../number-format/NumberUtils'
 import { IncludeSnakeCase } from '../../shared/helpers/withSnakeCaseProps'
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
+import { NumberFormatProps } from '../NumberFormat'
 
 export type ValueTypes = number | Array<number>
-export type NumberFormatTypes =
-  | formatOptionParams
-  | ((value: number) => unknown)
 export type onChangeEventProps = {
   value: ValueTypes
   rawValue: number
@@ -77,7 +72,7 @@ export type SliderProps = IncludeSnakeCase<{
   stretch?: boolean
 
   /** provide a function callback or use the options from the [NumberFormat](/uilib/components/number-format/properties) component. It will show a formatted number in the Tooltip (`tooltip={true}`) and enhance the screen reader UX. It will also extend the `onChange` event return object with a formatted `number` property. */
-  numberFormat?: NumberFormatTypes
+  numberFormat?: NumberFormatProps
 
   /** use `true` to show a tooltip on `mouseOver`, `touchStart` and `focus`, showing the current number (if `numberFormat` is given) or the raw value. Defaults to `null`. */
   tooltip: boolean
