@@ -53,19 +53,16 @@ export type DropdownAlignDropdown = 'left' | 'right';
 export type DropdownTriggerElement =
   | ((...args: any[]) => any)
   | React.ReactNode;
+export type DropdownDataObject = {
+  selected_value?: DropdownSelectedValue;
+  content?: DropdownContent;
+};
 export type DropdownData =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode
   | Record<string, unknown>
-  | (
-      | string
-      | React.ReactNode
-      | {
-          selected_value?: string | React.ReactNode;
-          content?: string | React.ReactNode | string[];
-        }
-    )[];
+  | (string | React.ReactNode | DropdownDataObject)[];
 export type DropdownDefaultValue = string | number;
 export type DropdownValue = string | number;
 export type DropdownChildren =
