@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Link from '../parts/Link'
@@ -15,7 +15,6 @@ import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/Skelet
 import { Space, Icon, Badge } from '@dnb/eufemia/src/components'
 import { MediaQuery } from '@dnb/eufemia/src/shared'
 import graphics from './SidebarGraphics'
-import keycode from 'keycode'
 import {
   setPageFocusElement,
   applyPageFocus,
@@ -25,34 +24,34 @@ import { navStyle } from './SidebarMenu.module.scss'
 
 const showAlwaysMenuItems = [] // like "uilib" something like that
 
-export default class SidebarLayout extends React.PureComponent {
-  static propTypes = {
-    location: PropTypes.object.isRequired,
-    showAll: PropTypes.bool,
-  }
-  static defaultProps = {
-    showAll: false,
-  }
-  static contextType = SidebarMenuContext
+type SidebarLayoutProps = {
+  location: Location
+  showAll?: boolean
+}
 
-  constructor(props) {
-    super(props)
-    this._scrollRef = React.createRef()
+export default function SidebarLayout({
+  location,
+  showAll,
+}: SidebarLayoutProps) {
+  const { isClosing, closeMenu, isOpen } = useContext(SidebarMenuContext)
+  const scrollRef = useRef<HTMLElement>(null)
+  /* Temporary(?) replacement variable for the mystical this.offsetTop property */
+  let offsetTop: number
+
+  useEffect(() => {
     setPageFocusElement('nav ul li.is-active a:nth-of-type(1)', 'sidebar')
-  }
 
-  componentDidMount() {
     if (typeof document !== 'undefined') {
-      document.addEventListener('keydown', this.handleKeyDown)
+      document.addEventListener('keydown', handleKeyDown)
     }
-  }
 
-  componentDidUpdate() {
-    const { isOpen, isClosing } = this.context
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [])
 
+  useEffect(() => {
     if (isOpen && !isClosing) {
       setTimeout(() => {
-        this.scrollToActiveItem()
+        scrollToActiveItem()
         applyPageFocus('sidebar')
       }, 300) // after animation is done
     } else if (isClosing) {
@@ -60,214 +59,205 @@ export default class SidebarLayout extends React.PureComponent {
         applyPageFocus('content')
       }, 300) // after animation is done - to make sure we can get the focus on h1
     }
-  }
+  }, [isClosing, isOpen])
 
-  scrollToActiveItem() {
-    if (this._scrollRef.current) {
-      const elem = this._scrollRef.current.querySelector('li.is-active')
-      if (!elem) {
-        return false
+  function scrollToActiveItem() {
+    if (!scrollRef?.current) return
+
+    const elem = scrollRef.current.querySelector('li.is-active')
+
+    if (!elem) return false
+
+    try {
+      /* Is this codeblock suppose to scroll to the active list item inside the menu? 
+         if so then it does not seem to be working, as its targeting the window and not the <SidebarMenu /> component
+      */
+      const offset = scrollRef.current.getBoundingClientRect().top
+      const rect = elem.getBoundingClientRect()
+      const top = scrollRef.current.scrollTop + rect.top - offset
+      if (window.scrollTo) {
+        window.scrollTo({
+          top,
+          behavior: 'smooth',
+        })
+      } else {
+        /* Typo or deprecated/old property that Typescript is not catching up on? */
+        /* Property 'scrollTop' does not exist on type 'Window & typeof globalThis'. Did you mean 'scrollTo'? */
+        window.scrollTop = top
       }
-      try {
-        const offset = this._scrollRef.current.getBoundingClientRect().top
-        const rect = elem.getBoundingClientRect()
-        const top = this._scrollRef.current.scrollTop + rect.top - offset
-        if (window.scrollTo) {
-          window.scrollTo({
-            top,
-            behavior: 'smooth',
-          })
-        } else {
-          window.scrollTop = top
-        }
-      } catch (e) {
-        console.log('Could not set scrollToActiveItem', e)
-      }
+    } catch (e) {
+      console.log('Could not set scrollToActiveItem', e)
     }
   }
 
-  componentWillUnmount() {
-    document.removeEventListener('keydown', this.handleKeyDown)
+  function handleKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Escape') closeMenu()
   }
 
-  handleKeyDown = (e) => {
-    const { isOpen, toggleMenu } = this.context
-    switch (keycode(e)) {
-      case 'esc':
-        if (isOpen) {
-          toggleMenu()
-        }
-        break
-    }
-  }
-
-  render() {
-    const { location, showAll = false } = this.props
-
-    return (
-      <>
-        <StaticQuery
-          query={graphql`
-            query {
-              site {
-                pathPrefix
+  return (
+    <>
+      <StaticQuery
+        query={graphql`
+          query {
+            site {
+              pathPrefix
+            }
+            allMdx(
+              filter: {
+                frontmatter: { title: { ne: null }, draft: { ne: true } }
               }
-              allMdx(
-                filter: {
-                  frontmatter: { title: { ne: null }, draft: { ne: true } }
-                }
-              ) {
-                edges {
-                  node {
-                    fields {
-                      slug
-                    }
-                    frontmatter {
-                      title
-                      menuTitle
-                      order
-                      status
-                      icon
-                    }
+            ) {
+              edges {
+                node {
+                  fields {
+                    slug
+                  }
+                  frontmatter {
+                    title
+                    menuTitle
+                    order
+                    status
+                    icon
                   }
                 }
               }
             }
-          `}
-          render={({ allMdx, site: { pathPrefix } }) => {
-            const currentPathname = location.pathname.replace(/(\/)$/, '')
-            const currentPathnameList = currentPathname
-              .split('/')
-              .filter(Boolean)
+          }
+        `}
+        render={({ allMdx, site: { pathPrefix } }) => {
+          const currentPathname = location.pathname.replace(/(\/)$/, '')
+          const currentPathnameList = currentPathname
+            .split('/')
+            .filter(Boolean)
 
-            const menuItems = prepareNav({
-              location,
-              allMdx,
-              showAll,
-              pathPrefix,
+          const menuItems = prepareNav({
+            location,
+            allMdx,
+            showAll,
+            pathPrefix,
+          })
+            .filter(({ title, menuTitle }) => title || menuTitle)
+
+            .map((props) => {
+              const path = `/${props.path.replace(/(\/)$/, '')}`
+
+              // get the active item
+              const active = currentPathname === path
+
+              // check if a item path is inside another
+              const inside = path
+                .split('/')
+                .filter(Boolean)
+                .every((i) => currentPathnameList.includes(i))
+
+              return { ...props, active, inside }
             })
-              .filter(({ title, menuTitle }) => title || menuTitle)
 
-              .map((props) => {
-                const path = `/${props.path.replace(/(\/)$/, '')}`
+            // mark also the rest of the same level as inside
+            .map((curr, i, arr) => {
+              const prev = arr[i - 1] ? arr[i - 1] : null
 
-                // get the active item
-                const active = currentPathname === path
-
-                // check if a item path is inside another
-                const inside = path
-                  .split('/')
-                  .filter(Boolean)
-                  .every((i) => currentPathnameList.includes(i))
-
-                return { ...props, active, inside }
-              })
-
-              // mark also the rest of the same level as inside
-              .map((curr, i, arr) => {
-                const prev = arr[i - 1] ? arr[i - 1] : null
-
-                // use 4 here, so the logic is the same in the CSS
-                if (prev && curr.level >= 4) {
-                  if (prev.inside && curr.level >= prev.level) {
-                    curr.inside = true
-                  }
+              // use 4 here, so the logic is the same in the CSS
+              if (prev && curr.level >= 4) {
+                if (prev.inside && curr.level >= prev.level) {
+                  curr.inside = true
                 }
-                return curr
-              })
+              }
+              return curr
+            })
 
-            let hasActive = menuItems.some(({ active }) => active)
-            const currentPathnameOneLevelBack = !hasActive
-              ? currentPathname
-                  .split('/')
-                  .filter(Boolean)
-                  .slice(0, -1)
-                  .join('/')
-              : null
+          let hasActive = menuItems.some(({ active }) => active)
+          const currentPathnameOneLevelBack = !hasActive
+            ? currentPathname
+                .split('/')
+                .filter(Boolean)
+                .slice(0, -1)
+                .join('/')
+            : null
 
-            const nav = menuItems
-              // in case there was no active item
-              // like inside /modal/demos and /modal/properties
-              // then we make sure we get the most possible item
-              // and set active on it – this way we get the correct color and aria-current
-              .map((curr) => {
-                if (!hasActive && curr.inside) {
-                  if (curr.path === currentPathnameOneLevelBack) {
-                    curr.active = true
-                    hasActive = true
-                  }
+          const nav = menuItems
+            // in case there was no active item
+            // like inside /modal/demos and /modal/properties
+            // then we make sure we get the most possible item
+            // and set active on it – this way we get the correct color and aria-current
+            .map((curr) => {
+              if (!hasActive && curr.inside) {
+                if (curr.path === currentPathnameOneLevelBack) {
+                  curr.active = true
+                  hasActive = true
                 }
-                return curr
-              })
+              }
+              return curr
+            })
 
-              .map(
-                (
-                  {
-                    title,
-                    menuTitle,
-                    status,
-                    icon,
-                    path,
-                    level,
-                    active,
-                    inside,
-                  },
-                  nr
-                ) => {
-                  const props = {
-                    level,
-                    nr,
-                    status,
-                    icon,
-                    active,
-                    inside,
-                    to: path,
-                    onOffsetTop: (offsetTop) =>
-                      (this.offsetTop = offsetTop),
-                  }
-
-                  return (
-                    <ListItem key={path} {...props}>
-                      {menuTitle || title}
-                    </ListItem>
-                  )
+            .map(
+              (
+                {
+                  title,
+                  menuTitle,
+                  status,
+                  icon,
+                  path,
+                  level,
+                  active,
+                  inside,
+                },
+                nr
+              ) => {
+                const props = {
+                  level,
+                  nr,
+                  status,
+                  icon,
+                  active,
+                  inside,
+                  to: path,
+                  onOffsetTop: (listItemOffsetTop: number) =>
+                    /* Not sure if this does anything at the moment, since this.offsetTop is not used anywhere in this component */
+                    (offsetTop = listItemOffsetTop),
                 }
-              )
 
-            const { isOpen, isClosing } = this.context
-
-            return (
-              <nav
-                id="portal-sidebar-menu"
-                aria-labelledby="toggle-sidebar-menu"
-                className={classnames(
-                  navStyle,
-                  'dnb-scrollbar-appearance',
-                  isOpen && 'show-mobile-menu',
-                  isClosing && 'hide-mobile-menu'
-                )}
-                ref={this._scrollRef}
-              >
-                <MediaQuery when={{ min: 0, max: 'medium' }}>
-                  <Space left="large" top="large">
-                    <PortalToolsMenu
-                      triggerAttributes={{
-                        text: 'Portal Tools',
-                        icon: 'chevron_right',
-                        icon_position: 'right',
-                      }}
-                      tooltipPosition="bottom"
-                    />
-                  </Space>
-                </MediaQuery>
-                <ul className="dev-grid">{nav}</ul>
-              </nav>
+                return (
+                  <ListItem key={path} {...props}>
+                    {menuTitle || title}
+                  </ListItem>
+                )
+              }
             )
-          }}
-        />
-      </>
-    )
-  }
+
+          return (
+            <nav
+              id="portal-sidebar-menu"
+              aria-labelledby="toggle-sidebar-menu"
+              className={classnames(
+                navStyle,
+                'dnb-scrollbar-appearance',
+                isOpen && 'show-mobile-menu',
+                isClosing && 'hide-mobile-menu'
+              )}
+              ref={scrollRef}
+            >
+              <MediaQuery when={{ min: 0, max: 'medium' }}>
+                <Space left="large" top="large">
+                  <PortalToolsMenu
+                    /* className for PortalToolsMenu is currently required and not optional */
+                    className=""
+                    triggerAttributes={{
+                      text: 'Portal Tools',
+                      icon: 'chevron_right',
+                      icon_position: 'right',
+                    }}
+                    tooltipPosition="bottom"
+                  />
+                </Space>
+              </MediaQuery>
+              <ul className="dev-grid">{nav}</ul>
+            </nav>
+          )
+        }}
+      />
+    </>
+  )
 }
 
 class ListItem extends React.PureComponent {
