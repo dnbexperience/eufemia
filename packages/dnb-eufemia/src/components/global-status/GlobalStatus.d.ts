@@ -189,7 +189,9 @@ export default class GlobalStatus extends React.Component<
     props: GlobalStatusInterceptorProps
   ) => GlobalStatusInterceptor;
   static Add: (props: GlobalStatusAddProps) => JSX.Element;
-  static Update: (props: GlobalStatusUpdateProps) => JSX.Element;
+  static Update: (
+    props: GlobalStatusUpdateProps
+  ) => GlobalStatusInterceptor;
   static Remove: (props: GlobalStatusRemoveProps) => JSX.Element;
   render(): JSX.Element;
 }

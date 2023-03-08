@@ -74,3 +74,5 @@ export default class PaymentCard extends React.Component<
   static defaultProps: object;
   render(): JSX.Element;
 }
+
+export const getCardData = (product_code: string) => PaymentCardRawData;
