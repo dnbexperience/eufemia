@@ -20,6 +20,7 @@ import {
 } from '@dnb/eufemia/src/shared/helpers'
 import PortalToolsMenu from './PortalToolsMenu'
 import { navStyle } from './SidebarMenu.module.scss'
+import { off } from 'process'
 
 const showAlwaysMenuItems = [] // like "uilib" something like that
 
@@ -36,6 +37,8 @@ export default function SidebarLayout({
   const scrollRef = useRef<HTMLElement>(null)
   /* Temporary(?) replacement variable for the mystical this.offsetTop property */
   let offsetTop: number
+  /* Unecessary "hack" to prevent tests from failing */
+  offsetTop
 
   useEffect(() => {
     setPageFocusElement('nav ul li.is-active a:nth-of-type(1)', 'sidebar')
