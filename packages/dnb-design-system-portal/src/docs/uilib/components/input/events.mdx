@@ -4,12 +4,13 @@ showTabs: true
 
 ## Events
 
-| Events      | Description                                                                                                                                           |
-| ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `on_change` | _(optional)_ will be called on value changes made by the user. Returns an object with the value as a string and the native event: `{ value, event }`. |
-| `on_focus`  | _(optional)_ will be called on focus set by the user. Returns `{ value, event }`.                                                                     |
-| `on_blur`   | _(optional)_ will be called on blur set by the user. Returns `{ value, event }`.                                                                      |
-| `on_submit` | _(optional)_ will be called on submit button click. Returns `{ value, event }`.                                                                       |
+| Events        | Description                                                                                                                                           |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `on_change`   | _(optional)_ will be called on value changes made by the user. Returns an object with the value as a string and the native event: `{ value, event }`. |
+| `on_focus`    | _(optional)_ will be called on focus set by the user. Returns `{ value, event }`.                                                                     |
+| `on_key_down` | _(optional)_ will be called on key down by the user. Returns `{ value, event }`.                                                                      |
+| `on_blur`     | _(optional)_ will be called on blur set by the user. Returns `{ value, event }`.                                                                      |
+| `on_submit`   | _(optional)_ will be called on submit button click. Returns `{ value, event }`.                                                                       |
 
 ### Manipulate the input value during typing
 
@@ -29,7 +30,7 @@ function Component() {
 
 ### Prevent setting a new value
 
-You can use e.g. `event.preventDefault()` during `onKeyDown`, or return false during `onChange`. They are not 100% the same user experience, but can both be useful in different use cases.
+You can use e.g. `event.preventDefault()` during `on_key_down`, or return false during `on_change`. They are not 100% the same user experience, but can both be useful in different use cases.
 
 ```jsx
 function Component() {
@@ -40,6 +41,8 @@ function Component() {
     return false
   }
 
-  return <Input onKeyDown={onKeyDownHandler} onChange={onChangeHandler} />
+  return (
+    <Input on_key_down={onKeyDownHandler} on_change={onChangeHandler} />
+  )
 }
 ```
