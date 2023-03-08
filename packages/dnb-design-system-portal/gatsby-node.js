@@ -10,6 +10,11 @@ const getCurrentBranchName = require('current-git-branch')
 const { init } = require('./scripts/version.js')
 const { createFilePath } = require('gatsby-source-filesystem')
 
+// Used for heading
+const {
+  makeHeadingsResolver,
+} = require('./src/uilib/search/remark-headings-plugin.js')
+
 let prebuildExists = false
 const currentBranch = getCurrentBranchName()
 
@@ -36,14 +41,38 @@ exports.onPreInit = async () => {
  * mother.frontmatter.title = Button
  *
  */
-exports.createSchemaCustomization = ({ actions: { createTypes } }) => {
-  const typeDefs = `
-    type Mdx implements Node {
-      siblings: [Mdx]
-    }
-  `
-
-  createTypes(typeDefs)
+exports.createSchemaCustomization = ({
+  getNode,
+  getNodesByType,
+  pathPrefix,
+  reporter,
+  cache,
+  schema,
+  store,
+  actions,
+}) => {
+  actions.createTypes([
+    `
+      type Mdx implements Node {
+        siblings: [Mdx]
+      }
+    `,
+    `
+      type MdxHeading {
+        value: String
+        depth: Int
+      }
+    `,
+    makeHeadingsResolver({
+      getNode,
+      getNodesByType,
+      pathPrefix,
+      reporter,
+      cache,
+      schema,
+      store,
+    }),
+  ])
 }
 
 exports.onCreateNode = ({ node, actions, getNode }) => {
