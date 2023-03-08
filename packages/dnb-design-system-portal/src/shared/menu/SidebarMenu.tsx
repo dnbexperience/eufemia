@@ -20,7 +20,6 @@ import {
 } from '@dnb/eufemia/src/shared/helpers'
 import PortalToolsMenu from './PortalToolsMenu'
 import { navStyle } from './SidebarMenu.module.scss'
-import { off } from 'process'
 
 const showAlwaysMenuItems = [] // like "uilib" something like that
 
