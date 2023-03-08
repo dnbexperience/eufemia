@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { ButtonVariant } from '../button';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 export type InputSize = 'default' | 'small' | 'medium' | 'large' | number;
@@ -28,18 +29,9 @@ export type InputIcon =
   | ((...args: any[]) => any);
 export type InputIconSize = string | number;
 export type InputIconPosition = 'left' | 'right';
-export type InputInnerRef =
-  | ((...args: any[]) => any)
-  | Record<string, unknown>;
 export type InputSubmitElement =
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type InputSubmitButtonVariant =
-  | 'primary'
-  | 'secondary'
-  | 'tertiary'
-  | 'signal'
-  | 'unstyled';
 export type InputSubmitButtonIcon =
   | string
   | React.ReactNode
@@ -192,7 +184,7 @@ export interface InputProps
   /**
    * By providing a React.ref we can get the internally used input element (DOM). E.g. `inner_ref={myRef}` by using `React.createRef()` or `React.useRef()`.
    */
-  inner_ref?: InputInnerRef;
+  inner_ref?: any;
   readOnly?: boolean;
 
   /**
@@ -204,7 +196,7 @@ export interface InputProps
    * Accepts a React element which will show up like the "submit button" would do on `type="search"`.
    */
   submit_element?: InputSubmitElement;
-  submit_button_variant?: InputSubmitButtonVariant;
+  submit_button_variant?: ButtonVariant;
   submit_button_icon?: InputSubmitButtonIcon;
   submit_button_status?: string;
 
@@ -215,6 +207,8 @@ export interface InputProps
    * Will be called on value changes made by the user. Returns an object with the value as a string and the native event: `{ value, event }`.
    */
   on_change?: (...args: any[]) => any;
+
+  on_key_down?: (...args: any[]) => any;
 
   /**
    * Will be called on submit button click. Returns `{ value, event }`.
@@ -234,7 +228,32 @@ export interface InputProps
   on_submit_blur?: (...args: any[]) => any;
   on_state_update?: (...args: any[]) => any;
 }
+
 export default class Input extends React.Component<InputProps, any> {
+  static defaultProps: object;
+  render(): JSX.Element;
+}
+
+export interface SubmitButtonProps extends React.HTMLProps<HTMLElement> {
+  id?: string;
+  value?: string;
+  title?: string;
+  variant?: ButtonVariant;
+  disabled?: boolean;
+  skeleton?: SkeletonShow;
+  icon?: InputIcon;
+  icon_size?: InputIconSize;
+  status?: InputStatus;
+  status_state?: string;
+  status_props?: Record<string, unknown>;
+  className?: string;
+
+  on_submit?: (...args: any[]) => any;
+  on_submit_focus?: (...args: any[]) => any;
+  on_submit_blur?: (...args: any[]) => any;
+}
+
+export class SubmitButton extends React.Component<SubmitButtonProps, any> {
   static defaultProps: object;
   render(): JSX.Element;
 }
