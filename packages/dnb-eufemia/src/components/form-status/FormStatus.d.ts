@@ -1,13 +1,10 @@
 import * as React from 'react';
+import type { IconIcon, IconSize } from '../Icon';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 export type FormStatusText =
   | string
   | boolean
-  | ((...args: any[]) => any)
-  | React.ReactNode;
-export type FormStatusIcon =
-  | string
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type FormStatusState =
@@ -49,12 +46,12 @@ export interface FormStatusProps
   /**
    * The `icon` show before the status text. Defaults to `exclamation`.
    */
-  icon?: FormStatusIcon;
+  icon?: IconIcon;
 
   /**
    * The icon size of the icon shows. Defaults to `medium`.
    */
-  icon_size?: string;
+  icon_size?: IconSize;
 
   /**
    * Defines the visual appearance of the status. These are the statuses `error`, `warn`, `info` and `marketing`. The default status is `error`.

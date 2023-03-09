@@ -1,9 +1,11 @@
 import * as React from 'react';
+import type { ButtonIconPosition } from '../button';
 import {
   FormStatusProps,
   FormStatusState,
   FormStatusText
 } from '../FormStatus';
+import type { IconPrimaryIcon, IconPrimarySize } from '../IconPrimary';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 export type AutocompleteAlignDrawer = 'left' | 'right';
@@ -32,8 +34,6 @@ export type AutocompleteSubmitButtonIcon =
 export type AutocompleteInputRef =
   | ((...args: any[]) => any)
   | Record<string, unknown>;
-export type AutocompleteIcon = string | React.ReactNode;
-export type AutocompleteIconPosition = 'left' | 'right';
 export type AutocompleteTrianglePosition = 'left' | 'right';
 export type AutocompleteInputIcon =
   | string
@@ -200,17 +200,17 @@ export interface AutocompleteProps
   /**
    * To be included in the autocomplete input.
    */
-  icon?: AutocompleteIcon;
+  icon?: IconPrimaryIcon;
 
   /**
    * Change the size of the icon pragmatically.
    */
-  icon_size?: string;
+  icon_size?: IconPrimarySize;
 
   /**
    * Position of the icon inside the autocomplete. Set to `left` or `right`. Defaults to `left`.
    */
-  icon_position?: AutocompleteIconPosition;
+  icon_position?: ButtonIconPosition;
 
   /**
    * Position of arrow icon/triangle inside the drawer-list. Set to `left` or `right`. Defaults to `left` if not set.
