@@ -1,4 +1,9 @@
 import * as React from 'react';
+import {
+  FormStatusProps,
+  FormStatusState,
+  FormStatusText
+} from '../FormStatus';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 export type DatePickerDate = Date | string;
@@ -21,11 +26,6 @@ export type DatePickerInputElement =
 export type DatePickerAddonElement = string | React.ReactNode;
 export type DatePickerShortcuts = any[] | ((...args: any[]) => any);
 export type DatePickerSize = 'default' | 'small' | 'medium' | 'large';
-export type DatePickerStatus =
-  | string
-  | boolean
-  | ((...args: any[]) => any)
-  | React.ReactNode;
 export type DatePickerSuffix =
   | string
   | ((...args: any[]) => any)
@@ -225,17 +225,17 @@ export interface DatePickerProps
   /**
    * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
    */
-  status?: DatePickerStatus;
+  status?: FormStatusText;
 
   /**
    * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
    */
-  status_state?: string;
+  status_state?: FormStatusState;
 
   /**
    * Use an object to define additional FormStatus properties.
    */
-  status_props?: Record<string, unknown>;
+  status_props?: FormStatusProps;
   status_no_animation?: boolean;
 
   /**
