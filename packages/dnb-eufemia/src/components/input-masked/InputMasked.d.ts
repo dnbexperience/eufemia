@@ -1,4 +1,9 @@
 import * as React from 'react';
+import {
+  FormStatusProps,
+  FormStatusState,
+  FormStatusText
+} from '../FormStatus';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 export type InputMaskedMask =
@@ -28,11 +33,6 @@ export type InputMaskedLabel =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type InputMaskedLabelDirection = 'horizontal' | 'vertical';
-export type InputMaskedStatus =
-  | string
-  | boolean
-  | ((...args: any[]) => any)
-  | React.ReactNode;
 export type InputMaskedSuffix =
   | string
   | ((...args: any[]) => any)
@@ -189,17 +189,17 @@ export interface InputMaskedProps
   /**
    * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
    */
-  status?: InputMaskedStatus;
+  status?: FormStatusText;
 
   /**
    * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
    */
-  status_state?: string;
+  status_state?: FormStatusState;
 
   /**
    * Use an object to define additional FormStatus properties.
    */
-  status_props?: Record<string, unknown>;
+  status_props?: FormStatusProps;
   status_no_animation?: boolean;
 
   /**
