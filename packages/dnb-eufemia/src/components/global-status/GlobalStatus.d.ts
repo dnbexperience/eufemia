@@ -23,7 +23,7 @@ export interface GlobalStatusProps
   extends React.HTMLProps<HTMLElement>,
     SpacingProps {
   /**
-   * The main ID. Defaults to the prop
+   * The main ID. Defaults to `main`.
    */
   id?: string;
   status_id?: string;
