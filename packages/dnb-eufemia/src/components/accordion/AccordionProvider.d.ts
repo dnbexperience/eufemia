@@ -1,6 +1,9 @@
 import * as React from 'react';
+import type { ButtonIconPosition } from '../button';
+import type { IconPrimarySize } from '../IconPrimary';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
+import type { AccordionIcon } from './Accordion';
 export type AccordionGroupVariant =
   | 'plain'
   | 'default'
@@ -8,17 +11,9 @@ export type AccordionGroupVariant =
   | 'filled';
 export type AccordionGroupHeading = boolean | React.ReactNode;
 export type AccordionGroupHeadingLevel = string | number;
-export type AccordionGroupIcon =
-  | React.ReactNode
-  | ((...args: any[]) => any)
-  | {
-      closed?: React.ReactNode | ((...args: any[]) => any);
-      expanded?: React.ReactNode | ((...args: any[]) => any);
-    };
 export type AccordionGroupClosed =
   | React.ReactNode
   | ((...args: any[]) => any);
-export type AccordionGroupIconPosition = 'left' | 'right';
 export type AccordionGroupAttributes = string | Record<string, unknown>;
 
 export interface AccordionGroupProps
@@ -45,10 +40,10 @@ export interface AccordionGroupProps
   element?: React.ReactNode;
   heading?: AccordionGroupHeading;
   heading_level?: AccordionGroupHeadingLevel;
-  icon?: AccordionGroupIcon;
+  icon?: AccordionIcon;
   closed?: AccordionGroupClosed;
-  icon_position?: AccordionGroupIconPosition;
-  icon_size?: string;
+  icon_position?: ButtonIconPosition;
+  icon_size?: IconPrimarySize;
   attributes?: AccordionGroupAttributes;
   class?: string;
   className?: string;

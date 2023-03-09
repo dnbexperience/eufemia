@@ -1,4 +1,6 @@
 import * as React from 'react';
+import type { ButtonIconPosition } from '../button';
+import type { IconPrimaryIcon, IconPrimarySize } from '../IconPrimary';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 import AccordionContent from './AccordionContent';
@@ -8,8 +10,7 @@ export type AccordionVariant = 'plain' | 'default' | 'outlined' | 'filled';
 export type AccordionHeading = boolean | React.ReactNode;
 export type AccordionHeadingLevel = string | number;
 export type AccordionIcon =
-  | React.ReactNode
-  | ((...args: any[]) => any)
+  | IconPrimaryIcon
   | {
       closed?: React.ReactNode | ((...args: any[]) => any);
 
@@ -19,7 +20,6 @@ export type AccordionIcon =
       expanded?: React.ReactNode | ((...args: any[]) => any);
     };
 export type AccordionClosed = React.ReactNode | ((...args: any[]) => any);
-export type AccordionIconPosition = 'left' | 'right';
 export type AccordionAttributes = string | Record<string, unknown>;
 
 export interface AccordionProps
@@ -136,12 +136,12 @@ export interface AccordionProps
   /**
    * Will set the placement of the icon. Defaults to `left`.
    */
-  icon_position?: AccordionIconPosition;
+  icon_position?: ButtonIconPosition;
 
   /**
    * Define a different icon size. Defaults to `medium` (1.5rem).
    */
-  icon_size?: string;
+  icon_size?: IconPrimarySize;
   attributes?: AccordionAttributes;
   class?: string;
   className?: string;

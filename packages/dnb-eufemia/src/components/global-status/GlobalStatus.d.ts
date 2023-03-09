@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { IconIcon, IconSize } from '../Icon';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 export type GlobalStatusTitle = React.ReactNode | boolean;
@@ -7,10 +8,6 @@ export type GlobalStatusText =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type GlobalStatusItems = string | ((...args: any[]) => any) | any[];
-export type GlobalStatusIcon =
-  | string
-  | ((...args: any[]) => any)
-  | React.ReactNode;
 export type GlobalStatusState = 'error' | 'info';
 export type GlobalStatusShow = 'auto' | any | any | 'true' | 'false';
 export type GlobalStatusDelay = string | number;
@@ -47,12 +44,12 @@ export interface GlobalStatusProps
   /**
    * The icon shown before the status title. Defaults to `exclamation`.
    */
-  icon?: GlobalStatusIcon;
+  icon?: IconIcon;
 
   /**
    * The icon size of the title icon shows. Defaults to `medium`.
    */
-  icon_size?: string;
+  icon_size?: IconSize;
 
   /**
    * Defines the visual appearance of the status. There are two main statuses `error` and `info`. The default status is `error`.
