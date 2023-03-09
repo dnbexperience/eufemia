@@ -3,11 +3,8 @@
  *
  */
 
-import {
-  rootElement,
-  pageElement,
-  renderBody,
-} from './src/core/PortalProviders'
+import { rootElement, pageElement } from './src/core/PortalProviders'
+import { renderBody } from './src/core/PortalHead'
 
 export const wrapRootElement = rootElement('ssr')
 export const wrapPageElement = pageElement()

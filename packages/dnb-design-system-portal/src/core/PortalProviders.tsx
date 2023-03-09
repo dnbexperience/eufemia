@@ -15,7 +15,7 @@ import stylisPlugin from '@dnb/eufemia/src/style/stylis'
 import { isTrue } from '@dnb/eufemia/src/shared/component-helper'
 import { isCI } from 'repo-utils'
 
-import PortalLayout, { HeadComponents } from './PortalLayout'
+import PortalLayout from './PortalLayout'
 
 /**
  * Import Eufemia Styles
@@ -73,18 +73,6 @@ export const rootElement =
         </Provider>
       </CacheProvider>
     )
-  }
-
-export const renderBody =
-  () =>
-  ({ setHeadComponents, loadPageDataSync, pathname }) => {
-    // SSG only
-    if (typeof loadPageDataSync === 'function') {
-      const {
-        result: { pageContext },
-      } = loadPageDataSync(pathname)
-      setHeadComponents(<HeadComponents pageContext={pageContext} />)
-    }
   }
 
 // This ensures we actually will get skeletons enabled when defined in the url

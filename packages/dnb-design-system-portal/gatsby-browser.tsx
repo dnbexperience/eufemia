@@ -12,9 +12,8 @@ if (typeof window !== 'undefined') {
 
 function setIsTest(location) {
   if (location && location.href.includes('data-visual-test')) {
-    global.IS_TEST = true
-    window.IS_TEST = true
-    document.documentElement.setAttribute('data-visual-test', true)
+    globalThis.IS_TEST = true
+    document.documentElement.setAttribute('data-visual-test', 'true')
   }
 }
 
@@ -39,7 +38,7 @@ export const onRouteUpdate = ({ location, prevLocation }) => {
     // we have to disable the focus management from Reach Router
     // More info: why we have to have the tabindex https://reach.tech/router/accessibility
     // More info: The div is necessary to manage focus https://github.com/reach/router/issues/63#issuecomment-395988602
-    if (!window.IS_TEST) {
+    if (!globalThis.IS_TEST) {
       document
         .getElementById('gatsby-focus-wrapper')
         .removeAttribute('tabindex')

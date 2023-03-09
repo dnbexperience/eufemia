@@ -10,6 +10,7 @@ import Layout from '../shared/parts/Layout'
 import Tabbar from '../shared/tags/Tabbar'
 import tags from '../shared/tags'
 import { resetLevels } from '@dnb/eufemia/src/components/Heading'
+import { setPortalHeadData, usePortalHead } from './PortalHead'
 
 const ContentWrapper = Tabbar.ContentWrapper
 
@@ -71,35 +72,26 @@ export default function PortalLayout(props) {
     }, [data, slug])?.node || {}
 
   const { siblings } = mdx
-
-  const makeUseOfCategory = Boolean(
-    !mdx?.frontmatter?.title && mdx?.frontmatter?.showTabs
-  )
   const category = siblings?.[0]
   const categoryFm = category?.frontmatter || {}
   const currentFm = mdx?.frontmatter || {}
+  const fmData = Object.entries(categoryFm).reduce(
+    (acc, [key, value]) => {
+      if (!acc[key]) {
+        acc[key] = value
+      }
+      return acc
+    },
+    { ...currentFm }
+  )
 
-  // Ensure heading levels are reset before each page SSR starts
+  // Ensure heading levels are reset before each page renders
   resetLevels(1)
 
+  usePortalHead(fmData)
+
   if (!mdx?.frontmatter) {
-    return children
-  }
-
-  // Share frontmatter in pageContext during SSG
-  if (pageContext?.frontmatter) {
-    const { title, description } = currentFm.title ? currentFm : categoryFm
-    pageContext.frontmatter.meta = { title, description }
-
-    // Update meta during hydration render
-    if (typeof document !== 'undefined') {
-      const existingElem = document.head.getElementsByTagName('title')
-      existingElem[0]?.parentNode?.removeChild(existingElem[0])
-
-      const newElem = document.createElement('title')
-      newElem.textContent = title
-      document.head.appendChild(newElem)
-    }
+    return children // looks like it was not a MDX, so we just return children
   }
 
   const Content = () => {
@@ -114,43 +106,33 @@ export default function PortalLayout(props) {
     )
   }
 
+  // Share frontmatter in pageContext during SSR/SSG
+  if (pageContext?.frontmatter) {
+    setPortalHeadData(pageContext, fmData)
+  }
+
+  const makeUseOfCategory = Boolean(
+    !mdx?.frontmatter?.title && mdx?.frontmatter?.showTabs
+  )
+  const rootPath =
+    '/' + (makeUseOfCategory ? category?.fields?.slug : mdx?.fields?.slug)
+  const fullscreen = Boolean(fmData?.fullscreen) || pageContext?.fullscreen
+
   return (
-    <Layout
-      key="layout"
-      location={location}
-      fullscreen={
-        Boolean(currentFm?.fullscreen || categoryFm?.fullscreen) ||
-        pageContext?.fullscreen
-      }
-    >
+    <Layout key="layout" location={location} fullscreen={fullscreen}>
       {currentFm.showTabs && (
         <Tabbar
           key="tabbar"
           location={location}
-          rootPath={
-            '/' +
-            (makeUseOfCategory
-              ? category?.fields?.slug
-              : mdx?.fields?.slug)
-          }
-          title={currentFm.title || categoryFm.title}
-          tabs={currentFm.tabs || categoryFm.tabs}
-          defaultTabs={currentFm.defaultTabs || categoryFm.defaultTabs}
-          hideTabs={currentFm.hideTabs || categoryFm.hideTabs}
+          rootPath={rootPath}
+          title={fmData.title}
+          tabs={fmData.tabs}
+          defaultTabs={fmData.defaultTabs}
+          hideTabs={fmData.hideTabs}
         />
       )}
 
       <Content />
     </Layout>
-  )
-}
-
-export function HeadComponents({ pageContext }) {
-  const { title, description } = pageContext?.frontmatter?.meta || {}
-  return (
-    <>
-      {title && <title>{title} | Eufemia</title>}
-      {description && <meta name="description" content={description} />}
-    </>
   )
 }
