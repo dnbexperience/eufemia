@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { ButtonVariant } from '../button';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 export type DropdownAlignDrawer = 'left' | 'right';
@@ -21,12 +22,6 @@ export type DropdownPageOffset = string | number;
 export type DropdownObserverElement = string | React.ReactNode;
 export type DropdownMinHeight = string | number;
 export type DropdownTitle = string | React.ReactNode;
-export type DropdownVariant =
-  | 'primary'
-  | 'secondary'
-  | 'tertiary'
-  | 'signal'
-  | 'unstyled';
 export type DropdownIcon =
   | string
   | React.ReactNode
@@ -152,7 +147,7 @@ export interface DropdownProps
   /**
    * Defines the kind of dropdown. Possible values are `primary`, `secondary`, `tertiary` and `signal`. Defaults to `secondary`.
    */
-  variant?: DropdownVariant;
+  variant?: ButtonVariant;
 
   /**
    * Icon to be included in the dropdown.
