@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { SpacingProps } from '../../shared/types';
-export type StepIndicatorSidebarMode = 'static' | 'strict' | 'loose';
+import { StepIndicatorMode } from './StepIndicator';
 export type StepIndicatorSidebarCurrentStep = string | number;
 export type StepIndicatorSidebarData =
   | string
@@ -31,7 +31,7 @@ export interface StepIndicatorSidebarProps
   /**
    * <em>(required)</em> defines how the StepIndicator should work. Use `static` for non-interactive steps. Use `strict` for a chronological step order, also, the user can navigate between visited steps. Use `loose` if the user should be able to navigate freely.
    */
-  mode?: StepIndicatorSidebarMode;
+  mode?: StepIndicatorMode;
 
   /**
    * Defines the active number marked step starting by 0. Defaults to `0`.
