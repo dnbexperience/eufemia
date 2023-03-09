@@ -6,7 +6,6 @@ import AutoLinkHeader from '../tags/AutoLinkHeader'
 const ListSummaryFromPages = ({
   slug = null,
   returnListItems = false,
-  showBody = false,
   edges = null,
 }) => {
   const {
@@ -28,7 +27,6 @@ const ListSummaryFromPages = ({
               title
               description
             }
-            body
           }
         }
       }
@@ -75,13 +73,14 @@ const ListSummaryFromPages = ({
               node: {
                 frontmatter: { title, description },
                 fields: { slug },
-                body,
               },
             },
             i
           ) => {
             return (
-              <Wrapper key={i}>{showBody ? <Body /> : <Title />}</Wrapper>
+              <Wrapper key={i}>
+                <Title />
+              </Wrapper>
             )
 
             function Title() {
@@ -106,10 +105,6 @@ const ListSummaryFromPages = ({
                   {description && <P>{description}</P>}
                 </>
               )
-            }
-
-            function Body() {
-              return body
             }
           }
         )}
