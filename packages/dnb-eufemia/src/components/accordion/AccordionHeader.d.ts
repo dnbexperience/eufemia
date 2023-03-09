@@ -1,6 +1,9 @@
 import * as React from 'react';
+import type { ButtonIconPosition } from '../button';
+import type { IconPrimarySize } from '../IconPrimary';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
+import type { AccordionIcon } from './Accordion';
 
 export interface AccordionHeaderTitleProps extends SpacingProps {
   children?: React.ReactNode;
@@ -16,13 +19,6 @@ export interface AccordionHeaderContainerProps extends SpacingProps {
   children?: React.ReactNode;
 }
 declare const AccordionHeaderContainer: React.FC<AccordionHeaderContainerProps>;
-export type AccordionHeaderIconIcon =
-  | React.ReactNode
-  | ((...args: any[]) => any)
-  | {
-      closed?: React.ReactNode | ((...args: any[]) => any);
-      expanded?: React.ReactNode | ((...args: any[]) => any);
-    };
 
 export interface AccordionHeaderIconProps {
   icon?: AccordionHeaderIconIcon;
@@ -59,7 +55,6 @@ export type AccordionHeaderIcon =
       closed?: React.ReactNode | ((...args: any[]) => any);
       expanded?: React.ReactNode | ((...args: any[]) => any);
     };
-export type AccordionHeaderIconPosition = 'left' | 'right';
 export type AccordionHeaderChildren =
   | string
   | React.ReactNode
@@ -74,9 +69,9 @@ export interface AccordionHeaderProps
   element?: AccordionHeaderElement;
   heading?: AccordionHeaderHeading;
   heading_level?: AccordionHeaderHeadingLevel;
-  icon?: AccordionHeaderIcon;
-  icon_position?: AccordionHeaderIconPosition;
-  icon_size?: string;
+  icon?: AccordionIcon;
+  icon_position?: ButtonIconPosition;
+  icon_size?: IconPrimarySize;
   disabled?: boolean;
   skeleton?: SkeletonShow;
   no_animation?: boolean;

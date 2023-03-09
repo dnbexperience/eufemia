@@ -1,9 +1,11 @@
 import * as React from 'react';
+import type { ButtonIconPosition } from '../button';
 import {
   FormStatusProps,
   FormStatusState,
   FormStatusText
 } from '../FormStatus';
+import type { IconPrimaryIcon, IconPrimarySize } from '../IconPrimary';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 import ToggleButtonGroup from './ToggleButtonGroup';
@@ -22,11 +24,6 @@ export type ToggleButtonValue =
   | number
   | Record<string, unknown>
   | any[];
-export type ToggleButtonIcon =
-  | string
-  | React.ReactNode
-  | ((...args: any[]) => any);
-export type ToggleButtonIconPosition = 'left' | 'right';
 export type ToggleButtonAttributes = string | Record<string, unknown>;
 export type ToggleButtonChildren = string | ((...args: any[]) => any);
 
@@ -98,17 +95,17 @@ export interface ToggleButtonProps
   /**
    * Icon to be included in the toggle button.
    */
-  icon?: ToggleButtonIcon;
+  icon?: IconPrimaryIcon;
 
   /**
    * Position of the icon inside the toggle button. Set to `left` or `right`. Defaults to `right` if not set.
    */
-  icon_position?: ToggleButtonIconPosition;
+  icon_position?: ButtonIconPosition;
 
   /**
    * Define icon width and height. Defaults to 16px
    */
-  icon_size?: string;
+  icon_size?: IconPrimarySize;
   attributes?: ToggleButtonAttributes;
   readOnly?: boolean;
 
