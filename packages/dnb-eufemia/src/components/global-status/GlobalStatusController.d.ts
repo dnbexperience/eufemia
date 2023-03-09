@@ -3,7 +3,7 @@ import * as React from 'react';
 export interface GlobalStatusControllerProps
   extends React.HTMLProps<HTMLElement> {
   /**
-   * The main ID. Defaults to the prop
+   * The main ID. Defaults to `main`.
    */
   id?: string;
   status_id?: string;
@@ -19,7 +19,7 @@ export default class GlobalStatusController extends React.Component<
 
 export interface GlobalStatusRemoveProps {
   /**
-   * The main ID. Defaults to the prop
+   * The main ID. Defaults to `main`.
    */
   id?: string;
   status_id: string;
