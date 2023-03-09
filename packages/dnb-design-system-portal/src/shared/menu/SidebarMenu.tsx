@@ -34,10 +34,6 @@ export default function SidebarLayout({
 }: SidebarLayoutProps) {
   const { isClosing, closeMenu, isOpen } = useContext(SidebarMenuContext)
   const scrollRef = useRef<HTMLElement>(null)
-  /* Temporary(?) replacement variable for the mystical this.offsetTop property */
-  let offsetTop: number
-  /* Unecessary "hack" to prevent tests from failing */
-  offsetTop
 
   const {
     allMdx,
@@ -201,9 +197,6 @@ export default function SidebarLayout({
           active,
           inside,
           to: path,
-          onOffsetTop: (listItemOffsetTop: number) =>
-            /* Not sure if this does anything at the moment, since this.offsetTop is not used anywhere in this component */
-            (offsetTop = listItemOffsetTop),
         }
 
         return (
@@ -246,7 +239,6 @@ export default function SidebarLayout({
 }
 
 type ListItemProps = {
-  onOffsetTop?: (offsetTop: number) => number
   children: ReactNode | ReactNode[]
   className?: string
   to: string
@@ -267,16 +259,10 @@ function ListItem({
   nr,
   status,
   icon,
-  onOffsetTop,
   children,
 }: ListItemProps) {
   const { skeleton } = useContext(Context)
   const ref = useRef(null)
-
-  useEffect(() => {
-    if ((!active && !ref?.current) || !onOffsetTop) return
-    onOffsetTop(ref.current.offsetTop)
-  }, [])
 
   const statusTitle =
     status &&
