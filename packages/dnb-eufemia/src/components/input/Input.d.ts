@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { ButtonVariant } from '../button';
+import type { ButtonIconPosition, ButtonVariant } from '../button';
 import {
   FormStatusProps,
   FormStatusState,
   FormStatusText
 } from '../FormStatus';
+import type { IconPrimaryIcon, IconPrimarySize } from '../IconPrimary';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 export type InputSize = 'default' | 'small' | 'medium' | 'large' | number;
@@ -23,12 +24,6 @@ export type InputInputAttributes = string | Record<string, unknown>;
 export type InputInputElement =
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type InputIcon =
-  | string
-  | React.ReactNode
-  | ((...args: any[]) => any);
-export type InputIconSize = string | number;
-export type InputIconPosition = 'left' | 'right';
 export type InputSubmitElement =
   | ((...args: any[]) => any)
   | React.ReactNode;
@@ -169,17 +164,17 @@ export interface InputProps
   /**
    * Icon to show before or after the input / placeholder. Can be either a string defining a primary icon or a Component using an SVG icon of either 16px or 24px.
    */
-  icon?: InputIcon;
+  icon?: IconPrimaryIcon;
 
   /**
    * The icon size of the icon shows. Defaults to `medium`.
    */
-  icon_size?: InputIconSize;
+  icon_size?: IconPrimarySize;
 
   /**
    * Defines the position of icon inside the input. Set to `left` or `right`. Defaults to `left` if not set.
    */
-  icon_position?: InputIconPosition;
+  icon_position?: ButtonIconPosition;
 
   /**
    * By providing a React.ref we can get the internally used input element (DOM). E.g. `inner_ref={myRef}` by using `React.createRef()` or `React.useRef()`.
@@ -241,8 +236,8 @@ export interface SubmitButtonProps extends React.HTMLProps<HTMLElement> {
   variant?: ButtonVariant;
   disabled?: boolean;
   skeleton?: SkeletonShow;
-  icon?: InputIcon;
-  icon_size?: InputIconSize;
+  icon?: IconPrimaryIcon;
+  icon_size?: IconPrimarySize;
   status?: FormStatusText;
   status_state?: FormStatusState;
   status_props?: FormStatusProps;
