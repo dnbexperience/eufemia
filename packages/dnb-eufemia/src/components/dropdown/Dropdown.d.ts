@@ -1,10 +1,11 @@
 import * as React from 'react';
-import type { ButtonVariant } from '../button';
-import {
+import type { ButtonIconPosition, ButtonVariant } from '../button';
+import type {
   FormStatusProps,
   FormStatusState,
   FormStatusText
 } from '../FormStatus';
+import type { IconPrimaryIcon, IconPrimarySize } from '../IconPrimary';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 export type DropdownAlignDrawer = 'left' | 'right';
@@ -27,11 +28,6 @@ export type DropdownPageOffset = string | number;
 export type DropdownObserverElement = string | React.ReactNode;
 export type DropdownMinHeight = string | number;
 export type DropdownTitle = string | React.ReactNode;
-export type DropdownIcon =
-  | string
-  | React.ReactNode
-  | ((...args: any[]) => any);
-export type DropdownIconPosition = 'left' | 'right';
 export type DropdownTrianglePosition = 'left' | 'right';
 export type DropdownLabel =
   | string
@@ -152,17 +148,17 @@ export interface DropdownProps
   /**
    * Icon to be included in the dropdown.
    */
-  icon?: DropdownIcon;
+  icon?: IconPrimaryIcon;
 
   /**
    * Change the size of the icon pragmatically.
    */
-  icon_size?: string;
+  icon_size?: IconPrimarySize;
 
   /**
    * Position of the icon inside the dropdown. Set to `left` or `right`. Defaults to `right`.
    */
-  icon_position?: DropdownIconPosition;
+  icon_position?: ButtonIconPosition;
 
   /**
    * Position of arrow icon/triangle inside the drawer-list. Set to `left` or `right`. Defaults to `left` if not set.

@@ -1,9 +1,11 @@
 import * as React from 'react';
+import type { ButtonIconPosition } from '../button';
 import {
   FormStatusProps,
   FormStatusState,
   FormStatusText
 } from '../FormStatus';
+import type { IconPrimaryIcon, IconPrimarySize } from '../IconPrimary';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 export type InputMaskedMask =
@@ -42,12 +44,6 @@ export type InputMaskedInputAttributes = string | Record<string, unknown>;
 export type InputMaskedInputElement =
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type InputMaskedIcon =
-  | string
-  | React.ReactNode
-  | ((...args: any[]) => any);
-export type InputMaskedIconSize = string | number;
-export type InputMaskedIconPosition = 'left' | 'right';
 export type InputMaskedSubmitElement =
   | ((...args: any[]) => any)
   | React.ReactNode;
@@ -283,17 +279,17 @@ export interface InputMaskedProps
   /**
    * Icon to show before or after the input / placeholder. Can be either a string defining a primary icon or a Component using an SVG icon of either 16px or 24px.
    */
-  icon?: InputMaskedIcon;
+  icon?: IconPrimaryIcon;
 
   /**
    * The icon size of the icon shows. Defaults to `medium`.
    */
-  icon_size?: InputMaskedIconSize;
+  icon_size?: IconPrimarySize;
 
   /**
    * Defines the position of icon inside the input. Set to `left` or `right`. Defaults to `left` if not set.
    */
-  icon_position?: InputMaskedIconPosition;
+  icon_position?: ButtonIconPosition;
   readOnly?: boolean;
 
   /**
