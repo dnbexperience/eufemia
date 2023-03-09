@@ -143,7 +143,7 @@ export interface AutocompleteProps
   mode?: AutocompleteMode;
 
   /**
-   * Give a title to let the user know what theyhaves to do. Defaults to `Skriv og få alternativer&#39;` .
+   * Give a title to let the user know what they have to do. Defaults to `Skriv og få alternativer&#39;` .
    */
   title?: AutocompleteTitle;
 
