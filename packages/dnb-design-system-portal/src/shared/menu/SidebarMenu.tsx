@@ -6,7 +6,7 @@
 import React, { useContext, useEffect, useRef, ReactNode } from 'react'
 import classnames from 'classnames'
 import Link from '../parts/Link'
-import { StaticQuery, graphql } from 'gatsby'
+import { useStaticQuery, StaticQuery, graphql } from 'gatsby'
 import { resetLevels } from '@dnb/eufemia/src/components/Heading'
 import Context from '@dnb/eufemia/src/shared/Context'
 import { SidebarMenuContext } from './SidebarMenuContext'
@@ -39,6 +39,37 @@ export default function SidebarLayout({
   /* Unecessary "hack" to prevent tests from failing */
   offsetTop
 
+  const {
+    allMdx,
+    site: { pathPrefix },
+  } = useStaticQuery(graphql`
+    query {
+      site {
+        pathPrefix
+      }
+      allMdx(
+        filter: {
+          frontmatter: { title: { ne: null }, draft: { ne: true } }
+        }
+      ) {
+        edges {
+          node {
+            fields {
+              slug
+            }
+            frontmatter {
+              title
+              menuTitle
+              order
+              status
+              icon
+            }
+          }
+        }
+      }
+    }
+  `)
+
   useEffect(() => {
     setPageFocusElement('nav ul li.is-active a:nth-of-type(1)', 'sidebar')
 
@@ -70,8 +101,10 @@ export default function SidebarLayout({
     if (!elem) return false
 
     try {
-      /* Is this codeblock suppose to scroll to the active list item inside the menu? 
-         if so then it does not seem to be working, as its targeting the window and not the <SidebarMenu /> component
+      /* 
+        The scroll to active list item codeblock seems to only be working on smaller screen sizes i.e. tablet/phones, is this intentional?
+        As of now it only targets the window scroll, which means its only automatically scrolling on smaller devices, since on desktop
+        the menu has its own internal scrollbar inside the <nav /> element
       */
       const offset = scrollRef.current.getBoundingClientRect().top
       const rect = elem.getBoundingClientRect()
@@ -84,7 +117,8 @@ export default function SidebarLayout({
       } else {
         /* Typo or deprecated/old property that Typescript is not catching up on? */
         /* Property 'scrollTop' does not exist on type 'Window & typeof globalThis'. Did you mean 'scrollTo'? */
-        window.scrollTop = top
+        //Code below used to be window.scrollTop = top
+        window.scrollY = top
       }
     } catch (e) {
       console.log('Could not set scrollToActiveItem', e)
@@ -95,167 +129,119 @@ export default function SidebarLayout({
     if (event.key === 'Escape') closeMenu()
   }
 
+  /* Creation of menu items starts here */
+
+  const currentPathname = location.pathname.replace(/(\/)$/, '')
+  const currentPathnameList = currentPathname.split('/').filter(Boolean)
+
+  const menuItems = prepareNav({
+    location,
+    allMdx,
+    showAll,
+    pathPrefix,
+  })
+    .filter(({ title, menuTitle }) => title || menuTitle)
+    .map((props) => {
+      const path = `/${props.path.replace(/(\/)$/, '')}`
+
+      // get the active item
+      const active = currentPathname === path
+
+      // check if a item path is inside another
+      const inside = path
+        .split('/')
+        .filter(Boolean)
+        .every((i) => currentPathnameList.includes(i))
+
+      return { ...props, active, inside }
+    })
+
+    // mark also the rest of the same level as inside
+    .map((curr, i, arr) => {
+      const prev = arr[i - 1] ? arr[i - 1] : null
+
+      // use 4 here, so the logic is the same in the CSS
+      if (prev && curr.level >= 4) {
+        if (prev.inside && curr.level >= prev.level) {
+          curr.inside = true
+        }
+      }
+      return curr
+    })
+
+  let hasActive = menuItems.some(({ active }) => active)
+  const currentPathnameOneLevelBack = !hasActive
+    ? currentPathname.split('/').filter(Boolean).slice(0, -1).join('/')
+    : null
+
+  const nav = menuItems
+    // in case there was no active item
+    // like inside /modal/demos and /modal/properties
+    // then we make sure we get the most possible item
+    // and set active on it – this way we get the correct color and aria-current
+    .map((curr) => {
+      if (!hasActive && curr.inside) {
+        if (curr.path === currentPathnameOneLevelBack) {
+          curr.active = true
+          hasActive = true
+        }
+      }
+      return curr
+    })
+    .map(
+      (
+        { title, menuTitle, status, icon, path, level, active, inside },
+        nr
+      ) => {
+        const props = {
+          level,
+          nr,
+          status,
+          icon,
+          active,
+          inside,
+          to: path,
+          onOffsetTop: (listItemOffsetTop: number) =>
+            /* Not sure if this does anything at the moment, since this.offsetTop is not used anywhere in this component */
+            (offsetTop = listItemOffsetTop),
+        }
+
+        return (
+          <ListItem key={path} {...props}>
+            {menuTitle || title}
+          </ListItem>
+        )
+      }
+    )
+
   return (
-    <>
-      <StaticQuery
-        query={graphql`
-          query {
-            site {
-              pathPrefix
-            }
-            allMdx(
-              filter: {
-                frontmatter: { title: { ne: null }, draft: { ne: true } }
-              }
-            ) {
-              edges {
-                node {
-                  fields {
-                    slug
-                  }
-                  frontmatter {
-                    title
-                    menuTitle
-                    order
-                    status
-                    icon
-                  }
-                }
-              }
-            }
-          }
-        `}
-        render={({ allMdx, site: { pathPrefix } }) => {
-          const currentPathname = location.pathname.replace(/(\/)$/, '')
-          const currentPathnameList = currentPathname
-            .split('/')
-            .filter(Boolean)
-
-          const menuItems = prepareNav({
-            location,
-            allMdx,
-            showAll,
-            pathPrefix,
-          })
-            .filter(({ title, menuTitle }) => title || menuTitle)
-            .map((props) => {
-              const path = `/${props.path.replace(/(\/)$/, '')}`
-
-              // get the active item
-              const active = currentPathname === path
-
-              // check if a item path is inside another
-              const inside = path
-                .split('/')
-                .filter(Boolean)
-                .every((i) => currentPathnameList.includes(i))
-
-              return { ...props, active, inside }
-            })
-
-            // mark also the rest of the same level as inside
-            .map((curr, i, arr) => {
-              const prev = arr[i - 1] ? arr[i - 1] : null
-
-              // use 4 here, so the logic is the same in the CSS
-              if (prev && curr.level >= 4) {
-                if (prev.inside && curr.level >= prev.level) {
-                  curr.inside = true
-                }
-              }
-              return curr
-            })
-
-          let hasActive = menuItems.some(({ active }) => active)
-          const currentPathnameOneLevelBack = !hasActive
-            ? currentPathname
-                .split('/')
-                .filter(Boolean)
-                .slice(0, -1)
-                .join('/')
-            : null
-
-          const nav = menuItems
-            // in case there was no active item
-            // like inside /modal/demos and /modal/properties
-            // then we make sure we get the most possible item
-            // and set active on it – this way we get the correct color and aria-current
-            .map((curr) => {
-              if (!hasActive && curr.inside) {
-                if (curr.path === currentPathnameOneLevelBack) {
-                  curr.active = true
-                  hasActive = true
-                }
-              }
-              return curr
-            })
-            .map(
-              (
-                {
-                  title,
-                  menuTitle,
-                  status,
-                  icon,
-                  path,
-                  level,
-                  active,
-                  inside,
-                },
-                nr
-              ) => {
-                const props = {
-                  level,
-                  nr,
-                  status,
-                  icon,
-                  active,
-                  inside,
-                  to: path,
-                  onOffsetTop: (listItemOffsetTop: number) =>
-                    /* Not sure if this does anything at the moment, since this.offsetTop is not used anywhere in this component */
-                    (offsetTop = listItemOffsetTop),
-                }
-
-                return (
-                  <ListItem key={path} {...props}>
-                    {menuTitle || title}
-                  </ListItem>
-                )
-              }
-            )
-
-          return (
-            <nav
-              id="portal-sidebar-menu"
-              aria-labelledby="toggle-sidebar-menu"
-              className={classnames(
-                navStyle,
-                'dnb-scrollbar-appearance',
-                isOpen && 'show-mobile-menu',
-                isClosing && 'hide-mobile-menu'
-              )}
-              ref={scrollRef}
-            >
-              <MediaQuery when={{ min: 0, max: 'medium' }}>
-                <Space left="large" top="large">
-                  <PortalToolsMenu
-                    /* className for PortalToolsMenu is currently required and not optional */
-                    className=""
-                    triggerAttributes={{
-                      text: 'Portal Tools',
-                      icon: 'chevron_right',
-                      icon_position: 'right',
-                    }}
-                    tooltipPosition="bottom"
-                  />
-                </Space>
-              </MediaQuery>
-              <ul className="dev-grid">{nav}</ul>
-            </nav>
-          )
-        }}
-      />
-    </>
+    <nav
+      id="portal-sidebar-menu"
+      aria-labelledby="toggle-sidebar-menu"
+      className={classnames(
+        navStyle,
+        'dnb-scrollbar-appearance',
+        isOpen && 'show-mobile-menu',
+        isClosing && 'hide-mobile-menu'
+      )}
+      ref={scrollRef}
+    >
+      <MediaQuery when={{ min: 0, max: 'medium' }}>
+        <Space left="large" top="large">
+          <PortalToolsMenu
+            /* className for PortalToolsMenu is currently required and not optional */
+            className=""
+            triggerAttributes={{
+              text: 'Portal Tools',
+              icon: 'chevron_right',
+              icon_position: 'right',
+            }}
+            tooltipPosition="bottom"
+          />
+        </Space>
+      </MediaQuery>
+      <ul className="dev-grid">{nav}</ul>
+    </nav>
   )
 }
 
