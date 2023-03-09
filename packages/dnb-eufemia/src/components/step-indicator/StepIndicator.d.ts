@@ -1,5 +1,6 @@
 import * as React from 'react';
 import type { SpacingProps } from '../../shared/types';
+import { FormStatusText } from '../FormStatus';
 import type { SkeletonShow } from '../Skeleton';
 import StepIndicatorSidebar from './StepIndicatorSidebar';
 export type StepIndicatorMode = 'static' | 'strict' | 'loose';
@@ -11,8 +12,8 @@ export type StepIndicatorData =
       is_current?: boolean;
       inactive?: boolean;
       disabled?: boolean;
-      status?: string | React.ReactNode;
-      status_state?: 'warn' | 'info' | 'error';
+      status?: FormStatusText;
+      status_state?: StepIndicatorStatusState;
 
       /**
        * Will be called once the user clicks on the current or another step. Will be emitted on every click. Returns an object `{ event, item, current_step }`.
@@ -21,7 +22,6 @@ export type StepIndicatorData =
       on_render?: (...args: any[]) => any;
     }[];
 export type StepIndicatorTitle = string | React.ReactNode;
-export type StepIndicatorStatus = string | React.ReactNode;
 export type StepIndicatorStatusState = 'warn' | 'info' | 'error';
 export type StepIndicatorCurrentStep = string | number;
 export type StepIndicatorChildren =
@@ -49,7 +49,7 @@ export interface StepIndicatorProps
   is_current?: boolean;
   inactive?: boolean;
   disabled?: boolean;
-  status?: StepIndicatorStatus;
+  status?: FormStatusText;
   status_state?: StepIndicatorStatusState;
 
   /**
