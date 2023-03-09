@@ -1,5 +1,10 @@
 import * as React from 'react';
 import { ButtonVariant } from '../button';
+import {
+  FormStatusProps,
+  FormStatusState,
+  FormStatusText
+} from '../FormStatus';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 export type InputSize = 'default' | 'small' | 'medium' | 'large' | number;
@@ -9,11 +14,6 @@ export type InputLabel =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type InputLabelDirection = 'horizontal' | 'vertical';
-export type InputStatus =
-  | string
-  | boolean
-  | ((...args: any[]) => any)
-  | React.ReactNode;
 export type InputSuffix =
   | string
   | ((...args: any[]) => any)
@@ -75,17 +75,17 @@ export interface InputProps
   /**
    * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
    */
-  status?: InputStatus;
+  status?: FormStatusText;
 
   /**
    * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
    */
-  status_state?: string;
+  status_state?: FormStatusState;
 
   /**
    * Use an object to define additional FormStatus properties.
    */
-  status_props?: Record<string, unknown>;
+  status_props?: FormStatusProps;
   status_no_animation?: boolean;
 
   /**
@@ -243,9 +243,9 @@ export interface SubmitButtonProps extends React.HTMLProps<HTMLElement> {
   skeleton?: SkeletonShow;
   icon?: InputIcon;
   icon_size?: InputIconSize;
-  status?: InputStatus;
-  status_state?: string;
-  status_props?: Record<string, unknown>;
+  status?: FormStatusText;
+  status_state?: FormStatusState;
+  status_props?: FormStatusProps;
   className?: string;
 
   on_submit?: (...args: any[]) => any;
