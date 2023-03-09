@@ -6,7 +6,7 @@
 import React, { useContext, useEffect, useRef, ReactNode } from 'react'
 import classnames from 'classnames'
 import Link from '../parts/Link'
-import { useStaticQuery, StaticQuery, graphql } from 'gatsby'
+import { useStaticQuery, graphql } from 'gatsby'
 import { resetLevels } from '@dnb/eufemia/src/components/Heading'
 import Context from '@dnb/eufemia/src/shared/Context'
 import { SidebarMenuContext } from './SidebarMenuContext'
