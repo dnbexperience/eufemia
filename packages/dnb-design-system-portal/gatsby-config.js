@@ -10,7 +10,7 @@ const currentBranch = getCurrentBranchName()
 const pathPrefix = '/'
 
 const siteMetadata = {
-  title: 'Eufemia - DNB Design System',
+  title: 'DNB Design System',
   name: 'Eufemia',
   description:
     'Eufemia Design System is the go to place for all who has to design, develop and make digital WEB applications for DNB.',
