@@ -2,6 +2,11 @@ import * as React from 'react';
 import type { SkeletonShow } from '../skeleton/Skeleton';
 import { IconPrimaryIcon } from '../icon-primary/IconPrimary';
 import type { DataAttributeTypes, SpacingProps } from '../../shared/types';
+import {
+  FormStatusProps,
+  FormStatusState,
+  FormStatusText
+} from '../FormStatus';
 export type ButtonText = string | React.ReactNode;
 export type ButtonVariant =
   | 'primary'
@@ -15,11 +20,6 @@ export type ButtonIconPosition = 'left' | 'right' | 'top';
 export type ButtonIconSize = string | number;
 export type ButtonTooltip =
   | string
-  | ((...args: any[]) => any)
-  | React.ReactNode;
-export type ButtonStatus =
-  | string
-  | boolean
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type ButtonTo = string | any | ((...args: any[]) => any);
@@ -83,17 +83,17 @@ export type ButtonProps = {
   /**
    * Set it to either `status="error"` or a text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
    */
-  status?: ButtonStatus;
+  status?: FormStatusText;
 
   /**
    * Defines the state of the status. Currently there are two statuses `[error, info]`. Defaults to `error`.
    */
-  status_state?: string;
+  status_state?: FormStatusState;
 
   /**
    * Use an object to define additional FormStatus properties.
    */
-  status_props?: any;
+  status_props?: FormStatusProps;
   status_no_animation?: boolean;
 
   /**

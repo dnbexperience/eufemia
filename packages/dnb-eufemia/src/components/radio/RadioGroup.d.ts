@@ -1,4 +1,9 @@
 import * as React from 'react';
+import {
+  FormStatusProps,
+  FormStatusState,
+  FormStatusText
+} from '../FormStatus';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 export type RadioGroupLabel =
@@ -8,11 +13,6 @@ export type RadioGroupLabel =
 export type RadioGroupLabelDirection = 'horizontal' | 'vertical';
 export type RadioGroupLabelPosition = 'left' | 'right';
 export type RadioGroupSize = 'default' | 'medium' | 'large';
-export type RadioGroupStatus =
-  | string
-  | boolean
-  | ((...args: any[]) => any)
-  | React.ReactNode;
 export type RadioGroupSuffix =
   | string
   | ((...args: any[]) => any)
@@ -57,17 +57,17 @@ export interface RadioGroupProps
   /**
    * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
    */
-  status?: RadioGroupStatus;
+  status?: FormStatusText;
 
   /**
    * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
    */
-  status_state?: string;
+  status_state?: FormStatusState;
 
   /**
    * Use an object to define additional FormStatus properties.
    */
-  status_props?: Record<string, unknown>;
+  status_props?: FormStatusProps;
   status_no_animation?: boolean;
 
   /**
