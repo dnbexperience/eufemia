@@ -10,6 +10,11 @@ const getCurrentBranchName = require('current-git-branch')
 const { init } = require('./scripts/version.js')
 const { createFilePath } = require('gatsby-source-filesystem')
 
+// Used for heading
+const {
+  makeHeadingsResolver,
+} = require('./src/uilib/search/remark-headings-plugin.js')
+
 let prebuildExists = false
 const currentBranch = getCurrentBranchName()
 
@@ -36,14 +41,38 @@ exports.onPreInit = async () => {
  * mother.frontmatter.title = Button
  *
  */
-exports.createSchemaCustomization = ({ actions: { createTypes } }) => {
-  const typeDefs = `
-    type Mdx implements Node {
-      siblings: [Mdx]
-    }
-  `
-
-  createTypes(typeDefs)
+exports.createSchemaCustomization = ({
+  getNode,
+  getNodesByType,
+  pathPrefix,
+  reporter,
+  cache,
+  schema,
+  store,
+  actions,
+}) => {
+  actions.createTypes([
+    `
+      type Mdx implements Node {
+        siblings: [Mdx]
+      }
+    `,
+    `
+      type MdxHeading {
+        value: String
+        depth: Int
+      }
+    `,
+    makeHeadingsResolver({
+      getNode,
+      getNodesByType,
+      pathPrefix,
+      reporter,
+      cache,
+      schema,
+      store,
+    }),
+  ])
 }
 
 exports.onCreateNode = ({ node, actions, getNode }) => {
@@ -64,7 +93,7 @@ exports.createResolvers = ({ createResolvers }) => {
       siblings: {
         type: ['Mdx'],
         resolve: (source, args, context) => {
-          const slug = context.slug
+          const slug = source.fields.slug
 
           if (typeof slug !== 'string') {
             return []
@@ -94,85 +123,7 @@ exports.createResolvers = ({ createResolvers }) => {
 }
 
 exports.createPages = async (params) => {
-  await createPages(params)
   await createRedirects(params)
-}
-
-const mdxTemplate = path.resolve('./src/templates/mdx.js')
-
-async function createPages({ graphql, actions }) {
-  const mdxResult = await graphql(/* GraphQL */ `
-    {
-      site {
-        siteMetadata {
-          title
-          description
-        }
-      }
-      allMdx {
-        edges {
-          node {
-            id
-            fields {
-              slug
-            }
-            frontmatter {
-              title
-              description
-            }
-            internal {
-              contentFilePath
-            }
-          }
-        }
-      }
-    }
-  `)
-
-  if (mdxResult.errors) {
-    console.error(mdxResult.errors)
-    return mdxResult.errors
-  }
-
-  const { createPage } = actions
-  const { edges } = mdxResult.data.allMdx
-
-  edges.forEach(({ node }) => {
-    const slug = node.fields.slug
-
-    // MDX v2 crashes during dev/build without filter out some pages:
-    // JavaScript heap out of memory
-    // if (
-    //   slug.includes('uilib/') &&
-    //   ![
-    //     '/button',
-    //     '/input',
-    //     '/switch', // When one more is enabled, we get the out of memory error
-    //   ].some((s) => {
-    //     return slug.includes(s)
-    //   })
-    // ) {
-    //   return
-    // }
-
-    // check if the slug is valid, in case we deleted one during build
-    if (slug) {
-      createPage({
-        path: slug,
-
-        // MDX V1
-        component: mdxTemplate,
-
-        // TODO MDX v2: The docs says we should use "node.internal.contentFilePath"
-        // component: `${mdxTemplate}?__contentFilePath=${node.internal.contentFilePath}`,
-
-        context: {
-          id: node.id,
-          slug,
-        },
-      })
-    }
-  })
 }
 
 async function createRedirects({ graphql, actions }) {

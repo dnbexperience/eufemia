@@ -7,7 +7,6 @@ import React, { useContext, useEffect, useRef, ReactNode } from 'react'
 import classnames from 'classnames'
 import Link from '../parts/Link'
 import { useStaticQuery, graphql } from 'gatsby'
-import { resetLevels } from '@dnb/eufemia/src/components/Heading'
 import Context from '@dnb/eufemia/src/shared/Context'
 import { SidebarMenuContext } from './SidebarMenuContext'
 import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
@@ -261,6 +260,7 @@ function ListItem({
   icon,
   children,
 }: ListItemProps) {
+  const { closeMenu } = useContext(SidebarMenuContext)
   const { skeleton } = useContext(Context)
   const ref = useRef(null)
 
@@ -303,7 +303,7 @@ function ListItem({
       <Link
         to={to}
         onClick={() => {
-          resetLevels(1)
+          closeMenu()
         }}
         className={classnames(
           'dnb-anchor',

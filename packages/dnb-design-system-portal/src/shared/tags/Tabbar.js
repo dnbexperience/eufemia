@@ -72,7 +72,15 @@ export default function Tabbar({
           return { ...rest, key, to: key }
         })
     )
-  }, [wasFullscreen]) // eslint-disable-line
+  }, [
+    wasFullscreen,
+    rootPath,
+    defaultTabs,
+    hideTabs,
+    tabs,
+    location.hash,
+    location.search,
+  ])
 
   const selectedKey = [
     location.pathname.replace(/(\/+)$/, ''),
