@@ -1,5 +1,6 @@
 import * as React from 'react';
 import type { ButtonIconPosition } from '../button';
+import type { HeadingLevel } from '../Heading';
 import type { IconPrimarySize } from '../IconPrimary';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
@@ -47,7 +48,6 @@ export type AccordionHeaderHeading =
   | string
   | React.ReactNode
   | ((...args: any[]) => any);
-export type AccordionHeaderHeadingLevel = string | number;
 export type AccordionHeaderIcon =
   | React.ReactNode
   | ((...args: any[]) => any)
@@ -68,7 +68,7 @@ export interface AccordionHeaderProps
   left_component?: AccordionHeaderLeftComponent;
   element?: AccordionHeaderElement;
   heading?: AccordionHeaderHeading;
-  heading_level?: AccordionHeaderHeadingLevel;
+  heading_level?: HeadingLevel;
   icon?: AccordionIcon;
   icon_position?: ButtonIconPosition;
   icon_size?: IconPrimarySize;
