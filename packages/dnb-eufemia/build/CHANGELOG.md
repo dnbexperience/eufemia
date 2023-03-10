@@ -3,6 +3,65 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.0.0-beta.2](https://github.com/dnbexperience/eufemia/compare/v10.0.0-beta.1...v10.0.0-beta.2) (2023-03-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* - CSS Packages such as `dnb-ui-basis` and `dnb-ui-core` do not contain the fonts anymore. Fonts are now only a part of a theme file, such as: `/style/themes/theme-ui/dnb-theme-ui.*`.
+- The CSS package `dnb-ui-fonts` is moved inside a theme folder `/themes/theme-ui`
+* The DNB font is moved inside a subfolder in /assets/fonts/dnb/...
+
+### :sparkles: Features
+
+* move `dnb-ui-fonts` package inside `/style/themes/theme-ui/` ([abb5ff7](https://github.com/dnbexperience/eufemia/commit/abb5ff7b8f381ae427d191291b96ddc6eb1ae0cf))
+* move `properties.scss` into theme ui ([#2035](https://github.com/dnbexperience/eufemia/issues/2035)) ([42f8c3a](https://github.com/dnbexperience/eufemia/commit/42f8c3ab679427d3e97d44d381d81df66011273a))
+* move DNB font in subfolder ([eb15950](https://github.com/dnbexperience/eufemia/commit/eb15950d27e4ba695390ccf4fcd5c229b813d41c))
+* **Pagination:** replace `page` with `pageNumber` ([9d971c9](https://github.com/dnbexperience/eufemia/commit/9d971c9c0811c1259d69609f5b3c21b4053a5014))
+
+
+### :bug: Bug Fixes
+
+* **Accordion:** enhance TypeScript type definitions ([7c5eead](https://github.com/dnbexperience/eufemia/commit/7c5eead37fae836a5ea09467cadfc47c24f69051))
+* **Anchor:** ensure id is passed down ([#2016](https://github.com/dnbexperience/eufemia/issues/2016)) ([363af36](https://github.com/dnbexperience/eufemia/commit/363af36a448207cac41eeecc5513a1dac7dba022))
+* **Autocomplete:** add HorizontalItem TypeScript type definition ([c4e7322](https://github.com/dnbexperience/eufemia/commit/c4e7322ee6655d226e7e5bdd67b3bf12062eb324))
+* **DatePicker:** make focus handling on input work on second click ([#2039](https://github.com/dnbexperience/eufemia/issues/2039)) ([dc25e65](https://github.com/dnbexperience/eufemia/commit/dc25e65dc11ebfb4e299e2a0221257e9ed3c3f66))
+* **DrawerList:** enhance TypeScript definition types ([381183f](https://github.com/dnbexperience/eufemia/commit/381183f36336367b2791e0e952c2153bf878e84e))
+* **Dropdown:** enhance TypeScript definition types ([9854ba6](https://github.com/dnbexperience/eufemia/commit/9854ba677aeb7524e3ec336fc3c7b8fb073d76ba))
+* enhance scrollbar appearance ([#2046](https://github.com/dnbexperience/eufemia/issues/2046)) ([54b2222](https://github.com/dnbexperience/eufemia/commit/54b2222da2da4261c4675801b9e6528ce1302030))
+* **GlobalStatus:** enhance TypeScript definition types ([9e6d724](https://github.com/dnbexperience/eufemia/commit/9e6d72472137c6ddc44f64a779c87f679fe51e74))
+* **Heading:** enhance TypeScript definition types ([8c0e78a](https://github.com/dnbexperience/eufemia/commit/8c0e78a5e380d4f4fb70d7debbda4d5c16105e61))
+* **InputMasked:** expose inner_ref input element when useRef is used ([#2042](https://github.com/dnbexperience/eufemia/issues/2042)) ([6629a99](https://github.com/dnbexperience/eufemia/commit/6629a99004bc6e0ba1b9f2e6fd7f00f1ba72db38))
+* make docs/portal Windows compatible by properly handle backslashes and newlines ([#2038](https://github.com/dnbexperience/eufemia/issues/2038)) ([20a90d5](https://github.com/dnbexperience/eufemia/commit/20a90d5dc3f11e92d06476fc3f0590de3ff19444))
+* **MediaQuery:** enhance TypeScript types ([3959026](https://github.com/dnbexperience/eufemia/commit/395902605f1f32fa1fda3cd26f1008429b966623))
+* **Modal:** make children accept function with close method in parameters ([#2015](https://github.com/dnbexperience/eufemia/issues/2015)) ([ef4fa2e](https://github.com/dnbexperience/eufemia/commit/ef4fa2e917b835308b2b63b11e458643708fde69))
+* **Pagination:** enhance Pagination and InfinityScroller TypeScript definitions ([2a0d9da](https://github.com/dnbexperience/eufemia/commit/2a0d9dadbcc723839c1e7350736a4da5d8849b74))
+* **Pagination:** fix hover style state after click to be emerald-green ([#2032](https://github.com/dnbexperience/eufemia/issues/2032)) ([5bc802e](https://github.com/dnbexperience/eufemia/commit/5bc802e3b8007cfae21e9981a90a905963ef1097))
+* remove FormRow context support from /elements ([#2031](https://github.com/dnbexperience/eufemia/issues/2031)) ([fa14c40](https://github.com/dnbexperience/eufemia/commit/fa14c40a4d359fa607b1621ad65f417fea347f55))
+* **ScrollView:** avoid usage of useLayoutEffect during SSR ([#2012](https://github.com/dnbexperience/eufemia/issues/2012)) ([bd21281](https://github.com/dnbexperience/eufemia/commit/bd212815680d1509677534196e546047fa5ceb73))
+* **Skeleton:** add Skeleton.Exclude types ([f49d900](https://github.com/dnbexperience/eufemia/commit/f49d900596d78462db2e71fad284b086cc134aac))
+* **StepIndicator:** fix TypeScript spacing types ([89dd4b6](https://github.com/dnbexperience/eufemia/commit/89dd4b6f749aa509c683cb25686f142fa5c35c12))
+
+
+### :memo: Documentation
+
+* **Accordion:** improve docs of group & allow_close_all ([#2070](https://github.com/dnbexperience/eufemia/issues/2070)) ([78440b0](https://github.com/dnbexperience/eufemia/commit/78440b05df4986d78d893c8d5855a74ed6fdfd42))
+* adds missing accents to values in docs ([#2041](https://github.com/dnbexperience/eufemia/issues/2041)) ([3730947](https://github.com/dnbexperience/eufemia/commit/37309478e9cce6aa9eaba21e72537eb8e012c01b))
+* **Autocomplete:** minor spelling improvement in title ([#2069](https://github.com/dnbexperience/eufemia/issues/2069)) ([f796e8c](https://github.com/dnbexperience/eufemia/commit/f796e8c0e2a349430702d1c611f5a822cd68d96f))
+* **Avatar:** fixes broken properties table ([#2030](https://github.com/dnbexperience/eufemia/issues/2030)) ([d872d72](https://github.com/dnbexperience/eufemia/commit/d872d72193eb78e2dd0f059b3381e1d4fb900a1a))
+* **Contact:** adds Joakim as contact ([#2023](https://github.com/dnbexperience/eufemia/issues/2023)) ([534c69a](https://github.com/dnbexperience/eufemia/commit/534c69a713f13ff084059e5645c3448a2d6231d8))
+* **Contribution Guide:** update legacy type definition handling ([#2048](https://github.com/dnbexperience/eufemia/issues/2048)) ([f004f6a](https://github.com/dnbexperience/eufemia/commit/f004f6a727384ecf901b922f6faa8a2501b9b24d))
+* **Extension:** convert md to mdx files ([#2026](https://github.com/dnbexperience/eufemia/issues/2026)) ([68c54ee](https://github.com/dnbexperience/eufemia/commit/68c54eeef726ddfe8f6f27e26373edfb59419c15))
+* fix outdated boolean usage ([#2013](https://github.com/dnbexperience/eufemia/issues/2013)) ([f4fb26d](https://github.com/dnbexperience/eufemia/commit/f4fb26d6842dd2a922985fd499c7b72bad1c3350))
+* fix wrong Heading example about margin collapse ([f810f2c](https://github.com/dnbexperience/eufemia/commit/f810f2c3eb5ca97976c00800dd8567936829a643))
+* **getOffsetTop:** fix wrong docs and console.log usage ([#2018](https://github.com/dnbexperience/eufemia/issues/2018)) ([5c31970](https://github.com/dnbexperience/eufemia/commit/5c319707d8507093cb8907fcb8c5179a0a065dbe))
+* **GlobalStatus:** improve docs for id prop ([#2067](https://github.com/dnbexperience/eufemia/issues/2067)) ([b7bf098](https://github.com/dnbexperience/eufemia/commit/b7bf09893793d1e248bc92b823ecc7188a26b273))
+* **Input:** adds on_key_down event ([#2062](https://github.com/dnbexperience/eufemia/issues/2062)) ([a9b07be](https://github.com/dnbexperience/eufemia/commit/a9b07be0ce23a573db32165fcc3d41a0188a14ab))
+* make click on anchor with hash work on first click ([#2019](https://github.com/dnbexperience/eufemia/issues/2019)) ([a4ac4c8](https://github.com/dnbexperience/eufemia/commit/a4ac4c8e9e3ede462abe6d27bb6b900c7a748ce9))
+* remove `smoothscroll-polyfill` as a recommendation ([#2020](https://github.com/dnbexperience/eufemia/issues/2020)) ([cc06592](https://github.com/dnbexperience/eufemia/commit/cc0659278dce5ab0e641a2648a7fe25362ee2556))
+* remove properties import from docs ([#2034](https://github.com/dnbexperience/eufemia/issues/2034)) ([15b4238](https://github.com/dnbexperience/eufemia/commit/15b42384bac75c699e07b777e635d3fe60d4d642))
+* removes cards and spaceholder indicator ([#2061](https://github.com/dnbexperience/eufemia/issues/2061)) ([a782522](https://github.com/dnbexperience/eufemia/commit/a7825228326feda84c7c8eb69936c002da6b8fb6))
+
 ## [10.0.0-beta.1](https://github.com/dnbexperience/eufemia/compare/v9.47.1...v10.0.0-beta.1) (2023-02-23)
 
 
