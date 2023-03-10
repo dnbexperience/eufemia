@@ -5,6 +5,7 @@ import type {
   FormStatusState,
   FormStatusText
 } from '../FormStatus';
+import type { InputInputElement } from '../Input';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 export type DatePickerDate = Date | string;
@@ -15,10 +16,6 @@ export type DatePickerStartMonth = Date | string;
 export type DatePickerEndMonth = Date | string;
 export type DatePickerMinDate = Date | string;
 export type DatePickerMaxDate = Date | string;
-export type DatePickerInputElement =
-  | string
-  | ((...args: any[]) => any)
-  | React.ReactNode;
 export type DatePickerAddonElement = string | React.ReactNode;
 export type DatePickerShortcuts = any[] | ((...args: any[]) => any);
 export type DatePickerSize = 'default' | 'small' | 'medium' | 'large';
@@ -190,7 +187,7 @@ export interface DatePickerProps
   /**
    * Gives you the possibility to use a plain/vanilla `<input />` HTML element by defining it as a string `input_element="input"`, a React element, or a render function `input_element={(internalProps) => (<Return />)}`. Can also be used in circumstances where the `react-text-mask` not should be used, e.g. in testing environments. Defaults to custom masked input.
    */
-  input_element?: DatePickerInputElement;
+  input_element?: InputInputElement;
 
   /**
    * Gives you the possibility to inject a React element showing up over the footer. Use it to customize `shortcuts`.
