@@ -26,6 +26,7 @@ import {
   FormRow,
 } from '@dnb/eufemia/src/components'
 import { Ingress } from '@dnb/eufemia/src/elements'
+import { SpacingElementProps } from '@dnb/eufemia/src/shared/types'
 
 const TestStyles = styled.div`
   /* make sure our input gets an explicit width, because of mac/linux rendering differences */
@@ -426,7 +427,7 @@ export const AllComponents = ({
   showText,
   hideLabel,
 }) => {
-  const params = {
+  const params: SpacingElementProps = {
     left: horizontal ? 'small' : null,
     top: !horizontal || vertical ? 'small' : null,
   }
