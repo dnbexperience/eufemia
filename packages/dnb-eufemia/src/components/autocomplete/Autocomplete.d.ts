@@ -1,6 +1,7 @@
 import * as React from 'react';
 import type { ButtonIconPosition } from '../button';
-import {
+import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
+import type {
   FormStatusProps,
   FormStatusState,
   FormStatusText
@@ -39,11 +40,6 @@ export type AutocompleteInputIcon =
   | string
   | React.ReactNode
   | ((...args: any[]) => any);
-export type AutocompleteLabel =
-  | string
-  | ((...args: any[]) => any)
-  | React.ReactNode;
-export type AutocompleteLabelDirection = 'horizontal' | 'vertical';
 export type AutocompleteSuffix =
   | string
   | ((...args: any[]) => any)
@@ -225,12 +221,12 @@ export interface AutocompleteProps
   /**
    * Prepends the Form Label component. If no ID is provided, a random ID is created.
    */
-  label?: AutocompleteLabel;
+  label?: FormLabelText;
 
   /**
    * Use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`
    */
-  label_direction?: AutocompleteLabelDirection;
+  label_direction?: FormLabelLabelDirection;
 
   /**
    * Use `true` to make the label only readable by screen readers.
