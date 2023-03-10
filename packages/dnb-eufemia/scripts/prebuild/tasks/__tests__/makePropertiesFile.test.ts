@@ -6,16 +6,28 @@
 import { runFactory } from '../makePropertiesFile'
 
 beforeAll(async () => {
-  global.content = await runFactory({
+  global.ui = await runFactory({
+    glob: './src/style/themes/theme-ui/properties.scss',
+    returnResult: true,
+  })
+  global.sbanken = await runFactory({
+    glob: './src/style/themes/theme-sbanken/properties.scss',
     returnResult: true,
   })
 })
 
-describe('The properties file factory', () => {
-  it('has to create a valid js object with properties', () => {
-    expect(global.content).toContain(
-      "'--font-size-large': '1.625rem'"
-      // "\\'--font-size-large\\': \\'1.625rem\\'" // NB: if uglified
+describe('Properties for ui', () => {
+  it('has to validate', () => {
+    expect(global.ui).toMatchSnapshot()
+    expect(global.ui).toContain(`'--font-size-large': '1.625rem'`)
+  })
+})
+
+describe('Properties for sbanken', () => {
+  it('has to validate', () => {
+    expect(global.sbanken).toMatchSnapshot()
+    expect(global.sbanken).toContain(
+      `'--sb-font-family-default': "'Roboto', 'Helvetica', 'Arial', sans-serif"`
     )
   })
 })
