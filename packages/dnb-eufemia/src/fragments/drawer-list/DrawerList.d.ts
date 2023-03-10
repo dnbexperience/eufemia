@@ -53,6 +53,7 @@ export interface DrawerListProps
   focusable?: boolean;
   direction?: DrawerListDirection;
   size?: DrawerListSize;
+  min_height?: string | number;
   max_height?: number;
   no_animation?: boolean;
   no_scroll_animation?: boolean;
@@ -85,6 +86,9 @@ export interface DrawerListProps
   className?: string;
   children?: DrawerListChildren;
   suffix?: DrawerListSuffix;
+  enable_body_lock?: boolean;
+  page_offset?: string | number;
+  observer_element?: string | React.ReactNode;
   on_show?: (...args: any[]) => any;
   on_hide?: (...args: any[]) => any;
   handle_dismiss_focus?: (...args: any[]) => any;
