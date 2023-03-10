@@ -94,18 +94,6 @@ export default function PortalLayout(props) {
     return children // looks like it was not a MDX, so we just return children
   }
 
-  const Content = () => {
-    if (currentFm.showTabs) {
-      resetLevels(2)
-    }
-
-    return (
-      <ContentWrapper>
-        <MDXProvider components={tags}>{children}</MDXProvider>
-      </ContentWrapper>
-    )
-  }
-
   // Share frontmatter in pageContext during SSR/SSG
   if (pageContext?.frontmatter) {
     setPortalHeadData(pageContext, fmData)
@@ -132,7 +120,19 @@ export default function PortalLayout(props) {
         />
       )}
 
-      <Content />
+      <Content showTabs={currentFm.showTabs}>{children}</Content>
     </Layout>
+  )
+}
+
+function Content({ showTabs, children }) {
+  if (showTabs) {
+    resetLevels(2)
+  }
+
+  return (
+    <ContentWrapper>
+      <MDXProvider components={tags}>{children}</MDXProvider>
+    </ContentWrapper>
   )
 }
