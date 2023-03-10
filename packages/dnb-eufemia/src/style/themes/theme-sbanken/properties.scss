@@ -5,116 +5,116 @@
 
 @mixin getDefaultProperties() {
   // Typography Family
-  --font-family-default: 'Roboto', 'Helvetica', 'Arial', sans-serif;
-  --font-family-headings: 'MaisonNeueHeadings', 'Roboto', 'Helvetica',
+  --sb-font-family-default: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  --sb-font-family-headings: 'MaisonNeueHeadings', 'Roboto', 'Helvetica',
     'Arial', sans-serif;
 
   // Typography Weights
   // TODO: Do we need 3 different "normals"? Which to use when?
-  --font-weight-default: normal;
-  --font-weight-basis: normal;
-  --font-weight-regular: normal;
-  --font-weight-medium: 500;
-  --font-weight-bold: 700;
+  --sb-font-weight-default: normal;
+  --sb-font-weight-basis: normal;
+  --sb-font-weight-regular: normal;
+  --sb-font-weight-medium: 500;
+  --sb-font-weight-bold: 700;
 
   // Typography Sizes
-  --font-size-x-small: 0.75rem;
-  --font-size-small: 0.875rem;
-  --font-size-basis: 1rem;
-  --font-size-basis--em: 1em;
-  --font-size-lead: 1.25rem;
-  --font-size-large: 1.625rem;
-  --font-size-x-large: 2.125rem;
-  --font-size-xx-large: 3rem;
+  --sb-font-size-x-small: 0.75rem;
+  --sb-font-size-small: 0.875rem;
+  --sb-font-size-basis: 1rem;
+  --sb-font-size-basis--em: 1em;
+  --sb-font-size-lead: 1.25rem;
+  --sb-font-size-large: 1.625rem;
+  --sb-font-size-x-large: 2.125rem;
+  --sb-font-size-xx-large: 3rem;
 
   // Typography Line heights
-  --line-height-x-small: 1.125rem;
-  --line-height-small: 1.25rem;
-  --line-height-basis: 1.5rem;
-  --line-height-basis--em: 1.5em; // 1.5*16 = 24px
-  --line-height-lead: 1.75rem;
-  --line-height-large: 2rem;
-  --line-height-x-large: 2.5rem;
-  --line-height-xx-large: 3.5rem;
+  --sb-line-height-x-small: 1.125rem;
+  --sb-line-height-small: 1.25rem;
+  --sb-line-height-basis: 1.5rem;
+  --sb-line-height-basis--em: 1.5em; // 1.5*16 = 24px
+  --sb-line-height-lead: 1.75rem;
+  --sb-line-height-large: 2rem;
+  --sb-line-height-x-large: 2.5rem;
+  --sb-line-height-xx-large: 3.5rem;
 
   // UX colors
-  --color-black: #000;
-  --color-text: #18172a;
-  --color-gray-dark-3: #3a3970;
-  --color-gray-dark-3-neutral: #3e3e4a;
-  --color-gray-dark-2: #62628e;
-  --color-gray-dark-2-neutral: #656472;
-  --color-gray-dark: #9292b0;
-  --color-gray-dark-neutral: #9494a3;
-  --color-gray: #bbbbce;
-  --color-gray-neutral: #bdbdc6;
-  --color-gray-light: #d9d9e4;
-  --color-gray-light-2: #ebebf2;
-  --color-gray-light-3: #f9f9fd;
+  --sb-color-black: #000;
+  --sb-color-text: #18172a;
+  --sb-color-gray-dark-3: #3a3970;
+  --sb-color-gray-dark-3-neutral: #3e3e4a;
+  --sb-color-gray-dark-2: #62628e;
+  --sb-color-gray-dark-2-neutral: #656472;
+  --sb-color-gray-dark: #9292b0;
+  --sb-color-gray-dark-neutral: #9494a3;
+  --sb-color-gray: #bbbbce;
+  --sb-color-gray-neutral: #bdbdc6;
+  --sb-color-gray-light: #d9d9e4;
+  --sb-color-gray-light-2: #ebebf2;
+  --sb-color-gray-light-3: #f9f9fd;
 
   // Primary colors
-  --color-purple: #262342;
-  --color-purple-alternative: #222163;
-  --color-green: #92eecd;
-  --color-white: #fff;
+  --sb-color-purple: #262342;
+  --sb-color-purple-alternative: #222163;
+  --sb-color-green: #92eecd;
+  --sb-color-white: #fff;
 
   // Secondary colors
-  --color-red: #d8134b;
-  --color-magenta: #ff3c64;
-  --color-orange: #fe5038;
-  --color-yellow-dark: #f7bf16;
-  --color-yellow: #ffef57;
-  --color-green-dark-3: #00785b;
-  --color-green-dark-2: #009669;
-  --color-violet: #4e08bc;
-  --color-violet-light: #7129e2;
-  --color-blue-dark-2: #044ccc;
-  --color-blue-dark: #005cff;
-  --color-blue: #008eff;
+  --sb-color-red: #d8134b;
+  --sb-color-magenta: #ff3c64;
+  --sb-color-orange: #fe5038;
+  --sb-color-yellow-dark: #f7bf16;
+  --sb-color-yellow: #ffef57;
+  --sb-color-green-dark-3: #00785b;
+  --sb-color-green-dark-2: #009669;
+  --sb-color-violet: #4e08bc;
+  --sb-color-violet-light: #7129e2;
+  --sb-color-blue-dark-2: #044ccc;
+  --sb-color-blue-dark: #005cff;
+  --sb-color-blue: #008eff;
 
   // Tertiary colors
-  --color-orange-light: #ff817b;
-  --color-orange-light-2: #ffd7d5;
-  --color-orange-light-3: #fff0ef;
-  --color-magenta-light: #ffb6d2;
-  --color-magenta-light-2: #ffdbe9;
-  --color-magenta-light-3: #fff5f9;
-  --color-yellow-light: #fff489;
-  --color-yellow-light-2: #fff9c4;
-  --color-yellow-light-3: #fffce5;
-  --color-green-dark: #64d7b4;
-  --color-green-light: #c8f6e5;
-  --color-green-light-2: #e5fff4;
-  --color-violet-light-2: #d2bbff;
-  --color-violet-light-3: #ebe1ff;
-  --color-violet-light-4: #f7f3ff;
-  --color-blue-light: #61b9ff;
-  --color-blue-light-2: #bfe3ff;
-  --color-blue-light-3: #ebf6ff;
+  --sb-color-orange-light: #ff817b;
+  --sb-color-orange-light-2: #ffd7d5;
+  --sb-color-orange-light-3: #fff0ef;
+  --sb-color-magenta-light: #ffb6d2;
+  --sb-color-magenta-light-2: #ffdbe9;
+  --sb-color-magenta-light-3: #fff5f9;
+  --sb-color-yellow-light: #fff489;
+  --sb-color-yellow-light-2: #fff9c4;
+  --sb-color-yellow-light-3: #fffce5;
+  --sb-color-green-dark: #64d7b4;
+  --sb-color-green-light: #c8f6e5;
+  --sb-color-green-light-2: #e5fff4;
+  --sb-color-violet-light-2: #d2bbff;
+  --sb-color-violet-light-3: #ebe1ff;
+  --sb-color-violet-light-4: #f7f3ff;
+  --sb-color-blue-light: #61b9ff;
+  --sb-color-blue-light-2: #bfe3ff;
+  --sb-color-blue-light-3: #ebf6ff;
 
   // Spacing
-  --spacing-x-small: 0.5rem;
-  --spacing-small: 1rem;
-  --spacing-medium: 1.5rem;
-  --spacing-large: 2rem;
-  --spacing-x-large: 3rem;
-  --spacing-xx-large: 3.5rem;
+  --sb-spacing-x-small: 0.5rem;
+  --sb-spacing-small: 1rem;
+  --sb-spacing-medium: 1.5rem;
+  --sb-spacing-large: 2rem;
+  --sb-spacing-x-large: 3rem;
+  --sb-spacing-xx-large: 3.5rem;
 
   // Layout
-  --layout-small: 40em; // 640
-  --layout-medium: 60em; // 960
-  --layout-large: 72em; // 1152
-  --layout-x-large: 80em; // 1280 (not documented yet)
-  --layout-xx-large: 90em; // 1440 (not documented yet)
+  --sb-layout-small: 40em; // 640
+  --sb-layout-medium: 60em; // 960
+  --sb-layout-large: 72em; // 1152
+  --sb-layout-x-large: 80em; // 1280 (not documented yet)
+  --sb-layout-xx-large: 90em; // 1440 (not documented yet)
 
   // Shadow
-  --shadow-small: 0 2px 4px rbga(38, 35, 66, 0.12);
-  --shadow-medium: 0 5px 20px rbga(38, 35, 66, 0.1);
-  --shadow-large: 0 5px 20px rbga(38, 35, 66, 0.2);
-  --shadow-hover: 0 20px 40px rbga(38, 35, 66, 0.2);
+  --sb-shadow-small: 0 2px 4px rbga(38, 35, 66, 0.12);
+  --sb-shadow-medium: 0 5px 20px rbga(38, 35, 66, 0.1);
+  --sb-shadow-large: 0 5px 20px rbga(38, 35, 66, 0.2);
+  --sb-shadow-hover: 0 20px 40px rbga(38, 35, 66, 0.2);
 
   // Easing
-  --easing-default: cubic-bezier(0.42, 0, 0, 1);
+  --sb-easing-default: cubic-bezier(0.42, 0, 0, 1);
 
   @if mixin-exists('propertiesCustomisation') {
     @include propertiesCustomisation();
