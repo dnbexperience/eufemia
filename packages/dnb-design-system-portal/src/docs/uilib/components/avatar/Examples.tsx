@@ -141,7 +141,7 @@ export const AvatarImageDNB = () => (
   <ComponentBox hideCode data-visual-test="avatar-image-local-png">
     <Avatar.Group label="Banks:">
       <Avatar
-        src="/android-chrome-192x192.png"
+        src="/dnb/android-chrome-192x192.png"
         alt="DNB Logo"
         size="x-large"
       />
@@ -154,7 +154,7 @@ export const AvatarImagePinnedTab = () => (
     <Avatar.Group label="Icons:">
       <Avatar
         variant="tertiary"
-        src="/safari-pinned-tab.svg"
+        src="/dnb/safari-pinned-tab.svg"
         alt="DNB Logo"
       />
     </Avatar.Group>
@@ -165,7 +165,7 @@ export const AvatarImageTobias = () => (
   <ComponentBox hideCode data-visual-test="avatar-image-external">
     <Avatar.Group label="Profiles:">
       <Avatar
-        src="/images/avatars/1501870.jpg"
+        src="/dnb/images/avatars/1501870.jpg"
         alt="Profile picture"
         size="large"
       />
@@ -182,7 +182,7 @@ export const AvatarImageProps = () => (
         imgProps={{
           width: '48',
           height: '48',
-          src: '/android-chrome-192x192.png',
+          src: '/dnb/android-chrome-192x192.png',
           alt: 'DNB Logo',
         }}
       />
@@ -270,13 +270,34 @@ export const GroupedAvatarsImg = () => (
       size="large"
       maxElements={5}
     >
-      <Avatar src="/images/avatars/1501870.jpg" alt="Profile picture" />
-      <Avatar src="/images/avatars/35217511.jpg" alt="Profile picture" />
-      <Avatar src="/images/avatars/21338570.jpg" alt="Profile picture" />
-      <Avatar src="/images/avatars/1359205.jpg" alt="Profile picture" />
-      <Avatar src="/images/avatars/1501870.jpg" alt="Profile picture" />
-      <Avatar src="/images/avatars/1501870.jpg" alt="Profile picture" />
-      <Avatar src="/images/avatars/1501870.jpg" alt="Profile picture" />
+      <Avatar
+        src="/dnb/images/avatars/1501870.jpg"
+        alt="Profile picture"
+      />
+      <Avatar
+        src="/dnb/images/avatars/35217511.jpg"
+        alt="Profile picture"
+      />
+      <Avatar
+        src="/dnb/images/avatars/21338570.jpg"
+        alt="Profile picture"
+      />
+      <Avatar
+        src="/dnb/images/avatars/1359205.jpg"
+        alt="Profile picture"
+      />
+      <Avatar
+        src="/dnb/images/avatars/1501870.jpg"
+        alt="Profile picture"
+      />
+      <Avatar
+        src="/dnb/images/avatars/1501870.jpg"
+        alt="Profile picture"
+      />
+      <Avatar
+        src="/dnb/images/avatars/1501870.jpg"
+        alt="Profile picture"
+      />
     </Avatar.Group>
   </ComponentBox>
 )
