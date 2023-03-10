@@ -8,7 +8,9 @@ const Toc = () => {
     query {
       allMdx(
         filter: {
-          fileAbsolutePath: { glob: "**/contribute/getting-started/*" }
+          internal: {
+            contentFilePath: { glob: "**/contribute/getting-started/*" }
+          }
         }
       ) {
         edges {
