@@ -1,13 +1,11 @@
 import React from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
-import { MDXRenderer } from 'gatsby-plugin-mdx' // deprecated, remove in MDX v2
 import { P, Anchor, Ul, Li } from '@dnb/eufemia/src/elements'
 import AutoLinkHeader from '../tags/AutoLinkHeader'
 
 const ListSummaryFromPages = ({
   slug = null,
   returnListItems = false,
-  showBody = false,
   edges = null,
 }) => {
   const {
@@ -17,11 +15,7 @@ const ListSummaryFromPages = ({
       allMdx(
         filter: {
           frontmatter: { title: { ne: "" }, draft: { ne: true } }
-          # MDX v1
-          fileAbsolutePath: { glob: "**/uilib/**" }
-
-          # TODO MDX v2
-          # internal: { contentFilePath: { glob: "**/uilib/**" } }
+          internal: { contentFilePath: { glob: "**/uilib/**" } }
         }
       ) {
         edges {
@@ -33,7 +27,6 @@ const ListSummaryFromPages = ({
               title
               description
             }
-            body
           }
         }
       }
@@ -80,13 +73,14 @@ const ListSummaryFromPages = ({
               node: {
                 frontmatter: { title, description },
                 fields: { slug },
-                body,
               },
             },
             i
           ) => {
             return (
-              <Wrapper key={i}>{showBody ? <Body /> : <Title />}</Wrapper>
+              <Wrapper key={i}>
+                <Title />
+              </Wrapper>
             )
 
             function Title() {
@@ -111,10 +105,6 @@ const ListSummaryFromPages = ({
                   {description && <P>{description}</P>}
                 </>
               )
-            }
-
-            function Body() {
-              return <MDXRenderer>{body}</MDXRenderer>
             }
           }
         )}
