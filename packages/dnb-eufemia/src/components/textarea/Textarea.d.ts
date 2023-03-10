@@ -6,11 +6,7 @@ import {
 } from '../FormStatus';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
-export type TextareaLabel =
-  | string
-  | ((...args: any[]) => any)
-  | React.ReactNode;
-export type TextareaLabelDirection = 'horizontal' | 'vertical';
+import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
 export type TextareaSuffix =
   | string
   | ((...args: any[]) => any)
@@ -40,12 +36,12 @@ export interface TextareaProps
   /**
    * Prepends the Form Label component. If no ID is provided, a random ID is created.
    */
-  label?: TextareaLabel;
+  label?: FormLabelText;
 
   /**
    * Use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`
    */
-  label_direction?: TextareaLabelDirection;
+  label_direction?: FormLabelLabelDirection;
 
   /**
    * Use `true` to make the label only readable by screen readers.

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import type { ButtonIconPosition } from '../button';
-import {
+import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
+import type {
   FormStatusProps,
   FormStatusState,
   FormStatusText
@@ -9,11 +10,6 @@ import type { IconPrimaryIcon, IconPrimarySize } from '../IconPrimary';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 import ToggleButtonGroup from './ToggleButtonGroup';
-export type ToggleButtonLabel =
-  | string
-  | ((...args: any[]) => any)
-  | React.ReactNode;
-export type ToggleButtonLabelDirection = 'horizontal' | 'vertical';
 export type ToggleButtonVariant = 'default' | 'checkbox' | 'radio';
 export type ToggleButtonSuffix =
   | string
@@ -38,8 +34,8 @@ export interface ToggleButtonProps
   /**
    * Use either the `label` property or provide a custom one.
    */
-  label?: ToggleButtonLabel;
-  label_direction?: ToggleButtonLabelDirection;
+  label?: FormLabelText;
+  label_direction?: FormLabelLabelDirection;
   label_sr_only?: boolean;
 
   /**

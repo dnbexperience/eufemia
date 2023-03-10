@@ -1,16 +1,12 @@
 import * as React from 'react';
-import {
+import type {
   FormStatusProps,
   FormStatusState,
   FormStatusText
 } from '../FormStatus';
+import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
-export type RadioGroupLabel =
-  | string
-  | ((...args: any[]) => any)
-  | React.ReactNode;
-export type RadioGroupLabelDirection = 'horizontal' | 'vertical';
 export type RadioGroupLabelPosition = 'left' | 'right';
 export type RadioGroupSize = 'default' | 'medium' | 'large';
 export type RadioGroupSuffix =
@@ -30,8 +26,8 @@ export interface RadioGroupProps
   /**
    * Use either the `label` property or provide a custom one.
    */
-  label?: RadioGroupLabel;
-  label_direction?: RadioGroupLabelDirection;
+  label?: FormLabelText;
+  label_direction?: FormLabelLabelDirection;
 
   /**
    * Use `true` to make the label only readable by screen readers.
