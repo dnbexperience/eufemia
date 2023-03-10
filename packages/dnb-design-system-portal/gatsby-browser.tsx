@@ -4,11 +4,7 @@
  */
 
 import { applyPageFocus } from '@dnb/eufemia/src/shared/helpers'
-import { resetLevels } from '@dnb/eufemia/src/components/Heading'
-import {
-  rootElement,
-  pageElement,
-} from './src/core/PortalStylesAndProviders'
+import { rootElement, pageElement } from './src/core/PortalProviders'
 
 if (typeof window !== 'undefined') {
   setIsTest(window.location)
@@ -16,14 +12,13 @@ if (typeof window !== 'undefined') {
 
 function setIsTest(location) {
   if (location && location.href.includes('data-visual-test')) {
-    global.IS_TEST = true
-    window.IS_TEST = true
-    document.documentElement.setAttribute('data-visual-test', true)
+    globalThis.IS_TEST = true
+    document.documentElement.setAttribute('data-visual-test', 'true')
   }
 }
 
 export const wrapRootElement = rootElement('browser')
-export const wrapPageElement = pageElement('browser')
+export const wrapPageElement = pageElement()
 
 // This was used before during visual testing
 // but it looks like they do not safe us any time
@@ -38,15 +33,12 @@ export const wrapPageElement = pageElement('browser')
 export const shouldUpdateScroll = () => true
 
 export const onRouteUpdate = ({ location, prevLocation }) => {
-  // Ensure heading levels are reset before each page SSR starts
-  resetLevels(1)
-
   try {
     // in order to use our own focus management by using applyPageFocus
     // we have to disable the focus management from Reach Router
     // More info: why we have to have the tabindex https://reach.tech/router/accessibility
     // More info: The div is necessary to manage focus https://github.com/reach/router/issues/63#issuecomment-395988602
-    if (!window.IS_TEST) {
+    if (!globalThis.IS_TEST) {
       document
         .getElementById('gatsby-focus-wrapper')
         .removeAttribute('tabindex')

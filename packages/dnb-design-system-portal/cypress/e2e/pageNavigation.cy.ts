@@ -54,7 +54,7 @@ describe('Page Navigation', () => {
     })
 
     it('click on first main menu card should open /design-system', () => {
-      cy.title().should('contain', 'Eufemia - DNB Design System')
+      cy.title().should('contain', 'DNB Design System | Eufemia')
 
       cy.get('main nav a').first().click()
 
