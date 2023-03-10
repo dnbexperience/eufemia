@@ -51,12 +51,15 @@ export default ${JSON.stringify(variables, null, 2)}`,
   )
 }
 
-export const runFactory = ({ returnResult = false } = {}) =>
+export const runFactory = ({
+  returnResult = false,
+  glob = './src/style/themes/**/properties.scss',
+} = {}) =>
   new Promise((resolve, reject) => {
     log.start('> PrePublish: transforming style modules')
     try {
       gulp
-        .src(['./src/style/themes/**/properties.scss'], {
+        .src([glob], {
           cwd: ROOT_DIR,
         })
         .pipe(transform('utf8', transformModulesContent))

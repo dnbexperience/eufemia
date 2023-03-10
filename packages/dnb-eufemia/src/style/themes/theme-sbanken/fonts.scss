@@ -1,0 +1,78 @@
+/*
+ * Typography
+ *
+ * The font-family properties are defined in the properties.scss file, like:
+ * --font-family-default:
+ *
+ */
+
+// Font usage
+.dnb-typo-regular {
+  font-family: var(--font-family-default);
+  font-weight: normal;
+  font-style: normal;
+}
+
+.dnb-typo-medium {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-medium);
+  font-style: normal;
+}
+
+.dnb-typo-bold {
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-bold);
+  font-style: normal;
+}
+
+.dnb-typo-mono-regular {
+  font-family: var(--font-family-monospace);
+  font-weight: normal;
+  font-style: normal;
+}
+
+$fonts-path: '../../../../assets/fonts/dnb' !default;
+
+// Std and Regular
+@font-face {
+  font-family: DNB;
+  src: url('#{$fonts-path}/DNB-Regular.woff2') format('woff2'),
+    url('#{$fonts-path}/DNB-Regular.woff') format('woff'),
+    url('#{$fonts-path}/DNB-Regular.ttf') format('truetype');
+  font-weight: normal; // have to be the same as: --font-weight-regular
+  font-style: normal;
+  font-display: fallback;
+}
+
+// Medium
+@font-face {
+  font-family: DNB;
+  src: url('#{$fonts-path}/DNB-Medium.woff2') format('woff2'),
+    url('#{$fonts-path}/DNB-Medium.woff') format('woff'),
+    url('#{$fonts-path}/DNB-Medium.ttf') format('truetype');
+  font-weight: 500; // have to be the same as: --font-weight-medium
+  font-style: normal;
+  font-display: fallback;
+}
+
+// Bold
+@font-face {
+  font-family: DNB;
+  src: url('#{$fonts-path}/DNB-Bold.woff2') format('woff2'),
+    url('#{$fonts-path}/DNB-Bold.woff') format('woff'),
+    url('#{$fonts-path}/DNB-Bold.ttf') format('truetype');
+  font-weight: 600; // have to be the same as: --font-weight-bold
+  font-style: normal;
+  font-display: fallback;
+}
+
+// Mono-Regular
+@font-face {
+  font-family: DNBMono;
+  src: url('#{$fonts-path}/DNBMono-Regular.woff2') format('woff2'),
+    url('#{$fonts-path}/DNBMono-Regular.woff') format('woff'),
+    url('#{$fonts-path}/DNBMono-Regular.ttf') format('truetype');
+  font-weight: normal; // have to be the same as: --font-weight-regular
+  font-style: normal;
+  font-display: fallback;
+}
