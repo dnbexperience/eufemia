@@ -1,5 +1,6 @@
 import * as React from 'react';
 import type { ButtonIconPosition } from '../button';
+import type { HeadingLevel } from '../Heading';
 import type { IconPrimarySize } from '../IconPrimary';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
@@ -10,7 +11,6 @@ export type AccordionGroupVariant =
   | 'outlined'
   | 'filled';
 export type AccordionGroupHeading = boolean | React.ReactNode;
-export type AccordionGroupHeadingLevel = string | number;
 export type AccordionGroupClosed =
   | React.ReactNode
   | ((...args: any[]) => any);
@@ -39,7 +39,7 @@ export interface AccordionGroupProps
   group?: string;
   element?: React.ReactNode;
   heading?: AccordionGroupHeading;
-  heading_level?: AccordionGroupHeadingLevel;
+  heading_level?: HeadingLevel;
   icon?: AccordionIcon;
   closed?: AccordionGroupClosed;
   icon_position?: ButtonIconPosition;
