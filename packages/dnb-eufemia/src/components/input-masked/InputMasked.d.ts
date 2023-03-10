@@ -1,6 +1,7 @@
 import * as React from 'react';
 import type { ButtonIconPosition } from '../button';
-import {
+import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
+import type {
   FormStatusProps,
   FormStatusState,
   FormStatusText
@@ -30,11 +31,6 @@ export type InputMaskedSize =
   | 'large'
   | number;
 export type InputMaskedValue = string | number;
-export type InputMaskedLabel =
-  | string
-  | ((...args: any[]) => any)
-  | React.ReactNode;
-export type InputMaskedLabelDirection = 'horizontal' | 'vertical';
 export type InputMaskedSuffix =
   | string
   | ((...args: any[]) => any)
@@ -170,12 +166,12 @@ export interface InputMaskedProps
   /**
    * Prepends the Form Label component. If no ID is provided, a random ID is created.
    */
-  label?: InputMaskedLabel;
+  label?: FormLabelText;
 
   /**
    * Use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`
    */
-  label_direction?: InputMaskedLabelDirection;
+  label_direction?: FormLabelLabelDirection;
 
   /**
    * Use `true` to make the label only readable by screen readers.

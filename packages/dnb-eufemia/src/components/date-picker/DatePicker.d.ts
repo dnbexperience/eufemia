@@ -1,5 +1,6 @@
 import * as React from 'react';
-import {
+import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
+import type {
   FormStatusProps,
   FormStatusState,
   FormStatusText
@@ -14,11 +15,6 @@ export type DatePickerStartMonth = Date | string;
 export type DatePickerEndMonth = Date | string;
 export type DatePickerMinDate = Date | string;
 export type DatePickerMaxDate = Date | string;
-export type DatePickerLabel =
-  | string
-  | ((...args: any[]) => any)
-  | React.ReactNode;
-export type DatePickerLabelDirection = 'horizontal' | 'vertical';
 export type DatePickerInputElement =
   | string
   | ((...args: any[]) => any)
@@ -179,12 +175,12 @@ export interface DatePickerProps
   /**
    * A prepending label in sync with the date input field.
    */
-  label?: DatePickerLabel;
+  label?: FormLabelText;
 
   /**
    * Use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`.
    */
-  label_direction?: DatePickerLabelDirection;
+  label_direction?: FormLabelLabelDirection;
 
   /**
    * Use `true` to make the label only readable by screen readers.

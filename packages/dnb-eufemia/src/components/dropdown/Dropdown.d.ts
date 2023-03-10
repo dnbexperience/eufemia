@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
 import type { ButtonIconPosition, ButtonVariant } from '../button';
 import type {
   FormStatusProps,
@@ -29,11 +30,6 @@ export type DropdownObserverElement = string | React.ReactNode;
 export type DropdownMinHeight = string | number;
 export type DropdownTitle = string | React.ReactNode;
 export type DropdownTrianglePosition = 'left' | 'right';
-export type DropdownLabel =
-  | string
-  | ((...args: any[]) => any)
-  | React.ReactNode;
-export type DropdownLabelDirection = 'horizontal' | 'vertical';
 export type DropdownSuffix =
   | string
   | ((...args: any[]) => any)
@@ -168,12 +164,12 @@ export interface DropdownProps
   /**
    * Prepends the Form Label component. If no ID is provided, a random ID is created.
    */
-  label?: DropdownLabel;
+  label?: FormLabelText;
 
   /**
    * Use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`
    */
-  label_direction?: DropdownLabelDirection;
+  label_direction?: FormLabelLabelDirection;
 
   /**
    * Use `true` to make the label only readable by screen readers.
