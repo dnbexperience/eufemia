@@ -7,6 +7,7 @@ import type {
   FormStatusText
 } from '../FormStatus';
 import type { IconPrimaryIcon, IconPrimarySize } from '../IconPrimary';
+import type { InputInputAttributes, InputInputElement } from '../Input';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 export type InputMaskedMask =
@@ -36,10 +37,6 @@ export type InputMaskedSuffix =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type InputMaskedAlign = 'left' | 'center' | 'right';
-export type InputMaskedInputAttributes = string | Record<string, unknown>;
-export type InputMaskedInputElement =
-  | ((...args: any[]) => any)
-  | React.ReactNode;
 export type InputMaskedSubmitElement =
   | ((...args: any[]) => any)
   | React.ReactNode;
@@ -265,12 +262,12 @@ export interface InputMaskedProps
   /**
    * Provide the Input element with any attributes by using an Object `input_attributes={{size:&#39;2&#39;}}` or a JSON Object `input_attributes=&#39;{"size":"2"}&#39;`. "NB:" Keep in mind, that also every not listed component property will be sent along and set as an Input element attribute.
    */
-  input_attributes?: InputMaskedInputAttributes;
+  input_attributes?: InputInputAttributes;
 
   /**
    * <em>(internal)</em> by providing a new component we can change the internally used element. Also supports a string only, like `input_element="input"`.
    */
-  input_element?: InputMaskedInputElement;
+  input_element?: InputInputElement;
 
   /**
    * Icon to show before or after the input / placeholder. Can be either a string defining a primary icon or a Component using an SVG icon of either 16px or 24px.
