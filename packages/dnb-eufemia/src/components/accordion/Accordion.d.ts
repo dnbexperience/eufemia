@@ -1,5 +1,6 @@
 import * as React from 'react';
 import type { ButtonIconPosition } from '../button';
+import type { HeadingLevel } from '../Heading';
 import type { IconPrimaryIcon, IconPrimarySize } from '../IconPrimary';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
@@ -8,7 +9,6 @@ import AccordionHeader from './AccordionHeader';
 import AccordionProvider from './AccordionProvider';
 export type AccordionVariant = 'plain' | 'default' | 'outlined' | 'filled';
 export type AccordionHeading = boolean | React.ReactNode;
-export type AccordionHeadingLevel = string | number;
 export type AccordionIcon =
   | IconPrimaryIcon
   | {
@@ -125,7 +125,7 @@ export interface AccordionProps
   /**
    * If `heading` is set to `true`, you can provide a numeric value to define a different heading level. Defaults to `2`.
    */
-  heading_level?: AccordionHeadingLevel;
+  heading_level?: HeadingLevel;
 
   /**
    * Will replace the `chevron` icon. The icon will still rotate (by CSS). You can use an object to use two different icons, one for the closed state and one for the expanded state `{ closed, expanded }`.
