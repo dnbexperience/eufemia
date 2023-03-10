@@ -4,12 +4,9 @@ import {
   FormStatusState,
   FormStatusText
 } from '../FormStatus';
+import type { InputInputElement } from '../Input';
 import type { SkeletonShow } from '../Skeleton';
 export type DatePickerInputSize = 'default' | 'small' | 'medium' | 'large';
-export type DatePickerInputInputElement =
-  | string
-  | ((...args: any[]) => any)
-  | React.ReactNode;
 
 export interface DatePickerInputProps
   extends React.HTMLProps<HTMLElement> {
@@ -45,7 +42,7 @@ export interface DatePickerInputProps
   /**
    * Gives you the possibility to use a plain/vanilla `<input />` HTML element by defining it as a string `input_element="input"`, a React element, or a render function `input_element={(internalProps) => (<Return />)}`. Can also be used in circumstances where the `react-text-mask` not should be used, e.g. in testing environments. Defaults to custom masked input.
    */
-  input_element?: DatePickerInputInputElement;
+  input_element?: InputInputElement;
 
   /**
    * To define the locale used in the calendar. Needs to be an `date-fns` "v2" locale object, like `import enLocale from &#39;date-fns/locale/en-GB&#39;`. Defaults to `nb-NO`.
