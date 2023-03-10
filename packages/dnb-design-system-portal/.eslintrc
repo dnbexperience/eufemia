@@ -24,11 +24,13 @@
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
+    "plugin:workspaces/recommended",
     "plugin:jsx-a11y/recommended"
   ],
   "plugins": ["react", "react-hooks", "jsx-a11y"],
   "rules": {
     "react/react-in-jsx-scope": "off",
+    "workspaces/no-relative-imports": "error",
     "no-console": "off",
     "react/prop-types": "warn",
     "react/require-default-props": "warn",

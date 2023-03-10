@@ -6,6 +6,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import { createSkeletonClass } from '../../components/skeleton/SkeletonHelper'
+import type { SkeletonShow } from '../../components/skeleton/Skeleton'
 
 const SuffixContext = React.createContext(null)
 
@@ -15,7 +16,7 @@ export type SuffixProps = {
   className: string
   children: SuffixChildren
   context: Record<string, unknown>
-  skeleton?: boolean
+  skeleton?: SkeletonShow
 }
 
 const Suffix = ({

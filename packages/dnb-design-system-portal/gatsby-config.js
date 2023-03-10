@@ -3,18 +3,32 @@
  *
  */
 
+const remarkGfm = require('remark-gfm')
 const getCurrentBranchName = require('current-git-branch')
 const currentBranch = getCurrentBranchName()
 
 const pathPrefix = '/'
 
 const siteMetadata = {
-  title: 'Eufemia - DNB Design System',
+  title: 'DNB Design System',
   name: 'Eufemia',
   description:
     'Eufemia Design System is the go to place for all who has to design, develop and make digital WEB applications for DNB.',
   repoUrl: 'https://github.com/dnbexperience/eufemia/',
 }
+
+const pagesPath = './src/docs'
+const ignoreAsPage = [
+  // '**/*.md',// use when template in createPage is used
+  // '**/*.mdx',// use when template in createPage is used
+  '**/Examples.*',
+  '**/*_not_in_use*',
+  '**/demos/layout/Layout.js',
+  '**/skip-link-example.tsx',
+  '**/CardProductsTable.js',
+  '**/assets/*.js',
+  '**/utils/*.{js,ts,tsx}',
+]
 
 const plugins = [
   process.env.GATSBY_CLOUD === 'true' && {
@@ -50,39 +64,13 @@ const plugins = [
   process.env.SKIP_IMAGE_PROCESSING !== '1' && 'gatsby-plugin-sharp', // is used by gatsby-remark-images
   process.env.SKIP_IMAGE_PROCESSING !== '1' && 'gatsby-remark-images',
   {
-    resolve: 'gatsby-source-filesystem',
-    options: {
-      path: `${__dirname}/src/docs`, //for .md (mdx) files
-      name: 'docs',
-      ignore: ['**/Examples.*', '**/*_not_in_use*'],
-    },
-  },
-  {
-    resolve: 'gatsby-plugin-page-creator',
-    options: {
-      ignore: [
-        '**/*.md',
-        '**/Examples.*',
-        '**/*_not_in_use*',
-        '**/demos/layout/Layout.js',
-        '**/skip-link-example.js',
-        '**/CardProductsTable.js',
-        '**/assets/*.js',
-        '**/utils/*.{js,ts,tsx}',
-      ],
-      path: `${__dirname}/src/docs`, // for .js files
-      name: 'docs',
-    },
-  },
-  {
     resolve: 'gatsby-plugin-mdx',
     options: {
-      extensions: ['.md'],
       mdxOptions: {
         // More info of using plugins: https://github.com/mdx-js/mdx/blob/d4154b8c4a546d0b675826826f85014cc04098c2/docs/plugins.md
         // rehypePlugins: [], // hastPlugins
         remarkPlugins: [
-          require('remark-gfm'), // for markdown Table support
+          remarkGfm, // for markdown Table support
         ],
       },
       gatsbyRemarkPlugins: [
@@ -102,9 +90,22 @@ const plugins = [
       //   import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
       //   export default { Img }
       // `
-      // defaultLayouts: {
-      //   // default: require.resolve('./src/templates/mdx.js')
-      // }
+    },
+  },
+  {
+    resolve: 'gatsby-source-filesystem',
+    options: {
+      name: 'docs',
+      path: pagesPath, // for .mdx files
+      ignore: ignoreAsPage,
+    },
+  },
+  {
+    resolve: 'gatsby-plugin-page-creator',
+    options: {
+      name: 'docs',
+      path: pagesPath, // for .js files
+      ignore: ignoreAsPage,
     },
   },
   'gatsby-plugin-sass',
@@ -132,13 +133,11 @@ const plugins = [
     resolve: 'gatsby-plugin-eufemia-theme-handler',
     options: {
       themes: {
-        ui: { name: 'DNB light' }, // universal identity
+        ui: { name: 'DNB' }, // universal identity
         eiendom: { name: 'DNB Eiendom' },
+        sbanken: { name: 'Sbanken' },
       },
-      defaultTheme:
-        process.env.GATSBY_CLOUD && currentBranch.includes('eiendom')
-          ? 'eiendom'
-          : process.env.GATSBY_THEME_STYLE_DEV || 'ui',
+      defaultTheme: getDefaultTheme(),
     },
   },
 ].filter(Boolean)
@@ -189,4 +188,23 @@ module.exports = {
   plugins,
   jsxRuntime: 'automatic',
   trailingSlash: 'always',
+}
+
+function getDefaultTheme() {
+  const ciTheme = process.env.GATSBY_THEME_STYLE_DEV
+  if (ciTheme) {
+    return ciTheme
+  }
+
+  if (process.env.GATSBY_CLOUD || process.env.NETLIFY) {
+    if (currentBranch.includes('eiendom')) {
+      return 'eiendom'
+    }
+
+    if (currentBranch.includes('sbanken')) {
+      return 'sbanken'
+    }
+  }
+
+  return 'ui'
 }

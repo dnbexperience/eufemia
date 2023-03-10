@@ -94,6 +94,7 @@ exports[`Skeleton component have to match snapshot 1`] = `
             on_blur={null}
             on_change={null}
             on_focus={null}
+            on_key_down={null}
             on_state_update={null}
             on_submit={null}
             on_submit_blur={null}
@@ -314,28 +315,28 @@ html[data-visual-test] .dnb-skeleton--font, html[data-visual-test] .dnb-skeleton
 
 @font-face {
   font-family: DNBSkeleton;
-  src: url("../../assets/fonts/skeleton/DNB-Skeleton-Regular.woff2") format("woff2"), url("../../assets/fonts/skeleton/DNB-Skeleton-Regular.woff") format("woff"), url("../../assets/fonts/skeleton/DNB-Skeleton-Regular.ttf") format("truetype");
+  src: url("../../assets/fonts/dnb/skeleton/DNB-Skeleton-Regular.woff2") format("woff2"), url("../../assets/fonts/dnb/skeleton/DNB-Skeleton-Regular.woff") format("woff"), url("../../assets/fonts/dnb/skeleton/DNB-Skeleton-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: fallback;
 }
 @font-face {
   font-family: DNBSkeleton;
-  src: url("../../assets/fonts/skeleton/DNB-Skeleton-Medium.woff2") format("woff2"), url("../../assets/fonts/skeleton/DNB-Skeleton-Medium.woff") format("woff"), url("../../assets/fonts/skeleton/DNB-Skeleton-Medium.ttf") format("truetype");
+  src: url("../../assets/fonts/dnb/skeleton/DNB-Skeleton-Medium.woff2") format("woff2"), url("../../assets/fonts/dnb/skeleton/DNB-Skeleton-Medium.woff") format("woff"), url("../../assets/fonts/dnb/skeleton/DNB-Skeleton-Medium.ttf") format("truetype");
   font-weight: 500;
   font-style: normal;
   font-display: fallback;
 }
 @font-face {
   font-family: DNBSkeleton;
-  src: url("../../assets/fonts/skeleton/DNB-Skeleton-Bold.woff2") format("woff2"), url("../../assets/fonts/skeleton/DNB-Skeleton-Bold.woff") format("woff"), url("../../assets/fonts/skeleton/DNB-Skeleton-Bold.ttf") format("truetype");
+  src: url("../../assets/fonts/dnb/skeleton/DNB-Skeleton-Bold.woff2") format("woff2"), url("../../assets/fonts/dnb/skeleton/DNB-Skeleton-Bold.woff") format("woff"), url("../../assets/fonts/dnb/skeleton/DNB-Skeleton-Bold.ttf") format("truetype");
   font-weight: 600;
   font-style: normal;
   font-display: fallback;
 }
 @font-face {
   font-family: DNBMonoSkeleton;
-  src: url("../../assets/fonts/skeleton/DNBMono-Skeleton-Regular.woff2") format("woff2"), url("../../assets/fonts/skeleton/DNBMono-Skeleton-Regular.woff") format("woff"), url("../../assets/fonts/skeleton/DNBMono-Skeleton-Regular.ttf") format("truetype");
+  src: url("../../assets/fonts/dnb/skeleton/DNBMono-Skeleton-Regular.woff2") format("woff2"), url("../../assets/fonts/dnb/skeleton/DNBMono-Skeleton-Regular.woff") format("woff"), url("../../assets/fonts/dnb/skeleton/DNBMono-Skeleton-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: fallback;

@@ -51,14 +51,6 @@ export default {
       </Copy>
     )
   },
-  // Deprecated – can be removed when upgrading to MDX v2
-  inlineCode: (props) => {
-    return (
-      <Copy>
-        <Code {...props} />
-      </Copy>
-    )
-  },
   li: (props) => <Li {...props} />,
   ul: (props) => <Ul {...props} />,
   ol: (props) => <Ol {...props} />,

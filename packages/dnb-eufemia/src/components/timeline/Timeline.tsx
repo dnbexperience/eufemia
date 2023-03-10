@@ -6,8 +6,8 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 
 // Shared
 import Context from '../../shared/Context'
-import { SpacingProps } from '../../shared/types'
-import { SkeletonShow } from '../skeleton/Skeleton'
+import type { SpacingProps } from '../../shared/types'
+import type { SkeletonShow } from '../skeleton/Skeleton'
 
 // Internal
 import TimelineItem, { TimelineItemProps } from './TimelineItem'

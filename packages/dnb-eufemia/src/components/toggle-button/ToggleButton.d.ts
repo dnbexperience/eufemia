@@ -1,21 +1,16 @@
 import * as React from 'react';
+import type { ButtonIconPosition } from '../button';
+import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
+import type {
+  FormStatusProps,
+  FormStatusState,
+  FormStatusText
+} from '../FormStatus';
+import type { IconPrimaryIcon, IconPrimarySize } from '../IconPrimary';
+import type { SkeletonShow } from '../Skeleton';
+import type { SpacingProps } from '../space/types';
 import ToggleButtonGroup from './ToggleButtonGroup';
-export type ToggleButtonLabel =
-  | string
-  | ((...args: any[]) => any)
-  | React.ReactNode;
-export type ToggleButtonLabelDirection = 'horizontal' | 'vertical';
-export type ToggleButtonLabelSrOnly = string | boolean;
-export type ToggleButtonChecked = string | boolean;
 export type ToggleButtonVariant = 'default' | 'checkbox' | 'radio';
-export type ToggleButtonDisabled = string | boolean;
-export type ToggleButtonSkeleton = string | boolean;
-export type ToggleButtonStatus =
-  | string
-  | boolean
-  | ((...args: any[]) => any)
-  | React.ReactNode;
-export type ToggleButtonStatusNoAnimation = string | boolean;
 export type ToggleButtonSuffix =
   | string
   | ((...args: any[]) => any)
@@ -25,48 +20,12 @@ export type ToggleButtonValue =
   | number
   | Record<string, unknown>
   | any[];
-export type ToggleButtonIcon =
-  | string
-  | React.ReactNode
-  | ((...args: any[]) => any);
-export type ToggleButtonIconPosition = 'left' | 'right';
 export type ToggleButtonAttributes = string | Record<string, unknown>;
-export type ToggleButtonReadOnly = string | boolean;
-export type ToggleButtonSpace =
-  | string
-  | number
-  | boolean
-  | {
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-       */
-      top?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-       */
-      right?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-       */
-      bottom?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-       */
-      left?: string | number | boolean;
-    };
-export type ToggleButtonTop = string | number | boolean;
-export type ToggleButtonRight = string | number | boolean;
-export type ToggleButtonBottom = string | number | boolean;
-export type ToggleButtonLeft = string | number | boolean;
 export type ToggleButtonChildren = string | ((...args: any[]) => any);
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
-export interface ToggleButtonProps extends React.HTMLProps<HTMLElement> {
+export interface ToggleButtonProps
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   /**
    * <em>(required)</em> the text shown in the ToggleButton.
    */
@@ -75,9 +34,9 @@ export interface ToggleButtonProps extends React.HTMLProps<HTMLElement> {
   /**
    * Use either the `label` property or provide a custom one.
    */
-  label?: ToggleButtonLabel;
-  label_direction?: ToggleButtonLabelDirection;
-  label_sr_only?: ToggleButtonLabelSrOnly;
+  label?: FormLabelText;
+  label_direction?: FormLabelLabelDirection;
+  label_sr_only?: boolean;
 
   /**
    * The `title` of the input - describing it a bit further for accessibility reasons.
@@ -87,32 +46,32 @@ export interface ToggleButtonProps extends React.HTMLProps<HTMLElement> {
   /**
    * Determine whether the ToggleButton is checked or not. The default will be `false`.
    */
-  checked?: ToggleButtonChecked;
+  checked?: boolean;
   variant?: ToggleButtonVariant;
   left_component?: React.ReactNode;
-  disabled?: ToggleButtonDisabled;
+  disabled?: boolean;
 
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: ToggleButtonSkeleton;
+  skeleton?: SkeletonShow;
   id?: string;
 
   /**
    * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
    */
-  status?: ToggleButtonStatus;
+  status?: FormStatusText;
 
   /**
    * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
    */
-  status_state?: string;
+  status_state?: FormStatusState;
 
   /**
    * Use an object to define additional FormStatus properties.
    */
-  status_props?: Record<string, unknown>;
-  status_no_animation?: ToggleButtonStatusNoAnimation;
+  status_props?: FormStatusProps;
+  status_no_animation?: boolean;
 
   /**
    * The `status_id` used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
@@ -132,44 +91,20 @@ export interface ToggleButtonProps extends React.HTMLProps<HTMLElement> {
   /**
    * Icon to be included in the toggle button.
    */
-  icon?: ToggleButtonIcon;
+  icon?: IconPrimaryIcon;
 
   /**
    * Position of the icon inside the toggle button. Set to `left` or `right`. Defaults to `right` if not set.
    */
-  icon_position?: ToggleButtonIconPosition;
+  icon_position?: ButtonIconPosition;
 
   /**
    * Define icon width and height. Defaults to 16px
    */
-  icon_size?: string;
+  icon_size?: IconPrimarySize;
   attributes?: ToggleButtonAttributes;
-  readOnly?: ToggleButtonReadOnly;
+  readOnly?: boolean;
 
-  /**
-   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
-   */
-  space?: ToggleButtonSpace;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-   */
-  top?: ToggleButtonTop;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-   */
-  right?: ToggleButtonRight;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-   */
-  bottom?: ToggleButtonBottom;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-   */
-  left?: ToggleButtonLeft;
   class?: string;
   className?: string;
   children?: ToggleButtonChildren;

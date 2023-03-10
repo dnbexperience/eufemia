@@ -12,6 +12,7 @@ import {
 } from '../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
 import Element, { defaultProps } from '../Element'
+import { Provider } from '../../shared'
 
 const props = fakeProps(require.resolve('../Element'), {
   optional: true,
@@ -20,6 +21,7 @@ props.as = 'p'
 props.innerRef = null
 props.internalClass = null
 props.skeletonMethod = 'font'
+props.skeleton = true
 
 describe('Element', () => {
   it('have to match default Element snapshot', () => {
@@ -52,6 +54,24 @@ describe('Element', () => {
       'dnb-space__top--medium',
       'dnb-p',
     ])
+
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+
+    expect(attributes).toEqual(['class'])
+  })
+
+  it('should render children', () => {
+    render(
+      <Element as="p" top="medium">
+        text
+      </Element>
+    )
+
+    const element = document.querySelector('.dnb-p')
+
+    expect(element.textContent).toBe('text')
   })
 
   it('have to support skeleton', () => {
@@ -74,6 +94,33 @@ describe('Element', () => {
     expect(container.querySelector('p').getAttribute('class')).toBe(
       'dnb-skeleton dnb-skeleton--shape dnb-p'
     )
+  })
+
+  it('have inherit skeleton prop from shared Provider', () => {
+    const { container } = render(
+      <Provider skeleton>
+        <Element as="p" className="my-p">
+          text
+        </Element>
+      </Provider>
+    )
+
+    const element = container.querySelector('.my-p')
+
+    expect(element.getAttribute('class')).toBe(
+      'my-p dnb-skeleton dnb-skeleton--font dnb-p'
+    )
+
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+
+    expect(attributes).toEqual([
+      'class',
+      'disabled', // because its a skeleton
+      'aria-disabled', // because its a skeleton
+      'aria-label', // because its a skeleton
+    ])
   })
 
   it('does not have inner_ref null inside default props', () => {

@@ -12,7 +12,7 @@ import {
   attachToBody, // in order to use document.activeElement properly
   loadScss,
 } from '../../../core/jest/jestSetup'
-import { render } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 import Input from '../../input/Input'
 import Component, { OriginalComponent } from '../Modal'
 import Button from '../../button/Button'
@@ -55,18 +55,20 @@ describe('Modal component', () => {
   })
 
   it('should add its instance to the stack', () => {
-    const Comp = mount(
+    render(
       <Component {...props}>
         <DialogContent />
       </Component>
     )
 
-    Comp.find('Modal').find('button.dnb-modal__trigger').simulate('click')
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
 
     expect(window.__modalStack).toHaveLength(1)
     expect(typeof window.__modalStack[0]).toBe('object')
 
-    Comp.find('button.dnb-modal__close-button').simulate('click')
+    fireEvent.click(
+      document.querySelector('button.dnb-modal__close-button')
+    )
 
     expect(window.__modalStack).toHaveLength(0)
   })
@@ -281,20 +283,24 @@ describe('Modal component', () => {
   it('will close modal by using callback method', () => {
     const on_close = jest.fn()
     const on_open = jest.fn()
-    const Comp = mount(
+
+    render(
       <Component
         no_animation={true}
         on_open={on_open}
         on_close={on_close}
         hide_close_button
       >
-        {({ close }) => <Button text="close" on_click={close} />}
+        {({ close }) => {
+          return <Button id="close-button" text="close" on_click={close} />
+        }}
       </Component>
     )
-    Comp.find('button').simulate('click')
+
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
     expect(on_open).toHaveBeenCalledTimes(1)
 
-    Comp.find('button').simulate('click')
+    fireEvent.click(document.querySelector('button#close-button'))
     expect(on_close).toHaveBeenCalledTimes(1)
   })
 

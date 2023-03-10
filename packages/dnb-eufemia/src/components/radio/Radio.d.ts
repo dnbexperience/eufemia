@@ -1,47 +1,28 @@
 import * as React from 'react';
+import {
+  FormStatusProps,
+  FormStatusState,
+  FormStatusText
+} from '../FormStatus';
+import type { SkeletonShow } from '../Skeleton';
+import type { SpacingProps } from '../space/types';
 import RadioGroup from './RadioGroup';
 export type RadioLabel =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type RadioLabelSrOnly = string | boolean;
 export type RadioLabelPosition = 'left' | 'right';
-export type RadioChecked = string | boolean;
-export type RadioDisabled = string | boolean;
 export type RadioSize = 'default' | 'medium' | 'large';
-export type RadioStatus =
-  | string
-  | boolean
-  | ((...args: any[]) => any)
-  | React.ReactNode;
-export type RadioStatusNoAnimation = string | boolean;
 export type RadioSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type RadioAttributes = string | Record<string, unknown>;
-export type RadioSkeleton = string | boolean;
-export type RadioReadOnly = string | boolean;
-export type RadioSpace =
-  | string
-  | number
-  | boolean
-  | {
-      top?: string | number | boolean;
-      right?: string | number | boolean;
-      bottom?: string | number | boolean;
-      left?: string | number | boolean;
-    };
-export type RadioTop = string | number | boolean;
-export type RadioRight = string | number | boolean;
-export type RadioBottom = string | number | boolean;
-export type RadioLeft = string | number | boolean;
 export type RadioChildren = string | ((...args: any[]) => any);
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
-export interface RadioProps extends React.HTMLProps<HTMLElement> {
+export interface RadioProps
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   /**
    * Use either the `label` property or provide a custom one.
    */
@@ -50,7 +31,7 @@ export interface RadioProps extends React.HTMLProps<HTMLElement> {
   /**
    * Use `true` to make the label only readable by screen readers.
    */
-  label_sr_only?: RadioLabelSrOnly;
+  label_sr_only?: boolean;
 
   /**
    * Defines the position of the `label`. Use either `left` or `right`. Defaults to `right`.
@@ -60,8 +41,8 @@ export interface RadioProps extends React.HTMLProps<HTMLElement> {
   /**
    * Determine whether the radio is checked or not. Default will be `false`.
    */
-  checked?: RadioChecked;
-  disabled?: RadioDisabled;
+  checked?: boolean;
+  disabled?: boolean;
   id?: string;
   element?: React.ReactNode;
 
@@ -78,17 +59,17 @@ export interface RadioProps extends React.HTMLProps<HTMLElement> {
   /**
    * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
    */
-  status?: RadioStatus;
+  status?: FormStatusText;
 
   /**
    * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
    */
-  status_state?: string;
+  status_state?: FormStatusState;
 
   /**
    * Use an object to define additional FormStatus properties.
    */
-  status_props?: Record<string, unknown>;
+  status_props?: FormStatusProps;
   status_no_animation?: RadioStatusNoAnimation;
 
   /**
@@ -102,13 +83,8 @@ export interface RadioProps extends React.HTMLProps<HTMLElement> {
    */
   value?: string;
   attributes?: RadioAttributes;
-  skeleton?: RadioSkeleton;
-  readOnly?: RadioReadOnly;
-  space?: RadioSpace;
-  top?: RadioTop;
-  right?: RadioRight;
-  bottom?: RadioBottom;
-  left?: RadioLeft;
+  skeleton?: SkeletonShow;
+  readOnly?: boolean;
   class?: string;
   className?: string;
   children?: RadioChildren;

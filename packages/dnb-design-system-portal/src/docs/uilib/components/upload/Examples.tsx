@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
+import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { Button, ToggleButton, Img, Section } from '@dnb/eufemia/src'
 import Upload from '@dnb/eufemia/src/components/upload/Upload'
 
@@ -37,7 +37,10 @@ export const UploadPrefilledFileList = () => (
     {() => {
       const Component = () => {
         const { files, setFiles } = Upload.useUpload('file-list')
-        console.log('files', files)
+
+        if (files.length) {
+          console.log('files', files)
+        }
 
         useMockFiles(setFiles, { errorMessage: 'This is no real file!' })
 
@@ -60,7 +63,10 @@ export const UploadSingleFile = () => (
     {() => {
       const Component = () => {
         const { files, setFiles } = Upload.useUpload('upload-single-file')
-        console.log('files', files, setFiles)
+
+        if (files.length) {
+          console.log('files', files, setFiles)
+        }
 
         return (
           <Upload
@@ -230,7 +236,10 @@ export const UploadAcceptedFormats = () => (
         const { files, setFiles } = Upload.useUpload(
           'upload-accepted-formats'
         )
-        console.log('files', files, setFiles)
+
+        if (files.length) {
+          console.log('files', files, setFiles)
+        }
 
         return (
           <Upload

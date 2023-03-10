@@ -1,4 +1,7 @@
 import * as React from 'react';
+import type { SpacingProps } from '../../shared/types';
+import { FormStatusText } from '../FormStatus';
+import type { SkeletonShow } from '../Skeleton';
 import StepIndicatorSidebar from './StepIndicatorSidebar';
 export type StepIndicatorMode = 'static' | 'strict' | 'loose';
 export type StepIndicatorData =
@@ -9,8 +12,8 @@ export type StepIndicatorData =
       is_current?: boolean;
       inactive?: boolean;
       disabled?: boolean;
-      status?: string | React.ReactNode;
-      status_state?: 'warn' | 'info' | 'error';
+      status?: FormStatusText;
+      status_state?: StepIndicatorStatusState;
 
       /**
        * Will be called once the user clicks on the current or another step. Will be emitted on every click. Returns an object `{ event, item, current_step }`.
@@ -19,49 +22,15 @@ export type StepIndicatorData =
       on_render?: (...args: any[]) => any;
     }[];
 export type StepIndicatorTitle = string | React.ReactNode;
-export type StepIndicatorStatus = string | React.ReactNode;
 export type StepIndicatorStatusState = 'warn' | 'info' | 'error';
 export type StepIndicatorCurrentStep = string | number;
-export type StepIndicatorHideNumbers = string | boolean;
-export type StepIndicatorNoAnimation = string | boolean;
-export type StepIndicatorSkeleton = string | boolean;
-export type StepIndicatorSpace =
-  | string
-  | number
-  | boolean
-  | {
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-       */
-      top?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-       */
-      right?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-       */
-      bottom?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-       */
-      left?: string | number | boolean;
-    };
-export type StepIndicatorTop = string | number | boolean;
-export type StepIndicatorRight = string | number | boolean;
-export type StepIndicatorBottom = string | number | boolean;
-export type StepIndicatorLeft = string | number | boolean;
 export type StepIndicatorChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
-export interface StepIndicatorProps extends React.HTMLProps<HTMLElement> {
+export interface StepIndicatorProps
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   /**
    * <em>(required)</em> a unique string-based ID in order to bind together the main component and the sidebar (`<StepIndicator.Sidebar />`). Both have to get the same ID.
    */
@@ -76,11 +45,11 @@ export interface StepIndicatorProps extends React.HTMLProps<HTMLElement> {
    * <em>(required)</em> defines the data/steps showing up in a JavaScript Array or JSON format like `[{title,is_current}]`. See parameters and the example above.
    */
   data?: StepIndicatorData;
-  title: StepIndicatorTitle;
+  title?: StepIndicatorTitle;
   is_current?: boolean;
   inactive?: boolean;
   disabled?: boolean;
-  status?: StepIndicatorStatus;
+  status?: FormStatusText;
   status_state?: StepIndicatorStatusState;
 
   /**
@@ -100,7 +69,7 @@ export interface StepIndicatorProps extends React.HTMLProps<HTMLElement> {
   /**
    * Define whether to show automatically counted numbers or not. Defaults to `false`.
    */
-  hide_numbers?: StepIndicatorHideNumbers;
+  hide_numbers?: boolean;
 
   /**
    * Callback function to manipulate or wrap every item. Has to return a React Node. You receive an object you can use in your custom HOC `{ StepItem, element, attributes, props, context }`.
@@ -110,33 +79,9 @@ export interface StepIndicatorProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true`, the height animation on the step items and the drawer button will be omitted. Defaults to false.
    */
-  no_animation?: StepIndicatorNoAnimation;
-  skeleton?: StepIndicatorSkeleton;
+  no_animation?: boolean;
+  skeleton?: SkeletonShow;
 
-  /**
-   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
-   */
-  space?: StepIndicatorSpace;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-   */
-  top?: StepIndicatorTop;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-   */
-  right?: StepIndicatorRight;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-   */
-  bottom?: StepIndicatorBottom;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-   */
-  left?: StepIndicatorLeft;
   class?: string;
   className?: string;
   children?: StepIndicatorChildren;

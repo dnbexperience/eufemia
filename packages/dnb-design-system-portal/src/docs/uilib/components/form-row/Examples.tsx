@@ -5,7 +5,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
+import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { Global, css } from '@emotion/react'
 import styled from '@emotion/styled'
 import {
@@ -26,6 +26,7 @@ import {
   FormRow,
 } from '@dnb/eufemia/src/components'
 import { Ingress } from '@dnb/eufemia/src/elements'
+import { SpacingElementProps } from '@dnb/eufemia/src/shared/types'
 
 const TestStyles = styled.div`
   /* make sure our input gets an explicit width, because of mac/linux rendering differences */
@@ -125,7 +126,7 @@ export const FormRowCombineVerticalAndHorizontal = () => (
             <Input label="Vertical input A" />
             <Input label="Vertical input B" top="medium" />
             <FormRow
-              vertical="false"
+              vertical={false}
               label_direction="horizontal"
               top="medium"
             >
@@ -317,15 +318,9 @@ const VisualTestHorizontalDirection = () => (
     scope={{ AllComponents }}
     data-visual-test="form-row-all-horizontal-direction"
   >
-    {
-      /* jsx */ `
-<FormRow
-  direction="horizontal"
->
-  <AllComponents horizontal />
-</FormRow>
-`
-    }
+    <FormRow direction="horizontal">
+      <AllComponents horizontal />
+    </FormRow>
   </ComponentBox>
 )
 
@@ -334,15 +329,11 @@ const VisualTestVerticalDirection = () => (
     scope={{ AllComponents, WidthLimit }}
     data-visual-test="form-row-all-vertical-direction"
   >
-    {
-      /* jsx */ `
-<WidthLimit>
-  <FormRow label="Vertical direction:" direction="vertical">
-    <AllComponents />
-  </FormRow>
-</WidthLimit>
-`
-    }
+    <WidthLimit>
+      <FormRow label="Vertical direction:" direction="vertical">
+        <AllComponents />
+      </FormRow>
+    </WidthLimit>
   </ComponentBox>
 )
 
@@ -351,15 +342,11 @@ const VisualTestVerticalEverything = () => (
     scope={{ AllComponents, WidthLimit }}
     data-visual-test="form-row-all-vertical-everything"
   >
-    {
-      /* jsx */ `
-<WidthLimit>
-  <FormRow label="Vertical everything:" vertical="true">
-   <AllComponents />
-  </FormRow>
-</WidthLimit>
-`
-    }
+    <WidthLimit>
+      <FormRow label="Vertical everything:" vertical={true}>
+        <AllComponents />
+      </FormRow>
+    </WidthLimit>
   </ComponentBox>
 )
 
@@ -368,13 +355,9 @@ const VisualTestLabelDirection = () => (
     scope={{ AllComponents }}
     data-visual-test="form-row-all-vertical-label-direction"
   >
-    {
-      /* jsx */ `
-<FormRow label="Vertical label direction:" label_direction="vertical">
-  <AllComponents horizontal />
-</FormRow>
-`
-    }
+    <FormRow label="Vertical label direction:" label_direction="vertical">
+      <AllComponents horizontal />
+    </FormRow>
   </ComponentBox>
 )
 
@@ -383,13 +366,12 @@ const VisualTestVerticalLabelDirectionNoLabels = () => (
     scope={{ AllComponents }}
     data-visual-test="form-row-all-vertical-label-direction-no-label"
   >
-    {
-      /* jsx */ `
-<FormRow label="Vertical label direction, no labels:" label_direction="vertical">
-  <AllComponents horizontal hideLabel />
-</FormRow>
-`
-    }
+    <FormRow
+      label="Vertical label direction, no labels:"
+      label_direction="vertical"
+    >
+      <AllComponents horizontal hideLabel />
+    </FormRow>
   </ComponentBox>
 )
 
@@ -398,24 +380,16 @@ const VisualTestAllStretch = () => (
     scope={{ AllStretchComponents }}
     data-visual-test="form-row-all-stretch-components"
   >
-    {
-      /* jsx */ `
-<AllStretchComponents />
-`
-    }
+    <AllStretchComponents />
   </ComponentBox>
 )
 
 const VisualTestHorizontalCentered = () => (
   <ComponentBox data-visual-test="form-row-centered">
-    {
-      /* jsx */ `
-<FormRow centered>
-  <div className="box1" />
-  <div className="box2" />
-</FormRow>
-`
-    }
+    <FormRow centered>
+      <div className="box1" />
+      <div className="box2" />
+    </FormRow>
   </ComponentBox>
 )
 
@@ -453,7 +427,7 @@ export const AllComponents = ({
   showText,
   hideLabel,
 }) => {
-  const params = {
+  const params: SpacingElementProps = {
     left: horizontal ? 'small' : null,
     top: !horizontal || vertical ? 'small' : null,
   }
@@ -603,5 +577,74 @@ function StretchTemplate({ element: Comp, ...props }) {
         />
       </Box>
     </>
+  )
+}
+
+export function FormRowLabelDirectionInfo() {
+  return (
+    <ComponentBox>
+      <FormRow label_direction="vertical">
+        <Input label="Label:" right />
+        <Input label="Label:" />
+      </FormRow>
+    </ComponentBox>
+  )
+}
+
+export function FormRowDirectionInfo() {
+  return (
+    <ComponentBox>
+      <FormRow direction="vertical">
+        <Input label="Label:" bottom />
+        <Input label="Label:" />
+      </FormRow>
+    </ComponentBox>
+  )
+}
+
+export function FormRowVerticalInfo() {
+  return (
+    <ComponentBox>
+      <FormRow vertical>
+        <Input label="Label:" bottom />
+        <Input label="Label:" />
+      </FormRow>
+    </ComponentBox>
+  )
+}
+
+export function FormRowDefaultInfo() {
+  return (
+    <ComponentBox>
+      <FormRow>
+        <Input label="Label:" right />
+        <Input label="Label:" />
+      </FormRow>
+    </ComponentBox>
+  )
+}
+
+export function FormRowSpacingInfo() {
+  return (
+    <ComponentBox>
+      {/* The FormRow will then have a "margin-top: 2.5rem;" */}
+      <FormRow top="large x-small">
+        <Input label="Input label">Value</Input>
+      </FormRow>
+      {/* ... or go crazy */}
+      <FormRow top="large medium small">
+        <Input label="Input label">Value</Input>
+      </FormRow>
+    </ComponentBox>
+  )
+}
+
+export function FormRowResponsiveInfo() {
+  return (
+    <ComponentBox>
+      <FormRow responsive={true}>
+        <Input label="Input label">Value</Input>
+      </FormRow>
+    </ComponentBox>
   )
 }

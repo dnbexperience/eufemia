@@ -1,18 +1,5 @@
 import * as React from 'react';
-export type H2Space =
-  | string
-  | number
-  | boolean
-  | {
-      top?: string | number | boolean;
-      right?: string | number | boolean;
-      bottom?: string | number | boolean;
-      left?: string | number | boolean;
-    };
-export type H2Top = string | number | boolean;
-export type H2Right = string | number | boolean;
-export type H2Bottom = string | number | boolean;
-export type H2Left = string | number | boolean;
+import type { SpacingProps } from '../shared/types';
 export type H2Size =
   | 'xx-large'
   | 'x-large'
@@ -21,16 +8,10 @@ export type H2Size =
   | 'basis'
   | 'small'
   | 'x-small';
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
-export interface H2Props extends React.HTMLProps<HTMLElement> {
-  space?: H2Space;
-  top?: H2Top;
-  right?: H2Right;
-  bottom?: H2Bottom;
-  left?: H2Left;
+export interface H2Props
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   level?: string;
   size?: H2Size;
   children?: React.ReactNode;

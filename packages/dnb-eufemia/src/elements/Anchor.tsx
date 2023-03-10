@@ -12,7 +12,8 @@ import {
   extendPropsWithContext,
 } from '../shared/component-helper'
 import Tooltip from '../components/tooltip/Tooltip'
-import { SpacingProps } from '../shared/types'
+import type { SkeletonShow } from '../components/skeleton/Skeleton'
+import type { SpacingProps } from '../shared/types'
 
 export type AnchorProps = {
   element?: ElementIsType
@@ -21,7 +22,7 @@ export type AnchorProps = {
   targetBlankTitle?: string
   target?: string
   tooltip?: React.ReactNode
-  skeleton?: boolean
+  skeleton?: SkeletonShow
   omitClass?: boolean
   innerRef?: React.RefObject<HTMLAnchorElement>
 
@@ -72,7 +73,8 @@ export function AnchorInstance(localProps: AnchorAllProps) {
   const internalId = id || 'id' + makeUniqueId()
 
   // WCAG guide: https://www.w3.org/TR/WCAG20-TECHS/G201.html
-  const showTooltip = allProps.target === '_blank' && !allProps.title
+  const showTooltip =
+    tooltip || (allProps.target === '_blank' && !allProps.title)
 
   const as = (element || 'a') as string
 
@@ -80,6 +82,7 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     <>
       <E
         as={as}
+        id={id}
         className={classnames(
           omitClass !== true && 'dnb-anchor',
           className,

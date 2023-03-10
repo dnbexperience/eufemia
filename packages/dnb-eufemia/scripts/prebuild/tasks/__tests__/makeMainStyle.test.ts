@@ -35,7 +35,7 @@ if (isCI) {
     })
 
     it('has to have correct core path to fonts', () => {
-      expect(global.core[0]).toMatch(new RegExp('("|\\()../assets/fonts/'))
+      expect(global.core[0]).not.toContain('/fonts/dnb/')
     })
   })
 
@@ -123,9 +123,15 @@ if (isCI) {
       expect(global.theme[0]).not.toMatch(new RegExp('color:\\s?#007272;'))
       expect(global.theme[0]).not.toContain('fuchsia')
     })
+
+    it('has to have correct core path to fonts', () => {
+      expect(global.theme[0]).toMatch(
+        new RegExp('("|\\()../../../assets/fonts/dnb/')
+      )
+    })
   })
 } else {
   it('skipping local tests', () => {
-    return null
+    expect(true).toBe(true)
   })
 }

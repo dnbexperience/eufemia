@@ -1,4 +1,15 @@
 import * as React from 'react';
+import type { ButtonIconPosition } from '../button';
+import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
+import type {
+  FormStatusProps,
+  FormStatusState,
+  FormStatusText
+} from '../FormStatus';
+import type { IconPrimaryIcon, IconPrimarySize } from '../IconPrimary';
+import type { InputInputAttributes, InputInputElement } from '../Input';
+import type { SkeletonShow } from '../Skeleton';
+import type { SpacingProps } from '../space/types';
 export type InputMaskedMask =
   | Record<string, unknown>
   | any[]
@@ -14,11 +25,6 @@ export type InputMaskedCurrencyMask =
 export type InputMaskedMaskOptions = string | Record<string, unknown>;
 export type InputMaskedNumberFormat = string | Record<string, unknown>;
 export type InputMaskedAsCurrency = string | boolean;
-export type InputMaskedAsNumber = string | boolean;
-export type InputMaskedAsPercent = string | boolean;
-export type InputMaskedShowMask = string | boolean;
-export type InputMaskedShowGuide = string | boolean;
-export type InputMaskedKeepCharPositions = string | boolean;
 export type InputMaskedSize =
   | 'default'
   | 'small'
@@ -26,40 +32,11 @@ export type InputMaskedSize =
   | 'large'
   | number;
 export type InputMaskedValue = string | number;
-export type InputMaskedLabel =
-  | string
-  | ((...args: any[]) => any)
-  | React.ReactNode;
-export type InputMaskedLabelDirection = 'horizontal' | 'vertical';
-export type InputMaskedLabelSrOnly = string | boolean;
-export type InputMaskedStatus =
-  | string
-  | boolean
-  | ((...args: any[]) => any)
-  | React.ReactNode;
-export type InputMaskedStatusNoAnimation = string | boolean;
-export type InputMaskedClear = string | boolean;
-export type InputMaskedKeepPlaceholder = string | boolean;
 export type InputMaskedSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type InputMaskedAlign = 'left' | 'center' | 'right';
-export type InputMaskedSelectall = string | boolean;
-export type InputMaskedStretch = string | boolean;
-export type InputMaskedDisabled = string | boolean;
-export type InputMaskedSkeleton = string | boolean;
-export type InputMaskedInputAttributes = string | Record<string, unknown>;
-export type InputMaskedInputElement =
-  | ((...args: any[]) => any)
-  | React.ReactNode;
-export type InputMaskedIcon =
-  | string
-  | React.ReactNode
-  | ((...args: any[]) => any);
-export type InputMaskedIconSize = string | number;
-export type InputMaskedIconPosition = 'left' | 'right';
-export type InputMaskedReadOnly = string | boolean;
 export type InputMaskedSubmitElement =
   | ((...args: any[]) => any)
   | React.ReactNode;
@@ -67,43 +44,13 @@ export type InputMaskedSubmitButtonIcon =
   | string
   | React.ReactNode
   | ((...args: any[]) => any);
-export type InputMaskedSpace =
-  | string
-  | number
-  | boolean
-  | {
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-       */
-      top?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-       */
-      right?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-       */
-      bottom?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-       */
-      left?: string | number | boolean;
-    };
-export type InputMaskedTop = string | number | boolean;
-export type InputMaskedRight = string | number | boolean;
-export type InputMaskedBottom = string | number | boolean;
-export type InputMaskedLeft = string | number | boolean;
 export type InputMaskedChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
-export interface InputMaskedProps extends React.HTMLProps<HTMLElement> {
+export interface InputMaskedProps
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   /**
    * A mask can be defined both as a <a href="https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#readme">RegExp style of characters</a> or a callback function. Example below.
    */
@@ -142,28 +89,28 @@ export interface InputMaskedProps extends React.HTMLProps<HTMLElement> {
   /**
    * Set to `true` to automatically set a number mask based on the given or inherited locale.
    */
-  as_number?: InputMaskedAsNumber;
+  as_number?: boolean;
 
   /**
    * Set to `true` to automatically set a number mask with a percentage sign based on the given or inherited locale.
    */
-  as_percent?: InputMaskedAsPercent;
+  as_percent?: boolean;
 
   /**
    * Show mask when input is empty and has no focus. Defaults to `false`.
    */
-  show_mask?: InputMaskedShowMask;
+  show_mask?: boolean;
 
   /**
    * When `false` is given, it doesn&#39;t print out placeholder characters and only adds mask characters when the user reaches them as they&#39;re typing. Defaults to `true`.
    */
-  show_guide?: InputMaskedShowGuide;
+  show_guide?: boolean;
   pipe?: (...args: any[]) => any;
 
   /**
    * When `true`, adding or deleting characters will not affect the positions of existing characters. Defaults to `false`.
    */
-  keep_char_positions?: InputMaskedKeepCharPositions;
+  keep_char_positions?: boolean;
 
   /**
    * The placeholder character represents the fillable spot in the mask (e.g. `_`). Defaults to invisible space.
@@ -216,33 +163,33 @@ export interface InputMaskedProps extends React.HTMLProps<HTMLElement> {
   /**
    * Prepends the Form Label component. If no ID is provided, a random ID is created.
    */
-  label?: InputMaskedLabel;
+  label?: FormLabelText;
 
   /**
    * Use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`
    */
-  label_direction?: InputMaskedLabelDirection;
+  label_direction?: FormLabelLabelDirection;
 
   /**
    * Use `true` to make the label only readable by screen readers.
    */
-  label_sr_only?: InputMaskedLabelSrOnly;
+  label_sr_only?: boolean;
 
   /**
    * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
    */
-  status?: InputMaskedStatus;
+  status?: FormStatusText;
 
   /**
    * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
    */
-  status_state?: string;
+  status_state?: FormStatusState;
 
   /**
    * Use an object to define additional FormStatus properties.
    */
-  status_props?: Record<string, unknown>;
-  status_no_animation?: InputMaskedStatusNoAnimation;
+  status_props?: FormStatusProps;
+  status_no_animation?: boolean;
 
   /**
    * Defines a custom visual state of the input. Use it only if you have to simulate a custom state. Currently are three statuses `virgin` , `focus` and `dirty`. Defaults to `null`.
@@ -273,12 +220,12 @@ export interface InputMaskedProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true`, then a clear button will be shown which lets the user clear any given input value.
    */
-  clear?: InputMaskedClear;
+  clear?: boolean;
 
   /**
    * Set to `true` in case the `placeholder` has to be kept during focus. By default, the placeholder disappears on focus.
    */
-  keep_placeholder?: InputMaskedKeepPlaceholder;
+  keep_placeholder?: boolean;
 
   /**
    * Text describing the content of the input more than the label. You can also send in a React component, so it gets wrapped inside the Input component.
@@ -293,18 +240,18 @@ export interface InputMaskedProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true`, then the whole input value gets selected on the entry focus. A second click will place the cursor on the wanted position.
    */
-  selectall?: InputMaskedSelectall;
+  selectall?: boolean;
 
   /**
    * If set to `true`, then the input field will be 100% in `width`.
    */
-  stretch?: InputMaskedStretch;
-  disabled?: InputMaskedDisabled;
+  stretch?: boolean;
+  disabled?: boolean;
 
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: InputMaskedSkeleton;
+  skeleton?: SkeletonShow;
   class?: string;
 
   /**
@@ -315,28 +262,28 @@ export interface InputMaskedProps extends React.HTMLProps<HTMLElement> {
   /**
    * Provide the Input element with any attributes by using an Object `input_attributes={{size:&#39;2&#39;}}` or a JSON Object `input_attributes=&#39;{"size":"2"}&#39;`. "NB:" Keep in mind, that also every not listed component property will be sent along and set as an Input element attribute.
    */
-  input_attributes?: InputMaskedInputAttributes;
+  input_attributes?: InputInputAttributes;
 
   /**
    * <em>(internal)</em> by providing a new component we can change the internally used element. Also supports a string only, like `input_element="input"`.
    */
-  input_element?: InputMaskedInputElement;
+  input_element?: InputInputElement;
 
   /**
    * Icon to show before or after the input / placeholder. Can be either a string defining a primary icon or a Component using an SVG icon of either 16px or 24px.
    */
-  icon?: InputMaskedIcon;
+  icon?: IconPrimaryIcon;
 
   /**
    * The icon size of the icon shows. Defaults to `medium`.
    */
-  icon_size?: InputMaskedIconSize;
+  icon_size?: IconPrimarySize;
 
   /**
    * Defines the position of icon inside the input. Set to `left` or `right`. Defaults to `left` if not set.
    */
-  icon_position?: InputMaskedIconPosition;
-  readOnly?: InputMaskedReadOnly;
+  icon_position?: ButtonIconPosition;
+  readOnly?: boolean;
 
   /**
    * <em>(internal)</em> by providing a new component to be rendered inside the "shell" – we can add a freely customizable internal element. Used by the Autocomplete component.
@@ -351,30 +298,6 @@ export interface InputMaskedProps extends React.HTMLProps<HTMLElement> {
   submit_button_icon?: InputMaskedSubmitButtonIcon;
   submit_button_status?: string;
 
-  /**
-   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
-   */
-  space?: InputMaskedSpace;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-   */
-  top?: InputMaskedTop;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-   */
-  right?: InputMaskedRight;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-   */
-  bottom?: InputMaskedBottom;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-   */
-  left?: InputMaskedLeft;
   className?: string;
   children?: InputMaskedChildren;
   on_state_update?: (...args: any[]) => any;

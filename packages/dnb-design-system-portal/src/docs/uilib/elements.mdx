@@ -1,0 +1,59 @@
+---
+title: 'HTML Elements'
+icon: 'elements'
+order: 6
+---
+
+import CodeBlock from 'dnb-design-system-portal/src/shared/tags/CodeBlock'
+import NotSupportedElements from 'Docs/uilib/elements/not-supported'
+import UnstyledElementsDemos from 'Docs/uilib/elements/unstyled'
+import ListSummaryFromPages from 'dnb-design-system-portal/src/shared/parts/ListSummaryFromPages'
+import { StyledComponentsExample } from 'Docs/uilib/Examples'
+
+# HTML Elements
+
+The `@dnb/eufemia` contains styling for the most commonly used [HTML Elements](https://developer.mozilla.org/en-US/docs/Web/HTML/Element) defined by the UX team at DNB. You may also have a look at [Typography](/uilib/typography) for headings and paragraph usage.
+
+## Elements
+
+<ListSummaryFromPages returnListItems slug="uilib/elements/" />
+
+### Vanilla HTML
+
+In order to apply a style, you have to define a CSS class, like:
+
+```jsx
+<a href="/" className="dnb-anchor">Text Link</a>
+<blockquote className="dnb-blockquote">
+  Dis leo ala tractatos ei quo.
+</blockquote>
+```
+
+### React JSX
+
+For those using JSX with React, you can simply use the wrapper Components. They also inherit to the [Skeleton](/uilib/components/skeleton) provider.
+
+```jsx
+import { H1, H2, P, Anchor, Link } from '@dnb/eufemia/elements'
+
+render(
+  <article>
+    <H1>Semantic h1</H1>
+    <P>My Paragraph</P>
+    <Anchor href="/">Link</Anchor>
+    <Link href="/">Link</Link>
+  </article>
+)
+```
+
+#### Styled Components
+
+They work seamlessly with Styled Components (emotion) as well:
+
+<StyledComponentsExample />
+
+<UnstyledElementsDemos />
+
+---
+
+<NotSupportedElements />

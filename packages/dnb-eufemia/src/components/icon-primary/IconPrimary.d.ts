@@ -1,4 +1,6 @@
 import * as React from 'react';
+import type { SkeletonShow } from '../Skeleton';
+import type { SpacingProps } from '../space/types';
 export type IconPrimaryIcon =
   | string
   | React.ReactNode
@@ -9,52 +11,18 @@ export type IconPrimarySize =
   | 'default'
   | 'medium'
   | 'large';
-export type IconPrimarySpace =
-  | string
-  | number
-  | boolean
-  | {
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-       */
-      top?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-       */
-      right?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-       */
-      bottom?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-       */
-      left?: string | number | boolean;
-    };
-export type IconPrimaryTop = string | number | boolean;
-export type IconPrimaryRight = string | number | boolean;
-export type IconPrimaryBottom = string | number | boolean;
-export type IconPrimaryLeft = string | number | boolean;
 export type IconPrimaryWidth = string | number;
 export type IconPrimaryHeight = string | number;
-export type IconPrimaryBorder = string | boolean;
-export type IconPrimaryInheritColor = string | boolean;
-export type IconPrimarySkeleton = string | boolean;
 export type IconPrimaryAttributes =
   | string
   | React.AllHTMLAttributes<string>;
 export type IconPrimaryChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface IconPrimaryProps
-  extends Omit<React.HTMLProps<HTMLElement>, 'size'> {
+  extends Omit<React.HTMLProps<HTMLElement>, 'size'>,
+    SpacingProps {
   /**
    * <em>(required)</em> a React SVG Component or the icon name (in case we use `IconPrimary` or `dnb-icon-primary`).
    */
@@ -70,37 +38,13 @@ export interface IconPrimaryProps
    */
   size?: IconPrimarySize;
 
-  /**
-   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
-   */
-  space?: IconPrimarySpace;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-   */
-  top?: IconPrimaryTop;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-   */
-  right?: IconPrimaryRight;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-   */
-  bottom?: IconPrimaryBottom;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-   */
-  left?: IconPrimaryLeft;
   width?: IconPrimaryWidth;
   height?: IconPrimaryHeight;
 
   /**
    * Use `true` to display a rounded border with an inherited color. Keep in mind that the icon will have a larger total width and height of `+0.5em`.
    */
-  border?: IconPrimaryBorder;
+  border?: boolean;
 
   /**
    * The color can be any valid color property, such as Hex, RGB or preferable – any CSS variable from the <a href="/uilib/usage/customisation/colors">colors table</a>, e.g. `var(--color-ocean-green)`. Default is no color, which means `--color-black-80`.
@@ -110,7 +54,7 @@ export interface IconPrimaryProps
   /**
    * Default to `true`. Set to `false` if you do not want to inherit the color by `currentColor`.
    */
-  inherit_color?: IconPrimaryInheritColor;
+  inherit_color?: boolean;
 
   /**
    * The alternative label (text version) of the icon. Defaults to the imported icon name.
@@ -125,7 +69,7 @@ export interface IconPrimaryProps
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: IconPrimarySkeleton;
+  skeleton?: SkeletonShow;
   attributes?: IconPrimaryAttributes;
   className?: string;
   children?: IconPrimaryChildren;

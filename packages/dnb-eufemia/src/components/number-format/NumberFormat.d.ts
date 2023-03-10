@@ -1,4 +1,6 @@
 import * as React from 'react';
+import type { SkeletonShow } from '../Skeleton';
+import type { SpacingProps } from '../space/types';
 export type NumberFormatValue = number | string;
 export type NumberFormatPrefix =
   | React.ReactNode
@@ -9,63 +11,21 @@ export type NumberFormatSuffix =
 export type NumberFormatCurrency = string | boolean;
 export type NumberFormatCurrencyPosition = 'auto' | 'before' | 'after';
 export type NumberFormatCompact = 'short' | 'long' | boolean;
-export type NumberFormatBan = string | boolean;
-export type NumberFormatNin = string | boolean;
-export type NumberFormatPhone = string | boolean;
-export type NumberFormatOrg = string | boolean;
-export type NumberFormatPercent = string | boolean;
-export type NumberFormatLink = string | boolean;
+export type NumberFormatLink = 'tel' | 'sms';
 export type NumberFormatOptions = Record<string, unknown> | string;
 export type NumberFormatDecimals = number | string;
-export type NumberFormatSelectall = string | boolean;
-export type NumberFormatAlwaysSelectall = string | boolean;
-export type NumberFormatCopySelection = string | boolean;
-export type NumberFormatCleanCopyValue = string | boolean;
-export type NumberFormatOmitRounding = string | boolean;
-export type NumberFormatClean = string | boolean;
-export type NumberFormatElement = string | boolean;
+export type NumberFormatElement = string;
 export type NumberFormatTooltip =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type NumberFormatSkeleton = string | boolean;
-export type NumberFormatSpace =
-  | string
-  | number
-  | boolean
-  | {
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-       */
-      top?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-       */
-      right?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-       */
-      bottom?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-       */
-      left?: string | number | boolean;
-    };
-export type NumberFormatTop = string | number | boolean;
-export type NumberFormatRight = string | number | boolean;
-export type NumberFormatBottom = string | number | boolean;
-export type NumberFormatLeft = string | number | boolean;
 export type NumberFormatChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
-export interface NumberFormatProps extends React.HTMLProps<HTMLElement> {
+export interface NumberFormatProps
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   id?: string;
 
   /**
@@ -111,27 +71,27 @@ export interface NumberFormatProps extends React.HTMLProps<HTMLElement> {
   /**
    * "Bank Account Number": use `true` to use the default Norwegian style (2000 12 34567) formatting.
    */
-  ban?: NumberFormatBan;
+  ban?: boolean;
 
   /**
    * "National Identification Number": use `true` to use the default Norwegian style (180892 12345) formatting.
    */
-  nin?: NumberFormatNin;
+  nin?: boolean;
 
   /**
    * Use `true` to use the default Norwegian style (22 22 22 22) of phone number formatting, regulated by the <a href="https://lovdata.no/forskrift/2004-02-16-426/§16">Norwegian authority</a>. More info by <a href="https://www.sprakradet.no/sprakhjelp/Skriveregler/Dato/#tlf">Sprakradet</a> as well.
    */
-  phone?: NumberFormatPhone;
+  phone?: boolean;
 
   /**
    * "Organization Number": use `true` to use the default Norwegian style (123 456 789) formatting. Screen readers get digit by digit.
    */
-  org?: NumberFormatOrg;
+  org?: boolean;
 
   /**
    * "Percentage": use `true` to enable percent formatting.
    */
-  percent?: NumberFormatPercent;
+  percent?: boolean;
 
   /**
    * Use `tel` or `sms` to enable a clickable / touchable anchor link.
@@ -151,32 +111,32 @@ export interface NumberFormatProps extends React.HTMLProps<HTMLElement> {
   /**
    * Use `false` to disable the auto select all on the first click. Defaults to `true`.
    */
-  selectall?: NumberFormatSelectall;
+  selectall?: boolean;
 
   /**
    * Use `true` to always auto select all on the first click. Defaults to `false`.
    */
-  always_selectall?: NumberFormatAlwaysSelectall;
+  always_selectall?: boolean;
 
   /**
    * Use `false` to disable the auto copy feature. Defaults to `true`.
    */
-  copy_selection?: NumberFormatCopySelection;
+  copy_selection?: boolean;
 
   /**
    * If set to `true` the copy&paste value will be provided without e.g. a currency sign or a percent sign. Defaults to `false`.
    */
-  clean_copy_value?: NumberFormatCleanCopyValue;
+  clean_copy_value?: boolean;
 
   /**
    * If set to `true`, the decimal will NOT be rounded. Normally, by using `toFixed` or by using `maximumFractionDigits`, decimals get rounded.
    */
-  omit_rounding?: NumberFormatOmitRounding;
+  omit_rounding?: boolean;
 
   /**
    * If set to `true` a dirty string will be parsed to to extract the number (`prefix -123.45 suffix` would result in e.g. `kr -123,45`).
    */
-  clean?: NumberFormatClean;
+  clean?: boolean;
 
   /**
    * Will add a visually hidden label to give screen reader users the missing context to understand easier what the number represents.
@@ -196,32 +156,8 @@ export interface NumberFormatProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: NumberFormatSkeleton;
+  skeleton?: SkeletonShow;
 
-  /**
-   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
-   */
-  space?: NumberFormatSpace;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-   */
-  top?: NumberFormatTop;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-   */
-  right?: NumberFormatRight;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-   */
-  bottom?: NumberFormatBottom;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-   */
-  left?: NumberFormatLeft;
   class?: string;
   className?: string;
 

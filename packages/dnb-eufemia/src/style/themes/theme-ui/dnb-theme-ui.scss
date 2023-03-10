@@ -1,10 +1,11 @@
 /**
- * Main UI Theme
+ * DNB Eufemia UI Theme
  *
  */
 
 @import '../../core/utilities.scss';
-@import '../../core/properties.scss';
+@import './properties.scss';
+@import './fonts.scss';
 
 // import all the "class styles" of the elements
 @import '../../elements/ui-elements.scss';

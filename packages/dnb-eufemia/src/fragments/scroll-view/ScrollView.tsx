@@ -11,7 +11,11 @@ import {
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import { createSpacingClasses } from '../../components/space/SpacingHelper'
-import { SpacingProps } from '../../shared/types'
+import type { SpacingProps } from '../../shared/types'
+
+// SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
+const useLayoutEffect =
+  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
 
 export type ScrollViewProps = {
   /**
@@ -82,13 +86,13 @@ function useInteractive({ interactive, children, ref }) {
     Boolean(interactive)
   )
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (interactive === 'auto') {
       setAsInteractive(hasScrollbar())
     }
   }, [interactive, children]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (interactive === 'auto' && typeof ResizeObserver !== 'undefined') {
       const observer = new ResizeObserver(() => {
         setAsInteractive(hasScrollbar())

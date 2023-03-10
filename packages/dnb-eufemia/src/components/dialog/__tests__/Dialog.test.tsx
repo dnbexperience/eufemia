@@ -11,7 +11,7 @@ import {
   attachToBody,
 } from '../../../core/jest/jestSetup'
 import * as helpers from '../../../shared/helpers'
-import { render } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 
 const props = fakeProps(require.resolve('../Dialog.tsx'), {
   all: true,
@@ -361,6 +361,30 @@ describe('Dialog', () => {
     ).toBe(false)
   })
 
+  it('will close dialog by using callback method', () => {
+    const onClose = jest.fn()
+    const onOpen = jest.fn()
+
+    render(
+      <Dialog
+        noAnimation={true}
+        onOpen={onOpen}
+        onClose={onClose}
+        hideCloseButton
+      >
+        {({ close }) => (
+          <Button id="close-button" text="close" on_click={close} />
+        )}
+      </Dialog>
+    )
+
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+    expect(onOpen).toHaveBeenCalledTimes(1)
+
+    fireEvent.click(document.querySelector('button#close-button'))
+    expect(onClose).toHaveBeenCalledTimes(1)
+  })
+
   it('can contain dialog parts', () => {
     const Comp = mount(
       <Dialog noAnimation directDomReturn={false}>
@@ -406,7 +430,7 @@ describe('Dialog component snapshot', () => {
 })
 describe('Dialog aria', () => {
   it('should validate with ARIA rules as a dialog', async () => {
-    const Comp = mount(<Dialog {...props} openState={true} />)
+    const Comp = render(<Dialog {...props} openState={true} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })

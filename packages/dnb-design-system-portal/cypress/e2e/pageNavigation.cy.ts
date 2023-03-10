@@ -34,7 +34,7 @@ describe('Page Navigation', () => {
     it('components page should include summary list of components', () => {
       cy.visitAsHtml('/uilib/components')
 
-      cy.get('h2').should('contain', 'Components')
+      cy.get('h1').should('contain', 'Components')
 
       cy.get('a[href="/uilib/components/accordion"]').should(
         'contain',
@@ -54,7 +54,7 @@ describe('Page Navigation', () => {
     })
 
     it('click on first main menu card should open /design-system', () => {
-      cy.title().should('contain', 'Eufemia - DNB Design System')
+      cy.title().should('contain', 'DNB Design System | Eufemia')
 
       cy.get('main nav a').first().click()
 

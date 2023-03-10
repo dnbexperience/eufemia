@@ -1,91 +1,37 @@
 import * as React from 'react';
+import type { ButtonIconPosition, ButtonVariant } from '../button';
+import type {
+  FormStatusProps,
+  FormStatusState,
+  FormStatusText
+} from '../FormStatus';
+import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
+import type { IconPrimaryIcon, IconPrimarySize } from '../IconPrimary';
+import type { SkeletonShow } from '../Skeleton';
+import type { SpacingProps } from '../space/types';
 export type InputSize = 'default' | 'small' | 'medium' | 'large' | number;
 export type InputValue = string | number;
-export type InputLabel =
-  | string
-  | ((...args: any[]) => any)
-  | React.ReactNode;
-export type InputLabelDirection = 'horizontal' | 'vertical';
-export type InputLabelSrOnly = string | boolean;
-export type InputStatus =
-  | string
-  | boolean
-  | ((...args: any[]) => any)
-  | React.ReactNode;
-export type InputStatusNoAnimation = string | boolean;
-export type InputClear = string | boolean;
-export type InputKeepPlaceholder = string | boolean;
 export type InputSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type InputAlign = 'left' | 'center' | 'right';
-export type InputSelectall = string | boolean;
-export type InputStretch = string | boolean;
-export type InputDisabled = string | boolean;
-export type InputSkeleton = string | boolean;
 export type InputInputAttributes = string | Record<string, unknown>;
 export type InputInputElement =
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type InputIcon =
-  | string
-  | React.ReactNode
-  | ((...args: any[]) => any);
-export type InputIconSize = string | number;
-export type InputIconPosition = 'left' | 'right';
-export type InputInnerRef =
-  | ((...args: any[]) => any)
-  | Record<string, unknown>;
-export type InputReadOnly = string | boolean;
 export type InputSubmitElement =
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type InputSubmitButtonVariant =
-  | 'primary'
-  | 'secondary'
-  | 'tertiary'
-  | 'signal'
-  | 'unstyled';
 export type InputSubmitButtonIcon =
   | string
   | React.ReactNode
   | ((...args: any[]) => any);
-export type InputSpace =
-  | string
-  | number
-  | boolean
-  | {
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-       */
-      top?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-       */
-      right?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-       */
-      bottom?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-       */
-      left?: string | number | boolean;
-    };
-export type InputTop = string | number | boolean;
-export type InputRight = string | number | boolean;
-export type InputBottom = string | number | boolean;
-export type InputLeft = string | number | boolean;
 export type InputChildren = React.ReactNode | ((...args: any[]) => any);
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
-export interface InputProps extends React.HTMLProps<HTMLElement> {
+export interface InputProps
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   /**
    * Choose between `text`, `number`, `email`, `password`, `url`, `tel` and `search`.
    */
@@ -105,33 +51,33 @@ export interface InputProps extends React.HTMLProps<HTMLElement> {
   /**
    * Prepends the Form Label component. If no ID is provided, a random ID is created.
    */
-  label?: InputLabel;
+  label?: FormLabelText;
 
   /**
    * Use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`
    */
-  label_direction?: InputLabelDirection;
+  label_direction?: FormLabelLabelDirection;
 
   /**
    * Use `true` to make the label only readable by screen readers.
    */
-  label_sr_only?: InputLabelSrOnly;
+  label_sr_only?: boolean;
 
   /**
    * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
    */
-  status?: InputStatus;
+  status?: FormStatusText;
 
   /**
    * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
    */
-  status_state?: string;
+  status_state?: FormStatusState;
 
   /**
    * Use an object to define additional FormStatus properties.
    */
-  status_props?: Record<string, unknown>;
-  status_no_animation?: InputStatusNoAnimation;
+  status_props?: FormStatusProps;
+  status_no_animation?: boolean;
 
   /**
    * Defines a custom visual state of the input. Use it only if you have to simulate a custom state. Currently are three statuses `virgin` , `focus` and `dirty`. Defaults to `null`.
@@ -162,12 +108,12 @@ export interface InputProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true`, then a clear button will be shown which lets the user clear any given input value.
    */
-  clear?: InputClear;
+  clear?: boolean;
 
   /**
    * Set to `true` in case the `placeholder` has to be kept during focus. By default, the placeholder disappears on focus.
    */
-  keep_placeholder?: InputKeepPlaceholder;
+  keep_placeholder?: boolean;
 
   /**
    * Text describing the content of the input more than the label. You can also send in a React component, so it gets wrapped inside the Input component.
@@ -182,18 +128,18 @@ export interface InputProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true`, then the whole input value gets selected on the entry focus. A second click will place the cursor on the wanted position.
    */
-  selectall?: InputSelectall;
+  selectall?: boolean;
 
   /**
    * If set to `true`, then the input field will be 100% in `width`.
    */
-  stretch?: InputStretch;
-  disabled?: InputDisabled;
+  stretch?: boolean;
+  disabled?: boolean;
 
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: InputSkeleton;
+  skeleton?: SkeletonShow;
   class?: string;
 
   /**
@@ -214,23 +160,23 @@ export interface InputProps extends React.HTMLProps<HTMLElement> {
   /**
    * Icon to show before or after the input / placeholder. Can be either a string defining a primary icon or a Component using an SVG icon of either 16px or 24px.
    */
-  icon?: InputIcon;
+  icon?: IconPrimaryIcon;
 
   /**
    * The icon size of the icon shows. Defaults to `medium`.
    */
-  icon_size?: InputIconSize;
+  icon_size?: IconPrimarySize;
 
   /**
    * Defines the position of icon inside the input. Set to `left` or `right`. Defaults to `left` if not set.
    */
-  icon_position?: InputIconPosition;
+  icon_position?: ButtonIconPosition;
 
   /**
    * By providing a React.ref we can get the internally used input element (DOM). E.g. `inner_ref={myRef}` by using `React.createRef()` or `React.useRef()`.
    */
-  inner_ref?: InputInnerRef;
-  readOnly?: InputReadOnly;
+  inner_ref?: any;
+  readOnly?: boolean;
 
   /**
    * <em>(internal)</em> by providing a new component to be rendered inside the "shell" – we can add a freely customizable internal element. Used by the Autocomplete component.
@@ -241,34 +187,10 @@ export interface InputProps extends React.HTMLProps<HTMLElement> {
    * Accepts a React element which will show up like the "submit button" would do on `type="search"`.
    */
   submit_element?: InputSubmitElement;
-  submit_button_variant?: InputSubmitButtonVariant;
+  submit_button_variant?: ButtonVariant;
   submit_button_icon?: InputSubmitButtonIcon;
   submit_button_status?: string;
 
-  /**
-   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
-   */
-  space?: InputSpace;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-   */
-  top?: InputTop;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-   */
-  right?: InputRight;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-   */
-  bottom?: InputBottom;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-   */
-  left?: InputLeft;
   className?: string;
   children?: InputChildren;
 
@@ -276,6 +198,8 @@ export interface InputProps extends React.HTMLProps<HTMLElement> {
    * Will be called on value changes made by the user. Returns an object with the value as a string and the native event: `{ value, event }`.
    */
   on_change?: (...args: any[]) => any;
+
+  on_key_down?: (...args: any[]) => any;
 
   /**
    * Will be called on submit button click. Returns `{ value, event }`.
@@ -295,7 +219,32 @@ export interface InputProps extends React.HTMLProps<HTMLElement> {
   on_submit_blur?: (...args: any[]) => any;
   on_state_update?: (...args: any[]) => any;
 }
+
 export default class Input extends React.Component<InputProps, any> {
+  static defaultProps: object;
+  render(): JSX.Element;
+}
+
+export interface SubmitButtonProps extends React.HTMLProps<HTMLElement> {
+  id?: string;
+  value?: string;
+  title?: string;
+  variant?: ButtonVariant;
+  disabled?: boolean;
+  skeleton?: SkeletonShow;
+  icon?: IconPrimaryIcon;
+  icon_size?: IconPrimarySize;
+  status?: FormStatusText;
+  status_state?: FormStatusState;
+  status_props?: FormStatusProps;
+  className?: string;
+
+  on_submit?: (...args: any[]) => any;
+  on_submit_focus?: (...args: any[]) => any;
+  on_submit_blur?: (...args: any[]) => any;
+}
+
+export class SubmitButton extends React.Component<SubmitButtonProps, any> {
   static defaultProps: object;
   render(): JSX.Element;
 }

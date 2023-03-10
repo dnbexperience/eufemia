@@ -5,7 +5,7 @@
 
 import React from 'react'
 import styled from '@emotion/styled'
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
+import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { H2, P, Dl, Dt, Dd, Code, Anchor } from '@dnb/eufemia/src/elements'
 import { copy as copyIcon } from '@dnb/eufemia/src/icons'
 import {
@@ -964,8 +964,8 @@ export function PaginationTable() {
             <Pagination
               page_count={data.length / amountPerPage}
               current_page={currentPage}
-              on_change={({ page }) => {
-                setCurrentPage(page)
+              on_change={({ pageNumber }) => {
+                setCurrentPage(pageNumber)
               }}
             >
               <MakeTable

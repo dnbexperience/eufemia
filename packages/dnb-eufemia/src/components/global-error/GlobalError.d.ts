@@ -1,31 +1,17 @@
 import * as React from 'react';
+import type { SpacingProps } from '../space/types';
 export type GlobalErrorStatusContent = string | Record<string, unknown>;
 export type GlobalErrorTitle = string | React.ReactNode;
 export type GlobalErrorText = string | React.ReactNode;
 export type GlobalErrorBack = string | React.ReactNode;
-export type GlobalErrorSpace =
-  | string
-  | number
-  | boolean
-  | {
-      top?: string | number | boolean;
-      right?: string | number | boolean;
-      bottom?: string | number | boolean;
-      left?: string | number | boolean;
-    };
-export type GlobalErrorTop = string | number | boolean;
-export type GlobalErrorRight = string | number | boolean;
-export type GlobalErrorBottom = string | number | boolean;
-export type GlobalErrorLeft = string | number | boolean;
 export type GlobalErrorChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
-export interface GlobalErrorProps extends React.HTMLProps<HTMLElement> {
+export interface GlobalErrorProps
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   /**
    * Status code defines the view showing up.
    */
@@ -60,11 +46,6 @@ export interface GlobalErrorProps extends React.HTMLProps<HTMLElement> {
    * Defining a `alt` text for the SVG graphic will overwrite the default provided by `status_content`.
    */
   alt?: string;
-  space?: GlobalErrorSpace;
-  top?: GlobalErrorTop;
-  right?: GlobalErrorRight;
-  bottom?: GlobalErrorBottom;
-  left?: GlobalErrorLeft;
   className?: string;
 
   /**

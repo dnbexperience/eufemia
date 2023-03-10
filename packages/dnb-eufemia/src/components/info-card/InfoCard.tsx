@@ -13,10 +13,10 @@ import { lightbulb_medium as LightbulbIcon } from '../../icons'
 
 // Shared
 import { createSpacingClasses } from '../space/SpacingHelper'
-import { SkeletonShow } from '../skeleton/Skeleton'
+import type { SkeletonShow } from '../skeleton/Skeleton'
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
-import { SpacingProps } from '../../shared/types'
+import type { SpacingProps } from '../../shared/types'
 import {
   extendPropsWithContext,
   validateDOMAttributes,
@@ -188,7 +188,7 @@ const InfoCard = (localProps: InfoCardAllProps) => {
             type="button"
             className="dnb-info-card__buttons__accept-button"
             variant="secondary"
-            right={!centered && 'small'}
+            right={centered ? 'zero' : 'small'}
             on_click={onAccept}
             text={acceptButtonText}
             {...acceptButtonAttributes}

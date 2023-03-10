@@ -1,6 +1,6 @@
 import React from 'react'
-import { SkeletonShow } from '../skeleton/Skeleton'
-import { LocaleProps, SpacingProps } from '../../shared/types'
+import type { SkeletonShow } from '../skeleton/Skeleton'
+import type { LocaleProps, SpacingProps } from '../../shared/types'
 
 export type UploadAcceptedFileTypes = string[]
 

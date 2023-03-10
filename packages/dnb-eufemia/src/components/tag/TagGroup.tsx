@@ -10,9 +10,9 @@ import {
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
-import { SpacingProps } from '../../shared/types'
+import type { SpacingProps } from '../../shared/types'
 import { TagGroupContext } from './TagContext'
-import { SkeletonShow } from '../skeleton/Skeleton'
+import type { SkeletonShow } from '../skeleton/Skeleton'
 
 export interface TagGroupProps {
   /**

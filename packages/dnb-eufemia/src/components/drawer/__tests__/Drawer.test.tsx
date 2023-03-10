@@ -330,6 +330,30 @@ describe('Drawer', () => {
     expect(scrollRef.current).toBeTruthy()
   })
 
+  it('will close drawer by using callback method', () => {
+    const onClose = jest.fn()
+    const onOpen = jest.fn()
+
+    render(
+      <Drawer
+        noAnimation={true}
+        onOpen={onOpen}
+        onClose={onClose}
+        hideCloseButton
+      >
+        {({ close }) => (
+          <Button id="close-button" text="close" on_click={close} />
+        )}
+      </Drawer>
+    )
+
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+    expect(onOpen).toHaveBeenCalledTimes(1)
+
+    fireEvent.click(document.querySelector('button#close-button'))
+    expect(onClose).toHaveBeenCalledTimes(1)
+  })
+
   it('can contain drawer parts', () => {
     const Comp = mount(
       <Drawer noAnimation directDomReturn={false}>
@@ -370,7 +394,7 @@ describe('Drawer component snapshot', () => {
 })
 describe('Drawer aria', () => {
   it('should validate with ARIA rules as a drawer', async () => {
-    const Comp = mount(<Drawer {...props} openState={true} />)
+    const Comp = render(<Drawer {...props} openState={true} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { SkeletonShow } from './Skeleton';
+import type { SkeletonShow } from './Skeleton';
 export interface AutoSizeProps {
   __element?: React.ReactNode;
   children?: React.ReactNode;
@@ -37,6 +37,6 @@ export interface skeletonDOMAttributesContext {
 }
 export const skeletonDOMAttributes: (
   params: React.HTMLProps<HTMLElement>,
-  skeleton: boolean,
+  skeleton: SkeletonShow,
   context?: SkeletonContextProps
 ) => void;

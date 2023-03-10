@@ -1,8 +1,5 @@
 import * as React from 'react';
 import { InputProps } from './Input';
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface InputPasswordProps
   extends React.HTMLProps<HTMLElement>,

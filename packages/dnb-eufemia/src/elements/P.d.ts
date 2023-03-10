@@ -1,18 +1,6 @@
 import * as React from 'react';
-export type PSpace =
-  | string
-  | number
-  | boolean
-  | {
-      top?: string | number | boolean;
-      right?: string | number | boolean;
-      bottom?: string | number | boolean;
-      left?: string | number | boolean;
-    };
-export type PTop = string | number | boolean;
-export type PRight = string | number | boolean;
-export type PBottom = string | number | boolean;
-export type PLeft = string | number | boolean;
+import type { SpacingProps } from '../shared/types';
+
 export type PSize =
   | 'x-small'
   | 'small'
@@ -21,17 +9,10 @@ export type PSize =
   | 'large'
   | 'x-large'
   | 'xx-large';
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface PProps
-  extends Omit<React.HTMLProps<HTMLElement>, 'size'> {
-  space?: PSpace;
-  top?: PTop;
-  right?: PRight;
-  bottom?: PBottom;
-  left?: PLeft;
+  extends Omit<React.HTMLProps<HTMLElement>, 'size'>,
+    SpacingProps {
   element?: React.ReactNode;
   className?: string;
   small?: boolean;

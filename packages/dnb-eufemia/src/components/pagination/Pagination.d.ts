@@ -1,17 +1,14 @@
 import * as React from 'react';
+import type { SkeletonShow } from '../Skeleton';
+import type { SpacingProps } from '../space/types';
 export type PaginationStartupPage = string | number;
 export type PaginationCurrentPage = string | number;
 export type PaginationPageCount = string | number;
 export type PaginationStartupCount = string | number;
 export type PaginationParallelLoadCount = string | number;
-export type PaginationPlaceMakerBeforeContent = string | boolean;
 export type PaginationMinWaitTime = string | number;
-export type PaginationDisabled = string | boolean;
-export type PaginationSkeleton = string | boolean;
 export type PaginationMode = 'pagination' | 'infinity';
-export type PaginationUseLoadButton = string | boolean;
 export type PaginationItems = string | any[];
-export type PaginationHideProgressIndicator = string | boolean;
 export type PaginationSetContentHandler =
   | string
   | ((...args: any[]) => any);
@@ -43,43 +40,13 @@ export type PaginationIndicatorElement =
   | React.ReactNode
   | ((...args: any[]) => any)
   | string;
-export type PaginationSpace =
-  | string
-  | number
-  | boolean
-  | {
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-       */
-      top?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-       */
-      right?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-       */
-      bottom?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-       */
-      left?: string | number | boolean;
-    };
-export type PaginationTop = string | number | boolean;
-export type PaginationRight = string | number | boolean;
-export type PaginationBottom = string | number | boolean;
-export type PaginationLeft = string | number | boolean;
 export type PaginationChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
-export interface PaginationProps extends React.HTMLProps<HTMLElement> {
+export interface PaginationProps
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   /**
    * The page shown in the very beginning. If `current_page` is set, then it may not make too much sense to set this as well.
    */
@@ -108,7 +75,7 @@ export interface PaginationProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true`, the infinity marker will be placed before the content (on top off). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`.
    */
-  place_maker_before_content?: PaginationPlaceMakerBeforeContent;
+  place_maker_before_content?: boolean;
 
   /**
    * The minimum time to wait, if the infinity scroll was invoked under that time threshold. This prevents not intentional infinity scroll loop calls. Defaults to `400` milliseconds.
@@ -118,12 +85,12 @@ export interface PaginationProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true`, all pagination bar buttons are disabled.
    */
-  disabled?: PaginationDisabled;
+  disabled?: boolean;
 
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: PaginationSkeleton;
+  skeleton?: SkeletonShow;
 
   /**
    * If set to `infinity`, then the pagination bar will be now shown and but infinity scrolling will do the content presentation. For more information, check out the <a href="https://eufemia.dnb.no/uilib/components/pagination/infinity-scroller">Infinity Scroller</a>. Defaults to `pagination`.
@@ -133,13 +100,13 @@ export interface PaginationProps extends React.HTMLProps<HTMLElement> {
   /**
    * If set to `true` it will disable the automated infinity scrolling, but shows a load more button at the of the content instead.
    */
-  use_load_button?: PaginationUseLoadButton;
+  use_load_button?: boolean;
   items?: PaginationItems;
 
   /**
    * If set to `true` no indicator will be shown.
    */
-  hide_progress_indicator?: PaginationHideProgressIndicator;
+  hide_progress_indicator?: boolean;
 
   /**
    * Callback function to get the `setContent` handler from the current pagination instance. e.g. `set_content_handler={fn => (...)}`. Use this handler to insert content during infinity mode.
@@ -216,30 +183,6 @@ export interface PaginationProps extends React.HTMLProps<HTMLElement> {
    */
   load_button_text?: string;
 
-  /**
-   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
-   */
-  space?: PaginationSpace;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-   */
-  top?: PaginationTop;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-   */
-  right?: PaginationRight;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-   */
-  bottom?: PaginationBottom;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-   */
-  left?: PaginationLeft;
   class?: string;
   className?: string;
 
@@ -280,14 +223,9 @@ export type PaginationInstanceCurrentPage = string | number;
 export type PaginationInstancePageCount = string | number;
 export type PaginationInstanceStartupCount = string | number;
 export type PaginationInstanceParallelLoadCount = string | number;
-export type PaginationInstancePlaceMakerBeforeContent = string | boolean;
 export type PaginationInstanceMinWaitTime = string | number;
-export type PaginationInstanceDisabled = string | boolean;
-export type PaginationInstanceSkeleton = string | boolean;
 export type PaginationInstanceMode = 'pagination' | 'infinity';
-export type PaginationInstanceUseLoadButton = string | boolean;
 export type PaginationInstanceItems = string | any[];
-export type PaginationInstanceHideProgressIndicator = string | boolean;
 export type PaginationInstanceSetContentHandler =
   | string
   | ((...args: any[]) => any);
@@ -319,43 +257,11 @@ export type PaginationInstanceIndicatorElement =
   | React.ReactNode
   | ((...args: any[]) => any)
   | string;
-export type PaginationInstanceSpace =
-  | string
-  | number
-  | boolean
-  | {
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-       */
-      top?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-       */
-      right?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-       */
-      bottom?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-       */
-      left?: string | number | boolean;
-    };
-export type PaginationInstanceTop = string | number | boolean;
-export type PaginationInstanceRight = string | number | boolean;
-export type PaginationInstanceBottom = string | number | boolean;
-export type PaginationInstanceLeft = string | number | boolean;
 export type PaginationInstanceChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
-export interface PaginationInstanceProps {
+export interface PaginationInstanceProps extends SpacingProps {
   /**
    * The page shown in the very beginning. If `current_page` is set, then it may not make too much sense to set this as well.
    */
@@ -384,7 +290,7 @@ export interface PaginationInstanceProps {
   /**
    * If set to `true`, the infinity marker will be placed before the content (on top off). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`.
    */
-  place_maker_before_content?: PaginationInstancePlaceMakerBeforeContent;
+  place_maker_before_content?: boolean;
 
   /**
    * The minimum time to wait, if the infinity scroll was invoked under that time threshold. This prevents not intentional infinity scroll loop calls. Defaults to `400` milliseconds.
@@ -394,12 +300,12 @@ export interface PaginationInstanceProps {
   /**
    * If set to `true`, all pagination bar buttons are disabled.
    */
-  disabled?: PaginationInstanceDisabled;
+  disabled?: boolean;
 
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: PaginationInstanceSkeleton;
+  skeleton?: SkeletonShow;
 
   /**
    * If set to `infinity`, then the pagination bar will be now shown and but infinity scrolling will do the content presentation. For more information, check out the <a href="https://eufemia.dnb.no/uilib/components/pagination/infinity-scroller">Infinity Scroller</a>. Defaults to `pagination`.
@@ -409,13 +315,13 @@ export interface PaginationInstanceProps {
   /**
    * If set to `true` it will disable the automated infinity scrolling, but shows a load more button at the of the content instead.
    */
-  use_load_button?: PaginationInstanceUseLoadButton;
+  use_load_button?: boolean;
   items?: PaginationInstanceItems;
 
   /**
    * If set to `true` no indicator will be shown.
    */
-  hide_progress_indicator?: PaginationInstanceHideProgressIndicator;
+  hide_progress_indicator?: boolean;
 
   /**
    * Callback function to get the `setContent` handler from the current pagination instance. e.g. `set_content_handler={fn => (...)}`. Use this handler to insert content during infinity mode.
@@ -492,30 +398,6 @@ export interface PaginationInstanceProps {
    */
   load_button_text?: string;
 
-  /**
-   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
-   */
-  space?: PaginationInstanceSpace;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-   */
-  top?: PaginationInstanceTop;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-   */
-  right?: PaginationInstanceRight;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-   */
-  bottom?: PaginationInstanceBottom;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-   */
-  left?: PaginationInstanceLeft;
   class?: string;
   className?: string;
 
@@ -558,14 +440,9 @@ export type InfinityMarkerCurrentPage = string | number;
 export type InfinityMarkerPageCount = string | number;
 export type InfinityMarkerStartupCount = string | number;
 export type InfinityMarkerParallelLoadCount = string | number;
-export type InfinityMarkerPlaceMakerBeforeContent = string | boolean;
 export type InfinityMarkerMinWaitTime = string | number;
-export type InfinityMarkerDisabled = string | boolean;
-export type InfinityMarkerSkeleton = string | boolean;
 export type InfinityMarkerMode = 'pagination' | 'infinity';
-export type InfinityMarkerUseLoadButton = string | boolean;
 export type InfinityMarkerItems = string | any[];
-export type InfinityMarkerHideProgressIndicator = string | boolean;
 export type InfinityMarkerSetContentHandler =
   | string
   | ((...args: any[]) => any);
@@ -597,43 +474,11 @@ export type InfinityMarkerIndicatorElement =
   | React.ReactNode
   | ((...args: any[]) => any)
   | string;
-export type InfinityMarkerSpace =
-  | string
-  | number
-  | boolean
-  | {
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-       */
-      top?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-       */
-      right?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-       */
-      bottom?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-       */
-      left?: string | number | boolean;
-    };
-export type InfinityMarkerTop = string | number | boolean;
-export type InfinityMarkerRight = string | number | boolean;
-export type InfinityMarkerBottom = string | number | boolean;
-export type InfinityMarkerLeft = string | number | boolean;
 export type InfinityMarkerChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
-export interface InfinityMarkerProps {
+export interface InfinityMarkerProps extends SpacingProps {
   /**
    * The page shown in the very beginning. If `current_page` is set, then it may not make too much sense to set this as well.
    */
@@ -662,7 +507,7 @@ export interface InfinityMarkerProps {
   /**
    * If set to `true`, the infinity marker will be placed before the content (on top off). This could potentially have negative side effects. But it depends really on the content if this would make more sense to use instead. Defaults to `false`.
    */
-  place_maker_before_content?: InfinityMarkerPlaceMakerBeforeContent;
+  place_maker_before_content?: boolean;
 
   /**
    * The minimum time to wait, if the infinity scroll was invoked under that time threshold. This prevents not intentional infinity scroll loop calls. Defaults to `400` milliseconds.
@@ -672,12 +517,12 @@ export interface InfinityMarkerProps {
   /**
    * If set to `true`, all pagination bar buttons are disabled.
    */
-  disabled?: InfinityMarkerDisabled;
+  disabled?: boolean;
 
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: InfinityMarkerSkeleton;
+  skeleton?: SkeletonShow;
 
   /**
    * If set to `infinity`, then the pagination bar will be now shown and but infinity scrolling will do the content presentation. For more information, check out the <a href="https://eufemia.dnb.no/uilib/components/pagination/infinity-scroller">Infinity Scroller</a>. Defaults to `pagination`.
@@ -687,13 +532,13 @@ export interface InfinityMarkerProps {
   /**
    * If set to `true` it will disable the automated infinity scrolling, but shows a load more button at the of the content instead.
    */
-  use_load_button?: InfinityMarkerUseLoadButton;
+  use_load_button?: boolean;
   items?: InfinityMarkerItems;
 
   /**
    * If set to `true` no indicator will be shown.
    */
-  hide_progress_indicator?: InfinityMarkerHideProgressIndicator;
+  hide_progress_indicator?: boolean;
 
   /**
    * Callback function to get the `setContent` handler from the current pagination instance. e.g. `set_content_handler={fn => (...)}`. Use this handler to insert content during infinity mode.
@@ -770,30 +615,6 @@ export interface InfinityMarkerProps {
    */
   load_button_text?: string;
 
-  /**
-   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
-   */
-  space?: InfinityMarkerSpace;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-   */
-  top?: InfinityMarkerTop;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-   */
-  right?: InfinityMarkerRight;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-   */
-  bottom?: InfinityMarkerBottom;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-   */
-  left?: InfinityMarkerLeft;
   class?: string;
   className?: string;
 
@@ -832,9 +653,6 @@ export class InfinityMarker extends React.Component<
 export type PaginationContentChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface PaginationContentProps {
   /**
@@ -843,3 +661,15 @@ export interface PaginationContentProps {
   children: PaginationContentChildren;
 }
 declare const PaginationContent: React.FC<PaginationContentProps>;
+
+export type CreatePaginationReturn = {
+  Pagination: (props?: Record<string, unknown>) => JSX.Element;
+  InfinityMarker: (props?: Record<string, unknown>) => void;
+  setContent: (pageNumber: number, content: React.ReactDom) => void;
+  resetContent: () => void;
+  resetInfinity: () => void;
+  endInfinity: () => void;
+};
+
+export const createPagination = (initProps?: Record<string, unknown>) =>
+  CreatePaginationReturn;

@@ -1,64 +1,28 @@
 import * as React from 'react';
-export type CheckboxLabel =
-  | string
-  | ((...args: any[]) => any)
-  | React.ReactNode;
+import type {
+  FormStatusProps,
+  FormStatusState,
+  FormStatusText
+} from '../FormStatus';
+import type { FormLabelText } from '../FormLabel';
+import type { SkeletonShow } from '../Skeleton';
+import type { SpacingProps } from '../space/types';
 export type CheckboxLabelPosition = 'left' | 'right';
-export type CheckboxChecked = string | boolean;
-export type CheckboxDisabled = string | boolean;
 export type CheckboxSize = 'default' | 'medium' | 'large';
-export type CheckboxStatus =
-  | string
-  | boolean
-  | ((...args: any[]) => any)
-  | React.ReactNode;
-export type CheckboxStatusNoAnimation = string | boolean;
 export type CheckboxSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type CheckboxAttributes = string | Record<string, unknown>;
-export type CheckboxReadOnly = string | boolean;
-export type CheckboxSkeleton = string | boolean;
-export type CheckboxSpace =
-  | string
-  | number
-  | boolean
-  | {
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-       */
-      top?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-       */
-      right?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-       */
-      bottom?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-       */
-      left?: string | number | boolean;
-    };
-export type CheckboxTop = string | number | boolean;
-export type CheckboxRight = string | number | boolean;
-export type CheckboxBottom = string | number | boolean;
-export type CheckboxLeft = string | number | boolean;
 export type CheckboxChildren = string | ((...args: any[]) => any);
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
-export interface CheckboxProps extends React.HTMLProps<HTMLElement> {
+export interface CheckboxProps
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   /**
    * Use either the `label` property or provide a custom one.
    */
-  label?: CheckboxLabel;
+  label?: FormLabelText;
 
   /**
    * Defines the position of the `label`. Use either `left` or `right`. Defaults to `right`.
@@ -79,8 +43,8 @@ export interface CheckboxProps extends React.HTMLProps<HTMLElement> {
   /**
    * Determine whether the checkbox is checked or not. The default is `false`.
    */
-  checked?: CheckboxChecked;
-  disabled?: CheckboxDisabled;
+  checked?: boolean;
+  disabled?: boolean;
   id?: string;
 
   /**
@@ -91,18 +55,18 @@ export interface CheckboxProps extends React.HTMLProps<HTMLElement> {
   /**
    * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
    */
-  status?: CheckboxStatus;
+  status?: FormStatusText;
 
   /**
    * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
    */
-  status_state?: string;
+  status_state?: FormStatusState;
 
   /**
    * Use an object to define additional FormStatus properties.
    */
-  status_props?: Record<string, unknown>;
-  status_no_animation?: CheckboxStatusNoAnimation;
+  status_props?: FormStatusProps;
+  status_no_animation?: boolean;
 
   /**
    * The `status_id` used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
@@ -115,38 +79,13 @@ export interface CheckboxProps extends React.HTMLProps<HTMLElement> {
   suffix?: CheckboxSuffix;
   value?: string;
   attributes?: CheckboxAttributes;
-  readOnly?: CheckboxReadOnly;
+  readOnly?: boolean;
 
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: CheckboxSkeleton;
+  skeleton?: SkeletonShow;
   class?: string;
-
-  /**
-   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
-   */
-  space?: CheckboxSpace;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-   */
-  top?: CheckboxTop;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-   */
-  right?: CheckboxRight;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-   */
-  bottom?: CheckboxBottom;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-   */
-  left?: CheckboxLeft;
   className?: string;
   children?: CheckboxChildren;
 
@@ -160,9 +99,6 @@ export default class Checkbox extends React.Component<CheckboxProps, any> {
   static defaultProps: object;
   render(): JSX.Element;
 }
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface CheckIconProps {
   /**

@@ -5,7 +5,7 @@
 
 import React from 'react'
 import classnames from 'classnames'
-import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
+import InlineImg from '../../../../../shared/tags/Img'
 import { Button, Icon } from '@dnb/eufemia/src/components'
 import { H2, H4, P, Hr, Code } from '@dnb/eufemia/src/elements'
 import { bell } from '@dnb/eufemia/src/icons'

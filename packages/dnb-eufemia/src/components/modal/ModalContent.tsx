@@ -361,12 +361,13 @@ export default class ModalContent extends React.PureComponent<
       no_animation_on_mobile = false,
       fullscreen = 'auto',
       container_placement = 'right',
-      close, // eslint-disable-line
+      close,
       content_class,
       overlay_class,
       content_id,
       children, // eslint-disable-line
       dialog_role = null,
+      ...rest
     } = this.props
     const { color } = this.state
 
@@ -426,6 +427,11 @@ export default class ModalContent extends React.PureComponent<
       onClick: this.onContentClickHandler,
     }
 
+    const content =
+      typeof children === 'function'
+        ? children({ ...rest, close })
+        : children
+
     return (
       <ModalContext.Provider
         value={{
@@ -455,7 +461,7 @@ export default class ModalContent extends React.PureComponent<
           }
           {...contentParams}
         >
-          {children}
+          {content}
         </div>
 
         <span
@@ -467,7 +473,7 @@ export default class ModalContent extends React.PureComponent<
               'dnb-modal__overlay--no-animation-on-mobile',
             overlay_class
           )}
-          aria-hidden="true"
+          aria-hidden={true}
         />
       </ModalContext.Provider>
     )

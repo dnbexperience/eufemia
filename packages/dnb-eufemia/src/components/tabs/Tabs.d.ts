@@ -1,4 +1,7 @@
 import * as React from 'react';
+import type { SectionSpacing, SectionStyleTypes } from '../Section';
+import type { SkeletonShow } from '../Skeleton';
+import type { SpacingProps } from '../space/types';
 import ContentWrapper from './TabsContentWrapper';
 import CustomContent from './TabsCustomContent';
 export type TabsData =
@@ -14,59 +17,20 @@ export type TabsContent =
   | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any);
-export type TabsContentSpacing = string | boolean;
 export type TabsTabElement =
   | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any);
 export type TabsSelectedKey = string | number;
 export type TabsAlign = 'left' | 'center' | 'right';
-export type TabsTabsSpacing = string | boolean;
-export type TabsNoBorder = string | boolean;
-export type TabsNavButtonEdge = string | boolean;
-export type TabsUseHash = string | boolean;
-export type TabsPrerender = string | boolean;
-export type TabsPreventRerender = string | boolean;
-export type TabsScroll = string | boolean;
-export type TabsSkeleton = string | boolean;
-export type TabsSpace =
-  | string
-  | number
-  | boolean
-  | {
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-       */
-      top?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-       */
-      right?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-       */
-      bottom?: string | number | boolean;
-
-      /**
-       * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-       */
-      left?: string | number | boolean;
-    };
-export type TabsTop = string | number | boolean;
-export type TabsRight = string | number | boolean;
-export type TabsBottom = string | number | boolean;
-export type TabsLeft = string | number | boolean;
 export type TabsChildren =
   | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any);
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
-export interface TabsProps extends React.HTMLProps<HTMLElement> {
+export interface TabsProps
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   /**
    * <em>(required)</em> defines the data structure to load as a JSON. e.g. `[{title: &#39;...&#39;, content: &#39;Current tab&#39;, key: &#39;...&#39;, hash: &#39;...&#39;}]`
    */
@@ -80,12 +44,12 @@ export interface TabsProps extends React.HTMLProps<HTMLElement> {
   /**
    * To enable the visual helper `.dnb-section` on to the content wrapper. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to `null`.
    */
-  content_style?: string;
+  content_style?: SectionStyleTypes;
 
   /**
    * To modify the `spacing` onto the content wrapper. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to `large`.
    */
-  content_spacing?: TabsContentSpacing;
+  content_spacing?: SectionSpacing;
   label?: string;
 
   /**
@@ -106,69 +70,45 @@ export interface TabsProps extends React.HTMLProps<HTMLElement> {
   /**
    * To enable the visual helper `.dnb-section` inside the tabs list. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to `null`.
    */
-  tabs_style?: string;
+  tabs_style?: SectionStyleTypes;
 
   /**
    * To modify the `spacing` inside the tab list. Defaults to `null`.
    */
-  tabs_spacing?: TabsTabsSpacing;
+  tabs_spacing?: boolean;
 
   /**
    * If set to `true`, the default horizontal border line under the tablist will be removed. Defaults to `false`.
    */
-  no_border?: TabsNoBorder;
+  no_border?: boolean;
 
   /**
    * If set to `true`, the navigation icons will have a straight border at their outside. This feature is meant to be used when the Tabs component goes all the way to the browser window. Defaults to `false`.
    */
-  nav_button_edge?: TabsNavButtonEdge;
-  use_hash?: TabsUseHash;
+  nav_button_edge?: boolean;
+  use_hash?: boolean;
 
   /**
    * If set to `true`, the Tabs content will pre-render all contents. The visibility will be handled by using the `hidden` and `aria-hidden` HTML attributes. Defaults to `false`.
    */
-  prerender?: TabsPrerender;
+  prerender?: boolean;
 
   /**
    * If set to `true`, the Tabs content will stay in the DOM. The visibility will be handled by using the `hidden` and `aria-hidden` HTML attributes. Similar to `prerender`, but in contrast, the content will render once the user is activating a tab. Defaults to `false`.
    */
-  prevent_rerender?: TabsPreventRerender;
+  prevent_rerender?: boolean;
 
   /**
    * If set to `true`, the content will scroll on tab change, until all tabs will be visible on the upper side of the browser window view. Defaults to `false`.
    */
-  scroll?: TabsScroll;
+  scroll?: boolean;
 
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
-  skeleton?: TabsSkeleton;
+  skeleton?: SkeletonShow;
   id?: string;
 
-  /**
-   * Has to be an object with either: `top`, `right`, `bottom` or `left`. Use spacing values like: `small`, `1rem`, `1` or , `16px`.
-   */
-  space?: TabsSpace;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. Will use `margin-top`.
-   */
-  top?: TabsTop;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-right`.
-   */
-  right?: TabsRight;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-bottom`.
-   */
-  bottom?: TabsBottom;
-
-  /**
-   * Use spacing values like: `small`, `1rem`, `1` or , `16px`. will use `margin-left`.
-   */
-  left?: TabsLeft;
   class?: string;
   className?: string;
 
@@ -204,9 +144,6 @@ export default class Tabs extends React.Component<TabsProps, any> {
   static Content = CustomContent;
   render(): JSX.Element;
 }
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface DummyProps {
   /**

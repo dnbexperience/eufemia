@@ -1,11 +1,7 @@
 import * as React from 'react';
+import { FormStatusText } from '../FormStatus';
+import { StepIndicatorStatusState } from './StepIndicator';
 export type StepIndicatorItemTitle = string | React.ReactNode;
-export type StepIndicatorItemHideNumbers = string | boolean;
-export type StepIndicatorItemStatus = string | React.ReactNode;
-export type StepIndicatorItemStatusState = 'warn' | 'info' | 'error';
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface StepIndicatorItemProps
   extends React.HTMLProps<HTMLElement> {
@@ -19,7 +15,7 @@ export interface StepIndicatorItemProps
   /**
    * Define whether to show automatically counted numbers or not. Defaults to `false`.
    */
-  hide_numbers?: StepIndicatorItemHideNumbers;
+  hide_numbers?: boolean;
 
   /**
    * Callback function to manipulate or wrap every item. Has to return a React Node. You receive an object you can use in your custom HOC `{ StepItem, element, attributes, props, context }`.
@@ -39,8 +35,8 @@ export interface StepIndicatorItemProps
   is_current?: boolean;
   inactive?: boolean;
   disabled?: boolean;
-  status?: StepIndicatorItemStatus;
-  status_state?: StepIndicatorItemStatusState;
+  status?: FormStatusText;
+  status_state?: StepIndicatorStatusState;
   currentItemNum: number;
 }
 export default class StepIndicatorItem extends React.Component<
@@ -50,21 +46,15 @@ export default class StepIndicatorItem extends React.Component<
   static defaultProps: object;
   render(): JSX.Element;
 }
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface StepItemButtonProps {
   children?: React.ReactNode;
   inner_ref?: Record<string, unknown>;
   className?: string;
-  status?: string;
-  status_state?: string;
+  status?: FormStatusText;
+  status_state?: StepIndicatorStatusState;
 }
 export const StepItemButton: React.FC<StepItemButtonProps>;
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface StepItemWrapperProps {
   children?: React.ReactNode;

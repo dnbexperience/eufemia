@@ -1,5 +1,10 @@
 import * as React from 'react';
-export type StepIndicatorSidebarMode = 'static' | 'strict' | 'loose';
+import type { SpacingProps } from '../../shared/types';
+import { FormStatusText } from '../FormStatus';
+import {
+  StepIndicatorStatusState,
+  StepIndicatorMode
+} from './StepIndicator';
 export type StepIndicatorSidebarCurrentStep = string | number;
 export type StepIndicatorSidebarData =
   | string
@@ -9,8 +14,8 @@ export type StepIndicatorSidebarData =
       is_current?: boolean;
       inactive?: boolean;
       disabled?: boolean;
-      status?: string | React.ReactNode;
-      status_state?: 'warn' | 'info' | 'error';
+      status?: FormStatusText;
+      status_state?: StepIndicatorStatusState;
 
       /**
        * Will be called once the user clicks on the current or another step. Will be emitted on every click. Returns an object `{ event, item, current_step }`.
@@ -18,12 +23,10 @@ export type StepIndicatorSidebarData =
       on_click?: (...args: any[]) => any;
       on_render?: (...args: any[]) => any;
     }[];
-/**
- * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".
- */
 
 export interface StepIndicatorSidebarProps
-  extends React.HTMLProps<HTMLElement> {
+  extends React.HTMLProps<HTMLElement>,
+    SpacingProps {
   /**
    * <em>(required)</em> a unique string-based ID in order to bind together the main component and the sidebar (`<StepIndicator.Sidebar />`). Both have to get the same ID.
    */
@@ -32,7 +35,7 @@ export interface StepIndicatorSidebarProps
   /**
    * <em>(required)</em> defines how the StepIndicator should work. Use `static` for non-interactive steps. Use `strict` for a chronological step order, also, the user can navigate between visited steps. Use `loose` if the user should be able to navigate freely.
    */
-  mode?: StepIndicatorSidebarMode;
+  mode?: StepIndicatorMode;
 
   /**
    * Defines the active number marked step starting by 0. Defaults to `0`.

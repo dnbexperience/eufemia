@@ -26,6 +26,7 @@ import {
 import Section from '../section/Section'
 
 import type { DynamicElement, SpacingProps } from '../../shared/types'
+import type { SkeletonShow } from '../Skeleton'
 
 export { spacingPropTypes }
 
@@ -90,7 +91,7 @@ export type SpaceProps = {
   inline?: boolean
 
   /**
-   * If set to `true`, then a wrapper with `display: flow-root;` is used. This way you avoid **Margin Collapsing**. Defaults to `false`. _Note:_ You can't use `inline="true"` in combination.
+   * If set to `true`, then a wrapper with `display: flow-root;` is used. This way you avoid **Margin Collapsing**. Defaults to `false`. _Note:_ You can't use `inline={true}` in combination.
    * Default: false
    */
   no_collapse?: boolean
@@ -105,7 +106,7 @@ export type SpaceProps = {
    * If set to `true`, a loading skeleton will be shown.
    * Default: false
    */
-  skeleton?: boolean
+  skeleton?: SkeletonShow
 
   /**
    * Send along a custom React Ref.

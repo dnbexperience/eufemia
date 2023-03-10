@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
+import ComponentBox from '../../../../shared/tags/ComponentBox'
 import InputPassword from '@dnb/eufemia/src/components/input/InputPassword'
 import styled from '@emotion/styled'
 import {
@@ -192,7 +192,7 @@ export const InputExampleSubmit = () => (
             type="search"
             label="Label:"
             value="Input ..."
-            selectall="true"
+            selectall={true}
             on_submit={(event) => {
               console.log('Input.on_submit', event)
             }}

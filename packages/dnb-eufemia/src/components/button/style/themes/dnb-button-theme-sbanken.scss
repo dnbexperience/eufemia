@@ -1,0 +1,30 @@
+/*
+* Button theme
+*
+*/
+
+@import './dnb-button-theme-ui.scss';
+
+// WIP
+.dnb-button--primary {
+  color: var(--sb-color-green);
+  background-color: var(--sb-color-purple-alternative);
+
+  @include buttonHover(
+    var(--sb-color-green),
+    var(--sb-color-purple),
+    var(--sb-color-purple)
+  );
+  @include buttonActive(
+    var(--sb-color-green),
+    var(--sb-color-purple-alternative)
+  );
+
+  &[disabled] {
+    color: var(--sb-color-gray-dark-2);
+    background-color: var(--sb-color-grey-light);
+
+    // // only because of href/anchor button
+    @include fakeBorder(var(--sb-color---sb-color-gray-dark-2));
+  }
+}

@@ -26,7 +26,7 @@ import ModalHeaderBar from './parts/ModalHeaderBar'
 import { ScrollViewAllProps } from '../../fragments/scroll-view/ScrollView'
 import CloseButton from './parts/CloseButton'
 import ModalRoot from './ModalRoot'
-import { SpacingProps } from '../../shared/types'
+import type { SpacingProps } from '../../shared/types'
 import {
   classWithCamelCaseProps,
   ToCamelCasePartial,

@@ -1,5 +1,5 @@
 import { useStaticQuery, graphql } from 'gatsby'
-import TableOfContents from 'dnb-design-system-portal/src/shared/parts/TableOfContents'
+import TableOfContents from '../../../../shared/parts/TableOfContents'
 
 const Toc = () => {
   const {
@@ -8,7 +8,9 @@ const Toc = () => {
     query {
       allMdx(
         filter: {
-          fileAbsolutePath: { glob: "**/contribute/getting-started/*" }
+          internal: {
+            contentFilePath: { glob: "**/contribute/getting-started/*" }
+          }
         }
       ) {
         edges {
