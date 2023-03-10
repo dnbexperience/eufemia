@@ -1,15 +1,12 @@
 import * as React from 'react';
-import {
+import type {
   FormStatusProps,
   FormStatusState,
   FormStatusText
 } from '../FormStatus';
+import type { FormLabelText } from '../FormLabel';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
-export type CheckboxLabel =
-  | string
-  | ((...args: any[]) => any)
-  | React.ReactNode;
 export type CheckboxLabelPosition = 'left' | 'right';
 export type CheckboxSize = 'default' | 'medium' | 'large';
 export type CheckboxSuffix =
@@ -25,7 +22,7 @@ export interface CheckboxProps
   /**
    * Use either the `label` property or provide a custom one.
    */
-  label?: CheckboxLabel;
+  label?: FormLabelText;
 
   /**
    * Defines the position of the `label`. Use either `left` or `right`. Defaults to `right`.

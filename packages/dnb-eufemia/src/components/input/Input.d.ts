@@ -1,20 +1,16 @@
 import * as React from 'react';
 import type { ButtonIconPosition, ButtonVariant } from '../button';
-import {
+import type {
   FormStatusProps,
   FormStatusState,
   FormStatusText
 } from '../FormStatus';
+import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
 import type { IconPrimaryIcon, IconPrimarySize } from '../IconPrimary';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 export type InputSize = 'default' | 'small' | 'medium' | 'large' | number;
 export type InputValue = string | number;
-export type InputLabel =
-  | string
-  | ((...args: any[]) => any)
-  | React.ReactNode;
-export type InputLabelDirection = 'horizontal' | 'vertical';
 export type InputSuffix =
   | string
   | ((...args: any[]) => any)
@@ -55,12 +51,12 @@ export interface InputProps
   /**
    * Prepends the Form Label component. If no ID is provided, a random ID is created.
    */
-  label?: InputLabel;
+  label?: FormLabelText;
 
   /**
    * Use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`
    */
-  label_direction?: InputLabelDirection;
+  label_direction?: FormLabelLabelDirection;
 
   /**
    * Use `true` to make the label only readable by screen readers.
