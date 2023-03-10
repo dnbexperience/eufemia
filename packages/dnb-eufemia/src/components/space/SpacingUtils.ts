@@ -10,11 +10,14 @@ import type {
   SpaceType,
   SpacingUnknownProps,
   SpacingProps,
+  SpaceTypesPositiveValuesType,
+  SpaceTypesPositiveRemValuesType,
+  SpaceStringTypes,
 } from './types'
 
 type SpaceNumber = number
 
-export const spacingDefaultProps = {
+export const spacingDefaultProps: SpacingProps = {
   space: null,
   top: null,
   right: null,
@@ -22,7 +25,10 @@ export const spacingDefaultProps = {
   left: null,
 }
 // IMPORTANT: Keep the shorthand after the long type names
-export const spacePatterns = {
+export const spacePatterns: Record<
+  SpaceTypesPositiveValuesType,
+  SpaceTypesPositiveRemValuesType
+> = {
   'xx-small': 0.25,
   'x-small': 0.5,
   small: 1,
@@ -144,16 +150,17 @@ export const translateSpace = (type: SpaceType) => {
 // @internal Splits a string of: "large x-small" into an array of the same
 export const splitTypes = (types: SpaceType | Array<SpaceType>) => {
   if (typeof types === 'string') {
-    return clean(types.split(/ /g))
+    const test = (types as SpaceStringTypes).split(/ /g)
+    return clean(test as Array<SpaceStringTypes>)
   } else if (typeof types === 'boolean') {
-    return ['small']
+    return ['small' as SpaceTypesPositiveValuesType]
   } else if (typeof types === 'number') {
     return [types]
   }
 
   return clean(types) || null
 
-  function clean(t: Array<SpaceType>) {
+  function clean(t: Array<SpaceType> | Array<SpaceStringTypes>) {
     return t?.filter((r) => r && String(r).length > 0)
   }
 }
@@ -223,10 +230,17 @@ export const findType = (num: SpaceNumber): SpaceType => {
 }
 
 // @internal Finds from "2.0" the equivalent type "large" and returns all results
-export const findTypeAll = (num: SpaceNumber): Array<SpaceType> => {
+export const findTypeAll = (
+  num: SpaceNumber
+): Array<
+  SpaceTypesPositiveValuesType | SpaceTypesPositiveRemValuesType
+> => {
+  const listOfSpacePatterns = Object.entries(spacePatterns) as [
+    SpaceTypesPositiveValuesType,
+    SpaceTypesPositiveRemValuesType
+  ][]
   const found =
-    Object.entries(spacePatterns).find(([k, v]) => k && v === num) || null
-
+    listOfSpacePatterns.find(([k, v]) => k && v === num) || null
   return found
 }
 
