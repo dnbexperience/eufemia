@@ -7,7 +7,11 @@ import type {
   FormStatusText
 } from '../FormStatus';
 import type { IconPrimaryIcon, IconPrimarySize } from '../IconPrimary';
-import type { InputInputAttributes, InputInputElement } from '../Input';
+import type {
+  InputInputAttributes,
+  InputInputElement,
+  InputSize
+} from '../Input';
 import type { NumberFormatProps } from '../NumberFormat';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
@@ -25,12 +29,6 @@ export type InputMaskedCurrencyMask =
   | Record<string, unknown>;
 export type InputMaskedMaskOptions = string | Record<string, unknown>;
 export type InputMaskedAsCurrency = string | boolean;
-export type InputMaskedSize =
-  | 'default'
-  | 'small'
-  | 'medium'
-  | 'large'
-  | number;
 export type InputMaskedValue = string | number;
 export type InputMaskedSuffix =
   | string
@@ -152,7 +150,7 @@ export interface InputMaskedProps
   /**
    * The sizes you can choose is `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem) are supported component sizes. Defaults to `default` / `null`. Also, if You define a number like `size="2"` then it will be forwarded as the input element attribute.
    */
-  size?: InputMaskedSize;
+  size?: InputSize;
 
   /**
    * The content value of the input.
