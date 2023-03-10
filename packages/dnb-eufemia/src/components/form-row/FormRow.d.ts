@@ -1,12 +1,8 @@
 import * as React from 'react';
 import type { SectionSpacing, SectionStyleTypes } from '../Section';
+import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
-export type FormRowLabel =
-  | string
-  | ((...args: any[]) => any)
-  | React.ReactNode;
-export type FormRowLabelDirection = 'vertical' | 'horizontal';
 export type FormRowDirection = 'vertical' | 'horizontal';
 export type FormRowChildren =
   | string
@@ -21,12 +17,12 @@ export interface FormRowProps
   /**
    * Use either the `label` property or provide a custom one.
    */
-  label?: FormRowLabel;
+  label?: FormLabelText;
 
   /**
    * Use `label_direction="vertical"` to change the label/legend layout direction. Defaults to `horizontal`.
    */
-  label_direction?: FormRowLabelDirection;
+  label_direction?: FormLabelLabelDirection;
 
   /**
    * Use `true` to make the label only readable by screen readers.
