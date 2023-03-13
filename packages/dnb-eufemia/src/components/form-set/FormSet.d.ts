@@ -3,6 +3,7 @@ import type { SectionSpacing, SectionStyleTypes } from '../Section';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
+import type { Locale } from '../../shared/Context';
 export type FormSetDirection = 'vertical' | 'horizontal';
 export type FormSetChildren =
   | string
@@ -68,7 +69,7 @@ export interface FormSetProps
   /**
    * Send along a different locale to all nested components.
    */
-  locale?: string;
+  locale?: Locale;
 
   /**
    * Forces the content of a FormRow to wrap. Make sure you always define spacing as `right="..."` and not `left`, this way components will align left once they wrap. Defaults to `false`.
