@@ -41,15 +41,15 @@ const plugins = [
       name: 'Eufemia - DNB Design System',
       short_name: 'Eufemia',
       start_url: '/',
-      icon: './static/apple-touch-icon.png', // This path is relative to the root of the site.
+      icon: './static/dnb/apple-touch-icon.png', // This path is relative to the root of the site.
       icons: [
         {
-          src: '/android-chrome-192x192.png',
+          src: '/dnb/android-chrome-192x192.png',
           sizes: '192x192',
           type: 'image/png',
         },
         {
-          src: '/android-chrome-512x512.png',
+          src: '/dnb/android-chrome-512x512.png',
           sizes: '512x512',
           type: 'image/png',
         },
