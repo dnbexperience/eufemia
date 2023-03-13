@@ -7,7 +7,7 @@ import type {
   FormStatusState,
   FormStatusText
 } from '../FormStatus';
-import type { IconPrimaryIcon, IconPrimarySize } from '../IconPrimary';
+import type { IconIcon, IconSize } from '../Icon';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 type AutocompleteMode = 'sync' | 'async';
@@ -101,12 +101,12 @@ export interface AutocompleteProps
   /**
    * To be included in the autocomplete input.
    */
-  icon?: IconPrimaryIcon;
+  icon?: IconIcon;
 
   /**
    * Change the size of the icon pragmatically.
    */
-  icon_size?: IconPrimarySize;
+  icon_size?: IconSize;
 
   /**
    * Position of the icon inside the autocomplete. Set to `left` or `right`. Defaults to `left`.
