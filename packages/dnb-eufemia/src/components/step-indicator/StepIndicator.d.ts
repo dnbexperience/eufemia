@@ -1,28 +1,23 @@
 import * as React from 'react';
 import type { SpacingProps } from '../../shared/types';
-import { FormStatusText } from '../FormStatus';
 import type { SkeletonShow } from '../Skeleton';
+import type { StepIndicatorItemProps } from './StepIndicatorItem';
 import StepIndicatorSidebar from './StepIndicatorSidebar';
 export type StepIndicatorMode = 'static' | 'strict' | 'loose';
 export type StepIndicatorData =
   | string
   | string[]
-  | {
-      title: string | React.ReactNode;
-      is_current?: boolean;
-      inactive?: boolean;
-      disabled?: boolean;
-      status?: FormStatusText;
-      status_state?: StepIndicatorStatusState;
-
-      /**
-       * Will be called once the user clicks on the current or another step. Will be emitted on every click. Returns an object `{ event, item, current_step }`.
-       */
-      on_click?: (...args: any[]) => any;
-      on_render?: (...args: any[]) => any;
-    }[];
-export type StepIndicatorTitle = string | React.ReactNode;
-export type StepIndicatorStatusState = 'warn' | 'info' | 'error';
+  | Pick<
+      StepIndicatorItemProps,
+      | 'title'
+      | 'is_current'
+      | 'inactive'
+      | 'disabled'
+      | 'status'
+      | 'status_state'
+      | 'on_click'
+      | 'on_render'
+    >[];
 export type StepIndicatorCurrentStep = string | number;
 export type StepIndicatorChildren =
   | React.ReactNode
@@ -45,18 +40,11 @@ export interface StepIndicatorProps
    * <em>(required)</em> defines the data/steps showing up in a JavaScript Array or JSON format like `[{title,is_current}]`. See parameters and the example above.
    */
   data?: StepIndicatorData;
-  title?: StepIndicatorTitle;
-  is_current?: boolean;
-  inactive?: boolean;
-  disabled?: boolean;
-  status?: FormStatusText;
-  status_state?: StepIndicatorStatusState;
 
   /**
    * Will be called once the user clicks on the current or another step. Will be emitted on every click. Returns an object `{ event, item, current_step }`.
    */
   on_click?: (...args: any[]) => any;
-  on_render?: (...args: any[]) => any;
   overview_title?: string;
   step_title_extended?: string;
   step_title?: string;

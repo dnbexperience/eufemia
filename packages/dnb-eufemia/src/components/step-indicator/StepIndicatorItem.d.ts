@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { FormStatusText } from '../FormStatus';
-import { StepIndicatorStatusState } from './StepIndicator';
+import type { FormStatusText } from '../FormStatus';
 export type StepIndicatorItemTitle = string | React.ReactNode;
+export type StepIndicatorItemStatusState = 'warn' | 'info' | 'error';
 
 export interface StepIndicatorItemProps
   extends React.HTMLProps<HTMLElement> {
@@ -36,7 +36,7 @@ export interface StepIndicatorItemProps
   inactive?: boolean;
   disabled?: boolean;
   status?: FormStatusText;
-  status_state?: StepIndicatorStatusState;
+  status_state?: StepIndicatorItemStatusState;
   currentItemNum: number;
 }
 export default class StepIndicatorItem extends React.Component<
