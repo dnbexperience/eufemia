@@ -1,9 +1,6 @@
 import * as React from 'react';
 import type { SkeletonShow } from '../skeleton/Skeleton';
-import type {
-  IconPrimaryIcon,
-  IconPrimarySize
-} from '../icon-primary/IconPrimary';
+import type { IconIcon, IconSize } from '../icon/Icon';
 import type { DataAttributeTypes, SpacingProps } from '../../shared/types';
 import {
   FormStatusProps,
@@ -69,7 +66,7 @@ export type ButtonProps = {
   /**
    * To be included in the button. <a href="/icons/primary">Primary Icons</a> can be set as a string (e.g. `icon="chevron_right"`), other icons should be set as React elements.
    */
-  icon?: IconPrimaryIcon;
+  icon?: IconIcon;
 
   /**
    * Position of icon inside the button. Set to `left` or `right`. Tertiary button variant also supports `top`. Defaults to `right` if not set.
@@ -79,7 +76,7 @@ export type ButtonProps = {
   /**
    * Define icon width and height. Defaults to 16px
    */
-  icon_size?: IconPrimarySize;
+  icon_size?: IconSize;
 
   /**
    * Provide a string or a React Element to be shown as the tooltip content.

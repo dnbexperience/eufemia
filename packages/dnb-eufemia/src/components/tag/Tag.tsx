@@ -2,7 +2,8 @@ import React from 'react'
 import classnames from 'classnames'
 
 // Components
-import IconPrimary, { IconPrimaryIcon } from '../icon-primary/IconPrimary'
+import IconPrimary from '../icon-primary/IconPrimary'
+import type { IconIcon } from '../icon/Icon'
 import Button, { ButtonProps } from '../button/Button'
 
 // Shared
@@ -30,7 +31,7 @@ export interface TagProps {
    * Icon displaying on the left side
    * Default: null
    */
-  icon?: IconPrimaryIcon
+  icon?: IconIcon
 
   /**
    * If a label is given, typical inside a table or dl (definition list), then you can disable Tag.Group as a dependent of Tag. Use `true` to omit the `Tag group required:` warning.
