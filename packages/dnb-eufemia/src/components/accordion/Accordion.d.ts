@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { ButtonIconPosition } from '../button';
 import type { HeadingLevel } from '../Heading';
-import type { IconPrimaryIcon, IconPrimarySize } from '../IconPrimary';
+import type { IconIcon, IconSize } from '../Icon';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 import AccordionContent from './AccordionContent';
@@ -10,7 +10,7 @@ import AccordionProvider from './AccordionProvider';
 export type AccordionVariant = 'plain' | 'default' | 'outlined' | 'filled';
 export type AccordionHeading = boolean | React.ReactNode;
 export type AccordionIcon =
-  | IconPrimaryIcon
+  | IconIcon
   | {
       closed?: React.ReactNode | ((...args: any[]) => any);
 
@@ -141,7 +141,7 @@ export interface AccordionProps
   /**
    * Define a different icon size. Defaults to `medium` (1.5rem).
    */
-  icon_size?: IconPrimarySize;
+  icon_size?: IconSize;
   attributes?: AccordionAttributes;
   class?: string;
   className?: string;

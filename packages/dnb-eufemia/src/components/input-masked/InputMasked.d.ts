@@ -7,7 +7,7 @@ import type {
   FormStatusState,
   FormStatusText
 } from '../FormStatus';
-import type { IconPrimaryIcon, IconPrimarySize } from '../IconPrimary';
+import type { IconIcon, IconSize } from '../Icon';
 import type {
   InputInputAttributes,
   InputInputElement,
@@ -271,12 +271,12 @@ export interface InputMaskedProps
   /**
    * Icon to show before or after the input / placeholder. Can be either a string defining a primary icon or a Component using an SVG icon of either 16px or 24px.
    */
-  icon?: IconPrimaryIcon;
+  icon?: IconIcon;
 
   /**
    * The icon size of the icon shows. Defaults to `medium`.
    */
-  icon_size?: IconPrimarySize;
+  icon_size?: IconSize;
 
   /**
    * Defines the position of icon inside the input. Set to `left` or `right`. Defaults to `left` if not set.

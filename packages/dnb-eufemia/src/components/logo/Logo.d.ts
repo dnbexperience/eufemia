@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { IconColor } from '../Icon';
 import type { SpacingProps } from '../space/types';
 export type LogoSize = number | string;
 export type LogoRatio = number | string;
@@ -28,7 +29,7 @@ export interface LogoProps
   /**
    * Define the color of the logo
    */
-  color?: string;
+  color?: IconColor;
 
   /**
    * Set to `true` if you do not want to inherit the color by `currentColor`. Default to `false`.
