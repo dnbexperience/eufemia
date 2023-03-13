@@ -1,50 +1,40 @@
 import * as React from 'react';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
-export type PaginationStartupPage = string | number;
-export type PaginationCurrentPage = string | number;
-export type PaginationPageCount = string | number;
-export type PaginationStartupCount = string | number;
-export type PaginationParallelLoadCount = string | number;
-export type PaginationMinWaitTime = string | number;
-export type PaginationMode = 'pagination' | 'infinity';
-export type PaginationItems = string | any[];
-export type PaginationSetContentHandler =
-  | string
-  | ((...args: any[]) => any);
-export type PaginationResetContentHandler =
-  | string
-  | ((...args: any[]) => any);
-export type PaginationResetPaginationHandler =
-  | string
-  | ((...args: any[]) => any);
-export type PaginationEndInfinityHandler =
-  | string
-  | ((...args: any[]) => any);
-export type PaginationPageElement =
+type PaginationStartupPage = string | number;
+type PaginationCurrentPage = string | number;
+type PaginationPageCount = string | number;
+type PaginationStartupCount = string | number;
+type PaginationParallelLoadCount = string | number;
+type PaginationMinWaitTime = string | number;
+type PaginationMode = 'pagination' | 'infinity';
+type PaginationItems = string | any[];
+type PaginationSetContentHandler = string | ((...args: any[]) => any);
+type PaginationResetContentHandler = string | ((...args: any[]) => any);
+type PaginationResetPaginationHandler = string | ((...args: any[]) => any);
+type PaginationEndInfinityHandler = string | ((...args: any[]) => any);
+type PaginationPageElement =
   | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any)
   | string;
-export type PaginationFallbackElement =
+type PaginationFallbackElement =
   | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any)
   | string;
-export type PaginationMarkerElement =
+type PaginationMarkerElement =
   | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any)
   | string;
-export type PaginationIndicatorElement =
+type PaginationIndicatorElement =
   | React.ReactNode
   | ((...args: any[]) => any)
   | string;
-export type PaginationChildren =
-  | React.ReactNode
-  | ((...args: any[]) => any);
+type PaginationChildren = React.ReactNode | ((...args: any[]) => any);
 
-export interface PaginationProps
+interface PaginationProps
   extends React.HTMLProps<HTMLElement>,
     SpacingProps {
   /**
@@ -218,50 +208,50 @@ export default class Pagination extends React.Component<
   static defaultProps: object;
   render(): JSX.Element;
 }
-export type PaginationInstanceStartupPage = string | number;
-export type PaginationInstanceCurrentPage = string | number;
-export type PaginationInstancePageCount = string | number;
-export type PaginationInstanceStartupCount = string | number;
-export type PaginationInstanceParallelLoadCount = string | number;
-export type PaginationInstanceMinWaitTime = string | number;
-export type PaginationInstanceMode = 'pagination' | 'infinity';
-export type PaginationInstanceItems = string | any[];
-export type PaginationInstanceSetContentHandler =
+type PaginationInstanceStartupPage = string | number;
+type PaginationInstanceCurrentPage = string | number;
+type PaginationInstancePageCount = string | number;
+type PaginationInstanceStartupCount = string | number;
+type PaginationInstanceParallelLoadCount = string | number;
+type PaginationInstanceMinWaitTime = string | number;
+type PaginationInstanceMode = 'pagination' | 'infinity';
+type PaginationInstanceItems = string | any[];
+type PaginationInstanceSetContentHandler =
   | string
   | ((...args: any[]) => any);
-export type PaginationInstanceResetContentHandler =
+type PaginationInstanceResetContentHandler =
   | string
   | ((...args: any[]) => any);
-export type PaginationInstanceResetPaginationHandler =
+type PaginationInstanceResetPaginationHandler =
   | string
   | ((...args: any[]) => any);
-export type PaginationInstanceEndInfinityHandler =
+type PaginationInstanceEndInfinityHandler =
   | string
   | ((...args: any[]) => any);
-export type PaginationInstancePageElement =
+type PaginationInstancePageElement =
   | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any)
   | string;
-export type PaginationInstanceFallbackElement =
+type PaginationInstanceFallbackElement =
   | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any)
   | string;
-export type PaginationInstanceMarkerElement =
+type PaginationInstanceMarkerElement =
   | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any)
   | string;
-export type PaginationInstanceIndicatorElement =
+type PaginationInstanceIndicatorElement =
   | React.ReactNode
   | ((...args: any[]) => any)
   | string;
-export type PaginationInstanceChildren =
+type PaginationInstanceChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
 
-export interface PaginationInstanceProps extends SpacingProps {
+interface PaginationInstanceProps extends SpacingProps {
   /**
    * The page shown in the very beginning. If `current_page` is set, then it may not make too much sense to set this as well.
    */
@@ -435,50 +425,44 @@ declare class PaginationInstance extends React.Component<
   render(): JSX.Element;
 }
 
-export type InfinityMarkerStartupPage = string | number;
-export type InfinityMarkerCurrentPage = string | number;
-export type InfinityMarkerPageCount = string | number;
-export type InfinityMarkerStartupCount = string | number;
-export type InfinityMarkerParallelLoadCount = string | number;
-export type InfinityMarkerMinWaitTime = string | number;
-export type InfinityMarkerMode = 'pagination' | 'infinity';
-export type InfinityMarkerItems = string | any[];
-export type InfinityMarkerSetContentHandler =
+type InfinityMarkerStartupPage = string | number;
+type InfinityMarkerCurrentPage = string | number;
+type InfinityMarkerPageCount = string | number;
+type InfinityMarkerStartupCount = string | number;
+type InfinityMarkerParallelLoadCount = string | number;
+type InfinityMarkerMinWaitTime = string | number;
+type InfinityMarkerMode = 'pagination' | 'infinity';
+type InfinityMarkerItems = string | any[];
+type InfinityMarkerSetContentHandler = string | ((...args: any[]) => any);
+type InfinityMarkerResetContentHandler =
   | string
   | ((...args: any[]) => any);
-export type InfinityMarkerResetContentHandler =
+type InfinityMarkerResetPaginationHandler =
   | string
   | ((...args: any[]) => any);
-export type InfinityMarkerResetPaginationHandler =
-  | string
-  | ((...args: any[]) => any);
-export type InfinityMarkerEndInfinityHandler =
-  | string
-  | ((...args: any[]) => any);
-export type InfinityMarkerPageElement =
+type InfinityMarkerEndInfinityHandler = string | ((...args: any[]) => any);
+type InfinityMarkerPageElement =
   | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any)
   | string;
-export type InfinityMarkerFallbackElement =
+type InfinityMarkerFallbackElement =
   | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any)
   | string;
-export type InfinityMarkerMarkerElement =
+type InfinityMarkerMarkerElement =
   | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any)
   | string;
-export type InfinityMarkerIndicatorElement =
+type InfinityMarkerIndicatorElement =
   | React.ReactNode
   | ((...args: any[]) => any)
   | string;
-export type InfinityMarkerChildren =
-  | React.ReactNode
-  | ((...args: any[]) => any);
+type InfinityMarkerChildren = React.ReactNode | ((...args: any[]) => any);
 
-export interface InfinityMarkerProps extends SpacingProps {
+interface InfinityMarkerProps extends SpacingProps {
   /**
    * The page shown in the very beginning. If `current_page` is set, then it may not make too much sense to set this as well.
    */
@@ -650,11 +634,11 @@ export class InfinityMarker extends React.Component<
   static defaultProps: object;
   render(): JSX.Element;
 }
-export type PaginationContentChildren =
+type PaginationContentChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
 
-export interface PaginationContentProps {
+interface PaginationContentProps {
   /**
    * The given content can be either a function or a React node, depending on your needs. A function contains several helper functions. More details down below and have a look at the examples in the demos section.
    */
@@ -662,7 +646,7 @@ export interface PaginationContentProps {
 }
 declare const PaginationContent: React.FC<PaginationContentProps>;
 
-export type CreatePaginationReturn = {
+type CreatePaginationReturn = {
   Pagination: (props?: Record<string, unknown>) => JSX.Element;
   InfinityMarker: (props?: Record<string, unknown>) => void;
   setContent: (pageNumber: number, content: React.ReactDom) => void;
