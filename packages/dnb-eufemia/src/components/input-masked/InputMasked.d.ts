@@ -8,6 +8,7 @@ import type {
 } from '../FormStatus';
 import type { IconPrimaryIcon, IconPrimarySize } from '../IconPrimary';
 import type { InputInputAttributes, InputInputElement } from '../Input';
+import type { NumberFormatProps } from '../NumberFormat';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 export type InputMaskedMask =
@@ -23,7 +24,6 @@ export type InputMaskedCurrencyMask =
   | boolean
   | Record<string, unknown>;
 export type InputMaskedMaskOptions = string | Record<string, unknown>;
-export type InputMaskedNumberFormat = string | Record<string, unknown>;
 export type InputMaskedAsCurrency = string | boolean;
 export type InputMaskedSize =
   | 'default'
@@ -74,7 +74,7 @@ export interface InputMaskedProps
   /**
    * Use an object with <a href="/uilib/components/number-format/properties">NumberFormat</a> e.g. `{ omit_rounding: false }`.
    */
-  number_format?: InputMaskedNumberFormat;
+  number_format?: NumberFormatProps;
 
   /**
    * Define the locale to be used in the `as_number` or `as_currency` masked. It will be inherited from the <a href="/uilib/usage/customisation/provider">Eufemia Provider</a> if not given. Defaults to `nb-NO`.
