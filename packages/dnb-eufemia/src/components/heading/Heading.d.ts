@@ -1,8 +1,8 @@
 import * as React from 'react';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
-export type HeadingText = React.ReactNode | ((...args: any[]) => any);
-export type HeadingSize =
+type HeadingText = React.ReactNode | ((...args: any[]) => any);
+type HeadingSize =
   | 'auto'
   | 'xx-large'
   | 'x-large'
@@ -11,11 +11,11 @@ export type HeadingSize =
   | 'basis'
   | 'small'
   | 'x-small';
-export type HeadingLevel = number | string;
-export type HeadingDebug = boolean | ((...args: any[]) => any);
-export type HeadingDebugCounter = boolean | ((...args: any[]) => any);
-export type HeadingReset = number | boolean;
-export type HeadingChildren = React.ReactNode | ((...args: any[]) => any);
+type HeadingLevel = number | string;
+type HeadingDebug = boolean | ((...args: any[]) => any);
+type HeadingDebugCounter = boolean | ((...args: any[]) => any);
+type HeadingReset = number | boolean;
+type HeadingChildren = React.ReactNode | ((...args: any[]) => any);
 
 export interface HeadingProps
   extends React.HTMLProps<HTMLElement>,
