@@ -69,7 +69,7 @@ describe('Avatar', () => {
   })
 
   it('renders img from src', () => {
-    const img_src = '/android-chrome-192x192.png'
+    const img_src = '/dnb/android-chrome-192x192.png'
     render(
       <Avatar.Group label="label">
         <Avatar src={img_src} alt="custom_alt_label" />
@@ -83,7 +83,7 @@ describe('Avatar', () => {
     const img_alt = 'custom_alt_label'
     render(
       <Avatar.Group label="label">
-        <Avatar alt={img_alt} src="/android-chrome-192x192.png" />
+        <Avatar alt={img_alt} src="/dnb/android-chrome-192x192.png" />
       </Avatar.Group>
     )
 
@@ -92,7 +92,7 @@ describe('Avatar', () => {
   })
 
   it('renders imgProps', () => {
-    const img_src = '/android-chrome-192x192.png'
+    const img_src = '/dnb/android-chrome-192x192.png'
     const img_width = '48'
     const img_height = '48'
     const img_alt = 'custom_alt_label'
@@ -168,7 +168,7 @@ describe('Avatar', () => {
         <Avatar
           top="2rem"
           alt={img_alt}
-          src="/android-chrome-192x192.png"
+          src="/dnb/android-chrome-192x192.png"
         />
       </Avatar.Group>
     )

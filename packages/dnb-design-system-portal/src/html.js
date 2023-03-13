@@ -14,10 +14,10 @@ import fontMonoRegular from '@dnb/eufemia/assets/fonts/dnb/DNBMono-Regular.woff2
 
 // load icons
 import { withPrefix } from 'gatsby' // use it like this: withPrefix('/safari-pinned-tab.svg')
-// import appleTouchIcon from '@dnb/eufemia/assets/browser/apple-touch-icon.png'
-// import favicon32 from '@dnb/eufemia/assets/browser/favicon-32x32.png'
-// import favicon16 from '@dnb/eufemia/assets/browser/favicon-16x16.png'
-// import safariPinnedTab from '@dnb/eufemia/assets/browser/safari-pinned-tab.svg'
+// import appleTouchIcon from '@dnb/eufemia/assets/browser/dnb/apple-touch-icon.png'
+// import favicon32 from '@dnb/eufemia/assets/browser/dnb/favicon-32x32.png'
+// import favicon16 from '@dnb/eufemia/assets/browser/dnb/favicon-16x16.png'
+// import safariPinnedTab from '@dnb/eufemia/assets/browser/dnb/safari-pinned-tab.svg'
 
 // load properties
 import properties from '@dnb/eufemia/src/style/themes/theme-ui/properties'
@@ -45,29 +45,29 @@ export default class HTML extends React.PureComponent {
           <link
             rel="apple-touch-icon"
             sizes="180x180"
-            href={withPrefix('/apple-touch-icon.png')}
+            href={withPrefix('/dnb/apple-touch-icon.png')}
           />
           <link
             rel="shortcut icon"
             type="image/x-icon"
-            href={withPrefix('/favicon.ico')}
+            href={withPrefix('/dnb/favicon.ico')}
           />
           <link
             rel="icon"
             type="image/png"
             sizes="32x32"
-            href={withPrefix('/favicon-32x32.png')}
+            href={withPrefix('/dnb/favicon-32x32.png')}
           />
           <link
             rel="icon"
             type="image/png"
             sizes="16x16"
-            href={withPrefix('/favicon-16x16.png')}
+            href={withPrefix('/dnb/favicon-16x16.png')}
           />
           <link
             rel="mask-icon"
             // href={safariPinnedTab}
-            href={withPrefix('/safari-pinned-tab.svg')}
+            href={withPrefix('/dnb/safari-pinned-tab.svg')}
             color={mainColor}
           />
           <meta name="msapplication-TileColor" content={mainColor} />
