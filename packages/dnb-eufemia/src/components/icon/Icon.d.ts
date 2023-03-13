@@ -10,6 +10,7 @@ export type IconWidth = string | number;
 export type IconHeight = string | number;
 export type IconAttributes = string | Record<string, unknown>;
 export type IconChildren = React.ReactNode | ((...args: any[]) => any);
+export type IconColor = string;
 
 export interface IconProps
   extends React.HTMLProps<HTMLElement>,
@@ -40,7 +41,7 @@ export interface IconProps
   /**
    * The color can be any valid color property, such as Hex, RGB or preferable – any CSS variable from the <a href="/uilib/usage/customisation/colors">colors table</a>, e.g. `var(--color-ocean-green)`. Default is no color, which means `--color-black-80`.
    */
-  color?: string;
+  color?: IconColor;
 
   /**
    * Default to `true`. Set to `false` if you do not want to inherit the color by `currentColor`.

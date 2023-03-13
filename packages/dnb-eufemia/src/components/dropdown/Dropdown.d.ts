@@ -6,7 +6,7 @@ import type {
   FormStatusState,
   FormStatusText
 } from '../FormStatus';
-import type { IconPrimaryIcon, IconPrimarySize } from '../IconPrimary';
+import type { IconIcon, IconSize } from '../Icon';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 import type { DrawerListProps } from '../../fragments/DrawerList';
@@ -31,12 +31,12 @@ export interface DropdownProps
   /**
    * Icon to be included in the dropdown.
    */
-  icon?: IconPrimaryIcon;
+  icon?: IconIcon;
 
   /**
    * Change the size of the icon pragmatically.
    */
-  icon_size?: IconPrimarySize;
+  icon_size?: IconSize;
 
   /**
    * Position of the icon inside the dropdown. Set to `left` or `right`. Defaults to `right`.
