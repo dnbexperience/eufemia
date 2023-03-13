@@ -1,6 +1,7 @@
 import * as React from 'react';
 import type { SpacingProps } from '../shared/types';
 import type { SkeletonShow } from '../components/skeleton/Skeleton';
+import type { Locale } from '../../shared/Context';
 export type PaymentCardCardStatus = 'active' | 'blocked' | 'expired';
 export type PaymentCardVariant = 'normal' | 'compact';
 export type PaymentCardDigits = string | number;
@@ -56,7 +57,7 @@ export interface PaymentCardProps
   /**
    * Use `nb-NO` or `en-GB`. Defaults to the Eufemia provider.
    */
-  locale?: string;
+  locale?: Locale;
 
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.

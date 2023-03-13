@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { Locale } from '../../shared/Context';
 import type { ButtonIconPosition } from '../button';
 import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
 import type {
@@ -79,7 +80,7 @@ export interface InputMaskedProps
   /**
    * Define the locale to be used in the `as_number` or `as_currency` masked. It will be inherited from the <a href="/uilib/usage/customisation/provider">Eufemia Provider</a> if not given. Defaults to `nb-NO`.
    */
-  locale?: string;
+  locale?: Locale;
 
   /**
    * Set to `true` to use `NOK` or give it a currency code e.g. `USD` to automatically set a currency mask based on the given or inherited locale.
