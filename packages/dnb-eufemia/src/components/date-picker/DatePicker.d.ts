@@ -5,7 +5,7 @@ import type {
   FormStatusState,
   FormStatusText
 } from '../FormStatus';
-import type { InputInputElement } from '../Input';
+import type { InputInputElement, InputSize } from '../Input';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 export type DatePickerDate = Date | string;
@@ -18,7 +18,6 @@ export type DatePickerMinDate = Date | string;
 export type DatePickerMaxDate = Date | string;
 export type DatePickerAddonElement = string | React.ReactNode;
 export type DatePickerShortcuts = any[] | ((...args: any[]) => any);
-export type DatePickerSize = 'default' | 'small' | 'medium' | 'large';
 export type DatePickerSuffix =
   | string
   | ((...args: any[]) => any)
@@ -213,7 +212,7 @@ export interface DatePickerProps
   /**
    * The sizes you can choose is `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem) are supported component sizes. Defaults to `default` / `null`.
    */
-  size?: DatePickerSize;
+  size?: InputSize;
 
   /**
    * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
