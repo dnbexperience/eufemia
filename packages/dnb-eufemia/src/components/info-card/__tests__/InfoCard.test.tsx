@@ -70,7 +70,7 @@ describe('InfoCard', () => {
   })
 
   it('renders the image', () => {
-    const img_src = '/android-chrome-192x192.png'
+    const img_src = '/dnb/android-chrome-192x192.png'
 
     render(
       <InfoCard text="text" imgProps={{ alt: 'alt-text', src: img_src }} />
@@ -80,7 +80,7 @@ describe('InfoCard', () => {
   })
 
   it('renders imgProps', () => {
-    const img_src = '/android-chrome-192x192.png'
+    const img_src = '/dnb/android-chrome-192x192.png'
     const img_width = '16'
     const img_height = '16'
     const img_alt = 'custom_alt_label'
