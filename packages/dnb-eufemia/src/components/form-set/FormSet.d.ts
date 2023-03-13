@@ -4,8 +4,8 @@ import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
 import type { Locale } from '../../shared/Context';
-export type FormSetDirection = 'vertical' | 'horizontal';
-export type FormSetChildren =
+type FormSetDirection = 'vertical' | 'horizontal';
+type FormSetChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;

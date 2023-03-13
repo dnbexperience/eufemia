@@ -1,10 +1,10 @@
 import * as React from 'react';
 import type { SpacingProps } from '../space/types';
-export type GlobalErrorStatusContent = string | Record<string, unknown>;
-export type GlobalErrorTitle = string | React.ReactNode;
-export type GlobalErrorText = string | React.ReactNode;
-export type GlobalErrorBack = string | React.ReactNode;
-export type GlobalErrorChildren =
+type GlobalErrorStatusContent = string | Record<string, unknown>;
+type GlobalErrorTitle = string | React.ReactNode;
+type GlobalErrorText = string | React.ReactNode;
+type GlobalErrorBack = string | React.ReactNode;
+type GlobalErrorChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;

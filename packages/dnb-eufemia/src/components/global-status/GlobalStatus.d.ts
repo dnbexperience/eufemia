@@ -2,16 +2,16 @@ import * as React from 'react';
 import type { IconIcon, IconSize } from '../Icon';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
-export type GlobalStatusTitle = React.ReactNode | boolean;
-export type GlobalStatusText =
+type GlobalStatusTitle = React.ReactNode | boolean;
+type GlobalStatusText =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type GlobalStatusItems = string | ((...args: any[]) => any) | any[];
-export type GlobalStatusState = 'error' | 'info';
-export type GlobalStatusShow = 'auto' | any | any | 'true' | 'false';
-export type GlobalStatusDelay = string | number;
-export type GlobalStatusChildren =
+type GlobalStatusItems = string | ((...args: any[]) => any) | any[];
+type GlobalStatusState = 'error' | 'info';
+type GlobalStatusShow = 'auto' | any | any | 'true' | 'false';
+type GlobalStatusDelay = string | number;
+type GlobalStatusChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
@@ -136,9 +136,9 @@ export interface GlobalStatusProps
   on_hide?: (...args: any[]) => any;
 }
 
-export type GlobalStatusStatusId = string;
+type GlobalStatusStatusId = string;
 
-export type GlobalStatusAddProps = {
+type GlobalStatusAddProps = {
   id: string;
   status_id: GlobalStatusStatusId;
   title?: string;
@@ -147,17 +147,17 @@ export type GlobalStatusAddProps = {
   on_close: ({ status_id }: { status_id: GlobalStatusStatusId }) => void;
 };
 
-export type GlobalStatusUpdateProps = {
+type GlobalStatusUpdateProps = {
   id: string;
   text: string;
 };
 
-export type GlobalStatusRemoveProps = {
+type GlobalStatusRemoveProps = {
   id: string;
   status_id: GlobalStatusStatusId;
 };
 
-export type GlobalStatusInterceptorProps = {
+type GlobalStatusInterceptorProps = {
   id: string;
   title: string;
   text: string;
@@ -165,14 +165,14 @@ export type GlobalStatusInterceptorProps = {
   show: boolean;
 };
 
-export type GlobalStatusInterceptorUpdateEvents = {
+type GlobalStatusInterceptorUpdateEvents = {
   on_show?: () => void;
   on_hide?: () => void;
   on_close?: () => void;
   show?: boolean;
 };
 
-export type GlobalStatusInterceptor = {
+type GlobalStatusInterceptor = {
   update: (props: GlobalStatusInterceptorUpdateEvents) => void;
   remove: () => void;
 };

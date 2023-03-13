@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { SpacingProps } from '../shared/types';
 import type { SkeletonShow } from '../components/skeleton/Skeleton';
-export type ImgClassName = string | any | any[];
+type ImgClassName = string | any | any[];
 
 export interface ImgProps
   extends React.HTMLProps<HTMLElement>,

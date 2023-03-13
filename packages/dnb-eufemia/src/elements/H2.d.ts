@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { SpacingProps } from '../shared/types';
-export type H2Size =
+type H2Size =
   | 'xx-large'
   | 'x-large'
   | 'large'

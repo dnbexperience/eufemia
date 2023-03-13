@@ -14,10 +14,10 @@ export type FormStatusState =
   | 'warn'
   | 'info'
   | 'marketing';
-export type FormStatusVariant = 'flat' | 'outlined';
-export type FormStatusSize = 'default' | 'large';
-export type FormStatusAttributes = string | Record<string, unknown>;
-export type FormStatusChildren =
+type FormStatusVariant = 'flat' | 'outlined';
+type FormStatusSize = 'default' | 'large';
+type FormStatusAttributes = string | Record<string, unknown>;
+type FormStatusChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;

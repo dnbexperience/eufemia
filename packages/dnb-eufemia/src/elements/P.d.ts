@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { SpacingProps } from '../shared/types';
 
-export type PSize =
+type PSize =
   | 'x-small'
   | 'small'
   | 'basis'

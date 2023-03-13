@@ -1,12 +1,10 @@
 import * as React from 'react';
 import type { SpacingProps } from '../space/types';
-export type CustomContentTitle =
+type CustomContentTitle =
   | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any);
-export type CustomContentChildren =
-  | React.ReactNode
-  | ((...args: any[]) => any);
+type CustomContentChildren = React.ReactNode | ((...args: any[]) => any);
 
 export interface CustomContentProps
   extends React.HTMLProps<HTMLElement>,

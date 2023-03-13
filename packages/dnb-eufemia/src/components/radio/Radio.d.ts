@@ -7,18 +7,12 @@ import {
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 import RadioGroup from './RadioGroup';
-export type RadioLabel =
-  | string
-  | ((...args: any[]) => any)
-  | React.ReactNode;
-export type RadioLabelPosition = 'left' | 'right';
-export type RadioSize = 'default' | 'medium' | 'large';
-export type RadioSuffix =
-  | string
-  | ((...args: any[]) => any)
-  | React.ReactNode;
-export type RadioAttributes = string | Record<string, unknown>;
-export type RadioChildren = string | ((...args: any[]) => any);
+type RadioLabel = string | ((...args: any[]) => any) | React.ReactNode;
+type RadioLabelPosition = 'left' | 'right';
+type RadioSize = 'default' | 'medium' | 'large';
+type RadioSuffix = string | ((...args: any[]) => any) | React.ReactNode;
+type RadioAttributes = string | Record<string, unknown>;
+type RadioChildren = string | ((...args: any[]) => any);
 
 export interface RadioProps
   extends React.HTMLProps<HTMLElement>,

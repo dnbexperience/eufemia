@@ -3,8 +3,8 @@ import type { SpacingProps } from '../../shared/types';
 import { FormStatusText } from '../FormStatus';
 import type { SkeletonShow } from '../Skeleton';
 import StepIndicatorSidebar from './StepIndicatorSidebar';
-export type StepIndicatorMode = 'static' | 'strict' | 'loose';
-export type StepIndicatorData =
+type StepIndicatorMode = 'static' | 'strict' | 'loose';
+type StepIndicatorData =
   | string
   | string[]
   | {
@@ -21,12 +21,10 @@ export type StepIndicatorData =
       on_click?: (...args: any[]) => any;
       on_render?: (...args: any[]) => any;
     }[];
-export type StepIndicatorTitle = string | React.ReactNode;
-export type StepIndicatorStatusState = 'warn' | 'info' | 'error';
-export type StepIndicatorCurrentStep = string | number;
-export type StepIndicatorChildren =
-  | React.ReactNode
-  | ((...args: any[]) => any);
+type StepIndicatorTitle = string | React.ReactNode;
+type StepIndicatorStatusState = 'warn' | 'info' | 'error';
+type StepIndicatorCurrentStep = string | number;
+type StepIndicatorChildren = React.ReactNode | ((...args: any[]) => any);
 
 export interface StepIndicatorProps
   extends React.HTMLProps<HTMLElement>,

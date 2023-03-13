@@ -1,18 +1,18 @@
 import * as React from 'react';
 import type { SpacingProps } from '../../shared/types';
-export type DrawerListDirection = 'auto' | 'top' | 'bottom';
-export type DrawerListSize = 'default' | 'small' | 'medium' | 'large';
-export type DrawerListAlignDrawer = 'left' | 'right';
-export type DrawerListOptionsRender =
+type DrawerListDirection = 'auto' | 'top' | 'bottom';
+type DrawerListSize = 'default' | 'small' | 'medium' | 'large';
+type DrawerListAlignDrawer = 'left' | 'right';
+type DrawerListOptionsRender =
   | Record<string, unknown>
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type DrawerListWrapperElement =
+type DrawerListWrapperElement =
   | Record<string, unknown>
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type DrawerListDefaultValue = string | number;
-export type DrawerListValue = string | number;
+type DrawerListDefaultValue = string | number;
+type DrawerListValue = string | number;
 export type DrawerListData =
   | string
   | ((...args: any[]) => any)
@@ -27,20 +27,20 @@ export type DrawerListData =
           content?: string | React.ReactNode | string[];
         }
     )[];
-export type DrawerListSelectedValue = string | React.ReactNode;
-export type DrawerListSuffixValue = string | React.ReactNode;
-export type DrawerListContent = string | React.ReactNode | string[];
-export type DrawerListRawData =
+type DrawerListSelectedValue = string | React.ReactNode;
+type DrawerListSuffixValue = string | React.ReactNode;
+type DrawerListContent = string | React.ReactNode | string[];
+type DrawerListRawData =
   | any[]
   | Record<string, unknown>
   | ((...args: any[]) => any);
-export type DrawerListChildren =
+type DrawerListChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode
   | Record<string, unknown>
   | any[];
-export type DrawerListSuffix = React.ReactNode;
+type DrawerListSuffix = React.ReactNode;
 
 export interface DrawerListProps
   extends React.HTMLProps<HTMLElement>,
@@ -99,11 +99,11 @@ export interface DrawerListProps
   on_state_update?: (...args: any[]) => any;
 }
 
-export type DrawerListOptionsProps = {
+type DrawerListOptionsProps = {
   children: React.ReactNode;
 };
 
-export type DrawerListItemProps = {
+type DrawerListItemProps = {
   children: React.ReactNode;
   selected: boolean;
   value: string;
@@ -119,9 +119,7 @@ export default class DrawerList extends React.Component<
   static Item: (props: DrawerListItemProps) => JSX.Element;
   render(): JSX.Element;
 }
-export type ItemContentChildren =
-  | React.ReactNode
-  | Record<string, unknown>;
+type ItemContentChildren = React.ReactNode | Record<string, unknown>;
 
 export interface ItemContentProps {
   hash?: string;

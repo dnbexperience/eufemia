@@ -7,20 +7,20 @@ import type {
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
-export type ToggleButtonGroupVariant = 'default' | 'checkbox' | 'radio';
-export type ToggleButtonGroupSuffix =
+type ToggleButtonGroupVariant = 'default' | 'checkbox' | 'radio';
+type ToggleButtonGroupSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type ToggleButtonGroupLayoutDirection = 'column' | 'row';
-export type ToggleButtonGroupValue =
+type ToggleButtonGroupLayoutDirection = 'column' | 'row';
+type ToggleButtonGroupValue =
   | string
   | number
   | Record<string, unknown>
   | any[];
-export type ToggleButtonGroupValues = string | any[];
-export type ToggleButtonGroupAttributes = string | Record<string, unknown>;
-export type ToggleButtonGroupChildren =
+type ToggleButtonGroupValues = string | any[];
+type ToggleButtonGroupAttributes = string | Record<string, unknown>;
+type ToggleButtonGroupChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;

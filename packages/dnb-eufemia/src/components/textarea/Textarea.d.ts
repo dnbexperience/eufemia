@@ -7,22 +7,17 @@ import {
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
-export type TextareaSuffix =
-  | string
-  | ((...args: any[]) => any)
-  | React.ReactNode;
-export type TextareaAlign = 'left' | 'right';
-export type TextareaAutoresizeMaxRows = string | number;
-export type TextareaTextareaAttributes = string | Record<string, unknown>;
-export type TextareaRows = number | string;
-export type TextareaCols = number | string;
-export type TextareaInnerRef =
+type TextareaSuffix = string | ((...args: any[]) => any) | React.ReactNode;
+type TextareaAlign = 'left' | 'right';
+type TextareaAutoresizeMaxRows = string | number;
+type TextareaTextareaAttributes = string | Record<string, unknown>;
+type TextareaRows = number | string;
+type TextareaCols = number | string;
+type TextareaInnerRef =
   | ((...args: any[]) => any)
   | Record<string, unknown>;
-export type TextareaTextareaElement =
-  | ((...args: any[]) => any)
-  | React.ReactNode;
-export type TextareaChildren = React.ReactNode | ((...args: any[]) => any);
+type TextareaTextareaElement = ((...args: any[]) => any) | React.ReactNode;
+type TextareaChildren = React.ReactNode | ((...args: any[]) => any);
 
 export interface TextareaProps
   extends React.HTMLProps<HTMLElement>,

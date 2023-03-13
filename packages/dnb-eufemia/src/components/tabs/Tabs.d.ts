@@ -4,7 +4,7 @@ import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 import ContentWrapper from './TabsContentWrapper';
 import CustomContent from './TabsCustomContent';
-export type TabsData =
+type TabsData =
   | string
   | {
       title: string | React.ReactNode | ((...args: any[]) => any);
@@ -13,17 +13,17 @@ export type TabsData =
       disabled?: boolean;
     }[]
   | any;
-export type TabsContent =
+type TabsContent =
   | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any);
-export type TabsTabElement =
+type TabsTabElement =
   | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any);
-export type TabsSelectedKey = string | number;
-export type TabsAlign = 'left' | 'center' | 'right';
-export type TabsChildren =
+type TabsSelectedKey = string | number;
+type TabsAlign = 'left' | 'center' | 'right';
+type TabsChildren =
   | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any);

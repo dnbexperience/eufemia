@@ -7,15 +7,15 @@ import type {
 import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
-export type RadioGroupLabelPosition = 'left' | 'right';
-export type RadioGroupSize = 'default' | 'medium' | 'large';
-export type RadioGroupSuffix =
+type RadioGroupLabelPosition = 'left' | 'right';
+type RadioGroupSize = 'default' | 'medium' | 'large';
+type RadioGroupSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type RadioGroupLayoutDirection = 'column' | 'row';
-export type RadioGroupAttributes = string | Record<string, unknown>;
-export type RadioGroupChildren =
+type RadioGroupLayoutDirection = 'column' | 'row';
+type RadioGroupAttributes = string | Record<string, unknown>;
+type RadioGroupChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;

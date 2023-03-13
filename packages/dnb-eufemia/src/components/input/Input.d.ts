@@ -9,25 +9,18 @@ import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
 import type { IconIcon, IconSize } from '../Icon';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
-export type InputSize = 'default' | 'small' | 'medium' | 'large' | number;
-export type InputValue = string | number;
-export type InputSuffix =
-  | string
-  | ((...args: any[]) => any)
-  | React.ReactNode;
-export type InputAlign = 'left' | 'center' | 'right';
-export type InputInputAttributes = string | Record<string, unknown>;
-export type InputInputElement =
-  | ((...args: any[]) => any)
-  | React.ReactNode;
-export type InputSubmitElement =
-  | ((...args: any[]) => any)
-  | React.ReactNode;
-export type InputSubmitButtonIcon =
+type InputSize = 'default' | 'small' | 'medium' | 'large' | number;
+type InputValue = string | number;
+type InputSuffix = string | ((...args: any[]) => any) | React.ReactNode;
+type InputAlign = 'left' | 'center' | 'right';
+type InputInputAttributes = string | Record<string, unknown>;
+type InputInputElement = ((...args: any[]) => any) | React.ReactNode;
+type InputSubmitElement = ((...args: any[]) => any) | React.ReactNode;
+type InputSubmitButtonIcon =
   | string
   | React.ReactNode
   | ((...args: any[]) => any);
-export type InputChildren = React.ReactNode | ((...args: any[]) => any);
+type InputChildren = React.ReactNode | ((...args: any[]) => any);
 
 export interface InputProps
   extends React.HTMLProps<HTMLElement>,

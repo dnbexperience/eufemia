@@ -1,14 +1,14 @@
 import type { Locale } from '../../shared/Context';
 import type { NumberFormatCurrency } from './NumberFormat';
 
-export type formatTypes =
+type formatTypes =
   | 'phone'
   | 'org'
   | 'ban'
   | 'nin'
   | 'percent'
   | 'currency';
-export type formatCurrencyPosition = 'before' | 'after';
+type formatCurrencyPosition = 'before' | 'after';
 export interface formatReturnValue {
   /** The given number */
   value: number;
@@ -28,8 +28,8 @@ export interface formatReturnValue {
   /** The given type */
   type: formatTypes | string;
 }
-export type formatValue = string | number;
-export type formatReturnType = formatReturnValue | formatValue;
+type formatValue = string | number;
+type formatReturnType = formatReturnValue | formatValue;
 export interface formatOptionParams {
   /** can be "auto" */
   locale?: Locale;

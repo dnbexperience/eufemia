@@ -5,16 +5,10 @@ import type { IconSize } from '../Icon';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 import type { AccordionIcon } from './Accordion';
-export type AccordionGroupVariant =
-  | 'plain'
-  | 'default'
-  | 'outlined'
-  | 'filled';
-export type AccordionGroupHeading = boolean | React.ReactNode;
-export type AccordionGroupClosed =
-  | React.ReactNode
-  | ((...args: any[]) => any);
-export type AccordionGroupAttributes = string | Record<string, unknown>;
+type AccordionGroupVariant = 'plain' | 'default' | 'outlined' | 'filled';
+type AccordionGroupHeading = boolean | React.ReactNode;
+type AccordionGroupClosed = React.ReactNode | ((...args: any[]) => any);
+type AccordionGroupAttributes = string | Record<string, unknown>;
 
 export interface AccordionGroupProps
   extends React.HTMLProps<HTMLElement>,

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { SpacingProps } from '../shared/types';
-export type HSize =
+type HSize =
   | 'xx-large'
   | 'x-large'
   | 'large'

@@ -1,5 +1,5 @@
 import * as React from 'react';
-export type ProgressIndicatorLinearProgress = string | number;
+type ProgressIndicatorLinearProgress = string | number;
 
 export interface ProgressIndicatorLinearProps
   extends React.HTMLProps<HTMLElement> {

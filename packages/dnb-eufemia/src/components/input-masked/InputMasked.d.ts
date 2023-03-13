@@ -16,36 +16,28 @@ import type {
 import type { NumberFormatProps } from '../NumberFormat';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
-export type InputMaskedMask =
+type InputMaskedMask =
   | Record<string, unknown>
   | any[]
   | ((...args: any[]) => any);
-export type InputMaskedNumberMask =
-  | string
-  | boolean
-  | Record<string, unknown>;
-export type InputMaskedCurrencyMask =
-  | string
-  | boolean
-  | Record<string, unknown>;
-export type InputMaskedMaskOptions = string | Record<string, unknown>;
-export type InputMaskedAsCurrency = string | boolean;
-export type InputMaskedValue = string | number;
-export type InputMaskedSuffix =
+type InputMaskedNumberMask = string | boolean | Record<string, unknown>;
+type InputMaskedCurrencyMask = string | boolean | Record<string, unknown>;
+type InputMaskedMaskOptions = string | Record<string, unknown>;
+type InputMaskedAsCurrency = string | boolean;
+type InputMaskedValue = string | number;
+type InputMaskedSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type InputMaskedAlign = 'left' | 'center' | 'right';
-export type InputMaskedSubmitElement =
+type InputMaskedAlign = 'left' | 'center' | 'right';
+type InputMaskedSubmitElement =
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type InputMaskedSubmitButtonIcon =
+type InputMaskedSubmitButtonIcon =
   | string
   | React.ReactNode
   | ((...args: any[]) => any);
-export type InputMaskedChildren =
-  | React.ReactNode
-  | ((...args: any[]) => any);
+type InputMaskedChildren = React.ReactNode | ((...args: any[]) => any);
 
 export interface InputMaskedProps
   extends React.HTMLProps<HTMLElement>,

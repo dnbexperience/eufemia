@@ -5,8 +5,8 @@ import {
   StepIndicatorStatusState,
   StepIndicatorMode
 } from './StepIndicator';
-export type StepIndicatorSidebarCurrentStep = string | number;
-export type StepIndicatorSidebarData =
+type StepIndicatorSidebarCurrentStep = string | number;
+type StepIndicatorSidebarData =
   | string
   | string[]
   | {

@@ -7,14 +7,11 @@ import type {
 import type { FormLabelText } from '../FormLabel';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
-export type CheckboxLabelPosition = 'left' | 'right';
-export type CheckboxSize = 'default' | 'medium' | 'large';
-export type CheckboxSuffix =
-  | string
-  | ((...args: any[]) => any)
-  | React.ReactNode;
-export type CheckboxAttributes = string | Record<string, unknown>;
-export type CheckboxChildren = string | ((...args: any[]) => any);
+type CheckboxLabelPosition = 'left' | 'right';
+type CheckboxSize = 'default' | 'medium' | 'large';
+type CheckboxSuffix = string | ((...args: any[]) => any) | React.ReactNode;
+type CheckboxAttributes = string | Record<string, unknown>;
+type CheckboxChildren = string | ((...args: any[]) => any);
 
 export interface CheckboxProps
   extends React.HTMLProps<HTMLElement>,

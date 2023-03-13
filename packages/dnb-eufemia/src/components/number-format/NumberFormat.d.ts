@@ -2,27 +2,21 @@ import * as React from 'react';
 import type { Locale } from '../../shared/Context';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
-export type NumberFormatValue = number | string;
-export type NumberFormatPrefix =
-  | React.ReactNode
-  | ((...args: any[]) => any);
-export type NumberFormatSuffix =
-  | React.ReactNode
-  | ((...args: any[]) => any);
-export type NumberFormatCurrency = string | boolean;
-export type NumberFormatCurrencyPosition = 'auto' | 'before' | 'after';
-export type NumberFormatCompact = 'short' | 'long' | boolean;
-export type NumberFormatLink = 'tel' | 'sms';
-export type NumberFormatOptions = Record<string, unknown> | string;
-export type NumberFormatDecimals = number | string;
-export type NumberFormatElement = string;
-export type NumberFormatTooltip =
+type NumberFormatValue = number | string;
+type NumberFormatPrefix = React.ReactNode | ((...args: any[]) => any);
+type NumberFormatSuffix = React.ReactNode | ((...args: any[]) => any);
+type NumberFormatCurrency = string | boolean;
+type NumberFormatCurrencyPosition = 'auto' | 'before' | 'after';
+type NumberFormatCompact = 'short' | 'long' | boolean;
+type NumberFormatLink = 'tel' | 'sms';
+type NumberFormatOptions = Record<string, unknown> | string;
+type NumberFormatDecimals = number | string;
+type NumberFormatElement = string;
+type NumberFormatTooltip =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type NumberFormatChildren =
-  | React.ReactNode
-  | ((...args: any[]) => any);
+type NumberFormatChildren = React.ReactNode | ((...args: any[]) => any);
 
 export interface NumberFormatProps
   extends React.HTMLProps<HTMLElement>,

@@ -3,9 +3,7 @@ import * as React from 'react';
 export interface DrawerListPortalInnerRef {
   current?: React.ReactNode | Record<string, unknown>;
 }
-export type DrawerListPortalCurrent =
-  | React.ReactNode
-  | Record<string, unknown>;
+type DrawerListPortalCurrent = React.ReactNode | Record<string, unknown>;
 
 export interface DrawerListPortalRootRef {
   current?: React.ReactNode | Record<string, unknown>;

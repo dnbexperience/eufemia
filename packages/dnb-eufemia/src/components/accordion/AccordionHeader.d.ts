@@ -27,35 +27,35 @@ export interface AccordionHeaderIconProps {
   expanded?: boolean;
 }
 declare const AccordionHeaderIcon: React.FC<AccordionHeaderIconProps>;
-export type AccordionHeaderTitle =
+type AccordionHeaderTitle =
   | string
   | React.ReactNode
   | ((...args: any[]) => any);
-export type AccordionHeaderDescription =
+type AccordionHeaderDescription =
   | string
   | React.ReactNode
   | ((...args: any[]) => any);
-export type AccordionHeaderLeftComponent =
+type AccordionHeaderLeftComponent =
   | string
   | React.ReactNode
   | ((...args: any[]) => any);
-export type AccordionHeaderElement =
+type AccordionHeaderElement =
   | string
   | React.ReactNode
   | ((...args: any[]) => any);
-export type AccordionHeaderHeading =
+type AccordionHeaderHeading =
   | boolean
   | string
   | React.ReactNode
   | ((...args: any[]) => any);
-export type AccordionHeaderIcon =
+type AccordionHeaderIcon =
   | React.ReactNode
   | ((...args: any[]) => any)
   | {
       closed?: React.ReactNode | ((...args: any[]) => any);
       expanded?: React.ReactNode | ((...args: any[]) => any);
     };
-export type AccordionHeaderChildren =
+type AccordionHeaderChildren =
   | string
   | React.ReactNode
   | ((...args: any[]) => any);

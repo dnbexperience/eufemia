@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FormStatusText } from '../FormStatus';
 import { StepIndicatorStatusState } from './StepIndicator';
-export type StepIndicatorItemTitle = string | React.ReactNode;
+type StepIndicatorItemTitle = string | React.ReactNode;
 
 export interface StepIndicatorItemProps
   extends React.HTMLProps<HTMLElement> {

@@ -1,5 +1,5 @@
 import * as React from 'react';
-export type ProgressIndicatorCircularProgress = string | number;
+type ProgressIndicatorCircularProgress = string | number;
 
 export interface ProgressIndicatorCircularProps
   extends React.HTMLProps<HTMLElement> {

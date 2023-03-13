@@ -2,18 +2,12 @@ import * as React from 'react';
 import { FormStatusState, FormStatusText } from '../FormStatus';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
-export type SwitchLabel =
-  | string
-  | ((...args: any[]) => any)
-  | React.ReactNode;
-export type SwitchLabelPosition = 'left' | 'right';
-export type SwitchSize = 'default' | 'medium' | 'large';
-export type SwitchSuffix =
-  | string
-  | ((...args: any[]) => any)
-  | React.ReactNode;
-export type SwitchAttributes = string | Record<string, unknown>;
-export type SwitchChildren = string | ((...args: any[]) => any);
+type SwitchLabel = string | ((...args: any[]) => any) | React.ReactNode;
+type SwitchLabelPosition = 'left' | 'right';
+type SwitchSize = 'default' | 'medium' | 'large';
+type SwitchSuffix = string | ((...args: any[]) => any) | React.ReactNode;
+type SwitchAttributes = string | Record<string, unknown>;
+type SwitchChildren = string | ((...args: any[]) => any);
 
 export interface SwitchProps
   extends React.HTMLProps<HTMLElement>,

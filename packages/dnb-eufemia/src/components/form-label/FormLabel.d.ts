@@ -6,7 +6,7 @@ export type FormLabelText =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type FormLabelLabelDirection = 'vertical' | 'horizontal';
-export type FormLabelChildren =
+type FormLabelChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;

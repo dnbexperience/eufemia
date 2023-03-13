@@ -10,18 +10,14 @@ import type { IconIcon, IconSize } from '../Icon';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 import ToggleButtonGroup from './ToggleButtonGroup';
-export type ToggleButtonVariant = 'default' | 'checkbox' | 'radio';
-export type ToggleButtonSuffix =
+type ToggleButtonVariant = 'default' | 'checkbox' | 'radio';
+type ToggleButtonSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type ToggleButtonValue =
-  | string
-  | number
-  | Record<string, unknown>
-  | any[];
-export type ToggleButtonAttributes = string | Record<string, unknown>;
-export type ToggleButtonChildren = string | ((...args: any[]) => any);
+type ToggleButtonValue = string | number | Record<string, unknown> | any[];
+type ToggleButtonAttributes = string | Record<string, unknown>;
+type ToggleButtonChildren = string | ((...args: any[]) => any);
 
 export interface ToggleButtonProps
   extends React.HTMLProps<HTMLElement>,

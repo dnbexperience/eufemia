@@ -1,9 +1,7 @@
 import * as React from 'react';
 import type { SectionSpacing, SectionStyleTypes } from '../Section';
-export type ContentWrapperSelectedKey = string | number;
-export type ContentWrapperChildren =
-  | React.ReactNode
-  | ((...args: any[]) => any);
+type ContentWrapperSelectedKey = string | number;
+type ContentWrapperChildren = React.ReactNode | ((...args: any[]) => any);
 
 export interface ContentWrapperProps extends React.HTMLProps<HTMLElement> {
   id: string;

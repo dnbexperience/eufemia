@@ -1,10 +1,10 @@
 import * as React from 'react';
 import type { IconColor } from '../Icon';
 import type { SpacingProps } from '../space/types';
-export type LogoSize = number | string;
-export type LogoRatio = number | string;
-export type LogoWidth = number | string;
-export type LogoHeight = number | string;
+type LogoSize = number | string;
+type LogoRatio = number | string;
+type LogoWidth = number | string;
+type LogoHeight = number | string;
 
 export interface LogoProps
   extends React.HTMLProps<HTMLElement>,

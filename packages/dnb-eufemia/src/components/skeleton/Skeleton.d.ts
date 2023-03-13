@@ -1,12 +1,9 @@
 import * as React from 'react';
 import type { SpacingProps } from '../space/types';
-export type SkeletonShow = boolean;
-export type SkeletonStyleType = 'lines' | string;
-export type SkeletonFigure =
-  | string
-  | ((...args: any[]) => any)
-  | React.ReactNode;
-export type SkeletonChildren =
+type SkeletonShow = boolean;
+type SkeletonStyleType = 'lines' | string;
+type SkeletonFigure = string | ((...args: any[]) => any) | React.ReactNode;
+type SkeletonChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;

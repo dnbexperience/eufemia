@@ -1,6 +1,6 @@
 import * as React from 'react';
-export type DatePickerAddonShortcuts = any[] | ((...args: any[]) => any);
-export type DatePickerAddonRenderElement =
+type DatePickerAddonShortcuts = any[] | ((...args: any[]) => any);
+type DatePickerAddonRenderElement =
   | React.ReactNode
   | ((...args: any[]) => any);
 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-export type InfinityScrollerChildren =
+type InfinityScrollerChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
 
@@ -16,12 +16,12 @@ export default class InfinityScroller extends React.Component<
 > {
   render(): JSX.Element;
 }
-export type InfinityLoadButtonElement =
+type InfinityLoadButtonElement =
   | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any)
   | string;
-export type InfinityLoadButtonPressedElement =
+type InfinityLoadButtonPressedElement =
   | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any);

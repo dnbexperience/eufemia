@@ -6,10 +6,10 @@ export type IconIcon =
   | React.ReactNode
   | ((...args: any[]) => any);
 export type IconSize = number | string | 'default' | 'medium' | 'large';
-export type IconWidth = string | number;
-export type IconHeight = string | number;
-export type IconAttributes = string | Record<string, unknown>;
-export type IconChildren = React.ReactNode | ((...args: any[]) => any);
+type IconWidth = string | number;
+type IconHeight = string | number;
+type IconAttributes = string | Record<string, unknown>;
+type IconChildren = React.ReactNode | ((...args: any[]) => any);
 export type IconColor = string;
 
 export interface IconProps

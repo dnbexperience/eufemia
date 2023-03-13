@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { SpacingProps } from '../space/types';
-export type AccordionContentChildren =
+type AccordionContentChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
 

@@ -1,15 +1,15 @@
 import * as React from 'react';
 import type { SectionSpacing, SectionStyleTypes } from '../Section';
 import type { SpacingProps } from '../space/types';
-export type ProgressIndicatorType = 'circular' | 'linear';
-export type ProgressIndicatorSize =
+type ProgressIndicatorType = 'circular' | 'linear';
+type ProgressIndicatorSize =
   | 'default'
   | 'small'
   | 'medium'
   | 'large'
   | 'huge';
-export type ProgressIndicatorProgress = string | number;
-export type ProgressIndicatorChildren =
+type ProgressIndicatorProgress = string | number;
+type ProgressIndicatorChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
 

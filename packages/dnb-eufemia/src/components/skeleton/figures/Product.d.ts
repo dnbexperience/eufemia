@@ -1,6 +1,6 @@
 import * as React from 'react';
-export type SkeletonProductRows = string | number;
-export type SkeletonProductChildren =
+type SkeletonProductRows = string | number;
+type SkeletonProductChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;

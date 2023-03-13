@@ -7,8 +7,8 @@ import type { SpacingProps } from '../space/types';
 import AccordionContent from './AccordionContent';
 import AccordionHeader from './AccordionHeader';
 import AccordionProvider from './AccordionProvider';
-export type AccordionVariant = 'plain' | 'default' | 'outlined' | 'filled';
-export type AccordionHeading = boolean | React.ReactNode;
+type AccordionVariant = 'plain' | 'default' | 'outlined' | 'filled';
+type AccordionHeading = boolean | React.ReactNode;
 export type AccordionIcon =
   | IconIcon
   | {
@@ -19,8 +19,8 @@ export type AccordionIcon =
        */
       expanded?: React.ReactNode | ((...args: any[]) => any);
     };
-export type AccordionClosed = React.ReactNode | ((...args: any[]) => any);
-export type AccordionAttributes = string | Record<string, unknown>;
+type AccordionClosed = React.ReactNode | ((...args: any[]) => any);
+type AccordionAttributes = string | Record<string, unknown>;
 
 export interface AccordionProps
   extends React.HTMLProps<HTMLElement>,
@@ -165,7 +165,7 @@ export default class Accordion extends React.Component<
   render(): JSX.Element;
 }
 
-export type GroupProps = {
+type GroupProps = {
   /**
    * A unique `id` that will be used on the button element. If you use `remember_state`, an id is required.
    */

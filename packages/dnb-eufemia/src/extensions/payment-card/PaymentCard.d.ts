@@ -2,9 +2,9 @@ import * as React from 'react';
 import type { SpacingProps } from '../shared/types';
 import type { SkeletonShow } from '../components/skeleton/Skeleton';
 import type { Locale } from '../../shared/Context';
-export type PaymentCardCardStatus = 'active' | 'blocked' | 'expired';
-export type PaymentCardVariant = 'normal' | 'compact';
-export type PaymentCardDigits = string | number;
+type PaymentCardCardStatus = 'active' | 'blocked' | 'expired';
+type PaymentCardVariant = 'normal' | 'compact';
+type PaymentCardDigits = string | number;
 
 export interface PaymentCardRawData {
   productCode: string;
@@ -15,7 +15,7 @@ export interface PaymentCardRawData {
   productType: Record<string, unknown>;
 }
 
-export type PaymentCardChildren =
+type PaymentCardChildren =
   | string
   | React.ReactNode
   | ((...args: any[]) => any);

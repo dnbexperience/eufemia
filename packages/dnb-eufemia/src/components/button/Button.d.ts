@@ -7,37 +7,25 @@ import {
   FormStatusState,
   FormStatusText
 } from '../FormStatus';
-export type ButtonText = string | React.ReactNode;
+type ButtonText = string | React.ReactNode;
 export type ButtonVariant =
   | 'primary'
   | 'secondary'
   | 'tertiary'
   | 'signal'
   | 'unstyled';
-export type ButtonSize = 'default' | 'small' | 'medium' | 'large';
-export type ButtonIconPositionTertiary = 'top';
+type ButtonSize = 'default' | 'small' | 'medium' | 'large';
+type ButtonIconPositionTertiary = 'top';
 export type ButtonIconPosition = 'left' | 'right';
-export type ButtonIconPositionAll =
-  | 'left'
-  | 'right'
-  | ButtonIconPositionTertiary;
-export type ButtonTooltip =
-  | string
-  | ((...args: any[]) => any)
-  | React.ReactNode;
-export type ButtonTo = string | any | ((...args: any[]) => any);
-export type ButtonSkeleton = SkeletonShow;
-export type ButtonChildren =
-  | string
-  | ((...args: any[]) => any)
-  | React.ReactNode;
-export type ButtonElement =
-  | ((...args: any[]) => any)
-  | any
-  | React.ReactNode;
-export type ButtonOnClick = string | ((...args: any[]) => any);
+type ButtonIconPositionAll = 'left' | 'right' | ButtonIconPositionTertiary;
+type ButtonTooltip = string | ((...args: any[]) => any) | React.ReactNode;
+type ButtonTo = string | any | ((...args: any[]) => any);
+type ButtonSkeleton = SkeletonShow;
+type ButtonChildren = string | ((...args: any[]) => any) | React.ReactNode;
+type ButtonElement = ((...args: any[]) => any) | any | React.ReactNode;
+type ButtonOnClick = string | ((...args: any[]) => any);
 
-export type ButtonProps = {
+type ButtonProps = {
   /**
    * The content of the button can be a string or a React Element.
    */
