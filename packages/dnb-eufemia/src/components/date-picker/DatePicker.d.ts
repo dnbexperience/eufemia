@@ -8,22 +8,22 @@ import type {
 import type { InputInputElement, InputSize } from '../Input';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
-export type DatePickerDate = Date | string;
-export type DatePickerStartDate = Date | string;
-export type DatePickerEndDate = Date | string;
-export type DatePickerMonth = Date | string;
-export type DatePickerStartMonth = Date | string;
-export type DatePickerEndMonth = Date | string;
-export type DatePickerMinDate = Date | string;
-export type DatePickerMaxDate = Date | string;
-export type DatePickerAddonElement = string | React.ReactNode;
-export type DatePickerShortcuts = any[] | ((...args: any[]) => any);
-export type DatePickerSuffix =
+type DatePickerDate = Date | string;
+type DatePickerStartDate = Date | string;
+type DatePickerEndDate = Date | string;
+type DatePickerMonth = Date | string;
+type DatePickerStartMonth = Date | string;
+type DatePickerEndMonth = Date | string;
+type DatePickerMinDate = Date | string;
+type DatePickerMaxDate = Date | string;
+type DatePickerAddonElement = string | React.ReactNode;
+type DatePickerShortcuts = any[] | ((...args: any[]) => any);
+type DatePickerSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type DatePickerDirection = 'auto' | 'top' | 'bottom';
-export type DatePickerAlignPicker = 'auto' | 'left' | 'right';
+type DatePickerDirection = 'auto' | 'top' | 'bottom';
+type DatePickerAlignPicker = 'auto' | 'left' | 'right';
 
 export interface DatePickerProps
   extends React.HTMLProps<HTMLElement>,
