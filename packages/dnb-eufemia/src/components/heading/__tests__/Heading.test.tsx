@@ -19,7 +19,10 @@ const warn = jest.fn()
 class StateChanges extends React.PureComponent {
   constructor(props) {
     super(props)
-    this.state = {}
+  }
+  state = {
+    showHeading3: false,
+    showHeading4: false,
   }
   render() {
     return (
@@ -182,8 +185,6 @@ describe('Heading component', () => {
   it('have to match after level state update', () => {
     const warn = jest.fn()
 
-    // resetLevels(1,{overwriteContext:true})
-    // resetAllLevels()
     Heading.resetLevels(1, { overwriteContext: true })
 
     const RenderComp = (props) => (
@@ -258,11 +259,6 @@ describe('Heading component', () => {
     setNextLevel(2, { overwriteContext: true })
     Comp1.setProps({ relevel: true })
     expect(Comp1.find('.dnb-heading').at(0).text()).toBe('[h2] h1')
-
-    // setNextLevel(4, {overwriteContext:true})
-    // resetLevels(4, {overwriteContext:true})
-    // Comp3.setProps({ relevel: true })
-    // expect(Comp3.find('.dnb-heading').at(0).text()).toBe('[h4] h3')
   })
 
   it('have to have aria role and level if set as span element', () => {
@@ -446,7 +442,6 @@ describe('Heading component', () => {
 
 let gComp
 function makeComp() {
-  // resetLevels(1,{overwriteContext:true})
   gComp =
     gComp ||
     mount(
