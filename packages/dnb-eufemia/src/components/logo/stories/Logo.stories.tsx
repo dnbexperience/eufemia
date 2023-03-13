@@ -26,6 +26,46 @@ export const LogoSandbox = () => {
           Text with the DNB Logo <Logo />
         </p>
       </Box>
+      color property text value:
+      <Box>
+        <Logo color="blue" />
+        <Logo color="green" />
+        <Logo color="red" />
+        <Logo color="orange" />
+      </Box>
+      color property hex value:
+      <Box>
+        <Logo color="#00343E" />
+        <Logo color="#14555A" />
+        <Logo color="#007272" />
+        <Logo color="#A5E1D2" />
+        <Logo color="#28B482" />
+        <Logo color="#FDBB31" />
+        <Logo color="#23195A" />
+        <Logo color="#6E2382" />
+      </Box>
+      color property rgb value:
+      <Box>
+        <Logo color="rgb(0,52,62)" />
+        <Logo color="rgb(20,85,90)" />
+        <Logo color="rgb(0,114,114)" />
+        <Logo color="rgb(165,225,210)" />
+        <Logo color="rgb(40,180,130)" />
+        <Logo color="rgb(253,187,49)" />
+        <Logo color="rgb(35,25,90)" />
+        <Logo color="rgb(110,35,130)" />
+      </Box>
+      color property CSS Custom Properties name:
+      <Box>
+        <Logo color="var(--color-ocean-green)" />
+        <Logo color="var(--color-emerald-green)" />
+        <Logo color="var(--color-sea-green)" />
+        <Logo color="var(--color-mint-green)" />
+        <Logo color="var(--color-summer-green)" />
+        <Logo color="var(--color-accent-yellow)" />
+        <Logo color="var(--color-indigo)" />
+        <Logo color="var(--color-violet)" />
+      </Box>
     </Wrapper>
   )
 }

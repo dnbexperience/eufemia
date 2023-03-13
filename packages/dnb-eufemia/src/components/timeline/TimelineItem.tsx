@@ -3,7 +3,8 @@ import classnames from 'classnames'
 
 // Components
 import FormStatus from '../form-status/FormStatus'
-import Icon, { IconPrimaryIcon } from '../icon-primary/IconPrimary'
+import IconPrimary from '../icon-primary/IconPrimary'
+import type { IconIcon } from '../icon/Icon'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 
 // Icons
@@ -21,7 +22,7 @@ export type TimelineItemProps = {
    * Icon displaying on the left side.
    * Default: `check` for state `completed`, `pin` for state `current`, and `calendar` for state `upcoming` .
    */
-  icon?: IconPrimaryIcon
+  icon?: IconIcon
 
   /**
    * Text displaying the title of the item's corresponding page.
@@ -131,7 +132,7 @@ const TimelineItem = (localProps: TimelineItemAllProps) => {
           &zwnj;
         </span>
         {!skeleton && currentIcon && (
-          <Icon
+          <IconPrimary
             icon={currentIcon}
             alt={currentAltLabel}
             size={stateIsCurrent ? undefined : 'small'}
