@@ -21,7 +21,7 @@ export const ImagePlainExample = () => (
             width="100"
             height="100"
             alt="DNB logo"
-            src="/android-chrome-192x192.png"
+            src="/dnb/android-chrome-192x192.png"
           />
         )
       }
@@ -60,7 +60,7 @@ export const ImageCaptionExample = () => (
             height="100"
             alt="Alt text"
             caption="Caption text"
-            src="/android-chrome-192x192.png"
+            src="/dnb/android-chrome-192x192.png"
           />
         )
       }
@@ -83,7 +83,7 @@ export const ImageSkeletonExample = () => (
               width="100"
               height="100"
               alt="DNB logo"
-              src="/android-chrome-192x192.png"
+              src="/dnb/android-chrome-192x192.png"
             />
             <br />
             <Skeleton.Exclude>
