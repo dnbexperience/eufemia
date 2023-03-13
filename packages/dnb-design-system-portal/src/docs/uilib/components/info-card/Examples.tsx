@@ -109,7 +109,7 @@ export const InfoCardCustomImage = () => (
     <InfoCard
       text="This is a description of some information or a tip that will inform the user of something that will help them."
       title="This is the InfoCard with a custom image"
-      src="/dnb/images/avatars/1501870.jpg"
+      src="/images/avatars/1501870.jpg"
       alt="Profile picture"
     />
   </ComponentBox>
@@ -121,7 +121,7 @@ export const InfoCardCustomImageCentered = () => (
       text="This is a description of some information or a tip that will inform the user of something that will help them."
       title="This is the InfoCard with a custom image"
       centered={true}
-      src="/dnb/images/avatars/1501870.jpg"
+      src="/images/avatars/1501870.jpg"
       alt="Profile picture"
     />
   </ComponentBox>

@@ -67,18 +67,18 @@ export const InfoCardSandbox = () => (
     <Box>
       <InfoCard
         text="This"
-        src="/dnb/images/avatars/1501870.jpg"
+        src="/images/avatars/1501870.jpg"
         alt="descriptive text"
       />
       <InfoCard
         text="This is a description of some information or a tip that will inform the user of something that will help them."
-        src="/dnb/images/avatars/1501870.jpg"
+        src="/images/avatars/1501870.jpg"
         alt="descriptive text"
       />
       <InfoCard
         centered
         text="This is a description of some information or a tip that will inform the user of something that will help them."
-        src="/dnb/images/avatars/1501870.jpg"
+        src="/images/avatars/1501870.jpg"
         alt="descriptive text"
       />
     </Box>

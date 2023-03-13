@@ -165,7 +165,7 @@ export const AvatarImageTobias = () => (
   <ComponentBox hideCode data-visual-test="avatar-image-external">
     <Avatar.Group label="Profiles:">
       <Avatar
-        src="/dnb/images/avatars/1501870.jpg"
+        src="/images/avatars/1501870.jpg"
         alt="Profile picture"
         size="large"
       />
@@ -270,34 +270,13 @@ export const GroupedAvatarsImg = () => (
       size="large"
       maxElements={5}
     >
-      <Avatar
-        src="/dnb/images/avatars/1501870.jpg"
-        alt="Profile picture"
-      />
-      <Avatar
-        src="/dnb/images/avatars/35217511.jpg"
-        alt="Profile picture"
-      />
-      <Avatar
-        src="/dnb/images/avatars/21338570.jpg"
-        alt="Profile picture"
-      />
-      <Avatar
-        src="/dnb/images/avatars/1359205.jpg"
-        alt="Profile picture"
-      />
-      <Avatar
-        src="/dnb/images/avatars/1501870.jpg"
-        alt="Profile picture"
-      />
-      <Avatar
-        src="/dnb/images/avatars/1501870.jpg"
-        alt="Profile picture"
-      />
-      <Avatar
-        src="/dnb/images/avatars/1501870.jpg"
-        alt="Profile picture"
-      />
+      <Avatar src="/images/avatars/1501870.jpg" alt="Profile picture" />
+      <Avatar src="/images/avatars/35217511.jpg" alt="Profile picture" />
+      <Avatar src="/images/avatars/21338570.jpg" alt="Profile picture" />
+      <Avatar src="/images/avatars/1359205.jpg" alt="Profile picture" />
+      <Avatar src="/images/avatars/1501870.jpg" alt="Profile picture" />
+      <Avatar src="/images/avatars/1501870.jpg" alt="Profile picture" />
+      <Avatar src="/images/avatars/1501870.jpg" alt="Profile picture" />
     </Avatar.Group>
   </ComponentBox>
 )
