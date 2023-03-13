@@ -132,7 +132,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           checkName: Build Portal
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          intervalSeconds: 3
+          intervalSeconds: 10
           timeoutSeconds: 900
 
       - name: Re-store portal artifacts
@@ -217,7 +217,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           checkName: Build Portal
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          intervalSeconds: 3
+          intervalSeconds: 10
           timeoutSeconds: 900
 
       - name: Re-store portal artifacts
