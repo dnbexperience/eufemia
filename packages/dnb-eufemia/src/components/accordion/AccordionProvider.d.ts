@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { ButtonIconPosition } from '../button';
 import type { HeadingLevel } from '../Heading';
-import type { IconPrimarySize } from '../IconPrimary';
+import type { IconSize } from '../Icon';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 import type { AccordionIcon } from './Accordion';
@@ -43,7 +43,7 @@ export interface AccordionGroupProps
   icon?: AccordionIcon;
   closed?: AccordionGroupClosed;
   icon_position?: ButtonIconPosition;
-  icon_size?: IconPrimarySize;
+  icon_size?: IconSize;
   attributes?: AccordionGroupAttributes;
   class?: string;
   className?: string;
