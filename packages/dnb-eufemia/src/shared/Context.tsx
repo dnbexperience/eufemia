@@ -36,6 +36,8 @@ import type { SkeletonProps, SkeletonShow } from '../components/Skeleton'
 import type { HelpButtonProps } from '../components/HelpButton'
 import type { TableProps } from '../components/Table'
 
+import type { NumberFormatCurrency } from '../components/NumberFormat'
+
 export type ContextComponents = {
   Button?: Partial<ButtonProps>
   Anchor?: Partial<AnchorProps>
@@ -95,7 +97,7 @@ export type ContextProps = ContextComponents & {
   /**
    * Defines the currency used by the NumberFormat component
    */
-  currency?: string
+  currency?: NumberFormatCurrency
 
   /**
    * Defines the currencyDisplay used by the NumberFormat component

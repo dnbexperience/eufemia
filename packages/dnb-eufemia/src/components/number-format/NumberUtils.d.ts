@@ -113,7 +113,7 @@ export const getThousandsSeparator: (locale?: string) => string;
 
 export const getCurrencySymbol: (
   locale?: string,
-  currency?: string,
+  currency?: NumberFormatCurrency,
   currencyDisplay?: string
 ) => string;
 
