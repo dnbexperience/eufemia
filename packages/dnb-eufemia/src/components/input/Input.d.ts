@@ -6,7 +6,7 @@ import type {
   FormStatusText
 } from '../FormStatus';
 import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
-import type { IconPrimaryIcon, IconPrimarySize } from '../IconPrimary';
+import type { IconIcon, IconSize } from '../Icon';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 export type InputSize = 'default' | 'small' | 'medium' | 'large' | number;
@@ -160,12 +160,12 @@ export interface InputProps
   /**
    * Icon to show before or after the input / placeholder. Can be either a string defining a primary icon or a Component using an SVG icon of either 16px or 24px.
    */
-  icon?: IconPrimaryIcon;
+  icon?: IconIcon;
 
   /**
    * The icon size of the icon shows. Defaults to `medium`.
    */
-  icon_size?: IconPrimarySize;
+  icon_size?: IconSize;
 
   /**
    * Defines the position of icon inside the input. Set to `left` or `right`. Defaults to `left` if not set.
@@ -232,8 +232,8 @@ export interface SubmitButtonProps extends React.HTMLProps<HTMLElement> {
   variant?: ButtonVariant;
   disabled?: boolean;
   skeleton?: SkeletonShow;
-  icon?: IconPrimaryIcon;
-  icon_size?: IconPrimarySize;
+  icon?: IconIcon;
+  icon_size?: IconSize;
   status?: FormStatusText;
   status_state?: FormStatusState;
   status_props?: FormStatusProps;

@@ -1,6 +1,6 @@
 import { ToCamelCasePartial } from '../../shared/helpers/withCamelCaseProps'
 import { ModalPropTypes } from '../modal/Modal'
-import { IconPrimaryIcon } from '../IconPrimary'
+import { IconIcon } from '../Icon'
 import { DialogActionProps } from './parts/DialogAction'
 import React from 'react'
 
@@ -81,7 +81,7 @@ export interface DialogContentProps
   /**
    * An icon to display at the top of the component. Should be of size medium, so make sure you import the `_medium` version of the Eufemia icon.
    */
-  icon?: IconPrimaryIcon
+  icon?: IconIcon
 
   /**
    * For variant confirmation, the dialog is either an informational or a warning message. Defaults to 'info'.
