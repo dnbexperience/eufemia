@@ -95,14 +95,16 @@ export default class Heading extends React.Component<HeadingProps, any> {
   static Level: (props: HeadingProps) => JSX.Element;
   static Increase: (props: HeadingProps) => JSX.Element;
   static Decrease: (props: HeadingProps) => JSX.Element;
+  static resetLevels: resetLevels;
+  static setNextLevel: setNextLevel;
   render(): JSX.Element;
 }
 
 export const setNextLevel = (
-  level: any,
+  level: HeadingLevel,
   { overwriteContext: boolean } = {}
-) => any;
+) => null;
 export const resetLevels = (
-  level: any,
+  level: HeadingLevel,
   { overwriteContext: boolean } = {}
-) => any;
+) => null;
