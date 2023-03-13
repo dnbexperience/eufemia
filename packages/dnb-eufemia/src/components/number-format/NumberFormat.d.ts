@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { Locale } from '../../shared/Context';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 export type NumberFormatValue = number | string;
@@ -36,7 +37,7 @@ export interface NumberFormatProps
   /**
    * Use a <a href="https://www.sitepoint.com/iso-2-letter-language-codes/">2 Letter Language Codes</a> or an extended code such as `nb-NO`. Use `auto` to detect the locale from the browser (`navigator.language`). Defaults to the Norwegian locale: `nb-NO`.
    */
-  locale?: string;
+  locale?: Locale;
 
   /**
    * Add a string or React component before the number, including white space.
