@@ -26,10 +26,6 @@ export default class Skeleton extends React.PureComponent {
   static propTypes = {
     show: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     no_animation: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    style_type: PropTypes.oneOfType([
-      PropTypes.oneOf(['lines']),
-      PropTypes.string,
-    ]),
     figure: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
@@ -53,7 +49,6 @@ export default class Skeleton extends React.PureComponent {
   static defaultProps = {
     show: null,
     skeleton: null, // only to make sure we process extendPropsWithContextInClassComponent
-    style_type: null,
     no_animation: null,
     figure: null,
     aria_busy: null,
@@ -85,7 +80,6 @@ export default class Skeleton extends React.PureComponent {
       Skeleton.defaultProps,
       {
         skeleton: context.Skeleton || context.skeleton,
-        style_type: context.skeleton_style_type,
         no_animation: context.skeleton_no_animation,
       },
       context.getTranslation(props).Skeleton
@@ -125,7 +119,6 @@ export default class Skeleton extends React.PureComponent {
 
     const {
       show,
-      style_type,
       no_animation,
       figure,
       skeleton,
@@ -149,7 +142,6 @@ export default class Skeleton extends React.PureComponent {
       className: classnames(
         figure ? 'dnb-skeleton__figure' : 'dnb-skeleton__root',
         isTrue(showSkeleton) && 'dnb-skeleton',
-        showSkeleton && style_type && `dnb-skeleton--${style_type}`,
         isTrue(no_animation) && 'dnb-skeleton--no-animation',
         createSpacingClasses(props),
         className,
@@ -179,7 +171,6 @@ export default class Skeleton extends React.PureComponent {
         ) : (
           <Provider
             skeleton={showSkeleton}
-            skeleton_style_type={style_type}
             skeleton_no_animation={no_animation}
           >
             {children}

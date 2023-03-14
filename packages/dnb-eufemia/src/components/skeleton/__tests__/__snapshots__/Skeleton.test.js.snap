@@ -11,7 +11,6 @@ exports[`Skeleton component have to match snapshot 1`] = `
   no_animation={null}
   show={null}
   skeleton={null}
-  style_type={null}
 >
   <Space
     bottom={null}
