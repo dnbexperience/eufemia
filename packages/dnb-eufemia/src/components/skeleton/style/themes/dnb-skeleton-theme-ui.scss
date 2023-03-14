@@ -19,10 +19,7 @@
     background-color: var(--skeleton-color) !important; // to take presence
   }
 
-  // Lines
-  &--shape#{&}::after,
-  &--lines &--shape#{&}::after,
-  &--lines#{&}--shape#{&}::after {
+  &--shape#{&}::after {
     background-image: repeating-linear-gradient(
       -45deg,
       var(--skeleton-color--contrast) 1px 2px,
@@ -47,7 +44,7 @@
     }
   }
 
-  // Font with Lines
+  // Font
   &--font,
   &--font &--show-font,
   &--font .dnb-p {
