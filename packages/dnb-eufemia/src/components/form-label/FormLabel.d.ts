@@ -44,7 +44,7 @@ export interface FormLabelProps
   label_direction?: FormLabelLabelDirection;
 
   /**
-   * Will force both `direction` and `label_direction` to be "vertical" if set to `true`.
+   * If set to `true`, will do the same as`label_direction` when set to "vertical".
    */
   vertical?: boolean;
   sr_only?: boolean;
