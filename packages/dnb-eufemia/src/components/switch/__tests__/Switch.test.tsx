@@ -68,7 +68,7 @@ describe('Switch component', () => {
   it('does handle controlled vs uncontrolled state properly', () => {
     const ControlledVsUncontrolled = () => {
       const [checked, setChecked] = React.useState(true)
-      const [random, setRandom] = React.useState()
+      const [random, setRandom] = React.useState(null)
 
       return (
         <>
