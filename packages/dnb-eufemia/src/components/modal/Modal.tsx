@@ -33,7 +33,6 @@ import {
   ToCamelCasePartial,
 } from '../../shared/helpers/withCamelCaseProps'
 import { ButtonProps } from '../button/Button'
-import { includeValidProps } from '../form-row/FormRowHelpers'
 
 export const ANIMATION_DURATION = 300
 
@@ -410,7 +409,6 @@ class Modal extends React.PureComponent<
       this.props,
       Modal.defaultProps,
       this.context.getTranslation(this.props).Modal,
-      includeValidProps(this.context.FormRow),
       this.context.Modal
     )
 
