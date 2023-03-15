@@ -3,6 +3,7 @@
  *
  */
 
+import { render } from '@testing-library/react'
 import React from 'react'
 import {
   mount,
@@ -11,6 +12,7 @@ import {
   toJson,
   loadScss,
 } from '../../../core/jest/jestSetup'
+import FormRow from '../../form-row/FormRow'
 import Component from '../Switch'
 
 const props = fakeProps(require.resolve('../Switch'), {
@@ -133,6 +135,39 @@ describe('Switch component', () => {
     expect(Comp.find('input').instance().hasAttribute('disabled')).toBe(
       true
     )
+  })
+
+  it('should support spacing props', () => {
+    render(<Component top="2rem" />)
+
+    const element = document.querySelector('.dnb-switch')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-switch',
+      'dnb-switch--label-position-right',
+      'dnb-form-component',
+      'dnb-space__top--large',
+    ])
+  })
+
+  it('should inherit FormRow vertical label', () => {
+    render(
+      <FormRow vertical>
+        <Component label="Label" />
+      </FormRow>
+    )
+
+    const element = document.querySelector('.dnb-switch')
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+
+    expect(attributes).toEqual(['class'])
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-switch',
+      'dnb-switch--label-position-right',
+      'dnb-form-component',
+    ])
   })
 
   it('should validate with ARIA rules', async () => {
