@@ -5,14 +5,6 @@
 
 @import '../../../style/core/utilities.scss';
 
-:root {
-  --form-row-column1-start: auto;
-  --form-row-column2-start: 1fr;
-  --form-row-row1-start: auto;
-  --form-row-row2-start: auto;
-  --form-bounding-height: 0.25rem;
-}
-
 .dnb-form-row {
   &,
   &.dnb-section {

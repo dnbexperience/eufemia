@@ -8,14 +8,13 @@
 :root {
   --radio-width--medium: 1.5rem;
   --radio-height--medium: 1.5rem;
-  --radio-width--large: 2rem;
-  --radio-height--large: 2rem;
-  --radio-border-width: 0.125rem;
-  --radio-margin-right: 1rem;
-  --radio-margin-bottom: 0.5rem;
 }
 
 .dnb-radio {
+  --radio-width--large: 2rem;
+  --radio-height--large: 2rem;
+  --radio-border-width: 0.125rem;
+
   display: inline-flex;
   flex-direction: column;
 
@@ -193,13 +192,16 @@
   }
 
   &-group {
+    --radio-group-margin-bottom: 0.5rem;
+    --radio-group-margin-right: 1rem;
+
     display: inline-flex;
     flex-direction: row;
 
     // default spacing
     .dnb-radio {
-      margin-right: var(--radio-margin-right);
-      margin-bottom: var(--radio-margin-bottom);
+      margin-right: var(--radio-group-margin-right);
+      margin-bottom: var(--radio-group-margin-bottom);
     }
 
     &--column .dnb-radio {
@@ -231,7 +233,7 @@
       align-items: flex-start;
 
       // because of our bottom margins we have on the components
-      margin-bottom: calc(1px - 1px - var(--radio-margin-bottom));
+      margin-bottom: calc(1px - 1px - var(--radio-group-margin-bottom));
 
       &::before {
         // move the group 2px up if label exists

@@ -5,10 +5,6 @@
 
 @import '../../../style/core/utilities.scss';
 
-:root {
-  --textarea-padding-width: 0.5rem;
-}
-
 @mixin textareaStyleCommon() {
   cursor: auto;
   border: none;
@@ -22,6 +18,8 @@
 }
 
 .dnb-textarea {
+  --textarea-padding-width: 0.5rem;
+
   display: inline-flex;
 
   font-size: var(--font-size-small);
