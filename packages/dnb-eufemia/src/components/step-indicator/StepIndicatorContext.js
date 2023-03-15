@@ -11,7 +11,6 @@ import {
   processChildren,
   extendPropsWithContextInClassComponent,
 } from '../../shared/component-helper'
-import { includeValidProps } from '../form-row/FormRowHelpers'
 import { onMediaQueryChange } from '../../shared/MediaQueryUtils'
 
 // We use this array to filter out unwanted
@@ -172,7 +171,6 @@ export class StepIndicatorProvider extends React.PureComponent {
       stepIndicatorDefaultProps,
       { skeleton: context?.skeleton },
       context.getTranslation(context).StepIndicator,
-      includeValidProps(context.FormRow),
       context.StepIndicator
     )
 

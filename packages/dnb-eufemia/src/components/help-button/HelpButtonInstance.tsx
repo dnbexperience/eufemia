@@ -10,7 +10,6 @@ import {
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
-import { includeValidProps } from '../form-row/FormRowHelpers'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import Button, { ButtonProps } from '../button/Button'
 
@@ -26,7 +25,6 @@ export default function HelpButtonInstance(localProps: ButtonProps) {
   const props = extendPropsWithContext(
     localProps,
     defaultProps,
-    includeValidProps(context.FormRow),
     context.HelpButton
   )
 
