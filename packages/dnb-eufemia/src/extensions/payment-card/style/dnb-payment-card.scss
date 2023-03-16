@@ -5,7 +5,7 @@
 
 @import '../../../style/core/utilities.scss';
 
-:root {
+.dnb-payment-card {
   --dnb-payment-bg-default: linear-gradient(
     184.55deg,
     var(--color-sea-green) 6.31%,
@@ -47,9 +47,7 @@
     #2cc48e 6.31%,
     var(--color-summer-green) 82.66%
   );
-}
 
-.dnb-payment-card {
   margin: 0;
 
   &__card {
@@ -61,7 +59,8 @@
     border-radius: 3.48mm;
 
     border: 1px solid;
-    border-color: rgb(255 255 255 / 10%) transparent rgb(0 0 0 / 20%) transparent;
+    border-color: rgb(255 255 255 / 10%) transparent rgb(0 0 0 / 20%)
+      transparent;
 
     color: var(--color-white);
     box-shadow: var(--shadow-default);

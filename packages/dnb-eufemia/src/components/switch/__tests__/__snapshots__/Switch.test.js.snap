@@ -414,11 +414,8 @@ legend.dnb-form-label {
 /*
  * Utilities
  */
-:root {
-  --form-status-radius: 0.25rem;
-}
-
 .dnb-form-status {
+  --form-status-radius: 0.25rem;
   display: flex;
   opacity: 1;
   transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default);
@@ -498,16 +495,13 @@ button .dnb-form-status__text {
 /*
  * Utilities
  */
-:root {
+.dnb-switch {
   --switch-width--medium: 2.5rem;
   --switch-height--medium: 1.5rem;
   --switch-width--large: 3.25rem;
   --switch-height--large: 2rem;
   --switch-border-width--medium: 0.0625rem;
   --switch-border-width--large: 0.125rem;
-}
-
-.dnb-switch {
   display: inline-flex;
   flex-direction: column;
   font-size: var(--font-size-small);

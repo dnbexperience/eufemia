@@ -34,16 +34,13 @@ exports[`Badge scss have to match snapshot 1`] = `
 /*
  * Utilities
  */
-:root {
+.dnb-badge {
   --badge-font-size: var(--font-size-x-small);
   --badge-width: 1.5rem;
   --badge-height: 1.5rem;
   --badge-border-radius-information: calc(var(--badge-height) / 4);
   --badge-border-radius-notification: calc(var(--badge-height) / 2);
   --badge-line-height: var(--line-height-x-small);
-}
-
-.dnb-badge {
   display: inline-flex;
   font-weight: var(--font-weight-medium);
   flex-flow: row wrap;
