@@ -106,14 +106,6 @@ exports[`FormRow scss have to match snapshot 1`] = `
 /*
  * Utilities
  */
-:root {
-  --form-row-column1-start: auto;
-  --form-row-column2-start: 1fr;
-  --form-row-row1-start: auto;
-  --form-row-row2-start: auto;
-  --form-bounding-height: 0.25rem;
-}
-
 .dnb-form-row {
   align-items: baseline;
 }

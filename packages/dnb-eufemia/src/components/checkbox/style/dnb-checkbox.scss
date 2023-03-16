@@ -8,12 +8,13 @@
 :root {
   --checkbox-width--medium: 1.5rem;
   --checkbox-height--medium: 1.5rem;
-  --checkbox-width--large: 2rem;
-  --checkbox-height--large: 2rem;
-  --checkbox-border-width: 0.125rem;
 }
 
 .dnb-checkbox {
+  --checkbox-width--large: 2rem;
+  --checkbox-height--large: 2rem;
+  --checkbox-border-width: 0.125rem;
+
   display: inline-flex;
   flex-direction: column;
 

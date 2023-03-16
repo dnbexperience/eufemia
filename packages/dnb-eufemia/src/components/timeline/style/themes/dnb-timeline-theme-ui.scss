@@ -15,13 +15,13 @@
 }
 
 .dnb-timeline {
-  --timeline-icon-height--small: var(--button-height--small);
-  --timeline-icon-width--small: var(--button-width--small);
+  --timeline-icon-height--small: 1.5rem;
+  --timeline-icon-width--small: 1.5rem;
   --timeline-icon-border-radius--small: calc(
     var(--timeline-icon-height--small) / 2
   );
-  --timeline-icon-height--medium: var(--button-height--medium);
-  --timeline-icon-width--medium: var(--button-width--medium);
+  --timeline-icon-height--medium: 2rem;
+  --timeline-icon-width--medium: 2rem;
   --timeline-icon-border-radius--medium: calc(
     var(--timeline-icon-height--medium) / 2
   );

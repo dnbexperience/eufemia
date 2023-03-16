@@ -4,12 +4,13 @@
  */
 
 :root {
-  --skeleton-delay: 5s;
   --skeleton-color: var(--color-black-8);
   --skeleton-color--contrast: var(--color-white);
 }
 
 .dnb-skeleton {
+  --skeleton-delay: 5s;
+
   img,
   video {
     filter: brightness(0%) contrast(0%) opacity(0.5);

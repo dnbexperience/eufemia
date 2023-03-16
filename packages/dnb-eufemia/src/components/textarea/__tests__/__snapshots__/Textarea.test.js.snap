@@ -150,15 +150,19 @@ exports[`Textarea scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-:root {
+.dnb-textarea {
   --textarea-rows: 2;
 }
-
 .dnb-textarea__textarea {
   color: var(--color-black);
   background-color: var(--color-white);
   overflow-y: auto;
   overscroll-behavior: contain;
+  --scrollbar-track-width: 0.5rem;
+  --scrollbar-thumb-width: 0.5rem;
+  --scrollbar-track-color: var(--color-black-8);
+  --scrollbar-thumb-color: var(--color-sea-green);
+  --scrollbar-thumb-hover-color: var(--color-emerald-green);
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: auto;
   scrollbar-color: var(--scrollbar-thumb-color, #888) transparent;
@@ -294,11 +298,8 @@ legend.dnb-form-label {
 /*
  * Utilities
  */
-:root {
-  --form-status-radius: 0.25rem;
-}
-
 .dnb-form-status {
+  --form-status-radius: 0.25rem;
   display: flex;
   opacity: 1;
   transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default);
@@ -378,11 +379,8 @@ button .dnb-form-status__text {
 /*
  * Utilities
  */
-:root {
-  --textarea-padding-width: 0.5rem;
-}
-
 .dnb-textarea {
+  --textarea-padding-width: 0.5rem;
   display: inline-flex;
   font-size: var(--font-size-small);
   line-height: var(--line-height-basis);

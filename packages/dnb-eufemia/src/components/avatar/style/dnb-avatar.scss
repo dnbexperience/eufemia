@@ -5,7 +5,7 @@
 
 @import '../../../style/core/utilities.scss';
 
-:root {
+.dnb-avatar {
   --avatar-font-size--small: var(--font-size-x-small);
   --avatar-font-size--medium: var(--font-size-basis);
   --avatar-font-size--large: var(--font-size-x-large);
@@ -22,9 +22,7 @@
   --avatar-height--large: 4rem;
   --avatar-width--x-large: 5rem;
   --avatar-height--x-large: 5rem;
-}
 
-.dnb-avatar {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -42,7 +40,7 @@
   // Safari needs a correct CSS specificity
   &,
   .dnb-core-style & {
-    line-height: var(--button-height);
+    line-height: var(--line-height-large);
   }
 
   &--size-small {
