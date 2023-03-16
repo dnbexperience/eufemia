@@ -14,6 +14,7 @@ import { render, fireEvent } from '@testing-library/react'
 import Component from '../InputMasked'
 import Provider from '../../../shared/Provider'
 import * as helpers from '../../../shared/helpers'
+import FormRow from '../../form-row/FormRow'
 
 const snapshotProps = {
   ...fakeProps(require.resolve('../InputMasked'), {
@@ -1476,6 +1477,46 @@ describe('InputMasked component as_currency', () => {
     Comp.setProps({ value: '12345.123' })
 
     expect(Comp.find('input').instance().value).toBe('12 345,12 kr')
+  })
+
+  it('should support spacing props', () => {
+    render(<Component top="2rem" />)
+
+    const element = document.querySelector('.dnb-input')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-input',
+      'dnb-form-component',
+      'dnb-space__top--large',
+      'dnb-input-masked',
+      'dnb-input--text',
+    ])
+  })
+
+  it('should inherit FormRow vertical label', () => {
+    render(
+      <FormRow vertical>
+        <Component label="Label" />
+      </FormRow>
+    )
+
+    const element = document.querySelector('.dnb-input')
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+
+    expect(attributes).toEqual([
+      'class',
+      'data-input-state',
+      'data-has-content',
+    ])
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-input',
+      'dnb-form-component',
+      'dnb-input-masked',
+      'dnb-input--text',
+      'dnb-input--vertical',
+    ])
   })
 })
 
