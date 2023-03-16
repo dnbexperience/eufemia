@@ -151,6 +151,50 @@ describe('Radio component', () => {
     )
   })
 
+  it('should support spacing props', () => {
+    render(<Component top="2rem" />)
+
+    const element = document.querySelector('.dnb-radio')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-radio',
+      'dnb-space__top--large',
+    ])
+  })
+
+  it('should inherit FormRow vertical label', () => {
+    render(
+      <FormRow vertical disabled>
+        <Component label="Label" aria-label="Aria Label" />
+      </FormRow>
+    )
+
+    const element = document.querySelector('.dnb-radio')
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+    const inputElement = document.querySelector('.dnb-radio input')
+    const inputAttributes = Array.from(inputElement.attributes).map(
+      (attr) => attr.name
+    )
+
+    expect(attributes).toEqual(['class'])
+    expect(inputAttributes).toEqual([
+      'type',
+      'id',
+      'class',
+      'aria-checked',
+      'disabled',
+      'role',
+      'aria-label',
+      'value',
+    ])
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-radio',
+      'dnb-radio--label-position-right',
+    ])
+  })
+
   it('should validate with ARIA rules', async () => {
     expect(
       await axeComponent(Comp, {
@@ -232,12 +276,19 @@ describe('Radio group component', () => {
   })
 
   it('should support spacing props', () => {
-    render(<Component top="2rem" />)
+    render(
+      <Component.Group top="2rem">
+        <Component id="radio-1" label="Radio 1" value="first" />
+        <Component id="radio-2" label="Radio 2" value="second" checked />
+      </Component.Group>
+    )
 
-    const element = document.querySelector('.dnb-radio')
+    const element = document.querySelector('.dnb-radio-group')
 
     expect(Array.from(element.classList)).toEqual([
-      'dnb-radio',
+      'dnb-radio-group',
+      'dnb-radio-group--row',
+      'dnb-form-component',
       'dnb-space__top--large',
     ])
   })
@@ -245,19 +296,44 @@ describe('Radio group component', () => {
   it('should inherit FormRow vertical label', () => {
     render(
       <FormRow vertical>
-        <Component label="Label" />
+        <Component.Group label="Label" name="group" id="group">
+          <Component id="radio-1" label="Radio 1" value="first" />
+          <Component id="radio-2" label="Radio 2" value="second" checked />
+        </Component.Group>
       </FormRow>
     )
 
-    const element = document.querySelector('.dnb-radio')
+    const element = document.querySelector('.dnb-radio-group')
     const attributes = Array.from(element.attributes).map(
       (attr) => attr.name
     )
 
     expect(attributes).toEqual(['class'])
     expect(Array.from(element.classList)).toEqual([
-      'dnb-radio',
-      'dnb-radio--label-position-right',
+      'dnb-radio-group',
+      'dnb-radio-group--row',
+      'dnb-form-component',
+    ])
+    expect(
+      Array.from(
+        document.querySelector('.dnb-radio-group .dnb-form-row').classList
+      )
+    ).toEqual([
+      'dnb-section',
+      'dnb-section--transparent',
+      'dnb-form-row',
+      'dnb-form-row--vertical',
+      'dnb-form-row--vertical-label',
+      'dnb-form-row--nested',
+    ])
+    expect(
+      Array.from(document.querySelector('.dnb-form-row').classList)
+    ).toEqual([
+      'dnb-section',
+      'dnb-section--transparent',
+      'dnb-form-row',
+      'dnb-form-row--vertical',
+      'dnb-form-row--vertical-label',
     ])
   })
 
