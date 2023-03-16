@@ -14,6 +14,8 @@ import {
 } from '../../../core/jest/jestSetup'
 import Component from '../FormStatus'
 import Input from '../../input/Input'
+import { render } from '@testing-library/react'
+import FormRow from '../../form-row/FormRow'
 
 const props = fakeProps(require.resolve('../FormStatus'), {
   optional: true,
@@ -155,6 +157,40 @@ describe('FormStatus component', () => {
   it('has to to have a text value as defined in the prop', () => {
     const Comp = mount(<Component {...props} />)
     expect(Comp.find('.dnb-form-status__text').text()).toBe(props.text)
+  })
+
+  it('should support spacing props', () => {
+    render(<Component top="2rem" />)
+
+    const element = document.querySelector('.dnb-form-status')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-form-status',
+      'dnb-form-status--error',
+      'dnb-form-status__size--default',
+      'dnb-form-status--has-content',
+    ])
+  })
+
+  it('should inherit FormRow vertical label', () => {
+    render(
+      <FormRow vertical>
+        <Component label="Label" />
+      </FormRow>
+    )
+
+    const element = document.querySelector('.dnb-form-status')
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+
+    expect(attributes).toEqual(['class', 'id', 'role', 'style'])
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-form-status',
+      'dnb-form-status--error',
+      'dnb-form-status__size--default',
+      'dnb-form-status--has-content',
+    ])
   })
 })
 

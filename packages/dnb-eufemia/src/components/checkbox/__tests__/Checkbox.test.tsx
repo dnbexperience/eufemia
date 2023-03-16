@@ -3,6 +3,7 @@
  *
  */
 
+import { render } from '@testing-library/react'
 import React from 'react'
 import {
   mount,
@@ -11,6 +12,7 @@ import {
   toJson,
   loadScss,
 } from '../../../core/jest/jestSetup'
+import FormRow from '../../form-row/FormRow'
 import Component from '../Checkbox'
 
 const props = fakeProps(require.resolve('../Checkbox'), {
@@ -134,6 +136,38 @@ describe('Checkbox component', () => {
     expect(Comp.find('input').instance().hasAttribute('disabled')).toBe(
       true
     )
+  })
+
+  it('should support spacing props', () => {
+    render(<Component top="2rem" />)
+
+    const element = document.querySelector('.dnb-checkbox')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-checkbox',
+      'dnb-form-component',
+      'dnb-space__top--large',
+    ])
+  })
+
+  it('should inherit FormRow vertical label', () => {
+    render(
+      <FormRow vertical>
+        <Component label="Label" />
+      </FormRow>
+    )
+
+    const element = document.querySelector('.dnb-checkbox')
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+
+    expect(attributes).toEqual(['class'])
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-checkbox',
+      'dnb-form-component',
+      'dnb-checkbox--label-position-right',
+    ])
   })
 
   it('should validate with ARIA rules', async () => {

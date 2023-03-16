@@ -14,6 +14,7 @@ import {
 import { render } from '@testing-library/react'
 import Component from '../Input'
 import { format } from '../../number-format/NumberUtils'
+import FormRow from '../../form-row/FormRow'
 
 const props = {
   ...fakeProps(require.resolve('../Input'), {
@@ -505,6 +506,44 @@ describe('Input with clear button', () => {
     expect(
       Comp.find('.dnb-input').instance().getAttribute('data-input-state')
     ).toBe('focus')
+  })
+
+  it('should support spacing props', () => {
+    render(<Component top="2rem" />)
+
+    const element = document.querySelector('.dnb-input')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-input',
+      'dnb-form-component',
+      'dnb-space__top--large',
+      'dnb-input--text',
+    ])
+  })
+
+  it('should inherit FormRow vertical label', () => {
+    render(
+      <FormRow vertical>
+        <Component label="Label" />
+      </FormRow>
+    )
+
+    const element = document.querySelector('.dnb-input')
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+
+    expect(attributes).toEqual([
+      'class',
+      'data-input-state',
+      'data-has-content',
+    ])
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-input',
+      'dnb-form-component',
+      'dnb-input--text',
+      'dnb-input--vertical',
+    ])
   })
 
   it('should support icon', () => {
