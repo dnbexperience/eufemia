@@ -235,6 +235,36 @@ describe('ToggleButton component', () => {
     )
   })
 
+  it('should support spacing props', () => {
+    render(<Component top="2rem" />)
+
+    const element = document.querySelector('.dnb-toggle-button')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-toggle-button',
+      'dnb-space__top--large',
+    ])
+  })
+
+  it('should inherit FormRow vertical label', () => {
+    render(
+      <FormRow vertical>
+        <Component label="Label" />
+      </FormRow>
+    )
+
+    const element = document.querySelector('.dnb-toggle-button')
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+
+    expect(attributes).toEqual(['class'])
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-toggle-button',
+      'dnb-toggle-button--vertical',
+    ])
+  })
+
   it('should validate with ARIA rules', async () => {
     const Comp = mount(<Component {...props} />)
 
@@ -498,32 +528,87 @@ describe('ToggleButton group component', () => {
   })
 
   it('should support spacing props', () => {
-    render(<Component top="2rem" />)
+    render(
+      <Component.Group id="group" top="2rem">
+        <Component
+          variant="checkbox"
+          id="toggle-button-1"
+          text="ToggleButton 1"
+          value="first"
+        />
+        <Component
+          variant="checkbox"
+          id="toggle-button-2"
+          text="ToggleButton 2"
+          value="second"
+        />
+      </Component.Group>
+    )
 
-    const element = document.querySelector('.dnb-toggle-button')
+    const element = document.querySelector('.dnb-toggle-button-group')
 
     expect(Array.from(element.classList)).toEqual([
-      'dnb-toggle-button',
+      'dnb-toggle-button-group',
+      'dnb-toggle-button-group--row',
+      'dnb-form-component',
       'dnb-space__top--large',
+      'dnb-toggle-button-group--no-label',
     ])
   })
 
   it('should inherit FormRow vertical label', () => {
     render(
       <FormRow vertical>
-        <Component label="Label" />
+        <Component.Group id="group" label="Label">
+          <Component
+            variant="checkbox"
+            id="toggle-button-1"
+            text="ToggleButton 1"
+            value="first"
+          />
+          <Component
+            variant="checkbox"
+            id="toggle-button-2"
+            text="ToggleButton 2"
+            value="second"
+          />
+        </Component.Group>
       </FormRow>
     )
 
-    const element = document.querySelector('.dnb-toggle-button')
+    const element = document.querySelector('.dnb-toggle-button-group')
     const attributes = Array.from(element.attributes).map(
       (attr) => attr.name
     )
 
     expect(attributes).toEqual(['class'])
     expect(Array.from(element.classList)).toEqual([
-      'dnb-toggle-button',
-      'dnb-toggle-button--vertical',
+      'dnb-toggle-button-group',
+      'dnb-toggle-button-group--row',
+      'dnb-form-component',
+      'dnb-form-row--vertical-label',
+    ])
+    expect(
+      Array.from(
+        document.querySelector('.dnb-toggle-button-group .dnb-form-row')
+          .classList
+      )
+    ).toEqual([
+      'dnb-section',
+      'dnb-section--transparent',
+      'dnb-form-row',
+      'dnb-form-row--vertical',
+      'dnb-form-row--vertical-label',
+      'dnb-form-row--nested',
+    ])
+    expect(
+      Array.from(document.querySelector('.dnb-form-row').classList)
+    ).toEqual([
+      'dnb-section',
+      'dnb-section--transparent',
+      'dnb-form-row',
+      'dnb-form-row--vertical',
+      'dnb-form-row--vertical-label',
     ])
   })
 })
