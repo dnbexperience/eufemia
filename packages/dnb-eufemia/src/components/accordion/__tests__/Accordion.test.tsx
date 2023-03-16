@@ -10,7 +10,7 @@ import {
   toJson,
   loadScss,
 } from '../../../core/jest/jestSetup'
-import Accordion from '../Accordion'
+import Accordion, { AccordionProps } from '../Accordion'
 import {
   add_medium as AddIcon,
   subtract_medium as SubtractIcon,
@@ -20,11 +20,12 @@ import MatchMediaMock from 'jest-matchmedia-mock'
 
 new MatchMediaMock()
 
-const props = {}
-props.id = 'accordion'
-props.variant = 'default'
-props.no_animation = true
-props.title = 'title'
+const props = {
+  id: 'accordion',
+  variant: 'default',
+  no_animation: true,
+  title: 'title',
+} as AccordionProps
 
 describe('Accordion component', () => {
   it('have to match snapshot', () => {
@@ -263,14 +264,12 @@ describe('Accordion group component', () => {
       >
         <Accordion
           id="accordion-1"
-          text="Accordion 1"
           value="first"
           data-prop="value-1"
           attributes={{ 'data-attr': 'value' }}
         />
         <Accordion
           id="accordion-2"
-          text="Accordion 2"
           value="second"
           data-prop="value-2"
           attributes={{ 'data-attr': 'value' }}
@@ -300,7 +299,10 @@ describe('Accordion group component', () => {
 })
 
 describe('Accordion container component', () => {
-  class DidRender extends React.PureComponent {
+  type DidRenderProps = {
+    id: string
+  }
+  class DidRender extends React.PureComponent<DidRenderProps> {
     state = { mounted: false }
     componentDidMount() {
       this.setState({ mounted: true })
@@ -414,7 +416,7 @@ describe('Accordion container component', () => {
   })
 
   it('will set minHeight', async () => {
-    const contentRef = React.createRef()
+    const contentRef = React.createRef<HTMLElement>()
 
     render(<Container contentRef={contentRef} />)
 
