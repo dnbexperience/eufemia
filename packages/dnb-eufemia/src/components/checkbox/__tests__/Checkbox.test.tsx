@@ -152,7 +152,7 @@ describe('Checkbox component', () => {
 
   it('should inherit FormRow vertical label', () => {
     render(
-      <FormRow vertical>
+      <FormRow vertical disabled>
         <Component label="Label" />
       </FormRow>
     )
@@ -161,12 +161,28 @@ describe('Checkbox component', () => {
     const attributes = Array.from(element.attributes).map(
       (attr) => attr.name
     )
+    const inputElement = document.querySelector('.dnb-checkbox input')
+    const inputAttributes = Array.from(inputElement.attributes).map(
+      (attr) => attr.name
+    )
 
     expect(attributes).toEqual(['class'])
+    expect(inputAttributes).toEqual([
+      'id',
+      'name',
+      'type',
+      'class',
+      'disabled',
+      'aria-disabled',
+      'value',
+    ])
     expect(Array.from(element.classList)).toEqual([
       'dnb-checkbox',
       'dnb-form-component',
       'dnb-checkbox--label-position-right',
+    ])
+    expect(Array.from(inputElement.classList)).toEqual([
+      'dnb-checkbox__input',
     ])
   })
 
