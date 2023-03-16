@@ -3,6 +3,7 @@
  *
  */
 
+import { render } from '@testing-library/react'
 import React from 'react'
 import {
   mount,
@@ -11,6 +12,7 @@ import {
   toJson,
   loadScss,
 } from '../../../core/jest/jestSetup'
+import FormRow from '../../form-row/FormRow'
 import Component from '../ToggleButton'
 
 const props = fakeProps(require.resolve('../ToggleButton'), {
@@ -493,6 +495,36 @@ describe('ToggleButton group component', () => {
 
     TestButton(Comp, 'toggle-button-2')
     expect(Comp.state().values).toEqual(['first', 'second'])
+  })
+
+  it('should support spacing props', () => {
+    render(<Component top="2rem" />)
+
+    const element = document.querySelector('.dnb-toggle-button')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-toggle-button',
+      'dnb-space__top--large',
+    ])
+  })
+
+  it('should inherit FormRow vertical label', () => {
+    render(
+      <FormRow vertical>
+        <Component label="Label" />
+      </FormRow>
+    )
+
+    const element = document.querySelector('.dnb-toggle-button')
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+
+    expect(attributes).toEqual(['class'])
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-toggle-button',
+      'dnb-toggle-button--vertical',
+    ])
   })
 })
 

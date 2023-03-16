@@ -3,6 +3,7 @@
  *
  */
 
+import { render } from '@testing-library/react'
 import React from 'react'
 import {
   mount,
@@ -11,6 +12,7 @@ import {
   toJson,
   loadScss,
 } from '../../../core/jest/jestSetup'
+import FormRow from '../../form-row/FormRow'
 import Component from '../Radio'
 
 const props = fakeProps(require.resolve('../Radio'), {
@@ -227,6 +229,36 @@ describe('Radio group component', () => {
     expect(
       Comp.find('input').last().instance().hasAttribute('disabled')
     ).toBe(true)
+  })
+
+  it('should support spacing props', () => {
+    render(<Component top="2rem" />)
+
+    const element = document.querySelector('.dnb-radio')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-radio',
+      'dnb-space__top--large',
+    ])
+  })
+
+  it('should inherit FormRow vertical label', () => {
+    render(
+      <FormRow vertical>
+        <Component label="Label" />
+      </FormRow>
+    )
+
+    const element = document.querySelector('.dnb-radio')
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+
+    expect(attributes).toEqual(['class'])
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-radio',
+      'dnb-radio--label-position-right',
+    ])
   })
 
   // mount compare the snapshot

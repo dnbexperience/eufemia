@@ -30,6 +30,7 @@ import {
   makeDayObject,
 } from '../DatePickerCalc'
 import { fireEvent, render } from '@testing-library/react'
+import FormRow from '../../form-row/FormRow'
 
 beforeEach(() => {
   document.body.innerHTML = ''
@@ -1322,6 +1323,42 @@ describe('DatePicker calc', () => {
         expect(getCalendar(date, dayOffset)).toHaveLength(42)
       }
     })
+  })
+
+  it('should support spacing props', () => {
+    render(<Component top="2rem" show_input />)
+
+    const element = document.querySelector('.dnb-date-picker')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-date-picker',
+      'dnb-form-component',
+      'dnb-space__top--large',
+      'dnb-date-picker--hidden',
+      'dnb-date-picker--show-input',
+    ])
+  })
+
+  it('should inherit FormRow vertical label', () => {
+    render(
+      <FormRow vertical>
+        <Component label="Label" show_input />
+      </FormRow>
+    )
+
+    const element = document.querySelector('.dnb-date-picker')
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+
+    expect(attributes).toEqual(['class', 'lang'])
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-date-picker',
+      'dnb-form-component',
+      'dnb-date-picker--vertical',
+      'dnb-date-picker--hidden',
+      'dnb-date-picker--show-input',
+    ])
   })
 })
 
