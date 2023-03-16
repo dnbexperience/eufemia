@@ -248,11 +248,8 @@ exports[`FormStatus scss have to match snapshot 1`] = `
 /*
  * Utilities
  */
-:root {
-  --form-status-radius: 0.25rem;
-}
-
 .dnb-form-status {
+  --form-status-radius: 0.25rem;
   display: flex;
   opacity: 1;
   transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default);

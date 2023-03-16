@@ -5,7 +5,7 @@
 
 @import '../../../style/core/utilities.scss';
 
-:root {
+.dnb-input {
   --input-font-size: var(--font-size-basis);
   --input-font-size--small: var(--font-size-basis);
   --input-font-size--medium: var(--font-size-basis);
@@ -20,9 +20,7 @@
   --input-height--large: 3rem;
   --input-border-width: 0.0625rem;
   --input-border-radius: 0.25rem;
-}
 
-.dnb-input {
   display: inline-flex;
   align-items: center;
 

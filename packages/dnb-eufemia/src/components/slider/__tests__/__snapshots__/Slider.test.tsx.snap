@@ -236,11 +236,8 @@ html[data-visual-test] .dnb-tooltip--hide {
 /*
  * Utilities
  */
-:root {
-  --form-status-radius: 0.25rem;
-}
-
 .dnb-form-status {
+  --form-status-radius: 0.25rem;
   display: flex;
   opacity: 1;
   transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default);
@@ -321,26 +318,26 @@ button .dnb-form-status__text {
  * Utilities
  */
 :root {
+  --button-icon-size: 1rem;
+  --button-height: 2.5rem;
+  --button-border-radius: calc(var(--button-height) / 2);
+}
+
+.dnb-button {
   --button-font-size: var(--font-size-basis);
   --button-font-size-small: var(--font-size-small);
   --button-width: 2.5rem;
-  --button-height: 2.5rem;
   --button-width--small: 1.5rem;
   --button-height--small: 1.5rem;
   --button-width--medium: 2rem;
   --button-height--medium: 2rem;
   --button-width--large: 3rem;
   --button-height--large: 3rem;
-  --button-icon-size: 1rem;
   --button-border-width: 0.0625rem;
   --button-border-width--hover: 0.1875rem;
-  --button-border-radius: calc(var(--button-height) / 2);
   --button-border-radius--small: calc(var(--button-height--small) / 2);
   --button-border-radius--medium: calc(var(--button-height--medium) / 2);
   --button-border-radius--large: calc(var(--button-height--large) / 2);
-}
-
-.dnb-button {
   position: relative;
   user-select: none;
   /* stylelint-disable-next-line */
@@ -735,11 +732,8 @@ legend.dnb-form-label {
 /*
  * Utilities
  */
-:root {
-  --form-status-radius: 0.25rem;
-}
-
 .dnb-form-status {
+  --form-status-radius: 0.25rem;
   display: flex;
   opacity: 1;
   transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default);
@@ -819,14 +813,11 @@ button .dnb-form-status__text {
 /*
  * Utilities
  */
-:root {
+.dnb-slider {
   --slider-track-height: 0.25rem;
   --slider-thumb-size: 2rem;
   --slider-button-size: 1.5rem;
   --slider-space: 1rem;
-}
-
-.dnb-slider {
   user-select: none;
   -webkit-touch-callout: none;
   display: flex;

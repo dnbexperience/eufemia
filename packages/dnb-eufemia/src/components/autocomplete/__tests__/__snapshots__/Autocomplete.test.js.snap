@@ -1776,11 +1776,8 @@ html[data-visual-test] .dnb-tooltip--hide {
 /*
  * Utilities
  */
-:root {
-  --form-status-radius: 0.25rem;
-}
-
 .dnb-form-status {
+  --form-status-radius: 0.25rem;
   display: flex;
   opacity: 1;
   transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default);
@@ -1861,26 +1858,26 @@ button .dnb-form-status__text {
  * Utilities
  */
 :root {
+  --button-icon-size: 1rem;
+  --button-height: 2.5rem;
+  --button-border-radius: calc(var(--button-height) / 2);
+}
+
+.dnb-button {
   --button-font-size: var(--font-size-basis);
   --button-font-size-small: var(--font-size-small);
   --button-width: 2.5rem;
-  --button-height: 2.5rem;
   --button-width--small: 1.5rem;
   --button-height--small: 1.5rem;
   --button-width--medium: 2rem;
   --button-height--medium: 2rem;
   --button-width--large: 3rem;
   --button-height--large: 3rem;
-  --button-icon-size: 1rem;
   --button-border-width: 0.0625rem;
   --button-border-width--hover: 0.1875rem;
-  --button-border-radius: calc(var(--button-height) / 2);
   --button-border-radius--small: calc(var(--button-height--small) / 2);
   --button-border-radius--medium: calc(var(--button-height--medium) / 2);
   --button-border-radius--large: calc(var(--button-height--large) / 2);
-}
-
-.dnb-button {
   position: relative;
   user-select: none;
   /* stylelint-disable-next-line */
@@ -2357,11 +2354,8 @@ legend.dnb-form-label {
 /*
  * Utilities
  */
-:root {
-  --form-status-radius: 0.25rem;
-}
-
 .dnb-form-status {
+  --form-status-radius: 0.25rem;
   display: flex;
   opacity: 1;
   transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default);
@@ -2441,7 +2435,7 @@ button .dnb-form-status__text {
 /*
  * Utilities
  */
-:root {
+.dnb-input {
   --input-font-size: var(--font-size-basis);
   --input-font-size--small: var(--font-size-basis);
   --input-font-size--medium: var(--font-size-basis);
@@ -2456,9 +2450,6 @@ button .dnb-form-status__text {
   --input-height--large: 3rem;
   --input-border-width: 0.0625rem;
   --input-border-radius: 0.25rem;
-}
-
-.dnb-input {
   display: inline-flex;
   align-items: center;
   font-size: var(--input-font-small);
@@ -3095,11 +3086,8 @@ html[data-visual-test] .dnb-tooltip--hide {
 /*
  * Utilities
  */
-:root {
-  --form-status-radius: 0.25rem;
-}
-
 .dnb-form-status {
+  --form-status-radius: 0.25rem;
   display: flex;
   opacity: 1;
   transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default);
@@ -3180,26 +3168,26 @@ button .dnb-form-status__text {
  * Utilities
  */
 :root {
+  --button-icon-size: 1rem;
+  --button-height: 2.5rem;
+  --button-border-radius: calc(var(--button-height) / 2);
+}
+
+.dnb-button {
   --button-font-size: var(--font-size-basis);
   --button-font-size-small: var(--font-size-small);
   --button-width: 2.5rem;
-  --button-height: 2.5rem;
   --button-width--small: 1.5rem;
   --button-height--small: 1.5rem;
   --button-width--medium: 2rem;
   --button-height--medium: 2rem;
   --button-width--large: 3rem;
   --button-height--large: 3rem;
-  --button-icon-size: 1rem;
   --button-border-width: 0.0625rem;
   --button-border-width--hover: 0.1875rem;
-  --button-border-radius: calc(var(--button-height) / 2);
   --button-border-radius--small: calc(var(--button-height--small) / 2);
   --button-border-radius--medium: calc(var(--button-height--medium) / 2);
   --button-border-radius--large: calc(var(--button-height--large) / 2);
-}
-
-.dnb-button {
   position: relative;
   user-select: none;
   /* stylelint-disable-next-line */
@@ -3469,11 +3457,8 @@ legend.dnb-form-label {
 /*
  * Utilities
  */
-:root {
-  --form-status-radius: 0.25rem;
-}
-
 .dnb-form-status {
+  --form-status-radius: 0.25rem;
   display: flex;
   opacity: 1;
   transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default);
@@ -3553,7 +3538,7 @@ button .dnb-form-status__text {
 /*
  * Utilities
  */
-:root {
+.dnb-dropdown {
   --dropdown-width: 16rem;
   --dropdown-height: 2rem;
   --dropdown-height--small: 1.5rem;
@@ -3563,9 +3548,6 @@ button .dnb-form-status__text {
   --dropdown-focus-border-width: 0.125rem;
   --dropdown-text-padding: 0.5rem;
   --dropdown-border-radius: 0.25rem;
-}
-
-.dnb-dropdown {
   display: inline-flex;
   align-items: center;
   font-size: var(--font-size-small);
@@ -3816,14 +3798,11 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
 /*
  * Utilities
  */
-:root {
+.dnb-progress-indicator {
   --progress-indicator-timing: cubic-bezier(0.5, 0, 0.5, 0.99);
   --progress-indicator-circular-circle: 88;
   --progress-indicator-circular-circle-offset--min: 88;
   --progress-indicator-circular-circle-offset--max: 1;
-}
-
-.dnb-progress-indicator {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -4031,7 +4010,7 @@ html[data-visual-test] .dnb-progress-indicator__bar-transition {
 /*
  * Utilities
  */
-:root {
+.dnb-autocomplete {
   --autocomplete-width: 16rem;
   --autocomplete-height: 2rem;
   --autocomplete-height--small: 1.5rem;
@@ -4041,9 +4020,6 @@ html[data-visual-test] .dnb-progress-indicator__bar-transition {
   --autocomplete-focus-border-width: 0.125rem;
   --autocomplete-text-padding: 0.5rem;
   --autocomplete-border-radius: 0.25rem;
-}
-
-.dnb-autocomplete {
   display: inline-flex;
   align-items: center;
   font-size: var(--font-size-small);
@@ -4115,19 +4091,19 @@ html[data-visual-test] .dnb-progress-indicator__bar-transition {
 }
 .dnb-autocomplete .dnb-input__submit-button__button[disabled]:not(.dnb-button--has-text) {
   --border-color: var(--color-black-55);
-  box-shadow: inset 0 0 0 var(--input-border-width) var(--border-color);
+  box-shadow: inset 0 0 0 0.0625rem var(--border-color);
   /* iOS fix - because "inset" works not fine with border-radius */
   /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
   border-color: transparent;
 }
 @supports (-webkit-touch-callout: none) {
   .dnb-autocomplete .dnb-input__submit-button__button[disabled]:not(.dnb-button--has-text) {
-    box-shadow: 0 0 0 var(--input-border-width) var(--border-color);
+    box-shadow: 0 0 0 0.0625rem var(--border-color);
   }
 }
 @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
   .dnb-autocomplete .dnb-input__submit-button__button[disabled]:not(.dnb-button--has-text) {
-    box-shadow: 0 0 0 var(--input-border-width) var(--border-color);
+    box-shadow: 0 0 0 0.0625rem var(--border-color);
   }
 }
 .dnb-autocomplete .dnb-input__submit-button__button .dnb-icon {
