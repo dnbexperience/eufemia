@@ -8,7 +8,6 @@ import React from 'react'
 import PropTypes from 'prop-types' // Is needed because of ts types
 import Context from '../../shared/Context'
 import { extendPropsWithContextInClassComponent } from '../../shared/component-helper'
-import { includeValidProps } from '../form-row/FormRowHelpers'
 import DefaultIcon, {
   iconPropTypes,
   DefaultIconSize,
@@ -50,7 +49,6 @@ export default class IconPrimary extends React.PureComponent {
       this.props,
       IconPrimary.defaultProps,
       { skeleton: this.context?.skeleton },
-      includeValidProps(this.context.FormRow),
       this.context.Icon,
       this.context.IconPrimary
     )

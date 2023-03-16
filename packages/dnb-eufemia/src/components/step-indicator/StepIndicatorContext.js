@@ -12,7 +12,6 @@ import {
   extendPropsWithContextInClassComponent,
 } from '../../shared/component-helper'
 import { onMediaQueryChange } from '../../shared/MediaQueryUtils'
-import { includeValidProps } from '../form-row/FormRowHelpers'
 
 // We use this array to filter out unwanted
 const filterAttributes = Object.keys(stepIndicatorDefaultProps)
@@ -198,7 +197,6 @@ export class StepIndicatorProvider extends React.PureComponent {
       stepIndicatorDefaultProps,
       { skeleton: context?.skeleton },
       context.getTranslation(context).StepIndicator,
-      includeValidProps(context.FormRow),
       context.StepIndicator
     )
 

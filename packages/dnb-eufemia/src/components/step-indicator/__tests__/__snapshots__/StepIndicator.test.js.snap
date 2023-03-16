@@ -566,6 +566,7 @@ exports[`StepIndicator in loose mode have to match snapshot 1`] = `
                           }
                           onClick={[Function]}
                           on_click={null}
+                          rel={null}
                           size={null}
                           skeleton={null}
                           status={null}
@@ -681,6 +682,7 @@ exports[`StepIndicator in loose mode have to match snapshot 1`] = `
                               isIconOnly={false}
                               onClick={[Function]}
                               on_click={null}
+                              rel={null}
                               size={null}
                               skeleton={false}
                               status={null}
@@ -992,6 +994,7 @@ exports[`StepIndicator in loose mode have to match snapshot 1`] = `
                           }
                           onClick={[Function]}
                           on_click={null}
+                          rel={null}
                           size={null}
                           skeleton={null}
                           status={null}
@@ -1107,6 +1110,7 @@ exports[`StepIndicator in loose mode have to match snapshot 1`] = `
                               isIconOnly={false}
                               onClick={[Function]}
                               on_click={null}
+                              rel={null}
                               size={null}
                               skeleton={false}
                               status={null}
@@ -1417,6 +1421,7 @@ exports[`StepIndicator in loose mode have to match snapshot 1`] = `
                           }
                           onClick={[Function]}
                           on_click={null}
+                          rel={null}
                           size={null}
                           skeleton={null}
                           status={null}
@@ -1532,6 +1537,7 @@ exports[`StepIndicator in loose mode have to match snapshot 1`] = `
                               isIconOnly={false}
                               onClick={[Function]}
                               on_click={null}
+                              rel={null}
                               size={null}
                               skeleton={false}
                               status={null}
@@ -1842,6 +1848,7 @@ exports[`StepIndicator in loose mode have to match snapshot 1`] = `
                           }
                           onClick={[Function]}
                           on_click={null}
+                          rel={null}
                           size={null}
                           skeleton={null}
                           status={null}
@@ -1957,6 +1964,7 @@ exports[`StepIndicator in loose mode have to match snapshot 1`] = `
                               isIconOnly={false}
                               onClick={[Function]}
                               on_click={null}
+                              rel={null}
                               size={null}
                               skeleton={false}
                               status={null}
@@ -2374,6 +2382,7 @@ exports[`StepIndicator in loose mode have to match snapshot on small screen 1`] 
                   }
                 }
                 on_click={[Function]}
+                rel={null}
                 sidebar_id={null}
                 size={null}
                 skeleton={null}
@@ -2490,6 +2499,7 @@ exports[`StepIndicator in loose mode have to match snapshot on small screen 1`] 
                     }
                     isIconOnly={false}
                     on_click={[Function]}
+                    rel={null}
                     sidebar_id={null}
                     size={null}
                     skeleton={false}
@@ -3291,6 +3301,7 @@ exports[`StepIndicator in static mode have to match snapshot 1`] = `
                             }
                           }
                           on_click={null}
+                          rel={null}
                           size={null}
                           skeleton={null}
                           status={null}
@@ -3402,6 +3413,7 @@ exports[`StepIndicator in static mode have to match snapshot 1`] = `
                               }
                               isIconOnly={false}
                               on_click={null}
+                              rel={null}
                               size={null}
                               skeleton={false}
                               status={null}
@@ -3711,6 +3723,7 @@ exports[`StepIndicator in static mode have to match snapshot 1`] = `
                             }
                           }
                           on_click={null}
+                          rel={null}
                           size={null}
                           skeleton={null}
                           status={null}
@@ -3822,6 +3835,7 @@ exports[`StepIndicator in static mode have to match snapshot 1`] = `
                               }
                               isIconOnly={false}
                               on_click={null}
+                              rel={null}
                               size={null}
                               skeleton={false}
                               status={null}
@@ -4130,6 +4144,7 @@ exports[`StepIndicator in static mode have to match snapshot 1`] = `
                             }
                           }
                           on_click={null}
+                          rel={null}
                           size={null}
                           skeleton={null}
                           status={null}
@@ -4241,6 +4256,7 @@ exports[`StepIndicator in static mode have to match snapshot 1`] = `
                               }
                               isIconOnly={false}
                               on_click={null}
+                              rel={null}
                               size={null}
                               skeleton={false}
                               status={null}
@@ -4549,6 +4565,7 @@ exports[`StepIndicator in static mode have to match snapshot 1`] = `
                             }
                           }
                           on_click={null}
+                          rel={null}
                           size={null}
                           skeleton={null}
                           status={null}
@@ -4660,6 +4677,7 @@ exports[`StepIndicator in static mode have to match snapshot 1`] = `
                               }
                               isIconOnly={false}
                               on_click={null}
+                              rel={null}
                               size={null}
                               skeleton={false}
                               status={null}
@@ -5077,6 +5095,7 @@ exports[`StepIndicator in static mode have to match snapshot on small screen 1`]
                   }
                 }
                 on_click={[Function]}
+                rel={null}
                 sidebar_id={null}
                 size={null}
                 skeleton={null}
@@ -5193,6 +5212,7 @@ exports[`StepIndicator in static mode have to match snapshot on small screen 1`]
                     }
                     isIconOnly={false}
                     on_click={[Function]}
+                    rel={null}
                     sidebar_id={null}
                     size={null}
                     skeleton={false}
@@ -5998,6 +6018,7 @@ exports[`StepIndicator in strict mode have to match snapshot 1`] = `
                           }
                           onClick={[Function]}
                           on_click={null}
+                          rel={null}
                           size={null}
                           skeleton={null}
                           status={null}
@@ -6113,6 +6134,7 @@ exports[`StepIndicator in strict mode have to match snapshot 1`] = `
                               isIconOnly={false}
                               onClick={[Function]}
                               on_click={null}
+                              rel={null}
                               size={null}
                               skeleton={false}
                               status={null}
@@ -6424,6 +6446,7 @@ exports[`StepIndicator in strict mode have to match snapshot 1`] = `
                           }
                           onClick={[Function]}
                           on_click={null}
+                          rel={null}
                           size={null}
                           skeleton={null}
                           status={null}
@@ -6539,6 +6562,7 @@ exports[`StepIndicator in strict mode have to match snapshot 1`] = `
                               isIconOnly={false}
                               onClick={[Function]}
                               on_click={null}
+                              rel={null}
                               size={null}
                               skeleton={false}
                               status={null}
@@ -6847,6 +6871,7 @@ exports[`StepIndicator in strict mode have to match snapshot 1`] = `
                             }
                           }
                           on_click={null}
+                          rel={null}
                           size={null}
                           skeleton={null}
                           status={null}
@@ -6958,6 +6983,7 @@ exports[`StepIndicator in strict mode have to match snapshot 1`] = `
                               }
                               isIconOnly={false}
                               on_click={null}
+                              rel={null}
                               size={null}
                               skeleton={false}
                               status={null}
@@ -7266,6 +7292,7 @@ exports[`StepIndicator in strict mode have to match snapshot 1`] = `
                             }
                           }
                           on_click={null}
+                          rel={null}
                           size={null}
                           skeleton={null}
                           status={null}
@@ -7377,6 +7404,7 @@ exports[`StepIndicator in strict mode have to match snapshot 1`] = `
                               }
                               isIconOnly={false}
                               on_click={null}
+                              rel={null}
                               size={null}
                               skeleton={false}
                               status={null}
@@ -7794,6 +7822,7 @@ exports[`StepIndicator in strict mode have to match snapshot on small screen 1`]
                   }
                 }
                 on_click={[Function]}
+                rel={null}
                 sidebar_id={null}
                 size={null}
                 skeleton={null}
@@ -7910,6 +7939,7 @@ exports[`StepIndicator in strict mode have to match snapshot on small screen 1`]
                     }
                     isIconOnly={false}
                     on_click={[Function]}
+                    rel={null}
                     sidebar_id={null}
                     size={null}
                     skeleton={false}

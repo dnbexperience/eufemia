@@ -16,7 +16,6 @@ import {
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../../components/space/SpacingHelper'
-import { includeValidProps } from '../../components/form-row/FormRowHelpers'
 
 import DrawerListContext from './DrawerListContext'
 import DrawerListProvider from './DrawerListProvider'
@@ -151,9 +150,7 @@ class DrawerListInstance extends React.PureComponent {
     const props = extendPropsWithContextInClassComponent(
       this.props,
       DrawerList.defaultProps,
-      this.context.getTranslation(this.props).DrawerList,
-      includeValidProps(this.context.FormRow),
-      this.context.DrawerList
+      this.context.getTranslation(this.props).DrawerList
     )
 
     const {

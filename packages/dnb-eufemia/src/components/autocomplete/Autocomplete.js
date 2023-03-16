@@ -1883,6 +1883,9 @@ class AutocompleteInstance extends React.PureComponent {
           variant="secondary"
           size={size === 'default' ? 'medium' : size}
           type="button"
+          status={status}
+          status_state={status_state}
+          status_props={status_props}
           {...triggerParams}
         />
       )
