@@ -8,14 +8,7 @@
 :root {
   --drawer-list-width: 16rem;
   --drawer-list-height: 2rem;
-  --drawer-list-padding-horizontal: 1rem;
-  --drawer-list-focus-border-width: 0.125rem;
-  --drawer-list-text-padding: 0.5rem;
-  --drawer-list-height--small: 1.5rem;
-  --drawer-list-height--medium: 2.5rem;
-  --drawer-list-height--large: 3rem;
 }
-
 @mixin openDrawerList($type: 'slide') {
   z-index: 100; // make sure we are over e.g. switch
   display: flex;
@@ -55,6 +48,13 @@
 }
 
 .dnb-drawer-list {
+  --drawer-list-padding-horizontal: 1rem;
+  --drawer-list-focus-border-width: 0.125rem;
+  --drawer-list-text-padding: 0.5rem;
+  --drawer-list-height--small: 1.5rem;
+  --drawer-list-height--medium: 2.5rem;
+  --drawer-list-height--large: 3rem;
+
   display: block; // has to be block element so we can se the content
   position: relative;
 

@@ -5,11 +5,6 @@
 
 @import '../../../style/core/utilities.scss';
 
-:root {
-  --toggle-button-margin-right: 1rem;
-  --toggle-button-margin-bottom: 1rem;
-}
-
 .dnb-toggle-button {
   display: inline-flex;
   align-items: center; // because, with this we v align it to the label
@@ -134,12 +129,15 @@
   }
 
   &-group {
+    --toggle-button-group-margin-right: 1rem;
+    --toggle-button-group-margin-bottom: 1rem;
+
     display: inline-flex;
 
     // default spacing
     .dnb-toggle-button {
-      margin-right: var(--toggle-button-margin-right);
-      margin-bottom: var(--toggle-button-margin-bottom);
+      margin-right: var(--toggle-button-group-margin-right);
+      margin-bottom: var(--toggle-button-group-margin-bottom);
     }
 
     &--column .dnb-toggle-button {
@@ -174,7 +172,9 @@
         align-items: flex-start;
       }
 
-      margin-bottom: calc(1px - 1px - var(--toggle-button-margin-bottom));
+      margin-bottom: calc(
+        1px - 1px - var(--toggle-button-group-margin-bottom)
+      );
 
       &::before {
         // move the group 2px up if label exists
@@ -184,12 +184,12 @@
 
     // vertical alignment - if no label is given
     &--no-label > .dnb-alignment-helper {
-      line-height: var(--button-height);
+      line-height: 2.5rem;
     }
 
     // correct for horizontal form-row direction
     &--row#{&}:not(.dnb-form-row--vertical-label) > .dnb-alignment-helper {
-      line-height: var(--button-height);
+      line-height: 2.5rem;
     }
   }
 

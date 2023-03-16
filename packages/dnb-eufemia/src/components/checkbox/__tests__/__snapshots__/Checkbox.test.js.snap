@@ -339,11 +339,8 @@ legend.dnb-form-label {
 /*
  * Utilities
  */
-:root {
-  --form-status-radius: 0.25rem;
-}
-
 .dnb-form-status {
+  --form-status-radius: 0.25rem;
   display: flex;
   opacity: 1;
   transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default);
@@ -426,12 +423,12 @@ button .dnb-form-status__text {
 :root {
   --checkbox-width--medium: 1.5rem;
   --checkbox-height--medium: 1.5rem;
-  --checkbox-width--large: 2rem;
-  --checkbox-height--large: 2rem;
-  --checkbox-border-width: 0.125rem;
 }
 
 .dnb-checkbox {
+  --checkbox-width--large: 2rem;
+  --checkbox-height--large: 2rem;
+  --checkbox-border-width: 0.125rem;
   display: inline-flex;
   flex-direction: column;
   font-size: var(--font-size-small);
