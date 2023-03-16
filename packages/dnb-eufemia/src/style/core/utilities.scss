@@ -69,10 +69,12 @@
     @include fakeBorder($color, var(--focus-ring-width), $inset);
   }
 }
+
 @mixin removeFocusRing($whatinput: null) {
   outline: initial;
+
   @if $whatinput == null {
-    $whatinput: 'keyboard';
+    box-shadow: none;
   }
 
   html[data-whatinput='#{$whatinput}'] & {
