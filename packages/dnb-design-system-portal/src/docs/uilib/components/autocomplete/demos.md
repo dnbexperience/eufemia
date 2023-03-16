@@ -86,10 +86,10 @@ const data = [
 
 <AutocompleteCustomWidth />
 
-<AutocompleteOpened />
-
-<AutocompleteDisabledExample />
-
 ### Autocomplete with status message
 
 <AutocompleteStatusExample />
+
+<AutocompleteOpened />
+
+<AutocompleteDisabledExample />
