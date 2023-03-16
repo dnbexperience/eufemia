@@ -11,7 +11,7 @@ import {
   axeComponent,
   loadScss,
 } from '../../../core/jest/jestSetup'
-import Component from '../Button'
+import Component, { ButtonOnClick } from '../Button'
 import IconPrimary from '../../IconPrimary'
 import { fireEvent, render } from '@testing-library/react'
 
@@ -254,7 +254,10 @@ describe('Button component', () => {
     const { rerender } = render(
       <Component text="Button" on_click={on_click} />
     )
-    const button = document.querySelector('button')
+
+    type Button = HTMLButtonElement & { onClickHandler: ButtonOnClick }
+
+    const button = document.querySelector('button') as Button
 
     button.onClickHandler = on_click
 

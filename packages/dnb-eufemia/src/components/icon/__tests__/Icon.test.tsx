@@ -11,7 +11,7 @@ import {
   axeComponent,
   loadScss,
 } from '../../../core/jest/jestSetup'
-import Component, { iconPropTypes } from '../Icon'
+import Component from '../Icon'
 import { question } from './test-files'
 
 const props = fakeProps(require.resolve('../Icon'), {
@@ -64,10 +64,6 @@ describe('Icon component', () => {
     expect(mount(<Component icon={''} />)).toMatchInlineSnapshot(
       'ReactWrapper {}'
     )
-  })
-
-  it('should have valid iconPropTypes', () => {
-    expect(typeof iconPropTypes.icon).toBe('function')
   })
 
   it('should have border class', () => {
