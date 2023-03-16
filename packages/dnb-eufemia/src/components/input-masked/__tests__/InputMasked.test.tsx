@@ -186,7 +186,7 @@ describe('InputMasked component', () => {
           suffix: ',- kr',
           allowDecimal: true,
         }}
-        on_key_down={onKeyDown}
+        onKeyDown={onKeyDown}
       />
     )
 
@@ -353,7 +353,7 @@ describe('InputMasked component', () => {
         {...props}
         value={1234.5}
         number_mask
-        on_key_down={onKeyDown}
+        onKeyDown={onKeyDown}
       />
     )
 
@@ -361,8 +361,9 @@ describe('InputMasked component', () => {
       'numeric'
     )
 
-    // eslint-disable-next-line
-    helpers.IS_ANDROID = true
+    Object.defineProperty(helpers, 'IS_ANDROID', {
+      value: true,
+    })
 
     // Re-render
     Comp.setProps({})
@@ -387,8 +388,9 @@ describe('InputMasked component', () => {
       'decimal'
     )
 
-    // eslint-disable-next-line
-    helpers.IS_ANDROID = false
+    Object.defineProperty(helpers, 'IS_ANDROID', {
+      value: false,
+    })
 
     Comp.find('input').simulate('keydown', {
       key: ',',
@@ -441,7 +443,7 @@ describe('InputMasked component', () => {
           suffix: ' kr',
           allowDecimal: true,
         }}
-        on_key_down={onKeyDown}
+        onKeyDown={onKeyDown}
       />
     )
 
@@ -703,7 +705,7 @@ describe('InputMasked component', () => {
       'NOK 123 456 kr' // includes a hidden space: invisibleSpace
     )
 
-    let selectionPosition = 7
+    const selectionPosition = 7
     const value = element.value
 
     // test "delete" key

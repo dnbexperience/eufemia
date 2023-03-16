@@ -91,7 +91,7 @@ describe('Input component', () => {
       const [value, setValue] = React.useState(initialValue)
       return (
         <Component
-          value={format(value)}
+          value={String(format(value))}
           on_change={({ value }) => {
             setValue(value)
           }}

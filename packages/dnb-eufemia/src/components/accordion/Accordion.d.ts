@@ -23,7 +23,7 @@ export type AccordionClosed = React.ReactNode | ((...args: any[]) => any);
 export type AccordionAttributes = string | Record<string, unknown>;
 
 export interface AccordionProps
-  extends React.HTMLProps<HTMLElement>,
+  extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
     SpacingProps {
   /**
    * A title as a string or React element. It will be used as the button text.
@@ -161,7 +161,8 @@ export default class Accordion extends React.Component<
   static Content = AccordionContent;
   static Header = AccordionHeader;
   static Provider = AccordionProvider;
-  static Group: (props: GroupProps) => JSX.Element;
+  static Group = Group;
+  static Store = Store;
   render(): JSX.Element;
 }
 
@@ -182,5 +183,17 @@ export type GroupProps = {
 
 declare class Group extends React.Component<GroupProps, any> {
   static defaultProps: object;
+  static Store = Store;
   render(): JSX.Element;
 }
+
+export type StoreStateReturn = boolean;
+export type StoreDataREturn = {
+  expanded: boolean;
+};
+export type Store = (id: string) => {
+  saveState: (state: boolean) => void;
+  getState: () => StoreStateReturn;
+  getData: () => StoreDataREturn;
+  flush: () => void;
+};
