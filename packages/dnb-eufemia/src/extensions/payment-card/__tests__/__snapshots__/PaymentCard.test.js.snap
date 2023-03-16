@@ -360,7 +360,7 @@ exports[`PaymentCard scss have to match snapshot 1`] = `
 /*
  * Utilities
  */
-:root {
+.dnb-payment-card {
   --dnb-payment-bg-default: linear-gradient(
     184.55deg,
     var(--color-sea-green) 6.31%,
@@ -402,9 +402,6 @@ exports[`PaymentCard scss have to match snapshot 1`] = `
     #2cc48e 6.31%,
     var(--color-summer-green) 82.66%
   );
-}
-
-.dnb-payment-card {
   margin: 0;
 }
 .dnb-payment-card__card {

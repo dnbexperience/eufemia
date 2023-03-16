@@ -5,7 +5,7 @@
 
 @import '../../../style/core/utilities.scss';
 
-:root {
+.dnb-autocomplete {
   --autocomplete-width: 16rem;
   --autocomplete-height: 2rem;
   --autocomplete-height--small: 1.5rem;
@@ -15,9 +15,7 @@
   --autocomplete-focus-border-width: 0.125rem;
   --autocomplete-text-padding: 0.5rem;
   --autocomplete-border-radius: 0.25rem;
-}
 
-.dnb-autocomplete {
   display: inline-flex;
   align-items: center;
 
@@ -111,11 +109,7 @@
     transform-origin: 50% 50%;
   }
   .dnb-input__submit-button__button[disabled]:not(.dnb-button--has-text) {
-    @include fakeBorder(
-      var(--color-black-55),
-      var(--input-border-width),
-      inset
-    );
+    @include fakeBorder(var(--color-black-55), 0.0625rem, inset);
   }
   .dnb-input__submit-button__button .dnb-icon {
     transition: transform 400ms ease-out;

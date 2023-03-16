@@ -808,12 +808,9 @@ exports[`DrawerList scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
-:root {
+.dnb-drawer-list {
   --drawer-list-options-border-radius: 0.25rem;
   --drawer-list-option-border-width: 0.0625rem;
-}
-
-.dnb-drawer-list {
   color: var(--color-emerald-green);
 }
 .dnb-drawer-list__list {
@@ -1022,15 +1019,15 @@ exports[`DrawerList scss have to match snapshot 1`] = `
 :root {
   --drawer-list-width: 16rem;
   --drawer-list-height: 2rem;
+}
+
+.dnb-drawer-list {
   --drawer-list-padding-horizontal: 1rem;
   --drawer-list-focus-border-width: 0.125rem;
   --drawer-list-text-padding: 0.5rem;
   --drawer-list-height--small: 1.5rem;
   --drawer-list-height--medium: 2.5rem;
   --drawer-list-height--large: 3rem;
-}
-
-.dnb-drawer-list {
   display: block;
   position: relative;
   width: inherit;
@@ -1099,6 +1096,11 @@ html[data-visual-test] .dnb-drawer-list__portal__style {
   transition: max-height 300ms var(--easing-default);
   overflow-y: auto;
   overscroll-behavior: contain;
+  --scrollbar-track-width: 0.5rem;
+  --scrollbar-thumb-width: 0.5rem;
+  --scrollbar-track-color: var(--color-black-8);
+  --scrollbar-thumb-color: var(--color-sea-green);
+  --scrollbar-thumb-hover-color: var(--color-emerald-green);
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: auto;
   scrollbar-color: var(--scrollbar-thumb-color, #888) transparent;

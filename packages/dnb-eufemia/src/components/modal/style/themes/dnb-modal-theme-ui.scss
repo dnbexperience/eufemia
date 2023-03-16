@@ -5,12 +5,9 @@
 
 @import '../../../../style/core/utilities.scss';
 
-:root {
-  --modal-overlay-bg: rgb(0 0 0 / 32%);
-}
-
 .dnb-modal {
   &__overlay {
+    --modal-overlay-bg: rgb(0 0 0 / 32%);
     background-color: var(--modal-overlay-bg);
   }
 }
