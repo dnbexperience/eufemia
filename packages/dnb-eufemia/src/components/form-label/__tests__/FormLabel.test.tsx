@@ -14,6 +14,7 @@ import {
 import { render } from '@testing-library/react'
 import Component from '../FormLabel'
 import Input from '../../input/Input'
+import FormRow from '../../form-row/FormRow'
 
 const props = fakeProps(require.resolve('../FormLabel'), {
   optional: true,
@@ -58,6 +59,25 @@ describe('FormLabel component', () => {
     expect(Array.from(element.classList)).toEqual([
       'dnb-form-label',
       'dnb-sr-only',
+    ])
+  })
+
+  it('should inherit FormRow vertical label', () => {
+    render(
+      <FormRow vertical>
+        <Component label="Label" />
+      </FormRow>
+    )
+
+    const element = document.querySelector('.dnb-form-label')
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+
+    expect(attributes).toEqual(['class', 'label'])
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-form-label',
+      'dnb-form-label--vertical',
     ])
   })
 
