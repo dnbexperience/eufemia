@@ -14,14 +14,15 @@ import {
 } from '../../../core/jest/jestSetup'
 import * as helpers from '../../../shared/helpers'
 import Component from '../Autocomplete'
-import { SubmitButton } from '../../../components/input/Input'
-import { format } from '../../../components/number-format/NumberUtils'
+import { SubmitButton } from '../../input/Input'
+import { format } from '../../number-format/NumberUtils'
 import userEvent from '@testing-library/user-event'
 import {
   mockImplementationForDirectionObserver,
   testDirectionObserver,
 } from '../../../fragments/drawer-list/__tests__/DrawerListTestMocks'
 import { render } from '@testing-library/react'
+import FormRow from '../../form-row/FormRow'
 
 const snapshotProps = {
   ...fakeProps(require.resolve('../Autocomplete'), {
@@ -2037,6 +2038,37 @@ describe('Autocomplete component', () => {
         .querySelector('button.dnb-input__submit-button__button')
         .classList.contains('dnb-button__status--info')
     ).toBe(true)
+  })
+
+  it('should support spacing props', () => {
+    render(<Component top="2rem" />)
+
+    const element = document.querySelector('.dnb-autocomplete')
+
+    expect(element.classList).toContain('dnb-space__top--large')
+  })
+
+  it('should inherit FormRow vertical label', () => {
+    render(
+      <FormRow vertical>
+        <Component label="Label" />
+      </FormRow>
+    )
+
+    const element = document.querySelector('.dnb-autocomplete')
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+
+    expect(attributes).toEqual(['class'])
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-autocomplete',
+      'dnb-form-component',
+      'dnb-autocomplete--auto',
+      'dnb-autocomplete--vertical',
+      'dnb-autocomplete--icon-position-left',
+      'dnb-autocomplete--default',
+    ])
   })
 })
 
