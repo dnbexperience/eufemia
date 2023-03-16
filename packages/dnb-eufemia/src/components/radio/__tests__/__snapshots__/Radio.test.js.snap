@@ -762,11 +762,8 @@ legend.dnb-form-label {
 /*
  * Utilities
  */
-:root {
-  --form-status-radius: 0.25rem;
-}
-
 .dnb-form-status {
+  --form-status-radius: 0.25rem;
   display: flex;
   opacity: 1;
   transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default);
@@ -849,14 +846,12 @@ button .dnb-form-status__text {
 :root {
   --radio-width--medium: 1.5rem;
   --radio-height--medium: 1.5rem;
-  --radio-width--large: 2rem;
-  --radio-height--large: 2rem;
-  --radio-border-width: 0.125rem;
-  --radio-margin-right: 1rem;
-  --radio-margin-bottom: 0.5rem;
 }
 
 .dnb-radio {
+  --radio-width--large: 2rem;
+  --radio-height--large: 2rem;
+  --radio-border-width: 0.125rem;
   display: inline-flex;
   flex-direction: column;
   font-size: var(--font-size-small);
@@ -992,12 +987,14 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
   margin-bottom: 1rem;
 }
 .dnb-radio-group {
+  --radio-group-margin-bottom: 0.5rem;
+  --radio-group-margin-right: 1rem;
   display: inline-flex;
   flex-direction: row;
 }
 .dnb-radio-group .dnb-radio {
-  margin-right: var(--radio-margin-right);
-  margin-bottom: var(--radio-margin-bottom);
+  margin-right: var(--radio-group-margin-right);
+  margin-bottom: var(--radio-group-margin-bottom);
 }
 .dnb-radio-group--column .dnb-radio {
   display: flex;
@@ -1018,7 +1015,7 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
 }
 .dnb-radio-group .dnb-form-row {
   align-items: flex-start;
-  margin-bottom: calc(0px - var(--radio-margin-bottom));
+  margin-bottom: calc(0px - var(--radio-group-margin-bottom));
 }
 .dnb-radio-group .dnb-form-row::before {
   font-size: var(--font-size-basis);

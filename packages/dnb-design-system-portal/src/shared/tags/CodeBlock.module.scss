@@ -79,7 +79,7 @@
       max-width: 40rem;
       height: auto;
       white-space: normal;
-      line-height: var(--input-height);
+      line-height: 2rem; // --input-height
     }
 
     .prism-code {

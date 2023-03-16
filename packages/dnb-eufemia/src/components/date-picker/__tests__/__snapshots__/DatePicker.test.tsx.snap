@@ -2038,11 +2038,8 @@ html[data-visual-test] .dnb-tooltip--hide {
 /*
  * Utilities
  */
-:root {
-  --form-status-radius: 0.25rem;
-}
-
 .dnb-form-status {
+  --form-status-radius: 0.25rem;
   display: flex;
   opacity: 1;
   transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default);
@@ -2123,26 +2120,26 @@ button .dnb-form-status__text {
  * Utilities
  */
 :root {
+  --button-icon-size: 1rem;
+  --button-height: 2.5rem;
+  --button-border-radius: calc(var(--button-height) / 2);
+}
+
+.dnb-button {
   --button-font-size: var(--font-size-basis);
   --button-font-size-small: var(--font-size-small);
   --button-width: 2.5rem;
-  --button-height: 2.5rem;
   --button-width--small: 1.5rem;
   --button-height--small: 1.5rem;
   --button-width--medium: 2rem;
   --button-height--medium: 2rem;
   --button-width--large: 3rem;
   --button-height--large: 3rem;
-  --button-icon-size: 1rem;
   --button-border-width: 0.0625rem;
   --button-border-width--hover: 0.1875rem;
-  --button-border-radius: calc(var(--button-height) / 2);
   --button-border-radius--small: calc(var(--button-height--small) / 2);
   --button-border-radius--medium: calc(var(--button-height--medium) / 2);
   --button-border-radius--large: calc(var(--button-height--large) / 2);
-}
-
-.dnb-button {
   position: relative;
   user-select: none;
   /* stylelint-disable-next-line */
@@ -2619,11 +2616,8 @@ legend.dnb-form-label {
 /*
  * Utilities
  */
-:root {
-  --form-status-radius: 0.25rem;
-}
-
 .dnb-form-status {
+  --form-status-radius: 0.25rem;
   display: flex;
   opacity: 1;
   transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default);
@@ -2703,7 +2697,7 @@ button .dnb-form-status__text {
 /*
  * Utilities
  */
-:root {
+.dnb-input {
   --input-font-size: var(--font-size-basis);
   --input-font-size--small: var(--font-size-basis);
   --input-font-size--medium: var(--font-size-basis);
@@ -2718,9 +2712,6 @@ button .dnb-form-status__text {
   --input-height--large: 3rem;
   --input-border-width: 0.0625rem;
   --input-border-radius: 0.25rem;
-}
-
-.dnb-input {
   display: inline-flex;
   align-items: center;
   font-size: var(--input-font-small);
@@ -3268,11 +3259,8 @@ html[data-visual-test] .dnb-tooltip--hide {
 /*
  * Utilities
  */
-:root {
-  --form-status-radius: 0.25rem;
-}
-
 .dnb-form-status {
+  --form-status-radius: 0.25rem;
   display: flex;
   opacity: 1;
   transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default);
@@ -3353,26 +3341,26 @@ button .dnb-form-status__text {
  * Utilities
  */
 :root {
+  --button-icon-size: 1rem;
+  --button-height: 2.5rem;
+  --button-border-radius: calc(var(--button-height) / 2);
+}
+
+.dnb-button {
   --button-font-size: var(--font-size-basis);
   --button-font-size-small: var(--font-size-small);
   --button-width: 2.5rem;
-  --button-height: 2.5rem;
   --button-width--small: 1.5rem;
   --button-height--small: 1.5rem;
   --button-width--medium: 2rem;
   --button-height--medium: 2rem;
   --button-width--large: 3rem;
   --button-height--large: 3rem;
-  --button-icon-size: 1rem;
   --button-border-width: 0.0625rem;
   --button-border-width--hover: 0.1875rem;
-  --button-border-radius: calc(var(--button-height) / 2);
   --button-border-radius--small: calc(var(--button-height--small) / 2);
   --button-border-radius--medium: calc(var(--button-height--medium) / 2);
   --button-border-radius--large: calc(var(--button-height--large) / 2);
-}
-
-.dnb-button {
   position: relative;
   user-select: none;
   /* stylelint-disable-next-line */
@@ -3863,11 +3851,8 @@ html[data-visual-test] .dnb-tooltip--hide {
 /*
  * Utilities
  */
-:root {
-  --form-status-radius: 0.25rem;
-}
-
 .dnb-form-status {
+  --form-status-radius: 0.25rem;
   display: flex;
   opacity: 1;
   transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default);
@@ -3948,26 +3933,26 @@ button .dnb-form-status__text {
  * Utilities
  */
 :root {
+  --button-icon-size: 1rem;
+  --button-height: 2.5rem;
+  --button-border-radius: calc(var(--button-height) / 2);
+}
+
+.dnb-button {
   --button-font-size: var(--font-size-basis);
   --button-font-size-small: var(--font-size-small);
   --button-width: 2.5rem;
-  --button-height: 2.5rem;
   --button-width--small: 1.5rem;
   --button-height--small: 1.5rem;
   --button-width--medium: 2rem;
   --button-height--medium: 2rem;
   --button-width--large: 3rem;
   --button-height--large: 3rem;
-  --button-icon-size: 1rem;
   --button-border-width: 0.0625rem;
   --button-border-width--hover: 0.1875rem;
-  --button-border-radius: calc(var(--button-height) / 2);
   --button-border-radius--small: calc(var(--button-height--small) / 2);
   --button-border-radius--medium: calc(var(--button-height--medium) / 2);
   --button-border-radius--large: calc(var(--button-height--large) / 2);
-}
-
-.dnb-button {
   position: relative;
   user-select: none;
   /* stylelint-disable-next-line */
@@ -4244,11 +4229,8 @@ legend.dnb-form-label {
 /*
  * Utilities
  */
-:root {
-  --form-status-radius: 0.25rem;
-}
-
 .dnb-form-status {
+  --form-status-radius: 0.25rem;
   display: flex;
   opacity: 1;
   transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default);
@@ -4331,12 +4313,12 @@ button .dnb-form-status__text {
 :root {
   --checkbox-width--medium: 1.5rem;
   --checkbox-height--medium: 1.5rem;
-  --checkbox-width--large: 2rem;
-  --checkbox-height--large: 2rem;
-  --checkbox-border-width: 0.125rem;
 }
 
 .dnb-checkbox {
+  --checkbox-width--large: 2rem;
+  --checkbox-height--large: 2rem;
+  --checkbox-border-width: 0.125rem;
   display: inline-flex;
   flex-direction: column;
   font-size: var(--font-size-small);
@@ -4526,11 +4508,8 @@ legend.dnb-form-label {
 /*
  * Utilities
  */
-:root {
-  --form-status-radius: 0.25rem;
-}
-
 .dnb-form-status {
+  --form-status-radius: 0.25rem;
   display: flex;
   opacity: 1;
   transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default);
@@ -4613,14 +4592,12 @@ button .dnb-form-status__text {
 :root {
   --radio-width--medium: 1.5rem;
   --radio-height--medium: 1.5rem;
-  --radio-width--large: 2rem;
-  --radio-height--large: 2rem;
-  --radio-border-width: 0.125rem;
-  --radio-margin-right: 1rem;
-  --radio-margin-bottom: 0.5rem;
 }
 
 .dnb-radio {
+  --radio-width--large: 2rem;
+  --radio-height--large: 2rem;
+  --radio-border-width: 0.125rem;
   display: inline-flex;
   flex-direction: column;
   font-size: var(--font-size-small);
@@ -4756,12 +4733,14 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
   margin-bottom: 1rem;
 }
 .dnb-radio-group {
+  --radio-group-margin-bottom: 0.5rem;
+  --radio-group-margin-right: 1rem;
   display: inline-flex;
   flex-direction: row;
 }
 .dnb-radio-group .dnb-radio {
-  margin-right: var(--radio-margin-right);
-  margin-bottom: var(--radio-margin-bottom);
+  margin-right: var(--radio-group-margin-right);
+  margin-bottom: var(--radio-group-margin-bottom);
 }
 .dnb-radio-group--column .dnb-radio {
   display: flex;
@@ -4782,7 +4761,7 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
 }
 .dnb-radio-group .dnb-form-row {
   align-items: flex-start;
-  margin-bottom: calc(0px - var(--radio-margin-bottom));
+  margin-bottom: calc(0px - var(--radio-group-margin-bottom));
 }
 .dnb-radio-group .dnb-form-row::before {
   font-size: var(--font-size-basis);
@@ -4805,11 +4784,8 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
 /*
  * Utilities
  */
-:root {
-  --form-status-radius: 0.25rem;
-}
-
 .dnb-form-status {
+  --form-status-radius: 0.25rem;
   display: flex;
   opacity: 1;
   transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default);
@@ -4889,11 +4865,6 @@ button .dnb-form-status__text {
 /*
  * Utilities
  */
-:root {
-  --toggle-button-margin-right: 1rem;
-  --toggle-button-margin-bottom: 1rem;
-}
-
 .dnb-toggle-button {
   display: inline-flex;
   align-items: center;
@@ -4977,11 +4948,13 @@ button .dnb-form-status__text {
   margin-right: 1rem;
 }
 .dnb-toggle-button-group {
+  --toggle-button-group-margin-right: 1rem;
+  --toggle-button-group-margin-bottom: 1rem;
   display: inline-flex;
 }
 .dnb-toggle-button-group .dnb-toggle-button {
-  margin-right: var(--toggle-button-margin-right);
-  margin-bottom: var(--toggle-button-margin-bottom);
+  margin-right: var(--toggle-button-group-margin-right);
+  margin-bottom: var(--toggle-button-group-margin-bottom);
 }
 .dnb-toggle-button-group--column .dnb-toggle-button {
   display: flex;
@@ -5003,7 +4976,7 @@ button .dnb-form-status__text {
 }
 .dnb-toggle-button-group .dnb-form-row {
   align-items: baseline;
-  margin-bottom: calc(0px - var(--toggle-button-margin-bottom));
+  margin-bottom: calc(0px - var(--toggle-button-group-margin-bottom));
 }
 .dnb-toggle-button-group .dnb-form-row--vertical-label {
   align-items: flex-start;
@@ -5012,10 +4985,10 @@ button .dnb-form-status__text {
   font-size: var(--font-size-basis);
 }
 .dnb-toggle-button-group--no-label > .dnb-alignment-helper {
-  line-height: var(--button-height);
+  line-height: 2.5rem;
 }
 .dnb-toggle-button-group--row.dnb-toggle-button-group:not(.dnb-form-row--vertical-label) > .dnb-alignment-helper {
-  line-height: var(--button-height);
+  line-height: 2.5rem;
 }
 @media screen and (min-width: 40em) {
   .dnb-form-label + .dnb-toggle-button {
@@ -5080,11 +5053,8 @@ legend.dnb-form-label {
 /*
  * Utilities
  */
-:root {
-  --form-status-radius: 0.25rem;
-}
-
 .dnb-form-status {
+  --form-status-radius: 0.25rem;
   display: flex;
   opacity: 1;
   transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default);
@@ -5164,13 +5134,10 @@ button .dnb-form-status__text {
 /*
  * Utilities
  */
-:root {
+.dnb-date-picker {
   --date-picker-input-height: 2rem;
   --date-picker-day-width: 2rem;
   --date-picker-day-horizontal-spacing: 4px;
-}
-
-.dnb-date-picker {
   display: inline-flex;
   align-items: center;
   font-size: var(--font-size-small);
@@ -5203,13 +5170,13 @@ button .dnb-form-status__text {
   top: var(--date-picker-input-height);
 }
 .dnb-date-picker--small .dnb-date-picker__container {
-  top: var(--input-height--small);
+  top: 1.5rem;
 }
 .dnb-date-picker--medium .dnb-date-picker__container {
-  top: var(--input-height--medium);
+  top: 2.5rem;
 }
 .dnb-date-picker--large .dnb-date-picker__container {
-  top: var(--input-height--large);
+  top: 3rem;
 }
 .dnb-date-picker--show-input .dnb-date-picker__container {
   left: 0;

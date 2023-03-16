@@ -5,11 +5,9 @@
 
 @import '../../../../style/core/utilities.scss';
 
-:root {
-  --textarea-rows: 2;
-}
-
 .dnb-textarea {
+  --textarea-rows: 2;
+
   &__textarea {
     color: var(--color-black);
     background-color: var(--color-white);
