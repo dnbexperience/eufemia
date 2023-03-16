@@ -11,6 +11,7 @@ import Slider from '../Slider'
 import type { SliderAllProps, onChangeEventProps } from '../Slider'
 import { format } from '../../number-format/NumberUtils'
 import { wait } from '@testing-library/user-event/dist/utils'
+import FormRow from '../../form-row/FormRow'
 
 const props: SliderAllProps = {
   id: 'slider',
@@ -718,6 +719,26 @@ describe('Slider component', () => {
       expect(getThumbElements(2).getAttribute('style')).toBe(
         'z-index: 3; left: 80%;'
       )
+    })
+
+    it('should inherit FormRow vertical label', () => {
+      render(
+        <FormRow vertical>
+          <SliderWithStateUpdate label="Label" />
+        </FormRow>
+      )
+
+      const element = document.querySelector('.dnb-slider')
+      const attributes = Array.from(element.attributes).map(
+        (attr) => attr.name
+      )
+
+      expect(attributes).toEqual(['class'])
+      expect(Array.from(element.classList)).toEqual([
+        'dnb-slider',
+        'dnb-form-component',
+        'dnb-slider__label--vertical',
+      ])
     })
   })
 
