@@ -18,7 +18,7 @@ export interface HProps
   children?: React.ReactNode;
 }
 
-export interface SharedHProps extends Omit<HProps, 'as'> {}
+export type SharedHProps = Omit<HProps, 'as'>;
 
 export default class H extends React.Component<HProps, any> {
   static defaultProps: object;

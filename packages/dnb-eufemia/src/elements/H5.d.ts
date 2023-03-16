@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { SharedHProps } from './H';
 
-export interface H5Props extends SharedHProps {}
+export type H5Props = SharedHProps;
 declare const H5: React.FC<H5Props>;
 export default H5;
