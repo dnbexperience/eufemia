@@ -161,12 +161,28 @@ describe('Switch component', () => {
     const attributes = Array.from(element.attributes).map(
       (attr) => attr.name
     )
+    const inputElement = document.querySelector('.dnb-switch input')
+    const inputAttributes = Array.from(inputElement.attributes).map(
+      (attr) => attr.name
+    )
 
     expect(attributes).toEqual(['class'])
+    expect(inputAttributes).toEqual([
+      'id',
+      'name',
+      'type',
+      'role',
+      'aria-checked',
+      'class',
+      'value',
+    ])
     expect(Array.from(element.classList)).toEqual([
       'dnb-switch',
       'dnb-switch--label-position-right',
       'dnb-form-component',
+    ])
+    expect(Array.from(inputElement.classList)).toEqual([
+      'dnb-switch__input',
     ])
   })
 
