@@ -18,7 +18,6 @@ import {
   accordionPropTypes,
   accordionDefaultProps,
 } from './AccordionPropTypes'
-import { includeValidProps } from '../form-row/FormRowHelpers'
 
 import Context from '../../shared/Context'
 import AccordionGroupContext from './AccordionProviderContext'
@@ -61,7 +60,6 @@ export default class AccordionGroup extends React.PureComponent {
     const props = extendPropsWithContextInClassComponent(
       this.props,
       AccordionGroup.defaultProps,
-      includeValidProps(this.context.FormRow),
       this.context.Accordion,
       this.context.getTranslation(this.props).Accordion
     )

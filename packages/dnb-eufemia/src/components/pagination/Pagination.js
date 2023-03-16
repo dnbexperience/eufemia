@@ -12,7 +12,6 @@ import {
   validateDOMAttributes,
   extendPropsWithContextInClassComponent,
 } from '../../shared/component-helper'
-import { includeValidProps } from '../form-row/FormRowHelpers'
 import {
   spacingPropTypes,
   createSpacingClasses,
@@ -175,7 +174,6 @@ class PaginationInstance extends React.PureComponent {
       this.props,
       paginationDefaultProps,
       this.context.getTranslation(this.props).Pagination,
-      includeValidProps(this.context.FormRow),
       this.context.Pagination
     )
 

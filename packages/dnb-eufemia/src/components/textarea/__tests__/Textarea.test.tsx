@@ -3,6 +3,7 @@
  *
  */
 
+import { render } from '@testing-library/react'
 import React from 'react'
 import {
   mount,
@@ -11,6 +12,7 @@ import {
   axeComponent,
   loadScss,
 } from '../../../core/jest/jestSetup'
+import FormRow from '../../form-row/FormRow'
 import Component from '../Textarea'
 
 const props = {
@@ -206,6 +208,40 @@ describe('Textarea component', () => {
       .mockImplementation(() => 1.5 * 2000)
     Comp.find('textarea').simulate('change')
     expect(elem.style.height).toBe('96px')
+  })
+
+  it('should support spacing props', () => {
+    render(<Component top="2rem" />)
+
+    const element = document.querySelector('.dnb-textarea')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-textarea',
+      'dnb-textarea--virgin',
+      'dnb-form-component',
+      'dnb-space__top--large',
+    ])
+  })
+
+  it('should inherit FormRow vertical label', () => {
+    render(
+      <FormRow vertical>
+        <Component label="Label" />
+      </FormRow>
+    )
+
+    const element = document.querySelector('.dnb-textarea')
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+
+    expect(attributes).toEqual(['class'])
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-textarea',
+      'dnb-textarea--virgin',
+      'dnb-form-component',
+      'dnb-textarea--vertical',
+    ])
   })
 
   it('should validate with ARIA rules as a textarea with a label', async () => {
