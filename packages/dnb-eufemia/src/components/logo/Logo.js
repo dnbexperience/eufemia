@@ -12,7 +12,6 @@ import {
   registerElement,
   extendPropsWithContextInClassComponent,
 } from '../../shared/component-helper'
-import { includeValidProps } from '../form-row/FormRowHelpers'
 import {
   spacingPropTypes,
   createSpacingClasses,
@@ -59,7 +58,6 @@ export default class Logo extends React.PureComponent {
       this.props,
       Logo.defaultProps,
       this.context.getTranslation(this.props).Logo,
-      includeValidProps(this.context.FormRow),
       this.context.Logo
     )
 
