@@ -25,7 +25,12 @@
 }
 
 .dnb-focus-ring {
-  @include fakeBorder($focusRingColor, $focusRingWidth, null, !important);
+  @include fakeBorder(
+    var(--focus-ring-color),
+    var(--focus-ring-width),
+    null,
+    !important
+  );
 }
 
 .dnb-scrollbar-appearance {

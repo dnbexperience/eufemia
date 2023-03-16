@@ -10,6 +10,11 @@
 // import all the "class styles" of the elements
 @import '../../elements/ui-elements.scss';
 
+:root {
+  --focus-ring-width: 0.125rem;
+  --focus-ring-color: var(--color-emerald-green);
+}
+
 // ::selection appearance helper
 .dnb-selection::selection,
 .dnb-selection ::selection,
