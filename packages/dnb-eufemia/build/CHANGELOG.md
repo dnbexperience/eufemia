@@ -3,6 +3,15 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.47.2](https://github.com/dnbexperience/eufemia/compare/v9.47.1...v9.47.2) (2023-03-16)
+
+
+### Bug Fixes
+
+* **Autocomplete:** pass status props to SubmitButton ([#2004](https://github.com/dnbexperience/eufemia/issues/2004)) ([fb89114](https://github.com/dnbexperience/eufemia/commit/fb89114e75ff4111640bc367a10d6faa339c4fe3))
+* **Button:** support rel property ([#1990](https://github.com/dnbexperience/eufemia/issues/1990)) ([ad029f2](https://github.com/dnbexperience/eufemia/commit/ad029f20f21154df40975a82b9b4f7019e373ebf))
+* remove FormRow context support from components not using FormRow ([#2103](https://github.com/dnbexperience/eufemia/issues/2103)) ([3a39134](https://github.com/dnbexperience/eufemia/commit/3a39134c883e70daf6ef374c85ea8ddbce317776))
+
 ## [9.47.1](https://github.com/dnbexperience/eufemia/compare/v9.47.0...v9.47.1) (2023-02-13)
 
 
