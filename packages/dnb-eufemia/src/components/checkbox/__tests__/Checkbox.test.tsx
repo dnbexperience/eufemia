@@ -11,19 +11,20 @@ import {
   toJson,
   loadScss,
 } from '../../../core/jest/jestSetup'
-import Component from '../Switch'
+import Component from '../Checkbox'
 
-const props = fakeProps(require.resolve('../Switch'), {
+const props = fakeProps(require.resolve('../Checkbox'), {
+  all: true,
   optional: true,
 })
+props.id = 'checkbox'
+props.element = 'input'
 props.status = null
-props.size = 'default'
-props.label_position = 'left'
 props.readOnly = false
-props.label_direction = 'horizontal'
-props.global_status_id = 'main'
+props.label = 'checkbox'
+props.label_position = 'left'
 
-describe('Switch component', () => {
+describe('Checkbox component', () => {
   // then test the state management
   const Comp = mount(<Component {...props} />)
 
@@ -68,7 +69,7 @@ describe('Switch component', () => {
   it('does handle controlled vs uncontrolled state properly', () => {
     const ControlledVsUncontrolled = () => {
       const [checked, setChecked] = React.useState(true)
-      const [random, setRandom] = React.useState()
+      const [random, setRandom] = React.useState(null)
 
       return (
         <>
@@ -140,14 +141,14 @@ describe('Switch component', () => {
   })
 })
 
-describe('Switch scss', () => {
+describe('Checkbox scss', () => {
   it('have to match snapshot', () => {
     const scss = loadScss(require.resolve('../style/deps.scss'))
     expect(scss).toMatchSnapshot()
   })
   it('have to match default theme snapshot', () => {
     const scss = loadScss(
-      require.resolve('../style/themes/dnb-switch-theme-ui.scss')
+      require.resolve('../style/themes/dnb-checkbox-theme-ui.scss')
     )
     expect(scss).toMatchSnapshot()
   })

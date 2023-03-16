@@ -183,9 +183,11 @@ describe('Textarea component', () => {
 
     const elem = Comp.find('textarea').instance()
 
-    jest.spyOn(window, 'getComputedStyle').mockImplementation(() => ({
-      lineHeight: 1.5 * 16,
-    }))
+    const style = {
+      lineHeight: String(1.5 * 16),
+    } as CSSStyleDeclaration
+
+    jest.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
 
     jest
       .spyOn(elem, 'scrollHeight', 'get')
