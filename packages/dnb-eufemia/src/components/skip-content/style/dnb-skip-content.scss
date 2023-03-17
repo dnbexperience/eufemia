@@ -20,7 +20,7 @@
     &::before {
       content: '';
       position: absolute;
-      inset: #{$focusRingWidth};
+      inset: #{var(--focus-ring-width)};
 
       @include fakeFocus();
     }
