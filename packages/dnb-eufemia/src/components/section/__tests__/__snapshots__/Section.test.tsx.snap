@@ -126,7 +126,8 @@ exports[`Section scss have to match default theme snapshot 1`] = `
 }
 html[data-whatinput=keyboard] .dnb-section--fire-red .dnb-anchor:not(:disabled):focus, html[data-whatinput=keyboard] .dnb-section--emerald-green .dnb-anchor:not(:disabled):focus, html[data-whatinput=keyboard] .dnb-section--sea-green .dnb-anchor:not(:disabled):focus {
   --border-color: var(--color-white);
-  box-shadow: 0 0 0 0.125rem var(--border-color);
+  --border-width: var(--focus-ring-width);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 .dnb-section--fire-red .dnb-button--tertiary, .dnb-section--emerald-green .dnb-button--tertiary, .dnb-section--sea-green .dnb-button--tertiary {
@@ -146,7 +147,8 @@ html[data-whatinput=keyboard] .dnb-section--fire-red .dnb-anchor:not(:disabled):
 }
 html[data-whatinput=keyboard] .dnb-section--fire-red .dnb-button--tertiary:focus::before, html[data-whatinput=keyboard] .dnb-section--emerald-green .dnb-button--tertiary:focus::before, html[data-whatinput=keyboard] .dnb-section--sea-green .dnb-button--tertiary:focus::before {
   --border-color: var(--color-white);
-  box-shadow: 0 0 0 0.125rem var(--border-color);
+  --border-width: var(--focus-ring-width);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 .dnb-section--fire-red ::selection, .dnb-section--mint-green ::selection {
