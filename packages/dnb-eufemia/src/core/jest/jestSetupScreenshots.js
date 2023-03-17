@@ -25,7 +25,7 @@ const config = {
     height: 1024,
   },
   matchConfig: {
-    failureThreshold: 0.01,
+    failureThreshold: 0.015, // Chromium needs 0.03, while webkit needs 0.04 or even more
     failureThresholdType: 'percent',
     comparisonMethod: 'pixelmatch',
     customSnapshotIdentifier: ({ currentTestName }) => {
@@ -94,7 +94,7 @@ const makeScreenshot = async ({
     await page.evaluate(executeBeforeSimulate)
   }
 
-  const { elementToSimulate, delaySimulation } = await handleSimulation({
+  const { delaySimulation } = await handleSimulation({
     page,
     element,
     simulate,
@@ -111,10 +111,6 @@ const makeScreenshot = async ({
     selector,
   })
 
-  if (simulate !== 'hover' && simulate !== 'active') {
-    await page.mouse.move(0, 0)
-  }
-
   if (executeBeforeScreenshot) {
     await page.evaluate(executeBeforeScreenshot)
   }
@@ -124,18 +120,30 @@ const makeScreenshot = async ({
   //   await page.waitForTimeout(300000)
   // }
 
+  if (simulate !== 'hover' && simulate !== 'active') {
+    // StepIndicato needs this
+    // after click simulation, the cursor is placed and will trigger a "hover"
+    await page.mouse.move(0, 0)
+  }
+
   const screenshot = await takeScreenshot({
     page,
     screenshotElement,
     screenshotSelector,
   })
 
-  if (delaySimulation > 0) {
-    await page.waitForTimeout(delaySimulation)
+  // When we make several screenshots on same page,
+  // we weed to reset the cursor
+  if (simulate) {
+    if (simulate === 'active') {
+      await page.mouse.up()
+    }
+
+    await page.mouse.move(0, 0)
   }
 
-  if (elementToSimulate) {
-    await elementToSimulate.dispose()
+  if (delaySimulation > 0) {
+    await page.waitForTimeout(delaySimulation)
   }
 
   if (waitBeforeFinish > 0) {
@@ -364,7 +372,6 @@ async function handleSimulation({
 
     switch (simulate) {
       case 'hover': {
-        await page.mouse.move(0, 0)
         await elementToSimulate.hover({ force: true })
         break
       }
@@ -398,23 +405,15 @@ async function handleSimulation({
 
       case 'active': {
         delaySimulation = isCI ? 200 : 100
+
+        // Use click with delay to move cursor and scrollposition
+        // FF needs an wait here, while chromium/webkit don't
         await elementToSimulate.click({
           force: true,
-          delay: delaySimulation, // Slider needs a delay, in order to make "active" state work
+          delay: delaySimulation,
         })
 
-        const { pageXOffset, pageYOffset } = await page.evaluate(() => {
-          const pageXOffset = window.pageXOffset
-          const pageYOffset = window.pageYOffset
-          return { pageXOffset, pageYOffset }
-        })
-
-        const boundingBox = await elementToSimulate.boundingBox()
-
-        await page.mouse.down(
-          boundingBox.x + boundingBox.width / 2 - pageXOffset,
-          boundingBox.y + boundingBox.height / 2 - pageYOffset
-        )
+        await page.mouse.down()
 
         break
       }
