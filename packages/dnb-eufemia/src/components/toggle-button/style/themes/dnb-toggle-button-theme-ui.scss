@@ -103,7 +103,7 @@
     }
     html[data-whatinput='keyboard']
       &:not([disabled]):not(:active):not(:hover):focus {
-      @include fakeFocus(null, var(--color-emerald-green), inset);
+      @include focusRing(null, var(--color-emerald-green), inset);
     }
   }
 

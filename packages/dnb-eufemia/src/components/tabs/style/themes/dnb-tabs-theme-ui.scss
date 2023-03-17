@@ -56,7 +56,7 @@
 
       border-radius: 0.5rem;
 
-      @include fakeFocus();
+      @include focusRing();
     }
   }
 
