@@ -220,7 +220,7 @@
   }
 
   &__button-helper:not(:disabled):focus ~ .dnb-button {
-    @include fakeFocus();
+    @include focusRing();
   }
 
   > .dnb-form-label {
