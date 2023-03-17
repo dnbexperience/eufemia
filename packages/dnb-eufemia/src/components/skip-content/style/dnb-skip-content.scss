@@ -22,7 +22,7 @@
       position: absolute;
       inset: #{var(--focus-ring-width)};
 
-      @include fakeFocus();
+      @include focusRing();
     }
   }
 

@@ -23,7 +23,7 @@
       flex: 0 1 auto;
 
       &:focus {
-        @include fakeFocus();
+        @include focusRing();
       }
 
       @include scrollX(auto);

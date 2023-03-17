@@ -117,7 +117,7 @@
   }
   &__input:not([disabled]):focus ~ &__background,
   &__input:not([disabled]):active ~ &__background {
-    @include fakeFocus();
+    @include focusRing();
   }
   &__input:not([disabled]):focus ~ &__button &__focus,
   &__input:not([disabled]):active ~ &__button &__focus {
