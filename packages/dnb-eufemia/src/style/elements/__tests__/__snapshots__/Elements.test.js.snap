@@ -61,8 +61,9 @@ sup .dnb-anchor, sub .dnb-anchor {
   text-decoration: none;
 }
 html[data-whatinput=keyboard] .dnb-anchor:focus {
-  --border-color: var(--color-emerald-green);
-  box-shadow: 0 0 0 0.125rem var(--border-color);
+  --border-color: var(--focus-ring-color);
+  --border-width: var(--focus-ring-width);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 .dnb-anchor:hover, .dnb-anchor:active {
@@ -145,8 +146,9 @@ html[data-whatinput=keyboard] .dnb-anchor:focus {
   text-decoration: none;
 }
 html[data-whatinput=mouse] .dnb-anchor--focus {
-  --border-color: var(--color-emerald-green);
-  box-shadow: 0 0 0 0.125rem var(--border-color);
+  --border-color: var(--focus-ring-color);
+  --border-width: var(--focus-ring-width);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 
@@ -198,7 +200,8 @@ html[data-whatinput=mouse] .dnb-anchor--focus {
 }
 html[data-whatinput=keyboard] .dnb-anchor--contrast:not(:disabled):focus {
   --border-color: var(--color-white);
-  box-shadow: 0 0 0 0.125rem var(--border-color);
+  --border-width: var(--focus-ring-width);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 
@@ -609,7 +612,8 @@ sub {
 html[data-whatinput=keyboard] .dnb-blockquote:not(.dnb-blockquote--no-background) .dnb-anchor:not(:disabled):focus,
 html[data-whatinput=keyboard] .dnb-blockquote:not(.dnb-blockquote--no-background) a:not(:disabled):focus {
   --border-color: var(--color-white);
-  box-shadow: 0 0 0 0.125rem var(--border-color);
+  --border-width: var(--focus-ring-width);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 .dnb-blockquote:not(.dnb-blockquote--no-background) h1,
@@ -955,7 +959,8 @@ del .dnb-code {
 }
 .dnb-pre.dnb-pre--focus {
   --border-color: var(--color-sea-green);
-  box-shadow: 0 0 0 0.25rem var(--border-color);
+  --border-width: 0.25rem;
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 

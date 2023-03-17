@@ -44,19 +44,20 @@ exports[`Timeline scss have to match default theme snapshot 1`] = `
   color: var(--color-black-80);
   background-color: var(--color-white);
   --border-color: var(--color-black-80);
-  box-shadow: inset 0 0 0 0.0625rem var(--border-color);
+  --border-width: 0.0625rem;
+  box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
   /* iOS fix - because "inset" works not fine with border-radius */
   /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
   border-color: transparent;
 }
 @supports (-webkit-touch-callout: none) {
   .dnb-timeline__item__label__icon {
-    box-shadow: 0 0 0 0.0625rem var(--border-color);
+    box-shadow: 0 0 0 var(--border-width) var(--border-color);
   }
 }
 @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
   .dnb-timeline__item__label__icon {
-    box-shadow: 0 0 0 0.0625rem var(--border-color);
+    box-shadow: 0 0 0 var(--border-width) var(--border-color);
   }
 }
 .dnb-timeline__item__label__title {
@@ -101,19 +102,20 @@ exports[`Timeline scss have to match default theme snapshot 1`] = `
   color: var(--color-black-55);
   background-color: var(--color-black-3);
   --border-color: var(--color-black-3);
-  box-shadow: inset 0 0 0 0.0625rem var(--border-color);
+  --border-width: 0.0625rem;
+  box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
   /* iOS fix - because "inset" works not fine with border-radius */
   /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
   border-color: transparent;
 }
 @supports (-webkit-touch-callout: none) {
   .dnb-timeline__item--upcoming:not(.dnb-skeleton) .dnb-timeline__item__label__icon {
-    box-shadow: 0 0 0 0.0625rem var(--border-color);
+    box-shadow: 0 0 0 var(--border-width) var(--border-color);
   }
 }
 @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
   .dnb-timeline__item--upcoming:not(.dnb-skeleton) .dnb-timeline__item__label__icon {
-    box-shadow: 0 0 0 0.0625rem var(--border-color);
+    box-shadow: 0 0 0 var(--border-width) var(--border-color);
   }
 }
 .dnb-timeline__item:only-child {
