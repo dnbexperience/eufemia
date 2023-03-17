@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FormStatusState, FormStatusText } from '../FormStatus';
+import type { FormStatusState, FormStatusText } from '../FormStatus';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 export type SwitchLabel =
