@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { PaginationProps } from './Pagination';
+import type { PaginationProps } from './Pagination';
 type PaginationProviderStartupPage = string | number;
 type PaginationProviderCurrentPage = string | number;
 type PaginationProviderPageCount = string | number;
