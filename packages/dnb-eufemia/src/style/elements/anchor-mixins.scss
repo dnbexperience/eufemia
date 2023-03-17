@@ -111,9 +111,9 @@
   }
 
   @if $whatinput {
-    @include fakeFocus($whatinput);
+    @include focusRing($whatinput);
   } @else {
-    @include fakeFocus();
+    @include focusRing();
   }
   border-radius: 0.25em;
 }
@@ -138,7 +138,7 @@
     color: var(--color-white);
     background-color: transparent;
 
-    @include fakeFocus(null, var(--color-white));
+    @include focusRing(null, var(--color-white));
   }
 }
 

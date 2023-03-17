@@ -79,7 +79,7 @@
   }
   &__variant--outlined#{&}--expanded
     > &__header:not([disabled]):not(:active):not(:hover):focus {
-    @include fakeFocus(null, var(--color-emerald-green), inset);
+    @include focusRing(null, var(--color-emerald-green), inset);
   }
 
   &__variant--outlined#{&}--expanded
@@ -91,7 +91,7 @@
 
   // we have this hover variant, because of the default html focus/hover handling
   &__variant--outlined#{&}--expanded > &__header#{&}--hover:not(:active) {
-    @include hover () {
+    @include hover() {
       color: var(--color-white);
       background-color: var(--color-sea-green);
 

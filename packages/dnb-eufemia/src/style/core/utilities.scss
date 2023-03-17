@@ -55,7 +55,7 @@
   }
 }
 
-@mixin fakeFocus($whatinput: null, $color: null, $inset: null) {
+@mixin focusRing($whatinput: null, $color: null, $inset: null) {
   outline: none;
 
   @if $whatinput == null {
@@ -69,7 +69,7 @@
     @include fakeBorder($color, var(--focus-ring-width), $inset);
   }
 }
-@mixin removeFakeFocus($whatinput: null) {
+@mixin removeFocusRing($whatinput: null) {
   outline: initial;
   @if $whatinput == null {
     $whatinput: 'keyboard';
@@ -122,7 +122,7 @@
   }
 }
 
-@mixin extendFakeFocus(
+@mixin extendFocusRing(
   $first-color: null,
   $second-color: null,
   $width: 0.0625rem /*1px*/
