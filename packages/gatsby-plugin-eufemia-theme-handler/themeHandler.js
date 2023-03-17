@@ -3,6 +3,8 @@ import React from 'react'
 import inlineScriptProd from '!raw-loader!terser-loader!./inlineScriptProd.js'
 import inlineScriptDev from '!raw-loader!terser-loader!./inlineScriptDev.js'
 
+import EventEmitter from '@dnb/eufemia/src/shared/helpers/EventEmitter'
+
 const defaultTheme = process.env.EUFEMIA_THEME_defaultTheme || 'ui'
 const availableThemes = process.env.EUFEMIA_THEME_themes || {}
 const availableThemesArray = Object.keys(availableThemes)
@@ -13,6 +15,19 @@ export function getThemes() {
 
 export function isValidTheme(themeName) {
   return availableThemesArray.includes(themeName)
+}
+
+export function useThemeName() {
+  const [themeName, setThemeName] = React.useState(getTheme)
+
+  React.useEffect(() => {
+    const emitter = EventEmitter.createInstance('themeHandler')
+    emitter.listen(({ themeName }) => {
+      setThemeName(themeName)
+    })
+  }, [])
+
+  return themeName
 }
 
 export function getTheme() {
@@ -41,6 +56,9 @@ export function setTheme(themeName) {
   try {
     window.__updateEufemiaThemeFile(themeName, true)
     window.localStorage.setItem('dnb-theme', themeName)
+
+    const emitter = EventEmitter.createInstance('themeHandler')
+    emitter.update({ themeName })
   } catch (e) {
     console.error(e)
   }

@@ -56,7 +56,7 @@ export default function PortalToolsMenu({
         </Space>
 
         <Space top="large">
-          <H2 size="small">Change style theme</H2>
+          <H2 size="small">Change Brand</H2>
           <Space top>
             <ChangeStyleTheme />
           </Space>
