@@ -2,7 +2,7 @@ import * as React from 'react';
 import type { SkeletonShow } from '../skeleton/Skeleton';
 import type { IconIcon, IconSize } from '../icon/Icon';
 import type { DataAttributeTypes, SpacingProps } from '../../shared/types';
-import {
+import type {
   FormStatusProps,
   FormStatusState,
   FormStatusText
