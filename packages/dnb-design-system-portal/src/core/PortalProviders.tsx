@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /**
- * Global Portal providers
+ * Global Portal ThemeProvider
  *
  */
 
@@ -9,11 +9,13 @@ import React from 'react'
 import { CacheProvider } from '@emotion/react'
 import createEmotionCache from '@emotion/cache'
 
-import { Provider, Context } from '@dnb/eufemia/src/shared'
+import { Provider, Context, Theme } from '@dnb/eufemia/src/shared'
 import enUS from '@dnb/eufemia/src/shared/locales/en-US'
 import stylisPlugin from '@dnb/eufemia/src/style/stylis'
 import { isTrue } from '@dnb/eufemia/src/shared/component-helper'
 import { isCI } from 'repo-utils'
+
+import { useThemeName } from 'gatsby-plugin-eufemia-theme-handler/themeHandler'
 
 import PortalLayout from './PortalLayout'
 
@@ -58,9 +60,9 @@ export const pageElement =
   }
 
 export const rootElement =
-  (type) =>
-  ({ element }) => {
-    return (
+  (type: string) =>
+  ({ element }) =>
+    (
       <CacheProvider
         value={type === 'ssr' ? createCacheInstance() : emotionCache}
       >
@@ -69,11 +71,17 @@ export const rootElement =
           locale={getLang()}
           locales={enUS} // extend the available locales
         >
-          <SkeletonEnabled>{element}</SkeletonEnabled>
+          <SkeletonEnabled>
+            <ThemeProvider>{element}</ThemeProvider>
+          </SkeletonEnabled>
         </Provider>
       </CacheProvider>
     )
-  }
+
+function ThemeProvider({ children }) {
+  const themeName = useThemeName()
+  return <Theme name={themeName}>{children}</Theme>
+}
 
 // This ensures we actually will get skeletons enabled when defined in the url
 function SkeletonEnabled({ children }) {
