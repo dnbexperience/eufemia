@@ -6,12 +6,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-// preload our default fonts
-import fontRegular from '@dnb/eufemia/assets/fonts/dnb/DNB-Regular.woff2'
-import fontMedium from '@dnb/eufemia/assets/fonts/dnb/DNB-Medium.woff2'
-// import fontBold from '@dnb/eufemia/assets/fonts/dnb/DNB-Bold.woff2'// we do not use bold for now
-import fontMonoRegular from '@dnb/eufemia/assets/fonts/dnb/DNBMono-Regular.woff2'
-
 // load icons
 import { withPrefix } from 'gatsby' // use it like this: withPrefix('/safari-pinned-tab.svg')
 // import appleTouchIcon from '@dnb/eufemia/assets/browser/dnb/apple-touch-icon.png'
@@ -72,16 +66,6 @@ export default class HTML extends React.PureComponent {
           />
           <meta name="msapplication-TileColor" content={mainColor} />
           <meta name="theme-color" content={mainColor} />
-          {[fontRegular, fontMedium, fontMonoRegular].map((font) => (
-            <link
-              key={font}
-              rel="preload"
-              as="font"
-              type="font/woff2"
-              href={font}
-              crossOrigin="anonymous"
-            />
-          ))}
           {headComponents}
         </head>
         <body {...bodyAttributes}>
