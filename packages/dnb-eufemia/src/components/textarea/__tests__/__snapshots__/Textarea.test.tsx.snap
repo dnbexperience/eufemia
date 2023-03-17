@@ -220,12 +220,14 @@ html:not([data-visual-test]) .dnb-textarea__textarea {
 }
 .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled) ~ .dnb-textarea__state {
   --border-color: var(--color-fire-red);
-  box-shadow: 0 0 0 0.0625rem var(--border-color);
+  --border-width: 0.0625rem;
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):hover ~ .dnb-textarea__state {
   --border-color: var(--color-fire-red);
-  box-shadow: 0 0 0 0.125rem var(--border-color);
+  --border-width: 0.125rem;
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 .dnb-textarea--has-content .dnb-textarea__textarea ~ .dnb-textarea__placeholder, .dnb-textarea--focus .dnb-textarea__textarea:not([disabled], [readonly]) ~ .dnb-textarea__placeholder {

@@ -1773,7 +1773,8 @@ html:not([data-whatintent=touch]) .dnb-date-picker__day--inactive .dnb-button[di
 }
 .dnb-date-picker--opened .dnb-input .dnb-input__shell, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-form-label:hover ~ .dnb-date-picker__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__shell {
   --border-color: var(--color-sea-green);
-  box-shadow: 0 0 0 0.125rem var(--border-color);
+  --border-width: 0.125rem;
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 .dnb-date-picker--opened .dnb-input .dnb-input__submit-button__button.dnb-button--secondary, .dnb-date-picker:not(.dnb-date-picker__status--error) .dnb-form-label:hover ~ .dnb-date-picker__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__submit-button__button.dnb-button--secondary {
@@ -1790,7 +1791,8 @@ html:not([data-whatintent=touch]) .dnb-date-picker__day--inactive .dnb-button[di
 }
 .dnb-date-picker__status--error:not(.dnb-date-picker--opened) .dnb-form-label:hover ~ .dnb-date-picker__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__shell {
   --border-color: var(--color-fire-red);
-  box-shadow: 0 0 0 0.125rem var(--border-color);
+  --border-width: 0.125rem;
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }"
 `;
@@ -2317,8 +2319,9 @@ html:not([data-whatintent=touch]) .dnb-button--reset:hover:not([disabled]) {
   outline: none;
 }
 html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):active {
-  --border-color: var(--color-emerald-green);
-  box-shadow: 0 0 0 0.125rem var(--border-color);
+  --border-color: var(--focus-ring-color);
+  --border-width: var(--focus-ring-width);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):active {
@@ -3538,8 +3541,9 @@ html:not([data-whatintent=touch]) .dnb-button--reset:hover:not([disabled]) {
   outline: none;
 }
 html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):active {
-  --border-color: var(--color-emerald-green);
-  box-shadow: 0 0 0 0.125rem var(--border-color);
+  --border-color: var(--focus-ring-color);
+  --border-width: var(--focus-ring-width);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):active {
@@ -4130,8 +4134,9 @@ html:not([data-whatintent=touch]) .dnb-button--reset:hover:not([disabled]) {
   outline: none;
 }
 html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):active {
-  --border-color: var(--color-emerald-green);
-  box-shadow: 0 0 0 0.125rem var(--border-color);
+  --border-color: var(--focus-ring-color);
+  --border-width: var(--focus-ring-width);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):active {
@@ -4351,8 +4356,9 @@ button .dnb-form-status__text {
   outline: none;
 }
 html[data-whatinput=keyboard] .dnb-checkbox__focus {
-  --border-color: var(--color-emerald-green);
-  box-shadow: 0 0 0 0.125rem var(--border-color);
+  --border-color: var(--focus-ring-color);
+  --border-width: var(--focus-ring-width);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 .dnb-checkbox__focus, .dnb-checkbox__button {
@@ -4630,8 +4636,9 @@ button .dnb-form-status__text {
   outline: none;
 }
 html[data-whatinput=keyboard] .dnb-radio__focus {
-  --border-color: var(--color-emerald-green);
-  box-shadow: 0 0 0 0.125rem var(--border-color);
+  --border-color: var(--focus-ring-color);
+  --border-width: var(--focus-ring-width);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 .dnb-radio__focus, .dnb-radio__button {
@@ -5383,8 +5390,9 @@ html[data-visual-test] .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-date-
   outline: none;
 }
 html[data-whatinput=keyboard] .dnb-date-picker table.dnb-no-focus:focus {
-  --border-color: var(--color-emerald-green);
-  box-shadow: 0 0 0 0.125rem var(--border-color);
+  --border-color: var(--focus-ring-color);
+  --border-width: var(--focus-ring-width);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 .dnb-date-picker__day, .dnb-date-picker__labels__day {
