@@ -3,9 +3,11 @@
  * This file will not run on "test:staged" because we don't require any related files
  */
 
-import { makeScreenshot } from '../../../core/jest/jestSetupScreenshots'
+import {
+  makeScreenshot,
+  setupPageScreenshot,
+} from '../../../core/jest/jestSetupScreenshots'
 
-const url = '/uilib/components/drawer/demos'
 const rootClassName = 'hide-page-content'
 const executeBeforeScreenshot = () => {
   setTimeout(() => {
@@ -15,9 +17,12 @@ const executeBeforeScreenshot = () => {
 
 describe('Drawer', () => {
   describe('large', () => {
+    setupPageScreenshot({
+      url: '/uilib/components/drawer/demos',
+    })
+
     it('have to match default drawer trigger with title', async () => {
       const screenshot = await makeScreenshot({
-        url,
         selector: '[data-visual-test="simple-drawer"]',
       })
       expect(screenshot).toMatchImageSnapshot()
@@ -25,7 +30,6 @@ describe('Drawer', () => {
 
     it('have to match default drawer trigger', async () => {
       const screenshot = await makeScreenshot({
-        url,
         selector: '[data-visual-test="full-drawer"]',
       })
       expect(screenshot).toMatchImageSnapshot()
@@ -33,7 +37,6 @@ describe('Drawer', () => {
 
     it('have to match customized drawer trigger', async () => {
       const screenshot = await makeScreenshot({
-        url,
         selector: '[data-visual-test="drawer-custom-trigger"]',
       })
       expect(screenshot).toMatchImageSnapshot()
@@ -46,9 +49,12 @@ describe('Drawer', () => {
       height: 600,
     }
 
-    const defaults = {
-      url,
+    setupPageScreenshot({
+      url: '/uilib/components/drawer/demos',
       pageViewport,
+    })
+
+    const defaults = {
       rootClassName,
       executeBeforeScreenshot,
       waitAfterSimulateSelector: '.dnb-scroll-view',

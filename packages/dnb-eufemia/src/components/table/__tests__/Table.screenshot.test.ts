@@ -9,7 +9,27 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('Table', () => {
-  setupPageScreenshot({ url: '/uilib/components/table/demos' })
+  setupPageScreenshot({ url: '/uilib/components/table/demos', each: true })
+
+  it('have to match sticky header', async () => {
+    const selector = '[data-visual-test="table-sticky"]'
+    const screenshot = await makeScreenshot({
+      style: {
+        width: '30rem',
+      },
+      selector,
+      executeBeforeSimulate: () => {
+        document
+          .querySelector(
+            '[data-visual-test="table-sticky"] table tbody tr:nth-of-type(5)'
+          )
+          .scrollIntoView({
+            behavior: 'auto',
+          })
+      },
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 
   it('have to match the default choice of table styles', async () => {
     const screenshot = await makeScreenshot({
@@ -83,30 +103,6 @@ describe('Table', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-
-  it('have to match sticky header', async () => {
-    const selector = '[data-visual-test="table-sticky"]'
-    const screenshot = await makeScreenshot({
-      style: {
-        width: '30rem',
-      },
-      selector,
-      executeBeforeSimulate: () => {
-        document
-          .querySelector(
-            '[data-visual-test="table-sticky"] table tbody tr:nth-of-type(5)'
-          )
-          .scrollIntoView({
-            behavior: 'auto',
-          })
-      },
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-})
-
-describe('Table', () => {
-  setupPageScreenshot({ url: '/uilib/components/table/demos' })
 
   // should be tested first
   it('have to match a sortable table header on focus', async () => {

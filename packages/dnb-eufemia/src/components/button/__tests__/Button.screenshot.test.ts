@@ -10,9 +10,9 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('Button', () => {
-  describe('primary', () => {
-    setupPageScreenshot({ url: '/uilib/components/button/demos' })
+  setupPageScreenshot({ url: '/uilib/components/button/demos' })
 
+  describe('primary', () => {
     if (!isCI) {
       it('have to match primary button with href', async () => {
         const screenshot = await makeScreenshot({
@@ -45,20 +45,20 @@ describe('Button', () => {
       expect(screenshot).toMatchImageSnapshot()
     })
 
+    it('have to match "dnb-button--primary" with active state', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="button-primary"]',
+        simulate: 'active',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
     it('have to match a stretched button', async () => {
       const screenshot = await makeScreenshot({
         style: {
           'min-width': '20rem',
         },
         selector: '[data-visual-test="button-stretch"]',
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-
-    it('have to match "dnb-button--primary" with active state', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="button-primary"]',
-        simulate: 'active',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
