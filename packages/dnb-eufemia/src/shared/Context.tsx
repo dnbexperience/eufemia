@@ -38,6 +38,8 @@ import type { TableProps } from '../components/Table'
 
 import type { NumberFormatCurrency } from '../components/NumberFormat'
 
+import type { ThemeProps } from './Theme'
+
 export type ContextComponents = {
   Button?: Partial<ButtonProps>
   Anchor?: Partial<AnchorProps>
@@ -73,6 +75,11 @@ export type ContextProps = ContextComponents & {
   // -- All TypeScript based Eufemia components --
 
   // -- Global properties --
+
+  /**
+   * Contains theme related properties, such as a theme name
+   */
+  theme?: ThemeProps
 
   /**
    * Will enable all skeletons inside this provider/context scope
