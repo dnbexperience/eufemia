@@ -124,7 +124,7 @@
     }
 
     @include focus() {
-      @include removeFocusRing();
+      @include removeFocusRing('keyboard');
       @include buttonFocusRing();
 
       // underline
@@ -142,7 +142,7 @@
     }
 
     @include active() {
-      @include removeFocusRing();
+      @include removeFocusRing('keyboard');
 
       // underline
       .dnb-button__text::after {
