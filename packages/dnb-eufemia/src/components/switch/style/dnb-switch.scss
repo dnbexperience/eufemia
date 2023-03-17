@@ -100,7 +100,7 @@
       50% 85%
     );
 
-    @include fakeFocus();
+    @include focusRing();
   }
 
   /*

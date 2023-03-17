@@ -28,11 +28,11 @@
     );
 
     &:focus {
-      @include fakeFocus();
+      @include focusRing();
     }
 
     &--focusring {
-      @include fakeFocus('mouse');
+      @include focusRing('mouse');
     }
   }
 
@@ -206,7 +206,7 @@
 
     &--selected &__item {
       .dnb-anchor:focus {
-        @include fakeFocus(null, var(--color-white));
+        @include focusRing(null, var(--color-white));
       }
     }
   }
