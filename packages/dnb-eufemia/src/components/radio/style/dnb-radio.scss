@@ -53,7 +53,7 @@
   &__focus {
     display: none;
 
-    @include fakeFocus();
+    @include focusRing();
   }
 
   &__focus,
