@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { SpacingProps } from '../../shared/types';
-import { FormStatusText } from '../FormStatus';
-import {
+import type { FormStatusText } from '../FormStatus';
+import type {
   StepIndicatorStatusState,
   StepIndicatorMode
 } from './StepIndicator';
