@@ -53,7 +53,7 @@
 
     background-color: var(--color-white);
 
-    @include fakeFocus('mouse');
+    @include focusRing('mouse');
   }
 
   &:hover::before {
@@ -65,7 +65,7 @@
 
   // focus
   &:focus:not(:active)::before {
-    @include fakeFocus();
+    @include focusRing();
   }
 
   // focus

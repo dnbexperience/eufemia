@@ -254,7 +254,7 @@
 
     &:not([disabled]):focus,
     &:not([disabled]):active {
-      @include fakeFocus();
+      @include focusRing();
     }
 
     html[data-whatinput='mouse'] &:not([disabled]):focus,

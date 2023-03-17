@@ -3,7 +3,7 @@
 *
 */
 @mixin buttonHoverStyle($color, $background-color, $border-color) {
-  // NB: to get "over" sibling, because of the extendFakeFocus
+  // NB: to get "over" sibling, because of the extendFocusRing
   // But if we would use it,
   // then then we have to take care of places we use position="absolute", like the Modal Close button
   // position: relative;
@@ -58,7 +58,7 @@
       background-color: $background-color;
     }
 
-    @include fakeFocus(null, $focus-color, inset);
+    @include focusRing(null, $focus-color, inset);
 
     @content;
   }
@@ -80,7 +80,7 @@
     height: inherit;
     border-radius: inherit;
 
-    @include fakeFocus($whatinput);
+    @include focusRing($whatinput);
   }
 }
 

@@ -313,7 +313,7 @@
     margin: 0;
 
     &.dnb-no-focus:focus {
-      @include fakeFocus();
+      @include focusRing();
     }
   }
 
