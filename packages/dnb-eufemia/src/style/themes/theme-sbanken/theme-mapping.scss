@@ -1,0 +1,12 @@
+/**
+ * Sbanken UI Theme
+ *
+ */
+
+:root {
+  --focus-ring-width: 0.25rem;
+  --focus-ring-color: var(--sb-color-blue);
+
+  // Sbanken has no medium weight, so we overwrite it with bold
+  --font-weight-medium: var(--sb-font-weight-bold);
+}

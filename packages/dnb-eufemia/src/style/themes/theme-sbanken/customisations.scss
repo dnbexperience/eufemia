@@ -1,0 +1,32 @@
+/**
+ * Sbanken UI Theme
+ *
+ */
+
+@mixin anchorDefaultStyleCustomisation() {
+  // WIP
+  color: var(--color-emerald-green);
+}
+
+@mixin anchorHoverStyleCustomisation() {
+  // WIP
+  color: var(--color-sea-green);
+  background-color: transparent;
+}
+
+@mixin anchorActiveStyleCustomisation() {
+  // WIP
+  color: var(--color-sea-green);
+  background-color: var(--color-pistachio);
+}
+
+// change some properties
+@mixin propertiesCustomisation() {
+  // WIP: for now we replace all usage of "--font-family-default"
+  --font-family-default: var(--sb-font-family-default);
+}
+
+// change heading to use MaisonNeueHeadings
+@mixin headingDefaultsCustomisation() {
+  --font-family-default: var(--sb-font-family-headings);
+}
