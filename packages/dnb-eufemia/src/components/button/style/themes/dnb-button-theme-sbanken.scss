@@ -5,26 +5,59 @@
 
 @import './dnb-button-theme-ui.scss';
 
-// WIP
+%focus {
+  @include buttonFocus(
+    var(--sb-color-blue-dark),
+    var(--sb-color-blue-light-3)
+  );
+}
+
 .dnb-button--primary {
   color: var(--sb-color-green);
   background-color: var(--sb-color-purple-alternative);
 
-  @include buttonHover(
-    var(--sb-color-green),
-    var(--sb-color-purple),
-    var(--sb-color-purple)
-  );
-  @include buttonActive(
-    var(--sb-color-green),
-    var(--sb-color-purple-alternative)
-  );
+  @include hover() {
+    color: var(--sb-color-green);
+    background-color: var(--sb-color-purple);
+    @include removeFocusRing();
+  }
+
+  @include active() {
+    color: var(--sb-color-green);
+    background-color: var(--sb-color-purple-alternative);
+  }
+
+  @extend %focus;
 
   &[disabled] {
     color: var(--sb-color-gray-dark-2);
-    background-color: var(--sb-color-grey-light);
+    background-color: var(--sb-color-gray-light);
+    @include removeFocusRing();
+  }
+}
 
-    // // only because of href/anchor button
-    @include fakeBorder(var(--sb-color---sb-color-gray-dark-2));
+.dnb-button--secondary {
+  color: var(--sb-color-purple-alternative);
+  background-color: var(--sb-color-white);
+  @include fakeBorder(var(--sb-color-purple-alternative));
+
+  @include hover() {
+    color: var(--sb-color-purple-alternative);
+    background-color: var(--sb-color-green-light-2);
+    @include fakeBorder(var(--sb-color-purple-alternative));
+  }
+
+  @include active() {
+    color: var(--sb-color-purple-alternative);
+    background-color: var(--sb-color-white);
+    @include fakeBorder(var(--sb-color-purple-alternative));
+  }
+
+  @extend %focus;
+
+  &[disabled] {
+    color: var(--sb-color-gray-dark);
+    background-color: var(--sb-color-white);
+    @include fakeBorder(var(--sb-color-gray-light));
   }
 }

@@ -1413,19 +1413,7 @@ html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__bu
   --border-color: var(--color-emerald-green);
   --border-width: 0.09375rem;
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
-  /* iOS fix - because "inset" works not fine with border-radius */
-  /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
   border-color: transparent;
-}
-@supports (-webkit-touch-callout: none) {
-  html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):focus .dnb-radio__button, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:hover):focus .dnb-radio__button, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:hover):focus .dnb-radio__button {
-    box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  }
-}
-@supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
-  html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):focus .dnb-radio__button, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:hover):focus .dnb-radio__button, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:hover):focus .dnb-radio__button {
-    box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  }
 }
 html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):focus .dnb-radio__input:not([disabled]):not(:hover):not(:active):not(:hover) ~ .dnb-radio__dot, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:hover):focus .dnb-radio__input:not([disabled]):not(:hover):not(:active):not(:hover) ~ .dnb-radio__dot, html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:hover):focus .dnb-radio__input:not([disabled]):not(:hover):not(:active):not(:hover) ~ .dnb-radio__dot {
   background-color: var(--color-emerald-green);
@@ -1461,19 +1449,7 @@ html[data-whatinput=keyboard] html[data-whatinput=keyboard] .dnb-toggle-button--
   --border-color: var(--color-emerald-green);
   --border-width: var(--focus-ring-width);
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
-  /* iOS fix - because "inset" works not fine with border-radius */
-  /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
   border-color: transparent;
-}
-@supports (-webkit-touch-callout: none) {
-  html[data-whatinput=keyboard] html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {
-    box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  }
-}
-@supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
-  html[data-whatinput=keyboard] html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:focus:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] html[data-whatinput=keyboard] .dnb-toggle-button--checked .dnb-toggle-button__button:hover:not([disabled]):not(:active):not(:hover):focus {
-    box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  }
 }
 .dnb-toggle-button__button:not([disabled]):active .dnb-radio__button, .dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):active .dnb-radio__button {
   background-color: transparent;
@@ -1497,37 +1473,13 @@ html[data-whatinput=keyboard] html[data-whatinput=keyboard] .dnb-toggle-button--
   --border-color: var(--color-fire-red);
   --border-width: 0.0625rem;
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
-  /* iOS fix - because "inset" works not fine with border-radius */
-  /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
   border-color: transparent;
-}
-@supports (-webkit-touch-callout: none) {
-  .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:hover):not(:focus):not(:active) {
-    box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  }
-}
-@supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
-  .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]):not(:hover):not(:focus):not(:active) {
-    box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  }
 }
 .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-radio__input:not([disabled]) ~ .dnb-radio__button {
   --border-color: var(--color-fire-red);
   --border-width: 0.09375rem;
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
-  /* iOS fix - because "inset" works not fine with border-radius */
-  /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
   border-color: transparent;
-}
-@supports (-webkit-touch-callout: none) {
-  .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-radio__input:not([disabled]) ~ .dnb-radio__button {
-    box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  }
-}
-@supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
-  .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-radio__input:not([disabled]) ~ .dnb-radio__button {
-    box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  }
 }
 .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-radio__input:not([disabled]) ~ .dnb-radio__focus {
   box-shadow: none;
@@ -1540,19 +1492,7 @@ html[data-whatinput=keyboard] html[data-whatinput=keyboard] .dnb-toggle-button--
   --border-color: var(--color-fire-red);
   --border-width: 0.09375rem;
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
-  /* iOS fix - because "inset" works not fine with border-radius */
-  /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
   border-color: transparent;
-}
-@supports (-webkit-touch-callout: none) {
-  .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-checkbox__input ~ .dnb-checkbox__button {
-    box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  }
-}
-@supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
-  .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-checkbox__input ~ .dnb-checkbox__button {
-    box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  }
 }
 .dnb-toggle-button__status--error .dnb-toggle-button__button:not([disabled]) .dnb-checkbox__input:not(:hover) ~ .dnb-checkbox__button .dnb-checkbox__focus {
   box-shadow: none;
@@ -1563,37 +1503,13 @@ html[data-whatinput=keyboard] html[data-whatinput=keyboard] .dnb-toggle-button--
   --border-color: var(--color-fire-red);
   --border-width: 0.0625rem;
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
-  /* iOS fix - because "inset" works not fine with border-radius */
-  /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
   border-color: transparent;
-}
-@supports (-webkit-touch-callout: none) {
-  .dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):not(:focus):not(:active) {
-    box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  }
-}
-@supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
-  .dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:hover):not(:focus):not(:active) {
-    box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  }
 }
 .dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:focus) .dnb-radio__input:not([disabled]) ~ .dnb-radio__button {
   --border-color: var(--color-white);
   --border-width: 0.09375rem;
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
-  /* iOS fix - because "inset" works not fine with border-radius */
-  /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
   border-color: transparent;
-}
-@supports (-webkit-touch-callout: none) {
-  .dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:focus) .dnb-radio__input:not([disabled]) ~ .dnb-radio__button {
-    box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  }
-}
-@supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
-  .dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:focus) .dnb-radio__input:not([disabled]) ~ .dnb-radio__button {
-    box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  }
 }
 .dnb-toggle-button__status--error.dnb-toggle-button--checked .dnb-toggle-button__button:not([disabled]):not(:active):not(:focus) .dnb-radio__input:not([disabled]):not(:hover) ~ .dnb-radio__dot {
   background-color: var(--color-white);
