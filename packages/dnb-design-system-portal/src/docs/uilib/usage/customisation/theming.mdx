@@ -11,8 +11,11 @@ This section covers some of the needs we've seen in DNB productions as of now.
 
 You may also check out the section in the contribution docs on [how to maintain and create a theme](/contribute/style-guides/theming/) or [how to deal with the brand as a developer](/brand/development/).
 
+---
+
 - [Theming](#theming)
   - [Integrated theming](#integrated-theming)
+  - [Theme Component and useTheme Hook](#theme-component-and-usetheme-hook)
     - [Brand theming](#brand-theming)
   - [Run your application with a different theme](#run-your-application-with-a-different-theme)
   - [WIP: Ready to use themes](#wip-ready-to-use-themes)
@@ -23,6 +26,30 @@ You may also check out the section in the contribution docs on [how to maintain 
 Eufemia supports theming right inside where all the style-sources lives. Having the ability to control different styles as close to the source as possible, will make it possible to carefully handle continues improvements over time.
 
 Themes are independent style packages, which should not be imported in parallel. But rather either – or.
+
+## Theme Component and useTheme Hook
+
+Eufemia has a theming helper, that lets us create nested theming solutions. As of now, it does not deliver any extra features beside the principle.
+
+```tsx
+import { Theme, useTheme } from '@dnb/eufemia/shared'
+
+const Component = () => {
+  const { name, variant } = useTheme()
+  return 'My Component'
+}
+
+render(
+  <Theme name="theme-name" variant="theme-variant">
+    <Component />
+  </Theme>
+)
+```
+
+`<Theme>` Will create a `div` wrapper by default, when no custom element is defined (`element="span"`). It sets these CSS classes:
+
+- `dnb-theme__{theme-name}`
+- `dnb-theme__{theme-name}--{theme-variant}`
 
 ### Brand theming
 
