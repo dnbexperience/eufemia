@@ -7,3 +7,12 @@
   --focus-ring-width: 0.25rem;
   --focus-ring-color: var(--sb-color-blue);
 }
+
+.dnb-theme {
+  &__sbanken {
+    // WIP Example
+    &--blue {
+      --color-sea-green: blue;
+    }
+  }
+}
