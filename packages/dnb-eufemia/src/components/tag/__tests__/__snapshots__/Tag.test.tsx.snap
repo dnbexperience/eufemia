@@ -593,19 +593,7 @@ button.dnb-button::-moz-focus-inner {
   --border-color: var(--color-sea-green);
   --border-width: 0.0625rem;
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
-  /* iOS fix - because "inset" works not fine with border-radius */
-  /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
   border-color: transparent;
-}
-@supports (-webkit-touch-callout: none) {
-  .dnb-tag--interactive.dnb-button {
-    box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  }
-}
-@supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
-  .dnb-tag--interactive.dnb-button {
-    box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  }
 }
 html:not([data-whatintent=touch]) .dnb-tag--interactive.dnb-button:hover[disabled] {
   cursor: not-allowed;
@@ -632,19 +620,7 @@ html[data-whatinput=keyboard] .dnb-tag--interactive.dnb-button:focus:not([disabl
   --border-color: var(--focus-ring-color);
   --border-width: var(--focus-ring-width);
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
-  /* iOS fix - because "inset" works not fine with border-radius */
-  /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
   border-color: transparent;
-}
-@supports (-webkit-touch-callout: none) {
-  html[data-whatinput=keyboard] .dnb-tag--interactive.dnb-button:focus:not([disabled]), html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-tag--interactive.dnb-button:focus:not([disabled]) {
-    box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  }
-}
-@supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
-  html[data-whatinput=keyboard] .dnb-tag--interactive.dnb-button:focus:not([disabled]), html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-tag--interactive.dnb-button:focus:not([disabled]) {
-    box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  }
 }
 .dnb-tag--interactive.dnb-button:active[disabled], html:not([data-whatintent=touch]) .dnb-tag--interactive.dnb-button:active[disabled] {
   cursor: not-allowed;
@@ -689,19 +665,7 @@ html[data-whatinput=keyboard] .dnb-tag--removable.dnb-button:focus:not([disabled
   --border-color: var(--focus-ring-color);
   --border-width: var(--focus-ring-width);
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
-  /* iOS fix - because "inset" works not fine with border-radius */
-  /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
   border-color: transparent;
-}
-@supports (-webkit-touch-callout: none) {
-  html[data-whatinput=keyboard] .dnb-tag--removable.dnb-button:focus:not([disabled]), html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-tag--removable.dnb-button:focus:not([disabled]) {
-    box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  }
-}
-@supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
-  html[data-whatinput=keyboard] .dnb-tag--removable.dnb-button:focus:not([disabled]), html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-tag--removable.dnb-button:focus:not([disabled]) {
-    box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  }
 }
 .dnb-tag--removable.dnb-button:focus:not([disabled]) svg .dnb-icon-close-circle-path, html:not([data-whatintent=touch]) .dnb-tag--removable.dnb-button:focus:not([disabled]) svg .dnb-icon-close-circle-path {
   fill: var(--color-sea-green);

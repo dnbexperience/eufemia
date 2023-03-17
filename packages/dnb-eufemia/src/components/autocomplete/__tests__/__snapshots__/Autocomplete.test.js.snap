@@ -4097,19 +4097,7 @@ html[data-visual-test] .dnb-progress-indicator__bar-transition {
   --border-color: var(--color-black-55);
   --border-width: 0.0625rem;
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
-  /* iOS fix - because "inset" works not fine with border-radius */
-  /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
   border-color: transparent;
-}
-@supports (-webkit-touch-callout: none) {
-  .dnb-autocomplete .dnb-input__submit-button__button[disabled]:not(.dnb-button--has-text) {
-    box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  }
-}
-@supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
-  .dnb-autocomplete .dnb-input__submit-button__button[disabled]:not(.dnb-button--has-text) {
-    box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  }
 }
 .dnb-autocomplete .dnb-input__submit-button__button .dnb-icon {
   transition: transform 400ms ease-out;
