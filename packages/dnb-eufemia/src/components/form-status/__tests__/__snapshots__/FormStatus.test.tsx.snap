@@ -194,22 +194,26 @@ exports[`FormStatus scss have to match default theme snapshot 1`] = `
 }
 .dnb-form-status__variant--outlined.dnb-form-status--error .dnb-form-status__shell {
   --border-color: var(--color-fire-red);
-  box-shadow: 0 0 0 0.0625rem var(--border-color);
+  --border-width: 0.0625rem;
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 .dnb-form-status__variant--outlined.dnb-form-status--warn .dnb-form-status__shell {
   --border-color: var(--color-accent-yellow);
-  box-shadow: 0 0 0 0.0625rem var(--border-color);
+  --border-width: 0.0625rem;
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 .dnb-form-status__variant--outlined.dnb-form-status--info .dnb-form-status__shell {
   --border-color: var(--color-sea-green);
-  box-shadow: 0 0 0 0.0625rem var(--border-color);
+  --border-width: 0.0625rem;
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 .dnb-form-status__variant--outlined.dnb-form-status--marketing .dnb-form-status__shell {
   --border-color: var(--color-black-55);
-  box-shadow: 0 0 0 0.0625rem var(--border-color);
+  --border-width: 0.0625rem;
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 .dnb-form-status--error.dnb-form-status--attention-focus .dnb-form-status__shell, .dnb-form-status--error.dnb-form-status:focus .dnb-form-status__shell {

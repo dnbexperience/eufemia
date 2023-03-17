@@ -7,6 +7,11 @@
 @import './properties.scss';
 @import './fonts.scss';
 
+:root {
+  --focus-ring-width: 0.25rem;
+  --focus-ring-color: var(--sb-color-blue);
+}
+
 @mixin anchorDefaultStyleCustomisation() {
   // WIP
   color: var(--color-emerald-green);

@@ -1493,7 +1493,8 @@ exports[`Autocomplete scss have to match default theme snapshot 1`] = `
  */
 .dnb-autocomplete--opened .dnb-input .dnb-input__shell .dnb-input__shell, .dnb-autocomplete:not(.dnb-autocomplete__status--error) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__shell {
   --border-color: var(--color-sea-green);
-  box-shadow: 0 0 0 0.125rem var(--border-color);
+  --border-width: 0.125rem;
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 .dnb-autocomplete--opened .dnb-input .dnb-input__shell .dnb-input__submit-button__button, .dnb-autocomplete:not(.dnb-autocomplete__status--error) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__submit-button__button {
@@ -1510,7 +1511,8 @@ exports[`Autocomplete scss have to match default theme snapshot 1`] = `
 }
 .dnb-autocomplete__status--error:not(.dnb-autocomplete--opened) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__shell {
   --border-color: var(--color-fire-red);
-  box-shadow: 0 0 0 0.125rem var(--border-color);
+  --border-width: 0.125rem;
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 
@@ -2055,8 +2057,9 @@ html:not([data-whatintent=touch]) .dnb-button--reset:hover:not([disabled]) {
   outline: none;
 }
 html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):active {
-  --border-color: var(--color-emerald-green);
-  box-shadow: 0 0 0 0.125rem var(--border-color);
+  --border-color: var(--focus-ring-color);
+  --border-width: var(--focus-ring-width);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):active {
@@ -3365,8 +3368,9 @@ html:not([data-whatintent=touch]) .dnb-button--reset:hover:not([disabled]) {
   outline: none;
 }
 html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):active {
-  --border-color: var(--color-emerald-green);
-  box-shadow: 0 0 0 0.125rem var(--border-color);
+  --border-color: var(--focus-ring-color);
+  --border-width: var(--focus-ring-width);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):active {
@@ -4091,19 +4095,20 @@ html[data-visual-test] .dnb-progress-indicator__bar-transition {
 }
 .dnb-autocomplete .dnb-input__submit-button__button[disabled]:not(.dnb-button--has-text) {
   --border-color: var(--color-black-55);
-  box-shadow: inset 0 0 0 0.0625rem var(--border-color);
+  --border-width: 0.0625rem;
+  box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
   /* iOS fix - because "inset" works not fine with border-radius */
   /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
   border-color: transparent;
 }
 @supports (-webkit-touch-callout: none) {
   .dnb-autocomplete .dnb-input__submit-button__button[disabled]:not(.dnb-button--has-text) {
-    box-shadow: 0 0 0 0.0625rem var(--border-color);
+    box-shadow: 0 0 0 var(--border-width) var(--border-color);
   }
 }
 @supports (-webkit-appearance: none) and (stroke-color: transparent) and (not (-webkit-touch-callout: none)) {
   .dnb-autocomplete .dnb-input__submit-button__button[disabled]:not(.dnb-button--has-text) {
-    box-shadow: 0 0 0 0.0625rem var(--border-color);
+    box-shadow: 0 0 0 var(--border-width) var(--border-color);
   }
 }
 .dnb-autocomplete .dnb-input__submit-button__button .dnb-icon {

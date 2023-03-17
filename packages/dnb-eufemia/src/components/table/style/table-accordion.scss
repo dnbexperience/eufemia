@@ -115,7 +115,7 @@
 
       // Here we use border to support Safari v16 on macOS
       // but also to only have a border on specific sides
-      border: $focusRingWidth solid transparent;
+      border: var(--focus-ring-width) solid transparent;
     }
     td:not(:first-of-type)::before {
       border-left: none;
