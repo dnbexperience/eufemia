@@ -31,6 +31,9 @@ export function useThemeName() {
 }
 
 export function getTheme() {
+  if (typeof window === 'undefined') {
+    return defaultTheme
+  }
   try {
     const themeName =
       window.localStorage.getItem('dnb-theme') || defaultTheme
