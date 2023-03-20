@@ -5,7 +5,7 @@
  */
 
 /**
- * Library Index drawer-list to autogenerate all the components and extensions
+ * Library Index drawer-list to autogenerate all the fragments and extensions
  * Used by "prepareDrawerLists"
  */
 
