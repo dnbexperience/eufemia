@@ -5,15 +5,15 @@
 
 import React from 'react'
 import classnames from 'classnames'
-import E, { ElementProps, ElementIsType } from './Element'
-import Context from '../shared/Context'
+import E, { ElementProps, ElementIsType } from '../Element'
+import Context from '../../shared/Context'
 import {
   makeUniqueId,
   extendPropsWithContext,
-} from '../shared/component-helper'
-import Tooltip from '../components/tooltip/Tooltip'
-import type { SkeletonShow } from '../components/skeleton/Skeleton'
-import type { SpacingProps } from '../shared/types'
+} from '../../shared/component-helper'
+import Tooltip from '../../components/tooltip/Tooltip'
+import type { SkeletonShow } from '../../components/skeleton/Skeleton'
+import type { SpacingProps } from '../../shared/types'
 
 export type AnchorProps = {
   element?: ElementIsType
