@@ -11,6 +11,7 @@ import {
 describe('Accordion', () => {
   setupPageScreenshot({
     url: '/uilib/components/accordion/demos',
+    each: true,
   })
 
   it('have to match in closed state', async () => {
@@ -54,9 +55,18 @@ describe('Accordion', () => {
       style: { width: '20rem', height: '20rem' },
       styleSelector: '[data-visual-test="accordion-default"]',
       selector: '[data-visual-test="accordion-default"]',
-      simulateSelector:
-        '[data-visual-test="accordion-default"] .dnb-accordion:nth-of-type(1) .dnb-accordion__header',
-      simulate: 'clickfocus',
+      simulate: [
+        {
+          action: 'click',
+          selector:
+            '[data-visual-test="accordion-default"] .dnb-accordion:nth-of-type(1) .dnb-accordion__header',
+        },
+        {
+          action: 'focus',
+          selector:
+            '[data-visual-test="accordion-default"] .dnb-accordion:nth-of-type(1) .dnb-accordion__header',
+        },
+      ],
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -66,9 +76,18 @@ describe('Accordion', () => {
       style: { width: '20rem', height: '15rem' },
       styleSelector: '[data-visual-test="accordion-default"]',
       selector: '[data-visual-test="accordion-default"]',
-      simulateSelector:
-        '[data-visual-test="accordion-default"] .dnb-accordion-group .dnb-accordion__header',
-      simulate: 'hover',
+      simulate: [
+        {
+          action: 'click',
+          selector:
+            '[data-visual-test="accordion-default"] .dnb-accordion:nth-of-type(1) .dnb-accordion__header',
+        },
+        {
+          action: 'hover',
+          selector:
+            '[data-visual-test="accordion-default"] .dnb-accordion-group .dnb-accordion:nth-of-type(1) .dnb-accordion__header',
+        },
+      ],
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -112,6 +131,7 @@ describe('Accordion', () => {
 describe('Accordion container', () => {
   setupPageScreenshot({
     url: '/uilib/components/accordion/demos',
+    each: true,
     pageViewport: {
       width: 400,
       height: 600,
