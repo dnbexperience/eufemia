@@ -25,7 +25,7 @@ const config = {
     height: 1024,
   },
   matchConfig: {
-    failureThreshold: 0.01,
+    failureThreshold: 0.015, // Chromium needs 0.03, while webkit needs 0.04 or even more
     failureThresholdType: 'percent',
     comparisonMethod: 'pixelmatch',
     customSnapshotIdentifier: ({ currentTestName }) => {
@@ -94,12 +94,11 @@ const makeScreenshot = async ({
     await page.evaluate(executeBeforeSimulate)
   }
 
-  const { elementToSimulate, delaySimulation } = await handleSimulation({
+  const { delaySimulation } = await handleSimulation({
     page,
     element,
     simulate,
     simulateSelector,
-    screenshotElement,
     waitAfterSimulateSelector,
     waitAfterSimulate,
     waitBeforeSimulate,
@@ -110,10 +109,6 @@ const makeScreenshot = async ({
     measureElement,
     selector,
   })
-
-  if (simulate !== 'hover' && simulate !== 'active') {
-    await page.mouse.move(0, 0)
-  }
 
   if (executeBeforeScreenshot) {
     await page.evaluate(executeBeforeScreenshot)
@@ -134,9 +129,7 @@ const makeScreenshot = async ({
     await page.waitForTimeout(delaySimulation)
   }
 
-  if (elementToSimulate) {
-    await elementToSimulate.dispose()
-  }
+  await page.mouse.move(0, 0)
 
   if (waitBeforeFinish > 0) {
     await page.waitForTimeout(waitBeforeFinish)
@@ -165,9 +158,9 @@ const setupPageScreenshot = async ({
     })
   }
   if (each) {
-    beforeEach(before, timeout)
+    await beforeEach(before, timeout)
   } else {
-    beforeAll(before, timeout)
+    await beforeAll(before, timeout)
   }
 }
 module.exports.setupPageScreenshot = setupPageScreenshot
@@ -225,6 +218,11 @@ async function makePageReady({
     await page.goto(createUrl(url, fullscreen), {
       waitUntil: config.waitUntil,
       timeout: config.timeout,
+    })
+
+    await page.evaluate(() => {
+      // Remove all stored
+      window.localStorage.clear()
     })
   }
 
@@ -338,94 +336,82 @@ async function handleSimulation({
   element,
   simulate,
   simulateSelector,
-  screenshotElement,
   waitAfterSimulateSelector,
   waitAfterSimulate,
   waitBeforeSimulate,
 }) {
+  if (simulateSelector) {
+    element = await page.$(simulateSelector)
+  }
+
   if (parseFloat(waitBeforeSimulate) > 0) {
     await page.waitForTimeout(waitBeforeSimulate)
   }
 
-  let elementToSimulate = null
+  const elementToSimulate = element
+  const elementsToDispose = []
   let delaySimulation = 0
 
   if (simulate) {
-    if (simulateSelector) {
-      await page.waitForSelector(simulateSelector)
-      elementToSimulate = await page.$(simulateSelector)
-    } else {
-      elementToSimulate = element
-    }
+    const simulations = Array.isArray(simulate) ? simulate : [simulate]
+    for await (const simulate of simulations) {
+      let element = elementToSimulate
 
-    /**
-     * Because our Slider uses an input element, we need to use "force"
-     */
-
-    switch (simulate) {
-      case 'hover': {
-        await page.mouse.move(0, 0)
-        await elementToSimulate.hover({ force: true })
-        break
+      let action = simulate
+      if (simulate?.action) {
+        action = simulate.action
+        if (simulate.selector) {
+          element = await page.$(simulate.selector)
+        }
+        await page.mouse.move(0, 0) // reset between simulations
       }
 
-      case 'click': {
-        await elementToSimulate.click()
-        break
+      switch (action) {
+        case 'hover': {
+          await element.hover({ force: true })
+          break
+        }
+
+        case 'click': {
+          await element.click()
+          break
+        }
+
+        case 'longclick': {
+          delaySimulation = isCI ? 600 : 400
+
+          // No await
+          element.click({ delay: delaySimulation })
+          break
+        }
+
+        case 'tabfocus': {
+          await element.click()
+          await page.keyboard.press('Tab')
+          await element.focus()
+          break
+        }
+
+        case 'active': {
+          delaySimulation = isCI ? 200 : 100
+          await element.click({
+            force: true,
+            delay: delaySimulation,
+          })
+
+          await page.mouse.down() // Slider needs "mouse.down", in order to make "active" state work
+
+          break
+        }
+
+        case 'focus': {
+          await page.keyboard.press('Tab') // to simulate pressing tab key before focus
+          await element.focus({ force: true })
+          break
+        }
       }
 
-      case 'enter': {
-        await screenshotElement.press('Enter')
-        break
-      }
-
-      case 'longclick': {
-        delaySimulation = isCI ? 600 : 400
-
-        // No await
-        elementToSimulate.click({ delay: delaySimulation })
-        break
-      }
-
-      case 'clickfocus': {
-        await elementToSimulate.click()
-        screenshotElement.press('Shift')
-        await screenshotElement.press('Tab')
-        await screenshotElement.press('Tab') // tab two times
-        await elementToSimulate.focus()
-        break
-      }
-
-      case 'active': {
-        delaySimulation = isCI ? 200 : 100
-        await elementToSimulate.click({
-          force: true,
-          delay: delaySimulation, // Slider needs a delay, in order to make "active" state work
-        })
-
-        const { pageXOffset, pageYOffset } = await page.evaluate(() => {
-          const pageXOffset = window.pageXOffset
-          const pageYOffset = window.pageYOffset
-          return { pageXOffset, pageYOffset }
-        })
-
-        const boundingBox = await elementToSimulate.boundingBox()
-
-        await page.mouse.down(
-          boundingBox.x + boundingBox.width / 2 - pageXOffset,
-          boundingBox.y + boundingBox.height / 2 - pageYOffset
-        )
-
-        break
-      }
-
-      case 'focus': {
-        await screenshotElement.press('Tab') // to simulate pressing tab key before focus
-        await elementToSimulate.focus()
-        break
-      }
-
-      default:
+      elementsToDispose.push(element)
     }
   }
 
@@ -439,7 +425,7 @@ async function handleSimulation({
     await page.waitForTimeout(waitAfterSimulate)
   }
 
-  return { elementToSimulate, delaySimulation }
+  return { elementsToDispose, delaySimulation }
 }
 
 async function handleWrapper({
