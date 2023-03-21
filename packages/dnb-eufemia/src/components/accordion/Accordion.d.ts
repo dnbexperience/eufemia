@@ -6,7 +6,7 @@ import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 import AccordionContent from './AccordionContent';
 import AccordionHeader from './AccordionHeader';
-import AccordionProvider from './AccordionProvider';
+import AccordionGroup from './AccordionGroup';
 export type AccordionVariant = 'plain' | 'default' | 'outlined' | 'filled';
 export type AccordionHeading = boolean | React.ReactNode;
 export type AccordionIcon =
@@ -19,7 +19,6 @@ export type AccordionIcon =
        */
       expanded?: React.ReactNode | ((...args: any[]) => any);
     };
-export type AccordionClosed = React.ReactNode | ((...args: any[]) => any);
 export type AccordionAttributes = string | Record<string, unknown>;
 
 export interface AccordionProps
@@ -94,7 +93,6 @@ export interface AccordionProps
    * Will add a React element on the left side of the `title`, inside `AccordionHeaderContainer`.
    */
   left_component?: React.ReactNode;
-  allow_close_all?: boolean;
 
   /**
    * If set to `true`, the accordion button will be disabled (dimmed).
@@ -131,7 +129,6 @@ export interface AccordionProps
    * Will replace the `chevron` icon. The icon will still rotate (by CSS). You can use an object to use two different icons, one for the closed state and one for the expanded state `{ closed, expanded }`.
    */
   icon?: AccordionIcon;
-  closed?: AccordionClosed;
 
   /**
    * Will set the placement of the icon. Defaults to `left`.
@@ -160,25 +157,15 @@ export default class Accordion extends React.Component<
   static defaultProps: object;
   static Content = AccordionContent;
   static Header = AccordionHeader;
-  static Provider = AccordionProvider;
+  static Provider = AccordionGroup;
   static Group = Group;
   static Store = Store;
   render(): JSX.Element;
 }
 
 export type GroupProps = {
-  /**
-   * A unique `id` that will be used on the button element. If you use `remember_state`, an id is required.
-   */
-  id?: string;
-  group?: string;
-
-  /**
-   * If set to `true`, it will remember a changed state initiated by the user. It requires a unique `id`. It will store the sate in the local storage.
-   */
-  remember_state?: boolean;
-
-  children: React.ReactNode;
+  allow_close_all?: boolean;
+  expanded_id?: string;
 } & AccordionProps;
 
 declare class Group extends React.Component<GroupProps, any> {
