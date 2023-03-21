@@ -17,7 +17,7 @@ import {
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
 
-import AccordionProvider from './AccordionProvider'
+import AccordionGroup from './AccordionGroup'
 import AccordionHeader from './AccordionHeader'
 import AccordionContent from './AccordionContent'
 import AccordionContext from './AccordionContext'
@@ -50,7 +50,7 @@ class AccordionStore {
 
 export default class Accordion extends React.PureComponent {
   static contextType = AccordionProviderContext
-  static Provider = AccordionProvider
+  static Provider = AccordionGroup // Provider and Group is "the same", except that Accordion.Group has a layer above/before in class Group with additional logic.
   static Header = AccordionHeader
   static Content = AccordionContent
 
@@ -437,7 +437,7 @@ class Group extends React.PureComponent {
 
   render() {
     return (
-      <AccordionProvider
+      <AccordionGroup
         onInit={this.onInit}
         {...this.props}
         {...this.state}
