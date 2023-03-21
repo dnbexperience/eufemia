@@ -132,7 +132,8 @@ export default function SidebarLayout({
       allMdx,
       showAll,
       pathPrefix,
-    })
+    }),
+    location
   )
     .filter(({ title, menuTitle }) => title || menuTitle)
     .map(
@@ -451,7 +452,7 @@ const prepareNav = ({
   return list
 }
 
-function groupNavItems(navItems: NavItem[]) {
+function groupNavItems(navItems: NavItem[], location: Location) {
   const topLevelHeadings = []
 
   //Remove first and last slash from pathname to match path from graphql
