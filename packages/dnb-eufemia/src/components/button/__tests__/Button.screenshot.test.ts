@@ -4,23 +4,23 @@
  */
 
 import {
-  isCI,
   makeScreenshot,
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('Button', () => {
-  describe('primary', () => {
-    setupPageScreenshot({ url: '/uilib/components/button/demos' })
+  setupPageScreenshot({
+    url: '/uilib/components/button/demos',
+    each: true,
+  })
 
-    if (!isCI) {
-      it('have to match primary button with href', async () => {
-        const screenshot = await makeScreenshot({
-          selector: '[data-visual-test="button-anchor"]',
-        })
-        expect(screenshot).toMatchImageSnapshot()
+  describe('primary', () => {
+    it('have to match primary button with href', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="button-anchor"]',
       })
-    }
+      expect(screenshot).toMatchImageSnapshot()
+    })
 
     it('have to match "dnb-button--primary"', async () => {
       const screenshot = await makeScreenshot({
