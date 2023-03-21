@@ -89,11 +89,15 @@ export default function SidebarLayout({
   }, [isClosing, isOpen])
 
   function scrollToActiveItem() {
-    if (!scrollRef?.current) return
+    if (!scrollRef?.current) {
+      return
+    }
 
     const elem = scrollRef.current.querySelector('li.is-active')
 
-    if (!elem) return false
+    if (!elem) {
+      return false
+    }
 
     try {
       /* 
@@ -121,7 +125,9 @@ export default function SidebarLayout({
   }
 
   function handleKeyDown(event: KeyboardEvent) {
-    if (event.key === 'Escape') closeMenu()
+    if (event.key === 'Escape') {
+      closeMenu()
+    }
   }
 
   /* Creation of menu items starts here */
@@ -496,10 +502,14 @@ function groupNavItems(navItems: NavItem[], location: Location) {
     }
 
     //Initialize parentItem in hashmap
-    if (!(parentId in hashmap)) hashmap[parentId] = {} as NavItem
+    if (!(parentId in hashmap)) {
+      hashmap[parentId] = {} as NavItem
+    }
 
     //Initalizing subheadings property on parentItem if its not yet defined
-    if (!hashmap[parentId]?.subheadings) hashmap[parentId].subheadings = []
+    if (!hashmap[parentId]?.subheadings) {
+      hashmap[parentId].subheadings = []
+    }
 
     //Push item object reference to subheadings array on parentItem reference in hashmap
     hashmap[parentId].subheadings.push(hashItem)
@@ -510,7 +520,9 @@ function groupNavItems(navItems: NavItem[], location: Location) {
     /* Add all toplevel heading object references to topLevelHeadings array
       so that we wont have to loop through the array a second time to sort out top level headings
     */
-    if (item.level === 1) topLevelHeadings.push(hashmap[itemId])
+    if (item.level === 1) {
+      topLevelHeadings.push(hashmap[itemId])
+    }
 
     return hashmap
   }, {})
