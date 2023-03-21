@@ -49,6 +49,31 @@ const runStyleFactory = async () => {
     }
   })
 
+  // elements
+  await runFactory({
+    scssOutputFile: path.resolve(
+      __dirname,
+      '../../../src/style/dnb-ui-elements.scss'
+    ),
+    customContent: `
+@import './core/utilities.scss';
+@import './elements/ui-elements.scss';
+`,
+    scssTemplateToFill: `@import '../elements/{name}/style/dnb-{name}.scss';`,
+    processToNamesList: [
+      path.resolve(__dirname, '../../../src/elements/*'),
+    ].concat(processToNamesIgnoreList),
+    processOnlyList: [
+      path.resolve(__dirname, '../../../src/elements/**/style/*.scss'),
+    ],
+  }).then(() => {
+    if (require.main === module) {
+      log.succeed(
+        '> PrePublish: "styleFactory" Created the style file with all the elements'
+      )
+    }
+  })
+
   // fragments
   await runFactory({
     scssOutputFile: path.resolve(
