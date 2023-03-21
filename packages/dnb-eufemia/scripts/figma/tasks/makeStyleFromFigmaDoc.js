@@ -124,7 +124,9 @@ const findexistingSassVars = ({
       key === `${prependKey}-${subkeyToFind}-${keyToFind}`
   )
   let res = index && index.length > 0 ? index[1] : null
-  if (typeof res === 'string') res = res.replace(/"/g, "'")
+  if (typeof res === 'string') {
+    res = res.replace(/"/g, "'")
+  }
   if (/#/.test(res)) {
     res = Color(res).hex()
   }

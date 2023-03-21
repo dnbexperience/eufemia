@@ -15,7 +15,7 @@ import { fireEvent, render } from '@testing-library/react'
 
 const props = fakeProps(require.resolve('../Dialog.tsx'), {
   all: true,
-  //optional: true, // Does not work with Typescript interface props
+  // optional: true, // Does not work with Typescript interface props
 })
 props.title = 'dialog_title'
 props.id = 'dialog_id'
