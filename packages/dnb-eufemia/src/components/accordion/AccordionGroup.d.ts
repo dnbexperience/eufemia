@@ -1,10 +1,9 @@
 import * as React from 'react';
-import type { AccordionProps } from './Accordion';
+import type { GroupProps } from './Accordion';
 
 export interface AccordionGroupProps
   extends React.HTMLProps<HTMLElement>,
-    AccordionProps {
-  expanded_id?: string;
+    GroupProps {
   onInit?: (...args: any[]) => any;
 }
 export default class AccordionGroup extends React.Component<
