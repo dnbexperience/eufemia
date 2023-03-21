@@ -100,11 +100,9 @@ export default function SidebarLayout({
     }
 
     try {
-      /* 
-        The scroll to active list item codeblock seems to only be working on smaller screen sizes i.e. tablet/phones, is this intentional?
-        As of now it only targets the window scroll, which means its only automatically scrolling on smaller devices, since on desktop
-        the menu has its own internal scrollbar inside the <nav /> element
-      */
+      // The scroll to active list item codeblock seems to only be working on smaller screen sizes i.e. tablet/phones, is this intentional?
+      // As of now it only targets the window scroll, which means its only automatically scrolling on smaller devices, since on desktop
+      // the menu has its own internal scrollbar inside the <nav /> element
       const offset = scrollRef.current.getBoundingClientRect().top
       const rect = elem.getBoundingClientRect()
       const top = scrollRef.current.scrollTop + rect.top - offset
@@ -114,9 +112,9 @@ export default function SidebarLayout({
           behavior: 'smooth',
         })
       } else {
-        /* Typo or deprecated/old property that Typescript is not catching up on? */
-        /* Property 'scrollTop' does not exist on type 'Window & typeof globalThis'. Did you mean 'scrollTo'? */
-        //Code below used to be window.scrollTop = top
+        // Typo or deprecated/old property that Typescript is not catching up on?
+        // Property 'scrollTop' does not exist on type 'Window & typeof globalThis'. Did you mean 'scrollTo'?
+        // Code below used to be window.scrollTop = top
         window.scrollY = top
       }
     } catch (e) {
@@ -393,7 +391,6 @@ const prepareNav = ({
   const list = showAlwaysMenuItems
     .reduce((acc, cur) => acc.concat(navItems[cur]), []) // put in the sub parts
     .concat(navItems.items) // put inn the main parts
-    // make items
     .map((slugPath) => {
       const {
         node: {
@@ -461,20 +458,18 @@ const prepareNav = ({
 function groupNavItems(navItems: NavItem[], location: Location) {
   const topLevelHeadings = []
 
-  //Remove first and last slash from pathname to match path from graphql
+  // Remove first and last slash from pathname to match path from graphql
   const currentPathName = location.pathname
     .replace(/\/$/g, '')
     .replace(/^\//g, '')
 
-  /* Grouping all navItems correctly with only one loop through the array 
-     making use of object reference to add subheadings to correct parent headings
-     so it can be done with only one loop through
-  */
+  // Grouping all navItems correctly with only one loop through the array
+  // making use of object reference to add subheadings to correct parent headings
+  // so it can be done with only one loop through
   navItems.reduce<{ [id: string]: NavItem }>((hashmap, item) => {
-    /* Using items url path as ID, it only works in this case, since we can deterimine the items grouping by the url path 
-       Its solved this way since the id and parent.id from gatsby nodes does not seem to seem to relate to the structure in the SidebarMenu
-       and therefor leads to wrong grouping if used
-    */
+    // Using items url path as ID, it only works in this case, since we can deterimine the items grouping by the url path
+    // Its solved this way since the id and parent.id from gatsby nodes does not seem to seem to relate to the structure in the SidebarMenu
+    // and therefor leads to wrong grouping if used
     const itemId = item.path.replace(/\//g, '-')
     const parentId = item.path
       .replace(/\/[\w-]+$/g, '')
@@ -484,14 +479,14 @@ function groupNavItems(navItems: NavItem[], location: Location) {
       location.pathname.split('/').filter(Boolean)[0] ?? ''
     const categoryPath = item.path.split('/').filter(Boolean)[1] ?? ''
 
-    //Determine if item is active or inside active category or path, to add correct highlighting
+    // Determine if item is active or inside active category or path, to add correct highlighting
     const isActive = item.path === currentPathName
     const isInsideActivePath = currentPathName.startsWith(item.path)
     const isInsideActiveCategory = currentPathName.startsWith(
       `${portalPath}/${categoryPath}`
     )
 
-    //Add props for use in <ListItem />
+    // Add props for use in <ListItem />
     const hashItem = {
       ...item,
       id: itemId,
@@ -501,25 +496,24 @@ function groupNavItems(navItems: NavItem[], location: Location) {
       isInsideActivePath,
     }
 
-    //Initialize parentItem in hashmap
+    // Initialize parentItem in hashmap
     if (!(parentId in hashmap)) {
       hashmap[parentId] = {} as NavItem
     }
 
-    //Initalizing subheadings property on parentItem if its not yet defined
+    // Initalizing subheadings property on parentItem if its not yet defined
     if (!hashmap[parentId]?.subheadings) {
       hashmap[parentId].subheadings = []
     }
 
-    //Push item object reference to subheadings array on parentItem reference in hashmap
+    // Push item object reference to subheadings array on parentItem reference in hashmap
     hashmap[parentId].subheadings.push(hashItem)
 
-    //Define item object reference in hashmap
+    // Define item object reference in hashmap
     hashmap[itemId] = hashItem
 
-    /* Add all toplevel heading object references to topLevelHeadings array
-      so that we wont have to loop through the array a second time to sort out top level headings
-    */
+    // Add all toplevel heading object references to topLevelHeadings array
+    // so that we wont have to loop through the array a second time to sort out top level headings
     if (item.level === 1) {
       topLevelHeadings.push(hashmap[itemId])
     }
