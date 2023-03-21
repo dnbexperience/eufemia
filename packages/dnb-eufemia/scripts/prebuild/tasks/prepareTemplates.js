@@ -133,7 +133,7 @@ export const processFragments = async () => {
     ...fragmentsTemplateConfig,
     srcFile: path.resolve(
       __dirname,
-      '../../../src/core/templates/component-export-template.js'
+      '../../../src/core/templates/fragment-export-template.js'
     ),
     destFile: false,
     destPath: path.resolve(__dirname, '../../../src/fragments'),
@@ -158,7 +158,7 @@ export const processElements = async () => {
     ),
     destFile: path.resolve(__dirname, '../../../src/elements/index.ts'),
     processToNamesList: path.resolve(__dirname, '../../../src/elements/'),
-    processToNamesIgnoreList: ['index', 'lib', 'Element'],
+    processToNamesIgnoreList: ['index', 'lib', 'Element', 'stories'],
     processToNamesListByUsingFolders: false,
   }
   const elements = await runFactory(elementsTemplateConfig).then((res) => {
@@ -178,6 +178,23 @@ export const processElements = async () => {
   }).then((res) => {
     if (isCLI) {
       log.info('> Created the index template with all the elements')
+    }
+    return res
+  })
+  await runFactory({
+    ...elementsTemplateConfig,
+    processToNamesListByUsingFolders: true,
+    srcFile: path.resolve(
+      __dirname,
+      '../../../src/core/templates/element-export-template.js'
+    ),
+    destFile: false,
+    destPath: path.resolve(__dirname, '../../../src/elements'),
+  }).then((res) => {
+    if (isCLI) {
+      log.succeed(
+        '> PrePublish: Created the index template with all the elements'
+      )
     }
     return res
   })
