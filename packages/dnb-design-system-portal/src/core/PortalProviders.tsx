@@ -27,14 +27,10 @@ if (
   process.env.PREBUILD_EXISTS &&
   process.env.NODE_ENV === 'production'
 ) {
-  require('@dnb/eufemia/build/style/dnb-ui-extensions.min.css')
   require('@dnb/eufemia/build/style/dnb-ui-core.min.css')
-  require('@dnb/eufemia/build/style/dnb-ui-components.min.css')
   // Themes are imported by "gatsby-plugin-eufemia-theme-handler"
 } else {
-  require('@dnb/eufemia/src/style/extensions')
   require('@dnb/eufemia/src/style/core')
-  require('@dnb/eufemia/src/style/components')
   // Themes are imported by "gatsby-plugin-eufemia-theme-handler"
 }
 

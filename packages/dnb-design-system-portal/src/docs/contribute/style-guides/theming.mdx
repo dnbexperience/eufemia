@@ -27,7 +27,9 @@ The default DNB brand theme is called: `ui` which stands for _universal identity
 
 ## Main theming file
 
-There is one **Main Theme File**, that includes all component themes, such as this one: `dnb-eufemia/src/style/themes/theme-ui/dnb-theme-ui.scss`
+There is one **Main Theme File**, that includes all properties and element styles:
+
+- `dnb-eufemia/src/style/themes/theme-ui/dnb-theme-basis.scss`
 
 To include new or update imported component themes, run `yarn build`.
 
@@ -37,7 +39,8 @@ It will find all related themes and put it inside the main theme file so they ca
 
 First, duplicate or create a new SCSS file inside:
 
-- `dnb-eufemia/src/style/themes/theme-[YOUR-THEME]/dnb-theme-[YOUR-THEME].scss`
+- `dnb-eufemia/src/style/themes/theme-[YOUR-THEME]/dnb-theme-basis.scss`
+- `dnb-eufemia/src/style/themes/theme-[YOUR-THEME]/dnb-theme-components.scss`
 
 Do the same with every component you want to customize, and run `yarn build`. All the related component theme file will then be included in that main theme file.
 

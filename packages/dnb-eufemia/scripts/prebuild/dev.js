@@ -13,9 +13,10 @@ import {
   // makeIconLib,
   // makeIconsUMDBundle
   // runStyleFactory,
+  runThemeFactory,
   // convertSvgToJsx,
-  // makeLibStyles
-  makeMainStyle,
+  // makeLibStyles,
+  // makeMainStyle,
   // generateTypes,
   // makePropertiesFile
   // prepareTemplates
@@ -33,9 +34,10 @@ const dev = async () => {
   // await makeIconLib({ preventDelete })
   // await makeIconsUMDBundle({ doRefetch: false })
   // await runStyleFactory()
+  await runThemeFactory()
   // await convertSvgToJsx({ preventDelete })
   // await makeLibStyles()
-  await makeMainStyle()
+  // await makeMainStyle()
   // await generateTypes()
   // await makePropertiesFile()
   // await prepareTemplates()

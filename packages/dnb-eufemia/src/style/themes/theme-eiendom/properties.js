@@ -78,5 +78,8 @@ export default {
   '--shadow-default-y': '8px',
   '--shadow-default-blur-radius': '16px',
   '--shadow-default-color': 'rgb(51 51 51 / 8%)',
-  '--easing-default': 'cubic-bezier(0.42, 0, 0, 1)'
+  '--easing-default': 'cubic-bezier(0.42, 0, 0, 1)',
+  '--color-emerald-green-50': '#89aaac',
+  '--color-emerald-green-25': '#c4d4d6',
+  '--color-emerald-green-10': '#e8eeef'
 }; // prettier-ignore

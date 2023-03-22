@@ -9,6 +9,7 @@ import transform from 'gulp-transform'
 import prettier from 'prettier'
 import packpath from 'packpath'
 import { log } from '../../lib'
+import { transformSass } from './transformUtils'
 
 const ROOT_DIR = packpath.self()
 
@@ -62,6 +63,7 @@ export const runFactory = ({
         .src([glob], {
           cwd: ROOT_DIR,
         })
+        .pipe(transform('utf8', transformSass()))
         .pipe(transform('utf8', transformModulesContent))
         .pipe(
           rename({
