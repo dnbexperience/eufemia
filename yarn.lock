@@ -3687,7 +3687,7 @@ __metadata:
     opentype.js: 1.3.4
     ora: 5.4.1
     packpath: 0.1.0
-    playwright-firefox: 1.30.0
+    playwright-firefox: 1.31.2
     postcss: 8.3.11
     postcss-calc: 8.0.0
     postcss-preset-env: 6.7.0
@@ -28818,12 +28818,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"playwright-core@npm:1.30.0":
-  version: 1.30.0
-  resolution: "playwright-core@npm:1.30.0"
+"playwright-core@npm:1.31.2":
+  version: 1.31.2
+  resolution: "playwright-core@npm:1.31.2"
   bin:
     playwright: cli.js
-  checksum: 4c5693f27245a1168f94708ecd8e1eb0d200de435b25cc07cfa25b97a094633818954dc00baf24e0ff551825f672050b83d1309362c1f97213fe8ebd2a147ed9
+  checksum: bf1257b7d80b9d027c99cbfa7ab9d47a2110ec804422b3e3d623bbb3c43e06df7bec4764ca1d852a6d62c76e35c8776efb19941f42ce738db9bc92e7f1b6281c
   languageName: node
   linkType: hard
 
@@ -28836,14 +28836,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"playwright-firefox@npm:1.30.0":
-  version: 1.30.0
-  resolution: "playwright-firefox@npm:1.30.0"
+"playwright-firefox@npm:1.31.2":
+  version: 1.31.2
+  resolution: "playwright-firefox@npm:1.31.2"
   dependencies:
-    playwright-core: 1.30.0
+    playwright-core: 1.31.2
   bin:
     playwright: cli.js
-  checksum: 0e51465a51f6ce80c876aa7aa64c43d6a8785868a86a709438dbeb66599bfef9f6c377024c9dd6aed455dd2842f137147a0462b363896751b7625d18c09ee606
+  checksum: 607a598e0ddd01ac7e2e4d5524b8a9b5f1d4968ada66cd805c59d06f7bc782f91c9a860783ffbfa820320a40db97b964367ea67d9102d426002e931bddb620ee
   languageName: node
   linkType: hard
 
