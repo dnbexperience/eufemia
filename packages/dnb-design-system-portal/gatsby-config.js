@@ -137,6 +137,12 @@ const plugins = [
         eiendom: { name: 'DNB Eiendom' },
         sbanken: { name: 'Sbanken' },
       },
+      dir: '/style/themes',
+      files: [
+        'dnb-theme-extensions.scss',
+        'dnb-theme-components.scss',
+        'dnb-theme-basis.scss',
+      ], // The file order does matter!
       defaultTheme: getDefaultTheme(),
     },
   },
