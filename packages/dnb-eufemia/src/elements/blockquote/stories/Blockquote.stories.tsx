@@ -6,6 +6,7 @@
 import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
+import Blockquote from '../Blockquote'
 
 const CustomStyles = styled.div`
   a {
@@ -51,5 +52,15 @@ export const BlockquoteSandbox = () => (
         </blockquote>
       </Box>
     </CustomStyles>
+    <Box>
+      <Blockquote space="xx-large-x2 large">
+        Scaevola dissentias ne nec, praesent pertinacia te vim, velit
+        laboramus assentior ne ius. Choro vivendum tractatos ei quo. Te vim
+        enim meis conclusionemque, per ut dolorem copiosae, ea veri sanctus
+        deterruisset per
+        <cite>Cite Referance</cite>
+        <figcaption>Figcaption Referance</figcaption>
+      </Blockquote>
+    </Box>
   </Wrapper>
 )
