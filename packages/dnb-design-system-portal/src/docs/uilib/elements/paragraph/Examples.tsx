@@ -32,8 +32,8 @@ export function ParagraphDefault() {
         <Case>
           <strong>Strong paragraph (medium weight)</strong>
         </Case>
-        {/*<i>Italic paragraph (Currently not supported by DNB UX)</i>*/}
-        {/*<u>Underline paragraph (Currently not supported by DNB UX)</u>*/}
+        {/* <i>Italic paragraph (Currently not supported by DNB UX)</i> */}
+        {/* <u>Underline paragraph (Currently not supported by DNB UX)</u> */}
         <Case>Numbers 0123456789</Case>
         <Case>
           <code className="dnb-code">Code paragraph</code>
@@ -89,8 +89,8 @@ export function ParagraphSmall() {
           <Case>
             <strong>Strong paragraph (medium weight)</strong>
           </Case>
-          {/*<i>Italic paragraph</i>*/}
-          {/*<u>Underline paragraph</u>*/}
+          {/* <i>Italic paragraph</i> */}
+          {/* <u>Underline paragraph</u> */}
           <Case>Numbers 0123456789</Case>
           <Case>
             <code className="dnb-code">Code paragraph</code>
@@ -180,9 +180,9 @@ export function ParagraphModifiers() {
         <P modifier="medium">Medium weight paragraph</P>
         <P size="small">Small paragraph</P>
         <P modifier="small medium">Small paragraph with medium weight</P>
-        {/*(Bold is currently not supported by DNB UX)*/}
-        {/*<P modifier="bold">Bold weight paragraph</P>*/}
-        {/*<P modifier="small bold">Small paragraph with bold weight</P>*/}
+        {/* (Bold is currently not supported by DNB UX) */}
+        {/* <P modifier="bold">Bold weight paragraph</P> */}
+        {/* <P modifier="small bold">Small paragraph with bold weight</P> */}
       </div>
     </ComponentBox>
   )

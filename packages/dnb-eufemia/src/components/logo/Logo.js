@@ -98,9 +98,15 @@ export default class Logo extends React.PureComponent {
       viewBox: '0 0 93.0362 64', // these size are set to me associated with the svg path point values
     }
 
-    if (parseFloat(width) > -1) svgParams['width'] = width
-    if (parseFloat(height) > -1) svgParams['height'] = height
-    if (color) svgParams['color'] = color
+    if (parseFloat(width) > -1) {
+      svgParams['width'] = width
+    }
+    if (parseFloat(height) > -1) {
+      svgParams['height'] = height
+    }
+    if (color) {
+      svgParams['color'] = color
+    }
 
     validateDOMAttributes(this.props, rootParams)
     validateDOMAttributes(null, svgParams)

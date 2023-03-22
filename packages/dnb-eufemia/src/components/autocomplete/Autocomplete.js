@@ -812,7 +812,7 @@ class AutocompleteInstance extends React.PureComponent {
 
   onInputFocusHandler = (event) => {
     if (this.state.skipFocusDuringChange) {
-      return //stop here
+      return // stop here
     }
 
     const { open_on_focus, keep_value_and_selection } = this.props
