@@ -1,14 +1,8 @@
-/*
-
-I used this tools:
-
-to convert
-https://svg2jsx.herokuapp.com
-
-to otimize
-https://jakearchibald.github.io/svgomg/
-
-*/
+/**
+ * I used this tools:
+ * to convert https://svg2jsx.herokuapp.com
+ * to otimize https://jakearchibald.github.io/svgomg/
+ */
 
 import React from 'react'
 

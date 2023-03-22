@@ -57,7 +57,7 @@ const prismTheme = {
       },
     },
     {
-      types: ['builtin', 'char', 'constant'], //, 'function'
+      types: ['builtin', 'char', 'constant'],
       style: {
         color: 'var(--color-lavender)',
       },
