@@ -224,11 +224,11 @@ export const StepIndicatorCustomRenderer = () => (
         },
         {
           title: 'Oppsummering',
-          /*
-        We can also overwrite the states
-        inactive: true
-        is_current: true
-      */
+          /**
+           * We can also overwrite the states
+           * inactive: true
+           * is_current: true
+           */
         },
       ]}
     />
