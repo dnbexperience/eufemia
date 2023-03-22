@@ -54,7 +54,7 @@ exports.onCreateWebpackConfig = (
       ...config.optimization.splitChunks.cacheGroups.styles,
       name(module) {
         const path = slash(module.context)
-        if (path.includes('/style/themes')) {
+        if (path.includes(pluginOptions.dir || '/style/themes')) {
           const match = path.match(/\/([^/]*)$/)
           const moduleName = match[1].replace('theme-', '')
 

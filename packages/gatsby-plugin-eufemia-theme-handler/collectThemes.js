@@ -25,7 +25,7 @@ function createThemesImport({ reporter, pluginOptions }) {
     return slash(file)
   })
   const hasSRC = rawThemesFiles.some((file) =>
-    file.includes('/src/style/themes')
+    file.includes(pluginOptions.dir || '/style/themes')
   )
   const themesFiles = rawThemesFiles.filter((file) => {
     /** Never source minified files */
@@ -35,23 +35,36 @@ function createThemesImport({ reporter, pluginOptions }) {
 
     /**
      * If a src folder with our styles exists locally/or on CI,
-     * then only use e.g. this file: dnb-theme-ui.scss
+     * then only use e.g. this file: dnb-theme-basis.scss
      * With that, we ensure that /build can exists locally as well.
      */
     if (hasSRC) {
-      return file.includes('/src/style/themes') && file.endsWith('.scss')
+      return (
+        file.includes(pluginOptions.dir || '/style/themes') &&
+        file.endsWith('.scss')
+      )
     }
 
     return file.endsWith('.css')
   })
 
+  const files = pluginOptions.files || ['dnb-theme-basis']
   const themes = themesFiles
     .map((file) => {
-      const themeName = (file.match(/\/dnb-theme-([^.]*)\./) || [])?.[1]
+      const themeName = (file.match(
+        new RegExp(`/theme-([^/]*)/(${files.join('|')})`)
+      ) || [])?.[1]
+
       return { file, themeName }
     })
     .filter(({ themeName }) => {
       return limitThemes.length === 0 || limitThemes.includes(themeName)
+    })
+    .sort((a, b) => {
+      return (
+        files.findIndex((file) => a.file.includes(file)) -
+        files.findIndex((file) => b.file.includes(file))
+      )
     })
 
   const writeThemesImports = () => {
@@ -69,7 +82,9 @@ function createThemesImport({ reporter, pluginOptions }) {
 
   const showReports = () => {
     const themeNames = themes.reduce((acc, { themeName }) => {
-      acc.push(themeName)
+      if (!acc.includes(themeName)) {
+        acc.push(themeName)
+      }
       return acc
     }, [])
 
