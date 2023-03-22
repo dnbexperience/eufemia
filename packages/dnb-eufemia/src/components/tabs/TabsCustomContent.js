@@ -8,7 +8,7 @@ import {
 import ContentWrapper from './TabsContentWrapper'
 
 // This component is only a dummy component to collect data
-/*
+/**
   Like:
   <Tabs>
     <Tabs.Content title="first" selected disabled>first</Tabs.Content>

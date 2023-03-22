@@ -42,7 +42,7 @@ export const DrawerSandbox = () => (
         // openState="opened"
         // fullscreen
         containerPlacement="right"
-        //align_content="right"
+        // align_content="right"
         // align_content="center"
         // drawer_offset={}
         title="Original title"
