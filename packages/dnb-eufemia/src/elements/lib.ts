@@ -11,7 +11,6 @@
 
 // import all the available components
 import Anchor from './Anchor'
-import Blockquote from './Blockquote'
 import Code from './Code'
 import Dd from './Dd'
 import Div from './Div'
@@ -42,7 +41,6 @@ import Ul from './Ul'
 // define / export all the available components
 export {
   Anchor,
-  Blockquote,
   Code,
   Dd,
   Div,
@@ -74,7 +72,6 @@ export {
 export const getElements = () => {
   return {
     Anchor,
-    Blockquote,
     Code,
     Dd,
     Div,

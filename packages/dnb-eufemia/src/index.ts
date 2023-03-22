@@ -11,7 +11,6 @@
 
 // import all the available components and extensions
 import Anchor from './elements/Anchor'
-import Blockquote from './elements/Blockquote'
 import Code from './elements/Code'
 import Dd from './elements/Dd'
 import Div from './elements/Div'
@@ -89,7 +88,6 @@ import VisuallyHidden from './components/visually-hidden/VisuallyHidden'
 // define / export all the available components
 export {
   Anchor,
-  Blockquote,
   Code,
   Dd,
   Div,
