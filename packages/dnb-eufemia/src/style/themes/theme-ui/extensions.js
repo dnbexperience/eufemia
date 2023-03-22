@@ -3,4 +3,4 @@
  *
  */
 
-import './themes/theme-ui/extensions'
+import './dnb-theme-extensions.scss'
