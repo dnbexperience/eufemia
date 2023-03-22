@@ -3,29 +3,36 @@
  *
  */
 
-@import '../../elements/anchor/style/anchor-mixins.scss';
-@import './ui-elements.scss';
+@use '../../elements/anchor/style/anchor-mixins.scss';
+@use './blockquote.scss';
+@use './typography.scss';
+@use './lists.scss';
+@use './label.scss';
+@use './form.scss';
+@use './code.scss';
+@use './image.scss';
+@use './hr.scss';
 
 @mixin executeHTMLTags() {
   // div
-  @include anchorTag();
-  @include imageTag();
-  @include blockquoteTag();
-  @include hrTag();
+  @include anchor-mixins.anchorTag();
+  @include image.imageTag();
+  @include blockquote.blockquoteTag();
+  @include hr.hrTag();
 
   // typography
-  @include typographyTags();
+  @include typography.typographyTags();
 
   // lists
-  @include ulTag();
-  @include olTag();
-  @include dlTag();
+  @include lists.ulTag();
+  @include lists.olTag();
+  @include lists.dlTag();
 
   // form
-  @include formTag();
-  @include labelTag();
+  @include form.formTag();
+  @include label.labelTag();
 
   // additional
-  @include codeTag();
-  @include preTag();
+  @include code.codeTag();
+  @include code.preTag();
 }
