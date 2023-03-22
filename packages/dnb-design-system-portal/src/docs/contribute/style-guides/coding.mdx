@@ -11,14 +11,9 @@ The current set of main code principles within JS, CSS, Typography and testing a
 
 ## Recommended Tools
 
-- Use [React Testing Library](https://testing-library.com) when possible, even Enzyme is still used in existing components.
 - Use [Volta](https://volta.sh/) for [Node.js](https://nodejs.org/) version handling.
-- Use plugins in your favorite code editor for [ESLint](https://eslint.org/docs/user-guide/integrations) and [Prettier](https://prettier.io/docs/en/editors.html), which formats the code for you.
-
-Other helpful tools:
-
-- [Axe Devtools extension](https://www.deque.com/axe/devtools/)
-- [Lighthouse extension](https://developers.google.com/web/tools/lighthouse#devtools)
+- Use [ESLint](https://eslint.org/docs/user-guide/integrations) and [Prettier](https://prettier.io/docs/en/editors.html) Plugins in your favorite code editor to show related issues inline.
+- See the helpers section about [Eufemia tools](/uilib/helpers/tools) for more recommendations.
 
 ## Linting
 
@@ -50,6 +45,19 @@ yarn workspace @dnb/eufemia test:types
 
 Fix the resulted warnings and errors before you commit and merge.
 
-#### CSS code formatting
+## CSS code formatting
 
 Eufemia uses [CSS rational order](/uilib/usage/best-practices/for-styling/#styling-structure).
+
+## Code comments
+
+Commenting code can be a helpful hint to understand written code for other developers trying to get a picture of whats going on. But code comments can also be quickly an extra layer of complexity while reading code.
+
+Follow this list below to increase consistent code:
+
+1. An intro at the start of a file can give an overview.
+1. Enhance the naming of variables and functions over comments.
+1. Do not explain what code does, but rather what is the rationale behind a block of code.
+1. Code comments should be optional to consume while reading the code. They should be a helping hand – if needed.
+
+Eufemia has some (`multiline-comment-style` and `spaced-comment`) ESLint and StyleLint rules to enhance consistent code comment styles.
