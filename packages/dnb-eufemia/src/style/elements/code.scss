@@ -3,6 +3,9 @@
  *
  */
 
+@use './ui-spacing.scss';
+@import '../core/utilities.scss';
+
 @mixin codeStyle() {
   display: inline-block;
 
@@ -59,7 +62,7 @@
   }
 
   .dnb-spacing pre {
-    @include defaultSpacing();
+    @include ui-spacing.defaultSpacing();
   }
 
   &.dnb-pre--focus {
@@ -88,7 +91,7 @@
 }
 
 .dnb-spacing .dnb-pre {
-  @include defaultSpacing();
+  @include ui-spacing.defaultSpacing();
 }
 
 .dnb-skeleton {

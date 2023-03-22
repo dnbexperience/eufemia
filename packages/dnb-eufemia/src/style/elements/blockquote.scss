@@ -3,6 +3,7 @@
  *
  */
 
+@use './ui-spacing.scss';
 @import '../../elements/anchor/style/anchor-mixins.scss';
 
 @mixin blockquoteStyle() {
@@ -117,7 +118,7 @@
     @include blockquoteStyle();
   }
   .dnb-spacing blockquote {
-    @include defaultSpacing();
+    @include ui-spacing.defaultSpacing();
     p:last-child {
       margin-bottom: 0;
     }
@@ -128,7 +129,7 @@
   @include blockquoteStyle();
 }
 .dnb-spacing .dnb-blockquote {
-  @include defaultSpacing();
+  @include ui-spacing.defaultSpacing();
   p:last-child {
     margin-bottom: 0;
   }
