@@ -71,12 +71,6 @@ a.dnb-button {
   @include resetAnimationStyle();
 }
 
-@mixin anchorTag() {
-  a {
-    @include anchorStyle();
-  }
-}
-
 // because of the underline, we hide anchors
 .dnb-skeleton > .dnb-anchor,
 .dnb-anchor.dnb-skeleton {

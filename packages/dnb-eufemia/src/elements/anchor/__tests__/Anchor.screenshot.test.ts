@@ -7,7 +7,7 @@ import {
   makeScreenshot,
   setupPageScreenshot,
   isCI,
-} from '../../core/jest/jestSetupScreenshots'
+} from '../../../core/jest/jestSetupScreenshots'
 
 describe('Anchor', () => {
   setupPageScreenshot({
