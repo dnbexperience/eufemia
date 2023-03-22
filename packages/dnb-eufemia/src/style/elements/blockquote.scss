@@ -3,6 +3,8 @@
  *
  */
 
+@import '../../elements/anchor/style/anchor-mixins.scss';
+
 @mixin blockquoteStyle() {
   display: inline-block;
   width: auto;
