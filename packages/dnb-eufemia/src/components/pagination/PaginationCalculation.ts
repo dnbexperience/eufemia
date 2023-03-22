@@ -33,8 +33,12 @@ export const calculatePagination = (
     middleEnd = currentPage + MIDDLE_WIDTH
   }
 
-  if (middleEnd > LAST_BUTTON - 1) middleEnd = LAST_BUTTON - 1
-  if (middleStart < FIRST_BUTTON + 1) middleStart = FIRST_BUTTON + 1
+  if (middleEnd > LAST_BUTTON - 1) {
+    middleEnd = LAST_BUTTON - 1
+  }
+  if (middleStart < FIRST_BUTTON + 1) {
+    middleStart = FIRST_BUTTON + 1
+  }
 
   // Merge the middlearray with first or last button if it is at the start/end of the pagination
   const middleArray = []

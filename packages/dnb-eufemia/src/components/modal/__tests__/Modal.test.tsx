@@ -25,7 +25,7 @@ global.appVersion = jest.spyOn(navigator, 'appVersion', 'get')
 
 const props = fakeProps(require.resolve('../Modal.tsx'), {
   all: true,
-  //optional: true, // Does not work with Typescript interface props
+  // optional: true, // Does not work with Typescript interface props
 })
 props.title = 'modal_title'
 props.id = 'modal_id'
