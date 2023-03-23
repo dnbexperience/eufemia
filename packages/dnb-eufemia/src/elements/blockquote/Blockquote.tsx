@@ -8,6 +8,7 @@ import { SpacingProps } from '../../components/space/types'
 import E from '../Element'
 
 type BlockquoteProps = SpacingProps & {
+  className?: string
   children?: ReactNode | ReactNode[]
 }
 
