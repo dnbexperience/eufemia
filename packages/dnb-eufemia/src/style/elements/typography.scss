@@ -3,6 +3,8 @@
  *
  */
 
+@use './ui-spacing.scss';
+
 @mixin headingDefaults() {
   padding: 0;
 
@@ -317,7 +319,7 @@
 
     p,
     .dnb-core-style & p {
-      @include defaultSpacing();
+      @include ui-spacing.defaultSpacing();
     }
   }
 }
@@ -437,6 +439,6 @@ sub {
 
   .dnb-p,
   .dnb-core-style & .dnb-p {
-    @include defaultSpacing();
+    @include ui-spacing.defaultSpacing();
   }
 }
