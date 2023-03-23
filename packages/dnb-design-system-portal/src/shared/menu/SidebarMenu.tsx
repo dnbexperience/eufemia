@@ -90,7 +90,7 @@ export default function SidebarLayout({
 
   function scrollToActiveItem() {
     if (!scrollRef?.current) return
-    console.log('Yall here?')
+
     const elem = scrollRef.current.querySelector('li.is-active')
 
     if (!elem) return false
@@ -104,15 +104,12 @@ export default function SidebarLayout({
       const offset = scrollRef.current.getBoundingClientRect().top
       const rect = elem.getBoundingClientRect()
       const top = scrollRef.current.scrollTop + rect.top - offset
-      console.log('ScrollTop', scrollRef.current.scrollTop)
       if (window.scrollTo) {
-        console.log('If scroll')
         window.scrollTo({
           top,
           behavior: 'smooth',
         })
       } else {
-        console.log('Else scroll')
         /* Typo or deprecated/old property that Typescript is not catching up on? */
         /* Property 'scrollTop' does not exist on type 'Window & typeof globalThis'. Did you mean 'scrollTo'? */
         // Code below used to be window.scrollTop = top
