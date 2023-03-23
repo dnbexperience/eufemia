@@ -3,6 +3,9 @@
  *
  */
 
+@use './ui-spacing.scss';
+@import '../core/utilities.scss';
+
 @mixin listDefaults() {
   & ul,
   & ol {
@@ -174,7 +177,7 @@
   }
 }
 @mixin listSpacing() {
-  @include defaultSpacing();
+  @include ui-spacing.defaultSpacing();
   & > li {
     margin-top: 1rem;
     margin-bottom: 1rem;
@@ -192,7 +195,7 @@
   }
 }
 @mixin dlSpacing() {
-  @include defaultSpacing();
+  @include ui-spacing.defaultSpacing();
 }
 @mixin ulTag() {
   ul {

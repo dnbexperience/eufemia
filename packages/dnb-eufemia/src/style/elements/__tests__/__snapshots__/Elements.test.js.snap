@@ -310,6 +310,11 @@ sub {
 }
 
 /*
+ * Core Styles
+ * Mainly only the margins are defined in here
+ *
+ */
+/*
  * Blockquote
  *
  */
@@ -437,8 +442,16 @@ html[data-whatinput=keyboard] .dnb-blockquote:not(.dnb-blockquote--no-background
 }
 
 /*
+ * Core Styles
+ * Mainly only the margins are defined in here
+ *
+ */
+/*
  * Lists
  *
+ */
+/*
+ * Utilities
  */
 .dnb-ul {
   padding: 0;
@@ -705,8 +718,16 @@ html[data-whatinput=keyboard] .dnb-blockquote:not(.dnb-blockquote--no-background
 }
 
 /*
+ * Core Styles
+ * Mainly only the margins are defined in here
+ *
+ */
+/*
  * Code / Pre
  *
+ */
+/*
+ * Utilities
  */
 .dnb-code {
   display: inline-block;
@@ -824,6 +845,11 @@ del .dnb-code {
   background-color: var(--color-black-8);
 }
 
+/*
+ * Core Styles
+ * Mainly only the margins are defined in here
+ *
+ */
 /*
  * Hr tag / line
  *
