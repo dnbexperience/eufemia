@@ -1,0 +1,38 @@
+/**
+ * HTML Element Tags
+ *
+ */
+
+@use '../../../elements/anchor/style/anchor-mixins.scss';
+@use '../../elements/blockquote.scss';
+@use '../../elements/typography.scss';
+@use '../../elements/lists.scss';
+@use '../../elements/label.scss';
+@use '../../elements/form.scss';
+@use '../../elements/code.scss';
+@use '../../elements/image.scss';
+@use '../../elements/hr.scss';
+
+.dnb-core-style {
+  // div
+  @include anchor-mixins.anchorTag();
+  @include image.imageTag();
+  @include blockquote.blockquoteTag();
+  @include hr.hrTag();
+
+  // typography
+  @include typography.typographyTags();
+
+  // lists
+  @include lists.ulTag();
+  @include lists.olTag();
+  @include lists.dlTag();
+
+  // form
+  @include form.formTag();
+  @include label.labelTag();
+
+  // additional
+  @include code.codeTag();
+  @include code.preTag();
+}

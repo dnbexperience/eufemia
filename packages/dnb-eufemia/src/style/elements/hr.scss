@@ -3,6 +3,8 @@
  *
  */
 
+@use './ui-spacing.scss';
+
 @mixin hrStyle() {
   position: relative;
   padding: 0;
@@ -40,7 +42,7 @@
   }
 
   .dnb-spacing hr {
-    @include defaultSpacing();
+    @include ui-spacing.defaultSpacing();
   }
 }
 
@@ -84,5 +86,5 @@
 }
 
 .dnb-spacing .dnb-hr {
-  @include defaultSpacing();
+  @include ui-spacing.defaultSpacing();
 }
