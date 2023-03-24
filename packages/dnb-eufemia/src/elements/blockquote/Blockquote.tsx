@@ -3,14 +3,11 @@
  *
  */
 
-import React, { ReactNode } from 'react'
+import React from 'react'
 import { SpacingProps } from '../../components/space/types'
 import E from '../Element'
 
-type BlockquoteProps = SpacingProps & {
-  className?: string
-  children?: ReactNode | ReactNode[]
-}
+type BlockquoteProps = SpacingProps & React.HTMLAttributes<HTMLElement>
 
 const Blockquote = React.forwardRef((props: BlockquoteProps, ref) => (
   <E as="blockquote" skeletonMethod="font" innerRef={ref} {...props} />
