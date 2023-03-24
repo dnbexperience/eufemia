@@ -261,7 +261,7 @@ function ListItem({
           isActive && 'is-active', // use anchor hover style
           isInsideActivePath && 'is-inside-active-path',
           isInsideActiveCategory && !isInsideActivePath && 'is-inside',
-          status ? `status-${status}` : null,
+          status && `status-${status}`,
           className
         )}
         ref={ref}
