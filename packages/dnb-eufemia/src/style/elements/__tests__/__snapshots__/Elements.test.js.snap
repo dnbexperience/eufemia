@@ -1,9 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Elements scss have to match snapshot 1`] = `
-"@charset "UTF-8";
-/*
+"/*
  * Import all Elements
+ *
+ */
+/*
+ * Utilities
+ */
+/*
+ * Core Styles
+ * Mainly only the margins are defined in here
  *
  */
 /*
@@ -307,138 +314,6 @@ sub {
 }
 .dnb-spacing .dnb-p:not([class*=dnb-space__bottom]), .dnb-core-style .dnb-spacing .dnb-p:not([class*=dnb-space__bottom]) {
   margin-bottom: 1.5rem;
-}
-
-/*
- * Core Styles
- * Mainly only the margins are defined in here
- *
- */
-/*
- * Blockquote
- *
- */
-/*
- * Anchor mixins
- *
- */
-/*
- * Utilities
- */
-.dnb-blockquote {
-  display: inline-block;
-  width: auto;
-  padding: 1.5rem;
-  font-size: var(--font-size-small);
-  line-height: var(--line-height-small);
-  color: var(--color-mint-green);
-  background-color: var(--color-ocean-green);
-  border-radius: 1rem;
-  position: relative;
-}
-.dnb-blockquote:not([class*=dnb-space]) {
-  margin: 0;
-}
-.dnb-blockquote::before {
-  content: "";
-  position: absolute;
-  top: 2rem;
-  left: 1.5rem;
-  width: 3em;
-  height: 3em;
-  background-size: cover;
-  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgZmlsbD0ibm9uZSI+ICA8cGF0aCBmaWxsPSIjQTVFMUQyIiBzdHJva2U9IiNBNUUxRDIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSIxLjUiIGQ9Ik0zNy41IDI3LjVhOSA5IDAgMSAwIDAtMTggOSA5IDAgMCAwIDAgMTh6Ii8+ICA8cGF0aCBzdHJva2U9IiNBNUUxRDIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLXdpZHRoPSIxLjUiIGQ9Ik00Ni41IDE4LjVhMjEgMjEgMCAwIDEtMjEgMjEiLz4gIDxwYXRoIGZpbGw9IiNBNUUxRDIiIHN0cm9rZT0iI0E1RTFEMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjEuNSIgZD0iTTEzLjUgMjcuNWE5IDkgMCAxIDAgMC0xOCA5IDkgMCAwIDAgMCAxOHoiLz4gIDxwYXRoIHN0cm9rZT0iI0E1RTFEMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjEuNSIgZD0iTTIyLjUgMTguNWEyMSAyMSAwIDAgMS0yMSAyMSIvPjwvc3ZnPg==");
-}
-.dnb-blockquote, .dnb-blockquote.dnb-blockquote--left {
-  padding-left: 6rem;
-  padding-top: 2rem;
-  padding-bottom: 3rem;
-}
-.dnb-blockquote.dnb-blockquote--top {
-  padding-left: 1.5rem;
-  padding-top: 6rem;
-  padding-bottom: 3rem;
-}
-.dnb-blockquote.dnb-blockquote--no-background {
-  background-color: transparent;
-  color: var(--theme-color-black-80, currentColor);
-}
-.dnb-blockquote.dnb-blockquote--no-background::before {
-  filter: grayscale(1) brightness(24%);
-}
-.dnb-blockquote .dnb-cite,
-.dnb-blockquote .dnb-figcaption,
-.dnb-blockquote cite,
-.dnb-blockquote footer,
-.dnb-blockquote figcaption {
-  display: block;
-  margin-top: 1rem;
-  font-weight: var(--font-weight-medium);
-  line-height: var(--line-height-basis);
-  font-style: italic;
-}
-.dnb-blockquote .dnb-cite::before,
-.dnb-blockquote .dnb-figcaption::before,
-.dnb-blockquote cite::before,
-.dnb-blockquote footer::before,
-.dnb-blockquote figcaption::before {
-  content: "—";
-  display: inline-block;
-  padding-right: 0.5rem;
-}
-.dnb-spacing .dnb-blockquote h1, .dnb-spacing .dnb-blockquote h2, .dnb-spacing .dnb-blockquote h3, .dnb-spacing .dnb-blockquote .dnb-h--xx-large, .dnb-spacing .dnb-blockquote .dnb-h--large, .dnb-spacing .dnb-blockquote .dnb-h--medium, .dnb-spacing .dnb-blockquote .dnb-lead {
-  margin: 0;
-}
-.dnb-blockquote .dnb-anchor {
-  font-size: inherit;
-}
-.dnb-blockquote:not(.dnb-blockquote--no-background) .dnb-anchor,
-.dnb-blockquote:not(.dnb-blockquote--no-background) a {
-  color: var(--color-white);
-}
-.dnb-blockquote:not(.dnb-blockquote--no-background) .dnb-anchor:hover, .dnb-blockquote:not(.dnb-blockquote--no-background) .dnb-anchor:active,
-.dnb-blockquote:not(.dnb-blockquote--no-background) a:hover,
-.dnb-blockquote:not(.dnb-blockquote--no-background) a:active {
-  color: var(--color-emerald-green);
-  background-color: var(--color-white);
-  text-decoration: none;
-}
-.dnb-blockquote:not(.dnb-blockquote--no-background) .dnb-anchor:active,
-.dnb-blockquote:not(.dnb-blockquote--no-background) a:active {
-  color: var(--color-emerald-green);
-  background-color: var(--color-white);
-}
-.dnb-blockquote:not(.dnb-blockquote--no-background) .dnb-anchor:not(:disabled):focus,
-.dnb-blockquote:not(.dnb-blockquote--no-background) a:not(:disabled):focus {
-  color: var(--color-white);
-  background-color: transparent;
-  outline: none;
-}
-html[data-whatinput=keyboard] .dnb-blockquote:not(.dnb-blockquote--no-background) .dnb-anchor:not(:disabled):focus,
-html[data-whatinput=keyboard] .dnb-blockquote:not(.dnb-blockquote--no-background) a:not(:disabled):focus {
-  --border-color: var(--color-white);
-  --border-width: var(--focus-ring-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-blockquote:not(.dnb-blockquote--no-background) h1,
-.dnb-blockquote:not(.dnb-blockquote--no-background) h2,
-.dnb-blockquote:not(.dnb-blockquote--no-background) h3,
-.dnb-blockquote:not(.dnb-blockquote--no-background) .dnb-h--xx-large,
-.dnb-blockquote:not(.dnb-blockquote--no-background) .dnb-h--large,
-.dnb-blockquote:not(.dnb-blockquote--no-background) .dnb-h--medium,
-.dnb-blockquote:not(.dnb-blockquote--no-background) .dnb-lead {
-  color: var(--color-mint-green);
-}
-
-.dnb-spacing .dnb-blockquote:not([class*=dnb-space__top]) {
-  margin-top: 0;
-}
-.dnb-spacing .dnb-blockquote:not([class*=dnb-space__bottom]) {
-  margin-bottom: 1.5rem;
-}
-.dnb-spacing .dnb-blockquote p:last-child {
-  margin-bottom: 0;
 }
 
 /*

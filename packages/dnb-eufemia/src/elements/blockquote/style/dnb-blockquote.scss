@@ -3,8 +3,8 @@
  *
  */
 
-@use './ui-spacing.scss';
-@import '../../elements/anchor/style/anchor-mixins.scss';
+@use '../../../style/elements/ui-spacing.scss';
+@import '../../../elements/anchor/style/anchor-mixins.scss';
 
 @mixin blockquoteStyle() {
   display: inline-block;
@@ -15,7 +15,7 @@
   }
   padding: 1.5rem;
 
-  font-size: var(--font-size-small);
+  font-size: var(--font-size-small); 
   line-height: var(--line-height-small);
 
   color: var(--color-mint-green);
