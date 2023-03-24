@@ -4,7 +4,7 @@
  */
 
 @use '../../../style/elements/ui-spacing.scss';
-@import '../../anchor/style/anchor-mixins.scss';
+@import '../../../elements/anchor/style/anchor-mixins.scss';
 
 @mixin blockquoteStyle() {
   display: inline-block;
