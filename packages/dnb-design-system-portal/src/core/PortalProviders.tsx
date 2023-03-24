@@ -11,7 +11,6 @@ import createEmotionCache from '@emotion/cache'
 
 import { Provider, Context, Theme } from '@dnb/eufemia/src/shared'
 import enUS from '@dnb/eufemia/src/shared/locales/en-US'
-import stylisPlugin from '@dnb/eufemia/src/style/stylis'
 import { isTrue } from '@dnb/eufemia/src/shared/component-helper'
 import { isCI } from 'repo-utils'
 
@@ -39,17 +38,11 @@ if (
   // Themes are imported by "gatsby-plugin-eufemia-theme-handler"
 }
 
-import cssVars from 'css-vars-ponyfill'
-
-// run the polyfill because of the dynamic menu changes
-cssVars()
-
 // This ensures we processes also the css prop during build
 // More into in the docs: https://emotion.sh/docs/ssr#gatsby
 const createCacheInstance = () =>
   createEmotionCache({
     key: 'css',
-    stylisPlugins: [stylisPlugin],
   })
 const emotionCache = createCacheInstance()
 
