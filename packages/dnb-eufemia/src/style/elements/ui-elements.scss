@@ -3,9 +3,10 @@
  *
  */
 
-// include spacings here, cause they are used in elements
+// include spacings and utilities, cause they are used in elements
+@import '../core/utilities.scss';
+@import './ui-spacing.scss';
 @import './typography.scss';
-@import './blockquote.scss';
 @import './lists.scss';
 @import './label.scss';
 @import './form.scss';
