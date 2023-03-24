@@ -14,6 +14,11 @@ exports[`Elements scss have to match snapshot 1`] = `
  *
  */
 /*
+ * Core Styles
+ * Mainly only the margins are defined in here
+ *
+ */
+/*
  * Typography
  *
  */
@@ -311,6 +316,11 @@ sub {
   margin-bottom: 1.5rem;
 }
 
+/*
+ * Core Styles
+ * Mainly only the margins are defined in here
+ *
+ */
 /*
  * Lists
  *
