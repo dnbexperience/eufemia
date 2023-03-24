@@ -11102,7 +11102,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"balanced-match@npm:^1.0.0, balanced-match@npm:^1.0.2":
+"balanced-match@npm:^1.0.0":
   version: 1.0.2
   resolution: "balanced-match@npm:1.0.2"
   checksum: 9706c088a283058a8a99e0bf91b0a2f75497f185980d9ffa8b304de1d9e58ebda7c72c07ebf01dadedaac5b2907b2c6f566f660d62bd336c3468e960403b9d65
@@ -13886,16 +13886,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"css-vars-ponyfill@npm:2.4.7":
-  version: 2.4.7
-  resolution: "css-vars-ponyfill@npm:2.4.7"
-  dependencies:
-    balanced-match: ^1.0.2
-    get-css-data: ^2.0.2
-  checksum: 47b18e1be5cfcc0edf67bd78dbd0b6cb8686af3b8693bd06cc72b743569dac3a447f5a05e65b22317e57d98f47f130c3317214cf7ad260d828704e2f05e70046
-  languageName: node
-  linkType: hard
-
 "css-what@npm:^4.0.0":
   version: 4.0.0
   resolution: "css-what@npm:4.0.0"
@@ -14903,7 +14893,6 @@ __metadata:
     camelcase: 6.2.0
     classnames: 2.3.1
     cross-env: 7.0.3
-    css-vars-ponyfill: 2.4.7
     current-git-branch: 1.1.0
     cypress: 12.6.0
     date-fns: 2.25.0
@@ -19140,13 +19129,6 @@ __metadata:
   version: 2.0.5
   resolution: "get-caller-file@npm:2.0.5"
   checksum: b9769a836d2a98c3ee734a88ba712e62703f1df31b94b784762c433c27a386dd6029ff55c2a920c392e33657d80191edbf18c61487e198844844516f843496b9
-  languageName: node
-  linkType: hard
-
-"get-css-data@npm:^2.0.2":
-  version: 2.0.2
-  resolution: "get-css-data@npm:2.0.2"
-  checksum: d2d332b9f6715bc3f89dd9040e8d63f288efa0d1396439e1978a2ec422f4a9ea5ab1e6983413159a3887b4402c57089616b352a724de20c6a1426d0d12fdcf18
   languageName: node
   linkType: hard
 
