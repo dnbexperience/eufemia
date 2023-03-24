@@ -25,6 +25,8 @@ Install `yarn add gatsby-plugin-eufemia-theme-handler` and add it to your `gatsb
           ui: { name: 'DNB Eufemia' },
           eiendom: { name: 'DNB Eiendom' },
         },
+        dir: '/style/themes',
+        files: ['dnb-theme-basis.scss'], // The file order does matter!
         defaultTheme: 'ui',
       },
     },

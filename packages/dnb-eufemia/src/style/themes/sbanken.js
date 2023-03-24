@@ -5,4 +5,4 @@
  *
  */
 
-import './theme-eiendom/dnb-theme-basis.scss'
+import './theme-eiendom/dnb-theme-sbanken.scss'

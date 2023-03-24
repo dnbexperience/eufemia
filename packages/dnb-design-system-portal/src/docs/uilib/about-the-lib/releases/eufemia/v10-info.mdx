@@ -59,6 +59,29 @@ $layout-medium: map-get($breakpoints, 'medium');
 $layout-large: map-get($breakpoints, 'large');
 ```
 
+## Breaking changes to CSS packages and imports
+
+Example imports of the new style structure:
+
+```js
+import '@dnb/eufemia/style/core'
+import '@dnb/eufemia/style/themes/ui'
+```
+
+Or as CSS imports:
+
+```js
+import '@dnb/eufemia/style/dnb-ui-core.min.css'
+import '@dnb/eufemia/style/themes/theme-ui/dnb-theme-components.min.css'
+import '@dnb/eufemia/style/themes/theme-ui/dnb-theme-basis.min.css'
+```
+
+In detail:
+
+- The package `dnb-theme-ui` was renamed to `dnb-theme-basis`.
+- The package `dnb-ui-components` was renamed and moved inside a theme `/style/themes/theme-ui/dnb-theme-components.*`.
+- `dnb-ui-tags` was renamed and moved form `/style/dnb-ui-tags.*` to `/style/themes/theme-ui/dnb-theme-tags.*`.
+
 ### Font
 
 The DNB font is moved inside a subfolder in `/assets/fonts/dnb/...`.
@@ -70,7 +93,7 @@ CSS Packages such as:
 - `dnb-ui-basis`
 - `dnb-ui-core`
 
-do not contain the fonts anymore. Fonts are now only a part of a theme file, such as: `/style/themes/theme-ui/dnb-theme-ui.*`.
+do not contain the fonts anymore. Fonts are now only a part of a theme file, such as: `/style/themes/theme-ui/dnb-theme-basis.*`.
 
 As long as you don't import them manually, you don't need to make any changes in your codebase.
 
@@ -81,13 +104,9 @@ The DNB `properties.scss` and `properties.js` files were moved inside a theme fo
 Packages such as:
 
 - `dnb-ui-basis`
-- `dnb-ui-body`
 - `dnb-ui-core`
-- `dnb-ui-elements`
-- `dnb-ui-tags`
-- `dnb-ui-fonts`
 
-do not contain the properties anymore. Properties are only a part of a theme file, such as: `/style/themes/theme-ui/dnb-theme-ui.*`.
+do not contain the properties anymore. Properties are only a part of a theme file, such as: `/style/themes/theme-ui/dnb-theme-basis.*`.
 
 As long as you don't import them in your application, you don't need to make any changes in your codebase.
 
@@ -210,10 +229,6 @@ Stopped supporting Internet Explorer (IE), as Microsoft formally ended support f
 
 Find the SCSS @mixin `fakeFocus` and replace it with `focusRing`.
 Find the SCSS @mixin `removeFakeFocus` and replace it with `removeFocusRing`.
-
-## CSS Packages
-
-- `dnb-ui-tags` was moved form `/style` to `/style/themes/theme-ui`.
 
 ### Deprecations
 

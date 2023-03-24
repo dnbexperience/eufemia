@@ -12,7 +12,7 @@ beforeAll(async () => {
       processToNamesList: [
         path.resolve(
           __dirname,
-          '../../../../src/style/themes/theme-ui/dnb-theme-ui.scss'
+          '../../../../src/style/themes/theme-ui/dnb-theme-basis.scss'
         ),
       ],
       returnResult: true,
@@ -23,7 +23,7 @@ beforeAll(async () => {
 describe('The main UI Theme', () => {
   it('has to have the default theme with correct path', () => {
     expect(global.css).toContain(
-      `@import '../../../style/themes/theme-ui/dnb-theme-ui.scss';`
+      `@import '../../../style/themes/theme-ui/dnb-theme-basis.scss';`
     )
   })
 })
