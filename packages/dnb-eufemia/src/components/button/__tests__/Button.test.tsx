@@ -14,6 +14,7 @@ import {
 import Component, { ButtonOnClick } from '../Button'
 import IconPrimary from '../../IconPrimary'
 import { fireEvent, render } from '@testing-library/react'
+import FormRow from '../../form-row/FormRow'
 
 const props = fakeProps(require.resolve('../Button'), {
   optional: true,
@@ -140,6 +141,43 @@ describe('Button component', () => {
     expect(
       document.querySelector('.dnb-button').getAttribute('type')
     ).toBe('button')
+  })
+
+  it('should support spacing props', () => {
+    render(<Component top="2rem" />)
+
+    const element = document.querySelector('.dnb-button')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-button',
+      'dnb-button--primary',
+      'dnb-space__top--large',
+    ])
+  })
+
+  it('should inherit disabled from FormRow', () => {
+    render(
+      <FormRow vertical disabled>
+        <Component text="Button" />
+      </FormRow>
+    )
+
+    const element = document.querySelector('.dnb-button')
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+
+    expect(attributes).toEqual([
+      'class',
+      'disabled',
+      'type',
+      'aria-disabled',
+    ])
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-button',
+      'dnb-button--primary',
+      'dnb-button--has-text',
+    ])
   })
 
   it('has "on_click" event which will trigger on a click', () => {
