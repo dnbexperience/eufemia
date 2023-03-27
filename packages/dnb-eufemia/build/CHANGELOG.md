@@ -3,6 +3,13 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.47.3](https://github.com/dnbexperience/eufemia/compare/v9.47.2...v9.47.3) (2023-03-27)
+
+
+### Bug Fixes
+
+* **Button:** support for FormRow and FormSet ([#2147](https://github.com/dnbexperience/eufemia/issues/2147)) ([59f0a22](https://github.com/dnbexperience/eufemia/commit/59f0a2244021b7ebd78192f7b5e2d657bd3021aa))
+
 ## [9.47.2](https://github.com/dnbexperience/eufemia/compare/v9.47.1...v9.47.2) (2023-03-16)
 
 
