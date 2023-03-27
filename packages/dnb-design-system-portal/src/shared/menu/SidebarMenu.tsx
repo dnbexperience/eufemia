@@ -58,6 +58,7 @@ export default function SidebarLayout({
               order
               status
               icon
+              showTabs
             }
           }
         }
@@ -326,6 +327,7 @@ type NavItem = {
   path?: string
   status?: string
   title?: string
+  showTabs?: boolean
   subheadings?: NavItem[]
 }
 
@@ -475,16 +477,8 @@ function groupNavItems(navItems: NavItem[], location: Location) {
       .replace(/\/[\w-]+$/g, '')
       .replace(/\//g, '-')
 
-    const portalPath =
-      location.pathname.split('/').filter(Boolean)[0] ?? ''
-    const categoryPath = item.path.split('/').filter(Boolean)[1] ?? ''
-
-    // Determine if item is active or inside active category or path, to add correct highlighting
-    const isActive = item.path === currentPathName
-    const isInsideActivePath = currentPathName.startsWith(item.path)
-    const isInsideActiveCategory = currentPathName.startsWith(
-      `${portalPath}/${categoryPath}`
-    )
+    const { isActive, isInsideActiveCategory, isInsideActivePath } =
+      getActiveStatusForItem(currentPathName, item)
 
     // Add props for use in <ListItem />
     const hashItem = {
@@ -522,4 +516,41 @@ function groupNavItems(navItems: NavItem[], location: Location) {
   }, {})
 
   return topLevelHeadings
+}
+
+function getActiveStatusForItem(
+  currentPath: string,
+  { path: itemPath, showTabs }: NavItem
+) {
+  const portalSlug = currentPath.split('/').filter(Boolean)[0] ?? ''
+  const categorySlug = currentPath.split('/').filter(Boolean)[1] ?? ''
+  const startOfCurrentPath = `${portalSlug}/${categorySlug}`
+
+  const isActive = checkIfActiveItem(currentPath, itemPath, showTabs)
+
+  const isInsideActivePath = !isActive && currentPath.startsWith(itemPath)
+
+  const isInsideActiveCategory =
+    !isInsideActivePath && itemPath.startsWith(startOfCurrentPath)
+
+  return { isActive, isInsideActiveCategory, isInsideActivePath }
+}
+
+function checkIfActiveItem(
+  currentPath: string,
+  itemPath: string,
+  showTabs?: boolean
+) {
+  if (!showTabs) {
+    return itemPath === currentPath
+  }
+
+  // If gatsby node has showTabs active
+  // we can most likely assume that the last part of the slug is the tab path
+  // and then remove it from the currentPath to determine if this item is the active item
+  const slugs = currentPath.split(/\//g).filter(Boolean)
+  const lastSlug = slugs[slugs.length - 1]
+  const currentPathWithoutTabSlug = currentPath.replace(`/${lastSlug}`, '')
+
+  return itemPath === currentPathWithoutTabSlug
 }
