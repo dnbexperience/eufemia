@@ -522,8 +522,8 @@ function getActiveStatusForItem(
   currentPath: string,
   { path: itemPath, showTabs }: NavItem
 ) {
-  const portalSlug = currentPath.split('/').filter(Boolean)[0] ?? ''
-  const categorySlug = currentPath.split('/').filter(Boolean)[1] ?? ''
+  const portalSlug = itemPath.split('/').filter(Boolean)[0] ?? ''
+  const categorySlug = itemPath.split('/').filter(Boolean)[1] ?? ''
   const startOfCurrentPath = `${portalSlug}/${categorySlug}`
 
   const isActive = checkIfActiveItem(currentPath, itemPath, showTabs)
@@ -531,7 +531,7 @@ function getActiveStatusForItem(
   const isInsideActivePath = !isActive && currentPath.startsWith(itemPath)
 
   const isInsideActiveCategory =
-    !isInsideActivePath && itemPath.startsWith(startOfCurrentPath)
+    !isInsideActivePath && currentPath.startsWith(startOfCurrentPath)
 
   return { isActive, isInsideActiveCategory, isInsideActivePath }
 }
@@ -543,6 +543,11 @@ function checkIfActiveItem(
 ) {
   if (!showTabs) {
     return itemPath === currentPath
+  }
+
+  // There is no need to do the tab slug control if the currentPath and itemPath are matching
+  if (itemPath === currentPath) {
+    return true
   }
 
   // If gatsby node has showTabs active
