@@ -80,7 +80,7 @@
           color: var(--color-black-80);
         }
       }
-      &.is-inside {
+      &.is-, &.is-inside-active-path {
         html:not([show-dev-grid]) & {
           background-color: var(--color-mint-green-12);
         }
@@ -93,11 +93,16 @@
       .dnb-anchor {
         padding-left: calc(var(--level-offset) + var(--level) * 3);
       }
-      &.is-inside {
+      &.is-inside-active-path {
         html:not([show-dev-grid]) & {
           background-color: var(--color-sea-green-30);
         }
         font-weight: var(--font-weight-medium);
+      }
+      &.is-inside {
+        html:not([show-dev-grid]) & {
+          background-color: var(--color-mint-green-12);
+        }
       }
     }
 
@@ -115,7 +120,7 @@
     &.l-5,
     &.l-6 {
       font-size: var(--font-size-small); /* small size */
-      &.is-inside {
+      &.is-inside, &.is-inside-active-path {
         html:not([show-dev-grid]) & {
           background-color: var(--color-mint-green-12);
         }
