@@ -1082,10 +1082,7 @@ exports[`GlobalStatus snapshot have to match component snapshot 1`] = `
                 </div>
               </Section>
               <Hr
-                className={null}
                 fullscreen={true}
-                light={null}
-                medium={null}
               >
                 <ForwardRef
                   as="hr"
@@ -1433,10 +1430,7 @@ exports[`GlobalStatus snapshot have to match linked components snapshot 1`] = `
                   </div>
                 </Section>
                 <Hr
-                  className={null}
                   fullscreen={true}
-                  light={null}
-                  medium={null}
                 >
                   <ForwardRef
                     as="hr"
