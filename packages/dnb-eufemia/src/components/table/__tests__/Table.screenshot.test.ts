@@ -8,11 +8,14 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
+const defaults = { wrapperStyle: { margin: '0 !important' } } // because of ScrollView overflow
+
 describe('Table', () => {
-  setupPageScreenshot({ url: '/uilib/components/table/demos' })
+  setupPageScreenshot({ url: '/uilib/components/table/demos', each: true })
 
   it('have to match the default choice of table styles', async () => {
     const screenshot = await makeScreenshot({
+      ...defaults,
       style: {
         width: '30rem',
       },
@@ -23,6 +26,7 @@ describe('Table', () => {
 
   it('have to match a complex table layout', async () => {
     const screenshot = await makeScreenshot({
+      ...defaults,
       style: {
         width: '50rem',
       },
@@ -33,6 +37,7 @@ describe('Table', () => {
 
   it('have to match a row scope only table layout', async () => {
     const screenshot = await makeScreenshot({
+      ...defaults,
       selector: '[data-visual-test="table-row-scope-only"] .dnb-table',
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -40,6 +45,7 @@ describe('Table', () => {
 
   it('have to match a fixed table layout', async () => {
     const screenshot = await makeScreenshot({
+      ...defaults,
       selector: '[data-visual-test="table-fixed"]',
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -47,6 +53,7 @@ describe('Table', () => {
 
   it('have to match table container', async () => {
     const screenshot = await makeScreenshot({
+      ...defaults,
       selector: '[data-visual-test="table-container"]',
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -54,6 +61,7 @@ describe('Table', () => {
 
   it('have to match table empty container head and foot', async () => {
     const screenshot = await makeScreenshot({
+      ...defaults,
       selector: '[data-visual-test="table-container-empty"]',
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -61,6 +69,7 @@ describe('Table', () => {
 
   it('have to match table in medium size', async () => {
     const screenshot = await makeScreenshot({
+      ...defaults,
       selector: '[data-visual-test="table-size-medium"]',
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -68,6 +77,7 @@ describe('Table', () => {
 
   it('have to match table in small size', async () => {
     const screenshot = await makeScreenshot({
+      ...defaults,
       selector: '[data-visual-test="table-size-small"]',
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -76,6 +86,7 @@ describe('Table', () => {
   it('have to match header with wrapped text', async () => {
     const selector = '[data-visual-test="table-header"] .dnb-table'
     const screenshot = await makeScreenshot({
+      ...defaults,
       style: {
         width: '40rem',
       },
@@ -87,6 +98,7 @@ describe('Table', () => {
   it('have to match sticky header', async () => {
     const selector = '[data-visual-test="table-sticky"]'
     const screenshot = await makeScreenshot({
+      ...defaults,
       style: {
         width: '30rem',
       },
@@ -103,10 +115,6 @@ describe('Table', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-})
-
-describe('Table', () => {
-  setupPageScreenshot({ url: '/uilib/components/table/demos' })
 
   // should be tested first
   it('have to match a sortable table header on focus', async () => {
@@ -116,7 +124,7 @@ describe('Table', () => {
       selector,
       simulateSelector: `${selector} .dnb-button`,
       simulate: 'focus',
-      wrapperStyle: { margin: 0 }, // will only add a padding, but avoid a negative margin
+      ...defaults,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -128,7 +136,7 @@ describe('Table', () => {
       selector,
       simulateSelector: `${selector} .dnb-button`,
       simulate: 'active',
-      wrapperStyle: { margin: 0 }, // will only add a padding, but avoid a negative margin
+      ...defaults,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -140,7 +148,7 @@ describe('Table', () => {
       selector,
       simulateSelector: `${selector} .dnb-button`,
       simulate: 'active',
-      wrapperStyle: { margin: 0 }, // will only add a padding, but avoid a negative margin
+      ...defaults,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -152,7 +160,7 @@ describe('Table', () => {
       selector,
       simulateSelector: `${selector} .dnb-button`,
       simulate: 'hover',
-      wrapperStyle: { margin: '0 2rem 0 0' }, // will only add a padding, but avoid a negative margin
+      ...defaults,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -160,6 +168,7 @@ describe('Table', () => {
   it('have to match table without inner classes', async () => {
     const selector = '[data-visual-test="table-no-classes"]'
     const screenshot = await makeScreenshot({
+      ...defaults,
       selector,
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -171,6 +180,7 @@ describe('Table with skeleton', () => {
 
   it('have to match default table', async () => {
     const screenshot = await makeScreenshot({
+      ...defaults,
       style: {
         width: '40rem',
       },
@@ -181,11 +191,11 @@ describe('Table with skeleton', () => {
 })
 
 describe('Table with accordion', () => {
-  const url = '/uilib/components/table'
+  setupPageScreenshot({ url: '/uilib/components/table', each: true })
 
   it('have to match default state', async () => {
     const screenshot = await makeScreenshot({
-      url,
+      ...defaults,
       style: {
         width: '35rem',
       },
@@ -196,7 +206,7 @@ describe('Table with accordion', () => {
 
   it('have to match hover state on first row', async () => {
     const screenshot = await makeScreenshot({
-      url,
+      ...defaults,
       style: {
         width: '35rem',
       },
@@ -211,7 +221,7 @@ describe('Table with accordion', () => {
 
   it('have to match hover state on last row', async () => {
     const screenshot = await makeScreenshot({
-      url,
+      ...defaults,
       style: {
         width: '35rem',
       },
@@ -226,7 +236,7 @@ describe('Table with accordion', () => {
 
   it('have to match focus state on last row', async () => {
     const screenshot = await makeScreenshot({
-      url,
+      ...defaults,
       style: {
         width: '35rem',
       },
@@ -241,7 +251,7 @@ describe('Table with accordion', () => {
 
   it('have to match active state on last row', async () => {
     const screenshot = await makeScreenshot({
-      url,
+      ...defaults,
       style: {
         width: '35rem',
       },
@@ -258,7 +268,7 @@ describe('Table with accordion', () => {
 
   it('have to match expanded state on first row', async () => {
     const screenshot = await makeScreenshot({
-      url,
+      ...defaults,
       style: {
         width: '35rem',
         height: '20rem',
