@@ -3,8 +3,8 @@
  *
  */
 
-@use './ui-spacing.scss';
-@import '../core/utilities.scss';
+@use '../../../style/elements/ui-spacing.scss';
+@import '../../../style/core/utilities.scss';
 
 @mixin codeStyle() {
   display: inline-block;
