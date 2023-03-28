@@ -6,7 +6,7 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 
 // Elements
-import Img, { ImgProps } from '../../elements/Img'
+import Img, { ImgProps } from '../../elements/image/Image'
 
 // Shared
 import Context from '../../shared/Context'

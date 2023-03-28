@@ -25,7 +25,7 @@ import H4 from './elements/H4'
 import H5 from './elements/H5'
 import H6 from './elements/H6'
 import Hr from './elements/Hr'
-import Img from './elements/Img'
+import Image from './elements/Image'
 import Ingress from './elements/Ingress'
 import Lead from './elements/Lead'
 import Li from './elements/Li'
@@ -103,7 +103,7 @@ export {
   H5,
   H6,
   Hr,
-  Img,
+  Image,
   Ingress,
   Lead,
   Li,
