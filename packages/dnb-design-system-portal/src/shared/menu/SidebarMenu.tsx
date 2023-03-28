@@ -553,7 +553,7 @@ function checkIfActiveItem(
   // If gatsby node has showTabs active
   // we can most likely assume that the last part of the slug is the tab path
   // and then remove it from the currentPath to determine if this item is the active item
-  const slugs = currentPath.split(/\//g).filter(Boolean)
+  const slugs = currentPath.split('/').filter(Boolean)
   const lastSlug = slugs[slugs.length - 1]
   const currentPathWithoutTabSlug = currentPath.replace(`/${lastSlug}`, '')
 
