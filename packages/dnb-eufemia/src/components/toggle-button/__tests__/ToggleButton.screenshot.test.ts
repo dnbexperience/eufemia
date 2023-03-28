@@ -79,7 +79,7 @@ describe('ToggleButton', () => {
         selector: '[data-visual-test="toggle-button-checked"]',
         simulateSelector:
           '[data-visual-test="toggle-button-checked"] .dnb-toggle-button__button',
-        simulate: 'clickfocus',
+        simulate: 'tabfocus',
       })
       expect(screenshot).toMatchImageSnapshot()
     })

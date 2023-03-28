@@ -24,7 +24,7 @@ class JestEnvironment extends PlaywrightEnvironment {
 
   getCurrentTestName(state) {
     const { currentlyRunningTest } = state
-    return `${currentlyRunningTest.parent.name} ${currentlyRunningTest.name}`
+    return getParrents(currentlyRunningTest).reverse().join(' ')
   }
 
   async handleTestEvent(event, state) {
@@ -62,3 +62,24 @@ class JestEnvironment extends PlaywrightEnvironment {
 }
 
 module.exports = JestEnvironment
+
+function getParrents(item) {
+  const names = []
+
+  if (item?.name) {
+    names.push(item.name)
+  }
+
+  for (const key in item) {
+    if (item[key]?.name) {
+      names.push(item[key].name)
+    }
+    if (item[key]?.parent) {
+      names.push(...getParrents(item[key].parent))
+    }
+  }
+
+  return names.filter(
+    (name) => name !== 'ROOT_DESCRIBE_BLOCK' && name !== 'Error'
+  )
+}
