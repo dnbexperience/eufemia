@@ -14,6 +14,7 @@ import Anchor from './elements/Anchor'
 import Blockquote from './elements/Blockquote'
 import Code from './elements/Code'
 import Dd from './elements/Dd'
+import Div from './elements/Div'
 import Dl from './elements/Dl'
 import Dt from './elements/Dt'
 import H from './elements/H'
@@ -91,6 +92,7 @@ export {
   Blockquote,
   Code,
   Dd,
+  Div,
   Dl,
   Dt,
   H,
