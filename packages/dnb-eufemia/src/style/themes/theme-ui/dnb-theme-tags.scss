@@ -9,7 +9,7 @@
 @use '../../elements/lists.scss';
 @use '../../elements/label.scss';
 @use '../../elements/form.scss';
-@use '../../elements/code.scss';
+@use '../../../elements/code/style/dnb-code.scss' as code;
 @use '../../elements/image.scss';
 @use '../../../elements/hr/style/dnb-hr.scss' as hr;
 
