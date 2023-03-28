@@ -11,7 +11,7 @@
 @use '../../elements/form.scss';
 @use '../../elements/code.scss';
 @use '../../elements/image.scss';
-@use '../../elements/hr.scss';
+@use '../../../elements/hr/style/dnb-hr.scss' as hr;
 
 .dnb-core-style {
   // div

@@ -3,7 +3,7 @@
  *
  */
 
-@use './ui-spacing.scss';
+@use '../../../style/elements/ui-spacing.scss';
 
 @mixin hrStyle() {
   position: relative;
