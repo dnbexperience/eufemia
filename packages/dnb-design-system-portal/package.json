@@ -9,7 +9,7 @@
   "scripts": {
     "build": "gatsby build",
     "build-ci": "yarn build:version && yarn build --prefix-paths",
-    "build-visual-test": "SKIP_IMAGE_PROCESSING=1 IS_VISUAL_TEST=1 yarn build --no-uglify",
+    "build-visual-test": "SKIP_IMAGE_PROCESSING=1 IS_VISUAL_TEST=1 gatsby build --no-uglify",
     "build:version": "node ./scripts/version.js --new-version",
     "clean": "gatsby clean",
     "precommit": "yarn lint-staged",

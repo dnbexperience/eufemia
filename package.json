@@ -39,6 +39,7 @@
   },
   "resolutions": {
     "svg2vectordrawable/svgo": "2.3.0",
+    "gatsby/socket.io": "4.6.1",
     "gatsby/browserslist": "4.21.4"
   },
   "engines": {
