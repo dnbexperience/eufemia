@@ -10,7 +10,6 @@ import Blockquote from '../Blockquote'
 
 const CustomStyles = styled.div`
   a {
-    ${'' /** :has is not supported in browsers yet */}
     &:has(> .dnb-icon) {
       border-bottom: none;
       color: red;
