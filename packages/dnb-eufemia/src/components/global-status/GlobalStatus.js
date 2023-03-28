@@ -26,7 +26,7 @@ import {
   spacingPropTypes,
   createSpacingClasses,
 } from '../space/SpacingHelper'
-import Hr from '../../elements/Hr'
+import Hr from '../../elements/hr/Hr'
 import GlobalStatusController, {
   GlobalStatusInterceptor,
 } from './GlobalStatusController'
