@@ -1,28 +1,24 @@
 import React from 'react'
 import classnames from 'classnames'
 import AnchorLink from './Anchor'
-import { Heading } from '@dnb/eufemia/src'
+import Heading, { HeadingProps } from '@dnb/eufemia/src/components/Heading'
 import { makeSlug } from '../../uilib/utils/slug'
-import { useLocation, WindowLocation } from '@reach/router'
+import { useLocation } from '@reach/router'
 import { anchorLinkStyle } from './AutoLinkHeader.module.scss'
 
 type AutoLinkHeaderProps = {
-  level?: number | string
-  title?: string
   element?: string
   useSlug?: string
-  className?: string
-  children: React.ReactNode
   addToSearchIndex?: ({
     location,
     title,
     hash,
   }: {
-    location?: WindowLocation
+    location?: Location
     title?: string | React.ReactNode
     hash?: string
   }) => void
-}
+} & Omit<HeadingProps, 'ref'>
 
 const AutoLinkHeader = ({
   level = '1',
