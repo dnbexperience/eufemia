@@ -27,7 +27,7 @@ const ignoreAsPage = [
   '**/skip-link-example.tsx',
   '**/CardProductsTable.js',
   '**/assets/*.js',
-  '**/utils/*.{js,ts,tsx}',
+  '**/__utils__/*.{js,ts,tsx}',
 ]
 
 const plugins = [
