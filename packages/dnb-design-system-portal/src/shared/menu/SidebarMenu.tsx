@@ -89,49 +89,9 @@ export default function SidebarLayout({
     }
   }, [isClosing, isOpen])
 
-  function scrollToActiveItem() {
-    if (!scrollRef?.current) {
-      return
-    }
-
-    const elem = scrollRef.current.querySelector('li.is-active')
-
-    if (!elem) {
-      return false
-    }
-
-    try {
-      // The scroll to active list item codeblock seems to only be working on smaller screen sizes i.e. tablet/phones, is this intentional?
-      // As of now it only targets the window scroll, which means its only automatically scrolling on smaller devices, since on desktop
-      // the menu has its own internal scrollbar inside the <nav /> element
-      const offset = scrollRef.current.getBoundingClientRect().top
-      const rect = elem.getBoundingClientRect()
-      const top = scrollRef.current.scrollTop + rect.top - offset
-      if (window.scrollTo) {
-        window.scrollTo({
-          top,
-          behavior: 'smooth',
-        })
-      } else {
-        // Typo or deprecated/old property that Typescript is not catching up on?
-        // Property 'scrollTop' does not exist on type 'Window & typeof globalThis'. Did you mean 'scrollTo'?
-        // Code below used to be window.scrollTop = top
-        window.scrollY = top
-      }
-    } catch (e) {
-      console.log('Could not set scrollToActiveItem', e)
-    }
-  }
-
-  function handleKeyDown(event: KeyboardEvent) {
-    if (event.key === 'Escape') {
-      closeMenu()
-    }
-  }
-
   /* Creation of menu items starts here */
 
-  const nav = groupNavItems(
+  const navItems = groupNavItems(
     prepareNav({
       location,
       allMdx,
@@ -189,8 +149,6 @@ export default function SidebarLayout({
       <MediaQuery when={{ min: 0, max: 'medium' }}>
         <Space left="large" top="large">
           <PortalToolsMenu
-            /* className for PortalToolsMenu is currently required and not optional */
-            className=""
             triggerAttributes={{
               text: 'Portal Tools',
               icon: 'chevron_right',
@@ -200,9 +158,49 @@ export default function SidebarLayout({
           />
         </Space>
       </MediaQuery>
-      <ul className="dev-grid">{nav}</ul>
+      <ul className="dev-grid">{navItems}</ul>
     </nav>
   )
+
+  function scrollToActiveItem() {
+    if (!scrollRef?.current) {
+      return
+    }
+
+    const elem = scrollRef.current.querySelector('li.is-active')
+
+    if (!elem) {
+      return false
+    }
+
+    try {
+      // The scroll to active list item codeblock seems to only be working on smaller screen sizes i.e. tablet/phones, is this intentional?
+      // As of now it only targets the window scroll, which means its only automatically scrolling on smaller devices, since on desktop
+      // the menu has its own internal scrollbar inside the <nav /> element
+      const offset = scrollRef.current.getBoundingClientRect().top
+      const rect = elem.getBoundingClientRect()
+      const top = scrollRef.current.scrollTop + rect.top - offset
+      if (window.scrollTo) {
+        window.scrollTo({
+          top,
+          behavior: 'smooth',
+        })
+      } else {
+        // Typo or deprecated/old property that Typescript is not catching up on?
+        // Property 'scrollTop' does not exist on type 'Window & typeof globalThis'. Did you mean 'scrollTo'?
+        // Code below used to be window.scrollTop = top
+        window.scrollY = top
+      }
+    } catch (e) {
+      console.log('Could not set scrollToActiveItem', e)
+    }
+  }
+
+  function handleKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Escape') {
+      closeMenu()
+    }
+  }
 }
 
 type ListItemProps = {
@@ -302,13 +300,8 @@ function ListItem({
         </Link>
       </li>
       {/* Currently not nesting list items with an <ul/> inside <li/> as it breaks the styling for the time being */}
-      {subheadings && (
-        <>
-          {subheadings.map((item) => (
-            <ListItem key={item.path} {...item} />
-          ))}
-        </>
-      )}
+      {subheadings &&
+        subheadings.map((item) => <ListItem key={item.path} {...item} />)}
     </>
   )
 }
