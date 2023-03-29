@@ -2,7 +2,7 @@ import React from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
 import ListSummaryFromEdges, { ListEdges } from './ListSummaryFromEdges'
 
-export default function ListComponents() {
+export default function ListFragments() {
   const {
     allMdx: { edges },
   } = useStaticQuery(graphql`
