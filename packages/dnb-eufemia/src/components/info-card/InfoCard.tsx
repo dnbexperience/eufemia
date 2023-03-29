@@ -5,7 +5,7 @@ import classnames from 'classnames'
 import Button, { ButtonProps } from '../button/Button'
 import IconPrimary from '../icon-primary/IconPrimary'
 import type { IconIcon } from '../icon/Icon'
-import Image, { ImgProps } from '../../elements/image/Image'
+import Img, { ImgProps } from '../../elements/img/Img'
 import Space from '../space/Space'
 import P from '../../elements/P'
 
@@ -215,7 +215,7 @@ const InfoCard = (localProps: InfoCardAllProps) => {
   function getIllustration() {
     if (src || imgProps) {
       const imageProps = { src, alt, ...imgProps }
-      return <Image className="dnb-info-card__image" {...imageProps} />
+      return <Img className="dnb-info-card__image" {...imageProps} />
     }
     return (
       <IconPrimary

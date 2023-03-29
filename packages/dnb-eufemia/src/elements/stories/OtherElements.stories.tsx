@@ -15,7 +15,7 @@ import {
   IconPrimary,
   ToggleButton,
 } from '../../components'
-import { H1, H2, P, Hr, Link, Span, Div, Image } from '..'
+import { H1, H2, P, Hr, Link, Span, Div, Img } from '..'
 // import Link from '../../../elements/Link'
 
 export default {
@@ -295,7 +295,7 @@ export const ElementsAndSkeleton = () => {
   )
 }
 
-const StyledImg = styled(Image)`
+const StyledImg = styled(Img)`
   border-radius: 1rem;
 `
 const StyledButton = styled.button`

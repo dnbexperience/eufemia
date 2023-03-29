@@ -24,7 +24,7 @@ export type ImgProps = SpacingProps &
     caption?: string
   }
 
-const Image = ({
+const Img = ({
   caption,
   alt,
   element = 'figure',
@@ -60,4 +60,4 @@ const Image = ({
   )
 }
 
-export default Image
+export default Img

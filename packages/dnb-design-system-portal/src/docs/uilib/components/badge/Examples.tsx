@@ -8,7 +8,7 @@ import {
   email as Email,
   confetti as Confetti,
 } from '@dnb/eufemia/src/icons'
-import { Badge, Avatar, Icon, Image } from '@dnb/eufemia/src'
+import { Badge, Avatar, Icon, Img } from '@dnb/eufemia/src'
 
 export const BadgeNotification = () => (
   <ComponentBox hideCode data-visual-test="badge-variant-notification">
@@ -165,7 +165,7 @@ export const BadgeImgWithIcon = () => (
     data-visual-test="badge-alternative-img"
   >
     <Badge content={<Icon icon={Confetti} />}>
-      <Image
+      <Img
         src="https://avatars.githubusercontent.com/u/1501870?v=4"
         alt="Profile picture"
         height="64"

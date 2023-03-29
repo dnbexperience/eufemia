@@ -7,12 +7,12 @@ import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { Skeleton, ToggleButton } from '@dnb/eufemia/src'
 import styled from '@emotion/styled'
-import { Image } from '@dnb/eufemia/src/elements'
+import { Img } from '@dnb/eufemia/src/elements'
 
 export const ImagePlainExample = () => (
   <ComponentBox data-visual-test="image-plain" hideCode>
     {() => {
-      const StyledImg = styled(Image)`
+      const StyledImg = styled(Img)`
         border-radius: 1rem;
       `
       const CustomImage = () => {
@@ -33,7 +33,7 @@ export const ImagePlainExample = () => (
 export const ImageInvalidSourceExample = () => (
   <ComponentBox data-visual-test="image-no-source" hideCode>
     {() => {
-      const MyImg = Image
+      const MyImg = Img
 
       return (
         <MyImg
@@ -50,7 +50,7 @@ export const ImageInvalidSourceExample = () => (
 export const ImageCaptionExample = () => (
   <ComponentBox data-visual-test="image-caption" hideCode>
     {() => {
-      const StyledImg = styled(Image)`
+      const StyledImg = styled(Img)`
         border-radius: 1rem;
       `
       const CustomImage = () => {
@@ -72,7 +72,7 @@ export const ImageCaptionExample = () => (
 export const ImageSkeletonExample = () => (
   <ComponentBox data-visual-test="image-skeleton">
     {() => {
-      const StyledImg = styled(Image)`
+      const StyledImg = styled(Img)`
         border-radius: 1rem;
       `
       const CustomImage = () => {
