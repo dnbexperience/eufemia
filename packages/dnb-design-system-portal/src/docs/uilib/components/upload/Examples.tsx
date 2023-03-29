@@ -5,7 +5,7 @@
 
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { Button, ToggleButton, Img, Section } from '@dnb/eufemia/src'
+import { Button, ToggleButton, Image, Section } from '@dnb/eufemia/src'
 import Upload from '@dnb/eufemia/src/components/upload/Upload'
 
 const createMockFile = (name: string, size: number, type: string) => {
@@ -131,7 +131,7 @@ export const UploadRemoveFile = () => (
           return (
             <Section aira-label="List of choosen images">
               {images.map((img, i) => (
-                <Img
+                <Image
                   top
                   key={i}
                   src={img.blob.result}

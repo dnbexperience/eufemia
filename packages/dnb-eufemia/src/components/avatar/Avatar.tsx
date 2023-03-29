@@ -6,7 +6,7 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 
 // Elements
-import Img, { ImgProps } from '../../elements/image/Image'
+import Image, { ImgProps } from '../../elements/image/Image'
 
 // Shared
 import Context from '../../shared/Context'
@@ -123,7 +123,7 @@ const Avatar = (localProps: AvatarProps & SpacingProps) => {
 
   if (src || imgProps) {
     const imageProps = { src, alt, ...imgProps }
-    children = <Img {...imageProps} />
+    children = <Image {...imageProps} />
   } else if (childrenIsString) {
     const firstLetterUpperCase = childrenProp.charAt(0).toUpperCase()
     children = <span aria-hidden>{firstLetterUpperCase}</span>
