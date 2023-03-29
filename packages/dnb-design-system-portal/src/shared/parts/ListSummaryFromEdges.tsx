@@ -1,6 +1,7 @@
 import React from 'react'
 import { P, Anchor, Ul, Li } from '@dnb/eufemia/src/elements'
 import AutoLinkHeader from '../tags/AutoLinkHeader'
+import { resetLevels } from '@dnb/eufemia/src/components/Heading'
 
 type ListEdge = {
   node: {
@@ -25,6 +26,8 @@ export default function ListSummaryFromEdges({
   returnListItems = false,
 }: ListSummaryFromEdgesProps) {
   const Wrapper = returnListItems ? Ul : React.Fragment
+
+  resetLevels(2)
 
   const jsx = edges.map(
     (

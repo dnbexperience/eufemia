@@ -8,7 +8,7 @@ import ChangeLocale from '../../core/ChangeLocale'
 import ChangeStyleTheme from '../../core/ChangeStyleTheme'
 
 export default function PortalToolsMenu({
-  className,
+  className = null,
   tooltipPosition = 'left',
   ...props
 }) {
