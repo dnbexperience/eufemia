@@ -6,7 +6,6 @@
 import { warn } from '../../shared/component-helper'
 
 import type {
-  StyleObjectProps,
   SpaceType,
   SpacingUnknownProps,
   SpacingProps,
@@ -279,7 +278,9 @@ export const findNearestTypes = (num: SpaceNumber, multiply = false) => {
 export const isValidSpaceProp = (propName: string) =>
   propName && ['top', 'right', 'bottom', 'left'].includes(propName)
 
-export const removeSpaceProps = (props: StyleObjectProps) => {
+export const removeSpaceProps = (
+  props: SpacingProps | SpacingUnknownProps
+) => {
   const p = Object.isFrozen(props) ? { ...props } : props
   for (const i in p) {
     if (isValidSpaceProp(i)) {
