@@ -15,7 +15,7 @@ import {
   IconPrimary,
   ToggleButton,
 } from '../../components'
-import { H1, H2, P, Hr, Link, Span, Div, Img } from '..'
+import { H1, H2, P, Hr, Link, Span, Div, Image } from '..'
 // import Link from '../../../elements/Link'
 
 export default {
@@ -280,9 +280,8 @@ export const ElementsAndSkeleton = () => {
         <Div>div</Div>
         <Hr top bottom />
         <StyledImg
-          top
-          width="200"
-          height="200"
+          width={200}
+          height={200}
           src="https://raw.githubusercontent.com/dnbexperience/eufemia/main/logo.png"
           alt="logo"
         />
@@ -296,7 +295,7 @@ export const ElementsAndSkeleton = () => {
   )
 }
 
-const StyledImg = styled(Img)`
+const StyledImg = styled(Image)`
   border-radius: 1rem;
 `
 const StyledButton = styled.button`
