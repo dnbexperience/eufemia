@@ -5,7 +5,7 @@ import classnames from 'classnames'
 import Button, { ButtonProps } from '../button/Button'
 import IconPrimary from '../icon-primary/IconPrimary'
 import type { IconIcon } from '../icon/Icon'
-import Img, { ImgProps } from '../../elements/Img'
+import Img, { ImgProps } from '../../elements/img/Img'
 import Space from '../space/Space'
 import P from '../../elements/P'
 

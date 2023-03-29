@@ -20,7 +20,7 @@ import type { SkeletonShow } from '../components/skeleton/Skeleton'
 
 import type { DynamicElement, SpacingProps } from '../shared/types'
 
-export type ElementIsType = string | React.ReactNode // | DynamicElement
+export type ElementIsType = DynamicElement | React.ReactNode
 
 export type ElementInternalProps = {
   /**

@@ -22,7 +22,9 @@ export const BadgeNotificationInline = () => (
     data-visual-test="badge-variant-notification-inline"
   >
     <div>
-      Text <Badge content={1} label="Notifications:" variant="notification" /> Text
+      Text{' '}
+      <Badge content={1} label="Notifications:" variant="notification" />{' '}
+      Text
     </div>
   </ComponentBox>
 )
