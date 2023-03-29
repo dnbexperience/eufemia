@@ -97,9 +97,3 @@ export type SpacingProps = SpacingElementProps & {
   space?: SpaceType | SpacingElementProps
 }
 export type SpacingUnknownProps = Record<string, unknown>
-export type StyleObjectProps = SpacingProps & {
-  maxWidth?: string
-  maxHeight?: string
-  width?: string
-  height?: string
-}

@@ -590,54 +590,5 @@ sub {
 .dnb-form {
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
-}
-
-/*
- * Image
- *
- */
-.dnb-img {
-  display: inline-flex;
-  flex-direction: column;
-  padding: 0;
-  text-align: center;
-  align-items: center;
-}
-.dnb-img:not([class*=dnb-space]) {
-  margin: 0;
-}
-.dnb-img img,
-.dnb-img figcaption {
-  font-size: var(--font-size-basis);
-}
-.dnb-img img {
-  position: relative;
-  z-index: 2;
-  box-sizing: content-box;
-  max-width: 100%;
-  border-style: none;
-  border-radius: inherit;
-}
-.dnb-img img[alt]::after {
-  content: attr(alt);
-  position: absolute;
-  z-index: 3;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: inherit;
-  color: var(--color-black-80);
-  background-color: var(--color-black-8);
-}
-.dnb-img figcaption {
-  margin-top: 0.5rem;
-}
-.dnb-img__img--error {
-  color: var(--color-black-80);
-  background-color: var(--color-black-8);
 }"
 `;
