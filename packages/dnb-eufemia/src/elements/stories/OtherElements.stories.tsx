@@ -280,9 +280,8 @@ export const ElementsAndSkeleton = () => {
         <Div>div</Div>
         <Hr top bottom />
         <StyledImg
-          top
-          width="200"
-          height="200"
+          width={200}
+          height={200}
           src="https://raw.githubusercontent.com/dnbexperience/eufemia/main/logo.png"
           alt="logo"
         />
