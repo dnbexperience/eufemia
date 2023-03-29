@@ -4,7 +4,7 @@ description: 'Fragments are small, low-level and reusable parts used inside othe
 order: 300
 ---
 
-import ListSummaryFromPages from 'dnb-design-system-portal/src/shared/parts/ListSummaryFromPages'
+import ListFragments from 'dnb-design-system-portal/src/shared/parts/ListFragments'
 
 # Fragments
 
@@ -22,4 +22,4 @@ import { DrawerList, ScrollView } from '@dnb/eufemia/fragments'
 
 ## Available Fragments
 
-<ListSummaryFromPages slug="uilib/components/fragments/" />
+<ListFragments />
