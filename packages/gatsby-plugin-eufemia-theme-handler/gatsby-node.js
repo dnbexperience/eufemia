@@ -12,6 +12,8 @@ exports.pluginOptionsSchema = ({ Joi }) => {
   return Joi.object({
     themes: Joi.object().required(),
     defaultTheme: Joi.string().required(),
+    dir: Joi.string().optional(),
+    files: Joi.array().optional(),
   })
 }
 
