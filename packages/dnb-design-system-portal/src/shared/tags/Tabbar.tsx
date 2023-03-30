@@ -4,12 +4,29 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Link, navigate } from 'gatsby'
 import { Button, Tabs } from '@dnb/eufemia/src/components'
 import { fullscreen as fullscreenIcon } from '@dnb/eufemia/src/icons/secondary_icons'
 import AutoLinkHeader from './AutoLinkHeader'
 import { tabsWrapperStyle } from './Tabbar.module.scss'
+
+const defaultTabs = [
+  { title: 'Info', key: '/info' },
+  { title: 'Demos', key: '/demos' },
+  { title: 'Properties', key: '/properties' },
+  { title: 'Events', key: '/events' },
+]
+
+type TabbarTabs = Array<{ title: string; key: string }>
+type TabbarProps = {
+  location: Location
+  tabs: TabbarTabs
+  defaultTabs?: TabbarTabs
+  title: string
+  hideTabs: Array<{ title: string }>
+  rootPath: string
+  children?: React.ReactNode
+}
 
 export default function Tabbar({
   location,
@@ -19,7 +36,7 @@ export default function Tabbar({
   tabs,
   defaultTabs,
   children,
-}) {
+}: TabbarProps) {
   const [wasFullscreen, setFullscreen] = React.useState(
     /fullscreen/.test(location.search)
   )
@@ -136,26 +153,8 @@ export default function Tabbar({
   )
 }
 
-Tabbar.propTypes = {
-  location: PropTypes.object.isRequired,
-  tabs: PropTypes.array,
-  defaultTabs: PropTypes.array,
-  title: PropTypes.string,
-  hideTabs: PropTypes.array,
-  rootPath: PropTypes.string.isRequired,
-  children: PropTypes.node,
-}
 Tabbar.defaultProps = {
-  tabs: null,
-  defaultTabs: [
-    { title: 'Info', key: '/info' },
-    { title: 'Demos', key: '/demos' },
-    { title: 'Properties', key: '/properties' },
-    { title: 'Events', key: '/events' },
-  ],
-  title: null,
-  hideTabs: null,
-  children: null,
+  defaultTabs,
 }
 Tabbar.ContentWrapper = (props) => (
   <Tabs.ContentWrapper id="tabbar" content_spacing={false} {...props} />
