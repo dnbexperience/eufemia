@@ -3,10 +3,7 @@
  *
  */
 
-import {
-  extractIconsAsSVG,
-  extractIconsAsPDF,
-} from './tasks/assetsExtractors'
+import { extractIconsAsSVG } from './tasks/assetsExtractors'
 import { getFigmaDoc } from './helpers/docHelpers'
 import { getRequiredBranchName } from './../prebuild/commitToBranch'
 import { log, ErrorHandler } from '../lib'
@@ -38,18 +35,6 @@ export const fetchFigmaIcons = async ({
     log.succeed(`> Figma: Icons conversion done (${icons?.length} icons)`)
   } catch (e) {
     log.fail(new ErrorHandler('Failed during extractIconsAsSVG', e))
-  }
-
-  try {
-    log.start('> Figma: Starting the pdf fetch')
-    const pdfs = await extractIconsAsPDF({
-      figmaFile,
-      figmaDoc,
-      ...args,
-    })
-    log.succeed(`> Figma: PDFs conversion done (${pdfs?.length} pdfs)`)
-  } catch (e) {
-    log.fail(new ErrorHandler('Failed during extractIconsAsPDF', e))
   }
 }
 

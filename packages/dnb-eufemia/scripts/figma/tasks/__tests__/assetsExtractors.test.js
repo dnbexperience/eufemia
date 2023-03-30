@@ -4,6 +4,7 @@
  */
 
 import fs from 'fs-extra'
+import tar from 'tar'
 import { log } from '../../../lib'
 import '../../../../src/core/jest/jestSetup'
 import { getFigmaDoc } from '../../helpers/docHelpers'
@@ -78,9 +79,21 @@ jest.mock('fs-extra', () => {
       return 'unknown'
     }),
     unlink: jest.fn().mockResolvedValue(),
+    move: jest.fn(),
+    stat: jest.fn((file) => {
+      const size = file.includes('eufemia-icons-xml.tgz') ? 100 : 200
+      return { size }
+    }),
     createWriteStream: jest.fn(() => {
       return writeStream
     }),
+  }
+})
+
+jest.mock('tar', () => {
+  return {
+    create: jest.fn(),
+    extract: jest.fn(),
   }
 })
 
@@ -142,6 +155,10 @@ describe('assetsExtractors', () => {
 
     const writeFile = jest.fn()
     jest.spyOn(fs, 'writeFile').mockImplementation(writeFile)
+    const unlink = jest.fn()
+    jest.spyOn(fs, 'unlink').mockImplementation(unlink)
+    const move = jest.fn()
+    jest.spyOn(fs, 'move').mockImplementation(move)
 
     const figmaDoc = await getFigmaDoc({
       forceRefetch: false,
@@ -163,7 +180,7 @@ describe('assetsExtractors', () => {
         'Starting to fetch 2 icons from the "Icons" Canvas'
       )
     )
-    expect(info).toHaveBeenCalledTimes(6)
+    expect(info).toHaveBeenCalledTimes(7)
     expect(info).toHaveBeenNthCalledWith(
       1,
       expect.stringContaining(
@@ -196,9 +213,77 @@ describe('assetsExtractors', () => {
       6,
       expect.stringContaining('Icon was optimized: bell.svg')
     )
-    expect(succeed).toHaveBeenCalledTimes(1)
-    expect(succeed).toHaveBeenCalledWith(
+    expect(info).toHaveBeenNthCalledWith(
+      7,
+      expect.stringContaining('started to create eufemia-icons-xml.tgz')
+    )
+    expect(succeed).toHaveBeenCalledTimes(2)
+    expect(succeed).toHaveBeenNthCalledWith(
+      1,
       expect.stringContaining('Using old Figma document')
+    )
+    expect(succeed).toHaveBeenNthCalledWith(
+      2,
+      expect.stringContaining('finished to create eufemia-icons-xml.tgz')
+    )
+
+    expect(move).toHaveBeenCalledTimes(2)
+    expect(move).toHaveBeenNthCalledWith(
+      1,
+      expect.stringContaining('/assets/icons/bell_medium.xml'),
+      expect.stringContaining('/assets/icons/bell/bell_medium.xml')
+    )
+    expect(move).toHaveBeenNthCalledWith(
+      2,
+      expect.stringContaining('/assets/icons/bell.xml'),
+      expect.stringContaining('/assets/icons/bell/bell.xml')
+    )
+
+    expect(unlink).toHaveBeenCalledTimes(3)
+    expect(unlink).toHaveBeenNthCalledWith(
+      1,
+      expect.stringContaining('/assets/icons/tmp.tgz')
+    )
+    expect(unlink).toHaveBeenNthCalledWith(
+      2,
+      expect.stringContaining('/assets/icons/bell_medium.xml')
+    )
+    expect(unlink).toHaveBeenNthCalledWith(
+      3,
+      expect.stringContaining('/assets/icons/bell.xml')
+    )
+
+    expect(tar.create).toHaveBeenCalledTimes(3)
+    expect(tar.create).toHaveBeenNthCalledWith(
+      1,
+      {
+        cwd: expect.stringContaining('/assets/icons'),
+        file: expect.stringContaining('/assets/icons/tmp.tgz'),
+        gzip: true,
+      },
+      ['bell_medium.xml', 'bell.xml']
+    )
+    expect(tar.create).toHaveBeenNthCalledWith(
+      2,
+      {
+        cwd: expect.stringContaining('/assets/icons'),
+        file: expect.stringContaining(
+          '/assets/icons/eufemia-icons-xml.tgz'
+        ),
+        gzip: true,
+      },
+      ['bell_medium.xml', 'bell.xml']
+    )
+    expect(tar.create).toHaveBeenNthCalledWith(
+      3,
+      {
+        cwd: expect.stringContaining('/assets/icons'),
+        file: expect.stringContaining(
+          '/assets/icons/eufemia-icons-xml-categorized.tgz'
+        ),
+        gzip: true,
+      },
+      ['bell/bell_medium.xml', 'bell/bell.xml']
     )
 
     expect(writeFile).toHaveBeenCalledTimes(4)
