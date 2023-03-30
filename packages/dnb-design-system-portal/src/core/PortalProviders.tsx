@@ -16,7 +16,7 @@ import { isCI } from 'repo-utils'
 
 import { useThemeName } from 'gatsby-plugin-eufemia-theme-handler/themeHandler'
 
-import PortalLayout from './PortalLayout'
+import PortalLayout, { PortalLayoutProps } from './PortalLayout'
 
 /**
  * Import Eufemia Styles
@@ -42,9 +42,14 @@ const createCacheInstance = () =>
   })
 const emotionCache = createCacheInstance()
 
+type PortalElementProps = {
+  props: PortalLayoutProps
+  element: React.ReactNode
+}
+
 export const pageElement =
   () =>
-  ({ props, element }) => {
+  ({ props, element }: PortalElementProps) => {
     return <PortalLayout {...props}>{element}</PortalLayout>
   }
 
