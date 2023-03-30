@@ -14,7 +14,24 @@ import { setPortalHeadData, usePortalHead } from './PortalHead'
 
 const ContentWrapper = Tabbar.ContentWrapper
 
-export default function PortalLayout(props) {
+type Frontmatter = {
+  title: string
+  fullscreen: boolean
+}
+type Fields = {
+  slug: string
+}
+type PortalLayoutNode = {
+  frontmatter: Frontmatter
+  fields: Fields
+}
+export type PortalLayoutProps = {
+  location: Location
+  pageContext: { frontmatter: Frontmatter; fullscreen?: boolean }
+  children: React.ReactNode
+}
+
+export default function PortalLayout(props: PortalLayoutProps) {
   const { pageContext, location, children } = props
 
   const data = useStaticQuery(graphql`
@@ -72,7 +89,7 @@ export default function PortalLayout(props) {
     }, [data, slug])?.node || {}
 
   const { siblings } = mdx
-  const category = siblings?.[0]
+  const category = siblings?.[0] as PortalLayoutNode
   const categoryFm = category?.frontmatter || {}
   const currentFm = mdx?.frontmatter || {}
   const fmData = Object.entries(categoryFm).reduce(
@@ -91,7 +108,7 @@ export default function PortalLayout(props) {
   usePortalHead(fmData)
 
   if (!mdx?.frontmatter) {
-    return children // looks like it was not a MDX, so we just return children
+    return <>{children}</> // looks like it was not a MDX, so we just return children
   }
 
   // Share frontmatter in pageContext during SSR/SSG
