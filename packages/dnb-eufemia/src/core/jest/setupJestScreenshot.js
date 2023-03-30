@@ -3,8 +3,7 @@
  *
  */
 
-const { configureToMatchImageSnapshot } = require('jest-image-snapshot')
-const { config } = require('./jestSetupScreenshots')
+const { config, setMatchConfig } = require('./jestSetupScreenshots')
 
 jest.retryTimes(config.retryTimes || 0)
 
@@ -17,8 +16,7 @@ jest.setTimeout(
     : 30e3
 )
 
-const toMatchImageSnapshot = configureToMatchImageSnapshot(
-  config.matchConfig
-)
-
-expect.extend({ toMatchImageSnapshot })
+setMatchConfig(config.matchConfig)
+afterEach(() => {
+  setMatchConfig(config.matchConfig)
+})
