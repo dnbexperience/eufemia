@@ -8,7 +8,6 @@
 @use '../../elements/typography.scss';
 @use '../../elements/lists.scss';
 @use '../../../elements/label/style/dnb-label.scss' as label;
-@use '../../elements/form.scss';
 @use '../../../elements/code/style/dnb-code.scss' as code;
 @use '../../../elements/img/style/dnb-img.scss' as img;
 @use '../../../elements/hr/style/dnb-hr.scss' as hr;
@@ -29,7 +28,6 @@
   @include lists.dlTag();
 
   // form
-  @include form.formTag();
   @include label.labelTag();
 
   // additional
