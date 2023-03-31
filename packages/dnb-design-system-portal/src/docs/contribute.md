@@ -44,10 +44,10 @@ Colors, fonts and logo guidelines are set in the DNB Brandbook and the digital v
 <Card url="/contribute/getting-started" about="Set up environment, Make changes and Run tests " title="Getting started" icon={GettingStarted} />
 </div>
 <h3>Or go directly to</h3>
-<Button href="/contribute/style-guides" size="large" variant="secondary" text="Style guides" icon="chevron_right" right />
-<Button href="/contribute/deploy" size="large" variant="secondary" text="Deployment" icon="chevron_right" right />
-<Button href="/contribute/faq" size="large" variant="secondary" text="FAQ" icon="chevron_right" right />
-<Button href="/contribute/contact" size="large" variant="secondary" text="Contact" icon="chevron_right" />
+<Button href="/contribute/style-guides" size="large" variant="secondary" text="Style guides" icon="chevron_right" right top />
+<Button href="/contribute/deploy" size="large" variant="secondary" text="Deployment" icon="chevron_right" right top />
+<Button href="/contribute/faq" size="large" variant="secondary" text="FAQ" icon="chevron_right" right top />
+<Button href="/contribute/contact" size="large" variant="secondary" text="Contact" icon="chevron_right" top/>
 </div>
 
 <!-- Include contents here -->
