@@ -17,6 +17,16 @@ import {
 const localFile = require.resolve('./files/FigmaTestDoc.json')
 const iconsLockFile = require.resolve('./files/icons-svg.lock')
 
+jest.mock('fs', () => {
+  const origFs = jest.requireActual('fs')
+  return {
+    ...origFs,
+    writeFile: jest.fn((file, content, encoding, cb) => {
+      cb()
+    }),
+  }
+})
+
 jest.mock('fs-extra', () => {
   const writeStream = {
     end: () => {},
@@ -78,11 +88,15 @@ jest.mock('fs-extra', () => {
 
       return 'unknown'
     }),
-    unlink: jest.fn().mockResolvedValue(),
+    writeFile: jest.fn(),
     move: jest.fn(),
+    unlink: jest.fn(),
     stat: jest.fn((file) => {
       const size = file.includes('eufemia-icons-xml.tgz') ? 100 : 200
       return { size }
+    }),
+    existsSync: jest.fn(() => {
+      return true
     }),
     createWriteStream: jest.fn(() => {
       return writeStream
@@ -153,13 +167,6 @@ describe('assetsExtractors', () => {
     const succeed = jest.fn()
     jest.spyOn(log, 'succeed').mockImplementation(succeed)
 
-    const writeFile = jest.fn()
-    jest.spyOn(fs, 'writeFile').mockImplementation(writeFile)
-    const unlink = jest.fn()
-    jest.spyOn(fs, 'unlink').mockImplementation(unlink)
-    const move = jest.fn()
-    jest.spyOn(fs, 'move').mockImplementation(move)
-
     const figmaDoc = await getFigmaDoc({
       forceRefetch: false,
       preventUpdate: true,
@@ -227,30 +234,85 @@ describe('assetsExtractors', () => {
       expect.stringContaining('finished to create eufemia-icons-xml.tgz')
     )
 
-    expect(move).toHaveBeenCalledTimes(2)
-    expect(move).toHaveBeenNthCalledWith(
+    expect(fs.move).toHaveBeenCalledTimes(2)
+    expect(fs.move).toHaveBeenNthCalledWith(
       1,
-      expect.stringContaining('/assets/icons/bell_medium.xml'),
-      expect.stringContaining('/assets/icons/bell/bell_medium.xml')
+      expect.stringContaining('/assets/icons/dnb/bell_medium.xml'),
+      expect.stringContaining('/assets/icons/dnb/bell/bell_medium.xml')
     )
-    expect(move).toHaveBeenNthCalledWith(
+    expect(fs.move).toHaveBeenNthCalledWith(
       2,
-      expect.stringContaining('/assets/icons/bell.xml'),
-      expect.stringContaining('/assets/icons/bell/bell.xml')
+      expect.stringContaining('/assets/icons/dnb/bell.xml'),
+      expect.stringContaining('/assets/icons/dnb/bell/bell.xml')
     )
 
-    expect(unlink).toHaveBeenCalledTimes(3)
-    expect(unlink).toHaveBeenNthCalledWith(
+    expect(fs.unlink).toHaveBeenCalledTimes(5)
+    expect(fs.unlink).toHaveBeenNthCalledWith(
       1,
-      expect.stringContaining('/assets/icons/tmp.tgz')
+      expect.stringContaining('/assets/icons/dnb/tmp.tgz')
     )
-    expect(unlink).toHaveBeenNthCalledWith(
+    expect(fs.unlink).toHaveBeenNthCalledWith(
       2,
-      expect.stringContaining('/assets/icons/bell_medium.xml')
+      expect.stringContaining('/assets/icons/dnb/bell/bell_medium.xml')
     )
-    expect(unlink).toHaveBeenNthCalledWith(
+    expect(fs.unlink).toHaveBeenNthCalledWith(
       3,
-      expect.stringContaining('/assets/icons/bell.xml')
+      expect.stringContaining('/assets/icons/dnb/bell/bell.xml')
+    )
+    expect(fs.unlink).toHaveBeenNthCalledWith(
+      4,
+      expect.stringContaining('/assets/icons/dnb/bell_medium.xml')
+    )
+    expect(fs.unlink).toHaveBeenNthCalledWith(
+      5,
+      expect.stringContaining('/assets/icons/dnb/bell.xml')
+    )
+
+    expect(fs.readFile).toHaveBeenCalledTimes(8)
+    expect(fs.readFile).toHaveBeenNthCalledWith(
+      1,
+      expect.stringContaining(
+        '/scripts/figma/tasks/__tests__/files/FigmaTestDoc.json'
+      )
+    )
+    expect(fs.readFile).toHaveBeenNthCalledWith(
+      2,
+      expect.stringContaining(
+        '/scripts/figma/tasks/__tests__/files/icons-svg.lock'
+      ),
+      'utf-8'
+    )
+    expect(fs.readFile).toHaveBeenNthCalledWith(
+      3,
+      expect.stringContaining('/assets/icons/dnb/bell_medium.svg'),
+      'utf-8',
+      expect.any(Function)
+    )
+    expect(fs.readFile).toHaveBeenNthCalledWith(
+      4,
+      expect.stringContaining('/assets/icons/dnb/bell_medium.svg'),
+      'utf-8'
+    )
+    expect(fs.readFile).toHaveBeenNthCalledWith(
+      5,
+      expect.stringContaining('/assets/icons/dnb/bell.svg'),
+      'utf-8',
+      expect.any(Function)
+    )
+    expect(fs.readFile).toHaveBeenNthCalledWith(
+      6,
+      expect.stringContaining('/assets/icons/dnb/bell.svg'),
+      'utf-8'
+    )
+    expect(fs.readFile).toHaveBeenNthCalledWith(
+      7,
+      expect.stringContaining('/assets/icons/dnb/bell_medium.svg'),
+      'utf-8'
+    )
+    expect(fs.readFile).toHaveBeenNthCalledWith(
+      8,
+      expect.stringContaining('/assets/icons/dnb/bell.svg'),
+      'utf-8'
     )
 
     expect(tar.create).toHaveBeenCalledTimes(3)
@@ -258,7 +320,7 @@ describe('assetsExtractors', () => {
       1,
       {
         cwd: expect.stringContaining('/assets/icons'),
-        file: expect.stringContaining('/assets/icons/tmp.tgz'),
+        file: expect.stringContaining('/assets/icons/dnb/tmp.tgz'),
         gzip: true,
       },
       ['bell_medium.xml', 'bell.xml']
@@ -268,7 +330,7 @@ describe('assetsExtractors', () => {
       {
         cwd: expect.stringContaining('/assets/icons'),
         file: expect.stringContaining(
-          '/assets/icons/eufemia-icons-xml.tgz'
+          '/assets/icons/dnb/eufemia-icons-xml.tgz'
         ),
         gzip: true,
       },
@@ -279,15 +341,15 @@ describe('assetsExtractors', () => {
       {
         cwd: expect.stringContaining('/assets/icons'),
         file: expect.stringContaining(
-          '/assets/icons/eufemia-icons-xml-categorized.tgz'
+          '/assets/icons/dnb/eufemia-icons-xml-categorized.tgz'
         ),
         gzip: true,
       },
       ['bell/bell_medium.xml', 'bell/bell.xml']
     )
 
-    expect(writeFile).toHaveBeenCalledTimes(4)
-    expect(writeFile).toHaveBeenNthCalledWith(
+    expect(fs.writeFile).toHaveBeenCalledTimes(4)
+    expect(fs.writeFile).toHaveBeenNthCalledWith(
       1,
       expect.stringContaining('/dnb-eufemia/src/icons/icons-svg.lock'),
       expect.stringContaining(
@@ -321,21 +383,23 @@ describe('assetsExtractors', () => {
         })
       )
     )
-    expect(writeFile).toHaveBeenNthCalledWith(
+    expect(fs.writeFile).toHaveBeenNthCalledWith(
       2,
-      expect.stringContaining('/dnb-eufemia/assets/icons/bell_medium.svg'),
+      expect.stringContaining(
+        '/dnb-eufemia/assets/icons/dnb/bell_medium.svg'
+      ),
       expect.stringContaining(
         `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 21.75a2.087 2.087 0 0 0 4.005 0M12 3a7.5 7.5 0 0 1 7.5 7.5c0 7.046 1.5 8.25 1.5 8.25H3s1.5-1.916 1.5-8.25A7.5 7.5 0 0 1 12 3Zm0 0V.75"/></svg>`
       )
     )
-    expect(writeFile).toHaveBeenNthCalledWith(
+    expect(fs.writeFile).toHaveBeenNthCalledWith(
       3,
-      expect.stringContaining('/dnb-eufemia/assets/icons/bell.svg'),
+      expect.stringContaining('/dnb-eufemia/assets/icons/dnb/bell.svg'),
       expect.stringContaining(
         `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 16 16"><path stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6.756 14.067a1.299 1.299 0 0 0 2.492 0M8 2.4a4.667 4.667 0 0 1 4.667 4.667c0 4.384.933 5.133.933 5.133H2.4s.933-1.192.933-5.133A4.667 4.667 0 0 1 8 2.4Zm0 0V1"/></svg>`
       )
     )
-    expect(writeFile).toHaveBeenNthCalledWith(
+    expect(fs.writeFile).toHaveBeenNthCalledWith(
       4,
       expect.stringContaining('/dnb-eufemia/src/icons/icons-meta.json'),
       expect.stringContaining(
