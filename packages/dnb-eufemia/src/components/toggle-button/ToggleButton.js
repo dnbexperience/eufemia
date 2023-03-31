@@ -205,7 +205,7 @@ export default class ToggleButton extends React.PureComponent {
   onKeyDownHandler = (event) => {
     switch (keycode(event)) {
       case 'enter':
-        this.onClickHandler(event)
+        this.onClickHandler({ event })
         break
     }
   }
@@ -213,7 +213,7 @@ export default class ToggleButton extends React.PureComponent {
   onKeyUpHandler = (event) => {
     switch (keycode(event)) {
       case 'enter':
-        this.onClickHandler(event)
+        this.onClickHandler({ event })
         break
     }
   }
@@ -232,7 +232,7 @@ export default class ToggleButton extends React.PureComponent {
       return
     }
 
-    // else we change the checked sstate
+    // else we change the checked state
     const checked = !this.state.checked
     this.setState({
       checked,
