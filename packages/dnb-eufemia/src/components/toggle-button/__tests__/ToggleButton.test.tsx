@@ -3,7 +3,7 @@
  *
  */
 
-import { render } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 import React from 'react'
 import {
   mount,
@@ -233,6 +233,19 @@ describe('ToggleButton component', () => {
     expect(Comp.find('button').instance().hasAttribute('disabled')).toBe(
       true
     )
+  })
+
+  it('should support enter key', () => {
+    const onChange = jest.fn()
+    render(<Component on_change={onChange} />)
+
+    const element = document.querySelector('button')
+
+    fireEvent.keyDown(element, { keyCode: 13 }) // enter
+    expect(onChange).toHaveBeenCalledTimes(1)
+
+    fireEvent.keyUp(element, { keyCode: 13 }) // enter
+    expect(onChange).toHaveBeenCalledTimes(2)
   })
 
   it('should support spacing props', () => {
