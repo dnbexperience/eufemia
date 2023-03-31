@@ -5,8 +5,8 @@
 
 import React from 'react'
 import classnames from 'classnames'
-import E, { ElementProps } from './Element'
-import type { SpacingProps } from '../shared/types'
+import E, { ElementProps } from '../Element'
+import type { SpacingProps } from '../../shared/types'
 
 export type DlProps = {
   /**
