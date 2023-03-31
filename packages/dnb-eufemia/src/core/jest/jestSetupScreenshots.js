@@ -10,6 +10,7 @@ const ora = require('ora')
 const { isCI } = require('repo-utils')
 const { slugify } = require('../../../src/shared/component-helper')
 const { makeUniqueId } = require('../../shared/component-helper')
+const { configureToMatchImageSnapshot } = require('jest-image-snapshot')
 
 const log = ora()
 
@@ -25,7 +26,7 @@ const config = {
     height: 1024,
   },
   matchConfig: {
-    failureThreshold: 0.015, // Chromium needs 0.03, while webkit needs 0.04 or even more
+    failureThreshold: 0.001, // Chromium needs 0.03, while webkit needs 0.04 or even more
     failureThresholdType: 'percent',
     comparisonMethod: 'pixelmatch',
     customSnapshotIdentifier: ({ currentTestName }) => {
@@ -61,6 +62,7 @@ const makeScreenshot = async ({
   simulateSelector = null,
   wrapperStyle = null,
   measureElement = null,
+  matchConfig = null,
 } = {}) => {
   await makePageReady({
     page,
@@ -68,6 +70,7 @@ const makeScreenshot = async ({
     pageViewport,
     headers,
     fullscreen,
+    matchConfig,
   })
 
   if (reload) {
@@ -119,6 +122,10 @@ const makeScreenshot = async ({
   //   await page.waitForTimeout(300000)
   // }
 
+  if (simulate && simulate === 'click') {
+    await page.mouse.move(0, 0) // reset after click simulations, because the mouse still hovers
+  }
+
   const screenshot = await takeScreenshot({
     page,
     screenshotElement,
@@ -139,7 +146,17 @@ const makeScreenshot = async ({
 }
 module.exports.makeScreenshot = makeScreenshot
 
-const setupPageScreenshot = async ({
+const setMatchConfig = (matchConfig) => {
+  const cfg = {
+    ...config.matchConfig,
+    ...matchConfig,
+  }
+  const toMatchImageSnapshot = configureToMatchImageSnapshot(cfg)
+  expect.extend({ toMatchImageSnapshot })
+}
+module.exports.setMatchConfig = setMatchConfig
+
+const setupPageScreenshot = ({
   page = global.page,
   url,
   pageViewport = null,
@@ -147,7 +164,15 @@ const setupPageScreenshot = async ({
   fullscreen = false,
   each = false,
   timeout = null,
+  matchConfig = null,
 } = {}) => {
+  if (matchConfig) {
+    // The cleanup happens in "setupJestScreenshot"
+    beforeEach(() => {
+      setMatchConfig(matchConfig)
+    }, timeout)
+  }
+
   const before = async () => {
     await makePageReady({
       page,
@@ -157,10 +182,11 @@ const setupPageScreenshot = async ({
       fullscreen,
     })
   }
+
   if (each) {
-    await beforeEach(before, timeout)
+    beforeEach(before, timeout)
   } else {
-    await beforeAll(before, timeout)
+    beforeAll(before, timeout)
   }
 }
 module.exports.setupPageScreenshot = setupPageScreenshot
@@ -200,7 +226,12 @@ async function makePageReady({
   pageViewport = null,
   headers = null,
   fullscreen = false,
+  matchConfig = null,
 }) {
+  if (matchConfig) {
+    setMatchConfig(matchConfig)
+  }
+
   if (url) {
     if (pageViewport || (pageViewport !== false && config.pageViewport)) {
       if (pageViewport && config.pageViewport) {
