@@ -68,6 +68,10 @@ import bubble from './bubble.js'
 import bubble_medium from './bubble_medium.js'
 import building_construction from './building_construction.js'
 import building_construction_medium from './building_construction_medium.js'
+import building_shopping from './building_shopping.js'
+import building_shopping_medium from './building_shopping_medium.js'
+import bus from './bus.js'
+import bus_medium from './bus_medium.js'
 import calculator from './calculator.js'
 import calculator_medium from './calculator_medium.js'
 import calendar from './calendar.js'
@@ -244,6 +248,8 @@ import file_xls from './file_xls.js'
 import file_xls_medium from './file_xls_medium.js'
 import file_xml from './file_xml.js'
 import file_xml_medium from './file_xml_medium.js'
+import file_zip from './file_zip.js'
+import file_zip_medium from './file_zip_medium.js'
 import filter from './filter.js'
 import filter_medium from './filter_medium.js'
 import first_aid from './first_aid.js'
@@ -278,12 +284,16 @@ import hamburger from './hamburger.js'
 import hamburger_medium from './hamburger_medium.js'
 import hand_money from './hand_money.js'
 import hand_money_medium from './hand_money_medium.js'
+import handshake from './handshake.js'
+import handshake_medium from './handshake_medium.js'
 import hanger from './hanger.js'
 import hanger_medium from './hanger_medium.js'
 import heart from './heart.js'
 import heart_medium from './heart_medium.js'
 import heart_rate from './heart_rate.js'
 import heart_rate_medium from './heart_rate_medium.js'
+import heavy_equipment from './heavy_equipment.js'
+import heavy_equipment_medium from './heavy_equipment_medium.js'
 import hide from './hide.js'
 import hide_medium from './hide_medium.js'
 import hierarchy from './hierarchy.js'
@@ -302,6 +312,8 @@ import house_2 from './house_2.js'
 import house_2_medium from './house_2_medium.js'
 import house_value from './house_value.js'
 import house_value_medium from './house_value_medium.js'
+import id_card from './id_card.js'
+import id_card_medium from './id_card_medium.js'
 import information from './information.js'
 import information_bubble from './information_bubble.js'
 import information_bubble_medium from './information_bubble_medium.js'
@@ -312,6 +324,10 @@ import instagram from './instagram.js'
 import instagram_medium from './instagram_medium.js'
 import insurance from './insurance.js'
 import insurance_medium from './insurance_medium.js'
+import investment_account from './investment_account.js'
+import investment_account_medium from './investment_account_medium.js'
+import keyfigures from './keyfigures.js'
+import keyfigures_medium from './keyfigures_medium.js'
 import kid_number from './kid_number.js'
 import kid_number_medium from './kid_number_medium.js'
 import language from './language.js'
@@ -406,6 +422,8 @@ import play from './play.js'
 import play_medium from './play_medium.js'
 import podcast from './podcast.js'
 import podcast_medium from './podcast_medium.js'
+import portfolio_analytics from './portfolio_analytics.js'
+import portfolio_analytics_medium from './portfolio_analytics_medium.js'
 import printer from './printer.js'
 import printer_medium from './printer_medium.js'
 import products_account_percent_medium from './products_account_percent_medium.js'
@@ -445,6 +463,8 @@ import scissors from './scissors.js'
 import scissors_medium from './scissors_medium.js'
 import scooter from './scooter.js'
 import scooter_medium from './scooter_medium.js'
+import sea_transport from './sea_transport.js'
+import sea_transport_medium from './sea_transport_medium.js'
 import send from './send.js'
 import send_medium from './send_medium.js'
 import share_android from './share_android.js'
@@ -452,6 +472,8 @@ import share_android_medium from './share_android_medium.js'
 import share_ios from './share_ios.js'
 import share_ios_medium from './share_ios_medium.js'
 import shield from './shield.js'
+import shield_lock from './shield_lock.js'
+import shield_lock_medium from './shield_lock_medium.js'
 import shield_medium from './shield_medium.js'
 import shopping_cart from './shopping_cart.js'
 import shopping_cart_medium from './shopping_cart_medium.js'
@@ -599,6 +621,10 @@ export {
   bubble_medium,
   building_construction,
   building_construction_medium,
+  building_shopping,
+  building_shopping_medium,
+  bus,
+  bus_medium,
   calculator,
   calculator_medium,
   calendar,
@@ -775,6 +801,8 @@ export {
   file_xls_medium,
   file_xml,
   file_xml_medium,
+  file_zip,
+  file_zip_medium,
   filter,
   filter_medium,
   first_aid,
@@ -809,12 +837,16 @@ export {
   hamburger_medium,
   hand_money,
   hand_money_medium,
+  handshake,
+  handshake_medium,
   hanger,
   hanger_medium,
   heart,
   heart_medium,
   heart_rate,
   heart_rate_medium,
+  heavy_equipment,
+  heavy_equipment_medium,
   hide,
   hide_medium,
   hierarchy,
@@ -833,6 +865,8 @@ export {
   house_2_medium,
   house_value,
   house_value_medium,
+  id_card,
+  id_card_medium,
   information,
   information_bubble,
   information_bubble_medium,
@@ -843,6 +877,10 @@ export {
   instagram_medium,
   insurance,
   insurance_medium,
+  investment_account,
+  investment_account_medium,
+  keyfigures,
+  keyfigures_medium,
   kid_number,
   kid_number_medium,
   language,
@@ -937,6 +975,8 @@ export {
   play_medium,
   podcast,
   podcast_medium,
+  portfolio_analytics,
+  portfolio_analytics_medium,
   printer,
   printer_medium,
   products_account_percent_medium,
@@ -976,6 +1016,8 @@ export {
   scissors_medium,
   scooter,
   scooter_medium,
+  sea_transport,
+  sea_transport_medium,
   send,
   send_medium,
   share_android,
@@ -983,6 +1025,8 @@ export {
   share_ios,
   share_ios_medium,
   shield,
+  shield_lock,
+  shield_lock_medium,
   shield_medium,
   shopping_cart,
   shopping_cart_medium,
