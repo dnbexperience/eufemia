@@ -25,6 +25,8 @@ type HProps = SpacingProps &
     size?: HSize
   }
 
+export type SharedHProps = Omit<HProps, 'as'>
+
 const H = ({
   as = 'h1',
   is,
