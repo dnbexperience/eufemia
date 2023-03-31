@@ -12,6 +12,7 @@ log.start('> Figma: Preparing for connecting to the Figma API ...')
 
 export const fetchFigmaIcons = async ({
   figmaFile = process.env.FIGMA_ICONS_FILE,
+  assetsDir = process.env.ASSETS_ICONS_DIR,
   ...args
 } = {}) => {
   if (!figmaFile) {
@@ -30,6 +31,7 @@ export const fetchFigmaIcons = async ({
     const icons = await extractIconsAsSVG({
       figmaFile,
       figmaDoc,
+      assetsDir,
       ...args,
     })
     log.succeed(`> Figma: Icons conversion done (${icons?.length} icons)`)
