@@ -29,17 +29,19 @@ export type UlAllProps = UlProps &
   ElementProps
 
 const Ul = ({ nested, inside, outside, ...p }: UlAllProps = {}) => {
-  if (nested) {
-    p.className = classnames(p.className, 'dnb-ul--nested')
-  }
-  if (inside) {
-    p.className = classnames(p.className, 'dnb-ul--inside')
-  }
-  if (outside) {
-    p.className = classnames(p.className, 'dnb-ul--outside')
-  }
-
-  return <E as="ul" {...p} skeleton={false} />
+  return (
+    <E
+      as="ul"
+      {...p}
+      className={classnames(
+        p.className,
+        nested && 'dnb-ol--nested',
+        inside && 'dnb-ol--inside',
+        outside && 'dnb-ol--outside'
+      )}
+      skeleton={false}
+    />
+  )
 }
 
 export default Ul
