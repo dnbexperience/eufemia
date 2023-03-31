@@ -26,7 +26,7 @@ import packpath from 'packpath'
 const ROOT_DIR = packpath.self()
 
 export default async function convertSvgToJsx({
-  srcPath = ['./assets/icons/*.svg'],
+  srcPath = ['./assets/icons/**/*.svg'],
   destPath = './src/icons',
   preventDelete = false,
 } = {}) {
@@ -56,15 +56,16 @@ export default async function convertSvgToJsx({
   }
 }
 
-const transformSvgToReact = ({ srcPath, destPath }) =>
-  new Promise((resolve, reject) => {
+const transformSvgToReact = ({ srcPath, destPath }) => {
+  return new Promise((resolve, reject) => {
     try {
       gulp
         .src(srcPath, { cwd: ROOT_DIR })
         .pipe(transform('utf8', transformToJsx))
         .pipe(
-          rename({
-            extname: '.js',
+          rename((path) => {
+            path.dirname = '' // NB: We remove 'dnb' for now
+            path.extname = '.js'
           })
         )
         .pipe(gulp.dest(destPath, { cwd: ROOT_DIR }))
@@ -74,6 +75,7 @@ const transformSvgToReact = ({ srcPath, destPath }) =>
       reject(e)
     }
   })
+}
 
 const transformToJsx = (content, file) => {
   if (String(content).trim().length === 0) {
