@@ -105,14 +105,7 @@
     "category": "essentials"
   },
   "check": {
-    "tags": [
-      "checkmark",
-      "done",
-      "complete",
-      "success",
-      "approve",
-      "checkmark"
-    ],
+    "tags": ["checkmark", "done", "complete", "success", "approve"],
     "created": 1668066345131,
     "name": "check",
     "variant": "primary",
@@ -1574,7 +1567,7 @@
     "category": "objects"
   },
   "file": {
-    "tags": ["document", "document"],
+    "tags": ["document"],
     "created": 1668066515682,
     "name": "file",
     "variant": "secondary",
@@ -3072,7 +3065,7 @@
     "category": "actions"
   },
   "refresh": {
-    "tags": ["repeat", "sync", "update", "repeat"],
+    "tags": ["repeat", "sync", "update"],
     "created": 1668066682952,
     "name": "refresh",
     "variant": "secondary",
@@ -3492,7 +3485,7 @@
     "category": "navigation"
   },
   "more": {
-    "tags": ["horizontal", "overflow", "local menu", "more_horizontal"],
+    "tags": ["horizontal", "overflow", "local menu"],
     "created": 1668066729669,
     "name": "more",
     "variant": "primary",
@@ -3525,5 +3518,159 @@
     "name": "hamburger",
     "variant": "secondary",
     "category": "navigation"
+  },
+  "file_zip_medium": {
+    "tags": [],
+    "created": 1680166680914,
+    "name": "file_zip",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "file_zip": {
+    "tags": [],
+    "created": 1680166681165,
+    "name": "file_zip",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "bus_medium": {
+    "tags": [],
+    "created": 1680166726653,
+    "name": "bus",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "bus": {
+    "tags": [],
+    "created": 1680166726938,
+    "name": "bus",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "handshake_medium": {
+    "tags": [],
+    "created": 1680166727223,
+    "name": "handshake",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "handshake": {
+    "tags": [],
+    "created": 1680166727489,
+    "name": "handshake",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "heavy_equipment_medium": {
+    "tags": [],
+    "created": 1680166727736,
+    "name": "heavy_equipment",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "heavy_equipment": {
+    "tags": [],
+    "created": 1680166728021,
+    "name": "heavy_equipment",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "building_shopping_medium": {
+    "tags": [],
+    "created": 1680166728267,
+    "name": "building_shopping",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "building_shopping": {
+    "tags": [],
+    "created": 1680166728495,
+    "name": "building_shopping",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "sea_transport_medium": {
+    "tags": [],
+    "created": 1680166728770,
+    "name": "sea_transport",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "sea_transport": {
+    "tags": [],
+    "created": 1680166729013,
+    "name": "sea_transport",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "shield_lock_medium": {
+    "tags": [],
+    "created": 1680166729244,
+    "name": "shield_lock",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "shield_lock": {
+    "tags": [],
+    "created": 1680166729544,
+    "name": "shield_lock",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "id_card_medium": {
+    "tags": [],
+    "created": 1680166729762,
+    "name": "id_card",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "id_card": {
+    "tags": [],
+    "created": 1680166730030,
+    "name": "id_card",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "keyfigures_medium": {
+    "tags": [],
+    "created": 1680166730306,
+    "name": "keyfigures",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "keyfigures": {
+    "tags": [],
+    "created": 1680166730634,
+    "name": "keyfigures",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "portfolio_analytics_medium": {
+    "tags": ["Portfolio analytics"],
+    "created": 1680166753740,
+    "name": "portfolio_analytics",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "portfolio_analytics": {
+    "tags": ["Portfolio analytics"],
+    "created": 1680166753981,
+    "name": "portfolio_analytics",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "investment_account_medium": {
+    "tags": ["Investment account"],
+    "created": 1680166754206,
+    "name": "investment_account",
+    "variant": "secondary",
+    "category": "products"
+  },
+  "investment_account": {
+    "tags": ["Investment account"],
+    "created": 1680166754492,
+    "name": "investment_account",
+    "variant": "secondary",
+    "category": "products"
   }
 }

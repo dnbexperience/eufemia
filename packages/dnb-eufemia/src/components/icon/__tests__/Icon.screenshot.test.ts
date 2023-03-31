@@ -60,6 +60,12 @@ describe('Icon', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+})
+
+describe('Icon', () => {
+  setupPageScreenshot({
+    url: '/uilib/components/icon/visual-tests',
+  })
 
   it('have to match responsive icons', async () => {
     const screenshot = await makeScreenshot({
@@ -71,12 +77,6 @@ describe('Icon', () => {
       selector: '[data-visual-test="icon-medium"]',
     })
     expect(screenshot).toMatchImageSnapshot()
-  })
-})
-
-describe('Icon', () => {
-  setupPageScreenshot({
-    url: '/uilib/components/icon/demos',
   })
 
   it('have to match all primary icons', async () => {

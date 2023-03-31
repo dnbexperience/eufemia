@@ -7,7 +7,6 @@ on:
       - '!**--skip-ci'
       - '!**--visual-reports'
       - '!wip/**'
-      - '!icon*/**'
       - '!experiments/**'
       - '!release'
       - '!portal'

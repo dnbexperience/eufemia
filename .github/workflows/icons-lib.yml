@@ -105,7 +105,7 @@ jobs:
           checkName: Fetch and Build Icons # Has to be the action name
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           intervalSeconds: 10
-          timeoutSeconds: 1200
+          timeoutSeconds: 2400
 
       - name: Re-store portal artifacts
         uses: actions/download-artifact@v3
