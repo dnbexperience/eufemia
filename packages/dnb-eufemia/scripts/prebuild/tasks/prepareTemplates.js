@@ -164,6 +164,7 @@ export const processElements = async () => {
       'Element',
       'stories',
       'label',
+      'lists',
     ],
     processToNamesListByUsingFolders: false,
   }
@@ -194,6 +195,7 @@ export const processElements = async () => {
       __dirname,
       '../../../src/core/templates/element-export-template.js'
     ),
+    processToNamesList: path.resolve(__dirname, '../../../src/elements'),
     destFile: false,
     destPath: path.resolve(__dirname, '../../../src/elements'),
   }).then((res) => {

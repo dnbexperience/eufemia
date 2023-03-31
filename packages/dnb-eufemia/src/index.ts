@@ -28,16 +28,13 @@ import Hr from './elements/Hr'
 import Img from './elements/Img'
 import Ingress from './elements/Ingress'
 import Lead from './elements/Lead'
-import Li from './elements/Li'
 import Link from './elements/Link'
-import Ol from './elements/Ol'
 import P from './elements/P'
 import Paragraph from './elements/Paragraph'
 import Span from './elements/Span'
 import Td from './elements/Td'
 import Th from './elements/Th'
 import Tr from './elements/Tr'
-import Ul from './elements/Ul'
 import Accordion from './components/accordion/Accordion'
 import Autocomplete from './components/autocomplete/Autocomplete'
 import Avatar from './components/avatar/Avatar'
@@ -106,16 +103,13 @@ export {
   Img,
   Ingress,
   Lead,
-  Li,
   Link,
-  Ol,
   P,
   Paragraph,
   Span,
   Td,
   Th,
   Tr,
-  Ul,
   Accordion,
   Autocomplete,
   Avatar,
