@@ -5,7 +5,7 @@
 
 import React from 'react'
 import classnames from 'classnames'
-import E, { ElementProps } from './Element'
+import E, { ElementProps } from '../Element'
 
 export type OlProps = {
   /**
@@ -29,17 +29,19 @@ export type OlAllProps = OlProps &
   ElementProps
 
 const Ol = ({ nested, inside, outside, ...p }: OlAllProps = {}) => {
-  if (nested) {
-    p.className = classnames(p.className, 'dnb-ol--nested')
-  }
-  if (inside) {
-    p.className = classnames(p.className, 'dnb-ol--inside')
-  }
-  if (outside) {
-    p.className = classnames(p.className, 'dnb-ol--outside')
-  }
-
-  return <E as="ol" {...p} skeleton={false} />
+  return (
+    <E
+      as="ol"
+      {...p}
+      className={classnames(
+        p.className,
+        nested && 'dnb-ol--nested',
+        inside && 'dnb-ol--inside',
+        outside && 'dnb-ol--outside'
+      )}
+      skeleton={false}
+    />
+  )
 }
 
 export default Ol
