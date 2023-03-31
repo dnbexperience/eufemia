@@ -28,34 +28,37 @@ const ICON_SIZES = {
   24: { suffix: 'medium' },
 }
 
-const prettierrc = JSON.parse(
-  fs.readFileSync(path.resolve(__dirname, '../../../.prettierrc'), 'utf-8')
-)
+const iconPrimaryList = process.env.FIGMA_ICONS_PRIMARY_LIST || [
+  'chevron_left',
+  'chevron_right',
+  'chevron_down',
+  'chevron_up',
+  'arrow_left',
+  'arrow_right',
+  'arrow_down',
+  'arrow_up',
+  'bell',
+  'add',
+  'subtract',
+  'exclamation',
+  'information',
+  'download',
+  'check',
+  'close',
+  'reset',
+  'more',
+  'save',
+  'loupe', // was "search" before
+  'question',
+  'calendar',
+]
+
 export function IconsConfig(overwrite = {}) {
-  const iconPrimaryList = process.env.FIGMA_ICONS_PRIMARY_LIST || [
-    'chevron_left',
-    'chevron_right',
-    'chevron_down',
-    'chevron_up',
-    'arrow_left',
-    'arrow_right',
-    'arrow_down',
-    'arrow_up',
-    'bell',
-    'add',
-    'subtract',
-    'exclamation',
-    'information',
-    'download',
-    'check',
-    'close',
-    'reset',
-    'more',
-    'save',
-    'loupe', // was "search" before
-    'question',
-    'calendar',
-  ]
+  if (overwrite?.assetsDir && /^\//.test(overwrite.assetsDir)) {
+    log.fail(
+      new ErrorHandler('assetsDir should not start with a slash (/dir)')
+    )
+  }
 
   const iconRenameList = process.env.FIGMA_ICONS_RENAME_LIST || []
   const iconCloneList = process.env.FIGMA_ICONS_CLONE_LIST || []
@@ -67,7 +70,11 @@ export function IconsConfig(overwrite = {}) {
   const iconNameCleaner = process.env.FIGMA_ICONS_NAME_SPLIT || /\/(.*)/
   const imageUrlExpireAfterDays =
     process.env.FIGMA_ICONS_URL_EXPIRES_AFTER || 30
-  const destDir = path.resolve(__dirname, '../../../assets/icons')
+  const destDir = path.resolve(
+    __dirname,
+    '../../../assets/icons',
+    overwrite?.assetsDir || ''
+  )
   const iconsLockFile = path.resolve(
     __dirname,
     `../../../src/icons/icons-svg.lock`
@@ -90,9 +97,14 @@ export function IconsConfig(overwrite = {}) {
   }
 }
 
+const prettierrc = JSON.parse(
+  fs.readFileSync(path.resolve(__dirname, '../../../.prettierrc'), 'utf-8')
+)
+
 export const extractIconsAsSVG = async ({
   figmaFile,
   figmaDoc = null,
+  assetsDir = 'dnb',
   forceReconvert = null,
   ...rest
 }) => {
@@ -107,7 +119,9 @@ export const extractIconsAsSVG = async ({
     // juice out, if no changes
     if (!figmaDoc) return []
 
-    const { iconsLockFile, iconRenameList, destDir } = IconsConfig()
+    const { iconsLockFile, iconRenameList, destDir } = IconsConfig({
+      assetsDir,
+    })
 
     log.start(
       '> Figma: started to fetch SVGs icons by using frameIconsFactory'
@@ -117,6 +131,7 @@ export const extractIconsAsSVG = async ({
       await collectIconsFromFigmaDoc({
         figmaFile,
         figmaDoc,
+        assetsDir,
         format: 'svg',
         ...rest,
       })
@@ -158,8 +173,13 @@ export const extractIconsAsSVG = async ({
   }
 }
 
-async function collectIconsFromFigmaDoc({ figmaDoc, figmaFile, ...rest }) {
-  const { frameNameSelector, destDir } = IconsConfig()
+async function collectIconsFromFigmaDoc({
+  figmaDoc,
+  figmaFile,
+  assetsDir,
+  ...rest
+}) {
+  const { frameNameSelector, destDir } = IconsConfig({ assetsDir })
 
   const canvasDoc = getIconCanvasDoc({ figmaDoc })
   const framesInTheCanvas = findAllNodes(canvasDoc, {
@@ -183,7 +203,7 @@ async function collectIconsFromFigmaDoc({ figmaDoc, figmaFile, ...rest }) {
         frameDoc,
         figmaFile,
         destDir,
-        ...IconsConfig(),
+        ...IconsConfig({ assetsDir }),
         ...rest,
       })
 
@@ -798,7 +818,7 @@ const optimizeSVG = async (file) => {
   }
 
   try {
-    const content = await fs.readFile(file, 'utf8')
+    const content = await fs.readFile(file, 'utf-8')
 
     const config = await loadConfig()
     let { data } = await optimize(content, {
