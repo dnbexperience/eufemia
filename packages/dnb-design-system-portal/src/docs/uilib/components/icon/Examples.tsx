@@ -60,7 +60,7 @@ export const IconInheritSized = () => (
 )
 
 export const IconMedium = () => {
-  if (!global.IS_TEST) {
+  if (!globalThis.IS_TEST) {
     return null
   }
 
@@ -78,8 +78,8 @@ export const IconMedium = () => {
   )
 }
 
-export const IconPrimaryTest = () => {
-  if (!global.IS_TEST) {
+export const AllPrimaryIcons = () => {
+  if (!globalThis.IS_TEST) {
     return null
   }
 
@@ -113,8 +113,8 @@ export const IconPrimaryTest = () => {
   )
 }
 
-export const IconSecondary = () => {
-  if (!global.IS_TEST) {
+export const AllSecondaryIcons = () => {
+  if (!globalThis.IS_TEST) {
     return null
   }
 
@@ -154,16 +154,6 @@ export const IconSecondary = () => {
   )
 }
 
-export default function IconTests() {
-  return (
-    <>
-      <IconMedium />
-      <IconPrimaryTest />
-      <IconSecondary />
-    </>
-  )
-}
-
 export const IconColors = () => {
   return (
     <ComponentBox data-visual-test="icon-colors" scope={{ BellMedium }}>
@@ -175,5 +165,14 @@ export const IconColors = () => {
       <Icon icon={BellMedium} color="#DC2A2A" title="Hex" />
       <Icon icon={BellMedium} color="rgb(220,42,42)" title="RGB" />
     </ComponentBox>
+  )
+}
+
+export function AllIconsTest() {
+  return (
+    <>
+      <AllPrimaryIcons />
+      <AllSecondaryIcons />
+    </>
   )
 }
