@@ -568,14 +568,5 @@ sub {
 .dnb-unstyled-list > dl,
 .dnb-unstyled-list > dd {
   margin-left: 0;
-}
-
-/*
- * Forms
- *
- */
-.dnb-form {
-  font-size: var(--font-size-basis);
-  line-height: var(--line-height-basis);
 }"
 `;
