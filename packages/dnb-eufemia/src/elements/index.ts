@@ -28,13 +28,16 @@ import Hr from './Hr'
 import Img from './Img'
 import Ingress from './Ingress'
 import Lead from './Lead'
+import Li from './Li'
 import Link from './Link'
+import Ol from './Ol'
 import P from './P'
 import Paragraph from './Paragraph'
 import Span from './Span'
 import Td from './Td'
 import Th from './Th'
 import Tr from './Tr'
+import Ul from './Ul'
 
 // define / export all the available components
 export {
@@ -56,11 +59,14 @@ export {
   Img,
   Ingress,
   Lead,
+  Li,
   Link,
+  Ol,
   P,
   Paragraph,
   Span,
   Td,
   Th,
   Tr,
+  Ul,
 }

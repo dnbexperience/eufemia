@@ -4,8 +4,8 @@
  */
 
 import React from 'react'
-import type { SpacingProps } from '../shared/types'
-import E from './Element'
+import type { SpacingProps } from '../../shared/types'
+import E from '../Element'
 
 export type DdProps = {
   className?: string
