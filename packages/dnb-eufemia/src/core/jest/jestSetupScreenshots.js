@@ -26,7 +26,7 @@ const config = {
     height: 1024,
   },
   matchConfig: {
-    failureThreshold: 0.005, // Chromium needs 0.03, while webkit needs 0.04 or even more
+    failureThreshold: 0.001, // Chromium needs 0.03, while webkit needs 0.04 or even more
     failureThresholdType: 'percent',
     comparisonMethod: 'pixelmatch',
     customSnapshotIdentifier: ({ currentTestName }) => {
