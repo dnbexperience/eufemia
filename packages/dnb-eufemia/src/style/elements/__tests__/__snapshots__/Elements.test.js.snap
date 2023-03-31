@@ -571,11 +571,15 @@ sub {
 }
 
 /*
- * Forms
+ * Label
  *
  */
-.dnb-form {
-  font-size: var(--font-size-basis);
-  line-height: var(--line-height-basis);
+.dnb-label {
+  cursor: pointer;
+  color: var(--color-black-80);
+  overflow-wrap: break-word;
+}
+.dnb-label[disabled] {
+  cursor: not-allowed;
 }"
 `;
