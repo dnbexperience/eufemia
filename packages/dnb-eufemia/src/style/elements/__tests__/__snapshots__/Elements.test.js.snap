@@ -571,19 +571,6 @@ sub {
 }
 
 /*
- * Label
- *
- */
-.dnb-label {
-  cursor: pointer;
-  color: var(--color-black-80);
-  overflow-wrap: break-word;
-}
-.dnb-label[disabled] {
-  cursor: not-allowed;
-}
-
-/*
  * Forms
  *
  */
