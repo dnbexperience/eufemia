@@ -14,6 +14,10 @@ on:
       - '!beta'
       - '!alpha'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 env:
   GH_EMAIL: ${{ secrets.GH_EMAIL }}
   GH_NAME: ${{ secrets.GH_NAME }}
