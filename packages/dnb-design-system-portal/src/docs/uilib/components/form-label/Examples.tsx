@@ -32,12 +32,12 @@ export const FormLabelNoForIdExample = () => (
 
 export const FormLabelLinkedLabelExample = () => (
   <ComponentBox>
-    <form className="dnb-form">
-      <div className="dnb-form__item">
-        <div className="dnb-form__cell">
+    <form>
+      <div>
+        <div>
           <FormLabel for_id="switch-1" text="Form Label (click me):" />
         </div>
-        <div className="dnb-form__cell">
+        <div>
           <Switch id="switch-1" value="Value of switch" />
         </div>
       </div>
