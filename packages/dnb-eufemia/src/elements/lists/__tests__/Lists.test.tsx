@@ -4,11 +4,11 @@
  */
 
 import React from 'react'
-import { axeComponent } from '../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
 import Dl from '../Dl'
-import Dt from '../Dt'
-import Dd from '../Dd'
+import Dt from '../../Dt'
+import Dd from '../../Dd'
 
 describe('Dl', () => {
   it('should support spacing props', () => {
