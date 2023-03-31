@@ -568,18 +568,5 @@ sub {
 .dnb-unstyled-list > dl,
 .dnb-unstyled-list > dd {
   margin-left: 0;
-}
-
-/*
- * Label
- *
- */
-.dnb-label {
-  cursor: pointer;
-  color: var(--color-black-80);
-  overflow-wrap: break-word;
-}
-.dnb-label[disabled] {
-  cursor: not-allowed;
 }"
 `;

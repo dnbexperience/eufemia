@@ -7,7 +7,7 @@
 @use '../../../elements/blockquote/style/dnb-blockquote.scss' as blockquote;
 @use '../../elements/typography.scss';
 @use '../../elements/lists.scss';
-@use '../../elements/label.scss';
+@use '../../../elements/label/style/dnb-label.scss' as label;
 @use '../../../elements/code/style/dnb-code.scss' as code;
 @use '../../../elements/img/style/dnb-img.scss' as img;
 @use '../../../elements/hr/style/dnb-hr.scss' as hr;
