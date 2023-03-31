@@ -28,6 +28,8 @@ import brush from './brush.js'
 import bsu from './bsu.js'
 import bubble from './bubble.js'
 import building_construction from './building_construction.js'
+import building_shopping from './building_shopping.js'
+import bus from './bus.js'
 import calculator from './calculator.js'
 import calendar_cancel from './calendar_cancel.js'
 import camera from './camera.js'
@@ -95,6 +97,7 @@ import file_warning from './file_warning.js'
 import file_word from './file_word.js'
 import file_xls from './file_xls.js'
 import file_xml from './file_xml.js'
+import file_zip from './file_zip.js'
 import filter from './filter.js'
 import first_aid from './first_aid.js'
 import fish from './fish.js'
@@ -111,9 +114,11 @@ import graph_decrease from './graph_decrease.js'
 import graph_increase from './graph_increase.js'
 import hamburger from './hamburger.js'
 import hand_money from './hand_money.js'
+import handshake from './handshake.js'
 import hanger from './hanger.js'
 import heart from './heart.js'
 import heart_rate from './heart_rate.js'
+import heavy_equipment from './heavy_equipment.js'
 import hide from './hide.js'
 import hierarchy from './hierarchy.js'
 import history from './history.js'
@@ -123,10 +128,13 @@ import hourglass from './hourglass.js'
 import house_1 from './house_1.js'
 import house_2 from './house_2.js'
 import house_value from './house_value.js'
+import id_card from './id_card.js'
 import information_bubble from './information_bubble.js'
 import information_circled from './information_circled.js'
 import instagram from './instagram.js'
 import insurance from './insurance.js'
+import investment_account from './investment_account.js'
+import keyfigures from './keyfigures.js'
 import kid_number from './kid_number.js'
 import language from './language.js'
 import launch from './launch.js'
@@ -172,6 +180,7 @@ import pin_code from './pin_code.js'
 import plant from './plant.js'
 import play from './play.js'
 import podcast from './podcast.js'
+import portfolio_analytics from './portfolio_analytics.js'
 import printer from './printer.js'
 import profile from './profile.js'
 import progress from './progress.js'
@@ -188,10 +197,12 @@ import savings_account_in from './savings_account_in.js'
 import savings_account_out from './savings_account_out.js'
 import scissors from './scissors.js'
 import scooter from './scooter.js'
+import sea_transport from './sea_transport.js'
 import send from './send.js'
 import share_android from './share_android.js'
 import share_ios from './share_ios.js'
 import shield from './shield.js'
+import shield_lock from './shield_lock.js'
 import shopping_cart from './shopping_cart.js'
 import snowmobile from './snowmobile.js'
 import sort from './sort.js'
@@ -259,6 +270,8 @@ export {
   bsu,
   bubble,
   building_construction,
+  building_shopping,
+  bus,
   calculator,
   calendar_cancel,
   camera,
@@ -326,6 +339,7 @@ export {
   file_word,
   file_xls,
   file_xml,
+  file_zip,
   filter,
   first_aid,
   fish,
@@ -342,9 +356,11 @@ export {
   graph_increase,
   hamburger,
   hand_money,
+  handshake,
   hanger,
   heart,
   heart_rate,
+  heavy_equipment,
   hide,
   hierarchy,
   history,
@@ -354,10 +370,13 @@ export {
   house_1,
   house_2,
   house_value,
+  id_card,
   information_bubble,
   information_circled,
   instagram,
   insurance,
+  investment_account,
+  keyfigures,
   kid_number,
   language,
   launch,
@@ -403,6 +422,7 @@ export {
   plant,
   play,
   podcast,
+  portfolio_analytics,
   printer,
   profile,
   progress,
@@ -419,10 +439,12 @@ export {
   savings_account_out,
   scissors,
   scooter,
+  sea_transport,
   send,
   share_android,
   share_ios,
   shield,
+  shield_lock,
   shopping_cart,
   snowmobile,
   sort,
