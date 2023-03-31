@@ -158,7 +158,13 @@ export const processElements = async () => {
     ),
     destFile: path.resolve(__dirname, '../../../src/elements/index.ts'),
     processToNamesList: path.resolve(__dirname, '../../../src/elements/'),
-    processToNamesIgnoreList: ['index', 'lib', 'Element', 'stories'],
+    processToNamesIgnoreList: [
+      'index',
+      'lib',
+      'Element',
+      'stories',
+      'label',
+    ],
     processToNamesListByUsingFolders: false,
   }
   const elements = await runFactory(elementsTemplateConfig).then((res) => {
