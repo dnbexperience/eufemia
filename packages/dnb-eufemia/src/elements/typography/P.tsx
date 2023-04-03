@@ -25,7 +25,7 @@ export type PProps = SpacingProps &
     medium?: boolean
     bold?: boolean
     size?: PSize
-    modifier?: string | string[]
+    modifier?: string
   }
 
 const P = ({
@@ -38,22 +38,19 @@ const P = ({
   size,
   ...props
 }: PProps) => {
-  if (typeof modifier === 'string' && / /.test(modifier)) {
-    modifier = modifier.split(/ /g)
-  } else if (!Array.isArray(modifier)) {
-    modifier = [modifier]
+  const allModifiers = [medium && 'medium', bold && 'bold'].filter(Boolean)
+
+  if (modifier) {
+    modifier
+      .split(/\s/g)
+      .forEach((modifier) => allModifiers.push(modifier))
   }
 
-  if (medium === true) {
-    modifier.push('medium')
-  } else if (bold === true) {
-    modifier.push('bold')
-  }
-
-  modifier = modifier.filter(Boolean).reduce((acc, cur) => {
+  const modifierString = allModifiers.reduce((acc, cur) => {
     if (['x-small', 'small'].includes(cur)) {
       return `${acc} dnb-p__size--${cur}`
     }
+
     return `${acc} dnb-p--${cur}`
   }, '')
 
@@ -63,7 +60,7 @@ const P = ({
       {...props}
       className={classnames(
         'dnb-p',
-        modifier,
+        modifierString,
         className,
         size && `dnb-p__size--${size}`,
         small && 'dnb-p__size--small'
