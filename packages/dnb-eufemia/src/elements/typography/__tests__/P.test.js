@@ -9,7 +9,7 @@ import {
   fakeProps,
   toJson,
   axeComponent,
-} from '../../core/jest/jestSetup'
+} from '../../../core/jest/jestSetup'
 import Component from '../P'
 import { render } from '@testing-library/react'
 

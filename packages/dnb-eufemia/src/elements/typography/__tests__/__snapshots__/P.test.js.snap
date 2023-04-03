@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`P element have to match default P element snapshot 1`] = `
+<P
+  bold={true}
+  element="p"
+  medium={true}
+  modifier="Error, unknown type"
+  size="x-small"
+  small={true}
+>
+  <ForwardRef
+    as="p"
+    className="dnb-p  dnb-p--Error, dnb-p--unknown dnb-p--type dnb-p--medium dnb-p__size--x-small dnb-p__size--small"
+  >
+    <ElementInstance
+      as="p"
+      className="dnb-p  dnb-p--Error, dnb-p--unknown dnb-p--type dnb-p--medium dnb-p__size--x-small dnb-p__size--small"
+      innerRef={null}
+    >
+      <p
+        className="dnb-p  dnb-p--Error, dnb-p--unknown dnb-p--type dnb-p--medium dnb-p__size--x-small dnb-p__size--small"
+      />
+    </ElementInstance>
+  </ForwardRef>
+</P>
+`;

@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useEffect } from 'react'
+import React from 'react'
 import classnames from 'classnames'
 import { SpacingProps } from '../../components/space/types'
 import E from '../Element'
@@ -35,11 +35,9 @@ const H = ({
   className,
   ...props
 }: HProps) => {
-  useEffect(() => {
-    if (level === 'use') {
-      setNextLevel(parseFloat(String(as || is).substring(1)))
-    }
-  }, [])
+  if (level === 'use') {
+    setNextLevel(parseFloat(String(as || is).substring(1)))
+  }
 
   return (
     <E
