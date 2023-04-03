@@ -7,8 +7,8 @@ import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
-import { Ol, Li, Ul, Dl, Dt, Dd } from '..'
-import { Provider } from '../../shared'
+import { Ol, Li, Ul, Dl, Dt, Dd } from '../..'
+import { Provider } from '../../../shared'
 
 const WidthLimit = styled.div`
   max-width: 22rem;

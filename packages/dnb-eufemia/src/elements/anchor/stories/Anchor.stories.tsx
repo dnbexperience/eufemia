@@ -5,8 +5,8 @@
 
 import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
-import { Anchor, H1, P } from '../'
-import { IconPrimary } from '../../components'
+import { Anchor, H1, P } from '../..'
+import { IconPrimary } from '../../../components'
 
 export default {
   title: 'Eufemia/Elements/Anchor',
