@@ -38,7 +38,7 @@ const P = ({
   size,
   ...props
 }: PProps) => {
-  const allModifiers = [medium && 'medium', bold && 'bold'].filter(Boolean)
+  const allModifiers = [medium && 'medium', bold && 'bold']
 
   if (modifier) {
     modifier
@@ -46,13 +46,15 @@ const P = ({
       .forEach((modifier) => allModifiers.push(modifier))
   }
 
-  const modifierString = allModifiers.reduce((acc, cur) => {
-    if (['x-small', 'small'].includes(cur)) {
-      return `${acc} dnb-p__size--${cur}`
-    }
+  const modifierString = allModifiers
+    .filter(Boolean)
+    .reduce((acc, cur) => {
+      if (['x-small', 'small'].includes(cur)) {
+        return `${acc} dnb-p__size--${cur}`
+      }
 
-    return `${acc} dnb-p--${cur}`
-  }, '')
+      return `${acc} dnb-p--${cur}`
+    }, '')
 
   return (
     <E
