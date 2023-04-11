@@ -34,9 +34,18 @@ export default async function convertSvgToJsx({
 
   try {
     if (!preventDelete) {
-      await del([`${destPath}/**/*.{js,ts,tsx}`, `!${destPath}`], {
-        force: true,
-      })
+      await del(
+        [
+          `${destPath}/**/*.{js,ts,tsx}`,
+          `!${destPath}`,
+          `!${destPath}/__tests__/*`,
+          `!${destPath}/secondary*`,
+          `!${destPath}/primary*`,
+        ],
+        {
+          force: true,
+        }
+      )
     }
 
     // make sure transformSvgToReact runs first, so icons gets filled before we run makeIconsEntryFiles
