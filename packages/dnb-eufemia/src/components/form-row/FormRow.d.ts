@@ -32,7 +32,7 @@ export interface FormRowProps
   label_id?: string;
 
   /**
-   * If you need to style the "legend", then you can either send in a custom Component, like `label={ <H2> }`, or define Your styling class with the `label_class` property.
+   * If you need to style the "legend", then you can either send in a custom Component, like `label={ <H2> }`, or define your styling class with the `label_class` property.
    */
   label_class?: string;
   no_label?: boolean;
