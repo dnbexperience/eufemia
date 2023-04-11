@@ -275,7 +275,7 @@ async function makePageReady({
 }
 
 async function handleRootClassName({ page, rootClassName }) {
-  // This removes a previews added global css class to HTML
+  // This removes a previous added global css class to HTML
   if (global.rootClassName) {
     await page.evaluate(
       ({ rootClassName }) => {
