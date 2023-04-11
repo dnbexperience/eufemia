@@ -84,7 +84,7 @@ const LegacyCodeStyling = () => (
         .
       </P>
       <p className="dnb-p">
-        And I cloned Your style, but written as{' '}
+        And I cloned your style, but written as{' '}
         <Code>{`<p class="dnb-p">`}</Code>
       </p>
       <Button
