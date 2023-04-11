@@ -149,7 +149,7 @@ export interface InputMaskedProps
   type?: string;
 
   /**
-   * The sizes you can choose is `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem) are supported component sizes. Defaults to `default` / `null`. Also, if You define a number like `size="2"` then it will be forwarded as the input element attribute.
+   * The sizes you can choose is `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem) are supported component sizes. Defaults to `default` / `null`. Also, if you define a number like `size="2"` then it will be forwarded as the input element attribute.
    */
   size?: InputSize;
 
