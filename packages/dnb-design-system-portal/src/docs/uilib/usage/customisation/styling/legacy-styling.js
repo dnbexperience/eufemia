@@ -23,7 +23,7 @@ const LegacyCodeStyling = () => (
     <article className={LegacyCodeExample}>
       <h1>Example usage</h1>
       <p>
-        Further down on this page You find visual examples of how to deal
+        Further down on this page you find visual examples of how to deal
         with legacy styling.
       </p>
       <p>
