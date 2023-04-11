@@ -29,37 +29,58 @@ export default async function convertSvgToJsx({
   srcPath = ['./assets/icons/**/*.svg'],
   destPath = './src/icons',
   preventDelete = false,
+  customIconsLockFile = null,
 } = {}) {
   log.start('> PrePublish: converting svg to jsx')
 
+  if (!preventDelete) {
+    await del(
+      [
+        `${destPath}/**/*.{js,ts,tsx}`,
+        `!${destPath}`,
+        `!${destPath}/__tests__/*`,
+        `!${destPath}/secondary*`,
+        `!${destPath}/primary*`,
+      ],
+      {
+        force: true,
+      }
+    )
+  }
+
+  const dnbIcons = await transformSvg({
+    srcPath,
+    destPath,
+    assetsDir: 'dnb',
+    customIconsLockFile,
+  })
+
+  log.succeed(
+    `> PrePublish: Converting "svg to jsx" is done (${dnbIcons.length} icons)`
+  )
+}
+
+const transformSvg = async ({
+  srcPath,
+  destPath,
+  assetsDir,
+  customIconsLockFile,
+}) => {
   try {
-    if (!preventDelete) {
-      await del(
-        [
-          `${destPath}/**/*.{js,ts,tsx}`,
-          `!${destPath}`,
-          `!${destPath}/__tests__/*`,
-          `!${destPath}/secondary*`,
-          `!${destPath}/primary*`,
-        ],
-        {
-          force: true,
-        }
-      )
-    }
+    // create subfolder
+    await fs.mkdir(path.resolve(ROOT_DIR, destPath, assetsDir), {
+      recursive: true,
+    })
 
     // make sure transformSvgToReact runs first, so icons gets filled before we run makeIconsEntryFiles
     await transformSvgToReact({ srcPath, destPath })
 
-    const dnbIcons = await makeIconsEntryFiles({
+    return await makeIconsEntryFiles({
       srcPath,
       destPath,
-      assetsDir: 'dnb',
+      assetsDir,
+      customIconsLockFile,
     })
-
-    log.succeed(
-      `> PrePublish: Converting "svg to jsx" is done (${dnbIcons.length} icons)`
-    )
   } catch (e) {
     log.fail('Failed to run the convertSvgToJsx process')
     throw new Error(e)
@@ -143,8 +164,9 @@ const transformToJsx = (content, file) => {
 const makeIconsEntryFiles = async ({
   srcPath,
   destPath,
-  deleteOldFiles = false,
   assetsDir,
+  customIconsLockFile = null,
+  deleteOldFiles = false,
 }) => {
   // get all the svg icons we find
   const icons = (await globby(srcPath))
@@ -166,7 +188,9 @@ const makeIconsEntryFiles = async ({
 
   // get the svg lock file
   const { iconsLockFile } = IconsConfig({ assetsDir })
-  const lockFileContent = await readIconsLockFile({ file: iconsLockFile })
+  const lockFileContent = await readIconsLockFile({
+    file: customIconsLockFile || iconsLockFile,
+  })
 
   await saveLockFile({
     icons,
@@ -299,6 +323,7 @@ const generateIndexFile = async ({ icons, destPath, assetsDir }) => {
       assetsDir,
       `index.ts`
     )
+
     await fs.writeFile(indexFile, indexContent)
   } catch (e) {
     throw new Error(e)

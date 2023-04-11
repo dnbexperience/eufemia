@@ -29,8 +29,8 @@ jest.mock('fs', () => {
 
 jest.mock('fs-extra', () => {
   const writeStream = {
-    end: () => {},
-    close: () => {},
+    end: () => null,
+    close: () => null,
     on: jest.fn((state, cb) => {
       if (state === 'finish') {
         cb()
@@ -120,11 +120,10 @@ jest.mock('https', () => {
 })
 
 jest.mock('svgo', () => {
+  const svgoConfig = jest.requireActual('../../../../svgo.config')
   return {
     ...jest.requireActual('svgo'),
-    loadConfig: jest
-      .fn()
-      .mockResolvedValue(require('../../../../svgo.config')),
+    loadConfig: jest.fn().mockResolvedValue(svgoConfig),
   }
 })
 
@@ -209,7 +208,7 @@ describe('assetsExtractors', () => {
     expect(info).toHaveBeenNthCalledWith(
       4,
       expect.stringContaining(
-        '/dnb-eufemia/src/icons/icons-svg.lock file got generated'
+        '/dnb-eufemia/src/icons/dnb/icons-svg.lock file got generated'
       )
     )
     expect(info).toHaveBeenNthCalledWith(
@@ -351,7 +350,7 @@ describe('assetsExtractors', () => {
     expect(fs.writeFile).toHaveBeenCalledTimes(4)
     expect(fs.writeFile).toHaveBeenNthCalledWith(
       1,
-      expect.stringContaining('/dnb-eufemia/src/icons/icons-svg.lock'),
+      expect.stringContaining('/dnb-eufemia/src/icons/dnb/icons-svg.lock'),
       expect.stringContaining(
         formatIconsMetaFile({
           'bell_medium.svg': {
@@ -360,7 +359,7 @@ describe('assetsExtractors', () => {
             category: 'objects',
             url: 'file:./7174498d6976279f85d53855a1165429',
             id: '2:63',
-            slug: 'a497bb7914b4ef4168e016f3b21562c5',
+            slug: 'f791e5e18139b49fe8f0b0a0060fee11',
             size: '24',
             variant: 'primary',
             bundleName: 'primary_icons_medium',
@@ -373,7 +372,7 @@ describe('assetsExtractors', () => {
             category: 'objects',
             url: 'file:./12b63b85ba08cf1588a42fb69cb9654c',
             id: '41:2',
-            slug: 'a497bb7914b4ef4168e016f3b21562c5',
+            slug: 'f791e5e18139b49fe8f0b0a0060fee11',
             size: '16',
             variant: 'primary',
             bundleName: 'primary_icons',
@@ -436,6 +435,7 @@ describe('assetsExtractors', () => {
       )
     )
 
+    expect(result).toHaveLength(2)
     expect(result).toEqual(
       expect.arrayContaining([
         {
@@ -447,7 +447,7 @@ describe('assetsExtractors', () => {
           id: '2:63',
           name: 'bell',
           size: '24',
-          slug: 'a497bb7914b4ef4168e016f3b21562c5',
+          slug: 'f791e5e18139b49fe8f0b0a0060fee11',
           updated: 1577836800000,
           url: 'file:./7174498d6976279f85d53855a1165429',
           variant: 'primary',
@@ -461,7 +461,7 @@ describe('assetsExtractors', () => {
           id: '41:2',
           name: 'bell',
           size: '16',
-          slug: 'a497bb7914b4ef4168e016f3b21562c5',
+          slug: 'f791e5e18139b49fe8f0b0a0060fee11',
           updated: 1577836800000,
           url: 'file:./12b63b85ba08cf1588a42fb69cb9654c',
           variant: 'primary',

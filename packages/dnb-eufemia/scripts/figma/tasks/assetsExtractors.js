@@ -104,7 +104,7 @@ const prettierrc = JSON.parse(
 )
 
 export const extractIconsAsSVG = async ({
-  figmaFile,
+  figmaFile = null,
   figmaDoc = null,
   assetsDir = 'dnb',
   forceReconvert = null,
