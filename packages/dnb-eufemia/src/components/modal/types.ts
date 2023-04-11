@@ -83,7 +83,7 @@ export interface ModalProps extends ModalRootProps {
   }) => void
 
   /**
-   * This event gets triggered once the user tries to close the modal, but `prevent_close` is set to "true". Returns a callback `close` You can call to trigger the close mechanism. More details below. Returns the modal id: `{ id, event, close: Method, triggeredBy }`
+   * This event gets triggered once the user tries to close the modal, but `prevent_close` is set to "true". Returns a callback `close` you can call to trigger the close mechanism. More details below. Returns the modal id: `{ id, event, close: Method, triggeredBy }`
    */
   on_close_prevent?: ({
     id,
@@ -169,7 +169,7 @@ export interface ModalContentProps {
   root_id?: string
 
   /**
-   * The ID of the trigger component, describing the modal/drawer content. Defaults to the internal `trigger`, so make sure You define the trigger title.
+   * The ID of the trigger component, describing the modal/drawer content. Defaults to the internal `trigger`, so make sure you define the trigger title.
    */
   labelled_by?: string
 

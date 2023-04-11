@@ -50,7 +50,7 @@ The following Diagram gives an overall overview how the packages are structured.
 
 ## How to deal with existing styles
 
-The **dnb-ui-core** package includes some styles which effects the global scope (`<body>` reset). To avoid interference with existing styles, let's say a header or a menu, You could only use the **dnb-ui-basis** package in combination with other packages like **dnb-theme-basis** and **dnb-theme-components**.
+The **dnb-ui-core** package includes some styles which effects the global scope (`<body>` reset). To avoid interference with existing styles, let's say a header or a menu, you could only use the **dnb-ui-basis** package in combination with other packages like **dnb-theme-basis** and **dnb-theme-components**.
 
 You may have a look at some [code examples of dealing with legacy code](/uilib/usage/customisation/styling/legacy-styling).
 
@@ -83,9 +83,9 @@ To have the Eufemia Core styles inside a wrapper anyway, simply use the followin
 
 #### CSS Specificity
 
-Once You use the `.dnb-core-style` wrapper class, You may in some circumstances, need to use it to modify already given properties.
+Once you use the `.dnb-core-style` wrapper class, you may in some circumstances, need to use it to modify already given properties.
 
-For **Styled Components** You do it this way:
+For **Styled Components** you do it this way:
 
 ```jsx
 import { P } from '@dnb/eufemia/elements'
@@ -97,7 +97,7 @@ const MyElement = styled(P)`
 `
 ```
 
-In CSS You simply do it this way:
+In CSS you simply do it this way:
 
 ```css
 .dnb-core-style .my-element {
@@ -128,7 +128,7 @@ For more details, check out the source file: `spacing.scss`
 
 ## Styling of HTML Elements (tags)
 
-To deal with HTML Elements, without declaring them individual with the right css classes, like `<h1 class="dnb-h--xx-large">`, You can import the sub package **dnb-theme-tags**.
+To deal with HTML Elements, without declaring them individual with the right css classes, like `<h1 class="dnb-h--xx-large">`, you can import the sub package **dnb-theme-tags**.
 
 **NB:** Use it carefully - cause this will effect existing styles as well!
 
