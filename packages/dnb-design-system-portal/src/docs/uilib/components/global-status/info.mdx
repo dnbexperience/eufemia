@@ -16,7 +16,7 @@ By default, the `GlobalStatus` is automatically connected together with the [For
 
 ### Several Global statuses
 
-Normally, You only want to have **one** `GlobalStatus` inside your application. But you can have several in parallel. But make sure you give every other a new ID:
+Normally, you only want to have **one** `GlobalStatus` inside your application. But you can have several in parallel. But make sure you give every other a new ID:
 
 ```jsx
 <GlobalStatus id="other-global-status" />
@@ -33,7 +33,7 @@ Normally, You only want to have **one** `GlobalStatus` inside your application. 
 <Input global_status_id="other-global-status" ... />
 ```
 
-But You can also make use of the [FormSet](/uilib/components/form-set) or [FormRow](/uilib/components/form-row) which will send along the `global_status_id` the underlying/wrapped components, like:
+But you can also make use of the [FormSet](/uilib/components/form-set) or [FormRow](/uilib/components/form-row) which will send along the `global_status_id` the underlying/wrapped components, like:
 
 ```jsx
 <GlobalStatus id="other-global-status" />
@@ -90,7 +90,7 @@ import { GlobalStatus } from '@dnb/eufemia/components'
 // 1. Place it under the header bar
 <GlobalStatus text="Optional default text" />
 
-// 2. later on, You can show a message
+// 2. later on, you can show a message
 <GlobalStatus.Add
   status_id="custom-id-1"
   title="New title"
@@ -102,7 +102,7 @@ import { GlobalStatus } from '@dnb/eufemia/components'
 <GlobalStatus.Remove status_id="custom-id-1" />
 ```
 
-If You need an additional `GlobalStatus`, define a custom ID (custom-status):
+If you need an additional `GlobalStatus`, define a custom ID (custom-status):
 
 ```jsx
 import { GlobalStatus } from '@dnb/eufemia/components'
