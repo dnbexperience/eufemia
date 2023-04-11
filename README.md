@@ -13,7 +13,7 @@
 
 </div>
 
-This is a mono repo and uses **yarn workspaces** to manage the sub packages/workspaces.
+This is a monorepo and uses **yarn workspaces** to manage the sub packages/workspaces.
 
 ## Workspaces
 
