@@ -34,7 +34,7 @@ export default async function convertSvgToJsx({
 
   try {
     if (!preventDelete) {
-      await del([`${destPath}/**/*.js`, `!${destPath}`], {
+      await del([`${destPath}/**/*.{js,ts,tsx}`, `!${destPath}`], {
         force: true,
       })
     }
@@ -42,13 +42,14 @@ export default async function convertSvgToJsx({
     // make sure transformSvgToReact runs first, so icons gets filled before we run makeIconsEntryFiles
     await transformSvgToReact({ srcPath, destPath })
 
-    const icons = await makeIconsEntryFiles({
+    const dnbIcons = await makeIconsEntryFiles({
       srcPath,
       destPath,
+      assetsDir: 'dnb',
     })
 
     log.succeed(
-      `> PrePublish: Converting "svg to jsx" is done (${icons.length} icons)`
+      `> PrePublish: Converting "svg to jsx" is done (${dnbIcons.length} icons)`
     )
   } catch (e) {
     log.fail('Failed to run the convertSvgToJsx process')
@@ -64,8 +65,7 @@ const transformSvgToReact = ({ srcPath, destPath }) => {
         .pipe(transform('utf8', transformToJsx))
         .pipe(
           rename((path) => {
-            path.dirname = '' // NB: We remove 'dnb' for now
-            path.extname = '.js'
+            path.extname = '.tsx'
           })
         )
         .pipe(gulp.dest(destPath, { cwd: ROOT_DIR }))
@@ -135,6 +135,7 @@ const makeIconsEntryFiles = async ({
   srcPath,
   destPath,
   deleteOldFiles = false,
+  assetsDir = 'dnb',
 }) => {
   // get all the svg icons we find
   const icons = (await globby(srcPath))
@@ -151,7 +152,7 @@ const makeIconsEntryFiles = async ({
     .sort(({ name: a }, { name: b }) => (a > b ? 1 : -1))
 
   // get the svg lock file
-  const { iconsLockFile } = IconsConfig()
+  const { iconsLockFile } = IconsConfig({ assetsDir })
   const lockFileContent = await readIconsLockFile({ file: iconsLockFile })
 
   // from the svg lock file we can generate groups out of the "bundleName"
@@ -160,16 +161,22 @@ const makeIconsEntryFiles = async ({
       acc[bundleName] = acc[bundleName] || []
       const basename = path.basename(file)
       const filename = basename.replace(path.extname(file), '')
+      const filePath = path.resolve(
+        ROOT_DIR,
+        destPath,
+        assetsDir,
+        `${filename}.tsx`
+      )
 
       // make sure the file actually exists
-      if (
-        fs.existsSync(path.resolve(ROOT_DIR, destPath, `${filename}.js`))
-      ) {
+      if (fs.existsSync(filePath)) {
         acc[bundleName].push({
           filename,
           basename,
           name: iconCase(filename),
         })
+      } else {
+        log.fail(`The file "${filePath}" did not exist!`)
       }
 
       return acc
@@ -190,7 +197,7 @@ const makeIconsEntryFiles = async ({
       .map(({ basename }) => basename)
       .join(', ')
 
-    log.info(
+    log.fail(
       `> PrePublish: Files were not found in the icons-svg.lock file: ${listNotFoundInLockFile}`
     )
 
@@ -230,17 +237,17 @@ const makeIconsEntryFiles = async ({
                 ? path.dirname(cleanDestPath)
                 : cleanDestPath
             ),
-            `${filename}.js`
+            `${filename}.tsx`
           )
           if (fs.existsSync(jsxFile)) {
             await del(jsxFile)
-            log.info(`> PrePublish: Deleted ${filename}.js`)
+            log.info(`> PrePublish: Deleted ${filename}.tsx`)
           }
         }
       )
 
       // since we change the lock file content, we update it with the newest lock content
-      const { iconsLockFile } = IconsConfig()
+      const { iconsLockFile } = IconsConfig({ assetsDir })
       await saveIconsLockFile({
         file: iconsLockFile,
         data: lockFileContent,
@@ -248,11 +255,11 @@ const makeIconsEntryFiles = async ({
     }
   }
 
-  // the index.js file will contain "all icons"
+  // the index.ts file will contain "all icons"
   // even the ones which don't exists in the lock file
   // this is in contrast to the "groups", they will only contain the icons, deticated to the current figma document
   const _imports = icons
-    .map(({ name, filename }) => `import ${name} from './${filename}.js'`)
+    .map(({ name, filename }) => `import ${name} from './dnb/${filename}'`)
     .join('\n')
   const _keys = icons.map(({ name }) => name).join(', ')
 
@@ -270,7 +277,7 @@ const makeIconsEntryFiles = async ({
   )
 
   try {
-    const indexFile = path.resolve(ROOT_DIR, destPath, `index.js`)
+    const indexFile = path.resolve(ROOT_DIR, destPath, `index.ts`)
     await fs.writeFile(indexFile, indexContent)
 
     await asyncForEach(
@@ -282,13 +289,13 @@ const makeIconsEntryFiles = async ({
         const groupFile = path.resolve(
           ROOT_DIR,
           destPath,
-          `${groupName}.js`
+          assetsDir,
+          `${groupName}.ts`
         )
 
         const _imports = entries
           .map(
-            ({ name, filename }) =>
-              `import ${name} from './${filename}.js'`
+            ({ name, filename }) => `import ${name} from './${filename}'`
           )
           .join('\n')
         const _keys = entries.map(({ name }) => name).join(', ')

@@ -77,7 +77,9 @@ export function IconsConfig(overwrite = {}) {
   )
   const iconsLockFile = path.resolve(
     __dirname,
-    `../../../src/icons/icons-svg.lock`
+    '../../../src/icons',
+    overwrite?.assetsDir || '',
+    'icons-svg.lock'
   )
   const getCategoryFromIconName = (name) => String(name).split(/\//)[0]
 
