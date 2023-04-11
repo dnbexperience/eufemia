@@ -60,7 +60,7 @@ export interface AccordionProps
   prevent_rerender?: boolean;
 
   /**
-   * Use this prop together with `prevent_rerender` – and if it is to `true`, the accordion component will re-render if the children are a new React element and does not match anymore the previews one.
+   * Use this prop together with `prevent_rerender` – and if it is to `true`, the accordion component will re-render if the children are a new React element and does not match the previous one anymore.
    */
   prevent_rerender_conditional?: boolean;
 
