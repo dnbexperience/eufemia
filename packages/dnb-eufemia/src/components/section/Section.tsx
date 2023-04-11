@@ -45,7 +45,7 @@ export type SectionProps = {
   style_type?: SectionStyleTypes | string
 
   /**
-   * Will add spacing around the given content. If `true`, then `large` is used. Se the [available sizes](/uilib/usage/layout/spacing#spacing-helpers). Defaults to `false`.
+   * Will add spacing around the given content. If `true`, then `large` is used. See the [available sizes](/uilib/usage/layout/spacing#spacing-helpers). Defaults to `false`.
    */
   spacing?: SectionSpacing
 
