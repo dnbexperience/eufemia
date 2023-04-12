@@ -56,9 +56,7 @@ const runStyleFactory = async () => {
       '../../../src/style/dnb-ui-elements.scss'
     ),
     customContent: `
-@import './core/utilities.scss';
-@import './elements/ui-elements.scss';
-`,
+@import './core/utilities.scss';`,
     scssTemplateToFill: `@import '../elements/{name}/style/dnb-{name}.scss';`,
     processToNamesList: [
       path.resolve(__dirname, '../../../src/elements/*'),
