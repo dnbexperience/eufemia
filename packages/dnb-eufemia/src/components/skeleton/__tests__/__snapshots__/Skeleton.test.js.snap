@@ -41,15 +41,7 @@ exports[`Skeleton component have to match snapshot 1`] = `
         <Provider
           skeleton={null}
         >
-          <P
-            bold={null}
-            className={null}
-            element="p"
-            medium={null}
-            modifier={null}
-            size={null}
-            small={null}
-          >
+          <P>
             <ForwardRef
               as="p"
               className="dnb-p"

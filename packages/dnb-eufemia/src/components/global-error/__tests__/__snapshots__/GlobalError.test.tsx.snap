@@ -1114,15 +1114,11 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
       >
         <H1
           bottom="large"
-          level={null}
-          size="xx-large"
           top="4"
         >
           <H
             as="h1"
             bottom="large"
-            className={null}
-            level={null}
             size="xx-large"
             top="4"
           >
@@ -1149,14 +1145,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
           </H>
         </H1>
         <P
-          bold={null}
           bottom="large"
-          className={null}
-          element="p"
-          medium={null}
-          modifier={null}
-          size={null}
-          small={null}
         >
           <ForwardRef
             as="p"
