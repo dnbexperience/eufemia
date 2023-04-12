@@ -1,0 +1,28 @@
+@use '../../../anchor/style/anchor-mixins.scss';
+
+.dnb-blockquote {
+  color: var(--color-mint-green);
+  background-color: var(--color-ocean-green);
+
+  &.dnb-blockquote--no-background {
+    color: var(--theme-color-black-80, currentColor);
+  }
+
+  // make contrast
+  &:not(.dnb-blockquote--no-background) {
+    .dnb-anchor,
+    a {
+      @include anchor-mixins.useAnchorContrastStyle();
+    }
+
+    h1,
+    h2,
+    h3,
+    .dnb-h--xx-large,
+    .dnb-h--large,
+    .dnb-h--medium,
+    .dnb-lead {
+      color: var(--color-mint-green);
+    }
+  }
+}
