@@ -165,6 +165,7 @@ export const processElements = async () => {
       'stories',
       'label',
       'lists',
+      'typography',
     ],
     processToNamesListByUsingFolders: false,
   }

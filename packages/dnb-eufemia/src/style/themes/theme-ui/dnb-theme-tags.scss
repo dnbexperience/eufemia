@@ -5,7 +5,7 @@
 
 @use '../../../elements/anchor/style/anchor-mixins.scss';
 @use '../../../elements/blockquote/style/dnb-blockquote.scss' as blockquote;
-@use '../../elements/typography.scss';
+@use '../../../elements/typography/style/dnb-typography.scss' as typography;
 @use '../../../elements/label/style/dnb-label.scss' as label;
 @use '../../../elements/lists/style/dnb-lists.scss' as lists;
 @use '../../../elements/code/style/dnb-code.scss' as code;
