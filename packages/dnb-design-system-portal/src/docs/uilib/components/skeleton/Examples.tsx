@@ -3,8 +3,10 @@
  *
  */
 
-import React from 'react'
+import React, { Suspense } from 'react'
+import { createBrowserHistory } from 'history'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
+import Context from '@dnb/eufemia/src/shared/Context'
 import {
   Input,
   H2,
@@ -13,10 +15,15 @@ import {
   Skeleton,
   ToggleButton,
   FormRow,
+  Div,
 } from '@dnb/eufemia/src'
 import { AllComponents } from '../form-row/Examples'
 import Provider from '@dnb/eufemia/src/shared/Provider'
 import { Article } from '@dnb/eufemia/src/components/skeleton/figures'
+import {
+  createSkeletonClass,
+  skeletonDOMAttributes,
+} from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
 
 export const SkeletonInputExample = () => (
   <ComponentBox>
@@ -124,3 +131,85 @@ export const SkeletonVisualTests = () => {
     </>
   )
 }
+
+export const SkeletonInfoProvider = () => (
+  <ComponentBox hidePreview>
+    <Div id="your-app">
+      <Skeleton show={true}>
+        <Input>I'm hidden behind the skeleton</Input>
+        <Input>I'm hidden behind the skeleton</Input>
+      </Skeleton>
+    </Div>
+  </ComponentBox>
+)
+
+export const SkeletonInfoGlobalProvider = () => (
+  <ComponentBox scope={{ Provider }} hidePreview>
+    <Provider locale="nb-NO">
+      <Div id="your-app">
+        <Provider skeleton={true}>
+          <Input>I'm hidden behind the skeleton</Input>
+          <Input>I'm hidden behind the skeleton</Input>
+        </Provider>
+      </Div>
+    </Provider>
+  </ComponentBox>
+)
+
+export const SkeletonInfoExclude = () => (
+  <ComponentBox hidePreview>
+    <Skeleton show={true}>
+      <Input>I'm hidden behind the skeleton</Input>
+
+      <Skeleton.Exclude>
+        <Input>I'm NOT hidden</Input>
+      </Skeleton.Exclude>
+    </Skeleton>
+  </ComponentBox>
+)
+
+export const SkeletonInfoSuspense = () => (
+  <ComponentBox scope={{ Suspense }} hidePreview hideToolbar>
+    <Suspense
+      fallback={
+        <Skeleton show={true}>
+          <Div id="user-data" />
+        </Skeleton>
+      }
+    >
+      <Div id="user-data" />
+    </Suspense>
+  </ComponentBox>
+)
+
+export const SkeletonInfoCustom = () => (
+  <ComponentBox
+    hidePreview
+    hideToolbar
+    scope={{
+      createBrowserHistory,
+      skeletonDOMAttributes,
+      createSkeletonClass,
+      Context,
+    }}
+  >
+    {() => {
+      function Component({ skeleton = false, ...params } = {}) {
+        const context = React.useContext(Context)
+
+        // Handle accessibility features
+        skeletonDOMAttributes(params, skeleton, context)
+
+        // Handle CSS classes – use either "shape" or "font"
+        params.className = createSkeletonClass('font', skeleton, context)
+
+        return (
+          <div id="my-component" {...params}>
+            Hello World
+          </div>
+        )
+      }
+      return <Component />
+    }}
+  </ComponentBox>
+)
