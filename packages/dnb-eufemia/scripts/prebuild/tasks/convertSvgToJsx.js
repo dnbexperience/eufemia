@@ -22,16 +22,15 @@ import {
 } from '../../figma/tasks/assetsExtractors'
 import packpath from 'packpath'
 
+const FALLBACK = 'dnb' // defines if an index file should be created
 const ROOT_DIR = packpath.self()
 
 export default async function convertSvgToJsx({
-  srcPath = ['./assets/icons/**/*.svg'],
+  srcPath = './assets/icons/**/*.svg',
   destPath = './src/icons',
   preventDelete = false,
   customIconsLockFile = null,
 } = {}) {
-  log.start('> PrePublish: converting svg to jsx')
-
   if (!preventDelete) {
     await del(
       [
@@ -45,18 +44,39 @@ export default async function convertSvgToJsx({
         force: true,
       }
     )
+
+    log.info(
+      '> PrePublish: deleted all svg files before converting "svg to jsx"!'
+    )
   }
 
-  const dnbIcons = await transformSvg({
-    srcPath,
-    destPath,
-    assetsDir: 'dnb',
-    customIconsLockFile,
-  })
-
-  log.succeed(
-    `> PrePublish: Converting "svg to jsx" is done (${dnbIcons.length} icons)`
+  const dirs = (
+    await fs.readdir(
+      path.dirname(path.resolve(ROOT_DIR, srcPath, '../')),
+      {
+        withFileTypes: true,
+      }
+    )
   )
+    .filter((dir) => dir.isDirectory())
+    .map((dir) => dir.name)
+
+  await asyncForEach(dirs, async (assetsDir) => {
+    log.start(
+      `> PrePublish: converting "svg to jsx" for "${assetsDir}" as started ...`
+    )
+
+    const icons = await transformSvg({
+      srcPath,
+      destPath,
+      assetsDir,
+      customIconsLockFile,
+    })
+
+    log.succeed(
+      `> PrePublish: Converting "svg to jsx" for "${assetsDir}" is done (${icons.length} icons)`
+    )
+  })
 }
 
 const transformSvg = async ({
@@ -110,9 +130,11 @@ const transformToJsx = (content, file) => {
     fs.unlinkSync(file.path)
     return Promise.resolve('')
   }
+
   const basename = path.basename(file.path)
   const filename = basename.replace(path.extname(file.path), '')
   const componentName = iconCase(filename)
+
   try {
     content = content.replace(
       /clip[0-9]+/g,
@@ -180,6 +202,7 @@ const makeIconsEntryFiles = async ({
       const basename = path.basename(file)
       const filename = basename.replace(path.extname(file), '')
       const name = iconCase(filename)
+
       return {
         name,
         filename,
@@ -188,7 +211,7 @@ const makeIconsEntryFiles = async ({
     })
     .sort(({ name: a }, { name: b }) => (a > b ? 1 : -1))
 
-  if (assetsDir === 'dnb') {
+  if (assetsDir === FALLBACK) {
     await generateFallbackIndexFiles({ icons, destPath, assetsDir })
   }
 
@@ -198,9 +221,10 @@ const makeIconsEntryFiles = async ({
     file: customIconsLockFile || iconsLockFile,
   })
 
-  if (assetsDir === 'dnb') {
+  if (assetsDir === FALLBACK) {
     await generateIndexFile({ icons, destPath, assetsDir: '' }) // generate fallback index file
   }
+
   await generateIndexFile({ icons, destPath, assetsDir })
   await generateGroupFiles({ icons, destPath, assetsDir, lockFileContent })
 
@@ -215,7 +239,7 @@ const generateIndexFile = async ({ icons, destPath, assetsDir }) => {
     .map(
       ({ name, filename }) =>
         `import ${name} from '.${
-          assetsDir === '' ? '/dnb' : ''
+          assetsDir === '' ? `/${FALLBACK}` : ''
         }/${filename}'`
     )
     .join('\n')

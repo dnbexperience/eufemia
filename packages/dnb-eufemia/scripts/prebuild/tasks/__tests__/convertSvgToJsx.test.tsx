@@ -22,7 +22,7 @@ jest.mock('ora', () => {
 beforeAll(async () => {
   await convertSvgToJsx({
     preventDelete: true,
-    srcPath: [path.resolve(__dirname, './test-files/**/*.svg')],
+    srcPath: path.resolve(__dirname, './test-files/**/*.svg'),
     destPath: path.resolve(__dirname, './test-files/dist'),
     customIconsLockFile: path.resolve(
       __dirname,
