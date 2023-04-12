@@ -201,14 +201,15 @@ export const SkeletonInfoCustom = () => (
         skeletonDOMAttributes(params, skeleton, context)
 
         // Handle CSS classes – use either "shape" or "font"
-        params.className = createSkeletonClass('font', skeleton, context)
+        const className = createSkeletonClass('font', skeleton, context)
 
         return (
-          <div id="my-component" {...params}>
+          <div {...params} id="my-component" className={className}>
             Hello World
           </div>
         )
       }
+
       return <Component />
     }}
   </ComponentBox>
