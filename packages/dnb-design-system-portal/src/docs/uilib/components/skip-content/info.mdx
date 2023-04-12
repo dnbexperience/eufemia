@@ -3,6 +3,10 @@ showTabs: true
 ---
 
 import { Button } from '@dnb/eufemia/src'
+import {
+  SkipContentInfo1,
+  SkipContentInfo2,
+} from 'Docs/uilib/components/skip-content/Examples'
 
 ## Description
 
@@ -41,46 +45,13 @@ The revealing button needs a clear message to let the user easily understand the
 
 Ensure you put a header or a section before the `SkipContent` component. It should describe the content, so the user understands the context.
 
-- Example with a section landmark (section) and header + `SkipContent.Return`:
+#### Example with a section landmark (section) and header + `SkipContent.Return`:
 
-  ```jsx
-  <section aria-labelledby="heading-id">
-    <H2 id="heading-id">Description of table</H2>
+<SkipContentInfo1 />
 
-    <SkipContent
-      selector="#my-selector"
-      text="Skip table content"
-    />
+#### Example using a section landmark (section) and table caption:
 
-    <Table aria-labelledby="heading-id" />
-
-  </section>
-
-  <section id="my-selector" aria-label="Submit">
-  	<SubmitForm />
-  </section>
-  ```
-
-- Example using a section landmark (section) and table caption:
-
-  ```jsx
-  <section aria-labelledby="table-id">
-    <SkipContent selector=".my-selector">Skip table content</SkipContent>
-
-    <Table id="table-id">
-      <caption>Description of table</caption>
-    </Table>
-
-    <div className="my-selector">
-      <SkipContent.Return
-        selector=".my-selector" // same as SkipContent
-        text="Back to beginning of table"
-      />
-
-      <SubmitForm />
-    </div>
-  </section>
-  ```
+<SkipContentInfo2 />
 
 ### Return button
 
