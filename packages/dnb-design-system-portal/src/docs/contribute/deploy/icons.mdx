@@ -6,6 +6,15 @@ title: 'Icons Library'
 
 Icons are getting added (more or less) automatically by extracting them from [Figma Icons Library](https://www.figma.com/file/2aNwT4Lbyt9hFmDv8k34yN/Eufemia---Icons?node-id=1%3A9).
 
+## What is the icons flow?
+
+1. Icons are fetched as SVG files from an API.
+1. The information about the new icons are stored in two data files:
+   - `icons-svg.lock` contains API information, so we are able to compare it next time the API is called.
+   - `icons-meta.json` contains additional information such as the category it belongs to.
+1. They are then optimized with SVGO and stored in `/assets/icons/`. Each size in a different SVG.
+1. During build (`yarn build`) the SVG files get converted to JSX based React components and stored in `/src/icons`. Also several index files and fallbacks are automatically generated.
+
 ## How to sync new icons?
 
 To fetch new icons from the [Figma Icons Library](https://www.figma.com/file/2aNwT4Lbyt9hFmDv8k34yN/Eufemia---Icons?node-id=1%3A9) file, you have to:
@@ -13,7 +22,7 @@ To fetch new icons from the [Figma Icons Library](https://www.figma.com/file/2aN
 1. Re-branch `main`, and name it `icons/{your-branch-name}` (it needs to include icons in the name):
 
    ```bash
-   git checkout main && git pull origin main
+   git pull origin main
    ```
 
    ```bash
@@ -34,6 +43,11 @@ If you need to re-fetch one or several icons that got updated or changed in the 
 
 1. Find the icon in the `icons-svg.lock` file and change the `updated` field to `0`.
 1. Commit the change – but ensure the git branch name starts with `icon/` (more details above).
+1. You may consider to run `yarn workspace @dnb/eufemia figma:reset` – it will delete everything and refetch the icons.
+
+## How to convert icons only?
+
+During development of the conversion script `convertSvgToJsx` you may consider to run `yarn workspace @dnb/eufemia dev:icons`. Its the same process, when calling `yarn build`. It will convert SVGs to JSXs and create all the needed index files in watch mode.
 
 ## Icons CI/CD process description
 
