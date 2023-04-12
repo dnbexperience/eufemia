@@ -19,7 +19,6 @@ import { md5 } from '../../figma/helpers/docHelpers'
 import {
   IconsConfig,
   readIconsLockFile,
-  saveIconsLockFile,
 } from '../../figma/tasks/assetsExtractors'
 import packpath from 'packpath'
 
@@ -38,9 +37,9 @@ export default async function convertSvgToJsx({
       [
         `${destPath}/**/*.{js,ts,tsx}`,
         `!${destPath}`,
-        `!${destPath}/__tests__/*`,
-        `!${destPath}/secondary*`,
-        `!${destPath}/primary*`,
+        '!**/__tests__/*',
+        '!**/secondary*',
+        '!**/primary*',
       ],
       {
         force: true,
@@ -76,7 +75,6 @@ const transformSvg = async ({
     await transformSvgToReact({ srcPath, destPath })
 
     return await makeIconsEntryFiles({
-      srcPath,
       destPath,
       assetsDir,
       customIconsLockFile,
@@ -162,14 +160,22 @@ const transformToJsx = (content, file) => {
 }
 
 const makeIconsEntryFiles = async ({
-  srcPath,
   destPath,
   assetsDir,
   customIconsLockFile = null,
-  deleteOldFiles = false,
 }) => {
   // get all the svg icons we find
-  const icons = (await globby(srcPath))
+  const icons = (
+    await globby([
+      path.resolve(destPath, assetsDir, '*.tsx'),
+      '!**/index*',
+      '!**/__tests__/*',
+      '!**/icons-meta*',
+      '!**/icons-svg*',
+      '!**/secondary*',
+      '!**/primary*',
+    ])
+  )
     .map((file) => {
       const basename = path.basename(file)
       const filename = basename.replace(path.extname(file), '')
@@ -192,14 +198,6 @@ const makeIconsEntryFiles = async ({
     file: customIconsLockFile || iconsLockFile,
   })
 
-  await saveLockFile({
-    icons,
-    srcPath,
-    destPath,
-    assetsDir,
-    deleteOldFiles,
-    lockFileContent,
-  })
   if (assetsDir === 'dnb') {
     await generateIndexFile({ icons, destPath, assetsDir: '' }) // generate fallback index file
   }
@@ -207,86 +205,6 @@ const makeIconsEntryFiles = async ({
   await generateGroupFiles({ icons, destPath, assetsDir, lockFileContent })
 
   return icons
-}
-
-const saveLockFile = async ({
-  icons,
-  srcPath,
-  destPath,
-  assetsDir,
-  deleteOldFiles,
-  lockFileContent,
-}) => {
-  // found on disk as svg files, but was not in the lock file
-  const notFoundInLockFile = icons.reduce((acc, cur) => {
-    if (!lockFileContent[cur.basename]) {
-      acc.push(cur)
-    }
-    return acc
-  }, [])
-
-  if (notFoundInLockFile && notFoundInLockFile.length > 0) {
-    const listNotFoundInLockFile = notFoundInLockFile
-      .map(({ basename }) => basename)
-      .join(', ')
-
-    log.fail(
-      `> PrePublish: Files were not found in the icons-svg.lock file: ${listNotFoundInLockFile}`
-    )
-
-    if (deleteOldFiles) {
-      await asyncForEach(
-        notFoundInLockFile,
-        async ({ basename, filename }) => {
-          // delete svg file
-          const cleanSrcPath = Array.isArray(srcPath)
-            ? srcPath[0]
-            : srcPath
-          const svgFile = path.resolve(
-            path.resolve(
-              ROOT_DIR,
-              /\*/.test(cleanSrcPath)
-                ? path.dirname(cleanSrcPath)
-                : cleanSrcPath
-            ),
-            basename
-          )
-          if (fs.existsSync(svgFile)) {
-            // remove the svg entry in the lock file
-            // we will save the new state afterwards
-            delete lockFileContent[basename]
-            await del(svgFile)
-            log.info(`> PrePublish: Deleted ${basename}`)
-          }
-
-          // delete jsx file
-          const cleanDestPath = Array.isArray(destPath)
-            ? destPath[0]
-            : destPath
-          const jsxFile = path.resolve(
-            path.resolve(
-              ROOT_DIR,
-              /\*/.test(cleanDestPath)
-                ? path.dirname(cleanDestPath)
-                : cleanDestPath
-            ),
-            `${filename}.tsx`
-          )
-          if (fs.existsSync(jsxFile)) {
-            await del(jsxFile)
-            log.info(`> PrePublish: Deleted ${filename}.tsx`)
-          }
-        }
-      )
-
-      // since we change the lock file content, we update it with the newest lock content
-      const { iconsLockFile } = IconsConfig({ assetsDir })
-      await saveIconsLockFile({
-        file: iconsLockFile,
-        data: lockFileContent,
-      })
-    }
-  }
 }
 
 const generateIndexFile = async ({ icons, destPath, assetsDir }) => {
