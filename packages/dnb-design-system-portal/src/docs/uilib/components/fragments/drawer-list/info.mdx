@@ -2,6 +2,8 @@
 showTabs: true
 ---
 
+import { DrawerListExampleOptionsRender } from 'Docs/uilib/components/fragments/drawer-list/Examples'
+
 ## Description
 
 The DrawerList component is a fragment inside other components.
@@ -46,19 +48,7 @@ const data = {
 
 ### Example usage of `options_render`
 
-```jsx
-render(
-  <DrawerList
-    options_render={({ Items, Item, data }) => (
-      <>
-        <Items />
-        <Item>Addition</Item>
-        {data.length > 1 && <li>Addition</li>}
-      </>
-    )}
-  />
-)
-```
+<DrawerListExampleOptionsRender />
 
 ### data-dnb-drawer-list-active
 
