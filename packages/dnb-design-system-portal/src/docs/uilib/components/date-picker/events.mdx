@@ -2,6 +2,8 @@
 showTabs: true
 ---
 
+import { DatePickerDateFnsRangeIsWeekend } from 'Docs/uilib/components/date-picker/Examples'
+
 ## Events
 
 | Events           | Description                                                                                             |
@@ -64,23 +66,7 @@ The callback event `on_days_render` gives you the possibility to manipulate the 
 
 Please use [date-fns](https://date-fns.org) to make the calculations.
 
-```jsx
-import isWeekend from 'date-fns/isWeekend'
-
-render(
-  <DatePicker
-    on_days_render={(days, calendarNumber = 0) => {
-      return days.map((dayObject) => {
-        if (isWeekend(dayObject.date)) {
-          dayObject.isInactive = true
-          date.className = 'dnb-date-picker__day--weekend' // custom css
-        }
-        return dayObject
-      })
-    }}
-  />
-)
-```
+<DatePickerDateFnsRangeIsWeekend />
 
 The `dayObject` object contains:
 
