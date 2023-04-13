@@ -440,3 +440,46 @@ VisualSpace.defaultProps = {
 }
 
 export { MagicBox, VisualSpace }
+
+export const SpaceExamplesSameResult1 = () => (
+  <ComponentBox hidePreview hideToolbar>
+    {/* All of these methods will result in the same spacing */}
+    <Space top="large x-small" right="2.5" bottom="2.5rem" left="40px" />
+  </ComponentBox>
+)
+
+export const SpaceExamplesSameResult2 = () => (
+  <ComponentBox hidePreview hideToolbar>
+    {/* All of these methods will result in the same spacing */}
+    <Space
+      space={{
+        top: 'large x-small',
+        right: '2.5',
+        bottom: '2.5rem',
+        left: '40px',
+      }}
+    />
+  </ComponentBox>
+)
+
+export const SpaceExamplesComponents = () => (
+  <ComponentBox hidePreview hideToolbar>
+    <Button top="large x-small medium" />
+    <Button space={{ top: 'large x-small medium' }} />
+  </ComponentBox>
+)
+
+export const SpaceExamplesShorthand = () => (
+  <ComponentBox hidePreview hideToolbar>
+    {/* Equivalent to top="small" */}
+    <Button top />
+    {/* Equivalent to top="small" right="small" bottom="small" left="small" */}
+    <Button space />
+  </ComponentBox>
+)
+
+export const SpaceExamplesFourDirections = () => (
+  <ComponentBox hidePreview hideToolbar>
+    <Button space="large x-small medium" />
+  </ComponentBox>
+)
