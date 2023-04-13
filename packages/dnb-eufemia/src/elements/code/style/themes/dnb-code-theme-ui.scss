@@ -1,0 +1,12 @@
+.dnb-code {
+  background-color: var(--color-mint-green-25);
+}
+
+.dnb-pre {
+  color: var(--color-mint-green-12);
+  background-color: #222;
+
+  &.dnb-pre--focus {
+    @include fakeBorder(var(--color-sea-green), 0.25rem);
+  }
+}
