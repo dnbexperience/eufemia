@@ -4,50 +4,10 @@
  */
 
 @use '../../../style/elements/ui-spacing.scss';
-
-@mixin hrStyle() {
-  position: relative;
-  padding: 0;
-  height: 0;
-
-  display: flex;
-
-  &:not([class*='dnb-space']) {
-    margin: 0;
-  }
-
-  border: 0;
-  color: var(--color-black-80);
-
-  &::after {
-    content: '';
-    position: absolute;
-    z-index: 1;
-    left: 0;
-    right: 0;
-    top: 0;
-
-    width: 100%;
-    height: 1px;
-
-    color: inherit;
-    background-color: currentcolor;
-    border-radius: 0.5px;
-  }
-}
-
-@mixin hrTag() {
-  hr {
-    @include hrStyle();
-  }
-
-  .dnb-spacing hr {
-    @include ui-spacing.defaultSpacing();
-  }
-}
+@use './hr-mixins.scss';
 
 .dnb-hr {
-  @include hrStyle();
+  @include hr-mixins.hrStyle();
 
   &--fullscreen::after {
     left: -100vw;
