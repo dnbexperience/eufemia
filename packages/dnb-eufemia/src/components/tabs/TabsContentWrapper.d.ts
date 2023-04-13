@@ -4,7 +4,6 @@ export type ContentWrapperSelectedKey = string | number;
 export type ContentWrapperChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
-
 export interface ContentWrapperProps extends React.HTMLProps<HTMLElement> {
   id: string;
 

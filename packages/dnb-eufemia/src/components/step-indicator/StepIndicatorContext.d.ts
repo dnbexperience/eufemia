@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 export interface StepIndicatorProviderProps {
   /**
    * <em>(required)</em> a unique string-based ID in order to bind together the main component and the sidebar (`<StepIndicator.Sidebar />`). Both have to get the same ID.

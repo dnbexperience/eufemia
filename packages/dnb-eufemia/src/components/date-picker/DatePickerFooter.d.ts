@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 export interface DatePickerFooterProps
   extends React.HTMLProps<HTMLElement> {
   isRange: boolean;

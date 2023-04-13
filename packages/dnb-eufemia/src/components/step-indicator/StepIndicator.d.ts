@@ -22,7 +22,6 @@ export type StepIndicatorCurrentStep = string | number;
 export type StepIndicatorChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
-
 export interface StepIndicatorProps
   extends React.HTMLProps<HTMLElement>,
     SpacingProps {
@@ -65,11 +64,10 @@ export interface StepIndicatorProps
   on_item_render?: (...args: any[]) => any;
 
   /**
-   * If set to `true`, the height animation on the step items and the drawer button will be omitted. Defaults to false.
+   * If set to `true`, the height animation on the step items and the drawer button will be omitted. Defaults to `false`.
    */
   no_animation?: boolean;
   skeleton?: SkeletonShow;
-
   class?: string;
   className?: string;
   children?: StepIndicatorChildren;
