@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 import { Space, Input, FormRow, Button, P, Code } from '@dnb/eufemia/src'
+import { Provider } from '@dnb/eufemia/src/shared'
 
 export const SpaceExamplesMethod1 = () => (
   <TestStyles>
@@ -481,5 +482,14 @@ export const SpaceExamplesShorthand = () => (
 export const SpaceExamplesFourDirections = () => (
   <ComponentBox hidePreview hideToolbar>
     <Button space="large x-small medium" />
+  </ComponentBox>
+)
+
+export const SpaceExampleProvider = () => (
+  <ComponentBox scope={{ Provider }} hidePreview>
+    <Provider space={{ no_collapse: true }}>
+      <Space>I do not collapse</Space>
+      <Space>I do not collapse</Space>
+    </Provider>
   </ComponentBox>
 )
