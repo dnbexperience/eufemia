@@ -13,6 +13,16 @@ import {
   processMainIndex,
 } from '../prepareTemplates'
 
+jest.mock('ora', () => {
+  return jest.fn(() => ({
+    start: jest.fn(),
+    info: jest.fn(),
+    warn: jest.fn(),
+    succeed: jest.fn(),
+    fail: jest.fn(),
+  }))
+})
+
 jest.mock('fs-extra', () => {
   return {
     ...jest.requireActual('fs-extra'),

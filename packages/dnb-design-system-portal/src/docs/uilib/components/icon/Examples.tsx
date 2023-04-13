@@ -9,8 +9,8 @@ import {
   bell_medium as BellMedium,
   bell as Bell,
 } from '@dnb/eufemia/src/icons'
-import * as PrimaryIconsMedium from '@dnb/eufemia/src/icons/primary_icons_medium'
-import * as SecondaryIconsMedium from '@dnb/eufemia/src/icons/secondary_icons_medium'
+import * as PrimaryIconsMedium from '@dnb/eufemia/src/icons/dnb/primary_icons_medium'
+import * as SecondaryIconsMedium from '@dnb/eufemia/src/icons/dnb/secondary_icons_medium'
 import { getListOfIcons } from '../../../../shared/parts/icons/ListAllIcons'
 
 import { Icon, P, IconPrimary, Button } from '@dnb/eufemia/src'
