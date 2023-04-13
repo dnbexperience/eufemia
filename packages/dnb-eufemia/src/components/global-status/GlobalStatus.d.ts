@@ -15,7 +15,6 @@ export type GlobalStatusChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-
 export interface GlobalStatusProps
   extends React.HTMLProps<HTMLElement>,
     SpacingProps {
@@ -135,48 +134,95 @@ export interface GlobalStatusProps
    */
   on_hide?: (...args: any[]) => any;
 }
-
 export type GlobalStatusStatusId = string;
-
 export type GlobalStatusAddProps = {
+  /**
+   * The main ID. Defaults to `main`.
+   */
   id: string;
   status_id: GlobalStatusStatusId;
+
+  /**
+   * The title appears as a part of the status content. Use `false` to hide / remove the title and icon. Defaults to `En feil har skjedd`.
+   */
   title?: string;
+
+  /**
+   * The text appears as the status content. Besides plain text, you can send in a React component as well. Defaults to `null`.
+   */
   text: string;
   item: string;
+
+  /**
+   * Gets triggered once the GlobalStatus disappears from the screen. Works only if `no_animation` is not `true`. Returns `{ id, status_id, ...properties }`.
+   */
   on_close: ({ status_id }: { status_id: GlobalStatusStatusId }) => void;
 };
-
 export type GlobalStatusUpdateProps = {
+  /**
+   * The main ID. Defaults to `main`.
+   */
   id: string;
+
+  /**
+   * The text appears as the status content. Besides plain text, you can send in a React component as well. Defaults to `null`.
+   */
   text: string;
 };
-
 export type GlobalStatusRemoveProps = {
+  /**
+   * The main ID. Defaults to `main`.
+   */
   id: string;
   status_id: GlobalStatusStatusId;
 };
-
 export type GlobalStatusInterceptorProps = {
+  /**
+   * The main ID. Defaults to `main`.
+   */
   id: string;
+
+  /**
+   * The title appears as a part of the status content. Use `false` to hide / remove the title and icon. Defaults to `En feil har skjedd`.
+   */
   title: string;
+
+  /**
+   * The text appears as the status content. Besides plain text, you can send in a React component as well. Defaults to `null`.
+   */
   text: string;
   status_id: GlobalStatusStatusId;
+
+  /**
+   * Set to `true` or `false` to manually make the global status visible. Defaults to `true`.
+   */
   show: boolean;
 };
-
 export type GlobalStatusInterceptorUpdateEvents = {
+  /**
+   * Gets triggered for the first time and for every new content update the GlobalStatus gets. Returns `{ id, status_id, ...properties }`.
+   */
   on_show?: () => void;
+
+  /**
+   * Gets triggered once the GlobalStatus is getting closed/hidden by the user. Returns `{ id, status_id, ...properties }`.
+   */
   on_hide?: () => void;
+
+  /**
+   * Gets triggered once the GlobalStatus disappears from the screen. Works only if `no_animation` is not `true`. Returns `{ id, status_id, ...properties }`.
+   */
   on_close?: () => void;
+
+  /**
+   * Set to `true` or `false` to manually make the global status visible. Defaults to `true`.
+   */
   show?: boolean;
 };
-
 export type GlobalStatusInterceptor = {
   update: (props: GlobalStatusInterceptorUpdateEvents) => void;
   remove: () => void;
 };
-
 export default class GlobalStatus extends React.Component<
   GlobalStatusProps,
   any

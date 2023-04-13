@@ -1,6 +1,5 @@
 import * as React from 'react';
 import type { IconProps } from '../Icon';
-
 export interface IconPrimaryProps
   extends IconProps,
     Omit<React.HTMLProps<HTMLElement>, 'size'> {}

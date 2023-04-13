@@ -23,7 +23,6 @@ export type NumberFormatTooltip =
 export type NumberFormatChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
-
 export interface NumberFormatProps
   extends React.HTMLProps<HTMLElement>,
     SpacingProps {
@@ -158,7 +157,6 @@ export interface NumberFormatProps
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
   skeleton?: SkeletonShow;
-
   class?: string;
   className?: string;
 

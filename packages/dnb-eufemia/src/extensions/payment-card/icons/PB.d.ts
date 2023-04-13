@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 export interface PBSVGProps extends React.HTMLProps<HTMLElement> {
   /**
    * function fill() { [native code] }

@@ -1,6 +1,5 @@
 import * as React from 'react';
 export type ProgressIndicatorCircularProgress = string | number;
-
 export interface ProgressIndicatorCircularProps
   extends React.HTMLProps<HTMLElement> {
   /**
@@ -9,7 +8,7 @@ export interface ProgressIndicatorCircularProps
   size?: string;
 
   /**
-   * Defines the visibility of the progress. Toggling the `visible` property to false will force a fade-out animation. Defaults to `true`.
+   * Defines the visibility of the progress. Toggling the `visible` property to `false` will force a fade-out animation. Defaults to `true`.
    */
   visible?: boolean;
   complete?: boolean;

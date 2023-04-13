@@ -4,7 +4,6 @@ export type SkeletonTableChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-
 export interface SkeletonTableProps extends React.HTMLProps<HTMLElement> {
   rows?: SkeletonTableRows;
   children?: SkeletonTableChildren;
