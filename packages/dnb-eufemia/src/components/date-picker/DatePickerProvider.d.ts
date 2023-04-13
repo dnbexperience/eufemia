@@ -1,6 +1,5 @@
 import * as React from 'react';
 import type { DatePickerProps } from './DatePicker';
-
 interface DatePickerProviderProps
   extends React.HTMLProps<HTMLElement>,
     DatePickerProps {

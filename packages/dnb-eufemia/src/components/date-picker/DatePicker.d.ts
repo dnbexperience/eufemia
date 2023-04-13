@@ -24,7 +24,6 @@ type DatePickerSuffix =
   | React.ReactNode;
 type DatePickerDirection = 'auto' | 'top' | 'bottom';
 type DatePickerAlignPicker = 'auto' | 'left' | 'right';
-
 export interface DatePickerProps
   extends React.HTMLProps<HTMLElement>,
     SpacingProps {
@@ -37,12 +36,12 @@ export interface DatePickerProps
   date?: DatePickerDate;
 
   /**
-   * To set the pre-filled starting date. Is used if `range={true}` is set to true. Defaults to null, showing the `mask_placeholder`.
+   * To set the pre-filled starting date. Is used if `range={true}` is set to `true`. Defaults to `null`, showing the `mask_placeholder`.
    */
   start_date?: DatePickerStartDate;
 
   /**
-   * To set the pre-filled ending date. Is used if `range={true}` is set to true. Defaults to null, showing the `mask_placeholder`.
+   * To set the pre-filled ending date. Is used if `range={true}` is set to `true`. Defaults to `null`, showing the `mask_placeholder`.
    */
   end_date?: DatePickerEndDate;
 
@@ -62,12 +61,12 @@ export interface DatePickerProps
   end_month?: DatePickerEndMonth;
 
   /**
-   * To limit a date range to a minimum `start_date`. Defaults to null.
+   * To limit a date range to a minimum `start_date`. Defaults to `null`.
    */
   min_date?: DatePickerMinDate;
 
   /**
-   * To limit a date range to a maximum `end_date`. Defaults to null.
+   * To limit a date range to a maximum `end_date`. Defaults to `null`.
    */
   max_date?: DatePickerMaxDate;
   correct_invalid_date?: boolean;
@@ -159,7 +158,7 @@ export interface DatePickerProps
   range?: boolean;
 
   /**
-   * Link both calendars, once to the user is navigating between months. Only meant to use if the range is set to true. Defaults to `false`.
+   * Link both calendars, once to the user is navigating between months. Only meant to use if the range is set to `true`. Defaults to `false`.
    */
   link?: boolean;
 

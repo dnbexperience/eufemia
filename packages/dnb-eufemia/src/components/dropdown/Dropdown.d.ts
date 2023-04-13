@@ -13,7 +13,6 @@ import type { DrawerListProps } from '../../fragments/DrawerList';
 type DropdownTitle = string | React.ReactNode;
 type DropdownAlignDropdown = 'left' | 'right';
 type DropdownTriggerElement = ((...args: any[]) => any) | React.ReactNode;
-
 export interface DropdownProps
   extends DrawerListProps,
     SpacingProps,
@@ -98,7 +97,6 @@ export interface DropdownProps
    * If set to `true`, the Dropdown will be opened when the users enter the trigger button with a focus action.
    */
   open_on_focus?: boolean;
-
   disabled?: boolean;
 
   /**
@@ -116,6 +114,9 @@ export default class Dropdown extends React.Component<DropdownProps, any> {
   static HorizontalItem: ({
     children
   }: {
+    /**
+     * <em>(required)</em> the data we want to fill the list with. Provide the data as a `JSON string`, `array` or `object` in these <a href="/uilib/components/fragments/drawer-list/info#data-structure">data structure</a>. <br /> If you don&#39;t have to define a `value`, you can also send in a `function` which will be called once the user opens the DrawerList.
+     */
     children: React.ReactNode;
   }) => JSX.Element;
   render(): JSX.Element;

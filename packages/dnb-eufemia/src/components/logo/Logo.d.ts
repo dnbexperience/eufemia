@@ -5,7 +5,6 @@ export type LogoSize = number | string;
 export type LogoRatio = number | string;
 export type LogoWidth = number | string;
 export type LogoHeight = number | string;
-
 export interface LogoProps
   extends React.HTMLProps<HTMLElement>,
     SpacingProps {

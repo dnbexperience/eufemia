@@ -4,7 +4,6 @@ export type SkeletonProductChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-
 export interface SkeletonProductProps
   extends React.HTMLProps<HTMLElement> {
   rows?: SkeletonProductRows;

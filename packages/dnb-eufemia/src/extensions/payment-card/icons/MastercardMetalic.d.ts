@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 export interface MastercardSVGProps extends React.HTMLProps<HTMLElement> {
   width?: string;
   height?: string;
