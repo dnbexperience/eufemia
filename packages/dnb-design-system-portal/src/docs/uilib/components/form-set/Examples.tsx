@@ -72,3 +72,12 @@ export const FormSetSubmit = () => (
     </FormSet>
   </ComponentBox>
 )
+
+export const FormSetInfoVertical = () => (
+  <ComponentBox hidePreview hideToolbar>
+    <FormSet direction="vertical">
+      <FormRow>Components are now vertical aligned</FormRow>
+      <FormRow>Components are now vertical aligned</FormRow>
+    </FormSet>
+  </ComponentBox>
+)
