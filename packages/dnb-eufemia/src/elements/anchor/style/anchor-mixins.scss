@@ -18,8 +18,6 @@
   text-underline-offset: 0.25em;
   border-radius: 0;
 
-  color: var(--color-sea-green);
-
   @if $theme == 'highlighted' {
     color: var(--color-emerald-green);
   }
@@ -78,8 +76,6 @@
 
 // states
 @mixin anchorHoverStyle() {
-  color: var(--color-sea-green);
-  background-color: var(--color-mint-green-50);
   border-radius: 0.25em;
 
   @include resetUnderlineStyle();
@@ -90,8 +86,6 @@
 }
 
 @mixin anchorActiveStyle() {
-  color: var(--color-mint-green);
-  background-color: var(--color-emerald-green);
   border-radius: 0.25em;
 
   @include resetUnderlineStyle();
@@ -103,7 +97,6 @@
 
 @mixin anchorFocusStyle($whatinput: null) {
   &:not(:active) {
-    color: var(--color-sea-green);
     background-color: transparent;
 
     @include resetAnimationStyle();
