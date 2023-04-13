@@ -25,3 +25,9 @@ export const ScrollViewInteractive = () => (
     </ScrollView>
   </ComponentBox>
 )
+
+export const ScrollViewInfo = () => (
+  <ComponentBox hidePreview hideToolbar>
+    <ScrollView>scrollable content</ScrollView>
+  </ComponentBox>
+)
