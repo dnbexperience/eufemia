@@ -1,0 +1,28 @@
+{
+  "bell_medium.svg": {
+    "iconName": "bell_medium",
+    "name": "bell",
+    "category": "objects",
+    "url": "https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/65e621aa-5c11-417c-be86-8a5ec37c5d9b",
+    "id": "2:63",
+    "slug": "878548076e6ef92a3736f0e3597fb7be",
+    "size": "24",
+    "variant": "primary",
+    "bundleName": "primary_icons_medium",
+    "created": 1668066555319,
+    "updated": 1680166724048
+  },
+  "bell.svg": {
+    "iconName": "bell",
+    "name": "bell",
+    "category": "objects",
+    "url": "https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/16b6f709-cb86-48ee-ba1c-2a6841605578",
+    "id": "41:2",
+    "slug": "878548076e6ef92a3736f0e3597fb7be",
+    "size": "16",
+    "variant": "primary",
+    "bundleName": "primary_icons",
+    "created": 1668066556095,
+    "updated": 1680166724271
+  }
+}
