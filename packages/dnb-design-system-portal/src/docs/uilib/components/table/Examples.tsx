@@ -1020,3 +1020,22 @@ export function PaginationTable() {
     </ComponentBox>
   )
 }
+
+export const TablesInOneContainer = () => (
+  <ComponentBox hideToolbar hidePreview scope={{ TableContainer }}>
+    <TableContainer>
+      <TableContainer.Head>
+        <H2>Heading</H2>
+      </TableContainer.Head>
+
+      <TableContainer.Body>
+        <Table>{'hei'}</Table>
+        <Table>{'hei'}</Table>
+      </TableContainer.Body>
+
+      <TableContainer.Foot>
+        <P>Footer</P>
+      </TableContainer.Foot>
+    </TableContainer>
+  </ComponentBox>
+)
