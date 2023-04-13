@@ -5,6 +5,16 @@
 
 import { runFactory } from '../makePropertiesFile'
 
+jest.mock('ora', () => {
+  return jest.fn(() => ({
+    start: jest.fn(),
+    info: jest.fn(),
+    warn: jest.fn(),
+    succeed: jest.fn(),
+    fail: jest.fn(),
+  }))
+})
+
 beforeAll(async () => {
   global.ui = await runFactory({
     glob: './src/style/themes/theme-ui/properties.scss',

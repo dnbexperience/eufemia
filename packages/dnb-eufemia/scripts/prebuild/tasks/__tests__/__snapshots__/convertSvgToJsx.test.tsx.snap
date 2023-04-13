@@ -1,0 +1,79 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`run convertSvgToJsx to convert ES6 to ES5 has to convert match bell_medium JSX snapshot 1`] = `
+<bell_medium>
+  <svg
+    fill="none"
+    height={24}
+    viewBox="0 0 24 24"
+    width={24}
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M10 21.75a2.087 2.087 0 0 0 4.005 0M12 3a7.5 7.5 0 0 1 7.5 7.5c0 7.046 1.5 8.25 1.5 8.25H3s1.5-1.916 1.5-8.25A7.5 7.5 0 0 1 12 3Zm0 0V.75"
+      stroke="#000"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+    />
+  </svg>
+</bell_medium>
+`;
+
+exports[`run convertSvgToJsx to convert ES6 to ES5 has to have a bell file 1`] = `
+{
+  "default": [Function],
+}
+`;
+
+exports[`run convertSvgToJsx to convert ES6 to ES5 has to have a bell_medium file 1`] = `
+{
+  "default": [Function],
+}
+`;
+
+exports[`run convertSvgToJsx to convert ES6 to ES5 has to have a fallback index file 1`] = `
+{
+  "bell": [Function],
+  "bell_medium": [Function],
+}
+`;
+
+exports[`run convertSvgToJsx to convert ES6 to ES5 has to have a index file inside subfolder 1`] = `
+{
+  "bell": [Function],
+  "bell_medium": [Function],
+}
+`;
+
+exports[`run convertSvgToJsx to convert ES6 to ES5 has to have a primary_icons file 1`] = `
+{
+  "bell": [Function],
+}
+`;
+
+exports[`run convertSvgToJsx to convert ES6 to ES5 has to have a primary_icons_medium file 1`] = `
+{
+  "bell_medium": [Function],
+}
+`;
+
+exports[`run convertSvgToJsx to convert ES6 to ES5 has to match bell JSX snapshot 1`] = `
+<bell>
+  <svg
+    fill="none"
+    height={16}
+    viewBox="0 0 16 16"
+    width={16}
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M6.756 14.067a1.299 1.299 0 0 0 2.492 0M8 2.4a4.667 4.667 0 0 1 4.667 4.667c0 4.384.933 5.133.933 5.133H2.4s.933-1.192.933-5.133A4.667 4.667 0 0 1 8 2.4Zm0 0V1"
+      stroke="#000"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+    />
+  </svg>
+</bell>
+`;
