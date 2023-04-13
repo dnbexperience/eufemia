@@ -9,6 +9,7 @@ import styled from '@emotion/styled'
 import addDays from 'date-fns/addDays'
 import startOfMonth from 'date-fns/startOfMonth'
 import lastDayOfMonth from 'date-fns/lastDayOfMonth'
+import isWeekend from 'date-fns/isWeekend'
 import { DatePicker, FormRow, HelpButton } from '@dnb/eufemia/src'
 
 const Wrapper = styled.div`
@@ -260,3 +261,60 @@ export const DatePickerScreenshotTests = () => {
     </Wrapper>
   )
 }
+
+export const DatePickerDateFns = () =>
+  global.IS_TEST ? null : (
+    <ComponentBox scope={{ addDays }} hidePreview hideToolbar>
+      <DatePicker
+        shortcuts={[
+          { title: 'Set date', date: '1969-07-15' },
+          {
+            title: 'Relative +3 days',
+            date: ({ date }) => date && addDays(date, 3),
+          },
+        ]}
+      />
+    </ComponentBox>
+  )
+
+export const DatePickerDateFnsRange = () =>
+  global.IS_TEST ? null : (
+    <ComponentBox
+      scope={{ startOfMonth, lastDayOfMonth }}
+      hidePreview
+      hideToolbar
+    >
+      <DatePicker
+        shortcuts={[
+          {
+            title: 'Set date period',
+            start_date: '1969-07-15',
+            end_date: '1969-07-15',
+            close_on_select: true, // will close the picker
+          },
+          {
+            title: 'This month',
+            start_date: startOfMonth(new Date()),
+            end_date: lastDayOfMonth(new Date()),
+          },
+        ]}
+      />
+    </ComponentBox>
+  )
+
+export const DatePickerDateFnsRangeIsWeekend = () =>
+  global.IS_TEST ? null : (
+    <ComponentBox scope={{ isWeekend }} hidePreview>
+      <DatePicker
+        on_days_render={(days, calendarNumber = 0) => {
+          return days.map((dayObject) => {
+            if (isWeekend(dayObject.date)) {
+              dayObject.isInactive = true
+              dayObject.className = 'dnb-date-picker__day--weekend' // custom css
+            }
+            return dayObject
+          })
+        }}
+      />
+    </ComponentBox>
+  )
