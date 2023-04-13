@@ -7,6 +7,7 @@ import type { SpacingProps } from '../space/types';
 import AccordionContent from './AccordionContent';
 import AccordionHeader from './AccordionHeader';
 import AccordionGroup from './AccordionGroup';
+import { Store } from './AccordionStore';
 export type AccordionVariant = 'plain' | 'default' | 'outlined' | 'filled';
 export type AccordionHeading = boolean | React.ReactNode;
 export type AccordionIcon =
@@ -150,6 +151,9 @@ export interface AccordionProps
   on_change?: (...args: any[]) => any;
   on_state_update?: (...args: any[]) => any;
 }
+
+const StoreInstance = (group: string, id?: string) => new Store(group, id);
+
 export default class Accordion extends React.Component<
   AccordionProps,
   any
@@ -159,7 +163,7 @@ export default class Accordion extends React.Component<
   static Header = AccordionHeader;
   static Provider = AccordionGroup;
   static Group = Group;
-  static Store = Store;
+  static Store = StoreInstance;
   render(): JSX.Element;
 }
 
@@ -170,17 +174,6 @@ export type GroupProps = {
 
 declare class Group extends React.Component<GroupProps, any> {
   static defaultProps: object;
-  static Store = Store;
+  static Store: StoreInstance;
   render(): JSX.Element;
 }
-
-export type StoreStateReturn = boolean;
-export type StoreDataREturn = {
-  expanded: boolean;
-};
-export type Store = (id: string) => {
-  saveState: (state: boolean) => void;
-  getState: () => StoreStateReturn;
-  getData: () => StoreDataREturn;
-  flush: () => void;
-};
