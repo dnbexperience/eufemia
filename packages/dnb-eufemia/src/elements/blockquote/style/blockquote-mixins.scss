@@ -1,3 +1,5 @@
+@use '../../../style/elements/ui-spacing.scss';
+
 @mixin blockquoteStyle() {
   display: inline-block;
   width: auto;

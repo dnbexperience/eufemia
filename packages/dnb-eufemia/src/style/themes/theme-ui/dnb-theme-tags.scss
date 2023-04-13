@@ -8,7 +8,7 @@
 @use '../../../elements/typography/style/dnb-typography.scss' as typography;
 @use '../../../elements/label/style/dnb-label.scss' as label;
 @use '../../../elements/lists/style/dnb-lists.scss' as lists;
-@use '../../../elements/code/style/dnb-code.scss' as code;
+@use '../../../elements/code/style/code-mixins.scss';
 @use '../../../elements/img/style/dnb-img.scss' as img;
 @use '../../../elements/hr/style/dnb-hr.scss' as hr;
 
@@ -31,6 +31,6 @@
   @include label.labelTag();
 
   // additional
-  @include code.codeTag();
-  @include code.preTag();
+  @include code-mixins.codeTag();
+  @include code-mixins.preTag();
 }
