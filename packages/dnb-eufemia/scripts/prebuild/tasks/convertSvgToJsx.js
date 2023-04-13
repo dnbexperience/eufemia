@@ -75,8 +75,12 @@ export default async function convertSvgToJsx({
       customIconsLockFilePath,
     })
 
+    const sizes = Object.keys(ICON_SIZES)
+
     log.succeed(
-      `> PrePublish: Converting "svg to jsx" for "${assetsDir}" is done (${icons.length} icons)`
+      `> PrePublish: Converting "svg to jsx" for "${assetsDir}" is done (converted ${
+        icons.length
+      } icons with ${icons.length / sizes.length} in total)`
     )
 
     await controllRoutine({ icons })
@@ -85,10 +89,9 @@ export default async function convertSvgToJsx({
 
 const controllRoutine = async ({ icons }) => {
   const listOfIcons = Object.values(icons)
-
-  const sizes = Object.values(ICON_SIZES).filter(({ suffix }) => {
-    return Boolean(suffix)
-  })
+  const sizes = Object.values(ICON_SIZES).filter(({ suffix }) =>
+    Boolean(suffix)
+  )
 
   sizes.forEach(({ suffix: size }) => {
     listOfIcons.forEach(({ name: origName }) => {
