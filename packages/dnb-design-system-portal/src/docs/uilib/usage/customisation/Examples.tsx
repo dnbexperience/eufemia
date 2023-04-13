@@ -2,7 +2,7 @@ import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { Button, Icon, P } from '@dnb/eufemia/src'
 import styled from '@emotion/styled'
-import { hamburger as hamburgerIcon } from '@dnb/eufemia/src/icons/secondary_icons'
+import { hamburger as hamburgerIcon } from '@dnb/eufemia/src/icons'
 
 export const LargeButtonsAndIconsExample = () => (
   <ComponentBox>

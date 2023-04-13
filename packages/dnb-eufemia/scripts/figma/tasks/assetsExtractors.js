@@ -23,10 +23,11 @@ import {
 import properties from '../../../src/style/themes/theme-ui/properties'
 import { create, extract } from 'tar'
 
-const ICON_SIZES = {
+export const ICON_SIZES = {
   16: { suffix: '' },
   24: { suffix: 'medium' },
 }
+export const NAME_SEPARATOR = '_'
 
 const iconPrimaryList = process.env.FIGMA_ICONS_PRIMARY_LIST || [
   'chevron_left',
@@ -77,7 +78,9 @@ export function IconsConfig(overwrite = {}) {
   )
   const iconsLockFile = path.resolve(
     __dirname,
-    `../../../src/icons/icons-svg.lock`
+    '../../../src/icons',
+    overwrite?.assetsDir || '',
+    'icons-svg.lock'
   )
   const getCategoryFromIconName = (name) => String(name).split(/\//)[0]
 
@@ -102,7 +105,7 @@ const prettierrc = JSON.parse(
 )
 
 export const extractIconsAsSVG = async ({
-  figmaFile,
+  figmaFile = null,
   figmaDoc = null,
   assetsDir = 'dnb',
   forceReconvert = null,
@@ -623,7 +626,9 @@ const makeMetaFile = async ({
         // remove duplication
         const cleanedName = Object.values(ICON_SIZES).reduce(
           (iconName, { suffix }) =>
-            suffix ? iconName.replace('_' + suffix, '') : iconName,
+            suffix
+              ? iconName.replace(NAME_SEPARATOR + suffix, '')
+              : iconName,
           iconName
         )
         tags = tags.filter((item, index) => {
