@@ -7,7 +7,7 @@
 @use '../../../elements/blockquote/style/blockquote-mixins.scss';
 @use '../../../elements/typography/style/dnb-typography.scss' as typography;
 @use '../../../elements/label/style/label-mixins.scss';
-@use '../../../elements/lists/style/dnb-lists.scss' as lists;
+@use '../../../elements/lists/style/lists-mixins.scss';
 @use '../../../elements/code/style/code-mixins.scss';
 @use '../../../elements/img/style/img-mixins.scss';
 @use '../../../elements/hr/style/hr-mixins.scss';
@@ -23,9 +23,9 @@
   @include typography.typographyTags();
 
   // lists
-  @include lists.ulTag();
-  @include lists.olTag();
-  @include lists.dlTag();
+  @include lists-mixins.ulTag();
+  @include lists-mixins.olTag();
+  @include lists-mixins.dlTag();
 
   // form
   @include label-mixins.labelTag();
