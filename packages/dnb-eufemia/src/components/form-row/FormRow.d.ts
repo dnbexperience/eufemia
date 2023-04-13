@@ -9,7 +9,6 @@ export type FormRowChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-
 export interface FormRowProps
   extends React.HTMLProps<HTMLElement>,
     SpacingProps {
@@ -68,12 +67,12 @@ export interface FormRowProps
   centered?: boolean;
 
   /**
-   * To enable the visual helper `.dnb-section` class. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to null.
+   * To enable the visual helper `.dnb-section` class. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to `null`.
    */
   section_style?: SectionStyleTypes;
 
   /**
-   * To modify the `spacing`. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to null.
+   * To modify the `spacing`. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to `null`.
    */
   section_spacing?: SectionSpacing;
   global_status_id?: string;

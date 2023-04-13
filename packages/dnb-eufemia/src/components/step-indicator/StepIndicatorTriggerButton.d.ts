@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 export interface StepIndicatorTriggerButtonProps
   extends React.HTMLProps<HTMLElement> {
   /**

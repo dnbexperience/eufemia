@@ -92,6 +92,13 @@ export const createTypes = async (
         return // stop here
       }
 
+      if (
+        String(process.env.npm_config_argv).includes('build:types:docs') &&
+        !(await existsInGit(destFile))
+      ) {
+        return // stop here
+      }
+
       const warnAboutMissingPropTypes = (collectProps, docs) => {
         if (docs) {
           docs.forEach((doc) => {

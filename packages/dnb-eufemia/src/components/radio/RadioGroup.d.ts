@@ -19,7 +19,6 @@ export type RadioGroupChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-
 export interface RadioGroupProps
   extends React.HTMLProps<HTMLElement>,
     SpacingProps {

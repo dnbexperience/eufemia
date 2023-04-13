@@ -5,7 +5,6 @@ import type { Locale } from '../../shared/Context';
 export type PaymentCardCardStatus = 'active' | 'blocked' | 'expired';
 export type PaymentCardVariant = 'normal' | 'compact';
 export type PaymentCardDigits = string | number;
-
 export interface PaymentCardRawData {
   productCode: string;
   productName: string;
@@ -14,12 +13,10 @@ export interface PaymentCardRawData {
   cardType: Record<string, unknown>;
   productType: Record<string, unknown>;
 }
-
 export type PaymentCardChildren =
   | string
   | React.ReactNode
   | ((...args: any[]) => any);
-
 export interface PaymentCardProps
   extends React.HTMLProps<HTMLElement>,
     SpacingProps {
@@ -63,7 +60,6 @@ export interface PaymentCardProps
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
   skeleton?: SkeletonShow;
-
   class?: string;
   className?: string;
   children?: PaymentCardChildren;
@@ -75,5 +71,4 @@ export default class PaymentCard extends React.Component<
   static defaultProps: object;
   render(): JSX.Element;
 }
-
 export const getCardData = (product_code: string) => PaymentCardRawData;

@@ -21,7 +21,6 @@ export type FormStatusChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-
 export interface FormStatusProps
   extends React.HTMLProps<HTMLElement>,
     SpacingProps {
@@ -38,7 +37,7 @@ export interface FormStatusProps
   show?: boolean;
 
   /**
-   * The `text` appears as the status message. Beside plain text, You can send in a React component as well.
+   * The `text` appears as the status message. Beside plain text, you can send in a React component as well.
    */
   text?: FormStatusText;
   label?: React.ReactNode;
@@ -100,7 +99,7 @@ export interface FormStatusProps
   className?: string;
 
   /**
-   * The `text` appears as the status message. Beside plain text, You can send in a React component as well.
+   * The `text` appears as the status message. Beside plain text, you can send in a React component as well.
    */
   children?: FormStatusChildren;
 }
@@ -111,7 +110,6 @@ export default class FormStatus extends React.Component<
   static defaultProps: object;
   render(): JSX.Element;
 }
-
 export interface ErrorIconProps {
   /**
    * The `title` attribute in the status.
@@ -119,7 +117,6 @@ export interface ErrorIconProps {
   title?: string;
 }
 export const ErrorIcon: React.FC<ErrorIconProps>;
-
 export interface WarnIconProps {
   /**
    * The `title` attribute in the status.
@@ -127,7 +124,6 @@ export interface WarnIconProps {
   title?: string;
 }
 export const WarnIcon: React.FC<WarnIconProps>;
-
 export interface InfoIconProps {
   /**
    * The `title` attribute in the status.
@@ -135,7 +131,6 @@ export interface InfoIconProps {
   title?: string;
 }
 export const InfoIcon: React.FC<InfoIconProps>;
-
 export interface MarketingIconProps {
   /**
    * The `title` attribute in the status.

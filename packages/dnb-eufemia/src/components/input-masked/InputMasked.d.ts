@@ -46,7 +46,6 @@ export type InputMaskedSubmitButtonIcon =
 export type InputMaskedChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
-
 export interface InputMaskedProps
   extends React.HTMLProps<HTMLElement>,
     SpacingProps {
@@ -227,7 +226,7 @@ export interface InputMaskedProps
   keep_placeholder?: boolean;
 
   /**
-   * Text describing the content of the input more than the label. You can also send in a React component, so it gets wrapped inside the Input component.
+   * Text describing the content of the input more than the label. you can also send in a React component, so it gets wrapped inside the Input component.
    */
   suffix?: InputMaskedSuffix;
 
@@ -296,7 +295,6 @@ export interface InputMaskedProps
   submit_button_variant?: any;
   submit_button_icon?: InputMaskedSubmitButtonIcon;
   submit_button_status?: string;
-
   className?: string;
   children?: InputMaskedChildren;
   on_state_update?: (...args: any[]) => any;
