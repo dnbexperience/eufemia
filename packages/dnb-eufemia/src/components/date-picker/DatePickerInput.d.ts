@@ -6,7 +6,6 @@ import type {
 } from '../FormStatus';
 import type { InputInputElement, InputSize } from '../Input';
 import type { SkeletonShow } from '../Skeleton';
-
 export interface DatePickerInputProps
   extends React.HTMLProps<HTMLElement> {
   id?: string;

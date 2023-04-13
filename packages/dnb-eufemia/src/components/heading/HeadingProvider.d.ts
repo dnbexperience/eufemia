@@ -1,6 +1,5 @@
 import * as React from 'react';
 import type { HeadingProps } from './Heading';
-
 export interface HeadingProviderProps
   extends React.HTMLProps<HTMLElement>,
     HeadingProps {}

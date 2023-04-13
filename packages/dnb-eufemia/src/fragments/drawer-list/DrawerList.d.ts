@@ -41,7 +41,6 @@ export type DrawerListChildren =
   | Record<string, unknown>
   | any[];
 export type DrawerListSuffix = React.ReactNode;
-
 export interface DrawerListProps
   extends React.HTMLProps<HTMLElement>,
     SpacingProps {
@@ -98,18 +97,15 @@ export interface DrawerListProps
   on_select?: (...args: any[]) => any;
   on_state_update?: (...args: any[]) => any;
 }
-
 export type DrawerListOptionsProps = {
   children: React.ReactNode;
 };
-
 export type DrawerListItemProps = {
   children: React.ReactNode;
   selected: boolean;
   value: string;
   on_click: ({ value }: { value: string }) => void;
 };
-
 export default class DrawerList extends React.Component<
   DrawerListProps,
   any
@@ -122,7 +118,6 @@ export default class DrawerList extends React.Component<
 export type ItemContentChildren =
   | React.ReactNode
   | Record<string, unknown>;
-
 export interface ItemContentProps {
   hash?: string;
   children?: ItemContentChildren;

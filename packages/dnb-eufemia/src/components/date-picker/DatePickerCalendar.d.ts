@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 export interface DatePickerCalendarProps
   extends React.HTMLProps<HTMLElement> {
   id?: string;

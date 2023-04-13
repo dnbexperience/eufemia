@@ -1,7 +1,6 @@
 import * as React from 'react';
 import type { SpacingProps } from '../../shared/types';
 import type { StepIndicatorProps } from './StepIndicator';
-
 export interface StepIndicatorSidebarProps
   extends React.HTMLProps<HTMLElement>,
     SpacingProps,

@@ -22,7 +22,6 @@ export type ToggleButtonValue =
   | any[];
 export type ToggleButtonAttributes = string | Record<string, unknown>;
 export type ToggleButtonChildren = string | ((...args: any[]) => any);
-
 export interface ToggleButtonProps
   extends React.HTMLProps<HTMLElement>,
     SpacingProps {
@@ -104,7 +103,6 @@ export interface ToggleButtonProps
   icon_size?: IconSize;
   attributes?: ToggleButtonAttributes;
   readOnly?: boolean;
-
   class?: string;
   className?: string;
   children?: ToggleButtonChildren;

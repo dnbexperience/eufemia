@@ -36,7 +36,6 @@ export type ButtonElement =
   | any
   | React.ReactNode;
 export type ButtonOnClick = string | ((...args: any[]) => any);
-
 export type ButtonProps = {
   /**
    * The content of the button can be a string or a React Element.
@@ -121,7 +120,7 @@ export type ButtonProps = {
   target?: string;
 
   /**
-   * Used to specify the relationship between a linked resource and the current document. Examples(non-exhaustive list) of values are `nofollow`, `search`, and `tag`.
+   * When button behaves as a link. Used to specify the relationship between a linked resource and the current document. Examples(non-exhaustive list) of values are `nofollow`, `search`, and `tag`.
    */
   rel?: string;
 

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import type { GroupProps } from './Accordion';
-
 export interface AccordionGroupProps
   extends React.HTMLProps<HTMLElement>,
     GroupProps {
