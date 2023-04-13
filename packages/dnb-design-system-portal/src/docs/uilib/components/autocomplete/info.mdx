@@ -3,6 +3,11 @@ showTabs: true
 ---
 
 import AutocompleteMethods from 'Docs/uilib/components/autocomplete/methods'
+import {
+  AutocompleteContentAsArrayExample,
+  AutocompleteContentAsFragmentExample,
+  AutocompleteContentDecoupledExample,
+} from 'Docs/uilib/components/autocomplete/Examples'
 
 ## Description
 
@@ -38,38 +43,15 @@ It is possible to wrap your content inside one HTML Element. Nested elements are
 
 To wrap your content only visually, you can provide your wrappers inside an array:
 
-```jsx
-{
-  content: [
-    <IconPrimary icon="bell" />,
-    <span className="custom-selector-a">The Shawshank Redemption</span>,
-    <span className="custom-selector-b">The Dark Knight</span>,
-    // etc.
-    <NumberFormat value={1234} />, // <-- Not searchable nor highlightable
-  ]
-}
-```
+<AutocompleteContentAsArrayExample />
 
 or you can provide it inside a fragment:
 
-```jsx
-{
-  content: <>
-    <IconPrimary icon="bell" />
-    <span className="custom-selector-a">The Shawshank Redemption</span>
-    <span className="custom-selector-b">The Dark Knight</span>
-  </>
-}
-```
+<AutocompleteContentAsFragmentExample />
 
 and if you need to decouple the searchable content from what's displayed, then you can put your searchable content inside `search_content`:
 
-```jsx
-{
-  content: ['your visual content'],
-  search_content: ['your search content'],
-}
-```
+<AutocompleteContentDecoupledExample />
 
 ### Numbers
 
