@@ -2,6 +2,11 @@
 showTabs: true
 ---
 
+import {
+  DatePickerDateFns,
+  DatePickerDateFnsRange,
+} from 'Docs/uilib/components/date-picker/Examples'
+
 ## Properties
 
 | Properties                                  | Description                                                                                                                                                                                                                                                                                                                                                                          |
@@ -54,39 +59,8 @@ showTabs: true
 
 You may use [date-fns](https://date-fns.org) to make date calculations.
 
-```jsx
-import addDays from 'date-fns/addDays'
-
-const shortcuts = [
-  { title: 'Set date', date: '1969-07-15' },
-  {
-    title: 'Relative +3 days',
-    date: ({ date }) => date && addDays(date, 3)
-  }
-]
-
-<DatePicker shortcuts={shortcuts} />
-```
+<DatePickerDateFns />
 
 With range enabled.
 
-```jsx
-import startOfMonth from 'date-fns/startOfMonth'
-import lastDayOfMonth from 'date-fns/lastDayOfMonth'
-
-const shortcuts = [
-  {
-    title: 'Set date period',
-    start_date: '1969-07-15',
-    end_date: '1969-07-15',
-    close_on_select: true,// will close the picker
-  },
-  {
-    title: 'This month',
-    start_date: startOfMonth(new Date()),
-    end_date: lastDayOfMonth(new Date())
-  }
-]
-
-<DatePicker shortcuts={shortcuts} />
-```
+<DatePickerDateFnsRange />
