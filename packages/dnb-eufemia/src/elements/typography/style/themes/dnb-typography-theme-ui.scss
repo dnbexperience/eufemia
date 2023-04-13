@@ -1,0 +1,35 @@
+// Paragraphs
+.dnb-p {
+  color: var(--theme-color-black-80, currentColor);
+}
+
+// Setting the default headings color
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--theme-color-black-80, currentColor);
+}
+
+// Headings
+.dnb-lead,
+ .dnb-h--xx-large,
+ .dnb-h--x-large,
+ .dnb-h--large,
+ .dnb-h--medium,
+ .dnb-h--basis,
+ .dnb-h--small,
+ .dnb-h--x-small,
+ // make exception on headings which are inside of dnb-core-style
+ .dnb-core-style .dnb-lead,
+ .dnb-core-style .dnb-h--xx-large,
+ .dnb-core-style .dnb-h--x-large,
+ .dnb-core-style .dnb-h--large,
+ .dnb-core-style .dnb-h--medium,
+ .dnb-core-style .dnb-h--basis,
+ .dnb-core-style .dnb-h--small,
+ .dnb-core-style .dnb-h--x-small {
+  color: var(--theme-color-black-80, currentColor);
+}

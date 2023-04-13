@@ -5,7 +5,7 @@
 
 @use '../../../elements/anchor/style/anchor-mixins.scss';
 @use '../../../elements/blockquote/style/blockquote-mixins.scss';
-@use '../../../elements/typography/style/dnb-typography.scss' as typography;
+@use '../../../elements/typography/style/typography-mixins.scss';
 @use '../../../elements/label/style/label-mixins.scss';
 @use '../../../elements/lists/style/lists-mixins.scss';
 @use '../../../elements/code/style/code-mixins.scss';
@@ -20,7 +20,7 @@
   @include hr-mixins.hrTag();
 
   // typography
-  @include typography.typographyTags();
+  @include typography-mixins.typographyTags();
 
   // lists
   @include lists-mixins.ulTag();
