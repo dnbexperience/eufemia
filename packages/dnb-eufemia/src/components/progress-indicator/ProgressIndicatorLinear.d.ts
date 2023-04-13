@@ -1,6 +1,5 @@
 import * as React from 'react';
 export type ProgressIndicatorLinearProgress = string | number;
-
 export interface ProgressIndicatorLinearProps
   extends React.HTMLProps<HTMLElement> {
   /**
@@ -9,7 +8,7 @@ export interface ProgressIndicatorLinearProps
   size?: string;
 
   /**
-   * Defines the visibility of the progress. Toggling the `visible` property to false will force a fade-out animation. Defaults to `true`.
+   * Defines the visibility of the progress. Toggling the `visible` property to `false` will force a fade-out animation. Defaults to `true`.
    */
   visible?: boolean;
   complete?: boolean;

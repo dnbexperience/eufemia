@@ -1,6 +1,5 @@
 import * as React from 'react';
 export type DatePickerRangeViews = number | Record<string, unknown>[];
-
 export interface DatePickerRangeProps
   extends React.HTMLProps<HTMLElement> {
   id?: string;

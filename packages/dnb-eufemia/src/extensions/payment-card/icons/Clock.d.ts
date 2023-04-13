@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 export interface ClockSVGProps extends React.HTMLProps<HTMLElement> {
   stroke?: string;
   width?: string;

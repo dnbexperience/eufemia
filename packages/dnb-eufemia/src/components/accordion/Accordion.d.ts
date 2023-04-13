@@ -21,7 +21,6 @@ export type AccordionIcon =
       expanded?: React.ReactNode | ((...args: any[]) => any);
     };
 export type AccordionAttributes = string | Record<string, unknown>;
-
 export interface AccordionProps
   extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
     SpacingProps {
@@ -29,10 +28,6 @@ export interface AccordionProps
    * A title as a string or React element. It will be used as the button text.
    */
   title?: React.ReactNode;
-
-  /**
-   * A description as a string or React element. It will be used as an additional text.
-   */
   description?: React.ReactNode;
 
   /**
@@ -166,7 +161,6 @@ export default class Accordion extends React.Component<
   static Store = StoreInstance;
   render(): JSX.Element;
 }
-
 export type GroupProps = {
   allow_close_all?: boolean;
   expanded_id?: string;

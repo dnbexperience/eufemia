@@ -33,7 +33,6 @@ type AutocompleteInputElement =
   | ((...args: any[]) => any)
   | React.ReactNode;
 type AutocompleteSearchInWordIndex = string | number;
-
 export interface AutocompleteProps
   extends SpacingProps,
     DrawerListProps,
@@ -223,7 +222,6 @@ export interface AutocompleteProps
    * Use `true` to auto open the list once the user is entering the input field with the keyboard.
    */
   open_on_focus?: boolean;
-
   disabled?: boolean;
 
   /**
@@ -240,7 +238,6 @@ export interface AutocompleteProps
    * Define a custom class for the internal drawer-list. This makes it possible more easily customize the drawer-list style with styled-components and the `css` style method. Defaults to `null`.
    */
   drawer_class?: string;
-
   ariaLiveDelay?: number;
 
   /**
@@ -272,6 +269,9 @@ export default class Autocomplete extends React.Component<
   static HorizontalItem: ({
     children
   }: {
+    /**
+     * <em>(required)</em> the data we want to fill the list with. Provide the data as a `JSON string`, `array` or `object` in these <a href="/uilib/components/fragments/drawer-list/info#data-structure">data structure</a>. <br /> If you don&#39;t have to define a `value`, you can also send in a `function` which will be called once the user opens the DrawerList.
+     */
     children: React.ReactNode;
   }) => JSX.Element;
   render(): JSX.Element;
