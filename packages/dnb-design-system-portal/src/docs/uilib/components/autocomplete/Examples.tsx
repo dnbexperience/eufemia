@@ -8,7 +8,12 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { format } from '@dnb/eufemia/src/components/number-format/NumberUtils'
 import styled from '@emotion/styled'
 import Context from '@dnb/eufemia/src/shared/Context'
-import { Autocomplete, FormRow, IconPrimary } from '@dnb/eufemia/src'
+import {
+  Autocomplete,
+  FormRow,
+  IconPrimary,
+  NumberFormat,
+} from '@dnb/eufemia/src'
 
 const Wrapper = styled.div`
   [data-visual-test] {
@@ -550,3 +555,67 @@ export const AutocompleteDisabledExample = () =>
       </ComponentBox>
     </Wrapper>
   )
+
+export const AutocompleteContentAsArrayExample = () => (
+  <Wrapper>
+    <ComponentBox hidePreview>
+      <Autocomplete
+        data={[
+          {
+            content: [
+              <IconPrimary icon="bell" key="item-1" />,
+              <span className="custom-selector-a" key="item-2">
+                The Shawshank Redemption
+              </span>,
+              <span className="custom-selector-b" key="item-3">
+                The Dark Knight
+              </span>,
+              // etc.
+              <NumberFormat value={1234} key="item-4" />, // <-- Not searchable nor highlightable
+            ],
+          },
+        ]}
+        label="Label:"
+      />
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const AutocompleteContentAsFragmentExample = () => (
+  <Wrapper>
+    <ComponentBox hidePreview>
+      <Autocomplete
+        data={[
+          {
+            content: (
+              <>
+                <IconPrimary icon="bell" />
+                <span className="custom-selector-a">
+                  The Shawshank Redemption
+                </span>
+                <span className="custom-selector-b">The Dark Knight</span>
+              </>
+            ),
+          },
+        ]}
+        label="Label:"
+      />
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const AutocompleteContentDecoupledExample = () => (
+  <Wrapper>
+    <ComponentBox hidePreview>
+      <Autocomplete
+        data={[
+          {
+            content: ['your visual content'],
+            search_content: ['your search content'],
+          },
+        ]}
+        label="Label:"
+      />
+    </ComponentBox>
+  </Wrapper>
+)
