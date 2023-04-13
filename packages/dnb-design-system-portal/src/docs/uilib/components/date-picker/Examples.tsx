@@ -24,7 +24,7 @@ const Wrapper = styled.div`
 `
 
 export const DatePickerRange = () =>
-  global.IS_TEST ? null : (
+  globalThis.IS_TEST ? null : (
     <ComponentBox scope={{ addDays, startOfMonth, lastDayOfMonth }}>
       <DatePicker
         label="DatePicker:"
@@ -64,7 +64,7 @@ export const DatePickerRange = () =>
   )
 
 export const DatePickerWithInput = () =>
-  global.IS_TEST ? null : (
+  globalThis.IS_TEST ? null : (
     <ComponentBox>
       <DatePicker
         label="DatePicker:"
@@ -101,7 +101,7 @@ export const DatePickerTrigger = () => (
 )
 
 export const DatePickerHiddenNav = () =>
-  global.IS_TEST ? null : (
+  globalThis.IS_TEST ? null : (
     <ComponentBox>
       <DatePicker
         label="DatePicker:"
@@ -123,7 +123,7 @@ export const DatePickerHiddenNav = () =>
   )
 
 export const DatePickerMonthOnly = () =>
-  global.IS_TEST ? null : (
+  globalThis.IS_TEST ? null : (
     <ComponentBox>
       <DatePicker
         label="DatePicker:"
@@ -135,7 +135,7 @@ export const DatePickerMonthOnly = () =>
   )
 
 export const DatePickerDisabled = () =>
-  global.IS_TEST ? null : (
+  globalThis.IS_TEST ? null : (
     <ComponentBox>
       <DatePicker
         label="DatePicker:"
@@ -148,7 +148,7 @@ export const DatePickerDisabled = () =>
   )
 
 export const DatePickerSuffix = () =>
-  global.IS_TEST ? null : (
+  globalThis.IS_TEST ? null : (
     <ComponentBox>
       <DatePicker
         label="DatePicker:"
@@ -226,7 +226,7 @@ export const DatePickerCalendar = () => (
 )
 
 export const DatePickerScreenshotTests = () => {
-  if (!global.IS_TEST) {
+  if (!globalThis.IS_TEST) {
     return null
   }
   return (
@@ -263,7 +263,7 @@ export const DatePickerScreenshotTests = () => {
 }
 
 export const DatePickerDateFns = () =>
-  global.IS_TEST ? null : (
+  globalThis.IS_TEST ? null : (
     <ComponentBox scope={{ addDays }} hidePreview hideToolbar>
       <DatePicker
         shortcuts={[
@@ -278,7 +278,7 @@ export const DatePickerDateFns = () =>
   )
 
 export const DatePickerDateFnsRange = () =>
-  global.IS_TEST ? null : (
+  globalThis.IS_TEST ? null : (
     <ComponentBox
       scope={{ startOfMonth, lastDayOfMonth }}
       hidePreview
@@ -303,7 +303,7 @@ export const DatePickerDateFnsRange = () =>
   )
 
 export const DatePickerDateFnsRangeIsWeekend = () =>
-  global.IS_TEST ? null : (
+  globalThis.IS_TEST ? null : (
     <ComponentBox scope={{ isWeekend }} hidePreview>
       <DatePicker
         on_days_render={(days, calendarNumber = 0) => {
