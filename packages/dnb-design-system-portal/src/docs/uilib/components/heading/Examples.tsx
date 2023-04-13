@@ -6,7 +6,7 @@
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
-import { Heading, H3, ToggleButton } from '@dnb/eufemia/src'
+import { Heading, H3, ToggleButton, H1, H2 } from '@dnb/eufemia/src'
 
 const Style = styled.div`
   .dnb-heading {
@@ -111,4 +111,56 @@ export const HeadingMix = () => (
       </Heading.Level>
     </ComponentBox>
   </Style>
+)
+
+export const HeadingInfo = () => (
+  <ComponentBox hidePreview>
+    <Heading.Level reset={1}>
+      <Heading>h1</Heading>
+      <Heading>h2</Heading>
+      <Heading increase>h3</Heading>
+      <Heading>still h3</Heading>
+      <Heading increase>h4</Heading>
+      <Heading increase>h5</Heading>
+      <Heading decrease>h4</Heading>
+      <Heading level={2}>back to h2</Heading>
+      <Heading increase>h3</Heading>
+    </Heading.Level>
+  </ComponentBox>
+)
+
+export const HeadingInfoSize = () => (
+  <ComponentBox hidePreview>
+    <Heading.Level reset={2}>
+      <Heading increase size="xx-large">
+        h3, but looks like h1
+      </Heading>
+    </Heading.Level>
+  </ComponentBox>
+)
+
+export const HeadingInfoLevel = () => (
+  <ComponentBox hidePreview>
+    <Heading.Level reset={1}>
+      <Heading>h1</Heading>
+      <Heading.Level level="2">
+        <Heading>h2</Heading>
+        <Heading increase>h3</Heading>
+        <Heading>still h3</Heading>
+        <Heading.Increase>
+          <Heading>h4</Heading>
+          <Heading>still h4</Heading>
+        </Heading.Increase>
+      </Heading.Level>
+    </Heading.Level>
+  </ComponentBox>
+)
+
+export const HeadingInfoBasic = () => (
+  <ComponentBox hidePreview>
+    <article>
+      <H1 size="large">h1</H1>
+      <H2 size="xx-large">h2</H2>
+    </article>
+  </ComponentBox>
 )
