@@ -6,6 +6,10 @@
 
   &.dnb-blockquote--no-background {
     color: var(--theme-color-black-80, currentColor);
+    &::before {
+      // simulate the color #333333 - this makes it 100% the same
+      filter: grayscale(1) brightness(24%);
+    }
   }
 
   // make contrast
