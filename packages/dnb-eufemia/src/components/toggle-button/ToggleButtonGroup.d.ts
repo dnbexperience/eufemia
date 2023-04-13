@@ -24,7 +24,6 @@ export type ToggleButtonGroupChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-
 export interface ToggleButtonGroupProps
   extends React.HTMLProps<HTMLElement>,
     SpacingProps {
@@ -90,7 +89,6 @@ export interface ToggleButtonGroupProps
    */
   values?: ToggleButtonGroupValues;
   attributes?: ToggleButtonGroupAttributes;
-
   class?: string;
   className?: string;
   children?: ToggleButtonGroupChildren;

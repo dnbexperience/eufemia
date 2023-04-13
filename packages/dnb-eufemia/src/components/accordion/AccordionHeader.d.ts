@@ -5,22 +5,18 @@ import type { IconSize } from '../Icon';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 import type { AccordionIcon } from './Accordion';
-
 export interface AccordionHeaderTitleProps extends SpacingProps {
   children?: React.ReactNode;
 }
 declare const AccordionHeaderTitle: React.FC<AccordionHeaderTitleProps>;
-
 export interface AccordionHeaderDescriptionProps extends SpacingProps {
   children?: React.ReactNode;
 }
 declare const AccordionHeaderDescription: React.FC<AccordionHeaderDescriptionProps>;
-
 export interface AccordionHeaderContainerProps extends SpacingProps {
   children?: React.ReactNode;
 }
 declare const AccordionHeaderContainer: React.FC<AccordionHeaderContainerProps>;
-
 export interface AccordionHeaderIconProps {
   icon?: AccordionHeaderIconIcon;
   size?: string;
@@ -59,7 +55,6 @@ export type AccordionHeaderChildren =
   | string
   | React.ReactNode
   | ((...args: any[]) => any);
-
 export interface AccordionHeaderProps
   extends React.HTMLProps<HTMLElement>,
     SpacingProps {

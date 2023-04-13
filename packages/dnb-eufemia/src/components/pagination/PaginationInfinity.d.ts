@@ -2,7 +2,6 @@ import * as React from 'react';
 export type InfinityScrollerChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
-
 export interface InfinityScrollerProps
   extends React.HTMLProps<HTMLElement> {
   /**
@@ -25,7 +24,6 @@ export type InfinityLoadButtonPressedElement =
   | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any);
-
 export interface InfinityLoadButtonProps {
   element?: InfinityLoadButtonElement;
   pressed_element?: InfinityLoadButtonPressedElement;

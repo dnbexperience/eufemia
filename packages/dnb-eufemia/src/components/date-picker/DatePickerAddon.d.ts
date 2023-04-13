@@ -3,7 +3,6 @@ export type DatePickerAddonShortcuts = any[] | ((...args: any[]) => any);
 export type DatePickerAddonRenderElement =
   | React.ReactNode
   | ((...args: any[]) => any);
-
 export interface DatePickerAddonProps
   extends React.HTMLProps<HTMLElement> {
   /**

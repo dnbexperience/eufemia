@@ -8,7 +8,6 @@ export type GlobalErrorChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-
 export interface GlobalErrorProps
   extends React.HTMLProps<HTMLElement>,
     SpacingProps {

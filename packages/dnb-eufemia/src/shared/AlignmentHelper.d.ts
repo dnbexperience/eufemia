@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 export interface AlignmentHelperProps
   extends React.HTMLProps<HTMLElement> {
   children?: React.ReactNode;
