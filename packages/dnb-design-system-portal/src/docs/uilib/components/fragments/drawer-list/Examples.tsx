@@ -247,3 +247,19 @@ const data = [
     content: ['Item 4 Content A', <>Custom Component</>],
   },
 ]
+
+export const DrawerListExampleOptionsRender = () => (
+  <Wrapper>
+    <ComponentBox scope={{ data }} hidePreview hideToolbar>
+      <DrawerList
+        options_render={({ Items, Item, data }) => (
+          <>
+            <Items />
+            <Item>Addition</Item>
+            {data.length > 1 && <li>Addition</li>}
+          </>
+        )}
+      />
+    </ComponentBox>
+  </Wrapper>
+)
