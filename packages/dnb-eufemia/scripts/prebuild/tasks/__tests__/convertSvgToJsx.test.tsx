@@ -24,7 +24,7 @@ beforeAll(async () => {
     preventDelete: true,
     srcPath: path.resolve(__dirname, './test-files/**/*.svg'),
     destPath: path.resolve(__dirname, './test-files/dist'),
-    customIconsLockFile: path.resolve(
+    customIconsLockFilePath: path.resolve(
       __dirname,
       './test-files/dnb/icons-svg.lock'
     ),

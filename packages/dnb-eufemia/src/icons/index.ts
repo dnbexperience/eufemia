@@ -264,8 +264,6 @@ import fridge from './dnb/fridge'
 import fridge_medium from './dnb/fridge_medium'
 import fullscreen from './dnb/fullscreen'
 import fullscreen_medium from './dnb/fullscreen_medium'
-import fund_in from './dnb/fund_in'
-import fund_out from './dnb/fund_out'
 import funds from './dnb/funds'
 import funds_in from './dnb/funds_in'
 import funds_in_medium from './dnb/funds_in_medium'
@@ -426,7 +424,6 @@ import portfolio_analytics from './dnb/portfolio_analytics'
 import portfolio_analytics_medium from './dnb/portfolio_analytics_medium'
 import printer from './dnb/printer'
 import printer_medium from './dnb/printer_medium'
-import products_account_percent_medium from './dnb/products_account_percent_medium'
 import profile from './dnb/profile'
 import profile_medium from './dnb/profile_medium'
 import progress from './dnb/progress'
@@ -817,8 +814,6 @@ export {
   fridge_medium,
   fullscreen,
   fullscreen_medium,
-  fund_in,
-  fund_out,
   funds,
   funds_in,
   funds_in_medium,
@@ -979,7 +974,6 @@ export {
   portfolio_analytics_medium,
   printer,
   printer_medium,
-  products_account_percent_medium,
   profile,
   profile_medium,
   progress,

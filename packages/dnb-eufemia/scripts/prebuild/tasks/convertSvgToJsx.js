@@ -19,6 +19,8 @@ import { md5 } from '../../figma/helpers/docHelpers'
 import {
   IconsConfig,
   readIconsLockFile,
+  ICON_SIZES,
+  NAME_SEPARATOR,
 } from '../../figma/tasks/assetsExtractors'
 import packpath from 'packpath'
 
@@ -29,7 +31,7 @@ export default async function convertSvgToJsx({
   srcPath = './assets/icons/**/*.svg',
   destPath = './src/icons',
   preventDelete = false,
-  customIconsLockFile = null,
+  customIconsLockFilePath = null,
 } = {}) {
   if (!preventDelete) {
     await del(
@@ -70,12 +72,41 @@ export default async function convertSvgToJsx({
       srcPath,
       destPath,
       assetsDir,
-      customIconsLockFile,
+      customIconsLockFilePath,
     })
 
     log.succeed(
       `> PrePublish: Converting "svg to jsx" for "${assetsDir}" is done (${icons.length} icons)`
     )
+
+    await controllRoutine({ icons })
+  })
+}
+
+const controllRoutine = async ({ icons }) => {
+  const listOfIcons = Object.values(icons)
+
+  const sizes = Object.values(ICON_SIZES).filter(({ suffix }) => {
+    return Boolean(suffix)
+  })
+
+  sizes.forEach(({ suffix: size }) => {
+    listOfIcons.forEach(({ name: origName }) => {
+      const foundNames = listOfIcons.filter(({ name }) => {
+        if (origName.endsWith(`${NAME_SEPARATOR}${size}`)) {
+          return origName.replace(`${NAME_SEPARATOR}${size}`, '') === name
+        }
+        return `${origName}${NAME_SEPARATOR}${size}` === name
+      })
+
+      if (foundNames.length !== 1) {
+        log.fail(
+          `The icon "${origName}" was not found with another size${
+            origName.endsWith(size) ? '' : ` (${size})`
+          }! They should be looked up. The failure can be in several places.`
+        )
+      }
+    })
   })
 }
 
@@ -83,7 +114,7 @@ const transformSvg = async ({
   srcPath,
   destPath,
   assetsDir,
-  customIconsLockFile,
+  customIconsLockFilePath,
 }) => {
   try {
     // create subfolder
@@ -97,7 +128,7 @@ const transformSvg = async ({
     return await makeIconsEntryFiles({
       destPath,
       assetsDir,
-      customIconsLockFile,
+      customIconsLockFilePath,
     })
   } catch (e) {
     log.fail('Failed to run the convertSvgToJsx process')
@@ -184,7 +215,7 @@ const transformToJsx = (content, file) => {
 const makeIconsEntryFiles = async ({
   destPath,
   assetsDir,
-  customIconsLockFile = null,
+  customIconsLockFilePath = null,
 }) => {
   // get all the svg icons we find
   const icons = (
@@ -215,18 +246,17 @@ const makeIconsEntryFiles = async ({
     await generateFallbackIndexFiles({ icons, destPath, assetsDir })
   }
 
-  // get the svg lock file
-  const { iconsLockFile } = IconsConfig({ assetsDir })
-  const lockFileContent = await readIconsLockFile({
-    file: customIconsLockFile || iconsLockFile,
-  })
-
   if (assetsDir === FALLBACK) {
     await generateIndexFile({ icons, destPath, assetsDir: '' }) // generate fallback index file
   }
 
   await generateIndexFile({ icons, destPath, assetsDir })
-  await generateGroupFiles({ icons, destPath, assetsDir, lockFileContent })
+  await generateGroupFiles({
+    icons,
+    destPath,
+    assetsDir,
+    customIconsLockFilePath,
+  })
 
   return icons
 }
@@ -275,8 +305,14 @@ const generateIndexFile = async ({ icons, destPath, assetsDir }) => {
 const generateGroupFiles = async ({
   destPath,
   assetsDir,
-  lockFileContent,
+  customIconsLockFilePath,
 }) => {
+  // get the svg lock file
+  const { iconsLockFile } = IconsConfig({ assetsDir })
+  const lockFileContent = await readIconsLockFile({
+    file: customIconsLockFilePath || iconsLockFile,
+  })
+
   // from the svg lock file we can generate groups out of the "bundleName"
   const groups = Object.entries(lockFileContent).reduce(
     (acc, [file, { bundleName }]) => {
