@@ -10,14 +10,14 @@
 @use '../../../elements/lists/style/dnb-lists.scss' as lists;
 @use '../../../elements/code/style/code-mixins.scss';
 @use '../../../elements/img/style/dnb-img.scss' as img;
-@use '../../../elements/hr/style/dnb-hr.scss' as hr;
+@use '../../../elements/hr/style/hr-mixins.scss';
 
 .dnb-core-style {
   // div
   @include anchor-mixins.anchorTag();
   @include img.imageTag();
   @include blockquote-mixins.blockquoteTag();
-  @include hr.hrTag();
+  @include hr-mixins.hrTag();
 
   // typography
   @include typography.typographyTags();
