@@ -6,7 +6,7 @@
 import React from 'react'
 import { Link, navigate } from 'gatsby'
 import { Button, Tabs } from '@dnb/eufemia/src/components'
-import { fullscreen as fullscreenIcon } from '@dnb/eufemia/src/icons/secondary_icons'
+import { fullscreen as fullscreenIcon } from '@dnb/eufemia/src/icons'
 import AutoLinkHeader from './AutoLinkHeader'
 import { tabsWrapperStyle } from './Tabbar.module.scss'
 
