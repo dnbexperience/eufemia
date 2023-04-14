@@ -33,10 +33,10 @@ export default function Theme(themeProps: ThemeAllProps) {
   return (
     <Wrapper
       className={classnames(
-        'dnb-theme',
-        name && `dnb-theme__${name}`,
-        name && variant && `dnb-theme__${name}--${variant}`,
-        size && `dnb-theme__size--${size}`
+        'eufemia-theme',
+        name && `eufemia-theme__${name}`,
+        name && variant && `eufemia-theme__${name}--${variant}`,
+        size && `eufemia-theme__size--${size}`
       )}
       {...(rest as Record<string, unknown>)}
     >
