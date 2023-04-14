@@ -7,6 +7,10 @@ import IconPrimary from '../../icon-primary/IconPrimary'
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
 import { Provider } from '../../../shared'
 
+beforeEach(() => {
+  document.body.innerHTML = ''
+})
+
 describe('Timeline', () => {
   it('renders without properties', () => {
     render(<Timeline />)
@@ -226,7 +230,7 @@ describe('Timeline', () => {
         />
       )
 
-      expect(screen.findByAltText('custom_alt_label')).not.toBeNull()
+      expect(screen.findByAltText(iconAlt)).not.toBeNull()
       expect(screen.queryByRole('img').getAttribute('alt')).toBe(iconAlt)
     })
 
