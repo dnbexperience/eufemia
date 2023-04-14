@@ -38,7 +38,6 @@ button.dnb-anchor {
   text-decoration-thickness: 0.0938rem;
   text-underline-offset: 0.25em;
   border-radius: 0;
-  color: var(--color-sea-green);
   transition: background-color 200ms ease-in-out, border-radius 200ms ease-in-out;
 }
 sup .dnb-anchor, sub .dnb-anchor {
@@ -52,7 +51,6 @@ sup .dnb-anchor, sub .dnb-anchor {
   border-radius: 0.25em;
 }
 .dnb-anchor:focus:not(:active) {
-  color: var(--color-sea-green);
   background-color: transparent;
   transition: none;
 }
@@ -66,16 +64,12 @@ html[data-whatinput=keyboard] .dnb-anchor:focus {
   border-color: transparent;
 }
 .dnb-anchor:hover, .dnb-anchor:active {
-  color: var(--color-sea-green);
-  background-color: var(--color-mint-green-50);
   border-radius: 0.25em;
 }
 .dnb-anchor:hover, .dnb-section .dnb-anchor:hover.dnb-anchor, .dnb-anchor:active, .dnb-section .dnb-anchor:active.dnb-anchor {
   text-decoration: none;
 }
 .dnb-anchor:active {
-  color: var(--color-mint-green);
-  background-color: var(--color-emerald-green);
   border-radius: 0.25em;
 }
 .dnb-anchor:active, .dnb-section .dnb-anchor:active.dnb-anchor {
@@ -115,8 +109,6 @@ html[data-whatinput=keyboard] .dnb-anchor:focus {
 }
 
 .dnb-anchor--hover {
-  color: var(--color-sea-green);
-  background-color: var(--color-mint-green-50);
   border-radius: 0.25em;
 }
 .dnb-anchor--hover, .dnb-section .dnb-anchor--hover.dnb-anchor {
@@ -124,8 +116,6 @@ html[data-whatinput=keyboard] .dnb-anchor:focus {
 }
 
 .dnb-anchor--active {
-  color: var(--color-mint-green);
-  background-color: var(--color-emerald-green);
   border-radius: 0.25em;
 }
 .dnb-anchor--active, .dnb-section .dnb-anchor--active.dnb-anchor {
@@ -137,7 +127,6 @@ html[data-whatinput=keyboard] .dnb-anchor:focus {
   border-radius: 0.25em;
 }
 .dnb-anchor--focus:not(:active) {
-  color: var(--color-sea-green);
   background-color: transparent;
   transition: none;
 }
@@ -227,11 +216,9 @@ a.dnb-button {
  *
  */
 /*
- * Anchor mixins
+ * Core Styles
+ * Mainly only the margins are defined in here
  *
- */
-/*
- * Utilities
  */
 .dnb-blockquote {
   display: inline-block;
@@ -239,8 +226,6 @@ a.dnb-button {
   padding: 1.5rem;
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
-  color: var(--color-mint-green);
-  background-color: var(--color-ocean-green);
   border-radius: 1rem;
   position: relative;
 }
@@ -269,10 +254,6 @@ a.dnb-button {
 }
 .dnb-blockquote.dnb-blockquote--no-background {
   background-color: transparent;
-  color: var(--theme-color-black-80, currentColor);
-}
-.dnb-blockquote.dnb-blockquote--no-background::before {
-  filter: grayscale(1) brightness(24%);
 }
 .dnb-blockquote .dnb-cite,
 .dnb-blockquote .dnb-figcaption,
@@ -300,44 +281,6 @@ a.dnb-button {
 .dnb-blockquote .dnb-anchor {
   font-size: inherit;
 }
-.dnb-blockquote:not(.dnb-blockquote--no-background) .dnb-anchor,
-.dnb-blockquote:not(.dnb-blockquote--no-background) a {
-  color: var(--color-white);
-}
-.dnb-blockquote:not(.dnb-blockquote--no-background) .dnb-anchor:hover, .dnb-blockquote:not(.dnb-blockquote--no-background) .dnb-anchor:active,
-.dnb-blockquote:not(.dnb-blockquote--no-background) a:hover,
-.dnb-blockquote:not(.dnb-blockquote--no-background) a:active {
-  color: var(--color-emerald-green);
-  background-color: var(--color-white);
-  text-decoration: none;
-}
-.dnb-blockquote:not(.dnb-blockquote--no-background) .dnb-anchor:active,
-.dnb-blockquote:not(.dnb-blockquote--no-background) a:active {
-  color: var(--color-emerald-green);
-  background-color: var(--color-white);
-}
-.dnb-blockquote:not(.dnb-blockquote--no-background) .dnb-anchor:not(:disabled):focus,
-.dnb-blockquote:not(.dnb-blockquote--no-background) a:not(:disabled):focus {
-  color: var(--color-white);
-  background-color: transparent;
-  outline: none;
-}
-html[data-whatinput=keyboard] .dnb-blockquote:not(.dnb-blockquote--no-background) .dnb-anchor:not(:disabled):focus,
-html[data-whatinput=keyboard] .dnb-blockquote:not(.dnb-blockquote--no-background) a:not(:disabled):focus {
-  --border-color: var(--color-white);
-  --border-width: var(--focus-ring-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-blockquote:not(.dnb-blockquote--no-background) h1,
-.dnb-blockquote:not(.dnb-blockquote--no-background) h2,
-.dnb-blockquote:not(.dnb-blockquote--no-background) h3,
-.dnb-blockquote:not(.dnb-blockquote--no-background) .dnb-h--xx-large,
-.dnb-blockquote:not(.dnb-blockquote--no-background) .dnb-h--large,
-.dnb-blockquote:not(.dnb-blockquote--no-background) .dnb-h--medium,
-.dnb-blockquote:not(.dnb-blockquote--no-background) .dnb-lead {
-  color: var(--color-mint-green);
-}
 
 .dnb-spacing .dnb-blockquote:not([class*=dnb-space__top]) {
   margin-top: 0;
@@ -359,6 +302,11 @@ html[data-whatinput=keyboard] .dnb-blockquote:not(.dnb-blockquote--no-background
  *
  */
 /*
+ * Core Styles
+ * Mainly only the margins are defined in here
+ *
+ */
+/*
  * Utilities
  */
 .dnb-code {
@@ -368,7 +316,6 @@ html[data-whatinput=keyboard] .dnb-blockquote:not(.dnb-blockquote--no-background
   text-decoration: inherit;
   line-height: var(--line-height-xx-small--em);
   color: inherit;
-  background-color: var(--color-mint-green-25);
   border-radius: 0.1875em;
 }
 del .dnb-code {
@@ -383,8 +330,6 @@ del .dnb-code {
   overflow: auto;
   padding: 1rem;
   border-radius: 0.5rem;
-  color: var(--color-mint-green-12);
-  background-color: #222;
   white-space: pre;
   vertical-align: baseline;
   outline: none;
@@ -410,12 +355,6 @@ del .dnb-code {
 .dnb-pre .dnb-spacing pre:not([class*=dnb-space__bottom]) {
   margin-bottom: 1.5rem;
 }
-.dnb-pre.dnb-pre--focus {
-  --border-color: var(--color-sea-green);
-  --border-width: 0.25rem;
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
 
 .dnb-spacing .dnb-pre:not([class*=dnb-space__top]) {
   margin-top: 0;
@@ -437,13 +376,17 @@ del .dnb-code {
  * Hr tag / line
  *
  */
+/*
+ * Core Styles
+ * Mainly only the margins are defined in here
+ *
+ */
 .dnb-hr {
   position: relative;
   padding: 0;
   height: 0;
   display: flex;
   border: 0;
-  color: var(--color-black-80);
 }
 .dnb-hr:not([class*=dnb-space]) {
   margin: 0;
@@ -495,6 +438,10 @@ del .dnb-code {
  * Image
  *
  */
+/*
+ * Image
+ *
+ */
 .dnb-img {
   display: inline-flex;
   flex-direction: column;
@@ -529,15 +476,9 @@ del .dnb-code {
   align-items: center;
   justify-content: center;
   border-radius: inherit;
-  color: var(--color-black-80);
-  background-color: var(--color-black-8);
 }
 .dnb-img figcaption {
   margin-top: 0.5rem;
-}
-.dnb-img__img--error {
-  color: var(--color-black-80);
-  background-color: var(--color-black-8);
 }
 
 /*
@@ -546,7 +487,6 @@ del .dnb-code {
  */
 .dnb-label {
   cursor: pointer;
-  color: var(--color-black-80);
   overflow-wrap: break-word;
 }
 .dnb-label[disabled] {
@@ -563,13 +503,24 @@ del .dnb-code {
  *
  */
 /*
+ * Core Styles
+ * Mainly only the margins are defined in here
+ *
+ */
+/*
+ * Lists
+ *
+ */
+/*
+ * Utilities
+ */
+/*
  * Utilities
  */
 .dnb-ul {
   padding: 0;
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
-  color: var(--theme-color-black-80, currentColor);
 }
 .dnb-ul:not([class*=dnb-space]) {
   margin: 0;
@@ -612,8 +563,6 @@ del .dnb-code {
   padding: 0;
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
-  color: var(--theme-color-black-80, currentColor);
-  color: var(--theme-color-black-80, currentColor);
 }
 .dnb-ol:not([class*=dnb-space]) {
   margin: 0;
@@ -705,7 +654,6 @@ del .dnb-code {
   padding: 0;
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
-  color: var(--theme-color-black-80, currentColor);
 }
 .dnb-dl:not([class*=dnb-space__top]) {
   margin-top: 0;
@@ -816,6 +764,11 @@ del .dnb-code {
  * Typography
  *
  */
+/*
+ * Core Styles
+ * Mainly only the margins are defined in here
+ *
+ */
 .dnb-small {
   font-size: var(--font-size-small);
 }
@@ -828,7 +781,6 @@ sub {
 
 .dnb-p {
   font-size: var(--font-size-basis);
-  color: var(--theme-color-black-80, currentColor);
   padding: 0;
 }
 .dnb-p:not([class*=space__top]) {
@@ -979,7 +931,6 @@ sub {
   padding: 0;
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-medium);
-  color: var(--theme-color-black-80, currentColor);
 }
 .dnb-lead:not([class*=dnb-space]),
 .dnb-h--xx-large:not([class*=dnb-space]),
