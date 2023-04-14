@@ -10,11 +10,11 @@ describe('Theme', () => {
       </Theme>
     )
 
-    const element = document.querySelector('.dnb-theme')
+    const element = document.querySelector('.eufemia-theme')
     expect(Array.from(element.classList)).toEqual([
-      'dnb-theme',
-      'dnb-theme__eiendom',
-      'dnb-theme__eiendom--soft',
+      'eufemia-theme',
+      'eufemia-theme__eiendom',
+      'eufemia-theme__eiendom--soft',
     ])
   })
 
@@ -30,23 +30,23 @@ describe('Theme', () => {
     const element1 = document.querySelector('#theme-1')
     const element2 = document.querySelector('#theme-2')
     expect(Array.from(element1.classList)).toEqual([
-      'dnb-theme',
-      'dnb-theme__eiendom',
+      'eufemia-theme',
+      'eufemia-theme__eiendom',
     ])
     expect(Array.from(element2.classList)).toEqual([
-      'dnb-theme',
-      'dnb-theme__eiendom',
-      'dnb-theme__eiendom--soft',
+      'eufemia-theme',
+      'eufemia-theme__eiendom',
+      'eufemia-theme__eiendom--soft',
     ])
   })
 
   it('sets size as HTML classes', () => {
     render(<Theme size="basis">content</Theme>)
 
-    const element = document.querySelector('.dnb-theme')
+    const element = document.querySelector('.eufemia-theme')
     expect(Array.from(element.classList)).toEqual([
-      'dnb-theme',
-      'dnb-theme__size--basis',
+      'eufemia-theme',
+      'eufemia-theme__size--basis',
     ])
   })
 
@@ -57,7 +57,7 @@ describe('Theme', () => {
       </Theme>
     )
 
-    const element = document.querySelector('.dnb-theme')
+    const element = document.querySelector('.eufemia-theme')
     const attributes = Array.from(element.attributes).map(
       (attr) => attr.name
     )
@@ -67,7 +67,7 @@ describe('Theme', () => {
   it('uses custom element when set', () => {
     render(<Theme element="span">content</Theme>)
 
-    const element = document.querySelector('.dnb-theme')
+    const element = document.querySelector('.eufemia-theme')
     expect(element.tagName).toBe('SPAN')
   })
 
@@ -77,7 +77,7 @@ describe('Theme', () => {
     )
     render(<Theme element={Component}>content</Theme>)
 
-    const element = document.querySelector('.dnb-theme')
+    const element = document.querySelector('.eufemia-theme')
     expect(element.tagName).toBe('SECTION')
   })
 })
