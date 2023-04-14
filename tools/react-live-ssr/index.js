@@ -567,7 +567,7 @@ var CodeEditor = function CodeEditor(props) {
   }, [])
   useEditable(editorRef, onEditableChange, {
     disabled: props.disabled,
-    indentation: 2,
+    indentation: undefined,
   })
   useEffect(
     function () {
