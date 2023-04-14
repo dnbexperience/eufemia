@@ -47,7 +47,7 @@ const Img = ({
         as="img"
         alt={alt}
         internalClass={classnames(
-          'dnb-img__img',
+          'dnb-img',
           hasError && 'dnb-img__img--error'
         )}
         className={imgClass}
