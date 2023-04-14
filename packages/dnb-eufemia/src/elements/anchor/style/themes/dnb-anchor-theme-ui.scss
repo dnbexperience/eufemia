@@ -3,13 +3,6 @@
 .dnb-anchor {
   color: var(--color-sea-green);
 
-  // have focus before :active, because of border-radius
-  &:focus {
-    &:not(:active) {
-      color: var(--color-sea-green);
-    }
-  }
-
   &:hover,
   &:active {
     color: var(--color-sea-green);
@@ -19,6 +12,12 @@
   &:active {
     color: var(--color-mint-green);
     background-color: var(--color-emerald-green);
+  }
+
+  &:focus {
+    &:not(:active) {
+      color: var(--color-sea-green);
+    }
   }
 }
 
