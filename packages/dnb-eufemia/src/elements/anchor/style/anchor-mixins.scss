@@ -5,7 +5,7 @@
 
 @import '../../../style/core/utilities.scss';
 
-@mixin anchorDefaultStyle($theme: null) {
+@mixin anchorDefaultStyle() {
   // make sure we have always `display: inline;` as inline-block is breaking the border-bottom
   display: inline;
 
@@ -17,10 +17,6 @@
   text-decoration-thickness: 0.0938rem;
   text-underline-offset: 0.25em;
   border-radius: 0;
-
-  @if $theme == 'highlighted' {
-    color: var(--color-emerald-green);
-  }
 
   sup &,
   sub & {
