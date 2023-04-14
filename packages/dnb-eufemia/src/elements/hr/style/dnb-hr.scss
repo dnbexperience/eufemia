@@ -4,10 +4,10 @@
  */
 
 @use '../../../style/elements/ui-spacing.scss';
-@use './hr-mixins.scss';
+@import './hr-mixins.scss';
 
 .dnb-hr {
-  @include hr-mixins.hrStyle();
+  @include hrStyle();
 
   &--fullscreen::after {
     left: -100vw;

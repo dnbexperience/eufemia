@@ -4,10 +4,10 @@
  */
 
 @use '../../../style/elements/ui-spacing.scss';
-@use './blockquote-mixins.scss';
+@import './blockquote-mixins.scss';
 
 .dnb-blockquote {
-  @include blockquote-mixins.blockquoteStyle();
+  @include blockquoteStyle();
 }
 
 .dnb-spacing .dnb-blockquote {

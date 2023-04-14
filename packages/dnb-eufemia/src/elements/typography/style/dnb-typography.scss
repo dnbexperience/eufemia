@@ -4,7 +4,7 @@
  */
 
 @use '../../../style/elements/ui-spacing.scss';
-@use './typography-mixins.scss';
+@import './typography-mixins.scss';
 
 .dnb-small {
   font-size: var(--font-size-small);
@@ -25,7 +25,7 @@ sub {
 
 // Paragraphs
 .dnb-p {
-  @include typography-mixins.paragraphStyle();
+  @include paragraphStyle();
 }
 
 // Tables
@@ -37,35 +37,35 @@ sub {
 }
 
 .dnb-h--xx-large {
-  @include typography-mixins.headingSize_xx-large();
+  @include headingSize_xx-large();
 }
 
 .dnb-h--x-large {
-  @include typography-mixins.headingSize_x-large();
+  @include headingSize_x-large();
 }
 
 .dnb-h--large {
-  @include typography-mixins.headingSize_large();
+  @include headingSize_large();
 }
 
 /* dnb-h--medium looks the same as .dnb-lead */
 .dnb-lead,
 .dnb-h--medium {
-  @include typography-mixins.headingSize_medium();
+  @include headingSize_medium();
   font-weight: var(--font-weight-medium);
 }
 
 // The rest of the Headings are nod defned by the Eufemia Typography
 .dnb-h--basis {
-  @include typography-mixins.headingSize_basis();
+  @include headingSize_basis();
 }
 
 .dnb-h--small {
-  @include typography-mixins.headingSize_small();
+  @include headingSize_small();
 }
 
 .dnb-h--x-small {
-  @include typography-mixins.headingSize_x-small();
+  @include headingSize_x-small();
 }
 
 // Headings
@@ -86,24 +86,24 @@ sub {
 .dnb-core-style .dnb-h--basis,
 .dnb-core-style .dnb-h--small,
 .dnb-core-style .dnb-h--x-small {
-  @include typography-mixins.headingDefaults();
+  @include headingDefaults();
 }
 
 // Spacing
 .dnb-spacing {
   .dnb-h--xx-large,
   .dnb-core-style & .dnb-h--xx-large {
-    @include typography-mixins.headingSpacing_xx-large();
+    @include headingSpacing_xx-large();
   }
 
   .dnb-h--x-large,
   .dnb-core-style & .dnb-h--x-large {
-    @include typography-mixins.headingSpacing_x-large();
+    @include headingSpacing_x-large();
   }
 
   .dnb-h--large,
   .dnb-core-style & .dnb-h--large {
-    @include typography-mixins.headingSpacing_large();
+    @include headingSpacing_large();
   }
 
   .dnb-lead,
@@ -116,7 +116,7 @@ sub {
   .dnb-core-style & .dnb-h--basis,
   .dnb-core-style & .dnb-h--small,
   .dnb-core-style & .dnb-h--x-small {
-    @include typography-mixins.headingSpacing();
+    @include headingSpacing();
   }
 
   .dnb-p,

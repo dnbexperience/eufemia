@@ -4,15 +4,15 @@
  */
 
 @use '../../../style/elements/ui-spacing.scss';
-@use './code-mixins.scss';
+@import './code-mixins.scss';
 @import '../../../style/core/utilities.scss';
 
 .dnb-code {
-  @include code-mixins.codeStyle();
+  @include codeStyle();
 }
 
 .dnb-pre {
-  @include code-mixins.preStyle();
+  @include preStyle();
 }
 
 .dnb-spacing .dnb-pre {

@@ -3,7 +3,7 @@
  *
  */
 
-@use './img-mixins.scss';
+@import './img-mixins.scss';
 
 .dnb-img {
   display: inline-flex;
@@ -23,7 +23,7 @@
   }
 
   img {
-    @include img-mixins.imageStyle();
+    @include imageStyle();
   }
 
   figcaption {
