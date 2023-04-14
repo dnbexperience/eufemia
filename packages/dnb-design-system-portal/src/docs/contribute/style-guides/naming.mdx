@@ -19,11 +19,6 @@ The DNB Design System Eufemia uses the following naming conventions.
 - React Components, both as files and as components use **pascal case**.
 - The folder containing the component uses **kebab case**.
 
-## Web components
-
-- Web components use **kebab case**.
-- They are prefixed with: `dnb-`
-
 ## CSS / SCSS
 
 - CSS classes and the files containing the styles use **kebab case**.
@@ -42,7 +37,7 @@ The DNB Design System Eufemia uses the following naming conventions.
 - Event names use **camel case**.
 - They have to describe what they are aiming to do. Like: `onClick`
 
-**NB:** Existing components use **snake case** (`on_click`) – but you are free to use **camel case**.
+**NB:** Existing React components use **snake case** (`on_click`) – but will be converted to use **camel case** (`onClick`) in future releases. The reason for using **snake case** was to support Web Components – but the support has been discontinued in [v10](/uilib/about-the-lib/releases/eufemia/v10-info/).
 
 ## Icons
 
@@ -56,17 +51,3 @@ The DNB Design System Eufemia uses the following naming conventions.
 ## Documentation
 
 - `Pages` and directories use **kebab case**.
-
-## Why `snake_case` property naming
-
-The decision to use `snake_case` was made to not just adopt React terms (`camelCase`), because we wanted to be open for future changes in the front end world.
-
-HTML attributes uses `kebab-case`, so we needed something between.
-
-The aspect to distinguish between case styles will also make code easier to read and support future code changes and refactoring.
-
-```jsx
-<Component aria-hidden={true} myReactProp={...} on_click={...} />
-```
-
-_Update:_ Eufemia does not need to support **Web Components** anymore. That makes it possible to use **camel case** for React Component Properties.
