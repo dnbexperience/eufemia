@@ -31,7 +31,7 @@ const runThemeFactory = async () => {
     processToNamesList: [
       path.resolve(
         __dirname,
-        '../../../src/{components,fragments}/**/style/themes/**/dnb-*.scss'
+        '../../../src/{components,fragments}/**/style/themes/**/*-theme-*.scss'
       ),
       ...processToNamesIgnoreList,
     ],
@@ -57,7 +57,7 @@ const runThemeFactory = async () => {
     processToNamesList: [
       path.resolve(
         __dirname,
-        '../../../src/elements/**/style/themes/**/dnb-*.scss'
+        '../../../src/elements/**/style/themes/**/*-theme-*.scss'
       ),
       ...processToNamesIgnoreList,
     ],
@@ -83,7 +83,7 @@ const runThemeFactory = async () => {
     processToNamesList: [
       path.resolve(
         __dirname,
-        '../../../src/extensions/**/style/themes/**/dnb-*.scss'
+        '../../../src/extensions/**/style/themes/**/*-theme-*.scss'
       ),
       ...processToNamesIgnoreList,
     ],
@@ -165,7 +165,7 @@ export const runFactory = async ({
 
   try {
     themes.forEach(async ({ name, theme }) => {
-      const file = `${scssOutputPath}/theme-${name}/dnb-theme-${targetFile}.scss`
+      const file = `${scssOutputPath}/theme-${name}/${name}-theme-${targetFile}.scss`
       let fileContent = ''
       if (fs.existsSync(file)) {
         fileContent = await fs.readFile(file, 'utf-8')
