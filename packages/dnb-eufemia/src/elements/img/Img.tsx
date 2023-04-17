@@ -46,10 +46,7 @@ const Img = ({
       <E
         as="img"
         alt={alt}
-        internalClass={classnames(
-          'dnb-img__img',
-          hasError && 'dnb-img__img--error'
-        )}
+        internalClass={classnames('dnb-img', hasError && 'dnb-img--error')}
         className={imgClass}
         skeleton={skeleton}
         onError={() => setError(true)}
