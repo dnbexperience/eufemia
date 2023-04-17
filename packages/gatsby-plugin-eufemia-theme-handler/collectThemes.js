@@ -1,6 +1,7 @@
 const path = require('path')
 const fs = require('fs')
 const globby = require('globby')
+const micromatch = require('micromatch')
 const { slash } = require('gatsby-core-utils')
 
 /**
@@ -15,45 +16,27 @@ const { slash } = require('gatsby-core-utils')
 function createThemesImport({ reporter, pluginOptions }) {
   const limitThemes = Object.keys(pluginOptions.themes || [])
   const packageRoot = path.dirname(require.resolve('@dnb/eufemia'))
-  const selector = 'style/themes/**/dnb-theme-*.{scss,css}'
   const globbyPaths = [
-    slash(path.join(packageRoot, selector)),
-    slash(path.join(packageRoot, '**', selector)),
+    slash(path.join(packageRoot, pluginOptions.filesGlob)),
   ]
-
-  const rawThemesFiles = globby.sync(globbyPaths).map((file) => {
+  const themesFiles = globby.sync(globbyPaths).map((file) => {
     return slash(file)
   })
-  const hasSRC = rawThemesFiles.some((file) =>
-    file.includes(pluginOptions.dir || '/style/themes')
-  )
-  const themesFiles = rawThemesFiles.filter((file) => {
-    /** Never source minified files */
-    if (file.endsWith('.min.css')) {
-      return false
-    }
 
-    /**
-     * If a src folder with our styles exists locally/or on CI,
-     * then only use e.g. this file: dnb-theme-basis.scss
-     * With that, we ensure that /build can exists locally as well.
-     */
-    if (hasSRC) {
-      return (
-        file.includes(pluginOptions.dir || '/style/themes') &&
-        file.endsWith('.scss')
-      )
-    }
+  const filesOrder = pluginOptions.filesOrder
+  const sortedThemesFiles = themesFiles
+    .filter((file) => {
+      if (filesOrder.length > 0) {
+        return filesOrder.some((glob) =>
+          micromatch.isMatch(file, '**/' + glob)
+        )
+      }
 
-    return file.endsWith('.css')
-  })
-
-  const files = pluginOptions.files || ['dnb-theme-basis']
-  const themes = themesFiles
+      return true
+    })
     .map((file) => {
-      const themeName = (file.match(
-        new RegExp(`/theme-([^/]*)/(${files.join('|')})`)
-      ) || [])?.[1]
+      const themeName = (file.match(new RegExp('/theme-([^/]*)/')) ||
+        [])?.[1]
 
       return { file, themeName }
     })
@@ -62,13 +45,13 @@ function createThemesImport({ reporter, pluginOptions }) {
     })
     .sort((a, b) => {
       return (
-        files.findIndex((file) => a.file.includes(file)) -
-        files.findIndex((file) => b.file.includes(file))
+        filesOrder.findIndex((glob) => micromatch.isMatch(a.file, glob)) -
+        filesOrder.findIndex((glob) => micromatch.isMatch(b.file, glob))
       )
     })
 
   const writeThemesImports = () => {
-    const imports = themes.map(({ file }) => {
+    const imports = sortedThemesFiles.map(({ file }) => {
       return `import '${file}'`
     })
 
@@ -81,7 +64,7 @@ function createThemesImport({ reporter, pluginOptions }) {
   writeThemesImports()
 
   const showReports = () => {
-    const themeNames = themes.reduce((acc, { themeName }) => {
+    const themeNames = sortedThemesFiles.reduce((acc, { themeName }) => {
       if (!acc.includes(themeName)) {
         acc.push(themeName)
       }

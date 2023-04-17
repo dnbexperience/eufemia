@@ -24,6 +24,7 @@
   "devDependencies": {
     "gatsby-core-utils": "4.7.0",
     "globby": "11.0.4",
+    "micromatch": "4.0.5",
     "raw-loader": "4.0.2",
     "terser-loader": "2.0.2"
   },
