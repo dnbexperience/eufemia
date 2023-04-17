@@ -9,7 +9,7 @@ import { Logo } from '@dnb/eufemia/src'
 
 export const LogoDefaultExample = () => (
   <ComponentBox data-visual-test="logo-default">
-    <Logo height="192" />
+    <Logo height="100" />
   </ComponentBox>
 )
 
