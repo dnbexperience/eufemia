@@ -31,6 +31,16 @@ export interface LogoProps
   color?: IconColor;
 
   /**
+   * Define brand of logo - ui (DNB) or sbanken
+   */
+  brand?: string;
+
+  /**
+   * Define variant of logo (default or compact)
+   */
+  variant?: string;
+
+  /**
    * Set to `true` if you do not want to inherit the color by `currentColor`. Default to `false`.
    */
   inherit_color?: boolean;
