@@ -1,0 +1,318 @@
+@use '../../../style/elements/ui-spacing.scss';
+
+@mixin headingDefaults() {
+  padding: 0;
+
+  &:not([class*='dnb-space']) {
+    margin: 0;
+  }
+
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-medium);
+
+  // make icons inside heading responsive to the heading size
+  .dnb-icon--default {
+    font-size: 1em;
+  }
+
+  .dnb-icon--medium {
+    font-size: 1.5em;
+  }
+
+  // to ensure we don't make the heading higher than it is supposed to be
+  a,
+  .dnb-anchor {
+    padding-top: 0;
+    padding-bottom: 0.03125rem;
+  }
+
+  @if mixin-exists('headingDefaultsCustomisation') {
+    @include headingDefaultsCustomisation();
+  }
+}
+
+@mixin headingSize_xx-large() {
+  font-size: var(--font-size-xx-large);
+  line-height: var(--line-height-x-large);
+
+  & > small {
+    display: block;
+    font-size: var(--font-size-x-large);
+    line-height: var(--line-height-large);
+  }
+
+  @if mixin-exists('headingSize_xx-largeCustomisation') {
+    @include headingSize_xx-largeCustomisation();
+  }
+}
+
+@mixin headingSize_x-large() {
+  font-size: var(--font-size-x-large);
+  line-height: var(--line-height-large);
+
+  & > small {
+    display: block;
+    font-size: var(--font-size-x-large);
+    line-height: var(--line-height-large);
+  }
+
+  @if mixin-exists('headingSize_x-largeCustomisation') {
+    @include headingSize_x-largeCustomisation();
+  }
+}
+
+@mixin headingSize_large() {
+  font-size: var(--font-size-large);
+  line-height: var(--line-height-medium);
+
+  & > small {
+    font-size: var(--font-size-medium);
+    line-height: calc(var(--line-height-medium) - 0.125rem);
+  }
+
+  @if mixin-exists('headingSize_largeCustomisation') {
+    @include headingSize_largeCustomisation();
+  }
+}
+
+// Like Lead / --lead
+@mixin headingSize_medium() {
+  font-size: var(--font-size-medium);
+  line-height: calc(var(--line-height-medium) - 0.25rem);
+
+  & > small {
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis);
+  }
+
+  @if mixin-exists('headingSize_mediumCustomisation') {
+    @include headingSize_mediumCustomisation();
+  }
+}
+
+@mixin headingSize_basis() {
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+
+  & > small {
+    font-size: var(--font-size-small);
+    line-height: var(--line-height-small);
+  }
+}
+
+@mixin headingSize_small() {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+
+  & > small {
+    font-size: var(--font-size-x-small);
+    line-height: var(--line-height-small);
+  }
+}
+
+@mixin headingSize_x-small() {
+  font-size: var(--font-size-x-small);
+  line-height: var(--line-height-x-small);
+}
+
+@mixin paragraphStyle() {
+  font-size: var(--font-size-basis);
+
+  // if we not reset margin, the browser is using: margin-block-end: 1rem;
+  &:not([class*='space__top']) {
+    margin-top: 0;
+  }
+
+  &:not([class*='space__bottom']) {
+    margin-bottom: 0;
+  }
+  padding: 0;
+
+  &--lead {
+    @include headingSize_medium();
+    font-weight: var(--font-weight-medium);
+  }
+
+  &--medium {
+    font-weight: var(--font-weight-medium);
+  }
+
+  b,
+  strong {
+    font-weight: var(--font-weight-medium);
+  }
+
+  &--bold {
+    font-weight: var(--font-weight-bold);
+  }
+
+  &__size--xx-large {
+    font-size: var(--font-size-xx-large);
+    line-height: var(--line-height-x-large);
+  }
+
+  &__size--x-large {
+    font-size: var(--font-size-x-large);
+    line-height: var(--line-height-x-large);
+  }
+
+  &__size--large {
+    font-size: var(--font-size-large);
+    line-height: var(--line-height-large);
+  }
+
+  &__size--basis {
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis);
+  }
+
+  &__size--medium {
+    font-size: var(--font-size-medium);
+    line-height: var(--line-height-medium);
+  }
+
+  &--small ,// backwards compatibility
+   &__size--small,
+   & > small {
+    font-size: var(--font-size-small);
+    line-height: var(--line-height-small);
+  }
+
+  &--x-small ,// backwards compatibility
+   &__size--x-small {
+    font-size: var(--font-size-x-small);
+    line-height: var(--line-height-x-small);
+  }
+
+  & > cite {
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-basis);
+    font-style: italic;
+  }
+}
+
+@mixin headingSpacing_xx-large() {
+  &:not([class*='space__top']) {
+    margin-top: 3rem;
+  }
+
+  &:not([class*='space__bottom']) {
+    margin-bottom: 2.5rem;
+  }
+}
+
+@mixin headingSpacing_x-large() {
+  &:not([class*='space__top']) {
+    margin-top: 3rem;
+  }
+
+  &:not([class*='space__bottom']) {
+    margin-bottom: 1rem;
+  }
+}
+
+@mixin headingSpacing_large() {
+  &:not([class*='space__top']) {
+    margin-top: 3rem;
+  }
+
+  &:not([class*='space__bottom']) {
+    margin-bottom: 1rem;
+  }
+}
+
+@mixin headingSpacing() {
+  &:not([class*='space__top']) {
+    margin-top: 2rem;
+  }
+
+  &:not([class*='space__bottom']) {
+    margin-bottom: 1rem;
+  }
+}
+
+@mixin typographyTags() {
+  p {
+    @include paragraphStyle();
+  }
+
+  b,
+  strong {
+    font-weight: var(--font-weight-bold);
+  }
+
+  small {
+    font-size: var(--font-size-small);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @include headingDefaults();
+  }
+
+  h1 {
+    @include headingSize_xx-large();
+  }
+
+  h2 {
+    @include headingSize_large();
+  }
+
+  h3 {
+    @include headingSize_medium();
+  }
+
+  h4 {
+    @include headingSize_basis();
+  }
+
+  h5 {
+    @include headingSize_small();
+  }
+
+  h6 {
+    @include headingSize_x-small();
+  }
+
+  h2 > small,
+  h3 > small,
+  h4 > small,
+  h5 > small,
+  h6 > small {
+    line-height: var(
+      --line-height-xx-small--em
+    ); // for vertical alignment, we have to have no line-height
+  }
+
+  .dnb-spacing {
+    h1,
+    .dnb-core-style & h1 {
+      @include headingSpacing_xx-large();
+    }
+
+    h2,
+    .dnb-core-style & h2 {
+      @include headingSpacing_large();
+    }
+
+    h3,
+    h4,
+    h5,
+    h6,
+    .dnb-core-style & h3,
+    .dnb-core-style & h4,
+    .dnb-core-style & h5,
+    .dnb-core-style & h6 {
+      @include headingSpacing();
+    }
+
+    p,
+    .dnb-core-style & p {
+      @include ui-spacing.defaultSpacing();
+    }
+  }
+}
