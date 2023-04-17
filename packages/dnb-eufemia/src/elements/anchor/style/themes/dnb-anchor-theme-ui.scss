@@ -37,8 +37,6 @@
   }
 }
 
-// Load anchor contrast again here, so that the green color set in color: var(--color-sea-green);
-// does not override the .dnb-anchor-contrast set in dnb-anchor.scss
 .dnb-anchor--contrast {
   @include anchor-mixins.useAnchorContrastStyle();
 }
