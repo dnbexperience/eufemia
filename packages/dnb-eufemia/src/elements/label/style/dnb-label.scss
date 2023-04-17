@@ -3,21 +3,7 @@
  *
  */
 
-@mixin labelStyle() {
-  cursor: pointer;
-  color: var(--color-black-80);
-  overflow-wrap: break-word;
-
-  &[disabled] {
-    cursor: not-allowed;
-  }
-}
-
-@mixin labelTag() {
-  label {
-    @include labelStyle();
-  }
-}
+@import './label-mixins.scss';
 
 .dnb-label {
   @include labelStyle();
