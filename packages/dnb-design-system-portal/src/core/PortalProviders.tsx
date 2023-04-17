@@ -14,24 +14,11 @@ import enUS from '@dnb/eufemia/src/shared/locales/en-US'
 import { isTrue } from '@dnb/eufemia/src/shared/component-helper'
 
 import { useThemeName } from 'gatsby-plugin-eufemia-theme-handler/themeHandler'
+import { importStyles } from './StyleImporter.cjs'
 
 import PortalLayout, { PortalLayoutProps } from './PortalLayout'
 
-/**
- * Import Eufemia Styles
- * Use require because Webpack does not import styles after we change /src to /build
- */
-if (
-  process.env.isCI &&
-  process.env.PREBUILD_EXISTS &&
-  process.env.NODE_ENV === 'production'
-) {
-  require('@dnb/eufemia/build/style/dnb-ui-core.min.css')
-  // Themes are imported by "gatsby-plugin-eufemia-theme-handler"
-} else {
-  require('@dnb/eufemia/src/style/core')
-  // Themes are imported by "gatsby-plugin-eufemia-theme-handler"
-}
+importStyles()
 
 // This ensures we processes also the css prop during build
 // More into in the docs: https://emotion.sh/docs/ssr#gatsby
