@@ -169,30 +169,6 @@ html[data-whatinput=mouse] .dnb-anchor--focus {
   transition: none;
 }
 
-.dnb-anchor--contrast {
-  color: var(--color-white);
-}
-.dnb-anchor--contrast:hover, .dnb-anchor--contrast:active {
-  color: var(--color-emerald-green);
-  background-color: var(--color-white);
-  text-decoration: none;
-}
-.dnb-anchor--contrast:active {
-  color: var(--color-emerald-green);
-  background-color: var(--color-white);
-}
-.dnb-anchor--contrast:not(:disabled):focus {
-  color: var(--color-white);
-  background-color: transparent;
-  outline: none;
-}
-html[data-whatinput=keyboard] .dnb-anchor--contrast:not(:disabled):focus {
-  --border-color: var(--color-white);
-  --border-width: var(--focus-ring-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-
 a.dnb-button {
   transition: none;
 }
