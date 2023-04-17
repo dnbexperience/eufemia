@@ -6,6 +6,7 @@
 const remarkGfm = require('remark-gfm')
 const getCurrentBranchName = require('current-git-branch')
 const currentBranch = getCurrentBranchName()
+const { shouldUsePrebuild } = require('./src/core/StyleImporter.cjs')
 
 const pathPrefix = '/'
 
@@ -137,12 +138,9 @@ const plugins = [
         eiendom: { name: 'DNB Eiendom' },
         sbanken: { name: 'Sbanken' },
       },
-      dir: '/style/themes',
-      files: [
-        'dnb-theme-extensions.scss',
-        'dnb-theme-components.scss',
-        'dnb-theme-basis.scss',
-      ], // The file order does matter!
+      filesGlob: `**/${
+        shouldUsePrebuild() ? 'build' : 'src'
+      }/style/themes/**/*-theme-*.{scss,css}`,
       defaultTheme: getDefaultTheme(),
     },
   },
