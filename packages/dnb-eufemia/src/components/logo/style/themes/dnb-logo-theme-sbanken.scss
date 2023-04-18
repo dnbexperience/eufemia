@@ -1,0 +1,12 @@
+/*
+ * Logo Component
+ *
+ */
+
+.sbanken-logo {
+  color: var(--sb-color-purple);
+
+  &--inherit-color {
+    color: currentcolor;
+  }
+}

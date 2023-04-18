@@ -31,12 +31,12 @@ export interface LogoProps
   color?: IconColor;
 
   /**
-   * Define brand of logo - ui (DNB) or sbanken
+   * Define which brand&#39;s logo to show. `ui` (DNB) or `sbanken`. Defaults to `ui`
    */
   brand?: string;
 
   /**
-   * Define variant of logo (default or compact)
+   * Define the logo variant, if there is more than one variant of a brand&#39;s logo. Currently the only option other than default is a `compact` variant of the Sbanken logo. Defaults to `default`
    */
   variant?: string;
 
