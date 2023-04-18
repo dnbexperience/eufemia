@@ -35,8 +35,15 @@ export function getTheme() {
     return defaultTheme
   }
   try {
+    const regex = /.*eufemia-theme=([^&]*).*/
+    const query = window.location.search
+    const fromQuery =
+      (regex.test(query) && query?.replace(regex, '$1')) || null
+
     const themeName =
-      window.localStorage.getItem('dnb-theme') || defaultTheme
+      fromQuery ||
+      window.localStorage.getItem('eufemia-theme') ||
+      defaultTheme
 
     if (!isValidTheme(themeName)) {
       console.error('Not valid themeName:', themeName)
@@ -58,7 +65,7 @@ export function setTheme(themeName) {
 
   try {
     window.__updateEufemiaThemeFile(themeName, true)
-    window.localStorage.setItem('dnb-theme', themeName)
+    window.localStorage.setItem('eufemia-theme', themeName)
 
     const emitter = EventEmitter.createInstance('themeHandler')
     emitter.update({ themeName })
