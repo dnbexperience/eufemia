@@ -10,7 +10,7 @@ import {
 
 describe('Typography with eiendom theme', () => {
   setupPageScreenshot({
-    url: '/uilib/typography?dnb-theme=eiendom',
+    url: '/uilib/typography?eufemia-theme=eiendom',
   })
 
   it('have to match the typography variants', async () => {
