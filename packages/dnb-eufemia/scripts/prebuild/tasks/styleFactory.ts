@@ -13,6 +13,8 @@ const prettierrc = JSON.parse(
   fs.readFileSync(path.resolve(__dirname, '../../../.prettierrc'), 'utf-8')
 )
 
+const fallbackPrefix = 'dnb'
+
 const runStyleFactory = async () => {
   log.start('> PrePublish: Starting the style factory ...')
 
@@ -28,14 +30,14 @@ const runStyleFactory = async () => {
   await runFactory({
     scssOutputFile: path.resolve(
       __dirname,
-      '../../../src/style/dnb-ui-components.scss'
+      `../../../src/style/${fallbackPrefix}-ui-components.scss`
     ),
     customContent: `
 @import './core/utilities.scss';
-@import './dnb-ui-fragments.scss';
+@import './${fallbackPrefix}-ui-fragments.scss';
 `,
-    scssTemplateToFill: `@import '../components/{name}/style/dnb-{name}.scss';`,
-    processToNamesList: [
+    scssTemplateToFill: `@import '../components/{name}/style/${fallbackPrefix}-{name}.scss';`,
+    filesToFindGlob: [
       path.resolve(__dirname, '../../../src/components/*'),
     ].concat(processToNamesIgnoreList),
     processOnlyList: [
@@ -53,12 +55,12 @@ const runStyleFactory = async () => {
   await runFactory({
     scssOutputFile: path.resolve(
       __dirname,
-      '../../../src/style/dnb-ui-elements.scss'
+      `../../../src/style/${fallbackPrefix}-ui-elements.scss`
     ),
     customContent: `
 @import './core/utilities.scss';`,
-    scssTemplateToFill: `@import '../elements/{name}/style/dnb-{name}.scss';`,
-    processToNamesList: [
+    scssTemplateToFill: `@import '../elements/{name}/style/${fallbackPrefix}-{name}.scss';`,
+    filesToFindGlob: [
       path.resolve(__dirname, '../../../src/elements/*'),
     ].concat(processToNamesIgnoreList),
     processOnlyList: [
@@ -76,13 +78,13 @@ const runStyleFactory = async () => {
   await runFactory({
     scssOutputFile: path.resolve(
       __dirname,
-      '../../../src/style/dnb-ui-fragments.scss'
+      `../../../src/style/${fallbackPrefix}-ui-fragments.scss`
     ),
     customContent: `
 @import './core/utilities.scss';
 `,
-    scssTemplateToFill: `@import '../fragments/{name}/style/dnb-{name}.scss';`,
-    processToNamesList: [
+    scssTemplateToFill: `@import '../fragments/{name}/style/${fallbackPrefix}-{name}.scss';`,
+    filesToFindGlob: [
       path.resolve(__dirname, '../../../src/fragments/*'),
     ].concat(processToNamesIgnoreList),
     processOnlyList: [
@@ -100,13 +102,13 @@ const runStyleFactory = async () => {
   await runFactory({
     scssOutputFile: path.resolve(
       __dirname,
-      '../../../src/style/dnb-ui-extensions.scss'
+      `../../../src/style/${fallbackPrefix}-ui-extensions.scss`
     ),
     customContent: `
 @import './core/utilities.scss';
 `,
-    scssTemplateToFill: `@import '../extensions/{name}/style/dnb-{name}.scss';`,
-    processToNamesList: [
+    scssTemplateToFill: `@import '../extensions/{name}/style/${fallbackPrefix}-{name}.scss';`,
+    filesToFindGlob: [
       path.resolve(__dirname, '../../../src/extensions/*'),
     ].concat(processToNamesIgnoreList),
     processOnlyList: [
@@ -125,19 +127,19 @@ const autoAdvice =
 const runFactory = async ({
   scssOutputFile,
   scssTemplateToFill,
-  processToNamesList,
+  filesToFindGlob,
   processOnlyList = null,
   customContent = '',
   onlyDirectories = true,
 }) => {
   try {
-    processToNamesList = await globby(processToNamesList, {
+    filesToFindGlob = await globby(filesToFindGlob, {
       onlyDirectories,
     })
-    processToNamesList.sort()
+    filesToFindGlob.sort()
     if (processOnlyList) {
       const processedList = await globby(processOnlyList)
-      processToNamesList = processToNamesList.filter((source) =>
+      filesToFindGlob = filesToFindGlob.filter((source) =>
         processedList.some((file) => file.indexOf(source) !== -1)
       )
     }
@@ -145,12 +147,12 @@ const runFactory = async ({
     log.fail(e)
   }
 
-  processToNamesList = processToNamesList.map((source) => ({
+  filesToFindGlob = filesToFindGlob.map((source) => ({
     source,
     name: basename(source),
   }))
 
-  const content = processToNamesList
+  const content = filesToFindGlob
     .reduce((acc, { name }) => {
       acc.push(scssTemplateToFill.replace(new RegExp('{name}', 'g'), name))
       return acc
