@@ -13,8 +13,8 @@ import {
   // makeIconLib,
   // makeIconsUMDBundle
   // runStyleFactory,
-  // runThemeFactory,
-  convertSvgToJsx,
+  runThemeFactory,
+  // convertSvgToJsx,
   // makeLibStyles,
   // makeMainStyle,
   // generateTypes,
@@ -27,15 +27,15 @@ import {
 const dev = async () => {
   process.env.NODE_ENV = 'production'
   log.start('Starting dev prepublish...')
-  const preventDelete = true
+  // const preventDelete = true
 
   // await cleanupLib({ preventDelete })
   // // await convertSvgToCjs({ preventDelete })
   // await makeIconLib({ preventDelete })
   // await makeIconsUMDBundle({ doRefetch: false })
   // await runStyleFactory()
-  // await runThemeFactory()
-  await convertSvgToJsx({ preventDelete })
+  await runThemeFactory()
+  // await convertSvgToJsx({ preventDelete })
   // await makeLibStyles()
   // await makeMainStyle()
   // await generateTypes()

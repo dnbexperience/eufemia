@@ -43,7 +43,7 @@
     "dev:icons": "nodemon --exec 'babel-node --extensions .js,.ts,.tsx ./scripts/tools/convertIcons' --ext ts --ignore '/icons/**' --ignore '*.json'",
     "dev:packages": "nodemon --exec 'yarn build:packages && yarn build:copy' --ext js,html,json,css,scss --watch './src/**/*' --ignore './umd/*'",
     "dev:resources": "nodemon --exec 'babel-node --extensions .js,.ts,.tsx ./scripts/prebuild/resources/makeResourcesPackage.js' --ext js,html,json,css,scss --watch './build/style/**/*' --watch './scripts/**/*' --ignore '*.json'",
-    "dev:tasks": "nodemon --exec 'babel-node --extensions .js,.ts,.tsx ./scripts/prebuild/dev.js' --watch 'rollup.config.js' --ext js,html,json,css,scss --watch './src/components/**/*' --watch './src/style/**/*' --watch './scripts/**/*' --ignore '*.json'",
+    "dev:tasks": "nodemon --exec 'babel-node --extensions .js,.ts,.tsx ./scripts/prebuild/dev.js' --watch 'rollup.config.js' --ext ts,js,html,json,css,scss --watch './src/components/**/*' --watch './scripts/**/*' --ignore '*.json'",
     "figma": "babel-node --extensions .js,.ts,.tsx ./scripts/figma/updateAll",
     "figma:dev:commit": "nodemon --exec 'babel-node --extensions .js,.ts,.tsx ./scripts/figma/tasks/commitChanges'",
     "figma:dev:icons": "nodemon --exec 'babel-node --extensions .js,.ts,.tsx ./scripts/figma/updateIcons' --ignore '*.svg' --ignore '*.json'",

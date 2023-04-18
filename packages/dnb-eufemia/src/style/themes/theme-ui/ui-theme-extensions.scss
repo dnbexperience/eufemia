@@ -3,10 +3,6 @@
  * But you still can change the content of this file on the very top.
  */
 
-// Add "ui" themes, if file don't exists
-$THEME_FALLBACK: 'ui';
-
-// Import shared styles
 @import '../../dnb-ui-extensions.scss';
 
 /**
