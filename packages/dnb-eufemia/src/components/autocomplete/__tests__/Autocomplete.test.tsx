@@ -13,7 +13,7 @@ import {
   attachToBody,
 } from '../../../core/jest/jestSetup'
 import * as helpers from '../../../shared/helpers'
-import Component from '../Autocomplete'
+import Component, { AutocompleteProps } from '../Autocomplete'
 import { SubmitButton } from '../../input/Input'
 import { format } from '../../number-format/NumberUtils'
 import userEvent from '@testing-library/user-event'
@@ -23,6 +23,10 @@ import {
 } from '../../../fragments/drawer-list/__tests__/DrawerListTestMocks'
 import { render } from '@testing-library/react'
 import FormRow from '../../form-row/FormRow'
+import {
+  DrawerListDataObject,
+  DrawerListDataObjectUnion,
+} from '../../../fragments/drawer-list'
 
 const snapshotProps = {
   ...fakeProps(require.resolve('../Autocomplete'), {
@@ -57,7 +61,7 @@ const mockProps = {
   no_animation: true,
   skip_portal: true,
 }
-const props = {
+const props: AutocompleteProps = {
   id: 'autocomplete-id',
   mode: 'sync',
   value: 1,
@@ -66,7 +70,11 @@ const props = {
   skip_portal: true,
 }
 
-const mockData = ['AA c', 'BB cc zethx', { content: ['CC', 'cc'] }]
+const mockData: DrawerListDataObjectUnion[] = [
+  'AA c',
+  'BB cc zethx',
+  { content: ['CC', 'cc'] },
+]
 
 mockImplementationForDirectionObserver()
 
@@ -335,8 +343,9 @@ describe('Autocomplete component', () => {
     await wait(2)
 
     expect(Comp.find('.dnb-sr-only').last().text()).toBe('2 alternativer')
+    const content = (mockData[2] as DrawerListDataObject).content
     expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
-      mockData[2].content.join('')
+      (content as string[]).join('')
     )
 
     Comp.find('.dnb-input__input').simulate('change', {
@@ -347,7 +356,7 @@ describe('Autocomplete component', () => {
 
     expect(Comp.find('.dnb-sr-only').last().text()).toBe('3 alternativer')
     expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
-      mockData[2].content.join('')
+      (content as string[]).join('')
     )
 
     Comp.find('.dnb-input__input').simulate('change', {
@@ -420,7 +429,7 @@ describe('Autocomplete component', () => {
 
   it('should update aria-live (for VoiceOver support) with selected item', () => {
     // eslint-disable-next-line
-    helpers.IS_MAC = true
+    ;(helpers.IS_MAC as any) = true
 
     const Comp = mount(
       <Component data={mockData} show_submit_button {...mockProps} />
@@ -455,7 +464,7 @@ describe('Autocomplete component', () => {
     expect(Comp.find('.dnb-sr-only').first().text()).toBe('BB cc zethx')
 
     // eslint-disable-next-line
-    helpers.IS_MAC = false
+    ;(helpers.IS_MAC as any) = false
 
     // simulate changes
     keydown(Comp, 38) // up
@@ -651,8 +660,9 @@ describe('Autocomplete component', () => {
     Comp.find('.dnb-input__input').simulate('change', {
       target: { value: 'cc' },
     })
+    const content = (mockData[2] as DrawerListDataObject).content
     expect(Comp.find('li.dnb-drawer-list__option').at(0).text()).toBe(
-      mockData[2].content.join('')
+      (content as string[]).join('')
     )
     expect(
       Comp.find(
@@ -1601,7 +1611,7 @@ describe('Autocomplete component', () => {
       target: { value: 'aa' },
     })
 
-    let callOne = on_type.mock.calls[0][0]
+    const callOne = on_type.mock.calls[0][0]
     expect(Comp.find('li.dnb-drawer-list__option').length).toBe(3)
     expect(on_type).toHaveBeenCalledTimes(1)
     expect(callOne.value).toBe('aa')

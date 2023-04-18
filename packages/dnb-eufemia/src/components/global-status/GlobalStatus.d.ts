@@ -151,7 +151,8 @@ export type GlobalStatusAddProps = {
    * The text appears as the status content. Besides plain text, you can send in a React component as well. Defaults to `null`.
    */
   text: string;
-  item: string;
+  item?: GlobalStatusItem;
+  items?: GlobalStatusItem[];
 
   /**
    * Gets triggered once the GlobalStatus disappears from the screen. Works only if `no_animation` is not `true`. Returns `{ id, status_id, ...properties }`.
@@ -175,6 +176,7 @@ export type GlobalStatusRemoveProps = {
    */
   id: string;
   status_id: GlobalStatusStatusId;
+  buffer_delay?: number;
 };
 export type GlobalStatusInterceptorProps = {
   /**
@@ -222,6 +224,7 @@ export type GlobalStatusInterceptorUpdateEvents = {
   text?: string;
 };
 export type GlobalStatusInterceptor = {
+  add: (props: GlobalStatusInterceptorUpdateEvents) => void;
   update: (props: GlobalStatusInterceptorUpdateEvents) => void;
   remove: () => void;
 };
