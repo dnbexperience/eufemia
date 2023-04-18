@@ -44,7 +44,7 @@ if (typeof window !== 'undefined') {
   window.__getEufemiaTheme = () => {
     try {
       const urlParams = new URLSearchParams(window.location.search)
-      const themeName = urlParams.get('dnb-theme')
+      const themeName = urlParams.get('eufemia-theme')
       if (themeName) {
         return themeName
       }
@@ -52,7 +52,9 @@ if (typeof window !== 'undefined') {
       console.error(e)
     }
     try {
-      return window.localStorage.getItem('dnb-theme') || __DEFAULT_THEME__
+      return (
+        window.localStorage.getItem('eufemia-theme') || __DEFAULT_THEME__
+      )
     } catch (e) {
       console.error(e)
     }
