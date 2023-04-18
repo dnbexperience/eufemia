@@ -122,15 +122,16 @@ import '@dnb/eufemia/style/themes/ui'
 
 ```js
 import '@dnb/eufemia/style/dnb-ui-core.min.css'
-import '@dnb/eufemia/style/themes/theme-ui/dnb-theme-components.min.css'
-import '@dnb/eufemia/style/themes/theme-ui/dnb-theme-basis.min.css'
+import '@dnb/eufemia/style/themes/theme-ui/ui-theme-components.min.css'
+import '@dnb/eufemia/style/themes/theme-ui/ui-theme-basis.min.css'
 ```
 
 More details about the change:
 
-- The package `dnb-theme-ui` was renamed to `dnb-theme-basis`.
-- The package `dnb-ui-components` was renamed and moved inside a theme `/style/themes/theme-ui/dnb-theme-components.*`.
-- `dnb-ui-tags` was renamed and moved from `/style/dnb-ui-tags.*` to `/style/themes/theme-ui/dnb-theme-tags.*`.
+- The package `dnb-theme-ui` was renamed to `ui-theme-basis`.
+- The package `dnb-ui-components` was renamed and moved inside a theme `/style/themes/theme-ui/ui-theme-components.*`.
+- `dnb-ui-tags` was renamed and moved from `/style/dnb-ui-tags.*` to `/style/themes/theme-ui/ui-theme-tags.*`.
+- **NB:** When using the `eiendom` theme, the same applies as with `ui`, just use `eiendom` instead.
 
 ## Properties
 
@@ -141,7 +142,7 @@ Packages such as:
 - `dnb-ui-basis`
 - `dnb-ui-core`
 
-do not contain the properties anymore. Properties are only a part of a theme file, such as: `/style/themes/theme-ui/dnb-theme-basis.*`.
+do not contain the properties anymore. Properties are only a part of a theme file, such as: `/style/themes/theme-ui/ui-theme-basis.*`.
 
 As long as you don't import them in your application, you don't need to make any changes in your codebase.
 
@@ -173,7 +174,7 @@ CSS Packages such as:
 - `dnb-ui-basis`
 - `dnb-ui-core`
 
-do not contain the fonts anymore. Fonts are now only a part of a theme file, such as: `/style/themes/theme-ui/dnb-theme-basis.*`.
+do not contain the fonts anymore. Fonts are now only a part of a theme file, such as: `/style/themes/theme-ui/ui-theme-basis.*`.
 
 As long as you don't import them manually, you don't need to make any changes in your codebase.
 
