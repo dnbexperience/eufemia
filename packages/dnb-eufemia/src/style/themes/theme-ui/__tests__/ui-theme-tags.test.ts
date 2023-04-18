@@ -5,8 +5,8 @@
 
 import { loadScss } from '../../../../core/jest/jestSetup'
 
-describe('dnb-theme-tags.css', () => {
-  const scss = loadScss(require.resolve('../dnb-theme-tags.scss'))
+describe('ui-theme-tags.css', () => {
+  const scss = loadScss(require.resolve('../ui-theme-tags.scss'))
 
   it('should contain ".dnb-core-style blockquote"', () => {
     expect(scss).toContain('.dnb-core-style blockquote')

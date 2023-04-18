@@ -42,13 +42,13 @@ if (isCI) {
   describe('makeMainStyle transforms "components" SASS to CSS', () => {
     beforeAll(async () => {
       global.components = await runFactory(
-        './src/style/themes/theme-ui/dnb-theme-components.scss',
+        './src/style/themes/theme-ui/ui-theme-components.scss',
         {
           returnResult: true,
         }
       )
       global.files = await runFactory(
-        './src/style/themes/theme-ui/dnb-theme-components.scss',
+        './src/style/themes/theme-ui/ui-theme-components.scss',
         {
           returnFiles: true,
         }
@@ -78,10 +78,10 @@ if (isCI) {
     it('includes correct files', () => {
       expect(global.files).toHaveLength(2)
       expect(global.files[0]).toContain(
-        '/style/themes/theme-ui/dnb-theme-components.css'
+        '/style/themes/theme-ui/ui-theme-components.css'
       )
       expect(global.files[1]).toContain(
-        '/style/themes/theme-ui/dnb-theme-components.min.css'
+        '/style/themes/theme-ui/ui-theme-components.min.css'
       )
     })
   })
@@ -105,7 +105,7 @@ if (isCI) {
   describe('makeMainStyle transforms "theme" SASS to CSS', () => {
     beforeAll(async () => {
       global.theme = await runFactory(
-        './src/style/themes/theme-ui/dnb-theme-basis.scss',
+        './src/style/themes/theme-ui/ui-theme-basis.scss',
         {
           returnResult: true,
         }
