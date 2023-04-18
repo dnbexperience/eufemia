@@ -565,9 +565,10 @@ var CodeEditor = function CodeEditor(props) {
   var onEditableChange = useCallback(function (_code) {
     setCode(_code.slice(0, -1))
   }, [])
+  const [indentation, setIndentation] = useState(undefined)
   useEditable(editorRef, onEditableChange, {
     disabled: props.disabled,
-    indentation: 2,
+    indentation,
   })
   useEffect(
     function () {
@@ -615,6 +616,14 @@ var CodeEditor = function CodeEditor(props) {
             id: props.id,
             onFocus: props.onFocus,
             onBlur: props.onBlur,
+            onMouseDown: () => {
+              const focusMode =
+                document.documentElement.getAttribute('data-whatinput')
+              setIndentation(focusMode === 'mouse' ? 2 : undefined)
+            },
+            onBlurCapture: () => {
+              setIndentation(undefined)
+            },
           },
           tokens.map(function (line, lineIndex) {
             return (
