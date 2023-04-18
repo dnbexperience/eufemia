@@ -3,7 +3,8 @@
 *
 */
 
-@import './dnb-button-theme-ui.scss';
+@import '../../../../style/core/utilities.scss';
+@import './button-mixins.scss';
 
 %focus {
   @include buttonFocus(
@@ -12,52 +13,56 @@
   );
 }
 
-.dnb-button--primary {
-  color: var(--sb-color-green);
-  background-color: var(--sb-color-purple-alternative);
-
-  @include hover() {
-    color: var(--sb-color-green);
-    background-color: var(--sb-color-purple);
-    @include removeFocusRing();
-  }
-
-  @include active() {
+.dnb-button {
+  border: none;
+  
+  &--primary {
     color: var(--sb-color-green);
     background-color: var(--sb-color-purple-alternative);
+
+    @include hover() {
+      color: var(--sb-color-green);
+      background-color: var(--sb-color-purple);
+      @include removeFocusRing();
+    }
+
+    @include active() {
+      color: var(--sb-color-green);
+      background-color: var(--sb-color-purple-alternative);
+    }
+
+    @extend %focus;
+
+    &[disabled] {
+      color: var(--sb-color-gray-dark-2);
+      background-color: var(--sb-color-gray-light);
+      @include removeFocusRing();
+    }
   }
 
-  @extend %focus;
-
-  &[disabled] {
-    color: var(--sb-color-gray-dark-2);
-    background-color: var(--sb-color-gray-light);
-    @include removeFocusRing();
-  }
-}
-
-.dnb-button--secondary {
-  color: var(--sb-color-purple-alternative);
-  background-color: var(--sb-color-white);
-  @include fakeBorder(var(--sb-color-purple-alternative));
-
-  @include hover() {
-    color: var(--sb-color-purple-alternative);
-    background-color: var(--sb-color-green-light-2);
-    @include fakeBorder(var(--sb-color-purple-alternative));
-  }
-
-  @include active() {
+  &--secondary {
     color: var(--sb-color-purple-alternative);
     background-color: var(--sb-color-white);
-    @include fakeBorder(var(--sb-color-purple-alternative));
-  }
+    @include fakeBorder(var(--sb-color-purple-alternative), null, inset);
 
-  @extend %focus;
+    @include hover() {
+      color: var(--sb-color-purple-alternative);
+      background-color: var(--sb-color-green-light-2);
+      @include fakeBorder(var(--sb-color-purple-alternative), null, inset);
+    }
 
-  &[disabled] {
-    color: var(--sb-color-gray-dark);
-    background-color: var(--sb-color-white);
-    @include fakeBorder(var(--sb-color-gray-light));
+    @include active() {
+      color: var(--sb-color-purple-alternative);
+      background-color: var(--sb-color-white);
+      @include fakeBorder(var(--sb-color-purple-alternative), null, inset);
+    }
+
+    @extend %focus;
+
+    &[disabled] {
+      color: var(--sb-color-gray-dark);
+      background-color: var(--sb-color-white);
+      @include fakeBorder(var(--sb-color-gray-light), null, inset);
+    }
   }
 }
