@@ -40,12 +40,9 @@ export const processComponents = async () => {
       '../../../src/core/templates/components-index-template.js'
     ),
     destFile: path.resolve(__dirname, '../../../src/components/index.ts'),
-    processToNamesList: path.resolve(
-      __dirname,
-      '../../../src/components/'
-    ),
+    filesToFindGlob: path.resolve(__dirname, '../../../src/components/'),
     processToNamesIgnoreList: ['fragments', 'style'],
-    processToNamesListByUsingFolders: true,
+    filesToFindGlobByUsingFolders: true,
   }
   const components = await runFactory(componentsTemplateConfig).then(
     (res) => {
@@ -102,9 +99,9 @@ export const processFragments = async () => {
       '../../../src/core/templates/components-index-template.js'
     ),
     destFile: path.resolve(__dirname, '../../../src/fragments/index.ts'),
-    processToNamesList: path.resolve(__dirname, '../../../src/fragments/'),
+    filesToFindGlob: path.resolve(__dirname, '../../../src/fragments/'),
     processToNamesIgnoreList: ['style'],
-    processToNamesListByUsingFolders: true,
+    filesToFindGlobByUsingFolders: true,
   }
   await runFactory(fragmentsTemplateConfig).then((res) => {
     if (isCLI) {
@@ -157,7 +154,7 @@ export const processElements = async () => {
       '../../../src/core/templates/elements-index-template.js'
     ),
     destFile: path.resolve(__dirname, '../../../src/elements/index.ts'),
-    processToNamesList: path.resolve(__dirname, '../../../src/elements/'),
+    filesToFindGlob: path.resolve(__dirname, '../../../src/elements/'),
     processToNamesIgnoreList: [
       'index',
       'lib',
@@ -167,7 +164,7 @@ export const processElements = async () => {
       'lists',
       'typography',
     ],
-    processToNamesListByUsingFolders: false,
+    filesToFindGlobByUsingFolders: false,
   }
   const elements = await runFactory(elementsTemplateConfig).then((res) => {
     if (isCLI) {
@@ -191,7 +188,7 @@ export const processElements = async () => {
   })
   await runFactory({
     ...elementsTemplateConfig,
-    processToNamesListByUsingFolders: true,
+    filesToFindGlobByUsingFolders: true,
     srcFile: path.resolve(
       __dirname,
       '../../../src/core/templates/element-export-template.js'
@@ -220,12 +217,9 @@ export const processExtensions = async () => {
       '../../../src/core/templates/components-index-template.js'
     ),
     destFile: path.resolve(__dirname, '../../../src/extensions/index.ts'),
-    processToNamesList: path.resolve(
-      __dirname,
-      '../../../src/extensions/'
-    ),
+    filesToFindGlob: path.resolve(__dirname, '../../../src/extensions/'),
     processToNamesIgnoreList: ['style'],
-    processToNamesListByUsingFolders: true,
+    filesToFindGlobByUsingFolders: true,
   }
   // we don't export extensions anymore!
   await runFactory(extensionsTemplateConfig).then((res) => {
@@ -262,7 +256,7 @@ export const processMainIndex = async ({ components, elements }) => {
       '../../../src/core/templates/main-index-template.js'
     ),
     destFile: path.resolve(__dirname, '../../../src/index.ts'),
-    processToNamesList: [...components, ...elements],
+    filesToFindGlob: [...components, ...elements],
     transformNamesList: ({ result }) => {
       // because elements don't have a folder, we remove the last part of the path
       if (/\/elements\//.test(result)) {
@@ -284,27 +278,27 @@ export const runFactory = async ({
   srcFile,
   destFile,
   destPath = null,
-  processToNamesList,
-  processToNamesListByUsingFolders = false,
+  filesToFindGlob,
+  filesToFindGlobByUsingFolders = false,
   processToNamesIgnoreList = [],
   transformNamesList = null,
 }) => {
-  if (typeof processToNamesList === 'string') {
-    const __orig__processToNamesList = processToNamesList
-    processToNamesList = (await fs.readdir(processToNamesList))
+  if (typeof filesToFindGlob === 'string') {
+    const __orig__filesToFindGlob = filesToFindGlob
+    filesToFindGlob = (await fs.readdir(filesToFindGlob))
       .filter((file) => !/\.(cjs|d\.ts)$/.test(file))
       .map((file) => {
         return {
-          source: joinPath(__orig__processToNamesList, file),
+          source: joinPath(__orig__filesToFindGlob, file),
           file,
         }
       })
-    if (processToNamesListByUsingFolders) {
-      processToNamesList = processToNamesList.filter(({ source }) =>
+    if (filesToFindGlobByUsingFolders) {
+      filesToFindGlob = filesToFindGlob.filter(({ source }) =>
         fs.lstatSync(source).isDirectory()
       )
     } else {
-      processToNamesList = processToNamesList
+      filesToFindGlob = filesToFindGlob
         .filter(({ source }) => fs.lstatSync(source).isFile())
         .map(({ file, ...rest }) => {
           file = file.replace(/(\.js|\.tsx|\.ts)$/, '')
@@ -313,7 +307,7 @@ export const runFactory = async ({
     }
   }
 
-  processToNamesList = processToNamesList
+  filesToFindGlob = filesToFindGlob
     .filter(({ file, source }) => {
       if (/not_in_use|__tests__|DS_Store/g.test(file)) {
         return false
@@ -331,7 +325,7 @@ export const runFactory = async ({
   const template = await fs.readFile(srcFile, 'utf-8')
 
   if (destPath) {
-    await asyncForEach(processToNamesList, async ({ file }) => {
+    await asyncForEach(filesToFindGlob, async ({ file }) => {
       const destFile = path.resolve(
         destPath,
         `${camelCase(file, { pascalCase: true })}.ts`
@@ -373,14 +367,14 @@ export const runFactory = async ({
       // 1. replace templateObjectToFill
       .replace(
         new RegExp(templateObjectToFill, 'g'),
-        `{ ${processToNamesList
+        `{ ${filesToFindGlob
           .map(({ file }) => camelCase(file, { pascalCase: true }))
           .join(', ')} }`
       )
       // 2. replace templateListToExtend
       .replace(
         new RegExp(templateListToExtend, 'g'),
-        processToNamesList
+        filesToFindGlob
           .map(({ file, source }) => {
             let res = templateListToExtend
               .replace(
@@ -427,7 +421,7 @@ export const runFactory = async ({
     }
   }
 
-  return processToNamesList
+  return filesToFindGlob
 }
 
 if (isCLI && process.env.NODE_ENV !== 'test') {
