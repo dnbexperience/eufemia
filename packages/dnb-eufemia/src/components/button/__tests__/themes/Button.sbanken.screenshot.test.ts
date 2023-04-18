@@ -10,7 +10,7 @@ import {
 
 describe('Button with sbanken theme', () => {
   setupPageScreenshot({
-    url: '/uilib/components/button/demos?dnb-theme=sbanken',
+    url: '/uilib/components/button/demos?eufemia-theme=sbanken',
   })
 
   it('have to match "dnb-button--primary"', async () => {
