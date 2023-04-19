@@ -108,6 +108,7 @@ export const DrawerListExampleDefault = () => (
         on_show={() => {
           console.log('on_show')
         }}
+        observer_element=".dnb-live-preview" //prevents direction to change when scrolling in this example
       />
     </ComponentBox>
   </Wrapper>
@@ -165,6 +166,7 @@ export const DrawerListExampleSingleItem = () => (
             suffix={
               <HelpButton title="Modal Title">Modal content</HelpButton>
             }
+            observer_element=".dnb-live-preview" //prevents direction to change when scrolling in this example
           />
         )
       }}
