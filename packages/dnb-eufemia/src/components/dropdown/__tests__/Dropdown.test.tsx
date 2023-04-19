@@ -18,6 +18,10 @@ import {
   mockImplementationForDirectionObserver,
   testDirectionObserver,
 } from '../../../fragments/drawer-list/__tests__/DrawerListTestMocks'
+import {
+  DrawerListDataObject,
+  DrawerListDataObjectUnion,
+} from '../../../fragments/drawer-list'
 
 const snapshotProps = {
   ...fakeProps(require.resolve('../Dropdown'), {
@@ -56,7 +60,7 @@ const props = {
   no_animation: true,
 }
 
-const mockData = [
+const mockData: DrawerListDataObjectUnion[] = [
   {
     selected_value: 'Brukskonto - Kari Nordmann',
     content: ['1234 56 78901', 'Brukskonto - Kari Nordmann'],
@@ -97,7 +101,7 @@ describe('Dropdown component', () => {
     let elem
 
     expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(
-      mockData[props.value].selected_value
+      (mockData[props.value] as DrawerListDataObject).selected_value
     )
 
     keydown(Comp, 32) // space
@@ -126,7 +130,7 @@ describe('Dropdown component', () => {
     ).toBe(true)
 
     expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(
-      mockData[props.value + 1].selected_value
+      (mockData[props.value + 1] as DrawerListDataObject).selected_value
     )
   })
 
@@ -321,7 +325,6 @@ describe('Dropdown component', () => {
   })
 
   it('has no selected items on using prevent_selection', async () => {
-    let selectedItem
     const on_change = jest.fn()
     const title = 'custom title'
 
@@ -382,7 +385,7 @@ describe('Dropdown component', () => {
     ).toBe('chevron down icon')
 
     const event = on_change.mock.calls[0][0]
-    selectedItem = mockData[event.value]
+    const selectedItem = mockData[event.value]
     expect(event.value).toBe(1)
     expect(event.selected_item).toBe(1)
     expect(event.active_item).toBe(undefined)
@@ -411,7 +414,7 @@ describe('Dropdown component', () => {
     Comp.setProps({ value })
 
     expect(Comp.find('.dnb-dropdown__text').text()).toBe(
-      mockData[value].selected_value
+      (mockData[value] as DrawerListDataObject).selected_value
     )
 
     Comp.setProps({ value: undefined })
@@ -422,7 +425,7 @@ describe('Dropdown component', () => {
     Comp.setProps({ value })
 
     expect(Comp.find('.dnb-dropdown__text').text()).toBe(
-      mockData[value].selected_value
+      (mockData[value] as DrawerListDataObject).selected_value
     )
 
     Comp.setProps({ value: null })
@@ -924,14 +927,14 @@ describe('Dropdown component', () => {
     keydown(Comp, 13) // enter
 
     expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(
-      mockData[props.value + 1].selected_value
+      (mockData[props.value + 1] as DrawerListDataObject).selected_value
     )
   })
 
   it('has correct selected value', () => {
     const Comp = mount(<Component {...props} data={mockData} />)
     expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(
-      mockData[props.value].selected_value
+      (mockData[props.value] as DrawerListDataObject).selected_value
     )
   })
 
@@ -943,7 +946,7 @@ describe('Dropdown component', () => {
     keydown(Comp, 40) // down
 
     expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(
-      mockData[props.value].selected_value
+      (mockData[props.value] as DrawerListDataObject).selected_value
     )
   })
 
@@ -962,7 +965,7 @@ describe('Dropdown component', () => {
     const Comp = mount(<UpdateValue />)
 
     expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(
-      mockData[newValue].selected_value
+      (mockData[newValue] as DrawerListDataObject).selected_value
     )
 
     open(Comp)
@@ -1039,9 +1042,12 @@ describe('Dropdown component', () => {
   })
 
   beforeAll(() => {
-    window.resizeTo = function resizeTo({
+    ;(window as any).resizeTo = function resizeTo({
       width = window.innerWidth,
       height = window.innerHeight,
+    }: {
+      width?: number
+      height?: number
     }) {
       Object.assign(this, {
         innerWidth: width,
@@ -1056,8 +1062,9 @@ describe('Dropdown component', () => {
         .spyOn(document.documentElement, 'clientHeight', 'get')
         .mockImplementation(() => height)
     }
-
-    window.scrollTo = function resizeTo({ top = window.pageYOffset }) {
+    ;(window as any).scrollTo = function resizeTo({
+      top = window.pageYOffset,
+    }) {
       Object.assign(this, {
         pageYOffset: top,
       }).dispatchEvent(new this.Event('scroll'))
@@ -1069,6 +1076,8 @@ describe('Dropdown component', () => {
     }
 
     // make sure we get the correct document.documentElement.clientHeight on startup
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     window.resizeTo({ height: window.innerHeight })
   })
 

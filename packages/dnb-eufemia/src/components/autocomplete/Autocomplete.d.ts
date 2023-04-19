@@ -36,7 +36,7 @@ type AutocompleteSearchInWordIndex = string | number;
 export interface AutocompleteProps
   extends SpacingProps,
     DrawerListProps,
-    React.HTMLProps<HTMLElement> {
+    Omit<React.HTMLProps<HTMLElement>, 'ref'> {
   /**
    * If set to `async`, it prevents showing the "no options" message during typing / filtering. Defaults to `sync`.
    */

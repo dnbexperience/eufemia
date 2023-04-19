@@ -314,17 +314,17 @@ describe('DrawerList component', () => {
   })
 
   it('has correct direction prop', () => {
-    let direction = 'top'
+    const directionTop = 'top'
     const Comp = mount(
-      <Component {...props} data={mockData} direction={direction} />
+      <Component {...props} data={mockData} direction={directionTop} />
     )
-    expect(Comp.exists(`.dnb-drawer-list--${direction}`)).toBe(true)
+    expect(Comp.exists(`.dnb-drawer-list--${directionTop}`)).toBe(true)
 
-    direction = 'bottom'
+    const directionBottom = 'bottom'
     Comp.setProps({
-      direction,
+      direction: directionBottom,
     })
-    expect(Comp.exists(`.dnb-drawer-list--${direction}`)).toBe(true)
+    expect(Comp.exists(`.dnb-drawer-list--${directionBottom}`)).toBe(true)
 
     expect(
       Comp.find('.dnb-drawer-list__options')
