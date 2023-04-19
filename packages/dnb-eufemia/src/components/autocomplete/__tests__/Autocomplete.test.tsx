@@ -465,7 +465,9 @@ describe('Autocomplete component', () => {
     expect(Comp.find('.dnb-sr-only').first().text()).toBe('BB cc zethx')
 
     // eslint-disable-next-line
-    ;(helpers.IS_MAC as any) = false
+    Object.defineProperty(helpers, 'IS_MAC', {
+      value: false,
+    })
 
     // simulate changes
     keydown(Comp, 38) // up
