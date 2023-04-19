@@ -174,11 +174,6 @@ export default class Logo extends React.PureComponent {
       svgParams.sbanken.compact['color'] = color
     }
 
-    validateDOMAttributes(this.props, rootParams)
-    validateDOMAttributes(null, svgParams.ui.default)
-    validateDOMAttributes(null, svgParams.sbanken.default)
-    validateDOMAttributes(null, svgParams.sbanken.compact)
-
     const logos = {
       ui: {
         default: (
@@ -226,6 +221,8 @@ export default class Logo extends React.PureComponent {
           selectedLogo = logos.sbanken.default
       }
     }
+
+    validateDOMAttributes(this.props, selectedLogoRootParams)
 
     return <span {...selectedLogoRootParams}>{selectedLogo}</span>
   }
