@@ -428,8 +428,9 @@ describe('Autocomplete component', () => {
   })
 
   it('should update aria-live (for VoiceOver support) with selected item', () => {
-    // eslint-disable-next-line
-    ;(helpers.IS_MAC as any) = true
+    Object.defineProperty(helpers, 'IS_MAC', {
+      value: true,
+    })
 
     const Comp = mount(
       <Component data={mockData} show_submit_button {...mockProps} />
