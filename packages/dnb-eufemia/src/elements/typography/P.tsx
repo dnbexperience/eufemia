@@ -34,7 +34,7 @@ export type PProps = SpacingProps &
      */
     medium?: boolean
     /**
-     * Tells the component to use the medium font-weight styling dnb-p--bold defined in paragraphStyle - typography-mixins.scss. Find more details here https://eufemia.dnb.no/uilib/typography/font-weight/
+     * Tells the component to use the bold font-weight styling dnb-p--bold defined in paragraphStyle - typography-mixins.scss. Find more details here https://eufemia.dnb.no/uilib/typography/font-weight/
      */
     bold?: boolean
     /**
@@ -43,8 +43,8 @@ export type PProps = SpacingProps &
     size?: PSize
     /**
      * A string containing a combination of modifiers, used to set both font-size and weight in one property. e.g. "x-small bold" would make the paragraph extra small and bold.
-     * Works as a felxible alternativ to setting the medium, small, bold and size props.
-     * List of modifieres can be found at https://eufemia.dnb.no/uilib/typography/font-size/ and https://eufemia.dnb.no/uilib/typography/font-weight/
+     * Works as a flexible alternative to setting the medium, small, bold and size props.
+     * List of modifiers can be found at https://eufemia.dnb.no/uilib/typography/font-size/ and https://eufemia.dnb.no/uilib/typography/font-weight/
      */
     modifier?: string
   }
