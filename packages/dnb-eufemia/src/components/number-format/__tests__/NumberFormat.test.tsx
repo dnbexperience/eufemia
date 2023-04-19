@@ -15,7 +15,7 @@ import { LOCALE } from '../../../shared/defaults'
 import { isMac } from '../../../shared/helpers'
 import Provider from '../../../shared/Provider'
 import NumberFormat from '../NumberFormat'
-import { format } from '../NumberUtils'
+import { format, formatReturnValue } from '../NumberUtils'
 
 const Component = (props) => {
   return <NumberFormat id="unique" {...props} />
@@ -129,7 +129,7 @@ describe('NumberFormat component', () => {
     const { cleanedValue: noVal } = format(-value, {
       currency: true,
       returnAria: true,
-    })
+    }) as formatReturnValue
     expect(Comp.find('.dnb-number-format__selection').text()).toBe(noVal)
     expect(window.getSelection().toString()).toBe('1234.56') // Hack! Having there the "cleanedNumber" would be optimal.
     expect(window.getSelection().rangeCount).toBe(1)
@@ -139,7 +139,7 @@ describe('NumberFormat component', () => {
       locale: 'en-GB',
       currency: true,
       returnAria: true,
-    })
+    }) as formatReturnValue
     expect(Comp.find('.dnb-number-format__selection').text()).toBe(enVal)
   })
 

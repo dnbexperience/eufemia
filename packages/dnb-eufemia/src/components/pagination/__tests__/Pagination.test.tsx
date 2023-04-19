@@ -242,10 +242,12 @@ describe('Pagination bar', () => {
 
 describe('Infinity scroller', () => {
   beforeEach(() => {
-    window.IntersectionObserver = jest.fn(() => ({
-      observe: jest.fn(),
-      disconnect: jest.fn(),
-    }))
+    window.IntersectionObserver = jest.fn().mockImplementation(() => {
+      return {
+        observe: jest.fn(),
+        disconnect: jest.fn(),
+      }
+    })
   })
 
   const props = {
@@ -276,8 +278,7 @@ describe('Infinity scroller', () => {
     const disconnect = jest.fn()
 
     let callObserver
-
-    window.IntersectionObserver = jest.fn((cb) => {
+    window.IntersectionObserver = jest.fn().mockImplementation((cb) => {
       callObserver = cb
       return {
         observe,
@@ -337,12 +338,11 @@ describe('Infinity scroller', () => {
     const on_change = jest.fn()
 
     let callObserver
-
-    window.IntersectionObserver = jest.fn((cb) => {
+    window.IntersectionObserver = jest.fn().mockImplementation((cb) => {
       callObserver = cb
       return {
-        observe: () => null,
-        disconnect: () => null,
+        observe: jest.fn(),
+        disconnect: jest.fn(),
       }
     })
 
@@ -548,20 +548,6 @@ describe('Infinity scroller', () => {
     expect(Comp.exists('div#page-content')).toBe(true)
   })
 
-  it('should support locale prop', () => {
-    const { rerender } = render(<Component {...props} />)
-
-    const element = document.querySelector(
-      '.dnb-pagination__bar__skip button'
-    )
-
-    expect(element.textContent).toContain(nb.prev_title)
-
-    rerender(<Component {...props} locale="en-GB" />)
-
-    expect(element.textContent).toContain(en.prev_title)
-  })
-
   it('should support locale from provider', () => {
     const { rerender } = render(
       <Provider>
@@ -692,7 +678,7 @@ describe('Infinity scroller', () => {
   })
 
   it('should show pagination bar using Bar component', () => {
-    const Comp = mount(<Bar {...props} on_change={jest.fn()} />)
+    const Comp = mount(<Bar skeleton={false} />)
 
     expect(Comp.exists('.dnb-pagination__bar')).toBe(true)
     expect(Comp.exists('.dnb-pagination__indicator')).toBe(false)

@@ -1,6 +1,8 @@
 import * as React from 'react';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
+import PaginationBar from './PaginationBar';
+
 type PaginationStartupPage = string | number;
 type PaginationCurrentPage = string | number;
 type PaginationPageCount = string | number;
@@ -638,7 +640,7 @@ interface PaginationContentProps {
   children: PaginationContentChildren;
 }
 declare const PaginationContent: React.FC<PaginationContentProps>;
-type CreatePaginationReturn = {
+export type CreatePaginationReturn = {
   Pagination: (props?: Record<string, unknown>) => JSX.Element;
   InfinityMarker: (props?: Record<string, unknown>) => void;
   setContent: (pageNumber: number, content: React.ReactDom) => void;
@@ -648,3 +650,4 @@ type CreatePaginationReturn = {
 };
 export const createPagination = (initProps?: Record<string, unknown>) =>
   CreatePaginationReturn;
+export { PaginationBar as Bar };
