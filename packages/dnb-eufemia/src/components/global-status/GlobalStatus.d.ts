@@ -7,7 +7,7 @@ export type GlobalStatusText =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type GlobalStatusItems = string | ((...args: any[]) => any) | any[];
+export type GlobalStatusItem = string | ((...args: any[]) => any) | any;
 export type GlobalStatusState = 'error' | 'info';
 export type GlobalStatusShow = 'auto' | any | any | 'true' | 'false';
 export type GlobalStatusDelay = string | number;
@@ -38,7 +38,7 @@ export interface GlobalStatusProps
   /**
    * The items (list items) appear as a part of the status content. you can both use an JSON array, or a vanilla array with a string or an object content. See "Item Object" example below.
    */
-  items?: GlobalStatusItems;
+  items?: GlobalStatusItem[];
 
   /**
    * The icon shown before the status title. Defaults to `exclamation`.
@@ -197,6 +197,7 @@ export type GlobalStatusInterceptorProps = {
    * Set to `true` or `false` to manually make the global status visible. Defaults to `true`.
    */
   show: boolean;
+  item?: GlobalStatusItem;
 };
 export type GlobalStatusInterceptorUpdateEvents = {
   /**
@@ -218,6 +219,7 @@ export type GlobalStatusInterceptorUpdateEvents = {
    * Set to `true` or `false` to manually make the global status visible. Defaults to `true`.
    */
   show?: boolean;
+  text?: string;
 };
 export type GlobalStatusInterceptor = {
   update: (props: GlobalStatusInterceptorUpdateEvents) => void;
@@ -234,7 +236,7 @@ export default class GlobalStatus extends React.Component<
   static Add: (props: GlobalStatusAddProps) => JSX.Element;
   static Update: (
     props: GlobalStatusUpdateProps
-  ) => GlobalStatusInterceptor;
+  ) => JSX.Element & GlobalStatusInterceptor;
   static Remove: (props: GlobalStatusRemoveProps) => JSX.Element;
   render(): JSX.Element;
 }
