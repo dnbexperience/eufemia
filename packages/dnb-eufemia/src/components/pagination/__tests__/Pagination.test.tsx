@@ -242,10 +242,12 @@ describe('Pagination bar', () => {
 
 describe('Infinity scroller', () => {
   beforeEach(() => {
-    (window as any).IntersectionObserver = jest.fn(() => ({
-      observe: jest.fn(),
-      disconnect: jest.fn(),
-    }))
+    window.IntersectionObserver = jest.fn().mockImplementation(() => {
+      return {
+        observe: jest.fn(),
+        disconnect: jest.fn(),
+      }
+    })
   })
 
   const props = {
@@ -276,7 +278,7 @@ describe('Infinity scroller', () => {
     const disconnect = jest.fn()
 
     let callObserver
-    ;(window as any).IntersectionObserver = jest.fn((cb) => {
+    window.IntersectionObserver = jest.fn().mockImplementation((cb) => {
       callObserver = cb
       return {
         observe,
@@ -336,11 +338,11 @@ describe('Infinity scroller', () => {
     const on_change = jest.fn()
 
     let callObserver
-    ;(window as any).IntersectionObserver = jest.fn((cb) => {
+    window.IntersectionObserver = jest.fn().mockImplementation((cb) => {
       callObserver = cb
       return {
-        observe: () => null,
-        disconnect: () => null,
+        observe: jest.fn(),
+        disconnect: jest.fn(),
       }
     })
 

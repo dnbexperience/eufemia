@@ -21,7 +21,7 @@ const Component = (props) => {
   return <NumberFormat id="unique" {...props} />
 }
 
-const element = (NumberFormat.defaultProps as any).element
+const element = NumberFormat.defaultProps.element
 const locale = LOCALE
 const value = 12345678.9876
 const snapshotProps = {
