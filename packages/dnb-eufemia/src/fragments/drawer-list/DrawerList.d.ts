@@ -13,20 +13,21 @@ export type DrawerListWrapperElement =
   | React.ReactNode;
 export type DrawerListDefaultValue = string | number;
 export type DrawerListValue = string | number;
+export type DrawerListDataObject = {
+  selected_value?: string | React.ReactNode;
+  suffix_value?: string | React.ReactNode;
+  content?: string | React.ReactNode | string[];
+};
+export type DrawerListDataObjectUnion =
+  | string
+  | React.ReactNode
+  | DrawerListDataObject;
 export type DrawerListData =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode
   | Record<string, unknown>
-  | (
-      | string
-      | React.ReactNode
-      | {
-          selected_value?: string | React.ReactNode;
-          suffix_value?: string | React.ReactNode;
-          content?: string | React.ReactNode | string[];
-        }
-    )[];
+  | DrawerListDataObjectUnion[];
 export type DrawerListSelectedValue = string | React.ReactNode;
 export type DrawerListSuffixValue = string | React.ReactNode;
 export type DrawerListContent = string | React.ReactNode | string[];
@@ -42,7 +43,7 @@ export type DrawerListChildren =
   | any[];
 export type DrawerListSuffix = React.ReactNode;
 export interface DrawerListProps
-  extends React.HTMLProps<HTMLElement>,
+  extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
     SpacingProps {
   id?: string;
   role?: string;
