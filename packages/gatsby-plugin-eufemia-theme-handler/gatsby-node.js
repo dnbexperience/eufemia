@@ -69,7 +69,9 @@ exports.onCreateWebpackConfig = (
         if (micromatch.isMatch(context, glob)) {
           const moduleName = context.match(/\/.*theme-([^/]*)$/)[1]
 
-          global.themeNames.push(moduleName)
+          if (!global.themeNames.includes(moduleName)) {
+            global.themeNames.push(moduleName)
+          }
 
           return moduleName
         }
