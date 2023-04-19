@@ -15,6 +15,7 @@ import Component, {
   ProductType,
   CardType,
   formatCardNumber,
+  PaymentCardProps,
 } from '../PaymentCard'
 import nbNO from '../../../shared/locales/nb-NO'
 import enGB from '../../../shared/locales/en-GB'
@@ -22,7 +23,7 @@ import enGB from '../../../shared/locales/en-GB'
 const nb = nbNO['nb-NO'].PaymentCard
 const en = enGB['en-GB'].PaymentCard
 
-const defaultProps = {
+const defaultProps: PaymentCardProps = {
   product_code: 'NK1',
   card_number: '************1337',
   card_status: 'active',

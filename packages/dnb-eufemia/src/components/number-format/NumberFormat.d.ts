@@ -169,6 +169,6 @@ export default class NumberFormat extends React.Component<
   NumberFormatProps,
   any
 > {
-  static defaultProps: object;
+  static defaultProps: NumberFormatProps;
   render(): JSX.Element;
 }

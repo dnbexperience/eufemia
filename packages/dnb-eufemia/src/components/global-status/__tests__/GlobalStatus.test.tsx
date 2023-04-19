@@ -116,12 +116,14 @@ describe('GlobalStatus component', () => {
           status_id="status-update-1"
           text="will be overwritten"
           item={{ text: 'item#2' }}
+          on_close={jest.fn()}
         />
         <Component.Add
           id="custom-status-update"
           status_id="status-update-1"
           text={newText}
           item={{ text: 'item#3' }}
+          on_close={jest.fn()}
         />
       </>
     )
@@ -160,6 +162,7 @@ describe('GlobalStatus component', () => {
         status_id="status-update-1"
         text={startupText}
         items={startupItems}
+        on_close={jest.fn()}
       />
     )
 
@@ -178,6 +181,7 @@ describe('GlobalStatus component', () => {
         status_id="status-update-1"
         text={newText}
         items={newItems}
+        on_close={jest.fn()}
       />
     )
 
@@ -232,6 +236,7 @@ describe('GlobalStatus component', () => {
         status_id="status-remove-1"
         text={startupText}
         items={startupItems}
+        on_close={jest.fn()}
       />
     )
 
@@ -251,6 +256,7 @@ describe('GlobalStatus component', () => {
         status_id="status-remove-2"
         text={newText}
         items={newItems}
+        on_close={jest.fn()}
       />
     )
 
@@ -309,7 +315,7 @@ describe('GlobalStatus component', () => {
 
   it('have to handle delayed interactions ', async () => {
     const FormField1 = () => {
-      const [status, setStatus] = React.useState()
+      const [status, setStatus] = React.useState(null)
       return (
         <Switch
           id="switch-1"
@@ -323,7 +329,7 @@ describe('GlobalStatus component', () => {
     }
 
     const FormField2 = () => {
-      const [status, setStatus] = React.useState()
+      const [status, setStatus] = React.useState(null)
       return (
         <Switch
           id="switch-2"
@@ -337,7 +343,7 @@ describe('GlobalStatus component', () => {
     }
 
     const FormField3 = () => {
-      const [status, setStatus] = React.useState()
+      const [status, setStatus] = React.useState(null)
       return (
         <Autocomplete
           id="autocomplete-3"
@@ -619,13 +625,22 @@ describe('GlobalStatus component', () => {
     )
   })
 
-  it('should generete item_id form React Element', () => {
-    const StatusComponent = ({ children }) => {
+  it('should generate item_id form React Element', () => {
+    const StatusComponent = ({
+      children,
+      inner_ref,
+    }: {
+      children?: any
+      inner_ref?: any
+    }) => {
       return children
     }
-    const StatusAsComponent = React.forwardRef((props, ref) => {
-      return <StatusComponent {...props} inner_ref={ref} />
-    })
+
+    const StatusAsComponent = React.forwardRef(
+      (props: { children: React.ReactNode }, ref) => {
+        return <StatusComponent {...props} inner_ref={ref} />
+      }
+    )
 
     const Comp = mount(
       <Component
@@ -633,7 +648,6 @@ describe('GlobalStatus component', () => {
         autoscroll={false}
         delay={0}
         id="custom-status-element"
-        locale="en-GB"
       />
     )
 
@@ -667,16 +681,16 @@ describe('GlobalStatus component', () => {
 
     // expect(Comp.exists('div.dnb-global-status__message')).toBe(true)
     expect(Comp.find('div.dnb-global-status__message').text()).toBe(
-      'error-message--aGo to label--aerror-message--bGo to label--b'
+      'error-message--aGå til label--aerror-message--bGå til label--b'
     )
   })
 
   it('should support component given as labels', async () => {
     const LabelAsComponent = () => {
-      return 'my-label'
+      return <span>'my-label'</span>
     }
     const StatusAsComponent = () => {
-      return 'error-message'
+      return <span>'error-message'</span>
     }
 
     const ToggleStatus = () => {
@@ -713,14 +727,14 @@ describe('GlobalStatus component', () => {
     await refresh(Comp)
 
     expect(Comp.find('.dnb-global-status__message p').at(0).text()).toBe(
-      'error-message'
+      "'error-message'"
     )
     expect(
       Comp.find('.dnb-global-status__message__content ul li')
         .at(0)
         .find('a.dnb-anchor')
         .text()
-    ).toBe('custon anchor text my-label')
+    ).toBe("custon anchor text 'my-label'")
   })
 
   it('has to have a working auto close', () => {
@@ -746,6 +760,7 @@ describe('GlobalStatus component', () => {
         id="custom-status-autoclose"
         status_id="status-autoclose-1"
         text="text only"
+        on_close={jest.fn()}
       />
     )
 
@@ -762,8 +777,9 @@ describe('GlobalStatus component', () => {
       <Component.Add
         id="custom-status-autoclose"
         status_id="status-autoclose-2"
-        // text="text only"
+        text="text only"
         items={['foo']}
+        on_close={jest.fn()}
       />
     )
 
@@ -803,6 +819,8 @@ describe('GlobalStatus component', () => {
         id="custom-status-autoclose"
         status_id="status-autoclose-1"
         items={['foo']}
+        on_close={jest.fn()}
+        text="text"
       />
     )
 
@@ -845,6 +863,7 @@ describe('GlobalStatus component', () => {
         id="custom-status-show"
         status_id="status-show-1"
         text="text only"
+        on_close={jest.fn()}
       />
     )
     Comp.update()

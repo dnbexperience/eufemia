@@ -11,13 +11,16 @@ import {
   toJson,
   loadScss,
 } from '../../../core/jest/jestSetup'
-import Component from '../ProgressIndicator'
+import Component, { ProgressIndicatorProps } from '../ProgressIndicator'
 import { format } from '../../number-format/NumberUtils'
 
-const props = fakeProps(require.resolve('../ProgressIndicator'), {
-  all: true,
-  optional: true,
-})
+const props: ProgressIndicatorProps = fakeProps(
+  require.resolve('../ProgressIndicator'),
+  {
+    all: true,
+    optional: true,
+  }
+)
 
 describe('Circular ProgressIndicator component', () => {
   const mainLineSelector =
