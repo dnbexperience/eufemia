@@ -26,10 +26,6 @@ export type PProps = SpacingProps &
      */
     element?: DynamicElement & 'p'
     /**
-     * Tells the component to use the small font-size dnb-p__size--small defined in paragraphStyle - typography-mixins.scss. Find more details here https://eufemia.dnb.no/uilib/typography/font-size/
-     */
-    small?: boolean
-    /**
      * Tells the component to use the medium font-weight styling dnb-p--medium defined in paragraphStyle - typography-mixins.scss. Find more details here https://eufemia.dnb.no/uilib/typography/font-weight/
      */
     medium?: boolean
@@ -53,7 +49,6 @@ const P = ({
   modifier,
   element = 'p',
   className,
-  small,
   medium,
   bold,
   size,
@@ -85,8 +80,7 @@ const P = ({
         'dnb-p',
         modifierString,
         className,
-        size && `dnb-p__size--${size}`,
-        small && 'dnb-p__size--small'
+        size && `dnb-p__size--${size}`
       )}
     />
   )
