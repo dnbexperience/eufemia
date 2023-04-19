@@ -108,6 +108,9 @@ export interface DropdownProps
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
   skeleton?: SkeletonShow;
+
+  on_show_focus?: (...args: any[]) => any;
+  on_hide_focus?: (...args: any[]) => any;
 }
 export default class Dropdown extends React.Component<DropdownProps, any> {
   static defaultProps: object;
