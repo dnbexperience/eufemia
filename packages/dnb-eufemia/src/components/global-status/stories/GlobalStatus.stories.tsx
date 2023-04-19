@@ -461,7 +461,7 @@ const DemoAnimation = () => {
       <GlobalStatus
         title="Demo Animation"
         text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus"
-        items='["Status text 1", "Status text 2"]'
+        items={['Status text 1', 'Status text 2']}
         // items={['Status text 1', 'Status text 2']}
         // items={items}
         // demo={showDemo}
