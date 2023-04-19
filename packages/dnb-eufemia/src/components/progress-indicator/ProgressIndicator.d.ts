@@ -13,7 +13,7 @@ export type ProgressIndicatorChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
 export interface ProgressIndicatorProps
-  extends React.HTMLProps<HTMLElement>,
+  extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
     SpacingProps {
   /**
    * Defines the visibility of the progress. Toggling the `visible` property to `false` will force a fade-out animation. Defaults to `true`.
