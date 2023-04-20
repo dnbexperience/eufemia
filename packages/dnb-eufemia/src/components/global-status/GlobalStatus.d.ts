@@ -221,6 +221,10 @@ export type GlobalStatusInterceptorUpdateEvents = {
    * Set to `true` or `false` to manually make the global status visible. Defaults to `true`.
    */
   show?: boolean;
+
+  /**
+   * The text appears as the status content. Besides plain text, you can send in a React component as well. Defaults to `null`.
+   */
   text?: string;
 };
 export type GlobalStatusInterceptor = {

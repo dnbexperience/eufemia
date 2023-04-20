@@ -21,6 +21,7 @@ export default {
   '--line-height-small': '1.25rem',
   '--line-height-basis': '1.5rem',
   '--line-height-basis--em': '1.333em',
+  '--line-height-lead': '1.75rem',
   '--line-height-medium': '2rem',
   '--line-height-large': '2.5rem',
   '--line-height-x-large': '3.5rem',
