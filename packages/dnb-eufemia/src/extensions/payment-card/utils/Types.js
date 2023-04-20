@@ -4,19 +4,19 @@ const daggy = createDaggy()
 
 const DNB = daggy.taggedSum('DNB', {
   Colored: ['color'],
-  Metalic: [],
+  Metallic: [],
 })
 
 const Visa = daggy.taggedSum('Visa', {
   Colored: ['color'],
-  Metalic: [],
+  Metallic: [],
 })
 
 const Mastercard = daggy.taggedSum('Mastercard', {
   Default: [],
   DefaultWhite: [],
-  Metalic: [],
-  BlackMetalic: [],
+  Metallic: [],
+  BlackMetallic: [],
 })
 
 const CardType = daggy.taggedSum('CardType', {
