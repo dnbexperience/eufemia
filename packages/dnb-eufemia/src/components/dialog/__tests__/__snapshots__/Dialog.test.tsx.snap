@@ -2317,7 +2317,7 @@ html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
 @media screen and (max-width: 40em) {
   .dnb-dialog__title {
     font-size: var(--font-size-medium) !important;
-    line-height: calc(var(--line-height-medium) - 0.25rem) !important;
+    line-height: var(--line-height-lead) !important;
   }
 }
 .dnb-dialog--information .dnb-dialog__title {
