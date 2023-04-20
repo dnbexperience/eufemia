@@ -1,0 +1,36 @@
+/**
+ * HTML Element Tags
+ *
+ */
+
+@use '../../../elements/anchor/style/anchor-mixins.scss';
+@use '../../../elements/blockquote/style/blockquote-mixins.scss';
+@use '../../../elements/typography/style/typography-mixins.scss';
+@use '../../../elements/label/style/label-mixins.scss';
+@use '../../../elements/lists/style/lists-mixins.scss';
+@use '../../../elements/code/style/code-mixins.scss';
+@use '../../../elements/img/style/img-mixins.scss';
+@use '../../../elements/hr/style/hr-mixins.scss';
+
+.dnb-core-style {
+  // div
+  @include anchor-mixins.anchorTag();
+  @include img-mixins.imageTag();
+  @include blockquote-mixins.blockquoteTag();
+  @include hr-mixins.hrTag();
+
+  // typography
+  @include typography-mixins.typographyTags();
+
+  // lists
+  @include lists-mixins.ulTag();
+  @include lists-mixins.olTag();
+  @include lists-mixins.dlTag();
+
+  // form
+  @include label-mixins.labelTag();
+
+  // additional
+  @include code-mixins.codeTag();
+  @include code-mixins.preTag();
+}

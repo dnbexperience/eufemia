@@ -10,7 +10,7 @@ import {
 
 describe('Button with eiendom theme', () => {
   setupPageScreenshot({
-    url: '/uilib/components/button/demos?dnb-theme=eiendom',
+    url: '/uilib/components/button/demos?eufemia-theme=eiendom',
   })
 
   it('have to match "dnb-button--primary"', async () => {

@@ -4,12 +4,6 @@ import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
 import { BasicTable } from './TableMocks'
 import Table from '../Table'
 
-declare global {
-  interface Window {
-    IntersectionObserver: jest.Mock
-  }
-}
-
 const NODE_ENV = process.env.NODE_ENV
 const log = globalThis.console.log
 

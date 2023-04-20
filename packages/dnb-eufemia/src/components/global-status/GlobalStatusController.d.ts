@@ -29,3 +29,18 @@ export class GlobalStatusRemove extends React.Component<
   static defaultProps: object;
   render(): JSX.Element;
 }
+
+export interface GlobalStatusInterceptorProps
+  extends React.HTMLProps<HTMLElement> {
+  id?: string;
+}
+
+export class GlobalStatusInterceptor extends React.Component<
+  GlobalStatusInterceptorProps,
+  any
+> {
+  static defaultProps: object;
+  render(): JSX.Element;
+
+  add: (props: { status_id: string; item?: GlobalStatusItem }) => void;
+}

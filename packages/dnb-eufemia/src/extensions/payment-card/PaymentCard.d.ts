@@ -5,20 +5,49 @@ import type { Locale } from '../../shared/Context';
 export type PaymentCardCardStatus = 'active' | 'blocked' | 'expired';
 export type PaymentCardVariant = 'normal' | 'compact';
 export type PaymentCardDigits = string | number;
+export enum CardType {
+  Visa, // eslint-disable-line
+  None, // eslint-disable-line
+  Left, // eslint-disable-line
+  Right // eslint-disable-line
+}
+export enum ProductType {
+  BankAxept, // eslint-disable-line
+  Saga, // eslint-disable-line
+  PrivateBanking, // eslint-disable-line
+  None // eslint-disable-line
+}
+
+export enum Designs {
+  defaultDesign, // eslint-disable-line
+  white, // eslint-disable-line
+  myFirst, // eslint-disable-line
+  youth, // eslint-disable-line
+  silver, // eslint-disable-line
+  pluss, // eslint-disable-line
+  gold, // eslint-disable-line
+  saga, // eslint-disable-line
+  sagaPlatinum, // eslint-disable-line
+  privateBanking, // eslint-disable-line
+  mcBlack, // eslint-disable-line
+  businessNoVisa, // eslint-disable-line
+  businessWithVisa // eslint-disable-line
+}
+
 export interface PaymentCardRawData {
   productCode: string;
   productName: string;
   displayName: string;
-  cardDesign: Record<string, unknown>;
-  cardType: Record<string, unknown>;
-  productType: Record<string, unknown>;
+  cardDesign: Designs;
+  cardType: CardType;
+  productType: ProductType;
 }
 export type PaymentCardChildren =
   | string
   | React.ReactNode
   | ((...args: any[]) => any);
 export interface PaymentCardProps
-  extends React.HTMLProps<HTMLElement>,
+  extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
     SpacingProps {
   /**
    * <em>(required)</em> if product code matches one of the codes in the list the card will get that design, if no match is found Default design will be used.
@@ -72,3 +101,5 @@ export default class PaymentCard extends React.Component<
   render(): JSX.Element;
 }
 export const getCardData = (product_code: string) => PaymentCardRawData;
+export const formatCardNumber = (cardNumber: string, digits?: number) =>
+  string;

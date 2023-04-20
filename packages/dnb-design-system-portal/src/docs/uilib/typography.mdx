@@ -29,14 +29,14 @@ You don't need to define the `font-family` ever, but rather use CSS Custom Prope
 
 ## Font Face
 
-The DNB default Font Family is `DNB`. This font, together with it's weights is loaded and imported with `@font-face` in `/css/core/themes/theme-ui/fonts.scss`. The font family is included in the library package.
+The DNB default Font Family is `DNB`. This font, together with it's weights is loaded and imported with `@font-face` in `/style/themes/theme-ui/ui-theme-fonts.scss`. The font family is included in the library package.
 
 ## Spacing and margin collapsing
 
 You can use the [Spacing properties](/uilib/components/space/properties) inside every Eufemia React Element, but keep in mind, [margin collapsing](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model/Mastering_margin_collapsing) can some times a little tricky to get right.
 
 ```jsx
-import { H1, H2, ... } from '@dnb/eufemia/elements'
+import { H1, H2, ... } from '@dnb/eufemia'
 
 <H1 bottom="x-large">Heading with bottom margin: x-large</H1>
 <H2 top="x-large">Heading with top margin: x-large</H2>

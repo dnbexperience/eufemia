@@ -11,6 +11,7 @@ import {
   Input,
   Section,
   ToggleButton,
+  FormSet,
 } from '@dnb/eufemia/src'
 
 export const GlobalStatusError = () => (
@@ -292,5 +293,135 @@ export const GlobalStatusUpdate = () => (
 
       return <UpdateDemo />
     }}
+  </ComponentBox>
+)
+
+export const GlobalStatusInfoExample1 = () => (
+  <ComponentBox hidePreview hideToolbar>
+    <GlobalStatus id="other-global-status" />
+  </ComponentBox>
+)
+
+export const GlobalStatusInfoExample2 = () => (
+  <ComponentBox hidePreview hideToolbar>
+    <GlobalStatus id="other-global-status" />
+    <Input global_status_id="other-global-status" />
+  </ComponentBox>
+)
+
+export const GlobalStatusInfoExample3 = () => (
+  <ComponentBox hidePreview hideToolbar>
+    <GlobalStatus id="other-global-status" />
+    <FormSet global_status_id="other-global-status">
+      <Input status="Message" />
+    </FormSet>
+  </ComponentBox>
+)
+
+export const GlobalStatusInfoExampleManipulate1 = () => (
+  <ComponentBox hidePreview hideToolbar>
+    {() => {
+      // 1. Update / extend the the status like so:
+
+      const statusOne = GlobalStatus.create({
+        id: 'other-global-status', // or main
+        status_id: 'custom-id-1',
+        text: 'New Text',
+        item: 'Item from status #1',
+        title: 'New Title',
+        show: true,
+      })
+
+      // 2. and removes "custom-id-1" again if needed
+
+      statusOne.update({
+        text: 'Updated Text',
+      })
+
+      // 3. and removes "custom-id-1" again if needed
+      statusOne.remove()
+
+      return <GlobalStatus id="other-global-status" />
+    }}
+  </ComponentBox>
+)
+
+export const GlobalStatusInfoExampleManipulate2 = () => (
+  <ComponentBox hidePreview hideToolbar>
+    {/* 1. Place it under the header bar */}
+    <GlobalStatus text="Optional default text" />
+    {/* 2. later on, you can show a message */}
+    <GlobalStatus.Add
+      id="custom-id"
+      status_id="custom-id-1"
+      title="New title"
+      text="First long info text ..."
+      item="Item from status #1"
+      on_close={({ status_id }) => {
+        console.log('on_close', status_id)
+      }}
+    />
+    {/* 3. and remove it again */}
+    <GlobalStatus.Remove id="custom-id" status_id="custom-id-1" />
+  </ComponentBox>
+)
+
+export const GlobalStatusInfoExampleManipulate3 = () => (
+  <ComponentBox hidePreview hideToolbar>
+    {/* 1. Place it somewhere in your application */}
+    <GlobalStatus id="custom-status" />
+    {/* 2. later on, you can show a message */}
+    <GlobalStatus.Add
+      id="custom-status"
+      status_id="custom-id-1"
+      title="New title"
+      text="First long info text ..."
+      item="Item from status #1"
+      on_close={({ status_id }) => {
+        console.log('on_close', status_id)
+      }}
+    />
+    {/* 3. and remove it again */}
+    <GlobalStatus.Remove id="custom-status" status_id="custom-id-1" />
+  </ComponentBox>
+)
+
+export const GlobalStatusExampleControllers = () => (
+  <ComponentBox hidePreview hideToolbar>
+    {/* Place the status where ever you have to.*/}
+    <GlobalStatus id="custom-id" />
+    {/* Manipulate the status later on. Every property is optional.*/}
+    <GlobalStatus.Add
+      id="custom-id"
+      status_id="status-1"
+      item="Item #1"
+      text="New Text"
+      on_close={({ status_id }) => {
+        console.log('on_close', status_id)
+      }}
+    />
+    <GlobalStatus.Add
+      id="custom-id"
+      status_id="status-2"
+      item="Item #2"
+      text="New Text"
+      title="New Title"
+      on_close={({ status_id }) => {
+        console.log('on_close', status_id)
+      }}
+    />
+    <GlobalStatus.Add
+      id="custom-id"
+      status_id="status-3"
+      item="Item #3"
+      text="Text #3"
+      on_close={({ status_id }) => {
+        console.log('on_close', status_id)
+      }}
+    />
+    {/* or update the status.*/}
+    <GlobalStatus.Update id="custom-id" text="text" />
+    {/* Later you can remove a resolved item.*/}
+    <GlobalStatus.Remove id="custom-id" status_id="status-3" />
   </ComponentBox>
 )
