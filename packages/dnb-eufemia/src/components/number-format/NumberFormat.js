@@ -394,11 +394,9 @@ export default class NumberFormat extends React.PureComponent {
     return (
       <Element lang={lang} {...attributes}>
         {srLabel && (
-          <span className="dnb-sr-only">
-            {srLabel}
-            {' '}
-          </span>
+          <span className="dnb-sr-only" data-text={srLabel + ' '} />
         )}
+
         <span
           className={classnames(
             'dnb-number-format__visible',
@@ -414,9 +412,8 @@ export default class NumberFormat extends React.PureComponent {
         <span
           id={this._id}
           className="dnb-number-format__sr-only dnb-sr-only"
-        >
-          {aria}
-        </span>
+          data-text={aria}
+        />
 
         {isTrue(copy_selection) && (
           <span
