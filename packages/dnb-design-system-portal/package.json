@@ -89,7 +89,7 @@
     "gatsby-plugin-remove-serviceworker": "1.0.0",
     "gatsby-plugin-sass": "5.24.0",
     "gatsby-plugin-scroll-position": "1.2.1",
-    "gatsby-plugin-sharp": "4.24.0",
+    "gatsby-plugin-sharp": "4.25.1",
     "gatsby-react-router-scroll": "5.24.0",
     "gatsby-remark-images": "6.24.0",
     "gatsby-source-filesystem": "4.24.0",
