@@ -78,7 +78,7 @@
 // Like Lead / --lead
 @mixin headingSize_medium() {
   font-size: var(--font-size-medium);
-  line-height: calc(var(--line-height-medium) - 0.25rem);
+  line-height: var(--line-height-lead);
 
   & > small {
     font-size: var(--font-size-basis);

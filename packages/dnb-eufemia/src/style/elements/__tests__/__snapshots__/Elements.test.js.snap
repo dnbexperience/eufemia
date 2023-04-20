@@ -767,7 +767,7 @@ sub {
 }
 .dnb-p--lead {
   font-size: var(--font-size-medium);
-  line-height: calc(var(--line-height-medium) - 0.25rem);
+  line-height: var(--line-height-lead);
   font-weight: var(--font-weight-medium);
 }
 .dnb-p--lead > small {
@@ -856,7 +856,7 @@ sub {
 .dnb-lead,
 .dnb-h--medium {
   font-size: var(--font-size-medium);
-  line-height: calc(var(--line-height-medium) - 0.25rem);
+  line-height: var(--line-height-lead);
   font-weight: var(--font-weight-medium);
 }
 .dnb-lead > small,
