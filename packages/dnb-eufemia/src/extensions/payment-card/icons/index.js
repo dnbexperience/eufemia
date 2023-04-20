@@ -2,12 +2,12 @@ import React from 'react'
 
 import BankAxept from './BankAxept'
 import DNB from './DNB'
-import DNBMetalic from './DNBMetalic'
+import DNBMetallic from './DNBMetallic'
 import Expired from './Clock'
 import Blocked from './Padlock'
 import MastercardDefault from './MastercardDefault'
-import MastercardMetalic from './MastercardMetalic'
-import MastercardMetalicBlack from './MastercardMetalicBlack'
+import MastercardMetallic from './MastercardMetallic'
+import MastercardMetallicBlack from './MastercardMetallicBlack'
 import Pluss from './Pluss'
 import PB from './PB'
 import PBPlatinum from './PBPlatinum'
@@ -15,7 +15,7 @@ import SagaGold from './SagaGold'
 import SagaPlatinum from './SagaPlatinum'
 import SagaVisaPlatinum from './SagaVisaPlatinum'
 import VisaDefault from './VisaDefault'
-import VisaMetalic from './VisaMetalic'
+import VisaMetallic from './VisaMetallic'
 
 const BankLogo = ({ logoType, height }) =>
   logoType.cata({
@@ -26,12 +26,12 @@ const BankLogo = ({ logoType, height }) =>
         className="dnb-payment-card__card__bank-logo"
       />
     ),
-    Metalic: () => (
-      <DNBMetalic
+    Metallic: () => (
+      <DNBMetallic
         height={height}
         className="dnb-payment-card__card__bank-logo"
       />
-    )
+    ),
   })
 
 const ProductLogo = ({ productType, cardDesign }) => {
@@ -40,23 +40,23 @@ const ProductLogo = ({ productType, cardDesign }) => {
     BankAxept: () =>
       cardDesign.bankAxept.cata({
         White: () => <BankAxept className={id} fill="#ffffff" />,
-        Black: () => <BankAxept className={id} fill="#757575" />
+        Black: () => <BankAxept className={id} fill="#757575" />,
       }),
     Saga: () =>
       cardDesign.saga.cata({
         Gold: () => <SagaGold className={id} />,
         Platinum: () => <SagaPlatinum className={id} />,
         VisaPlatinum: () => <SagaVisaPlatinum className={id} />,
-        None: () => null
+        None: () => null,
       }),
     Pluss: () => <Pluss className={id} fill="#A5E1D2" />,
     PrivateBanking: () =>
       cardDesign.privateBanking.cata({
         Default: () => <PB className={id} />,
         Platinum: () => <PBPlatinum className={id} />,
-        None: () => null
+        None: () => null,
       }),
-    None: () => null
+    None: () => null,
   })
 }
 
@@ -80,7 +80,7 @@ const TypeLogo = ({ cardType, cardDesign }) => {
     Visa: () =>
       cardDesign.visa.cata({
         Colored: (color) => <VisaDefault className={id} fill={color} />,
-        Metalic: () => <VisaMetalic className={id} />
+        Metallic: () => <VisaMetallic className={id} />,
       }),
     Mastercard: () =>
       cardDesign.mastercard.cata({
@@ -88,10 +88,10 @@ const TypeLogo = ({ cardType, cardDesign }) => {
         DefaultWhite: () => (
           <MastercardDefault className={id} textFill="#ffffff" />
         ),
-        Metalic: () => <MastercardMetalic className={id} />,
-        BlackMetalic: () => <MastercardMetalicBlack className={id} />
+        Metallic: () => <MastercardMetallic className={id} />,
+        BlackMetallic: () => <MastercardMetallicBlack className={id} />,
       }),
-    None: () => null
+    None: () => null,
   })
 }
 
