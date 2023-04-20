@@ -56,7 +56,7 @@
 
   &--selected &__selection {
     z-index: 3;
-    user-select: all;
+    user-select: all; // makes the "copy_selection" feature actually work
   }
 
   &.dnb-skeleton,

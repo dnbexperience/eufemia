@@ -62,9 +62,7 @@ exports[`NumberFormat component have to match default number-format snapshot 1`]
         onBlur={[Function]}
         onCopy={[Function]}
         tabIndex={-1}
-      >
-        12345678,9876
-      </span>
+      />
     </span>
   </NumberFormat>
 </Component>

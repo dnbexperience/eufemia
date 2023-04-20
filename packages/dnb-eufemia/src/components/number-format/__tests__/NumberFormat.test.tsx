@@ -37,6 +37,9 @@ let languageGetter, platformGetter
 
 beforeEach(() => {
   document.body.innerHTML = ''
+
+  const selection = window.getSelection()
+  selection.removeAllRanges()
 })
 
 beforeAll(() => {
@@ -115,11 +118,8 @@ describe('NumberFormat component', () => {
     )
   })
 
-  it('has valid selected number', () => {
-    const { rerender } = render(<Component value={-value} currency />)
-
-    const selection = window.getSelection()
-    selection.removeAllRanges()
+  it('will show copy advice', () => {
+    render(<Component value={-value} currency />)
 
     expect(
       document
@@ -127,8 +127,30 @@ describe('NumberFormat component', () => {
         .classList.contains('dnb-number-format--selected')
     ).toBe(false)
 
+    expect(document.querySelector('.dnb-tooltip')).toBeFalsy()
+
+    fireEvent.click(document.querySelector('.dnb-number-format__visible'))
+    fireEvent.copy(document.querySelector('.dnb-number-format__selection'))
+
+    expect(document.querySelector('.dnb-tooltip')).toBeTruthy()
+  })
+
+  it('has valid selected number', () => {
+    const { rerender } = render(<Component value={-value} currency />)
+
+    expect(
+      document
+        .querySelector('span')
+        .classList.contains('dnb-number-format--selected')
+    ).toBe(false)
+
+    expect(document.activeElement).toBe(document.body)
+
     fireEvent.click(document.querySelector('.dnb-number-format__visible'))
 
+    expect(document.activeElement).toBe(
+      document.querySelector('.dnb-number-format__selection')
+    )
     expect(document.querySelector('span').classList).toContain(
       'dnb-number-format--selected'
     )
@@ -154,6 +176,12 @@ describe('NumberFormat component', () => {
     expect(
       document.querySelector('.dnb-number-format__selection').textContent
     ).toBe(enVal)
+
+    fireEvent.blur(document.querySelector('.dnb-number-format__selection'))
+
+    expect(document.querySelector('span').classList).not.toContain(
+      'dnb-number-format--selected'
+    )
   })
 
   it('have to match currency with currency_position="after"', () => {
@@ -190,8 +218,8 @@ describe('NumberFormat component', () => {
       <Component
         value={-value}
         currency
-        currency_position="after"
         locale="en-GB"
+        currency_position="after"
         currency_display="code"
       />
     )
@@ -204,8 +232,8 @@ describe('NumberFormat component', () => {
       <Component
         value={-value}
         currency
-        currency_position="before"
         locale="no"
+        currency_position="before"
         currency_display="code"
       />
     )
@@ -249,7 +277,7 @@ describe('NumberFormat component', () => {
       <Component
         value={-value}
         currency
-        currency_position="code"
+        currency_position="before"
         locale="en-GB"
       />
     )
@@ -374,6 +402,34 @@ describe('NumberFormat component', () => {
     ).toContain('-12 345 678,99 kr')
   })
 
+  it('will render selection value on click event', () => {
+    render(<Component value={-value} currency />)
+
+    expect(
+      document.querySelector('.dnb-number-format__selection').textContent
+    ).toBe('')
+
+    fireEvent.click(document.querySelector('.dnb-number-format__visible'))
+
+    expect(
+      document.querySelector('.dnb-number-format__selection').textContent
+    ).toBe('-12345678,99 kr')
+
+    fireEvent.blur(document.querySelector('.dnb-number-format__selection'))
+
+    expect(
+      document.querySelector('.dnb-number-format__selection').textContent
+    ).toBe('')
+  })
+
+  it('will not render selection element when copy_selection="false"', () => {
+    render(<Component value={-value} currency copy_selection={false} />)
+
+    expect(
+      document.querySelector('.dnb-number-format__selection')
+    ).toBeFalsy()
+  })
+
   it('should validate with ARIA rules', async () => {
     const Comp = render(
       <Component value={-value} currency srLabel="Total:" />
@@ -442,6 +498,32 @@ describe('NumberFormat compact', () => {
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
     ).toBe('-12,346 millioner norske kroner')
+  })
+
+  it('have to hide currency code on falsy currency_display', () => {
+    const { rerender } = render(
+      <Component currency currency_display={false} value={-1234} />
+    )
+
+    expect(document.querySelector(displaySelector).textContent).toBe(
+      '-1 234,00'
+    )
+    expect(
+      document.querySelector(ariaSelector).getAttribute('data-text')
+    ).toBe('-1234,00 norske kroner')
+
+    rerender(<Component currency currency_display="" value={-1234567} />)
+
+    expect(document.querySelector(displaySelector).textContent).toBe(
+      '-1 234 567,00'
+    )
+
+    const element = document.querySelector('.dnb-number-format')
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+
+    expect(attributes).toEqual(['lang', 'class', 'role'])
   })
 
   it('have to match compact number with custom decimals', () => {
