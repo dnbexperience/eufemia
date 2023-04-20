@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const VisaMetalicSVG = (props) => (
+const VisaMetallicSVG = (props) => (
   <svg {...props} fill="none" xmlns="http://www.w3.org/2000/svg">
-    <title>Visa Metalic</title>
+    <title>Visa Metallic</title>
     <path
       d="M53.5 43.2H51.6V50.9H53.5C55.9 50.9 57.2999 49.5 57.2999 47.1C57.2999 44.7 55.9 43.2 53.5 43.2ZM53.3999 50H52.5V43.9H53.3999C55.1999 43.9 56.2999 45 56.2999 46.9C56.2999 48.8 55.2999 50 53.3999 50ZM63.6 48.2C63.6 46.4 62.6 45.3 61 45.3C59.4 45.3 58.3999 46.5 58.3999 48.1C58.3999 49.8 59.5 50.9 61.2 50.9C62.2 50.9 63 50.5 63.5 49.7L62.7999 49.2C62.4999 49.7 62 50.1 61.2 50.1C60.3 50.1 59.3999 49.5 59.3999 48.3H63.6V48.2ZM61 46C61.9 46 62.5 46.6 62.6 47.6H59.2999C59.4999 46.6 60.1 46 61 46ZM67.6 45.3C66.8 45.3 66.1 45.7 65.7 46.3V43.2H64.7V50.9H65.5V49.8C65.9 50.6 66.6 51 67.5 51C69 51 70.1 49.8 70.1 48.2C70.1 46.4 69 45.3 67.6 45.3ZM67.3999 50.1C66.3999 50.1 65.6 49.2 65.6 48.1C65.6 46.9 66.3999 46.1 67.3999 46.1C68.3999 46.1 69.1 47 69.1 48.1C69.2 49.3 68.4999 50.1 67.3999 50.1ZM71.8999 44.5C72.2999 44.5 72.5 44.2 72.5 43.9C72.5 43.5 72.1999 43.3 71.8999 43.3C71.5999 43.3 71.2999 43.6 71.2999 43.9C71.1999 44.2 71.4999 44.5 71.8999 44.5ZM71.3999 50.9H72.3999V45.4H71.3999V50.9ZM76.2 50.1C75.6 50.1 75.3999 49.8 75.3999 49.3V46.1H76.7999V45.3H75.3999V43.6H74.3999V45.3H73.5V46.1H74.3999V49.3C74.3999 50.3 75 50.9 76 50.9C76.3 50.9 76.5999 50.9 76.7999 50.8V50C76.6999 50.1 76.4 50.1 76.2 50.1Z"
       fill="#B2B4B3"
@@ -84,15 +84,15 @@ const VisaMetalicSVG = (props) => (
     </defs>
   </svg>
 )
-VisaMetalicSVG.propTypes = {
+VisaMetallicSVG.propTypes = {
   width: PropTypes.string,
   height: PropTypes.string,
-  viewBox: PropTypes.string
+  viewBox: PropTypes.string,
 }
-VisaMetalicSVG.defaultProps = {
+VisaMetallicSVG.defaultProps = {
   width: '80',
   height: '54',
-  viewBox: '0 0 80 54'
+  viewBox: '0 0 80 54',
 }
 
-export default VisaMetalicSVG
+export default VisaMetallicSVG

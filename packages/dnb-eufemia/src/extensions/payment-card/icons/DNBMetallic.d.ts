@@ -1,5 +1,5 @@
 import * as React from 'react';
-export interface DNBMetalicLogoSVGProps
+export interface DNBMetallicLogoSVGProps
   extends React.HTMLProps<HTMLElement> {
   /**
    * function fill() { [native code] }
@@ -9,5 +9,5 @@ export interface DNBMetalicLogoSVGProps
   height?: string;
   viewBox?: string;
 }
-declare const DNBMetalicLogoSVG: React.FC<DNBMetalicLogoSVGProps>;
-export default DNBMetalicLogoSVG;
+declare const DNBMetallicLogoSVG: React.FC<DNBMetallicLogoSVGProps>;
+export default DNBMetallicLogoSVG;

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const DNBMetalicLogoSVG = (props) => (
+const DNBMetallicLogoSVG = (props) => (
   <svg {...props} fill="none" xmlns="http://www.w3.org/2000/svg">
     <title>DNB logo</title>
     <path
@@ -31,17 +31,17 @@ const DNBMetalicLogoSVG = (props) => (
     </defs>
   </svg>
 )
-DNBMetalicLogoSVG.propTypes = {
+DNBMetallicLogoSVG.propTypes = {
   fill: PropTypes.string,
   width: PropTypes.string,
   height: PropTypes.string,
-  viewBox: PropTypes.string
+  viewBox: PropTypes.string,
 }
-DNBMetalicLogoSVG.defaultProps = {
+DNBMetallicLogoSVG.defaultProps = {
   fill: 'none',
   width: '56',
   height: '38',
-  viewBox: '0 0 56 38'
+  viewBox: '0 0 56 38',
 }
 
-export default DNBMetalicLogoSVG
+export default DNBMetallicLogoSVG
