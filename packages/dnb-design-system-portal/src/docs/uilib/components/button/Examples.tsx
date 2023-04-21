@@ -173,29 +173,31 @@ export const ButtonSignalLarge = () => (
 )
 
 export const ButtonIcon = () => (
-  <ComponentBox scope={{ question }}>
-    <Button title="Disabled Icon only Button" icon="calendar" disabled />
+  <ComponentBox scope={{ question }} data-visual-test="button-icons">
+    <Button
+      title="Disabled Icon only Button"
+      icon="calendar"
+      disabled
+      right
+    />
     <Button
       title="Button with Icon only"
       icon="calendar"
       data-visual-test="button-icon"
     />
+    <Button title="Small sized icon button" icon="add" size="small" left />
     <Button
-      title="Small sized button with default Icon"
-      icon="add"
-      icon_size="default"
-      size="small"
-    />
-    <Button
-      title="Default sized Button with medium Icon"
-      icon="calendar"
-      size="default"
-    />
-    <Button
-      title="Button with custom, Secondary Icon only"
+      title="Large sized icon button"
       icon={question}
+      size="large"
+      left
     />
-    <Button title="Button with status" icon={question} status="error" />
+    <Button
+      title="Icon button with status"
+      icon={question}
+      status="error"
+      left
+    />
   </ComponentBox>
 )
 
@@ -397,15 +399,9 @@ export const IconButtonSizes = () => {
         size="small"
       />
       <Button
-        title="Medium sized button with add icon"
+        title="Medium sized button with add icon (default)"
         icon="add"
         size="medium"
-        left
-      />
-      <Button
-        title="Default sized button with add icon"
-        icon="add"
-        size="default"
         left
       />
       <Button
