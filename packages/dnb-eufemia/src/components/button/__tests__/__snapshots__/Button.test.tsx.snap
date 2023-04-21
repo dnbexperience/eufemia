@@ -1053,6 +1053,10 @@ html[data-whatinput=keyboard] .dnb-button--secondary:not(.dnb-button--has-text):
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
+.dnb-button--secondary:not(.dnb-button--has-text):not(.dnb-button--input-button).dnb-button--size-large {
+  width: calc(var(--button-width--large) - 0.5rem);
+  line-height: calc(var(--button-height--large) - 0.5rem);
+}
 .dnb-button--active {
   --border-color: var(--color-emerald-green);
   --border-width: 0.125rem;
