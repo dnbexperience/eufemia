@@ -93,6 +93,13 @@ describe('Button', () => {
   })
 
   describe('icon', () => {
+    it('have to match icon buttons', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="button-icons"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
     it('have to match icon button', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="button-icon"]',

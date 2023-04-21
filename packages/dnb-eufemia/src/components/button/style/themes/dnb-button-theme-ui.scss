@@ -78,13 +78,18 @@
   }
 
   // Icon button
-  &--secondary:not(.dnb-button--has-text) {
+  &--secondary:not(#{&}--has-text) {
     @include buttonHover(var(--color-emerald-green), var(--color-white));
     @include buttonFocus(var(--color-emerald-green), var(--color-white));
     @include buttonActive(
       var(--color-emerald-green),
       var(--color-mint-green-50)
     );
+  }
+  &--secondary:not(#{&}--has-text):not(#{&}--input-button)#{&}--size-large {
+    // Make exception for icon button as it should be smaller than the original large button
+    width: calc(var(--button-width--large) - 0.5rem);
+    line-height: calc(var(--button-height--large) - 0.5rem);
   }
 
   // simulate active state
