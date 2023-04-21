@@ -594,10 +594,12 @@ button .dnb-form-status__text {
   width: var(--button-width);
   height: auto;
   padding: 0;
-  border: var(--button-border-width) solid transparent;
+  border: none;
   border-radius: var(--button-border-radius);
-  text-decoration: none;
+  text-align: left;
   font-size: var(--font-size-small);
+  text-decoration: none;
+  box-shadow: none;
   /* stylelint-disable-next-line */
 }
 .dnb-button--wrap {
