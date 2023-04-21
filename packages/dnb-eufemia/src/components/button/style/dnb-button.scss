@@ -51,12 +51,14 @@
   height: auto;
   padding: 0;
 
-  border: var(--button-border-width) solid transparent;
+  border: none;
   border-radius: var(--button-border-radius);
 
+  text-align: left;
+  font-size: var(--font-size-small); // reset
   text-decoration: none;
 
-  font-size: var(--font-size-small); // has to be 16px
+  box-shadow: none;
 
   // Safari needs a correct CSS specificity
   &,
