@@ -16,6 +16,6 @@ yarn build:packages
 
 echo 'Testing the postbuild ...'
 
-jest ./postbuild.test.js --ci --testPathIgnorePatterns=[]
+yarn test:postbuild
 
 echo 'Postbuild done!'
