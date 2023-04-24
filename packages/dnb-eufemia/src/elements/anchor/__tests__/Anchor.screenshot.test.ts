@@ -6,7 +6,6 @@
 import {
   makeScreenshot,
   setupPageScreenshot,
-  isCI,
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('Anchor', () => {
@@ -137,18 +136,16 @@ describe('Anchor target blank', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  if (!isCI) {
-    it('have to match the target blank with tooltip', async () => {
-      const screenshot = await makeScreenshot({
-        style: {
-          'padding-top': '2rem',
-        },
-        waitBeforeSimulate: 200,
-        selector: '[data-visual-test="anchor-blank"]',
-        simulateSelector: '[data-visual-test="anchor-blank"] a.dnb-anchor',
-        simulate: 'hover',
-      })
-      expect(screenshot).toMatchImageSnapshot()
+  it('have to match the target blank with tooltip', async () => {
+    const screenshot = await makeScreenshot({
+      style: {
+        'padding-top': '2rem',
+      },
+      waitBeforeSimulate: 200,
+      selector: '[data-visual-test="anchor-blank"]',
+      simulateSelector: '[data-visual-test="anchor-blank"] a.dnb-anchor',
+      simulate: 'hover',
     })
-  }
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
