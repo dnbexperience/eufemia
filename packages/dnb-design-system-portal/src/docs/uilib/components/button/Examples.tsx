@@ -69,13 +69,13 @@ export const ButtonPrimaryWithIconLeft = () => (
 
 export const ButtonTertiary = () => (
   <ComponentBox data-visual-test="button-tertiary-all">
-    <Button
-      variant="tertiary"
-      text="Tertiary button with icon on left"
-      icon_position="left"
-      icon="chevron_left"
-      data-visual-test="button-tertiary"
-    />
+  <Button
+    variant="tertiary"
+    text="Tertiary button with icon on left"
+    icon_position="left"
+    icon="chevron_left"
+    data-visual-test="button-tertiary"
+  />
     <Button
       variant="tertiary"
       text={<span>Text inside additional span</span>}
@@ -93,6 +93,13 @@ export const ButtonTertiaryTop = () => (
       icon_position="top"
       icon="close"
       text="Button text"
+    />    
+    <Button
+      variant="tertiary"
+      icon_position="top"
+      icon="close"
+      text="Large button"
+      size="large"
     />
   </ComponentBox>
 )
@@ -335,6 +342,16 @@ export const TertiaryButtonSizes = () => {
         variant="tertiary"
       />
       <Button
+        text="Button large"
+        on_click={() => {
+          console.log('on_click')
+        }}
+        icon="chevron_right"
+        variant="tertiary"
+        size="large"
+        left
+      />
+      <Button
         text="Button text"
         on_click={() => {
           console.log('on_click')
@@ -402,6 +419,12 @@ export const IconButtonSizes = () => {
         title="Medium sized button with add icon (default)"
         icon="add"
         size="medium"
+        left
+      />
+      <Button
+        title="Default sized button with add icon (not default)"
+        icon="add"
+        size="default"
         left
       />
       <Button

@@ -6,6 +6,10 @@
 @import '../../../../style/core/utilities.scss';
 @import './button-mixins.scss';
 
+// Because the tertiary button has so much code,
+// we slice the shareable parts out in a separate file
+@import '../dnb-button--tertiary.scss';
+
 %focus {
   @include buttonFocus(
     var(--sb-color-blue-dark),
@@ -15,7 +19,18 @@
 
 .dnb-button {
   border: none;
-  
+
+  &#{&}--has-text#{&}--size-large {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    &.dnb-button--icon-position-right {
+      padding-right: 0.5rem;
+    }
+    &.dnb-button--icon-position-left {
+      padding-left: 0.5rem;
+    }
+  }
+
   &--primary {
     color: var(--sb-color-green);
     background-color: var(--sb-color-purple-alternative);
@@ -63,6 +78,123 @@
       color: var(--sb-color-gray-dark);
       background-color: var(--sb-color-white);
       @include fakeBorder(var(--sb-color-gray-light), null, inset);
+    }
+  }
+
+  &--tertiary {
+    $tertiary-padding: 0.5rem;
+    $tertiary-padding-large: 1.5rem;
+    $tertiary-icon-space: 0.5rem;
+
+    color: var(--sb-color-violet);
+    background-color: transparent;
+
+    &.dnb-button--has-text {
+      padding-left: $tertiary-padding;
+      padding-right: $tertiary-padding;
+
+      &.dnb-button--has-icon {
+        &.dnb-button--icon-position-left {
+          .dnb-button__text::after {
+            left: -($tertiary-padding + $tertiary-icon-space);
+          }
+        }
+        &.dnb-button--icon-position-right {
+          .dnb-button__text::after {
+            right: -($tertiary-padding + $tertiary-icon-space);
+          }
+        }
+        &.dnb-button--icon-position-top {
+          padding-left: $tertiary-padding;
+          padding-right: $tertiary-padding;
+          .dnb-button__text {
+            margin-bottom: 0.5rem;
+            font-size: var(--button-font-size);
+            &::after {
+              left: -$tertiary-padding;
+              right: -$tertiary-padding;
+            }
+          }
+        }
+      }
+
+      &.dnb-button--size-large {
+        padding-left: $tertiary-padding-large;
+        padding-right: $tertiary-padding-large;
+        
+        &.dnb-button--has-icon {
+          &.dnb-button--icon-position-left {
+            padding-left: $tertiary-padding-large - $tertiary-icon-space;
+            .dnb-button__text::after {
+              left: -$tertiary-padding-large ;
+            }            
+          }
+          &.dnb-button--icon-position-right {
+            padding-right: $tertiary-padding-large - $tertiary-icon-space;
+            .dnb-button__text::after {
+              right: -$tertiary-padding-large;
+            }
+          }
+          &.dnb-button--icon-position-top {
+            padding-left: $tertiary-padding-large;
+            padding-right: $tertiary-padding-large;
+            .dnb-button__text {
+              margin-top: 0.25rem;
+              margin-bottom: 0.75rem;
+              font-size: var(--button-font-size);
+              &::after {
+                left: -$tertiary-padding-large;
+                right: -$tertiary-padding-large;
+              }
+            }  
+          }
+        }
+      }
+    }
+
+    .dnb-button__text::after {
+      height: 0.0625rem;
+      bottom: -0.5rem;
+      left: -$tertiary-padding;
+      right: -$tertiary-padding;
+    }
+
+    &.dnb-button--size-large {
+      .dnb-button__text::after {
+        bottom: -0.75rem;
+        left: -$tertiary-padding-large;
+        right: -$tertiary-padding-large;
+      }
+    }
+
+    @include hover() {
+      // underline
+      .dnb-button__text::after {
+        color: var(--sb-color-violet);
+        transition: none;
+      }
+    }
+
+    @include active() {
+      // underline
+      .dnb-button__text::after {
+          color: var(--sb-color-violet);
+      }
+    }
+
+    &.dnb-button--icon-position-top {
+      .dnb-button__text {
+        font-size: var(--font-size-x-small);
+      }
+      &.dnb-button--size-large {
+        .dnb-button__text {
+          font-size: var(--font-size-small);
+        }
+      }
+    }
+
+    &[disabled] {
+      color: var(--sb-color-gray-dark);
     }
   }
 }
