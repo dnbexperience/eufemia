@@ -6,7 +6,12 @@
 // import the default theme, and go from there
 // it will also have all the component themes included
 @import './customisations.scss'; // before "theme-ui"
+
+// WIP: We may remove this as soon as all Sbanken styles are ready
 @import '../theme-ui/ui-theme-basis.scss';
-@import './fonts.scss';
+
 @import './properties.scss';
+@import './fonts.scss';
+@import './sbanken-theme-elements.scss';
+
 @import './theme-mapping.scss'; // after "properties"
