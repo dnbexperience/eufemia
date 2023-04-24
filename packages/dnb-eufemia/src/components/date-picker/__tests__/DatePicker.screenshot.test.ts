@@ -11,8 +11,6 @@ import {
 describe('DatePicker', () => {
   setupPageScreenshot({ url: '/uilib/components/date-picker/demos' })
 
-  // skip the input fields, as there is a linux input issue
-
   it('have to match the input fields', async () => {
     const screenshot = await makeScreenshot({
       selector:
