@@ -53,6 +53,36 @@ export const ButtonDisabled = () => (
   </ComponentBox>
 )
 
+export const ButtonErrorState = () => (
+  <ComponentBox scope={{ question }} >
+    <Button
+      text="Primary button error"
+      status="error"
+    />
+    <Button
+      text="Secondary button error"
+      variant="secondary"
+      status="error"
+      left
+    />
+    <Button
+      title="Primary icon button error"
+      variant="primary"
+      icon={question}
+      size="default"
+      status="error"
+      left
+    />
+    <Button
+      title="Secondary icon button error"
+      icon={question}
+      size="default"
+      status="error"
+      left
+    />
+  </ComponentBox>
+)
+
 export const ButtonPrimaryWithIcon = () => (
   <ComponentBox>
     <Button text="Primary button with icon" icon="chevron_right" />
