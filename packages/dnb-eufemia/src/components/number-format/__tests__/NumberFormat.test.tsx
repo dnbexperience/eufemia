@@ -11,6 +11,7 @@ import {
   loadScss,
   mockGetSelection,
 } from '../../../core/jest/jestSetup'
+import { fireEvent, render } from '@testing-library/react'
 import { LOCALE } from '../../../shared/defaults'
 import { isMac } from '../../../shared/helpers'
 import Provider from '../../../shared/Provider'
@@ -33,6 +34,13 @@ const snapshotProps = {
 // make it possible to change the navigator lang
 // because "navigator.language" defaults to en-GB
 let languageGetter, platformGetter
+
+beforeEach(() => {
+  document.body.innerHTML = ''
+
+  const selection = window.getSelection()
+  selection.removeAllRanges()
+})
 
 beforeAll(() => {
   languageGetter = jest.spyOn(window.navigator, 'language', 'get')
@@ -57,267 +65,373 @@ describe('NumberFormat component', () => {
   })
 
   it('have to match default number', () => {
-    const Comp = mount(<Component value={value} />)
-    expect(Comp.find(displaySelector).first().text()).toBe(
+    render(<Component value={value} />)
+    expect(document.querySelector(displaySelector).textContent).toBe(
       '12 345 678,9876'
     )
   })
 
   it('have to match currency for default locale', () => {
-    const Comp = mount(<Component value={-value} currency />)
+    const { rerender } = render(<Component value={-value} currency />)
 
-    expect(Comp.find(displaySelector).first().text()).toBe(
+    expect(document.querySelector(displaySelector).textContent).toBe(
       '-12 345 678,99 kr'
     )
 
-    expect(Comp.find(ariaSelector).first().text()).toBe(
-      '-12 345 678,99 norske kroner'
-    )
+    expect(
+      document.querySelector(ariaSelector).getAttribute('data-text')
+    ).toBe('-12 345 678,99 norske kroner')
 
     // also check the formatting with one digit less
-    Comp.setProps({
-      children: null,
-      decimals: 0,
-      value: 12345,
-    })
+    rerender(<Component currency decimals={0} value={12345} />)
 
-    expect(Comp.find(displaySelector).first().text()).toBe('12 345 kr')
+    expect(document.querySelector(displaySelector).textContent).toBe(
+      '12 345 kr'
+    )
   })
 
   it('have to match currency in en locale', () => {
-    const Comp = mount(<Component value={-value} currency locale="en" />)
+    const { rerender } = render(
+      <Component value={-value} currency locale="en" />
+    )
 
-    expect(Comp.find(displaySelector).first().text()).toBe(
+    expect(document.querySelector(displaySelector).textContent).toBe(
       '-NOK 12 345 678.99'
     )
 
-    expect(Comp.find(ariaSelector).first().text()).toBe(
-      '-12 345 678.99 Norwegian kroner'
-    )
+    expect(
+      document.querySelector(ariaSelector).getAttribute('data-text')
+    ).toBe('-12 345 678.99 Norwegian kroner')
 
     // also check the formatting with one digit less
-    Comp.setProps({
-      children: null,
-      decimals: 0,
-      value: 12345,
-    })
+    rerender(<Component currency locale="en" decimals={0} value={12345} />)
 
-    expect(Comp.find(displaySelector).first().text()).toBe('NOK 12 345')
+    expect(document.querySelector(displaySelector).textContent).toBe(
+      'NOK 12 345'
+    )
   })
 
   it('have to match currency with large decimals', () => {
-    const Comp = mount(<Component value="5000.0099" currency />)
-    expect(Comp.find(displaySelector).first().text()).toBe('5 000,01 kr')
+    render(<Component value="5000.0099" currency />)
+    expect(document.querySelector(displaySelector).textContent).toBe(
+      '5 000,01 kr'
+    )
+  })
+
+  it('will show copy advice', () => {
+    render(<Component value={-value} currency />)
+
+    expect(
+      document
+        .querySelector('span')
+        .classList.contains('dnb-number-format--selected')
+    ).toBe(false)
+
+    expect(document.querySelector('.dnb-tooltip')).toBeFalsy()
+
+    fireEvent.click(document.querySelector('.dnb-number-format__visible'))
+    fireEvent.copy(document.querySelector('.dnb-number-format__selection'))
+
+    expect(document.querySelector('.dnb-tooltip')).toBeTruthy()
   })
 
   it('has valid selected number', () => {
-    const Comp = mount(<Component value={-value} currency />)
-
-    const selection = window.getSelection()
-    selection.removeAllRanges()
+    const { rerender } = render(<Component value={-value} currency />)
 
     expect(
-      Comp.find('span').first().hasClass('dnb-number-format--selected')
+      document
+        .querySelector('span')
+        .classList.contains('dnb-number-format--selected')
     ).toBe(false)
 
-    Comp.find('.dnb-number-format__visible').simulate('click')
+    expect(document.activeElement).toBe(document.body)
 
-    expect(
-      Comp.find('span').first().hasClass('dnb-number-format--selected')
-    ).toBe(true)
+    fireEvent.click(document.querySelector('.dnb-number-format__visible'))
+
+    expect(document.activeElement).toBe(
+      document.querySelector('.dnb-number-format__selection')
+    )
+    expect(document.querySelector('span').classList).toContain(
+      'dnb-number-format--selected'
+    )
 
     const { cleanedValue: noVal } = format(-value, {
       currency: true,
       returnAria: true,
     }) as formatReturnValue
-    expect(Comp.find('.dnb-number-format__selection').text()).toBe(noVal)
+    expect(
+      document.querySelector('.dnb-number-format__selection').textContent
+    ).toBe(noVal)
     expect(window.getSelection().toString()).toBe('1234.56') // Hack! Having there the "cleanedNumber" would be optimal.
     expect(window.getSelection().rangeCount).toBe(1)
 
-    Comp.setProps({ locale: 'en-GB' })
+    rerender(<Component value={-value} currency locale="en-GB" />)
+
     const { cleanedValue: enVal } = format(-value, {
       locale: 'en-GB',
       currency: true,
       returnAria: true,
     }) as formatReturnValue
-    expect(Comp.find('.dnb-number-format__selection').text()).toBe(enVal)
+
+    expect(
+      document.querySelector('.dnb-number-format__selection').textContent
+    ).toBe(enVal)
+
+    fireEvent.blur(document.querySelector('.dnb-number-format__selection'))
+
+    expect(document.querySelector('span').classList).not.toContain(
+      'dnb-number-format--selected'
+    )
   })
 
   it('have to match currency with currency_position="after"', () => {
-    const Comp = mount(
+    const { rerender } = render(
       <Component value={-value} currency currency_position="after" />
     )
 
-    expect(Comp.find(displaySelector).first().text()).toBe(
+    expect(document.querySelector(displaySelector).textContent).toBe(
       '-12 345 678,99 kr'
     )
 
-    expect(Comp.find(ariaSelector).first().text()).toBe(
-      '-12 345 678,99 norske kroner'
+    expect(
+      document.querySelector(ariaSelector).getAttribute('data-text')
+    ).toBe('-12 345 678,99 norske kroner')
+
+    rerender(
+      <Component
+        value={-value}
+        currency
+        currency_position="after"
+        locale="en-GB"
+      />
     )
 
-    Comp.setProps({
-      locale: 'en-GB',
-    })
-
-    expect(Comp.find(displaySelector).first().text()).toBe(
+    expect(document.querySelector(displaySelector).textContent).toBe(
       '-12 345 678.99 NOK'
     )
 
-    expect(Comp.find(ariaSelector).first().text()).toBe(
-      '-12 345 678.99 Norwegian kroner'
+    expect(
+      document.querySelector(ariaSelector).getAttribute('data-text')
+    ).toBe('-12 345 678.99 Norwegian kroner')
+
+    rerender(
+      <Component
+        value={-value}
+        currency
+        locale="en-GB"
+        currency_position="after"
+        currency_display="code"
+      />
     )
 
-    Comp.setProps({
-      currency_display: 'code',
-    })
-    expect(Comp.find(displaySelector).first().text()).toBe(
+    expect(document.querySelector(displaySelector).textContent).toBe(
       '-12 345 678.99 NOK'
     )
 
-    Comp.setProps({
-      locale: 'no',
-    })
+    rerender(
+      <Component
+        value={-value}
+        currency
+        locale="no"
+        currency_position="before"
+        currency_display="code"
+      />
+    )
 
-    Comp.setProps({
-      currency_position: 'before',
-    })
-    expect(Comp.find(displaySelector).first().text()).toBe(
+    expect(document.querySelector(displaySelector).textContent).toBe(
       'NOK −12 345 678,99'
     )
   })
 
   it('have to match currency with currency_position="before"', () => {
-    const Comp = mount(
+    const { rerender } = render(
       <Component value={-value} currency currency_position="before" />
     )
 
-    expect(Comp.find(displaySelector).first().text()).toBe(
+    expect(document.querySelector(displaySelector).textContent).toBe(
       'kr −12 345 678,99'
     )
 
-    expect(Comp.find(ariaSelector).first().text()).toBe(
-      '-12 345 678,99 norske kroner'
+    expect(
+      document.querySelector(ariaSelector).getAttribute('data-text')
+    ).toBe('-12 345 678,99 norske kroner')
+
+    rerender(
+      <Component
+        value={-value}
+        currency
+        currency_position="before"
+        locale="en-GB"
+      />
     )
 
-    Comp.setProps({
-      locale: 'en-GB',
-    })
-
-    expect(Comp.find(displaySelector).first().text()).toBe(
+    expect(document.querySelector(displaySelector).textContent).toBe(
       '-NOK 12 345 678.99'
     )
 
-    expect(Comp.find(ariaSelector).first().text()).toBe(
-      '-12 345 678.99 Norwegian kroner'
+    expect(
+      document.querySelector(ariaSelector).getAttribute('data-text')
+    ).toBe('-12 345 678.99 Norwegian kroner')
+
+    rerender(
+      <Component
+        value={-value}
+        currency
+        currency_position="before"
+        locale="en-GB"
+      />
     )
 
-    Comp.setProps({
-      currency_display: 'code',
-    })
-    expect(Comp.find(displaySelector).first().text()).toBe(
+    expect(document.querySelector(displaySelector).textContent).toBe(
       '-NOK 12 345 678.99'
     )
 
-    Comp.setProps({
-      locale: 'no',
-    })
+    rerender(
+      <Component
+        value={-value}
+        currency
+        currency_position="after"
+        currency_display="code"
+        locale="no"
+      />
+    )
 
-    Comp.setProps({
-      currency_position: 'after',
-    })
-    expect(Comp.find(displaySelector).first().text()).toBe(
+    expect(document.querySelector(displaySelector).textContent).toBe(
       '-12 345 678,99 NOK'
     )
   })
 
   it('have to match currency under 100.000', () => {
-    const Comp = mount(<Component value={-12345.95} currency />)
+    render(<Component value={-12345.95} currency />)
 
-    expect(Comp.find(displaySelector).first().text()).toBe('-12 345,95 kr')
-
-    expect(Comp.find(ariaSelector).first().text()).toBe(
-      '-12345,95 norske kroner'
+    expect(document.querySelector(displaySelector).textContent).toBe(
+      '-12 345,95 kr'
     )
+
+    expect(
+      document.querySelector(ariaSelector).getAttribute('data-text')
+    ).toBe('-12345,95 norske kroner')
   })
 
   it('have to match currency with no decimals', () => {
-    const Comp = mount(
-      <Component value={-12345.99} currency decimals={0} />
+    render(<Component value={-12345.99} currency decimals={0} />)
+
+    expect(document.querySelector(displaySelector).textContent).toBe(
+      '-12 346 kr'
     )
 
-    expect(Comp.find(displaySelector).first().text()).toBe('-12 346 kr')
-
-    expect(Comp.find(ariaSelector).first().text()).toBe(
-      '-12346 norske kroner'
-    )
+    expect(
+      document.querySelector(ariaSelector).getAttribute('data-text')
+    ).toBe('-12346 norske kroner')
   })
 
   it('have to match phone number', () => {
-    const Comp = mount(<Component phone>+47 99999999</Component>)
-    expect(Comp.find(displaySelector).first().text()).toBe(
+    render(<Component phone>+47 99999999</Component>)
+    expect(document.querySelector(displaySelector).textContent).toBe(
       '0047 99 99 99 99'
     )
   })
 
   it('have to match bank account number', () => {
-    const Comp = mount(<Component ban>20001234567</Component>)
-    expect(Comp.find(displaySelector).first().text()).toBe('2000 12 34567')
+    const { rerender } = render(<Component ban>20001234567</Component>)
+    expect(document.querySelector(displaySelector).textContent).toBe(
+      '2000 12 34567'
+    )
 
     // also check the formatting with one digit less
-    Comp.setProps({
-      children: null,
-      value: 2000123456,
-    })
-    expect(Comp.find(displaySelector).first().text()).toBe('2000 12 3456')
-  })
+    rerender(<Component ban value="2000123456" />)
 
-  it('have to match national identification number', () => {
-    const Comp = mount(<Component nin>18089212345</Component>)
-    expect(Comp.find(displaySelector).first().text()).toBe('180892 12345')
-    expect(Comp.find(ariaSelector).first().text()).toBe(
-      '18 08 92 1 2 3 4 5'
+    expect(document.querySelector(displaySelector).textContent).toBe(
+      '2000 12 3456'
     )
   })
 
+  it('have to match national identification number', () => {
+    render(<Component nin>18089212345</Component>)
+    expect(document.querySelector(displaySelector).textContent).toBe(
+      '180892 12345'
+    )
+    expect(
+      document.querySelector(ariaSelector).getAttribute('data-text')
+    ).toBe('18 08 92 1 2 3 4 5')
+  })
+
   it('have to match organization number', () => {
-    const Comp = mount(
+    render(
       <Component org suffix="MVA">
         123456789
       </Component>
     )
-    expect(Comp.find(displaySelector).first().text()).toBe(
+    expect(document.querySelector(displaySelector).textContent).toBe(
       '123 456 789 MVA'
     )
-    expect(Comp.find(ariaSelector).first().text()).toBe(
-      '1 2 3 4 5 6 7 8 9 MVA'
-    )
+    expect(
+      document.querySelector(ariaSelector).getAttribute('data-text')
+    ).toBe('1 2 3 4 5 6 7 8 9 MVA')
   })
 
   it('have to handle prefix and suffix', () => {
-    const Comp = mount(
+    render(
       <Component prefix={<span>prefix</span>} suffix={<span>suffix</span>}>
         123456789.5
       </Component>
     )
-    expect(Comp.find(displaySelector).first().text()).toBe(
+    expect(document.querySelector(displaySelector).textContent).toBe(
       'prefix 123 456 789,5 suffix'
     )
-    expect(Comp.find(ariaSelector).first().text()).toBe(
-      'prefix 123 456 789,5 suffix'
-    )
+    expect(
+      document.querySelector(ariaSelector).getAttribute('data-text')
+    ).toBe('prefix 123 456 789,5 suffix')
   })
 
   it('will add visually hidden label when srLabel is given', () => {
-    const Comp = mount(
-      <Component value={-value} currency srLabel="Total:" />
+    render(
+      <Component
+        value={-value}
+        currency
+        srLabel="Total:"
+        copy_selection={false}
+      />
     )
-    expect(Comp.find('.dnb-sr-only').first().text()).toBe('Total: ')
-    expect(Comp.text()).toContain('Total: -12 345 678,99 kr')
+    expect(
+      document.querySelector('.dnb-sr-only').getAttribute('data-text')
+    ).toBe('Total: ')
+    expect(document.querySelector('.dnb-sr-only').textContent).toBe('')
+    expect(
+      document.querySelector('.dnb-number-format').textContent
+    ).toContain('-12 345 678,99 kr')
+  })
+
+  it('will render selection value on click event', () => {
+    render(<Component value={-value} currency />)
+
+    expect(
+      document.querySelector('.dnb-number-format__selection').textContent
+    ).toBe('')
+
+    fireEvent.click(document.querySelector('.dnb-number-format__visible'))
+
+    expect(
+      document.querySelector('.dnb-number-format__selection').textContent
+    ).toBe('-12345678,99 kr')
+
+    fireEvent.blur(document.querySelector('.dnb-number-format__selection'))
+
+    expect(
+      document.querySelector('.dnb-number-format__selection').textContent
+    ).toBe('')
+  })
+
+  it('will not render selection element when copy_selection="false"', () => {
+    render(<Component value={-value} currency copy_selection={false} />)
+
+    expect(
+      document.querySelector('.dnb-number-format__selection')
+    ).toBeFalsy()
   })
 
   it('should validate with ARIA rules', async () => {
-    const Comp = mount(
+    const Comp = render(
       <Component value={-value} currency srLabel="Total:" />
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
@@ -329,45 +443,47 @@ describe('NumberFormat compact', () => {
   const ariaSelector = element + '.dnb-number-format span[id]'
 
   it('have to match default compact number', () => {
-    const Comp = mount(<Component value={-value} compact decimals={1} />)
-    expect(Comp.find(displaySelector).first().text()).toBe('-12,3 mill.')
-    expect(Comp.find(ariaSelector).first().text()).toBe('-12,3 millioner')
+    render(<Component value={-value} compact decimals={1} />)
+    expect(document.querySelector(displaySelector).textContent).toBe(
+      '-12,3 mill.'
+    )
+    expect(
+      document.querySelector(ariaSelector).getAttribute('data-text')
+    ).toBe('-12,3 millioner')
   })
 
   it('have to match short compact number', () => {
-    const Comp = mount(
-      <Component value={-12345} compact="short" decimals={3} />
+    render(<Component value={-12345} compact="short" decimals={3} />)
+    expect(document.querySelector(displaySelector).textContent).toBe(
+      '-12,345k'
     )
-    expect(Comp.find(displaySelector).first().text()).toBe('-12,345k')
-    expect(Comp.find(ariaSelector).first().text()).toBe('-12,345 tusen')
+    expect(
+      document.querySelector(ariaSelector).getAttribute('data-text')
+    ).toBe('-12,345 tusen')
   })
 
   it('have to match long compact number', () => {
-    const Comp = mount(
-      <Component value={-value} compact="long" decimals={3} />
-    )
-    expect(Comp.find(displaySelector).first().text()).toBe(
+    render(<Component value={-value} compact="long" decimals={3} />)
+    expect(document.querySelector(displaySelector).textContent).toBe(
       '-12,346 millioner'
     )
-    expect(Comp.find(ariaSelector).first().text()).toBe(
-      '-12,346 millioner'
-    )
+    expect(
+      document.querySelector(ariaSelector).getAttribute('data-text')
+    ).toBe('-12,346 millioner')
   })
 
   it('have to match currency based compact number', () => {
-    const Comp = mount(
-      <Component value={-value} compact currency decimals={2} />
-    )
-    expect(Comp.find(displaySelector).first().text()).toBe(
+    render(<Component value={-value} compact currency decimals={2} />)
+    expect(document.querySelector(displaySelector).textContent).toBe(
       '-12,35 mill. kr'
     )
-    expect(Comp.find(ariaSelector).first().text()).toBe(
-      '-12,35 millioner norske kroner'
-    )
+    expect(
+      document.querySelector(ariaSelector).getAttribute('data-text')
+    ).toBe('-12,35 millioner norske kroner')
   })
 
   it('have to match currency based compact number with custom currency_display', () => {
-    const Comp = mount(
+    render(
       <Component
         compact="long"
         currency
@@ -376,37 +492,65 @@ describe('NumberFormat compact', () => {
         currency_display="name"
       />
     )
-    expect(Comp.find(displaySelector).first().text()).toBe(
+    expect(document.querySelector(displaySelector).textContent).toBe(
       '-12,346 millioner norske kroner'
     )
-    expect(Comp.find(ariaSelector).first().text()).toBe(
-      '-12,346 millioner norske kroner'
+    expect(
+      document.querySelector(ariaSelector).getAttribute('data-text')
+    ).toBe('-12,346 millioner norske kroner')
+  })
+
+  it('have to hide currency code on falsy currency_display', () => {
+    const { rerender } = render(
+      <Component currency currency_display={false} value={-1234} />
     )
+
+    expect(document.querySelector(displaySelector).textContent).toBe(
+      '-1 234,00'
+    )
+    expect(
+      document.querySelector(ariaSelector).getAttribute('data-text')
+    ).toBe('-1234,00 norske kroner')
+
+    rerender(<Component currency currency_display="" value={-1234567} />)
+
+    expect(document.querySelector(displaySelector).textContent).toBe(
+      '-1 234 567,00'
+    )
+
+    const element = document.querySelector('.dnb-number-format')
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+
+    expect(attributes).toEqual(['lang', 'class', 'role'])
   })
 
   it('have to match compact number with custom decimals', () => {
-    const Comp = mount(
-      <Component value={-value} compact currency decimals={4} />
-    )
-    expect(Comp.find(displaySelector).first().text()).toBe(
+    render(<Component value={-value} compact currency decimals={4} />)
+    expect(document.querySelector(displaySelector).textContent).toBe(
       '-12,3457 mill. kr'
     )
-    expect(Comp.find(ariaSelector).first().text()).toBe(
-      '-12,3457 millioner norske kroner'
-    )
+    expect(
+      document.querySelector(ariaSelector).getAttribute('data-text')
+    ).toBe('-12,3457 millioner norske kroner')
   })
 
   describe('en-GB', () => {
     it('have to match default compact number', () => {
-      const Comp = mount(
+      render(
         <Component value={-value} compact locale="en-GB" decimals="2" />
       )
-      expect(Comp.find(displaySelector).first().text()).toBe('-12.35M')
-      expect(Comp.find(ariaSelector).first().text()).toBe('-12.35 million')
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        '-12.35M'
+      )
+      expect(
+        document.querySelector(ariaSelector).getAttribute('data-text')
+      ).toBe('-12.35 million')
     })
 
     it('have to match long compact number', () => {
-      const Comp = mount(
+      render(
         <Component
           value={-value}
           compact="long"
@@ -414,14 +558,16 @@ describe('NumberFormat compact', () => {
           decimals="2"
         />
       )
-      expect(Comp.find(displaySelector).first().text()).toBe(
+      expect(document.querySelector(displaySelector).textContent).toBe(
         '-12.35 million'
       )
-      expect(Comp.find(ariaSelector).first().text()).toBe('-12.35 million')
+      expect(
+        document.querySelector(ariaSelector).getAttribute('data-text')
+      ).toBe('-12.35 million')
     })
 
     it('have to match currency based compact number', () => {
-      const Comp = mount(
+      render(
         <Component
           value={-value}
           compact
@@ -430,10 +576,12 @@ describe('NumberFormat compact', () => {
           decimals="2"
         />
       )
-      expect(Comp.find(displaySelector).first().text()).toBe('-NOK 12.35M')
-      expect(Comp.find(ariaSelector).first().text()).toBe(
-        '-12.35 million Norwegian kroner'
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        '-NOK 12.35M'
       )
+      expect(
+        document.querySelector(ariaSelector).getAttribute('data-text')
+      ).toBe('-12.35 million Norwegian kroner')
     })
   })
 
@@ -508,10 +656,14 @@ describe('NumberFormat compact', () => {
   it.each(numbersDecimals)(
     'have to match compact number %s',
     ({ value, display, aria }) => {
-      const Comp = mount(<Component value={value} compact decimals={1} />)
+      render(<Component value={value} compact decimals={1} />)
 
-      expect(Comp.find(displaySelector).first().text()).toBe(display)
-      expect(Comp.find(ariaSelector).first().text()).toBe(aria)
+      expect(document.querySelector(displaySelector).textContent).toBe(
+        display
+      )
+      expect(
+        document.querySelector(ariaSelector).getAttribute('data-text')
+      ).toBe(aria)
     }
   )
 })
@@ -520,7 +672,7 @@ describe('NumberFormat component with provider', () => {
   const displaySelector = element + '.dnb-number-format span'
 
   it('have to match inherit properties', () => {
-    const Comp = mount(
+    render(
       <Provider
         locale="en-GB"
         NumberFormat={{ currency: true, currency_display: 'name' }}
@@ -528,7 +680,7 @@ describe('NumberFormat component with provider', () => {
         <Component value={value} />
       </Provider>
     )
-    expect(Comp.find(displaySelector).first().text()).toBe(
+    expect(document.querySelector(displaySelector).textContent).toBe(
       '12 345 678.99 Norwegian kroner'
     )
   })
