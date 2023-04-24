@@ -1,6 +1,8 @@
 /**
- * Test postbuild stage
- * check if important files do exists
+ * Test for the post-build stage
+ *
+ * NB: check if important files do exists,
+ * you may else run "yarn build:ci" in order to build all files.
  *
  */
 
@@ -298,6 +300,122 @@ describe('rollup build', () => {
           }
         }
         break
+    }
+  })
+})
+
+describe('style build', () => {
+  const buildStages = ['', '/es', '/cjs']
+
+  it.each(buildStages)('has created a package on stage "%s"', (stage) => {
+    {
+      const content = fs.readFileSync(
+        path.resolve(
+          packpath.self(),
+          `build${stage}/style/dnb-ui-basis.scss`
+        ),
+        'utf-8'
+      )
+      expect(content).toContain(`@import './core/scopes.scss';`)
+      expect(content).toContain(`
+.dnb-core-style {
+  @include bodyDefault();
+}`)
+      expect(content).toContain(
+        `@import './core/helper-classes/helper-classes.scss';`
+      )
+      expect(content).toContain(`@import './dnb-ui-elements.scss';`)
+    }
+
+    {
+      const content = fs.readFileSync(
+        path.resolve(
+          packpath.self(),
+          `build${stage}/style/themes/theme-ui/ui-theme-basis.scss`
+        ),
+        'utf-8'
+      )
+      expect(content).toContain(`@import './properties.scss';`)
+      expect(content).toContain(`@import './fonts.scss';`)
+      expect(content).toContain(`@import './ui-theme-elements.scss';`)
+    }
+
+    {
+      const content = fs.readFileSync(
+        path.resolve(
+          packpath.self(),
+          `build${stage}/style/themes/theme-sbanken/sbanken-theme-basis.scss`
+        ),
+        'utf-8'
+      )
+      expect(content).toContain(`@import './properties.scss';`)
+      expect(content).toContain(`@import './fonts.scss';`)
+      expect(content).toContain(`@import './sbanken-theme-elements.scss';`)
+    }
+
+    {
+      const content = fs.readFileSync(
+        path.resolve(
+          packpath.self(),
+          `build${stage}/style/dnb-ui-basis.css`
+        ),
+        'utf-8'
+      )
+      expect(content).toContain(`
+.dnb-p {
+  font-size: var(--font-size-basis);
+  padding: 0;
+}`)
+      expect(content).toContain(`
+.dnb-h--basis {
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+}`)
+    }
+
+    {
+      const content = fs.readFileSync(
+        path.resolve(
+          packpath.self(),
+          `build${stage}/style/themes/theme-ui/ui-theme-basis.css`
+        ),
+        'utf-8'
+      )
+      expect(content).toContain(
+        `--font-family-default: "DNB", sans-serif;`
+      )
+      expect(content).toContain(`.dnb-typo-regular`)
+      expect(content).toContain(`@font-face`)
+      expect(content).toContain(
+        `src: url("../../../assets/fonts/dnb/DNB-Regular.woff2") format("woff2"),`
+      )
+    }
+
+    {
+      const content = fs.readFileSync(
+        path.resolve(
+          packpath.self(),
+          `build${stage}/style/themes/theme-sbanken/sbanken-theme-basis.css`
+        ),
+        'utf-8'
+      )
+      expect(content).toContain(`font-family: MaisonNeueHeadings;`)
+      expect(content).toContain(`
+.dnb-h--basis {
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+}`)
+    }
+
+    {
+      const content = fs.readFileSync(
+        path.resolve(
+          packpath.self(),
+          `build${stage}/style/themes/theme-sbanken/sbanken-theme-components.css`
+        ),
+        'utf-8'
+      )
+      expect(content).toContain(`.dnb-button {`)
     }
   })
 })
