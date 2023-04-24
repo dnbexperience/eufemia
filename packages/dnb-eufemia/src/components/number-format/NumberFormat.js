@@ -15,6 +15,7 @@ import {
   convertJsxToString,
   extendPropsWithContextInClassComponent,
   extend,
+  detectOutsideClick,
 } from '../../shared/component-helper'
 import { hasSelectedText, IS_IOS } from '../../shared/helpers'
 import {
@@ -40,7 +41,10 @@ export default class NumberFormat extends React.PureComponent {
 
     // currency
     currency: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-    currency_display: PropTypes.string,
+    currency_display: PropTypes.oneOfType([
+      PropTypes.bool,
+      PropTypes.oneOf(['code', 'name', 'symbol', 'narrowSymbol', '']),
+    ]),
     currency_position: PropTypes.oneOf(['auto', 'before', 'after']),
 
     // shortens any number or currency including an abbreviation
@@ -180,12 +184,21 @@ export default class NumberFormat extends React.PureComponent {
     }
   }
 
+  componentWillUnmount() {
+    this.outsideClick?.remove()
+  }
+
   setFocus() {
     this.setState({ selected: true }, () => {
-      if (this._selectionRef.current) {
-        this._selectionRef.current.focus()
-      }
+      this._selectionRef.current?.focus()
       this.selectAll()
+
+      if (!isTrue(this.props.copy_selection)) {
+        this.outsideClick = detectOutsideClick(
+          this._ref.current,
+          this.onBlurHandler
+        )
+      }
     })
   }
 
@@ -394,11 +407,9 @@ export default class NumberFormat extends React.PureComponent {
     return (
       <Element lang={lang} {...attributes}>
         {srLabel && (
-          <span className="dnb-sr-only">
-            {srLabel}
-            {' '}
-          </span>
+          <span className="dnb-sr-only" data-text={srLabel + ' '} />
         )}
+
         <span
           className={classnames(
             'dnb-number-format__visible',
@@ -414,9 +425,8 @@ export default class NumberFormat extends React.PureComponent {
         <span
           id={this._id}
           className="dnb-number-format__sr-only dnb-sr-only"
-        >
-          {aria}
-        </span>
+          data-text={aria}
+        />
 
         {isTrue(copy_selection) && (
           <span
@@ -427,7 +437,7 @@ export default class NumberFormat extends React.PureComponent {
             onCopy={this.shortcutHandler}
             aria-hidden
           >
-            {cleanedValue}
+            {this.state.selected && cleanedValue}
           </span>
         )}
 
