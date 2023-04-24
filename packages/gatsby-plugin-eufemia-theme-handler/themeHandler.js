@@ -27,6 +27,22 @@ export function useThemeName() {
     })
   }, [])
 
+  // Deprecated (can be removed when we are full and 100% officially using Reavt v18)
+  // When using React v17,
+  // we need to ovecome a hydration issue.
+  // The JS app gets the correct themeName,
+  // but React does not change it in the HTML
+  React.useEffect(() => {
+    const element = document.querySelector('.eufemia-theme')
+    const htmlName = element?.getAttribute('data-name')
+
+    if (htmlName !== themeName) {
+      element.setAttribute('data-name', themeName)
+      element.classList.remove(`eufemia-theme__${htmlName}`)
+      element.classList.add(`eufemia-theme__${themeName}`)
+    }
+  }, [themeName])
+
   return themeName
 }
 
