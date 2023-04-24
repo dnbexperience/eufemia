@@ -53,19 +53,16 @@ exports[`NumberFormat component have to match default number-format snapshot 1`]
       </span>
       <span
         className="dnb-number-format__sr-only dnb-sr-only"
+        data-text="12 345 678,9876"
         id="unique"
-      >
-        12 345 678,9876
-      </span>
+      />
       <span
         aria-hidden={true}
         className="dnb-number-format__selection dnb-no-focus"
         onBlur={[Function]}
         onCopy={[Function]}
         tabIndex={-1}
-      >
-        12345678,9876
-      </span>
+      />
     </span>
   </NumberFormat>
 </Component>
@@ -224,6 +221,9 @@ html[data-visual-test] .dnb-tooltip--hide {
   speak-as: numbers;
   color: inherit;
   white-space: nowrap;
+}
+.dnb-number-format .dnb-sr-only::before {
+  content: attr(data-text);
 }
 .dnb-number-format__prefix, .dnb-number-format__suffix {
   white-space: normal;

@@ -56,7 +56,13 @@ export interface NumberFormatProps
   /**
    * Use either empty/false to hide the sign/name or use `code` (NOK), `name` (norske kroner) , `symbol` (kr) or `narrowSymbol` (for a shorter symbol variant). Defaults to `narrowSymbol` when the locale is `no` else we default to `code`.
    */
-  currency_display?: string;
+  currency_display?:
+    | 'code'
+    | 'name'
+    | 'symbol'
+    | 'narrowSymbol'
+    | ''
+    | false;
 
   /**
    * Use either `before` or `after` to change/define the position of the currency. Defaults to `auto` (Browser API defaults, but with an exception, if the locale is `nb-NO` or `no`, use after as the default position).
