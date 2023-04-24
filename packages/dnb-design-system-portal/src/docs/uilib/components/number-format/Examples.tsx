@@ -31,7 +31,9 @@ export const NumberDefault = () => (
           -12345678.9
         </NumberFormat>
         <NumberFormat decimals={1}>-1234.54321</NumberFormat>
-        <NumberFormat decimals={2}>-1234</NumberFormat>
+        <NumberFormat decimals={2} copy_selection={false}>
+          -1234
+        </NumberFormat>
       </P>
     </ComponentBox>
   </Style>
@@ -66,6 +68,11 @@ export const NumberCurrency = () => (
           currency
           value={-12345678.9}
           currency_display="code"
+        />
+        <NumberFormat
+          currency
+          value={-12345678.9}
+          currency_display={false}
         />
       </P>
     </ComponentBox>
