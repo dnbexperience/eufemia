@@ -61,10 +61,10 @@
       }
     }
 
-    // .dnb-button__icon {
-    //   align-self: flex-start;
-    //   margin-top: calc(var(--button-height) / 2 - 0.5rem);
-    // }
+    .dnb-button__icon {
+      align-self: flex-start;
+      margin-top: calc(var(--button-height) / 2 - 0.5rem);
+    }
     &.dnb-button--size-large .dnb-button__icon {
       margin-top: calc(var(--button-height--large) / 2 - 0.5rem);
     }
