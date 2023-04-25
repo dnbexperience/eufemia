@@ -1,6 +1,7 @@
 @use '../anchor-mixins.scss';
 
 .dnb-anchor {
+  font-weight: var(--font-weight-medium);
   color: var(--sb-color-gray-dark-3);
   text-decoration-color: var(--sb-color-green-dark);
 
