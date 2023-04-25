@@ -11,6 +11,40 @@
       saturate(6711%) hue-rotate(265deg) brightness(71%) contrast(115%); // simulate the color #4e08bc - --sb-color-violet
   }
 
+  // remove contrast from dnb-blockquote-theme-ui. There must be a better way?
+  // Ideally the contrast style from dnb-blockquote-theme-ui should not be loaded and override the sbanken blockquote.
+  &:not(.dnb-blockquote--no-background) {
+    .dnb-anchor,
+    a {
+      font-weight: var(--font-weight-medium);
+      color: var(--sb-color-gray-dark-3);
+      text-decoration-color: var(--sb-color-green-dark);
+
+      &:hover {
+        color: var(--sb-color-text);
+        background-color: var(--sb-color-green-dark);
+
+        border-radius: 0.5rem;
+      }
+
+      &:active {
+        color: var(--sb-color-text);
+        background-color: var(--sb-color-green);
+
+        border-radius: 0.5rem;
+      }
+
+      &:focus {
+        &:not(:active) {
+          color: var(--sb-color-blue-dark);
+          background-color: var(--sb-color-blue-light-3);
+
+          border-radius: 0.25rem;
+        }
+      }
+    }
+  }
+
   &.dnb-blockquote--no-background {
     &::before {
       // simulate the color #18172a - --sb-color-text
