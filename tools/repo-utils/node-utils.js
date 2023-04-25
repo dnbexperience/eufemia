@@ -1,4 +1,4 @@
-const ciVendors = ['CI', 'GITHUB_ACTIONS', 'CODESANDBOX_SSE']
+const ciVendors = ['CI', 'CODESANDBOX_SSE']
 
 const isCI = ciVendors.some((name) => {
   return String(process.env[name]) === 'true'
