@@ -123,7 +123,7 @@ export default class DatePickerFooter extends React.PureComponent {
       <div className="dnb-date-picker__footer">
         {((isRange || isTrue(show_submit_button)) && (
           <Button
-            text={submitButtonText ?? submit_button_text_translation}
+            text={submitButtonText || submit_button_text_translation}
             onClick={this.onSubmitHandler}
             data-testid="submit"
           />
@@ -143,7 +143,7 @@ export default class DatePickerFooter extends React.PureComponent {
 
           {((isRange || isTrue(show_cancel_button)) && (
             <Button
-              text={cancelButtonText ?? cancel_button_text_translation}
+              text={cancelButtonText || cancel_button_text_translation}
               icon="close"
               icon_position="left"
               variant="tertiary"
