@@ -3,15 +3,22 @@
  *
  */
 
-// import the default theme, and go from there
-// it will also have all the component themes included
-@import './customisations.scss'; // before "theme-ui"
+// WIP: Remove this import as soon as we have a mapping for all existing properties
+@import '../theme-ui/properties.scss';
 
-// WIP: We may remove this as soon as all Sbanken styles are ready
-@import '../theme-ui/ui-theme-basis.scss';
-
-@import './properties.scss';
+@import './customisations.scss'; // WIP: remove when styles are removed
 @import './fonts.scss';
+@import './properties.scss';
+@import './theme-mapping.scss'; // after "properties"
+
 @import './sbanken-theme-elements.scss';
 
-@import './theme-mapping.scss'; // after "properties"
+// ::selection appearance helper
+.dnb-selection::selection,
+.dnb-selection ::selection,
+[class^='dnb-']::selection,
+[class^='dnb-'] ::selection {
+  background-color: var(--sb-color-blue-light-2);
+  color: var(--sb-color-black);
+  text-shadow: none;
+}
