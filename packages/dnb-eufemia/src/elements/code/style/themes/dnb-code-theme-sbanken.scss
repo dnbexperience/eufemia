@@ -1,12 +1,12 @@
 .dnb-code {
-  background-color: var(--sb-color-green);
+  background-color: var(--sb-color-blue-light-3);
 
   border-radius: 0.5rem;
 }
 
 .dnb-pre {
-  // Not sure if this actually does anything
-  color: var(--sb-color-green);
+  // Pre is using syntax highlighting to determine the text color, this property works as a fallback color in case of no highlighting
+  color: var(--color-mint-green-12);
   background-color: #222;
 
   &.dnb-pre--focus {
