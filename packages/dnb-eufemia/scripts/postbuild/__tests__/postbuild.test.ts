@@ -324,7 +324,6 @@ describe('style build', () => {
       expect(content).toContain(
         `@import './core/helper-classes/helper-classes.scss';`
       )
-      expect(content).toContain(`@import './dnb-ui-elements.scss';`)
     }
 
     {
@@ -338,6 +337,9 @@ describe('style build', () => {
       expect(content).toContain(`@import './properties.scss';`)
       expect(content).toContain(`@import './fonts.scss';`)
       expect(content).toContain(`@import './ui-theme-elements.scss';`)
+      expect(content).not.toContain(
+        `@import '../../dnb-ui-elements.scss';`
+      )
     }
 
     {
@@ -351,6 +353,25 @@ describe('style build', () => {
       expect(content).toContain(`@import './properties.scss';`)
       expect(content).toContain(`@import './fonts.scss';`)
       expect(content).toContain(`@import './sbanken-theme-elements.scss';`)
+      expect(content).not.toContain(
+        `@import '../../dnb-ui-elements.scss';`
+      )
+    }
+
+    {
+      const content = fs.readFileSync(
+        path.resolve(
+          packpath.self(),
+          `build${stage}/style/dnb-ui-core.css`
+        ),
+        'utf-8'
+      )
+      expect(content).toMatch(
+        /\.dnb-core-style {([\r\n][^}]*)+font-family: var\(--font-family-default\);/
+      )
+      expect(content).toMatch(
+        /html {([\r\n][^}]*)+line-height: var\(--line-height-basis\);/
+      )
     }
 
     {
@@ -361,16 +382,12 @@ describe('style build', () => {
         ),
         'utf-8'
       )
-      expect(content).toContain(`
-.dnb-p {
-  font-size: var(--font-size-basis);
-  padding: 0;
-}`)
-      expect(content).toContain(`
-.dnb-h--basis {
-  font-size: var(--font-size-basis);
-  line-height: var(--line-height-basis);
-}`)
+      expect(content).toMatch(
+        /\.dnb-core-style {([\r\n][^}]*)+font-family: var\(--font-family-default\);/
+      )
+      expect(content).not.toMatch(
+        /html {([\r\n][^}]*)+line-height: var\(--line-height-basis\);/
+      )
     }
 
     {
@@ -389,6 +406,16 @@ describe('style build', () => {
       expect(content).toContain(
         `src: url("../../../assets/fonts/dnb/DNB-Regular.woff2") format("woff2"),`
       )
+      expect(content).toContain(`
+.dnb-p {
+  font-size: var(--font-size-basis);
+  padding: 0;
+}`)
+      expect(content).toContain(`
+.dnb-h--basis {
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+}`)
     }
 
     {
@@ -400,6 +427,16 @@ describe('style build', () => {
         'utf-8'
       )
       expect(content).toContain(`font-family: MaisonNeueHeadings;`)
+      expect(content).toContain(`
+.dnb-h--basis {
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+}`)
+      expect(content).toContain(`
+.dnb-p {
+  font-size: var(--font-size-basis);
+  padding: 0;
+}`)
       expect(content).toContain(`
 .dnb-h--basis {
   font-size: var(--font-size-basis);
