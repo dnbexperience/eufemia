@@ -1,0 +1,15 @@
+.dnb-code {
+  background-color: var(--sb-color-green);
+
+  border-radius: 0.5rem;
+}
+
+.dnb-pre {
+  // Not sure if this actually does anything
+  color: var(--sb-color-green);
+  background-color: #222;
+
+  &.dnb-pre--focus {
+    @include fakeBorder(var(--sb-color-green), 0.25rem);
+  }
+}
