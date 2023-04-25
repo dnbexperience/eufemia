@@ -26,21 +26,40 @@ export default function Theme(themeProps: ThemeAllProps) {
   const context = React.useContext(Context)
   const { children, element, ...theme } = themeProps
   const currentTheme = { ...context?.theme, ...theme }
+
+  return (
+    <Provider theme={currentTheme}>
+      <ThemeWrapper element={element} currentTheme={currentTheme}>
+        {children}
+      </ThemeWrapper>
+    </Provider>
+  )
+}
+
+function ThemeWrapper({ children, element, currentTheme }) {
   const { name, variant, size, ...rest } = currentTheme
 
   const Wrapper = element || 'div'
 
+  const ref = React.useRef<HTMLElement>(null)
+  rest['ref'] = ref
+
+  const className = classnames(
+    'eufemia-theme',
+    name && `eufemia-theme__${name}`,
+    name && variant && `eufemia-theme__${name}--${variant}`,
+    size && `eufemia-theme__size--${size}`
+  )
+
   return (
     <Wrapper
-      className={classnames(
-        'eufemia-theme',
-        name && `eufemia-theme__${name}`,
-        name && variant && `eufemia-theme__${name}--${variant}`,
-        size && `eufemia-theme__size--${size}`
-      )}
+      data-name={name}
+      data-variant={variant}
+      data-size={size}
+      className={className}
       {...(rest as Record<string, unknown>)}
     >
-      <Provider theme={currentTheme}>{children}</Provider>
+      {children}
     </Wrapper>
   )
 }
