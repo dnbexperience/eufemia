@@ -3,16 +3,35 @@
  *
  */
 
-:root {
+.eufemia-theme__sbanken {
+  // font-family
+  --font-family-default: var(--sb-font-family-default);
+
+  // font-weight
+  --font-weight-medium: var(--sb-font-weight-bold);
+
+  // font-size
+  --font-size-x-small: var(--sb-font-size-x-small);
+  --font-size-small: var(--sb-font-size-small);
+  --font-size-basis: var(--sb-font-size-basis);
+  // --font-size-basis: 20rem;
+  --font-size-basis--em: var(--sb-font-size-basis--em);
+  --font-size-lead: var(--sb-font-size-lead);
+  --font-size-large: var(--sb-font-size-large);
+  --font-size-x-large: var(--sb-font-size-x-large);
+  --font-size-xx-large: var(--sb-font-size-xx-large);
+
+  // line-height
+  --line-height-x-small: var(--sb-line-height-x-small);
+  --line-height-small: var(--sb-line-height-small);
+  --line-height-basis: var(--sb-line-height-basis);
+  --line-height-basis--em: var(--sb-line-height-basis--em);
+  --line-height-lead: var(--sb-line-height-lead);
+  --line-height-medium: var(--sb-line-height-medium);
+  --line-height-large: var(--sb-line-height-large);
+  --line-height-x-large: var(--sb-line-height-x-large);
+
+  // Form properties
   --focus-ring-width: 0.25rem;
   --focus-ring-color: var(--sb-color-blue-dark);
-}
-
-.eufemia-theme {
-  &__sbanken {
-    // WIP Example
-    &--blue {
-      --color-sea-green: blue;
-    }
-  }
 }
