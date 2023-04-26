@@ -199,6 +199,7 @@ exports.onCreateWebpackConfig = ({ stage, actions, plugins }) => {
     },
     plugins: [
       plugins.define({
+        'process.env.isCI': JSON.stringify(isCI),
         'process.env.STYLE_THEME': JSON.stringify(getStyleTheme()),
         'process.env.CURRENT_BRANCH': JSON.stringify(currentBranch),
         'process.env.PREBUILD_EXISTS': JSON.stringify(prebuildExists),
