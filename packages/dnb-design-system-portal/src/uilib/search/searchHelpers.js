@@ -1,12 +1,10 @@
-const { isCI } = require('repo-utils')
-
 // Finds current index name for the Algolia search
 const getIndexName = (currentBranch) => {
-  if (process.env.NODE_ENV !== 'production' || !isCI) {
+  if (process.env.NODE_ENV !== 'production' || !process.env.isCI) {
     return 'dev_eufemia_docs'
   }
 
-  if (currentBranch !== 'release') {
+  if (/^(alpha|beta|next)/.test(currentBranch)) {
     return 'beta_eufemia_docs'
   }
 
@@ -21,7 +19,7 @@ const runQueriesWhen = (currentBranch) => {
     return false
   }
 
-  if (isCI) {
+  if (process.env.isCI) {
     return /^(release|beta|portal)$/.test(currentBranch)
   }
 
