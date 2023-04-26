@@ -1375,4 +1375,48 @@ describe('DatePicker scss', () => {
   })
 })
 
+describe('Custom text for buttons', () => {
+  render(
+    <Component
+      opened
+      label="Custom submit text"
+      show_input
+      submit_button_text="Yes"
+      cancel_button_text="No"
+      reset_button_text="Maybe"
+      show_submit_button
+      show_cancel_button
+      show_reset_button
+    />
+  )
+
+  const datepickerFooter = document.querySelector(
+    '.dnb-date-picker__footer'
+  )
+
+  it('should show custom text for submit button', () => {
+    expect(
+      datepickerFooter.querySelector(
+        '[data-testid="submit"]  .dnb-button__text'
+      ).textContent
+    ).toBe('Yes')
+  })
+
+  it('should show custom text for cancel button', () => {
+    expect(
+      datepickerFooter.querySelector(
+        '[data-testid="cancel"]  .dnb-button__text'
+      ).textContent
+    ).toBe('No')
+  })
+
+  it('should show custom text for reset button', () => {
+    expect(
+      datepickerFooter.querySelector(
+        '[data-testid="reset"]  .dnb-button__text'
+      ).textContent
+    ).toBe('Maybe')
+  })
+})
+
 const wait = (t) => new Promise((r) => setTimeout(r, t))
