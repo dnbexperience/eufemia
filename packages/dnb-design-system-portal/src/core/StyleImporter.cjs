@@ -1,8 +1,6 @@
-const { isCI } = require('repo-utils')
-
 function shouldUsePrebuild() {
   return (
-    isCI &&
+    process.env.isCI &&
     process.env.PREBUILD_EXISTS &&
     process.env.NODE_ENV === 'production'
   )
