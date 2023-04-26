@@ -317,9 +317,6 @@ Attachment.FileRow = styled.span`
 `
 Attachment.Add = styled(Space)`
   margin-top: 0.5rem;
-  .dnb-button {
-    margin-left: -0.5rem;
-  }
 `
 
 // The bottom section / divider has some extra CSS
