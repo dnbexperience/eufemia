@@ -5,6 +5,8 @@ export interface DatePickerFooterProps
   onSubmit?: (...args: any[]) => any;
   onCancel?: (...args: any[]) => any;
   onReset?: (...args: any[]) => any;
+  submitButtonText?: string;
+  cancelButtonText?: string;
   resetButtonText?: string;
 }
 export default class DatePickerFooter extends React.Component<
