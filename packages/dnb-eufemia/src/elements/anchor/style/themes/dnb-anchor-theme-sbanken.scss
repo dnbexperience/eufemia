@@ -1,7 +1,8 @@
 @use '../anchor-mixins.scss';
 
 .dnb-anchor {
-  font-weight: var(--font-weight-medium);
+  // Has to use --sb-font-weight-bold to get correct weighting as --sb-font-weight-medium does nothing at the moment
+  font-weight: var(--sb-font-weight-bold);
   color: var(--sb-color-gray-dark-3);
   text-decoration-color: var(--sb-color-green-dark);
 
