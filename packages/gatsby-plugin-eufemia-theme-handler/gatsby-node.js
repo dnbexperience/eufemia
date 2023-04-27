@@ -16,7 +16,7 @@ exports.pluginOptionsSchema = ({ Joi }) => {
     defaultTheme: Joi.string().required(),
     filesGlob: Joi.string()
       .optional()
-      .default('**/style/themes/**/*-theme-*.{scss,css}'),
+      .default('**/style/themes/**/*-theme-{basis,components}.min.css'),
     filesOrder: Joi.array().optional().default([
       // The file order does matter!
       '**/*-theme-extensions.*',

@@ -141,6 +141,9 @@ const plugins = [
           hide: /release|beta|portal/.test(currentBranch),
         },
       },
+      filesGlob: shouldUsePrebuild()
+        ? '**/build/style/themes/**/*-theme-*.min.css'
+        : '**/src/style/themes/**/*-theme-*.scss', // also load the extensions CSS package
     },
   },
 ].filter(Boolean)
