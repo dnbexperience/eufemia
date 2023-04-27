@@ -19,6 +19,7 @@ const siteMetadata = {
 }
 
 global.pagesPath = './src/docs' // use "/src/docs_dummy" for fast test builds
+const defaultTheme = process.env.GATSBY_EUFEMIA_THEME || 'ui'
 const ignoreAsPage = [
   '**/Examples.*',
   '**/*_not_in_use*',
@@ -193,23 +194,4 @@ module.exports = {
   plugins,
   jsxRuntime: 'automatic',
   trailingSlash: 'always',
-}
-
-function getDefaultTheme() {
-  const ciTheme = process.env.GATSBY_THEME_STYLE_DEV
-  if (ciTheme) {
-    return ciTheme
-  }
-
-  if (process.env.GATSBY_CLOUD || process.env.NETLIFY) {
-    if (currentBranch.includes('eiendom')) {
-      return 'eiendom'
-    }
-
-    if (currentBranch.includes('sbanken')) {
-      return 'sbanken'
-    }
-  }
-
-  return 'ui'
 }
