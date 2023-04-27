@@ -1,8 +1,8 @@
 function shouldUsePrebuild() {
-  return (
+  return Boolean(
     process.env.isCI &&
-    process.env.PREBUILD_EXISTS &&
-    process.env.NODE_ENV === 'production'
+      process.env.PREBUILD_EXISTS &&
+      process.env.NODE_ENV === 'production'
   )
 }
 module.exports.shouldUsePrebuild = shouldUsePrebuild

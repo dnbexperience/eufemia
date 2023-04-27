@@ -7,12 +7,14 @@ import {
   setTheme,
 } from 'gatsby-plugin-eufemia-theme-handler'
 
-export default function ChangeStyleTheme(props) {
-  const themes = getThemes()
+export default function ChangeStyleTheme({ close }) {
+  const themes: Array<{ name: string; hide?: boolean }> = getThemes()
   const themeName = getTheme()
 
-  const date = Object.entries(themes).reduce((acc, [key, { name }]) => {
-    acc[key] = capitalizeFirstLetter(name)
+  const date = Object.entries(themes).reduce((acc, [key, value]) => {
+    if (!value?.hide) {
+      acc[key] = capitalizeFirstLetter(value.name)
+    }
     return acc
   }, {})
 
@@ -21,9 +23,9 @@ export default function ChangeStyleTheme(props) {
       value={themeName}
       data={date}
       on_change={({ data: { value } }) => {
+        close()
         setTheme(value)
       }}
-      {...props}
     />
   )
 }

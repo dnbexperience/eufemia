@@ -186,7 +186,7 @@ exports.onCreateWebpackConfig = ({ stage, actions, plugins }) => {
   const config = {
     resolve: {
       alias: {
-        Docs: path.resolve('./src/docs'),
+        Docs: path.resolve(global.pagesPath),
       },
     },
     plugins: [
@@ -232,8 +232,8 @@ exports.onCreateDevServer = () => {
 
 function getStyleTheme() {
   let themeName = 'ui'
-  if (typeof process.env.GATSBY_THEME_STYLE_DEV !== 'undefined') {
-    themeName = process.env.GATSBY_THEME_STYLE_DEV
+  if (typeof process.env.GATSBY_EUFEMIA_THEME !== 'undefined') {
+    themeName = process.env.GATSBY_EUFEMIA_THEME
   }
 
   /**

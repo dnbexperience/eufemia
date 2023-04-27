@@ -18,10 +18,8 @@ const siteMetadata = {
   repoUrl: 'https://github.com/dnbexperience/eufemia/',
 }
 
-const pagesPath = './src/docs'
+global.pagesPath = './src/docs' // use "/src/docs_dummy" for fast test builds
 const ignoreAsPage = [
-  // '**/*.md',// use when template in createPage is used
-  // '**/*.mdx',// use when template in createPage is used
   '**/Examples.*',
   '**/*_not_in_use*',
   '**/demos/layout/Layout.js',
@@ -29,6 +27,7 @@ const ignoreAsPage = [
   '**/CardProductsTable.js',
   '**/assets/*.js',
   '**/__utils__/*.{js,ts,tsx}',
+  // '**/*.mdx',// Use when templates/mdx.tsx in createPage is used
 ]
 
 const plugins = [
@@ -97,7 +96,7 @@ const plugins = [
     resolve: 'gatsby-source-filesystem',
     options: {
       name: 'docs',
-      path: pagesPath, // for .mdx files
+      path: global.pagesPath, // for .mdx files
       ignore: ignoreAsPage,
     },
   },
@@ -105,7 +104,7 @@ const plugins = [
     resolve: 'gatsby-plugin-page-creator',
     options: {
       name: 'docs',
-      path: pagesPath, // for .js files
+      path: global.pagesPath, // for .js files
       ignore: ignoreAsPage,
     },
   },
@@ -136,12 +135,11 @@ const plugins = [
       themes: {
         ui: { name: 'DNB' }, // universal identity
         eiendom: { name: 'DNB Eiendom' },
-        sbanken: { name: 'Sbanken' },
+        sbanken: {
+          name: 'Sbanken (WIP)',
+          hide: /release|beta|portal/.test(currentBranch),
+        },
       },
-      filesGlob: `**/${
-        shouldUsePrebuild() ? 'build' : 'src'
-      }/style/themes/**/*-theme-*.{scss,css}`,
-      defaultTheme: getDefaultTheme(),
     },
   },
 ].filter(Boolean)
@@ -161,7 +159,10 @@ if (currentBranch === 'release') {
 }
 
 // Algolia search
-if (process.env.IS_VISUAL_TEST !== '1') {
+if (
+  process.env.IS_VISUAL_TEST !== '1' &&
+  !global.pagesPath.includes('_dummy')
+) {
   const queries = require('./src/uilib/search/searchQuery')
   if (queries) {
     plugins.push({

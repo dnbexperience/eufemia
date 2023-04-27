@@ -3,7 +3,7 @@ import { Drawer, Space, Tooltip } from '@dnb/eufemia/src/components'
 import { H2 } from '@dnb/eufemia/src/elements'
 import ToggleGrid from './ToggleGrid'
 import { Context } from '@dnb/eufemia/src/shared'
-import PortalSkeleton from '../parts/uilib/PortalSkeleton'
+import PortalSkeleton from '../../core/PortalSkeleton'
 import ChangeLocale from '../../core/ChangeLocale'
 import ChangeStyleTheme from '../../core/ChangeStyleTheme'
 
@@ -38,37 +38,41 @@ export default function PortalToolsMenu({
       }}
       {...props}
     >
-      <Drawer.Body spacing>
-        <Space>
-          <H2 skeleton={false} size="small">
-            Show everything behind skeletons
-          </H2>
-          <Space top>
-            <PortalSkeleton top={false} enabled={skeleton} />
-          </Space>
-        </Space>
+      {({ close }) => {
+        return (
+          <Drawer.Body spacing>
+            <Space>
+              <H2 skeleton={false} size="small">
+                Show everything behind skeletons
+              </H2>
+              <Space top>
+                <PortalSkeleton top={false} enabled={skeleton} />
+              </Space>
+            </Space>
 
-        <Space top="large">
-          <H2 size="small">Change portal language</H2>
-          <Space top>
-            <ChangeLocale />
-          </Space>
-        </Space>
+            <Space top="large">
+              <H2 size="small">Change portal language</H2>
+              <Space top>
+                <ChangeLocale />
+              </Space>
+            </Space>
 
-        <Space top="large">
-          <H2 size="small">Change Brand</H2>
-          <Space top>
-            <ChangeStyleTheme />
-          </Space>
-        </Space>
+            <Space top="large">
+              <H2 size="small">Change Brand</H2>
+              <Space top>
+                <ChangeStyleTheme close={close} />
+              </Space>
+            </Space>
 
-        <Space top="large">
-          <H2 size="small">Helper grid lines</H2>
-          <Space top>
-            <ToggleGrid />
-          </Space>
-        </Space>
-      </Drawer.Body>
+            <Space top="large">
+              <H2 size="small">Helper grid lines</H2>
+              <Space top>
+                <ToggleGrid />
+              </Space>
+            </Space>
+          </Drawer.Body>
+        )
+      }}
     </Drawer>
   )
 }
