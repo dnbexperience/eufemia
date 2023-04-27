@@ -26,9 +26,12 @@ exports.pluginOptionsSchema = ({ Joi }) => {
   })
 }
 
-exports.onPreBootstrap = ({ reporter }, pluginOptions) => {
+exports.onPreBootstrap = ({ reporter, store }, pluginOptions) => {
+  const state = store.getState()
+  const programDirectory = state.program.directory
+
   // ensure to run this after the main app has run onPreInit
-  createThemesImport({ reporter, pluginOptions })
+  createThemesImport({ reporter, programDirectory, pluginOptions })
 }
 
 exports.onPostBuild = ({ reporter }) => {
