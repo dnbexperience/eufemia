@@ -6,4 +6,20 @@ status: 'wip'
 
 # Documentation
 
-Coming soon
+The documentation is written in enhanced Markdown, called MDX. It allows us to import other Markdown files along with React components and JavaScript logic.
+
+## Handling themes
+
+If you need to show some documentation only for when a certain theme is choose, you can do so:
+
+```md
+<FilterByTheme name="eiendom">
+
+## Eiendom examples
+
+Text
+
+<SpecialExample />
+
+</FilterByTheme>
+```
