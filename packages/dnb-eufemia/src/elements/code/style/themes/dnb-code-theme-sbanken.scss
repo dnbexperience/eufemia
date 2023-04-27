@@ -1,5 +1,8 @@
 .dnb-code {
-  background-color: var(--color-mint-green-25);
+  font-family: var(--sb-font-family-default);
+  background-color: var(--sb-color-blue-light-3);
+
+  border-radius: 0.5rem;
 }
 
 .dnb-pre {
@@ -8,6 +11,6 @@
   background-color: #222;
 
   &.dnb-pre--focus {
-    @include fakeBorder(var(--color-sea-green), 0.25rem);
+    @include fakeBorder(var(--sb-color-green), 0.25rem);
   }
 }
