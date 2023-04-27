@@ -15,17 +15,17 @@ type BlockquoteProps = SpacingProps &
      */
     noBackground?: boolean
     /**
-     * Forces blockquote align the graphics on top of the element,
-     * making the text content come below the graphic instead of next to it
+     * Determines the flow direction of the content inside of blockquote. Can be either `horizontal` or `vertical`
+     * Default: `horizontal`
      */
-    showGraphicsOnTop?: boolean
+    direction?: 'horizontal' | 'vertical'
   }
 
 const Blockquote = React.forwardRef(
   (
     {
       noBackground,
-      showGraphicsOnTop,
+      direction = 'horizontal',
       className,
       ...props
     }: BlockquoteProps,
@@ -38,7 +38,7 @@ const Blockquote = React.forwardRef(
       className={classnames(
         className,
         noBackground && 'dnb-blockquote--no-background',
-        showGraphicsOnTop && 'dnb-blockquote--top'
+        direction === 'vertical' && 'dnb-blockquote--top'
       )}
       {...props}
     />

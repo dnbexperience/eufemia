@@ -19,7 +19,7 @@ export const BlockquoteDefaultExample = () => (
 
 export const BlockquoteGraphicsExample = () => (
   <ComponentBox hideCode>
-    <Blockquote data-visual-test="blockquote-top" showGraphicsOnTop>
+    <Blockquote data-visual-test="blockquote-top" direction="vertical">
       Dis leo aliquam neque aptent nascetur metus ad ut eu Choro{' '}
       <a className="dnb-anchor" href="/uilib/elements#blockquote">
         vivendum tractatos
@@ -53,7 +53,7 @@ export const BlockquoteTransparentOnTopExample = () => (
     <Blockquote
       data-visual-test="blockquote-top-no-background"
       noBackground
-      showGraphicsOnTop
+      direction="vertical"
     >
       Dis leo aliquam neque aptent nascetur metus ad ut eu Choro{' '}
       <a className="dnb-anchor" href="/uilib/elements#blockquote">
