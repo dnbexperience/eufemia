@@ -3,11 +3,15 @@ if (typeof window !== 'undefined') {
     try {
       const styleElement = document.getElementById('eufemia-style-theme')
       const headElement = document.querySelector('html head')
-      const themes = __AVAILABLE_THEMES__
+      const themes = globalThis.availableThemes
       const theme = themes[themeName]
 
+      // Only load CSS file if not inline and not default theme
       if (
-        (themeName !== __DEFAULT_THEME__ || reload) &&
+        ((globalThis.inlineDefaultTheme &&
+          themeName !== globalThis.defaultTheme) ||
+          !globalThis.inlineDefaultTheme ||
+          reload) &&
         theme &&
         !theme.isDev
       ) {
@@ -21,7 +25,7 @@ if (typeof window !== 'undefined') {
           headElement.removeChild(inlineStyleElement)
         }
         const defaultStyleElement = document.querySelector(
-          '[data-href^="' + themes[__DEFAULT_THEME__].file + '"]'
+          '[data-href^="' + themes[globalThis.defaultTheme].file + '"]'
         )
         if (defaultStyleElement) {
           headElement.removeChild(defaultStyleElement)
@@ -53,7 +57,8 @@ if (typeof window !== 'undefined') {
     }
     try {
       return (
-        window.localStorage.getItem('eufemia-theme') || __DEFAULT_THEME__
+        window.localStorage.getItem('eufemia-theme') ||
+        globalThis.defaultTheme
       )
     } catch (e) {
       console.error(e)

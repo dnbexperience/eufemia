@@ -23,6 +23,7 @@ exports.pluginOptionsSchema = ({ Joi }) => {
       '**/*-theme-components.*',
       '**/*-theme-basis.*',
     ]),
+    inlineDefaultTheme: Joi.boolean().optional().default(true),
   })
 }
 

@@ -80,21 +80,22 @@ export function setTheme(themeName) {
   }
 
   try {
-    window.__updateEufemiaThemeFile(themeName, true)
-    window.localStorage.setItem('eufemia-theme', themeName)
-
     const emitter = EventEmitter.createInstance('themeHandler')
     emitter.update({ themeName })
+
+    window.__updateEufemiaThemeFile(themeName, true)
+
+    window.localStorage.setItem('eufemia-theme', themeName)
   } catch (e) {
     console.error(e)
   }
 }
 
 let cachedHeadComponents = null
-export const onPreRenderHTML = ({
-  getHeadComponents,
-  replaceHeadComponents,
-}) => {
+export const onPreRenderHTML = (
+  { getHeadComponents, replaceHeadComponents },
+  pluginOptions
+) => {
   let headComponents = getHeadComponents()
 
   const isDev = process.env.NODE_ENV !== 'production'
@@ -118,7 +119,10 @@ export const onPreRenderHTML = ({
 
             // Store the default inline styles,
             // and place it below data-href="/commons.*.css"
-            if (themeName === defaultTheme) {
+            if (
+              pluginOptions?.inlineDefaultTheme &&
+              themeName === defaultTheme
+            ) {
               defaultElement = element
               headComponents[element] = null
             } else {
@@ -165,8 +169,15 @@ export const onPreRenderHTML = ({
 
   const replaceGlobalVars = (s) => {
     return s
-      .replace(/__DEFAULT_THEME__/g, JSON.stringify(defaultTheme))
-      .replace(/__AVAILABLE_THEMES__/g, JSON.stringify(availableThemes))
+      .replace(/globalThis.defaultTheme/g, JSON.stringify(defaultTheme))
+      .replace(
+        /globalThis.availableThemes/g,
+        JSON.stringify(availableThemes)
+      )
+      .replace(
+        /globalThis.inlineDefaultTheme/g,
+        JSON.stringify(pluginOptions?.inlineDefaultTheme)
+      )
   }
 
   /**
@@ -191,6 +202,20 @@ export const onPreRenderHTML = ({
       }}
     />
   )
+
+  if (!pluginOptions?.inlineDefaultTheme) {
+    cachedHeadComponents.push(
+      <noscript key="theme-style-fallback">
+        <link
+          id="eufemia-style-theme-fallback"
+          rel="stylesheet"
+          type="text/css"
+          as="style"
+          href={availableThemes[defaultTheme].file}
+        />
+      </noscript>
+    )
+  }
 
   headComponents.push(...cachedHeadComponents)
   replaceHeadComponents(headComponents)
