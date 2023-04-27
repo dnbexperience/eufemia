@@ -21,7 +21,7 @@ if (typeof window !== 'undefined') {
         window.addEventListener('load', moveAfterCommons)
       }
 
-      styleElement.setAttribute('href', theme.file + uniqueId)
+      styleElement.setAttribute('href', theme?.file + uniqueId)
     } catch (e) {
       console.error(e)
     }
@@ -36,7 +36,7 @@ if (typeof window !== 'undefined') {
           element &&
           (element.src || element.href || '').includes('/commons.')
         ) {
-          const themeName = window.__getEufemiaTheme()
+          const themeName = window.__getEufemiaThemeName()
           window.__updateEufemiaThemeFile(themeName, true)
           break
         }

@@ -18,13 +18,11 @@ export function isValidTheme(themeName) {
 }
 
 export function useThemeName() {
-  const [themeName, setThemeName] = React.useState(getTheme)
+  const [themeName, setThemeName] = React.useState(() => getTheme().name)
 
   React.useEffect(() => {
     const emitter = EventEmitter.createInstance('themeHandler')
-    emitter.listen(({ themeName }) => {
-      setThemeName(themeName)
-    })
+    emitter.listen(({ name }) => setThemeName(name))
   }, [])
 
   // Deprecated (can be removed when we are full and 100% officially using Reavt v18)
@@ -36,7 +34,7 @@ export function useThemeName() {
     const element = document.querySelector('.eufemia-theme')
     const htmlName = element?.getAttribute('data-name')
 
-    if (htmlName !== themeName) {
+    if (htmlName !== themeName && element) {
       element.setAttribute('data-name', themeName)
       element.classList.remove(`eufemia-theme__${htmlName}`)
       element.classList.add(`eufemia-theme__${themeName}`)
@@ -51,41 +49,43 @@ export function getTheme() {
     return defaultTheme
   }
   try {
+    const data = window.localStorage.getItem('eufemia-theme')
+    const theme = JSON.parse(data?.startsWith('{') ? data : '{}')
+
     const regex = /.*eufemia-theme=([^&]*).*/
     const query = window.location.search
     const fromQuery =
       (regex.test(query) && query?.replace(regex, '$1')) || null
 
-    const themeName =
-      fromQuery ||
-      window.localStorage.getItem('eufemia-theme') ||
-      defaultTheme
+    const themeName = fromQuery || theme?.name || defaultTheme
 
     if (!isValidTheme(themeName)) {
       console.error('Not valid themeName:', themeName)
       return defaultTheme // stop here
     }
 
-    return themeName
+    return { ...theme, name: themeName }
   } catch (e) {
     console.error(e)
     return defaultTheme
   }
 }
 
-export function setTheme(themeName) {
-  if (!isValidTheme(themeName)) {
-    console.error('Not valid themeName:', themeName)
+export function setTheme(newTheme) {
+  const theme = { ...getTheme(), ...newTheme }
+
+  if (!isValidTheme(theme?.name)) {
+    console.error('Not valid themeName:', theme?.name)
     return // stop here
   }
 
   try {
     const emitter = EventEmitter.createInstance('themeHandler')
-    emitter.update({ themeName })
+    emitter.update(theme)
 
-    window.__updateEufemiaThemeFile(themeName, true)
+    window.__updateEufemiaThemeFile(theme.name, true)
 
-    window.localStorage.setItem('eufemia-theme', themeName)
+    window.localStorage.setItem('eufemia-theme', JSON.stringify(theme))
   } catch (e) {
     console.error(e)
   }

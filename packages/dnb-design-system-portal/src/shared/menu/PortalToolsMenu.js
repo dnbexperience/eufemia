@@ -12,7 +12,7 @@ export default function PortalToolsMenu({
   tooltipPosition = 'left',
   ...props
 }) {
-  const { skeleton } = React.useContext(Context)
+  const { skeleton, theme } = React.useContext(Context)
   return (
     <Drawer
       id="portal-tools"
@@ -38,41 +38,48 @@ export default function PortalToolsMenu({
       }}
       {...props}
     >
-      {({ close }) => {
-        return (
-          <Drawer.Body spacing>
-            <Space>
-              <H2 skeleton={false} size="small">
-                Show everything behind skeletons
-              </H2>
-              <Space top>
-                <PortalSkeleton top={false} enabled={skeleton} />
-              </Space>
-            </Space>
+      <Drawer.Body spacing>
+        <Space>
+          <H2 skeleton={false} size="small">
+            Show everything behind skeletons
+          </H2>
+          <Space top>
+            <PortalSkeleton top={false} enabled={skeleton} />
+          </Space>
+        </Space>
 
-            <Space top="large">
-              <H2 size="small">Change portal language</H2>
-              <Space top>
-                <ChangeLocale />
-              </Space>
-            </Space>
+        <Space top="large">
+          <H2 size="small">Change portal language</H2>
+          <Space top>
+            <ChangeLocale />
+          </Space>
+        </Space>
 
-            <Space top="large">
-              <H2 size="small">Change Brand</H2>
-              <Space top>
-                <ChangeStyleTheme close={close} />
-              </Space>
-            </Space>
+        <Space top="large">
+          <H2 size="small">Change Brand</H2>
+          <Space top>
+            <ChangeStyleTheme />
+          </Space>
+        </Space>
 
-            <Space top="large">
-              <H2 size="small">Helper grid lines</H2>
-              <Space top>
-                <ToggleGrid />
-              </Space>
+        {theme.name === 'sbanken' && (
+          <Space top="large">
+            <H2 size="small">Map colors</H2>
+            <Space top>
+              <ChangeStyleTheme.ColorMapping
+                enabled={theme.colorMapping}
+              />
             </Space>
-          </Drawer.Body>
-        )
-      }}
+          </Space>
+        )}
+
+        <Space top="large">
+          <H2 size="small">Helper grid lines</H2>
+          <Space top>
+            <ToggleGrid />
+          </Space>
+        </Space>
+      </Drawer.Body>
     </Drawer>
   )
 }

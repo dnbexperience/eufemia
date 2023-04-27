@@ -45,7 +45,7 @@ if (typeof window !== 'undefined') {
     }
   }
 
-  window.__getEufemiaTheme = () => {
+  window.__getEufemiaThemeName = () => {
     try {
       const urlParams = new URLSearchParams(window.location.search)
       const themeName = urlParams.get('eufemia-theme')
@@ -56,14 +56,15 @@ if (typeof window !== 'undefined') {
       console.error(e)
     }
     try {
-      return (
-        window.localStorage.getItem('eufemia-theme') ||
-        globalThis.defaultTheme
-      )
+      const data = window.localStorage.getItem('eufemia-theme')
+      const theme = JSON.parse(data?.startsWith('{') ? data : '{}')
+
+      return theme?.name || globalThis.defaultTheme
     } catch (e) {
       console.error(e)
     }
   }
 
-  window.__updateEufemiaThemeFile(window.__getEufemiaTheme())
+  const themeName = window.__getEufemiaThemeName()
+  window.__updateEufemiaThemeFile(themeName)
 }
