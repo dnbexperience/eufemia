@@ -61,11 +61,11 @@ describe('Logo component', () => {
   it('should have Sbanken title inside SVG', () => {
     render(<Logo brand="sbanken" />)
     expect(document.querySelector('title').textContent).toBe(
-      'Sbanken logo'
+      'Sbanken - et konsept fra DNB logo'
     )
     expect(
       document.querySelector('.sbanken-logo').getAttribute('alt')
-    ).toBe('Sbanken logo')
+    ).toBe('Sbanken - et konsept fra DNB logo')
   })
 
   it('should set correct Sbanken brand SVG in compact variant', () => {
