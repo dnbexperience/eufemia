@@ -176,20 +176,20 @@ export const correctNumberValue = ({
  * @param {Element} element Input Element
  * @param {Object} maskParams Mask parameters, containing eventually suffix or prefix
  */
-export const correctCaretPosition = (element, maskParams) => {
+export const correctCaretPosition = (element, maskParams, props) => {
   const correction = () => {
     try {
       const suffix = maskParams?.suffix
       const prefix = maskParams?.prefix
 
+      const start = element.selectionStart
+      const end = element.selectionEnd
+
+      if (start !== end) {
+        return // stop here
+      }
+
       if (suffix || prefix) {
-        const start = element.selectionStart
-        const end = element.selectionEnd
-
-        if (start !== end) {
-          return // stop here
-        }
-
         const suffixStart = element.value.indexOf(suffix)
         const suffixEnd = suffixStart + suffix?.length
         let pos = undefined
@@ -222,6 +222,29 @@ export const correctCaretPosition = (element, maskParams) => {
 
         if (!isNaN(parseFloat(pos))) {
           safeSetSelection(element, pos)
+        }
+      } else if (props?.mask && element.value.length === end) {
+        const chars = element.value.split('')
+
+        for (let l = chars.length, i = l - 1; i >= 0; i--) {
+          const char = chars[i]
+          const mask = props.mask[i]
+          if (
+            char &&
+            char !== invisibleSpace &&
+            mask instanceof RegExp &&
+            mask.test(char)
+          ) {
+            for (let n = i + 1; n < l; n++) {
+              const mask = props.mask[n]
+              if (mask?.test?.(mask) === false) {
+                safeSetSelection(element, n)
+                break
+              }
+            }
+
+            break
+          }
         }
       }
     } catch (e) {
