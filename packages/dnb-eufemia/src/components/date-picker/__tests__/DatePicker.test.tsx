@@ -227,7 +227,6 @@ describe('DatePicker component', () => {
     Comp.find('div.dnb-date-picker__addon')
       .find('.dnb-button--secondary')
       .at(1)
-      // .find('button.dnb-button')
       .simulate('click')
     expect(Comp.find('label.dnb-date-picker__header__title').text()).toBe(
       'april 2020'
