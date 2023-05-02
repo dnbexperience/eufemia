@@ -159,6 +159,7 @@ module.exports.setMatchConfig = setMatchConfig
 const setupPageScreenshot = ({
   page = global.page,
   url,
+  themeName = null,
   pageViewport = null,
   headers = null,
   fullscreen = false,
@@ -177,6 +178,7 @@ const setupPageScreenshot = ({
     await makePageReady({
       page,
       url,
+      themeName,
       pageViewport,
       headers,
       fullscreen,
@@ -223,6 +225,7 @@ async function handleElement({
 async function makePageReady({
   page,
   url = null,
+  themeName = null,
   pageViewport = null,
   headers = null,
   fullscreen = false,
@@ -246,7 +249,7 @@ async function makePageReady({
       await page.setExtraHTTPHeaders(headers)
     }
 
-    await page.goto(createUrl(url, fullscreen), {
+    await page.goto(createUrl(url, fullscreen, themeName), {
       waitUntil: config.waitUntil,
       timeout: config.timeout,
     })
@@ -543,13 +546,17 @@ module.exports.loadImage = async (imagePath) =>
   await fs.readFile(path.resolve(imagePath))
 
 // make sure "${url}/" has actually a slash on the end
-const createUrl = (url, fullscreen = true) => {
+const createUrl = (url, fullscreen = true, themeName = null) => {
   const newURL = new URL(
     url,
     `http://${config.testScreenshotOnHost}:${config.testScreenshotOnPort}`
   )
 
   newURL.searchParams.append('data-visual-test', 'true')
+
+  if (themeName) {
+    newURL.searchParams.append('eufemia-theme', themeName)
+  }
 
   if (fullscreen) {
     newURL.searchParams.append('fullscreen', 'true')
