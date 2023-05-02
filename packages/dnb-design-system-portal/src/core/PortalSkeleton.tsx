@@ -24,7 +24,7 @@ function setSkeletonEnabled(skeleton) {
   try {
     window.localStorage.setItem(
       'skeleton-enabled',
-      skeleton ? true : false
+      String(skeleton ? true : false)
     )
   } catch (e) {
     //

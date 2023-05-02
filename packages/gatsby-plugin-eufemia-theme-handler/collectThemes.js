@@ -13,9 +13,15 @@ const { slash } = require('gatsby-core-utils')
  * @property {object} reporter Gatsby Reporter
  * @property {object} pluginOptions Gatsby pluginOptions
  */
-function createThemesImport({ reporter, pluginOptions }) {
+function createThemesImport({
+  reporter,
+  programDirectory,
+  pluginOptions,
+}) {
   const limitThemes = Object.keys(pluginOptions.themes || [])
-  const packageRoot = path.dirname(require.resolve('@dnb/eufemia'))
+  const packageRoot = path.dirname(
+    require.resolve('@dnb/eufemia', [programDirectory])
+  )
   const globbyPaths = [
     slash(path.join(packageRoot, pluginOptions.filesGlob)),
   ]
@@ -56,7 +62,7 @@ function createThemesImport({ reporter, pluginOptions }) {
     })
 
     fs.writeFileSync(
-      path.resolve(__dirname, 'load-eufemia-themes.js'),
+      path.resolve(__dirname, 'load-eufemia-themes.ts'),
       imports.join('\n')
     )
   }
