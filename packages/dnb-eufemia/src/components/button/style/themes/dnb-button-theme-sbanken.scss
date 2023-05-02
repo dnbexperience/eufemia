@@ -89,6 +89,12 @@
       color: var(--sb-color-red);
       background-color: var(--sb-color-white);
       @include fakeBorder(var(--sb-color-red), null, inset);
+      
+      @include hover() {
+        color: var(--sb-color-red);
+        background-color: var(--sb-color-magenta-light-3);
+        @include fakeBorder(var(--sb-color-red), null, inset);
+      }
     }
   }
 
