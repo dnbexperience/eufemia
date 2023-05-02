@@ -644,7 +644,7 @@ describe('InputMasked component', () => {
       '​ kr' // includes a hidden space: invisibleSpace
     )
 
-    await wait(2)
+    await wait(2) // because of the delayed requestAnimationFrame
 
     expect(setSelectionRange).toBeCalledTimes(1)
     expect(setSelectionRange).toHaveBeenCalledWith(0, 0)
@@ -665,7 +665,7 @@ describe('InputMasked component', () => {
       'Prefix ​ kr' // includes a hidden space: invisibleSpace
     )
 
-    await wait(2)
+    await wait(2) // because of the delayed requestAnimationFrame
 
     expect(setSelectionRange).toBeCalledTimes(2)
     expect(setSelectionRange).toHaveBeenCalledWith(8, 8)
@@ -1517,6 +1517,45 @@ describe('InputMasked component as_currency', () => {
       'dnb-input--text',
       'dnb-input--vertical',
     ])
+  })
+
+  it('should set correct cursor position on focus and mouseUp', async () => {
+    render(
+      <Component value={12} mask={[/\d/, /\d/, '–', '–', /\d/, /\d/]} />
+    )
+
+    const element = document.querySelector('input')
+
+    const preventDefault = jest.fn()
+    element.setSelectionRange = jest.fn()
+
+    // 1. Test first focus
+    fireEvent.focus(element, {
+      target: {
+        selectionStart: 6,
+      },
+      preventDefault,
+    })
+
+    await wait(2) // because of the delayed requestAnimationFrame
+
+    expect(element.setSelectionRange).toHaveBeenCalledTimes(1)
+    expect(element.setSelectionRange).toHaveBeenNthCalledWith(1, 4, 4)
+
+    // 2. Then test mouse up
+    fireEvent.mouseUp(element, {
+      target: {
+        selectionStart: 6,
+      },
+      preventDefault,
+    })
+
+    await wait(2) // because of the delayed requestAnimationFrame
+
+    expect(element.setSelectionRange).toHaveBeenCalledTimes(2)
+    expect(element.setSelectionRange).toHaveBeenNthCalledWith(2, 4, 4)
+
+    expect(element.value).toBe('12––​​')
   })
 })
 
