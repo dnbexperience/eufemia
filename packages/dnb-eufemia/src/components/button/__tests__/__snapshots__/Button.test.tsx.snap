@@ -928,14 +928,6 @@ exports[`Button scss have to match default theme snapshot 1`] = `
 .dnb-skeleton .dnb-button--tertiary .dnb-button__text::after {
   content: none;
 }
-.dnb-button--tertiary.dnb-button--has-text {
-  padding-left: 0;
-  padding-right: 0;
-}
-.dnb-button--tertiary.dnb-button--has-icon .dnb-button__text::after {
-  left: -1rem;
-  right: -1rem;
-}
 .dnb-button--tertiary:focus[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:focus[disabled] {
   cursor: not-allowed;
 }
@@ -1035,7 +1027,6 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .
 }
 .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left .dnb-button__text::after {
   left: -0.5rem;
-  right: 0;
 }
 .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left .dnb-button__icon {
   margin-right: -0.5rem;
@@ -1063,7 +1054,6 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .
   padding-right: 1rem;
 }
 .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right .dnb-button__text::after {
-  left: 0;
   right: -0.5rem;
 }
 .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right .dnb-button__icon {
@@ -1259,6 +1249,10 @@ html[data-whatinput=keyboard] .dnb-button--secondary:not(.dnb-button--has-text):
 .dnb-button--tertiary {
   color: var(--color-sea-green);
   background-color: transparent;
+}
+.dnb-button--tertiary.dnb-button--has-text {
+  padding-left: 0;
+  padding-right: 0;
 }
 html:not([data-whatintent=touch]) .dnb-button--tertiary:hover[disabled] {
   cursor: not-allowed;
