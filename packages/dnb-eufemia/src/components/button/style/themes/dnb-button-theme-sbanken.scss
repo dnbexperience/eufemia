@@ -106,6 +106,32 @@
     color: var(--sb-color-violet);
     background-color: transparent;
 
+    .dnb-button__text::after {
+      height: 0.0625rem;
+      bottom: -0.5rem;
+      left: -$tertiary-padding;
+      right: -$tertiary-padding;
+    }
+
+    &.dnb-button--size-large {
+      .dnb-button__text::after {
+        bottom: -0.75rem;
+        left: -$tertiary-padding-large;
+        right: -$tertiary-padding-large;
+      }
+    }
+
+    &.dnb-button--icon-position-top {
+      .dnb-button__text {
+        font-size: var(--font-size-x-small);
+      }
+      &.dnb-button--size-large {
+        .dnb-button__text {
+          font-size: var(--font-size-small);
+        }
+      }
+    }
+
     &.dnb-button--has-text {
       padding-left: $tertiary-padding;
       padding-right: $tertiary-padding;
@@ -169,21 +195,6 @@
       }
     }
 
-    .dnb-button__text::after {
-      height: 0.0625rem;
-      bottom: -0.5rem;
-      left: -$tertiary-padding;
-      right: -$tertiary-padding;
-    }
-
-    &.dnb-button--size-large {
-      .dnb-button__text::after {
-        bottom: -0.75rem;
-        left: -$tertiary-padding-large;
-        right: -$tertiary-padding-large;
-      }
-    }
-
     @include hover() {
       // underline
       .dnb-button__text::after {
@@ -196,17 +207,6 @@
       // underline
       .dnb-button__text::after {
           color: var(--sb-color-violet);
-      }
-    }
-
-    &.dnb-button--icon-position-top {
-      .dnb-button__text {
-        font-size: var(--font-size-x-small);
-      }
-      &.dnb-button--size-large {
-        .dnb-button__text {
-          font-size: var(--font-size-small);
-        }
       }
     }
 
