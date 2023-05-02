@@ -3,7 +3,6 @@
  *
  */
 
-const fs = require('fs-extra')
 const path = require('path')
 const { isCI } = require('repo-utils')
 const getCurrentBranchName = require('current-git-branch')
@@ -15,16 +14,9 @@ const {
   makeHeadingsResolver,
 } = require('./src/uilib/search/remark-headings-plugin.js')
 
-let prebuildExists = false
 const currentBranch = getCurrentBranchName()
 
 exports.onPreInit = async () => {
-  try {
-    prebuildExists = fs.existsSync(require.resolve('@dnb/eufemia/build'))
-  } catch (e) {
-    //
-  }
-
   if (process.env.NODE_ENV === 'production') {
     await init()
   }
@@ -186,7 +178,7 @@ exports.onCreateWebpackConfig = ({ stage, actions, plugins }) => {
   const config = {
     resolve: {
       alias: {
-        Docs: path.resolve('./src/docs'),
+        Docs: path.resolve(global.pagesPath),
       },
     },
     plugins: [
@@ -194,8 +186,9 @@ exports.onCreateWebpackConfig = ({ stage, actions, plugins }) => {
         'process.env.isCI': JSON.stringify(isCI),
         'process.env.CURRENT_BRANCH': JSON.stringify(currentBranch),
         'process.env.STYLE_THEME': JSON.stringify(getStyleTheme()),
+        'global.PREBUILD_EXISTS': JSON.stringify(global.PREBUILD_EXISTS),
         'process.env.STYLE_IMPORT_PATH': JSON.stringify(
-          prebuildExists
+          global.PREBUILD_EXISTS
             ? '@dnb/eufemia/build/style/dnb-ui-core.min.css'
             : '@dnb/eufemia/src/style/core'
         ),
@@ -206,7 +199,7 @@ exports.onCreateWebpackConfig = ({ stage, actions, plugins }) => {
     ],
   }
 
-  if (isCI && prebuildExists && stage === 'build-javascript') {
+  if (isCI && global.PREBUILD_EXISTS && stage === 'build-javascript') {
     config.plugins.push(
       plugins.normalModuleReplacement(/@dnb\/eufemia\/src/, (resource) => {
         resource.request = resource.request.replace(
@@ -232,8 +225,8 @@ exports.onCreateDevServer = () => {
 
 function getStyleTheme() {
   let themeName = 'ui'
-  if (typeof process.env.GATSBY_THEME_STYLE_DEV !== 'undefined') {
-    themeName = process.env.GATSBY_THEME_STYLE_DEV
+  if (typeof process.env.GATSBY_EUFEMIA_THEME !== 'undefined') {
+    themeName = process.env.GATSBY_EUFEMIA_THEME
   }
 
   /**

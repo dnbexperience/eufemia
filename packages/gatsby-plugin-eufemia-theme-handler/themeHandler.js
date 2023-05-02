@@ -18,13 +18,11 @@ export function isValidTheme(themeName) {
 }
 
 export function useThemeName() {
-  const [themeName, setThemeName] = React.useState(getTheme)
+  const [themeName, setThemeName] = React.useState(() => getTheme().name)
 
   React.useEffect(() => {
     const emitter = EventEmitter.createInstance('themeHandler')
-    emitter.listen(({ themeName }) => {
-      setThemeName(themeName)
-    })
+    emitter.listen(({ name }) => setThemeName(name))
   }, [])
 
   // Deprecated (can be removed when we are full and 100% officially using Reavt v18)
@@ -36,7 +34,7 @@ export function useThemeName() {
     const element = document.querySelector('.eufemia-theme')
     const htmlName = element?.getAttribute('data-name')
 
-    if (htmlName !== themeName) {
+    if (htmlName !== themeName && element) {
       element.setAttribute('data-name', themeName)
       element.classList.remove(`eufemia-theme__${htmlName}`)
       element.classList.add(`eufemia-theme__${themeName}`)
@@ -51,50 +49,53 @@ export function getTheme() {
     return defaultTheme
   }
   try {
+    const data = window.localStorage.getItem('eufemia-theme')
+    const theme = JSON.parse(data?.startsWith('{') ? data : '{}')
+
     const regex = /.*eufemia-theme=([^&]*).*/
     const query = window.location.search
     const fromQuery =
       (regex.test(query) && query?.replace(regex, '$1')) || null
 
-    const themeName =
-      fromQuery ||
-      window.localStorage.getItem('eufemia-theme') ||
-      defaultTheme
+    const themeName = fromQuery || theme?.name || defaultTheme
 
     if (!isValidTheme(themeName)) {
       console.error('Not valid themeName:', themeName)
       return defaultTheme // stop here
     }
 
-    return themeName
+    return { ...theme, name: themeName }
   } catch (e) {
     console.error(e)
     return defaultTheme
   }
 }
 
-export function setTheme(themeName) {
-  if (!isValidTheme(themeName)) {
-    console.error('Not valid themeName:', themeName)
+export function setTheme(newTheme) {
+  const theme = { ...getTheme(), ...newTheme }
+
+  if (!isValidTheme(theme?.name)) {
+    console.error('Not valid themeName:', theme?.name)
     return // stop here
   }
 
   try {
-    window.__updateEufemiaThemeFile(themeName, true)
-    window.localStorage.setItem('eufemia-theme', themeName)
-
     const emitter = EventEmitter.createInstance('themeHandler')
-    emitter.update({ themeName })
+    emitter.update(theme)
+
+    window.__updateEufemiaThemeFile(theme.name, true)
+
+    window.localStorage.setItem('eufemia-theme', JSON.stringify(theme))
   } catch (e) {
     console.error(e)
   }
 }
 
 let cachedHeadComponents = null
-export const onPreRenderHTML = ({
-  getHeadComponents,
-  replaceHeadComponents,
-}) => {
+export const onPreRenderHTML = (
+  { getHeadComponents, replaceHeadComponents },
+  pluginOptions
+) => {
   let headComponents = getHeadComponents()
 
   const isDev = process.env.NODE_ENV !== 'production'
@@ -118,7 +119,10 @@ export const onPreRenderHTML = ({
 
             // Store the default inline styles,
             // and place it below data-href="/commons.*.css"
-            if (themeName === defaultTheme) {
+            if (
+              pluginOptions?.inlineDefaultTheme &&
+              themeName === defaultTheme
+            ) {
               defaultElement = element
               headComponents[element] = null
             } else {
@@ -165,8 +169,15 @@ export const onPreRenderHTML = ({
 
   const replaceGlobalVars = (s) => {
     return s
-      .replace(/__DEFAULT_THEME__/g, JSON.stringify(defaultTheme))
-      .replace(/__AVAILABLE_THEMES__/g, JSON.stringify(availableThemes))
+      .replace(/globalThis.defaultTheme/g, JSON.stringify(defaultTheme))
+      .replace(
+        /globalThis.availableThemes/g,
+        JSON.stringify(availableThemes)
+      )
+      .replace(
+        /globalThis.inlineDefaultTheme/g,
+        JSON.stringify(pluginOptions?.inlineDefaultTheme)
+      )
   }
 
   /**
@@ -191,6 +202,20 @@ export const onPreRenderHTML = ({
       }}
     />
   )
+
+  if (!pluginOptions?.inlineDefaultTheme) {
+    cachedHeadComponents.push(
+      <noscript key="theme-style-fallback">
+        <link
+          id="eufemia-style-theme-fallback"
+          rel="stylesheet"
+          type="text/css"
+          as="style"
+          href={availableThemes[defaultTheme].file}
+        />
+      </noscript>
+    )
+  }
 
   headComponents.push(...cachedHeadComponents)
   replaceHeadComponents(headComponents)
