@@ -6,7 +6,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { convertStringToDate } from './DatePickerCalc'
-import ToggleButton from '../toggle-button/ToggleButton'
+import Button from '../button/Button'
 import DatePickerContext from './DatePickerContext'
 
 export default class DatePickerAddon extends React.PureComponent {
@@ -23,18 +23,16 @@ export default class DatePickerAddon extends React.PureComponent {
   }
 
   state = {
-    currentShortcut: null,
     _listenForPropChanges: true,
   }
 
-  setDate({ value, event }) {
+  setDate({ shortcut, event }) {
     this.setState({
-      currentShortcut: value,
       _listenForPropChanges: false,
     })
 
-    const start_date = value.date || value.start_date
-    const end_date = value.end_date
+    const start_date = shortcut.date || shortcut.start_date
+    const end_date = shortcut.end_date
     const startDate =
       typeof start_date === 'function'
         ? start_date(this.getCurrentDates())
@@ -54,7 +52,7 @@ export default class DatePickerAddon extends React.PureComponent {
       event,
     })
 
-    if (value.close_on_select) {
+    if (shortcut.close_on_select) {
       this.context.hidePicker(event)
     }
   }
@@ -92,14 +90,19 @@ export default class DatePickerAddon extends React.PureComponent {
     }
 
     const shortcutElements = hasShortcuts && (
-      <ToggleButton.Group
-        value={this.state.currentShortcut}
-        on_change={({ value, event }) => this.setDate({ value, event })}
-      >
-        {shortcutsArray.map(({ title, ...rest }, i) => (
-          <ToggleButton key={i} text={title} value={rest} />
-        ))}
-      </ToggleButton.Group>
+      <>
+        {shortcutsArray.map(({ title, ...shortcut }, i) => {
+          return (
+            <Button
+              key={i}
+              text={title}
+              variant="secondary"
+              onClick={(event) => this.setDate({ shortcut, event })}
+              right
+            />
+          )
+        })}
+      </>
     )
 
     return (
