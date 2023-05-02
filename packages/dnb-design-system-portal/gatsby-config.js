@@ -6,7 +6,7 @@
 const remarkGfm = require('remark-gfm')
 const getCurrentBranchName = require('current-git-branch')
 const currentBranch = getCurrentBranchName()
-const { shouldUsePrebuild } = require('./src/core/StyleImporter.cjs')
+const { shouldUsePrebuild } = require('./src/core/BuildTools.cjs')
 
 const pathPrefix = '/'
 

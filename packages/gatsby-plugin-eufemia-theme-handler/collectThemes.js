@@ -62,7 +62,7 @@ function createThemesImport({
     })
 
     fs.writeFileSync(
-      path.resolve(__dirname, 'load-eufemia-themes.js'),
+      path.resolve(__dirname, 'load-eufemia-themes.ts'),
       imports.join('\n')
     )
   }

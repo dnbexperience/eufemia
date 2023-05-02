@@ -3,6 +3,8 @@
   "type": "commonjs",
   "main": "index.js",
   "sideEffects": [
+    "*.css",
+    "*.min.css",
     "*.scss",
     "umd/*",
     "style/**/*"
