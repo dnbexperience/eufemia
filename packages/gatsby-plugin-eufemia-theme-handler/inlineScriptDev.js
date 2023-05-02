@@ -11,7 +11,6 @@ if (typeof window !== 'undefined') {
       if (reload) {
         uniqueId = '?' + Date.now()
       }
-      styleElement.setAttribute('href', theme.file + uniqueId)
 
       const moveAfterCommons = () => {
         headElement.appendChild(styleElement)
@@ -21,6 +20,8 @@ if (typeof window !== 'undefined') {
       } else {
         window.addEventListener('load', moveAfterCommons)
       }
+
+      styleElement.setAttribute('href', theme?.file + uniqueId)
     } catch (e) {
       console.error(e)
     }
@@ -35,7 +36,7 @@ if (typeof window !== 'undefined') {
           element &&
           (element.src || element.href || '').includes('/commons.')
         ) {
-          const themeName = window.__getEufemiaTheme()
+          const themeName = window.__getEufemiaThemeName()
           window.__updateEufemiaThemeFile(themeName, true)
           break
         }
