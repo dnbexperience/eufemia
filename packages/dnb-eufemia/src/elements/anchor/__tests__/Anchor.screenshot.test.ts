@@ -8,10 +8,11 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Anchor', () => {
-  setupPageScreenshot({
-    url: '/uilib/elements/anchor',
-  })
+describe.each([
+  ['ui', '/uilib/elements/anchor'],
+  ['sbanken', '/uilib/elements/anchor'],
+])('Anchor for %s', (themeName, url) => {
+  setupPageScreenshot({ themeName, url })
 
   it('have to match the "default" state', async () => {
     const screenshot = await makeScreenshot({
@@ -106,21 +107,13 @@ describe('Anchor', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-
-  // "active" simulation is suddenly too unstable – no reason found
-  // it('have to match the anchor-contrast "active" state', async () => {
-  //   const screenshot = await makeScreenshot({
-  //     selector: '[data-visual-test="anchor-contrast"]',
-  //     simulate: 'active',
-  //   })
-  //   expect(screenshot).toMatchImageSnapshot()
-  // })
 })
 
-describe('Anchor target blank', () => {
-  setupPageScreenshot({
-    url: '/uilib/elements/anchor',
-  })
+describe.each([
+  ['ui', '/uilib/elements/anchor'],
+  ['sbanken', '/uilib/elements/anchor'],
+])('Anchor target blank for %s', (themeName, url) => {
+  setupPageScreenshot({ themeName, url })
 
   it('have to match blank target anchor in heading', async () => {
     const screenshot = await makeScreenshot({
