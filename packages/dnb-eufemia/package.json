@@ -91,6 +91,8 @@
     "prettier:styles:staged": "prettier --loglevel warn --parser scss"
   },
   "sideEffects": [
+    "*.css",
+    "*.min.css",
     "*.scss",
     "umd/*",
     "style/**/*",

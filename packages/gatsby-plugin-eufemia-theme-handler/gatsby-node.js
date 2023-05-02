@@ -16,19 +16,23 @@ exports.pluginOptionsSchema = ({ Joi }) => {
     defaultTheme: Joi.string().required(),
     filesGlob: Joi.string()
       .optional()
-      .default('**/style/themes/**/*-theme-*.{scss,css}'),
+      .default('**/style/themes/**/*-theme-{basis,components}.min.css'),
     filesOrder: Joi.array().optional().default([
       // The file order does matter!
       '**/*-theme-extensions.*',
       '**/*-theme-components.*',
       '**/*-theme-basis.*',
     ]),
+    inlineDefaultTheme: Joi.boolean().optional().default(true),
   })
 }
 
-exports.onPreBootstrap = ({ reporter }, pluginOptions) => {
+exports.onPreBootstrap = ({ reporter, store }, pluginOptions) => {
+  const state = store.getState()
+  const programDirectory = state.program.directory
+
   // ensure to run this after the main app has run onPreInit
-  createThemesImport({ reporter, pluginOptions })
+  createThemesImport({ reporter, programDirectory, pluginOptions })
 }
 
 exports.onPostBuild = ({ reporter }) => {
