@@ -138,6 +138,7 @@ export default class DatePickerFooter extends React.PureComponent {
               variant="tertiary"
               onClick={this.onResetHandler}
               data-testid="reset"
+              right="0.5rem"
             />
           )) || <span />}
 
@@ -149,6 +150,7 @@ export default class DatePickerFooter extends React.PureComponent {
               variant="tertiary"
               onClick={this.onCancelHandler}
               data-testid="cancel"
+              right="0.5rem"
             />
           )) || <span />}
         </span>
