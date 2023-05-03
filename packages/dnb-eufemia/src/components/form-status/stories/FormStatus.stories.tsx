@@ -20,7 +20,7 @@ import {
   Dialog,
   HelpButton,
 } from '../..'
-import { Link } from '../../../elements'
+import { Link } from '../../..'
 
 export default {
   title: 'Eufemia/Components/FormStatus',

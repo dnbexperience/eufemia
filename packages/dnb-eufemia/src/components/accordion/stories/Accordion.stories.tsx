@@ -17,7 +17,7 @@ import {
   Heading,
 } from '../..'
 
-import { P } from '../../../elements'
+import { P } from '../../..'
 
 export default {
   title: 'Eufemia/Components/Accordion',

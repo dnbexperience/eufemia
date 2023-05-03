@@ -6,7 +6,7 @@
 import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import { Button, Section } from '../../'
-import { P } from '../../../elements'
+import { P } from '../../..'
 import styled from '@emotion/styled'
 
 export default {

@@ -17,7 +17,7 @@ import {
   FormRow,
 } from '../..'
 
-import { H2, P } from '../../../elements'
+import { H2, P } from '../../..'
 
 export default {
   title: 'Eufemia/Components/FormSet',

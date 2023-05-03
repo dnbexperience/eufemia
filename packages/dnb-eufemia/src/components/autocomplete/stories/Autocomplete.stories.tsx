@@ -14,7 +14,7 @@ import {
   Button,
   FormRow,
 } from '../..'
-import { Anchor } from '../../../elements'
+import { Anchor } from '../../../'
 import { Context } from '../../../shared'
 import { SubmitButton } from '../../input/Input'
 import { format } from '../../number-format/NumberUtils'

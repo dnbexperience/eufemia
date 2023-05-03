@@ -5,7 +5,7 @@
 
 import styled from '@emotion/styled'
 import React from 'react'
-import { P } from '../../../elements'
+import { P } from '../../..'
 import Section from '../../section/Section'
 import { ToggleButton, Button } from '../../'
 import HeightAnimation from '../HeightAnimation'
