@@ -7,7 +7,7 @@ import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import emailMask from '../addons/emailMask'
 import { InputMasked, FormSet, ToggleButton } from '../..'
-import { Hr } from '../../../elements'
+import { Hr } from '../../..'
 import styled from '@emotion/styled'
 import { Provider } from '../../../shared'
 

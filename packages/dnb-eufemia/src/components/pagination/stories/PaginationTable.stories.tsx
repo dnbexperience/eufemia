@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 import styled from '@emotion/styled'
 
 import { Section, Space, Button, Table } from '../..'
-import { H1, P, Ul } from '../../../elements'
+import { H1, P, Ul } from '../../..'
 import { hasSelectedText } from '../../../shared/helpers'
 
 import { createPagination } from '../../Pagination'

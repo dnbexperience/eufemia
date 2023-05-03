@@ -21,7 +21,7 @@ import {
 } from '../..'
 import { ScrollView } from '../../../fragments'
 import Dialog from '../Dialog'
-import { H2, P, Hr } from '../../../elements'
+import { H2, P, Hr } from '../../..'
 import Provider from '../../../shared/Provider'
 import {
   trash_medium as TrashIcon,
