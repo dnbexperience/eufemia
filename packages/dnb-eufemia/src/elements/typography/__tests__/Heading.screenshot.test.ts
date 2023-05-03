@@ -8,22 +8,26 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Heading', () => {
-  setupPageScreenshot({
-    url: '/uilib/elements/heading',
-  })
-
-  it('have to match the default heading examples', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="heading-default"]',
+describe.each(['ui', 'sbanken', 'eiendom'])(
+  'Heading for %s',
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/elements/heading',
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match the additional heading examples', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="heading-additional"]',
+    it('have to match the default heading examples', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="heading-default"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-})
+
+    it('have to match the additional heading examples', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="heading-additional"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+  }
+)
