@@ -10,8 +10,8 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Logo', () => {
-  setupPageScreenshot({ url: '/uilib/components/logo/demos' })
+describe.each(['ui', 'sbanken'])('Logo for %s', (themeName) => {
+  setupPageScreenshot({ themeName, url: '/uilib/components/logo/demos' })
 
   it('have to match the default "Logo"', async () => {
     const screenshot = await makeScreenshot({
@@ -40,13 +40,13 @@ describe('Logo', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+})
 
-  describe('png image', () => {
-    it('have to match image snapshot', async () => {
-      const image = await loadImage(
-        path.resolve(__dirname, '../../../../assets/images/dnb/dnb-logo.png')
-      )
-      expect(image).toMatchImageSnapshot()
-    })
+describe('png image', () => {
+  it('have to match image snapshot', async () => {
+    const image = await loadImage(
+      path.resolve(__dirname, '../../../../assets/images/dnb/dnb-logo.png')
+    )
+    expect(image).toMatchImageSnapshot()
   })
 })
