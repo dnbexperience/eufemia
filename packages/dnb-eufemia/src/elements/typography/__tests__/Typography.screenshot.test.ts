@@ -8,9 +8,16 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Typography', () => {
+const themes = [
+  ['ui', '/uilib/typography'],
+  ['sbanken', '/uilib/typography'],
+  ['eiendom', '/uilib/typography'],
+]
+
+describe.each(themes)('Typography for %s', (themeName, url) => {
   setupPageScreenshot({
-    url: '/uilib/typography',
+    themeName,
+    url,
   })
 
   it('have to match all the typography variants', async () => {
