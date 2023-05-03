@@ -29,7 +29,7 @@ import { includeValidProps } from '../form-row/FormRowHelpers'
 import IconPrimary from '../icon-primary/IconPrimary'
 import { launch, launch_medium } from '../../icons'
 import FormStatus from '../form-status/FormStatus'
-import Anchor from '../../elements/Anchor'
+import Anchor from '../anchor/Anchor'
 import Tooltip from '../tooltip/Tooltip'
 
 export const buttonVariantPropType = {
