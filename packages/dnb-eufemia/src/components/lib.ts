@@ -11,6 +11,7 @@
 
 // import all the available components
 import Accordion from './accordion/Accordion'
+import Anchor from './anchor/Anchor'
 import Autocomplete from './autocomplete/Autocomplete'
 import Avatar from './avatar/Avatar'
 import Badge from './badge/Badge'
@@ -61,6 +62,7 @@ import VisuallyHidden from './visually-hidden/VisuallyHidden'
 // define / export all the available components
 export {
   Accordion,
+  Anchor,
   Autocomplete,
   Avatar,
   Badge,
@@ -112,6 +114,7 @@ export {
 export const getComponents = () => {
   return {
     Accordion,
+    Anchor,
     Autocomplete,
     Avatar,
     Badge,
