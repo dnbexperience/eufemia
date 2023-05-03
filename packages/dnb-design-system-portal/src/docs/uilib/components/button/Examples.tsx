@@ -99,13 +99,13 @@ export const ButtonPrimaryWithIconLeft = () => (
 
 export const ButtonTertiary = () => (
   <ComponentBox data-visual-test="button-tertiary-all">
-  <Button
-    variant="tertiary"
-    text="Tertiary button with icon on left"
-    icon_position="left"
-    icon="chevron_left"
-    data-visual-test="button-tertiary"
-  />
+    <Button
+      variant="tertiary"
+      text="Tertiary button with icon on left"
+      icon_position="left"
+      icon="chevron_left"
+      data-visual-test="button-tertiary"
+    />
     <Button
       variant="tertiary"
       text={<span>Text inside additional span</span>}
