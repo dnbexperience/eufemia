@@ -1,5 +1,5 @@
 import React from 'react'
-import { P, Anchor, Ul, Li } from '@dnb/eufemia/src/elements'
+import { P, Anchor, Ul, Li } from '@dnb/eufemia/src'
 import AutoLinkHeader from '../tags/AutoLinkHeader'
 import { resetLevels } from '@dnb/eufemia/src/components/Heading'
 

@@ -2,7 +2,7 @@ import React from 'react'
 
 import ComponentBox from '../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
-import { Link } from '@dnb/eufemia/src/elements'
+import { Link } from '@dnb/eufemia/src'
 
 export const StyledComponentsExample = () => (
   <ComponentBox scope={{ Link }}>

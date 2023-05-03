@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'gatsby'
 import { Button } from '@dnb/eufemia/src'
 import classnames from 'classnames'
-import { P, Span } from '@dnb/eufemia/src/elements'
+import { P, Span } from '@dnb/eufemia/src'
 import {
   liItemStyle,
   linkStyle,
