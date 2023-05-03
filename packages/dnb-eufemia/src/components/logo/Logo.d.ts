@@ -31,6 +31,16 @@ export interface LogoProps
   color?: IconColor;
 
   /**
+   * Define which brand&#39;s logo to show. `ui` (DNB) or `sbanken`. Defaults to `ui`
+   */
+  brand?: string;
+
+  /**
+   * Define the logo variant, if there is more than one variant of a brand&#39;s logo. Currently the only option other than default is a `compact` variant of the Sbanken logo. Defaults to `default`
+   */
+  variant?: string;
+
+  /**
    * Set to `true` if you do not want to inherit the color by `currentColor`. Default to `false`.
    */
   inherit_color?: boolean;
