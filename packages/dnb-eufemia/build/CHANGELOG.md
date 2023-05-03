@@ -3,6 +3,13 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.47.4](https://github.com/dnbexperience/eufemia/compare/v9.47.3...v9.47.4) (2023-05-03)
+
+
+### Bug Fixes
+
+* **InputMasked:** on custom mask – avoid interaction stall after focus ([#2270](https://github.com/dnbexperience/eufemia/issues/2270)) ([2201ea9](https://github.com/dnbexperience/eufemia/commit/2201ea9e2e764e8ff7a98d591d2916fd3cb37814))
+
 ## [9.47.3](https://github.com/dnbexperience/eufemia/compare/v9.47.2...v9.47.3) (2023-03-27)
 
 
