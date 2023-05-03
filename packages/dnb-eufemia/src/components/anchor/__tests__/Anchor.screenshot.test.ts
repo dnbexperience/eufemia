@@ -9,8 +9,8 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe.each([
-  ['ui', '/uilib/elements/anchor'],
-  ['sbanken', '/uilib/elements/anchor'],
+  ['ui', '/uilib/components/anchor'],
+  ['sbanken', '/uilib/components/anchor'],
 ])('Anchor for %s', (themeName, url) => {
   setupPageScreenshot({ themeName, url })
 
@@ -110,8 +110,8 @@ describe.each([
 })
 
 describe.each([
-  ['ui', '/uilib/elements/anchor'],
-  ['sbanken', '/uilib/elements/anchor'],
+  ['ui', '/uilib/components/anchor'],
+  ['sbanken', '/uilib/components/anchor'],
 ])('Anchor target blank for %s', (themeName, url) => {
   setupPageScreenshot({ themeName, url })
 

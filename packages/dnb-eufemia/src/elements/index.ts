@@ -10,7 +10,6 @@
  */
 
 // import all the available components
-import Anchor from './Anchor'
 import Blockquote from './Blockquote'
 import Code from './Code'
 import Dd from './Dd'
@@ -41,7 +40,6 @@ import Ul from './Ul'
 
 // define / export all the available components
 export {
-  Anchor,
   Blockquote,
   Code,
   Dd,

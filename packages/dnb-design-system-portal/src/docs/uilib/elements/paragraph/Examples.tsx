@@ -6,7 +6,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import Anchor from '@dnb/eufemia/src/elements/Anchor'
+import Anchor from '@dnb/eufemia/src/components/Anchor'
 import P from '@dnb/eufemia/src/elements/P'
 
 const Case = styled.span`

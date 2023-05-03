@@ -8,7 +8,7 @@ import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
 import { wait } from '@testing-library/user-event/dist/utils'
 import OriginalTooltip from '../Tooltip'
-import Anchor from '../../../elements/Anchor'
+import Anchor from '../../anchor/Anchor'
 import NumberFormat from '../../number-format/NumberFormat'
 import { TooltipProps } from '../types'
 
