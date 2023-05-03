@@ -3,16 +3,16 @@
  * This file will not run on "test:staged" because we don't require any related files
  */
 
+import {
+  makeScreenshot,
+  setupPageScreenshot,
+} from '../../../core/jest/jestSetupScreenshots'
+
 const themes = [
   ['ui', '/uilib/elements/heading'],
   ['sbanken', '/uilib/elements/heading'],
   ['eiendom', '/uilib/elements/heading'],
 ]
-
-import {
-  makeScreenshot,
-  setupPageScreenshot,
-} from '../../../core/jest/jestSetupScreenshots'
 
 describe.each(themes)('Heading for %s', (themeName, url) => {
   setupPageScreenshot({
