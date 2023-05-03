@@ -6,7 +6,7 @@
 import React from 'react'
 import { fakeProps, axeComponent } from '../../../core/jest/jestSetup'
 import { act, fireEvent, render } from '@testing-library/react'
-import Anchor from '../../Anchor'
+import Anchor from '../Anchor'
 
 const props = fakeProps(require.resolve('../Anchor'), {
   all: true,

@@ -1,14 +1,8 @@
 ---
-title: 'Anchor (Text Link)'
+showTabs: true
 ---
 
-import {
-  AnchorExampleInSection,
-  AnchorExampleStates,
-  AnchorExampleHelperClasses,
-  AnchorExampleIcons,
-  AnchorExampleHeadings,
-} from 'Docs/uilib/elements/anchor/Examples'
+## Description
 
 # Anchor (Text Link)
 
@@ -16,7 +10,7 @@ The Anchor, also knows as `Link` is used to navigate from one page to the next H
 
 ```jsx
 import { Link, Anchor } from '@dnb/eufemia'
-render(<Anchor href="/uilib/elements/anchor">Accessible text</Anchor>)
+render(<Anchor href="/uilib/components/anchor">Accessible text</Anchor>)
 ```
 
 **NB:** If you only use a vanilla HTML anchor element including `target="_blank"` then you have to ensure you add a `title` attribute that includes `Opens a new Window` or as a part of the text:
@@ -31,31 +25,6 @@ render(<Anchor href="/uilib/elements/anchor">Accessible text</Anchor>)
   text (opens in new window)
 </a>
 ```
-
-## Anchor states
-
-<AnchorExampleStates />
-
-## Additional Anchor helper classes
-
-To force a specific state of style, use the following classes to do so:
-
-<AnchorExampleHelperClasses />
-
-## Anchor modifiers
-
-- `.dnb-anchor--no-animation` <a href="/uilib/elements/anchor" className="dnb-anchor dnb-anchor--no-animation">No Animation</a>
-- `.dnb-anchor--no-style` <a href="/uilib/elements/anchor" className="dnb-anchor dnb-anchor--no-style">No Style</a>
-- `.dnb-anchor--no-hover` <a href="/uilib/elements/anchor" className="dnb-anchor dnb-anchor--no-hover">No Hover</a>
-- `.dnb-anchor--no-underline` <a href="/uilib/elements/anchor" className="dnb-anchor dnb-anchor--no-underline">No Underline</a>
-
-## Anchor with icons
-
-<AnchorExampleIcons />
-
-## Anchor in headings
-
-<AnchorExampleHeadings />
 
 ## Customize blank target graphic
 
@@ -93,5 +62,3 @@ AnchorElement.style = `background-image: url(data:image/svg+xml;base64,${base64}
 // ... or using Node:
 Buffer.from(svgAsString, 'utf-8').toString('base64')
 ```
-
-<AnchorExampleInSection />

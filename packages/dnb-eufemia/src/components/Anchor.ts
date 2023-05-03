@@ -5,7 +5,7 @@
  */
 
 /**
- * Library Index anchor to autogenerate all the elements and extensions
+ * Library Index anchor to autogenerate all the components and extensions
  * Used by "prepareAnchors"
  */
 
