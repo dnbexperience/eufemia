@@ -9,7 +9,7 @@ import styled from '@emotion/styled'
 import { css, Global } from '@emotion/react'
 
 import { Space, Input } from '../../'
-import { H1, H2, P } from '../../../elements'
+import { H1, H2, P } from '../../..'
 import Provider from '../../../shared/Provider'
 
 export default {

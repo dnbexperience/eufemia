@@ -8,7 +8,7 @@ import { Wrapper, Box } from 'storybook-utils/helpers'
 
 import { Button, Icon, IconPrimary } from '../..'
 import { add as Svg } from '../../../icons'
-import { P, H1, H4 } from '../../../elements'
+import { P, H1, H4 } from '../../..'
 
 export default {
   title: 'Eufemia/Components/Icon',

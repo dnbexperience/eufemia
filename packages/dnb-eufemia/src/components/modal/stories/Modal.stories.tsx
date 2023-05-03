@@ -21,7 +21,7 @@ import {
 } from '../../'
 import Modal from '../../modal/Modal'
 import { ScrollView } from '../../../fragments'
-import { H2, P, Hr } from '../../../elements'
+import { H2, P, Hr } from '../../..'
 
 export default {
   title: 'Eufemia/Components/Modal',

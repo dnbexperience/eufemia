@@ -24,18 +24,7 @@ import {
   Skeleton,
   IconPrimary,
 } from '../..'
-import {
-  H1,
-  H2,
-  P,
-  Ol,
-  Li,
-  Ul,
-  Dl,
-  Dt,
-  Dd,
-  Anchor,
-} from '../../../elements'
+import { H1, H2, P, Ol, Li, Ul, Dl, Dt, Dd, Anchor } from '../../..'
 import Provider from '../../../shared/Provider'
 
 // import SkeletonArticle from '../../skeleton/figures/Article'
