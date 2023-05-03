@@ -8,7 +8,7 @@ import { Wrapper } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
 import { GlobalError } from '../..'
-import { H2, P, Link } from '../../../elements'
+import { H2, P, Link } from '../../..'
 
 export default {
   title: 'Eufemia/Components/GlobalError',

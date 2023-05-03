@@ -7,7 +7,7 @@ import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
-import { H3 } from '../../../elements'
+import { H3 } from '../../..'
 
 import '../style'
 import '../style/themes/ui'

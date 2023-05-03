@@ -7,7 +7,7 @@ import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
-import { P } from '../../../elements'
+import { P } from '../../..'
 import { Button, Section } from '../..'
 import Pagination, { createPagination } from '../Pagination'
 

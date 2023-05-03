@@ -16,7 +16,7 @@ import {
   FormLabel,
 } from '../..'
 
-import { H2 } from '../../../elements'
+import { H2 } from '../../..'
 
 export default {
   title: 'Eufemia/Components/ToggleButton',
