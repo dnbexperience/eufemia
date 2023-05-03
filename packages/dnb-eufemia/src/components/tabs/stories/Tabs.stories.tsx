@@ -11,7 +11,7 @@ import { Global, css } from '@emotion/react'
 import { Input, Tabs, Icon, Button, ToggleButton } from '../..'
 import { bell as Bell } from '../../../icons'
 
-import { H2 } from '../../../elements'
+import { H2 } from '../../..'
 import { TabsNavigation } from './TabsNavigation.stories'
 
 export default {

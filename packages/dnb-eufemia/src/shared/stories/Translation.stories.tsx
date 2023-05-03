@@ -12,7 +12,7 @@ import useTranslation, {
   getTranslation,
   Translation,
 } from '../useTranslation'
-import { P } from '../../elements'
+import { P } from '../..'
 
 // import nbNO from '../locales/nb-NO'
 import nbNO from './translation/nb.json'

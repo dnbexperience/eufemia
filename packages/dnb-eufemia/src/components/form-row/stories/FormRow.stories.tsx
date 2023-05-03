@@ -7,7 +7,7 @@ import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
-import { H2, H3 } from '../../../elements'
+import { H2, H3 } from '../../..'
 
 import { Input, FormRow } from '../..'
 
