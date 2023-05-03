@@ -8,8 +8,9 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Paragraph', () => {
+describe.each(['ui', 'sbanken'])('Paragraph for %s', (themeName) => {
   setupPageScreenshot({
+    themeName,
     url: '/uilib/elements/paragraph',
   })
 
