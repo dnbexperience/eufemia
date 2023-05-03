@@ -6,7 +6,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { H2, P, Dl, Dt, Dd, Code, Anchor } from '@dnb/eufemia/src/elements'
+import { H2, P, Dl, Dt, Dd, Code, Anchor } from '@dnb/eufemia/src'
 import { copy as copyIcon } from '@dnb/eufemia/src/icons'
 import {
   Button,

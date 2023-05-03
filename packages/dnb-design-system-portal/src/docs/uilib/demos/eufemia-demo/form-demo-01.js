@@ -18,7 +18,7 @@ import styled from '@emotion/styled'
 import Layout from '../layout/Layout'
 
 // Get Eufemia in
-import { P } from '@dnb/eufemia/src/elements'
+import { P } from '@dnb/eufemia/src'
 import {
   Heading,
   FormSet,

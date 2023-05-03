@@ -1,4 +1,4 @@
-import { Ul, Li } from '@dnb/eufemia/src/elements'
+import { Ul, Li } from '@dnb/eufemia/src'
 import Anchor from '../tags/Anchor'
 
 type TableOfContents = {
