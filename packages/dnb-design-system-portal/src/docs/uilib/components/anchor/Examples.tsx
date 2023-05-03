@@ -22,20 +22,20 @@ export const AnchorExampleStates = () => (
     <ul className="dnb-ul dnb-unstyled-list">
       <li>
         <Anchor
-          href="/uilib/elements/anchor"
+          href="/uilib/components/anchor"
           data-visual-test="anchor-default"
         >
           Default Style
         </Anchor>
       </li>
       <li data-visual-test="anchor-blank">
-        <Anchor target="_blank" href="/uilib/elements/anchor">
+        <Anchor target="_blank" href="/uilib/components/anchor">
           Blank target with https
         </Anchor>
       </li>
       <li>
         <Anchor
-          href="/uilib/elements/anchor"
+          href="/uilib/components/anchor"
           data-visual-test="anchor-hover"
           className="dnb-anchor--hover"
         >
@@ -44,7 +44,7 @@ export const AnchorExampleStates = () => (
       </li>
       <li>
         <Anchor
-          href="/uilib/elements/anchor"
+          href="/uilib/components/anchor"
           data-visual-test="anchor-active"
           className="dnb-anchor--active"
         >
@@ -53,7 +53,7 @@ export const AnchorExampleStates = () => (
       </li>
       <li>
         <Anchor
-          href="/uilib/elements/anchor"
+          href="/uilib/components/anchor"
           data-visual-test="anchor-focus"
           className="dnb-anchor--focus"
         >
@@ -76,7 +76,7 @@ export const AnchorExampleHelperClasses = () => (
         }}
       >
         <Anchor
-          href="/uilib/elements/anchor"
+          href="/uilib/components/anchor"
           data-visual-test="anchor-contrast"
           className="dnb-anchor--contrast"
         >
@@ -85,7 +85,7 @@ export const AnchorExampleHelperClasses = () => (
       </li>
       <li>
         <Anchor
-          href="/uilib/elements/anchor"
+          href="/uilib/components/anchor"
           className="dnb-anchor--no-underline"
         >
           No underline
@@ -94,7 +94,7 @@ export const AnchorExampleHelperClasses = () => (
       <li>
         <Anchor
           target="_blank"
-          href="/uilib/elements/anchor"
+          href="/uilib/components/anchor"
           className="dnb-anchor--no-icon"
         >
           Blank target without launch icon
@@ -102,7 +102,7 @@ export const AnchorExampleHelperClasses = () => (
       </li>
       <li>
         <Anchor
-          href="/uilib/elements/anchor"
+          href="/uilib/components/anchor"
           className="dnb-anchor--no-hover"
         >
           No hover
@@ -110,7 +110,7 @@ export const AnchorExampleHelperClasses = () => (
       </li>
       <li>
         <Anchor
-          href="/uilib/elements/anchor"
+          href="/uilib/components/anchor"
           className="dnb-anchor--no-radius"
         >
           No border-radius
@@ -118,7 +118,7 @@ export const AnchorExampleHelperClasses = () => (
       </li>
       <li>
         <Anchor
-          href="/uilib/elements/anchor"
+          href="/uilib/components/anchor"
           className="dnb-anchor--no-animation"
         >
           No animation
@@ -126,7 +126,7 @@ export const AnchorExampleHelperClasses = () => (
       </li>
       <li>
         <Anchor
-          href="/uilib/elements/anchor"
+          href="/uilib/components/anchor"
           className="dnb-anchor--no-style"
         >
           Reset anchor style
@@ -137,7 +137,7 @@ export const AnchorExampleHelperClasses = () => (
       </li>
       <li>
         <Anchor
-          href="/uilib/elements/anchor"
+          href="/uilib/components/anchor"
           data-visual-test="anchor-newline"
         >
           Newline <br />
@@ -147,7 +147,7 @@ export const AnchorExampleHelperClasses = () => (
       <li>
         <Anchor
           skeleton
-          href="/uilib/elements/anchor"
+          href="/uilib/components/anchor"
           data-visual-test="anchor-skeleton"
         >
           Skeleton
@@ -159,14 +159,14 @@ export const AnchorExampleHelperClasses = () => (
 
 export const AnchorExampleIcons = () => (
   <ComponentBox hideCode>
-    <Anchor href="/uilib/elements/anchor" data-visual-test="anchor-icon">
+    <Anchor href="/uilib/components/anchor" data-visual-test="anchor-icon">
       Anchor with Icon <IconPrimary icon="chevron_right" />
     </Anchor>
     <br />
     <br />
     <p className="dnb-p" data-visual-test="anchor-paragraph">
       text{' '}
-      <Anchor href="/uilib/elements/anchor">
+      <Anchor href="/uilib/components/anchor">
         Inside a Paragraph <IconPrimary icon="bell" />
       </Anchor>{' '}
       text
@@ -178,7 +178,7 @@ export const AnchorExampleHeadings = () => (
   <ComponentBox hideCode>
     <h2 className="dnb-h--large">
       <Anchor
-        href="/uilib/elements/anchor"
+        href="/uilib/components/anchor"
         data-visual-test="anchor-heading"
       >
         Inside Headings <IconPrimary icon="bell" />
@@ -188,7 +188,7 @@ export const AnchorExampleHeadings = () => (
     <h2 className="dnb-h--large">
       <Anchor
         target="_blank"
-        href="/uilib/elements/anchor"
+        href="/uilib/components/anchor"
         data-visual-test="anchor-heading-blank"
       >
         Blank target in headings

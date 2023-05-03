@@ -4,14 +4,16 @@
  */
 
 import '../../core/jest/jestSetup'
-// eslint-disable-next-line import/default, import/named
-import dnbIcons, { chevron_left } from '../dnb-ui-icons'
+import { chevron_left } from '../dnb-ui-icons'
+import * as dnbIcons from '../dnb-ui-icons'
 
 describe('UMD icons package', () => {
   it('has to have no default export', () => {
-    expect(dnbIcons).toBeType('undefined')
+    expect(dnbIcons['default']).toBeType('undefined')
   })
+
   it('has to have a chevron_left icon', () => {
+    expect(dnbIcons.chevron_left).toBeType('function')
     expect(chevron_left).toBeType('function')
   })
 })
