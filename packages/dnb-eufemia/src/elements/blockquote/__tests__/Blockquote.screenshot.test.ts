@@ -8,13 +8,8 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-const themes = [
-  ['ui', '/uilib/elements/blockquote'],
-  ['sbanken', '/uilib/elements/blockquote'],
-]
-
-describe.each(themes)('Blockquote for %s', (themeName, url) => {
-  setupPageScreenshot({ themeName, url })
+describe.each(['ui', 'sbanken'])('Blockquote for %s', (themeName, url) => {
+  setupPageScreenshot({ themeName, url: '/uilib/elements/blockquote' })
   const style = {
     width: '30rem', // make sure our input gets an explicit width, because of mac/linux rendering differences
   }
