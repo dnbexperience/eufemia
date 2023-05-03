@@ -8,15 +8,10 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-const themes = [
-  ['ui', '/uilib/elements/paragraph'],
-  ['sbanken', '/uilib/elements/paragraph'],
-]
-
-describe.each(themes)('Paragraph for %s', (themeName, url) => {
+describe.each(['ui', 'sbanken'])('Paragraph for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url,
+    url: '/uilib/elements/paragraph',
   })
 
   it('have to match the paragraph example', async () => {

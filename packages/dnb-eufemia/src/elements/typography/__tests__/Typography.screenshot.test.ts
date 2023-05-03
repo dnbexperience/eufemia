@@ -8,22 +8,19 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-const themes = [
-  ['ui', '/uilib/typography'],
-  ['sbanken', '/uilib/typography'],
-  ['eiendom', '/uilib/typography'],
-]
-
-describe.each(themes)('Typography for %s', (themeName, url) => {
-  setupPageScreenshot({
-    themeName,
-    url,
-  })
-
-  it('have to match all the typography variants', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="typography-variants"]',
+describe.each(['ui', 'sbanken', 'eiendom'])(
+  'Typography for %s',
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/typography',
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-})
+
+    it('have to match all the typography variants', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="typography-variants"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+  }
+)
