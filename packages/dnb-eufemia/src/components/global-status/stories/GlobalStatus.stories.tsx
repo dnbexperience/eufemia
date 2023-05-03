@@ -23,7 +23,7 @@ import {
   H2,
   // P,
   Link,
-} from '../../../elements'
+} from '../../..'
 // import { GlobalStatusProvider } from '../../global-status/GlobalStatusContext'
 
 export default {

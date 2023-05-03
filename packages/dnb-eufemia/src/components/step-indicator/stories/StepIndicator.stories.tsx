@@ -6,7 +6,7 @@
 import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import { StepIndicator, Button, Space } from '../../'
-import { Code } from '../../../elements'
+import { Code } from '../../..'
 import { Provider } from '../../../shared'
 
 export default {
