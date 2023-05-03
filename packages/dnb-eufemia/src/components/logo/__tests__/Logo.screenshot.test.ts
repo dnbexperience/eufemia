@@ -40,6 +40,15 @@ describe.each(['ui', 'sbanken'])('Logo for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  if (themeName === 'sbanken') {
+    it('have to match the compact variant', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="logo-compact-variant"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+  }
 })
 
 describe('png image', () => {

@@ -36,3 +36,9 @@ export const LogoInheritColorExample = () => (
     </span>
   </ComponentBox>
 )
+
+export const LogoCompactVariantExample = () => (
+  <ComponentBox data-visual-test="logo-compact-variant">
+    <Logo height="96" variant="compact" />
+  </ComponentBox>
+)
