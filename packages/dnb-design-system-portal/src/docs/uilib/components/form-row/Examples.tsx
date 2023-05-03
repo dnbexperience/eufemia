@@ -25,7 +25,7 @@ import {
   FormSet,
   FormRow,
 } from '@dnb/eufemia/src/components'
-import { Ingress } from '@dnb/eufemia/src/elements'
+import { Ingress } from '@dnb/eufemia/src'
 import { SpacingElementProps } from '@dnb/eufemia/src/shared/types'
 import { Provider } from '@dnb/eufemia/src/shared'
 

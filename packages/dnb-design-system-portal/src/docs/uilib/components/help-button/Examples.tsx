@@ -7,7 +7,7 @@ import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 
 import { HelpButton, Input } from '@dnb/eufemia/src'
-import { Dl, Dt, Dd } from '@dnb/eufemia/src/elements'
+import { Dl, Dt, Dd } from '@dnb/eufemia/src'
 
 export const HelpButtonDefaultExample = () => (
   <ComponentBox data-visual-test="help-button-default">

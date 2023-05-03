@@ -13,7 +13,7 @@ import {
   Input,
   Button,
 } from '@dnb/eufemia/src/components'
-import { H2 } from '@dnb/eufemia/src/elements'
+import { H2 } from '@dnb/eufemia/src'
 
 export const FormSetDefault = () => (
   <ComponentBox data-visual-test="form-set-default">
