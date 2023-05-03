@@ -13,14 +13,13 @@ import { Provider, Context } from '@dnb/eufemia/src/shared'
 import enUS from '@dnb/eufemia/src/shared/locales/en-US'
 import stylisPlugin from '@dnb/eufemia/src/style/stylis'
 import { isTrue } from '@dnb/eufemia/src/shared/component-helper'
-import { isCI } from 'repo-utils'
 
 /**
  * Import Eufemia Styles
  * Use require because Webpack does not import styles after we change /src to /build
  */
 if (
-  isCI &&
+  process.env.isCI &&
   process.env.PREBUILD_EXISTS &&
   process.env.NODE_ENV === 'production'
 ) {

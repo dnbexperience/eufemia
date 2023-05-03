@@ -426,7 +426,7 @@ const useCallEvent = ({ setLocalValue }) => {
     const cleaned_value = cleanedValue // Deprecated
 
     if (name === 'on_change' && numberValue === 0) {
-      correctCaretPosition(event.target, maskParams)
+      correctCaretPosition(event.target, maskParams, props)
     }
 
     const result = dispatchCustomElementEvent(props, name, {
@@ -446,7 +446,7 @@ const useCallEvent = ({ setLocalValue }) => {
       !props.selectall
     ) {
       // Also correct here, because of additional click inside the field
-      correctCaretPosition(event.target, maskParams)
+      correctCaretPosition(event.target, maskParams, props)
     }
 
     return result
