@@ -3,14 +3,21 @@
  * This file will not run on "test:staged" because we don't require any related files
  */
 
+const themes = [
+  ['ui', '/uilib/elements/heading'],
+  ['sbanken', '/uilib/elements/heading'],
+  ['eiendom', '/uilib/elements/heading'],
+]
+
 import {
   makeScreenshot,
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Heading', () => {
+describe.each(themes)('Heading for %s', (themeName, url) => {
   setupPageScreenshot({
-    url: '/uilib/elements/heading',
+    themeName,
+    url,
   })
 
   it('have to match the default heading examples', async () => {
