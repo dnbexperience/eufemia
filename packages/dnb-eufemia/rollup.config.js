@@ -30,7 +30,7 @@ export default !/^(release|beta|alpha|next)$/.test(currentBranch)
   ? [
       // NB: rollup needs at least one config
       makeRollupConfig(
-        './src/umd/dnb-ui-lib.js',
+        './src/umd/dnb-ui-lib.ts',
         'build/umd/dnb-ui-lib.min.js',
         {
           name: 'dnbLib',
@@ -39,7 +39,7 @@ export default !/^(release|beta|alpha|next)$/.test(currentBranch)
         }
       ),
       makeRollupConfig(
-        './src/esm/dnb-ui-lib.js',
+        './src/esm/dnb-ui-lib.ts',
         'build/esm/dnb-ui-lib.min.mjs',
         {
           format: 'esm',
@@ -49,7 +49,7 @@ export default !/^(release|beta|alpha|next)$/.test(currentBranch)
     ]
   : [
       makeRollupConfig(
-        './src/umd/dnb-ui-lib.js',
+        './src/umd/dnb-ui-lib.ts',
         'build/umd/dnb-ui-lib.min.js',
         {
           name: 'dnbLib',
@@ -58,7 +58,7 @@ export default !/^(release|beta|alpha|next)$/.test(currentBranch)
         }
       ),
       makeRollupConfig(
-        './src/umd/dnb-ui-components.js',
+        './src/umd/dnb-ui-components.ts',
         'build/umd/dnb-ui-components.min.js',
         {
           name: 'dnbComponents',
@@ -67,7 +67,7 @@ export default !/^(release|beta|alpha|next)$/.test(currentBranch)
         }
       ),
       makeRollupConfig(
-        './src/umd/dnb-ui-elements.js',
+        './src/umd/dnb-ui-elements.ts',
         'build/umd/dnb-ui-elements.min.js',
         {
           name: 'dnbElements',
@@ -76,7 +76,7 @@ export default !/^(release|beta|alpha|next)$/.test(currentBranch)
         }
       ),
       makeRollupConfig(
-        './src/umd/dnb-ui-extensions.js',
+        './src/umd/dnb-ui-extensions.ts',
         'build/umd/dnb-ui-extensions.min.js',
         {
           name: 'dnbExtensions',
@@ -85,7 +85,7 @@ export default !/^(release|beta|alpha|next)$/.test(currentBranch)
         }
       ),
       makeRollupConfig(
-        './src/umd/dnb-ui-basis.js',
+        './src/umd/dnb-ui-basis.ts',
         'build/umd/dnb-ui-basis.min.js',
         {
           name: 'dnbBasis',
@@ -93,21 +93,21 @@ export default !/^(release|beta|alpha|next)$/.test(currentBranch)
         }
       ),
       makeRollupConfig(
-        './src/umd/dnb-ui-icons.js',
+        './src/umd/dnb-ui-icons.ts',
         'build/umd/dnb-ui-icons.min.js',
         { name: 'dnbIcons', format: 'umd' }
       ),
 
       // Skip creating this huge package – as there is currently no need
       // makeRollupConfig(
-      //   './src/umd/dnb-ui-icons-archive.js',
+      //   './src/umd/dnb-ui-icons-archive.ts',
       //   'build/umd/dnb-ui-icons-archive.min.js',
       //   { name: 'dnbIcons', format: 'umd' }
       // ),
 
       // es libs
       makeRollupConfig(
-        './src/esm/dnb-ui-lib.js',
+        './src/esm/dnb-ui-lib.ts',
         'build/esm/dnb-ui-lib.min.mjs',
         {
           format: 'esm',
@@ -115,7 +115,7 @@ export default !/^(release|beta|alpha|next)$/.test(currentBranch)
         }
       ),
       makeRollupConfig(
-        './src/esm/dnb-ui-components.js',
+        './src/esm/dnb-ui-components.ts',
         'build/esm/dnb-ui-components.min.mjs',
         {
           format: 'esm',
@@ -123,7 +123,7 @@ export default !/^(release|beta|alpha|next)$/.test(currentBranch)
         }
       ),
       makeRollupConfig(
-        './src/esm/dnb-ui-extensions.js',
+        './src/esm/dnb-ui-extensions.ts',
         'build/esm/dnb-ui-extensions.min.mjs',
         {
           format: 'esm',
@@ -131,7 +131,7 @@ export default !/^(release|beta|alpha|next)$/.test(currentBranch)
         }
       ),
       makeRollupConfig(
-        './src/esm/dnb-ui-elements.js',
+        './src/esm/dnb-ui-elements.ts',
         'build/esm/dnb-ui-elements.min.mjs',
         {
           format: 'esm',
@@ -139,33 +139,33 @@ export default !/^(release|beta|alpha|next)$/.test(currentBranch)
         }
       ),
       makeRollupConfig(
-        './src/esm/dnb-ui-basis.js',
+        './src/esm/dnb-ui-basis.ts',
         'build/esm/dnb-ui-basis.min.mjs',
         {
           format: 'esm',
         }
       ),
       makeRollupConfig(
-        './src/esm/dnb-ui-icons.js',
+        './src/esm/dnb-ui-icons.ts',
         'build/esm/dnb-ui-icons.min.mjs',
         { format: 'esm' }
       ),
 
       // Skip creating this huge package – as there is currently no need
       // makeRollupConfig(
-      //   './src/esm/dnb-ui-icons-archive.js',
+      //   './src/esm/dnb-ui-icons-archive.ts',
       //   'build/esm/dnb-ui-icons-archive.min.mjs',
       //   { format: 'esm' }
       // )
 
       // make esm of React, only for testing
       // makeRollupConfig(
-      //   '../../node_modules/react/index.js',
+      //   '../../node_modules/react/index.ts',
       //   'build/esm/react.production.min.js',
       //   { format: 'esm' }
       // ),
       // makeRollupConfig(
-      //   '../../node_modules/react-dom/index.js',
+      //   '../../node_modules/react-dom/index.ts',
       //   'build/esm/react-dom.production.min.js',
       //   { format: 'esm' }
       // )

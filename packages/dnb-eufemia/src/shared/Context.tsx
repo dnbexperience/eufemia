@@ -9,10 +9,10 @@ import defaultLocales from './locales'
 import { extend } from './component-helper'
 
 // All TypeScript based Eufemia elements
-import type { AnchorProps } from '../elements/Anchor'
 import type { ScrollViewProps } from '../fragments/scroll-view/ScrollView'
 
 // All TypeScript based Eufemia components
+import type { AnchorProps } from '../components/Anchor'
 import type { ButtonProps } from '../components/button/Button'
 import type { AvatarProps } from '../components/avatar/Avatar'
 import type { AvatarGroupProps } from '../components/avatar/AvatarGroup'

@@ -223,9 +223,14 @@ All `svg` icon files were moved inside a subfolder in `/assets/icons/dnb/...`.
 1. Find the `name` property in your Timeline JSX syntax and replace it with `title`.
 1. Find the `date` property in your Timeline JSX syntax and replace it with `subtitle`.
 
-### [Anchor](/uilib/elements/anchor)
+### [Anchor](/uilib/components/anchor)
 
+The Anchor was moved form `/elements` to `/components`.
+
+1. Find imports like `from '@dnb/eufemia/elements'` or `from '@dnb/eufemia/elements/anchor'`, and change the import to `import { Anchor } from '@dnb/eufemia'`.
 1. Find the `target_blank_title` property and replace it with `targetBlankTitle`.
+
+**NB:** ESM and UMD packages: The Anchor is now also a part if `dnb-ui-components` instead of `dnb-ui-elements`.
 
 ### [Button](/uilib/components/button)
 
