@@ -2,7 +2,6 @@ import * as React from 'react';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 import PaginationBar from './PaginationBar';
-
 type PaginationStartupPage = string | number;
 type PaginationCurrentPage = string | number;
 type PaginationPageCount = string | number;

@@ -152,6 +152,10 @@ export type GlobalStatusAddProps = {
    */
   text: string;
   item?: GlobalStatusItem;
+
+  /**
+   * The items (list items) appear as a part of the status content. you can both use an JSON array, or a vanilla array with a string or an object content. See "Item Object" example below.
+   */
   items?: GlobalStatusItem[];
 
   /**

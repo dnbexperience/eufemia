@@ -5,7 +5,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Tr, Th, Td } from '@dnb/eufemia/src/elements'
+import { Tr, Th, Td } from '@dnb/eufemia/src'
 import { Table as TableElement } from '@dnb/eufemia/src/components'
 
 export default class Table extends React.PureComponent {
