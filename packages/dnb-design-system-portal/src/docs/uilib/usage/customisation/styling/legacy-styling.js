@@ -7,7 +7,7 @@ import React from 'react'
 import classnames from 'classnames'
 import InlineImg from '../../../../../shared/tags/Img'
 import { Button, Icon } from '@dnb/eufemia/src/components'
-import { H2, H4, P, Hr, Code } from '@dnb/eufemia/src/elements'
+import { H2, H4, P, Hr, Code } from '@dnb/eufemia/src'
 import { bell } from '@dnb/eufemia/src/icons'
 import LegacyCodeStylingExample from './assets/legacy-code-styling-example.png'
 import {

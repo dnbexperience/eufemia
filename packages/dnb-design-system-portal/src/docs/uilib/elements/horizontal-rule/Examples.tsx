@@ -5,7 +5,7 @@
 
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { Hr, Dl, Dt, Dd, Div } from '@dnb/eufemia/src/elements'
+import { Hr, Dl, Dt, Dd, Div } from '@dnb/eufemia/src'
 
 export const HorizontalRuleDefaultExample = () => (
   <ComponentBox hideCode data-visual-test="hr-default">

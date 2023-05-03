@@ -4,7 +4,7 @@
  */
 
 import React, { MouseEvent } from 'react'
-import { Link } from '@dnb/eufemia/src/elements'
+import { Link } from '@dnb/eufemia/src'
 import { getOffsetTop } from '@dnb/eufemia/src/shared/helpers'
 
 const Anchor = ({ children, href, ...rest }) => {

@@ -18,7 +18,7 @@ import {
   scrollToLocationHashId,
 } from '@dnb/eufemia/src/shared/helpers'
 import { Logo, GlobalStatus } from '@dnb/eufemia/src/components'
-import { P } from '@dnb/eufemia/src/elements'
+import { P } from '@dnb/eufemia/src'
 import './PortalStyle.scss'
 import {
   portalStyle,
