@@ -7,23 +7,38 @@ export type PaymentCardVariant = 'normal' | 'compact';
 export type PaymentCardDigits = string | number;
 export enum CardType {
   Visa, // eslint-disable-line
-  None, // eslint-disable-line
-  Left, // eslint-disable-line
-  Right // eslint-disable-line
+  Mastercard, // eslint-disable-line
+  None // eslint-disable-line
 }
+
 export enum ProductType {
-  BankAxept, // eslint-disable-line
   Saga, // eslint-disable-line
+  Pluss, // eslint-disable-line
+  Intro, // eslint-disable-line
+  Business, // eslint-disable-line
+  Bedrift, // eslint-disable-line
   PrivateBanking, // eslint-disable-line
+  None // eslint-disable-line
+}
+
+export enum BankAxept {
+  White, // eslint-disable-line
+  Black, // eslint-disable-line
+  Gold, // eslint-disable-line
+  Black20, // eslint-disable-line
+  Gray // eslint-disable-line
+}
+
+export enum BankAxeptType {
+  BankAxept, // eslint-disable-line
   None // eslint-disable-line
 }
 
 export enum Designs {
   defaultDesign, // eslint-disable-line
-  white, // eslint-disable-line
+  young, // eslint-disable-line
   myFirst, // eslint-disable-line
   youth, // eslint-disable-line
-  silver, // eslint-disable-line
   pluss, // eslint-disable-line
   gold, // eslint-disable-line
   saga, // eslint-disable-line
@@ -41,6 +56,7 @@ export interface PaymentCardRawData {
   cardDesign: Designs;
   cardType: CardType;
   productType: ProductType;
+  bankAxept: BankAxeptType;
 }
 export type PaymentCardChildren =
   | string

@@ -33,6 +33,9 @@ exports[`PaymentCard have to match snapshot 1`] = `
         cardStatus="active"
         data={
           {
+            "bankAxept": {
+              "is": [Function],
+            },
             "cardDesign": {
               "bankAxept": {
                 "is": [Function],
@@ -162,16 +165,47 @@ exports[`PaymentCard have to match snapshot 1`] = `
                     "is": [Function],
                   }
                 }
+              />
+              <BankAxeptLogo
+                bankAxept={
+                  {
+                    "is": [Function],
+                  }
+                }
+                cardDesign={
+                  {
+                    "bankAxept": {
+                      "is": [Function],
+                    },
+                    "bankLogo": {
+                      "color": "#fff",
+                    },
+                    "cardStyle": "card--design-default",
+                    "mastercard": {
+                      "is": [Function],
+                    },
+                    "name": "Default",
+                    "privateBanking": {
+                      "is": [Function],
+                    },
+                    "saga": {
+                      "is": [Function],
+                    },
+                    "visa": {
+                      "color": "#fff",
+                    },
+                  }
+                }
               >
                 <BankAxeptSVG
-                  className="dnb-payment-card__card__product-type"
+                  className="dnb-payment-card__card__bank-axept"
                   fill="#ffffff"
                   height="35"
                   viewBox="0 0 72 35"
                   width="72"
                 >
                   <svg
-                    className="dnb-payment-card__card__product-type"
+                    className="dnb-payment-card__card__bank-axept"
                     fill="none"
                     height="35"
                     viewBox="0 0 72 35"
@@ -182,14 +216,12 @@ exports[`PaymentCard have to match snapshot 1`] = `
                       BankAxept
                     </title>
                     <path
-                      clipRule="evenodd"
-                      d="M36.6 7.5C36.6 10.8 34.6 12.4 32.6 12.4C31.4 12.4 30.4999 11.9 29.7999 10.8V12.1H27.6V0H29.7999V4.5C30.2999 3.7 31.2 2.80002 32.7 2.80002C34.5 2.90002 36.6 4.4 36.6 7.5ZM29.7999 7.60001C29.7999 9.40001 30.9 10.4 32 10.4C33.1 10.4 34.2999 9.50001 34.2999 7.60001C34.2999 5.70001 33.1 4.80002 32 4.80002C30.9 4.80002 29.7999 5.70001 29.7999 7.60001ZM37.7 7.5C37.7 4.4 39.7 2.90002 41.7 2.90002C42.8 2.90002 43.7 3.30002 44.4 4.30002V3.20001H46.6V12.2H44.4V10.9C43.8 11.7 42.8 12.4 41.4 12.4C39.7 12.4 37.7 10.8 37.7 7.5ZM39.9 7.70001C39.9 9.60001 41.1 10.5 42.2 10.5C43.4 10.5 44.5 9.70001 44.5 7.70001C44.5 5.80001 43.3999 4.90002 42.2999 4.90002C41.0999 4.80002 39.9 5.70001 39.9 7.70001ZM50.9 12.1V6.99997C50.9 5.59997 51.6999 4.89999 52.7999 4.79999C53.7999 4.79999 54.5 5.29999 54.5 6.79999V12H56.7V5.99997C56.7 3.59997 55.3 2.79999 53.7 2.79999C52.7 2.79999 51.5 3.29999 50.9 4.39999V3.09998H48.7V12.1H50.9ZM58.7999 0.100037H60.9V7.30005L64.1 3.20004H66.6L63.5 6.90005L67.1 12.1H64.6L62.2 8.40005L60.9 9.90005V12.1H58.7999V0.100037ZM31.1 14.9C29.1 14.9 27.1 16.4 27.1 19.5C27.1 22.7 29.1999 24.3 30.7999 24.3C32.1999 24.3 33.1999 23.6 33.7999 22.8V24.1H36V15.1H33.7999V16.3C33.0999 15.3 32.2 14.9 31.1 14.9ZM31.7 22.4C30.6 22.4 29.4 21.5 29.4 19.6C29.4 17.6 30.4999 16.8 31.7999 16.8C32.8999 16.8 34 17.7 34 19.6C34 21.6 32.9 22.4 31.7 22.4ZM43.1 23.4001L41.9 22.2C41.8 22 41.6 21.9001 41.4 21.9001C41.2 21.9001 41.1 22 40.9 22.2L38 25.3C37.7 25.6 37.2999 26 36.7999 26C36.2999 26 36 25.7 36 25.2C36 24.8687 36.2059 24.6059 36.4471 24.2981L36.4471 24.298C36.4971 24.2343 36.5485 24.1686 36.6 24.1L39.6 20.9001C40.4 20.1001 40.9 20 41.4 20C41.8 20 42.3999 20.1 43.2999 21L44.5 22.2C44.8 22.5 45.1 22.9 45.1 23.3C45.1 23.8 44.7999 24.1 44.2999 24.1C43.8 24.1 43.5 23.8001 43.1 23.4001L43.1 23.4001ZM39.6 15.7L40.7999 16.9001C40.8999 17.1001 41.0999 17.2 41.2999 17.2C41.4999 17.2 41.5999 17.1001 41.7999 16.9001L44.7 13.8C45 13.5 45.4 13.1 45.9 13.1C46.4 13.1 46.7 13.4001 46.7 13.9001C46.7 14.2314 46.4941 14.4942 46.2529 14.802L46.2528 14.802C46.2029 14.8658 46.1514 14.9314 46.1 15L43.1 18.2C42.3 19 41.7999 19.1 41.2999 19.1C40.8999 19.1 40.3 19 39.4 18.1L38.2 16.9001C37.9 16.6001 37.6 16.2 37.6 15.8C37.6 15.3 37.9 15 38.4 15C38.9 15 39.2 15.2 39.6 15.7ZM50.5 22.3C49.1 22.3 48.2 21.4 48.1 20H54.5V19.3C54.5 16.7 52.8 14.8 50.4 14.8C47.8 14.8 45.9 16.6 45.9 19.5C45.9 22.4 48 24.2 50.6 24.2C52.3 24.2 54.3 23.3 54.6 21.2L52.6 20.9C52.4 21.8 51.9 22.3 50.5 22.3ZM52.4 18.4H48.2C48.5 17.2 49.1999 16.7 50.2999 16.6C51.3999 16.6 52.2 17.1 52.4 18.4ZM58.4 15.1V16.3C59 15.5 59.9999 14.8 61.2999 14.8C62.9999 14.8 65.1 16.3 65.1 19.4C65.1 22.7 63.1 24.3 61.1 24.3C60 24.3 59.0999 23.9 58.2999 22.9V27.2H56.1V15.1H58.4ZM58.4 19.5C58.4 21.3 59.5 22.3 60.6 22.3C61.7 22.3 62.9 21.4 62.9 19.5C62.9 17.6 61.7 16.7 60.6 16.7C59.4 16.8 58.4 17.6 58.4 19.5ZM67.4 12.9001V15.1H66V16.9001H67.5V21.8C67.5 23.1 68 24.2 69.9 24.2C70.6 24.2 71.5 23.9 72 23.7L71.7 22L71.6997 22.0001C71.2998 22.1001 70.8999 22.2 70.5 22.2C69.8 22.2 69.6 21.8 69.6 21.2V16.9001H71.7999V15.1H69.6V12.6L67.4 12.9001Z"
+                      d="M36.6 7.5c0 3.3-2 4.9-4 4.9-1.2 0-2.1-.5-2.8-1.6v1.3h-2.2V0h2.2v4.5c.5-.8 1.4-1.7 2.9-1.7 1.8.1 3.9 1.6 3.9 4.7Zm-6.8.1c0 1.8 1.1 2.8 2.2 2.8s2.3-.9 2.3-2.8-1.2-2.8-2.3-2.8c-1.1 0-2.2.9-2.2 2.8Zm7.9-.1c0-3.1 2-4.6 4-4.6 1.1 0 2 .4 2.7 1.4V3.2h2.2v9h-2.2v-1.3c-.6.8-1.6 1.5-3 1.5-1.7 0-3.7-1.6-3.7-4.9Zm2.2.2c0 1.9 1.2 2.8 2.3 2.8 1.2 0 2.3-.8 2.3-2.8 0-1.9-1.1-2.8-2.2-2.8-1.2-.1-2.4.8-2.4 2.8Zm11 4.4V7c0-1.4.8-2.1 1.9-2.2 1 0 1.7.5 1.7 2V12h2.2V6c0-2.4-1.4-3.2-3-3.2-1 0-2.2.5-2.8 1.6V3.1h-2.2v9h2.2Zm7.9-12h2.1v7.2l3.2-4.1h2.5l-3.1 3.7 3.6 5.2h-2.5l-2.4-3.7-1.3 1.5v2.2h-2.1V.1ZM31.1 14.9c-2 0-4 1.5-4 4.6 0 3.2 2.1 4.8 3.7 4.8 1.4 0 2.4-.7 3-1.5v1.3H36v-9h-2.2v1.2c-.7-1-1.6-1.4-2.7-1.4Zm.6 7.5c-1.1 0-2.3-.9-2.3-2.8 0-2 1.1-2.8 2.4-2.8 1.1 0 2.2.9 2.2 2.8 0 2-1.1 2.8-2.3 2.8Zm11.4 1-1.2-1.2c-.1-.2-.3-.3-.5-.3s-.3.1-.5.3L38 25.3c-.3.3-.7.7-1.2.7s-.8-.3-.8-.8c0-.331.206-.594.447-.902l.153-.198 3-3.2c.8-.8 1.3-.9 1.8-.9.4 0 1 .1 1.9 1l1.2 1.2c.3.3.6.7.6 1.1 0 .5-.3.8-.8.8s-.8-.3-1.2-.7Zm-3.5-7.7 1.2 1.2c.1.2.3.3.5.3s.3-.1.5-.3l2.9-3.1c.3-.3.7-.7 1.2-.7s.8.3.8.8c0 .331-.206.594-.447.902-.05.064-.102.13-.153.198l-3 3.2c-.8.8-1.3.9-1.8.9-.4 0-1-.1-1.9-1l-1.2-1.2c-.3-.3-.6-.7-.6-1.1 0-.5.3-.8.8-.8s.8.2 1.2.7Zm10.9 6.6c-1.4 0-2.3-.9-2.4-2.3h6.4v-.7c0-2.6-1.7-4.5-4.1-4.5-2.6 0-4.5 1.8-4.5 4.7 0 2.9 2.1 4.7 4.7 4.7 1.7 0 3.7-.9 4-3l-2-.3c-.2.9-.7 1.4-2.1 1.4Zm1.9-3.9h-4.2c.3-1.2 1-1.7 2.1-1.8 1.1 0 1.9.5 2.1 1.8Zm6-3.3v1.2c.6-.8 1.6-1.5 2.9-1.5 1.7 0 3.8 1.5 3.8 4.6 0 3.3-2 4.9-4 4.9-1.1 0-2-.4-2.8-1.4v4.3h-2.2V15.1h2.3Zm0 4.4c0 1.8 1.1 2.8 2.2 2.8s2.3-.9 2.3-2.8-1.2-2.8-2.3-2.8c-1.2.1-2.2.9-2.2 2.8Zm9-6.6v2.2H66v1.8h1.5v4.9c0 1.3.5 2.4 2.4 2.4.7 0 1.6-.3 2.1-.5l-.3-1.7c-.4.1-.8.2-1.2.2-.7 0-.9-.4-.9-1v-4.3h2.2v-1.8h-2.2v-2.5l-2.2.3Z"
                       fill="#ffffff"
-                      fillRule="evenodd"
                     />
                   </svg>
                 </BankAxeptSVG>
-              </ProductLogo>
+              </BankAxeptLogo>
             </div>
             <div
               className="dnb-payment-card__card__bottom"
@@ -223,19 +255,19 @@ exports[`PaymentCard have to match snapshot 1`] = `
                 >
                   <P
                     className="dnb-payment-card__card__holder"
-                    modifier="x-small bold"
+                    modifier="x-small medium"
                   >
                     <ForwardRef
                       as="p"
-                      className="dnb-p  dnb-p__size--x-small dnb-p--bold dnb-payment-card__card__holder"
+                      className="dnb-p  dnb-p__size--x-small dnb-p--medium dnb-payment-card__card__holder"
                     >
                       <ElementInstance
                         as="p"
-                        className="dnb-p  dnb-p__size--x-small dnb-p--bold dnb-payment-card__card__holder"
+                        className="dnb-p  dnb-p__size--x-small dnb-p--medium dnb-payment-card__card__holder"
                         innerRef={null}
                       >
                         <p
-                          className="dnb-p  dnb-p__size--x-small dnb-p--bold dnb-payment-card__card__holder"
+                          className="dnb-p  dnb-p__size--x-small dnb-p--medium dnb-payment-card__card__holder"
                         >
                           Kortnummer
                         </p>
@@ -350,26 +382,22 @@ exports[`PaymentCard scss have to match snapshot 1`] = `
  * Utilities
  */
 .dnb-payment-card {
+  --color-dark-cyan: #003b47;
   --dnb-payment-bg-default: linear-gradient(
-    184.55deg,
-    var(--color-sea-green) 6.31%,
+    187.2deg,
+    #008484 6.31%,
     var(--color-sea-green) 82.66%
   );
   --dnb-payment-bg-pluss: linear-gradient(
       187.2deg,
-      #14555a 6.31%,
-      rgb(0 52 62 / 40%) 82.66%
+      var(--color-dark-cyan) 6.31%,
+      var(--color-ocean-green) 82.66%
     ),
-    #14555a;
+    var(--color-emerald-green);
   --dnb-payment-bg-white: linear-gradient(
     184.55deg,
     var(--color-black-background) 4.63%,
     var(--color-white) 92.04%
-  );
-  --dnb-payment-bg-silver: linear-gradient(
-    184.55deg,
-    var(--color-black-20) 4.63%,
-    var(--color-black-8) 82.87%
   );
   --dnb-payment-bg-gold: linear-gradient(
     184.55deg,
@@ -377,35 +405,40 @@ exports[`PaymentCard scss have to match snapshot 1`] = `
     #d3bd83 84.57%
   );
   --dnb-payment-bg-saga: linear-gradient(
-    184.55deg,
-    #241e23 6.31%,
-    #251d23 85.2%
+    187.2deg,
+    #1c1c1c 6.31%,
+    #000 82.66%
+  );
+  --dnb-payment-bg-private: linear-gradient(
+    187.2deg,
+    #1c1c1c 6.31%,
+    #000 82.66%
   );
   --dnb-payment-bg-business-no-visa: linear-gradient(
-    184.55deg,
-    #50c9de 6.31%,
-    var(--color-sky-blue) 82.66%
-  );
+      187.2deg,
+      var(--color-dark-cyan) 6.31%,
+      var(--color-ocean-green) 82.66%
+    ),
+    var(--color-emerald-green);
   --dnb-payment-bg-business-with-visa: linear-gradient(
-    184.55deg,
-    #2cc48e 6.31%,
-    var(--color-summer-green) 82.66%
-  );
+      187.2deg,
+      var(--color-dark-cyan) 6.31%,
+      var(--color-ocean-green) 82.66%
+    ),
+    var(--color-emerald-green);
   margin: 0;
 }
 .dnb-payment-card__card {
   position: relative;
   width: 85.6mm;
   height: 53.98mm;
-  padding: 6mm;
+  padding: 4mm;
   border-radius: 3.48mm;
   border: 1px solid;
   border-color: rgba(255, 255, 255, 0.1) transparent rgba(0, 0, 0, 0.2) transparent;
   color: var(--color-white);
   box-shadow: var(--shadow-default);
-  background: var(--color-sea-green);
   transition: all 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
-  /* White, Youth, MyFirst */
 }
 .dnb-payment-card__card--design-default {
   background: var(--dnb-payment-bg-default);
@@ -415,12 +448,13 @@ exports[`PaymentCard scss have to match snapshot 1`] = `
   background: var(--dnb-payment-bg-pluss);
   color: var(--color-white);
 }
-.dnb-payment-card__card--design-white {
-  background: var(--dnb-payment-bg-white);
+.dnb-payment-card__card--design-ung {
   color: var(--color-black-80);
 }
-.dnb-payment-card__card--design-silver {
-  background: var(--dnb-payment-bg-silver);
+.dnb-payment-card__card--design-youth {
+  color: var(--color-black-80);
+}
+.dnb-payment-card__card--design-my-first {
   color: var(--color-black-80);
 }
 .dnb-payment-card__card--design-gold {
@@ -432,7 +466,7 @@ exports[`PaymentCard scss have to match snapshot 1`] = `
   color: var(--color-white);
 }
 .dnb-payment-card__card--design-private {
-  background: var(--color-black-80);
+  background: var(--dnb-payment-bg-private);
   color: var(--color-white);
 }
 .dnb-payment-card__card--design-black {
@@ -454,7 +488,7 @@ exports[`PaymentCard scss have to match snapshot 1`] = `
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: radial-gradient(farthest-corner at 80% 30%, rgba(247, 246, 230, 0.1215686275) 0%, rgba(6, 6, 6, 0) 60%, rgba(6, 6, 6, 0) 99%);
+  background: radial-gradient(52.39% 52.39% at 50% 50%, rgba(247, 246, 230, 0.1215686275) 0%, rgba(6, 6, 6, 0) 100%);
   border-radius: inherit;
 }
 .dnb-payment-card__card__content {
@@ -472,18 +506,18 @@ exports[`PaymentCard scss have to match snapshot 1`] = `
   margin-bottom: 0 !important;
 }
 .dnb-payment-card__card__holder {
+  font-weight: var(--font-weight-medium);
   text-transform: uppercase;
   text-align: left;
-  opacity: 0.5;
 }
 .dnb-payment-card__card__holder.dnb-p {
   font-size: 0.625rem;
 }
 .dnb-payment-card__card__numbers {
-  font-size: var(--font-size-medium);
+  font-size: 1.5rem !important;
+  font-weight: var(--font-weight-medium);
 }
 .dnb-payment-card__card__credit-type {
-  height: 51px;
   position: absolute;
   bottom: 0;
   right: 0;
@@ -494,6 +528,12 @@ exports[`PaymentCard scss have to match snapshot 1`] = `
   left: 0;
 }
 .dnb-payment-card__card__product-type {
+  height: 38px;
+  position: absolute;
+  top: 0;
+  left: 70px;
+}
+.dnb-payment-card__card__bank-axept {
   height: 45px;
   position: absolute;
   top: 0;
@@ -556,7 +596,8 @@ exports[`PaymentCard scss have to match snapshot 1`] = `
   font-size: var(--font-size-basis);
 }
 .dnb-payment-card--compact .dnb-payment-card__card__credit-type {
-  top: 0;
+  top: 8px;
+  right: 4px;
   bottom: auto;
 }
 .dnb-payment-card--compact .dnb-payment-card__blocking__center {
