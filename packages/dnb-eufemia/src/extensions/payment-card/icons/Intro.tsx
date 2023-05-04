@@ -1,26 +1,20 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
-const Intro = (props) => (
-  <svg {...props} xmlns="http://www.w3.org/2000/svg" fill="none">
+const Intro = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    width="42"
+    height="32"
+    viewBox="0 0 42 32"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    {...props}
+  >
     <title>Intro</title>
     <path
-      fill={props.fill}
+      fill="#00343E"
       d="M4.298 12.964a.825.825 0 0 0 .812-.826.813.813 0 0 0-.812-.812.825.825 0 0 0-.826.812c0 .448.378.826.826.826Zm.602 7.028V14H1.442v1.008h2.24v4.984h-2.24V21h5.712v-1.008H4.9Zm8.17-6.104c-1.05 0-1.89.476-2.31 1.274V14H9.684v7H10.9v-4.046c0-1.26.714-2.072 1.835-2.072 1.036 0 1.61.616 1.61 1.722V21h1.217v-4.452c0-1.666-.923-2.66-2.492-2.66Zm9.375 6.216c-1.204 0-1.834-.63-1.834-1.54v-3.556h2.968V14h-2.968v-2.184H19.38V14h-1.666v1.008h1.666v3.64c0 1.484 1.078 2.464 2.954 2.464.798 0 1.47-.168 1.96-.462v-1.022c-.56.336-1.218.476-1.848.476Zm9.025-6.216c-1.092 0-1.918.476-2.31 1.246V14h-2.576v1.008h1.498v4.984h-1.498V21h4.452v-1.008H29.3v-3.276c0-1.106.812-1.764 2.128-1.75.448 0 .896.112 1.204.238v-1.078c-.224-.112-.672-.238-1.162-.238Zm6.308 7.224c1.96 0 3.402-1.414 3.402-3.612 0-2.198-1.442-3.612-3.402-3.612-1.96 0-3.402 1.414-3.402 3.612 0 2.198 1.442 3.612 3.402 3.612Zm0-1.008c-1.26 0-2.17-1.022-2.17-2.604s.91-2.604 2.17-2.604c1.26 0 2.17 1.022 2.17 2.604s-.91 2.604-2.17 2.604Z"
     />
   </svg>
 )
-Intro.propTypes = {
-  fill: PropTypes.string,
-  width: PropTypes.string,
-  height: PropTypes.string,
-  viewBox: PropTypes.string,
-}
-Intro.defaultProps = {
-  fill: '#00343E',
-  width: '42',
-  height: '32',
-  viewBox: '0 0 42 32',
-}
 
 export default Intro

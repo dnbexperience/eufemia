@@ -111,14 +111,10 @@ exports[`PaymentCard have to match snapshot 1`] = `
                 <DNBLogoSVG
                   className="dnb-payment-card__card__bank-logo"
                   fill="#fff"
-                  height="38"
-                  viewBox="0 0 56 38"
-                  width="56"
                 >
                   <svg
                     className="dnb-payment-card__card__bank-logo"
-                    fill="none"
-                    height="38"
+                    fill="#fff"
                     viewBox="0 0 56 38"
                     width="56"
                     xmlns="http://www.w3.org/2000/svg"
@@ -200,13 +196,10 @@ exports[`PaymentCard have to match snapshot 1`] = `
                 <BankAxeptSVG
                   className="dnb-payment-card__card__bank-axept"
                   fill="#ffffff"
-                  height="35"
-                  viewBox="0 0 72 35"
-                  width="72"
                 >
                   <svg
                     className="dnb-payment-card__card__bank-axept"
-                    fill="none"
+                    fill="#ffffff"
                     height="35"
                     viewBox="0 0 72 35"
                     width="72"

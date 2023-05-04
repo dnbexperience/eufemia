@@ -1,8 +1,14 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
-const DNBLogoSVG = (props) => (
-  <svg {...props} fill="none" xmlns="http://www.w3.org/2000/svg">
+const DNBLogoSVG = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    width="56"
+    height="38"
+    viewBox="0 0 56 38"
+    {...props}
+  >
     <title>DNB logo</title>
     <path
       fillRule="evenodd"
@@ -12,17 +18,5 @@ const DNBLogoSVG = (props) => (
     />
   </svg>
 )
-DNBLogoSVG.propTypes = {
-  fill: PropTypes.string,
-  width: PropTypes.string,
-  height: PropTypes.string,
-  viewBox: PropTypes.string
-}
-DNBLogoSVG.defaultProps = {
-  fill: '#14555A',
-  width: '56',
-  height: '38',
-  viewBox: '0 0 56 38'
-}
 
 export default DNBLogoSVG

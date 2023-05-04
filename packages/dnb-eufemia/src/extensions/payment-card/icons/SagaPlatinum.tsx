@@ -1,8 +1,14 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
-const SagaPlatinumSVG = (props) => (
-  <svg {...props} xmlns="http://www.w3.org/2000/svg" fill="none">
+const SagaPlatinumSVG = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    width="53"
+    height="32"
+    viewBox="0 0 53 32"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    {...props}
+  >
     <title>Saga Platinum</title>
     <path
       fill="#CCC"
@@ -10,15 +16,5 @@ const SagaPlatinumSVG = (props) => (
     />
   </svg>
 )
-SagaPlatinumSVG.propTypes = {
-  width: PropTypes.string,
-  height: PropTypes.string,
-  viewBox: PropTypes.string,
-}
-SagaPlatinumSVG.defaultProps = {
-  width: '53',
-  height: '32',
-  viewBox: '0 0 53 32',
-}
 
 export default SagaPlatinumSVG

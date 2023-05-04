@@ -1,8 +1,14 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
-const MastercardDarkSVG = (props) => (
-  <svg {...props} xmlns="http://www.w3.org/2000/svg" fill="none">
+const MastercardDarkSVG = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    width="52"
+    height="32"
+    viewBox="0 0 52 32"
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    {...props}
+  >
     <title>Mastercard</title>
     <path fill="#CCC" d="M32.89 3.42h-14v25.158h14V3.42Z" />
     <path
@@ -15,14 +21,5 @@ const MastercardDarkSVG = (props) => (
     />
   </svg>
 )
-MastercardDarkSVG.propTypes = {
-  width: PropTypes.string,
-  height: PropTypes.string,
-  viewBox: PropTypes.string,
-}
-MastercardDarkSVG.defaultProps = {
-  width: '52',
-  height: '32',
-  viewBox: '0 0 52 32',
-}
+
 export default MastercardDarkSVG

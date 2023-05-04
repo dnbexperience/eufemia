@@ -1,8 +1,14 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
-const VisaSVG = (props) => (
-  <svg {...props} xmlns="http://www.w3.org/2000/svg" fill="none">
+const VisaDefaultSVG = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    width="66"
+    height="37"
+    viewBox="0 0 66 37"
+    {...props}
+  >
     <title>Visa</title>
     <path
       fill={props.fill}
@@ -10,17 +16,5 @@ const VisaSVG = (props) => (
     />
   </svg>
 )
-VisaSVG.propTypes = {
-  fill: PropTypes.string,
-  width: PropTypes.string,
-  height: PropTypes.string,
-  viewBox: PropTypes.string,
-}
-VisaSVG.defaultProps = {
-  fill: '#ffffff',
-  width: '66',
-  height: '37',
-  viewBox: '0 0 66 37',
-}
 
-export default VisaSVG
+export default VisaDefaultSVG

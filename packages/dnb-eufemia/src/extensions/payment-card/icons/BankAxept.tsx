@@ -1,8 +1,14 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 
-const BankAxeptSVG = (props) => (
-  <svg {...props} xmlns="http://www.w3.org/2000/svg" fill="none">
+const BankAxeptSVG = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    width="72"
+    height="35"
+    viewBox="0 0 72 35"
+    {...props}
+  >
     <title>BankAxept</title>
     <path
       fill={props.fill}
@@ -10,17 +16,5 @@ const BankAxeptSVG = (props) => (
     />
   </svg>
 )
-BankAxeptSVG.propTypes = {
-  fill: PropTypes.string,
-  width: PropTypes.string,
-  height: PropTypes.string,
-  viewBox: PropTypes.string,
-}
-BankAxeptSVG.defaultProps = {
-  fill: '#fff',
-  width: '72',
-  height: '35',
-  viewBox: '0 0 72 35',
-}
 
 export default BankAxeptSVG
