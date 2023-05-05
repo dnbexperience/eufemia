@@ -15,13 +15,13 @@ import branchName from 'current-git-branch'
 const excludes = [
   {
     name: 'dnbIcons',
-    global: [path.resolve('./src/icons/dnb/primary_icons.ts')],
-    external: '../../icons/dnb/primary_icons.ts',
+    global: [path.resolve('./src/icons/dnb/primary_icons')],
+    external: '../../icons/dnb/primary_icons',
   },
   {
     name: 'dnbIcons',
-    global: [path.resolve('./src/icons/dnb/primary_icons_medium.ts')],
-    external: '../../icons/dnb/primary_icons_medium.ts',
+    global: [path.resolve('./src/icons/dnb/primary_icons_medium')],
+    external: '../../icons/dnb/primary_icons_medium',
   },
 ]
 
