@@ -38,7 +38,7 @@ export interface SkeletonProps
   aria_ready?: string;
 
   /**
-   * Set any HTML element type you have to use. A couple of aria attributes will be set on this element while active. Defaults to `div`
+   * Set any HTML element type you have to use. A couple of aria attributes will be set on this element while active. Defaults to `div`.
    */
   element?: React.ReactNode;
   class?: string;
