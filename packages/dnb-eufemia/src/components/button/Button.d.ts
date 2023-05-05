@@ -73,7 +73,7 @@ export type ButtonProps = {
   icon_position?: ButtonIconPositionAll;
 
   /**
-   * Define icon width and height. Defaults to 16px
+   * Define icon width and height. Defaults to 16px.
    */
   icon_size?: IconSize;
 

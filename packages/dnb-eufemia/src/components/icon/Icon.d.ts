@@ -42,7 +42,7 @@ export interface IconProps
   color?: IconColor;
 
   /**
-   * Default to `true`. Set to `false` if you do not want to inherit the color by `currentColor`.
+   * Defaults to `true`. Set to `false` if you do not want to inherit the color by `currentColor`.
    */
   inherit_color?: boolean;
 

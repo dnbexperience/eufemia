@@ -62,7 +62,7 @@ export interface TabsProps
   selected_key?: TabsSelectedKey;
 
   /**
-   * To align the tab list on the right side `align="right"`. Default to `left`.
+   * To align the tab list on the right side `align="right"`. Defaults to `left`.
    */
   align?: TabsAlign;
 
