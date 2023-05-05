@@ -5,7 +5,7 @@
 
 describe('Grid', () => {
   beforeEach(() => {
-    cy.visit('/uilib')
+    cy.visit('/uilib?data-visual-test') // skip animation
 
     // Check if app is mounted
     cy.get('#dnb-drawer-list__portal', { timeout: 10000 }).should('exist')

@@ -55,10 +55,10 @@ exports.onCreateWebpackConfig = (
 
   config.plugins.push(
     plugins.define({
-      'process.env.EUFEMIA_THEME_defaultTheme': JSON.stringify(
+      'globalThis.EUFEMIA_THEME_defaultTheme': JSON.stringify(
         pluginOptions.defaultTheme
       ),
-      'process.env.EUFEMIA_THEME_themes': JSON.stringify(
+      'globalThis.EUFEMIA_THEME_themes': JSON.stringify(
         pluginOptions.themes
       ),
     })
