@@ -10,6 +10,7 @@ import PaymentCard, {
   Designs,
   ProductType,
   CardType,
+  BankAxeptType,
 } from '@dnb/eufemia/src/extensions/payment-card'
 import { H4 } from '@dnb/eufemia/src'
 
@@ -21,18 +22,46 @@ export function PaymentCardAllCardsExample() {
     >
       {() => {
         const demoCards = [
+          'NK1',
+          'NK4',
+          'NK5',
           'VE1',
-          'VL2',
-          'VX1',
-          'VX3',
-          'VL1',
-          '096',
+          'VE2',
           'VG1',
+          'VG4',
+          '053',
+          'VK2',
+          'VK4',
+          '084',
+          'VL1',
+          'VL2',
+          'VL3',
+          'VL4',
+          'VL6',
+          '085',
+          'VO1',
           'VP2',
           'VP3',
-          'P101',
+          'VP4',
+          '069',
+          'VP5',
+          '080',
+          'VX1',
+          'VX3',
+          'VX4',
+          'VX5',
+          '096',
+          '044',
+          '043',
+          '098',
+          '074',
+          '062',
           'BK1',
+          'BP1',
+          'VB1',
           'VB2',
+          'VB5',
+          'P101',
         ]
 
         const Cards = () => (
@@ -41,7 +70,9 @@ export function PaymentCardAllCardsExample() {
               const cardData = getCardData(product_code)
               return (
                 <article key={product_code}>
-                  <H4>{cardData.cardDesign.name}</H4>
+                  <H4>
+                    {cardData.cardDesign.name}({product_code})
+                  </H4>
                   <PaymentCard
                     product_code={product_code}
                     card_number="************1337"
@@ -68,7 +99,9 @@ export const PaymentCardBasicExample = () => (
 )
 
 export const PaymentCardCustomExample = () => (
-  <ComponentBox scope={{ PaymentCard, Designs, ProductType, CardType }}>
+  <ComponentBox
+    scope={{ PaymentCard, Designs, ProductType, CardType, BankAxeptType }}
+  >
     {() => {
       const customData = {
         productCode: 'UNDEFINED',
@@ -76,7 +109,8 @@ export const PaymentCardCustomExample = () => (
         displayName: 'Custom card',
         cardDesign: Designs.gold,
         cardType: CardType.Visa,
-        productType: ProductType.BankAxept,
+        productType: ProductType.None,
+        bankAxept: BankAxeptType.BankAxept,
       }
       return (
         <PaymentCard
