@@ -1,0 +1,56 @@
+/*
+* DNB ErrorCard
+*TODO: -- -> modifikasjon __ -> modul/block
+*/
+
+@import '../../../style/core/utilities.scss';
+
+.dnb-error-card {
+  display: flex;
+  flex-direction: row;
+
+  padding: var(--spacing-x-large) var(--spacing-large);
+
+  border: 1px solid var(--color-black-8);
+  border-radius: 0.25rem;
+  background-color: var(--color-white);
+
+  align-items: center;
+  gap: var(--spacing-xx-large);
+
+  @include allBelow(small) {
+    padding: var(--spacing-small);
+  }
+
+  &__centered {
+    flex-direction: column;
+    gap: var(--spacing-medium);
+    > * {
+      text-align: center;
+    }
+
+    .dnb-error-card--buttons-container {
+      justify-content: center;
+    }
+  }
+
+  &--slim {
+    padding: var(--spacing-small);
+  }
+
+  &__image {
+    height: 8em;
+    width: 8em;
+    font-size: 1rem;
+  }
+
+  &__buttons-container {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+
+    &--centered {
+      justify-content: center;
+    }
+  }
+}

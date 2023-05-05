@@ -1,0 +1,48 @@
+---
+showTabs: true
+---
+
+import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
+import ErrorCard from '@dnb/eufemia/src/extensions/error-card'
+import ChangeLocale from 'dnb-design-system-portal/src/core/ChangeLocale'
+import {
+  ErrorCardDefaultExample,
+  ErrorCardCenteredExample,
+  ErrorCardDefaultActionExample,
+  ErrorCardSlimExample,
+  ErrorCardSlimCenteredExample,
+  ErrorCardCustomActionsExample,
+} from './Examples'
+
+## Demos
+
+<ChangeLocale
+  label="Locale used in the demos:"
+  label_direction="vertical"
+/>
+
+### Default example
+
+<ErrorCardDefaultExample />
+
+### Centered variant
+
+<ErrorCardCenteredExample />
+
+## With try again function
+
+<ErrorCardDefaultActionExample />
+
+### Slim variant
+
+Made for smaller screens, removes image and smaller padding within the component
+
+<ErrorCardSlimExample />
+
+### Slim and Cenetred variant
+
+<ErrorCardSlimCenteredExample />
+
+### Custom customActions
+
+<ErrorCardCustomActionsExample />

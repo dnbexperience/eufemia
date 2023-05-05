@@ -14,4 +14,4 @@ import Forms from './forms/Forms'
 import PaymentCard from './payment-card/PaymentCard'
 
 // define / export all the available components
-export { Forms, PaymentCard }
+export { ErrorCard, Forms, PaymentCard }

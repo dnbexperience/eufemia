@@ -1,0 +1,22 @@
+---
+showTabs: true
+---
+
+## Description
+
+The ErrorCard is a component made for error states in api requests.
+
+```jsx
+import '@dnb/eufemia/extensions/error-card/style'
+import ErrorCard from '@dnb/eufemia/extensions/error-card'
+
+render(
+  <ErrorCard
+    title="Something went wrong ☹️"
+    message="An error ocurred. Please try again"
+    onTryAgainClick={() => Request.execute()}
+  />
+)
+```
+
+Initial development by _Ådne Rosenvinge_.

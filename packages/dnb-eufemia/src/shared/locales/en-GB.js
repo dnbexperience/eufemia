@@ -192,5 +192,9 @@ export default {
       selectCountryPlaceholder: 'Select a country',
       selectCountryErrorRequired: 'You must select a country',
     },
+    ErrorCard: {
+      tryAgainButtonText: 'Try again',
+      connectionLostImageAlt: 'Unplugged cable. Illustration',
+    },
   },
 }

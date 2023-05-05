@@ -190,5 +190,9 @@ export default {
       selectCountryPlaceholder: 'Velg et land',
       selectCountryErrorRequired: 'Du må velge et land',
     },
+    ErrorCard: {
+      tryAgainButtonText: 'Prøv igjen',
+      connectionLostImageAlt: 'Kabel koblet fra. Illustrasjon',
+    },
   },
 }
