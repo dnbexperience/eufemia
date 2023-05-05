@@ -11,11 +11,11 @@ import Table from './Table'
 import Anchor from './Anchor'
 import Header from './AutoLinkHeader'
 import Copy from './Copy'
-import FilterByTheme from './FilterByTheme'
+import VisibilityByTheme from '@dnb/eufemia/src/shared/VisibilityByTheme'
 
 export default {
   Copy,
-  FilterByTheme,
+  VisibilityByTheme,
   // img: Img, // -> <figure> cannot appear as a descendant of <p>
   h1: (props) => <Header level="1" {...props} />,
   h2: (props) => <Header level="2" {...props} />,
