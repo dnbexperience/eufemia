@@ -968,12 +968,7 @@ export function getFallbackCurrencyDisplay(
   currency_display = null
 ) {
   // If currencyDisplay is not defined and locale is "no", use narrowSymbol
-  if (
-    !currency_display &&
-    // Safari does not support `narrowSymbol` for now, so `symbol` will be used then.
-    !IS_SAFARI &&
-    (!locale || /(no|nb|nn)$/i.test(locale))
-  ) {
+  if (!currency_display && (!locale || /(no|nb|nn)$/i.test(locale))) {
     currency_display = 'narrowSymbol'
   }
 
