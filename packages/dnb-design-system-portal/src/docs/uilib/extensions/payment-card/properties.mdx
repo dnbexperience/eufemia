@@ -18,37 +18,37 @@ showTabs: true
 
 ## Card Data
 
-| Properties    | Type         | Description                                                                                                                                                                                                      |
-| ------------- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `productCode` | `string`     | _(required)_ product code for the given card.                                                                                                                                                                    |
-| `productName` | `string`     | _(required)_ product name. Can be blank.                                                                                                                                                                         |
-| `displayName` | `string`     | _(required)_ the visible product name. Can be empty.                                                                                                                                                             |
-| `cardDesign`  | `object`     | _(required)_ object that describes the style properties of the card. can be imported from `@dnb/eufemia/extensions/payment-card/utils/CardDesigns` (see available designs below) or a custom one can be created. |
-| `cardType`    | `Union Type` | _(required)_ import CardType from `@dnb/eufemia/extensions/payment-card/utils/Types` to use. Can be CardType.Visa, CardType.Mastercard or CardType.None                                                          |
-| `productType` | `Union Type` | _(required)_ import ProductType from `@dnb/eufemia/extensions/payment-card/utils/Types` to use. Can be ProductType.BankAxept, ProductType.Saga, ProductType.PrivateBanking or ProductType.None                   |
+| Properties    | Type         | Description                                                                                                                                                                                                                                              |
+| ------------- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `productCode` | `string`     | _(required)_ product code for the given card.                                                                                                                                                                                                            |
+| `productName` | `string`     | _(required)_ product name. Can be blank.                                                                                                                                                                                                                 |
+| `displayName` | `string`     | _(required)_ the visible product name. Can be empty.                                                                                                                                                                                                     |
+| `cardDesign`  | `object`     | _(required)_ object that describes the style properties of the card. can be imported from `@dnb/eufemia/extensions/payment-card/utils/CardDesigns` (see available designs below) or a custom one can be created.                                         |
+| `cardType`    | `Union Type` | _(required)_ import CardType from `@dnb/eufemia/extensions/payment-card/utils/Types` to use. Can be CardType.Visa, CardType.Mastercard or CardType.None                                                                                                  |
+| `productType` | `Union Type` | _(required)_ import ProductType from `@dnb/eufemia/extensions/payment-card/utils/Types` to use. Can be ProductType.Saga, ProductType.Pluss, ProductType.Intro, ProductType.Business, ProductType.Bedrift, ProductType.PrivateBanking or ProductType.None |
 
 ## Card Design
 
-| Properties       | Type         | Description                                                                                                                                                                   |
-| ---------------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`           | `string`     | _(required)_ string Name of design                                                                                                                                            |
-| `cardStyle`      | `string`     | _(required)_ css class. mainly to set background and color                                                                                                                    |
-| `bankLogo`       | `Union Type` | _(required)_ Union Type. import DNB from ./card/utils/Types to use. Can be DNB.Colored('HexValue') or DNB.Metallic                                                            |
-| `visa`           | `Union Type` | _(required)_ Union Type. import Visa from ./card/utils/Types to use. Can be Visa.Colored('HexValue') or Visa.Metallic                                                         |
-| `mastercard`     | `Union Type` | _(required)_ Union Type. import Mastercard from ./card/utils/Types to use. Can be Mastercard.Default, Mastercard.DefaultWhite Mastercard.Metallic or Mastercard.MetallicBlack |
-| `bankAxept`      | `Union Type` | _(required)_ Union Type. import BankAxept from ./card/utils/Types to use. Can be BankAxept.White or BankAxept.Black                                                           |
-| `saga`           | `Union Type` | _(required)_ Union Type. import Saga from ./card/utils/Types to use. Can be Saga.Gold, Saga.Platinum, Saga.VisaPlatinum, or Saga.None                                         |
-| `privateBanking` | `Union Type` | _(required)_ Union Type. import PB from ./card/utils/Types to use. Can be PB.Default, PB.Platinum or PB.None                                                                  |
+| Properties       | Type         | Description                                                                                                                                                            |
+| ---------------- | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`           | `string`     | _(required)_ string Name of design                                                                                                                                     |
+| `cardStyle`      | `string`     | _(required)_ css class. mainly to set background and color                                                                                                             |
+| `bankLogo`       | `Union Type` | _(required)_ Union Type. import DNB from ./card/utils/Types to use. Can be DNB.Colored('HexValue')                                                                     |
+| `visa`           | `Union Type` | _(required)_ Union Type. import Visa from ./card/utils/Types to use. Can be Visa.Colored('HexValue') or Visa.Platinum                                                  |
+| `mastercard`     | `Union Type` | _(required)_ Union Type. import Mastercard from ./card/utils/Types to use. Can be Mastercard.Default or Mastercard.Dark                                                |
+| `bankAxept`      | `Union Type` | _(required)_ Union Type. import BankAxept from ./card/utils/Types to use. Can be BankAxept.White, BankAxept.Black, BankAxept.Gold, BankAxept.Black20 or BankAxept.Gray |
+| `saga`           | `Union Type` | _(required)_ Union Type. import Saga from ./card/utils/Types to use. Can be Saga.Gold, Saga.Platinum or Saga.None                                                      |
+| `privateBanking` | `Union Type` | _(required)_ Union Type. import PB from ./card/utils/Types to use. Can be PB.Default or PB.None                                                                        |
 
 ## List of designs
 
 | Properties         | Type     | Description            |
 | ------------------ | -------- | ---------------------- |
 | `defaultDesign`    | `object` | Default                |
-| `white`            | `object` | White                  |
+| `pluss`            | `object` | Pluss                  |
+| `young`            | `object` | Ung                    |
 | `myFirst`          | `object` | My first               |
 | `youth`            | `object` | Youth                  |
-| `silver`           | `object` | Silver                 |
 | `gold`             | `object` | Gold                   |
 | `saga`             | `object` | Saga                   |
 | `sagaPlatinum`     | `object` | Saga platinum          |
@@ -63,24 +63,22 @@ showTabs: true
 | ---------------- |
 | **DNB**          |
 | `Colored`        |
-| `Metallic`       |
 | **Saga**         |
 | `Gold`           |
 | `Platinum`       |
-| `VisaPlatinum`   |
 | `None`           |
 | **PB**           |
 | `Default`        |
-| `Platinum`       |
 | `None`           |
 | **Mastercard**   |
 | `Default`        |
-| `DefaultWhite`   |
-| `Metallic`       |
-| `BlackMetallic`  |
+| `Dark`           |
 | **ProductType**  |
-| `BankAxept`      |
 | `Saga`           |
+| `Pluss`          |
+| `Intro`          |
+| `Bedrift`        |
+| `Business`       |
 | `PrivateBanking` |
 | `None`           |
 | **CardType**     |
@@ -90,9 +88,12 @@ showTabs: true
 | **BankAxept**    |
 | `White`          |
 | `Black`          |
+| `Gold`           |
+| `Black20`        |
+| `Gray`           |
 | **Visa**         |
 | `Colored`        |
-| `Metallic`       |
+| `Platinum`       |
 | **Status**       |
 | `Expired`        |
 | `Blocked`        |
