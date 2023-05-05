@@ -5,16 +5,16 @@
 
 const path = require('path')
 const { isCI } = require('repo-utils')
-const getCurrentBranchName = require('current-git-branch')
 const { init } = require('./scripts/version.js')
 const { createFilePath } = require('gatsby-source-filesystem')
+const { shouldUsePrebuild } = require('./src/core/BuildTools.cjs')
+
+const PREBUILD_EXISTS = shouldUsePrebuild()
 
 // Used for heading
 const {
   makeHeadingsResolver,
 } = require('./src/uilib/search/remark-headings-plugin.js')
-
-const currentBranch = getCurrentBranchName()
 
 exports.onPreInit = async () => {
   if (process.env.NODE_ENV === 'production') {
@@ -183,12 +183,9 @@ exports.onCreateWebpackConfig = ({ stage, actions, plugins }) => {
     },
     plugins: [
       plugins.define({
-        'process.env.isCI': JSON.stringify(isCI),
-        'process.env.CURRENT_BRANCH': JSON.stringify(currentBranch),
-        'process.env.STYLE_THEME': JSON.stringify(getStyleTheme()),
-        'global.PREBUILD_EXISTS': JSON.stringify(global.PREBUILD_EXISTS),
-        'process.env.STYLE_IMPORT_PATH': JSON.stringify(
-          global.PREBUILD_EXISTS
+        'global.isCI': JSON.stringify(isCI),
+        'global.STYLE_IMPORT_PATH': JSON.stringify(
+          PREBUILD_EXISTS
             ? '@dnb/eufemia/build/style/dnb-ui-core.min.css'
             : '@dnb/eufemia/src/style/core'
         ),
@@ -199,7 +196,7 @@ exports.onCreateWebpackConfig = ({ stage, actions, plugins }) => {
     ],
   }
 
-  if (isCI && global.PREBUILD_EXISTS && stage === 'build-javascript') {
+  if (PREBUILD_EXISTS && stage === 'build-javascript') {
     config.plugins.push(
       plugins.normalModuleReplacement(/@dnb\/eufemia\/src/, (resource) => {
         resource.request = resource.request.replace(
@@ -221,22 +218,4 @@ exports.onCreateDevServer = () => {
   } = require('gatsby-plugin-remove-serviceworker/gatsby-node.js')
 
   onPostBuild()
-}
-
-function getStyleTheme() {
-  let themeName = 'ui'
-  if (typeof process.env.GATSBY_EUFEMIA_THEME !== 'undefined') {
-    themeName = process.env.GATSBY_EUFEMIA_THEME
-  }
-
-  /**
-   * Checking for "branch name" could be interesting to have,
-   * but this requires that we have a visual testing strategy in place first.
-   *
-   */
-  if (process.env.GATSBY_CLOUD && currentBranch.includes('eiendom')) {
-    themeName = 'eiendom'
-  }
-
-  return themeName
 }

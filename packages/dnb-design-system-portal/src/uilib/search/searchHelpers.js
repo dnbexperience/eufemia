@@ -1,6 +1,6 @@
 // Finds current index name for the Algolia search
 const getIndexName = (currentBranch) => {
-  if (process.env.NODE_ENV !== 'production' || !process.env.isCI) {
+  if (process.env.NODE_ENV !== 'production' || !global.isCI) {
     return 'dev_eufemia_docs'
   }
 
@@ -19,7 +19,7 @@ const runQueriesWhen = (currentBranch) => {
     return false
   }
 
-  if (process.env.isCI) {
+  if (global.isCI) {
     return /^(release|beta|portal)$/.test(currentBranch)
   }
 
