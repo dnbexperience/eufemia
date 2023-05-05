@@ -6,26 +6,22 @@
 @import '../../../style/core/utilities.scss';
 
 .dnb-payment-card {
+  --color-dark-cyan: #003b47;
   --dnb-payment-bg-default: linear-gradient(
-    184.55deg,
-    var(--color-sea-green) 6.31%,
+    187.2deg,
+    #008484 6.31%,
     var(--color-sea-green) 82.66%
   );
   --dnb-payment-bg-pluss: linear-gradient(
       187.2deg,
-      #14555a 6.31%,
-      rgb(0 52 62 / 40%) 82.66%
+      var(--color-dark-cyan) 6.31%,
+      var(--color-ocean-green) 82.66%
     ),
-    #14555a;
+    var(--color-emerald-green);
   --dnb-payment-bg-white: linear-gradient(
     184.55deg,
     var(--color-black-background) 4.63%,
     var(--color-white) 92.04%
-  );
-  --dnb-payment-bg-silver: linear-gradient(
-    184.55deg,
-    var(--color-black-20) 4.63%,
-    var(--color-black-8) 82.87%
   );
   --dnb-payment-bg-gold: linear-gradient(
     184.55deg,
@@ -33,20 +29,27 @@
     #d3bd83 84.57%
   );
   --dnb-payment-bg-saga: linear-gradient(
-    184.55deg,
-    #241e23 6.31%,
-    #251d23 85.2%
+    187.2deg,
+    #1c1c1c 6.31%,
+    #000 82.66%
+  );
+  --dnb-payment-bg-private: linear-gradient(
+    187.2deg,
+    #1c1c1c 6.31%,
+    #000 82.66%
   );
   --dnb-payment-bg-business-no-visa: linear-gradient(
-    184.55deg,
-    #50c9de 6.31%,
-    var(--color-sky-blue) 82.66%
-  );
+      187.2deg,
+      var(--color-dark-cyan) 6.31%,
+      var(--color-ocean-green) 82.66%
+    ),
+    var(--color-emerald-green);
   --dnb-payment-bg-business-with-visa: linear-gradient(
-    184.55deg,
-    #2cc48e 6.31%,
-    var(--color-summer-green) 82.66%
-  );
+      187.2deg,
+      var(--color-dark-cyan) 6.31%,
+      var(--color-ocean-green) 82.66%
+    ),
+    var(--color-emerald-green);
 
   margin: 0;
 
@@ -54,7 +57,7 @@
     position: relative;
     width: 85.6mm;
     height: 53.98mm;
-    padding: 6mm;
+    padding: 4mm;
 
     border-radius: 3.48mm;
 
@@ -64,7 +67,6 @@
 
     color: var(--color-white);
     box-shadow: var(--shadow-default);
-    background: var(--color-sea-green);
 
     transition: all 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
 
@@ -78,14 +80,15 @@
       color: var(--color-white);
     }
 
-    /* White, Youth, MyFirst */
-    &--design-white {
-      background: var(--dnb-payment-bg-white);
+    &--design-ung {
       color: var(--color-black-80);
     }
 
-    &--design-silver {
-      background: var(--dnb-payment-bg-silver);
+    &--design-youth {
+      color: var(--color-black-80);
+    }
+
+    &--design-my-first {
       color: var(--color-black-80);
     }
 
@@ -100,7 +103,7 @@
     }
 
     &--design-private {
-      background: var(--color-black-80);
+      background: var(--dnb-payment-bg-private);
       color: var(--color-white);
     }
 
@@ -128,11 +131,10 @@
       width: 100%;
       height: 100%;
 
-      background-image: radial-gradient(
-        farthest-corner at 80% 30%,
+      background: radial-gradient(
+        52.39% 52.39% at 50% 50%,
         #f7f6e61f 0%,
-        #06060600 60%,
-        #06060600 99%
+        #06060600 100%
       );
       border-radius: inherit;
     }
@@ -156,9 +158,10 @@
     }
 
     &__holder {
+      font-weight: var(--font-weight-medium);
       text-transform: uppercase;
       text-align: left;
-      opacity: 0.5;
+      // opacity: 0.5;
 
       &.dnb-p {
         font-size: 0.625rem;
@@ -166,11 +169,11 @@
     }
 
     &__numbers {
-      font-size: var(--font-size-medium);
+      font-size: 1.5rem !important;
+      font-weight: var(--font-weight-medium);
     }
 
     &__credit-type {
-      height: 51px;
       position: absolute;
       bottom: 0;
       right: 0;
@@ -183,6 +186,13 @@
     }
 
     &__product-type {
+      height: 38px;
+      position: absolute;
+      top: 0;
+      left: 70px;
+    }
+
+    &__bank-axept {
       height: 45px;
       position: absolute;
       top: 0;
@@ -231,13 +241,6 @@
     opacity: 1;
   }
 
-  // Not in use yet
-  // &--small {
-  //   width: calc(85.6mm * 0.75);
-  //   height: calc(53.98mm * 0.75);
-  //   border-radius: calc(3.48mm * 0.75);
-  // }
-
   &--compact &__card {
     padding: 0;
     height: 32.8mm;
@@ -273,7 +276,8 @@
     }
 
     &__credit-type {
-      top: 0;
+      top: 8px;
+      right: 4px;
       bottom: auto;
     }
   }
