@@ -136,10 +136,7 @@ const plugins = [
       themes: {
         ui: { name: 'DNB' }, // universal identity
         eiendom: { name: 'DNB Eiendom' },
-        sbanken: {
-          name: 'Sbanken (WIP)',
-          hide: /release|beta|portal/.test(currentBranch),
-        },
+        sbanken: { name: 'Sbanken (WIP)' },
       },
       filesGlob: shouldUsePrebuild()
         ? '**/build/style/themes/**/*-theme-*.min.css'
