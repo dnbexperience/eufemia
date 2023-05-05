@@ -260,12 +260,12 @@ export interface DatePickerProps
   on_days_render?: (...args: any[]) => any;
 
   /**
-   * Will be called on a date change event. Returns an `object`. See above.
+   * Will be called on a date change event. Returns an `object`. See Returned Object below.
    */
   on_change?: (...args: any[]) => any;
 
   /**
-   * Will be called on every input and date picker interaction. Returns an `object`. See above.
+   * Will be called on every input and date picker interaction. Returns an `object`. See Returned Object below.
    */
   on_type?: (...args: any[]) => any;
 

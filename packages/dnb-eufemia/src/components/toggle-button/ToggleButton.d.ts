@@ -98,7 +98,7 @@ export interface ToggleButtonProps
   icon_position?: ButtonIconPosition;
 
   /**
-   * Define icon width and height. Defaults to 16px
+   * Define icon width and height. Defaults to 16px.
    */
   icon_size?: IconSize;
   attributes?: ToggleButtonAttributes;
