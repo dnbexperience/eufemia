@@ -16,6 +16,7 @@ import Component, {
   CardType,
   formatCardNumber,
   PaymentCardProps,
+  BankAxeptType,
 } from '../PaymentCard'
 import nbNO from '../../../shared/locales/nb-NO'
 import enGB from '../../../shared/locales/en-GB'
@@ -123,7 +124,8 @@ describe('PaymentCard', () => {
       displayName: 'Custom card', // Only showed in compact variant
       cardDesign: Designs.gold,
       cardType: CardType.Visa,
-      productType: ProductType.BankAxept,
+      productType: ProductType.None,
+      bankAxept: BankAxeptType.BankAxept,
     }
 
     const Comp = mount(
