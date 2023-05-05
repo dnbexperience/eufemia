@@ -25,7 +25,7 @@ export interface ModalProps extends ModalRootProps {
   id?: string
 
   /**
-   * Will disable the trigger button
+   * Will disable the trigger button.
    */
   disabled?: boolean
 
