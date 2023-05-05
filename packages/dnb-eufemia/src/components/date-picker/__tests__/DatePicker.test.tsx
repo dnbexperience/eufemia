@@ -30,6 +30,7 @@ import {
   makeDayObject,
 } from '../DatePickerCalc'
 import { fireEvent, render } from '@testing-library/react'
+import FormRow from '../../form-row/FormRow'
 
 beforeEach(() => {
   document.body.innerHTML = ''
@@ -211,9 +212,10 @@ describe('DatePicker component', () => {
     )
 
     Comp.find('button.dnb-button').simulate('click')
-    Comp.find('span.dnb-toggle-button')
+
+    Comp.find('div.dnb-date-picker__addon')
+      .find('.dnb-button--secondary')
       .at(0)
-      .find('button.dnb-button')
       .simulate('click')
     expect(Comp.find('label.dnb-date-picker__header__title').text()).toBe(
       'mai 2020'
@@ -222,9 +224,9 @@ describe('DatePicker component', () => {
     expect(on_change).toBeCalledTimes(1)
 
     // Now, test "close_on_select"
-    Comp.find('span.dnb-toggle-button')
+    Comp.find('div.dnb-date-picker__addon')
+      .find('.dnb-button--secondary')
       .at(1)
-      .find('button.dnb-button')
       .simulate('click')
     expect(Comp.find('label.dnb-date-picker__header__title').text()).toBe(
       'april 2020'
@@ -1323,6 +1325,42 @@ describe('DatePicker calc', () => {
       }
     })
   })
+
+  it('should support spacing props', () => {
+    render(<Component top="2rem" show_input />)
+
+    const element = document.querySelector('.dnb-date-picker')
+
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-date-picker',
+      'dnb-form-component',
+      'dnb-space__top--large',
+      'dnb-date-picker--hidden',
+      'dnb-date-picker--show-input',
+    ])
+  })
+
+  it('should inherit FormRow vertical label', () => {
+    render(
+      <FormRow vertical>
+        <Component label="Label" show_input />
+      </FormRow>
+    )
+
+    const element = document.querySelector('.dnb-date-picker')
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+
+    expect(attributes).toEqual(['class', 'lang'])
+    expect(Array.from(element.classList)).toEqual([
+      'dnb-date-picker',
+      'dnb-form-component',
+      'dnb-date-picker--vertical',
+      'dnb-date-picker--hidden',
+      'dnb-date-picker--show-input',
+    ])
+  })
 })
 
 describe('DatePicker scss', () => {
@@ -1335,6 +1373,39 @@ describe('DatePicker scss', () => {
       require.resolve('../style/themes/dnb-date-picker-theme-ui.scss')
     )
     expect(scss).toMatchSnapshot()
+  })
+})
+
+describe('Custom text for buttons', () => {
+  it('should show custom text for submit button', () => {
+    render(
+      <Component submit_button_text="Yes" show_submit_button opened />
+    )
+
+    expect(
+      document.querySelector('[data-testid="submit"]  .dnb-button__text')
+        .textContent
+    ).toBe('Yes')
+  })
+
+  it('should show custom text for cancel button', () => {
+    render(<Component cancel_button_text="No" show_cancel_button opened />)
+
+    expect(
+      document.querySelector('[data-testid="cancel"]  .dnb-button__text')
+        .textContent
+    ).toBe('No')
+  })
+
+  it('should show custom text for reset button', () => {
+    render(
+      <Component reset_button_text="Maybe" show_reset_button opened />
+    )
+
+    expect(
+      document.querySelector('[data-testid="reset"]  .dnb-button__text')
+        .textContent
+    ).toBe('Maybe')
   })
 })
 

@@ -1,18 +1,18 @@
 import React from 'react'
 import { Drawer, Space, Tooltip } from '@dnb/eufemia/src/components'
-import { H2 } from '@dnb/eufemia/src/elements'
+import { H2 } from '@dnb/eufemia/src'
 import ToggleGrid from './ToggleGrid'
 import { Context } from '@dnb/eufemia/src/shared'
-import PortalSkeleton from '../parts/uilib/PortalSkeleton'
+import PortalSkeleton from '../../core/PortalSkeleton'
 import ChangeLocale from '../../core/ChangeLocale'
 import ChangeStyleTheme from '../../core/ChangeStyleTheme'
 
 export default function PortalToolsMenu({
-  className,
+  className = null,
   tooltipPosition = 'left',
   ...props
 }) {
-  const { skeleton } = React.useContext(Context)
+  const { skeleton, theme } = React.useContext(Context)
   return (
     <Drawer
       id="portal-tools"
@@ -56,11 +56,18 @@ export default function PortalToolsMenu({
         </Space>
 
         <Space top="large">
-          <H2 size="small">Change style theme</H2>
+          <H2 size="small">Change Brand</H2>
           <Space top>
             <ChangeStyleTheme />
           </Space>
         </Space>
+
+        {theme.name === 'sbanken' && (
+          <Space top="large">
+            <H2 size="small">Map colors</H2>
+            <ChangeStyleTheme.ColorMapping enabled={theme.colorMapping} />
+          </Space>
+        )}
 
         <Space top="large">
           <H2 size="small">Helper grid lines</H2>

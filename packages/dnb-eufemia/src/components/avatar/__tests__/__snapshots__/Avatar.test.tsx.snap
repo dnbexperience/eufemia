@@ -38,7 +38,7 @@ exports[`Avatar scss have to match snapshot 1`] = `
 /*
  * Utilities
  */
-:root {
+.dnb-avatar {
   --avatar-font-size--small: var(--font-size-x-small);
   --avatar-font-size--medium: var(--font-size-basis);
   --avatar-font-size--large: var(--font-size-x-large);
@@ -55,9 +55,6 @@ exports[`Avatar scss have to match snapshot 1`] = `
   --avatar-height--large: 4rem;
   --avatar-width--x-large: 5rem;
   --avatar-height--x-large: 5rem;
-}
-
-.dnb-avatar {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -71,7 +68,7 @@ exports[`Avatar scss have to match snapshot 1`] = `
   line-height: 1;
 }
 .dnb-avatar, .dnb-core-style .dnb-avatar {
-  line-height: var(--button-height);
+  line-height: var(--line-height-large);
 }
 .dnb-avatar--size-small {
   width: var(--avatar-width--small);
@@ -112,7 +109,8 @@ exports[`Avatar scss have to match snapshot 1`] = `
 }
 .dnb-avatar__group .dnb-avatar {
   --border-color: var(--color-black-3);
-  box-shadow: 0 0 0 0.125rem var(--border-color);
+  --border-width: 0.125rem;
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 .dnb-avatar__group .dnb-avatar--size-small {

@@ -6,7 +6,7 @@ import type {
   FormStatusState,
   FormStatusText
 } from '../FormStatus';
-import type { IconPrimaryIcon, IconPrimarySize } from '../IconPrimary';
+import type { IconIcon, IconSize } from '../Icon';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 import ToggleButtonGroup from './ToggleButtonGroup';
@@ -22,7 +22,6 @@ export type ToggleButtonValue =
   | any[];
 export type ToggleButtonAttributes = string | Record<string, unknown>;
 export type ToggleButtonChildren = string | ((...args: any[]) => any);
-
 export interface ToggleButtonProps
   extends React.HTMLProps<HTMLElement>,
     SpacingProps {
@@ -91,7 +90,7 @@ export interface ToggleButtonProps
   /**
    * Icon to be included in the toggle button.
    */
-  icon?: IconPrimaryIcon;
+  icon?: IconIcon;
 
   /**
    * Position of the icon inside the toggle button. Set to `left` or `right`. Defaults to `right` if not set.
@@ -101,10 +100,9 @@ export interface ToggleButtonProps
   /**
    * Define icon width and height. Defaults to 16px
    */
-  icon_size?: IconPrimarySize;
+  icon_size?: IconSize;
   attributes?: ToggleButtonAttributes;
   readOnly?: boolean;
-
   class?: string;
   className?: string;
   children?: ToggleButtonChildren;

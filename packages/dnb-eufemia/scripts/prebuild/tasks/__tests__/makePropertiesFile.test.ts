@@ -5,6 +5,16 @@
 
 import { runFactory } from '../makePropertiesFile'
 
+jest.mock('ora', () => {
+  return jest.fn(() => ({
+    start: jest.fn(),
+    info: jest.fn(),
+    warn: jest.fn(),
+    succeed: jest.fn(),
+    fail: jest.fn(),
+  }))
+})
+
 beforeAll(async () => {
   global.ui = await runFactory({
     glob: './src/style/themes/theme-ui/properties.scss',
@@ -27,7 +37,7 @@ describe('Properties for sbanken', () => {
   it('has to validate', () => {
     expect(global.sbanken).toMatchSnapshot()
     expect(global.sbanken).toContain(
-      `'--sb-font-family-default': "'Roboto', 'Helvetica', 'Arial', sans-serif"`
+      `'--sb-font-family-default': '"Roboto", "Helvetica", "Arial", sans-serif'`
     )
   })
 })

@@ -13,20 +13,21 @@ export type DrawerListWrapperElement =
   | React.ReactNode;
 export type DrawerListDefaultValue = string | number;
 export type DrawerListValue = string | number;
+export type DrawerListDataObject = {
+  selected_value?: string | React.ReactNode;
+  suffix_value?: string | React.ReactNode;
+  content?: string | React.ReactNode | string[];
+};
+export type DrawerListDataObjectUnion =
+  | string
+  | React.ReactNode
+  | DrawerListDataObject;
 export type DrawerListData =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode
   | Record<string, unknown>
-  | (
-      | string
-      | React.ReactNode
-      | {
-          selected_value?: string | React.ReactNode;
-          suffix_value?: string | React.ReactNode;
-          content?: string | React.ReactNode | string[];
-        }
-    )[];
+  | DrawerListDataObjectUnion[];
 export type DrawerListSelectedValue = string | React.ReactNode;
 export type DrawerListSuffixValue = string | React.ReactNode;
 export type DrawerListContent = string | React.ReactNode | string[];
@@ -41,9 +42,8 @@ export type DrawerListChildren =
   | Record<string, unknown>
   | any[];
 export type DrawerListSuffix = React.ReactNode;
-
 export interface DrawerListProps
-  extends React.HTMLProps<HTMLElement>,
+  extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
     SpacingProps {
   id?: string;
   role?: string;
@@ -53,6 +53,7 @@ export interface DrawerListProps
   focusable?: boolean;
   direction?: DrawerListDirection;
   size?: DrawerListSize;
+  min_height?: string | number;
   max_height?: number;
   no_animation?: boolean;
   no_scroll_animation?: boolean;
@@ -85,6 +86,9 @@ export interface DrawerListProps
   className?: string;
   children?: DrawerListChildren;
   suffix?: DrawerListSuffix;
+  enable_body_lock?: boolean;
+  page_offset?: string | number;
+  observer_element?: string | React.ReactNode;
   on_show?: (...args: any[]) => any;
   on_hide?: (...args: any[]) => any;
   handle_dismiss_focus?: (...args: any[]) => any;
@@ -94,18 +98,15 @@ export interface DrawerListProps
   on_select?: (...args: any[]) => any;
   on_state_update?: (...args: any[]) => any;
 }
-
 export type DrawerListOptionsProps = {
   children: React.ReactNode;
 };
-
 export type DrawerListItemProps = {
   children: React.ReactNode;
   selected: boolean;
   value: string;
   on_click: ({ value }: { value: string }) => void;
 };
-
 export default class DrawerList extends React.Component<
   DrawerListProps,
   any
@@ -118,7 +119,6 @@ export default class DrawerList extends React.Component<
 export type ItemContentChildren =
   | React.ReactNode
   | Record<string, unknown>;
-
 export interface ItemContentProps {
   hash?: string;
   children?: ItemContentChildren;

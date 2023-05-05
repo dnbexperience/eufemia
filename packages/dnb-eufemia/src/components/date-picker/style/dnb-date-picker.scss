@@ -5,12 +5,6 @@
 
 @import '../../../style/core/utilities.scss';
 
-:root {
-  --date-picker-input-height: 2rem;
-  --date-picker-day-width: 2rem;
-  --date-picker-day-horizontal-spacing: 4px;
-}
-
 @mixin openDatePicker($state: 'animation') {
   z-index: 100; // make sure we are over e.g. switch
 
@@ -37,6 +31,10 @@
 }
 
 .dnb-date-picker {
+  --date-picker-input-height: 2rem;
+  --date-picker-day-width: 2rem;
+  --date-picker-day-horizontal-spacing: 4px;
+
   display: inline-flex;
   align-items: center;
 
@@ -77,13 +75,13 @@
   }
 
   &--small &__container {
-    top: var(--input-height--small);
+    top: 1.5rem; // --input-height--small;
   }
   &--medium &__container {
-    top: var(--input-height--medium);
+    top: 2.5rem; // --input-height--medium;
   }
   &--large &__container {
-    top: var(--input-height--large);
+    top: 3rem; // --input-height--large;
   }
 
   &--show-input &__container {
@@ -315,7 +313,7 @@
     margin: 0;
 
     &.dnb-no-focus:focus {
-      @include fakeFocus();
+      @include focusRing();
     }
   }
 

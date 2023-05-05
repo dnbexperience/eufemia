@@ -3,7 +3,7 @@
  *
  */
 
-@import '../../../../style/elements/anchor-mixins.scss';
+@import '../../../../components/anchor/style/anchor-mixins.scss';
 
 .dnb-section {
   &--divider {
@@ -140,7 +140,7 @@
       color: var(--color-white);
 
       &::before {
-        @include fakeFocus(null, var(--color-white));
+        @include focusRing(null, var(--color-white));
       }
     }
   }

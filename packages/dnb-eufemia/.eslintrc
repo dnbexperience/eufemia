@@ -48,6 +48,12 @@
       }
     ],
     "no-console": "off",
+    "spaced-comment": ["error", "always", { "markers": ["/"] }],
+    "multiline-comment-style": ["error", "separate-lines"],
+    "no-restricted-syntax": [
+      "error",
+      "IfStatement > ExpressionStatement > AssignmentExpression"
+    ],
     "import/export": "off",
     "import/no-anonymous-default-export": [
       "error",

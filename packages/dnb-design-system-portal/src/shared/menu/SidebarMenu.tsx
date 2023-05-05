@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useContext, useEffect, useRef, ReactNode } from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
 import classnames from 'classnames'
 import Link from '../parts/Link'
 import { useStaticQuery, graphql } from 'gatsby'
@@ -58,6 +58,7 @@ export default function SidebarLayout({
               order
               status
               icon
+              showTabs
             }
           }
         }
@@ -88,104 +89,32 @@ export default function SidebarLayout({
     }
   }, [isClosing, isOpen])
 
-  function scrollToActiveItem() {
-    if (!scrollRef?.current) return
-
-    const elem = scrollRef.current.querySelector('li.is-active')
-
-    if (!elem) return false
-
-    try {
-      /* 
-        The scroll to active list item codeblock seems to only be working on smaller screen sizes i.e. tablet/phones, is this intentional?
-        As of now it only targets the window scroll, which means its only automatically scrolling on smaller devices, since on desktop
-        the menu has its own internal scrollbar inside the <nav /> element
-      */
-      const offset = scrollRef.current.getBoundingClientRect().top
-      const rect = elem.getBoundingClientRect()
-      const top = scrollRef.current.scrollTop + rect.top - offset
-      if (window.scrollTo) {
-        window.scrollTo({
-          top,
-          behavior: 'smooth',
-        })
-      } else {
-        /* Typo or deprecated/old property that Typescript is not catching up on? */
-        /* Property 'scrollTop' does not exist on type 'Window & typeof globalThis'. Did you mean 'scrollTo'? */
-        //Code below used to be window.scrollTop = top
-        window.scrollY = top
-      }
-    } catch (e) {
-      console.log('Could not set scrollToActiveItem', e)
-    }
-  }
-
-  function handleKeyDown(event: KeyboardEvent) {
-    if (event.key === 'Escape') closeMenu()
-  }
-
   /* Creation of menu items starts here */
 
-  const currentPathname = location.pathname.replace(/(\/)$/, '')
-  const currentPathnameList = currentPathname.split('/').filter(Boolean)
-
-  const menuItems = prepareNav({
-    location,
-    allMdx,
-    showAll,
-    pathPrefix,
-  })
+  const navItems = groupNavItems(
+    prepareNav({
+      location,
+      allMdx,
+      showAll,
+      pathPrefix,
+    }),
+    location
+  )
     .filter(({ title, menuTitle }) => title || menuTitle)
-    .map((props) => {
-      const path = `/${props.path.replace(/(\/)$/, '')}`
-
-      // get the active item
-      const active = currentPathname === path
-
-      // check if a item path is inside another
-      const inside = path
-        .split('/')
-        .filter(Boolean)
-        .every((i) => currentPathnameList.includes(i))
-
-      return { ...props, active, inside }
-    })
-
-    // mark also the rest of the same level as inside
-    .map((curr, i, arr) => {
-      const prev = arr[i - 1] ? arr[i - 1] : null
-
-      // use 4 here, so the logic is the same in the CSS
-      if (prev && curr.level >= 4) {
-        if (prev.inside && curr.level >= prev.level) {
-          curr.inside = true
-        }
-      }
-      return curr
-    })
-
-  let hasActive = menuItems.some(({ active }) => active)
-  const currentPathnameOneLevelBack = !hasActive
-    ? currentPathname.split('/').filter(Boolean).slice(0, -1).join('/')
-    : null
-
-  const nav = menuItems
-    // in case there was no active item
-    // like inside /modal/demos and /modal/properties
-    // then we make sure we get the most possible item
-    // and set active on it – this way we get the correct color and aria-current
-    .map((curr) => {
-      if (!hasActive && curr.inside) {
-        if (curr.path === currentPathnameOneLevelBack) {
-          curr.active = true
-          hasActive = true
-        }
-      }
-      return curr
-    })
     .map(
       (
-        { title, menuTitle, status, icon, path, level, active, inside },
+        {
+          title,
+          menuTitle,
+          status,
+          icon,
+          path,
+          level,
+          isActive,
+          isInsideActivePath,
+          isInsideActiveCategory,
+          subheadings,
+        },
         nr
       ) => {
         const props = {
@@ -193,16 +122,15 @@ export default function SidebarLayout({
           nr,
           status,
           icon,
-          active,
-          inside,
-          to: path,
+          isActive,
+          isInsideActivePath,
+          isInsideActiveCategory,
+          path,
+          subheadings,
+          title: menuTitle || title,
         }
 
-        return (
-          <ListItem key={path} {...props}>
-            {menuTitle || title}
-          </ListItem>
-        )
+        return <ListItem key={path} {...props} />
       }
     )
 
@@ -221,8 +149,6 @@ export default function SidebarLayout({
       <MediaQuery when={{ min: 0, max: 'medium' }}>
         <Space left="large" top="large">
           <PortalToolsMenu
-            /* className for PortalToolsMenu is currently required and not optional */
-            className=""
             triggerAttributes={{
               text: 'Portal Tools',
               icon: 'chevron_right',
@@ -232,33 +158,77 @@ export default function SidebarLayout({
           />
         </Space>
       </MediaQuery>
-      <ul className="dev-grid">{nav}</ul>
+      <ul className="dev-grid">{navItems}</ul>
     </nav>
   )
+
+  function scrollToActiveItem() {
+    if (!scrollRef?.current) {
+      return
+    }
+
+    const elem = scrollRef.current.querySelector('li.is-active')
+
+    if (!elem) {
+      return false
+    }
+
+    try {
+      // The scroll to active list item codeblock seems to only be working on smaller screen sizes i.e. tablet/phones, is this intentional?
+      // As of now it only targets the window scroll, which means its only automatically scrolling on smaller devices, since on desktop
+      // the menu has its own internal scrollbar inside the <nav /> element
+      const offset = scrollRef.current.getBoundingClientRect().top
+      const rect = elem.getBoundingClientRect()
+      const top = scrollRef.current.scrollTop + rect.top - offset
+      if (window.scrollTo) {
+        window.scrollTo({
+          top,
+          behavior: 'smooth',
+        })
+      } else {
+        // Typo or deprecated/old property that Typescript is not catching up on?
+        // Property 'scrollTop' does not exist on type 'Window & typeof globalThis'. Did you mean 'scrollTo'?
+        // Code below used to be window.scrollTop = top
+        window.scrollY = top
+      }
+    } catch (e) {
+      console.log('Could not set scrollToActiveItem', e)
+    }
+  }
+
+  function handleKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Escape') {
+      closeMenu()
+    }
+  }
 }
 
 type ListItemProps = {
-  children: ReactNode | ReactNode[]
+  title: string
+  subheadings?: ListItemProps[]
   className?: string
-  to: string
+  path: string
   level?: number
   nr?: number
   status?: string
   icon?: string
-  active?: boolean
-  inside?: boolean
+  isActive?: boolean
+  isInsideActivePath?: boolean
+  isInsideActiveCategory?: boolean
 }
 
 function ListItem({
   className = null,
-  to,
-  active = false,
-  inside = false,
+  path,
   level = 0,
+  isActive = false,
+  isInsideActivePath = false,
+  isInsideActiveCategory = false,
   nr,
   status,
   icon,
-  children,
+  title,
+  subheadings,
 }: ListItemProps) {
   const { closeMenu } = useContext(SidebarMenuContext)
   const { skeleton } = useContext(Context)
@@ -277,62 +247,89 @@ function ListItem({
 
   const params = {}
 
-  if (active) {
+  if (isActive) {
     params['aria-current'] = true
   }
 
   return (
-    <li
-      className={classnames(
-        'dnb-sidebar-menu',
-        `l-${level}`,
-        active && 'is-active', // use anchor hover style
-        inside && 'is-inside',
-        status ? `status-${status}` : null,
-        className
-      )}
-      ref={ref}
-      style={
-        {
-          '--delay': `${
-            nr && nr < 20 ? nr * 12 : 0 // random(1, 160)
-          }ms`,
-        } as React.CSSProperties /* Casting to allow css variable in JSX inline styling */
-      }
-    >
-      <Link
-        to={to}
-        onClick={() => {
-          closeMenu()
-        }}
+    <>
+      <li
         className={classnames(
-          'dnb-anchor',
-          'dnb-anchor--no-underline',
-          'dnb-anchor--no-radius',
-          'dnb-anchor--no-hover',
-          icon && graphics[icon] ? 'has-icon' : null
+          'dnb-sidebar-menu',
+          `l-${level}`,
+          isActive && 'is-active', // use anchor hover style
+          isInsideActivePath && 'is-inside-active-path',
+          isInsideActiveCategory && !isInsideActivePath && 'is-inside',
+          status && `status-${status}`,
+          className
         )}
-        {...params}
+        ref={ref}
+        style={
+          {
+            '--delay': `${
+              nr && nr < 20 ? nr * 12 : 0 // random(1, 160)
+            }ms`,
+          } as React.CSSProperties /* Casting to allow css variable in JSX inline styling */
+        }
       >
-        <span>
-          {icon && graphics[icon] && (
-            <Icon icon={graphics[icon]} size="medium" />
+        <Link
+          to={path}
+          onClick={closeMenu}
+          className={classnames(
+            'dnb-anchor',
+            'dnb-anchor--no-underline',
+            'dnb-anchor--no-radius',
+            'dnb-anchor--no-hover',
+            icon && graphics[icon] ? 'has-icon' : null
           )}
-          <span
-            className={classnames(createSkeletonClass('font', skeleton))}
-          >
-            {children}
+          {...params}
+        >
+          <span>
+            {icon && graphics[icon] && (
+              <Icon icon={graphics[icon]} size="medium" />
+            )}
+            <span
+              className={classnames(createSkeletonClass('font', skeleton))}
+            >
+              {title}
+            </span>
           </span>
-        </span>
-        {status && (
-          <Badge space={{ right: 'xx-small' }} content={statusTitle} />
-        )}
-      </Link>
-    </li>
+          {status && (
+            <Badge space={{ right: 'xx-small' }} content={statusTitle} />
+          )}
+        </Link>
+      </li>
+      {/* Currently not nesting list items with an <ul/> inside <li/> as it breaks the styling for the time being */}
+      {subheadings &&
+        subheadings.map((item) => <ListItem key={item.path} {...item} />)}
+    </>
   )
 }
 
-const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
+type NavItem = {
+  id: string
+  parentId?: string
+  active?: boolean
+  isInsideActivePath?: boolean
+  isInsideActiveCategory?: boolean
+  icon?: string
+  level?: number
+  menuTitle?: string
+  order?: number
+  _order?: string
+  path?: string
+  status?: string
+  title?: string
+  showTabs?: boolean
+  subheadings?: NavItem[]
+}
+
+const prepareNav = ({
+  location,
+  allMdx,
+  showAll,
+  pathPrefix,
+}): NavItem[] => {
   const pathname = location.pathname.replace(/(\/)$/, '')
   let first = null
   if (showAll === false) {
@@ -389,7 +386,6 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
   const list = showAlwaysMenuItems
     .reduce((acc, cur) => acc.concat(navItems[cur]), []) // put in the sub parts
     .concat(navItems.items) // put inn the main parts
-    // make items
     .map((slugPath) => {
       const {
         node: {
@@ -407,7 +403,14 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
       const level = slug.split('/').filter(Boolean).length
       level > countLevels ? (countLevels = level) : countLevels
 
-      return { title, path: slug, level, order, _order: slug, ...rest }
+      return {
+        title,
+        path: slug,
+        level,
+        order,
+        _order: slug,
+        ...rest,
+      }
     })
 
     // prepare items, make sure we forward order for sub paths, if needed
@@ -443,5 +446,109 @@ const prepareNav = ({ location, allMdx, showAll, pathPrefix }) => {
     .sort(({ _order: oA }, { _order: oB }) =>
       oA < oB ? -1 : oA > oB ? 1 : 0
     )
+
   return list
+}
+
+function groupNavItems(navItems: NavItem[], location: Location) {
+  const topLevelHeadings = []
+
+  // Remove first and last slash from pathname to match path from graphql
+  const currentPathName = location.pathname
+    .replace(/\/$/g, '')
+    .replace(/^\//g, '')
+
+  // Grouping all navItems correctly with only one loop through the array
+  // making use of object reference to add subheadings to correct parent headings
+  // so it can be done with only one loop through
+  navItems.reduce<{ [id: string]: NavItem }>((hashmap, item) => {
+    // Using items url path as ID, it only works in this case, since we can deterimine the items grouping by the url path
+    // Its solved this way since the id and parent.id from gatsby nodes does not seem to seem to relate to the structure in the SidebarMenu
+    // and therefor leads to wrong grouping if used
+    const itemId = item.path.replace(/\//g, '-')
+    const parentId = item.path
+      .replace(/\/[\w-]+$/g, '')
+      .replace(/\//g, '-')
+
+    const { isActive, isInsideActiveCategory, isInsideActivePath } =
+      getActiveStatusForItem(currentPathName, item)
+
+    // Add props for use in <ListItem />
+    const hashItem = {
+      ...item,
+      id: itemId,
+      parentId,
+      isActive,
+      isInsideActiveCategory,
+      isInsideActivePath,
+    }
+
+    // Initialize parentItem in hashmap
+    if (!(parentId in hashmap)) {
+      hashmap[parentId] = {} as NavItem
+    }
+
+    // Initalizing subheadings property on parentItem if its not yet defined
+    if (!hashmap[parentId]?.subheadings) {
+      hashmap[parentId].subheadings = []
+    }
+
+    // Push item object reference to subheadings array on parentItem reference in hashmap
+    hashmap[parentId].subheadings.push(hashItem)
+
+    // Define item object reference in hashmap
+    hashmap[itemId] = hashItem
+
+    // Add all toplevel heading object references to topLevelHeadings array
+    // so that we wont have to loop through the array a second time to sort out top level headings
+    if (item.level === 1) {
+      topLevelHeadings.push(hashmap[itemId])
+    }
+
+    return hashmap
+  }, {})
+
+  return topLevelHeadings
+}
+
+function getActiveStatusForItem(
+  currentPath: string,
+  { path: itemPath, showTabs }: NavItem
+) {
+  const portalSlug = itemPath.split('/').filter(Boolean)[0] ?? ''
+  const categorySlug = itemPath.split('/').filter(Boolean)[1] ?? ''
+  const startOfCurrentPath = `${portalSlug}/${categorySlug}`
+
+  const isActive = checkIfActiveItem(currentPath, itemPath, showTabs)
+
+  const isInsideActivePath = !isActive && currentPath.startsWith(itemPath)
+
+  const isInsideActiveCategory =
+    !isInsideActivePath && currentPath.startsWith(startOfCurrentPath)
+
+  return { isActive, isInsideActiveCategory, isInsideActivePath }
+}
+
+function checkIfActiveItem(
+  currentPath: string,
+  itemPath: string,
+  showTabs?: boolean
+) {
+  if (!showTabs) {
+    return itemPath === currentPath
+  }
+
+  // There is no need to do the tab slug control if the currentPath and itemPath are matching
+  if (itemPath === currentPath) {
+    return true
+  }
+
+  // If gatsby node has showTabs active
+  // we can most likely assume that the last part of the slug is the tab path
+  // and then remove it from the currentPath to determine if this item is the active item
+  const slugs = currentPath.split('/').filter(Boolean)
+  const lastSlug = slugs[slugs.length - 1]
+  const currentPathWithoutTabSlug = currentPath.replace(`/${lastSlug}`, '')
+
+  return itemPath === currentPathWithoutTabSlug
 }

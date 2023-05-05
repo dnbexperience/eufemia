@@ -4,10 +4,7 @@
  */
 
 // core imports
-@import './core/utilities.scss';
-
 @import './core/scopes.scss';
-@import './core/helper-classes/helper-classes.scss';
 
 // make sure we have dynamic root font size
 @include htmlDefault();
@@ -24,3 +21,5 @@ body {
 .dnb-core-style {
   @include bodyDefault();
 }
+
+@import './core/helper-classes/helper-classes.scss';

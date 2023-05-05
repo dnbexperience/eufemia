@@ -17,7 +17,7 @@ import {
 } from '../../'
 import { Provider } from '../../../shared'
 import Drawer from '../../drawer/Drawer'
-import { H1, H2, P } from '../../../elements'
+import { H1, H2, P } from '../../..'
 
 export default {
   title: 'Eufemia/Components/Drawer',
@@ -42,7 +42,7 @@ export const DrawerSandbox = () => (
         // openState="opened"
         // fullscreen
         containerPlacement="right"
-        //align_content="right"
+        // align_content="right"
         // align_content="center"
         // drawer_offset={}
         title="Original title"

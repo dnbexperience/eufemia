@@ -7,7 +7,6 @@ export type CustomContentTitle =
 export type CustomContentChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
-
 export interface CustomContentProps
   extends React.HTMLProps<HTMLElement>,
     SpacingProps {

@@ -24,24 +24,9 @@ import {
   Skeleton,
   IconPrimary,
 } from '../..'
-import {
-  H1,
-  H2,
-  P,
-  Ol,
-  Li,
-  Ul,
-  Dl,
-  Dt,
-  Dd,
-  Anchor,
-} from '../../../elements'
+import { H1, H2, P, Ol, Li, Ul, Dl, Dt, Dd, Anchor } from '../../..'
 import Provider from '../../../shared/Provider'
 
-// Customize
-import '../style/themes/rainbow'
-import '../style/themes/norway'
-import '../style/themes/brand'
 // import SkeletonArticle from '../../skeleton/figures/Article'
 import { Article as SkeletonArticle } from '../figures'
 
@@ -80,11 +65,6 @@ export const SkeletonSandbox = () => {
         // no_animation
         // show
         // figure={() => <SkeletonArticle rows={2} />}
-        // style_type="shine"
-        // style_type="dots"
-        // style_type="norway"
-        // style_type="rainbow"
-        // style_type="brand"
       >
         <CustomStyle>
           <Wrapper>
@@ -301,13 +281,7 @@ export const SkeletonSandbox = () => {
             </Box>
 
             <Box>
-              <Skeleton
-                show
-                figure={() => <SkeletonArticle rows={5} />}
-                // style_type="rainbow"
-                // style_type="norway"
-                // style_type="shine"
-              >
+              <Skeleton show figure={() => <SkeletonArticle rows={5} />}>
                 <Input
                   top
                   label="Input"
@@ -324,12 +298,7 @@ export const SkeletonSandbox = () => {
               {/* <SkeletonFigure top className="dnb-p" width={20} />
                 <SkeletonFigure top figure="article" />
                 <SkeletonFigure top figure="circle" />
-                <SkeletonFigure top figure="product" />
-                <SkeletonFigure
-                  top
-                  figure="product"
-                  className="dnb-skeleton-rainbow"
-                /> */}
+                <SkeletonFigure top figure="product" /> */}
               {/* <Skeleton show top>
                   <P>Paragraph</P>
                 </Skeleton> */}

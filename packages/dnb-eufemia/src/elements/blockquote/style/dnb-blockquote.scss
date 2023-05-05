@@ -1,0 +1,18 @@
+/*
+ * Blockquote
+ *
+ */
+
+@use '../../../style/elements/ui-spacing.scss';
+@import './blockquote-mixins.scss';
+
+.dnb-blockquote {
+  @include blockquoteStyle();
+}
+
+.dnb-spacing .dnb-blockquote {
+  @include ui-spacing.defaultSpacing();
+  p:last-child {
+    margin-bottom: 0;
+  }
+}

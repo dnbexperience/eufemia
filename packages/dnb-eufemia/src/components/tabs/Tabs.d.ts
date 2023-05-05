@@ -27,7 +27,6 @@ export type TabsChildren =
   | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any);
-
 export interface TabsProps
   extends React.HTMLProps<HTMLElement>,
     SpacingProps {
@@ -108,7 +107,6 @@ export interface TabsProps
    */
   skeleton?: SkeletonShow;
   id?: string;
-
   class?: string;
   className?: string;
 
@@ -144,7 +142,6 @@ export default class Tabs extends React.Component<TabsProps, any> {
   static Content = CustomContent;
   render(): JSX.Element;
 }
-
 export interface DummyProps {
   /**
    * <em>(required)</em> the content to render. Can be a function, returning the current tab content `(key) => (&#39;Current tab&#39;)`, a React Component or an object with the keys and content `{key1: &#39;Current tab&#39;}`.

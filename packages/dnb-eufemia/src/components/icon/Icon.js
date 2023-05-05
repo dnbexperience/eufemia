@@ -20,7 +20,6 @@ import {
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import Context from '../../shared/Context'
 import { iconCase } from './IconHelpers'
-import { includeValidProps } from '../form-row/FormRowHelpers'
 
 export const DefaultIconSize = 16
 export const DefaultIconSizes = {
@@ -116,7 +115,6 @@ export default class Icon extends React.PureComponent {
       this.props,
       Icon.defaultProps,
       { skeleton: this.context?.skeleton },
-      includeValidProps(this.context.FormRow),
       this.context.Icon
     )
 

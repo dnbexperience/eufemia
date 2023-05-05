@@ -1,4 +1,5 @@
-import { NumberFormatCurrency } from './NumberFormat';
+import type { Locale } from '../../shared/Context';
+import type { NumberFormatCurrency } from './NumberFormat';
 
 export type formatTypes =
   | 'phone'
@@ -31,7 +32,7 @@ export type formatValue = string | number;
 export type formatReturnType = formatReturnValue | formatValue;
 export interface formatOptionParams {
   /** can be "auto" */
-  locale?: string;
+  locale?: Locale;
 
   /** Should the number be cleaned */
   clean?: boolean;
@@ -103,17 +104,17 @@ export const copyWithEffect: (
 ) => boolean;
 
 export const getFallbackCurrencyDisplay: (
-  locale?: string,
+  locale?: Locale,
   currency_display?: string
 ) => string;
 
-export const getDecimalSeparator: (locale?: string) => string;
+export const getDecimalSeparator: (locale?: Locale) => string;
 
-export const getThousandsSeparator: (locale?: string) => string;
+export const getThousandsSeparator: (locale?: Locale) => string;
 
 export const getCurrencySymbol: (
-  locale?: string,
-  currency?: string,
+  locale?: Locale,
+  currency?: NumberFormatCurrency,
   currencyDisplay?: string
 ) => string;
 

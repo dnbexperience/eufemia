@@ -13,7 +13,6 @@ import {
   dispatchCustomElementEvent,
   extendPropsWithContextInClassComponent,
 } from '../../shared/component-helper'
-import { includeValidProps } from '../form-row/FormRowHelpers'
 import {
   spacingPropTypes,
   createSpacingClasses,
@@ -109,7 +108,6 @@ export default class ProgressIndicator extends React.PureComponent {
       this.props,
       ProgressIndicator.defaultProps,
       this.context.getTranslation(this.props).ProgressIndicator,
-      includeValidProps(this.context.FormRow),
       this.context.ProgressIndicator
     )
 

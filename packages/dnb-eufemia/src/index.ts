@@ -10,7 +10,6 @@
  */
 
 // import all the available components and extensions
-import Anchor from './elements/Anchor'
 import Blockquote from './elements/Blockquote'
 import Code from './elements/Code'
 import Dd from './elements/Dd'
@@ -39,6 +38,7 @@ import Th from './elements/Th'
 import Tr from './elements/Tr'
 import Ul from './elements/Ul'
 import Accordion from './components/accordion/Accordion'
+import Anchor from './components/anchor/Anchor'
 import Autocomplete from './components/autocomplete/Autocomplete'
 import Avatar from './components/avatar/Avatar'
 import Badge from './components/badge/Badge'
@@ -88,7 +88,6 @@ import VisuallyHidden from './components/visually-hidden/VisuallyHidden'
 
 // define / export all the available components
 export {
-  Anchor,
   Blockquote,
   Code,
   Dd,
@@ -117,6 +116,7 @@ export {
   Tr,
   Ul,
   Accordion,
+  Anchor,
   Autocomplete,
   Avatar,
   Badge,

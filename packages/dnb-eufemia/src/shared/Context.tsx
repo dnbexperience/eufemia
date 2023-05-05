@@ -9,10 +9,10 @@ import defaultLocales from './locales'
 import { extend } from './component-helper'
 
 // All TypeScript based Eufemia elements
-import type { AnchorProps } from '../elements/Anchor'
 import type { ScrollViewProps } from '../fragments/scroll-view/ScrollView'
 
 // All TypeScript based Eufemia components
+import type { AnchorProps } from '../components/Anchor'
 import type { ButtonProps } from '../components/button/Button'
 import type { AvatarProps } from '../components/avatar/Avatar'
 import type { AvatarGroupProps } from '../components/avatar/AvatarGroup'
@@ -35,6 +35,10 @@ import type { UploadProps } from '../components/upload/types'
 import type { SkeletonProps, SkeletonShow } from '../components/Skeleton'
 import type { HelpButtonProps } from '../components/HelpButton'
 import type { TableProps } from '../components/Table'
+
+import type { NumberFormatCurrency } from '../components/NumberFormat'
+
+import type { ThemeProps } from './Theme'
 
 export type ContextComponents = {
   Button?: Partial<ButtonProps>
@@ -73,6 +77,11 @@ export type ContextProps = ContextComponents & {
   // -- Global properties --
 
   /**
+   * Contains theme related properties, such as a theme name
+   */
+  theme?: ThemeProps
+
+  /**
    * Will enable all skeletons inside this provider/context scope
    */
   skeleton?: SkeletonShow
@@ -95,7 +104,7 @@ export type ContextProps = ContextComponents & {
   /**
    * Defines the currency used by the NumberFormat component
    */
-  currency?: string
+  currency?: NumberFormatCurrency
 
   /**
    * Defines the currencyDisplay used by the NumberFormat component

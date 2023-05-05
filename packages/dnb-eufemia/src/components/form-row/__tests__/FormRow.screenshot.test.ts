@@ -70,65 +70,63 @@ describe('FormRow', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  if (!isCI) {
-    const wrapperStyle = {
-      overflow: 'hidden',
-    }
-
-    it('have to match "horizontal direction" with all components', async () => {
-      const screenshot = await makeScreenshot({
-        wrapperStyle,
-        selector: '[data-visual-test="form-row-all-horizontal-direction"]',
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-
-    it('have to match "vertical direction" with all components', async () => {
-      const screenshot = await makeScreenshot({
-        wrapperStyle,
-        selector: '[data-visual-test="form-row-all-vertical-direction"]',
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-
-    it('have to match "vertical everything" with all components', async () => {
-      const screenshot = await makeScreenshot({
-        wrapperStyle,
-        selector: '[data-visual-test="form-row-all-vertical-everything"]',
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-
-    it('have to match "vertical label direction" with all components', async () => {
-      const screenshot = await makeScreenshot({
-        wrapperStyle,
-        selector:
-          '[data-visual-test="form-row-all-vertical-label-direction"]',
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-
-    it('have to match "vertical label direction" (no label) with all components', async () => {
-      const screenshot = await makeScreenshot({
-        wrapperStyle,
-        selector:
-          '[data-visual-test="form-row-all-vertical-label-direction-no-label"]',
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-
-    it('have to match centered form-row', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="form-row-centered"]',
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-
-    it('have to match all stretch components', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="form-row-all-stretch-components"]',
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
+  const wrapperStyle = {
+    overflow: 'hidden',
   }
+
+  it('have to match "horizontal direction" with all components', async () => {
+    const screenshot = await makeScreenshot({
+      wrapperStyle,
+      selector: '[data-visual-test="form-row-all-horizontal-direction"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match "vertical direction" with all components', async () => {
+    const screenshot = await makeScreenshot({
+      wrapperStyle,
+      selector: '[data-visual-test="form-row-all-vertical-direction"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match "vertical everything" with all components', async () => {
+    const screenshot = await makeScreenshot({
+      wrapperStyle,
+      selector: '[data-visual-test="form-row-all-vertical-everything"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match "vertical label direction" with all components', async () => {
+    const screenshot = await makeScreenshot({
+      wrapperStyle,
+      selector:
+        '[data-visual-test="form-row-all-vertical-label-direction"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match "vertical label direction" (no label) with all components', async () => {
+    const screenshot = await makeScreenshot({
+      wrapperStyle,
+      selector:
+        '[data-visual-test="form-row-all-vertical-label-direction-no-label"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match centered form-row', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="form-row-centered"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match all stretch components', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="form-row-all-stretch-components"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })

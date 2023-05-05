@@ -23,39 +23,43 @@ import {
 import properties from '../../../src/style/themes/theme-ui/properties'
 import { create, extract } from 'tar'
 
-const ICON_SIZES = {
+export const ICON_SIZES = {
   16: { suffix: '' },
   24: { suffix: 'medium' },
 }
+export const NAME_SEPARATOR = '_'
 
-const prettierrc = JSON.parse(
-  fs.readFileSync(path.resolve(__dirname, '../../../.prettierrc'), 'utf-8')
-)
+const iconPrimaryList = process.env.FIGMA_ICONS_PRIMARY_LIST || [
+  'chevron_left',
+  'chevron_right',
+  'chevron_down',
+  'chevron_up',
+  'arrow_left',
+  'arrow_right',
+  'arrow_down',
+  'arrow_up',
+  'bell',
+  'add',
+  'subtract',
+  'exclamation',
+  'information',
+  'download',
+  'check',
+  'close',
+  'reset',
+  'more',
+  'save',
+  'loupe', // was "search" before
+  'question',
+  'calendar',
+]
+
 export function IconsConfig(overwrite = {}) {
-  const iconPrimaryList = process.env.FIGMA_ICONS_PRIMARY_LIST || [
-    'chevron_left',
-    'chevron_right',
-    'chevron_down',
-    'chevron_up',
-    'arrow_left',
-    'arrow_right',
-    'arrow_down',
-    'arrow_up',
-    'bell',
-    'add',
-    'subtract',
-    'exclamation',
-    'information',
-    'download',
-    'check',
-    'close',
-    'reset',
-    'more',
-    'save',
-    'loupe', // was "search" before
-    'question',
-    'calendar',
-  ]
+  if (overwrite?.assetsDir && /^\//.test(overwrite.assetsDir)) {
+    log.fail(
+      new ErrorHandler('assetsDir should not start with a slash (/dir)')
+    )
+  }
 
   const iconRenameList = process.env.FIGMA_ICONS_RENAME_LIST || []
   const iconCloneList = process.env.FIGMA_ICONS_CLONE_LIST || []
@@ -67,10 +71,16 @@ export function IconsConfig(overwrite = {}) {
   const iconNameCleaner = process.env.FIGMA_ICONS_NAME_SPLIT || /\/(.*)/
   const imageUrlExpireAfterDays =
     process.env.FIGMA_ICONS_URL_EXPIRES_AFTER || 30
-  const destDir = path.resolve(__dirname, '../../../assets/icons')
+  const destDir = path.resolve(
+    __dirname,
+    '../../../assets/icons',
+    overwrite?.assetsDir || ''
+  )
   const iconsLockFile = path.resolve(
     __dirname,
-    `../../../src/icons/icons-svg.lock`
+    '../../../src/icons',
+    overwrite?.assetsDir || '',
+    'icons-svg.lock'
   )
   const getCategoryFromIconName = (name) => String(name).split(/\//)[0]
 
@@ -90,9 +100,14 @@ export function IconsConfig(overwrite = {}) {
   }
 }
 
+const prettierrc = JSON.parse(
+  fs.readFileSync(path.resolve(__dirname, '../../../.prettierrc'), 'utf-8')
+)
+
 export const extractIconsAsSVG = async ({
-  figmaFile,
+  figmaFile = null,
   figmaDoc = null,
+  assetsDir = 'dnb',
   forceReconvert = null,
   ...rest
 }) => {
@@ -107,7 +122,9 @@ export const extractIconsAsSVG = async ({
     // juice out, if no changes
     if (!figmaDoc) return []
 
-    const { iconsLockFile, iconRenameList, destDir } = IconsConfig()
+    const { iconsLockFile, iconRenameList, destDir } = IconsConfig({
+      assetsDir,
+    })
 
     log.start(
       '> Figma: started to fetch SVGs icons by using frameIconsFactory'
@@ -117,6 +134,7 @@ export const extractIconsAsSVG = async ({
       await collectIconsFromFigmaDoc({
         figmaFile,
         figmaDoc,
+        assetsDir,
         format: 'svg',
         ...rest,
       })
@@ -139,11 +157,11 @@ export const extractIconsAsSVG = async ({
     if (listWithNewFiles.length > 0) {
       await optimizeSVGIcons({ destDir, listWithFiles: listWithNewFiles })
 
-      // NB: This step was moved into the pdf creation step
-      // await createXMLTarBundles({
-      //   destDir,
-      //   listOfProcessedFiles,
-      // })
+      // Android support
+      await createXMLTarBundles({
+        destDir,
+        listOfProcessedFiles,
+      })
     }
 
     makeMetaFile({
@@ -158,8 +176,13 @@ export const extractIconsAsSVG = async ({
   }
 }
 
-async function collectIconsFromFigmaDoc({ figmaDoc, figmaFile, ...rest }) {
-  const { frameNameSelector, destDir } = IconsConfig()
+async function collectIconsFromFigmaDoc({
+  figmaDoc,
+  figmaFile,
+  assetsDir,
+  ...rest
+}) {
+  const { frameNameSelector, destDir } = IconsConfig({ assetsDir })
 
   const canvasDoc = getIconCanvasDoc({ figmaDoc })
   const framesInTheCanvas = findAllNodes(canvasDoc, {
@@ -183,7 +206,7 @@ async function collectIconsFromFigmaDoc({ figmaDoc, figmaFile, ...rest }) {
         frameDoc,
         figmaFile,
         destDir,
-        ...IconsConfig(),
+        ...IconsConfig({ assetsDir }),
         ...rest,
       })
 
@@ -232,184 +255,6 @@ const runDiffControll = ({ controllStorageLists }) => {
         4
       )}`
     )
-  }
-}
-
-export const extractIconsAsPDF = async ({
-  figmaFile,
-  figmaDoc = null,
-  forceReconvert = null,
-  outputName = 'eufemia-icons-pdf.tgz',
-  outputNameCategorized = 'eufemia-icons-pdf-categorized.tgz',
-  ...rest
-}) => {
-  try {
-    if (figmaDoc === null) {
-      figmaDoc = await getFigmaDoc({
-        figmaFile,
-        preventUpdate: forceReconvert,
-      })
-    }
-
-    // juice out, if no changes
-    if (!figmaDoc) return []
-
-    log.start('> Figma: started to fetch PDFs by using frameIconsFactory')
-
-    const destDir = path.resolve(__dirname, '../../../assets/icons')
-    if (!fs.existsSync(destDir)) {
-      fs.mkdir(destDir)
-    }
-
-    let tarFileSize = 0
-    const tarFile = path.resolve(destDir, outputName)
-    if (fs.existsSync(tarFile)) {
-      tarFileSize = (await fs.stat(tarFile)).size
-      await extract({
-        cwd: destDir,
-        file: tarFile,
-      })
-    }
-
-    const iconsLockFile = path.resolve(
-      __dirname,
-      '../../../src/icons/icons-pdf.lock'
-    )
-
-    const { listOfProcessedFiles, listWithNewFiles } =
-      await collectIconsFromFigmaDoc({
-        figmaFile,
-        figmaDoc,
-        format: 'pdf',
-        ...IconsConfig({ iconsLockFile }),
-        ...rest,
-      })
-
-    log.info(
-      `> Figma: finished fetching PDFs by using frameIconsFactory. Processed ${listOfProcessedFiles.length} files along with ${listWithNewFiles.length} new files.`
-    )
-
-    // save the lockFile content
-    await saveIconsLockFile({
-      file: iconsLockFile,
-      data: listOfProcessedFiles.reduce((acc, { iconFile, ...cur }) => {
-        acc[iconFile] = cur
-        return acc
-      }, {}),
-    })
-
-    log.info(`> Figma: ${iconsLockFile} file got generated`)
-
-    if (listWithNewFiles.length > 0) {
-      log.info(`> Figma: started to create ${outputName}`)
-
-      const hasSizeChanged = async () => {
-        const fileList = listOfProcessedFiles.map(
-          ({ iconFile }) => iconFile
-        )
-
-        const tmp = path.resolve(destDir, 'tmp.tgz')
-        await create(
-          {
-            gzip: true,
-            cwd: destDir,
-            file: tmp,
-          },
-          fileList
-        )
-        const tmpSize = (await fs.stat(tmp)).size
-
-        await fs.unlink(tmp)
-
-        return Math.abs(tarFileSize - tmpSize) > 30
-      }
-
-      const createTarWithoutCategories = async () => {
-        const fileList = listOfProcessedFiles.map(
-          ({ iconFile }) => iconFile
-        )
-
-        await create(
-          {
-            gzip: true,
-            cwd: destDir,
-            file: tarFile,
-          },
-          fileList
-        )
-      }
-
-      const createTarWithCategories = async () => {
-        const { getCategoryFromIconName } = IconsConfig()
-
-        await asyncForEach(
-          listOfProcessedFiles,
-          async ({ name, iconFile }) => {
-            const source = path.resolve(destDir, iconFile)
-            const dest = path.resolve(
-              destDir,
-              `${getCategoryFromIconName(name)}/${iconFile}`
-            )
-
-            if (fs.existsSync(source)) {
-              await fs.move(source, dest)
-            }
-          }
-        )
-
-        const fileList = listOfProcessedFiles.map(
-          ({ name, iconFile }) =>
-            `${getCategoryFromIconName(name)}/${iconFile}`
-        )
-
-        const tarFile = path.resolve(destDir, outputNameCategorized)
-        await create(
-          {
-            gzip: true,
-            cwd: destDir,
-            file: tarFile,
-          },
-          fileList
-        )
-
-        await asyncForEach(fileList, async (file) => {
-          file = path.resolve(destDir, file)
-          if (fs.existsSync(file)) {
-            await fs.unlink(file)
-          }
-        })
-      }
-
-      const sizeHasChanged = await hasSizeChanged()
-      if (sizeHasChanged) {
-        await createTarWithoutCategories()
-        await createTarWithCategories()
-      }
-
-      log.succeed(`> Figma: finished to create ${outputName}`)
-
-      // Also create the XML bundles
-      await createXMLTarBundles({
-        destDir,
-        listOfProcessedFiles,
-      })
-    }
-
-    // Remove the pdfs
-    await asyncForEach(listOfProcessedFiles, async ({ iconFile }) => {
-      const file = path.resolve(destDir, iconFile)
-      if (fs.existsSync(file)) {
-        try {
-          await fs.unlink(file)
-        } catch (e) {
-          log.fail(new ErrorHandler(`Failed to remove ${iconFile}`, e))
-        }
-      }
-    })
-
-    return listOfProcessedFiles
-  } catch (e) {
-    log.fail(new ErrorHandler('extractIconsAsPDF failed', e))
   }
 }
 
@@ -781,7 +626,9 @@ const makeMetaFile = async ({
         // remove duplication
         const cleanedName = Object.values(ICON_SIZES).reduce(
           (iconName, { suffix }) =>
-            suffix ? iconName.replace('_' + suffix, '') : iconName,
+            suffix
+              ? iconName.replace(NAME_SEPARATOR + suffix, '')
+              : iconName,
           iconName
         )
         tags = tags.filter((item, index) => {
@@ -854,7 +701,9 @@ const createXMLTarBundles = async ({
         const source = path.resolve(destDir, iconFile)
         const dest = path.resolve(destDir, iconFileXML)
 
-        await svg2vectordrawable(source, dest, floatPrecision)
+        await svg2vectordrawable.convertFile(source, dest, {
+          floatPrecision,
+        })
       }
     )
   }
@@ -974,7 +823,7 @@ const optimizeSVG = async (file) => {
   }
 
   try {
-    const content = await fs.readFile(file, 'utf8')
+    const content = await fs.readFile(file, 'utf-8')
 
     const config = await loadConfig()
     let { data } = await optimize(content, {

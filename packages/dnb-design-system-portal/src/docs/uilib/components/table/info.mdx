@@ -75,7 +75,7 @@ It can be used as a "controller" for your own sorting logic of your data.
 By default, it will cycle trough three stages `['asc', 'desc', 'off']`.
 
 <details>
-  <summary class="dnb-p">
+  <summary className="dnb-p">
     Show how to use the useHandleSortState React Hook.
   </summary>
 
@@ -88,10 +88,10 @@ const defaultOptions = { direction: 'asc', modes: ['asc', 'desc', 'off'] }
 export const YourComponent = () => {
   const { sortState, sortHandler, activeSortName } = useHandleSortState(
     {
-      // Defiend your column names with options (optional)
+      // Define your column names with options (optional)
       column1: { active: true }, //
       column2: { direction: 'desc', modes: ['asc', 'desc'] }, // overwrite the defaultOptions
-      column3: { modes: ['asc', 'off'] }, // will only allow one direciton
+      column3: { modes: ['asc', 'off'] }, // will only allow one direction
       column4: {}, // etc.
     },
     defaultOptions

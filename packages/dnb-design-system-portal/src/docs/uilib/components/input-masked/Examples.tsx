@@ -225,3 +225,82 @@ const Wrapper = styled.div`
     margin-top: 0;
   }
 `
+
+export const InputMaskedInfoInputMode = () => (
+  <Wrapper>
+    <ComponentBox hidePreview hideToolbar>
+      <InputMasked mask_options={{ allowNegative: false }} />
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const InputMaskedInfoCleanNumberValues = () => (
+  <Wrapper>
+    <ComponentBox hidePreview>
+      <InputMasked as_currency="EUR" value="1234.50" />
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const InputMaskedInfoCleanNumberValues2 = () => (
+  <Wrapper>
+    <ComponentBox hidePreview>
+      <InputMasked
+        as_currency="EUR"
+        value="1234.50"
+        on_change={({ numberValue }) => {
+          console.log(numberValue) // type of float
+        }}
+      />
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const InputMaskedInfoDecimalsCurrencyProvider = () => (
+  <Wrapper>
+    <ComponentBox hidePreview scope={{ Provider }}>
+      <Provider
+        locale="en-GB"
+        InputMasked={{
+          currency_mask: {
+            decimalLimit: 1, // defaults to 2
+          },
+        }}
+      >
+        <InputMasked as_currency="USD" value="1234.567" />
+      </Provider>
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const InputMaskedInfoDecimalsNumberProvider = () => (
+  <Wrapper>
+    <ComponentBox hidePreview scope={{ Provider }}>
+      <Provider
+        locale="en-GB"
+        InputMasked={{
+          number_mask: {
+            decimalLimit: 2, // defaults to no decimals
+          },
+        }}
+      >
+        <InputMasked as_number value="1234.567" />
+      </Provider>
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const InputMaskedInfoRemoveDecimalLimit = () => (
+  <Wrapper>
+    <ComponentBox hidePreview>
+      <InputMasked
+        as_number
+        mask_options={{
+          allowDecimal: true,
+          decimalLimit: null,
+        }}
+        value="1234.567"
+      />
+    </ComponentBox>
+  </Wrapper>
+)

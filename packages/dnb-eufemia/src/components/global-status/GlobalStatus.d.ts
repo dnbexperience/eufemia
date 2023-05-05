@@ -7,7 +7,7 @@ export type GlobalStatusText =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type GlobalStatusItems = string | ((...args: any[]) => any) | any[];
+export type GlobalStatusItem = string | ((...args: any[]) => any) | any;
 export type GlobalStatusState = 'error' | 'info';
 export type GlobalStatusShow = 'auto' | any | any | 'true' | 'false';
 export type GlobalStatusDelay = string | number;
@@ -15,7 +15,6 @@ export type GlobalStatusChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-
 export interface GlobalStatusProps
   extends React.HTMLProps<HTMLElement>,
     SpacingProps {
@@ -37,9 +36,9 @@ export interface GlobalStatusProps
   text?: GlobalStatusText;
 
   /**
-   * The items (list items) appear as a part of the status content. you can both use an JSON array, or a vanilla array with a string or an object content. Se "Item Object" example below.
+   * The items (list items) appear as a part of the status content. you can both use an JSON array, or a vanilla array with a string or an object content. See "Item Object" example below.
    */
-  items?: GlobalStatusItems;
+  items?: GlobalStatusItem[];
 
   /**
    * The icon shown before the status title. Defaults to `exclamation`.
@@ -135,48 +134,108 @@ export interface GlobalStatusProps
    */
   on_hide?: (...args: any[]) => any;
 }
-
 export type GlobalStatusStatusId = string;
-
 export type GlobalStatusAddProps = {
+  /**
+   * The main ID. Defaults to `main`.
+   */
   id: string;
   status_id: GlobalStatusStatusId;
+
+  /**
+   * The title appears as a part of the status content. Use `false` to hide / remove the title and icon. Defaults to `En feil har skjedd`.
+   */
   title?: string;
+
+  /**
+   * The text appears as the status content. Besides plain text, you can send in a React component as well. Defaults to `null`.
+   */
   text: string;
-  item: string;
+  item?: GlobalStatusItem;
+
+  /**
+   * The items (list items) appear as a part of the status content. you can both use an JSON array, or a vanilla array with a string or an object content. See "Item Object" example below.
+   */
+  items?: GlobalStatusItem[];
+
+  /**
+   * Gets triggered once the GlobalStatus disappears from the screen. Works only if `no_animation` is not `true`. Returns `{ id, status_id, ...properties }`.
+   */
   on_close: ({ status_id }: { status_id: GlobalStatusStatusId }) => void;
 };
-
 export type GlobalStatusUpdateProps = {
+  /**
+   * The main ID. Defaults to `main`.
+   */
   id: string;
+
+  /**
+   * The text appears as the status content. Besides plain text, you can send in a React component as well. Defaults to `null`.
+   */
   text: string;
 };
-
 export type GlobalStatusRemoveProps = {
+  /**
+   * The main ID. Defaults to `main`.
+   */
   id: string;
   status_id: GlobalStatusStatusId;
+  buffer_delay?: number;
 };
-
 export type GlobalStatusInterceptorProps = {
+  /**
+   * The main ID. Defaults to `main`.
+   */
   id: string;
+
+  /**
+   * The title appears as a part of the status content. Use `false` to hide / remove the title and icon. Defaults to `En feil har skjedd`.
+   */
   title: string;
+
+  /**
+   * The text appears as the status content. Besides plain text, you can send in a React component as well. Defaults to `null`.
+   */
   text: string;
   status_id: GlobalStatusStatusId;
+
+  /**
+   * Set to `true` or `false` to manually make the global status visible. Defaults to `true`.
+   */
   show: boolean;
+  item?: GlobalStatusItem;
 };
-
 export type GlobalStatusInterceptorUpdateEvents = {
+  /**
+   * Gets triggered for the first time and for every new content update the GlobalStatus gets. Returns `{ id, status_id, ...properties }`.
+   */
   on_show?: () => void;
-  on_hide?: () => void;
-  on_close?: () => void;
-  show?: boolean;
-};
 
+  /**
+   * Gets triggered once the GlobalStatus is getting closed/hidden by the user. Returns `{ id, status_id, ...properties }`.
+   */
+  on_hide?: () => void;
+
+  /**
+   * Gets triggered once the GlobalStatus disappears from the screen. Works only if `no_animation` is not `true`. Returns `{ id, status_id, ...properties }`.
+   */
+  on_close?: () => void;
+
+  /**
+   * Set to `true` or `false` to manually make the global status visible. Defaults to `true`.
+   */
+  show?: boolean;
+
+  /**
+   * The text appears as the status content. Besides plain text, you can send in a React component as well. Defaults to `null`.
+   */
+  text?: string;
+};
 export type GlobalStatusInterceptor = {
+  add: (props: GlobalStatusInterceptorUpdateEvents) => void;
   update: (props: GlobalStatusInterceptorUpdateEvents) => void;
   remove: () => void;
 };
-
 export default class GlobalStatus extends React.Component<
   GlobalStatusProps,
   any
@@ -188,7 +247,7 @@ export default class GlobalStatus extends React.Component<
   static Add: (props: GlobalStatusAddProps) => JSX.Element;
   static Update: (
     props: GlobalStatusUpdateProps
-  ) => GlobalStatusInterceptor;
+  ) => JSX.Element & GlobalStatusInterceptor;
   static Remove: (props: GlobalStatusRemoveProps) => JSX.Element;
   render(): JSX.Element;
 }

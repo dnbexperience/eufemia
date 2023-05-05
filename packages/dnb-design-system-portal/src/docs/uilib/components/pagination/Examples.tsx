@@ -9,7 +9,7 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 
 import { Table, Button } from '@dnb/eufemia/src/components'
-import { P } from '@dnb/eufemia/src/elements'
+import { P } from '@dnb/eufemia/src'
 import { hasSelectedText } from '@dnb/eufemia/src/shared/helpers'
 
 import { createPagination } from '@dnb/eufemia/src/components/pagination/Pagination'

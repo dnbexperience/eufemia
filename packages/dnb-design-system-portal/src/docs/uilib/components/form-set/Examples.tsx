@@ -13,7 +13,7 @@ import {
   Input,
   Button,
 } from '@dnb/eufemia/src/components'
-import { H2 } from '@dnb/eufemia/src/elements'
+import { H2 } from '@dnb/eufemia/src'
 
 export const FormSetDefault = () => (
   <ComponentBox data-visual-test="form-set-default">
@@ -69,6 +69,15 @@ export const FormSetSubmit = () => (
         />
         <Button type="submit" text="Trigger submit" />
       </FormRow>
+    </FormSet>
+  </ComponentBox>
+)
+
+export const FormSetInfoVertical = () => (
+  <ComponentBox hidePreview hideToolbar>
+    <FormSet direction="vertical">
+      <FormRow>Components are now vertical aligned</FormRow>
+      <FormRow>Components are now vertical aligned</FormRow>
     </FormSet>
   </ComponentBox>
 )

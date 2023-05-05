@@ -96,7 +96,7 @@
     ~ &__button
     &__focus {
     display: block;
-    @include fakeBorder(var(--color-fire-red), $focusRingWidth);
+    @include fakeBorder(var(--color-fire-red), var(--focus-ring-width));
   }
   &__status--error &__input:not([disabled]):hover ~ &__button {
     &[data-checked='true'] {

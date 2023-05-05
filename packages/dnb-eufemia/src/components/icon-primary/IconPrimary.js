@@ -8,7 +8,6 @@ import React from 'react'
 import PropTypes from 'prop-types' // Is needed because of ts types
 import Context from '../../shared/Context'
 import { extendPropsWithContextInClassComponent } from '../../shared/component-helper'
-import { includeValidProps } from '../form-row/FormRowHelpers'
 import DefaultIcon, {
   iconPropTypes,
   DefaultIconSize,
@@ -16,9 +15,9 @@ import DefaultIcon, {
   prepareIcon,
 } from '../icon/Icon'
 
-// NB: The path reflects the rollup.config.js -> external: '../../icons/primary_icons'
-import * as primary_icons from '../../icons/primary_icons.js'
-import * as primary_icons_medium from '../../icons/primary_icons_medium.js'
+// NB: The path reflects the rollup.config.js -> external: '../../icons/dnb/primary_icons'
+import * as primary_icons from '../../icons/dnb/primary_icons.ts'
+import * as primary_icons_medium from '../../icons/dnb/primary_icons_medium.ts'
 
 const icons = { ...primary_icons, ...primary_icons_medium }
 
@@ -45,7 +44,6 @@ export default class IconPrimary extends React.PureComponent {
       this.props,
       IconPrimary.defaultProps,
       { skeleton: this.context?.skeleton },
-      includeValidProps(this.context.FormRow),
       this.context.Icon,
       this.context.IconPrimary
     )

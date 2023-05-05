@@ -5,7 +5,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Tr, Th, Td } from '@dnb/eufemia/src/elements'
+import { Tr, Th, Td } from '@dnb/eufemia/src'
 import { Table as TableElement } from '@dnb/eufemia/src/components'
 
 export default class Table extends React.PureComponent {
@@ -24,7 +24,7 @@ export default class Table extends React.PureComponent {
         child.type === 'table' ? child.props.children : false
       ) || this.props.children
 
-    // manipulate the colors, if providet
+    // manipulate the colors, if provided
     children = recursiveMap(children, (child, isValid) => {
       if (!isValid && typeof child === 'string') {
         const checkChild = String(child).trim()
@@ -35,7 +35,7 @@ export default class Table extends React.PureComponent {
       }
 
       // in case we will color the whole td
-      if (child.props.originalType === 'td') {
+      if (child.type === 'td') {
         const hex = child.props.color ? child.props.color : null
         if (hex && hex.length === 7) {
           return (
@@ -55,11 +55,11 @@ export default class Table extends React.PureComponent {
         }
       }
 
-      if (child.props.originalType === 'th') {
+      if (child.type === 'th') {
         return <Th>{getChildren(child)}</Th>
       }
 
-      if (child.props.originalType === 'tr') {
+      if (child.type === 'tr') {
         return <Tr>{getChildren(child)}</Tr>
       }
 

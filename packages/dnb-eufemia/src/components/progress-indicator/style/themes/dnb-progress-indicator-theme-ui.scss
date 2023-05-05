@@ -5,15 +5,13 @@
 
 @import '../../../../style/core/utilities.scss';
 
-// to get a reverse #v3 - use the following setup, strokeDashoffset has also to be:
-// const strokeDashoffset = -((maxOffset / 100) * progress-indicator)
-// :root {
-//   --progress-indicator-circular-circle: 88;
-//   --progress-indicator-circular-circle-offset--min: -1;
-//   --progress-indicator-circular-circle-offset--max: -88;
-// }
-
 .dnb-progress-indicator {
+  // to get a reverse #v3 - use the following setup, strokeDashoffset has also to be:
+  // const strokeDashoffset = -((maxOffset / 100) * progress-indicator)
+  // --progress-indicator-circular-circle: 88;
+  // --progress-indicator-circular-circle-offset--min: -1;
+  // --progress-indicator-circular-circle-offset--max: -88;
+
   // circular variant
   &__circular {
     &--small {

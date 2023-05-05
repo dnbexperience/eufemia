@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FormStatusState, FormStatusText } from '../FormStatus';
+import type { FormStatusState, FormStatusText } from '../FormStatus';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 export type SwitchLabel =
@@ -14,7 +14,6 @@ export type SwitchSuffix =
   | React.ReactNode;
 export type SwitchAttributes = string | Record<string, unknown>;
 export type SwitchChildren = string | ((...args: any[]) => any);
-
 export interface SwitchProps
   extends React.HTMLProps<HTMLElement>,
     SpacingProps {
@@ -83,7 +82,6 @@ export interface SwitchProps
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
   skeleton?: SkeletonShow;
-
   class?: string;
   className?: string;
   children?: SwitchChildren;

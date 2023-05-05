@@ -7,11 +7,16 @@ import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
-import { H3 } from '../../../elements'
+import { H3 } from '../../..'
 
 import '../style'
 import '../style/themes/ui'
 import PaymentCard, { getCardData } from '../../../extensions/payment-card'
+import cardData from '../utils/cardProducts'
+import { Designs } from '../PaymentCard'
+import { CardType } from '../PaymentCard'
+import { ProductType } from '../PaymentCard'
+import { BankAxeptType } from '../PaymentCard'
 
 export default {
   title: 'Eufemia/Extensions/PaymentCard',
@@ -20,6 +25,16 @@ export default {
 const CustomWrapper = styled(Wrapper)`
   /* empty */
 `
+
+const customData = {
+  productCode: 'UNDEFINED',
+  productName: 'DNB Custom Card',
+  displayName: 'Custom card', // Only showed in compact variant
+  cardDesign: Designs.gold,
+  cardType: CardType.Visa,
+  productType: ProductType.Business,
+  bankAxept: BankAxeptType.BankAxept,
+}
 
 export const PaymentCards = () => (
   <CustomWrapper className="dnb-spacing">
@@ -40,35 +55,43 @@ export const PaymentCards = () => (
       />
     </Box>
     <Box>
-      {demoCards.map((product_code) => {
+      <PaymentCard
+        product_code="UNDEFINED"
+        raw_data={customData}
+        variant="compact"
+        card_number="************1337"
+      />
+    </Box>
+    <Box>
+      {cards.map((product_code) => {
         const cardData = getCardData(product_code)
         return (
           <div key={product_code}>
-            <H3>{cardData.cardDesign.name}</H3>
-            <PaymentCard
-              // variant="compact"
-              // skeleton
-              product_code={product_code}
-              card_number="************1337"
-            />
+            <H3>
+              {cardData.cardDesign.name}({product_code})
+            </H3>
+            <div
+              key={product_code}
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                marginBottom: '1rem',
+              }}
+            >
+              <PaymentCard
+                product_code={product_code}
+                card_number="************1337"
+              />
+              {/* <PaymentCard
+                variant="compact"
+                product_code={product_code}
+                card_number="************1337"
+              /> */}
+            </div>
           </div>
         )
       })}
     </Box>
   </CustomWrapper>
 )
-
-const demoCards = [
-  'VE1',
-  'VL2',
-  'VX1',
-  'VX3',
-  'VL1',
-  '096',
-  'VG1',
-  'VP2',
-  'VP3',
-  'P101',
-  'BK1',
-  'VB2',
-]
+const cards = cardData.map((card) => card.productCode)

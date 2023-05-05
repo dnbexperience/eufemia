@@ -1,0 +1,135 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Icon component have to match snapshot 1`] = `
+<Icon
+  alt="question mark"
+  aria-hidden={null}
+  attributes="attributes"
+  border={false}
+  className="className"
+  color="color"
+  height="height"
+  icon={[Function]}
+  inherit_color="inherit_color"
+  modifier="modifier"
+  size={1}
+  skeleton="skeleton"
+  title="title"
+  width="width"
+>
+  <span
+    alt="question mark"
+    aria-label="bell icon"
+    className="dnb-icon dnb-icon--custom-size className dnb-icon--modifier"
+    role="img"
+    title="title"
+  >
+    <bell
+      color="color"
+      height={1}
+      width={1}
+    >
+      <svg
+        color="color"
+        fill="none"
+        height={1}
+        viewBox="0 0 16 16"
+        width={1}
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M6.756 14.067a1.299 1.299 0 0 0 2.492 0M8 2.4a4.667 4.667 0 0 1 4.667 4.667c0 4.384.933 5.133.933 5.133H2.4s.933-1.192.933-5.133A4.667 4.667 0 0 1 8 2.4Zm0 0V1"
+          stroke="#000"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={1.5}
+        />
+      </svg>
+    </bell>
+  </span>
+</Icon>
+`;
+
+exports[`Icon scss have to match snapshot 1`] = `
+"/*
+* Used for snapshot testing
+*
+*/
+/*
+ * Utilities
+ */
+/*
+* Icon component
+*
+*/
+/*
+ * Utilities
+ */
+.dnb-icon {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 1rem;
+  line-height: 1rem;
+  color: inherit;
+  width: 1em;
+  height: 1em;
+}
+.dnb-icon img,
+.dnb-icon svg {
+  width: inherit;
+  height: inherit;
+  shape-rendering: geometricprecision;
+  vertical-align: top;
+}
+.dnb-icon svg[width="100%"] {
+  width: inherit;
+}
+.dnb-icon svg[height="100%"] {
+  height: inherit;
+}
+.dnb-icon--inherit-color svg:not([fill]), .dnb-icon--inherit-color svg [fill] {
+  fill: currentcolor;
+}
+.dnb-icon--inherit-color svg [stroke] {
+  stroke: currentcolor;
+}
+.dnb-icon--small {
+  font-size: 0.75rem;
+}
+.dnb-icon--default {
+  font-size: 1rem;
+}
+.dnb-icon--medium {
+  font-size: 1.5rem;
+}
+.dnb-icon--large {
+  font-size: 2rem;
+}
+.dnb-icon--x-large {
+  font-size: 2.5rem;
+}
+.dnb-icon--xx-large {
+  font-size: 3rem;
+}
+.dnb-icon--custom-size {
+  width: auto;
+  height: auto;
+}
+.dnb-icon--auto {
+  font-size: 1em;
+}
+.dnb-icon--auto > .dnb-icon--wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+h1 .dnb-icon, h2 .dnb-icon, h3 .dnb-icon, h4 .dnb-icon, h5 .dnb-icon, h6 .dnb-icon {
+  vertical-align: middle;
+}
+.dnb-icon.dnb-skeleton {
+  color: var(--skeleton-color) !important;
+}
+.dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
+  content: none !important;
+}"
+`;

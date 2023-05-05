@@ -1,0 +1,42 @@
+@use '../anchor-mixins.scss';
+
+.dnb-anchor {
+  color: var(--color-sea-green);
+
+  &:hover,
+  &:active {
+    color: var(--color-sea-green);
+    background-color: var(--color-mint-green-50);
+  }
+
+  &:active {
+    color: var(--color-mint-green);
+    background-color: var(--color-emerald-green);
+  }
+
+  &:focus {
+    &:not(:active) {
+      color: var(--color-sea-green);
+    }
+  }
+}
+
+.dnb-anchor--hover {
+  color: var(--color-sea-green);
+  background-color: var(--color-mint-green-50);
+}
+
+.dnb-anchor--active {
+  color: var(--color-mint-green);
+  background-color: var(--color-emerald-green);
+}
+
+.dnb-anchor--focus {
+  &:not(:active) {
+    color: var(--color-sea-green);
+  }
+}
+
+.dnb-anchor--contrast {
+  @include anchor-mixins.useAnchorContrastStyle();
+}

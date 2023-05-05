@@ -6,7 +6,7 @@
 @import '../../../style/core/utilities.scss';
 @import '../../modal/style/modal-mixins.scss';
 
-:root {
+.dnb-dialog {
   // we do this because SCSS fails by using min(100vw, 50rem) = "Incompatible units: 'rem' and 'vw'"
   --dialog-min-width: 320px; // use px, so larger font-size don't enlarge the min, has to be under 20rem, because of spacing and later mobile fullscreen
   --dialog-avg-width: 60vw; // content defines the size
@@ -14,9 +14,7 @@
   --dialog-confirm-max-width: 40rem;
   --dialog-spacing: 2rem; // should reflect --spacing-large
   --dialog-spacing-minus: -2rem; // should reflect --spacing-large
-}
 
-.dnb-dialog {
   position: relative;
   border-radius: 0.5rem;
 
@@ -148,7 +146,7 @@
 
     @include allBelow(small) {
       font-size: var(--font-size-medium) !important;
-      line-height: calc(var(--line-height-medium) - 0.25rem) !important;
+      line-height: var(--line-height-lead) !important;
     }
   }
 

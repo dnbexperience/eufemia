@@ -109,7 +109,7 @@
     &__input:not([disabled]):not(:focus):not(:active)
     ~ &__focus {
     display: block;
-    @include fakeBorder(var(--color-fire-red), $focusRingWidth);
+    @include fakeBorder(var(--color-fire-red), var(--focus-ring-width));
   }
   &__status--error
     &__input:not([disabled]):not(:focus):not(:checked):not([data-checked='true']):hover

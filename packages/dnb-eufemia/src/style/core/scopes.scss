@@ -5,13 +5,17 @@
 
 @import './reset.scss';
 
-@mixin coreDefault() {
+@mixin typographyBasis() {
   font-family: var(--font-family-default);
   font-weight: var(--font-weight-basis);
   font-size: var(--font-size-small); // has to be 16px
   font-style: normal;
   line-height: var(--line-height-basis);
   color: var(--color-black-80, #333);
+}
+
+@mixin coreDefault() {
+  @include typographyBasis();
 
   // The new DNB font needs font smoothing to be thinner on webkit and FF
   /* stylelint-disable-next-line */
@@ -53,6 +57,10 @@
     color: black;
   }
 
+  .eufemia-theme {
+    @include typographyBasis();
+  }
+
   @content;
 }
 
@@ -69,8 +77,6 @@
         font: -apple-system-body; /* stylelint-disable-line */
       }
     }
-
-    // @include scrollbarAppearance();
   }
 
   // reset ePlatform css

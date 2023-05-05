@@ -10,7 +10,7 @@ export type IconWidth = string | number;
 export type IconHeight = string | number;
 export type IconAttributes = string | Record<string, unknown>;
 export type IconChildren = React.ReactNode | ((...args: any[]) => any);
-
+export type IconColor = string;
 export interface IconProps
   extends React.HTMLProps<HTMLElement>,
     SpacingProps {
@@ -28,7 +28,6 @@ export interface IconProps
    * The dimension of the icon. This will be the `viewBox` and represent `width` and `height`. Defaults to `16`. You can use `small`,`medium`, `large` or `auto`. Auto will enable that the icon size gets inherited by the parent HTML element if it provides a `font-size`.
    */
   size?: IconSize;
-
   width?: IconWidth;
   height?: IconHeight;
 
@@ -40,7 +39,7 @@ export interface IconProps
   /**
    * The color can be any valid color property, such as Hex, RGB or preferable – any CSS variable from the <a href="/uilib/usage/customisation/colors">colors table</a>, e.g. `var(--color-ocean-green)`. Default is no color, which means `--color-black-80`.
    */
-  color?: string;
+  color?: IconColor;
 
   /**
    * Default to `true`. Set to `false` if you do not want to inherit the color by `currentColor`.

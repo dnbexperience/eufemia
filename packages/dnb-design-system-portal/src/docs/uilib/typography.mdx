@@ -29,14 +29,14 @@ You don't need to define the `font-family` ever, but rather use CSS Custom Prope
 
 ## Font Face
 
-The DNB default Font Family is `DNB`. This font, together with it's weights is loaded and imported with `@font-face` in `/css/core/themes/theme-ui/fonts.scss`. The font family is included in the library package.
+The DNB default Font Family is `DNB`. This font, together with it's weights is loaded and imported with `@font-face` in `/style/themes/theme-ui/ui-theme-fonts.scss`. The font family is included in the library package.
 
 ## Spacing and margin collapsing
 
 You can use the [Spacing properties](/uilib/components/space/properties) inside every Eufemia React Element, but keep in mind, [margin collapsing](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model/Mastering_margin_collapsing) can some times a little tricky to get right.
 
 ```jsx
-import { H1, H2, ... } from '@dnb/eufemia/elements'
+import { H1, H2, ... } from '@dnb/eufemia'
 
 <H1 bottom="x-large">Heading with bottom margin: x-large</H1>
 <H2 top="x-large">Heading with top margin: x-large</H2>
@@ -44,16 +44,16 @@ import { H1, H2, ... } from '@dnb/eufemia/elements'
 
 ## Anchor
 
-- `.dnb-anchor` <a href="/" class="dnb-anchor">Anchor with default style</a>
-- `.dnb-anchor--hover` <a href="/" class="dnb-anchor dnb-anchor--hover">Hover Style</a>
-- `.dnb-anchor--active` <a href="/" class="dnb-anchor dnb-anchor--active">Active Style</a>
-- `.dnb-anchor--focus` <a href="/" class="dnb-anchor dnb-anchor--focus">Focus Style</a>
+- `.dnb-anchor` <a href="/" className="dnb-anchor">Anchor with default style</a>
+- `.dnb-anchor--hover` <a href="/" className="dnb-anchor dnb-anchor--hover">Hover Style</a>
+- `.dnb-anchor--active` <a href="/" className="dnb-anchor dnb-anchor--active">Active Style</a>
+- `.dnb-anchor--focus` <a href="/" className="dnb-anchor dnb-anchor--focus">Focus Style</a>
 
-Read more about the [Anchor / Text Link](/uilib/elements/anchor)
+Read more about the [Anchor / Text Link](/uilib/components/anchor)
 
 ## DNB Mono (monospace)
 
-DNB hast it's own monospace typeface (`font-family`).
+DNB has its own monospace typeface (`font-family`).
 
 Use it either by a CSS class `.dnb-typo-mono-regular` or define your own like so:
 

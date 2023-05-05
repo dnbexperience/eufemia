@@ -15,7 +15,7 @@ import { render, fireEvent } from '@testing-library/react'
 
 const props = fakeProps(require.resolve('../Drawer.tsx'), {
   all: true,
-  //optional: true, // Does not work with Typescript interface props
+  // optional: true, // Does not work with Typescript interface props
 })
 props.title = 'drawer_title'
 props.id = 'drawer_id'
@@ -106,7 +106,6 @@ describe('Drawer', () => {
       </Provider>
     )
 
-    //console.log(Comp.debug())
     Comp.find('button').simulate('click')
 
     expect(document.querySelector('.dnb-drawer__title').textContent).toBe(

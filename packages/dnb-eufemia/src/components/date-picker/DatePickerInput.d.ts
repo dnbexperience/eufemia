@@ -1,13 +1,11 @@
 import * as React from 'react';
-import {
+import type {
   FormStatusProps,
   FormStatusState,
   FormStatusText
 } from '../FormStatus';
-import type { InputInputElement } from '../Input';
+import type { InputInputElement, InputSize } from '../Input';
 import type { SkeletonShow } from '../Skeleton';
-export type DatePickerInputSize = 'default' | 'small' | 'medium' | 'large';
-
 export interface DatePickerInputProps
   extends React.HTMLProps<HTMLElement> {
   id?: string;
@@ -22,7 +20,7 @@ export interface DatePickerInputProps
   /**
    * The sizes you can choose is `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem) are supported component sizes. Defaults to `default` / `null`.
    */
-  size?: DatePickerInputSize;
+  size?: InputSize;
 
   /**
    * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.

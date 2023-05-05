@@ -5,11 +5,9 @@
 
 @import '../../../style/core/utilities.scss';
 
-:root {
-  --form-status-radius: 0.25rem;
-}
-
 .dnb-form-status {
+  --form-status-radius: 0.25rem;
+
   display: flex;
 
   opacity: 1;

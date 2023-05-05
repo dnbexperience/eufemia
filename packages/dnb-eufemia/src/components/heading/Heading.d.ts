@@ -1,8 +1,8 @@
 import * as React from 'react';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
-export type HeadingText = React.ReactNode | ((...args: any[]) => any);
-export type HeadingSize =
+type HeadingText = React.ReactNode | ((...args: any[]) => any);
+type HeadingSize =
   | 'auto'
   | 'xx-large'
   | 'x-large'
@@ -11,12 +11,11 @@ export type HeadingSize =
   | 'basis'
   | 'small'
   | 'x-small';
-export type HeadingLevel = number | string;
-export type HeadingDebug = boolean | ((...args: any[]) => any);
-export type HeadingDebugCounter = boolean | ((...args: any[]) => any);
-export type HeadingReset = number | boolean;
-export type HeadingChildren = React.ReactNode | ((...args: any[]) => any);
-
+type HeadingLevel = number | string;
+type HeadingDebug = boolean | ((...args: any[]) => any);
+type HeadingDebugCounter = boolean | ((...args: any[]) => any);
+type HeadingReset = number | boolean;
+type HeadingChildren = React.ReactNode | ((...args: any[]) => any);
 export interface HeadingProps
   extends React.HTMLProps<HTMLElement>,
     SpacingProps {
@@ -35,40 +34,40 @@ export interface HeadingProps
   level?: HeadingLevel;
 
   /**
-   * If set to true, the heading level will be incremented by 1.
+   * If set to `true`, the heading level will be incremented by 1.
    */
   increase?: boolean;
 
   /**
-   * If set to true, the heading level will be decremented by 1.
+   * If set to `true`, the heading level will be decremented by 1.
    */
   decrease?: boolean;
   up?: boolean;
   down?: boolean;
 
   /**
-   * If set to true, the heading will not be corrected and warnings will not be shown. Warnings do not show up in "production builds" else either.
+   * If set to `true`, the heading will not be corrected and warnings will not be shown. Warnings do not show up in "production builds" else either.
    */
   skip_correction?: boolean;
 
   /**
-   * If set to true, the content will have a prefix, showing the heading level.
+   * If set to `true`, the content will have a prefix, showing the heading level.
    */
   debug?: HeadingDebug;
 
   /**
-   * If set to true, the content will have both a prefix and a JSON log attached to both headings and level contexts.
+   * If set to `true`, the content will have both a prefix and a JSON log attached to both headings and level contexts.
    */
   debug_counter?: HeadingDebugCounter;
   counter?: any;
 
   /**
-   * If set to true, the heading last used level will be inherited. Also from inside a level context.
+   * If set to `true`, the heading last used level will be inherited. Also from inside a level context.
    */
   inherit?: boolean;
 
   /**
-   * If set to true, the heading level will be reset to 2. You can give it a custom level if you need to, e.g. `reset(1)`.
+   * If set to `true`, the heading level will be reset to 2. You can give it a custom level if you need to, e.g. `reset(1)`.
    */
   reset?: HeadingReset;
 
@@ -81,7 +80,6 @@ export interface HeadingProps
    * Define what HTML element should be used. If you use, e.g. a `span`, then `role="heading"` and `aria-level` gets set. Defaults to semantic heading element.
    */
   element?: string;
-
   class?: string;
   className?: string;
 
@@ -95,14 +93,15 @@ export default class Heading extends React.Component<HeadingProps, any> {
   static Level: (props: HeadingProps) => JSX.Element;
   static Increase: (props: HeadingProps) => JSX.Element;
   static Decrease: (props: HeadingProps) => JSX.Element;
+  static resetLevels: resetLevels;
+  static setNextLevel: setNextLevel;
   render(): JSX.Element;
 }
-
 export const setNextLevel = (
-  level: any,
+  level: HeadingLevel,
   { overwriteContext: boolean } = {}
-) => any;
+) => null;
 export const resetLevels = (
-  level: any,
+  level: HeadingLevel,
   { overwriteContext: boolean } = {}
-) => any;
+) => null;

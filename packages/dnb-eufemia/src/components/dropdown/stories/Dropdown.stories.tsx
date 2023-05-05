@@ -19,7 +19,7 @@ import {
   Drawer,
 } from '../..'
 import { Link } from '../../..'
-import { DropdownDataObject } from '../Dropdown'
+import { DrawerListData } from '../../../fragments/DrawerList'
 
 export default {
   title: 'Eufemia/Components/Dropdown',
@@ -626,7 +626,7 @@ export const DropdownSandbox = () => (
   </CustomStyle>
 )
 
-let dropdownData: DropdownDataObject[] = [
+let dropdownData: DrawerListData[] = [
   {
     selected_value: 'Brukskonto - Kari Nordmann',
     content: (

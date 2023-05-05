@@ -11,7 +11,6 @@ import {
   processChildren,
   extendPropsWithContextInClassComponent,
 } from '../../shared/component-helper'
-import { includeValidProps } from '../form-row/FormRowHelpers'
 import { onMediaQueryChange } from '../../shared/MediaQueryUtils'
 
 // We use this array to filter out unwanted
@@ -61,8 +60,11 @@ export class StepIndicatorProvider extends React.PureComponent {
 
   static getData(props) {
     let res = []
-    if (props.data) res = props.data
-    else res = processChildren(props)
+    if (props.data) {
+      res = props.data
+    } else {
+      res = processChildren(props)
+    }
     if (typeof res === 'string')
       return res[0] === '[' ? JSON.parse(res) : []
     return res || []
@@ -172,7 +174,6 @@ export class StepIndicatorProvider extends React.PureComponent {
       stepIndicatorDefaultProps,
       { skeleton: context?.skeleton },
       context.getTranslation(context).StepIndicator,
-      includeValidProps(context.FormRow),
       context.StepIndicator
     )
 

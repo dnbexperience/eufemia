@@ -18,7 +18,7 @@ import styled from '@emotion/styled'
 import Layout from '../layout/Layout'
 
 // Get Eufemia in
-import { P } from '@dnb/eufemia/src/elements'
+import { P } from '@dnb/eufemia/src'
 import {
   Heading,
   FormSet,
@@ -317,9 +317,6 @@ Attachment.FileRow = styled.span`
 `
 Attachment.Add = styled(Space)`
   margin-top: 0.5rem;
-  .dnb-button {
-    margin-left: -0.5rem;
-  }
 `
 
 // The bottom section / divider has some extra CSS

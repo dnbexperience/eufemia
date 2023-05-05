@@ -18,6 +18,7 @@ import {
   Dl,
   Dd,
   Dt,
+  H2,
 } from '@dnb/eufemia/src'
 
 export const SkipContentTable = () => (
@@ -100,3 +101,40 @@ const LargeTableWithInteractiveElements = (props) => {
     </Table.ScrollView>
   )
 }
+
+export const SkipContentInfo1 = () => (
+  <ComponentBox hidePreview hideToolbar>
+    <section aria-labelledby="heading-id">
+      <H2 id="heading-id">Description of table</H2>
+
+      <SkipContent selector="#my-selector" text="Skip table content" />
+
+      <Table aria-labelledby="heading-id">table content</Table>
+    </section>
+
+    <section id="my-selector" aria-label="Submit">
+      <div id="submit-form" />
+    </section>
+  </ComponentBox>
+)
+
+export const SkipContentInfo2 = () => (
+  <ComponentBox hidePreview hideToolbar>
+    <section aria-labelledby="table-id">
+      <SkipContent selector=".my-selector">Skip table content</SkipContent>
+
+      <Table id="table-id">
+        <caption>Description of table</caption>
+      </Table>
+
+      <div className="my-selector">
+        <SkipContent.Return
+          selector=".my-selector" // same as SkipContent
+          text="Back to beginning of table"
+        />
+
+        <div id="submit-form" />
+      </div>
+    </section>
+  </ComponentBox>
+)

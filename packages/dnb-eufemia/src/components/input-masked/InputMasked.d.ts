@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { Locale } from '../../shared/Context';
 import type { ButtonIconPosition } from '../button';
 import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
 import type {
@@ -6,8 +7,13 @@ import type {
   FormStatusState,
   FormStatusText
 } from '../FormStatus';
-import type { IconPrimaryIcon, IconPrimarySize } from '../IconPrimary';
-import type { InputInputAttributes, InputInputElement } from '../Input';
+import type { IconIcon, IconSize } from '../Icon';
+import type {
+  InputInputAttributes,
+  InputInputElement,
+  InputSize
+} from '../Input';
+import type { NumberFormatProps } from '../NumberFormat';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 export type InputMaskedMask =
@@ -23,14 +29,7 @@ export type InputMaskedCurrencyMask =
   | boolean
   | Record<string, unknown>;
 export type InputMaskedMaskOptions = string | Record<string, unknown>;
-export type InputMaskedNumberFormat = string | Record<string, unknown>;
 export type InputMaskedAsCurrency = string | boolean;
-export type InputMaskedSize =
-  | 'default'
-  | 'small'
-  | 'medium'
-  | 'large'
-  | number;
 export type InputMaskedValue = string | number;
 export type InputMaskedSuffix =
   | string
@@ -47,7 +46,6 @@ export type InputMaskedSubmitButtonIcon =
 export type InputMaskedChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
-
 export interface InputMaskedProps
   extends React.HTMLProps<HTMLElement>,
     SpacingProps {
@@ -74,12 +72,12 @@ export interface InputMaskedProps
   /**
    * Use an object with <a href="/uilib/components/number-format/properties">NumberFormat</a> e.g. `{ omit_rounding: false }`.
    */
-  number_format?: InputMaskedNumberFormat;
+  number_format?: NumberFormatProps;
 
   /**
    * Define the locale to be used in the `as_number` or `as_currency` masked. It will be inherited from the <a href="/uilib/usage/customisation/provider">Eufemia Provider</a> if not given. Defaults to `nb-NO`.
    */
-  locale?: string;
+  locale?: Locale;
 
   /**
    * Set to `true` to use `NOK` or give it a currency code e.g. `USD` to automatically set a currency mask based on the given or inherited locale.
@@ -150,9 +148,9 @@ export interface InputMaskedProps
   type?: string;
 
   /**
-   * The sizes you can choose is `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem) are supported component sizes. Defaults to `default` / `null`. Also, if You define a number like `size="2"` then it will be forwarded as the input element attribute.
+   * The sizes you can choose is `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem) are supported component sizes. Defaults to `default` / `null`. Also, if you define a number like `size="2"` then it will be forwarded as the input element attribute.
    */
-  size?: InputMaskedSize;
+  size?: InputSize;
 
   /**
    * The content value of the input.
@@ -228,7 +226,7 @@ export interface InputMaskedProps
   keep_placeholder?: boolean;
 
   /**
-   * Text describing the content of the input more than the label. You can also send in a React component, so it gets wrapped inside the Input component.
+   * Text describing the content of the input more than the label. you can also send in a React component, so it gets wrapped inside the Input component.
    */
   suffix?: InputMaskedSuffix;
 
@@ -272,12 +270,12 @@ export interface InputMaskedProps
   /**
    * Icon to show before or after the input / placeholder. Can be either a string defining a primary icon or a Component using an SVG icon of either 16px or 24px.
    */
-  icon?: IconPrimaryIcon;
+  icon?: IconIcon;
 
   /**
    * The icon size of the icon shows. Defaults to `medium`.
    */
-  icon_size?: IconPrimarySize;
+  icon_size?: IconSize;
 
   /**
    * Defines the position of icon inside the input. Set to `left` or `right`. Defaults to `left` if not set.
@@ -297,7 +295,6 @@ export interface InputMaskedProps
   submit_button_variant?: any;
   submit_button_icon?: InputMaskedSubmitButtonIcon;
   submit_button_status?: string;
-
   className?: string;
   children?: InputMaskedChildren;
   on_state_update?: (...args: any[]) => any;

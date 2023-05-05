@@ -141,7 +141,7 @@ export const AvatarImageDNB = () => (
   <ComponentBox hideCode data-visual-test="avatar-image-local-png">
     <Avatar.Group label="Banks:">
       <Avatar
-        src="/android-chrome-192x192.png"
+        src="/dnb/android-chrome-192x192.png"
         alt="DNB Logo"
         size="x-large"
       />
@@ -154,7 +154,7 @@ export const AvatarImagePinnedTab = () => (
     <Avatar.Group label="Icons:">
       <Avatar
         variant="tertiary"
-        src="/safari-pinned-tab.svg"
+        src="/dnb/safari-pinned-tab.svg"
         alt="DNB Logo"
       />
     </Avatar.Group>
@@ -182,7 +182,7 @@ export const AvatarImageProps = () => (
         imgProps={{
           width: '48',
           height: '48',
-          src: '/android-chrome-192x192.png',
+          src: '/dnb/android-chrome-192x192.png',
           alt: 'DNB Logo',
         }}
       />

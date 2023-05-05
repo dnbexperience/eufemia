@@ -13,7 +13,7 @@ import Th from '../TableTh'
 import Tr, { TableTrProps } from '../TableTr'
 import TableContainer from '../TableContainer'
 
-import { H2, P, Anchor, Dl, Lead } from '../../../elements'
+import { H2, P, Anchor, Dl, Lead } from '../../..'
 import { Button, ToggleButton, NumberFormat, Avatar } from '../../'
 import shopping_cart from '../../../icons/shopping_cart'
 import useHandleSortState from '../useHandleSortState'

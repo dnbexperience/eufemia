@@ -5,14 +5,12 @@
 
 @import '../../../style/core/utilities.scss';
 
-:root {
+.dnb-slider {
   --slider-track-height: 0.25rem;
   --slider-thumb-size: 2rem;
   --slider-button-size: 1.5rem;
   --slider-space: 1rem;
-}
 
-.dnb-slider {
   user-select: none; // Safari / Touch fix
   -webkit-touch-callout: none; // Safari / Touch fix
 
@@ -222,7 +220,7 @@
   }
 
   &__button-helper:not(:disabled):focus ~ .dnb-button {
-    @include fakeFocus();
+    @include focusRing();
   }
 
   > .dnb-form-label {

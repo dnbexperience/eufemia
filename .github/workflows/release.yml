@@ -71,7 +71,7 @@ jobs:
       - name: Build portal
         if: (github.ref == 'refs/heads/release' ||
           github.ref == 'refs/heads/portal')
-        run: yarn workspace dnb-design-system-portal build-ci
+        run: yarn workspace dnb-design-system-portal build:ci
 
       - name: Deploy portal
         if: (github.ref == 'refs/heads/release' ||

@@ -5,27 +5,25 @@ import type {
   FormStatusState,
   FormStatusText
 } from '../FormStatus';
-import type { InputInputElement } from '../Input';
+import type { InputInputElement, InputSize } from '../Input';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
-export type DatePickerDate = Date | string;
-export type DatePickerStartDate = Date | string;
-export type DatePickerEndDate = Date | string;
-export type DatePickerMonth = Date | string;
-export type DatePickerStartMonth = Date | string;
-export type DatePickerEndMonth = Date | string;
-export type DatePickerMinDate = Date | string;
-export type DatePickerMaxDate = Date | string;
-export type DatePickerAddonElement = string | React.ReactNode;
-export type DatePickerShortcuts = any[] | ((...args: any[]) => any);
-export type DatePickerSize = 'default' | 'small' | 'medium' | 'large';
-export type DatePickerSuffix =
+type DatePickerDate = Date | string;
+type DatePickerStartDate = Date | string;
+type DatePickerEndDate = Date | string;
+type DatePickerMonth = Date | string;
+type DatePickerStartMonth = Date | string;
+type DatePickerEndMonth = Date | string;
+type DatePickerMinDate = Date | string;
+type DatePickerMaxDate = Date | string;
+type DatePickerAddonElement = string | React.ReactNode;
+type DatePickerShortcuts = any[] | ((...args: any[]) => any);
+type DatePickerSuffix =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type DatePickerDirection = 'auto' | 'top' | 'bottom';
-export type DatePickerAlignPicker = 'auto' | 'left' | 'right';
-
+type DatePickerDirection = 'auto' | 'top' | 'bottom';
+type DatePickerAlignPicker = 'auto' | 'left' | 'right';
 export interface DatePickerProps
   extends React.HTMLProps<HTMLElement>,
     SpacingProps {
@@ -38,12 +36,12 @@ export interface DatePickerProps
   date?: DatePickerDate;
 
   /**
-   * To set the pre-filled starting date. Is used if `range={true}` is set to true. Defaults to null, showing the `mask_placeholder`.
+   * To set the pre-filled starting date. Is used if `range={true}` is set to `true`. Defaults to `null`, showing the `mask_placeholder`.
    */
   start_date?: DatePickerStartDate;
 
   /**
-   * To set the pre-filled ending date. Is used if `range={true}` is set to true. Defaults to null, showing the `mask_placeholder`.
+   * To set the pre-filled ending date. Is used if `range={true}` is set to `true`. Defaults to `null`, showing the `mask_placeholder`.
    */
   end_date?: DatePickerEndDate;
 
@@ -63,12 +61,12 @@ export interface DatePickerProps
   end_month?: DatePickerEndMonth;
 
   /**
-   * To limit a date range to a minimum `start_date`. Defaults to null.
+   * To limit a date range to a minimum `start_date`. Defaults to `null`.
    */
   min_date?: DatePickerMinDate;
 
   /**
-   * To limit a date range to a maximum `end_date`. Defaults to null.
+   * To limit a date range to a maximum `end_date`. Defaults to `null`.
    */
   max_date?: DatePickerMaxDate;
   correct_invalid_date?: boolean;
@@ -160,7 +158,7 @@ export interface DatePickerProps
   range?: boolean;
 
   /**
-   * Link both calendars, once to the user is navigating between months. Only meant to use if the range is set to true. Defaults to `false`.
+   * Link both calendars, once to the user is navigating between months. Only meant to use if the range is set to `true`. Defaults to `false`.
    */
   link?: boolean;
 
@@ -213,7 +211,7 @@ export interface DatePickerProps
   /**
    * The sizes you can choose is `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem) are supported component sizes. Defaults to `default` / `null`.
    */
-  size?: DatePickerSize;
+  size?: InputSize;
 
   /**
    * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.

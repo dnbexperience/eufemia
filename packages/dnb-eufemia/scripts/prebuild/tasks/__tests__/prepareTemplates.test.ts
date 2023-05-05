@@ -13,6 +13,16 @@ import {
   processMainIndex,
 } from '../prepareTemplates'
 
+jest.mock('ora', () => {
+  return jest.fn(() => ({
+    start: jest.fn(),
+    info: jest.fn(),
+    warn: jest.fn(),
+    succeed: jest.fn(),
+    fail: jest.fn(),
+  }))
+})
+
 jest.mock('fs-extra', () => {
   return {
     ...jest.requireActual('fs-extra'),
@@ -49,7 +59,7 @@ describe('prepareTemplates', () => {
 
     await prepareTemplates()
 
-    expect(writeFile).toHaveBeenCalledTimes(13)
+    expect(writeFile).toHaveBeenCalledTimes(15)
   })
 
   it('has to write "main index" file', async () => {
@@ -60,45 +70,45 @@ describe('prepareTemplates', () => {
     const elements = await processElements()
     await processMainIndex({ components, elements })
 
-    expect(writeFile).toHaveBeenCalledTimes(7)
+    expect(writeFile).toHaveBeenCalledTimes(9)
 
-    const dest7 = expect.stringContaining('/src/index.ts')
+    const dest9 = expect.stringContaining('/src/index.ts')
     expect(writeFile).toHaveBeenNthCalledWith(
-      7,
-      dest7,
+      9,
+      dest9,
       expect.stringContaining(`export default {}`)
     )
     expect(writeFile).toHaveBeenNthCalledWith(
-      7,
-      dest7,
+      9,
+      dest9,
       expect.stringContaining(
         `export { ComponentA, ComponentB, ElementA, ElementB }`
       )
     )
     expect(writeFile).toHaveBeenNthCalledWith(
-      7,
-      dest7,
+      9,
+      dest9,
       expect.stringContaining(
         `import ElementB from './elements/element-b'`
       )
     )
     expect(writeFile).toHaveBeenNthCalledWith(
-      7,
-      dest7,
+      9,
+      dest9,
       expect.stringContaining(
         `import ElementA from './elements/element-a'`
       )
     )
     expect(writeFile).toHaveBeenNthCalledWith(
-      7,
-      dest7,
+      9,
+      dest9,
       expect.stringContaining(
         `import ComponentB from './components/component-b/ComponentB'`
       )
     )
     expect(writeFile).toHaveBeenNthCalledWith(
-      7,
-      dest7,
+      9,
+      dest9,
       expect.stringContaining(
         `import ComponentA from './components/component-a/ComponentA'`
       )
@@ -244,7 +254,7 @@ describe('prepareTemplates', () => {
 
     await processElements()
 
-    expect(writeFile).toHaveBeenCalledTimes(2)
+    expect(writeFile).toHaveBeenCalledTimes(4)
 
     const dest1 = expect.stringContaining('/src/elements/index.ts')
     expect(writeFile).toHaveBeenNthCalledWith(

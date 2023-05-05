@@ -1,16 +1,17 @@
 import * as React from 'react';
 import type { ButtonIconPosition } from '../button';
 import type { HeadingLevel } from '../Heading';
-import type { IconPrimaryIcon, IconPrimarySize } from '../IconPrimary';
+import type { IconIcon, IconSize } from '../Icon';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 import AccordionContent from './AccordionContent';
 import AccordionHeader from './AccordionHeader';
-import AccordionProvider from './AccordionProvider';
+import AccordionGroup from './AccordionGroup';
+import { Store } from './AccordionStore';
 export type AccordionVariant = 'plain' | 'default' | 'outlined' | 'filled';
 export type AccordionHeading = boolean | React.ReactNode;
 export type AccordionIcon =
-  | IconPrimaryIcon
+  | IconIcon
   | {
       closed?: React.ReactNode | ((...args: any[]) => any);
 
@@ -19,20 +20,14 @@ export type AccordionIcon =
        */
       expanded?: React.ReactNode | ((...args: any[]) => any);
     };
-export type AccordionClosed = React.ReactNode | ((...args: any[]) => any);
 export type AccordionAttributes = string | Record<string, unknown>;
-
 export interface AccordionProps
-  extends React.HTMLProps<HTMLElement>,
+  extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
     SpacingProps {
   /**
    * A title as a string or React element. It will be used as the button text.
    */
   title?: React.ReactNode;
-
-  /**
-   * A description as a string or React element. It will be used as an additional text.
-   */
   description?: React.ReactNode;
 
   /**
@@ -61,7 +56,7 @@ export interface AccordionProps
   prevent_rerender?: boolean;
 
   /**
-   * Use this prop together with `prevent_rerender` – and if it is to `true`, the accordion component will re-render if the children are a new React element and does not match anymore the previews one.
+   * Use this prop together with `prevent_rerender` – and if it is to `true`, the accordion component will re-render if the children are a new React element and does not match the previous one anymore.
    */
   prevent_rerender_conditional?: boolean;
 
@@ -94,7 +89,6 @@ export interface AccordionProps
    * Will add a React element on the left side of the `title`, inside `AccordionHeaderContainer`.
    */
   left_component?: React.ReactNode;
-  allow_close_all?: boolean;
 
   /**
    * If set to `true`, the accordion button will be disabled (dimmed).
@@ -131,7 +125,6 @@ export interface AccordionProps
    * Will replace the `chevron` icon. The icon will still rotate (by CSS). You can use an object to use two different icons, one for the closed state and one for the expanded state `{ closed, expanded }`.
    */
   icon?: AccordionIcon;
-  closed?: AccordionClosed;
 
   /**
    * Will set the placement of the icon. Defaults to `left`.
@@ -141,7 +134,7 @@ export interface AccordionProps
   /**
    * Define a different icon size. Defaults to `medium` (1.5rem).
    */
-  icon_size?: IconPrimarySize;
+  icon_size?: IconSize;
   attributes?: AccordionAttributes;
   class?: string;
   className?: string;
@@ -153,6 +146,9 @@ export interface AccordionProps
   on_change?: (...args: any[]) => any;
   on_state_update?: (...args: any[]) => any;
 }
+
+const StoreInstance = (group: string, id?: string) => new Store(group, id);
+
 export default class Accordion extends React.Component<
   AccordionProps,
   any
@@ -160,27 +156,18 @@ export default class Accordion extends React.Component<
   static defaultProps: object;
   static Content = AccordionContent;
   static Header = AccordionHeader;
-  static Provider = AccordionProvider;
-  static Group: (props: GroupProps) => JSX.Element;
+  static Provider = AccordionGroup;
+  static Group = Group;
+  static Store = StoreInstance;
   render(): JSX.Element;
 }
-
 export type GroupProps = {
-  /**
-   * A unique `id` that will be used on the button element. If you use `remember_state`, an id is required.
-   */
-  id?: string;
-  group?: string;
-
-  /**
-   * If set to `true`, it will remember a changed state initiated by the user. It requires a unique `id`. It will store the sate in the local storage.
-   */
-  remember_state?: boolean;
-
-  children: React.ReactNode;
+  allow_close_all?: boolean;
+  expanded_id?: string;
 } & AccordionProps;
 
 declare class Group extends React.Component<GroupProps, any> {
   static defaultProps: object;
+  static Store: StoreInstance;
   render(): JSX.Element;
 }

@@ -236,11 +236,8 @@ html[data-visual-test] .dnb-tooltip--hide {
 /*
  * Utilities
  */
-:root {
-  --form-status-radius: 0.25rem;
-}
-
 .dnb-form-status {
+  --form-status-radius: 0.25rem;
   display: flex;
   opacity: 1;
   transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default);
@@ -321,26 +318,26 @@ button .dnb-form-status__text {
  * Utilities
  */
 :root {
+  --button-icon-size: 1rem;
+  --button-height: 2.5rem;
+  --button-border-radius: calc(var(--button-height) / 2);
+}
+
+.dnb-button {
   --button-font-size: var(--font-size-basis);
   --button-font-size-small: var(--font-size-small);
   --button-width: 2.5rem;
-  --button-height: 2.5rem;
   --button-width--small: 1.5rem;
   --button-height--small: 1.5rem;
   --button-width--medium: 2rem;
   --button-height--medium: 2rem;
   --button-width--large: 3rem;
   --button-height--large: 3rem;
-  --button-icon-size: 1rem;
   --button-border-width: 0.0625rem;
   --button-border-width--hover: 0.1875rem;
-  --button-border-radius: calc(var(--button-height) / 2);
   --button-border-radius--small: calc(var(--button-height--small) / 2);
   --button-border-radius--medium: calc(var(--button-height--medium) / 2);
   --button-border-radius--large: calc(var(--button-height--large) / 2);
-}
-
-.dnb-button {
   position: relative;
   user-select: none;
   /* stylelint-disable-next-line */
@@ -353,10 +350,12 @@ button .dnb-form-status__text {
   width: var(--button-width);
   height: auto;
   padding: 0;
-  border: var(--button-border-width) solid transparent;
+  border: none;
   border-radius: var(--button-border-radius);
-  text-decoration: none;
+  text-align: left;
   font-size: var(--font-size-small);
+  text-decoration: none;
+  box-shadow: none;
   /* stylelint-disable-next-line */
 }
 .dnb-button--wrap {
@@ -518,8 +517,9 @@ html:not([data-whatintent=touch]) .dnb-button--reset:hover:not([disabled]) {
   outline: none;
 }
 html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):active {
-  --border-color: var(--color-emerald-green);
-  box-shadow: 0 0 0 0.125rem var(--border-color);
+  --border-color: var(--focus-ring-color);
+  --border-width: var(--focus-ring-width);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):active {
@@ -645,12 +645,13 @@ button.dnb-button::-moz-focus-inner {
 .dnb-skip-content__focus:focus::before {
   content: "";
   position: absolute;
-  inset: 0.125rem;
+  inset: var(--focus-ring-width);
   outline: none;
 }
 html[data-whatinput=keyboard] .dnb-skip-content__focus:focus::before {
-  --border-color: var(--color-emerald-green);
-  box-shadow: 0 0 0 0.125rem var(--border-color);
+  --border-color: var(--focus-ring-color);
+  --border-width: var(--focus-ring-width);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 .dnb-skip-content__return:not(.dnb-skip-content__return--active) button.dnb-sr-only {

@@ -1,10 +1,10 @@
 import * as React from 'react';
+import type { IconColor } from '../Icon';
 import type { SpacingProps } from '../space/types';
 export type LogoSize = number | string;
 export type LogoRatio = number | string;
 export type LogoWidth = number | string;
 export type LogoHeight = number | string;
-
 export interface LogoProps
   extends React.HTMLProps<HTMLElement>,
     SpacingProps {
@@ -28,7 +28,17 @@ export interface LogoProps
   /**
    * Define the color of the logo
    */
-  color?: string;
+  color?: IconColor;
+
+  /**
+   * Define which brand&#39;s logo to show. `ui` (DNB) or `sbanken`. Defaults to `ui`
+   */
+  brand?: string;
+
+  /**
+   * Define the logo variant, if there is more than one variant of a brand&#39;s logo. Currently the only option other than default is a `compact` variant of the Sbanken logo. Defaults to `default`
+   */
+  variant?: string;
 
   /**
    * Set to `true` if you do not want to inherit the color by `currentColor`. Default to `false`.

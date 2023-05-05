@@ -6,7 +6,7 @@ import type {
   FormStatusText
 } from '../FormStatus';
 import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
-import type { IconPrimaryIcon, IconPrimarySize } from '../IconPrimary';
+import type { IconIcon, IconSize } from '../Icon';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 export type InputSize = 'default' | 'small' | 'medium' | 'large' | number;
@@ -28,7 +28,6 @@ export type InputSubmitButtonIcon =
   | React.ReactNode
   | ((...args: any[]) => any);
 export type InputChildren = React.ReactNode | ((...args: any[]) => any);
-
 export interface InputProps
   extends React.HTMLProps<HTMLElement>,
     SpacingProps {
@@ -38,7 +37,7 @@ export interface InputProps
   type?: string;
 
   /**
-   * The sizes you can choose is `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem) are supported component sizes. Defaults to `default` / `null`. Also, if You define a number like `size="2"` then it will be forwarded as the input element attribute.
+   * The sizes you can choose is `small` (1.5rem), `default` (2rem), `medium` (2.5rem) and `large` (3rem) are supported component sizes. Defaults to `default` / `null`. Also, if you define a number like `size="2"` then it will be forwarded as the input element attribute.
    */
   size?: InputSize;
 
@@ -116,7 +115,7 @@ export interface InputProps
   keep_placeholder?: boolean;
 
   /**
-   * Text describing the content of the input more than the label. You can also send in a React component, so it gets wrapped inside the Input component.
+   * Text describing the content of the input more than the label. you can also send in a React component, so it gets wrapped inside the Input component.
    */
   suffix?: InputSuffix;
 
@@ -160,12 +159,12 @@ export interface InputProps
   /**
    * Icon to show before or after the input / placeholder. Can be either a string defining a primary icon or a Component using an SVG icon of either 16px or 24px.
    */
-  icon?: IconPrimaryIcon;
+  icon?: IconIcon;
 
   /**
    * The icon size of the icon shows. Defaults to `medium`.
    */
-  icon_size?: IconPrimarySize;
+  icon_size?: IconSize;
 
   /**
    * Defines the position of icon inside the input. Set to `left` or `right`. Defaults to `left` if not set.
@@ -190,7 +189,6 @@ export interface InputProps
   submit_button_variant?: ButtonVariant;
   submit_button_icon?: InputSubmitButtonIcon;
   submit_button_status?: string;
-
   className?: string;
   children?: InputChildren;
 
@@ -199,6 +197,9 @@ export interface InputProps
    */
   on_change?: (...args: any[]) => any;
 
+  /**
+   * Will be called on key down by the user. Returns `{ value, event }`.
+   */
   on_key_down?: (...args: any[]) => any;
 
   /**
@@ -219,31 +220,59 @@ export interface InputProps
   on_submit_blur?: (...args: any[]) => any;
   on_state_update?: (...args: any[]) => any;
 }
-
 export default class Input extends React.Component<InputProps, any> {
   static defaultProps: object;
   render(): JSX.Element;
 }
-
 export interface SubmitButtonProps extends React.HTMLProps<HTMLElement> {
   id?: string;
+
+  /**
+   * The content value of the input.
+   */
   value?: string;
   title?: string;
   variant?: ButtonVariant;
   disabled?: boolean;
+
+  /**
+   * If set to `true`, an overlaying skeleton with animation will be shown.
+   */
   skeleton?: SkeletonShow;
-  icon?: IconPrimaryIcon;
-  icon_size?: IconPrimarySize;
+
+  /**
+   * Icon to show before or after the input / placeholder. Can be either a string defining a primary icon or a Component using an SVG icon of either 16px or 24px.
+   */
+  icon?: IconIcon;
+
+  /**
+   * The icon size of the icon shows. Defaults to `medium`.
+   */
+  icon_size?: IconSize;
+
+  /**
+   * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
+   */
   status?: FormStatusText;
+
+  /**
+   * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
+   */
   status_state?: FormStatusState;
+
+  /**
+   * Use an object to define additional FormStatus properties.
+   */
   status_props?: FormStatusProps;
   className?: string;
 
+  /**
+   * Will be called on submit button click. Returns `{ value, event }`.
+   */
   on_submit?: (...args: any[]) => any;
   on_submit_focus?: (...args: any[]) => any;
   on_submit_blur?: (...args: any[]) => any;
 }
-
 export class SubmitButton extends React.Component<SubmitButtonProps, any> {
   static defaultProps: object;
   render(): JSX.Element;

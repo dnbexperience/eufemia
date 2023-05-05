@@ -3,6 +3,8 @@
  *
  */
 
+@import '../utilities.scss';
+
 // Focus management
 .dnb-no-focus {
   outline: none;
@@ -12,7 +14,7 @@
   outline: none;
 
   &:focus {
-    @include fakeFocus('keyboard');
+    @include focusRing('keyboard');
   }
 }
 
@@ -20,12 +22,17 @@
   outline: none;
 
   &:focus {
-    @include fakeFocus('mouse');
+    @include focusRing('mouse');
   }
 }
 
 .dnb-focus-ring {
-  @include fakeBorder($focusRingColor, $focusRingWidth, null, !important);
+  @include fakeBorder(
+    var(--focus-ring-color),
+    var(--focus-ring-width),
+    null,
+    !important
+  );
 }
 
 .dnb-scrollbar-appearance {

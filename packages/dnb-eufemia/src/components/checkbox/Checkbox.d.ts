@@ -15,7 +15,6 @@ export type CheckboxSuffix =
   | React.ReactNode;
 export type CheckboxAttributes = string | Record<string, unknown>;
 export type CheckboxChildren = string | ((...args: any[]) => any);
-
 export interface CheckboxProps
   extends React.HTMLProps<HTMLElement>,
     SpacingProps {
@@ -99,7 +98,6 @@ export default class Checkbox extends React.Component<CheckboxProps, any> {
   static defaultProps: object;
   render(): JSX.Element;
 }
-
 export interface CheckIconProps {
   /**
    * The size of the checkbox. For now there is "medium" (default) and "large".

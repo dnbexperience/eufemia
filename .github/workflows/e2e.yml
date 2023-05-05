@@ -7,12 +7,15 @@ on:
       - '!**--skip-ci'
       - '!**--visual-reports'
       - '!wip/**'
-      - '!icon*/**'
       - '!experiments/**'
       - '!release'
       - '!portal'
       - '!beta'
       - '!alpha'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 env:
   GH_EMAIL: ${{ secrets.GH_EMAIL }}
@@ -132,7 +135,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           checkName: Build Portal
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          intervalSeconds: 3
+          intervalSeconds: 10
           timeoutSeconds: 900
 
       - name: Re-store portal artifacts
@@ -217,7 +220,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           checkName: Build Portal
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          intervalSeconds: 3
+          intervalSeconds: 10
           timeoutSeconds: 900
 
       - name: Re-store portal artifacts

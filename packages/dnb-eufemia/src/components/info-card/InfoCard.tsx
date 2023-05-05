@@ -3,8 +3,9 @@ import classnames from 'classnames'
 
 // Components
 import Button, { ButtonProps } from '../button/Button'
-import IconPrimary, { IconPrimaryIcon } from '../icon-primary/IconPrimary'
-import Img, { ImgProps } from '../../elements/Img'
+import IconPrimary from '../icon-primary/IconPrimary'
+import type { IconIcon } from '../icon/Icon'
+import Img, { ImgProps } from '../../elements/img/Img'
 import Space from '../space/Space'
 import P from '../../elements/P'
 
@@ -37,7 +38,7 @@ export interface InfoCardProps {
    * Replace the default icon with custom icon.
    * Default: Lightbulb (icon)
    */
-  icon?: IconPrimaryIcon
+  icon?: IconIcon
   /**
    * Props applied to the `img` element if the component is used to display an image. Replace the 'icon'
    * Default: null

@@ -1,0 +1,38 @@
+/*
+ * Image
+ *
+ */
+
+@mixin imageStyle() {
+  position: relative;
+  z-index: 2;
+
+  box-sizing: content-box;
+  max-width: 100%;
+  border-style: none;
+
+  border-radius: inherit;
+
+  &[alt]::after {
+    content: attr(alt);
+
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: inherit;
+  }
+}
+
+@mixin imageTag() {
+  img {
+    @include imageStyle();
+  }
+}

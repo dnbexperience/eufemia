@@ -6,6 +6,7 @@
 const remarkGfm = require('remark-gfm')
 const getCurrentBranchName = require('current-git-branch')
 const currentBranch = getCurrentBranchName()
+const { shouldUsePrebuild } = require('./src/core/BuildTools.cjs')
 
 const pathPrefix = '/'
 
@@ -17,17 +18,17 @@ const siteMetadata = {
   repoUrl: 'https://github.com/dnbexperience/eufemia/',
 }
 
-const pagesPath = './src/docs'
+global.pagesPath = './src/docs' // use "/src/docs_dummy" for fast test builds
+const defaultTheme = process.env.GATSBY_EUFEMIA_THEME || 'ui'
 const ignoreAsPage = [
-  // '**/*.md',// use when template in createPage is used
-  // '**/*.mdx',// use when template in createPage is used
   '**/Examples.*',
   '**/*_not_in_use*',
   '**/demos/layout/Layout.js',
   '**/skip-link-example.tsx',
   '**/CardProductsTable.js',
   '**/assets/*.js',
-  '**/utils/*.{js,ts,tsx}',
+  '**/__utils__/*.{js,ts,tsx}',
+  // '**/*.mdx',// Use when templates/mdx.tsx in createPage is used
 ]
 
 const plugins = [
@@ -41,15 +42,15 @@ const plugins = [
       name: 'Eufemia - DNB Design System',
       short_name: 'Eufemia',
       start_url: '/',
-      icon: './static/apple-touch-icon.png', // This path is relative to the root of the site.
+      icon: './static/dnb/apple-touch-icon.png', // This path is relative to the root of the site.
       icons: [
         {
-          src: '/android-chrome-192x192.png',
+          src: '/dnb/android-chrome-192x192.png',
           sizes: '192x192',
           type: 'image/png',
         },
         {
-          src: '/android-chrome-512x512.png',
+          src: '/dnb/android-chrome-512x512.png',
           sizes: '512x512',
           type: 'image/png',
         },
@@ -96,7 +97,7 @@ const plugins = [
     resolve: 'gatsby-source-filesystem',
     options: {
       name: 'docs',
-      path: pagesPath, // for .mdx files
+      path: global.pagesPath, // for .mdx files
       ignore: ignoreAsPage,
     },
   },
@@ -104,7 +105,7 @@ const plugins = [
     resolve: 'gatsby-plugin-page-creator',
     options: {
       name: 'docs',
-      path: pagesPath, // for .js files
+      path: global.pagesPath, // for .js files
       ignore: ignoreAsPage,
     },
   },
@@ -135,9 +136,13 @@ const plugins = [
       themes: {
         ui: { name: 'DNB' }, // universal identity
         eiendom: { name: 'DNB Eiendom' },
-        sbanken: { name: 'Sbanken' },
+        sbanken: { name: 'Sbanken (WIP)' },
       },
-      defaultTheme: getDefaultTheme(),
+      filesGlob: shouldUsePrebuild()
+        ? '**/build/style/themes/**/*-theme-*.min.css'
+        : '**/src/style/themes/**/*-theme-*.scss', // also load the extensions CSS package
+      inlineDefaultTheme: false, // ensures we do not load other theme CSS package when selected
+      defaultTheme,
     },
   },
 ].filter(Boolean)
@@ -157,7 +162,10 @@ if (currentBranch === 'release') {
 }
 
 // Algolia search
-if (process.env.IS_VISUAL_TEST !== '1') {
+if (
+  process.env.IS_VISUAL_TEST !== '1' &&
+  !global.pagesPath.includes('_dummy')
+) {
   const queries = require('./src/uilib/search/searchQuery')
   if (queries) {
     plugins.push({
@@ -188,23 +196,4 @@ module.exports = {
   plugins,
   jsxRuntime: 'automatic',
   trailingSlash: 'always',
-}
-
-function getDefaultTheme() {
-  const ciTheme = process.env.GATSBY_THEME_STYLE_DEV
-  if (ciTheme) {
-    return ciTheme
-  }
-
-  if (process.env.GATSBY_CLOUD || process.env.NETLIFY) {
-    if (currentBranch.includes('eiendom')) {
-      return 'eiendom'
-    }
-
-    if (currentBranch.includes('sbanken')) {
-      return 'sbanken'
-    }
-  }
-
-  return 'ui'
 }

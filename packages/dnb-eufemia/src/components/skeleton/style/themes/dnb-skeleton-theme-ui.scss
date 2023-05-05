@@ -4,12 +4,13 @@
  */
 
 :root {
-  --skeleton-delay: 5s;
   --skeleton-color: var(--color-black-8);
   --skeleton-color--contrast: var(--color-white);
 }
 
 .dnb-skeleton {
+  --skeleton-delay: 5s;
+
   img,
   video {
     filter: brightness(0%) contrast(0%) opacity(0.5);
@@ -19,10 +20,7 @@
     background-color: var(--skeleton-color) !important; // to take presence
   }
 
-  // Lines
-  &--shape#{&}::after,
-  &--lines &--shape#{&}::after,
-  &--lines#{&}--shape#{&}::after {
+  &--shape#{&}::after {
     background-image: repeating-linear-gradient(
       -45deg,
       var(--skeleton-color--contrast) 1px 2px,
@@ -47,7 +45,7 @@
     }
   }
 
-  // Font with Lines
+  // Font
   &--font,
   &--font &--show-font,
   &--font .dnb-p {

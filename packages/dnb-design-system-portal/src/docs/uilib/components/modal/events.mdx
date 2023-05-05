@@ -3,6 +3,7 @@ showTabs: true
 ---
 
 import ModalEventTable from 'Docs/uilib/components/modal/event-table'
+import { ModalExampleOnClosePrevent } from 'Docs/uilib/components/modal/Examples'
 
 ## Events
 
@@ -10,23 +11,4 @@ import ModalEventTable from 'Docs/uilib/components/modal/event-table'
 
 ### Selective on_close_prevent
 
-```jsx
-<Modal
-  ...
-  preventClose={true}
-  onClosePrevent={({ triggeredBy, close /* id, event */ }) => {
-	switch (triggeredBy) {
-	case 'keyboard':
-	case 'button':
-		close()
-		break
-	case 'overlay': {
-			const timeout = setTimeout(close, 1e3)
-			return () => clearTimeout(timeout) // clear timeout on unmount
-		}
-	}
-  }}
->
-  ...
-</Modal>
-```
+<ModalExampleOnClosePrevent />

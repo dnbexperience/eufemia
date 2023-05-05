@@ -3,12 +3,12 @@ import type { SectionSpacing, SectionStyleTypes } from '../Section';
 import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
+import type { Locale } from '../../shared/Context';
 export type FormRowDirection = 'vertical' | 'horizontal';
 export type FormRowChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-
 export interface FormRowProps
   extends React.HTMLProps<HTMLElement>,
     SpacingProps {
@@ -31,7 +31,7 @@ export interface FormRowProps
   label_id?: string;
 
   /**
-   * If you need to style the "legend", then you can either send in a custom Component, like `label={ <H2> }`, or define Your styling class with the `label_class` property.
+   * If you need to style the "legend", then you can either send in a custom Component, like `label={ <H2> }`, or define your styling class with the `label_class` property.
    */
   label_class?: string;
   no_label?: boolean;
@@ -44,7 +44,7 @@ export interface FormRowProps
   /**
    * Send along a different locale to all nested components.
    */
-  locale?: string;
+  locale?: Locale;
 
   /**
    * Forces the content of a FormRow to wrap. Make sure you always define spacing as `right="..."` and not `left`, this way components will align left once they wrap. Defaults to `false`.
@@ -67,12 +67,12 @@ export interface FormRowProps
   centered?: boolean;
 
   /**
-   * To enable the visual helper `.dnb-section` class. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to null.
+   * To enable the visual helper `.dnb-section` class. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to `null`.
    */
   section_style?: SectionStyleTypes;
 
   /**
-   * To modify the `spacing`. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to null.
+   * To modify the `spacing`. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to `null`.
    */
   section_spacing?: SectionSpacing;
   global_status_id?: string;

@@ -6,7 +6,7 @@
 import React from 'react'
 import styled from '@emotion/styled'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { H2, P, Dl, Dt, Dd, Code, Anchor } from '@dnb/eufemia/src/elements'
+import { H2, P, Dl, Dt, Dd, Code, Anchor } from '@dnb/eufemia/src'
 import { copy as copyIcon } from '@dnb/eufemia/src/icons'
 import {
   Button,
@@ -1020,3 +1020,22 @@ export function PaginationTable() {
     </ComponentBox>
   )
 }
+
+export const TablesInOneContainer = () => (
+  <ComponentBox hideToolbar hidePreview scope={{ TableContainer }}>
+    <TableContainer>
+      <TableContainer.Head>
+        <H2>Heading</H2>
+      </TableContainer.Head>
+
+      <TableContainer.Body>
+        <Table>{'hei'}</Table>
+        <Table>{'hei'}</Table>
+      </TableContainer.Body>
+
+      <TableContainer.Foot>
+        <P>Footer</P>
+      </TableContainer.Foot>
+    </TableContainer>
+  </ComponentBox>
+)

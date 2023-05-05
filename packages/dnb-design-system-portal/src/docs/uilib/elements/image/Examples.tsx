@@ -7,7 +7,7 @@ import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { Skeleton, ToggleButton } from '@dnb/eufemia/src'
 import styled from '@emotion/styled'
-import { Img } from '@dnb/eufemia/src/elements'
+import { Img } from '@dnb/eufemia/src'
 
 export const ImagePlainExample = () => (
   <ComponentBox data-visual-test="image-plain" hideCode>
@@ -21,7 +21,7 @@ export const ImagePlainExample = () => (
             width="100"
             height="100"
             alt="DNB logo"
-            src="/android-chrome-192x192.png"
+            src="/dnb/android-chrome-192x192.png"
           />
         )
       }
@@ -60,7 +60,7 @@ export const ImageCaptionExample = () => (
             height="100"
             alt="Alt text"
             caption="Caption text"
-            src="/android-chrome-192x192.png"
+            src="/dnb/android-chrome-192x192.png"
           />
         )
       }
@@ -83,7 +83,7 @@ export const ImageSkeletonExample = () => (
               width="100"
               height="100"
               alt="DNB logo"
-              src="/android-chrome-192x192.png"
+              src="/dnb/android-chrome-192x192.png"
             />
             <br />
             <Skeleton.Exclude>

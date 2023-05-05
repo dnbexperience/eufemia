@@ -23,6 +23,8 @@ import { babelPluginExtendTypes } from './generateTypes/babelPluginExtendTypes'
 import { babelPluginIncludeDocs } from './generateTypes/babelPluginIncludeDocs'
 import { babelPluginPropTypesRelations } from './generateTypes/babelPluginPropTypesRelations'
 
+const sharedProps = ['space', 'top', 'left', 'bottom', 'right']
+
 export default async function generateTypes({
   paths = [
     './src/*.js',
@@ -92,15 +94,24 @@ export const createTypes = async (
         return // stop here
       }
 
+      if (
+        String(process.env.npm_config_argv).includes('build:types:docs') &&
+        !(await existsInGit(destFile))
+      ) {
+        return // stop here
+      }
+
       const warnAboutMissingPropTypes = (collectProps, docs) => {
         if (docs) {
           docs.forEach((doc) => {
             if (doc) {
               Object.keys(doc).forEach((key) => {
                 if (collectProps.findIndex((k) => k === key) === -1) {
-                  log.fail(
-                    `The property "${key}" is not defined in PropTypes!\nComponent: ${componentName}\nFile: ${file}\n\n`
-                  )
+                  if (!sharedProps.includes(key)) {
+                    log.fail(
+                      `The property "${key}" is not defined in PropTypes!\nComponent: ${componentName}\nFile: ${file}\n\n`
+                    )
+                  }
                 }
               })
             }

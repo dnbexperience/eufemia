@@ -47,7 +47,7 @@ Components are styled using [nested CSS class selectors](https://medium.com/@and
 
 ## Eufemia is a Mono Repository
 
-The Eufemia repository is a mono repo consisting of the following workspaces:
+The Eufemia repository is a monorepo consisting of the following workspaces:
 
 - **dnb-design-system-portal**: Source code of the portal website - this website.
 - **dnb-eufemia**: Source code of the npm package - where all the components are located.
@@ -57,7 +57,6 @@ The Eufemia repository is a mono repo consisting of the following workspaces:
 The only folders you should need to know about to add new features are:
 
 - `src/components`: The folder containing all the components, structured in [component folders](/contribute/first-contribution/before-started#component-folder).
-- `src/elements`: The folder containing all elements, one file for each element.
 - `src/extensions`: The folder containing all extensions, also structured in [component folders](/contribute/first-contribution/before-started#component-folder).
 
 ### dnb-design-system-portal
@@ -90,7 +89,7 @@ As of now, some components are written in TypeScript (`.tsx`) and some in JavaSc
 
 For JavaScript based components, the documentation for properties (`properties.mdx`) is kept as a Markdown Table, they get extracted, parsed, and inserted in the type definition files.
 
-You can still sync/update the documentation of these files (`d.ts`), by running: `yarn @dnb/eufemia build:types:docs`
+You can still sync/update the documentation of these files (`d.ts`), by running: `yarn @dnb/eufemia build:types:docs` or `yarn build`.
 
 **NB:** After you have synced/updated the files, you will see that some newlines where removed. Thats a negative side-effect we have no solution at the moment.
 

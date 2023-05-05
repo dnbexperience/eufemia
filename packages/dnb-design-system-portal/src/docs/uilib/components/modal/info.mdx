@@ -2,6 +2,8 @@
 showTabs: true
 ---
 
+import { ModalExampleSuffix } from 'Docs/uilib/components/modal/Examples'
+
 ## Description
 
 Modal is the root component for [Drawer](/uilib/components/drawer) and [Dialog](/uilib/components/dialog). If one of these satisfy your needs, you want to use those rather than directly using Modal. Using the Modal, it's possible to implement other modal variants than we provide as of now(Drawer and Dialog).
@@ -18,13 +20,7 @@ As the Modal is very often used in combination with other components and often a
 
 You can also use the broadly available `suffix` property, like so:
 
-```jsx
-<Input
-  label="Input"
-  placeholder="Placeholder ..."
-  suffix={<HelpButton>Help text</HelpButton>}
-/>
-```
+<ModalExampleSuffix />
 
 ### Accessibility
 

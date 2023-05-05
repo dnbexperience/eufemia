@@ -53,7 +53,7 @@
 
     background-color: var(--color-white);
 
-    @include fakeFocus('mouse');
+    @include focusRing('mouse');
   }
 
   &:hover::before {
@@ -65,7 +65,7 @@
 
   // focus
   &:focus:not(:active)::before {
-    @include fakeFocus();
+    @include focusRing();
   }
 
   // focus
@@ -87,7 +87,7 @@
 
 // How to use the "skip-link"
 // 1. Have this on the top of your app: <a class="dnb-skip-link dnb-button" href="#dnb-app-content">Skip to content</a>
-// 2. Place this id="dnb-app-content" on Your main content container
+// 2. Place this id="dnb-app-content" on your main content container
 .dnb-skip-link {
   position: absolute;
   z-index: 0;

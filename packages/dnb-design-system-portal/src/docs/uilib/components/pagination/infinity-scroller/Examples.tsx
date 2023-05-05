@@ -9,7 +9,7 @@ import ComponentBox from '../../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 
 import { Section, Space, Button } from '@dnb/eufemia/src/components'
-import { H1, P, Ul } from '@dnb/eufemia/src/elements'
+import { H1, P, Ul } from '@dnb/eufemia/src'
 import Table from '@dnb/eufemia/src/components/Table'
 import { hasSelectedText } from '@dnb/eufemia/src/shared/helpers'
 

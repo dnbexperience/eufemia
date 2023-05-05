@@ -4,8 +4,8 @@ This plugin is a easy to use drop-in solution to load different DNB Eufemia Them
 
 ## Features
 
-- The current theme used is stored in the Browsers localStorage under the key `dnb-theme`
-- You can define a theme in the URL: `https://eufemia.dnb.no/?dnb-theme=ui`
+- The current theme used is stored in the Browsers localStorage under the key `eufemia-theme`
+- You can define a theme in the URL: `https://eufemia.dnb.no/?eufemia-theme=eiendom`
 - Automatically splits theme styles into separate Webpack chunks, not matter if you have imported them already in your app or not
 - Supports both build an dev mode with fast refresh and hot module replacement
 - Loads only one theme package at a time. When the user switches to another theme, a new CSS theme file will be downloaded.
@@ -21,11 +21,24 @@ Install `yarn add gatsby-plugin-eufemia-theme-handler` and add it to your `gatsb
     {
       resolve: 'gatsby-plugin-eufemia-theme-handler',
       options: {
+        defaultTheme: 'ui',
         themes: {
           ui: { name: 'DNB Eufemia' },
-          eiendom: { name: 'DNB Eiendom' },
+          eiendom: { name: 'DNB Eiendom', hide: true },
         },
-        defaultTheme: 'ui',
+
+        // (optional) Definfes with a glob where the styles are placed inside of @dnb/eufemia/...
+        filesGlob: '**/style/themes/**/*-theme-{basis,components}.min.css',
+
+        // (optional) The file order does matter. Define a glob.
+        filesOrder: [
+          '**/*-theme-extensions.*',
+          '**/*-theme-components.*',
+          '**/*-theme-basis.*',
+        ],
+
+        // (optional) when set to false, all theme styles will be loaded as separate files.
+        inlineDefaultTheme: true,
       },
     },
   ]
@@ -49,8 +62,8 @@ Gatsby bundles all styles into one single Webpack chunk (commons.css) and inline
 
 What this plugin does is:
 
-- Collect all `dnb-theme` files (`{scss,css}`) – also check if they are located in `/src` or needs to be collected from `/build`. Both are used by the Eufemia repo/portal.
-- After we have collected all available theme files, we create or update a static import `load-eufemia-themes.js`, which is git-ignored.
+- Collect all `eufemia-theme` files (`{scss,css}`) – also check if they are located in `/src` or needs to be collected from `/build`. Both are used by the Eufemia repo/portal.
+- After we have collected all available theme files, we create or update a static import `load-eufemia-themes.ts`, which is git-ignored.
 - Split theme styles into separate CSS files (Webpack chunks) inside `gatsby-node.js`
 - Inserts some JavaScript in the HTML head in order to handle what theme file should be shown (`inlineScriptProd` and `inlineScriptDev`)
 - Load these inline scripts via Webpack inline module loaders: `!raw-loader!terser-loader!`

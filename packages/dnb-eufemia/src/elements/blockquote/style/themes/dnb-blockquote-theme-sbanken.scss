@@ -1,0 +1,31 @@
+@use '../../../../components/anchor/style/anchor-mixins.scss';
+
+.dnb-blockquote {
+  color: var(--sb-color-text);
+  background-color: var(--sb-color-violet-light-4);
+
+  border-radius: 1.125rem;
+
+  &::before {
+    filter: brightness(0) saturate(100%) invert(20%) sepia(99%)
+      saturate(6711%) hue-rotate(265deg) brightness(71%) contrast(115%); // simulate the color #4e08bc - --sb-color-violet
+  }
+
+  &.dnb-blockquote--no-background {
+    &::before {
+      // simulate the color #18172a - --sb-color-text
+      filter: brightness(0) saturate(100%) invert(12%) sepia(4%)
+        saturate(6079%) hue-rotate(204deg) brightness(78%) contrast(99%);
+    }
+  }
+
+  h1,
+  h2,
+  h3,
+  .dnb-h--xx-large,
+  .dnb-h--large,
+  .dnb-h--medium,
+  .dnb-lead {
+    color: var(--sb-color-text);
+  }
+}

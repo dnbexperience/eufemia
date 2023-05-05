@@ -4,7 +4,7 @@
  */
 
 import React, { MouseEvent } from 'react'
-import { Link } from '@dnb/eufemia/src/elements'
+import { Link } from '@dnb/eufemia/src'
 import { getOffsetTop } from '@dnb/eufemia/src/shared/helpers'
 
 const Anchor = ({ children, href, ...rest }) => {
@@ -30,7 +30,10 @@ const Anchor = ({ children, href, ...rest }) => {
      * The first click, sets the hash, the second one, srollts to it.
      * We want Chromium browsers to scorll to the element on the first click.
      */
-    const id = e.currentTarget.getAttribute('href').slice(1)
+    const id = e.currentTarget
+      .getAttribute('href')
+      .split(/#/g)
+      .reverse()[0]
     const anchorElem = document.getElementById(id)
     if (anchorElem instanceof HTMLElement) {
       e.preventDefault()

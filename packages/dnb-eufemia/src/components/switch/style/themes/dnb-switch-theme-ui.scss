@@ -117,7 +117,7 @@
   }
   &__input:not([disabled]):focus ~ &__background,
   &__input:not([disabled]):active ~ &__background {
-    @include fakeFocus();
+    @include focusRing();
   }
   &__input:not([disabled]):focus ~ &__button &__focus,
   &__input:not([disabled]):active ~ &__button &__focus {
@@ -172,7 +172,7 @@
     ~ &__background {
     // change background color
     background-color: var(--color-fire-red-8);
-    @include fakeBorder(var(--color-fire-red), $focusRingWidth);
+    @include fakeBorder(var(--color-fire-red), var(--focus-ring-width));
   }
 
   // change gfx 1 color
@@ -199,7 +199,7 @@
     ~ &__button
     &__focus {
     display: block;
-    @include fakeBorder(var(--color-fire-red), $focusRingWidth);
+    @include fakeBorder(var(--color-fire-red), var(--focus-ring-width));
   }
 
   // and rotate in checked state

@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { FormStatusText } from '../FormStatus';
-import { StepIndicatorStatusState } from './StepIndicator';
+import type { FormStatusText } from '../FormStatus';
 export type StepIndicatorItemTitle = string | React.ReactNode;
-
+export type StepIndicatorItemStatusState = 'warn' | 'info' | 'error';
 export interface StepIndicatorItemProps
   extends React.HTMLProps<HTMLElement> {
   /**
@@ -36,7 +35,7 @@ export interface StepIndicatorItemProps
   inactive?: boolean;
   disabled?: boolean;
   status?: FormStatusText;
-  status_state?: StepIndicatorStatusState;
+  status_state?: StepIndicatorItemStatusState;
   currentItemNum: number;
 }
 export default class StepIndicatorItem extends React.Component<
@@ -46,7 +45,6 @@ export default class StepIndicatorItem extends React.Component<
   static defaultProps: object;
   render(): JSX.Element;
 }
-
 export interface StepItemButtonProps {
   children?: React.ReactNode;
   inner_ref?: Record<string, unknown>;
@@ -55,7 +53,6 @@ export interface StepItemButtonProps {
   status_state?: StepIndicatorStatusState;
 }
 export const StepItemButton: React.FC<StepItemButtonProps>;
-
 export interface StepItemWrapperProps {
   children?: React.ReactNode;
   number?: number;

@@ -1,0 +1,10 @@
+/*
+ * Label
+ *
+ */
+
+@import './label-mixins.scss';
+
+.dnb-label {
+  @include labelStyle();
+}

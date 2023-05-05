@@ -1,26 +1,69 @@
 import * as React from 'react';
 import type { SpacingProps } from '../shared/types';
 import type { SkeletonShow } from '../components/skeleton/Skeleton';
+import type { Locale } from '../../shared/Context';
 export type PaymentCardCardStatus = 'active' | 'blocked' | 'expired';
 export type PaymentCardVariant = 'normal' | 'compact';
 export type PaymentCardDigits = string | number;
+export enum CardType {
+  Visa, // eslint-disable-line
+  Mastercard, // eslint-disable-line
+  None // eslint-disable-line
+}
+
+export enum ProductType {
+  Saga, // eslint-disable-line
+  Pluss, // eslint-disable-line
+  Intro, // eslint-disable-line
+  Business, // eslint-disable-line
+  Bedrift, // eslint-disable-line
+  PrivateBanking, // eslint-disable-line
+  None // eslint-disable-line
+}
+
+export enum BankAxept {
+  White, // eslint-disable-line
+  Black, // eslint-disable-line
+  Gold, // eslint-disable-line
+  Black20, // eslint-disable-line
+  Gray // eslint-disable-line
+}
+
+export enum BankAxeptType {
+  BankAxept, // eslint-disable-line
+  None // eslint-disable-line
+}
+
+export enum Designs {
+  defaultDesign, // eslint-disable-line
+  young, // eslint-disable-line
+  myFirst, // eslint-disable-line
+  youth, // eslint-disable-line
+  pluss, // eslint-disable-line
+  gold, // eslint-disable-line
+  saga, // eslint-disable-line
+  sagaPlatinum, // eslint-disable-line
+  privateBanking, // eslint-disable-line
+  mcBlack, // eslint-disable-line
+  businessNoVisa, // eslint-disable-line
+  businessWithVisa // eslint-disable-line
+}
 
 export interface PaymentCardRawData {
   productCode: string;
   productName: string;
   displayName: string;
-  cardDesign: Record<string, unknown>;
-  cardType: Record<string, unknown>;
-  productType: Record<string, unknown>;
+  cardDesign: Designs;
+  cardType: CardType;
+  productType: ProductType;
+  bankAxept: BankAxeptType;
 }
-
 export type PaymentCardChildren =
   | string
   | React.ReactNode
   | ((...args: any[]) => any);
-
 export interface PaymentCardProps
-  extends React.HTMLProps<HTMLElement>,
+  extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
     SpacingProps {
   /**
    * <em>(required)</em> if product code matches one of the codes in the list the card will get that design, if no match is found Default design will be used.
@@ -56,13 +99,12 @@ export interface PaymentCardProps
   /**
    * Use `nb-NO` or `en-GB`. Defaults to the Eufemia provider.
    */
-  locale?: string;
+  locale?: Locale;
 
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
   skeleton?: SkeletonShow;
-
   class?: string;
   className?: string;
   children?: PaymentCardChildren;
@@ -74,5 +116,6 @@ export default class PaymentCard extends React.Component<
   static defaultProps: object;
   render(): JSX.Element;
 }
-
 export const getCardData = (product_code: string) => PaymentCardRawData;
+export const formatCardNumber = (cardNumber: string, digits?: number) =>
+  string;

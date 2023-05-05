@@ -7,7 +7,7 @@ import React from 'react'
 import classnames from 'classnames'
 import InlineImg from '../../../../../shared/tags/Img'
 import { Button, Icon } from '@dnb/eufemia/src/components'
-import { H2, H4, P, Hr, Code } from '@dnb/eufemia/src/elements'
+import { H2, H4, P, Hr, Code } from '@dnb/eufemia/src'
 import { bell } from '@dnb/eufemia/src/icons'
 import LegacyCodeStylingExample from './assets/legacy-code-styling-example.png'
 import {
@@ -23,7 +23,7 @@ const LegacyCodeStyling = () => (
     <article className={LegacyCodeExample}>
       <h1>Example usage</h1>
       <p>
-        Further down on this page You find visual examples of how to deal
+        Further down on this page you find visual examples of how to deal
         with legacy styling.
       </p>
       <p>
@@ -84,7 +84,7 @@ const LegacyCodeStyling = () => (
         .
       </P>
       <p className="dnb-p">
-        And I cloned Your style, but written as{' '}
+        And I cloned your style, but written as{' '}
         <Code>{`<p class="dnb-p">`}</Code>
       </p>
       <Button

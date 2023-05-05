@@ -10,6 +10,7 @@ const ora = require('ora')
 const { isCI } = require('repo-utils')
 const { slugify } = require('../../../src/shared/component-helper')
 const { makeUniqueId } = require('../../shared/component-helper')
+const { configureToMatchImageSnapshot } = require('jest-image-snapshot')
 
 const log = ora()
 
@@ -25,7 +26,7 @@ const config = {
     height: 1024,
   },
   matchConfig: {
-    failureThreshold: 0.01,
+    failureThreshold: 0.001, // Chromium needs 0.03, while webkit needs 0.04 or even more
     failureThresholdType: 'percent',
     comparisonMethod: 'pixelmatch',
     customSnapshotIdentifier: ({ currentTestName }) => {
@@ -61,6 +62,7 @@ const makeScreenshot = async ({
   simulateSelector = null,
   wrapperStyle = null,
   measureElement = null,
+  matchConfig = null,
 } = {}) => {
   await makePageReady({
     page,
@@ -68,6 +70,7 @@ const makeScreenshot = async ({
     pageViewport,
     headers,
     fullscreen,
+    matchConfig,
   })
 
   if (reload) {
@@ -94,12 +97,11 @@ const makeScreenshot = async ({
     await page.evaluate(executeBeforeSimulate)
   }
 
-  const { elementToSimulate, delaySimulation } = await handleSimulation({
+  const { delaySimulation } = await handleSimulation({
     page,
     element,
     simulate,
     simulateSelector,
-    screenshotElement,
     waitAfterSimulateSelector,
     waitAfterSimulate,
     waitBeforeSimulate,
@@ -111,10 +113,6 @@ const makeScreenshot = async ({
     selector,
   })
 
-  if (simulate !== 'hover' && simulate !== 'active') {
-    await page.mouse.move(0, 0)
-  }
-
   if (executeBeforeScreenshot) {
     await page.evaluate(executeBeforeScreenshot)
   }
@@ -123,6 +121,10 @@ const makeScreenshot = async ({
   // if (!isCI) {
   //   await page.waitForTimeout(300000)
   // }
+
+  if (simulate && simulate === 'click') {
+    await page.mouse.move(0, 0) // reset after click simulations, because the mouse still hovers
+  }
 
   const screenshot = await takeScreenshot({
     page,
@@ -134,9 +136,7 @@ const makeScreenshot = async ({
     await page.waitForTimeout(delaySimulation)
   }
 
-  if (elementToSimulate) {
-    await elementToSimulate.dispose()
-  }
+  await page.mouse.move(0, 0)
 
   if (waitBeforeFinish > 0) {
     await page.waitForTimeout(waitBeforeFinish)
@@ -146,24 +146,45 @@ const makeScreenshot = async ({
 }
 module.exports.makeScreenshot = makeScreenshot
 
-const setupPageScreenshot = async ({
+const setMatchConfig = (matchConfig) => {
+  const cfg = {
+    ...config.matchConfig,
+    ...matchConfig,
+  }
+  const toMatchImageSnapshot = configureToMatchImageSnapshot(cfg)
+  expect.extend({ toMatchImageSnapshot })
+}
+module.exports.setMatchConfig = setMatchConfig
+
+const setupPageScreenshot = ({
   page = global.page,
   url,
+  themeName = null,
   pageViewport = null,
   headers = null,
   fullscreen = false,
   each = false,
   timeout = null,
+  matchConfig = null,
 } = {}) => {
+  if (matchConfig) {
+    // The cleanup happens in "setupJestScreenshot"
+    beforeEach(() => {
+      setMatchConfig(matchConfig)
+    }, timeout)
+  }
+
   const before = async () => {
     await makePageReady({
       page,
       url,
+      themeName,
       pageViewport,
       headers,
       fullscreen,
     })
   }
+
   if (each) {
     beforeEach(before, timeout)
   } else {
@@ -204,10 +225,16 @@ async function handleElement({
 async function makePageReady({
   page,
   url = null,
+  themeName = null,
   pageViewport = null,
   headers = null,
   fullscreen = false,
+  matchConfig = null,
 }) {
+  if (matchConfig) {
+    setMatchConfig(matchConfig)
+  }
+
   if (url) {
     if (pageViewport || (pageViewport !== false && config.pageViewport)) {
       if (pageViewport && config.pageViewport) {
@@ -222,9 +249,14 @@ async function makePageReady({
       await page.setExtraHTTPHeaders(headers)
     }
 
-    await page.goto(createUrl(url, fullscreen), {
+    await page.goto(createUrl(url, fullscreen, themeName), {
       waitUntil: config.waitUntil,
       timeout: config.timeout,
+    })
+
+    await page.evaluate(() => {
+      // Remove all stored
+      window.localStorage.clear()
     })
   }
 
@@ -246,7 +278,7 @@ async function makePageReady({
 }
 
 async function handleRootClassName({ page, rootClassName }) {
-  // This removes a previews added global css class to HTML
+  // This removes a previous added global css class to HTML
   if (global.rootClassName) {
     await page.evaluate(
       ({ rootClassName }) => {
@@ -338,94 +370,82 @@ async function handleSimulation({
   element,
   simulate,
   simulateSelector,
-  screenshotElement,
   waitAfterSimulateSelector,
   waitAfterSimulate,
   waitBeforeSimulate,
 }) {
+  if (simulateSelector) {
+    element = await page.$(simulateSelector)
+  }
+
   if (parseFloat(waitBeforeSimulate) > 0) {
     await page.waitForTimeout(waitBeforeSimulate)
   }
 
-  let elementToSimulate = null
+  const elementToSimulate = element
+  const elementsToDispose = []
   let delaySimulation = 0
 
   if (simulate) {
-    if (simulateSelector) {
-      await page.waitForSelector(simulateSelector)
-      elementToSimulate = await page.$(simulateSelector)
-    } else {
-      elementToSimulate = element
-    }
+    const simulations = Array.isArray(simulate) ? simulate : [simulate]
+    for await (const simulate of simulations) {
+      let element = elementToSimulate
 
-    /**
-     * Because our Slider uses an input element, we need to use "force"
-     */
-
-    switch (simulate) {
-      case 'hover': {
-        await page.mouse.move(0, 0)
-        await elementToSimulate.hover({ force: true })
-        break
+      let action = simulate
+      if (simulate?.action) {
+        action = simulate.action
+        if (simulate.selector) {
+          element = await page.$(simulate.selector)
+        }
+        await page.mouse.move(0, 0) // reset between simulations
       }
 
-      case 'click': {
-        await elementToSimulate.click()
-        break
+      switch (action) {
+        case 'hover': {
+          await element.hover({ force: true })
+          break
+        }
+
+        case 'click': {
+          await element.click()
+          break
+        }
+
+        case 'longclick': {
+          delaySimulation = isCI ? 600 : 400
+
+          // No await
+          element.click({ delay: delaySimulation })
+          break
+        }
+
+        case 'tabfocus': {
+          await element.click()
+          await page.keyboard.press('Tab')
+          await element.focus()
+          break
+        }
+
+        case 'active': {
+          delaySimulation = isCI ? 200 : 100
+          await element.click({
+            force: true,
+            delay: delaySimulation,
+          })
+
+          await page.mouse.down() // Slider needs "mouse.down", in order to make "active" state work
+
+          break
+        }
+
+        case 'focus': {
+          await page.keyboard.press('Tab') // to simulate pressing tab key before focus
+          await element.focus({ force: true })
+          break
+        }
       }
 
-      case 'enter': {
-        await screenshotElement.press('Enter')
-        break
-      }
-
-      case 'longclick': {
-        delaySimulation = isCI ? 600 : 400
-
-        // No await
-        elementToSimulate.click({ delay: delaySimulation })
-        break
-      }
-
-      case 'clickfocus': {
-        await elementToSimulate.click()
-        screenshotElement.press('Shift')
-        await screenshotElement.press('Tab')
-        await screenshotElement.press('Tab') // tab two times
-        await elementToSimulate.focus()
-        break
-      }
-
-      case 'active': {
-        delaySimulation = isCI ? 200 : 100
-        await elementToSimulate.click({
-          force: true,
-          delay: delaySimulation, // Slider needs a delay, in order to make "active" state work
-        })
-
-        const { pageXOffset, pageYOffset } = await page.evaluate(() => {
-          const pageXOffset = window.pageXOffset
-          const pageYOffset = window.pageYOffset
-          return { pageXOffset, pageYOffset }
-        })
-
-        const boundingBox = await elementToSimulate.boundingBox()
-
-        await page.mouse.down(
-          boundingBox.x + boundingBox.width / 2 - pageXOffset,
-          boundingBox.y + boundingBox.height / 2 - pageYOffset
-        )
-
-        break
-      }
-
-      case 'focus': {
-        await screenshotElement.press('Tab') // to simulate pressing tab key before focus
-        await elementToSimulate.focus()
-        break
-      }
-
-      default:
+      elementsToDispose.push(element)
     }
   }
 
@@ -439,7 +459,7 @@ async function handleSimulation({
     await page.waitForTimeout(waitAfterSimulate)
   }
 
-  return { elementToSimulate, delaySimulation }
+  return { elementsToDispose, delaySimulation }
 }
 
 async function handleWrapper({
@@ -526,13 +546,17 @@ module.exports.loadImage = async (imagePath) =>
   await fs.readFile(path.resolve(imagePath))
 
 // make sure "${url}/" has actually a slash on the end
-const createUrl = (url, fullscreen = true) => {
+const createUrl = (url, fullscreen = true, themeName = null) => {
   const newURL = new URL(
     url,
     `http://${config.testScreenshotOnHost}:${config.testScreenshotOnPort}`
   )
 
   newURL.searchParams.append('data-visual-test', 'true')
+
+  if (themeName) {
+    newURL.searchParams.append('eufemia-theme', themeName)
+  }
 
   if (fullscreen) {
     newURL.searchParams.append('fullscreen', 'true')

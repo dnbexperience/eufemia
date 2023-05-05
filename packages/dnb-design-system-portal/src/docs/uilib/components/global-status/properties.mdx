@@ -2,6 +2,8 @@
 showTabs: true
 ---
 
+import { GlobalStatusExampleControllers } from 'Docs/uilib/components/global-status/Examples'
+
 ## Properties
 
 | Properties                                  | Description                                                                                                                                                                                              |
@@ -9,7 +11,7 @@ showTabs: true
 | `id`                                        | _(optional)_ the main ID. Defaults to `main`.                                                                                                                                                            |
 | `title`                                     | _(optional)_ the title appears as a part of the status content. Use `false` to hide / remove the title and icon. Defaults to `En feil har skjedd`.                                                       |
 | `text` or `children`                        | _(optional)_ the text appears as the status content. Besides plain text, you can send in a React component as well. Defaults to `null`.                                                                  |
-| `items`                                     | _(optional)_ the items (list items) appear as a part of the status content. you can both use an JSON array, or a vanilla array with a string or an object content. Se **Item Object** example below.     |
+| `items`                                     | _(optional)_ the items (list items) appear as a part of the status content. you can both use an JSON array, or a vanilla array with a string or an object content. See **Item Object** example below.    |
 | `icon`                                      | _(optional)_ the icon shown before the status title. Defaults to `exclamation`.                                                                                                                          |
 | `state`                                     | _(optional)_ defines the visual appearance of the status. There are two main statuses `error` and `info`. The default status is `error`.                                                                 |
 | `icon_size`                                 | _(optional)_ the icon size of the title icon shows. Defaults to `medium`.                                                                                                                                |
@@ -47,24 +49,10 @@ const items = [
 
 ## Controllers
 
-In React You can make use of the helper components, the function as a kind of a controller component.
+In React, you can make use of the helper components, the function as a kind of a controller component.
 The goal is to update the content (properties/events) of the target GlobalStatus.
 
-```jsx
-// Place the status where ever you have to.
-<GlobalStatus id="custom-id" />
-
-// Manipulate the status later on. Every property is optional.
-<GlobalStatus.Add id="custom-id" status_id="status-1" item="Item #1" text="New Text" />
-<GlobalStatus.Add id="custom-id" status_id="status-2" item="Item #2" title="New Title" />
-<GlobalStatus.Add id="custom-id" status_id="status-3" item="Item #3" />
-
-// or update the status.
-<GlobalStatus.Update id="custom-id" show />
-
-// Later You can remove a resolved item.
-<GlobalStatus.Remove id="custom-id" status_id="status-3" />
-```
+<GlobalStatusExampleControllers />
 
 | Controller Properties | Description                                                                                                                                                                                                                              |
 | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

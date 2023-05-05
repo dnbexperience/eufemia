@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { DrawerListProps } from '../../fragments/DrawerList';
 import type { ButtonIconPosition } from '../button';
 import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
 import type {
@@ -6,133 +7,36 @@ import type {
   FormStatusState,
   FormStatusText
 } from '../FormStatus';
-import type { IconPrimaryIcon, IconPrimarySize } from '../IconPrimary';
+import type { IconIcon, IconSize } from '../Icon';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
-export type AutocompleteAlignDrawer = 'left' | 'right';
-export type AutocompleteWrapperElement =
-  | Record<string, unknown>
-  | ((...args: any[]) => any)
-  | React.ReactNode;
-export type AutocompleteSelectedValue = string | React.ReactNode;
-export type AutocompleteSuffixValue = string | React.ReactNode;
-export type AutocompleteContent = string | React.ReactNode | string[];
-export type AutocompleteRawData =
-  | any[]
-  | Record<string, unknown>
-  | ((...args: any[]) => any);
-export type AutocompleteMode = 'sync' | 'async';
-export type AutocompleteTitle = string | React.ReactNode;
-export type AutocompletePlaceholder = string | React.ReactNode;
-export type AutocompleteNoOptions = string | React.ReactNode;
-export type AutocompleteShowAll = string | React.ReactNode;
-export type AutocompleteAriaLiveOptions = string | React.ReactNode;
-export type AutocompleteIndicatorLabel = string | React.ReactNode;
-export type AutocompleteSubmitButtonIcon =
+type AutocompleteMode = 'sync' | 'async';
+type AutocompleteTitle = string | React.ReactNode;
+type AutocompletePlaceholder = string | React.ReactNode;
+type AutocompleteNoOptions = string | React.ReactNode;
+type AutocompleteShowAll = string | React.ReactNode;
+type AutocompleteAriaLiveOptions = string | React.ReactNode;
+type AutocompleteIndicatorLabel = string | React.ReactNode;
+type AutocompleteSubmitButtonIcon =
   | string
   | React.ReactNode
   | ((...args: any[]) => any);
-export type AutocompleteInputRef =
+type AutocompleteInputRef =
   | ((...args: any[]) => any)
   | Record<string, unknown>;
-export type AutocompleteTrianglePosition = 'left' | 'right';
-export type AutocompleteInputIcon =
+type AutocompleteInputIcon =
   | string
   | React.ReactNode
   | ((...args: any[]) => any);
-export type AutocompleteSuffix =
-  | string
+type AutocompleteAlignAutocomplete = 'left' | 'right';
+type AutocompleteInputElement =
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type AutocompleteDirection = 'auto' | 'top' | 'bottom';
-export type AutocompleteSize = 'default' | 'small' | 'medium' | 'large';
-export type AutocompleteAlignAutocomplete = 'left' | 'right';
-export type AutocompleteOptionsRender =
-  | Record<string, unknown>
-  | ((...args: any[]) => any)
-  | React.ReactNode;
-export type AutocompleteInputElement =
-  | ((...args: any[]) => any)
-  | React.ReactNode;
-export type AutocompleteData =
-  | string
-  | ((...args: any[]) => any)
-  | React.ReactNode
-  | Record<string, unknown>
-  | (
-      | string
-      | React.ReactNode
-      | {
-          selected_value?: string | React.ReactNode;
-          suffix_value?: string | React.ReactNode;
-          content?: string | React.ReactNode | string[];
-        }
-    )[];
-export type AutocompleteSearchInWordIndex = string | number;
-export type AutocompleteDefaultValue = string | number;
-export type AutocompleteValue = string | number;
-export type AutocompletePageOffset = string | number;
-export type AutocompleteObserverElement = string | React.ReactNode;
-export type AutocompleteChildren =
-  | string
-  | ((...args: any[]) => any)
-  | React.ReactNode
-  | Record<string, unknown>
-  | any[];
-
+type AutocompleteSearchInWordIndex = string | number;
 export interface AutocompleteProps
-  extends React.HTMLProps<HTMLElement>,
-    SpacingProps {
-  role?: string;
-
-  /**
-   * Set a `cache_hash` as a string to enable internal memorizing of the list to enhance rerendering performance. Components like Autocomplete is using this because of the huge data changes due to search and reorder. Defaults to `null`.
-   */
-  cache_hash?: string;
-  action_menu?: boolean;
-  is_popup?: boolean;
-
-  /**
-   * Use `right` to change the options alignment direction. Makes only sense to use in combination with `prevent_selection` or `more_menu` - or if a independent width is used. Defaults to `left`.
-   */
-  align_drawer?: AutocompleteAlignDrawer;
-
-  /**
-   * Has to be a HTML Element, ideal a mother element, used to calculate sizes and distances. Also used for the "click outside" detection. Clicking on the `wrapper_element` will not be anymore triggered as an outside click.
-   */
-  wrapper_element?: AutocompleteWrapperElement;
-
-  /**
-   * Define a HTML class that will be set on the list, beside `dnb-drawer-list__list`.
-   */
-  list_class?: string;
-
-  /**
-   * If set to true, the DrawerList will handle it&#39;s width and position handling independent to the parent/mother element. Defaults to `false`.
-   */
-  independent_width?: boolean;
-  fixed_position?: boolean;
-  prevent_focus?: boolean;
-
-  /**
-   * If set to true, search items by the first key will be ignored. Defaults to `false`.
-   */
-  skip_keysearch?: boolean;
-  selected_value?: AutocompleteSelectedValue;
-  suffix_value?: AutocompleteSuffixValue;
-  content?: AutocompleteContent;
-  prepared_data?: any[];
-  raw_data?: AutocompleteRawData;
-
-  /**
-   * If set to true, all keyboard and mouse events will be ignored. Defaults to `false`.
-   */
-  ignore_events?: boolean;
-  handle_dismiss_focus?: (...args: any[]) => any;
-  on_pre_change?: (...args: any[]) => any;
-  on_resize?: (...args: any[]) => any;
-  id?: string;
-
+  extends SpacingProps,
+    DrawerListProps,
+    Omit<React.HTMLProps<HTMLElement>, 'ref'> {
   /**
    * If set to `async`, it prevents showing the "no options" message during typing / filtering. Defaults to `sync`.
    */
@@ -196,22 +100,17 @@ export interface AutocompleteProps
   /**
    * To be included in the autocomplete input.
    */
-  icon?: IconPrimaryIcon;
+  icon?: IconIcon;
 
   /**
    * Change the size of the icon pragmatically.
    */
-  icon_size?: IconPrimarySize;
+  icon_size?: IconSize;
 
   /**
    * Position of the icon inside the autocomplete. Set to `left` or `right`. Defaults to `left`.
    */
   icon_position?: ButtonIconPosition;
-
-  /**
-   * Position of arrow icon/triangle inside the drawer-list. Set to `left` or `right`. Defaults to `left` if not set.
-   */
-  triangle_position?: AutocompleteTrianglePosition;
 
   /**
    * Same as `icon`.
@@ -270,11 +169,6 @@ export interface AutocompleteProps
   global_status_id?: string;
 
   /**
-   * Text describing the content of the Autocomplete more than the label. You can also send in a React component, so it gets wrapped inside the Autocomplete component.
-   */
-  suffix?: AutocompleteSuffix;
-
-  /**
    * If set to `true`, word highlighting will still be active, but no options will be filtered out. Defaults to `false`.
    */
   disable_filter?: boolean;
@@ -285,44 +179,9 @@ export interface AutocompleteProps
   disable_reorder?: boolean;
 
   /**
-   * Defines if the options list should be scrollable (the `max-height` is set by default to `50vh`). Defaults to `true`.
-   */
-  scrollable?: boolean;
-
-  /**
-   * If set to true, the element is then focusable by assertive technologies.
-   */
-  focusable?: boolean;
-
-  /**
    * If set to `true`, word highlighting will be disabled, but the options will still get filtered. Defaults to `false`.
    */
   disable_highlighting?: boolean;
-
-  /**
-   * Defines the direction of how the drawer-list shows the options list. Can be `bottom` or `top`. Defaults to `auto`.
-   */
-  direction?: AutocompleteDirection;
-
-  /**
-   * Defines if the maximum height (in `rem`) of the options list. Defaults to null, as this is set automatically by default.
-   */
-  max_height?: number;
-
-  /**
-   * To disable the React Portal behavior. Defaults to `false`.
-   */
-  skip_portal?: boolean;
-
-  /**
-   * To disable appear/disappear (show/hide) animation. Defaults to `false`.
-   */
-  no_animation?: boolean;
-
-  /**
-   * To disable scrolling animation. Defaults to `false`.
-   */
-  no_scroll_animation?: boolean;
 
   /**
    * Use `true` to show a Autocomplete button to toggle the <a href="/uilib/components/fragments/drawer-list">DrawerList</a>. Defaults to `false`.
@@ -335,34 +194,14 @@ export interface AutocompleteProps
   submit_element?: React.ReactNode;
 
   /**
-   * If set to true, the DrawerList will then not make any permanent selection. Defaults to `false`.
-   */
-  prevent_selection?: boolean;
-
-  /**
-   * Define the height of the Autocomplete. Can be set to `small`, `default`, `medium` and `large`. Defaults to `default`.
-   */
-  size?: AutocompleteSize;
-
-  /**
    * Use `right` to change the options alignment direction. Defaults to `left`.
    */
   align_autocomplete?: AutocompleteAlignAutocomplete;
 
   /**
-   * Has to be a function, returning the items again. Se <a href="/uilib/components/fragments/drawer-list#example-usage-of-options_render">example</a>. This can be used to add additional options above the actual rendered list.
-   */
-  options_render?: AutocompleteOptionsRender;
-
-  /**
    * Lets you provide a custom React element as the input HTML element.
    */
   input_element?: AutocompleteInputElement;
-
-  /**
-   * <em>(required)</em> the data we want to fill the list with. Provide the data as a `JSON string`, `array` or `object` in these <a href="/uilib/components/fragments/drawer-list/info#data-structure">data structure</a>. <br /> If you don&#39;t have to define a `value`, you can also send in a `function` which will be called once the user opens the DrawerList.
-   */
-  data?: AutocompleteData;
 
   /**
    * This gives you the possibility to change the threshold number, which defines from what word on we search "inside words". Defaults to `3`.
@@ -375,16 +214,6 @@ export interface AutocompleteProps
   search_numbers?: boolean;
 
   /**
-   * If you want to define only a startup value (integer) or have to handle a re-render without handling the state during the re-render by yourself, then using `default_value` is a good choice. Defaults to `null`.
-   */
-  default_value?: AutocompleteDefaultValue;
-
-  /**
-   * Should either be an index (integer) of the data array or a key ("NB:" should not start with a number) – defined by `selected_key` inside an array item. If `data` is an object, use the object key (string) as the `value` to define the selected item. Can be a string or integer. Defaults to `null` and the `title` property will be shown. <br /> "NB:" In case the DrawerList will be re-rendered, this value will be used again. Use `default_value` instead.
-   */
-  value?: AutocompleteValue;
-
-  /**
    * Lets you define a custom input value.
    */
   input_value?: string;
@@ -393,21 +222,6 @@ export interface AutocompleteProps
    * Use `true` to auto open the list once the user is entering the input field with the keyboard.
    */
   open_on_focus?: boolean;
-
-  /**
-   * If set to true, the DrawerList will not close on any events. Defaults to `false`.
-   */
-  prevent_close?: boolean;
-
-  /**
-   * If set to true, the DrawerList will close on outside clicks, but not on selection. Defaults to `false`.
-   */
-  keep_open?: boolean;
-
-  /**
-   * If set to `true`, the Autocomplete will be rendered initially with a visible and accessible data list / options.
-   */
-  opened?: boolean;
   disabled?: boolean;
 
   /**
@@ -421,42 +235,10 @@ export interface AutocompleteProps
   skeleton?: SkeletonShow;
 
   /**
-   * Define a HTML class that will be set on the DOM portal beside `dnb-drawer-list__portal__style`. Can be useful to handle e.g. a custom `z-index` in relation to a header.
-   */
-  portal_class?: string;
-
-  /**
    * Define a custom class for the internal drawer-list. This makes it possible more easily customize the drawer-list style with styled-components and the `css` style method. Defaults to `null`.
    */
   drawer_class?: string;
-
-  /**
-   * Defines if the available scrollable height. If scrolling not should change the height of the drawer-list, then set it to `0` (useful if the DrawerList is used in fixed positions on contrast to a scrollable page content). Defaults to `window.pageYOffset`.
-   */
-  page_offset?: AutocompletePageOffset;
-
-  /**
-   * Set a HTML element, either as a selector or a DOM element. Can be used to send in an element which will be used to make the <em>direction calculation</em> on.
-   */
-  observer_element?: AutocompleteObserverElement;
-
-  /**
-   * If set to true, the HTML body will get locked from scrolling when the Dropdown is open. Defaults to `false`.
-   */
-  enable_body_lock?: boolean;
-  class?: string;
-  className?: string;
-
-  /**
-   * <em>(required)</em> the data we want to fill the list with. Provide the data as a `JSON string`, `array` or `object` in these <a href="/uilib/components/fragments/drawer-list/info#data-structure">data structure</a>. <br /> If you don&#39;t have to define a `value`, you can also send in a `function` which will be called once the user opens the DrawerList.
-   */
-  children?: AutocompleteChildren;
   ariaLiveDelay?: number;
-
-  /**
-   * Will be called once the user presses the autocomplete. Returns the data item `{ data, attributes }`.
-   */
-  on_show?: (...args: any[]) => any;
 
   /**
    * Will be called for every key change the users makes. Returns an object with the input `value` inside `{ value, event, attributes }` including <a href="/uilib/components/autocomplete/events#dynamically-change-data">these methods</a>.
@@ -474,16 +256,6 @@ export interface AutocompleteProps
   on_blur?: (...args: any[]) => any;
 
   /**
-   * Will be called once the user presses the autocomplete again, or clicks somewhere else. Returns the data item `{ data, attributes }`.
-   */
-  on_hide?: (...args: any[]) => any;
-
-  /**
-   * Will be called on state changes made by the user. Returns an object with the new selected `data` item `{ data, event, attributes, value }` including <a href="/uilib/components/autocomplete/events#dynamically-change-data">these methods</a>.
-   */
-  on_change?: (...args: any[]) => any;
-
-  /**
    * Will be called once the users selects an item by a click or keyboard navigation. Returns an object with the new selected `data` item `{ data, event, attributes, value, active_item }` including <a href="/uilib/components/autocomplete/events#dynamically-change-data">these methods</a>. The "active_item" property is the currently selected item by keyboard navigation
    */
   on_select?: (...args: any[]) => any;
@@ -497,6 +269,9 @@ export default class Autocomplete extends React.Component<
   static HorizontalItem: ({
     children
   }: {
+    /**
+     * <em>(required)</em> the data we want to fill the list with. Provide the data as a `JSON string`, `array` or `object` in these <a href="/uilib/components/fragments/drawer-list/info#data-structure">data structure</a>. <br /> If you don&#39;t have to define a `value`, you can also send in a `function` which will be called once the user opens the DrawerList.
+     */
     children: React.ReactNode;
   }) => JSX.Element;
   render(): JSX.Element;

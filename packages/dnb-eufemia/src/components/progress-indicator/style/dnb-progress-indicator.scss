@@ -5,14 +5,12 @@
 
 @import '../../../style/core/utilities.scss';
 
-:root {
+.dnb-progress-indicator {
   --progress-indicator-timing: cubic-bezier(0.5, 0, 0.5, 0.99);
   --progress-indicator-circular-circle: 88;
   --progress-indicator-circular-circle-offset--min: 88;
   --progress-indicator-circular-circle-offset--max: 1;
-}
 
-.dnb-progress-indicator {
   position: relative;
   display: inline-flex;
   align-items: center;

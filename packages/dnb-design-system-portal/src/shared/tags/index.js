@@ -5,24 +5,17 @@
 import React from 'react'
 import CodeBlock from './CodeBlock'
 import { Checkbox, Input } from '@dnb/eufemia/src/components'
-import {
-  Ul,
-  Ol,
-  Dl,
-  Li,
-  P,
-  Hr,
-  Blockquote,
-  Code,
-} from '@dnb/eufemia/src/elements'
+import { Ul, Ol, Dl, Li, P, Hr, Blockquote, Code } from '@dnb/eufemia/src'
 import Table from './Table'
 // import Img from './Img'
 import Anchor from './Anchor'
 import Header from './AutoLinkHeader'
 import Copy from './Copy'
+import VisibilityByTheme from '@dnb/eufemia/src/shared/VisibilityByTheme'
 
 export default {
   Copy,
+  VisibilityByTheme,
   // img: Img, // -> <figure> cannot appear as a descendant of <p>
   h1: (props) => <Header level="1" {...props} />,
   h2: (props) => <Header level="2" {...props} />,

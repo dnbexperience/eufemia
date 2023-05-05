@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {
+import type {
   FormStatusProps,
   FormStatusState,
   FormStatusText
@@ -23,7 +23,6 @@ export type TextareaTextareaElement =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type TextareaChildren = React.ReactNode | ((...args: any[]) => any);
-
 export interface TextareaProps
   extends React.HTMLProps<HTMLElement>,
     SpacingProps {
@@ -128,7 +127,6 @@ export interface TextareaProps
    * By providing a React.ref we can get the internally used Textarea element (DOM). E.g. `inner_ref={myRef}` by using `React.createRef()` or `React.useRef()`.
    */
   inner_ref?: TextareaInnerRef;
-
   className?: string;
   textarea_element?: TextareaTextareaElement;
   children?: TextareaChildren;

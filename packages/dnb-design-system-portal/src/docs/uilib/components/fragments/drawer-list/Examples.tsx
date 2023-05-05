@@ -8,7 +8,7 @@ import ComponentBox from '../../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 import { NumberFormat, ToggleButton, HelpButton } from '@dnb/eufemia/src'
 import { DrawerList } from '@dnb/eufemia/src/fragments'
-import { Link } from '@dnb/eufemia/src/elements'
+import { Link } from '@dnb/eufemia/src'
 
 export const DrawerListExampleInteractive = () => (
   <Wrapper>
@@ -108,6 +108,7 @@ export const DrawerListExampleDefault = () => (
         on_show={() => {
           console.log('on_show')
         }}
+        observer_element=".dnb-live-preview" //prevents direction to change when scrolling in this example
       />
     </ComponentBox>
   </Wrapper>
@@ -165,6 +166,7 @@ export const DrawerListExampleSingleItem = () => (
             suffix={
               <HelpButton title="Modal Title">Modal content</HelpButton>
             }
+            observer_element=".dnb-live-preview" //prevents direction to change when scrolling in this example
           />
         )
       }}
@@ -247,3 +249,19 @@ const data = [
     content: ['Item 4 Content A', <>Custom Component</>],
   },
 ]
+
+export const DrawerListExampleOptionsRender = () => (
+  <Wrapper>
+    <ComponentBox scope={{ data }} hidePreview hideToolbar>
+      <DrawerList
+        options_render={({ Items, Item, data }) => (
+          <>
+            <Items />
+            <Item>Addition</Item>
+            {data.length > 1 && <li>Addition</li>}
+          </>
+        )}
+      />
+    </ComponentBox>
+  </Wrapper>
+)

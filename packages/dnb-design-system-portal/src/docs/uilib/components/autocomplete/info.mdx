@@ -3,14 +3,19 @@ showTabs: true
 ---
 
 import AutocompleteMethods from 'Docs/uilib/components/autocomplete/methods'
+import {
+  AutocompleteContentAsArrayExample,
+  AutocompleteContentAsFragmentExample,
+  AutocompleteContentDecoupledExample,
+} from 'Docs/uilib/components/autocomplete/Examples'
 
 ## Description
 
 The Autocomplete component is a combination of an [Input](/uilib/components/input) and a [Dropdown](/uilib/components/dropdown), also called **ComboBox**. During typing, matching data items gets suggested in an option menu (listbox).
 
-## Type Ahead and ComboBox
+## Typeahead and ComboBox
 
-The Autocomplete component may also be known as _Type Ahead_ or _ComboBox_. But autocomplete describes the purpose more precisely and descriptive, therefore Eufemia is using this term.
+The Autocomplete component may also be known as _Typeahead_ or _ComboBox_. But autocomplete describes the purpose more precisely and descriptive, therefore Eufemia is using this term.
 
 ### When to use it:
 
@@ -38,38 +43,15 @@ It is possible to wrap your content inside one HTML Element. Nested elements are
 
 To wrap your content only visually, you can provide your wrappers inside an array:
 
-```jsx
-{
-  content: [
-    <IconPrimary icon="bell" />,
-    <span className="custom-selector-a">The Shawshank Redemption</span>,
-    <span className="custom-selector-b">The Dark Knight</span>,
-    // etc.
-    <NumberFormat value={1234} />, // <-- Not searchable nor highlightable
-  ]
-}
-```
+<AutocompleteContentAsArrayExample />
 
 or you can provide it inside a fragment:
 
-```jsx
-{
-  content: <>
-    <IconPrimary icon="bell" />
-    <span className="custom-selector-a">The Shawshank Redemption</span>
-    <span className="custom-selector-b">The Dark Knight</span>
-  </>
-}
-```
+<AutocompleteContentAsFragmentExample />
 
 and if you need to decouple the searchable content from what's displayed, then you can put your searchable content inside `search_content`:
 
-```jsx
-{
-  content: ['your visual content'],
-  search_content: ['your search content'],
-}
-```
+<AutocompleteContentDecoupledExample />
 
 ### Numbers
 
@@ -103,4 +85,4 @@ You can also set the width directly, but then it has to be defined like so (incl
 }
 ```
 
-<AutocompleteMethods></AutocompleteMethods>
+<AutocompleteMethods />

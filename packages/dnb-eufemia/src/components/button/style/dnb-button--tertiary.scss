@@ -1,0 +1,207 @@
+@import '../../../style/core/utilities.scss';
+@import './themes/button-mixins.scss';
+
+.dnb-button {
+  &--tertiary {
+    // create underline (::after)
+    .dnb-button__text {
+      position: relative; // because of the underline
+
+      @include drawUnderlineBorder() {
+        bottom: -0.0625rem;
+        color: transparent;
+        transition: color 250ms ease-in-out;
+        [data-visual-test-wrapper] & {
+          transition: none;
+        }
+      }
+    }
+
+    &.dnb-button--has-text {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    // change underline if has icon
+    &.dnb-button--has-icon .dnb-button__text::after {
+      left: -1rem;
+      right: -1rem;
+    }
+
+    @include focus() {
+      @include removeFocusRing('keyboard');
+      @include buttonFocusRing();
+
+      // underline
+      .dnb-button__text::after {
+        visibility: hidden;
+      }
+    }
+
+    @include hover() {
+      // underline
+      .dnb-button__text::after {
+        visibility: visible;
+      }
+    }
+
+    @include active() {
+      @include removeFocusRing('keyboard');
+
+      // underline
+      .dnb-button__text::after {
+        html[data-whatintent='touch'] & {
+          transition: none;
+          visibility: visible;
+          opacity: 1;
+        }
+        html:not([data-whatintent='touch']) & {
+          visibility: hidden;
+        }
+      }
+    }
+
+    .dnb-button__icon {
+      align-self: flex-start;
+      margin-top: calc(var(--button-height) / 2 - 0.5rem);
+    }
+    &.dnb-button--size-large .dnb-button__icon {
+      margin-top: calc(var(--button-height--large) / 2 - 0.5rem);
+    }
+    &.dnb-button--size-medium .dnb-button__icon {
+      margin-top: calc(var(--button-height--medium) / 2 - 0.5rem);
+    }
+    &.dnb-button--size-small .dnb-button__icon {
+      margin-top: calc(var(--button-height--small) / 2 - 0.5rem);
+    }
+
+    &.dnb-button--icon-position-top {
+      flex-direction: column;
+      border-radius: 0.5rem;
+      vertical-align: middle;
+
+      &.dnb-button--has-text {
+        padding: 0;
+      }
+
+      .dnb-button__icon {
+        margin-top: 0.5rem;
+        align-self: center;
+      }
+
+      .dnb-button__text {
+        // underline
+        &::after {
+          left: 0;
+          right: 0;
+        }
+
+        margin-top: 0;
+        margin-bottom: 0.25rem;
+        font-size: var(--font-size-x-small);
+      }
+      &.dnb-button--size-large {
+        .dnb-button__text {
+          font-size: var(--font-size-small);
+        }
+      }
+
+      .dnb-button__alignment {
+        order: 3;
+        height: 0;
+      }
+    }
+
+    &.dnb-button--has-icon {
+      &.dnb-button--has-text {
+        &.dnb-button--icon-position-left {
+          .dnb-button__text {
+            padding-left: 1rem;
+
+            // underline
+            &::after {
+              left: -0.5rem;
+              right: 0;
+            }
+          }
+          .dnb-button__icon {
+            margin-right: -0.5rem;
+            margin-left: 0;
+          }
+          &.dnb-button--icon-size-medium,
+          &.dnb-button--icon-size-large {
+            .dnb-button__text {
+              padding-left: 0;
+              margin-left: 1rem;
+
+              // underline
+              &::after {
+                left: -0.5rem;
+                right: 0;
+              }
+            }
+          }
+
+          @include focus() {
+            &::before {
+              right: -1rem;
+            }
+          }
+        }
+        &.dnb-button--icon-position-right {
+          /* stylelint-disable */
+          .dnb-button__text {
+            padding-right: 1rem;
+
+            // underline
+            &::after {
+              left: 0;
+              right: -0.5rem;
+            }
+          }
+          .dnb-button__icon {
+            margin-left: -0.5rem;
+            margin-right: 0;
+          }
+          /* stylelint-enable */
+          &.dnb-button--icon-size-medium,
+          &.dnb-button--icon-size-large {
+            .dnb-button__text {
+              padding-right: 0;
+              margin-right: 1rem;
+
+              // underline
+              &::after {
+                right: 0;
+              }
+            }
+          }
+
+          @include focus() {
+            &::before {
+              left: -1rem;
+            }
+          }
+        }
+      }
+
+      &:not(.dnb-button--has-text) {
+        @include focus() {
+          // make the ring round
+          &::before {
+            left: 0;
+            right: 0;
+          }
+        }
+      }
+    }
+
+    // stylelint-disable-next-line
+    html[data-whatinput='keyboard']
+		// webkit fix
+		  &:hover:focus
+		  .dnb-button__text::after {
+      visibility: hidden;
+    }
+  }
+}

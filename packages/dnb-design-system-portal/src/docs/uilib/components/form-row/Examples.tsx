@@ -25,8 +25,9 @@ import {
   FormSet,
   FormRow,
 } from '@dnb/eufemia/src/components'
-import { Ingress } from '@dnb/eufemia/src/elements'
+import { Ingress } from '@dnb/eufemia/src'
 import { SpacingElementProps } from '@dnb/eufemia/src/shared/types'
+import { Provider } from '@dnb/eufemia/src/shared'
 
 const TestStyles = styled.div`
   /* make sure our input gets an explicit width, because of mac/linux rendering differences */
@@ -645,6 +646,21 @@ export function FormRowResponsiveInfo() {
       <FormRow responsive={true}>
         <Input label="Input label">Value</Input>
       </FormRow>
+    </ComponentBox>
+  )
+}
+
+export function FormRowProvider() {
+  return (
+    <ComponentBox scope={{ Provider }} hidePreview>
+      <Provider FormRow={{ vertical: true }}>
+        <div id="my-app">
+          ...
+          <FormRow>Everything is vertical now</FormRow>
+          <FormRow>Everything is vertical now</FormRow>
+          ...
+        </div>
+      </Provider>
     </ComponentBox>
   )
 }

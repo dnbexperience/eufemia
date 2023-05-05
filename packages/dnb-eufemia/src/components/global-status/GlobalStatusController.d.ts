@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 export interface GlobalStatusControllerProps
   extends React.HTMLProps<HTMLElement> {
   /**
@@ -16,7 +15,6 @@ export default class GlobalStatusController extends React.Component<
   static defaultProps: object;
   render(): JSX.Element;
 }
-
 export interface GlobalStatusRemoveProps {
   /**
    * The main ID. Defaults to `main`.
@@ -30,4 +28,19 @@ export class GlobalStatusRemove extends React.Component<
 > {
   static defaultProps: object;
   render(): JSX.Element;
+}
+export interface GlobalStatusInterceptorProps
+  extends React.HTMLProps<HTMLElement> {
+  /**
+   * The main ID. Defaults to `main`.
+   */
+  id?: string;
+}
+export class GlobalStatusInterceptor extends React.Component<
+  GlobalStatusInterceptorProps,
+  any
+> {
+  static defaultProps: object;
+  render(): JSX.Element;
+  add: (props: { status_id: string; item?: GlobalStatusItem }) => void;
 }

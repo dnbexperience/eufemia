@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { Locale } from '../../shared/Context';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 export type NumberFormatValue = number | string;
@@ -22,7 +23,6 @@ export type NumberFormatTooltip =
 export type NumberFormatChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
-
 export interface NumberFormatProps
   extends React.HTMLProps<HTMLElement>,
     SpacingProps {
@@ -36,7 +36,7 @@ export interface NumberFormatProps
   /**
    * Use a <a href="https://www.sitepoint.com/iso-2-letter-language-codes/">2 Letter Language Codes</a> or an extended code such as `nb-NO`. Use `auto` to detect the locale from the browser (`navigator.language`). Defaults to the Norwegian locale: `nb-NO`.
    */
-  locale?: string;
+  locale?: Locale;
 
   /**
    * Add a string or React component before the number, including white space.
@@ -56,7 +56,13 @@ export interface NumberFormatProps
   /**
    * Use either empty/false to hide the sign/name or use `code` (NOK), `name` (norske kroner) , `symbol` (kr) or `narrowSymbol` (for a shorter symbol variant). Defaults to `narrowSymbol` when the locale is `no` else we default to `code`.
    */
-  currency_display?: string;
+  currency_display?:
+    | 'code'
+    | 'name'
+    | 'symbol'
+    | 'narrowSymbol'
+    | ''
+    | false;
 
   /**
    * Use either `before` or `after` to change/define the position of the currency. Defaults to `auto` (Browser API defaults, but with an exception, if the locale is `nb-NO` or `no`, use after as the default position).
@@ -157,7 +163,6 @@ export interface NumberFormatProps
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
   skeleton?: SkeletonShow;
-
   class?: string;
   className?: string;
 
@@ -170,6 +175,6 @@ export default class NumberFormat extends React.Component<
   NumberFormatProps,
   any
 > {
-  static defaultProps: object;
+  static defaultProps: NumberFormatProps;
   render(): JSX.Element;
 }

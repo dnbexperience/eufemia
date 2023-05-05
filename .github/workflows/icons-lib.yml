@@ -8,6 +8,10 @@ on:
     branches:
       - 'icon*/**'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 env:
   GH_EMAIL: ${{ secrets.GH_EMAIL }}
   GH_NAME: ${{ secrets.GH_NAME }}
@@ -104,8 +108,8 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           checkName: Fetch and Build Icons # Has to be the action name
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          intervalSeconds: 3
-          timeoutSeconds: 1200
+          intervalSeconds: 10
+          timeoutSeconds: 2400
 
       - name: Re-store portal artifacts
         uses: actions/download-artifact@v3
