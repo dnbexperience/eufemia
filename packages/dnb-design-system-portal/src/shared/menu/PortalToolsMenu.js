@@ -65,11 +65,7 @@ export default function PortalToolsMenu({
         {theme.name === 'sbanken' && (
           <Space top="large">
             <H2 size="small">Map colors</H2>
-            <Space top>
-              <ChangeStyleTheme.ColorMapping
-                enabled={theme.colorMapping}
-              />
-            </Space>
+            <ChangeStyleTheme.ColorMapping enabled={theme.colorMapping} />
           </Space>
         )}
 
