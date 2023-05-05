@@ -20,7 +20,6 @@ import {
   copyToClipboard,
   IS_MAC,
   IS_WIN,
-  IS_SAFARI,
 } from '../../shared/helpers'
 
 const NUMBER_CHARS = '\\-0-9,.'
