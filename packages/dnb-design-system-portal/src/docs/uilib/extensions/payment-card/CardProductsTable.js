@@ -61,9 +61,11 @@ const getTypeVariant = (type, design) =>
 
 const getProductVariant = (type, design) =>
   type.cata({
-    BankAxept: () => prettiePrint(design.bankAxept.toString()),
     Saga: () => prettiePrint(design.saga.toString()),
     Pluss: () => '-',
+    Intro: () => '-',
+    Bedrift: () => '-',
+    Business: () => '-',
     PrivateBanking: () => prettiePrint(design.privateBanking.toString()),
     None: () => '-',
   })
@@ -71,5 +73,4 @@ const getProductVariant = (type, design) =>
 const getProductLogo = (bankLogo) =>
   bankLogo.cata({
     Colored: (color) => color,
-    Metallic: () => 'Metallic',
   })
