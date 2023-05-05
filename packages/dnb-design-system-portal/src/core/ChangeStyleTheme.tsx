@@ -1,6 +1,6 @@
 import React from 'react'
 import { Dropdown, Switch } from '@dnb/eufemia/src'
-
+import { Context } from '@dnb/eufemia/src/shared'
 import {
   getThemes,
   getTheme,
@@ -8,8 +8,9 @@ import {
 } from 'gatsby-plugin-eufemia-theme-handler'
 
 export default function ChangeStyleTheme() {
-  const themes: Array<{ name: string; hide?: boolean }> = getThemes()
+  const themes = getThemes()
   const { name } = getTheme()
+  const { update } = React.useContext(Context)
 
   const date = Object.entries(themes).reduce((acc, [key, value]) => {
     if (!value?.hide) {
@@ -20,10 +21,14 @@ export default function ChangeStyleTheme() {
 
   return (
     <Dropdown
+      id="change-theme"
       value={name}
       data={date}
       on_change={({ data: { value } }) => {
-        setTheme({ name: value })
+        update({ skeleton: true })
+        setTheme({ name: value }, () => {
+          update({ skeleton: false })
+        })
       }}
     />
   )
@@ -32,14 +37,14 @@ export default function ChangeStyleTheme() {
 ChangeStyleTheme.ColorMapping = ColorMapping
 
 function ColorMapping({ enabled, ...props }) {
-  const { colors } = getTheme()
+  const { colorMapping } = getTheme()
   return (
     <Switch
       top
       label="Toggle Color Mapping"
-      checked={colors || enabled}
+      checked={colorMapping === 'basis' || enabled}
       on_change={({ checked }) => {
-        setTheme({ colors: checked })
+        setTheme({ colorMapping: checked ? 'basis' : null })
       }}
       {...props}
     />

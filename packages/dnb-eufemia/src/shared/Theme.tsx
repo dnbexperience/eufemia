@@ -12,11 +12,13 @@ import { DynamicElement } from './types'
 export type ThemeNames = 'ui' | 'eiendom' | 'sbanken'
 export type ThemeVariants = string
 export type ThemeSizes = 'basis'
+export type ColorMapping = 'basis'
 
 export type ThemeProps = {
   name?: ThemeNames
   variant?: ThemeVariants
   size?: ThemeSizes
+  colorMapping?: ColorMapping
   element?: DynamicElement
 }
 

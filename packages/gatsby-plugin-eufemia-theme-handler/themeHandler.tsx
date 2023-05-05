@@ -1,12 +1,21 @@
 import React from 'react'
 
-import inlineScriptProd from '!raw-loader!terser-loader!./inlineScriptProd.js'
-import inlineScriptDev from '!raw-loader!terser-loader!./inlineScriptDev.js'
+import inlineScriptProd from '!raw-loader!terser-loader!./inlineScriptProd'
+import inlineScriptDev from '!raw-loader!terser-loader!./inlineScriptDev'
 
 import EventEmitter from '@dnb/eufemia/src/shared/helpers/EventEmitter'
+import { ThemeProps } from '@dnb/eufemia/src/shared/Theme'
 
-const defaultTheme = process.env.EUFEMIA_THEME_defaultTheme || 'ui'
-const availableThemes = process.env.EUFEMIA_THEME_themes || {}
+export type ThemesItem = {
+  name: string
+  file: string
+  hide?: boolean
+  isDev?: boolean
+}
+export type Themes = Array<ThemesItem>
+
+const defaultTheme = globalThis.EUFEMIA_THEME_defaultTheme || 'ui'
+const availableThemes: Themes = globalThis.EUFEMIA_THEME_themes || []
 const availableThemesArray = Object.keys(availableThemes)
 
 export function getThemes() {
@@ -71,7 +80,10 @@ export function getTheme() {
   }
 }
 
-export function setTheme(newTheme) {
+export function setTheme(
+  newTheme: ThemeProps,
+  callback?: (theme: ThemeProps) => void
+) {
   const theme = { ...getTheme(), ...newTheme }
 
   if (!isValidTheme(theme?.name)) {
@@ -80,10 +92,12 @@ export function setTheme(newTheme) {
   }
 
   try {
-    const emitter = EventEmitter.createInstance('themeHandler')
-    emitter.update(theme)
+    globalThis.__updateEufemiaThemeFile(theme.name, true, () => {
+      const emitter = EventEmitter.createInstance('themeHandler')
+      emitter.update(theme)
 
-    window.__updateEufemiaThemeFile(theme.name, true)
+      callback?.(theme)
+    })
 
     window.localStorage.setItem('eufemia-theme', JSON.stringify(theme))
   } catch (e) {
@@ -91,7 +105,7 @@ export function setTheme(newTheme) {
   }
 }
 
-let cachedHeadComponents = null
+let cachedHeadComponents: Array<React.ReactElement<HTMLLinkElement>> = []
 export const onPreRenderHTML = (
   { getHeadComponents, replaceHeadComponents },
   pluginOptions
@@ -149,7 +163,7 @@ export const onPreRenderHTML = (
    * We cache the result of the first page,
    * and re-use on all other pages.
    */
-  if (cachedHeadComponents) {
+  if (cachedHeadComponents?.length) {
     headComponents.push(...cachedHeadComponents)
     replaceHeadComponents(headComponents)
     return // stop here
@@ -167,8 +181,8 @@ export const onPreRenderHTML = (
     />
   )
 
-  const replaceGlobalVars = (s) => {
-    return s
+  const replaceGlobalVars = (code: string) => {
+    return code
       .replace(/globalThis.defaultTheme/g, JSON.stringify(defaultTheme))
       .replace(
         /globalThis.availableThemes/g,
