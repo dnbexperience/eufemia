@@ -27,7 +27,7 @@ Eufemia supports theming right inside where all the style-sources lives. Having 
 
 Themes are independent style packages, which should not be imported in parallel. But rather either – or.
 
-## Theme Component and useTheme Hook
+### Theme Component and useTheme Hook
 
 Eufemia has a theming helper, that lets us create nested theming solutions. As of now, it does not deliver any extra features beside the principle.
 
@@ -46,10 +46,46 @@ render(
 )
 ```
 
+In addition, you can use this helper function to show/hide content based on the theme.
+
+```tsx
+import { Theme, VisibilityByTheme } from '@dnb/eufemia/shared'
+
+render(
+  <Theme>
+    <VisibilityByTheme visible="sbanken">
+      Only shown in Sbanken theme
+    </VisibilityByTheme>
+
+    <VisibilityByTheme hidden="eiendom">
+      Only hidden in Eiendom theme
+    </VisibilityByTheme>
+
+    <VisibilityByTheme visible={['sbanken', 'eiendom']}>
+      Only shown in Sbanken or Eiendom theme
+    </VisibilityByTheme>
+
+    <VisibilityByTheme
+      visible={[{ name: 'sbanken' }, { name: 'eiendom' }]}
+    >
+      Only shown in Sbanken or Eiendom theme
+    </VisibilityByTheme>
+
+    <VisibilityByTheme
+      visible={[{ name: 'sbanken' }, { name: 'eiendom', variant: 'blue' }]}
+    >
+      Only shown in Sbanken then or Eiendom theme – that also includes the
+      fictive variant="blue".
+    </VisibilityByTheme>
+  </Theme>
+)
+```
+
 `<Theme>` Will create a `div` wrapper by default, when no custom element is defined (`element="span"`). It sets these CSS classes:
 
 - `eufemia-theme__{theme-name}`
 - `eufemia-theme__{theme-name}--{theme-variant}`
+
 
 ### Brand theming
 
