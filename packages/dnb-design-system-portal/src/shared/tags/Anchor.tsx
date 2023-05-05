@@ -3,9 +3,8 @@
  *
  */
 
-import React, { MouseEvent } from 'react'
+import React from 'react'
 import { Link } from '@dnb/eufemia/src'
-import { getOffsetTop } from '@dnb/eufemia/src/shared/helpers'
 
 const Anchor = ({ children, href, ...rest }) => {
   if (/^http/.test(href) || href[0] === '!') {
@@ -17,34 +16,10 @@ const Anchor = ({ children, href, ...rest }) => {
   }
 
   return (
-    <Link lang="en-GB" href={href} {...rest} onClick={clickHandler}>
+    <Link lang="en-GB" href={href} {...rest} scrollToHash>
       {children}
     </Link>
   )
-
-  function clickHandler(e: MouseEvent) {
-    /**
-     * What happens here?
-     * When `scroll-behavior: smooth;` in CSS is set,
-     * Blink/Chromium wants the user to click two times in order to actually scroll to the anchor hash.
-     * The first click, sets the hash, the second one, srollts to it.
-     * We want Chromium browsers to scorll to the element on the first click.
-     */
-    const id = e.currentTarget
-      .getAttribute('href')
-      .split(/#/g)
-      .reverse()[0]
-    const anchorElem = document.getElementById(id)
-    if (anchorElem instanceof HTMLElement) {
-      e.preventDefault()
-
-      const scrollPadding = parseFloat(
-        window.getComputedStyle(document.documentElement).scrollPaddingTop
-      )
-      const top = getOffsetTop(anchorElem) - scrollPadding
-      window.scroll({ top })
-    }
-  }
 }
 
 export default Anchor
