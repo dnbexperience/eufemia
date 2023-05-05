@@ -41,7 +41,7 @@ export interface LogoProps
   variant?: string;
 
   /**
-   * Set to `true` if you do not want to inherit the color by `currentColor`. Default to `false`.
+   * Set to `true` if you do not want to inherit the color by `currentColor`. Defaults to `false`.
    */
   inherit_color?: boolean;
   class?: string;
