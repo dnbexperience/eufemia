@@ -3,6 +3,20 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.0.0-beta.4](https://github.com/dnbexperience/eufemia/compare/v10.0.0-beta.3...v10.0.0-beta.4) (2023-05-06)
+
+
+### :memo: Documentation
+
+* minor doc improvements ([#2283](https://github.com/dnbexperience/eufemia/issues/2283)) ([9088155](https://github.com/dnbexperience/eufemia/commit/9088155f310c18d05fb284ed24b7768ae401241d))
+* **SkipContent:** hide Events tab ([#2282](https://github.com/dnbexperience/eufemia/issues/2282)) ([22565ad](https://github.com/dnbexperience/eufemia/commit/22565ad2e4ddf50b9764de4a9812f4f21bd066ca))
+* **StepIndicator:** format Steps Parameters table ([#2284](https://github.com/dnbexperience/eufemia/issues/2284)) ([0d8191a](https://github.com/dnbexperience/eufemia/commit/0d8191a51f615a23229df660378eb9d876a7a404))
+
+
+### :bug: Bug Fixes
+
+* **IconPrimary:** correct ts file extension usage ([#2289](https://github.com/dnbexperience/eufemia/issues/2289)) ([5a72532](https://github.com/dnbexperience/eufemia/commit/5a725320ccd7254f025af1216cfa067a32613f2a))
+
 ## [10.0.0-beta.3](https://github.com/dnbexperience/eufemia/compare/v10.0.0-beta.2...v10.0.0-beta.3) (2023-05-05)
 
 
