@@ -16,8 +16,8 @@ import DefaultIcon, {
 } from '../icon/Icon'
 
 // NB: The path reflects the rollup.config.js -> external: '../../icons/dnb/primary_icons'
-import * as primary_icons from '../../icons/dnb/primary_icons.ts'
-import * as primary_icons_medium from '../../icons/dnb/primary_icons_medium.ts'
+import * as primary_icons from '../../icons/dnb/primary_icons'
+import * as primary_icons_medium from '../../icons/dnb/primary_icons_medium'
 
 const icons = { ...primary_icons, ...primary_icons_medium }
 
