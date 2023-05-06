@@ -164,7 +164,7 @@ export interface InputMaskedProps
   label?: FormLabelText;
 
   /**
-   * Use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`
+   * Use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`.
    */
   label_direction?: FormLabelLabelDirection;
 

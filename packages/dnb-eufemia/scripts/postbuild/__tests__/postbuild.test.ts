@@ -278,9 +278,7 @@ describe('rollup build', () => {
             )
             expect(content).toContain(`import*as `)
             expect(content).toContain(` from"react-dom";`)
-            expect(content).toContain(
-              ` from"../icons/dnb/primary_icons.ts";`
-            )
+            expect(content).toContain(` from"../icons/dnb/primary_icons";`)
           }
         }
         break

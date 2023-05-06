@@ -43,7 +43,7 @@ export interface AutocompleteProps
   mode?: AutocompleteMode;
 
   /**
-   * Give a title to let the user know what they have to do. Defaults to `Skriv og få alternativer&#39;` .
+   * Give a title to let the user know what they have to do. Defaults to `Skriv og få alternativer`.
    */
   title?: AutocompleteTitle;
 
@@ -123,7 +123,7 @@ export interface AutocompleteProps
   label?: FormLabelText;
 
   /**
-   * Use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`
+   * Use `label_direction="vertical"` to change the label layout direction. Defaults to `horizontal`.
    */
   label_direction?: FormLabelLabelDirection;
 
