@@ -9,6 +9,8 @@ import styled from '@emotion/styled'
 import addDays from 'date-fns/addDays'
 import startOfMonth from 'date-fns/startOfMonth'
 import lastDayOfMonth from 'date-fns/lastDayOfMonth'
+import startOfWeek from 'date-fns/startOfWeek'
+import lastDayOfWeek from 'date-fns/lastDayOfWeek'
 import isWeekend from 'date-fns/isWeekend'
 import { DatePicker, FormRow, HelpButton } from '@dnb/eufemia/src'
 
@@ -25,7 +27,15 @@ const Wrapper = styled.div`
 
 export const DatePickerRange = () =>
   globalThis.IS_TEST ? null : (
-    <ComponentBox scope={{ addDays, startOfMonth, lastDayOfMonth }}>
+    <ComponentBox
+      scope={{
+        addDays,
+        startOfMonth,
+        lastDayOfMonth,
+        startOfWeek,
+        lastDayOfWeek,
+      }}
+    >
       <DatePicker
         label="DatePicker:"
         start_date="2019-04-01"
@@ -46,6 +56,15 @@ export const DatePickerRange = () =>
             title: 'Set date period',
             start_date: '1969-07-15',
             end_date: '1969-08-15',
+          },
+          {
+            title: 'Today',
+            start_date: new Date(),
+          },
+          {
+            title: 'This week',
+            start_date: startOfWeek(new Date()),
+            end_date: lastDayOfWeek(new Date()),
           },
           {
             close_on_select: true,

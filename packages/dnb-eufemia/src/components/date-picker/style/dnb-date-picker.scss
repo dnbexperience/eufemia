@@ -270,8 +270,12 @@
   }
 
   &__addon {
-    display: block;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+    gap: 1rem;
     padding: 1rem;
+
     &::after {
       left: 1rem;
       width: calc(100% - 2rem);
