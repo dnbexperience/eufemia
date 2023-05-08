@@ -64,7 +64,14 @@ yarn add @dnb/eufemia@10
 ### TypeScript
 
 1. Updated multiple types from `string | boolean` to `boolean`, as there was a lot of properties who should only support boolean values and not strings.
-   1. Examples of changes to do would be to find Eufemia components using `"false"` or `"true"`, and replace it with boolean values. i.e., `vertical="false"` to `vertical={false}` or `selectall="true"` to `selectall={true}`.
+   Examples of changes to do would be to find Eufemia components using `"false"` or `"true"`, and replace it with boolean values. i.e., `vertical="false"` to `vertical={false}` or `selectall="true"` to `selectall={true}`.
+   Following is a non exhaustive list of affected properties are:
+   - `vertical`
+   - `prevent_selection`
+   - `show_label`
+   - `stretch`
+   - `no_scroll_animation`
+   - `disable_filter`
 2. `import { LocaleProps, DataAttributeTypes, DynamicElement } from '@dnb/eufemia/shared/interfaces'` was removed, and moved to `@dnb/eufemia/shared/types`.
 
 ## Discontinued Internet Explorer (IE) support
