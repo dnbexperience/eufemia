@@ -17,17 +17,6 @@
       }
     }
 
-    &.dnb-button--has-text {
-      padding-left: 0;
-      padding-right: 0;
-    }
-
-    // change underline if has icon
-    &.dnb-button--has-icon .dnb-button__text::after {
-      left: -1rem;
-      right: -1rem;
-    }
-
     @include focus() {
       @include removeFocusRing('keyboard');
       @include buttonFocusRing();
@@ -62,7 +51,7 @@
     }
 
     .dnb-button__icon {
-      align-self: flex-start;
+      align-self: flex-start; // needed to vertically center icon
       margin-top: calc(var(--button-height) / 2 - 0.5rem);
     }
     &.dnb-button--size-large .dnb-button__icon {
@@ -121,7 +110,6 @@
             // underline
             &::after {
               left: -0.5rem;
-              right: 0;
             }
           }
           .dnb-button__icon {
@@ -155,7 +143,6 @@
 
             // underline
             &::after {
-              left: 0;
               right: -0.5rem;
             }
           }

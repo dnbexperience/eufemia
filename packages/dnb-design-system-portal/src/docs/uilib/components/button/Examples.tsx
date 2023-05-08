@@ -53,6 +53,36 @@ export const ButtonDisabled = () => (
   </ComponentBox>
 )
 
+export const ButtonErrorState = () => (
+  <ComponentBox scope={{ question }} >
+    <Button
+      text="Primary button error"
+      status="error"
+    />
+    <Button
+      text="Secondary button error"
+      variant="secondary"
+      status="error"
+      left
+    />
+    <Button
+      title="Primary icon button error"
+      variant="primary"
+      icon={question}
+      size="default"
+      status="error"
+      left
+    />
+    <Button
+      title="Secondary icon button error"
+      icon={question}
+      size="default"
+      status="error"
+      left
+    />
+  </ComponentBox>
+)
+
 export const ButtonPrimaryWithIcon = () => (
   <ComponentBox>
     <Button text="Primary button with icon" icon="chevron_right" />
@@ -93,6 +123,13 @@ export const ButtonTertiaryTop = () => (
       icon_position="top"
       icon="close"
       text="Button text"
+    />    
+    <Button
+      variant="tertiary"
+      icon_position="top"
+      icon="close"
+      text="Large button"
+      size="large"
     />
   </ComponentBox>
 )
@@ -335,6 +372,16 @@ export const TertiaryButtonSizes = () => {
         variant="tertiary"
       />
       <Button
+        text="Button large"
+        on_click={() => {
+          console.log('on_click')
+        }}
+        icon="chevron_right"
+        variant="tertiary"
+        size="large"
+        left
+      />
+      <Button
         text="Button text"
         on_click={() => {
           console.log('on_click')
@@ -402,6 +449,12 @@ export const IconButtonSizes = () => {
         title="Medium sized button with add icon (default)"
         icon="add"
         size="medium"
+        left
+      />
+      <Button
+        title="Default sized button with add icon (not default)"
+        icon="add"
+        size="default"
         left
       />
       <Button
