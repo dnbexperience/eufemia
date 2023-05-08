@@ -9,7 +9,11 @@ import type {
 import type { IconIcon, IconSize } from '../Icon';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
-import type { DrawerListProps } from '../../fragments/DrawerList';
+import type {
+  DrawerListProps,
+  DrawerListData
+} from '../../fragments/DrawerList';
+export type DropdownData = DrawerListData;
 type DropdownTitle = string | React.ReactNode;
 type DropdownAlignDropdown = 'left' | 'right';
 type DropdownTriggerElement = ((...args: any[]) => any) | React.ReactNode;

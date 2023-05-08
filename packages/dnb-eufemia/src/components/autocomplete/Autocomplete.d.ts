@@ -1,5 +1,9 @@
 import * as React from 'react';
-import type { DrawerListProps } from '../../fragments/DrawerList';
+import type {
+  DrawerListProps,
+  DrawerListData,
+  DrawerListOptionsRender
+} from '../../fragments/DrawerList';
 import type { ButtonIconPosition } from '../button';
 import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
 import type {
@@ -10,6 +14,8 @@ import type {
 import type { IconIcon, IconSize } from '../Icon';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
+export type AutocompleteData = DrawerListData;
+export type AutocompleteOptionsRender = DrawerListOptionsRender;
 type AutocompleteMode = 'sync' | 'async';
 type AutocompleteTitle = string | React.ReactNode;
 type AutocompletePlaceholder = string | React.ReactNode;
