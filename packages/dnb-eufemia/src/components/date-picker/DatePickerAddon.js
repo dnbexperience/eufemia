@@ -98,7 +98,6 @@ export default class DatePickerAddon extends React.PureComponent {
               text={title}
               variant="secondary"
               onClick={(event) => this.setDate({ shortcut, event })}
-              right
             />
           )
         })}
