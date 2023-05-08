@@ -39,7 +39,7 @@ export default function Theme(themeProps: ThemeAllProps) {
 }
 
 function ThemeWrapper({ children, element, currentTheme }) {
-  const { name, variant, size, ...rest } = currentTheme
+  const { name, variant, size, colorMapping, ...rest } = currentTheme
 
   const Wrapper = element || 'div'
 
@@ -50,6 +50,7 @@ function ThemeWrapper({ children, element, currentTheme }) {
     'eufemia-theme',
     name && `eufemia-theme__${name}`,
     name && variant && `eufemia-theme__${name}--${variant}`,
+    colorMapping && `eufemia-theme__color-mapping--${colorMapping}`,
     size && `eufemia-theme__size--${size}`
   )
 
