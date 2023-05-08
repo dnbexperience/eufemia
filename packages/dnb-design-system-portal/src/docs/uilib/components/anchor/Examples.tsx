@@ -99,6 +99,13 @@ export const AnchorExampleHelperClasses = () => (
         >
           Blank target without launch icon
         </Anchor>
+      </li>      <li>
+        <Anchor
+          target="_blank"
+          href="/uilib/components/anchor"
+        >
+          Blank target with different launch icon <IconPrimary icon="chevron_right" />
+        </Anchor>
       </li>
       <li>
         <Anchor
@@ -171,6 +178,19 @@ export const AnchorExampleIcons = () => (
       </Anchor>{' '}
       text
     </p>
+    <br />
+    <Anchor href="/uilib/components/anchor" iconLeft={<IconPrimary icon="chevron_right" />} data-visual-test="anchor-icon-alt">
+      Anchor with Icon using prop
+    </Anchor>
+    <br />
+    <br />
+    <p className="dnb-p" data-visual-test="anchor-paragraph-alt">
+      text{' '}
+      <Anchor href="/uilib/components/anchor" iconRight={<IconPrimary icon="bell" />}>
+        Inside a Paragraph using icon prop
+      </Anchor>{' '}
+      text
+    </p>
   </ComponentBox>
 )
 
@@ -195,5 +215,89 @@ export const AnchorExampleHeadings = () => (
       </Anchor>{' '}
       H2
     </h2>
+  </ComponentBox>
+)
+
+export const AnchorSbankenRegular = () => (
+  <ComponentBox hideCode>
+    <ul className="dnb-ul dnb-unstyled-list">
+      <li>
+        <Anchor
+          href="/uilib/components/anchor"
+          iconLeft={<IconPrimary icon="chevron_right" />}
+        >
+          Default
+        </Anchor>
+      </li>
+      <li>
+        <Anchor
+          href="/uilib/components/anchor"
+          iconLeft={<IconPrimary icon="chevron_right" />}
+          className="dnb-anchor--hover"
+        >
+          Hover
+        </Anchor>
+      </li>
+      <li>
+        <Anchor
+          href="/uilib/components/anchor"
+          iconLeft={<IconPrimary icon="chevron_right" />}
+          className="dnb-anchor--active"
+        >
+          Active
+        </Anchor>
+      </li>
+      <li>
+        <Anchor
+          href="/uilib/components/anchor"
+          iconLeft={<IconPrimary icon="chevron_right" />}
+          className="dnb-anchor--focus"
+        >
+          Focus
+        </Anchor>
+      </li>
+    </ul>
+  </ComponentBox>
+)
+
+export const AnchorSbankenGoto = () => (
+  <ComponentBox hideCode>
+  <ul className="dnb-ul dnb-unstyled-list">
+    <li>
+        <Anchor
+          href="/uilib/components/anchor"
+          iconRight={<IconPrimary icon="arrow_right" />}
+        >
+          Default
+        </Anchor>
+      </li>
+      <li>
+        <Anchor
+          href="/uilib/components/anchor"
+          iconRight={<IconPrimary icon="arrow_right" />}
+          className="dnb-anchor--hover"
+        >
+          Hover
+        </Anchor>
+      </li>
+      <li>
+        <Anchor
+          href="/uilib/components/anchor"
+          iconRight={<IconPrimary icon="arrow_right" />}
+          className="dnb-anchor--active"
+        >
+          Active
+        </Anchor>
+      </li>
+      <li>
+        <Anchor
+          href="/uilib/components/anchor"
+          iconRight={<IconPrimary icon="arrow_right" />}
+          className="dnb-anchor--focus"
+        >
+          Focus
+        </Anchor>
+      </li>
+    </ul>
   </ComponentBox>
 )

@@ -42,9 +42,23 @@ describe.each([
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match anchor with icon using prop', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="anchor-icon-alt"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match anchor with paragraph', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-paragraph"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match anchor with paragraph using icon prop', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="anchor-paragraph-alt"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

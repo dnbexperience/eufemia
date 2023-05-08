@@ -23,6 +23,8 @@ export type AnchorProps = {
   targetBlankTitle?: string
   target?: string
   tooltip?: React.ReactNode
+  iconLeft?: React.ReactNode
+  iconRight?: React.ReactNode
   skeleton?: SkeletonShow
   omitClass?: boolean
   innerRef?: React.RefObject<HTMLAnchorElement>
@@ -63,6 +65,8 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     className,
     children,
     tooltip,
+    iconLeft,
+    iconRight,
     omitClass,
     innerRef,
     targetBlankTitle,
@@ -91,13 +95,19 @@ export function AnchorInstance(localProps: AnchorAllProps) {
           // because we then don't want to distract the link out
           // we make sure we hide the icon
           allProps.target === '_blank' &&
-            typeof children !== 'string' &&
-            'dnb-anchor--no-icon'
+            (typeof children !== 'string' || iconRight) &&
+            'dnb-anchor--no-icon',
+          typeof children !== 'string' &&
+            'dnb-anchor--has-icon',
+          iconLeft && 'dnb-anchor--icon-left',
+          iconRight && 'dnb-anchor--icon-right'
         )}
         {...attributes}
         innerRef={innerRef}
       >
+        {iconLeft && <>{iconLeft} </>}
         {children}
+        {iconRight && <> {iconRight}</>}
       </E>
 
       {showTooltip && (
