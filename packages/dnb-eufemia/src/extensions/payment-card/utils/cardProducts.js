@@ -95,7 +95,7 @@ const cardData = [
     cardDesign: defaultDesign,
     productType: ProductType.None,
     cardType: CardType.Visa,
-    bankAxept: BankAxeptType.None,
+    bankAxept: BankAxeptType.BankAxept,
   },
   {
     productCode: 'VK4',
@@ -104,7 +104,7 @@ const cardData = [
     cardDesign: defaultDesign,
     productType: ProductType.None,
     cardType: CardType.Visa,
-    bankAxept: BankAxeptType.None,
+    bankAxept: BankAxeptType.BankAxept,
   },
   {
     productCode: '084',
@@ -140,7 +140,7 @@ const cardData = [
     cardDesign: pluss,
     productType: ProductType.Pluss,
     cardType: CardType.Visa,
-    bankAxept: BankAxeptType.None,
+    bankAxept: BankAxeptType.BankAxept,
   },
   {
     productCode: 'VL4',
@@ -185,7 +185,7 @@ const cardData = [
     cardDesign: sagaPlatinum,
     productType: ProductType.Saga,
     cardType: CardType.Visa,
-    bankAxept: BankAxeptType.None,
+    bankAxept: BankAxeptType.BankAxept,
   },
   {
     productCode: 'VP3',
@@ -194,7 +194,7 @@ const cardData = [
     cardDesign: privateBanking,
     productType: ProductType.PrivateBanking,
     cardType: CardType.Visa,
-    bankAxept: BankAxeptType.None,
+    bankAxept: BankAxeptType.BankAxept,
   },
   {
     productCode: 'VP4',
