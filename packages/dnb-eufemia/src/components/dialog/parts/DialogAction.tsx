@@ -17,12 +17,12 @@ export type DialogActionProps = {
   /**
    * For dialog actions, give a custom text for the decline button.
    */
-  declineText?: string
+  declineText?: string | React.ReactNode
 
   /**
    * For dialog actions, give a custom text for the confirm button.
    */
-  confirmText?: string
+  confirmText?: string | React.ReactNode
 
   /**
    * For variant confirmation, handle the confirm action click.
