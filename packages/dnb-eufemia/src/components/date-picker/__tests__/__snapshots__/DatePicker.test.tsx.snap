@@ -5370,7 +5370,10 @@ html[data-visual-test] .dnb-date-picker:not(.dnb-date-picker--opened) .dnb-date-
   height: 1px;
 }
 .dnb-date-picker__addon {
-  display: block;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+  gap: 1rem;
   padding: 1rem;
 }
 .dnb-date-picker__addon::after {
