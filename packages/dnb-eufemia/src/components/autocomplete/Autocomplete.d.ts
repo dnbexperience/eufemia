@@ -1,7 +1,8 @@
 import * as React from 'react';
 import type {
   DrawerListProps,
-  DrawerListData
+  DrawerListData,
+  DrawerListOptionsRender
 } from '../../fragments/DrawerList';
 import type { ButtonIconPosition } from '../button';
 import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
@@ -14,6 +15,7 @@ import type { IconIcon, IconSize } from '../Icon';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 export type AutocompleteData = DrawerListData;
+export type AutocompleteOptionsRender = DrawerListOptionsRender;
 type AutocompleteMode = 'sync' | 'async';
 type AutocompleteTitle = string | React.ReactNode;
 type AutocompletePlaceholder = string | React.ReactNode;
