@@ -50,6 +50,16 @@ describe('Theme', () => {
     ])
   })
 
+  it('sets color-mapping as HTML classes', () => {
+    render(<Theme colorMapping="basis">content</Theme>)
+
+    const element = document.querySelector('.eufemia-theme')
+    expect(Array.from(element.classList)).toEqual([
+      'eufemia-theme',
+      'eufemia-theme__color-mapping--basis',
+    ])
+  })
+
   it('sets additional attributes', () => {
     render(
       <Theme aria-label="custom label" element="section">
