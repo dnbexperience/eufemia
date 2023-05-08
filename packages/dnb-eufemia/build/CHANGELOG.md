@@ -3,6 +3,28 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.0.0-beta.5](https://github.com/dnbexperience/eufemia/compare/v10.0.0-beta.4...v10.0.0-beta.5) (2023-05-08)
+
+
+### :sparkles: Features
+
+* **Autocomplete:** export AutocompleteData type ([#2299](https://github.com/dnbexperience/eufemia/issues/2299)) ([3d44140](https://github.com/dnbexperience/eufemia/commit/3d441405aba5b0132bc87296e263c4017397b191))
+* **Autocomplete:** export AutocompleteOptionsRender type ([#2300](https://github.com/dnbexperience/eufemia/issues/2300)) ([e12241a](https://github.com/dnbexperience/eufemia/commit/e12241a53ec84b1b5b8e1c85bc8ea3770124551a))
+* **Button:** sbanken styling ([#2273](https://github.com/dnbexperience/eufemia/issues/2273)) ([a7e6086](https://github.com/dnbexperience/eufemia/commit/a7e60867ce63e76a271a783e1a5ce4ca0a67067e))
+* **Dialog:** adds ReactNode as type for texts ([#2294](https://github.com/dnbexperience/eufemia/issues/2294)) ([0e52411](https://github.com/dnbexperience/eufemia/commit/0e524110d4ce8cb1ba5ca0e4ae6cd2399d328b07))
+* **Dropdown:** export DropdownData type ([#2298](https://github.com/dnbexperience/eufemia/issues/2298)) ([0950a33](https://github.com/dnbexperience/eufemia/commit/0950a33df797b2d4b3b5a4faa08d857b8894cb87))
+
+
+### :memo: Documentation
+
+* **v10:** adds explicit examples for props that's changes type to boolean ([#2292](https://github.com/dnbexperience/eufemia/issues/2292)) ([7fac2d2](https://github.com/dnbexperience/eufemia/commit/7fac2d2118937fffd39fab27dfc5e6fb4044385b))
+* **v10:** adds info about removal of closeButtonAttributes ([#2296](https://github.com/dnbexperience/eufemia/issues/2296)) ([9c59caf](https://github.com/dnbexperience/eufemia/commit/9c59caf4a7c6ff31f00cb5e0876bb7713d2fb0dd))
+* **v10:** adds info about removal of closeButtonAttributes ([#2296](https://github.com/dnbexperience/eufemia/issues/2296)) ([6b2abd5](https://github.com/dnbexperience/eufemia/commit/6b2abd5fbfceda917dc8c9032e8ffb1bd5e70874))
+* **v10:** adds info about replacing white with default ([#2295](https://github.com/dnbexperience/eufemia/issues/2295)) ([1ca276a](https://github.com/dnbexperience/eufemia/commit/1ca276a3784d76724644018c965864ae79bb71e6))
+* **v10:** improve docs for EufemiaStyleImporter files ([#2302](https://github.com/dnbexperience/eufemia/issues/2302)) ([9babe64](https://github.com/dnbexperience/eufemia/commit/9babe64384af24bd2f91c246f321bab997d9da55))
+* **v10:** minor spelling improvement ([#2301](https://github.com/dnbexperience/eufemia/issues/2301)) ([aa64437](https://github.com/dnbexperience/eufemia/commit/aa64437e4b903198d4ba67545f959cc0aacaf525))
+* **v10:** prop change for FormStatus of status to state ([#2293](https://github.com/dnbexperience/eufemia/issues/2293)) ([5a7efa8](https://github.com/dnbexperience/eufemia/commit/5a7efa88693dfd898307becdc445f5649519ba0d))
+
 ## [10.0.0-beta.4](https://github.com/dnbexperience/eufemia/compare/v10.0.0-beta.3...v10.0.0-beta.4) (2023-05-06)
 
 
