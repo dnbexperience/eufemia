@@ -123,7 +123,7 @@ import '@dnb/eufemia/style'
 
 then you don't need to make any changes.
 
-2. If you did import `/components` etc. – then you have to change it to the the import above(see 1.):
+2. If you did import `/core` etc. – then you have to change it to the the import above(see 1.):
 
 ```js
 import '@dnb/eufemia/style/core'
@@ -136,6 +136,21 @@ import '@dnb/eufemia/style/themes/ui'
 import '@dnb/eufemia/style/dnb-ui-core.min.css'
 import '@dnb/eufemia/style/themes/theme-ui/ui-theme-components.min.css'
 import '@dnb/eufemia/style/themes/theme-ui/ui-theme-basis.min.css'
+```
+
+4. If you did import `/basis`, `/components`, and `themes/ui` like so(commonly done in `EufemiaStyleImporter` files):
+
+```js
+import '@dnb/eufemia/style/basis'
+import '@dnb/eufemia/style/components'
+import '@dnb/eufemia/style/themes/ui'
+```
+
+Change to:
+
+```js
+import '@dnb/eufemia/style/basis'
+import '@dnb/eufemia/style/themes/ui'
 ```
 
 More details about the change:
