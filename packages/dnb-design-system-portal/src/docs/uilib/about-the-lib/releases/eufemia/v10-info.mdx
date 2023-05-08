@@ -66,7 +66,7 @@ yarn add @dnb/eufemia@10
 
 1. Updated multiple types from `string | boolean` to `boolean`, as there was a lot of properties who should only support boolean values and not strings.
    Examples of changes to do would be to find Eufemia components using `"false"` or `"true"`, and replace it with boolean values. i.e., `vertical="false"` to `vertical={false}` or `selectall="true"` to `selectall={true}`.
-   Following is a non exhaustive list of affected properties are:
+   Following is a non exhaustive list of affected properties:
    - `vertical`
    - `prevent_selection`
    - `show_label`
