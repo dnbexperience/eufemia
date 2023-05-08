@@ -13,7 +13,7 @@ import { Provider, Context, Theme } from '@dnb/eufemia/src/shared'
 import enUS from '@dnb/eufemia/src/shared/locales/en-US'
 import { isTrue } from '@dnb/eufemia/src/shared/component-helper'
 
-import { useThemeName } from 'gatsby-plugin-eufemia-theme-handler/themeHandler'
+import { useTheme } from 'gatsby-plugin-eufemia-theme-handler/themeHandler'
 import { importStyles } from './StyleImporter.cjs'
 
 import PortalLayout, { PortalLayoutProps } from './PortalLayout'
@@ -60,9 +60,9 @@ export const rootElement =
   }
 
 function ThemeProvider({ children }) {
-  const themeName = useThemeName()
+  const theme = useTheme()
 
-  return <Theme name={themeName}>{children}</Theme>
+  return <Theme {...theme}>{children}</Theme>
 }
 
 // This ensures we actually will get skeletons enabled when defined in the url

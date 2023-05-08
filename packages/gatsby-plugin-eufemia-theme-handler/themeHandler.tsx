@@ -5,6 +5,7 @@ import inlineScriptDev from '!raw-loader!terser-loader!./inlineScriptDev'
 
 import EventEmitter from '@dnb/eufemia/src/shared/helpers/EventEmitter'
 import { ThemeProps } from '@dnb/eufemia/src/shared/Theme'
+import { Context } from '@dnb/eufemia/src/shared'
 
 export type ThemesItem = {
   name: string
@@ -26,31 +27,33 @@ export function isValidTheme(themeName) {
   return availableThemesArray.includes(themeName)
 }
 
-export function useThemeName() {
-  const [themeName, setThemeName] = React.useState(() => getTheme().name)
+export function useTheme() {
+  const [theme, setTheme] = React.useState(getTheme)
 
   React.useEffect(() => {
     const emitter = EventEmitter.createInstance('themeHandler')
-    emitter.listen(({ name }) => setThemeName(name))
+    emitter.listen((theme) => {
+      setTheme(theme)
+    })
   }, [])
 
   // Deprecated (can be removed when we are full and 100% officially using Reavt v18)
   // When using React v17,
   // we need to ovecome a hydration issue.
-  // The JS app gets the correct themeName,
+  // The JS app gets the correct theme.name,
   // but React does not change it in the HTML
   React.useEffect(() => {
     const element = document.querySelector('.eufemia-theme')
     const htmlName = element?.getAttribute('data-name')
 
-    if (htmlName !== themeName && element) {
-      element.setAttribute('data-name', themeName)
+    if (htmlName !== theme.name && element) {
+      element.setAttribute('data-name', theme.name)
       element.classList.remove(`eufemia-theme__${htmlName}`)
-      element.classList.add(`eufemia-theme__${themeName}`)
+      element.classList.add(`eufemia-theme__${theme.name}`)
     }
-  }, [themeName])
+  }, [theme.name])
 
-  return themeName
+  return theme
 }
 
 export function getTheme() {
@@ -81,10 +84,10 @@ export function getTheme() {
 }
 
 export function setTheme(
-  newTheme: ThemeProps,
+  themeProps: ThemeProps,
   callback?: (theme: ThemeProps) => void
 ) {
-  const theme = { ...getTheme(), ...newTheme }
+  const theme = { ...getTheme(), ...themeProps }
 
   if (!isValidTheme(theme?.name)) {
     console.error('Not valid themeName:', theme?.name)
@@ -97,6 +100,7 @@ export function setTheme(
       emitter.update(theme)
 
       callback?.(theme)
+      // return <Theme name={themeName}>{children}</Theme>
     })
 
     window.localStorage.setItem('eufemia-theme', JSON.stringify(theme))
