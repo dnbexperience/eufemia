@@ -35,6 +35,7 @@ import { Accordion } from '@dnb/eufemia/src'
     - [FormRow](#formrow)
     - [FormStatus](#formstatus)
     - [Switch](#switch)
+    - [HelpButton](#helpbutton)
   - [Element changes](#element-changes)
     - [Paragraph](#paragraph)
     - [Img](#img)
@@ -343,6 +344,10 @@ The Anchor was moved form `/elements` to `/components`.
 ### [Switch](/uilib/components/switch)
 
 1. type `SwitchChecked` was removed. Use `boolean` instead.
+
+### [HelpButton](/uilib/components/help-button)
+
+1. property `modal_props` does not longer support the `mode` property. From a UX perspective it's only desirable to display a `Dialog` when using `HelpButton`, and not a `Drawer`.
 
 ## Element changes
 
