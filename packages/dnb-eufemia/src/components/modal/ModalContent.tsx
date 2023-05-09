@@ -29,6 +29,8 @@ import {
   addToIndex,
   removeFromIndex,
 } from './helpers'
+import { getThemeClasses } from '../../shared/Theme'
+import { Context } from '../../shared'
 
 interface ModalContentState {
   triggeredBy: string
@@ -61,6 +63,8 @@ export default class ModalContent extends React.PureComponent<
   _androidFocusTimeout: NodeJS.Timeout
   _ii: InteractionInvalidation
   _iiLocal: InteractionInvalidation
+
+  static contextType = Context
 
   constructor(props: ModalContentProps) {
     super(props)
@@ -420,7 +424,7 @@ export default class ModalContent extends React.PureComponent<
         container_placement
           ? `dnb-modal__content--${container_placement || 'right'}`
           : null,
-
+        getThemeClasses(this.context?.theme),
         content_class
       ),
       onMouseDown: this.onContentMouseDownHandler,

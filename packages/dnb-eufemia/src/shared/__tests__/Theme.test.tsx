@@ -1,6 +1,13 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import Theme from '../Theme'
+import {
+  Autocomplete,
+  Dialog,
+  Drawer,
+  Dropdown,
+  Tooltip,
+} from '../../components'
 
 describe('Theme', () => {
   it('sets name and variant as HTML classes', () => {
@@ -93,5 +100,123 @@ describe('Theme', () => {
 
     const element = document.querySelector('.eufemia-theme')
     expect(element.tagName).toBe('SECTION')
+  })
+
+  it('will omit element on false or fragment', () => {
+    const { rerender } = render(<Theme element={false}>content</Theme>)
+
+    expect(document.querySelector('.eufemia-theme')).toBeFalsy()
+
+    rerender(<Theme element={React.Fragment}>content</Theme>)
+
+    expect(document.querySelector('.eufemia-theme')).toBeFalsy()
+
+    rerender(<Theme element="div">content</Theme>)
+
+    expect(document.querySelector('.eufemia-theme')).toBeTruthy()
+  })
+})
+
+describe('Portals', () => {
+  it('have correct theme classes in dialog content', () => {
+    render(
+      <Theme name="eiendom" variant="soft" element={false}>
+        <Dialog noAnimation openState="opened">
+          content
+        </Dialog>
+      </Theme>
+    )
+
+    const element = document.querySelector('.eufemia-theme')
+    expect(Array.from(element.classList)).toEqual(
+      expect.arrayContaining([
+        'dnb-dialog__root',
+        'dnb-modal__content',
+        'eufemia-theme',
+        'eufemia-theme__eiendom',
+        'eufemia-theme__eiendom--soft',
+      ])
+    )
+    expect(document.querySelectorAll('.eufemia-theme')).toHaveLength(1)
+  })
+
+  it('have correct theme classes in drawer content', () => {
+    render(
+      <Theme name="eiendom" variant="soft" element={false}>
+        <Drawer noAnimation openState="opened">
+          content
+        </Drawer>
+      </Theme>
+    )
+
+    const element = document.querySelector('.eufemia-theme')
+    expect(Array.from(element.classList)).toEqual(
+      expect.arrayContaining([
+        'dnb-modal__content',
+        'dnb-modal__content--right',
+        'dnb-drawer__root',
+        'eufemia-theme',
+        'eufemia-theme__eiendom',
+        'eufemia-theme__eiendom--soft',
+      ])
+    )
+    expect(document.querySelectorAll('.eufemia-theme')).toHaveLength(1)
+  })
+
+  it('have correct theme classes in dropdown', () => {
+    render(
+      <Theme name="eiendom" variant="soft" element={false}>
+        <Dropdown open no_animation data={['A', 'B']} />
+      </Theme>
+    )
+
+    const element = document.querySelector('.eufemia-theme')
+    expect(Array.from(element.classList)).toEqual(
+      expect.arrayContaining([
+        'dnb-drawer-list__portal__style',
+        'eufemia-theme',
+        'eufemia-theme__eiendom',
+        'eufemia-theme__eiendom--soft',
+      ])
+    )
+    expect(document.querySelectorAll('.eufemia-theme')).toHaveLength(1)
+  })
+
+  it('have correct theme classes in autocomplete', () => {
+    render(
+      <Theme name="eiendom" variant="soft" element={false}>
+        <Autocomplete open no_animation data={['A', 'B']} />
+      </Theme>
+    )
+
+    const element = document.querySelector('.eufemia-theme')
+    expect(Array.from(element.classList)).toEqual(
+      expect.arrayContaining([
+        'dnb-drawer-list__portal__style',
+        'eufemia-theme',
+        'eufemia-theme__eiendom',
+        'eufemia-theme__eiendom--soft',
+      ])
+    )
+    expect(document.querySelectorAll('.eufemia-theme')).toHaveLength(1)
+  })
+
+  it('have correct theme classes in tooltip', () => {
+    render(
+      <Theme name="eiendom" variant="soft" element={false}>
+        <Tooltip open no_animation />
+      </Theme>
+    )
+
+    const element = document.querySelector('.eufemia-theme')
+    expect(Array.from(element.classList)).toEqual(
+      expect.arrayContaining([
+        'dnb-tooltip__portal',
+        'eufemia-theme',
+        'eufemia-theme__eiendom',
+        'eufemia-theme__eiendom--soft',
+      ])
+    )
+    expect(document.querySelectorAll('.eufemia-theme')).toHaveLength(1)
   })
 })
