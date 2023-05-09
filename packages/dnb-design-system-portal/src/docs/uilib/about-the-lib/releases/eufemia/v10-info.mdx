@@ -175,6 +175,18 @@ do not contain the properties anymore. Properties are only a part of a theme fil
 
 As long as you don't import them in your application, you don't need to make any changes in your codebase.
 
+If you have done the following:
+
+```js
+import properties from '@dnb/eufemia/style/properties'
+```
+
+Change to:
+
+```js
+import properties from '@dnb/eufemia/style/themes/theme-ui/properties'
+```
+
 ## Removal of `data-testid` in components
 
 You may [use other methods](/uilib/usage/best-practices/for-testing/) to select and test the inner parts of Eufemia components. You could use e.g. `screen.queryByRole`, `screen.queryByRole` or `document.querySelector`. All of the following components are effected by the change:
