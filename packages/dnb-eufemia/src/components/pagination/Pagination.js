@@ -21,6 +21,7 @@ import { PaginationIndicator } from './PaginationHelpers'
 import InfinityScroller from './PaginationInfinity'
 import PaginationBar from './PaginationBar'
 
+
 const paginationPropTypes = {
   startup_page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   current_page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
