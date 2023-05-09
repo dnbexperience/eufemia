@@ -102,6 +102,10 @@
     $tertiary-padding: 0.5rem;
     $tertiary-padding-large: 1.5rem;
     $tertiary-icon-space: 0.5rem;
+    
+    --button-tertiary-focus-overflow: 0;
+    --button-tertiary-focus-overflow-icon: 0;    
+    --button-tertiary-focus-inset: inset;
 
     color: var(--sb-color-violet);
     background-color: transparent;

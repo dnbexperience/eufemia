@@ -3,6 +3,9 @@
 
 .dnb-button {
   &--tertiary {
+    --button-tertiary-focus-overflow: -1rem;
+    --button-tertiary-focus-overflow-icon: -0.5rem;
+    --button-tertiary-focus-inset: ;
     // create underline (::after)
     .dnb-button__text {
       position: relative; // because of the underline
@@ -19,7 +22,7 @@
 
     @include focus() {
       @include removeFocusRing('keyboard');
-      @include buttonFocusRing();
+      @include buttonFocusRing(null, var(--button-tertiary-focus-overflow-icon), var(--button-tertiary-focus-inset));
 
       // underline
       .dnb-button__text::after {
@@ -132,7 +135,7 @@
 
           @include focus() {
             &::before {
-              right: -1rem;
+              right: var(--button-tertiary-focus-overflow);
             }
           }
         }
@@ -166,7 +169,7 @@
 
           @include focus() {
             &::before {
-              left: -1rem;
+              left: var(--button-tertiary-focus-overflow);
             }
           }
         }
