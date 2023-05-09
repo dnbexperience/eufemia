@@ -32,9 +32,19 @@ exports[`run convertSvgToJsx to convert ES6 to ES5 has to have a bell_medium fil
 }
 `;
 
-exports[`run convertSvgToJsx to convert ES6 to ES5 has to have a fallback index file 1`] = `{}`;
+exports[`run convertSvgToJsx to convert ES6 to ES5 has to have a fallback index file 1`] = `
+{
+  "bell": [Function],
+  "bell_medium": [Function],
+}
+`;
 
-exports[`run convertSvgToJsx to convert ES6 to ES5 has to have a index file inside subfolder 1`] = `{}`;
+exports[`run convertSvgToJsx to convert ES6 to ES5 has to have a index file inside subfolder 1`] = `
+{
+  "bell": [Function],
+  "bell_medium": [Function],
+}
+`;
 
 exports[`run convertSvgToJsx to convert ES6 to ES5 has to have a primary_icons file 1`] = `
 {
