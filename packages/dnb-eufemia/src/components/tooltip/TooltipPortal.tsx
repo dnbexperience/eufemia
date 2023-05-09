@@ -8,6 +8,8 @@ import ReactDOM from 'react-dom'
 import { makeUniqueId, warn } from '../../shared/component-helper'
 import TooltipContainer from './TooltipContainer'
 import { TooltipProps } from './types'
+import { useTheme } from '../../shared'
+import { ThemeProps, getThemeClasses } from '../../shared/Theme'
 
 type TooltipType = {
   node: HTMLElement
@@ -48,11 +50,15 @@ function TooltipPortal(props: TooltipProps & TooltipPortalProps) {
   const isInDOM = React.useRef(false)
   const hasGroup = props.group
 
+  const theme = useTheme()
+
   const makePortal = () => {
     if (!tooltipPortal[id]) {
       tooltipPortal[id] = {
         count: 0,
-        node: hasGroup ? createGroupElement(id) : createRootElement(),
+        node: hasGroup
+          ? createGroupElement(theme, id)
+          : createRootElement(theme),
       }
     }
   }
@@ -76,7 +82,7 @@ function TooltipPortal(props: TooltipProps & TooltipPortalProps) {
          */
         if (hasGroup) {
           ReactDOM.unmountComponentAtNode(ref.node)
-          createRootElement().removeChild(ref.node)
+          createRootElement(theme).removeChild(ref.node)
         }
 
         /**
@@ -195,13 +201,13 @@ export default TooltipPortal
 /**
  * We creaete this custom wrapper, so ReactDOM.render has its "own" root. This is required by React.
  */
-const createGroupElement = (id: string) => {
+const createGroupElement = (theme: ThemeProps, id: string) => {
   try {
     const elem = document.createElement('div')
     elem.classList.add('dnb-tooltip__group')
     elem.setAttribute('id', id)
 
-    createRootElement().appendChild(elem)
+    createRootElement(theme).appendChild(elem)
 
     return elem
   } catch (e) {
@@ -209,7 +215,10 @@ const createGroupElement = (id: string) => {
   }
 }
 
-const createRootElement = (className = 'dnb-tooltip__portal') => {
+const createRootElement = (theme: ThemeProps, className = null) => {
+  if (!className) {
+    className = 'dnb-tooltip__portal'
+  }
   try {
     const element: HTMLElement = document.querySelector(`.${className}`)
 
@@ -220,6 +229,14 @@ const createRootElement = (className = 'dnb-tooltip__portal') => {
     const elem = document.createElement('div')
     elem.classList.add(className)
     elem.classList.add('dnb-core-style')
+
+    if (theme) {
+      elem.classList.add.call(
+        elem.classList,
+        ...getThemeClasses(theme).split(' ')
+      )
+    }
+
     document.body.appendChild(elem)
 
     return elem
