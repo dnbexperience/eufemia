@@ -41,12 +41,27 @@
 
 .dnb-anchor {
   --anchor-underline-thickness: 0.125rem;
-  $anchor-icon-gutter: 0.125em;
   // Has to use --sb-font-weight-bold to get correct weighting as --sb-font-weight-medium does nothing at the moment
   font-weight: var(--sb-font-weight-bold);
   color: var(--sb-color-gray-dark-3);
   text-decoration-color: var(--sb-color-green-dark);
-  padding: calc((var(--line-height-basis) - 1.2em)/2) 0.25em;
+  padding: calc((var(--line-height-basis) - 1.2em) / 2) 0.25em;
+
+  $anchor-icon-gutter: 0.125em;
+
+  &:hover {
+    @include anchorHover();
+  }
+
+  &:active {
+    @include anchorActive();
+  }
+
+  &:focus {
+    @include utilities.whatInput('keyboard'){
+      @include anchorFocus();
+    }
+  }
 
   &.dnb-anchor--icon-left {
     padding-left: 0;
@@ -78,25 +93,11 @@
       }
     }
 
-    &:not(.dnb-anchor--icon-right):not(.dnb-anchor[target=_blank]) {
+    &:not(.dnb-anchor--icon-right):not(.dnb-anchor[target='_blank']) {
       padding-right: 0;
       &::after {
         content: "\00a0";
       }
-    }
-  }
-
-  &:hover {
-    @include anchorHover();
-  }
-
-  &:active {
-    @include anchorActive();
-  }
-
-  &:focus {
-    @include whatInput('keyboard'){
-      @include anchorFocus();
     }
   }
 }
