@@ -3,8 +3,9 @@ import classnames from 'classnames'
 import ModalHeader, {
   ModalHeaderProps,
 } from '../../modal/parts/ModalHeader'
+import type { SpacingProps } from '../../space/types'
 
-interface DialogHeaderProps extends ModalHeaderProps {
+interface DialogHeaderProps extends ModalHeaderProps, SpacingProps {
   titleClass?: string
 }
 
