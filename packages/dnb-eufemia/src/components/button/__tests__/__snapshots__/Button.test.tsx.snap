@@ -359,7 +359,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
   innerRef={
     {
       "current": <a
-        class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
+        class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-anchor--has-icon dnb-a"
         href="https://url"
         id="button"
         rel="rel"
@@ -406,7 +406,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
   inner_ref={
     {
       "current": <a
-        class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
+        class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-anchor--has-icon dnb-a"
         href="https://url"
         id="button"
         rel="rel"
@@ -488,7 +488,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
       innerRef={
         {
           "current": <a
-            class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
+            class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-anchor--has-icon dnb-a"
             href="https://url"
             id="button"
             rel="rel"
@@ -541,14 +541,14 @@ exports[`Button component have to match href="..." snapshot 1`] = `
     >
       <ForwardRef
         as="a"
-        className="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
+        className="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-anchor--has-icon"
         disabled={false}
         href="https://url"
         id="button"
         innerRef={
           {
             "current": <a
-              class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
+              class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-anchor--has-icon dnb-a"
               href="https://url"
               id="button"
               rel="rel"
@@ -601,14 +601,14 @@ exports[`Button component have to match href="..." snapshot 1`] = `
       >
         <ElementInstance
           as="a"
-          className="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap"
+          className="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-anchor--has-icon"
           disabled={false}
           href="https://url"
           id="button"
           innerRef={
             {
               "current": <a
-                class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
+                class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-anchor--has-icon dnb-a"
                 href="https://url"
                 id="button"
                 rel="rel"
@@ -660,7 +660,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
           type="type"
         >
           <a
-            className="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
+            className="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-anchor--has-icon dnb-a"
             disabled={false}
             href="https://url"
             id="button"
@@ -687,7 +687,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
               innerRef={
                 {
                   "current": <a
-                    class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
+                    class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-anchor--has-icon dnb-a"
                     href="https://url"
                     id="button"
                     rel="rel"
@@ -734,7 +734,7 @@ exports[`Button component have to match href="..." snapshot 1`] = `
               inner_ref={
                 {
                   "current": <a
-                    class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-a"
+                    class="dnb-button dnb-button--primary dnb-button--has-text class className dnb-button--icon-position-right dnb-button--has-icon dnb-button--icon-size-icon_size dnb-button--wrap dnb-anchor--has-icon dnb-a"
                     href="https://url"
                     id="button"
                     rel="rel"
