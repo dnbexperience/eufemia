@@ -14,6 +14,7 @@ import {
   validateDOMAttributes,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
+import { getThemeClasses } from '../../shared/Theme'
 import { createSpacingClasses } from '../../components/space/SpacingHelper'
 
 import DrawerListContext from './DrawerListContext'
@@ -390,7 +391,7 @@ class DrawerListInstance extends React.PureComponent {
             include_owner_width={align_drawer === 'right'}
             independent_width={isTrue(independent_width)}
             fixed_position={isTrue(fixed_position)}
-            className={portal_class}
+            className={getThemeClasses(this.context?.theme, portal_class)}
           >
             {mainList}
           </DrawerListPortal>
