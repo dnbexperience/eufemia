@@ -8,7 +8,7 @@ import classnames from 'classnames'
 import { extendPropsWithContextInClassComponent } from '../../../shared/component-helper'
 import Button from '../../button/Button'
 import Context from '../../../shared/Context'
-import { ButtonProps } from '../../button'
+import type { ButtonProps } from '../../button/Button'
 
 export type CloseButtonProps = {
   /**
