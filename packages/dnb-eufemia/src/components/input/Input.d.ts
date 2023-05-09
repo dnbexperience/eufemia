@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { ButtonIconPosition, ButtonVariant } from '../button';
+import type { ButtonIconPosition, ButtonVariant } from '../Button';
 import type {
   FormStatusProps,
   FormStatusState,

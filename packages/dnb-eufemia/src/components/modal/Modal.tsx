@@ -31,7 +31,7 @@ import {
   classWithCamelCaseProps,
   ToCamelCasePartial,
 } from '../../shared/helpers/withCamelCaseProps'
-import { ButtonProps } from '../button/Button'
+import type { ButtonProps } from '../button/Button'
 
 export const ANIMATION_DURATION = 300
 
