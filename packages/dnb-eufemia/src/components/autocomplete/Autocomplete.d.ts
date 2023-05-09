@@ -4,7 +4,7 @@ import type {
   DrawerListData,
   DrawerListOptionsRender
 } from '../../fragments/DrawerList';
-import type { ButtonIconPosition } from '../button';
+import type { ButtonIconPosition } from '../Button';
 import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
 import type {
   FormStatusProps,

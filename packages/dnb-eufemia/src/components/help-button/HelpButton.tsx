@@ -7,7 +7,7 @@ import React from 'react'
 import Context from '../../shared/Context'
 import Dialog from '../dialog/Dialog'
 import HelpButtonInstance from './HelpButtonInstance'
-import { ButtonProps } from '../button/Button'
+import type { ButtonProps } from '../button/Button'
 import { ModalProps } from '../modal/types'
 import { extendPropsWithContext } from '../../shared/component-helper'
 
