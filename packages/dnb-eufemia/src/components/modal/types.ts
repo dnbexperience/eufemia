@@ -1,7 +1,7 @@
 import * as React from 'react'
-import { CloseButtonProps } from './parts/CloseButton'
-import { ButtonProps } from '../button/Button'
-import { ModalRootProps } from './ModalRoot'
+import type { CloseButtonProps } from './parts/CloseButton'
+import type { ButtonProps } from '../button/Button'
+import type { ModalRootProps } from './ModalRoot'
 
 export type ReactChildType = React.ReactNode | ((...args: any[]) => any)
 

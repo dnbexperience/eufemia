@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
-import type { ButtonIconPosition, ButtonVariant } from '../button';
+import type { ButtonIconPosition, ButtonVariant } from '../Button';
 import type {
   FormStatusProps,
   FormStatusState,
