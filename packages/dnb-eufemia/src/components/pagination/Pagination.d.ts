@@ -34,7 +34,7 @@ type PaginationIndicatorElement =
   | ((...args: any[]) => any)
   | string;
 type PaginationChildren = React.ReactNode | ((...args: any[]) => any);
-interface PaginationProps
+export interface PaginationProps
   extends React.HTMLProps<HTMLElement>,
     SpacingProps {
   /**
