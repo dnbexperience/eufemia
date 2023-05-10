@@ -28,4 +28,12 @@ Paste the results here:
 
 ## Eufemia Version
 
-Type `Eufemia.version` in your browser console and include it here.
+**Browser:** Type `Eufemia.version` in your browser console.
+
+**Node.js:** Use import or require to find out what Eufemia version is imported:
+
+```js
+// NB: Use "require" if needed
+import { version } from '@dnb/eufemia/shared/Eufemia'
+console.log('Eufemia version:', version)
+```
