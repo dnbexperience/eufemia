@@ -3,6 +3,20 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.0.0-beta.6](https://github.com/dnbexperience/eufemia/compare/v10.0.0-beta.5...v10.0.0-beta.6) (2023-05-10)
+
+
+### :memo: Documentation
+
+* **Portal:** removes Modal's new status ([#2312](https://github.com/dnbexperience/eufemia/issues/2312)) ([38016b6](https://github.com/dnbexperience/eufemia/commit/38016b6b5fb9125e8f8358990849ee986642380f))
+* **v10:** add docs for HelpButton's modal_props ([#2314](https://github.com/dnbexperience/eufemia/issues/2314)) ([66132f4](https://github.com/dnbexperience/eufemia/commit/66132f4a1207e860d7ebccd1c7d586d468ac777e))
+* **v10:** add example for updating import of properties ([#2313](https://github.com/dnbexperience/eufemia/issues/2313)) ([c31c679](https://github.com/dnbexperience/eufemia/commit/c31c679b1c76cd98ed0cc94b6ee79b3ce7f70f6a))
+
+
+### :sparkles: Features
+
+* release of v10.0.0-beta.6 ([61bd05c](https://github.com/dnbexperience/eufemia/commit/61bd05cb9bc43632197811e46dfd8e795ce23bc3))
+
 ## [10.0.0-beta.5](https://github.com/dnbexperience/eufemia/compare/v10.0.0-beta.4...v10.0.0-beta.5) (2023-05-08)
 
 
