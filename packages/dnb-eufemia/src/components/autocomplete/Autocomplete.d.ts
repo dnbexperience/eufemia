@@ -4,7 +4,7 @@ import type {
   DrawerListData,
   DrawerListOptionsRender
 } from '../../fragments/DrawerList';
-import type { ButtonIconPosition } from '../button';
+import type { ButtonIconPosition } from '../Button';
 import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
 import type {
   FormStatusProps,
@@ -29,7 +29,7 @@ type AutocompleteSubmitButtonIcon =
   | ((...args: any[]) => any);
 type AutocompleteInputRef =
   | ((...args: any[]) => any)
-  | Record<string, unknown>;
+  | React.MutableRefObject<HTMLInputElement | undefined>;
 type AutocompleteInputIcon =
   | string
   | React.ReactNode

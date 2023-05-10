@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { ButtonIconPosition } from '../button';
+import type { ButtonIconPosition } from '../Button';
 import type { HeadingLevel } from '../Heading';
 import type { IconIcon, IconSize } from '../Icon';
 import type { SkeletonShow } from '../Skeleton';
