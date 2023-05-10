@@ -96,5 +96,9 @@ describe('makeReleaseVersion', () => {
       expect.stringContaining('src/shared/Eufemia.js'),
       expect.stringContaining(`return 'release'`)
     )
+    expect(fs.writeFile).toHaveBeenLastCalledWith(
+      expect.stringContaining('src/shared/Eufemia.js'),
+      expect.stringContaining(`export const version = 'release'`)
+    )
   })
 })
