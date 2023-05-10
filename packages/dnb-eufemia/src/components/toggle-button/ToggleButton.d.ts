@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { ButtonIconPosition } from '../button';
+import type { ButtonIconPosition } from '../Button';
 import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
 import type {
   FormStatusProps,
