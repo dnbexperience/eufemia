@@ -37,7 +37,7 @@ export function useTheme() {
     })
   }, [])
 
-  // Deprecated (can be removed when we are full and 100% officially using Reavt v18)
+  // Deprecated (can be removed when we are full and 100% officially using React v18)
   // When using React v17,
   // we need to ovecome a hydration issue.
   // The JS app gets the correct theme.name,
