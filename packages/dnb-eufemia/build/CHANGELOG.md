@@ -3,6 +3,19 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.0.0-beta.7](https://github.com/dnbexperience/eufemia/compare/v10.0.0-beta.6...v10.0.0-beta.7) (2023-05-10)
+
+
+### :sparkles: Features
+
+* **Accordion:** export type AccordionIconPosition ([23056cd](https://github.com/dnbexperience/eufemia/commit/23056cdd4f27b8f6ba74a43ad11c346f9ee50369))
+* **Button:** export type ButtonIcon ([ad315bf](https://github.com/dnbexperience/eufemia/commit/ad315bf62ce89dfb02af1a62484c1f5ff593672a))
+
+
+### :memo: Documentation
+
+* **v10:** adds examples for updating import of boolean props ([b598078](https://github.com/dnbexperience/eufemia/commit/b59807882164ca6136a57237c53d231d8ac11684))
+
 ## [10.0.0-beta.6](https://github.com/dnbexperience/eufemia/compare/v10.0.0-beta.5...v10.0.0-beta.6) (2023-05-10)
 
 
