@@ -15,6 +15,7 @@ export type ButtonVariant =
   | 'signal'
   | 'unstyled';
 export type ButtonSize = 'default' | 'small' | 'medium' | 'large';
+export type ButtonIcon = IconIcon;
 export type ButtonIconPositionTertiary = 'top';
 export type ButtonIconPosition = 'left' | 'right';
 export type ButtonIconPositionAll =
@@ -65,7 +66,7 @@ export type ButtonProps = {
   /**
    * To be included in the button. <a href="/icons/primary">Primary Icons</a> can be set as a string (e.g. `icon="chevron_right"`), other icons should be set as React elements.
    */
-  icon?: IconIcon;
+  icon?: ButtonIcon;
 
   /**
    * Position of icon inside the button. Set to `left` or `right`. Tertiary button variant also supports `top`. Defaults to `right` if not set.
