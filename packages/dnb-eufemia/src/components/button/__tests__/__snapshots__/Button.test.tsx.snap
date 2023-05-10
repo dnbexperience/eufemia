@@ -905,8 +905,6 @@ exports[`Button scss have to match default theme snapshot 1`] = `
 */
 .dnb-button--tertiary {
   --button-tertiary-focus-overflow: -1rem;
-  --button-tertiary-focus-overflow-icon: -0.5rem;
-  --button-tertiary-focus-inset: ;
 }
 .dnb-button--tertiary .dnb-button__text {
   position: relative;
@@ -947,9 +945,9 @@ html[data-whatinput=keyboard] .dnb-button--tertiary:focus:not([disabled]), html[
   position: absolute;
   z-index: 1;
   top: 0;
-  left: var(--button-tertiary-focus-overflow-icon);
+  left: -0.5rem;
   bottom: 0;
-  right: var(--button-tertiary-focus-overflow-icon);
+  right: -0.5rem;
   height: inherit;
   border-radius: inherit;
   outline: none;
@@ -957,7 +955,7 @@ html[data-whatinput=keyboard] .dnb-button--tertiary:focus:not([disabled]), html[
 html[data-whatinput=keyboard] .dnb-button--tertiary:focus:not([disabled])::before, html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-button--tertiary:focus:not([disabled])::before {
   --border-color: var(--focus-ring-color);
   --border-width: var(--focus-ring-width);
-  box-shadow: var(--button-tertiary-focus-inset) 0 0 0 var(--border-width) var(--border-color);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 .dnb-button--tertiary:focus:not([disabled]) .dnb-button__text::after, html:not([data-whatintent=touch]) .dnb-button--tertiary:focus:not([disabled]) .dnb-button__text::after {

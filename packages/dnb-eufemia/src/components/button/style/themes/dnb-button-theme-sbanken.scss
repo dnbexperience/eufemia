@@ -104,8 +104,6 @@
     $tertiary-icon-space: 0.5rem;
     
     --button-tertiary-focus-overflow: 0;
-    --button-tertiary-focus-overflow-icon: 0;    
-    --button-tertiary-focus-inset: inset;
 
     color: var(--sb-color-violet);
     background-color: transparent;
@@ -197,6 +195,10 @@
           }
         }
       }
+    }
+
+    @include focus() {
+      @include buttonFocusRing(null, 0, inset);
     }
 
     @include hover() {
