@@ -21,6 +21,7 @@ export type AccordionIcon =
       expanded?: React.ReactNode | ((...args: any[]) => any);
     };
 export type AccordionAttributes = string | Record<string, unknown>;
+export type AccordionIconPosition = ButtonIconPosition;
 export interface AccordionProps
   extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
     SpacingProps {
@@ -129,7 +130,7 @@ export interface AccordionProps
   /**
    * Will set the placement of the icon. Defaults to `left`.
    */
-  icon_position?: ButtonIconPosition;
+  icon_position?: AccordionIconPosition;
 
   /**
    * Define a different icon size. Defaults to `medium` (1.5rem).
