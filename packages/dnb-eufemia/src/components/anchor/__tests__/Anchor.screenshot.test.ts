@@ -23,6 +23,9 @@ describe.each([
 
   it('have to match breaking lines', async () => {
     const screenshot = await makeScreenshot({
+      style: {
+        'white-space': 'nowrap',
+      },
       selector: '[data-visual-test="anchor-newline"]',
     })
     expect(screenshot).toMatchImageSnapshot()
