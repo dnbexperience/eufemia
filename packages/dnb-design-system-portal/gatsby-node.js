@@ -174,7 +174,12 @@ async function createRedirects({ graphql, actions }) {
   })
 }
 
-exports.onCreateWebpackConfig = ({ stage, actions, plugins }) => {
+exports.onCreateWebpackConfig = ({
+  reporter,
+  stage,
+  actions,
+  plugins,
+}) => {
   const config = {
     resolve: {
       alias: {
@@ -197,6 +202,12 @@ exports.onCreateWebpackConfig = ({ stage, actions, plugins }) => {
   }
 
   if (PREBUILD_EXISTS && stage === 'build-javascript') {
+    if (PREBUILD_EXISTS && !isCI) {
+      reporter.warn(
+        '😱 There is a "dnb-eufemia/build" in your local repo. It is used durnig your local Portal build! \nKeep in mind, the code from "dnb-eufemia/build" may be outdated. \n\n👉 You can remove the build with: "yarn build:clean"\n\n'
+      )
+    }
+
     config.plugins.push(
       plugins.normalModuleReplacement(/@dnb\/eufemia\/src/, (resource) => {
         resource.request = resource.request.replace(

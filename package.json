@@ -23,6 +23,7 @@
     "reset": "yarn workspace dnb-design-system-portal reset && yarn workspace @dnb/eufemia reset && rm -rf ./node_modules && yarn install",
     "build": "yarn workspace @dnb/eufemia build",
     "build:ci": "yarn workspace @dnb/eufemia build:ci",
+    "build:clean": "yarn workspace @dnb/eufemia build:clean",
     "test": "yarn workspace @dnb/eufemia test",
     "test:update": "yarn workspace @dnb/eufemia test:update",
     "test:types": "yarn workspace @dnb/eufemia test:types",
