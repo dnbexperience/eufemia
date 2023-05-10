@@ -1,3 +1,5 @@
+export const version = '__VERSION__'
+
 export function init() {
   if (typeof window !== 'undefined') {
     class Eufemia {
