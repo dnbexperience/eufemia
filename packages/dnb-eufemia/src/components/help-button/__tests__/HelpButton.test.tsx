@@ -140,6 +140,32 @@ describe('HelpButton', () => {
     expect(textContent).toContain(dialogContent)
   })
 
+  it('should return given render element', () => {
+    render(
+      <HelpButton
+        title="Title"
+        render={(children, props) => (
+          <Dialog triggerAttributes={props} className="custom-class">
+            {children}
+          </Dialog>
+        )}
+      >
+        Help text
+      </HelpButton>
+    )
+
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+
+    const dialogElem = document.querySelector('.custom-class')
+
+    expect(
+      dialogElem.querySelector('.dnb-dialog__header').textContent
+    ).toBe('Title')
+    expect(
+      dialogElem.querySelector('.dnb-dialog__content').textContent
+    ).toBe('Help text')
+  })
+
   it('should validate with ARIA rules', async () => {
     const Component = render(<HelpButton {...props} />)
     expect(await axeComponent(Component)).toHaveNoViolations()
