@@ -5,96 +5,105 @@
 
 import React from 'react'
 import {
-  mount,
   fakeProps,
   axeComponent,
   loadScss,
 } from '../../../core/jest/jestSetup'
-import Component, { HelpButtonProps } from '../HelpButton'
+import Dialog from '../../dialog/Dialog'
+import HelpButton, { HelpButtonProps } from '../HelpButton'
 import {
   question as QuestionIcon,
   information_medium as InformationIcon,
 } from '../../../icons'
-import { ModalProps } from '../../modal/types'
+import { fireEvent, render } from '@testing-library/react'
 
 const snapshotProps = fakeProps(require.resolve('../HelpButton'), {})
 snapshotProps.id = 'help-button'
 
-const modal_props: ModalProps = {}
-modal_props.content_id = null
-modal_props.no_animation = true
-
-const props: HelpButtonProps = { modal_props }
+const props: HelpButtonProps = {}
 props.id = 'help-button'
 
-describe('HelpButton component', () => {
+describe('HelpButton', () => {
   it('should have question icon by default', () => {
-    const Comp = mount(<Component {...props} />)
+    render(<HelpButton {...props} />)
     expect(
-      Comp.find('.dnb-icon').instance().getAttribute('data-testid')
+      document.querySelector('.dnb-icon').getAttribute('data-testid')
     ).toBe('question icon')
-    expect(Comp.find('svg').html()).toBe(mount(<QuestionIcon />).html())
-    expect(Comp.find('.dnb-button').text().trim()).toBe('‌')
+    expect(document.querySelector('svg').outerHTML).toBe(
+      render(<QuestionIcon />).container.innerHTML
+    )
+    expect(document.querySelector('.dnb-button').textContent.trim()).toBe(
+      '‌'
+    )
   })
 
   it('should use "information" icon when set', () => {
-    const Comp = mount(<Component {...props} icon="information" />)
+    render(<HelpButton {...props} icon="information" />)
     expect(
-      Comp.find('.dnb-icon').instance().getAttribute('data-testid')
+      document.querySelector('.dnb-icon').getAttribute('data-testid')
     ).toBe('information icon')
-    expect(Comp.find('svg').html()).toBe(mount(<InformationIcon />).html())
-    expect(Comp.find('.dnb-button').text().trim()).toBe('‌')
+    expect(document.querySelector('svg').outerHTML).toBe(
+      render(<InformationIcon />).container.innerHTML
+    )
+    expect(document.querySelector('.dnb-button').textContent.trim()).toBe(
+      '‌'
+    )
   })
 
   it('should use given icon', () => {
-    const Comp = mount(<Component {...props} icon={InformationIcon} />)
+    render(<HelpButton {...props} icon={InformationIcon} />)
     expect(
-      Comp.find('.dnb-icon').instance().getAttribute('data-testid')
+      document.querySelector('.dnb-icon').getAttribute('data-testid')
     ).toBe('information medium icon')
-    expect(Comp.find('svg').html()).toBe(mount(<InformationIcon />).html())
-    expect(Comp.find('.dnb-button').text().trim()).toBe('‌')
+    expect(document.querySelector('svg').outerHTML).toBe(
+      render(<InformationIcon />).container.innerHTML
+    )
+    expect(document.querySelector('.dnb-button').textContent.trim()).toBe(
+      '‌'
+    )
   })
 
   it('should have correct role description', () => {
-    const Comp = mount(<Component {...props} />)
+    render(<HelpButton {...props} />)
     expect(
-      Comp.find('.dnb-button')
-        .instance()
+      document
+        .querySelector('.dnb-button')
+
         .getAttribute('aria-roledescription')
     ).toBe('Hjelp-knapp')
   })
 
   describe('with bell icon', () => {
     it('should have correct aria-label', () => {
-      const Comp = mount(<Component {...props} icon="bell" />)
+      render(<HelpButton {...props} icon="bell" />)
       expect(
-        Comp.find('.dnb-button').instance().getAttribute('aria-label')
+        document.querySelector('.dnb-button').getAttribute('aria-label')
       ).toBe('Hjelpetekst')
     })
 
     it('should have not aria-label if text is given', () => {
-      const Comp = mount(
-        <Component {...props} icon="bell" text="button text" />
-      )
+      render(<HelpButton {...props} icon="bell" text="button text" />)
       expect(
-        Comp.find('.dnb-button').instance().hasAttribute('aria-label')
+        document.querySelector('.dnb-button').hasAttribute('aria-label')
       ).toBe(false)
-      expect(Comp.find('.dnb-button').text().trim()).toBe('‌button text')
+      expect(
+        document.querySelector('.dnb-button').textContent.trim()
+      ).toBe('‌button text')
     })
 
     it('should have aria-label if title is given, but no text', () => {
-      const Comp = mount(
-        <Component {...props} icon="bell" title="button title" />
-      )
+      render(<HelpButton {...props} icon="bell" title="button title" />)
       expect(
-        Comp.find('.dnb-button').instance().getAttribute('aria-label')
+        document.querySelector('.dnb-button').getAttribute('aria-label')
       ).toBe('button title')
-      expect(Comp.find('.dnb-button').text().trim()).toBe('‌')
+      expect(
+        document.querySelector('.dnb-button').textContent.trim()
+      ).toBe('‌')
     })
 
     it('should use given aria-label if title is given, but no text', () => {
-      const Comp = mount(
-        <Component
+      render(
+        <HelpButton
           {...props}
           icon="bell"
           title="button title"
@@ -102,36 +111,64 @@ describe('HelpButton component', () => {
         />
       )
       expect(
-        Comp.find('.dnb-button').instance().getAttribute('aria-label')
+        document.querySelector('.dnb-button').getAttribute('aria-label')
       ).toBe('custom aria-label')
-      expect(Comp.find('.dnb-button').text().trim()).toBe('‌')
+      expect(
+        document.querySelector('.dnb-button').textContent.trim()
+      ).toBe('‌')
     })
 
     it('should validate with ARIA rules', async () => {
-      const Comp = mount(<Component {...props} icon="bell" />)
-      expect(await axeComponent(Comp)).toHaveNoViolations()
+      const Component = render(<HelpButton {...props} icon="bell" />)
+      expect(await axeComponent(Component)).toHaveNoViolations()
     })
   })
 
-  it('should open a modal if children are given', () => {
-    const modalContent = 'Modal Content'
-    const Comp = mount(<Component {...props}>{modalContent}</Component>)
+  it('should open a dialog if children are given', () => {
+    const dialogContent = 'Dialog Content'
+    render(<HelpButton {...props}>{dialogContent}</HelpButton>)
 
-    Comp.find('button.dnb-modal__trigger').simulate('click')
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
 
     const id = `dnb-modal-${props.id}`
-    const modalElem = document.getElementById(id)
-    const textContent = String(modalElem.textContent).replace(
+    const dialogElem = document.getElementById(id)
+    const textContent = String(dialogElem.textContent).replace(
       /\u200C/g,
       ''
     )
 
-    expect(textContent).toContain(modalContent)
+    expect(textContent).toContain(dialogContent)
+  })
+
+  it('should return given render element', () => {
+    render(
+      <HelpButton
+        title="Title"
+        render={(children, props) => (
+          <Dialog triggerAttributes={props} className="custom-class">
+            {children}
+          </Dialog>
+        )}
+      >
+        Help text
+      </HelpButton>
+    )
+
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+
+    const dialogElem = document.querySelector('.custom-class')
+
+    expect(
+      dialogElem.querySelector('.dnb-dialog__header').textContent
+    ).toBe('Title')
+    expect(
+      dialogElem.querySelector('.dnb-dialog__content').textContent
+    ).toBe('Help text')
   })
 
   it('should validate with ARIA rules', async () => {
-    const Comp = mount(<Component {...props} />)
-    expect(await axeComponent(Comp)).toHaveNoViolations()
+    const Component = render(<HelpButton {...props} />)
+    expect(await axeComponent(Component)).toHaveNoViolations()
   })
 })
 
