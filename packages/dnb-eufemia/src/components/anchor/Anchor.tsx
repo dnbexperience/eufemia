@@ -11,6 +11,7 @@ import {
   makeUniqueId,
   extendPropsWithContext,
 } from '../../shared/component-helper'
+import { getOffsetTop } from '../../shared/helpers'
 import Tooltip from '../tooltip/Tooltip'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import type { SpacingProps } from '../../shared/types'
@@ -120,3 +121,43 @@ const Anchor = React.forwardRef(
 )
 
 export default Anchor
+
+export function scrollToHashHandler(
+  e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+) {
+  const element = e.currentTarget as HTMLAnchorElement
+  const href = element.getAttribute('href')
+
+  if (typeof document === 'undefined' || !href.includes('#')) {
+    return // stop here
+  }
+
+  /**
+   * What happens here?
+   * When `scroll-behavior: smooth;` in CSS is set,
+   * Blink/Chromium wants the user to click two times in order to actually scroll to the anchor hash.
+   * The first click, sets the hash, the second one, srollts to it.
+   * We want Chromium browsers to scorll to the element on the first click.
+   */
+  const isSamePath =
+    href.startsWith('#') ||
+    window.location.href.includes(element.pathname?.replace(/\/$/, ''))
+
+  // Only continue, when we are sure we are on the same page,
+  // because, the same ID may exists occasionally on the current page.
+  if (isSamePath) {
+    const id = href.split(/#/g).reverse()[0]
+    const anchorElem = document.getElementById(id)
+
+    if (anchorElem instanceof HTMLElement) {
+      e.preventDefault()
+
+      const scrollPadding = parseFloat(
+        window.getComputedStyle(document.documentElement).scrollPaddingTop
+      )
+      const top = getOffsetTop(anchorElem) - scrollPadding || 0
+
+      window.scroll({ top })
+    }
+  }
+}
