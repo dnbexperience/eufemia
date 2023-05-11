@@ -6,7 +6,7 @@
 import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 
-import { HelpButton, Dialog, Button, Section, Input } from '../..'
+import { HelpButton, Dialog, Drawer, Button, Section, Input } from '../..'
 
 export default {
   title: 'Eufemia/Components/HelpButton',
@@ -16,11 +16,13 @@ export const HelpButtonSandbox = () => (
   <Wrapper>
     <Box>
       <HelpButton
-        text="Help"
-        on_click={(e) => {
-          console.log(e)
-        }}
-      />
+        title="Tittel"
+        render={(children, props) => (
+          <Drawer triggerAttributes={props}>{children}</Drawer>
+        )}
+      >
+        Helpe text
+      </HelpButton>
     </Box>
 
     <Box>
