@@ -36,7 +36,9 @@ export default function VisibilityByTheme({
   // When using React v17,
   // we need to ovecome a hydration issue.
   // Later we can change "themeOrig" to "theme" and remove these lines below:
-  const [theme, refresh] = React.useState({})
+  const [theme, refresh] = React.useState(
+    process.env.NODE_ENV === 'production' ? {} : themeOrig
+  )
   React.useLayoutEffect(() => {
     refresh(themeOrig)
   }, [themeOrig])
