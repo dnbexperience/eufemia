@@ -5,14 +5,13 @@
 
 import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
-import Anchor from '../Anchor'
+import Anchor, { scrollToHashHandler } from '../Anchor'
 
-describe('Anchor with scrollToHash', () => {
+describe('Anchor with scrollToHashHandler', () => {
   let location: Location
 
   beforeEach(() => {
     location = window.location
-    // jest.spyOn(window, 'location', 'get').mockRestore()
   })
 
   it('should call window.scroll', () => {
@@ -26,7 +25,7 @@ describe('Anchor with scrollToHash', () => {
 
     render(
       <>
-        <Anchor scrollToHash href="/path/#hash-id">
+        <Anchor onClick={scrollToHashHandler} href="/path/#hash-id">
           text
         </Anchor>
         <span id="hash-id" />
@@ -51,7 +50,10 @@ describe('Anchor with scrollToHash', () => {
 
     render(
       <>
-        <Anchor scrollToHash href="/path/#first-hash#hash-id">
+        <Anchor
+          onClick={scrollToHashHandler}
+          href="/path/#first-hash#hash-id"
+        >
           text
         </Anchor>
         <span id="hash-id" />
@@ -76,7 +78,7 @@ describe('Anchor with scrollToHash', () => {
 
     render(
       <>
-        <Anchor scrollToHash href="/path/#hash-id">
+        <Anchor onClick={scrollToHashHandler} href="/path/#hash-id">
           text
         </Anchor>
         <span id="other-id" />
@@ -99,7 +101,7 @@ describe('Anchor with scrollToHash', () => {
     })
 
     render(
-      <Anchor scrollToHash href="/path">
+      <Anchor onClick={scrollToHashHandler} href="/path">
         text
       </Anchor>
     )
@@ -121,7 +123,7 @@ describe('Anchor with scrollToHash', () => {
 
     render(
       <>
-        <Anchor scrollToHash href="/other-path/#hash-id">
+        <Anchor onClick={scrollToHashHandler} href="/other-path/#hash-id">
           text
         </Anchor>
         <span id="hash-id" />

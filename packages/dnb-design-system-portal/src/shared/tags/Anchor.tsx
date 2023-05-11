@@ -5,6 +5,7 @@
 
 import React from 'react'
 import { Link } from '@dnb/eufemia/src'
+import { scrollToHashHandler } from '@dnb/eufemia/src/components/Anchor'
 
 const Anchor = ({ children, href, ...rest }) => {
   if (/^http/.test(href) || href[0] === '!') {
@@ -16,7 +17,7 @@ const Anchor = ({ children, href, ...rest }) => {
   }
 
   return (
-    <Link lang="en-GB" href={href} {...rest} scrollToHash>
+    <Link lang="en-GB" href={href} {...rest} onClick={scrollToHashHandler}>
       {children}
     </Link>
   )
