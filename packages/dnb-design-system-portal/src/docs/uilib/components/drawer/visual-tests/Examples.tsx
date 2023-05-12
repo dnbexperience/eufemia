@@ -6,6 +6,7 @@
 import React from 'react'
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
 import { Drawer, P } from '@dnb/eufemia/src'
+
 export const DrawerScrollViewSetup = () => (
   <ComponentBox data-visual-test="drawer-scroll-view">
     {() => {
