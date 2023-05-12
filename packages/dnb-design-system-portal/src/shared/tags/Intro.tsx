@@ -7,8 +7,7 @@ import React from 'react'
 import { Global, css } from '@emotion/react'
 import PropTypes from 'prop-types'
 import { navigate } from 'gatsby'
-import { Link } from '@dnb/eufemia/src'
-import { Button, Space } from '@dnb/eufemia/src/components'
+import { Link, Button, Space } from '@dnb/eufemia/src'
 import { wrapperStyle, innerStyle, footerStyle } from './Intro.module.scss'
 
 const ref = React.createRef<HTMLDivElement>()
