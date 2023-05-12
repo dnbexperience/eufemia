@@ -8,13 +8,10 @@ import PropTypes from 'prop-types'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 
-import { Table, Button } from '@dnb/eufemia/src/components'
-import { P } from '@dnb/eufemia/src'
+import { P, Pagination, Table, Button } from '@dnb/eufemia/src'
 import { hasSelectedText } from '@dnb/eufemia/src/shared/helpers'
 
 import { createPagination } from '@dnb/eufemia/src/components/pagination/Pagination'
-
-import { Pagination } from '@dnb/eufemia/src'
 
 const LargePage = styled.div`
   display: flex;
