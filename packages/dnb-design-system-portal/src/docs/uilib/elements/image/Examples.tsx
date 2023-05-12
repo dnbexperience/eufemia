@@ -5,9 +5,8 @@
 
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { Skeleton, ToggleButton } from '@dnb/eufemia/src'
+import { Skeleton, ToggleButton, Img } from '@dnb/eufemia/src'
 import styled from '@emotion/styled'
-import { Img } from '@dnb/eufemia/src'
 
 export const ImagePlainExample = () => (
   <ComponentBox data-visual-test="image-plain" hideCode>
