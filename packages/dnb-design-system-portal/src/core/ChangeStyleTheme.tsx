@@ -7,7 +7,7 @@ import {
   setTheme,
 } from 'gatsby-plugin-eufemia-theme-handler'
 
-export default function ChangeStyleTheme() {
+export default function ChangeStyleTheme({ label = null } = {}) {
   const themes = getThemes()
   const { name } = getTheme()
   const { update } = React.useContext(Context)
@@ -24,6 +24,7 @@ export default function ChangeStyleTheme() {
       id="change-theme"
       value={name}
       data={date}
+      label={label}
       on_change={({ data: { value } }) => {
         update({ skeleton: true })
         setTheme({ name: value }, () => {
