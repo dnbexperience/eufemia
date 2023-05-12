@@ -6,8 +6,7 @@
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 
-import { HelpButton, Input } from '@dnb/eufemia/src'
-import { Dl, Dt, Dd } from '@dnb/eufemia/src'
+import { HelpButton, Input, Dl, Dt, Dd, Dialog } from '@dnb/eufemia/src'
 
 export const HelpButtonDefaultExample = () => (
   <ComponentBox data-visual-test="help-button-default">
@@ -59,5 +58,20 @@ export const HelpButtonInsideTextExample = () => (
     <span>
       Text <HelpButton>Text</HelpButton> Text
     </span>
+  </ComponentBox>
+)
+
+export const HelpButtonRenderExample = () => (
+  <ComponentBox scope={{ Dialog }}>
+    <HelpButton
+      title="Title"
+      render={(children, props) => (
+        <Dialog triggerAttributes={props} className="your-class">
+          {children}
+        </Dialog>
+      )}
+    >
+      Help text
+    </HelpButton>
   </ComponentBox>
 )
