@@ -38,16 +38,23 @@ describe.each([
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match anchor with icon', async () => {
+  it('have to match anchor with icon-right', async () => {
     const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="anchor-icon"]',
+      selector: '[data-visual-test="anchor-icon-right"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match anchor with icon using prop', async () => {
+  it('have to match anchor with icon left', async () => {
     const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="anchor-icon-alt"]',
+      selector: '[data-visual-test="anchor-icon-left"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match anchor with icon node', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="anchor-icon-node"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -55,13 +62,6 @@ describe.each([
   it('have to match anchor with paragraph', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-paragraph"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  it('have to match anchor with paragraph using icon prop', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="anchor-paragraph-alt"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -155,6 +155,21 @@ describe.each([
       selector: '[data-visual-test="anchor-blank"]',
       simulateSelector: '[data-visual-test="anchor-blank"] a.dnb-anchor',
       simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match anchor with icon', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="anchor-legacy-icon"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  
+
+  it('have to match anchor with paragraph', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="anchor-legacy-paragraph"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

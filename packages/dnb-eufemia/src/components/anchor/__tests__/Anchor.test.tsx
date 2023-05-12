@@ -149,4 +149,40 @@ describe('Anchor element', () => {
     const Component = render(<Anchor {...props} />)
     expect(await axeComponent(Component)).toHaveNoViolations()
   })
+
+  it('has left icon class when using left icon prop', () => {
+    render(
+      <Anchor href="/url" icon="bell" icon_position="left">
+        text
+      </Anchor>
+    )
+    expect(document.querySelector('.dnb-anchor--icon-left')).toBeTruthy()
+  })
+
+  it('has right icon class when using right icon prop', () => {
+    render(
+      <Anchor href="/url" icon="bell" icon_position="right">
+        text
+      </Anchor>
+    )
+    expect(document.querySelector('.dnb-anchor--icon-right')).toBeTruthy()
+  })
+
+  it('defaults to left icon when using icon prop', () => {
+    render(
+      <Anchor href="/url" icon="bell">
+        text
+      </Anchor>
+    )
+    expect(document.querySelector('.dnb-anchor--icon-left')).toBeTruthy()
+  })
+
+  it('hides launch icon when given a right icon', () => {
+    render(
+      <Anchor href="/url" target="_blank" icon="bell" icon_position="right">
+        text
+      </Anchor>
+    )
+    expect(document.querySelector('.dnb-anchor--no-icon')).toBeTruthy()
+  })
 })

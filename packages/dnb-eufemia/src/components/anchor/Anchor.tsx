@@ -12,7 +12,9 @@ import {
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import { getOffsetTop } from '../../shared/helpers'
+import IconPrimary from '../icon-primary/IconPrimary'
 import Tooltip from '../tooltip/Tooltip'
+import type { IconIcon } from '../icon/Icon';
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import type { SpacingProps } from '../../shared/types'
 
@@ -23,8 +25,8 @@ export type AnchorProps = {
   targetBlankTitle?: string
   target?: string
   tooltip?: React.ReactNode
-  iconLeft?: React.ReactNode
-  iconRight?: React.ReactNode
+  icon?: IconIcon
+  icon_position?: 'left' | 'right'
   skeleton?: SkeletonShow
   omitClass?: boolean
   innerRef?: React.RefObject<HTMLAnchorElement>
@@ -65,8 +67,8 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     className,
     children,
     tooltip,
-    iconLeft,
-    iconRight,
+    icon,
+    icon_position = 'left',
     omitClass,
     innerRef,
     targetBlankTitle,
@@ -83,6 +85,17 @@ export function AnchorInstance(localProps: AnchorAllProps) {
 
   const as = (element || 'a') as string
 
+  let prefix;
+  let suffix;
+  if(icon) {
+    const iconNode = typeof icon === 'string' ? <IconPrimary icon={icon}/> : icon
+    if(icon_position === 'left') {
+      prefix = <>{iconNode} </>;
+    } else if(icon_position === 'right'){
+      suffix = <> {iconNode}</>;
+    }
+  }
+
   return (
     <>
       <E
@@ -95,19 +108,19 @@ export function AnchorInstance(localProps: AnchorAllProps) {
           // because we then don't want to distract the link out
           // we make sure we hide the icon
           allProps.target === '_blank' &&
-            (typeof children !== 'string' || iconRight) &&
+            (typeof children !== 'string' || suffix) &&
             'dnb-anchor--no-icon',
           typeof children !== 'string' &&
             'dnb-anchor--has-icon',
-          iconLeft && 'dnb-anchor--icon-left',
-          iconRight && 'dnb-anchor--icon-right'
+          prefix && 'dnb-anchor--icon-left',
+          suffix && 'dnb-anchor--icon-right'
         )}
         {...attributes}
         innerRef={innerRef}
       >
-        {iconLeft && <>{iconLeft} </>}
+        {prefix}
         {children}
-        {iconRight && <> {iconRight}</>}
+        {suffix}
       </E>
 
       {showTooltip && (

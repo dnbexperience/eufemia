@@ -28,11 +28,6 @@ export const AnchorExampleStates = () => (
           Default Style
         </Anchor>
       </li>
-      <li data-visual-test="anchor-blank">
-        <Anchor target="_blank" href="/uilib/components/anchor">
-          Blank target with https
-        </Anchor>
-      </li>
       <li>
         <Anchor
           href="/uilib/components/anchor"
@@ -99,13 +94,6 @@ export const AnchorExampleHelperClasses = () => (
         >
           Blank target without launch icon
         </Anchor>
-      </li>      <li>
-        <Anchor
-          target="_blank"
-          href="/uilib/components/anchor"
-        >
-          Blank target with different launch icon <IconPrimary icon="chevron_right" />
-        </Anchor>
       </li>
       <li>
         <Anchor
@@ -166,31 +154,67 @@ export const AnchorExampleHelperClasses = () => (
 
 export const AnchorExampleIcons = () => (
   <ComponentBox hideCode>
-    <Anchor href="/uilib/components/anchor" data-visual-test="anchor-icon">
-      Anchor with Icon <IconPrimary icon="chevron_right" />
+    <Anchor 
+      href="/uilib/components/anchor" 
+      data-visual-test="anchor-icon-right" 
+      icon="chevron_right" 
+      icon_position="right"
+    >
+      Anchor with Icon right
+    </Anchor>
+    <br />
+    <br />
+    <Anchor 
+      href="/uilib/components/anchor"
+      data-visual-test="anchor-icon-left"
+      icon="question"
+    >
+      Anchor with Icon left
+    </Anchor>
+    <br />
+    <br />
+    <Anchor
+      href="/uilib/components/anchor"
+      data-visual-test="anchor-icon-node"
+      icon={<IconPrimary icon="question" />}
+    >
+      Anchor with Icon left using a react element
     </Anchor>
     <br />
     <br />
     <p className="dnb-p" data-visual-test="anchor-paragraph">
       text{' '}
-      <Anchor href="/uilib/components/anchor">
-        Inside a Paragraph <IconPrimary icon="bell" />
+      <Anchor 
+        href="/uilib/components/anchor" 
+        icon="bell" 
+        icon_position="right"
+      >
+        Inside a Paragraph
       </Anchor>{' '}
       text
     </p>
-    <br />
-    <Anchor href="/uilib/components/anchor" iconLeft={<IconPrimary icon="chevron_right" />} data-visual-test="anchor-icon-alt">
-      Anchor with Icon using prop
-    </Anchor>
-    <br />
-    <br />
-    <p className="dnb-p" data-visual-test="anchor-paragraph-alt">
-      text{' '}
-      <Anchor href="/uilib/components/anchor" iconRight={<IconPrimary icon="bell" />}>
-        Inside a Paragraph using icon prop
-      </Anchor>{' '}
-      text
-    </p>
+  </ComponentBox>
+)
+
+export const AnchorTargetBlank = () => (
+  <ComponentBox hideCode>
+    <ul className="dnb-ul dnb-unstyled-list">
+      <li data-visual-test="anchor-blank">
+        <Anchor target="_blank" href="/uilib/components/anchor">
+          Blank target with https
+        </Anchor>
+      </li>
+      <li>
+        <Anchor
+          target="_blank"
+          href="/uilib/components/anchor"
+          icon="arrow_right"
+          icon_position="right"
+        >
+          Blank target with different launch icon
+        </Anchor>
+      </li>
+    </ul>
   </ComponentBox>
 )
 
@@ -224,7 +248,7 @@ export const AnchorSbankenRegular = () => (
       <li>
         <Anchor
           href="/uilib/components/anchor"
-          iconLeft={<IconPrimary icon="chevron_right" />}
+          icon="chevron_right"
         >
           Default
         </Anchor>
@@ -232,7 +256,7 @@ export const AnchorSbankenRegular = () => (
       <li>
         <Anchor
           href="/uilib/components/anchor"
-          iconLeft={<IconPrimary icon="chevron_right" />}
+          icon="chevron_right"
           className="dnb-anchor--hover"
         >
           Hover
@@ -241,7 +265,7 @@ export const AnchorSbankenRegular = () => (
       <li>
         <Anchor
           href="/uilib/components/anchor"
-          iconLeft={<IconPrimary icon="chevron_right" />}
+          icon="chevron_right"
           className="dnb-anchor--active"
         >
           Active
@@ -250,7 +274,7 @@ export const AnchorSbankenRegular = () => (
       <li>
         <Anchor
           href="/uilib/components/anchor"
-          iconLeft={<IconPrimary icon="chevron_right" />}
+          icon="chevron_right"
           className="dnb-anchor--focus"
         >
           Focus
@@ -266,7 +290,8 @@ export const AnchorSbankenGoto = () => (
     <li>
         <Anchor
           href="/uilib/components/anchor"
-          iconRight={<IconPrimary icon="arrow_right" />}
+          icon="arrow_right"
+          icon_position="right"
         >
           Default
         </Anchor>
@@ -274,7 +299,8 @@ export const AnchorSbankenGoto = () => (
       <li>
         <Anchor
           href="/uilib/components/anchor"
-          iconRight={<IconPrimary icon="arrow_right" />}
+          icon="arrow_right"
+          icon_position="right"
           className="dnb-anchor--hover"
         >
           Hover
@@ -283,7 +309,8 @@ export const AnchorSbankenGoto = () => (
       <li>
         <Anchor
           href="/uilib/components/anchor"
-          iconRight={<IconPrimary icon="arrow_right" />}
+          icon="arrow_right"
+          icon_position="right"
           className="dnb-anchor--active"
         >
           Active
@@ -292,7 +319,8 @@ export const AnchorSbankenGoto = () => (
       <li>
         <Anchor
           href="/uilib/components/anchor"
-          iconRight={<IconPrimary icon="arrow_right" />}
+          icon="arrow_right"
+          icon_position="right"
           className="dnb-anchor--focus"
         >
           Focus
@@ -301,3 +329,34 @@ export const AnchorSbankenGoto = () => (
     </ul>
   </ComponentBox>
 )
+
+export const AnchorLegacyUsage = () => {
+  if (!globalThis.IS_TEST) {
+    return null
+  }
+  return (
+    <ComponentBox hideCode>
+      <ul className="dnb-ul dnb-unstyled-list">
+        <li data-visual-test="anchor-legacy-icon">
+          <Anchor href="/uilib/components/anchor">
+            Anchor with Icon <IconPrimary icon="chevron_right" />
+          </Anchor>
+        </li>
+        <li data-visual-test="anchor-legacy-paragraph">
+          <p className="dnb-p">
+            text{' '}
+            <Anchor href="/uilib/components/anchor">
+              Inside a Paragraph <IconPrimary icon="bell" />
+            </Anchor>{' '}
+            text
+          </p>
+        </li>
+        <li data-visual-test="anchor-legacy-blank-with-icon">
+          <Anchor target="_blank" href="/uilib/components/anchor">
+            <IconPrimary icon="bell" /> Blank target with https
+          </Anchor>
+        </li>
+      </ul>
+    </ComponentBox>
+  )
+}
