@@ -903,6 +903,9 @@ exports[`Button scss have to match default theme snapshot 1`] = `
 * Button mixins
 *
 */
+.dnb-button--tertiary {
+  --button-tertiary-focus-overflow: -1rem;
+}
 .dnb-button--tertiary .dnb-button__text {
   position: relative;
 }
@@ -1044,7 +1047,7 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .
   cursor: not-allowed;
 }
 .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left:focus:not([disabled])::before, html:not([data-whatintent=touch]) .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-left:focus:not([disabled])::before {
-  right: -1rem;
+  right: var(--button-tertiary-focus-overflow);
 }
 .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right {
   /* stylelint-disable */
@@ -1071,7 +1074,7 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .
   cursor: not-allowed;
 }
 .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right:focus:not([disabled])::before, html:not([data-whatintent=touch]) .dnb-button--tertiary.dnb-button--has-icon.dnb-button--has-text.dnb-button--icon-position-right:focus:not([disabled])::before {
-  left: -1rem;
+  left: var(--button-tertiary-focus-overflow);
 }
 .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):focus[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary.dnb-button--has-icon:not(.dnb-button--has-text):focus[disabled] {
   cursor: not-allowed;

@@ -65,7 +65,7 @@
 }
 
 // Used in tertiary button variant
-@mixin buttonFocusRing($whatinput: null) {
+@mixin buttonFocusRing($whatinput: null, $overflow: -0.5rem, $inset: null) {
   // Create focus-ring
   &::before {
     content: '';
@@ -73,14 +73,14 @@
     z-index: 1; // to be visible in other absolute contexts
 
     top: 0;
-    left: -0.5rem;
+    left: $overflow;
     bottom: 0;
-    right: -0.5rem;
+    right: $overflow;
 
     height: inherit;
     border-radius: inherit;
 
-    @include focusRing($whatinput);
+    @include focusRing($whatinput, null, $inset);
   }
 }
 
