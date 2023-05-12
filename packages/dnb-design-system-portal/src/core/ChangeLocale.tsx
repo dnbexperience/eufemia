@@ -1,5 +1,4 @@
 import React from 'react'
-// import { ToggleButton } from '@dnb/eufemia/src'
 import { Dropdown } from '@dnb/eufemia/src'
 
 import Context from '@dnb/eufemia/src/shared/Context'
