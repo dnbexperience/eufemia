@@ -2,6 +2,8 @@
 showTabs: true
 ---
 
+import { HelpButtonRenderExample } from 'Docs/uilib/components/help-button/Examples'
+
 ## Properties
 
 | Properties                                    | Description                                                                            |
@@ -14,19 +16,4 @@ showTabs: true
 
 ## How to use `render`
 
-```jsx
-import { HelpButton, Dialog } from '@dnb/eufemia'
-
-render(
-  <HelpButton
-    title="Title"
-    render={(children, props) => (
-      <Dialog triggerAttributes={props} className="your-class">
-        {children}
-      </Dialog>
-    )}
-  >
-    Help text
-  </HelpButton>
-)
-```
+<HelpButtonRenderExample />
