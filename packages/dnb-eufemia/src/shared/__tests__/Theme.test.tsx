@@ -57,13 +57,13 @@ describe('Theme', () => {
     ])
   })
 
-  it('sets color-mapping as HTML classes', () => {
-    render(<Theme colorMapping="basis">content</Theme>)
+  it('sets prop-mapping as HTML classes', () => {
+    render(<Theme propMapping="basis">content</Theme>)
 
     const element = document.querySelector('.eufemia-theme')
     expect(Array.from(element.classList)).toEqual([
       'eufemia-theme',
-      'eufemia-theme__color-mapping--basis',
+      'eufemia-theme__prop-mapping--basis',
     ])
   })
 

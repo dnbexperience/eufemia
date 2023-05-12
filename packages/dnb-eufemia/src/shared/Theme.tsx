@@ -13,13 +13,13 @@ import { extendPropsWithContext } from './component-helper'
 export type ThemeNames = 'ui' | 'eiendom' | 'sbanken'
 export type ThemeVariants = string
 export type ThemeSizes = 'basis'
-export type ColorMapping = 'basis'
+export type PropMapping = string
 
 export type ThemeProps = {
   name?: ThemeNames
   variant?: ThemeVariants
   size?: ThemeSizes
-  colorMapping?: ColorMapping
+  propMapping?: PropMapping
   element?: DynamicElement | false
 }
 
@@ -34,7 +34,7 @@ export default function Theme(themeProps: ThemeAllProps) {
     name,
     variant,
     size,
-    colorMapping,
+    propMapping,
     ...restProps
   } = themeProps
 
@@ -43,7 +43,7 @@ export default function Theme(themeProps: ThemeAllProps) {
       name,
       variant,
       size,
-      colorMapping,
+      propMapping,
     },
     null,
     context?.theme
@@ -95,14 +95,14 @@ export function getThemeClasses(theme: ThemeProps, className = null) {
     return className
   }
 
-  const { name, variant, size, colorMapping } = theme
+  const { name, variant, size, propMapping } = theme
 
   return classnames(
     className,
     'eufemia-theme',
     name && `eufemia-theme__${name}`,
     name && variant && `eufemia-theme__${name}--${variant}`,
-    colorMapping && `eufemia-theme__color-mapping--${colorMapping}`,
+    propMapping && `eufemia-theme__prop-mapping--${propMapping}`,
     size && `eufemia-theme__size--${size}`
   )
 }

@@ -34,17 +34,17 @@ export default function ChangeStyleTheme() {
   )
 }
 
-ChangeStyleTheme.ColorMapping = ColorMapping
+ChangeStyleTheme.PropMapping = PropMapping
 
-function ColorMapping({ enabled, ...props }) {
-  const { colorMapping } = getTheme()
+function PropMapping({ enabled, ...props }) {
+  const { propMapping } = getTheme()
   return (
     <Switch
       top
       label="Toggle Color Mapping"
-      checked={colorMapping === 'basis' || enabled}
+      checked={propMapping === 'basis' || enabled}
       on_change={({ checked }) => {
-        setTheme({ colorMapping: checked ? 'basis' : null })
+        setTheme({ propMapping: checked ? 'basis' : null })
       }}
       {...props}
     />
