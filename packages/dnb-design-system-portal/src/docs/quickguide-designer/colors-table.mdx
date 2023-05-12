@@ -1,323 +1,606 @@
 import Table from 'dnb-design-system-portal/src/shared/tags/Table'
+import { Space } from '@dnb/eufemia/src'
+import ChangeStyleTheme from '../../core/ChangeStyleTheme'
 
-<Table selectable>
-  <thead>
-    <tr>
-      <th>Sample</th>
-      <th>Type</th>
-      <th>Name</th>
-      <th>Hex</th>
-      <th>RGB</th>
-      <th>Figma Library name</th>
-      <th>CSS Custom Properties name</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td color="#00343E"></td>
-      <td>Profile</td>
-      <td>Ocean green</td>
-      <td>#00343E</td>
-      <td>0 52 62</td>
-      <td>Ocean green</td>
-      <td>--color-ocean-green</td>
-    </tr>
-    <tr>
-      <td color="#14555A"></td>
-      <td>Profile</td>
-      <td>Emerald green</td>
-      <td>#14555A</td>
-      <td>20 85 90</td>
-      <td>Emerald green</td>
-      <td>--color-emerald-green</td>
-    </tr>
-    <tr>
-      <td color="#007272"></td>
-      <td>Profile</td>
-      <td>Sea green</td>
-      <td>#007272</td>
-      <td>0 114 114</td>
-      <td>Sea green</td>
-      <td>--color-sea-green</td>
-    </tr>
-    <tr>
-      <td color="#A5E1D2"></td>
-      <td>Profile</td>
-      <td>Mint green</td>
-      <td>#A5E1D2</td>
-      <td>165 225 210</td>
-      <td>Mint green</td>
-      <td>--color-mint-green</td>
-    </tr>
-    <tr>
-      <td color="#28B482"></td>
-      <td>Profile</td>
-      <td>Summer green</td>
-      <td>#28B482</td>
-      <td>40 180 130</td>
-      <td>Summer green</td>
-      <td>--color-summer-green</td>
-    </tr>
-    <tr>
-      <td color="#FDBB31"></td>
-      <td>Profile</td>
-      <td>Accent yellow</td>
-      <td>#FDBB31</td>
-      <td>253 187 49</td>
-      <td>Accent yellow</td>
-      <td>--color-accent-yellow</td>
-    </tr>
-    <tr>
-      <td color="#23195A"></td>
-      <td>Profile</td>
-      <td>Indigo</td>
-      <td>#23195A</td>
-      <td>35 25 90</td>
-      <td>Indigo</td>
-      <td>--color-indigo</td>
-    </tr>
-    <tr>
-      <td color="#6E2382"></td>
-      <td>Profile</td>
-      <td>Violet</td>
-      <td>#6E2382</td>
-      <td>110 35 130</td>
-      <td>Violet</td>
-      <td>--color-violet</td>
-    </tr>
-    <tr>
-      <td color="#4BBED2"></td>
-      <td>Profile</td>
-      <td>Sky blue</td>
-      <td>#4BBED2</td>
-      <td>75 190 210</td>
-      <td>Sky blue</td>
-      <td>--color-sky-blue</td>
-    </tr>
-    <tr>
-      <td color="#F2F2F5"></td>
-      <td>Profile</td>
-      <td>Lavender</td>
-      <td>#F2F2F5</td>
-      <td>242 242 245</td>
-      <td>Lavender</td>
-      <td>--color-lavender</td>
-    </tr>
-    <tr>
-      <td color="#FBF6EC"></td>
-      <td>Profile</td>
-      <td>Sand yellow</td>
-      <td>#FBF6EC</td>
-      <td>251 246 236</td>
-      <td>Sand yellow</td>
-      <td>--color-sand-yellow</td>
-    </tr>
-    <tr>
-      <td color="#F2F4EC"></td>
-      <td>Profile</td>
-      <td>Pistachio</td>
-      <td>#F2F4EC</td>
-      <td>242 244 236</td>
-      <td>Pistachio</td>
-      <td>--color-pistachio</td>
-    </tr>
-    <tr>
-      <td color="#B3D5D5"></td>
-      <td>UX</td>
-      <td>Sea green 30%</td>
-      <td>#B3D5D5</td>
-      <td>179 213 213</td>
-      <td>Sea green 30%</td>
-      <td>--color-sea-green-30</td>
-    </tr>
-    <tr>
-      <td color="#D2F0E9"></td>
-      <td>UX</td>
-      <td>Mint green 50%</td>
-      <td>#D2F0E9</td>
-      <td>210 240 233</td>
-      <td>Mint green 50%</td>
-      <td>--color-mint-green-50</td>
-    </tr>
-    <tr>
-      <td color="#E9F8F4"></td>
-      <td>UX</td>
-      <td>Mint green 25%</td>
-      <td>#E9F8F4</td>
-      <td>233 248 244</td>
-      <td>Mint green 25%</td>
-      <td>--color-mint-green-25</td>
-    </tr>
-    <tr>
-      <td color="#F4FBF9"></td>
-      <td>UX</td>
-      <td>Mint green 12%</td>
-      <td>#F4FBF9</td>
-      <td>244 251 249</td>
-      <td>Mint green 12%</td>
-      <td>--color-mint-green-12</td>
-    </tr>
-    <tr>
-      <td color="#FEEBC1"></td>
-      <td>UX</td>
-      <td>Accent yellow 30%</td>
-      <td>#FEEBC1</td>
-      <td>254 235 193</td>
-      <td>Accent yellow 30%</td>
-      <td>--color-accent-yellow-30</td>
-    </tr>
-    <tr>
-      <td color="#FF5400"></td>
-      <td>UX</td>
-      <td>Signal orange</td>
-      <td>#FF5400</td>
-      <td>255 84 0</td>
-      <td>Signal orange</td>
-      <td>--color-signal-orange</td>
-    </tr>
-    <tr>
-      <td color="#DC2A2A"></td>
-      <td>UX</td>
-      <td>Fire red</td>
-      <td>#DC2A2A</td>
-      <td>220 42 42</td>
-      <td>Fire red</td>
-      <td>--color-fire-red</td>
-    </tr>
-    <tr>
-      <td color="#FDEEEE"></td>
-      <td>UX</td>
-      <td>Fire red 8%</td>
-      <td>#FDEEEE</td>
-      <td>253 238 238</td>
-      <td>Fire red 8%</td>
-      <td>--color-fire-red-8</td>
-    </tr>
-    <tr>
-      <td color="#007B5E"></td>
-      <td>UX</td>
-      <td>Success green</td>
-      <td>#007B5E</td>
-      <td>0 128 0</td>
-      <td>Success green</td>
-      <td>--color-success-green</td>
-    </tr>
-    <tr>
-      <td color="#000000"></td>
-      <td>UX</td>
-      <td>Black</td>
-      <td>#000000</td>
-      <td>0 0 0</td>
-      <td>Black</td>
-      <td>--color-black</td>
-    </tr>
-    <tr>
-      <td color="#333333"></td>
-      <td>UX</td>
-      <td>Black 80%</td>
-      <td>#333333</td>
-      <td>51 51 51</td>
-      <td>Black 80%</td>
-      <td>--color-black-80</td>
-    </tr>
-    <tr>
-      <td color="#737373"></td>
-      <td>UX</td>
-      <td>Black 55%</td>
-      <td>#737373</td>
-      <td>115 115 115</td>
-      <td>Black 55%</td>
-      <td>--color-black-55</td>
-    </tr>
-    <tr>
-      <td color="#CCCCCC"></td>
-      <td>UX</td>
-      <td>Black 20%</td>
-      <td>#CCCCCC</td>
-      <td>204 204 204</td>
-      <td>Black 20%</td>
-      <td>--color-black-20</td>
-    </tr>
-    <tr>
-      <td color="#EBEBEB"></td>
-      <td>UX</td>
-      <td>Black 8%</td>
-      <td>#EBEBEB</td>
-      <td>235 235 235</td>
-      <td>Black 8%</td>
-      <td>--color-black-8</td>
-    </tr>
-    <tr>
-      <td color="#F8F8F8"></td>
-      <td>UX</td>
-      <td>Black 3%</td>
-      <td>#F8F8F8</td>
-      <td>248 248 248</td>
-      <td>Black 3%</td>
-      <td>--color-black-3</td>
-    </tr>
-    <tr>
-      <td color="#FFFFFF"></td>
-      <td>UX</td>
-      <td>White</td>
-      <td>#FFFFFF</td>
-      <td>255 255 255</td>
-      <td>White</td>
-      <td>--color-white</td>
-    </tr>
-  </tbody>
-</Table>
+Change the brand in order to see the related tables:
 
-## Theme Colors
+<Space top bottom>
+  <ChangeStyleTheme />
+</Space>
 
-<Table selectable>
-  <thead>
-    <tr>
-      <th>Sample</th>
-      <th>Type</th>
-      <th>Name</th>
-      <th>Hex</th>
-      <th>RGB</th>
-      <th>Figma Library name</th>
-      <th>CSS Custom Properties name</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td color="#89aaac"></td>
-      <td>UX Theme Eiendom</td>
-      <td>Emerald green 50%</td>
-      <td>#00343E</td>
-      <td>137 170 172</td>
-      <td>Emerald green 50%</td>
-      <td>--color-emerald-green-50</td>
-    </tr>
-    <tr>
-      <td color="#c4d4d6"></td>
-      <td>UX Theme Eiendom</td>
-      <td>Emerald green 25%</td>
-      <td>#c4d4d6</td>
-      <td>196 212 214</td>
-      <td>Emerald green 25%</td>
-      <td>--color-emerald-green-25</td>
-    </tr>
-    <tr>
-      <td color="#e8eeef"></td>
-      <td>UX Theme Eiendom</td>
-      <td>Emerald green 10%</td>
-      <td>#e8eeef</td>
-      <td>232 238 239</td>
-      <td>Emerald green 10%</td>
-      <td>--color-emerald-green-10</td>
-    </tr>
-    <tr>
-      <td color="#f4fbf9"></td>
-      <td>UX Theme Eiendom</td>
-      <td>Mint green 12%</td>
-      <td>#f4fbf9</td>
-      <td>244 251 249</td>
-      <td>Mint green 12%</td>
-      <td>--color-mint-green-12</td>
-    </tr>
-  </tbody>
-</Table>
+<VisibilityByTheme visible="eiendom">
+  ## DNB Eiendom Colors
+  <Table selectable>
+    <thead>
+      <tr>
+        <th>Sample</th>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Hex</th>
+        <th>RGB</th>
+        <th>Figma Library name</th>
+        <th>CSS Custom Properties name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td color="#89aaac"></td>
+        <td>UX Theme Eiendom</td>
+        <td>Emerald green 50%</td>
+        <td>#00343E</td>
+        <td>137 170 172</td>
+        <td>Emerald green 50%</td>
+        <td>--color-emerald-green-50</td>
+      </tr>
+      <tr>
+        <td color="#c4d4d6"></td>
+        <td>UX Theme Eiendom</td>
+        <td>Emerald green 25%</td>
+        <td>#c4d4d6</td>
+        <td>196 212 214</td>
+        <td>Emerald green 25%</td>
+        <td>--color-emerald-green-25</td>
+      </tr>
+      <tr>
+        <td color="#e8eeef"></td>
+        <td>UX Theme Eiendom</td>
+        <td>Emerald green 10%</td>
+        <td>#e8eeef</td>
+        <td>232 238 239</td>
+        <td>Emerald green 10%</td>
+        <td>--color-emerald-green-10</td>
+      </tr>
+      <tr>
+        <td color="#f4fbf9"></td>
+        <td>UX Theme Eiendom</td>
+        <td>Mint green 12%</td>
+        <td>#f4fbf9</td>
+        <td>244 251 249</td>
+        <td>Mint green 12%</td>
+        <td>--color-mint-green-12</td>
+      </tr>
+    </tbody>
+  </Table>
+</VisibilityByTheme>
+
+<VisibilityByTheme hidden="sbanken">
+  ## DNB Colors
+  <Table selectable>
+    <thead>
+      <tr>
+        <th>Sample</th>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Hex</th>
+        <th>RGB</th>
+        <th>Figma Library name</th>
+        <th>CSS Custom Properties name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td color="#00343E"></td>
+        <td>Profile</td>
+        <td>Ocean green</td>
+        <td>#00343E</td>
+        <td>0 52 62</td>
+        <td>Ocean green</td>
+        <td>--color-ocean-green</td>
+      </tr>
+      <tr>
+        <td color="#14555A"></td>
+        <td>Profile</td>
+        <td>Emerald green</td>
+        <td>#14555A</td>
+        <td>20 85 90</td>
+        <td>Emerald green</td>
+        <td>--color-emerald-green</td>
+      </tr>
+      <tr>
+        <td color="#007272"></td>
+        <td>Profile</td>
+        <td>Sea green</td>
+        <td>#007272</td>
+        <td>0 114 114</td>
+        <td>Sea green</td>
+        <td>--color-sea-green</td>
+      </tr>
+      <tr>
+        <td color="#A5E1D2"></td>
+        <td>Profile</td>
+        <td>Mint green</td>
+        <td>#A5E1D2</td>
+        <td>165 225 210</td>
+        <td>Mint green</td>
+        <td>--color-mint-green</td>
+      </tr>
+      <tr>
+        <td color="#28B482"></td>
+        <td>Profile</td>
+        <td>Summer green</td>
+        <td>#28B482</td>
+        <td>40 180 130</td>
+        <td>Summer green</td>
+        <td>--color-summer-green</td>
+      </tr>
+      <tr>
+        <td color="#FDBB31"></td>
+        <td>Profile</td>
+        <td>Accent yellow</td>
+        <td>#FDBB31</td>
+        <td>253 187 49</td>
+        <td>Accent yellow</td>
+        <td>--color-accent-yellow</td>
+      </tr>
+      <tr>
+        <td color="#23195A"></td>
+        <td>Profile</td>
+        <td>Indigo</td>
+        <td>#23195A</td>
+        <td>35 25 90</td>
+        <td>Indigo</td>
+        <td>--color-indigo</td>
+      </tr>
+      <tr>
+        <td color="#6E2382"></td>
+        <td>Profile</td>
+        <td>Violet</td>
+        <td>#6E2382</td>
+        <td>110 35 130</td>
+        <td>Violet</td>
+        <td>--color-violet</td>
+      </tr>
+      <tr>
+        <td color="#4BBED2"></td>
+        <td>Profile</td>
+        <td>Sky blue</td>
+        <td>#4BBED2</td>
+        <td>75 190 210</td>
+        <td>Sky blue</td>
+        <td>--color-sky-blue</td>
+      </tr>
+      <tr>
+        <td color="#F2F2F5"></td>
+        <td>Profile</td>
+        <td>Lavender</td>
+        <td>#F2F2F5</td>
+        <td>242 242 245</td>
+        <td>Lavender</td>
+        <td>--color-lavender</td>
+      </tr>
+      <tr>
+        <td color="#FBF6EC"></td>
+        <td>Profile</td>
+        <td>Sand yellow</td>
+        <td>#FBF6EC</td>
+        <td>251 246 236</td>
+        <td>Sand yellow</td>
+        <td>--color-sand-yellow</td>
+      </tr>
+      <tr>
+        <td color="#F2F4EC"></td>
+        <td>Profile</td>
+        <td>Pistachio</td>
+        <td>#F2F4EC</td>
+        <td>242 244 236</td>
+        <td>Pistachio</td>
+        <td>--color-pistachio</td>
+      </tr>
+      <tr>
+        <td color="#B3D5D5"></td>
+        <td>UX</td>
+        <td>Sea green 30%</td>
+        <td>#B3D5D5</td>
+        <td>179 213 213</td>
+        <td>Sea green 30%</td>
+        <td>--color-sea-green-30</td>
+      </tr>
+      <tr>
+        <td color="#D2F0E9"></td>
+        <td>UX</td>
+        <td>Mint green 50%</td>
+        <td>#D2F0E9</td>
+        <td>210 240 233</td>
+        <td>Mint green 50%</td>
+        <td>--color-mint-green-50</td>
+      </tr>
+      <tr>
+        <td color="#E9F8F4"></td>
+        <td>UX</td>
+        <td>Mint green 25%</td>
+        <td>#E9F8F4</td>
+        <td>233 248 244</td>
+        <td>Mint green 25%</td>
+        <td>--color-mint-green-25</td>
+      </tr>
+      <tr>
+        <td color="#F4FBF9"></td>
+        <td>UX</td>
+        <td>Mint green 12%</td>
+        <td>#F4FBF9</td>
+        <td>244 251 249</td>
+        <td>Mint green 12%</td>
+        <td>--color-mint-green-12</td>
+      </tr>
+      <tr>
+        <td color="#FEEBC1"></td>
+        <td>UX</td>
+        <td>Accent yellow 30%</td>
+        <td>#FEEBC1</td>
+        <td>254 235 193</td>
+        <td>Accent yellow 30%</td>
+        <td>--color-accent-yellow-30</td>
+      </tr>
+      <tr>
+        <td color="#FF5400"></td>
+        <td>UX</td>
+        <td>Signal orange</td>
+        <td>#FF5400</td>
+        <td>255 84 0</td>
+        <td>Signal orange</td>
+        <td>--color-signal-orange</td>
+      </tr>
+      <tr>
+        <td color="#DC2A2A"></td>
+        <td>UX</td>
+        <td>Fire red</td>
+        <td>#DC2A2A</td>
+        <td>220 42 42</td>
+        <td>Fire red</td>
+        <td>--color-fire-red</td>
+      </tr>
+      <tr>
+        <td color="#FDEEEE"></td>
+        <td>UX</td>
+        <td>Fire red 8%</td>
+        <td>#FDEEEE</td>
+        <td>253 238 238</td>
+        <td>Fire red 8%</td>
+        <td>--color-fire-red-8</td>
+      </tr>
+      <tr>
+        <td color="#007B5E"></td>
+        <td>UX</td>
+        <td>Success green</td>
+        <td>#007B5E</td>
+        <td>0 128 0</td>
+        <td>Success green</td>
+        <td>--color-success-green</td>
+      </tr>
+      <tr>
+        <td color="#000000"></td>
+        <td>UX</td>
+        <td>Black</td>
+        <td>#000000</td>
+        <td>0 0 0</td>
+        <td>Black</td>
+        <td>--color-black</td>
+      </tr>
+      <tr>
+        <td color="#333333"></td>
+        <td>UX</td>
+        <td>Black 80%</td>
+        <td>#333333</td>
+        <td>51 51 51</td>
+        <td>Black 80%</td>
+        <td>--color-black-80</td>
+      </tr>
+      <tr>
+        <td color="#737373"></td>
+        <td>UX</td>
+        <td>Black 55%</td>
+        <td>#737373</td>
+        <td>115 115 115</td>
+        <td>Black 55%</td>
+        <td>--color-black-55</td>
+      </tr>
+      <tr>
+        <td color="#CCCCCC"></td>
+        <td>UX</td>
+        <td>Black 20%</td>
+        <td>#CCCCCC</td>
+        <td>204 204 204</td>
+        <td>Black 20%</td>
+        <td>--color-black-20</td>
+      </tr>
+      <tr>
+        <td color="#EBEBEB"></td>
+        <td>UX</td>
+        <td>Black 8%</td>
+        <td>#EBEBEB</td>
+        <td>235 235 235</td>
+        <td>Black 8%</td>
+        <td>--color-black-8</td>
+      </tr>
+      <tr>
+        <td color="#F8F8F8"></td>
+        <td>UX</td>
+        <td>Black 3%</td>
+        <td>#F8F8F8</td>
+        <td>248 248 248</td>
+        <td>Black 3%</td>
+        <td>--color-black-3</td>
+      </tr>
+      <tr>
+        <td color="#FFFFFF"></td>
+        <td>UX</td>
+        <td>White</td>
+        <td>#FFFFFF</td>
+        <td>255 255 255</td>
+        <td>White</td>
+        <td>--color-white</td>
+      </tr>
+    </tbody>
+  </Table>
+</VisibilityByTheme>
+
+<VisibilityByTheme visible="sbanken">
+  ## Sbanken Colors
+  <Table selectable>
+    <thead>
+      <tr>
+        <th>Sample</th>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Hex</th>
+        <th>RGB</th>
+        <th>Figma Library name</th>
+        <th>CSS Custom Properties name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td color="#1c1b4e"></td>
+        <td>Profile</td>
+        <td>Purple</td>
+        <td>#1C1B4E</td>
+        <td>18 17 78</td>
+        <td>Primary/Purple</td>
+        <td>--sb-color-purple</td>
+      </tr>
+      <tr>
+        <td color="#222163"></td>
+        <td>Profile</td>
+        <td>Purple alternative</td>
+        <td>#222163</td>
+        <td>34 33 99</td>
+        <td>Primary/Purple alternative</td>
+        <td>--sb-color-purple-alternative</td>
+      </tr>
+      <tr>
+        <td color="#92eecd"></td>
+        <td>Profile</td>
+        <td>Green</td>
+        <td>#92EECD</td>
+        <td>146 238 205</td>
+        <td>Primary/Green</td>
+        <td>--sb-color-green</td>
+      </tr>
+      <tr>
+        <td color="#d8134b"></td>
+        <td>Profile</td>
+        <td>Red</td>
+        <td>#D8134B</td>
+        <td>216 19 75</td>
+        <td>Secondary/Red</td>
+        <td>--sb-color-red</td>
+      </tr>
+      <tr>
+        <td color="#ff3c64"></td>
+        <td>Profile</td>
+        <td>Magenta</td>
+        <td>#FF3C64</td>
+        <td>255 60 100</td>
+        <td>Secondary/Magenta</td>
+        <td>--sb-color-magenta</td>
+      </tr>
+      <tr>
+        <td color="#fe5038"></td>
+        <td>Profile</td>
+        <td>Orange</td>
+        <td>#FE5030</td>
+        <td>254 80 56</td>
+        <td>Secondary/Orange</td>
+        <td>--sb-color-orange</td>
+      </tr>
+      <tr>
+        <td color="#f7bf16"></td>
+        <td>Profile</td>
+        <td>Yellow dark</td>
+        <td>#F7BF16</td>
+        <td>247 191 22</td>
+        <td>Secondary/Yellow dark</td>
+        <td>--sb-color-yellow-dark</td>
+      </tr>
+      <tr>
+        <td color="#ffef57"></td>
+        <td>Profile</td>
+        <td>Yellow</td>
+        <td>#FFEF57</td>
+        <td>255 239 87</td>
+        <td>Secondary/Yellow</td>
+        <td>--sb-color-yellow</td>
+      </tr>
+      <tr>
+        <td color="#00785B"></td>
+        <td>Profile</td>
+        <td>Green dark 3</td>
+        <td>#00785B</td>
+        <td>0 120 91</td>
+        <td>Secondary/Green dark 3</td>
+        <td>--sb-color-green-dark-3</td>
+      </tr>
+      <tr>
+        <td color="#009669"></td>
+        <td>Profile</td>
+        <td>Green dark 2</td>
+        <td>#009669</td>
+        <td>0 150 105</td>
+        <td>Secondary/Green dark 2</td>
+        <td>--sb-color-green-dark-2</td>
+      </tr>
+      <tr>
+        <td color="#4e08bc"></td>
+        <td>Profile</td>
+        <td>Violet</td>
+        <td>#4E08BC</td>
+        <td>78 8 188</td>
+        <td>Secondary/Violet</td>
+        <td>--sb-color-violet</td>
+      </tr>
+      <tr>
+        <td color="#7129e2"></td>
+        <td>Profile</td>
+        <td>Violet light</td>
+        <td>#7129E2</td>
+        <td>113 41 226</td>
+        <td>Secondary/Violet light</td>
+        <td>--sb-color-violet-light</td>
+      </tr>
+      <tr>
+        <td color="#044ccc"></td>
+        <td>Profile</td>
+        <td>Blue dark 2</td>
+        <td>#044CCC</td>
+        <td>4 76 204</td>
+        <td>Seconday/Blue dark 2</td>
+        <td>--sb-color-blue-dark-2</td>
+      </tr>
+      <tr>
+        <td color="#005CFF"></td>
+        <td>Profile</td>
+        <td>Blue dark</td>
+        <td>#005CFF</td>
+        <td>0 92 255</td>
+        <td>Secondary/Blue dark</td>
+        <td>--sb-color-blue-dark</td>
+      </tr>
+      <tr>
+        <td color="#008EFF"></td>
+        <td>Profile</td>
+        <td>Blue</td>
+        <td>#008EFF</td>
+        <td>0 142 255</td>
+        <td>Secondary/Blue</td>
+        <td>--sb-color-blue</td>
+      </tr>
+      <tr>
+        <td color="#000000"></td>
+        <td>UX</td>
+        <td>Black</td>
+        <td>#000000</td>
+        <td>0 0 0</td>
+        <td>UX/Black</td>
+        <td>--sb-color-black</td>
+      </tr>
+      <tr>
+        <td color="#18172a"></td>
+        <td>UX</td>
+        <td>Text</td>
+        <td>#18172A</td>
+        <td>24 23 42</td>
+        <td>UX/Text</td>
+        <td>--sb-color-text</td>
+      </tr>
+      <tr>
+        <td color="#3a3970"></td>
+        <td>UX</td>
+        <td>Gray dark 3</td>
+        <td>#3A3970</td>
+        <td>58 57 112</td>
+        <td>UX/Gray dark 3</td>
+        <td>--sb-color-gray-dark-3</td>
+      </tr>
+      <tr>
+        <td color="#62628E"></td>
+        <td>UX</td>
+        <td>Gray dark 2</td>
+        <td>#62628E</td>
+        <td>98 98 142</td>
+        <td>UX/Gray dark 2</td>
+        <td>--sb-color-gray-dark-2</td>
+      </tr>
+      <tr>
+        <td color="#9292B0"></td>
+        <td>UX</td>
+        <td>Gray dark</td>
+        <td>#9292B0</td>
+        <td>146 146 176</td>
+        <td>UX/Gray dark</td>
+        <td>--sb-color-gray-dark</td>
+      </tr>
+      <tr>
+        <td color="#bbbbce"></td>
+        <td>UX</td>
+        <td>Gray</td>
+        <td>#BBBBCE</td>
+        <td>187 187 206</td>
+        <td>UX/Gray</td>
+        <td>--sb-color-gray</td>
+      </tr>
+      <tr>
+        <td color="#d9d9e4"></td>
+        <td>UX</td>
+        <td>Gray light</td>
+        <td>#D9D9E4</td>
+        <td>217 217 228</td>
+        <td>UX/Gray light</td>
+        <td>--sb-color-gray-light</td>
+      </tr>
+      <tr>
+        <td color="#ebebf2"></td>
+        <td>UX</td>
+        <td>Gray light</td>
+        <td>#EBEBF2</td>
+        <td>235 235 242</td>
+        <td>UX/Gray light 2</td>
+        <td>--sb-color-gray-light-2</td>
+      </tr>
+      <tr>
+        <td color="#f9f9fd"></td>
+        <td>UX</td>
+        <td>Gray light 3</td>
+        <td>#F9F9FD</td>
+        <td>249 249 253</td>
+        <td>UX/Gray light 3</td>
+        <td>--sb-color-gray-light-3</td>
+      </tr>
+      <tr>
+        <td color="#3e3e4a"></td>
+        <td>UX</td>
+        <td>Gray dark 3 neutral</td>
+        <td>#3E3E4A</td>
+        <td>62 62 74</td>
+        <td>UX/Gray dark 3 neutral</td>
+        <td>--sb-color-gray-dark-3-neutral</td>
+      </tr>
+      <tr>
+        <td color="#656472"></td>
+        <td>UX</td>
+        <td>Gray dark 2 neutral</td>
+        <td>#656472</td>
+        <td>101 100 114</td>
+        <td>UX/Gray dark 2 neutral</td>
+        <td>--sb-color-gray-dark-2-neutral</td>
+      </tr>
+      <tr>
+        <td color="#9494a3"></td>
+        <td>UX</td>
+        <td>Gray dark neutral</td>
+        <td>#9494A3</td>
+        <td>148 148 163</td>
+        <td>UX/Dark gray neutral</td>
+        <td>--sb-color-gray-dark-neutral</td>
+      </tr>
+      <tr>
+        <td color="#bdbdc6"></td>
+        <td>UX</td>
+        <td>Gray neutral</td>
+        <td>#BDBDC6</td>
+        <td>189 189 198</td>
+        <td>UX/Gray neutral</td>
+        <td>--sb-color-gray-neutral</td>
+      </tr>
+    </tbody>
+  </Table>
+</VisibilityByTheme>

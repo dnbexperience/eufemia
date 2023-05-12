@@ -1,6 +1,6 @@
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { Button, Icon, P } from '@dnb/eufemia/src'
+import { Button, Icon } from '@dnb/eufemia/src'
 import styled from '@emotion/styled'
 import { hamburger as hamburgerIcon } from '@dnb/eufemia/src/icons'
 
@@ -44,17 +44,6 @@ export const ExtendedExample = () => (
           </Button>
         </Wrapper>
       )
-    }}
-  </ComponentBox>
-)
-
-export const ColorsExample = () => (
-  <ComponentBox hideCode>
-    {() => {
-      const ParagraphStyled = styled(P)`
-        color: var(--color-sky-blue);
-      `
-      return <ParagraphStyled>I'm Sky blue.</ParagraphStyled>
     }}
   </ComponentBox>
 )
