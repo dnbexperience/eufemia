@@ -3,6 +3,7 @@
 
 .dnb-button {
   &--tertiary {
+    --button-tertiary-focus-overflow: -1rem;
     // create underline (::after)
     .dnb-button__text {
       position: relative; // because of the underline
@@ -132,7 +133,7 @@
 
           @include focus() {
             &::before {
-              right: -1rem;
+              right: var(--button-tertiary-focus-overflow);
             }
           }
         }
@@ -166,7 +167,7 @@
 
           @include focus() {
             &::before {
-              left: -1rem;
+              left: var(--button-tertiary-focus-overflow);
             }
           }
         }
