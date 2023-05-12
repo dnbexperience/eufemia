@@ -6,9 +6,13 @@
 import React from 'react'
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
-import { NumberFormat, ToggleButton, HelpButton } from '@dnb/eufemia/src'
+import {
+  NumberFormat,
+  ToggleButton,
+  HelpButton,
+  Link,
+} from '@dnb/eufemia/src'
 import { DrawerList } from '@dnb/eufemia/src/fragments'
-import { Link } from '@dnb/eufemia/src'
 
 export const DrawerListExampleInteractive = () => (
   <Wrapper>

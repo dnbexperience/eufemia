@@ -6,14 +6,14 @@
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
+  H2,
   FormSet,
   FormRow,
   Radio,
   Space,
   Input,
   Button,
-} from '@dnb/eufemia/src/components'
-import { H2 } from '@dnb/eufemia/src'
+} from '@dnb/eufemia/src'
 
 export const FormSetDefault = () => (
   <ComponentBox data-visual-test="form-set-default">
