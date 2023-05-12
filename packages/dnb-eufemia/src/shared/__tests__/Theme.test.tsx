@@ -67,6 +67,26 @@ describe('Theme', () => {
     ])
   })
 
+  it('sets contrast-mode as HTML classes', () => {
+    render(<Theme contrastMode>content</Theme>)
+
+    const element = document.querySelector('.eufemia-theme')
+    expect(Array.from(element.classList)).toEqual([
+      'eufemia-theme',
+      'eufemia-theme__contrast-mode',
+    ])
+  })
+
+  it('sets dark-mode as HTML classes', () => {
+    render(<Theme darkMode>content</Theme>)
+
+    const element = document.querySelector('.eufemia-theme')
+    expect(Array.from(element.classList)).toEqual([
+      'eufemia-theme',
+      'eufemia-theme__dark-mode',
+    ])
+  })
+
   it('sets additional attributes', () => {
     render(
       <Theme aria-label="custom label" element="section">
