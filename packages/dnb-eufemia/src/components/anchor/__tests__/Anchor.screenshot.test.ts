@@ -158,18 +158,31 @@ describe.each([
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+})
 
-  it('have to match anchor with icon', async () => {
+describe.each([
+  ['ui', '/uilib/components/anchor'],
+  ['sbanken', '/uilib/components/anchor'],
+])('Anchor legacy icon usage for %s', (themeName, url) => {
+  setupPageScreenshot({ themeName, url })
+
+  it('have to match anchor with legacy icon', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-legacy-icon"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
   
-
-  it('have to match anchor with paragraph', async () => {
+  it('have to match anchor with paragraph legacy icon', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-legacy-paragraph"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  
+  it('have to match anchor with target blank legacy icon', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="anchor-legacy-blank-with-icon"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
