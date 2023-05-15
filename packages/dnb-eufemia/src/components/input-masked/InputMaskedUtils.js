@@ -79,9 +79,7 @@ export const correctNumberValue = ({
   ) {
     const limit = maskParams.integerLimit
     const integers = value.split('.')[0]
-    const decimals = decimalPos > 0 ? value.slice(decimalPos) : ''
     const isNegative = parseFloat(integers) < 0
-    value = integers + decimals
     if (integers.length - (isNegative ? 1 : 0) > limit) {
       const decimals = decimalPos > 0 ? value.slice(decimalPos) : ''
       value = integers.slice(0, limit + (isNegative ? 1 : 0)) + decimals
