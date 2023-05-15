@@ -78,9 +78,12 @@ export const correctNumberValue = ({
     typeof maskParams.integerLimit === 'number'
   ) {
     const limit = maskParams.integerLimit
-    const integers = value.slice(0, limit)
-    const decimals = decimalPos > 0 ? value.slice(decimalPos) : ''
-    value = integers + decimals
+    const integers = value.split('.')[0]
+    const isNegative = parseFloat(integers) < 0
+    if (integers.length - (isNegative ? 1 : 0) > limit) {
+      const decimals = decimalPos > 0 ? value.slice(decimalPos) : ''
+      value = integers.slice(0, limit + (isNegative ? 1 : 0)) + decimals
+    }
   }
 
   const shouldHaveDecimals =
