@@ -40,6 +40,12 @@ export default class FormStatus extends React.PureComponent {
       PropTypes.func,
       PropTypes.node,
     ]),
+    global_status_text: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool,
+      PropTypes.func,
+      PropTypes.node,
+    ]),
     label: PropTypes.node,
     icon: PropTypes.oneOfType([
       PropTypes.string,
@@ -80,6 +86,7 @@ export default class FormStatus extends React.PureComponent {
     title: null,
     show: true,
     text: null,
+    global_status_text: null,
     label: null,
     icon: 'error',
     icon_size: 'medium',
@@ -180,13 +187,14 @@ export default class FormStatus extends React.PureComponent {
       (provider) => {
         // gets called once ready
         if (this.props.state === 'error' && this.isReadyToGetVisible()) {
-          const { state, text, label } = this.props
+          const { state, text, global_status_text, label } = this.props
           provider.add({
             state,
             status_id: this.getStatusId(),
             item: {
               item_id: this.state.id,
               text,
+              global_status_text: global_status_text || text,
               status_anchor_label: label,
               status_anchor_url: true,
             },
@@ -251,7 +259,8 @@ export default class FormStatus extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    const { state, show, text, children, label } = this.props
+    const { state, show, text, global_status_text, children, label } =
+      this.props
 
     if (
       prevProps.text !== text ||
@@ -273,7 +282,7 @@ export default class FormStatus extends React.PureComponent {
               status_id,
               item: {
                 item_id: this.state.id,
-                text,
+                text: global_status_text || text,
                 status_anchor_label: label,
                 status_anchor_url: true,
               },

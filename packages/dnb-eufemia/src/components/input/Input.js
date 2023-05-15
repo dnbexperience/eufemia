@@ -57,6 +57,12 @@ export const inputPropTypes = {
     PropTypes.func,
     PropTypes.node,
   ]),
+  global_status: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+    PropTypes.func,
+    PropTypes.node,
+  ]),
   status_state: PropTypes.string,
   status_props: PropTypes.object,
   status_no_animation: PropTypes.oneOfType([
@@ -143,6 +149,7 @@ export default class Input extends React.PureComponent {
     label_direction: null,
     label_sr_only: null,
     status: null,
+    global_status: null,
     status_state: 'error',
     status_props: null,
     status_no_animation: null,
@@ -335,6 +342,7 @@ export default class Input extends React.PureComponent {
       label_direction,
       label_sr_only,
       status,
+      global_status,
       status_state,
       status_props,
       status_no_animation,
@@ -506,6 +514,7 @@ export default class Input extends React.PureComponent {
             global_status_id={global_status_id}
             label={label}
             text={status}
+            global_status_text={global_status}
             state={status_state}
             text_id={id + '-status'} // used for "aria-describedby"
             no_animation={status_no_animation}
