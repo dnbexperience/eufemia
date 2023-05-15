@@ -12,7 +12,9 @@ import {
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import { getOffsetTop } from '../../shared/helpers'
+import IconPrimary from '../icon-primary/IconPrimary'
 import Tooltip from '../tooltip/Tooltip'
+import type { IconIcon } from '../icon/Icon'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import type { SpacingProps } from '../../shared/types'
 
@@ -23,6 +25,8 @@ export type AnchorProps = {
   targetBlankTitle?: string
   target?: string
   tooltip?: React.ReactNode
+  icon?: IconIcon
+  iconPosition?: 'left' | 'right'
   skeleton?: SkeletonShow
   omitClass?: boolean
   innerRef?: React.RefObject<HTMLAnchorElement>
@@ -63,6 +67,8 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     className,
     children,
     tooltip,
+    icon,
+    iconPosition = 'left',
     omitClass,
     innerRef,
     targetBlankTitle,
@@ -79,6 +85,18 @@ export function AnchorInstance(localProps: AnchorAllProps) {
 
   const as = (element || 'a') as string
 
+  let prefix
+  let suffix
+  if (icon) {
+    const iconNode =
+      typeof icon === 'string' ? <IconPrimary icon={icon} /> : icon
+    if (iconPosition === 'left') {
+      prefix = <>{iconNode} </>
+    } else if (iconPosition === 'right') {
+      suffix = <> {iconNode}</>
+    }
+  }
+
   return (
     <>
       <E
@@ -91,13 +109,18 @@ export function AnchorInstance(localProps: AnchorAllProps) {
           // because we then don't want to distract the link out
           // we make sure we hide the icon
           allProps.target === '_blank' &&
-            typeof children !== 'string' &&
-            'dnb-anchor--no-icon'
+            (typeof children !== 'string' || suffix) &&
+            'dnb-anchor--no-icon',
+          typeof children !== 'string' && 'dnb-anchor--has-icon',
+          prefix && 'dnb-anchor--icon-left',
+          suffix && 'dnb-anchor--icon-right'
         )}
         {...attributes}
         innerRef={innerRef}
       >
+        {prefix}
         {children}
+        {suffix}
       </E>
 
       {showTooltip && (
