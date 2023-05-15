@@ -3,6 +3,13 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.47.5](https://github.com/dnbexperience/eufemia/compare/v9.47.4...v9.47.5) (2023-05-15)
+
+
+### Bug Fixes
+
+* **InputMasked:** duplicate decimal number when typing ([#2344](https://github.com/dnbexperience/eufemia/issues/2344)) ([0d66dc0](https://github.com/dnbexperience/eufemia/commit/0d66dc06a9dab2eb9d91f93948337dff78f9346b))
+
 ## [9.47.4](https://github.com/dnbexperience/eufemia/compare/v9.47.3...v9.47.4) (2023-05-03)
 
 
