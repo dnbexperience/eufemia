@@ -7,8 +7,24 @@ import {
   AnchorExampleStates,
   AnchorExampleHelperClasses,
   AnchorExampleIcons,
+  AnchorTargetBlank,
   AnchorExampleHeadings,
+  AnchorSbankenRegular,
+  AnchorSbankenGoto,
+  AnchorLegacyUsage,
 } from 'Docs/uilib/components/anchor/Examples'
+
+<VisibilityByTheme visible="sbanken">
+## Demos (Sbanken)
+
+### Regular link (Sbanken)
+
+<AnchorSbankenRegular />
+
+### Goto link (Sbanken)
+
+<AnchorSbankenGoto />
+</VisibilityByTheme>
 
 ## Demos
 
@@ -33,6 +49,12 @@ To force a specific state of style, use the following classes to do so:
 
 <AnchorExampleIcons />
 
+### Anchor with `target="_blank"`
+
+If the link opens a new window it will automatically get an icon to indicate this.
+
+<AnchorTargetBlank />
+
 ### Anchor in headings
 
 <AnchorExampleHeadings />
@@ -40,3 +62,5 @@ To force a specific state of style, use the following classes to do so:
 ### Anchor in Section
 
 <AnchorExampleInSection />
+
+<AnchorLegacyUsage />
