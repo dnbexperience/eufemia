@@ -23,6 +23,9 @@ describe.each([
 
   it('have to match breaking lines', async () => {
     const screenshot = await makeScreenshot({
+      style: {
+        'white-space': 'nowrap',
+      },
       selector: '[data-visual-test="anchor-newline"]',
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -35,9 +38,23 @@ describe.each([
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match anchor with icon', async () => {
+  it('have to match anchor with icon-right', async () => {
     const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="anchor-icon"]',
+      selector: '[data-visual-test="anchor-icon-right"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match anchor with icon left', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="anchor-icon-left"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match anchor with icon node', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="anchor-icon-node"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -138,6 +155,34 @@ describe.each([
       selector: '[data-visual-test="anchor-blank"]',
       simulateSelector: '[data-visual-test="anchor-blank"] a.dnb-anchor',
       simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
+
+describe.each([
+  ['ui', '/uilib/components/anchor'],
+  ['sbanken', '/uilib/components/anchor'],
+])('Anchor legacy icon usage for %s', (themeName, url) => {
+  setupPageScreenshot({ themeName, url })
+
+  it('have to match anchor with legacy icon', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="anchor-legacy-icon"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  
+  it('have to match anchor with paragraph legacy icon', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="anchor-legacy-paragraph"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+  
+  it('have to match anchor with target blank legacy icon', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="anchor-legacy-blank-with-icon"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
