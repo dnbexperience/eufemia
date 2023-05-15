@@ -40,6 +40,11 @@ export interface FormStatusProps
    * The `text` appears as the status message. Beside plain text, you can send in a React component as well.
    */
   text?: FormStatusText;
+  /**
+   * The `global_status_text` appears as the message shown in the associated global status.
+   * default: The same as `text`if, ´text´ is provided.
+   */
+  global_status_text?: FormStatusText;
   label?: React.ReactNode;
 
   /**

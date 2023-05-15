@@ -73,6 +73,50 @@ export const ComponentAsLabel = () => {
   )
 }
 
+export const TestStatus = () => {
+  const [status, setStatus] = React.useState(null)
+
+  const Component = (): JSX.Element => {
+    return <>my label</>
+  }
+
+  return (
+    <>
+      <GlobalStatus id="test-test" />
+
+      <FormSet label_direction="vertical" global_status_id="test-test">
+        <ToggleButton
+          bottom
+          on_change={() => setStatus((s) => (!s ? 'min status' : null))}
+        >
+          set status
+        </ToggleButton>
+
+        <FormRow>
+          <Input
+            label={<Component />}
+            status={status ? status + '1' : undefined}
+            global_status={status ? status + 'global 1' : undefined}
+          />
+        </FormRow>
+        <Input
+          label={<Component />}
+          status={status ? status + '2' : undefined}
+        />
+        <Autocomplete
+          label={<Component />}
+          status={status ? status + '3' : undefined}
+        />
+        <DatePicker
+          label={<Component />}
+          show_input
+          status={status ? status + '4' : undefined}
+        />
+      </FormSet>
+    </>
+  )
+}
+
 const CustomStatus = () => (
   <>
     <H2>Custom Status</H2>
