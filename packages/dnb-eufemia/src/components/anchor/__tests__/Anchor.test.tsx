@@ -152,7 +152,7 @@ describe('Anchor element', () => {
 
   it('has left icon class when using left icon prop', () => {
     render(
-      <Anchor href="/url" icon="bell" icon_position="left">
+      <Anchor href="/url" icon="bell" iconPosition="left">
         text
       </Anchor>
     )
@@ -161,7 +161,7 @@ describe('Anchor element', () => {
 
   it('has right icon class when using right icon prop', () => {
     render(
-      <Anchor href="/url" icon="bell" icon_position="right">
+      <Anchor href="/url" icon="bell" iconPosition="right">
         text
       </Anchor>
     )
@@ -179,7 +179,7 @@ describe('Anchor element', () => {
 
   it('hides launch icon when given a right icon', () => {
     render(
-      <Anchor href="/url" target="_blank" icon="bell" icon_position="right">
+      <Anchor href="/url" target="_blank" icon="bell" iconPosition="right">
         text
       </Anchor>
     )

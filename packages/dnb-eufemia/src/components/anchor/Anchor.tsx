@@ -14,7 +14,7 @@ import {
 import { getOffsetTop } from '../../shared/helpers'
 import IconPrimary from '../icon-primary/IconPrimary'
 import Tooltip from '../tooltip/Tooltip'
-import type { IconIcon } from '../icon/Icon';
+import type { IconIcon } from '../icon/Icon'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import type { SpacingProps } from '../../shared/types'
 
@@ -26,7 +26,7 @@ export type AnchorProps = {
   target?: string
   tooltip?: React.ReactNode
   icon?: IconIcon
-  icon_position?: 'left' | 'right'
+  iconPosition?: 'left' | 'right'
   skeleton?: SkeletonShow
   omitClass?: boolean
   innerRef?: React.RefObject<HTMLAnchorElement>
@@ -68,7 +68,7 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     children,
     tooltip,
     icon,
-    icon_position = 'left',
+    iconPosition = 'left',
     omitClass,
     innerRef,
     targetBlankTitle,
@@ -85,14 +85,15 @@ export function AnchorInstance(localProps: AnchorAllProps) {
 
   const as = (element || 'a') as string
 
-  let prefix;
-  let suffix;
-  if(icon) {
-    const iconNode = typeof icon === 'string' ? <IconPrimary icon={icon}/> : icon
-    if(icon_position === 'left') {
-      prefix = <>{iconNode} </>;
-    } else if(icon_position === 'right'){
-      suffix = <> {iconNode}</>;
+  let prefix
+  let suffix
+  if (icon) {
+    const iconNode =
+      typeof icon === 'string' ? <IconPrimary icon={icon} /> : icon
+    if (iconPosition === 'left') {
+      prefix = <>{iconNode} </>
+    } else if (iconPosition === 'right') {
+      suffix = <> {iconNode}</>
     }
   }
 
@@ -110,8 +111,7 @@ export function AnchorInstance(localProps: AnchorAllProps) {
           allProps.target === '_blank' &&
             (typeof children !== 'string' || suffix) &&
             'dnb-anchor--no-icon',
-          typeof children !== 'string' &&
-            'dnb-anchor--has-icon',
+          typeof children !== 'string' && 'dnb-anchor--has-icon',
           prefix && 'dnb-anchor--icon-left',
           suffix && 'dnb-anchor--icon-right'
         )}

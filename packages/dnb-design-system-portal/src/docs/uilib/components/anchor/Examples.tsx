@@ -154,17 +154,17 @@ export const AnchorExampleHelperClasses = () => (
 
 export const AnchorExampleIcons = () => (
   <ComponentBox hideCode>
-    <Anchor 
-      href="/uilib/components/anchor" 
-      data-visual-test="anchor-icon-right" 
-      icon="chevron_right" 
-      icon_position="right"
+    <Anchor
+      href="/uilib/components/anchor"
+      data-visual-test="anchor-icon-right"
+      icon="chevron_right"
+      iconPosition="right"
     >
       Anchor with Icon right
     </Anchor>
     <br />
     <br />
-    <Anchor 
+    <Anchor
       href="/uilib/components/anchor"
       data-visual-test="anchor-icon-left"
       icon="question"
@@ -184,10 +184,10 @@ export const AnchorExampleIcons = () => (
     <br />
     <p className="dnb-p" data-visual-test="anchor-paragraph">
       text{' '}
-      <Anchor 
-        href="/uilib/components/anchor" 
-        icon="bell" 
-        icon_position="right"
+      <Anchor
+        href="/uilib/components/anchor"
+        icon="bell"
+        iconPosition="right"
       >
         Inside a Paragraph
       </Anchor>{' '}
@@ -209,7 +209,7 @@ export const AnchorTargetBlank = () => (
           target="_blank"
           href="/uilib/components/anchor"
           icon="arrow_right"
-          icon_position="right"
+          iconPosition="right"
         >
           Blank target with different launch icon
         </Anchor>
@@ -246,10 +246,7 @@ export const AnchorSbankenRegular = () => (
   <ComponentBox hideCode>
     <ul className="dnb-ul dnb-unstyled-list">
       <li>
-        <Anchor
-          href="/uilib/components/anchor"
-          icon="chevron_right"
-        >
+        <Anchor href="/uilib/components/anchor" icon="chevron_right">
           Default
         </Anchor>
       </li>
@@ -286,12 +283,12 @@ export const AnchorSbankenRegular = () => (
 
 export const AnchorSbankenGoto = () => (
   <ComponentBox hideCode>
-  <ul className="dnb-ul dnb-unstyled-list">
-    <li>
+    <ul className="dnb-ul dnb-unstyled-list">
+      <li>
         <Anchor
           href="/uilib/components/anchor"
           icon="arrow_right"
-          icon_position="right"
+          iconPosition="right"
         >
           Default
         </Anchor>
@@ -300,7 +297,7 @@ export const AnchorSbankenGoto = () => (
         <Anchor
           href="/uilib/components/anchor"
           icon="arrow_right"
-          icon_position="right"
+          iconPosition="right"
           className="dnb-anchor--hover"
         >
           Hover
@@ -310,7 +307,7 @@ export const AnchorSbankenGoto = () => (
         <Anchor
           href="/uilib/components/anchor"
           icon="arrow_right"
-          icon_position="right"
+          iconPosition="right"
           className="dnb-anchor--active"
         >
           Active
@@ -320,7 +317,7 @@ export const AnchorSbankenGoto = () => (
         <Anchor
           href="/uilib/components/anchor"
           icon="arrow_right"
-          icon_position="right"
+          iconPosition="right"
           className="dnb-anchor--focus"
         >
           Focus
