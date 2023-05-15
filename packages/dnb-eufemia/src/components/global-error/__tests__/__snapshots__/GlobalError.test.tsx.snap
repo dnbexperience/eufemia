@@ -700,7 +700,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
             innerRef={
               {
                 "current": <a
-                  class="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon dnb-a"
+                  class="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon dnb-anchor--has-icon dnb-a"
                   href="href"
                 >
                   <span
@@ -744,13 +744,13 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
           >
             <ForwardRef
               as="a"
-              className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon"
+              className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon dnb-anchor--has-icon"
               disabled={false}
               href="href"
               innerRef={
                 {
                   "current": <a
-                    class="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon dnb-a"
+                    class="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon dnb-anchor--has-icon dnb-a"
                     href="href"
                   >
                     <span
@@ -794,13 +794,13 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
             >
               <ElementInstance
                 as="a"
-                className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon"
+                className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon dnb-anchor--has-icon"
                 disabled={false}
                 href="href"
                 innerRef={
                   {
                     "current": <a
-                      class="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon dnb-a"
+                      class="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon dnb-anchor--has-icon dnb-a"
                       href="href"
                     >
                       <span
@@ -843,7 +843,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                 skeleton={null}
               >
                 <a
-                  className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon dnb-a"
+                  className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon dnb-anchor--has-icon dnb-a"
                   disabled={false}
                   href="href"
                   onClick={[Function]}
