@@ -154,45 +154,49 @@ export const AnchorExampleHelperClasses = () => (
 
 export const AnchorExampleIcons = () => (
   <ComponentBox hideCode>
-    <Anchor
-      href="/uilib/components/anchor"
-      data-visual-test="anchor-icon-right"
-      icon="chevron_right"
-      iconPosition="right"
-    >
-      Anchor with Icon right
-    </Anchor>
-    <br />
-    <br />
-    <Anchor
-      href="/uilib/components/anchor"
-      data-visual-test="anchor-icon-left"
-      icon="question"
-    >
-      Anchor with Icon left
-    </Anchor>
-    <br />
-    <br />
-    <Anchor
-      href="/uilib/components/anchor"
-      data-visual-test="anchor-icon-node"
-      icon={<IconPrimary icon="question" />}
-    >
-      Anchor with Icon left using a react element
-    </Anchor>
-    <br />
-    <br />
-    <p className="dnb-p" data-visual-test="anchor-paragraph">
-      text{' '}
-      <Anchor
-        href="/uilib/components/anchor"
-        icon="bell"
-        iconPosition="right"
-      >
-        Inside a Paragraph
-      </Anchor>{' '}
-      text
-    </p>
+    <ul className="dnb-ul dnb-unstyled-list">
+      <li>
+        <Anchor
+          href="/uilib/components/anchor"
+          data-visual-test="anchor-icon-right"
+          icon="chevron_right"
+          iconPosition="right"
+        >
+          Anchor with Icon right
+        </Anchor>
+      </li>
+      <li>
+        <Anchor
+          href="/uilib/components/anchor"
+          data-visual-test="anchor-icon-left"
+          icon="question"
+        >
+          Anchor with Icon left
+        </Anchor>
+      </li>
+      <li>
+        <Anchor
+          href="/uilib/components/anchor"
+          data-visual-test="anchor-icon-node"
+          icon={<IconPrimary icon="question" />}
+        >
+          Anchor with Icon left using a react element
+        </Anchor>
+      </li>
+      <li>
+        <p className="dnb-p" data-visual-test="anchor-paragraph">
+          text{' '}
+          <Anchor
+            href="/uilib/components/anchor"
+            icon="bell"
+            iconPosition="right"
+          >
+            Inside a Paragraph
+          </Anchor>{' '}
+          text
+        </p>
+      </li>
+    </ul>
   </ComponentBox>
 )
 
@@ -334,13 +338,16 @@ export const AnchorLegacyUsage = () => {
   return (
     <ComponentBox hideCode>
       <ul className="dnb-ul dnb-unstyled-list">
-        <li data-visual-test="anchor-legacy-icon">
-          <Anchor href="/uilib/components/anchor">
+        <li>
+          <Anchor
+            href="/uilib/components/anchor"
+            data-visual-test="anchor-legacy-icon"
+          >
             Anchor with Icon <IconPrimary icon="chevron_right" />
           </Anchor>
         </li>
-        <li data-visual-test="anchor-legacy-paragraph">
-          <p className="dnb-p">
+        <li>
+          <p className="dnb-p" data-visual-test="anchor-legacy-paragraph">
             text{' '}
             <Anchor href="/uilib/components/anchor">
               Inside a Paragraph <IconPrimary icon="bell" />
@@ -348,8 +355,12 @@ export const AnchorLegacyUsage = () => {
             text
           </p>
         </li>
-        <li data-visual-test="anchor-legacy-blank-with-icon">
-          <Anchor target="_blank" href="/uilib/components/anchor">
+        <li>
+          <Anchor
+            target="_blank"
+            href="/uilib/components/anchor"
+            data-visual-test="anchor-legacy-blank-with-icon"
+          >
             <IconPrimary icon="bell" /> Blank target with https
           </Anchor>
         </li>
