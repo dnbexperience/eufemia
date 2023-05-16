@@ -40,10 +40,10 @@ export interface FormStatusProps
    * The `text` appears as the status message. Beside plain text, you can send in a React component as well.
    */
   text?: FormStatusText;
-  /**
-   * An object containing the `id` used for the target <a href="/uilib/components/global-status">GlobalStatus</a>, and the option for adding a custom `message` shown in <a href="/uilib/components/global-status">GlobalStatus</a>
-   */
-  globalStatus?: { id?: string; message?: FormStatusText };
+  globalStatus?: {
+    id?: string;
+    message?: FormStatusText;
+  };
 
   /**
    * The `icon` show before the status text. Defaults to `exclamation`.
@@ -69,7 +69,6 @@ export interface FormStatusProps
    * Defines the appearance size. There are these sizes `default`, `large`. The default status is `default`.
    */
   size?: FormStatusSize;
-
   attributes?: FormStatusAttributes;
   text_id?: string;
   width_selector?: string;

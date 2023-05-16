@@ -76,11 +76,10 @@ export interface DropdownProps
    */
   status_props?: FormStatusProps;
   status_no_animation?: boolean;
-
-  /**
-   * An object containing the `id` used for the target <a href="/uilib/components/global-status">GlobalStatus</a>, and the option for adding a custom `message` shown in <a href="/uilib/components/global-status">GlobalStatus</a>
-   */
-  globalStatus?: { id?: string; message?: FormStatusText };
+  globalStatus?: {
+    id?: string;
+    message?: FormStatusText;
+  };
 
   /**
    * Same as `prevent_selection`, but the "selection area" (given title) will not be visible and the icon `more` (three dots) is used. Defaults to `false`.
