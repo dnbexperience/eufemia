@@ -67,9 +67,10 @@ export interface InputProps
    */
   status?: FormStatusText;
   /**
-   * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
+   * An object containing the `id` used for the target <a href="/uilib/components/global-status">GlobalStatus</a>, and the option for adding a custom `message` shown in <a href="/uilib/components/global-status">GlobalStatus</a>
    */
-  global_status?: FormStatusText;
+  globalStatus?: { id?: string; message?: FormStatusText };
+
   /**
    * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
    */
@@ -85,11 +86,6 @@ export interface InputProps
    * Defines a custom visual state of the input. Use it only if you have to simulate a custom state. Currently are three statuses `virgin` , `focus` and `dirty`. Defaults to `null`.
    */
   input_state?: string;
-
-  /**
-   * The `status_id` used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
-   */
-  global_status_id?: string;
 
   /**
    * Defaults to `off`. Set to `on` or any of <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-autocomplete">allowed `attributes`</a>. Keep in mind, 1. you may have to define a `name`, 2. have the input as a descendant of a `<form>` element, 3. and have a submit button inside the form.
@@ -258,9 +254,9 @@ export interface SubmitButtonProps extends React.HTMLProps<HTMLElement> {
    */
   status?: FormStatusText;
   /**
-   * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
+   * An object containing the `id` used for the target <a href="/uilib/components/global-status">GlobalStatus</a>, and the option for adding a custom `message` shown in <a href="/uilib/components/global-status">GlobalStatus</a>
    */
-  global_status?: FormStatusText;
+  globalStatus?: { id?: string; message?: FormStatusText };
 
   /**
    * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
