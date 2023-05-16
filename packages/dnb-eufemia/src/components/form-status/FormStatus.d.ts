@@ -40,6 +40,10 @@ export interface FormStatusProps
    * The `text` appears as the status message. Beside plain text, you can send in a React component as well.
    */
   text?: FormStatusText;
+
+  /**
+   * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
+   */
   globalStatus?: {
     id?: string;
     message?: FormStatusText;
