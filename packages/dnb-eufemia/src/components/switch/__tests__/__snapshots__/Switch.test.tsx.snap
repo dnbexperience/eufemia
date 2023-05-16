@@ -7,7 +7,11 @@ exports[`Switch component have to match snapshot 1`] = `
   class="class"
   className="className"
   disabled="disabled"
-  global_status_id="main"
+  globalStatus={
+    {
+      "id": "main",
+    }
+  }
   id="id"
   label="label"
   label_direction="horizontal"
@@ -72,7 +76,11 @@ exports[`Switch component have to match snapshot 1`] = `
           attributes={null}
           class={null}
           className={null}
-          global_status_id="main"
+          globalStatus={
+            {
+              "id": "main",
+            }
+          }
           icon="error"
           icon_size="medium"
           id="id-form-status"
@@ -142,7 +150,9 @@ exports[`Switch component have to match snapshot 1`] = `
                 "class": "class",
                 "className": "className",
                 "disabled": "disabled",
-                "global_status_id": "main",
+                "globalStatus": {
+                  "id": "main",
+                },
                 "id": "id",
                 "label": "label",
                 "label_direction": "horizontal",

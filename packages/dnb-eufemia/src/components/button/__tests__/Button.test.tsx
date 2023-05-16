@@ -31,7 +31,7 @@ props.to = null
 props.custom_content = null
 props.text = null
 props.icon_position = 'right'
-props.globalStatus = 'main'
+props.globalStatus = { id: 'main' }
 
 beforeAll(() => {
   jest.spyOn(global.console, 'log')

@@ -22,7 +22,7 @@ const props = fakeProps(require.resolve('../FormRow'), {
 props.id = 'form-row'
 props.direction = 'horizontal'
 props.label_direction = 'horizontal'
-props.globalStatus = 'main'
+props.globalStatus = { id: 'main' }
 
 describe('FormRow component', () => {
   const Comp = mount(<Component {...props} />)

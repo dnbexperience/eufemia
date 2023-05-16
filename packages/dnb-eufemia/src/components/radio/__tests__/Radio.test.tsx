@@ -26,7 +26,7 @@ props.size = null
 props.readOnly = false
 props.label_position = 'left'
 props.direction = 'horizontal'
-props.globalStatus = 'main'
+props.globalStatus = { id: 'main' }
 
 describe('Radio component', () => {
   // then test the state management

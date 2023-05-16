@@ -25,7 +25,7 @@ props.id = 'form-status'
 props.text = 'text'
 props.state = 'error'
 props.status = null
-props.globalStatus = 'main'
+props.globalStatus = { id: 'main' }
 props.hidden = false
 props.icon = 'exclamation'
 
