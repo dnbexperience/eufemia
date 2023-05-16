@@ -11,12 +11,14 @@ import { H3 } from '../../..'
 
 import '../style'
 import '../style/themes/ui'
-import PaymentCard, { getCardData } from '../../../extensions/payment-card'
+import PaymentCard, {
+  getCardData,
+  Designs,
+  CardType,
+  ProductType,
+  BankAxeptType,
+} from '../../../extensions/payment-card'
 import cardData from '../utils/cardProducts'
-import { Designs } from '../PaymentCard'
-import { CardType } from '../PaymentCard'
-import { ProductType } from '../PaymentCard'
-import { BankAxeptType } from '../PaymentCard'
 
 export default {
   title: 'Eufemia/Extensions/PaymentCard',
