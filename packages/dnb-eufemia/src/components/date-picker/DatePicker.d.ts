@@ -230,9 +230,9 @@ export interface DatePickerProps
   status_no_animation?: boolean;
 
   /**
-   * The `status_id` used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
+   * An object containing the `id` used for the target <a href="/uilib/components/global-status">GlobalStatus</a>, and the option for adding a custom `message` shown in <a href="/uilib/components/global-status">GlobalStatus</a>
    */
-  global_status_id?: string;
+  globalStatus?: { id?: string; message?: FormStatusText };
 
   /**
    * Text describing the content of the DatePicker more than the label. You can also send in a React component, so it gets wrapped inside the DatePicker component.

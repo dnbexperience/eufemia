@@ -99,7 +99,7 @@ export function SliderInstance() {
         <FormStatus
           show={showStatus}
           id={id + '-form-status'}
-          global_status_id={globalStatusId}
+          globalStatus={{ id: 'globalStatusId' }}
           label={label}
           text_id={id + '-status'} // used for "aria-describedby"
           text={status}

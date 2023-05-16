@@ -170,9 +170,9 @@ export interface AutocompleteProps
   status_no_animation?: boolean;
 
   /**
-   * The `status_id` used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
+   * An object containing the `id` used for the target <a href="/uilib/components/global-status">GlobalStatus</a>, and the option for adding a custom `message` shown in <a href="/uilib/components/global-status">GlobalStatus</a>
    */
-  global_status_id?: string;
+  globalStatus?: { id?: string; message?: FormStatusText };
 
   /**
    * If set to `true`, word highlighting will still be active, but no options will be filtered out. Defaults to `false`.
