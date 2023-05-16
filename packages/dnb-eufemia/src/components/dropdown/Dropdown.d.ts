@@ -13,6 +13,7 @@ import type {
   DrawerListProps,
   DrawerListData
 } from '../../fragments/DrawerList';
+import type { GlobalStatusConfigObject } from '../GlobalStatus';
 export type DropdownData = DrawerListData;
 type DropdownTitle = string | React.ReactNode;
 type DropdownAlignDropdown = 'left' | 'right';
@@ -80,10 +81,7 @@ export interface DropdownProps
   /**
    * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
    */
-  globalStatus?: {
-    id?: string;
-    message?: FormStatusText;
-  };
+  globalStatus?: GlobalStatusConfigObject;
 
   /**
    * Same as `prevent_selection`, but the "selection area" (given title) will not be visible and the icon `more` (three dots) is used. Defaults to `false`.

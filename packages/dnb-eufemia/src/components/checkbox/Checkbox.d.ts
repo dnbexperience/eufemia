@@ -7,6 +7,7 @@ import type {
 import type { FormLabelText } from '../FormLabel';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
+import type { GlobalStatusConfigObject } from '../GlobalStatus';
 export type CheckboxLabelPosition = 'left' | 'right';
 export type CheckboxSize = 'default' | 'medium' | 'large';
 export type CheckboxSuffix =
@@ -70,10 +71,7 @@ export interface CheckboxProps
   /**
    * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
    */
-  globalStatus?: {
-    id?: string;
-    message?: FormStatusText;
-  };
+  globalStatus?: GlobalStatusConfigObject;
 
   /**
    * Text describing the content of the Checkbox more than the label. You can also send in a React component, so it gets wrapped inside the Checkbox component.

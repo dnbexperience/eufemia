@@ -1,5 +1,6 @@
 import * as React from 'react';
 import type { FormStatusState, FormStatusText } from '../FormStatus';
+import type { GlobalStatusConfigObject } from '../GlobalStatus';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 export type SwitchLabel =
@@ -67,10 +68,7 @@ export interface SwitchProps
   /**
    * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
    */
-  globalStatus?: {
-    id?: string;
-    message?: FormStatusText;
-  };
+  globalStatus?: GlobalStatusConfigObject;
   status_no_animation?: boolean;
 
   /**
