@@ -193,6 +193,10 @@ export interface InputMaskedProps
    * Defines a custom visual state of the input. Use it only if you have to simulate a custom state. Currently are three statuses `virgin` , `focus` and `dirty`. Defaults to `null`.
    */
   input_state?: string;
+
+  /**
+   * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
+   */
   globalStatus?: {
     id?: string;
     message?: FormStatusText;

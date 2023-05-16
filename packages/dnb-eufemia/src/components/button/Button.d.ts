@@ -98,6 +98,10 @@ export type ButtonProps = {
    */
   status_props?: FormStatusProps;
   status_no_animation?: boolean;
+
+  /**
+   * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
+   */
   globalStatus?: {
     id?: string;
     message?: FormStatusText;

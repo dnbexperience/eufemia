@@ -66,6 +66,10 @@ export interface InputProps
    * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
    */
   status?: FormStatusText;
+
+  /**
+   * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
+   */
   globalStatus?: {
     id?: string;
     message?: FormStatusText;
@@ -253,6 +257,10 @@ export interface SubmitButtonProps extends React.HTMLProps<HTMLElement> {
    * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
    */
   status?: FormStatusText;
+
+  /**
+   * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
+   */
   globalStatus?: {
     id?: string;
     message?: FormStatusText;
