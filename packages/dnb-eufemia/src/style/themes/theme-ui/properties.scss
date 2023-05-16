@@ -22,6 +22,7 @@
   --font-size-small: 1rem; // 16px
   --font-size-basis: 1.125rem; // 18px
   --font-size-basis--em: 1em; // 16px
+  --font-size-lead: var(--font-size-medium); // 20px
   --font-size-medium: 1.25rem; // 20px
   --font-size-large: 1.625rem; // 26px
   --font-size-x-large: 2.125rem; // 34px
@@ -37,6 +38,15 @@
   --line-height-medium: 2rem; // 32px
   --line-height-large: 2.5rem; // 40px
   --line-height-x-large: 3.5rem; // 56px
+  --line-height-xx-large: var(--line-height-x-large) // 56px
+
+  // Heading line heights (needed for theming)
+  --heading-line-medium: var(--line-height-lead); // 28px
+  --heading-line-large: var(--line-height-medium); // 32px
+  --heading-line-x-large: var(--line-height-large); // 40px
+
+  // Heading weights (needed for theming)
+  --heading-weight-default: var(var(--font-weight-medium))
 
   // UX colors
   --color-mint-green-50: #d2f0e9;

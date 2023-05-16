@@ -16,6 +16,7 @@
   --font-size-basis: var(--sb-font-size-basis);
   --font-size-basis--em: var(--sb-font-size-basis--em);
   --font-size-lead: var(--sb-font-size-lead);
+  --font-size-medium: var(--sb-font-size-medium);
   --font-size-large: var(--sb-font-size-large);
   --font-size-x-large: var(--sb-font-size-x-large);
   --font-size-xx-large: var(--sb-font-size-xx-large);
@@ -29,6 +30,15 @@
   --line-height-medium: var(--sb-line-height-medium);
   --line-height-large: var(--sb-line-height-large);
   --line-height-x-large: var(--sb-line-height-x-large);
+  --line-height-xx-large: var(--sb-line-height-xx-large);
+
+  // Heading line heights
+  --heading-line-medium: var(--line-height-medium);
+  --heading-line-large: var(--line-height-large);
+  --heading-line-x-large: var(--line-height-x-large);
+
+  // Heading weights
+  --heading-weight-default: var(var(--font-weight-regular))
 
   // Form properties
   --focus-ring-width: 0.1875rem;
