@@ -61,12 +61,7 @@ export default class Switch extends React.PureComponent {
     status_props: PropTypes.object,
     globalStatus: PropTypes.shape({
       id: PropTypes.string,
-      message: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.bool,
-        PropTypes.func,
-        PropTypes.node,
-      ]),
+      message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     }),
     status_no_animation: PropTypes.oneOfType([
       PropTypes.string,

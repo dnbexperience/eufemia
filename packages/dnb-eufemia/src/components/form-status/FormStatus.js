@@ -56,12 +56,7 @@ export default class FormStatus extends React.PureComponent {
     size: PropTypes.oneOf(['default', 'large']),
     globalStatus: PropTypes.shape({
       id: PropTypes.string,
-      message: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.bool,
-        PropTypes.func,
-        PropTypes.node,
-      ]),
+      message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     }),
     attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     text_id: PropTypes.string,
