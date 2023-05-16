@@ -1042,7 +1042,7 @@ describe('Dropdown component', () => {
   })
 
   beforeAll(() => {
-    ;(window as any).resizeTo = function resizeTo({
+    (window as any).resizeTo = function resizeTo({
       width = window.innerWidth,
       height = window.innerHeight,
     }: {
