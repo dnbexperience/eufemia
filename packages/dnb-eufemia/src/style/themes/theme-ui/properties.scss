@@ -38,7 +38,7 @@
   --line-height-medium: 2rem; // 32px
   --line-height-large: 2.5rem; // 40px
   --line-height-x-large: 3.5rem; // 56px
-  --line-height-xx-large: var(--line-height-x-large) // 56px
+  --line-height-xx-large: var(--line-height-x-large); // 56px
 
   // Heading line heights (needed for theming)
   --heading-line-medium: var(--line-height-lead); // 28px
@@ -46,7 +46,7 @@
   --heading-line-x-large: var(--line-height-large); // 40px
 
   // Heading weights (needed for theming)
-  --heading-weight-default: var(var(--font-weight-medium))
+  --heading-weight-default: var(--font-weight-medium);
 
   // UX colors
   --color-mint-green-50: #d2f0e9;
