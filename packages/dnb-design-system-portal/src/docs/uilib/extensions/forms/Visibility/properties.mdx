@@ -1,0 +1,17 @@
+---
+showTabs: true
+---
+
+## Properties
+
+| Property        | Type         | Description                                                                                                |
+| --------------- | ------------ | ---------------------------------------------------------------------------------------------------------- |
+| `visible`       | `boolean`    | _(optional)_ Control visibility directly by boolean value.                                                 |
+| `pathDefined`   | `string`     | _(optional)_ Given data context path must be defined to show children.                                     |
+| `pathUndefined` | `string`     | _(optional)_ Given data context path must be undefined to show children.                                   |
+| `pathTruthy`    | `string`     | _(optional)_ Given data context path must be truthy to show children.                                      |
+| `pathFalsy`     | `string`     | _(optional)_ Given data context path must be falsy to show children.                                       |
+| `pathTrue`      | `string`     | _(optional)_ Given data context path must be true to show children.                                        |
+| `pathFalse`     | `string`     | _(optional)_ Given data context path must be false to show children.                                       |
+| `inferData`     | `function`   | _(optional)_ Will be called to decide by external logic, and show/hide contents based on the return value. |
+| `children`      | `React.Node` | _(required)_ Contents.                                                                                     |

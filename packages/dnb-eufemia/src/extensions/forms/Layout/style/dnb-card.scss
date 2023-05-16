@@ -1,0 +1,16 @@
+.dnb-forms-card {
+  background-color: var(--color-white);
+  border: 1px solid var(--color-black-8);
+  border-radius: 0.25rem;
+  padding: var(--spacing-small);
+
+  &__heading {
+    font-size: var(--font-size-basis);
+    font-weight: var(--font-weight-medium);
+  }
+
+  & + &__heading {
+    margin-top: var(--spacing-small);
+  }
+}
+

@@ -10,11 +10,12 @@
  */
 
 // import all the available components
+import Forms from './forms/Forms'
 import PaymentCard from './payment-card/PaymentCard'
 
 // define / export all the available components
-export { PaymentCard }
+export { Forms, PaymentCard }
 
 export const getExtensions = () => {
-  return { PaymentCard }
+  return { Forms, PaymentCard }
 }

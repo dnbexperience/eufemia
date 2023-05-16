@@ -1,0 +1,23 @@
+---
+showTabs: true
+---
+
+import * as Examples from './Examples'
+import ListBaseComponents from './ListBaseComponents'
+import ListFeatureComponents from './ListFeatureComponents'
+
+## Basic input components
+
+Data input consists of basic components that are designed to receive user input that will end up in the form of primitive data types, such as `string`, `number` and `boolean`:
+
+<ListBaseComponents />
+
+## Feature-specific input components
+
+In addition to the basic input components, the package offers a number of input components that are more closely tailored to the business logic we need in our applications.
+
+Although these mostly reuse the basic components internally, they prevent you from having to provide a number of boilerplate props such as syntax rules, field labels and validation error messages. All props can still be overridden individually if necessary.
+
+The following input components exist:
+
+<ListFeatureComponents />

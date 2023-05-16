@@ -1,0 +1,20 @@
+---
+showTabs: true
+---
+
+import StandardProperties from '../value-properties.mdx'
+
+## Properties
+
+<StandardProperties type="number" />
+
+### Component-specific props
+
+| Property            | Type     | Description                                                                                                     |
+| ------------------- | -------- | --------------------------------------------------------------------------------------------------------------- |
+| `thousandSeparator` | `string` | _(optional)_ Character to use for separating every three digits.                                                |
+| `decimalSymbol`     | `string` | _(optional)_ What character to use for separating digits and decimals. Defaults to ','.                         |
+| `decimals`          | `number` | _(optional)_ Max number of decimals. Values with more decimals will be rounded.                                 |
+| `fixedDecimals`     | `number` | _(optional)_ Fixed number of decimals. Will round numbers with more decimals, and add trailing zeros when less. |
+| `prefix`            | `string` | _(optional)_ Text added before the value value.                                                                 |
+| `suffix`            | `string` | _(optional)_ Text added after the value value.                                                                  |

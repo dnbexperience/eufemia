@@ -1,0 +1,13 @@
+.dnb-forms-data-input-phone-number {
+  display: flex;
+  flex-flow: row;
+  column-gap: var(--spacing-small);
+
+  &__country-code {
+    flex: 0 250px;
+  }
+
+  &__number {
+    flex: 1;
+  }
+}
