@@ -302,12 +302,7 @@ Button.propTypes = {
   ]),
   globalStatus: PropTypes.shape({
     id: PropTypes.string,
-    message: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
+    message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   }),
   id: PropTypes.string,
   class: PropTypes.string,

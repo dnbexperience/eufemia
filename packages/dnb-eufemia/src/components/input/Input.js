@@ -59,12 +59,7 @@ export const inputPropTypes = {
   ]),
   globalStatus: PropTypes.shape({
     id: PropTypes.string,
-    message: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
+    message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   }),
   status_state: PropTypes.string,
   status_props: PropTypes.object,
