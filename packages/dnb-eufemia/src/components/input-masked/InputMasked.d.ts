@@ -193,11 +193,10 @@ export interface InputMaskedProps
    * Defines a custom visual state of the input. Use it only if you have to simulate a custom state. Currently are three statuses `virgin` , `focus` and `dirty`. Defaults to `null`.
    */
   input_state?: string;
-
-  /**
-   * An object containing the `id` used for the target <a href="/uilib/components/global-status">GlobalStatus</a>, and the option for adding a custom `message` shown in <a href="/uilib/components/global-status">GlobalStatus</a>
-   */
-  globalStatus?: { id?: string; message?: FormStatusText };
+  globalStatus?: {
+    id?: string;
+    message?: FormStatusText;
+  };
 
   /**
    * Defaults to `off`. Set to `on` or any of <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-autocomplete">allowed `attributes`</a>. Keep in mind, 1. you may have to define a `name`, 2. have the input as a descendant of a `<form>` element, 3. and have a submit button inside the form.

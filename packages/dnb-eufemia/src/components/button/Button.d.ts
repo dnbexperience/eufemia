@@ -53,7 +53,7 @@ export type ButtonProps = {
   title?: React.ReactNode;
 
   /**
-   * Defines the kind of button. Possible values are `primary`, `secondary`, `tertiary` and `signal`. Defaults to `primary`.
+   * Defines the kind of button. Possible values are `primary`, `secondary`, `tertiary` and `signal`. Defaults to `primary` (or `secondary` if icon only).
    */
   variant?: ButtonVariant;
 
@@ -97,11 +97,10 @@ export type ButtonProps = {
    */
   status_props?: FormStatusProps;
   status_no_animation?: boolean;
-
-  /**
-   * An object containing the `id` used for the target <a href="/uilib/components/global-status">GlobalStatus</a>, and the option for adding a custom `message` shown in <a href="/uilib/components/global-status">GlobalStatus</a>
-   */
-  globalStatus?: { id?: string; message?: FormStatusText };
+  globalStatus?: {
+    id?: string;
+    message?: FormStatusText;
+  };
   id?: string;
 
   /**

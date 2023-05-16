@@ -63,11 +63,10 @@ export interface SwitchProps
    * Use an object to define additional FormStatus properties.
    */
   status_props?: Record<string, unknown>;
-
-  /**
-   * An object containing the `id` used for the target <a href="/uilib/components/global-status">GlobalStatus</a>, and the option for adding a custom `message` shown in <a href="/uilib/components/global-status">GlobalStatus</a>
-   */
-  globalStatus?: { id?: string; message?: FormStatusText };
+  globalStatus?: {
+    id?: string;
+    message?: FormStatusText;
+  };
   status_no_animation?: boolean;
 
   /**
