@@ -41,11 +41,9 @@ export interface FormStatusProps
    */
   text?: FormStatusText;
   /**
-   * The `global_status_text` appears as the message shown in the associated global status.
-   * default: The same as `text`if, ´text´ is provided.
+   * An object containing the `id` used for the target <a href="/uilib/components/global-status">GlobalStatus</a>, and the option for adding a custom `message` shown in <a href="/uilib/components/global-status">GlobalStatus</a>
    */
-  global_status_text?: FormStatusText;
-  label?: React.ReactNode;
+  globalStatus?: { id?: string; message?: FormStatusText };
 
   /**
    * The `icon` show before the status text. Defaults to `exclamation`.
@@ -72,10 +70,6 @@ export interface FormStatusProps
    */
   size?: FormStatusSize;
 
-  /**
-   * The `status_id` used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
-   */
-  global_status_id?: string;
   attributes?: FormStatusAttributes;
   text_id?: string;
   width_selector?: string;

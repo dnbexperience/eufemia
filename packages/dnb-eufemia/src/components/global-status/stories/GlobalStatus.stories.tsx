@@ -41,7 +41,7 @@ export const ComponentAsLabel = () => {
     <>
       <GlobalStatus id="test" />
 
-      <FormSet label_direction="vertical" global_status_id="test">
+      <FormSet label_direction="vertical" globalStatus={{ id: 'test' }}>
         <ToggleButton
           bottom
           on_change={() => setStatus((s) => (!s ? 'min status' : null))}
@@ -73,7 +73,7 @@ export const ComponentAsLabel = () => {
   )
 }
 
-export const TestStatus = () => {
+export const CustomGlobalStatusMessage = () => {
   const [status, setStatus] = React.useState(null)
 
   const Component = (): JSX.Element => {
@@ -84,7 +84,10 @@ export const TestStatus = () => {
     <>
       <GlobalStatus id="test-test" />
 
-      <FormSet label_direction="vertical" global_status_id="test-test">
+      <FormSet
+        label_direction="vertical"
+        globalStatus={{ id: 'test-test' }}
+      >
         <ToggleButton
           bottom
           on_change={() => setStatus((s) => (!s ? 'min status' : null))}
@@ -96,7 +99,9 @@ export const TestStatus = () => {
           <Input
             label={<Component />}
             status={status ? status + '1' : undefined}
-            global_status={status ? status + 'global 1' : undefined}
+            globalStatus={{
+              message: status ? status + ' global 1' : undefined,
+            }}
           />
         </FormRow>
         <Input
@@ -213,7 +218,7 @@ const InputWithError = () => {
   return (
     <>
       <FormSet
-      // global_status_id="form-status"
+      // globalStatus={{ id: 'form-status' }}
       >
         <FormRow label="Caption:">
           <Input
@@ -564,7 +569,7 @@ const UpdateDemoStatus = () => {
         label="Label A:"
         placeholder="Placeholder A"
         status={errorA}
-        global_status_id="demo-2"
+        globalStatus={{ id: 'demo-2' }}
         on_change={({ value }) => {
           setErrorA(value)
         }}
@@ -574,7 +579,7 @@ const UpdateDemoStatus = () => {
         label="Label B:"
         placeholder="Placeholder B"
         status={errorB}
-        global_status_id="demo-2"
+        globalStatus={{ id: 'demo-2' }}
         on_change={({ value }) => {
           setErrorB(value)
         }}

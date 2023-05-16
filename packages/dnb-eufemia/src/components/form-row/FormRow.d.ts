@@ -75,7 +75,10 @@ export interface FormRowProps
    * To modify the `spacing`. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to `null`.
    */
   section_spacing?: SectionSpacing;
-  global_status_id?: string;
+  /**
+   * An object containing the `id` used for the target <a href="/uilib/components/global-status">GlobalStatus</a>, and the option for adding a custom `message` shown in <a href="/uilib/components/global-status">GlobalStatus</a>
+   */
+  globalStatus?: { id?: string; message?: FormStatusText };
 
   /**
    * To force responsiveness on form components (like <a href="/uilib/components/input">Input</a> and their labels (<a href="/uilib/components/form-label">FormLabel</a>), set the prop to `true`. Defaults to `false`.

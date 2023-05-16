@@ -128,7 +128,8 @@ export default class FormSet extends React.PureComponent {
     })
 
     const Element = isTrue(no_form) ? 'div' : element
-
+    console.log('Proppy', this.props, content, Element)
+    console.log('Context', providerContext)
     return (
       <Context.Provider value={providerContext}>
         <Element {...params}>{content}</Element>
