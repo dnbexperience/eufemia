@@ -18,14 +18,14 @@ showTabs: true
 
 ## Card Data
 
-| Properties    | Type         | Description                                                                                                                                                                                                                                              |
-| ------------- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `productCode` | `string`     | _(required)_ product code for the given card.                                                                                                                                                                                                            |
-| `productName` | `string`     | _(required)_ product name. Can be blank.                                                                                                                                                                                                                 |
-| `displayName` | `string`     | _(required)_ the visible product name. Can be empty.                                                                                                                                                                                                     |
-| `cardDesign`  | `object`     | _(required)_ object that describes the style properties of the card. can be imported from `@dnb/eufemia/extensions/payment-card/utils/CardDesigns` (see available designs below) or a custom one can be created.                                         |
-| `cardType`    | `Union Type` | _(required)_ import CardType from `@dnb/eufemia/extensions/payment-card/utils/Types` to use. Can be CardType.Visa, CardType.Mastercard or CardType.None                                                                                                  |
-| `productType` | `Union Type` | _(required)_ import ProductType from `@dnb/eufemia/extensions/payment-card/utils/Types` to use. Can be ProductType.Saga, ProductType.Pluss, ProductType.Intro, ProductType.Business, ProductType.Bedrift, ProductType.PrivateBanking or ProductType.None |
+| Properties    | Type         | Description                                                                                                                                                                                                                                        |
+| ------------- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `productCode` | `string`     | _(required)_ product code for the given card.                                                                                                                                                                                                      |
+| `productName` | `string`     | _(required)_ product name. Can be blank.                                                                                                                                                                                                           |
+| `displayName` | `string`     | _(required)_ the visible product name. Can be empty.                                                                                                                                                                                               |
+| `cardDesign`  | `object`     | _(required)_ object that describes the style properties of the card. `import { Designs } from '@dnb/eufemia/extensions/payment-card'` (see available designs below) or a custom one can be created.                                                |
+| `cardType`    | `Union Type` | _(required)_ `import { CardType } from '@dnb/eufemia/extensions/payment-card'` to use. Can be CardType.Visa, CardType.Mastercard or CardType.None                                                                                                  |
+| `productType` | `Union Type` | _(required)_ `import { ProductType } from '@dnb/eufemia/extensions/payment-card'` to use. Can be ProductType.Saga, ProductType.Pluss, ProductType.Intro, ProductType.Business, ProductType.Bedrift, ProductType.PrivateBanking or ProductType.None |
 
 ## Card Design
 
