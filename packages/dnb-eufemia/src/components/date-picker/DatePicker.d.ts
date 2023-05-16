@@ -5,6 +5,7 @@ import type {
   FormStatusState,
   FormStatusText
 } from '../FormStatus';
+import type { GlobalStatusConfigObject } from '../GlobalStatus';
 import type { InputInputElement, InputSize } from '../Input';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
@@ -232,10 +233,7 @@ export interface DatePickerProps
   /**
    * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
    */
-  globalStatus?: {
-    id?: string;
-    message?: FormStatusText;
-  };
+  globalStatus?: GlobalStatusConfigObject;
 
   /**
    * Text describing the content of the DatePicker more than the label. You can also send in a React component, so it gets wrapped inside the DatePicker component.

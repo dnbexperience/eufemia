@@ -7,6 +7,7 @@ import type {
 import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
+import type { GlobalStatusConfigObject } from '../GlobalStatus';
 export type RadioGroupLabelPosition = 'left' | 'right';
 export type RadioGroupSize = 'default' | 'medium' | 'large';
 export type RadioGroupSuffix =
@@ -68,10 +69,7 @@ export interface RadioGroupProps
   /**
    * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
    */
-  globalStatus?: {
-    id?: string;
-    message?: FormStatusText;
-  };
+  globalStatus?: GlobalStatusConfigObject;
   suffix?: RadioGroupSuffix;
   layout_direction?: RadioGroupLayoutDirection;
   vertical?: boolean;

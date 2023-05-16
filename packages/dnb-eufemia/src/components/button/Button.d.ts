@@ -7,6 +7,7 @@ import type {
   FormStatusState,
   FormStatusText
 } from '../FormStatus';
+import type { GlobalStatusConfigObject } from '../GlobalStatus';
 export type ButtonText = string | React.ReactNode;
 export type ButtonVariant =
   | 'primary'
@@ -102,10 +103,7 @@ export type ButtonProps = {
   /**
    * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
    */
-  globalStatus?: {
-    id?: string;
-    message?: FormStatusText;
-  };
+  globalStatus?: GlobalStatusConfigObject;
   id?: string;
 
   /**

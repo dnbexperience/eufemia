@@ -11,6 +11,7 @@ import type {
   FormStatusState,
   FormStatusText
 } from '../FormStatus';
+import type { GlobalStatusConfigObject } from '../GlobalStatus';
 import type { IconIcon, IconSize } from '../Icon';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
@@ -172,10 +173,7 @@ export interface AutocompleteProps
   /**
    * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
    */
-  globalStatus?: {
-    id?: string;
-    message?: FormStatusText;
-  };
+  globalStatus?: GlobalStatusConfigObject;
 
   /**
    * If set to `true`, word highlighting will still be active, but no options will be filtered out. Defaults to `false`.
