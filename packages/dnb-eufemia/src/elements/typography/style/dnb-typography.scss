@@ -48,11 +48,12 @@ sub {
   @include headingSize_large();
 }
 
-/* dnb-h--medium looks the same as .dnb-lead */
-.dnb-lead,
+.dnb-lead {
+  @include typography_lead();
+}
+
 .dnb-h--medium {
   @include headingSize_medium();
-  font-weight: var(--font-weight-medium);
 }
 
 // The rest of the Headings are nod defned by the Eufemia Typography

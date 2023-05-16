@@ -41,7 +41,7 @@
   }
 
   font-family: var(--font-family-default);
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--heading-weight-default);
 
   // make icons inside heading responsive to the heading size
   .dnb-icon--default {
@@ -66,12 +66,12 @@
 
 @mixin headingSize_xx-large() {
   font-size: var(--font-size-xx-large);
-  line-height: var(--line-height-x-large);
+  line-height: var(--line-height-xx-large);
 
   & > small {
     display: block;
     font-size: var(--font-size-x-large);
-    line-height: var(--line-height-large);
+    line-height: var(--heading-line-x-large);
   }
 
   @if mixin-exists('headingSize_xx-largeCustomisation') {
@@ -81,12 +81,12 @@
 
 @mixin headingSize_x-large() {
   font-size: var(--font-size-x-large);
-  line-height: var(--line-height-large);
+  line-height: var(--heading-line-x-large);
 
   & > small {
     display: block;
     font-size: var(--font-size-x-large);
-    line-height: var(--line-height-large);
+    line-height: var(--heading-line-x-large);
   }
 
   @if mixin-exists('headingSize_x-largeCustomisation') {
@@ -96,11 +96,11 @@
 
 @mixin headingSize_large() {
   font-size: var(--font-size-large);
-  line-height: var(--line-height-medium);
+  line-height: var(--heading-line-large);
 
   & > small {
     font-size: var(--font-size-medium);
-    line-height: calc(var(--line-height-medium) - 0.125rem);
+    line-height: calc(var(--heading-line-large) - 0.125rem);
   }
 
   @if mixin-exists('headingSize_largeCustomisation') {
@@ -108,10 +108,25 @@
   }
 }
 
-// Like Lead / --lead
 @mixin headingSize_medium() {
   font-size: var(--font-size-medium);
+  line-height: var(--heading-line-medium);
+  font-weight: var(--heading-weight-default);
+
+  & > small {
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis);
+  }
+
+  @if mixin-exists('headingSize_mediumCustomisation') {
+    @include headingSize_mediumCustomisation();
+  }
+}
+
+@mixin typography_lead() {
+  font-size: var(--font-size-lead);
   line-height: var(--line-height-lead);
+  font-weight: var(--heading-weight-default);
 
   & > small {
     font-size: var(--font-size-basis);
@@ -162,8 +177,7 @@
   padding: 0;
 
   &--lead {
-    @include headingSize_medium();
-    font-weight: var(--font-weight-medium);
+    @include typography_lead();
   }
 
   &--medium {
@@ -181,7 +195,7 @@
 
   &__size--xx-large {
     font-size: var(--font-size-xx-large);
-    line-height: var(--line-height-x-large);
+    line-height: var(--line-height-xx-large);
   }
 
   &__size--x-large {
