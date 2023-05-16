@@ -74,7 +74,7 @@ export const ComponentAsLabel = () => {
 }
 
 export const CustomGlobalStatusMessage = () => {
-  const [status, setStatus] = React.useState(null)
+  const [showStatus, setShowStatus] = React.useState<boolean>(false)
 
   const Component = (): JSX.Element => {
     return <>my label</>
@@ -88,36 +88,37 @@ export const CustomGlobalStatusMessage = () => {
         label_direction="vertical"
         globalStatus={{ id: 'test-test', message: 'Hva skjer nå' }}
       >
-        <ToggleButton
-          bottom
-          on_change={() => setStatus((s) => (!s ? 'min status' : null))}
-        >
+        <ToggleButton bottom on_change={() => setShowStatus((s) => !s)}>
           set status
         </ToggleButton>
 
         <FormRow>
           <Input
             label={<Component />}
-            status={'Input status'}
+            status={showStatus ? 'Input status' : ''}
             globalStatus={{
-              message: 'Input global status',
+              message: showStatus ? 'Input global status' : '',
             }}
           />
         </FormRow>
         <Input
           label={<Component />}
-          status="Input status withough global"
+          status={showStatus ? 'Input status withough global' : ''}
         />
         <Autocomplete
           label={<Component />}
-          status={'Autocomplete status'}
-          globalStatus={{ message: 'Autocomplete global status' }}
+          status={showStatus ? 'Autocomplete status' : ''}
+          globalStatus={{
+            message: showStatus ? 'Autocomplete global status' : '',
+          }}
         />
         <DatePicker
           label={<Component />}
           show_input
-          status="Datepicekr status"
-          globalStatus={{ message: 'Datepicker global status' }}
+          status={showStatus ? 'Datepicekr status' : ''}
+          globalStatus={{
+            message: showStatus ? 'Datepicker global status' : '',
+          }}
         />
       </FormSet>
     </>
