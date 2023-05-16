@@ -64,6 +64,10 @@ export interface RadioGroupProps
    */
   status_props?: FormStatusProps;
   status_no_animation?: boolean;
+
+  /**
+   * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
+   */
   globalStatus?: {
     id?: string;
     message?: FormStatusText;
@@ -82,7 +86,7 @@ export interface RadioGroupProps
   children?: RadioGroupChildren;
 
   /**
-   * Will be called on state changes made by the user. Returns a boolean and string `{ checked, value, event }`.
+   * Will be called on state changes made by the user. Returns an object `{ checked, value, event }`.
    */
   on_change?: (...args: any[]) => any;
 }

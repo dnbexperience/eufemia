@@ -24,7 +24,7 @@
     "build:ci": "yarn prebuild:ci && yarn postbuild:ci && yarn publish:prepare",
     "postbuild:ci": "./scripts/postbuild/postbuild.sh",
     "build:cjs": "./scripts/postbuild/babel-cjs.sh",
-    "build:clean": "rm -rf build/**",
+    "build:clean": "rm -rf build",
     "postbuild:commit": "babel-node --extensions .js,.ts,.tsx ./scripts/figma/tasks/commitChanges",
     "build:copy": "./scripts/postbuild/copy-build-artifacts.sh",
     "build:es": "./scripts/postbuild/babel-es.sh",

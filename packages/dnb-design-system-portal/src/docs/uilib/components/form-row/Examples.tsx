@@ -9,6 +9,7 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { Global, css } from '@emotion/react'
 import styled from '@emotion/styled'
 import {
+  Ingress,
   Space,
   Button,
   IconPrimary,
@@ -24,8 +25,7 @@ import {
   Input,
   FormSet,
   FormRow,
-} from '@dnb/eufemia/src/components'
-import { Ingress } from '@dnb/eufemia/src'
+} from '@dnb/eufemia/src'
 import { SpacingElementProps } from '@dnb/eufemia/src/shared/types'
 import { Provider } from '@dnb/eufemia/src/shared'
 

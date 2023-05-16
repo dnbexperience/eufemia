@@ -249,7 +249,10 @@ async function makePageReady({
       await page.setExtraHTTPHeaders(headers)
     }
 
-    await page.goto(createUrl(url, fullscreen, themeName), {
+    global.themeName = themeName
+    global.pageUrl = createUrl(url, fullscreen, themeName)
+    process.env.pageUrl = global.pageUrl
+    await page.goto(global.pageUrl, {
       waitUntil: config.waitUntil,
       timeout: config.timeout,
     })

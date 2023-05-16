@@ -8,8 +8,15 @@ import PropTypes from 'prop-types'
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 
-import { Section, Space, Button } from '@dnb/eufemia/src/components'
-import { H1, P, Ul } from '@dnb/eufemia/src'
+import {
+  H1,
+  P,
+  Ul,
+  Pagination,
+  Section,
+  Space,
+  Button,
+} from '@dnb/eufemia/src'
 import Table from '@dnb/eufemia/src/components/Table'
 import { hasSelectedText } from '@dnb/eufemia/src/shared/helpers'
 
@@ -17,8 +24,6 @@ import {
   createPagination,
   CreatePaginationReturn,
 } from '@dnb/eufemia/src/components/Pagination'
-
-import { Pagination } from '@dnb/eufemia/src'
 
 type HeightLimitProps = {
   height?: string

@@ -1,56 +1,118 @@
+@use '../../../../style/core/utilities.scss';
 @use '../anchor-mixins.scss';
 
-.dnb-anchor {
-  // Has to use --sb-font-weight-bold to get correct weighting as --sb-font-weight-medium does nothing at the moment
-  font-weight: var(--sb-font-weight-bold);
-  color: var(--sb-color-gray-dark-3);
-  text-decoration-color: var(--sb-color-green-dark);
-
-  &:hover {
-    color: var(--sb-color-text);
-    background-color: var(--sb-color-green-dark);
-
-    border-radius: 0.5rem;
-  }
-
-  &:active {
-    color: var(--sb-color-text);
-    background-color: var(--sb-color-green);
-
-    border-radius: 0.5rem;
-  }
-
-  &:focus {
-    &:not(:active) {
-      color: var(--sb-color-blue-dark);
-      background-color: var(--sb-color-blue-light-3);
-
-      border-radius: 0.25rem;
-    }
-  }
-}
-
-.dnb-anchor--hover {
+@mixin anchorHover() {
   color: var(--sb-color-text);
   background-color: var(--sb-color-green-dark);
-
+  
+  transition: none;
   border-radius: 0.5rem;
 }
 
-.dnb-anchor--active {
+@mixin anchorActive() {
   color: var(--sb-color-text);
   background-color: var(--sb-color-green);
 
   border-radius: 0.5rem;
 }
 
-.dnb-anchor--focus {
+@mixin anchorFocus() {
   &:not(:active) {
     color: var(--sb-color-blue-dark);
     background-color: var(--sb-color-blue-light-3);
 
     border-radius: 0.25rem;
+
+    &.dnb-anchor--icon-left {
+      margin-left: 0;
+      .dnb-icon {
+        margin-left: 0;
+      }
+    }
+
+    &.dnb-anchor--icon-right  {
+      margin-right: 0;
+      .dnb-icon {
+        margin-right: 0;
+      }
+    }
   }
+}
+
+.dnb-anchor {
+  --anchor-underline-thickness: 0.125rem;
+  
+  // Has to use --sb-font-weight-bold to get correct weighting as --sb-font-weight-medium does nothing at the moment
+  font-weight: var(--sb-font-weight-bold);
+  color: var(--sb-color-gray-dark-3);
+  text-decoration-color: var(--sb-color-green-dark);
+  padding: calc((var(--line-height-basis) - 1.2em) / 2) 0.25em;
+
+  $anchor-icon-gutter: 0.125em;
+
+  &:hover {
+    @include anchorHover();
+  }
+
+  &:active {
+    @include anchorActive();
+  }
+
+  &:focus {
+    @include utilities.whatInput('keyboard'){
+      @include anchorFocus();
+    }
+  }
+
+  &.dnb-anchor--icon-left {
+    padding-left: 0;
+    margin-left: 1em + $anchor-icon-gutter;
+
+    .dnb-icon {
+      font-size: 1em;
+      margin-right: $anchor-icon-gutter;
+      margin-left: -1em - $anchor-icon-gutter;
+    }
+  }
+
+  &.dnb-anchor--icon-right  {
+    padding-right: 0;
+    margin-right: 1em + $anchor-icon-gutter;
+
+    .dnb-icon {
+      font-size: 1em;
+      margin-left: $anchor-icon-gutter;
+      margin-right: -1em - $anchor-icon-gutter;
+    }
+  }
+
+  &:not(.dnb-anchor--no-underline):not(.dnb-anchor--has-icon):not(.anchor-hash) {
+    &:not(.dnb-anchor--icon-left) {
+      padding-left: 0;
+      &::before {
+        content: "\00a0";
+      }
+    }
+
+    &:not(.dnb-anchor--icon-right):not(.dnb-anchor[target='_blank']) {
+      padding-right: 0;
+      &::after {
+        content: "\00a0";
+      }
+    }
+  }
+}
+
+.dnb-anchor--hover {
+  @include anchorHover();
+}
+
+.dnb-anchor--active {
+  @include anchorActive();
+}
+
+.dnb-anchor--focus {
+  @include anchorFocus();
 }
 
 // TODO: add correct contrast styling when designs are in place

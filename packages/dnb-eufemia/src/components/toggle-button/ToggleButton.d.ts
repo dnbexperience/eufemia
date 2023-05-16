@@ -1,5 +1,5 @@
 import * as React from 'react';
-import type { ButtonIconPosition } from '../button';
+import type { ButtonIconPosition } from '../Button';
 import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
 import type {
   FormStatusProps,
@@ -71,6 +71,10 @@ export interface ToggleButtonProps
    */
   status_props?: FormStatusProps;
   status_no_animation?: boolean;
+
+  /**
+   * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
+   */
   globalStatus?: {
     id?: string;
     message?: FormStatusText;
