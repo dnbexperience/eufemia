@@ -86,7 +86,7 @@ export const CustomGlobalStatusMessage = () => {
 
       <FormSet
         label_direction="vertical"
-        globalStatus={{ id: 'test-test' }}
+        globalStatus={{ id: 'test-test', message: 'Hva skjer nå' }}
       >
         <ToggleButton
           bottom
@@ -98,24 +98,26 @@ export const CustomGlobalStatusMessage = () => {
         <FormRow>
           <Input
             label={<Component />}
-            status={status ? status + '1' : undefined}
+            status={'Input status'}
             globalStatus={{
-              message: status ? status + ' global 1' : undefined,
+              message: 'Input global status',
             }}
           />
         </FormRow>
         <Input
           label={<Component />}
-          status={status ? status + '2' : undefined}
+          status="Input status withough global"
         />
         <Autocomplete
           label={<Component />}
-          status={status ? status + '3' : undefined}
+          status={'Autocomplete status'}
+          globalStatus={{ message: 'Autocomplete global status' }}
         />
         <DatePicker
           label={<Component />}
           show_input
-          status={status ? status + '4' : undefined}
+          status="Datepicekr status"
+          globalStatus={{ message: 'Datepicker global status' }}
         />
       </FormSet>
     </>
