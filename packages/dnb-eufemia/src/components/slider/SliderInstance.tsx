@@ -49,7 +49,7 @@ export function SliderInstance() {
     statusProps,
     statusState,
     statusNoAnimation,
-    globalStatusId,
+    globalStatus,
     stretch,
     skeleton,
     disabled,
@@ -99,8 +99,7 @@ export function SliderInstance() {
         <FormStatus
           show={showStatus}
           id={id + '-form-status'}
-          globalStatus={{ id: 'globalStatusId' }}
-          label={label}
+          globalStatus={globalStatus}
           text_id={id + '-status'} // used for "aria-describedby"
           text={status}
           state={statusState}
