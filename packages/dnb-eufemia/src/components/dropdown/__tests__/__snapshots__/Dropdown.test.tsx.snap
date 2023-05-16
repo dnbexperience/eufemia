@@ -61,7 +61,11 @@ exports[`Dropdown markup have to match snapshot 1`] = `
   direction="bottom"
   disabled="disabled"
   focusable="focusable"
-  global_status_id="main"
+  globalStatus={
+    {
+      "id": "main",
+    }
+  }
   icon="icon"
   icon_position={null}
   icon_size="icon_size"
@@ -165,7 +169,11 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     enable_body_lock={false}
     fixed_position={false}
     focusable="focusable"
-    global_status_id="main"
+    globalStatus={
+      {
+        "id": "main",
+      }
+    }
     handle_dismiss_focus={null}
     icon="icon"
     icon_position={null}
@@ -282,7 +290,11 @@ exports[`Dropdown markup have to match snapshot 1`] = `
       direction="bottom"
       disabled="disabled"
       focusable="focusable"
-      global_status_id="main"
+      globalStatus={
+        {
+          "id": "main",
+        }
+      }
       icon="icon"
       icon_position={null}
       icon_size="icon_size"
@@ -366,7 +378,11 @@ exports[`Dropdown markup have to match snapshot 1`] = `
             attributes={null}
             class={null}
             className={null}
-            global_status_id="main"
+            globalStatus={
+              {
+                "id": "main",
+              }
+            }
             icon="error"
             icon_size="medium"
             id="dropdown-id-form-status"
@@ -387,6 +403,11 @@ exports[`Dropdown markup have to match snapshot 1`] = `
           >
             <span
               className="dnb-form-status dnb-form-status--error dnb-form-status__size--default dnb-form-status--has-content"
+              globalStatus={
+                {
+                  "id": "main",
+                }
+              }
               id="dropdown-id-form-status"
               role="alert"
             >
@@ -507,7 +528,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 }
                 disabled="disabled"
                 element={null}
-                global_status_id={null}
+                globalStatus={null}
                 href={null}
                 icon={false}
                 icon_position="right"
@@ -597,7 +618,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                     }
                     disabled="disabled"
                     element={null}
-                    global_status_id={null}
+                    globalStatus={null}
                     href={null}
                     icon={false}
                     icon_position="right"
@@ -663,7 +684,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   attributes={null}
                   class={null}
                   className={null}
-                  global_status_id={null}
+                  globalStatus={null}
                   icon="error"
                   icon_size="medium"
                   id="dropdown-id-form-status"
@@ -1264,7 +1285,9 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   "direction": "bottom",
                   "disabled": "disabled",
                   "focusable": "focusable",
-                  "global_status_id": "main",
+                  "globalStatus": {
+                    "id": "main",
+                  },
                   "icon": "icon",
                   "icon_position": null,
                   "icon_size": "icon_size",

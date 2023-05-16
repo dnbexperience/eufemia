@@ -46,7 +46,7 @@ const snapshotProps = {
   skip_portal: true,
   no_animation: true,
   variant: 'secondary',
-  globalStatus: 'main',
+  globalStatus: { id: 'main' },
 }
 
 // use no_animation so we don't need to wait

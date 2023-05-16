@@ -24,7 +24,7 @@ props.icon_position = 'left'
 props.label_direction = 'horizontal'
 props.variant = 'checkbox'
 props.readOnly = false
-props.globalStatus = 'main'
+props.globalStatus = { id: 'main' }
 
 describe('ToggleButton component', () => {
   // mount compare the snapshot

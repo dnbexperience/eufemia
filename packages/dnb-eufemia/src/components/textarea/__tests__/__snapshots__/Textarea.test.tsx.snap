@@ -14,7 +14,10 @@ exports[`Textarea component have to match snapshot 1`] = `
         "className": "className",
         "cols": 1,
         "disabled": "disabled",
-        "global_status_id": "global_status_id",
+        "globalStatus": {
+          "id": "globalStatus.id",
+          "message": "globalStatus.message",
+        },
         "id": "id",
         "inner_ref": [Function],
         "label": "label",
@@ -50,7 +53,7 @@ exports[`Textarea component have to match snapshot 1`] = `
   className={null}
   cols={null}
   disabled={false}
-  global_status_id={null}
+  globalStatus={null}
   id="textarea"
   inner_ref={null}
   label={null}
@@ -95,7 +98,7 @@ exports[`Textarea component have to match snapshot 1`] = `
         attributes={null}
         class={null}
         className={null}
-        global_status_id={null}
+        globalStatus={null}
         icon="error"
         icon_size="medium"
         id="textarea-form-status"
