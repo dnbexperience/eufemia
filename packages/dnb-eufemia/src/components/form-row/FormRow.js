@@ -45,12 +45,7 @@ export const formRowPropTypes = {
   section_spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   globalStatus: PropTypes.shape({
     id: PropTypes.string,
-    message: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.bool,
-      PropTypes.func,
-      PropTypes.node,
-    ]),
+    message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   }),
   responsive: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
