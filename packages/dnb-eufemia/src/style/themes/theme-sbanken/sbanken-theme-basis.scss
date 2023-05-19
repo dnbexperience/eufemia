@@ -13,6 +13,10 @@
 
 @import './sbanken-theme-elements.scss';
 
+:root {
+  --theme-color-body: var(--sb-color-text);
+}
+
 // ::selection appearance helper
 .dnb-selection::selection,
 .dnb-selection ::selection,
