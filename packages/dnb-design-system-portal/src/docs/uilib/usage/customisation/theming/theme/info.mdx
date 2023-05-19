@@ -1,0 +1,128 @@
+---
+showTabs: true
+---
+
+## Description
+
+The Theme component is a helper component that lets you create nested theming solutions.
+
+`<Theme>` Will by default create a `div` wrapper, when no custom element is defined (e.g. `element="span"`).
+
+```tsx
+import { Theme, useTheme } from '@dnb/eufemia/shared'
+
+const Component = () => {
+  const { name, propMapping } = useTheme()
+  return 'My Component'
+}
+
+render(
+  <Theme name="theme-name">
+    <App>
+      <Theme propMapping="my-class">
+        <MyComponent />
+      </Theme>
+    </App>
+  </Theme>
+)
+```
+
+Will create the following HTML/CSS classes:
+
+**Outer Theme**
+
+- `eufemia-theme__theme-name`
+
+**Nested Theme**
+
+- `eufemia-theme__theme-name`
+- `eufemia-theme__prop-mapping--my-class`
+
+With that, you can create your own styles that contains the wanted style mapping.
+
+### Mapping of properties with `propMapping`
+
+**WIP:** This API may change in future, as it is currently under development. Please get in touch with us before you use it.
+
+In order to change or map CSS properties, you can make use of the `propMapping` solution.
+
+The main motivation of this feature is to provide a set of maps you can use in your app. But it lets you create your own sets as well. To do so;
+
+1. Define an area in your app – it could be your component – and give it a declarative name:
+
+```tsx
+import { Theme } from '@dnb/eufemia/shared'
+
+render(
+  <Theme propMapping="my-maps">
+    <MyComponent />
+  </Theme>
+)
+```
+
+2. Define the needed CSS properties:
+
+```css
+.eufemia-theme__theme-name.eufemia-theme__prop-mapping--my-maps {
+  --color-sea-green: var(--sb-color-purple-alternative);
+}
+```
+
+#### Use your component as the wrapper element
+
+You can provide your component as the wrapper. This way no additional HTML Element will be created.
+
+```tsx
+import { Theme } from '@dnb/eufemia/shared'
+
+const Component = ({ classNamem ...props }) => {
+  return <div className={classNamem+' more-classes'}></div>
+}
+
+render(
+  <Theme name="theme-name">
+    <App>
+      <Theme propMapping="my-maps" element={Component}>
+        ...
+      </Theme>
+    </App>
+  </Theme>
+)
+```
+
+### Hide or show parts of your component (filter)
+
+With this helper function you show or hide content based on inherited theme properties.
+
+```tsx
+import { Theme, VisibilityByTheme } from '@dnb/eufemia/shared'
+
+render(
+  <Theme name="...">
+    <VisibilityByTheme visible="sbanken">
+      Only shown in Sbanken theme
+    </VisibilityByTheme>
+
+    <VisibilityByTheme hidden="eiendom">
+      Only hidden in Eiendom theme
+    </VisibilityByTheme>
+
+    <VisibilityByTheme visible={['sbanken', 'eiendom']}>
+      Only shown in Sbanken or Eiendom theme
+    </VisibilityByTheme>
+
+    <VisibilityByTheme
+      visible={[{ name: 'sbanken' }, { name: 'eiendom' }]}
+    >
+      Only shown in Sbanken or Eiendom theme
+    </VisibilityByTheme>
+
+    <VisibilityByTheme
+      visible={[{ name: 'sbanken' }, { name: 'eiendom', variant: 'blue' }]}
+    >
+      Only shown in Sbanken then or Eiendom theme – that also includes the
+      fictive variant="blue".
+    </VisibilityByTheme>
+  </Theme>
+)
+```
