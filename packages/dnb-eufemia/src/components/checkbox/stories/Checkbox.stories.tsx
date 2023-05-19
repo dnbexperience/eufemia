@@ -7,7 +7,7 @@ import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
-import { Checkbox, Button, FormLabel, FormRow } from '../..'
+import { Checkbox, Button, FormLabel, FormRow, GlobalStatus } from '../..'
 
 export default {
   title: 'Eufemia/Components/Checkbox',
@@ -140,6 +140,19 @@ function ControlledVsUncontrolled() {
       <Button on_click={() => setRandom(Math.random())} text="Rerender" />
       <br />
       <code>{JSON.stringify({ checked, random })}</code>
+    </>
+  )
+}
+
+export const GlobalStatusExample = () => {
+  return (
+    <>
+      <GlobalStatus id="my-id" />
+      <Checkbox
+        label="Checkbox"
+        globalStatus={{ id: 'my-id', message: 'my message' }}
+        status="Message"
+      />
     </>
   )
 }
