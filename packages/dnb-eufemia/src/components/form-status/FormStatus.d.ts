@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { GlobalStatusConfigObject } from '../GlobalStatus';
 import type { IconIcon, IconSize } from '../Icon';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
@@ -40,7 +41,11 @@ export interface FormStatusProps
    * The `text` appears as the status message. Beside plain text, you can send in a React component as well.
    */
   text?: FormStatusText;
-  label?: React.ReactNode;
+
+  /**
+   * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
+   */
+  globalStatus?: GlobalStatusConfigObject;
 
   /**
    * The `icon` show before the status text. Defaults to `exclamation`.
@@ -66,11 +71,6 @@ export interface FormStatusProps
    * Defines the appearance size. There are these sizes `default`, `large`. The default status is `default`.
    */
   size?: FormStatusSize;
-
-  /**
-   * The `status_id` used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
-   */
-  global_status_id?: string;
   attributes?: FormStatusAttributes;
   text_id?: string;
   width_selector?: string;

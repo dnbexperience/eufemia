@@ -7,6 +7,7 @@ import type {
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
+import type { GlobalStatusConfigObject } from '../GlobalStatus';
 export type TextareaSuffix =
   | string
   | ((...args: any[]) => any)
@@ -69,9 +70,9 @@ export interface TextareaProps
   status_no_animation?: boolean;
 
   /**
-   * The `status_id` used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
+   * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
    */
-  global_status_id?: string;
+  globalStatus?: GlobalStatusConfigObject;
 
   /**
    * Text describing the content of the Textarea more than the label. You can also send in a React component, so it gets wrapped inside the Textarea component.

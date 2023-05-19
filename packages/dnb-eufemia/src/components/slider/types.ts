@@ -8,6 +8,7 @@ import type {
 import { IncludeSnakeCase } from '../../shared/helpers/withSnakeCaseProps'
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
+import type { GlobalStatusConfigObject } from '../GlobalStatus'
 
 export type ValueTypes = number | Array<number>
 export type NumberFormatTypes =
@@ -41,7 +42,7 @@ export type SliderProps = IncludeSnakeCase<{
   statusNoAnimation?: boolean
 
   /** the `status_id` used for the target [GlobalStatus](/uilib/components/global-status). */
-  globalStatusId?: string
+  globalStatus?: GlobalStatusConfigObject
 
   /** text describing the content of the Slider more than the label. You can also send in a React component, so it gets wrapped inside the Slider component. */
   suffix?: SuffixChildren

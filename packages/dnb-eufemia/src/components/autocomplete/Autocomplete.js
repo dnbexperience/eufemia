@@ -117,7 +117,10 @@ export default class Autocomplete extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool,
     ]),
-    global_status_id: PropTypes.string,
+    globalStatus: PropTypes.shape({
+      id: PropTypes.string,
+      message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    }),
     suffix: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
@@ -274,7 +277,7 @@ export default class Autocomplete extends React.PureComponent {
     status_state: 'error',
     status_props: null,
     status_no_animation: null,
-    global_status_id: null,
+    globalStatus: null,
     suffix: null,
     disable_filter: false,
     disable_reorder: false,
@@ -1678,7 +1681,7 @@ class AutocompleteInstance extends React.PureComponent {
       status_state,
       status_props,
       status_no_animation,
-      global_status_id,
+      globalStatus,
       suffix,
       scrollable,
       focusable,
@@ -1904,7 +1907,7 @@ class AutocompleteInstance extends React.PureComponent {
           <FormStatus
             show={showStatus}
             id={id + '-form-status'}
-            global_status_id={global_status_id}
+            globalStatus={globalStatus}
             label={label}
             text_id={id + '-status'} // used for "aria-describedby"
             text={status}
