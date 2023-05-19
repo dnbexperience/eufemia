@@ -8,6 +8,7 @@ import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
 import Button from '../Button'
+import { GlobalStatus } from '../..'
 
 const WrappedButton = styled(Button)`
   /* width: 10rem; */
@@ -344,4 +345,17 @@ Signal.args = {
 export const IconButton = Template.bind({})
 IconButton.args = {
   icon: 'bell',
+}
+
+export const GlobalStatusExample = () => {
+  return (
+    <>
+      <GlobalStatus id="my-id" />
+      <Button
+        text="Text"
+        globalStatus={{ id: 'my-id', message: 'my message' }}
+        status="Message"
+      />
+    </>
+  )
 }

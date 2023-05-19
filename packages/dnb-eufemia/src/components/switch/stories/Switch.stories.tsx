@@ -6,7 +6,7 @@
 import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 
-import { Switch, FormLabel, HelpButton } from '../..'
+import { Switch, FormLabel, HelpButton, GlobalStatus } from '../..'
 
 export default {
   title: 'Eufemia/Components/Switch',
@@ -83,3 +83,17 @@ export const SwitchSandbox = () => (
     </Box>
   </Wrapper>
 )
+
+export const GlobalStatusExample = () => {
+  return (
+    <>
+      <GlobalStatus id="my-id" />
+      <Switch
+        label="First"
+        value="first"
+        globalStatus={{ id: 'my-id', message: 'my message' }}
+        status="Message"
+      />
+    </>
+  )
+}

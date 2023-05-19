@@ -15,6 +15,7 @@ import {
   FormSet,
   FormRow,
   FormLabel,
+  GlobalStatus,
 } from '../..'
 import InputPassword from '../InputPassword'
 import { format } from '../../number-format/NumberUtils'
@@ -532,6 +533,19 @@ export function ControlledInput() {
       <input
         onChange={onChangeHandlerHtml}
         value={format(value).toString()}
+      />
+    </>
+  )
+}
+
+export const GlobalStatusExample = () => {
+  return (
+    <>
+      <GlobalStatus id="my-id" />
+      <Input
+        title="Default"
+        globalStatus={{ id: 'my-id', message: 'my message' }}
+        status="Message"
       />
     </>
   )
