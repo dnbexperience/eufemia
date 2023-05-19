@@ -12,6 +12,7 @@ import {
   FormLabel,
   Button,
   HelpButton,
+  GlobalStatus,
 } from '../..'
 
 import { H2 } from '../../..'
@@ -287,3 +288,17 @@ const shuffleArray = (arr) =>
     .map((a) => [Math.random(), a])
     .sort((a, b) => a[0] - b[0])
     .map((a) => a[1])
+
+export const GlobalStatusExample = () => {
+  return (
+    <>
+      <GlobalStatus id="my-id" />
+      <Radio
+        label="First"
+        value="first"
+        globalStatus={{ id: 'my-id', message: 'my message' }}
+        status="Message"
+      />
+    </>
+  )
+}

@@ -7,7 +7,7 @@ import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 
 import Provider from '../../../shared/Provider'
-import { Textarea, FormRow } from '../..'
+import { Textarea, FormRow, GlobalStatus } from '../..'
 
 export default {
   title: 'Eufemia/Components/Textarea',
@@ -149,3 +149,17 @@ export const TextareaSandbox = () => (
     </Box>
   </Wrapper>
 )
+
+export const GlobalStatusExample = () => {
+  return (
+    <>
+      <GlobalStatus id="my-id" />
+      <Textarea
+        label="First"
+        value="first"
+        globalStatus={{ id: 'my-id', message: 'my message' }}
+        status="Message"
+      />
+    </>
+  )
+}

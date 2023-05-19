@@ -19,6 +19,7 @@ import {
   Space,
   Dialog,
   HelpButton,
+  GlobalStatus,
 } from '../..'
 import { Link } from '../../..'
 
@@ -202,5 +203,19 @@ export const ToggleAnimation = () => {
         </FormRow>
       </Box>
     </Wrapper>
+  )
+}
+
+export const GlobalStatusExample = () => {
+  return (
+    <>
+      <GlobalStatus id="my-id" />
+      <FormStatus
+        globalStatus={{ id: 'my-id', message: 'my message' }}
+        state="error"
+      >
+        Some text
+      </FormStatus>
+    </>
   )
 }
