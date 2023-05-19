@@ -9,7 +9,11 @@ exports[`Radio component have to match snapshot 1`] = `
   direction="horizontal"
   disabled="disabled"
   element="input"
-  global_status_id="main"
+  globalStatus={
+    {
+      "id": "main",
+    }
+  }
   group={null}
   id="radio"
   label="label"
@@ -72,7 +76,11 @@ exports[`Radio component have to match snapshot 1`] = `
           attributes={null}
           class={null}
           className={null}
-          global_status_id="main"
+          globalStatus={
+            {
+              "id": "main",
+            }
+          }
           icon="error"
           icon_size="medium"
           id="radio-form-status"
@@ -138,7 +146,9 @@ exports[`Radio component have to match snapshot 1`] = `
                 "direction": "horizontal",
                 "disabled": "disabled",
                 "element": "input",
-                "global_status_id": "main",
+                "globalStatus": {
+                  "id": "main",
+                },
                 "group": null,
                 "id": "radio",
                 "label": "label",
@@ -179,7 +189,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
   class={null}
   className={null}
   disabled={null}
-  global_status_id={null}
+  globalStatus={null}
   id="group"
   label="Label"
   label_direction={null}
@@ -243,7 +253,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
       className={null}
       direction={null}
       disabled={null}
-      global_status_id={null}
+      globalStatus={null}
       id="group"
       label="Label"
       label_class={null}
@@ -324,7 +334,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
                     className={null}
                     disabled={null}
                     element="input"
-                    global_status_id={null}
+                    globalStatus={null}
                     group={null}
                     id="radio-1"
                     label="Radio 1"
@@ -363,7 +373,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
                             attributes={null}
                             class={null}
                             className={null}
-                            global_status_id={null}
+                            globalStatus={null}
                             icon="error"
                             icon_size="medium"
                             id="radio-1-form-status"
@@ -450,7 +460,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
                     className={null}
                     disabled={null}
                     element="input"
-                    global_status_id={null}
+                    globalStatus={null}
                     group={null}
                     id="radio-2"
                     label="Radio 2"
@@ -489,7 +499,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
                             attributes={null}
                             class={null}
                             className={null}
-                            global_status_id={null}
+                            globalStatus={null}
                             icon="error"
                             icon_size="medium"
                             id="radio-2-form-status"
@@ -573,7 +583,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
                     attributes={null}
                     class={null}
                     className={null}
-                    global_status_id={null}
+                    globalStatus={null}
                     icon="error"
                     icon_size="medium"
                     id="group-form-status"

@@ -4,6 +4,7 @@ import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 import type { Locale } from '../../shared/Context';
+import type { GlobalStatusConfigObject } from '../GlobalStatus';
 export type FormRowDirection = 'vertical' | 'horizontal';
 export type FormRowChildren =
   | string
@@ -75,7 +76,7 @@ export interface FormRowProps
    * To modify the `spacing`. Use a supported modifier from the <a href="/uilib/components/section/properties">Section component</a>. Defaults to `null`.
    */
   section_spacing?: SectionSpacing;
-  global_status_id?: string;
+  globalStatus?: GlobalStatusConfigObject;
 
   /**
    * To force responsiveness on form components (like <a href="/uilib/components/input">Input</a> and their labels (<a href="/uilib/components/form-label">FormLabel</a>), set the prop to `true`. Defaults to `false`.

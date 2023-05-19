@@ -8,7 +8,11 @@ exports[`Button component have to match default button snapshot 1`] = `
   custom_content={null}
   disabled="disabled"
   element={null}
-  global_status_id="main"
+  globalStatus={
+    {
+      "id": "main",
+    }
+  }
   href={null}
   icon="question"
   icon_position="right"
@@ -142,7 +146,11 @@ exports[`Button component have to match default button snapshot 1`] = `
       custom_content={null}
       disabled="disabled"
       element={null}
-      global_status_id="main"
+      globalStatus={
+        {
+          "id": "main",
+        }
+      }
       href={null}
       icon="question"
       icon_position="right"
@@ -320,7 +328,11 @@ exports[`Button component have to match default button snapshot 1`] = `
     attributes={null}
     class={null}
     className={null}
-    global_status_id="main"
+    globalStatus={
+      {
+        "id": "main",
+      }
+    }
     icon="error"
     icon_size="medium"
     id="button-form-status"
@@ -350,7 +362,11 @@ exports[`Button component have to match href="..." snapshot 1`] = `
   custom_content={null}
   disabled="disabled"
   element={null}
-  global_status_id="main"
+  globalStatus={
+    {
+      "id": "main",
+    }
+  }
   href="https://url"
   icon="question"
   icon_position="right"
@@ -678,7 +694,11 @@ exports[`Button component have to match href="..." snapshot 1`] = `
               custom_content={null}
               disabled="disabled"
               element={null}
-              global_status_id="main"
+              globalStatus={
+                {
+                  "id": "main",
+                }
+              }
               href="https://url"
               icon="question"
               icon_position="right"
@@ -862,7 +882,11 @@ exports[`Button component have to match href="..." snapshot 1`] = `
     attributes={null}
     class={null}
     className={null}
-    global_status_id="main"
+    globalStatus={
+      {
+        "id": "main",
+      }
+    }
     icon="error"
     icon_size="medium"
     id="button-form-status"

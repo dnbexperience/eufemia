@@ -9,6 +9,7 @@ import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
 import type { IconIcon, IconSize } from '../Icon';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
+import type { GlobalStatusConfigObject } from '../GlobalStatus';
 export type InputSize = 'default' | 'small' | 'medium' | 'large' | number;
 export type InputValue = string | number;
 export type InputSuffix =
@@ -68,6 +69,11 @@ export interface InputProps
   status?: FormStatusText;
 
   /**
+   * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
+   */
+  globalStatus?: GlobalStatusConfigObject;
+
+  /**
    * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
    */
   status_state?: FormStatusState;
@@ -82,11 +88,6 @@ export interface InputProps
    * Defines a custom visual state of the input. Use it only if you have to simulate a custom state. Currently are three statuses `virgin` , `focus` and `dirty`. Defaults to `null`.
    */
   input_state?: string;
-
-  /**
-   * The `status_id` used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
-   */
-  global_status_id?: string;
 
   /**
    * Defaults to `off`. Set to `on` or any of <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-autocomplete">allowed `attributes`</a>. Keep in mind, 1. you may have to define a `name`, 2. have the input as a descendant of a `<form>` element, 3. and have a submit button inside the form.
@@ -254,6 +255,11 @@ export interface SubmitButtonProps extends React.HTMLProps<HTMLElement> {
    * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
    */
   status?: FormStatusText;
+
+  /**
+   * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
+   */
+  globalStatus?: GlobalStatusConfigObject;
 
   /**
    * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
