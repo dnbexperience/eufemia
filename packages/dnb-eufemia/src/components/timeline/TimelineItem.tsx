@@ -33,12 +33,12 @@ export type TimelineItemProps = {
   /**
    * Text displaying the title of the timeline item.
    */
-  title: React.ReactNode | string
+  title: React.ReactNode
 
   /**
    * Text displaying the subtitle of the timeline item.
    */
-  subtitle?: React.ReactNode | React.ReactNode[] | string | string[]
+  subtitle?: React.ReactNode | React.ReactNode[]
 
   /**
    * Text displaying info message of the timeline item.
