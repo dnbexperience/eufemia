@@ -10,7 +10,10 @@ exports[`FormStatus component have to match snapshot 1`] = `
         "children": "children",
         "class": "class",
         "className": "className",
-        "global_status_id": "global_status_id",
+        "globalStatus": {
+          "id": "globalStatus.id",
+          "message": "globalStatus.message",
+        },
         "icon": "icon",
         "icon_size": "icon_size",
         "id": "id",
@@ -66,7 +69,11 @@ exports[`FormStatus component have to match snapshot 1`] = `
   attributes={null}
   class={null}
   className={null}
-  global_status_id="main"
+  globalStatus={
+    {
+      "id": "main",
+    }
+  }
   hidden={false}
   icon="exclamation"
   icon_size="medium"
@@ -89,6 +96,11 @@ exports[`FormStatus component have to match snapshot 1`] = `
 >
   <span
     className="dnb-form-status dnb-form-status--error dnb-form-status__size--default dnb-form-status--has-content"
+    globalStatus={
+      {
+        "id": "main",
+      }
+    }
     hidden={false}
     id="form-status"
     role="alert"

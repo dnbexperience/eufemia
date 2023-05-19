@@ -41,7 +41,7 @@ export const ComponentAsLabel = () => {
     <>
       <GlobalStatus id="test" />
 
-      <FormSet label_direction="vertical" global_status_id="test">
+      <FormSet label_direction="vertical" globalStatus={{ id: 'test' }}>
         <ToggleButton
           bottom
           on_change={() => setStatus((s) => (!s ? 'min status' : null))}
@@ -67,6 +67,58 @@ export const ComponentAsLabel = () => {
           label={<Component />}
           show_input
           status={status ? status + '4' : undefined}
+        />
+      </FormSet>
+    </>
+  )
+}
+
+export const CustomGlobalStatusMessage = () => {
+  const [showStatus, setShowStatus] = React.useState<boolean>(false)
+
+  const Component = (): JSX.Element => {
+    return <>my label</>
+  }
+
+  return (
+    <>
+      <GlobalStatus id="test-test" />
+
+      <FormSet
+        label_direction="vertical"
+        globalStatus={{ id: 'test-test', message: 'Hva skjer nå' }}
+      >
+        <ToggleButton bottom on_change={() => setShowStatus((s) => !s)}>
+          set status
+        </ToggleButton>
+
+        <FormRow>
+          <Input
+            label={<Component />}
+            status={showStatus ? 'Input status' : ''}
+            globalStatus={{
+              message: showStatus ? 'Input global status' : '',
+            }}
+          />
+        </FormRow>
+        <Input
+          label={<Component />}
+          status={showStatus ? 'Input status withough global' : ''}
+        />
+        <Autocomplete
+          label={<Component />}
+          status={showStatus ? 'Autocomplete status' : ''}
+          globalStatus={{
+            message: showStatus ? 'Autocomplete global status' : '',
+          }}
+        />
+        <DatePicker
+          label={<Component />}
+          show_input
+          status={showStatus ? 'Datepicekr status' : ''}
+          globalStatus={{
+            message: showStatus ? 'Datepicker global status' : '',
+          }}
         />
       </FormSet>
     </>
@@ -169,7 +221,7 @@ const InputWithError = () => {
   return (
     <>
       <FormSet
-      // global_status_id="form-status"
+      // globalStatus={{ id: 'form-status' }}
       >
         <FormRow label="Caption:">
           <Input
@@ -520,7 +572,7 @@ const UpdateDemoStatus = () => {
         label="Label A:"
         placeholder="Placeholder A"
         status={errorA}
-        global_status_id="demo-2"
+        globalStatus={{ id: 'demo-2' }}
         on_change={({ value }) => {
           setErrorA(value)
         }}
@@ -530,7 +582,7 @@ const UpdateDemoStatus = () => {
         label="Label B:"
         placeholder="Placeholder B"
         status={errorB}
-        global_status_id="demo-2"
+        globalStatus={{ id: 'demo-2' }}
         on_change={({ value }) => {
           setErrorB(value)
         }}
