@@ -403,11 +403,6 @@ exports[`Dropdown markup have to match snapshot 1`] = `
           >
             <span
               className="dnb-form-status dnb-form-status--error dnb-form-status__size--default dnb-form-status--has-content"
-              globalStatus={
-                {
-                  "id": "main",
-                }
-              }
               id="dropdown-id-form-status"
               role="alert"
             >
