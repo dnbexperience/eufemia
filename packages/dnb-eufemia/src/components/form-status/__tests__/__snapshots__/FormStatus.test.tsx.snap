@@ -96,11 +96,6 @@ exports[`FormStatus component have to match snapshot 1`] = `
 >
   <span
     className="dnb-form-status dnb-form-status--error dnb-form-status__size--default dnb-form-status--has-content"
-    globalStatus={
-      {
-        "id": "main",
-      }
-    }
     hidden={false}
     id="form-status"
     role="alert"
