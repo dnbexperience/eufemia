@@ -2,15 +2,15 @@
 
 // Paragraphs
 .dnb-p {
-  color: var(--theme-color-black-80, currentColor);
+  color: var(--sb-color-text);
 }
 
 // Setting the default headings color
 @include typography.headingTags() {
-  color: var(--theme-color-black-80, currentColor);
+  color: var(--sb-color-text);
 }
 
 // Headings
 @include typography.headingClasses() {
-  color: var(--theme-color-black-80, currentColor);
+  color: var(--sb-color-text);
 }
