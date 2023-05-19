@@ -17,6 +17,7 @@ import {
   FormRow,
   NumberFormat,
   Drawer,
+  GlobalStatus,
 } from '../..'
 import { Link } from '../../..'
 import { DrawerListData } from '../../../fragments/DrawerList'
@@ -982,6 +983,20 @@ export function UpdateData() {
         value={value}
         size="large"
         prevent_close={preventClose}
+      />
+    </>
+  )
+}
+
+export const GlobalStatusExample = () => {
+  return (
+    <>
+      <GlobalStatus id="my-id" />
+      <Dropdown
+        title="Default"
+        data={dropdownData}
+        globalStatus={{ id: 'my-id', message: 'my message' }}
+        status="Message"
       />
     </>
   )

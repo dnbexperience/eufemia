@@ -14,6 +14,7 @@ import {
   // FormSet,
   FormRow,
   FormLabel,
+  GlobalStatus,
 } from '../..'
 
 import { H2 } from '../../..'
@@ -401,6 +402,21 @@ export function MultiselectRerender() {
         <ToggleButton text="Second" value="second" />
         <ToggleButton text="Third" value="third" checked />
       </ToggleButton.Group>
+    </>
+  )
+}
+
+export const GlobalStatusExample = () => {
+  return (
+    <>
+      <GlobalStatus id="my-id" />
+      <ToggleButton
+        variant="checkbox"
+        text="Item 3"
+        value="item_3"
+        globalStatus={{ id: 'my-id', message: 'my message' }}
+        status="Message"
+      />
     </>
   )
 }

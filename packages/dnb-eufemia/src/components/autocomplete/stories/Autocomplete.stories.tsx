@@ -13,6 +13,7 @@ import {
   IconPrimary,
   Button,
   FormRow,
+  GlobalStatus,
 } from '../..'
 import { Anchor } from '../../../'
 import { Context } from '../../../shared'
@@ -906,5 +907,21 @@ export function DataSuffix() {
         />
       </FormRow>
     </WideStyle>
+  )
+}
+
+export const GlobalStatusExample = () => {
+  return (
+    <>
+      <GlobalStatus id="my-id" />
+      <Autocomplete
+        no_animation
+        label="Label:"
+        data={numbers}
+        search_numbers
+        globalStatus={{ id: 'my-id', message: 'my message' }}
+        status="Message"
+      />
+    </>
   )
 }
