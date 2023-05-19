@@ -13,7 +13,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
   clear_button_title={null}
   currency_mask={null}
   disabled={false}
-  global_status_id={null}
+  globalStatus={null}
   icon={null}
   icon_position="left"
   icon_size={null}
@@ -78,7 +78,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
       clear={null}
       clear_button_title={null}
       disabled={false}
-      global_status_id={null}
+      globalStatus={null}
       icon={null}
       icon_position="left"
       icon_size={null}
@@ -147,7 +147,7 @@ exports[`InputMasked component have to match type="text" snapshot 1`] = `
             attributes={null}
             class={null}
             className={null}
-            global_status_id={null}
+            globalStatus={null}
             icon="error"
             icon_size="medium"
             id="input-masked-form-status"

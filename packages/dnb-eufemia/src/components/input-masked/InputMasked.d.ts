@@ -7,6 +7,7 @@ import type {
   FormStatusState,
   FormStatusText
 } from '../FormStatus';
+import type { GlobalStatusConfigObject } from '../GlobalStatus';
 import type { IconIcon, IconSize } from '../Icon';
 import type {
   InputInputAttributes,
@@ -195,9 +196,9 @@ export interface InputMaskedProps
   input_state?: string;
 
   /**
-   * The `status_id` used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
+   * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
    */
-  global_status_id?: string;
+  globalStatus?: GlobalStatusConfigObject;
 
   /**
    * Defaults to `off`. Set to `on` or any of <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#attr-autocomplete">allowed `attributes`</a>. Keep in mind, 1. you may have to define a `name`, 2. have the input as a descendant of a `<form>` element, 3. and have a submit button inside the form.

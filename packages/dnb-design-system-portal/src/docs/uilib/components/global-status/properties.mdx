@@ -59,3 +59,20 @@ The goal is to update the content (properties/events) of the target GlobalStatus
 | `id`                  | _(optional)_ the main ID. Defaults to `main`.                                                                                                                                                                                            |
 | `status_id`           | _(optional)_ define a new stack ID so you can remove it with the same ID later on. Defaults to `null`.                                                                                                                                   |
 | `remove_on_unmount`   | _(optional)_ set to `true` if you want that the component `<GlobalStatus.Add remove_on_unmount={true} ... />` should automatically remove the stacked status from the target **GlobalStatus** on component unmount. Defaults to `false`. |
+
+## Configuration Object
+
+This object is used as a representation to configure the GlobalStatus component from other components, using the `globalStatus` property.
+See [Autocomplete](/uilib/components/autocomplete/properties), [Button](/uilib/components/button/properties), [Input](/uilib/components/input/properties), etc, as examples that use the `globalStatus` property.
+
+```js
+{
+  id: 'global-status-id',
+  message: 'global status message'
+}
+```
+
+| Configuration Object Properties | Description                                                                                                                           |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`                            | _(optional)_ the main ID. Defaults to `main`.                                                                                         |
+| `message`                       | _(optional)_ the text appears as the status content. Besides plain text, you can send in a React component as well. Defaults to null. |

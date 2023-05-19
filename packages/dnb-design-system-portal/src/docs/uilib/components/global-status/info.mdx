@@ -32,11 +32,11 @@ Normally, you only want to have **one** `GlobalStatus` inside your application. 
 ### Where to put it
 
 - The `GlobalStatus` component should be positioned right under the header. By default, it uses `main` as the ID.
-- Or as a secondary summary of errors in a submit form. Keep in mind, by default, form components like [Input](/uilib/components/input) are using the ID `main`. To make sure the build in [FormStatus](/uilib/components/form-status) is sending along the message to another `GlobalStatus`, you have to set the `global_status_id`, like:
+- Or as a secondary summary of errors in a submit form. Keep in mind, by default, form components like [Input](/uilib/components/input) are using the ID `main`. To make sure the build in [FormStatus](/uilib/components/form-status) is sending along the message to another `GlobalStatus`, you have to set the [`globalStatus`](/uilib/components/global-status/properties/#configuration-object), like:
 
 <GlobalStatusInfoExample2 />
 
-But you can also make use of the [FormSet](/uilib/components/form-set) or [FormRow](/uilib/components/form-row) which will send along the `global_status_id` the underlying/wrapped components, like:
+But you can also make use of the [FormSet](/uilib/components/form-set) or [FormRow](/uilib/components/form-row) which will send along the `globalStatus` the underlying/wrapped components, like:
 
 <GlobalStatusInfoExample3 />
 

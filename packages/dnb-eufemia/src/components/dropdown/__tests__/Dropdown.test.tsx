@@ -46,7 +46,7 @@ const snapshotProps = {
   skip_portal: true,
   no_animation: true,
   variant: 'secondary',
-  global_status_id: 'main',
+  globalStatus: { id: 'main' },
 }
 
 // use no_animation so we don't need to wait
@@ -1042,7 +1042,7 @@ describe('Dropdown component', () => {
   })
 
   beforeAll(() => {
-    ;(window as any).resizeTo = function resizeTo({
+    (window as any).resizeTo = function resizeTo({
       width = window.innerWidth,
       height = window.innerHeight,
     }: {

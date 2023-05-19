@@ -7,6 +7,7 @@ import type {
   FormStatusState,
   FormStatusText
 } from '../FormStatus';
+import type { GlobalStatusConfigObject } from '../GlobalStatus';
 export type ButtonText = string | React.ReactNode;
 export type ButtonVariant =
   | 'primary'
@@ -54,7 +55,7 @@ export type ButtonProps = {
   title?: React.ReactNode;
 
   /**
-   * Defines the kind of button. Possible values are `primary`, `secondary`, `tertiary` and `signal`. Defaults to `primary`.
+   * Defines the kind of button. Possible values are `primary`, `secondary`, `tertiary` and `signal`. Defaults to `primary` (or `secondary` if icon only).
    */
   variant?: ButtonVariant;
 
@@ -100,9 +101,9 @@ export type ButtonProps = {
   status_no_animation?: boolean;
 
   /**
-   * The `status_id` used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
+   * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
    */
-  global_status_id?: string;
+  globalStatus?: GlobalStatusConfigObject;
   id?: string;
 
   /**
