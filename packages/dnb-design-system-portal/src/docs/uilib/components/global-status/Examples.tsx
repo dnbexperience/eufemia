@@ -67,7 +67,7 @@ export const GlobalStatusCoupling = () => (
                 value.length <= 4 ? 'With a message shown' : null
               )
             }}
-            global_status_id="main-status"
+            globalStatus={{ id: 'main-status' }}
           />
         )
       }
@@ -201,7 +201,7 @@ export const GlobalStatusUpdate = () => (
               label="Label A:"
               placeholder="Placeholder A"
               status={errorA}
-              global_status_id="demo-2"
+              globalStatus={{ id: 'demo-2' }}
               on_change={({ value }) => {
                 setErrorA(value)
               }}
@@ -211,7 +211,7 @@ export const GlobalStatusUpdate = () => (
               label="Label B:"
               placeholder="Placeholder B"
               status={errorB}
-              global_status_id="demo-2"
+              globalStatus={{ id: 'demo-2' }}
               on_change={({ value }) => {
                 setErrorB(value)
               }}
@@ -305,14 +305,14 @@ export const GlobalStatusInfoExample1 = () => (
 export const GlobalStatusInfoExample2 = () => (
   <ComponentBox hidePreview hideToolbar>
     <GlobalStatus id="other-global-status" />
-    <Input global_status_id="other-global-status" />
+    <Input globalStatus={{ id: 'other-global-status' }} />
   </ComponentBox>
 )
 
 export const GlobalStatusInfoExample3 = () => (
   <ComponentBox hidePreview hideToolbar>
     <GlobalStatus id="other-global-status" />
-    <FormSet global_status_id="other-global-status">
+    <FormSet globalStatus={{ id: 'other-global-status' }}>
       <Input status="Message" />
     </FormSet>
   </ComponentBox>

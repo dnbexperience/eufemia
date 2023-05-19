@@ -73,7 +73,7 @@ export function SliderProvider(localProps: SliderAllProps) {
     statusState, // eslint-disable-line
     statusProps, // eslint-disable-line
     statusNoAnimation, // eslint-disable-line
-    globalStatusId, // eslint-disable-line
+    globalStatus, // eslint-disable-line
     stretch, // eslint-disable-line
     suffix, // eslint-disable-line
     thumbTitle: title, // eslint-disable-line

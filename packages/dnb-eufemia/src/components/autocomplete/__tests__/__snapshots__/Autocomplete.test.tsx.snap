@@ -28,7 +28,11 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
   drawer_class="drawer_class"
   enable_body_lock={true}
   focusable="focusable"
-  global_status_id="main"
+  globalStatus={
+    {
+      "id": "main",
+    }
+  }
   icon="icon"
   icon_position={null}
   icon_size="icon_size"
@@ -121,7 +125,11 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
     enable_body_lock={true}
     fixed_position={false}
     focusable="focusable"
-    global_status_id="main"
+    globalStatus={
+      {
+        "id": "main",
+      }
+    }
     handle_dismiss_focus={null}
     icon="icon"
     icon_position={null}
@@ -225,7 +233,11 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
       drawer_class="drawer_class"
       enable_body_lock={true}
       focusable="focusable"
-      global_status_id="main"
+      globalStatus={
+        {
+          "id": "main",
+        }
+      }
       icon="icon"
       icon_position={null}
       icon_size="icon_size"
@@ -331,7 +343,11 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
             attributes={null}
             class={null}
             className={null}
-            global_status_id="main"
+            globalStatus={
+              {
+                "id": "main",
+              }
+            }
             icon="error"
             icon_size="medium"
             id="autocomplete-id-form-status"
@@ -352,6 +368,11 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
           >
             <span
               className="dnb-form-status dnb-form-status--error dnb-form-status__size--default dnb-form-status--has-content"
+              globalStatus={
+                {
+                  "id": "main",
+                }
+              }
               id="autocomplete-id-form-status"
               role="alert"
             >
@@ -446,7 +467,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                 clear={false}
                 clear_button_title={null}
                 disabled="disabled"
-                global_status_id={null}
+                globalStatus={null}
                 icon="input_icon"
                 icon_position={null}
                 icon_size="icon_size"
@@ -535,7 +556,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                       attributes={null}
                       class={null}
                       className={null}
-                      global_status_id={null}
+                      globalStatus={null}
                       icon="error"
                       icon_size="medium"
                       id="autocomplete-id-form-status"
@@ -667,7 +688,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                 custom_content={null}
                                 disabled="disabled"
                                 element={null}
-                                global_status_id={null}
+                                globalStatus={null}
                                 href={null}
                                 icon="submit_button_icon"
                                 icon_position="right"
@@ -723,7 +744,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                     custom_content={null}
                                     disabled="disabled"
                                     element={null}
-                                    global_status_id={null}
+                                    globalStatus={null}
                                     href={null}
                                     icon="submit_button_icon"
                                     icon_position="right"
@@ -785,7 +806,7 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                                   attributes={null}
                                   class={null}
                                   className={null}
-                                  global_status_id={null}
+                                  globalStatus={null}
                                   icon="error"
                                   icon_size="medium"
                                   id="autocomplete-id-submit-button-form-status"
@@ -1399,7 +1420,9 @@ exports[`Autocomplete markup have to match snapshot 1`] = `
                   "drawer_class": "drawer_class",
                   "enable_body_lock": true,
                   "focusable": "focusable",
-                  "global_status_id": "main",
+                  "globalStatus": {
+                    "id": "main",
+                  },
                   "icon": "icon",
                   "icon_position": null,
                   "icon_size": "icon_size",
