@@ -550,6 +550,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/generator@npm:7.21.5":
+  version: 7.21.5
+  resolution: "@babel/generator@npm:7.21.5"
+  dependencies:
+    "@babel/types": ^7.21.5
+    "@jridgewell/gen-mapping": ^0.3.2
+    "@jridgewell/trace-mapping": ^0.3.17
+    jsesc: ^2.5.1
+  checksum: 78af737b9dd701d4c657f9731880430fa1c177767b562f4e8a330a7fe72a4abe857e3d24de4e6d9dafc1f6a11f894162d27e523d7e5948ff9e3925a0ce9867c4
+  languageName: node
+  linkType: hard
+
 "@babel/generator@npm:^7.12.11, @babel/generator@npm:^7.12.5, @babel/generator@npm:^7.16.0, @babel/generator@npm:^7.6.2, @babel/generator@npm:^7.7.2":
   version: 7.16.0
   resolution: "@babel/generator@npm:7.16.0"
@@ -1310,6 +1322,13 @@ __metadata:
   version: 7.19.4
   resolution: "@babel/helper-string-parser@npm:7.19.4"
   checksum: b2f8a3920b30dfac81ec282ac4ad9598ea170648f8254b10f475abe6d944808fb006aab325d3eb5a8ad3bea8dfa888cfa6ef471050dae5748497c110ec060943
+  languageName: node
+  linkType: hard
+
+"@babel/helper-string-parser@npm:^7.21.5":
+  version: 7.21.5
+  resolution: "@babel/helper-string-parser@npm:7.21.5"
+  checksum: 36c0ded452f3858e67634b81960d4bde1d1cd2a56b82f4ba2926e97864816021c885f111a7cf81de88a0ed025f49d84a393256700e9acbca2d99462d648705d8
   languageName: node
   linkType: hard
 
@@ -3451,6 +3470,17 @@ __metadata:
     "@babel/helper-validator-identifier": ^7.19.1
     to-fast-properties: ^2.0.0
   checksum: a45a52acde139e575502c6de42c994bdbe262bafcb92ae9381fb54cdf1a3672149086843fda655c7683ce9806e998fd002bbe878fa44984498d0fdc7935ce7ff
+  languageName: node
+  linkType: hard
+
+"@babel/types@npm:^7.21.5":
+  version: 7.21.5
+  resolution: "@babel/types@npm:7.21.5"
+  dependencies:
+    "@babel/helper-string-parser": ^7.21.5
+    "@babel/helper-validator-identifier": ^7.19.1
+    to-fast-properties: ^2.0.0
+  checksum: 43242a99c612d13285ee4af46cc0f1066bcb6ffd38307daef7a76e8c70f36cfc3255eb9e75c8e768b40e761176c313aec4d5c0b9d97a21e494d49d5fd123a9f7
   languageName: node
   linkType: hard
 
@@ -10872,10 +10902,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-plugin-react-live@npm:1.3.0":
-  version: 1.3.0
-  resolution: "babel-plugin-react-live@npm:1.3.0"
-  checksum: 96cb3dbbf1b152515e57c3ac3c5d5e2250a8dd5d9764071773b9af223508b172b053fee8770a197631365cbc06c2a0ef318a098f947d6386b0da771dc40bb5fd
+"babel-plugin-react-live@npm:1.4.1":
+  version: 1.4.1
+  resolution: "babel-plugin-react-live@npm:1.4.1"
+  dependencies:
+    "@babel/generator": 7.21.5
+    prettier: 2.8.0
+  checksum: 5adc247397d8f95a21f6e1d9f5e09ba3cf0f2ead3d4378f7d197f91635e1a3f11307adabc6ba813530182b9b40c0c241388e1e09653a95cd25919d889ba73823
   languageName: node
   linkType: hard
 
@@ -14863,7 +14896,7 @@ __metadata:
     fs-extra: 10.0.0
     gatsby: 4.25.6
     gatsby-plugin-algolia: 0.26.0
-    gatsby-plugin-babel-react-live: 1.3.0
+    gatsby-plugin-babel-react-live: 1.4.1
     gatsby-plugin-catch-links: 4.25.0
     gatsby-plugin-emotion: 8.9.0
     gatsby-plugin-eufemia-theme-handler: "workspace:*"
@@ -18356,12 +18389,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gatsby-plugin-babel-react-live@npm:1.3.0":
-  version: 1.3.0
-  resolution: "gatsby-plugin-babel-react-live@npm:1.3.0"
+"gatsby-plugin-babel-react-live@npm:1.4.1":
+  version: 1.4.1
+  resolution: "gatsby-plugin-babel-react-live@npm:1.4.1"
   dependencies:
-    babel-plugin-react-live: 1.3.0
-  checksum: c3a96e99eed49c73cb6858b5f28f513662892830a22c8b141139b5649c96f0a1f492e4f1559b40c4eafcd282e092873272e53e0ec406d448b9106b331314ba43
+    babel-plugin-react-live: 1.4.1
+  checksum: 10c384d9694d6e38af53529da3fa6f9c21eec87de411926391d862977d2ccfaf11ec09fa0577b879f2c34ad68cccdbf58d1356de479951c8ad99f93e69f2a4d9
   languageName: node
   linkType: hard
 
@@ -29750,6 +29783,15 @@ __metadata:
   bin:
     prettier: bin-prettier.js
   checksum: cc6830588b401b0d742862fe9c46bc9118204fb307c3abe0e49e95b35ed23629573807ffdf9cdd65289c252a0bb51fc0171437f6626ee36378dea80f0ee80b91
+  languageName: node
+  linkType: hard
+
+"prettier@npm:2.8.0":
+  version: 2.8.0
+  resolution: "prettier@npm:2.8.0"
+  bin:
+    prettier: bin-prettier.js
+  checksum: 72004ce0cc9bb097daf3e3833f62495768724392c1d5b178dd47372337616e9e50ecbb0804f236596223f7b5eb1bbe69cefc8957dca21112c5777e77ef73a564
   languageName: node
   linkType: hard
 
