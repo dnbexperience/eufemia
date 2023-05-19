@@ -108,7 +108,7 @@ export default class Button extends React.PureComponent {
       status_state,
       status_props,
       status_no_animation,
-      global_status_id,
+      globalStatus,
       id, // eslint-disable-line
       disabled,
       text: _text, // eslint-disable-line
@@ -248,7 +248,7 @@ export default class Button extends React.PureComponent {
         <FormStatus
           show={showStatus}
           id={this._id + '-form-status'}
-          global_status_id={global_status_id}
+          globalStatus={globalStatus}
           label={text}
           text={status}
           state={status_state}
@@ -300,7 +300,10 @@ Button.propTypes = {
     PropTypes.string,
     PropTypes.bool,
   ]),
-  global_status_id: PropTypes.string,
+  globalStatus: PropTypes.shape({
+    id: PropTypes.string,
+    message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  }),
   id: PropTypes.string,
   class: PropTypes.string,
   href: PropTypes.string,
@@ -363,7 +366,7 @@ Button.defaultProps = {
   status_state: 'error',
   status_props: null,
   status_no_animation: null,
-  global_status_id: null,
+  globalStatus: null,
   inner_ref: null,
 
   className: null,

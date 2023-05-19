@@ -7,6 +7,7 @@ import type {
 import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
+import type { GlobalStatusConfigObject } from '../GlobalStatus';
 export type RadioGroupLabelPosition = 'left' | 'right';
 export type RadioGroupSize = 'default' | 'medium' | 'large';
 export type RadioGroupSuffix =
@@ -66,9 +67,9 @@ export interface RadioGroupProps
   status_no_animation?: boolean;
 
   /**
-   * The `status_id` used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
+   * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
    */
-  global_status_id?: string;
+  globalStatus?: GlobalStatusConfigObject;
   suffix?: RadioGroupSuffix;
   layout_direction?: RadioGroupLayoutDirection;
   vertical?: boolean;
@@ -83,7 +84,7 @@ export interface RadioGroupProps
   children?: RadioGroupChildren;
 
   /**
-   * Will be called on state changes made by the user. Returns a boolean and string `{ checked, value, event }`.
+   * Will be called on state changes made by the user. Returns an object `{ checked, value, event }`.
    */
   on_change?: (...args: any[]) => any;
 }

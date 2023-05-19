@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { FormStatusText } from '../FormStatus';
 import type { IconIcon, IconSize } from '../Icon';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
@@ -11,6 +12,10 @@ export type GlobalStatusItem = string | ((...args: any[]) => any) | any;
 export type GlobalStatusState = 'error' | 'info';
 export type GlobalStatusShow = 'auto' | any | any | 'true' | 'false';
 export type GlobalStatusDelay = string | number;
+export type GlobalStatusConfigObject = {
+  id?: string;
+  message?: FormStatusText;
+};
 export type GlobalStatusChildren =
   | string
   | ((...args: any[]) => any)

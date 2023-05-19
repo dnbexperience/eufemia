@@ -7,7 +7,11 @@ exports[`FormRow component have to match snapshot 1`] = `
   className="className"
   direction="horizontal"
   disabled="disabled"
-  global_status_id="main"
+  globalStatus={
+    {
+      "id": "main",
+    }
+  }
   id="form-row"
   label="label"
   label_class="label_class"
