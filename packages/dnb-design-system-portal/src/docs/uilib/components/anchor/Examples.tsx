@@ -27,7 +27,7 @@ const Example = styled.div`
 `
 const Contrast = styled(Example)`
   display: inline-block;
-  padding: 0.5;
+  padding: 0.5rem;
 
   html[data-visual-test] & {
     padding: 1.5rem;
