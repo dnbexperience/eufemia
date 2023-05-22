@@ -30,7 +30,7 @@ button.dnb-anchor {
 }
 
 .dnb-anchor--focus {
-  @include anchorFocusStyle('mouse');
+  @include anchorFocusStyle('always');
 }
 
 // no use case for that yet
