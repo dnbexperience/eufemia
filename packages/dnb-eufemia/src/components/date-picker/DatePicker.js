@@ -364,6 +364,7 @@ export default class DatePicker extends React.PureComponent {
   }
 
   onResetHandler = (args) => {
+    this.hidePicker(args)
     dispatchCustomElementEvent(
       this,
       'on_reset',
