@@ -5,88 +5,106 @@
 
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { Section, Anchor, IconPrimary } from '@dnb/eufemia/src'
+import styled from '@emotion/styled'
+import { Section, Anchor, IconPrimary, H2, P } from '@dnb/eufemia/src'
+
+const Wrapper = styled.div`
+  [data-visual-test-wrapper] {
+    margin: 0;
+  }
+`
+const Example = styled.div`
+  display: flex;
+  padding: 0.5rem 0;
+
+  html[data-visual-test] & {
+    padding: 0.25rem 0;
+  }
+
+  h2 {
+    margin: 0 !important;
+  }
+`
+const Contrast = styled(Example)`
+  display: inline-block;
+  padding: 0.5rem;
+
+  html[data-visual-test] & {
+    padding: 1.5rem;
+  }
+
+  background-color: var(--color-ocean-green);
+`
 
 export const AnchorExampleInSection = () => (
-  <ComponentBox data-visual-test="anchor-in-section">
-    <Section spacing style_type="emerald-green">
-      <Anchor className="dnb-anchor--no-underline" href="https://dnb.no/">
-        Anchor in Section without underline
-      </Anchor>
-    </Section>
-  </ComponentBox>
+  <Wrapper>
+    <ComponentBox data-visual-test="anchor-in-section">
+      <Section spacing style_type="emerald-green">
+        <Anchor
+          className="dnb-anchor--no-underline"
+          href="https://dnb.no/"
+        >
+          Anchor in Section without underline
+        </Anchor>
+      </Section>
+    </ComponentBox>
+  </Wrapper>
 )
 
 export const AnchorExampleStates = () => (
-  <ComponentBox>
-    <ul className="dnb-ul dnb-unstyled-list">
-      <li>
+  <Wrapper>
+    <ComponentBox scope={{ Example }}>
+      <Example data-visual-test="anchor-default">
+        <Anchor href="/uilib/components/anchor">Default Style</Anchor>
+      </Example>
+      <Example data-visual-test="anchor-hover">
         <Anchor
           href="/uilib/components/anchor"
-          data-visual-test="anchor-default"
-        >
-          Default Style
-        </Anchor>
-      </li>
-      <li>
-        <Anchor
-          href="/uilib/components/anchor"
-          data-visual-test="anchor-hover"
           className="dnb-anchor--hover"
         >
           Hover Style
         </Anchor>
-      </li>
-      <li>
+      </Example>
+      <Example data-visual-test="anchor-active">
         <Anchor
           href="/uilib/components/anchor"
-          data-visual-test="anchor-active"
           className="dnb-anchor--active"
         >
           Active Style
         </Anchor>
-      </li>
-      <li>
+      </Example>
+      <Example data-visual-test="anchor-focus">
         <Anchor
           href="/uilib/components/anchor"
-          data-visual-test="anchor-focus"
           className="dnb-anchor--focus"
         >
           Focus Style
         </Anchor>
-      </li>
-    </ul>
-  </ComponentBox>
+      </Example>
+    </ComponentBox>
+  </Wrapper>
 )
 
 export const AnchorExampleHelperClasses = () => (
-  <ComponentBox hideCode>
-    <ul className="dnb-ul dnb-unstyled-list">
-      <li
-        style={{
-          display: 'inline-block',
-          padding: '0.5rem',
-          margin: '-0.5rem',
-          backgroundColor: 'var(--color-ocean-green)',
-        }}
-      >
+  <Wrapper>
+    <ComponentBox hideCode scope={{ Example, Contrast }}>
+      <Contrast data-visual-test="anchor-contrast">
         <Anchor
           href="/uilib/components/anchor"
-          data-visual-test="anchor-contrast"
           className="dnb-anchor--contrast"
         >
           Contrast Style
         </Anchor>
-      </li>
-      <li>
+      </Contrast>
+      <Example>
         <Anchor
           href="/uilib/components/anchor"
           className="dnb-anchor--no-underline"
         >
           No underline
         </Anchor>
-      </li>
-      <li>
+      </Example>
+      <Example>
         <Anchor
           target="_blank"
           href="/uilib/components/anchor"
@@ -94,43 +112,43 @@ export const AnchorExampleHelperClasses = () => (
         >
           Blank target without launch icon
         </Anchor>
-      </li>
-      <li>
+      </Example>
+      <Example>
         <Anchor
           href="/uilib/components/anchor"
           className="dnb-anchor--no-hover"
         >
           No hover
         </Anchor>
-      </li>
-      <li>
+      </Example>
+      <Example>
         <Anchor
           href="/uilib/components/anchor"
           className="dnb-anchor--no-radius"
         >
           No border-radius
         </Anchor>
-      </li>
-      <li>
+      </Example>
+      <Example>
         <Anchor
           href="/uilib/components/anchor"
           className="dnb-anchor--no-animation"
         >
           No animation
         </Anchor>
-      </li>
-      <li>
+      </Example>
+      <Example>
         <Anchor
           href="/uilib/components/anchor"
           className="dnb-anchor--no-style"
         >
           Reset anchor style
         </Anchor>
-      </li>
-      <li>
+      </Example>
+      <Example>
         <button className="dnb-anchor">I'm a Button!</button>
-      </li>
-      <li>
+      </Example>
+      <Example data-visual-test="anchor-contrast">
         <Anchor
           href="/uilib/components/anchor"
           data-visual-test="anchor-newline"
@@ -138,53 +156,43 @@ export const AnchorExampleHelperClasses = () => (
           Newline <br />
           {' '}Newline
         </Anchor>
-      </li>
-      <li>
-        <Anchor
-          skeleton
-          href="/uilib/components/anchor"
-          data-visual-test="anchor-skeleton"
-        >
+      </Example>
+      <Example data-visual-test="anchor-skeleton">
+        <Anchor skeleton href="/uilib/components/anchor">
           Skeleton
         </Anchor>
-      </li>
-    </ul>
-  </ComponentBox>
+      </Example>
+    </ComponentBox>
+  </Wrapper>
 )
 
 export const AnchorExampleIcons = () => (
-  <ComponentBox hideCode>
-    <ul className="dnb-ul dnb-unstyled-list">
-      <li>
+  <Wrapper>
+    <ComponentBox hideCode scope={{ Example }}>
+      <Example data-visual-test="anchor-icon-right">
         <Anchor
           href="/uilib/components/anchor"
-          data-visual-test="anchor-icon-right"
           icon="chevron_right"
           iconPosition="right"
         >
           Anchor with Icon right
         </Anchor>
-      </li>
-      <li>
-        <Anchor
-          href="/uilib/components/anchor"
-          data-visual-test="anchor-icon-left"
-          icon="question"
-        >
+      </Example>
+      <Example data-visual-test="anchor-icon-left">
+        <Anchor href="/uilib/components/anchor" icon="question">
           Anchor with Icon left
         </Anchor>
-      </li>
-      <li>
+      </Example>
+      <Example data-visual-test="anchor-icon-node">
         <Anchor
           href="/uilib/components/anchor"
-          data-visual-test="anchor-icon-node"
           icon={<IconPrimary icon="question" />}
         >
           Anchor with Icon left using a react element
         </Anchor>
-      </li>
-      <li>
-        <p className="dnb-p" data-visual-test="anchor-paragraph">
+      </Example>
+      <Example data-visual-test="anchor-paragraph">
+        <P>
           text{' '}
           <Anchor
             href="/uilib/components/anchor"
@@ -194,21 +202,21 @@ export const AnchorExampleIcons = () => (
             Inside a Paragraph
           </Anchor>{' '}
           text
-        </p>
-      </li>
-    </ul>
-  </ComponentBox>
+        </P>
+      </Example>
+    </ComponentBox>
+  </Wrapper>
 )
 
 export const AnchorTargetBlank = () => (
-  <ComponentBox hideCode>
-    <ul className="dnb-ul dnb-unstyled-list">
-      <li data-visual-test="anchor-blank">
+  <Wrapper>
+    <ComponentBox hideCode scope={{ Example }}>
+      <Example data-visual-test="anchor-blank">
         <Anchor target="_blank" href="/uilib/components/anchor">
           Blank target with https
         </Anchor>
-      </li>
-      <li>
+      </Example>
+      <Example>
         <Anchor
           target="_blank"
           href="/uilib/components/anchor"
@@ -217,44 +225,43 @@ export const AnchorTargetBlank = () => (
         >
           Blank target with different launch icon
         </Anchor>
-      </li>
-    </ul>
-  </ComponentBox>
+      </Example>
+    </ComponentBox>
+  </Wrapper>
 )
 
 export const AnchorExampleHeadings = () => (
-  <ComponentBox hideCode>
-    <h2 className="dnb-h--large">
-      <Anchor
-        href="/uilib/components/anchor"
-        data-visual-test="anchor-heading"
-      >
-        Inside Headings <IconPrimary icon="bell" />
-      </Anchor>{' '}
-      H2
-    </h2>
-    <h2 className="dnb-h--large">
-      <Anchor
-        target="_blank"
-        href="/uilib/components/anchor"
-        data-visual-test="anchor-heading-blank"
-      >
-        Blank target in headings
-      </Anchor>{' '}
-      H2
-    </h2>
-  </ComponentBox>
+  <Wrapper>
+    <ComponentBox hideCode scope={{ Example }}>
+      <Example data-visual-test="anchor-heading">
+        <H2>
+          <Anchor href="/uilib/components/anchor">
+            Inside Headings <IconPrimary icon="bell" />
+          </Anchor>{' '}
+          H2
+        </H2>
+      </Example>
+      <Example data-visual-test="anchor-heading-blank">
+        <H2>
+          <Anchor target="_blank" href="/uilib/components/anchor">
+            Blank target in headings
+          </Anchor>{' '}
+          H2
+        </H2>
+      </Example>
+    </ComponentBox>
+  </Wrapper>
 )
 
 export const AnchorSbankenRegular = () => (
-  <ComponentBox hideCode>
-    <ul className="dnb-ul dnb-unstyled-list">
-      <li>
+  <Wrapper>
+    <ComponentBox hideCode scope={{ Example }}>
+      <Example>
         <Anchor href="/uilib/components/anchor" icon="chevron_right">
           Default
         </Anchor>
-      </li>
-      <li>
+      </Example>
+      <Example>
         <Anchor
           href="/uilib/components/anchor"
           icon="chevron_right"
@@ -262,8 +269,8 @@ export const AnchorSbankenRegular = () => (
         >
           Hover
         </Anchor>
-      </li>
-      <li>
+      </Example>
+      <Example>
         <Anchor
           href="/uilib/components/anchor"
           icon="chevron_right"
@@ -271,8 +278,8 @@ export const AnchorSbankenRegular = () => (
         >
           Active
         </Anchor>
-      </li>
-      <li>
+      </Example>
+      <Example>
         <Anchor
           href="/uilib/components/anchor"
           icon="chevron_right"
@@ -280,15 +287,15 @@ export const AnchorSbankenRegular = () => (
         >
           Focus
         </Anchor>
-      </li>
-    </ul>
-  </ComponentBox>
+      </Example>
+    </ComponentBox>
+  </Wrapper>
 )
 
 export const AnchorSbankenGoto = () => (
-  <ComponentBox hideCode>
-    <ul className="dnb-ul dnb-unstyled-list">
-      <li>
+  <Wrapper>
+    <ComponentBox hideCode scope={{ Example }}>
+      <Example>
         <Anchor
           href="/uilib/components/anchor"
           icon="arrow_right"
@@ -296,8 +303,8 @@ export const AnchorSbankenGoto = () => (
         >
           Default
         </Anchor>
-      </li>
-      <li>
+      </Example>
+      <Example>
         <Anchor
           href="/uilib/components/anchor"
           icon="arrow_right"
@@ -306,8 +313,8 @@ export const AnchorSbankenGoto = () => (
         >
           Hover
         </Anchor>
-      </li>
-      <li>
+      </Example>
+      <Example>
         <Anchor
           href="/uilib/components/anchor"
           icon="arrow_right"
@@ -316,8 +323,8 @@ export const AnchorSbankenGoto = () => (
         >
           Active
         </Anchor>
-      </li>
-      <li>
+      </Example>
+      <Example>
         <Anchor
           href="/uilib/components/anchor"
           icon="arrow_right"
@@ -326,9 +333,9 @@ export const AnchorSbankenGoto = () => (
         >
           Focus
         </Anchor>
-      </li>
-    </ul>
-  </ComponentBox>
+      </Example>
+    </ComponentBox>
+  </Wrapper>
 )
 
 export const AnchorLegacyUsage = () => {
@@ -336,35 +343,28 @@ export const AnchorLegacyUsage = () => {
     return null
   }
   return (
-    <ComponentBox hideCode>
-      <ul className="dnb-ul dnb-unstyled-list">
-        <li>
-          <Anchor
-            href="/uilib/components/anchor"
-            data-visual-test="anchor-legacy-icon"
-          >
+    <Wrapper>
+      <ComponentBox hideCode scope={{ Example }}>
+        <Example data-visual-test="anchor-legacy-icon">
+          <Anchor href="/uilib/components/anchor">
             Anchor with Icon <IconPrimary icon="chevron_right" />
           </Anchor>
-        </li>
-        <li>
-          <p className="dnb-p" data-visual-test="anchor-legacy-paragraph">
+        </Example>
+        <Example data-visual-test="anchor-legacy-paragraph">
+          <P>
             text{' '}
             <Anchor href="/uilib/components/anchor">
               Inside a Paragraph <IconPrimary icon="bell" />
             </Anchor>{' '}
             text
-          </p>
-        </li>
-        <li>
-          <Anchor
-            target="_blank"
-            href="/uilib/components/anchor"
-            data-visual-test="anchor-legacy-blank-with-icon"
-          >
+          </P>
+        </Example>
+        <Example data-visual-test="anchor-legacy-blank-with-icon">
+          <Anchor target="_blank" href="/uilib/components/anchor">
             <IconPrimary icon="bell" /> Blank target with https
           </Anchor>
-        </li>
-      </ul>
-    </ComponentBox>
+        </Example>
+      </ComponentBox>
+    </Wrapper>
   )
 }

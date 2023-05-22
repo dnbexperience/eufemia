@@ -4,7 +4,7 @@
 @mixin anchorHover() {
   color: var(--sb-color-text);
   background-color: var(--sb-color-green-dark);
-  
+
   transition: none;
   border-radius: 0.5rem;
 }
@@ -30,7 +30,7 @@
       }
     }
 
-    &.dnb-anchor--icon-right  {
+    &.dnb-anchor--icon-right {
       margin-right: 0;
       .dnb-icon {
         margin-right: 0;
@@ -41,7 +41,7 @@
 
 .dnb-anchor {
   --anchor-underline-thickness: 0.125rem;
-  
+
   // Has to use --sb-font-weight-bold to get correct weighting as --sb-font-weight-medium does nothing at the moment
   font-weight: var(--sb-font-weight-bold);
   color: var(--sb-color-gray-dark-3);
@@ -59,7 +59,7 @@
   }
 
   &:focus {
-    @include utilities.whatInput('keyboard'){
+    @include utilities.whatInput('keyboard') {
       @include anchorFocus();
     }
   }
@@ -75,7 +75,7 @@
     }
   }
 
-  &.dnb-anchor--icon-right  {
+  &.dnb-anchor--icon-right {
     padding-right: 0;
     margin-right: 1em + $anchor-icon-gutter;
 
@@ -90,14 +90,14 @@
     &:not(.dnb-anchor--icon-left) {
       padding-left: 0;
       &::before {
-        content: "\00a0";
+        content: '\00a0';
       }
     }
 
     &:not(.dnb-anchor--icon-right):not(.dnb-anchor[target='_blank']) {
       padding-right: 0;
       &::after {
-        content: "\00a0";
+        content: '\00a0';
       }
     }
   }

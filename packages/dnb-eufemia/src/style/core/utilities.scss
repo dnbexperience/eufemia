@@ -65,8 +65,12 @@
     $color: var(--focus-ring-color);
   }
 
-  @include whatInput($whatinput) {
+  @if $whatinput == 'always' {
     @include fakeBorder($color, var(--focus-ring-width), $inset);
+  } @else {
+    @include whatInput($whatinput) {
+      @include fakeBorder($color, var(--focus-ring-width), $inset);
+    }
   }
 }
 
