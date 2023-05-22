@@ -158,6 +158,36 @@ describe('DatePicker component', () => {
     ).not.toContain('dnb-date-picker--opened')
   })
 
+  it('will close the picker on reset', () => {
+    const on_reset = jest.fn()
+
+    const Comp = mount(
+      <Component
+        date="1981-01-15"
+        show_reset_button
+        show_input
+        on_reset={on_reset}
+      />
+    )
+
+    Comp.find('button.dnb-input__submit-button__button').simulate('click')
+
+    expect(
+      Comp.find('.dnb-date-picker').instance().getAttribute('class')
+    ).toContain('dnb-date-picker--opened')
+
+    const resetButton = Comp.find('button[data-testid="reset"]')
+
+    resetButton.simulate('click')
+
+    expect(on_reset).toHaveBeenCalledTimes(1)
+    expect(on_reset.mock.calls[0][0].date).toBe(null)
+
+    expect(
+      Comp.find('.dnb-date-picker').instance().getAttribute('class')
+    ).not.toContain('dnb-date-picker--opened')
+  })
+
   it('will render the result of "on_days_render"', () => {
     const customClassName = 'dnb-date-picker__day--weekend'
     const on_days_render = jest.fn((days) => {
