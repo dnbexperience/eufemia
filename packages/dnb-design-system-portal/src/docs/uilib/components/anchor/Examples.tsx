@@ -154,7 +154,7 @@ export const AnchorExampleHelperClasses = () => (
           data-visual-test="anchor-newline"
         >
           Newline <br />
-          {' '}Newline
+          Newline
         </Anchor>
       </Example>
       <Example data-visual-test="anchor-skeleton">
@@ -235,8 +235,12 @@ export const AnchorExampleHeadings = () => (
     <ComponentBox hideCode scope={{ Example }}>
       <Example data-visual-test="anchor-heading">
         <H2>
-          <Anchor href="/uilib/components/anchor">
-            Inside Headings <IconPrimary icon="bell" />
+          <Anchor
+            href="/uilib/components/anchor"
+            icon="bell"
+            iconPosition="right"
+          >
+            Inside Headings
           </Anchor>{' '}
           H2
         </H2>
