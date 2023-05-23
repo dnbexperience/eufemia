@@ -16,17 +16,17 @@ exports[`VisuallyHidden VisuallyHidden scss have to match snapshot 1`] = `
  * Utilities
  */
 .dnb-visually-hidden--focusable:not(:focus, :focus-within) {
-  user-select: none;
-  -webkit-touch-callout: none;
-  pointer-events: none;
-  position: absolute;
-  clip-path: inset(50%);
-  max-width: 1px;
-  max-height: 1px;
-  overflow: hidden;
-  white-space: nowrap;
-  padding: 0;
-  margin: 0;
-  border: 0;
+  user-select: none !important;
+  -webkit-touch-callout: none !important;
+  pointer-events: none !important;
+  position: absolute !important;
+  clip-path: inset(50%) !important;
+  max-width: 1px !important;
+  max-height: 1px !important;
+  overflow: hidden !important;
+  white-space: nowrap !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
 }"
 `;
