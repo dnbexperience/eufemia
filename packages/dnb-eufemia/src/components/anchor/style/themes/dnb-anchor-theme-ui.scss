@@ -6,12 +6,12 @@
   &:hover,
   &:active {
     color: var(--color-sea-green);
-    background-color: var(--color-mint-green-50);
+    @include anchor-mixins.anchorBackground(var(--color-mint-green-50));
   }
 
   &:active {
     color: var(--color-mint-green);
-    background-color: var(--color-emerald-green);
+    @include anchor-mixins.anchorBackground(var(--color-emerald-green));
   }
 
   &:focus {
@@ -23,12 +23,12 @@
 
 .dnb-anchor--hover {
   color: var(--color-sea-green);
-  background-color: var(--color-mint-green-50);
+  @include anchor-mixins.anchorBackground(var(--color-mint-green-50));
 }
 
 .dnb-anchor--active {
   color: var(--color-mint-green);
-  background-color: var(--color-emerald-green);
+  @include anchor-mixins.anchorBackground(var(--color-emerald-green));
 }
 
 .dnb-anchor--focus {
