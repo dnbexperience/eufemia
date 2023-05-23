@@ -154,7 +154,7 @@ export const AnchorExampleHelperClasses = () => (
           data-visual-test="anchor-newline"
         >
           Newline <br />
-          {' '}Newline
+          Newline
         </Anchor>
       </Example>
       <Example data-visual-test="anchor-skeleton">
