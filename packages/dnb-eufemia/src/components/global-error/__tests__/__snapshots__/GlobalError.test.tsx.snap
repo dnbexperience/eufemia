@@ -45,8 +45,9 @@ exports[`GlobalError scss have to match snapshot 1`] = `
   width: 1em;
   height: 1em;
 }
-.dnb-icon img,
-.dnb-icon svg {
+.dnb-icon img, .dnb-core-style .dnb-icon img,
+.dnb-icon svg,
+.dnb-core-style .dnb-icon svg {
   width: inherit;
   height: inherit;
   shape-rendering: geometricprecision;
@@ -94,8 +95,11 @@ exports[`GlobalError scss have to match snapshot 1`] = `
   align-items: center;
   justify-content: center;
 }
-h1 .dnb-icon, h2 .dnb-icon, h3 .dnb-icon, h4 .dnb-icon, h5 .dnb-icon, h6 .dnb-icon {
+h1 > .dnb-icon, h2 > .dnb-icon, h3 > .dnb-icon, h4 > .dnb-icon, h5 > .dnb-icon, h6 > .dnb-icon {
   vertical-align: middle;
+}
+p > .dnb-icon {
+  vertical-align: inherit;
 }
 .dnb-icon.dnb-skeleton {
   color: var(--skeleton-color) !important;

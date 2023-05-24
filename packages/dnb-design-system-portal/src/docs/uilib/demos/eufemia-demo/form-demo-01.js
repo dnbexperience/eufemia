@@ -204,8 +204,8 @@ const MainForm = () => {
 
           <Attachment>
             <Attachment.FileRow>
-              <Icon icon={AttachmentIcon} aria-hidden />
-              {' filename_01.jpg'}
+              <Icon icon={AttachmentIcon} />
+              filename_01.jpg
             </Attachment.FileRow>
             <Button
               text="Delete"
@@ -304,7 +304,7 @@ const Ingress = (props) => (
 )
 
 // Attachment area
-const Attachment = styled(Space)`
+const Attachment = styled(P)`
   .dnb-button {
     margin-left: 1rem;
   }
