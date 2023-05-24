@@ -141,7 +141,6 @@ const plugins = [
       filesGlob: shouldUsePrebuild()
         ? '**/build/style/themes/**/*-theme-*.min.css'
         : '**/src/style/themes/**/*-theme-*.scss', // also load the extensions CSS package
-      inlineDefaultTheme: false, // ensures we do not load other theme CSS package when selected
       defaultTheme,
     },
   },

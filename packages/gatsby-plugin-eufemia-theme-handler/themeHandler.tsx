@@ -169,7 +169,7 @@ export const onPreRenderHTML = (
    */
   if (cachedHeadComponents?.length) {
     headComponents.push(...cachedHeadComponents)
-    replaceHeadComponents(headComponents)
+    replaceComponents(headComponents)
     return // stop here
   }
 
@@ -187,6 +187,7 @@ export const onPreRenderHTML = (
 
   const replaceGlobalVars = (code: string) => {
     return code
+      .replace(/globalThis.isDev/g, JSON.stringify(isDev))
       .replace(/globalThis.defaultTheme/g, JSON.stringify(defaultTheme))
       .replace(
         /globalThis.availableThemes/g,
@@ -236,5 +237,23 @@ export const onPreRenderHTML = (
   }
 
   headComponents.push(...cachedHeadComponents)
-  replaceHeadComponents(headComponents)
+
+  replaceComponents(headComponents)
+
+  function replaceComponents(headComponents) {
+    const uniqueHeadComponents = []
+
+    // Remove duplications
+    headComponents.forEach((item) => {
+      const exists = uniqueHeadComponents.some((i) => {
+        const href = i?.props?.['data-href']
+        return href && item?.props?.['data-href'] === href
+      })
+      if (!exists) {
+        uniqueHeadComponents.push(item)
+      }
+    })
+
+    replaceHeadComponents(uniqueHeadComponents)
+  }
 }
