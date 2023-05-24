@@ -23,10 +23,13 @@
   // responsive
   img,
   svg {
-    width: inherit;
-    height: inherit;
-    shape-rendering: geometricprecision;
-    vertical-align: top;
+    &,
+    .dnb-core-style & {
+      width: inherit;
+      height: inherit;
+      shape-rendering: geometricprecision;
+      vertical-align: top;
+    }
   }
 
   // auto size
@@ -88,13 +91,16 @@
     justify-content: center;
   }
 
-  h1 &,
-  h2 &,
-  h3 &,
-  h4 &,
-  h5 &,
-  h6 & {
+  h1 > &,
+  h2 > &,
+  h3 > &,
+  h4 > &,
+  h5 > &,
+  h6 > & {
     vertical-align: middle;
+  }
+  p > & {
+    vertical-align: inherit;
   }
 
   &.dnb-skeleton {
