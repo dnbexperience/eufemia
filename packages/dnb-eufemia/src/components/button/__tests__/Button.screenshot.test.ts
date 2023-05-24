@@ -27,7 +27,7 @@ describe.each(['ui', 'sbanken', 'eiendom'])(
       it('have to match focus state', async () => {
         const screenshot = await makeScreenshot({
           selector: '[data-visual-test="button-primary"]',
-          simulate: 'focus', // should be tested first
+          simulate: 'focus',
         })
         expect(screenshot).toMatchImageSnapshot()
       })
@@ -73,7 +73,7 @@ describe.each(['ui', 'sbanken', 'eiendom'])(
             'padding-right': '2rem',
           },
           selector: '[data-visual-test="button-secondary"]',
-          simulate: 'focus', // should be tested first
+          simulate: 'focus',
         })
         expect(screenshot).toMatchImageSnapshot()
       })
@@ -113,7 +113,7 @@ describe.each(['ui', 'sbanken', 'eiendom'])(
       it('have to match focus state', async () => {
         const screenshot = await makeScreenshot({
           selector: '[data-visual-test="button-tertiary"]',
-          simulate: 'focus', // should be tested first
+          simulate: 'focus',
         })
         expect(screenshot).toMatchImageSnapshot()
       })
@@ -192,7 +192,7 @@ describe.each(['ui', 'sbanken', 'eiendom'])(
       it('have to match icon button with focus state', async () => {
         const screenshot = await makeScreenshot({
           selector: '[data-visual-test="button-icon"]',
-          simulate: 'focus', // should be tested first
+          simulate: 'focus',
         })
         expect(screenshot).toMatchImageSnapshot()
       })
@@ -264,7 +264,7 @@ describe.each(['ui'])('Button for %s', (themeName) => {
     it('have to match focus state', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="button-signal"]',
-        simulate: 'focus', // should be tested first
+        simulate: 'focus',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
