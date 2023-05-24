@@ -16,7 +16,13 @@ describe('Theme', () => {
   })
 
   it('should have preload link', () => {
-    cy.get('link[href^="/ui."][rel="preload"]')
+    cy.get('link[href^="/ui."][rel="preload"]').should('not.exist')
+  })
+
+  it('should have one default theme loaded', () => {
+    cy.get('style[data-href^="/ui."]', {
+      timeout: 10000,
+    })
       .should('exist')
       .its('length')
       .should('equal', 1)
@@ -33,6 +39,8 @@ describe('Theme', () => {
       .should('exist')
       .its('length')
       .should('equal', 1)
+
+    cy.get('style[data-href^="/ui."]').should('not.exist')
   })
 
   it('should set local storage', () => {
@@ -64,6 +72,8 @@ describe('Theme', () => {
       .should('exist')
       .its('length')
       .should('equal', 1)
+
+    cy.get('style[data-href^="/ui."]').should('not.exist')
   })
 
   it('should load css file after template', () => {
