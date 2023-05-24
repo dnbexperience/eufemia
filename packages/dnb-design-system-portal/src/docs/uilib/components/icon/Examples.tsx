@@ -13,7 +13,8 @@ import * as PrimaryIconsMedium from '@dnb/eufemia/src/icons/dnb/primary_icons_me
 import * as SecondaryIconsMedium from '@dnb/eufemia/src/icons/dnb/secondary_icons_medium'
 import { getListOfIcons } from '../../../../shared/parts/icons/ListAllIcons'
 
-import { Icon, P, IconPrimary, Button } from '@dnb/eufemia/src'
+import { Icon, P, H2, IconPrimary, Button } from '@dnb/eufemia/src'
+import styled from '@emotion/styled'
 
 export const IconDefault = () => (
   <ComponentBox
@@ -74,6 +75,47 @@ export const IconMedium = () => {
       <Icon icon={Bell} size="medium" title="force medium size" />
       <Icon icon={Bell} size="24" title="custom size: size=24" />
       <Icon icon={Bell} width="24" height="24" title="not responsive" />
+    </ComponentBox>
+  )
+}
+
+export const IconAlignment = () => {
+  if (!globalThis.IS_TEST) {
+    return null
+  }
+
+  return (
+    <ComponentBox
+      data-visual-test="icon-alignment"
+      scope={{ Bell, BellMedium }}
+    >
+      {() => {
+        const ColoredP = styled(P)`
+          display: inline-block;
+          background-color: yellowgreen;
+        `
+        const ColoredH = styled(H2)`
+          display: inline-block;
+          margin: 0 0 0.5rem 0 !important;
+          background-color: yellowgreen;
+        `
+        const ColoredIcon = styled(Icon)`
+          background-color: yellow;
+        `
+        return (
+          <div className="dnb-core-style">
+            <ColoredH>
+              <ColoredIcon icon={Bell} />
+              Text
+            </ColoredH>
+            <br />
+            <ColoredP>
+              <ColoredIcon icon={Bell} />
+              Text
+            </ColoredP>
+          </div>
+        )
+      }}
     </ComponentBox>
   )
 }
