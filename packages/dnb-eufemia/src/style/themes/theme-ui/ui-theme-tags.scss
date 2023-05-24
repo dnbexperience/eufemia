@@ -1,6 +1,7 @@
 /**
  * HTML Element Tags
- *
+ * NB: There is a visual test with a page called "elements-without-classes".
+ * It should cover all cases.
  */
 
 @use '../../../components/anchor/style/anchor-mixins.scss';
@@ -11,6 +12,14 @@
 @use '../../../elements/code/style/code-mixins.scss';
 @use '../../../elements/img/style/img-mixins.scss';
 @use '../../../elements/hr/style/hr-mixins.scss';
+
+// Import themes
+@use '../../../components/anchor/style/themes/dnb-anchor-theme-ui.scss'
+  with ($useClasses: false);
+@use '../../../elements/typography/style/themes/dnb-typography-theme-ui.scss'
+  with ($useClasses: false);
+@use '../../../elements/img/style/themes/dnb-img-theme-ui.scss' with
+  ($useClasses: false);
 
 .dnb-core-style {
   // div
@@ -33,4 +42,9 @@
   // additional
   @include code-mixins.codeTag();
   @include code-mixins.preTag();
+
+  // handle themes
+  @include dnb-anchor-theme-ui.anchorThemeTag();
+  @include dnb-typography-theme-ui.typographyThemeTag();
+  @include dnb-img-theme-ui.imgThemeTag();
 }

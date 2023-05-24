@@ -3,30 +3,8 @@
  *
  */
 
-@import './img-mixins.scss';
+@use './img-mixins.scss';
 
 .dnb-img {
-  display: inline-flex;
-  flex-direction: column;
-
-  &:not([class*='dnb-space']) {
-    margin: 0;
-  }
-  padding: 0;
-
-  text-align: center; // works on Chrome – hides the alt text
-  align-items: center; // works on FF – hides the alt text
-
-  img,
-  figcaption {
-    font-size: var(--font-size-basis);
-  }
-
-  img {
-    @include imageStyle();
-  }
-
-  figcaption {
-    margin-top: 0.5rem;
-  }
+  @include img-mixins.figureStyle();
 }

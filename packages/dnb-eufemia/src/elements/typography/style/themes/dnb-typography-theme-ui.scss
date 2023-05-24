@@ -1,7 +1,6 @@
 @use '../typography-mixins.scss' as typography;
 
-// Paragraphs
-.dnb-p {
+@mixin typographyStyle() {
   color: var(--theme-color-black-80, currentColor);
 }
 
@@ -13,4 +12,21 @@
 // Headings
 @include typography.headingClasses() {
   color: var(--theme-color-black-80, currentColor);
+}
+
+$useClasses: true !default;
+@if $useClasses {
+  .dnb-p {
+    @include typographyStyle();
+  }
+}
+
+@mixin typographyThemeTag() {
+  @include typography.headingTags() {
+    @include typographyStyle();
+  }
+
+  p {
+    @include typographyStyle();
+  }
 }
