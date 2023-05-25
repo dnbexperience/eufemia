@@ -330,6 +330,34 @@ describe('Modal component', () => {
     ).toBe(true)
   })
 
+  it('will set "data-autofocus" attribute on focusing the trigger when closed', async () => {
+    render(
+      <Component no_animation={true} animation_duration={3}>
+        <DialogContent />
+      </Component>
+    )
+
+    fireEvent.click(document.querySelector('button'))
+
+    fireEvent.keyDown(document.querySelector('div.dnb-dialog'), {
+      key: 'Esc',
+      keyCode: 27,
+    })
+
+    expect(document.activeElement.getAttribute('data-autofocus')).toBe(
+      'true'
+    )
+    expect(
+      document.activeElement.classList.contains('dnb-modal__trigger')
+    ).toBe(true)
+
+    await wait(1)
+
+    expect(
+      document.activeElement.hasAttribute('data-autofocus')
+    ).toBeFalsy()
+  })
+
   it('will warn if first heading is not h1', async () => {
     jest.spyOn(helpers, 'warn')
     const log = global.console.log
