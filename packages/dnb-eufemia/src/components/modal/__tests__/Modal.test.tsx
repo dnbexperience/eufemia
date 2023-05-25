@@ -12,7 +12,7 @@ import {
   attachToBody, // in order to use document.activeElement properly
   loadScss,
 } from '../../../core/jest/jestSetup'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 import Input from '../../input/Input'
 import Component, { OriginalComponent } from '../Modal'
 import Button from '../../button/Button'
@@ -363,26 +363,22 @@ describe('Modal component', () => {
     const log = global.console.log
     global.console.log = jest.fn()
 
-    const H2 = <h2>h2</h2>
+    const H2 = <h2 className="custom-h2">h2</h2>
 
-    const Comp = mount(
+    render(
       <Component no_animation={true}>
         <DialogContent>
           <Component.Header>{H2}</Component.Header>
         </DialogContent>
-      </Component>,
-      { attachTo: attachToBody() }
+      </Component>
     )
 
     // open
-    Comp.find('button').simulate('click')
-
-    await wait(1)
+    await waitFor(() => fireEvent.click(document.querySelector('button')))
 
     expect(helpers.warn).toHaveBeenCalledTimes(1)
     expect(helpers.warn).toHaveBeenCalledWith(
-      'You have to provide a h1 element at first – instead of:',
-      expect.anything()
+      'A Dialog or Drawer needs a h1 as its first element!'
     )
 
     global.console.log = log
