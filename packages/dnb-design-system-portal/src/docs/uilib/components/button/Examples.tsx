@@ -54,11 +54,8 @@ export const ButtonDisabled = () => (
 )
 
 export const ButtonErrorState = () => (
-  <ComponentBox scope={{ question }} >
-    <Button
-      text="Primary button error"
-      status="error"
-    />
+  <ComponentBox scope={{ question }}>
+    <Button text="Primary button error" status="error" />
     <Button
       text="Secondary button error"
       variant="secondary"
@@ -123,7 +120,7 @@ export const ButtonTertiaryTop = () => (
       icon_position="top"
       icon="close"
       text="Button text"
-    />    
+    />
     <Button
       variant="tertiary"
       icon_position="top"
@@ -239,8 +236,8 @@ export const ButtonIcon = () => (
 )
 
 export const TertiaryWithNoIcon = () => {
-  if (!(typeof window !== 'undefined' && (window as any).IS_TEST)) {
-    return <></>
+  if (!globalThis.IS_TEST) {
+    return null
   }
   return (
     <ComponentBox data-visual-test="button-tertiary-no-icon">
@@ -250,8 +247,8 @@ export const TertiaryWithNoIcon = () => {
 }
 
 export const UnstyledVariant = () => {
-  if (!(typeof window !== 'undefined' && (window as any).IS_TEST)) {
-    return <></>
+  if (!globalThis.IS_TEST) {
+    return null
   }
   return (
     <ComponentBox data-visual-test="button-unstyled">
@@ -265,8 +262,8 @@ export const UnstyledVariant = () => {
 }
 
 export const ButtonStretch = () => {
-  if (!(typeof window !== 'undefined' && (window as any).IS_TEST)) {
-    return <></>
+  if (!globalThis.IS_TEST) {
+    return null
   }
   return (
     <ComponentBox scope={{ Bell }}>
@@ -463,6 +460,61 @@ export const IconButtonSizes = () => {
         size="large"
         left
       />
+    </ComponentBox>
+  )
+}
+
+export const TertaryButtonAlignment = () => {
+  if (!globalThis.IS_TEST) {
+    return null
+  }
+  return (
+    <ComponentBox data-visual-test="button-tertiary-alignment">
+      <span className="dnb-p">text</span>{' '}
+      <Button text="right" variant="tertiary" icon="chevron_right" />
+      <Button
+        text="left"
+        variant="tertiary"
+        icon_position="left"
+        icon="chevron_left"
+      />
+      <br />
+      <Button
+        text="right medium"
+        variant="tertiary"
+        icon="chevron_right"
+        icon_size="medium"
+      />
+      <Button
+        text="left medium"
+        variant="tertiary"
+        icon_position="left"
+        icon="chevron_left"
+        icon_size="medium"
+      />
+      <br />
+      <Button
+        text="right large"
+        variant="tertiary"
+        icon="chevron_right"
+        icon_size="large"
+      />
+      <Button
+        text="left large"
+        variant="tertiary"
+        icon_position="left"
+        icon="chevron_left"
+        icon_size="large"
+      />
+      <br />
+      <Button variant="tertiary" icon="chevron_right" />
+      <Button variant="tertiary" icon="chevron_right" icon_size="medium" />
+      <Button
+        variant="tertiary"
+        icon="chevron_right"
+        icon_size="large"
+      />{' '}
+      <span className="dnb-p">text</span>
     </ComponentBox>
   )
 }
