@@ -14,6 +14,20 @@
   color: var(--theme-color-black-80, currentColor);
 }
 
+@include typographySelectors() {
+  --typography-heading-xx-large-small-line-height: var(
+    --line-height-large
+  );
+  --typography-heading-x-large-line-height: var(--line-height-large);
+  --typography-heading-x-large-small-font-size: var(--font-size-x-large);
+  --typography-heading-large-line-height: var(--line-height-medium);
+  --typography-heading-large-small-line-height: calc(
+    var(--line-height-medium) - 0.125rem
+  );
+  --typography-heading-medium-line-height: var(--line-height-lead);
+  --typography-heading-small-small-line-height: var(--line-height-small);
+}
+
 $useClasses: true !default;
 @if $useClasses {
   .dnb-p {
