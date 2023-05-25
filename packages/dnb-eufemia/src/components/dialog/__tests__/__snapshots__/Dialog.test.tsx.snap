@@ -2300,12 +2300,12 @@ html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
 .dnb-dialog__actions > :not(:last-child) {
   margin-right: 1rem;
 }
-@media screen and (max-width: 40rem) {
+@media screen and (max-width: 40em) {
   .dnb-dialog__actions {
     flex-flow: column;
     gap: 0.5rem;
   }
-  .dnb-dialog__actions > .dnb-button {
+  .dnb-dialog__actions > :not(:last-child) {
     margin-right: 0;
   }
 }

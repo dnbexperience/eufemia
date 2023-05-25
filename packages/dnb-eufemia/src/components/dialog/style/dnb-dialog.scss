@@ -119,11 +119,11 @@
       margin-right: 1rem;
     }
 
-    @media screen and (max-width: 40rem) {
+    @include allBelow(small) {
       flex-flow: column;
       gap: 0.5rem;
 
-      & > .dnb-button {
+      & > :not(:last-child) {
         margin-right: 0;
       }
     }
