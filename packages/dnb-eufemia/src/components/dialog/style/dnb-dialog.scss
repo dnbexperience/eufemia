@@ -118,6 +118,15 @@
     > :not(:last-child) {
       margin-right: 1rem;
     }
+
+    @media screen and (max-width: 40rem) {
+      flex-flow: column;
+      gap: 0.5rem;
+
+      & > .dnb-button {
+        margin-right: 0;
+      }
+    }
   }
 
   &--information &__actions {
