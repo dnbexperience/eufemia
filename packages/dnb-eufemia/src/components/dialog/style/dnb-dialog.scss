@@ -112,21 +112,10 @@
     padding-top: 1.5rem;
 
     display: flex;
+    flex-flow: row wrap;
     justify-content: center;
+    gap: 1rem;
     width: 100%;
-
-    > :not(:last-child) {
-      margin-right: 1rem;
-    }
-
-    @include allBelow(small) {
-      flex-flow: column;
-      gap: 0.5rem;
-
-      & > :not(:last-child) {
-        margin-right: 0;
-      }
-    }
   }
 
   &--information &__actions {
