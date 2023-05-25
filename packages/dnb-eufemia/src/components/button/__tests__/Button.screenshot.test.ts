@@ -40,16 +40,6 @@ describe.each(['ui', 'sbanken', 'eiendom'])(
         expect(screenshot).toMatchImageSnapshot()
       })
 
-      it('have to match a stretched button', async () => {
-        const screenshot = await makeScreenshot({
-          style: {
-            'min-width': '20rem',
-          },
-          selector: '[data-visual-test="button-stretch"]',
-        })
-        expect(screenshot).toMatchImageSnapshot()
-      })
-
       it('have to match active state', async () => {
         const screenshot = await makeScreenshot({
           selector: '[data-visual-test="button-primary"]',
@@ -96,13 +86,6 @@ describe.each(['ui', 'sbanken', 'eiendom'])(
     })
 
     describe('tertiary', () => {
-      it('have to match icon', async () => {
-        const screenshot = await makeScreenshot({
-          selector: '[data-visual-test="button-tertiary-no-icon"]',
-        })
-        expect(screenshot).toMatchImageSnapshot()
-      })
-
       it('have to match "dnb-button--tertiary"', async () => {
         const screenshot = await makeScreenshot({
           selector: '[data-visual-test="button-tertiary"]',
@@ -235,17 +218,55 @@ describe.each(['ui', 'sbanken', 'eiendom'])(
         expect(screenshot).toMatchImageSnapshot()
       })
     })
-
-    describe('unstyled', () => {
-      it('have to match with icon', async () => {
-        const screenshot = await makeScreenshot({
-          selector: '[data-visual-test="button-unstyled"]',
-        })
-        expect(screenshot).toMatchImageSnapshot()
-      })
-    })
   }
 )
+
+describe.each(['ui'])('Button for %s', (themeName) => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/button/visual-tests',
+  })
+
+  describe('primary', () => {
+    it('have to match a stretched button', async () => {
+      const screenshot = await makeScreenshot({
+        style: {
+          'min-width': '20rem',
+        },
+        selector: '[data-visual-test="button-stretch"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+  })
+
+  describe('tertiary', () => {
+    it('have to match icon', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="button-tertiary-no-icon"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match tertiary icon alignment', async () => {
+      const screenshot = await makeScreenshot({
+        style: {
+          width: '20rem',
+        },
+        selector: '[data-visual-test="button-tertiary-alignment"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+  })
+
+  describe('unstyled', () => {
+    it('have to match with icon', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="button-unstyled"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+  })
+})
 
 describe.each(['ui'])('Button for %s', (themeName) => {
   setupPageScreenshot({

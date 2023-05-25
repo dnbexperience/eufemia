@@ -51,18 +51,27 @@
       }
     }
 
-    .dnb-button__icon {
-      align-self: flex-start; // needed to vertically center icon
-      margin-top: calc(var(--button-height) / 2 - 0.5rem);
-    }
-    &.dnb-button--size-large .dnb-button__icon {
-      margin-top: calc(var(--button-height--large) / 2 - 0.5rem);
-    }
-    &.dnb-button--size-medium .dnb-button__icon {
-      margin-top: calc(var(--button-height--medium) / 2 - 0.5rem);
-    }
-    &.dnb-button--size-small .dnb-button__icon {
-      margin-top: calc(var(--button-height--small) / 2 - 0.5rem);
+    &.dnb-button--has-text {
+      .dnb-button__icon {
+        align-self: flex-start; // needed to vertically center icon
+
+        margin-top: calc(var(--button-height) / 2 - 0.5rem);
+        &.dnb-icon--medium {
+          margin-top: calc(var(--button-height) / 2 - 0.75rem);
+        }
+        &.dnb-icon--large {
+          margin-top: calc(var(--button-height) / 2 - 1rem);
+        }
+      }
+      &.dnb-button--size-large .dnb-button__icon {
+        margin-top: calc(var(--button-height--large) / 2 - 0.5rem);
+      }
+      &.dnb-button--size-medium .dnb-button__icon {
+        margin-top: calc(var(--button-height--medium) / 2 - 0.5rem);
+      }
+      &.dnb-button--size-small .dnb-button__icon {
+        margin-top: calc(var(--button-height--small) / 2 - 0.5rem);
+      }
     }
 
     &.dnb-button--icon-position-top {
@@ -72,11 +81,11 @@
 
       &.dnb-button--has-text {
         padding: 0;
-      }
 
-      .dnb-button__icon {
-        margin-top: 0.5rem;
-        align-self: center;
+        .dnb-button__icon {
+          margin-top: 0.5rem;
+          align-self: center;
+        }
       }
 
       .dnb-button__text {
