@@ -1,27 +1,9 @@
 @use '../typography-mixins.scss' as typography;
 
-// Paragraphs
-.dnb-p {
-  color: var(--sb-color-text);
-}
-
-// Setting the default headings color
-@include typography.headingTags() {
-  color: var(--sb-color-text);
-}
-
-// Headings
-@include typography.headingClasses() {
-  color: var(--sb-color-text);
-}
-
-
 @include typographySelectors() {
---typography-heading-default-font-family: var(--sb-font-family-headings);
 --typography-heading-xx-large-weight: var(--font-weight-regular);
 --typography-heading-x-large-weight: var(--font-weight-regular);
 --typography-heading-large-weight: var(--font-weight-regular);
---typography-lead-weight: var(--font-weight-regular);
 --typography-heading-medium-weight: var(--font-weight-regular);
 --typography-heading-basis-weight: var(--font-weight-regular);
 --typography-heading-small-weight: var(--font-weight-regular);
