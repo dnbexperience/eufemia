@@ -35,6 +35,7 @@ import type { UploadProps } from '../components/upload/types'
 import type { SkeletonProps, SkeletonShow } from '../components/Skeleton'
 import type { HelpButtonProps } from '../components/HelpButton'
 import type { TableProps } from '../components/Table'
+import type { GlobalErrorProps } from '../components/GlobalError'
 
 import type { NumberFormatCurrency } from '../components/NumberFormat'
 
@@ -64,6 +65,7 @@ export type ContextComponents = {
   Skeleton?: Partial<SkeletonProps>
   HelpButton?: Partial<HelpButtonProps>
   Table?: Partial<TableProps>
+  GlobalError?: Partial<GlobalErrorProps>
 
   // -- TODO: Not converted yet --
   NumberFormat?: Record<string, unknown>
