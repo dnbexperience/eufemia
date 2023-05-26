@@ -91,7 +91,7 @@ class Modal extends React.PureComponent<
     close_button_attributes: null,
     prevent_close: false,
     prevent_core_style: false,
-    animation_duration: ANIMATION_DURATION, // Not documented!
+    animation_duration: ANIMATION_DURATION,
     no_animation: false,
     no_animation_on_mobile: false,
     fullscreen: 'auto',
@@ -271,7 +271,7 @@ class Modal extends React.PureComponent<
 
   handleSideEffects = () => {
     const { modalActive } = this.state
-    const { close_modal } = this.props
+    const { close_modal, open_state, animation_duration } = this.props
 
     if (modalActive) {
       if (typeof close_modal === 'function') {
@@ -285,20 +285,33 @@ class Modal extends React.PureComponent<
 
       this.setActiveState(this._id)
     } else if (modalActive === false) {
-      if (this._triggerRef && this._triggerRef.current) {
-        this._triggerRef.current.focus({ preventScroll: true })
+      const focus = (elem: HTMLElement) => {
+        // So we can omit showing a Tooltip on the trigger button
+        elem.setAttribute('data-autofocus', 'true')
+
+        elem.focus({ preventScroll: true })
+
+        return new Promise<void>((resolve) => {
+          setTimeout(() => {
+            elem?.removeAttribute('data-autofocus')
+            resolve()
+          }, parseFloat(String(animation_duration)) / 3)
+        })
+      }
+
+      if (this._triggerRef?.current) {
+        focus(this._triggerRef.current)
       }
 
       // because the open_state was set to opened, we force
       if (
-        (this.props.open_state === 'opened' ||
-          this.props.open_state === true) &&
-        this.activeElement &&
+        (open_state === 'opened' || open_state === true) &&
         this.activeElement instanceof HTMLElement
       ) {
         try {
-          this.activeElement.focus({ preventScroll: true })
-          this.activeElement = null
+          focus(this.activeElement).then(() => {
+            this.activeElement = null
+          })
         } catch (e) {
           //
         }

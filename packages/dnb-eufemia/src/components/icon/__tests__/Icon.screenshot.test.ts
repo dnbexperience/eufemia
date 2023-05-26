@@ -79,6 +79,13 @@ describe('Icon', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match text alignment', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="icon-alignment"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match all primary icons', async () => {
     const screenshot = await makeScreenshot({
       style: {

@@ -158,7 +158,7 @@ exports[`Modal component have to match snapshot 1`] = `
         custom_content={null}
         disabled={null}
         element={null}
-        global_status_id={null}
+        globalStatus={null}
         hidden={false}
         href={null}
         icon="question"
@@ -246,7 +246,7 @@ exports[`Modal component have to match snapshot 1`] = `
             custom_content={null}
             disabled={null}
             element={null}
-            global_status_id={null}
+            globalStatus={null}
             hidden={false}
             href={null}
             icon="question"
@@ -370,7 +370,7 @@ exports[`Modal component have to match snapshot 1`] = `
           attributes={null}
           class={null}
           className={null}
-          global_status_id={null}
+          globalStatus={null}
           icon="error"
           icon_size="medium"
           id="modal_id-form-status"
@@ -955,8 +955,9 @@ exports[`Modal scss have to match snapshot 1`] = `
   width: 1em;
   height: 1em;
 }
-.dnb-icon img,
-.dnb-icon svg {
+.dnb-icon img, .dnb-core-style .dnb-icon img,
+.dnb-icon svg,
+.dnb-core-style .dnb-icon svg {
   width: inherit;
   height: inherit;
   shape-rendering: geometricprecision;
@@ -1004,8 +1005,11 @@ exports[`Modal scss have to match snapshot 1`] = `
   align-items: center;
   justify-content: center;
 }
-h1 .dnb-icon, h2 .dnb-icon, h3 .dnb-icon, h4 .dnb-icon, h5 .dnb-icon, h6 .dnb-icon {
+h1 > .dnb-icon, h2 > .dnb-icon, h3 > .dnb-icon, h4 > .dnb-icon, h5 > .dnb-icon, h6 > .dnb-icon {
   vertical-align: middle;
+}
+p > .dnb-icon {
+  vertical-align: inherit;
 }
 .dnb-icon.dnb-skeleton {
   color: var(--skeleton-color) !important;
@@ -1399,9 +1403,7 @@ button .dnb-form-status__text {
 .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__icon {
   order: 1;
 }
-.dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left > *,
-.dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top > *,
-.dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__text {
+.dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__text {
   order: 2;
 }
 .dnb-button--stretch {

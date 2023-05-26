@@ -65,8 +65,12 @@
     $color: var(--focus-ring-color);
   }
 
-  @include whatInput($whatinput) {
+  @if $whatinput == 'always' {
     @include fakeBorder($color, var(--focus-ring-width), $inset);
+  } @else {
+    @include whatInput($whatinput) {
+      @include fakeBorder($color, var(--focus-ring-width), $inset);
+    }
   }
 }
 
@@ -287,23 +291,23 @@ $breakpoints: (
 
 // Screen reader only helper
 @mixin srOnly() {
-  user-select: none;
-  -webkit-touch-callout: none; // iOS
-  pointer-events: none;
+  user-select: none !important;
+  -webkit-touch-callout: none !important; // iOS
+  pointer-events: none !important;
 
-  position: absolute;
+  position: absolute !important;
 
-  clip-path: inset(50%);
-  max-width: 1px; // if less than 1px, Safari moves the focus-ring to another place
-  max-height: 1px; // if less than 1px, Safari moves the focus-ring to another place
+  clip-path: inset(50%) !important;
+  max-width: 1px !important; // if less than 1px, Safari moves the focus-ring to another place
+  max-height: 1px !important; // if less than 1px, Safari moves the focus-ring to another place
 
-  overflow: hidden;
-  white-space: nowrap; // NB: so NVDA not splits up text in multi line
+  overflow: hidden !important;
+  white-space: nowrap !important; // NB: so NVDA not splits up text in multi line
 
-  padding: 0;
-  margin: 0;
+  padding: 0 !important;
+  margin: 0 !important;
 
-  border: 0;
+  border: 0 !important;
 }
 
 @function str-replace($string, $search, $replace: '') {

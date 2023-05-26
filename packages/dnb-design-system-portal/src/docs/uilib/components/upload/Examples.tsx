@@ -5,8 +5,13 @@
 
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { Button, ToggleButton, Img, Section } from '@dnb/eufemia/src'
-import Upload from '@dnb/eufemia/src/components/upload/Upload'
+import {
+  Button,
+  ToggleButton,
+  Img,
+  Section,
+  Upload,
+} from '@dnb/eufemia/src'
 
 const createMockFile = (name: string, size: number, type: string) => {
   const file = new File([], name, { type })

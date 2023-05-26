@@ -45,8 +45,9 @@ exports[`GlobalError scss have to match snapshot 1`] = `
   width: 1em;
   height: 1em;
 }
-.dnb-icon img,
-.dnb-icon svg {
+.dnb-icon img, .dnb-core-style .dnb-icon img,
+.dnb-icon svg,
+.dnb-core-style .dnb-icon svg {
   width: inherit;
   height: inherit;
   shape-rendering: geometricprecision;
@@ -94,8 +95,11 @@ exports[`GlobalError scss have to match snapshot 1`] = `
   align-items: center;
   justify-content: center;
 }
-h1 .dnb-icon, h2 .dnb-icon, h3 .dnb-icon, h4 .dnb-icon, h5 .dnb-icon, h6 .dnb-icon {
+h1 > .dnb-icon, h2 > .dnb-icon, h3 > .dnb-icon, h4 > .dnb-icon, h5 > .dnb-icon, h6 > .dnb-icon {
   vertical-align: middle;
+}
+p > .dnb-icon {
+  vertical-align: inherit;
 }
 .dnb-icon.dnb-skeleton {
   color: var(--skeleton-color) !important;
@@ -489,9 +493,7 @@ button .dnb-form-status__text {
 .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__icon {
   order: 1;
 }
-.dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left > *,
-.dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top > *,
-.dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__text {
+.dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__text {
   order: 2;
 }
 .dnb-button--stretch {
@@ -660,7 +662,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
         custom_content={null}
         disabled={null}
         element={null}
-        global_status_id={null}
+        globalStatus={null}
         href="href"
         icon="chevron_left"
         icon_position="left"
@@ -700,7 +702,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
             innerRef={
               {
                 "current": <a
-                  class="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon dnb-a"
+                  class="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon dnb-anchor--has-icon dnb-a"
                   href="href"
                 >
                   <span
@@ -744,13 +746,13 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
           >
             <ForwardRef
               as="a"
-              className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon"
+              className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon dnb-anchor--has-icon"
               disabled={false}
               href="href"
               innerRef={
                 {
                   "current": <a
-                    class="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon dnb-a"
+                    class="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon dnb-anchor--has-icon dnb-a"
                     href="href"
                   >
                     <span
@@ -794,13 +796,13 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
             >
               <ElementInstance
                 as="a"
-                className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon"
+                className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon dnb-anchor--has-icon"
                 disabled={false}
                 href="href"
                 innerRef={
                   {
                     "current": <a
-                      class="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon dnb-a"
+                      class="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon dnb-anchor--has-icon dnb-a"
                       href="href"
                     >
                       <span
@@ -843,7 +845,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                 skeleton={null}
               >
                 <a
-                  className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon dnb-a"
+                  className="dnb-button dnb-button--tertiary dnb-button--has-text dnb-global-error__back dnb-button--icon-position-left dnb-button--has-icon dnb-anchor--has-icon dnb-a"
                   disabled={false}
                   href="href"
                   onClick={[Function]}
@@ -856,7 +858,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
                     custom_content={null}
                     disabled={null}
                     element={null}
-                    global_status_id={null}
+                    globalStatus={null}
                     href="href"
                     icon="chevron_left"
                     icon_position="left"
@@ -948,7 +950,7 @@ exports[`GlobalError snapshot have to match component snapshot 1`] = `
           attributes={null}
           class={null}
           className={null}
-          global_status_id={null}
+          globalStatus={null}
           icon="error"
           icon_size="medium"
           id="null-form-status"

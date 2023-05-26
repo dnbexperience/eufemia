@@ -61,7 +61,11 @@ exports[`Dropdown markup have to match snapshot 1`] = `
   direction="bottom"
   disabled="disabled"
   focusable="focusable"
-  global_status_id="main"
+  globalStatus={
+    {
+      "id": "main",
+    }
+  }
   icon="icon"
   icon_position={null}
   icon_size="icon_size"
@@ -165,7 +169,11 @@ exports[`Dropdown markup have to match snapshot 1`] = `
     enable_body_lock={false}
     fixed_position={false}
     focusable="focusable"
-    global_status_id="main"
+    globalStatus={
+      {
+        "id": "main",
+      }
+    }
     handle_dismiss_focus={null}
     icon="icon"
     icon_position={null}
@@ -282,7 +290,11 @@ exports[`Dropdown markup have to match snapshot 1`] = `
       direction="bottom"
       disabled="disabled"
       focusable="focusable"
-      global_status_id="main"
+      globalStatus={
+        {
+          "id": "main",
+        }
+      }
       icon="icon"
       icon_position={null}
       icon_size="icon_size"
@@ -366,7 +378,11 @@ exports[`Dropdown markup have to match snapshot 1`] = `
             attributes={null}
             class={null}
             className={null}
-            global_status_id="main"
+            globalStatus={
+              {
+                "id": "main",
+              }
+            }
             icon="error"
             icon_size="medium"
             id="dropdown-id-form-status"
@@ -507,7 +523,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                 }
                 disabled="disabled"
                 element={null}
-                global_status_id={null}
+                globalStatus={null}
                 href={null}
                 icon={false}
                 icon_position="right"
@@ -597,7 +613,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                     }
                     disabled="disabled"
                     element={null}
-                    global_status_id={null}
+                    globalStatus={null}
                     href={null}
                     icon={false}
                     icon_position="right"
@@ -663,7 +679,7 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   attributes={null}
                   class={null}
                   className={null}
-                  global_status_id={null}
+                  globalStatus={null}
                   icon="error"
                   icon_size="medium"
                   id="dropdown-id-form-status"
@@ -1264,7 +1280,9 @@ exports[`Dropdown markup have to match snapshot 1`] = `
                   "direction": "bottom",
                   "disabled": "disabled",
                   "focusable": "focusable",
-                  "global_status_id": "main",
+                  "globalStatus": {
+                    "id": "main",
+                  },
                   "icon": "icon",
                   "icon_position": null,
                   "icon_size": "icon_size",
@@ -1411,8 +1429,9 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   width: 1em;
   height: 1em;
 }
-.dnb-icon img,
-.dnb-icon svg {
+.dnb-icon img, .dnb-core-style .dnb-icon img,
+.dnb-icon svg,
+.dnb-core-style .dnb-icon svg {
   width: inherit;
   height: inherit;
   shape-rendering: geometricprecision;
@@ -1460,8 +1479,11 @@ exports[`Dropdown scss have to match snapshot 1`] = `
   align-items: center;
   justify-content: center;
 }
-h1 .dnb-icon, h2 .dnb-icon, h3 .dnb-icon, h4 .dnb-icon, h5 .dnb-icon, h6 .dnb-icon {
+h1 > .dnb-icon, h2 > .dnb-icon, h3 > .dnb-icon, h4 > .dnb-icon, h5 > .dnb-icon, h6 > .dnb-icon {
   vertical-align: middle;
+}
+p > .dnb-icon {
+  vertical-align: inherit;
 }
 .dnb-icon.dnb-skeleton {
   color: var(--skeleton-color) !important;
@@ -1500,8 +1522,9 @@ h1 .dnb-icon, h2 .dnb-icon, h3 .dnb-icon, h4 .dnb-icon, h5 .dnb-icon, h6 .dnb-ic
   width: 1em;
   height: 1em;
 }
-.dnb-icon img,
-.dnb-icon svg {
+.dnb-icon img, .dnb-core-style .dnb-icon img,
+.dnb-icon svg,
+.dnb-core-style .dnb-icon svg {
   width: inherit;
   height: inherit;
   shape-rendering: geometricprecision;
@@ -1549,8 +1572,11 @@ h1 .dnb-icon, h2 .dnb-icon, h3 .dnb-icon, h4 .dnb-icon, h5 .dnb-icon, h6 .dnb-ic
   align-items: center;
   justify-content: center;
 }
-h1 .dnb-icon, h2 .dnb-icon, h3 .dnb-icon, h4 .dnb-icon, h5 .dnb-icon, h6 .dnb-icon {
+h1 > .dnb-icon, h2 > .dnb-icon, h3 > .dnb-icon, h4 > .dnb-icon, h5 > .dnb-icon, h6 > .dnb-icon {
   vertical-align: middle;
+}
+p > .dnb-icon {
+  vertical-align: inherit;
 }
 .dnb-icon.dnb-skeleton {
   color: var(--skeleton-color) !important;
@@ -1944,9 +1970,7 @@ button .dnb-form-status__text {
 .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__icon {
   order: 1;
 }
-.dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left > *,
-.dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top > *,
-.dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__text {
+.dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__text {
   order: 2;
 }
 .dnb-button--stretch {

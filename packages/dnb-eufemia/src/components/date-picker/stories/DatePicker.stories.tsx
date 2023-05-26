@@ -23,6 +23,7 @@ import {
   Dropdown,
   Input,
   Section,
+  GlobalStatus,
 } from '../..'
 
 export default {
@@ -176,9 +177,17 @@ export const DatePickerSandbox = () => (
       </Scrollbar>
     </Box>
     <Box>
+      <DatePicker
+        label="Date Picker with reset:"
+        date="1981-01-15"
+        show_input
+        show_reset_button
+      />
+    </Box>
+    <Box>
       <FormRow label_direction="vertical" label="Legend:">
         <DatePicker
-          label="Date Picker 1:"
+          label="Date Picker 1"
           right="small"
           date="1981-01-15"
           title="My Button"
@@ -498,3 +507,19 @@ const CustomDate = () => {
 //     </Section>
 //   )
 // }
+
+export const GlobalStatusExample = () => {
+  return (
+    <>
+      <GlobalStatus id="my-id" />
+      <DatePicker
+        label="Date Picker 1:"
+        right="small"
+        date="1981-01-15"
+        title="My Button"
+        globalStatus={{ id: 'my-id', message: 'my message' }}
+        status="Message"
+      />
+    </>
+  )
+}

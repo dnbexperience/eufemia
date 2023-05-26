@@ -59,7 +59,10 @@ export default class Switch extends React.PureComponent {
     ]),
     status_state: PropTypes.string,
     status_props: PropTypes.object,
-    global_status_id: PropTypes.string,
+    globalStatus: PropTypes.shape({
+      id: PropTypes.string,
+      message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    }),
     status_no_animation: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.bool,
@@ -97,7 +100,7 @@ export default class Switch extends React.PureComponent {
     status: null,
     status_state: 'error',
     status_props: null,
-    global_status_id: null,
+    globalStatus: null,
     status_no_animation: null,
     suffix: null,
     value: null,
@@ -204,7 +207,7 @@ export default class Switch extends React.PureComponent {
       status,
       status_state,
       status_props,
-      global_status_id,
+      globalStatus,
       status_no_animation,
       suffix,
       label,
@@ -289,7 +292,7 @@ export default class Switch extends React.PureComponent {
             <FormStatus
               show={showStatus}
               id={id + '-form-status'}
-              global_status_id={global_status_id}
+              globalStatus={globalStatus}
               label={label}
               text_id={id + '-status'} // used for "aria-describedby"
               width_selector={id + ', ' + id + '-label'}

@@ -856,13 +856,15 @@ export function showSelectionNotice({ value, label, timeout = 3e3 }) {
     return { run: () => {} }
   }
 
-  let elem, content
+  let elem, content, root
 
   try {
+    root = document.querySelector('.dnb-tooltip__portal, body')
+
     // create that portal element
     elem = document.createElement('span')
     elem.setAttribute('id', id)
-    elem.setAttribute('class', 'dnb-tooltip dnb-core-style')
+    elem.setAttribute('class', 'dnb-tooltip')
     elem.setAttribute('role', 'tooltip')
 
     const arrow = document.createElement('span')
@@ -882,7 +884,7 @@ export function showSelectionNotice({ value, label, timeout = 3e3 }) {
   return new (class SelectionFx {
     remove() {
       try {
-        document.body.removeChild(elem)
+        root.removeChild(elem)
         elem = null
         content = null
       } catch (e) {
@@ -898,7 +900,7 @@ export function showSelectionNotice({ value, label, timeout = 3e3 }) {
     }
     run(pE = getSelectedElement()) {
       try {
-        document.body.appendChild(elem)
+        root.appendChild(elem)
 
         const top = getOffsetTop(pE)
         const left = getOffsetLeft(pE)

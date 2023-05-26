@@ -13,7 +13,10 @@ exports[`Checkbox component have to match snapshot 1`] = `
         "className": "className",
         "disabled": "disabled",
         "element": "element",
-        "global_status_id": "global_status_id",
+        "globalStatus": {
+          "id": "globalStatus.id",
+          "message": "globalStatus.message",
+        },
         "id": "id",
         "label": "label",
         "label_position": "'left'",
@@ -47,7 +50,7 @@ exports[`Checkbox component have to match snapshot 1`] = `
   className={null}
   disabled={null}
   element="input"
-  global_status_id={null}
+  globalStatus={null}
   id="checkbox"
   label="checkbox"
   label_position="left"
@@ -109,7 +112,7 @@ exports[`Checkbox component have to match snapshot 1`] = `
           attributes={null}
           class={null}
           className={null}
-          global_status_id={null}
+          globalStatus={null}
           icon="error"
           icon_size="medium"
           id="checkbox-form-status"

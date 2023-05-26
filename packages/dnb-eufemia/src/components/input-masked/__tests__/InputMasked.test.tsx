@@ -1423,6 +1423,50 @@ describe('InputMasked component as_currency', () => {
     expect(element.value).toBe('0,30')
   })
 
+  it('should handle "integerLimit" with minus and less or more integers than set as a limit', () => {
+    const MockComponent = () => {
+      const [value, setState] = React.useState(-500.555)
+
+      return (
+        <>
+          <Component
+            value={value}
+            number_mask={{
+              integerLimit: 4,
+              decimalLimit: 2,
+              allowDecimal: true,
+            }}
+          />
+
+          <button
+            onClick={() => {
+              setState(value * 10)
+            }}
+          />
+        </>
+      )
+    }
+
+    render(<MockComponent />)
+
+    const element = document.querySelector('input')
+    const button = document.querySelector('button')
+
+    expect(element.value).toBe('-500,55')
+
+    fireEvent.click(button)
+
+    expect(element.value).toBe('-5 005,55')
+
+    fireEvent.click(button)
+
+    expect(element.value).toBe('-5 005,5')
+
+    fireEvent.click(button)
+
+    expect(element.value).toBe('-5 005')
+  })
+
   it('should handle negative (minus) value updates', () => {
     const MockComponent = () => {
       const [value, setState] = React.useState(-1.5)

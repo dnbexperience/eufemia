@@ -5,87 +5,33 @@ order: 7
 
 # Theming
 
-Theming is a umbrella term of a wide range of different ways and needs of customization.
+**Table of Contents**
 
-This section covers some of the needs we've seen in DNB productions as of now.
-
-You may also check out the section in the contribution docs on [how to maintain and create a theme](/contribute/style-guides/theming/) or [how to deal with the brand as a developer](/brand/development/).
-
----
-
-- [Theming](#theming)
+- [Theming](#themes-and-theming)
   - [Integrated theming](#integrated-theming)
-  - [Theme Component and useTheme Hook](#theme-component-and-usetheme-hook)
+    - [Theme Component and useTheme Hook](#theme-component-and-usetheme-hook)
     - [Brand theming](#brand-theming)
   - [Run your application with a different theme](#run-your-application-with-a-different-theme)
   - [WIP: Ready to use themes](#wip-ready-to-use-themes)
     - [Using `postcss-replace`](#using-postcss-replace)
 
+---
+
+Theming is an umbrella term of a wide range of different ways and needs of customization.
+
+This section covers some of the needs we've seen in DNB productions as of now.
+
+You may also check out the section in the contribution docs on [how to maintain and create a theme](/contribute/style-guides/theming/) or [how to deal with the brand as a developer](/brand/development/).
+
 ## Integrated theming
 
-Eufemia supports theming right inside where all the style-sources lives. Having the ability to control different styles as close to the source as possible, will make it possible to carefully handle continues improvements over time.
+Eufemia supports theming right inside where all the style-sources lives. Having the ability to control different styles as close to the source as possible, will make it possible to carefully handle continuous improvements over time.
 
 Themes are independent style packages, which should not be imported in parallel. But rather either – or.
 
 ### Theme Component and useTheme Hook
 
-Eufemia has a theming helper, that lets us create nested theming solutions. As of now, it does not deliver any extra features beside the principle.
-
-```tsx
-import { Theme, useTheme } from '@dnb/eufemia/shared'
-
-const Component = () => {
-  const { name, variant } = useTheme()
-  return 'My Component'
-}
-
-render(
-  <Theme name="theme-name" variant="theme-variant">
-    <Component />
-  </Theme>
-)
-```
-
-In addition, you can use this helper function to show/hide content based on the theme.
-
-```tsx
-import { Theme, VisibilityByTheme } from '@dnb/eufemia/shared'
-
-render(
-  <Theme>
-    <VisibilityByTheme visible="sbanken">
-      Only shown in Sbanken theme
-    </VisibilityByTheme>
-
-    <VisibilityByTheme hidden="eiendom">
-      Only hidden in Eiendom theme
-    </VisibilityByTheme>
-
-    <VisibilityByTheme visible={['sbanken', 'eiendom']}>
-      Only shown in Sbanken or Eiendom theme
-    </VisibilityByTheme>
-
-    <VisibilityByTheme
-      visible={[{ name: 'sbanken' }, { name: 'eiendom' }]}
-    >
-      Only shown in Sbanken or Eiendom theme
-    </VisibilityByTheme>
-
-    <VisibilityByTheme
-      visible={[{ name: 'sbanken' }, { name: 'eiendom', variant: 'blue' }]}
-    >
-      Only shown in Sbanken then or Eiendom theme – that also includes the
-      fictive variant="blue".
-    </VisibilityByTheme>
-  </Theme>
-)
-```
-
-`<Theme>` Will create a `div` wrapper by default, when no custom element is defined (`element="span"`). It sets these CSS classes:
-
-- `eufemia-theme__{theme-name}`
-- `eufemia-theme__{theme-name}--{theme-variant}`
-
+Eufemia has [theming helpers](/uilib/usage/customisation/theming/theme), that lets you create nested theming solutions.
 
 ### Brand theming
 

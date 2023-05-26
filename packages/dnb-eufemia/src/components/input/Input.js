@@ -57,6 +57,10 @@ export const inputPropTypes = {
     PropTypes.func,
     PropTypes.node,
   ]),
+  globalStatus: PropTypes.shape({
+    id: PropTypes.string,
+    message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  }),
   status_state: PropTypes.string,
   status_props: PropTypes.object,
   status_no_animation: PropTypes.oneOfType([
@@ -64,7 +68,6 @@ export const inputPropTypes = {
     PropTypes.bool,
   ]),
   input_state: PropTypes.string,
-  global_status_id: PropTypes.string,
   autocomplete: PropTypes.string,
   submit_button_title: PropTypes.string,
   clear_button_title: PropTypes.string,
@@ -143,11 +146,11 @@ export default class Input extends React.PureComponent {
     label_direction: null,
     label_sr_only: null,
     status: null,
+    globalStatus: null,
     status_state: 'error',
     status_props: null,
     status_no_animation: null,
     input_state: null,
-    global_status_id: null,
     autocomplete: 'off',
     placeholder: null,
     clear: null,
@@ -335,10 +338,10 @@ export default class Input extends React.PureComponent {
       label_direction,
       label_sr_only,
       status,
+      globalStatus,
       status_state,
       status_props,
       status_no_animation,
-      global_status_id,
       disabled,
       skeleton,
       placeholder,
@@ -503,7 +506,7 @@ export default class Input extends React.PureComponent {
           <FormStatus
             show={showStatus}
             id={id + '-form-status'}
-            global_status_id={global_status_id}
+            globalStatus={globalStatus}
             label={label}
             text={status}
             state={status_state}

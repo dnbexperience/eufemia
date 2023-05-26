@@ -29,9 +29,10 @@ if (typeof window !== 'undefined') {
       const isDefaultTheme = themeName === globalThis.defaultTheme
 
       if (
-        (globalThis.inlineDefaultTheme && !isDefaultTheme) ||
+        globalThis.isDev ||
+        reload ||
         !globalThis.inlineDefaultTheme ||
-        reload
+        (globalThis.inlineDefaultTheme && !isDefaultTheme)
       ) {
         if (!reload) {
           // Preload
@@ -60,7 +61,6 @@ if (typeof window !== 'undefined') {
                   themes[globalThis.defaultTheme].file +
                   '"]'
               )
-
               if (defaultStyleElement) {
                 headElement.removeChild(defaultStyleElement)
               }

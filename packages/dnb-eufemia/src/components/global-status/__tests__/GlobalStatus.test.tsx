@@ -367,7 +367,7 @@ describe('GlobalStatus component', () => {
           delay={0}
           no_animation={true}
         />
-        <FormSet global_status_id="my-form">
+        <FormSet globalStatus={{ id: 'my-form' }}>
           <FormField1 />
           <FormField2 />
           <FormField3 />
@@ -446,7 +446,7 @@ describe('GlobalStatus component', () => {
           id="switch"
           status={status}
           status_no_animation={true}
-          global_status_id="scroll-to-test"
+          globalStatus={{ id: 'scroll-to-test' }}
           on_change={({ checked }) => {
             setStatus(checked ? 'error-message' : null)
           }}
@@ -507,7 +507,7 @@ describe('GlobalStatus component', () => {
           id="switch"
           status={status}
           status_no_animation={true}
-          global_status_id="esc-test"
+          globalStatus={{ id: 'esc-test' }}
           on_change={({ checked }) => {
             setStatus(checked ? 'error-message' : null)
           }}
@@ -550,7 +550,7 @@ describe('GlobalStatus component', () => {
           id="switch"
           status={status}
           status_no_animation={true}
-          global_status_id="height-test"
+          globalStatus={{ id: 'height-test' }}
           on_change={({ checked }) => {
             setStatus(checked ? 'error-message' : null)
           }}
@@ -583,7 +583,7 @@ describe('GlobalStatus component', () => {
           id="switch"
           status={status}
           status_no_animation={true}
-          global_status_id="main-to-be-empty"
+          globalStatus={{ id: 'main-to-be-empty' }}
           on_change={({ checked }) => {
             setStatus(checked ? 'error-message' : null)
           }}
@@ -702,7 +702,7 @@ describe('GlobalStatus component', () => {
           label={<LabelAsComponent />}
           status={status}
           status_no_animation={true}
-          global_status_id="main-to-be-empty"
+          globalStatus={{ id: 'main-to-be-empty' }}
           on_change={({ checked }) => {
             setStatus(checked ? <StatusAsComponent /> : null)
           }}
@@ -914,7 +914,7 @@ describe('GlobalStatus snapshot', () => {
           id="switch"
           label={<span>Label</span>}
           status="error-message"
-          global_status_id="linked"
+          globalStatus={{ id: 'linked' }}
         />
       </>
     )

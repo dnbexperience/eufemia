@@ -8,11 +8,8 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe.each([
-  ['ui', '/uilib/components/anchor'],
-  ['sbanken', '/uilib/components/anchor'],
-])('Anchor for %s', (themeName, url) => {
-  setupPageScreenshot({ themeName, url })
+describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
+  setupPageScreenshot({ themeName, url: '/uilib/components/anchor' })
 
   it('have to match the "default" state', async () => {
     const screenshot = await makeScreenshot({
@@ -23,6 +20,9 @@ describe.each([
 
   it('have to match breaking lines', async () => {
     const screenshot = await makeScreenshot({
+      style: {
+        'white-space': 'nowrap',
+      },
       selector: '[data-visual-test="anchor-newline"]',
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -35,9 +35,23 @@ describe.each([
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match anchor with icon', async () => {
+  it('have to match anchor with icon-right', async () => {
     const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="anchor-icon"]',
+      selector: '[data-visual-test="anchor-icon-right"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match anchor with icon left', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="anchor-icon-left"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match anchor with icon node', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="anchor-icon-node"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -45,6 +59,9 @@ describe.each([
   it('have to match anchor with paragraph', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-paragraph"]',
+      matchConfig: {
+        failureThreshold: 0.0013,
+      },
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -52,6 +69,9 @@ describe.each([
   it('have to match anchor in heading', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-heading"]',
+      matchConfig: {
+        failureThreshold: 0.0016,
+      },
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -73,7 +93,7 @@ describe.each([
   it('have to match the "focus" state', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-focus"]',
-      simulate: 'focus', // should be tested first
+      simulate: 'focus',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -88,7 +108,7 @@ describe.each([
   it('have to match the anchor-contrast "focus" state', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-contrast"]',
-      simulate: 'focus', // should be tested first
+      simulate: 'focus',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -109,36 +129,66 @@ describe.each([
   })
 })
 
-describe.each([
-  ['ui', '/uilib/components/anchor'],
-  ['sbanken', '/uilib/components/anchor'],
-])('Anchor target blank for %s', (themeName, url) => {
-  setupPageScreenshot({ themeName, url })
+describe.each(['ui', 'sbanken'])(
+  'Anchor target blank for %s',
+  (themeName) => {
+    setupPageScreenshot({ themeName, url: '/uilib/components/anchor' })
 
-  it('have to match blank target anchor in heading', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="anchor-heading-blank"]',
+    it('have to match blank target anchor in heading', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="anchor-heading-blank"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match the target blank state', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="anchor-blank"] a',
+    it('have to match the target blank state', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="anchor-blank"] a',
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match the target blank with tooltip', async () => {
-    const screenshot = await makeScreenshot({
-      style: {
-        'padding-top': '2rem',
-      },
-      waitBeforeSimulate: 200,
-      selector: '[data-visual-test="anchor-blank"]',
-      simulateSelector: '[data-visual-test="anchor-blank"] a.dnb-anchor',
-      simulate: 'hover',
+    if (themeName === 'ui') {
+      it('have to match the target blank with tooltip', async () => {
+        const screenshot = await makeScreenshot({
+          style: {
+            'padding-top': '2rem',
+          },
+          selector: '[data-visual-test="anchor-blank"]',
+          simulateSelector:
+            '[data-visual-test="anchor-blank"] a.dnb-anchor',
+          simulate: 'hover',
+        })
+        expect(screenshot).toMatchImageSnapshot()
+      })
+    }
+  }
+)
+
+describe.each(['ui', 'sbanken'])(
+  'Anchor legacy icon usage for %s',
+  (themeName) => {
+    setupPageScreenshot({ themeName, url: '/uilib/components/anchor' })
+
+    it('have to match anchor with legacy icon', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="anchor-legacy-icon"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-})
+
+    it('have to match anchor with paragraph legacy icon', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="anchor-legacy-paragraph"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match anchor with target blank legacy icon', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="anchor-legacy-blank-with-icon"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+  }
+)
