@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { mount } from '../../core/jest/jestSetup'
+import { render, screen } from '@testing-library/react'
 import HelpButton from '../../components/help-button/HelpButton'
 import ToggleButton from '../../components/toggle-button/ToggleButton'
 
@@ -67,84 +67,48 @@ describe('Context', () => {
   }
 
   it('locales should translate component strings', () => {
-    const Comp = mount(<HelpButton>content</HelpButton>)
+    render(<HelpButton>content</HelpButton>)
+    const helpButtonNb = screen.getByLabelText(title_nb)
+    expect(helpButtonNb.getAttribute('aria-label')).toBe(title_nb)
+    expect(helpButtonNb.getAttribute('aria-roledescription')).toBe(
+      'Hjelp-knapp'
+    )
 
-    expect(
-      Comp.find('button.dnb-help-button')
-        .instance()
-        .getAttribute('aria-label')
-    ).toBe(title_nb)
-    expect(
-      Comp.find('button.dnb-help-button')
-        .instance()
-        .getAttribute('aria-roledescription')
-    ).toBe('Hjelp-knapp')
-
-    Comp.setProps({
-      lang: 'en-GB',
-    })
-
-    expect(
-      Comp.find('button.dnb-help-button')
-        .instance()
-        .getAttribute('aria-label')
-    ).toBe(title_gb)
-    expect(
-      Comp.find('button.dnb-help-button')
-        .instance()
-        .getAttribute('aria-roledescription')
-    ).toBe('Help button')
+    render(<HelpButton lang="en-GB">content</HelpButton>)
+    const helpButtonGb = screen.getByLabelText(title_gb)
+    expect(helpButtonGb.getAttribute('aria-label')).toBe(title_gb)
+    expect(helpButtonGb.getAttribute('aria-roledescription')).toBe(
+      'Help button'
+    )
   })
 
   it('translation (getTranslation) should react on new lang prop', () => {
-    const Comp = mount(<MagicContext />)
+    const { rerender } = render(<MagicContext />)
+    expect(screen.queryByText(title_nb)).toBeTruthy()
 
-    expect(Comp.find('p').text()).toBe(title_nb)
-
-    Comp.setProps({
-      lang: 'en-GB',
-    })
-
-    expect(Comp.find('p').text()).toBe(title_gb)
+    rerender(<MagicContext lang="en-GB" />)
+    expect(screen.queryByText(title_gb)).toBeTruthy()
   })
 
   it('translation (getTranslation) should react on new locale', () => {
-    const Comp = mount(<MagicContext />)
+    render(<MagicContext />)
+    expect(screen.getByText(title_nb)).toBeTruthy()
 
-    expect(Comp.find('p').text()).toBe(title_nb)
+    screen.getByRole('button', { name: 'en-GB' }).click()
+    expect(screen.getByText(title_gb)).toBeTruthy()
 
-    Comp.find('.en-GB').find('button').simulate('click')
+    screen.getByRole('button', { name: 'en-US' }).click()
+    expect(screen.getByText(title_gb)).toBeTruthy()
 
-    expect(Comp.find('p').text()).toBe(title_gb)
-
-    Comp.find('.en-US').find('button').simulate('click')
-
-    expect(Comp.find('p').text()).toBe(title_gb)
-
-    Comp.find('.nb-NO').find('button').simulate('click')
-
-    expect(Comp.find('p').text()).toBe(title_nb)
+    screen.getByRole('button', { name: 'nb-NO' }).click()
+    expect(screen.getByText(title_nb)).toBeTruthy()
   })
 
   it('translation should react on locale change', () => {
-    const Comp = mount(<HelpButton>content</HelpButton>)
+    const { rerender } = render(<HelpButton>content</HelpButton>)
+    expect(screen.queryByLabelText(title_nb)).toBeTruthy()
 
-    expect(
-      Comp.find('HelpButtonInstance')
-        .find('button')
-        .instance()
-        .getAttribute('aria-label')
-    ).toBe(title_nb)
-
-    Comp.setProps({
-      lang: 'en-GB',
-    })
-
-    expect(
-      Comp.find('HelpButtonInstance')
-        .find('button')
-        .instance()
-        .getAttribute('aria-label')
-    ).toBe(title_gb)
+    rerender(<HelpButton lang="en-GB">content</HelpButton>)
+    expect(screen.queryByLabelText(title_gb)).toBeTruthy()
   })
 })
