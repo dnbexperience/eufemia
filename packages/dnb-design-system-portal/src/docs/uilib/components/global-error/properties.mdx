@@ -4,32 +4,15 @@ showTabs: true
 
 ## Properties
 
-| Properties       | Description                                                                                                                 |
-| ---------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| `status`         | _(optional)_ status code defines the view showing up.                                                                       |
-| `status_content` | _(optional)_ a JSON object or a JS object providing the status texts. More details below.                                   |
-| `title`          | _(optional)_ defining a `title` will overwrite the default provided by `status_content`.                                    |
-| `text`           | _(optional)_ defining a `text` will overwrite the default provided by `status_content`.                                     |
-| `alt`            | _(optional)_ defining a `alt` text for the SVG graphic will overwrite the default provided by `status_content`.             |
-| `back`           | _(optional)_ the text of the back button. Defaults to `Tilbake`. Can also be a React component.                             |
-| `href`           | _(optional)_ instead of using the default `window.history.back()` you can provide the back button and text link with a url. |
-| `children`       | _(optional)_ if needed, add additional content under the main content.                                                      |
-
-## Status Content
-
-The structure for the `status_content` property.
-
-```js
-{
-  404: {
-    title: ...,
-    text: ...,
-    alt: ...,
-  },
-  500: {
-    title: ...,
-    text: ...,
-    alt: ...
-  }
-}
-```
+| Properties | Description                                                                                                                      |
+| ---------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `status`   | _(optional)_ define a status code as a string. When `404` or `500` is given, a predefined text will be shown. Defaults to `400`. |
+| `title`    | _(optional)_ will overwrite the default title.                                                                                   |
+| `text`     | _(optional)_ will overwrite the default text.                                                                                    |
+| `code`     | _(optional)_ will overwrite the default error message code.                                                                      |
+| `help`     | _(optional)_ will overwrite the default additional help text.                                                                    |
+| `links`    | _(optional)_ provide an array with objects `{ text: 'Text', url: 'https://...' }` to display a list of anchor links.             |
+| `center`   | _(optional)_ if true, it will use `80vh` as the height and center its content.                                                   |
+| `skeleton` | _(optional)_ applies a loading skeleton to all included elements.                                                                |
+| `locale`   | _(optional)_ set a [supported locale](/uilib/usage/customisation/localization/) if needed.                                       |
+| `children` | _(optional)_ to display additional related content, like useful links etc.                                                       |
