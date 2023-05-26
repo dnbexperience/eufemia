@@ -5,11 +5,13 @@ redirect_from:
 ---
 
 import {
+  HeadingBasicsExample,
   HeadingTypographyExample,
   HeadingTypographyXLargeExample,
   HeadingVanillaHTMLExample,
   HeadingModifiersExample,
   HeadingMarginCollapsingExample,
+  HeadingTestVariants,
 } from 'Docs/uilib/elements/heading/Examples'
 
 # Heading
@@ -57,8 +59,15 @@ import { Heading } from '@dnb/eufemia/components'
 ```jsx
 import { H1, H2, ... } from '@dnb/eufemia'
 ```
+### The most basing use of headings
+
+Just using the `H1, H2, etc.` components will give you the basic headings.
+
+<HeadingBasicsExample />
 
 ### Heading typography using React JSX
+
+The visual size of a heading can be customized using the `size` prop with values: `xx-large | x-large  | large  | medium  | basis  | small  | x-small`
 
 <HeadingTypographyExample />
 
@@ -79,3 +88,5 @@ By using the `<small>` element, we decrease the size one level (default size is 
 Only the largest margin takes effect.
 
 <HeadingMarginCollapsingExample />
+
+<HeadingTestVariants />

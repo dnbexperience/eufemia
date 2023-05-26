@@ -187,3 +187,107 @@ export function ParagraphModifiers() {
     </ComponentBox>
   )
 }
+
+export function ParagraphTestVariants() {
+  if (!globalThis.IS_TEST) {
+    return null
+  }
+
+  const Content = () => (
+    <>
+      <Case>Here is a paragraph text</Case>
+      <Case>
+        <Anchor href="/">Anchor / Text Link</Anchor>
+      </Case>
+      <Case>
+        <b>Bold paragraph (medium weight)</b>
+      </Case>
+      <Case>
+        <strong>Strong paragraph (medium weight)</strong>
+      </Case>
+      {/* <i>Italic paragraph (Currently not supported by DNB UX)</i> */}
+      {/* <u>Underline paragraph (Currently not supported by DNB UX)</u> */}
+      <Case>Numbers 0123456789</Case>
+      <Case>
+        <code className="dnb-code">Code paragraph</code>
+      </Case>
+      <Case>
+        <cite>Cite paragraph</cite>
+      </Case>
+      <Case>
+        Text <sup>1</sup>
+        <b>
+          Text <sup>1</sup>
+        </b>
+      </Case>
+      <Case>
+        Text
+        <sup>
+          <Anchor href="/">1</Anchor>
+        </sup>
+        <b>
+          Text
+          <sup>
+            <Anchor href="/">1</Anchor>
+          </sup>
+        </b>
+      </Case>
+      <Case>
+        Text <sub>1</sub>
+        <b>
+          Text <sub>1</sub>
+        </b>
+      </Case>
+    </>
+  )
+
+  const PWrap = ({customSize = null, ...props}) => (
+    <>
+      <Case>Size: {props.size || customSize}</Case>
+      <P {...props}>
+        <Case>Weight: default</Case>
+        <Content/>
+      </P>
+      <hr />
+      <P medium {...props}>
+        <Case>Weight: medium</Case>
+        <Content/>
+      </P>
+      <hr />
+      <P bold {...props}>
+        <Case>Size: {props.size}</Case>
+        <Case>Wight: bold</Case>
+        <Content/>
+      </P>
+    </>
+  )
+
+  return (
+    <ComponentBox scope={{PWrap}}>
+      <div data-visual-test="paragraph-size-default">
+        <PWrap customSize="default" />
+      </div>
+      <div data-visual-test="paragraph-size-xx-large">
+        <PWrap size="xx-large" />
+      </div>
+      <div data-visual-test="paragraph-size-x-large">
+        <PWrap size="x-large" />
+      </div>
+      <div data-visual-test="paragraph-size-large">
+        <PWrap size="large" />
+      </div>
+      <div data-visual-test="paragraph-size-medium">
+        <PWrap size="medium" />
+      </div>
+      <div data-visual-test="paragraph-size-basis">
+        <PWrap size="basis" />
+      </div>
+      <div data-visual-test="paragraph-size-small">
+        <PWrap size="small" />
+      </div>
+      <div data-visual-test="paragraph-size-x-small">
+        <PWrap size="x-small" />
+      </div>
+    </ComponentBox>
+  )
+}

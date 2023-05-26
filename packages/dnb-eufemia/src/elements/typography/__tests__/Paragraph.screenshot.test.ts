@@ -41,4 +41,60 @@ describe.each(['ui', 'sbanken'])('Paragraph for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+  
+  it('have to match style for size default', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="paragraph-size-default"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match style for size xx-large', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="paragraph-size-xx-large"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match style for size x-large', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="paragraph-size-x-large"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match style for size large', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="paragraph-size-large"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match style for size medium', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="paragraph-size-medium"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match style for size basis', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="paragraph-size-basis"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match style for size small', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="paragraph-size-small"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match style for size x-small', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="paragraph-size-x-small"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
