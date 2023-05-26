@@ -252,14 +252,8 @@ export default class ModalContent extends React.PureComponent<
             focusElement.focus()
 
             const noH1Elem = elem.querySelector('h1, h2, h3')
-            if (
-              typeof noH1Elem?.tagName !== 'undefined' &&
-              noH1Elem?.tagName !== 'H1'
-            ) {
-              warn(
-                'You have to provide a h1 element at first – instead of:',
-                noH1Elem
-              )
+            if (noH1Elem?.tagName !== 'H1') {
+              warn('A Dialog or Drawer needs a h1 as its first element!')
             }
           } catch (e) {
             warn(e)
