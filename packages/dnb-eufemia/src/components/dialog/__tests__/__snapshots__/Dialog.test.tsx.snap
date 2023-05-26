@@ -2292,11 +2292,10 @@ html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
 .dnb-dialog__actions {
   padding-top: 1.5rem;
   display: flex;
+  flex-flow: row wrap;
   justify-content: center;
+  gap: 1rem;
   width: 100%;
-}
-.dnb-dialog__actions > :not(:last-child) {
-  margin-right: 1rem;
 }
 .dnb-dialog--information .dnb-dialog__actions {
   justify-content: left;
