@@ -2,11 +2,7 @@ import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 import Tag from '../Tag'
 import nbNO from '../../../shared/locales/nb-NO'
-import {
-  axeComponent,
-  loadScss,
-  mount,
-} from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { Provider } from '../../../shared'
 
 const nb = nbNO['nb-NO'].Tag
@@ -394,14 +390,14 @@ describe('Tag', () => {
   it('warns when Tag is used without a Tag.Group as parent component', () => {
     process.env.NODE_ENV = 'development'
     global.console.log = jest.fn()
-    mount(<Tag text="Tag" />)
+    render(<Tag text="Tag" />)
     expect(global.console.log).toBeCalled()
   })
 
   it('will not warn when hasLabel is true', () => {
     process.env.NODE_ENV = 'development'
     global.console.log = jest.fn()
-    mount(<Tag text="Tag" hasLabel />)
+    render(<Tag text="Tag" hasLabel />)
     expect(global.console.log).not.toBeCalled()
   })
 
