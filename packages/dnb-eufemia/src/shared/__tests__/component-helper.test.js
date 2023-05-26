@@ -5,6 +5,8 @@
 
 import React from 'react'
 import { mount } from '../../core/jest/jestSetup'
+import { render, screen } from '@testing-library/react'
+
 import {
   isTrue,
   extend,
@@ -396,8 +398,12 @@ describe('"dispatchCustomElementEvent" should', () => {
         my_event,
       },
     }
-    const renderedButton = mount(<button data-prop="value">Button</button>)
-    const currentTarget = renderedButton.find('button').getDOMNode()
+    const buttonText = 'Button'
+    render(<button data-prop="value">{buttonText}</button>)
+
+    const currentTarget = screen.getByRole('button', {
+      name: buttonText,
+    })
     const event = { currentTarget }
     const attributes = {
       'data-attr': 'value',
