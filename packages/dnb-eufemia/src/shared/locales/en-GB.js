@@ -43,15 +43,15 @@ export default {
     },
     GlobalError: {
       404: {
-        title: "Oops! We can't find the page you're looking for …",
-        text: 'Did we messed with the links? Try again, or [go back where you came from](/back).',
-        alt: 'Lady searching in empty box',
+        title: "We can't find the page you're looking for …",
+        text: 'Are you sure you have entered the correct address? Or have we messed with the links?',
       },
       500: {
-        title: 'Ohh, a technical error happened!',
-        text: 'The service is not working properly at the moment, but try again later.',
-        alt: 'Man looking for clues',
+        title: 'Sorry, a technical error happened!',
+        text: 'The service is not working properly at the moment. Try again later.',
       },
+      code: 'Error code:',
+      help: 'Here are some links that might help:',
     },
     ProgressIndicator: {
       indicator_label: 'Please wait ...',
