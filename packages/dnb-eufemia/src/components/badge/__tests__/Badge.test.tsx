@@ -5,11 +5,7 @@ import { confetti as Confetti } from '../../../icons'
 import Icon from '../../Icon'
 import Avatar from '../../Avatar'
 
-import {
-  loadScss,
-  axeComponent,
-  mount,
-} from '../../../core/jest/jestSetup'
+import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
 import { Provider } from '../../../shared'
 
 describe('Badge', () => {
@@ -75,14 +71,14 @@ describe('Badge', () => {
   it('warns when notification badge content is a string', () => {
     process.env.NODE_ENV = 'development'
     global.console.log = jest.fn()
-    mount(<Badge variant="notification" content="string" />)
+    render(<Badge variant="notification" content="string" />)
     expect(global.console.log).toBeCalled()
   })
 
   it('does not warn when notification badge content is a number', () => {
     process.env.NODE_ENV = 'development'
     global.console.log = jest.fn()
-    mount(
+    render(
       <Badge variant="notification" content={1} label="Notifications:" />
     )
     expect(global.console.log).not.toBeCalled()
@@ -91,21 +87,21 @@ describe('Badge', () => {
   it('warns when Badge content is a number and is missing a label', () => {
     process.env.NODE_ENV = 'development'
     global.console.log = jest.fn()
-    mount(<Badge content={1} />)
+    render(<Badge content={1} />)
     expect(global.console.log).toBeCalled()
   })
 
   it('does not warn when Badge content is a string and label is missing', () => {
     process.env.NODE_ENV = 'development'
     global.console.log = jest.fn()
-    mount(<Badge content="text" />)
+    render(<Badge content="text" />)
     expect(global.console.log).not.toBeCalled()
   })
 
   it('does not warn when Badge content is a number and has a label', () => {
     process.env.NODE_ENV = 'development'
     global.console.log = jest.fn()
-    mount(<Badge content="text" label="Notifications:" />)
+    render(<Badge content="text" label="Notifications:" />)
     expect(global.console.log).not.toBeCalled()
   })
 
