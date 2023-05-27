@@ -11,6 +11,7 @@ import {
   toJson,
   loadScss,
 } from '../../../core/jest/jestSetup'
+import { render, screen } from '@testing-library/react'
 import Component, { ProgressIndicatorProps } from '../ProgressIndicator'
 import { format } from '../../number-format/NumberUtils'
 
@@ -25,26 +26,25 @@ const props: ProgressIndicatorProps = fakeProps(
 describe('Circular ProgressIndicator component', () => {
   const mainLineSelector =
     'svg.dnb-progress-indicator__circular__line.dark[style]'
-  const Comp = mount(
-    <Component {...props} type="circular" progress={50} />
-  )
 
   it('have to match snapshot', () => {
+    const Comp = mount(
+      <Component {...props} type="circular" progress={50} />
+    )
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
   it('has to have a stroke-dashoffset of 44 on 50%', () => {
+    render(<Component {...props} type="circular" progress={50} />)
     expect(
-      Comp.find(mainLineSelector).instance().getAttribute('style')
+      document.querySelector(mainLineSelector).getAttribute('style')
     ).toBe('stroke-dashoffset: 44;')
   })
 
   it('has to have a aria-label with a 50% value', () => {
-    expect(
-      Comp.find('.dnb-progress-indicator__circular')
-        .instance()
-        .getAttribute('aria-label')
-    ).toBe(
+    render(<Component {...props} type="circular" progress={50} />)
+    const indicator = screen.getByRole('progressbar')
+    expect(indicator.getAttribute('aria-label')).toBe(
       format(50, {
         decimals: 2,
         percent: true,
@@ -53,56 +53,34 @@ describe('Circular ProgressIndicator component', () => {
   })
 
   it('has role of alert or progressbar depending if progress has a value', () => {
-    Comp.setProps({
-      progress: undefined,
-    })
-    expect(
-      Comp.find('.dnb-progress-indicator__circular')
-        .instance()
-        .getAttribute('role')
-    ).toBe('alert')
+    const { rerender } = render(
+      <Component {...props} type="circular" progress={undefined} />
+    )
+    expect(screen.queryByRole('alert')).toBeTruthy()
 
-    Comp.setProps({
-      progress: 80,
-    })
-    expect(
-      Comp.find('.dnb-progress-indicator__circular')
-        .instance()
-        .getAttribute('role')
-    ).toBe('progressbar')
+    rerender(<Component {...props} type="circular" progress={80} />)
+    expect(screen.queryByRole('progressbar')).toBeTruthy()
   })
 
   it('has to react to a progress value of 80%', () => {
-    Comp.setProps({
-      progress: 80,
-    })
-    expect(
-      Comp.find('.dnb-progress-indicator__circular')
-        .instance()
-        .getAttribute('aria-label')
-    ).toBe(
+    render(<Component {...props} type="circular" progress={80} />)
+    const indicator = screen.getByRole('progressbar')
+    expect(indicator.getAttribute('aria-label')).toBe(
       format(80, {
         decimals: 2,
         percent: true,
       })
     )
     expect(
-      Comp.find(mainLineSelector).instance().getAttribute('style')
+      document.querySelector(mainLineSelector).getAttribute('style')
     ).toBe('stroke-dashoffset: 17.599999999999994;')
-    Comp.setProps({
-      progress: 50,
-    })
   })
 
   it('has aria-label set to the value of progress property when title is default', () => {
-    const CircularComp = mount(
-      <Component {...props} type="circular" progress={1} />
-    )
-    expect(
-      CircularComp.find('.dnb-progress-indicator__circular')
-        .instance()
-        .getAttribute('aria-label')
-    ).toBe(
+    render(<Component {...props} type="circular" progress={1} />)
+
+    const indicator = screen.getByRole('progressbar')
+    expect(indicator.getAttribute('aria-label')).toBe(
       format(1, {
         decimals: 2,
         percent: true,
@@ -111,14 +89,10 @@ describe('Circular ProgressIndicator component', () => {
   })
 
   it('has title set to the value of progress property when title is default', () => {
-    const CircularComp = mount(
-      <Component {...props} type="circular" progress={1} />
-    )
-    expect(
-      CircularComp.find('.dnb-progress-indicator__circular')
-        .instance()
-        .getAttribute('title')
-    ).toBe(
+    render(<Component {...props} type="circular" progress={1} />)
+
+    const indicator = screen.getByRole('progressbar')
+    expect(indicator.getAttribute('title')).toBe(
       format(1, {
         decimals: 2,
         percent: true,
@@ -127,74 +101,72 @@ describe('Circular ProgressIndicator component', () => {
   })
 
   it('does not have aria-label when progress, and title is both null', () => {
-    const CircularComp = mount(
+    render(
       <Component {...props} type="circular" progress={null} title={null} />
     )
-    expect(
-      CircularComp.find('.dnb-progress-indicator__circular')
-        .instance()
-        .getAttribute('aria-label')
-    ).toBeNull()
+
+    const indicator = screen.getByRole('alert')
+    expect(indicator.getAttribute('aria-label')).toBeNull()
   })
 
   it('does not have title when progress, and title is both null', () => {
-    const CircularComp = mount(
+    render(
       <Component {...props} type="circular" progress={null} title={null} />
     )
-    expect(
-      CircularComp.find('.dnb-progress-indicator__circular')
-        .instance()
-        .getAttribute('title')
-    ).toBeNull()
+
+    const indicator = screen.getByRole('alert')
+    expect(indicator.getAttribute('title')).toBeNull()
   })
 
   it('has aria-label set to the value of title property', () => {
-    const CircularComp = mount(
-      <Component {...props} type="circular" progress={1} title="loading" />
+    const title = 'loading'
+    render(
+      <Component {...props} type="circular" progress={1} title={title} />
     )
-    expect(
-      CircularComp.find('.dnb-progress-indicator__circular')
-        .instance()
-        .getAttribute('aria-label')
-    ).toBe('loading')
+
+    const indicator = screen.getByRole('progressbar')
+    expect(indicator.getAttribute('aria-label')).toBe(title)
   })
 
   it('has title set to the value of title property', () => {
-    const CircularComp = mount(
-      <Component {...props} type="circular" progress={1} title="loading" />
+    const title = 'loading'
+    render(
+      <Component {...props} type="circular" progress={1} title={title} />
     )
-    expect(
-      CircularComp.find('.dnb-progress-indicator__circular')
-        .instance()
-        .getAttribute('title')
-    ).toBe('loading')
+
+    const indicator = screen.getByRole('progressbar')
+    expect(indicator.getAttribute('title')).toBe(title)
   })
 
   it('should validate with ARIA rules as a svg element', async () => {
+    const Comp = mount(
+      <Component {...props} type="circular" progress={50} />
+    )
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
 
 describe('Linear ProgressIndicator component', () => {
   const mainLineSelector = '.dnb-progress-indicator__linear__bar'
-  const Comp = mount(<Component {...props} type="linear" progress={50} />)
 
   it('have to match snapshot', () => {
+    const Comp = mount(
+      <Component {...props} type="linear" progress={50} />
+    )
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
   it('has to have a transform of translateX(-50%) on 50%', () => {
+    render(<Component {...props} type="linear" progress={50} />)
     expect(
-      Comp.find(mainLineSelector).instance().getAttribute('style')
+      document.querySelector(mainLineSelector).getAttribute('style')
     ).toBe('transform: translateX(-50%);')
   })
 
   it('has to have a aria-label with a 50% value', () => {
-    expect(
-      Comp.find('.dnb-progress-indicator__linear')
-        .instance()
-        .getAttribute('aria-label')
-    ).toBe(
+    render(<Component {...props} type="linear" progress={50} />)
+    const indicator = screen.getByRole('progressbar')
+    expect(indicator.getAttribute('aria-label')).toBe(
       format(50, {
         decimals: 2,
         percent: true,
@@ -203,11 +175,10 @@ describe('Linear ProgressIndicator component', () => {
   })
 
   it('has to have a title with a 50% value', () => {
-    expect(
-      Comp.find('.dnb-progress-indicator__linear')
-        .instance()
-        .getAttribute('title')
-    ).toBe(
+    render(<Component {...props} type="linear" progress={50} />)
+
+    const indicator = screen.getByRole('progressbar')
+    expect(indicator.getAttribute('title')).toBe(
       format(50, {
         decimals: 2,
         percent: true,
@@ -216,56 +187,34 @@ describe('Linear ProgressIndicator component', () => {
   })
 
   it('has role of alert or progressbar depending if progress has a value', () => {
-    Comp.setProps({
-      progress: undefined,
-    })
-    expect(
-      Comp.find('.dnb-progress-indicator__linear')
-        .instance()
-        .getAttribute('role')
-    ).toBe('alert')
+    const { rerender } = render(
+      <Component {...props} type="linear" progress={undefined} />
+    )
+    expect(screen.queryByRole('alert')).toBeTruthy()
 
-    Comp.setProps({
-      progress: 80,
-    })
-    expect(
-      Comp.find('.dnb-progress-indicator__linear')
-        .instance()
-        .getAttribute('role')
-    ).toBe('progressbar')
+    rerender(<Component {...props} type="linear" progress={80} />)
+    expect(screen.queryByRole('progressbar')).toBeTruthy()
   })
 
   it('has to react to a progress value of 80%', () => {
-    Comp.setProps({
-      progress: 80,
-    })
-    expect(
-      Comp.find('.dnb-progress-indicator__linear')
-        .instance()
-        .getAttribute('aria-label')
-    ).toBe(
+    render(<Component {...props} type="linear" progress={80} />)
+    const indicator = screen.getByRole('progressbar')
+    expect(indicator.getAttribute('aria-label')).toBe(
       format(80, {
         decimals: 2,
         percent: true,
       })
     )
     expect(
-      Comp.find(mainLineSelector).instance().getAttribute('style')
+      document.querySelector(mainLineSelector).getAttribute('style')
     ).toBe('transform: translateX(-20%);')
-    Comp.setProps({
-      progress: 50,
-    })
   })
 
   it('has aria-label set to the value of progress property when title is default', () => {
-    const LinearComp = mount(
-      <Component {...props} type="linear" progress={1} />
-    )
-    expect(
-      LinearComp.find('.dnb-progress-indicator__linear')
-        .instance()
-        .getAttribute('aria-label')
-    ).toBe(
+    render(<Component {...props} type="linear" progress={1} />)
+
+    const indicator = screen.getByRole('progressbar')
+    expect(indicator.getAttribute('aria-label')).toBe(
       format(1, {
         decimals: 2,
         percent: true,
@@ -274,14 +223,10 @@ describe('Linear ProgressIndicator component', () => {
   })
 
   it('has title set to the value of progress property when title is default', () => {
-    const LinearComp = mount(
-      <Component {...props} type="linear" progress={1} />
-    )
-    expect(
-      LinearComp.find('.dnb-progress-indicator__linear')
-        .instance()
-        .getAttribute('title')
-    ).toBe(
+    render(<Component {...props} type="linear" progress={1} />)
+
+    const indicator = screen.getByRole('progressbar')
+    expect(indicator.getAttribute('title')).toBe(
       format(1, {
         decimals: 2,
         percent: true,
@@ -290,50 +235,47 @@ describe('Linear ProgressIndicator component', () => {
   })
 
   it('does not have aria-label when progress, and title is both null', () => {
-    const LinearComp = mount(
+    render(
       <Component {...props} type="linear" progress={null} title={null} />
     )
-    expect(
-      LinearComp.find('.dnb-progress-indicator__linear')
-        .instance()
-        .getAttribute('aria-label')
-    ).toBeNull()
+
+    const indicator = screen.getByRole('alert')
+    expect(indicator.getAttribute('aria-label')).toBeNull()
   })
 
   it('does not have title when progress, and title is both null', () => {
-    const LinearComp = mount(
+    render(
       <Component {...props} type="linear" progress={null} title={null} />
     )
-    expect(
-      LinearComp.find('.dnb-progress-indicator__linear')
-        .instance()
-        .getAttribute('title')
-    ).toBeNull()
+
+    const indicator = screen.getByRole('alert')
+    expect(indicator.getAttribute('title')).toBeNull()
   })
 
   it('has aria-label set to the value of title property', () => {
-    const LinearComp = mount(
-      <Component {...props} type="linear" progress={1} title="loading" />
+    const title = 'loading'
+    render(
+      <Component {...props} type="linear" progress={1} title={title} />
     )
-    expect(
-      LinearComp.find('.dnb-progress-indicator__linear')
-        .instance()
-        .getAttribute('aria-label')
-    ).toBe('loading')
+
+    const indicator = screen.getByRole('progressbar')
+    expect(indicator.getAttribute('aria-label')).toBe(title)
   })
 
   it('has title set to the value of title property', () => {
-    const LinearComp = mount(
-      <Component {...props} type="linear" progress={1} title="loading" />
+    const title = 'loading'
+    render(
+      <Component {...props} type="linear" progress={1} title={title} />
     )
-    expect(
-      LinearComp.find('.dnb-progress-indicator__linear')
-        .instance()
-        .getAttribute('title')
-    ).toBe('loading')
+
+    const indicator = screen.getByRole('progressbar')
+    expect(indicator.getAttribute('title')).toBe(title)
   })
 
   it('should validate with ARIA rules', async () => {
+    const Comp = mount(
+      <Component {...props} type="circular" progress={50} />
+    )
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
