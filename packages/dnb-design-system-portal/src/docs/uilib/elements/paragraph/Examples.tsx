@@ -243,18 +243,15 @@ export function ParagraphTestVariants() {
 
   const PWrap = ({customSize = null, ...props}) => (
     <>
-      <Case>Size: {props.size || customSize}</Case>
-      <P {...props}>
+      <P {...props} data-visual-test={'paragraph-size-' + (props.size || customSize) + '-regular'}>
         <Case>Weight: default</Case>
         <Content/>
       </P>
-      <hr />
-      <P medium {...props}>
+      <P medium {...props} data-visual-test={'paragraph-size-' + (props.size || customSize) + '-medium'}>
         <Case>Weight: medium</Case>
         <Content/>
       </P>
-      <hr />
-      <P bold {...props}>
+      <P bold {...props} data-visual-test={'paragraph-size-' + (props.size || customSize) + '-bold'}>
         <Case>Wight: bold</Case>
         <Content/>
       </P>
@@ -263,30 +260,14 @@ export function ParagraphTestVariants() {
 
   return (
     <ComponentBox scope={{PWrap}}>
-      <div data-visual-test="paragraph-size-default">
-        <PWrap customSize="default" />
-      </div>
-      <div data-visual-test="paragraph-size-xx-large">
-        <PWrap size="xx-large" />
-      </div>
-      <div data-visual-test="paragraph-size-x-large">
-        <PWrap size="x-large" />
-      </div>
-      <div data-visual-test="paragraph-size-large">
-        <PWrap size="large" />
-      </div>
-      <div data-visual-test="paragraph-size-medium">
-        <PWrap size="medium" />
-      </div>
-      <div data-visual-test="paragraph-size-basis">
-        <PWrap size="basis" />
-      </div>
-      <div data-visual-test="paragraph-size-small">
-        <PWrap size="small" />
-      </div>
-      <div data-visual-test="paragraph-size-x-small">
-        <PWrap size="x-small" />
-      </div>
+      <PWrap customSize="default" />
+      <PWrap size="xx-large" />
+      <PWrap size="x-large" />
+      <PWrap size="large" />
+      <PWrap size="medium" />
+      <PWrap size="basis" />
+      <PWrap size="small" />
+      <PWrap size="x-small" />
     </ComponentBox>
   )
 }
