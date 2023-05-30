@@ -14,12 +14,12 @@ import Component, {
   Designs,
   ProductType,
   CardType,
-  formatCardNumber,
   PaymentCardProps,
   BankAxeptType,
 } from '../PaymentCard'
 import nbNO from '../../../shared/locales/nb-NO'
 import enGB from '../../../shared/locales/en-GB'
+import { render, screen } from '@testing-library/react'
 
 const nb = nbNO['nb-NO'].PaymentCard
 const en = enGB['en-GB'].PaymentCard
@@ -47,74 +47,53 @@ describe('PaymentCard', () => {
   })
 
   it('has to have a figcaption', () => {
-    expect(Comp.find('figcaption').text()).toBe('DNB Kortet')
+    render(<Component {...defaultProps} />)
+
+    expect(screen.queryByText('DNB Kortet')).toBeTruthy()
+    expect(screen.queryByText('DNB Kortet').tagName).toEqual('FIGCAPTION')
   })
 
   it('has a valid title in SVG', () => {
-    expect(
-      Comp.find('svg.dnb-payment-card__card__bank-logo')
-        .first()
-        .find('title')
-        .text()
-    ).toContain('DNB')
+    render(<Component {...defaultProps} />)
+
+    expect(screen.queryByText('DNB logo')).toBeTruthy()
+    expect(screen.queryByText('DNB logo').tagName).toEqual('title')
   })
 
   it('has a correct formatted card number', () => {
-    expect(Comp.find('p.dnb-payment-card__card__numbers').text()).toBe(
-      formatCardNumber(defaultProps.card_number)
-    )
+    render(<Component {...defaultProps} />)
+
+    expect(screen.queryByText('**** **** **** 1337')).toBeTruthy()
   })
 
   it('has a correct label', () => {
-    expect(Comp.find('p.dnb-payment-card__card__holder').text()).toBe(
-      nb.text_card_number
-    )
+    render(<Component {...defaultProps} />)
+
+    expect(screen.queryByText(nb.text_card_number)).toBeTruthy()
   })
 
   it('has correct expired status', () => {
-    Comp.setProps({
-      card_status: 'expired',
-    })
-    expect(Comp.exists('div.dnb-payment-card__blocking__overlay')).toBe(
-      true
-    )
-    expect(
-      Comp.find('div.dnb-payment-card__blocking__overlay')
-        .find('p.dnb-p')
-        .text()
-    ).toBe(nb.text_expired)
+    render(<Component {...defaultProps} card_status="expired" />)
+
+    expect(screen.queryByText(nb.text_expired)).toBeTruthy()
   })
 
   it('has correct blocked status', () => {
-    Comp.setProps({
-      card_status: 'blocked',
-    })
-    expect(Comp.exists('div.dnb-payment-card__blocking__overlay')).toBe(
-      true
-    )
-    expect(
-      Comp.find('div.dnb-payment-card__blocking__overlay')
-        .find('p.dnb-p')
-        .text()
-    ).toBe(nb.text_blocked)
+    render(<Component {...defaultProps} card_status="blocked" />)
+
+    expect(screen.queryByText(nb.text_blocked)).toBeTruthy()
   })
 
   it('reacts to locale change', () => {
-    expect(Comp.find('p.dnb-payment-card__card__holder').text()).toBe(
-      nb.text_card_number
-    )
-    Comp.setProps({
-      locale: 'en-GB',
-    })
-    expect(Comp.find('p.dnb-payment-card__card__holder').text()).toBe(
-      en.text_card_number
-    )
-    Comp.setProps({
-      locale: 'nb-NO',
-    })
-    expect(Comp.find('p.dnb-payment-card__card__holder').text()).toBe(
-      nb.text_card_number
-    )
+    const { rerender } = render(<Component {...defaultProps} />)
+
+    expect(screen.queryByText(nb.text_card_number)).toBeTruthy()
+
+    rerender(<Component {...defaultProps} locale="en-GB" />)
+    expect(screen.queryByText(en.text_card_number)).toBeTruthy()
+
+    rerender(<Component {...defaultProps} locale="nb-NO" />)
+    expect(screen.queryByText(nb.text_card_number)).toBeTruthy()
   })
 
   it('reacts raw_data with correct rendering', () => {
@@ -128,7 +107,7 @@ describe('PaymentCard', () => {
       bankAxept: BankAxeptType.BankAxept,
     }
 
-    const Comp = mount(
+    render(
       <Component
         product_code="UNDEFINED"
         raw_data={customData}
@@ -137,10 +116,13 @@ describe('PaymentCard', () => {
       />
     )
 
-    expect(Comp.find('figcaption').text()).toBe(customData.productName)
-    expect(Comp.exists('div.dnb-payment-card__card--design-gold')).toBe(
-      true
+    expect(screen.queryByText(customData.productName)).toBeTruthy()
+    expect(screen.queryByText(customData.productName).tagName).toEqual(
+      'FIGCAPTION'
     )
+    expect(
+      document.querySelector('div.dnb-payment-card__card--design-gold')
+    ).toBeTruthy()
   })
 
   it('should validate with ARIA rules', async () => {
