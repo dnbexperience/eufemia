@@ -32,7 +32,7 @@
     "prebuild:figma:ci": "yarn figma",
     "build:pack": "yarn build && yarn publish:prepare && cd ./build && yarn pack",
     "build:packages": "./scripts/postbuild/build-packages.sh",
-    "build:prebuild": "babel-node --extensions .js,.ts,.tsx ./scripts/prebuild/runPrepub.js",
+    "build:prebuild": "./vd-tool/bin/vd-tool -c -in ./assets/icons/* && babel-node --extensions .js,.ts,.tsx ./scripts/prebuild/runPrepub.js",
     "build:resources": "babel-node --extensions .js,.ts,.tsx ./scripts/prebuild/resources/makeResourcesPackage.js",
     "build:types:definitions": "yarn tsc --project tsconfig.definitions.json",
     "build:types:dev": "nodemon --exec 'babel-node --extensions .js,.ts,.tsx ./scripts/prebuild/generateTypes.js' --ext js --watch './src/**/*' --watch './scripts/**/*'",

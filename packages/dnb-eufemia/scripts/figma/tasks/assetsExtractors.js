@@ -7,7 +7,7 @@ import fs from 'fs-extra'
 import path from 'path'
 import prettier from 'prettier'
 import { optimize, loadConfig } from 'svgo' // eslint-disable-line
-import svg2vectordrawable from 'svg2vectordrawable/src/svg-file-to-vectordrawable-file'
+// import svg2vectordrawable from 'svg2vectordrawable/src/svg-file-to-vectordrawable-file'
 import { asyncForEach } from '../../tools'
 import { ERROR_HARMLESS } from '../../lib/error'
 import { log, ErrorHandler } from '../../lib'
@@ -669,7 +669,7 @@ const makeMetaFile = async ({
 }
 
 const createXMLTarBundles = async ({
-  floatPrecision = 3, // If undefined, the default precision is 2
+  // floatPrecision = 3, // If undefined, the default precision is 2
   destDir,
   listOfProcessedFiles,
   outputName = 'eufemia-icons-xml.tgz',
@@ -694,19 +694,20 @@ const createXMLTarBundles = async ({
     }
   )
 
-  const convertSvgToXml = async () => {
-    await asyncForEach(
-      listOfProcessedFiles,
-      async ({ iconFile, iconFileXML }) => {
-        const source = path.resolve(destDir, iconFile)
-        const dest = path.resolve(destDir, iconFileXML)
+  // To be replaced by vd-tool
+  // const convertSvgToXml = async () => {
+  //   await asyncForEach(
+  //     listOfProcessedFiles,
+  //     async ({ iconFile, iconFileXML }) => {
+  //       const source = path.resolve(destDir, iconFile)
+  //       const dest = path.resolve(destDir, iconFileXML)
 
-        await svg2vectordrawable.convertFile(source, dest, {
-          floatPrecision,
-        })
-      }
-    )
-  }
+  //       await svg2vectordrawable.convertFile(source, dest, {
+  //         floatPrecision,
+  //       })
+  //     }
+  //   )
+  // }
 
   const removeGeneratedXmlFiles = async () => {
     await asyncForEach(listOfProcessedFiles, async ({ iconFileXML }) => {
@@ -794,7 +795,7 @@ const createXMLTarBundles = async ({
     })
   }
 
-  await convertSvgToXml()
+  // await convertSvgToXml()
   const sizeHasChanged = await hasSizeChanged()
 
   if (sizeHasChanged) {
