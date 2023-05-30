@@ -202,7 +202,7 @@ export function ParagraphRegressionTests() {
         <Case>Size {props.size || customSize}- Weight: medium</Case>
       </P>
       <P bold {...props}>
-        <Case>Size {props.size || customSize} - Wight: bold</Case>
+        <Case>Size {props.size || customSize} - Weight: bold</Case>
       </P>
     </>
   )
