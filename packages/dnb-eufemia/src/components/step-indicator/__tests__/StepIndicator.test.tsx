@@ -10,7 +10,7 @@ import {
   toJson,
   loadScss,
 } from '../../../core/jest/jestSetup'
-import { render } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import Component from '../StepIndicator'
 import Provider from '../../../shared/Provider'
 import MatchMediaMock from 'jest-matchmedia-mock'
@@ -43,7 +43,7 @@ const stepIndicatorListData = [
 
 describe('StepIndicator Sidebar', () => {
   it('has to inherit Provider data for initial SSR render', () => {
-    const Comp = mount(
+    render(
       <Provider StepIndicator={{ data: ['one', 'two', 'three'] }}>
         <Component.Sidebar
           sidebar_id="unique-id-initial"
@@ -52,40 +52,41 @@ describe('StepIndicator Sidebar', () => {
       </Provider>
     )
 
-    expect(Comp.find('li.dnb-step-indicator__item')).toHaveLength(3)
+    expect(screen.queryAllByRole('listitem')).toHaveLength(3)
   })
 
   it('has to use data prop for initial SSR render', () => {
-    const Comp = mount(
+    render(
       <Component.Sidebar
         sidebar_id="unique-id-initial"
         data={['one', 'two', 'three']}
         showInitialData
       />
     )
-    expect(Comp.find('li.dnb-step-indicator__item')).toHaveLength(3)
+    expect(screen.queryAllByRole('listitem')).toHaveLength(3)
   })
 
   it('has to remove data from Sidebar when mounted', () => {
-    const Comp = mount(
+    render(
       <Component.Sidebar
         sidebar_id="unique-id-initial"
         data={['one', 'two', 'three']}
       />
     )
-    expect(Comp.exists('li.dnb-step-indicator__item')).toBe(false)
+    expect(screen.queryAllByRole('listitem')).toHaveLength(0)
   })
 
   it('has to show skeleton when no data is given to Sidebar', () => {
-    const Comp = mount(
+    render(
       <Component.Sidebar sidebar_id="unique-id-initial" showInitialData />
     )
-    expect(Comp.find('li.dnb-step-indicator__item')).toHaveLength(4)
-    expect(
-      Comp.find('li.dnb-step-indicator__item')
-        .at(0)
-        .exists('.dnb-skeleton--show-font')
-    ).toBe(true)
+    expect(screen.queryAllByRole('listitem')).toHaveLength(4)
+
+    const element = document.querySelector('.dnb-button__text')
+
+    expect(Array.from(element.classList)).toEqual(
+      expect.arrayContaining(['dnb-skeleton--show-font'])
+    )
   })
 
   it('should support spacing props', () => {
@@ -215,7 +216,8 @@ describe('StepIndicator in general', () => {
 })
 
 describe('StepIndicator in loose mode', () => {
-  const renderComponent = (id, props = null) => {
+  // This helper function should be removed, as it uses mount, and we move away from using enzyme.
+  const renderComponentUsingMount = (id, props = null) => {
     return mount(
       <>
         <Component.Sidebar sidebar_id={id} />
@@ -231,28 +233,41 @@ describe('StepIndicator in loose mode', () => {
     )
   }
 
+  const renderComponent = (id, props = null) => {
+    return render(
+      <>
+        <Component.Sidebar sidebar_id={id} />
+        <Component
+          current_step={1}
+          mode="loose"
+          sidebar_id={id}
+          data={stepIndicatorListData}
+          {...props}
+        />
+      </>
+    )
+  }
+
   it('have to match snapshot', () => {
-    const Comp = renderComponent('unique-id-loose-snapshot')
+    const Comp = renderComponentUsingMount('unique-id-loose-snapshot')
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
   it('have to match snapshot on small screen', () => {
     simulateSmallScreen()
-    const Comp = renderComponent('unique-id-loose-snapshot')
+    const Comp = renderComponentUsingMount('unique-id-loose-snapshot')
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
   it('has trigger button when mobile', () => {
     simulateSmallScreen()
 
-    const Comp = renderComponent('unique-id-loose-mobile')
-    expect(
-      Comp.at(1).exists('button.dnb-step-indicator__trigger__button')
-    ).toBe(true)
+    renderComponent('unique-id-loose-mobile')
+    expect(screen.queryByRole('button')).toBeTruthy()
   })
 
   it('has to keep the current step on re-render', () => {
-    const Comp = renderComponent('unique-id-loose-mobile')
+    const Comp = renderComponentUsingMount('unique-id-loose-mobile')
     expect(
       Comp.at(1).exists('button.dnb-step-indicator__trigger__button')
     ).toBe(false)
@@ -274,34 +289,25 @@ describe('StepIndicator in loose mode', () => {
   })
 
   it('has correct states on steps', () => {
-    const Comp = renderComponent('unique-id-loose-states')
-    const items = Comp.find('li.dnb-step-indicator__item')
+    renderComponent('unique-id-loose-states')
+    const items = document.querySelectorAll('li.dnb-step-indicator__item')
 
     expect(items.length).toBe(4)
     expect(
-      items
-        .at(0)
-        .instance()
-        .classList.contains('dnb-step-indicator__item--visited')
+      items[0].classList.contains('dnb-step-indicator__item--visited')
     ).toBe(true)
     expect(
-      items
-        .at(1)
-        .instance()
-        .classList.contains('dnb-step-indicator__item--current')
+      items[1].classList.contains('dnb-step-indicator__item--current')
     ).toBe(true)
-    expect(items.at(1).instance().getAttribute('aria-current')).toBe(
-      'step'
-    )
-    expect(items.at(0).exists('button')).toBe(true)
-    expect(items.at(1).exists('button')).toBe(true)
-    expect(items.at(2).exists('button')).toBe(true)
-    expect(items.at(3).exists('button')).toBe(true)
+    expect(items[1].getAttribute('aria-current')).toBe('step')
+    expect(screen.queryAllByRole('button')).toHaveLength(4)
   })
 
   it('has correct state after change', () => {
     const on_change = jest.fn()
-    const Comp = renderComponent('unique-id-loose-simulate', { on_change })
+    const Comp = renderComponentUsingMount('unique-id-loose-simulate', {
+      on_change,
+    })
     const items = Comp.find('li.dnb-step-indicator__item')
 
     expect(items.length).toBe(4)
@@ -337,7 +343,7 @@ describe('StepIndicator in loose mode', () => {
   })
 
   it('should have only one "current" at a time', () => {
-    const Comp = renderComponent('unique-id-sidebar', {
+    renderComponent('unique-id-sidebar', {
       current_step: null,
       data: [
         {
@@ -353,31 +359,30 @@ describe('StepIndicator in loose mode', () => {
       ],
     })
 
-    expect(Comp.find('li.dnb-step-indicator__item--current')).toHaveLength(
-      1
-    )
     expect(
-      Comp.find('li.dnb-step-indicator__item')
-        .at(2)
-        .instance()
-        .classList.contains('dnb-step-indicator__item--current')
-    ).toBe(true)
+      screen.queryAllByRole('listitem', { current: 'step' })
+    ).toHaveLength(1)
+    expect(
+      within(screen.getByRole('listitem', { current: 'step' })).getByRole(
+        'button',
+        { name: 'Step C' }
+      )
+    ).toBeTruthy()
 
     // Make state change
-    Comp.find('li.dnb-step-indicator__item')
-      .at(0)
-      .find('button')
-      .simulate('click')
+    within(screen.queryAllByRole('listitem')[0])
+      .getByRole('button')
+      .click()
 
-    expect(Comp.find('li.dnb-step-indicator__item--current')).toHaveLength(
-      1
-    )
     expect(
-      Comp.find('li.dnb-step-indicator__item')
-        .at(0)
-        .instance()
-        .classList.contains('dnb-step-indicator__item--current')
-    ).toBe(true)
+      screen.queryAllByRole('listitem', { current: 'step' })
+    ).toHaveLength(1)
+    expect(
+      within(screen.getByRole('listitem', { current: 'step' })).getByRole(
+        'button',
+        { name: 'Step A' }
+      )
+    ).toBeTruthy()
   })
 
   it('should react on current_step prop change', () => {
@@ -441,21 +446,24 @@ describe('StepIndicator in loose mode', () => {
   })
 
   it('should have no current if current_step is not given', () => {
-    const Comp = renderComponent('unique-id-loose-simulate', {
+    renderComponent('unique-id-loose-simulate', {
       current_step: null,
     })
 
-    expect(Comp.exists('li.dnb-step-indicator__item--current')).toBe(false)
+    expect(
+      screen.queryAllByRole('listitem', { current: 'step' })
+    ).toHaveLength(0)
   })
 
   it('should validate with ARIA rules', async () => {
-    const Comp = renderComponent('unique-id-loose-aria')
+    const Comp = renderComponentUsingMount('unique-id-loose-aria')
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
 
 describe('StepIndicator in strict mode', () => {
-  const renderComponent = (id, props = null) => {
+  // This helper function should be removed, as it uses mount, and we move away from using enzyme.
+  const renderComponentUsingMount = (id, props = null) => {
     return mount(
       <>
         <Component.Sidebar sidebar_id={id} />
@@ -471,85 +479,79 @@ describe('StepIndicator in strict mode', () => {
     )
   }
 
+  const renderComponent = (id, props = null) => {
+    return render(
+      <>
+        <Component.Sidebar sidebar_id={id} />
+        <Component
+          current_step={1}
+          mode="strict"
+          sidebar_id={id}
+          data={stepIndicatorListData}
+          {...props}
+        />
+      </>
+    )
+  }
+
   it('have to match snapshot', () => {
-    const Comp = renderComponent('unique-id-strict-snapshot')
+    const Comp = renderComponentUsingMount('unique-id-strict-snapshot')
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
   it('have to match snapshot on small screen', () => {
     simulateSmallScreen()
-    const Comp = renderComponent('unique-id-strict-snapshot')
+    const Comp = renderComponentUsingMount('unique-id-strict-snapshot')
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
   it('has trigger button when mobile', () => {
     simulateSmallScreen()
 
-    const Comp = renderComponent('unique-id-strict-mobile')
-    expect(
-      Comp.at(1).exists('button.dnb-step-indicator__trigger__button')
-    ).toBe(true)
+    renderComponent('unique-id-strict-mobile')
+    expect(screen.queryByRole('button')).toBeTruthy()
   })
 
   it('has correct states on steps', () => {
-    const Comp = renderComponent('unique-id-strict-states')
-    const items = Comp.find('li.dnb-step-indicator__item')
+    renderComponent('unique-id-strict-states')
+    const items = document.querySelectorAll('li.dnb-step-indicator__item')
 
     expect(items.length).toBe(4)
     expect(
-      items
-        .at(0)
-        .instance()
-        .classList.contains('dnb-step-indicator__item--visited')
+      items[0].classList.contains('dnb-step-indicator__item--visited')
     ).toBe(true)
     expect(
-      items
-        .at(1)
-        .instance()
-        .classList.contains('dnb-step-indicator__item--current')
+      items[1].classList.contains('dnb-step-indicator__item--current')
     ).toBe(true)
-    expect(items.at(1).instance().getAttribute('aria-current')).toBe(
-      'step'
-    )
-    expect(items.at(0).exists('button')).toBe(true)
-    expect(items.at(1).exists('button')).toBe(true)
-    expect(items.at(2).exists('button')).toBe(false)
-    expect(items.at(3).exists('button')).toBe(false)
+    expect(items[1].getAttribute('aria-current')).toBe('step')
+
+    expect(screen.queryAllByRole('button')).toHaveLength(2)
   })
 
   it('has correct state after change', () => {
     const on_change = jest.fn()
-    const Comp = renderComponent('unique-id-strict-simulate', {
+    renderComponent('unique-id-strict-simulate', {
       on_change,
     })
-    const items = Comp.find('li.dnb-step-indicator__item')
+    const items = document.querySelectorAll('li.dnb-step-indicator__item')
 
     expect(items.length).toBe(4)
     expect(
-      items
-        .at(0)
-        .instance()
-        .classList.contains('dnb-step-indicator__item--visited')
+      items[0].classList.contains('dnb-step-indicator__item--visited')
     ).toBe(true)
     expect(
-      items
-        .at(0)
-        .instance()
-        .classList.contains('dnb-step-indicator__item--current')
+      items[0].classList.contains('dnb-step-indicator__item--current')
     ).toBe(false)
 
-    items.at(0).find('button').simulate('click')
+    screen.queryAllByRole('button')[0].click()
 
     expect(on_change).toBeCalledTimes(1)
     expect(
-      items
-        .at(0)
-        .instance()
-        .classList.contains('dnb-step-indicator__item--current')
+      items[0].classList.contains('dnb-step-indicator__item--current')
     ).toBe(true)
-    expect(Comp.find('li.dnb-step-indicator__item--current')).toHaveLength(
-      1
-    )
+    expect(
+      screen.queryAllByRole('listitem', { current: 'step' })
+    ).toHaveLength(1)
   })
 
   it('should validate with ARIA rules', async () => {
@@ -559,7 +561,8 @@ describe('StepIndicator in strict mode', () => {
 })
 
 describe('StepIndicator in static mode', () => {
-  const renderComponent = (id, props = null) => {
+  // This helper function should be removed, as it uses mount, and we move away from using enzyme.
+  const renderComponentUsingMount = (id, props = null) => {
     return mount(
       <>
         <Component.Sidebar sidebar_id={id} />
@@ -575,50 +578,52 @@ describe('StepIndicator in static mode', () => {
     )
   }
 
+  const renderComponent = (id, props = null) => {
+    return render(
+      <>
+        <Component.Sidebar sidebar_id={id} />
+        <Component
+          current_step={1}
+          mode="static"
+          sidebar_id={id}
+          data={stepIndicatorListData}
+          {...props}
+        />
+      </>
+    )
+  }
+
   it('have to match snapshot', () => {
-    const Comp = renderComponent('unique-id-static-snapshot')
+    const Comp = renderComponentUsingMount('unique-id-static-snapshot')
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
   it('have to match snapshot on small screen', () => {
     simulateSmallScreen()
-    const Comp = renderComponent('unique-id-static-snapshot')
+    const Comp = renderComponentUsingMount('unique-id-static-snapshot')
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
   it('has trigger button when mobile', () => {
     simulateSmallScreen()
 
-    const Comp = renderComponent('unique-id-static-mobile')
-    expect(
-      Comp.at(1).exists('button.dnb-step-indicator__trigger__button')
-    ).toBe(true)
+    renderComponent('unique-id-static-mobile')
+    expect(screen.queryByRole('button')).toBeTruthy()
   })
 
   it('has correct states on steps', () => {
-    const Comp = renderComponent('unique-id-static-states')
-    const items = Comp.find('li.dnb-step-indicator__item')
+    renderComponent('unique-id-static-states')
+    const items = document.querySelectorAll('li.dnb-step-indicator__item')
 
     expect(items.length).toBe(4)
     expect(
-      items
-        .at(0)
-        .instance()
-        .classList.contains('dnb-step-indicator__item--visited')
+      items[0].classList.contains('dnb-step-indicator__item--visited')
     ).toBe(true)
     expect(
-      items
-        .at(1)
-        .instance()
-        .classList.contains('dnb-step-indicator__item--current')
+      items[1].classList.contains('dnb-step-indicator__item--current')
     ).toBe(true)
-    expect(items.at(1).instance().getAttribute('aria-current')).toBe(
-      'step'
-    )
-    expect(items.at(0).exists('button')).toBe(false)
-    expect(items.at(1).exists('button')).toBe(false)
-    expect(items.at(2).exists('button')).toBe(false)
-    expect(items.at(3).exists('button')).toBe(false)
+    expect(items[1].getAttribute('aria-current')).toBe('step')
+    expect(screen.queryAllByRole('button')).toHaveLength(0)
   })
 
   it('should validate with ARIA rules', async () => {
