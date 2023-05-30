@@ -255,7 +255,6 @@ export function ParagraphTestVariants() {
       </P>
       <hr />
       <P bold {...props}>
-        <Case>Size: {props.size}</Case>
         <Case>Wight: bold</Case>
         <Content/>
       </P>
