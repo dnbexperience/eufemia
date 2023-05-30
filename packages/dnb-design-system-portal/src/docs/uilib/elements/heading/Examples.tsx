@@ -74,7 +74,7 @@ export const HeadingMarginCollapsingExample = () => (
     </P>
   </ComponentBox>
 )
-export const HeadingTestVariants = () => {
+export const HeadingRegressionTest = () => {
   if (!globalThis.IS_TEST) {
     return null
   }
@@ -83,43 +83,30 @@ export const HeadingTestVariants = () => {
     overflow: auto; // prevent margin collapse
   `
 
-  const HSmalls = ({tag: Tag, name, customSize = null, ...props}) => (
-    <>
-      <Spacer>
-        <Tag {...props}>{name} - {customSize || props.size}</Tag>
-      </Spacer>
-      <Spacer>
-        <Tag {...props}><small>{'<small>'}{name} - {customSize || props.size}{'</small>'}</small></Tag>
-      </Spacer>
-      <Spacer>
-        <Tag {...props}>{name} - <small>{'<small>'}{customSize || props.size}{'</small>'}</small></Tag>
-      </Spacer>      
-      <hr/>
-    </>
-
-  )
-
-  const HSizes = ({tag: Tag, name, ...props}) => (
-    <div {...props}>
-      <HSmalls tag={Tag} name={name} customSize="default"/>
-      <HSmalls tag={Tag} name={name} size="xx-large" />
-      <HSmalls tag={Tag} name={name} size="x-large" />
-      <HSmalls tag={Tag} name={name} size="large" />
-      <HSmalls tag={Tag} name={name} size="medium" />
-      <HSmalls tag={Tag} name={name} size="basis" />
-      <HSmalls tag={Tag} name={name} size="small" />
-      <HSmalls tag={Tag} name={name} size="x-small" />
-    </div>
-  )
+  const HWrap = ({...props}) => (
+      <>
+        <Spacer>
+          <H1 {...props}>{props.size}</H1>
+        </Spacer>
+        <Spacer>
+          <H2 {...props}><small>{'<small>'} {props.size} {'</small>'}</small></H2>
+        </Spacer>
+        <Spacer>
+          <H3 {...props}>Text <small>{'<small>'} {props.size} {'</small>'}</small></H3>
+        </Spacer>      
+        <hr/>
+      </>
+    )
 
   return (
-    <ComponentBox scope={{HSizes}}>
-      <HSizes tag={H1} name="Heading 1" data-visual-test="heading-1-variants" />
-      <HSizes tag={H2} name="Heading 2" data-visual-test="heading-2-variants" />
-      <HSizes tag={H3} name="Heading 3" data-visual-test="heading-3-variants" />
-      <HSizes tag={H4} name="Heading 4" data-visual-test="heading-4-variants" />
-      <HSizes tag={H5} name="Heading 5" data-visual-test="heading-5-variants" />
-      <HSizes tag={H6} name="Heading 6" data-visual-test="heading-6-variants" />
+    <ComponentBox scope={ {HWrap} } data-visual-test="heading-sizes">
+      <HWrap size='xx-large' />
+      <HWrap size='x-large' />
+      <HWrap size='large' />
+      <HWrap size='medium' />
+      <HWrap size='basis' />
+      <HWrap size='small' />
+      <HWrap size='x-small' />
     </ComponentBox>
   )
 }

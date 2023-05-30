@@ -188,7 +188,7 @@ export function ParagraphModifiers() {
   )
 }
 
-export function ParagraphTestVariants() {
+export function ParagraphRegressionTests() {
   if (!globalThis.IS_TEST) {
     return null
   }
