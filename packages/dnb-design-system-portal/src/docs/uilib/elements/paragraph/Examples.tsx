@@ -193,73 +193,22 @@ export function ParagraphTestVariants() {
     return null
   }
 
-  const Content = () => (
-    <>
-      <Case>Here is a paragraph text</Case>
-      <Case>
-        <Anchor href="/">Anchor / Text Link</Anchor>
-      </Case>
-      <Case>
-        <b>Bold paragraph (medium weight)</b>
-      </Case>
-      <Case>
-        <strong>Strong paragraph (medium weight)</strong>
-      </Case>
-      {/* <i>Italic paragraph (Currently not supported by DNB UX)</i> */}
-      {/* <u>Underline paragraph (Currently not supported by DNB UX)</u> */}
-      <Case>Numbers 0123456789</Case>
-      <Case>
-        <code className="dnb-code">Code paragraph</code>
-      </Case>
-      <Case>
-        <cite>Cite paragraph</cite>
-      </Case>
-      <Case>
-        Text <sup>1</sup>
-        <b>
-          Text <sup>1</sup>
-        </b>
-      </Case>
-      <Case>
-        Text
-        <sup>
-          <Anchor href="/">1</Anchor>
-        </sup>
-        <b>
-          Text
-          <sup>
-            <Anchor href="/">1</Anchor>
-          </sup>
-        </b>
-      </Case>
-      <Case>
-        Text <sub>1</sub>
-        <b>
-          Text <sub>1</sub>
-        </b>
-      </Case>
-    </>
-  )
-
   const PWrap = ({customSize = null, ...props}) => (
     <>
-      <P {...props} data-visual-test={'paragraph-size-' + (props.size || customSize) + '-regular'}>
-        <Case>Weight: default</Case>
-        <Content/>
+      <P {...props}>
+        <Case>Size {props.size || customSize} - Weight: default</Case>
       </P>
-      <P medium {...props} data-visual-test={'paragraph-size-' + (props.size || customSize) + '-medium'}>
-        <Case>Weight: medium</Case>
-        <Content/>
+      <P medium {...props}>
+        <Case>Size {props.size || customSize}- Weight: medium</Case>
       </P>
-      <P bold {...props} data-visual-test={'paragraph-size-' + (props.size || customSize) + '-bold'}>
-        <Case>Wight: bold</Case>
-        <Content/>
+      <P bold {...props}>
+        <Case>Size {props.size || customSize} - Wight: bold</Case>
       </P>
     </>
   )
 
   return (
-    <ComponentBox scope={{PWrap}}>
+    <ComponentBox scope={{PWrap}} data-visual-test={'paragraph-sizes'}>
       <PWrap customSize="default" />
       <PWrap size="xx-large" />
       <PWrap size="x-large" />

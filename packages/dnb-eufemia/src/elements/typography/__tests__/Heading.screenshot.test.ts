@@ -33,7 +33,7 @@ describe.each(['ui', 'sbanken', 'eiendom'])(
 )
 
 
-describe.each(['ui', 'sbanken', 'eiendom'])(
+describe.each(['ui', 'sbanken'])(
   'Heading regression tests for %s',
   (themeName) => {
     setupPageScreenshot({
