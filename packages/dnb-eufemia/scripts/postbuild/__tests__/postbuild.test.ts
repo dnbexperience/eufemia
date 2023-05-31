@@ -95,32 +95,30 @@ describe('type definitions', () => {
 describe('babel build', () => {
   const buildStages = ['/es', '/esm', '/cjs']
 
-  if (currentBranch !== 'main') {
-    it('imports inside "src" should not contain "/src/"', async () => {
-      const files = await getCommittedFiles(10)
+  it('imports inside "src" should not contain "/src/"', async () => {
+    const files = await getCommittedFiles(10)
 
-      files
-        .filter((filePath) => {
-          return filePath.includes('/dnb-eufemia/src/')
-        })
-        .map((filePath) => {
-          return filePath.replace('packages/dnb-eufemia/', '')
-        })
-        .forEach((filePath) => {
-          const absolutePath = path.resolve(process.cwd(), filePath)
-          if (fs.existsSync(absolutePath)) {
-            const content = fs.readFileSync(absolutePath, 'utf-8')
-            const regex = /.*import.*(\/src\/)/
+    files
+      .filter((filePath) => {
+        return filePath.includes('/dnb-eufemia/src/')
+      })
+      .map((filePath) => {
+        return filePath.replace('packages/dnb-eufemia/', '')
+      })
+      .forEach((filePath) => {
+        const absolutePath = path.resolve(process.cwd(), filePath)
+        if (fs.existsSync(absolutePath)) {
+          const content = fs.readFileSync(absolutePath, 'utf-8')
+          const regex = /.*import.*(\/src\/)/
 
-            if (regex.test(content)) {
-              console.error('Failed in this file:', absolutePath)
-            }
-
-            expect(content).not.toMatch(regex)
+          if (regex.test(content)) {
+            console.error('Failed in this file:', absolutePath)
           }
-        })
-    })
-  }
+
+          expect(content).not.toMatch(regex)
+        }
+      })
+  })
 
   it.each(buildStages)('has correctly compiled on stage "%s"', (stage) => {
     switch (stage) {
