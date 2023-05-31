@@ -5,7 +5,7 @@
 
 import styled from '@emotion/styled'
 import React from 'react'
-import { P } from '../../../elements'
+import { P } from '../../..'
 import Section from '../../section/Section'
 import { ToggleButton, Button } from '../../'
 import HeightAnimation from '../HeightAnimation'
@@ -24,7 +24,7 @@ export const HeightAnimationSandbox = () => {
     <>
       <ToggleButton
         checked={openState}
-        onChange={({ checked }) => {
+        on_change={({ checked }) => {
           setOpenState(checked)
         }}
         right
@@ -35,7 +35,7 @@ export const HeightAnimationSandbox = () => {
       <ToggleButton
         disabled={!isOpen}
         checked={contentState}
-        onChange={({ checked }) => {
+        on_change={({ checked }) => {
           setContentState(checked)
         }}
         right

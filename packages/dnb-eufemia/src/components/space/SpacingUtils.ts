@@ -6,15 +6,17 @@
 import { warn } from '../../shared/component-helper'
 
 import type {
-  StyleObjectProps,
   SpaceType,
   SpacingUnknownProps,
   SpacingProps,
+  SpaceTypesPositiveValuesType,
+  SpaceTypesPositiveRemValuesType,
+  SpaceStringTypes,
 } from './types'
 
 type SpaceNumber = number
 
-export const spacingDefaultProps = {
+export const spacingDefaultProps: SpacingProps = {
   space: null,
   top: null,
   right: null,
@@ -22,7 +24,10 @@ export const spacingDefaultProps = {
   left: null,
 }
 // IMPORTANT: Keep the shorthand after the long type names
-export const spacePatterns = {
+export const spacePatterns: Record<
+  SpaceTypesPositiveValuesType,
+  SpaceTypesPositiveRemValuesType
+> = {
   'xx-small': 0.25,
   'x-small': 0.5,
   small: 1,
@@ -144,16 +149,17 @@ export const translateSpace = (type: SpaceType) => {
 // @internal Splits a string of: "large x-small" into an array of the same
 export const splitTypes = (types: SpaceType | Array<SpaceType>) => {
   if (typeof types === 'string') {
-    return clean(types.split(/ /g))
+    const test = (types as SpaceStringTypes).split(/ /g)
+    return clean(test as Array<SpaceStringTypes>)
   } else if (typeof types === 'boolean') {
-    return ['small']
+    return ['small' as SpaceTypesPositiveValuesType]
   } else if (typeof types === 'number') {
     return [types]
   }
 
   return clean(types) || null
 
-  function clean(t: Array<SpaceType>) {
+  function clean(t: Array<SpaceType> | Array<SpaceStringTypes>) {
     return t?.filter((r) => r && String(r).length > 0)
   }
 }
@@ -223,10 +229,17 @@ export const findType = (num: SpaceNumber): SpaceType => {
 }
 
 // @internal Finds from "2.0" the equivalent type "large" and returns all results
-export const findTypeAll = (num: SpaceNumber): Array<SpaceType> => {
+export const findTypeAll = (
+  num: SpaceNumber
+): Array<
+  SpaceTypesPositiveValuesType | SpaceTypesPositiveRemValuesType
+> => {
+  const listOfSpacePatterns = Object.entries(spacePatterns) as [
+    SpaceTypesPositiveValuesType,
+    SpaceTypesPositiveRemValuesType
+  ][]
   const found =
-    Object.entries(spacePatterns).find(([k, v]) => k && v === num) || null
-
+    listOfSpacePatterns.find(([k, v]) => k && v === num) || null
   return found
 }
 
@@ -265,7 +278,9 @@ export const findNearestTypes = (num: SpaceNumber, multiply = false) => {
 export const isValidSpaceProp = (propName: string) =>
   propName && ['top', 'right', 'bottom', 'left'].includes(propName)
 
-export const removeSpaceProps = (props: StyleObjectProps) => {
+export const removeSpaceProps = (
+  props: SpacingProps | SpacingUnknownProps
+) => {
   const p = Object.isFrozen(props) ? { ...props } : props
   for (const i in p) {
     if (isValidSpaceProp(i)) {
@@ -273,37 +288,6 @@ export const removeSpaceProps = (props: StyleObjectProps) => {
     }
   }
   return p
-}
-
-// deprecated and can be removed in v10 (remove tests as well)
-export const createStyleObject = (props: StyleObjectProps) => {
-  const p = Object.isFrozen(props) ? { ...props } : props
-
-  if (p.top && !(parseFloat(String(p.top)) > 0)) {
-    p.top = sumTypes(p.top)
-  }
-  if (p.bottom && !(parseFloat(String(p.bottom)) > 0)) {
-    p.bottom = sumTypes(p.bottom)
-  }
-  if (p.left && !(parseFloat(String(p.left)) > 0)) {
-    p.left = sumTypes(p.left)
-  }
-  if (p.right && !(parseFloat(String(p.right)) > 0)) {
-    p.right = sumTypes(p.right)
-  }
-  return Object.entries({
-    marginTop: p.top && `${p.top}rem`,
-    marginBottom: p.bottom && `${p.bottom}rem`,
-    maxWidth: p.maxWidth && `${p.maxWidth}rem`,
-    maxHeight: p.maxHeight && `${p.maxHeight}rem`,
-    width: p.width && `${p.width}rem`,
-    height: p.height && `${p.height}rem`,
-  }).reduce((acc, [key, val]) => {
-    if (typeof val !== 'undefined') {
-      acc[key] = val
-    }
-    return acc
-  }, {})
 }
 
 export const isInline = (elementName: string) => {

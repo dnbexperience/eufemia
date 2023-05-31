@@ -1,5 +1,5 @@
 import { IncludeSnakeCase } from '../../shared/helpers/withSnakeCaseProps'
-import { SpacingProps } from '../../shared/types'
+import type { SpacingProps } from '../../shared/types'
 
 export type TooltipPosition = 'top' | 'right' | 'bottom' | 'left'
 

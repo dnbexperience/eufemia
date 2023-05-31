@@ -1,10 +1,9 @@
 import {
   defaultDesign,
   pluss,
-  white,
+  young,
   myFirst,
   youth,
-  silver,
   gold,
   saga,
   sagaPlatinum,
@@ -14,7 +13,7 @@ import {
   businessWithVisa,
 } from './CardDesigns'
 
-import { CardType, ProductType } from './Types'
+import { CardType, ProductType, BankAxeptType } from './Types'
 
 const cardData = [
   {
@@ -23,7 +22,8 @@ const cardData = [
     displayName: 'DNB Kortet',
     cardDesign: defaultDesign,
     cardType: CardType.None,
-    productType: ProductType.BankAxept,
+    productType: ProductType.None,
+    bankAxept: BankAxeptType.BankAxept,
   },
   {
     productCode: 'NK4',
@@ -31,7 +31,8 @@ const cardData = [
     displayName: 'DNB Kortet',
     cardDesign: defaultDesign,
     cardType: CardType.None,
-    productType: ProductType.BankAxept,
+    productType: ProductType.None,
+    bankAxept: BankAxeptType.BankAxept,
   },
   {
     productCode: 'NK5',
@@ -39,7 +40,8 @@ const cardData = [
     displayName: 'DNB Kortet',
     cardDesign: defaultDesign,
     cardType: CardType.None,
-    productType: ProductType.BankAxept,
+    productType: ProductType.None,
+    bankAxept: BankAxeptType.BankAxept,
   },
   {
     productCode: 'VE1',
@@ -48,6 +50,7 @@ const cardData = [
     cardDesign: defaultDesign,
     cardType: CardType.Visa,
     productType: ProductType.None,
+    bankAxept: BankAxeptType.None,
   },
   {
     productCode: 'VE2',
@@ -56,6 +59,7 @@ const cardData = [
     cardDesign: defaultDesign,
     cardType: CardType.Visa,
     productType: ProductType.None,
+    bankAxept: BankAxeptType.None,
   },
   {
     productCode: 'VG1',
@@ -64,6 +68,7 @@ const cardData = [
     cardDesign: saga,
     cardType: CardType.Visa,
     productType: ProductType.Saga,
+    bankAxept: BankAxeptType.BankAxept,
   },
   {
     productCode: 'VG4',
@@ -72,6 +77,16 @@ const cardData = [
     cardDesign: saga,
     cardType: CardType.Visa,
     productType: ProductType.Saga,
+    bankAxept: BankAxeptType.BankAxept,
+  },
+  {
+    productCode: '053',
+    productName: 'SAGA Gull Mastercard',
+    displayName: 'SAGA Gull',
+    cardDesign: saga,
+    cardType: CardType.Mastercard,
+    productType: ProductType.Saga,
+    bankAxept: BankAxeptType.None,
   },
   {
     productCode: 'VK2',
@@ -80,6 +95,7 @@ const cardData = [
     cardDesign: defaultDesign,
     productType: ProductType.None,
     cardType: CardType.Visa,
+    bankAxept: BankAxeptType.BankAxept,
   },
   {
     productCode: 'VK4',
@@ -88,6 +104,16 @@ const cardData = [
     cardDesign: defaultDesign,
     productType: ProductType.None,
     cardType: CardType.Visa,
+    bankAxept: BankAxeptType.BankAxept,
+  },
+  {
+    productCode: '084',
+    productName: 'Pluss Mastercard(leve)',
+    displayName: 'Pluss Mastercard',
+    cardDesign: pluss,
+    productType: ProductType.Pluss,
+    cardType: CardType.Mastercard,
+    bankAxept: BankAxeptType.None,
   },
   {
     productCode: 'VL1',
@@ -96,14 +122,16 @@ const cardData = [
     cardDesign: pluss,
     productType: ProductType.Pluss,
     cardType: CardType.Visa,
+    bankAxept: BankAxeptType.BankAxept,
   },
   {
     productCode: 'VL2',
     productName: 'Hvitt Visa',
     displayName: 'Hvitt kort',
-    cardDesign: white,
+    cardDesign: young,
     productType: ProductType.None,
     cardType: CardType.Visa,
+    bankAxept: BankAxeptType.BankAxept,
   },
   {
     productCode: 'VL3',
@@ -112,22 +140,34 @@ const cardData = [
     cardDesign: pluss,
     productType: ProductType.Pluss,
     cardType: CardType.Visa,
+    bankAxept: BankAxeptType.BankAxept,
   },
   {
     productCode: 'VL4',
     productName: 'DNB Visa u/leg',
     displayName: 'DNB Visa',
-    cardDesign: silver,
+    cardDesign: defaultDesign,
     productType: ProductType.None,
     cardType: CardType.Visa,
+    bankAxept: BankAxeptType.BankAxept,
   },
   {
     productCode: 'VL6',
     productName: 'Hvitt Visa u/leg',
     displayName: 'Hvitt kort',
-    cardDesign: white,
+    cardDesign: young,
     productType: ProductType.None,
     cardType: CardType.Visa,
+    bankAxept: BankAxeptType.BankAxept,
+  },
+  {
+    productCode: '085',
+    productName: 'Ung Mastercard(student)',
+    displayName: 'Ung Mastercard',
+    cardDesign: young,
+    productType: ProductType.None,
+    cardType: CardType.Mastercard,
+    bankAxept: BankAxeptType.None,
   },
   {
     productCode: 'VO1',
@@ -136,6 +176,7 @@ const cardData = [
     cardDesign: defaultDesign,
     cardType: CardType.Visa,
     productType: ProductType.None,
+    bankAxept: BankAxeptType.BankAxept,
   },
   {
     productCode: 'VP2',
@@ -144,6 +185,7 @@ const cardData = [
     cardDesign: sagaPlatinum,
     productType: ProductType.Saga,
     cardType: CardType.Visa,
+    bankAxept: BankAxeptType.BankAxept,
   },
   {
     productCode: 'VP3',
@@ -152,6 +194,7 @@ const cardData = [
     cardDesign: privateBanking,
     productType: ProductType.PrivateBanking,
     cardType: CardType.Visa,
+    bankAxept: BankAxeptType.BankAxept,
   },
   {
     productCode: 'VP4',
@@ -160,6 +203,16 @@ const cardData = [
     cardDesign: sagaPlatinum,
     productType: ProductType.Saga,
     cardType: CardType.Visa,
+    bankAxept: BankAxeptType.BankAxept,
+  },
+  {
+    productCode: '069',
+    productName: 'SAGA Platinum Mastercard',
+    displayName: 'SAGA Platinum',
+    cardDesign: sagaPlatinum,
+    productType: ProductType.Saga,
+    cardType: CardType.Mastercard,
+    bankAxept: BankAxeptType.None,
   },
   {
     productCode: 'VP5',
@@ -168,25 +221,17 @@ const cardData = [
     cardDesign: privateBanking,
     productType: ProductType.PrivateBanking,
     cardType: CardType.Visa,
+    bankAxept: BankAxeptType.BankAxept,
   },
-  // {
-  //   productCode: 'VU3',
-  //   productName: 'Intro Electron',
-  //   displayName: 'Intro Electron',
-  //   cardDesign: defaultDesign,
-  //
-  //   productLogo: "",
-  //   cardType: CardType.Visa,
-  // },
-  // {
-  //   productCode: 'VU6',
-  //   productName: 'Leve Ung',
-  //   displayName: 'Leve Ung',
-  //   cardDesign: defaultDesign,
-  //
-  //   productLogo: "",
-  //   type: "",
-  // },
+  {
+    productCode: '080',
+    productName: 'Private Banking Mastercard',
+    displayName: 'Private Banking',
+    cardDesign: privateBanking,
+    productType: ProductType.PrivateBanking,
+    cardType: CardType.Mastercard,
+    bankAxept: BankAxeptType.None,
+  },
   {
     productCode: 'VX1',
     productName: 'Mitt første kort',
@@ -194,30 +239,34 @@ const cardData = [
     cardDesign: myFirst,
     productType: ProductType.None,
     cardType: CardType.Visa,
+    bankAxept: BankAxeptType.None,
   },
   {
     productCode: 'VX3',
     productName: 'Ungdomskortet',
     displayName: 'Ungdomskort',
     cardDesign: youth,
-    productType: ProductType.BankAxept,
+    productType: ProductType.None,
     cardType: CardType.Visa,
+    bankAxept: BankAxeptType.BankAxept,
   },
   {
     productCode: 'VX4',
     productName: 'Mitt første kort u/leg',
     displayName: 'Mitt første kort',
     cardDesign: myFirst,
-    productType: ProductType.None,
+    productType: ProductType.Intro,
     cardType: CardType.Visa,
+    bankAxept: BankAxeptType.BankAxept,
   },
   {
     productCode: 'VX5',
     productName: 'Ungdomskortet u/leg',
     displayName: 'Ungdomskort',
     cardDesign: youth,
-    productType: ProductType.BankAxept,
+    productType: ProductType.Intro,
     cardType: CardType.Visa,
+    bankAxept: BankAxeptType.BankAxept,
   },
   {
     productCode: '096',
@@ -226,14 +275,16 @@ const cardData = [
     cardDesign: gold,
     productType: ProductType.None,
     cardType: CardType.Mastercard,
+    bankAxept: BankAxeptType.None,
   },
   {
     productCode: '044',
     productName: 'Hvitt Mastercard',
     displayName: 'Student',
-    cardDesign: white,
+    cardDesign: young,
     productType: ProductType.None,
     cardType: CardType.Mastercard,
+    bankAxept: BankAxeptType.None,
   },
   {
     productCode: '043',
@@ -242,6 +293,7 @@ const cardData = [
     cardDesign: pluss,
     productType: ProductType.Pluss,
     cardType: CardType.Mastercard,
+    bankAxept: BankAxeptType.None,
   },
   {
     productCode: '098',
@@ -250,6 +302,7 @@ const cardData = [
     cardDesign: saga,
     productType: ProductType.Saga,
     cardType: CardType.Mastercard,
+    bankAxept: BankAxeptType.None,
   },
   {
     productCode: '074',
@@ -258,6 +311,7 @@ const cardData = [
     cardDesign: sagaPlatinum,
     productType: ProductType.Saga,
     cardType: CardType.Mastercard,
+    bankAxept: BankAxeptType.None,
   },
   {
     productCode: '062',
@@ -266,22 +320,25 @@ const cardData = [
     cardDesign: privateBanking,
     productType: ProductType.PrivateBanking,
     cardType: CardType.Mastercard,
+    bankAxept: BankAxeptType.None,
   },
   {
     productCode: 'BK1',
     productName: 'Bedriftskort (småkjøpskort)',
     displayName: 'Bedriftskort (småkjøpskort)',
     cardDesign: businessNoVisa,
-    productType: ProductType.BankAxept,
+    productType: ProductType.Bedrift,
     cardType: CardType.None,
+    bankAxept: BankAxeptType.BankAxept,
   },
   {
     productCode: 'BP1',
     productName: 'Bedriftskort (småkjøpskort)',
     displayName: 'Bedriftskort (småkjøpskort)',
     cardDesign: businessNoVisa,
-    productType: ProductType.BankAxept,
+    productType: ProductType.Bedrift,
     cardType: CardType.None,
+    bankAxept: BankAxeptType.BankAxept,
   },
   {
     productCode: 'VB1',
@@ -290,14 +347,25 @@ const cardData = [
     cardDesign: businessWithVisa,
     productType: ProductType.None,
     cardType: CardType.Visa,
+    bankAxept: BankAxeptType.BankAxept,
   },
   {
     productCode: 'VB2',
-    productName: 'Bedriftskort med Visa',
-    displayName: 'Bedriftskort med Visa',
+    productName: 'Visa Business',
+    displayName: 'Visa Business',
     cardDesign: businessWithVisa,
     productType: ProductType.None,
     cardType: CardType.Visa,
+    bankAxept: BankAxeptType.BankAxept,
+  },
+  {
+    productCode: 'VB5',
+    productName: 'Bedriftskort med Visa',
+    displayName: 'Bedriftskort med Visa',
+    cardDesign: businessWithVisa,
+    productType: ProductType.Business,
+    cardType: CardType.Visa,
+    bankAxept: BankAxeptType.None,
   },
   {
     productCode: 'P101',
@@ -306,6 +374,7 @@ const cardData = [
     cardDesign: mcBlack,
     productType: ProductType.None,
     cardType: CardType.Mastercard,
+    bankAxept: BankAxeptType.None,
   },
 ]
 

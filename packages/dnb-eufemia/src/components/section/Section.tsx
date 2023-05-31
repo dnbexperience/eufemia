@@ -10,10 +10,9 @@ import {
   isTrue,
   validateDOMAttributes,
   extendPropsWithContext,
-  registerElement,
 } from '../../shared/component-helper'
 import { createSpacingClasses } from '../space/SpacingHelper'
-import { DynamicElement, SpacingProps } from '../../shared/types'
+import type { DynamicElement, SpacingProps } from '../../shared/types'
 
 export type SectionStyleTypes =
   | 'divider'
@@ -46,7 +45,7 @@ export type SectionProps = {
   style_type?: SectionStyleTypes | string
 
   /**
-   * Will add spacing around the given content. If `true`, then `large` is used. Se the [available sizes](/uilib/usage/layout/spacing#spacing-helpers). Defaults to `false`.
+   * Will add spacing around the given content. If `true`, then `large` is used. See the [available sizes](/uilib/usage/layout/spacing#spacing-helpers). Defaults to `false`.
    */
   spacing?: SectionSpacing
 
@@ -111,10 +110,4 @@ export default function Section(localProps: SectionAllProps) {
   const Element = element || 'section'
 
   return <Element {...params}>{children}</Element>
-}
-
-// Web Component support
-Section.tagName = 'dnb-section'
-Section.enableWebComponent = () => {
-  registerElement(Section?.tagName, Section, defaultProps)
 }

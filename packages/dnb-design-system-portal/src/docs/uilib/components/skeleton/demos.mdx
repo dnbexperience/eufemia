@@ -1,0 +1,48 @@
+---
+showTabs: true
+---
+
+import {
+  SkeletonInputExample,
+  SkeletonToggleExample,
+  SkeletonWrapperExample,
+  SkeletonEufemiaProviderExample,
+  SkeletonFiguresExample,
+  SkeletonVisualTests,
+} from 'Docs/uilib/components/skeleton/Examples'
+
+import PortalSkeleton from 'dnb-design-system-portal/src/core/PortalSkeleton'
+
+## Demos
+
+<PortalSkeleton />
+
+## Input with Skeleton
+
+<SkeletonInputExample />
+
+## Toggle skeleton on/off
+
+<SkeletonToggleExample />
+
+## Skeleton wrapper
+
+<SkeletonWrapperExample />
+
+## Skeleton using Eufemia Provider
+
+You can also use `FormRow={{ skeleton: true }}`.
+
+<SkeletonEufemiaProviderExample />
+
+## Skeleton figures
+
+You may import a given figure, or create your own.
+
+```jsx
+import { Article } from '@dnb/eufemia/components/skeleton/figures'
+```
+
+<SkeletonFiguresExample />
+
+<SkeletonVisualTests />

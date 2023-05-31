@@ -10,7 +10,6 @@ import {
   isTrue,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
-  registerElement,
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
@@ -30,7 +29,6 @@ import ToggleButtonGroupContext from './ToggleButtonGroupContext'
 import { includeValidProps } from '../form-row/FormRowHelpers'
 
 export default class ToggleButtonGroup extends React.PureComponent {
-  static tagName = 'dnb-toggle-button-group'
   static contextType = Context
 
   static propTypes = {
@@ -62,7 +60,10 @@ export default class ToggleButtonGroup extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool,
     ]),
-    global_status_id: PropTypes.string,
+    globalStatus: PropTypes.shape({
+      id: PropTypes.string,
+      message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    }),
     suffix: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
@@ -89,8 +90,6 @@ export default class ToggleButtonGroup extends React.PureComponent {
       PropTypes.node,
     ]),
 
-    custom_element: PropTypes.object,
-    custom_method: PropTypes.func,
     on_change: PropTypes.func,
   }
 
@@ -111,7 +110,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
     status_state: 'error',
     status_props: null,
     status_no_animation: null,
-    global_status_id: null,
+    globalStatus: null,
     suffix: null,
     vertical: null,
     layout_direction: 'row',
@@ -123,17 +122,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
     className: null,
     children: null,
 
-    custom_element: null,
-    custom_method: null,
     on_change: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(
-      ToggleButtonGroup?.tagName,
-      ToggleButtonGroup,
-      ToggleButtonGroup.defaultProps
-    )
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -214,7 +203,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
       status_state,
       status_props,
       status_no_animation,
-      global_status_id,
+      globalStatus,
       suffix,
       label_direction,
       label_sr_only,
@@ -236,8 +225,6 @@ export default class ToggleButtonGroup extends React.PureComponent {
       values: _values, // eslint-disable-line
       children, // eslint-disable-line
       on_change, // eslint-disable-line
-      custom_method, // eslint-disable-line
-      custom_element, // eslint-disable-line
 
       ...rest
     } = props
@@ -336,11 +323,11 @@ export default class ToggleButtonGroup extends React.PureComponent {
               <FormStatus
                 show={showStatus}
                 id={id + '-form-status'}
-                global_status_id={global_status_id}
+                globalStatus={globalStatus}
                 label={label}
                 text_id={id + '-status'} // used for "aria-describedby"
                 text={status}
-                status={status_state}
+                state={status_state}
                 no_animation={status_no_animation}
                 skeleton={skeleton}
                 {...status_props}

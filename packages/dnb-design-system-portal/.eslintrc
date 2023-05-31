@@ -1,64 +1,11 @@
 {
-  "env": {
-    "es6": true,
-    "jest": true,
-    "browser": true,
-    "node": true
-  },
-  "parser": "@babel/eslint-parser",
-  "parserOptions": {
-    "babelOptions": {
-      "configFile": "@dnb/eufemia/babel.config.js"
-    },
-    "ecmaVersion": 2020,
-    "ecmaFeatures": {
-      "modules": true,
-      "jsx": true
-    },
-    "sourceType": "module"
-  },
-  "globals": {
-    "globalThis": true
-  },
   "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:react-hooks/recommended",
-    "plugin:jsx-a11y/recommended"
+    "../dnb-eufemia/.eslintrc",
+    "plugin:workspaces/recommended",
+    "plugin:cypress/recommended"
   ],
-  "plugins": ["react", "react-hooks", "jsx-a11y"],
   "rules": {
-    "react/react-in-jsx-scope": "off",
-    "no-console": "off",
-    "react/prop-types": "warn",
-    "react/require-default-props": "warn",
-    "react/no-unused-prop-types": "warn",
-    "react/no-unescaped-entities": ["error", { "forbid": [">", "}"] }],
-    "react/display-name": ["off", { "ignoreTranspilerName": false }],
-    "jsx-a11y/href-no-hash": "off",
-    "jsx-a11y/anchor-is-valid": ["warn", { "aspects": ["invalidHref"] }]
-  },
-  "settings": {
-    "react": {
-      "version": ">=16.12"
-    }
-  },
-  "overrides": [
-    {
-      "files": ["*.ts", "*.tsx"],
-      "parser": "@typescript-eslint/parser",
-      "globals": { "JSX": true },
-      "plugins": ["@typescript-eslint"],
-      "extends": ["plugin:@typescript-eslint/recommended"],
-      "rules": {
-        "import/named": "off",
-        "no-unused-vars": [
-          "error",
-          { "args": "none", "ignoreRestSiblings": true }
-        ],
-        "react/prop-types": "off",
-        "react/require-default-props": "off"
-      }
-    }
-  ]
+    "workspaces/no-relative-imports": "error",
+    "no-restricted-imports": "off"
+  }
 }

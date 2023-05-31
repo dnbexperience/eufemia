@@ -12,7 +12,6 @@ import {
   isTrue,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
-  registerElement,
   processChildren,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
@@ -27,12 +26,12 @@ import ModalHeaderBar from './parts/ModalHeaderBar'
 import { ScrollViewAllProps } from '../../fragments/scroll-view/ScrollView'
 import CloseButton from './parts/CloseButton'
 import ModalRoot from './ModalRoot'
-import { SpacingProps } from '../../shared/types'
+import type { SpacingProps } from '../../shared/types'
 import {
   classWithCamelCaseProps,
   ToCamelCasePartial,
 } from '../../shared/helpers/withCamelCaseProps'
-import { ButtonProps } from '../button/Button'
+import type { ButtonProps } from '../button/Button'
 
 export const ANIMATION_DURATION = 300
 
@@ -48,11 +47,10 @@ class Modal extends React.PureComponent<
   ModalState
 > {
   static contextType = Context
-  static tagName = 'dnb-modal'
+
   static Bar = ModalHeaderBar
   static Header = ModalHeader
   static Content = ModalInner
-  static Inner = ModalInner // deprecated
 
   static getContent(props) {
     if (typeof props.modal_content === 'string') {
@@ -61,9 +59,6 @@ class Modal extends React.PureComponent<
       return props.modal_content(props)
     }
     return processChildren(props)
-  }
-  static enableWebComponent() {
-    registerElement(Modal?.tagName, Modal, Modal.defaultProps)
   }
 
   _id: string
@@ -96,7 +91,7 @@ class Modal extends React.PureComponent<
     close_button_attributes: null,
     prevent_close: false,
     prevent_core_style: false,
-    animation_duration: ANIMATION_DURATION, // Not documented!
+    animation_duration: ANIMATION_DURATION,
     no_animation: false,
     no_animation_on_mobile: false,
     fullscreen: 'auto',
@@ -119,18 +114,8 @@ class Modal extends React.PureComponent<
     open_modal: null,
     close_modal: null,
 
-    // All "trigger_" are deprecated
     trigger: null,
     trigger_attributes: null,
-    trigger_hidden: false,
-    trigger_disabled: null,
-    trigger_variant: 'secondary',
-    trigger_text: null,
-    trigger_title: null,
-    trigger_size: null,
-    trigger_icon: null,
-    trigger_icon_position: 'left',
-    trigger_class: null,
 
     overlay_class: null,
     content_class: null,
@@ -286,7 +271,7 @@ class Modal extends React.PureComponent<
 
   handleSideEffects = () => {
     const { modalActive } = this.state
-    const { close_modal } = this.props
+    const { close_modal, open_state, animation_duration } = this.props
 
     if (modalActive) {
       if (typeof close_modal === 'function') {
@@ -300,20 +285,33 @@ class Modal extends React.PureComponent<
 
       this.setActiveState(this._id)
     } else if (modalActive === false) {
-      if (this._triggerRef && this._triggerRef.current) {
-        this._triggerRef.current.focus({ preventScroll: true })
+      const focus = (elem: HTMLElement) => {
+        // So we can omit showing a Tooltip on the trigger button
+        elem.setAttribute('data-autofocus', 'true')
+
+        elem.focus({ preventScroll: true })
+
+        return new Promise<void>((resolve) => {
+          setTimeout(() => {
+            elem?.removeAttribute('data-autofocus')
+            resolve()
+          }, parseFloat(String(animation_duration)) / 3)
+        })
+      }
+
+      if (this._triggerRef?.current) {
+        focus(this._triggerRef.current)
       }
 
       // because the open_state was set to opened, we force
       if (
-        (this.props.open_state === 'opened' ||
-          this.props.open_state === true) &&
-        this.activeElement &&
+        (open_state === 'opened' || open_state === true) &&
         this.activeElement instanceof HTMLElement
       ) {
         try {
-          this.activeElement.focus({ preventScroll: true })
-          this.activeElement = null
+          focus(this.activeElement).then(() => {
+            this.activeElement = null
+          })
         } catch (e) {
           //
         }
@@ -427,18 +425,8 @@ class Modal extends React.PureComponent<
       open_delay, // eslint-disable-line
 
       omit_trigger_button = false,
-      // All "trigger_" are deprecated
       trigger = null,
       trigger_attributes = null,
-      trigger_hidden = 'false',
-      trigger_disabled = null,
-      trigger_variant = 'secondary',
-      trigger_text = null,
-      trigger_title = null,
-      trigger_size = null,
-      trigger_icon,
-      trigger_icon_position = 'left',
-      trigger_class = null,
 
       ...rest
     } = props
@@ -452,17 +440,12 @@ class Modal extends React.PureComponent<
 
     const render = (suffixProps) => {
       const triggerAttributes = {
-        hidden: isTrue(trigger_hidden),
-        disabled: isTrue(trigger_disabled),
-        variant: trigger_variant,
-        text: trigger_text,
-        title: trigger_title,
-        size: trigger_size,
-        icon: trigger_icon,
-        icon_position: trigger_icon_position,
-        class: trigger_class,
+        hidden: false,
+        variant: 'secondary',
+        icon_position: 'left',
         ...trigger_attributes,
       } as ButtonProps
+
       if (isTrue(disabled)) {
         triggerAttributes.disabled = true
       }

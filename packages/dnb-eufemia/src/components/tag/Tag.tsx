@@ -2,13 +2,14 @@ import React from 'react'
 import classnames from 'classnames'
 
 // Components
-import IconPrimary, { IconPrimaryIcon } from '../icon-primary/IconPrimary'
+import IconPrimary from '../icon-primary/IconPrimary'
+import type { IconIcon } from '../icon/Icon'
 import Button, { ButtonProps } from '../button/Button'
 
 // Shared
 import Context from '../../shared/Context'
-import { SpacingProps } from '../../shared/types'
-import { SkeletonShow } from '../skeleton/Skeleton'
+import type { SpacingProps } from '../../shared/types'
+import type { SkeletonShow } from '../skeleton/Skeleton'
 import {
   warn,
   extendPropsWithContext,
@@ -30,7 +31,7 @@ export interface TagProps {
    * Icon displaying on the left side
    * Default: null
    */
-  icon?: IconPrimaryIcon
+  icon?: IconIcon
 
   /**
    * If a label is given, typical inside a table or dl (definition list), then you can disable Tag.Group as a dependent of Tag. Use `true` to omit the `Tag group required:` warning.
@@ -157,7 +158,6 @@ const Tag = (localProps: TagProps & SpacingProps) => {
 
   return (
     <Button
-      data-testid="tag"
       variant="unstyled"
       size="small"
       icon_position={isRemovable ? 'right' : 'left'}

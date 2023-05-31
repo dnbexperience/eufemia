@@ -7,7 +7,7 @@ import React from 'react'
 import classnames from 'classnames'
 import algoliasearch from 'algoliasearch/lite'
 import { Autocomplete } from '@dnb/eufemia/src/components'
-import { Anchor } from '@dnb/eufemia/src/elements'
+import { Anchor } from '@dnb/eufemia/src'
 import { Link, navigate } from 'gatsby'
 import {
   autocompleteStyle,

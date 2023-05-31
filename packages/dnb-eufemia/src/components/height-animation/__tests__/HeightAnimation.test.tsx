@@ -48,7 +48,7 @@ describe('HeightAnimation', () => {
 
     return (
       <>
-        <ToggleButton checked={openState} onChange={onChangeHandler}>
+        <ToggleButton checked={openState} on_change={onChangeHandler}>
           Toggle me
         </ToggleButton>
 
@@ -59,7 +59,7 @@ describe('HeightAnimation', () => {
             animate={animate} // Optional
             {...props}
           >
-            <p className="content-element">Your content {children}</p>
+            <p className="content-element">your content {children}</p>
           </HeightAnimation>
         </section>
       </>

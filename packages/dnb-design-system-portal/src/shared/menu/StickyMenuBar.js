@@ -7,7 +7,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { useStaticQuery, graphql } from 'gatsby'
-import { hamburger as hamburgerIcon } from '@dnb/eufemia/src/icons/secondary_icons'
+import { hamburger as hamburgerIcon } from '@dnb/eufemia/src/icons'
 import { close as closeIcon } from '@dnb/eufemia/src/icons/primary_icons'
 import PortalLogo from './graphics/logo'
 import { Icon, Button } from '@dnb/eufemia/src'
@@ -95,7 +95,7 @@ export default function StickyMenuBar({
             id="toggle-sidebar-menu"
             size="default"
             icon_size="default"
-            aria-haspopup="true"
+            aria-haspopup={true}
             aria-controls="portal-sidebar-menu"
             aria-expanded={isOpen}
             aria-label="Section Content Menu"

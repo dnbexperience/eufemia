@@ -1,0 +1,16 @@
+@use '../typography-mixins.scss' as typography;
+
+// Paragraphs
+.dnb-p {
+  color: var(--theme-color-black-80, currentColor);
+}
+
+// Setting the default headings color
+@include typography.headingTags() {
+  color: var(--theme-color-black-80, currentColor);
+}
+
+// Headings
+@include typography.headingClasses() {
+  color: var(--theme-color-black-80, currentColor);
+}

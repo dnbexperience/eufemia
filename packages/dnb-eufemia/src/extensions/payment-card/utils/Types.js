@@ -4,19 +4,16 @@ const daggy = createDaggy()
 
 const DNB = daggy.taggedSum('DNB', {
   Colored: ['color'],
-  Metalic: [],
 })
 
 const Visa = daggy.taggedSum('Visa', {
   Colored: ['color'],
-  Metalic: [],
+  Platinum: [],
 })
 
 const Mastercard = daggy.taggedSum('Mastercard', {
   Default: [],
-  DefaultWhite: [],
-  Metalic: [],
-  BlackMetalic: [],
+  Dark: [],
 })
 
 const CardType = daggy.taggedSum('CardType', {
@@ -28,35 +25,37 @@ const CardType = daggy.taggedSum('CardType', {
 const BankAxept = daggy.taggedSum('BankAxept', {
   White: [],
   Black: [],
+  Gold: [],
+  Black20: [],
+  Gray: [],
 })
 
 const Saga = daggy.taggedSum('Saga', {
   Gold: [],
   Platinum: [],
-  VisaPlatinum: [],
   None: [],
 })
 
 // PrivateBanking
 const PB = daggy.taggedSum('PB', {
   Default: [],
-  Platinum: [],
   None: [],
 })
 
 const ProductType = daggy.taggedSum('ProductType', {
-  BankAxept: [],
   Saga: [],
   Pluss: [],
+  Intro: [],
+  Bedrift: [],
+  Business: [],
   PrivateBanking: [],
   None: [],
 })
 
-// const Status = daggy.taggedSum('Status', {
-//   Expired: [],
-//   Blocked: [],
-//   Active: []
-// })
+const BankAxeptType = daggy.taggedSum('BankAxeptType', {
+  BankAxept: [],
+  None: [],
+})
 
 export {
   DNB,
@@ -66,8 +65,8 @@ export {
   ProductType,
   CardType,
   BankAxept,
+  BankAxeptType,
   Visa,
-  // Status
 }
 
 const Types = {
@@ -78,8 +77,8 @@ const Types = {
   ProductType,
   CardType,
   BankAxept,
+  BankAxeptType,
   Visa,
-  // Status
 }
 
 export default Types

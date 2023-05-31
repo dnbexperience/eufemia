@@ -8,14 +8,13 @@ import {
   toJson,
   loadScss,
   axeComponent,
-  attachToBody,
 } from '../../../core/jest/jestSetup'
 import * as helpers from '../../../shared/helpers'
-import { render } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 
 const props = fakeProps(require.resolve('../Dialog.tsx'), {
   all: true,
-  //optional: true, // Does not work with Typescript interface props
+  // optional: true, // Does not work with Typescript interface props
 })
 props.title = 'dialog_title'
 props.id = 'dialog_id'
@@ -39,7 +38,7 @@ beforeEach(() => {
 
 describe('Dialog', () => {
   it('will run bodyScrollLock with disableBodyScroll', () => {
-    const Comp = mount(
+    render(
       <Dialog {...props}>
         <button>button</button>
       </Dialog>
@@ -47,7 +46,7 @@ describe('Dialog', () => {
 
     expect(document.body.getAttribute('style')).toBe(null)
 
-    Comp.find('button.dnb-modal__trigger').simulate('click')
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
 
     expect(document.body.getAttribute('style')).toContain(
       'overflow: hidden;'
@@ -55,27 +54,29 @@ describe('Dialog', () => {
   })
 
   it('appears on trigger click', () => {
-    const Comp = mount(
+    render(
       <Dialog {...props}>
         <button>button</button>
       </Dialog>
     )
 
-    Comp.find('Modal').find('button.dnb-modal__trigger').simulate('click')
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
 
-    expect(Comp.find('button.dnb-modal__close-button').exists()).toBe(true)
+    expect(
+      document.querySelector('button.dnb-modal__close-button')
+    ).toBeTruthy()
   })
 
   it('omits trigger button once we set omitTriggerButton', () => {
-    const Comp = mount(<Dialog {...props} omitTriggerButton />)
+    render(<Dialog {...props} omitTriggerButton />)
 
-    expect(Comp.find('button.dnb-modal__trigger').exists()).toBe(false)
+    expect(document.querySelector('button.dnb-modal__trigger')).toBeFalsy()
   })
 
   it('will close by using callback method', () => {
     const on_close = jest.fn()
     const on_open = jest.fn()
-    const Comp = mount(
+    render(
       <Dialog
         noAnimation
         onOpen={on_open}
@@ -87,10 +88,10 @@ describe('Dialog', () => {
         )}
       </Dialog>
     )
-    Comp.find('button').simulate('click')
+    fireEvent.click(document.querySelector('button'))
     expect(on_open).toHaveBeenCalledTimes(1)
 
-    Comp.find('button#close-me').simulate('click')
+    fireEvent.click(document.querySelector('button#close-me'))
     expect(on_close).toHaveBeenCalledTimes(1)
   })
 
@@ -119,7 +120,7 @@ describe('Dialog', () => {
 
   it('will use props from global context', () => {
     const contextTitle = 'Custom title'
-    const Comp = mount(
+    render(
       <Provider
         value={{
           Dialog: { title: contextTitle },
@@ -129,7 +130,7 @@ describe('Dialog', () => {
       </Provider>
     )
 
-    Comp.find('button').simulate('click')
+    fireEvent.click(document.querySelector('button'))
 
     expect(document.querySelector('.dnb-dialog__title').textContent).toBe(
       contextTitle
@@ -137,12 +138,12 @@ describe('Dialog', () => {
   })
 
   it('has to have correct role', () => {
-    const Comp = mount(
+    const { rerender } = render(
       <Dialog {...props} openState={true}>
         <button>button</button>
       </Dialog>
     )
-    const elem = Comp.find('.dnb-modal__content').instance()
+    const elem = document.querySelector('.dnb-modal__content')
     expect(elem.getAttribute('role')).toBe('dialog')
     expect(elem.hasAttribute('aria-modal')).toBe(true)
 
@@ -151,7 +152,11 @@ describe('Dialog', () => {
       writable: true,
     })
 
-    Comp.setProps({ title: 're-render' })
+    rerender(
+      <Dialog {...props} openState={true} title="re-render">
+        <button>button</button>
+      </Dialog>
+    )
 
     expect(elem.getAttribute('role')).toBe('region')
     expect(elem.hasAttribute('aria-modal')).toBe(false)
@@ -161,26 +166,53 @@ describe('Dialog', () => {
       writable: true,
     })
 
-    Comp.setProps({ variant: 'confirmation' })
+    rerender(
+      <Dialog
+        {...props}
+        openState={true}
+        title="re-render"
+        variant="confirmation"
+      >
+        <button>button</button>
+      </Dialog>
+    )
 
     expect(elem.getAttribute('role')).toBe('alertdialog')
     expect(elem.hasAttribute('aria-modal')).toBe(true)
   })
 
   it('is closed by keyboardevent esc', () => {
+    let testTriggeredBy = null
+    const on_close = jest.fn(
+      ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
+    )
+
+    const props = {
+      directDomReturn: false,
+      noAnimation: true,
+    }
+    render(<Dialog {...props} id="modal-dialog" onClose={on_close} />)
+
+    fireEvent.click(document.querySelector('button#modal-dialog'))
+    fireEvent.keyDown(document.querySelector('div.dnb-dialog'), {
+      key: 'Esc',
+      keyCode: 27,
+    })
+    expect(on_close).toHaveBeenCalledTimes(1)
+    expect(testTriggeredBy).toBe('keyboard')
+  })
+
+  it('is closed by keyboardevent esc by window listener', () => {
     const on_close = jest.fn()
 
     const props = {
       directDomReturn: false,
       noAnimation: true,
     }
-    const Comp = mount(
-      <Dialog {...props} id="modal-dialog" onClose={on_close} />
-    )
+    render(<Dialog {...props} id="modal-dialog" onClose={on_close} />)
 
-    Comp.find('button#modal-dialog').simulate('click')
+    fireEvent.click(document.querySelector('button#modal-dialog'))
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
-    Comp.update()
     expect(on_close).toHaveBeenCalledTimes(1)
   })
 
@@ -196,49 +228,53 @@ describe('Dialog', () => {
       third: jest.fn(),
     }
 
-    const props = {
-      directDomReturn: false,
-      noAnimation: true,
-    }
-
-    const Comp = mount(
-      <Dialog
-        {...props}
-        id="modal-first"
-        onOpen={on_open.first}
-        onClose={on_close.first}
-      >
-        <button id="content-first">content</button>
+    const getComponent = (props) => {
+      return (
         <Dialog
           {...props}
-          id="modal-second"
-          onOpen={on_open.second}
-          onClose={on_close.second}
+          id="modal-first"
+          onOpen={on_open.first}
+          onClose={on_close.first}
         >
-          <button id="content-second">content</button>
+          <button id="content-first">content</button>
           <Dialog
             {...props}
-            id="modal-third"
-            onOpen={on_open.third}
-            onClose={on_close.third}
+            id="modal-second"
+            onOpen={on_open.second}
+            onClose={on_close.second}
           >
-            <button id="content-third">content</button>
+            <button id="content-second">content</button>
+            <Dialog
+              {...props}
+              id="modal-third"
+              onOpen={on_open.third}
+              onClose={on_close.third}
+            >
+              <button id="content-third">content</button>
+            </Dialog>
           </Dialog>
         </Dialog>
-      </Dialog>
+      )
+    }
+
+    render(
+      getComponent({
+        directDomReturn: false,
+        noAnimation: true,
+      })
     )
 
-    expect(Comp.exists('#content-third')).toBe(false)
+    expect(document.querySelector('#content-third')).toBeFalsy()
 
-    Comp.find('button#modal-first').simulate('click')
+    fireEvent.click(document.querySelector('button#modal-first'))
     expect(
       document.documentElement.getAttribute('data-dnb-modal-active')
     ).toBe('modal-first')
-    Comp.find('button#modal-second').simulate('click')
+    fireEvent.click(document.querySelector('button#modal-second'))
     expect(
       document.documentElement.getAttribute('data-dnb-modal-active')
     ).toBe('modal-second')
-    Comp.find('button#modal-third').simulate('click')
+    fireEvent.click(document.querySelector('button#modal-third'))
     expect(
       document.documentElement.getAttribute('data-dnb-modal-active')
     ).toBe('modal-third')
@@ -247,38 +283,37 @@ describe('Dialog', () => {
     expect(on_open.second).toHaveBeenCalledTimes(1)
     expect(on_open.third).toHaveBeenCalledTimes(1)
 
-    expect(Comp.find('button.dnb-modal__close-button').length).toBe(3)
     expect(
-      Comp.find('#content-first').instance().hasAttribute('aria-hidden')
+      document.querySelectorAll('button.dnb-modal__close-button').length
+    ).toBe(3)
+    expect(
+      document.querySelector('#content-first').hasAttribute('aria-hidden')
     ).toBe(true)
     expect(
-      Comp.find('#content-second').instance().hasAttribute('aria-hidden')
+      document.querySelector('#content-second').hasAttribute('aria-hidden')
     ).toBe(true)
     expect(
-      Comp.find('#content-third').instance().hasAttribute('aria-hidden')
+      document.querySelector('#content-third').hasAttribute('aria-hidden')
     ).toBe(false)
     expect(
-      Comp.find('button.dnb-modal__close-button')
-        .at(0)
-        .instance()
+      document
+        .querySelector('button.dnb-modal__close-button')
+
         .hasAttribute('aria-hidden')
     ).toBe(true)
     expect(
-      Comp.find('button.dnb-modal__close-button')
-        .at(1)
-        .instance()
+      document
+        .querySelectorAll('button.dnb-modal__close-button')[1]
         .hasAttribute('aria-hidden')
     ).toBe(true)
     expect(
-      Comp.find('button.dnb-modal__close-button')
-        .at(2)
-        .instance()
+      document
+        .querySelectorAll('button.dnb-modal__close-button')[2]
         .hasAttribute('aria-hidden')
     ).toBe(false)
 
     // Close the third one
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
-    Comp.update()
     expect(on_close.first).toHaveBeenCalledTimes(0)
     expect(on_close.second).toHaveBeenCalledTimes(0)
     expect(on_close.third).toHaveBeenCalledTimes(1)
@@ -286,26 +321,24 @@ describe('Dialog', () => {
     expect(
       document.documentElement.getAttribute('data-dnb-modal-active')
     ).toBe('modal-second')
-    expect(Comp.exists('#content-third')).toBe(false)
+    expect(document.querySelector('#content-third')).toBeFalsy()
     expect(
-      Comp.find('#content-second').instance().hasAttribute('aria-hidden')
+      document.querySelector('#content-second').hasAttribute('aria-hidden')
     ).toBe(false)
     expect(
-      Comp.find('button.dnb-modal__close-button')
-        .at(0)
-        .instance()
+      document
+        .querySelector('button.dnb-modal__close-button')
+
         .hasAttribute('aria-hidden')
     ).toBe(true)
     expect(
-      Comp.find('button.dnb-modal__close-button')
-        .at(1)
-        .instance()
+      document
+        .querySelectorAll('button.dnb-modal__close-button')[1]
         .hasAttribute('aria-hidden')
     ).toBe(false)
 
     // Close the second one
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
-    Comp.update()
     expect(on_close.first).toHaveBeenCalledTimes(0)
     expect(on_close.second).toHaveBeenCalledTimes(1)
     expect(on_close.third).toHaveBeenCalledTimes(1)
@@ -313,41 +346,63 @@ describe('Dialog', () => {
     expect(
       document.documentElement.getAttribute('data-dnb-modal-active')
     ).toBe('modal-first')
-    expect(Comp.exists('#content-second')).toBe(false)
+    expect(document.querySelector('#content-second')).toBeFalsy()
     expect(
-      Comp.find('#content-first').instance().hasAttribute('aria-hidden')
+      document.querySelector('#content-first').hasAttribute('aria-hidden')
     ).toBe(false)
     expect(
-      Comp.find('button.dnb-modal__close-button')
-        .at(0)
-        .instance()
+      document
+        .querySelector('button.dnb-modal__close-button')
+
         .hasAttribute('aria-hidden')
     ).toBe(false)
 
     // Close the first one
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
-    Comp.update()
     expect(on_close.first).toHaveBeenCalledTimes(1)
     expect(on_close.second).toHaveBeenCalledTimes(1)
     expect(on_close.third).toHaveBeenCalledTimes(1)
 
-    expect(Comp.exists('#content-first')).toBe(false)
+    expect(document.querySelector('#content-first')).toBeFalsy()
     expect(
       document.documentElement.hasAttribute('data-dnb-modal-active')
     ).toBe(false)
   })
 
+  it('will close dialog by using callback method', () => {
+    const onClose = jest.fn()
+    const onOpen = jest.fn()
+
+    render(
+      <Dialog
+        noAnimation={true}
+        onOpen={onOpen}
+        onClose={onClose}
+        hideCloseButton
+      >
+        {({ close }) => (
+          <Button id="close-button" text="close" on_click={close} />
+        )}
+      </Dialog>
+    )
+
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+    expect(onOpen).toHaveBeenCalledTimes(1)
+
+    fireEvent.click(document.querySelector('button#close-button'))
+    expect(onClose).toHaveBeenCalledTimes(1)
+  })
+
   it('can contain dialog parts', () => {
-    const Comp = mount(
+    render(
       <Dialog noAnimation directDomReturn={false}>
         <Dialog.Navigation>navigation</Dialog.Navigation>
         <Dialog.Header>header</Dialog.Header>
         <Dialog.Body>body</Dialog.Body>
-      </Dialog>,
-      { attachTo: attachToBody() }
+      </Dialog>
     )
 
-    Comp.find('button').simulate('click')
+    fireEvent.click(document.querySelector('button'))
 
     const elements = document.querySelectorAll(
       '.dnb-dialog__content > .dnb-section'
@@ -356,20 +411,19 @@ describe('Dialog', () => {
     expect(elements[1].textContent).toContain('header')
     expect(elements[2].textContent).toContain('body')
 
-    expect(Comp.find('button.dnb-modal__close-button').length).toBe(1)
+    expect(
+      document.querySelectorAll('button.dnb-modal__close-button').length
+    ).toBe(1)
   })
 
   it('does not close with click on overlay for variant confirmation', () => {
-    const Comp = mount(
-      <Dialog {...props} variant="confirmation" openState="opened" />
-    )
+    render(<Dialog {...props} variant="confirmation" openState="opened" />)
 
-    Comp.find('.dnb-modal__content').simulate('click')
-    expect(Comp.exists('.dnb-dialog__inner')).toBe(true)
+    fireEvent.click(document.querySelector('.dnb-modal__content'))
+    expect(document.querySelector('.dnb-dialog__inner')).toBeTruthy()
 
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
-    Comp.update()
-    expect(Comp.exists('.dnb-dialog__inner')).toBe(false)
+    expect(document.querySelector('.dnb-dialog__inner')).toBeFalsy()
   })
 })
 
@@ -377,19 +431,18 @@ describe('Dialog component snapshot', () => {
   it('should match component snapshot', () => {
     const Comp = mount(<Dialog {...props} openState={true} />)
     expect(toJson(Comp)).toMatchSnapshot()
-    Comp.find('button.dnb-modal__close-button').simulate('click')
   })
 })
 describe('Dialog aria', () => {
   it('should validate with ARIA rules as a dialog', async () => {
-    const Comp = mount(<Dialog {...props} openState={true} />)
+    const Comp = render(<Dialog {...props} openState={true} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
 
 describe('Dialog scss', () => {
   it('have to match snapshot', () => {
-    const scss = loadScss(require.resolve('../style/dnb-dialog.scss'))
+    const scss = loadScss(require.resolve('../style/deps.scss'))
     expect(scss).toMatchSnapshot()
   })
 })

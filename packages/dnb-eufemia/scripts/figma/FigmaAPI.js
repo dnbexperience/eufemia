@@ -3,10 +3,7 @@
  *
  */
 
-import {
-  extractIconsAsSVG,
-  extractIconsAsPDF,
-} from './tasks/assetsExtractors'
+import { extractIconsAsSVG } from './tasks/assetsExtractors'
 import { getFigmaDoc } from './helpers/docHelpers'
 import { getRequiredBranchName } from './../prebuild/commitToBranch'
 import { log, ErrorHandler } from '../lib'
@@ -15,6 +12,7 @@ log.start('> Figma: Preparing for connecting to the Figma API ...')
 
 export const fetchFigmaIcons = async ({
   figmaFile = process.env.FIGMA_ICONS_FILE,
+  assetsDir = process.env.ASSETS_ICONS_DIR,
   ...args
 } = {}) => {
   if (!figmaFile) {
@@ -33,23 +31,12 @@ export const fetchFigmaIcons = async ({
     const icons = await extractIconsAsSVG({
       figmaFile,
       figmaDoc,
+      assetsDir,
       ...args,
     })
     log.succeed(`> Figma: Icons conversion done (${icons?.length} icons)`)
   } catch (e) {
     log.fail(new ErrorHandler('Failed during extractIconsAsSVG', e))
-  }
-
-  try {
-    log.start('> Figma: Starting the pdf fetch')
-    const pdfs = await extractIconsAsPDF({
-      figmaFile,
-      figmaDoc,
-      ...args,
-    })
-    log.succeed(`> Figma: PDFs conversion done (${pdfs?.length} pdfs)`)
-  } catch (e) {
-    log.fail(new ErrorHandler('Failed during extractIconsAsPDF', e))
   }
 }
 

@@ -2,7 +2,8 @@ import React from 'react'
 
 // Components
 import Button from '../button/Button'
-import IconPrimary, { IconPrimaryIcon } from '../icon-primary/IconPrimary'
+import IconPrimary from '../icon-primary/IconPrimary'
+import type { IconIcon } from '../icon/Icon'
 
 // Elements
 import P from '../../elements/P'
@@ -12,7 +13,7 @@ import homeIcon from '../../icons/home'
 
 // Shared
 import Context from '../../shared/Context'
-import { SkeletonShow } from '../skeleton/Skeleton'
+import type { SkeletonShow } from '../skeleton/Skeleton'
 import { extendPropsWithContext } from '../../shared/component-helper'
 
 export interface BreadcrumbItemProps {
@@ -26,7 +27,7 @@ export interface BreadcrumbItemProps {
    * Icon displaying on the left side
    * Default: HomeIcon / chevron_left
    */
-  icon?: IconPrimaryIcon
+  icon?: IconIcon
 
   /**
    * Href should be the link to the item's corresponding page.
@@ -90,7 +91,7 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
     context?.BreadcrumbItem
   )
 
-  const currentIcon: IconPrimaryIcon =
+  const currentIcon: IconIcon =
     icon || (variant === 'home' && homeIcon) || 'chevron_left'
   const currentText = text || (variant === 'home' && homeText) || ''
   const isInteractive = (href || onClick) && variant !== 'current'
@@ -99,7 +100,6 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
   return (
     <li
       className="dnb-breadcrumb__item"
-      data-testid="breadcrumb-item"
       aria-current={variant === 'current' ? 'page' : undefined}
       style={style}
     >
@@ -120,9 +120,7 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
             icon={currentIcon}
             className="dnb-breadcrumb__item__span__icon"
           />
-          <P left="0" data-testid="breadcrumb-item-text">
-            {currentText}
-          </P>
+          <P left="0">{currentText}</P>
         </span>
       )}
     </li>

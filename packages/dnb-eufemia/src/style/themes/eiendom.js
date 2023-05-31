@@ -5,4 +5,5 @@
  *
  */
 
-import './theme-eiendom/dnb-theme-eiendom.scss'
+import './theme-eiendom/ui-theme-components.scss'
+import './theme-eiendom/ui-theme-basis.scss'

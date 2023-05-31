@@ -26,7 +26,11 @@ function runCommand(command) {
  * @returns {array} List of files
  */
 const getCommittedFiles = async () => {
-  const files = (await runCommand('git diff HEAD^ --name-only'))
+  const files = (
+    await runCommand(
+      'git config diff.renames 0 && git diff HEAD^ --name-only'
+    )
+  )
     .split('\n')
     .filter(Boolean)
 

@@ -11,8 +11,8 @@ import {
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import Context from '../../shared/Context'
-import { SpacingProps } from '../../shared/types'
-import { SkeletonShow } from '../skeleton/Skeleton'
+import type { SpacingProps } from '../../shared/types'
+import type { SkeletonShow } from '../skeleton/Skeleton'
 
 export interface AvatarGroupProps {
   /**
@@ -134,12 +134,9 @@ const AvatarGroup = (localProps: AvatarGroupProps & SpacingProps) => {
           spacingClasses,
           className
         )}
-        data-testid="avatar-group"
         {...attributes}
       >
-        <span data-testid="avatar-group-label" className="dnb-sr-only">
-          {label}
-        </span>
+        <span className="dnb-sr-only">{label}</span>
 
         {children}
 
@@ -175,7 +172,6 @@ function ElementsHidden(props: ElementsHiddenProps) {
         'dnb-avatar__group--elements-left',
         `dnb-avatar__group--elements-left--size-${size || 'medium'}`
       )}
-      data-testid="elements-left"
     >
       {children}
     </span>

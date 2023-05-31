@@ -301,20 +301,20 @@ export default class DatePickerInput extends React.PureComponent {
 
       await wait(1) // to get the correct position afterwards
 
-      const endPos = target.value.length
-      target.focus()
-      target.setSelectionRange(0, endPos)
+      selectAll(target)
     } catch (e) {
       warn(e)
     }
   }
 
+  selectStart = (target) => {
+    target.focus()
+    target.setSelectionRange(0, 0)
+  }
+
   onFocusHandler = (event) => {
     try {
-      const target = event.target
-      const endPos = target.value.length
-      target.focus()
-      target.setSelectionRange(0, endPos)
+      selectAll(event.target)
     } catch (e) {
       warn(e)
     }
@@ -336,6 +336,10 @@ export default class DatePickerInput extends React.PureComponent {
   onKeyDownHandler = async (event) => {
     const keyCode = keycode(event)
     const target = event.target
+
+    if (target.selectionStart !== target.selectionEnd) {
+      this.selectStart(target)
+    }
 
     // only to process key up and down press
     switch (keyCode) {
@@ -522,7 +526,6 @@ export default class DatePickerInput extends React.PureComponent {
           params = {
             ...params,
             onKeyDown: this.onKeyDownHandler,
-            onMouseUp: selectInput,
             onPaste: this.shortcutHandler,
             onFocus: (e) => {
               this.focusMode = mode
@@ -754,9 +757,9 @@ export default class DatePickerInput extends React.PureComponent {
   }
 }
 
-const selectInput = (e) => {
-  e.target.focus()
-  e.target.select()
+const selectAll = (target) => {
+  target.focus()
+  target.select()
 }
 
 const InputElement = (props) => {

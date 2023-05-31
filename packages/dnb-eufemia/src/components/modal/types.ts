@@ -1,13 +1,11 @@
 import * as React from 'react'
-import { CloseButtonProps } from './parts/CloseButton'
-import { ButtonProps } from '../button/Button'
-import { ModalRootProps } from './ModalRoot'
+import type { CloseButtonProps } from './parts/CloseButton'
+import type { ButtonProps } from '../button/Button'
+import type { ModalRootProps } from './ModalRoot'
 
-export type ExtendedBoolean = string | boolean
 export type ReactChildType = React.ReactNode | ((...args: any[]) => any)
 
-export type ModalMode = 'modal' | 'drawer' | 'dialog' | 'custom'
-export type ModalFullscreen = 'auto' | ExtendedBoolean
+export type ModalFullscreen = 'auto' | boolean
 export type ModalAlignContent = 'left' | 'center' | 'centered' | 'right'
 export type ModalContainerPlacement = 'left' | 'right' | 'top' | 'bottom'
 export type ModalOpenState = 'opened' | 'closed' | boolean
@@ -27,9 +25,9 @@ export interface ModalProps extends ModalRootProps {
   id?: string
 
   /**
-   * Will disable the trigger button
+   * Will disable the trigger button.
    */
-  disabled?: ExtendedBoolean
+  disabled?: boolean
 
   /**
    * Forces the modal/drawer to delay the opening. The delay is given in `ms`.
@@ -39,7 +37,7 @@ export interface ModalProps extends ModalRootProps {
   /**
    * If set to `true` (boolean or string), then the user can&#39;t close the modal/drawer.
    */
-  prevent_close?: ExtendedBoolean
+  prevent_close?: boolean
 
   /**
    * Duration of animation open/close in ms. Defaults to 300ms.
@@ -49,7 +47,7 @@ export interface ModalProps extends ModalRootProps {
   /**
    * If set to `true`, no open/close animation will be shown. Defaults to false.
    */
-  no_animation?: ExtendedBoolean
+  no_animation?: boolean
 
   /**
    * Use this prop to control the open/close state by setting either: `opened` / `closed` or `true` / `false`.
@@ -85,7 +83,7 @@ export interface ModalProps extends ModalRootProps {
   }) => void
 
   /**
-   * This event gets triggered once the user tries to close the modal, but `prevent_close` is set to "true". Returns a callback `close` You can call to trigger the close mechanism. More details below. Returns the modal id: `{ id, event, close: Method, triggeredBy }`
+   * This event gets triggered once the user tries to close the modal, but `prevent_close` is set to "true". Returns a callback `close` you can call to trigger the close mechanism. More details below. Returns the modal id: `{ id, event, close: Method, triggeredBy }`
    */
   on_close_prevent?: ({
     id,
@@ -123,55 +121,14 @@ export interface ModalProps extends ModalRootProps {
   trigger_attributes?: TriggerAttributes
 
   /**
-   * If truthy, no trigger button will be show. This can be used in combination with `open_state="opened"`.
-   */
-  trigger_hidden?: ExtendedBoolean
-
-  /**
-   * If truthy, then the trigger button can&#39;t be opened.
-   */
-  trigger_disabled?: ExtendedBoolean
-
-  /**
-   * The modal/drawer triggering button variant. Defaults to `secondary`.
-   */
-  trigger_variant?: ModalTriggerVariant
-
-  /**
-   * If type is set to `text`, this will be the text which triggers the modal/drawer. If set to `button` it will be the `title` attribute of the button.
-   */
-  trigger_text?: string
-
-  /**
-   * The modal/drawer triggering button title.
-   */
-  trigger_title?: string
-  trigger_size?: string
-
-  /**
-   * The modal/drawer triggering button icon. Can be used instead of a `trigger_text`. Defaults to `question`.
-   */
-  trigger_icon?: ReactChildType
-
-  /**
-   * Defines the modal/drawer triggering icon position. Defaults to `left` because of the tertiary button variant.
-   */
-  trigger_icon_position?: ModalTriggerIconPosition
-
-  /**
-   * Adds a custom modal trigger class name.
-   */
-  trigger_class?: string
-
-  /**
    * The content which will appear when triggering the modal/drawer.
    */
   modal_content?: ReactChildType
 
   /**
-   * If truthy, the drawer will not open in a new DOM but directly in current DOM. Defaults to `false`.
+   * If true, the drawer will not open in a new DOM but directly in current DOM. Defaults to `false`.
    */
-  direct_dom_return?: string | boolean
+  direct_dom_return?: boolean
 
   /**
    * To get the inner content Element, pass in your own React ref
@@ -189,12 +146,6 @@ export interface ModalContentProps {
    * The content which will appear when triggering the modal/drawer.
    */
   modal_content?: ReactChildType
-
-  /**
-   * The modal/drawer mode (deprecated). Can be set to `drawer`, `dialog` or `custom`. Defaults to `modal`.
-   * It is recommended to use the Drawer/Dialog components instead
-   */
-  mode?: ModalMode
 
   /**
    * The content which will appear in the bar, above the header, and side-by-side the close button.
@@ -218,7 +169,7 @@ export interface ModalContentProps {
   root_id?: string
 
   /**
-   * The ID of the trigger component, describing the modal/drawer content. Defaults to the internal `trigger`, so make sure You define the `trigger_title`.
+   * The ID of the trigger component, describing the modal/drawer content. Defaults to the internal `trigger`, so make sure you define the trigger title.
    */
   labelled_by?: string
 
@@ -243,9 +194,9 @@ export interface ModalContentProps {
   dialog_title?: string
 
   /**
-   * If truthy, the close button will not be shown.
+   * If boolean, the close button will not be shown.
    */
-  hide_close_button?: ExtendedBoolean
+  hide_close_button?: boolean
 
   /**
    * Define any valid Eufemia Button property or HTML attribute inside an object.
@@ -255,28 +206,28 @@ export interface ModalContentProps {
   /**
    * If set to `false` then the modal/drawer content will be shown without any spacing. Defaults to `true`.
    */
-  spacing?: ExtendedBoolean
+  spacing?: boolean
 
   /**
    * By default the modal/drawer content gets added the core style class `dnb-core-style`. Use `false` to disable this behavior.
    */
-  prevent_core_style?: ExtendedBoolean
+  prevent_core_style?: boolean
   animation_duration?: string | number
 
   /**
    * Disable clicking the background overlay to close the modal
    */
-  prevent_overlay_close?: ExtendedBoolean
+  prevent_overlay_close?: boolean
 
   /**
    * If set to `true`, no open/close animation will be shown. Defaults to false.
    */
-  no_animation?: ExtendedBoolean
+  no_animation?: boolean
 
   /**
    * Same as `no_animation`, but gets triggered only if the viewport width is less than `40em`. Defaults to false.
    */
-  no_animation_on_mobile?: ExtendedBoolean
+  no_animation_on_mobile?: boolean
 
   /**
    * The minimum Modal content width, defined by a CSS width value like `50vw` (50% of the viewport). Be careful on using fixed `min_width` so you don&#39;t break responsiveness. Defaults to `30rem` (average width is set to `60vw`).

@@ -12,9 +12,9 @@ const config = {
     '<rootDir>/build/',
     '<rootDir>/assets/',
     '<rootDir>/stories/',
-    '<rootDir>/jest-screenshot-report/',
   ],
   transformIgnorePatterns: ['/node_modules/(?!(ora|globby)/)'],
+  setupFiles: ['core-js'], // is needed by "globby" inside of convertSvgToJsx
   transform: {
     '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',
     '^.+\\.(md|txt|css|scss)$': 'jest-raw-loader',

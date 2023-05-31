@@ -67,18 +67,6 @@ export const useFilteredProps = () => {
 }
 
 /**
- * Returns either given component property ref or new internal ref
- *
- * @returns React ref
- */
-export const useInputElementRef = () => {
-  const { props } = React.useContext(InputMaskedContext)
-  return typeof props?.inner_ref?.current !== 'undefined'
-    ? props?.inner_ref
-    : React.createRef()
-}
-
-/**
  * Returns locale from either component or context
  *
  * @returns string
@@ -217,7 +205,6 @@ export const useMaskParams = () => {
  * @returns React Element
  */
 export const useInputElement = () => {
-  const ref = useInputElementRef()
   const { props } = React.useContext(InputMaskedContext)
 
   const { pipe } = props
@@ -225,6 +212,9 @@ export const useInputElement = () => {
   const mask = useMask()
   const { showMask, showGuide, placeholderChar, keepCharPositions } =
     useMaskParams()
+
+  const _ref = React.useRef()
+  const ref = props?.inner_ref || _ref
 
   // Create the actual input element
   const inputElementRef = React.useRef(<input ref={ref} />)
@@ -335,8 +325,7 @@ const useCallEvent = ({ setLocalValue }) => {
     if (
       name === 'on_key_down' &&
       !isUnidentified &&
-      ((isNumberMask && !maskParams?.allowLeadingZeroes) ||
-        (!isNumberMask && maskParams?.allowLeadingZeroes === false)) &&
+      maskParams?.disallowLeadingZeroes &&
       (keyCode === '0' ||
         keyCode === 'numpad 0' ||
         (value.replace(/[^\d]/g, '') === '' &&
@@ -423,7 +412,6 @@ const useCallEvent = ({ setLocalValue }) => {
 
     // We may have to check against a negative value: && 1 / +0 === 1 / numberValue
     const cleanedValue = numberValue === 0 ? '' : num
-    const cleaned_value = cleanedValue // Deprecated
 
     if (name === 'on_change' && numberValue === 0) {
       correctCaretPosition(event.target, maskParams, props)
@@ -434,7 +422,6 @@ const useCallEvent = ({ setLocalValue }) => {
       value,
       numberValue,
       cleanedValue,
-      cleaned_value, // Deprecated
     })
 
     if (name === 'on_change') {

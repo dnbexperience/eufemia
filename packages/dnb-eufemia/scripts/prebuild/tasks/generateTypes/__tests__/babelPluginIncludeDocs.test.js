@@ -26,7 +26,7 @@ describe('babelPluginIncludeDocs', () => {
     const { docs } = await fetchPropertiesFromDocs({
       file,
       docsDir,
-      findFiles: ['PrimaryComponent.md'],
+      findFiles: ['PrimaryComponent.mdx'],
     })
 
     const { code } = await transformFileAsync(file, {
@@ -57,7 +57,7 @@ describe('babelPluginIncludeDocs', () => {
     const { docs } = await fetchPropertiesFromDocs({
       file,
       docsDir,
-      findFiles: ['PrimaryComponent.md'],
+      findFiles: ['PrimaryComponent.mdx'],
     })
     expect(docs).toMatchSnapshot()
   })

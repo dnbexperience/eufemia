@@ -3,22 +3,20 @@
  *
  */
 
-const fs = require('fs-extra')
 const path = require('path')
 const { isCI } = require('repo-utils')
-const getCurrentBranchName = require('current-git-branch')
 const { init } = require('./scripts/version.js')
+const { createFilePath } = require('gatsby-source-filesystem')
+const { shouldUsePrebuild } = require('./src/core/BuildTools.cjs')
 
-let prebuildExists = false
-const currentBranch = getCurrentBranchName()
+const PREBUILD_EXISTS = shouldUsePrebuild()
+
+// Used for heading
+const {
+  makeHeadingsResolver,
+} = require('./src/uilib/search/remark-headings-plugin.js')
 
 exports.onPreInit = async () => {
-  try {
-    prebuildExists = fs.existsSync(require.resolve('@dnb/eufemia/build'))
-  } catch (e) {
-    //
-  }
-
   if (process.env.NODE_ENV === 'production') {
     await init()
   }
@@ -35,22 +33,59 @@ exports.onPreInit = async () => {
  * mother.frontmatter.title = Button
  *
  */
-exports.createSchemaCustomization = ({ actions: { createTypes } }) => {
-  const typeDefs = `
-    type Mdx implements Node {
-      siblings: [Mdx]
-    }
-  `
+exports.createSchemaCustomization = ({
+  getNode,
+  getNodesByType,
+  pathPrefix,
+  reporter,
+  cache,
+  schema,
+  store,
+  actions,
+}) => {
+  actions.createTypes([
+    `
+      type Mdx implements Node {
+        siblings: [Mdx]
+      }
+    `,
+    `
+      type MdxHeading {
+        value: String
+        depth: Int
+      }
+    `,
+    makeHeadingsResolver({
+      getNode,
+      getNodesByType,
+      pathPrefix,
+      reporter,
+      cache,
+      schema,
+      store,
+    }),
+  ])
+}
 
-  createTypes(typeDefs)
+exports.onCreateNode = ({ node, actions, getNode }) => {
+  const { createNodeField } = actions
+
+  if (node.internal.type === 'Mdx') {
+    createNodeField({
+      node,
+      name: 'slug',
+      value: createFilePath({ node, getNode }).replace(/^\/|\/$/g, ''),
+    })
+  }
 }
 
 exports.createResolvers = ({ createResolvers }) => {
   const resolvers = {
     Mdx: {
       siblings: {
+        type: ['Mdx'],
         resolve: (source, args, context) => {
-          const slug = context?.slug // during dev: source?.__gatsby_resolved?.slug
+          const slug = source.fields.slug
 
           if (typeof slug !== 'string') {
             return []
@@ -65,7 +100,7 @@ exports.createResolvers = ({ createResolvers }) => {
                 context.nodeModel.findOne({
                   type: 'Mdx',
                   query: {
-                    filter: { slug: { eq } },
+                    filter: { fields: { slug: { eq } } },
                   },
                 })
               )
@@ -80,62 +115,7 @@ exports.createResolvers = ({ createResolvers }) => {
 }
 
 exports.createPages = async (params) => {
-  await createPages(params)
   await createRedirects(params)
-}
-
-async function createPages({ graphql, actions }) {
-  const mdxResult = await graphql(/* GraphQL */ `
-    {
-      site {
-        siteMetadata {
-          title
-          description
-        }
-      }
-      allMdx {
-        edges {
-          node {
-            id
-            slug
-            frontmatter {
-              title
-              description
-            }
-          }
-        }
-      }
-    }
-  `)
-
-  if (mdxResult.errors) {
-    console.error(mdxResult.errors)
-    return mdxResult.errors
-  }
-
-  const { createPage } = actions
-  const { edges } = mdxResult.data.allMdx
-
-  edges.forEach(({ node }, i) => {
-    const prev = i === 0 ? null : edges[i - 1].node
-    const next = i === edges.length - 1 ? null : edges[i + 1].node
-
-    // check if the slug is valid, in case we deleted one during build
-    if (node?.slug) {
-      const slug = node.slug
-
-      createPage({
-        path: slug,
-        component: path.resolve(__dirname, 'src/templates/mdx.js'),
-        context: {
-          id: node.id,
-          slug,
-          prev,
-          next,
-        },
-      })
-    }
-  })
 }
 
 async function createRedirects({ graphql, actions }) {
@@ -144,7 +124,9 @@ async function createRedirects({ graphql, actions }) {
       allMdx(filter: { frontmatter: { redirect_from: { ne: null } } }) {
         edges {
           node {
-            slug
+            fields {
+              slug
+            }
             frontmatter {
               redirect_from
             }
@@ -165,11 +147,13 @@ async function createRedirects({ graphql, actions }) {
   // For all posts with redirect_from frontmatter,
   // extract all values and push to redirects array
   const redirects = edges.reduce((acc, { node }) => {
+    const slug = node.fields.slug
+
     // check if the slug is valid, in case we deleted one during build
-    if (node?.slug) {
+    if (slug) {
       acc.push({
         fromItems: node.frontmatter.redirect_from,
-        toPath: node.slug,
+        toPath: slug,
       })
     }
     return acc
@@ -190,19 +174,26 @@ async function createRedirects({ graphql, actions }) {
   })
 }
 
-exports.onCreateWebpackConfig = ({ stage, actions, plugins }) => {
+exports.onCreateWebpackConfig = ({
+  reporter,
+  stage,
+  actions,
+  plugins,
+}) => {
   const config = {
     resolve: {
       alias: {
-        Docs: path.resolve(__dirname, 'src/docs'),
+        Docs: path.resolve(global.pagesPath),
       },
     },
     plugins: [
       plugins.define({
-        'process.env.isCI': JSON.stringify(isCI),
-        'process.env.STYLE_THEME': JSON.stringify(getStyleTheme()),
-        'process.env.CURRENT_BRANCH': JSON.stringify(currentBranch),
-        'process.env.PREBUILD_EXISTS': JSON.stringify(prebuildExists),
+        'global.isCI': JSON.stringify(isCI),
+        'global.STYLE_IMPORT_PATH': JSON.stringify(
+          PREBUILD_EXISTS
+            ? '@dnb/eufemia/build/style/dnb-ui-core.min.css'
+            : '@dnb/eufemia/src/style/core'
+        ),
       }),
 
       // Webpack 4 to 5 migration
@@ -210,7 +201,13 @@ exports.onCreateWebpackConfig = ({ stage, actions, plugins }) => {
     ],
   }
 
-  if (isCI && prebuildExists && stage === 'build-javascript') {
+  if (PREBUILD_EXISTS && stage === 'build-javascript') {
+    if (PREBUILD_EXISTS && !isCI) {
+      reporter.warn(
+        '😱 There is a "dnb-eufemia/build" in your local repo. It is used durnig your local Portal build! \nKeep in mind, the code from "dnb-eufemia/build" may be outdated. \n\n👉 You can remove the build with: "yarn build:clean"\n\n'
+      )
+    }
+
     config.plugins.push(
       plugins.normalModuleReplacement(/@dnb\/eufemia\/src/, (resource) => {
         resource.request = resource.request.replace(
@@ -232,22 +229,4 @@ exports.onCreateDevServer = () => {
   } = require('gatsby-plugin-remove-serviceworker/gatsby-node.js')
 
   onPostBuild()
-}
-
-function getStyleTheme() {
-  let themeName = 'ui'
-  if (typeof process.env.GATSBY_THEME_STYLE_DEV !== 'undefined') {
-    themeName = process.env.GATSBY_THEME_STYLE_DEV
-  }
-
-  /**
-   * Checking for "branch name" could be interesting to have,
-   * but this requires that we have a visual testing strategy in place first.
-   *
-   */
-  if (process.env.GATSBY_CLOUD && currentBranch.includes('eiendom')) {
-    themeName = 'eiendom'
-  }
-
-  return themeName
 }

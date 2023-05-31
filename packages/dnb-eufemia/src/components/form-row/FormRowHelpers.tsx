@@ -3,7 +3,7 @@ import { filterValidProps } from '../../shared/helpers/filterValidProps'
 
 export type FormRowProps = {
   label_direction?: 'vertical' | 'horizontal'
-  vertical?: string | boolean
+  vertical?: boolean
 }
 
 export function prepareFormRowContext<Props>(props: Props & FormRowProps) {

@@ -55,26 +55,30 @@
   }
 }
 
-$focusRingWidth: 0.125rem; //2px
-$focusRingColor: var(--color-emerald-green);
-@mixin fakeFocus($whatinput: null, $color: null, $inset: null) {
+@mixin focusRing($whatinput: null, $color: null, $inset: null) {
   outline: none;
 
   @if $whatinput == null {
     $whatinput: 'keyboard';
   }
   @if $color == null {
-    $color: $focusRingColor;
+    $color: var(--focus-ring-color);
   }
 
-  @include whatInput($whatinput) {
-    @include fakeBorder($color, $focusRingWidth, $inset);
+  @if $whatinput == 'always' {
+    @include fakeBorder($color, var(--focus-ring-width), $inset);
+  } @else {
+    @include whatInput($whatinput) {
+      @include fakeBorder($color, var(--focus-ring-width), $inset);
+    }
   }
 }
-@mixin removeFakeFocus($whatinput: null) {
+
+@mixin removeFocusRing($whatinput: null) {
   outline: initial;
+
   @if $whatinput == null {
-    $whatinput: 'keyboard';
+    box-shadow: none;
   }
 
   html[data-whatinput='#{$whatinput}'] & {
@@ -86,68 +90,33 @@ $focusRingColor: var(--color-emerald-green);
   $color: null,
   $width: null /* 1px */,
   $inset: null,
-  $is1px: false /* IE11 fix */,
   $important: null
 ) {
-  @if $color == null {
-    $color: $focusRingColor;
-  }
   @if $width == null {
     $width: 0.0625rem;
   }
 
   --border-color: #{$color};
+  --border-width: #{$width};
 
   // we use !important, cause we have no changes to select the selctor right
   // in some cases we have another state where we use box-shadow
   // but with important, we take care of that we actually can use use it
-  box-shadow: $inset 0 0 0 $width var(--border-color) $important;
-
-  @if $inset {
-    /* iOS fix - because "inset" works not fine with border-radius */
-    @include IS_SAFARI_MOBILE() {
-      // remove inset on webkit - this makes the border outside
-      box-shadow: 0 0 0 $width var(--border-color) $important;
-
-      // This also works, but then we move content for 1px, if they don't have a border from before
-      // box-shadow: none;
-      // border: $width solid var(--border-color) $important;
-    }
-
-    /* Safari fix - because "inset" works not fine with border-radius if the user zooms the page */
-    @include IS_SAFARI_DESKTOP() {
-      // remove inset on webkit - this makes the border outside
-      box-shadow: 0 0 0 $width var(--border-color) $important;
-    }
-  }
-
-  @include IS_IE() {
-    @if $is1px {
-      // Since 0.0625rem gets not rendered correctly
-      // and gives an artifact, we do use px instead
-      box-shadow: $inset 0 0 0 1px $color $important;
-    } @else {
-      // IE color fallback
-      box-shadow: $inset 0 0 0 $width $color $important;
-    }
-  }
+  box-shadow: $inset 0 0 0 var(--border-width) var(--border-color)
+    $important;
 
   @if $color != null {
     border-color: transparent;
   }
 }
 
-@mixin extendFakeFocus(
+@mixin extendFocusRing(
   $first-color: null,
   $second-color: null,
   $width: 0.0625rem /*1px*/
 ) {
-  $second: 0 0 0 ($focusRingWidth + $width) $second-color;
+  $second: 0 0 0 calc(var(--focus-ring-width) + #{$width}) $second-color;
   box-shadow: 0 0 0 $width $first-color, $second;
-
-  @include IS_IE() {
-    border: 0 solid transparent; // only to trigger the renderering correctly in IE11
-  }
 }
 
 @mixin dummySpacing() {
@@ -163,36 +132,48 @@ $focusRingColor: var(--color-emerald-green);
 }
 
 @mixin scrollbarAppearance() {
-  scrollbar-width: thin;
+  --scrollbar-track-width: 0.5rem;
+  --scrollbar-thumb-width: 0.5rem;
+  --scrollbar-track-color: var(--color-black-8);
+  --scrollbar-thumb-color: var(--color-sea-green);
+  --scrollbar-thumb-hover-color: var(--color-emerald-green);
 
   // older iOS safari
   -webkit-overflow-scrolling: touch;
 
-  // show scrollbar on IE
+  // show scrollbar in IE & Edge
   -ms-overflow-style: auto;
 
-  scrollbar-color: var(--color-sea-green) transparent;
+  // NB: We have used "scrollbar-track-width: auto;" before,
+  // first, it only effects Firefox.
+  // But "thin" changes the behavior in Windows,
+  // so it has no arrow buttons, and a weird "pressed" color.
+  // Also, on macOS, it changes the scrollbar to be so small,
+  // that e.g. the textarea resize grabber gets way smaller.
+
+  scrollbar-color: var(--scrollbar-thumb-color, #888) transparent;
 
   @supports not (scrollbar-color: auto) {
     // stylelint-disable
     &::-webkit-scrollbar {
       &:vertical {
-        width: 0.5rem;
+        width: var(--scrollbar-track-width, 0.5rem);
       }
       &:horizontal {
-        height: 0.5rem;
+        height: var(--scrollbar-track-width, 0.5rem);
       }
 
-      background-color: var(--color-black-8);
+      border-radius: var(--scrollbar-thumb-width, 0.5rem);
+      background-color: var(--scrollbar-track-color, #eee);
     }
     &::-webkit-scrollbar-thumb {
-      background-color: var(--color-sea-green);
+      background-color: var(--scrollbar-thumb-color, #888);
 
       &:hover {
-        background-color: var(--color-emerald-green);
+        background-color: var(--scrollbar-thumb-hover-color, #666);
       }
 
-      border-radius: 0.5rem;
+      border-radius: var(--scrollbar-thumb-width, 0.5rem);
     }
     // stylelint-enable
   }
@@ -202,28 +183,22 @@ $focusRingColor: var(--color-emerald-green);
   overflow-y: $mode;
   overscroll-behavior: contain;
 
-  @include scrollbarAppearance();
-
   html:not([data-visual-test]) & {
     scroll-behavior: smooth;
   }
-  html[data-visual-test] & {
-    scroll-behavior: auto !important;
-  }
+
+  @include scrollbarAppearance();
 }
 
 @mixin scrollX($mode: scroll) {
   overflow-x: $mode;
   overscroll-behavior: contain;
 
-  @include scrollbarAppearance();
-
   html:not([data-visual-test]) & {
     scroll-behavior: smooth;
   }
-  html[data-visual-test] & {
-    scroll-behavior: auto !important;
-  }
+
+  @include scrollbarAppearance();
 }
 
 @mixin hideScrollbar() {
@@ -234,13 +209,6 @@ $focusRingColor: var(--color-emerald-green);
   }
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
-}
-
-// IE fix
-@mixin IS_IE() {
-  @media screen and (-ms-high-contrast: none) {
-    @content;
-  }
 }
 
 // Edge fix
@@ -284,10 +252,10 @@ $focusRingColor: var(--color-emerald-green);
 
 $breakpoints: (
   'small': 40em,
-  'medium': 50em,
-  'large': 60em,
-  'x-large': 72em,
-  'xx-large': 80em,
+  'medium': 60em,
+  'large': 72em,
+  'x-large': 80em /* not documented yet */,
+  'xx-large': 90em /* not documented yet */,
 );
 
 // Example usage:
@@ -323,58 +291,27 @@ $breakpoints: (
 
 // Screen reader only helper
 @mixin srOnly() {
-  user-select: none;
-  -webkit-touch-callout: none; // iOS
-  pointer-events: none;
+  user-select: none !important;
+  -webkit-touch-callout: none !important; // iOS
+  pointer-events: none !important;
 
-  position: absolute;
+  position: absolute !important;
 
-  clip-path: inset(50%);
-  max-width: 1px; // if less than 1px, Safari moves the focus-ring to another place
-  max-height: 1px; // if less than 1px, Safari moves the focus-ring to another place
+  clip-path: inset(50%) !important;
+  max-width: 1px !important; // if less than 1px, Safari moves the focus-ring to another place
+  max-height: 1px !important; // if less than 1px, Safari moves the focus-ring to another place
 
-  overflow: hidden;
-  white-space: nowrap; // NB: so NVDA not splits up text in multi line
+  overflow: hidden !important;
+  white-space: nowrap !important; // NB: so NVDA not splits up text in multi line
 
-  padding: 0;
-  margin: 0;
+  padding: 0 !important;
+  margin: 0 !important;
 
-  border: 0;
-}
-
-// deprecated and can be removed in v10
-// Visual test and docs should be removed as well!
-@mixin srOnlyInline() {
-  @include srOnly();
-
-  // since we do use it also as positioning helper
-  // we then do not want it absolute positioned
-  position: static;
-  display: inline-block;
-
-  visibility: visible; // should not be hidden!
-
-  font-size: 0;
-  line-height: 0;
-}
-
-// deprecated and can be removed in v10
-// Visual test and docs should be removed as well!
-@mixin notSrOnly() {
-  position: initial;
-  max-width: initial;
-  max-height: initial;
-
-  clip-path: initial;
-  overflow: auto;
-
-  font-size: initial;
-  line-height: initial;
-  white-space: initial;
+  border: 0 !important;
 }
 
 @function str-replace($string, $search, $replace: '') {
-  $index: str-index($string, $search);
+  $index: string.index($string, $search);
 
   @if $index {
     @return str-slice($string, 1, $index - 1) + $replace +

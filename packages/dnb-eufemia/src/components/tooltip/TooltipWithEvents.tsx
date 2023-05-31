@@ -16,7 +16,7 @@ import TooltipPortal from './TooltipPortal'
 import { TooltipProps } from './types'
 
 type TooltipWithEventsProps = {
-  target: HTMLElement | React.ReactElement
+  target: HTMLElement
   active: boolean
   internalId: string
 }
@@ -127,8 +127,13 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
 
   const onMouseEnter = (e: MouseEvent) => {
     try {
+      const elem = e.currentTarget as HTMLElement
+
+      if (elem.getAttribute('data-autofocus')) {
+        return // stop here
+      }
+
       if (isTouch(e.type)) {
-        const elem = e.currentTarget as HTMLElement
         elem.style.userSelect = 'none'
       }
     } catch (e) {

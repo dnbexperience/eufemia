@@ -4,8 +4,7 @@
  */
 
 import gulp from 'gulp'
-import sass from 'node-sass'
-import onceImporter from 'node-sass-once-importer'
+import sass from 'sass'
 import clone from 'gulp-clone'
 import rename from 'gulp-rename'
 import transform from 'gulp-transform'
@@ -30,18 +29,16 @@ export default async function makeMainStyle() {
   // this way we avoid cross "includePaths" and the result is:
   // Now a custom theme can overwrite existing CSS Custom Properties
   const listWithThemesToProcess = await globby(
-    './src/style/themes/theme-*/dnb-theme-*.scss'
+    './src/style/themes/theme-*/*-theme-*.scss'
   )
   await asyncForEach(listWithThemesToProcess, async (themeFile) => {
     // in order to keep the folder structure, we have to add these asterisks
     themeFile = themeFile.replace('/style/themes/', '/style/**/themes/')
-    await runFactory(themeFile, {
-      importOnce: false,
-    })
+    await runFactory(themeFile)
   })
 
   const listWithPackagesToProcess = await globby(
-    './src/style/dnb-ui-*.scss'
+    './src/style/**/*-ui-*.scss'
   )
   await asyncForEach(listWithPackagesToProcess, async (packageFile) => {
     // in order to keep the folder structure, we have to add these asterisks
@@ -56,7 +53,7 @@ export default async function makeMainStyle() {
 
 export const runFactory = (
   src,
-  { returnResult = false, returnFiles = false, importOnce = true } = {}
+  { returnResult = false, returnFiles = false } = {}
 ) =>
   new Promise((resolve, reject) => {
     log.start('> PrePublish: transforming main style')
@@ -68,25 +65,13 @@ export const runFactory = (
         .src(src, {
           cwd: ROOT_DIR,
         })
-        .pipe(
-          transform(
-            'utf8',
-            transformSass({
-              importer: importOnce ? [onceImporter()] : [],
-            })
-          )
-        )
+        .pipe(transform('utf8', transformSass()))
         .pipe(
           rename({
             extname: '.css',
           })
         )
-        .pipe(
-          transform(
-            'utf8',
-            transformPostcss(postcssConfig({ IE11: true, sass }))
-          )
-        )
+        .pipe(transform('utf8', transformPostcss(postcssConfig({ sass }))))
         .pipe(cloneSink)
         .pipe(transform('utf8', transformCssnano({ reduceIdents: false })))
         .pipe(rename({ suffix: '.min' }))

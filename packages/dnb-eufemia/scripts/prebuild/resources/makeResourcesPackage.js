@@ -54,7 +54,9 @@ const copyStylePackages = (
     }
   })
 
-const copyFonts = (src = ['./assets/fonts/*', '!./assets/fonts/*.zip']) =>
+const copyFonts = (
+  src = ['./assets/fonts/dnb/*', '!./assets/fonts/dnb/*.zip']
+) =>
   new Promise((resolve, reject) => {
     log.start('> PrePublish: copy fonts resources')
     try {

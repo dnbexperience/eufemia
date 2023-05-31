@@ -5,9 +5,8 @@
 
 import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
-import Section from '../../section/web-component'
-import { Button } from '../../'
-import { P } from '../../../elements'
+import { Button, Section } from '../../'
+import { P } from '../../..'
 import styled from '@emotion/styled'
 
 export default {
@@ -24,6 +23,78 @@ export const SectionSandbox = () => (
       </Section>
       {/* <Buttons></Buttons> */}
       {/* <DatePicker></DatePicker> */}
+    </Box>
+    <Box>
+      <Section style_type="divider">
+        <P top="xx-large" bottom="xx-large">
+          style_type="divider"
+        </P>
+      </Section>
+      <Section style_type="white">
+        <P top="xx-large" bottom="xx-large">
+          style_type="white"
+        </P>
+      </Section>
+      <Section style_type="transparent">
+        <P top="xx-large" bottom="xx-large">
+          style_type="transparent"
+        </P>
+      </Section>
+      <Section style_type="lavender">
+        <P top="xx-large" bottom="xx-large">
+          style_type="lavender"
+        </P>
+      </Section>
+      <Section style_type="pistachio">
+        <P top="xx-large" bottom="xx-large">
+          style_type="pistachio"
+        </P>
+      </Section>
+      <Section style_type="emerald-green">
+        <P top="xx-large" bottom="xx-large">
+          style_type="emerald-green"
+        </P>
+      </Section>
+      <Section style_type="sea-green">
+        <P top="xx-large" bottom="xx-large">
+          style_type="sea-green"
+        </P>
+      </Section>
+      <Section style_type="fire-red">
+        <P top="xx-large" bottom="xx-large">
+          style_type="fire-red"
+        </P>
+      </Section>
+      <Section style_type="fire-red-8">
+        <P top="xx-large" bottom="xx-large">
+          style_type="fire-red-8"
+        </P>
+      </Section>
+      <Section style_type="pistachio">
+        <P top="xx-large" bottom="xx-large">
+          style_type="pistachio"
+        </P>
+      </Section>
+      <Section style_type="sand-yellow">
+        <P top="xx-large" bottom="xx-large">
+          style_type="sand-yellow"
+        </P>
+      </Section>
+      <Section style_type="black-3">
+        <P top="xx-large" bottom="xx-large">
+          style_type="black-3"
+        </P>
+      </Section>
+      <Section style_type="mint-green">
+        <P top="xx-large" bottom="xx-large">
+          style_type="mint-green"
+        </P>
+      </Section>
+      <Section style_type="mint-green-12">
+        <P top="xx-large" bottom="xx-large">
+          style_type="mint-green-12"
+        </P>
+      </Section>
     </Box>
   </Wrapper>
 )

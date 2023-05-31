@@ -38,10 +38,7 @@ const filterAttributes = Object.keys(stepIndicatorDefaultProps)
     'innerRef',
     'hasSkeletonData',
     'filterAttributes',
-    'listAttributes',
     'onChangeState',
-    'isV1', // deprecated
-    'activeUrl', // deprecated
   ])
 
 const StepIndicatorContext = React.createContext(null)
@@ -63,8 +60,11 @@ export class StepIndicatorProvider extends React.PureComponent {
 
   static getData(props) {
     let res = []
-    if (props.data) res = props.data
-    else res = processChildren(props)
+    if (props.data) {
+      res = props.data
+    } else {
+      res = processChildren(props)
+    }
     if (typeof res === 'string')
       return res[0] === '[' ? JSON.parse(res) : []
     return res || []
@@ -83,24 +83,6 @@ export class StepIndicatorProvider extends React.PureComponent {
       state.activeStep = parseFloat(props.current_step) || 0
     }
 
-    /** Deprecated */
-    if (
-      props.active_item !== null &&
-      props.active_item !== state._active_item
-    ) {
-      state.activeStep = parseFloat(props.active_item) || 0
-    }
-
-    /** Deprecated */
-    if (props.active_url && state.data.length > 0) {
-      state.activeStep = state.data.reduce((acc, { url }, i) => {
-        return url &&
-          (url === state.current_step || url === props.active_url)
-          ? i
-          : acc
-      }, parseFloat(state.current_step) || 0)
-    }
-
     if (!state.listOfReachedSteps.includes(state.activeStep)) {
       state.listOfReachedSteps.push(state.activeStep)
     }
@@ -113,8 +95,6 @@ export class StepIndicatorProvider extends React.PureComponent {
       .replace('%count', state.data?.length || 1)
 
     state._current_step = props.current_step
-    state._active_item = props.active_item /** Deprecated */
-    state._active_url = props.active_url /** Deprecated */
 
     return state
   }
@@ -140,28 +120,25 @@ export class StepIndicatorProvider extends React.PureComponent {
   componentDidMount() {
     this._isMounted = true
 
-    // deprecated (remove the check)
-    if (!this.props.isV1) {
-      this._mediaQueryListener = onMediaQueryChange(
-        {
-          min: '0',
-          max: 'medium',
-        },
-        (hideSidebar) => {
-          this.setState({
-            hideSidebar,
-          })
-        },
-        { runOnInit: true }
-      )
+    this._mediaQueryListener = onMediaQueryChange(
+      {
+        min: '0',
+        max: 'medium',
+      },
+      (hideSidebar) => {
+        this.setState({
+          hideSidebar,
+        })
+      },
+      { runOnInit: true }
+    )
 
-      const container = document?.getElementById(
-        'sidebar__' + this.props.sidebar_id
-      )
-      this.setState({
-        hasSidebar: Boolean(container),
-      })
-    }
+    const container = document?.getElementById(
+      'sidebar__' + this.props.sidebar_id
+    )
+    this.setState({
+      hasSidebar: Boolean(container),
+    })
   }
 
   componentWillUnmount() {

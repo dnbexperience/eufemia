@@ -9,10 +9,10 @@ import defaultLocales from './locales'
 import { extend } from './component-helper'
 
 // All TypeScript based Eufemia elements
-import type { AnchorProps } from '../elements/Anchor'
 import type { ScrollViewProps } from '../fragments/scroll-view/ScrollView'
 
 // All TypeScript based Eufemia components
+import type { AnchorProps } from '../components/Anchor'
 import type { ButtonProps } from '../components/button/Button'
 import type { AvatarProps } from '../components/avatar/Avatar'
 import type { AvatarGroupProps } from '../components/avatar/AvatarGroup'
@@ -32,9 +32,14 @@ import type { TooltipProps } from '../components/tooltip/types'
 import type { SectionProps } from '../components/section/Section'
 import type { FormRowProps } from '../components/form-row/FormRowHelpers'
 import type { UploadProps } from '../components/upload/types'
-import type { SkeletonProps } from '../components/Skeleton'
+import type { SkeletonProps, SkeletonShow } from '../components/Skeleton'
 import type { HelpButtonProps } from '../components/HelpButton'
 import type { TableProps } from '../components/Table'
+import type { GlobalErrorProps } from '../components/GlobalError'
+
+import type { NumberFormatCurrency } from '../components/NumberFormat'
+
+import type { ThemeProps } from './Theme'
 
 export type ContextComponents = {
   Button?: Partial<ButtonProps>
@@ -60,6 +65,7 @@ export type ContextComponents = {
   Skeleton?: Partial<SkeletonProps>
   HelpButton?: Partial<HelpButtonProps>
   Table?: Partial<TableProps>
+  GlobalError?: Partial<GlobalErrorProps>
 
   // -- TODO: Not converted yet --
   NumberFormat?: Record<string, unknown>
@@ -73,9 +79,14 @@ export type ContextProps = ContextComponents & {
   // -- Global properties --
 
   /**
+   * Contains theme related properties, such as a theme name
+   */
+  theme?: ThemeProps
+
+  /**
    * Will enable all skeletons inside this provider/context scope
    */
-  skeleton?: boolean | string // SkeletonShow
+  skeleton?: SkeletonShow
 
   /**
    * Define what breakpoints should be used by the MediaQuery component and hook
@@ -95,7 +106,7 @@ export type ContextProps = ContextComponents & {
   /**
    * Defines the currency used by the NumberFormat component
    */
-  currency?: string
+  currency?: NumberFormatCurrency
 
   /**
    * Defines the currencyDisplay used by the NumberFormat component

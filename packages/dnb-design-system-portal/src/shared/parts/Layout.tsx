@@ -17,8 +17,7 @@ import {
   setPageFocusElement,
   scrollToLocationHashId,
 } from '@dnb/eufemia/src/shared/helpers'
-import { Logo, GlobalStatus } from '@dnb/eufemia/src/components'
-import { P } from '@dnb/eufemia/src/elements'
+import { P, Logo, GlobalStatus } from '@dnb/eufemia/src'
 import './PortalStyle.scss'
 import {
   portalStyle,
@@ -160,7 +159,6 @@ const Content = ({
 const MainContent = ({ mainRef, ...props }) => (
   <main
     ref={mainRef}
-    role="main"
     id="dnb-app-content"
     className={classnames(mainStyle, 'dnb-no-focus', 'dnb-spacing')}
     {...props}

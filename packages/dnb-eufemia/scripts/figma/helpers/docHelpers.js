@@ -186,7 +186,7 @@ export const getLocalVersionFromLockFile = async ({ figmaFile }) => {
 }
 
 export const getFigmaDoc = async ({
-  figmaFile,
+  figmaFile = null,
   localFile = null,
   forceRefetch = null,
   preventUpdate = null,

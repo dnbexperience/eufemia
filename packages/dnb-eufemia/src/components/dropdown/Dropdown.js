@@ -8,11 +8,9 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import keycode from 'keycode'
 import {
-  warn,
   isTrue,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
-  registerElement,
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
@@ -42,8 +40,6 @@ import {
 } from '../../fragments/drawer-list/DrawerListHelpers'
 
 export default class Dropdown extends React.PureComponent {
-  static tagName = 'dnb-dropdown'
-
   static propTypes = {
     ...spacingPropTypes,
     ...drawerListPropTypes,
@@ -79,7 +75,10 @@ export default class Dropdown extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool,
     ]),
-    global_status_id: PropTypes.string,
+    globalStatus: PropTypes.shape({
+      id: PropTypes.string,
+      message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    }),
     suffix: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
@@ -156,9 +155,6 @@ export default class Dropdown extends React.PureComponent {
       PropTypes.array,
     ]),
 
-    custom_element: PropTypes.object,
-    custom_method: PropTypes.func,
-
     on_show: PropTypes.func,
     on_hide: PropTypes.func,
     on_change: PropTypes.func,
@@ -181,7 +177,7 @@ export default class Dropdown extends React.PureComponent {
     status_state: 'error',
     status_props: null,
     status_no_animation: null,
-    global_status_id: null,
+    globalStatus: null,
     suffix: null,
     scrollable: true,
     focusable: false,
@@ -213,19 +209,12 @@ export default class Dropdown extends React.PureComponent {
     className: null,
     children: null,
 
-    custom_element: null,
-    custom_method: null,
-
     on_show: null,
     on_hide: null,
 
     on_change: null,
     on_select: null,
     on_state_update: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(Dropdown?.tagName, Dropdown, Dropdown.defaultProps)
   }
 
   render() {
@@ -270,12 +259,6 @@ class DropdownInstance extends React.PureComponent {
     this._ref = React.createRef()
     this._refShell = React.createRef()
     this._refButton = React.createRef()
-
-    // deprecated, use value instead
-    const dep = 'selected_item'
-    if (typeof props[dep] !== 'undefined') {
-      warn(`Dropdown: Please use "value" instead of "${dep}".`)
-    }
   }
 
   componentDidMount() {
@@ -388,7 +371,6 @@ class DropdownInstance extends React.PureComponent {
       const attributes = this.attributes || {}
       dispatchCustomElementEvent(this, 'on_select', {
         ...args,
-        // selected_item: args.value, // deprecated
         attributes,
       })
     }
@@ -436,13 +418,12 @@ class DropdownInstance extends React.PureComponent {
       icon_size,
       size,
       fixed_position,
-      use_drawer_on_mobile,
       enable_body_lock,
       status,
       status_state,
       status_props,
       status_no_animation,
-      global_status_id,
+      globalStatus,
       suffix,
       scrollable,
       focusable,
@@ -595,11 +576,11 @@ class DropdownInstance extends React.PureComponent {
           <FormStatus
             show={showStatus}
             id={id + '-form-status'}
-            global_status_id={global_status_id}
+            globalStatus={globalStatus}
             label={label}
             text_id={id + '-status'} // used for "aria-describedby"
             text={status}
-            status={status_state}
+            state={status_state}
             no_animation={status_no_animation}
             skeleton={skeleton}
             {...status_props}
@@ -673,7 +654,6 @@ class DropdownInstance extends React.PureComponent {
                 is_popup={isPopupMenu || action_menu}
                 align_drawer={align_dropdown || 'left'}
                 fixed_position={fixed_position}
-                use_drawer_on_mobile={use_drawer_on_mobile || action_menu}
                 enable_body_lock={enable_body_lock}
                 disabled={disabled}
                 max_height={max_height}

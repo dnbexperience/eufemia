@@ -1,0 +1,126 @@
+/*
+ * Typography
+ *
+ */
+
+@use '../../../style/elements/ui-spacing.scss';
+@import './typography-mixins.scss';
+
+.dnb-small {
+  font-size: var(--font-size-small);
+}
+
+// // Small: do not set this for h1, like ".dnb-h--xx-large > .dnb-small"
+// .dnb-p > small,
+// .dnb-p > .dnb-small {
+//   line-height: var(--line-height-xx-small--em); // for vertical alignment, we have to have no line-height
+// }
+
+// superscript and subscript typography
+sup,
+sub {
+  font-size: 0.777777em; // ensure we get 14px (x-small) when parent font-size is 18px (default size)
+  line-height: 0.5em; // ensure the parent line-height is still the same
+}
+
+// Paragraphs
+.dnb-p {
+  @include paragraphStyle();
+}
+
+// Tables
+.dnb-table {
+  b,
+  strong {
+    font-weight: var(--font-weight-medium);
+  }
+}
+
+.dnb-h--xx-large {
+  @include headingSize_xx-large();
+}
+
+.dnb-h--x-large {
+  @include headingSize_x-large();
+}
+
+.dnb-h--large {
+  @include headingSize_large();
+}
+
+/* dnb-h--medium looks the same as .dnb-lead */
+.dnb-lead,
+.dnb-h--medium {
+  @include headingSize_medium();
+  font-weight: var(--font-weight-medium);
+}
+
+// The rest of the Headings are nod defned by the Eufemia Typography
+.dnb-h--basis {
+  @include headingSize_basis();
+}
+
+.dnb-h--small {
+  @include headingSize_small();
+}
+
+.dnb-h--x-small {
+  @include headingSize_x-small();
+}
+
+// Headings
+.dnb-lead,
+.dnb-h--xx-large,
+.dnb-h--x-large,
+.dnb-h--large,
+.dnb-h--medium,
+.dnb-h--basis,
+.dnb-h--small,
+.dnb-h--x-small,
+// make exception on headings which are inside of dnb-core-style
+.dnb-core-style .dnb-lead,
+.dnb-core-style .dnb-h--xx-large,
+.dnb-core-style .dnb-h--x-large,
+.dnb-core-style .dnb-h--large,
+.dnb-core-style .dnb-h--medium,
+.dnb-core-style .dnb-h--basis,
+.dnb-core-style .dnb-h--small,
+.dnb-core-style .dnb-h--x-small {
+  @include headingDefaults();
+}
+
+// Spacing
+.dnb-spacing {
+  .dnb-h--xx-large,
+  .dnb-core-style & .dnb-h--xx-large {
+    @include headingSpacing_xx-large();
+  }
+
+  .dnb-h--x-large,
+  .dnb-core-style & .dnb-h--x-large {
+    @include headingSpacing_x-large();
+  }
+
+  .dnb-h--large,
+  .dnb-core-style & .dnb-h--large {
+    @include headingSpacing_large();
+  }
+
+  .dnb-lead,
+  .dnb-h--medium,
+  .dnb-h--basis,
+  .dnb-h--small,
+  .dnb-h--x-small,
+  .dnb-core-style & .dnb-lead,
+  .dnb-core-style & .dnb-h--medium,
+  .dnb-core-style & .dnb-h--basis,
+  .dnb-core-style & .dnb-h--small,
+  .dnb-core-style & .dnb-h--x-small {
+    @include headingSpacing();
+  }
+
+  .dnb-p,
+  .dnb-core-style & .dnb-p {
+    @include ui-spacing.defaultSpacing();
+  }
+}

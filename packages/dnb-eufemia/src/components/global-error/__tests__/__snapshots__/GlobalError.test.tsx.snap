@@ -1,0 +1,929 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GlobalError scss have to match default theme snapshot 1`] = `
+"/*
+ * GlobalError theme
+ *
+ */"
+`;
+
+exports[`GlobalError scss have to match snapshot 1`] = `
+"/*
+* Used for snapshot testing
+*
+*/
+/*
+ * Utilities
+ */
+/*
+* Used for snapshot testing
+*
+*/
+/*
+ * Utilities
+ */
+/*
+* Used for snapshot testing
+*
+*/
+/*
+ * Utilities
+ */
+/*
+* Icon component
+*
+*/
+/*
+ * Utilities
+ */
+.dnb-icon {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 1rem;
+  line-height: 1rem;
+  color: inherit;
+  width: 1em;
+  height: 1em;
+}
+.dnb-icon img, .dnb-core-style .dnb-icon img,
+.dnb-icon svg,
+.dnb-core-style .dnb-icon svg {
+  width: inherit;
+  height: inherit;
+  shape-rendering: geometricprecision;
+  vertical-align: top;
+}
+.dnb-icon svg[width="100%"] {
+  width: inherit;
+}
+.dnb-icon svg[height="100%"] {
+  height: inherit;
+}
+.dnb-icon--inherit-color svg:not([fill]), .dnb-icon--inherit-color svg [fill] {
+  fill: currentcolor;
+}
+.dnb-icon--inherit-color svg [stroke] {
+  stroke: currentcolor;
+}
+.dnb-icon--small {
+  font-size: 0.75rem;
+}
+.dnb-icon--default {
+  font-size: 1rem;
+}
+.dnb-icon--medium {
+  font-size: 1.5rem;
+}
+.dnb-icon--large {
+  font-size: 2rem;
+}
+.dnb-icon--x-large {
+  font-size: 2.5rem;
+}
+.dnb-icon--xx-large {
+  font-size: 3rem;
+}
+.dnb-icon--custom-size {
+  width: auto;
+  height: auto;
+}
+.dnb-icon--auto {
+  font-size: 1em;
+}
+.dnb-icon--auto > .dnb-icon--wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+h1 > .dnb-icon, h2 > .dnb-icon, h3 > .dnb-icon, h4 > .dnb-icon, h5 > .dnb-icon, h6 > .dnb-icon {
+  vertical-align: middle;
+}
+p > .dnb-icon {
+  vertical-align: inherit;
+}
+.dnb-icon.dnb-skeleton {
+  color: var(--skeleton-color) !important;
+}
+.dnb-icon.dnb-skeleton::before, .dnb-icon.dnb-skeleton::after {
+  content: none !important;
+}
+
+/*
+* Used for snapshot testing
+*
+*/
+/*
+ * Utilities
+ */
+/*
+* Tooltip component
+*
+*/
+/*
+ * Utilities
+ */
+.dnb-tooltip {
+  position: absolute;
+  z-index: 3100;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 1rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 200ms var(--easing-default);
+}
+.dnb-tooltip--large {
+  padding: 0.25rem 1rem;
+}
+.dnb-tooltip--animate_position {
+  transition: all 200ms var(--easing-default), opacity 200ms var(--easing-default);
+}
+.dnb-tooltip--active {
+  visibility: visible;
+  /*
+    because of the first "show" we also use animation
+    also, use forwards because of the usage of visibility
+  */
+  animation: show-tooltip 200ms var(--easing-default) forwards;
+}
+html[data-visual-test] .dnb-tooltip--active, .dnb-tooltip--active.dnb-tooltip--no-animation {
+  animation: show-tooltip 1ms var(--easing-default) forwards;
+}
+.dnb-tooltip--hide {
+  visibility: visible;
+  animation: hide-tooltip 200ms var(--easing-default) forwards;
+}
+.dnb-tooltip--hide.dnb-tooltip--no-animation {
+  animation: hide-tooltip 1ms linear forwards;
+}
+.dnb-tooltip--fixed {
+  position: fixed;
+}
+html[data-visual-test] .dnb-tooltip--hide {
+  animation: hide-tooltip 1ms linear 1s forwards;
+}
+.dnb-tooltip__portal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+.dnb-tooltip__content {
+  min-width: 2rem;
+  min-height: 1.5rem;
+  padding: 0;
+}
+.dnb-tooltip__arrow {
+  position: absolute;
+  pointer-events: none;
+  margin: 0;
+  width: 1rem;
+  height: 0.5rem;
+  overflow: hidden;
+}
+.dnb-tooltip__arrow::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 1rem;
+  height: 1rem;
+  transform: translateY(70%) rotate(45deg);
+}
+.dnb-tooltip__arrow__position--bottom {
+  top: -0.5rem;
+}
+.dnb-tooltip__arrow__position--top {
+  bottom: -0.5rem;
+  transform: rotate(180deg);
+}
+.dnb-tooltip__arrow__position--left {
+  right: -0.75rem;
+  margin-right: 3px;
+  transform: rotate(90deg);
+}
+.dnb-tooltip__arrow__position--right {
+  left: -0.75rem;
+  margin-left: 3px;
+  transform: rotate(270deg);
+}
+.dnb-tooltip__arrow__arrow--left {
+  align-self: flex-start;
+}
+.dnb-tooltip__arrow__arrow--right {
+  align-self: flex-end;
+}
+
+@keyframes show-tooltip {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes hide-tooltip {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+/*
+* Used for snapshot testing
+*
+*/
+/*
+ * Utilities
+ */
+/*
+ * FormStatus component
+ *
+ */
+/*
+ * Utilities
+ */
+.dnb-form-status {
+  --form-status-radius: 0.25rem;
+  display: flex;
+  opacity: 1;
+  transition: height 400ms var(--easing-default), opacity 400ms var(--easing-default), margin 400ms var(--easing-default), padding 400ms var(--easing-default);
+}
+.dnb-form-status--hidden {
+  will-change: height, opacity, margin, padding;
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+.dnb-form-status--is-animating {
+  overflow: hidden;
+  width: auto;
+}
+.dnb-form-status--disappear, .dnb-form-status--hidden {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.dnb-form-status__shell {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  min-width: inherit;
+  border-radius: var(--form-status-radius);
+}
+.dnb-form-status__text {
+  padding: 0.625rem 1rem;
+  cursor: text;
+  color: inherit;
+  line-height: var(--line-height-small);
+  font-size: var(--font-size-small);
+  white-space: normal;
+}
+button .dnb-form-status__text {
+  cursor: inherit;
+}
+.dnb-form-status__text .dnb-anchor {
+  font-size: inherit;
+}
+.dnb-icon + .dnb-form-status__text {
+  padding-left: 0.5rem;
+}
+.dnb-form-status__shell > .dnb-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.3333333em 0.3333333em 0.3333333em 0.6666666em;
+}
+.dnb-form-status__size--large .dnb-form-status__text {
+  padding-top: 1.125rem;
+  padding-bottom: 1.125rem;
+}
+.dnb-form-status__size--large .dnb-form-status__shell > .dnb-icon {
+  margin-top: 0.6666666em;
+  margin-bottom: 0.6666666em;
+}
+.dnb-form-status--stretch {
+  flex-grow: 1;
+}
+.dnb-form-status--stretch .dnb-form-status__shell {
+  width: 100%;
+}
+.dnb-form-status--stretch .dnb-form-status__text {
+  max-width: 47rem;
+}
+.dnb-form-status[hidden] {
+  display: none;
+}
+.dnb-form-status--no-animation, html[data-visual-test] .dnb-form-status {
+  transition-duration: 1ms !important;
+}
+
+/*
+* Button component
+*
+*/
+/*
+ * Utilities
+ */
+:root {
+  --button-icon-size: 1rem;
+  --button-height: 2.5rem;
+  --button-border-radius: calc(var(--button-height) / 2);
+}
+
+.dnb-button {
+  --button-font-size: var(--font-size-basis);
+  --button-font-size-small: var(--font-size-small);
+  --button-width: 2.5rem;
+  --button-width--small: 1.5rem;
+  --button-height--small: 1.5rem;
+  --button-width--medium: 2rem;
+  --button-height--medium: 2rem;
+  --button-width--large: 3rem;
+  --button-height--large: 3rem;
+  --button-border-width: 0.0625rem;
+  --button-border-width--hover: 0.1875rem;
+  --button-border-radius--small: calc(var(--button-height--small) / 2);
+  --button-border-radius--medium: calc(var(--button-height--medium) / 2);
+  --button-border-radius--large: calc(var(--button-height--large) / 2);
+  position: relative;
+  user-select: none;
+  /* stylelint-disable-next-line */
+  -webkit-user-select: none;
+  cursor: pointer;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--button-width);
+  height: auto;
+  padding: 0;
+  border: none;
+  border-radius: var(--button-border-radius);
+  text-align: left;
+  font-size: var(--font-size-small);
+  text-decoration: none;
+  box-shadow: none;
+  /* stylelint-disable-next-line */
+}
+.dnb-button--wrap {
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+.dnb-button, .dnb-core-style .dnb-button {
+  line-height: var(--button-height);
+}
+.dnb-button__text {
+  margin: 0.5rem 0;
+  font-size: var(--button-font-size);
+  line-height: var(--line-height-basis);
+  color: inherit;
+  transform: translateY(-0.03125rem);
+}
+.dnb-button__text [data-os=linux] {
+  transform: translateY(-0.035rem);
+}
+.dnb-button__alignment {
+  display: inline-block;
+  width: 0;
+}
+.dnb-button__bounding {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  transform: scale(1.1, 1.4);
+  background-color: transparent;
+  border-radius: var(--button-border-radius);
+}
+.dnb-button--has-text {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+.dnb-button--size-small {
+  width: var(--button-width--small);
+  font-size: var(--button-font-size-small);
+  border-radius: var(--button-border-radius--small);
+}
+.dnb-button--size-small, .dnb-core-style .dnb-button--size-small {
+  line-height: var(--button-height--small);
+}
+.dnb-button--size-small .dnb-button__text {
+  margin: 0;
+}
+.dnb-button--has-text.dnb-button--size-small {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-small {
+  padding-left: 0.5rem;
+}
+.dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-small {
+  padding-right: 0.5rem;
+}
+.dnb-button--size-medium {
+  width: var(--button-width--medium);
+  border-radius: var(--button-border-radius--medium);
+}
+.dnb-button--size-medium, .dnb-core-style .dnb-button--size-medium {
+  line-height: var(--button-height--medium);
+}
+.dnb-button--size-medium .dnb-button__text {
+  margin: 0;
+}
+.dnb-button--has-text.dnb-button--size-medium {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-medium {
+  padding-left: 0.5rem;
+}
+.dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-medium {
+  padding-right: 0.5rem;
+}
+.dnb-button--size-large {
+  width: var(--button-width--large);
+  border-radius: var(--button-border-radius--large);
+}
+.dnb-button--size-large, .dnb-core-style .dnb-button--size-large {
+  line-height: var(--button-height--large);
+}
+.dnb-button--has-text.dnb-button--size-large {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+.dnb-button--has-text.dnb-button--icon-position-left.dnb-button--size-large {
+  padding-left: 1rem;
+}
+.dnb-button--has-text.dnb-button--icon-position-right.dnb-button--size-large {
+  padding-right: 1rem;
+}
+.dnb-button--has-text {
+  width: auto;
+}
+.dnb-button--has-text .dnb-button__icon {
+  margin: 0 calc(var(--button-icon-size) / 2);
+}
+.dnb-button--has-text.dnb-button--icon-position-left {
+  padding-left: 0.5rem;
+}
+.dnb-button--has-text.dnb-button--icon-position-right {
+  padding-right: 0.5rem;
+}
+.dnb-button--has-text.dnb-button--has-icon .dnb-button__icon {
+  order: 2;
+}
+.dnb-button--has-text.dnb-button--has-icon .dnb-button__text {
+  order: 1;
+}
+.dnb-button:not(.dnb-button--has-text) .dnb-button__icon {
+  width: inherit;
+}
+.dnb-button__icon.dnb-icon svg:not([width]):not([height]) {
+  width: var(--button-icon-size);
+  height: var(--button-icon-size);
+}
+[href] > .dnb-button__icon.dnb-icon {
+  line-height: var(--button-font-size);
+}
+.dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__icon, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__icon {
+  order: 1;
+}
+.dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-left .dnb-button__text, .dnb-button--has-text.dnb-button--has-icon.dnb-button--icon-position-top .dnb-button__text {
+  order: 2;
+}
+.dnb-button--stretch {
+  width: 100%;
+}
+.dnb-button--reset {
+  margin: 0;
+  padding: 0;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+  appearance: none;
+  box-shadow: none;
+  color: inherit;
+  font: inherit;
+  text-align: inherit;
+  line-height: inherit;
+}
+html:not([data-whatintent=touch]) .dnb-button--reset:hover[disabled] {
+  cursor: not-allowed;
+}
+html:not([data-whatintent=touch]) .dnb-button--reset:hover:not([disabled]) {
+  box-shadow: none;
+  border: none;
+}
+.dnb-button--reset:not([disabled]):focus, .dnb-button--reset:not([disabled]):active {
+  outline: none;
+}
+html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=keyboard] .dnb-button--reset:not([disabled]):active {
+  --border-color: var(--focus-ring-color);
+  --border-width: var(--focus-ring-width);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
+html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):focus, html[data-whatinput=mouse] .dnb-button--reset:not([disabled]):active {
+  box-shadow: none;
+  color: inherit;
+  border: none;
+}
+.dnb-button[type=button], .dnb-button[type=reset], .dnb-button[type=submit] {
+  appearance: none;
+  /* stylelint-disable-next-line */
+  -moz-appearance: none;
+  /* stylelint-disable-next-line */
+  -webkit-appearance: none;
+}
+.dnb-button[disabled] {
+  cursor: not-allowed;
+  outline: none;
+}
+.dnb-form-row--vertical .dnb-form-row__content > .dnb-button {
+  align-self: flex-start;
+}
+.dnb-form-row--horizontal .dnb-form-row__content .dnb-button__text {
+  white-space: nowrap;
+}
+.dnb-button + .dnb-form-status {
+  margin-top: 0.5rem;
+}
+
+/* Firefox includes a hidden border which messes up button dimensions */
+button.dnb-button::-moz-focus-inner {
+  border: none;
+}
+
+/*
+ * GlobalError component
+ *
+ */
+/*
+ * Utilities
+ */
+.dnb-global-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+.dnb-global-error--center {
+  display: grid;
+  place-content: center;
+  height: 80vh;
+}
+.dnb-global-error__inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* for large screens */
+  width: 100%;
+  max-width: var(--layout-large);
+  padding: var(--spacing-large);
+  text-align: center;
+}
+@media screen and (max-width: 40em) {
+  .dnb-global-error__inner {
+    padding: 0 var(--spacing-x-small);
+  }
+}
+.dnb-global-error__inner__content {
+  max-width: 37rem;
+}
+.dnb-global-error__links {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  gap: 2rem;
+}
+.dnb-global-error__links .dnb-anchor {
+  font-size: var(--font-size-medium);
+}
+@media screen and (max-width: 40em) {
+  .dnb-global-error__links {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+@media screen and (max-width: 40em) {
+  .dnb-global-error h1 {
+    font-size: var(--font-size-large);
+  }
+}"
+`;
+
+exports[`GlobalError snapshot have to match component snapshot 1`] = `
+<GlobalError
+  center={true}
+  code="Error, unknown type"
+  help="Error, unknown type"
+  links={
+    [
+      {
+        "text": "links.text",
+        "url": "links.url",
+      },
+    ]
+  }
+  locale={null}
+  skeleton="Error, unknown type"
+  status="404"
+  text="text"
+  title="title"
+>
+  <Skeleton
+    404={
+      {
+        "text": "Sikker på at du har skrevet riktig adresse? Eller har vi rotet med lenkene?",
+        "title": "Vi finner ikke siden du leter etter …",
+      }
+    }
+    500={
+      {
+        "text": "Tjenesten fungerer ikke slik den skal for øyeblikket, men prøv igjen senere.",
+        "title": "Beklager, her skjedde det noe feil!",
+      }
+    }
+    aria_busy={null}
+    aria_ready={null}
+    class={null}
+    className="dnb-global-error dnb-global-error--404 dnb-global-error--center"
+    element="section"
+    figure={null}
+    locale={null}
+    no_animation={null}
+    show="Error, unknown type"
+    skeleton={null}
+  >
+    <Space
+      aria-busy={false}
+      bottom={null}
+      className="dnb-skeleton__root dnb-global-error dnb-global-error--404 dnb-global-error--center"
+      element="section"
+      inline={null}
+      innerRef={null}
+      lang="nb-NO"
+      left={null}
+      no_collapse={null}
+      right={null}
+      skeleton={null}
+      space={null}
+      stretch={null}
+      top={null}
+    >
+      <Element
+        aria-busy={false}
+        className="dnb-space dnb-skeleton__root dnb-global-error dnb-global-error--404 dnb-global-error--center"
+        element="section"
+        innerRef={null}
+        lang="nb-NO"
+        no_collapse={null}
+      >
+        <section
+          aria-busy={false}
+          className="dnb-space dnb-skeleton__root dnb-global-error dnb-global-error--404 dnb-global-error--center"
+          lang="nb-NO"
+        >
+          <Provider
+            skeleton={false}
+          >
+            <div
+              className="dnb-global-error__inner"
+            >
+              <div
+                className="dnb-global-error__inner__content"
+              >
+                <H1
+                  bottom={true}
+                  size="x-large"
+                  top={true}
+                >
+                  <H
+                    as="h1"
+                    bottom={true}
+                    size="x-large"
+                    top={true}
+                  >
+                    <ForwardRef
+                      as="h1"
+                      bottom={true}
+                      internalClass="dnb-h--x-large"
+                      top={true}
+                    >
+                      <ElementInstance
+                        as="h1"
+                        bottom={true}
+                        innerRef={null}
+                        internalClass="dnb-h--x-large"
+                        top={true}
+                      >
+                        <h1
+                          className="dnb-space__top--small dnb-space__bottom--small dnb-h--x-large"
+                        >
+                          title
+                        </h1>
+                      </ElementInstance>
+                    </ForwardRef>
+                  </H>
+                </H1>
+                <P
+                  bottom={true}
+                  dangerouslySetInnerHTML={
+                    {
+                      "__html": "text",
+                    }
+                  }
+                >
+                  <ForwardRef
+                    as="p"
+                    bottom={true}
+                    className="dnb-p"
+                    dangerouslySetInnerHTML={
+                      {
+                        "__html": "text",
+                      }
+                    }
+                  >
+                    <ElementInstance
+                      as="p"
+                      bottom={true}
+                      className="dnb-p"
+                      dangerouslySetInnerHTML={
+                        {
+                          "__html": "text",
+                        }
+                      }
+                      innerRef={null}
+                    >
+                      <p
+                        className="dnb-p dnb-space__bottom--small"
+                        dangerouslySetInnerHTML={
+                          {
+                            "__html": "text",
+                          }
+                        }
+                      />
+                    </ElementInstance>
+                  </ForwardRef>
+                </P>
+                <P
+                  bottom={true}
+                  className="dnb-global-error__status"
+                >
+                  <ForwardRef
+                    as="p"
+                    bottom={true}
+                    className="dnb-p dnb-global-error__status"
+                  >
+                    <ElementInstance
+                      as="p"
+                      bottom={true}
+                      className="dnb-p dnb-global-error__status"
+                      innerRef={null}
+                    >
+                      <p
+                        className="dnb-p dnb-global-error__status dnb-space__bottom--small"
+                      >
+                        Error, unknown type
+                         
+                        <ForwardRef>
+                          <ForwardRef
+                            as="code"
+                            innerRef={null}
+                          >
+                            <ElementInstance
+                              as="code"
+                              innerRef={null}
+                            >
+                              <code
+                                className="dnb-code"
+                              >
+                                404
+                              </code>
+                            </ElementInstance>
+                          </ForwardRef>
+                        </ForwardRef>
+                      </p>
+                    </ElementInstance>
+                  </ForwardRef>
+                </P>
+                <P
+                  bottom={true}
+                  top="medium"
+                >
+                  <ForwardRef
+                    as="p"
+                    bottom={true}
+                    className="dnb-p"
+                    top="medium"
+                  >
+                    <ElementInstance
+                      as="p"
+                      bottom={true}
+                      className="dnb-p"
+                      innerRef={null}
+                      top="medium"
+                    >
+                      <p
+                        className="dnb-p dnb-space__top--medium dnb-space__bottom--small"
+                      >
+                        Error, unknown type
+                      </p>
+                    </ElementInstance>
+                  </ForwardRef>
+                </P>
+                <P
+                  bottom="large"
+                  className="dnb-global-error__links"
+                >
+                  <ForwardRef
+                    as="p"
+                    bottom="large"
+                    className="dnb-p dnb-global-error__links"
+                  >
+                    <ElementInstance
+                      as="p"
+                      bottom="large"
+                      className="dnb-p dnb-global-error__links"
+                      innerRef={null}
+                    >
+                      <p
+                        className="dnb-p dnb-global-error__links dnb-space__bottom--large"
+                      >
+                        <ForwardRef
+                          href="links.url"
+                          key="links.text"
+                        >
+                          <AnchorInstance
+                            href="links.url"
+                            innerRef={null}
+                          >
+                            <ForwardRef
+                              as="a"
+                              className="dnb-anchor"
+                              href="links.url"
+                              innerRef={
+                                {
+                                  "current": <a
+                                    class="dnb-anchor dnb-a"
+                                    href="links.url"
+                                  >
+                                    links.text
+                                  </a>,
+                                }
+                              }
+                              skeleton={false}
+                            >
+                              <ElementInstance
+                                as="a"
+                                className="dnb-anchor"
+                                href="links.url"
+                                innerRef={
+                                  {
+                                    "current": <a
+                                      class="dnb-anchor dnb-a"
+                                      href="links.url"
+                                    >
+                                      links.text
+                                    </a>,
+                                  }
+                                }
+                                skeleton={false}
+                              >
+                                <a
+                                  className="dnb-anchor dnb-a"
+                                  href="links.url"
+                                >
+                                  links.text
+                                </a>
+                              </ElementInstance>
+                            </ForwardRef>
+                          </AnchorInstance>
+                        </ForwardRef>
+                      </p>
+                    </ElementInstance>
+                  </ForwardRef>
+                </P>
+              </div>
+            </div>
+          </Provider>
+          <span
+            aria-live="assertive"
+            className="dnb-sr-only"
+          />
+        </section>
+      </Element>
+    </Space>
+  </Skeleton>
+</GlobalError>
+`;

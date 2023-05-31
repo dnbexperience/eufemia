@@ -1,6 +1,6 @@
 .anchorLinkStyle {
   :global {
-    .anchor {
+    .anchor-hash {
       display: inline-block;
       visibility: hidden;
 
@@ -11,7 +11,7 @@
       text-align: center;
       border-bottom: none;
 
-      transition: opacity 400ms ease-out 200ms;
+      transition: opacity 300ms ease-out 200ms;
       opacity: 0;
     }
 
@@ -22,20 +22,25 @@
         color: var(--color-sea-green);
         background-color: transparent;
       }
+
       35% {
         color: var(--color-white);
         background-color: var(--color-sea-green);
       }
+
+      // stylelint-disable-next-line
       0%,
       80% {
         opacity: 1;
       }
+
+      // stylelint-disable-next-line
       100% {
         opacity: 0;
       }
     }
 
-    .anchor.focus {
+    .anchor-hash.focus {
       animation: link-attention-focus 2.2s ease-in-out 1 10ms;
     }
 
@@ -45,9 +50,10 @@
       @keyframes parent-attention-focus {
         0%,
         100% {
-          color: currentColor;
+          color: currentcolor;
           background-color: transparent;
         }
+
         35% {
           color: var(--color-white);
           background-color: var(--color-sea-green);
@@ -55,14 +61,15 @@
       }
 
       animation: parent-attention-focus 2.2s ease-in-out 1 10ms;
+
       * {
         animation: parent-attention-focus 3s ease-in-out 1 150ms;
       }
     }
   }
 
-  :global(.anchor:hover),
-  &:hover :global(.anchor) {
+  :global(.anchor-hash:hover),
+  &:hover :global(.anchor-hash) {
     visibility: visible;
     opacity: 1;
   }

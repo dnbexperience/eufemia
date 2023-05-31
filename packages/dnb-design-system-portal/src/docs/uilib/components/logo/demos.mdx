@@ -1,0 +1,43 @@
+---
+showTabs: true
+---
+
+import {
+  LogoAutoSizeExample,
+  LogoInheritSizeExample,
+  LogoDefaultExample,
+  LogoInheritColorExample,
+  LogoCompactVariantExample,
+} from 'Docs/uilib/components/logo/Examples'
+
+## Demos
+
+### Logo with dynamic height
+
+The height will be set based on the inherited `font-size`.
+
+<LogoAutoSizeExample />
+
+### Logo with dynamic height
+
+The height will be set based on the parent, inherited `height`.
+
+<LogoInheritSizeExample />
+
+### Logo with fixed height
+
+<LogoDefaultExample />
+
+### Logo and inherit color
+
+The color will be set based on the parent, inherited `color` by using `currentColor`.
+
+<LogoInheritColorExample />
+
+<VisibilityByTheme visible="sbanken">
+
+### Logo with compact variant
+
+<LogoCompactVariantExample />
+
+</VisibilityByTheme>

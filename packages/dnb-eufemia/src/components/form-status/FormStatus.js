@@ -9,7 +9,6 @@ import classnames from 'classnames'
 import Context from '../../shared/Context'
 import {
   isTrue,
-  registerElement,
   makeUniqueId,
   validateDOMAttributes,
   processChildren,
@@ -29,7 +28,6 @@ import {
 import { includeValidProps } from '../form-row/FormRowHelpers'
 
 export default class FormStatus extends React.PureComponent {
-  static tagName = 'dnb-form-status'
   static contextType = Context
 
   static propTypes = {
@@ -56,13 +54,10 @@ export default class FormStatus extends React.PureComponent {
     ]),
     variant: PropTypes.oneOf(['flat', 'outlined']),
     size: PropTypes.oneOf(['default', 'large']),
-    // status is Deprecated
-    status: PropTypes.oneOfType([
-      PropTypes.bool,
-      PropTypes.string,
-      PropTypes.oneOf(['error', 'warn', 'info']),
-    ]),
-    global_status_id: PropTypes.string,
+    globalStatus: PropTypes.shape({
+      id: PropTypes.string,
+      message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    }),
     attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     text_id: PropTypes.string,
     width_selector: PropTypes.string,
@@ -88,14 +83,13 @@ export default class FormStatus extends React.PureComponent {
     title: null,
     show: true,
     text: null,
+    globalStatus: null,
     label: null,
     icon: 'error',
     icon_size: 'medium',
     size: 'default',
     variant: null,
     state: 'error',
-    status: null, // Deprecated
-    global_status_id: null,
     attributes: null,
     text_id: null,
     width_selector: null,
@@ -105,17 +99,8 @@ export default class FormStatus extends React.PureComponent {
     skeleton: null,
     stretch: null,
     role: null,
-
     className: null,
     children: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(
-      FormStatus?.tagName,
-      FormStatus,
-      FormStatus.defaultProps
-    )
   }
 
   static getContent(props) {
@@ -190,20 +175,20 @@ export default class FormStatus extends React.PureComponent {
     this.state.id = props.id || makeUniqueId()
 
     this._globalStatus = GlobalStatusProvider.init(
-      props?.global_status_id ||
-        context?.FormStatus?.global_status_id ||
-        context?.FormRow?.global_status_id ||
+      props?.globalStatus?.id ||
+        context?.FormStatus?.globalStatus?.id ||
+        context?.FormRow?.globalStatus?.id ||
         'main',
       (provider) => {
         // gets called once ready
         if (this.props.state === 'error' && this.isReadyToGetVisible()) {
-          const { state, text, label } = this.props
+          const { state, text, globalStatus, label } = this.props
           provider.add({
             state,
             status_id: this.getStatusId(),
             item: {
               item_id: this.state.id,
-              text,
+              text: globalStatus?.message || text,
               status_anchor_label: label,
               status_anchor_url: true,
             },
@@ -268,7 +253,7 @@ export default class FormStatus extends React.PureComponent {
   }
 
   componentDidUpdate(prevProps) {
-    const { state, show, text, children, label } = this.props
+    const { state, show, text, globalStatus, children, label } = this.props
 
     if (
       prevProps.text !== text ||
@@ -290,7 +275,7 @@ export default class FormStatus extends React.PureComponent {
               status_id,
               item: {
                 item_id: this.state.id,
-                text,
+                text: globalStatus?.message || text,
                 status_anchor_label: label,
                 status_anchor_url: true,
               },
@@ -356,7 +341,6 @@ export default class FormStatus extends React.PureComponent {
     const {
       show, // eslint-disable-line
       title,
-      status: rawStatus,
       state: rawState,
       size,
       variant,
@@ -368,6 +352,7 @@ export default class FormStatus extends React.PureComponent {
 
       label, // eslint-disable-line
       status_id, // eslint-disable-line
+      globalStatus, // eslint-disable-line
       id, // eslint-disable-line
       text, // eslint-disable-line
       icon, // eslint-disable-line
@@ -379,7 +364,7 @@ export default class FormStatus extends React.PureComponent {
       ...rest
     } = props
 
-    const state = FormStatus.correctStatus(rawStatus || rawState)
+    const state = FormStatus.correctStatus(rawState)
     const iconToRender = FormStatus.getIcon({
       state,
       icon,

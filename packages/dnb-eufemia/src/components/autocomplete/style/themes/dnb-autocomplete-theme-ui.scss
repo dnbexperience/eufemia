@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../../style/themes/imports.scss';
+@import '../../../../style/core/utilities.scss';
 
 .dnb-autocomplete {
   &--opened .dnb-input .dnb-input__shell,
@@ -14,6 +14,7 @@
     .dnb-input__shell {
       @include fakeBorder(var(--color-sea-green), 0.125rem);
     }
+
     .dnb-input__submit-button__button {
       border-radius: 0;
       color: var(--color-white);
@@ -25,6 +26,7 @@
   &--show-indicator &__input .dnb-input__icon {
     color: transparent;
   }
+
   &__shell,
   &__input {
     border-radius: var(--autocomplete-border-radius);
@@ -44,18 +46,22 @@
   &__item:nth-of-type(1) {
     font-weight: var(--font-weight-basis);
   }
+
   &__item:nth-of-type(n + 2) {
     color: var(--color-black-55);
   }
+
   &__item--highlight {
     font-weight: var(--font-weight-bold);
   }
 }
+
 .dnb-autocomplete__root
   .dnb-drawer-list__option--selected
   .dnb-drawer-list__option__item:nth-of-type(n + 2) {
   color: var(--color-white);
 }
+
 .dnb-autocomplete__root .dnb-drawer-list__option--selected .dnb-anchor {
   color: var(--color-white);
 }

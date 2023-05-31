@@ -1,0 +1,67 @@
+---
+showTabs: true
+---
+
+import {
+  GlobalStatusInfoExample1,
+  GlobalStatusInfoExample2,
+  GlobalStatusInfoExample3,
+  GlobalStatusInfoExampleManipulate1,
+  GlobalStatusInfoExampleManipulate2,
+  GlobalStatusInfoExampleManipulate3,
+} from 'Docs/uilib/components/global-status/Examples'
+
+## Description
+
+The GlobalStatus is a complex component meant for displaying global Application notifications or a summary of a form ( displaying form errors, messages etc. ).
+By default, the `GlobalStatus` is automatically connected together with the [FormStatus](/uilib/components/form-status) component. This means, that every form component showing a status, will send the status message along to the `GlobalStatus`.
+
+### FormStatus default behavior
+
+1. Once a **FormStatus** is shown, the `main` **GlobalStatus** will show up.
+1. The page will scroll (if needed) to the dedicated **GlobalStatus**.
+1. Form components will send along both the status text and its label to show a good and accessible summary.
+1. Screen reader uses will automatically hear the whole content of the `GlobalStatus` once it shows up.
+
+### Several Global statuses
+
+Normally, you only want to have **one** `GlobalStatus` inside your application. But you can have several in parallel. But make sure you give every other a new ID:
+
+<GlobalStatusInfoExample1 />
+
+### Where to put it
+
+- The `GlobalStatus` component should be positioned right under the header. By default, it uses `main` as the ID.
+- Or as a secondary summary of errors in a submit form. Keep in mind, by default, form components like [Input](/uilib/components/input) are using the ID `main`. To make sure the build in [FormStatus](/uilib/components/form-status) is sending along the message to another `GlobalStatus`, you have to set the [`globalStatus`](/uilib/components/global-status/properties/#configuration-object), like:
+
+<GlobalStatusInfoExample2 />
+
+But you can also make use of the [FormSet](/uilib/components/form-set) or [FormRow](/uilib/components/form-row) which will send along the `globalStatus` the underlying/wrapped components, like:
+
+<GlobalStatusInfoExample3 />
+
+### Manually updates
+
+Besides the automated connection between the error states of form components ([FormStatus](/uilib/components/form-status)), you can update messages from everywhere in your application at any time:
+
+**NB:** The GlobalStatus will `autoclose` by default, once all messages are removed.
+
+### JavaScript (interceptor situation)
+
+You can access and manipulate an existing GlobalStatus from outside of the React render tree.
+
+1. Given you have already defined a GlobalStatus in JSX:
+
+<GlobalStatusInfoExample1 />
+
+2. Then you can control it from within a JavaScript context whenever you need to:
+
+<GlobalStatusInfoExampleManipulate1 />
+
+### JSX
+
+<GlobalStatusInfoExampleManipulate2 />
+
+If you need an additional `GlobalStatus`, define a custom ID (custom-status):
+
+<GlobalStatusInfoExampleManipulate3 />

@@ -15,7 +15,7 @@ import { render, fireEvent } from '@testing-library/react'
 
 const props = fakeProps(require.resolve('../Drawer.tsx'), {
   all: true,
-  //optional: true, // Does not work with Typescript interface props
+  // optional: true, // Does not work with Typescript interface props
 })
 props.title = 'drawer_title'
 props.id = 'drawer_id'
@@ -106,7 +106,6 @@ describe('Drawer', () => {
       </Provider>
     )
 
-    //console.log(Comp.debug())
     Comp.find('button').simulate('click')
 
     expect(document.querySelector('.dnb-drawer__title').textContent).toBe(
@@ -115,6 +114,30 @@ describe('Drawer', () => {
   })
 
   it('is closed by keyboardevent esc', () => {
+    let testTriggeredBy = null
+    const on_close = jest.fn(
+      ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
+    )
+
+    const props = {
+      directDomReturn: false,
+      noAnimation: true,
+    }
+    const Comp = mount(
+      <Drawer {...props} id="modal-drawer" onClose={on_close} />
+    )
+
+    Comp.find('button#modal-drawer').simulate('click')
+    Comp.find('div.dnb-drawer').simulate('keyDown', {
+      key: 'Esc',
+      keyCode: 27,
+    })
+    Comp.update()
+    expect(on_close).toHaveBeenCalledTimes(1)
+    expect(testTriggeredBy).toBe('keyboard')
+  })
+
+  it('is closed by keyboardevent esc by window listener', () => {
     const on_close = jest.fn()
 
     const props = {
@@ -306,6 +329,30 @@ describe('Drawer', () => {
     expect(scrollRef.current).toBeTruthy()
   })
 
+  it('will close drawer by using callback method', () => {
+    const onClose = jest.fn()
+    const onOpen = jest.fn()
+
+    render(
+      <Drawer
+        noAnimation={true}
+        onOpen={onOpen}
+        onClose={onClose}
+        hideCloseButton
+      >
+        {({ close }) => (
+          <Button id="close-button" text="close" on_click={close} />
+        )}
+      </Drawer>
+    )
+
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+    expect(onOpen).toHaveBeenCalledTimes(1)
+
+    fireEvent.click(document.querySelector('button#close-button'))
+    expect(onClose).toHaveBeenCalledTimes(1)
+  })
+
   it('can contain drawer parts', () => {
     const Comp = mount(
       <Drawer noAnimation directDomReturn={false}>
@@ -346,14 +393,14 @@ describe('Drawer component snapshot', () => {
 })
 describe('Drawer aria', () => {
   it('should validate with ARIA rules as a drawer', async () => {
-    const Comp = mount(<Drawer {...props} openState={true} />)
+    const Comp = render(<Drawer {...props} openState={true} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
 
 describe('Drawer scss', () => {
   it('have to match snapshot', () => {
-    const scss = loadScss(require.resolve('../style/dnb-drawer.scss'))
+    const scss = loadScss(require.resolve('../style/deps.scss'))
     expect(scss).toMatchSnapshot()
   })
 })

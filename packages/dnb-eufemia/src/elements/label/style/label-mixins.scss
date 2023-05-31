@@ -1,0 +1,14 @@
+@mixin labelStyle() {
+  cursor: pointer;
+  overflow-wrap: break-word;
+
+  &[disabled] {
+    cursor: not-allowed;
+  }
+}
+
+@mixin labelTag() {
+  label {
+    @include labelStyle();
+  }
+}

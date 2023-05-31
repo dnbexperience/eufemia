@@ -1,7 +1,6 @@
 import React from 'react'
 import { includeValidProps } from '../../components/form-row/FormRowHelpers'
 import {
-  warn,
   isTrue,
   makeUniqueId,
   dispatchCustomElementEvent,
@@ -74,7 +73,7 @@ export function SliderProvider(localProps: SliderAllProps) {
     statusState, // eslint-disable-line
     statusProps, // eslint-disable-line
     statusNoAnimation, // eslint-disable-line
-    globalStatusId, // eslint-disable-line
+    globalStatus, // eslint-disable-line
     stretch, // eslint-disable-line
     suffix, // eslint-disable-line
     thumbTitle: title, // eslint-disable-line
@@ -91,7 +90,6 @@ export function SliderProvider(localProps: SliderAllProps) {
     disabled,
     className, // eslint-disable-line
     id, // eslint-disable-line
-    onInit, // eslint-disable-line
     onChange,
     onDragStart, // eslint-disable-line
     onDragEnd, // eslint-disable-line
@@ -121,13 +119,6 @@ export function SliderProvider(localProps: SliderAllProps) {
     if (!isNaN(index)) {
       thumbIndex.current = index
     }
-  }
-
-  /**
-   * Deprecated
-   */
-  if (allProps.use_scrollwheel) {
-    warn('use_scrollwheel is not supported anymore!')
   }
 
   const getAndUpdateCurrentIndex = (currentValue: number) => {
@@ -202,7 +193,6 @@ export function SliderProvider(localProps: SliderAllProps) {
         const obj: onChangeEventProps = {
           value: multiValues,
           rawValue,
-          raw_value: rawValue, // deprecated
           event,
           number: null,
         }

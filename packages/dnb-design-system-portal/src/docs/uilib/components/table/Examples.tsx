@@ -5,8 +5,8 @@
 
 import React from 'react'
 import styled from '@emotion/styled'
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
-import { H2, P, Dl, Dt, Dd, Code, Anchor } from '@dnb/eufemia/src/elements'
+import ComponentBox from '../../../../shared/tags/ComponentBox'
+import { H2, P, Dl, Dt, Dd, Code, Anchor } from '@dnb/eufemia/src'
 import { copy as copyIcon } from '@dnb/eufemia/src/icons'
 import {
   Button,
@@ -609,6 +609,43 @@ export const TableClassHelpers = () => (
   </ComponentBox>
 )
 
+export const TableWithoutClasses = () => (
+  <ComponentBox hideCode data-visual-test="table-no-classes">
+    <Table.ScrollView>
+      <table className="dnb-table">
+        <thead>
+          <tr>
+            <th>Header</th>
+            <th className="dnb-table--sortable dnb-table--reversed">
+              <Th.SortButton text="Sortable" />
+            </th>
+            <th className="dnb-table--sortable dnb-table--active">
+              <Th.SortButton text="Active" />
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Row 1</td>
+            <td>Row 1</td>
+            <td>Row 1</td>
+          </tr>
+          <tr>
+            <td>Row 2</td>
+            <td>Row 2</td>
+            <td>Row 2</td>
+          </tr>
+          <tr>
+            <td>Row 3</td>
+            <td>Row 3</td>
+            <td>Row 3</td>
+          </tr>
+        </tbody>
+      </table>
+    </Table.ScrollView>
+  </ComponentBox>
+)
+
 export const TableLongHeader = () => (
   <ComponentBox hideCode data-visual-test="table-header">
     <Table.ScrollView>
@@ -927,8 +964,8 @@ export function PaginationTable() {
             <Pagination
               page_count={data.length / amountPerPage}
               current_page={currentPage}
-              on_change={({ page }) => {
-                setCurrentPage(page)
+              on_change={({ pageNumber }) => {
+                setCurrentPage(pageNumber)
               }}
             >
               <MakeTable
@@ -983,3 +1020,22 @@ export function PaginationTable() {
     </ComponentBox>
   )
 }
+
+export const TablesInOneContainer = () => (
+  <ComponentBox hideToolbar hidePreview scope={{ TableContainer }}>
+    <TableContainer>
+      <TableContainer.Head>
+        <H2>Heading</H2>
+      </TableContainer.Head>
+
+      <TableContainer.Body>
+        <Table>{'hei'}</Table>
+        <Table>{'hei'}</Table>
+      </TableContainer.Body>
+
+      <TableContainer.Foot>
+        <P>Footer</P>
+      </TableContainer.Foot>
+    </TableContainer>
+  </ComponentBox>
+)

@@ -1,15 +1,28 @@
 {
   "extends": [
     "stylelint-config-recommended",
-    "stylelint-config-standard",
-    "stylelint-config-prettier"
+    "stylelint-config-standard-scss"
   ],
-  "plugins": [
-    "stylelint-scss"
-  ],
+  "plugins": ["stylelint-scss"],
   "rules": {
+    "scss/at-import-partial-extension": "always",
+    "scss/at-mixin-argumentless-call-parentheses": "always",
+    "scss/double-slash-comment-empty-line-before": null,
+    "scss/at-mixin-pattern": null,
+    "scss/operator-no-newline-after": null,
+    "scss/at-if-no-null": null,
+    "scss/dollar-variable-pattern": null,
+    "color-function-notation": "modern",
     "declaration-empty-line-before": null,
+    "at-rule-empty-line-before": null,
+    "rule-empty-line-before": null,
     "at-rule-no-unknown": null,
+    "selector-not-notation": null,
+    "keyframes-name-pattern": null,
+    "custom-property-pattern": null,
+    "selector-class-pattern": null,
+    "selector-id-pattern": null,
+    "number-max-precision": null,
     "no-invalid-position-at-import-rule": null
   }
 }

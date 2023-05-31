@@ -33,12 +33,12 @@ export type DrawerContentProps = {
   /**
    * If set to `false` then the drawer content will be shown without any spacing. Defaults to `true`.
    */
-  spacing?: string | boolean
+  spacing?: boolean
 
   /**
    * By default the drawer content gets added the core style class `dnb-core-style`. Use `false` to disable this behavior.
    */
-  preventCoreStyle?: string | boolean
+  preventCoreStyle?: boolean
 
   /**
    * The content which will appear in the navigation, above the header, and side-by-side the close button.
@@ -63,7 +63,7 @@ export type DrawerContentProps = {
   /**
    * If set to `true` then the drawer content will be shown as fullscreen, without showing the original content behind. Can be set to `false` to omit the auto fullscreen. Defaults to `auto`.
    */
-  fullscreen?: string | boolean
+  fullscreen?: boolean | string
 
   /**
    * Defines the placement on what side the Drawer should be opened. Can be set to `left`, `right`, `top` and `bottom`. Defaults to `right`.
@@ -73,10 +73,10 @@ export type DrawerContentProps = {
   /**
    * If set to `true`, no open/close animation will be shown. Defaults to false.
    */
-  noAnimation?: string | boolean
+  noAnimation?: boolean
 
   /**
    * Same as `no_animation`, but gets triggered only if the viewport width is less than `40em`. Defaults to false.
    */
-  noAnimationOnMobile?: string | boolean
+  noAnimationOnMobile?: boolean
 } & ScrollViewAllProps

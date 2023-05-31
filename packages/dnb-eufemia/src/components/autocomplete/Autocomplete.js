@@ -13,7 +13,6 @@ import {
   isTouchDevice,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
-  registerElement,
   validateDOMAttributes,
   dispatchCustomElementEvent,
   getStatusState,
@@ -25,7 +24,6 @@ import {
 import {
   IS_MAC,
   IS_WIN,
-  IS_IE11,
   IS_EDGE,
   debounce,
   hasSelectedText,
@@ -55,8 +53,6 @@ import {
 } from '../../fragments/drawer-list/DrawerListHelpers'
 
 export default class Autocomplete extends React.PureComponent {
-  static tagName = 'dnb-autocomplete'
-
   static propTypes = {
     ...spacingPropTypes,
     ...drawerListPropTypes,
@@ -121,7 +117,10 @@ export default class Autocomplete extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool,
     ]),
-    global_status_id: PropTypes.string,
+    globalStatus: PropTypes.shape({
+      id: PropTypes.string,
+      message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    }),
     suffix: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
@@ -234,9 +233,6 @@ export default class Autocomplete extends React.PureComponent {
       PropTypes.array,
     ]),
 
-    custom_element: PropTypes.object,
-    custom_method: PropTypes.func,
-
     /**
      * For internal use
      */
@@ -281,7 +277,7 @@ export default class Autocomplete extends React.PureComponent {
     status_state: 'error',
     status_props: null,
     status_no_animation: null,
-    global_status_id: null,
+    globalStatus: null,
     suffix: null,
     disable_filter: false,
     disable_reorder: false,
@@ -322,8 +318,6 @@ export default class Autocomplete extends React.PureComponent {
     className: null,
     children: null,
 
-    custom_element: null,
-    custom_method: null,
     ariaLiveDelay: null,
 
     on_show: null,
@@ -335,14 +329,6 @@ export default class Autocomplete extends React.PureComponent {
     on_select: null,
     on_state_update: null,
     input_element: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(
-      Autocomplete?.tagName,
-      Autocomplete,
-      Autocomplete.defaultProps
-    )
   }
 
   constructor(props) {
@@ -829,7 +815,7 @@ class AutocompleteInstance extends React.PureComponent {
 
   onInputFocusHandler = (event) => {
     if (this.state.skipFocusDuringChange) {
-      return //stop here
+      return // stop here
     }
 
     const { open_on_focus, keep_value_and_selection } = this.props
@@ -1695,7 +1681,7 @@ class AutocompleteInstance extends React.PureComponent {
       status_state,
       status_props,
       status_no_animation,
-      global_status_id,
+      globalStatus,
       suffix,
       scrollable,
       focusable,
@@ -1828,7 +1814,7 @@ class AutocompleteInstance extends React.PureComponent {
 
     if (!(parseFloat(selected_item) > -1)) {
       inputParams.placeholder = placeholder || title
-      if (!(IS_WIN && (IS_IE11 || IS_EDGE))) {
+      if (!(IS_WIN && IS_EDGE)) {
         inputParams['aria-placeholder'] = undefined
       }
     }
@@ -1921,11 +1907,11 @@ class AutocompleteInstance extends React.PureComponent {
           <FormStatus
             show={showStatus}
             id={id + '-form-status'}
-            global_status_id={global_status_id}
+            globalStatus={globalStatus}
             label={label}
             text_id={id + '-status'} // used for "aria-describedby"
             text={status}
-            status={status_state}
+            state={status_state}
             no_animation={status_no_animation}
             skeleton={skeleton}
             {...status_props}

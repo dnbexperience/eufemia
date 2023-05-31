@@ -1,3 +1,6 @@
+import type { Locale } from '../../shared/Context';
+import type { NumberFormatCurrency } from './NumberFormat';
+
 export type formatTypes =
   | 'phone'
   | 'org'
@@ -29,7 +32,7 @@ export type formatValue = string | number;
 export type formatReturnType = formatReturnValue | formatValue;
 export interface formatOptionParams {
   /** can be "auto" */
-  locale?: string;
+  locale?: Locale;
 
   /** Should the number be cleaned */
   clean?: boolean;
@@ -54,7 +57,7 @@ export interface formatOptionParams {
   /** percent type */
   percent?: boolean;
   /** Currency code (ISO 4217) or `true` to use the default, `NOK`. */
-  currency?: string | boolean;
+  currency?: NumberFormatCurrency;
 
   /** Intl.NumberFormat currency option – you can use false or empty string to hide the sign/name. Defaults to narrowSymbol when the locale is no else we default to code. */
   currency_display?:
@@ -101,17 +104,17 @@ export const copyWithEffect: (
 ) => boolean;
 
 export const getFallbackCurrencyDisplay: (
-  locale?: string,
+  locale?: Locale,
   currency_display?: string
 ) => string;
 
-export const getDecimalSeparator: (locale?: string) => string;
+export const getDecimalSeparator: (locale?: Locale) => string;
 
-export const getThousandsSeparator: (locale?: string) => string;
+export const getThousandsSeparator: (locale?: Locale) => string;
 
 export const getCurrencySymbol: (
-  locale?: string,
-  currency?: string,
+  locale?: Locale,
+  currency?: NumberFormatCurrency,
   currencyDisplay?: string
 ) => string;
 
