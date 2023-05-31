@@ -11,6 +11,12 @@ const { isCI } = require('repo-utils')
 const { slugify } = require('../../../src/shared/component-helper')
 const { makeUniqueId } = require('../../shared/component-helper')
 const { configureToMatchImageSnapshot } = require('jest-image-snapshot')
+const screenshotConfig = require('../../../jest.config.screenshots')
+
+const playwrightSettings =
+  screenshotConfig.testEnvironmentOptions['jest-playwright']
+const headlessTimeout = playwrightSettings.launchOptions.headlessTimeout
+const isHeadless = playwrightSettings.launchOptions.headless
 
 const log = ora()
 
@@ -117,11 +123,6 @@ const makeScreenshot = async ({
     await page.evaluate(executeBeforeScreenshot)
   }
 
-  // Only for dev
-  // if (!isCI) {
-  //   await page.waitForTimeout(300000)
-  // }
-
   if (simulate && simulate === 'click') {
     await page.mouse.move(0, 0) // reset after click simulations, because the mouse still hovers
   }
@@ -140,6 +141,11 @@ const makeScreenshot = async ({
 
   if (waitBeforeFinish > 0) {
     await page.waitForTimeout(waitBeforeFinish)
+  }
+
+  // Only for dev
+  if (!isCI && !isHeadless) {
+    await page.waitForTimeout(headlessTimeout)
   }
 
   return screenshot
