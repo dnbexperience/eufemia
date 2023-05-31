@@ -3,7 +3,7 @@
  *
  */
 
-import { render } from '@testing-library/react'
+import { render, screen, cleanup, fireEvent } from '@testing-library/react'
 import React from 'react'
 import {
   mount,
@@ -27,40 +27,50 @@ props.label = 'checkbox'
 props.label_position = 'left'
 
 describe('Checkbox component', () => {
-  // then test the state management
-  const Comp = mount(<Component {...props} />)
-
   // mount compare the snapshot
   it('have to match snapshot', () => {
+    const Comp = mount(<Component {...props} />)
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
   it('has correct state after "change" trigger', () => {
+    const { rerender } = render(<Component {...props} />)
+
     // default checked value has to be false
-    expect(Comp.find('input').instance().checked).toBe(false)
+    expect(
+      (screen.getByRole('checkbox') as HTMLInputElement).checked
+    ).toBe(false)
 
-    Comp.find('input').simulate('change') // we could send inn the event data structure like this: , { target: { checked: true } }
-    expect(Comp.find('input').instance().checked).toBe(true)
+    screen.getByRole('checkbox').click()
+    expect(
+      (screen.getByRole('checkbox') as HTMLInputElement).checked
+    ).toBe(true)
 
-    Comp.find('input').simulate('change')
-    expect(Comp.find('input').instance().checked).toBe(false)
+    screen.getByRole('checkbox').click()
+    expect(
+      (screen.getByRole('checkbox') as HTMLInputElement).checked
+    ).toBe(false)
 
     // also check if getDerivedStateFromProps sets the state as expected
-    Comp.setProps({ checked: true })
-    expect(Comp.find('input').instance().checked).toBe(true)
+    rerender(<Component {...props} checked={true} />)
+    expect(
+      (screen.getByRole('checkbox') as HTMLInputElement).checked
+    ).toBe(true)
 
     const value = 'new value'
-    Comp.setProps({ value })
-    expect(Comp.find('input').props().value).toBe(value)
+    rerender(<Component {...props} checked={true} value={value} />)
+    expect((screen.getByRole('checkbox') as HTMLInputElement).value).toBe(
+      value
+    )
   })
 
   it('has "on_change" event which will trigger on a input change', () => {
     const my_event = jest.fn()
     const myEvent = jest.fn()
-    const Comp = mount(
+    render(
       <Component on_change={my_event} onChange={myEvent} checked={false} />
     )
-    Comp.find('input').simulate('change')
+    screen.getByRole('checkbox').click()
     expect(my_event.mock.calls.length).toBe(1)
     expect(myEvent.mock.calls.length).toBe(1)
     expect(myEvent.mock.calls[0][0]).toHaveProperty('checked')
@@ -92,50 +102,50 @@ describe('Checkbox component', () => {
     }
 
     const TestStates = (Comp) => {
+      render(Comp)
+
       // re-render + default state is true
-      Comp.find('button#rerender').simulate('click')
-      expect(Comp.find('input').instance().checked).toBe(true)
+      fireEvent.click(document.querySelector('button#set-state'))
+      expect(document.querySelector('input').checked).toBe(true)
 
       // change it to false
-      Comp.find('input').simulate('change')
-      expect(Comp.find('input').instance().checked).toBe(false)
+      fireEvent.click(document.querySelector('input'))
+      expect(document.querySelector('input').checked).toBe(false)
 
       // set it to true
-      Comp.find('button#set-state').simulate('click')
-      expect(Comp.find('input').instance().checked).toBe(true)
+      fireEvent.click(document.querySelector('button#set-state'))
+      expect(document.querySelector('input').checked).toBe(true)
 
       // reset it with undefined to false
-      Comp.find('button#reset-undefined').simulate('click')
-      expect(Comp.find('input').instance().checked).toBe(false)
+      fireEvent.click(document.querySelector('button#reset-undefined'))
+      expect(document.querySelector('input').checked).toBe(false)
 
       // set it to true + reset it with null to false
-      Comp.find('button#set-state').simulate('click')
-      Comp.find('button#reset-null').simulate('click')
-      expect(Comp.find('input').instance().checked).toBe(false)
+      fireEvent.click(document.querySelector('button#set-state'))
+      fireEvent.click(document.querySelector('button#reset-null'))
+      expect(document.querySelector('input').checked).toBe(false)
 
       // re-render + still false
-      Comp.find('button#rerender').simulate('click')
-      expect(Comp.find('input').instance().checked).toBe(false)
+      fireEvent.click(document.querySelector('button#rerender'))
+      expect(document.querySelector('input').checked).toBe(false)
+
+      cleanup()
     }
 
-    TestStates(mount(<ControlledVsUncontrolled />))
+    TestStates(<ControlledVsUncontrolled />)
     TestStates(
-      mount(
-        <React.StrictMode>
-          <ControlledVsUncontrolled />
-        </React.StrictMode>
-      )
+      <React.StrictMode>
+        <ControlledVsUncontrolled />
+      </React.StrictMode>
     )
   })
 
   it('has a disabled attribute, once we set disabled to true', () => {
-    const Comp = mount(<Component />)
-    Comp.setProps({
-      disabled: true,
-    })
-    expect(Comp.find('input').instance().hasAttribute('disabled')).toBe(
-      true
-    )
+    render(<Component disabled={true} />)
+
+    expect(
+      (screen.getByRole('checkbox') as HTMLInputElement).disabled
+    ).toBe(true)
   })
 
   it('should support spacing props', () => {
@@ -187,6 +197,7 @@ describe('Checkbox component', () => {
   })
 
   it('should validate with ARIA rules', async () => {
+    const Comp = mount(<Component {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
