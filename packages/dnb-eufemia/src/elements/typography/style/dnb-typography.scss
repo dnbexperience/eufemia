@@ -7,51 +7,60 @@
 @import './typography-mixins.scss';
 
 @include typographySelectors() {
+  // Heading defaults
   --typography-heading-default-font-family: var(--font-family-default);
   --typography-heading-default-font-weight: var(--font-weight-medium);
 
+  // Heading xx-large
   --typography-heading-xx-large-font-size: var(--font-size-xx-large);
   --typography-heading-xx-large-line-height: var(--line-height-xx-large);
   --typography-heading-xx-large-small-font-size: var(--font-size-x-large);
   --typography-heading-xx-large-small-line-height: var(--line-height-x-large);
   --typography-heading-xx-large-weight: var(--font-weight-medium);
 
+  // Heading x-large
   --typography-heading-x-large-font-size: var(--font-size-x-large);
   --typography-heading-x-large-line-height: var(--line-height-x-large);
   --typography-heading-x-large-small-font-size: var(--font-size-large);
   --typography-heading-x-large-small-line-height: var(--line-height-large);
   --typography-heading-x-large-weight: var(--font-weight-medium);
 
+  // Heading large
   --typography-heading-large-font-size: var(--font-size-large);
   --typography-heading-large-line-height: var(--line-height-large);
   --typography-heading-large-small-font-size: var(--font-size-medium);
   --typography-heading-large-small-line-height: var(--line-height-medium);
   --typography-heading-large-weight: var(--font-weight-medium);
 
+  // Heading lead
   --typography-lead-font-size: var(--font-size-lead);
   --typography-lead-line-height: var(--line-height-lead);
   --typography-lead-small-font-size: var(--font-size-lead);
   --typography-lead-small-line-height: var(--line-height-lead);
   --typography-lead-weight: var(--font-weight-medium);
 
+  // Heading medium
   --typography-heading-medium-font-size: var(--font-size-medium);
   --typography-heading-medium-line-height: var(--line-height-medium);
   --typography-heading-medium-small-font-size: var(--font-size-basis);
   --typography-heading-medium-small-line-height: var(--line-height-basis);
   --typography-heading-medium-weight: var(--font-weight-medium);
 
+  // Heading basis
   --typography-heading-basis-font-size: var(--font-size-basis);
   --typography-heading-basis-line-height: var(--line-height-basis);
   --typography-heading-basis-small-font-size: var(--font-size-small);
   --typography-heading-basis-small-line-height: var(--line-height-small);
   --typography-heading-basis-weight: var(--font-weight-medium);
 
+  // Heading small
   --typography-heading-small-font-size: var(--font-size-small);
   --typography-heading-small-line-height: var(--line-height-small);
   --typography-heading-small-small-font-size: var(--font-size-x-small);
   --typography-heading-small-small-line-height: var(--line-height-x-small);
   --typography-heading-small-weight: var(--font-weight-medium);
 
+  // Heading x-small
   --typography-heading-x-small-font-size: var(--font-size-x-small);
   --typography-heading-x-small-line-height: var(--line-height-x-small);
   --typography-heading-x-small-small-font-size: var(--font-size-x-small);
