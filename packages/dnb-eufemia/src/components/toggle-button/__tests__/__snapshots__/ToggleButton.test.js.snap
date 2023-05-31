@@ -2588,6 +2588,7 @@ button.dnb-button::-moz-focus-inner {
     -webkit-user-select: none;
     display: flex;
     align-items: center;
+    flex-shrink: 0;
     justify-content: center;
     width: var(--radio-width--medium);
     height: var(--radio-height--medium); }
