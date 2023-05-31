@@ -18,8 +18,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  action:
-    name: Verify tests and types
+  verify:
+    name: Verify
 
     runs-on: ubuntu-latest
 
@@ -77,7 +77,7 @@ jobs:
           channel: '#eufemia-dev'
           status: ${{ job.status }}
           fields: author,ref,workflow,job,took
-          job_name: Verify tests and types
+          job_name: Verify
           github_base_url: https://github.com/
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
