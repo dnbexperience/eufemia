@@ -573,154 +573,49 @@ del .dnb-code {
  * Mainly only the margins are defined in here
  *
  */
-.dnb-small {
-  font-size: var(--font-size-small);
-}
-
-sup,
-sub {
-  font-size: 0.777777em;
-  line-height: 0.5em;
-}
-
-.dnb-p {
-  font-size: var(--font-size-basis);
-  padding: 0;
-}
-.dnb-p:not([class*=space__top]) {
-  margin-top: 0;
-}
-.dnb-p:not([class*=space__bottom]) {
-  margin-bottom: 0;
-}
-.dnb-p--lead {
-  font-size: var(--font-size-lead);
-  line-height: var(--line-height-lead);
-  font-weight: var(--heading-weight-default);
-}
-.dnb-p--lead > small {
-  font-size: var(--font-size-basis);
-  line-height: var(--line-height-basis);
-}
-.dnb-p--medium {
-  font-weight: var(--font-weight-medium);
-}
-.dnb-p b,
-.dnb-p strong {
-  font-weight: var(--font-weight-medium);
-}
-.dnb-p--bold {
-  font-weight: var(--font-weight-bold);
-}
-.dnb-p__size--xx-large {
-  font-size: var(--font-size-xx-large);
-  line-height: var(--line-height-xx-large);
-}
-.dnb-p__size--x-large {
-  font-size: var(--font-size-x-large);
-  line-height: var(--line-height-x-large);
-}
-.dnb-p__size--large {
-  font-size: var(--font-size-large);
-  line-height: var(--line-height-large);
-}
-.dnb-p__size--basis {
-  font-size: var(--font-size-basis);
-  line-height: var(--line-height-basis);
-}
-.dnb-p__size--medium {
-  font-size: var(--font-size-medium);
-  line-height: var(--line-height-medium);
-}
-.dnb-p--small, .dnb-p__size--small, .dnb-p > small {
-  font-size: var(--font-size-small);
-  line-height: var(--line-height-small);
-}
-.dnb-p--x-small, .dnb-p__size--x-small {
-  font-size: var(--font-size-x-small);
-  line-height: var(--line-height-x-small);
-}
-.dnb-p > cite {
-  font-weight: var(--font-weight-medium);
-  line-height: var(--line-height-basis);
-  font-style: italic;
-}
-
-.dnb-table b,
-.dnb-table strong {
-  font-weight: var(--font-weight-medium);
-}
-
-.dnb-h--xx-large {
-  font-size: var(--font-size-xx-large);
-  line-height: var(--line-height-xx-large);
-}
-.dnb-h--xx-large > small {
-  display: block;
-  font-size: var(--font-size-x-large);
-  line-height: var(--heading-line-x-large);
-}
-
-.dnb-h--x-large {
-  font-size: var(--font-size-x-large);
-  line-height: var(--heading-line-x-large);
-}
-.dnb-h--x-large > small {
-  display: block;
-  font-size: var(--font-size-x-large);
-  line-height: var(--heading-line-x-large);
-}
-
-.dnb-h--large {
-  font-size: var(--font-size-large);
-  line-height: var(--heading-line-large);
-}
-.dnb-h--large > small {
-  font-size: var(--font-size-medium);
-  line-height: calc(var(--heading-line-large) - 0.125rem);
-}
-
-.dnb-lead {
-  font-size: var(--font-size-lead);
-  line-height: var(--line-height-lead);
-  font-weight: var(--heading-weight-default);
-}
-.dnb-lead > small {
-  font-size: var(--font-size-basis);
-  line-height: var(--line-height-basis);
-}
-
-.dnb-h--medium {
-  font-size: var(--font-size-medium);
-  line-height: var(--heading-line-medium);
-  font-weight: var(--heading-weight-default);
-}
-.dnb-h--medium > small {
-  font-size: var(--font-size-basis);
-  line-height: var(--line-height-basis);
-}
-
-.dnb-h--basis {
-  font-size: var(--font-size-basis);
-  line-height: var(--line-height-basis);
-}
-.dnb-h--basis > small {
-  font-size: var(--font-size-small);
-  line-height: var(--line-height-small);
-}
-
-.dnb-h--small {
-  font-size: var(--font-size-small);
-  line-height: var(--line-height-small);
-}
-.dnb-h--small > small {
-  font-size: var(--font-size-x-small);
-  line-height: var(--line-height-small);
-}
-
-.dnb-h--x-small {
-  font-size: var(--font-size-x-small);
-  line-height: var(--line-height-x-small);
+.dnb-lead, .dnb-h--xx-large, .dnb-h--x-large, .dnb-h--large, .dnb-h--medium, .dnb-h--basis, .dnb-h--small, .dnb-h--x-small, .dnb-core-style .dnb-lead, .dnb-core-style .dnb-h--xx-large, .dnb-core-style .dnb-h--x-large, .dnb-core-style .dnb-h--large, .dnb-core-style .dnb-h--medium, .dnb-core-style .dnb-h--basis, .dnb-core-style .dnb-h--small, .dnb-core-style .dnb-h--x-small, h1, h2, h3, h4, h5, h6, p, b, small, strong, .dnb-p, .dnb-small, .dnb-table, sub, sup {
+  --typography-heading-default-font-family: var(--font-family-default);
+  --typography-heading-default-font-weight: var(--font-weight-medium);
+  --typography-heading-xx-large-font-size: var(--font-size-xx-large);
+  --typography-heading-xx-large-line-height: var(--line-height-xx-large);
+  --typography-heading-xx-large-small-font-size: var(--font-size-x-large);
+  --typography-heading-xx-large-small-line-height: var(--line-height-x-large);
+  --typography-heading-xx-large-weight: var(--font-weight-medium);
+  --typography-heading-x-large-font-size: var(--font-size-x-large);
+  --typography-heading-x-large-line-height: var(--line-height-x-large);
+  --typography-heading-x-large-small-font-size: var(--font-size-large);
+  --typography-heading-x-large-small-line-height: var(--line-height-large);
+  --typography-heading-x-large-weight: var(--font-weight-medium);
+  --typography-heading-large-font-size: var(--font-size-large);
+  --typography-heading-large-line-height: var(--line-height-large);
+  --typography-heading-large-small-font-size: var(--font-size-medium);
+  --typography-heading-large-small-line-height: var(--line-height-medium);
+  --typography-heading-large-weight: var(--font-weight-medium);
+  --typography-lead-font-size: var(--font-size-lead);
+  --typography-lead-line-height: var(--line-height-lead);
+  --typography-lead-small-font-size: var(--font-size-lead);
+  --typography-lead-small-line-height: var(--line-height-lead);
+  --typography-lead-weight: var(--font-weight-medium);
+  --typography-heading-medium-font-size: var(--font-size-medium);
+  --typography-heading-medium-line-height: var(--line-height-medium);
+  --typography-heading-medium-small-font-size: var(--font-size-basis);
+  --typography-heading-medium-small-line-height: var(--line-height-basis);
+  --typography-heading-medium-weight: var(--font-weight-medium);
+  --typography-heading-basis-font-size: var(--font-size-basis);
+  --typography-heading-basis-line-height: var(--line-height-basis);
+  --typography-heading-basis-small-font-size: var(--font-size-small);
+  --typography-heading-basis-small-line-height: var(--line-height-small);
+  --typography-heading-basis-weight: var(--font-weight-medium);
+  --typography-heading-small-font-size: var(--font-size-small);
+  --typography-heading-small-line-height: var(--line-height-small);
+  --typography-heading-small-small-font-size: var(--font-size-x-small);
+  --typography-heading-small-small-line-height: var(--line-height-x-small);
+  --typography-heading-small-weight: var(--font-weight-medium);
+  --typography-heading-x-small-font-size: var(--font-size-x-small);
+  --typography-heading-x-small-line-height: var(--line-height-x-small);
+  --typography-heading-x-small-small-font-size: var(--font-size-x-small);
+  --typography-heading-x-small-small-line-height: var(--line-height-x-small);
+  --typography-heading-x-small-weight: var(--font-weight-medium);
 }
 
 .dnb-lead,
@@ -740,8 +635,7 @@ sub {
 .dnb-core-style .dnb-h--small,
 .dnb-core-style .dnb-h--x-small {
   padding: 0;
-  font-family: var(--font-family-default);
-  font-weight: var(--heading-weight-default);
+  font-family: var(--typography-heading-default-font-family);
 }
 .dnb-lead:not([class*=dnb-space]),
 .dnb-h--xx-large:not([class*=dnb-space]),
@@ -831,6 +725,170 @@ sub {
 .dnb-core-style .dnb-h--x-small .dnb-anchor {
   padding-top: 0;
   padding-bottom: 0.03125rem;
+}
+
+.dnb-small {
+  font-size: var(--font-size-small);
+}
+
+sup,
+sub {
+  font-size: 0.777777em;
+  line-height: 0.5em;
+}
+
+.dnb-p {
+  font-size: var(--font-size-basis);
+  padding: 0;
+}
+.dnb-p:not([class*=space__top]) {
+  margin-top: 0;
+}
+.dnb-p:not([class*=space__bottom]) {
+  margin-bottom: 0;
+}
+.dnb-p--lead {
+  font-size: var(--typography-lead-font-size);
+  line-height: var(--typography-lead-line-height);
+  font-weight: var(--typography-lead-weight);
+}
+.dnb-p--lead > small {
+  font-size: var(--typography-lead-small-font-size);
+  line-height: var(--typography-lead-small-line-height);
+}
+.dnb-p--medium {
+  font-weight: var(--font-weight-medium);
+}
+.dnb-p b,
+.dnb-p strong {
+  font-weight: var(--font-weight-medium);
+}
+.dnb-p--bold {
+  font-weight: var(--font-weight-bold);
+}
+.dnb-p__size--xx-large {
+  font-size: var(--font-size-xx-large);
+  line-height: var(--line-height-xx-large);
+}
+.dnb-p__size--x-large {
+  font-size: var(--font-size-x-large);
+  line-height: var(--line-height-x-large);
+}
+.dnb-p__size--large {
+  font-size: var(--font-size-large);
+  line-height: var(--line-height-large);
+}
+.dnb-p__size--basis {
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+}
+.dnb-p__size--medium {
+  font-size: var(--font-size-medium);
+  line-height: var(--line-height-medium);
+}
+.dnb-p--small, .dnb-p__size--small, .dnb-p > small {
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+.dnb-p--x-small, .dnb-p__size--x-small {
+  font-size: var(--font-size-x-small);
+  line-height: var(--line-height-x-small);
+}
+.dnb-p > cite {
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-basis);
+  font-style: italic;
+}
+
+.dnb-table b,
+.dnb-table strong {
+  font-weight: var(--font-weight-medium);
+}
+
+.dnb-h--xx-large {
+  font-size: var(--typography-heading-xx-large-font-size);
+  line-height: var(--typography-heading-xx-large-line-height);
+  font-weight: var(--typography-heading-xx-large-weight);
+}
+.dnb-h--xx-large > small {
+  font-size: var(--typography-heading-xx-large-small-font-size);
+  line-height: var(--typography-heading-xx-large-small-line-height);
+}
+.dnb-h--xx-large > small {
+  display: block;
+}
+
+.dnb-h--x-large {
+  font-size: var(--typography-heading-x-large-font-size);
+  line-height: var(--typography-heading-x-large-line-height);
+  font-weight: var(--typography-heading-x-large-weight);
+}
+.dnb-h--x-large > small {
+  font-size: var(--typography-heading-x-large-small-font-size);
+  line-height: var(--typography-heading-x-large-small-line-height);
+}
+.dnb-h--x-large > small {
+  display: block;
+}
+
+.dnb-h--large {
+  font-size: var(--typography-heading-large-font-size);
+  line-height: var(--typography-heading-large-line-height);
+  font-weight: var(--typography-heading-large-weight);
+}
+.dnb-h--large > small {
+  font-size: var(--typography-heading-large-small-font-size);
+  line-height: var(--typography-heading-large-small-line-height);
+}
+
+.dnb-lead {
+  font-size: var(--typography-lead-font-size);
+  line-height: var(--typography-lead-line-height);
+  font-weight: var(--typography-lead-weight);
+}
+.dnb-lead > small {
+  font-size: var(--typography-lead-small-font-size);
+  line-height: var(--typography-lead-small-line-height);
+}
+
+.dnb-h--medium {
+  font-size: var(--typography-heading-medium-font-size);
+  line-height: var(--typography-heading-medium-line-height);
+  font-weight: var(--typography-heading-medium-weight);
+}
+.dnb-h--medium > small {
+  font-size: var(--typography-heading-medium-small-font-size);
+  line-height: var(--typography-heading-medium-small-line-height);
+}
+
+.dnb-h--basis {
+  font-size: var(--typography-heading-basis-font-size);
+  line-height: var(--typography-heading-basis-line-height);
+  font-weight: var(--typography-heading-basis-weight);
+}
+.dnb-h--basis > small {
+  font-size: var(--typography-heading-basis-small-font-size);
+  line-height: var(--typography-heading-basis-small-line-height);
+}
+
+.dnb-h--small {
+  font-size: var(--typography-heading-small-font-size);
+  line-height: var(--typography-heading-small-line-height);
+  font-weight: var(--typography-heading-small-weight);
+}
+.dnb-h--small > small {
+  font-size: var(--typography-heading-small-small-font-size);
+  line-height: var(--typography-heading-small-small-line-height);
+}
+
+.dnb-h--x-small {
+  font-size: var(--typography-heading-x-small-font-size);
+  line-height: var(--typography-heading-x-small-line-height);
+  font-weight: var(--typography-heading-x-small-weight);
+}
+.dnb-h--x-small > small {
+  font-size: var(--typography-heading-x-small-small-font-size);
+  line-height: var(--typography-heading-x-small-small-line-height);
 }
 
 .dnb-spacing .dnb-h--xx-large:not([class*=space__top]), .dnb-core-style .dnb-spacing .dnb-h--xx-large:not([class*=space__top]) {
