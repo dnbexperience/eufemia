@@ -25,10 +25,10 @@ function runCommand(command) {
  *
  * @returns {array} List of files
  */
-const getCommittedFiles = async () => {
+const getCommittedFiles = async (countCommits = 10) => {
   const files = (
     await runCommand(
-      'git config diff.renames 0 && git diff HEAD^ --name-only'
+      `git config diff.renames 0 && git show --pretty="format:" --name-only HEAD...HEAD~${countCommits}`
     )
   )
     .split('\n')
