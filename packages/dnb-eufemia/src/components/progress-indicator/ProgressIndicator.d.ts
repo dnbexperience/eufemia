@@ -31,7 +31,7 @@ export interface ProgressIndicatorProps
   no_animation?: boolean;
 
   /**
-   * Defines the size, like `large` or `medium`. Defaults to `medium`.
+   * Defines the size, like `small`, `default`, `medium` or `large`. Defaults to `default`.
    */
   size?: ProgressIndicatorSize;
 

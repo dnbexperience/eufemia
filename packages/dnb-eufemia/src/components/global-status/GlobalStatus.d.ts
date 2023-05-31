@@ -13,6 +13,9 @@ export type GlobalStatusState = 'error' | 'info';
 export type GlobalStatusShow = 'auto' | any | any | 'true' | 'false';
 export type GlobalStatusDelay = string | number;
 export type GlobalStatusConfigObject = {
+  /**
+   * The main ID. Defaults to `main`.
+   */
   id?: string;
   message?: FormStatusText;
 };

@@ -3,7 +3,7 @@ export type ProgressIndicatorLinearProgress = string | number;
 export interface ProgressIndicatorLinearProps
   extends React.HTMLProps<HTMLElement> {
   /**
-   * Defines the size, like `large` or `medium`. Defaults to `medium`.
+   * Defines the size, like `small`, `default`, `medium` or `large`. Defaults to `default`.
    */
   size?: string;
 

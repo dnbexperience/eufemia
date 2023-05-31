@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import * as React from 'react';
 import type { SpacingProps } from '../shared/types';
 import type { SkeletonShow } from '../components/skeleton/Skeleton';
@@ -6,49 +7,44 @@ export type PaymentCardCardStatus = 'active' | 'blocked' | 'expired';
 export type PaymentCardVariant = 'normal' | 'compact';
 export type PaymentCardDigits = string | number;
 export enum CardType {
-  Visa, // eslint-disable-line
-  Mastercard, // eslint-disable-line
-  None // eslint-disable-line
+  Visa,
+  Mastercard,
+  None
 }
-
 export enum ProductType {
-  Saga, // eslint-disable-line
-  Pluss, // eslint-disable-line
-  Intro, // eslint-disable-line
-  Business, // eslint-disable-line
-  Bedrift, // eslint-disable-line
-  PrivateBanking, // eslint-disable-line
-  None // eslint-disable-line
+  Saga,
+  Pluss,
+  Intro,
+  Business,
+  Bedrift,
+  PrivateBanking,
+  None
 }
-
 export enum BankAxept {
-  White, // eslint-disable-line
-  Black, // eslint-disable-line
-  Gold, // eslint-disable-line
-  Black20, // eslint-disable-line
-  Gray // eslint-disable-line
+  White,
+  Black,
+  Gold,
+  Black20,
+  Gray
 }
-
 export enum BankAxeptType {
-  BankAxept, // eslint-disable-line
-  None // eslint-disable-line
+  BankAxept,
+  None
 }
-
 export enum Designs {
-  defaultDesign, // eslint-disable-line
-  young, // eslint-disable-line
-  myFirst, // eslint-disable-line
-  youth, // eslint-disable-line
-  pluss, // eslint-disable-line
-  gold, // eslint-disable-line
-  saga, // eslint-disable-line
-  sagaPlatinum, // eslint-disable-line
-  privateBanking, // eslint-disable-line
-  mcBlack, // eslint-disable-line
-  businessNoVisa, // eslint-disable-line
-  businessWithVisa // eslint-disable-line
+  defaultDesign,
+  young,
+  myFirst,
+  youth,
+  pluss,
+  gold,
+  saga,
+  sagaPlatinum,
+  privateBanking,
+  mcBlack,
+  businessNoVisa,
+  businessWithVisa
 }
-
 export interface PaymentCardRawData {
   productCode: string;
   productName: string;
