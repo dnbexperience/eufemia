@@ -1,5 +1,0 @@
-/*!
- * Programatically add the following
- */
-
-/*! algoliasearch-lite.umd.js | 4.12.0 | © Algolia, inc. | https://github.com/algolia/algoliasearch-client-javascript */
