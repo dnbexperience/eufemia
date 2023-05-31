@@ -3,6 +3,13 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [9.47.6](https://github.com/dnbexperience/eufemia/compare/v9.47.5...v9.47.6) (2023-05-31)
+
+
+### Bug Fixes
+
+* **Radio:** prevent radio button from shrinking ([#2389](https://github.com/dnbexperience/eufemia/issues/2389)) ([a47934d](https://github.com/dnbexperience/eufemia/commit/a47934dafd13d7223a65151d90daca3cdb75a9bb))
+
 ## [9.47.5](https://github.com/dnbexperience/eufemia/compare/v9.47.4...v9.47.5) (2023-05-15)
 
 
