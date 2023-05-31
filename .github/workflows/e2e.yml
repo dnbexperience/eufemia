@@ -29,6 +29,7 @@ env:
   ALGOLIA_SEARCH_KEY: ${{ secrets.ALGOLIA_SEARCH_KEY }}
   ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
   CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
+  RUN_POST_BUILD: ${{ startsWith(github.ref, 'refs/heads/main') || startsWith(github.ref, 'refs/heads/v') }}
 
 jobs:
   portal-build:
@@ -38,9 +39,21 @@ jobs:
 
     steps:
       - name: Git checkout
+        if: ${{ !env.RUN_POST_BUILD }}
         uses: actions/checkout@v3
         with:
           persist-credentials: false
+
+      - name: Git checkout (with fetch-depth)
+        if: ${{ env.RUN_POST_BUILD }}
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+          fetch-depth: 20 # The "postbuild:ci" method "getCommittedFiles" needs all history
+
+      - name: Test
+        if: ${{ env.RUN_POST_BUILD }}
+        run: git show --pretty="format:" --name-only HEAD...HEAD~10
 
       - name: Use Node.js
         uses: actions/setup-node@v3
@@ -59,14 +72,13 @@ jobs:
         if: steps.modules-cache.outputs.cache-hit != 'true'
         run: yarn install --immutable
 
-      # We stricly don't need this "prebuild" for running the visual tests.
-      # Therefore, we only run it on the important pre-release branches, like "main".
-      # The reason to make a prebuild is;
-      # - The Portal will then use "/build" (on the CI) – insted the "/src".
-      # This way, we can catch issues, before its in the "release" branch.
       - name: Prebuild Library
-        if: github.ref == 'refs/heads/main'
+        if: ${{ env.RUN_POST_BUILD }}
         run: yarn workspace @dnb/eufemia prebuild:ci
+
+      - name: Postbuild Library
+        if: ${{ env.RUN_POST_BUILD }}
+        run: yarn workspace @dnb/eufemia postbuild:ci
 
       - name: Get current date
         id: date
@@ -83,7 +95,7 @@ jobs:
           restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-gatsby-
 
       - name: Build portal
-        run: yarn workspace dnb-design-system-portal build-visual-test
+        run: yarn workspace dnb-design-system-portal build:visual-test
 
       - name: Store portal artifacts
         uses: actions/upload-artifact@v3

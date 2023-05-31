@@ -93,7 +93,7 @@ describe('babel build', () => {
   const buildStages = ['/es', '/esm', '/cjs']
 
   it('imports inside "src" should not contain "/src/"', async () => {
-    const files = await getCommittedFiles()
+    const files = await getCommittedFiles(10)
 
     files
       .filter((filePath) => {
@@ -106,7 +106,13 @@ describe('babel build', () => {
         const absolutePath = path.resolve(process.cwd(), filePath)
         if (fs.existsSync(absolutePath)) {
           const content = fs.readFileSync(absolutePath, 'utf-8')
-          expect(content).not.toMatch(/.*import.*(\/src\/)/)
+          const regex = /.*import.*(\/src\/)/
+
+          if (regex.test(content)) {
+            console.error('Failed in this file:', absolutePath)
+          }
+
+          expect(content).not.toMatch(regex)
         }
       })
   })

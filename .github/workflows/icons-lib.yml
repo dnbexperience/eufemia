@@ -64,7 +64,7 @@ jobs:
         run: yarn workspace @dnb/eufemia test:update
 
       - name: Build portal
-        run: yarn workspace dnb-design-system-portal build-visual-test
+        run: yarn workspace dnb-design-system-portal build:visual-test
 
       - name: Store portal artifacts
         uses: actions/upload-artifact@v3
