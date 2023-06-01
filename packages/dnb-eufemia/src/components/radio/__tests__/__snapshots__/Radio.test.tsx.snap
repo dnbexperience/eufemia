@@ -198,34 +198,7 @@ exports[`Radio group component have to match group snapshot 1`] = `
   layout_direction="row"
   name="group"
   no_fieldset={true}
-  on_change={
-    [MockFunction] {
-      "calls": [
-        [
-          {
-            "event": undefined,
-            "value": "first",
-          },
-        ],
-        [
-          {
-            "event": undefined,
-            "value": "second",
-          },
-        ],
-      ],
-      "results": [
-        {
-          "type": "return",
-          "value": undefined,
-        },
-        {
-          "type": "return",
-          "value": undefined,
-        },
-      ],
-    }
-  }
+  on_change={[MockFunction]}
   size={null}
   skeleton={null}
   status={null}

@@ -3,7 +3,7 @@
  *
  */
 
-import { render } from '@testing-library/react'
+import { fireEvent, render, cleanup } from '@testing-library/react'
 import React from 'react'
 import {
   mount,
@@ -30,14 +30,15 @@ props.globalStatus = { id: 'main' }
 
 describe('Radio component', () => {
   // then test the state management
-  const Comp = mount(<Component {...props} />)
 
   // mount compare the snapshot
   it('have to match snapshot', () => {
+    const Comp = mount(<Component {...props} />)
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
   it('has correct state after "change" trigger', () => {
+    const Comp = mount(<Component {...props} />)
     // default checked value has to be false
     expect(Comp.find('input').instance().checked).toBe(false)
 
@@ -59,7 +60,7 @@ describe('Radio component', () => {
   it('has "on_change" event which will trigger on a input change', () => {
     const my_event = jest.fn()
     const myEvent = jest.fn()
-    const Comp = mount(
+    render(
       <Component
         on_change={my_event}
         onChange={myEvent}
@@ -67,7 +68,7 @@ describe('Radio component', () => {
         group={null}
       />
     )
-    Comp.find('input').simulate('change')
+    fireEvent.click(document.querySelector('input'))
     expect(my_event.mock.calls.length).toBe(1)
     expect(myEvent.mock.calls.length).toBe(1)
     expect(myEvent.mock.calls[0][0]).toHaveProperty('checked')
@@ -99,56 +100,51 @@ describe('Radio component', () => {
     }
 
     const TestStates = (Comp) => {
+      render(Comp)
       // re-render + default state is true
-      Comp.find('button#rerender').simulate('click')
-      expect(Comp.find('input').instance().checked).toBe(true)
+      fireEvent.click(document.querySelector('button#set-state'))
+      expect(document.querySelector('input').checked).toBe(true)
 
       // change it to false
-      Comp.find('input').simulate('change')
-      expect(Comp.find('input').instance().checked).toBe(false)
+      fireEvent.click(document.querySelector('input'))
+      expect(document.querySelector('input').checked).toBe(false)
 
       // set it to true
-      Comp.find('button#set-state').simulate('click')
-      expect(Comp.find('input').instance().checked).toBe(true)
+      fireEvent.click(document.querySelector('button#set-state'))
+      expect(document.querySelector('input').checked).toBe(true)
 
       // reset it with undefined to false
-      Comp.find('button#reset-undefined').simulate('click')
-      expect(Comp.find('input').instance().checked).toBe(false)
+      fireEvent.click(document.querySelector('button#reset-undefined'))
+      expect(document.querySelector('input').checked).toBe(false)
 
       // set it to true + reset it with null to false
-      Comp.find('button#set-state').simulate('click')
-      Comp.find('button#reset-null').simulate('click')
-      expect(Comp.find('input').instance().checked).toBe(false)
+      fireEvent.click(document.querySelector('button#set-state'))
+      fireEvent.click(document.querySelector('button#reset-null'))
+      expect(document.querySelector('input').checked).toBe(false)
 
       // re-render + still false
-      Comp.find('button#rerender').simulate('click')
-      expect(Comp.find('input').instance().checked).toBe(false)
+      fireEvent.click(document.querySelector('button#rerender'))
+      expect(document.querySelector('input').checked).toBe(false)
+
+      cleanup()
     }
 
-    TestStates(mount(<ControlledVsUncontrolled />))
+    TestStates(<ControlledVsUncontrolled />)
     TestStates(
-      mount(
-        <React.StrictMode>
-          <ControlledVsUncontrolled />
-        </React.StrictMode>
-      )
+      <React.StrictMode>
+        <ControlledVsUncontrolled />
+      </React.StrictMode>
     )
   })
 
   it('will disable a single button', () => {
-    const Comp = mount(<Component disabled />)
+    const { rerender } = render(<Component disabled />)
 
-    expect(Comp.find('input').instance().hasAttribute('disabled')).toBe(
-      true
-    )
+    expect(document.querySelector('input[disabled]')).toBeTruthy()
 
-    Comp.setProps({
-      disabled: false,
-    })
+    rerender(<Component disabled={false} />)
 
-    expect(Comp.find('input').instance().hasAttribute('disabled')).toBe(
-      false
-    )
+    expect(document.querySelector('input[disabled]')).toBeFalsy()
   })
 
   it('should support spacing props', () => {
@@ -196,6 +192,7 @@ describe('Radio component', () => {
   })
 
   it('should validate with ARIA rules', async () => {
+    const Comp = mount(<Component {...props} />)
     expect(
       await axeComponent(Comp, {
         rules: {
@@ -209,58 +206,51 @@ describe('Radio component', () => {
 })
 
 describe('Radio group component', () => {
-  const my_event = jest.fn()
-
-  // then test the state management
-  const Comp = mount(
-    <Component.Group
-      label="Label"
-      name="group"
-      id="group"
-      no_fieldset
-      on_change={my_event}
-    >
-      <Component id="radio-1" label="Radio 1" value="first" />
-      <Component id="radio-2" label="Radio 2" value="second" checked />
-    </Component.Group>
-  )
-
   it('has to set correct value using keys', () => {
-    Comp.find('input').at(0).simulate('change')
+    const my_event = jest.fn()
+    render(
+      <Component.Group
+        label="Label"
+        name="group"
+        id="group"
+        no_fieldset
+        on_change={my_event}
+      >
+        <Component id="radio-1" label="Radio 1" value="first" />
+        <Component id="radio-2" label="Radio 2" value="second" checked />
+      </Component.Group>
+    )
+    fireEvent.click(document.querySelectorAll('input')[0])
     expect(my_event.mock.calls.length).toBe(1)
     expect(my_event.mock.calls[0][0].value).toBe('first')
 
-    Comp.find('input').at(1).simulate('change')
+    fireEvent.click(document.querySelectorAll('input')[1])
     expect(my_event.mock.calls.length).toBe(2)
     expect(my_event.mock.calls[1][0].value).toBe('second')
   })
 
   it('will disable a single button within a group', () => {
-    const Comp = mount(
+    render(
       <Component.Group>
         <Component disabled />
       </Component.Group>
     )
 
-    expect(Comp.find('input').instance().hasAttribute('disabled')).toBe(
-      true
-    )
+    expect(document.querySelector('input[disabled]')).toBeTruthy()
   })
 
   it('will disable a single button, defined in the group', () => {
-    const Comp = mount(
+    render(
       <Component.Group disabled>
         <Component />
       </Component.Group>
     )
 
-    expect(Comp.find('input').instance().hasAttribute('disabled')).toBe(
-      true
-    )
+    expect(document.querySelector('input[disabled]')).toBeTruthy()
   })
 
   it('will overwrite "disable" state, defined in the group', () => {
-    const Comp = mount(
+    render(
       <Component.Group disabled>
         <Component disabled={false} />
         <Component disabled />
@@ -268,10 +258,10 @@ describe('Radio group component', () => {
     )
 
     expect(
-      Comp.find('input').first().instance().hasAttribute('disabled')
+      document.querySelectorAll('input')[0].hasAttribute('disabled')
     ).toBe(false)
     expect(
-      Comp.find('input').last().instance().hasAttribute('disabled')
+      document.querySelectorAll('input')[1].hasAttribute('disabled')
     ).toBe(true)
   })
 
@@ -339,10 +329,34 @@ describe('Radio group component', () => {
 
   // mount compare the snapshot
   it('have to match group snapshot', () => {
+    const Comp = mount(
+      <Component.Group
+        label="Label"
+        name="group"
+        id="group"
+        no_fieldset
+        on_change={jest.fn()}
+      >
+        <Component id="radio-1" label="Radio 1" value="first" />
+        <Component id="radio-2" label="Radio 2" value="second" checked />
+      </Component.Group>
+    )
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
   it('should validate with ARIA rules', async () => {
+    const Comp = mount(
+      <Component.Group
+        label="Label"
+        name="group"
+        id="group"
+        no_fieldset
+        on_change={jest.fn()}
+      >
+        <Component id="radio-1" label="Radio 1" value="first" />
+        <Component id="radio-2" label="Radio 2" value="second" checked />
+      </Component.Group>
+    )
     expect(
       await axeComponent(Comp, {
         rules: {
