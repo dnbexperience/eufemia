@@ -7,7 +7,6 @@
 @import './typography-mixins.scss';
 
 @include typographySelectors() {
-  // Heading defaults
   --typography-heading-default-font-family: var(--font-family-default);
   --typography-heading-default-font-weight: var(--font-weight-medium);
 
