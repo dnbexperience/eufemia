@@ -417,8 +417,9 @@ describe('style build', () => {
 }`)
       expect(content).toContain(`
 .dnb-h--basis {
-  font-size: var(--font-size-basis);
-  line-height: var(--line-height-basis);
+  font-size: var(--typography-heading-basis-font-size);
+  line-height: var(--typography-heading-basis-line-height);
+  font-weight: var(--typography-heading-basis-weight);
 }`)
     }
 
@@ -432,19 +433,15 @@ describe('style build', () => {
       )
       expect(content).toContain(`font-family: MaisonNeueHeadings;`)
       expect(content).toContain(`
-.dnb-h--basis {
-  font-size: var(--font-size-basis);
-  line-height: var(--line-height-basis);
-}`)
-      expect(content).toContain(`
 .dnb-p {
   font-size: var(--font-size-basis);
   padding: 0;
 }`)
       expect(content).toContain(`
 .dnb-h--basis {
-  font-size: var(--font-size-basis);
-  line-height: var(--line-height-basis);
+  font-size: var(--typography-heading-basis-font-size);
+  line-height: var(--typography-heading-basis-line-height);
+  font-weight: var(--typography-heading-basis-weight);
 }`)
     }
 
