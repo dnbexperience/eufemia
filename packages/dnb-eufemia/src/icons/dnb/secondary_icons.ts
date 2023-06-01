@@ -6,6 +6,7 @@ import account_card from './account_card'
 import account_in from './account_in'
 import account_out from './account_out'
 import account_percent from './account_percent'
+import accounting from './accounting'
 import add_circled from './add_circled'
 import ainvoice from './ainvoice'
 import ambulance from './ambulance'
@@ -34,6 +35,7 @@ import calculator from './calculator'
 import calendar_cancel from './calendar_cancel'
 import camera from './camera'
 import camper_trailer from './camper_trailer'
+import candle_stick from './candle_stick'
 import car_1 from './car_1'
 import car_2 from './car_2'
 import caravan from './caravan'
@@ -103,6 +105,7 @@ import first_aid from './first_aid'
 import fish from './fish'
 import flying_money from './flying_money'
 import folder from './folder'
+import fortune_ball from './fortune_ball'
 import fridge from './fridge'
 import fullscreen from './fullscreen'
 import funds from './funds'
@@ -195,6 +198,7 @@ import return_1 from './return_1'
 import savings_account from './savings_account'
 import savings_account_in from './savings_account_in'
 import savings_account_out from './savings_account_out'
+import scan from './scan'
 import scissors from './scissors'
 import scooter from './scooter'
 import sea_transport from './sea_transport'
@@ -248,6 +252,7 @@ export {
   account_in,
   account_out,
   account_percent,
+  accounting,
   add_circled,
   ainvoice,
   ambulance,
@@ -276,6 +281,7 @@ export {
   calendar_cancel,
   camera,
   camper_trailer,
+  candle_stick,
   car_1,
   car_2,
   caravan,
@@ -345,6 +351,7 @@ export {
   fish,
   flying_money,
   folder,
+  fortune_ball,
   fridge,
   fullscreen,
   funds,
@@ -437,6 +444,7 @@ export {
   savings_account,
   savings_account_in,
   savings_account_out,
+  scan,
   scissors,
   scooter,
   sea_transport,
