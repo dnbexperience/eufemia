@@ -11,7 +11,6 @@ import {
   isTrue,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
-  registerElement,
   dispatchCustomElementEvent,
   detectOutsideClick,
   getStatusState,
@@ -42,7 +41,6 @@ import DatePickerAddon from './DatePickerAddon'
 import DatePickerFooter from './DatePickerFooter'
 
 export default class DatePicker extends React.PureComponent {
-  static tagName = 'dnb-date-picker'
   static contextType = Context
 
   static propTypes = {
@@ -162,7 +160,10 @@ export default class DatePicker extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool,
     ]),
-    global_status_id: PropTypes.string,
+    globalStatus: PropTypes.shape({
+      id: PropTypes.string,
+      message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    }),
     suffix: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
@@ -178,8 +179,6 @@ export default class DatePicker extends React.PureComponent {
 
     ...spacingPropTypes,
 
-    custom_element: PropTypes.object,
-    custom_method: PropTypes.func,
     on_days_render: PropTypes.func,
     on_change: PropTypes.func,
     on_type: PropTypes.func,
@@ -240,7 +239,7 @@ export default class DatePicker extends React.PureComponent {
     status_state: 'error',
     status_props: null,
     status_no_animation: null,
-    global_status_id: null,
+    globalStatus: null,
     suffix: null,
     opened: false,
     prevent_close: null,
@@ -249,9 +248,6 @@ export default class DatePicker extends React.PureComponent {
     align_picker: null,
     class: null,
     className: null,
-
-    custom_element: null,
-    custom_method: null,
 
     on_days_render: null,
     on_change: null,
@@ -264,14 +260,6 @@ export default class DatePicker extends React.PureComponent {
   }
 
   static blurDelay = 201 // some ms more than "dropdownSlideDown 200ms"
-
-  static enableWebComponent() {
-    registerElement(
-      DatePicker?.tagName,
-      DatePicker,
-      DatePicker.defaultProps
-    )
-  }
 
   constructor(props) {
     super(props)
@@ -376,6 +364,7 @@ export default class DatePicker extends React.PureComponent {
   }
 
   onResetHandler = (args) => {
+    this.hidePicker(args)
     dispatchCustomElementEvent(
       this,
       'on_reset',
@@ -519,11 +508,13 @@ export default class DatePicker extends React.PureComponent {
       status_state,
       status_props,
       status_no_animation,
-      global_status_id,
+      globalStatus,
       suffix,
       mask_order,
       mask_placeholder,
       align_picker,
+      submit_button_text,
+      cancel_button_text,
       reset_button_text,
 
       hide_navigation: _hide_navigation, // eslint-disable-line
@@ -642,12 +633,12 @@ export default class DatePicker extends React.PureComponent {
             <FormStatus
               show={showStatus}
               id={id + '-form-status'}
-              global_status_id={global_status_id}
+              globalStatus={globalStatus}
               label={label}
               text_id={id + '-status'} // used for "aria-describedby"
               width_selector={id + '-shell'}
               text={status}
-              status={status_state}
+              state={status_state}
               no_animation={status_no_animation}
               skeleton={skeleton}
               {...status_props}
@@ -718,6 +709,8 @@ export default class DatePicker extends React.PureComponent {
                         onSubmit={this.onSubmitHandler}
                         onCancel={this.onCancelHandler}
                         onReset={this.onResetHandler}
+                        submitButtonText={submit_button_text}
+                        cancelButtonText={cancel_button_text}
                         resetButtonText={reset_button_text}
                       />
                     </>

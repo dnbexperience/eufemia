@@ -11,7 +11,6 @@ import {
   isTrue,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
-  registerElement,
   validateDOMAttributes,
   processChildren,
   getStatusState,
@@ -58,6 +57,10 @@ export const inputPropTypes = {
     PropTypes.func,
     PropTypes.node,
   ]),
+  globalStatus: PropTypes.shape({
+    id: PropTypes.string,
+    message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  }),
   status_state: PropTypes.string,
   status_props: PropTypes.object,
   status_no_animation: PropTypes.oneOfType([
@@ -65,7 +68,6 @@ export const inputPropTypes = {
     PropTypes.bool,
   ]),
   input_state: PropTypes.string,
-  global_status_id: PropTypes.string,
   autocomplete: PropTypes.string,
   submit_button_title: PropTypes.string,
   clear_button_title: PropTypes.string,
@@ -118,9 +120,8 @@ export const inputPropTypes = {
   className: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 
-  custom_element: PropTypes.object,
-  custom_method: PropTypes.func,
   on_change: PropTypes.func,
+  on_key_down: PropTypes.func,
   on_submit: PropTypes.func,
   on_focus: PropTypes.func,
   on_blur: PropTypes.func,
@@ -130,7 +131,6 @@ export const inputPropTypes = {
 }
 
 export default class Input extends React.PureComponent {
-  static tagName = 'dnb-input'
   static contextType = Context
 
   static propTypes = {
@@ -146,11 +146,11 @@ export default class Input extends React.PureComponent {
     label_direction: null,
     label_sr_only: null,
     status: null,
+    globalStatus: null,
     status_state: 'error',
     status_props: null,
     status_no_animation: null,
     input_state: null,
-    global_status_id: null,
     autocomplete: 'off',
     placeholder: null,
     clear: null,
@@ -183,20 +183,14 @@ export default class Input extends React.PureComponent {
     className: null,
     children: null,
 
-    custom_element: null,
-    custom_method: null,
-
     on_change: null,
+    on_key_down: null,
     on_submit: null,
     on_focus: null,
     on_blur: null,
     on_submit_focus: null,
     on_submit_blur: null,
     on_state_update: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(Input?.tagName, Input, Input.defaultProps)
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -344,10 +338,10 @@ export default class Input extends React.PureComponent {
       label_direction,
       label_sr_only,
       status,
+      globalStatus,
       status_state,
       status_props,
       status_no_animation,
-      global_status_id,
       disabled,
       skeleton,
       placeholder,
@@ -512,10 +506,10 @@ export default class Input extends React.PureComponent {
           <FormStatus
             show={showStatus}
             id={id + '-form-status'}
-            global_status_id={global_status_id}
+            globalStatus={globalStatus}
             label={label}
             text={status}
-            status={status_state}
+            state={status_state}
             text_id={id + '-status'} // used for "aria-describedby"
             no_animation={status_no_animation}
             skeleton={skeleton}

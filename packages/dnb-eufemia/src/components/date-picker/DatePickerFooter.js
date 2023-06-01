@@ -20,6 +20,8 @@ export default class DatePickerFooter extends React.PureComponent {
     onCancel: PropTypes.func,
     onReset: PropTypes.func,
 
+    submitButtonText: PropTypes.string,
+    cancelButtonText: PropTypes.string,
     resetButtonText: PropTypes.string,
   }
 
@@ -27,6 +29,8 @@ export default class DatePickerFooter extends React.PureComponent {
     onSubmit: null,
     onCancel: null,
     onReset: null,
+    submitButtonText: null,
+    cancelButtonText: null,
     resetButtonText: null,
   }
 
@@ -90,7 +94,12 @@ export default class DatePickerFooter extends React.PureComponent {
   }
 
   render() {
-    const { isRange, resetButtonText } = this.props
+    const {
+      isRange,
+      resetButtonText,
+      submitButtonText,
+      cancelButtonText,
+    } = this.props
 
     const { show_reset_button, show_cancel_button, show_submit_button } =
       this.context.props
@@ -105,8 +114,8 @@ export default class DatePickerFooter extends React.PureComponent {
     }
 
     const {
-      submit_button_text,
-      cancel_button_text,
+      submit_button_text: submit_button_text_translation,
+      cancel_button_text: cancel_button_text_translation,
       reset_button_text: reset_button_text_translation,
     } = this.context.translation.DatePicker
 
@@ -114,7 +123,7 @@ export default class DatePickerFooter extends React.PureComponent {
       <div className="dnb-date-picker__footer">
         {((isRange || isTrue(show_submit_button)) && (
           <Button
-            text={submit_button_text}
+            text={submitButtonText || submit_button_text_translation}
             onClick={this.onSubmitHandler}
             data-testid="submit"
           />
@@ -129,17 +138,19 @@ export default class DatePickerFooter extends React.PureComponent {
               variant="tertiary"
               onClick={this.onResetHandler}
               data-testid="reset"
+              right="0.5rem"
             />
           )) || <span />}
 
           {((isRange || isTrue(show_cancel_button)) && (
             <Button
-              text={cancel_button_text}
+              text={cancelButtonText || cancel_button_text_translation}
               icon="close"
               icon_position="left"
               variant="tertiary"
               onClick={this.onCancelHandler}
               data-testid="cancel"
+              right="0.5rem"
             />
           )) || <span />}
         </span>

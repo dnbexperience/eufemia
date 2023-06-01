@@ -5,7 +5,6 @@
 
 import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
-import { Global, css } from '@emotion/react'
 
 import {
   HelpButton,
@@ -17,15 +16,12 @@ import {
   DatePicker,
   FormSet,
   FormRow,
-  Tabs,
-  FormStatus,
   ProgressIndicator,
-  // Space,
   NumberFormat,
 } from '../../'
 import Modal from '../../modal/Modal'
 import { ScrollView } from '../../../fragments'
-import { H1, H2, P, Hr, Table } from '../../../elements'
+import { H2, P, Hr } from '../../..'
 
 export default {
   title: 'Eufemia/Components/Modal',
@@ -33,14 +29,6 @@ export default {
 
 export const ModalSandbox = () => (
   <Wrapper>
-    {/* <Global
-      styles={css`
-        :root {
-          --modal-height-offset: 7rem;
-        }
- `}
-    /> */}
-
     <Box>
       <Modal title="Title">
         Posuere hac velit suscipit tempor a fames penatibus curae eget
@@ -64,10 +52,10 @@ export const ModalSandbox = () => (
     <Box>
       <Modal
         title="1s close delay"
-        trigger_text="Click me"
+        triggerAttributes={{ text: 'Click me' }}
         focus_selector=".dnb-input__input:first-of-type"
-        prevent_close="true"
-        // hide_close_button="true"
+        prevent_close={true}
+        // hide_close_button={true}
         on_open={(e) => console.log('on_open', e)}
         on_close={(e) => console.log('on_close', e)}
         on_close_prevent={({ close, triggeredBy }) => {
@@ -93,14 +81,11 @@ export const ModalSandbox = () => (
 
     <Box>
       <Modal
-        // trigger_attributes={{
-        //   'aria-label': 'My Label'
-        // }}
         spacing={false}
         fullscreen={false}
         align_content="centered"
         hide_close_button
-        trigger_text="Show"
+        triggerAttributes={{ text: 'Show' }}
         // prevent_close
         max_width="12rem"
       >
@@ -113,14 +98,11 @@ export const ModalSandbox = () => (
         />
       </Modal>
       <Modal
-        // trigger_attributes={{
-        //   'aria-label': 'My Label'
-        // }}
         spacing={false}
         fullscreen={false}
         align_content="centered"
         hide_close_button
-        trigger_icon="bell"
+        triggerAttributes={{ icon: 'bell' }}
         // prevent_close
         max_width="12rem"
       >
@@ -158,7 +140,7 @@ export const ModalSandbox = () => (
     <Box>
       <Modal
         title="Title 1"
-        trigger_text="Modal in modal"
+        triggerAttributes={{ text: 'Modal in modal' }}
         // open_state="opened"
         style={{
           minHeight: '25rem',
@@ -190,9 +172,7 @@ export const ModalSandbox = () => (
         // open_state="opened"
         fullscreen
         title="Modal Title"
-        trigger_variant="tertiary"
-        // trigger_icon={null}
-        trigger_text="Click me"
+        triggerAttributes={{ text: 'Click me', variant: 'tertiary' }}
       >
         <FillContent />
       </Modal>
@@ -201,7 +181,7 @@ export const ModalSandbox = () => (
       <Modal
         // min_width="60vw"
         max_width="40rem"
-        trigger_text="Open Modal"
+        triggerAttributes={{ text: 'Open modal' }}
         title="Modal Title"
         on_close={(e) => {
           console.log('on_close', e)
@@ -245,225 +225,22 @@ export const ModalV2Sandbox = () => (
       text: 'Custom',
       'data-testid': 'html-selector',
     }}
-    closeButtonAttributes={{
-      'data-testid': 'html-selector',
-    }}
   >
     The informational content
   </Modal>
 )
 
-export const DrawerSandbox = () => (
-  <Wrapper>
-    <Global
-      styles={css`
-        /* :root {
-          --modal-height-offset: 10rem;
-        } */
-        .custom-inner {
-          padding-top: 1.5rem;
-        }
-      `}
-    />
-
-    <Box>
-      {/* <Button variant="tertiary" text="Button" /> */}
-      <Modal
-        // no_animation
-        // open_state="opened"
-        mode="drawer"
-        // fullscreen
-        // container_placement="left"
-        // align_content="right"
-        // align_content="center"
-        // drawer_offset={}
-        title="Original title"
-        // title={<span className="dnb-sr-only">Test</span>}
-        // min_width="20vw"
-        // max_width="40vw"
-        // overlay_class="overlay_class"
-        // content_class="content_class"
-        // class="inner_class"
-        // header_content={
-        //   <>
-        //     <P bottom>This is a lorem ipsum dolor</P>
-        //     <Button bottom size="large">
-        //       Lorem ipsum
-        //     </Button>
-        //     <Button bottom size="large" variant="secondary">
-        //       Dolor sit
-        //     </Button>
-        //     <FormStatus state="info">
-        //       This is a lorem ipsum dolor
-        //     </FormStatus>
-        //     <Tabs
-        //       id="unique-linked-id"
-        //       data={[
-        //         {
-        //           title: 'One',
-        //           key: 'one',
-        //         },
-        //         {
-        //           title: 'Two',
-        //           key: 'two',
-        //         },
-        //       ]}
-        //     >
-        //       content
-        //     </Tabs>
-        //   </>
-        // }
-      >
-        <Modal.Bar>
-          <Button
-            variant="tertiary"
-            icon="chevron_left"
-            icon_position="left"
-            wrap
-          >
-            Tilbake ipsum Praesent rutrum
-          </Button>
-          {/* Tilbake Lorem ipsum Praesent rutrum ipsum Praesent rutrum ipsum
-          Praesent rutrum ipsum Praesent rutrum ipsum Praesent rutrum */}
-        </Modal.Bar>
-        <Modal.Header>
-          <div>
-            {/* <h1>Custom heading</h1> */}
-            <H1 size="x-large" bottom>
-              Custom heading
-            </H1>
-          </div>
-          <P bottom>This is a lorem ipsum dolor</P>
-          <Button bottom size="large">
-            Lorem ipsum
-          </Button>
-          <Button bottom size="large" variant="secondary">
-            Dolor sit
-          </Button>
-          <FormStatus state="info">This is a lorem ipsum dolor</FormStatus>
-          <Tabs
-            id="unique-linked-id"
-            data={[
-              {
-                title: 'One',
-                key: 'one',
-              },
-              {
-                title: 'Two',
-                key: 'two',
-              },
-            ]}
-          />
-        </Modal.Header>
-        <Modal.Content>
-          <Tabs.Content id="unique-linked-id">
-            {({ title }) => {
-              return (
-                <>
-                  <H2>{title}</H2>
-                  <P top>This is a left aligned Drawer content.</P>
-                  <P top>
-                    Elementum eu suspendisse sit platea elit porttitor
-                    magna laoreet ad ultrices tempus urna curae parturient
-                    conubia quisque viverra eget vestibulum neque pulvinar
-                    semper vulputate id dis varius pellentesque nunc
-                    egestas risus amet mus aptent luctus imperdiet netus
-                    natoque cubilia mattis nostra proin ornare scelerisque
-                    sodales faucibus placerat sem bibendum pretium rutrum
-                    vitae sociis ligula inceptos morbi quam mi sed pharetra
-                    fermentum tortor ullamcorper ipsum tellus eros euismod
-                    volutpat nisl dui lectus fames suscipit phasellus
-                    praesent justo mollis montes velit taciti gravida lacus
-                    commodo senectus feugiat lorem etiam consequat
-                    penatibus cum hendrerit accumsan orci potenti purus
-                    nulla interdum metus sollicitudin magnis libero sapien
-                    habitant non class ridiculus consectetur congue nec
-                    litora sociosqu aliquet felis in rhoncus nascetur odio
-                    ultricies nullam a iaculis massa nisi ante nam cras
-                    aenean erat facilisi vivamus ut cursus auctor arcu
-                    lobortis himenaeos dictum habitasse tristique mauris at
-                    blandit sagittis nibh dignissim condimentum per integer
-                    duis lacinia malesuada est adipiscing maecenas donec
-                    eleifend turpis dictumst dapibus tempor fusce aliquam
-                    torquent hac ac curabitur venenatis et tincidunt augue
-                    porta vehicula enim facilisis posuere primis molestie
-                    convallis diam vel fringilla dolor leo quis diam cursus
-                    massa sapien tristique cum senectus sed tortor natoque
-                    amet hendrerit ut fusce ipsum quis
-                  </P>
-                </>
-              )
-            }}
-          </Tabs.Content>
-          <FillContent />
-        </Modal.Content>
-      </Modal>
-    </Box>
-
-    <Box>
-      <Modal
-        mode="drawer"
-        title="Drawer Title"
-        trigger_text="Open Drawer"
-        trigger_title="Click me"
-      >
-        <Modal.Content>
-          <P top>This is a left aligned Drawer content.</P>
-        </Modal.Content>
-      </Modal>
-    </Box>
-
-    <Box>
-      {/* <Button variant="tertiary" text="Button" /> */}
-      <Modal
-        // no_animation
-        // open_state="opened"
-        mode="drawer"
-        trigger_text="Drawer in Drawer"
-        // fullscreen
-        // container_placement="left"
-        // align_content="right"
-        // align_content="center"
-        // drawer_offset={}
-        title="Tertiary test"
-        // title={<span className="dnb-sr-only">Test</span>}
-        // min_width="20vw"
-        // max_width="40vw"
-        // overlay_class="overlay_class"
-        // content_class="content_class"
-        // class="inner_class"
-      >
-        <Modal.Content style_type="pistachio">
-          Modal.Content
-          <Modal mode="drawer" title="Title 2" open_state="opened">
-            New content 2 <Modal title="Title 3">New content 3</Modal>
-          </Modal>
-          {/* <FillContent /> */}
-        </Modal.Content>
-      </Modal>
-    </Box>
-    <Box>
-      <Modal
-        mode="drawer"
-        title="Top drawer"
-        container_placement="top"
-        modal_content="something"
-      />
-    </Box>
-  </Wrapper>
-)
-
 class ModalRerenderExample extends React.PureComponent {
   state = {
     title: 'Modal Title',
-    trigger_text: 'Open Modal',
+    triggerText: 'Open Modal',
   }
   timeout
 
   componentDidMount() {
     this.timeout = setTimeout(() => {
       this.setState({ title: 'New Title' })
-      this.setState({ trigger_text: 'New Open Modal' })
+      this.setState({ triggerText: 'New Open Modal' })
     }, 1e3)
   }
 
@@ -475,10 +252,8 @@ class ModalRerenderExample extends React.PureComponent {
     return (
       <Modal
         // open_state="opened"
-        trigger_text={this.state.trigger_text}
+        triggerAttributes={{ text: this.state.triggerText }}
         title={this.state.title}
-        // trigger_disabled
-        // trigger_hidden
       >
         <Modal.Content spacing>
           {/* <Hr /> */}
@@ -590,8 +365,7 @@ const ModalCloseExample = () => {
         on_click={() => setOpenState('opened')}
       />
       <Modal
-        // trigger_hidden
-        trigger_text="Open Modal and auto close"
+        triggerAttributes={{ text: 'Open Modal and auto close' }}
         title="Modal Title"
         open_state={open_state}
         open_modal={(open) => {
@@ -653,7 +427,7 @@ const ModalTriggerExample = () => {
             return (
               <Modal
                 title="Modal Title"
-                trigger_hidden="true"
+                triggerAttributes={{ hidden: true }}
                 open_state="opened"
                 labelled_by="custom-triggerer"
               >
@@ -856,7 +630,7 @@ function CloseWithAnimation() {
   const [modalOpen, setModalOpen] = React.useState(false)
   return (
     <Modal
-      trigger_text="CloseWithAnimation"
+      triggerAttributes={{ text: 'CloseWithAnimation' }}
       hide_close_button
       open_state={modalOpen}
       on_open={() => setModalOpen(true)}
@@ -872,97 +646,8 @@ function CloseWithAnimation() {
 
 function CloseByCallback() {
   return (
-    <Modal mode="drawer" trigger_text="CloseByCallback" hide_close_button>
+    <Modal triggerAttributes={{ text: 'CloseByCallback' }} hideCloseButton>
       {({ close }) => <Button text="Close by callback" on_click={close} />}
     </Modal>
   )
 }
-
-const LargeListOfTrs = () => {
-  const list = []
-
-  for (let i = 0, l = 10000; i < l; ++i) {
-    // for (let i = 0, l = 4; i < l; ++i) {
-    list.push(
-      <tr key={i}>
-        <td>Row {i} Column 1</td>
-        <td>Row {i} Column 2</td>
-        <td>Row {i} Column 3</td>
-        <td align="right">Row {i} Column 4</td>
-      </tr>
-    )
-  }
-
-  return list
-}
-
-export const ModalPerformance = () => (
-  <div>
-    <Modal mode="drawer" trigger_text="Open Drawer" bottom>
-      Content
-    </Modal>
-
-    <Table
-    //  className="dnb-modal--bypass_invalidation_deep"
-    >
-      <caption>A Table Caption</caption>
-      <thead>
-        <tr>
-          <th scope="col" colSpan={2} className="dnb-table--no-wrap">
-            Header
-          </th>
-          <th
-            scope="col"
-            className="dnb-table--sortable dnb-table--reversed"
-          >
-            <Button
-              variant="tertiary"
-              icon="arrow-down"
-              text="Sortable"
-              title="Sort table column"
-              wrap="true"
-            />
-          </th>
-          <th
-            scope="col"
-            align="right"
-            className="dnb-table--sortable dnb-table--active"
-          >
-            <Button
-              variant="tertiary"
-              icon="arrow-down"
-              text="Active"
-              title="Sort table column"
-              wrap="true"
-            />
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <p className="dnb-p" aria-hidden="true">
-              Column 1 <b>width p</b> <Button text="Focus me" />
-            </p>
-          </td>
-          <td>
-            <code className="dnb-code">Column 2 with code</code>
-          </td>
-          <td>
-            <span>Column 3 with span</span>
-          </td>
-          <td align="right">Column 4</td>
-        </tr>
-        <tr>
-          <td colSpan={2}>Column which spans over two columns</td>
-          <td>Column 3</td>
-          <td align="right">
-            Column 4 <Button text="Focus me" />
-            const template ={' '}
-          </td>
-        </tr>
-        {LargeListOfTrs}
-      </tbody>
-    </Table>
-  </div>
-)

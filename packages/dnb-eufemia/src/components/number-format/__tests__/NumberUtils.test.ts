@@ -16,7 +16,6 @@ import {
   getCurrencySymbol,
   countDecimals,
 } from '../NumberUtils'
-import type { formatReturnValue } from '../NumberUtils'
 
 const locale = LOCALE
 const value = 12345678.9876
@@ -190,39 +189,6 @@ describe('Decimals format', () => {
       })
     ).toBe('-12,345.68')
   })
-
-  it('should handle wired IE11 issue', () => {
-    Object.defineProperty(helpers, 'IS_IE11', {
-      value: true,
-      writable: true,
-    })
-
-    // Mock the IE parenthesis issue
-    jest
-      .spyOn(Number.prototype, 'toLocaleString')
-      .mockImplementationOnce(() => {
-        return `(12345,67 norske kroner)`
-      })
-
-    const resultNegative = format(-12345.67, {
-      currency: true,
-      returnAria: true,
-      locale: 'nb-NO',
-    }) as formatReturnValue
-    const resultPositive = format(12345.67, {
-      currency: true,
-      returnAria: true,
-      locale: 'nb-NO',
-    }) as formatReturnValue
-
-    Object.defineProperty(helpers, 'IS_IE11', {
-      value: false,
-      writable: true,
-    })
-
-    expect(resultNegative.aria).toBe('-12345,67 norske kroner')
-    expect(resultPositive.aria).toBe('12345,67 norske kroner')
-  })
 })
 
 describe('Currency format with dirty number', () => {
@@ -354,7 +320,7 @@ describe('Currency format with dirty number', () => {
         currency_position: 'before',
         locale: 'no',
       })
-    ).toBe('kr -123 456 789,50')
+    ).toBe('kr −123 456 789,50')
     expect(
       format(number, {
         currency: true,

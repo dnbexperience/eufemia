@@ -6,7 +6,9 @@ import type {
   formatOptionParams,
 } from '../number-format/NumberUtils'
 import { IncludeSnakeCase } from '../../shared/helpers/withSnakeCaseProps'
-import { SpacingProps } from '../../shared/types'
+import type { SpacingProps } from '../../shared/types'
+import type { SkeletonShow } from '../Skeleton'
+import type { GlobalStatusConfigObject } from '../GlobalStatus'
 
 export type ValueTypes = number | Array<number>
 export type NumberFormatTypes =
@@ -17,9 +19,6 @@ export type onChangeEventProps = {
   rawValue: number
   number?: formatReturnType | null
   event?: Event
-
-  /** @deprecated use rawValue instead */
-  raw_value?: number
 }
 
 export type SliderProps = IncludeSnakeCase<{
@@ -43,7 +42,7 @@ export type SliderProps = IncludeSnakeCase<{
   statusNoAnimation?: boolean
 
   /** the `status_id` used for the target [GlobalStatus](/uilib/components/global-status). */
-  globalStatusId?: string
+  globalStatus?: GlobalStatusConfigObject
 
   /** text describing the content of the Slider more than the label. You can also send in a React component, so it gets wrapped inside the Slider component. */
   suffix?: SuffixChildren
@@ -60,13 +59,13 @@ export type SliderProps = IncludeSnakeCase<{
   /** the minimum value. Defaults to `0`. */
   min?: number
 
-  /** the maximum value. Defaults to `100` */
+  /** the maximum value. Defaults to `100`. */
   max?: number
 
   /** the `value` of the slider as a number. If an array with numbers is provided, each number will represent a thumb button (the `+` and `-` button will be hidden on multible thumbs). */
   value?: ValueTypes
 
-  /** the steps the slider takes on changing the value. Defaults to `null` */
+  /** the steps the slider takes on changing the value. Defaults to `null`. */
   step?: number
 
   /** show the slider vertically. Defaults to `false`. */
@@ -94,7 +93,7 @@ export type SliderProps = IncludeSnakeCase<{
   multiThumbBehavior?: 'swap' | 'omit' | 'push'
 
   /** if set to `true`, an overlaying skeleton with animation will be shown. */
-  skeleton?: boolean
+  skeleton?: SkeletonShow
 
   id?: string
   disabled?: boolean
@@ -108,12 +107,6 @@ export type SliderProps = IncludeSnakeCase<{
 
   /** will be called once the user starts dragging. Returns `{ event }`. */
   onDragEnd?: (props: { event: MouseEvent | TouchEvent }) => void
-
-  /** @deprecated */
-  onInit?: (props: Omit<onChangeEventProps, 'rawValue'>) => void
-
-  /** @deprecated The Slider does not support mouse wheel  */
-  use_scrollwheel?: boolean
 
   children?: React.ReactChild
 }>

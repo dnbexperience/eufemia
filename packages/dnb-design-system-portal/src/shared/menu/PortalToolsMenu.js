@@ -1,22 +1,21 @@
 import React from 'react'
-import { Modal, Space, Tooltip } from '@dnb/eufemia/src/components'
-import { H2 } from '@dnb/eufemia/src/elements'
+import { Drawer, Space, Tooltip } from '@dnb/eufemia/src/components'
+import { H2 } from '@dnb/eufemia/src'
 import ToggleGrid from './ToggleGrid'
 import { Context } from '@dnb/eufemia/src/shared'
-import PortalSkeleton from 'dnb-design-system-portal/src/shared/parts/uilib/PortalSkeleton'
+import PortalSkeleton from '../../core/PortalSkeleton'
 import ChangeLocale from '../../core/ChangeLocale'
 import ChangeStyleTheme from '../../core/ChangeStyleTheme'
 
 export default function PortalToolsMenu({
-  className,
+  className = null,
   tooltipPosition = 'left',
   ...props
 }) {
-  const { skeleton } = React.useContext(Context)
+  const { skeleton, theme } = React.useContext(Context)
   return (
-    <Modal
+    <Drawer
       id="portal-tools"
-      mode="drawer"
       title="Portal Tools"
       triggerAttributes={{
         size: 'default',
@@ -37,10 +36,9 @@ export default function PortalToolsMenu({
           </Tooltip>
         ),
       }}
-      closeButtonAttributes={{ skeleton: false }}
       {...props}
     >
-      <Modal.Content spacing>
+      <Drawer.Body spacing>
         <Space>
           <H2 skeleton={false} size="small">
             Show everything behind skeletons
@@ -58,11 +56,18 @@ export default function PortalToolsMenu({
         </Space>
 
         <Space top="large">
-          <H2 size="small">Change style theme</H2>
+          <H2 size="small">Change Brand</H2>
           <Space top>
             <ChangeStyleTheme />
           </Space>
         </Space>
+
+        {theme.name === 'sbanken' && (
+          <Space top="large">
+            <H2 size="small">Map colors</H2>
+            <ChangeStyleTheme.PropMapping enabled={theme.propMapping} />
+          </Space>
+        )}
 
         <Space top="large">
           <H2 size="small">Helper grid lines</H2>
@@ -70,7 +75,7 @@ export default function PortalToolsMenu({
             <ToggleGrid />
           </Space>
         </Space>
-      </Modal.Content>
-    </Modal>
+      </Drawer.Body>
+    </Drawer>
   )
 }

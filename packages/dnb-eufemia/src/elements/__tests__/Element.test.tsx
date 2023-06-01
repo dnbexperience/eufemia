@@ -12,14 +12,16 @@ import {
 } from '../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
 import Element, { defaultProps } from '../Element'
+import { Provider } from '../../shared'
 
 const props = fakeProps(require.resolve('../Element'), {
   optional: true,
 })
 props.as = 'p'
-props.inner_ref = null
+props.innerRef = null
 props.internalClass = null
-props.skeleton_method = 'font'
+props.skeletonMethod = 'font'
+props.skeleton = true
 
 describe('Element', () => {
   it('have to match default Element snapshot', () => {
@@ -35,7 +37,7 @@ describe('Element', () => {
     )
 
     expect(container.querySelector('p').getAttribute('class')).toBe(
-      'extra class css dnb-skeleton dnb-skeleton--font dnb-p'
+      'extra dnb-skeleton dnb-skeleton--font dnb-p'
     )
   })
 
@@ -52,6 +54,24 @@ describe('Element', () => {
       'dnb-space__top--medium',
       'dnb-p',
     ])
+
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+
+    expect(attributes).toEqual(['class'])
+  })
+
+  it('should render children', () => {
+    render(
+      <Element as="p" top="medium">
+        text
+      </Element>
+    )
+
+    const element = document.querySelector('.dnb-p')
+
+    expect(element.textContent).toBe('text')
   })
 
   it('have to support skeleton', () => {
@@ -66,7 +86,7 @@ describe('Element', () => {
     )
 
     rerender(
-      <Element as="p" skeleton skeleton_method="shape">
+      <Element as="p" skeleton skeletonMethod="shape">
         text
       </Element>
     )
@@ -76,17 +96,34 @@ describe('Element', () => {
     )
   })
 
-  it('supports deprecated "is"', () => {
+  it('have inherit skeleton prop from shared Provider', () => {
     const { container } = render(
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      <Element is="p">text</Element>
+      <Provider skeleton>
+        <Element as="p" className="my-p">
+          text
+        </Element>
+      </Provider>
     )
 
-    expect(container.querySelector('p')).toBeTruthy()
+    const element = container.querySelector('.my-p')
+
+    expect(element.getAttribute('class')).toBe(
+      'my-p dnb-skeleton dnb-skeleton--font dnb-p'
+    )
+
+    const attributes = Array.from(element.attributes).map(
+      (attr) => attr.name
+    )
+
+    expect(attributes).toEqual([
+      'class',
+      'disabled', // because its a skeleton
+      'aria-disabled', // because its a skeleton
+      'aria-label', // because its a skeleton
+    ])
   })
 
-  it('does not have inner_ref null inside default propes', () => {
+  it('does not have inner_ref null inside default props', () => {
     expect(defaultProps['inner_ref']).toBe(undefined)
   })
 

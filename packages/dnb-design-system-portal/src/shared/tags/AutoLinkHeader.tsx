@@ -1,28 +1,24 @@
 import React from 'react'
 import classnames from 'classnames'
-import { AnchorLink } from './Anchor'
-import { Heading } from '@dnb/eufemia/src'
+import AnchorLink from './Anchor'
+import Heading, { HeadingProps } from '@dnb/eufemia/src/components/Heading'
 import { makeSlug } from '../../uilib/utils/slug'
-import { Location, WindowLocation } from '@reach/router'
+import { useLocation } from '@reach/router'
 import { anchorLinkStyle } from './AutoLinkHeader.module.scss'
 
 type AutoLinkHeaderProps = {
-  level?: number | string
-  title?: string
   element?: string
   useSlug?: string
-  className?: string
-  children: React.ReactNode
   addToSearchIndex?: ({
     location,
     title,
     hash,
   }: {
-    location?: WindowLocation
+    location?: Location
     title?: string | React.ReactNode
     hash?: string
   }) => void
-}
+} & Omit<HeadingProps, 'ref'>
 
 const AutoLinkHeader = ({
   level = '1',
@@ -34,6 +30,7 @@ const AutoLinkHeader = ({
   addToSearchIndex,
   ...props
 }: AutoLinkHeaderProps) => {
+  const location = useLocation()
   const id = makeSlug(children, useSlug)
 
   if (typeof children === 'string' && /\{#(.*)\}/.test(children)) {
@@ -62,9 +59,8 @@ const AutoLinkHeader = ({
     >
       {clickHandler && id && (
         <AnchorLink
-          offset="100"
-          className="dnb-anchor anchor"
-          title="Click to set a Anchor URL"
+          className="anchor-hash"
+          tooltip="Click to set an Anchor URL"
           id={id}
           href={`#${id}`}
           onClick={clickHandler}
@@ -73,20 +69,13 @@ const AutoLinkHeader = ({
           #
         </AnchorLink>
       )}
-      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-      {/* @ts-ignore */}
-      <Location>
-        {({ location }) => {
-          if (typeof addToSearchIndex === 'function') {
-            addToSearchIndex({
-              location,
-              title: React.isValidElement(children) ? title : children,
-              hash: id,
-            })
-          }
-          return children
-        }}
-      </Location>
+      {typeof addToSearchIndex === 'function'
+        ? addToSearchIndex({
+            location,
+            title: React.isValidElement(children) ? title : children,
+            hash: id,
+          })
+        : children}
     </Heading>
   )
 }

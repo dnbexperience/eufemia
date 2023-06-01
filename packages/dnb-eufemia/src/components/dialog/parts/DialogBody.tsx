@@ -1,7 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import ModalInner, { ModalInnerProps } from '../../modal/parts/ModalInner'
-import { SectionStyleTypes } from '../../Section'
+import type { SectionStyleTypes } from '../../Section'
 
 interface DialogBodyProps extends ModalInnerProps {
   /**

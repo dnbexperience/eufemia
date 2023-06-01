@@ -13,10 +13,11 @@ import {
   // makeIconLib,
   // makeIconsUMDBundle
   // runStyleFactory,
+  runThemeFactory,
   // convertSvgToJsx,
-  // makeLibStyles
-  // makeMainStyle
-  generateTypes,
+  // makeLibStyles,
+  // makeMainStyle,
+  // generateTypes,
   // makePropertiesFile
   // prepareTemplates
   // makeLibModules
@@ -26,17 +27,18 @@ import {
 const dev = async () => {
   process.env.NODE_ENV = 'production'
   log.start('Starting dev prepublish...')
-  // const preventDelete = false
+  // const preventDelete = true
 
   // await cleanupLib({ preventDelete })
   // // await convertSvgToCjs({ preventDelete })
   // await makeIconLib({ preventDelete })
   // await makeIconsUMDBundle({ doRefetch: false })
   // await runStyleFactory()
+  await runThemeFactory()
   // await convertSvgToJsx({ preventDelete })
   // await makeLibStyles()
   // await makeMainStyle()
-  await generateTypes()
+  // await generateTypes()
   // await makePropertiesFile()
   // await prepareTemplates()
   // await makeLibModules()

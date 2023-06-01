@@ -1,11 +1,3 @@
 {
-  "reject": [
-    "eslint",
-    "ora",
-    "stylelint",
-    "stylelint-config-prettier",
-    "stylelint-config-recommended",
-    "stylelint-config-standard",
-    "stylelint-scss"
-  ]
+  "reject": ["ora"]
 }

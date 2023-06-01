@@ -20,8 +20,6 @@ import {
   copyToClipboard,
   IS_MAC,
   IS_WIN,
-  IS_IE11,
-  IS_SAFARI,
 } from '../../shared/helpers'
 
 const NUMBER_CHARS = '\\-0-9,.'
@@ -234,14 +232,6 @@ export const format = (
       currencyDisplay: 'name',
     })
     aria = enhanceSR(cleanedNumber, aria, locale) // also calls prepareMinus
-
-    // IE has a bug, where negative numbers has a parenthesis around the number
-    if (IS_IE11) {
-      display = String(display).replace(/^\((.*)\)$/, '-$1')
-      aria = String(aria).replace(/^\((.*)\)$/, '-$1')
-      display = prepareMinus(display, locale)
-      aria = prepareMinus(aria, locale)
-    }
 
     // get only the currency name
     // const num = aria.replace(/([^0-9])+$/g, '')
@@ -866,13 +856,15 @@ export function showSelectionNotice({ value, label, timeout = 3e3 }) {
     return { run: () => {} }
   }
 
-  let elem, content
+  let elem, content, root
 
   try {
+    root = document.querySelector('.dnb-tooltip__portal, body')
+
     // create that portal element
     elem = document.createElement('span')
     elem.setAttribute('id', id)
-    elem.setAttribute('class', 'dnb-tooltip dnb-core-style')
+    elem.setAttribute('class', 'dnb-tooltip')
     elem.setAttribute('role', 'tooltip')
 
     const arrow = document.createElement('span')
@@ -892,7 +884,7 @@ export function showSelectionNotice({ value, label, timeout = 3e3 }) {
   return new (class SelectionFx {
     remove() {
       try {
-        document.body.removeChild(elem)
+        root.removeChild(elem)
         elem = null
         content = null
       } catch (e) {
@@ -908,7 +900,7 @@ export function showSelectionNotice({ value, label, timeout = 3e3 }) {
     }
     run(pE = getSelectedElement()) {
       try {
-        document.body.appendChild(elem)
+        root.appendChild(elem)
 
         const top = getOffsetTop(pE)
         const left = getOffsetLeft(pE)
@@ -977,13 +969,7 @@ export function getFallbackCurrencyDisplay(
   currency_display = null
 ) {
   // If currencyDisplay is not defined and locale is "no", use narrowSymbol
-  if (
-    !currency_display &&
-    // Safari does not support `narrowSymbol` for now, so `symbol` will be used then.
-    !IS_SAFARI &&
-    !IS_IE11 &&
-    (!locale || /(no|nb|nn)$/i.test(locale))
-  ) {
+  if (!currency_display && (!locale || /(no|nb|nn)$/i.test(locale))) {
     currency_display = 'narrowSymbol'
   }
 
@@ -1088,7 +1074,7 @@ function getGroupFormatter(
 }
 
 /**
- * For internal usage Not supported by IE11
+ * For internal usage
  *
  * @type {object}
  * @property {string} number - a number
@@ -1218,10 +1204,6 @@ function handleCompactBeforeAria({ value, compact, opts }) {
  * @property {string|boolean} compact "short" or "long" if true is given, "short" is used
  */
 function canHandleCompact({ value, compact }) {
-  if (IS_IE11) {
-    return false
-  }
-
   if (compact && Math.abs(value) >= 1000) {
     return true
   }

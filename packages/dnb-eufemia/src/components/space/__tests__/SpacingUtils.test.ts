@@ -14,10 +14,10 @@ import {
   findType,
   findNearestTypes,
   isValidSpaceProp,
-  createStyleObject,
   createSpacingClasses,
 } from '../SpacingUtils'
 import { spacingPropTypes } from '../SpacingHelper'
+import { SpaceType } from '../types'
 
 describe('spacePatterns', () => {
   it('should be an object with valid keys', () => {
@@ -40,7 +40,18 @@ describe('translateSpace', () => {
   it('should translate and calc types', () => {
     expect(translateSpace('large')).toBe(2)
     expect(translateSpace('xx-large-x2')).toBe(7)
-    expect(translateSpace('medium-x2')).toBe(3)
+  })
+
+  it('should translate and calc types -x2', () => {
+    // These types/values(except xx-large-x2) is not typed, hence the type assertion.
+    // However translateSpace supports adding -x2 as a suffix to types, to double its value.
+    expect(translateSpace('xx-small-x2' as SpaceType)).toBe(0.5)
+    expect(translateSpace('x-small-x2' as SpaceType)).toBe(1)
+    expect(translateSpace('small-x2' as SpaceType)).toBe(2)
+    expect(translateSpace('medium-x2' as SpaceType)).toBe(3)
+    expect(translateSpace('large-x2' as SpaceType)).toBe(4)
+    expect(translateSpace('x-large-x2' as SpaceType)).toBe(6)
+    expect(translateSpace('xx-large-x2-x2' as SpaceType)).toBe(14)
   })
 })
 
@@ -238,17 +249,6 @@ describe('createSpacingClasses', () => {
       'dnb-space__top--small',
     ])
     expect(createSpacingClasses({ space: null })).toEqual([])
-  })
-})
-
-describe('createStyleObject', () => {
-  it('should create a valid style object', () => {
-    expect(createStyleObject({ top: 'medium large' })).toEqual({
-      marginTop: '3.5rem',
-    })
-    expect(createStyleObject({ top: '3.5' })).toEqual({
-      marginTop: '3.5rem',
-    })
   })
 })
 

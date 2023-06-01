@@ -5,12 +5,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Icon } from '@dnb/eufemia/src/components'
-import { P } from '@dnb/eufemia/src/elements'
-import * as PrimaryIcons from '@dnb/eufemia/src/icons/primary_icons'
-import * as SecondaryIcons from '@dnb/eufemia/src/icons/secondary_icons'
-import * as PrimaryIconsMedium from '@dnb/eufemia/src/icons/primary_icons_medium'
-import * as SecondaryIconsMedium from '@dnb/eufemia/src/icons/secondary_icons_medium'
-import iconsMetaData from '@dnb/eufemia/src/icons/icons-meta.json'
+import { P } from '@dnb/eufemia/src'
+import * as PrimaryIcons from '@dnb/eufemia/src/icons/dnb/primary_icons'
+import * as SecondaryIcons from '@dnb/eufemia/src/icons/dnb/secondary_icons'
+import * as PrimaryIconsMedium from '@dnb/eufemia/src/icons/dnb/primary_icons_medium'
+import * as SecondaryIconsMedium from '@dnb/eufemia/src/icons/dnb/secondary_icons_medium'
+import iconsMetaData from '@dnb/eufemia/src/icons/dnb/icons-meta.json'
 import AutoLinkHeader from '../../tags/AutoLinkHeader'
 import {
   listStyle,

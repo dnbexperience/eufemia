@@ -1,6 +1,8 @@
 const path = require('path')
 const fs = require('fs')
 const globby = require('globby')
+const micromatch = require('micromatch')
+const { slash } = require('gatsby-core-utils')
 
 /**
  * We want to run this in sync,
@@ -11,53 +13,56 @@ const globby = require('globby')
  * @property {object} reporter Gatsby Reporter
  * @property {object} pluginOptions Gatsby pluginOptions
  */
-function createThemesImport({ reporter, pluginOptions }) {
+function createThemesImport({
+  reporter,
+  programDirectory,
+  pluginOptions,
+}) {
   const limitThemes = Object.keys(pluginOptions.themes || [])
-  const packageRoot = path.dirname(require.resolve('@dnb/eufemia'))
-  const selector = 'style/themes/**/dnb-theme-*.{scss,css}'
-  const globbyPaths = [
-    path.join(packageRoot, selector),
-    path.join(packageRoot, '**', selector),
-  ]
-
-  const rawThemesFiles = globby.sync(globbyPaths)
-  const hasSRC = rawThemesFiles.some((file) =>
-    file.includes('/src/style/themes')
+  const packageRoot = path.dirname(
+    require.resolve('@dnb/eufemia', [programDirectory])
   )
-  const themesFiles = rawThemesFiles.filter((file) => {
-    /** Never source minified files */
-    if (file.endsWith('.min.css')) {
-      return false
-    }
-
-    /**
-     * If a src folder with our styles exists locally/or on CI,
-     * then only use e.g. this file: dnb-theme-ui.scss
-     * With that, we ensure that /build can exists locally as well.
-     */
-    if (hasSRC) {
-      return file.includes('/src/style/themes') && file.endsWith('.scss')
-    }
-
-    return file.endsWith('.css')
+  const globbyPaths = [
+    slash(path.join(packageRoot, pluginOptions.filesGlob)),
+  ]
+  const themesFiles = globby.sync(globbyPaths).map((file) => {
+    return slash(file)
   })
 
-  const themes = themesFiles
+  const filesOrder = pluginOptions.filesOrder
+  const sortedThemesFiles = themesFiles
+    .filter((file) => {
+      if (filesOrder.length > 0) {
+        return filesOrder.some((glob) =>
+          micromatch.isMatch(file, '**/' + glob)
+        )
+      }
+
+      return true
+    })
     .map((file) => {
-      const themeName = (file.match(/\/dnb-theme-([^.]*)\./) || [])?.[1]
+      const themeName = (file.match(new RegExp('/theme-([^/]*)/')) ||
+        [])?.[1]
+
       return { file, themeName }
     })
     .filter(({ themeName }) => {
       return limitThemes.length === 0 || limitThemes.includes(themeName)
     })
+    .sort((a, b) => {
+      return (
+        filesOrder.findIndex((glob) => micromatch.isMatch(a.file, glob)) -
+        filesOrder.findIndex((glob) => micromatch.isMatch(b.file, glob))
+      )
+    })
 
   const writeThemesImports = () => {
-    const imports = themes.map(({ file }) => {
+    const imports = sortedThemesFiles.map(({ file }) => {
       return `import '${file}'`
     })
 
     fs.writeFileSync(
-      path.resolve(__dirname, 'load-eufemia-themes.js'),
+      path.resolve(__dirname, 'load-eufemia-themes.ts'),
       imports.join('\n')
     )
   }
@@ -65,8 +70,10 @@ function createThemesImport({ reporter, pluginOptions }) {
   writeThemesImports()
 
   const showReports = () => {
-    const themeNames = themes.reduce((acc, { themeName }) => {
-      acc.push(themeName)
+    const themeNames = sortedThemesFiles.reduce((acc, { themeName }) => {
+      if (!acc.includes(themeName)) {
+        acc.push(themeName)
+      }
       return acc
     }, [])
 

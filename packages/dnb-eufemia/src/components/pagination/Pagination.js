@@ -9,7 +9,6 @@ import classnames from 'classnames'
 import PaginationContext from './PaginationContext'
 import PaginationProvider from './PaginationProvider'
 import {
-  registerElement,
   validateDOMAttributes,
   extendPropsWithContextInClassComponent,
 } from '../../shared/component-helper'
@@ -21,6 +20,7 @@ import {
 import { PaginationIndicator } from './PaginationHelpers'
 import InfinityScroller from './PaginationInfinity'
 import PaginationBar from './PaginationBar'
+
 
 const paginationPropTypes = {
   startup_page: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -143,17 +143,8 @@ const paginationDefaultProps = {
 }
 
 export default class Pagination extends React.PureComponent {
-  static tagName = 'dnb-pagination'
   static propTypes = { ...paginationPropTypes }
   static defaultProps = paginationDefaultProps
-
-  static enableWebComponent() {
-    registerElement(
-      Pagination?.tagName,
-      Pagination,
-      paginationDefaultProps
-    )
-  }
 
   render() {
     return (
@@ -254,17 +245,8 @@ class PaginationInstance extends React.PureComponent {
 }
 
 export class InfinityMarker extends React.PureComponent {
-  static tagName = 'dnb-infinity-marker'
   static propTypes = { ...paginationPropTypes }
   static defaultProps = paginationDefaultProps
-
-  static enableWebComponent() {
-    registerElement(
-      InfinityMarker?.tagName,
-      InfinityMarker,
-      paginationDefaultProps
-    )
-  }
 
   render() {
     const { children, ...props } = this.props

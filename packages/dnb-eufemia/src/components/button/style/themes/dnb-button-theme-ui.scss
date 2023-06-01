@@ -3,18 +3,14 @@
 *
 */
 
-@import '../../../../style/themes/imports.scss';
-@import './_button-mixins.scss';
+@import '../../../../style/core/utilities.scss';
+@import './button-mixins.scss';
+
+// Because the tertiary button has so much code,
+// we slice the shareable parts out in a separate file
+@import '../dnb-button--tertiary.scss';
 
 .dnb-button {
-  border: none;
-  box-shadow: none;
-
-  text-align: left;
-
-  // no animation yet
-  // transition: background-color 300ms var(--easing-default), box-shadow 300ms var(--easing-default);
-
   &--primary {
     color: var(--color-white);
     background-color: var(--color-sea-green);
@@ -35,11 +31,6 @@
     &--error {
       color: var(--color-white);
       background-color: var(--color-fire-red);
-
-      // @include fakeBorder(var(--color-fire-red), 0.0625rem, inset, true);
-      // .dnb-button__icon {
-      //   color: inherit;
-      // }
     }
   }
 
@@ -47,7 +38,7 @@
     color: var(--color-sea-green);
     background-color: var(--color-white);
 
-    @include fakeBorder(var(--color-sea-green), 0.0625rem, inset, true);
+    @include fakeBorder(var(--color-sea-green), 0.0625rem, inset);
 
     @include buttonHover(var(--color-sea-green), var(--color-white));
     @include buttonFocus(var(--color-sea-green), var(--color-white));
@@ -63,19 +54,14 @@
       background-color: var(--color-white);
 
       // only because of href/anchor button
-      @include fakeBorder(
-        var(--color-sea-green-30),
-        0.0625rem,
-        inset,
-        true
-      );
+      @include fakeBorder(var(--color-sea-green-30), 0.0625rem, inset);
     }
   }
   &:not([disabled])#{&}--secondary#{&}__status {
     &--error {
       color: var(--color-fire-red);
 
-      @include fakeBorder(var(--color-fire-red), 0.0625rem, inset, true);
+      @include fakeBorder(var(--color-fire-red), 0.0625rem, inset);
       .dnb-button__icon {
         color: inherit;
       }
@@ -83,13 +69,18 @@
   }
 
   // Icon button
-  &--secondary:not(.dnb-button--has-text) {
+  &--secondary:not(#{&}--has-text) {
     @include buttonHover(var(--color-emerald-green), var(--color-white));
     @include buttonFocus(var(--color-emerald-green), var(--color-white));
     @include buttonActive(
       var(--color-emerald-green),
       var(--color-mint-green-50)
     );
+  }
+  &--secondary:not(#{&}--has-text):not(#{&}--input-button)#{&}--size-large {
+    // Make exception for icon button as it should be smaller than the original large button
+    width: calc(var(--button-width--large) - 0.5rem);
+    line-height: calc(var(--button-height--large) - 0.5rem);
   }
 
   // simulate active state
@@ -98,107 +89,32 @@
   }
 
   &--tertiary {
-    position: relative; // because  of the focus ring
-
     color: var(--color-sea-green);
     background-color: transparent;
 
-    // create underline (::after)
-    .dnb-button__text {
-      position: relative; // because of the underline
-
-      @include drawUnderlineBorder() {
-        bottom: -0.0625rem;
-        color: transparent;
-        transition: color 250ms ease-in-out;
-        [data-visual-test-wrapper] & {
-          transition: none;
-        }
-      }
-    }
-
     &.dnb-button--has-text {
-      padding-left: 0.5rem;
-      padding-right: 0.5rem;
-    }
-
-    // change underline if has icon
-    &.dnb-button--has-icon .dnb-button__text::after {
-      left: -0.5rem;
-      right: -0.5rem;
-    }
-
-    @include focus() {
-      @include removeFakeFocus();
-      @include buttonFocusRing();
-
-      // underline
-      .dnb-button__text::after {
-        visibility: hidden;
-      }
+      padding-left: 0;
+      padding-right: 0;
     }
 
     @include hover() {
       // underline
       .dnb-button__text::after {
-        visibility: visible;
         color: var(--color-emerald-green);
       }
     }
 
     @include active() {
-      @include removeFakeFocus();
-
       // underline
       .dnb-button__text::after {
         html[data-whatintent='touch'] & {
-          transition: none;
-          visibility: visible;
-          opacity: 1;
           color: var(--color-emerald-green);
         }
-        html:not([data-whatintent='touch']) & {
-          visibility: hidden;
-        }
       }
-    }
-
-    .dnb-button__icon {
-      align-self: flex-start;
-      margin-top: calc(var(--button-height) / 2 - 0.5rem);
-    }
-    &.dnb-button--size-large .dnb-button__icon {
-      margin-top: calc(var(--button-height--large) / 2 - 0.5rem);
-    }
-    &.dnb-button--size-medium .dnb-button__icon {
-      margin-top: calc(var(--button-height--medium) / 2 - 0.5rem);
-    }
-    &.dnb-button--size-small .dnb-button__icon {
-      margin-top: calc(var(--button-height--small) / 2 - 0.5rem);
     }
 
     &.dnb-button--icon-position-top {
-      flex-direction: column;
-      border-radius: 0.5rem;
-      vertical-align: middle;
-
-      &.dnb-button--has-text {
-        padding: 0;
-      }
-
-      .dnb-button__icon {
-        margin-top: 0.5rem;
-        align-self: center;
-      }
-
       .dnb-button__text {
-        &::after {
-          left: 0;
-          right: 0;
-        }
-
-        margin-top: 0;
-        margin-bottom: 0.25rem;
         font-size: var(--font-size-x-small);
       }
       &.dnb-button--size-large {
@@ -206,96 +122,6 @@
           font-size: var(--font-size-small);
         }
       }
-
-      .dnb-button__alignment {
-        order: 3;
-        height: 0;
-      }
-    }
-
-    &.dnb-button--has-icon {
-      &.dnb-button--has-text {
-        &.dnb-button--icon-position-left {
-          padding-left: 0;
-          padding-right: 0.5rem;
-
-          .dnb-button__text {
-            padding-left: 1rem;
-
-            &::after {
-              right: 0;
-            }
-          }
-          .dnb-button__icon {
-            margin-right: -0.5rem;
-          }
-          &.dnb-button--icon-size-medium,
-          &.dnb-button--icon-size-large {
-            .dnb-button__text {
-              padding-left: 0;
-              margin-left: 1rem;
-
-              &::after {
-                left: 0;
-              }
-            }
-          }
-        }
-        &.dnb-button--icon-position-right {
-          padding-right: 0;
-          padding-left: 0.5rem;
-
-          /* stylelint-disable */
-          .dnb-button__text {
-            padding-right: 1rem;
-
-            &::after {
-              left: 0;
-            }
-          }
-          .dnb-button__icon {
-            margin-left: -0.5rem;
-          }
-          /* stylelint-enable */
-          &.dnb-button--icon-size-medium,
-          &.dnb-button--icon-size-large {
-            .dnb-button__text {
-              padding-right: 0;
-              margin-right: 1rem;
-
-              &::after {
-                right: 0;
-              }
-            }
-          }
-        }
-      }
-
-      &:not(.dnb-button--has-text) {
-        @include focus() {
-          // make the ring round
-          &::before {
-            left: 0;
-            right: 0;
-          }
-        }
-
-        @include hover() {
-          @include fakeBorder(var(--color-sea-green), 0.0625rem);
-        }
-
-        @include active() {
-          @include fakeBorder(var(--color-sea-green-30), 0.0625rem);
-        }
-      }
-    }
-
-    // stylelint-disable-next-line
-    html[data-whatinput='keyboard']
-    // webkit fix
-      &:hover:focus
-      .dnb-button__text::after {
-      visibility: hidden;
     }
 
     &[disabled] {
@@ -343,7 +169,7 @@
       left: 0;
 
       width: 0.0625rem;
-      background-color: currentColor;
+      background-color: currentcolor;
     }
   }
   html:not([data-whatintent='touch'])

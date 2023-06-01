@@ -3,7 +3,7 @@
  *
  */
 
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
+import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
 import { VisuallyHidden, Section, Anchor, P } from '@dnb/eufemia/src'
 

@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
+import ComponentBox from '../../../../../shared/tags/ComponentBox'
 import { ScrollView } from '@dnb/eufemia/src/fragments'
 
 export const ScrollViewInteractive = () => (
@@ -23,5 +23,11 @@ export const ScrollViewInteractive = () => (
         large content
       </div>
     </ScrollView>
+  </ComponentBox>
+)
+
+export const ScrollViewInfo = () => (
+  <ComponentBox hidePreview hideToolbar>
+    <ScrollView>scrollable content</ScrollView>
   </ComponentBox>
 )

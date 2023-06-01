@@ -1,12 +1,8 @@
 import React from 'react'
-import { fireEvent, render, screen, within } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import Tag from '../Tag'
 import nbNO from '../../../shared/locales/nb-NO'
-import {
-  axeComponent,
-  loadScss,
-  mount,
-} from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { Provider } from '../../../shared'
 
 const nb = nbNO['nb-NO'].Tag
@@ -15,28 +11,21 @@ describe('Tag Group', () => {
   it('renders without children', () => {
     render(<Tag.Group label="tags" />)
 
-    expect(screen.queryByTestId('tag-group')).not.toBeNull()
-    expect(screen.queryByTestId('tag')).toBeNull()
+    expect(document.querySelector('.dnb-tag__group')).not.toBeNull()
+    expect(document.querySelector('.dnb-tag')).toBeNull()
   })
 
   it('renders the label as string', () => {
     const label = 'tags'
     render(<Tag.Group label={label} />)
-    expect(screen.queryByTestId('tag-group-label')).not.toBeNull()
-    expect(screen.queryByTestId('tag-group-label').textContent).toBe(label)
+    expect(screen.queryByText(label)).toBeTruthy()
   })
 
   it('renders the label as react node', () => {
     const label = <span data-testid="react-node">ReactNode</span>
     render(<Tag.Group label={label} />)
 
-    expect(screen.queryByTestId('tag-group-label')).not.toBeNull()
-
-    expect(
-      within(screen.queryByTestId('tag-group-label')).queryByTestId(
-        'react-node'
-      )
-    ).not.toBeNull()
+    expect(screen.queryByTestId('react-node')).not.toBeNull()
   })
 
   it('renders a tag group with multiple tag elements by children', () => {
@@ -49,7 +38,7 @@ describe('Tag Group', () => {
       </Tag.Group>
     )
 
-    expect(screen.queryAllByTestId('tag')).toHaveLength(4)
+    expect(document.querySelectorAll('.dnb-tag')).toHaveLength(4)
   })
 
   it('renders a tag group with className if className is provided', () => {
@@ -60,8 +49,8 @@ describe('Tag Group', () => {
         ClassName
       </Tag.Group>
     )
-    expect(screen.queryByTestId('tag-group').className).toMatch(
-      customClassName
+    expect(document.getElementsByClassName(customClassName)).toHaveLength(
+      1
     )
   })
 
@@ -74,9 +63,9 @@ describe('Tag Group', () => {
       </Tag.Group>
     )
 
-    expect(screen.queryByTestId('tag').className).toMatch(
-      skeletonClassName
-    )
+    expect(
+      document.getElementsByClassName(skeletonClassName)
+    ).toHaveLength(1)
   })
 
   it('should support spacing props', () => {
@@ -86,12 +75,12 @@ describe('Tag Group', () => {
       </Tag.Group>
     )
 
-    const element = screen.getByTestId('tag-group')
+    const element = document.querySelector('.dnb-tag__group')
     const attributes = Array.from(element.attributes).map(
       (attr) => attr.name
     )
 
-    expect(attributes).toEqual(['class', 'data-testid'])
+    expect(attributes).toEqual(['class'])
     expect(Array.from(element.classList)).toEqual([
       'dnb-tag__group',
       'dnb-space__top--large',
@@ -107,7 +96,7 @@ describe('Tag', () => {
       </Tag.Group>
     )
 
-    expect(screen.queryByTestId('tag')).not.toBeNull()
+    expect(document.querySelector('.dnb-tag')).not.toBeNull()
   })
 
   it('renders a tag with content by text prop', () => {
@@ -119,13 +108,7 @@ describe('Tag', () => {
       </Tag.Group>
     )
 
-    expect(
-      screen.queryByTestId('tag').querySelector('.dnb-button__text')
-    ).not.toBeNull()
-    expect(
-      screen.queryByTestId('tag').querySelector('.dnb-button__text')
-        .textContent
-    ).toBe(text)
+    expect(screen.queryByText(text)).toBeTruthy()
   })
 
   it('renders a tag with content by children prop', () => {
@@ -137,13 +120,7 @@ describe('Tag', () => {
       </Tag.Group>
     )
 
-    expect(
-      screen.queryByTestId('tag').querySelector('.dnb-button__text')
-    ).not.toBeNull()
-    expect(
-      screen.queryByTestId('tag').querySelector('.dnb-button__text')
-        .textContent
-    ).toBe(text)
+    expect(screen.queryByText(text)).toBeTruthy()
   })
 
   it('renders a tag with content if both text and children prop is defined', () => {
@@ -155,13 +132,7 @@ describe('Tag', () => {
       </Tag.Group>
     )
 
-    expect(
-      screen.queryByTestId('tag').querySelector('.dnb-button__text')
-    ).not.toBeNull()
-    expect(
-      screen.queryByTestId('tag').querySelector('.dnb-button__text')
-        .textContent
-    ).toBe(text)
+    expect(screen.queryByText(text)).toBeTruthy()
   })
 
   it('renders a tag with skeleton if skeleton is true', () => {
@@ -173,9 +144,9 @@ describe('Tag', () => {
       </Tag.Group>
     )
 
-    expect(screen.queryByTestId('tag').className).toMatch(
-      skeletonClassName
-    )
+    expect(
+      document.getElementsByClassName(skeletonClassName)
+    ).toHaveLength(1)
   })
 
   it('inherits skeleton prop from provider', () => {
@@ -189,20 +160,22 @@ describe('Tag', () => {
       </Provider>
     )
 
-    expect(screen.queryByTestId('tag').className).toMatch(
-      skeletonClassName
-    )
+    expect(
+      document.getElementsByClassName(skeletonClassName)
+    ).toHaveLength(1)
   })
 
   it('does not render a clickable Tag as default', () => {
+    const text = 'Tag with text'
+
     render(
       <Tag.Group label="tags">
-        <Tag text="Tag with text" />
+        <Tag text={text} />
       </Tag.Group>
     )
 
     expect(screen.queryByRole('button')).toBeNull()
-    expect(screen.queryByTestId('tag').textContent).toBe('‌Tag with text')
+    expect(screen.queryByText(text)).toBeTruthy()
   })
 
   it('does support icon', () => {
@@ -212,9 +185,7 @@ describe('Tag', () => {
       </Tag.Group>
     )
 
-    expect(
-      screen.queryByTestId('tag').querySelector('.dnb-icon')
-    ).toBeTruthy()
+    expect(document.querySelector('.dnb-icon')).toBeTruthy()
   })
 
   it('should support spacing props', () => {
@@ -224,12 +195,12 @@ describe('Tag', () => {
       </Tag.Group>
     )
 
-    const element = screen.getByTestId('tag')
+    const element = document.querySelector('.dnb-tag')
     const attributes = Array.from(element.attributes).map(
       (attr) => attr.name
     )
 
-    expect(attributes).toEqual(['class', 'data-testid'])
+    expect(attributes).toEqual(['class'])
     expect(Array.from(element.classList)).toEqual([
       'dnb-button',
       'dnb-button--unstyled',
@@ -255,9 +226,10 @@ describe('Tag', () => {
           </Tag>
         </Tag.Group>
       )
-      expect(screen.queryByTestId('tag').className).toMatch(
-        clickableClassName
-      )
+
+      expect(
+        document.getElementsByClassName(clickableClassName)
+      ).toHaveLength(1)
       expect(screen.queryByRole('button')).not.toBeNull()
     })
 
@@ -280,9 +252,7 @@ describe('Tag', () => {
         </Tag.Group>
       )
 
-      expect(
-        screen.queryByTestId('tag').querySelector('.dnb-icon')
-      ).toBeTruthy()
+      expect(document.querySelector('.dnb-icon')).toBeTruthy()
     })
   })
 
@@ -302,12 +272,13 @@ describe('Tag', () => {
           </Tag>
         </Tag.Group>
       )
-      expect(screen.queryByTestId('tag').className).toMatch(
-        removableClassName
-      )
-      expect(screen.queryByTestId('tag').className).toMatch(
-        clickableClassName
-      )
+
+      expect(
+        document.getElementsByClassName(removableClassName)
+      ).toHaveLength(1)
+      expect(
+        document.getElementsByClassName(clickableClassName)
+      ).toHaveLength(1)
       expect(screen.queryByRole('button')).not.toBeNull()
     })
 
@@ -352,9 +323,7 @@ describe('Tag', () => {
         </Tag.Group>
       )
 
-      expect(
-        screen.queryByTestId('tag').querySelector('.dnb-icon')
-      ).toBeTruthy()
+      expect(document.querySelector('.dnb-icon')).toBeTruthy()
     })
 
     it('does not support icon if onDelete', () => {
@@ -364,12 +333,8 @@ describe('Tag', () => {
         </Tag.Group>
       )
 
-      expect(
-        screen.queryByTestId('tag').querySelector('.dnb-icon')
-      ).toBeTruthy()
-      expect(
-        screen.queryByTestId('tag').querySelectorAll('.dnb-icon').length
-      ).toBe(1)
+      expect(document.querySelector('.dnb-icon')).toBeTruthy()
+      expect(document.querySelectorAll('.dnb-icon').length).toBe(1)
     })
 
     it('renders the delete icon if onDelete is provided', () => {
@@ -425,14 +390,14 @@ describe('Tag', () => {
   it('warns when Tag is used without a Tag.Group as parent component', () => {
     process.env.NODE_ENV = 'development'
     global.console.log = jest.fn()
-    mount(<Tag text="Tag" />)
+    render(<Tag text="Tag" />)
     expect(global.console.log).toBeCalled()
   })
 
   it('will not warn when hasLabel is true', () => {
     process.env.NODE_ENV = 'development'
     global.console.log = jest.fn()
-    mount(<Tag text="Tag" hasLabel />)
+    render(<Tag text="Tag" hasLabel />)
     expect(global.console.log).not.toBeCalled()
   })
 
@@ -444,7 +409,9 @@ describe('Tag', () => {
         <Tag className={customClassName}>ClassName</Tag>
       </Tag.Group>
     )
-    expect(screen.queryByTestId('tag').className).toMatch(customClassName)
+    expect(document.getElementsByClassName(customClassName)).toHaveLength(
+      1
+    )
   })
 
   it('renders a tag with provider', () => {
@@ -456,9 +423,7 @@ describe('Tag', () => {
       </Provider>
     )
 
-    expect(
-      screen.queryByTestId('tag').querySelector('.dnb-button__text')
-    ).not.toBeNull()
+    expect(document.querySelector('.dnb-button__text')).not.toBeNull()
   })
 })
 
@@ -475,7 +440,7 @@ describe('Tag aria', () => {
 
 describe('Tag scss', () => {
   it('have to match snapshot', () => {
-    const scss = loadScss(require.resolve('../style/dnb-tag.scss'))
+    const scss = loadScss(require.resolve('../style/deps.scss'))
     expect(scss).toMatchSnapshot()
   })
 })

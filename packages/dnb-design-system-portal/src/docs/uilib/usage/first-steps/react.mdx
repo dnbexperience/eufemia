@@ -1,0 +1,45 @@
+---
+title: 'React & TypeScript'
+order: 5
+---
+
+import {
+  BasicButtonsExample,
+  EventsExample,
+} from 'Docs/uilib/usage/first-steps/Examples'
+
+# React JS for the web
+
+The most basic way to use the `@dnb/eufemia` is like this:
+
+## Basic Buttons
+
+<BasicButtonsExample />
+
+### Importing the Components
+
+To make the [Button](/uilib/components/button) component work, we have to import it as well:
+
+```js
+import { Button } from '@dnb/eufemia'
+```
+
+And here an example with several imports:
+
+```js
+import { Button, Icon } from '@dnb/eufemia/components'
+import { H1, P, Link } from '@dnb/eufemia'
+import { hamburger as hamburgerIcon } from '@dnb/eufemia/icons'
+```
+
+### Events
+
+<EventsExample />
+
+Now, let's jump to the [Button Docs](/uilib/components/button) for more details.
+
+Also, you may be interested in more code examples? Have a look at the [Demo App on GitHub](https://github.com/dnbexperience/eufemia-demo/blob/main/src/form-demos/form-demo-01.js) or [Example for React](https://github.com/dnbexperience/eufemia-examples/tree/main/packages/example-react).
+
+## Examples
+
+Have a look at [the demos](/uilib/getting-started/demos) as well as a [Webpack example app](https://github.com/dnbexperience/eufemia-examples/tree/main/packages/example-react) and [SSR example](https://github.com/dnbexperience/eufemia-examples/tree/main/packages/example-ssr).

@@ -1,0 +1,35 @@
+---
+title: 'Importing CSS'
+---
+
+# Importing the CSS
+
+To include the packages `dnb-ui-core`, `ui-theme-basis` and `ui-theme-components` in a [Node.js](https://nodejs.org) based environment (given you have a CSS loader in place), do this:
+
+```js
+// This includes the `dnb-ui-core`, `ui-theme-basis` and `ui-theme-components`
+import '@dnb/eufemia/style'
+```
+
+## Legacy import
+
+Read more about [how to deal with existing styles](/uilib/usage/customisation/styling#how-to-deal-with-existing-styles).
+
+```js
+// NB: needs a wrapper class: ".dnb-core-style"
+import '@dnb/eufemia/style/basis'
+import '@dnb/eufemia/style/themes/ui'
+```
+
+## Single Component only
+
+It is possible to import a single CSS Style of a single component at once:
+
+```js
+import '@dnb/eufemia/style/core'
+import '@dnb/eufemia/style/themes/ui'
+
+// Imports only the Button CSS and Main DNB Theme
+import '@dnb/eufemia/components/button/style'
+import '@dnb/eufemia/components/button/style/themes/ui'
+```

@@ -1,0 +1,17 @@
+/*
+* Table component
+*
+*/
+
+.dnb-table {
+  & thead th,
+  & tbody td,
+  &__th,
+  &__td {
+    position: relative;
+
+    border-spacing: 0;
+
+    word-break: keep-all;
+  }
+}

@@ -11,6 +11,7 @@ import Slider from '../Slider'
 import type { SliderAllProps, onChangeEventProps } from '../Slider'
 import { format } from '../../number-format/NumberUtils'
 import { wait } from '@testing-library/user-event/dist/utils'
+import FormRow from '../../form-row/FormRow'
 
 const props: SliderAllProps = {
   id: 'slider',
@@ -359,7 +360,6 @@ describe('Slider component', () => {
       height: 10,
       pageX: 80,
       rawValue: 80,
-      raw_value: 80,
       value: 80,
       number: null,
       width: 100,
@@ -392,7 +392,6 @@ describe('Slider component', () => {
       height: 10,
       pageX: 80,
       rawValue: 80,
-      raw_value: 80,
       value: 80,
       number: '80,0 kr',
       width: 100,
@@ -520,7 +519,6 @@ describe('Slider component', () => {
         height: 10,
         pageX: 80,
         rawValue: 80,
-        raw_value: 80,
         value: [20, 30, 80],
         number: '80,0 kr',
         width: 100,
@@ -537,7 +535,6 @@ describe('Slider component', () => {
         height: 10,
         pageX: 10,
         rawValue: 10,
-        raw_value: 10,
         value: [10, 30, 80],
         number: '10,0 kr',
         width: 100,
@@ -723,6 +720,26 @@ describe('Slider component', () => {
         'z-index: 3; left: 80%;'
       )
     })
+
+    it('should inherit FormRow vertical label', () => {
+      render(
+        <FormRow vertical>
+          <SliderWithStateUpdate label="Label" />
+        </FormRow>
+      )
+
+      const element = document.querySelector('.dnb-slider')
+      const attributes = Array.from(element.attributes).map(
+        (attr) => attr.name
+      )
+
+      expect(attributes).toEqual(['class'])
+      expect(Array.from(element.classList)).toEqual([
+        'dnb-slider',
+        'dnb-form-component',
+        'dnb-slider__label--vertical',
+      ])
+    })
   })
 
   it('should validate with ARIA rules', async () => {
@@ -733,7 +750,7 @@ describe('Slider component', () => {
 
 describe('Slider scss', () => {
   it('have to match snapshot', () => {
-    const scss = loadScss(require.resolve('../style/dnb-slider.scss'))
+    const scss = loadScss(require.resolve('../style/deps.scss'))
     expect(scss).toMatchSnapshot()
   })
 })

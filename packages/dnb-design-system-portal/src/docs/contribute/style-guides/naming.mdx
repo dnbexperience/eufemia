@@ -1,0 +1,53 @@
+---
+title: 'Naming convention'
+order: 5
+---
+
+# Naming convention
+
+The DNB Design System Eufemia uses the following naming conventions.
+
+**Formatting styles**
+
+- **pascal case** also known as _upper camel case_. Every word upper case. Example: `PascalCase`
+- **camel case** also known as _lower camel case_. First word lower case. Example: `camelCase`
+- **kebab case** also known as _kebab case_. Only lower case letters. Example: `kebab-case`
+- **snake case**. Only lower case letters. Example: `snake_case`
+
+## React components
+
+- React Components, both as files and as components use **pascal case**.
+- The folder containing the component uses **kebab case**.
+
+## CSS / SCSS
+
+- CSS classes and the files containing the styles use **kebab case**.
+- CSS classes are prefixed with: `dnb-`
+- CSS `Custom Properties` (CSS Variables) use **kebab case**.
+- SCSS Mixins use **camel case**.
+
+## Javascript
+
+- `Functions` and `Variables` use **camel case**.
+- `Classes` use **pascal case**.
+- Other JavaScript files use **kebab case**.
+
+## Events and Properties
+
+- Event names use **camel case**.
+- They have to describe what they are aiming to do. Like: `onClick`
+
+**NB:** Existing React components use **snake case** (`on_click`) – but will be converted to use **camel case** (`onClick`) in future releases. The reason for using **snake case** was to support Web Components – but the support has been discontinued in [v10](/uilib/about-the-lib/releases/eufemia/v10-info/).
+
+## Icons
+
+- Icon names use **snake case**.
+- They have to describe what they are aiming to meant for. Like: `chevron_right`
+- Sizes are added as a postfix. Like: `chevron_right_medium`
+- Only alphabetic characters (a to z) without special chars, due to import statements.
+- Figma icon naming has to match the same (icon archive) as they will define the import names.
+- Figma page and frame names (icon archive) do have to consist the same, due to the automated import mechanism.
+
+## Documentation
+
+- `Pages` and directories use **kebab case**.

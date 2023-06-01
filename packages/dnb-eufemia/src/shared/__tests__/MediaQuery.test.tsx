@@ -4,7 +4,8 @@
  */
 
 import React from 'react'
-import { mount } from '../../core/jest/jestSetup'
+import { render, screen } from '@testing-library/react'
+
 import MatchMediaMock from 'jest-matchmedia-mock'
 import MediaQuery from '../MediaQuery'
 import Provider from '../Provider'
@@ -40,22 +41,22 @@ describe('MediaQuery', () => {
   })
 
   it('should match for query with medium width', () => {
-    matchMedia.useMediaQuery('(min-width: 50em) and (max-width: 60em)')
+    matchMedia.useMediaQuery('(min-width: 60em) and (max-width: 72em)')
 
-    const Comp = mount(
+    render(
       <MediaQuery when={{ min: 'medium', max: 'large' }}>
         medium
       </MediaQuery>
     )
-    expect(Comp.text()).toBe('medium')
+    expect(screen.queryByText('medium')).toBeTruthy()
   })
 
   it('should match for query when different breakpoints are given', () => {
     matchMedia.useMediaQuery(
-      '(min-width: 40em) and (max-width: 72em), (min-width: 0) and (max-width: 30rem), (max-width: 80em)'
+      '(min-width: 40em) and (max-width: 80em), (min-width: 0) and (max-width: 30rem), (max-width: 90em)'
     )
 
-    const Comp = mount(
+    render(
       <Provider
         value={{
           breakpoints: {
@@ -76,7 +77,7 @@ describe('MediaQuery', () => {
       </Provider>
     )
 
-    expect(Comp.text()).toBe('medium')
+    expect(screen.queryByText('medium')).toBeTruthy()
   })
 
   it('should match for query when custom breakpoints are given', () => {
@@ -84,7 +85,7 @@ describe('MediaQuery', () => {
       '(min-width: 0) and (max-width: 20rem), (max-width: 90rem)'
     )
 
-    const Comp = mount(
+    render(
       <Provider
         value={{
           breakpoints: {
@@ -99,7 +100,7 @@ describe('MediaQuery', () => {
       </Provider>
     )
 
-    expect(Comp.text()).toBe('xsmall')
+    expect(screen.queryByText('xsmall')).toBeTruthy()
   })
 
   it('should match for query when breakpoint is got removed', () => {
@@ -107,7 +108,7 @@ describe('MediaQuery', () => {
       '(min-width: 0) and (max-width: 20rem), (min-width: 71rem)'
     )
 
-    const Comp = mount(
+    render(
       <Provider
         value={{
           breakpoints: {
@@ -128,27 +129,27 @@ describe('MediaQuery', () => {
       </Provider>
     )
 
-    expect(Comp.text()).toBe('xsmall')
+    expect(screen.queryByText('xsmall')).toBeTruthy()
   })
 
   it('should match for what ever query is given when matchOnSSR is true', () => {
     isMatchMediaSupported.mockReturnValue(false)
 
-    const Comp = mount(
+    render(
       <MediaQuery matchOnSSR when={{ min: 'what-every' }}>
         medium
       </MediaQuery>
     )
 
-    expect(Comp.text()).toBe('medium')
+    expect(screen.queryByText('medium')).toBeTruthy()
   })
 
   it('should match for query with medium and large width', () => {
     matchMedia.useMediaQuery(
-      '(min-width: 50em) and (max-width: 60em), (min-width: 60em) and (max-width: 72em)'
+      '(min-width: 60em) and (max-width: 72em), (min-width: 72em) and (max-width: 80em)'
     )
 
-    const Comp = mount(
+    render(
       <MediaQuery
         when={[
           { min: 'medium', max: 'large' },
@@ -158,12 +159,12 @@ describe('MediaQuery', () => {
         medium large
       </MediaQuery>
     )
-    expect(Comp.text()).toBe('medium large')
+    expect(screen.queryByText('medium large')).toBeTruthy()
   })
 
   it('should handle media query changes', () => {
     matchMedia.useMediaQuery(
-      'not screen and (min-width: 0) and (max-width: 60em)'
+      'not screen and (min-width: 0) and (max-width: 72em)'
     )
 
     const Playground = () => {
@@ -198,13 +199,13 @@ describe('MediaQuery', () => {
       )
     }
 
-    const Comp = mount(<Playground />)
-    expect(Comp.find('#result').text()).toBe('when')
+    render(<Playground />)
+    expect(screen.queryByText('when')).toBeTruthy()
 
-    Comp.simulate('click')
-    expect(Comp.find('#result').text()).toBe('not when')
+    screen.getByRole('button').click()
+    expect(screen.queryByText('not when')).toBeTruthy()
 
-    Comp.simulate('click')
-    expect(Comp.find('#result').text()).toBe('when')
+    screen.getByRole('button').click()
+    expect(screen.queryByText('when')).toBeTruthy()
   })
 })

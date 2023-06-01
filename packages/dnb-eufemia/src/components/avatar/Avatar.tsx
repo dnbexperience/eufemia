@@ -6,12 +6,12 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 
 // Elements
-import Img, { ImgProps } from '../../elements/Img'
+import Img, { ImgProps } from '../../elements/img/Img'
 
 // Shared
 import Context from '../../shared/Context'
-import { SpacingProps } from '../../shared/types'
-import { SkeletonShow } from '../skeleton/Skeleton'
+import type { SpacingProps } from '../../shared/types'
+import type { SkeletonShow } from '../skeleton/Skeleton'
 import {
   validateDOMAttributes,
   extendPropsWithContext,
@@ -74,7 +74,7 @@ export interface AvatarProps {
   variant?: AvatarVariants
 
   /**
-   * If an avatar is hidden from the screen reader (by setting aria-hidden="true") or if label is given, typical inside a table or dl (definition list), then you can disable Avatar.Group as a dependent of Avatar.
+   * If an avatar is hidden from the screen reader (by setting aria-hidden={true}) or if label is given, typical inside a table or dl (definition list), then you can disable Avatar.Group as a dependent of Avatar.
    * Use `true` to omit the `Avatar group required:` warning.
    * Default: null
    */
@@ -126,11 +126,7 @@ const Avatar = (localProps: AvatarProps & SpacingProps) => {
     children = <Img {...imageProps} />
   } else if (childrenIsString) {
     const firstLetterUpperCase = childrenProp.charAt(0).toUpperCase()
-    children = (
-      <span data-testid="avatar-text" aria-hidden>
-        {firstLetterUpperCase}
-      </span>
-    )
+    children = <span aria-hidden>{firstLetterUpperCase}</span>
   } else {
     children = childrenProp
   }
@@ -153,13 +149,10 @@ const Avatar = (localProps: AvatarProps & SpacingProps) => {
         spacingClasses,
         className
       )}
-      data-testid="avatar"
       {...props}
     >
       {childrenIsString && (
-        <span data-testid="avatar-label" className="dnb-sr-only">
-          {childrenProp}
-        </span>
+        <span className="dnb-sr-only">{childrenProp}</span>
       )}
       {children}
     </span>

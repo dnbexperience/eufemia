@@ -12,10 +12,11 @@ import {
   attachToBody, // in order to use document.activeElement properly
   loadScss,
 } from '../../../core/jest/jestSetup'
-import { render } from '@testing-library/react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 import Input from '../../input/Input'
 import Component, { OriginalComponent } from '../Modal'
 import Button from '../../button/Button'
+import DialogContent from '../../dialog/DialogContent'
 import Provider from '../../../shared/Provider'
 import * as helpers from '../../../shared/helpers'
 
@@ -24,7 +25,7 @@ global.appVersion = jest.spyOn(navigator, 'appVersion', 'get')
 
 const props = fakeProps(require.resolve('../Modal.tsx'), {
   all: true,
-  //optional: true, // Does not work with Typescript interface props
+  // optional: true, // Does not work with Typescript interface props
 })
 props.title = 'modal_title'
 props.id = 'modal_id'
@@ -48,41 +49,26 @@ beforeEach(() => {
 })
 
 describe('Modal component', () => {
-  it('will run bodyScrollLock with disableBodyScroll', () => {
-    const Comp = mount(
-      <Component {...props}>
-        <button>button</button>
-      </Component>
-    )
-
-    expect(document.body.getAttribute('style')).toBe(null)
-
-    Comp.find('button.dnb-modal__trigger').simulate('click')
-
-    expect(document.body.getAttribute('style')).toContain(
-      'overflow: hidden;'
-    )
-  })
-
   it('have to match snapshot', () => {
     const Comp = mount(<Component {...props} open_state={true} />)
     expect(toJson(Comp)).toMatchSnapshot()
-    Comp.find('button.dnb-modal__close-button').simulate('click')
   })
 
   it('should add its instance to the stack', () => {
-    const Comp = mount(
+    render(
       <Component {...props}>
-        <button>button</button>
+        <DialogContent />
       </Component>
     )
 
-    Comp.find('Modal').find('button.dnb-modal__trigger').simulate('click')
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
 
     expect(window.__modalStack).toHaveLength(1)
     expect(typeof window.__modalStack[0]).toBe('object')
 
-    Comp.find('button.dnb-modal__close-button').simulate('click')
+    fireEvent.click(
+      document.querySelector('button.dnb-modal__close-button')
+    )
 
     expect(window.__modalStack).toHaveLength(0)
   })
@@ -92,7 +78,9 @@ describe('Modal component', () => {
       <>
         <button className="bypass-me">button</button>
         <Component no_animation>
-          <button className="but-not-me">button</button>
+          <DialogContent>
+            <button className="but-not-me">button</button>
+          </DialogContent>
         </Component>
       </>,
       { attachTo: attachToBody() }
@@ -173,11 +161,15 @@ describe('Modal component', () => {
   })
 
   it('has to have the correct title', () => {
-    const Comp = mount(<Component {...props} open_state={true} />)
+    const Comp = mount(
+      <Component {...props} open_state={true}>
+        <Component.Header />
+      </Component>
+    )
     expect(Comp.find('h1').text()).toBe(props.title)
   })
 
-  it('will accept custom refs', () => {
+  it('accepts custom refs', () => {
     const contentRef = React.createRef<HTMLElement>()
     const scrollRef = React.createRef<HTMLElement>()
 
@@ -196,8 +188,8 @@ describe('Modal component', () => {
 
     render(<MockComponent />)
 
-    expect(contentRef.current).toBeTruthy()
-    expect(scrollRef.current).toBeTruthy()
+    expect(contentRef.current).toEqual(null)
+    expect(scrollRef.current).toEqual(null)
   })
 
   it('has no trigger button once we set omitTriggerButton', () => {
@@ -215,7 +207,11 @@ describe('Modal component', () => {
   it('should act as a help button by default', () => {
     const Comp = mount(
       <Input
-        suffix={<Component title={props.title}>Help text</Component>}
+        suffix={
+          <Component title={props.title}>
+            <Component.Header />
+          </Component>
+        }
       />
     )
     const buttonElem = Comp.find('button.dnb-modal__trigger')
@@ -232,7 +228,15 @@ describe('Modal component', () => {
   })
 
   it('should use default modal title when used as a help button', () => {
-    const Comp = mount(<Input suffix={<Component>Help text</Component>} />)
+    const Comp = mount(
+      <Input
+        suffix={
+          <Component>
+            <Component.Header />
+          </Component>
+        }
+      />
+    )
     const buttonElem = Comp.find('button.dnb-modal__trigger')
     expect(buttonElem.instance().getAttribute('aria-label')).toBe(
       'Hjelpetekst'
@@ -243,10 +247,10 @@ describe('Modal component', () => {
     )
   })
 
-  it('has a disabled trigger button once we set trigger_disabled to true', () => {
+  it('has a disabled trigger button once we set trigger disabled to true', () => {
     const Comp = mount(<Component {...props} open_state={true} />)
     Comp.setProps({
-      trigger_disabled: true,
+      trigger_attributes: { disabled: true },
     })
     expect(
       Comp.find('button.dnb-modal__trigger')
@@ -271,52 +275,39 @@ describe('Modal component', () => {
     })
     expect(testTriggeredBy).toBe(null)
 
-    Comp.find('div.dnb-dialog').simulate('keyDown', {
-      key: 'Esc',
-      keyCode: 27,
-    })
-
-    expect(on_close).toHaveBeenCalledTimes(1)
-    expect(testTriggeredBy).toBe('keyboard')
-    // This freaks Jest out, because, now we should get an event in return – this one is too big!
-    // expect(on_close).toHaveBeenCalledWith({
-    //   id: 'modal_id',
-    //   event: null,
-    //   triggeredBy: 'unmount'
-    // })
-
-    // Also test the window event listener
     Comp.find('button').simulate('click')
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
-    expect(on_close).toHaveBeenCalledTimes(2)
+    expect(on_close).toHaveBeenCalledTimes(1)
   })
 
   it('will close modal by using callback method', () => {
     const on_close = jest.fn()
     const on_open = jest.fn()
-    const Comp = mount(
+
+    render(
       <Component
         no_animation={true}
         on_open={on_open}
         on_close={on_close}
         hide_close_button
       >
-        {({ close }) => (
-          <Button id="close-me" text="close" on_click={close} />
-        )}
+        {({ close }) => {
+          return <Button id="close-button" text="close" on_click={close} />
+        }}
       </Component>
     )
-    Comp.find('button').simulate('click')
+
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
     expect(on_open).toHaveBeenCalledTimes(1)
 
-    Comp.find('button#close-me').simulate('click')
+    fireEvent.click(document.querySelector('button#close-button'))
     expect(on_close).toHaveBeenCalledTimes(1)
   })
 
   it('will set focus on content div if no h1 and close button is given', async () => {
     const Comp = mount(
       <Component no_animation={true} hide_close_button>
-        modal content
+        <DialogContent />
       </Component>,
       { attachTo: attachToBody() }
     )
@@ -339,29 +330,55 @@ describe('Modal component', () => {
     ).toBe(true)
   })
 
+  it('will set "data-autofocus" attribute on focusing the trigger when closed', async () => {
+    render(
+      <Component no_animation={true} animation_duration={3}>
+        <DialogContent />
+      </Component>
+    )
+
+    fireEvent.click(document.querySelector('button'))
+
+    fireEvent.keyDown(document.querySelector('div.dnb-dialog'), {
+      key: 'Esc',
+      keyCode: 27,
+    })
+
+    expect(document.activeElement.getAttribute('data-autofocus')).toBe(
+      'true'
+    )
+    expect(
+      document.activeElement.classList.contains('dnb-modal__trigger')
+    ).toBe(true)
+
+    await wait(1)
+
+    expect(
+      document.activeElement.hasAttribute('data-autofocus')
+    ).toBeFalsy()
+  })
+
   it('will warn if first heading is not h1', async () => {
     jest.spyOn(helpers, 'warn')
     const log = global.console.log
     global.console.log = jest.fn()
 
-    const H2 = <h2>h2</h2>
+    const H2 = <h2 className="custom-h2">h2</h2>
 
-    const Comp = mount(
+    render(
       <Component no_animation={true}>
-        <Component.Header>{H2}</Component.Header>
-      </Component>,
-      { attachTo: attachToBody() }
+        <DialogContent>
+          <Component.Header>{H2}</Component.Header>
+        </DialogContent>
+      </Component>
     )
 
     // open
-    Comp.find('button').simulate('click')
-
-    await wait(1)
+    await waitFor(() => fireEvent.click(document.querySelector('button')))
 
     expect(helpers.warn).toHaveBeenCalledTimes(1)
     expect(helpers.warn).toHaveBeenCalledWith(
-      'You have to provide a h1 element at first – instead of:',
-      expect.anything()
+      'A Dialog or Drawer needs a h1 as its first element!'
     )
 
     global.console.log = log
@@ -387,9 +404,11 @@ describe('Modal component', () => {
   it('will provide custom bar, header and content if given', () => {
     const Comp = mount(
       <Component no_animation={true} direct_dom_return>
-        <Component.Bar>bar content</Component.Bar>
-        <Component.Header>header content</Component.Header>
-        <Component.Content>modal content</Component.Content>
+        <DialogContent>
+          <Component.Bar>bar content</Component.Bar>
+          <Component.Header>header content</Component.Header>
+          <Component.Content>modal content</Component.Content>
+        </DialogContent>
       </Component>,
       { attachTo: attachToBody() }
     )
@@ -428,21 +447,27 @@ describe('Modal component', () => {
         on_open={on_open.first}
         on_close={on_close.first}
       >
-        <button id="content-first">content</button>
+        <DialogContent>
+          <button id="content-first">content</button>
+        </DialogContent>
         <Component
           {...props}
           id="modal-second"
           on_open={on_open.second}
           on_close={on_close.second}
         >
-          <button id="content-second">content</button>
+          <DialogContent>
+            <button id="content-second">content</button>
+          </DialogContent>
           <Component
             {...props}
             id="modal-third"
             on_open={on_open.third}
             on_close={on_close.third}
           >
-            <button id="content-third">content</button>
+            <DialogContent>
+              <button id="content-third">content</button>
+            </DialogContent>
           </Component>
         </Component>
       </Component>
@@ -569,7 +594,7 @@ describe('Modal component', () => {
             no_animation
             id="modal-id"
             open_state={open}
-            trigger_hidden
+            trigger_attributes={{ hidden: true }}
           >
             content
           </Component>
@@ -614,7 +639,7 @@ describe('Modal component', () => {
             open_state={open}
             on_open={on_open}
             on_close={on_close}
-            trigger_hidden
+            trigger_attributes={{ hidden: true }}
           >
             content
           </Component>
@@ -666,7 +691,9 @@ describe('Modal component', () => {
         on_open={on_open}
         on_close={on_close}
         on_close_prevent={on_close_prevent}
-      />
+      >
+        <DialogContent />
+      </Component>
     )
     Comp.find('button').simulate('click')
     expect(on_open).toHaveBeenCalledTimes(1)
@@ -812,6 +839,7 @@ describe('Modal component', () => {
         modal_content={null}
         direct_dom_return={false}
       >
+        <Component.Bar />
         {modalContent}
       </Component>
     )
@@ -837,6 +865,7 @@ describe('Modal component', () => {
           modal_content={null}
           direct_dom_return={false}
         >
+          <Component.Bar />
           {modalContent}
         </Component>
 
@@ -858,7 +887,11 @@ describe('Modal component', () => {
   })
 
   it('runs expected side effects on desktop', () => {
-    const Comp = mount(<Component {...props} />)
+    const Comp = mount(
+      <Component {...props}>
+        <DialogContent />
+      </Component>
+    )
     const elem = Comp.find('button')
 
     expect(document.body.getAttribute('style')).toBeFalsy()
@@ -886,7 +919,11 @@ describe('Modal component', () => {
   })
 
   it('runs expected side effects on iOS pre 14', () => {
-    const Comp = mount(<Component {...props} />)
+    const Comp = mount(
+      <Component {...props}>
+        <DialogContent />
+      </Component>
+    )
     const elem = Comp.find('button')
 
     global.userAgent.mockReturnValue('iPhone OS 12')
@@ -944,7 +981,11 @@ describe('Modal component', () => {
   })
 
   it('runs expected side effects on android', () => {
-    const Comp = mount(<Component {...props} />)
+    const Comp = mount(
+      <Component {...props}>
+        <DialogContent />
+      </Component>
+    )
     const elem = Comp.find('button')
 
     global.userAgent.mockReturnValue('Android; 7.')
@@ -1019,10 +1060,10 @@ describe('Modal component', () => {
               return (
                 <Component
                   {...props}
-                  trigger_hidden="true"
+                  trigger_attributes={{ hidden: true }}
                   open_state="opened"
                 >
-                  content
+                  <DialogContent />
                 </Component>
               )
             }}
@@ -1077,7 +1118,7 @@ describe('Modal component', () => {
               return (
                 <OriginalComponent
                   title="Modal Title"
-                  trigger_hidden="true"
+                  trigger_attributes={{ hidden: true }}
                   open_state="opened"
                   labelled_by="modal-trigger"
                   on_open={(e) => {
@@ -1089,7 +1130,7 @@ describe('Modal component', () => {
                   no_animation
                   direct_dom_return
                 >
-                  content
+                  <OriginalComponent.Bar />
                 </OriginalComponent>
               )
             }}
@@ -1151,11 +1192,13 @@ describe('Modal component', () => {
               on_close()
             }}
           >
-            <Button
-              className="close-button"
-              text="Close from inside modal"
-              on_click={() => setModalOpen(false)}
-            />
+            <DialogContent>
+              <Button
+                className="close-button"
+                text="Close from inside modal"
+                on_click={() => setModalOpen(false)}
+              />
+            </DialogContent>
           </Component>
         </React.StrictMode>
       )
@@ -1207,7 +1250,11 @@ describe('Modal component', () => {
   })
 
   it('has to have a close button', () => {
-    const Comp = mount(<Component {...props} />)
+    const Comp = mount(
+      <Component {...props}>
+        <Component.Bar />
+      </Component>
+    )
     Comp.find(OriginalComponent).setState({
       modalActive: true,
     })
@@ -1242,9 +1289,14 @@ describe('Modal component', () => {
   })
 
   it('has to have aria-labelledby and aria-describedby', () => {
-    const Comp = mount(<Component {...props} />, {
-      attachTo: attachToBody(),
-    })
+    const Comp = mount(
+      <Component {...props}>
+        <DialogContent />
+      </Component>,
+      {
+        attachTo: attachToBody(),
+      }
+    )
     Comp.find(OriginalComponent).setState({
       modalActive: true,
     })
@@ -1269,13 +1321,17 @@ describe('Modal component', () => {
   })
 
   it('has to have no icon', () => {
-    const Comp1 = mount(<Component trigger_text="Open Modal" />)
+    const Comp1 = mount(
+      <Component trigger_attributes={{ text: 'Open Modal' }} />
+    )
     expect(Comp1.find('.dnb-icon').exists()).toBe(false)
     const Comp2 = mount(
       <Component
-        trigger_text="Open Modal"
-        trigger_variant="tertiary"
-        trigger_icon={false}
+        trigger_attributes={{
+          text: 'Open Modal',
+          variant: 'tertiary',
+          icon: false,
+        }}
       />
     )
     expect(Comp2.find('.dnb-icon').exists()).toBe(false)
@@ -1283,11 +1339,15 @@ describe('Modal component', () => {
 
   it('has to have an icon', () => {
     const Comp1 = mount(
-      <Component trigger_text="Open Modal" trigger_variant="tertiary" />
+      <Component
+        trigger_attributes={{ text: 'Open Modal', variant: 'tertiary' }}
+      />
     )
     expect(Comp1.find('.dnb-icon').exists()).toBe(true)
     const Comp2 = mount(
-      <Component trigger_text="Open Modal" trigger_icon="add" />
+      <Component
+        trigger_attributes={{ text: 'Open Modal', icon: 'add' }}
+      />
     )
     expect(Comp2.find('.dnb-icon').exists()).toBe(true)
   })
@@ -1323,7 +1383,9 @@ describe('Modal trigger', () => {
   const roledescription = 'Hjelp-knapp'
 
   it('will act by default as a HelpButton', () => {
-    const Comp = mount(<Component {...props} trigger_text="" />)
+    const Comp = mount(
+      <Component {...props} trigger_attributes={{ text: '' }} />
+    )
     expect(
       Comp.find('button.dnb-modal__trigger')
         .instance()
@@ -1351,7 +1413,9 @@ describe('Modal trigger', () => {
   })
 
   it('will not act as a HelpButton if only trigger_text was given', () => {
-    const Comp = mount(<Component {...props} trigger_text="text" />)
+    const Comp = mount(
+      <Component {...props} trigger_attributes={{ text: 'text' }} />
+    )
     expect(
       Comp.find('button.dnb-modal__trigger')
         .instance()
@@ -1368,7 +1432,9 @@ describe('Modal trigger', () => {
   })
 
   it('will not act as a HelpButton if a different icon was given', () => {
-    const Comp = mount(<Component {...props} trigger_icon="bell" />)
+    const Comp = mount(
+      <Component {...props} trigger_attributes={{ icon: 'bell' }} />
+    )
     expect(
       Comp.find('button.dnb-modal__trigger')
         .instance()
@@ -1379,8 +1445,10 @@ describe('Modal trigger', () => {
     ).toBe(true)
   })
 
-  it('will not act as a HelpButton if trigger_text was given', () => {
-    const Comp = mount(<Component {...props} trigger_text="text" />)
+  it('will not act as a HelpButton if trigger text was given', () => {
+    const Comp = mount(
+      <Component {...props} trigger_attributes={{ text: 'text' }} />
+    )
     expect(
       Comp.find('button.dnb-modal__trigger')
         .instance()
@@ -1399,7 +1467,7 @@ describe('Modal trigger', () => {
 
 describe('Modal scss', () => {
   it('have to match snapshot', () => {
-    const scss = loadScss(require.resolve('../style/dnb-modal.scss'))
+    const scss = loadScss(require.resolve('../style/deps.scss'))
     expect(scss).toMatchSnapshot()
   })
 })

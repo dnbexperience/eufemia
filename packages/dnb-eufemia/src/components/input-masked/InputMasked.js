@@ -6,16 +6,13 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-  registerElement,
-  extendPropsWithContext,
-} from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/component-helper'
 import InputMaskedContext from './InputMaskedContext'
 import InputMaskedElement from './InputMaskedElement'
 import Input, { inputPropTypes } from '../input/Input'
 import Context from '../../shared/Context'
 
-const InputMasked = React.forwardRef((props, ref) => {
+const InputMasked = (props) => {
   const context = React.useContext(Context)
 
   // Remove masks defined in Provider/Context, because it overwrites a custom mask
@@ -40,7 +37,6 @@ const InputMasked = React.forwardRef((props, ref) => {
   return (
     <InputMaskedContext.Provider
       value={{
-        inner_ref: ref,
         props: contextAndProps,
         context,
       }}
@@ -48,19 +44,9 @@ const InputMasked = React.forwardRef((props, ref) => {
       <InputMaskedElement />
     </InputMaskedContext.Provider>
   )
-})
-
-export default InputMasked
-
-InputMasked.enableWebComponent = () => {
-  registerElement(
-    InputMasked?.tagName,
-    InputMasked,
-    InputMasked.defaultProps
-  )
 }
 
-InputMasked.tagName = 'dnb-input-masked'
+export default InputMasked
 
 InputMasked.propTypes = {
   mask: PropTypes.oneOfType([

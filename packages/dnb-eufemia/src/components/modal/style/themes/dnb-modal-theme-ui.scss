@@ -3,14 +3,11 @@
 *
 */
 
-@import '../../../../style/themes/imports.scss';
-
-:root {
-  --modal-overlay-bg: rgba(0, 0, 0, 0.32);
-}
+@import '../../../../style/core/utilities.scss';
 
 .dnb-modal {
   &__overlay {
+    --modal-overlay-bg: rgb(0 0 0 / 32%);
     background-color: var(--modal-overlay-bg);
   }
 }

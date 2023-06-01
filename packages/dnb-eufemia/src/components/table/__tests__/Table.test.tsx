@@ -4,12 +4,6 @@ import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
 import { BasicTable } from './TableMocks'
 import Table from '../Table'
 
-declare global {
-  interface Window {
-    IntersectionObserver: jest.Mock
-  }
-}
-
 const NODE_ENV = process.env.NODE_ENV
 const log = globalThis.console.log
 
@@ -203,7 +197,7 @@ describe('Table aria', () => {
 
 describe('Table scss', () => {
   it('have to match snapshot', () => {
-    const scss = loadScss(require.resolve('../style/dnb-table.scss'))
+    const scss = loadScss(require.resolve('../style/deps.scss'))
     expect(scss).toMatchSnapshot()
   })
   it('have to match default theme snapshot', () => {

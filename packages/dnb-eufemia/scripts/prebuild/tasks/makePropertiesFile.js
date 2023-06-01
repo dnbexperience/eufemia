@@ -9,6 +9,7 @@ import transform from 'gulp-transform'
 import prettier from 'prettier'
 import packpath from 'packpath'
 import { log } from '../../lib'
+import { transformSass } from './transformUtils'
 
 const ROOT_DIR = packpath.self()
 
@@ -51,34 +52,28 @@ export default ${JSON.stringify(variables, null, 2)}`,
   )
 }
 
-export const runFactory = ({ returnResult = false } = {}) =>
+export const runFactory = ({
+  returnResult = false,
+  glob = './src/style/themes/**/properties.scss',
+} = {}) =>
   new Promise((resolve, reject) => {
     log.start('> PrePublish: transforming style modules')
     try {
       gulp
-        .src(
-          [
-            './src/style/**/properties.scss',
-            '!**/__tests__/**',
-            '!**/stories/**',
-            '!**/*_not_in_use*/**/*',
-          ],
-          {
-            cwd: ROOT_DIR,
-          }
-        )
+        .src([glob], {
+          cwd: ROOT_DIR,
+        })
+        .pipe(transform('utf8', transformSass()))
         .pipe(transform('utf8', transformModulesContent))
         .pipe(
           rename({
-            dirname: './',
-            prefix: '',
             extname: '.js',
           })
-        ) // rename
+        )
         .pipe(
           returnResult
             ? transform('utf8', (result) => resolve(result))
-            : gulp.dest('./src/style', {
+            : gulp.dest('./src/style/themes/', {
                 overwrite: true,
                 cwd: ROOT_DIR,
               })

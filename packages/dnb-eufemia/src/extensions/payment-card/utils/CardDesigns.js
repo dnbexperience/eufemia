@@ -1,12 +1,13 @@
-import properties from '../../../style/properties'
+import properties from '../../../style/themes/theme-ui/properties'
 import { DNB, Saga, PB, Mastercard, BankAxept, Visa } from './Types'
+import { myFirstImg, youthImg, ungImg } from './backgrounds'
 
 const defaultDesign = {
   name: 'Default',
   cardStyle: 'card--design-default',
   bankLogo: DNB.Colored(properties['--color-white']),
   visa: Visa.Colored(properties['--color-white']),
-  mastercard: Mastercard.DefaultWhite,
+  mastercard: Mastercard.Default,
   bankAxept: BankAxept.White,
   saga: Saga.None,
   privateBanking: PB.None,
@@ -15,56 +16,48 @@ const defaultDesign = {
 const pluss = {
   name: 'Pluss',
   cardStyle: 'card--design-pluss',
-  bankLogo: DNB.Colored(properties['--color-mint-green']),
+  bankLogo: DNB.Colored(properties['--color-white']),
   visa: Visa.Colored(properties['--color-white']),
-  mastercard: Mastercard.DefaultWhite,
+  mastercard: Mastercard.Default,
   bankAxept: BankAxept.White,
   saga: Saga.None,
   privateBanking: PB.None,
 }
 
-const white = {
-  name: 'White',
-  cardStyle: 'card--design-white',
-  bankLogo: DNB.Colored(properties['--color-black-55']),
-  visa: Visa.Colored(properties['--color-black-55']),
+const young = {
+  name: 'Ung',
+  cardStyle: 'card--design-ung',
+  bankLogo: DNB.Colored(properties['--color-sea-green']),
+  visa: Visa.Colored(properties['--color-black-80']),
   mastercard: Mastercard.Default,
   bankAxept: BankAxept.Black,
   saga: Saga.None,
   privateBanking: PB.None,
+  backgroundImage: ungImg,
 }
 
 const myFirst = {
   name: 'My first',
-  cardStyle: 'card--design-white',
-  bankLogo: DNB.Colored(properties['--color-emerald-green']),
-  visa: Visa.Colored(properties['--color-black-55']),
+  cardStyle: 'card--design-my-first',
+  bankLogo: DNB.Colored(properties['--color-ocean-green']),
+  visa: Visa.Colored(properties['--color-black-80']),
   mastercard: Mastercard.Default,
   bankAxept: BankAxept.Black,
   saga: Saga.None,
   privateBanking: PB.None,
+  backgroundImage: myFirstImg,
 }
 
 const youth = {
   name: 'Youth',
-  cardStyle: 'card--design-white',
-  bankLogo: DNB.Colored(properties['--color-summer-green']),
-  visa: Visa.Colored(properties['--color-black-55']),
+  cardStyle: 'card--design-youth',
+  bankLogo: DNB.Colored(properties['--color-sea-green']),
+  visa: Visa.Colored(properties['--color-black-80']),
   mastercard: Mastercard.Default,
   bankAxept: BankAxept.Black,
   saga: Saga.None,
   privateBanking: PB.None,
-}
-
-const silver = {
-  name: 'Silver',
-  cardStyle: 'card--design-silver',
-  bankLogo: DNB.Colored(properties['--color-black-55']),
-  visa: Visa.Colored(properties['--color-black-55']),
-  mastercard: Mastercard.Default,
-  bankAxept: BankAxept.Black,
-  saga: Saga.None,
-  privateBanking: PB.None,
+  backgroundImage: youthImg,
 }
 
 const gold = {
@@ -72,7 +65,7 @@ const gold = {
   cardStyle: 'card--design-gold',
   bankLogo: DNB.Colored(properties['--color-white']),
   visa: Visa.Colored(properties['--color-white']),
-  mastercard: Mastercard.DefaultWhite,
+  mastercard: Mastercard.Default,
   bankAxept: BankAxept.White,
   saga: Saga.None,
   privateBanking: PB.None,
@@ -81,10 +74,10 @@ const gold = {
 const saga = {
   name: 'Saga',
   cardStyle: 'card--design-saga',
-  bankLogo: DNB.Colored('#CFAD88'),
-  visa: Visa.Colored('#CFAD8899'),
-  mastercard: Mastercard.DefaultWhite,
-  bankAxept: BankAxept.White,
+  bankLogo: DNB.Colored('#BFA970'),
+  visa: Visa.Colored('#BFA970'),
+  mastercard: Mastercard.Default,
+  bankAxept: BankAxept.Gold,
   saga: Saga.Gold,
   privateBanking: PB.None,
 }
@@ -92,10 +85,10 @@ const saga = {
 const sagaPlatinum = {
   name: 'Saga platinum',
   cardStyle: 'card--design-saga',
-  bankLogo: DNB.Colored('#8C9091'),
-  visa: Visa.Colored('#8C909199'),
-  mastercard: Mastercard.DefaultWhite,
-  bankAxept: BankAxept.White,
+  bankLogo: DNB.Colored('#b2b4b3'),
+  visa: Visa.Colored('#cccccc'),
+  mastercard: Mastercard.Dark,
+  bankAxept: BankAxept.Black20,
   saga: Saga.Platinum,
   privateBanking: PB.None,
 }
@@ -103,10 +96,10 @@ const sagaPlatinum = {
 const privateBanking = {
   name: 'Private Banking',
   cardStyle: 'card--design-private',
-  bankLogo: DNB.Metalic,
-  visa: Visa.Metalic,
-  mastercard: Mastercard.Metalic,
-  bankAxept: BankAxept.White,
+  bankLogo: DNB.Colored('#b2b4b3'),
+  visa: Visa.Platinum,
+  mastercard: Mastercard.Dark,
+  bankAxept: BankAxept.Gray,
   saga: Saga.None,
   privateBanking: PB.Default,
 }
@@ -115,8 +108,8 @@ const mcBlack = {
   name: 'Mastercard Black',
   cardStyle: 'card--design-black',
   bankLogo: DNB.Colored(properties['--color-black-80']),
-  visa: Visa.Metalic,
-  mastercard: Mastercard.BlackMetalic,
+  visa: Visa.Colored('#b2b4b3'),
+  mastercard: Mastercard.Dark,
   bankAxept: BankAxept.White,
   saga: Saga.None,
   privateBanking: PB.None,
@@ -125,9 +118,9 @@ const mcBlack = {
 const businessNoVisa = {
   name: 'Bedriftskort BankAxept',
   cardStyle: 'card--design-business-no-visa',
-  bankLogo: DNB.Colored(properties['--color-white']),
+  bankLogo: DNB.Colored(properties['--color-mint-green']),
   visa: Visa.Colored(properties['--color-white']),
-  mastercard: Mastercard.DefaultWhite,
+  mastercard: Mastercard.Default,
   bankAxept: BankAxept.White,
   saga: Saga.None,
   privateBanking: PB.None,
@@ -136,9 +129,9 @@ const businessNoVisa = {
 const businessWithVisa = {
   name: 'Bedriftskort Visa',
   cardStyle: 'card--design-business-with-visa',
-  bankLogo: DNB.Colored(properties['--color-white']),
+  bankLogo: DNB.Colored(properties['--color-mint-green']),
   visa: Visa.Colored(properties['--color-white']),
-  mastercard: Mastercard.DefaultWhite,
+  mastercard: Mastercard.Default,
   bankAxept: BankAxept.White,
   saga: Saga.None,
   privateBanking: PB.None,
@@ -146,10 +139,9 @@ const businessWithVisa = {
 
 const Designs = {
   defaultDesign,
-  white,
+  young,
   myFirst,
   youth,
-  silver,
   pluss,
   gold,
   saga,
@@ -164,10 +156,9 @@ export default Designs
 export {
   defaultDesign,
   pluss,
-  white,
+  young,
   myFirst,
   youth,
-  silver,
   gold,
   saga,
   sagaPlatinum,

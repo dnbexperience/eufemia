@@ -18,7 +18,7 @@ import styled from '@emotion/styled'
 import Layout from '../layout/Layout'
 
 // Get Eufemia in
-import { P } from '@dnb/eufemia/src/elements'
+import { P } from '@dnb/eufemia/src'
 import {
   Heading,
   FormSet,
@@ -26,13 +26,13 @@ import {
   Input,
   Textarea,
   Section,
-  StepIndicator,
   ToggleButton,
   Icon,
   Button,
   Switch,
   Space,
   GlobalStatus,
+  Tabs,
 } from '@dnb/eufemia/src/components'
 import {
   save as SaveIcon,
@@ -61,21 +61,14 @@ const Header = () => (
       <HeaderTitleWrapper top="x-large">
         <Heading size="x-large">Card complaint</Heading>
       </HeaderTitleWrapper>
-
-      <StepIndicator
-        current_step={0}
-        // mode="strict" // The design is not ready for v2
+      <Tabs
         data={[
           {
             title: 'Information about the complaint',
+            key: 'Information about the complaint',
           },
-          {
-            title: 'Summary',
-          },
+          { title: 'Summary', key: 'Summary' },
         ]}
-        on_change={(e) => {
-          console.log('StepIndicator.on_change', e)
-        }}
       />
     </HeaderSection>
     <GlobalStatus />
@@ -211,8 +204,8 @@ const MainForm = () => {
 
           <Attachment>
             <Attachment.FileRow>
-              <Icon icon={AttachmentIcon} aria-hidden />
-              {' filename_01.jpg'}
+              <Icon icon={AttachmentIcon} />
+              filename_01.jpg
             </Attachment.FileRow>
             <Button
               text="Delete"
@@ -311,7 +304,7 @@ const Ingress = (props) => (
 )
 
 // Attachment area
-const Attachment = styled(Space)`
+const Attachment = styled(P)`
   .dnb-button {
     margin-left: 1rem;
   }
@@ -324,9 +317,6 @@ Attachment.FileRow = styled.span`
 `
 Attachment.Add = styled(Space)`
   margin-top: 0.5rem;
-  .dnb-button {
-    margin-left: -0.5rem;
-  }
 `
 
 // The bottom section / divider has some extra CSS

@@ -1,0 +1,75 @@
+---
+title: 'HTML Elements'
+icon: 'elements'
+order: 6
+---
+
+import CodeBlock from 'dnb-design-system-portal/src/shared/tags/CodeBlock'
+import ListElements from 'dnb-design-system-portal/src/shared/parts/ListElements'
+import { StyledComponentsExample } from 'Docs/uilib/Examples'
+import { UnstyledExample } from 'Docs/uilib/elements/unstyled/Examples'
+
+# HTML Elements
+
+The `@dnb/eufemia` contains styling for the most commonly used [HTML Elements](https://developer.mozilla.org/en-US/docs/Web/HTML/Element) defined by the UX team at DNB. You may also have a look at [Typography](/uilib/typography) for headings and paragraph usage.
+
+## Elements
+
+<ListElements />
+
+### Vanilla HTML
+
+In order to apply a style, you have to define a CSS class, like:
+
+```jsx
+<a href="/" className="dnb-anchor">Text Link</a>
+<blockquote className="dnb-blockquote">
+  Dis leo ala tractatos ei quo.
+</blockquote>
+```
+
+### React JSX
+
+For those using JSX with React, you can simply use the wrapper Components. They also inherit to the [Skeleton](/uilib/components/skeleton) provider.
+
+```jsx
+import { H1, H2, P, Anchor, Link } from '@dnb/eufemia'
+
+render(
+  <article>
+    <H1>Semantic h1</H1>
+    <P>My Paragraph</P>
+    <Anchor href="/">Link</Anchor>
+    <Link href="/">Link</Link>
+  </article>
+)
+```
+
+#### Styled Components
+
+They work seamlessly with Styled Components (emotion) as well:
+
+<StyledComponentsExample />
+
+## Unstyled HTML Elements
+
+In order to use the inherited [Skeleton](/uilib/components/skeleton), there are a number of un-styled HTML elements, that do inherit and react to the Skeleton Provider.
+
+```jsx
+import { Span, Div } from '@dnb/eufemia'
+```
+
+- `Span`
+- `Div`
+
+### Example usage of span
+
+<UnstyledExample />
+
+---
+
+## Missing HTML Elements
+
+Not every commonly used HTML Elements are included yet in the `@dnb/eufemia`. This decision is made by the DNB UX Team and relies on a principle to make UX design as good as possible, consistent and more thoughtful towards a broader customer target.
+
+- For the `select` element, use the [**Dropdown**](/uilib/components/dropdown) component.

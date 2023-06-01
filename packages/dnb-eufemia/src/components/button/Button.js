@@ -12,7 +12,6 @@ import {
   makeUniqueId,
   isTrue,
   extendPropsWithContextInClassComponent,
-  registerElement,
   validateDOMAttributes,
   processChildren,
   getStatusState,
@@ -30,7 +29,7 @@ import { includeValidProps } from '../form-row/FormRowHelpers'
 import IconPrimary from '../icon-primary/IconPrimary'
 import { launch, launch_medium } from '../../icons'
 import FormStatus from '../form-status/FormStatus'
-import Anchor from '../../elements/Anchor'
+import Anchor from '../anchor/Anchor'
 import Tooltip from '../tooltip/Tooltip'
 
 export const buttonVariantPropType = {
@@ -51,12 +50,7 @@ export const buttonVariantPropType = {
  * The button component should be used as the call-to-action in a form, or as a user interaction mechanism. Generally speaking, a button should not be used when a link would do the trick. Exceptions are made at times when it is used as a navigation element in the action-nav element.
  */
 export default class Button extends React.PureComponent {
-  static tagName = 'dnb-button'
   static contextType = Context
-
-  static enableWebComponent() {
-    registerElement(Button?.tagName, Button, Button.defaultProps)
-  }
 
   static getContent(props) {
     return processChildren(props)
@@ -114,7 +108,7 @@ export default class Button extends React.PureComponent {
       status_state,
       status_props,
       status_no_animation,
-      global_status_id,
+      globalStatus,
       id, // eslint-disable-line
       disabled,
       text: _text, // eslint-disable-line
@@ -254,10 +248,10 @@ export default class Button extends React.PureComponent {
         <FormStatus
           show={showStatus}
           id={this._id + '-form-status'}
-          global_status_id={global_status_id}
+          globalStatus={globalStatus}
           label={text}
           text={status}
-          status={status_state}
+          state={status_state}
           text_id={this._id + '-status'} // used for "aria-describedby"
           no_animation={status_no_animation}
           skeleton={skeleton}
@@ -306,7 +300,10 @@ Button.propTypes = {
     PropTypes.string,
     PropTypes.bool,
   ]),
-  global_status_id: PropTypes.string,
+  globalStatus: PropTypes.shape({
+    id: PropTypes.string,
+    message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  }),
   id: PropTypes.string,
   class: PropTypes.string,
   href: PropTypes.string,
@@ -340,9 +337,6 @@ Button.propTypes = {
 
   ...spacingPropTypes,
 
-  custom_element: PropTypes.object,
-  custom_method: PropTypes.func,
-
   on_click: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 }
 
@@ -372,16 +366,13 @@ Button.defaultProps = {
   status_state: 'error',
   status_props: null,
   status_no_animation: null,
-  global_status_id: null,
+  globalStatus: null,
   inner_ref: null,
 
   className: null,
   innerRef: null,
   children: null,
   element: null,
-
-  custom_element: null,
-  custom_method: null,
 
   on_click: null,
 }

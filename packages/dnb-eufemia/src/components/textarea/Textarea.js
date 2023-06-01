@@ -12,7 +12,6 @@ import {
   isTrue,
   makeUniqueId,
   extendPropsWithContextInClassComponent,
-  registerElement,
   validateDOMAttributes,
   processChildren,
   getStatusState,
@@ -38,7 +37,6 @@ import Suffix from '../../shared/helpers/Suffix'
  * The textarea component is an umbrella component for all textareas which share the same style as the classic `text` textarea field.
  */
 export default class Textarea extends React.PureComponent {
-  static tagName = 'dnb-textarea'
   static contextType = Context
 
   static propTypes = {
@@ -64,7 +62,10 @@ export default class Textarea extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool,
     ]),
-    global_status_id: PropTypes.string,
+    globalStatus: PropTypes.shape({
+      id: PropTypes.string,
+      message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    }),
     suffix: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
@@ -100,9 +101,6 @@ export default class Textarea extends React.PureComponent {
     ]),
     children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 
-    custom_element: PropTypes.object,
-    custom_method: PropTypes.func,
-
     on_change: PropTypes.func,
     on_focus: PropTypes.func,
     on_blur: PropTypes.func,
@@ -121,7 +119,7 @@ export default class Textarea extends React.PureComponent {
     status_state: 'error',
     status_props: null,
     status_no_animation: null,
-    global_status_id: null,
+    globalStatus: null,
     suffix: null,
     placeholder: null,
     align: null,
@@ -142,18 +140,11 @@ export default class Textarea extends React.PureComponent {
     textarea_element: null,
     children: null,
 
-    custom_element: null,
-    custom_method: null,
-
     on_change: null,
     on_focus: null,
     on_blur: null,
     on_key_down: null,
     on_state_update: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(Textarea?.tagName, Textarea, Textarea.defaultProps)
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -360,7 +351,7 @@ export default class Textarea extends React.PureComponent {
       status_state,
       status_props,
       status_no_animation,
-      global_status_id,
+      globalStatus,
       suffix,
       disabled,
       skeleton,
@@ -502,11 +493,11 @@ export default class Textarea extends React.PureComponent {
           <FormStatus
             show={showStatus}
             id={id + '-form-status'}
-            global_status_id={global_status_id}
+            globalStatus={globalStatus}
             label={label}
             text_id={id + '-status'} // used for "aria-describedby"
             text={status}
-            status={status_state}
+            state={status_state}
             no_animation={status_no_animation}
             skeleton={skeleton}
             {...status_props}

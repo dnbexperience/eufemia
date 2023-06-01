@@ -5,31 +5,17 @@
 import React from 'react'
 import CodeBlock from './CodeBlock'
 import { Checkbox, Input } from '@dnb/eufemia/src/components'
-import {
-  Ul,
-  Ol,
-  Dl,
-  Li,
-  P,
-  Hr,
-  Blockquote,
-  Code,
-} from '@dnb/eufemia/src/elements'
+import { Ul, Ol, Dl, Li, P, Hr, Blockquote, Code } from '@dnb/eufemia/src'
 import Table from './Table'
-// import Element from '@dnb/eufemia/src/elements/Element'
 // import Img from './Img'
-// import Tag from './Tag' // use it like so: <Tag as="p" {...props} />
-import Tabbar from './Tabbar'
 import Anchor from './Anchor'
-import Intro, { IntroFooter } from './Intro'
 import Header from './AutoLinkHeader'
 import Copy from './Copy'
+import VisibilityByTheme from '@dnb/eufemia/src/shared/VisibilityByTheme'
 
 export default {
   Copy,
-  Intro,
-  IntroFooter,
-  Tabbar,
+  VisibilityByTheme,
   // img: Img, // -> <figure> cannot appear as a descendant of <p>
   h1: (props) => <Header level="1" {...props} />,
   h2: (props) => <Header level="2" {...props} />,
@@ -39,7 +25,6 @@ export default {
   h6: (props) => <Header level="6" {...props} />,
   a: Anchor,
   link: Anchor,
-  // eslint-disable-next-line
   input: ({ type, ...rest }) => {
     switch (type) {
       case 'checkbox':
@@ -49,12 +34,10 @@ export default {
     }
   },
   table: Table,
-  // pre: (props) => <Element as="div" {...props} />,// Not needed. Makes skeletons not that good looking
-  code: (...props) => CodeBlock(...props),
-  inlineCode: (props) => {
-    if (props.inline) {
-      props.inline = props.inline.toString()
-    }
+  pre: (props) => {
+    return CodeBlock(props.children.props)
+  },
+  code: (props) => {
     return (
       <Copy>
         <Code {...props} />

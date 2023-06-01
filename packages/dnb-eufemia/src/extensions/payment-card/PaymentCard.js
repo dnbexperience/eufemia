@@ -10,7 +10,6 @@ import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
 import {
   isTrue,
-  registerElement,
   validateDOMAttributes,
   extendPropsWithContextInClassComponent,
 } from '../../shared/component-helper'
@@ -24,12 +23,18 @@ import {
 } from '../../components/skeleton/SkeletonHelper'
 import P from '../../elements/P'
 
-import { ProductType, CardType } from './utils/Types'
+import { ProductType, CardType, BankAxeptType } from './utils/Types'
 import Designs, { defaultDesign } from './utils/CardDesigns'
 import cardProducts from './utils/cardProducts'
-import { ProductLogo, TypeLogo, BankLogo, StatusIcon } from './icons'
+import {
+  ProductLogo,
+  TypeLogo,
+  BankLogo,
+  StatusIcon,
+  BankAxeptLogo,
+} from './icons'
 
-export { Designs, ProductType, CardType }
+export { Designs, ProductType, CardType, BankAxeptType }
 
 const cardDataPropTypes = PropTypes.shape({
   productCode: PropTypes.string.isRequired,
@@ -38,6 +43,7 @@ const cardDataPropTypes = PropTypes.shape({
   cardDesign: PropTypes.object.isRequired,
   cardType: PropTypes.object.isRequired,
   productType: PropTypes.object.isRequired,
+  bankAxept: PropTypes.object.isRequired,
 })
 
 const translationDefaultPropsProps = {
@@ -47,7 +53,6 @@ const translationDefaultPropsProps = {
 }
 
 export default class PaymentCard extends React.PureComponent {
-  static tagName = 'dnb-payment-card'
   static contextType = Context
 
   static propTypes = {
@@ -88,14 +93,6 @@ export default class PaymentCard extends React.PureComponent {
     children: null,
 
     ...translationDefaultPropsProps,
-  }
-
-  static enableWebComponent() {
-    registerElement(
-      PaymentCard.tagName,
-      PaymentCard,
-      PaymentCard.defaultProps
-    )
   }
 
   render() {
@@ -199,6 +196,7 @@ const defaultCard = (productCode) => ({
   cardDesign: defaultDesign,
   cardType: CardType.None,
   productType: ProductType.None,
+  bankAxept: BankAxeptType.None,
 })
 
 StatusOverlay.propTypes = {
@@ -264,7 +262,7 @@ function CardText({ cardNumber, translations, skeleton }) {
     >
       <P
         className="dnb-payment-card__card__holder"
-        modifier="x-small bold"
+        modifier="x-small medium"
       >
         {translations.text_card_number}
       </P>
@@ -301,12 +299,23 @@ function NormalCard({
         'dnb-payment-card__card',
         `dnb-payment-card__${data.cardDesign.cardStyle}`
       )}
+      {...(data.cardDesign?.backgroundImage
+        ? {
+            style: {
+              backgroundImage: `url(${data.cardDesign.backgroundImage})`,
+            },
+          }
+        : {})}
     >
       <div className="dnb-payment-card__card__content">
         <div className="dnb-payment-card__card__top">
           <BankLogo logoType={data.cardDesign.bankLogo} />
           <ProductLogo
             productType={data.productType}
+            cardDesign={data.cardDesign}
+          />
+          <BankAxeptLogo
+            bankAxept={data.bankAxept}
             cardDesign={data.cardDesign}
           />
         </div>

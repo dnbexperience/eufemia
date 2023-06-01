@@ -1,0 +1,606 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PaymentCard have to match snapshot 1`] = `
+<PaymentCard
+  card_number="************1337"
+  card_status="active"
+  class="class"
+  className="className"
+  digits="digits"
+  id="id"
+  locale="locale"
+  product_code="NK1"
+  raw_data={null}
+  skeleton="skeleton"
+  text_blocked={null}
+  text_card_number={null}
+  text_expired={null}
+  variant="normal"
+>
+  <Provider
+    locale="locale"
+  >
+    <figure
+      className="dnb-payment-card dnb-payment-card--normal className class"
+    >
+      <figcaption
+        className="dnb-sr-only dnb-payment-card__figcaption"
+      >
+        DNB Kortet
+      </figcaption>
+      <NormalCard
+        cardNumber=" **** **** **** 1337 "
+        cardStatus="active"
+        data={
+          {
+            "bankAxept": {
+              "is": [Function],
+            },
+            "cardDesign": {
+              "bankAxept": {
+                "is": [Function],
+              },
+              "bankLogo": {
+                "color": "#fff",
+              },
+              "cardStyle": "card--design-default",
+              "mastercard": {
+                "is": [Function],
+              },
+              "name": "Default",
+              "privateBanking": {
+                "is": [Function],
+              },
+              "saga": {
+                "is": [Function],
+              },
+              "visa": {
+                "color": "#fff",
+              },
+            },
+            "cardType": {
+              "is": [Function],
+            },
+            "displayName": "DNB Kortet",
+            "productCode": "NK1",
+            "productName": "DNB Kortet",
+            "productType": {
+              "is": [Function],
+            },
+          }
+        }
+        id="id"
+        skeleton={false}
+        translations={
+          {
+            "card_number": "************1337",
+            "card_status": "active",
+            "children": "children",
+            "class": "class",
+            "className": "className",
+            "digits": "digits",
+            "id": "id",
+            "locale": "locale",
+            "product_code": "NK1",
+            "raw_data": null,
+            "skeleton": "skeleton",
+            "text_blocked": "Sperret",
+            "text_card_number": "Kortnummer",
+            "text_expired": "Utgått",
+            "variant": "normal",
+          }
+        }
+      >
+        <div
+          className="dnb-payment-card__card dnb-payment-card__card--design-default"
+          id="id"
+        >
+          <div
+            className="dnb-payment-card__card__content"
+          >
+            <div
+              className="dnb-payment-card__card__top"
+            >
+              <BankLogo
+                logoType={
+                  {
+                    "color": "#fff",
+                  }
+                }
+              >
+                <DNBLogoSVG
+                  className="dnb-payment-card__card__bank-logo"
+                  fill="#fff"
+                >
+                  <svg
+                    className="dnb-payment-card__card__bank-logo"
+                    fill="#fff"
+                    viewBox="0 0 56 38"
+                    width="56"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <title>
+                      DNB logo
+                    </title>
+                    <path
+                      clipRule="evenodd"
+                      d="M10.4176 9.23538C9.2448 8.77802 7.95573 8.54587 6.58423 8.54587H0.660099C0.296531 8.54587 0 8.83052 0 9.18288V28.9445C0 29.2955 0.296531 29.5818 0.660099 29.5818H6.58423C7.95573 29.5818 9.2448 29.3493 10.4176 28.892C11.7812 28.3613 12.94 27.5393 13.8593 26.4489C15.9504 23.9729 16.2624 20.837 16.2641 19.1892C16.2641 17.787 16.0295 14.2476 13.8593 11.6784C12.94 10.5883 11.7812 9.76639 10.4176 9.23538ZM6.58425 27.6097H2.03299V10.518H6.58425C8.25707 10.518 10.6009 10.9258 12.283 12.9171C14.0909 15.0573 14.2308 18.2592 14.2308 19.1892C14.2308 20.5761 13.9777 23.2038 12.283 25.2102C10.6009 27.2019 8.25707 27.6097 6.58425 27.6097ZM42.6933 19.4514V27.6336H48.382C53.986 27.6336 53.986 24.3838 53.986 23.3153C53.986 21.1016 52.0055 19.4514 49.1728 19.4514H42.6933ZM42.6933 10.4983H47.5031C49.202 10.4983 50.4716 10.7773 51.2746 11.3282C51.8012 11.6881 52.4978 12.3688 52.4978 14.1197C52.4978 17.2557 49.9532 17.499 49.1728 17.499H42.6933V10.4983ZM52.8289 18.3095L52.7198 18.2559L52.8119 18.178C53.5875 17.5154 54.5126 16.272 54.5126 14.1197C54.5126 12.1522 53.8139 10.6761 52.4365 9.73275C51.2696 8.93404 49.656 8.54587 47.5031 8.54587H41.3146C40.9541 8.54587 40.662 8.82952 40.6603 9.17859V28.9532C40.6603 29.3023 40.9527 29.5818 41.3129 29.5818H48.382C50.6085 29.5818 52.3918 29.1248 53.6831 28.2127C54.4323 27.6842 55.0096 27.0067 55.3986 26.1992C55.7974 25.3705 56 24.4019 56 23.3153C56 21.6613 55.2743 20.0709 53.9569 19.0231C53.6184 18.7542 53.2382 18.5139 52.8289 18.3095ZM35.9165 0V28.9885C35.9165 29.2482 35.7454 29.4728 35.4916 29.5584C35.2866 29.6276 35.066 29.4973 34.9491 29.3438L21.6854 13.1224V38H19.6524V9.19199C19.6524 8.93232 19.8232 8.70389 20.077 8.62172C20.14 8.60265 20.2064 8.59213 20.2708 8.59213C20.468 8.59213 20.6526 8.68285 20.7709 8.83832L33.8835 24.9802V0H35.9165Z"
+                      fill="#fff"
+                      fillRule="evenodd"
+                    />
+                  </svg>
+                </DNBLogoSVG>
+              </BankLogo>
+              <ProductLogo
+                cardDesign={
+                  {
+                    "bankAxept": {
+                      "is": [Function],
+                    },
+                    "bankLogo": {
+                      "color": "#fff",
+                    },
+                    "cardStyle": "card--design-default",
+                    "mastercard": {
+                      "is": [Function],
+                    },
+                    "name": "Default",
+                    "privateBanking": {
+                      "is": [Function],
+                    },
+                    "saga": {
+                      "is": [Function],
+                    },
+                    "visa": {
+                      "color": "#fff",
+                    },
+                  }
+                }
+                productType={
+                  {
+                    "is": [Function],
+                  }
+                }
+              />
+              <BankAxeptLogo
+                bankAxept={
+                  {
+                    "is": [Function],
+                  }
+                }
+                cardDesign={
+                  {
+                    "bankAxept": {
+                      "is": [Function],
+                    },
+                    "bankLogo": {
+                      "color": "#fff",
+                    },
+                    "cardStyle": "card--design-default",
+                    "mastercard": {
+                      "is": [Function],
+                    },
+                    "name": "Default",
+                    "privateBanking": {
+                      "is": [Function],
+                    },
+                    "saga": {
+                      "is": [Function],
+                    },
+                    "visa": {
+                      "color": "#fff",
+                    },
+                  }
+                }
+              >
+                <BankAxeptSVG
+                  className="dnb-payment-card__card__bank-axept"
+                  fill="#ffffff"
+                >
+                  <svg
+                    className="dnb-payment-card__card__bank-axept"
+                    fill="#ffffff"
+                    height="35"
+                    viewBox="0 0 72 35"
+                    width="72"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <title>
+                      BankAxept
+                    </title>
+                    <path
+                      d="M36.6 7.5c0 3.3-2 4.9-4 4.9-1.2 0-2.1-.5-2.8-1.6v1.3h-2.2V0h2.2v4.5c.5-.8 1.4-1.7 2.9-1.7 1.8.1 3.9 1.6 3.9 4.7Zm-6.8.1c0 1.8 1.1 2.8 2.2 2.8s2.3-.9 2.3-2.8-1.2-2.8-2.3-2.8c-1.1 0-2.2.9-2.2 2.8Zm7.9-.1c0-3.1 2-4.6 4-4.6 1.1 0 2 .4 2.7 1.4V3.2h2.2v9h-2.2v-1.3c-.6.8-1.6 1.5-3 1.5-1.7 0-3.7-1.6-3.7-4.9Zm2.2.2c0 1.9 1.2 2.8 2.3 2.8 1.2 0 2.3-.8 2.3-2.8 0-1.9-1.1-2.8-2.2-2.8-1.2-.1-2.4.8-2.4 2.8Zm11 4.4V7c0-1.4.8-2.1 1.9-2.2 1 0 1.7.5 1.7 2V12h2.2V6c0-2.4-1.4-3.2-3-3.2-1 0-2.2.5-2.8 1.6V3.1h-2.2v9h2.2Zm7.9-12h2.1v7.2l3.2-4.1h2.5l-3.1 3.7 3.6 5.2h-2.5l-2.4-3.7-1.3 1.5v2.2h-2.1V.1ZM31.1 14.9c-2 0-4 1.5-4 4.6 0 3.2 2.1 4.8 3.7 4.8 1.4 0 2.4-.7 3-1.5v1.3H36v-9h-2.2v1.2c-.7-1-1.6-1.4-2.7-1.4Zm.6 7.5c-1.1 0-2.3-.9-2.3-2.8 0-2 1.1-2.8 2.4-2.8 1.1 0 2.2.9 2.2 2.8 0 2-1.1 2.8-2.3 2.8Zm11.4 1-1.2-1.2c-.1-.2-.3-.3-.5-.3s-.3.1-.5.3L38 25.3c-.3.3-.7.7-1.2.7s-.8-.3-.8-.8c0-.331.206-.594.447-.902l.153-.198 3-3.2c.8-.8 1.3-.9 1.8-.9.4 0 1 .1 1.9 1l1.2 1.2c.3.3.6.7.6 1.1 0 .5-.3.8-.8.8s-.8-.3-1.2-.7Zm-3.5-7.7 1.2 1.2c.1.2.3.3.5.3s.3-.1.5-.3l2.9-3.1c.3-.3.7-.7 1.2-.7s.8.3.8.8c0 .331-.206.594-.447.902-.05.064-.102.13-.153.198l-3 3.2c-.8.8-1.3.9-1.8.9-.4 0-1-.1-1.9-1l-1.2-1.2c-.3-.3-.6-.7-.6-1.1 0-.5.3-.8.8-.8s.8.2 1.2.7Zm10.9 6.6c-1.4 0-2.3-.9-2.4-2.3h6.4v-.7c0-2.6-1.7-4.5-4.1-4.5-2.6 0-4.5 1.8-4.5 4.7 0 2.9 2.1 4.7 4.7 4.7 1.7 0 3.7-.9 4-3l-2-.3c-.2.9-.7 1.4-2.1 1.4Zm1.9-3.9h-4.2c.3-1.2 1-1.7 2.1-1.8 1.1 0 1.9.5 2.1 1.8Zm6-3.3v1.2c.6-.8 1.6-1.5 2.9-1.5 1.7 0 3.8 1.5 3.8 4.6 0 3.3-2 4.9-4 4.9-1.1 0-2-.4-2.8-1.4v4.3h-2.2V15.1h2.3Zm0 4.4c0 1.8 1.1 2.8 2.2 2.8s2.3-.9 2.3-2.8-1.2-2.8-2.3-2.8c-1.2.1-2.2.9-2.2 2.8Zm9-6.6v2.2H66v1.8h1.5v4.9c0 1.3.5 2.4 2.4 2.4.7 0 1.6-.3 2.1-.5l-.3-1.7c-.4.1-.8.2-1.2.2-.7 0-.9-.4-.9-1v-4.3h2.2v-1.8h-2.2v-2.5l-2.2.3Z"
+                      fill="#ffffff"
+                    />
+                  </svg>
+                </BankAxeptSVG>
+              </BankAxeptLogo>
+            </div>
+            <div
+              className="dnb-payment-card__card__bottom"
+            >
+              <CardText
+                cardNumber=" **** **** **** 1337 "
+                displayName="DNB Kortet"
+                skeleton={false}
+                translations={
+                  {
+                    "card_number": "************1337",
+                    "card_status": "active",
+                    "children": "children",
+                    "class": "class",
+                    "className": "className",
+                    "digits": "digits",
+                    "id": "id",
+                    "locale": "locale",
+                    "product_code": "NK1",
+                    "raw_data": null,
+                    "skeleton": "skeleton",
+                    "text_blocked": "Sperret",
+                    "text_card_number": "Kortnummer",
+                    "text_expired": "Utgått",
+                    "variant": "normal",
+                  }
+                }
+              >
+                <span
+                  className="dnb-payment-card__card__wrapper"
+                >
+                  <P
+                    className="dnb-payment-card__card__holder"
+                    modifier="x-small medium"
+                  >
+                    <ForwardRef
+                      as="p"
+                      className="dnb-p  dnb-p__size--x-small dnb-p--medium dnb-payment-card__card__holder"
+                    >
+                      <ElementInstance
+                        as="p"
+                        className="dnb-p  dnb-p__size--x-small dnb-p--medium dnb-payment-card__card__holder"
+                        innerRef={null}
+                      >
+                        <p
+                          className="dnb-p  dnb-p__size--x-small dnb-p--medium dnb-payment-card__card__holder"
+                        >
+                          Kortnummer
+                        </p>
+                      </ElementInstance>
+                    </ForwardRef>
+                  </P>
+                  <P
+                    className="dnb-payment-card__card__numbers"
+                  >
+                    <ForwardRef
+                      as="p"
+                      className="dnb-p dnb-payment-card__card__numbers"
+                    >
+                      <ElementInstance
+                        as="p"
+                        className="dnb-p dnb-payment-card__card__numbers"
+                        innerRef={null}
+                      >
+                        <p
+                          className="dnb-p dnb-payment-card__card__numbers"
+                        >
+                           **** **** **** 1337 
+                        </p>
+                      </ElementInstance>
+                    </ForwardRef>
+                  </P>
+                </span>
+              </CardText>
+              <TypeLogo
+                cardDesign={
+                  {
+                    "bankAxept": {
+                      "is": [Function],
+                    },
+                    "bankLogo": {
+                      "color": "#fff",
+                    },
+                    "cardStyle": "card--design-default",
+                    "mastercard": {
+                      "is": [Function],
+                    },
+                    "name": "Default",
+                    "privateBanking": {
+                      "is": [Function],
+                    },
+                    "saga": {
+                      "is": [Function],
+                    },
+                    "visa": {
+                      "color": "#fff",
+                    },
+                  }
+                }
+                cardType={
+                  {
+                    "is": [Function],
+                  }
+                }
+              />
+            </div>
+          </div>
+          <StatusOverlay
+            cardStatus="active"
+            skeleton={false}
+            translations={
+              {
+                "card_number": "************1337",
+                "card_status": "active",
+                "children": "children",
+                "class": "class",
+                "className": "className",
+                "digits": "digits",
+                "id": "id",
+                "locale": "locale",
+                "product_code": "NK1",
+                "raw_data": null,
+                "skeleton": "skeleton",
+                "text_blocked": "Sperret",
+                "text_card_number": "Kortnummer",
+                "text_expired": "Utgått",
+                "variant": "normal",
+              }
+            }
+          />
+        </div>
+      </NormalCard>
+    </figure>
+  </Provider>
+</PaymentCard>
+`;
+
+exports[`PaymentCard scss have to match default theme snapshot 1`] = `
+"/*
+* PaymentCard theme
+*
+*/"
+`;
+
+exports[`PaymentCard scss have to match snapshot 1`] = `
+"/*
+* Used for snapshot testing
+*
+*/
+/*
+ * Utilities
+ */
+/*
+ * PaymentCard component
+ *
+ */
+/*
+ * Utilities
+ */
+.dnb-payment-card {
+  --color-dark-cyan: #003b47;
+  --dnb-payment-bg-default: linear-gradient(
+    187.2deg,
+    #008484 6.31%,
+    var(--color-sea-green) 82.66%
+  );
+  --dnb-payment-bg-pluss: linear-gradient(
+      187.2deg,
+      var(--color-dark-cyan) 6.31%,
+      var(--color-ocean-green) 82.66%
+    ),
+    var(--color-emerald-green);
+  --dnb-payment-bg-white: linear-gradient(
+    184.55deg,
+    var(--color-black-background) 4.63%,
+    var(--color-white) 92.04%
+  );
+  --dnb-payment-bg-gold: linear-gradient(
+    184.55deg,
+    #bfa970 4.63%,
+    #d3bd83 84.57%
+  );
+  --dnb-payment-bg-saga: linear-gradient(
+    187.2deg,
+    #1c1c1c 6.31%,
+    #000 82.66%
+  );
+  --dnb-payment-bg-private: linear-gradient(
+    187.2deg,
+    #1c1c1c 6.31%,
+    #000 82.66%
+  );
+  --dnb-payment-bg-business-no-visa: linear-gradient(
+      187.2deg,
+      var(--color-dark-cyan) 6.31%,
+      var(--color-ocean-green) 82.66%
+    ),
+    var(--color-emerald-green);
+  --dnb-payment-bg-business-with-visa: linear-gradient(
+      187.2deg,
+      var(--color-dark-cyan) 6.31%,
+      var(--color-ocean-green) 82.66%
+    ),
+    var(--color-emerald-green);
+  margin: 0;
+}
+.dnb-payment-card__card {
+  position: relative;
+  width: 85.6mm;
+  height: 53.98mm;
+  padding: 4mm;
+  border-radius: 3.48mm;
+  border: 1px solid;
+  border-color: rgba(255, 255, 255, 0.1) transparent rgba(0, 0, 0, 0.2) transparent;
+  color: var(--color-white);
+  box-shadow: var(--shadow-default);
+  transition: all 225ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+}
+.dnb-payment-card__card--design-default {
+  background: var(--dnb-payment-bg-default);
+  color: var(--color-white);
+}
+.dnb-payment-card__card--design-pluss {
+  background: var(--dnb-payment-bg-pluss);
+  color: var(--color-white);
+}
+.dnb-payment-card__card--design-ung {
+  color: var(--color-black-80);
+}
+.dnb-payment-card__card--design-youth {
+  color: var(--color-black-80);
+}
+.dnb-payment-card__card--design-my-first {
+  color: var(--color-black-80);
+}
+.dnb-payment-card__card--design-gold {
+  background: var(--dnb-payment-bg-gold);
+  color: var(--color-white);
+}
+.dnb-payment-card__card--design-saga {
+  background: var(--dnb-payment-bg-saga);
+  color: var(--color-white);
+}
+.dnb-payment-card__card--design-private {
+  background: var(--dnb-payment-bg-private);
+  color: var(--color-white);
+}
+.dnb-payment-card__card--design-black {
+  background: var(--color-black);
+  color: var(--color-white);
+}
+.dnb-payment-card__card--design-business-no-visa {
+  background: var(--dnb-payment-bg-business-no-visa);
+  color: var(--color-white);
+}
+.dnb-payment-card__card--design-business-with-visa {
+  background: var(--dnb-payment-bg-business-with-visa);
+  color: var(--color-white);
+}
+.dnb-payment-card__card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(52.39% 52.39% at 50% 50%, rgba(247, 246, 230, 0.1215686275) 0%, rgba(6, 6, 6, 0) 100%);
+  border-radius: inherit;
+}
+.dnb-payment-card__card__content {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+.dnb-payment-card__card__wrapper {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.dnb-spacing .dnb-payment-card__card .dnb-p {
+  margin-bottom: 0 !important;
+}
+.dnb-payment-card__card__holder {
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  text-align: left;
+}
+.dnb-payment-card__card__holder.dnb-p {
+  font-size: 0.625rem;
+}
+.dnb-payment-card__card__numbers {
+  font-size: 1.5rem !important;
+  font-weight: var(--font-weight-medium);
+}
+.dnb-payment-card__card__credit-type {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+.dnb-payment-card__card__bank-logo {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.dnb-payment-card__card__product-type {
+  height: 38px;
+  position: absolute;
+  top: 0;
+  left: 70px;
+}
+.dnb-payment-card__card__bank-axept {
+  height: 45px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.dnb-payment-card__blocking__overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(184.55deg, rgba(204, 204, 204, 0.5) 4.63%, rgba(232, 232, 232, 0.5) 84.83%);
+}
+.dnb-payment-card__blocking__center {
+  width: 77px;
+  height: 77px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: var(--color-black-80);
+  color: var(--color-sand-yellow);
+  border-radius: 4px;
+}
+.dnb-payment-card__blocking svg {
+  shape-rendering: geometricprecision;
+}
+.dnb-payment-card.dnb-skeleton .dnb-payment-card__card__holder {
+  opacity: 1;
+}
+.dnb-payment-card--compact .dnb-payment-card__card {
+  padding: 0;
+  height: 32.8mm;
+  border-radius: 3.48mm 3.48mm 0 0;
+  box-shadow: var(--shadow-default);
+}
+.dnb-payment-card--compact .dnb-payment-card__card__top {
+  position: absolute;
+  top: 4mm;
+  left: 6mm;
+  right: 6mm;
+}
+.dnb-payment-card--compact .dnb-payment-card__card__bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 14mm;
+  background-color: var(--color-white);
+}
+.dnb-payment-card--compact .dnb-payment-card__card__wrapper {
+  padding: 1.5mm 6mm;
+  color: var(--color-black-80);
+}
+.dnb-payment-card--compact .dnb-payment-card__card__numbers {
+  font-size: var(--font-size-basis);
+}
+.dnb-payment-card--compact .dnb-payment-card__card__credit-type {
+  top: 8px;
+  right: 4px;
+  bottom: auto;
+}
+.dnb-payment-card--compact .dnb-payment-card__blocking__center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.739);
+  border-radius: inherit;
+}"
+`;

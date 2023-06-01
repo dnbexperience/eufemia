@@ -29,8 +29,8 @@ import {
   addToIndex,
   removeFromIndex,
 } from './helpers'
-import DrawerContent from '../drawer/DrawerContent'
-import DialogContent from '../dialog/DialogContent'
+import { getThemeClasses } from '../../shared/Theme'
+import { Context } from '../../shared'
 
 interface ModalContentState {
   triggeredBy: string
@@ -63,6 +63,8 @@ export default class ModalContent extends React.PureComponent<
   _androidFocusTimeout: NodeJS.Timeout
   _ii: InteractionInvalidation
   _iiLocal: InteractionInvalidation
+
+  static contextType = Context
 
   constructor(props: ModalContentProps) {
     super(props)
@@ -111,7 +113,6 @@ export default class ModalContent extends React.PureComponent<
   componentWillUnmount() {
     clearTimeout(this._focusTimeout)
     clearTimeout(this._lockTimeout)
-
     this.removeLocks()
   }
 
@@ -251,14 +252,8 @@ export default class ModalContent extends React.PureComponent<
             focusElement.focus()
 
             const noH1Elem = elem.querySelector('h1, h2, h3')
-            if (
-              typeof noH1Elem?.tagName !== 'undefined' &&
-              noH1Elem?.tagName !== 'H1'
-            ) {
-              warn(
-                'You have to provide a h1 element at first – instead of:',
-                noH1Elem
-              )
+            if (noH1Elem?.tagName !== 'H1') {
+              warn('A Dialog or Drawer needs a h1 as its first element!')
             }
           } catch (e) {
             warn(e)
@@ -352,7 +347,6 @@ export default class ModalContent extends React.PureComponent<
 
   render() {
     const {
-      mode = 'modal',
       hide,
       title,
       labelled_by,
@@ -361,25 +355,15 @@ export default class ModalContent extends React.PureComponent<
       dialog_title = 'Vindu',
       hide_close_button = false,
       close_button_attributes,
-      animation_duration, // eslint-disable-line
       no_animation = false,
       no_animation_on_mobile = false,
       fullscreen = 'auto',
-      align_content = 'left',
       container_placement = 'right',
-      close, // eslint-disable-line
+      close,
       content_class,
       overlay_class,
       content_id,
       children, // eslint-disable-line
-      min_width,
-      max_width,
-      modal_content,
-      header_content,
-      bar_content,
-      className,
-      prevent_core_style,
-      class: _className,
       dialog_role = null,
       ...rest
     } = this.props
@@ -431,34 +415,20 @@ export default class ModalContent extends React.PureComponent<
         isTrue(fullscreen)
           ? 'dnb-modal__content--fullscreen'
           : fullscreen === 'auto' && 'dnb-modal__content--auto-fullscreen',
-        container_placement || mode === 'drawer'
+        container_placement
           ? `dnb-modal__content--${container_placement || 'right'}`
           : null,
-        mode && `dnb-modal__content--${mode}`,
-
+        getThemeClasses(this.context?.theme),
         content_class
       ),
       onMouseDown: this.onContentMouseDownHandler,
       onClick: this.onContentClickHandler,
     }
 
-    const modeParams = {
-      minWidth: min_width,
-      maxWidth: max_width,
-      modalContent: modal_content,
-      navContent: bar_content,
-      headerContent: header_content,
-      preventCoreStyle: prevent_core_style,
-      className,
-      class: _className,
-      title,
-      alignContent: align_content,
-      noAnimation: no_animation,
-      noAnimationOnMobile: no_animation_on_mobile,
-      fullscreen,
-      containerPlacement: container_placement,
-      ...rest,
-    }
+    const content =
+      typeof children === 'function'
+        ? children({ ...rest, close })
+        : children
 
     return (
       <ModalContext.Provider
@@ -468,7 +438,6 @@ export default class ModalContent extends React.PureComponent<
           hide_close_button,
           close_button_attributes,
           close_title,
-          mode,
           hide,
           setBackgroundColor: this.setBackgroundColor,
           onCloseClickHandler: this.onCloseClickHandler,
@@ -490,22 +459,7 @@ export default class ModalContent extends React.PureComponent<
           }
           {...contentParams}
         >
-          {/* Deprecated: Only to provide backward compatibility */}
-          {mode == 'drawer' && (
-            <DrawerContent
-              className="dnb-modal__content__inner" // backward compatibility
-              {...modeParams}
-            />
-          )}
-          {(mode == 'modal' || mode == 'dialog') && (
-            <DialogContent
-              className="dnb-modal__content__inner" // backward compatibility
-              {...modeParams}
-            />
-          )}
-
-          {/* New method of using Modal */}
-          {mode == 'custom' && children}
+          {content}
         </div>
 
         <span
@@ -517,7 +471,7 @@ export default class ModalContent extends React.PureComponent<
               'dnb-modal__overlay--no-animation-on-mobile',
             overlay_class
           )}
-          aria-hidden="true"
+          aria-hidden={true}
         />
       </ModalContext.Provider>
     )

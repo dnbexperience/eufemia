@@ -15,16 +15,15 @@ import DefaultIcon, {
   prepareIcon,
 } from '../icon/Icon'
 
-// NB: The path reflects the rollup.config.js -> external: '../../icons/primary_icons'
-import * as primary_icons from '../../icons/primary_icons.js'
-import * as primary_icons_medium from '../../icons/primary_icons_medium.js'
+// NB: The path reflects the rollup.config.js -> external: '../../icons/dnb/primary_icons'
+import * as primary_icons from '../../icons/dnb/primary_icons'
+import * as primary_icons_medium from '../../icons/dnb/primary_icons_medium'
 
 const icons = { ...primary_icons, ...primary_icons_medium }
 
 export { DefaultIconSize }
 
 export default class IconPrimary extends React.PureComponent {
-  static tagName = 'dnb-icon-primary'
   static contextType = Context
 
   static propTypes = {
@@ -34,10 +33,6 @@ export default class IconPrimary extends React.PureComponent {
     ...iconPropTypes,
   }
   static defaultProps = { ...DefaultIcon.defaultProps }
-
-  static enableWebComponent() {
-    DefaultIcon.enableWebComponent(IconPrimary?.tagName, IconPrimary)
-  }
 
   static getIcon(props) {
     return DefaultIcon.getIcon(props)

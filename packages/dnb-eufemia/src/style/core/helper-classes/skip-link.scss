@@ -15,6 +15,8 @@
   text-align: center;
 
   user-select: none;
+
+  /* stylelint-disable-next-line */
   -webkit-user-select: none; // Safari / Touch fix
 
   outline: none;
@@ -33,10 +35,10 @@
     width: 150vw;
     height: 150vh;
 
-    background-color: rgba(255, 255, 255, 0.85);
+    background-color: rgba(255 255 255 / 85%);
 
     // we use box-shadow to avoid a horizontal scrollbar
-    box-shadow: 150vw 150vh 0 0 rgba(255, 255, 255, 0.85);
+    box-shadow: 150vw 150vh 0 0 rgba(255 255 255 / 85%);
   }
 
   &::before {
@@ -47,11 +49,11 @@
     top: 0;
     width: 100%;
     height: 100%;
-    border-radius: 1.5rem; //same as anchor
+    border-radius: 1.5rem; // same as anchor
 
     background-color: var(--color-white);
 
-    @include fakeFocus('mouse');
+    @include focusRing('mouse');
   }
 
   &:hover::before {
@@ -60,12 +62,13 @@
   &:active::before {
     background-color: var(--color-emerald-green);
   }
-  //focus
+
+  // focus
   &:focus:not(:active)::before {
-    @include fakeFocus();
+    @include focusRing();
   }
 
-  //focus
+  // focus
   &:focus {
     opacity: 1;
   }
@@ -84,7 +87,7 @@
 
 // How to use the "skip-link"
 // 1. Have this on the top of your app: <a class="dnb-skip-link dnb-button" href="#dnb-app-content">Skip to content</a>
-// 2. Place this id="dnb-app-content" on Your main content container
+// 2. Place this id="dnb-app-content" on your main content container
 .dnb-skip-link {
   position: absolute;
   z-index: 0;

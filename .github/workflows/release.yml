@@ -71,7 +71,7 @@ jobs:
       - name: Build portal
         if: (github.ref == 'refs/heads/release' ||
           github.ref == 'refs/heads/portal')
-        run: yarn workspace dnb-design-system-portal build-ci
+        run: yarn workspace dnb-design-system-portal build:ci
 
       - name: Deploy portal
         if: (github.ref == 'refs/heads/release' ||
@@ -96,9 +96,10 @@ jobs:
         with:
           channel: '#eufemia-dev'
           status: ${{ job.status }}
-          fields: author,ref,action,workflow
+          fields: author,ref,workflow,job,took
+          job_name: Release and Deploy
           github_base_url: https://github.com/
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
-          MATRIX_CONTEXT: ${{ toJson(matrix) }}
         if: ${{ always() && !github.event.pull_request.head.repo.fork }}
+        continue-on-error: true

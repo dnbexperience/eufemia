@@ -9,7 +9,6 @@ import classnames from 'classnames'
 import {
   extendPropsWithContextInClassComponent,
   makeUniqueId,
-  registerElement,
   validateDOMAttributes,
   getStatusState,
   combineDescribedBy,
@@ -32,7 +31,6 @@ import RadioGroupContext from './RadioGroupContext'
  * The radio component is our enhancement of the classic radio button. It acts like a radio. Example: On/off, yes/no.
  */
 export default class RadioGroup extends React.PureComponent {
-  static tagName = 'dnb-radio-group'
   static contextType = Context
 
   static propTypes = {
@@ -63,7 +61,10 @@ export default class RadioGroup extends React.PureComponent {
       PropTypes.string,
       PropTypes.bool,
     ]),
-    global_status_id: PropTypes.string,
+    globalStatus: PropTypes.shape({
+      id: PropTypes.string,
+      message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    }),
     suffix: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func,
@@ -84,8 +85,6 @@ export default class RadioGroup extends React.PureComponent {
       PropTypes.node,
     ]),
 
-    custom_element: PropTypes.object,
-    custom_method: PropTypes.func,
     on_change: PropTypes.func,
   }
 
@@ -105,7 +104,7 @@ export default class RadioGroup extends React.PureComponent {
     status_state: 'error',
     status_props: null,
     status_no_animation: null,
-    global_status_id: null,
+    globalStatus: null,
     suffix: null,
     vertical: null,
     layout_direction: 'row',
@@ -116,18 +115,7 @@ export default class RadioGroup extends React.PureComponent {
     className: null,
     children: null,
 
-    custom_element: null,
-    custom_method: null,
-
     on_change: null,
-  }
-
-  static enableWebComponent() {
-    registerElement(
-      RadioGroup?.tagName,
-      RadioGroup,
-      RadioGroup.defaultProps
-    )
   }
 
   static parseChecked = (state) => /true|on/.test(String(state))
@@ -178,7 +166,7 @@ export default class RadioGroup extends React.PureComponent {
       status_state,
       status_props,
       status_no_animation,
-      global_status_id,
+      globalStatus,
       suffix,
       label,
       label_direction,
@@ -198,8 +186,6 @@ export default class RadioGroup extends React.PureComponent {
       value: _value, // eslint-disable-line
       children, // eslint-disable-line
       on_change, // eslint-disable-line
-      custom_method, // eslint-disable-line
-      custom_element, // eslint-disable-line
 
       ...rest
     } = props
@@ -286,10 +272,10 @@ export default class RadioGroup extends React.PureComponent {
               <FormStatus
                 show={showStatus}
                 id={id + '-form-status'}
-                global_status_id={global_status_id}
+                globalStatus={globalStatus}
                 label={label}
                 text={status}
-                status={status_state}
+                state={status_state}
                 text_id={id + '-status'} // used for "aria-describedby"
                 width_selector={id + ', ' + id + '-label'}
                 no_animation={status_no_animation}

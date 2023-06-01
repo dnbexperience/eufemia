@@ -11,7 +11,6 @@ import {
   extendPropsWithContextInClassComponent,
   isTrue,
   makeUniqueId,
-  registerElement,
   validateDOMAttributes,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -38,15 +37,16 @@ export const formRowPropTypes = {
   no_label: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   no_fieldset: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   locale: PropTypes.string,
-  indent: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   wrap: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   direction: PropTypes.oneOf(['vertical', 'horizontal']),
   vertical: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   centered: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  indent_offset: PropTypes.string,
   section_style: PropTypes.string,
   section_spacing: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-  global_status_id: PropTypes.string,
+  globalStatus: PropTypes.shape({
+    id: PropTypes.string,
+    message: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  }),
   responsive: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -62,9 +62,6 @@ export const formRowPropTypes = {
     PropTypes.func,
     PropTypes.node,
   ]),
-
-  custom_element: PropTypes.object,
-  custom_method: PropTypes.func,
 }
 
 export const formRowDefaultProps = {
@@ -77,15 +74,13 @@ export const formRowDefaultProps = {
   no_label: false,
   no_fieldset: null,
   locale: null,
-  indent: null,
   wrap: null,
   direction: null,
   vertical: null,
   centered: null,
-  indent_offset: null,
   section_style: null,
   section_spacing: null,
-  global_status_id: null,
+  globalStatus: null,
   responsive: null,
   disabled: null,
   skeleton: null,
@@ -94,13 +89,9 @@ export const formRowDefaultProps = {
   skipContentWrapperIfNested: false,
   className: null,
   children: null,
-
-  custom_element: null,
-  custom_method: null,
 }
 
 export default class FormRow extends React.PureComponent {
-  static tagName = 'dnb-form-row'
   static contextType = Context
 
   static propTypes = {
@@ -109,10 +100,6 @@ export default class FormRow extends React.PureComponent {
 
   static defaultProps = {
     ...formRowDefaultProps,
-  }
-
-  static enableWebComponent() {
-    registerElement(FormRow?.tagName, FormRow, FormRow.defaultProps)
   }
 
   static getContent(props) {
@@ -161,14 +148,12 @@ export default class FormRow extends React.PureComponent {
       no_fieldset,
       no_label,
       locale,
-      indent,
       direction,
       vertical,
       centered,
-      indent_offset,
       section_style,
       section_spacing,
-      global_status_id,
+      globalStatus,
       responsive,
       disabled,
       skeleton,
@@ -208,13 +193,6 @@ export default class FormRow extends React.PureComponent {
           `dnb-form-row--${
             isTrue(vertical) ? 'vertical' : label_direction
           }-label`, // <-- has label
-        indent &&
-          !(
-            isNested &&
-            this.context.FormRow.hasLabel &&
-            this.context.FormRow.indent
-          ) &&
-          `dnb-form-row__indent--${isTrue(indent) ? 'default' : indent}`,
         centered && 'dnb-form-row--centered',
         isNested && 'dnb-form-row--nested',
         createSpacingClasses(props),
@@ -240,8 +218,7 @@ export default class FormRow extends React.PureComponent {
         },
         itsMeAgain: true,
         hasLabel,
-        indent,
-        global_status_id,
+        globalStatus,
         direction,
         vertical,
         label_direction: isTrue(vertical) ? 'vertical' : label_direction,
@@ -292,10 +269,7 @@ export default class FormRow extends React.PureComponent {
                 className={classnames(
                   'dnb-form-row__content',
                   isTrue(wrap) && 'dnb-form-row__content--wrap',
-                  label &&
-                    !isTrue(vertical) &&
-                    direction !== 'vertical' &&
-                    `dnb-form-row__content--${indent_offset || 'default'}`,
+                  label && !isTrue(vertical) && direction !== 'vertical',
                   responsive && 'dnb-responsive-component'
                 )}
               >

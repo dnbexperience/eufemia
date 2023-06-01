@@ -5,66 +5,53 @@
 
 const fs = require('fs-extra')
 const path = require('path')
-const { isCI } = require('repo-utils')
 const os = require('os')
-const { setupJestScreenshot } = require('jest-screenshot')
-const { makeUniqueId } = require('../../shared/component-helper')
 const ora = require('ora')
+const { isCI } = require('repo-utils')
+const { slugify } = require('../../../src/shared/component-helper')
+const { makeUniqueId } = require('../../shared/component-helper')
+const { configureToMatchImageSnapshot } = require('jest-image-snapshot')
 
 const log = ora()
-
-// We may use one of these: load, domcontentloaded, networkidle2
-const waitUntil = isCI ? 'load' : 'load'
 
 const config = {
   DIR: path.join(os.tmpdir(), 'jest_puppeteer_global_setup'),
   testScreenshotOnHost: 'localhost',
   testScreenshotOnPort: 8000,
-  headless: true,
-  delayDuringNonheadless: 0,
   retryTimes: isCI ? 5 : 0,
   timeout: 30e3,
-  blockFontRequest: false,
-  allowedFonts: [], // e.g. 'LiberationMono'
   pixelGrid: 8,
-  defaultViewport: {},
   pageViewport: {
     width: 1280,
     height: 1024,
-    isMobile: false,
-    hasTouch: false,
-    isLandscape: false,
-    deviceScaleFactor: 1,
   },
-  screenshotConfig: {
-    detectAntialiasing: true,
-    colorThreshold: 0.3,
-    // pixelThresholdAbsolute: 10,// when having this enabled, the Jest logs shows pixel values instead of %
-
-    // If the CI is macOS, we can have a low threshold there as well
-    // Else we opt for a slightly difference in font-rendering form setup to setup
-    pixelThresholdRelative: 0, // isCI ? 0.01 : 0
+  matchConfig: {
+    failureThreshold: 0.001, // Chromium needs 0.03, while webkit needs 0.04 or even more
+    failureThresholdType: 'percent',
+    comparisonMethod: 'pixelmatch',
+    customSnapshotIdentifier: ({ currentTestName }) => {
+      return slugify(currentTestName) + '.snap'
+    },
   },
+  // We may use one of these: load, domcontentloaded, networkidle2
+  waitUntil: isCI ? 'load' : 'load',
 }
 module.exports.config = config
 module.exports.isCI = isCI
 
-let currentScreenshotSetup = null
-const setScreenshotSetup = (custom) => {
-  currentScreenshotSetup = { ...config.screenshotConfig, ...custom }
-  setupJestScreenshot(currentScreenshotSetup)
-}
-
-module.exports.testPageScreenshot = async ({
+const makeScreenshot = async ({
+  page = global.page,
   url = null,
+  pageViewport = null,
+  headers = null,
   reload = null,
   fullscreen = false,
-  page = global.__PAGE__,
   selector,
   style = null,
   rootClassName = null,
   addWrapper = true,
   executeBeforeSimulate = null,
+  executeBeforeScreenshot = null,
   simulate = null,
   waitBeforeFinish = null,
   waitBeforeSimulate = null,
@@ -75,35 +62,29 @@ module.exports.testPageScreenshot = async ({
   simulateSelector = null,
   wrapperStyle = null,
   measureElement = null,
-  screenshotConfig = null,
+  matchConfig = null,
 } = {}) => {
-  if (!page) {
-    const pages = await global.__BROWSER__.pages()
-    if (pages[0]) {
-      page = pages[0]
-    }
-  }
-
-  if (reload || global.__EVENT_FAILURE__) {
-    global.__EVENT_FAILURE__ = false
-    await page.reload({ waitUntil })
-  }
-
-  if (screenshotConfig) {
-    setScreenshotSetup(screenshotConfig)
-  }
-
   await makePageReady({
     page,
     url,
+    pageViewport,
+    headers,
     fullscreen,
-    selector,
-    style,
-    rootClassName,
-    styleSelector,
+    matchConfig,
   })
 
-  const element = await page.$(selector)
+  if (reload) {
+    await page.reload()
+  }
+
+  const element = await handleElement({
+    page,
+    selector,
+    style,
+    styleSelector,
+    rootClassName,
+  })
+
   const screenshotElement = await handleWrapper({
     page,
     selector,
@@ -116,12 +97,11 @@ module.exports.testPageScreenshot = async ({
     await page.evaluate(executeBeforeSimulate)
   }
 
-  const { elementToSimulate, delaySimulation } = await handleSimulation({
+  const { delaySimulation } = await handleSimulation({
     page,
     element,
     simulate,
     simulateSelector,
-    screenshotElement,
     waitAfterSimulateSelector,
     waitAfterSimulate,
     waitBeforeSimulate,
@@ -133,12 +113,17 @@ module.exports.testPageScreenshot = async ({
     selector,
   })
 
-  if (simulate !== 'hover' && simulate !== 'active') {
-    await page.mouse.move(0, 0)
+  if (executeBeforeScreenshot) {
+    await page.evaluate(executeBeforeScreenshot)
   }
 
-  if (config.delayDuringNonheadless > 0) {
-    await page.waitForTimeout(config.delayDuringNonheadless)
+  // Only for dev
+  // if (!isCI) {
+  //   await page.waitForTimeout(300000)
+  // }
+
+  if (simulate && simulate === 'click') {
+    await page.mouse.move(0, 0) // reset after click simulations, because the mouse still hovers
   }
 
   const screenshot = await takeScreenshot({
@@ -151,88 +136,131 @@ module.exports.testPageScreenshot = async ({
     await page.waitForTimeout(delaySimulation)
   }
 
-  if (elementToSimulate) {
-    await elementToSimulate.dispose()
-  }
+  await page.mouse.move(0, 0)
 
   if (waitBeforeFinish > 0) {
     await page.waitForTimeout(waitBeforeFinish)
   }
 
-  if (screenshotConfig) {
-    setScreenshotSetup(currentScreenshotSetup)
-  }
-
   return screenshot
 }
+module.exports.makeScreenshot = makeScreenshot
+
+const setMatchConfig = (matchConfig) => {
+  const cfg = {
+    ...config.matchConfig,
+    ...matchConfig,
+  }
+  const toMatchImageSnapshot = configureToMatchImageSnapshot(cfg)
+  expect.extend({ toMatchImageSnapshot })
+}
+module.exports.setMatchConfig = setMatchConfig
 
 const setupPageScreenshot = ({
+  page = global.page,
   url,
-  fullscreen = false,
+  themeName = null,
   pageViewport = null,
-  screenshotConfig = null,
+  headers = null,
+  fullscreen = false,
+  each = false,
   timeout = null,
+  matchConfig = null,
 } = {}) => {
-  beforeAll(async () => {
-    if (screenshotConfig) {
-      setScreenshotSetup(screenshotConfig)
-    }
+  if (matchConfig) {
+    // The cleanup happens in "setupJestScreenshot"
+    beforeEach(() => {
+      setMatchConfig(matchConfig)
+    }, timeout)
+  }
 
+  const before = async () => {
+    await makePageReady({
+      page,
+      url,
+      themeName,
+      pageViewport,
+      headers,
+      fullscreen,
+    })
+  }
+
+  if (each) {
+    beforeEach(before, timeout)
+  } else {
+    beforeAll(before, timeout)
+  }
+}
+module.exports.setupPageScreenshot = setupPageScreenshot
+
+async function handleElement({
+  page,
+  selector = null,
+  style = null,
+  rootClassName = null,
+  styleSelector = null,
+}) {
+  if (selector) {
+    await page.waitForSelector(selector, { state: 'attached' }) // Dialog selector "div#dnb-modal-root" is not visible yet, and needs the state "attached"
+  }
+
+  if (style) {
+    await page.$eval(
+      styleSelector || selector,
+      (node, style) => {
+        node.setAttribute('style', style)
+        return node
+      },
+      makeStyles(style)
+    )
+  }
+
+  if (rootClassName) {
+    await handleRootClassName({ page, rootClassName })
+  }
+
+  return await page.$(selector)
+}
+
+async function makePageReady({
+  page,
+  url = null,
+  themeName = null,
+  pageViewport = null,
+  headers = null,
+  fullscreen = false,
+  matchConfig = null,
+}) {
+  if (matchConfig) {
+    setMatchConfig(matchConfig)
+  }
+
+  if (url) {
     if (pageViewport || (pageViewport !== false && config.pageViewport)) {
       if (pageViewport && config.pageViewport) {
         pageViewport = { ...config.pageViewport, ...pageViewport }
       } else {
         pageViewport = config.pageViewport
       }
-      await global.__PAGE__.setViewport(pageViewport)
+      await page.setViewportSize(pageViewport)
     }
 
-    if (config.blockFontRequest) {
-      await global.__PAGE__.setRequestInterception(true) // is needed in order to use on "request"
-      global.__PAGE__.on('request', (req) => {
-        const url = req.url()
-
-        if (
-          config.allowedFonts &&
-          config.allowedFonts.some((f) => url.includes(f))
-        ) {
-          return req.continue()
-        }
-
-        const type = req.resourceType()
-        switch (type) {
-          case 'font':
-            req.abort()
-            break
-
-          default:
-            req.continue()
-        }
-      })
+    if (headers) {
+      await page.setExtraHTTPHeaders(headers)
     }
 
-    if (url) {
-      await global.__PAGE__.goto(createUrl(url, fullscreen), { waitUntil })
-    }
-  }, timeout)
+    global.themeName = themeName
+    global.pageUrl = createUrl(url, fullscreen, themeName)
+    process.env.pageUrl = global.pageUrl
+    await page.goto(global.pageUrl, {
+      waitUntil: config.waitUntil,
+      timeout: config.timeout,
+    })
 
-  afterAll(async () => {
-    setScreenshotSetup(config.screenshotConfig)
-  })
-}
-module.exports.setupPageScreenshot = setupPageScreenshot
-
-async function makePageReady({
-  page,
-  url,
-  fullscreen,
-  selector,
-  style,
-  rootClassName,
-  styleSelector,
-}) {
-  if (url) {
-    await page.goto(createUrl(url, fullscreen), { waitUntil })
+    await page.evaluate(() => {
+      // Remove all stored
+      window.localStorage.clear()
+    })
   }
 
   global.IS_TEST = true
@@ -245,30 +273,15 @@ async function makePageReady({
     }
   })
 
-  await handleRootClassName({ page, rootClassName })
-
   // Keep in mind, we also import this file in dev/prod portal (gatsby-browser),
   // just because it makes local dev easier
   await page.addStyleTag({
     path: path.resolve(__dirname, './jestSetupScreenshots.css'),
   })
-
-  await page.waitForSelector(selector)
-
-  if (style) {
-    await page.$eval(
-      styleSelector || selector,
-      (node, style) => {
-        node.setAttribute('style', style)
-        return node
-      },
-      makeStyles(style)
-    )
-  }
 }
 
 async function handleRootClassName({ page, rootClassName }) {
-  // This removes a previews added global css class to HTML
+  // This removes a previous added global css class to HTML
   if (global.rootClassName) {
     await page.evaluate(
       ({ rootClassName }) => {
@@ -360,86 +373,82 @@ async function handleSimulation({
   element,
   simulate,
   simulateSelector,
-  screenshotElement,
   waitAfterSimulateSelector,
   waitAfterSimulate,
   waitBeforeSimulate,
 }) {
+  if (simulateSelector) {
+    element = await page.$(simulateSelector)
+  }
+
   if (parseFloat(waitBeforeSimulate) > 0) {
     await page.waitForTimeout(waitBeforeSimulate)
   }
 
-  let elementToSimulate = null
+  const elementToSimulate = element
+  const elementsToDispose = []
   let delaySimulation = 0
 
   if (simulate) {
-    if (simulateSelector) {
-      await page.waitForSelector(simulateSelector)
-      elementToSimulate = await page.$(simulateSelector)
-    } else {
-      elementToSimulate = element
-    }
+    const simulations = Array.isArray(simulate) ? simulate : [simulate]
+    for await (const simulate of simulations) {
+      let element = elementToSimulate
 
-    switch (simulate) {
-      case 'hover': {
-        await page.mouse.move(0, 0)
-        await elementToSimulate.hover()
-        break
+      let action = simulate
+      if (simulate?.action) {
+        action = simulate.action
+        if (simulate.selector) {
+          element = await page.$(simulate.selector)
+        }
+        await page.mouse.move(0, 0) // reset between simulations
       }
 
-      case 'click': {
-        await elementToSimulate.click()
-        break
+      switch (action) {
+        case 'hover': {
+          await element.hover({ force: true })
+          break
+        }
+
+        case 'click': {
+          await element.click()
+          break
+        }
+
+        case 'longclick': {
+          delaySimulation = isCI ? 600 : 400
+
+          // No await
+          element.click({ delay: delaySimulation })
+          break
+        }
+
+        case 'tabfocus': {
+          await element.click()
+          await page.keyboard.press('Tab')
+          await element.focus()
+          break
+        }
+
+        case 'active': {
+          delaySimulation = isCI ? 200 : 100
+          await element.click({
+            force: true,
+            delay: delaySimulation,
+          })
+
+          await page.mouse.down() // Slider needs "mouse.down", in order to make "active" state work
+
+          break
+        }
+
+        case 'focus': {
+          await page.keyboard.press('Tab') // to simulate pressing tab key before focus
+          await element.focus({ force: true })
+          break
+        }
       }
 
-      case 'enter': {
-        await screenshotElement.press('Enter')
-        break
-      }
-
-      case 'longclick': {
-        delaySimulation = isCI ? 600 : 400
-
-        // No await
-        elementToSimulate.click({ delay: delaySimulation })
-        break
-      }
-
-      case 'clickfocus': {
-        await elementToSimulate.click()
-        screenshotElement.press('Shift')
-        await screenshotElement.press('Tab')
-        await screenshotElement.press('Tab') // tab two times
-        await elementToSimulate.focus()
-        break
-      }
-
-      case 'active': {
-        await elementToSimulate.click()
-
-        const { pageXOffset, pageYOffset } = await page.evaluate(() => {
-          const pageXOffset = window.pageXOffset
-          const pageYOffset = window.pageYOffset
-          return { pageXOffset, pageYOffset }
-        })
-
-        const boundingBox = await elementToSimulate.boundingBox()
-
-        await page.mouse.down(
-          boundingBox.x + boundingBox.width / 2 - pageXOffset,
-          boundingBox.y + boundingBox.height / 2 - pageYOffset
-        )
-
-        break
-      }
-
-      case 'focus': {
-        await screenshotElement.press('Tab') // to simulate pressing tab key before focus
-        await elementToSimulate.focus()
-        break
-      }
-
-      default:
+      elementsToDispose.push(element)
     }
   }
 
@@ -453,7 +462,7 @@ async function handleSimulation({
     await page.waitForTimeout(waitAfterSimulate)
   }
 
-  return { elementToSimulate, delaySimulation }
+  return { elementsToDispose, delaySimulation }
 }
 
 async function handleWrapper({
@@ -536,18 +545,21 @@ async function handleWrapper({
   return element
 }
 
-module.exports.setupJestScreenshot = setupJestScreenshot
 module.exports.loadImage = async (imagePath) =>
   await fs.readFile(path.resolve(imagePath))
 
 // make sure "${url}/" has actually a slash on the end
-const createUrl = (url, fullscreen = true) => {
+const createUrl = (url, fullscreen = true, themeName = null) => {
   const newURL = new URL(
     url,
     `http://${config.testScreenshotOnHost}:${config.testScreenshotOnPort}`
   )
 
   newURL.searchParams.append('data-visual-test', 'true')
+
+  if (themeName) {
+    newURL.searchParams.append('eufemia-theme', themeName)
+  }
 
   if (fullscreen) {
     newURL.searchParams.append('fullscreen', 'true')

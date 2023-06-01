@@ -61,7 +61,7 @@ async function createReleaseNewVersion() {
     // Update the extracted version of package.json with the build version
     await fs.writeFile(file, JSON.stringify(packageJson, null, 2))
 
-    console.log(`New release version is ${version}`)
+    console.log(`New release version is: ${version}`)
   } catch (e) {
     console.warn(`Failed to create new release version! \n${e.message}`)
   }
@@ -73,7 +73,7 @@ async function createNewChangelogVersion() {
     const packageJson = await fs.readJson(file)
     const changelogFilePath = path.resolve(
       __dirname,
-      '../src/docs/EUFEMIA_CHANGELOG.md'
+      '../src/docs/EUFEMIA_CHANGELOG.mdx'
     )
     const content = await fs.readFile(changelogFilePath, 'utf-8')
 

@@ -8,16 +8,16 @@ import { Wrapper, Box } from 'storybook-utils/helpers'
 import { Global, css } from '@emotion/react'
 
 import {
-  Modal,
   Button,
   Dropdown,
   Tabs,
   FormStatus,
   NumberFormat,
+  Table,
 } from '../../'
 import { Provider } from '../../../shared'
 import Drawer from '../../drawer/Drawer'
-import { H1, H2, P, Table } from '../../../elements'
+import { H1, H2, P } from '../../..'
 
 export default {
   title: 'Eufemia/Components/Drawer',
@@ -42,7 +42,7 @@ export const DrawerSandbox = () => (
         // openState="opened"
         // fullscreen
         containerPlacement="right"
-        //align_content="right"
+        // align_content="right"
         // align_content="center"
         // drawer_offset={}
         title="Original title"
@@ -204,9 +204,9 @@ export const DrawerSandbox = () => (
         // class="inner_class"
       >
         <Drawer.Body styleType="pistachio">
-          Modal.Content
+          Drawer.Body
           <Drawer title="Title 2" openState="opened">
-            New content 2 <Modal title="Title 3">New content 3</Modal>
+            New content 2 <Drawer title="Title 3">New content 3</Drawer>
           </Drawer>
           {/* <FillContent /> */}
         </Drawer.Body>
@@ -221,7 +221,7 @@ export const DrawerSandbox = () => (
 function FillContent() {
   return (
     <P>
-      This is the modal text. Triggered by a tertiary button. Hac eleifend
+      This is the drawer text. Triggered by a tertiary button. Hac eleifend
       consectetur massa lobortis diam netus congue a nibh dolor faucibus
       vivamus taciti neque accumsan urna varius dis egestas
       <Dropdown
@@ -468,9 +468,7 @@ export const DrawerPerformance = () => (
       Content
     </Drawer>
 
-    <Table
-    //  className="dnb-modal--bypass_invalidation_deep"
-    >
+    <Table>
       <caption>A Table Caption</caption>
       <thead>
         <tr>
@@ -486,7 +484,7 @@ export const DrawerPerformance = () => (
               icon="arrow-down"
               text="Sortable"
               title="Sort table column"
-              wrap="true"
+              wrap={true}
             />
           </th>
           <th
@@ -499,7 +497,7 @@ export const DrawerPerformance = () => (
               icon="arrow-down"
               text="Active"
               title="Sort table column"
-              wrap="true"
+              wrap={true}
             />
           </th>
         </tr>
@@ -507,7 +505,7 @@ export const DrawerPerformance = () => (
       <tbody>
         <tr>
           <td>
-            <p className="dnb-p" aria-hidden="true">
+            <p className="dnb-p" aria-hidden={true}>
               Column 1 <b>width p</b> <Button text="Focus me" />
             </p>
           </td>

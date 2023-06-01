@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import ComponentBox from 'dnb-design-system-portal/src/shared/tags/ComponentBox'
+import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
   trash_medium,
   log_out_medium,
@@ -236,7 +236,7 @@ export const DialogConfirmLoggedOut = () => {
                   setOpen(false)
                   loginHandler()
                 }}
-                labelled_by="custom-triggerer"
+                labelledBy="custom-triggerer"
               />
             </>
           )
