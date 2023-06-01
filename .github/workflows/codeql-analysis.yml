@@ -32,7 +32,7 @@ concurrency:
 
 jobs:
   analyze:
-    name: Analyze
+    name: Run analysis
     runs-on: ubuntu-latest
 
     strategy:
