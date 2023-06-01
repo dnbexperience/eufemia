@@ -28,11 +28,11 @@ workbox.core.clientsClaim();
 self.__precacheManifest = [
   {
     "url": "404.html",
-    "revision": "baed35df1965219b2dd23207616da8bb"
+    "revision": "7f7a62d3552a06f9ab2411b9052d405d"
   },
   {
     "url": "500.html",
-    "revision": "11ccf9ff520aafcf2a5b6b93a92793f9"
+    "revision": "ce0602c8589d851ebca0d65eba593c2e"
   },
   {
     "url": "google4f78509f2ca83a08.html",
@@ -44,48 +44,36 @@ self.__precacheManifest = [
   },
   {
     "url": "index.html",
-    "revision": "54051ebfbd6a0aac31afb5bf1144a34e"
+    "revision": "b52748edbbc98b166d55e146d7ac5af7"
   },
   {
-    "url": "commons.8453dc210923017cf024.css"
+    "url": "commons.535e7256764d47880dff.css"
   },
   {
-    "url": "framework-80762461e46bbc9e72a5.js"
+    "url": "framework-d8ac38253288921cc505.js"
   },
   {
-    "url": "ui.653229845ea42c6671bd.css"
+    "url": "ui.663cd795a9022f6e4593.css"
   },
   {
-    "url": "eiendom.0f8e06c2f92bcdd13c80.css"
+    "url": "sbanken.51acbcaabd1da548ac7e.css"
   },
   {
-    "url": "dc6a8720040df98778fe970bf6c000a41750d3ae-debb3c375f7742545d66.js"
+    "url": "eiendom.ea05ff5ed79e54e63c22.css"
   },
   {
-    "url": "app-4eeb4adc44ed6296d428.js"
+    "url": "app-de619537ef43b15cf500.js"
   },
   {
     "url": "offline-plugin-app-shell-fallback/index.html",
-    "revision": "09eb01cec63f5f4e93f0e86b3e84645b"
+    "revision": "86e2c1fa8297633c27624f1e361710b5"
   },
   {
-    "url": "static/DNB-Regular-54d35ae78c18491c35feab30a836875a.woff2"
-  },
-  {
-    "url": "static/DNB-Medium-8e57bfcd9fcbc6f0e1160901cf7f1e98.woff2"
-  },
-  {
-    "url": "static/DNBMono-Regular-322db7bbbe1d833cb61311e4f598b3fb.woff2"
-  },
-  {
-    "url": "polyfill-bba3462b896ab53a73c0.js"
-  },
-  {
-    "url": "webpack-runtime-9fdbbe038aa9e4df4953.js"
+    "url": "webpack-runtime-f5456dcb5372042390a4.js"
   },
   {
     "url": "manifest.webmanifest",
-    "revision": "2061055623bbc942fb2bf92f9f30adc3"
+    "revision": "4c50b626d27da72b4e062138580c2df0"
   }
 ].concat(self.__precacheManifest || []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
@@ -195,7 +183,7 @@ const navigationRoute = new NavigationRoute(async ({ event }) => {
   // Check for resources + the app bundle
   // The latter may not exist if the SW is updating to a new version
   const resources = await idbKeyval.get(`resources:${pathname}`)
-  if (!resources || !(await caches.match(`/app-4eeb4adc44ed6296d428.js`))) {
+  if (!resources || !(await caches.match(`/app-de619537ef43b15cf500.js`))) {
     return await fetch(event.request)
   }
 
