@@ -16,6 +16,7 @@ import FormRow from '../../form-row/FormRow'
 import Input from '../../input/Input'
 import NumberFormat from '../../number-format/NumberFormat'
 import Provider from '../../../shared/Provider'
+import { render } from '@testing-library/react'
 
 const props = fakeProps(require.resolve('../FormSet'), {
   optional: true,
@@ -24,47 +25,66 @@ props.direction = 'horizontal'
 props.element = 'form'
 
 describe('FormSet component', () => {
-  const Comp = mount(<Component {...props} />)
-
   it('have to match snapshot', () => {
+    const Comp = mount(<Component {...props} />)
+
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
   it('should have .dnb-form-set class', () => {
-    expect(Comp.find('.dnb-form-set').exists()).toBe(true)
+    render(<Component {...props} />)
+
+    expect(document.querySelector('.dnb-form-set')).toBeTruthy()
   })
 
   it('should have working provider with vertical direction class on form-row', () => {
-    const Comp = mount(
+    render(
       <Component {...props} direction="vertical">
         <FormRow />
       </Component>
     )
     expect(
-      Comp.find('.dnb-form-row').last().hasClass('dnb-form-row--vertical')
+      document
+        .querySelector('.dnb-form-row')
+        .classList.contains('dnb-form-row--vertical')
     ).toBe(true)
   })
 
   it('should disable nested components', () => {
-    const Comp = mount(
+    const { rerender } = render(
       <Component {...props} disabled>
         <FormRow>
           <Input />
         </FormRow>
       </Component>
     )
+    expect(
+      document.querySelector('input.dnb-input__input[disabled]')
+    ).toBeTruthy()
 
-    expect(Comp.find('input.dnb-input__input').prop('disabled')).toBe(true)
-
-    Comp.setProps({ disabled: false })
-    expect(Comp.find('input.dnb-input__input').prop('disabled')).toBe(
-      false
+    rerender(
+      <Component {...props} disabled={false}>
+        <FormRow>
+          <Input />
+        </FormRow>
+      </Component>
     )
+    expect(
+      document.querySelector('input.dnb-input__input[disabled]')
+    ).toBeFalsy()
 
-    Comp.setProps({ disabled: true })
-    expect(Comp.find('input.dnb-input__input').prop('disabled')).toBe(true)
+    rerender(
+      <Component {...props} disabled>
+        <FormRow>
+          <Input />
+        </FormRow>
+      </Component>
+    )
+    expect(
+      document.querySelector('input.dnb-input__input[disabled]')
+    ).toBeTruthy()
 
-    const CompBypassDisabled = mount(
+    rerender(
       <Component {...props} disabled>
         <FormRow disabled={false}>
           <Input />
@@ -73,32 +93,38 @@ describe('FormSet component', () => {
     )
 
     expect(
-      CompBypassDisabled.find('input.dnb-input__input').prop('disabled')
-    ).toBe(false)
+      document.querySelector('input.dnb-input__input[disabled]')
+    ).toBeFalsy()
   })
 
   it('should support locale context forwarding', () => {
-    const Comp = mount(
+    const { rerender } = render(
       <Component>
         <NumberFormat currency>1234</NumberFormat>
       </Component>
     )
 
-    expect(Comp.find('.dnb-number-format').find('span').at(1).text()).toBe(
-      '1 234,00 kr'
+    expect(
+      document
+        .querySelector('.dnb-number-format')
+        .querySelector('.dnb-number-format__visible').textContent
+    ).toBe('1 234,00 kr')
+
+    rerender(
+      <Component locale="en-GB">
+        <NumberFormat currency>1234</NumberFormat>
+      </Component>
     )
 
-    Comp.setProps({
-      locale: 'en-GB',
-    })
-
-    expect(Comp.find('.dnb-number-format').find('span').at(1).text()).toBe(
-      'NOK 1 234.00'
-    )
+    expect(
+      document
+        .querySelector('.dnb-number-format')
+        .querySelector('.dnb-number-format__visible').textContent
+    ).toBe('NOK 1 234.00')
   })
 
   it('should not overwrite locale from provider when not set', () => {
-    const Comp = mount(
+    render(
       <Provider locale="en-GB">
         <Component>
           <NumberFormat currency>1234</NumberFormat>
@@ -106,12 +132,15 @@ describe('FormSet component', () => {
       </Provider>
     )
 
-    expect(Comp.find('.dnb-number-format').find('span').at(1).text()).toBe(
-      'NOK 1 234.00'
-    )
+    expect(
+      document
+        .querySelector('.dnb-number-format')
+        .querySelector('.dnb-number-format__visible').textContent
+    ).toBe('NOK 1 234.00')
   })
 
   it('should validate with ARIA rules', async () => {
+    const Comp = mount(<Component {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
