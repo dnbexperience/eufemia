@@ -25,16 +25,18 @@ describe('Space component', () => {
   })
 
   it('should have correct CSS classes', () => {
-    const Comp = mount(<Component element="span" top="large" />)
+    render(<Component element="span" top="large" />)
     expect(
-      Comp.find('span.dnb-space').hasClass('dnb-space__top--large')
+      document
+        .querySelector('span.dnb-space')
+        .classList.contains('dnb-space__top--large')
     ).toBe(true)
   })
 
   it('should accept space only prop', () => {
-    const Comp = mount(<Component element="span" space="large" />)
+    render(<Component element="span" space="large" />)
     expect(
-      Object.values(Comp.find('span.dnb-space').instance().classList)
+      Object.values(document.querySelector('span.dnb-space').classList)
     ).toEqual([
       'dnb-space',
       'dnb-space__top--large',
@@ -45,7 +47,7 @@ describe('Space component', () => {
   })
 
   it('should accept space prop as an object with spacing properties', () => {
-    const Comp = mount(
+    render(
       <Component
         element="span"
         space={{
@@ -57,7 +59,7 @@ describe('Space component', () => {
       />
     )
     expect(
-      Object.values(Comp.find('span.dnb-space').instance().classList)
+      Object.values(document.querySelector('span.dnb-space').classList)
     ).toEqual([
       'dnb-space',
       'dnb-space__top--x-large',
@@ -80,8 +82,8 @@ describe('Space component', () => {
   })
 
   it('should have collapse CSS class', () => {
-    const Comp = mount(<Component top="large" no_collapse={true} />)
-    expect(Comp.find('.dnb-space--no-collapse').exists()).toBe(true)
+    render(<Component top="large" no_collapse={true} />)
+    expect(document.querySelector('.dnb-space--no-collapse')).toBeTruthy()
   })
 })
 
