@@ -1008,6 +1008,10 @@ html[data-whatintent=touch] .dnb-button--tertiary:active:not([disabled]) .dnb-bu
 html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text::after, html:not([data-whatintent=touch]) html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text::after {
   visibility: hidden;
 }
+.dnb-button--tertiary.dnb-button--has-text {
+  padding-left: 0;
+  padding-right: 0;
+}
 .dnb-button--tertiary.dnb-button--has-text .dnb-button__icon {
   align-self: flex-start;
   margin-top: calc(var(--button-height) / 2 - 0.5rem);
@@ -1282,10 +1286,6 @@ html[data-whatinput=keyboard] .dnb-button--secondary:not(.dnb-button--has-text):
 .dnb-button--tertiary {
   color: var(--color-sea-green);
   background-color: transparent;
-}
-.dnb-button--tertiary.dnb-button--has-text {
-  padding-left: 0;
-  padding-right: 0;
 }
 html:not([data-whatintent=touch]) .dnb-button--tertiary:hover[disabled] {
   cursor: not-allowed;
