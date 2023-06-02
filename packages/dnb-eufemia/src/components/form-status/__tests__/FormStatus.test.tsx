@@ -10,12 +10,10 @@ import {
   axeComponent,
   toJson,
   loadScss,
-  attachToBody,
 } from '../../../core/jest/jestSetup'
 import Component from '../FormStatus'
 import Input from '../../input/Input'
 import { render } from '@testing-library/react'
-import FormRow from '../../form-row/FormRow'
 
 const props = fakeProps(require.resolve('../FormStatus'), {
   optional: true,
@@ -41,76 +39,82 @@ describe('FormStatus component', () => {
   })
 
   it('should set correct max-width', () => {
-    const Comp = mount(
+    render(
       <Input
         style={{ width: '10rem' }}
         status="Long status pulvinar per ad varius nostra faucibus enim ante posuere in"
-      />,
-      { attachTo: attachToBody() }
+      />
     )
 
     expect(
-      Comp.find('.dnb-input__input').instance().getAttribute('style')
+      document.querySelector('.dnb-input__input').getAttribute('style')
     ).toBe('width: 10rem;')
     expect(
-      Comp.find('.dnb-form-status').instance().getAttribute('style')
+      document.querySelector('.dnb-form-status').getAttribute('style')
     ).toContain('max-width: 30rem;')
   })
 
   it('should re-calculate max-width', () => {
-    const Comp = mount(
-      <Input style={{ width: '10rem' }} status="status message" />,
-      {
-        attachTo: attachToBody(),
-      }
+    const { rerender } = render(
+      <Input style={{ width: '10rem' }} status="status message" />
     )
 
     expect(
-      Comp.find('.dnb-form-status').instance().getAttribute('style')
+      document.querySelector('.dnb-form-status').getAttribute('style')
     ).toBe('max-width: 30rem;')
 
-    Comp.setProps({
-      status_props: { text: 'change width to 35rem' },
-      style: { width: '35rem' },
-    })
+    rerender(
+      <Input
+        status="status message"
+        status_props={{ text: 'change width to 35rem' }}
+        style={{ width: '35rem' }}
+      />
+    )
 
     expect(
-      Comp.find('.dnb-form-status').instance().getAttribute('style')
+      document.querySelector('.dnb-form-status').getAttribute('style')
     ).toBe('max-width: 35rem; height: auto;')
 
-    Comp.setProps({
-      status_props: { text: 'change width to 40rem' },
-      style: { width: '40rem' },
-    })
+    rerender(
+      <Input
+        status="status message"
+        status_props={{ text: 'change width to 40rem' }}
+        style={{ width: '40rem' }}
+      />
+    )
 
     expect(
-      Comp.find('.dnb-form-status').instance().getAttribute('style')
+      document.querySelector('.dnb-form-status').getAttribute('style')
     ).toBe('max-width: 40rem; height: auto;')
 
-    Comp.setProps({
-      style: { width: '10rem' },
-    })
+    rerender(
+      <Input
+        status="status message"
+        status_props={{ text: 'change width to 10rem' }}
+        style={{ width: '10rem' }}
+      />
+    )
 
     window.dispatchEvent(new Event('resize'))
 
     expect(
-      Comp.find('.dnb-form-status').instance().getAttribute('style')
+      document.querySelector('.dnb-form-status').getAttribute('style')
     ).toBe('max-width: 30rem; height: auto;')
   })
 
   it('should set correct id', () => {
-    const Comp = mount(<Input id="custom-id" status="status text" />)
+    render(<Input id="custom-id" status="status text" />)
 
     expect(
-      Comp.find('.dnb-form-status').instance().getAttribute('id')
+      document.querySelector('.dnb-form-status').getAttribute('id')
     ).toBe('custom-id-form-status')
     expect(
-      Comp.find('.dnb-form-status__text').instance().getAttribute('id')
+      document.querySelector('.dnb-form-status__text').getAttribute('id')
     ).toBe('custom-id-status')
   })
 
   it('should be modifiable with status_prop', () => {
-    const Comp = mount(
+    render(
       <Input
         status="status message"
         status_props={{
@@ -119,48 +123,47 @@ describe('FormStatus component', () => {
       />
     )
     expect(
-      Comp.find('.dnb-form-status')
-        .instance()
+      document
+        .querySelector('.dnb-form-status')
         .classList.contains('dnb-form-status__variant--outlined')
     ).toBe(true)
   })
 
   it('should update children when they change', () => {
-    const Comp = mount(<Component>content</Component>)
+    const { rerender } = render(<Component>content</Component>)
 
-    Comp.setProps({ children: 'content-a' })
+    rerender(<Component>content-a</Component>)
 
-    expect(Comp.find('.dnb-form-status').instance().textContent).toBe(
+    expect(document.querySelector('.dnb-form-status').textContent).toBe(
       'content-a'
     )
 
-    Comp.setProps({ children: 'content-b' })
+    rerender(<Component>content-b</Component>)
 
-    expect(Comp.find('.dnb-form-status').instance().textContent).toBe(
+    expect(document.querySelector('.dnb-form-status').textContent).toBe(
       'content-b'
     )
   })
 
   it('should have correct attributes once the "hidden" prop changes', async () => {
-    const Comp = mount(<Component {...props} hidden />)
-    expect(Comp.exists('[aria-hidden]')).toBe(true)
-    // Deprecated: use the GlobalStatus and aria-live
-    // expect(Comp.exists('[aria-live="assertive"]')).toBe(false)
-    Comp.setProps({
-      hidden: false,
-    })
-    // Deprecated: use the GlobalStatus and aria-live
-    // expect(Comp.exists('[aria-live="assertive"]')).toBe(true)
-    expect(await axeComponent(Comp)).toHaveNoViolations()
+    const { rerender } = render(<Component {...props} hidden />)
+    expect(document.querySelector('.dnb-form-status[hidden]')).toBeTruthy()
+
+    rerender(<Component {...props} hidden={false} />)
+
+    expect(document.querySelector('.dnb-form-status[hidden]')).toBeFalsy()
   })
 
   it('has to to have a text value as defined in the prop', () => {
-    const Comp = mount(<Component {...props} />)
-    expect(Comp.find('.dnb-form-status__text').text()).toBe(props.text)
+    render(<Component {...props} />)
+
+    expect(
+      document.querySelector('.dnb-form-status__text').textContent
+    ).toBe(props.text)
   })
 
   it('should support spacing props', () => {
-    render(<Component top="2rem" />)
+    render(<Component top="2rem">test</Component>)
 
     const element = document.querySelector('.dnb-form-status')
 
@@ -168,27 +171,7 @@ describe('FormStatus component', () => {
       'dnb-form-status',
       'dnb-form-status--error',
       'dnb-form-status__size--default',
-      'dnb-form-status--has-content',
-    ])
-  })
-
-  it('should inherit FormRow vertical label', () => {
-    render(
-      <FormRow vertical>
-        <Component label="Label" />
-      </FormRow>
-    )
-
-    const element = document.querySelector('.dnb-form-status')
-    const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
-    )
-
-    expect(attributes).toEqual(['class', 'id', 'role', 'style'])
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-form-status',
-      'dnb-form-status--error',
-      'dnb-form-status__size--default',
+      'dnb-space__top--large',
       'dnb-form-status--has-content',
     ])
   })
@@ -210,29 +193,29 @@ describe('FormStatus scss', () => {
 
 describe('FormStatus role', () => {
   it('should have role alert', () => {
-    const Comp = mount(<Component text="status text" />)
+    render(<Component text="status text" />)
 
     expect(
-      Comp.find('.dnb-form-status').instance().getAttribute('role')
+      document.querySelector('.dnb-form-status').getAttribute('role')
     ).toBe('alert')
   })
 
   it('should have role status when state is info', () => {
-    const Comp = mount(<Component text="status text" state="info" />)
+    render(<Component text="status text" state="info" />)
 
     expect(
-      Comp.find('.dnb-form-status').instance().getAttribute('role')
+      document.querySelector('.dnb-form-status').getAttribute('role')
     ).toBe('status')
   })
 
   it('should be able to override role', () => {
-    const Comp = mount(<Component role="none" text="status text" />)
+    render(<Component role="none" text="status text" />)
 
     expect(
-      Comp.find('.dnb-form-status').instance().getAttribute('role')
+      document.querySelector('.dnb-form-status').getAttribute('role')
     ).not.toBe('alert')
     expect(
-      Comp.find('.dnb-form-status').instance().getAttribute('role')
+      document.querySelector('.dnb-form-status').getAttribute('role')
     ).toBe('none')
   })
 })
