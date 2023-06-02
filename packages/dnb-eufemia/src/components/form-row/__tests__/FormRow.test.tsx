@@ -15,6 +15,7 @@ import Component from '../FormRow'
 import Input from '../../input/Input'
 import NumberFormat from '../../number-format/NumberFormat'
 import Provider from '../../../shared/Provider'
+import { render } from '@testing-library/react'
 
 const props = fakeProps(require.resolve('../FormRow'), {
   optional: true,
@@ -25,21 +26,22 @@ props.label_direction = 'horizontal'
 props.globalStatus = { id: 'main' }
 
 describe('FormRow component', () => {
-  const Comp = mount(<Component {...props} />)
-
   it('have to match snapshot', () => {
+    const Comp = mount(<Component {...props} />)
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
   it('should have vertical direction class', () => {
-    const Comp = mount(<Component {...props} direction="vertical" />)
+    render(<Component {...props} direction="vertical" />)
     expect(
-      Comp.find('.dnb-form-row').last().hasClass('dnb-form-row--vertical')
+      document
+        .querySelector('.dnb-form-row')
+        .classList.contains('dnb-form-row--vertical')
     ).toBe(true)
   })
 
   it('should have an isolated state on nested FormRows', () => {
-    const Comp = mount(
+    render(
       <Component vertical>
         <Input label="Vertical" />
         <Component vertical={false} label_direction="horizontal">
@@ -49,50 +51,64 @@ describe('FormRow component', () => {
       </Component>
     )
     expect(
-      Comp.find('span.dnb-input').at(0).hasClass('dnb-input--vertical')
+      document
+        .querySelectorAll('span.dnb-input')[0]
+        .classList.contains('dnb-input--vertical')
     ).toBe(true)
     expect(
-      Comp.find('span.dnb-input').at(1).hasClass('dnb-input--horizontal')
+      document
+        .querySelectorAll('span.dnb-input')[1]
+        .classList.contains('dnb-input--horizontal')
     ).toBe(true)
     expect(
-      Comp.find('span.dnb-input').at(2).hasClass('dnb-input--vertical')
+      document
+        .querySelectorAll('span.dnb-input')[2]
+        .classList.contains('dnb-input--vertical')
     ).toBe(true)
   })
 
   it('should using formset and legend by default', () => {
-    expect(Comp.find('fieldset').exists()).toBe(true)
-    expect(Comp.find('legend').exists()).toBe(true)
+    render(<Component {...props} />)
+
+    expect(document.querySelector('fieldset')).toBeTruthy()
+    expect(document.querySelector('legend')).toBeTruthy()
   })
 
   it('should using formset and legend by default', () => {
-    const Comp = mount(<Component {...props} no_fieldset />)
-    expect(Comp.find('label').exists()).toBe(true)
-    expect(Comp.find('fieldset').exists()).toBe(false)
-    expect(Comp.find('legend').exists()).toBe(false)
+    render(<Component {...props} no_fieldset />)
+    expect(document.querySelector('label')).toBeTruthy()
+    expect(document.querySelector('fieldset')).toBeFalsy()
+    expect(document.querySelector('legend')).toBeFalsy()
   })
 
   it('should support locale context forwarding', () => {
-    const Comp = mount(
+    const { rerender } = render(
       <Component>
         <NumberFormat currency>1234</NumberFormat>
       </Component>
     )
 
-    expect(Comp.find('.dnb-number-format').find('span').at(1).text()).toBe(
-      '1 234,00 kr'
+    expect(
+      document
+        .querySelector('.dnb-number-format')
+        .querySelector('.dnb-number-format__visible').textContent
+    ).toBe('1 234,00 kr')
+
+    rerender(
+      <Component locale="en-GB">
+        <NumberFormat currency>1234</NumberFormat>
+      </Component>
     )
 
-    Comp.setProps({
-      locale: 'en-GB',
-    })
-
-    expect(Comp.find('.dnb-number-format').find('span').at(1).text()).toBe(
-      'NOK 1 234.00'
-    )
+    expect(
+      document
+        .querySelector('.dnb-number-format')
+        .querySelector('.dnb-number-format__visible').textContent
+    ).toBe('NOK 1 234.00')
   })
 
   it('should not overwrite locale from provider when not set', () => {
-    const Comp = mount(
+    render(
       <Provider locale="en-GB">
         <Component>
           <NumberFormat currency>1234</NumberFormat>
@@ -100,22 +116,29 @@ describe('FormRow component', () => {
       </Provider>
     )
 
-    expect(Comp.find('.dnb-number-format').find('span').at(1).text()).toBe(
-      'NOK 1 234.00'
-    )
+    expect(
+      document
+        .querySelector('.dnb-number-format')
+        .querySelector('.dnb-number-format__visible').textContent
+    ).toBe('NOK 1 234.00')
   })
 
   it('should react correct on two states in row', () => {
-    const Comp = mount(
+    const { rerender } = render(
       <Component {...props} disabled={false}>
         <Input />
       </Component>
     )
-    Comp.setProps({ disabled: true })
-    expect(Comp.find('input').is('[disabled]')).toBe(true)
+    rerender(
+      <Component {...props} disabled={true}>
+        <Input />
+      </Component>
+    )
+    expect(document.querySelector('input[disabled]')).toBeTruthy()
   })
 
   it('should validate with ARIA rules', async () => {
+    const Comp = mount(<Component {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
