@@ -86,6 +86,13 @@ describe.each(['ui', 'sbanken', 'eiendom'])(
     })
 
     describe('tertiary', () => {
+      it('have to match all tertiary buttons', async () => {
+        const screenshot = await makeScreenshot({
+          selector: '[data-visual-test="button-tertiary-all"]',
+        })
+        expect(screenshot).toMatchImageSnapshot()
+      })
+
       it('have to match "dnb-button--tertiary"', async () => {
         const screenshot = await makeScreenshot({
           selector: '[data-visual-test="button-tertiary"]',
@@ -113,13 +120,6 @@ describe.each(['ui', 'sbanken', 'eiendom'])(
         const screenshot = await makeScreenshot({
           selector: '[data-visual-test="button-tertiary"]',
           simulate: 'active',
-        })
-        expect(screenshot).toMatchImageSnapshot()
-      })
-
-      it('have to match all tertiary buttons', async () => {
-        const screenshot = await makeScreenshot({
-          selector: '[data-visual-test="button-tertiary-all"]',
         })
         expect(screenshot).toMatchImageSnapshot()
       })
