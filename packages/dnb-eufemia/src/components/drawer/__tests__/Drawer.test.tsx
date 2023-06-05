@@ -9,7 +9,6 @@ import {
   toJson,
   loadScss,
   axeComponent,
-  attachToBody,
 } from '../../../core/jest/jestSetup'
 import { render, fireEvent } from '@testing-library/react'
 
@@ -39,7 +38,7 @@ beforeEach(() => {
 
 describe('Drawer', () => {
   it('will run bodyScrollLock with disableBodyScroll', () => {
-    const Comp = mount(
+    render(
       <Drawer {...props}>
         <button>button</button>
       </Drawer>
@@ -47,7 +46,7 @@ describe('Drawer', () => {
 
     expect(document.body.getAttribute('style')).toBe(null)
 
-    Comp.find('button.dnb-modal__trigger').simulate('click')
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
 
     expect(document.body.getAttribute('style')).toContain(
       'overflow: hidden;'
@@ -55,27 +54,29 @@ describe('Drawer', () => {
   })
 
   it('appears on trigger click', () => {
-    const Comp = mount(
+    render(
       <Drawer {...props}>
         <button>button</button>
       </Drawer>
     )
 
-    Comp.find('button.dnb-modal__trigger').simulate('click')
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
 
-    expect(Comp.find('button.dnb-modal__close-button').exists()).toBe(true)
+    expect(
+      document.querySelector('button.dnb-modal__close-button')
+    ).toBeTruthy()
   })
 
   it('omits trigger button once we set omitTriggerButton', () => {
-    const Comp = mount(<Drawer {...props} omitTriggerButton />)
+    render(<Drawer {...props} omitTriggerButton />)
 
-    expect(Comp.find('button.dnb-modal__trigger').exists()).toBe(false)
+    expect(document.querySelector('button.dnb-modal__trigger')).toBeFalsy()
   })
 
   it('will close by using callback method', () => {
     const on_close = jest.fn()
     const on_open = jest.fn()
-    const Comp = mount(
+    render(
       <Drawer
         noAnimation={true}
         onOpen={on_open}
@@ -87,16 +88,17 @@ describe('Drawer', () => {
         )}
       </Drawer>
     )
-    Comp.find('button').simulate('click')
+
+    fireEvent.click(document.querySelector('button'))
     expect(on_open).toHaveBeenCalledTimes(1)
 
-    Comp.find('button#close-me').simulate('click')
+    fireEvent.click(document.querySelector('button#close-me'))
     expect(on_close).toHaveBeenCalledTimes(1)
   })
 
   it('will use props from global context', () => {
     const contextTitle = 'Custom title'
-    const Comp = mount(
+    render(
       <Provider
         value={{
           Drawer: { title: contextTitle },
@@ -106,7 +108,7 @@ describe('Drawer', () => {
       </Provider>
     )
 
-    Comp.find('button').simulate('click')
+    fireEvent.click(document.querySelector('button'))
 
     expect(document.querySelector('.dnb-drawer__title').textContent).toBe(
       contextTitle
@@ -123,16 +125,14 @@ describe('Drawer', () => {
       directDomReturn: false,
       noAnimation: true,
     }
-    const Comp = mount(
-      <Drawer {...props} id="modal-drawer" onClose={on_close} />
-    )
+    render(<Drawer {...props} id="modal-drawer" onClose={on_close} />)
 
-    Comp.find('button#modal-drawer').simulate('click')
-    Comp.find('div.dnb-drawer').simulate('keyDown', {
+    fireEvent.click(document.querySelector('button#modal-drawer'))
+    fireEvent.keyDown(document.querySelector('div.dnb-drawer'), {
       key: 'Esc',
       keyCode: 27,
     })
-    Comp.update()
+
     expect(on_close).toHaveBeenCalledTimes(1)
     expect(testTriggeredBy).toBe('keyboard')
   })
@@ -144,13 +144,11 @@ describe('Drawer', () => {
       directDomReturn: false,
       noAnimation: true,
     }
-    const Comp = mount(
-      <Drawer {...props} id="modal-drawer" onClose={on_close} />
-    )
+    render(<Drawer {...props} id="modal-drawer" onClose={on_close} />)
 
-    Comp.find('button#modal-drawer').simulate('click')
+    fireEvent.click(document.querySelector('button#modal-drawer'))
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
-    Comp.update()
+
     expect(on_close).toHaveBeenCalledTimes(1)
   })
 
@@ -354,16 +352,15 @@ describe('Drawer', () => {
   })
 
   it('can contain drawer parts', () => {
-    const Comp = mount(
+    render(
       <Drawer noAnimation directDomReturn={false}>
         <Drawer.Navigation>navigation</Drawer.Navigation>
         <Drawer.Header>header</Drawer.Header>
         <Drawer.Body>body</Drawer.Body>
-      </Drawer>,
-      { attachTo: attachToBody() }
+      </Drawer>
     )
 
-    Comp.find('button').simulate('click')
+    fireEvent.click(document.querySelector('button'))
 
     {
       const elements = document.querySelectorAll(
@@ -380,7 +377,9 @@ describe('Drawer', () => {
       expect(elements[0].textContent).toContain('body')
     }
 
-    expect(Comp.find('button.dnb-modal__close-button').length).toBe(1)
+    expect(
+      document.querySelectorAll('button.dnb-modal__close-button').length
+    ).toBe(1)
   })
 })
 
