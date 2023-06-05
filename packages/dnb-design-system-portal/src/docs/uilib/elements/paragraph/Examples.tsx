@@ -187,3 +187,39 @@ export function ParagraphModifiers() {
     </ComponentBox>
   )
 }
+
+export function ParagraphRegressionTests() {
+  if (!globalThis.IS_TEST) {
+    return null
+  }
+
+  const PWrap = ({ customSize = null, ...props }) => {
+    const size = props.size || customSize
+    return (
+      <>
+        <P {...props}>
+          <Case>{size}</Case>
+        </P>
+        <P medium {...props}>
+          <Case>{size} - Weight medium</Case>
+        </P>
+        <P bold {...props}>
+          <Case>{size} - Weight bold</Case>
+        </P>
+      </>
+    )
+  }
+
+  return (
+    <ComponentBox scope={{ PWrap }} data-visual-test={'paragraph-sizes'}>
+      <PWrap customSize="default" />
+      <PWrap size="xx-large" />
+      <PWrap size="x-large" />
+      <PWrap size="large" />
+      <PWrap size="medium" />
+      <PWrap size="basis" />
+      <PWrap size="small" />
+      <PWrap size="x-small" />
+    </ComponentBox>
+  )
+}

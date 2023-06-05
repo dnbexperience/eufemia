@@ -31,3 +31,21 @@ describe.each(['ui', 'sbanken', 'eiendom'])(
     })
   }
 )
+
+
+describe.each(['ui', 'sbanken'])(
+  'Heading for %s',
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/elements/heading',
+    })
+
+    it('matches all sizes and variants', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="heading-sizes"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+  }
+)
