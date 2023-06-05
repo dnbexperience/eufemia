@@ -579,7 +579,9 @@ del .dnb-code {
   --typography-heading-xx-large-font-size: var(--font-size-xx-large);
   --typography-heading-xx-large-line-height: var(--line-height-xx-large);
   --typography-heading-xx-large-small-font-size: var(--font-size-x-large);
-  --typography-heading-xx-large-small-line-height: var(--line-height-x-large);
+  --typography-heading-xx-large-small-line-height: var(
+    --line-height-x-large
+  );
   --typography-heading-xx-large-weight: var(--font-weight-medium);
   --typography-heading-x-large-font-size: var(--font-size-x-large);
   --typography-heading-x-large-line-height: var(--line-height-x-large);
@@ -613,8 +615,6 @@ del .dnb-code {
   --typography-heading-small-weight: var(--font-weight-medium);
   --typography-heading-x-small-font-size: var(--font-size-x-small);
   --typography-heading-x-small-line-height: var(--line-height-x-small);
-  --typography-heading-x-small-small-font-size: var(--font-size-x-small);
-  --typography-heading-x-small-small-line-height: var(--line-height-x-small);
   --typography-heading-x-small-weight: var(--font-weight-medium);
 }
 
@@ -886,11 +886,6 @@ sub {
   line-height: var(--typography-heading-x-small-line-height);
   font-weight: var(--typography-heading-x-small-weight);
 }
-.dnb-h--x-small > small {
-  font-size: var(--typography-heading-x-small-small-font-size);
-  line-height: var(--typography-heading-x-small-small-line-height);
-}
-
 .dnb-spacing .dnb-h--xx-large:not([class*=space__top]), .dnb-core-style .dnb-spacing .dnb-h--xx-large:not([class*=space__top]) {
   margin-top: 3rem;
 }
