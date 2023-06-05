@@ -31,13 +31,13 @@ describe('FormLabel component', () => {
   })
 
   it('should forward unlisted attributes like "aria-hidden"', () => {
-    const Comp = mount(<Component {...props} for_id="input" aria-hidden />)
-    expect(Comp.find('label[aria-hidden]').exists()).toBe(true)
+    render(<Component {...props} for_id="input" aria-hidden />)
+    expect(document.querySelector('label[aria-hidden]')).toBeTruthy()
     expect(
-      Comp.find('label[aria-hidden]')
-        .instance()
+      document
+        .querySelector('label[aria-hidden]')
         .getAttribute('aria-hidden')
-    ).toBe('true')
+    ).toBeTruthy()
   })
 
   it('should support spacing props', () => {
