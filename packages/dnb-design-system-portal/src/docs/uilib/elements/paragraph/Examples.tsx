@@ -193,22 +193,25 @@ export function ParagraphRegressionTests() {
     return null
   }
 
-  const PWrap = ({customSize = null, ...props}) => (
-    <>
-      <P {...props}>
-        <Case>Size {props.size || customSize} - Weight: default</Case>
-      </P>
-      <P medium {...props}>
-        <Case>Size {props.size || customSize}- Weight: medium</Case>
-      </P>
-      <P bold {...props}>
-        <Case>Size {props.size || customSize} - Weight: bold</Case>
-      </P>
-    </>
-  )
+  const PWrap = ({ customSize = null, ...props }) => {
+    const size = props.size || customSize
+    return (
+      <>
+        <P {...props}>
+          <Case>{size}</Case>
+        </P>
+        <P medium {...props}>
+          <Case>{size} - Weight medium</Case>
+        </P>
+        <P bold {...props}>
+          <Case>{size} - Weight bold</Case>
+        </P>
+      </>
+    )
+  }
 
   return (
-    <ComponentBox scope={{PWrap}} data-visual-test={'paragraph-sizes'}>
+    <ComponentBox scope={{ PWrap }} data-visual-test={'paragraph-sizes'}>
       <PWrap customSize="default" />
       <PWrap size="xx-large" />
       <PWrap size="x-large" />

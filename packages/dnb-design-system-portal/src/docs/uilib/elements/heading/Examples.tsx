@@ -48,7 +48,6 @@ export const HeadingVanillaHTMLExample = () => (
 )
 
 export const HeadingModifiersExample = () => (
-  
   <ComponentBox hideCode data-visual-test="heading-additional">
     <article>
       <h1 className="dnb-h--xx-large">
@@ -83,30 +82,39 @@ export const HeadingRegressionTest = () => {
     overflow: auto; // prevent margin collapse
   `
 
-  const HWrap = ({...props}) => (
-      <>
-        <Spacer>
-          <H1 {...props}>{props.size}</H1>
-        </Spacer>
-        <Spacer>
-          <H2 {...props}><small>{'<small>'} {props.size} {'</small>'}</small></H2>
-        </Spacer>
-        <Spacer>
-          <H3 {...props}>Text <small>{'<small>'} {props.size} {'</small>'}</small></H3>
-        </Spacer>      
-        <hr/>
-      </>
-    )
+  const HWrap = ({ ...props }) => (
+    <>
+      <Spacer>
+        <H1 {...props}>{props.size}</H1>
+      </Spacer>
+      <Spacer>
+        <H2 {...props}>
+          <small>
+            {'<small>'} {props.size} {'</small>'}
+          </small>
+        </H2>
+      </Spacer>
+      <Spacer>
+        <H3 {...props}>
+          <>Text </>
+          <small>
+            {'<small>'} {props.size} {'</small>'}
+          </small>
+        </H3>
+      </Spacer>
+      <hr />
+    </>
+  )
 
   return (
-    <ComponentBox scope={ {HWrap} } data-visual-test="heading-sizes">
-      <HWrap size='xx-large' />
-      <HWrap size='x-large' />
-      <HWrap size='large' />
-      <HWrap size='medium' />
-      <HWrap size='basis' />
-      <HWrap size='small' />
-      <HWrap size='x-small' />
+    <ComponentBox scope={{ HWrap }} data-visual-test="heading-sizes">
+      <HWrap size="xx-large" />
+      <HWrap size="x-large" />
+      <HWrap size="large" />
+      <HWrap size="medium" />
+      <HWrap size="basis" />
+      <HWrap size="small" />
+      <HWrap size="x-small" />
     </ComponentBox>
   )
 }

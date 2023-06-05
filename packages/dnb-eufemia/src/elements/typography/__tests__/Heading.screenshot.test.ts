@@ -34,14 +34,14 @@ describe.each(['ui', 'sbanken', 'eiendom'])(
 
 
 describe.each(['ui', 'sbanken'])(
-  'Heading regression tests for %s',
+  'Heading for %s',
   (themeName) => {
     setupPageScreenshot({
       themeName,
       url: '/uilib/elements/heading',
     })
 
-    it('have to match all heading sizes and variants', async () => {
+    it('matches all sizes and variants', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="heading-sizes"]',
       })

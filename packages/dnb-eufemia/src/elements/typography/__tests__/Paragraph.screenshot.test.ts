@@ -44,14 +44,14 @@ describe.each(['ui', 'sbanken'])('Paragraph for %s', (themeName) => {
 })
 
 describe.each(['ui', 'sbanken'])(
-  'Paragraph regression tests for %s',
+  'Paragraph for %s',
   (themeName) => {
     setupPageScreenshot({
       themeName,
       url: '/uilib/elements/paragraph',
     })
 
-    it('have to match all sizes and weights', async () => {
+    it('matches all sizes and weights', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="paragraph-sizes"]',
       })
