@@ -6,6 +6,7 @@ import account_in_medium from './account_in_medium'
 import account_medium from './account_medium'
 import account_out_medium from './account_out_medium'
 import account_percent_medium from './account_percent_medium'
+import accounting_medium from './accounting_medium'
 import add_circled_medium from './add_circled_medium'
 import ainvoice_medium from './ainvoice_medium'
 import ambulance_medium from './ambulance_medium'
@@ -34,6 +35,7 @@ import calculator_medium from './calculator_medium'
 import calendar_cancel_medium from './calendar_cancel_medium'
 import camera_medium from './camera_medium'
 import camper_trailer_medium from './camper_trailer_medium'
+import candle_stick_medium from './candle_stick_medium'
 import car_1_medium from './car_1_medium'
 import car_2_medium from './car_2_medium'
 import caravan_medium from './caravan_medium'
@@ -103,6 +105,7 @@ import first_aid_medium from './first_aid_medium'
 import fish_medium from './fish_medium'
 import flying_money_medium from './flying_money_medium'
 import folder_medium from './folder_medium'
+import fortune_ball_medium from './fortune_ball_medium'
 import fridge_medium from './fridge_medium'
 import fullscreen_medium from './fullscreen_medium'
 import funds_in_medium from './funds_in_medium'
@@ -195,6 +198,7 @@ import return_1_medium from './return_1_medium'
 import savings_account_in_medium from './savings_account_in_medium'
 import savings_account_medium from './savings_account_medium'
 import savings_account_out_medium from './savings_account_out_medium'
+import scan_medium from './scan_medium'
 import scissors_medium from './scissors_medium'
 import scooter_medium from './scooter_medium'
 import sea_transport_medium from './sea_transport_medium'
@@ -248,6 +252,7 @@ export {
   account_medium,
   account_out_medium,
   account_percent_medium,
+  accounting_medium,
   add_circled_medium,
   ainvoice_medium,
   ambulance_medium,
@@ -276,6 +281,7 @@ export {
   calendar_cancel_medium,
   camera_medium,
   camper_trailer_medium,
+  candle_stick_medium,
   car_1_medium,
   car_2_medium,
   caravan_medium,
@@ -345,6 +351,7 @@ export {
   fish_medium,
   flying_money_medium,
   folder_medium,
+  fortune_ball_medium,
   fridge_medium,
   fullscreen_medium,
   funds_in_medium,
@@ -437,6 +444,7 @@ export {
   savings_account_in_medium,
   savings_account_medium,
   savings_account_out_medium,
+  scan_medium,
   scissors_medium,
   scooter_medium,
   sea_transport_medium,

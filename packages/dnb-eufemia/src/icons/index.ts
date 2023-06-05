@@ -12,6 +12,8 @@ import account_out from './dnb/account_out'
 import account_out_medium from './dnb/account_out_medium'
 import account_percent from './dnb/account_percent'
 import account_percent_medium from './dnb/account_percent_medium'
+import accounting from './dnb/accounting'
+import accounting_medium from './dnb/accounting_medium'
 import add from './dnb/add'
 import add_circled from './dnb/add_circled'
 import add_circled_medium from './dnb/add_circled_medium'
@@ -82,6 +84,8 @@ import camera from './dnb/camera'
 import camera_medium from './dnb/camera_medium'
 import camper_trailer from './dnb/camper_trailer'
 import camper_trailer_medium from './dnb/camper_trailer_medium'
+import candle_stick from './dnb/candle_stick'
+import candle_stick_medium from './dnb/candle_stick_medium'
 import car_1 from './dnb/car_1'
 import car_1_medium from './dnb/car_1_medium'
 import car_2 from './dnb/car_2'
@@ -260,6 +264,8 @@ import flying_money from './dnb/flying_money'
 import flying_money_medium from './dnb/flying_money_medium'
 import folder from './dnb/folder'
 import folder_medium from './dnb/folder_medium'
+import fortune_ball from './dnb/fortune_ball'
+import fortune_ball_medium from './dnb/fortune_ball_medium'
 import fridge from './dnb/fridge'
 import fridge_medium from './dnb/fridge_medium'
 import fullscreen from './dnb/fullscreen'
@@ -456,6 +462,8 @@ import savings_account_in_medium from './dnb/savings_account_in_medium'
 import savings_account_medium from './dnb/savings_account_medium'
 import savings_account_out from './dnb/savings_account_out'
 import savings_account_out_medium from './dnb/savings_account_out_medium'
+import scan from './dnb/scan'
+import scan_medium from './dnb/scan_medium'
 import scissors from './dnb/scissors'
 import scissors_medium from './dnb/scissors_medium'
 import scooter from './dnb/scooter'
@@ -562,6 +570,8 @@ export {
   account_out_medium,
   account_percent,
   account_percent_medium,
+  accounting,
+  accounting_medium,
   add,
   add_circled,
   add_circled_medium,
@@ -632,6 +642,8 @@ export {
   camera_medium,
   camper_trailer,
   camper_trailer_medium,
+  candle_stick,
+  candle_stick_medium,
   car_1,
   car_1_medium,
   car_2,
@@ -810,6 +822,8 @@ export {
   flying_money_medium,
   folder,
   folder_medium,
+  fortune_ball,
+  fortune_ball_medium,
   fridge,
   fridge_medium,
   fullscreen,
@@ -1006,6 +1020,8 @@ export {
   savings_account_medium,
   savings_account_out,
   savings_account_out_medium,
+  scan,
+  scan_medium,
   scissors,
   scissors_medium,
   scooter,
