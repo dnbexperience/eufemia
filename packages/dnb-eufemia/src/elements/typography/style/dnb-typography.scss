@@ -14,7 +14,9 @@
   --typography-heading-xx-large-font-size: var(--font-size-xx-large);
   --typography-heading-xx-large-line-height: var(--line-height-xx-large);
   --typography-heading-xx-large-small-font-size: var(--font-size-x-large);
-  --typography-heading-xx-large-small-line-height: var(--line-height-x-large);
+  --typography-heading-xx-large-small-line-height: var(
+    --line-height-x-large
+  );
   --typography-heading-xx-large-weight: var(--font-weight-medium);
 
   // Heading x-large
@@ -62,8 +64,6 @@
   // Heading x-small
   --typography-heading-x-small-font-size: var(--font-size-x-small);
   --typography-heading-x-small-line-height: var(--line-height-x-small);
-  --typography-heading-x-small-small-font-size: var(--font-size-x-small);
-  --typography-heading-x-small-small-line-height: var(--line-height-x-small);
   --typography-heading-x-small-weight: var(--font-weight-medium);
 }
 
