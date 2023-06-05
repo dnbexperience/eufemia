@@ -7,6 +7,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Tr, Th, Td } from '@dnb/eufemia/src'
 import { Table as TableElement } from '@dnb/eufemia/src/components'
+import Copy from './Copy'
 
 export default class Table extends React.PureComponent {
   static propTypes = {
@@ -36,11 +37,11 @@ export default class Table extends React.PureComponent {
 
       // in case we will color the whole td
       if (child.type === 'td') {
+        // Create the color preview sample
         const hex = child.props.color ? child.props.color : null
         if (hex && hex.length === 7) {
           return (
             <Td
-              // style={prepareWithContrastColor(hex)}
               style={prepareWithSameColor(hex)}
               className="selectable"
               aria-hidden
@@ -48,11 +49,21 @@ export default class Table extends React.PureComponent {
               {hex}
             </Td>
           )
-        } else if (this.props.selectable) {
-          return <Td className="selectable">{getChildren(child)}</Td>
-        } else {
-          return <Td>{getChildren(child)}</Td>
         }
+
+        child = getChildren(child)
+
+        if (child?.[0].type?.name === 'code') {
+          return (
+            <Td>
+              <Copy>{child}</Copy>
+            </Td>
+          )
+        } else if (this.props.selectable) {
+          return <Td className="selectable">{child}</Td>
+        }
+
+        return <Td>{child}</Td>
       }
 
       if (child.type === 'th') {
