@@ -71,7 +71,29 @@ export default class Table extends React.PureComponent {
       }
 
       if (child.type === 'tr') {
-        return <Tr>{getChildren(child)}</Tr>
+        child = getChildren(child).map((td, i) => {
+          if (td.type?.name === 'Td') {
+            const tds = getChildren(td)
+            const foundSample = tds.find((content) => {
+              return content.type?.name === 'Sample'
+            })
+
+            if (foundSample) {
+              const hex = foundSample.props.children?.[0]
+              return (
+                <Td key={i} aria-hidden style={prepareWithSameColor(hex)}>
+                  {foundSample}
+                </Td>
+              )
+            }
+
+            return td
+          }
+
+          return td
+        })
+
+        return <Tr>{child}</Tr>
       }
 
       return child
@@ -79,6 +101,10 @@ export default class Table extends React.PureComponent {
 
     return <TableElement>{children}</TableElement>
   }
+}
+
+export function Sample({ children }) {
+  return children
 }
 
 const getChildren = (children) => {

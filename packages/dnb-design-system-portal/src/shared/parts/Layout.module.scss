@@ -20,20 +20,6 @@
 
 .portalStyle {
   :global {
-    table td.selectable {
-      position: relative;
-      z-index: 1;
-      user-select: all;
-      cursor: pointer;
-      transform: scale(1);
-      transition: transform 0.2s ease;
-    }
-    table td.selectable:hover,
-    table td.selectable:active {
-      z-index: 2;
-      transform: scale(1.2);
-      user-select: all;
-    }
     table td em {
       padding-right: 0.5em;
     }

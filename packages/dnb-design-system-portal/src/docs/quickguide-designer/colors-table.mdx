@@ -1,4 +1,6 @@
-import Table from 'dnb-design-system-portal/src/shared/tags/Table'
+import Table, {
+  Sample,
+} from 'dnb-design-system-portal/src/shared/tags/Table'
 import { Space } from '@dnb/eufemia/src'
 import ChangeStyleTheme from '../../core/ChangeStyleTheme'
 
@@ -65,6 +67,13 @@ Change the brand in order to see the related tables:
 
 <VisibilityByTheme hidden="sbanken">
   ## DNB Colors
+
+| Sample                   | Type    | Name          | Hex       | RGB         | Figma Library name | CSS Custom Properties name |
+| ------------------------ | ------- | ------------- | --------- | ----------- | ------------------ | -------------------------- |
+| <Sample>#00343E</Sample> | Profile | Ocean green   | `#00343E` | `0 52 62`   | Ocean green        | `--color-ocean-green`      |
+| <Sample>#14555A</Sample> | Profile | Emerald green | `#14555A` | `20 85 90`  | Emerald green      | `--color-emerald-green`    |
+| <Sample>#007272</Sample> | Profile | Sea green     | `#007272` | `0 114 114` | Sea green          | `--color-sea-green`        |
+
   <Table selectable>
     <thead>
       <tr>
