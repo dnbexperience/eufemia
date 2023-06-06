@@ -11,7 +11,7 @@ import {
   toJson,
   loadScss,
 } from '../../../core/jest/jestSetup'
-import { render } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 import Component from '../Tabs'
 import Input from '../../input/Input'
 
@@ -54,7 +54,7 @@ describe('Tabs component', () => {
   })
 
   it('have a "selected_key" state have to be same as prop from startup', () => {
-    const Comp = mount(
+    render(
       <Component
         {...props}
         data={tablistData}
@@ -63,9 +63,10 @@ describe('Tabs component', () => {
         {contentWrapperData}
       </Component>
     )
-    expect(Comp.state().selected_key).toBe(startup_selected_key)
     expect(
-      Comp.find('.dnb-tabs__button.selected').find('span').at(0).text()
+      document
+        .querySelector('.dnb-tabs__button.selected')
+        .querySelectorAll('span')[0].textContent
     ).toBe(
       tablistData.find(({ key }) => key === startup_selected_key).title
     )
@@ -86,7 +87,7 @@ describe('Tabs component', () => {
       return e
     })
 
-    const Comp = mount(
+    render(
       <Component
         {...props}
         data={tablistData}
@@ -97,17 +98,17 @@ describe('Tabs component', () => {
       </Component>
     )
 
-    Comp.find('.dnb-tabs__button').at(1).simulate('click')
+    fireEvent.click(document.querySelectorAll('.dnb-tabs__button')[1])
     expect(on_change).toBeCalledTimes(1)
     expect(on_click).toBeCalledTimes(1)
 
-    Comp.find('.dnb-tabs__button').at(2).simulate('click')
+    fireEvent.click(document.querySelectorAll('.dnb-tabs__button')[2])
     expect(on_change).toBeCalledTimes(2)
     expect(on_click).toBeCalledTimes(2)
 
     preventChange = true
 
-    Comp.find('.dnb-tabs__button').at(1).simulate('click')
+    fireEvent.click(document.querySelectorAll('.dnb-tabs__button')[1])
     expect(on_change).toBeCalledTimes(2)
     expect(on_click).toBeCalledTimes(3)
   })
@@ -115,20 +116,20 @@ describe('Tabs component', () => {
   it('has working "on_focus" event handler', () => {
     const on_focus = jest.fn()
 
-    const Comp = mount(
+    render(
       <Component {...props} data={tablistData} on_focus={on_focus}>
         {contentWrapperData}
       </Component>
     )
 
-    Comp.find('.dnb-tabs__tabs__tablist').simulate('keyDown', {
-      keyCode: 39,
-    }) // right
+    fireEvent.keyDown(document.querySelector('.dnb-tabs__tabs__tablist'), {
+      keyCode: 39, // right
+    })
     expect(on_focus).toBeCalledTimes(1)
 
-    Comp.find('.dnb-tabs__tabs__tablist').simulate('keyDown', {
-      keyCode: 39,
-    }) // right
+    fireEvent.keyDown(document.querySelector('.dnb-tabs__tabs__tablist'), {
+      keyCode: 39, // right
+    })
     expect(on_focus).toBeCalledTimes(2)
   })
 
@@ -143,16 +144,16 @@ describe('Tabs component', () => {
       { title: 'Third', key: 'third', href: '/third' },
     ]
 
-    const Comp = mount(
+    render(
       <Component {...props} data={tablistData} tab_element={Link}>
         {contentWrapperData}
       </Component>
     )
 
     expect(
-      Comp.find('.dnb-tabs__tabs__tablist')
-        .find('.dnb-tabs__button[data-tab-key="second"]')
-        .html()
+      document
+        .querySelector('.dnb-tabs__tabs__tablist')
+        .querySelectorAll('a')[1].outerHTML
     ).toMatchInlineSnapshot(
       `"<a href="/second"><span class="dnb-tabs__button__title">Second</span><span aria-hidden="true" hidden="" class="dnb-dummy">Second</span></a>"`
     )
@@ -285,7 +286,7 @@ describe('Tabs component', () => {
   })
 
   it('should validate with ARIA rules', async () => {
-    const Comp = render(
+    const Comp = mount(
       <Component
         {...props}
         data={tablistData}
@@ -299,85 +300,123 @@ describe('Tabs component', () => {
 })
 
 describe('TabList component', () => {
-  const Comp = mount(
-    <Component
-      {...props}
-      data={tablistData}
-      selected_key={startup_selected_key}
-    >
-      {contentWrapperData}
-    </Component>
-  )
-
-  it('has to have the right amount of renderet components', () => {
-    expect(Comp.find('.dnb-tabs__button__snap').length).toBe(
-      tablistData.length
+  it('has to have the right amount of rendered components', () => {
+    render(
+      <Component
+        {...props}
+        data={tablistData}
+        selected_key={startup_selected_key}
+      >
+        {contentWrapperData}
+      </Component>
     )
-    expect(Comp.find('div[role="tabpanel"]').length).toBe(1)
+
+    expect(
+      document.querySelectorAll('.dnb-tabs__button__snap').length
+    ).toBe(tablistData.length)
+    expect(document.querySelectorAll('div[role="tabpanel"]').length).toBe(
+      1
+    )
   })
 
   it('has to have the right content on a "click event"', () => {
-    Comp.find('button[data-tab-key="third"]').simulate('click')
-    expect(Comp.state().selected_key).toBe(tablistData[2].key) // get the third key
-    expect(Comp.find('div[role="tabpanel"]').children().html()).toBe(
-      mount(contentWrapperData.third).html()
+    render(
+      <Component
+        {...props}
+        data={tablistData}
+        selected_key={startup_selected_key}
+      >
+        {contentWrapperData}
+      </Component>
     )
+
+    fireEvent.click(document.querySelector('button[data-tab-key="third"]'))
+
+    expect(
+      document
+        .querySelector('button[data-tab-key="third"]')
+        .classList.contains('selected')
+    ).toBe(true)
+
+    const content = document.querySelector('div[role="tabpanel"]')
+    const { container } = render(contentWrapperData.third)
+    expect(content.innerHTML).toBe(container.innerHTML)
   })
 })
 
 describe('A single Tab component', () => {
-  const Comp = mount(
-    <Component
-      {...props}
-      data={tablistData}
-      selected_key={startup_selected_key}
-    >
-      {contentWrapperData}
-    </Component>
-  )
+  it('has to have a role="tab" attribute and a selected class', () => {
+    render(
+      <Component
+        {...props}
+        data={tablistData}
+        selected_key={startup_selected_key}
+      >
+        {contentWrapperData}
+      </Component>
+    )
 
-  it('has to have a role="tab" attribute and a selcted class', () => {
     expect(
-      Comp.find('button[data-tab-key="second"]')
-        .instance()
+      document
+        .querySelector('button[data-tab-key="second"]')
         .getAttribute('role')
     ).toBe('tab')
     expect(
-      Comp.find('button[data-tab-key="second"]').hasClass('selected')
+      document
+        .querySelector('button[data-tab-key="second"]')
+        .classList.contains('selected')
     ).toBe(true)
   })
 
   it('has to have the right content on a keydown "ArrowRight"', () => {
-    // reset the state
-    Comp.find('button[data-tab-key="second"]').simulate('click')
-    Comp.find('div[role="tablist"]').simulate('keyDown', {
-      key: 'ArrowRight',
-      keyCode: 39,
-    })
-    Comp.find('button[data-tab-key="third"]').simulate('click')
-    expect(Comp.find('div[role="tabpanel"]').children().html()).toBe(
-      mount(contentWrapperData.third).html()
+    render(
+      <Component
+        {...props}
+        data={tablistData}
+        selected_key={startup_selected_key}
+      >
+        {contentWrapperData}
+      </Component>
     )
+
+    // reset the state
+    fireEvent.click(
+      document.querySelector('button[data-tab-key="second"]')
+    )
+
+    fireEvent.keyDown(document.querySelector('div[role="tablist"]'), {
+      key: 'ArrowRight',
+      keyCode: 39, // right
+    })
+    fireEvent.click(document.querySelector('button[data-tab-key="third"]'))
+
+    const content = document.querySelector('div[role="tabpanel"]')
+    const { container } = render(contentWrapperData.third)
+    expect(content.innerHTML).toBe(container.innerHTML)
   })
 
   it('has to work with "data only" property containing a "content"', () => {
-    const Comp = mount(<Component data={tablistDataWithContent} />)
+    render(<Component data={tablistDataWithContent} />)
     expect(
-      Comp.find('.dnb-tabs__button__snap')
-        .first()
-        .find('button')
-        .hasClass('selected')
+      document
+        .querySelectorAll('.dnb-tabs__button__snap')[0]
+        .querySelector('button')
+        .classList.contains('selected')
     ).toBe(true)
-    expect(Comp.find('div.dnb-tabs__content').text()).toBe('First')
+    expect(
+      document.querySelector('div.dnb-tabs__content').textContent
+    ).toBe('First')
 
     // then click on tab two
     // also test the ability of having a integer only as the key
-    Comp.find('button[data-tab-key=2]').simulate('click')
-    expect(Comp.find('div.dnb-tabs__content').text()).toBe('Second')
+    fireEvent.click(document.querySelector('button[data-tab-key="2"]'))
+    expect(
+      document.querySelector('div.dnb-tabs__content').textContent
+    ).toBe('Second')
   })
 
   it('has to run "prevent_rerender" as supposed', () => {
-    const Comp = mount(
+    render(
       <Component
         {...props}
         prevent_rerender
@@ -394,47 +433,47 @@ describe('A single Tab component', () => {
       />
     )
 
-    expect(Comp.find('div.dnb-tabs__cached').exists()).toBe(true)
+    expect(document.querySelector('div.dnb-tabs__cached')).toBeTruthy()
 
     // also check a real live rerender scenario
     const value = 'value'
-    Comp.find('.dnb-input__input').simulate('change', {
+    fireEvent.change(document.querySelector('.dnb-input__input'), {
       target: { value },
     })
 
     // then click on tab two
-    Comp.find('button[data-tab-key="two"]').simulate('click')
+    fireEvent.click(document.querySelector('button[data-tab-key="two"]'))
 
     // the first cache should now be hidden
     expect(
-      Comp.find('div.dnb-tabs__cached')
-        .at(0)
-        .instance()
+      document
+        .querySelectorAll('div.dnb-tabs__cached')[0]
         .getAttribute('aria-hidden')
     ).toBe('true')
 
     // and on tab one again
-    Comp.find('button[data-tab-key="one"]').simulate('click')
+    fireEvent.click(document.querySelector('button[data-tab-key="one"]'))
 
     // the entered value should still be the same
-    expect(Comp.find('.dnb-input__input').instance().value).toBe(value)
+    expect(
+      (document.querySelector('.dnb-input__input') as HTMLInputElement)
+        .value
+    ).toBe(value)
 
     expect(
-      Comp.find('div.dnb-tabs__cached')
-        .at(0)
-        .instance()
+      document
+        .querySelectorAll('div.dnb-tabs__cached')[0]
         .getAttribute('aria-hidden')
     ).not.toBe('true')
     expect(
-      Comp.find('div.dnb-tabs__cached')
-        .at(1)
-        .instance()
+      document
+        .querySelectorAll('div.dnb-tabs__cached')[1]
         .getAttribute('aria-hidden')
     ).toBe('true')
   })
 
   it('has to run "prerender" as supposed', () => {
-    const Comp = mount(
+    render(
       <Component
         {...props}
         prerender
@@ -449,31 +488,29 @@ describe('A single Tab component', () => {
       />
     )
 
-    expect(Comp.find('div.dnb-tabs__cached').exists()).toBe(true)
+    expect(document.querySelector('div.dnb-tabs__cached')).toBeTruthy()
 
     expect(
-      Comp.find('div.dnb-tabs__cached')
-        .at(0)
-        .instance()
+      document
+        .querySelectorAll('div.dnb-tabs__cached')[0]
         .hasAttribute('aria-hidden')
     ).toBe(false)
     expect(
-      Comp.find('div.dnb-tabs__cached')
-        .at(1)
-        .instance()
+      document
+        .querySelectorAll('div.dnb-tabs__cached')[1]
         .getAttribute('aria-hidden')
     ).toBe('true')
 
-    expect(Comp.find('div.dnb-tabs__cached').at(0).text()).toBe(
-      'Content one'
-    )
-    expect(Comp.find('div.dnb-tabs__cached').at(1).text()).toBe(
-      'Content two'
-    )
+    expect(
+      document.querySelectorAll('div.dnb-tabs__cached')[0].textContent
+    ).toBe('Content one')
+    expect(
+      document.querySelectorAll('div.dnb-tabs__cached')[1].textContent
+    ).toBe('Content two')
   })
 
   it('has to work with "Tabs.Content" as children Components', () => {
-    const Comp = mount(
+    render(
       <Component {...props} data={tablistData}>
         <Component.Content title="first title">first</Component.Content>
         <Component.Content title="second title" selected>
@@ -482,26 +519,29 @@ describe('A single Tab component', () => {
       </Component>
     )
     expect(
-      Comp.find('button.selected').instance().getAttribute('data-tab-key')
-    ).toBe('second-title')
-    expect(
-      Comp.find('.dnb-tabs__button__snap button')
-        .at(1)
-        .instance()
+      document
+        .querySelector('button.selected')
         .getAttribute('data-tab-key')
     ).toBe('second-title')
-    expect(Comp.find('div.dnb-tabs__content').text()).toBe('second')
     expect(
-      Comp.find(
+      document
+        .querySelectorAll('.dnb-tabs__button__snap button')[1]
+        .getAttribute('data-tab-key')
+    ).toBe('second-title')
+    expect(
+      document.querySelector('div.dnb-tabs__content').textContent
+    ).toBe('second')
+    expect(
+      document.querySelector(
         'button[aria-selected=true] span.dnb-tabs__button__title'
-      ).text()
+      ).textContent
     ).toBe('second title')
   })
 
   it('has to work with "Tabs.Content" from outside', () => {
     let testKey = null
     let testTitle = null
-    const LinkedContent = (props = {}) => {
+    const LinkedContent = (props: { selected_key?: string }) => {
       return (
         <>
           <Component id="linked" data={tablistData} {...props} />
@@ -516,29 +556,34 @@ describe('A single Tab component', () => {
         </>
       )
     }
-    const Comp = mount(<LinkedContent />)
+
+    const { rerender } = render(<LinkedContent />)
 
     expect(
-      Comp.find('button.selected').instance().getAttribute('data-tab-key')
+      document
+        .querySelector('button.selected')
+        .getAttribute('data-tab-key')
     ).toBe('first')
     expect(testKey).toBe('first')
     expect(testTitle).toBe('First')
 
-    Comp.setProps({
-      selected_key: 'second',
-    })
+    rerender(<LinkedContent selected_key="second" />)
+
     expect(
-      Comp.find('button.selected').instance().getAttribute('data-tab-key')
+      document
+        .querySelector('button.selected')
+        .getAttribute('data-tab-key')
     ).toBe('second')
     expect(testKey).toBe('second')
 
-    Comp.find('.dnb-tabs__button').at(2).simulate('click')
+    fireEvent.click(document.querySelectorAll('.dnb-tabs__button')[2])
+
     expect(
-      Comp.find('button.selected').instance().getAttribute('data-tab-key')
+      document
+        .querySelector('button.selected')
+        .getAttribute('data-tab-key')
     ).toBe('third')
     expect(testKey).toBe('third')
-
-    expect(toJson(Comp)).toMatchSnapshot()
   })
 })
 
@@ -554,11 +599,3 @@ describe('Tabs scss', () => {
     expect(scss).toMatchSnapshot()
   })
 })
-
-// const keydown = (Comp, keyCode) => {
-//   document.dispatchEvent(new KeyboardEvent('keydown', { keyCode }))
-
-//   Comp.simulate('keyDown', {
-//     keyCode
-//   })
-// }
