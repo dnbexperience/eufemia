@@ -34,13 +34,13 @@ export function mockImplementationForDirectionObserver() {
   })
 }
 
-export async function testDirectionObserver(Comp) {
-  expect(Comp.props().direction).toBe('auto')
-
+export async function testDirectionObserver() {
   // the setDirectionObserver fn is changing this
-  expect(Comp.exists('.dnb-drawer-list--bottom')).toBe(true)
+  expect(document.querySelector('.dnb-drawer-list--bottom')).toBeTruthy()
   expect(
-    Comp.find('.dnb-drawer-list__options').instance().getAttribute('style')
+    document
+      .querySelector('.dnb-drawer-list__options')
+      .getAttribute('style')
   ).toBe('max-height: 33.5rem;') // jsdom default is 768 innerHeight
 
   window.resizeTo({
@@ -48,9 +48,11 @@ export async function testDirectionObserver(Comp) {
   })
   await wait(100)
 
-  expect(Comp.exists('.dnb-drawer-list--bottom')).toBe(true)
+  expect(document.querySelector('.dnb-drawer-list--bottom')).toBeTruthy()
   expect(
-    Comp.find('.dnb-drawer-list__options').instance().getAttribute('style')
+    document
+      .querySelector('.dnb-drawer-list__options')
+      .getAttribute('style')
   ).toBe('max-height: 28rem;')
 
   window.scrollTo({
@@ -58,12 +60,11 @@ export async function testDirectionObserver(Comp) {
   })
   await wait(100)
 
-  // force re-render to get a updated state
-  Comp.update()
-
-  expect(Comp.exists('.dnb-drawer-list--top')).toBe(true)
+  expect(document.querySelector('.dnb-drawer-list--top')).toBeTruthy()
   expect(
-    Comp.find('.dnb-drawer-list__options').instance().getAttribute('style')
+    document
+      .querySelector('.dnb-drawer-list__options')
+      .getAttribute('style')
   ).toBe('max-height: 28rem;') // is now min_height
 }
 
