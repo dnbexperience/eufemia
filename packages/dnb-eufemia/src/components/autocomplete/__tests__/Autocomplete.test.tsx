@@ -2209,14 +2209,16 @@ describe('Autocomplete component', () => {
   })
 
   it('has working direction observer', async () => {
-    const Comp = mount(<Component {...props} data={mockData} />)
+    render(<Component {...props} data={mockData} />)
 
     // open first
-    Comp.find('button.dnb-input__submit-button__button')
-      .not('.dnb-input__clear-button')
-      .simulate('click')
+    fireEvent.click(
+      document.querySelector(
+        'button.dnb-input__submit-button__button:not(.dnb-input__clear-button)'
+      )
+    )
 
-    await testDirectionObserver(Comp)
+    await testDirectionObserver()
   })
 
   it('has error status when only providing status', () => {

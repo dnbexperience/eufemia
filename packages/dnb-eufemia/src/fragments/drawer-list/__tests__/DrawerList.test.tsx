@@ -373,8 +373,8 @@ describe('DrawerList component', () => {
   })
 
   it('has working direction observer', async () => {
-    const Comp = mount(<Component {...props} data={mockData} />)
-    await testDirectionObserver(Comp)
+    render(<Component {...props} data={mockData} />)
+    await testDirectionObserver()
   })
 
   it('will call on_hide after "esc" key', () => {

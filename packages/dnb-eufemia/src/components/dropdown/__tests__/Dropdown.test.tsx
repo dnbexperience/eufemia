@@ -1157,13 +1157,12 @@ describe('Dropdown component', () => {
     expect(
       document
         .querySelector('button.dnb-dropdown__trigger')
-
         .hasAttribute('disabled')
     ).toBe(true)
   })
 
   beforeAll(() => {
-    (window as any).resizeTo = function resizeTo({
+    ;(window as any).resizeTo = function resizeTo({
       width = window.innerWidth,
       height = window.innerHeight,
     }: {
@@ -1203,14 +1202,12 @@ describe('Dropdown component', () => {
   })
 
   it('has working direction observer', async () => {
-    const Comp = mount(<Component {...props} data={mockData} />)
+    render(<Component {...props} data={mockData} />)
 
     // open first
-    Comp.find('button.dnb-dropdown__trigger').simulate('click')
+    open()
 
-    expect(Comp.props().direction).toBe('auto')
-
-    await testDirectionObserver(Comp)
+    await testDirectionObserver()
   })
 })
 
