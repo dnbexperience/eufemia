@@ -11,6 +11,7 @@ import {
   axeComponent,
   loadScss,
 } from '../../../core/jest/jestSetup'
+import { render } from '@testing-library/react'
 import Component from '../Icon'
 import { question } from './test-files'
 
@@ -29,26 +30,28 @@ describe('Icon component', () => {
   })
 
   it('has valid width and height prop', () => {
-    const width = 200
-    const height = 100
-    const Comp = mount(
-      <Component {...props} width={width} height={height} />
-    )
-    const elem = Comp.find('svg')
-    expect(elem.exists()).toBe(true)
-    expect(elem.props().width).toBe(width)
-    expect(elem.props().height).toBe(height)
+    const width = '200'
+    const height = '100'
+    render(<Component {...props} width={width} height={height} />)
+    const elem = document.querySelector('svg')
+    expect(elem).toBeTruthy()
+    expect(elem.getAttribute('width')).toBe(width)
+    expect(elem.getAttribute('height')).toBe(height)
   })
 
   it('should work with medium size', () => {
-    const Comp = mount(<Component {...props} size="24" />)
-    expect(Comp.find('span.dnb-icon').hasClass('dnb-icon--medium')).toBe(
-      true
-    )
-    Comp.setProps({ size: 16 })
-    expect(Comp.find('span.dnb-icon').hasClass('dnb-icon--default')).toBe(
-      true
-    )
+    const { rerender } = render(<Component {...props} size="24" />)
+    expect(
+      document
+        .querySelector('span.dnb-icon')
+        .classList.contains('dnb-icon--medium')
+    ).toBe(true)
+    rerender(<Component {...props} size={16} />)
+    expect(
+      document
+        .querySelector('span.dnb-icon')
+        .classList.contains('dnb-icon--default')
+    ).toBe(true)
   })
 
   it('should return null if icon was given as null', () => {
@@ -67,60 +70,70 @@ describe('Icon component', () => {
   })
 
   it('should have border class', () => {
-    const Comp = mount(<Component {...props} border={true} />)
-    expect(Comp.find('span.dnb-icon').hasClass('dnb-icon--border')).toBe(
-      true
-    )
+    render(<Component {...props} border={true} />)
+    expect(
+      document
+        .querySelector('span.dnb-icon')
+        .classList.contains('dnb-icon--border')
+    ).toBe(true)
   })
 
   it('should inherit color and vice versa when inherit_color is false', () => {
-    const Comp = mount(<Component icon={question} />)
+    const { rerender } = render(<Component icon={question} />)
     expect(
-      Comp.find('span.dnb-icon').hasClass('dnb-icon--inherit-color')
+      document
+        .querySelector('span.dnb-icon')
+        .classList.contains('dnb-icon--inherit-color')
     ).toBe(true)
 
-    Comp.setProps({ inherit_color: true })
+    rerender(<Component icon={question} inherit_color={true} />)
 
     expect(
-      Comp.find('span.dnb-icon').hasClass('dnb-icon--inherit-color')
+      document
+        .querySelector('span.dnb-icon')
+        .classList.contains('dnb-icon--inherit-color')
     ).toBe(true)
 
-    Comp.setProps({ inherit_color: false })
+    rerender(<Component icon={question} inherit_color={false} />)
 
     expect(
-      Comp.find('span.dnb-icon').hasClass('dnb-icon--inherit-color')
+      document
+        .querySelector('span.dnb-icon')
+        .classList.contains('dnb-icon--inherit-color')
     ).toBe(false)
   })
 
   it('should not be hidden, given aria-hidden={false}', () => {
-    const Comp = mount(<Component {...props} aria-hidden={false} />)
+    render(<Component {...props} aria-hidden={false} />)
     expect(
-      Comp.find('span.dnb-icon').instance().getAttribute('aria-hidden')
+      document.querySelector('span.dnb-icon').getAttribute('aria-hidden')
     ).toBe('false')
   })
 
   it('should work with custom size', () => {
-    const Comp = mount(<Component {...props} size="100" />)
+    const { rerender } = render(<Component {...props} size="100" />)
     expect(
-      Comp.find('span.dnb-icon').hasClass('dnb-icon--custom-size')
+      document
+        .querySelector('span.dnb-icon')
+        .classList.contains('dnb-icon--custom-size')
     ).toBe(true)
-    Comp.setProps({ size: 16 })
+    rerender(<Component {...props} size={16} />)
     expect(
-      Comp.find('span.dnb-icon').hasClass('dnb-icon--custom-size')
+      document
+        .querySelector('span.dnb-icon')
+        .classList.contains('dnb-icon--custom-size')
     ).toBe(false)
   })
 
   it('should set data-testid property based on the aria-label', () => {
-    const Comp = mount(
-      <Component icon={question} aria-label="question icon" />
-    )
+    render(<Component icon={question} aria-label="question icon" />)
     expect(
-      Comp.find('span.dnb-icon').instance().getAttribute('data-testid')
+      document.querySelector('span.dnb-icon').getAttribute('data-testid')
     ).toBe('question icon')
   })
 
   it('should set data-testid when provided', () => {
-    const Comp = mount(
+    render(
       <Component
         icon={question}
         aria-label="question icon"
@@ -128,7 +141,7 @@ describe('Icon component', () => {
       />
     )
     expect(
-      Comp.find('span.dnb-icon').instance().getAttribute('data-testid')
+      document.querySelector('span.dnb-icon').getAttribute('data-testid')
     ).toBe('custom-data-testid-value')
   })
 
