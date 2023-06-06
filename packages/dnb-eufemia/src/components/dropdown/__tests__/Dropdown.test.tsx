@@ -10,9 +10,8 @@ import {
   axeComponent,
   toJson,
   loadScss,
-  attachToBody, // in order to use document.activeElement properly
 } from '../../../core/jest/jestSetup'
-import { render } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 import Component from '../Dropdown'
 import {
   mockImplementationForDirectionObserver,
@@ -94,93 +93,97 @@ const mockData: DrawerListDataObjectUnion[] = [
 mockImplementationForDirectionObserver()
 
 describe('Dropdown component', () => {
-  const Comp = mount(<Component {...props} data={mockData} />)
-
   it('has correct value on keydown "ArrowDown" and "Enter"', () => {
-    const Comp = mount(<Component {...props} data={mockData} />)
+    render(<Component {...props} data={mockData} />)
     let elem
 
-    expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(
-      (mockData[props.value] as DrawerListDataObject).selected_value
+    expect(
+      document.querySelector('.dnb-dropdown__text__inner').textContent
+    ).toBe((mockData[props.value] as DrawerListDataObject).selected_value)
+
+    keydown(32) // space
+
+    elem = document.querySelectorAll('.dnb-drawer-list__option')[
+      props.value
+    ]
+    expect(elem.classList.contains('dnb-drawer-list__option--focus')).toBe(
+      true
     )
-
-    keydown(Comp, 32) // space
-
-    elem = Comp.find('.dnb-drawer-list__option').at(props.value)
     expect(
-      elem.instance().classList.contains('dnb-drawer-list__option--focus')
-    ).toBe(true)
-    expect(
-      elem
-        .instance()
-        .classList.contains('dnb-drawer-list__option--selected')
+      elem.classList.contains('dnb-drawer-list__option--selected')
     ).toBe(true)
 
-    keydown(Comp, 40) // down
-    keydown(Comp, 13) // enter
+    keydown(40) // down
+    keydown(13) // enter
 
-    elem = Comp.find('.dnb-drawer-list__option').at(props.value + 1)
+    open()
+
+    elem = document.querySelectorAll('.dnb-drawer-list__option')[
+      props.value + 1
+    ]
+    expect(elem.classList.contains('dnb-drawer-list__option--focus')).toBe(
+      true
+    )
     expect(
-      elem.instance().classList.contains('dnb-drawer-list__option--focus')
-    ).toBe(true)
-    expect(
-      elem
-        .instance()
-        .classList.contains('dnb-drawer-list__option--selected')
+      elem.classList.contains('dnb-drawer-list__option--selected')
     ).toBe(true)
 
-    expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(
+    expect(
+      document.querySelector('.dnb-dropdown__text__inner').textContent
+    ).toBe(
       (mockData[props.value + 1] as DrawerListDataObject).selected_value
     )
   })
 
   it('has correct value on key search', () => {
-    const Comp = mount(<Component {...props} data={mockData} />)
+    const { rerender } = render(<Component {...props} data={mockData} />)
 
-    keydown(Comp, 32) // space
-
-    expect(Comp.exists('.dnb-drawer-list__option--focus')).toBe(true)
-
-    keydown(Comp, 83) // S
-
-    // force rerender
-    Comp.update()
+    keydown(32) // space
 
     expect(
-      Comp.find('.dnb-drawer-list__option')
-        .at(1)
-        .hasClass('dnb-drawer-list__option--focus')
+      document.querySelector('.dnb-drawer-list__option--focus')
+    ).toBeTruthy()
+
+    keydown(83) // S
+
+    // force rerender
+    rerender(<Component {...props} data={mockData} />)
+
+    expect(
+      document
+        .querySelectorAll('.dnb-drawer-list__option')[1]
+        .classList.contains('dnb-drawer-list__option--focus')
     ).toBe(true)
 
-    keydown(Comp, 70) // F
+    keydown(70) // F
 
     // force rerender
-    Comp.update()
+    rerender(<Component {...props} data={mockData} />)
 
     expect(
-      Comp.find('.dnb-drawer-list__option')
-        .at(2)
-        .hasClass('dnb-drawer-list__option--focus')
+      document
+        .querySelectorAll('.dnb-drawer-list__option')[2]
+        .classList.contains('dnb-drawer-list__option--focus')
     ).toBe(true)
   })
 
   it('has correct state when opened prop is given', () => {
-    const Comp = mount(
+    render(
       <Component skip_portal no_animation opened={true} data={mockData} />
     )
 
     expect(
-      Comp.find('button').instance().getAttribute('aria-expanded')
+      document.querySelector('button').getAttribute('aria-expanded')
     ).toBe('true')
     expect(
-      Comp.find('.dnb-drawer-list__options')
-        .instance()
+      document
+        .querySelector('.dnb-drawer-list__options')
         .getAttribute('aria-expanded')
     ).toBe('true')
   })
 
   it('supports a trigger_element properly', () => {
-    const Comp = mount(
+    render(
       <Component
         skip_portal
         no_animation
@@ -189,18 +192,19 @@ describe('Dropdown component', () => {
       />
     )
 
-    expect(Comp.exists('button')).toBe(true)
-    expect(Array.from(Comp.find('button').instance().classList)).toContain(
-      'dnb-dropdown__trigger'
-    )
-    expect(Comp.find('button').text()).toBe('test')
+    expect(document.querySelector('button')).toBeTruthy()
+    expect(
+      Array.from(document.querySelector('button').classList)
+    ).toContain('dnb-dropdown__trigger')
+    expect(document.querySelector('button').textContent).toBe('test')
 
     // open
-    Comp.find('button.dnb-dropdown__trigger').simulate('click')
+    open()
 
     expect(
-      Comp.find('.dnb-drawer-list__options')
-        .instance()
+      document
+        .querySelector('.dnb-drawer-list__options')
+
         .getAttribute('aria-expanded')
     ).toBe('true')
   })
@@ -230,7 +234,7 @@ describe('Dropdown component', () => {
 
   it('will stay open when keep_open and a selection is made', () => {
     const on_change = jest.fn()
-    const Comp = mount(
+    render(
       <Component
         skip_portal
         no_animation
@@ -241,31 +245,39 @@ describe('Dropdown component', () => {
       />
     )
 
-    expect(Comp.exists('.dnb-drawer-list__option--selected')).toBe(false)
+    expect(
+      document.querySelector('.dnb-drawer-list__option--selected')
+    ).toBeFalsy()
 
     // then simulate changes
-    keydown(Comp, 40) // down
-    keydown(Comp, 40) // down
-    keydown(Comp, 32) // space
+    keydown(40) // down
+    keydown(40) // down
+    keydown(32) // space
 
     expect(on_change).toHaveBeenCalledTimes(1)
-    expect(Comp.exists('.dnb-drawer-list__option--selected')).toBe(true)
     expect(
-      Comp.find('.dnb-dropdown').hasClass('dnb-dropdown--opened')
+      document.querySelector('.dnb-drawer-list__option--selected')
+    ).toBeTruthy()
+    expect(
+      document
+        .querySelector('.dnb-dropdown')
+        .classList.contains('dnb-dropdown--opened')
     ).toBe(true)
 
     // close
-    keydown(Comp, 27) // esc
+    keydown(27) // esc
 
     expect(
-      Comp.find('.dnb-dropdown').hasClass('dnb-dropdown--opened')
+      document
+        .querySelector('.dnb-dropdown')
+        .classList.contains('dnb-dropdown--opened')
     ).toBe(false)
   })
 
   it('will stay open when prevent_close is given, regardless', async () => {
     const on_change = jest.fn()
     const on_hide = jest.fn()
-    const Comp = mount(
+    render(
       <Component
         prevent_close={true}
         skip_portal
@@ -273,30 +285,35 @@ describe('Dropdown component', () => {
         on_change={on_change}
         on_hide={on_hide}
         data={mockData}
-      />,
-      {
-        attachTo: attachToBody(),
-      }
+      />
     )
 
-    expect(Comp.exists('.dnb-drawer-list__option--selected')).toBe(false)
+    expect(
+      document.querySelector('.dnb-drawer-list__option--selected')
+    ).toBeFalsy()
 
     // then simulate changes
-    keydown(Comp, 40) // down
-    keydown(Comp, 40) // down
-    keydown(Comp, 32) // space
+    keydown(40) // down
+    keydown(40) // down
+    keydown(32) // space
 
     expect(on_change).toHaveBeenCalledTimes(1)
-    expect(Comp.exists('.dnb-drawer-list__option--selected')).toBe(true)
     expect(
-      Comp.find('.dnb-dropdown').hasClass('dnb-dropdown--opened')
+      document.querySelector('.dnb-drawer-list__option--selected')
+    ).toBeTruthy()
+    expect(
+      document
+        .querySelector('.dnb-dropdown')
+        .classList.contains('dnb-dropdown--opened')
     ).toBe(true)
 
     // try to close it
-    keydown(Comp, 27) // esc
+    keydown(27) // esc
 
     expect(
-      Comp.find('.dnb-dropdown').hasClass('dnb-dropdown--opened')
+      document
+        .querySelector('.dnb-dropdown')
+        .classList.contains('dnb-dropdown--opened')
     ).toBe(true)
 
     expect(on_hide).toHaveBeenCalledTimes(0)
@@ -305,20 +322,21 @@ describe('Dropdown component', () => {
   it('has valid on_select callback', () => {
     const on_select = jest.fn()
 
-    const Comp = mount(
-      <Component {...props} data={mockData} on_select={on_select} />
-    )
+    render(<Component {...props} data={mockData} on_select={on_select} />)
 
     // then simulate changes
-    keydown(Comp, 32) // space
-    keydown(Comp, 40) // down
+    keydown(32) // space
+    keydown(40) // down
 
-    expect(Comp.find('.dnb-drawer-list__option--selected').length).toBe(1)
+    expect(
+      document.querySelectorAll('.dnb-drawer-list__option--selected')
+        .length
+    ).toBe(1)
 
     const notChangedItem = mockData[props.value + 1]
     expect(on_select.mock.calls[0][0].data).toStrictEqual(notChangedItem)
 
-    keydown(Comp, 40) // down
+    keydown(40) // down
 
     const selectedItem = mockData[props.value + 2]
     expect(on_select.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
@@ -328,7 +346,7 @@ describe('Dropdown component', () => {
     const on_change = jest.fn()
     const title = 'custom title'
 
-    const Comp = mount(
+    const { rerender } = render(
       <Component
         {...props}
         value={null}
@@ -340,48 +358,90 @@ describe('Dropdown component', () => {
     )
 
     // open first
-    open(Comp)
-
-    expect(Comp.exists('.dnb-drawer-list__option--selected')).toBe(false)
-
-    // then simulate changes
-    keydown(Comp, 40) // down
-    keydown(Comp, 40) // down
-    keydown(Comp, 32) // space
-
-    expect(Comp.exists('.dnb-drawer-list__option--selected')).toBe(false)
-
-    Comp.setProps({
-      prevent_selection: false,
-    })
-
-    // open again
-    open(Comp)
-    keydown(Comp, 40) // down
-    keydown(Comp, 40) // down
-    keydown(Comp, 32) // space
-
-    expect(Comp.exists('.dnb-drawer-list__option--selected')).toBe(true)
-
-    Comp.setProps({
-      action_menu: true,
-    })
-
-    // open again
-    open(Comp)
-    keydown(Comp, 40) // down
-    keydown(Comp, 40) // down
-    keydown(Comp, 32) // space
-
-    expect(Comp.exists('.dnb-drawer-list__option--selected')).toBe(false)
-
-    Comp.setProps({
-      action_menu: false,
-      prevent_selection: true,
-    })
+    open()
 
     expect(
-      Comp.find('.dnb-icon').instance().getAttribute('data-testid')
+      document.querySelector('.dnb-drawer-list__option--selected')
+    ).toBeFalsy()
+
+    // then simulate changes
+    keydown(40) // down
+    keydown(40) // down
+    keydown(32) // space
+
+    // open again, to be able to evaluate
+    open()
+
+    expect(
+      document.querySelector('.dnb-drawer-list__option--selected')
+    ).toBeFalsy()
+
+    rerender(
+      <Component
+        {...props}
+        value={null}
+        data={mockData}
+        title={title}
+        on_change={on_change}
+        prevent_selection={false}
+      />
+    )
+
+    // open again
+    open()
+    keydown(40) // down
+    keydown(40) // down
+    keydown(32) // space
+
+    // open again, to be able to evaluate
+    open()
+
+    expect(
+      document.querySelector('.dnb-drawer-list__option--selected')
+    ).toBeTruthy()
+
+    rerender(
+      <Component
+        {...props}
+        value={null}
+        data={mockData}
+        title={title}
+        on_change={on_change}
+        prevent_selection={false}
+        action_menu={true}
+      />
+    )
+
+    // open again
+    open()
+    keydown(40) // down
+    keydown(40) // down
+    keydown(32) // space
+
+    // open again, to be able to evaluate
+    open()
+
+    expect(
+      document.querySelector('.dnb-drawer-list__option--selected')
+    ).toBeFalsy()
+
+    rerender(
+      <Component
+        {...props}
+        value={null}
+        data={mockData}
+        title={title}
+        on_change={on_change}
+        prevent_selection={true}
+        action_menu={false}
+      />
+    )
+
+    expect(
+      document
+        .querySelector('.dnb-icon')
+
+        .getAttribute('data-testid')
     ).toBe('chevron down icon')
 
     const event = on_change.mock.calls[0][0]
@@ -391,46 +451,62 @@ describe('Dropdown component', () => {
     expect(event.active_item).toBe(undefined)
     expect(event.data).toStrictEqual(selectedItem)
 
-    expect(Comp.find('.dnb-dropdown__text').text()).toBe(title)
-    expect(Comp.exists('.dnb-dropdown--is-popup')).toBe(false)
+    expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
+      title
+    )
+    expect(document.querySelector('.dnb-dropdown--is-popup')).toBeFalsy()
 
-    Comp.setProps({
-      title: null,
-    })
+    rerender(
+      <Component
+        {...props}
+        value={null}
+        data={mockData}
+        title={null}
+        on_change={on_change}
+        prevent_selection={true}
+        action_menu={false}
+      />
+    )
 
-    expect(Comp.exists('.dnb-dropdown__text')).toBe(false)
-    expect(Comp.exists('.dnb-dropdown--is-popup')).toBe(true)
+    expect(document.querySelector('.dnb-dropdown__text')).toBeFalsy()
+    expect(document.querySelector('.dnb-dropdown--is-popup')).toBeTruthy()
   })
 
   it('can be reset to null', () => {
     let value
-    const Comp = mount(
+    const { rerender } = render(
       <Component {...props} value={null} data={mockData} />
     )
 
-    expect(Comp.find('.dnb-dropdown__text').text()).toBe('Valgmeny')
+    expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
+      'Valgmeny'
+    )
 
     value = 2
-    Comp.setProps({ value })
+    rerender(<Component {...props} value={value} data={mockData} />)
 
-    expect(Comp.find('.dnb-dropdown__text').text()).toBe(
+    expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
       (mockData[value] as DrawerListDataObject).selected_value
     )
 
-    Comp.setProps({ value: undefined })
+    rerender(<Component {...props} value={undefined} data={mockData} />)
 
-    expect(Comp.find('.dnb-dropdown__text').text()).toBe('Valgmeny')
+    expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
+      'Valgmeny'
+    )
 
     value = 3
-    Comp.setProps({ value })
+    rerender(<Component {...props} value={value} data={mockData} />)
 
-    expect(Comp.find('.dnb-dropdown__text').text()).toBe(
+    expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
       (mockData[value] as DrawerListDataObject).selected_value
     )
 
-    Comp.setProps({ value: null })
+    rerender(<Component {...props} value={null} data={mockData} />)
 
-    expect(Comp.find('.dnb-dropdown__text').text()).toBe('Valgmeny')
+    expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
+      'Valgmeny'
+    )
   })
 
   it('selects correct value and key', () => {
@@ -444,56 +520,85 @@ describe('Dropdown component', () => {
 
     const on_change = jest.fn()
 
-    const Comp = mount(
+    const { rerender } = render(
       <Component no_animation data={mockData} on_change={on_change} />
     )
 
     // open first
-    open(Comp)
+    open()
 
     const openAndSelectNext = () => {
       // then simulate changes
-      keydown(Comp, 40) // down
-      keydown(Comp, 13) // enter
+      keydown(40) // down
+      keydown(13) // enter
+      // open again, to be able to evaluate
+      open()
     }
 
     openAndSelectNext()
 
-    expect(Comp.find('.dnb-dropdown__text').text()).toBe('A value')
+    expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
+      'A value'
+    )
     expect(on_change.mock.calls[0][0].data.selected_key).toBe('a')
 
-    Comp.setProps({
-      value: 'b',
-    })
+    rerender(
+      <Component
+        no_animation
+        data={mockData}
+        on_change={on_change}
+        value="b"
+      />
+    )
 
-    expect(Comp.find('.dnb-dropdown__text').text()).toBe('B value')
+    expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
+      'B value'
+    )
 
     openAndSelectNext()
 
-    expect(Comp.find('.dnb-dropdown__text').text()).toBe('C value')
+    expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
+      'C value'
+    )
     expect(on_change.mock.calls[1][0].data.selected_key).toBe('c')
 
-    Comp.setProps({
-      value: 'id-123',
-    })
+    rerender(
+      <Component
+        no_animation
+        data={mockData}
+        on_change={on_change}
+        value="id-123"
+      />
+    )
 
-    expect(Comp.find('.dnb-dropdown__text').text()).toBe('123 value')
+    expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
+      '123 value'
+    )
 
     openAndSelectNext()
 
-    expect(Comp.find('.dnb-dropdown__text').text()).toBe('456 value')
+    expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
+      '456 value'
+    )
     expect(on_change.mock.calls[2][0].data.selected_key).toBe('id-456')
 
-    Comp.setProps({
-      value: 123, // invalid
-    })
+    rerender(
+      <Component
+        no_animation
+        data={mockData}
+        on_change={on_change}
+        value={123}
+      />
+    )
 
-    expect(Comp.find('.dnb-dropdown__text').text()).toBe('Valgmeny')
+    expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
+      'Valgmeny'
+    )
   })
 
   it('has no selected items on using more_menu', () => {
     const title = 'custom title'
-    const Comp = mount(
+    render(
       <Component
         {...props}
         value={null}
@@ -504,24 +609,29 @@ describe('Dropdown component', () => {
     )
 
     // open first
-    open(Comp)
+    open()
 
     // then simulate changes
-    keydown(Comp, 40) // down
-    keydown(Comp, 40) // down
-    keydown(Comp, 32) // space
+    keydown(40) // down
+    keydown(40) // down
+    keydown(32) // space
 
     // open first
-    open(Comp)
-
-    expect(Comp.exists('.dnb-drawer-list__option--selected')).toBe(false)
+    open()
 
     expect(
-      Comp.find('.dnb-icon').instance().getAttribute('data-testid')
+      document.querySelector('.dnb-drawer-list__option--selected')
+    ).toBeFalsy()
+
+    expect(
+      document
+        .querySelector('.dnb-icon')
+
+        .getAttribute('data-testid')
     ).toBe('more icon')
 
-    expect(Comp.exists('.dnb-dropdown__text')).toBe(false)
-    expect(Comp.exists('.dnb-dropdown--is-popup')).toBe(true)
+    expect(document.querySelector('.dnb-dropdown__text')).toBeFalsy()
+    expect(document.querySelector('.dnb-dropdown--is-popup')).toBeTruthy()
   })
 
   it('has valid on_change callback', () => {
@@ -529,7 +639,7 @@ describe('Dropdown component', () => {
     const on_change = jest.fn()
     const on_select = jest.fn()
 
-    const Comp = mount(
+    render(
       <Component
         {...props}
         data={mockData}
@@ -538,15 +648,15 @@ describe('Dropdown component', () => {
       />
     )
     // open first
-    open(Comp)
+    open()
 
     // then simulate changes
-    keydown(Comp, 40) // down
+    keydown(40) // down
 
     selectedItem = mockData[props.value + 1]
     expect(on_select.mock.calls[0][0].data).toStrictEqual(selectedItem)
 
-    keydown(Comp, 32) // space
+    keydown(32) // space
 
     selectedItem = mockData[props.value + 1]
     expect(on_change).toHaveBeenCalledTimes(1)
@@ -562,9 +672,12 @@ describe('Dropdown component', () => {
       value: props.value + 1,
     })
 
+    // open first
+    open()
+
     // then simulate changes
-    keydown(Comp, 40) // down
-    keydown(Comp, 13) // enter
+    keydown(40) // down
+    keydown(13) // enter
 
     selectedItem = mockData[props.value + 2]
     expect(on_change.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
@@ -574,10 +687,9 @@ describe('Dropdown component', () => {
   })
 
   it('has valid on_change callback if object was given', () => {
-    // const selectedItem = 'nb-NO'
     const on_change = jest.fn()
 
-    const Comp = mount(
+    render(
       <Component
         {...props}
         data={{ 'en-GB': 'English', 'nb-NO': 'Norsk' }}
@@ -585,9 +697,9 @@ describe('Dropdown component', () => {
       />
     )
 
-    open(Comp)
-    keydown(Comp, 40) // down
-    keydown(Comp, 32) // space
+    open()
+    keydown(40) // down
+    keydown(32) // space
 
     expect(on_change).toHaveBeenCalledWith({
       attributes: {},
@@ -604,10 +716,9 @@ describe('Dropdown component', () => {
       value: 'en-GB',
     })
 
-    open(Comp)
-    keydown(Comp, 40) // down
-    keydown(Comp, 40) // down
-    keydown(Comp, 32) // space
+    open()
+    keydown(40) // down
+    keydown(32) // space
 
     expect(on_change).toHaveBeenLastCalledWith({
       attributes: {},
@@ -627,35 +738,34 @@ describe('Dropdown component', () => {
   })
 
   it('has correct "aria-expanded"', () => {
-    const Comp = mount(<Component {...props} data={mockData} />)
-    open(Comp)
+    render(<Component {...props} data={mockData} />)
+    open()
 
-    const elem = Comp.find('span.dnb-dropdown')
+    const elem = document.querySelector('span.dnb-dropdown')
     expect(
       elem
-        .find('button.dnb-dropdown__trigger')
-        .instance()
+        .querySelector('button.dnb-dropdown__trigger')
         .getAttribute('aria-expanded')
     ).toBe('true')
 
-    expect(elem.instance().getAttribute('class')).toContain(
-      'dnb-dropdown--opened'
-    )
+    expect(elem.getAttribute('class')).toContain('dnb-dropdown--opened')
   })
 
   it('has correct length of li elements', () => {
-    open(Comp)
+    render(<Component {...props} data={mockData} />)
 
-    expect(Comp.find('li.dnb-drawer-list__option').length).toBe(
-      mockData.length
-    )
+    open()
+
+    expect(
+      document.querySelectorAll('li.dnb-drawer-list__option').length
+    ).toBe(mockData.length)
   })
 
   it('has to return all additional attributes the event return', () => {
     const on_show = jest.fn()
     const on_hide = jest.fn()
     const params = { 'data-attr': 'value' }
-    const Comp = mount(
+    render(
       <Component
         no_animation
         on_show={on_show}
@@ -665,7 +775,7 @@ describe('Dropdown component', () => {
       />
     )
 
-    open(Comp)
+    open()
 
     expect(on_show.mock.calls.length).toBe(1)
     expect(on_show.mock.calls[0][0].attributes).toMatchObject(params)
@@ -676,7 +786,7 @@ describe('Dropdown component', () => {
     })
 
     // close
-    keydown(Comp, 27) // esc
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 })) // esc
 
     expect(on_hide.mock.calls.length).toBe(1)
     expect(on_hide.mock.calls[0][0].attributes).toMatchObject(params)
@@ -697,7 +807,7 @@ describe('Dropdown component', () => {
     const on_show_focus = jest.fn()
     const on_hide_focus = jest.fn()
 
-    const Comp = mount(
+    render(
       <Component
         no_animation
         on_show={on_show}
@@ -709,7 +819,7 @@ describe('Dropdown component', () => {
     )
 
     // 1. open the dropdown
-    open(Comp)
+    open()
 
     expect(on_show).toBeCalledTimes(1)
     expect(on_show).toHaveBeenCalledWith({
@@ -724,7 +834,7 @@ describe('Dropdown component', () => {
     )
 
     // 2. close the dropdown with tab
-    keydown(Comp, 9) // tab – because JSDOM does not support keyboard handling, so we can not check document.activeElement
+    keydown(9) // tab – because JSDOM does not support keyboard handling, so we can not check document.activeElement
 
     // delay because we want to wait to have the DOM focus to be called
     await wait(1)
@@ -738,72 +848,77 @@ describe('Dropdown component', () => {
     })
     expect(on_hide_focus).toBeCalledTimes(1)
     expect(on_hide_focus.mock.calls[0][0].element).toBe(
-      Comp.find('.dnb-button').instance()
+      document.querySelector('.dnb-button')
     )
   })
 
   it('will prevent close if false gets returned from on_hide event', () => {
     let preventClose = false
     const on_hide = jest.fn(() => !preventClose)
-    const Comp = mount(
-      <Component no_animation on_hide={on_hide} data={mockData} />
-    )
+    render(<Component no_animation on_hide={on_hide} data={mockData} />)
 
     // first open
-    open(Comp)
+    open()
 
     expect(
-      Comp.find('.dnb-dropdown').hasClass('dnb-dropdown--opened')
+      document
+        .querySelector('.dnb-dropdown')
+        .classList.contains('dnb-dropdown--opened')
     ).toBe(true)
 
     // close
-    keydown(Comp, 27) // esc
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 })) // esc
     expect(on_hide.mock.calls.length).toBe(1)
 
     expect(
-      Comp.find('.dnb-dropdown').hasClass('dnb-dropdown--opened')
+      document
+        .querySelector('.dnb-dropdown')
+        .classList.contains('dnb-dropdown--opened')
     ).toBe(false)
 
     // reopen
-    open(Comp)
+    open()
 
     expect(
-      Comp.find('.dnb-dropdown').hasClass('dnb-dropdown--opened')
+      document
+        .querySelector('.dnb-dropdown')
+        .classList.contains('dnb-dropdown--opened')
     ).toBe(true)
 
     preventClose = true
 
     // close again, but with false returned
-    keydown(Comp, 27) // esc
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 })) // esc
 
-    expect(on_hide.mock.calls.length).toBe(3)
+    expect(on_hide.mock.calls.length).toBe(2)
 
     // we are still open
     expect(
-      Comp.find('.dnb-dropdown').hasClass('dnb-dropdown--opened')
+      document
+        .querySelector('.dnb-dropdown')
+        .classList.contains('dnb-dropdown--opened')
     ).toBe(true)
   })
 
   it('will set focus on options when key down/up is pressed on first item', async () => {
-    const Comp = mount(
-      <Component id="key-nav" no_animation data={mockData} />,
-      {
-        attachTo: attachToBody(),
-      }
+    const { rerender } = render(
+      <Component id="key-nav" no_animation data={mockData} />
     )
 
     // first open
-    keydown(Comp, 40) // down
+    keydown(40) // down
 
     expect(
-      Comp.find('.dnb-dropdown').hasClass('dnb-dropdown--opened')
+      document
+        .querySelector('.dnb-dropdown')
+        .classList.contains('dnb-dropdown--opened')
     ).toBe(true)
 
     expect(
       document.activeElement.classList.contains('dnb-drawer-list__options')
     ).toBe(true)
 
-    keydown(Comp, 40) // down
+    keydown(40) // down
 
     // delay because we want to wait to have the DOM focus to be called
     await wait(1)
@@ -817,19 +932,19 @@ describe('Dropdown component', () => {
       )
     ).toBe(true)
     expect(
-      Comp.find('li.dnb-drawer-list__option')
-        .at(0)
-        .hasClass('dnb-drawer-list__option--focus')
+      document
+        .querySelectorAll('li.dnb-drawer-list__option')[0]
+        .classList.contains('dnb-drawer-list__option--focus')
     ).toBe(true)
 
-    keydown(Comp, 38) // up
+    keydown(38) // up
 
     expect(
       document.activeElement.classList.contains('dnb-drawer-list__options')
     ).toBe(true)
 
     // then simulate changes
-    keydown(Comp, 38) // up
+    keydown(38) // up
 
     // delay because we want to wait to have the DOM focus to be called
     await wait(1)
@@ -837,117 +952,125 @@ describe('Dropdown component', () => {
     expect(
       document.activeElement.classList.contains('dnb-drawer-list__option')
     ).toBe(true)
+    let options = document.querySelectorAll('li.dnb-drawer-list__option')
     expect(
-      Comp.find('li.dnb-drawer-list__option')
-        .at(mockData.length - 1) // the last item
-        .hasClass('dnb-drawer-list__option--focus')
+      options[mockData.length - 1].classList.contains(
+        'dnb-drawer-list__option--focus'
+      )
     ).toBe(true)
 
     // then simulate changes
-    keydown(Comp, 40) // down
+    keydown(40) // down
 
     expect(
-      Comp.find('li.dnb-drawer-list__option')
-        .at(0) // the first item
-        .hasClass('dnb-drawer-list__option--focus')
+      document
+        .querySelectorAll('li.dnb-drawer-list__option')[0] // the first item
+        .classList.contains('dnb-drawer-list__option--focus')
     ).toBe(true)
 
-    Comp.setProps({
-      direction: 'top',
-    })
+    rerender(
+      <Component
+        id="key-nav"
+        no_animation
+        data={mockData}
+        direction="top"
+      />
+    )
 
     // then simulate changes
-    keydown(Comp, 38) // up
+    keydown(38) // up
 
+    options = document.querySelectorAll('li.dnb-drawer-list__option')
     expect(
-      Comp.find('li.dnb-drawer-list__option')
-        .at(mockData.length - 1) // the last item
-        .hasClass('dnb-drawer-list__option--focus')
+      options[mockData.length - 1].classList // the last item
+        .contains('dnb-drawer-list__option--focus')
     ).toBe(true)
 
     // delay because we want to wait to have the DOM focus to be called
     await wait(1)
 
     // then simulate changes
-    keydown(Comp, 40) // down
+    keydown(40) // down
 
     expect(
       document.activeElement.classList.contains('dnb-drawer-list__options')
     ).toBe(true)
 
     // then simulate changes
-    keydown(Comp, 38) // up
+    keydown(38) // up
 
+    options = document.querySelectorAll('li.dnb-drawer-list__option')
     expect(
-      Comp.find('li.dnb-drawer-list__option')
-        .at(mockData.length - 1) // the last item
-        .hasClass('dnb-drawer-list__option--focus')
+      options[mockData.length - 1].classList // the last item
+        .contains('dnb-drawer-list__option--focus')
     ).toBe(true)
 
     // then simulate changes
-    keydown(Comp, 38) // up
+    keydown(38) // up
 
+    options = document.querySelectorAll('li.dnb-drawer-list__option')
     expect(
-      Comp.find('li.dnb-drawer-list__option')
-        .at(mockData.length - 2) // the second item
-        .hasClass('dnb-drawer-list__option--focus')
+      options[mockData.length - 2].classList // the second item
+        .contains('dnb-drawer-list__option--focus')
     ).toBe(true)
 
     // then simulate changes
-    keydown(Comp, 33) // pageUp
+    keydown(33) // pageUp
 
     expect(
-      Comp.find('li.dnb-drawer-list__option')
-        .at(0) // the first item
-        .hasClass('dnb-drawer-list__option--focus')
+      document
+        .querySelectorAll('li.dnb-drawer-list__option')[0] // the first item
+        .classList.contains('dnb-drawer-list__option--focus')
     ).toBe(true)
 
     // then simulate changes
-    keydown(Comp, 38) // up
+    keydown(38) // up
 
+    options = document.querySelectorAll('li.dnb-drawer-list__option')
     expect(
-      Comp.find('li.dnb-drawer-list__option')
-        .at(mockData.length - 1) // the last item
-        .hasClass('dnb-drawer-list__option--focus')
+      options[mockData.length - 1].classList // the last item
+        .contains('dnb-drawer-list__option--focus')
     ).toBe(true)
   })
 
   it('will change the selected value when StrictMode is enabled', () => {
-    const Comp = mount(
+    render(
       <React.StrictMode>
         <Component no_animation data={mockData} value={props.value} />
       </React.StrictMode>
     )
 
     // first open
-    open(Comp)
+    open()
 
     // then simulate changes
-    keydown(Comp, 40) // down
-    keydown(Comp, 13) // enter
+    keydown(40) // down
+    keydown(13) // enter
 
-    expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(
+    expect(
+      document.querySelector('.dnb-dropdown__text__inner').textContent
+    ).toBe(
       (mockData[props.value + 1] as DrawerListDataObject).selected_value
     )
   })
 
   it('has correct selected value', () => {
-    const Comp = mount(<Component {...props} data={mockData} />)
-    expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(
-      (mockData[props.value] as DrawerListDataObject).selected_value
-    )
+    render(<Component {...props} data={mockData} />)
+    expect(
+      document.querySelector('.dnb-dropdown__text__inner').textContent
+    ).toBe((mockData[props.value] as DrawerListDataObject).selected_value)
   })
 
   it('has correct selected value after new selection', () => {
-    const Comp = mount(<Component {...props} data={mockData} />)
-    open(Comp)
+    render(<Component {...props} data={mockData} />)
+    open()
 
     // then simulate changes
-    keydown(Comp, 40) // down
+    keydown(40) // down
 
-    expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(
-      (mockData[props.value] as DrawerListDataObject).selected_value
-    )
+    expect(
+      document.querySelector('.dnb-dropdown__text__inner').textContent
+    ).toBe((mockData[props.value] as DrawerListDataObject).selected_value)
   })
 
   it('has correct value after useEffect value state change', () => {
@@ -962,81 +1085,79 @@ describe('Dropdown component', () => {
       return <Component {...props} data={mockData} value={value} />
     }
 
-    const Comp = mount(<UpdateValue />)
-
-    expect(Comp.find('.dnb-dropdown__text__inner').text()).toBe(
-      (mockData[newValue] as DrawerListDataObject).selected_value
-    )
-
-    open(Comp)
+    render(<UpdateValue />)
 
     expect(
-      Comp.find('li.dnb-drawer-list__option')
-        .at(newValue)
-        .hasClass('dnb-drawer-list__option--selected')
+      document.querySelector('.dnb-dropdown__text__inner').textContent
+    ).toBe((mockData[newValue] as DrawerListDataObject).selected_value)
+
+    open()
+
+    const options = document.querySelectorAll('li.dnb-drawer-list__option')
+    expect(
+      options[newValue].classList.contains(
+        'dnb-drawer-list__option--selected'
+      )
     ).toBe(true)
     expect(
-      Comp.find('li.dnb-drawer-list__option')
-        .at(newValue)
-        .hasClass('dnb-drawer-list__option--focus')
+      options[newValue].classList.contains(
+        'dnb-drawer-list__option--focus'
+      )
     ).toBe(true)
   })
 
   it('has a default title if no value is given', () => {
     const title = 'Make a selection'
-    const Comp = mount(
-      <Component data={mockData} title={title} {...mockProps} />
-    )
+    render(<Component data={mockData} title={title} {...mockProps} />)
     expect(
-      Comp.find('.dnb-dropdown__text__inner').instance().innerHTML
+      document.querySelector('.dnb-dropdown__text__inner').innerHTML
     ).toBe(title)
   })
 
   it('should support empty data entry', () => {
-    const Comp = mount(<Component data={['']} />)
+    render(<Component skip_portal no_animation data={['']} />)
 
-    keydown(Comp, 32) // space
+    keydown(32) // space
 
     expect(
-      Comp.find('button').instance().getAttribute('aria-expanded')
+      document.querySelector('button').getAttribute('aria-expanded')
     ).toBe('true')
     expect(
-      Comp.find('.dnb-drawer-list__option')
-        .find('.dnb-drawer-list__option__inner')
-        .instance().innerHTML
+      document
+        .querySelector('.dnb-drawer-list__option')
+        .querySelector('.dnb-drawer-list__option__inner').innerHTML
     ).toBe('')
   })
 
   it('has a correct value content if we send in a React component', () => {
     const aStringOf = 'Custom content 123'
-    const Comp1 = mount(
-      <Component data={mockData} value={4} {...mockProps} />
-    )
-    const Comp2 = mount(
-      <Component data={mockData} value={5} {...mockProps} />
-    )
-    const Comp3 = mount(
-      <Component data={mockData} value={6} {...mockProps} />
-    )
+
+    render(<Component data={mockData} value={4} {...mockProps} />)
     expect(
-      Comp1.find('.dnb-dropdown__text__inner').instance().innerHTML
+      document.querySelector('.dnb-dropdown__text__inner').innerHTML
     ).toBe(aStringOf)
+
+    render(<Component data={mockData} value={5} {...mockProps} />)
     expect(
-      Comp2.find('.dnb-dropdown__text__inner').instance().innerHTML
+      document.querySelector('.dnb-dropdown__text__inner').innerHTML
     ).toBe(aStringOf)
+
+    render(<Component data={mockData} value={6} {...mockProps} />)
     expect(
-      Comp3.find('.dnb-dropdown__text__inner').instance().innerHTML
+      document.querySelector('.dnb-dropdown__text__inner').innerHTML
     ).toBe(aStringOf)
   })
 
   it('has a disabled attribute, once we set disabled to true', () => {
-    const Comp = mount(<Component data={mockData} {...mockProps} />)
-    Comp.setProps({
-      disabled: true,
-    })
+    const { rerender } = render(
+      <Component data={mockData} {...mockProps} />
+    )
+    rerender(<Component data={mockData} {...mockProps} disabled={true} />)
+
     expect(
-      Comp.find('button.dnb-dropdown__trigger')
-        .instance()
+      document
+        .querySelector('button.dnb-dropdown__trigger')
+
         .hasAttribute('disabled')
     ).toBe(true)
   })
@@ -1085,7 +1206,7 @@ describe('Dropdown component', () => {
     const Comp = mount(<Component {...props} data={mockData} />)
 
     // open first
-    open(Comp)
+    Comp.find('button.dnb-dropdown__trigger').simulate('click')
 
     expect(Comp.props().direction).toBe('auto')
 
@@ -1121,14 +1242,17 @@ describe('Dropdown scss', () => {
   })
 })
 
-const keydown = (Comp, keyCode) => {
-  document.dispatchEvent(new KeyboardEvent('keydown', { keyCode }))
+const keydown = (keyCode) => {
+  fireEvent.keyDown(
+    document.querySelector('button.dnb-dropdown__trigger'),
+    {
+      keyCode,
+    }
+  )
+}
 
-  Comp.find('button.dnb-dropdown__trigger').simulate('keydown', {
-    keyCode,
-  })
+const open = () => {
+  fireEvent.click(document.querySelector('button.dnb-dropdown__trigger'))
 }
-const open = (Comp) => {
-  Comp.find('button.dnb-dropdown__trigger').simulate('click')
-}
+
 const wait = (t) => new Promise((r) => setTimeout(r, t))
