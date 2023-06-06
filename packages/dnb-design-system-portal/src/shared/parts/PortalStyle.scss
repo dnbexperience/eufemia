@@ -78,15 +78,15 @@ html[show-dev-grid] .dev-grid {
 
 /* used in the designers guide */
 .lh-12 {
-  line-height: calc(var(--line-height-basis) - 0.25rem); /* 0.75rem */
+  line-height: calc(var(--line-height-basis) - 0.75rem); /* 0.75rem */
 }
 
 .lh-16 {
-  line-height: var(--line-height-basis); /* 1rem */
+  line-height: calc(var(--line-height-basis) - 0.5rem); /* 1rem */
 }
 
 .lh-20 {
-  line-height: calc(var(--line-height-basis) + 0.25rem); /* 1.25rem */
+  line-height: calc(var(--line-height-basis) - 0.25rem); /* 1.25rem */
 }
 
 .lh-24 {
@@ -94,9 +94,9 @@ html[show-dev-grid] .dev-grid {
 }
 
 .lh-28 {
-  line-height: calc(var(--line-height-basis) + 0.75rem); /* 1.75rem */
+  line-height: calc(var(--line-height-basis) + 0.25rem); /* 1.75rem */
 }
 
 .lh-32 {
-  line-height: calc(var(--line-height-basis) + 1rem); /* 2rem */
+  line-height: calc(var(--line-height-basis) + 0.5rem); /* 2rem */
 }
