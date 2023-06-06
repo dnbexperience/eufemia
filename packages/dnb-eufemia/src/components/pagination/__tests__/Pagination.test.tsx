@@ -11,7 +11,7 @@ import {
   toJson,
   loadScss,
 } from '../../../core/jest/jestSetup'
-import { render } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 import Component, { createPagination, Bar } from '../Pagination'
 import nbNO from '../../../shared/locales/nb-NO'
 import enGB from '../../../shared/locales/en-GB'
@@ -36,52 +36,59 @@ describe('Pagination bar', () => {
   }
 
   it('has correct state at startup', () => {
-    const Comp = mount(<Component {...props} />)
-    const innerElem = Comp.find('.dnb-pagination__bar__inner')
+    render(<Component {...props} />)
+    const innerElem = document.querySelector('.dnb-pagination__bar__inner')
 
-    expect(innerElem.find('button.dnb-pagination__button').length).toBe(9)
-    expect(innerElem.find('button.dnb-button--secondary').length).toBe(8)
-    expect(innerElem.find('button.dnb-button--primary').length).toBe(1)
+    expect(
+      innerElem.querySelectorAll('button.dnb-pagination__button').length
+    ).toBe(9)
+    expect(
+      innerElem.querySelectorAll('button.dnb-button--secondary').length
+    ).toBe(8)
+    expect(
+      innerElem.querySelectorAll('button.dnb-button--primary').length
+    ).toBe(1)
   })
 
   it('reacts to prop changes with valid button attributes', () => {
-    const Comp = mount(
+    const { rerender } = render(
       <Component {...props}>
         <div id="page-content">content</div>
       </Component>
     )
 
-    expect(Comp.exists('div#page-content')).toBe(true)
+    expect(document.querySelector('div#page-content')).toBeTruthy()
 
-    Comp.setProps({
-      current_page: 1,
-    })
-
-    Comp.update()
-    expect(Comp.exists('div#page-content')).toBe(true)
-
-    const buttonElements = Comp.find('.dnb-pagination__bar__inner').find(
-      'button.dnb-pagination__button'
+    rerender(
+      <Component {...props} current_page={1}>
+        <div id="page-content">content</div>
+      </Component>
     )
 
-    const firstButton = buttonElements.at(0)
-    expect(firstButton.hasClass('dnb-button--primary')).toBe(true)
-    expect(firstButton.instance().getAttribute('aria-current')).toBe(
-      'page'
-    )
+    expect(document.querySelector('div#page-content')).toBeTruthy()
 
-    const secondButton = buttonElements.at(1)
-    expect(secondButton.hasClass('dnb-button--secondary')).toBe(true)
-    expect(secondButton.instance().hasAttribute('aria-current')).toBe(
-      false
-    )
+    const buttonElements = document
+      .querySelector('.dnb-pagination__bar__inner')
+      .querySelectorAll('button.dnb-pagination__button')
 
-    const prevNavButton = Comp.find('.dnb-button').at(0)
-    expect(prevNavButton.instance().hasAttribute('disabled')).toBe(true)
+    const firstButton = buttonElements[0]
+    expect(firstButton.classList.contains('dnb-button--primary')).toBe(
+      true
+    )
+    expect(firstButton.getAttribute('aria-current')).toBe('page')
+
+    const secondButton = buttonElements[1]
+    expect(secondButton.classList.contains('dnb-button--secondary')).toBe(
+      true
+    )
+    expect(secondButton.hasAttribute('aria-current')).toBe(false)
+
+    const prevNavButton = document.querySelectorAll('.dnb-button')[0]
+    expect(prevNavButton.hasAttribute('disabled')).toBe(true)
     expect(
       prevNavButton
-        .find('span.dnb-icon')
-        .instance()
+        .querySelector('span.dnb-icon')
+
         .getAttribute('data-testid')
     ).toBe('chevron left icon')
   })
@@ -90,7 +97,7 @@ describe('Pagination bar', () => {
     // Set our test reference
     let currentPage = 15
 
-    const Comp = mount(
+    const { rerender } = render(
       <Component {...props}>
         {({ pageNumber }) => {
           // Update our test reference
@@ -101,61 +108,82 @@ describe('Pagination bar', () => {
       </Component>
     )
 
-    expect(Comp.find('div#page-no').text()).toBe('15')
+    expect(document.querySelector('div#page-no').textContent).toBe('15')
 
-    const buttonElements = Comp.find('.dnb-pagination__bar__inner').find(
-      'button.dnb-pagination__button'
-    )
+    const buttonElements = document
+      .querySelector('.dnb-pagination__bar__inner')
+      .querySelectorAll('button.dnb-pagination__button')
 
-    buttonElements.at(2).simulate('click')
+    fireEvent.click(buttonElements[2])
     expect(currentPage).toBe(13)
-    expect(Comp.find('div#page-no').text()).toBe('13')
+    expect(document.querySelector('div#page-no').textContent).toBe('13')
 
-    Comp.setProps({
-      current_page: 5,
-    })
-    expect(currentPage).toBe(5)
-    expect(Comp.find('div#page-no').text()).toBe('5')
-
-    buttonElements.at(3).simulate('click')
+    fireEvent.click(buttonElements[3])
     expect(currentPage).toBe(14)
-    expect(Comp.find('div#page-no').text()).toBe('14')
+    expect(document.querySelector('div#page-no').textContent).toBe('14')
 
-    Comp.setProps({
-      current_page: 3,
-    })
+    rerender(
+      <Component {...props} current_page={5}>
+        {({ pageNumber }) => {
+          // Update our test reference
+          currentPage = pageNumber
+
+          return <div id="page-no">{pageNumber}</div>
+        }}
+      </Component>
+    )
+    expect(currentPage).toBe(5)
+    expect(document.querySelector('div#page-no').textContent).toBe('5')
+
+    rerender(
+      <Component {...props} current_page={3}>
+        {({ pageNumber }) => {
+          // Update our test reference
+          currentPage = pageNumber
+
+          return <div id="page-no">{pageNumber}</div>
+        }}
+      </Component>
+    )
     expect(currentPage).toBe(3)
-    expect(Comp.find('div#page-no').text()).toBe('3')
+    expect(document.querySelector('div#page-no').textContent).toBe('3')
   })
 
   it('accepts element in the function return', () => {
-    const Comp = mount(
+    render(
       <Component page_count={3} startup_page={2}>
         {({ pageNumber }) => <div>{pageNumber}</div>}
       </Component>
     )
-    expect(Comp.find('.dnb-pagination__content').text()).toBe('2')
+    expect(
+      document.querySelector('.dnb-pagination__content').textContent
+    ).toBe('2')
   })
 
   it('sets content with setContent', () => {
-    const Comp = mount(
+    render(
       <Component page_count={3} startup_page={2}>
         {({ pageNumber, setContent }) => {
           setContent(pageNumber, <div>{pageNumber}</div>)
         }}
       </Component>
     )
-    expect(Comp.find('.dnb-pagination__content').text()).toBe('2')
+    expect(
+      document.querySelector('.dnb-pagination__content').textContent
+    ).toBe('2')
 
-    const nextButton = Comp.find('div.dnb-pagination__bar')
-      .find('.dnb-pagination__bar__skip')
-      .find('.dnb-button')
-      .at(1)
+    const nextButton = document
+      .querySelector('div.dnb-pagination__bar')
+      .querySelector('.dnb-pagination__bar__skip')
+      .querySelectorAll('.dnb-button')[1]
 
-    expect(nextButton.instance().getAttribute('title')).toBe('Neste side')
+    expect(nextButton.getAttribute('title')).toBe('Neste side')
 
-    nextButton.simulate('click')
-    expect(Comp.find('.dnb-pagination__content').text()).toBe('3')
+    fireEvent.click(nextButton)
+
+    expect(
+      document.querySelector('.dnb-pagination__content').textContent
+    ).toBe('3')
   })
 
   it('rerenders properly', () => {
@@ -180,50 +208,51 @@ describe('Pagination bar', () => {
         </>
       )
     }
-    const Comp = mount(<Rerender />)
+    render(<Rerender />)
 
-    expect(Comp.find('#button').text()).toBe('1')
-    expect(Comp.find('.dnb-pagination__content').text()).toBe(
-      '{"pageNumber":2,"count":1}'
-    )
+    expect(document.querySelector('#button').textContent).toBe('1')
+    expect(
+      document.querySelector('.dnb-pagination__content').textContent
+    ).toBe('{"pageNumber":2,"count":1}')
 
-    Comp.find('#button').simulate('click')
-    expect(Comp.find('#button').text()).toBe('2')
-    expect(Comp.find('.dnb-pagination__content').text()).toBe(
-      '{"pageNumber":2,"count":2}'
-    )
+    fireEvent.click(document.querySelector('#button'))
 
-    const nextButton = Comp.find('div.dnb-pagination__bar')
-      .find('.dnb-pagination__bar__skip')
-      .find('.dnb-button')
-      .at(1)
+    expect(document.querySelector('#button').textContent).toBe('2')
+    expect(
+      document.querySelector('.dnb-pagination__content').textContent
+    ).toBe('{"pageNumber":2,"count":2}')
 
-    nextButton.simulate('click')
-    expect(Comp.find('.dnb-pagination__content').text()).toBe(
-      '{"pageNumber":3,"count":2}'
-    )
+    const nextButton = document
+      .querySelector('div.dnb-pagination__bar')
+      .querySelector('.dnb-pagination__bar__skip')
+      .querySelectorAll('.dnb-button')[1]
 
-    Comp.find('#button').simulate('click')
-    expect(Comp.find('.dnb-pagination__content').text()).toBe(
-      '{"pageNumber":3,"count":3}'
-    )
+    fireEvent.click(nextButton)
+    expect(
+      document.querySelector('.dnb-pagination__content').textContent
+    ).toBe('{"pageNumber":3,"count":2}')
+
+    fireEvent.click(document.querySelector('#button'))
+    expect(
+      document.querySelector('.dnb-pagination__content').textContent
+    ).toBe('{"pageNumber":3,"count":3}')
   })
 
   it('has valid on_change callback', () => {
     const on_change = jest.fn()
 
-    const Comp = mount(<Component {...props} on_change={on_change} />)
+    render(<Component {...props} on_change={on_change} />)
 
-    const nextButton = Comp.find('div.dnb-pagination__bar')
-      .find('.dnb-pagination__bar__skip')
-      .find('.dnb-button')
-      .at(1)
+    const nextButton = document
+      .querySelector('div.dnb-pagination__bar')
+      .querySelector('.dnb-pagination__bar__skip')
+      .querySelectorAll('.dnb-button')[1]
 
-    nextButton.simulate('click')
+    fireEvent.click(nextButton)
     expect(on_change).toHaveBeenCalledTimes(1)
     expect(on_change.mock.calls[0][0].pageNumber).toBe(16)
 
-    nextButton.simulate('click')
+    fireEvent.click(nextButton)
     expect(on_change).toHaveBeenCalledTimes(2)
     expect(on_change.mock.calls[1][0].pageNumber).toBe(17)
   })
@@ -260,9 +289,8 @@ describe('Infinity scroller', () => {
     <div className="page-item">{children}</div>
   )
 
-  const rerenderComponent = async (Comp) => {
+  const rerenderComponent = async () => {
     await wait(10)
-    Comp.update()
   }
 
   it('should load pages with intersection observer (after)', async () => {
@@ -288,10 +316,10 @@ describe('Infinity scroller', () => {
 
     const intersect = async () => {
       callObserver([{ isIntersecting: true }])
-      await rerenderComponent(Comp)
+      await rerenderComponent()
     }
 
-    const Comp = mount(
+    render(
       <Component
         mode="infinity"
         {...props}
@@ -302,24 +330,32 @@ describe('Infinity scroller', () => {
       />
     )
 
-    await rerenderComponent(Comp)
+    await rerenderComponent()
 
     await intersect()
     expect(observe).toHaveBeenCalledTimes(2)
 
-    Comp.update()
-    expect(Comp.find('div.page-item').length).toBe(2)
-    expect(Comp.find('div.page-item').at(0).text()).toBe('3')
-    expect(Comp.find('div.page-item').at(1).text()).toBe('4')
+    expect(document.querySelectorAll('div.page-item').length).toBe(2)
+    expect(document.querySelectorAll('div.page-item')[0].textContent).toBe(
+      '3'
+    )
+    expect(document.querySelectorAll('div.page-item')[1].textContent).toBe(
+      '4'
+    )
 
     await intersect()
     expect(observe).toHaveBeenCalledTimes(3)
 
-    Comp.update()
-    expect(Comp.find('div.page-item').length).toBe(3)
-    expect(Comp.find('div.page-item').at(0).text()).toBe('3')
-    expect(Comp.find('div.page-item').at(1).text()).toBe('4')
-    expect(Comp.find('div.page-item').at(2).text()).toBe('5')
+    expect(document.querySelectorAll('div.page-item').length).toBe(3)
+    expect(document.querySelectorAll('div.page-item')[0].textContent).toBe(
+      '3'
+    )
+    expect(document.querySelectorAll('div.page-item')[1].textContent).toBe(
+      '4'
+    )
+    expect(document.querySelectorAll('div.page-item')[2].textContent).toBe(
+      '5'
+    )
 
     expect(disconnect).toHaveBeenCalledTimes(2)
 
@@ -348,7 +384,7 @@ describe('Infinity scroller', () => {
 
     const intersect = async () => {
       callObserver([{ isIntersecting: true }])
-      await rerenderComponent(Comp)
+      await rerenderComponent()
     }
 
     const startupPage = 2
@@ -409,36 +445,58 @@ describe('Infinity scroller', () => {
       )
     }
 
-    const Comp = mount(<MyComponent />)
+    render(<MyComponent />)
 
-    await rerenderComponent(Comp)
+    await rerenderComponent()
 
-    expect(Comp.find('div.page-item').length).toBe(20)
-    expect(Comp.find('div.page-item').at(0).text()).toBe('page-11')
-    expect(Comp.find('div.page-item').last().text()).toBe('page-30')
+    expect(document.querySelectorAll('div.page-item').length).toBe(20)
+    expect(document.querySelectorAll('div.page-item')[0].textContent).toBe(
+      'page-11'
+    )
+    expect(
+      document.querySelectorAll('div.page-item')[
+        document.querySelectorAll('div.page-item').length - 1
+      ].textContent
+    ).toBe('page-30')
 
     await intersect()
 
-    Comp.update()
-    expect(Comp.find('div.page-item').length).toBe(30)
-    expect(Comp.find('div.page-item').at(0).text()).toBe('page-11')
-    expect(Comp.find('div.page-item').last().text()).toBe('page-40')
+    expect(document.querySelectorAll('div.page-item').length).toBe(30)
+    expect(document.querySelectorAll('div.page-item')[0].textContent).toBe(
+      'page-11'
+    )
+    expect(
+      document.querySelectorAll('div.page-item')[
+        document.querySelectorAll('div.page-item').length - 1
+      ].textContent
+    ).toBe('page-40')
 
     await intersect()
 
-    Comp.update()
-    expect(Comp.find('div.page-item').length).toBe(40)
-    expect(Comp.find('div.page-item').at(0).text()).toBe('page-11')
-    expect(Comp.find('div.page-item').last().text()).toBe('page-50')
+    expect(document.querySelectorAll('div.page-item').length).toBe(40)
+    expect(document.querySelectorAll('div.page-item')[0].textContent).toBe(
+      'page-11'
+    )
+    expect(
+      document.querySelectorAll('div.page-item')[
+        document.querySelectorAll('div.page-item').length - 1
+      ].textContent
+    ).toBe('page-50')
 
     localStack.current = {}
     resetInfinityHandler()
 
-    await rerenderComponent(Comp)
+    await rerenderComponent()
 
-    expect(Comp.find('div.page-item').length).toBe(20)
-    expect(Comp.find('div.page-item').at(0).text()).toBe('page-11')
-    expect(Comp.find('div.page-item').last().text()).toBe('page-30')
+    expect(document.querySelectorAll('div.page-item').length).toBe(20)
+    expect(document.querySelectorAll('div.page-item')[0].textContent).toBe(
+      'page-11'
+    )
+    expect(
+      document.querySelectorAll('div.page-item')[
+        document.querySelectorAll('div.page-item').length - 1
+      ].textContent
+    ).toBe('page-30')
   })
 
   it('should handle re-render with decreasing current_page and not show the loadbar', async () => {
@@ -483,14 +541,22 @@ describe('Infinity scroller', () => {
       )
     }
 
-    const Comp = mount(<MyComponent />)
+    render(<MyComponent />)
 
-    await rerenderComponent(Comp)
+    await rerenderComponent()
 
-    expect(Comp.find('div.page-item').length).toBe(20)
-    expect(Comp.find('div.page-item').at(0).text()).toBe('page-1')
-    expect(Comp.find('div.page-item').last().text()).toBe('page-20')
-    expect(Comp.find('div.dnb-pagination__loadbar').exists()).toBe(false)
+    expect(document.querySelectorAll('div.page-item').length).toBe(20)
+    expect(document.querySelectorAll('div.page-item')[0].textContent).toBe(
+      'page-1'
+    )
+    expect(
+      document.querySelectorAll('div.page-item')[
+        document.querySelectorAll('div.page-item').length - 1
+      ].textContent
+    ).toBe('page-20')
+    expect(
+      document.querySelector('div.dnb-pagination__loadbar')
+    ).toBeFalsy()
   })
 
   it('should load pages with load more button (before)', async () => {
@@ -503,12 +569,14 @@ describe('Infinity scroller', () => {
     const on_load = jest.fn()
 
     const clickOnLoadMore = async () => {
-      Comp.find('div.dnb-pagination__loadbar button').simulate('click')
+      fireEvent.click(
+        document.querySelector('div.dnb-pagination__loadbar button')
+      )
 
-      await rerenderComponent(Comp)
+      await rerenderComponent()
     }
 
-    const Comp = mount(
+    render(
       <Component
         mode="infinity"
         {...props}
@@ -518,20 +586,26 @@ describe('Infinity scroller', () => {
       />
     )
 
-    await rerenderComponent(Comp)
+    await rerenderComponent()
 
-    expect(Comp.find('div.page-item').length).toBe(1)
-
-    await clickOnLoadMore()
-
-    expect(Comp.find('div.page-item').length).toBe(2)
-    expect(Comp.find('div.page-item').at(0).text()).toBe('2')
+    expect(document.querySelectorAll('div.page-item').length).toBe(1)
 
     await clickOnLoadMore()
 
-    expect(Comp.find('div.page-item').length).toBe(3)
-    expect(Comp.find('div.page-item').at(0).text()).toBe('1')
-    expect(Comp.exists('div.dnb-pagination__loadbar')).toBe(false)
+    expect(document.querySelectorAll('div.page-item').length).toBe(2)
+    expect(document.querySelectorAll('div.page-item')[0].textContent).toBe(
+      '2'
+    )
+
+    await clickOnLoadMore()
+
+    expect(document.querySelectorAll('div.page-item').length).toBe(3)
+    expect(document.querySelectorAll('div.page-item')[0].textContent).toBe(
+      '1'
+    )
+    expect(
+      document.querySelector('div.dnb-pagination__loadbar')
+    ).toBeFalsy()
 
     expect(on_startup).toHaveBeenCalledTimes(1)
     expect(on_change).toHaveBeenCalledTimes(2)
@@ -539,13 +613,13 @@ describe('Infinity scroller', () => {
   })
 
   it('will pass children', () => {
-    const Comp = mount(
+    render(
       <Component mode="infinity" {...props}>
         <div id="page-content">content</div>
       </Component>
     )
 
-    expect(Comp.exists('div#page-content')).toBe(true)
+    expect(document.querySelector('div#page-content')).toBeTruthy()
   })
 
   it('should support locale from provider', () => {
@@ -640,25 +714,33 @@ describe('Infinity scroller', () => {
       )
     }
 
-    const Comp = mount(<MyComponent />)
+    render(<MyComponent />)
 
-    await rerenderComponent(Comp)
+    await rerenderComponent()
 
     const clickOnLoadMore = async () => {
-      Comp.find('div.dnb-pagination__loadbar button').simulate('click')
+      fireEvent.click(
+        document.querySelector('div.dnb-pagination__loadbar button')
+      )
 
-      await rerenderComponent(Comp)
+      await rerenderComponent()
     }
 
-    expect(Comp.find('div#page-content').text()).toBe('page-3')
+    expect(document.querySelector('div#page-content').textContent).toBe(
+      'page-3'
+    )
 
     await clickOnLoadMore()
 
-    expect(Comp.find('div#page-content').text()).toBe('page-2')
+    expect(document.querySelector('div#page-content').textContent).toBe(
+      'page-2'
+    )
 
     await clickOnLoadMore()
 
-    expect(Comp.find('div#page-content').text()).toBe('page-1')
+    expect(document.querySelector('div#page-content').textContent).toBe(
+      'page-1'
+    )
 
     expect(on_startup).toHaveBeenCalledTimes(1)
     expect(on_change).toHaveBeenCalledTimes(2)
@@ -667,9 +749,11 @@ describe('Infinity scroller', () => {
 
     resetInfinityHandler()
 
-    await rerenderComponent(Comp)
+    await rerenderComponent()
 
-    expect(Comp.find('div#page-content').text()).toBe('page-3')
+    expect(document.querySelector('div#page-content').textContent).toBe(
+      'page-3'
+    )
 
     expect(on_startup).toHaveBeenCalledTimes(2)
     expect(on_change).toHaveBeenCalledTimes(2)
@@ -678,10 +762,12 @@ describe('Infinity scroller', () => {
   })
 
   it('should show pagination bar using Bar component', () => {
-    const Comp = mount(<Bar skeleton={false} />)
+    render(<Bar skeleton={false} />)
 
-    expect(Comp.exists('.dnb-pagination__bar')).toBe(true)
-    expect(Comp.exists('.dnb-pagination__indicator')).toBe(false)
+    expect(document.querySelector('.dnb-pagination__bar')).toBeTruthy()
+    expect(
+      document.querySelector('.dnb-pagination__indicator')
+    ).toBeFalsy()
   })
 
   // compare the snapshot
