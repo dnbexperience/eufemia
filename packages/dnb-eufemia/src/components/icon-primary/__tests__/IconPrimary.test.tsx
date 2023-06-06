@@ -11,6 +11,7 @@ import {
   axeComponent,
 } from '../../../core/jest/jestSetup'
 import Component from '../IconPrimary'
+import { render } from '@testing-library/react'
 
 const props = fakeProps(require.resolve('../IconPrimary'), {
   optional: true,
@@ -24,40 +25,34 @@ describe('IconPrimary component', () => {
   })
 
   it('has valid width and height prop', () => {
-    const width = 200
-    const height = 100
-    const Comp = mount(
-      <Component {...props} width={width} height={height} />
-    )
-    const elem = Comp.find('svg')
-    expect(elem.exists()).toBe(true)
-    expect(elem.props().width).toBe(width)
-    expect(elem.props().height).toBe(height)
-    expect(elem.props().viewBox).toBe('0 0 16 16')
+    const width = '200'
+    const height = '100'
+    render(<Component {...props} width={width} height={height} />)
+    const elem = document.querySelector('svg')
+    expect(elem).toBeTruthy()
+    expect(elem.getAttribute('width')).toBe(width)
+    expect(elem.getAttribute('height')).toBe(height)
+    expect(elem.getAttribute('viewBox')).toBe('0 0 16 16')
   })
 
   it('has valid medium size as enum', () => {
     // here we explicit set size="medium" as well, cause we then test that the loadSVG makes a good job
-    const Comp = mount(
-      <Component {...props} icon="question_medium" size="medium" />
-    )
-    const svg = Comp.find('svg')
-    const path = svg.find('path')
-    expect(svg.exists()).toBe(true)
-    expect(path.exists()).toBe(true)
-    expect(svg.props().viewBox).toBe('0 0 24 24')
+    render(<Component {...props} icon="question_medium" size="medium" />)
+    const svg = document.querySelector('svg')
+    const path = svg.querySelector('path')
+    expect(svg).toBeTruthy()
+    expect(path).toBeTruthy()
+    expect(svg.getAttribute('viewBox')).toBe('0 0 24 24')
   })
 
   it('has valid medium size as int', () => {
     // here we explicit set size="medium" as well, cause we then test that the loadSVG makes a good job
-    const Comp = mount(
-      <Component {...props} icon="question_medium" size="24" />
-    )
-    const svg = Comp.find('svg')
-    const path = svg.find('path')
-    expect(svg.exists()).toBe(true)
-    expect(path.exists()).toBe(true)
-    expect(svg.props().viewBox).toBe('0 0 24 24')
+    render(<Component {...props} icon="question_medium" size="24" />)
+    const svg = document.querySelector('svg')
+    const path = svg.querySelector('path')
+    expect(svg).toBeTruthy()
+    expect(path).toBeTruthy()
+    expect(svg.getAttribute('viewBox')).toBe('0 0 24 24')
   })
 
   it('should validate with ARIA rules', async () => {
