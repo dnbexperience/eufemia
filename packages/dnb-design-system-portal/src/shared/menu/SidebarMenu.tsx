@@ -5,13 +5,17 @@
 
 import React, { useContext, useEffect, useRef } from 'react'
 import classnames from 'classnames'
+import styled from '@emotion/styled'
 import Link from '../parts/Link'
 import { useStaticQuery, graphql } from 'gatsby'
 import Context from '@dnb/eufemia/src/shared/Context'
 import { SidebarMenuContext } from './SidebarMenuContext'
 import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
 import { Space, Icon, Badge } from '@dnb/eufemia/src/components'
+import useTheme from '@dnb/eufemia/src/shared/useTheme'
+import type { ThemeNames } from '@dnb/eufemia/src/shared/Theme'
 import { MediaQuery } from '@dnb/eufemia/src/shared'
+import { Span } from '@dnb/eufemia/src'
 import graphics from './SidebarGraphics'
 import {
   setPageFocusElement,
@@ -59,6 +63,7 @@ export default function SidebarLayout({
               status
               icon
               showTabs
+              theme
             }
           }
         }
@@ -202,6 +207,16 @@ export default function SidebarLayout({
     }
   }
 }
+const ThemeBadge = styled(Badge)`
+  position: absolute;
+  transform: translateX(calc(-100% - 0.5rem));
+  * {
+    color: white;
+  }
+  border-radius: 1rem;
+  opacity: 50%;
+  background: black;
+`
 
 type ListItemProps = {
   title: string
@@ -211,6 +226,7 @@ type ListItemProps = {
   level?: number
   nr?: number
   status?: string
+  theme?: ThemeNames
   icon?: string
   isActive?: boolean
   isInsideActivePath?: boolean
@@ -226,10 +242,12 @@ function ListItem({
   isInsideActiveCategory = false,
   nr,
   status,
+  theme,
   icon,
   title,
   subheadings,
 }: ListItemProps) {
+  const { name: currentTheme } = useTheme()
   const { closeMenu } = useContext(SidebarMenuContext)
   const { skeleton } = useContext(Context)
   const ref = useRef(null)
@@ -244,6 +262,13 @@ function ListItem({
       dep: 'Deprecated',
       imp: 'Needs improvement',
     }[status]
+  const themeTitle =
+    theme &&
+    {
+      ui: 'DNB',
+      sbanken: 'Sbanken',
+      eiendom: 'Eiendom',
+    }[theme]
 
   const params = {}
 
@@ -294,6 +319,15 @@ function ListItem({
               {title}
             </span>
           </span>
+          {theme === currentTheme && (
+            <ThemeBadge
+              content={
+                <Span title="Is themed" className="dnb-h--x-small">
+                  {themeTitle}
+                </Span>
+              }
+            />
+          )}
           {status && (
             <Badge space={{ right: 'xx-small' }} content={statusTitle} />
           )}
