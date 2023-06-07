@@ -858,6 +858,23 @@ describe('InputMasked component with currency_mask', () => {
     expect(document.querySelector('.dnb-input__placeholder')).toBeFalsy()
   })
 
+  it('should change data-input-state based on focus state', () => {
+    render(<InputMasked />)
+
+    const elem = document.querySelector('.dnb-input')
+    const inputElem = elem.querySelector('input')
+
+    expect(elem.getAttribute('data-input-state')).toBe('virgin')
+
+    fireEvent.focus(inputElem)
+
+    expect(elem.getAttribute('data-input-state')).toBe('focus')
+
+    fireEvent.blur(inputElem)
+
+    expect(elem.getAttribute('data-input-state')).toBe('initial')
+  })
+
   it('should handle zero after decimal', () => {
     const Input = () => {
       const [value, setValue] = React.useState('20.0')
