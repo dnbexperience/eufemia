@@ -38,11 +38,10 @@ export {
 }
 
 export const runPrepublishTasks = async ({
-  preventDelete,
-  doRefetch,
+  preventDelete = false,
 } = {}) => {
   process.env.NODE_ENV = 'production'
-  log.start('Starting the prepublish process...', doRefetch)
+  log.start('Starting the prepublish process...')
   try {
     await cleanupLib({ preventDelete })
     await convertSvgToJsx({ preventDelete })

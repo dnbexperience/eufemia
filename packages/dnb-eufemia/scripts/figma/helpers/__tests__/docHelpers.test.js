@@ -5,7 +5,7 @@
 
 import '../../../../src/core/jest/jestSetup'
 import { log } from '../../../lib'
-import { getFigmaDoc } from '../../helpers/docHelpers'
+import { getFigmaDoc } from '../docHelpers'
 
 const localFile = require.resolve('./files/FigmaTestDoc.json')
 
