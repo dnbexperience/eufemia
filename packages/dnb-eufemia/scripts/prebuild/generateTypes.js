@@ -16,7 +16,7 @@ const runGenerateTypesTasks = async ({ doRefetch } = {}) => {
     await generateTypes()
     log.succeed('Type definitions are successfully generated!')
   } catch (e) {
-    log.fail(new ErrorHandler('Failed to generate type definitions!', e))
+    log.fail(ErrorHandler('Failed to generate type definitions!', e))
   }
   return true
 }

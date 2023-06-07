@@ -6,7 +6,13 @@
 export const ERROR_HARMLESS = 100
 export const ERROR_FATAL = 500
 
-function ErrorHandler(message, error = null, code = ERROR_HARMLESS) {
+type ErrorHandlerMessage = string
+
+function ErrorHandler(
+  message: ErrorHandlerMessage,
+  error = null,
+  code = ERROR_HARMLESS
+): string {
   if (error === null && typeof message !== 'string') {
     error = message
   }
@@ -24,6 +30,5 @@ function ErrorHandler(message, error = null, code = ERROR_HARMLESS) {
 
   return message
 }
-ErrorHandler.prototype.constructor = function () {}
 
 export { ErrorHandler }

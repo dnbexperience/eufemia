@@ -170,7 +170,7 @@ const runFactory = async ({
     )
   } catch (e) {
     log.fail(`There was an error on creating ${scssOutputFile}!`)
-    new ErrorHandler(e)
+    ErrorHandler(e)
   }
 }
 

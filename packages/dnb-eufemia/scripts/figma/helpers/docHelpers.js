@@ -142,7 +142,7 @@ export const getLiveVersionOfFigmaDoc = async ({ figmaFile }) => {
 
     return versions[0].id
   } catch (e) {
-    new ErrorHandler('Could not get version!', e)
+    ErrorHandler('Could not get version!', e)
   }
 }
 
@@ -180,7 +180,7 @@ export const getLocalVersionFromLockFile = async ({ figmaFile }) => {
       return fileContent[md5(figmaFile)]
     }
   } catch (e) {
-    new ErrorHandler('Could not get version from lock file!', e)
+    ErrorHandler('Could not get version from lock file!', e)
   }
   return null
 }
@@ -195,7 +195,7 @@ export const getFigmaDoc = async ({
     !(typeof figmaFile === 'string' && figmaFile.length > 0) &&
     !localFile
   ) {
-    new ErrorHandler(
+    ErrorHandler(
       'No Figma file defined. Make sure there is a .env file with a valid "figmaFile" defined!'
     )
   }
@@ -269,7 +269,7 @@ export const getFigmaDoc = async ({
       data.isNew = true
       return data
     } catch (e) {
-      new ErrorHandler(
+      ErrorHandler(
         'Failed to client.file(figmaFile) and write the result with writeFile',
         e,
         ERROR_HARMLESS
@@ -282,7 +282,7 @@ export const getFigmaDoc = async ({
   try {
     return JSON.parse(await fs.readFile(localFile))
   } catch (e) {
-    new ErrorHandler('Failed to readFile and parse the result', e)
+    ErrorHandler('Failed to readFile and parse the result', e)
   }
 
   return null
@@ -308,7 +308,7 @@ export const getFigmaUrlByImageIds = async ({
 
     return images
   } catch (e) {
-    new ErrorHandler('Failed on client.fileImages(figmaFile)', e)
+    ErrorHandler('Failed on client.fileImages(figmaFile)', e)
   }
 }
 
@@ -324,7 +324,7 @@ export const streamToDisk = (
         .on('error', (err) => {
           writeStream.end()
           reject(
-            new ErrorHandler(
+            ErrorHandler(
               'Failed on createWriteStream',
               err,
               errorExceptionType
@@ -338,7 +338,7 @@ export const streamToDisk = (
           const isEmpty = String(newContent).trim().length === 0
 
           if (isEmpty) {
-            new ErrorHandler(
+            ErrorHandler(
               `streamToDisk failed because the stream did not end with content by using the url: ${url}`
             )
           }
@@ -347,7 +347,7 @@ export const streamToDisk = (
           if (isEmpty) {
             if (oldContent) {
               await fs.writeFile(localFile, oldContent)
-              new ErrorHandler(`Using the old content for: ${localFile}`)
+              ErrorHandler(`Using the old content for: ${localFile}`)
             } else {
               await fs.unlink(localFile)
             }
@@ -364,16 +364,12 @@ export const streamToDisk = (
             await fs.unlink(localFile)
           } catch (err) {
             reject(
-              new ErrorHandler('Failed on unlink', err, errorExceptionType)
+              ErrorHandler('Failed on unlink', err, errorExceptionType)
             )
           }
 
           reject(
-            new ErrorHandler(
-              'Failed on streamToDisk',
-              err,
-              errorExceptionType
-            )
+            ErrorHandler('Failed on streamToDisk', err, errorExceptionType)
           )
         })
     }
@@ -387,11 +383,7 @@ export const streamToDisk = (
       ? fs.readFile(localFile, 'utf-8', (err, oldContent) => {
           if (err) {
             reject(
-              new ErrorHandler(
-                'Failed on readFile',
-                err,
-                errorExceptionType
-              )
+              ErrorHandler('Failed on readFile', err, errorExceptionType)
             )
           }
 

@@ -36,7 +36,7 @@ export const fetchFigmaIcons = async ({
     })
     log.succeed(`> Figma: Icons conversion done (${icons?.length} icons)`)
   } catch (e) {
-    log.fail(new ErrorHandler('Failed during extractIconsAsSVG', e))
+    log.fail(ErrorHandler('Failed during extractIconsAsSVG', e))
   }
 }
 
@@ -59,6 +59,6 @@ export const fetchFigmaAll = async ({
 
     log.succeed('> Figma: All done')
   } catch (e) {
-    log.fail(new ErrorHandler('Failed during fetchFigmaAll', e))
+    log.fail(ErrorHandler('Failed during fetchFigmaAll', e))
   }
 }

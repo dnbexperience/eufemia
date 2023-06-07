@@ -355,7 +355,7 @@ export const runFactory = async ({
         )
       } catch (e) {
         log.fail(`There was an error on creating ${destFile}!`)
-        new ErrorHandler(e)
+        ErrorHandler(e)
       }
     })
   }
@@ -417,7 +417,7 @@ export const runFactory = async ({
       )
     } catch (e) {
       log.fail(`There was an error on creating ${destFile}!`)
-      new ErrorHandler(e)
+      ErrorHandler(e)
     }
   }
 
