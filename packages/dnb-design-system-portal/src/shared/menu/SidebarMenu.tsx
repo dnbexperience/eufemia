@@ -5,7 +5,6 @@
 
 import React, { useContext, useEffect, useRef } from 'react'
 import classnames from 'classnames'
-import styled from '@emotion/styled'
 import Link from '../parts/Link'
 import { useStaticQuery, graphql } from 'gatsby'
 import Context from '@dnb/eufemia/src/shared/Context'
@@ -15,7 +14,6 @@ import { Space, Icon, Badge } from '@dnb/eufemia/src/components'
 import useTheme from '@dnb/eufemia/src/shared/useTheme'
 import type { ThemeNames } from '@dnb/eufemia/src/shared/Theme'
 import { MediaQuery } from '@dnb/eufemia/src/shared'
-import { Span } from '@dnb/eufemia/src'
 import graphics from './SidebarGraphics'
 import {
   setPageFocusElement,
@@ -207,16 +205,29 @@ export default function SidebarLayout({
     }
   }
 }
-const ThemeBadge = styled(Badge)`
-  position: absolute;
-  transform: translateX(calc(-100% - 0.5rem));
-  * {
-    color: white;
-  }
-  border-radius: 1rem;
-  opacity: 50%;
-  background: black;
-`
+
+const ThemeBadge = ({ theme, ...props }: { theme: ThemeNames }) => {
+  const themeTitle =
+    theme &&
+    {
+      ui: 'DNB',
+      sbanken: 'Sbanken',
+      eiendom: 'Eiendom',
+    }[theme]
+  return (
+    <span
+      className={classnames(
+        'dnb-sidebar-menu__theme-badge',
+        `dnb-sidebar-menu__theme-badge--${theme}`
+      )}
+      {...props}
+    >
+      <span className={classnames('dnb-sidebar-menu__theme-badge__title')}>
+        {themeTitle}
+      </span>
+    </span>
+  )
+}
 
 type ListItemProps = {
   title: string
@@ -262,13 +273,6 @@ function ListItem({
       dep: 'Deprecated',
       imp: 'Needs improvement',
     }[status]
-  const themeTitle =
-    theme &&
-    {
-      ui: 'DNB',
-      sbanken: 'Sbanken',
-      eiendom: 'Eiendom',
-    }[theme]
 
   const params = {}
 
@@ -319,15 +323,7 @@ function ListItem({
               {title}
             </span>
           </span>
-          {theme === currentTheme && (
-            <ThemeBadge
-              content={
-                <Span title="Is themed" className="dnb-h--x-small">
-                  {themeTitle}
-                </Span>
-              }
-            />
-          )}
+          {theme === currentTheme && <ThemeBadge theme={theme} />}
           {status && (
             <Badge space={{ right: 'xx-small' }} content={statusTitle} />
           )}
