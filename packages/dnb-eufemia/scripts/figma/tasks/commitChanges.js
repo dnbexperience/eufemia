@@ -21,7 +21,7 @@ if (require.main === module) {
       'icons-pdf.lock',
       'icons-meta.json',
     ],
-    skipCI: true, // because we have our own checks in the GitHub Action icons-lib.yml
+    skipCI: false,
     isFeature: false, // because it should manually be evaluated if its a fix or feature
   })
 }
