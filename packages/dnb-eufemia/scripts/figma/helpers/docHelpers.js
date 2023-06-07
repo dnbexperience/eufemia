@@ -188,8 +188,8 @@ export const getLocalVersionFromLockFile = async ({ figmaFile }) => {
 export const getFigmaDoc = async ({
   figmaFile = null,
   localFile = null,
-  forceRefetch = null,
-  preventUpdate = null,
+  forceRefetch = false,
+  preventUpdate = false,
 } = {}) => {
   if (
     !(typeof figmaFile === 'string' && figmaFile.length > 0) &&
@@ -257,7 +257,6 @@ export const getFigmaDoc = async ({
     log.info(`> Figma: Fetching new doc from Figma ...`)
     try {
       const { data } = await Figma.file(figmaFile)
-      const doRefetch = fs.existsSync(localFile)
       if (!fs.existsSync(localDir)) {
         await fs.mkdir(localDir)
       }
@@ -265,7 +264,6 @@ export const getFigmaDoc = async ({
 
       log.succeed(`> Figma: Fetched new doc ${data.lastModified}`)
 
-      data.doRefetch = doRefetch
       data.isNew = true
       return data
     } catch (e) {

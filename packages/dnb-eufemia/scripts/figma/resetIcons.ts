@@ -38,9 +38,11 @@ export const runFigmaReset = async () => {
 }
 
 runFigmaReset().then(() =>
-  fetchFigmaAll({ forceRefetch: true, ignoreBranchCheck: true }).then(
-    () => {
-      log.succeed('Resetting Figma is done')
-    }
-  )
+  fetchFigmaAll({
+    forceRefetch: true,
+    forceReconvert: true,
+    ignoreBranchCheck: true,
+  }).then(() => {
+    log.succeed('Resetting Figma is done')
+  })
 )

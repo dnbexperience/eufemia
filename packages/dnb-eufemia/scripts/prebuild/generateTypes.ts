@@ -9,9 +9,9 @@
 import { ErrorHandler, log } from '../lib'
 import { generateTypes } from './index'
 
-const runGenerateTypesTasks = async ({ doRefetch } = {}) => {
+const runGenerateTypesTasks = async () => {
   process.env.NODE_ENV = 'production'
-  log.start('Starting to generate type definitions ...', doRefetch)
+  log.start('Starting to generate type definitions ...')
   try {
     await generateTypes()
     log.succeed('Type definitions are successfully generated!')

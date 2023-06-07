@@ -32,7 +32,7 @@ const dev = async () => {
   // await cleanupLib({ preventDelete })
   // // await convertSvgToCjs({ preventDelete })
   // await makeIconLib({ preventDelete })
-  // await makeIconsUMDBundle({ doRefetch: false })
+  // await makeIconsUMDBundle()
   // await runStyleFactory()
   await runThemeFactory()
   // await convertSvgToJsx({ preventDelete })
