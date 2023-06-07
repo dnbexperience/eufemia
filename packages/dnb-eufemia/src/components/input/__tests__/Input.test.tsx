@@ -87,6 +87,21 @@ describe('Input component', () => {
     )
   })
 
+  it('gets valid ref element', () => {
+    let ref: React.RefObject<HTMLInputElement>
+
+    function MockComponent() {
+      ref = React.useRef()
+      return <Component {...props} inner_ref={ref} />
+    }
+
+    render(<MockComponent />)
+
+    expect(ref.current instanceof HTMLInputElement).toBe(true)
+    expect(ref.current.id).toBe(props.id)
+    expect(ref.current.tagName).toBe('INPUT')
+  })
+
   it('value should be controllable from outside', () => {
     const initialValue = '1234'
     const Controlled = () => {
@@ -187,7 +202,7 @@ describe('Input component', () => {
     // additional native event test
     fireEvent.keyDown(document.querySelector('input'), {
       key: 'Space',
-      keyCode: 84, //space
+      keyCode: 84, // space
     })
     expect(onKeyDown.mock.calls.length).toBe(1)
   })
