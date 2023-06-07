@@ -191,7 +191,7 @@ export const runFactory = async ({
     })
   } catch (e) {
     log.fail(`There was an error when creating ${scssOutputPath}!`)
-    new ErrorHandler(e)
+    ErrorHandler(e)
   }
 
   if (returnResult) {

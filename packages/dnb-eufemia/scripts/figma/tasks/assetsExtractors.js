@@ -57,7 +57,7 @@ const iconPrimaryList = process.env.FIGMA_ICONS_PRIMARY_LIST || [
 export function IconsConfig(overwrite = {}) {
   if (overwrite?.assetsDir && /^\//.test(overwrite.assetsDir)) {
     log.fail(
-      new ErrorHandler('assetsDir should not start with a slash (/dir)')
+      ErrorHandler('assetsDir should not start with a slash (/dir)')
     )
   }
 
@@ -172,7 +172,7 @@ export const extractIconsAsSVG = async ({
 
     return listOfProcessedFiles
   } catch (e) {
-    log.fail(new ErrorHandler('extractIconsAsSVG failed', e))
+    log.fail(ErrorHandler('extractIconsAsSVG failed', e))
   }
 }
 
@@ -501,7 +501,7 @@ const frameIconsFactory = async ({
 
             if (streamResult === 'ACCESS_DENIED') {
               log.fail(
-                new ErrorHandler(
+                ErrorHandler(
                   `> Figma: Failed to stream content of (${iconName}): ${content}`
                 )
               )
@@ -529,7 +529,7 @@ const frameIconsFactory = async ({
 
           return ret
         } catch (e) {
-          log.fail(new ErrorHandler('Failed to process new icons', e))
+          log.fail(ErrorHandler('Failed to process new icons', e))
         }
       }
     )
@@ -847,7 +847,7 @@ const optimizeSVG = async (file) => {
     await fs.writeFile(file, data)
     return data
   } catch (e) {
-    log.fail(new ErrorHandler('Failed during optimizeSVG', e))
+    log.fail(ErrorHandler('Failed during optimizeSVG', e))
   }
 
   return null

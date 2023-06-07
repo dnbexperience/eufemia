@@ -33,7 +33,7 @@ export const runFigmaReset = async () => {
     }
   } catch (e) {
     log.fail(e)
-    new ErrorHandler(e)
+    ErrorHandler(e)
   }
 }
 

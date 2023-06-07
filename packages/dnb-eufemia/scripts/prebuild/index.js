@@ -58,7 +58,7 @@ export const runPrepublishTasks = async ({
     log.succeed('Prepublishing has Succeeded!')
   } catch (e) {
     log.fail('Failed to run prepublish!')
-    new ErrorHandler(e)
+    ErrorHandler(e)
   }
   return true
 }
