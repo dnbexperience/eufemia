@@ -30,6 +30,7 @@ html {
 	*/
   padding: 1rem;
   margin: -1rem;
+  box-shadow: 0 0 0 1px #fff;
 
   background: #fff;
 }
