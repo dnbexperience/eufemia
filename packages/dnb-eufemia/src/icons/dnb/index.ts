@@ -172,30 +172,6 @@ import digipost from './digipost'
 import digipost_medium from './digipost_medium'
 import dismiss_keyboard from './dismiss_keyboard'
 import dismiss_keyboard_medium from './dismiss_keyboard_medium'
-import document from './document'
-import document_add from './document_add'
-import document_add_medium from './document_add_medium'
-import document_contract from './document_contract'
-import document_contract_medium from './document_contract_medium'
-import document_csv from './document_csv'
-import document_csv_medium from './document_csv_medium'
-import document_loupe from './document_loupe'
-import document_loupe_medium from './document_loupe_medium'
-import document_medium from './document_medium'
-import document_pdf from './document_pdf'
-import document_pdf_medium from './document_pdf_medium'
-import document_rejected from './document_rejected'
-import document_rejected_medium from './document_rejected_medium'
-import document_signing from './document_signing'
-import document_signing_medium from './document_signing_medium'
-import document_txt from './document_txt'
-import document_txt_medium from './document_txt_medium'
-import document_warning from './document_warning'
-import document_warning_medium from './document_warning_medium'
-import document_word from './document_word'
-import document_word_medium from './document_word_medium'
-import document_xls from './document_xls'
-import document_xls_medium from './document_xls_medium'
 import dog from './dog'
 import dog_medium from './dog_medium'
 import download from './download'
@@ -730,30 +706,6 @@ export {
   digipost_medium,
   dismiss_keyboard,
   dismiss_keyboard_medium,
-  document,
-  document_add,
-  document_add_medium,
-  document_contract,
-  document_contract_medium,
-  document_csv,
-  document_csv_medium,
-  document_loupe,
-  document_loupe_medium,
-  document_medium,
-  document_pdf,
-  document_pdf_medium,
-  document_rejected,
-  document_rejected_medium,
-  document_signing,
-  document_signing_medium,
-  document_txt,
-  document_txt_medium,
-  document_warning,
-  document_warning_medium,
-  document_word,
-  document_word_medium,
-  document_xls,
-  document_xls_medium,
   dog,
   dog_medium,
   download,
