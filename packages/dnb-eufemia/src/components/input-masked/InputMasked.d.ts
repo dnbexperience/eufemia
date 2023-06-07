@@ -119,7 +119,7 @@ export interface InputMaskedProps
   /**
    * By providing a React.ref we can get the internally used input element (DOM). E.g. `inner_ref={myRef}` by using `React.createRef()` or `React.useRef()`.
    */
-  inner_ref?: Record<string, unknown>;
+  inner_ref?: React.RefObject<HTMLInputElement>;
 
   /**
    * Will be called on value changes made by the user. Returns an object with the value as a string and the native event: `{ value, event }`.

@@ -175,7 +175,7 @@ export interface InputProps
   /**
    * By providing a React.ref we can get the internally used input element (DOM). E.g. `inner_ref={myRef}` by using `React.createRef()` or `React.useRef()`.
    */
-  inner_ref?: any;
+  inner_ref?: React.RefObject<HTMLInputElement>;
   readOnly?: boolean;
 
   /**

@@ -16,6 +16,7 @@ import Provider from '../../../shared/Provider'
 import * as helpers from '../../../shared/helpers'
 import FormRow from '../../form-row/FormRow'
 import userEvent from '@testing-library/user-event'
+import InputMasked from '..'
 
 const snapshotProps = {
   ...fakeProps(require.resolve('../InputMasked'), {
@@ -71,7 +72,7 @@ describe('InputMasked component', () => {
   })
 
   it('gets valid ref element', () => {
-    let ref
+    let ref: React.RefObject<HTMLInputElement>
 
     function MockComponent() {
       ref = React.useRef()
@@ -80,7 +81,7 @@ describe('InputMasked component', () => {
 
     render(<MockComponent />)
 
-    expect(ref.current instanceof window.HTMLInputElement).toBe(true)
+    expect(ref.current instanceof HTMLInputElement).toBe(true)
     expect(ref.current.id).toBe(props.id)
     expect(ref.current.tagName).toBe('INPUT')
   })
@@ -93,7 +94,6 @@ describe('InputMasked component', () => {
 
     render(
       <Component
-        //{...props}
         value={initValue}
         number_mask={{
           prefix: 'NOK ',
@@ -828,18 +828,34 @@ describe('InputMasked component with currency_mask', () => {
     expect(document.querySelector('input').value).toBe('1 234 NOK')
   })
 
-  it.skip('should not show mask if placeholder is set', () => {
+  it('should not show mask if placeholder is set', () => {
+    const placeholderText = 'Placeholder-text'
+
     render(
-      <Component
-        {...props}
-        placeholder="Placeholder-text"
-        currency_mask="NOK"
-      />
+      <InputMasked placeholder={placeholderText} currency_mask="NOK" />
     )
 
-    expect(
-      document.querySelector('TextMask').getAttribute('showMask')
-    ).toBeFalsy()
+    const elem = document.querySelector('.dnb-input')
+    const inputElem = elem.querySelector('input')
+    const placeholderElem = elem.querySelector('.dnb-input__placeholder')
+
+    expect(inputElem.value).toBe('')
+    expect(inputElem.getAttribute('aria-placeholder')).toBe(
+      placeholderText
+    )
+    expect(placeholderElem.textContent).toBe(placeholderText)
+
+    expect(placeholderElem.getAttribute('role')).toBe('presentation')
+    expect(placeholderElem.getAttribute('aria-hidden')).toBe('true')
+
+    fireEvent.change(inputElem, { target: { value: '20,02' } })
+
+    expect(inputElem.value).toBe('20,02 NOK')
+    expect(inputElem.getAttribute('aria-placeholder')).toBe(
+      placeholderText
+    )
+
+    expect(document.querySelector('.dnb-input__placeholder')).toBeFalsy()
   })
 
   it('should handle zero after decimal', () => {
