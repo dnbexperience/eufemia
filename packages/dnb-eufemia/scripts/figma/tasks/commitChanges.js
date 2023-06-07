@@ -21,7 +21,6 @@ if (require.main === module) {
       'icons-pdf.lock',
       'icons-meta.json',
     ],
-    skipCI: false,
     isFeature: false, // because it should manually be evaluated if its a fix or feature
   })
 }

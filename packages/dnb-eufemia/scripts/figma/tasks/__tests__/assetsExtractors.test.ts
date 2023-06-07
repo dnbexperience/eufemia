@@ -4,6 +4,7 @@
  */
 
 import fs from 'fs-extra'
+import tar from 'tar'
 import { log } from '../../../lib'
 import '../../../../src/core/jest/jestSetup'
 import { getFigmaDoc } from '../../helpers/docHelpers'
@@ -198,6 +199,61 @@ describe('assetsExtractors', () => {
     return result
   }
 
+  it('should convert SVG to XML', async () => {
+    await runMock()
+
+    expect(fs.rmdir).toHaveBeenCalledTimes(2)
+    expect(fs.rmdir).toHaveBeenNthCalledWith(
+      1,
+      expect.stringContaining(
+        '/packages/dnb-eufemia/assets/icons/dnb/objects'
+      )
+    )
+
+    expect(runCommand).toHaveBeenCalledTimes(1)
+    expect(runCommand).toHaveBeenNthCalledWith(
+      1,
+      expect.stringContaining('yarn vd-tool -c -in')
+    )
+    expect(runCommand).toHaveBeenNthCalledWith(
+      1,
+      expect.stringContaining('/packages/dnb-eufemia/assets/icons/dnb')
+    )
+
+    expect(tar.create).toHaveBeenCalledTimes(3)
+    expect(tar.create).toHaveBeenNthCalledWith(
+      1,
+      {
+        cwd: expect.stringContaining('/assets/icons'),
+        file: expect.stringContaining('/assets/icons/dnb/tmp.tgz'),
+        gzip: true,
+      },
+      ['bell_medium.xml', 'bell.xml']
+    )
+    expect(tar.create).toHaveBeenNthCalledWith(
+      2,
+      {
+        cwd: expect.stringContaining('/assets/icons'),
+        file: expect.stringContaining(
+          '/assets/icons/dnb/eufemia-icons-xml.tgz'
+        ),
+        gzip: true,
+      },
+      ['bell_medium.xml', 'bell.xml']
+    )
+    expect(tar.create).toHaveBeenNthCalledWith(
+      3,
+      {
+        cwd: expect.stringContaining('/assets/icons'),
+        file: expect.stringContaining(
+          '/assets/icons/dnb/eufemia-icons-xml-categorized.tgz'
+        ),
+        gzip: true,
+      },
+      ['objects/bell_medium.xml', 'objects/bell.xml']
+    )
+  })
+
   it('extractIcons', async () => {
     const result = await runMock()
 
@@ -208,7 +264,7 @@ describe('assetsExtractors', () => {
         'Starting to fetch 2 icons from the "Icons" Canvas'
       )
     )
-    expect(info).toHaveBeenCalledTimes(8)
+    expect(info).toHaveBeenCalledTimes(9)
     expect(info).toHaveBeenNthCalledWith(
       1,
       expect.stringContaining(
@@ -241,12 +297,16 @@ describe('assetsExtractors', () => {
     )
     expect(info).toHaveBeenNthCalledWith(
       7,
+      expect.stringContaining('convert SVG to XML')
+    )
+    expect(info).toHaveBeenNthCalledWith(
+      8,
       expect.stringContaining(
         '/dnb-eufemia/src/icons/dnb/icons-svg.lock file got generated'
       )
     )
     expect(info).toHaveBeenNthCalledWith(
-      8,
+      9,
       expect.stringContaining('icons-meta.json file got generated')
     )
     expect(succeed).toHaveBeenCalledTimes(2)

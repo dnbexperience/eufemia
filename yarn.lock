@@ -3749,6 +3749,7 @@ __metadata:
     tar: 6.1.11
     traverse: 0.6.6
     typescript: 4.5.5
+    vd-tool: 4.0.2
     wait-on: 6.0.0
     what-input: 5.2.10
   peerDependencies:
@@ -16825,6 +16826,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"execa@npm:^2.0.3":
+  version: 2.1.0
+  resolution: "execa@npm:2.1.0"
+  dependencies:
+    cross-spawn: ^7.0.0
+    get-stream: ^5.0.0
+    is-stream: ^2.0.0
+    merge-stream: ^2.0.0
+    npm-run-path: ^3.0.0
+    onetime: ^5.1.0
+    p-finally: ^2.0.0
+    signal-exit: ^3.0.2
+    strip-final-newline: ^2.0.0
+  checksum: 93af9b816a555d0944e0876f4ccd97e0f4593d2049e713518fd5458a7699836449c516c6bb7e6357e11431ec40cce3150625b86d1b1254180faaa0d744265eca
+  languageName: node
+  linkType: hard
+
 "execa@npm:^6.1.0":
   version: 6.1.0
   resolution: "execa@npm:6.1.0"
@@ -27045,6 +27063,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"npm-run-path@npm:^3.0.0":
+  version: 3.1.0
+  resolution: "npm-run-path@npm:3.1.0"
+  dependencies:
+    path-key: ^3.0.0
+  checksum: 141e0b8f0e3b137347a2896572c9a84701754dda0670d3ceb8c56a87702ee03c26227e4517ab93f2904acfc836547315e740b8289bb24ca0cd8ba2b198043b0f
+  languageName: node
+  linkType: hard
+
 "npm-run-path@npm:^4.0.0, npm-run-path@npm:^4.0.1":
   version: 4.0.1
   resolution: "npm-run-path@npm:4.0.1"
@@ -27793,6 +27820,13 @@ __metadata:
   version: 1.0.0
   resolution: "p-finally@npm:1.0.0"
   checksum: 93a654c53dc805dd5b5891bab16eb0ea46db8f66c4bfd99336ae929323b1af2b70a8b0654f8f1eae924b2b73d037031366d645f1fd18b3d30cbd15950cc4b1d4
+  languageName: node
+  linkType: hard
+
+"p-finally@npm:^2.0.0":
+  version: 2.0.1
+  resolution: "p-finally@npm:2.0.1"
+  checksum: 6306a2851c3b28f8b603624f395ae84dce76970498fed8aa6aae2d930595053746edf1e4ee0c4b78a97410d84aa4504d63179f5310d555511ecd226f53ed1e8e
   languageName: node
   linkType: hard
 
@@ -35737,7 +35771,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"upath@npm:^1.1.1":
+"upath@npm:^1.1.1, upath@npm:^1.1.2":
   version: 1.2.0
   resolution: "upath@npm:1.2.0"
   checksum: 4c05c094797cb733193a0784774dbea5b1889d502fc9f0572164177e185e4a59ba7099bf0b0adf945b232e2ac60363f9bf18aac9b2206fb99cbef971a8455445
@@ -36060,6 +36094,18 @@ __metadata:
   version: 1.1.2
   resolution: "vary@npm:1.1.2"
   checksum: ae0123222c6df65b437669d63dfa8c36cee20a504101b2fcd97b8bf76f91259c17f9f2b4d70a1e3c6bbcee7f51b28392833adb6b2770b23b01abec84e369660b
+  languageName: node
+  linkType: hard
+
+"vd-tool@npm:4.0.2":
+  version: 4.0.2
+  resolution: "vd-tool@npm:4.0.2"
+  dependencies:
+    execa: ^2.0.3
+    upath: ^1.1.2
+  bin:
+    vd-tool: cli.js
+  checksum: a4f3c6c2e69df769676f4b591deaf5614809a5a90df0d9cd2a9d6db3bac38d764047f35ec93981e183095cedfae691d60ff4d9ff2530ec1b374ba8d5e4b11a5e
   languageName: node
   linkType: hard
 
