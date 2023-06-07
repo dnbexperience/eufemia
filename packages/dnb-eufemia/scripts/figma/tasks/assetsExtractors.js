@@ -82,7 +82,6 @@ export function IconsConfig(overwrite = {}) {
     overwrite?.assetsDir || '',
     'icons-svg.lock'
   )
-  const getCategoryFromIconName = (name) => String(name).split(/\//)[0]
 
   return {
     canvasNameSelector,
@@ -95,7 +94,6 @@ export function IconsConfig(overwrite = {}) {
     iconNameCleaner,
     imageUrlExpireAfterDays,
     destDir,
-    getCategoryFromIconName,
     ...overwrite,
   }
 }
@@ -754,8 +752,6 @@ const createXMLTarBundles = async ({
   }
 
   const createTarWithCategories = async () => {
-    const { getCategoryFromIconName } = IconsConfig()
-
     await asyncForEach(
       listOfProcessedFiles,
       async ({ name, iconFileXML }) => {
@@ -867,6 +863,8 @@ const insertInlineStylesToSVG = (svg) => {
       return acc
     }, svg)
 }
+
+const getCategoryFromIconName = (name) => String(name).split(/\//)[0]
 
 const getIconCanvasDoc = ({ figmaDoc }) => {
   const { canvasNameSelector } = IconsConfig()

@@ -151,7 +151,6 @@ describe('assetsExtractors', () => {
     expect(config).toHaveProperty('iconNameCleaner')
     expect(config).toHaveProperty('imageUrlExpireAfterDays')
     expect(config).toHaveProperty('destDir')
-    expect(config).toHaveProperty('getCategoryFromIconName')
     expect(config.iconsLockFile).toContain(
       'packages/dnb-eufemia/src/icons/icons-svg.lock'
     )
