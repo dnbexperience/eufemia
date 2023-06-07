@@ -7,7 +7,6 @@ import fs from 'fs-extra'
 import path from 'path'
 import prettier from 'prettier'
 import { optimize, loadConfig } from 'svgo' // eslint-disable-line
-import svg2vectordrawable from 'svg2vectordrawable/src/svg-file-to-vectordrawable-file'
 import { asyncForEach } from '../../tools'
 import { ERROR_HARMLESS } from '../../lib/error'
 import { log, ErrorHandler } from '../../lib'
@@ -22,6 +21,7 @@ import {
 } from '../helpers/docHelpers'
 import properties from '../../../src/style/themes/theme-ui/properties'
 import { create, extract } from 'tar'
+import { runCommand } from '../../tools/cliTools'
 
 export const ICON_SIZES = {
   16: { suffix: '' },
@@ -736,17 +736,14 @@ const createXMLTarBundles = async ({
   log.succeed(`> Figma: finished to create ${outputName}`)
 
   async function convertSvgToXml() {
-    await asyncForEach(
-      listOfProcessedFiles,
-      async ({ iconFile, iconFileXML }) => {
-        const source = path.resolve(destDir, iconFile)
-        const dest = path.resolve(destDir, iconFileXML)
-
-        await svg2vectordrawable.convertFile(source, dest, {
-          floatPrecision: 3,
-        })
-      }
-    )
+    try {
+      log.info(`> Figma: convert SVG to XML in directroy: ${destDir}`)
+      await runCommand(`yarn vd-tool -c -in ${destDir}`)
+    } catch (error) {
+      log.fail(
+        `> Figma: failed to convert SVG to XML in ${destDir}\n\n${error}`
+      )
+    }
   }
 
   async function removeGeneratedXmlFiles() {
@@ -922,9 +919,9 @@ type IconsLockFileItem = {
   id: string
   url: string
   slug: string
-  bundleName: string
   updated: number
   created: number
+  bundleName: string
 }
 type IconsLockFileMap = { [key: string]: IconsLockFileItem }
 
