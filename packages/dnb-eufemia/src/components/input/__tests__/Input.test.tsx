@@ -11,7 +11,7 @@ import {
   axeComponent,
   loadScss,
 } from '../../../core/jest/jestSetup'
-import { render } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 import Component from '../Input'
 import { format } from '../../number-format/NumberUtils'
 import FormRow from '../../form-row/FormRow'
@@ -48,42 +48,58 @@ describe('Input component', () => {
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
-  // then test the state management
-  const Comp = mount(
-    <Component {...props} value={null}>
-      {null}
-    </Component>
-  )
-
   it('has correct state after "focus" trigger', () => {
-    Comp.find('input').simulate('focus')
-    // Comp.find('input').prop('onFocus')() // call onFocus handler
+    render(
+      <Component {...props} value={null}>
+        {null}
+      </Component>
+    )
 
-    expect(Comp.find('.dnb-input').prop('data-input-state')).toBe('focus')
+    fireEvent.focus(document.querySelector('input'))
+
+    expect(
+      document.querySelector('.dnb-input').getAttribute('data-input-state')
+    ).toBe('focus')
   })
 
   it('has correct state after "change" trigger', () => {
-    expect(Comp.find('.dnb-input').prop('data-has-content')).toBe('false')
+    render(
+      <Component {...props} value={null}>
+        {null}
+      </Component>
+    )
+
+    expect(
+      document.querySelector('.dnb-input').getAttribute('data-has-content')
+    ).toBe('false')
 
     const newValue = 'new value'
-    Comp.find('input').simulate('change', { target: { value: newValue } })
+    fireEvent.change(document.querySelector('input'), {
+      target: { value: newValue },
+    })
 
-    expect(Comp.find('.dnb-input').prop('data-has-content')).toBe('true')
+    expect(
+      document.querySelector('.dnb-input').getAttribute('data-has-content')
+    ).toBe('true')
 
-    expect(Comp.state().value).toBe(newValue)
-    expect(Comp.find('input').instance().getAttribute('value')).toBe(
+    expect(document.querySelector('input').getAttribute('value')).toBe(
       newValue
     )
   })
 
   it('gets valid ref element', () => {
-    const ref = React.createRef()
-    const Comp = mount(<Component {...props} inner_ref={ref} />)
+    let ref: React.RefObject<HTMLInputElement>
 
-    expect(Comp.instance()._ref.current).toBe(ref.current)
-    expect(
-      Comp.instance()._ref.current instanceof window.HTMLInputElement
-    ).toBe(true)
+    function MockComponent() {
+      ref = React.useRef()
+      return <Component {...props} inner_ref={ref} />
+    }
+
+    render(<MockComponent />)
+
+    expect(ref.current instanceof HTMLInputElement).toBe(true)
+    expect(ref.current.id).toBe(props.id)
+    expect(ref.current.tagName).toBe('INPUT')
   })
 
   it('value should be controllable from outside', () => {
@@ -100,24 +116,24 @@ describe('Input component', () => {
       )
     }
 
-    const Comp = mount(<Controlled />)
+    render(<Controlled />)
 
-    expect(Comp.find('input').instance().getAttribute('value')).toBe(
+    expect(document.querySelector('input').getAttribute('value')).toBe(
       format(initialValue)
     )
 
     const newValue = '12345678'
-    Comp.find('input').simulate('change', {
+    fireEvent.change(document.querySelector('input'), {
       target: { value: newValue },
     })
 
-    expect(Comp.find('input').instance().getAttribute('value')).toBe(
+    expect(document.querySelector('input').getAttribute('value')).toBe(
       format(newValue)
     )
   })
 
   it('value can be manipulated during on_change', () => {
-    const Comp = mount(
+    render(
       <Component
         on_change={({ value }) => {
           return String(value).toUpperCase()
@@ -126,17 +142,17 @@ describe('Input component', () => {
     )
 
     const newValue = 'new value'
-    Comp.find('input').simulate('change', {
+    fireEvent.change(document.querySelector('input'), {
       target: { value: newValue },
     })
 
-    expect(Comp.find('input').instance().getAttribute('value')).toBe(
+    expect(document.querySelector('input').getAttribute('value')).toBe(
       'NEW VALUE'
     )
   })
 
   it('value will not change when returning false on_change', () => {
-    const Comp = mount(
+    render(
       <Component
         on_change={() => {
           return false
@@ -145,11 +161,11 @@ describe('Input component', () => {
     )
 
     const newValue = 'new value'
-    Comp.find('input').simulate('change', {
+    fireEvent.change(document.querySelector('input'), {
       target: { value: newValue },
     })
 
-    expect(Comp.find('input').instance().getAttribute('value')).toBe('')
+    expect(document.querySelector('input').getAttribute('value')).toBe('')
   })
 
   it('events gets emmited correctly: "on_change" and "onKeyDown"', () => {
@@ -160,7 +176,7 @@ describe('Input component', () => {
     const on_change = jest.fn()
     const onKeyDown = jest.fn() // additional native event test
 
-    const Comp = mount(
+    render(
       <Component
         {...props}
         value={initValue}
@@ -169,65 +185,75 @@ describe('Input component', () => {
       />
     )
 
-    expect(Comp.state().value).toBe(initValue)
+    expect(document.querySelector('input').value).toBe(initValue)
 
-    Comp.find('input').simulate('change', {
+    fireEvent.change(document.querySelector('input'), {
       target: { value: newValue },
     })
     expect(on_change.mock.calls.length).toBe(1)
-    expect(Comp.find('input').instance().value).toBe(newValue)
+    expect(document.querySelector('input').value).toBe(newValue)
 
-    Comp.find('input').simulate('change', {
+    fireEvent.change(document.querySelector('input'), {
       target: { value: emptyValue },
     })
     expect(on_change.mock.calls.length).toBe(2)
-    expect(Comp.state().value).toBe(emptyValue)
+    expect(document.querySelector('input').value).toBe('')
 
     // additional native event test
-    Comp.find('input').simulate('keydown', { key: 'Space', keyCode: 84 }) // space
+    fireEvent.keyDown(document.querySelector('input'), {
+      key: 'Space',
+      keyCode: 84, // space
+    })
     expect(onKeyDown.mock.calls.length).toBe(1)
   })
 
   // make sure getDerivedStateFromProps works
   it('has correct state after changing "value" prop (set by getDerivedStateFromProps)', () => {
+    const { rerender } = render(
+      <Component {...props} value={null}>
+        {null}
+      </Component>
+    )
+
     const initValue = 'new prop value'
     const emptyValue = null
 
-    Comp.setProps({
-      value: initValue,
-    })
-    expect(Comp.state().value).toBe(initValue)
+    rerender(
+      <Component {...props} value={initValue}>
+        {null}
+      </Component>
+    )
+    expect(document.querySelector('input').value).toBe(initValue)
 
-    Comp.setProps({ value: emptyValue })
-    expect(Comp.state().value).toBe(emptyValue)
-
-    // get dom node
-    // console.log('domNode', Comp.find('input').getDOMNode().value)
+    rerender(
+      <Component {...props} value={emptyValue}>
+        {null}
+      </Component>
+    )
+    expect(document.querySelector('input').value).toBe('')
   })
 
   it('has correct state after setting "value" prop using placeholder (set by getDerivedStateFromProps)', () => {
-    const Comp = mount(<Component placeholder="Placeholder" />)
+    const { rerender } = render(<Component placeholder="Placeholder" />)
 
     const newValue = 'new value'
     const emptyValue = null
     const zeroValue = 0
 
-    Comp.setProps({
-      value: newValue,
-    })
-    expect(Comp.state().value).toBe(newValue)
+    rerender(<Component placeholder="Placeholder" value={newValue} />)
+    expect(document.querySelector('input').value).toBe(newValue)
 
-    Comp.setProps({ value: emptyValue })
-    expect(Comp.state().value).toBe(emptyValue)
+    rerender(<Component placeholder="Placeholder" value={emptyValue} />)
+    expect(document.querySelector('input').value).toBe('')
 
-    Comp.setProps({ value: zeroValue })
-    expect(Comp.find('input').instance().getAttribute('value')).toBe(
+    rerender(<Component placeholder="Placeholder" value={zeroValue} />)
+    expect(document.querySelector('input').getAttribute('value')).toBe(
       String(zeroValue)
     )
   })
 
   it('uses aria-placeholder and label for when placeholder is set', async () => {
-    const Comp = mount(
+    const { rerender } = render(
       <Component
         id="unique"
         placeholder="Placeholder-text"
@@ -235,52 +261,54 @@ describe('Input component', () => {
       />
     )
 
-    expect(await axeComponent(Comp)).toHaveNoViolations()
-
-    expect(Comp.find('label').instance().getAttribute('for')).toContain(
+    expect(document.querySelector('label').getAttribute('for')).toContain(
       'unique'
     )
     expect(
-      Comp.find('input').instance().getAttribute('aria-placeholder')
+      document.querySelector('input').getAttribute('aria-placeholder')
     ).toContain('Placeholder-text')
 
-    Comp.setProps({
-      label: undefined,
-    })
+    rerender(
+      <Component
+        id="unique"
+        placeholder="Placeholder-text"
+        label={undefined}
+      />
+    )
 
-    expect(Comp.exists('label')).toBe(false)
+    expect(document.querySelector('label')).toBeFalsy()
     expect(
-      Comp.find('input').instance().getAttribute('aria-placeholder')
+      document.querySelector('input').getAttribute('aria-placeholder')
     ).toContain('Placeholder-text')
     expect(
-      Comp.find('input').instance().hasAttribute('aria-labelledby')
+      document.querySelector('input').hasAttribute('aria-labelledby')
     ).toBe(false)
 
-    Comp.setProps({
-      placeholder: undefined,
-    })
+    rerender(
+      <Component id="unique" placeholder={undefined} label={undefined} />
+    )
 
-    expect(Comp.exists('label')).toBe(false)
+    expect(document.querySelector('label')).toBeFalsy()
     expect(
-      Comp.find('input').instance().hasAttribute('aria-placeholder')
+      document.querySelector('input').hasAttribute('aria-placeholder')
     ).toBe(false)
     expect(
-      Comp.find('input').instance().hasAttribute('aria-labelledby')
+      document.querySelector('input').hasAttribute('aria-labelledby')
     ).toBe(false)
   })
 
   it('has correct medium input size', () => {
-    const Comp = mount(<Component size="medium" />)
-    expect(Comp.find('.dnb-input--medium').exists()).toBe(true)
+    render(<Component size="medium" />)
+    expect(document.querySelector('.dnb-input--medium')).toBeTruthy()
   })
 
   it('will select the whole input when selectall is set', async () => {
-    const Comp = mount(<Component selectall={true} value="1234" />)
+    render(<Component selectall={true} value="1234" />)
 
     const select = jest.fn()
-    Comp.find('input').instance().select = select
+    document.querySelector('input').select = select
 
-    Comp.find('input').simulate('focus')
+    fireEvent.focus(document.querySelector('input'))
 
     expect(select).toBeCalledTimes(0)
 
@@ -290,45 +318,53 @@ describe('Input component', () => {
   })
 
   it('uses children as the value', () => {
-    const Comp = mount(<Component>children</Component>)
-    expect(Comp.find('input').instance().getAttribute('value')).toBe(
+    render(<Component>children</Component>)
+    expect(document.querySelector('input').getAttribute('value')).toBe(
       'children'
     )
   })
 
   it('has correct size attribute (chars length) on input by int number', () => {
-    const Comp = mount(<Component size={2} />)
-    expect(Comp.find('input').instance().getAttribute('size')).toBe('2')
+    render(<Component size={2} />)
+    expect(document.querySelector('input').getAttribute('size')).toBe('2')
   })
 
   it('has correct size attribute (chars length) on input by using input_attributes', () => {
-    const Comp = mount(<Component input_attributes={{ size: 2 }} />)
-    expect(Comp.find('input').instance().getAttribute('size')).toBe('2')
+    render(<Component input_attributes={{ size: 2 }} />)
+    expect(document.querySelector('input').getAttribute('size')).toBe('2')
   })
 
   it('has correct size attribute (chars length) on input by using input_attributes and a JSON object', () => {
-    const Comp = mount(<Component input_attributes='{"size": "2"}' />)
-    expect(Comp.find('input').instance().getAttribute('size')).toBe('2')
+    render(<Component input_attributes='{"size": "2"}' />)
+    expect(document.querySelector('input').getAttribute('size')).toBe('2')
   })
 
   it('has to to have a prop value like value', () => {
+    const { rerender } = render(
+      <Component {...props} value={null}>
+        {null}
+      </Component>
+    )
+
     const value = 'new value'
-    Comp.setProps({
-      value,
-    })
-    expect(Comp.find('input').props().value).toBe(value)
+    rerender(
+      <Component {...props} value={value}>
+        {null}
+      </Component>
+    )
+    expect(document.querySelector('input').value).toBe(value)
   })
 
   it('has to to have a label value as defined in the prop', () => {
-    const Comp = mount(<Component {...props} label="label" />)
-    expect(Comp.find('label').text()).toBe('label')
+    render(<Component {...props} label="label" />)
+    expect(document.querySelector('label').textContent).toBe('label')
   })
 
   it('has to to have a status value as defined in the prop', () => {
-    const Comp = mount(
-      <Component {...props} status="status" status_state="error" />
-    )
-    expect(Comp.find('.dnb-form-status__text').text()).toBe('status')
+    render(<Component {...props} status="status" status_state="error" />)
+    expect(
+      document.querySelector('.dnb-form-status__text').textContent
+    ).toBe('status')
   })
 
   it('shows form-status with correct classes', () => {
@@ -353,17 +389,15 @@ describe('Input component', () => {
   })
 
   it('has a disabled attribute, once we set disabled to true', () => {
-    const Comp = mount(<Component />)
-    Comp.setProps({
-      disabled: true,
-    })
-    expect(Comp.find('input').instance().hasAttribute('disabled')).toBe(
+    const { rerender } = render(<Component />)
+    rerender(<Component disabled={true} />)
+    expect(document.querySelector('input').hasAttribute('disabled')).toBe(
       true
     )
   })
 
   it('has a submit button on prop type="search"', () => {
-    const Comp = mount(
+    render(
       <Component
         {...props}
         type="search"
@@ -374,24 +408,26 @@ describe('Input component', () => {
       </Component>
     )
 
-    expect(Comp.find('.dnb-input__input').prop('aria-describedby')).toBe(
-      'id input-submit-button'
-    )
-
-    const Button = Comp.find('InputSubmitButton').find('button')
-    expect(Button.exists()).toBe(true)
-
-    Button.simulate('focus')
     expect(
-      Comp.find('InputSubmitButton')
-        .find('.dnb-input__submit-button')
-        .prop('data-input-state')
+      document
+        .querySelector('.dnb-input__input')
+        .getAttribute('aria-describedby')
+    ).toBe('id input-submit-button')
+
+    const Button = document.querySelector('button')
+    expect(Button).toBeTruthy()
+
+    fireEvent.focus(Button)
+    expect(
+      document
+        .querySelector('.dnb-input__submit-button')
+        .getAttribute('data-input-state')
     ).toBe('focus')
   })
 
   it('should call on_submit event handler', () => {
     const on_submit = jest.fn()
-    const Comp = mount(
+    render(
       <Component
         id="input-id"
         value="value"
@@ -400,11 +436,14 @@ describe('Input component', () => {
       />
     )
 
-    expect(Comp.find('input').instance().getAttribute('value')).toBe(
+    expect(document.querySelector('input').getAttribute('value')).toBe(
       'value'
     )
 
-    Comp.find('input').simulate('keydown', { key: 'Enter', keyCode: 13 }) // enter
+    fireEvent.keyDown(document.querySelector('input'), {
+      key: 'Enter',
+      keyCode: 13, // enter
+    })
     expect(on_submit).toHaveBeenCalledTimes(1)
     expect(on_submit.mock.calls[0][0].value).toBe('value')
   })
@@ -434,77 +473,82 @@ describe('Input component', () => {
 
 describe('Input with clear button', () => {
   it('should have the button', () => {
-    const Comp = mount(<Component clear={true} />)
-    expect(Comp.exists('.dnb-input--clear')).toBe(true)
+    render(<Component clear={true} />)
+    expect(document.querySelector('.dnb-input--clear')).toBeTruthy()
   })
 
   it('should clear the value on press', () => {
-    const Comp = mount(
-      <Component id="input-id" clear={true} value="value" />
-    )
+    render(<Component id="input-id" clear={true} value="value" />)
 
-    expect(Comp.find('input').instance().getAttribute('value')).toBe(
+    expect(document.querySelector('input').getAttribute('value')).toBe(
       'value'
     )
 
-    const clearButton = Comp.find('button#input-id-clear-button')
-    clearButton.simulate('click')
+    const clearButton = document.querySelector(
+      'button#input-id-clear-button'
+    )
+    fireEvent.click(clearButton)
 
-    expect(Comp.find('input').instance().getAttribute('value')).toBe('')
+    expect(document.querySelector('input').getAttribute('value')).toBe('')
   })
 
   it('should have a disabled clear button when no value is given', () => {
-    const Comp = mount(
-      <Component id="input-id" clear={true} value="value" />
-    )
+    render(<Component id="input-id" clear={true} value="value" />)
 
-    expect(Comp.find('input').instance().getAttribute('value')).toBe(
+    expect(document.querySelector('input').getAttribute('value')).toBe(
       'value'
     )
 
-    const clearButton = Comp.find('button#input-id-clear-button')
-    clearButton.simulate('click')
+    const clearButton = document.querySelector(
+      'button#input-id-clear-button'
+    )
+    fireEvent.click(clearButton)
 
-    expect(Comp.find('input').instance().getAttribute('value')).toBe('')
-    expect(clearButton.instance().getAttribute('aria-hidden')).toBe('true')
-    expect(clearButton.instance().hasAttribute('disabled')).toBe(true)
+    expect(document.querySelector('input').getAttribute('value')).toBe('')
+    expect(clearButton.getAttribute('aria-hidden')).toBe('true')
+    expect(clearButton.hasAttribute('disabled')).toBe(true)
   })
 
   it('should have a disabled clear button when initially empty value is given', () => {
-    const Comp = mount(<Component id="input-id" clear={true} />)
+    render(<Component id="input-id" clear={true} />)
 
-    expect(Comp.find('input').instance().getAttribute('value')).toBe('')
+    expect(document.querySelector('input').getAttribute('value')).toBe('')
 
-    const clearButton = Comp.find('button#input-id-clear-button')
+    const clearButton = document.querySelector(
+      'button#input-id-clear-button'
+    )
 
-    expect(Comp.find('input').instance().getAttribute('value')).toBe('')
-    expect(clearButton.instance().getAttribute('aria-hidden')).toBe('true')
-    expect(clearButton.instance().hasAttribute('disabled')).toBe(true)
+    expect(document.querySelector('input').getAttribute('value')).toBe('')
+    expect(clearButton.getAttribute('aria-hidden')).toBe('true')
+    expect(clearButton.hasAttribute('disabled')).toBe(true)
   })
 
   it('should clear the value on escape key press', () => {
-    const Comp = mount(<Component clear={true} value="value" />)
+    render(<Component clear={true} value="value" />)
 
-    expect(Comp.find('input').instance().getAttribute('value')).toBe(
+    expect(document.querySelector('input').getAttribute('value')).toBe(
       'value'
     )
 
-    Comp.find('input').simulate('keydown', { key: 'Escape', keyCode: 27 }) // escape
+    fireEvent.keyDown(document.querySelector('input'), {
+      key: 'Escape',
+      keyCode: 27, // escape
+    })
 
-    expect(Comp.find('input').instance().getAttribute('value')).toBe('')
+    expect(document.querySelector('input').getAttribute('value')).toBe('')
   })
 
   it('should set focus on input when clear button is pressed', () => {
-    const Comp = mount(
-      <Component id="input-id" clear={true} value="value" />
+    render(<Component id="input-id" clear={true} value="value" />)
+
+    const clearButton = document.querySelector(
+      'button#input-id-clear-button'
     )
+    fireEvent.click(clearButton)
 
-    const clearButton = Comp.find('button#input-id-clear-button')
-    clearButton.simulate('click')
-
-    Comp.find('input').simulate('focus')
+    fireEvent.focus(document.querySelector('input'))
     expect(
-      Comp.find('.dnb-input').instance().getAttribute('data-input-state')
+      document.querySelector('.dnb-input').getAttribute('data-input-state')
     ).toBe('focus')
   })
 
@@ -547,22 +591,24 @@ describe('Input with clear button', () => {
   })
 
   it('should support icon', () => {
-    const Comp = mount(<Component clear={true} icon="bell" />)
-    expect(Comp.find('.dnb-input__icon').exists('svg')).toBe(true)
-    expect(Comp.find('.dnb-icon--default').exists()).toBe(true)
-    expect(Comp.find('.dnb-input--icon-position-right').exists()).toBe(
-      false
-    )
+    const { rerender } = render(<Component clear={true} icon="bell" />)
+    expect(
+      document.querySelector('.dnb-input__icon').querySelector('svg')
+    ).toBeTruthy()
+    expect(document.querySelector('.dnb-icon--default')).toBeTruthy()
+    expect(
+      document.querySelector('.dnb-input--icon-position-right')
+    ).toBeFalsy()
 
-    Comp.setProps({ icon_position: 'right' })
-
-    expect(Comp.find('.dnb-input--icon-position-right').exists()).toBe(
-      true
-    )
+    rerender(<Component clear={true} icon="bell" icon_position="right" />)
 
     expect(
-      Comp.find('.dnb-input')
-        .instance()
+      document.querySelector('.dnb-input--icon-position-right')
+    ).toBeTruthy()
+
+    expect(
+      document
+        .querySelector('.dnb-input')
         .querySelector('.dnb-input__input ~ .dnb-input__icon')
         .querySelector('svg')
     ).toBeTruthy()
@@ -570,11 +616,11 @@ describe('Input with clear button', () => {
 
   it('should warn about clear button and right icon position', () => {
     global.console.log = jest.fn()
-    const Comp = mount(
-      <Component clear={true} icon="bell" icon_position="right" />
-    )
-    expect(Comp.exists('.dnb-input--clear')).toBe(false)
-    expect(Comp.find('.dnb-input__icon').exists('svg')).toBe(true)
+    render(<Component clear={true} icon="bell" icon_position="right" />)
+    expect(document.querySelector('.dnb-input--clear')).toBeFalsy()
+    expect(
+      document.querySelector('.dnb-input__icon').querySelector('svg')
+    ).toBeTruthy()
     expect(global.console.log).toHaveBeenCalledTimes(1)
     expect(global.console.log).toHaveBeenCalledWith(
       expect.stringContaining('Eufemia'),
@@ -584,20 +630,18 @@ describe('Input with clear button', () => {
 
   it('should render inner_element', () => {
     const CustomComponent = () => <div>custom element</div>
-    const Comp = mount(
-      <Component inner_element={<CustomComponent />} icon="bell" />
-    )
+    render(<Component inner_element={<CustomComponent />} icon="bell" />)
 
     expect(
-      Comp.find('.dnb-input')
-        .instance()
+      document
+        .querySelector('.dnb-input')
         .querySelector('.dnb-input__input ~ .dnb-input__inner__element')
         .textContent
     ).toBe('custom element')
 
     expect(
-      Comp.find('.dnb-input')
-        .instance()
+      document
+        .querySelector('.dnb-input')
         .querySelector('.dnb-input__inner__element ~ .dnb-input__icon')
         .querySelector('svg')
     ).toBeTruthy()
