@@ -1,6 +1,6 @@
 @use '../anchor-mixins.scss';
 
-.dnb-anchor {
+@mixin anchorStyle() {
   color: var(--color-sea-green);
 
   &:hover,
@@ -21,22 +21,36 @@
   }
 }
 
-.dnb-anchor--hover {
-  color: var(--color-sea-green);
-  @include anchor-mixins.anchorBackground(var(--color-mint-green-50));
-}
+$useClasses: true !default;
+@if $useClasses {
+  .dnb-anchor {
+    @include anchorStyle();
+  }
 
-.dnb-anchor--active {
-  color: var(--color-mint-green);
-  @include anchor-mixins.anchorBackground(var(--color-emerald-green));
-}
-
-.dnb-anchor--focus {
-  &:not(:active) {
+  .dnb-anchor--hover {
     color: var(--color-sea-green);
+    @include anchor-mixins.anchorBackground(var(--color-mint-green-50));
+  }
+
+  .dnb-anchor--active {
+    color: var(--color-mint-green);
+    @include anchor-mixins.anchorBackground(var(--color-emerald-green));
+  }
+
+  .dnb-anchor--focus {
+    &:not(:active) {
+      color: var(--color-sea-green);
+    }
+  }
+
+  .dnb-anchor--contrast {
+    @include anchor-mixins.useAnchorContrastStyle();
   }
 }
 
-.dnb-anchor--contrast {
-  @include anchor-mixins.useAnchorContrastStyle();
+@mixin anchorThemeTag() {
+  a {
+    --theme-color-black-80: var(--color-sea-green);
+    @include anchorStyle();
+  }
 }
