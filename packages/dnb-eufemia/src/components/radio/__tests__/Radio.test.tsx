@@ -38,23 +38,25 @@ describe('Radio component', () => {
   })
 
   it('has correct state after "change" trigger', () => {
-    const Comp = mount(<Component {...props} />)
+    const { rerender } = render(<Component {...props} />)
     // default checked value has to be false
-    expect(Comp.find('input').instance().checked).toBe(false)
+    expect(document.querySelector('input').checked).toBe(false)
 
-    Comp.find('input').simulate('change') // we could send inn the event data structure like this: , { target: { checked: true } }
-    expect(Comp.find('input').instance().checked).toBe(true)
+    fireEvent.click(document.querySelector('input'))
+    expect(document.querySelector('input').checked).toBe(true)
 
-    Comp.find('input').simulate('change')
-    expect(Comp.find('input').instance().checked).toBe(false)
+    fireEvent.click(document.querySelector('input'))
+    expect(document.querySelector('input').checked).toBe(false)
 
     // also check if getDerivedStateFromProps sets the state as expected
-    Comp.setProps({ checked: true })
-    expect(Comp.find('input').instance().checked).toBe(true)
+    rerender(<Component {...props} checked />)
+    expect(document.querySelector('input').checked).toBe(true)
 
     const value = 'new value'
-    Comp.setProps({ value })
-    expect(Comp.find('input').props().value).toBe(value)
+    rerender(<Component {...props} checked value={value} />)
+    expect(document.querySelector('input').getAttribute('value')).toBe(
+      value
+    )
   })
 
   it('has "on_change" event which will trigger on a input change', () => {
