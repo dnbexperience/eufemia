@@ -344,10 +344,11 @@ The Anchor was moved from `/elements` to `/components`.
 
 ### [Modal](/uilib/components/modal), [Dialog](/uilib/components/dialog) and [Drawer](/uilib/components/drawer)
 
-1.`closeButtonAttributes` of Modal, Dialog, and Drawer is deprecated and no longer supported.
+1. `closeButtonAttributes` of Modal, Dialog, and Drawer is deprecated and no longer supported.
 
 2. Modal's `mode` property is now deprecated and removed.
-   `<Modal />` now behaves as `<Modal mode="custom" />` did previously.
+   In earlier versions, the `mode` property defaulted to `dialog`. So if you've used `<Modal />` without the `mode` property, which would default to `mode="dialog"`, please convert from `<Modal />` to `<Dialog />` as of v10.
+   `<Modal />` now(as of v10) behaves as `<Modal mode="custom" />` did in previous versions of eufemia.
 
    When you convert from `<Modal mode="custom" />` simply change to `<Modal />`.
 
