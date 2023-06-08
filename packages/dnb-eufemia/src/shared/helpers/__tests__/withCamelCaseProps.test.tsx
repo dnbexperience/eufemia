@@ -7,7 +7,7 @@ import {
   classWithCamelCaseProps,
   IncludeCamelCase,
 } from '../withCamelCaseProps'
-import { mount, attachToBody, toJson } from '../../../core/jest/jestSetup'
+import { mount, toJson } from '../../../core/jest/jestSetup'
 
 type CustomType = {
   foo_bar: number
@@ -407,35 +407,17 @@ describe('classWithCamelCaseProps', () => {
           `)
   })
 
-  it('should setState with enzyme', () => {
+  it('should set props', () => {
     const Component = classWithCamelCaseProps(Original)
 
-    const Comp = mount(<Component />, { attachTo: attachToBody() })
-    Comp.find(Original).setState({
-      someState: false,
-    })
+    const { rerender } = render(<Component />)
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    rerender(<Component newProp="hello" />)
 
-    expect(Comp.find(Original).state().someState).toBe(false)
-    expect(Comp.find(Original).find('[data-testid="state"]').text()).toBe(
-      '{"someState":false}'
-    )
-
-    Comp.unmount()
-  })
-
-  it('should setProps with enzyme', () => {
-    const Component = classWithCamelCaseProps(Original)
-
-    const Comp = mount(<Component />, { attachTo: attachToBody() })
-    Comp.setProps({
-      newProp: 'hello',
-    })
-
-    expect(Comp.find(Original).find('[data-testid="props"]').text()).toBe(
-      '{"new_prop":"hello"}'
-    )
-
-    Comp.unmount()
+    expect(
+      document.querySelector('[data-testid="props"]').textContent
+    ).toBe('{"new_prop":"hello"}')
   })
 
   it('should not update prop object when props are unchanged', () => {
