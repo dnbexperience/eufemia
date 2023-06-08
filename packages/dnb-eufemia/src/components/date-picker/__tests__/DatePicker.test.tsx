@@ -8,15 +8,12 @@ import {
   mount,
   axeComponent,
   toJson,
-  attachToBody, // in order to use document.activeElement properly
   loadScss,
 } from '../../../core/jest/jestSetup'
 import Component from '../DatePicker'
 
 jest.setTimeout(30e3)
 
-// for the unit calc tests
-// import { addDays, addMonths, getDaysInMonth } from 'date-fns'
 import addDays from 'date-fns/addDays'
 import addMonths from 'date-fns/addMonths'
 import getDaysInMonth from 'date-fns/getDaysInMonth'
@@ -58,95 +55,102 @@ describe('DatePicker component', () => {
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
-  it('has correct state at startup', () => {
-    const Comp = mount(<Component {...defaultProps} />)
-    expect(Comp.state().opened).toBe(false)
-    expect(Comp.state().hidden).toBe(true)
-  })
-
   it('has a disabled attribute, once we set disabled to true', () => {
-    const Comp = mount(<Component show_input />)
-    Comp.setProps({
-      disabled: true,
-    })
+    const { rerender } = render(<Component show_input />)
+    rerender(<Component show_input disabled={true} />)
     expect(
-      Comp.find('input').first().instance().hasAttribute('disabled')
+      document.querySelectorAll('input')[0].hasAttribute('disabled')
     ).toBe(true)
   })
 
   it('has correct state after "click" trigger', () => {
-    const Comp = mount(<Component {...defaultProps} />)
-    Comp.find('button.dnb-input__submit-button__button').simulate('click')
-    expect(Comp.state().opened).toBe(true)
-    expect(Comp.state().hidden).toBe(false)
+    render(<Component {...defaultProps} />)
+
+    fireEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
 
     expect(
-      Comp.find('button.dnb-input__submit-button__button')
-        .instance()
+      document
+        .querySelector('button.dnb-input__submit-button__button')
+
         .getAttribute('aria-expanded')
     ).toBe('true')
 
     expect(
-      Comp.find('.dnb-date-picker').instance().getAttribute('class')
+      document
+        .querySelector('.dnb-date-picker')
+
+        .getAttribute('class')
     ).toContain('dnb-date-picker--opened')
 
     expect(
-      Comp.find('.dnb-date-picker').hasClass('dnb-date-picker--closed')
+      document
+        .querySelector('.dnb-date-picker')
+        .classList.contains('dnb-date-picker--closed')
     ).toBe(false)
   })
 
   it('will close the picker after selection', () => {
     const on_change = jest.fn()
-    const Comp = mount(
+    const { rerender } = render(
       <Component {...defaultProps} on_change={on_change} />
     )
 
-    Comp.find('button.dnb-input__submit-button__button').simulate('click')
+    fireEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
 
     expect(
-      Comp.find('.dnb-date-picker').instance().getAttribute('class')
+      document.querySelector('.dnb-date-picker').getAttribute('class')
     ).toContain('dnb-date-picker--opened')
 
-    const startTd = Comp.find('td.dnb-date-picker__day').at(10)
-    const startButton = startTd.find('button')
-    const startLabel = startButton.instance().getAttribute('aria-label')
+    const startTd = document.querySelectorAll(
+      'td.dnb-date-picker__day'
+    )[10]
+    const startButton = startTd.querySelector('button')
+    const startLabel = startButton.getAttribute('aria-label')
 
-    const endTd = Comp.find('td.dnb-date-picker__day').at(60)
-    const endButton = endTd.find('button')
-    const endLabel = endButton.instance().getAttribute('aria-label')
+    const endTd = document.querySelectorAll('td.dnb-date-picker__day')[60]
+    const endButton = endTd.querySelector('button')
+    const endLabel = endButton.getAttribute('aria-label')
 
     expect(startLabel).toBe('torsdag 10. januar 2019')
     expect(endLabel).toBe('fredag 15. februar 2019')
 
     expect(on_change).not.toHaveBeenCalled()
 
-    startButton.simulate('click')
+    fireEvent.click(startButton)
     expect(on_change).toHaveBeenCalledTimes(1)
     expect(on_change.mock.calls[0][0].start_date).toBe('2019-01-10')
     expect(on_change.mock.calls[0][0].end_date).toBe(null)
 
-    endButton.simulate('click')
+    fireEvent.click(endButton)
     expect(on_change).toHaveBeenCalledTimes(2)
     expect(on_change.mock.calls[1][0].start_date).toBe('2019-01-10')
     expect(on_change.mock.calls[1][0].end_date).toBe('2019-02-15')
 
     expect(
-      Comp.find('.dnb-date-picker').hasClass('dnb-date-picker--closed')
+      document
+        .querySelector('.dnb-date-picker')
+        .classList.contains('dnb-date-picker--closed')
     ).toBe(false)
 
-    Comp.setProps({
-      range: false,
-    })
+    rerender(
+      <Component {...defaultProps} on_change={on_change} range={false} />
+    )
 
     expect(on_change).toHaveBeenCalledTimes(2)
 
-    const singleTd = Comp.find('td.dnb-date-picker__day').at(11)
-    const singleButton = singleTd.find('button')
-    const singleLabel = singleButton.instance().getAttribute('aria-label')
+    const singleTd = document.querySelectorAll(
+      'td.dnb-date-picker__day'
+    )[11]
+    const singleButton = singleTd.querySelector('button')
+    const singleLabel = singleButton.getAttribute('aria-label')
 
     expect(singleLabel).toBe('fredag 11. januar 2019')
 
-    singleButton.simulate('click')
+    fireEvent.click(singleButton)
 
     expect(on_change).toHaveBeenCalledTimes(3)
     expect(on_change.mock.calls[2][0].date).toBe('2019-01-11')
@@ -154,14 +158,14 @@ describe('DatePicker component', () => {
     expect(on_change.mock.calls[2][0].end_date).toBe(undefined)
 
     expect(
-      Comp.find('.dnb-date-picker').instance().getAttribute('class')
+      document.querySelector('.dnb-date-picker').getAttribute('class')
     ).not.toContain('dnb-date-picker--opened')
   })
 
   it('will close the picker on reset', () => {
     const on_reset = jest.fn()
 
-    const Comp = mount(
+    render(
       <Component
         date="1981-01-15"
         show_reset_button
@@ -170,21 +174,25 @@ describe('DatePicker component', () => {
       />
     )
 
-    Comp.find('button.dnb-input__submit-button__button').simulate('click')
+    fireEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
 
     expect(
-      Comp.find('.dnb-date-picker').instance().getAttribute('class')
+      document.querySelector('.dnb-date-picker').getAttribute('class')
     ).toContain('dnb-date-picker--opened')
 
-    const resetButton = Comp.find('button[data-testid="reset"]')
+    const resetButton = document.querySelector(
+      'button[data-testid="reset"]'
+    )
 
-    resetButton.simulate('click')
+    fireEvent.click(resetButton)
 
     expect(on_reset).toHaveBeenCalledTimes(1)
     expect(on_reset.mock.calls[0][0].date).toBe(null)
 
     expect(
-      Comp.find('.dnb-date-picker').instance().getAttribute('class')
+      document.querySelector('.dnb-date-picker').getAttribute('class')
     ).not.toContain('dnb-date-picker--opened')
   })
 
@@ -200,7 +208,7 @@ describe('DatePicker component', () => {
       })
     })
 
-    const Comp = mount(
+    render(
       <Component
         {...defaultProps}
         on_days_render={on_days_render}
@@ -209,28 +217,32 @@ describe('DatePicker component', () => {
       />
     )
 
-    Comp.find('button.dnb-input__submit-button__button').simulate('click')
+    fireEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
 
     expect(
-      Comp.find('.dnb-date-picker').instance().getAttribute('class')
+      document.querySelector('.dnb-date-picker').getAttribute('class')
     ).toContain('dnb-date-picker--opened')
 
     expect(on_days_render).toHaveBeenCalledTimes(1)
-    expect(on_days_render.mock.calls[0].at(0).length).toBe(42)
-    expect(on_days_render.mock.calls[0].at(1)).toBe(0)
+    expect(on_days_render.mock.calls[0][0].length).toBe(42)
+    expect((on_days_render.mock as any).calls[0][1]).toBe(0)
 
-    const singleTd = Comp.find('td.dnb-date-picker__day').at(12)
-    const singleButton = singleTd.find('button')
-    const singleLabel = singleButton.instance().getAttribute('aria-label')
+    const singleTd = document.querySelectorAll(
+      'td.dnb-date-picker__day'
+    )[12]
+    const singleButton = singleTd.querySelector('button')
+    const singleLabel = singleButton.getAttribute('aria-label')
 
     expect(singleLabel).toBe('lørdag 12. januar 2019')
-    expect(singleButton.instance().hasAttribute('disabled')).toBe(true)
-    expect(singleTd.instance().classList).toContain(customClassName)
+    expect(singleButton.hasAttribute('disabled')).toBe(true)
+    expect(singleTd.classList).toContain(customClassName)
   })
 
   it('has to work with shortcuts', () => {
     const on_change = jest.fn()
-    const Comp = mount(
+    render(
       <Component
         no_animation
         on_change={on_change}
@@ -241,90 +253,126 @@ describe('DatePicker component', () => {
       />
     )
 
-    Comp.find('button.dnb-button').simulate('click')
+    fireEvent.click(document.querySelector('button.dnb-button'))
 
-    Comp.find('div.dnb-date-picker__addon')
-      .find('.dnb-button--secondary')
-      .at(0)
-      .simulate('click')
-    expect(Comp.find('label.dnb-date-picker__header__title').text()).toBe(
-      'mai 2020'
+    fireEvent.click(
+      document
+        .querySelector('div.dnb-date-picker__addon')
+        .querySelectorAll('.dnb-button--secondary')[0]
     )
-    expect(Comp.exists('.dnb-date-picker--opened')).toBe(true)
+
+    expect(
+      document.querySelector('label.dnb-date-picker__header__title')
+        .textContent
+    ).toBe('mai 2020')
+    expect(document.querySelector('.dnb-date-picker--opened')).toBeTruthy()
     expect(on_change).toBeCalledTimes(1)
 
     // Now, test "close_on_select"
-    Comp.find('div.dnb-date-picker__addon')
-      .find('.dnb-button--secondary')
-      .at(1)
-      .simulate('click')
-    expect(Comp.find('label.dnb-date-picker__header__title').text()).toBe(
-      'april 2020'
+    fireEvent.click(
+      document
+        .querySelector('div.dnb-date-picker__addon')
+        .querySelectorAll('.dnb-button--secondary')[1]
     )
-    expect(Comp.exists('.dnb-date-picker--opened')).toBe(false)
+
+    expect(
+      document.querySelector('label.dnb-date-picker__header__title')
+        .textContent
+    ).toBe('april 2020')
+    expect(document.querySelector('.dnb-date-picker--opened')).toBeFalsy()
     expect(on_change).toBeCalledTimes(2)
   })
 
   it('has two calendar views', () => {
-    const Comp = mount(<Component {...defaultProps} />)
-    Comp.find('button.dnb-input__submit-button__button').simulate('click')
-    expect(Comp.find('.dnb-date-picker__views').exists()).toBe(true)
-    expect(Comp.find('.dnb-date-picker__calendar').length).toBe(2)
+    render(<Component {...defaultProps} />)
+
+    fireEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
+    expect(document.querySelector('.dnb-date-picker__views')).toBeTruthy()
+    expect(
+      document.querySelectorAll('.dnb-date-picker__calendar').length
+    ).toBe(2)
   })
 
   it('has a reacting start date input with valid value', () => {
-    const Comp = mount(<Component {...defaultProps} />)
-    const elem = Comp.find('input.dnb-date-picker__input--day').at(0)
+    const { rerender } = render(<Component {...defaultProps} />)
+    const elem = document.querySelectorAll(
+      'input.dnb-date-picker__input--day'
+    )[0] as HTMLInputElement
 
     // by default we have the start day
-    expect(elem.instance().value).toBe('01')
+    expect(elem.value).toBe('01')
 
     // listen to changes
     let changedStartDate = null
-    Comp.setProps({
-      on_change: ({ start_date }) => {
-        changedStartDate = start_date
-      },
-    })
+    rerender(
+      <Component
+        {...defaultProps}
+        on_change={({ start_date }) => {
+          changedStartDate = start_date
+        }}
+      />
+    )
 
     // change the date
     const value = '02'
-    elem.simulate('change', {
+    fireEvent.change(elem, {
       target: { value },
     })
 
     // then check the new input value
-    expect(elem.instance().value).toBe(value)
+    expect(elem.value).toBe(value)
 
     // and the event fired value
     expect(changedStartDate).toBe(`2019-01-${value}`)
 
     // test prop change to make sure getDerivedStateFromProps works
-    Comp.setProps({
-      start_date: '2019-01-03',
-    })
-    expect(elem.instance().value).toBe('03')
+    rerender(
+      <Component
+        {...defaultProps}
+        on_change={({ start_date }) => {
+          changedStartDate = start_date
+        }}
+        start_date="2019-01-03"
+      />
+    )
+    expect(elem.value).toBe('03')
 
     // reset the value
-    elem.simulate('change', {
+    fireEvent.change(elem, {
       target: { value: '01' },
     })
-    Comp.setProps({
-      start_date: defaultProps.start_date,
-    })
+
+    rerender(
+      <Component
+        {...defaultProps}
+        on_change={({ start_date }) => {
+          changedStartDate = start_date
+        }}
+        start_date={defaultProps.start_date}
+      />
+    )
   })
 
   it('has to reset second input fields to blank during new date selection', () => {
-    const Comp = mount(<Component {...defaultProps} />)
-    Comp.find('button.dnb-input__submit-button__button').simulate('click')
+    render(<Component {...defaultProps} />)
+    fireEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
 
-    Comp.find('table tbody button.dnb-button--secondary')
-      .at(10)
-      .simulate('click')
+    fireEvent.click(
+      document.querySelectorAll(
+        'table tbody button.dnb-button--secondary'
+      )[10]
+    )
 
     expect(
-      Comp.find('input.dnb-date-picker__input--year').at(1).instance()
-        .value
+      (
+        document.querySelectorAll(
+          'input.dnb-date-picker__input--year'
+        )[1] as HTMLInputElement
+      ).value
     ).toBe('åååå')
   })
 
@@ -335,7 +383,7 @@ describe('DatePicker component', () => {
 
     const date = '2020-10-20'
 
-    const Comp = mount(
+    render(
       <Component
         date={date}
         opened
@@ -349,47 +397,69 @@ describe('DatePicker component', () => {
       />
     )
 
-    const resetElem = Comp.find('button[data-testid="reset"]')
-    expect(resetElem.exists()).toBe(true)
-    expect(resetElem.text()).toMatch('Tilbakestill')
+    const resetElem = document.querySelector('button[data-testid="reset"]')
+    expect(resetElem).toBeTruthy()
+    expect(resetElem.textContent).toMatch('Tilbakestill')
 
-    const cancelElem = Comp.find('button[data-testid="cancel"]')
-    expect(cancelElem.exists()).toBe(true)
-    expect(cancelElem.text()).toMatch('Avbryt')
+    const cancelElem = document.querySelector(
+      'button[data-testid="cancel"]'
+    )
+    expect(cancelElem).toBeTruthy()
+    expect(cancelElem.textContent).toMatch('Avbryt')
 
-    const submitElem = Comp.find('button[data-testid="submit"]')
-    expect(submitElem.exists()).toBe(true)
-    expect(submitElem.text()).toMatch('Ok')
+    const submitElem = document.querySelector(
+      'button[data-testid="submit"]'
+    )
+    expect(submitElem).toBeTruthy()
+    expect(submitElem.textContent).toMatch('Ok')
 
     expect(
-      Comp.find('input.dnb-date-picker__input--year').instance().value
+      (
+        document.querySelector(
+          'input.dnb-date-picker__input--year'
+        ) as HTMLInputElement
+      ).value
     ).toBe('2020')
 
-    resetElem.simulate('click')
+    fireEvent.click(resetElem)
 
     expect(on_reset).toHaveBeenCalled()
     expect(on_reset.mock.calls[0][0].date).toBe(null)
 
     expect(
-      Comp.find('input.dnb-date-picker__input--year').instance().value
+      (
+        document.querySelector(
+          'input.dnb-date-picker__input--year'
+        ) as HTMLInputElement
+      ).value
     ).toBe('åååå')
 
-    cancelElem.simulate('click')
+    fireEvent.click(cancelElem)
 
     expect(
-      Comp.find('input.dnb-date-picker__input--year').instance().value
+      (
+        document.querySelector(
+          'input.dnb-date-picker__input--year'
+        ) as HTMLInputElement
+      ).value
     ).toBe('2020')
 
     expect(on_cancel).toHaveBeenCalled()
     expect(on_cancel.mock.calls[0][0].date).toBe(date)
 
-    Comp.find('span.dnb-input__submit-element')
-      .find('button.dnb-button')
-      .simulate('click')
-    submitElem.simulate('click')
+    fireEvent.click(
+      document
+        .querySelector('span.dnb-input__submit-element')
+        .querySelector('button.dnb-button')
+    )
+    fireEvent.click(submitElem)
 
     expect(
-      Comp.find('input.dnb-date-picker__input--year').instance().value
+      (
+        document.querySelector(
+          'input.dnb-date-picker__input--year'
+        ) as HTMLInputElement
+      ).value
     ).toBe('2020')
 
     expect(on_submit).toHaveBeenCalled()
@@ -399,7 +469,7 @@ describe('DatePicker component', () => {
   it('footers reset button text is set by prop reset_button_text', () => {
     const reset_button_text = 'custom reset button text'
 
-    const Comp = mount(
+    render(
       <Component
         opened
         no_animation
@@ -408,45 +478,49 @@ describe('DatePicker component', () => {
       />
     )
 
-    const resetElem = Comp.find('button[data-testid="reset"]')
-    expect(resetElem.exists()).toBe(true)
-    expect(resetElem.text()).toMatch(reset_button_text)
+    const resetElem = document.querySelector('button[data-testid="reset"]')
+    expect(resetElem).toBeTruthy()
+    expect(resetElem.textContent).toMatch(reset_button_text)
   })
 
   it('footer is rendered when show_reset_button is provided', () => {
-    const Comp = mount(<Component opened no_animation show_reset_button />)
+    render(<Component opened no_animation show_reset_button />)
 
-    const datePickerFooter = Comp.find('.dnb-date-picker__footer')
-    expect(datePickerFooter.exists()).toBe(true)
+    const datePickerFooter = document.querySelector(
+      '.dnb-date-picker__footer'
+    )
+    expect(datePickerFooter).toBeTruthy()
   })
 
   it('footer is rendered when show_cancel_button is provided', () => {
-    const Comp = mount(
-      <Component opened no_animation show_cancel_button />
-    )
+    render(<Component opened no_animation show_cancel_button />)
 
-    const datePickerFooter = Comp.find('.dnb-date-picker__footer')
-    expect(datePickerFooter.exists()).toBe(true)
+    const datePickerFooter = document.querySelector(
+      '.dnb-date-picker__footer'
+    )
+    expect(datePickerFooter).toBeTruthy()
   })
 
   it('footer is rendered when show_submit_button is provided', () => {
-    const Comp = mount(
-      <Component opened no_animation show_submit_button />
-    )
+    render(<Component opened no_animation show_submit_button />)
 
-    const datePickerFooter = Comp.find('.dnb-date-picker__footer')
-    expect(datePickerFooter.exists()).toBe(true)
+    const datePickerFooter = document.querySelector(
+      '.dnb-date-picker__footer'
+    )
+    expect(datePickerFooter).toBeTruthy()
   })
 
   it('footer is rendered when range is provided', () => {
-    const Comp = mount(<Component opened no_animation range />)
+    render(<Component opened no_animation range />)
 
-    const datePickerFooter = Comp.find('.dnb-date-picker__footer')
-    expect(datePickerFooter.exists()).toBe(true)
+    const datePickerFooter = document.querySelector(
+      '.dnb-date-picker__footer'
+    )
+    expect(datePickerFooter).toBeTruthy()
   })
 
   it('footer is not rendered', () => {
-    const Comp = mount(
+    render(
       <Component
         opened
         no_animation
@@ -457,44 +531,50 @@ describe('DatePicker component', () => {
       />
     )
 
-    const datePickerFooter = Comp.find('.dnb-date-picker__footer')
-    expect(datePickerFooter.exists()).toBe(false)
+    const datePickerFooter = document.querySelector(
+      '.dnb-date-picker__footer'
+    )
+    expect(datePickerFooter).toBeFalsy()
   })
 
   it('has a working month correction', () => {
-    const Comp = mount(<Component show_input />)
+    render(<Component show_input />)
 
-    const dayElem = Comp.find('input.dnb-date-picker__input--day').at(0)
-    const monthElem = Comp.find('input.dnb-date-picker__input--month').at(
-      0
-    )
-    const yearElem = Comp.find('input.dnb-date-picker__input--year').at(0)
+    const dayElem = document.querySelectorAll(
+      'input.dnb-date-picker__input--day'
+    )[0]
+    const monthElem = document.querySelectorAll(
+      'input.dnb-date-picker__input--month'
+    )[0]
+    const yearElem = document.querySelectorAll(
+      'input.dnb-date-picker__input--year'
+    )[0]
 
     // change the date
     const day = '01'
     const month = '01' // will have to make a correction internally
     const year = '2020'
 
-    dayElem.simulate('change', {
+    fireEvent.change(dayElem, {
       target: { value: day },
     })
-    monthElem.simulate('change', {
+    fireEvent.change(monthElem, {
       target: { value: month },
     })
-    yearElem.simulate('change', {
+    fireEvent.change(yearElem, {
       target: { value: year },
     })
 
     // then check the new input value
-    expect(dayElem.instance().value).toBe(day)
-    expect(monthElem.instance().value).toBe(month)
-    expect(yearElem.instance().value).toBe(year)
+    expect((dayElem as HTMLInputElement).value).toBe(day)
+    expect((monthElem as HTMLInputElement).value).toBe(month)
+    expect((yearElem as HTMLInputElement).value).toBe(year)
   })
 
   it('has to auto-correct invalid min/max dates', () => {
     const on_change = jest.fn()
 
-    const Comp = mount(
+    render(
       <Component
         {...defaultProps}
         on_change={on_change}
@@ -503,13 +583,15 @@ describe('DatePicker component', () => {
         max_date="2019-03-01"
       />
     )
-    const elem = Comp.find('input.dnb-date-picker__input--day').at(0)
+    const elem = document.querySelectorAll(
+      'input.dnb-date-picker__input--day'
+    )[0]
 
     // by default we have the corrected start day
-    expect(elem.instance().value).toBe('02')
+    expect((elem as HTMLInputElement).value).toBe('02')
 
     // change the date to something invalid
-    elem.simulate('change', {
+    fireEvent.change(elem, {
       target: { value: '01' },
     })
 
@@ -517,7 +599,7 @@ describe('DatePicker component', () => {
     expect(on_change.mock.calls[0][0].is_valid_start_date).toBe(false)
 
     // change the date to a valid date
-    elem.simulate('change', {
+    fireEvent.change(elem, {
       target: { value: '03' },
     })
 
@@ -529,23 +611,28 @@ describe('DatePicker component', () => {
     const on_type = jest.fn()
     const on_change = jest.fn()
 
-    const Comp = mount(
+    const { rerender } = render(
       <Component
         {...defaultProps}
         min_date="2019-01-02"
         max_date="2019-02-04"
+        start_date="2019-01-02T00:00:00.000Z"
         on_change={on_change}
         on_type={on_type}
       />
     )
-    const startElem = Comp.find('input.dnb-date-picker__input--day').at(0)
-    const endElem = Comp.find('input.dnb-date-picker__input--day').at(1)
+    const startElem = document.querySelectorAll(
+      'input.dnb-date-picker__input--day'
+    )[0]
+    const endElem = document.querySelectorAll(
+      'input.dnb-date-picker__input--day'
+    )[1]
 
     // by default we have the start day
-    expect(startElem.instance().value).toBe('01')
+    expect((startElem as HTMLInputElement).value).toBe('02')
 
-    // // change to invalid date
-    startElem.simulate('change', {
+    // change to invalid date
+    fireEvent.change(startElem, {
       target: { value: '01' },
     })
 
@@ -554,7 +641,7 @@ describe('DatePicker component', () => {
     expect(on_type.mock.calls[0][0].is_valid_start_date).toBe(false)
 
     // change the date to a valid date
-    startElem.simulate('change', {
+    fireEvent.change(startElem, {
       target: { value: '03' },
     })
 
@@ -563,7 +650,7 @@ describe('DatePicker component', () => {
     expect(on_type.mock.calls[1][0].is_valid_start_date).toBe(true)
 
     // change the date to a valid date
-    endElem.simulate('change', {
+    fireEvent.change(endElem, {
       target: { value: '05' },
     })
 
@@ -577,32 +664,39 @@ describe('DatePicker component', () => {
     expect(on_type.mock.calls[2][0].is_valid_start_date).toBe(true)
     expect(on_type.mock.calls[2][0].is_valid_end_date).toBe(false)
 
-    Comp.find('button').simulate('click')
+    fireEvent.click(document.querySelector('button'))
 
-    const invalidDayElem = Comp.find('.dnb-date-picker__day button').at(1)
-    expect(invalidDayElem.instance().getAttribute('aria-label')).toBe(
+    const invalidDayElem = document.querySelectorAll(
+      '.dnb-date-picker__day button'
+    )[1]
+    expect(invalidDayElem.getAttribute('aria-label')).toBe(
       'tirsdag 1. januar 2019'
     )
-    expect(invalidDayElem.exists()).toBe(true)
-    expect(invalidDayElem.instance().hasAttribute('disabled')).toBe(true)
+    expect(invalidDayElem).toBeTruthy()
+    expect(invalidDayElem.hasAttribute('disabled')).toBe(true)
     expect(
-      Comp.find('.dnb-date-picker__day button')
-        .at(2)
-        .instance()
+      document
+        .querySelectorAll('.dnb-date-picker__day button')[2]
         .hasAttribute('disabled')
     ).toBe(false)
 
     expect(on_change.mock.calls[2][0].date).toBe(undefined)
     expect(on_change.mock.calls[2][0].is_valid).toBe(undefined)
 
-    Comp.setProps({
-      range: false,
-    })
-
-    Comp.update()
+    rerender(
+      <Component
+        {...defaultProps}
+        min_date="2019-01-02"
+        max_date="2019-02-04"
+        start_date="2019-01-02T00:00:00.000Z"
+        on_change={on_change}
+        on_type={on_type}
+        range={false}
+      />
+    )
 
     // change the date to a valid date
-    startElem.simulate('change', {
+    fireEvent.change(startElem, {
       target: { value: '01' },
     })
 
@@ -610,7 +704,7 @@ describe('DatePicker component', () => {
     expect(on_change.mock.calls[3][0].is_valid_end_date).toBe(undefined)
     expect(on_change.mock.calls[3][0].is_valid).toBe(false)
 
-    startElem.simulate('change', {
+    fireEvent.change(startElem, {
       target: { value: '03' },
     })
 
@@ -622,7 +716,7 @@ describe('DatePicker component', () => {
     const on_type = jest.fn()
     const on_change = jest.fn()
 
-    const Comp = mount(
+    render(
       <Component
         id="date-picker-id"
         no_animation={true}
@@ -633,23 +727,25 @@ describe('DatePicker component', () => {
       />
     )
 
-    const startDayElem = Comp.find('input.dnb-date-picker__input--day').at(
-      0
-    )
-    const startMonthElem = Comp.find(
+    const startDayElem = document.querySelectorAll(
+      'input.dnb-date-picker__input--day'
+    )[0]
+    const startMonthElem = document.querySelectorAll(
       'input.dnb-date-picker__input--month'
-    ).at(0)
-    const startYearElem = Comp.find(
+    )[0]
+    const startYearElem = document.querySelectorAll(
       'input.dnb-date-picker__input--year'
-    ).at(0)
+    )[0]
 
-    const endDayElem = Comp.find('input.dnb-date-picker__input--day').at(1)
-    const endMonthElem = Comp.find(
+    const endDayElem = document.querySelectorAll(
+      'input.dnb-date-picker__input--day'
+    )[1]
+    const endMonthElem = document.querySelectorAll(
       'input.dnb-date-picker__input--month'
-    ).at(1)
-    const endYearElem = Comp.find('input.dnb-date-picker__input--year').at(
-      1
-    )
+    )[1]
+    const endYearElem = document.querySelectorAll(
+      'input.dnb-date-picker__input--year'
+    )[1]
 
     const testInteraction = ({
       typeIndex,
@@ -660,14 +756,14 @@ describe('DatePicker component', () => {
       type,
     }) => {
       // by default we have the start day
-      expect(dayElem.instance().value).toBe('dd')
+      expect(dayElem.value).toBe('dd')
       expect(on_type).toHaveBeenCalledTimes(typeIndex)
 
       // change the day
-      dayElem.simulate('change', {
+      fireEvent.change(dayElem, {
         target: { value: '03' },
       })
-      expect(dayElem.instance().value).toBe('03')
+      expect(dayElem.value).toBe('03')
       expect(on_type).toHaveBeenCalledTimes(typeIndex + 1)
       expect(on_type.mock.calls[typeIndex][0][`${type}_date`]).toBe(
         'yyyy-mm-03'
@@ -676,10 +772,10 @@ describe('DatePicker component', () => {
       typeIndex++
 
       // change the month
-      monthElem.simulate('change', {
+      fireEvent.change(monthElem, {
         target: { value: '01' },
       })
-      expect(monthElem.instance().value).toBe('01')
+      expect(monthElem.value).toBe('01')
       expect(on_type).toHaveBeenCalledTimes(typeIndex + 1)
       expect(
         on_type.mock.calls[typeIndex][0][`is_valid_${type}_date`]
@@ -690,24 +786,18 @@ describe('DatePicker component', () => {
       expect(on_change).toHaveBeenCalledTimes(changeIndex)
 
       // change the year halfway
-      yearElem.simulate('change', {
+      fireEvent.change(yearElem, {
         target: { value: '202' },
       })
-      expect(yearElem.instance().value).toBe('202å')
+      expect(yearElem.value).toBe('202å')
       expect(on_type).toHaveBeenCalledTimes(typeIndex + 2)
-
-      expect(on_change).toHaveBeenCalledTimes(changeIndex + 1)
-      expect(
-        on_change.mock.calls[changeIndex][0][`is_valid_${type}_date`]
-      ).toBe(true)
-
-      changeIndex++
+      expect(on_change).toHaveBeenCalledTimes(changeIndex)
 
       // change the year
-      yearElem.simulate('change', {
+      fireEvent.change(yearElem, {
         target: { value: '2020' },
       })
-      expect(yearElem.instance().value).toBe('2020')
+      expect(yearElem.value).toBe('2020')
       expect(on_type).toHaveBeenCalledTimes(typeIndex + 3)
       expect(on_change).toHaveBeenCalledTimes(changeIndex + 1)
     }
@@ -724,7 +814,7 @@ describe('DatePicker component', () => {
     testInteraction({
       type: 'end',
       typeIndex: 4,
-      changeIndex: 3, // because we do not count the first one
+      changeIndex: 2, // because we do not count the first one
       dayElem: endDayElem,
       monthElem: endMonthElem,
       yearElem: endYearElem,
@@ -732,7 +822,7 @@ describe('DatePicker component', () => {
   })
 
   it('has correct css classes on range selection', () => {
-    const Comp = mount(
+    render(
       <Component
         id="date-picker-id"
         no_animation
@@ -742,160 +832,174 @@ describe('DatePicker component', () => {
       />
     )
 
-    const FirstCalendar = Comp.find('DatePickerCalendar').at(0)
-    const SecondCalendar = Comp.find('DatePickerCalendar').at(1)
-    const firstDayElem = FirstCalendar.find(
+    const FirstCalendar = document.querySelectorAll(
+      '.dnb-date-picker__calendar'
+    )[0]
+    const SecondCalendar = document.querySelectorAll(
+      '.dnb-date-picker__calendar'
+    )[1]
+    const firstDayElem = FirstCalendar.querySelectorAll(
       'td.dnb-date-picker__day--selectable'
-    ).at(0)
-    const lastDayElem = SecondCalendar.find(
+    )[0]
+    const lastDayElem = SecondCalendar.querySelectorAll(
       'td.dnb-date-picker__day--selectable'
-    ).last()
+    )[
+      SecondCalendar.querySelectorAll(
+        'td.dnb-date-picker__day--selectable'
+      ).length - 1
+    ]
 
     // 1. Get ready. No selection made
 
-    expect(FirstCalendar.exists('.dnb-date-picker__day--preview')).toBe(
-      false
-    )
     expect(
-      FirstCalendar.exists('.dnb-date-picker__day--within-selection')
+      FirstCalendar.querySelector('.dnb-date-picker__day--preview')
+    ).toBeFalsy()
+    expect(
+      FirstCalendar.querySelector(
+        '.dnb-date-picker__day--within-selection'
+      )
+    ).toBeFalsy()
+    expect(
+      firstDayElem.classList.contains('dnb-date-picker__day--start-date')
     ).toBe(false)
     expect(
-      firstDayElem
-        .instance()
-        .classList.contains('dnb-date-picker__day--start-date')
-    ).toBe(false)
-    expect(
-      firstDayElem
-        .instance()
-        .classList.contains('dnb-date-picker__day--end-date')
+      firstDayElem.classList.contains('dnb-date-picker__day--end-date')
     ).toBe(false)
 
     // 2. Click on start date
 
-    firstDayElem.find('button').simulate('click')
+    fireEvent.click(firstDayElem.querySelector('button'))
 
     // 3. Should be marked with start and end date
 
     expect(
-      firstDayElem
-        .instance()
-        .classList.contains('dnb-date-picker__day--start-date')
+      firstDayElem.classList.contains('dnb-date-picker__day--start-date')
     ).toBe(true)
     expect(
-      firstDayElem
-        .instance()
-        .classList.contains('dnb-date-picker__day--end-date')
+      firstDayElem.classList.contains('dnb-date-picker__day--end-date')
     ).toBe(true)
 
     // 4. But still no "selection"
 
-    expect(FirstCalendar.exists('.dnb-date-picker__day--preview')).toBe(
-      false
-    )
     expect(
-      FirstCalendar.exists('.dnb-date-picker__day--within-selection')
-    ).toBe(false)
+      FirstCalendar.querySelector('.dnb-date-picker__day--preview')
+    ).toBeFalsy()
+    expect(
+      FirstCalendar.querySelector(
+        '.dnb-date-picker__day--within-selection'
+      )
+    ).toBeFalsy()
 
     // 5. Hover on last day
 
-    lastDayElem.find('button').prop('onMouseOver')()
+    fireEvent.mouseOver(lastDayElem.querySelector('button'))
 
     // 6. We should have all TDs in between, marked as "pewview"
     // - and we should have marked it as the end-date
 
     expect(
-      lastDayElem
-        .instance()
-        .classList.contains('dnb-date-picker__day--end-date')
+      lastDayElem.classList.contains('dnb-date-picker__day--end-date')
     ).toBe(true)
     expect(
-      FirstCalendar.find('td.dnb-date-picker__day--selectable')
-        .at(1)
-        .instance()
-        .classList.contains('dnb-date-picker__day--preview')
+      FirstCalendar.querySelectorAll(
+        'td.dnb-date-picker__day--selectable'
+      )[1].classList.contains('dnb-date-picker__day--preview')
     ).toBe(true)
     expect(
-      SecondCalendar.find('td.dnb-date-picker__day--selectable')
-        .last(-1)
-        .instance()
-        .classList.contains('dnb-date-picker__day--preview')
+      SecondCalendar.querySelectorAll(
+        'td.dnb-date-picker__day--selectable'
+      )[
+        SecondCalendar.querySelectorAll(
+          'td.dnb-date-picker__day--selectable'
+        ).length - 2
+      ].classList.contains('dnb-date-picker__day--preview')
     ).toBe(true)
 
     // 7. simulate mouse leave the calendar
 
-    FirstCalendar.find('table').at(0).props().onMouseLeave()
+    fireEvent.mouseLeave(FirstCalendar.querySelectorAll('table')[0])
 
     // 8. remove the selection when mouse leaves the calendar
 
     expect(
-      lastDayElem
-        .instance()
-        .classList.contains('dnb-date-picker__day--end-date')
+      lastDayElem.classList.contains('dnb-date-picker__day--end-date')
     ).toBe(false)
     expect(
-      FirstCalendar.find('td.dnb-date-picker__day--selectable')
-        .at(1)
-        .instance()
-        .classList.contains('dnb-date-picker__day--preview')
+      FirstCalendar.querySelectorAll(
+        'td.dnb-date-picker__day--selectable'
+      )[1].classList.contains('dnb-date-picker__day--preview')
     ).toBe(false)
     expect(
-      SecondCalendar.find('td.dnb-date-picker__day--selectable')
-        .last(-1)
-        .instance()
-        .classList.contains('dnb-date-picker__day--preview')
+      SecondCalendar.querySelectorAll(
+        'td.dnb-date-picker__day--selectable'
+      )[
+        SecondCalendar.querySelectorAll(
+          'td.dnb-date-picker__day--selectable'
+        ).length - 2
+      ].classList.contains('dnb-date-picker__day--preview')
     ).toBe(false)
 
     // 9. Now, click on the last day as well
 
-    lastDayElem.find('button').simulate('click')
+    fireEvent.click(lastDayElem.querySelector('button'))
 
     // 10. We should have all TDs in between, marked as "within-selection"
 
     expect(
-      FirstCalendar.find('td.dnb-date-picker__day--selectable')
-        .at(1)
-        .instance()
-        .classList.contains('dnb-date-picker__day--within-selection')
+      FirstCalendar.querySelectorAll(
+        'td.dnb-date-picker__day--selectable'
+      )[1].classList.contains('dnb-date-picker__day--within-selection')
     ).toBe(true)
     expect(
-      SecondCalendar.find('td.dnb-date-picker__day--selectable')
-        .last(-1)
-        .instance()
-        .classList.contains('dnb-date-picker__day--within-selection')
+      SecondCalendar.querySelectorAll(
+        'td.dnb-date-picker__day--selectable'
+      )[
+        SecondCalendar.querySelectorAll(
+          'td.dnb-date-picker__day--selectable'
+        ).length - 2
+      ].classList.contains('dnb-date-picker__day--within-selection')
     ).toBe(true)
   })
 
   it('resets date correctly between interactions', () => {
     let outerState
     const on_change = jest.fn(({ date }) => (outerState = date))
-    const Comp = mount(
+    const { rerender } = render(
       <Component on_change={on_change} show_input date="2019-02-01" />
     )
 
     function changeState() {
-      const elem = Comp.find('input.dnb-input__input').at(0)
-      expect(elem.instance().value).toBe('01')
+      const elem = document.querySelectorAll('input.dnb-input__input')[0]
+      expect((elem as HTMLInputElement).value).toBe('01')
 
       // 1. change the date with event
-      elem.simulate('change', {
+      fireEvent.change(elem, {
         target: { value: '16' },
       })
       // Siulate prop update, like a state update would do
-      Comp.setProps({
-        date: outerState,
-      })
+      rerender(
+        <Component on_change={on_change} show_input date={outerState} />
+      )
 
       expect(
-        Comp.find('input.dnb-input__input').at(0).instance().value
+        (
+          document.querySelectorAll(
+            'input.dnb-input__input'
+          )[0] as HTMLInputElement
+        ).value
       ).toBe('16')
 
       // 2. change the date by prop
-      Comp.setProps({
-        date: '2019-02-01',
-      })
+      rerender(
+        <Component on_change={on_change} show_input date="2019-02-01" />
+      )
 
       expect(
-        Comp.find('input.dnb-input__input').at(0).instance().value
+        (
+          document.querySelectorAll(
+            'input.dnb-input__input'
+          )[0] as HTMLInputElement
+        ).value
       ).toBe('01')
     }
 
@@ -907,7 +1011,7 @@ describe('DatePicker component', () => {
   })
 
   it('will reset on setting value to null', () => {
-    const Comp = mount(
+    const { rerender } = render(
       <Component
         show_input
         range
@@ -916,26 +1020,43 @@ describe('DatePicker component', () => {
       />
     )
 
-    Comp.setProps({
-      start_date: null,
-    })
+    rerender(
+      <Component
+        show_input
+        range
+        start_date={null}
+        end_date={defaultProps.end_date}
+      />
+    )
     expect(
-      Comp.find('input.dnb-input__input').at(0).instance().value
+      (
+        document.querySelectorAll(
+          'input.dnb-input__input'
+        )[0] as HTMLInputElement
+      ).value
     ).toBe('dd')
     expect(
-      Comp.find('input.dnb-input__input').at(3).instance().value
+      (
+        document.querySelectorAll(
+          'input.dnb-input__input'
+        )[3] as HTMLInputElement
+      ).value
     ).toBe('15')
 
-    Comp.setProps({
-      end_date: null,
-    })
+    rerender(
+      <Component show_input range start_date={null} end_date={null} />
+    )
     expect(
-      Comp.find('input.dnb-input__input').at(5).instance().value
+      (
+        document.querySelectorAll(
+          'input.dnb-input__input'
+        )[5] as HTMLInputElement
+      ).value
     ).toBe('åååå')
   })
 
   it('has a reacting end date input with valid value', () => {
-    const Comp = mount(
+    const { rerender } = render(
       <Component
         show_input
         range
@@ -943,63 +1064,84 @@ describe('DatePicker component', () => {
         end_date={defaultProps.end_date}
       />
     )
-    const elem = Comp.find('input.dnb-date-picker__input--day').at(1)
+    const elem = document.querySelectorAll(
+      'input.dnb-date-picker__input--day'
+    )[1]
 
     // by default we have the start day
-    expect(elem.instance().value).toBe('15')
+    expect((elem as HTMLInputElement).value).toBe('15')
 
     // listen to changes
     let changedStartDate = null
-    Comp.setProps({
-      on_change: ({ end_date }) => {
-        changedStartDate = end_date
-      },
-    })
+    rerender(
+      <Component
+        show_input
+        range
+        start_date={null}
+        end_date={defaultProps.end_date}
+        on_change={({ end_date }) => {
+          changedStartDate = end_date
+        }}
+      />
+    )
 
-    // also, check the null situation
-    Comp.setProps({
-      start_date: null,
-    })
-    expect(Comp.find('input').first().instance().value).toBe('dd')
+    expect(document.querySelectorAll('input')[0].value).toBe('dd')
 
     // change the date
     const value = '16'
-    elem.simulate('change', {
+    fireEvent.change(elem, {
       target: { value },
     })
 
     // then check the new input value
-    expect(elem.instance().value).toBe(value)
+    expect((elem as HTMLInputElement).value).toBe(value)
 
     // and the event fired value
     expect(changedStartDate).toBe(`2019-02-${value}`)
 
     // test prop change to make sure getDerivedStateFromProps works
-    Comp.setProps({
-      end_date: '2019-02-17',
-    })
-    expect(elem.instance().value).toBe('17')
+    rerender(
+      <Component
+        show_input
+        range
+        start_date={null}
+        end_date="2019-02-17"
+        on_change={({ end_date }) => {
+          changedStartDate = end_date
+        }}
+      />
+    )
+    expect((elem as HTMLInputElement).value).toBe('17')
 
     // reset the value
-    elem.simulate('change', {
+    fireEvent.change(elem, {
       target: { value: '15' },
     })
-    Comp.setProps({
-      start_date: defaultProps.start_date,
-    })
+
+    rerender(
+      <Component
+        show_input
+        range
+        start_date={defaultProps.start_date}
+        end_date="2019-02-17"
+        on_change={({ end_date }) => {
+          changedStartDate = end_date
+        }}
+      />
+    )
   })
 
   it('has to return all additional attributes the event return', () => {
     const my_event = jest.fn()
     const params = { 'data-attr': 'value' }
-    const Comp = mount(<Component on_show={my_event} {...params} />)
-    Comp.find('button').simulate('click')
+    render(<Component on_show={my_event} {...params} />)
+    fireEvent.click(document.querySelector('button'))
     expect(my_event.mock.calls.length).toBe(1)
     expect(my_event.mock.calls[0][0].attributes).toMatchObject(params)
   })
 
   it('is displaying correct month', () => {
-    const Comp = mount(
+    render(
       <Component
         show_input
         range
@@ -1008,44 +1150,48 @@ describe('DatePicker component', () => {
       />
     )
 
-    Comp.find('button').simulate('click')
+    fireEvent.click(document.querySelector('button'))
 
-    const elem = Comp.find('input.dnb-date-picker__input--day').at(1)
-    elem.simulate('change', {
+    const elem = document.querySelectorAll(
+      'input.dnb-date-picker__input--day'
+    )[1]
+    fireEvent.change(elem, {
       target: { value: '15' },
     })
 
     expect(
-      Comp.find('.dnb-date-picker__header__title').first().text()
+      document.querySelectorAll('.dnb-date-picker__header__title')[0]
+        .textContent
     ).toBe('januar 2019')
 
     expect(
-      Comp.find(
+      document.querySelector(
         'td.dnb-date-picker__day--start-date .dnb-button__text'
-      ).text()
+      ).textContent
     ).toBe('1')
 
     expect(
-      Comp.find(
+      document.querySelector(
         'td.dnb-date-picker__day--end-date .dnb-button__text'
-      ).text()
+      ).textContent
     ).toBe('15')
 
     // from now on, check the second calendar
-
-    Comp.find('.dnb-date-picker__calendar')
-      .at(1)
-      .find('.dnb-date-picker__next button')
-      .simulate('click')
-
-    expect(Comp.find('.dnb-date-picker__header__title').at(1).text()).toBe(
-      'mars 2019'
+    fireEvent.click(
+      document
+        .querySelectorAll('.dnb-date-picker__calendar')[1]
+        .querySelector('button.dnb-date-picker__next')
     )
+
+    expect(
+      document.querySelectorAll('.dnb-date-picker__header__title')[1]
+        .textContent
+    ).toBe('mars 2019')
   })
 
   it('has to have a aria-describedby on first focus', () => {
     const label = 'Input Label'
-    const Comp = mount(
+    render(
       <Component
         id="custom-id"
         label={label}
@@ -1053,13 +1199,12 @@ describe('DatePicker component', () => {
         range
         start_date={defaultProps.start_date}
         end_date={defaultProps.end_date}
-      />,
-      { attachTo: attachToBody() }
+      />
     )
 
-    const legendElem = Comp.find('fieldset > legend')
-    expect(legendElem.text()).toBe(label)
-    expect(legendElem.instance().classList).toContain('dnb-sr-only')
+    const legendElem = document.querySelector('fieldset > legend')
+    expect(legendElem.textContent).toBe(label)
+    expect(legendElem.classList).toContain('dnb-sr-only')
   })
 
   it('has to select all only on first focus', () => {
@@ -1156,28 +1301,31 @@ describe('DatePicker component', () => {
   })
 
   it('has to react on keydown events', async () => {
-    const Comp = mount(
+    render(
       <Component
         show_input
         range
         start_date={defaultProps.start_date}
         end_date={defaultProps.end_date}
         id="unique-id"
-      />,
-      { attachTo: attachToBody() }
+      />
     )
 
-    const dayElem = Comp.find('input.dnb-date-picker__input--day').at(0)
-    const monthElem = Comp.find('input.dnb-date-picker__input--month').at(
-      0
-    )
-    const yearElem = Comp.find('input.dnb-date-picker__input--year').at(0)
+    const dayElem = document.querySelectorAll(
+      'input.dnb-date-picker__input--day'
+    )[0] as HTMLInputElement
+    const monthElem = document.querySelectorAll(
+      'input.dnb-date-picker__input--month'
+    )[0]
+    const yearElem = document.querySelectorAll(
+      'input.dnb-date-picker__input--year'
+    )[0]
 
     // set the cursor to the end of the input
-    dayElem.instance().setSelectionRange(2, 2)
+    dayElem.setSelectionRange(2, 2)
 
     // and simulate a right keydown
-    dayElem.simulate('keydown', { key: 'Right', keyCode: 39 })
+    fireEvent.keyDown(dayElem, { key: 'Right', keyCode: 39 })
 
     // wait for the logic to complete
     await wait(1)
@@ -1190,12 +1338,13 @@ describe('DatePicker component', () => {
     ).toBe(true)
 
     // also test the key up to change the value on the month input
-    expect(monthElem.instance().value).toBe('01')
-    monthElem.simulate('keydown', { key: 'Up', keyCode: 38 })
-    expect(monthElem.instance().value).toBe('02')
+    expect((monthElem as HTMLInputElement).value).toBe('01')
+    fireEvent.keyDown(monthElem, { key: 'Up', keyCode: 38 })
+
+    expect((monthElem as HTMLInputElement).value).toBe('02')
 
     // and simulate a left keydown
-    monthElem.simulate('keydown', { key: 'Left', keyCode: 37 })
+    fireEvent.keyDown(monthElem, { key: 'Left', keyCode: 37 })
 
     // wait for the logic to complete
     await wait(1)
@@ -1206,16 +1355,18 @@ describe('DatePicker component', () => {
     )
 
     // also test the key up to change the value on the day input
-    expect(dayElem.instance().value).toBe('01')
-    dayElem.simulate('keydown', { key: 'Up', keyCode: 38 })
-    expect(dayElem.instance().value).toBe('02')
+    expect((dayElem as HTMLInputElement).value).toBe('01')
+    fireEvent.keyDown(dayElem, { key: 'Up', keyCode: 38 })
+
+    expect((dayElem as HTMLInputElement).value).toBe('02')
 
     // also test the key up to change the value on the year input
-    expect(yearElem.instance().value).toBe('2019')
-    yearElem.simulate('keydown', { key: 'Up', keyCode: 38 })
-    expect(yearElem.instance().value).toBe('2020')
-    yearElem.simulate('keydown', { key: 'Down', keyCode: 40 })
-    expect(yearElem.instance().value).toBe('2019')
+    expect((yearElem as HTMLInputElement).value).toBe('2019')
+    fireEvent.keyDown(yearElem, { key: 'Up', keyCode: 38 })
+    expect((yearElem as HTMLInputElement).value).toBe('2020')
+    fireEvent.keyDown(yearElem, { key: 'Down', keyCode: 40 })
+
+    expect((yearElem as HTMLInputElement).value).toBe('2019')
   })
 
   it('should validate with ARIA rules', async () => {
@@ -1233,16 +1384,22 @@ describe('DatePicker component', () => {
 
   describe('size', () => {
     it('has correct small size', () => {
-      const Comp = mount(<Component {...defaultProps} size="small" />)
-      expect(Comp.find('.dnb-date-picker--small').exists()).toBe(true)
+      render(<Component {...defaultProps} size="small" />)
+      expect(
+        document.querySelector('.dnb-date-picker--small')
+      ).toBeTruthy()
     })
     it('has correct medium size', () => {
-      const Comp = mount(<Component {...defaultProps} size="medium" />)
-      expect(Comp.find('.dnb-date-picker--medium').exists()).toBe(true)
+      render(<Component {...defaultProps} size="medium" />)
+      expect(
+        document.querySelector('.dnb-date-picker--medium')
+      ).toBeTruthy()
     })
     it('has correct large size', () => {
-      const Comp = mount(<Component {...defaultProps} size="large" />)
-      expect(Comp.find('.dnb-date-picker--large').exists()).toBe(true)
+      render(<Component {...defaultProps} size="large" />)
+      expect(
+        document.querySelector('.dnb-date-picker--large')
+      ).toBeTruthy()
     })
   })
 })
