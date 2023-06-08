@@ -146,13 +146,6 @@ export const axeComponent = async (...components) => {
   )
 }
 
-export function attachToBody() {
-  let container = document.createElement('div')
-  document.body.append(container)
-
-  return container
-}
-
 // For Yarn v3 we need this fix in order to make jest-axe work properly
 // https://github.com/nickcolley/jest-axe/issues/147
 if (typeof window !== 'undefined') {
