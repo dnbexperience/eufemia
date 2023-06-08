@@ -11,13 +11,15 @@ import {
   convertJsxToString,
   warn,
 } from '@dnb/eufemia/src/shared/component-helper'
-import { runIOSSelectionFix } from '@dnb/eufemia/src/components/NumberFormat'
-import { useCopyWithNotice } from '@dnb/eufemia/src/components/number-format/NumberUtils'
+import {
+  useCopyWithNotice,
+  runIOSSelectionFix,
+} from '@dnb/eufemia/src/components/number-format/NumberUtils'
 import { copyStyle } from './Copy.module.scss'
 
 let hasiOSFix = false
 
-const Copy = ({ children, className, ...rest }) => {
+const Copy = ({ children, className = null, ...rest }) => {
   const ref = React.useRef()
 
   React.useEffect(() => {
