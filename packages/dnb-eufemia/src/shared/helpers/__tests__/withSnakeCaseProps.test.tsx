@@ -8,7 +8,7 @@ import {
   classWithSnakeCaseProps,
   IncludeSnakeCase,
 } from '../withSnakeCaseProps'
-import { mount, attachToBody, toJson } from '../../../core/jest/jestSetup'
+import { mount, toJson } from '../../../core/jest/jestSetup'
 
 type CustomType = {
   fooBar: number
@@ -373,35 +373,17 @@ describe('classWithSnakeCaseProps', () => {
     `)
   })
 
-  it('should setState with enzyme', () => {
+  it('should set props', () => {
     const Component = classWithSnakeCaseProps(Original)
 
-    const Comp = mount(<Component />, { attachTo: attachToBody() })
-    Comp.find(Original).setState({
-      someState: false,
-    })
+    const { rerender } = render(<Component />)
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    rerender(<Component new_prop="hello" />)
 
-    expect(Comp.find(Original).state().someState).toBe(false)
-    expect(Comp.find(Original).find('[data-testid="state"]').text()).toBe(
-      '{"someState":false}'
-    )
-
-    Comp.unmount()
-  })
-
-  it('should setProps with enzyme', () => {
-    const Component = classWithSnakeCaseProps(Original)
-
-    const Comp = mount(<Component />, { attachTo: attachToBody() })
-    Comp.setProps({
-      new_prop: 'hello',
-    })
-
-    expect(Comp.find(Original).find('[data-testid="props"]').text()).toBe(
-      '{"newProp":"hello"}'
-    )
-
-    Comp.unmount()
+    expect(
+      document.querySelector('[data-testid="props"]').textContent
+    ).toBe('{"newProp":"hello"}')
   })
 
   it('should not update prop object when props are unchanged', () => {
