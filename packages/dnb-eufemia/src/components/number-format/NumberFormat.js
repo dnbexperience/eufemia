@@ -27,7 +27,11 @@ import {
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 import Tooltip, { injectTooltipSemantic } from '../tooltip/Tooltip'
-import { format, showSelectionNotice } from './NumberUtils'
+import {
+  format,
+  showSelectionNotice,
+  runIOSSelectionFix,
+} from './NumberUtils'
 
 export default class NumberFormat extends React.PureComponent {
   static contextType = Context
@@ -454,13 +458,3 @@ export default class NumberFormat extends React.PureComponent {
 }
 
 let hasiOSFix = false
-export function runIOSSelectionFix() {
-  try {
-    const selection = window.getSelection()
-    const range = document.createRange()
-    selection.removeAllRanges()
-    selection.addRange(range)
-  } catch (e) {
-    //
-  }
-}
