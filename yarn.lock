@@ -14895,7 +14895,7 @@ __metadata:
     eslint-plugin-workspaces: 0.8.0
     front-matter: 4.0.2
     fs-extra: 10.0.0
-    gatsby: 4.25.6
+    gatsby: 4.25.7
     gatsby-plugin-algolia: 0.26.0
     gatsby-plugin-babel-react-live: 1.4.2
     gatsby-plugin-catch-links: 4.25.0
@@ -18768,9 +18768,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gatsby@npm:4.25.6":
-  version: 4.25.6
-  resolution: "gatsby@npm:4.25.6"
+"gatsby@npm:4.25.7":
+  version: 4.25.7
+  resolution: "gatsby@npm:4.25.7"
   dependencies:
     "@babel/code-frame": ^7.14.0
     "@babel/core": ^7.15.5
@@ -18946,7 +18946,7 @@ __metadata:
       optional: true
   bin:
     gatsby: ./cli.js
-  checksum: ea38242cd811464f8c08c869750d33615b53ca7b2fb7a6ac7bb753a27767dd5cbc080579c0e269873214ddcc07c5078b702bc614192c48a70cf062da6075e9ba
+  checksum: e435ba3cc31395e7b7433d783698dd712d26ef1f66038865d8e69580c3ac4d580d76df474cea09a1044552a8b78332dae0f146a16f43acdf804d629e90018f24
   languageName: node
   linkType: hard
 
