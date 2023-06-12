@@ -20,8 +20,11 @@ import {
   Dialog,
   HelpButton,
   GlobalStatus,
+  Autocomplete,
+  NumberFormat,
 } from '../..'
 import { Link } from '../../..'
+import { format } from '../../number-format/NumberUtils'
 
 export default {
   title: 'Eufemia/Components/FormStatus',
@@ -111,6 +114,7 @@ export const FormStatusSandbox = () => {
           Value
         </Input>
       </Box>
+
       <Box>
         <Switch
           label="Switch label"
@@ -217,5 +221,65 @@ export const GlobalStatusExample = () => {
         Some text
       </FormStatus>
     </>
+  )
+}
+
+export const SuffixAndStretchedStatus = () => {
+  const ban = format(21001234567, { ban: true })
+
+  const numbers = [
+    {
+      selected_value: `Brukskonto (${ban})`,
+      suffix_value: (
+        <NumberFormat lang="nb" currency srLabel="Total:">
+          {12345678}
+        </NumberFormat>
+      ),
+      content: ['Brukskonto', ban],
+    },
+    {
+      selected_value: `BSU (${ban})`,
+      suffix_value: (
+        <NumberFormat currency srLabel="Total:">
+          {2223}
+        </NumberFormat>
+      ),
+      content: ['BSU', ban],
+    },
+    {
+      selected_value: `Sparekonto (${ban})`,
+      suffix_value: (
+        <NumberFormat currency srLabel="Total:">
+          {876555.5}
+        </NumberFormat>
+      ),
+      content: ['Sparekonto', ban],
+    },
+    {
+      selected_value: `Brukskonto (${ban})`,
+      suffix_value: (
+        <NumberFormat currency srLabel="Total:">
+          {34999.2}
+        </NumberFormat>
+      ),
+      content: ['Brukskonto', ban],
+    },
+  ]
+
+  return (
+    <Box>
+      <Autocomplete
+        status_state="warn"
+        status_props={{ stretch: true }}
+        status="This is a long text to check whether status_props stretch works or not"
+        label="Autocomplete with suffix and stretched status"
+        data={numbers}
+        size="medium"
+        show_submit_button
+        skip_portal
+        stretch
+        value={1}
+      />
+    </Box>
   )
 }

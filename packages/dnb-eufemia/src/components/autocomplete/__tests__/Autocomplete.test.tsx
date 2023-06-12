@@ -290,6 +290,27 @@ describe('Autocomplete component', () => {
 
       expect(document.activeElement.tagName).toBe('INPUT')
     })
+
+    it('has inner id, used to compute form status width, when status and suffix value', () => {
+      render(
+        <Autocomplete
+          data={mockData}
+          {...mockProps}
+          status="status text"
+          status_state="info"
+          status_props={{ stretch: true }}
+          show_submit_button
+          stretch
+          value={1}
+        />
+      )
+
+      expect(
+        document
+          .querySelector('.dnb-autocomplete__inner')
+          .getAttribute('id')
+      ).toBeTruthy()
+    })
   })
 
   it('has correct options when search_in_word_index is set to 1', () => {

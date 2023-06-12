@@ -1882,10 +1882,11 @@ class AutocompleteInstance extends React.PureComponent {
       this.context.drawerList.original_data
     )?.suffix_value
 
+    const innerId = suffixValue && showStatus ? `${id}-inner` : null
+
     // also used for code markup simulation
     validateDOMAttributes(null, mainParams)
     validateDOMAttributes(null, shellParams)
-
     return (
       <span {...mainParams}>
         {label && (
@@ -1901,7 +1902,11 @@ class AutocompleteInstance extends React.PureComponent {
           />
         )}
 
-        <span className="dnb-autocomplete__inner" ref={this._ref}>
+        <span
+          className="dnb-autocomplete__inner"
+          ref={this._ref}
+          id={innerId}
+        >
           <AlignmentHelper />
 
           <FormStatus
@@ -1914,6 +1919,7 @@ class AutocompleteInstance extends React.PureComponent {
             state={status_state}
             no_animation={status_no_animation}
             skeleton={skeleton}
+            width_selector={innerId}
             {...status_props}
           />
 
