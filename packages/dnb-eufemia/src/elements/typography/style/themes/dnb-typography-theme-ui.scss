@@ -22,6 +22,8 @@
   --typography-h-large-small-line-height: calc(
     var(--line-height-medium) - 0.125rem
   );
+  --typography-lead-small-font-size: var(--font-size-basis);
+  --typography-lead-small-line-height: var(--line-height-basis);
   --typography-h-medium-line-height: var(--line-height-lead);
   --typography-h-small-small-line-height: var(--line-height-small);
 }
