@@ -1,11 +1,11 @@
 @use '../typography-mixins.scss' as typography;
 
 @include typographySelectors() {
-  --typography-heading-xx-large-weight: var(--font-weight-regular);
-  --typography-heading-x-large-weight: var(--font-weight-regular);
-  --typography-heading-large-weight: var(--font-weight-regular);
-  --typography-heading-medium-weight: var(--font-weight-regular);
-  --typography-heading-basis-weight: var(--font-weight-regular);
-  --typography-heading-small-weight: var(--font-weight-regular);
-  --typography-heading-x-small-weight: var(--font-weight-regular);
+  --typography-h-xx-large-weight: var(--font-weight-regular);
+  --typography-h-x-large-weight: var(--font-weight-regular);
+  --typography-h-large-weight: var(--font-weight-regular);
+  --typography-h-medium-weight: var(--font-weight-regular);
+  --typography-h-basis-weight: var(--font-weight-regular);
+  --typography-h-small-weight: var(--font-weight-regular);
+  --typography-h-x-small-weight: var(--font-weight-regular);
 }

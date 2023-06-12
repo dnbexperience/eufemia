@@ -419,9 +419,9 @@ describe('style build', () => {
 }`)
       expect(content).toContain(`
 .dnb-h--basis {
-  font-size: var(--typography-heading-basis-font-size);
-  line-height: var(--typography-heading-basis-line-height);
-  font-weight: var(--typography-heading-basis-weight);
+  font-size: var(--typography-h-basis-font-size);
+  line-height: var(--typography-h-basis-line-height);
+  font-weight: var(--typography-h-basis-weight);
 }`)
     }
 
@@ -441,9 +441,9 @@ describe('style build', () => {
 }`)
       expect(content).toContain(`
 .dnb-h--basis {
-  font-size: var(--typography-heading-basis-font-size);
-  line-height: var(--typography-heading-basis-line-height);
-  font-weight: var(--typography-heading-basis-weight);
+  font-size: var(--typography-h-basis-font-size);
+  line-height: var(--typography-h-basis-line-height);
+  font-weight: var(--typography-h-basis-weight);
 }`)
     }
 

@@ -15,17 +15,15 @@
 }
 
 @include typographySelectors() {
-  --typography-heading-xx-large-small-line-height: var(
-    --line-height-large
-  );
-  --typography-heading-x-large-line-height: var(--line-height-large);
-  --typography-heading-x-large-small-font-size: var(--font-size-x-large);
-  --typography-heading-large-line-height: var(--line-height-medium);
-  --typography-heading-large-small-line-height: calc(
+  --typography-h-xx-large-small-line-height: var(--line-height-large);
+  --typography-h-x-large-line-height: var(--line-height-large);
+  --typography-h-x-large-small-font-size: var(--font-size-x-large);
+  --typography-h-large-line-height: var(--line-height-medium);
+  --typography-h-large-small-line-height: calc(
     var(--line-height-medium) - 0.125rem
   );
-  --typography-heading-medium-line-height: var(--line-height-lead);
-  --typography-heading-small-small-line-height: var(--line-height-small);
+  --typography-h-medium-line-height: var(--line-height-lead);
+  --typography-h-small-small-line-height: var(--line-height-small);
 }
 
 $useClasses: true !default;

@@ -94,7 +94,7 @@
     margin: 0;
   }
 
-  font-family: var(--typography-heading-default-font-family);
+  font-family: var(--typography-h-default-font-family);
 
   // make icons inside heading responsive to the heading size
   .dnb-icon--default {
@@ -119,11 +119,11 @@
 
 @mixin headingSize_xx-large() {
   @include headingStyle(
-    var(--typography-heading-xx-large-font-size),
-    var(--typography-heading-xx-large-line-height),
-    var(--typography-heading-xx-large-small-font-size),
-    var(--typography-heading-xx-large-small-line-height),
-    var(--typography-heading-xx-large-weight)
+    var(--typography-h-xx-large-font-size),
+    var(--typography-h-xx-large-line-height),
+    var(--typography-h-xx-large-small-font-size),
+    var(--typography-h-xx-large-small-line-height),
+    var(--typography-h-xx-large-weight)
   ) {
     & > small {
       display: block;
@@ -134,11 +134,11 @@
 
 @mixin headingSize_x-large() {
   @include headingStyle(
-    var(--typography-heading-x-large-font-size),
-    var(--typography-heading-x-large-line-height),
-    var(--typography-heading-x-large-small-font-size),
-    var(--typography-heading-x-large-small-line-height),
-    var(--typography-heading-x-large-weight)
+    var(--typography-h-x-large-font-size),
+    var(--typography-h-x-large-line-height),
+    var(--typography-h-x-large-small-font-size),
+    var(--typography-h-x-large-small-line-height),
+    var(--typography-h-x-large-weight)
   ) {
     & > small {
       display: block;
@@ -149,11 +149,11 @@
 
 @mixin headingSize_large() {
   @include headingStyle(
-    var(--typography-heading-large-font-size),
-    var(--typography-heading-large-line-height),
-    var(--typography-heading-large-small-font-size),
-    var(--typography-heading-large-small-line-height),
-    var(--typography-heading-large-weight)
+    var(--typography-h-large-font-size),
+    var(--typography-h-large-line-height),
+    var(--typography-h-large-small-font-size),
+    var(--typography-h-large-small-line-height),
+    var(--typography-h-large-weight)
   ) {
     @content;
   }
@@ -173,11 +173,11 @@
 
 @mixin headingSize_medium() {
   @include headingStyle(
-    var(--typography-heading-medium-font-size),
-    var(--typography-heading-medium-line-height),
-    var(--typography-heading-medium-small-font-size),
-    var(--typography-heading-medium-small-line-height),
-    var(--typography-heading-medium-weight)
+    var(--typography-h-medium-font-size),
+    var(--typography-h-medium-line-height),
+    var(--typography-h-medium-small-font-size),
+    var(--typography-h-medium-small-line-height),
+    var(--typography-h-medium-weight)
   ) {
     @content;
   }
@@ -185,11 +185,11 @@
 
 @mixin headingSize_basis() {
   @include headingStyle(
-    var(--typography-heading-basis-font-size),
-    var(--typography-heading-basis-line-height),
-    var(--typography-heading-basis-small-font-size),
-    var(--typography-heading-basis-small-line-height),
-    var(--typography-heading-basis-weight)
+    var(--typography-h-basis-font-size),
+    var(--typography-h-basis-line-height),
+    var(--typography-h-basis-small-font-size),
+    var(--typography-h-basis-small-line-height),
+    var(--typography-h-basis-weight)
   ) {
     @content;
   }
@@ -197,11 +197,11 @@
 
 @mixin headingSize_small() {
   @include headingStyle(
-    var(--typography-heading-small-font-size),
-    var(--typography-heading-small-line-height),
-    var(--typography-heading-small-small-font-size),
-    var(--typography-heading-small-small-line-height),
-    var(--typography-heading-small-weight)
+    var(--typography-h-small-font-size),
+    var(--typography-h-small-line-height),
+    var(--typography-h-small-small-font-size),
+    var(--typography-h-small-small-line-height),
+    var(--typography-h-small-weight)
   ) {
     @content;
   }
@@ -209,11 +209,11 @@
 
 @mixin headingSize_x-small() {
   @include headingStyle(
-    var(--typography-heading-x-small-font-size),
-    var(--typography-heading-x-small-line-height),
+    var(--typography-h-x-small-font-size),
+    var(--typography-h-x-small-line-height),
     null,
     null,
-    var(--typography-heading-x-small-weight)
+    var(--typography-h-x-small-weight)
   ) {
     @content;
   }
