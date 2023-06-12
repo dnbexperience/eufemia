@@ -90,6 +90,22 @@ describe('Input component', () => {
     expect(ref.current.tagName).toBe('INPUT')
   })
 
+  it('gets valid element when ref is function', () => {
+    const ref = React.createRef<HTMLInputElement | null>()
+
+    const refFn = (elem: HTMLInputElement) => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      ref.current = elem
+    }
+
+    render(<Input {...props} inner_ref={refFn} />)
+
+    expect(ref.current instanceof HTMLInputElement).toBe(true)
+    expect(ref.current.id).toBe(props.id)
+    expect(ref.current.tagName).toBe('INPUT')
+  })
+
   it('value should be controllable from outside', () => {
     const initialValue = '1234'
     const Controlled = () => {

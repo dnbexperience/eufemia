@@ -78,7 +78,7 @@ InputMasked.propTypes = {
     PropTypes.bool,
   ]),
   placeholder_char: PropTypes.string,
-  inner_ref: PropTypes.object,
+  inner_ref: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
 
   on_change: PropTypes.func,
   on_submit: PropTypes.func,
