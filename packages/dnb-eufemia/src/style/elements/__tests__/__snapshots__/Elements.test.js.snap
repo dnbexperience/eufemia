@@ -579,9 +579,7 @@ del .dnb-code {
   --typography-h-xx-large-font-size: var(--font-size-xx-large);
   --typography-h-xx-large-line-height: var(--line-height-xx-large);
   --typography-h-xx-large-small-font-size: var(--font-size-x-large);
-  --typography-h-xx-large-small-line-height: var(
-    --line-height-x-large
-  );
+  --typography-h-xx-large-small-line-height: var(--line-height-x-large);
   --typography-h-xx-large-weight: var(--font-weight-medium);
   --typography-h-x-large-font-size: var(--font-size-x-large);
   --typography-h-x-large-line-height: var(--line-height-x-large);
