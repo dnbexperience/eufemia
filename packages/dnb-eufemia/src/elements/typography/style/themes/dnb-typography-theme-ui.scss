@@ -14,7 +14,7 @@
   color: var(--theme-color-black-80, currentColor);
 }
 
-@include typographySelectors() {
+@include typography.typographySelectors() {
   --typography-h-xx-large-small-line-height: var(--line-height-large);
   --typography-h-x-large-line-height: var(--line-height-large);
   --typography-h-x-large-small-font-size: var(--font-size-x-large);

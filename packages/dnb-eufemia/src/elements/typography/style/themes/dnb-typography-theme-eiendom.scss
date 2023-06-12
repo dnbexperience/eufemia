@@ -1,6 +1,6 @@
 @use '../typography-mixins.scss' as typography;
 
-@include typographySelectors() {
+@include typography.typographySelectors() {
   --typography-h-xx-large-weight: var(--font-weight-regular);
   --typography-h-x-large-weight: var(--font-weight-regular);
   --typography-h-large-weight: var(--font-weight-regular);
