@@ -6,7 +6,6 @@
 import { axe, toHaveNoViolations } from 'jest-axe'
 import fakeProps from 'react-fake-props'
 import { mount, render } from './enzyme'
-import ReactDOMServer from 'react-dom/server'
 import fs from 'fs-extra'
 import path from 'path'
 import sass from 'sass'
@@ -128,11 +127,6 @@ export const axeComponent = async (...components) => {
       // Support @testing-library/react
       if (Component?.container) {
         return Component.container.outerHTML
-      }
-
-      // Support Enzyme: names the mounted wrapper: ReactWrapper
-      if (/react/i.test(String(Component?.constructor))) {
-        return ReactDOMServer.renderToStaticMarkup(Component)
       }
 
       return null
