@@ -4,7 +4,6 @@
  */
 
 import React from 'react'
-import { mount } from '../../core/jest/jestSetup'
 import { render, screen } from '@testing-library/react'
 
 import {
@@ -424,30 +423,22 @@ describe('"findElementInChildren" should', () => {
     const h1 = <h1>find this</h1>
     const h2 = <h2>and this</h2>
     const Heading = () => h1
-    const Comp = mount(
-      <div>
-        <div>
-          <Heading />
-          <span>{h2}</span>
-        </div>
-      </div>
+    const children = React.createElement(
+      'div',
+      null,
+      React.createElement(Heading),
+      React.createElement('span', null, React.createElement(h2))
     )
 
-    const HeadingElement = findElementInChildren(
-      Comp.props().children,
-      (cur) => {
-        return cur.type === Heading
-      }
-    )
+    const HeadingElement = findElementInChildren(children, (cur) => {
+      return cur.type === Heading
+    })
     expect(HeadingElement.type).toBe(Heading)
 
-    const h2Element = findElementInChildren(
-      Comp.props().children,
-      (cur) => {
-        return cur.type === 'h2'
-      }
-    )
-    expect(h2Element.type).toBe('h2')
+    const h2Element = findElementInChildren(children, (cur) => {
+      return cur.type === h2
+    })
+    expect(h2Element.type).toBe(h2)
   })
 })
 
