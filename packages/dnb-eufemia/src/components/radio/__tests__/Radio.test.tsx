@@ -6,10 +6,8 @@
 import { fireEvent, render, cleanup } from '@testing-library/react'
 import React from 'react'
 import {
-  mount,
   fakeProps,
   axeComponent,
-  toJson,
   loadScss,
 } from '../../../core/jest/jestSetup'
 import FormRow from '../../form-row/FormRow'
@@ -29,14 +27,6 @@ props.direction = 'horizontal'
 props.globalStatus = { id: 'main' }
 
 describe('Radio component', () => {
-  // then test the state management
-
-  // mount compare the snapshot
-  it('have to match snapshot', () => {
-    const Comp = mount(<Component {...props} />)
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
   it('has correct state after "change" trigger', () => {
     const { rerender } = render(<Component {...props} />)
     // default checked value has to be false
@@ -192,19 +182,6 @@ describe('Radio component', () => {
       'dnb-radio--label-position-right',
     ])
   })
-
-  it('should validate with ARIA rules', async () => {
-    const Comp = mount(<Component {...props} />)
-    expect(
-      await axeComponent(Comp, {
-        rules: {
-          // NVDA fix
-          // because of the role="radio", we have to allow this
-          'aria-allowed-role': { enabled: false },
-        },
-      })
-    ).toHaveNoViolations()
-  })
 })
 
 describe('Radio group component', () => {
@@ -328,26 +305,23 @@ describe('Radio group component', () => {
       'dnb-form-row--vertical-label',
     ])
   })
-
-  // mount compare the snapshot
-  it('have to match group snapshot', () => {
-    const Comp = mount(
-      <Component.Group
-        label="Label"
-        name="group"
-        id="group"
-        no_fieldset
-        on_change={jest.fn()}
-      >
-        <Component id="radio-1" label="Radio 1" value="first" />
-        <Component id="radio-2" label="Radio 2" value="second" checked />
-      </Component.Group>
-    )
-    expect(toJson(Comp)).toMatchSnapshot()
+})
+describe('Radio ARIA', () => {
+  it('should validate with ARIA rules for Radio', async () => {
+    const Comp = render(<Component {...props} />)
+    expect(
+      await axeComponent(Comp, {
+        rules: {
+          // NVDA fix
+          // because of the role="radio", we have to allow this
+          'aria-allowed-role': { enabled: false },
+        },
+      })
+    ).toHaveNoViolations()
   })
 
-  it('should validate with ARIA rules', async () => {
-    const Comp = mount(
+  it('should validate with ARIA rules for Radio.Group', async () => {
+    const Comp = render(
       <Component.Group
         label="Label"
         name="group"

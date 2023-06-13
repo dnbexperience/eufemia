@@ -1,24 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Section component have to match snapshot 1`] = `
-<Section
-  0={
-    {
-      "displayName": "Section",
-      "props": {},
-    }
-  }
-  element={null}
-  inner_ref={null}
-  style={null}
-  style_type="mint-green-12"
->
-  <section
-    className="dnb-section dnb-section--mint-green-12"
-  />
-</Section>
-`;
-
 exports[`Section scss have to match default theme snapshot 1`] = `
 "/*
  * Section theme

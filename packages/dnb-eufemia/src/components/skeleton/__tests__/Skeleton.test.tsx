@@ -4,12 +4,7 @@
  */
 
 import React from 'react'
-import {
-  mount,
-  axeComponent,
-  toJson,
-  loadScss,
-} from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import Component from '../Skeleton'
 import Input from '../../input/Input'
 import P from '../../../elements/P'
@@ -27,12 +22,6 @@ const props = {
 }
 
 describe('Skeleton component', () => {
-  // compare the snapshot
-  it('have to match snapshot', () => {
-    const Comp = mount(<Component {...props} />)
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
   it('has to use the provider to enable a skeleton in a component', () => {
     const { rerender } = render(<Component {...props} />)
     expect(document.querySelector('.dnb-input .dnb-skeleton')).toBeFalsy()

@@ -4,12 +4,7 @@
  */
 
 import React from 'react'
-import {
-  mount,
-  axeComponent,
-  toJson,
-  loadScss,
-} from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import Component, {
   Designs,
   ProductType,
@@ -40,11 +35,6 @@ const defaultProps: PaymentCardProps = {
 }
 
 describe('PaymentCard', () => {
-  it('have to match snapshot', () => {
-    const Comp = mount(<Component {...defaultProps} />)
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
   it('has to have a figcaption', () => {
     render(<Component {...defaultProps} />)
 

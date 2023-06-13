@@ -5,9 +5,7 @@
 
 import React from 'react'
 import {
-  mount,
   fakeProps,
-  toJson,
   axeComponent,
   loadScss,
 } from '../../../core/jest/jestSetup'
@@ -24,11 +22,6 @@ props.border = false
 props['aria-hidden'] = null
 
 describe('Icon component', () => {
-  it('have to match snapshot', () => {
-    const Comp = mount(<Component {...props} />)
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
   it('has valid width and height prop', () => {
     const width = '200'
     const height = '100'
@@ -55,18 +48,19 @@ describe('Icon component', () => {
   })
 
   it('should return null if icon was given as null', () => {
-    expect(mount(<Component icon={null} />)).toMatchInlineSnapshot(
-      'ReactWrapper {}'
+    const { asFragment: asFragment1 } = render(<Component icon={null} />)
+    expect(asFragment1()).toMatchInlineSnapshot(`<DocumentFragment />`)
+
+    const { asFragment: asFragment2 } = render(
+      <Component icon={undefined} />
     )
-    expect(mount(<Component icon={undefined} />)).toMatchInlineSnapshot(
-      'ReactWrapper {}'
-    )
-    expect(mount(<Component icon={false} />)).toMatchInlineSnapshot(
-      'ReactWrapper {}'
-    )
-    expect(mount(<Component icon={''} />)).toMatchInlineSnapshot(
-      'ReactWrapper {}'
-    )
+    expect(asFragment2()).toMatchInlineSnapshot(`<DocumentFragment />`)
+
+    const { asFragment: asFragment3 } = render(<Component icon={false} />)
+    expect(asFragment3()).toMatchInlineSnapshot(`<DocumentFragment />`)
+
+    const { asFragment: asFragment4 } = render(<Component icon={''} />)
+    expect(asFragment4()).toMatchInlineSnapshot(`<DocumentFragment />`)
   })
 
   it('should have border class', () => {

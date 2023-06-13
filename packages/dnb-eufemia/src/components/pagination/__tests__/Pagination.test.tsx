@@ -5,10 +5,8 @@
 
 import React from 'react'
 import {
-  mount,
   fakeProps,
   axeComponent,
-  toJson,
   loadScss,
 } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
@@ -255,12 +253,6 @@ describe('Pagination bar', () => {
     fireEvent.click(nextButton)
     expect(on_change).toHaveBeenCalledTimes(2)
     expect(on_change.mock.calls[1][0].pageNumber).toBe(17)
-  })
-
-  // compare the snapshot
-  it('have to match snapshot', () => {
-    const CheckComponent = mount(<Component {...snapshotProps} />)
-    expect(toJson(CheckComponent)).toMatchSnapshot()
   })
 })
 
@@ -763,14 +755,6 @@ describe('Infinity scroller', () => {
     expect(
       document.querySelector('.dnb-pagination__indicator')
     ).toBeFalsy()
-  })
-
-  // compare the snapshot
-  it('have to match snapshot', async () => {
-    const CheckComponent = mount(<Component mode="infinity" {...props} />)
-    await wait(1)
-    CheckComponent.update()
-    expect(toJson(CheckComponent)).toMatchSnapshot()
   })
 })
 

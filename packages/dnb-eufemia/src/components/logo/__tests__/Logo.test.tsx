@@ -4,12 +4,7 @@
  */
 
 import React from 'react'
-import {
-  mount,
-  fakeProps,
-  toJson,
-  loadScss,
-} from '../../../core/jest/jestSetup'
+import { fakeProps, loadScss } from '../../../core/jest/jestSetup'
 import Logo from '../Logo'
 import { render } from '@testing-library/react'
 import Provider from '../../../shared/Provider'
@@ -21,11 +16,6 @@ const props = fakeProps(require.resolve('../Logo'), {
 props.height = 80
 
 describe('Logo component', () => {
-  it('have to match default logo snapshot', () => {
-    const Comp = mount(<Logo {...props} />)
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
   it('should set correct class when inherit_color is set', () => {
     render(<Logo inherit_color />)
     expect(document.querySelector('.dnb-logo').classList).toContain(

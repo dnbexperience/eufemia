@@ -6,10 +6,8 @@
 import { fireEvent, render, cleanup } from '@testing-library/react'
 import React from 'react'
 import {
-  mount,
   fakeProps,
   axeComponent,
-  toJson,
   loadScss,
 } from '../../../core/jest/jestSetup'
 import FormRow from '../../form-row/FormRow'
@@ -27,13 +25,6 @@ props.readOnly = false
 props.globalStatus = { id: 'main' }
 
 describe('ToggleButton component', () => {
-  // mount compare the snapshot
-  it('have to match snapshot', () => {
-    const Comp = mount(<Component {...props} />)
-
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
   it('has correct state after "click" trigger', () => {
     const { rerender } = render(<Component {...props} />)
 
@@ -285,25 +276,6 @@ describe('ToggleButton component', () => {
 })
 
 describe('ToggleButton group component', () => {
-  it('have to match group snapshot', () => {
-    const Comp = mount(
-      <Component.Group label="Label" id="group">
-        <Component
-          id="toggle-button-1"
-          text="ToggleButton 1"
-          variant="radio"
-        />
-        <Component
-          id="toggle-button-2"
-          text="ToggleButton 2"
-          variant="radio"
-          checked
-        />
-      </Component.Group>
-    )
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
   it('has to have variant="radio', () => {
     render(
       <Component.Group label="Label" id="group">

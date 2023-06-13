@@ -4,9 +4,7 @@ import Button from '../../button/Button'
 import Provider from '../../../shared/Provider'
 
 import {
-  mount,
   fakeProps,
-  toJson,
   loadScss,
   axeComponent,
 } from '../../../core/jest/jestSetup'
@@ -383,13 +381,6 @@ describe('Drawer', () => {
   })
 })
 
-describe('Drawer component snapshot', () => {
-  it('should match component snapshot', () => {
-    const Comp = mount(<Drawer {...props} openState={true} />)
-    expect(toJson(Comp)).toMatchSnapshot()
-    Comp.find('button.dnb-modal__close-button').simulate('click')
-  })
-})
 describe('Drawer aria', () => {
   it('should validate with ARIA rules as a drawer', async () => {
     const Comp = render(<Drawer {...props} openState={true} />)

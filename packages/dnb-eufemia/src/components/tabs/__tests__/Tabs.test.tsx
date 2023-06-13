@@ -5,10 +5,8 @@
 
 import React from 'react'
 import {
-  mount,
   fakeProps,
   axeComponent,
-  toJson,
   loadScss,
 } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
@@ -40,19 +38,6 @@ const contentWrapperData = {
 }
 
 describe('Tabs component', () => {
-  it('have to match snapshot', () => {
-    const Comp = mount(
-      <Component
-        {...props}
-        data={tablistData}
-        selected_key={startup_selected_key}
-      >
-        {contentWrapperData}
-      </Component>
-    )
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
   it('have a "selected_key" state have to be same as prop from startup', () => {
     render(
       <Component

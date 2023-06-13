@@ -7,7 +7,6 @@ import React from 'react'
 import {
   mount,
   axeComponent,
-  toJson,
   loadScss,
 } from '../../../core/jest/jestSetup'
 import Heading, { resetLevels, setNextLevel } from '../Heading'
@@ -425,10 +424,6 @@ describe('Heading component', () => {
     expect(elem.at(++i).text()).toBe('[h2] Heading #9')
   })
 
-  it('have to match default heading snapshot', () => {
-    const Comp = makeComp()
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
   it('should validate with ARIA rules', async () => {
     const Comp = makeComp()
     expect(await axeComponent(Comp, {})).toHaveNoViolations()

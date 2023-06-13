@@ -5,10 +5,8 @@
 
 import React from 'react'
 import {
-  mount,
   fakeProps,
   axeComponent,
-  toJson,
   loadScss,
 } from '../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
@@ -24,11 +22,6 @@ props.direction = 'horizontal'
 props.label_direction = 'horizontal'
 
 describe('FormLabel component', () => {
-  it('have to match snapshot', () => {
-    const Comp = mount(<Component {...props} />)
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
   it('should forward unlisted attributes like "aria-hidden"', () => {
     render(<Component {...props} for_id="input" aria-hidden />)
     expect(document.querySelector('label[aria-hidden]')).toBeTruthy()

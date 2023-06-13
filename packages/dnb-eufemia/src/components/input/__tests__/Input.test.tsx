@@ -5,9 +5,7 @@
 
 import React from 'react'
 import {
-  mount,
   fakeProps,
-  toJson,
   axeComponent,
   loadScss,
 } from '../../../core/jest/jestSetup'
@@ -38,16 +36,6 @@ afterEach(() => {
 })
 
 describe('Input component', () => {
-  // compare the snapshot
-  it('have to match type="text" snapshot', () => {
-    const Comp = mount(<Component {...props} value="test" />)
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-  it('have to match type="search" snapshot', () => {
-    const Comp = mount(<Component {...props} type="search" value="test" />)
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
   it('has correct state after "focus" trigger', () => {
     render(
       <Component {...props} value={null}>

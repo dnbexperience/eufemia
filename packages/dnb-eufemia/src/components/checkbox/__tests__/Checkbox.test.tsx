@@ -6,10 +6,8 @@
 import { render, screen, cleanup, fireEvent } from '@testing-library/react'
 import React from 'react'
 import {
-  mount,
   fakeProps,
   axeComponent,
-  toJson,
   loadScss,
 } from '../../../core/jest/jestSetup'
 import FormRow from '../../form-row/FormRow'
@@ -27,12 +25,6 @@ props.label = 'checkbox'
 props.label_position = 'left'
 
 describe('Checkbox component', () => {
-  // mount compare the snapshot
-  it('have to match snapshot', () => {
-    const Comp = mount(<Component {...props} />)
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
   it('has correct state after "change" trigger', () => {
     const { rerender } = render(<Component {...props} />)
 

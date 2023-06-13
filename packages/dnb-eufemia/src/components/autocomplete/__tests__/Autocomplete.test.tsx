@@ -5,10 +5,8 @@
 
 import React from 'react'
 import {
-  mount,
   fakeProps,
   axeComponent,
-  toJson,
   loadScss,
 } from '../../../core/jest/jestSetup'
 import * as helpers from '../../../shared/helpers'
@@ -2352,15 +2350,6 @@ describe('Autocomplete component', () => {
 })
 
 describe('Autocomplete markup', () => {
-  // compare the snapshot
-  it('have to match snapshot', () => {
-    const CheckComponent = mount(
-      <Component {...snapshotProps} data={mockData} />
-    )
-
-    expect(toJson(CheckComponent)).toMatchSnapshot()
-  })
-
   it.skip('should validate with ARIA rules', async () => {
     const CheckComponent = render(
       <Component {...snapshotProps} data={mockData} />

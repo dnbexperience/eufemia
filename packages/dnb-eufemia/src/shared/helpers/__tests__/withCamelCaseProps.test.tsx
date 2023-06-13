@@ -7,7 +7,6 @@ import {
   classWithCamelCaseProps,
   IncludeCamelCase,
 } from '../withCamelCaseProps'
-import { mount, toJson } from '../../../core/jest/jestSetup'
 
 type CustomType = {
   foo_bar: number
@@ -127,73 +126,35 @@ describe('withCamelCaseProps', () => {
     `)
   })
 
-  it('will render with enzyme', () => {
-    const Comp = mount(<Component snake_case={false} camelCase={1} />)
-
-    expect(toJson(Comp)).toMatchInlineSnapshot(`
-        <Original
-          camelCase={1}
-          snake_case={false}
-        >
-          <Original
-            camel_case={1}
-            snake_case={false}
-          >
-            <div
-              data-testid="content"
-            >
-              <div
-                data-testid="props"
-              >
-                {"snake_case":false,"camel_case":1}
-              </div>
-              <div
-                data-testid="context"
-              >
-                {}
-              </div>
-            </div>
-          </Original>
-        </Original>
-      `)
-  })
-
   it('will handle contextType', () => {
-    const Comp = mount(
+    const { asFragment } = render(
       <Context.Provider value={{ contextProp: 'context value' }}>
         <Component snake_case={false} camelCase={1} />
       </Context.Provider>
     )
 
-    expect(
-      Comp.find(Original).find('[data-testid="context"]').text()
-    ).toBe('{"contextProp":"context value"}')
-    expect(toJson(Comp)).toMatchInlineSnapshot(`
-        <Original
-          camelCase={1}
-          snake_case={false}
+    expect(screen.queryByTestId('context').textContent).toMatch(
+      '{"contextProp":"context value"}'
+    )
+
+    expect(asFragment()).toMatchInlineSnapshot(`
+      <DocumentFragment>
+        <div
+          data-testid="content"
         >
-          <Original
-            camel_case={1}
-            snake_case={false}
+          <div
+            data-testid="props"
           >
-            <div
-              data-testid="content"
-            >
-              <div
-                data-testid="props"
-              >
-                {"snake_case":false,"camel_case":1}
-              </div>
-              <div
-                data-testid="context"
-              >
-                {"contextProp":"context value"}
-              </div>
-            </div>
-          </Original>
-        </Original>
-      `)
+            {"snake_case":false,"camel_case":1}
+          </div>
+          <div
+            data-testid="context"
+          >
+            {"contextProp":"context value"}
+          </div>
+        </div>
+      </DocumentFragment>
+    `)
   })
 })
 
@@ -324,87 +285,42 @@ describe('classWithCamelCaseProps', () => {
     expect(componentDidMount).toHaveBeenCalledTimes(1)
   })
 
-  it('will render with enzyme', () => {
-    const Component = classWithCamelCaseProps(Original)
-
-    const Comp = mount(<Component snake_case={false} camelCase={1} />)
-
-    expect(toJson(Comp)).toMatchInlineSnapshot(`
-              <Original
-                camelCase={1}
-                snake_case={false}
-              >
-                <Original
-                  camel_case={1}
-                  snake_case={false}
-                >
-                  <div
-                    data-testid="content"
-                  >
-                    <div
-                      data-testid="props"
-                    >
-                      {"snake_case":false,"camel_case":1}
-                    </div>
-                    <div
-                      data-testid="state"
-                    >
-                      {"someState":true}
-                    </div>
-                    <div
-                      data-testid="context"
-                    >
-                      {}
-                    </div>
-                  </div>
-                </Original>
-              </Original>
-          `)
-  })
-
   it('will handle contextType', () => {
     const Component = classWithCamelCaseProps(Original)
 
-    const Comp = mount(
+    const { asFragment } = render(
       <Context.Provider value={{ contextProp: 'context value' }}>
         <Component snake_case={false} camelCase={1} />
       </Context.Provider>
     )
 
-    expect(
-      Comp.find(Original).find('[data-testid="context"]').text()
-    ).toBe('{"contextProp":"context value"}')
-    expect(toJson(Comp)).toMatchInlineSnapshot(`
-              <Original
-                camelCase={1}
-                snake_case={false}
-              >
-                <Original
-                  camel_case={1}
-                  snake_case={false}
-                >
-                  <div
-                    data-testid="content"
-                  >
-                    <div
-                      data-testid="props"
-                    >
-                      {"snake_case":false,"camel_case":1}
-                    </div>
-                    <div
-                      data-testid="state"
-                    >
-                      {"someState":true}
-                    </div>
-                    <div
-                      data-testid="context"
-                    >
-                      {"contextProp":"context value"}
-                    </div>
-                  </div>
-                </Original>
-              </Original>
-          `)
+    expect(screen.queryByTestId('context').textContent).toMatch(
+      '{"contextProp":"context value"}'
+    )
+
+    expect(asFragment()).toMatchInlineSnapshot(`
+      <DocumentFragment>
+        <div
+          data-testid="content"
+        >
+          <div
+            data-testid="props"
+          >
+            {"snake_case":false,"camel_case":1}
+          </div>
+          <div
+            data-testid="state"
+          >
+            {"someState":true}
+          </div>
+          <div
+            data-testid="context"
+          >
+            {"contextProp":"context value"}
+          </div>
+        </div>
+      </DocumentFragment>
+    `)
   })
 
   it('should set props', () => {

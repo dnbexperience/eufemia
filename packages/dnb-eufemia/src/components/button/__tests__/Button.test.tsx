@@ -5,9 +5,7 @@
 
 import React from 'react'
 import {
-  mount,
   fakeProps,
-  toJson,
   axeComponent,
   loadScss,
 } from '../../../core/jest/jestSetup'
@@ -38,16 +36,6 @@ beforeAll(() => {
 })
 
 describe('Button component', () => {
-  it('have to match default button snapshot', () => {
-    const Comp = mount(<Component {...props} href={null} />)
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
-  it('have to match href="..." snapshot', () => {
-    const Comp = mount(<Component {...props} href="https://url" />)
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
   it('has a button tag', () => {
     const title = 'title'
     render(<Component {...props} title={title} href={null} />)

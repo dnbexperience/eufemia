@@ -6,9 +6,7 @@
 import { fireEvent, render } from '@testing-library/react'
 import React from 'react'
 import {
-  mount,
   fakeProps,
-  toJson,
   axeComponent,
   loadScss,
 } from '../../../core/jest/jestSetup'
@@ -29,12 +27,6 @@ const props = {
 }
 
 describe('Textarea component', () => {
-  // compare the snapshot
-  it('have to match snapshot', () => {
-    const Comp = mount(<Component {...props} value="test" />)
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
   it('has correct state after "focus" trigger', () => {
     render(
       <Component {...props} value={null}>
@@ -274,13 +266,14 @@ describe('Textarea component', () => {
   })
 
   it('should validate with ARIA rules as a textarea with a label', async () => {
-    const LabelComp = mount(<label htmlFor="textarea">text</label>)
-    const TextareaComp = mount(
-      <Component {...props} id="textarea" value="some value" />
+    const Comp = render(
+      <>
+        <label htmlFor="textarea">text</label>
+        <Component {...props} id="textarea" value="some value" />
+      </>
     )
-    expect(
-      await axeComponent(LabelComp, TextareaComp)
-    ).toHaveNoViolations()
+
+    expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
 

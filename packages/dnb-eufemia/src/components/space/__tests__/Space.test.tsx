@@ -4,12 +4,7 @@
  */
 
 import React from 'react'
-import {
-  mount,
-  fakeProps,
-  toJson,
-  loadScss,
-} from '../../../core/jest/jestSetup'
+import { fakeProps, loadScss } from '../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
 import Component from '../Space'
 
@@ -19,11 +14,6 @@ snapshotProps.element = 'div'
 snapshotProps.no_collapse = false
 
 describe('Space component', () => {
-  it('have to match snapshot', () => {
-    const Comp = mount(<Component {...snapshotProps} />)
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
   it('should have correct CSS classes', () => {
     render(<Component element="span" top="large" />)
     expect(

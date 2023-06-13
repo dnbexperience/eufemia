@@ -5,10 +5,8 @@
 
 import React from 'react'
 import {
-  mount,
   fakeProps,
   axeComponent,
-  toJson,
   loadScss,
 } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
@@ -21,32 +19,6 @@ import {
   DrawerListDataObject,
   DrawerListDataObjectUnion,
 } from '../../../fragments/drawer-list'
-
-const snapshotProps = {
-  ...fakeProps(require.resolve('../Dropdown'), {
-    optional: true,
-  }),
-  id: 'dropdown-id',
-  status: 'status',
-  status_state: 'error',
-  status_props: null,
-  direction: 'bottom',
-  label_direction: 'horizontal',
-  value: 2,
-  action_menu: null,
-  more_menu: null,
-  icon_position: null,
-  triangle_position: null,
-  prevent_selection: null,
-  align_dropdown: null,
-  trigger_element: null,
-  size: null,
-  opened: true,
-  skip_portal: true,
-  no_animation: true,
-  variant: 'secondary',
-  globalStatus: { id: 'main' },
-}
 
 // use no_animation so we don't need to wait
 const mockProps = {
@@ -1162,7 +1134,7 @@ describe('Dropdown component', () => {
   })
 
   beforeAll(() => {
-    ;(window as any).resizeTo = function resizeTo({
+    (window as any).resizeTo = function resizeTo({
       width = window.innerWidth,
       height = window.innerHeight,
     }: {
@@ -1212,16 +1184,37 @@ describe('Dropdown component', () => {
 })
 
 describe('Dropdown markup', () => {
-  // compare the snapshot
-  it('have to match snapshot', () => {
-    const CheckComponent = mount(
+  it.skip('should validate with ARIA rules', async () => {
+    const snapshotProps = {
+      ...fakeProps(require.resolve('../Dropdown'), {
+        optional: true,
+      }),
+      id: 'dropdown-id',
+      status: 'status',
+      status_state: 'error',
+      status_props: null,
+      direction: 'bottom',
+      label_direction: 'horizontal',
+      value: 2,
+      action_menu: null,
+      more_menu: null,
+      icon_position: null,
+      triangle_position: null,
+      prevent_selection: null,
+      align_dropdown: null,
+      trigger_element: null,
+      size: null,
+      opened: true,
+      skip_portal: true,
+      no_animation: true,
+      variant: 'secondary',
+      globalStatus: { id: 'main' },
+    }
+
+    const CheckComponent = render(
       <Component {...snapshotProps} data={mockData} />
     )
-    expect(toJson(CheckComponent)).toMatchSnapshot()
-  })
 
-  it.skip('should validate with ARIA rules', async () => {
-    const CheckComponent = render(<Component {...props} data={mockData} />)
     expect(await axeComponent(CheckComponent)).toHaveNoViolations()
   })
 })

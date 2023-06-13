@@ -4,12 +4,7 @@
  */
 
 import React from 'react'
-import {
-  mount,
-  axeComponent,
-  toJson,
-  loadScss,
-} from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import Accordion, { AccordionProps } from '../Accordion'
 import {
   add_medium as AddIcon,
@@ -28,12 +23,6 @@ const props = {
 } as AccordionProps
 
 describe('Accordion component', () => {
-  it('have to match snapshot', () => {
-    const Comp = mount(<Accordion {...props} />)
-
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
   it('has correct state after "click" trigger', () => {
     const { rerender } = render(<Accordion {...props} />)
 

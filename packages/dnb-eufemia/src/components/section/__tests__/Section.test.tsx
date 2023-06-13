@@ -6,10 +6,8 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import {
-  mount,
   fakeProps,
   axeComponent,
-  toJson,
   loadScss,
 } from '../../../core/jest/jestSetup'
 import Section from '../Section'
@@ -24,11 +22,6 @@ props.inner_ref = null
 props.style_type = 'mint-green-12'
 
 describe('Section component', () => {
-  it('have to match snapshot', () => {
-    const Comp = mount(<Section {...props} />)
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
   it('should have correct styles', () => {
     render(<Section style_type="divider" />)
     expect(

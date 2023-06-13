@@ -3,9 +3,7 @@ import Dialog from '../Dialog'
 import Button from '../../button/Button'
 import Provider from '../../../shared/Provider'
 import {
-  mount,
   fakeProps,
-  toJson,
   loadScss,
   axeComponent,
 } from '../../../core/jest/jestSetup'
@@ -427,12 +425,6 @@ describe('Dialog', () => {
   })
 })
 
-describe('Dialog component snapshot', () => {
-  it('should match component snapshot', () => {
-    const Comp = mount(<Dialog {...props} openState={true} />)
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-})
 describe('Dialog aria', () => {
   it('should validate with ARIA rules as a dialog', async () => {
     const Comp = render(<Dialog {...props} openState={true} />)
