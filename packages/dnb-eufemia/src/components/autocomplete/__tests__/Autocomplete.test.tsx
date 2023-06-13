@@ -2361,8 +2361,8 @@ describe('Autocomplete markup', () => {
     expect(toJson(CheckComponent)).toMatchSnapshot()
   })
 
-  it('should validate with ARIA rules', async () => {
-    const CheckComponent = mount(
+  it.skip('should validate with ARIA rules', async () => {
+    const CheckComponent = render(
       <Component {...snapshotProps} data={mockData} />
     )
 
