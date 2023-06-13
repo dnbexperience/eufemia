@@ -456,7 +456,7 @@ describe('StepIndicator in loose mode', () => {
   })
 
   it('should validate with ARIA rules', async () => {
-    const Comp = renderComponentUsingMount('unique-id-loose-aria')
+    const Comp = renderComponent('unique-id-loose-aria')
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
@@ -553,11 +553,6 @@ describe('StepIndicator in strict mode', () => {
       screen.queryAllByRole('listitem', { current: 'step' })
     ).toHaveLength(1)
   })
-
-  it('should validate with ARIA rules', async () => {
-    const Comp = renderComponent('unique-id-strict-aria')
-    expect(await axeComponent(Comp)).toHaveNoViolations()
-  })
 })
 
 describe('StepIndicator in static mode', () => {
@@ -628,6 +623,23 @@ describe('StepIndicator in static mode', () => {
 
   it('should validate with ARIA rules', async () => {
     const Comp = renderComponent('unique-id-static-aria')
+    expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+})
+
+describe('StepIndicator ARIA', () => {
+  it('should validate with ARIA rules', async () => {
+    const Comp = render(
+      <>
+        <Component.Sidebar sidebar_id="unique-id-strict-aria" />
+        <Component
+          current_step={1}
+          mode="loose"
+          sidebar_id="unique-id-strict-aria"
+          data={stepIndicatorListData}
+        />
+      </>
+    )
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })

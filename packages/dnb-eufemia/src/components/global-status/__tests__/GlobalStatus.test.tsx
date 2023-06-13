@@ -917,7 +917,7 @@ describe('GlobalStatus component', () => {
   })
 
   it('should validate with ARIA rules', async () => {
-    const Comp = mount(<Component {...props} />)
+    const Comp = render(<Component {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })

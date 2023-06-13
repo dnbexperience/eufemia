@@ -40,9 +40,8 @@ const defaultProps: PaymentCardProps = {
 }
 
 describe('PaymentCard', () => {
-  const Comp = mount(<Component {...defaultProps} />)
-
   it('have to match snapshot', () => {
+    const Comp = mount(<Component {...defaultProps} />)
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
@@ -126,6 +125,7 @@ describe('PaymentCard', () => {
   })
 
   it('should validate with ARIA rules', async () => {
+    const Comp = render(<Component {...defaultProps} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })

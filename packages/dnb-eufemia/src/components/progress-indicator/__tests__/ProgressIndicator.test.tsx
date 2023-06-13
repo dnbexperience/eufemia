@@ -137,13 +137,6 @@ describe('Circular ProgressIndicator component', () => {
     const indicator = screen.getByRole('progressbar')
     expect(indicator.getAttribute('title')).toBe(title)
   })
-
-  it('should validate with ARIA rules as a svg element', async () => {
-    const Comp = mount(
-      <Component {...props} type="circular" progress={50} />
-    )
-    expect(await axeComponent(Comp)).toHaveNoViolations()
-  })
 })
 
 describe('Linear ProgressIndicator component', () => {
@@ -271,10 +264,19 @@ describe('Linear ProgressIndicator component', () => {
     const indicator = screen.getByRole('progressbar')
     expect(indicator.getAttribute('title')).toBe(title)
   })
+})
+
+describe('ProgressIndicator ARIA', () => {
+  it('should validate with ARIA rules', async () => {
+    const Comp = render(
+      <Component {...props} type="circular" progress={50} />
+    )
+    expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
 
   it('should validate with ARIA rules', async () => {
-    const Comp = mount(
-      <Component {...props} type="circular" progress={50} />
+    const Comp = render(
+      <Component {...props} type="linear" progress={50} />
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })

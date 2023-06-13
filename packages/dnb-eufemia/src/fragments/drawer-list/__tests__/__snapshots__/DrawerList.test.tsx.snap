@@ -428,7 +428,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
               aria-activedescendant="option-drawer-list-id-2"
               aria-expanded={true}
               aria-labelledby="drawer-list-id-label"
-              cache_hash="2266bottom-2"
+              cache_hash="2266bottom28"
               class={null}
               className={null}
               id="drawer-list-id-ul"
@@ -436,13 +436,16 @@ exports[`DrawerList markup have to match snapshot 1`] = `
               showFocusRing={false}
               style={
                 {
-                  "maxHeight": null,
+                  "maxHeight": "28rem",
                 }
               }
               tabIndex="-1"
               triangleRef={
                 {
-                  "current": null,
+                  "current": <li
+                    aria-hidden="true"
+                    class="dnb-drawer-list__triangle"
+                  />,
                 }
               }
             >
@@ -455,7 +458,7 @@ exports[`DrawerList markup have to match snapshot 1`] = `
                 role="listbox"
                 style={
                   {
-                    "maxHeight": null,
+                    "maxHeight": "28rem",
                   }
                 }
                 tabIndex="-1"

@@ -33,11 +33,6 @@ describe('FormStatus component', () => {
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
-  it('should validate with ARIA rules', async () => {
-    const Comp = mount(<Component {...props} />)
-    expect(await axeComponent(Comp)).toHaveNoViolations()
-  })
-
   it('should set correct max-width', () => {
     render(
       <Input
@@ -217,5 +212,10 @@ describe('FormStatus role', () => {
     expect(
       document.querySelector('.dnb-form-status').getAttribute('role')
     ).toBe('none')
+  })
+
+  it('should validate with ARIA rules', async () => {
+    const Comp = render(<Component {...props} />)
+    expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })

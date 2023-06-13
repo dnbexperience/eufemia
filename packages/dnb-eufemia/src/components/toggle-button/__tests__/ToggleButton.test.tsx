@@ -278,16 +278,13 @@ describe('ToggleButton component', () => {
   })
 
   it('should validate with ARIA rules', async () => {
-    const Comp = mount(<Component {...props} />)
+    const Comp = render(<Component {...props} />)
 
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
 
 describe('ToggleButton group component', () => {
-  // then test the state management
-
-  // mount compare the snapshot
   it('have to match group snapshot', () => {
     const Comp = mount(
       <Component.Group label="Label" id="group">
@@ -305,25 +302,6 @@ describe('ToggleButton group component', () => {
       </Component.Group>
     )
     expect(toJson(Comp)).toMatchSnapshot()
-  })
-
-  it('should validate with ARIA rules', async () => {
-    const Comp = mount(
-      <Component.Group label="Label" id="group">
-        <Component
-          id="toggle-button-1"
-          text="ToggleButton 1"
-          variant="radio"
-        />
-        <Component
-          id="toggle-button-2"
-          text="ToggleButton 2"
-          variant="radio"
-          checked
-        />
-      </Component.Group>
-    )
-    expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
   it('has to have variant="radio', () => {
@@ -695,6 +673,25 @@ describe('ToggleButton group component', () => {
       'dnb-form-row--vertical',
       'dnb-form-row--vertical-label',
     ])
+  })
+
+  it('should validate with ARIA rules', async () => {
+    const Comp = render(
+      <Component.Group label="Label" id="group">
+        <Component
+          id="toggle-button-1"
+          text="ToggleButton 1"
+          variant="radio"
+        />
+        <Component
+          id="toggle-button-2"
+          text="ToggleButton 2"
+          variant="radio"
+          checked
+        />
+      </Component.Group>
+    )
+    expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
 

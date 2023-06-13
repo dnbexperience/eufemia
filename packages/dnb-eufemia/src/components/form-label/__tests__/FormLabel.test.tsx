@@ -24,9 +24,8 @@ props.direction = 'horizontal'
 props.label_direction = 'horizontal'
 
 describe('FormLabel component', () => {
-  const Comp = mount(<Component {...props} />)
-
   it('have to match snapshot', () => {
+    const Comp = mount(<Component {...props} />)
     expect(toJson(Comp)).toMatchSnapshot()
   })
 
@@ -82,12 +81,13 @@ describe('FormLabel component', () => {
   })
 
   it('should validate with ARIA rules', async () => {
+    const Comp = render(<Component {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
   it('should validate with ARIA rules as a label with a input', async () => {
-    const LabelComp = mount(<Component {...props} for_id="input" />)
-    const InputComp = mount(<Input id="input" value="some value" />)
+    const LabelComp = render(<Component {...props} for_id="input" />)
+    const InputComp = render(<Input id="input" value="some value" />)
     expect(await axeComponent(LabelComp, InputComp)).toHaveNoViolations()
   })
 })

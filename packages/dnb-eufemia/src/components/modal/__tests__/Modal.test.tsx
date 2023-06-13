@@ -1389,14 +1389,6 @@ describe('Modal component', () => {
         .querySelector('.dnb-button__text').textContent
     ).toBe(customText)
   })
-
-  it('should validate with ARIA rules as a dialog', async () => {
-    const Comp = mount(<Component {...props} />)
-    Comp.setState({
-      modalActive: true,
-    })
-    expect(await axeComponent(Comp)).toHaveNoViolations()
-  })
 })
 
 describe('Modal trigger', () => {
@@ -1482,6 +1474,13 @@ describe('Modal trigger', () => {
         .querySelector('button.dnb-modal__trigger')
         .textContent.replace(/\u200C/g, '')
     ).toBe('text')
+  })
+})
+
+describe('Modal ARIA', () => {
+  it('should validate with ARIA rules as a dialog', async () => {
+    const Comp = render(<Component {...props} />)
+    expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
 

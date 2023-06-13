@@ -284,19 +284,6 @@ describe('Tabs component', () => {
       ])
     )
   })
-
-  it('should validate with ARIA rules', async () => {
-    const Comp = mount(
-      <Component
-        {...props}
-        data={tablistData}
-        selected_key={startup_selected_key}
-      >
-        {contentWrapperData}
-      </Component>
-    )
-    expect(await axeComponent(Comp)).toHaveNoViolations()
-  })
 })
 
 describe('TabList component', () => {
@@ -597,5 +584,20 @@ describe('Tabs scss', () => {
       require.resolve('../style/themes/dnb-tabs-theme-ui.scss')
     )
     expect(scss).toMatchSnapshot()
+  })
+})
+
+describe('Tabs ARIA', () => {
+  it('should validate with ARIA rules', async () => {
+    const Comp = render(
+      <Component
+        {...props}
+        data={tablistData}
+        selected_key={startup_selected_key}
+      >
+        {contentWrapperData}
+      </Component>
+    )
+    expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })

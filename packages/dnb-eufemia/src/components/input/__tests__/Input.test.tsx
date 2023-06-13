@@ -447,28 +447,6 @@ describe('Input component', () => {
     expect(on_submit).toHaveBeenCalledTimes(1)
     expect(on_submit.mock.calls[0][0].value).toBe('value')
   })
-
-  it('should validate with ARIA rules as a search input with a label', async () => {
-    const LabelComp = mount(<label htmlFor="input">text</label>)
-    const InputComp = mount(
-      <Component
-        {...props}
-        id="input"
-        type="search"
-        autocomplete="off"
-        value="some value"
-      />
-    )
-    expect(await axeComponent(LabelComp, InputComp)).toHaveNoViolations()
-  })
-
-  it('should validate with ARIA rules as a input with a label', async () => {
-    const LabelComp = mount(<label htmlFor="input">text</label>)
-    const InputComp = mount(
-      <Component {...props} id="input" value="some value" />
-    )
-    expect(await axeComponent(LabelComp, InputComp)).toHaveNoViolations()
-  })
 })
 
 describe('Input with clear button', () => {
@@ -645,6 +623,34 @@ describe('Input with clear button', () => {
         .querySelector('.dnb-input__inner__element ~ .dnb-input__icon')
         .querySelector('svg')
     ).toBeTruthy()
+  })
+})
+describe('Input ARIA', () => {
+  it('should validate with ARIA rules as a search input with a label', async () => {
+    const Comp = render(
+      <>
+        <label htmlFor="input">text</label>
+        <Component
+          {...props}
+          id="input"
+          type="search"
+          autocomplete="off"
+          value="some value"
+        />
+      </>
+    )
+
+    expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+
+  it('should validate with ARIA rules as a input with a label', async () => {
+    const Comp = render(
+      <>
+        <label htmlFor="input">text</label>
+        <Component {...props} id="input" value="some value" />
+      </>
+    )
+    expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
 

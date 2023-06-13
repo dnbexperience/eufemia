@@ -1369,19 +1369,6 @@ describe('DatePicker component', () => {
     expect((yearElem as HTMLInputElement).value).toBe('2019')
   })
 
-  it('should validate with ARIA rules', async () => {
-    const Comp = mount(
-      <Component
-        range={true}
-        opened={true}
-        disable_autofocus={true}
-        start_date="2019-05-05"
-        end_date="2019-06-05"
-      />
-    )
-    expect(await axeComponent(Comp)).toHaveNoViolations()
-  })
-
   describe('size', () => {
     it('has correct small size', () => {
       render(<Component {...defaultProps} size="small" />)
@@ -1593,6 +1580,21 @@ describe('Custom text for buttons', () => {
       document.querySelector('[data-testid="reset"]  .dnb-button__text')
         .textContent
     ).toBe('Maybe')
+  })
+})
+
+describe('DatePicker ARIA', () => {
+  it('should validate with ARIA rules', async () => {
+    const Comp = render(
+      <Component
+        range={true}
+        opened={true}
+        disable_autofocus={true}
+        start_date="2019-05-05"
+        end_date="2019-06-05"
+      />
+    )
+    expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
 
