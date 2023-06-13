@@ -463,7 +463,7 @@ describe('DrawerList component', () => {
 })
 
 describe('DrawerList markup', () => {
-  it.skip('should validate with ARIA rules', async () => {
+  it('should validate with ARIA rules', async () => {
     const snapshotProps = {
       ...fakeProps(require.resolve('../DrawerList'), {
         all: true,
@@ -483,7 +483,14 @@ describe('DrawerList markup', () => {
     const CheckComponent = render(
       <Component {...snapshotProps} data={mockData} />
     )
-    expect(await axeComponent(CheckComponent)).toHaveNoViolations()
+    expect(
+      await axeComponent(CheckComponent, {
+        rules: {
+          'aria-input-field-name': { enabled: false },
+          'aria-required-children': { enabled: false },
+        },
+      })
+    ).toHaveNoViolations()
   })
 })
 
