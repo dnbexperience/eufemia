@@ -262,11 +262,6 @@ describe('Pagination bar', () => {
     const CheckComponent = mount(<Component {...snapshotProps} />)
     expect(toJson(CheckComponent)).toMatchSnapshot()
   })
-
-  it('should validate with ARIA rules', async () => {
-    const CheckComponent = mount(<Component {...snapshotProps} />)
-    expect(await axeComponent(CheckComponent)).toHaveNoViolations()
-  })
 })
 
 describe('Infinity scroller', () => {
@@ -777,11 +772,24 @@ describe('Infinity scroller', () => {
     CheckComponent.update()
     expect(toJson(CheckComponent)).toMatchSnapshot()
   })
+})
 
-  it('should validate with ARIA rules', async () => {
-    const CheckComponent = mount(<Component mode="infinity" {...props} />)
+describe('Pagination ARIA', () => {
+  it('should validate with ARIA rules for pagination bar', async () => {
+    const CheckComponent = render(<Component {...snapshotProps} />)
+    expect(await axeComponent(CheckComponent)).toHaveNoViolations()
+  })
+
+  it('should validate with ARIA rules for Infinity Scroller', async () => {
+    const CheckComponent = render(
+      <Component
+        mode="infinity"
+        page_count={5}
+        current_page={3}
+        min_wait_time={0}
+      />
+    )
     await wait(1)
-    CheckComponent.update()
     expect(await axeComponent(CheckComponent)).toHaveNoViolations()
   })
 })

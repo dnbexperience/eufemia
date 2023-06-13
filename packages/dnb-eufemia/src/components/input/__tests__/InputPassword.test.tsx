@@ -205,7 +205,7 @@ describe('InputPassword component', () => {
   })
 
   it('should validate with ARIA rules as a input with a label', async () => {
-    const InputPasswordComp = mount(
+    const InputPasswordComp = render(
       <Component id="input" label="label" value="some value" />
     )
     expect(await axeComponent(InputPasswordComp)).toHaveNoViolations()

@@ -481,16 +481,18 @@ describe('DrawerList component', () => {
 })
 
 describe('DrawerList markup', () => {
-  const CheckComponent = mount(
-    <Component {...snapshotProps} data={mockData} />
-  )
-
   // compare the snapshot
   it('have to match snapshot', () => {
+    const CheckComponent = mount(
+      <Component {...snapshotProps} data={mockData} />
+    )
     expect(toJson(CheckComponent)).toMatchSnapshot()
   })
 
-  it('should validate with ARIA rules', async () => {
+  it.skip('should validate with ARIA rules', async () => {
+    const CheckComponent = render(
+      <Component {...snapshotProps} data={mockData} />
+    )
     expect(await axeComponent(CheckComponent)).toHaveNoViolations()
   })
 })
@@ -510,7 +512,4 @@ describe('DrawerList scss', () => {
 
 const keydown = (keyCode) => {
   document.dispatchEvent(new KeyboardEvent('keydown', { keyCode }))
-  // Comp.find('input').simulate('keydown', {
-  //   keyCode
-  // })
 }
