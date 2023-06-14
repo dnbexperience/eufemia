@@ -1,11 +1,11 @@
 /**
- * Component Test
+ * GlobalStatus Test
  *
  */
 
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import Component from '../GlobalStatus'
+import GlobalStatus from '../GlobalStatus'
 import { GlobalStatusInterceptor } from '../GlobalStatusController'
 import FormSet from '../../form-set/FormSet'
 import Switch from '../../switch/Switch'
@@ -31,7 +31,7 @@ const props = {
 
 describe('GlobalStatus component', () => {
   it('has to have a text value as defined in the prop', () => {
-    render(<Component {...props} />)
+    render(<GlobalStatus {...props} />)
     expect(
       document
         .querySelector('div.dnb-global-status__message')
@@ -40,21 +40,23 @@ describe('GlobalStatus component', () => {
   })
 
   it('has to have list items as defined in the prop', () => {
-    render(<Component {...props} />)
+    render(<GlobalStatus {...props} />)
     expect(document.querySelector('.dnb-ul').textContent).toBe(
       props.items.map(({ text }) => text).join('')
     )
   })
 
   it('should have correct attributes like "aria-live"', async () => {
-    const { rerender } = render(<Component autoscroll={false} delay={0} />)
+    const { rerender } = render(
+      <GlobalStatus autoscroll={false} delay={0} />
+    )
     expect(document.querySelector('[aria-live]')).toBeTruthy()
 
-    rerender(<Component autoscroll={false} delay={0} show={true} />)
+    rerender(<GlobalStatus autoscroll={false} delay={0} show={true} />)
 
     expect(document.querySelector('[aria-live="assertive"]')).toBeTruthy()
 
-    rerender(<Component autoscroll={false} delay={0} show={false} />)
+    rerender(<GlobalStatus autoscroll={false} delay={0} show={false} />)
 
     expect(
       document
@@ -69,7 +71,7 @@ describe('GlobalStatus component', () => {
 
     render(
       <>
-        <Component
+        <GlobalStatus
           autoscroll={false}
           delay={0}
           no_animation={true}
@@ -77,14 +79,14 @@ describe('GlobalStatus component', () => {
           text={startupText}
           items={['item#1']}
         />
-        <Component.Add
+        <GlobalStatus.Add
           id="custom-status-update"
           status_id="status-update-1"
           text="will be overwritten"
           item={{ text: 'item#2' }}
           on_close={jest.fn()}
         />
-        <Component.Add
+        <GlobalStatus.Add
           id="custom-status-update"
           status_id="status-update-1"
           text={newText}
@@ -120,7 +122,7 @@ describe('GlobalStatus component', () => {
     const newItems = ['Item3', 'Item4']
 
     render(
-      <Component
+      <GlobalStatus
         autoscroll={false}
         delay={0}
         no_animation={true}
@@ -129,7 +131,7 @@ describe('GlobalStatus component', () => {
     )
 
     render(
-      <Component.Add
+      <GlobalStatus.Add
         id="custom-status-update"
         status_id="status-update-1"
         text={startupText}
@@ -148,7 +150,7 @@ describe('GlobalStatus component', () => {
     ).toBe(startupText)
 
     render(
-      <Component.Add
+      <GlobalStatus.Add
         id="custom-status-update"
         status_id="status-update-1"
         text={newText}
@@ -167,7 +169,7 @@ describe('GlobalStatus component', () => {
     ).toBe(newText)
 
     render(
-      <Component.Remove
+      <GlobalStatus.Remove
         id="custom-status-update"
         status_id="status-update-1"
         buffer_delay={0}
@@ -186,7 +188,7 @@ describe('GlobalStatus component', () => {
     const newItems = ['Item3', 'Item4']
 
     render(
-      <Component
+      <GlobalStatus
         autoscroll={false}
         delay={0}
         no_animation={true}
@@ -205,7 +207,7 @@ describe('GlobalStatus component', () => {
     ).toBe(false)
 
     render(
-      <Component.Add
+      <GlobalStatus.Add
         id="custom-status-remove"
         status_id="status-remove-1"
         text={startupText}
@@ -227,7 +229,7 @@ describe('GlobalStatus component', () => {
     ).toBeTruthy()
 
     render(
-      <Component.Add
+      <GlobalStatus.Add
         id="custom-status-remove"
         status_id="status-remove-2"
         text={newText}
@@ -249,7 +251,7 @@ describe('GlobalStatus component', () => {
     ).toHaveLength(5)
 
     render(
-      <Component.Remove
+      <GlobalStatus.Remove
         id="custom-status-remove"
         status_id="status-remove-1"
         buffer_delay={0}
@@ -271,7 +273,7 @@ describe('GlobalStatus component', () => {
     ).toHaveLength(3)
 
     render(
-      <Component.Remove
+      <GlobalStatus.Remove
         id="custom-status-remove"
         status_id="status-remove-2"
         buffer_delay={0}
@@ -336,7 +338,7 @@ describe('GlobalStatus component', () => {
 
     render(
       <>
-        <Component
+        <GlobalStatus
           id="my-form"
           autoscroll={false}
           delay={0}
@@ -435,7 +437,7 @@ describe('GlobalStatus component', () => {
     }
     render(
       <>
-        <Component id="scroll-to-test" delay={0} no_animation={true} />
+        <GlobalStatus id="scroll-to-test" delay={0} no_animation={true} />
         <ToggleStatus />
       </>
     )
@@ -499,7 +501,7 @@ describe('GlobalStatus component', () => {
     }
     render(
       <>
-        <Component
+        <GlobalStatus
           id="esc-test"
           delay={0}
           autoscroll={false}
@@ -543,7 +545,7 @@ describe('GlobalStatus component', () => {
     }
     render(
       <>
-        <Component id="height-test" delay={0} no_animation={true} />
+        <GlobalStatus id="height-test" delay={0} no_animation={true} />
         <ToggleStatus />
       </>
     )
@@ -576,7 +578,7 @@ describe('GlobalStatus component', () => {
     }
     render(
       <>
-        <Component
+        <GlobalStatus
           id="main-to-be-empty"
           autoscroll={false}
           delay={0}
@@ -630,7 +632,7 @@ describe('GlobalStatus component', () => {
     )
 
     render(
-      <Component
+      <GlobalStatus
         no_animation={true}
         autoscroll={false}
         delay={0}
@@ -697,7 +699,7 @@ describe('GlobalStatus component', () => {
     }
     render(
       <>
-        <Component
+        <GlobalStatus
           id="main-to-be-empty"
           autoscroll={false}
           delay={0}
@@ -729,7 +731,7 @@ describe('GlobalStatus component', () => {
     const on_hide = jest.fn()
 
     render(
-      <Component
+      <GlobalStatus
         autoclose={true}
         no_animation={true}
         autoscroll={false}
@@ -742,7 +744,7 @@ describe('GlobalStatus component', () => {
     )
 
     render(
-      <Component.Add
+      <GlobalStatus.Add
         id="custom-status-autoclose"
         status_id="status-autoclose-1"
         text="text only"
@@ -760,7 +762,7 @@ describe('GlobalStatus component', () => {
     ).toBe('text only')
 
     render(
-      <Component.Add
+      <GlobalStatus.Add
         id="custom-status-autoclose"
         status_id="status-autoclose-2"
         text="text only"
@@ -774,7 +776,7 @@ describe('GlobalStatus component', () => {
     ).toBe('text onlyfoo')
 
     render(
-      <Component.Remove
+      <GlobalStatus.Remove
         id="custom-status-autoclose"
         status_id="status-autoclose-1"
         buffer_delay={0}
@@ -784,7 +786,7 @@ describe('GlobalStatus component', () => {
     expect(on_close.mock.calls.length).toBe(0)
 
     render(
-      <Component.Remove
+      <GlobalStatus.Remove
         id="custom-status-autoclose"
         status_id="status-autoclose-2"
         buffer_delay={0}
@@ -799,7 +801,7 @@ describe('GlobalStatus component', () => {
     ).toBeFalsy()
 
     render(
-      <Component.Add
+      <GlobalStatus.Add
         id="custom-status-autoclose"
         status_id="status-autoclose-1"
         items={['foo']}
@@ -817,7 +819,7 @@ describe('GlobalStatus component', () => {
 
   it('has to take account to the show prop', () => {
     const { rerender } = render(
-      <Component
+      <GlobalStatus
         show={false}
         no_animation={true}
         autoscroll={false}
@@ -835,7 +837,7 @@ describe('GlobalStatus component', () => {
     ).toBeFalsy()
 
     rerender(
-      <Component
+      <GlobalStatus
         show={true}
         no_animation={true}
         autoscroll={false}
@@ -852,7 +854,7 @@ describe('GlobalStatus component', () => {
     ).toBeFalsy()
 
     render(
-      <Component.Add
+      <GlobalStatus.Add
         id="custom-status-show"
         status_id="status-show-1"
         text="text only"
@@ -865,7 +867,7 @@ describe('GlobalStatus component', () => {
     ).toBeTruthy()
 
     rerender(
-      <Component
+      <GlobalStatus
         show="auto"
         no_animation={true}
         autoscroll={false}
@@ -875,7 +877,7 @@ describe('GlobalStatus component', () => {
     )
 
     render(
-      <Component.Remove
+      <GlobalStatus.Remove
         id="custom-status-show"
         status_id="status-show-1"
       />
@@ -890,7 +892,7 @@ describe('GlobalStatus component', () => {
   })
 
   it('should validate with ARIA rules', async () => {
-    const Comp = render(<Component {...props} />)
+    const Comp = render(<GlobalStatus {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })

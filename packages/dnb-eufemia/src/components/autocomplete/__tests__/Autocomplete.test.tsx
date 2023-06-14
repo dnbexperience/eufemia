@@ -1,5 +1,5 @@
 /**
- * Component Test
+ * Autocomplete Test
  *
  */
 
@@ -10,7 +10,7 @@ import {
   loadScss,
 } from '../../../core/jest/jestSetup'
 import * as helpers from '../../../shared/helpers'
-import Component, { AutocompleteProps } from '../Autocomplete'
+import Autocomplete, { AutocompleteProps } from '../Autocomplete'
 import { SubmitButton } from '../../input/Input'
 import { format } from '../../number-format/NumberUtils'
 import userEvent from '@testing-library/user-event'
@@ -82,7 +82,7 @@ beforeEach(() => {
 describe('Autocomplete component', () => {
   it('has correct word and in-word highlighting', () => {
     render(
-      <Component
+      <Autocomplete
         data={['aaa', 'The Godfather the godfather The Godfather', 'ccc']}
         opened
         input_value="the g th"
@@ -97,7 +97,7 @@ describe('Autocomplete component', () => {
   })
 
   it('has correct input HTML Element attributes', () => {
-    render(<Component data={mockData} opened {...mockProps} />)
+    render(<Autocomplete data={mockData} opened {...mockProps} />)
 
     const elem = document.querySelector('input')
 
@@ -114,7 +114,9 @@ describe('Autocomplete component', () => {
   })
 
   it('has correct options after filter', () => {
-    render(<Component data={mockData} show_submit_button {...mockProps} />)
+    render(
+      <Autocomplete data={mockData} show_submit_button {...mockProps} />
+    )
 
     toggle()
 
@@ -212,7 +214,7 @@ describe('Autocomplete component', () => {
       let index = 1
 
       const { rerender } = render(
-        <Component {...mockProps} value={index} data={mockData} />
+        <Autocomplete {...mockProps} value={index} data={mockData} />
       )
 
       const assertInputValue = () => {
@@ -225,7 +227,9 @@ describe('Autocomplete component', () => {
       assertInputValue()
 
       index = 2
-      rerender(<Component {...mockProps} value={index} data={mockData} />)
+      rerender(
+        <Autocomplete {...mockProps} value={index} data={mockData} />
+      )
 
       assertInputValue()
 
@@ -250,7 +254,7 @@ describe('Autocomplete component', () => {
 
     it('will not open drawer-list when click on suffix_value and is disabled', () => {
       render(
-        <Component {...mockProps} value={1} data={mockData} disabled />
+        <Autocomplete {...mockProps} value={1} data={mockData} disabled />
       )
 
       fireEvent.click(
@@ -267,7 +271,7 @@ describe('Autocomplete component', () => {
     })
 
     it('will open drawer-list when click on suffix_value', () => {
-      render(<Component {...mockProps} value={1} data={mockData} />)
+      render(<Autocomplete {...mockProps} value={1} data={mockData} />)
 
       expect(
         document
@@ -290,7 +294,7 @@ describe('Autocomplete component', () => {
 
   it('has correct options when search_in_word_index is set to 1', () => {
     render(
-      <Component
+      <Autocomplete
         data={mockData}
         search_in_word_index="1"
         show_submit_button
@@ -327,7 +331,7 @@ describe('Autocomplete component', () => {
 
   it('should update aria-live with results', async () => {
     render(
-      <Component
+      <Autocomplete
         data={mockData}
         show_submit_button
         ariaLiveDelay={1}
@@ -402,7 +406,9 @@ describe('Autocomplete component', () => {
       { content: 'item cc second', search_content: ['CC', 'cc', 'more'] },
     ]
 
-    render(<Component data={mockData} show_submit_button {...mockProps} />)
+    render(
+      <Autocomplete data={mockData} show_submit_button {...mockProps} />
+    )
 
     toggle()
 
@@ -460,7 +466,9 @@ describe('Autocomplete component', () => {
       value: true,
     })
 
-    render(<Component data={mockData} show_submit_button {...mockProps} />)
+    render(
+      <Autocomplete data={mockData} show_submit_button {...mockProps} />
+    )
 
     toggle()
 
@@ -530,7 +538,9 @@ describe('Autocomplete component', () => {
       'FF \\ ff',
     ]
 
-    render(<Component data={mockData} show_submit_button {...mockProps} />)
+    render(
+      <Autocomplete data={mockData} show_submit_button {...mockProps} />
+    )
 
     toggle()
 
@@ -600,7 +610,7 @@ describe('Autocomplete component', () => {
     ]
 
     render(
-      <Component
+      <Autocomplete
         data={mockData}
         search_numbers
         show_submit_button
@@ -652,7 +662,7 @@ describe('Autocomplete component', () => {
     const mockData = ['100.222.333,40', '123456', '100 222 444,50']
 
     render(
-      <Component
+      <Autocomplete
         data={mockData}
         show_submit_button
         search_numbers
@@ -716,7 +726,9 @@ describe('Autocomplete component', () => {
   it('has correct options after filter and key interaction', () => {
     let elem
 
-    render(<Component data={mockData} show_submit_button {...mockProps} />)
+    render(
+      <Autocomplete data={mockData} show_submit_button {...mockProps} />
+    )
 
     // check "cc"
     fireEvent.change(document.querySelector('.dnb-input__input'), {
@@ -800,7 +812,7 @@ describe('Autocomplete component', () => {
 
   it('has correct options after filter if filter is disabled', () => {
     render(
-      <Component
+      <Autocomplete
         disable_filter
         data={mockData}
         show_submit_button
@@ -821,7 +833,7 @@ describe('Autocomplete component', () => {
   })
 
   it('has correct "aria-expanded"', () => {
-    render(<Component {...props} data={mockData} />)
+    render(<Autocomplete {...props} data={mockData} />)
 
     keydown(13) // enter
 
@@ -836,7 +848,7 @@ describe('Autocomplete component', () => {
   })
 
   it('has correct "opened" state on click in input', () => {
-    render(<Component {...mockProps} data={mockData} />)
+    render(<Autocomplete {...mockProps} data={mockData} />)
 
     fireEvent.mouseDown(document.querySelector('.dnb-input__input'))
 
@@ -851,7 +863,7 @@ describe('Autocomplete component', () => {
   })
 
   it('has correct "opened" state on submit button click', () => {
-    render(<Component {...props} data={mockData} />)
+    render(<Autocomplete {...props} data={mockData} />)
 
     toggle()
 
@@ -861,7 +873,7 @@ describe('Autocomplete component', () => {
   })
 
   it('has type="button" on submit button', () => {
-    render(<Component {...props} data={mockData} />)
+    render(<Autocomplete {...props} data={mockData} />)
 
     expect(
       document
@@ -871,7 +883,7 @@ describe('Autocomplete component', () => {
   })
 
   it('has correct length of li elements', () => {
-    render(<Component {...props} data={mockData} />)
+    render(<Autocomplete {...props} data={mockData} />)
 
     toggle()
 
@@ -890,7 +902,7 @@ describe('Autocomplete component', () => {
     const params = { 'data-attr': 'value' }
 
     render(
-      <Component
+      <Autocomplete
         on_show={on_show}
         on_hide={on_hide}
         on_focus={on_focus}
@@ -975,7 +987,7 @@ describe('Autocomplete component', () => {
     let data = mockData
 
     const { rerender } = render(
-      <Component value={value} data={data} {...mockProps} />
+      <Autocomplete value={value} data={data} {...mockProps} />
     )
 
     fireEvent.focus(document.querySelector('input'))
@@ -988,7 +1000,7 @@ describe('Autocomplete component', () => {
     value = 1
     data = ['New data', ...mockData]
 
-    rerender(<Component value={value} data={data} {...mockProps} />)
+    rerender(<Autocomplete value={value} data={data} {...mockProps} />)
     expect(
       (document.querySelector('.dnb-input__input') as HTMLInputElement)
         .value
@@ -998,7 +1010,7 @@ describe('Autocomplete component', () => {
   it('can be reset to null', () => {
     let value
     const { rerender } = render(
-      <Component
+      <Autocomplete
         {...props}
         placeholder="placeholder"
         value={null}
@@ -1016,7 +1028,7 @@ describe('Autocomplete component', () => {
 
     value = 1
     rerender(
-      <Component
+      <Autocomplete
         {...props}
         placeholder="placeholder"
         value={value}
@@ -1030,7 +1042,7 @@ describe('Autocomplete component', () => {
     ).toBe(mockData[value])
 
     rerender(
-      <Component
+      <Autocomplete
         {...props}
         placeholder="placeholder"
         value={undefined}
@@ -1045,7 +1057,7 @@ describe('Autocomplete component', () => {
 
     value = 0
     rerender(
-      <Component
+      <Autocomplete
         {...props}
         placeholder="placeholder"
         value={value}
@@ -1059,7 +1071,7 @@ describe('Autocomplete component', () => {
     ).toBe(mockData[value])
 
     rerender(
-      <Component
+      <Autocomplete
         {...props}
         placeholder="placeholder"
         value={null}
@@ -1080,7 +1092,7 @@ describe('Autocomplete component', () => {
     const on_change = jest.fn()
 
     render(
-      <Component
+      <Autocomplete
         on_focus={on_focus}
         on_blur={on_blur}
         onBlur={onBlur}
@@ -1157,7 +1169,7 @@ describe('Autocomplete component', () => {
     const on_type = jest.fn(onTypeHandler)
 
     const { rerender } = render(
-      <Component
+      <Autocomplete
         {...mockProps}
         on_change={on_change}
         on_type={on_type}
@@ -1167,7 +1179,7 @@ describe('Autocomplete component', () => {
 
     // 1. Make first a selected_item change
     rerender(
-      <Component
+      <Autocomplete
         {...mockProps}
         on_change={on_change}
         on_type={on_type}
@@ -1178,7 +1190,7 @@ describe('Autocomplete component', () => {
 
     // 2. Then update the data
     rerender(
-      <Component
+      <Autocomplete
         {...mockProps}
         on_change={on_change}
         on_type={on_type}
@@ -1189,7 +1201,7 @@ describe('Autocomplete component', () => {
 
     // 3. And change the value again
     rerender(
-      <Component
+      <Autocomplete
         {...mockProps}
         on_change={on_change}
         on_type={on_type}
@@ -1206,7 +1218,7 @@ describe('Autocomplete component', () => {
 
     // Reset data and value
     rerender(
-      <Component
+      <Autocomplete
         {...mockProps}
         on_change={on_change}
         on_type={on_type}
@@ -1268,7 +1280,7 @@ describe('Autocomplete component', () => {
     const on_change = jest.fn()
 
     const { rerender } = render(
-      <Component
+      <Autocomplete
         {...mockProps}
         no_animation
         show_submit_button
@@ -1299,7 +1311,7 @@ describe('Autocomplete component', () => {
     expect(on_change.mock.calls[0][0].data.selected_key).toBe('a')
 
     rerender(
-      <Component
+      <Autocomplete
         {...mockProps}
         no_animation
         show_submit_button
@@ -1324,7 +1336,7 @@ describe('Autocomplete component', () => {
     expect(on_change.mock.calls[1][0].data.selected_key).toBe('c')
 
     rerender(
-      <Component
+      <Autocomplete
         {...mockProps}
         no_animation
         show_submit_button
@@ -1348,7 +1360,7 @@ describe('Autocomplete component', () => {
     ).toBe('456 value')
     expect(on_change.mock.calls[2][0].data.selected_key).toBe('id-456')
     rerender(
-      <Component
+      <Autocomplete
         {...mockProps}
         no_animation
         show_submit_button
@@ -1477,7 +1489,7 @@ describe('Autocomplete component', () => {
 
     runBlurActiveItemTest({
       Comp: (
-        <Component
+        <Autocomplete
           data={mockData}
           {...mockProps}
           on_show={on_show}
@@ -1510,7 +1522,7 @@ describe('Autocomplete component', () => {
 
     runBlurActiveItemTest({
       Comp: (
-        <Component
+        <Autocomplete
           keep_value
           data={mockData}
           {...mockProps}
@@ -1544,7 +1556,7 @@ describe('Autocomplete component', () => {
 
     runBlurActiveItemTest({
       Comp: (
-        <Component
+        <Autocomplete
           keep_value_and_selection
           data={mockData}
           {...mockProps}
@@ -1569,7 +1581,7 @@ describe('Autocomplete component', () => {
   })
 
   it('should have a button for screen readers to open options – regardless', () => {
-    render(<Component {...mockProps} data={mockData} no_animation />)
+    render(<Autocomplete {...mockProps} data={mockData} no_animation />)
 
     const buttonElem = document
       .querySelector('.dnb-sr-only')
@@ -1605,7 +1617,7 @@ describe('Autocomplete component', () => {
   })
 
   it('should keep input focus when using show-all or select item', () => {
-    render(<Component data={mockData} {...mockProps} />)
+    render(<Autocomplete data={mockData} {...mockProps} />)
 
     document.querySelector('input').focus()
     fireEvent.change(document.querySelector('input'), {
@@ -1658,7 +1670,7 @@ describe('Autocomplete component', () => {
   })
 
   it('has correct "opened" state on input mousedown', () => {
-    render(<Component {...props} data={mockData} />)
+    render(<Autocomplete {...props} data={mockData} />)
 
     fireEvent.mouseDown(document.querySelector('.dnb-input__input'))
 
@@ -1691,7 +1703,7 @@ describe('Autocomplete component', () => {
     const on_change = jest.fn()
 
     render(
-      <Component
+      <Autocomplete
         open_on_focus={true}
         on_focus={on_focus}
         on_change={on_change}
@@ -1722,7 +1734,7 @@ describe('Autocomplete component', () => {
     let preventClose = false
     const on_hide = jest.fn(() => !preventClose)
     render(
-      <Component
+      <Autocomplete
         on_hide={on_hide}
         data={mockData}
         show_submit_button
@@ -1774,7 +1786,7 @@ describe('Autocomplete component', () => {
 
   it('has no highlighted value by using "disable_highlighting"', () => {
     render(
-      <Component
+      <Autocomplete
         mode="async"
         disable_highlighting
         data={mockData}
@@ -1804,7 +1816,7 @@ describe('Autocomplete component', () => {
     const replaceData = ['aaa']
 
     const { rerender } = render(
-      <Component data={mockData} {...mockProps} />
+      <Autocomplete data={mockData} {...mockProps} />
     )
 
     keydown(40) // down
@@ -1818,7 +1830,7 @@ describe('Autocomplete component', () => {
     ).toBe(2)
 
     // update data
-    rerender(<Component {...mockProps} data={replaceData} />)
+    rerender(<Autocomplete {...mockProps} data={replaceData} />)
 
     fireEvent.change(document.querySelector('.dnb-input__input'), {
       target: { value: 'a' },
@@ -1838,7 +1850,7 @@ describe('Autocomplete component', () => {
     const replaceData = ['aaa']
 
     render(
-      <Component
+      <Autocomplete
         mode="async"
         disable_filter
         on_type={on_type}
@@ -1894,7 +1906,7 @@ describe('Autocomplete component', () => {
     let index = 1
 
     const { rerender } = render(
-      <Component {...mockProps} value={index} data={mockData} />
+      <Autocomplete {...mockProps} value={index} data={mockData} />
     )
 
     const assert = () => {
@@ -1907,7 +1919,7 @@ describe('Autocomplete component', () => {
     assert()
 
     index = 2
-    rerender(<Component {...mockProps} value={index} data={mockData} />)
+    rerender(<Autocomplete {...mockProps} value={index} data={mockData} />)
 
     assert()
   })
@@ -1927,7 +1939,7 @@ describe('Autocomplete component', () => {
       const [value, setValue] = React.useState(null)
 
       return (
-        <Component
+        <Autocomplete
           {...mockProps}
           mode="async"
           value={value}
@@ -1959,7 +1971,7 @@ describe('Autocomplete component', () => {
   })
 
   it('has correct selected value', () => {
-    render(<Component {...props} data={mockData} />)
+    render(<Autocomplete {...props} data={mockData} />)
     expect(
       (document.querySelector('.dnb-input__input') as HTMLInputElement)
         .value
@@ -1967,7 +1979,7 @@ describe('Autocomplete component', () => {
   })
 
   it('has correct selected value after new selection', () => {
-    render(<Component {...props} data={mockData} />)
+    render(<Autocomplete {...props} data={mockData} />)
     toggle()
 
     // then simulate changes
@@ -1982,7 +1994,7 @@ describe('Autocomplete component', () => {
   it('has a default title if no value is given', () => {
     const title = 'Make a selection'
     render(
-      <Component
+      <Autocomplete
         data={mockData}
         title={title}
         show_submit_button
@@ -1997,7 +2009,7 @@ describe('Autocomplete component', () => {
   it('has a correct value content if we send in a React component', () => {
     const value = 1
     render(
-      <Component
+      <Autocomplete
         data={mockData}
         value={value}
         show_submit_button
@@ -2019,7 +2031,7 @@ describe('Autocomplete component', () => {
         setValue(newValue)
       }, [])
 
-      return <Component {...props} data={mockData} value={value} />
+      return <Autocomplete {...props} data={mockData} value={value} />
     }
 
     render(<UpdateValue />)
@@ -2032,10 +2044,10 @@ describe('Autocomplete component', () => {
 
   it('has a disabled attribute, once we set disabled to true', () => {
     const { rerender } = render(
-      <Component data={mockData} show_submit_button {...mockProps} />
+      <Autocomplete data={mockData} show_submit_button {...mockProps} />
     )
     rerender(
-      <Component
+      <Autocomplete
         data={mockData}
         show_submit_button
         {...mockProps}
@@ -2062,7 +2074,7 @@ describe('Autocomplete component', () => {
   it('supports input_element properly', () => {
     const onChange = jest.fn()
     render(
-      <Component
+      <Autocomplete
         {...mockProps}
         data={mockData}
         input_element={(props) => (
@@ -2112,7 +2124,7 @@ describe('Autocomplete component', () => {
       'one more item',
     ]
 
-    render(<Component data={mockData} {...mockProps} />)
+    render(<Autocomplete data={mockData} {...mockProps} />)
 
     // open
     keydown(40) // down
@@ -2155,7 +2167,7 @@ describe('Autocomplete component', () => {
   it('will keep focus on input when opening', () => {
     const mockData = ['first item', 'one more item']
 
-    render(<Component data={mockData} {...mockProps} />)
+    render(<Autocomplete data={mockData} {...mockProps} />)
 
     document.querySelector('input').focus()
 
@@ -2167,14 +2179,14 @@ describe('Autocomplete component', () => {
 
   it('submit_element will replace the internal SubmitButton', () => {
     const { rerender } = render(
-      <Component
+      <Autocomplete
         data={mockData}
         {...mockProps}
         submit_element={<SubmitButton icon="bell" />}
       />
     )
     rerender(
-      <Component
+      <Autocomplete
         data={mockData}
         {...mockProps}
         submit_element={<SubmitButton icon="bell" />}
@@ -2207,7 +2219,7 @@ describe('Autocomplete component', () => {
   })
 
   it('has working direction observer', async () => {
-    render(<Component {...props} data={mockData} />)
+    render(<Autocomplete {...props} data={mockData} />)
 
     // open first
     fireEvent.click(
@@ -2221,7 +2233,7 @@ describe('Autocomplete component', () => {
 
   it('has error status when only providing status', () => {
     render(
-      <Component
+      <Autocomplete
         data={mockData}
         {...mockProps}
         status="status text"
@@ -2253,7 +2265,7 @@ describe('Autocomplete component', () => {
 
   it('has correct status when status_state is error', () => {
     render(
-      <Component
+      <Autocomplete
         data={mockData}
         {...mockProps}
         status="status text"
@@ -2286,7 +2298,7 @@ describe('Autocomplete component', () => {
 
   it('has correct status when status_state is info', () => {
     render(
-      <Component
+      <Autocomplete
         data={mockData}
         {...mockProps}
         status="status text"
@@ -2318,7 +2330,7 @@ describe('Autocomplete component', () => {
   })
 
   it('should support spacing props', () => {
-    render(<Component top="2rem" />)
+    render(<Autocomplete top="2rem" />)
 
     const element = document.querySelector('.dnb-autocomplete')
 
@@ -2328,7 +2340,7 @@ describe('Autocomplete component', () => {
   it('should inherit FormRow vertical label', () => {
     render(
       <FormRow vertical>
-        <Component label="Label" />
+        <Autocomplete label="Label" />
       </FormRow>
     )
 
@@ -2352,7 +2364,7 @@ describe('Autocomplete component', () => {
 describe('Autocomplete markup', () => {
   it('should validate with ARIA rules', async () => {
     const CheckComponent = render(
-      <Component {...snapshotProps} data={mockData} />
+      <Autocomplete {...snapshotProps} data={mockData} />
     )
 
     expect(

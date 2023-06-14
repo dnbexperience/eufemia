@@ -1,11 +1,11 @@
 /**
- * Component Test
+ * IconPrimary Test
  *
  */
 
 import React from 'react'
 import { fakeProps, axeComponent } from '../../../core/jest/jestSetup'
-import Component from '../IconPrimary'
+import IconPrimary from '../IconPrimary'
 import { render } from '@testing-library/react'
 
 const props = fakeProps(require.resolve('../IconPrimary'), {
@@ -17,7 +17,7 @@ describe('IconPrimary component', () => {
   it('has valid width and height prop', () => {
     const width = '200'
     const height = '100'
-    render(<Component {...props} width={width} height={height} />)
+    render(<IconPrimary {...props} width={width} height={height} />)
     const elem = document.querySelector('svg')
     expect(elem).toBeTruthy()
     expect(elem.getAttribute('width')).toBe(width)
@@ -27,7 +27,7 @@ describe('IconPrimary component', () => {
 
   it('has valid medium size as enum', () => {
     // here we explicit set size="medium" as well, cause we then test that the loadSVG makes a good job
-    render(<Component {...props} icon="question_medium" size="medium" />)
+    render(<IconPrimary {...props} icon="question_medium" size="medium" />)
     const svg = document.querySelector('svg')
     const path = svg.querySelector('path')
     expect(svg).toBeTruthy()
@@ -37,7 +37,7 @@ describe('IconPrimary component', () => {
 
   it('has valid medium size as int', () => {
     // here we explicit set size="medium" as well, cause we then test that the loadSVG makes a good job
-    render(<Component {...props} icon="question_medium" size="24" />)
+    render(<IconPrimary {...props} icon="question_medium" size="24" />)
     const svg = document.querySelector('svg')
     const path = svg.querySelector('path')
     expect(svg).toBeTruthy()
@@ -46,7 +46,7 @@ describe('IconPrimary component', () => {
   })
 
   it('should validate with ARIA rules', async () => {
-    const Comp = render(<Component {...props} />)
+    const Comp = render(<IconPrimary {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })

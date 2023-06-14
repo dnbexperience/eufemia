@@ -1,5 +1,5 @@
 /**
- * Component Test
+ * FormLabel Test
  *
  */
 
@@ -10,7 +10,7 @@ import {
   loadScss,
 } from '../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
-import Component from '../FormLabel'
+import FormLabel from '../FormLabel'
 import Input from '../../input/Input'
 import FormRow from '../../form-row/FormRow'
 
@@ -23,7 +23,7 @@ props.label_direction = 'horizontal'
 
 describe('FormLabel component', () => {
   it('should forward unlisted attributes like "aria-hidden"', () => {
-    render(<Component {...props} for_id="input" aria-hidden />)
+    render(<FormLabel {...props} for_id="input" aria-hidden />)
     expect(document.querySelector('label[aria-hidden]')).toBeTruthy()
     expect(
       document
@@ -33,7 +33,7 @@ describe('FormLabel component', () => {
   })
 
   it('should support spacing props', () => {
-    render(<Component for_id="input" top="large" />)
+    render(<FormLabel for_id="input" top="large" />)
 
     const element = document.querySelector('.dnb-form-label')
 
@@ -44,7 +44,7 @@ describe('FormLabel component', () => {
   })
 
   it('should set correct class when sr_only is set', () => {
-    render(<Component for_id="input" sr_only />)
+    render(<FormLabel for_id="input" sr_only />)
 
     const element = document.querySelector('.dnb-form-label')
 
@@ -57,7 +57,7 @@ describe('FormLabel component', () => {
   it('should inherit FormRow vertical label', () => {
     render(
       <FormRow vertical>
-        <Component label="Label" />
+        <FormLabel label="Label" />
       </FormRow>
     )
 
@@ -74,12 +74,12 @@ describe('FormLabel component', () => {
   })
 
   it('should validate with ARIA rules', async () => {
-    const Comp = render(<Component {...props} />)
+    const Comp = render(<FormLabel {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
   it('should validate with ARIA rules as a label with a input', async () => {
-    const LabelComp = render(<Component {...props} for_id="input" />)
+    const LabelComp = render(<FormLabel {...props} for_id="input" />)
     const InputComp = render(<Input id="input" value="some value" />)
     expect(await axeComponent(LabelComp, InputComp)).toHaveNoViolations()
   })

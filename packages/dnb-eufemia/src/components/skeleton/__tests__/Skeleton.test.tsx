@@ -1,11 +1,11 @@
 /**
- * Component Test
+ * Skeleton Test
  *
  */
 
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import Component from '../Skeleton'
+import Skeleton from '../Skeleton'
 import Input from '../../input/Input'
 import P from '../../../elements/P'
 import { render } from '@testing-library/react'
@@ -23,14 +23,14 @@ const props = {
 
 describe('Skeleton component', () => {
   it('has to use the provider to enable a skeleton in a component', () => {
-    const { rerender } = render(<Component {...props} />)
+    const { rerender } = render(<Skeleton {...props} />)
     expect(document.querySelector('.dnb-input .dnb-skeleton')).toBeFalsy()
-    rerender(<Component {...props} show={true} />)
+    rerender(<Skeleton {...props} show={true} />)
     expect(document.querySelector('.dnb-input .dnb-skeleton')).toBeTruthy()
   })
 
   it('should validate with ARIA rules', async () => {
-    const Comp = render(<Component {...props} />)
+    const Comp = render(<Skeleton {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })

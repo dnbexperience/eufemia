@@ -1,5 +1,5 @@
 /**
- * Component Test
+ * Tabs Test
  *
  */
 
@@ -10,7 +10,7 @@ import {
   loadScss,
 } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
-import Component from '../Tabs'
+import Tabs from '../Tabs'
 import Input from '../../input/Input'
 
 const props = fakeProps(require.resolve('../Tabs'), {
@@ -40,13 +40,13 @@ const contentWrapperData = {
 describe('Tabs component', () => {
   it('have a "selected_key" state have to be same as prop from startup', () => {
     render(
-      <Component
+      <Tabs
         {...props}
         data={tablistData}
         selected_key={startup_selected_key}
       >
         {contentWrapperData}
-      </Component>
+      </Tabs>
     )
     expect(
       document
@@ -73,14 +73,14 @@ describe('Tabs component', () => {
     })
 
     render(
-      <Component
+      <Tabs
         {...props}
         data={tablistData}
         on_change={on_change}
         on_click={on_click}
       >
         {contentWrapperData}
-      </Component>
+      </Tabs>
     )
 
     fireEvent.click(document.querySelectorAll('.dnb-tabs__button')[1])
@@ -102,9 +102,9 @@ describe('Tabs component', () => {
     const on_focus = jest.fn()
 
     render(
-      <Component {...props} data={tablistData} on_focus={on_focus}>
+      <Tabs {...props} data={tablistData} on_focus={on_focus}>
         {contentWrapperData}
-      </Component>
+      </Tabs>
     )
 
     fireEvent.keyDown(document.querySelector('.dnb-tabs__tabs__tablist'), {
@@ -130,9 +130,9 @@ describe('Tabs component', () => {
     ]
 
     render(
-      <Component {...props} data={tablistData} tab_element={Link}>
+      <Tabs {...props} data={tablistData} tab_element={Link}>
         {contentWrapperData}
-      </Component>
+      </Tabs>
     )
 
     expect(
@@ -146,9 +146,9 @@ describe('Tabs component', () => {
 
   it('should support "align" prop', () => {
     render(
-      <Component {...props} data={tablistData} align="right">
+      <Tabs {...props} data={tablistData} align="right">
         {contentWrapperData}
-      </Component>
+      </Tabs>
     )
 
     const element = document.querySelector('.dnb-tabs__tabs')
@@ -161,9 +161,9 @@ describe('Tabs component', () => {
 
   it('should support "no_border" prop', () => {
     render(
-      <Component {...props} data={tablistData} no_border>
+      <Tabs {...props} data={tablistData} no_border>
         {contentWrapperData}
-      </Component>
+      </Tabs>
     )
 
     const element = document.querySelector('.dnb-tabs__tabs')
@@ -177,9 +177,9 @@ describe('Tabs component', () => {
 
   it('should support "content_spacing" prop', () => {
     render(
-      <Component {...props} data={tablistData} content_spacing="small">
+      <Tabs {...props} data={tablistData} content_spacing="small">
         {contentWrapperData}
-      </Component>
+      </Tabs>
     )
 
     const element = document.querySelector('.dnb-tabs__content')
@@ -195,9 +195,9 @@ describe('Tabs component', () => {
 
   it('should support "tabs_spacing" prop', () => {
     render(
-      <Component {...props} data={tablistData} tabs_spacing="small">
+      <Tabs {...props} data={tablistData} tabs_spacing="small">
         {contentWrapperData}
-      </Component>
+      </Tabs>
     )
 
     const element = document.querySelector('.dnb-tabs__tabs')
@@ -211,9 +211,9 @@ describe('Tabs component', () => {
 
   it('should support outer spacing props', () => {
     render(
-      <Component {...props} data={tablistData} top="large">
+      <Tabs {...props} data={tablistData} top="large">
         {contentWrapperData}
-      </Component>
+      </Tabs>
     )
 
     const element = document.querySelector('.dnb-tabs')
@@ -226,9 +226,9 @@ describe('Tabs component', () => {
 
   it('should use section component when "tabs_style" is set', () => {
     render(
-      <Component {...props} data={tablistData} tabs_style="black-3">
+      <Tabs {...props} data={tablistData} tabs_style="black-3">
         {contentWrapperData}
-      </Component>
+      </Tabs>
     )
 
     const element = document.querySelector('.dnb-tabs__tabs')
@@ -246,9 +246,9 @@ describe('Tabs component', () => {
 
   it('should use section component when "content_style" is set', () => {
     render(
-      <Component {...props} data={tablistData} content_style="black-3">
+      <Tabs {...props} data={tablistData} content_style="black-3">
         {contentWrapperData}
-      </Component>
+      </Tabs>
     )
 
     const element = document.querySelector('.dnb-tabs__content')
@@ -274,13 +274,13 @@ describe('Tabs component', () => {
 describe('TabList component', () => {
   it('has to have the right amount of rendered components', () => {
     render(
-      <Component
+      <Tabs
         {...props}
         data={tablistData}
         selected_key={startup_selected_key}
       >
         {contentWrapperData}
-      </Component>
+      </Tabs>
     )
 
     expect(
@@ -293,13 +293,13 @@ describe('TabList component', () => {
 
   it('has to have the right content on a "click event"', () => {
     render(
-      <Component
+      <Tabs
         {...props}
         data={tablistData}
         selected_key={startup_selected_key}
       >
         {contentWrapperData}
-      </Component>
+      </Tabs>
     )
 
     fireEvent.click(document.querySelector('button[data-tab-key="third"]'))
@@ -319,13 +319,13 @@ describe('TabList component', () => {
 describe('A single Tab component', () => {
   it('has to have a role="tab" attribute and a selected class', () => {
     render(
-      <Component
+      <Tabs
         {...props}
         data={tablistData}
         selected_key={startup_selected_key}
       >
         {contentWrapperData}
-      </Component>
+      </Tabs>
     )
 
     expect(
@@ -342,13 +342,13 @@ describe('A single Tab component', () => {
 
   it('has to have the right content on a keydown "ArrowRight"', () => {
     render(
-      <Component
+      <Tabs
         {...props}
         data={tablistData}
         selected_key={startup_selected_key}
       >
         {contentWrapperData}
-      </Component>
+      </Tabs>
     )
 
     // reset the state
@@ -368,7 +368,7 @@ describe('A single Tab component', () => {
   })
 
   it('has to work with "data only" property containing a "content"', () => {
-    render(<Component data={tablistDataWithContent} />)
+    render(<Tabs data={tablistDataWithContent} />)
     expect(
       document
         .querySelectorAll('.dnb-tabs__button__snap')[0]
@@ -389,7 +389,7 @@ describe('A single Tab component', () => {
 
   it('has to run "prevent_rerender" as supposed', () => {
     render(
-      <Component
+      <Tabs
         {...props}
         prevent_rerender
         data={[
@@ -446,7 +446,7 @@ describe('A single Tab component', () => {
 
   it('has to run "prerender" as supposed', () => {
     render(
-      <Component
+      <Tabs
         {...props}
         prerender
         data={[
@@ -483,12 +483,12 @@ describe('A single Tab component', () => {
 
   it('has to work with "Tabs.Content" as children Components', () => {
     render(
-      <Component {...props} data={tablistData}>
-        <Component.Content title="first title">first</Component.Content>
-        <Component.Content title="second title" selected>
+      <Tabs {...props} data={tablistData}>
+        <Tabs.Content title="first title">first</Tabs.Content>
+        <Tabs.Content title="second title" selected>
           second
-        </Component.Content>
-      </Component>
+        </Tabs.Content>
+      </Tabs>
     )
     expect(
       document
@@ -516,15 +516,15 @@ describe('A single Tab component', () => {
     const LinkedContent = (props: { selected_key?: string }) => {
       return (
         <>
-          <Component id="linked" data={tablistData} {...props} />
-          <Component.Content id="linked">
+          <Tabs id="linked" data={tablistData} {...props} />
+          <Tabs.Content id="linked">
             {({ key, title }) => {
               testKey = key
               testTitle = title
 
               return key
             }}
-          </Component.Content>
+          </Tabs.Content>
         </>
       )
     }
@@ -575,13 +575,13 @@ describe('Tabs scss', () => {
 describe('Tabs ARIA', () => {
   it('should validate with ARIA rules', async () => {
     const Comp = render(
-      <Component
+      <Tabs
         {...props}
         data={tablistData}
         selected_key={startup_selected_key}
       >
         {contentWrapperData}
-      </Component>
+      </Tabs>
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })

@@ -1,11 +1,11 @@
 /**
- * Component Test
+ * DatePicker Test
  *
  */
 
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import Component from '../DatePicker'
+import DatePicker from '../DatePicker'
 
 jest.setTimeout(30e3)
 
@@ -45,15 +45,15 @@ describe('DatePicker component', () => {
   }
 
   it('has a disabled attribute, once we set disabled to true', () => {
-    const { rerender } = render(<Component show_input />)
-    rerender(<Component show_input disabled={true} />)
+    const { rerender } = render(<DatePicker show_input />)
+    rerender(<DatePicker show_input disabled={true} />)
     expect(
       document.querySelectorAll('input')[0].hasAttribute('disabled')
     ).toBe(true)
   })
 
   it('has correct state after "click" trigger', () => {
-    render(<Component {...defaultProps} />)
+    render(<DatePicker {...defaultProps} />)
 
     fireEvent.click(
       document.querySelector('button.dnb-input__submit-button__button')
@@ -83,7 +83,7 @@ describe('DatePicker component', () => {
   it('will close the picker after selection', () => {
     const on_change = jest.fn()
     const { rerender } = render(
-      <Component {...defaultProps} on_change={on_change} />
+      <DatePicker {...defaultProps} on_change={on_change} />
     )
 
     fireEvent.click(
@@ -126,7 +126,7 @@ describe('DatePicker component', () => {
     ).toBe(false)
 
     rerender(
-      <Component {...defaultProps} on_change={on_change} range={false} />
+      <DatePicker {...defaultProps} on_change={on_change} range={false} />
     )
 
     expect(on_change).toHaveBeenCalledTimes(2)
@@ -155,7 +155,7 @@ describe('DatePicker component', () => {
     const on_reset = jest.fn()
 
     render(
-      <Component
+      <DatePicker
         date="1981-01-15"
         show_reset_button
         show_input
@@ -198,7 +198,7 @@ describe('DatePicker component', () => {
     })
 
     render(
-      <Component
+      <DatePicker
         {...defaultProps}
         on_days_render={on_days_render}
         range={false}
@@ -232,7 +232,7 @@ describe('DatePicker component', () => {
   it('has to work with shortcuts', () => {
     const on_change = jest.fn()
     render(
-      <Component
+      <DatePicker
         no_animation
         on_change={on_change}
         shortcuts={[
@@ -273,7 +273,7 @@ describe('DatePicker component', () => {
   })
 
   it('has two calendar views', () => {
-    render(<Component {...defaultProps} />)
+    render(<DatePicker {...defaultProps} />)
 
     fireEvent.click(
       document.querySelector('button.dnb-input__submit-button__button')
@@ -285,7 +285,7 @@ describe('DatePicker component', () => {
   })
 
   it('has a reacting start date input with valid value', () => {
-    const { rerender } = render(<Component {...defaultProps} />)
+    const { rerender } = render(<DatePicker {...defaultProps} />)
     const elem = document.querySelectorAll(
       'input.dnb-date-picker__input--day'
     )[0] as HTMLInputElement
@@ -296,7 +296,7 @@ describe('DatePicker component', () => {
     // listen to changes
     let changedStartDate = null
     rerender(
-      <Component
+      <DatePicker
         {...defaultProps}
         on_change={({ start_date }) => {
           changedStartDate = start_date
@@ -318,7 +318,7 @@ describe('DatePicker component', () => {
 
     // test prop change to make sure getDerivedStateFromProps works
     rerender(
-      <Component
+      <DatePicker
         {...defaultProps}
         on_change={({ start_date }) => {
           changedStartDate = start_date
@@ -334,7 +334,7 @@ describe('DatePicker component', () => {
     })
 
     rerender(
-      <Component
+      <DatePicker
         {...defaultProps}
         on_change={({ start_date }) => {
           changedStartDate = start_date
@@ -345,7 +345,7 @@ describe('DatePicker component', () => {
   })
 
   it('has to reset second input fields to blank during new date selection', () => {
-    render(<Component {...defaultProps} />)
+    render(<DatePicker {...defaultProps} />)
     fireEvent.click(
       document.querySelector('button.dnb-input__submit-button__button')
     )
@@ -373,7 +373,7 @@ describe('DatePicker component', () => {
     const date = '2020-10-20'
 
     render(
-      <Component
+      <DatePicker
         date={date}
         opened
         no_animation
@@ -459,7 +459,7 @@ describe('DatePicker component', () => {
     const reset_button_text = 'custom reset button text'
 
     render(
-      <Component
+      <DatePicker
         opened
         no_animation
         show_reset_button
@@ -473,7 +473,7 @@ describe('DatePicker component', () => {
   })
 
   it('footer is rendered when show_reset_button is provided', () => {
-    render(<Component opened no_animation show_reset_button />)
+    render(<DatePicker opened no_animation show_reset_button />)
 
     const datePickerFooter = document.querySelector(
       '.dnb-date-picker__footer'
@@ -482,7 +482,7 @@ describe('DatePicker component', () => {
   })
 
   it('footer is rendered when show_cancel_button is provided', () => {
-    render(<Component opened no_animation show_cancel_button />)
+    render(<DatePicker opened no_animation show_cancel_button />)
 
     const datePickerFooter = document.querySelector(
       '.dnb-date-picker__footer'
@@ -491,7 +491,7 @@ describe('DatePicker component', () => {
   })
 
   it('footer is rendered when show_submit_button is provided', () => {
-    render(<Component opened no_animation show_submit_button />)
+    render(<DatePicker opened no_animation show_submit_button />)
 
     const datePickerFooter = document.querySelector(
       '.dnb-date-picker__footer'
@@ -500,7 +500,7 @@ describe('DatePicker component', () => {
   })
 
   it('footer is rendered when range is provided', () => {
-    render(<Component opened no_animation range />)
+    render(<DatePicker opened no_animation range />)
 
     const datePickerFooter = document.querySelector(
       '.dnb-date-picker__footer'
@@ -510,7 +510,7 @@ describe('DatePicker component', () => {
 
   it('footer is not rendered', () => {
     render(
-      <Component
+      <DatePicker
         opened
         no_animation
         show_reset_button={false}
@@ -527,7 +527,7 @@ describe('DatePicker component', () => {
   })
 
   it('has a working month correction', () => {
-    render(<Component show_input />)
+    render(<DatePicker show_input />)
 
     const dayElem = document.querySelectorAll(
       'input.dnb-date-picker__input--day'
@@ -564,7 +564,7 @@ describe('DatePicker component', () => {
     const on_change = jest.fn()
 
     render(
-      <Component
+      <DatePicker
         {...defaultProps}
         on_change={on_change}
         correct_invalid_date={true}
@@ -601,7 +601,7 @@ describe('DatePicker component', () => {
     const on_change = jest.fn()
 
     const { rerender } = render(
-      <Component
+      <DatePicker
         {...defaultProps}
         min_date="2019-01-02"
         max_date="2019-02-04"
@@ -673,7 +673,7 @@ describe('DatePicker component', () => {
     expect(on_change.mock.calls[2][0].is_valid).toBe(undefined)
 
     rerender(
-      <Component
+      <DatePicker
         {...defaultProps}
         min_date="2019-01-02"
         max_date="2019-02-04"
@@ -706,7 +706,7 @@ describe('DatePicker component', () => {
     const on_change = jest.fn()
 
     render(
-      <Component
+      <DatePicker
         id="date-picker-id"
         no_animation={true}
         range={true}
@@ -812,7 +812,7 @@ describe('DatePicker component', () => {
 
   it('has correct css classes on range selection', () => {
     render(
-      <Component
+      <DatePicker
         id="date-picker-id"
         no_animation
         range
@@ -954,7 +954,7 @@ describe('DatePicker component', () => {
     let outerState
     const on_change = jest.fn(({ date }) => (outerState = date))
     const { rerender } = render(
-      <Component on_change={on_change} show_input date="2019-02-01" />
+      <DatePicker on_change={on_change} show_input date="2019-02-01" />
     )
 
     function changeState() {
@@ -967,7 +967,7 @@ describe('DatePicker component', () => {
       })
       // Siulate prop update, like a state update would do
       rerender(
-        <Component on_change={on_change} show_input date={outerState} />
+        <DatePicker on_change={on_change} show_input date={outerState} />
       )
 
       expect(
@@ -980,7 +980,7 @@ describe('DatePicker component', () => {
 
       // 2. change the date by prop
       rerender(
-        <Component on_change={on_change} show_input date="2019-02-01" />
+        <DatePicker on_change={on_change} show_input date="2019-02-01" />
       )
 
       expect(
@@ -1001,7 +1001,7 @@ describe('DatePicker component', () => {
 
   it('will reset on setting value to null', () => {
     const { rerender } = render(
-      <Component
+      <DatePicker
         show_input
         range
         start_date={defaultProps.start_date}
@@ -1010,7 +1010,7 @@ describe('DatePicker component', () => {
     )
 
     rerender(
-      <Component
+      <DatePicker
         show_input
         range
         start_date={null}
@@ -1033,7 +1033,7 @@ describe('DatePicker component', () => {
     ).toBe('15')
 
     rerender(
-      <Component show_input range start_date={null} end_date={null} />
+      <DatePicker show_input range start_date={null} end_date={null} />
     )
     expect(
       (
@@ -1046,7 +1046,7 @@ describe('DatePicker component', () => {
 
   it('has a reacting end date input with valid value', () => {
     const { rerender } = render(
-      <Component
+      <DatePicker
         show_input
         range
         start_date={defaultProps.start_date}
@@ -1063,7 +1063,7 @@ describe('DatePicker component', () => {
     // listen to changes
     let changedStartDate = null
     rerender(
-      <Component
+      <DatePicker
         show_input
         range
         start_date={null}
@@ -1090,7 +1090,7 @@ describe('DatePicker component', () => {
 
     // test prop change to make sure getDerivedStateFromProps works
     rerender(
-      <Component
+      <DatePicker
         show_input
         range
         start_date={null}
@@ -1108,7 +1108,7 @@ describe('DatePicker component', () => {
     })
 
     rerender(
-      <Component
+      <DatePicker
         show_input
         range
         start_date={defaultProps.start_date}
@@ -1123,7 +1123,7 @@ describe('DatePicker component', () => {
   it('has to return all additional attributes the event return', () => {
     const my_event = jest.fn()
     const params = { 'data-attr': 'value' }
-    render(<Component on_show={my_event} {...params} />)
+    render(<DatePicker on_show={my_event} {...params} />)
     fireEvent.click(document.querySelector('button'))
     expect(my_event.mock.calls.length).toBe(1)
     expect(my_event.mock.calls[0][0].attributes).toMatchObject(params)
@@ -1131,7 +1131,7 @@ describe('DatePicker component', () => {
 
   it('is displaying correct month', () => {
     render(
-      <Component
+      <DatePicker
         show_input
         range
         start_date={defaultProps.start_date}
@@ -1181,7 +1181,7 @@ describe('DatePicker component', () => {
   it('has to have a aria-describedby on first focus', () => {
     const label = 'Input Label'
     render(
-      <Component
+      <DatePicker
         id="custom-id"
         label={label}
         show_input
@@ -1198,7 +1198,7 @@ describe('DatePicker component', () => {
 
   it('has to select all only on first focus', () => {
     render(
-      <Component
+      <DatePicker
         id="custom-id"
         label="Input Label"
         range
@@ -1235,7 +1235,7 @@ describe('DatePicker component', () => {
 
   it('has to focus on date picker on opening', () => {
     render(
-      <Component
+      <DatePicker
         id="custom-id"
         label="Input Label"
         show_input
@@ -1265,7 +1265,7 @@ describe('DatePicker component', () => {
 
   it('should not set focus when disable_autofocus is set', () => {
     render(
-      <Component
+      <DatePicker
         id="custom-id"
         label="Input Label"
         show_input
@@ -1291,7 +1291,7 @@ describe('DatePicker component', () => {
 
   it('has to react on keydown events', async () => {
     render(
-      <Component
+      <DatePicker
         show_input
         range
         start_date={defaultProps.start_date}
@@ -1360,19 +1360,19 @@ describe('DatePicker component', () => {
 
   describe('size', () => {
     it('has correct small size', () => {
-      render(<Component {...defaultProps} size="small" />)
+      render(<DatePicker {...defaultProps} size="small" />)
       expect(
         document.querySelector('.dnb-date-picker--small')
       ).toBeTruthy()
     })
     it('has correct medium size', () => {
-      render(<Component {...defaultProps} size="medium" />)
+      render(<DatePicker {...defaultProps} size="medium" />)
       expect(
         document.querySelector('.dnb-date-picker--medium')
       ).toBeTruthy()
     })
     it('has correct large size', () => {
-      render(<Component {...defaultProps} size="large" />)
+      render(<DatePicker {...defaultProps} size="large" />)
       expect(
         document.querySelector('.dnb-date-picker--large')
       ).toBeTruthy()
@@ -1490,7 +1490,7 @@ describe('DatePicker calc', () => {
   })
 
   it('should support spacing props', () => {
-    render(<Component top="2rem" show_input />)
+    render(<DatePicker top="2rem" show_input />)
 
     const element = document.querySelector('.dnb-date-picker')
 
@@ -1506,7 +1506,7 @@ describe('DatePicker calc', () => {
   it('should inherit FormRow vertical label', () => {
     render(
       <FormRow vertical>
-        <Component label="Label" show_input />
+        <DatePicker label="Label" show_input />
       </FormRow>
     )
 
@@ -1542,7 +1542,7 @@ describe('DatePicker scss', () => {
 describe('Custom text for buttons', () => {
   it('should show custom text for submit button', () => {
     render(
-      <Component submit_button_text="Yes" show_submit_button opened />
+      <DatePicker submit_button_text="Yes" show_submit_button opened />
     )
 
     expect(
@@ -1552,7 +1552,9 @@ describe('Custom text for buttons', () => {
   })
 
   it('should show custom text for cancel button', () => {
-    render(<Component cancel_button_text="No" show_cancel_button opened />)
+    render(
+      <DatePicker cancel_button_text="No" show_cancel_button opened />
+    )
 
     expect(
       document.querySelector('[data-testid="cancel"]  .dnb-button__text')
@@ -1562,7 +1564,7 @@ describe('Custom text for buttons', () => {
 
   it('should show custom text for reset button', () => {
     render(
-      <Component reset_button_text="Maybe" show_reset_button opened />
+      <DatePicker reset_button_text="Maybe" show_reset_button opened />
     )
 
     expect(
@@ -1575,7 +1577,7 @@ describe('Custom text for buttons', () => {
 describe('DatePicker ARIA', () => {
   it('should validate with ARIA rules', async () => {
     const Comp = render(
-      <Component
+      <DatePicker
         range={true}
         opened={true}
         disable_autofocus={true}

@@ -1,5 +1,5 @@
 /**
- * Component Test
+ * FormSet Test
  *
  */
 
@@ -9,7 +9,7 @@ import {
   axeComponent,
   loadScss,
 } from '../../../core/jest/jestSetup'
-import Component from '../FormSet'
+import FormSet from '../FormSet'
 import FormRow from '../../form-row/FormRow'
 import Input from '../../input/Input'
 import NumberFormat from '../../number-format/NumberFormat'
@@ -24,16 +24,16 @@ props.element = 'form'
 
 describe('FormSet component', () => {
   it('should have .dnb-form-set class', () => {
-    render(<Component {...props} />)
+    render(<FormSet {...props} />)
 
     expect(document.querySelector('.dnb-form-set')).toBeTruthy()
   })
 
   it('should have working provider with vertical direction class on form-row', () => {
     render(
-      <Component {...props} direction="vertical">
+      <FormSet {...props} direction="vertical">
         <FormRow />
-      </Component>
+      </FormSet>
     )
     expect(
       document
@@ -44,44 +44,44 @@ describe('FormSet component', () => {
 
   it('should disable nested components', () => {
     const { rerender } = render(
-      <Component {...props} disabled>
+      <FormSet {...props} disabled>
         <FormRow>
           <Input />
         </FormRow>
-      </Component>
+      </FormSet>
     )
     expect(
       document.querySelector('input.dnb-input__input[disabled]')
     ).toBeTruthy()
 
     rerender(
-      <Component {...props} disabled={false}>
+      <FormSet {...props} disabled={false}>
         <FormRow>
           <Input />
         </FormRow>
-      </Component>
+      </FormSet>
     )
     expect(
       document.querySelector('input.dnb-input__input[disabled]')
     ).toBeFalsy()
 
     rerender(
-      <Component {...props} disabled>
+      <FormSet {...props} disabled>
         <FormRow>
           <Input />
         </FormRow>
-      </Component>
+      </FormSet>
     )
     expect(
       document.querySelector('input.dnb-input__input[disabled]')
     ).toBeTruthy()
 
     rerender(
-      <Component {...props} disabled>
+      <FormSet {...props} disabled>
         <FormRow disabled={false}>
           <Input />
         </FormRow>
-      </Component>
+      </FormSet>
     )
 
     expect(
@@ -91,9 +91,9 @@ describe('FormSet component', () => {
 
   it('should support locale context forwarding', () => {
     const { rerender } = render(
-      <Component>
+      <FormSet>
         <NumberFormat currency>1234</NumberFormat>
-      </Component>
+      </FormSet>
     )
 
     expect(
@@ -103,9 +103,9 @@ describe('FormSet component', () => {
     ).toBe('1 234,00 kr')
 
     rerender(
-      <Component locale="en-GB">
+      <FormSet locale="en-GB">
         <NumberFormat currency>1234</NumberFormat>
-      </Component>
+      </FormSet>
     )
 
     expect(
@@ -118,9 +118,9 @@ describe('FormSet component', () => {
   it('should not overwrite locale from provider when not set', () => {
     render(
       <Provider locale="en-GB">
-        <Component>
+        <FormSet>
           <NumberFormat currency>1234</NumberFormat>
-        </Component>
+        </FormSet>
       </Provider>
     )
 
@@ -132,7 +132,7 @@ describe('FormSet component', () => {
   })
 
   it('should validate with ARIA rules', async () => {
-    const Comp = render(<Component {...props} />)
+    const Comp = render(<FormSet {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })

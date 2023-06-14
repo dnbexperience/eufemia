@@ -1,5 +1,5 @@
 /**
- * Component Test
+ * Input Test
  *
  */
 
@@ -10,7 +10,7 @@ import {
   loadScss,
 } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
-import Component from '../Input'
+import Input from '../Input'
 import { format } from '../../number-format/NumberUtils'
 import FormRow from '../../form-row/FormRow'
 
@@ -38,9 +38,9 @@ afterEach(() => {
 describe('Input component', () => {
   it('has correct state after "focus" trigger', () => {
     render(
-      <Component {...props} value={null}>
+      <Input {...props} value={null}>
         {null}
-      </Component>
+      </Input>
     )
 
     fireEvent.focus(document.querySelector('input'))
@@ -52,9 +52,9 @@ describe('Input component', () => {
 
   it('has correct state after "change" trigger', () => {
     render(
-      <Component {...props} value={null}>
+      <Input {...props} value={null}>
         {null}
-      </Component>
+      </Input>
     )
 
     expect(
@@ -80,7 +80,7 @@ describe('Input component', () => {
 
     function MockComponent() {
       ref = React.useRef()
-      return <Component {...props} inner_ref={ref} />
+      return <Input {...props} inner_ref={ref} />
     }
 
     render(<MockComponent />)
@@ -95,7 +95,7 @@ describe('Input component', () => {
     const Controlled = () => {
       const [value, setValue] = React.useState(initialValue)
       return (
-        <Component
+        <Input
           value={String(format(value))}
           on_change={({ value }) => {
             setValue(value)
@@ -122,7 +122,7 @@ describe('Input component', () => {
 
   it('value can be manipulated during on_change', () => {
     render(
-      <Component
+      <Input
         on_change={({ value }) => {
           return String(value).toUpperCase()
         }}
@@ -141,7 +141,7 @@ describe('Input component', () => {
 
   it('value will not change when returning false on_change', () => {
     render(
-      <Component
+      <Input
         on_change={() => {
           return false
         }}
@@ -165,7 +165,7 @@ describe('Input component', () => {
     const onKeyDown = jest.fn() // additional native event test
 
     render(
-      <Component
+      <Input
         {...props}
         value={initValue}
         on_change={on_change}
@@ -198,43 +198,43 @@ describe('Input component', () => {
   // make sure getDerivedStateFromProps works
   it('has correct state after changing "value" prop (set by getDerivedStateFromProps)', () => {
     const { rerender } = render(
-      <Component {...props} value={null}>
+      <Input {...props} value={null}>
         {null}
-      </Component>
+      </Input>
     )
 
     const initValue = 'new prop value'
     const emptyValue = null
 
     rerender(
-      <Component {...props} value={initValue}>
+      <Input {...props} value={initValue}>
         {null}
-      </Component>
+      </Input>
     )
     expect(document.querySelector('input').value).toBe(initValue)
 
     rerender(
-      <Component {...props} value={emptyValue}>
+      <Input {...props} value={emptyValue}>
         {null}
-      </Component>
+      </Input>
     )
     expect(document.querySelector('input').value).toBe('')
   })
 
   it('has correct state after setting "value" prop using placeholder (set by getDerivedStateFromProps)', () => {
-    const { rerender } = render(<Component placeholder="Placeholder" />)
+    const { rerender } = render(<Input placeholder="Placeholder" />)
 
     const newValue = 'new value'
     const emptyValue = null
     const zeroValue = 0
 
-    rerender(<Component placeholder="Placeholder" value={newValue} />)
+    rerender(<Input placeholder="Placeholder" value={newValue} />)
     expect(document.querySelector('input').value).toBe(newValue)
 
-    rerender(<Component placeholder="Placeholder" value={emptyValue} />)
+    rerender(<Input placeholder="Placeholder" value={emptyValue} />)
     expect(document.querySelector('input').value).toBe('')
 
-    rerender(<Component placeholder="Placeholder" value={zeroValue} />)
+    rerender(<Input placeholder="Placeholder" value={zeroValue} />)
     expect(document.querySelector('input').getAttribute('value')).toBe(
       String(zeroValue)
     )
@@ -242,7 +242,7 @@ describe('Input component', () => {
 
   it('uses aria-placeholder and label for when placeholder is set', async () => {
     const { rerender } = render(
-      <Component
+      <Input
         id="unique"
         placeholder="Placeholder-text"
         label="Label-text"
@@ -257,7 +257,7 @@ describe('Input component', () => {
     ).toContain('Placeholder-text')
 
     rerender(
-      <Component
+      <Input
         id="unique"
         placeholder="Placeholder-text"
         label={undefined}
@@ -273,7 +273,7 @@ describe('Input component', () => {
     ).toBe(false)
 
     rerender(
-      <Component id="unique" placeholder={undefined} label={undefined} />
+      <Input id="unique" placeholder={undefined} label={undefined} />
     )
 
     expect(document.querySelector('label')).toBeFalsy()
@@ -286,12 +286,12 @@ describe('Input component', () => {
   })
 
   it('has correct medium input size', () => {
-    render(<Component size="medium" />)
+    render(<Input size="medium" />)
     expect(document.querySelector('.dnb-input--medium')).toBeTruthy()
   })
 
   it('will select the whole input when selectall is set', async () => {
-    render(<Component selectall={true} value="1234" />)
+    render(<Input selectall={true} value="1234" />)
 
     const select = jest.fn()
     document.querySelector('input').select = select
@@ -306,50 +306,50 @@ describe('Input component', () => {
   })
 
   it('uses children as the value', () => {
-    render(<Component>children</Component>)
+    render(<Input>children</Input>)
     expect(document.querySelector('input').getAttribute('value')).toBe(
       'children'
     )
   })
 
   it('has correct size attribute (chars length) on input by int number', () => {
-    render(<Component size={2} />)
+    render(<Input size={2} />)
     expect(document.querySelector('input').getAttribute('size')).toBe('2')
   })
 
   it('has correct size attribute (chars length) on input by using input_attributes', () => {
-    render(<Component input_attributes={{ size: 2 }} />)
+    render(<Input input_attributes={{ size: 2 }} />)
     expect(document.querySelector('input').getAttribute('size')).toBe('2')
   })
 
   it('has correct size attribute (chars length) on input by using input_attributes and a JSON object', () => {
-    render(<Component input_attributes='{"size": "2"}' />)
+    render(<Input input_attributes='{"size": "2"}' />)
     expect(document.querySelector('input').getAttribute('size')).toBe('2')
   })
 
   it('has to to have a prop value like value', () => {
     const { rerender } = render(
-      <Component {...props} value={null}>
+      <Input {...props} value={null}>
         {null}
-      </Component>
+      </Input>
     )
 
     const value = 'new value'
     rerender(
-      <Component {...props} value={value}>
+      <Input {...props} value={value}>
         {null}
-      </Component>
+      </Input>
     )
     expect(document.querySelector('input').value).toBe(value)
   })
 
   it('has to to have a label value as defined in the prop', () => {
-    render(<Component {...props} label="label" />)
+    render(<Input {...props} label="label" />)
     expect(document.querySelector('label').textContent).toBe('label')
   })
 
   it('has to to have a status value as defined in the prop', () => {
-    render(<Component {...props} status="status" status_state="error" />)
+    render(<Input {...props} status="status" status_state="error" />)
     expect(
       document.querySelector('.dnb-form-status__text').textContent
     ).toBe('status')
@@ -357,7 +357,7 @@ describe('Input component', () => {
 
   it('shows form-status with correct classes', () => {
     render(
-      <Component
+      <Input
         value="value"
         status="status text"
         status_state="warn"
@@ -377,8 +377,8 @@ describe('Input component', () => {
   })
 
   it('has a disabled attribute, once we set disabled to true', () => {
-    const { rerender } = render(<Component />)
-    rerender(<Component disabled={true} />)
+    const { rerender } = render(<Input />)
+    rerender(<Input disabled={true} />)
     expect(document.querySelector('input').hasAttribute('disabled')).toBe(
       true
     )
@@ -386,14 +386,9 @@ describe('Input component', () => {
 
   it('has a submit button on prop type="search"', () => {
     render(
-      <Component
-        {...props}
-        type="search"
-        value={null}
-        aria-describedby="id"
-      >
+      <Input {...props} type="search" value={null} aria-describedby="id">
         {null}
-      </Component>
+      </Input>
     )
 
     expect(
@@ -416,7 +411,7 @@ describe('Input component', () => {
   it('should call on_submit event handler', () => {
     const on_submit = jest.fn()
     render(
-      <Component
+      <Input
         id="input-id"
         value="value"
         type="search"
@@ -439,12 +434,12 @@ describe('Input component', () => {
 
 describe('Input with clear button', () => {
   it('should have the button', () => {
-    render(<Component clear={true} />)
+    render(<Input clear={true} />)
     expect(document.querySelector('.dnb-input--clear')).toBeTruthy()
   })
 
   it('should clear the value on press', () => {
-    render(<Component id="input-id" clear={true} value="value" />)
+    render(<Input id="input-id" clear={true} value="value" />)
 
     expect(document.querySelector('input').getAttribute('value')).toBe(
       'value'
@@ -459,7 +454,7 @@ describe('Input with clear button', () => {
   })
 
   it('should have a disabled clear button when no value is given', () => {
-    render(<Component id="input-id" clear={true} value="value" />)
+    render(<Input id="input-id" clear={true} value="value" />)
 
     expect(document.querySelector('input').getAttribute('value')).toBe(
       'value'
@@ -476,7 +471,7 @@ describe('Input with clear button', () => {
   })
 
   it('should have a disabled clear button when initially empty value is given', () => {
-    render(<Component id="input-id" clear={true} />)
+    render(<Input id="input-id" clear={true} />)
 
     expect(document.querySelector('input').getAttribute('value')).toBe('')
 
@@ -490,7 +485,7 @@ describe('Input with clear button', () => {
   })
 
   it('should clear the value on escape key press', () => {
-    render(<Component clear={true} value="value" />)
+    render(<Input clear={true} value="value" />)
 
     expect(document.querySelector('input').getAttribute('value')).toBe(
       'value'
@@ -505,7 +500,7 @@ describe('Input with clear button', () => {
   })
 
   it('should set focus on input when clear button is pressed', () => {
-    render(<Component id="input-id" clear={true} value="value" />)
+    render(<Input id="input-id" clear={true} value="value" />)
 
     const clearButton = document.querySelector(
       'button#input-id-clear-button'
@@ -519,7 +514,7 @@ describe('Input with clear button', () => {
   })
 
   it('should support spacing props', () => {
-    render(<Component top="2rem" />)
+    render(<Input top="2rem" />)
 
     const element = document.querySelector('.dnb-input')
 
@@ -534,7 +529,7 @@ describe('Input with clear button', () => {
   it('should inherit FormRow vertical label', () => {
     render(
       <FormRow vertical>
-        <Component label="Label" />
+        <Input label="Label" />
       </FormRow>
     )
 
@@ -557,7 +552,7 @@ describe('Input with clear button', () => {
   })
 
   it('should support icon', () => {
-    const { rerender } = render(<Component clear={true} icon="bell" />)
+    const { rerender } = render(<Input clear={true} icon="bell" />)
     expect(
       document.querySelector('.dnb-input__icon').querySelector('svg')
     ).toBeTruthy()
@@ -566,7 +561,7 @@ describe('Input with clear button', () => {
       document.querySelector('.dnb-input--icon-position-right')
     ).toBeFalsy()
 
-    rerender(<Component clear={true} icon="bell" icon_position="right" />)
+    rerender(<Input clear={true} icon="bell" icon_position="right" />)
 
     expect(
       document.querySelector('.dnb-input--icon-position-right')
@@ -582,7 +577,7 @@ describe('Input with clear button', () => {
 
   it('should warn about clear button and right icon position', () => {
     global.console.log = jest.fn()
-    render(<Component clear={true} icon="bell" icon_position="right" />)
+    render(<Input clear={true} icon="bell" icon_position="right" />)
     expect(document.querySelector('.dnb-input--clear')).toBeFalsy()
     expect(
       document.querySelector('.dnb-input__icon').querySelector('svg')
@@ -596,7 +591,7 @@ describe('Input with clear button', () => {
 
   it('should render inner_element', () => {
     const CustomComponent = () => <div>custom element</div>
-    render(<Component inner_element={<CustomComponent />} icon="bell" />)
+    render(<Input inner_element={<CustomComponent />} icon="bell" />)
 
     expect(
       document
@@ -618,7 +613,7 @@ describe('Input ARIA', () => {
     const Comp = render(
       <>
         <label htmlFor="input">text</label>
-        <Component
+        <Input
           {...props}
           id="input"
           type="search"
@@ -635,7 +630,7 @@ describe('Input ARIA', () => {
     const Comp = render(
       <>
         <label htmlFor="input">text</label>
-        <Component {...props} id="input" value="some value" />
+        <Input {...props} id="input" value="some value" />
       </>
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()

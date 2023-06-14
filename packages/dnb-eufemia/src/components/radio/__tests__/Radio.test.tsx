@@ -1,5 +1,5 @@
 /**
- * Component Test
+ * Radio Test
  *
  */
 
@@ -11,7 +11,7 @@ import {
   loadScss,
 } from '../../../core/jest/jestSetup'
 import FormRow from '../../form-row/FormRow'
-import Component from '../Radio'
+import Radio from '../Radio'
 
 const props = fakeProps(require.resolve('../Radio'), {
   optional: true,
@@ -28,7 +28,7 @@ props.globalStatus = { id: 'main' }
 
 describe('Radio component', () => {
   it('has correct state after "change" trigger', () => {
-    const { rerender } = render(<Component {...props} />)
+    const { rerender } = render(<Radio {...props} />)
     // default checked value has to be false
     expect(document.querySelector('input').checked).toBe(false)
 
@@ -39,11 +39,11 @@ describe('Radio component', () => {
     expect(document.querySelector('input').checked).toBe(false)
 
     // also check if getDerivedStateFromProps sets the state as expected
-    rerender(<Component {...props} checked />)
+    rerender(<Radio {...props} checked />)
     expect(document.querySelector('input').checked).toBe(true)
 
     const value = 'new value'
-    rerender(<Component {...props} checked value={value} />)
+    rerender(<Radio {...props} checked value={value} />)
     expect(document.querySelector('input').getAttribute('value')).toBe(
       value
     )
@@ -53,7 +53,7 @@ describe('Radio component', () => {
     const my_event = jest.fn()
     const myEvent = jest.fn()
     render(
-      <Component
+      <Radio
         on_change={my_event}
         onChange={myEvent}
         checked={false}
@@ -75,7 +75,7 @@ describe('Radio component', () => {
 
       return (
         <>
-          <Component
+          <Radio
             checked={checked}
             on_change={({ checked }) => setChecked(checked)}
           />
@@ -130,17 +130,17 @@ describe('Radio component', () => {
   })
 
   it('will disable a single button', () => {
-    const { rerender } = render(<Component disabled />)
+    const { rerender } = render(<Radio disabled />)
 
     expect(document.querySelector('input[disabled]')).toBeTruthy()
 
-    rerender(<Component disabled={false} />)
+    rerender(<Radio disabled={false} />)
 
     expect(document.querySelector('input[disabled]')).toBeFalsy()
   })
 
   it('should support spacing props', () => {
-    render(<Component top="2rem" />)
+    render(<Radio top="2rem" />)
 
     const element = document.querySelector('.dnb-radio')
 
@@ -153,7 +153,7 @@ describe('Radio component', () => {
   it('should inherit FormRow vertical label', () => {
     render(
       <FormRow vertical disabled>
-        <Component label="Label" aria-label="Aria Label" />
+        <Radio label="Label" aria-label="Aria Label" />
       </FormRow>
     )
 
@@ -188,16 +188,16 @@ describe('Radio group component', () => {
   it('has to set correct value using keys', () => {
     const my_event = jest.fn()
     render(
-      <Component.Group
+      <Radio.Group
         label="Label"
         name="group"
         id="group"
         no_fieldset
         on_change={my_event}
       >
-        <Component id="radio-1" label="Radio 1" value="first" />
-        <Component id="radio-2" label="Radio 2" value="second" checked />
-      </Component.Group>
+        <Radio id="radio-1" label="Radio 1" value="first" />
+        <Radio id="radio-2" label="Radio 2" value="second" checked />
+      </Radio.Group>
     )
     fireEvent.click(document.querySelectorAll('input')[0])
     expect(my_event.mock.calls.length).toBe(1)
@@ -210,9 +210,9 @@ describe('Radio group component', () => {
 
   it('will disable a single button within a group', () => {
     render(
-      <Component.Group>
-        <Component disabled />
-      </Component.Group>
+      <Radio.Group>
+        <Radio disabled />
+      </Radio.Group>
     )
 
     expect(document.querySelector('input[disabled]')).toBeTruthy()
@@ -220,9 +220,9 @@ describe('Radio group component', () => {
 
   it('will disable a single button, defined in the group', () => {
     render(
-      <Component.Group disabled>
-        <Component />
-      </Component.Group>
+      <Radio.Group disabled>
+        <Radio />
+      </Radio.Group>
     )
 
     expect(document.querySelector('input[disabled]')).toBeTruthy()
@@ -230,10 +230,10 @@ describe('Radio group component', () => {
 
   it('will overwrite "disable" state, defined in the group', () => {
     render(
-      <Component.Group disabled>
-        <Component disabled={false} />
-        <Component disabled />
-      </Component.Group>
+      <Radio.Group disabled>
+        <Radio disabled={false} />
+        <Radio disabled />
+      </Radio.Group>
     )
 
     expect(
@@ -246,10 +246,10 @@ describe('Radio group component', () => {
 
   it('should support spacing props', () => {
     render(
-      <Component.Group top="2rem">
-        <Component id="radio-1" label="Radio 1" value="first" />
-        <Component id="radio-2" label="Radio 2" value="second" checked />
-      </Component.Group>
+      <Radio.Group top="2rem">
+        <Radio id="radio-1" label="Radio 1" value="first" />
+        <Radio id="radio-2" label="Radio 2" value="second" checked />
+      </Radio.Group>
     )
 
     const element = document.querySelector('.dnb-radio-group')
@@ -265,10 +265,10 @@ describe('Radio group component', () => {
   it('should inherit FormRow vertical label', () => {
     render(
       <FormRow vertical>
-        <Component.Group label="Label" name="group" id="group">
-          <Component id="radio-1" label="Radio 1" value="first" />
-          <Component id="radio-2" label="Radio 2" value="second" checked />
-        </Component.Group>
+        <Radio.Group label="Label" name="group" id="group">
+          <Radio id="radio-1" label="Radio 1" value="first" />
+          <Radio id="radio-2" label="Radio 2" value="second" checked />
+        </Radio.Group>
       </FormRow>
     )
 
@@ -308,7 +308,7 @@ describe('Radio group component', () => {
 })
 describe('Radio ARIA', () => {
   it('should validate with ARIA rules for Radio', async () => {
-    const Comp = render(<Component {...props} />)
+    const Comp = render(<Radio {...props} />)
     expect(
       await axeComponent(Comp, {
         rules: {
@@ -322,16 +322,16 @@ describe('Radio ARIA', () => {
 
   it('should validate with ARIA rules for Radio.Group', async () => {
     const Comp = render(
-      <Component.Group
+      <Radio.Group
         label="Label"
         name="group"
         id="group"
         no_fieldset
         on_change={jest.fn()}
       >
-        <Component id="radio-1" label="Radio 1" value="first" />
-        <Component id="radio-2" label="Radio 2" value="second" checked />
-      </Component.Group>
+        <Radio id="radio-1" label="Radio 1" value="first" />
+        <Radio id="radio-2" label="Radio 2" value="second" checked />
+      </Radio.Group>
     )
     expect(
       await axeComponent(Comp, {

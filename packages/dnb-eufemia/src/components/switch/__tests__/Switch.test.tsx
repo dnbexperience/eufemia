@@ -1,5 +1,5 @@
 /**
- * Component Test
+ * Switch Test
  *
  */
 
@@ -11,7 +11,7 @@ import {
   loadScss,
 } from '../../../core/jest/jestSetup'
 import FormRow from '../../form-row/FormRow'
-import Component from '../Switch'
+import Switch from '../Switch'
 
 const props = fakeProps(require.resolve('../Switch'), {
   optional: true,
@@ -25,7 +25,7 @@ props.globalStatus = { id: 'main' }
 
 describe('Switch component', () => {
   it('has correct state after "change" trigger', () => {
-    const { rerender } = render(<Component {...props} />)
+    const { rerender } = render(<Switch {...props} />)
     // default checked value has to be false
     expect(document.querySelector('input').checked).toBe(false)
 
@@ -36,12 +36,12 @@ describe('Switch component', () => {
     expect(document.querySelector('input').checked).toBe(false)
 
     // also check if getDerivedStateFromProps sets the state as expected
-    rerender(<Component {...props} checked={true} />)
+    rerender(<Switch {...props} checked={true} />)
     fireEvent.click(document.querySelector('input'))
     expect(document.querySelector('input').checked).toBe(false)
 
     const value = 'new value'
-    rerender(<Component {...props} checked={false} value={value} />)
+    rerender(<Switch {...props} checked={false} value={value} />)
     fireEvent.click(document.querySelector('input'))
     expect(document.querySelector('input').value).toBe(value)
   })
@@ -50,7 +50,7 @@ describe('Switch component', () => {
     const my_event = jest.fn()
     const myEvent = jest.fn()
     render(
-      <Component on_change={my_event} onChange={myEvent} checked={false} />
+      <Switch on_change={my_event} onChange={myEvent} checked={false} />
     )
     fireEvent.click(document.querySelector('input'))
     expect(my_event.mock.calls.length).toBe(1)
@@ -67,7 +67,7 @@ describe('Switch component', () => {
 
       return (
         <>
-          <Component
+          <Switch
             checked={checked}
             on_change={({ checked }) => setChecked(checked)}
           />
@@ -123,13 +123,13 @@ describe('Switch component', () => {
   })
 
   it('has a disabled attribute, once we set disabled to true', () => {
-    const { rerender } = render(<Component />)
-    rerender(<Component disabled={true} />)
+    const { rerender } = render(<Switch />)
+    rerender(<Switch disabled={true} />)
     expect(document.querySelector('input[disabled]')).toBeTruthy()
   })
 
   it('should support spacing props', () => {
-    render(<Component top="2rem" />)
+    render(<Switch top="2rem" />)
 
     const element = document.querySelector('.dnb-switch')
 
@@ -144,7 +144,7 @@ describe('Switch component', () => {
   it('should inherit FormRow vertical label', () => {
     render(
       <FormRow vertical>
-        <Component label="Label" />
+        <Switch label="Label" />
       </FormRow>
     )
 
@@ -178,7 +178,7 @@ describe('Switch component', () => {
   })
 
   it('should validate with ARIA rules', async () => {
-    const Comp = render(<Component {...props} />)
+    const Comp = render(<Switch {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })

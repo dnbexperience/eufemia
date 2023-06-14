@@ -1,5 +1,5 @@
 /**
- * Component Test
+ * Icon Test
  *
  */
 
@@ -10,7 +10,7 @@ import {
   loadScss,
 } from '../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
-import Component from '../Icon'
+import Icon from '../Icon'
 import { question } from './test-files'
 
 const props = fakeProps(require.resolve('../Icon'), {
@@ -25,7 +25,7 @@ describe('Icon component', () => {
   it('has valid width and height prop', () => {
     const width = '200'
     const height = '100'
-    render(<Component {...props} width={width} height={height} />)
+    render(<Icon {...props} width={width} height={height} />)
     const elem = document.querySelector('svg')
     expect(elem).toBeTruthy()
     expect(elem.getAttribute('width')).toBe(width)
@@ -33,13 +33,13 @@ describe('Icon component', () => {
   })
 
   it('should work with medium size', () => {
-    const { rerender } = render(<Component {...props} size="24" />)
+    const { rerender } = render(<Icon {...props} size="24" />)
     expect(
       document
         .querySelector('span.dnb-icon')
         .classList.contains('dnb-icon--medium')
     ).toBe(true)
-    rerender(<Component {...props} size={16} />)
+    rerender(<Icon {...props} size={16} />)
     expect(
       document
         .querySelector('span.dnb-icon')
@@ -48,23 +48,21 @@ describe('Icon component', () => {
   })
 
   it('should return null if icon was given as null', () => {
-    const { asFragment: asFragment1 } = render(<Component icon={null} />)
+    const { asFragment: asFragment1 } = render(<Icon icon={null} />)
     expect(asFragment1()).toMatchInlineSnapshot(`<DocumentFragment />`)
 
-    const { asFragment: asFragment2 } = render(
-      <Component icon={undefined} />
-    )
+    const { asFragment: asFragment2 } = render(<Icon icon={undefined} />)
     expect(asFragment2()).toMatchInlineSnapshot(`<DocumentFragment />`)
 
-    const { asFragment: asFragment3 } = render(<Component icon={false} />)
+    const { asFragment: asFragment3 } = render(<Icon icon={false} />)
     expect(asFragment3()).toMatchInlineSnapshot(`<DocumentFragment />`)
 
-    const { asFragment: asFragment4 } = render(<Component icon={''} />)
+    const { asFragment: asFragment4 } = render(<Icon icon={''} />)
     expect(asFragment4()).toMatchInlineSnapshot(`<DocumentFragment />`)
   })
 
   it('should have border class', () => {
-    render(<Component {...props} border={true} />)
+    render(<Icon {...props} border={true} />)
     expect(
       document
         .querySelector('span.dnb-icon')
@@ -73,14 +71,14 @@ describe('Icon component', () => {
   })
 
   it('should inherit color and vice versa when inherit_color is false', () => {
-    const { rerender } = render(<Component icon={question} />)
+    const { rerender } = render(<Icon icon={question} />)
     expect(
       document
         .querySelector('span.dnb-icon')
         .classList.contains('dnb-icon--inherit-color')
     ).toBe(true)
 
-    rerender(<Component icon={question} inherit_color={true} />)
+    rerender(<Icon icon={question} inherit_color={true} />)
 
     expect(
       document
@@ -88,7 +86,7 @@ describe('Icon component', () => {
         .classList.contains('dnb-icon--inherit-color')
     ).toBe(true)
 
-    rerender(<Component icon={question} inherit_color={false} />)
+    rerender(<Icon icon={question} inherit_color={false} />)
 
     expect(
       document
@@ -98,20 +96,20 @@ describe('Icon component', () => {
   })
 
   it('should not be hidden, given aria-hidden={false}', () => {
-    render(<Component {...props} aria-hidden={false} />)
+    render(<Icon {...props} aria-hidden={false} />)
     expect(
       document.querySelector('span.dnb-icon').getAttribute('aria-hidden')
     ).toBe('false')
   })
 
   it('should work with custom size', () => {
-    const { rerender } = render(<Component {...props} size="100" />)
+    const { rerender } = render(<Icon {...props} size="100" />)
     expect(
       document
         .querySelector('span.dnb-icon')
         .classList.contains('dnb-icon--custom-size')
     ).toBe(true)
-    rerender(<Component {...props} size={16} />)
+    rerender(<Icon {...props} size={16} />)
     expect(
       document
         .querySelector('span.dnb-icon')
@@ -120,7 +118,7 @@ describe('Icon component', () => {
   })
 
   it('should set data-testid property based on the aria-label', () => {
-    render(<Component icon={question} aria-label="question icon" />)
+    render(<Icon icon={question} aria-label="question icon" />)
     expect(
       document.querySelector('span.dnb-icon').getAttribute('data-testid')
     ).toBe('question icon')
@@ -128,7 +126,7 @@ describe('Icon component', () => {
 
   it('should set data-testid when provided', () => {
     render(
-      <Component
+      <Icon
         icon={question}
         aria-label="question icon"
         data-testid="custom-data-testid-value"
@@ -140,7 +138,7 @@ describe('Icon component', () => {
   })
 
   it('should validate with ARIA rules', async () => {
-    const Comp = render(<Component {...props} />)
+    const Comp = render(<Icon {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })

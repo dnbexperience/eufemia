@@ -1,5 +1,5 @@
 /**
- * Component Test
+ * DrawerList Test
  *
  */
 
@@ -10,7 +10,7 @@ import {
   loadScss,
 } from '../../../core/jest/jestSetup'
 import { render, screen } from '@testing-library/react'
-import Component from '../DrawerList'
+import DrawerList from '../DrawerList'
 
 import {
   mockImplementationForDirectionObserver,
@@ -56,25 +56,25 @@ const mockData = [
 
 describe('DrawerList component', () => {
   it('has correct state at startup', () => {
-    render(<Component {...props} data={mockData} />)
+    render(<DrawerList {...props} data={mockData} />)
     expect(document.querySelector('.dnb-drawer-list--opened')).toBeTruthy()
   })
 
   it('has correct state after changing prop to opened', () => {
-    const { rerender } = render(<Component {...props} data={mockData} />)
+    const { rerender } = render(<DrawerList {...props} data={mockData} />)
 
     expect(document.querySelector('.dnb-drawer-list--opened')).toBeTruthy()
 
-    rerender(<Component {...props} data={mockData} opened={false} />)
+    rerender(<DrawerList {...props} data={mockData} opened={false} />)
     expect(document.querySelector('.dnb-drawer-list--opened')).toBeFalsy()
 
-    rerender(<Component {...props} data={mockData} opened={true} />)
+    rerender(<DrawerList {...props} data={mockData} opened={true} />)
     expect(document.querySelector('.dnb-drawer-list--opened')).toBeTruthy()
   })
 
   it('handles default_value correctly on forcing re-render', () => {
     const { rerender } = render(
-      <Component
+      <DrawerList
         opened
         no_animation
         data={mockData}
@@ -97,7 +97,7 @@ describe('DrawerList component', () => {
     // force re-render by prop change
     const title = 'show this attribute now'
     rerender(
-      <Component
+      <DrawerList
         opened
         no_animation
         data={mockData}
@@ -110,7 +110,7 @@ describe('DrawerList component', () => {
 
     // force re-render with null as value by prop change
     rerender(
-      <Component
+      <DrawerList
         opened
         no_animation
         data={mockData}
@@ -139,7 +139,7 @@ describe('DrawerList component', () => {
   })
 
   it('has correct value on key search', () => {
-    const { rerender } = render(<Component {...props} data={mockData} />)
+    const { rerender } = render(<DrawerList {...props} data={mockData} />)
 
     expect(
       document.querySelector('.dnb-drawer-list__option--focus')
@@ -159,7 +159,7 @@ describe('DrawerList component', () => {
     keydown(70) // F
 
     // force re-render
-    rerender(<Component {...props} data={mockData} />)
+    rerender(<DrawerList {...props} data={mockData} />)
 
     expect(
       Array.from(
@@ -176,7 +176,7 @@ describe('DrawerList component', () => {
     const on_select = jest.fn()
 
     const { rerender } = render(
-      <Component
+      <DrawerList
         {...props}
         data={Object.freeze(mockData)}
         on_select={on_select}
@@ -193,7 +193,7 @@ describe('DrawerList component', () => {
 
     // reset props
     rerender(
-      <Component
+      <DrawerList
         {...props}
         data={Object.freeze(mockData)}
         on_select={on_select}
@@ -203,7 +203,7 @@ describe('DrawerList component', () => {
 
     // then open again
     rerender(
-      <Component
+      <DrawerList
         {...props}
         data={Object.freeze(mockData)}
         on_select={on_select}
@@ -221,16 +221,16 @@ describe('DrawerList component', () => {
 
   it('will set data-dnb-drawer-list-active with id', () => {
     const { rerender } = render(
-      <Component {...props} opened={false} data={mockData} />
+      <DrawerList {...props} opened={false} data={mockData} />
     )
 
-    rerender(<Component {...props} opened={true} data={mockData} />)
+    rerender(<DrawerList {...props} opened={true} data={mockData} />)
 
     expect(
       document.documentElement.getAttribute('data-dnb-drawer-list-active')
     ).toBe(props.id)
 
-    rerender(<Component {...props} opened={false} data={mockData} />)
+    rerender(<DrawerList {...props} opened={false} data={mockData} />)
 
     expect(
       document.documentElement.hasAttribute('data-dnb-drawer-list-active')
@@ -239,10 +239,10 @@ describe('DrawerList component', () => {
 
   it('will unset data-dnb-drawer-list-active on unmount', () => {
     const { rerender, unmount } = render(
-      <Component {...props} data={mockData} opened={false} />
+      <DrawerList {...props} data={mockData} opened={false} />
     )
 
-    rerender(<Component {...props} data={mockData} opened={true} />)
+    rerender(<DrawerList {...props} data={mockData} opened={true} />)
 
     expect(
       document.documentElement.getAttribute('data-dnb-drawer-list-active')
@@ -257,7 +257,7 @@ describe('DrawerList component', () => {
 
   it('will lock body scroll when enable_body_lock is true', () => {
     const MockComponent = (p) => (
-      <Component {...props} data={mockData} enable_body_lock {...p} />
+      <DrawerList {...props} data={mockData} enable_body_lock {...p} />
     )
 
     const { rerender } = render(<MockComponent opened={false} />)
@@ -280,7 +280,7 @@ describe('DrawerList component', () => {
     const on_select = jest.fn()
 
     const { rerender } = render(
-      <Component
+      <DrawerList
         {...props}
         data={mockData}
         on_change={on_change}
@@ -299,7 +299,7 @@ describe('DrawerList component', () => {
     expect(on_select.mock.calls[1][0].data).toStrictEqual(selectedItem)
 
     rerender(
-      <Component
+      <DrawerList
         {...props}
         data={mockData}
         on_change={on_change}
@@ -310,7 +310,7 @@ describe('DrawerList component', () => {
 
     // then open again
     rerender(
-      <Component
+      <DrawerList
         {...props}
         data={mockData}
         on_change={on_change}
@@ -332,7 +332,7 @@ describe('DrawerList component', () => {
     const directionTop = 'top'
 
     const { rerender } = render(
-      <Component {...props} data={mockData} direction={directionTop} />
+      <DrawerList {...props} data={mockData} direction={directionTop} />
     )
 
     expect(
@@ -341,7 +341,7 @@ describe('DrawerList component', () => {
 
     const directionBottom = 'bottom'
     rerender(
-      <Component {...props} data={mockData} direction={directionBottom} />
+      <DrawerList {...props} data={mockData} direction={directionBottom} />
     )
     expect(
       document.querySelector(`.dnb-drawer-list--${directionBottom}`)
@@ -355,14 +355,14 @@ describe('DrawerList component', () => {
   })
 
   it('has working direction observer', async () => {
-    render(<Component {...props} data={mockData} />)
+    render(<DrawerList {...props} data={mockData} />)
     await testDirectionObserver()
   })
 
   it('will call on_hide after "esc" key', () => {
     const on_hide = jest.fn()
 
-    render(<Component {...props} data={mockData} on_hide={on_hide} />)
+    render(<DrawerList {...props} data={mockData} on_hide={on_hide} />)
 
     expect(
       Array.from(document.querySelector('span.dnb-drawer-list').classList)
@@ -393,7 +393,7 @@ describe('DrawerList component', () => {
   })
 
   it('has correct class modifier "--opened"', () => {
-    render(<Component {...props} data={mockData} />)
+    render(<DrawerList {...props} data={mockData} />)
     const elem = document.querySelector('span.dnb-drawer-list')
 
     expect(elem.className).toContain('dnb-drawer-list--opened')
@@ -402,7 +402,7 @@ describe('DrawerList component', () => {
   })
 
   it('has correct length of li elements', () => {
-    render(<Component {...props} data={mockData} />)
+    render(<DrawerList {...props} data={mockData} />)
 
     expect(
       document.querySelectorAll('li.dnb-drawer-list__option').length
@@ -414,7 +414,7 @@ describe('DrawerList component', () => {
     const on_select = jest.fn()
 
     render(
-      <Component
+      <DrawerList
         opened
         no_animation
         on_change={on_change}
@@ -444,7 +444,7 @@ describe('DrawerList component', () => {
     const params = { 'data-attr': 'value' }
 
     render(
-      <Component
+      <DrawerList
         {...props}
         on_show={on_show}
         on_hide={on_hide}
@@ -481,7 +481,7 @@ describe('DrawerList markup', () => {
     }
 
     const CheckComponent = render(
-      <Component {...snapshotProps} data={mockData} />
+      <DrawerList {...snapshotProps} data={mockData} />
     )
     expect(
       await axeComponent(CheckComponent, {
