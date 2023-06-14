@@ -427,7 +427,11 @@ describe('"findElementInChildren" should', () => {
       'div',
       null,
       React.createElement(Heading),
-      React.createElement('span', null, React.createElement(h2))
+      React.createElement(
+        'span',
+        null,
+        React.createElement('h2', 'and this')
+      )
     )
 
     const HeadingElement = findElementInChildren(children, (cur) => {
@@ -436,9 +440,9 @@ describe('"findElementInChildren" should', () => {
     expect(HeadingElement.type).toBe(Heading)
 
     const h2Element = findElementInChildren(children, (cur) => {
-      return cur.type === h2
+      return cur.type === 'h2'
     })
-    expect(h2Element.type).toBe(h2)
+    expect(h2Element.type).toBe('h2')
   })
 })
 
