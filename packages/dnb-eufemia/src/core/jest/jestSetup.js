@@ -10,13 +10,11 @@ import fs from 'fs-extra'
 import path from 'path'
 import sass from 'sass'
 import { toBeType } from 'jest-tobetype'
-import toJson from 'enzyme-to-json'
 
 export {
   fakeProps, // we have also our own replacement function called "fakeAllProps"
   mount,
   render,
-  toJson,
   axe,
   toHaveNoViolations,
 }

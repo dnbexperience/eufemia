@@ -5,10 +5,8 @@
 
 import React from 'react'
 import {
-  mount,
   fakeProps,
   axeComponent,
-  toJson,
   loadScss,
 } from '../../../core/jest/jestSetup'
 import { render, screen } from '@testing-library/react'
@@ -20,22 +18,6 @@ import {
 } from './DrawerListTestMocks'
 
 mockImplementationForDirectionObserver()
-
-const snapshotProps = {
-  ...fakeProps(require.resolve('../DrawerList'), {
-    all: true,
-    optional: true,
-  }),
-  id: 'drawer-list-id',
-  direction: 'bottom',
-  value: 2,
-  skip_portal: true,
-  opened: true,
-  no_animation: true,
-  prevent_selection: null,
-  size: 'default',
-  align_drawer: null,
-}
 
 // use no_animation so we don't need to wait
 const mockProps = {
@@ -481,15 +463,23 @@ describe('DrawerList component', () => {
 })
 
 describe('DrawerList markup', () => {
-  // compare the snapshot
-  it('have to match snapshot', () => {
-    const CheckComponent = mount(
-      <Component {...snapshotProps} data={mockData} />
-    )
-    expect(toJson(CheckComponent)).toMatchSnapshot()
-  })
-
   it.skip('should validate with ARIA rules', async () => {
+    const snapshotProps = {
+      ...fakeProps(require.resolve('../DrawerList'), {
+        all: true,
+        optional: true,
+      }),
+      id: 'drawer-list-id',
+      direction: 'bottom',
+      value: 2,
+      skip_portal: true,
+      opened: true,
+      no_animation: true,
+      prevent_selection: null,
+      size: 'default',
+      align_drawer: null,
+    }
+
     const CheckComponent = render(
       <Component {...snapshotProps} data={mockData} />
     )

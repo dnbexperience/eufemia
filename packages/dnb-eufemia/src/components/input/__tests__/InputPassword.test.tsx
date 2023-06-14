@@ -4,12 +4,7 @@
  */
 
 import React from 'react'
-import {
-  mount,
-  fakeProps,
-  toJson,
-  axeComponent,
-} from '../../../core/jest/jestSetup'
+import { fakeProps, axeComponent } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
 import Component from '../InputPassword'
 import FormRow from '../../form-row/FormRow'
@@ -32,12 +27,6 @@ snapshotProps.id = 'input'
 snapshotProps.autocomplete = 'off'
 
 describe('InputPassword component', () => {
-  // compare the snapshot
-  it('have to match snapshot', () => {
-    const Comp = mount(<Component {...snapshotProps} value="test" />)
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
   it('has correct type by default', () => {
     render(<Component id="input" />)
 

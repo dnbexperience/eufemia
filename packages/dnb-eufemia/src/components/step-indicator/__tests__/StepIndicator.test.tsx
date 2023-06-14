@@ -4,13 +4,8 @@
  */
 
 import React from 'react'
-import {
-  mount,
-  axeComponent,
-  toJson,
-  loadScss,
-} from '../../../core/jest/jestSetup'
-import { render, screen, within } from '@testing-library/react'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { fireEvent, render, screen, within } from '@testing-library/react'
 import Component from '../StepIndicator'
 import Provider from '../../../shared/Provider'
 import MatchMediaMock from 'jest-matchmedia-mock'
@@ -216,23 +211,6 @@ describe('StepIndicator in general', () => {
 })
 
 describe('StepIndicator in loose mode', () => {
-  // This helper function should be removed, as it uses mount, and we move away from using enzyme.
-  const renderComponentUsingMount = (id, props = null) => {
-    return mount(
-      <>
-        <Component.Sidebar sidebar_id={id} />
-        <Component
-          current_step={1}
-          mode="loose"
-          sidebar_id={id}
-          data={stepIndicatorListData}
-          {...props}
-        />
-      </>,
-      { attachTo: document.getElementById('root') }
-    )
-  }
-
   const renderComponent = (id, props = null) => {
     return render(
       <>
@@ -248,17 +226,6 @@ describe('StepIndicator in loose mode', () => {
     )
   }
 
-  it('have to match snapshot', () => {
-    const Comp = renderComponentUsingMount('unique-id-loose-snapshot')
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
-  it('have to match snapshot on small screen', () => {
-    simulateSmallScreen()
-    const Comp = renderComponentUsingMount('unique-id-loose-snapshot')
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
   it('has trigger button when mobile', () => {
     simulateSmallScreen()
 
@@ -267,24 +234,48 @@ describe('StepIndicator in loose mode', () => {
   })
 
   it('has to keep the current step on re-render', () => {
-    const Comp = renderComponentUsingMount('unique-id-loose-mobile')
-    expect(
-      Comp.at(1).exists('button.dnb-step-indicator__trigger__button')
-    ).toBe(false)
+    const id = 'unique-id-loose-mobile'
 
-    expect(Comp.find('li.dnb-step-indicator__item')).toHaveLength(4)
+    const { rerender } = render(
+      <>
+        <Component.Sidebar sidebar_id={id} />
+        <Component
+          current_step={1}
+          mode="loose"
+          sidebar_id={id}
+          data={stepIndicatorListData}
+        />
+      </>
+    )
     expect(
-      Comp.find('li.dnb-step-indicator__item--current').text()
+      document.querySelector('button.dnb-step-indicator__trigger__button')
+    ).toBeFalsy()
+
+    expect(
+      document.querySelectorAll('li.dnb-step-indicator__item')
+    ).toHaveLength(4)
+    expect(
+      document.querySelector('li.dnb-step-indicator__item--current')
+        .textContent
     ).toContain('2.Step BSteg 2 av 4')
 
     simulateSmallScreen()
 
-    // re-render
-    document.body.innerHTML = `<div id="root"></div>`
-    Comp.update()
+    rerender(
+      <>
+        <Component.Sidebar sidebar_id={id} />
+        <Component
+          current_step={1}
+          mode="loose"
+          sidebar_id={id}
+          data={stepIndicatorListData}
+        />
+      </>
+    )
 
     expect(
-      Comp.find('button.dnb-step-indicator__trigger__button').text()
+      document.querySelector('button.dnb-step-indicator__trigger__button')
+        .textContent
     ).toContain('‌2.Step B')
   })
 
@@ -305,26 +296,20 @@ describe('StepIndicator in loose mode', () => {
 
   it('has correct state after change', () => {
     const on_change = jest.fn()
-    const Comp = renderComponentUsingMount('unique-id-loose-simulate', {
+    renderComponent('unique-id-loose-simulate', {
       on_change,
     })
-    const items = Comp.find('li.dnb-step-indicator__item')
+    const items = document.querySelectorAll('li.dnb-step-indicator__item')
 
     expect(items.length).toBe(4)
     expect(
-      items
-        .at(0)
-        .instance()
-        .classList.contains('dnb-step-indicator__item--visited')
+      items[0].classList.contains('dnb-step-indicator__item--visited')
     ).toBe(true)
     expect(
-      items
-        .at(0)
-        .instance()
-        .classList.contains('dnb-step-indicator__item--current')
+      items[0].classList.contains('dnb-step-indicator__item--current')
     ).toBe(false)
 
-    items.at(0).find('button').simulate('click')
+    fireEvent.click(items[0].querySelector('button'))
 
     expect(on_change).toBeCalledTimes(1)
     expect(on_change.mock.calls[0][0].currentStep).toBe(0)
@@ -332,14 +317,11 @@ describe('StepIndicator in loose mode', () => {
       'function'
     )
     expect(
-      items
-        .at(0)
-        .instance()
-        .classList.contains('dnb-step-indicator__item--current')
+      items[0].classList.contains('dnb-step-indicator__item--current')
     ).toBe(true)
-    expect(Comp.find('li.dnb-step-indicator__item--current')).toHaveLength(
-      1
-    )
+    expect(
+      document.querySelectorAll('li.dnb-step-indicator__item--current')
+    ).toHaveLength(1)
   })
 
   it('should have only one "current" at a time', () => {
@@ -401,47 +383,45 @@ describe('StepIndicator in loose mode', () => {
       )
     }
 
-    const renderComponent = (id, props = null) => {
-      return mount(<TestComp id={id} {...props} />, {
-        attachTo: document.getElementById('root'),
-      })
-    }
-    const Comp = renderComponent('unique-id-loose-simulate')
+    const { rerender } = render(<TestComp id="unique-id-loose-simulate" />)
 
-    Comp.setProps({
-      current_step: 2,
-    })
+    rerender(<TestComp id="unique-id-loose-simulate" current_step={2} />)
 
     expect(
-      Comp.find('li.dnb-step-indicator__item--current').text()
+      document.querySelector('li.dnb-step-indicator__item--current')
+        .textContent
     ).toContain('3.Step CSteg 3 av 4')
   })
 
   it('should render button when no Sidebar was found', () => {
-    const Comp = mount(
+    const { rerender } = render(
       <Component
         current_step={1}
         mode="loose"
         sidebar_id="unique-id-loose-simulate"
         data={stepIndicatorListData}
-      />,
-      {
-        attachTo: document.getElementById('root'),
-      }
+      />
     )
 
     expect(
-      Comp.find('button.dnb-step-indicator__trigger__button').text()
+      document.querySelector('button.dnb-step-indicator__trigger__button')
+        .textContent
     ).toContain('‌2.Step B')
 
     simulateSmallScreen()
 
-    // re-render
-    document.body.innerHTML = `<div id="root"></div>`
-    Comp.update()
+    rerender(
+      <Component
+        current_step={1}
+        mode="loose"
+        sidebar_id="unique-id-loose-simulate"
+        data={stepIndicatorListData}
+      />
+    )
 
     expect(
-      Comp.find('button.dnb-step-indicator__trigger__button').text()
+      document.querySelector('button.dnb-step-indicator__trigger__button')
+        .textContent
     ).toContain('‌2.Step B')
   })
 
@@ -462,23 +442,6 @@ describe('StepIndicator in loose mode', () => {
 })
 
 describe('StepIndicator in strict mode', () => {
-  // This helper function should be removed, as it uses mount, and we move away from using enzyme.
-  const renderComponentUsingMount = (id, props = null) => {
-    return mount(
-      <>
-        <Component.Sidebar sidebar_id={id} />
-        <Component
-          current_step={1}
-          mode="strict"
-          sidebar_id={id}
-          data={stepIndicatorListData}
-          {...props}
-        />
-      </>,
-      { attachTo: document.getElementById('root') }
-    )
-  }
-
   const renderComponent = (id, props = null) => {
     return render(
       <>
@@ -493,17 +456,6 @@ describe('StepIndicator in strict mode', () => {
       </>
     )
   }
-
-  it('have to match snapshot', () => {
-    const Comp = renderComponentUsingMount('unique-id-strict-snapshot')
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
-  it('have to match snapshot on small screen', () => {
-    simulateSmallScreen()
-    const Comp = renderComponentUsingMount('unique-id-strict-snapshot')
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
 
   it('has trigger button when mobile', () => {
     simulateSmallScreen()
@@ -556,23 +508,6 @@ describe('StepIndicator in strict mode', () => {
 })
 
 describe('StepIndicator in static mode', () => {
-  // This helper function should be removed, as it uses mount, and we move away from using enzyme.
-  const renderComponentUsingMount = (id, props = null) => {
-    return mount(
-      <>
-        <Component.Sidebar sidebar_id={id} />
-        <Component
-          current_step={1}
-          mode="static"
-          sidebar_id={id}
-          data={stepIndicatorListData}
-          {...props}
-        />
-      </>,
-      { attachTo: document.getElementById('root') }
-    )
-  }
-
   const renderComponent = (id, props = null) => {
     return render(
       <>
@@ -587,17 +522,6 @@ describe('StepIndicator in static mode', () => {
       </>
     )
   }
-
-  it('have to match snapshot', () => {
-    const Comp = renderComponentUsingMount('unique-id-static-snapshot')
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
-  it('have to match snapshot on small screen', () => {
-    simulateSmallScreen()
-    const Comp = renderComponentUsingMount('unique-id-static-snapshot')
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
 
   it('has trigger button when mobile', () => {
     simulateSmallScreen()

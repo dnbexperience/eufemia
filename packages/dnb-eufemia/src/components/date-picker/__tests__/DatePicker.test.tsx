@@ -4,12 +4,7 @@
  */
 
 import React from 'react'
-import {
-  mount,
-  axeComponent,
-  toJson,
-  loadScss,
-} from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import Component from '../DatePicker'
 
 jest.setTimeout(30e3)
@@ -48,12 +43,6 @@ describe('DatePicker component', () => {
     status_props: null,
     separatorRexExp: null,
   }
-
-  // compare the snapshot
-  it('have to match snapshot', () => {
-    const Comp = mount(<Component {...defaultProps} />)
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
 
   it('has a disabled attribute, once we set disabled to true', () => {
     const { rerender } = render(<Component show_input />)

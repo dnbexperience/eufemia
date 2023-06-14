@@ -4,12 +4,7 @@
  */
 
 import React from 'react'
-import {
-  mount,
-  fakeProps,
-  toJson,
-  loadScss,
-} from '../../../core/jest/jestSetup'
+import { loadScss } from '../../../core/jest/jestSetup'
 import { render, fireEvent } from '@testing-library/react'
 import Component from '../InputMasked'
 import Provider from '../../../shared/Provider'
@@ -17,25 +12,6 @@ import * as helpers from '../../../shared/helpers'
 import FormRow from '../../form-row/FormRow'
 import userEvent from '@testing-library/user-event'
 import InputMasked from '..'
-
-const snapshotProps = {
-  ...fakeProps(require.resolve('../InputMasked'), {
-    optional: true,
-  }),
-  id: 'input-masked',
-  mask: [/[a-z]/],
-  show_mask: true,
-  disabled: false,
-  pipe: null,
-  locale: null,
-  as_number: null,
-  as_currency: null,
-  as_percent: null,
-  number_format: null,
-  number_mask: null,
-  currency_mask: null,
-  inner_ref: null,
-}
 
 const props = {
   id: 'input-masked',
@@ -49,14 +25,6 @@ beforeEach(() => {
 })
 
 describe('InputMasked component', () => {
-  // compare the snapshot
-  it('have to match type="text" snapshot', () => {
-    const Comp = mount(
-      <Component {...snapshotProps} type="text" value="test" />
-    )
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
   it('should format "number_mask" accordingly the defined properties', () => {
     render(
       <Component

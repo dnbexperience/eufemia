@@ -4,12 +4,7 @@
  */
 
 import React from 'react'
-import {
-  mount,
-  fakeProps,
-  toJson,
-  axeComponent,
-} from '../../../core/jest/jestSetup'
+import { fakeProps, axeComponent } from '../../../core/jest/jestSetup'
 import Component from '../P'
 import { render } from '@testing-library/react'
 
@@ -20,10 +15,6 @@ props.size = 'x-small'
 props.element = 'p'
 
 describe('P element', () => {
-  it('have to match default P element snapshot', () => {
-    const Comp = mount(<Component {...props} />)
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
   it('has correct size when size is defined', () => {
     render(<Component size="large" />)
     const element = document.querySelector('.dnb-p__size--large')

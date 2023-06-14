@@ -4,13 +4,7 @@
  */
 
 import React from 'react'
-import {
-  mount,
-  fakeProps,
-  axeComponent,
-  toJson,
-  loadScss,
-} from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import GlobalStatus, { GlobalErrorAllProps } from '../GlobalError'
 import { render } from '@testing-library/react'
 import { Provider } from '../../../shared'
@@ -18,19 +12,6 @@ import { Provider } from '../../../shared'
 const status = '404'
 const title = 'title'
 const text = 'text'
-const locale = null
-const children = null
-
-const snapshotProps = {
-  ...fakeProps(require.resolve('../GlobalError'), {
-    optional: true,
-  }),
-  status,
-  text,
-  title,
-  locale,
-  children,
-}
 
 const props = {
   status,
@@ -173,13 +154,6 @@ describe('GlobalError', () => {
   it('should validate with ARIA rules', async () => {
     const Comp = render(<GlobalStatus {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
-  })
-})
-
-describe('GlobalError snapshot', () => {
-  it('have to match component snapshot', () => {
-    const Comp = mount(<GlobalStatus {...snapshotProps} />)
-    expect(toJson(Comp)).toMatchSnapshot()
   })
 })
 

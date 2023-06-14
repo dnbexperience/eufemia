@@ -5,10 +5,8 @@
 
 import React from 'react'
 import {
-  mount,
   fakeProps,
   axeComponent,
-  toJson,
   loadScss,
 } from '../../../core/jest/jestSetup'
 import { render, screen } from '@testing-library/react'
@@ -26,13 +24,6 @@ const props: ProgressIndicatorProps = fakeProps(
 describe('Circular ProgressIndicator component', () => {
   const mainLineSelector =
     'svg.dnb-progress-indicator__circular__line.dark[style]'
-
-  it('have to match snapshot', () => {
-    const Comp = mount(
-      <Component {...props} type="circular" progress={50} />
-    )
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
 
   it('has to have a stroke-dashoffset of 44 on 50%', () => {
     render(<Component {...props} type="circular" progress={50} />)
@@ -141,13 +132,6 @@ describe('Circular ProgressIndicator component', () => {
 
 describe('Linear ProgressIndicator component', () => {
   const mainLineSelector = '.dnb-progress-indicator__linear__bar'
-
-  it('have to match snapshot', () => {
-    const Comp = mount(
-      <Component {...props} type="linear" progress={50} />
-    )
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
 
   it('has to have a transform of translateX(-50%) on 50%', () => {
     render(<Component {...props} type="linear" progress={50} />)

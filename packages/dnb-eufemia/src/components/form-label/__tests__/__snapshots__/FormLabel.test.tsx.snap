@@ -1,35 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`FormLabel component have to match snapshot 1`] = `
-<FormLabel
-  class="class"
-  className="className"
-  direction="horizontal"
-  disabled="disabled"
-  element="label"
-  for_id="for_id"
-  id="id"
-  label_direction="horizontal"
-  skeleton="skeleton"
-  sr_only="sr_only"
-  text="text"
-  title="title"
-  vertical="vertical"
->
-  <label
-    aria-disabled={true}
-    className="dnb-form-label className class"
-    direction="horizontal"
-    disabled={true}
-    htmlFor="for_id"
-    id="id"
-    title="title"
-  >
-    text
-  </label>
-</FormLabel>
-`;
-
 exports[`FormLabel scss have to match default theme snapshot 1`] = `
 "/*
  * FormLabel theme

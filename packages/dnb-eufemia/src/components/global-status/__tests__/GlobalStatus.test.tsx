@@ -4,13 +4,7 @@
  */
 
 import React from 'react'
-import {
-  mount,
-  fakeProps,
-  axeComponent,
-  toJson,
-  loadScss,
-} from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import Component from '../GlobalStatus'
 import { GlobalStatusInterceptor } from '../GlobalStatusController'
 import FormSet from '../../form-set/FormSet'
@@ -18,11 +12,7 @@ import Switch from '../../switch/Switch'
 import Autocomplete from '../../autocomplete/Autocomplete'
 import { fireEvent, render } from '@testing-library/react'
 
-const id = 'main'
-const status_id = null
-const state = 'error'
 const text = 'text'
-const children = null
 const items = [
   { id: 'id-1', text: 'item #1' },
   { id: 'id-2', text: 'item #2' },
@@ -30,23 +20,6 @@ const items = [
 const show = true
 const no_animation = true
 const autoscroll = false
-const icon = 'error'
-
-const snapshotProps = {
-  ...fakeProps(require.resolve('../GlobalStatus'), {
-    optional: true,
-  }),
-
-  id,
-  status_id,
-  state,
-  children,
-  show,
-  no_animation,
-  items,
-  text,
-  icon,
-}
 
 const props = {
   show,
@@ -919,34 +892,6 @@ describe('GlobalStatus component', () => {
   it('should validate with ARIA rules', async () => {
     const Comp = render(<Component {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
-  })
-})
-
-describe('GlobalStatus snapshot', () => {
-  it('have to match component snapshot', () => {
-    const Comp = mount(<Component {...snapshotProps} />)
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
-  it('have to match linked components snapshot', () => {
-    const Comp = mount(
-      <>
-        <Component
-          id="linked"
-          show={true}
-          autoscroll={false}
-          delay={0}
-          no_animation={true}
-        />
-        <Switch
-          id="switch"
-          label={<span>Label</span>}
-          status="error-message"
-          globalStatus={{ id: 'linked' }}
-        />
-      </>
-    )
-    expect(toJson(Comp)).toMatchSnapshot()
   })
 })
 

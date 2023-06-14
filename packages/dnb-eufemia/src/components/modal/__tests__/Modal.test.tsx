@@ -5,9 +5,7 @@
 
 import React from 'react'
 import {
-  mount,
   fakeProps,
-  toJson,
   axeComponent,
   loadScss,
 } from '../../../core/jest/jestSetup'
@@ -48,11 +46,6 @@ beforeEach(() => {
 })
 
 describe('Modal component', () => {
-  it('have to match snapshot', () => {
-    const Comp = mount(<Component {...props} open_state={true} />)
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
   it('should add its instance to the stack', () => {
     render(
       <Component {...props}>

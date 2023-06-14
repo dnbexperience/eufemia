@@ -5,9 +5,7 @@
 
 import React from 'react'
 import {
-  mount,
   axeComponent,
-  toJson,
   loadScss,
   mockGetSelection,
 } from '../../../core/jest/jestSetup'
@@ -25,11 +23,6 @@ const Component = (props) => {
 const element = NumberFormat.defaultProps.element
 const locale = LOCALE
 const value = 12345678.9876
-const snapshotProps = {
-  value,
-  locale,
-  element,
-}
 
 // make it possible to change the navigator lang
 // because "navigator.language" defaults to en-GB
@@ -58,11 +51,6 @@ beforeAll(() => {
 describe('NumberFormat component', () => {
   const displaySelector = element + '.dnb-number-format span'
   const ariaSelector = element + '.dnb-number-format span[id]'
-
-  it('have to match default number-format snapshot', () => {
-    const Comp = mount(<Component {...snapshotProps} />)
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
 
   it('have to match default number', () => {
     render(<Component value={value} />)

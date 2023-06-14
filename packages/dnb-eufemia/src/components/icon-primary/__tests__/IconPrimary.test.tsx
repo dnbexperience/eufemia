@@ -4,12 +4,7 @@
  */
 
 import React from 'react'
-import {
-  mount,
-  fakeProps,
-  toJson,
-  axeComponent,
-} from '../../../core/jest/jestSetup'
+import { fakeProps, axeComponent } from '../../../core/jest/jestSetup'
 import Component from '../IconPrimary'
 import { render } from '@testing-library/react'
 
@@ -19,11 +14,6 @@ const props = fakeProps(require.resolve('../IconPrimary'), {
 props.icon = 'question'
 
 describe('IconPrimary component', () => {
-  it('have to match snapshot', () => {
-    const Comp = mount(<Component {...props} />)
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
   it('has valid width and height prop', () => {
     const width = '200'
     const height = '100'

@@ -5,10 +5,8 @@
 
 import React from 'react'
 import {
-  mount,
   fakeProps,
   axeComponent,
-  toJson,
   loadScss,
 } from '../../../core/jest/jestSetup'
 import Component from '../FormSet'
@@ -25,12 +23,6 @@ props.direction = 'horizontal'
 props.element = 'form'
 
 describe('FormSet component', () => {
-  it('have to match snapshot', () => {
-    const Comp = mount(<Component {...props} />)
-
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
   it('should have .dnb-form-set class', () => {
     render(<Component {...props} />)
 

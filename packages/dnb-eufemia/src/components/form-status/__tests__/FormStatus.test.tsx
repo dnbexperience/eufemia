@@ -5,10 +5,8 @@
 
 import React from 'react'
 import {
-  mount,
   fakeProps,
   axeComponent,
-  toJson,
   loadScss,
 } from '../../../core/jest/jestSetup'
 import Component from '../FormStatus'
@@ -28,11 +26,6 @@ props.hidden = false
 props.icon = 'exclamation'
 
 describe('FormStatus component', () => {
-  it('have to match snapshot', () => {
-    const Comp = mount(<Component {...props} />)
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
   it('should set correct max-width', () => {
     render(
       <Input
