@@ -137,6 +137,12 @@ const makeScreenshot = async ({
     await page.waitForTimeout(delaySimulation)
   }
 
+  await wrapperCleanup({
+    page,
+    selector,
+    addWrapper,
+  })
+
   await page.mouse.move(0, 0)
 
   if (waitBeforeFinish > 0) {
@@ -471,6 +477,28 @@ async function handleSimulation({
   return { elementsToDispose, delaySimulation }
 }
 
+async function wrapperCleanup({ page, selector, addWrapper }) {
+  if (addWrapper) {
+    await page.evaluate(
+      ({ selector }) => {
+        const element = document.querySelector(selector)
+        const wrapperElement = element.closest(
+          '[data-visual-test-wrapper]'
+        )
+
+        if (wrapperElement) {
+          wrapperElement.replaceWith(...wrapperElement.childNodes)
+        }
+
+        return wrapperElement
+      },
+      {
+        selector,
+      }
+    )
+  }
+}
+
 async function handleWrapper({
   page,
   selector,
@@ -491,20 +519,17 @@ async function handleWrapper({
     // because of getComputedStyle we have to use evaluate
     const background = await page.evaluate(
       ({ selector }) => {
-        let node = document.querySelector(selector)
-        if (!(node && node.parentNode)) {
-          return null
-        }
-        node = node.parentNode
+        const element = document.querySelector(selector)?.parentNode
 
         const backgroundColor = window
-          .getComputedStyle(node)
-          .getPropertyValue('background-color')
+          .getComputedStyle(element)
+          ?.getPropertyValue('background-color')
 
         // if transparent, do nothing
-        if (backgroundColor === 'rgba(0, 0, 0, 0)') {
+        if (!element || backgroundColor === 'rgba(0, 0, 0, 0)') {
           return null
         }
+
         return backgroundColor
       },
       {
@@ -525,18 +550,19 @@ async function handleWrapper({
     // wrap the element/selector and give the wrapper also a style
     await page.$eval(
       selector,
-      (node, { id, style }) => {
-        const attrValue = node.getAttribute('data-visual-test')
+      (element, { id, style }) => {
+        const attrValue = element.getAttribute('data-visual-test')
 
-        const elem = document.createElement('div')
-        elem.setAttribute('data-visual-test-id', id)
-        elem.setAttribute('data-visual-test-wrapper', attrValue)
+        const wrapperElement = document.createElement('div')
+        wrapperElement.setAttribute('data-visual-test-id', id)
+        wrapperElement.setAttribute('data-visual-test-wrapper', attrValue)
 
-        node.parentNode.appendChild(elem)
-        elem.appendChild(node)
-        elem.style = style
+        element.parentNode.appendChild(wrapperElement)
+        wrapperElement.appendChild(element)
 
-        return node
+        wrapperElement.style = style
+
+        return element
       },
       {
         id: wrapperId,
