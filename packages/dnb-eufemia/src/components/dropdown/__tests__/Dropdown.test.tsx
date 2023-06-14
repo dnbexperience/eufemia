@@ -1184,7 +1184,7 @@ describe('Dropdown component', () => {
 })
 
 describe('Dropdown markup', () => {
-  it.skip('should validate with ARIA rules', async () => {
+  it('should validate with ARIA rules', async () => {
     const snapshotProps = {
       ...fakeProps(require.resolve('../Dropdown'), {
         optional: true,
