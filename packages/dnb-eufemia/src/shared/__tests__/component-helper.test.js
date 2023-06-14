@@ -421,7 +421,6 @@ describe('"dispatchCustomElementEvent" should', () => {
 describe('"findElementInChildren" should', () => {
   it('find nested React elements', () => {
     const h1 = <h1>find this</h1>
-    const h2 = <h2>and this</h2>
     const Heading = () => h1
     const children = React.createElement(
       'div',
