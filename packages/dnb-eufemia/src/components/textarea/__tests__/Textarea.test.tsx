@@ -1,5 +1,5 @@
 /**
- * Component Test
+ * Textarea Test
  *
  */
 
@@ -11,7 +11,7 @@ import {
   loadScss,
 } from '../../../core/jest/jestSetup'
 import FormRow from '../../form-row/FormRow'
-import Component from '../Textarea'
+import Textarea from '../Textarea'
 import userEvent from '@testing-library/user-event'
 
 const props = {
@@ -29,9 +29,9 @@ const props = {
 describe('Textarea component', () => {
   it('has correct state after "focus" trigger', () => {
     render(
-      <Component {...props} value={null}>
+      <Textarea {...props} value={null}>
         {null}
-      </Component>
+      </Textarea>
     )
     fireEvent.focus(document.querySelector('textarea'))
 
@@ -44,9 +44,9 @@ describe('Textarea component', () => {
 
   it('has correct state after "change" trigger', () => {
     render(
-      <Component {...props} value={null}>
+      <Textarea {...props} value={null}>
         {null}
-      </Component>
+      </Textarea>
     )
     expect(
       document
@@ -71,24 +71,24 @@ describe('Textarea component', () => {
   // // make sure getDerivedStateFromProps works
   it('has correct state after changing "value" prop (set by getDerivedStateFromProps)', () => {
     const { rerender } = render(
-      <Component {...props} value={null}>
+      <Textarea {...props} value={null}>
         {null}
-      </Component>
+      </Textarea>
     )
     const initValue = 'new prop value'
     const emptyValue = null
 
     rerender(
-      <Component {...props} value={initValue}>
+      <Textarea {...props} value={initValue}>
         {null}
-      </Component>
+      </Textarea>
     )
     expect(document.querySelector('textarea').value).toBe(initValue)
 
     rerender(
-      <Component {...props} value={emptyValue}>
+      <Textarea {...props} value={emptyValue}>
         {null}
-      </Component>
+      </Textarea>
     )
     expect(document.querySelector('textarea').value).toBe('')
   })
@@ -101,7 +101,7 @@ describe('Textarea component', () => {
     const on_key_down = jest.fn() // additional native event test
 
     render(
-      <Component
+      <Textarea
         {...props}
         value={initValue}
         on_change={on_change}
@@ -128,37 +128,37 @@ describe('Textarea component', () => {
   })
 
   it('supports null as value', () => {
-    render(<Component {...props} value={null} />)
+    render(<Textarea {...props} value={null} />)
 
     expect(document.querySelector('textarea').value).toBe('')
   })
 
   it('has correct state after setting "value" prop using placeholder (set by getDerivedStateFromProps)', () => {
-    const { rerender } = render(<Component placeholder="Placeholder" />)
+    const { rerender } = render(<Textarea placeholder="Placeholder" />)
 
     const newValue = 'new value'
     const emptyValue = null
     const zeroValue = '0'
 
-    rerender(<Component value={newValue} />)
+    rerender(<Textarea value={newValue} />)
     expect(document.querySelector('textarea').value).toBe(newValue)
 
-    rerender(<Component value={emptyValue} />)
+    rerender(<Textarea value={emptyValue} />)
     expect(document.querySelector('textarea').value).toBe('')
 
-    rerender(<Component value={zeroValue} />)
+    rerender(<Textarea value={zeroValue} />)
     expect(document.querySelector('textarea').value).toBe(
       String(zeroValue)
     )
   })
 
   it('uses children as the value', () => {
-    render(<Component>children</Component>)
+    render(<Textarea>children</Textarea>)
     expect(document.querySelector('textarea').value).toBe('children')
   })
 
   it('has correct size attribute (chars length) on textarea by using textarea_attributes', () => {
-    render(<Component textarea_attributes={{ size: 2 }} />)
+    render(<Textarea textarea_attributes={{ size: 2 }} />)
     expect(document.querySelector('textarea').getAttribute('size')).toBe(
       '2'
     )
@@ -166,43 +166,41 @@ describe('Textarea component', () => {
 
   it('has to to have a prop value like value', () => {
     const { rerender } = render(
-      <Component {...props} value={null}>
+      <Textarea {...props} value={null}>
         {null}
-      </Component>
+      </Textarea>
     )
     const value = 'new value'
     rerender(
-      <Component {...props} value={value}>
+      <Textarea {...props} value={value}>
         {null}
-      </Component>
+      </Textarea>
     )
     expect(document.querySelector('textarea').value).toBe(value)
   })
 
   it('has to to have a label value as defined in the prop', () => {
-    render(<Component {...props} label="label" />)
+    render(<Textarea {...props} label="label" />)
     expect(document.querySelector('label').textContent).toBe('label')
   })
 
   it('has to to have a status value as defined in the prop', () => {
-    render(<Component {...props} status="status" status_state="error" />)
+    render(<Textarea {...props} status="status" status_state="error" />)
     expect(
       document.querySelector('.dnb-form-status__text').textContent
     ).toBe('status')
   })
 
   it('has a disabled attribute, once we set disabled to true', () => {
-    const { rerender } = render(<Component />)
-    rerender(<Component disabled={true} />)
+    const { rerender } = render(<Textarea />)
+    rerender(<Textarea disabled={true} />)
     expect(
       document.querySelector('textarea').hasAttribute('disabled')
     ).toBe(true)
   })
 
   it('will correctly auto resize if prop autoresize is used', () => {
-    render(
-      <Component rows={1} autoresize={true} autoresize_max_rows={4} />
-    )
+    render(<Textarea rows={1} autoresize={true} autoresize_max_rows={4} />)
 
     const elem = document.querySelector('textarea')
 
@@ -232,7 +230,7 @@ describe('Textarea component', () => {
   })
 
   it('should support spacing props', () => {
-    render(<Component top="2rem" />)
+    render(<Textarea top="2rem" />)
 
     const element = document.querySelector('.dnb-textarea')
 
@@ -247,7 +245,7 @@ describe('Textarea component', () => {
   it('should inherit FormRow vertical label', () => {
     render(
       <FormRow vertical>
-        <Component label="Label" />
+        <Textarea label="Label" />
       </FormRow>
     )
 
@@ -269,7 +267,7 @@ describe('Textarea component', () => {
     const Comp = render(
       <>
         <label htmlFor="textarea">text</label>
-        <Component {...props} id="textarea" value="some value" />
+        <Textarea {...props} id="textarea" value="some value" />
       </>
     )
 

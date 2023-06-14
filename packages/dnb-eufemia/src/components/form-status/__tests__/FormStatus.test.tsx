@@ -1,5 +1,5 @@
 /**
- * Component Test
+ * FormStatus Test
  *
  */
 
@@ -9,7 +9,7 @@ import {
   axeComponent,
   loadScss,
 } from '../../../core/jest/jestSetup'
-import Component from '../FormStatus'
+import FormStatus from '../FormStatus'
 import Input from '../../input/Input'
 import { render } from '@testing-library/react'
 
@@ -118,15 +118,15 @@ describe('FormStatus component', () => {
   })
 
   it('should update children when they change', () => {
-    const { rerender } = render(<Component>content</Component>)
+    const { rerender } = render(<FormStatus>content</FormStatus>)
 
-    rerender(<Component>content-a</Component>)
+    rerender(<FormStatus>content-a</FormStatus>)
 
     expect(document.querySelector('.dnb-form-status').textContent).toBe(
       'content-a'
     )
 
-    rerender(<Component>content-b</Component>)
+    rerender(<FormStatus>content-b</FormStatus>)
 
     expect(document.querySelector('.dnb-form-status').textContent).toBe(
       'content-b'
@@ -134,16 +134,16 @@ describe('FormStatus component', () => {
   })
 
   it('should have correct attributes once the "hidden" prop changes', async () => {
-    const { rerender } = render(<Component {...props} hidden />)
+    const { rerender } = render(<FormStatus {...props} hidden />)
     expect(document.querySelector('.dnb-form-status[hidden]')).toBeTruthy()
 
-    rerender(<Component {...props} hidden={false} />)
+    rerender(<FormStatus {...props} hidden={false} />)
 
     expect(document.querySelector('.dnb-form-status[hidden]')).toBeFalsy()
   })
 
   it('has to to have a text value as defined in the prop', () => {
-    render(<Component {...props} />)
+    render(<FormStatus {...props} />)
 
     expect(
       document.querySelector('.dnb-form-status__text').textContent
@@ -151,7 +151,7 @@ describe('FormStatus component', () => {
   })
 
   it('should support spacing props', () => {
-    render(<Component top="2rem">test</Component>)
+    render(<FormStatus top="2rem">test</FormStatus>)
 
     const element = document.querySelector('.dnb-form-status')
 
@@ -181,7 +181,7 @@ describe('FormStatus scss', () => {
 
 describe('FormStatus role', () => {
   it('should have role alert', () => {
-    render(<Component text="status text" />)
+    render(<FormStatus text="status text" />)
 
     expect(
       document.querySelector('.dnb-form-status').getAttribute('role')
@@ -189,7 +189,7 @@ describe('FormStatus role', () => {
   })
 
   it('should have role status when state is info', () => {
-    render(<Component text="status text" state="info" />)
+    render(<FormStatus text="status text" state="info" />)
 
     expect(
       document.querySelector('.dnb-form-status').getAttribute('role')
@@ -197,7 +197,7 @@ describe('FormStatus role', () => {
   })
 
   it('should be able to override role', () => {
-    render(<Component role="none" text="status text" />)
+    render(<FormStatus role="none" text="status text" />)
 
     expect(
       document.querySelector('.dnb-form-status').getAttribute('role')
@@ -208,7 +208,7 @@ describe('FormStatus role', () => {
   })
 
   it('should validate with ARIA rules', async () => {
-    const Comp = render(<Component {...props} />)
+    const Comp = render(<FormStatus {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })

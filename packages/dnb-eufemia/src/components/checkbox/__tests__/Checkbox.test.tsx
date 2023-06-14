@@ -1,5 +1,5 @@
 /**
- * Component Test
+ * Checkbox Test
  *
  */
 
@@ -11,7 +11,7 @@ import {
   loadScss,
 } from '../../../core/jest/jestSetup'
 import FormRow from '../../form-row/FormRow'
-import Component from '../Checkbox'
+import Checkbox from '../Checkbox'
 
 const props = fakeProps(require.resolve('../Checkbox'), {
   all: true,
@@ -26,7 +26,7 @@ props.label_position = 'left'
 
 describe('Checkbox component', () => {
   it('has correct state after "change" trigger', () => {
-    const { rerender } = render(<Component {...props} />)
+    const { rerender } = render(<Checkbox {...props} />)
 
     // default checked value has to be false
     expect(
@@ -44,13 +44,13 @@ describe('Checkbox component', () => {
     ).toBe(false)
 
     // also check if getDerivedStateFromProps sets the state as expected
-    rerender(<Component {...props} checked={true} />)
+    rerender(<Checkbox {...props} checked={true} />)
     expect(
       (screen.getByRole('checkbox') as HTMLInputElement).checked
     ).toBe(true)
 
     const value = 'new value'
-    rerender(<Component {...props} checked={true} value={value} />)
+    rerender(<Checkbox {...props} checked={true} value={value} />)
     expect((screen.getByRole('checkbox') as HTMLInputElement).value).toBe(
       value
     )
@@ -60,7 +60,7 @@ describe('Checkbox component', () => {
     const my_event = jest.fn()
     const myEvent = jest.fn()
     render(
-      <Component on_change={my_event} onChange={myEvent} checked={false} />
+      <Checkbox on_change={my_event} onChange={myEvent} checked={false} />
     )
     screen.getByRole('checkbox').click()
     expect(my_event.mock.calls.length).toBe(1)
@@ -77,7 +77,7 @@ describe('Checkbox component', () => {
 
       return (
         <>
-          <Component
+          <Checkbox
             checked={checked}
             on_change={({ checked }) => setChecked(checked)}
           />
@@ -133,7 +133,7 @@ describe('Checkbox component', () => {
   })
 
   it('has a disabled attribute, once we set disabled to true', () => {
-    render(<Component disabled={true} />)
+    render(<Checkbox disabled={true} />)
 
     expect(
       (screen.getByRole('checkbox') as HTMLInputElement).disabled
@@ -141,7 +141,7 @@ describe('Checkbox component', () => {
   })
 
   it('should support spacing props', () => {
-    render(<Component top="2rem" />)
+    render(<Checkbox top="2rem" />)
 
     const element = document.querySelector('.dnb-checkbox')
 
@@ -155,7 +155,7 @@ describe('Checkbox component', () => {
   it('should inherit FormRow vertical label', () => {
     render(
       <FormRow vertical disabled>
-        <Component label="Label" />
+        <Checkbox label="Label" />
       </FormRow>
     )
 
@@ -189,7 +189,7 @@ describe('Checkbox component', () => {
   })
 
   it('should validate with ARIA rules', async () => {
-    const Comp = render(<Component {...props} />)
+    const Comp = render(<Checkbox {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })

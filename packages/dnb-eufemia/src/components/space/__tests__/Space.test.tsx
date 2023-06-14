@@ -1,12 +1,12 @@
 /**
- * Component Test
+ * Space Test
  *
  */
 
 import React from 'react'
 import { fakeProps, loadScss } from '../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
-import Component from '../Space'
+import Space from '../Space'
 
 const snapshotProps = fakeProps(require.resolve('../Space'))
 snapshotProps.id = 'space'
@@ -15,7 +15,7 @@ snapshotProps.no_collapse = false
 
 describe('Space component', () => {
   it('should have correct CSS classes', () => {
-    render(<Component element="span" top="large" />)
+    render(<Space element="span" top="large" />)
     expect(
       document
         .querySelector('span.dnb-space')
@@ -24,7 +24,7 @@ describe('Space component', () => {
   })
 
   it('should accept space only prop', () => {
-    render(<Component element="span" space="large" />)
+    render(<Space element="span" space="large" />)
     expect(
       Object.values(document.querySelector('span.dnb-space').classList)
     ).toEqual([
@@ -38,7 +38,7 @@ describe('Space component', () => {
 
   it('should accept space prop as an object with spacing properties', () => {
     render(
-      <Component
+      <Space
         element="span"
         space={{
           top: 'x-large',
@@ -60,7 +60,7 @@ describe('Space component', () => {
   })
 
   it('should accept id attribute', () => {
-    render(<Component id="custom-id" />)
+    render(<Space id="custom-id" />)
 
     const element = document.querySelector('div.dnb-space')
     const attributes = Array.from(element.attributes).map(
@@ -72,7 +72,7 @@ describe('Space component', () => {
   })
 
   it('should have collapse CSS class', () => {
-    render(<Component top="large" no_collapse={true} />)
+    render(<Space top="large" no_collapse={true} />)
     expect(document.querySelector('.dnb-space--no-collapse')).toBeTruthy()
   })
 })

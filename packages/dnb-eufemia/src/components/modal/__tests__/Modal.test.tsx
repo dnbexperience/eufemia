@@ -1,5 +1,5 @@
 /**
- * Component Test
+ * Modal Test
  *
  */
 
@@ -11,7 +11,7 @@ import {
 } from '../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import Input from '../../input/Input'
-import Component, { OriginalComponent } from '../Modal'
+import Modal, { OriginalComponent } from '../Modal'
 import Button from '../../button/Button'
 import DialogContent from '../../dialog/DialogContent'
 import Provider from '../../../shared/Provider'
@@ -48,9 +48,9 @@ beforeEach(() => {
 describe('Modal component', () => {
   it('should add its instance to the stack', () => {
     render(
-      <Component {...props}>
+      <Modal {...props}>
         <DialogContent />
-      </Component>
+      </Modal>
     )
 
     fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
@@ -69,11 +69,11 @@ describe('Modal component', () => {
     render(
       <>
         <button className="bypass-me">button</button>
-        <Component no_animation>
+        <Modal no_animation>
           <DialogContent>
             <button className="but-not-me">button</button>
           </DialogContent>
-        </Component>
+        </Modal>
       </>
     )
 
@@ -123,12 +123,9 @@ describe('Modal component', () => {
       <>
         <button className="bypass-me">button</button>
         <button className="but-not-me">button</button>
-        <Component
-          no_animation
-          bypassInvalidationSelectors={['.bypass-me']}
-        >
+        <Modal no_animation bypassInvalidationSelectors={['.bypass-me']}>
           content
-        </Component>
+        </Modal>
       </>
     )
 
@@ -154,9 +151,9 @@ describe('Modal component', () => {
 
   it('has to have the correct title', () => {
     render(
-      <Component {...props} open_state={true}>
-        <Component.Header />
-      </Component>
+      <Modal {...props} open_state={true}>
+        <Modal.Header />
+      </Modal>
     )
     expect(document.querySelector('h1').textContent).toBe(props.title)
   })
@@ -167,14 +164,14 @@ describe('Modal component', () => {
 
     const MockComponent = () => {
       return (
-        <Component
+        <Modal
           openState
           noAnimation
           contentRef={contentRef}
           scrollRef={scrollRef}
         >
           content
-        </Component>
+        </Modal>
       )
     }
 
@@ -185,11 +182,11 @@ describe('Modal component', () => {
   })
 
   it('has no trigger button once we set omitTriggerButton', () => {
-    const { rerender } = render(<Component {...props} />)
-    rerender(<Component {...props} omitTriggerButton={true} />)
+    const { rerender } = render(<Modal {...props} />)
+    rerender(<Modal {...props} omitTriggerButton={true} />)
     expect(document.querySelector('button.dnb-modal__trigger')).toBeFalsy()
 
-    rerender(<Component {...props} omitTriggerButton={false} />)
+    rerender(<Modal {...props} omitTriggerButton={false} />)
     expect(
       document.querySelector('button.dnb-modal__trigger')
     ).toBeTruthy()
@@ -199,9 +196,9 @@ describe('Modal component', () => {
     render(
       <Input
         suffix={
-          <Component title={props.title}>
-            <Component.Header />
-          </Component>
+          <Modal title={props.title}>
+            <Modal.Header />
+          </Modal>
         }
       />
     )
@@ -220,9 +217,9 @@ describe('Modal component', () => {
     render(
       <Input
         suffix={
-          <Component>
-            <Component.Header />
-          </Component>
+          <Modal>
+            <Modal.Header />
+          </Modal>
         }
       />
     )
@@ -235,9 +232,9 @@ describe('Modal component', () => {
   })
 
   it('has a disabled trigger button once we set trigger disabled to true', () => {
-    const { rerender } = render(<Component {...props} open_state={true} />)
+    const { rerender } = render(<Modal {...props} open_state={true} />)
     rerender(
-      <Component
+      <Modal
         {...props}
         open_state={true}
         trigger_attributes={{ disabled: true }}
@@ -257,7 +254,7 @@ describe('Modal component', () => {
       ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
     )
     const on_open = jest.fn()
-    render(<Component {...props} on_close={on_close} on_open={on_open} />)
+    render(<Modal {...props} on_close={on_close} on_open={on_open} />)
     fireEvent.click(document.querySelector('button'))
     expect(on_open).toHaveBeenCalledTimes(1)
     expect(on_open).toHaveBeenCalledWith({
@@ -275,7 +272,7 @@ describe('Modal component', () => {
     const on_open = jest.fn()
 
     render(
-      <Component
+      <Modal
         no_animation={true}
         on_open={on_open}
         on_close={on_close}
@@ -284,7 +281,7 @@ describe('Modal component', () => {
         {({ close }) => {
           return <Button id="close-button" text="close" on_click={close} />
         }}
-      </Component>
+      </Modal>
     )
 
     fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
@@ -296,9 +293,9 @@ describe('Modal component', () => {
 
   it('will set focus on content div if no h1 and close button is given', async () => {
     render(
-      <Component no_animation={true} hide_close_button>
+      <Modal no_animation={true} hide_close_button>
         <DialogContent />
-      </Component>
+      </Modal>
     )
     fireEvent.click(document.querySelector('button'))
     await wait(2)
@@ -321,9 +318,9 @@ describe('Modal component', () => {
 
   it('will set "data-autofocus" attribute on focusing the trigger when closed', async () => {
     render(
-      <Component no_animation={true} animation_duration={3}>
+      <Modal no_animation={true} animation_duration={3}>
         <DialogContent />
-      </Component>
+      </Modal>
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -355,11 +352,11 @@ describe('Modal component', () => {
     const H2 = <h2 className="custom-h2">h2</h2>
 
     render(
-      <Component no_animation={true}>
+      <Modal no_animation={true}>
         <DialogContent>
-          <Component.Header>{H2}</Component.Header>
+          <Modal.Header>{H2}</Modal.Header>
         </DialogContent>
-      </Component>
+      </Modal>
     )
 
     // open
@@ -375,13 +372,13 @@ describe('Modal component', () => {
 
   it('will only use one heading if a custom one is given', () => {
     render(
-      <Component no_animation={true} title="original title">
-        <Component.Header>
+      <Modal no_animation={true} title="original title">
+        <Modal.Header>
           <div>
             <h1>custom heading</h1>
           </div>
-        </Component.Header>
-      </Component>
+        </Modal.Header>
+      </Modal>
     )
     fireEvent.click(document.querySelector('button'))
 
@@ -391,13 +388,13 @@ describe('Modal component', () => {
 
   it('will provide custom bar, header and content if given', () => {
     render(
-      <Component no_animation={true} direct_dom_return>
+      <Modal no_animation={true} direct_dom_return>
         <DialogContent>
-          <Component.Bar>bar content</Component.Bar>
-          <Component.Header>header content</Component.Header>
-          <Component.Content>modal content</Component.Content>
+          <Modal.Bar>bar content</Modal.Bar>
+          <Modal.Header>header content</Modal.Header>
+          <Modal.Content>modal content</Modal.Content>
         </DialogContent>
-      </Component>
+      </Modal>
     )
     fireEvent.click(document.querySelector('button'))
 
@@ -428,7 +425,7 @@ describe('Modal component', () => {
     }
 
     render(
-      <Component
+      <Modal
         {...props}
         id="modal-first"
         on_open={on_open.first}
@@ -437,7 +434,7 @@ describe('Modal component', () => {
         <DialogContent>
           <button id="content-first">content</button>
         </DialogContent>
-        <Component
+        <Modal
           {...props}
           id="modal-second"
           on_open={on_open.second}
@@ -446,7 +443,7 @@ describe('Modal component', () => {
           <DialogContent>
             <button id="content-second">content</button>
           </DialogContent>
-          <Component
+          <Modal
             {...props}
             id="modal-third"
             on_open={on_open.third}
@@ -455,9 +452,9 @@ describe('Modal component', () => {
             <DialogContent>
               <button id="content-third">content</button>
             </DialogContent>
-          </Component>
-        </Component>
-      </Component>
+          </Modal>
+        </Modal>
+      </Modal>
     )
 
     expect(document.querySelector('#content-third')).toBeFalsy()
@@ -588,14 +585,14 @@ describe('Modal component', () => {
           <button id="toggle" onClick={() => toggle((s) => !s)}>
             toggle
           </button>
-          <Component
+          <Modal
             no_animation
             id="modal-id"
             open_state={open}
             trigger_attributes={{ hidden: true }}
           >
             content
-          </Component>
+          </Modal>
         </>
       )
     }
@@ -630,7 +627,7 @@ describe('Modal component', () => {
           <button id="toggle" onClick={() => toggle((s) => !s)}>
             toggle
           </button>
-          <Component
+          <Modal
             id="modal-id"
             open_delay={2}
             animation_duration={2}
@@ -640,7 +637,7 @@ describe('Modal component', () => {
             trigger_attributes={{ hidden: true }}
           >
             content
-          </Component>
+          </Modal>
         </>
       )
     }
@@ -683,7 +680,7 @@ describe('Modal component', () => {
       return { triggeredBy }
     })
     render(
-      <Component
+      <Modal
         {...props}
         prevent_close
         on_open={on_open}
@@ -691,7 +688,7 @@ describe('Modal component', () => {
         on_close_prevent={on_close_prevent}
       >
         <DialogContent />
-      </Component>
+      </Modal>
     )
     fireEvent.click(document.querySelector('button'))
     expect(on_open).toHaveBeenCalledTimes(1)
@@ -757,7 +754,7 @@ describe('Modal component', () => {
       ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
     )
     const on_open = jest.fn()
-    render(<Component {...props} on_open={on_open} on_close={on_close} />)
+    render(<Modal {...props} on_open={on_open} on_close={on_close} />)
     fireEvent.click(document.querySelector('button'))
     expect(on_open).toHaveBeenCalledTimes(1)
     expect(testTriggeredBy).toBe(null)
@@ -773,7 +770,7 @@ describe('Modal component', () => {
 
   it('will omit close when no mousedown was fired', () => {
     const on_close = jest.fn()
-    render(<Component {...props} on_close={on_close} />)
+    render(<Modal {...props} on_close={on_close} />)
     fireEvent.click(document.querySelector('button'))
 
     // trigger the close on the overlay
@@ -785,7 +782,7 @@ describe('Modal component', () => {
 
   it('will only close when mousedown and click DOM targets are the same', () => {
     const on_close = jest.fn()
-    render(<Component {...props} on_close={on_close} />)
+    render(<Modal {...props} on_close={on_close} />)
 
     fireEvent.click(document.querySelector('button'))
 
@@ -821,10 +818,10 @@ describe('Modal component', () => {
     )
     const on_open = jest.fn()
     const { rerender } = render(
-      <Component {...props} on_close={on_close} on_open={on_open} />
+      <Modal {...props} on_close={on_close} on_open={on_open} />
     )
     rerender(
-      <Component
+      <Modal
         {...props}
         on_close={on_close}
         on_open={on_open}
@@ -835,7 +832,7 @@ describe('Modal component', () => {
     expect(testTriggeredBy).toBe(null)
 
     rerender(
-      <Component
+      <Modal
         {...props}
         on_close={on_close}
         on_open={on_open}
@@ -850,15 +847,15 @@ describe('Modal component', () => {
     const modalContent = 'Modal Content'
 
     render(
-      <Component
+      <Modal
         {...props}
         title={null}
         modal_content={null}
         direct_dom_return={false}
       >
-        <Component.Bar />
+        <Modal.Bar />
         {modalContent}
-      </Component>
+      </Modal>
     )
 
     fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
@@ -878,15 +875,15 @@ describe('Modal component', () => {
 
     render(
       <div>
-        <Component
+        <Modal
           {...props}
           title={null}
           modal_content={null}
           direct_dom_return={false}
         >
-          <Component.Bar />
+          <Modal.Bar />
           {modalContent}
-        </Component>
+        </Modal>
 
         <button id="my-button">I should become hidden after open</button>
       </div>
@@ -908,9 +905,9 @@ describe('Modal component', () => {
 
   it('runs expected side effects on desktop', () => {
     render(
-      <Component {...props}>
+      <Modal {...props}>
         <DialogContent />
-      </Component>
+      </Modal>
     )
     const elem = document.querySelector('button')
 
@@ -940,9 +937,9 @@ describe('Modal component', () => {
 
   it('runs expected side effects on iOS pre 14', () => {
     render(
-      <Component {...props}>
+      <Modal {...props}>
         <DialogContent />
-      </Component>
+      </Modal>
     )
     const elem = document.querySelector('button')
 
@@ -1002,9 +999,9 @@ describe('Modal component', () => {
 
   it('runs expected side effects on android', () => {
     render(
-      <Component {...props}>
+      <Modal {...props}>
         <DialogContent />
-      </Component>
+      </Modal>
     )
     const elem = document.querySelector('button')
 
@@ -1037,22 +1034,22 @@ describe('Modal component', () => {
   })
 
   it('has correct opened state when "open_state" is used', () => {
-    const { rerender } = render(<Component {...props} />)
+    const { rerender } = render(<Modal {...props} />)
 
-    rerender(<Component {...props} open_state="opened" />)
+    rerender(<Modal {...props} open_state="opened" />)
     expect(document.querySelector('div.dnb-modal__content')).toBeTruthy()
 
-    rerender(<Component {...props} open_state="closed" />)
+    rerender(<Modal {...props} open_state="closed" />)
     expect(document.querySelector('div.dnb-modal__content')).toBeFalsy()
   })
 
   it('has correct opened state when "open_state" is used with boolean', () => {
-    const { rerender } = render(<Component {...props} />)
-    rerender(<Component {...props} open_state={true} />)
+    const { rerender } = render(<Modal {...props} />)
+    rerender(<Modal {...props} open_state={true} />)
 
     expect(document.querySelector('div.dnb-modal__content')).toBeTruthy()
 
-    rerender(<Component {...props} open_state={false} />)
+    rerender(<Modal {...props} open_state={false} />)
 
     expect(document.querySelector('div.dnb-modal__content')).toBeFalsy()
   })
@@ -1073,13 +1070,13 @@ describe('Modal component', () => {
             id="modal-trigger"
             on_click={() => {
               return (
-                <Component
+                <Modal
                   {...props}
                   trigger_attributes={{ hidden: true }}
                   open_state="opened"
                 >
                   <DialogContent />
-                </Component>
+                </Modal>
               )
             }}
           />
@@ -1203,7 +1200,7 @@ describe('Modal component', () => {
 
       return (
         <React.StrictMode>
-          <Component
+          <Modal
             no_animation={true}
             open_state={modalOpen}
             on_open={() => {
@@ -1222,7 +1219,7 @@ describe('Modal component', () => {
                 on_click={() => setModalOpen(false)}
               />
             </DialogContent>
-          </Component>
+          </Modal>
         </React.StrictMode>
       )
     }
@@ -1242,7 +1239,7 @@ describe('Modal component', () => {
   })
 
   it('has to have the correct aria-describedby', () => {
-    render(<Component {...props} open_state={true} />)
+    render(<Modal {...props} open_state={true} />)
     expect(
       document.querySelector(
         `[aria-describedby="dnb-modal-${props.id}-content"]`
@@ -1253,7 +1250,7 @@ describe('Modal component', () => {
   it('has to have correct role and aria-modal', () => {
     let elem
 
-    const { rerender } = render(<Component {...props} open_state={true} />)
+    const { rerender } = render(<Modal {...props} open_state={true} />)
     elem = document.querySelector('.dnb-modal__content')
     expect(elem.getAttribute('role')).toBe('dialog')
     expect(elem.hasAttribute('aria-modal')).toBe(true)
@@ -1263,7 +1260,7 @@ describe('Modal component', () => {
       writable: true,
     })
 
-    rerender(<Component {...props} open_state={true} title="re-render" />)
+    rerender(<Modal {...props} open_state={true} title="re-render" />)
 
     elem = document.querySelector('.dnb-modal__content')
     expect(elem.getAttribute('role')).toBe('region')
@@ -1277,9 +1274,9 @@ describe('Modal component', () => {
 
   it('has to have a close button', () => {
     render(
-      <Component {...props}>
-        <Component.Bar />
-      </Component>
+      <Modal {...props}>
+        <Modal.Bar />
+      </Modal>
     )
     // open modal
     fireEvent.click(document.querySelector('button'))
@@ -1291,7 +1288,7 @@ describe('Modal component', () => {
   })
 
   it('has to have a default dialog title', () => {
-    const { rerender } = render(<Component {...props} title={undefined} />)
+    const { rerender } = render(<Modal {...props} title={undefined} />)
     // open modal
     fireEvent.click(document.querySelector('button'))
     expect(
@@ -1300,7 +1297,7 @@ describe('Modal component', () => {
         .getAttribute('aria-label')
     ).toContain('Vindu')
 
-    rerender(<Component {...props} title="now there is a title" />)
+    rerender(<Modal {...props} title="now there is a title" />)
     expect(
       document
         .querySelector('.dnb-modal__content')
@@ -1310,9 +1307,9 @@ describe('Modal component', () => {
 
   it('has to have aria-labelledby and aria-describedby', () => {
     render(
-      <Component {...props}>
+      <Modal {...props}>
         <DialogContent />
-      </Component>
+      </Modal>
     )
     // open modal
     fireEvent.click(document.querySelector('button'))
@@ -1335,11 +1332,11 @@ describe('Modal component', () => {
   })
 
   it('has to have no icon', () => {
-    render(<Component trigger_attributes={{ text: 'Open Modal' }} />)
+    render(<Modal trigger_attributes={{ text: 'Open Modal' }} />)
     expect(document.querySelector('.dnb-icon')).toBeFalsy()
 
     render(
-      <Component
+      <Modal
         trigger_attributes={{
           text: 'Open Modal',
           variant: 'tertiary',
@@ -1352,15 +1349,13 @@ describe('Modal component', () => {
 
   it('has to have an icon', () => {
     render(
-      <Component
+      <Modal
         trigger_attributes={{ text: 'Open Modal', variant: 'tertiary' }}
       />
     )
     expect(document.querySelector('.dnb-icon')).toBeTruthy()
     render(
-      <Component
-        trigger_attributes={{ text: 'Open Modal', icon: 'add' }}
-      />
+      <Modal trigger_attributes={{ text: 'Open Modal', icon: 'add' }} />
     )
     expect(document.querySelector('.dnb-icon')).toBeTruthy()
   })
@@ -1368,12 +1363,9 @@ describe('Modal component', () => {
   it('should render camelcase props', () => {
     const customText = 'Custom text in camelcase'
     render(
-      <Component
-        triggerAttributes={{ text: customText }}
-        open_state={true}
-      >
+      <Modal triggerAttributes={{ text: customText }} open_state={true}>
         The informational content
-      </Component>
+      </Modal>
     )
 
     expect(
@@ -1388,7 +1380,7 @@ describe('Modal trigger', () => {
   const roledescription = 'Hjelp-knapp'
 
   it('will act by default as a HelpButton', () => {
-    render(<Component {...props} trigger_attributes={{ text: '' }} />)
+    render(<Modal {...props} trigger_attributes={{ text: '' }} />)
     expect(
       document
         .querySelector('button.dnb-modal__trigger')
@@ -1398,10 +1390,7 @@ describe('Modal trigger', () => {
 
   it('will have a aria-label', () => {
     render(
-      <Component
-        {...props}
-        trigger_attributes={{ 'aria-label': 'label' }}
-      />
+      <Modal {...props} trigger_attributes={{ 'aria-label': 'label' }} />
     )
     expect(
       document
@@ -1416,7 +1405,7 @@ describe('Modal trigger', () => {
   })
 
   it('will not act as a HelpButton if only trigger_text was given', () => {
-    render(<Component {...props} trigger_attributes={{ text: 'text' }} />)
+    render(<Modal {...props} trigger_attributes={{ text: 'text' }} />)
     expect(
       document
         .querySelector('button.dnb-modal__trigger')
@@ -1436,7 +1425,7 @@ describe('Modal trigger', () => {
   })
 
   it('will not act as a HelpButton if a different icon was given', () => {
-    render(<Component {...props} trigger_attributes={{ icon: 'bell' }} />)
+    render(<Modal {...props} trigger_attributes={{ icon: 'bell' }} />)
     expect(
       document
         .querySelector('button.dnb-modal__trigger')
@@ -1450,7 +1439,7 @@ describe('Modal trigger', () => {
   })
 
   it('will not act as a HelpButton if trigger text was given', () => {
-    render(<Component {...props} trigger_attributes={{ text: 'text' }} />)
+    render(<Modal {...props} trigger_attributes={{ text: 'text' }} />)
     expect(
       document
         .querySelector('button.dnb-modal__trigger')
@@ -1472,7 +1461,7 @@ describe('Modal trigger', () => {
 
 describe('Modal ARIA', () => {
   it('should validate with ARIA rules as a dialog', async () => {
-    const Comp = render(<Component {...props} />)
+    const Comp = render(<Modal {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })

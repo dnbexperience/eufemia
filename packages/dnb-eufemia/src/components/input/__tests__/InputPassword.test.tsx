@@ -1,12 +1,12 @@
 /**
- * Component Test
+ * InputPassword Test
  *
  */
 
 import React from 'react'
 import { fakeProps, axeComponent } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
-import Component from '../InputPassword'
+import InputPassword from '../InputPassword'
 import FormRow from '../../form-row/FormRow'
 
 import nbNO from '../../../shared/locales/nb-NO'
@@ -28,7 +28,7 @@ snapshotProps.autocomplete = 'off'
 
 describe('InputPassword component', () => {
   it('has correct type by default', () => {
-    render(<Component id="input" />)
+    render(<InputPassword id="input" />)
 
     expect(
       document.querySelector('.dnb-input__input').getAttribute('type')
@@ -36,7 +36,7 @@ describe('InputPassword component', () => {
   })
 
   it('has correct state after "focus" trigger', () => {
-    render(<Component id="input" />)
+    render(<InputPassword id="input" />)
 
     fireEvent.focus(document.querySelector('input'))
 
@@ -46,13 +46,13 @@ describe('InputPassword component', () => {
   })
 
   it('has correct aria-label', () => {
-    const { rerender } = render(<Component id="input" />)
+    const { rerender } = render(<InputPassword id="input" />)
 
     expect(
       document.querySelector('button').getAttribute('aria-label')
     ).toBe(nb.show_password)
 
-    rerender(<Component id="input" lang="en-GB" />)
+    rerender(<InputPassword id="input" lang="en-GB" />)
 
     expect(
       document.querySelector('button').getAttribute('aria-label')
@@ -64,7 +64,7 @@ describe('InputPassword component', () => {
   })
 
   it('has aria-describedby and aria-controls', () => {
-    render(<Component id="input" />)
+    render(<InputPassword id="input" />)
 
     fireEvent.focus(document.querySelector('input'))
     expect(
@@ -80,7 +80,7 @@ describe('InputPassword component', () => {
   })
 
   it('has correct aria-controls id', () => {
-    render(<Component id="input" />)
+    render(<InputPassword id="input" />)
 
     expect(
       document.querySelector('.dnb-input__input').getAttribute('id')
@@ -92,7 +92,7 @@ describe('InputPassword component', () => {
   })
 
   it('has a submit button which gets focus', () => {
-    render(<Component />)
+    render(<InputPassword />)
 
     const Button = document.querySelector('button')
     expect(Button).toBeTruthy()
@@ -106,7 +106,7 @@ describe('InputPassword component', () => {
   })
 
   it('can change the visibility of the password', () => {
-    render(<Component />)
+    render(<InputPassword />)
 
     const Button = document.querySelector('button')
     expect(Button).toBeTruthy()
@@ -132,7 +132,7 @@ describe('InputPassword component', () => {
     const on_show_password = jest.fn()
     const on_hide_password = jest.fn()
     render(
-      <Component
+      <InputPassword
         on_show_password={on_show_password}
         on_hide_password={on_hide_password}
       />
@@ -154,7 +154,7 @@ describe('InputPassword component', () => {
   })
 
   it('should support spacing props', () => {
-    render(<Component top="2rem" />)
+    render(<InputPassword top="2rem" />)
 
     const element = document.querySelector('.dnb-input')
 
@@ -170,7 +170,7 @@ describe('InputPassword component', () => {
   it('should inherit FormRow vertical label', () => {
     render(
       <FormRow vertical>
-        <Component label="Label" />
+        <InputPassword label="Label" />
       </FormRow>
     )
 
@@ -195,7 +195,7 @@ describe('InputPassword component', () => {
 
   it('should validate with ARIA rules as a input with a label', async () => {
     const InputPasswordComp = render(
-      <Component id="input" label="label" value="some value" />
+      <InputPassword id="input" label="label" value="some value" />
     )
     expect(await axeComponent(InputPasswordComp)).toHaveNoViolations()
   })

@@ -1,5 +1,5 @@
 /**
- * Component Test
+ * Pagination Test
  *
  */
 
@@ -10,7 +10,7 @@ import {
   loadScss,
 } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
-import Component, { createPagination, Bar } from '../Pagination'
+import Pagination, { createPagination, Bar } from '../Pagination'
 import nbNO from '../../../shared/locales/nb-NO'
 import enGB from '../../../shared/locales/en-GB'
 import Provider from '../../../shared/Provider'
@@ -34,7 +34,7 @@ describe('Pagination bar', () => {
   }
 
   it('has correct state at startup', () => {
-    render(<Component {...props} />)
+    render(<Pagination {...props} />)
     const innerElem = document.querySelector('.dnb-pagination__bar__inner')
 
     expect(
@@ -50,17 +50,17 @@ describe('Pagination bar', () => {
 
   it('reacts to prop changes with valid button attributes', () => {
     const { rerender } = render(
-      <Component {...props}>
+      <Pagination {...props}>
         <div id="page-content">content</div>
-      </Component>
+      </Pagination>
     )
 
     expect(document.querySelector('div#page-content')).toBeTruthy()
 
     rerender(
-      <Component {...props} current_page={1}>
+      <Pagination {...props} current_page={1}>
         <div id="page-content">content</div>
-      </Component>
+      </Pagination>
     )
 
     expect(document.querySelector('div#page-content')).toBeTruthy()
@@ -96,14 +96,14 @@ describe('Pagination bar', () => {
     let currentPage = 15
 
     const { rerender } = render(
-      <Component {...props}>
+      <Pagination {...props}>
         {({ pageNumber }) => {
           // Update our test reference
           currentPage = pageNumber
 
           return <div id="page-no">{pageNumber}</div>
         }}
-      </Component>
+      </Pagination>
     )
 
     expect(document.querySelector('div#page-no').textContent).toBe('15')
@@ -121,27 +121,27 @@ describe('Pagination bar', () => {
     expect(document.querySelector('div#page-no').textContent).toBe('14')
 
     rerender(
-      <Component {...props} current_page={5}>
+      <Pagination {...props} current_page={5}>
         {({ pageNumber }) => {
           // Update our test reference
           currentPage = pageNumber
 
           return <div id="page-no">{pageNumber}</div>
         }}
-      </Component>
+      </Pagination>
     )
     expect(currentPage).toBe(5)
     expect(document.querySelector('div#page-no').textContent).toBe('5')
 
     rerender(
-      <Component {...props} current_page={3}>
+      <Pagination {...props} current_page={3}>
         {({ pageNumber }) => {
           // Update our test reference
           currentPage = pageNumber
 
           return <div id="page-no">{pageNumber}</div>
         }}
-      </Component>
+      </Pagination>
     )
     expect(currentPage).toBe(3)
     expect(document.querySelector('div#page-no').textContent).toBe('3')
@@ -149,9 +149,9 @@ describe('Pagination bar', () => {
 
   it('accepts element in the function return', () => {
     render(
-      <Component page_count={3} startup_page={2}>
+      <Pagination page_count={3} startup_page={2}>
         {({ pageNumber }) => <div>{pageNumber}</div>}
-      </Component>
+      </Pagination>
     )
     expect(
       document.querySelector('.dnb-pagination__content').textContent
@@ -160,11 +160,11 @@ describe('Pagination bar', () => {
 
   it('sets content with setContent', () => {
     render(
-      <Component page_count={3} startup_page={2}>
+      <Pagination page_count={3} startup_page={2}>
         {({ pageNumber, setContent }) => {
           setContent(pageNumber, <div>{pageNumber}</div>)
         }}
-      </Component>
+      </Pagination>
     )
     expect(
       document.querySelector('.dnb-pagination__content').textContent
@@ -195,14 +195,14 @@ describe('Pagination bar', () => {
           <button id="button" onClick={onClickHandler}>
             {count}
           </button>
-          <Component page_count={3} startup_page={2}>
+          <Pagination page_count={3} startup_page={2}>
             {({ pageNumber, setContent }) => {
               setContent(
                 pageNumber,
                 <code>{JSON.stringify({ pageNumber, count })}</code>
               )
             }}
-          </Component>
+          </Pagination>
         </>
       )
     }
@@ -239,7 +239,7 @@ describe('Pagination bar', () => {
   it('has valid on_change callback', () => {
     const on_change = jest.fn()
 
-    render(<Component {...props} on_change={on_change} />)
+    render(<Pagination {...props} on_change={on_change} />)
 
     const nextButton = document
       .querySelector('div.dnb-pagination__bar')
@@ -307,7 +307,7 @@ describe('Infinity scroller', () => {
     }
 
     render(
-      <Component
+      <Pagination
         mode="infinity"
         {...props}
         on_startup={on_startup}
@@ -564,7 +564,7 @@ describe('Infinity scroller', () => {
     }
 
     render(
-      <Component
+      <Pagination
         mode="infinity"
         {...props}
         on_startup={on_startup}
@@ -601,9 +601,9 @@ describe('Infinity scroller', () => {
 
   it('will pass children', () => {
     render(
-      <Component mode="infinity" {...props}>
+      <Pagination mode="infinity" {...props}>
         <div id="page-content">content</div>
-      </Component>
+      </Pagination>
     )
 
     expect(document.querySelector('div#page-content')).toBeTruthy()
@@ -612,7 +612,7 @@ describe('Infinity scroller', () => {
   it('should support locale from provider', () => {
     const { rerender } = render(
       <Provider>
-        <Component {...props} />
+        <Pagination {...props} />
       </Provider>
     )
 
@@ -624,7 +624,7 @@ describe('Infinity scroller', () => {
 
     rerender(
       <Provider locale="en-GB">
-        <Component {...props} />
+        <Pagination {...props} />
       </Provider>
     )
 
@@ -632,7 +632,7 @@ describe('Infinity scroller', () => {
 
     rerender(
       <Provider locale="nb-NO">
-        <Component {...props} />
+        <Pagination {...props} />
       </Provider>
     )
 
@@ -640,7 +640,7 @@ describe('Infinity scroller', () => {
   })
 
   it('should support spacing props', () => {
-    render(<Component top="2rem" {...props} />)
+    render(<Pagination top="2rem" {...props} />)
 
     const element = document.querySelector('.dnb-pagination')
     const attributes = Array.from(element.attributes).map(
@@ -760,13 +760,13 @@ describe('Infinity scroller', () => {
 
 describe('Pagination ARIA', () => {
   it('should validate with ARIA rules for pagination bar', async () => {
-    const CheckComponent = render(<Component {...snapshotProps} />)
+    const CheckComponent = render(<Pagination {...snapshotProps} />)
     expect(await axeComponent(CheckComponent)).toHaveNoViolations()
   })
 
   it('should validate with ARIA rules for Infinity Scroller', async () => {
     const CheckComponent = render(
-      <Component
+      <Pagination
         mode="infinity"
         page_count={5}
         current_page={3}

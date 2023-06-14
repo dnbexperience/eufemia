@@ -1,5 +1,5 @@
 /**
- * Component Test
+ * FormRow Test
  *
  */
 
@@ -9,7 +9,7 @@ import {
   axeComponent,
   loadScss,
 } from '../../../core/jest/jestSetup'
-import Component from '../FormRow'
+import FormRow from '../FormRow'
 import Input from '../../input/Input'
 import NumberFormat from '../../number-format/NumberFormat'
 import Provider from '../../../shared/Provider'
@@ -25,7 +25,7 @@ props.globalStatus = { id: 'main' }
 
 describe('FormRow component', () => {
   it('should have vertical direction class', () => {
-    render(<Component {...props} direction="vertical" />)
+    render(<FormRow {...props} direction="vertical" />)
     expect(
       document
         .querySelector('.dnb-form-row')
@@ -35,13 +35,13 @@ describe('FormRow component', () => {
 
   it('should have an isolated state on nested FormRows', () => {
     render(
-      <Component vertical>
+      <FormRow vertical>
         <Input label="Vertical" />
-        <Component vertical={false} label_direction="horizontal">
+        <FormRow vertical={false} label_direction="horizontal">
           <Input label="Horizontal" />
-        </Component>
+        </FormRow>
         <Input label="Vertical" />
-      </Component>
+      </FormRow>
     )
     expect(
       document
@@ -61,14 +61,14 @@ describe('FormRow component', () => {
   })
 
   it('should using formset and legend by default', () => {
-    render(<Component {...props} />)
+    render(<FormRow {...props} />)
 
     expect(document.querySelector('fieldset')).toBeTruthy()
     expect(document.querySelector('legend')).toBeTruthy()
   })
 
   it('should using formset and legend by default', () => {
-    render(<Component {...props} no_fieldset />)
+    render(<FormRow {...props} no_fieldset />)
     expect(document.querySelector('label')).toBeTruthy()
     expect(document.querySelector('fieldset')).toBeFalsy()
     expect(document.querySelector('legend')).toBeFalsy()
@@ -76,9 +76,9 @@ describe('FormRow component', () => {
 
   it('should support locale context forwarding', () => {
     const { rerender } = render(
-      <Component>
+      <FormRow>
         <NumberFormat currency>1234</NumberFormat>
-      </Component>
+      </FormRow>
     )
 
     expect(
@@ -88,9 +88,9 @@ describe('FormRow component', () => {
     ).toBe('1 234,00 kr')
 
     rerender(
-      <Component locale="en-GB">
+      <FormRow locale="en-GB">
         <NumberFormat currency>1234</NumberFormat>
-      </Component>
+      </FormRow>
     )
 
     expect(
@@ -103,9 +103,9 @@ describe('FormRow component', () => {
   it('should not overwrite locale from provider when not set', () => {
     render(
       <Provider locale="en-GB">
-        <Component>
+        <FormRow>
           <NumberFormat currency>1234</NumberFormat>
-        </Component>
+        </FormRow>
       </Provider>
     )
 
@@ -118,20 +118,20 @@ describe('FormRow component', () => {
 
   it('should react correct on two states in row', () => {
     const { rerender } = render(
-      <Component {...props} disabled={false}>
+      <FormRow {...props} disabled={false}>
         <Input />
-      </Component>
+      </FormRow>
     )
     rerender(
-      <Component {...props} disabled={true}>
+      <FormRow {...props} disabled={true}>
         <Input />
-      </Component>
+      </FormRow>
     )
     expect(document.querySelector('input[disabled]')).toBeTruthy()
   })
 
   it('should validate with ARIA rules', async () => {
-    const Comp = render(<Component {...props} />)
+    const Comp = render(<FormRow {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })

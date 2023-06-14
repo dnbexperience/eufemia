@@ -1,12 +1,12 @@
 /**
- * Component Test
+ * StepIndicator Test
  *
  */
 
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { fireEvent, render, screen, within } from '@testing-library/react'
-import Component from '../StepIndicator'
+import StepIndicator from '../StepIndicator'
 import Provider from '../../../shared/Provider'
 import MatchMediaMock from 'jest-matchmedia-mock'
 
@@ -40,7 +40,7 @@ describe('StepIndicator Sidebar', () => {
   it('has to inherit Provider data for initial SSR render', () => {
     render(
       <Provider StepIndicator={{ data: ['one', 'two', 'three'] }}>
-        <Component.Sidebar
+        <StepIndicator.Sidebar
           sidebar_id="unique-id-initial"
           showInitialData
         />
@@ -52,7 +52,7 @@ describe('StepIndicator Sidebar', () => {
 
   it('has to use data prop for initial SSR render', () => {
     render(
-      <Component.Sidebar
+      <StepIndicator.Sidebar
         sidebar_id="unique-id-initial"
         data={['one', 'two', 'three']}
         showInitialData
@@ -63,7 +63,7 @@ describe('StepIndicator Sidebar', () => {
 
   it('has to remove data from Sidebar when mounted', () => {
     render(
-      <Component.Sidebar
+      <StepIndicator.Sidebar
         sidebar_id="unique-id-initial"
         data={['one', 'two', 'three']}
       />
@@ -73,7 +73,10 @@ describe('StepIndicator Sidebar', () => {
 
   it('has to show skeleton when no data is given to Sidebar', () => {
     render(
-      <Component.Sidebar sidebar_id="unique-id-initial" showInitialData />
+      <StepIndicator.Sidebar
+        sidebar_id="unique-id-initial"
+        showInitialData
+      />
     )
     expect(screen.queryAllByRole('listitem')).toHaveLength(4)
 
@@ -86,7 +89,7 @@ describe('StepIndicator Sidebar', () => {
 
   it('should support spacing props', () => {
     render(
-      <Component.Sidebar
+      <StepIndicator.Sidebar
         sidebar_id="unique-id-initial"
         data={['one', 'two', 'three']}
         showInitialData
@@ -110,8 +113,8 @@ describe('StepIndicator in general', () => {
     const id = 'unique-id-spacing'
     render(
       <>
-        <Component.Sidebar sidebar_id={id} />
-        <Component
+        <StepIndicator.Sidebar sidebar_id={id} />
+        <StepIndicator
           top="large"
           current_step={1}
           mode="loose"
@@ -131,7 +134,7 @@ describe('StepIndicator in general', () => {
 
   it('should support spacing props with no sidebar', () => {
     render(
-      <Component
+      <StepIndicator
         sidebar_id="unique-id-no-sidebar"
         top="large"
         mode="static"
@@ -150,7 +153,7 @@ describe('StepIndicator in general', () => {
 
   it('should not add spacing props to dnb-step-indicator with no sidebar', () => {
     render(
-      <Component
+      <StepIndicator
         sidebar_id="unique-id-no-sidebar"
         top="large"
         mode="static"
@@ -169,8 +172,8 @@ describe('StepIndicator in general', () => {
   it('should support aria-labelledby', () => {
     render(
       <>
-        <Component.Sidebar sidebar_id="unique-id-aria-labelledby" />
-        <Component
+        <StepIndicator.Sidebar sidebar_id="unique-id-aria-labelledby" />
+        <StepIndicator
           top="large"
           current_step={1}
           mode="loose"
@@ -190,7 +193,7 @@ describe('StepIndicator in general', () => {
 
   it('should support aria-labelledby with no sidebar', () => {
     render(
-      <Component
+      <StepIndicator
         sidebar_id="unique-id-aria-labelledby-no-sidebar"
         top="large"
         mode="static"
@@ -214,8 +217,8 @@ describe('StepIndicator in loose mode', () => {
   const renderComponent = (id, props = null) => {
     return render(
       <>
-        <Component.Sidebar sidebar_id={id} />
-        <Component
+        <StepIndicator.Sidebar sidebar_id={id} />
+        <StepIndicator
           current_step={1}
           mode="loose"
           sidebar_id={id}
@@ -238,8 +241,8 @@ describe('StepIndicator in loose mode', () => {
 
     const { rerender } = render(
       <>
-        <Component.Sidebar sidebar_id={id} />
-        <Component
+        <StepIndicator.Sidebar sidebar_id={id} />
+        <StepIndicator
           current_step={1}
           mode="loose"
           sidebar_id={id}
@@ -263,8 +266,8 @@ describe('StepIndicator in loose mode', () => {
 
     rerender(
       <>
-        <Component.Sidebar sidebar_id={id} />
-        <Component
+        <StepIndicator.Sidebar sidebar_id={id} />
+        <StepIndicator
           current_step={1}
           mode="loose"
           sidebar_id={id}
@@ -371,8 +374,8 @@ describe('StepIndicator in loose mode', () => {
     const TestComp = ({ id, ...props }) => {
       return (
         <>
-          <Component.Sidebar sidebar_id={id} />
-          <Component
+          <StepIndicator.Sidebar sidebar_id={id} />
+          <StepIndicator
             current_step={1}
             mode="loose"
             sidebar_id={id}
@@ -395,7 +398,7 @@ describe('StepIndicator in loose mode', () => {
 
   it('should render button when no Sidebar was found', () => {
     const { rerender } = render(
-      <Component
+      <StepIndicator
         current_step={1}
         mode="loose"
         sidebar_id="unique-id-loose-simulate"
@@ -411,7 +414,7 @@ describe('StepIndicator in loose mode', () => {
     simulateSmallScreen()
 
     rerender(
-      <Component
+      <StepIndicator
         current_step={1}
         mode="loose"
         sidebar_id="unique-id-loose-simulate"
@@ -445,8 +448,8 @@ describe('StepIndicator in strict mode', () => {
   const renderComponent = (id, props = null) => {
     return render(
       <>
-        <Component.Sidebar sidebar_id={id} />
-        <Component
+        <StepIndicator.Sidebar sidebar_id={id} />
+        <StepIndicator
           current_step={1}
           mode="strict"
           sidebar_id={id}
@@ -511,8 +514,8 @@ describe('StepIndicator in static mode', () => {
   const renderComponent = (id, props = null) => {
     return render(
       <>
-        <Component.Sidebar sidebar_id={id} />
-        <Component
+        <StepIndicator.Sidebar sidebar_id={id} />
+        <StepIndicator
           current_step={1}
           mode="static"
           sidebar_id={id}
@@ -555,8 +558,8 @@ describe('StepIndicator ARIA', () => {
   it('should validate with ARIA rules', async () => {
     const Comp = render(
       <>
-        <Component.Sidebar sidebar_id="unique-id-strict-aria" />
-        <Component
+        <StepIndicator.Sidebar sidebar_id="unique-id-strict-aria" />
+        <StepIndicator
           current_step={1}
           mode="loose"
           sidebar_id="unique-id-strict-aria"

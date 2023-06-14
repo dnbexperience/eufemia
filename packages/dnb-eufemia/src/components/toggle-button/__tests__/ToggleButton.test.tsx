@@ -1,5 +1,5 @@
 /**
- * Component Test
+ * ToggleButton Test
  *
  */
 
@@ -11,7 +11,7 @@ import {
   loadScss,
 } from '../../../core/jest/jestSetup'
 import FormRow from '../../form-row/FormRow'
-import Component from '../ToggleButton'
+import ToggleButton from '../ToggleButton'
 
 const props = fakeProps(require.resolve('../ToggleButton'), {
   optional: true,
@@ -26,7 +26,7 @@ props.globalStatus = { id: 'main' }
 
 describe('ToggleButton component', () => {
   it('has correct state after "click" trigger', () => {
-    const { rerender } = render(<Component {...props} />)
+    const { rerender } = render(<ToggleButton {...props} />)
 
     // default checked value has to be false
     expect(
@@ -50,7 +50,7 @@ describe('ToggleButton component', () => {
     ).toBe('false')
 
     // also check if getDerivedStateFromProps sets the state as expected
-    rerender(<Component {...props} checked={true} />)
+    rerender(<ToggleButton {...props} checked={true} />)
     expect(
       document
         .querySelector('.dnb-checkbox__input')
@@ -60,7 +60,7 @@ describe('ToggleButton component', () => {
 
   it('has correct variant', () => {
     const { rerender } = render(
-      <Component variant="checkbox" checked={false} />
+      <ToggleButton variant="checkbox" checked={false} />
     )
 
     // default checked value has to be false
@@ -78,7 +78,7 @@ describe('ToggleButton component', () => {
     ).toBe('true')
     expect(document.querySelector('.dnb-checkbox__button')).toBeTruthy()
 
-    rerender(<Component variant="radio" checked={false} />)
+    rerender(<ToggleButton variant="radio" checked={false} />)
 
     expect(document.querySelector('.dnb-radio__button')).toBeTruthy()
     expect(
@@ -99,7 +99,11 @@ describe('ToggleButton component', () => {
     const my_event = jest.fn()
     const myEvent = jest.fn()
     render(
-      <Component on_change={my_event} onChange={myEvent} checked={false} />
+      <ToggleButton
+        on_change={my_event}
+        onChange={myEvent}
+        checked={false}
+      />
     )
 
     // first click
@@ -123,7 +127,7 @@ describe('ToggleButton component', () => {
 
       return (
         <>
-          <Component
+          <ToggleButton
             {...props}
             checked={checked}
             on_change={({ checked }) => setChecked(checked)}
@@ -220,14 +224,14 @@ describe('ToggleButton component', () => {
   })
 
   it('has a disabled attribute, once we set disabled to true', () => {
-    const { rerender } = render(<Component />)
-    rerender(<Component disabled={true} />)
+    const { rerender } = render(<ToggleButton />)
+    rerender(<ToggleButton disabled={true} />)
     expect(document.querySelector('button[disabled]')).toBeTruthy()
   })
 
   it('should support enter key', () => {
     const onChange = jest.fn()
-    render(<Component on_change={onChange} />)
+    render(<ToggleButton on_change={onChange} />)
 
     const element = document.querySelector('button')
 
@@ -239,7 +243,7 @@ describe('ToggleButton component', () => {
   })
 
   it('should support spacing props', () => {
-    render(<Component top="2rem" />)
+    render(<ToggleButton top="2rem" />)
 
     const element = document.querySelector('.dnb-toggle-button')
 
@@ -252,7 +256,7 @@ describe('ToggleButton component', () => {
   it('should inherit FormRow vertical label', () => {
     render(
       <FormRow vertical>
-        <Component label="Label" />
+        <ToggleButton label="Label" />
       </FormRow>
     )
 
@@ -269,7 +273,7 @@ describe('ToggleButton component', () => {
   })
 
   it('should validate with ARIA rules', async () => {
-    const Comp = render(<Component {...props} />)
+    const Comp = render(<ToggleButton {...props} />)
 
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
@@ -278,38 +282,38 @@ describe('ToggleButton component', () => {
 describe('ToggleButton group component', () => {
   it('has to have variant="radio', () => {
     render(
-      <Component.Group label="Label" id="group">
-        <Component
+      <ToggleButton.Group label="Label" id="group">
+        <ToggleButton
           id="toggle-button-1"
           text="ToggleButton 1"
           variant="radio"
         />
-        <Component
+        <ToggleButton
           id="toggle-button-2"
           text="ToggleButton 2"
           variant="radio"
           checked
         />
-      </Component.Group>
+      </ToggleButton.Group>
     )
     expect(document.querySelector('.dnb-radio__button')).toBeTruthy()
   })
 
   it('has to have correct aria-pressed', () => {
     render(
-      <Component.Group label="Label" id="group">
-        <Component
+      <ToggleButton.Group label="Label" id="group">
+        <ToggleButton
           id="toggle-button-1"
           text="ToggleButton 1"
           variant="radio"
         />
-        <Component
+        <ToggleButton
           id="toggle-button-2"
           text="ToggleButton 2"
           variant="radio"
           checked
         />
-      </Component.Group>
+      </ToggleButton.Group>
     )
     expect(
       document
@@ -322,28 +326,28 @@ describe('ToggleButton group component', () => {
     const my_event = jest.fn()
     const myEvent = jest.fn()
     render(
-      <Component.Group
+      <ToggleButton.Group
         id="group"
         on_change={my_event}
         onChange={myEvent}
         value="second"
         data-prop="group-value"
       >
-        <Component
+        <ToggleButton
           id="toggle-button-1"
           text="ToggleButton 1"
           value="first"
           data-prop="value-1"
           attributes={{ 'data-attr': 'value' }}
         />
-        <Component
+        <ToggleButton
           id="toggle-button-2"
           text="ToggleButton 2"
           value="second"
           data-prop="value-2"
           attributes={{ 'data-attr': 'value' }}
         />
-      </Component.Group>
+      </ToggleButton.Group>
     )
 
     // first click
@@ -371,23 +375,23 @@ describe('ToggleButton group component', () => {
   it('has multiselect "on_change" event which will trigger on a button click', () => {
     const my_event = jest.fn()
     render(
-      <Component.Group
+      <ToggleButton.Group
         id="group"
         on_change={my_event}
         values={['second']}
         multiselect={true}
       >
-        <Component
+        <ToggleButton
           id="toggle-button-1"
           text="ToggleButton 1"
           value="first"
         />
-        <Component
+        <ToggleButton
           id="toggle-button-2"
           text="ToggleButton 2"
           value="second"
         />
-      </Component.Group>
+      </ToggleButton.Group>
     )
 
     // first click
@@ -452,20 +456,20 @@ describe('ToggleButton group component', () => {
           <button id="deselect-all" onClick={deselectAll}>
             deselect
           </button>
-          <Component.Group id="group" multiselect values={values}>
-            <Component
+          <ToggleButton.Group id="group" multiselect values={values}>
+            <ToggleButton
               variant="checkbox"
               id="toggle-button-1"
               text="ToggleButton 1"
               value="first"
             />
-            <Component
+            <ToggleButton
               variant="checkbox"
               id="toggle-button-2"
               text="ToggleButton 2"
               value="second"
             />
-          </Component.Group>
+          </ToggleButton.Group>
         </>
       )
     }
@@ -492,20 +496,20 @@ describe('ToggleButton group component', () => {
   it('will let their items to be check/uncheck by its siblings', () => {
     const TestComp = () => {
       return (
-        <Component.Group id="group" multiselect={true}>
-          <Component
+        <ToggleButton.Group id="group" multiselect={true}>
+          <ToggleButton
             variant="checkbox"
             id="toggle-button-1"
             text="ToggleButton 1"
             value="first"
           />
-          <Component
+          <ToggleButton
             variant="checkbox"
             id="toggle-button-2"
             text="ToggleButton 2"
             value="second"
           />
-        </Component.Group>
+        </ToggleButton.Group>
       )
     }
 
@@ -564,20 +568,20 @@ describe('ToggleButton group component', () => {
 
   it('should support spacing props', () => {
     render(
-      <Component.Group id="group" top="2rem">
-        <Component
+      <ToggleButton.Group id="group" top="2rem">
+        <ToggleButton
           variant="checkbox"
           id="toggle-button-1"
           text="ToggleButton 1"
           value="first"
         />
-        <Component
+        <ToggleButton
           variant="checkbox"
           id="toggle-button-2"
           text="ToggleButton 2"
           value="second"
         />
-      </Component.Group>
+      </ToggleButton.Group>
     )
 
     const element = document.querySelector('.dnb-toggle-button-group')
@@ -594,20 +598,20 @@ describe('ToggleButton group component', () => {
   it('should inherit FormRow vertical label', () => {
     render(
       <FormRow vertical>
-        <Component.Group id="group" label="Label">
-          <Component
+        <ToggleButton.Group id="group" label="Label">
+          <ToggleButton
             variant="checkbox"
             id="toggle-button-1"
             text="ToggleButton 1"
             value="first"
           />
-          <Component
+          <ToggleButton
             variant="checkbox"
             id="toggle-button-2"
             text="ToggleButton 2"
             value="second"
           />
-        </Component.Group>
+        </ToggleButton.Group>
       </FormRow>
     )
 
@@ -649,19 +653,19 @@ describe('ToggleButton group component', () => {
 
   it('should validate with ARIA rules', async () => {
     const Comp = render(
-      <Component.Group label="Label" id="group">
-        <Component
+      <ToggleButton.Group label="Label" id="group">
+        <ToggleButton
           id="toggle-button-1"
           text="ToggleButton 1"
           variant="radio"
         />
-        <Component
+        <ToggleButton
           id="toggle-button-2"
           text="ToggleButton 2"
           variant="radio"
           checked
         />
-      </Component.Group>
+      </ToggleButton.Group>
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
