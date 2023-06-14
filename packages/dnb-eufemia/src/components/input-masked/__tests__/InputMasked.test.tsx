@@ -53,6 +53,22 @@ describe('InputMasked component', () => {
     expect(ref.current.tagName).toBe('INPUT')
   })
 
+  it('gets valid element when ref is function', () => {
+    const ref = React.createRef<HTMLInputElement | null>()
+
+    const refFn = (elem: HTMLInputElement) => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      ref.current = elem
+    }
+
+    render(<InputMasked {...props} inner_ref={refFn} />)
+
+    expect(ref.current instanceof HTMLInputElement).toBe(true)
+    expect(ref.current.id).toBe(props.id)
+    expect(ref.current.tagName).toBe('INPUT')
+  })
+
   it('event "on_change" gets emmited with correct value', () => {
     const initValue = 'NOK 1234,5 kr'
     const newValue = 'NOK 123456789,0 kr'

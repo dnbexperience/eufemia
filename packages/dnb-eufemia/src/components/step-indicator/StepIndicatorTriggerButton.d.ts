@@ -6,7 +6,7 @@ export interface StepIndicatorTriggerButtonProps
    */
   sidebar_id?: string;
   className?: string;
-  inner_ref?: Record<string, unknown>;
+  inner_ref?: React.RefObject<HTMLElement>;
 }
 export default class StepIndicatorTriggerButton extends React.Component<
   StepIndicatorTriggerButtonProps,
