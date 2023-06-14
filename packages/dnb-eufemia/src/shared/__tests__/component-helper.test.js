@@ -421,13 +421,16 @@ describe('"dispatchCustomElementEvent" should', () => {
 describe('"findElementInChildren" should', () => {
   it('find nested React elements', () => {
     const h1 = <h1>find this</h1>
-    const h2 = <h2>and this</h2>
     const Heading = () => h1
     const children = React.createElement(
       'div',
       null,
       React.createElement(Heading),
-      React.createElement('span', null, React.createElement(h2))
+      React.createElement(
+        'span',
+        null,
+        React.createElement('h2', null, 'and this')
+      )
     )
 
     const HeadingElement = findElementInChildren(children, (cur) => {
@@ -436,9 +439,9 @@ describe('"findElementInChildren" should', () => {
     expect(HeadingElement.type).toBe(Heading)
 
     const h2Element = findElementInChildren(children, (cur) => {
-      return cur.type === h2
+      return cur.type === 'h2'
     })
-    expect(h2Element.type).toBe(h2)
+    expect(h2Element.type).toBe('h2')
   })
 })
 
