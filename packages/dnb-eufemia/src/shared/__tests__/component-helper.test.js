@@ -430,7 +430,7 @@ describe('"findElementInChildren" should', () => {
       React.createElement(
         'span',
         null,
-        React.createElement('h2', 'and this')
+        React.createElement('h2', null, 'and this')
       )
     )
 
