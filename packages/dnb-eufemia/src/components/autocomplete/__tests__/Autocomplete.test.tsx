@@ -2350,7 +2350,7 @@ describe('Autocomplete component', () => {
 })
 
 describe('Autocomplete markup', () => {
-  it.skip('should validate with ARIA rules', async () => {
+  it('should validate with ARIA rules', async () => {
     const CheckComponent = render(
       <Component {...snapshotProps} data={mockData} />
     )
@@ -2359,6 +2359,7 @@ describe('Autocomplete markup', () => {
       await axeComponent(CheckComponent, {
         rules: {
           'aria-valid-attr-value': { enabled: false },
+          'aria-required-children': { enabled: false },
         },
       })
     ).toHaveNoViolations()
