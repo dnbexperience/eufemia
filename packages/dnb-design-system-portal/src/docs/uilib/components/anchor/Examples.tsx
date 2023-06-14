@@ -169,43 +169,43 @@ export const AnchorExampleHelperClasses = () => (
 export const AnchorExampleIcons = () => (
   <Wrapper>
     <ComponentBox hideCode scope={{ Example }}>
-      <>
-        <Example data-visual-test="anchor-icon-right">
+      <Example data-visual-test="anchor-icon-right">
+        <Anchor
+          href="/uilib/components/anchor"
+          icon="chevron_right"
+          iconPosition="right"
+        >
+          Anchor with Icon right
+        </Anchor>
+      </Example>
+      <Example data-visual-test="anchor-icon-left">
+        <Anchor href="/uilib/components/anchor" icon="question">
+          Anchor with Icon left
+        </Anchor>
+      </Example>
+      <Example data-visual-test="anchor-paragraph">
+        <P>
+          text
+          {' '}
           <Anchor
             href="/uilib/components/anchor"
-            icon="chevron_right"
+            icon="bell"
             iconPosition="right"
           >
-            Anchor with Icon right
+            Inside a Paragraph
           </Anchor>
-        </Example>
-        <Example data-visual-test="anchor-icon-left">
-          <Anchor href="/uilib/components/anchor" icon="question">
-            Anchor with Icon left
-          </Anchor>
-        </Example>
-        <Example data-visual-test="anchor-paragraph">
-          <P>
-            <>text </>
-            <Anchor
-              href="/uilib/components/anchor"
-              icon="bell"
-              iconPosition="right"
-            >
-              Inside a Paragraph
-            </Anchor>
-            <> text</>
-          </P>
-        </Example>
-        <Example data-visual-test="anchor-icon-node">
-          <Anchor
-            href="/uilib/components/anchor"
-            icon={<IconPrimary icon="question" />}
-          >
-            Anchor with Icon left using a html/react element
-          </Anchor>
-        </Example>
-      </>
+          {' '}
+          text
+        </P>
+      </Example>
+      <Example data-visual-test="anchor-icon-node">
+        <Anchor
+          href="/uilib/components/anchor"
+          icon={<IconPrimary icon="question" />}
+        >
+          Anchor with Icon left using a html/react element
+        </Anchor>
+      </Example>
     </ComponentBox>
   </Wrapper>
 )
