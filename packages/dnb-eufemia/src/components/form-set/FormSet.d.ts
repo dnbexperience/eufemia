@@ -11,7 +11,7 @@ export type FormSetChildren =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export interface FormSetProps
-  extends React.HTMLProps<HTMLElement>,
+  extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
     SpacingProps {
   /**
    * Define what HTML element should be used. Defaults to `<form>`.

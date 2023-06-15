@@ -4,15 +4,14 @@
  */
 
 import React from 'react'
-import { fakeProps, axeComponent } from '../../../core/jest/jestSetup'
-import P from '../P'
+import { axeComponent } from '../../../core/jest/jestSetup'
+import P, { PProps } from '../P'
 import { render } from '@testing-library/react'
 
-const props = fakeProps(require.resolve('../P'), {
-  optional: true,
-})
-props.size = 'x-small'
-props.element = 'p'
+const props: PProps = {
+  size: 'x-small',
+  element: 'p',
+}
 
 describe('P element', () => {
   it('has correct size when size is defined', () => {

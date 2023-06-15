@@ -4,19 +4,16 @@
  */
 
 import React from 'react'
-import { fakeProps, axeComponent } from '../../core/jest/jestSetup'
+import { axeComponent } from '../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
-import Element, { defaultProps } from '../Element'
+import Element, { defaultProps, ElementAllProps } from '../Element'
 import { Provider } from '../../shared'
 
-const props = fakeProps(require.resolve('../Element'), {
-  optional: true,
-})
-props.as = 'p'
-props.innerRef = null
-props.internalClass = null
-props.skeletonMethod = 'font'
-props.skeleton = true
+const props: ElementAllProps = {
+  as: 'p',
+  skeletonMethod: 'font',
+  skeleton: true,
+}
 
 describe('Element', () => {
   it('have to merge className', () => {

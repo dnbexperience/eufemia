@@ -13,7 +13,7 @@ import { fireEvent, render } from '@testing-library/react'
 import { LOCALE } from '../../../shared/defaults'
 import { isMac } from '../../../shared/helpers'
 import Provider from '../../../shared/Provider'
-import NumberFormat from '../NumberFormat'
+import NumberFormat, { NumberFormatProps } from '../NumberFormat'
 import { format, formatReturnValue } from '../NumberUtils'
 
 const Component = (props) => {
@@ -51,6 +51,15 @@ beforeAll(() => {
 describe('NumberFormat component', () => {
   const displaySelector = element + '.dnb-number-format span'
   const ariaSelector = element + '.dnb-number-format span[id]'
+
+  it('renders without properties', () => {
+    const props: NumberFormatProps = {}
+    render(<Component {...props} />)
+
+    expect(
+      document.querySelector(displaySelector).textContent
+    ).toBeTruthy()
+  })
 
   it('have to match default number', () => {
     render(<Component value={value} />)

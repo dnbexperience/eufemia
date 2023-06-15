@@ -39,7 +39,7 @@ export type ElementProps = {
 
 export type ElementAllProps = ElementProps &
   ElementInternalProps &
-  React.HTMLProps<HTMLElement>
+  Omit<React.HTMLProps<HTMLElement>, 'ref'>
 
 type Attributes = Record<string, unknown>
 

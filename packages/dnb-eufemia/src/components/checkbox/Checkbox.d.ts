@@ -17,7 +17,7 @@ export type CheckboxSuffix =
 export type CheckboxAttributes = string | Record<string, unknown>;
 export type CheckboxChildren = string | ((...args: any[]) => any);
 export interface CheckboxProps
-  extends React.HTMLProps<HTMLElement>,
+  extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
     SpacingProps {
   /**
    * Use either the `label` property or provide a custom one.

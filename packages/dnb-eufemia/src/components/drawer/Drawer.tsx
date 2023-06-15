@@ -13,6 +13,8 @@ import Context from '../../shared/Context'
 import { DrawerProps, DrawerContentProps } from './types'
 import { removeUndefinedProps } from '../../shared/component-helper'
 
+export type DrawerAllProps = DrawerProps & DrawerContentProps
+
 function Drawer({
   id,
   rootId,
@@ -58,7 +60,7 @@ function Drawer({
   space,
 
   ...props
-}: DrawerProps & DrawerContentProps): JSX.Element {
+}: DrawerAllProps): JSX.Element {
   const context = useContext(Context)
 
   const modalProps = removeUndefinedProps({

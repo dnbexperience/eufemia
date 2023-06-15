@@ -3727,7 +3727,6 @@ __metadata:
     prop-types: 15.7.2
     react: 17.0.2
     react-dom: 17.0.2
-    react-fake-props: 1.0.3
     react-to-typescript-definitions: 3.1.0
     regenerator-runtime: 0.13.9
     repo-utils: "workspace:*"
@@ -30508,7 +30507,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-docgen@npm:5.4.0, react-docgen@npm:^5.0.0":
+"react-docgen@npm:^5.0.0":
   version: 5.4.0
   resolution: "react-docgen@npm:5.4.0"
   dependencies:
@@ -30570,17 +30569,6 @@ __metadata:
   version: 6.0.11
   resolution: "react-error-overlay@npm:6.0.11"
   checksum: ce7b44c38fadba9cedd7c095cf39192e632daeccf1d0747292ed524f17dcb056d16bc197ddee5723f9dd888f0b9b19c3b486c430319e30504289b9296f2d2c42
-  languageName: node
-  linkType: hard
-
-"react-fake-props@npm:1.0.3":
-  version: 1.0.3
-  resolution: "react-fake-props@npm:1.0.3"
-  dependencies:
-    react-docgen: 5.4.0
-  peerDependencies:
-    react: "*"
-  checksum: 947542bb50f4e6439f957f07e860bb77e9dd297ac995e93409897e7b59766c9abacba778a5201279bff6b5b5189c585e2e79443b26c03c13a708b3dc0e815950
   languageName: node
   linkType: hard
 

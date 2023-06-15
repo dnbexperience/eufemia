@@ -5,23 +5,14 @@
 
 import { cleanup, fireEvent, render } from '@testing-library/react'
 import React from 'react'
-import {
-  fakeProps,
-  axeComponent,
-  loadScss,
-} from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import FormRow from '../../form-row/FormRow'
-import Switch from '../Switch'
+import Switch, { SwitchProps } from '../Switch'
 
-const props = fakeProps(require.resolve('../Switch'), {
-  optional: true,
-})
-props.status = null
-props.size = 'default'
-props.label_position = 'left'
-props.readOnly = false
-props.label_direction = 'horizontal'
-props.globalStatus = { id: 'main' }
+const props: SwitchProps = {
+  title: 'title',
+  label: 'label',
+}
 
 describe('Switch component', () => {
   it('has correct state after "change" trigger', () => {

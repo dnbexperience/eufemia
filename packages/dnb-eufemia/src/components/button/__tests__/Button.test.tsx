@@ -4,32 +4,16 @@
  */
 
 import React from 'react'
-import {
-  fakeProps,
-  axeComponent,
-  loadScss,
-} from '../../../core/jest/jestSetup'
-import Button, { ButtonOnClick } from '../Button'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import Button, { ButtonOnClick, ButtonProps } from '../Button'
 import IconPrimary from '../../IconPrimary'
 import { fireEvent, render } from '@testing-library/react'
 import FormRow from '../../form-row/FormRow'
 
-const props = fakeProps(require.resolve('../Button'), {
-  optional: true,
-})
-props.id = 'button'
-props.variant = 'primary'
-props.icon = 'question'
-props.title = 'This is a button title'
-props.size = null
-props.status = null
-props.element = null
-props.tooltip = null
-props.to = null
-props.custom_content = null
-props.text = null
-props.icon_position = 'right'
-props.globalStatus = { id: 'main' }
+const props: ButtonProps = {
+  href: 'href',
+  children: 'children',
+}
 
 beforeAll(() => {
   jest.spyOn(global.console, 'log')

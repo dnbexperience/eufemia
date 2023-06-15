@@ -6,9 +6,13 @@
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { fireEvent, render, screen, within } from '@testing-library/react'
-import StepIndicator from '../StepIndicator'
+import StepIndicator, {
+  StepIndicatorData,
+  StepIndicatorProps,
+} from '../StepIndicator'
 import Provider from '../../../shared/Provider'
 import MatchMediaMock from 'jest-matchmedia-mock'
+import { StepIndicatorSidebarProps } from '../StepIndicatorSidebar'
 
 const matchMedia = new MatchMediaMock()
 
@@ -21,7 +25,7 @@ function simulateSmallScreen() {
   matchMedia.useMediaQuery('(min-width: 0) and (max-width: 60em)')
 }
 
-const stepIndicatorListData = [
+const stepIndicatorListData: StepIndicatorData = [
   {
     title: 'Step A',
   },
@@ -37,6 +41,19 @@ const stepIndicatorListData = [
 ]
 
 describe('StepIndicator Sidebar', () => {
+  it('renders with empty props', () => {
+    const props: StepIndicatorSidebarProps = {}
+    render(
+      <Provider StepIndicator={{ data: ['one', 'two', 'three'] }}>
+        <StepIndicator.Sidebar {...props} />
+      </Provider>
+    )
+
+    expect(
+      document.querySelector('.dnb-step-indicator__sidebar')
+    ).toBeTruthy()
+  })
+
   it('has to inherit Provider data for initial SSR render', () => {
     render(
       <Provider StepIndicator={{ data: ['one', 'two', 'three'] }}>
@@ -109,6 +126,22 @@ describe('StepIndicator Sidebar', () => {
 })
 
 describe('StepIndicator in general', () => {
+  it('renders with empty props', () => {
+    const id = 'unique-id-spacing'
+
+    const sidebarProps: StepIndicatorSidebarProps = { id }
+    const stepIndicatorProps: StepIndicatorProps = { sidebar_id: id }
+    render(
+      <>
+        <StepIndicator.Sidebar {...sidebarProps} />
+        <StepIndicator {...stepIndicatorProps} />
+      </>
+    )
+
+    expect(
+      document.querySelector('.dnb-step-indicator-wrapper')
+    ).toBeTruthy()
+  })
   it('should support spacing props', () => {
     const id = 'unique-id-spacing'
     render(

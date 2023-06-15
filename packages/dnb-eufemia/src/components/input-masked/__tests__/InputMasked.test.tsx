@@ -6,13 +6,13 @@
 import React from 'react'
 import { loadScss } from '../../../core/jest/jestSetup'
 import { render, fireEvent } from '@testing-library/react'
-import InputMasked from '../InputMasked'
+import InputMasked, { InputMaskedProps } from '../InputMasked'
 import Provider from '../../../shared/Provider'
 import * as helpers from '../../../shared/helpers'
 import FormRow from '../../form-row/FormRow'
 import userEvent from '@testing-library/user-event'
 
-const props = {
+const props: InputMaskedProps = {
   id: 'input-masked',
 }
 

@@ -61,7 +61,7 @@ export type SectionProps = {
 
 export type SectionAllProps = SectionProps &
   SpacingProps &
-  React.HTMLProps<HTMLElement>
+  Omit<React.HTMLProps<HTMLElement>, 'ref'>
 
 const defaultProps = {
   element: 'section',

@@ -11,7 +11,7 @@ export type FormRowChildren =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export interface FormRowProps
-  extends React.HTMLProps<HTMLElement>,
+  extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
     SpacingProps {
   id?: string;
 

@@ -6,7 +6,7 @@ export type LogoRatio = number | string;
 export type LogoWidth = number | string;
 export type LogoHeight = number | string;
 export interface LogoProps
-  extends React.HTMLProps<HTMLElement>,
+  extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
     SpacingProps {
   /**
    * Define the size of the logo. Sets the height. The width will be calculated by the ratio. Also, `inherit` will use the inherited height. Defaults to `auto`.

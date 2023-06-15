@@ -4,11 +4,7 @@
  */
 
 import React from 'react'
-import {
-  fakeProps,
-  axeComponent,
-  loadScss,
-} from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import Dialog from '../../dialog/Dialog'
 import HelpButton, { HelpButtonProps } from '../HelpButton'
 import {
@@ -17,11 +13,7 @@ import {
 } from '../../../icons'
 import { fireEvent, render } from '@testing-library/react'
 
-const snapshotProps = fakeProps(require.resolve('../HelpButton'), {})
-snapshotProps.id = 'help-button'
-
-const props: HelpButtonProps = {}
-props.id = 'help-button'
+const props: HelpButtonProps = { id: 'help-button' }
 
 describe('HelpButton', () => {
   it('should have question icon by default', () => {

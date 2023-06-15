@@ -5,24 +5,15 @@
 
 import { fireEvent, render, cleanup } from '@testing-library/react'
 import React from 'react'
-import {
-  fakeProps,
-  axeComponent,
-  loadScss,
-} from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import FormRow from '../../form-row/FormRow'
-import ToggleButton from '../ToggleButton'
+import ToggleButton, { ToggleButtonProps } from '../ToggleButton'
 
-const props = fakeProps(require.resolve('../ToggleButton'), {
-  optional: true,
-})
-props.id = 'toggle-button'
-props.status = null
-props.icon_position = 'left'
-props.label_direction = 'horizontal'
-props.variant = 'checkbox'
-props.readOnly = false
-props.globalStatus = { id: 'main' }
+const props: ToggleButtonProps = {
+  variant: 'checkbox',
+  title: 'title',
+  label: 'label',
+}
 
 describe('ToggleButton component', () => {
   it('has correct state after "click" trigger', () => {

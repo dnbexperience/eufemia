@@ -48,7 +48,7 @@ export type InputMaskedChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
 export interface InputMaskedProps
-  extends React.HTMLProps<HTMLElement>,
+  extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
     SpacingProps {
   /**
    * A mask can be defined both as a <a href="https://github.com/text-mask/text-mask/blob/master/componentDocumentation.md#readme">RegExp style of characters</a> or a callback function. Example below.

@@ -13,11 +13,11 @@ const status = '404'
 const title = 'title'
 const text = 'text'
 
-const props = {
+const props: GlobalErrorAllProps = {
   status,
   text,
   title,
-} as GlobalErrorAllProps
+}
 
 describe('GlobalError', () => {
   it('has default text for 404', () => {

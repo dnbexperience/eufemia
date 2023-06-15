@@ -4,9 +4,9 @@
  */
 
 import React from 'react'
-import { fakeProps, axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
-import InputPassword from '../InputPassword'
+import InputPassword, { InputPasswordProps } from '../InputPassword'
 import FormRow from '../../form-row/FormRow'
 
 import nbNO from '../../../shared/locales/nb-NO'
@@ -15,20 +15,10 @@ import enGB from '../../../shared/locales/en-GB'
 const nb = nbNO['nb-NO'].Input
 const en = enGB['en-GB'].Input
 
-const snapshotProps = {
-  ...fakeProps(require.resolve('../InputPassword'), {
-    all: true,
-    optional: true,
-  }),
-  input_element: null,
-  disabled: false,
-}
-snapshotProps.id = 'input'
-snapshotProps.autocomplete = 'off'
-
 describe('InputPassword component', () => {
   it('has correct type by default', () => {
-    render(<InputPassword id="input" />)
+    const props: InputPasswordProps = {}
+    render(<InputPassword {...props} id="input" />)
 
     expect(
       document.querySelector('.dnb-input__input').getAttribute('type')

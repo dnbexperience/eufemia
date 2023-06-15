@@ -4,26 +4,14 @@
  */
 
 import React from 'react'
-import {
-  fakeProps,
-  axeComponent,
-  loadScss,
-} from '../../../core/jest/jestSetup'
-import FormStatus from '../FormStatus'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import FormStatus, { FormStatusProps } from '../FormStatus'
 import Input from '../../input/Input'
 import { render } from '@testing-library/react'
 
-const props = fakeProps(require.resolve('../FormStatus'), {
-  optional: true,
-  all: true,
-})
-props.id = 'form-status'
-props.text = 'text'
-props.state = 'error'
-props.status = null
-props.globalStatus = { id: 'main' }
-props.hidden = false
-props.icon = 'exclamation'
+const props: FormStatusProps = {
+  text: 'text',
+}
 
 describe('FormStatus component', () => {
   it('should set correct max-width', () => {

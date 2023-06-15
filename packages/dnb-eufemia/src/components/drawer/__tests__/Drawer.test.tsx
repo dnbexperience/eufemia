@@ -1,25 +1,14 @@
 import React from 'react'
-import Drawer from '../Drawer'
+import Drawer, { DrawerAllProps } from '../Drawer'
 import Button from '../../button/Button'
 import Provider from '../../../shared/Provider'
 
-import {
-  fakeProps,
-  loadScss,
-  axeComponent,
-} from '../../../core/jest/jestSetup'
+import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
 import { render, fireEvent } from '@testing-library/react'
 
-const props = fakeProps(require.resolve('../Drawer.tsx'), {
-  all: true,
-  // optional: true, // Does not work with Typescript interface props
-})
-props.title = 'drawer_title'
-props.id = 'drawer_id'
-props.contentId = null
-props.modalContent = 'unique_modal_content'
-props.directDomReturn = true
-props.noAnimation = true
+const props: DrawerAllProps = {
+  noAnimation: true,
+}
 
 beforeAll(() => {
   const button = document.createElement('BUTTON')
@@ -119,7 +108,7 @@ describe('Drawer', () => {
       ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
     )
 
-    const props = {
+    const props: DrawerAllProps = {
       directDomReturn: false,
       noAnimation: true,
     }
@@ -138,7 +127,7 @@ describe('Drawer', () => {
   it('is closed by keyboardevent esc by window listener', () => {
     const on_close = jest.fn()
 
-    const props = {
+    const props: DrawerAllProps = {
       directDomReturn: false,
       noAnimation: true,
     }
@@ -162,7 +151,7 @@ describe('Drawer', () => {
       third: jest.fn(),
     }
 
-    const props = {
+    const props: DrawerAllProps = {
       directDomReturn: false,
       noAnimation: true,
     }

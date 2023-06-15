@@ -4,11 +4,7 @@
  */
 
 import React from 'react'
-import {
-  fakeProps,
-  axeComponent,
-  loadScss,
-} from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import * as helpers from '../../../shared/helpers'
 import Autocomplete, { AutocompleteProps } from '../Autocomplete'
 import { SubmitButton } from '../../input/Input'
@@ -25,37 +21,9 @@ import {
   DrawerListDataObjectUnion,
 } from '../../../fragments/drawer-list'
 
-const snapshotProps = {
-  ...fakeProps(require.resolve('../Autocomplete'), {
-    optional: true,
-  }),
+const mockProps: AutocompleteProps = {
   id: 'autocomplete-id',
-  mode: 'sync',
-  label: 'Autocomplete Label:',
-  status: 'status',
-  status_state: 'error',
-  status_props: null,
-  direction: 'bottom',
-  label_direction: 'horizontal',
-  value: 2,
-  icon_position: null,
-  triangle_position: null,
-  prevent_selection: null,
-  align_autocomplete: null,
-  input_element: null,
-  size: null,
-  opened: true,
-  show_submit_button: true,
-  no_animation: true,
-  input_ref: null,
-  skip_portal: true,
-  globalStatus: { id: 'main' },
-}
-
-// use no_animation so we don't need to wait
-const mockProps = {
-  id: 'autocomplete-id',
-  no_animation: true,
+  no_animation: true, // use no_animation so we don't need to wait
   skip_portal: true,
 }
 const props: AutocompleteProps = {
@@ -2384,6 +2352,17 @@ describe('Autocomplete component', () => {
 
 describe('Autocomplete markup', () => {
   it('should validate with ARIA rules', async () => {
+    const snapshotProps: AutocompleteProps = {
+      label: 'Autocomplete Label:',
+      status: 'status',
+      status_state: 'error',
+      status_props: null,
+      value: 2,
+      opened: true,
+      show_submit_button: true,
+      no_animation: true,
+      skip_portal: true,
+    }
     const CheckComponent = render(
       <Autocomplete {...snapshotProps} data={mockData} />
     )

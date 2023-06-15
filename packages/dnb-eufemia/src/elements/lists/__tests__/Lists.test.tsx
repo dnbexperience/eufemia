@@ -6,11 +6,18 @@
 import React from 'react'
 import { axeComponent } from '../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
-import Dl from '../Dl'
-import Dt from '../../Dt'
-import Dd from '../../Dd'
+import Dl, { DlAllProps } from '../Dl'
+import Dt, { DtProps } from '../../Dt'
+import Dd, { DdProps } from '../../Dd'
 
 describe('Dl', () => {
+  it('renders with props as an object', () => {
+    const props: DlAllProps = {}
+    render(<Dl {...props} />)
+
+    expect(document.querySelector('.dnb-dl')).not.toBeNull()
+  })
+
   it('should support spacing props', () => {
     render(
       <Dl top="medium" direction="horizontal">
@@ -88,6 +95,24 @@ describe('Dl', () => {
         </Dl>
       )
       expect(await axeComponent(Component)).toHaveNoViolations()
+    })
+  })
+
+  describe('Dt', () => {
+    it('renders with props as an object', () => {
+      const props: DtProps = {}
+      render(<Dt {...props} />)
+
+      expect(document.querySelector('.dnb-dt')).not.toBeNull()
+    })
+  })
+
+  describe('Dd', () => {
+    it('renders with props as an object', () => {
+      const props: DdProps = { children: 'children' }
+      render(<Dd {...props} />)
+
+      expect(document.querySelector('.dnb-dd')).not.toBeNull()
     })
   })
 })

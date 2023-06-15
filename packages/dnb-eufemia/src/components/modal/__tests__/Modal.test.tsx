@@ -4,14 +4,11 @@
  */
 
 import React from 'react'
-import {
-  fakeProps,
-  axeComponent,
-  loadScss,
-} from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import Input from '../../input/Input'
 import Modal, { OriginalComponent } from '../Modal'
+import { ModalProps } from '../types'
 import Button from '../../button/Button'
 import DialogContent from '../../dialog/DialogContent'
 import Provider from '../../../shared/Provider'
@@ -20,17 +17,12 @@ import * as helpers from '../../../shared/helpers'
 global.userAgent = jest.spyOn(navigator, 'userAgent', 'get')
 global.appVersion = jest.spyOn(navigator, 'appVersion', 'get')
 
-const props = fakeProps(require.resolve('../Modal.tsx'), {
-  all: true,
-  // optional: true, // Does not work with Typescript interface props
-})
-props.title = 'modal_title'
-props.id = 'modal_id'
-props.content_id = null
-props.style_type = 'button'
-props.modal_content = 'unique_modal_content'
-props.direct_dom_return = true
-props.no_animation = true
+const props: ModalProps = {
+  title: 'modal_title',
+  id: 'modal_id',
+  modal_content: 'unique_modal_content',
+  no_animation: true,
+}
 
 beforeAll(() => {
   const button = document.createElement('BUTTON')
@@ -419,7 +411,7 @@ describe('Modal component', () => {
       third: jest.fn(),
     }
 
-    const props = {
+    const props: ModalProps = {
       direct_dom_return: false,
       no_animation: true,
     }

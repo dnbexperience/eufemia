@@ -4,13 +4,9 @@
  */
 
 import React from 'react'
-import {
-  fakeProps,
-  axeComponent,
-  loadScss,
-} from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
-import Dropdown from '../Dropdown'
+import Dropdown, { DropdownProps } from '../Dropdown'
 import {
   mockImplementationForDirectionObserver,
   testDirectionObserver,
@@ -21,10 +17,10 @@ import {
 } from '../../../fragments/drawer-list'
 
 // use no_animation so we don't need to wait
-const mockProps = {
+const mockProps: DropdownProps = {
   skip_portal: true,
 }
-const props = {
+const props: DropdownProps = {
   id: 'dropdown-id',
   value: 2,
   skip_portal: true,
@@ -91,7 +87,7 @@ describe('Dropdown component', () => {
     open()
 
     elem = document.querySelectorAll('.dnb-drawer-list__option')[
-      props.value + 1
+      (props.value as number) + 1
     ]
     expect(elem.classList.contains('dnb-drawer-list__option--focus')).toBe(
       true
@@ -103,7 +99,8 @@ describe('Dropdown component', () => {
     expect(
       document.querySelector('.dnb-dropdown__text__inner').textContent
     ).toBe(
-      (mockData[props.value + 1] as DrawerListDataObject).selected_value
+      (mockData[(props.value as number) + 1] as DrawerListDataObject)
+        .selected_value
     )
   })
 
@@ -305,12 +302,12 @@ describe('Dropdown component', () => {
         .length
     ).toBe(1)
 
-    const notChangedItem = mockData[props.value + 1]
+    const notChangedItem = mockData[(props.value as number) + 1]
     expect(on_select.mock.calls[0][0].data).toStrictEqual(notChangedItem)
 
     keydown(40) // down
 
-    const selectedItem = mockData[props.value + 2]
+    const selectedItem = mockData[(props.value as number) + 2]
     expect(on_select.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
   })
 
@@ -625,12 +622,12 @@ describe('Dropdown component', () => {
     // then simulate changes
     keydown(40) // down
 
-    selectedItem = mockData[props.value + 1]
+    selectedItem = mockData[(props.value as number) + 1]
     expect(on_select.mock.calls[0][0].data).toStrictEqual(selectedItem)
 
     keydown(32) // space
 
-    selectedItem = mockData[props.value + 1]
+    selectedItem = mockData[(props.value as number) + 1]
     expect(on_change).toHaveBeenCalledTimes(1)
     expect(on_select).toHaveBeenCalledTimes(2)
     expect(on_change.mock.calls[0][0].data).toStrictEqual(selectedItem)
@@ -640,8 +637,8 @@ describe('Dropdown component', () => {
       isTrusted: false,
       data: selectedItem,
       event: new KeyboardEvent('keydown', {}),
-      selected_item: props.value + 1,
-      value: props.value + 1,
+      selected_item: (props.value as number) + 1,
+      value: (props.value as number) + 1,
     })
 
     // open first
@@ -651,7 +648,7 @@ describe('Dropdown component', () => {
     keydown(40) // down
     keydown(13) // enter
 
-    selectedItem = mockData[props.value + 2]
+    selectedItem = mockData[(props.value as number) + 2]
     expect(on_change.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
     expect(on_select.mock.calls[3][0].data).toStrictEqual(selectedItem) // second call!
     expect(on_change).toHaveBeenCalledTimes(2)
@@ -1022,7 +1019,8 @@ describe('Dropdown component', () => {
     expect(
       document.querySelector('.dnb-dropdown__text__inner').textContent
     ).toBe(
-      (mockData[props.value + 1] as DrawerListDataObject).selected_value
+      (mockData[(props.value as number) + 1] as DrawerListDataObject)
+        .selected_value
     )
   })
 
@@ -1185,30 +1183,17 @@ describe('Dropdown component', () => {
 
 describe('Dropdown markup', () => {
   it('should validate with ARIA rules', async () => {
-    const snapshotProps = {
-      ...fakeProps(require.resolve('../Dropdown'), {
-        optional: true,
-      }),
+    const snapshotProps: DropdownProps = {
+      title: 'title',
+      label: 'label',
       id: 'dropdown-id',
       status: 'status',
       status_state: 'error',
-      status_props: null,
-      direction: 'bottom',
-      label_direction: 'horizontal',
       value: 2,
-      action_menu: null,
-      more_menu: null,
-      icon_position: null,
-      triangle_position: null,
-      prevent_selection: null,
-      align_dropdown: null,
-      trigger_element: null,
-      size: null,
       opened: true,
       skip_portal: true,
       no_animation: true,
       variant: 'secondary',
-      globalStatus: { id: 'main' },
     }
 
     const CheckComponent = render(

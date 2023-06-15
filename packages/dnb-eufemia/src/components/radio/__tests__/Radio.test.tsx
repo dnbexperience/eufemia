@@ -5,26 +5,13 @@
 
 import { fireEvent, render, cleanup } from '@testing-library/react'
 import React from 'react'
-import {
-  fakeProps,
-  axeComponent,
-  loadScss,
-} from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import FormRow from '../../form-row/FormRow'
-import Radio from '../Radio'
+import Radio, { RadioProps } from '../Radio'
 
-const props = fakeProps(require.resolve('../Radio'), {
-  optional: true,
-})
-props.id = 'radio'
-props.element = 'input'
-props.group = null
-props.status = null
-props.size = null
-props.readOnly = false
-props.label_position = 'left'
-props.direction = 'horizontal'
-props.globalStatus = { id: 'main' }
+const props: RadioProps = {
+  label: 'label',
+}
 
 describe('Radio component', () => {
   it('has correct state after "change" trigger', () => {

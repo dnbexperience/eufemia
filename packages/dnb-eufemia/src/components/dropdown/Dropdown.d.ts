@@ -21,7 +21,7 @@ type DropdownTriggerElement = ((...args: any[]) => any) | React.ReactNode;
 export interface DropdownProps
   extends DrawerListProps,
     SpacingProps,
-    React.HTMLProps<HTMLElement> {
+    Omit<React.HTMLProps<HTMLElement>, 'ref'> {
   /**
    * Give a title to let the users know what they have to do. Defaults to `Valgmeny`.
    */

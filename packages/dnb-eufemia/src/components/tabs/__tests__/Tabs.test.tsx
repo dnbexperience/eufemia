@@ -4,21 +4,12 @@
  */
 
 import React from 'react'
-import {
-  fakeProps,
-  axeComponent,
-  loadScss,
-} from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
-import Tabs from '../Tabs'
+import Tabs, { TabsProps } from '../Tabs'
 import Input from '../../input/Input'
 
-const props = fakeProps(require.resolve('../Tabs'), {
-  all: true,
-  optional: true,
-})
-delete props.render
-props.id = 'id'
+const props: TabsProps = { id: 'id' }
 
 const startup_selected_key = 'second'
 const tablistData = [
@@ -195,7 +186,7 @@ describe('Tabs component', () => {
 
   it('should support "tabs_spacing" prop', () => {
     render(
-      <Tabs {...props} data={tablistData} tabs_spacing="small">
+      <Tabs {...props} data={tablistData} tabs_spacing={true}>
         {contentWrapperData}
       </Tabs>
     )
@@ -205,7 +196,7 @@ describe('Tabs component', () => {
     expect(Array.from(element.classList)).toEqual([
       'dnb-tabs__tabs',
       'dnb-tabs__tabs--left',
-      'dnb-section--spacing-small',
+      'dnb-section--spacing-large',
     ])
   })
 

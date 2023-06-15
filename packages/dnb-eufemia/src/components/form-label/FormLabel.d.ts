@@ -11,7 +11,7 @@ export type FormLabelChildren =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export interface FormLabelProps
-  extends React.HTMLProps<HTMLElement>,
+  extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
     SpacingProps {
   /**
    * <em>(required)</em> the `id` of the input.

@@ -4,22 +4,15 @@
  */
 
 import React from 'react'
-import {
-  fakeProps,
-  axeComponent,
-  loadScss,
-} from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
-import FormLabel from '../FormLabel'
+import FormLabel, { FormLabelProps } from '../FormLabel'
 import Input from '../../input/Input'
 import FormRow from '../../form-row/FormRow'
 
-const props = fakeProps(require.resolve('../FormLabel'), {
-  optional: true,
-})
-props.element = 'label'
-props.direction = 'horizontal'
-props.label_direction = 'horizontal'
+const props: FormLabelProps = {
+  title: 'title',
+}
 
 describe('FormLabel component', () => {
   it('should forward unlisted attributes like "aria-hidden"', () => {

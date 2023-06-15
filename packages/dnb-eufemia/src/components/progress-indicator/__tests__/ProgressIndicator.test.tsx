@@ -4,24 +4,14 @@
  */
 
 import React from 'react'
-import {
-  fakeProps,
-  axeComponent,
-  loadScss,
-} from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { render, screen } from '@testing-library/react'
 import ProgressIndicator, {
   ProgressIndicatorProps,
 } from '../ProgressIndicator'
 import { format } from '../../number-format/NumberUtils'
 
-const props: ProgressIndicatorProps = fakeProps(
-  require.resolve('../ProgressIndicator'),
-  {
-    all: true,
-    optional: true,
-  }
-)
+const props: ProgressIndicatorProps = {}
 
 describe('Circular ProgressIndicator component', () => {
   const mainLineSelector =

@@ -5,24 +5,13 @@
 
 import { render, screen, cleanup, fireEvent } from '@testing-library/react'
 import React from 'react'
-import {
-  fakeProps,
-  axeComponent,
-  loadScss,
-} from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import FormRow from '../../form-row/FormRow'
-import Checkbox from '../Checkbox'
+import Checkbox, { CheckboxProps } from '../Checkbox'
 
-const props = fakeProps(require.resolve('../Checkbox'), {
-  all: true,
-  optional: true,
-})
-props.id = 'checkbox'
-props.element = 'input'
-props.status = null
-props.readOnly = false
-props.label = 'checkbox'
-props.label_position = 'left'
+const props: CheckboxProps = {
+  label: 'checkbox',
+}
 
 describe('Checkbox component', () => {
   it('has correct state after "change" trigger', () => {
