@@ -27,10 +27,12 @@ beforeAll(async () => {
       './test-files/dnb/icons-svg.lock'
     ),
   })
+  jest.useFakeTimers()
 })
 
 afterAll(async () => {
   await del(path.resolve(__dirname, `./test-files/dist`))
+  jest.useRealTimers()
 })
 
 describe('run convertSvgToJsx to convert ES6 to ES5', () => {
