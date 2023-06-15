@@ -507,6 +507,7 @@ describe('Heading component', () => {
 })
 
 let gComp
+// eslint-disable-next-line no-unused-vars
 function makeComp() {
   gComp =
     gComp ||
