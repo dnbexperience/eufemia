@@ -25,7 +25,7 @@ const config = {
   testScreenshotOnHost: 'localhost',
   testScreenshotOnPort: 8000,
   retryTimes: isCI ? 5 : 0,
-  timeout: 30e3,
+  timeout: isHeadless ? headlessTimeout : 30e3,
   pixelGrid: 8,
   pageViewport: {
     width: 1280,
@@ -137,6 +137,12 @@ const makeScreenshot = async ({
     await page.waitForTimeout(delaySimulation)
   }
 
+  await wrapperCleanup({
+    page,
+    selector,
+    addWrapper,
+  })
+
   await page.mouse.move(0, 0)
 
   if (waitBeforeFinish > 0) {
@@ -206,6 +212,33 @@ async function handleElement({
   rootClassName = null,
   styleSelector = null,
 }) {
+  const countSelectorElements = await page.evaluate(
+    ({ selector }) => {
+      const mainSelector = selector.match(
+        /(data-visual-test="([^"]*)")/
+      )?.[0]
+
+      try {
+        return document.querySelectorAll(
+          mainSelector ? `[${mainSelector}]` : selector
+        ).length
+      } catch (e) {
+        console.error(e)
+      }
+    },
+    {
+      selector,
+    }
+  )
+
+  if (countSelectorElements > 1) {
+    throw new Error(
+      `Ensure the selector '${selector}' exists only once! Found ${countSelectorElements}.`
+    )
+  } else if (isNaN(parseFloat(countSelectorElements))) {
+    log.warn(`Count not extract main selector from '${selector}'!`)
+  }
+
   if (selector) {
     await page.waitForSelector(selector, { state: 'attached' }) // Dialog selector "div#dnb-modal-root" is not visible yet, and needs the state "attached"
   }
@@ -471,6 +504,28 @@ async function handleSimulation({
   return { elementsToDispose, delaySimulation }
 }
 
+async function wrapperCleanup({ page, selector, addWrapper }) {
+  if (addWrapper) {
+    await page.evaluate(
+      ({ selector }) => {
+        const element = document.querySelector(selector)
+        const wrapperElement = element.closest(
+          '[data-visual-test-wrapper]'
+        )
+
+        if (wrapperElement) {
+          wrapperElement.replaceWith(...wrapperElement.childNodes)
+        }
+
+        return wrapperElement
+      },
+      {
+        selector,
+      }
+    )
+  }
+}
+
 async function handleWrapper({
   page,
   selector,
@@ -491,20 +546,17 @@ async function handleWrapper({
     // because of getComputedStyle we have to use evaluate
     const background = await page.evaluate(
       ({ selector }) => {
-        let node = document.querySelector(selector)
-        if (!(node && node.parentNode)) {
-          return null
-        }
-        node = node.parentNode
+        const element = document.querySelector(selector)?.parentNode
 
         const backgroundColor = window
-          .getComputedStyle(node)
-          .getPropertyValue('background-color')
+          .getComputedStyle(element)
+          ?.getPropertyValue('background-color')
 
         // if transparent, do nothing
-        if (backgroundColor === 'rgba(0, 0, 0, 0)') {
+        if (!element || backgroundColor === 'rgba(0, 0, 0, 0)') {
           return null
         }
+
         return backgroundColor
       },
       {
@@ -525,18 +577,19 @@ async function handleWrapper({
     // wrap the element/selector and give the wrapper also a style
     await page.$eval(
       selector,
-      (node, { id, style }) => {
-        const attrValue = node.getAttribute('data-visual-test')
+      (element, { id, style }) => {
+        const attrValue = element.getAttribute('data-visual-test')
 
-        const elem = document.createElement('div')
-        elem.setAttribute('data-visual-test-id', id)
-        elem.setAttribute('data-visual-test-wrapper', attrValue)
+        const wrapperElement = document.createElement('div')
+        wrapperElement.setAttribute('data-visual-test-id', id)
+        wrapperElement.setAttribute('data-visual-test-wrapper', attrValue)
 
-        node.parentNode.appendChild(elem)
-        elem.appendChild(node)
-        elem.style = style
+        element.parentNode.appendChild(wrapperElement)
+        wrapperElement.appendChild(element)
 
-        return node
+        wrapperElement.style = style
+
+        return element
       },
       {
         id: wrapperId,
