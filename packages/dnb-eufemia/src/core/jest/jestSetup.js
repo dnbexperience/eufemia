@@ -4,20 +4,13 @@
  */
 
 import { axe, toHaveNoViolations } from 'jest-axe'
-import fakeProps from 'react-fake-props'
 import { mount, render } from './enzyme'
 import fs from 'fs-extra'
 import path from 'path'
 import sass from 'sass'
 import { toBeType } from 'jest-tobetype'
 
-export {
-  fakeProps, // we have also our own replacement function called "fakeAllProps"
-  mount,
-  render,
-  axe,
-  toHaveNoViolations,
-}
+export { mount, render, axe, toHaveNoViolations }
 
 expect.extend({ toBeType })
 expect.extend(toHaveNoViolations)

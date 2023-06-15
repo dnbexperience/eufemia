@@ -30,7 +30,7 @@ export type InputSubmitButtonIcon =
   | ((...args: any[]) => any);
 export type InputChildren = React.ReactNode | ((...args: any[]) => any);
 export interface InputProps
-  extends React.HTMLProps<HTMLElement>,
+  extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
     SpacingProps {
   /**
    * Choose between `text`, `number`, `email`, `password`, `url`, `tel` and `search`.
@@ -175,7 +175,7 @@ export interface InputProps
   /**
    * By providing a React.ref we can get the internally used input element (DOM). E.g. `inner_ref={myRef}` by using `React.createRef()` or `React.useRef()`.
    */
-  inner_ref?: React.RefObject<HTMLInputElement>;
+  inner_ref?: React.Ref;
   readOnly?: boolean;
 
   /**

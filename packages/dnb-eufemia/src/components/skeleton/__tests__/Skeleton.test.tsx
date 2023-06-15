@@ -5,12 +5,12 @@
 
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import Skeleton from '../Skeleton'
+import Skeleton, { SkeletonProps } from '../Skeleton'
 import Input from '../../input/Input'
 import P from '../../../elements/P'
 import { render } from '@testing-library/react'
 
-const props = {
+const props: SkeletonProps = {
   children: (
     <>
       <P>paragraph</P>

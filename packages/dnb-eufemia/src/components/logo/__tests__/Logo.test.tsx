@@ -4,18 +4,19 @@
  */
 
 import React from 'react'
-import { fakeProps, loadScss } from '../../../core/jest/jestSetup'
-import Logo from '../Logo'
+import { loadScss } from '../../../core/jest/jestSetup'
+import Logo, { LogoProps } from '../Logo'
 import { render } from '@testing-library/react'
 import Provider from '../../../shared/Provider'
 import Theme from '../../../shared/Theme'
 
-const props = fakeProps(require.resolve('../Logo'), {
-  optional: true,
-})
-props.height = 80
-
 describe('Logo component', () => {
+  it('renders with empty props', () => {
+    const props: LogoProps = {}
+    render(<Logo {...props} />)
+    expect(document.querySelector('.dnb-logo')).toBeTruthy()
+  })
+
   it('should set correct class when inherit_color is set', () => {
     render(<Logo inherit_color />)
     expect(document.querySelector('.dnb-logo').classList).toContain(

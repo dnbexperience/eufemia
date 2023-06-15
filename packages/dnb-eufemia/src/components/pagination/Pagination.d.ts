@@ -35,7 +35,7 @@ type PaginationIndicatorElement =
   | string;
 type PaginationChildren = React.ReactNode | ((...args: any[]) => any);
 export interface PaginationProps
-  extends React.HTMLProps<HTMLElement>,
+  extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
     SpacingProps {
   /**
    * The page shown in the very beginning. If `current_page` is set, then it may not make too much sense to set this as well.

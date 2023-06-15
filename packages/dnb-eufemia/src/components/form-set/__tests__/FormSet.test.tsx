@@ -4,23 +4,18 @@
  */
 
 import React from 'react'
-import {
-  fakeProps,
-  axeComponent,
-  loadScss,
-} from '../../../core/jest/jestSetup'
-import FormSet from '../FormSet'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import FormSet, { FormSetProps } from '../FormSet'
 import FormRow from '../../form-row/FormRow'
 import Input from '../../input/Input'
 import NumberFormat from '../../number-format/NumberFormat'
 import Provider from '../../../shared/Provider'
 import { render } from '@testing-library/react'
 
-const props = fakeProps(require.resolve('../FormSet'), {
-  optional: true,
-})
-props.direction = 'horizontal'
-props.element = 'form'
+const props: FormSetProps = {
+  direction: 'horizontal',
+  element: 'form',
+}
 
 describe('FormSet component', () => {
   it('should have .dnb-form-set class', () => {

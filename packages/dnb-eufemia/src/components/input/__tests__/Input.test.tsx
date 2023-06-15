@@ -4,31 +4,18 @@
  */
 
 import React from 'react'
-import {
-  fakeProps,
-  axeComponent,
-  loadScss,
-} from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
-import Input from '../Input'
+import Input, { InputProps } from '../Input'
 import { format } from '../../number-format/NumberUtils'
 import FormRow from '../../form-row/FormRow'
 
-const props = {
-  ...fakeProps(require.resolve('../Input'), {
-    all: true,
-    optional: true,
-  }),
-  input_element: null,
-  disabled: false,
+const props: InputProps = {
+  id: 'input',
+  status: null, // to make sure we don't get aria-details
+  suffix: null, // to make sure we don't get aria-details
+  type: 'text',
 }
-props.id = 'input'
-props.autocomplete = 'off'
-props.label = null
-props.submit_button_variant = 'secondary'
-props.status = null // to make sure we don't get aria-details
-props.suffix = null // to make sure we don't get aria-details
-props.type = 'text'
 
 const log = global.console.log
 afterEach(() => {

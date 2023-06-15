@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import Timeline from '../Timeline'
-import TimelineItem from '../TimelineItem'
+import Timeline, { TimelineAllProps } from '../Timeline'
+import TimelineItem, { TimelineItemAllProps } from '../TimelineItem'
 
 import IconPrimary from '../../icon-primary/IconPrimary'
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
@@ -12,6 +12,14 @@ beforeEach(() => {
 })
 
 describe('Timeline', () => {
+  it('renders with props as an object', () => {
+    const props: TimelineAllProps = {}
+
+    render(<Timeline {...props} />)
+
+    expect(document.querySelector('.dnb-timeline')).not.toBeNull()
+  })
+
   it('renders without properties', () => {
     render(<Timeline />)
 
@@ -162,6 +170,17 @@ describe('Timeline', () => {
   })
 
   describe('TimelineItem', () => {
+    it('renders with props as an object', () => {
+      const props: TimelineItemAllProps = {
+        state: 'completed',
+        title: 'title',
+      }
+
+      render(<TimelineItem {...props} />)
+
+      expect(document.querySelector('.dnb-timeline__item')).not.toBeNull()
+    })
+
     it('renders title', () => {
       const title = 'Completed'
       render(<TimelineItem title={title} state="completed" />)

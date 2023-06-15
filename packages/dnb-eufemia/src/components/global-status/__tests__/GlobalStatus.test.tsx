@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import GlobalStatus from '../GlobalStatus'
+import GlobalStatus, { GlobalStatusProps } from '../GlobalStatus'
 import { GlobalStatusInterceptor } from '../GlobalStatusController'
 import FormSet from '../../form-set/FormSet'
 import Switch from '../../switch/Switch'
@@ -21,7 +21,7 @@ const show = true
 const no_animation = true
 const autoscroll = false
 
-const props = {
+const props: GlobalStatusProps = {
   show,
   no_animation,
   autoscroll,

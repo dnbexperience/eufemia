@@ -1,6 +1,6 @@
 import React from 'react'
 import { fireEvent, render, screen, within } from '@testing-library/react'
-import InfoCard from '../InfoCard'
+import InfoCard, { InfoCardAllProps } from '../InfoCard'
 import { confetti as Confetti } from '../../../icons'
 
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
@@ -8,7 +8,8 @@ import { Provider } from '../../../shared'
 
 describe('InfoCard', () => {
   it('renders with no props', () => {
-    render(<InfoCard text="text" />)
+    const props: InfoCardAllProps = { text: 'text' }
+    render(<InfoCard {...props} />)
 
     expect(document.querySelector('.dnb-info-card__text')).not.toBeNull()
   })

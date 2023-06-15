@@ -4,22 +4,16 @@
  */
 
 import React from 'react'
-import {
-  fakeProps,
-  axeComponent,
-  loadScss,
-} from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
-import Icon from '../Icon'
+import Icon, { IconProps } from '../Icon'
 import { question } from './test-files'
 
-const props = fakeProps(require.resolve('../Icon'), {
-  optional: true,
-})
-props.icon = question
-props.alt = 'question mark'
-props.border = false
-props['aria-hidden'] = null
+const props: IconProps = {
+  icon: question,
+  alt: 'question mark',
+  'aria-hidden': null,
+}
 
 describe('Icon component', () => {
   it('has valid width and height prop', () => {

@@ -1,25 +1,15 @@
 import React from 'react'
 import Dialog from '../Dialog'
+import { DialogProps } from '../types'
 import Button from '../../button/Button'
 import Provider from '../../../shared/Provider'
-import {
-  fakeProps,
-  loadScss,
-  axeComponent,
-} from '../../../core/jest/jestSetup'
+import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
 import * as helpers from '../../../shared/helpers'
 import { fireEvent, render } from '@testing-library/react'
 
-const props = fakeProps(require.resolve('../Dialog.tsx'), {
-  all: true,
-  // optional: true, // Does not work with Typescript interface props
-})
-props.title = 'dialog_title'
-props.id = 'dialog_id'
-props.contentId = null
-props.modalContent = 'unique_modal_content'
-props.directDomReturn = true
-props.noAnimation = true
+const props: DialogProps = {
+  noAnimation: true,
+}
 
 beforeAll(() => {
   const button = document.createElement('BUTTON')
@@ -185,7 +175,7 @@ describe('Dialog', () => {
       ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
     )
 
-    const props = {
+    const props: DialogProps = {
       directDomReturn: false,
       noAnimation: true,
     }
@@ -203,7 +193,7 @@ describe('Dialog', () => {
   it('is closed by keyboardevent esc by window listener', () => {
     const on_close = jest.fn()
 
-    const props = {
+    const props: DialogProps = {
       directDomReturn: false,
       noAnimation: true,
     }

@@ -593,21 +593,6 @@ describe('"convertJsxToString" should', () => {
       'reachable A reachable B'
     )
   })
-
-  // This is not supported currently
-  // it.only('extracts content from components inside array', () => {
-  //   const Component = () => 'not reachable'
-  //   const Content = () => (
-  //     <>
-  //       <div key="a">reachable A</div>
-  //       <Component key="x" />
-  //       <div key="b">reachable B</div>
-  //     </>
-  //   )
-  //   expect(convertJsxToString(Content, '|')).toBe(
-  //     'reachable A|reachable B'
-  //   )
-  // })
 })
 
 describe('"escapeRegexChars" should', () => {

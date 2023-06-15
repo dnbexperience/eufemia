@@ -5,21 +5,13 @@
 
 import React from 'react'
 import { render } from '@testing-library/react'
-import {
-  fakeProps,
-  axeComponent,
-  loadScss,
-} from '../../../core/jest/jestSetup'
-import Section from '../Section'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import Section, { SectionAllProps } from '../Section'
 import Provider from '../../../shared/Provider'
 
-const props = fakeProps(require.resolve('../Section'), {
-  all: true,
-})
-props.style = null
-props.element = null
-props.inner_ref = null
-props.style_type = 'mint-green-12'
+const props: SectionAllProps = {
+  style_type: 'mint-green-12',
+}
 
 describe('Section component', () => {
   it('should have correct styles', () => {

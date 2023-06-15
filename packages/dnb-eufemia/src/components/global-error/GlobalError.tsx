@@ -66,7 +66,7 @@ export type GlobalErrorProps = {
 }
 
 export type GlobalErrorAllProps = GlobalErrorProps &
-  React.HTMLProps<HTMLElement> &
+  Omit<React.HTMLProps<HTMLElement>, 'ref'> &
   SpacingProps &
   GetTranslationProps
 

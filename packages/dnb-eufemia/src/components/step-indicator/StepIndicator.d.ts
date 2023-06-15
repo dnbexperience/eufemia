@@ -23,7 +23,7 @@ export type StepIndicatorChildren =
   | React.ReactNode
   | ((...args: any[]) => any);
 export interface StepIndicatorProps
-  extends React.HTMLProps<HTMLElement>,
+  extends Omit<React.HTMLProps<HTMLAnchorElement>, 'ref'>,
     SpacingProps {
   /**
    * <em>(required)</em> a unique string-based ID in order to bind together the main component and the sidebar (`<StepIndicator.Sidebar />`). Both have to get the same ID.

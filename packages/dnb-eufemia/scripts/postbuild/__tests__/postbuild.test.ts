@@ -60,7 +60,9 @@ describe('type definitions', () => {
 
       const content = fs.readFileSync(file, 'utf-8')
       expect(content).toContain('export interface InputProps')
-      expect(content).toContain('extends React.HTMLProps<HTMLElement>,')
+      expect(content).toContain(
+        "extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,"
+      )
       expect(content).toContain('SpacingProps')
     }
   )

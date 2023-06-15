@@ -4,24 +4,16 @@
  */
 
 import React from 'react'
-import {
-  fakeProps,
-  axeComponent,
-  loadScss,
-} from '../../../core/jest/jestSetup'
-import FormRow from '../FormRow'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import FormRow, { FormRowProps } from '../FormRow'
 import Input from '../../input/Input'
 import NumberFormat from '../../number-format/NumberFormat'
 import Provider from '../../../shared/Provider'
 import { render } from '@testing-library/react'
 
-const props = fakeProps(require.resolve('../FormRow'), {
-  optional: true,
-})
-props.id = 'form-row'
-props.direction = 'horizontal'
-props.label_direction = 'horizontal'
-props.globalStatus = { id: 'main' }
+const props: FormRowProps = {
+  label: 'label',
+}
 
 describe('FormRow component', () => {
   it('should have vertical direction class', () => {

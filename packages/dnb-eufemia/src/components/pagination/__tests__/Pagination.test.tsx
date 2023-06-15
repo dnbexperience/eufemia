@@ -4,31 +4,22 @@
  */
 
 import React from 'react'
-import {
-  fakeProps,
-  axeComponent,
-  loadScss,
-} from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
-import Pagination, { createPagination, Bar } from '../Pagination'
+import Pagination, {
+  createPagination,
+  Bar,
+  PaginationProps,
+} from '../Pagination'
 import nbNO from '../../../shared/locales/nb-NO'
 import enGB from '../../../shared/locales/en-GB'
 import Provider from '../../../shared/Provider'
-
-const snapshotProps = {
-  ...fakeProps(require.resolve('../Pagination'), {
-    all: true,
-    optional: true,
-  }),
-}
-snapshotProps.page_count = 4
-snapshotProps.current_page = 2
 
 const nb = nbNO['nb-NO'].Pagination
 const en = enGB['en-GB'].Pagination
 
 describe('Pagination bar', () => {
-  const props = {
+  const props: PaginationProps = {
     page_count: 30,
     current_page: 15,
   }
@@ -266,7 +257,7 @@ describe('Infinity scroller', () => {
     })
   })
 
-  const props = {
+  const props: PaginationProps = {
     page_count: 5,
     current_page: 3,
     min_wait_time: 0,
@@ -760,6 +751,11 @@ describe('Infinity scroller', () => {
 
 describe('Pagination ARIA', () => {
   it('should validate with ARIA rules for pagination bar', async () => {
+    const snapshotProps: PaginationProps = {
+      page_count: 4,
+      current_page: 2,
+    }
+
     const CheckComponent = render(<Pagination {...snapshotProps} />)
     expect(await axeComponent(CheckComponent)).toHaveNoViolations()
   })

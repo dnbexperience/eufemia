@@ -2,7 +2,7 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
 import { BasicTable } from './TableMocks'
-import Table from '../Table'
+import Table, { TableAllProps } from '../Table'
 
 const NODE_ENV = process.env.NODE_ENV
 const log = globalThis.console.log
@@ -24,6 +24,13 @@ afterEach(() => {
 })
 
 describe('Table', () => {
+  it('renders with props as an object', () => {
+    const props: TableAllProps = { children: 'children' }
+    render(<Table {...props} />)
+
+    expect(document.querySelector('.dnb-table')).toBeTruthy()
+  })
+
   it('should contain basis HTML classes by default', () => {
     render(
       <Table>

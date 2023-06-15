@@ -5,20 +5,12 @@
 
 import { fireEvent, render } from '@testing-library/react'
 import React from 'react'
-import {
-  fakeProps,
-  axeComponent,
-  loadScss,
-} from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import FormRow from '../../form-row/FormRow'
-import Textarea from '../Textarea'
+import Textarea, { TextareaProps } from '../Textarea'
 import userEvent from '@testing-library/user-event'
 
-const props = {
-  ...fakeProps(require.resolve('../Textarea'), {
-    all: true,
-    optional: true,
-  }),
+const props: TextareaProps = {
   id: 'textarea',
   label: null,
   status: null, // to make sure we don't get aria-details

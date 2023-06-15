@@ -12,7 +12,7 @@ export type IconAttributes = string | Record<string, unknown>;
 export type IconChildren = React.ReactNode | ((...args: any[]) => any);
 export type IconColor = string;
 export interface IconProps
-  extends React.HTMLProps<HTMLElement>,
+  extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
     SpacingProps {
   /**
    * <em>(required)</em> a React SVG Component or the icon name (in case we use `IconPrimary` or `dnb-icon-primary`).

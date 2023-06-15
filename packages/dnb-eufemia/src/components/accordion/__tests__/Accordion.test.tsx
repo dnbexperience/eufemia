@@ -15,12 +15,10 @@ import MatchMediaMock from 'jest-matchmedia-mock'
 
 new MatchMediaMock()
 
-const props = {
-  id: 'accordion',
-  variant: 'default',
+const props: AccordionProps = {
   no_animation: true,
   title: 'title',
-} as AccordionProps
+}
 
 describe('Accordion component', () => {
   it('has correct state after "click" trigger', () => {

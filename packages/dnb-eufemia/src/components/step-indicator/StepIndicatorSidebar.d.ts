@@ -7,7 +7,7 @@ export interface StepIndicatorSidebarProps
       StepIndicatorProps,
       'sidebar_id' | 'mode' | 'current_step' | 'data'
     >,
-    React.HTMLProps<HTMLElement> {
+    Omit<React.HTMLProps<HTMLAnchorElement>, 'ref'> {
   internalId?: string;
   showInitialData?: boolean;
 }

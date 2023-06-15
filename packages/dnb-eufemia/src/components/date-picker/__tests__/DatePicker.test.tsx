@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import DatePicker from '../DatePicker'
+import DatePicker, { DatePickerProps } from '../DatePicker'
 
 jest.setTimeout(30e3)
 
@@ -30,18 +30,13 @@ beforeEach(() => {
 
 describe('DatePicker component', () => {
   // for the integration tests
-  const defaultProps = {
-    id: 'date-picker-id',
+  const defaultProps: DatePickerProps = {
     no_animation: true,
     range: true,
     show_input: true,
     date: '1970-01-01T00:00:00.000Z',
     start_date: '2019-01-01T00:00:00.000Z',
     end_date: '2019-02-15T00:00:00.000Z',
-    status: 'status',
-    status_state: 'error',
-    status_props: null,
-    separatorRexExp: null,
   }
 
   it('has a disabled attribute, once we set disabled to true', () => {

@@ -4,13 +4,9 @@
  */
 
 import React from 'react'
-import {
-  fakeProps,
-  axeComponent,
-  loadScss,
-} from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { render, screen } from '@testing-library/react'
-import DrawerList from '../DrawerList'
+import DrawerList, { DrawerListProps } from '../DrawerList'
 
 import {
   mockImplementationForDirectionObserver,
@@ -20,10 +16,11 @@ import {
 mockImplementationForDirectionObserver()
 
 // use no_animation so we don't need to wait
-const mockProps = {
+const mockProps: DrawerListProps = {
   skip_portal: true,
 }
-const props = {
+
+const props: DrawerListProps = {
   id: 'drawer-list-id',
   value: 2,
   skip_portal: true,
@@ -117,13 +114,13 @@ describe('DrawerList component', () => {
         default_value={props.value}
         {...mockProps}
         title={title}
-        value={props.value + 1}
+        value={(props.value as number) + 1}
       />
     )
 
     // the selected option got a new position
     elem = document.querySelectorAll('.dnb-drawer-list__option')[
-      props.value + 1
+      (props.value as number) + 1
     ]
     expect(
       elem.classList.contains('dnb-drawer-list__option--selected')
@@ -215,7 +212,7 @@ describe('DrawerList component', () => {
     expect(on_select.mock.calls[1][0].selected_item).toBe(undefined)
     expect(on_select.mock.calls[1][0].active_item).toBe(3)
 
-    const selectedItem = mockData[props.value + 1]
+    const selectedItem = mockData[(props.value as number) + 1]
     expect(on_select.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
   })
 
@@ -294,7 +291,7 @@ describe('DrawerList component', () => {
     keydown(40) // down
     keydown(32) // space
 
-    selectedItem = mockData[props.value + 1]
+    selectedItem = mockData[(props.value as number) + 1]
     expect(on_change.mock.calls[0][0].data).toStrictEqual(selectedItem)
     expect(on_select.mock.calls[1][0].data).toStrictEqual(selectedItem)
 
@@ -323,7 +320,7 @@ describe('DrawerList component', () => {
     keydown(40) // down
     keydown(13) // enter
 
-    selectedItem = mockData[props.value + 2]
+    selectedItem = mockData[(props.value as number) + 2]
     expect(on_change.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
     expect(on_select.mock.calls[3][0].data).toStrictEqual(selectedItem) // second call!
   })
@@ -464,20 +461,14 @@ describe('DrawerList component', () => {
 
 describe('DrawerList markup', () => {
   it('should validate with ARIA rules', async () => {
-    const snapshotProps = {
-      ...fakeProps(require.resolve('../DrawerList'), {
-        all: true,
-        optional: true,
-      }),
+    const snapshotProps: DrawerListProps = {
       id: 'drawer-list-id',
       direction: 'bottom',
       value: 2,
       skip_portal: true,
       opened: true,
       no_animation: true,
-      prevent_selection: null,
       size: 'default',
-      align_drawer: null,
     }
 
     const CheckComponent = render(

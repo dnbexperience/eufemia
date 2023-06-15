@@ -4,16 +4,18 @@
  */
 
 import React from 'react'
-import { fakeProps, loadScss } from '../../../core/jest/jestSetup'
+import { loadScss } from '../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
-import Space from '../Space'
+import Space, { SpaceAllProps } from '../Space'
 
-const snapshotProps = fakeProps(require.resolve('../Space'))
-snapshotProps.id = 'space'
-snapshotProps.element = 'div'
-snapshotProps.no_collapse = false
+const props: SpaceAllProps = {}
 
 describe('Space component', () => {
+  it('renders with empty props', () => {
+    render(<Space {...props} />)
+    expect(document.querySelector('.dnb-space')).toBeTruthy()
+  })
+
   it('should have correct CSS classes', () => {
     render(<Space element="span" top="large" />)
     expect(

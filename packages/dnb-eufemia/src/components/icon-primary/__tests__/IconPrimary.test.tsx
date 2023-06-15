@@ -4,14 +4,13 @@
  */
 
 import React from 'react'
-import { fakeProps, axeComponent } from '../../../core/jest/jestSetup'
-import IconPrimary from '../IconPrimary'
+import { axeComponent } from '../../../core/jest/jestSetup'
+import IconPrimary, { IconPrimaryProps } from '../IconPrimary'
 import { render } from '@testing-library/react'
 
-const props = fakeProps(require.resolve('../IconPrimary'), {
-  optional: true,
-})
-props.icon = 'question'
+const props: IconPrimaryProps = {
+  icon: 'question',
+}
 
 describe('IconPrimary component', () => {
   it('has valid width and height prop', () => {

@@ -115,7 +115,8 @@ export type SpaceProps = {
   innerRef?: React.RefObject<HTMLElement>
 } & SpacingProps
 
-export type SpaceAllProps = SpaceProps & React.HTMLProps<HTMLElement>
+export type SpaceAllProps = SpaceProps &
+  Omit<React.HTMLProps<HTMLElement>, 'ref'>
 
 export default class Space extends React.PureComponent<
   SpaceAllProps | React.HTMLProps<HTMLElement>

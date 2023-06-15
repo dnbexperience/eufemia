@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import Badge from '../Badge'
+import Badge, { BadgeProps } from '../Badge'
 import { confetti as Confetti } from '../../../icons'
 import Icon from '../../Icon'
 import Avatar from '../../Avatar'
@@ -10,7 +10,8 @@ import { Provider } from '../../../shared'
 
 describe('Badge', () => {
   it('renders without properties', () => {
-    render(<Badge />)
+    const props: BadgeProps = {}
+    render(<Badge {...props} />)
 
     expect(document.querySelector('.dnb-badge')).not.toBeNull()
   })

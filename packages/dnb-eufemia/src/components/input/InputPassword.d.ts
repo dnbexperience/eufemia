@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { InputProps } from './Input';
 export interface InputPasswordProps
-  extends React.HTMLProps<HTMLElement>,
+  extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
     InputProps {
   show_password?: string;
   hide_password?: string;
