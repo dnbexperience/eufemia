@@ -180,6 +180,14 @@ export const AnchorExampleIcons = () => (
           Anchor with Icon left
         </Anchor>
       </Example>
+      <Example data-visual-test="anchor-icon-node">
+        <Anchor
+          href="/uilib/components/anchor"
+          icon={<IconPrimary icon="question" />}
+        >
+          Anchor with Icon left using a html/react element
+        </Anchor>
+      </Example>
       <Example data-visual-test="anchor-paragraph">
         <P>
           text
@@ -194,14 +202,6 @@ export const AnchorExampleIcons = () => (
           {' '}
           text
         </P>
-      </Example>
-      <Example data-visual-test="anchor-icon-node">
-        <Anchor
-          href="/uilib/components/anchor"
-          icon={<IconPrimary icon="question" />}
-        >
-          Anchor with Icon left using a html/react element
-        </Anchor>
       </Example>
     </ComponentBox>
   </Wrapper>
