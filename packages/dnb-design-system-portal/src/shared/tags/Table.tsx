@@ -4,12 +4,15 @@
  */
 
 import React from 'react'
+import styled from '@emotion/styled'
 import { Td } from '@dnb/eufemia/src'
 import { Table as TableElement } from '@dnb/eufemia/src/components'
 
-export function Sample({ children }) {
-  return children
-}
+const StyledTable = styled(TableElement)`
+  td {
+    white-space: nowrap;
+  }
+`
 
 export default function Table({ children }) {
   // make sure we get the table children
@@ -26,22 +29,17 @@ export default function Table({ children }) {
         if (checkChild.length === 0) {
           return null
         }
-        return child
       }
 
       if (child.type === 'td') {
         const tds = getChildren(child)
-        const foundSample = tds?.find((content) => {
-          return content.type?.name === 'Sample'
-        })
+        const hex = String(tds?.[0])
 
         // manipulate the colors, if provided
-        if (foundSample) {
-          const hex = foundSample.props.children?.[0]
-
+        if (hex.startsWith('#') && hex.length === 7) {
           return (
             <Td aria-hidden style={prepareStyleWithSameColor(hex)}>
-              {foundSample}
+              {hex}
             </Td>
           )
         }
@@ -51,7 +49,11 @@ export default function Table({ children }) {
     }
   )
 
-  return <TableElement>{children}</TableElement>
+  return (
+    <TableElement.ScrollView>
+      <StyledTable>{children}</StyledTable>
+    </TableElement.ScrollView>
+  )
 }
 
 function getChildren(children: ChildrenWithChildren) {
