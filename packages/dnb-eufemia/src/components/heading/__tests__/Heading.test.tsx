@@ -4,13 +4,13 @@
  */
 
 import React from 'react'
-import {
-  mount,
-  axeComponent,
-  loadScss,
-} from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
-import Heading, { resetLevels, setNextLevel } from '../Heading'
+import Heading, {
+  resetLevels,
+  setNextLevel,
+  HeadingProps,
+} from '../Heading'
 
 import H3 from '../../../elements/H3'
 
@@ -62,6 +62,13 @@ class StateChanges extends React.PureComponent {
 }
 
 describe('Heading component', () => {
+  it('renders with empty props', () => {
+    const props: HeadingProps = {}
+    render(<Heading {...props} />)
+
+    expect(document.querySelector('.dnb-heading')).toBeTruthy()
+  })
+
   it('have to match level correction', () => {
     render(
       <React.StrictMode>
@@ -503,7 +510,7 @@ let gComp
 function makeComp() {
   gComp =
     gComp ||
-    mount(
+    render(
       <React.StrictMode>
         <Heading.Level debug={warn} reset={1}>
           <Heading>Heading #1</Heading>
