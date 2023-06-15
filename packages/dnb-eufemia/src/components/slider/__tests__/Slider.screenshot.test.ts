@@ -45,6 +45,7 @@ describe('Slider', () => {
     const screenshot = await makeScreenshot({
       style: { width: '20rem', 'padding-top': '3rem' },
       selector: '[data-visual-test="slider-default"] .dnb-slider__wrapper',
+      waitAfterSimulate: 100,
       simulateSelector:
         '[data-visual-test="slider-default"] .dnb-slider__thumb .dnb-slider__button-helper',
       simulate: 'active',
