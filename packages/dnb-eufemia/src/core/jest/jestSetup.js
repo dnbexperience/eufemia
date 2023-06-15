@@ -4,13 +4,12 @@
  */
 
 import { axe, toHaveNoViolations } from 'jest-axe'
-import { mount, render } from './enzyme'
 import fs from 'fs-extra'
 import path from 'path'
 import sass from 'sass'
 import { toBeType } from 'jest-tobetype'
 
-export { mount, render, axe, toHaveNoViolations }
+export { axe, toHaveNoViolations }
 
 expect.extend({ toBeType })
 expect.extend(toHaveNoViolations)
