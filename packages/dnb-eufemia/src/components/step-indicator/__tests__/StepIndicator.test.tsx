@@ -42,7 +42,7 @@ const stepIndicatorListData: StepIndicatorData = [
 
 describe('StepIndicator Sidebar', () => {
   it('renders with empty props', () => {
-    const props: StepIndicatorSidebarProps = {}
+    const props: StepIndicatorSidebarProps = { sidebar_id: 'id' }
     render(
       <Provider StepIndicator={{ data: ['one', 'two', 'three'] }}>
         <StepIndicator.Sidebar {...props} />
@@ -127,10 +127,10 @@ describe('StepIndicator Sidebar', () => {
 
 describe('StepIndicator in general', () => {
   it('renders with empty props', () => {
-    const id = 'unique-id-spacing'
+    const sidebar_id = 'unique-id-spacing'
 
-    const sidebarProps: StepIndicatorSidebarProps = { id }
-    const stepIndicatorProps: StepIndicatorProps = { sidebar_id: id }
+    const sidebarProps: StepIndicatorSidebarProps = { sidebar_id }
+    const stepIndicatorProps: StepIndicatorProps = { sidebar_id }
     render(
       <>
         <StepIndicator.Sidebar {...sidebarProps} />
