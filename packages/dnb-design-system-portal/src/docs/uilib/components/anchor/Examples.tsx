@@ -148,11 +148,8 @@ export const AnchorExampleHelperClasses = () => (
       <Example>
         <button className="dnb-anchor">I'm a Button!</button>
       </Example>
-      <Example data-visual-test="anchor-contrast">
-        <Anchor
-          href="/uilib/components/anchor"
-          data-visual-test="anchor-newline"
-        >
+      <Example data-visual-test="anchor-newline">
+        <Anchor href="/uilib/components/anchor">
           Newline <br />
           Newline
         </Anchor>
