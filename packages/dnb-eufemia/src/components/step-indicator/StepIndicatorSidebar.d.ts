@@ -3,13 +3,11 @@ import type { SpacingProps } from '../../shared/types';
 import type { StepIndicatorProps } from './StepIndicator';
 export interface StepIndicatorSidebarProps
   extends SpacingProps,
-    Pick<
-      StepIndicatorProps,
-      'sidebar_id' | 'mode' | 'current_step' | 'data'
-    >,
+    Pick<StepIndicatorProps, 'mode' | 'current_step' | 'data'>,
     Omit<React.HTMLProps<HTMLAnchorElement>, 'ref'> {
   internalId?: string;
   showInitialData?: boolean;
+  sidebar_id: string;
 }
 export default class StepIndicatorSidebar extends React.Component<
   StepIndicatorSidebarProps,
