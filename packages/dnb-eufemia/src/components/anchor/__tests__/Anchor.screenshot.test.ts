@@ -59,9 +59,6 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
   it('have to match anchor with paragraph', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-paragraph"]',
-      matchConfig: {
-        failureThreshold: 0.0013,
-      },
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -69,9 +66,6 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
   it('have to match anchor in heading', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-heading"]',
-      matchConfig: {
-        failureThreshold: 0.0016,
-      },
     })
     expect(screenshot).toMatchImageSnapshot()
   })
