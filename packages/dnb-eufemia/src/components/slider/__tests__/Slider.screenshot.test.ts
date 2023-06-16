@@ -29,6 +29,7 @@ describe('Slider', () => {
       simulateSelector:
         '[data-visual-test="slider-default"] .dnb-slider__thumb .dnb-slider__button-helper',
       simulate: 'hover',
+      waitAfterSimulate: 50,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -40,6 +41,7 @@ describe('Slider', () => {
       simulateSelector:
         '[data-visual-test="slider-default"] .dnb-slider__thumb .dnb-slider__button-helper',
       simulate: 'focus',
+      waitAfterSimulate: 50,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -51,6 +53,7 @@ describe('Slider', () => {
       simulateSelector:
         '[data-visual-test="slider-default"] .dnb-slider__thumb .dnb-slider__button-helper',
       simulate: 'active',
+      waitAfterSimulate: 50,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
