@@ -3,6 +3,34 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.1.0](https://github.com/dnbexperience/eufemia/compare/v10.0.0...v10.1.0) (2023-06-16)
+
+
+### :barber: Style Changes
+
+* **Button:** remove tertiary button padding sbanken ([#2422](https://github.com/dnbexperience/eufemia/issues/2422)) ([cc9a18b](https://github.com/dnbexperience/eufemia/commit/cc9a18b4d2664c81aacb3d9ae017d8ecb8bff14f))
+
+
+### :sparkles: Features
+
+* added icons accounting, candle_stick, fortune_ball and scan ([#2424](https://github.com/dnbexperience/eufemia/issues/2424)) ([47ef4b0](https://github.com/dnbexperience/eufemia/commit/47ef4b03efaab3f974f8516d8f7a171776672b78))
+* **Portal:** copy color values to the clipboard ([#2427](https://github.com/dnbexperience/eufemia/issues/2427)) ([c570e51](https://github.com/dnbexperience/eufemia/commit/c570e519d5fd8b2c59d1de0909d1f93b0d63530e))
+* **Portal:** copy icon name to clipboard ([3c1944c](https://github.com/dnbexperience/eufemia/commit/3c1944ce9a5ccccc1b1a0a72cf03d139db7ba45b))
+
+
+### :memo: Documentation
+
+* **v10:** improves docs of Modal migration ([#2446](https://github.com/dnbexperience/eufemia/issues/2446)) ([d78d940](https://github.com/dnbexperience/eufemia/commit/d78d940d759c90062c1782109f8c3de4915bee27))
+
+
+### :bug: Bug Fixes
+
+* **Autocomplete:** fix stretched form status when using suffix ([#2455](https://github.com/dnbexperience/eufemia/issues/2455)) ([5518728](https://github.com/dnbexperience/eufemia/commit/5518728c857f5b9ac92eb522b89700da91efa3be))
+* **Icons:** fix broken Android icons ([#2391](https://github.com/dnbexperience/eufemia/issues/2391)) ([ea12f23](https://github.com/dnbexperience/eufemia/commit/ea12f2348b2cbb5dba935f79aac4bf61eb1c1049))
+* **Icons:** remove left-over icon types (TypeScript) ([#2476](https://github.com/dnbexperience/eufemia/issues/2476)) ([80d3dac](https://github.com/dnbexperience/eufemia/commit/80d3dac502229fb8aca79aaa214432dac9b92065))
+* include themed style in `ui-theme-tags` CSS package ([#2383](https://github.com/dnbexperience/eufemia/issues/2383)) ([d24c10d](https://github.com/dnbexperience/eufemia/commit/d24c10d4032c6138db01f4e3fce5c552a31061ac))
+* **InputMasked:** make `inner_ref` work when provided as a function ([#2461](https://github.com/dnbexperience/eufemia/issues/2461)) ([5f59c50](https://github.com/dnbexperience/eufemia/commit/5f59c504eade4f43be226a2d7f1cbee2da9b45f6))
+
 ## [10.0.0](https://github.com/dnbexperience/eufemia/compare/v9.47.6...v10.0.0) (2023-06-01)
 
 
