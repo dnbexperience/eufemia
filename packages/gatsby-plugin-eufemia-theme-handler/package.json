@@ -30,8 +30,8 @@
   },
   "peerDependencies": {
     "@dnb/eufemia": ">=9",
-    "react": ">=17",
-    "gatsby": ">=3"
+    "gatsby": ">=3",
+    "react": ">=17"
   },
   "publishConfig": {
     "access": "public"

@@ -18332,6 +18332,10 @@ __metadata:
     micromatch: 4.0.5
     raw-loader: 4.0.2
     terser-loader: 2.0.2
+  peerDependencies:
+    "@dnb/eufemia": ">=9"
+    gatsby: ">=3"
+    react: ">=17"
   languageName: unknown
   linkType: soft
 
