@@ -92,11 +92,6 @@
     color: var(--color-sea-green);
     background-color: transparent;
 
-    &.dnb-button--has-text {
-      padding-left: 0;
-      padding-right: 0;
-    }
-
     @include hover() {
       // underline
       .dnb-button__text::after {

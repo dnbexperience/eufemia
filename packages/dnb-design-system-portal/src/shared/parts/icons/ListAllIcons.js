@@ -12,6 +12,7 @@ import * as PrimaryIconsMedium from '@dnb/eufemia/src/icons/dnb/primary_icons_me
 import * as SecondaryIconsMedium from '@dnb/eufemia/src/icons/dnb/secondary_icons_medium'
 import iconsMetaData from '@dnb/eufemia/src/icons/dnb/icons-meta.json'
 import AutoLinkHeader from '../../tags/AutoLinkHeader'
+import Copy from '../../tags/Copy'
 import {
   listStyle,
   listItemStyle,
@@ -115,7 +116,9 @@ export default class ListAllIcons extends React.PureComponent {
               element="figcaption"
               useSlug={iconName}
             >
-              {iconName}
+              <Copy>
+                  {iconName}
+              </Copy>
             </AutoLinkHeader>
 
             <P>{tags.length > 0 ? tags.join(', ') : '(no tags)'}</P>

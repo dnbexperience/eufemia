@@ -1,10 +1,11 @@
 import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
-import Breadcrumb, { BreadcrumbItem } from '../Breadcrumb'
+import Breadcrumb, { BreadcrumbItem, BreadcrumbProps } from '../Breadcrumb'
 import { Provider } from '../../../shared'
 import MatchMediaMock from 'jest-matchmedia-mock'
 import IconPrimary from '../../icon-primary/IconPrimary'
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
+import { BreadcrumbItemProps } from '../BreadcrumbItem'
 
 const matchMedia = new MatchMediaMock()
 
@@ -14,7 +15,8 @@ beforeEach(() => {
 
 describe('Breadcrumb', () => {
   it('renders without properties', () => {
-    render(<Breadcrumb />)
+    const props: BreadcrumbProps = {}
+    render(<Breadcrumb {...props} />)
 
     expect(screen.queryByRole('button')).not.toBeNull()
   })
@@ -233,6 +235,13 @@ describe('Breadcrumb', () => {
   })
 
   describe('BreadcrumbItem', () => {
+    it('renders without properties', () => {
+      const props: BreadcrumbItemProps = {}
+      render(<BreadcrumbItem {...props} />)
+
+      expect(screen.queryByRole('listitem')).not.toBeNull()
+    })
+
     it('renders breadcrumbitem as a link', () => {
       render(<BreadcrumbItem href="/url" text="Page" />)
 

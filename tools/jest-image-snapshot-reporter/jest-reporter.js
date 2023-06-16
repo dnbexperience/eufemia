@@ -154,6 +154,14 @@ class JestReporter {
         a.diff:hover {
           border-color: var(--color-sea-green);
         }
+
+        a.diff:focus-visible {
+          outline: none;
+          box-shadow: none;
+          transform: scale(2) translate3d(25%, 25%, 0);
+          position: relative;
+          z-index: 1;
+        }
       </style>
     </head>
     

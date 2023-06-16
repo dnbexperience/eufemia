@@ -415,7 +415,6 @@ export default function FormRowVisualTests() {
       <VisualTestVerticalEverything />
       <VisualTestLabelDirection />
       <VisualTestVerticalLabelDirectionNoLabels />
-      <VisualTestVerticalLabelDirectionNoLabels />
       <VisualTestAllStretch />
       <VisualTestHorizontalCentered />
     </TestStyles>

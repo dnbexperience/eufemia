@@ -42,3 +42,20 @@ describe.each(['ui', 'sbanken'])('Paragraph for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 })
+
+describe.each(['ui', 'sbanken'])(
+  'Paragraph for %s',
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/elements/paragraph',
+    })
+
+    it('matches all sizes and weights', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="paragraph-sizes"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+  }
+)

@@ -1,16 +1,11 @@
 /**
- * Component Test
+ * PaymentCard Test
  *
  */
 
 import React from 'react'
-import {
-  mount,
-  axeComponent,
-  toJson,
-  loadScss,
-} from '../../../core/jest/jestSetup'
-import Component, {
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import PaymentCard, {
   Designs,
   ProductType,
   CardType,
@@ -40,59 +35,53 @@ const defaultProps: PaymentCardProps = {
 }
 
 describe('PaymentCard', () => {
-  const Comp = mount(<Component {...defaultProps} />)
-
-  it('have to match snapshot', () => {
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
   it('has to have a figcaption', () => {
-    render(<Component {...defaultProps} />)
+    render(<PaymentCard {...defaultProps} />)
 
     expect(screen.queryByText('DNB Kortet')).toBeTruthy()
     expect(screen.queryByText('DNB Kortet').tagName).toEqual('FIGCAPTION')
   })
 
   it('has a valid title in SVG', () => {
-    render(<Component {...defaultProps} />)
+    render(<PaymentCard {...defaultProps} />)
 
     expect(screen.queryByText('DNB logo')).toBeTruthy()
     expect(screen.queryByText('DNB logo').tagName).toEqual('title')
   })
 
   it('has a correct formatted card number', () => {
-    render(<Component {...defaultProps} />)
+    render(<PaymentCard {...defaultProps} />)
 
     expect(screen.queryByText('**** **** **** 1337')).toBeTruthy()
   })
 
   it('has a correct label', () => {
-    render(<Component {...defaultProps} />)
+    render(<PaymentCard {...defaultProps} />)
 
     expect(screen.queryByText(nb.text_card_number)).toBeTruthy()
   })
 
   it('has correct expired status', () => {
-    render(<Component {...defaultProps} card_status="expired" />)
+    render(<PaymentCard {...defaultProps} card_status="expired" />)
 
     expect(screen.queryByText(nb.text_expired)).toBeTruthy()
   })
 
   it('has correct blocked status', () => {
-    render(<Component {...defaultProps} card_status="blocked" />)
+    render(<PaymentCard {...defaultProps} card_status="blocked" />)
 
     expect(screen.queryByText(nb.text_blocked)).toBeTruthy()
   })
 
   it('reacts to locale change', () => {
-    const { rerender } = render(<Component {...defaultProps} />)
+    const { rerender } = render(<PaymentCard {...defaultProps} />)
 
     expect(screen.queryByText(nb.text_card_number)).toBeTruthy()
 
-    rerender(<Component {...defaultProps} locale="en-GB" />)
+    rerender(<PaymentCard {...defaultProps} locale="en-GB" />)
     expect(screen.queryByText(en.text_card_number)).toBeTruthy()
 
-    rerender(<Component {...defaultProps} locale="nb-NO" />)
+    rerender(<PaymentCard {...defaultProps} locale="nb-NO" />)
     expect(screen.queryByText(nb.text_card_number)).toBeTruthy()
   })
 
@@ -108,7 +97,7 @@ describe('PaymentCard', () => {
     }
 
     render(
-      <Component
+      <PaymentCard
         product_code="UNDEFINED"
         raw_data={customData}
         variant="compact"
@@ -126,6 +115,7 @@ describe('PaymentCard', () => {
   })
 
   it('should validate with ARIA rules', async () => {
+    const Comp = render(<PaymentCard {...defaultProps} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })

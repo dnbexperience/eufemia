@@ -12,6 +12,8 @@ import account_out from './dnb/account_out'
 import account_out_medium from './dnb/account_out_medium'
 import account_percent from './dnb/account_percent'
 import account_percent_medium from './dnb/account_percent_medium'
+import accounting from './dnb/accounting'
+import accounting_medium from './dnb/accounting_medium'
 import add from './dnb/add'
 import add_circled from './dnb/add_circled'
 import add_circled_medium from './dnb/add_circled_medium'
@@ -82,6 +84,8 @@ import camera from './dnb/camera'
 import camera_medium from './dnb/camera_medium'
 import camper_trailer from './dnb/camper_trailer'
 import camper_trailer_medium from './dnb/camper_trailer_medium'
+import candle_stick from './dnb/candle_stick'
+import candle_stick_medium from './dnb/candle_stick_medium'
 import car_1 from './dnb/car_1'
 import car_1_medium from './dnb/car_1_medium'
 import car_2 from './dnb/car_2'
@@ -168,30 +172,6 @@ import digipost from './dnb/digipost'
 import digipost_medium from './dnb/digipost_medium'
 import dismiss_keyboard from './dnb/dismiss_keyboard'
 import dismiss_keyboard_medium from './dnb/dismiss_keyboard_medium'
-import document from './dnb/document'
-import document_add from './dnb/document_add'
-import document_add_medium from './dnb/document_add_medium'
-import document_contract from './dnb/document_contract'
-import document_contract_medium from './dnb/document_contract_medium'
-import document_csv from './dnb/document_csv'
-import document_csv_medium from './dnb/document_csv_medium'
-import document_loupe from './dnb/document_loupe'
-import document_loupe_medium from './dnb/document_loupe_medium'
-import document_medium from './dnb/document_medium'
-import document_pdf from './dnb/document_pdf'
-import document_pdf_medium from './dnb/document_pdf_medium'
-import document_rejected from './dnb/document_rejected'
-import document_rejected_medium from './dnb/document_rejected_medium'
-import document_signing from './dnb/document_signing'
-import document_signing_medium from './dnb/document_signing_medium'
-import document_txt from './dnb/document_txt'
-import document_txt_medium from './dnb/document_txt_medium'
-import document_warning from './dnb/document_warning'
-import document_warning_medium from './dnb/document_warning_medium'
-import document_word from './dnb/document_word'
-import document_word_medium from './dnb/document_word_medium'
-import document_xls from './dnb/document_xls'
-import document_xls_medium from './dnb/document_xls_medium'
 import dog from './dnb/dog'
 import dog_medium from './dnb/dog_medium'
 import download from './dnb/download'
@@ -260,6 +240,8 @@ import flying_money from './dnb/flying_money'
 import flying_money_medium from './dnb/flying_money_medium'
 import folder from './dnb/folder'
 import folder_medium from './dnb/folder_medium'
+import fortune_ball from './dnb/fortune_ball'
+import fortune_ball_medium from './dnb/fortune_ball_medium'
 import fridge from './dnb/fridge'
 import fridge_medium from './dnb/fridge_medium'
 import fullscreen from './dnb/fullscreen'
@@ -456,6 +438,8 @@ import savings_account_in_medium from './dnb/savings_account_in_medium'
 import savings_account_medium from './dnb/savings_account_medium'
 import savings_account_out from './dnb/savings_account_out'
 import savings_account_out_medium from './dnb/savings_account_out_medium'
+import scan from './dnb/scan'
+import scan_medium from './dnb/scan_medium'
 import scissors from './dnb/scissors'
 import scissors_medium from './dnb/scissors_medium'
 import scooter from './dnb/scooter'
@@ -562,6 +546,8 @@ export {
   account_out_medium,
   account_percent,
   account_percent_medium,
+  accounting,
+  accounting_medium,
   add,
   add_circled,
   add_circled_medium,
@@ -632,6 +618,8 @@ export {
   camera_medium,
   camper_trailer,
   camper_trailer_medium,
+  candle_stick,
+  candle_stick_medium,
   car_1,
   car_1_medium,
   car_2,
@@ -718,30 +706,6 @@ export {
   digipost_medium,
   dismiss_keyboard,
   dismiss_keyboard_medium,
-  document,
-  document_add,
-  document_add_medium,
-  document_contract,
-  document_contract_medium,
-  document_csv,
-  document_csv_medium,
-  document_loupe,
-  document_loupe_medium,
-  document_medium,
-  document_pdf,
-  document_pdf_medium,
-  document_rejected,
-  document_rejected_medium,
-  document_signing,
-  document_signing_medium,
-  document_txt,
-  document_txt_medium,
-  document_warning,
-  document_warning_medium,
-  document_word,
-  document_word_medium,
-  document_xls,
-  document_xls_medium,
   dog,
   dog_medium,
   download,
@@ -810,6 +774,8 @@ export {
   flying_money_medium,
   folder,
   folder_medium,
+  fortune_ball,
+  fortune_ball_medium,
   fridge,
   fridge_medium,
   fullscreen,
@@ -1006,6 +972,8 @@ export {
   savings_account_medium,
   savings_account_out,
   savings_account_out_medium,
+  scan,
+  scan_medium,
   scissors,
   scissors_medium,
   scooter,

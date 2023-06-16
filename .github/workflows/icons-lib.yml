@@ -76,7 +76,7 @@ jobs:
         run: yarn workspace @dnb/eufemia postbuild:commit
 
   visual-test:
-    name: Icons Visual Test
+    name: Run visual e2e-test for icons
 
     runs-on: macos-latest
 
@@ -129,7 +129,7 @@ jobs:
           channel: '#eufemia-dev'
           status: ${{ job.status }}
           fields: author,ref,workflow,job,took
-          job_name: Icons Visual Test
+          job_name: Run visual e2e-test for icons
           github_base_url: https://github.com/
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}

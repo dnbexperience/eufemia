@@ -1,20 +1,16 @@
 /**
- * Component Test
+ * Skeleton Test
  *
  */
 
 import React from 'react'
-import {
-  mount,
-  axeComponent,
-  toJson,
-  loadScss,
-} from '../../../core/jest/jestSetup'
-import Component from '../Skeleton'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import Skeleton, { SkeletonProps } from '../Skeleton'
 import Input from '../../input/Input'
 import P from '../../../elements/P'
+import { render } from '@testing-library/react'
 
-const props = {
+const props: SkeletonProps = {
   children: (
     <>
       <P>paragraph</P>
@@ -26,20 +22,15 @@ const props = {
 }
 
 describe('Skeleton component', () => {
-  const Comp = mount(<Component {...props} />)
-
-  // compare the snapshot
-  it('have to match snapshot', () => {
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
   it('has to use the provider to enable a skeleton in a component', () => {
-    expect(Comp.find('.dnb-input .dnb-skeleton').exists()).toBe(false)
-    Comp.setProps({ show: true })
-    expect(Comp.find('.dnb-input .dnb-skeleton').exists()).toBe(true)
+    const { rerender } = render(<Skeleton {...props} />)
+    expect(document.querySelector('.dnb-input .dnb-skeleton')).toBeFalsy()
+    rerender(<Skeleton {...props} show={true} />)
+    expect(document.querySelector('.dnb-input .dnb-skeleton')).toBeTruthy()
   })
 
   it('should validate with ARIA rules', async () => {
+    const Comp = render(<Skeleton {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })

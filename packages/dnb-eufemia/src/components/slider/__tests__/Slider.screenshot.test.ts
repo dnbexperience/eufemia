@@ -19,17 +19,9 @@ describe('Slider', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the focus state', async () => {
-    const screenshot = await makeScreenshot({
-      style: { width: '20rem', 'padding-top': '3rem' },
-      selector: '[data-visual-test="slider-default"] .dnb-slider__wrapper',
-      simulateSelector:
-        '[data-visual-test="slider-default"] .dnb-slider__thumb .dnb-slider__button-helper',
-      simulate: 'focus',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
+  /**
+   * NB: "hover" needs to come before "focus"!
+   */
   it('have to match the hover state', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '20rem', 'padding-top': '3rem' },
@@ -37,6 +29,17 @@ describe('Slider', () => {
       simulateSelector:
         '[data-visual-test="slider-default"] .dnb-slider__thumb .dnb-slider__button-helper',
       simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match the focus state', async () => {
+    const screenshot = await makeScreenshot({
+      style: { width: '20rem', 'padding-top': '3rem' },
+      selector: '[data-visual-test="slider-default"] .dnb-slider__wrapper',
+      simulateSelector:
+        '[data-visual-test="slider-default"] .dnb-slider__thumb .dnb-slider__button-helper',
+      simulate: 'focus',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

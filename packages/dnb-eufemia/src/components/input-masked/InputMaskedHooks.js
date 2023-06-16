@@ -206,15 +206,21 @@ export const useMaskParams = () => {
  */
 export const useInputElement = () => {
   const { props } = React.useContext(InputMaskedContext)
-
-  const { pipe } = props
+  const { pipe, inner_ref } = props
 
   const mask = useMask()
   const { showMask, showGuide, placeholderChar, keepCharPositions } =
     useMaskParams()
 
-  const _ref = React.useRef()
-  const ref = props?.inner_ref || _ref
+  const isFn = typeof inner_ref === 'function'
+  const refHook = React.useRef()
+  const ref = (!isFn && inner_ref) || refHook
+
+  React.useLayoutEffect(() => {
+    if (isFn) {
+      inner_ref?.(ref.current)
+    }
+  }, [ref.current])
 
   // Create the actual input element
   const inputElementRef = React.useRef(<input ref={ref} />)

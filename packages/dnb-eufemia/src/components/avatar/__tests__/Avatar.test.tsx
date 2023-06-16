@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import Avatar from '../Avatar'
+import Avatar, { AvatarImgProps, AvatarProps } from '../Avatar'
 import { confetti as Confetti } from '../../../icons'
 import Icon from '../../Icon'
 
@@ -8,9 +8,10 @@ import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
 import { Provider } from '../../../shared'
 
 describe('Avatar', () => {
+  const props: AvatarProps = {}
   it('renders without properties', () => {
     render(
-      <Avatar.Group label="label">
+      <Avatar.Group {...props} label="label">
         <Avatar />
       </Avatar.Group>
     )
@@ -92,7 +93,7 @@ describe('Avatar', () => {
     const img_width = '48'
     const img_height = '48'
     const img_alt = 'custom_alt_label'
-    const imgProps = {
+    const imgProps: AvatarImgProps = {
       width: img_width,
       height: img_height,
       src: img_src,

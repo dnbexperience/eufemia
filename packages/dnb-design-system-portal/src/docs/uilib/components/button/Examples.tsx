@@ -108,7 +108,7 @@ export const ButtonTertiary = () => (
       text={<span>Text inside additional span</span>}
       icon_position="left"
       icon="chevron_left"
-      right="1rem"
+      left
     />
   </ComponentBox>
 )

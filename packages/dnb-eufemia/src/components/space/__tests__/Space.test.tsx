@@ -1,40 +1,34 @@
 /**
- * Component Test
+ * Space Test
  *
  */
 
 import React from 'react'
-import {
-  mount,
-  fakeProps,
-  toJson,
-  loadScss,
-} from '../../../core/jest/jestSetup'
+import { loadScss } from '../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
-import Component from '../Space'
+import Space, { SpaceAllProps } from '../Space'
 
-const snapshotProps = fakeProps(require.resolve('../Space'))
-snapshotProps.id = 'space'
-snapshotProps.element = 'div'
-snapshotProps.no_collapse = false
+const props: SpaceAllProps = {}
 
 describe('Space component', () => {
-  it('have to match snapshot', () => {
-    const Comp = mount(<Component {...snapshotProps} />)
-    expect(toJson(Comp)).toMatchSnapshot()
+  it('renders with empty props', () => {
+    render(<Space {...props} />)
+    expect(document.querySelector('.dnb-space')).toBeTruthy()
   })
 
   it('should have correct CSS classes', () => {
-    const Comp = mount(<Component element="span" top="large" />)
+    render(<Space element="span" top="large" />)
     expect(
-      Comp.find('span.dnb-space').hasClass('dnb-space__top--large')
+      document
+        .querySelector('span.dnb-space')
+        .classList.contains('dnb-space__top--large')
     ).toBe(true)
   })
 
   it('should accept space only prop', () => {
-    const Comp = mount(<Component element="span" space="large" />)
+    render(<Space element="span" space="large" />)
     expect(
-      Object.values(Comp.find('span.dnb-space').instance().classList)
+      Object.values(document.querySelector('span.dnb-space').classList)
     ).toEqual([
       'dnb-space',
       'dnb-space__top--large',
@@ -45,8 +39,8 @@ describe('Space component', () => {
   })
 
   it('should accept space prop as an object with spacing properties', () => {
-    const Comp = mount(
-      <Component
+    render(
+      <Space
         element="span"
         space={{
           top: 'x-large',
@@ -57,7 +51,7 @@ describe('Space component', () => {
       />
     )
     expect(
-      Object.values(Comp.find('span.dnb-space').instance().classList)
+      Object.values(document.querySelector('span.dnb-space').classList)
     ).toEqual([
       'dnb-space',
       'dnb-space__top--x-large',
@@ -68,7 +62,7 @@ describe('Space component', () => {
   })
 
   it('should accept id attribute', () => {
-    render(<Component id="custom-id" />)
+    render(<Space id="custom-id" />)
 
     const element = document.querySelector('div.dnb-space')
     const attributes = Array.from(element.attributes).map(
@@ -80,8 +74,8 @@ describe('Space component', () => {
   })
 
   it('should have collapse CSS class', () => {
-    const Comp = mount(<Component top="large" no_collapse={true} />)
-    expect(Comp.find('.dnb-space--no-collapse').exists()).toBe(true)
+    render(<Space top="large" no_collapse={true} />)
+    expect(document.querySelector('.dnb-space--no-collapse')).toBeTruthy()
   })
 })
 

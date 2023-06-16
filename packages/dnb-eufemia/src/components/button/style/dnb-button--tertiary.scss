@@ -52,6 +52,9 @@
     }
 
     &.dnb-button--has-text {
+      padding-left: 0;
+      padding-right: 0;
+
       .dnb-button__icon {
         align-self: flex-start; // needed to vertically center icon
 

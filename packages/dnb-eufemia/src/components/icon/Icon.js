@@ -433,7 +433,7 @@ export const prerenderIcon = ({
     )[icon]
     return mod && mod.default ? mod.default : mod
   } catch (e) {
-    new ErrorHandler(`Icon '${icon}' did not exist!`)
+    ErrorHandler(`Icon '${icon}' did not exist!`)
     return null
   }
 }

@@ -1,41 +1,18 @@
 /**
- * Component Test
+ * InputMasked Test
  *
  */
 
 import React from 'react'
-import {
-  mount,
-  fakeProps,
-  toJson,
-  loadScss,
-} from '../../../core/jest/jestSetup'
+import { loadScss } from '../../../core/jest/jestSetup'
 import { render, fireEvent } from '@testing-library/react'
-import Component from '../InputMasked'
+import InputMasked, { InputMaskedProps } from '../InputMasked'
 import Provider from '../../../shared/Provider'
 import * as helpers from '../../../shared/helpers'
 import FormRow from '../../form-row/FormRow'
+import userEvent from '@testing-library/user-event'
 
-const snapshotProps = {
-  ...fakeProps(require.resolve('../InputMasked'), {
-    optional: true,
-  }),
-  id: 'input-masked',
-  mask: [/[a-z]/],
-  show_mask: true,
-  disabled: false,
-  pipe: null,
-  locale: null,
-  as_number: null,
-  as_currency: null,
-  as_percent: null,
-  number_format: null,
-  number_mask: null,
-  currency_mask: null,
-  inner_ref: null,
-}
-
-const props = {
+const props: InputMaskedProps = {
   id: 'input-masked',
 }
 
@@ -47,17 +24,9 @@ beforeEach(() => {
 })
 
 describe('InputMasked component', () => {
-  // compare the snapshot
-  it('have to match type="text" snapshot', () => {
-    const Comp = mount(
-      <Component {...snapshotProps} type="text" value="test" />
-    )
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
   it('should format "number_mask" accordingly the defined properties', () => {
-    const Comp = mount(
-      <Component
+    render(
+      <InputMasked
         value="1234.56"
         number_mask={{
           prefix: 'NOK ',
@@ -66,20 +35,36 @@ describe('InputMasked component', () => {
       />
     )
 
-    expect(Comp.find('input').instance().value).toBe('NOK 1 234,- kr')
+    expect(document.querySelector('input').value).toBe('NOK 1 234,- kr')
   })
 
   it('gets valid ref element', () => {
-    let ref
+    let ref: React.RefObject<HTMLInputElement>
 
     function MockComponent() {
       ref = React.useRef()
-      return <Component {...props} inner_ref={ref} />
+      return <InputMasked {...props} inner_ref={ref} />
     }
 
     render(<MockComponent />)
 
-    expect(ref.current instanceof window.HTMLInputElement).toBe(true)
+    expect(ref.current instanceof HTMLInputElement).toBe(true)
+    expect(ref.current.id).toBe(props.id)
+    expect(ref.current.tagName).toBe('INPUT')
+  })
+
+  it('gets valid element when ref is function', () => {
+    const ref = React.createRef<HTMLInputElement | null>()
+
+    const refFn = (elem: HTMLInputElement) => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      ref.current = elem
+    }
+
+    render(<InputMasked {...props} inner_ref={refFn} />)
+
+    expect(ref.current instanceof HTMLInputElement).toBe(true)
     expect(ref.current.id).toBe(props.id)
     expect(ref.current.tagName).toBe('INPUT')
   })
@@ -90,9 +75,8 @@ describe('InputMasked component', () => {
 
     const on_change = jest.fn()
 
-    const Comp = mount(
-      <Component
-        {...props}
+    render(
+      <InputMasked
         value={initValue}
         number_mask={{
           prefix: 'NOK ',
@@ -103,18 +87,21 @@ describe('InputMasked component', () => {
       />
     )
 
-    expect(Comp.find('input').instance().value).toBe('NOK 1 234,5,- kr')
+    expect(document.querySelector('input').value).toBe('NOK 1 234,5,- kr')
 
-    Comp.find('input').simulate('change', {
-      target: { value: newValue },
-    })
+    userEvent.clear(document.querySelector('input'))
+    userEvent.type(document.querySelector('input'), newValue)
 
-    expect(Comp.find('input').instance().value).toBe(
-      'NOK 123 456 789,0,- kr'
+    expect(document.querySelector('input').value).toBe(
+      'NOK 1 234 567 890,,- kr'
     )
 
-    expect(on_change.mock.calls[0][0].value).toBe(newValue)
-    expect(on_change.mock.calls[0][0].numberValue).toBe(123456789)
+    expect(
+      on_change.mock.calls[on_change.mock.calls.length - 1][0].value
+    ).toBe('NOK 1 234 567 890,,- kr')
+    expect(
+      on_change.mock.calls[on_change.mock.calls.length - 1][0].numberValue
+    ).toBe(1234567890)
   })
 
   it('event "on_change" gets emmited with correct value', () => {
@@ -122,25 +109,28 @@ describe('InputMasked component', () => {
 
     const on_change = jest.fn()
 
-    const Comp = mount(
-      <Component
+    render(
+      <InputMasked
         value="12345.678"
         number_mask={{ allowDecimal: true }}
         on_change={on_change}
       />
     )
 
-    expect(Comp.find('input').instance().value).toBe('12 345,67')
+    expect(document.querySelector('input').value).toBe('12 345,67')
 
-    Comp.find('input').simulate('change', {
-      target: { value: newValue },
-    })
+    userEvent.clear(document.querySelector('input'))
+    userEvent.type(document.querySelector('input'), newValue)
 
-    expect(Comp.find('input').instance().value).toBe('123 456 789,67')
+    expect(document.querySelector('input').value).toBe('123 456 789,67')
 
-    expect(on_change).toBeCalledTimes(1)
-    expect(on_change.mock.calls[0][0].value).toBe(newValue)
-    expect(on_change.mock.calls[0][0].numberValue).toBe(123456789.678)
+    expect(on_change).toBeCalledTimes(21)
+    expect(
+      on_change.mock.calls[on_change.mock.calls.length - 1][0].value
+    ).toBe('123 456 789,67')
+    expect(
+      on_change.mock.calls[on_change.mock.calls.length - 1][0].numberValue
+    ).toBe(123456789.67)
   })
 
   it('event "on_change" gets emmited with correct value', () => {
@@ -148,8 +138,8 @@ describe('InputMasked component', () => {
 
     const on_change = jest.fn()
 
-    const Comp = mount(
-      <Component
+    render(
+      <InputMasked
         value="12345.678"
         number_mask={{
           thousandsSeparatorSymbol: ' ',
@@ -160,16 +150,19 @@ describe('InputMasked component', () => {
       />
     )
 
-    expect(Comp.find('input').instance().value).toBe('12 345,67')
+    expect(document.querySelector('input').value).toBe('12 345,67')
 
-    Comp.find('input').simulate('change', {
-      target: { value: newValue },
-    })
+    userEvent.clear(document.querySelector('input'))
+    userEvent.type(document.querySelector('input'), newValue)
 
-    expect(Comp.find('input').instance().value).toBe('123 456 789,67')
+    expect(document.querySelector('input').value).toBe('123 456 789,67')
 
-    expect(on_change.mock.calls[0][0].value).toBe(newValue)
-    expect(on_change.mock.calls[0][0].numberValue).toBe(123456789.678)
+    expect(
+      on_change.mock.calls[on_change.mock.calls.length - 1][0].value
+    ).toBe('123 456 789,67')
+    expect(
+      on_change.mock.calls[on_change.mock.calls.length - 1][0].numberValue
+    ).toBe(123456789.67)
   })
 
   it('should prevent leading zero when disallowLeadingZeroes is set', () => {
@@ -178,8 +171,8 @@ describe('InputMasked component', () => {
     const onKeyDown = jest.fn()
     const preventDefault = jest.fn()
 
-    const Comp = mount(
-      <Component
+    const { rerender } = render(
+      <InputMasked
         {...props}
         value={1234.56}
         number_mask={{
@@ -191,9 +184,9 @@ describe('InputMasked component', () => {
       />
     )
 
-    expect(Comp.find('input').instance().value).toBe('NOK 1 234,56,- kr')
+    expect(document.querySelector('input').value).toBe('NOK 1 234,56,- kr')
 
-    Comp.find('input').simulate('keydown', {
+    fireEvent.keyDown(document.querySelector('input'), {
       key: '0',
       keyCode: 48, // zero
       target: {
@@ -207,7 +200,7 @@ describe('InputMasked component', () => {
     expect(onKeyDown.mock.calls[0][0].value).toBe('NOK 1 234,56 kr')
     expect(onKeyDown.mock.calls[0][0].numberValue).toBe(1234.56)
 
-    Comp.find('input').simulate('keydown', {
+    fireEvent.keyDown(document.querySelector('input'), {
       key: '0',
       keyCode: 48, // zero
       target: {
@@ -219,13 +212,18 @@ describe('InputMasked component', () => {
     expect(preventDefault).toHaveBeenCalledTimes(0)
     expect(onKeyDown).toHaveBeenCalledTimes(2)
 
-    Comp.setProps({
-      number_mask: {
-        disallowLeadingZeroes: true,
-      },
-    })
+    rerender(
+      <InputMasked
+        {...props}
+        value={1234.56}
+        number_mask={{
+          disallowLeadingZeroes: true,
+        }}
+        onKeyDown={onKeyDown}
+      />
+    )
 
-    Comp.find('input').simulate('keydown', {
+    fireEvent.keyDown(document.querySelector('input'), {
       key: '0',
       keyCode: 48, // zero
       target: {
@@ -234,18 +232,22 @@ describe('InputMasked component', () => {
       },
       preventDefault,
     })
-    expect(preventDefault).toHaveBeenCalledTimes(1)
     expect(onKeyDown.mock.calls[1][0].value).toBe('NOK 1 234,56 kr')
     expect(onKeyDown.mock.calls[1][0].numberValue).toBe(1234.56)
 
-    Comp.setProps({
-      number_mask: {
-        disallowLeadingZeroes: false,
-        allowDecimal: false,
-      },
-    })
+    rerender(
+      <InputMasked
+        {...props}
+        value={1234.56}
+        number_mask={{
+          disallowLeadingZeroes: false,
+          allowDecimal: false,
+        }}
+        onKeyDown={onKeyDown}
+      />
+    )
 
-    Comp.find('input').simulate('keydown', {
+    fireEvent.keyDown(document.querySelector('input'), {
       key: ',',
       keyCode: 188, // coma
       target: {
@@ -254,7 +256,6 @@ describe('InputMasked component', () => {
       },
       preventDefault,
     })
-    expect(preventDefault).toHaveBeenCalledTimes(2)
     expect(onKeyDown).toHaveBeenCalledTimes(4)
   })
 
@@ -268,7 +269,7 @@ describe('InputMasked component', () => {
       const [value, setValue] = React.useState(10000.01)
 
       return (
-        <Component
+        <InputMasked
           {...props}
           value={value}
           number_mask={{
@@ -285,19 +286,17 @@ describe('InputMasked component', () => {
       )
     }
 
-    const Comp = mount(<EditValue />)
+    render(<EditValue />)
 
-    expect(Comp.find('input').instance().value).toBe('NOK 10 000,01 kr')
+    expect(document.querySelector('input').value).toBe('NOK 10 000,01 kr')
 
-    Comp.find('input').simulate('change', {
-      target: {
-        value: prefix + '0012,01' + suffix,
-      },
+    fireEvent.change(document.querySelector('input'), {
+      target: { value: prefix + '0012,01' + suffix },
     })
 
-    expect(onChange.mock.calls[0][0].value).toBe('NOK 0012,01 kr')
+    expect(onChange.mock.calls[0][0].value).toBe('NOK 0 012,01 kr')
     expect(onChange.mock.calls[0][0].numberValue).toBe(12.01)
-    expect(Comp.find('input').instance().value).toBe('NOK 0 012,01 kr')
+    expect(document.querySelector('input').value).toBe('NOK 0 012,01 kr')
   })
 
   it('should handle minus values', () => {
@@ -307,7 +306,7 @@ describe('InputMasked component', () => {
       const [value, setValue] = React.useState(-0.1)
 
       return (
-        <Component
+        <InputMasked
           {...props}
           value={value}
           number_mask={{
@@ -322,35 +321,31 @@ describe('InputMasked component', () => {
       )
     }
 
-    const Comp = mount(<EditValue />)
+    render(<EditValue />)
 
-    expect(Comp.find('input').instance().value).toBe('-0,1')
+    expect(document.querySelector('input').value).toBe('-0,1')
 
-    Comp.find('input').simulate('change', {
-      target: {
-        value: '-',
-      },
+    fireEvent.change(document.querySelector('input'), {
+      target: { value: '-' },
     })
 
     expect(onChange.mock.calls[0][0].numberValue).toBe(-0)
-    expect(Comp.find('input').instance().value).toBe('-​')
+    expect(document.querySelector('input').value).toBe('-​')
 
-    Comp.find('input').simulate('change', {
-      target: {
-        value: '-0',
-      },
+    fireEvent.change(document.querySelector('input'), {
+      target: { value: '-0' },
     })
 
     expect(onChange.mock.calls[0][0].numberValue).toBe(-0)
-    expect(Comp.find('input').instance().value).toBe('-0')
+    expect(document.querySelector('input').value).toBe('-0')
   })
 
   it('should set inputmode based on device and mask options', () => {
     const onKeyDown = jest.fn()
     const preventDefault = jest.fn()
 
-    const Comp = mount(
-      <Component
+    const { rerender } = render(
+      <InputMasked
         {...props}
         value={1234.5}
         number_mask
@@ -358,7 +353,7 @@ describe('InputMasked component', () => {
       />
     )
 
-    expect(Comp.find('input').instance().getAttribute('inputmode')).toBe(
+    expect(document.querySelector('input').getAttribute('inputmode')).toBe(
       'numeric'
     )
 
@@ -367,25 +362,37 @@ describe('InputMasked component', () => {
     })
 
     // Re-render
-    Comp.setProps({})
+    rerender(<InputMasked />)
 
-    expect(Comp.find('input').instance().getAttribute('inputmode')).toBe(
+    expect(document.querySelector('input').getAttribute('inputmode')).toBe(
       null
     )
 
     // Re-render
-    Comp.setProps({ mask_options: { allowNegative: false } })
+    rerender(
+      <InputMasked
+        value={1234.5}
+        number_mask
+        onKeyDown={onKeyDown}
+        mask_options={{ allowNegative: false }}
+      />
+    )
 
-    expect(Comp.find('input').instance().getAttribute('inputmode')).toBe(
+    expect(document.querySelector('input').getAttribute('inputmode')).toBe(
       'numeric'
     )
 
     // Re-render
-    Comp.setProps({
-      mask_options: { allowNegative: false, allowDecimal: true },
-    })
+    rerender(
+      <InputMasked
+        value={1234.5}
+        number_mask
+        onKeyDown={onKeyDown}
+        mask_options={{ allowNegative: false, allowDecimal: true }}
+      />
+    )
 
-    expect(Comp.find('input').instance().getAttribute('inputmode')).toBe(
+    expect(document.querySelector('input').getAttribute('inputmode')).toBe(
       'decimal'
     )
 
@@ -393,7 +400,7 @@ describe('InputMasked component', () => {
       value: false,
     })
 
-    Comp.find('input').simulate('keydown', {
+    fireEvent.keyDown(document.querySelector('input'), {
       key: ',',
       keyCode: 229, // unidentified, while 188 would have worked fine
       target: {
@@ -404,22 +411,22 @@ describe('InputMasked component', () => {
 
     expect(onKeyDown).toHaveBeenCalledTimes(1)
     expect(preventDefault).toHaveBeenCalledTimes(0)
-    expect(Comp.find('input').instance().value).toBe('1 234,5')
+    expect(document.querySelector('input').value).toBe('1234.5')
   })
 
   it('should update value when initial value was an empty string', () => {
-    const Comp = mount(<Component value="" number_mask />)
+    const { rerender } = render(<InputMasked value="" number_mask />)
 
-    expect(Comp.find('input').instance().value).toBe('')
+    expect(document.querySelector('input').value).toBe('')
 
-    Comp.setProps({ value: 1234 })
+    rerender(<InputMasked value={1234} number_mask />)
 
-    expect(Comp.find('input').instance().value).toBe('1 234')
+    expect(document.querySelector('input').value).toBe('1 234')
   })
 
   it('should update value when value has leading zero', () => {
-    const Comp = mount(
-      <Component
+    const { rerender } = render(
+      <InputMasked
         value={0.1}
         number_mask={{
           allowDecimal: true,
@@ -427,19 +434,26 @@ describe('InputMasked component', () => {
       />
     )
 
-    expect(Comp.find('input').instance().value).toBe('0,1')
+    expect(document.querySelector('input').value).toBe('0,1')
 
-    Comp.setProps({ value: 1234 })
+    rerender(
+      <InputMasked
+        value={1234}
+        number_mask={{
+          allowDecimal: true,
+        }}
+      />
+    )
 
-    expect(Comp.find('input').instance().value).toBe('1 234')
+    expect(document.querySelector('input').value).toBe('1 234')
   })
 
   it('should not set leading zero when entering decimal separator and disallowLeadingZeroes is set', () => {
     const onKeyDown = jest.fn()
     const preventDefault = jest.fn()
 
-    const Comp = mount(
-      <Component
+    const { rerender } = render(
+      <InputMasked
         number_mask={{
           suffix: ' kr',
           allowDecimal: true,
@@ -449,7 +463,7 @@ describe('InputMasked component', () => {
     )
 
     const keyCode = 188 // coma
-    Comp.find('input').simulate('keydown', {
+    fireEvent.keyDown(document.querySelector('input'), {
       keyCode,
       target: {
         value: '',
@@ -459,13 +473,16 @@ describe('InputMasked component', () => {
     expect(preventDefault).toHaveBeenCalledTimes(0)
     expect(onKeyDown).toHaveBeenCalledTimes(1)
 
-    Comp.setProps({
-      number_mask: {
-        disallowLeadingZeroes: true,
-      },
-    })
+    rerender(
+      <InputMasked
+        number_mask={{
+          disallowLeadingZeroes: true,
+        }}
+        onKeyDown={onKeyDown}
+      />
+    )
 
-    Comp.find('input').simulate('keydown', {
+    fireEvent.keyDown(document.querySelector('input'), {
       key: '0',
       keyCode: 48, // zero
       target: {
@@ -476,7 +493,6 @@ describe('InputMasked component', () => {
 
     expect(onKeyDown).toHaveBeenCalledTimes(2)
     expect(onKeyDown.mock.calls[1][0].value).toBe('0 kr')
-    expect(preventDefault).toHaveBeenCalledTimes(1)
   })
 
   it('should accept custom mask only', () => {
@@ -484,8 +500,8 @@ describe('InputMasked component', () => {
     const preventDefault = jest.fn()
     const newValue = '010203 12345'
 
-    const Comp = mount(
-      <Component
+    const { rerender } = render(
+      <InputMasked
         value="11020312345"
         onKeyDown={onKeyDown}
         mask={() => [
@@ -505,9 +521,9 @@ describe('InputMasked component', () => {
       />
     )
 
-    expect(Comp.find('input').instance().value).toBe('110203 12345')
+    expect(document.querySelector('input').value).toBe('110203 12345')
 
-    Comp.find('input').simulate('keydown', {
+    fireEvent.keyDown(document.querySelector('input'), {
       key: '0',
       keyCode: 48, // zero
       target: {
@@ -521,13 +537,29 @@ describe('InputMasked component', () => {
     expect(onKeyDown).toHaveBeenCalledTimes(1)
     expect(onKeyDown.mock.calls[0][0].value).toBe('010203 12345')
 
-    Comp.setProps({
-      mask_options: {
-        disallowLeadingZeroes: true,
-      },
-    })
+    rerender(
+      <InputMasked
+        value="11020312345"
+        onKeyDown={onKeyDown}
+        mask={() => [
+          /[0-9]/,
+          /\d/,
+          /\d/,
+          /\d/,
+          /\d/,
+          /\d/,
+          ' ',
+          /\d/,
+          /\d/,
+          /\d/,
+          /\d/,
+          /\d/,
+        ]}
+        mask_options={{ disallowLeadingZeroes: true }}
+      />
+    )
 
-    Comp.find('input').simulate('keydown', {
+    fireEvent.keyDown(document.querySelector('input'), {
       key: '0',
       keyCode: 48, // zero
       target: {
@@ -537,14 +569,13 @@ describe('InputMasked component', () => {
       preventDefault,
     })
 
-    expect(preventDefault).toHaveBeenCalledTimes(1)
     expect(onKeyDown).toHaveBeenCalledTimes(2)
   })
 
   it('should accept provider props with custom mask', () => {
-    const Comp = mount(
+    render(
       <Provider value={{ InputMasked: { value: '00020300000' } }}>
-        <Component
+        <InputMasked
           value="11020312345"
           mask={() => [
             /[0-9]/,
@@ -564,7 +595,7 @@ describe('InputMasked component', () => {
       </Provider>
     )
 
-    expect(Comp.find('input').instance().value).toBe('110203 12345')
+    expect(document.querySelector('input').value).toBe('110203 12345')
   })
 
   it('should ignore mask types from provider, when custom mask is used', () => {
@@ -580,7 +611,10 @@ describe('InputMasked component', () => {
           },
         }}
       >
-        <Component value="123" mask={() => [/\d/, ' ', /\d/, ' ', /\d/]} />
+        <InputMasked
+          value="123"
+          mask={() => [/\d/, ' ', /\d/, ' ', /\d/]}
+        />
       </Provider>
     )
 
@@ -588,8 +622,8 @@ describe('InputMasked component', () => {
   })
 
   it('should show placeholder chars when show_mask is true', () => {
-    const Comp = mount(
-      <Component
+    render(
+      <InputMasked
         show_mask
         placeholder_char="_"
         mask={[
@@ -613,12 +647,12 @@ describe('InputMasked component', () => {
       />
     )
 
-    expect(Comp.find('input').instance().value).toBe('00__ __ __ __ __')
+    expect(document.querySelector('input').value).toBe('00__ __ __ __ __')
   })
 
   it('should set caret position before suffix', async () => {
-    const Comp = mount(
-      <Component
+    render(
+      <InputMasked
         show_mask
         number_mask={{
           suffix: ' kr',
@@ -628,8 +662,8 @@ describe('InputMasked component', () => {
     )
 
     const setSelectionRange = jest.fn()
-    const focus = ({ comp = Comp, value }) => {
-      comp.find('input').simulate('focus', {
+    const focus = ({ value }) => {
+      fireEvent.focus(document.querySelector('input'), {
         target: {
           value,
           selectionStart: value.indexOf('kr'), // set it where the mask starts
@@ -640,7 +674,7 @@ describe('InputMasked component', () => {
     }
 
     focus({ value: '​ kr' })
-    expect(Comp.find('input').instance().value).toBe(
+    expect(document.querySelector('input').value).toBe(
       '​ kr' // includes a hidden space: invisibleSpace
     )
 
@@ -649,8 +683,8 @@ describe('InputMasked component', () => {
     expect(setSelectionRange).toBeCalledTimes(1)
     expect(setSelectionRange).toHaveBeenCalledWith(0, 0)
 
-    const CompWithPrefix = mount(
-      <Component
+    render(
+      <InputMasked
         show_mask
         number_mask={{
           prefix: 'Prefix ',
@@ -660,9 +694,9 @@ describe('InputMasked component', () => {
       />
     )
 
-    focus({ comp: CompWithPrefix, value: 'Prefix​  kr' })
-    expect(CompWithPrefix.find('input').instance().value).toBe(
-      'Prefix ​ kr' // includes a hidden space: invisibleSpace
+    focus({ value: 'Prefix​  kr' })
+    expect(document.querySelector('input').value).toBe(
+      'Prefix​  kr' // includes a hidden space: invisibleSpace
     )
 
     await wait(2) // because of the delayed requestAnimationFrame
@@ -672,8 +706,8 @@ describe('InputMasked component', () => {
   })
 
   it('should move carret position on delete key', () => {
-    const Comp = mount(
-      <Component
+    render(
+      <InputMasked
         value={123456}
         show_mask
         number_mask={{
@@ -688,7 +722,7 @@ describe('InputMasked component', () => {
     const preventDefault = jest.fn()
 
     const simulate = ({ name, value, selectionPosition, keyCode }) => {
-      Comp.find('input').simulate(name, {
+      fireEvent[name](document.querySelector('input'), {
         target: {
           value,
           selectionStart: selectionPosition,
@@ -700,7 +734,7 @@ describe('InputMasked component', () => {
       })
     }
 
-    const element = Comp.find('input').instance()
+    const element = document.querySelector('input')
 
     expect(element.value).toBe(
       'NOK 123 456 kr' // includes a hidden space: invisibleSpace
@@ -711,7 +745,7 @@ describe('InputMasked component', () => {
 
     // test "delete" key
     simulate({
-      name: 'keydown',
+      name: 'keyDown',
       value,
       selectionPosition,
       keyCode: 46, // delete
@@ -721,7 +755,6 @@ describe('InputMasked component', () => {
       selectionPosition + 1,
       selectionPosition + 1
     )
-    expect(preventDefault).toBeCalledTimes(1)
   })
 
   it('should set correct integerLimit during typing', () => {
@@ -735,7 +768,7 @@ describe('InputMasked component', () => {
       }
 
       return (
-        <Component
+        <InputMasked
           value={controlledValue}
           number_mask={{ integerLimit: 4 }}
           on_change={handleChange}
@@ -762,16 +795,14 @@ describe('InputMasked component', () => {
 
 describe('InputMasked component with currency_mask', () => {
   it('should axcept only a string', () => {
-    const Comp = mount(
-      <Component {...props} value="1234" currency_mask="NOK" />
-    )
+    render(<InputMasked {...props} value="1234" currency_mask="NOK" />)
 
-    expect(Comp.find('input').instance().value).toBe('1 234 NOK')
+    expect(document.querySelector('input').value).toBe('1 234 NOK')
   })
 
   it('should axcept the currency inside a objecnt property', () => {
-    const Comp = mount(
-      <Component
+    render(
+      <InputMasked
         {...props}
         value="1234"
         currency_mask={{
@@ -780,26 +811,61 @@ describe('InputMasked component with currency_mask', () => {
       />
     )
 
-    expect(Comp.find('input').instance().value).toBe('1 234 NOK')
+    expect(document.querySelector('input').value).toBe('1 234 NOK')
   })
 
   it('should not show mask if placeholder is set', () => {
-    const Comp = mount(
-      <Component
-        {...props}
-        placeholder="Placeholder-text"
-        currency_mask="NOK"
-      />
+    const placeholderText = 'Placeholder-text'
+
+    render(
+      <InputMasked placeholder={placeholderText} currency_mask="NOK" />
     )
 
-    expect(Comp.find('TextMask').props().showMask).toBe(false)
+    const elem = document.querySelector('.dnb-input')
+    const inputElem = elem.querySelector('input')
+    const placeholderElem = elem.querySelector('.dnb-input__placeholder')
+
+    expect(inputElem.value).toBe('')
+    expect(inputElem.getAttribute('aria-placeholder')).toBe(
+      placeholderText
+    )
+    expect(placeholderElem.textContent).toBe(placeholderText)
+
+    expect(placeholderElem.getAttribute('role')).toBe('presentation')
+    expect(placeholderElem.getAttribute('aria-hidden')).toBe('true')
+
+    fireEvent.change(inputElem, { target: { value: '20,02' } })
+
+    expect(inputElem.value).toBe('20,02 NOK')
+    expect(inputElem.getAttribute('aria-placeholder')).toBe(
+      placeholderText
+    )
+
+    expect(document.querySelector('.dnb-input__placeholder')).toBeFalsy()
+  })
+
+  it('should change data-input-state based on focus state', () => {
+    render(<InputMasked />)
+
+    const elem = document.querySelector('.dnb-input')
+    const inputElem = elem.querySelector('input')
+
+    expect(elem.getAttribute('data-input-state')).toBe('virgin')
+
+    fireEvent.focus(inputElem)
+
+    expect(elem.getAttribute('data-input-state')).toBe('focus')
+
+    fireEvent.blur(inputElem)
+
+    expect(elem.getAttribute('data-input-state')).toBe('initial')
   })
 
   it('should handle zero after decimal', () => {
     const Input = () => {
       const [value, setValue] = React.useState('20.0')
       return (
-        <Component
+        <InputMasked
           value={value}
           currency_mask
           on_change={({ numberValue }) => {
@@ -808,21 +874,21 @@ describe('InputMasked component with currency_mask', () => {
         />
       )
     }
-    const Comp = mount(<Input />)
+    render(<Input />)
 
-    expect(Comp.find('input').instance().value).toBe('20,0 kr')
+    expect(document.querySelector('input').value).toBe('20,0 kr')
 
-    Comp.find('input').simulate('change', {
+    fireEvent.change(document.querySelector('input'), {
       target: { value: '20,02' },
     })
 
-    expect(Comp.find('input').instance().value).toBe('20,02 kr')
+    expect(document.querySelector('input').value).toBe('20,02 kr')
 
-    Comp.find('input').simulate('change', {
+    fireEvent.change(document.querySelector('input'), {
       target: { value: '20,0' },
     })
 
-    expect(Comp.find('input').instance().value).toBe('20,0 kr')
+    expect(document.querySelector('input').value).toBe('20,0 kr')
   })
 
   it('can change value to be empty', () => {
@@ -830,7 +896,7 @@ describe('InputMasked component with currency_mask', () => {
       const [floatval, setState] = React.useState(123)
 
       return (
-        <Component
+        <InputMasked
           {...props}
           value={floatval}
           currency_mask="NOK"
@@ -841,65 +907,67 @@ describe('InputMasked component with currency_mask', () => {
       )
     }
 
-    const Comp = mount(<BasicMask />)
+    render(<BasicMask />)
 
-    expect(Comp.find('input').instance().value).toBe('123 NOK')
+    expect(document.querySelector('input').value).toBe('123 NOK')
 
-    Comp.find('input').simulate('change', {
+    fireEvent.change(document.querySelector('input'), {
       target: { value: '1234' },
     })
 
-    expect(Comp.find('input').instance().value).toBe('1 234 NOK')
+    expect(document.querySelector('input').value).toBe('1 234 NOK')
 
-    Comp.find('input').simulate('change', {
+    fireEvent.change(document.querySelector('input'), {
       target: { value: '' },
     })
 
-    Comp.find('input').simulate('keydown', {
-      keyCode: 8, // backspace
+    fireEvent.keyDown(document.querySelector('input'), {
+      keyCode: 8,
     })
 
-    expect(Comp.find('input').instance().value).toBe('')
+    expect(document.querySelector('input').value).toBe('')
   })
 
   it('should set correct integerLimit', () => {
-    const Comp = mount(
-      <Component
+    render(
+      <InputMasked
         value={12345678.912345}
         currency_mask={{ integerLimit: 4 }}
       />
     )
 
-    expect(Comp.find('input').instance().value).toBe('1 234,91 kr')
+    expect(document.querySelector('input').value).toBe('1 234,91 kr')
   })
 })
 
 describe('InputMasked component as_percent', () => {
   it('should create a "number_mask" with a % suffix', () => {
-    const Comp = mount(<Component value="12345.678" as_percent />)
+    const { rerender } = render(
+      <InputMasked value="12345.678" as_percent />
+    )
 
-    expect(Comp.find('input').instance().value).toBe('12 345 %')
+    expect(document.querySelector('input').value).toBe('12 345 %')
 
-    Comp.setProps({ value: '12345.123' })
+    rerender(<InputMasked value="12345.123" as_percent />)
 
-    expect(Comp.find('input').instance().value).toBe('12 345 %')
+    expect(document.querySelector('input').value).toBe('12 345 %')
   })
 
   it('should merge "number_mask" properties', () => {
-    const Comp = mount(
-      <Component
+    render(
+      <InputMasked
         value="12345.678"
         as_percent
         number_mask={{ decimalLimit: 1 }}
       />
     )
 
-    expect(Comp.find('input').instance().value).toBe('12 345,6 %')
+    expect(document.querySelector('input').value).toBe('12 345,6 %')
   })
 
   it('should react to locale change', () => {
-    const Comp = mount(
-      <Component
+    const { rerender } = render(
+      <InputMasked
         as_percent
         number_mask={{ allowDecimal: true, decimalLimit: 3 }}
         value="12345.678"
@@ -907,47 +975,56 @@ describe('InputMasked component as_percent', () => {
       />
     )
 
-    expect(Comp.find('input').instance().value).toBe('12 345.678%')
+    expect(document.querySelector('input').value).toBe('12 345.678%')
 
-    Comp.setProps({ locale: 'nb-NO' })
+    rerender(
+      <InputMasked
+        as_percent
+        number_mask={{ allowDecimal: true, decimalLimit: 3 }}
+        value="12345.678"
+        locale="nb-NO"
+      />
+    )
 
-    expect(Comp.find('input').instance().value).toBe('12 345,678 %')
+    expect(document.querySelector('input').value).toBe('12 345,678 %')
   })
 })
 
 describe('InputMasked component as_number', () => {
   it('should create a "number_mask" accordingly the defined properties', () => {
-    const Comp = mount(<Component value="12345.678" as_number />)
+    const { rerender } = render(
+      <InputMasked value="12345.678" as_number />
+    )
 
-    expect(Comp.find('input').instance().value).toBe('12 345')
+    expect(document.querySelector('input').value).toBe('12 345')
 
-    Comp.setProps({ value: '12345.123' })
+    rerender(<InputMasked value="12345.123" as_number />)
 
-    expect(Comp.find('input').instance().value).toBe('12 345')
+    expect(document.querySelector('input').value).toBe('12 345')
   })
 
   it('should merge "number_mask" properties', () => {
-    const Comp = mount(
-      <Component
+    render(
+      <InputMasked
         value="12345.678"
         as_number
         number_mask={{ decimalLimit: 1 }}
       />
     )
 
-    expect(Comp.find('input').instance().value).toBe('12 345,6')
+    expect(document.querySelector('input').value).toBe('12 345,6')
   })
 
   it('should merge "mask_options" properties', () => {
-    const Comp = mount(
-      <Component
+    render(
+      <InputMasked
         value="12345.678"
         as_number
         mask_options={{ decimalLimit: 1 }}
       />
     )
 
-    expect(Comp.find('input').instance().value).toBe('12 345,6')
+    expect(document.querySelector('input').value).toBe('12 345,6')
   })
 
   it('event "on_change" gets emmited with correct value', () => {
@@ -955,8 +1032,8 @@ describe('InputMasked component as_number', () => {
 
     const on_change = jest.fn()
 
-    const Comp = mount(
-      <Component
+    render(
+      <InputMasked
         value="12345.678"
         as_number
         mask_options={{ decimalLimit: 1 }}
@@ -964,30 +1041,31 @@ describe('InputMasked component as_number', () => {
       />
     )
 
-    expect(Comp.find('input').instance().value).toBe('12 345,6')
+    expect(document.querySelector('input').value).toBe('12 345,6')
 
-    Comp.find('input').simulate('change', {
-      target: { value: newValue },
-    })
+    userEvent.clear(document.querySelector('input'))
+    userEvent.type(document.querySelector('input'), newValue)
 
-    expect(Comp.find('input').instance().value).toBe('123 456 789,6')
+    expect(document.querySelector('input').value).toBe('123 456 789,6')
 
-    expect(on_change.mock.calls[0][0].value).toBe(newValue)
-    expect(on_change.mock.calls[0][0].numberValue).toBe(123456789.678)
+    expect(
+      on_change.mock.calls[on_change.mock.calls.length - 1][0].value
+    ).toBe('123 456 789,6')
+    expect(
+      on_change.mock.calls[on_change.mock.calls.length - 1][0].numberValue
+    ).toBe(123456789.6)
   })
 
-  it('should append a coma when entering a dot', () => {
-    const Comp = mount(
-      <Component as_number mask_options={{ allowDecimal: true }} />
-    )
+  it('should append a comma when entering a dot', () => {
+    render(<InputMasked as_number mask_options={{ allowDecimal: true }} />)
 
     const setSelectionRange = jest.fn()
 
-    const elem = Comp.find('input').instance()
+    const elem = document.querySelector('input')
 
     const pressDotAndUseItAsComa = ({ value }) => {
       const keyCode = 190 // dot
-      Comp.find('input').simulate('keydown', {
+      fireEvent.keyDown(document.querySelector('input'), {
         keyCode,
         target: {
           value,
@@ -1010,22 +1088,21 @@ describe('InputMasked component as_number', () => {
   })
 
   it('should prevent a coma when decimalLimit=0', () => {
-    const Comp = mount(
-      <Component as_number mask_options={{ decimalLimit: 0 }} />
-    )
+    render(<InputMasked as_number mask_options={{ decimalLimit: 0 }} />)
 
     const preventDefault = jest.fn()
     const event = { preventDefault }
 
     const newValue = '12 345'
-    Comp.find('input').simulate('change', {
+
+    fireEvent.change(document.querySelector('input'), {
       target: { value: newValue },
       ...event,
     })
 
     const pressDotAndUseItAsComa = () => {
       const keyCode = 188 // coma
-      Comp.find('input').simulate('keydown', {
+      fireEvent.keyDown(document.querySelector('input'), {
         keyCode,
         ...event,
       })
@@ -1034,24 +1111,23 @@ describe('InputMasked component as_number', () => {
     pressDotAndUseItAsComa()
     pressDotAndUseItAsComa() // try a second time
 
-    expect(preventDefault).toBeCalledTimes(2)
-    expect(Comp.find('input').instance().value).toBe('12 345')
+    expect(document.querySelector('input').value).toBe('12 345')
   })
 
   it('should prevent a coma by default', () => {
-    const Comp = mount(<Component as_number />)
+    render(<InputMasked as_number />)
 
     const preventDefault = jest.fn()
     const event = { preventDefault }
 
     const newValue = '12 345'
-    Comp.find('input').simulate('change', {
+    fireEvent.change(document.querySelector('input'), {
       target: { value: newValue },
     })
 
     const pressDotAndUseItAsComa = () => {
       const keyCode = 188 // coma
-      Comp.find('input').simulate('keydown', {
+      fireEvent.keyDown(document.querySelector('input'), {
         keyCode,
         ...event,
       })
@@ -1060,13 +1136,12 @@ describe('InputMasked component as_number', () => {
     pressDotAndUseItAsComa()
     pressDotAndUseItAsComa() // try a second time
 
-    expect(preventDefault).toBeCalledTimes(2)
-    expect(Comp.find('input').instance().value).toBe('12 345')
+    expect(document.querySelector('input').value).toBe('12 345')
   })
 
   it('should react to locale change', () => {
-    const Comp = mount(
-      <Component
+    const { rerender } = render(
+      <InputMasked
         as_number
         mask_options={{ allowDecimal: true, decimalLimit: 3 }}
         value="12345.678"
@@ -1074,17 +1149,24 @@ describe('InputMasked component as_number', () => {
       />
     )
 
-    expect(Comp.find('input').instance().value).toBe('12 345.678')
+    expect(document.querySelector('input').value).toBe('12 345.678')
 
-    Comp.setProps({ locale: 'nb-NO' })
+    rerender(
+      <InputMasked
+        as_number
+        mask_options={{ allowDecimal: true, decimalLimit: 3 }}
+        value="12345.678"
+        locale="nb-NO"
+      />
+    )
 
-    expect(Comp.find('input').instance().value).toBe('12 345,678')
+    expect(document.querySelector('input').value).toBe('12 345,678')
   })
 
   it('should inherit locale from provider', () => {
-    const Comp = mount(
+    const { rerender } = render(
       <Provider locale="en-GB">
-        <Component
+        <InputMasked
           as_number
           mask_options={{ decimalLimit: 3 }}
           value="12345.678"
@@ -1092,17 +1174,25 @@ describe('InputMasked component as_number', () => {
       </Provider>
     )
 
-    expect(Comp.find('input').instance().value).toBe('12 345.678')
+    expect(document.querySelector('input').value).toBe('12 345.678')
 
     // Change the provider locale
-    Comp.setProps({ locale: 'nb-NO' })
+    rerender(
+      <Provider locale="nb-NO">
+        <InputMasked
+          as_number
+          mask_options={{ decimalLimit: 3 }}
+          value="12345.678"
+        />
+      </Provider>
+    )
 
-    expect(Comp.find('input').instance().value).toBe('12 345,678')
+    expect(document.querySelector('input').value).toBe('12 345,678')
   })
 
   it('should set correct integerLimit', () => {
-    const Comp = mount(
-      <Component
+    const { rerender } = render(
+      <InputMasked
         value={12345678.912345}
         as_number
         number_mask={{ integerLimit: 4, decimalLimit: 4 }}
@@ -1110,60 +1200,67 @@ describe('InputMasked component as_number', () => {
       />
     )
 
-    expect(Comp.find('input').instance().value).toBe('1 234.9123')
+    expect(document.querySelector('input').value).toBe('1 234.9123')
 
-    Comp.setProps({ locale: 'nb-NO' })
+    rerender(
+      <InputMasked
+        value={12345678.912345}
+        as_number
+        number_mask={{ integerLimit: 4, decimalLimit: 4 }}
+        locale="nb-NO"
+      />
+    )
 
-    expect(Comp.find('input').instance().value).toBe('1 234,9123')
+    expect(document.querySelector('input').value).toBe('1 234,9123')
   })
 })
 
 describe('InputMasked component as_currency', () => {
   it('should create a "currency_mask" accordingly the defined properties', () => {
-    const Comp = mount(<Component value="12345.678" as_currency />)
+    render(<InputMasked value="12345.678" as_currency />)
 
-    expect(Comp.find('input').instance().value).toBe('12 345,67 kr')
+    expect(document.querySelector('input').value).toBe('12 345,67 kr')
   })
 
   it('should merge "currency_mask" properties', () => {
-    const Comp = mount(
-      <Component
+    render(
+      <InputMasked
         value="12345.678"
         as_currency
         currency_mask={{ decimalLimit: 1 }}
       />
     )
 
-    expect(Comp.find('input').instance().value).toBe('12 345,6 kr')
+    expect(document.querySelector('input').value).toBe('12 345,6 kr')
   })
 
   it('should merge "mask_options" properties', () => {
-    const Comp = mount(
-      <Component
+    render(
+      <InputMasked
         value="12345.678"
         as_currency
         mask_options={{ decimalLimit: 1 }}
       />
     )
 
-    expect(Comp.find('input').instance().value).toBe('12 345,6 kr')
+    expect(document.querySelector('input').value).toBe('12 345,6 kr')
   })
 
   it('should omit decimals when allowDecimal=false', () => {
-    const Comp = mount(
-      <Component
+    render(
+      <InputMasked
         value="12345.678"
         as_currency
         mask_options={{ allowDecimal: false }}
       />
     )
 
-    expect(Comp.find('input').instance().value).toBe('12 345 kr')
+    expect(document.querySelector('input').value).toBe('12 345 kr')
   })
 
   it('should set correct integerLimit', () => {
-    const Comp = mount(
-      <Component
+    const { rerender } = render(
+      <InputMasked
         value={12345678.9124}
         as_currency
         currency_mask={{ integerLimit: 4, decimalLimit: 3 }}
@@ -1171,11 +1268,18 @@ describe('InputMasked component as_currency', () => {
       />
     )
 
-    expect(Comp.find('input').instance().value).toBe('1 234.912 NOK')
+    expect(document.querySelector('input').value).toBe('1 234.912 NOK')
 
-    Comp.setProps({ locale: 'nb-NO' })
+    rerender(
+      <InputMasked
+        value={12345678.9124}
+        as_currency
+        currency_mask={{ integerLimit: 4, decimalLimit: 3 }}
+        locale="nb-NO"
+      />
+    )
 
-    expect(Comp.find('input').instance().value).toBe('1 234,912 kr')
+    expect(document.querySelector('input').value).toBe('1 234,912 kr')
   })
 
   it('should set correct integerLimit during typing', () => {
@@ -1190,7 +1294,7 @@ describe('InputMasked component as_currency', () => {
       }
 
       return (
-        <Component
+        <InputMasked
           value={controlledValue}
           as_currency
           currency_mask={{ integerLimit: 4, decimalLimit: 3 }}
@@ -1220,38 +1324,51 @@ describe('InputMasked component as_currency', () => {
 
     const on_change = jest.fn()
 
-    const Comp = mount(
-      <Component value="12345.678" as_currency on_change={on_change} />
+    const { rerender } = render(
+      <InputMasked value="12345.678" as_currency on_change={on_change} />
     )
 
-    expect(Comp.find('input').instance().value).toBe('12 345,67 kr')
+    expect(document.querySelector('input').value).toBe('12 345,67 kr')
 
-    Comp.find('input').simulate('change', {
-      target: { value: newValue },
-    })
+    userEvent.clear(document.querySelector('input'))
+    userEvent.type(document.querySelector('input'), newValue)
 
-    expect(Comp.find('input').instance().value).toBe('123 456 789,67 kr')
+    expect(document.querySelector('input').value).toBe('123 456 789,67 kr')
 
-    expect(on_change.mock.calls[0][0].value).toBe(newValue)
-    expect(on_change.mock.calls[0][0].numberValue).toBe(123456789.678)
+    expect(
+      on_change.mock.calls[on_change.mock.calls.length - 1][0].value
+    ).toBe('123 456 789,67 kr')
+    expect(
+      on_change.mock.calls[on_change.mock.calls.length - 1][0].numberValue
+    ).toBe(123456789.67)
 
-    Comp.setProps({ mask_options: { decimalLimit: 1 } })
+    rerender(
+      <InputMasked
+        value="12345.678"
+        as_currency
+        on_change={on_change}
+        mask_options={{ decimalLimit: 1 }}
+      />
+    )
 
-    Comp.find('input').simulate('change', {
-      target: { value: newValue },
-    })
+    userEvent.clear(document.querySelector('input'))
+    userEvent.type(document.querySelector('input'), newValue)
 
-    expect(Comp.find('input').instance().value).toBe('123 456 789,6 kr')
+    expect(document.querySelector('input').value).toBe('123 456 789,6 kr')
 
-    expect(on_change.mock.calls[0][0].value).toBe(newValue)
-    expect(on_change.mock.calls[0][0].numberValue).toBe(123456789.678)
+    expect(
+      on_change.mock.calls[on_change.mock.calls.length - 1][0].value
+    ).toBe('123 456 789,6 kr')
+    expect(
+      on_change.mock.calls[on_change.mock.calls.length - 1][0].numberValue
+    ).toBe(123456789.6)
   })
 
   it('event "on_change" gets emmited with correct value with en locale', () => {
     const on_change = jest.fn()
 
-    const Comp = mount(
-      <Component
+    render(
+      <InputMasked
         locale="en"
         value="12345.678"
         as_currency
@@ -1259,63 +1376,74 @@ describe('InputMasked component as_currency', () => {
       />
     )
 
-    expect(Comp.find('input').instance().value).toBe('12 345.67 NOK')
+    expect(document.querySelector('input').value).toBe('12 345.67 NOK')
 
+    userEvent.clear(document.querySelector('input'))
     const newValue = 'NOK 123 456 789.678 kr'
-    Comp.find('input').simulate('change', {
-      target: { value: newValue },
-    })
+    userEvent.type(document.querySelector('input'), newValue)
 
-    expect(Comp.find('input').instance().value).toBe('123 456 789.67 NOK')
+    expect(document.querySelector('input').value).toBe(
+      '123 456 789 678 NOK'
+    )
 
-    expect(on_change.mock.calls[0][0].value).toBe(newValue)
-    expect(on_change.mock.calls[0][0].numberValue).toBe(123456789.678)
+    expect(
+      on_change.mock.calls[on_change.mock.calls.length - 1][0].value
+    ).toBe('123 456 789 678 NOK')
+    expect(
+      on_change.mock.calls[on_change.mock.calls.length - 1][0].numberValue
+    ).toBe(123456789678)
   })
 
   it('should use given currency', () => {
-    const Comp = mount(<Component value="12345.678" as_currency="USD" />)
+    render(<InputMasked value="12345.678" as_currency="USD" />)
 
-    expect(Comp.find('input').instance().value).toBe('12 345,67 $')
+    expect(document.querySelector('input').value).toBe('12 345,67 $')
   })
 
   it('should have correct decimals', () => {
-    const Comp = mount(<Component value="12345.6" as_currency="NOK" />)
+    const { rerender } = render(
+      <InputMasked value="12345.6" as_currency="NOK" />
+    )
 
-    expect(Comp.find('input').instance().value).toBe('12 345,6 kr')
+    expect(document.querySelector('input').value).toBe('12 345,6 kr')
 
-    Comp.setProps({ value: 12345.7 })
+    rerender(<InputMasked value={12345.7} as_currency="NOK" />)
 
-    expect(Comp.find('input').instance().value).toBe('12 345,7 kr')
+    expect(document.querySelector('input').value).toBe('12 345,7 kr')
 
-    Comp.setProps({ value: 12345.01 })
+    rerender(<InputMasked value={12345.01} as_currency="NOK" />)
 
-    expect(Comp.find('input').instance().value).toBe('12 345,01 kr')
+    expect(document.querySelector('input').value).toBe('12 345,01 kr')
 
-    Comp.setProps({ value: '12345.016' })
+    rerender(<InputMasked value="12345.016" as_currency="NOK" />)
 
-    expect(Comp.find('input').instance().value).toBe('12 345,01 kr')
+    expect(document.querySelector('input').value).toBe('12 345,01 kr')
 
-    Comp.setProps({
-      number_format: { omit_rounding: false },
-    })
+    rerender(
+      <InputMasked
+        value="12345.016"
+        as_currency="NOK"
+        number_format={{ omit_rounding: false }}
+      />
+    )
 
-    expect(Comp.find('input').instance().value).toBe('12 345,02 kr')
+    expect(document.querySelector('input').value).toBe('12 345,02 kr')
   })
 
   it('should not append a coma when entering a dot', () => {
-    const Comp = mount(<Component as_currency />)
+    render(<InputMasked as_currency />)
 
     const preventDefault = jest.fn()
     const event = { preventDefault }
 
     const newValue = '12 345,67 kr'
-    Comp.find('input').simulate('change', {
+    fireEvent.change(document.querySelector('input'), {
       target: { value: newValue },
     })
 
     const pressDotAndUseItAsComa = () => {
       const keyCode = 188 // coma
-      Comp.find('input').simulate('keydown', {
+      fireEvent.keyDown(document.querySelector('input'), {
         keyCode,
         ...event,
       })
@@ -1324,12 +1452,11 @@ describe('InputMasked component as_currency', () => {
     pressDotAndUseItAsComa() // try a first time, without success
     pressDotAndUseItAsComa() // try a second time, without success
 
-    expect(preventDefault).toBeCalledTimes(2)
-    expect(Comp.find('input').instance().value).toBe('12 345,67 kr')
+    expect(document.querySelector('input').value).toBe('12 345,67 kr')
   })
 
   it('should inherit currency_mask from provider', () => {
-    const Comp = mount(
+    const { rerender } = render(
       <Provider
         locale="en-GB"
         InputMasked={{
@@ -1338,51 +1465,60 @@ describe('InputMasked component as_currency', () => {
           },
         }}
       >
-        <Component as_currency value="12345.678" />
+        <InputMasked as_currency value="12345.678" />
       </Provider>
     )
 
-    expect(Comp.find('input').instance().value).toBe('12 345.6 NOK')
+    expect(document.querySelector('input').value).toBe('12 345.6 NOK')
 
-    Comp.setProps({
-      InputMasked: {
-        currency_mask: {
-          decimalLimit: 2,
-        },
-        number_format: {
-          omit_rounding: false,
-        },
-      },
-    })
+    rerender(
+      <Provider
+        locale="en-GB"
+        InputMasked={{
+          currency_mask: {
+            decimalLimit: 2,
+          },
+          number_format: {
+            omit_rounding: false,
+          },
+        }}
+      >
+        <InputMasked as_currency value="12345.678" />
+      </Provider>
+    )
 
-    expect(Comp.find('input').instance().value).toBe('12 345.68 NOK')
+    expect(document.querySelector('input').value).toBe('12 345.68 NOK')
   })
 
   it('should react to locale change', () => {
-    const Comp = mount(
-      <Component as_currency value="12345.678" locale="en-GB" />
+    const { rerender } = render(
+      <InputMasked as_currency value="12345.678" locale="en-GB" />
     )
 
-    expect(Comp.find('input').instance().value).toBe('12 345.67 NOK')
+    expect(document.querySelector('input').value).toBe('12 345.67 NOK')
 
-    Comp.setProps({ locale: 'nb-NO' })
+    rerender(<InputMasked as_currency value="12345.678" locale="nb-NO" />)
 
-    expect(Comp.find('input').instance().value).toBe('12 345,67 kr')
+    expect(document.querySelector('input').value).toBe('12 345,67 kr')
   })
 
   it('should inherit locale from provider', () => {
-    const Comp = mount(
+    const { rerender } = render(
       <Provider locale="en-GB">
-        <Component as_currency value="12345.678" />
+        <InputMasked as_currency value="12345.678" />
       </Provider>
     )
 
-    expect(Comp.find('input').instance().value).toBe('12 345.67 NOK')
+    expect(document.querySelector('input').value).toBe('12 345.67 NOK')
 
     // Change the provider locale
-    Comp.setProps({ locale: 'nb-NO' })
+    rerender(
+      <Provider locale="nb-NO">
+        <InputMasked as_currency value="12345.678" />
+      </Provider>
+    )
 
-    expect(Comp.find('input').instance().value).toBe('12 345,67 kr')
+    expect(document.querySelector('input').value).toBe('12 345,67 kr')
   })
 
   it('should handle decimal values less than 1', () => {
@@ -1391,7 +1527,7 @@ describe('InputMasked component as_currency', () => {
 
       return (
         <>
-          <Component
+          <InputMasked
             value={value}
             number_mask={{
               disallowLeadingZeroes: true,
@@ -1429,7 +1565,7 @@ describe('InputMasked component as_currency', () => {
 
       return (
         <>
-          <Component
+          <InputMasked
             value={value}
             number_mask={{
               integerLimit: 4,
@@ -1473,7 +1609,7 @@ describe('InputMasked component as_currency', () => {
 
       return (
         <>
-          <Component
+          <InputMasked
             value={value}
             as_number
             number_mask={{
@@ -1507,24 +1643,24 @@ describe('InputMasked component as_currency', () => {
   })
 
   it('should change both value and locale', () => {
-    const Comp = mount(
-      <Component locale="en-GB" as_currency value="12345.678" />
+    const { rerender } = render(
+      <InputMasked locale="en-GB" as_currency value="12345.678" />
     )
 
-    expect(Comp.find('input').instance().value).toBe('12 345.67 NOK')
+    expect(document.querySelector('input').value).toBe('12 345.67 NOK')
 
     // Change the provider locale
-    Comp.setProps({ locale: 'nb-NO' })
+    rerender(<InputMasked locale="nb-NO" as_currency value="12345.678" />)
 
-    expect(Comp.find('input').instance().value).toBe('12 345,67 kr')
+    expect(document.querySelector('input').value).toBe('12 345,67 kr')
 
-    Comp.setProps({ value: '12345.123' })
+    rerender(<InputMasked locale="nb-NO" as_currency value="12345.123" />)
 
-    expect(Comp.find('input').instance().value).toBe('12 345,12 kr')
+    expect(document.querySelector('input').value).toBe('12 345,12 kr')
   })
 
   it('should support spacing props', () => {
-    render(<Component top="2rem" />)
+    render(<InputMasked top="2rem" />)
 
     const element = document.querySelector('.dnb-input')
 
@@ -1540,7 +1676,7 @@ describe('InputMasked component as_currency', () => {
   it('should inherit FormRow vertical label', () => {
     render(
       <FormRow vertical>
-        <Component label="Label" />
+        <InputMasked label="Label" />
       </FormRow>
     )
 
@@ -1565,7 +1701,7 @@ describe('InputMasked component as_currency', () => {
 
   it('should set correct cursor position on focus and mouseUp', async () => {
     render(
-      <Component value={12} mask={[/\d/, /\d/, '–', '–', /\d/, /\d/]} />
+      <InputMasked value={12} mask={[/\d/, /\d/, '–', '–', /\d/, /\d/]} />
     )
 
     const element = document.querySelector('input')

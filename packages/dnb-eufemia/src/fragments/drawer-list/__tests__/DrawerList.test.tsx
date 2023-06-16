@@ -1,19 +1,12 @@
 /**
- * Component Test
+ * DrawerList Test
  *
  */
 
 import React from 'react'
-import {
-  mount,
-  fakeProps,
-  axeComponent,
-  toJson,
-  loadScss,
-  attachToBody,
-} from '../../../core/jest/jestSetup'
-import { render } from '@testing-library/react'
-import Component from '../DrawerList'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { render, screen } from '@testing-library/react'
+import DrawerList, { DrawerListProps } from '../DrawerList'
 
 import {
   mockImplementationForDirectionObserver,
@@ -22,27 +15,12 @@ import {
 
 mockImplementationForDirectionObserver()
 
-const snapshotProps = {
-  ...fakeProps(require.resolve('../DrawerList'), {
-    all: true,
-    optional: true,
-  }),
-  id: 'drawer-list-id',
-  direction: 'bottom',
-  value: 2,
+// use no_animation so we don't need to wait
+const mockProps: DrawerListProps = {
   skip_portal: true,
-  opened: true,
-  no_animation: true,
-  prevent_selection: null,
-  size: 'default',
-  align_drawer: null,
 }
 
-// use no_animation so we don't need to wait
-const mockProps = {
-  skip_portal: true,
-}
-const props = {
+const props: DrawerListProps = {
   id: 'drawer-list-id',
   value: 2,
   skip_portal: true,
@@ -74,29 +52,26 @@ const mockData = [
 ]
 
 describe('DrawerList component', () => {
-  const Comp = mount(<Component {...props} data={mockData} />)
-
   it('has correct state at startup', () => {
-    expect(Comp.exists('.dnb-drawer-list--opened')).toBe(true)
+    render(<DrawerList {...props} data={mockData} />)
+    expect(document.querySelector('.dnb-drawer-list--opened')).toBeTruthy()
   })
 
   it('has correct state after changing prop to opened', () => {
-    expect(Comp.exists('.dnb-drawer-list--opened')).toBe(true)
-    Comp.setProps({
-      opened: false,
-    })
-    Comp.update()
-    expect(Comp.exists('.dnb-drawer-list--opened')).toBe(false)
-    Comp.setProps({
-      opened: true,
-    })
-    Comp.update()
-    expect(Comp.exists('.dnb-drawer-list--opened')).toBe(true)
+    const { rerender } = render(<DrawerList {...props} data={mockData} />)
+
+    expect(document.querySelector('.dnb-drawer-list--opened')).toBeTruthy()
+
+    rerender(<DrawerList {...props} data={mockData} opened={false} />)
+    expect(document.querySelector('.dnb-drawer-list--opened')).toBeFalsy()
+
+    rerender(<DrawerList {...props} data={mockData} opened={true} />)
+    expect(document.querySelector('.dnb-drawer-list--opened')).toBeTruthy()
   })
 
   it('handles default_value correctly on forcing re-render', () => {
-    const Comp = mount(
-      <Component
+    const { rerender } = render(
+      <DrawerList
         opened
         no_animation
         data={mockData}
@@ -106,71 +81,99 @@ describe('DrawerList component', () => {
     )
     let elem
 
-    elem = Comp.find('.dnb-drawer-list__option').at(props.value)
-    expect(elem.hasClass('dnb-drawer-list__option--focus')).toBe(true)
-    expect(elem.hasClass('dnb-drawer-list__option--selected')).toBe(true)
+    elem = document.querySelectorAll('.dnb-drawer-list__option')[
+      props.value
+    ]
+    expect(elem.classList.contains('dnb-drawer-list__option--focus')).toBe(
+      true
+    )
+    expect(
+      elem.classList.contains('dnb-drawer-list__option--selected')
+    ).toBe(true)
 
     // force re-render by prop change
     const title = 'show this attribute now'
-    Comp.setProps({
-      title,
-    })
-    expect(
-      Comp.find('.dnb-drawer-list').instance().getAttribute('title')
-    ).toBe(title)
+    rerender(
+      <DrawerList
+        opened
+        no_animation
+        data={mockData}
+        default_value={props.value}
+        {...mockProps}
+        title={title}
+      />
+    )
+    expect(screen.getByTitle(title)).toBeTruthy()
 
     // force re-render with null as value by prop change
-    Comp.setProps({
-      value: props.value + 1,
-    })
+    rerender(
+      <DrawerList
+        opened
+        no_animation
+        data={mockData}
+        default_value={props.value}
+        {...mockProps}
+        title={title}
+        value={(props.value as number) + 1}
+      />
+    )
 
     // the selected option got a new position
-    elem = Comp.find('.dnb-drawer-list__option').at(props.value + 1)
-    expect(elem.hasClass('dnb-drawer-list__option--selected')).toBe(true)
+    elem = document.querySelectorAll('.dnb-drawer-list__option')[
+      (props.value as number) + 1
+    ]
+    expect(
+      elem.classList.contains('dnb-drawer-list__option--selected')
+    ).toBe(true)
 
     // as well as the focus / active state
-    elem = Comp.find('.dnb-drawer-list__option').at(props.value + 1)
-    expect(elem.hasClass('dnb-drawer-list__option--focus')).toBe(true)
+    expect(elem.classList.contains('dnb-drawer-list__option--focus')).toBe(
+      true
+    )
 
     // and for sure, the title attribute is still the same
-    expect(
-      Comp.find('.dnb-drawer-list').instance().getAttribute('title')
-    ).toBe(title)
+    expect(screen.getByTitle(title)).toBeTruthy()
   })
 
   it('has correct value on key search', () => {
-    const Comp = mount(<Component {...props} data={mockData} />)
-
-    expect(Comp.exists('.dnb-drawer-list__option--focus')).toBe(true)
-
-    keydown(Comp, 83) // S
-
-    // force re-render
-    Comp.update()
+    const { rerender } = render(<DrawerList {...props} data={mockData} />)
 
     expect(
-      Comp.find('.dnb-drawer-list__option')
-        .at(1)
-        .hasClass('dnb-drawer-list__option--focus')
-    ).toBe(true)
+      document.querySelector('.dnb-drawer-list__option--focus')
+    ).toBeTruthy()
 
-    keydown(Comp, 70) // F
-
-    // force re-render
-    Comp.update()
+    keydown(83) // S
 
     expect(
-      Comp.find('.dnb-drawer-list__option')
-        .at(2)
-        .hasClass('dnb-drawer-list__option--focus')
-    ).toBe(true)
+      Array.from(
+        document.querySelectorAll('.dnb-drawer-list__option')[1].classList
+      )
+    ).toEqual([
+      'dnb-drawer-list__option',
+      'dnb-drawer-list__option--focus',
+    ])
+
+    keydown(70) // F
+
+    // force re-render
+    rerender(<DrawerList {...props} data={mockData} />)
+
+    expect(
+      Array.from(
+        document.querySelectorAll('.dnb-drawer-list__option')[2].classList
+      )
+    ).toEqual([
+      'dnb-drawer-list__option',
+      'dnb-drawer-list__option--selected',
+      'dnb-drawer-list__option--focus',
+    ])
   })
 
   it('has valid on_select callback', () => {
     const on_select = jest.fn()
 
-    const Comp = mount(
-      <Component
+    const { rerender } = render(
+      <DrawerList
         {...props}
         data={Object.freeze(mockData)}
         on_select={on_select}
@@ -178,7 +181,7 @@ describe('DrawerList component', () => {
     )
 
     // select the current
-    keydown(Comp, 32) // space
+    keydown(32) // space
 
     const notChangedItem = mockData[props.value]
     expect(on_select.mock.calls[0][0].data).toStrictEqual(notChangedItem)
@@ -186,42 +189,45 @@ describe('DrawerList component', () => {
     expect(on_select.mock.calls[0][0].active_item).toBe(2)
 
     // reset props
-    Comp.setProps({
-      opened: null,
-    })
+    rerender(
+      <DrawerList
+        {...props}
+        data={Object.freeze(mockData)}
+        on_select={on_select}
+        opened={null}
+      />
+    )
 
     // then open again
-    Comp.setProps({
-      opened: true,
-    })
-    keydown(Comp, 40) // down
+    rerender(
+      <DrawerList
+        {...props}
+        data={Object.freeze(mockData)}
+        on_select={on_select}
+        opened={true}
+      />
+    )
+    keydown(40) // down
 
     expect(on_select.mock.calls[1][0].selected_item).toBe(undefined)
     expect(on_select.mock.calls[1][0].active_item).toBe(3)
 
-    const selectedItem = mockData[props.value + 1]
+    const selectedItem = mockData[(props.value as number) + 1]
     expect(on_select.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
   })
 
   it('will set data-dnb-drawer-list-active with id', () => {
-    const Comp = mount(
-      <Component {...props} opened={false} data={mockData} />,
-      {
-        attachTo: attachToBody(),
-      }
+    const { rerender } = render(
+      <DrawerList {...props} opened={false} data={mockData} />
     )
 
-    Comp.setProps({
-      opened: true,
-    })
+    rerender(<DrawerList {...props} opened={true} data={mockData} />)
 
     expect(
       document.documentElement.getAttribute('data-dnb-drawer-list-active')
     ).toBe(props.id)
 
-    Comp.setProps({
-      opened: false,
-    })
+    rerender(<DrawerList {...props} opened={false} data={mockData} />)
 
     expect(
       document.documentElement.hasAttribute('data-dnb-drawer-list-active')
@@ -229,22 +235,17 @@ describe('DrawerList component', () => {
   })
 
   it('will unset data-dnb-drawer-list-active on unmount', () => {
-    const Comp = mount(
-      <Component {...props} opened={false} data={mockData} />,
-      {
-        attachTo: attachToBody(),
-      }
+    const { rerender, unmount } = render(
+      <DrawerList {...props} data={mockData} opened={false} />
     )
 
-    Comp.setProps({
-      opened: true,
-    })
+    rerender(<DrawerList {...props} data={mockData} opened={true} />)
 
     expect(
       document.documentElement.getAttribute('data-dnb-drawer-list-active')
     ).toBe(props.id)
 
-    Comp.unmount()
+    unmount()
 
     expect(
       document.documentElement.hasAttribute('data-dnb-drawer-list-active')
@@ -253,7 +254,7 @@ describe('DrawerList component', () => {
 
   it('will lock body scroll when enable_body_lock is true', () => {
     const MockComponent = (p) => (
-      <Component {...props} data={mockData} enable_body_lock {...p} />
+      <DrawerList {...props} data={mockData} enable_body_lock {...p} />
     )
 
     const { rerender } = render(<MockComponent opened={false} />)
@@ -275,8 +276,8 @@ describe('DrawerList component', () => {
     const on_change = jest.fn()
     const on_select = jest.fn()
 
-    const Comp = mount(
-      <Component
+    const { rerender } = render(
+      <DrawerList
         {...props}
         data={mockData}
         on_change={on_change}
@@ -287,113 +288,130 @@ describe('DrawerList component', () => {
     let selectedItem
 
     // then simulate changes
-    keydown(Comp, 40) // down
-    keydown(Comp, 32) // space
+    keydown(40) // down
+    keydown(32) // space
 
-    selectedItem = mockData[props.value + 1]
+    selectedItem = mockData[(props.value as number) + 1]
     expect(on_change.mock.calls[0][0].data).toStrictEqual(selectedItem)
     expect(on_select.mock.calls[1][0].data).toStrictEqual(selectedItem)
 
-    // reset props
-    Comp.setProps({
-      opened: null,
-    })
+    rerender(
+      <DrawerList
+        {...props}
+        data={mockData}
+        on_change={on_change}
+        on_select={on_select}
+        opened={null}
+      />
+    )
 
     // then open again
-    Comp.setProps({
-      opened: true,
-    })
+    rerender(
+      <DrawerList
+        {...props}
+        data={mockData}
+        on_change={on_change}
+        on_select={on_select}
+        opened={true}
+      />
+    )
 
     // then simulate changes
-    keydown(Comp, 40) // down
-    keydown(Comp, 13) // enter
+    keydown(40) // down
+    keydown(13) // enter
 
-    selectedItem = mockData[props.value + 2]
+    selectedItem = mockData[(props.value as number) + 2]
     expect(on_change.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
     expect(on_select.mock.calls[3][0].data).toStrictEqual(selectedItem) // second call!
   })
 
   it('has correct direction prop', () => {
     const directionTop = 'top'
-    const Comp = mount(
-      <Component {...props} data={mockData} direction={directionTop} />
-    )
-    expect(Comp.exists(`.dnb-drawer-list--${directionTop}`)).toBe(true)
 
-    const directionBottom = 'bottom'
-    Comp.setProps({
-      direction: directionBottom,
-    })
-    expect(Comp.exists(`.dnb-drawer-list--${directionBottom}`)).toBe(true)
+    const { rerender } = render(
+      <DrawerList {...props} data={mockData} direction={directionTop} />
+    )
 
     expect(
-      Comp.find('.dnb-drawer-list__options')
-        .instance()
+      document.querySelector(`.dnb-drawer-list--${directionTop}`)
+    ).toBeTruthy()
+
+    const directionBottom = 'bottom'
+    rerender(
+      <DrawerList {...props} data={mockData} direction={directionBottom} />
+    )
+    expect(
+      document.querySelector(`.dnb-drawer-list--${directionBottom}`)
+    ).toBeTruthy()
+
+    expect(
+      document
+        .querySelector('.dnb-drawer-list__options')
         .getAttribute('style')
     ).toBe('max-height: 33.5rem;')
   })
 
   it('has working direction observer', async () => {
-    const Comp = mount(<Component {...props} data={mockData} />)
-    await testDirectionObserver(Comp)
+    render(<DrawerList {...props} data={mockData} />)
+    await testDirectionObserver()
   })
 
   it('will call on_hide after "esc" key', () => {
     const on_hide = jest.fn()
 
-    const Comp = mount(
-      <Component {...props} data={mockData} on_hide={on_hide} />
-    )
+    render(<DrawerList {...props} data={mockData} on_hide={on_hide} />)
 
     expect(
-      Comp.find('span.dnb-drawer-list')
-        .instance()
-        .classList.contains('dnb-drawer-list--opened')
-    ).toBe(true)
-    expect(
-      Comp.find('span.dnb-drawer-list')
-        .instance()
-        .classList.contains('dnb-drawer-list--hidden')
-    ).toBe(false)
+      Array.from(document.querySelector('span.dnb-drawer-list').classList)
+    ).toEqual([
+      'dnb-drawer-list',
+      'dnb-drawer-list--top',
+      'dnb-drawer-list--opened',
+      'dnb-drawer-list--triangle-position-left',
+      'dnb-drawer-list--left',
+      'dnb-drawer-list--default',
+      'dnb-drawer-list--scroll',
+    ])
 
-    keydown(Comp, 27) // esc
+    keydown(27) // esc
     expect(on_hide.mock.calls.length).toBe(1)
 
     expect(
-      Comp.find('span.dnb-drawer-list')
-        .instance()
-        .classList.contains('dnb-drawer-list--opened')
-    ).toBe(false)
-    expect(
-      Comp.find('span.dnb-drawer-list')
-        .instance()
-        .classList.contains('dnb-drawer-list--hidden')
-    ).toBe(true)
+      Array.from(document.querySelector('span.dnb-drawer-list').classList)
+    ).toEqual([
+      'dnb-drawer-list',
+      'dnb-drawer-list--top',
+      'dnb-drawer-list--hidden',
+      'dnb-drawer-list--triangle-position-left',
+      'dnb-drawer-list--left',
+      'dnb-drawer-list--default',
+      'dnb-drawer-list--scroll',
+    ])
   })
 
   it('has correct class modifier "--opened"', () => {
-    const Comp = mount(<Component {...props} data={mockData} />)
-    const elem = Comp.find('span.dnb-drawer-list')
+    render(<DrawerList {...props} data={mockData} />)
+    const elem = document.querySelector('span.dnb-drawer-list')
 
-    expect(elem.instance().getAttribute('class')).toContain(
-      'dnb-drawer-list--opened'
-    )
+    expect(elem.className).toContain('dnb-drawer-list--opened')
 
-    expect(elem.hasClass('dnb-drawer-list--hidden')).toBe(false)
+    expect(elem.className).not.toContain('dnb-drawer-list--hidden')
   })
 
   it('has correct length of li elements', () => {
-    expect(Comp.find('li.dnb-drawer-list__option').length).toBe(
-      mockData.length
-    )
+    render(<DrawerList {...props} data={mockData} />)
+
+    expect(
+      document.querySelectorAll('li.dnb-drawer-list__option').length
+    ).toBe(mockData.length)
   })
 
   it('has correct value on data given as an object', () => {
     const on_change = jest.fn()
     const on_select = jest.fn()
 
-    const Comp = mount(
-      <Component
+    render(
+      <DrawerList
         opened
         no_animation
         on_change={on_change}
@@ -404,14 +422,14 @@ describe('DrawerList component', () => {
     )
 
     // then simulate changes
-    keydown(Comp, 40) // down
+    keydown(40) // down
     expect(on_select.mock.calls[0][0].active_item).toBe(0)
 
-    keydown(Comp, 13) // enter
+    keydown(13) // enter
     expect(on_change.mock.calls[0][0].value).toBe('a')
 
     // then open again
-    keydown(Comp, 32) // space
+    keydown(32) // space
 
     expect(on_change).toBeCalledTimes(1)
     expect(on_select).toBeCalledTimes(2)
@@ -422,8 +440,8 @@ describe('DrawerList component', () => {
     const on_hide = jest.fn()
     const params = { 'data-attr': 'value' }
 
-    mount(
-      <Component
+    render(
+      <DrawerList
         {...props}
         on_show={on_show}
         on_hide={on_hide}
@@ -435,24 +453,35 @@ describe('DrawerList component', () => {
     expect(on_show.mock.calls.length).toBe(1)
     expect(on_show.mock.calls[0][0].attributes).toMatchObject(params)
 
-    keydown(Comp, 27) // esc
+    keydown(27) // esc
     expect(on_hide.mock.calls.length).toBe(1)
     expect(on_hide.mock.calls[0][0].attributes).toMatchObject(params)
   })
 })
 
 describe('DrawerList markup', () => {
-  const CheckComponent = mount(
-    <Component {...snapshotProps} data={mockData} />
-  )
-
-  // compare the snapshot
-  it('have to match snapshot', () => {
-    expect(toJson(CheckComponent)).toMatchSnapshot()
-  })
-
   it('should validate with ARIA rules', async () => {
-    expect(await axeComponent(CheckComponent)).toHaveNoViolations()
+    const snapshotProps: DrawerListProps = {
+      id: 'drawer-list-id',
+      direction: 'bottom',
+      value: 2,
+      skip_portal: true,
+      opened: true,
+      no_animation: true,
+      size: 'default',
+    }
+
+    const CheckComponent = render(
+      <DrawerList {...snapshotProps} data={mockData} />
+    )
+    expect(
+      await axeComponent(CheckComponent, {
+        rules: {
+          'aria-input-field-name': { enabled: false },
+          'aria-required-children': { enabled: false },
+        },
+      })
+    ).toHaveNoViolations()
   })
 })
 
@@ -469,9 +498,6 @@ describe('DrawerList scss', () => {
   })
 })
 
-const keydown = (Comp, keyCode) => {
+const keydown = (keyCode) => {
   document.dispatchEvent(new KeyboardEvent('keydown', { keyCode }))
-  // Comp.find('input').simulate('keydown', {
-  //   keyCode
-  // })
 }

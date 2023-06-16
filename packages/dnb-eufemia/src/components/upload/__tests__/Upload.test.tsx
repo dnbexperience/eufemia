@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
-import { renderHook, act } from '@testing-library/react-hooks'
+import { renderHook } from '@testing-library/react-hooks'
 import Upload from '../Upload'
 import nbNO from '../../../shared/locales/nb-NO'
 import enGB from '../../../shared/locales/en-GB'
@@ -249,44 +249,42 @@ describe('Upload', () => {
     const file1 = createMockFile('fileName-1.png', 100, 'image/png')
     const file2 = createMockFile('fileName-2.png', 100, 'image/png')
 
-    await act(async () => {
-      await waitFor(() =>
-        fireEvent.drop(element, {
-          dataTransfer: { files: [file1, file2] },
-        })
-      )
-
-      await waitFor(() =>
-        fireEvent.drop(element, {
-          dataTransfer: { files: [file2, file2] },
-        })
-      )
-
-      expect(result.current.files.length).toBe(1)
-      expect(result.current.files).toEqual([
-        { file: file1, id: expect.any(String), exists: false },
-      ])
-      expect(
-        screen.queryByText(nb.errorAmountLimit.replace('%amount', '1'))
-      ).toBeTruthy()
-      expect(result.current.internalFiles.length).toBe(3)
-
-      const deleteButton = screen.queryByRole('button', {
-        name: nb.deleteButton,
+    await waitFor(() =>
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file1, file2] },
       })
+    )
 
-      fireEvent.click(deleteButton)
+    await waitFor(() =>
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file2, file2] },
+      })
+    )
 
-      expect(element.querySelector('.dnb-form-status')).toBeFalsy()
+    expect(result.current.files.length).toBe(1)
+    expect(result.current.files).toEqual([
+      { file: file1, id: expect.any(String), exists: false },
+    ])
+    expect(
+      screen.queryByText(nb.errorAmountLimit.replace('%amount', '1'))
+    ).toBeTruthy()
+    expect(result.current.internalFiles.length).toBe(3)
 
-      expect(
-        screen
-          .queryByRole('button', {
-            name: nb.buttonText,
-          })
-          .hasAttribute('disabled')
-      ).toBe(false)
+    const deleteButton = screen.queryByRole('button', {
+      name: nb.deleteButton,
     })
+
+    fireEvent.click(deleteButton)
+
+    expect(element.querySelector('.dnb-form-status')).toBeFalsy()
+
+    expect(
+      screen
+        .queryByRole('button', {
+          name: nb.buttonText,
+        })
+        .hasAttribute('disabled')
+    ).toBe(false)
   })
 
   it('will accept same file only once', async () => {
@@ -302,30 +300,29 @@ describe('Upload', () => {
     const file1 = createMockFile('fileName-1.png', 100, 'image/png')
     const file2 = createMockFile('fileName-2.png', 100, 'image/png')
 
-    await act(async () => {
-      await waitFor(() =>
-        fireEvent.drop(element, {
-          dataTransfer: { files: [file1] },
-        })
-      )
-      await waitFor(() =>
-        fireEvent.drop(element, {
-          dataTransfer: { files: [file1, file2] },
-        })
-      )
+    await waitFor(() =>
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file1] },
+      })
+    )
 
-      expect(result.current.files.length).toBe(2)
-      expect(result.current.files).toEqual([
-        { file: file1, id: expect.any(String), exists: false },
-        { file: file2, id: expect.any(String), exists: false },
-      ])
-      expect(result.current.internalFiles.length).toBe(3)
-      expect(result.current.internalFiles).toEqual([
-        { file: file1, id: expect.any(String), exists: false },
-        { file: file1, id: expect.any(String), exists: true },
-        { file: file2, id: expect.any(String), exists: false },
-      ])
-    })
+    await waitFor(() =>
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file1, file2] },
+      })
+    )
+
+    expect(result.current.files.length).toBe(2)
+    expect(result.current.files).toEqual([
+      { file: file1, id: expect.any(String), exists: false },
+      { file: file2, id: expect.any(String), exists: false },
+    ])
+    expect(result.current.internalFiles.length).toBe(3)
+    expect(result.current.internalFiles).toEqual([
+      { file: file1, id: expect.any(String), exists: false },
+      { file: file1, id: expect.any(String), exists: true },
+      { file: file2, id: expect.any(String), exists: false },
+    ])
   })
 
   it('will highlight same file', async () => {
@@ -341,29 +338,26 @@ describe('Upload', () => {
     const file1 = createMockFile('fileName-1.png', 100, 'image/png')
     const file2 = createMockFile('fileName-2.png', 100, 'image/png')
 
-    await act(async () => {
-      await waitFor(() =>
-        fireEvent.drop(element, {
-          dataTransfer: { files: [file1] },
-        })
-      )
-      await waitFor(() =>
-        fireEvent.drop(element, {
-          dataTransfer: { files: [file1, file2] },
-        })
-      )
+    await waitFor(() =>
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file1] },
+      })
+    )
 
-      expect(
-        element.querySelectorAll('.dnb-upload__file-cell--highlight')
-      ).toHaveLength(1)
-      expect(
-        Array.from(
-          element.querySelectorAll('.dnb-upload__file-cell')[0].classList
-        )
-      ).toEqual(
-        expect.arrayContaining(['dnb-upload__file-cell--highlight'])
+    await waitFor(() =>
+      fireEvent.drop(element, {
+        dataTransfer: { files: [file1, file2] },
+      })
+    )
+
+    expect(
+      element.querySelectorAll('.dnb-upload__file-cell--highlight')
+    ).toHaveLength(1)
+    expect(
+      Array.from(
+        element.querySelectorAll('.dnb-upload__file-cell')[0].classList
       )
-    })
+    ).toEqual(expect.arrayContaining(['dnb-upload__file-cell--highlight']))
   })
 
   describe('useUpload', () => {

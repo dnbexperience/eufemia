@@ -24,7 +24,7 @@ export type GlobalStatusChildren =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export interface GlobalStatusProps
-  extends React.HTMLProps<HTMLElement>,
+  extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
     SpacingProps {
   /**
    * The main ID. Defaults to `main`.

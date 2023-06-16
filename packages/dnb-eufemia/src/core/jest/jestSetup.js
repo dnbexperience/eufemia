@@ -4,23 +4,12 @@
  */
 
 import { axe, toHaveNoViolations } from 'jest-axe'
-import fakeProps from 'react-fake-props'
-import { mount, render } from './enzyme'
-import ReactDOMServer from 'react-dom/server'
 import fs from 'fs-extra'
 import path from 'path'
 import sass from 'sass'
 import { toBeType } from 'jest-tobetype'
-import toJson from 'enzyme-to-json'
 
-export {
-  fakeProps, // we have also our own replacement function called "fakeAllProps"
-  mount,
-  render,
-  toJson,
-  axe,
-  toHaveNoViolations,
-}
+export { axe, toHaveNoViolations }
 
 expect.extend({ toBeType })
 expect.extend(toHaveNoViolations)
@@ -130,11 +119,6 @@ export const axeComponent = async (...components) => {
         return Component.container.outerHTML
       }
 
-      // Support Enzyme: names the mounted wrapper: ReactWrapper
-      if (/react/i.test(String(Component?.constructor))) {
-        return ReactDOMServer.renderToStaticMarkup(Component)
-      }
-
       return null
     })
     .filter(Boolean)
@@ -144,13 +128,6 @@ export const axeComponent = async (...components) => {
     `<main>${html}</main>`,
     typeof components[1] === 'object' ? components[1] : null
   )
-}
-
-export function attachToBody() {
-  let container = document.createElement('div')
-  document.body.append(container)
-
-  return container
 }
 
 // For Yarn v3 we need this fix in order to make jest-axe work properly

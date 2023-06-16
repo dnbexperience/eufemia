@@ -124,4 +124,16 @@ export const countDecimals: (
 ) => number;
 
 type copy = (content: string, HTMLElement) => void;
+
+/**
+ * Only for internal use as of now. So its not documented.
+ */
 export const useCopyWithNotice: () => { copy: copy };
+
+/**
+ * Only for internal use as of now. So its not documented.
+ *
+ * So iOS v13 can select something on the first try, we run this add range trick.
+ * NB: This hack may be removed in future iOS versions.
+ */
+export const runIOSSelectionFix = () => null;

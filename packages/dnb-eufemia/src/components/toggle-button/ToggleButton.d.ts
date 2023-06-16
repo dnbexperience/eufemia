@@ -24,7 +24,7 @@ export type ToggleButtonValue =
 export type ToggleButtonAttributes = string | Record<string, unknown>;
 export type ToggleButtonChildren = string | ((...args: any[]) => any);
 export interface ToggleButtonProps
-  extends React.HTMLProps<HTMLElement>,
+  extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
     SpacingProps {
   /**
    * <em>(required)</em> the text shown in the ToggleButton.

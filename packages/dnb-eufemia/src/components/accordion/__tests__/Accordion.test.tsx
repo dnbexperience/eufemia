@@ -4,12 +4,7 @@
  */
 
 import React from 'react'
-import {
-  mount,
-  axeComponent,
-  toJson,
-  loadScss,
-} from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import Accordion, { AccordionProps } from '../Accordion'
 import {
   add_medium as AddIcon,
@@ -20,20 +15,12 @@ import MatchMediaMock from 'jest-matchmedia-mock'
 
 new MatchMediaMock()
 
-const props = {
-  id: 'accordion',
-  variant: 'default',
+const props: AccordionProps = {
   no_animation: true,
   title: 'title',
-} as AccordionProps
+}
 
 describe('Accordion component', () => {
-  it('have to match snapshot', () => {
-    const Comp = mount(<Accordion {...props} />)
-
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
   it('has correct state after "click" trigger', () => {
     const { rerender } = render(<Accordion {...props} />)
 

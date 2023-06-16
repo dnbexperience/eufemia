@@ -17,7 +17,7 @@ type HeadingDebugCounter = boolean | ((...args: any[]) => any);
 type HeadingReset = number | boolean;
 type HeadingChildren = React.ReactNode | ((...args: any[]) => any);
 export interface HeadingProps
-  extends React.HTMLProps<HTMLElement>,
+  extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
     SpacingProps {
   id?: string;
   group?: string;

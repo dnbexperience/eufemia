@@ -8,7 +8,6 @@ import {
   classWithSnakeCaseProps,
   IncludeSnakeCase,
 } from '../withSnakeCaseProps'
-import { mount, attachToBody, toJson } from '../../../core/jest/jestSetup'
 
 type CustomType = {
   fooBar: number
@@ -93,72 +92,34 @@ describe('withSnakeCaseProps', () => {
     `)
   })
 
-  it('will render with enzyme', () => {
-    const Comp = mount(<Component camelCase={false} snake_case={1} />)
-
-    expect(toJson(Comp)).toMatchInlineSnapshot(`
-      <Original
-        camelCase={false}
-        snake_case={1}
-      >
-        <Original
-          camelCase={false}
-          snakeCase={1}
-        >
-          <div
-            data-testid="content"
-          >
-            <div
-              data-testid="props"
-            >
-              {"camelCase":false,"snakeCase":1}
-            </div>
-            <div
-              data-testid="context"
-            >
-              {}
-            </div>
-          </div>
-        </Original>
-      </Original>
-    `)
-  })
-
   it('will handle contextType', () => {
-    const Comp = mount(
+    const { asFragment } = render(
       <Context.Provider value={{ contextProp: 'context value' }}>
         <Component camelCase={false} snake_case={1} />
       </Context.Provider>
     )
 
-    expect(
-      Comp.find(Original).find('[data-testid="context"]').text()
-    ).toBe('{"contextProp":"context value"}')
-    expect(toJson(Comp)).toMatchInlineSnapshot(`
-      <Original
-        camelCase={false}
-        snake_case={1}
-      >
-        <Original
-          camelCase={false}
-          snakeCase={1}
+    expect(screen.queryByTestId('context').textContent).toMatch(
+      '{"contextProp":"context value"}'
+    )
+
+    expect(asFragment()).toMatchInlineSnapshot(`
+      <DocumentFragment>
+        <div
+          data-testid="content"
         >
           <div
-            data-testid="content"
+            data-testid="props"
           >
-            <div
-              data-testid="props"
-            >
-              {"camelCase":false,"snakeCase":1}
-            </div>
-            <div
-              data-testid="context"
-            >
-              {"contextProp":"context value"}
-            </div>
+            {"camelCase":false,"snakeCase":1}
           </div>
-        </Original>
-      </Original>
+          <div
+            data-testid="context"
+          >
+            {"contextProp":"context value"}
+          </div>
+        </div>
+      </DocumentFragment>
     `)
   })
 })
@@ -290,118 +251,54 @@ describe('classWithSnakeCaseProps', () => {
     expect(componentDidMount).toHaveBeenCalledTimes(1)
   })
 
-  it('will render with enzyme', () => {
-    const Component = classWithSnakeCaseProps(Original)
-
-    const Comp = mount(<Component camelCase={false} snake_case={1} />)
-
-    expect(toJson(Comp)).toMatchInlineSnapshot(`
-      <Original
-        camelCase={false}
-        snake_case={1}
-      >
-        <Original
-          camelCase={false}
-          snakeCase={1}
-        >
-          <div
-            data-testid="content"
-          >
-            <div
-              data-testid="props"
-            >
-              {"camelCase":false,"snakeCase":1}
-            </div>
-            <div
-              data-testid="state"
-            >
-              {"someState":true}
-            </div>
-            <div
-              data-testid="context"
-            >
-              {}
-            </div>
-          </div>
-        </Original>
-      </Original>
-    `)
-  })
-
   it('will handle contextType', () => {
     const Component = classWithSnakeCaseProps(Original)
 
-    const Comp = mount(
+    const { asFragment } = render(
       <Context.Provider value={{ contextProp: 'context value' }}>
         <Component camelCase={false} snake_case={1} />
       </Context.Provider>
     )
 
-    expect(
-      Comp.find(Original).find('[data-testid="context"]').text()
-    ).toBe('{"contextProp":"context value"}')
-    expect(toJson(Comp)).toMatchInlineSnapshot(`
-      <Original
-        camelCase={false}
-        snake_case={1}
-      >
-        <Original
-          camelCase={false}
-          snakeCase={1}
+    expect(screen.queryByTestId('context').textContent).toMatch(
+      '{"contextProp":"context value"}'
+    )
+    expect(asFragment()).toMatchInlineSnapshot(`
+      <DocumentFragment>
+        <div
+          data-testid="content"
         >
           <div
-            data-testid="content"
+            data-testid="props"
           >
-            <div
-              data-testid="props"
-            >
-              {"camelCase":false,"snakeCase":1}
-            </div>
-            <div
-              data-testid="state"
-            >
-              {"someState":true}
-            </div>
-            <div
-              data-testid="context"
-            >
-              {"contextProp":"context value"}
-            </div>
+            {"camelCase":false,"snakeCase":1}
           </div>
-        </Original>
-      </Original>
+          <div
+            data-testid="state"
+          >
+            {"someState":true}
+          </div>
+          <div
+            data-testid="context"
+          >
+            {"contextProp":"context value"}
+          </div>
+        </div>
+      </DocumentFragment>
     `)
   })
 
-  it('should setState with enzyme', () => {
+  it('should set props', () => {
     const Component = classWithSnakeCaseProps(Original)
 
-    const Comp = mount(<Component />, { attachTo: attachToBody() })
-    Comp.find(Original).setState({
-      someState: false,
-    })
+    const { rerender } = render(<Component />)
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    rerender(<Component new_prop="hello" />)
 
-    expect(Comp.find(Original).state().someState).toBe(false)
-    expect(Comp.find(Original).find('[data-testid="state"]').text()).toBe(
-      '{"someState":false}'
-    )
-
-    Comp.unmount()
-  })
-
-  it('should setProps with enzyme', () => {
-    const Component = classWithSnakeCaseProps(Original)
-
-    const Comp = mount(<Component />, { attachTo: attachToBody() })
-    Comp.setProps({
-      new_prop: 'hello',
-    })
-
-    expect(Comp.find(Original).find('[data-testid="props"]').text()).toBe(
-      '{"newProp":"hello"}'
-    )
-
-    Comp.unmount()
+    expect(
+      document.querySelector('[data-testid="props"]').textContent
+    ).toBe('{"newProp":"hello"}')
   })
 
   it('should not update prop object when props are unchanged', () => {

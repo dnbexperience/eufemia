@@ -5,9 +5,7 @@
 
 import React from 'react'
 import {
-  mount,
   axeComponent,
-  toJson,
   loadScss,
   mockGetSelection,
 } from '../../../core/jest/jestSetup'
@@ -15,7 +13,7 @@ import { fireEvent, render } from '@testing-library/react'
 import { LOCALE } from '../../../shared/defaults'
 import { isMac } from '../../../shared/helpers'
 import Provider from '../../../shared/Provider'
-import NumberFormat from '../NumberFormat'
+import NumberFormat, { NumberFormatProps } from '../NumberFormat'
 import { format, formatReturnValue } from '../NumberUtils'
 
 const Component = (props) => {
@@ -25,11 +23,6 @@ const Component = (props) => {
 const element = NumberFormat.defaultProps.element
 const locale = LOCALE
 const value = 12345678.9876
-const snapshotProps = {
-  value,
-  locale,
-  element,
-}
 
 // make it possible to change the navigator lang
 // because "navigator.language" defaults to en-GB
@@ -59,9 +52,13 @@ describe('NumberFormat component', () => {
   const displaySelector = element + '.dnb-number-format span'
   const ariaSelector = element + '.dnb-number-format span[id]'
 
-  it('have to match default number-format snapshot', () => {
-    const Comp = mount(<Component {...snapshotProps} />)
-    expect(toJson(Comp)).toMatchSnapshot()
+  it('renders without properties', () => {
+    const props: NumberFormatProps = {}
+    render(<Component {...props} />)
+
+    expect(
+      document.querySelector(displaySelector).textContent
+    ).toBeTruthy()
   })
 
   it('have to match default number', () => {

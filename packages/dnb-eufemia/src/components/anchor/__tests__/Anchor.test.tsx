@@ -4,16 +4,14 @@
  */
 
 import React from 'react'
-import { fakeProps, axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent } from '../../../core/jest/jestSetup'
 import { act, fireEvent, render } from '@testing-library/react'
-import Anchor from '../Anchor'
+import Anchor, { AnchorAllProps } from '../Anchor'
 
-const props = fakeProps(require.resolve('../Anchor'), {
-  all: true,
-})
-props.inner_ref = null
-props.element = 'a'
-props.lang = 'nb-NO'
+const props: AnchorAllProps = {
+  element: 'a',
+  lang: 'nb-NO',
+}
 
 describe('Anchor element', () => {
   it('has dnb-a class', () => {

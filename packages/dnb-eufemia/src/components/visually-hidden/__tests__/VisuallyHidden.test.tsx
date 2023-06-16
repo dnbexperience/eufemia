@@ -1,10 +1,17 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import VisuallyHidden from '../VisuallyHidden'
+import VisuallyHidden, { VisuallyHiddenAllProps } from '../VisuallyHidden'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { Provider } from '../../../shared'
 
 describe('VisuallyHidden', () => {
+  it('renders with props as an object', () => {
+    const props: VisuallyHiddenAllProps = {}
+    render(<VisuallyHidden {...props} />)
+
+    expect(document.querySelector('.dnb-visually-hidden')).not.toBeNull()
+  })
+
   it('renders without properties', () => {
     render(<VisuallyHidden />)
 

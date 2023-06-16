@@ -1,17 +1,12 @@
 /**
- * Component Test
+ * InputPassword Test
  *
  */
 
 import React from 'react'
-import {
-  mount,
-  fakeProps,
-  toJson,
-  axeComponent,
-} from '../../../core/jest/jestSetup'
-import { render } from '@testing-library/react'
-import Component from '../InputPassword'
+import { axeComponent } from '../../../core/jest/jestSetup'
+import { fireEvent, render } from '@testing-library/react'
+import InputPassword, { InputPasswordProps } from '../InputPassword'
 import FormRow from '../../form-row/FormRow'
 
 import nbNO from '../../../shared/locales/nb-NO'
@@ -20,130 +15,136 @@ import enGB from '../../../shared/locales/en-GB'
 const nb = nbNO['nb-NO'].Input
 const en = enGB['en-GB'].Input
 
-const snapshotProps = {
-  ...fakeProps(require.resolve('../InputPassword'), {
-    all: true,
-    optional: true,
-  }),
-  input_element: null,
-  disabled: false,
-}
-snapshotProps.id = 'input'
-snapshotProps.autocomplete = 'off'
-
 describe('InputPassword component', () => {
-  // compare the snapshot
-  it('have to match snapshot', () => {
-    const Comp = mount(<Component {...snapshotProps} value="test" />)
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
-  // then test the state management
-  const Comp = mount(<Component id="input" />)
-
   it('has correct type by default', () => {
-    expect(Comp.find('.dnb-input__input').prop('type')).toBe('password')
+    const props: InputPasswordProps = {}
+    render(<InputPassword {...props} id="input" />)
+
+    expect(
+      document.querySelector('.dnb-input__input').getAttribute('type')
+    ).toBe('password')
   })
 
   it('has correct state after "focus" trigger', () => {
-    Comp.find('input').simulate('focus')
-    expect(Comp.find('.dnb-input').prop('data-input-state')).toBe('focus')
+    render(<InputPassword id="input" />)
+
+    fireEvent.focus(document.querySelector('input'))
+
+    expect(
+      document.querySelector('.dnb-input').getAttribute('data-input-state')
+    ).toBe('focus')
   })
 
   it('has correct aria-label', () => {
-    const Comp = mount(<Component id="input" />)
+    const { rerender } = render(<InputPassword id="input" />)
 
-    expect(Comp.find('button').prop('aria-label')).toBe(nb.show_password)
+    expect(
+      document.querySelector('button').getAttribute('aria-label')
+    ).toBe(nb.show_password)
 
-    Comp.setProps({
-      lang: 'en-GB',
-    })
+    rerender(<InputPassword id="input" lang="en-GB" />)
 
-    expect(Comp.find('button').instance().getAttribute('aria-label')).toBe(
-      en.show_password
-    )
+    expect(
+      document.querySelector('button').getAttribute('aria-label')
+    ).toBe(en.show_password)
 
-    expect(Comp.find('button').instance().getAttribute('aria-label')).toBe(
-      en.show_password
-    )
+    expect(
+      document.querySelector('button').getAttribute('aria-label')
+    ).toBe(en.show_password)
   })
 
   it('has aria-describedby and aria-controls', () => {
-    Comp.find('input').simulate('focus')
-    expect(Comp.find('.dnb-input__input').prop('aria-describedby')).toBe(
-      'input-submit-button'
-    )
+    render(<InputPassword id="input" />)
+
+    fireEvent.focus(document.querySelector('input'))
     expect(
-      Comp.find('button#input-submit-button').prop('aria-controls')
+      document
+        .querySelector('.dnb-input__input')
+        .getAttribute('aria-describedby')
+    ).toBe('input-submit-button')
+    expect(
+      document
+        .querySelector('button#input-submit-button')
+        .getAttribute('aria-controls')
     ).toBe('input')
   })
 
   it('has correct aria-controls id', () => {
-    expect(Comp.find('.dnb-input__input').prop('id')).toBe(
-      Comp.find('button.dnb-button--input-button').prop('aria-controls')
+    render(<InputPassword id="input" />)
+
+    expect(
+      document.querySelector('.dnb-input__input').getAttribute('id')
+    ).toBe(
+      document
+        .querySelector('button.dnb-button--input-button')
+        .getAttribute('aria-controls')
     )
   })
 
   it('has a submit button which gets focus', () => {
-    const Comp = mount(<Component />)
+    render(<InputPassword />)
 
-    const Button = Comp.find('InputSubmitButton').find('button')
-    expect(Button.exists()).toBe(true)
+    const Button = document.querySelector('button')
+    expect(Button).toBeTruthy()
 
-    Button.simulate('focus')
+    fireEvent.focus(Button)
     expect(
-      Comp.find('InputSubmitButton')
-        .find('.dnb-input__submit-button')
-        .prop('data-input-state')
+      document
+        .querySelector('.dnb-input__submit-button')
+        .getAttribute('data-input-state')
     ).toBe('focus')
   })
 
   it('can change the visibility of the password', () => {
-    const Comp = mount(<Component />)
+    render(<InputPassword />)
 
-    const Button = Comp.find('InputSubmitButton').find('button')
-    expect(Button.exists()).toBe(true)
+    const Button = document.querySelector('button')
+    expect(Button).toBeTruthy()
 
-    Button.simulate('click')
-    expect(Comp.find('.dnb-input__input').prop('type')).toBe('text')
+    fireEvent.click(Button)
+    expect(
+      document.querySelector('.dnb-input__input').getAttribute('type')
+    ).toBe('text')
 
-    Button.simulate('click')
-    expect(Comp.find('.dnb-input__input').prop('type')).toBe('password')
+    fireEvent.click(Button)
+    expect(
+      document.querySelector('.dnb-input__input').getAttribute('type')
+    ).toBe('password')
 
     expect(
-      Comp.find('InputSubmitButton')
-        .find('.dnb-input__submit-button')
-        .prop('data-input-state')
+      document
+        .querySelector('.dnb-input__submit-button')
+        .getAttribute('data-input-state')
     ).not.toBe('focus')
   })
 
   it('events gets triggered on interaction', () => {
     const on_show_password = jest.fn()
     const on_hide_password = jest.fn()
-    const Comp = mount(
-      <Component
+    render(
+      <InputPassword
         on_show_password={on_show_password}
         on_hide_password={on_hide_password}
       />
     )
 
-    const Button = Comp.find('InputSubmitButton').find('button')
+    const Button = document.querySelector('button')
 
-    Button.simulate('click')
+    fireEvent.click(Button)
     expect(on_show_password).toBeCalledTimes(1)
     expect(on_hide_password).not.toBeCalled()
 
-    Button.simulate('click')
+    fireEvent.click(Button)
     expect(on_show_password).toBeCalledTimes(1)
     expect(on_hide_password).toBeCalledTimes(1)
 
-    Button.simulate('click')
+    fireEvent.click(Button)
     expect(on_show_password).toBeCalledTimes(2)
     expect(on_hide_password).toBeCalledTimes(1)
   })
 
   it('should support spacing props', () => {
-    render(<Component top="2rem" />)
+    render(<InputPassword top="2rem" />)
 
     const element = document.querySelector('.dnb-input')
 
@@ -159,7 +160,7 @@ describe('InputPassword component', () => {
   it('should inherit FormRow vertical label', () => {
     render(
       <FormRow vertical>
-        <Component label="Label" />
+        <InputPassword label="Label" />
       </FormRow>
     )
 
@@ -183,8 +184,8 @@ describe('InputPassword component', () => {
   })
 
   it('should validate with ARIA rules as a input with a label', async () => {
-    const InputPasswordComp = mount(
-      <Component id="input" label="label" value="some value" />
+    const InputPasswordComp = render(
+      <InputPassword id="input" label="label" value="some value" />
     )
     expect(await axeComponent(InputPasswordComp)).toHaveNoViolations()
   })

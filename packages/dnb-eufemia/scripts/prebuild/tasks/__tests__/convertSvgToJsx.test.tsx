@@ -3,10 +3,8 @@
  *
  */
 
-import React from 'react'
 import path from 'path'
 import del from 'del'
-import { mount, toJson } from '../../../../src/core/jest/jestSetup'
 import convertSvgToJsx from '../convertSvgToJsx'
 
 jest.mock('ora', () => {
@@ -29,10 +27,12 @@ beforeAll(async () => {
       './test-files/dnb/icons-svg.lock'
     ),
   })
+  jest.useFakeTimers()
 })
 
 afterAll(async () => {
   await del(path.resolve(__dirname, `./test-files/dist`))
+  jest.useRealTimers()
 })
 
 describe('run convertSvgToJsx to convert ES6 to ES5', () => {
@@ -79,23 +79,5 @@ describe('run convertSvgToJsx to convert ES6 to ES5', () => {
       path.resolve(__dirname, 'test-files/dist/bell_medium.ts')
     )
     expect(index).toMatchSnapshot()
-  })
-
-  it('has to match bell JSX snapshot', async () => {
-    const { default: Svg } = await import(
-      path.resolve(__dirname, 'test-files/dist/dnb/bell.tsx')
-    )
-
-    const ComponentWrap = mount(<Svg />)
-    expect(toJson(ComponentWrap)).toMatchSnapshot()
-  })
-
-  it('has to convert match bell_medium JSX snapshot', async () => {
-    const { default: Svg } = await import(
-      path.resolve(__dirname, 'test-files/dist/dnb/bell_medium.tsx')
-    )
-
-    const ComponentWrap = mount(<Svg />)
-    expect(toJson(ComponentWrap)).toMatchSnapshot()
   })
 })

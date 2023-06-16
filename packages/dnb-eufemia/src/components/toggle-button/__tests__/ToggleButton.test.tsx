@@ -1,105 +1,87 @@
 /**
- * Component Test
+ * ToggleButton Test
  *
  */
 
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, cleanup } from '@testing-library/react'
 import React from 'react'
-import {
-  mount,
-  fakeProps,
-  axeComponent,
-  toJson,
-  loadScss,
-} from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import FormRow from '../../form-row/FormRow'
-import Component from '../ToggleButton'
+import ToggleButton, { ToggleButtonProps } from '../ToggleButton'
 
-const props = fakeProps(require.resolve('../ToggleButton'), {
-  optional: true,
-})
-props.id = 'toggle-button'
-props.status = null
-props.icon_position = 'left'
-props.label_direction = 'horizontal'
-props.variant = 'checkbox'
-props.readOnly = false
-props.globalStatus = { id: 'main' }
+const props: ToggleButtonProps = {
+  variant: 'checkbox',
+  title: 'title',
+  label: 'label',
+}
 
 describe('ToggleButton component', () => {
-  // mount compare the snapshot
-  it('have to match snapshot', () => {
-    const Comp = mount(<Component {...props} />)
-
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
   it('has correct state after "click" trigger', () => {
-    const Comp = mount(<Component {...props} />)
+    const { rerender } = render(<ToggleButton {...props} />)
 
     // default checked value has to be false
     expect(
-      Comp.find('.dnb-checkbox__input')
-        .instance()
+      document
+        .querySelector('.dnb-checkbox__input')
         .getAttribute('data-checked')
     ).toBe('false')
 
-    Comp.find('button').simulate('click') // we could send inn the event data structure like this: , { target: { checked: true } }
+    fireEvent.click(document.querySelector('button')) // we could send inn the event data structure like this: , { target: { checked: true } }
     expect(
-      Comp.find('.dnb-checkbox__input')
-        .instance()
+      document
+        .querySelector('.dnb-checkbox__input')
         .getAttribute('data-checked')
     ).toBe('true')
 
-    Comp.find('button').simulate('click')
+    fireEvent.click(document.querySelector('button'))
     expect(
-      Comp.find('.dnb-checkbox__input')
-        .instance()
+      document
+        .querySelector('.dnb-checkbox__input')
         .getAttribute('data-checked')
     ).toBe('false')
 
     // also check if getDerivedStateFromProps sets the state as expected
-    Comp.setProps({ checked: true })
+    rerender(<ToggleButton {...props} checked={true} />)
     expect(
-      Comp.find('.dnb-checkbox__input')
-        .instance()
+      document
+        .querySelector('.dnb-checkbox__input')
         .getAttribute('data-checked')
     ).toBe('true')
   })
 
   it('has correct variant', () => {
-    const Comp = mount(<Component variant="checkbox" checked={false} />)
+    const { rerender } = render(
+      <ToggleButton variant="checkbox" checked={false} />
+    )
 
     // default checked value has to be false
     expect(
-      Comp.find('.dnb-checkbox__input')
-        .instance()
+      document
+        .querySelector('.dnb-checkbox__input')
         .getAttribute('data-checked')
     ).toBe('false')
 
-    Comp.find('button').simulate('click') // we could send inn the event data structure like this: , { target: { checked: true } }
+    fireEvent.click(document.querySelector('button')) // we could send inn the event data structure like this: , { target: { checked: true } }
     expect(
-      Comp.find('.dnb-checkbox__input')
-        .instance()
+      document
+        .querySelector('.dnb-checkbox__input')
         .getAttribute('data-checked')
     ).toBe('true')
-    expect(Comp.find('.dnb-checkbox__button').exists()).toBe(true)
+    expect(document.querySelector('.dnb-checkbox__button')).toBeTruthy()
 
-    Comp.setProps({
-      variant: 'radio',
-    })
+    rerender(<ToggleButton variant="radio" checked={false} />)
 
-    expect(Comp.find('.dnb-radio__button').exists()).toBe(true)
+    expect(document.querySelector('.dnb-radio__button')).toBeTruthy()
     expect(
-      Comp.find('.dnb-radio__input')
-        .instance()
+      document
+        .querySelector('.dnb-radio__input')
         .getAttribute('data-checked')
     ).toBe('true')
 
-    Comp.find('button').simulate('click') // we could send inn the event data structure like this: , { target: { checked: true } }
+    fireEvent.click(document.querySelector('button')) // we could send inn the event data structure like this: , { target: { checked: true } }
     expect(
-      Comp.find('.dnb-radio__input')
-        .instance()
+      document
+        .querySelector('.dnb-radio__input')
         .getAttribute('data-checked')
     ).toBe('false')
   })
@@ -107,12 +89,16 @@ describe('ToggleButton component', () => {
   it('has "on_change" event which will trigger on a button click', () => {
     const my_event = jest.fn()
     const myEvent = jest.fn()
-    const Comp = mount(
-      <Component on_change={my_event} onChange={myEvent} checked={false} />
+    render(
+      <ToggleButton
+        on_change={my_event}
+        onChange={myEvent}
+        checked={false}
+      />
     )
 
     // first click
-    Comp.find('button').simulate('click')
+    fireEvent.click(document.querySelector('button'))
     expect(my_event).toHaveBeenCalled()
     expect(my_event.mock.calls[0][0].checked).toBe(true)
 
@@ -121,7 +107,7 @@ describe('ToggleButton component', () => {
     expect(myEvent.mock.calls[0][0].checked).toBe(true)
 
     // second click
-    Comp.find('button').simulate('click')
+    fireEvent.click(document.querySelector('button'))
     expect(my_event.mock.calls[1][0].checked).toBe(false)
   })
 
@@ -132,7 +118,7 @@ describe('ToggleButton component', () => {
 
       return (
         <>
-          <Component
+          <ToggleButton
             {...props}
             checked={checked}
             on_change={({ checked }) => setChecked(checked)}
@@ -150,94 +136,93 @@ describe('ToggleButton component', () => {
     }
 
     const TestStates = (Comp) => {
+      render(Comp)
       // re-render + default state is true
-      Comp.find('button#rerender').simulate('click')
+      fireEvent.click(document.querySelector('button#rerender'))
       expect(
-        Comp.find('.dnb-checkbox__input')
-          .instance()
+        document
+          .querySelector('.dnb-checkbox__input')
           .getAttribute('data-checked')
       ).toBe('true')
       expect(
-        Comp.find('button.dnb-toggle-button__button')
-          .instance()
+        document
+          .querySelector('button.dnb-toggle-button__button')
           .getAttribute('aria-pressed')
       ).toBe('true')
 
       // change it to false
-      Comp.find('button.dnb-toggle-button__button').simulate('click')
+      fireEvent.click(
+        document.querySelector('button.dnb-toggle-button__button')
+      )
       expect(
-        Comp.find('.dnb-checkbox__input')
-          .instance()
+        document
+          .querySelector('.dnb-checkbox__input')
           .getAttribute('data-checked')
       ).toBe('false')
       expect(
-        Comp.find('button.dnb-toggle-button__button')
-          .instance()
+        document
+          .querySelector('button.dnb-toggle-button__button')
           .getAttribute('aria-pressed')
       ).toBe('false')
 
       // set it to true
-      Comp.find('button#set-state').simulate('click')
+      fireEvent.click(document.querySelector('button#set-state'))
       expect(
-        Comp.find('button.dnb-toggle-button__button')
-          .instance()
+        document
+          .querySelector('button.dnb-toggle-button__button')
           .getAttribute('aria-pressed')
       ).toBe('true')
       expect(
-        Comp.find('.dnb-checkbox__input')
-          .instance()
+        document
+          .querySelector('.dnb-checkbox__input')
           .getAttribute('data-checked')
       ).toBe('true')
 
       // reset it with undefined to false
-      Comp.find('button#reset-undefined').simulate('click')
+      fireEvent.click(document.querySelector('button#reset-undefined'))
       expect(
-        Comp.find('.dnb-checkbox__input')
-          .instance()
+        document
+          .querySelector('.dnb-checkbox__input')
           .getAttribute('data-checked')
       ).toBe('false')
 
       // set it to true + reset it with null to false
-      Comp.find('button#set-state').simulate('click')
-      Comp.find('button#reset-null').simulate('click')
+      fireEvent.click(document.querySelector('button#set-state'))
+      fireEvent.click(document.querySelector('button#reset-null'))
       expect(
-        Comp.find('.dnb-checkbox__input')
-          .instance()
+        document
+          .querySelector('.dnb-checkbox__input')
           .getAttribute('data-checked')
       ).toBe('false')
 
       // re-render + still false
-      Comp.find('button#rerender').simulate('click')
+      fireEvent.click(document.querySelector('button#rerender'))
       expect(
-        Comp.find('.dnb-checkbox__input')
-          .instance()
+        document
+          .querySelector('.dnb-checkbox__input')
           .getAttribute('data-checked')
       ).toBe('false')
+
+      cleanup()
     }
 
-    TestStates(mount(<ControlledVsUncontrolled />))
+    TestStates(<ControlledVsUncontrolled />)
     TestStates(
-      mount(
-        <React.StrictMode>
-          <ControlledVsUncontrolled />
-        </React.StrictMode>
-      )
+      <React.StrictMode>
+        <ControlledVsUncontrolled />
+      </React.StrictMode>
     )
   })
 
   it('has a disabled attribute, once we set disabled to true', () => {
-    const Comp = mount(<Component />)
-    Comp.setProps({
-      disabled: true,
-    })
-    expect(Comp.find('button').instance().hasAttribute('disabled')).toBe(
-      true
-    )
+    const { rerender } = render(<ToggleButton />)
+    rerender(<ToggleButton disabled={true} />)
+    expect(document.querySelector('button[disabled]')).toBeTruthy()
   })
 
   it('should support enter key', () => {
     const onChange = jest.fn()
-    render(<Component on_change={onChange} />)
+    render(<ToggleButton on_change={onChange} />)
 
     const element = document.querySelector('button')
 
@@ -249,7 +234,7 @@ describe('ToggleButton component', () => {
   })
 
   it('should support spacing props', () => {
-    render(<Component top="2rem" />)
+    render(<ToggleButton top="2rem" />)
 
     const element = document.querySelector('.dnb-toggle-button')
 
@@ -262,7 +247,7 @@ describe('ToggleButton component', () => {
   it('should inherit FormRow vertical label', () => {
     render(
       <FormRow vertical>
-        <Component label="Label" />
+        <ToggleButton label="Label" />
       </FormRow>
     )
 
@@ -279,47 +264,51 @@ describe('ToggleButton component', () => {
   })
 
   it('should validate with ARIA rules', async () => {
-    const Comp = mount(<Component {...props} />)
+    const Comp = render(<ToggleButton {...props} />)
 
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
 
 describe('ToggleButton group component', () => {
-  // then test the state management
-  const Comp = mount(
-    <Component.Group label="Label" id="group">
-      <Component
-        id="toggle-button-1"
-        text="ToggleButton 1"
-        variant="radio"
-      />
-      <Component
-        id="toggle-button-2"
-        text="ToggleButton 2"
-        variant="radio"
-        checked
-      />
-    </Component.Group>
-  )
-
-  // mount compare the snapshot
-  it('have to match group snapshot', () => {
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
-  it('should validate with ARIA rules', async () => {
-    expect(await axeComponent(Comp)).toHaveNoViolations()
-  })
-
   it('has to have variant="radio', () => {
-    expect(Comp.find('.dnb-radio__button').exists()).toBe(true)
+    render(
+      <ToggleButton.Group label="Label" id="group">
+        <ToggleButton
+          id="toggle-button-1"
+          text="ToggleButton 1"
+          variant="radio"
+        />
+        <ToggleButton
+          id="toggle-button-2"
+          text="ToggleButton 2"
+          variant="radio"
+          checked
+        />
+      </ToggleButton.Group>
+    )
+    expect(document.querySelector('.dnb-radio__button')).toBeTruthy()
   })
 
   it('has to have correct aria-pressed', () => {
+    render(
+      <ToggleButton.Group label="Label" id="group">
+        <ToggleButton
+          id="toggle-button-1"
+          text="ToggleButton 1"
+          variant="radio"
+        />
+        <ToggleButton
+          id="toggle-button-2"
+          text="ToggleButton 2"
+          variant="radio"
+          checked
+        />
+      </ToggleButton.Group>
+    )
     expect(
-      Comp.find('button#toggle-button-2')
-        .instance()
+      document
+        .querySelector('button#toggle-button-2')
         .hasAttribute('aria-pressed')
     ).toBe(true)
   })
@@ -327,33 +316,33 @@ describe('ToggleButton group component', () => {
   it('has "on_change" event which will trigger on a button click', () => {
     const my_event = jest.fn()
     const myEvent = jest.fn()
-    const Comp = mount(
-      <Component.Group
+    render(
+      <ToggleButton.Group
         id="group"
         on_change={my_event}
         onChange={myEvent}
         value="second"
         data-prop="group-value"
       >
-        <Component
+        <ToggleButton
           id="toggle-button-1"
           text="ToggleButton 1"
           value="first"
           data-prop="value-1"
           attributes={{ 'data-attr': 'value' }}
         />
-        <Component
+        <ToggleButton
           id="toggle-button-2"
           text="ToggleButton 2"
           value="second"
           data-prop="value-2"
           attributes={{ 'data-attr': 'value' }}
         />
-      </Component.Group>
+      </ToggleButton.Group>
     )
 
     // first click
-    Comp.find('button#toggle-button-1').simulate('click')
+    fireEvent.click(document.querySelector('button#toggle-button-1'))
     expect(my_event).toHaveBeenCalled()
     expect(my_event.mock.calls[0][0].value).toBe('first')
 
@@ -366,7 +355,7 @@ describe('ToggleButton group component', () => {
       prop: 'value-1',
     })
 
-    Comp.find('button#toggle-button-2').simulate('click')
+    fireEvent.click(document.querySelector('button#toggle-button-2'))
     expect(my_event.mock.calls[1][0].value).toBe('second')
     expect(my_event.mock.calls[1][0].event.target.dataset).toMatchObject({
       attr: 'value',
@@ -376,43 +365,71 @@ describe('ToggleButton group component', () => {
 
   it('has multiselect "on_change" event which will trigger on a button click', () => {
     const my_event = jest.fn()
-    const Comp = mount(
-      <Component.Group
+    render(
+      <ToggleButton.Group
         id="group"
         on_change={my_event}
         values={['second']}
         multiselect={true}
       >
-        <Component
+        <ToggleButton
           id="toggle-button-1"
           text="ToggleButton 1"
           value="first"
         />
-        <Component
+        <ToggleButton
           id="toggle-button-2"
           text="ToggleButton 2"
           value="second"
         />
-      </Component.Group>
+      </ToggleButton.Group>
     )
 
     // first click
-    Comp.find('button#toggle-button-1').simulate('click')
+    fireEvent.click(document.querySelector('button#toggle-button-1'))
 
     expect(my_event).toHaveBeenCalled()
     expect(my_event.mock.calls.length).toBe(1)
     expect(my_event.mock.calls[0][0]).toHaveProperty('values')
     expect(my_event.mock.calls[0][0].values).toEqual(['second', 'first'])
-    expect(Comp.state().values).toEqual(['second', 'first'])
+    expect(
+      document
+        .querySelector('#toggle-button-1')
+        .getAttribute('aria-pressed')
+    ).toBe('true')
+    expect(
+      document
+        .querySelector('#toggle-button-2')
+        .getAttribute('aria-pressed')
+    ).toBe('true')
 
     // second click
-    Comp.find('button#toggle-button-1').simulate('click')
+    fireEvent.click(document.querySelector('button#toggle-button-1'))
     expect(my_event.mock.calls[1][0].values).toEqual(['second'])
-    expect(Comp.state().values).toEqual(['second'])
+    expect(
+      document
+        .querySelector('#toggle-button-1')
+        .getAttribute('aria-pressed')
+    ).toBe('false')
+    expect(
+      document
+        .querySelector('#toggle-button-2')
+        .getAttribute('aria-pressed')
+    ).toBe('true')
 
     // third click
-    Comp.find('button#toggle-button-2').simulate('click')
+    fireEvent.click(document.querySelector('button#toggle-button-2'))
     expect(my_event.mock.calls[2][0].values).toEqual([])
+    expect(
+      document
+        .querySelector('#toggle-button-1')
+        .getAttribute('aria-pressed')
+    ).toBe('false')
+    expect(
+      document
+        .querySelector('#toggle-button-2')
+        .getAttribute('aria-pressed')
+    ).toBe('false')
   })
 
   it('can be changed from props', () => {
@@ -430,132 +447,132 @@ describe('ToggleButton group component', () => {
           <button id="deselect-all" onClick={deselectAll}>
             deselect
           </button>
-          <Component.Group id="group" multiselect values={values}>
-            <Component
+          <ToggleButton.Group id="group" multiselect values={values}>
+            <ToggleButton
               variant="checkbox"
               id="toggle-button-1"
               text="ToggleButton 1"
               value="first"
             />
-            <Component
+            <ToggleButton
               variant="checkbox"
               id="toggle-button-2"
               text="ToggleButton 2"
               value="second"
             />
-          </Component.Group>
+          </ToggleButton.Group>
         </>
       )
     }
 
-    const Comp = mount(<GroupOf />)
+    render(<GroupOf />)
 
-    const first = Comp.find('button#toggle-button-1')
-    const second = Comp.find('button#toggle-button-2')
+    const first = document.querySelector('button#toggle-button-1')
+    const second = document.querySelector('button#toggle-button-2')
 
-    expect(first.instance().getAttribute('aria-pressed')).toBe('false')
-    expect(second.instance().getAttribute('aria-pressed')).toBe('true')
+    expect(first.getAttribute('aria-pressed')).toBe('false')
+    expect(second.getAttribute('aria-pressed')).toBe('true')
 
-    Comp.find('button#select-all').simulate('click')
+    fireEvent.click(document.querySelector('button#select-all'))
 
-    expect(first.instance().getAttribute('aria-pressed')).toBe('true')
-    expect(second.instance().getAttribute('aria-pressed')).toBe('true')
+    expect(first.getAttribute('aria-pressed')).toBe('true')
+    expect(second.getAttribute('aria-pressed')).toBe('true')
 
-    Comp.find('button#deselect-all').simulate('click')
+    fireEvent.click(document.querySelector('button#deselect-all'))
 
-    expect(first.instance().getAttribute('aria-pressed')).toBe('false')
-    expect(second.instance().getAttribute('aria-pressed')).toBe('false')
+    expect(first.getAttribute('aria-pressed')).toBe('false')
+    expect(second.getAttribute('aria-pressed')).toBe('false')
   })
 
   it('will let their items to be check/uncheck by its siblings', () => {
-    const Comp = mount(
-      <Component.Group id="group" multiselect={true}>
-        <Component
-          variant="checkbox"
-          id="toggle-button-1"
-          text="ToggleButton 1"
-          value="first"
-        />
-        <Component
-          variant="checkbox"
-          id="toggle-button-2"
-          text="ToggleButton 2"
-          value="second"
-        />
-      </Component.Group>
-    )
-
-    expect(Comp.state().values).toEqual(undefined)
+    const TestComp = () => {
+      return (
+        <ToggleButton.Group id="group" multiselect={true}>
+          <ToggleButton
+            variant="checkbox"
+            id="toggle-button-1"
+            text="ToggleButton 1"
+            value="first"
+          />
+          <ToggleButton
+            variant="checkbox"
+            id="toggle-button-2"
+            text="ToggleButton 2"
+            value="second"
+          />
+        </ToggleButton.Group>
+      )
+    }
 
     const TestButton = (Comp, id) => {
+      render(Comp)
+
       const sel = `button#${id}`
 
       expect(
-        Comp.find(sel)
-          .find('.dnb-checkbox__input')
-          .instance()
+        document
+          .querySelector(sel)
+          .querySelector('.dnb-checkbox__input')
           .getAttribute('data-checked')
       ).toBe('false')
 
-      Comp.find(sel).simulate('click')
-
+      fireEvent.click(document.querySelector(sel))
       expect(
-        Comp.find(sel)
-          .find('.dnb-checkbox__input')
-          .instance()
+        document
+          .querySelector(sel)
+          .querySelector('.dnb-checkbox__input')
           .getAttribute('data-checked')
       ).toBe('true')
-      expect(Comp.find(sel).instance().getAttribute('aria-pressed')).toBe(
-        'true'
-      )
-
-      Comp.find(sel).simulate('click')
-
-      expect(Comp.find(sel).instance().getAttribute('aria-pressed')).toBe(
-        'false'
-      )
-      expect(Comp.find('.dnb-toggle-button--checked').exists(sel)).toBe(
-        false
-      )
       expect(
-        Comp.find(sel)
-          .find('.dnb-checkbox__input')
-          .instance()
+        document.querySelector(sel).getAttribute('aria-pressed')
+      ).toBe('true')
+
+      fireEvent.click(document.querySelector(sel))
+      expect(
+        document.querySelector(sel).getAttribute('aria-pressed')
+      ).toBe('false')
+      expect(
+        document.querySelector('.dnb-toggle-button--checked')
+      ).toBeFalsy()
+      expect(
+        document
+          .querySelector(sel)
+          .querySelector('.dnb-checkbox__input')
           .getAttribute('data-checked')
       ).toBe('false')
 
-      Comp.find(sel).simulate('click')
+      fireEvent.click(document.querySelector(sel))
       expect(
-        Comp.find(sel)
-          .find('.dnb-checkbox__input')
-          .instance()
+        document
+          .querySelector(sel)
+          .querySelector('.dnb-checkbox__input')
           .getAttribute('data-checked')
       ).toBe('true')
+
+      cleanup()
     }
 
-    TestButton(Comp, 'toggle-button-1')
-    expect(Comp.state().values).toEqual(['first'])
+    TestButton(<TestComp />, 'toggle-button-1')
 
-    TestButton(Comp, 'toggle-button-2')
-    expect(Comp.state().values).toEqual(['first', 'second'])
+    TestButton(<TestComp />, 'toggle-button-2')
   })
 
   it('should support spacing props', () => {
     render(
-      <Component.Group id="group" top="2rem">
-        <Component
+      <ToggleButton.Group id="group" top="2rem">
+        <ToggleButton
           variant="checkbox"
           id="toggle-button-1"
           text="ToggleButton 1"
           value="first"
         />
-        <Component
+        <ToggleButton
           variant="checkbox"
           id="toggle-button-2"
           text="ToggleButton 2"
           value="second"
         />
-      </Component.Group>
+      </ToggleButton.Group>
     )
 
     const element = document.querySelector('.dnb-toggle-button-group')
@@ -572,20 +589,20 @@ describe('ToggleButton group component', () => {
   it('should inherit FormRow vertical label', () => {
     render(
       <FormRow vertical>
-        <Component.Group id="group" label="Label">
-          <Component
+        <ToggleButton.Group id="group" label="Label">
+          <ToggleButton
             variant="checkbox"
             id="toggle-button-1"
             text="ToggleButton 1"
             value="first"
           />
-          <Component
+          <ToggleButton
             variant="checkbox"
             id="toggle-button-2"
             text="ToggleButton 2"
             value="second"
           />
-        </Component.Group>
+        </ToggleButton.Group>
       </FormRow>
     )
 
@@ -623,6 +640,25 @@ describe('ToggleButton group component', () => {
       'dnb-form-row--vertical',
       'dnb-form-row--vertical-label',
     ])
+  })
+
+  it('should validate with ARIA rules', async () => {
+    const Comp = render(
+      <ToggleButton.Group label="Label" id="group">
+        <ToggleButton
+          id="toggle-button-1"
+          text="ToggleButton 1"
+          variant="radio"
+        />
+        <ToggleButton
+          id="toggle-button-2"
+          text="ToggleButton 2"
+          variant="radio"
+          checked
+        />
+      </ToggleButton.Group>
+    )
+    expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
 

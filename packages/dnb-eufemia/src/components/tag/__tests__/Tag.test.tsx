@@ -1,13 +1,21 @@
 import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
-import Tag from '../Tag'
+import Tag, { TagProps } from '../Tag'
 import nbNO from '../../../shared/locales/nb-NO'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { Provider } from '../../../shared'
+import { TagGroupProps } from '../TagGroup'
 
 const nb = nbNO['nb-NO'].Tag
 
 describe('Tag Group', () => {
+  it('renders with props as an object', () => {
+    const props: TagGroupProps = { label: 'label' }
+
+    render(<Tag.Group {...props} />)
+    expect(document.querySelector('.dnb-tag__group')).not.toBeNull()
+  })
+
   it('renders without children', () => {
     render(<Tag.Group label="tags" />)
 
@@ -89,6 +97,17 @@ describe('Tag Group', () => {
 })
 
 describe('Tag', () => {
+  it('renders with props as an object', () => {
+    const props: TagProps = {}
+
+    render(
+      <Tag.Group label="tags">
+        <Tag {...props} />
+      </Tag.Group>
+    )
+    expect(document.querySelector('.dnb-tag')).not.toBeNull()
+  })
+
   it('renders without properties', () => {
     render(
       <Tag.Group label="tags">

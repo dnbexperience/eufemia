@@ -1,25 +1,16 @@
 /**
- * Component Test
+ * Textarea Test
  *
  */
 
-import { render } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 import React from 'react'
-import {
-  mount,
-  fakeProps,
-  toJson,
-  axeComponent,
-  loadScss,
-} from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import FormRow from '../../form-row/FormRow'
-import Component from '../Textarea'
+import Textarea, { TextareaProps } from '../Textarea'
+import userEvent from '@testing-library/user-event'
 
-const props = {
-  ...fakeProps(require.resolve('../Textarea'), {
-    all: true,
-    optional: true,
-  }),
+const props: TextareaProps = {
   id: 'textarea',
   label: null,
   status: null, // to make sure we don't get aria-details
@@ -28,66 +19,81 @@ const props = {
 }
 
 describe('Textarea component', () => {
-  // compare the snapshot
-  it('have to match snapshot', () => {
-    const Comp = mount(<Component {...props} value="test" />)
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
-  // then test the state management
-  const Comp = mount(
-    <Component {...props} value={null}>
-      {null}
-    </Component>
-  )
-
   it('has correct state after "focus" trigger', () => {
-    Comp.find('textarea').simulate('focus')
+    render(
+      <Textarea {...props} value={null}>
+        {null}
+      </Textarea>
+    )
+    fireEvent.focus(document.querySelector('textarea'))
 
     expect(
-      Comp.find('.dnb-textarea').hasClass('dnb-textarea--focus')
+      document
+        .querySelector('.dnb-textarea')
+        .classList.contains('dnb-textarea--focus')
     ).toBe(true)
   })
 
   it('has correct state after "change" trigger', () => {
+    render(
+      <Textarea {...props} value={null}>
+        {null}
+      </Textarea>
+    )
     expect(
-      Comp.find('.dnb-textarea').hasClass('dnb-textarea--has-content')
+      document
+        .querySelector('.dnb-textarea')
+        .classList.contains('dnb-textarea--has-content')
     ).toBe(false)
 
     const value = 'new value'
-    Comp.find('textarea').simulate('change', { target: { value } })
+
+    fireEvent.change(document.querySelector('textarea'), {
+      target: { value },
+    })
 
     expect(
-      Comp.find('.dnb-textarea').hasClass('dnb-textarea--has-content')
+      document
+        .querySelector('.dnb-textarea')
+        .classList.contains('dnb-textarea--has-content')
     ).toBe(true)
-    expect(Comp.find('textarea').instance().value).toBe(value)
-    expect(Comp.state().value).toBe(value)
+    expect(document.querySelector('textarea').value).toBe(value)
   })
 
   // // make sure getDerivedStateFromProps works
   it('has correct state after changing "value" prop (set by getDerivedStateFromProps)', () => {
+    const { rerender } = render(
+      <Textarea {...props} value={null}>
+        {null}
+      </Textarea>
+    )
     const initValue = 'new prop value'
     const emptyValue = null
 
-    Comp.setProps({
-      value: initValue,
-    })
-    expect(Comp.state().value).toBe(initValue)
+    rerender(
+      <Textarea {...props} value={initValue}>
+        {null}
+      </Textarea>
+    )
+    expect(document.querySelector('textarea').value).toBe(initValue)
 
-    Comp.setProps({ value: emptyValue })
-    expect(Comp.state().value).toBe(emptyValue)
+    rerender(
+      <Textarea {...props} value={emptyValue}>
+        {null}
+      </Textarea>
+    )
+    expect(document.querySelector('textarea').value).toBe('')
   })
 
   it('events gets emmited correctly: "on_change" and "on_key_down"', () => {
     const initValue = 'init value'
     const newValue = 'new value'
-    const emptyValue = null // gets emmited also on values as null
 
     const on_change = jest.fn()
     const on_key_down = jest.fn() // additional native event test
 
-    const Comp = mount(
-      <Component
+    render(
+      <Textarea
         {...props}
         value={initValue}
         on_change={on_change}
@@ -95,95 +101,100 @@ describe('Textarea component', () => {
       />
     )
 
-    expect(Comp.state().value).toBe(initValue)
+    expect(document.querySelector('textarea').value).toBe(initValue)
 
-    Comp.find('textarea').simulate('change', {
-      target: { value: newValue },
-    })
-    expect(on_change.mock.calls.length).toBe(1)
-    expect(Comp.find('textarea').instance().value).toBe(newValue)
+    userEvent.type(document.querySelector('textarea'), newValue)
 
-    Comp.find('textarea').simulate('change', {
-      target: { value: emptyValue },
-    })
-    expect(on_change.mock.calls.length).toBe(2)
-    expect(on_change.mock.calls[0][0].rows).toBe(1)
-    expect(Comp.state().value).toBe(emptyValue)
+    expect(on_change.mock.calls.length).toBe(9)
+    expect(document.querySelector('textarea').value).toBe(
+      initValue + newValue
+    )
 
     // additional native event test
-    Comp.find('textarea').simulate('keydown', {
+    fireEvent.keyDown(document.querySelector('textarea'), {
+      keyCode: 84, // space,
       key: 'Space',
-      keyCode: 84,
-    }) // space
-    expect(on_key_down.mock.calls.length).toBe(1)
+    })
+    expect(on_key_down.mock.calls.length).toBe(10)
     expect(on_key_down.mock.calls[0][0].rows).toBe(1)
   })
 
+  it('supports null as value', () => {
+    render(<Textarea {...props} value={null} />)
+
+    expect(document.querySelector('textarea').value).toBe('')
+  })
+
   it('has correct state after setting "value" prop using placeholder (set by getDerivedStateFromProps)', () => {
-    const Comp = mount(<Component placeholder="Placeholder" />)
+    const { rerender } = render(<Textarea placeholder="Placeholder" />)
 
     const newValue = 'new value'
     const emptyValue = null
     const zeroValue = '0'
 
-    Comp.setProps({
-      value: newValue,
-    })
-    expect(Comp.state().value).toBe(newValue)
+    rerender(<Textarea value={newValue} />)
+    expect(document.querySelector('textarea').value).toBe(newValue)
 
-    Comp.setProps({ value: emptyValue })
-    expect(Comp.state().value).toBe(emptyValue)
+    rerender(<Textarea value={emptyValue} />)
+    expect(document.querySelector('textarea').value).toBe('')
 
-    Comp.setProps({ value: zeroValue })
-    expect(Comp.find('textarea').instance().value).toBe(String(zeroValue))
+    rerender(<Textarea value={zeroValue} />)
+    expect(document.querySelector('textarea').value).toBe(
+      String(zeroValue)
+    )
   })
 
   it('uses children as the value', () => {
-    const Comp = mount(<Component>children</Component>)
-    expect(Comp.find('textarea').props().value).toBe('children')
+    render(<Textarea>children</Textarea>)
+    expect(document.querySelector('textarea').value).toBe('children')
   })
 
   it('has correct size attribute (chars length) on textarea by using textarea_attributes', () => {
-    const Comp = mount(<Component textarea_attributes={{ size: 2 }} />)
-    expect(Comp.find('textarea').instance().getAttribute('size')).toBe('2')
+    render(<Textarea textarea_attributes={{ size: 2 }} />)
+    expect(document.querySelector('textarea').getAttribute('size')).toBe(
+      '2'
+    )
   })
 
   it('has to to have a prop value like value', () => {
+    const { rerender } = render(
+      <Textarea {...props} value={null}>
+        {null}
+      </Textarea>
+    )
     const value = 'new value'
-    Comp.setProps({
-      value,
-    })
-    expect(Comp.find('textarea').props().value).toBe(value)
+    rerender(
+      <Textarea {...props} value={value}>
+        {null}
+      </Textarea>
+    )
+    expect(document.querySelector('textarea').value).toBe(value)
   })
 
   it('has to to have a label value as defined in the prop', () => {
-    const Comp = mount(<Component {...props} label="label" />)
-    expect(Comp.find('label').text()).toBe('label')
+    render(<Textarea {...props} label="label" />)
+    expect(document.querySelector('label').textContent).toBe('label')
   })
 
   it('has to to have a status value as defined in the prop', () => {
-    const Comp = mount(
-      <Component {...props} status="status" status_state="error" />
-    )
-    expect(Comp.find('.dnb-form-status__text').text()).toBe('status')
+    render(<Textarea {...props} status="status" status_state="error" />)
+    expect(
+      document.querySelector('.dnb-form-status__text').textContent
+    ).toBe('status')
   })
 
   it('has a disabled attribute, once we set disabled to true', () => {
-    const Comp = mount(<Component />)
-    Comp.setProps({
-      disabled: true,
-    })
-    expect(Comp.find('textarea').instance().hasAttribute('disabled')).toBe(
-      true
-    )
+    const { rerender } = render(<Textarea />)
+    rerender(<Textarea disabled={true} />)
+    expect(
+      document.querySelector('textarea').hasAttribute('disabled')
+    ).toBe(true)
   })
 
   it('will correctly auto resize if prop autoresize is used', () => {
-    const Comp = mount(
-      <Component rows={1} autoresize={true} autoresize_max_rows={4} />
-    )
+    render(<Textarea rows={1} autoresize={true} autoresize_max_rows={4} />)
 
-    const elem = Comp.find('textarea').instance()
+    const elem = document.querySelector('textarea')
 
     const style = {
       lineHeight: String(1.5 * 16),
@@ -194,24 +205,24 @@ describe('Textarea component', () => {
     jest
       .spyOn(elem, 'scrollHeight', 'get')
       .mockImplementation(() => 1.5 * 16)
-    Comp.find('textarea').simulate('change')
+    userEvent.type(elem, 'a')
     expect(elem.style.height).toBe('24px')
 
     jest
       .spyOn(elem, 'scrollHeight', 'get')
       .mockImplementation(() => 1.5 * 32)
-    Comp.find('textarea').simulate('change')
+    userEvent.type(elem, 'a')
     expect(elem.style.height).toBe('48px')
 
     jest
       .spyOn(elem, 'scrollHeight', 'get')
       .mockImplementation(() => 1.5 * 2000)
-    Comp.find('textarea').simulate('change')
+    userEvent.type(elem, 'a')
     expect(elem.style.height).toBe('96px')
   })
 
   it('should support spacing props', () => {
-    render(<Component top="2rem" />)
+    render(<Textarea top="2rem" />)
 
     const element = document.querySelector('.dnb-textarea')
 
@@ -226,7 +237,7 @@ describe('Textarea component', () => {
   it('should inherit FormRow vertical label', () => {
     render(
       <FormRow vertical>
-        <Component label="Label" />
+        <Textarea label="Label" />
       </FormRow>
     )
 
@@ -245,13 +256,14 @@ describe('Textarea component', () => {
   })
 
   it('should validate with ARIA rules as a textarea with a label', async () => {
-    const LabelComp = mount(<label htmlFor="textarea">text</label>)
-    const TextareaComp = mount(
-      <Component {...props} id="textarea" value="some value" />
+    const Comp = render(
+      <>
+        <label htmlFor="textarea">text</label>
+        <Textarea {...props} id="textarea" value="some value" />
+      </>
     )
-    expect(
-      await axeComponent(LabelComp, TextareaComp)
-    ).toHaveNoViolations()
+
+    expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
 

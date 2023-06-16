@@ -1,22 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`FormSet component have to match snapshot 1`] = `
-<FormSet
-  direction="horizontal"
-  disabled="disabled"
-  element="form"
-  no_form="no_form"
-  on_submit={[Function]}
-  prevent_submit="prevent_submit"
-  skeleton="skeleton"
->
-  <form
-    className="dnb-form-set"
-    onSubmit={[Function]}
-  />
-</FormSet>
-`;
-
 exports[`FormSet scss have to match default theme snapshot 1`] = `
 "/*
  * FormSet theme

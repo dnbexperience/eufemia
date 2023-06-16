@@ -25,7 +25,7 @@ export type TextareaTextareaElement =
   | React.ReactNode;
 export type TextareaChildren = React.ReactNode | ((...args: any[]) => any);
 export interface TextareaProps
-  extends React.HTMLProps<HTMLElement>,
+  extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
     SpacingProps {
   /**
    * The content value of the Textarea.

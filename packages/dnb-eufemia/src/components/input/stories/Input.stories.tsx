@@ -34,7 +34,7 @@ const WidthLimit = styled(FormRow)`
   ${'' /* width: 10rem; */}
 `
 
-const myRef = React.createRef()
+const myRef = React.createRef<HTMLInputElement>()
 
 // export default {
 //   title: 'Components'

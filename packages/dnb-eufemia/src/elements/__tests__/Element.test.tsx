@@ -4,31 +4,18 @@
  */
 
 import React from 'react'
-import {
-  mount,
-  fakeProps,
-  toJson,
-  axeComponent,
-} from '../../core/jest/jestSetup'
+import { axeComponent } from '../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
-import Element, { defaultProps } from '../Element'
+import Element, { defaultProps, ElementAllProps } from '../Element'
 import { Provider } from '../../shared'
 
-const props = fakeProps(require.resolve('../Element'), {
-  optional: true,
-})
-props.as = 'p'
-props.innerRef = null
-props.internalClass = null
-props.skeletonMethod = 'font'
-props.skeleton = true
+const props: ElementAllProps = {
+  as: 'p',
+  skeletonMethod: 'font',
+  skeleton: true,
+}
 
 describe('Element', () => {
-  it('have to match default Element snapshot', () => {
-    const Comp = mount(<Element {...props}>text</Element>)
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
   it('have to merge className', () => {
     const { container } = render(
       <Element {...props} className="extra">

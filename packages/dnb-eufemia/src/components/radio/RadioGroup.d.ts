@@ -21,7 +21,7 @@ export type RadioGroupChildren =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export interface RadioGroupProps
-  extends React.HTMLProps<HTMLElement>,
+  extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
     SpacingProps {
   /**
    * Use either the `label` property or provide a custom one.

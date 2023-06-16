@@ -10,7 +10,7 @@ import { wait } from '@testing-library/user-event/dist/utils'
 import OriginalTooltip from '../Tooltip'
 import Anchor from '../../anchor/Anchor'
 import NumberFormat from '../../number-format/NumberFormat'
-import { TooltipProps } from '../types'
+import { TooltipAllProps } from '../types'
 
 global.ResizeObserver = class {
   constructor() {
@@ -27,7 +27,7 @@ global.ResizeObserver = class {
   }
 }
 
-const defaultProps = {
+const defaultProps: TooltipAllProps = {
   showDelay: 1,
   hideDelay: 1,
 }
@@ -38,7 +38,7 @@ beforeEach(() => {
 })
 
 describe('Tooltip', () => {
-  const Tooltip = (props: TooltipProps = {}) => (
+  const Tooltip = (props: TooltipAllProps = {}) => (
     <OriginalTooltip
       id="tooltip"
       noAnimation
@@ -209,7 +209,7 @@ describe('Tooltip', () => {
   })
 
   describe('with targetSelector', () => {
-    const Tooltip = (props: TooltipProps) => (
+    const Tooltip = (props: TooltipAllProps) => (
       <>
         <button id="button-id">Button</button>
         <OriginalTooltip
@@ -240,7 +240,7 @@ describe('Tooltip', () => {
   })
 
   describe('with targetElement', () => {
-    const Tooltip = (props: TooltipProps = {}) => (
+    const Tooltip = (props: TooltipAllProps = {}) => (
       <OriginalTooltip
         id="tooltip"
         {...defaultProps}
@@ -417,12 +417,12 @@ describe('Tooltip', () => {
     })
 
     describe('and group', () => {
-      const commonProps: TooltipProps = {
+      const commonProps: TooltipAllProps = {
         group: 'unique-name',
         noAnimation: true,
       }
 
-      const GroupTooltip = (props: TooltipProps) => {
+      const GroupTooltip = (props: TooltipAllProps) => {
         return (
           <>
             <OriginalTooltip

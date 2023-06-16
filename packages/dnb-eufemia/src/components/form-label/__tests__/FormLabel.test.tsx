@@ -1,47 +1,32 @@
 /**
- * Component Test
+ * FormLabel Test
  *
  */
 
 import React from 'react'
-import {
-  mount,
-  fakeProps,
-  axeComponent,
-  toJson,
-  loadScss,
-} from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
-import Component from '../FormLabel'
+import FormLabel, { FormLabelProps } from '../FormLabel'
 import Input from '../../input/Input'
 import FormRow from '../../form-row/FormRow'
 
-const props = fakeProps(require.resolve('../FormLabel'), {
-  optional: true,
-})
-props.element = 'label'
-props.direction = 'horizontal'
-props.label_direction = 'horizontal'
+const props: FormLabelProps = {
+  title: 'title',
+}
 
 describe('FormLabel component', () => {
-  const Comp = mount(<Component {...props} />)
-
-  it('have to match snapshot', () => {
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
   it('should forward unlisted attributes like "aria-hidden"', () => {
-    const Comp = mount(<Component {...props} for_id="input" aria-hidden />)
-    expect(Comp.find('label[aria-hidden]').exists()).toBe(true)
+    render(<FormLabel {...props} for_id="input" aria-hidden />)
+    expect(document.querySelector('label[aria-hidden]')).toBeTruthy()
     expect(
-      Comp.find('label[aria-hidden]')
-        .instance()
+      document
+        .querySelector('label[aria-hidden]')
         .getAttribute('aria-hidden')
-    ).toBe('true')
+    ).toBeTruthy()
   })
 
   it('should support spacing props', () => {
-    render(<Component for_id="input" top="large" />)
+    render(<FormLabel for_id="input" top="large" />)
 
     const element = document.querySelector('.dnb-form-label')
 
@@ -52,7 +37,7 @@ describe('FormLabel component', () => {
   })
 
   it('should set correct class when sr_only is set', () => {
-    render(<Component for_id="input" sr_only />)
+    render(<FormLabel for_id="input" sr_only />)
 
     const element = document.querySelector('.dnb-form-label')
 
@@ -65,7 +50,7 @@ describe('FormLabel component', () => {
   it('should inherit FormRow vertical label', () => {
     render(
       <FormRow vertical>
-        <Component label="Label" />
+        <FormLabel label="Label" />
       </FormRow>
     )
 
@@ -82,12 +67,13 @@ describe('FormLabel component', () => {
   })
 
   it('should validate with ARIA rules', async () => {
+    const Comp = render(<FormLabel {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
   it('should validate with ARIA rules as a label with a input', async () => {
-    const LabelComp = mount(<Component {...props} for_id="input" />)
-    const InputComp = mount(<Input id="input" value="some value" />)
+    const LabelComp = render(<FormLabel {...props} for_id="input" />)
+    const InputComp = render(<Input id="input" value="some value" />)
     expect(await axeComponent(LabelComp, InputComp)).toHaveNoViolations()
   })
 })

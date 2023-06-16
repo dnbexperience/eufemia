@@ -33,7 +33,7 @@ env:
 
 jobs:
   portal-build:
-    name: Build Portal
+    name: Run portal build
 
     runs-on: ubuntu-latest
 
@@ -104,7 +104,7 @@ jobs:
           path: ./packages/dnb-design-system-portal/public
 
   visual-test:
-    name: Visual Tests
+    name: Run visual e2e-tests
 
     runs-on: macos-latest
 
@@ -145,7 +145,7 @@ jobs:
         uses: fountainhead/action-wait-for-check@v1.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          checkName: Build Portal
+          checkName: Run portal build
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           intervalSeconds: 10
           timeoutSeconds: 900
@@ -181,7 +181,7 @@ jobs:
           channel: '#eufemia-dev'
           status: ${{ job.status }}
           fields: author,ref,workflow,job,took
-          job_name: Visual Tests
+          job_name: Run visual e2e-tests
           github_base_url: https://github.com/
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
@@ -189,7 +189,7 @@ jobs:
         continue-on-error: true
 
   portal-test:
-    name: Portal Tests
+    name: Run portal e2e-tests
 
     runs-on: ubuntu-latest
 
@@ -230,7 +230,7 @@ jobs:
         uses: fountainhead/action-wait-for-check@v1.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          checkName: Build Portal
+          checkName: Run portal build
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           intervalSeconds: 10
           timeoutSeconds: 900
@@ -257,7 +257,7 @@ jobs:
           channel: '#eufemia-dev'
           status: ${{ job.status }}
           fields: author,ref,workflow,job,took
-          job_name: Portal Tests
+          job_name: Run portal e2e-tests
           github_base_url: https://github.com/
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}

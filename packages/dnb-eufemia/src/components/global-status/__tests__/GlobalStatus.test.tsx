@@ -1,27 +1,18 @@
 /**
- * Component Test
+ * GlobalStatus Test
  *
  */
 
 import React from 'react'
-import {
-  mount,
-  fakeProps,
-  axeComponent,
-  toJson,
-  loadScss,
-} from '../../../core/jest/jestSetup'
-import Component from '../GlobalStatus'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import GlobalStatus, { GlobalStatusProps } from '../GlobalStatus'
 import { GlobalStatusInterceptor } from '../GlobalStatusController'
 import FormSet from '../../form-set/FormSet'
 import Switch from '../../switch/Switch'
 import Autocomplete from '../../autocomplete/Autocomplete'
+import { fireEvent, render } from '@testing-library/react'
 
-const id = 'main'
-const status_id = null
-const state = 'error'
 const text = 'text'
-const children = null
 const items = [
   { id: 'id-1', text: 'item #1' },
   { id: 'id-2', text: 'item #2' },
@@ -29,25 +20,8 @@ const items = [
 const show = true
 const no_animation = true
 const autoscroll = false
-const icon = 'error'
 
-const snapshotProps = {
-  ...fakeProps(require.resolve('../GlobalStatus'), {
-    optional: true,
-  }),
-
-  id,
-  status_id,
-  state,
-  children,
-  show,
-  no_animation,
-  items,
-  text,
-  icon,
-}
-
-const props = {
+const props: GlobalStatusProps = {
   show,
   no_animation,
   autoscroll,
@@ -57,42 +31,36 @@ const props = {
 
 describe('GlobalStatus component', () => {
   it('has to have a text value as defined in the prop', () => {
-    const Comp = mount(<Component {...props} />)
+    render(<GlobalStatus {...props} />)
     expect(
-      Comp.find('div.dnb-global-status__message')
-        .find('.dnb-p')
-        .at(0)
-        .text()
+      document
+        .querySelector('div.dnb-global-status__message')
+        .querySelectorAll('.dnb-p')[0].textContent
     ).toBe(props.text)
   })
 
   it('has to have list items as defined in the prop', () => {
-    const Comp = mount(<Component {...props} />)
-    expect(Comp.find('.dnb-ul').text()).toBe(
+    render(<GlobalStatus {...props} />)
+    expect(document.querySelector('.dnb-ul').textContent).toBe(
       props.items.map(({ text }) => text).join('')
     )
   })
 
   it('should have correct attributes like "aria-live"', async () => {
-    const Comp = mount(<Component autoscroll={false} delay={0} />)
-    expect(Comp.exists('[aria-live]')).toBe(true)
+    const { rerender } = render(
+      <GlobalStatus autoscroll={false} delay={0} />
+    )
+    expect(document.querySelector('[aria-live]')).toBeTruthy()
 
-    Comp.setProps({
-      show: true,
-    })
-    Comp.setState({
-      isActive: true,
-    })
+    rerender(<GlobalStatus autoscroll={false} delay={0} show={true} />)
 
-    expect(Comp.exists('[aria-live="assertive"]')).toBe(true)
+    expect(document.querySelector('[aria-live="assertive"]')).toBeTruthy()
 
-    Comp.setProps({
-      show: false,
-    })
+    rerender(<GlobalStatus autoscroll={false} delay={0} show={false} />)
 
     expect(
-      Comp.find('.dnb-global-status__wrapper')
-        .instance()
+      document
+        .querySelector('.dnb-global-status__wrapper')
         .getAttribute('aria-live')
     ).toBe('off')
   })
@@ -101,9 +69,9 @@ describe('GlobalStatus component', () => {
     const startupText = 'text'
     const newText = 'new text'
 
-    const Comp = mount(
+    render(
       <>
-        <Component
+        <GlobalStatus
           autoscroll={false}
           delay={0}
           no_animation={true}
@@ -111,14 +79,14 @@ describe('GlobalStatus component', () => {
           text={startupText}
           items={['item#1']}
         />
-        <Component.Add
+        <GlobalStatus.Add
           id="custom-status-update"
           status_id="status-update-1"
           text="will be overwritten"
           item={{ text: 'item#2' }}
           on_close={jest.fn()}
         />
-        <Component.Add
+        <GlobalStatus.Add
           id="custom-status-update"
           status_id="status-update-1"
           text={newText}
@@ -129,15 +97,21 @@ describe('GlobalStatus component', () => {
     )
 
     expect(
-      Comp.find('div.dnb-global-status__message__content > .dnb-p').text()
+      document.querySelector(
+        'div.dnb-global-status__message__content > .dnb-p'
+      ).textContent
     ).toBe(newText)
 
     expect(
-      Comp.find('div.dnb-global-status__message__content > .dnb-ul').text()
+      document.querySelector(
+        'div.dnb-global-status__message__content > .dnb-ul'
+      ).textContent
     ).toBe('item#1item#3')
 
     expect(
-      Comp.find('div.dnb-global-status__message p.dnb-p').at(0).text()
+      document.querySelectorAll(
+        'div.dnb-global-status__message p.dnb-p'
+      )[0].textContent
     ).toBe(newText)
   })
 
@@ -147,8 +121,8 @@ describe('GlobalStatus component', () => {
     const newText = 'new text'
     const newItems = ['Item3', 'Item4']
 
-    const Comp = mount(
-      <Component
+    render(
+      <GlobalStatus
         autoscroll={false}
         delay={0}
         no_animation={true}
@@ -156,8 +130,8 @@ describe('GlobalStatus component', () => {
       />
     )
 
-    mount(
-      <Component.Add
+    render(
+      <GlobalStatus.Add
         id="custom-status-update"
         status_id="status-update-1"
         text={startupText}
@@ -166,17 +140,17 @@ describe('GlobalStatus component', () => {
       />
     )
 
-    Comp.update()
-
-    const ulItems = Comp.find('ul.dnb-ul li')
-    expect(ulItems.at(0).text()).toBe('Item1')
-    expect(ulItems.at(1).text()).toBe('Item2')
+    const ulItems = document.querySelectorAll('ul.dnb-ul li')
+    expect(ulItems[0].textContent).toBe('Item1')
+    expect(ulItems[1].textContent).toBe('Item2')
     expect(
-      Comp.find('div.dnb-global-status__message p.dnb-p').at(0).text()
+      document.querySelectorAll(
+        'div.dnb-global-status__message p.dnb-p'
+      )[0].textContent
     ).toBe(startupText)
 
-    mount(
-      <Component.Add
+    render(
+      <GlobalStatus.Add
         id="custom-status-update"
         status_id="status-update-1"
         text={newText}
@@ -185,25 +159,26 @@ describe('GlobalStatus component', () => {
       />
     )
 
-    const newUlItems = Comp.find('ul.dnb-ul li')
-    expect(newUlItems.at(0).text()).toBe('Item3')
-    expect(newUlItems.at(1).text()).toBe('Item4')
+    const newUlItems = document.querySelectorAll('ul.dnb-ul li')
+    expect(newUlItems[0].textContent).toBe('Item3')
+    expect(newUlItems[1].textContent).toBe('Item4')
     expect(
-      Comp.find('div.dnb-global-status__message p.dnb-p').at(0).text()
+      document.querySelectorAll(
+        'div.dnb-global-status__message p.dnb-p'
+      )[0].textContent
     ).toBe(newText)
 
-    mount(
-      <Component.Remove
+    render(
+      <GlobalStatus.Remove
         id="custom-status-update"
         status_id="status-update-1"
         buffer_delay={0}
       />
     )
 
-    Comp.update()
-
-    expect(Comp.state().isActive).toBe(false)
-    expect(Comp.exists('div.dnb-global-status__message')).toBe(false)
+    expect(
+      document.querySelector('div.dnb-global-status__message')
+    ).toBeFalsy()
   })
 
   it('has to have correct content after a controller remove', () => {
@@ -212,8 +187,8 @@ describe('GlobalStatus component', () => {
     const newText = 'new text'
     const newItems = ['Item3', 'Item4']
 
-    const Comp = mount(
-      <Component
+    render(
+      <GlobalStatus
         autoscroll={false}
         delay={0}
         no_animation={true}
@@ -222,16 +197,17 @@ describe('GlobalStatus component', () => {
     )
 
     expect(
-      Comp.find('div.dnb-global-status__shell').instance().innerHTML
+      document.querySelector('div.dnb-global-status__shell').innerHTML
     ).toBe('')
     expect(
-      Comp.find('div.dnb-global-status__shell')
-        .instance()
+      document
+        .querySelector('div.dnb-global-status__shell')
+
         .hasAttribute('style')
     ).toBe(false)
 
-    mount(
-      <Component.Add
+    render(
+      <GlobalStatus.Add
         id="custom-status-remove"
         status_id="status-remove-1"
         text={startupText}
@@ -240,18 +216,20 @@ describe('GlobalStatus component', () => {
       />
     )
 
-    Comp.update()
-
-    const ulItems = Comp.find('ul.dnb-ul li')
-    expect(ulItems.at(0).text()).toBe('Item1')
-    expect(ulItems.at(1).text()).toBe('Item2')
+    const ulItems = document.querySelectorAll('ul.dnb-ul li')
+    expect(ulItems[0].textContent).toBe('Item1')
+    expect(ulItems[1].textContent).toBe('Item2')
     expect(
-      Comp.find('div.dnb-global-status__message p.dnb-p').at(0).text()
+      document.querySelectorAll(
+        'div.dnb-global-status__message p.dnb-p'
+      )[0].textContent
     ).toBe(startupText)
-    expect(Comp.exists('div.dnb-global-status__message')).toBe(true)
+    expect(
+      document.querySelector('div.dnb-global-status__message')
+    ).toBeTruthy()
 
-    mount(
-      <Component.Add
+    render(
+      <GlobalStatus.Add
         id="custom-status-remove"
         status_id="status-remove-2"
         text={newText}
@@ -260,55 +238,54 @@ describe('GlobalStatus component', () => {
       />
     )
 
-    Comp.update()
-
-    const newUlItems = Comp.find('ul.dnb-ul li')
-    expect(newUlItems.at(2).text()).toBe('Item3')
-    expect(newUlItems.at(3).text()).toBe('Item4')
+    const newUlItems = document.querySelectorAll('ul.dnb-ul li')
+    expect(newUlItems[2].textContent).toBe('Item3')
+    expect(newUlItems[3].textContent).toBe('Item4')
     expect(
-      Comp.find('div.dnb-global-status__message p.dnb-p').at(0).text()
+      document.querySelectorAll(
+        'div.dnb-global-status__message p.dnb-p'
+      )[0].textContent
     ).toBe(newText)
     expect(
-      Comp.find('div.dnb-global-status__message p.dnb-p')
+      document.querySelectorAll('div.dnb-global-status__message p.dnb-p')
     ).toHaveLength(5)
 
-    mount(
-      <Component.Remove
+    render(
+      <GlobalStatus.Remove
         id="custom-status-remove"
         status_id="status-remove-1"
         buffer_delay={0}
       />
     )
 
-    Comp.update()
-
-    const removedUlItems = Comp.find('ul.dnb-ul li')
-    expect(removedUlItems.at(0).text()).toBe('Item3')
-    expect(removedUlItems.at(1).text()).toBe('Item4')
-    expect(removedUlItems.at(2).exists()).toBe(false)
-    expect(removedUlItems.at(3).exists()).toBe(false)
+    const removedUlItems = document.querySelectorAll('ul.dnb-ul li')
+    expect(removedUlItems[0].textContent).toBe('Item3')
+    expect(removedUlItems[1].textContent).toBe('Item4')
+    expect(removedUlItems[2]).toBeFalsy()
+    expect(removedUlItems[3]).toBeFalsy()
     expect(
-      Comp.find('div.dnb-global-status__message p.dnb-p').at(0).text()
+      document.querySelectorAll(
+        'div.dnb-global-status__message p.dnb-p'
+      )[0].textContent
     ).toBe(newText)
     expect(
-      Comp.find('div.dnb-global-status__message p.dnb-p')
+      document.querySelectorAll('div.dnb-global-status__message p.dnb-p')
     ).toHaveLength(3)
 
-    mount(
-      <Component.Remove
+    render(
+      <GlobalStatus.Remove
         id="custom-status-remove"
         status_id="status-remove-2"
         buffer_delay={0}
       />
     )
 
-    Comp.update()
-
-    expect(Comp.state().isActive).toBe(false)
-    expect(Comp.exists('div.dnb-global-status__message')).toBe(false)
     expect(
-      Comp.find('div.dnb-global-status__shell')
-        .instance()
+      document.querySelector('div.dnb-global-status__message')
+    ).toBeFalsy()
+    expect(
+      document
+        .querySelector('div.dnb-global-status__shell')
         .getAttribute('style')
     ).toBe('height: 0px; visibility: hidden;')
   })
@@ -359,9 +336,9 @@ describe('GlobalStatus component', () => {
       )
     }
 
-    const Comp = mount(
+    render(
       <>
-        <Component
+        <GlobalStatus
           id="my-form"
           autoscroll={false}
           delay={0}
@@ -376,57 +353,62 @@ describe('GlobalStatus component', () => {
     )
 
     await wait(1)
-    Comp.find('input#switch-1').simulate('change')
+    fireEvent.click(document.querySelector('input#switch-1'))
 
     await wait(1)
-    Comp.find('input#switch-2').simulate('change')
+    fireEvent.click(document.querySelector('input#switch-2'))
 
     await wait(1)
-    Comp.find('input#autocomplete-3').simulate('focus')
+    fireEvent.focus(document.querySelector('input#autocomplete-3'))
 
     // FormStatus content
-    expect(Comp.find('.dnb-form-status__text').at(0).text()).toBe(
-      'error-message-1'
-    )
-    expect(Comp.find('.dnb-form-status__text').at(1).text()).toBe(
-      'error-message-2'
-    )
     expect(
-      Comp.find('.dnb-autocomplete')
-        .at(0)
-        .find('.dnb-form-status__text')
-        .text()
+      document.querySelectorAll('.dnb-form-status__text')[0].textContent
+    ).toBe('error-message-1')
+    expect(
+      document.querySelectorAll('.dnb-form-status__text')[1].textContent
+    ).toBe('error-message-2')
+    expect(
+      document
+        .querySelectorAll('.dnb-autocomplete')[0]
+        .querySelector('.dnb-form-status__text').textContent
     ).toBe('error-message-3')
 
-    await refresh(Comp)
+    await refresh()
 
     // GlobalStatus content
-    expect(Comp.find('.dnb-global-status__message p').at(0).text()).toBe(
-      'error-message-1'
-    )
-    expect(Comp.find('.dnb-global-status__message p').at(1).text()).toBe(
-      'error-message-2'
-    )
-    expect(Comp.find('.dnb-global-status__message p').at(2).text()).toBe(
-      'error-message-3'
-    )
+    expect(
+      document.querySelectorAll('.dnb-global-status__message p')[0]
+        .textContent
+    ).toBe('error-message-1')
+    expect(
+      document.querySelectorAll('.dnb-global-status__message p')[1]
+        .textContent
+    ).toBe('error-message-2')
+    expect(
+      document.querySelectorAll('.dnb-global-status__message p')[2]
+        .textContent
+    ).toBe('error-message-3')
 
     await wait(1)
-    Comp.find('input#switch-1').simulate('change')
+    fireEvent.click(document.querySelector('input#switch-1'))
 
     await wait(1)
-    Comp.find('input#switch-2').simulate('change')
+    fireEvent.click(document.querySelector('input#switch-2'))
 
     await wait(1)
-    Comp.find('input#autocomplete-3').simulate('blur')
+    fireEvent.blur(document.querySelector('input#autocomplete-3'))
 
-    expect(Comp.exists('.dnb-form-status__text')).toBe(false)
+    expect(document.querySelector('.dnb-form-status__text')).toBeFalsy()
 
-    await refresh(Comp)
+    await refresh()
 
-    expect(Comp.exists('.dnb-global-status__message p')).toBe(false)
-    expect(Comp.exists('.dnb-form-status__text')).toBe(false)
-    const inst = Comp.find('div.dnb-global-status__shell').instance()
+    expect(
+      document.querySelector('.dnb-global-status__message p')
+    ).toBeFalsy()
+    expect(document.querySelector('.dnb-form-status__text')).toBeFalsy()
+    const inst = document.querySelector('div.dnb-global-status__shell')
+
     expect(inst.innerHTML).toBe('')
     expect(inst.getAttribute('style')).toBe(
       'height: 0px; visibility: hidden;'
@@ -453,16 +435,17 @@ describe('GlobalStatus component', () => {
         />
       )
     }
-    const Comp = mount(
+    render(
       <>
-        <Component id="scroll-to-test" delay={0} no_animation={true} />
+        <GlobalStatus id="scroll-to-test" delay={0} no_animation={true} />
         <ToggleStatus />
       </>
     )
 
     // Open
-    Comp.find('input#switch').simulate('change')
-    await refresh(Comp)
+    fireEvent.click(document.querySelector('input#switch'))
+
+    await refresh()
 
     expect(scrollTo).toBeCalledTimes(1)
     expect(scrollTo).toHaveBeenCalledWith({
@@ -472,21 +455,23 @@ describe('GlobalStatus component', () => {
 
     jest
       .spyOn(
-        Comp.find('.dnb-global-status__wrapper').instance(),
+        document.querySelector(
+          '.dnb-global-status__wrapper'
+        ) as HTMLElement,
         'offsetTop',
         'get'
       )
       .mockImplementation(() => offsetTop)
 
     // Close
-    Comp.find('input#switch').simulate('change')
-    await refresh(Comp)
+    fireEvent.click(document.querySelector('input#switch'))
+    await refresh()
 
     expect(scrollTo).toBeCalledTimes(1)
 
     // Open
-    Comp.find('input#switch').simulate('change')
-    await refresh(Comp)
+    fireEvent.click(document.querySelector('input#switch'))
+    await refresh()
 
     expect(scrollTo).toBeCalledTimes(2)
     expect(scrollTo).toHaveBeenCalledWith({
@@ -514,9 +499,9 @@ describe('GlobalStatus component', () => {
         />
       )
     }
-    const Comp = mount(
+    render(
       <>
-        <Component
+        <GlobalStatus
           id="esc-test"
           delay={0}
           autoscroll={false}
@@ -529,13 +514,14 @@ describe('GlobalStatus component', () => {
     )
 
     // Open
-    Comp.find('input#switch').simulate('change')
-    await refresh(Comp)
+    fireEvent.click(document.querySelector('input#switch'))
+
+    await refresh()
 
     expect(on_close).toBeCalledTimes(0)
 
     // Close with key
-    keydown(Comp, 27) // esc
+    keydown(27) // esc
 
     expect(on_hide).toBeCalledTimes(1)
     expect(on_close).toBeCalledTimes(1)
@@ -557,19 +543,19 @@ describe('GlobalStatus component', () => {
         />
       )
     }
-    const Comp = mount(
+    render(
       <>
-        <Component id="height-test" delay={0} no_animation={true} />
+        <GlobalStatus id="height-test" delay={0} no_animation={true} />
         <ToggleStatus />
       </>
     )
 
-    Comp.find('input#switch').simulate('change')
-    await refresh(Comp)
+    fireEvent.click(document.querySelector('input#switch'))
+    await refresh()
 
     expect(
-      Comp.find('div.dnb-global-status__shell')
-        .instance()
+      document
+        .querySelector('div.dnb-global-status__shell')
         .getAttribute('style')
     ).toBe('height: auto;')
   })
@@ -590,9 +576,9 @@ describe('GlobalStatus component', () => {
         />
       )
     }
-    const Comp = mount(
+    render(
       <>
-        <Component
+        <GlobalStatus
           id="main-to-be-empty"
           autoscroll={false}
           delay={0}
@@ -602,23 +588,26 @@ describe('GlobalStatus component', () => {
       </>
     )
 
-    Comp.find('input#switch').simulate('change')
-    await refresh(Comp)
+    fireEvent.click(document.querySelector('input#switch'))
+    await refresh()
 
-    expect(Comp.find('.dnb-form-status__text').text()).toBe(
-      'error-message'
-    )
+    expect(
+      document.querySelector('.dnb-form-status__text').textContent
+    ).toBe('error-message')
 
-    expect(Comp.exists('.dnb-global-status__content')).toBe(true)
-    expect(Comp.find('.dnb-global-status__message p').text()).toBe(
-      'error-message'
-    )
+    expect(
+      document.querySelector('.dnb-global-status__content')
+    ).toBeTruthy()
+    expect(
+      document.querySelector('.dnb-global-status__message p').textContent
+    ).toBe('error-message')
 
-    Comp.find('input#switch').simulate('change')
-    await refresh(Comp)
+    fireEvent.click(document.querySelector('input#switch'))
+    await refresh()
 
-    expect(Comp.exists('.dnb-form-status__text')).toBe(false)
-    const inst = Comp.find('div.dnb-global-status__shell').instance()
+    expect(document.querySelector('.dnb-form-status__text')).toBeFalsy()
+    const inst = document.querySelector('div.dnb-global-status__shell')
+
     expect(inst.innerHTML).toBe('')
     expect(inst.getAttribute('style')).toBe(
       'height: 0px; visibility: hidden;'
@@ -642,8 +631,8 @@ describe('GlobalStatus component', () => {
       }
     )
 
-    const Comp = mount(
-      <Component
+    render(
+      <GlobalStatus
         no_animation={true}
         autoscroll={false}
         delay={0}
@@ -677,10 +666,9 @@ describe('GlobalStatus component', () => {
       },
     })
 
-    Comp.update()
-
-    // expect(Comp.exists('div.dnb-global-status__message')).toBe(true)
-    expect(Comp.find('div.dnb-global-status__message').text()).toBe(
+    expect(
+      document.querySelector('div.dnb-global-status__message').textContent
+    ).toBe(
       'error-message--aGå til label--aerror-message--bGå til label--b'
     )
   })
@@ -709,9 +697,9 @@ describe('GlobalStatus component', () => {
         />
       )
     }
-    const Comp = mount(
+    render(
       <>
-        <Component
+        <GlobalStatus
           id="main-to-be-empty"
           autoscroll={false}
           delay={0}
@@ -722,18 +710,18 @@ describe('GlobalStatus component', () => {
       </>
     )
 
-    Comp.find('input#switch').simulate('change')
+    fireEvent.click(document.querySelector('input#switch'))
 
-    await refresh(Comp)
+    await refresh()
 
-    expect(Comp.find('.dnb-global-status__message p').at(0).text()).toBe(
-      "'error-message'"
-    )
     expect(
-      Comp.find('.dnb-global-status__message__content ul li')
-        .at(0)
-        .find('a.dnb-anchor')
-        .text()
+      document.querySelectorAll('.dnb-global-status__message p')[0]
+        .textContent
+    ).toBe("'error-message'")
+    expect(
+      document
+        .querySelectorAll('.dnb-global-status__message__content ul li')[0]
+        .querySelector('a.dnb-anchor').textContent
     ).toBe("custon anchor text 'my-label'")
   })
 
@@ -742,8 +730,8 @@ describe('GlobalStatus component', () => {
     const on_close = jest.fn()
     const on_hide = jest.fn()
 
-    const Comp = mount(
-      <Component
+    render(
+      <GlobalStatus
         autoclose={true}
         no_animation={true}
         autoscroll={false}
@@ -755,8 +743,8 @@ describe('GlobalStatus component', () => {
       />
     )
 
-    mount(
-      <Component.Add
+    render(
+      <GlobalStatus.Add
         id="custom-status-autoclose"
         status_id="status-autoclose-1"
         text="text only"
@@ -765,16 +753,16 @@ describe('GlobalStatus component', () => {
     )
 
     expect(on_open.mock.calls.length).toBe(1)
-    expect(Comp.state().isActive).toBe(true)
 
-    Comp.update()
-    expect(Comp.exists('div.dnb-global-status__message')).toBe(true)
-    expect(Comp.find('div.dnb-global-status__message').text()).toBe(
-      'text only'
-    )
+    expect(
+      document.querySelector('div.dnb-global-status__message')
+    ).toBeTruthy()
+    expect(
+      document.querySelector('div.dnb-global-status__message').textContent
+    ).toBe('text only')
 
-    mount(
-      <Component.Add
+    render(
+      <GlobalStatus.Add
         id="custom-status-autoclose"
         status_id="status-autoclose-2"
         text="text only"
@@ -783,13 +771,12 @@ describe('GlobalStatus component', () => {
       />
     )
 
-    Comp.update()
-    expect(Comp.find('div.dnb-global-status__message').text()).toBe(
-      'text onlyfoo'
-    )
+    expect(
+      document.querySelector('div.dnb-global-status__message').textContent
+    ).toBe('text onlyfoo')
 
-    mount(
-      <Component.Remove
+    render(
+      <GlobalStatus.Remove
         id="custom-status-autoclose"
         status_id="status-autoclose-1"
         buffer_delay={0}
@@ -798,8 +785,8 @@ describe('GlobalStatus component', () => {
 
     expect(on_close.mock.calls.length).toBe(0)
 
-    mount(
-      <Component.Remove
+    render(
+      <GlobalStatus.Remove
         id="custom-status-autoclose"
         status_id="status-autoclose-2"
         buffer_delay={0}
@@ -809,13 +796,12 @@ describe('GlobalStatus component', () => {
     expect(on_close.mock.calls.length).toBe(1)
     expect(on_hide.mock.calls.length).toBe(0)
 
-    expect(Comp.state().isActive).toBe(false)
+    expect(
+      document.querySelector('div.dnb-global-status__message')
+    ).toBeFalsy()
 
-    Comp.update()
-    expect(Comp.exists('div.dnb-global-status__message')).toBe(false)
-
-    mount(
-      <Component.Add
+    render(
+      <GlobalStatus.Add
         id="custom-status-autoclose"
         status_id="status-autoclose-1"
         items={['foo']}
@@ -824,15 +810,16 @@ describe('GlobalStatus component', () => {
       />
     )
 
-    Comp.update()
-    Comp.find('button.dnb-global-status__close-button').simulate('click')
+    fireEvent.click(
+      document.querySelector('button.dnb-global-status__close-button')
+    )
 
     expect(on_hide.mock.calls.length).toBe(1)
   })
 
   it('has to take account to the show prop', () => {
-    const Comp = mount(
-      <Component
+    const { rerender } = render(
+      <GlobalStatus
         show={false}
         no_animation={true}
         autoscroll={false}
@@ -841,84 +828,72 @@ describe('GlobalStatus component', () => {
       />
     )
 
-    Comp.update()
+    expect(
+      document.querySelector('div.dnb-global-status__content')
+    ).toBeFalsy()
 
-    expect(Comp.exists('div.dnb-global-status__content')).toBe(false)
-    expect(Comp.exists('div.dnb-global-status__message__content')).toBe(
-      false
+    expect(
+      document.querySelector('div.dnb-global-status__message__content')
+    ).toBeFalsy()
+
+    rerender(
+      <GlobalStatus
+        show={true}
+        no_animation={true}
+        autoscroll={false}
+        delay={0}
+        id="custom-status-show"
+      />
     )
-    expect(Comp.state().isActive).toBe(false)
 
-    Comp.setProps({ show: true })
-    Comp.update()
+    expect(
+      document.querySelector('div.dnb-global-status__content')
+    ).toBeTruthy()
+    expect(
+      document.querySelector('div.dnb-global-status__message__content')
+    ).toBeFalsy()
 
-    expect(Comp.state().isActive).toBe(true)
-    expect(Comp.exists('div.dnb-global-status__content')).toBe(true)
-    expect(Comp.exists('div.dnb-global-status__message__content')).toBe(
-      false
-    )
-
-    mount(
-      <Component.Add
+    render(
+      <GlobalStatus.Add
         id="custom-status-show"
         status_id="status-show-1"
         text="text only"
         on_close={jest.fn()}
       />
     )
-    Comp.update()
 
-    expect(Comp.exists('div.dnb-global-status__message__content')).toBe(
-      true
+    expect(
+      document.querySelector('div.dnb-global-status__message__content')
+    ).toBeTruthy()
+
+    rerender(
+      <GlobalStatus
+        show="auto"
+        no_animation={true}
+        autoscroll={false}
+        delay={0}
+        id="custom-status-show"
+      />
     )
 
-    Comp.setProps({ show: 'auto' })
-
-    mount(
-      <Component.Remove
+    render(
+      <GlobalStatus.Remove
         id="custom-status-show"
         status_id="status-show-1"
       />
     )
-    Comp.update()
 
-    expect(Comp.exists('div.dnb-global-status__content')).toBe(false)
-    expect(Comp.exists('div.dnb-global-status__message__content')).toBe(
-      false
-    )
+    expect(
+      document.querySelector('div.dnb-global-status__content')
+    ).toBeFalsy()
+    expect(
+      document.querySelector('div.dnb-global-status__message__content')
+    ).toBeFalsy()
   })
 
   it('should validate with ARIA rules', async () => {
-    const Comp = mount(<Component {...props} />)
+    const Comp = render(<GlobalStatus {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
-  })
-})
-
-describe('GlobalStatus snapshot', () => {
-  it('have to match component snapshot', () => {
-    const Comp = mount(<Component {...snapshotProps} />)
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
-  it('have to match linked components snapshot', () => {
-    const Comp = mount(
-      <>
-        <Component
-          id="linked"
-          show={true}
-          autoscroll={false}
-          delay={0}
-          no_animation={true}
-        />
-        <Switch
-          id="switch"
-          label={<span>Label</span>}
-          status="error-message"
-          globalStatus={{ id: 'linked' }}
-        />
-      </>
-    )
-    expect(toJson(Comp)).toMatchSnapshot()
   })
 })
 
@@ -937,15 +912,17 @@ describe('GlobalStatus scss', () => {
 
 const wait = (t) => new Promise((r) => setTimeout(r, t))
 
-const refresh = async (Comp) => {
+const refresh = async () => {
   await wait(1)
-  Comp.update()
 }
 
-const keydown = (Comp, keyCode) => {
+const keydown = (keyCode) => {
   document.dispatchEvent(new KeyboardEvent('keydown', { keyCode }))
 
-  Comp.find('.dnb-global-status__wrapper').simulate('keydown', {
-    keyCode,
-  })
+  fireEvent.keyDown(
+    document.querySelector('.dnb-global-status__wrapper'),
+    {
+      keyCode,
+    }
+  )
 }

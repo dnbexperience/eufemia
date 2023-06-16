@@ -127,16 +127,16 @@ For more details, check out the source file: `spacing.scss`
 
 ## Styling of HTML Elements (tags)
 
-To deal with HTML Elements, without declaring them individual with the right css classes, like `<h1 class="dnb-h--xx-large">`, you can import the sub package **ui-theme-tags**.
+To deal with HTML Elements, without declaring them with individual CSS classes (like `<h1 class="dnb-h--xx-large">`), you can import the sub package **ui-theme-tags**.
 
 **NB:** Use it carefully - cause this will effect existing styles as well!
 
-```js
-/* directly the CSS file */
-import '@dnb/eufemia/style/themes/theme-ui/ui-theme-tags.min.css'
+```diff
+import '@dnb/eufemia/style/dnb-ui-core.min.css'
+import '@dnb/eufemia/style/themes/theme-ui/ui-theme-basis.min.css'
 
-/* ... or by the shorthand */
-import '@dnb/eufemia/style/themes/theme-ui/elements'
+- import '@dnb/eufemia/style/themes/theme-ui/ui-theme-components.min.css'
++ import '@dnb/eufemia/style/themes/theme-ui/ui-theme-tags.min.css'
 ```
 
 ```html

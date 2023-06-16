@@ -12,7 +12,7 @@ on:
 
 jobs:
   action:
-    name: Release and Deploy
+    name: Run release and deploy
 
     runs-on: ubuntu-latest
 
@@ -97,7 +97,7 @@ jobs:
           channel: '#eufemia-dev'
           status: ${{ job.status }}
           fields: author,ref,workflow,job,took
-          job_name: Release and Deploy
+          job_name: Run release and deploy
           github_base_url: https://github.com/
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}

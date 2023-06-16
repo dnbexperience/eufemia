@@ -1,121 +1,129 @@
 /**
- * Component Test
+ * FormRow Test
  *
  */
 
 import React from 'react'
-import {
-  mount,
-  fakeProps,
-  axeComponent,
-  toJson,
-  loadScss,
-} from '../../../core/jest/jestSetup'
-import Component from '../FormRow'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import FormRow, { FormRowProps } from '../FormRow'
 import Input from '../../input/Input'
 import NumberFormat from '../../number-format/NumberFormat'
 import Provider from '../../../shared/Provider'
+import { render } from '@testing-library/react'
 
-const props = fakeProps(require.resolve('../FormRow'), {
-  optional: true,
-})
-props.id = 'form-row'
-props.direction = 'horizontal'
-props.label_direction = 'horizontal'
-props.globalStatus = { id: 'main' }
+const props: FormRowProps = {
+  label: 'label',
+}
 
 describe('FormRow component', () => {
-  const Comp = mount(<Component {...props} />)
-
-  it('have to match snapshot', () => {
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
   it('should have vertical direction class', () => {
-    const Comp = mount(<Component {...props} direction="vertical" />)
+    render(<FormRow {...props} direction="vertical" />)
     expect(
-      Comp.find('.dnb-form-row').last().hasClass('dnb-form-row--vertical')
+      document
+        .querySelector('.dnb-form-row')
+        .classList.contains('dnb-form-row--vertical')
     ).toBe(true)
   })
 
   it('should have an isolated state on nested FormRows', () => {
-    const Comp = mount(
-      <Component vertical>
+    render(
+      <FormRow vertical>
         <Input label="Vertical" />
-        <Component vertical={false} label_direction="horizontal">
+        <FormRow vertical={false} label_direction="horizontal">
           <Input label="Horizontal" />
-        </Component>
+        </FormRow>
         <Input label="Vertical" />
-      </Component>
+      </FormRow>
     )
     expect(
-      Comp.find('span.dnb-input').at(0).hasClass('dnb-input--vertical')
+      document
+        .querySelectorAll('span.dnb-input')[0]
+        .classList.contains('dnb-input--vertical')
     ).toBe(true)
     expect(
-      Comp.find('span.dnb-input').at(1).hasClass('dnb-input--horizontal')
+      document
+        .querySelectorAll('span.dnb-input')[1]
+        .classList.contains('dnb-input--horizontal')
     ).toBe(true)
     expect(
-      Comp.find('span.dnb-input').at(2).hasClass('dnb-input--vertical')
+      document
+        .querySelectorAll('span.dnb-input')[2]
+        .classList.contains('dnb-input--vertical')
     ).toBe(true)
   })
 
   it('should using formset and legend by default', () => {
-    expect(Comp.find('fieldset').exists()).toBe(true)
-    expect(Comp.find('legend').exists()).toBe(true)
+    render(<FormRow {...props} />)
+
+    expect(document.querySelector('fieldset')).toBeTruthy()
+    expect(document.querySelector('legend')).toBeTruthy()
   })
 
   it('should using formset and legend by default', () => {
-    const Comp = mount(<Component {...props} no_fieldset />)
-    expect(Comp.find('label').exists()).toBe(true)
-    expect(Comp.find('fieldset').exists()).toBe(false)
-    expect(Comp.find('legend').exists()).toBe(false)
+    render(<FormRow {...props} no_fieldset />)
+    expect(document.querySelector('label')).toBeTruthy()
+    expect(document.querySelector('fieldset')).toBeFalsy()
+    expect(document.querySelector('legend')).toBeFalsy()
   })
 
   it('should support locale context forwarding', () => {
-    const Comp = mount(
-      <Component>
+    const { rerender } = render(
+      <FormRow>
         <NumberFormat currency>1234</NumberFormat>
-      </Component>
+      </FormRow>
     )
 
-    expect(Comp.find('.dnb-number-format').find('span').at(1).text()).toBe(
-      '1 234,00 kr'
+    expect(
+      document
+        .querySelector('.dnb-number-format')
+        .querySelector('.dnb-number-format__visible').textContent
+    ).toBe('1 234,00 kr')
+
+    rerender(
+      <FormRow locale="en-GB">
+        <NumberFormat currency>1234</NumberFormat>
+      </FormRow>
     )
 
-    Comp.setProps({
-      locale: 'en-GB',
-    })
-
-    expect(Comp.find('.dnb-number-format').find('span').at(1).text()).toBe(
-      'NOK 1 234.00'
-    )
+    expect(
+      document
+        .querySelector('.dnb-number-format')
+        .querySelector('.dnb-number-format__visible').textContent
+    ).toBe('NOK 1 234.00')
   })
 
   it('should not overwrite locale from provider when not set', () => {
-    const Comp = mount(
+    render(
       <Provider locale="en-GB">
-        <Component>
+        <FormRow>
           <NumberFormat currency>1234</NumberFormat>
-        </Component>
+        </FormRow>
       </Provider>
     )
 
-    expect(Comp.find('.dnb-number-format').find('span').at(1).text()).toBe(
-      'NOK 1 234.00'
-    )
+    expect(
+      document
+        .querySelector('.dnb-number-format')
+        .querySelector('.dnb-number-format__visible').textContent
+    ).toBe('NOK 1 234.00')
   })
 
   it('should react correct on two states in row', () => {
-    const Comp = mount(
-      <Component {...props} disabled={false}>
+    const { rerender } = render(
+      <FormRow {...props} disabled={false}>
         <Input />
-      </Component>
+      </FormRow>
     )
-    Comp.setProps({ disabled: true })
-    expect(Comp.find('input').is('[disabled]')).toBe(true)
+    rerender(
+      <FormRow {...props} disabled={true}>
+        <Input />
+      </FormRow>
+    )
+    expect(document.querySelector('input[disabled]')).toBeTruthy()
   })
 
   it('should validate with ARIA rules', async () => {
+    const Comp = render(<FormRow {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })

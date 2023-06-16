@@ -1,7 +1,7 @@
 import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
 import { wait } from '@testing-library/user-event/dist/utils'
-import SkipContent from '../SkipContent'
+import SkipContent, { SkipContentAllProps } from '../SkipContent'
 import Section from '../../Section'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 
@@ -10,6 +10,18 @@ beforeEach(() => {
 })
 
 describe('SkipContent', () => {
+  it('renders with properties as object', () => {
+    const props: SkipContentAllProps = { selector: '#unique-id' }
+    render(
+      <>
+        <SkipContent {...props} />
+        <Section id="unique-id">content</Section>
+      </>
+    )
+
+    expect(document.querySelector('.dnb-skip-content')).toBeTruthy()
+  })
+
   it('should have one button child with dnb-sr-only class', () => {
     render(
       <>

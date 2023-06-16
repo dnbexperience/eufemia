@@ -1,19 +1,18 @@
 /**
- * Component Test
+ * StepIndicator Test
  *
  */
 
 import React from 'react'
-import {
-  mount,
-  axeComponent,
-  toJson,
-  loadScss,
-} from '../../../core/jest/jestSetup'
-import { render, screen, within } from '@testing-library/react'
-import Component from '../StepIndicator'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { fireEvent, render, screen, within } from '@testing-library/react'
+import StepIndicator, {
+  StepIndicatorData,
+  StepIndicatorProps,
+} from '../StepIndicator'
 import Provider from '../../../shared/Provider'
 import MatchMediaMock from 'jest-matchmedia-mock'
+import { StepIndicatorSidebarProps } from '../StepIndicatorSidebar'
 
 const matchMedia = new MatchMediaMock()
 
@@ -26,7 +25,7 @@ function simulateSmallScreen() {
   matchMedia.useMediaQuery('(min-width: 0) and (max-width: 60em)')
 }
 
-const stepIndicatorListData = [
+const stepIndicatorListData: StepIndicatorData = [
   {
     title: 'Step A',
   },
@@ -42,10 +41,23 @@ const stepIndicatorListData = [
 ]
 
 describe('StepIndicator Sidebar', () => {
+  it('renders with empty props', () => {
+    const props: StepIndicatorSidebarProps = { sidebar_id: 'id' }
+    render(
+      <Provider StepIndicator={{ data: ['one', 'two', 'three'] }}>
+        <StepIndicator.Sidebar {...props} />
+      </Provider>
+    )
+
+    expect(
+      document.querySelector('.dnb-step-indicator__sidebar')
+    ).toBeTruthy()
+  })
+
   it('has to inherit Provider data for initial SSR render', () => {
     render(
       <Provider StepIndicator={{ data: ['one', 'two', 'three'] }}>
-        <Component.Sidebar
+        <StepIndicator.Sidebar
           sidebar_id="unique-id-initial"
           showInitialData
         />
@@ -57,7 +69,7 @@ describe('StepIndicator Sidebar', () => {
 
   it('has to use data prop for initial SSR render', () => {
     render(
-      <Component.Sidebar
+      <StepIndicator.Sidebar
         sidebar_id="unique-id-initial"
         data={['one', 'two', 'three']}
         showInitialData
@@ -68,7 +80,7 @@ describe('StepIndicator Sidebar', () => {
 
   it('has to remove data from Sidebar when mounted', () => {
     render(
-      <Component.Sidebar
+      <StepIndicator.Sidebar
         sidebar_id="unique-id-initial"
         data={['one', 'two', 'three']}
       />
@@ -78,7 +90,10 @@ describe('StepIndicator Sidebar', () => {
 
   it('has to show skeleton when no data is given to Sidebar', () => {
     render(
-      <Component.Sidebar sidebar_id="unique-id-initial" showInitialData />
+      <StepIndicator.Sidebar
+        sidebar_id="unique-id-initial"
+        showInitialData
+      />
     )
     expect(screen.queryAllByRole('listitem')).toHaveLength(4)
 
@@ -91,7 +106,7 @@ describe('StepIndicator Sidebar', () => {
 
   it('should support spacing props', () => {
     render(
-      <Component.Sidebar
+      <StepIndicator.Sidebar
         sidebar_id="unique-id-initial"
         data={['one', 'two', 'three']}
         showInitialData
@@ -111,12 +126,28 @@ describe('StepIndicator Sidebar', () => {
 })
 
 describe('StepIndicator in general', () => {
+  it('renders with empty props', () => {
+    const sidebar_id = 'unique-id-spacing'
+
+    const sidebarProps: StepIndicatorSidebarProps = { sidebar_id }
+    const stepIndicatorProps: StepIndicatorProps = { sidebar_id }
+    render(
+      <>
+        <StepIndicator.Sidebar {...sidebarProps} />
+        <StepIndicator {...stepIndicatorProps} />
+      </>
+    )
+
+    expect(
+      document.querySelector('.dnb-step-indicator-wrapper')
+    ).toBeTruthy()
+  })
   it('should support spacing props', () => {
     const id = 'unique-id-spacing'
     render(
       <>
-        <Component.Sidebar sidebar_id={id} />
-        <Component
+        <StepIndicator.Sidebar sidebar_id={id} />
+        <StepIndicator
           top="large"
           current_step={1}
           mode="loose"
@@ -136,7 +167,7 @@ describe('StepIndicator in general', () => {
 
   it('should support spacing props with no sidebar', () => {
     render(
-      <Component
+      <StepIndicator
         sidebar_id="unique-id-no-sidebar"
         top="large"
         mode="static"
@@ -155,7 +186,7 @@ describe('StepIndicator in general', () => {
 
   it('should not add spacing props to dnb-step-indicator with no sidebar', () => {
     render(
-      <Component
+      <StepIndicator
         sidebar_id="unique-id-no-sidebar"
         top="large"
         mode="static"
@@ -174,8 +205,8 @@ describe('StepIndicator in general', () => {
   it('should support aria-labelledby', () => {
     render(
       <>
-        <Component.Sidebar sidebar_id="unique-id-aria-labelledby" />
-        <Component
+        <StepIndicator.Sidebar sidebar_id="unique-id-aria-labelledby" />
+        <StepIndicator
           top="large"
           current_step={1}
           mode="loose"
@@ -195,7 +226,7 @@ describe('StepIndicator in general', () => {
 
   it('should support aria-labelledby with no sidebar', () => {
     render(
-      <Component
+      <StepIndicator
         sidebar_id="unique-id-aria-labelledby-no-sidebar"
         top="large"
         mode="static"
@@ -216,28 +247,11 @@ describe('StepIndicator in general', () => {
 })
 
 describe('StepIndicator in loose mode', () => {
-  // This helper function should be removed, as it uses mount, and we move away from using enzyme.
-  const renderComponentUsingMount = (id, props = null) => {
-    return mount(
-      <>
-        <Component.Sidebar sidebar_id={id} />
-        <Component
-          current_step={1}
-          mode="loose"
-          sidebar_id={id}
-          data={stepIndicatorListData}
-          {...props}
-        />
-      </>,
-      { attachTo: document.getElementById('root') }
-    )
-  }
-
   const renderComponent = (id, props = null) => {
     return render(
       <>
-        <Component.Sidebar sidebar_id={id} />
-        <Component
+        <StepIndicator.Sidebar sidebar_id={id} />
+        <StepIndicator
           current_step={1}
           mode="loose"
           sidebar_id={id}
@@ -248,17 +262,6 @@ describe('StepIndicator in loose mode', () => {
     )
   }
 
-  it('have to match snapshot', () => {
-    const Comp = renderComponentUsingMount('unique-id-loose-snapshot')
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
-  it('have to match snapshot on small screen', () => {
-    simulateSmallScreen()
-    const Comp = renderComponentUsingMount('unique-id-loose-snapshot')
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
   it('has trigger button when mobile', () => {
     simulateSmallScreen()
 
@@ -267,24 +270,48 @@ describe('StepIndicator in loose mode', () => {
   })
 
   it('has to keep the current step on re-render', () => {
-    const Comp = renderComponentUsingMount('unique-id-loose-mobile')
-    expect(
-      Comp.at(1).exists('button.dnb-step-indicator__trigger__button')
-    ).toBe(false)
+    const id = 'unique-id-loose-mobile'
 
-    expect(Comp.find('li.dnb-step-indicator__item')).toHaveLength(4)
+    const { rerender } = render(
+      <>
+        <StepIndicator.Sidebar sidebar_id={id} />
+        <StepIndicator
+          current_step={1}
+          mode="loose"
+          sidebar_id={id}
+          data={stepIndicatorListData}
+        />
+      </>
+    )
     expect(
-      Comp.find('li.dnb-step-indicator__item--current').text()
+      document.querySelector('button.dnb-step-indicator__trigger__button')
+    ).toBeFalsy()
+
+    expect(
+      document.querySelectorAll('li.dnb-step-indicator__item')
+    ).toHaveLength(4)
+    expect(
+      document.querySelector('li.dnb-step-indicator__item--current')
+        .textContent
     ).toContain('2.Step BSteg 2 av 4')
 
     simulateSmallScreen()
 
-    // re-render
-    document.body.innerHTML = `<div id="root"></div>`
-    Comp.update()
+    rerender(
+      <>
+        <StepIndicator.Sidebar sidebar_id={id} />
+        <StepIndicator
+          current_step={1}
+          mode="loose"
+          sidebar_id={id}
+          data={stepIndicatorListData}
+        />
+      </>
+    )
 
     expect(
-      Comp.find('button.dnb-step-indicator__trigger__button').text()
+      document.querySelector('button.dnb-step-indicator__trigger__button')
+        .textContent
     ).toContain('‌2.Step B')
   })
 
@@ -305,26 +332,20 @@ describe('StepIndicator in loose mode', () => {
 
   it('has correct state after change', () => {
     const on_change = jest.fn()
-    const Comp = renderComponentUsingMount('unique-id-loose-simulate', {
+    renderComponent('unique-id-loose-simulate', {
       on_change,
     })
-    const items = Comp.find('li.dnb-step-indicator__item')
+    const items = document.querySelectorAll('li.dnb-step-indicator__item')
 
     expect(items.length).toBe(4)
     expect(
-      items
-        .at(0)
-        .instance()
-        .classList.contains('dnb-step-indicator__item--visited')
+      items[0].classList.contains('dnb-step-indicator__item--visited')
     ).toBe(true)
     expect(
-      items
-        .at(0)
-        .instance()
-        .classList.contains('dnb-step-indicator__item--current')
+      items[0].classList.contains('dnb-step-indicator__item--current')
     ).toBe(false)
 
-    items.at(0).find('button').simulate('click')
+    fireEvent.click(items[0].querySelector('button'))
 
     expect(on_change).toBeCalledTimes(1)
     expect(on_change.mock.calls[0][0].currentStep).toBe(0)
@@ -332,14 +353,11 @@ describe('StepIndicator in loose mode', () => {
       'function'
     )
     expect(
-      items
-        .at(0)
-        .instance()
-        .classList.contains('dnb-step-indicator__item--current')
+      items[0].classList.contains('dnb-step-indicator__item--current')
     ).toBe(true)
-    expect(Comp.find('li.dnb-step-indicator__item--current')).toHaveLength(
-      1
-    )
+    expect(
+      document.querySelectorAll('li.dnb-step-indicator__item--current')
+    ).toHaveLength(1)
   })
 
   it('should have only one "current" at a time', () => {
@@ -389,8 +407,8 @@ describe('StepIndicator in loose mode', () => {
     const TestComp = ({ id, ...props }) => {
       return (
         <>
-          <Component.Sidebar sidebar_id={id} />
-          <Component
+          <StepIndicator.Sidebar sidebar_id={id} />
+          <StepIndicator
             current_step={1}
             mode="loose"
             sidebar_id={id}
@@ -401,47 +419,45 @@ describe('StepIndicator in loose mode', () => {
       )
     }
 
-    const renderComponent = (id, props = null) => {
-      return mount(<TestComp id={id} {...props} />, {
-        attachTo: document.getElementById('root'),
-      })
-    }
-    const Comp = renderComponent('unique-id-loose-simulate')
+    const { rerender } = render(<TestComp id="unique-id-loose-simulate" />)
 
-    Comp.setProps({
-      current_step: 2,
-    })
+    rerender(<TestComp id="unique-id-loose-simulate" current_step={2} />)
 
     expect(
-      Comp.find('li.dnb-step-indicator__item--current').text()
+      document.querySelector('li.dnb-step-indicator__item--current')
+        .textContent
     ).toContain('3.Step CSteg 3 av 4')
   })
 
   it('should render button when no Sidebar was found', () => {
-    const Comp = mount(
-      <Component
+    const { rerender } = render(
+      <StepIndicator
         current_step={1}
         mode="loose"
         sidebar_id="unique-id-loose-simulate"
         data={stepIndicatorListData}
-      />,
-      {
-        attachTo: document.getElementById('root'),
-      }
+      />
     )
 
     expect(
-      Comp.find('button.dnb-step-indicator__trigger__button').text()
+      document.querySelector('button.dnb-step-indicator__trigger__button')
+        .textContent
     ).toContain('‌2.Step B')
 
     simulateSmallScreen()
 
-    // re-render
-    document.body.innerHTML = `<div id="root"></div>`
-    Comp.update()
+    rerender(
+      <StepIndicator
+        current_step={1}
+        mode="loose"
+        sidebar_id="unique-id-loose-simulate"
+        data={stepIndicatorListData}
+      />
+    )
 
     expect(
-      Comp.find('button.dnb-step-indicator__trigger__button').text()
+      document.querySelector('button.dnb-step-indicator__trigger__button')
+        .textContent
     ).toContain('‌2.Step B')
   })
 
@@ -456,34 +472,17 @@ describe('StepIndicator in loose mode', () => {
   })
 
   it('should validate with ARIA rules', async () => {
-    const Comp = renderComponentUsingMount('unique-id-loose-aria')
+    const Comp = renderComponent('unique-id-loose-aria')
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
 
 describe('StepIndicator in strict mode', () => {
-  // This helper function should be removed, as it uses mount, and we move away from using enzyme.
-  const renderComponentUsingMount = (id, props = null) => {
-    return mount(
-      <>
-        <Component.Sidebar sidebar_id={id} />
-        <Component
-          current_step={1}
-          mode="strict"
-          sidebar_id={id}
-          data={stepIndicatorListData}
-          {...props}
-        />
-      </>,
-      { attachTo: document.getElementById('root') }
-    )
-  }
-
   const renderComponent = (id, props = null) => {
     return render(
       <>
-        <Component.Sidebar sidebar_id={id} />
-        <Component
+        <StepIndicator.Sidebar sidebar_id={id} />
+        <StepIndicator
           current_step={1}
           mode="strict"
           sidebar_id={id}
@@ -493,17 +492,6 @@ describe('StepIndicator in strict mode', () => {
       </>
     )
   }
-
-  it('have to match snapshot', () => {
-    const Comp = renderComponentUsingMount('unique-id-strict-snapshot')
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
-  it('have to match snapshot on small screen', () => {
-    simulateSmallScreen()
-    const Comp = renderComponentUsingMount('unique-id-strict-snapshot')
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
 
   it('has trigger button when mobile', () => {
     simulateSmallScreen()
@@ -553,36 +541,14 @@ describe('StepIndicator in strict mode', () => {
       screen.queryAllByRole('listitem', { current: 'step' })
     ).toHaveLength(1)
   })
-
-  it('should validate with ARIA rules', async () => {
-    const Comp = renderComponent('unique-id-strict-aria')
-    expect(await axeComponent(Comp)).toHaveNoViolations()
-  })
 })
 
 describe('StepIndicator in static mode', () => {
-  // This helper function should be removed, as it uses mount, and we move away from using enzyme.
-  const renderComponentUsingMount = (id, props = null) => {
-    return mount(
-      <>
-        <Component.Sidebar sidebar_id={id} />
-        <Component
-          current_step={1}
-          mode="static"
-          sidebar_id={id}
-          data={stepIndicatorListData}
-          {...props}
-        />
-      </>,
-      { attachTo: document.getElementById('root') }
-    )
-  }
-
   const renderComponent = (id, props = null) => {
     return render(
       <>
-        <Component.Sidebar sidebar_id={id} />
-        <Component
+        <StepIndicator.Sidebar sidebar_id={id} />
+        <StepIndicator
           current_step={1}
           mode="static"
           sidebar_id={id}
@@ -592,17 +558,6 @@ describe('StepIndicator in static mode', () => {
       </>
     )
   }
-
-  it('have to match snapshot', () => {
-    const Comp = renderComponentUsingMount('unique-id-static-snapshot')
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
-  it('have to match snapshot on small screen', () => {
-    simulateSmallScreen()
-    const Comp = renderComponentUsingMount('unique-id-static-snapshot')
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
 
   it('has trigger button when mobile', () => {
     simulateSmallScreen()
@@ -628,6 +583,23 @@ describe('StepIndicator in static mode', () => {
 
   it('should validate with ARIA rules', async () => {
     const Comp = renderComponent('unique-id-static-aria')
+    expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+})
+
+describe('StepIndicator ARIA', () => {
+  it('should validate with ARIA rules', async () => {
+    const Comp = render(
+      <>
+        <StepIndicator.Sidebar sidebar_id="unique-id-strict-aria" />
+        <StepIndicator
+          current_step={1}
+          mode="loose"
+          sidebar_id="unique-id-strict-aria"
+          data={stepIndicatorListData}
+        />
+      </>
+    )
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })

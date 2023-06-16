@@ -53,8 +53,7 @@ function extractPathParts({ file }) {
    * we only use it for the warning method: warnAboutMissingPropTypes
    *
    * In other words, do not warn when,
-   *
-   * he component dir is different from the component name
+   * the component dir is different from the component name
    */
   const unsureSituation =
     componentDir.split('-').length !== tmpComponentName.split('-').length

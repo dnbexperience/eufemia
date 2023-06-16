@@ -1,63 +1,35 @@
 /**
- * Component Test
+ * Button Test
  *
  */
 
 import React from 'react'
-import {
-  mount,
-  fakeProps,
-  toJson,
-  axeComponent,
-  loadScss,
-} from '../../../core/jest/jestSetup'
-import Component, { ButtonOnClick } from '../Button'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import Button, { ButtonOnClick, ButtonProps } from '../Button'
 import IconPrimary from '../../IconPrimary'
 import { fireEvent, render } from '@testing-library/react'
 import FormRow from '../../form-row/FormRow'
 
-const props = fakeProps(require.resolve('../Button'), {
-  optional: true,
-})
-props.id = 'button'
-props.variant = 'primary'
-props.icon = 'question'
-props.title = 'This is a button title'
-props.size = null
-props.status = null
-props.element = null
-props.tooltip = null
-props.to = null
-props.custom_content = null
-props.text = null
-props.icon_position = 'right'
-props.globalStatus = { id: 'main' }
+const props: ButtonProps = {
+  href: 'href',
+  children: 'children',
+}
 
 beforeAll(() => {
   jest.spyOn(global.console, 'log')
 })
 
 describe('Button component', () => {
-  it('have to match default button snapshot', () => {
-    const Comp = mount(<Component {...props} href={null} />)
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
-  it('have to match href="..." snapshot', () => {
-    const Comp = mount(<Component {...props} href="https://url" />)
-    expect(toJson(Comp)).toMatchSnapshot()
-  })
-
   it('has a button tag', () => {
     const title = 'title'
-    render(<Component {...props} title={title} href={null} />)
+    render(<Button {...props} title={title} href={null} />)
     const button = document.querySelector('button')
 
     expect(button.getAttribute('title')).toBe(title)
   })
 
   it('icon only has to have some extra classes', () => {
-    render(<Component icon="question" />)
+    render(<Button icon="question" />)
     const button = document.querySelector('button')
 
     // size "medium" and has icon
@@ -68,7 +40,7 @@ describe('Button component', () => {
   })
 
   it('has size set to medium when button size is default', () => {
-    render(<Component icon="question" size="default" />)
+    render(<Button icon="question" size="default" />)
     const button = document.querySelector('button')
     const icon = document.querySelector('.dnb-icon')
     expect(button.classList.contains('dnb-button--icon-size-medium')).toBe(
@@ -78,7 +50,7 @@ describe('Button component', () => {
   })
 
   it('has medium icon if button size is large', () => {
-    render(<Component text="Button" size="large" icon="question" />)
+    render(<Button text="Button" size="large" icon="question" />)
     const button = document.querySelector('button')
     const icon = document.querySelector('.dnb-icon')
     // size "large
@@ -87,41 +59,34 @@ describe('Button component', () => {
   })
 
   it('has to have a bounding tag if property is set', () => {
-    render(<Component bounding={true} />)
+    render(<Button bounding={true} />)
     expect(document.querySelector('.dnb-button__bounding')).toBeTruthy()
   })
 
   it('has a anchor tag', () => {
-    render(<Component {...props} href="https://url" icon={null} />)
+    render(<Button {...props} href="https://url" icon={null} />)
     expect(document.querySelector('a')).toBeTruthy()
     expect(document.querySelector('svg')).toBeFalsy()
   })
 
   it('has a anchor tag and includes a launch icon', () => {
     render(
-      <Component
-        {...props}
-        href="https://url"
-        target="_blank"
-        icon={null}
-      />
+      <Button {...props} href="https://url" target="_blank" icon={null} />
     )
     expect(document.querySelector('svg')).toBeTruthy()
   })
 
   it('supports anchor rel property', () => {
-    render(
-      <Component {...props} href="https://url" icon={null} rel="me" />
-    )
+    render(<Button {...props} href="https://url" icon={null} rel="me" />)
     expect(document.querySelector('a').getAttribute('rel')).toBe('me')
   })
 
   it('has a disabled attribute, once we set disabled to true', () => {
-    const { rerender } = render(<Component />)
+    const { rerender } = render(<Button />)
     expect(document.querySelector('button').hasAttribute('disabled')).toBe(
       false
     )
-    rerender(<Component disabled />)
+    rerender(<Button disabled />)
 
     expect(document.querySelector('button').hasAttribute('disabled')).toBe(
       true
@@ -129,14 +94,14 @@ describe('Button component', () => {
   })
 
   it('should be able to omit button type', () => {
-    render(<Component type="" />)
+    render(<Button type="" />)
     expect(document.querySelector('button').hasAttribute('type')).toBe(
       false
     )
   })
 
   it('should use span element if defined', () => {
-    render(<Component element="span" />)
+    render(<Button element="span" />)
     expect(document.querySelector('.dnb-button').tagName).toBe('SPAN')
     expect(
       document.querySelector('.dnb-button').getAttribute('type')
@@ -144,7 +109,7 @@ describe('Button component', () => {
   })
 
   it('should support spacing props', () => {
-    render(<Component top="2rem" />)
+    render(<Button top="2rem" />)
 
     const element = document.querySelector('.dnb-button')
 
@@ -158,7 +123,7 @@ describe('Button component', () => {
   it('should inherit disabled from FormRow', () => {
     render(
       <FormRow vertical disabled>
-        <Component text="Button" />
+        <Button text="Button" />
       </FormRow>
     )
 
@@ -183,7 +148,7 @@ describe('Button component', () => {
   it('has "on_click" event which will trigger on a click', () => {
     const my_event = jest.fn()
     const myEvent = jest.fn()
-    render(<Component on_click={my_event} onClick={myEvent} />)
+    render(<Button on_click={my_event} onClick={myEvent} />)
     const button = document.querySelector('button')
     fireEvent.click(button)
     expect(my_event.mock.calls.length).toBe(1)
@@ -193,20 +158,20 @@ describe('Button component', () => {
   it('has set innerRef if ref was given', () => {
     const ref = React.createRef()
     expect(ref.current).toBe(null)
-    render(<Component {...props} innerRef={ref} />)
+    render(<Button {...props} innerRef={ref} />)
     expect(ref.current).not.toBe(null)
     expect(typeof ref.current).toBe('object')
   })
 
   it('has type of button', () => {
-    render(<Component />)
+    render(<Button />)
     const button = document.querySelector('button')
     expect(button.getAttribute('type')).toBe('button')
   })
 
   it('has alignment helper with aria-hidden', () => {
     const text = 'Button'
-    const { rerender } = render(<Component text={text} />)
+    const { rerender } = render(<Button text={text} />)
 
     expect(
       document
@@ -217,7 +182,7 @@ describe('Button component', () => {
       text
     )
 
-    rerender(<Component icon="bell" />)
+    rerender(<Button icon="bell" />)
 
     expect(
       document
@@ -228,55 +193,53 @@ describe('Button component', () => {
   })
 
   it('should validate with ARIA rules as a button', async () => {
-    const Comp = render(<Component {...props} />)
+    const Comp = render(<Button {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
   it('should validate with ARIA rules as a anchor', async () => {
-    const Comp = render(<Component {...props} href="https://url" />)
+    const Comp = render(<Button {...props} href="https://url" />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
   it('has variant set to primary as default', () => {
-    render(<Component />)
+    render(<Button />)
     const button = document.querySelector('button')
     expect(button.classList.contains('dnb-button--primary')).toBe(true)
   })
 
   it('has variant set to primary when only setting text', () => {
-    render(<Component text="Button" />)
+    render(<Button text="Button" />)
     const button = document.querySelector('button')
     expect(button.classList.contains('dnb-button--primary')).toBe(true)
   })
 
   it('has variant set to secondary when only setting icon', () => {
-    render(<Component icon="question" />)
+    render(<Button icon="question" />)
     const button = document.querySelector('button')
     expect(button.classList.contains('dnb-button--secondary')).toBe(true)
   })
 
   it('has variant tertiary', () => {
-    render(<Component text="Button" variant="tertiary" icon="question" />)
+    render(<Button text="Button" variant="tertiary" icon="question" />)
     const button = document.querySelector('button')
     expect(button.classList.contains('dnb-button--tertiary')).toBe(true)
   })
 
   it('has variant unstyled', () => {
-    render(<Component text="Button" variant="unstyled" />)
+    render(<Button text="Button" variant="unstyled" />)
     const button = document.querySelector('button')
     expect(button.classList.contains('dnb-button--unstyled')).toBe(true)
   })
 
   it('will replace icon with icon component', () => {
     const { rerender } = render(
-      <Component
-        icon={<span className="dnb-icon custom-icon">icon</span>}
-      />
+      <Button icon={<span className="dnb-icon custom-icon">icon</span>} />
     )
     expect(document.querySelector('.custom-icon')).toBeTruthy()
 
     rerender(
-      <Component
+      <Button
         icon={
           <IconPrimary icon="bell" className="custom-icon-component" />
         }
@@ -290,7 +253,7 @@ describe('Button component', () => {
   it('will only have attached event listener if one is given', () => {
     const on_click = jest.fn()
     const { rerender } = render(
-      <Component text="Button" on_click={on_click} />
+      <Button text="Button" on_click={on_click} />
     )
 
     type Button = HTMLButtonElement & { onClickHandler: ButtonOnClick }
@@ -305,7 +268,7 @@ describe('Button component', () => {
     expect(on_click).toHaveBeenCalledTimes(2)
     expect(button.onClickHandler).toHaveBeenCalledTimes(2)
 
-    rerender(<Component text="Button" onClick={undefined} />)
+    rerender(<Button text="Button" onClick={undefined} />)
 
     fireEvent.click(button)
 
@@ -317,12 +280,12 @@ describe('Button component', () => {
   it('will warn when tertiary is used without an icon', () => {
     process.env.NODE_ENV = 'development'
     global.console.log = jest.fn()
-    render(<Component text="Button" variant="tertiary" />)
+    render(<Button text="Button" variant="tertiary" />)
     expect(global.console.log).toBeCalled()
   })
 
   it('has no size when only setting text', () => {
-    render(<Component text="Button" />)
+    render(<Button text="Button" />)
     expect(document.querySelector('.dnb-button--size-medium')).toBeFalsy()
     expect(document.querySelector('.dnb-button--size-large')).toBeFalsy()
   })
