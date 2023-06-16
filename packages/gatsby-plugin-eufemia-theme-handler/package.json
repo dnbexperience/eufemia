@@ -28,7 +28,7 @@
     "raw-loader": "4.0.2",
     "terser-loader": "2.0.2"
   },
-  "peedDependencies": {
+  "peerDependencies": {
     "@dnb/eufemia": ">=9",
     "react": ">=17",
     "gatsby": ">=3"
