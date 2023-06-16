@@ -33,7 +33,7 @@ export interface GlobalStatusProps
   status_id?: string;
 
   /**
-   * The title appears as a part of the status content. Use `false` to hide / remove the title and icon. Defaults to `En feil har skjedd`.
+   * The title appears as a part of the status content. Defaults to `En feil har skjedd`.
    */
   title?: GlobalStatusTitle;
   default_title?: string;
@@ -151,7 +151,7 @@ export type GlobalStatusAddProps = {
   status_id: GlobalStatusStatusId;
 
   /**
-   * The title appears as a part of the status content. Use `false` to hide / remove the title and icon. Defaults to `En feil har skjedd`.
+   * The title appears as a part of the status content. Defaults to `En feil har skjedd`.
    */
   title?: string;
 
@@ -197,7 +197,7 @@ export type GlobalStatusInterceptorProps = {
   id: string;
 
   /**
-   * The title appears as a part of the status content. Use `false` to hide / remove the title and icon. Defaults to `En feil har skjedd`.
+   * The title appears as a part of the status content. Defaults to `En feil har skjedd`.
    */
   title: string;
 
