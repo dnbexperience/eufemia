@@ -7,6 +7,10 @@ export interface StepIndicatorSidebarProps
     Omit<React.HTMLProps<HTMLAnchorElement>, 'ref'> {
   internalId?: string;
   showInitialData?: boolean;
+
+  /**
+   * <em>(required)</em> a unique string-based ID in order to bind together the main component and the sidebar (`<StepIndicator.Sidebar />`). Both have to get the same ID.
+   */
   sidebar_id: string;
 }
 export default class StepIndicatorSidebar extends React.Component<
