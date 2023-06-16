@@ -19,10 +19,14 @@ on:
       - '!**--visual-reports'
       - '!wip/**'
       - '!experiments/**'
+      - '!dependabot/**'
       - '!release'
       - '!portal'
       - '!beta'
       - '!alpha'
+  pull_request:
+    branches:
+      - 'dependabot/**'
   schedule:
     - cron: '44 3 * * 5'
 
