@@ -182,3 +182,5 @@ describe('Upload', () => {
     })
   })
 })
+
+const wait = (t) => new Promise((r) => setTimeout(r, t))

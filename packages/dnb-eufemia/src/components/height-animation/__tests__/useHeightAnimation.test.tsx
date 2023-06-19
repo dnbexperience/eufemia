@@ -5,8 +5,13 @@
 
 import React from 'react'
 import classnames from 'classnames'
-import { render, act, fireEvent, waitFor } from '@testing-library/react'
-import { renderHook } from '@testing-library/react-hooks'
+import {
+  render,
+  act,
+  fireEvent,
+  renderHook,
+  waitFor,
+} from '@testing-library/react'
 import ToggleButton from '../../ToggleButton'
 import { useHeightAnimation } from '../useHeightAnimation'
 import { wait } from '../../../core/jest/jestSetup'
