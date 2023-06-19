@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, act } from '@testing-library/react'
 import Dropdown, { DropdownProps } from '../Dropdown'
 import {
   mockImplementationForDirectionObserver,
@@ -835,8 +835,11 @@ describe('Dropdown component', () => {
         .classList.contains('dnb-dropdown--opened')
     ).toBe(true)
 
-    // close
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 })) // esc
+    act(() => {
+      // close
+      document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 })) // esc
+    })
+
     expect(on_hide.mock.calls.length).toBe(1)
 
     expect(
@@ -856,8 +859,10 @@ describe('Dropdown component', () => {
 
     preventClose = true
 
-    // close again, but with false returned
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 })) // esc
+    act(() => {
+      // close again, but with false returned
+      document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 })) // esc
+    })
 
     expect(on_hide.mock.calls.length).toBe(2)
 
@@ -1132,7 +1137,7 @@ describe('Dropdown component', () => {
   })
 
   beforeAll(() => {
-    (window as any).resizeTo = function resizeTo({
+    ;(window as any).resizeTo = function resizeTo({
       width = window.innerWidth,
       height = window.innerHeight,
     }: {

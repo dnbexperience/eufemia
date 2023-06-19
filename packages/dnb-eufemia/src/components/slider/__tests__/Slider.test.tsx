@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, act } from '@testing-library/react'
 import Slider from '../Slider'
 
 import type { SliderAllProps, onChangeEventProps } from '../Slider'
@@ -766,12 +766,14 @@ const resetMouseSimulation = () => {
 }
 
 const simulateMouseMove = (props) => {
-  fireEvent.mouseUp(document.querySelector('.dnb-slider__track'))
-  fireEvent.mouseDown(document.querySelector('.dnb-slider__track'))
-  const mouseMove = new CustomEvent('mousemove', {
-    detail: props,
+  act(() => {
+    fireEvent.mouseUp(document.querySelector('.dnb-slider__track'))
+    fireEvent.mouseDown(document.querySelector('.dnb-slider__track'))
+    const mouseMove = new CustomEvent('mousemove', {
+      detail: props,
+    })
+    document.body.dispatchEvent(mouseMove)
   })
-  document.body.dispatchEvent(mouseMove)
 }
 
 const wait = (t) => new Promise((r) => setTimeout(r, t))

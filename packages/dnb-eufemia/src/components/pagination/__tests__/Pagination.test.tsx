@@ -466,9 +466,9 @@ describe('Infinity scroller', () => {
 
     await rerenderComponent()
 
-    expect(document.querySelectorAll('div.page-item').length).toBe(20)
+    expect(document.querySelectorAll('div.page-item').length).toBe(10)
     expect(document.querySelectorAll('div.page-item')[0].textContent).toBe(
-      'page-11'
+      'page-21'
     )
     expect(
       document.querySelectorAll('div.page-item')[

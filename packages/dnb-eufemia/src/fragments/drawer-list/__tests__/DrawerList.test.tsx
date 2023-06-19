@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen, waitFor } from '@testing-library/react'
 import DrawerList, { DrawerListProps } from '../DrawerList'
 
 import {
@@ -135,7 +135,7 @@ describe('DrawerList component', () => {
     expect(screen.getByTitle(title)).toBeTruthy()
   })
 
-  it('has correct value on key search', () => {
+  it('has correct value on key search', async () => {
     const { rerender } = render(<DrawerList {...props} data={mockData} />)
 
     expect(
@@ -144,32 +144,38 @@ describe('DrawerList component', () => {
 
     keydown(83) // S
 
-    expect(
-      Array.from(
-        document.querySelectorAll('.dnb-drawer-list__option')[1].classList
-      )
-    ).toEqual([
-      'dnb-drawer-list__option',
-      'dnb-drawer-list__option--focus',
-    ])
+    await waitFor(() => {
+      expect(
+        Array.from(
+          document.querySelectorAll('.dnb-drawer-list__option')[1]
+            .classList
+        )
+      ).toEqual([
+        'dnb-drawer-list__option',
+        'dnb-drawer-list__option--focus',
+      ])
+    })
 
     keydown(70) // F
 
     // force re-render
     rerender(<DrawerList {...props} data={mockData} />)
 
-    expect(
-      Array.from(
-        document.querySelectorAll('.dnb-drawer-list__option')[2].classList
-      )
-    ).toEqual([
-      'dnb-drawer-list__option',
-      'dnb-drawer-list__option--selected',
-      'dnb-drawer-list__option--focus',
-    ])
+    await waitFor(() => {
+      expect(
+        Array.from(
+          document.querySelectorAll('.dnb-drawer-list__option')[2]
+            .classList
+        )
+      ).toEqual([
+        'dnb-drawer-list__option',
+        'dnb-drawer-list__option--selected',
+        'dnb-drawer-list__option--focus',
+      ])
+    })
   })
 
-  it('has valid on_select callback', () => {
+  it('has valid on_select callback', async () => {
     const on_select = jest.fn()
 
     const { rerender } = render(
@@ -184,9 +190,11 @@ describe('DrawerList component', () => {
     keydown(32) // space
 
     const notChangedItem = mockData[props.value]
-    expect(on_select.mock.calls[0][0].data).toStrictEqual(notChangedItem)
-    expect(on_select.mock.calls[0][0].selected_item).toBe(2)
-    expect(on_select.mock.calls[0][0].active_item).toBe(2)
+    await waitFor(() => {
+      expect(on_select.mock.calls[0][0].data).toStrictEqual(notChangedItem)
+      expect(on_select.mock.calls[0][0].selected_item).toBe(2)
+      expect(on_select.mock.calls[0][0].active_item).toBe(2)
+    })
 
     // reset props
     rerender(
@@ -208,12 +216,13 @@ describe('DrawerList component', () => {
       />
     )
     keydown(40) // down
+    await waitFor(() => {
+      expect(on_select.mock.calls[1][0].selected_item).toBe(undefined)
+      expect(on_select.mock.calls[1][0].active_item).toBe(3)
 
-    expect(on_select.mock.calls[1][0].selected_item).toBe(undefined)
-    expect(on_select.mock.calls[1][0].active_item).toBe(3)
-
-    const selectedItem = mockData[(props.value as number) + 1]
-    expect(on_select.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
+      const selectedItem = mockData[(props.value as number) + 1]
+      expect(on_select.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
+    })
   })
 
   it('will set data-dnb-drawer-list-active with id', () => {
@@ -272,7 +281,7 @@ describe('DrawerList component', () => {
     expect(document.body.getAttribute('style')).toBe('')
   })
 
-  it('has valid on_change callback', () => {
+  it('has valid on_change callback', async () => {
     const on_change = jest.fn()
     const on_select = jest.fn()
 
@@ -285,15 +294,15 @@ describe('DrawerList component', () => {
       />
     )
 
-    let selectedItem
-
     // then simulate changes
     keydown(40) // down
     keydown(32) // space
 
-    selectedItem = mockData[(props.value as number) + 1]
-    expect(on_change.mock.calls[0][0].data).toStrictEqual(selectedItem)
-    expect(on_select.mock.calls[1][0].data).toStrictEqual(selectedItem)
+    await waitFor(() => {
+      const selectedItem = mockData[(props.value as number) + 1]
+      expect(on_change.mock.calls[0][0].data).toStrictEqual(selectedItem)
+      expect(on_select.mock.calls[1][0].data).toStrictEqual(selectedItem)
+    })
 
     rerender(
       <DrawerList
@@ -320,9 +329,11 @@ describe('DrawerList component', () => {
     keydown(40) // down
     keydown(13) // enter
 
-    selectedItem = mockData[(props.value as number) + 2]
-    expect(on_change.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
-    expect(on_select.mock.calls[3][0].data).toStrictEqual(selectedItem) // second call!
+    await waitFor(() => {
+      const selectedItem = mockData[(props.value as number) + 2]
+      expect(on_change.mock.calls[1][0].data).toStrictEqual(selectedItem) // second call!
+      expect(on_select.mock.calls[3][0].data).toStrictEqual(selectedItem) // second call!
+    })
   })
 
   it('has correct direction prop', () => {
@@ -356,7 +367,7 @@ describe('DrawerList component', () => {
     await testDirectionObserver()
   })
 
-  it('will call on_hide after "esc" key', () => {
+  it('will call on_hide after "esc" key', async () => {
     const on_hide = jest.fn()
 
     render(<DrawerList {...props} data={mockData} on_hide={on_hide} />)
@@ -376,17 +387,21 @@ describe('DrawerList component', () => {
     keydown(27) // esc
     expect(on_hide.mock.calls.length).toBe(1)
 
-    expect(
-      Array.from(document.querySelector('span.dnb-drawer-list').classList)
-    ).toEqual([
-      'dnb-drawer-list',
-      'dnb-drawer-list--top',
-      'dnb-drawer-list--hidden',
-      'dnb-drawer-list--triangle-position-left',
-      'dnb-drawer-list--left',
-      'dnb-drawer-list--default',
-      'dnb-drawer-list--scroll',
-    ])
+    await waitFor(() => {
+      expect(
+        Array.from(
+          document.querySelector('span.dnb-drawer-list').classList
+        )
+      ).toEqual([
+        'dnb-drawer-list',
+        'dnb-drawer-list--top',
+        'dnb-drawer-list--hidden',
+        'dnb-drawer-list--triangle-position-left',
+        'dnb-drawer-list--left',
+        'dnb-drawer-list--default',
+        'dnb-drawer-list--scroll',
+      ])
+    })
   })
 
   it('has correct class modifier "--opened"', () => {
@@ -406,7 +421,7 @@ describe('DrawerList component', () => {
     ).toBe(mockData.length)
   })
 
-  it('has correct value on data given as an object', () => {
+  it('has correct value on data given as an object', async () => {
     const on_change = jest.fn()
     const on_select = jest.fn()
 
@@ -423,16 +438,21 @@ describe('DrawerList component', () => {
 
     // then simulate changes
     keydown(40) // down
-    expect(on_select.mock.calls[0][0].active_item).toBe(0)
+    await waitFor(() => {
+      expect(on_select.mock.calls[0][0].active_item).toBe(0)
+    })
 
     keydown(13) // enter
-    expect(on_change.mock.calls[0][0].value).toBe('a')
+    await waitFor(() => {
+      expect(on_change.mock.calls[0][0].value).toBe('a')
+    })
 
     // then open again
     keydown(32) // space
-
-    expect(on_change).toBeCalledTimes(1)
-    expect(on_select).toBeCalledTimes(2)
+    await waitFor(() => {
+      expect(on_change).toBeCalledTimes(1)
+      expect(on_select).toBeCalledTimes(2)
+    })
   })
 
   it('has to return all additional attributes the event return', () => {
@@ -499,5 +519,7 @@ describe('DrawerList scss', () => {
 })
 
 const keydown = (keyCode) => {
-  document.dispatchEvent(new KeyboardEvent('keydown', { keyCode }))
+  act(() => {
+    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode }))
+  })
 }

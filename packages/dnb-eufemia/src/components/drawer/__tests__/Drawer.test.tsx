@@ -4,7 +4,7 @@ import Button from '../../button/Button'
 import Provider from '../../../shared/Provider'
 
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
-import { render, fireEvent } from '@testing-library/react'
+import { render, fireEvent, waitFor } from '@testing-library/react'
 
 const props: DrawerAllProps = {
   noAnimation: true,
@@ -60,7 +60,7 @@ describe('Drawer', () => {
     expect(document.querySelector('button.dnb-modal__trigger')).toBeFalsy()
   })
 
-  it('will close by using callback method', () => {
+  it('will close by using callback method', async () => {
     const on_close = jest.fn()
     const on_open = jest.fn()
     render(
@@ -77,10 +77,14 @@ describe('Drawer', () => {
     )
 
     fireEvent.click(document.querySelector('button'))
-    expect(on_open).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(on_open).toHaveBeenCalledTimes(1)
+    })
 
     fireEvent.click(document.querySelector('button#close-me'))
-    expect(on_close).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(on_close).toHaveBeenCalledTimes(1)
+    })
   })
 
   it('will use props from global context', () => {
@@ -124,7 +128,7 @@ describe('Drawer', () => {
     expect(testTriggeredBy).toBe('keyboard')
   })
 
-  it('is closed by keyboardevent esc by window listener', () => {
+  it('is closed by keyboardevent esc by window listener', async () => {
     const on_close = jest.fn()
 
     const props: DrawerAllProps = {
@@ -135,11 +139,12 @@ describe('Drawer', () => {
 
     fireEvent.click(document.querySelector('button#modal-drawer'))
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
-
-    expect(on_close).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(on_close).toHaveBeenCalledTimes(1)
+    })
   })
 
-  it('has support for nested Drawers', () => {
+  it('has support for nested Drawers', async () => {
     const on_open = {
       first: jest.fn(),
       second: jest.fn(),
@@ -238,9 +243,11 @@ describe('Drawer', () => {
 
     // Close the third one
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
-    expect(on_close.first).toHaveBeenCalledTimes(0)
-    expect(on_close.second).toHaveBeenCalledTimes(0)
-    expect(on_close.third).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(on_close.first).toHaveBeenCalledTimes(0)
+      expect(on_close.second).toHaveBeenCalledTimes(0)
+      expect(on_close.third).toHaveBeenCalledTimes(1)
+    })
 
     expect(
       document.documentElement.getAttribute('data-dnb-modal-active')
@@ -262,9 +269,11 @@ describe('Drawer', () => {
 
     // Close the second one
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
-    expect(on_close.first).toHaveBeenCalledTimes(0)
-    expect(on_close.second).toHaveBeenCalledTimes(1)
-    expect(on_close.third).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(on_close.first).toHaveBeenCalledTimes(0)
+      expect(on_close.second).toHaveBeenCalledTimes(1)
+      expect(on_close.third).toHaveBeenCalledTimes(1)
+    })
 
     expect(
       document.documentElement.getAttribute('data-dnb-modal-active')
@@ -281,9 +290,11 @@ describe('Drawer', () => {
 
     // Close the first one
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
-    expect(on_close.first).toHaveBeenCalledTimes(1)
-    expect(on_close.second).toHaveBeenCalledTimes(1)
-    expect(on_close.third).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(on_close.first).toHaveBeenCalledTimes(1)
+      expect(on_close.second).toHaveBeenCalledTimes(1)
+      expect(on_close.third).toHaveBeenCalledTimes(1)
+    })
 
     expect(document.querySelector('#content-first')).toBeFalsy()
     expect(

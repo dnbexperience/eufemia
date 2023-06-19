@@ -10,7 +10,7 @@ import { GlobalStatusInterceptor } from '../GlobalStatusController'
 import FormSet from '../../form-set/FormSet'
 import Switch from '../../switch/Switch'
 import Autocomplete from '../../autocomplete/Autocomplete'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 
 const text = 'text'
 const items = [
@@ -614,7 +614,7 @@ describe('GlobalStatus component', () => {
     )
   })
 
-  it('should generate item_id form React Element', () => {
+  it('should generate item_id form React Element', async () => {
     const StatusComponent = ({
       children,
       inner_ref,
@@ -665,12 +665,14 @@ describe('GlobalStatus component', () => {
         status_anchor_url: true,
       },
     })
-
-    expect(
-      document.querySelector('div.dnb-global-status__message').textContent
-    ).toBe(
-      'error-message--aGå til label--aerror-message--bGå til label--b'
-    )
+    await waitFor(() => {
+      expect(
+        document.querySelector('div.dnb-global-status__message')
+          .textContent
+      ).toBe(
+        'error-message--aGå til label--aerror-message--bGå til label--b'
+      )
+    })
   })
 
   it('should support component given as labels', async () => {

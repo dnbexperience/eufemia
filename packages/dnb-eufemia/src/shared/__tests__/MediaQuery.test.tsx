@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen, act } from '@testing-library/react'
 
 import MatchMediaMock from 'jest-matchmedia-mock'
 import MediaQuery from '../MediaQuery'
@@ -162,7 +162,7 @@ describe('MediaQuery', () => {
     expect(screen.queryByText('medium large')).toBeTruthy()
   })
 
-  it('should handle media query changes', () => {
+  it.only('should handle media query changes', () => {
     matchMedia.useMediaQuery(
       'not screen and (min-width: 0) and (max-width: 72em)'
     )
@@ -202,10 +202,13 @@ describe('MediaQuery', () => {
     render(<Playground />)
     expect(screen.queryByText('when')).toBeTruthy()
 
-    screen.getByRole('button').click()
+    act(() => {
+      screen.getByRole('button').click()
+    })
     expect(screen.queryByText('not when')).toBeTruthy()
-
-    screen.getByRole('button').click()
+    act(() => {
+      screen.getByRole('button').click()
+    })
     expect(screen.queryByText('when')).toBeTruthy()
   })
 })

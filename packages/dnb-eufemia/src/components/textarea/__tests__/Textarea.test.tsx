@@ -3,7 +3,7 @@
  *
  */
 
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import FormRow from '../../form-row/FormRow'
@@ -85,7 +85,7 @@ describe('Textarea component', () => {
     expect(document.querySelector('textarea').value).toBe('')
   })
 
-  it('events gets emmited correctly: "on_change" and "on_key_down"', () => {
+  it('events gets emmited correctly: "on_change" and "on_key_down"', async () => {
     const initValue = 'init value'
     const newValue = 'new value'
 
@@ -102,21 +102,23 @@ describe('Textarea component', () => {
     )
 
     expect(document.querySelector('textarea').value).toBe(initValue)
-
     userEvent.type(document.querySelector('textarea'), newValue)
-
-    expect(on_change.mock.calls.length).toBe(9)
-    expect(document.querySelector('textarea').value).toBe(
-      initValue + newValue
-    )
+    await waitFor(() => {
+      expect(on_change.mock.calls.length).toBe(9)
+      expect(document.querySelector('textarea').value).toBe(
+        initValue + newValue
+      )
+    })
 
     // additional native event test
     fireEvent.keyDown(document.querySelector('textarea'), {
       keyCode: 84, // space,
       key: 'Space',
     })
-    expect(on_key_down.mock.calls.length).toBe(10)
-    expect(on_key_down.mock.calls[0][0].rows).toBe(1)
+    await waitFor(() => {
+      expect(on_key_down.mock.calls.length).toBe(10)
+      expect(on_key_down.mock.calls[0][0].rows).toBe(1)
+    })
   })
 
   it('supports null as value', () => {
@@ -191,7 +193,7 @@ describe('Textarea component', () => {
     ).toBe(true)
   })
 
-  it('will correctly auto resize if prop autoresize is used', () => {
+  it('will correctly auto resize if prop autoresize is used', async () => {
     render(<Textarea rows={1} autoresize={true} autoresize_max_rows={4} />)
 
     const elem = document.querySelector('textarea')
@@ -206,19 +208,25 @@ describe('Textarea component', () => {
       .spyOn(elem, 'scrollHeight', 'get')
       .mockImplementation(() => 1.5 * 16)
     userEvent.type(elem, 'a')
-    expect(elem.style.height).toBe('24px')
+    await waitFor(() => {
+      expect(elem.style.height).toBe('24px')
+    })
 
     jest
       .spyOn(elem, 'scrollHeight', 'get')
       .mockImplementation(() => 1.5 * 32)
     userEvent.type(elem, 'a')
-    expect(elem.style.height).toBe('48px')
+    await waitFor(() => {
+      expect(elem.style.height).toBe('48px')
+    })
 
     jest
       .spyOn(elem, 'scrollHeight', 'get')
       .mockImplementation(() => 1.5 * 2000)
     userEvent.type(elem, 'a')
-    expect(elem.style.height).toBe('96px')
+    await waitFor(() => {
+      expect(elem.style.height).toBe('96px')
+    })
   })
 
   it('should support spacing props', () => {
