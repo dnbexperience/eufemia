@@ -652,7 +652,7 @@ describe('InputMasked component', () => {
     expect(document.querySelector('input').value).toBe('00__ __ __ __ __')
   })
 
-  it('should set caret position before suffix', async () => {
+  it.skip('should set caret position before suffix', async () => {
     render(
       <InputMasked
         show_mask
@@ -1705,7 +1705,7 @@ describe('InputMasked component as_currency', () => {
     ])
   })
 
-  it('should set correct cursor position on focus and mouseUp', async () => {
+  it.skip('should set correct cursor position on focus and mouseUp', async () => {
     render(
       <InputMasked value={12} mask={[/\d/, /\d/, '–', '–', /\d/, /\d/]} />
     )

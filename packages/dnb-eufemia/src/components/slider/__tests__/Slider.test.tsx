@@ -775,5 +775,3 @@ const simulateMouseMove = (props) => {
     document.body.dispatchEvent(mouseMove)
   })
 }
-
-const wait = (t) => new Promise((r) => setTimeout(r, t))

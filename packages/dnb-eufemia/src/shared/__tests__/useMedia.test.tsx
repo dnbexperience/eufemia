@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { render, waitFor, renderHook, act } from '@testing-library/react'
+import { render, waitFor, act, renderHook } from '@testing-library/react'
 import useMedia from '../useMedia'
 import Provider from '../Provider'
 import 'mock-match-media/jest-setup'
@@ -56,11 +56,11 @@ describe('useMedia', () => {
         })
       )
 
-      await act(async () => {
+      act(() => {
         setMedia({ width: ABOVE })
+      })
 
-        await waitFor(() => result.current)
-
+      await waitFor(() => {
         expect(result.current).toEqual(
           expect.objectContaining({
             isSmall: false,
@@ -84,11 +84,11 @@ describe('useMedia', () => {
         })
       )
 
-      await act(async () => {
+      act(() => {
         setMedia({ width: ABOVE })
+      })
 
-        await waitFor(() => result.current)
-
+      await waitFor(() => {
         expect(result.current).toEqual(
           expect.objectContaining({
             isSmall: false,
@@ -112,11 +112,11 @@ describe('useMedia', () => {
         })
       )
 
-      await act(async () => {
+      act(() => {
         setMedia({ width: BELOW })
+      })
 
-        await waitFor(() => result.current)
-
+      await waitFor(() => {
         expect(result.current).toEqual(
           expect.objectContaining({
             isSmall: true,
@@ -192,11 +192,10 @@ describe('useMedia', () => {
       ]
 
       for await (const { width, expectResult } of queries) {
-        await act(async () => {
+        act(() => {
           setMedia({ width })
-
-          await waitFor(() => result.current)
-
+        })
+        await waitFor(() => {
           expect(result.current).toEqual(expectResult)
         })
       }
@@ -317,51 +316,55 @@ describe('useMedia', () => {
         isSSR: false,
       })
 
-      await actOnRender(async () => {
+      act(() => {
         setMedia({ width: MEDIUM })
+      })
+      await waitFor(() =>
+        expect(getContent()).toEqual({
+          isSmall: false,
+          isMedium: true,
+          isLarge: false,
+          isSSR: false,
+        })
+      )
 
-        await waitFor(() =>
-          expect(getContent()).toEqual({
-            isSmall: false,
-            isMedium: true,
-            isLarge: false,
-            isSSR: false,
-          })
-        )
-
+      act(() => {
         setMedia({ width: LARGE })
-
-        await waitFor(() => {
-          expect(getContent()).toEqual({
-            isSmall: false,
-            isMedium: false,
-            isLarge: true,
-            isSSR: false,
-          })
+      })
+      await waitFor(() => {
+        expect(getContent()).toEqual({
+          isSmall: false,
+          isMedium: false,
+          isLarge: true,
+          isSSR: false,
         })
+      })
 
+      act(() => {
         setMedia({ width: BELOW })
-
-        await waitFor(() => {
-          expect(getContent()).toEqual({
-            isSmall: true,
-            isMedium: false,
-            isLarge: false,
-            isSSR: false,
-          })
+      })
+      await waitFor(() => {
+        expect(getContent()).toEqual({
+          isSmall: true,
+          isMedium: false,
+          isLarge: false,
+          isSSR: false,
         })
+      })
 
+      act(() => {
         setMedia({ width: ABOVE })
-
-        await waitFor(() => {
-          expect(getContent()).toEqual({
-            isSmall: false,
-            isMedium: false,
-            isLarge: true,
-            isSSR: false,
-          })
+      })
+      await waitFor(() => {
+        expect(getContent()).toEqual({
+          isSmall: false,
+          isMedium: false,
+          isLarge: true,
+          isSSR: false,
         })
+      })
 
+      act(() => {
         // reset before re-render
         setMedia({ width: SMALL })
       })
@@ -369,46 +372,48 @@ describe('useMedia', () => {
       rerender(<MockComponent disabled={true} />)
 
       // Now it should use the state it has before
-      await actOnRender(async () => {
-        const disabledState = {
-          isSmall: true,
-          isMedium: false,
-          isLarge: false,
-          isSSR: false,
-        }
 
+      const disabledState = {
+        isSmall: true,
+        isMedium: false,
+        isLarge: false,
+        isSSR: false,
+      }
+      act(() => {
         setMedia({ width: MEDIUM })
-        await waitFor(() => expect(getContent()).toEqual(disabledState))
-
-        setMedia({ width: LARGE })
-        await waitFor(() => expect(getContent()).toEqual(disabledState))
       })
+      await waitFor(() => expect(getContent()).toEqual(disabledState))
+
+      act(() => {
+        setMedia({ width: LARGE })
+      })
+      await waitFor(() => expect(getContent()).toEqual(disabledState))
 
       rerender(<MockComponent disabled={false} key="reset-me" />)
 
-      await actOnRender(async () => {
+      act(() => {
         setMedia({ width: MEDIUM })
-
-        await waitFor(() =>
-          expect(getContent()).toEqual({
-            isSmall: false,
-            isMedium: true,
-            isLarge: false,
-            isSSR: false,
-          })
-        )
-
-        setMedia({ width: LARGE })
-
-        await waitFor(() =>
-          expect(getContent()).toEqual({
-            isSmall: false,
-            isMedium: false,
-            isLarge: true,
-            isSSR: false,
-          })
-        )
       })
+      await waitFor(() =>
+        expect(getContent()).toEqual({
+          isSmall: false,
+          isMedium: true,
+          isLarge: false,
+          isSSR: false,
+        })
+      )
+
+      act(() => {
+        setMedia({ width: LARGE })
+      })
+      await waitFor(() =>
+        expect(getContent()).toEqual({
+          isSmall: false,
+          isMedium: false,
+          isLarge: true,
+          isSSR: false,
+        })
+      )
 
       expect(count).toBe(10)
     })
@@ -495,11 +500,10 @@ describe('useMedia', () => {
         ]
 
         for await (const { width, expectResult } of queries) {
-          await act(async () => {
+          act(() => {
             setMedia({ width })
-
-            await waitFor(() => result.current)
-
+          })
+          await waitFor(() => {
             expect(result.current).toEqual(expectResult)
           })
         }
