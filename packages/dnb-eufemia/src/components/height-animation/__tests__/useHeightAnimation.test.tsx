@@ -5,10 +5,8 @@
 
 import React from 'react'
 import classnames from 'classnames'
-import { render, act, fireEvent } from '@testing-library/react'
-import { renderHook } from '@testing-library/react-hooks'
+import { render, act, fireEvent, renderHook } from '@testing-library/react'
 import ToggleButton from '../../ToggleButton'
-import { wait } from '@testing-library/user-event/dist/utils'
 import { useHeightAnimation } from '../useHeightAnimation'
 
 beforeEach(() => {
@@ -218,3 +216,5 @@ function simulateAnimationEnd(
   const event = new CustomEvent('transitionend')
   element.dispatchEvent(event)
 }
+
+const wait = (t) => new Promise((r) => setTimeout(r, t))

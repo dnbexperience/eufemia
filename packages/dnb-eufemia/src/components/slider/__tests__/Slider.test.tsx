@@ -10,7 +10,6 @@ import Slider from '../Slider'
 
 import type { SliderAllProps, onChangeEventProps } from '../Slider'
 import { format } from '../../number-format/NumberUtils'
-import { wait } from '@testing-library/user-event/dist/utils'
 import FormRow from '../../form-row/FormRow'
 
 const props: SliderAllProps = {
@@ -774,3 +773,5 @@ const simulateMouseMove = (props) => {
   })
   document.body.dispatchEvent(mouseMove)
 }
+
+const wait = (t) => new Promise((r) => setTimeout(r, t))

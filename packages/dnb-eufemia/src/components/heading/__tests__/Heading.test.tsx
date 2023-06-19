@@ -277,7 +277,7 @@ describe('Heading component', () => {
     )
 
     setNextLevel(2, { overwriteContext: true })
-    //Comp1.setProps({ relevel: true })
+    // Comp1.setProps({ relevel: true })
     expect(document.querySelectorAll('.dnb-heading')[0].textContent).toBe(
       '[h2] h1'
     )

@@ -1,6 +1,5 @@
 import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
-import { wait } from '@testing-library/user-event/dist/utils'
 import SkipContent, { SkipContentAllProps } from '../SkipContent'
 import Section from '../../Section'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
@@ -246,3 +245,5 @@ describe('SkipContent.Return', () => {
     ).toBe('unique-id--alias')
   })
 })
+
+const wait = (t) => new Promise((r) => setTimeout(r, t))

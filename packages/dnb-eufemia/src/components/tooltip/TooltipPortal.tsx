@@ -5,6 +5,7 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { createRoot, Root } from 'react-dom/client'
 import { makeUniqueId, warn } from '../../shared/component-helper'
 import TooltipContainer from './TooltipContainer'
 import { TooltipProps } from './types'
@@ -19,6 +20,9 @@ type TooltipType = {
 }
 
 let tooltipPortal: Record<string, TooltipType>
+
+let root: Root
+
 if (typeof globalThis !== 'undefined') {
   globalThis.tooltipPortal = globalThis.tooltipPortal || {}
   tooltipPortal = globalThis.tooltipPortal
@@ -81,7 +85,7 @@ function TooltipPortal(props: TooltipProps & TooltipPortalProps) {
          * Only use unmountComponentAtNode when used ReactDOM.render()
          */
         if (hasGroup) {
-          ReactDOM.unmountComponentAtNode(ref.node)
+          root?.unmount()
           createRootElement(theme).removeChild(ref.node)
         }
 
@@ -157,17 +161,19 @@ function TooltipPortal(props: TooltipProps & TooltipPortalProps) {
   }, [])
 
   const renderPortal = (isActive: boolean) => {
-    const root = tooltipPortal[id]?.node
+    const rootNode = tooltipPortal[id]?.node
 
     // Ensure we only render when it should (is in DOM)
-    if (root && hasGroup && isInDOM.current) {
-      ReactDOM.render(
+    if (rootNode && hasGroup && isInDOM.current) {
+      if (!root) {
+        root = createRoot(rootNode)
+      }
+      root.render(
         <TooltipContainer
           {...props}
           targetElement={targetElement}
           active={isActive}
-        />,
-        root
+        />
       )
     }
 
@@ -175,9 +181,9 @@ function TooltipPortal(props: TooltipProps & TooltipPortalProps) {
   }
 
   if (!hasGroup) {
-    const root = tooltipPortal[id]?.node
+    const rootNode = tooltipPortal[id]?.node
 
-    if (root) {
+    if (rootNode) {
       return ReactDOM.createPortal(
         isInDOM.current || keepInDOM ? (
           <TooltipContainer
@@ -188,7 +194,7 @@ function TooltipPortal(props: TooltipProps & TooltipPortalProps) {
             {children}
           </TooltipContainer>
         ) : null,
-        root
+        rootNode
       )
     }
   }

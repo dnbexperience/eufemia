@@ -4,12 +4,7 @@
  */
 
 import React from 'react'
-import { renderHook, act } from '@testing-library/react-hooks'
-import {
-  render,
-  waitFor,
-  act as actOnRender,
-} from '@testing-library/react'
+import { render, waitFor, renderHook, act } from '@testing-library/react'
 import useMedia from '../useMedia'
 import Provider from '../Provider'
 import 'mock-match-media/jest-setup'

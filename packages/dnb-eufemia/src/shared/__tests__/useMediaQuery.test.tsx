@@ -4,8 +4,12 @@
  */
 
 import React from 'react'
-import { render, screen, fireEvent } from '@testing-library/react'
-import { renderHook } from '@testing-library/react-hooks'
+import {
+  render,
+  screen,
+  fireEvent,
+  renderHook,
+} from '@testing-library/react'
 import MatchMediaMock from 'jest-matchmedia-mock'
 import useMediaQuery from '../useMediaQuery'
 import Provider from '../Provider'

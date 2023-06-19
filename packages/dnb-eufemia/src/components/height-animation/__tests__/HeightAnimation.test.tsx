@@ -6,7 +6,6 @@
 import React from 'react'
 import { render, act, fireEvent } from '@testing-library/react'
 import ToggleButton from '../../ToggleButton'
-import { wait } from '@testing-library/user-event/dist/utils'
 import HeightAnimation, {
   HeightAnimationAllProps,
   HeightAnimationProps,
@@ -438,3 +437,5 @@ describe('HeightAnimation', () => {
     })
   })
 })
+
+const wait = (t) => new Promise((r) => setTimeout(r, t))

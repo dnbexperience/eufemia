@@ -1,6 +1,5 @@
 import React from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
-import { wait } from '@testing-library/user-event/dist/utils'
 import UploadDropzone from '../UploadDropzone'
 import { createMockFile } from './testHelpers'
 import { UploadContext } from '../UploadContext'
@@ -182,3 +181,5 @@ describe('Upload', () => {
     })
   })
 })
+
+const wait = (t) => new Promise((r) => setTimeout(r, t))
