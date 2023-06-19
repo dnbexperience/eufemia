@@ -26,6 +26,10 @@ body #gatsby-focus-wrapper {
   background-color: white;
 }
 
+.dnb-live-preview {
+  display: flow-root;
+}
+
 .dnb-live-preview p.dnb-p {
   &:not([class*='dnb-space__bottom']) {
     margin-bottom: 0;
