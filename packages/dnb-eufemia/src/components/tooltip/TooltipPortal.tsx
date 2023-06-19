@@ -5,7 +5,7 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { createRoot, Root } from 'react-dom/client'
+import { createRoot } from 'react-dom/client'
 import { makeUniqueId, warn } from '../../shared/component-helper'
 import TooltipContainer from './TooltipContainer'
 import { TooltipProps } from './types'
@@ -21,7 +21,7 @@ type TooltipType = {
 
 let tooltipPortal: Record<string, TooltipType>
 
-let root: Root
+let root
 
 if (typeof globalThis !== 'undefined') {
   globalThis.tooltipPortal = globalThis.tooltipPortal || {}
@@ -165,10 +165,11 @@ function TooltipPortal(props: TooltipProps & TooltipPortalProps) {
 
     // Ensure we only render when it should (is in DOM)
     if (rootNode && hasGroup && isInDOM.current) {
-      if (!root) {
+      if (!root || !root._internalRoot) {
         root = createRoot(rootNode)
       }
-      root.render(
+
+      root?.render(
         <TooltipContainer
           {...props}
           targetElement={targetElement}
