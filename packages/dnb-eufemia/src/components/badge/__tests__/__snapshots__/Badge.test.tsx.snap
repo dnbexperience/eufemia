@@ -1,25 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Badge scss have to match default theme snapshot 1`] = `
-"/*
-* Badge theme
-*
-*/
-/*
- * Utilities
- */
-.dnb-badge {
-  color: var(--color-white);
-}
-.dnb-badge--variant-information {
-  background-color: var(--color-emerald-green);
-}
-.dnb-badge--variant-notification {
-  background-color: var(--color-fire-red);
-}"
-`;
-
-exports[`Badge scss have to match snapshot 1`] = `
+exports[`Badge scss has to match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *
@@ -87,5 +68,24 @@ exports[`Badge scss have to match snapshot 1`] = `
 }
 .dnb-badge--vertical-top {
   top: 0;
+}"
+`;
+
+exports[`Badge scss have to match default theme snapshot 1`] = `
+"/*
+* Badge theme
+*
+*/
+/*
+ * Utilities
+ */
+.dnb-badge {
+  color: var(--color-white);
+}
+.dnb-badge--variant-information {
+  background-color: var(--color-emerald-green);
+}
+.dnb-badge--variant-notification {
+  background-color: var(--color-fire-red);
 }"
 `;

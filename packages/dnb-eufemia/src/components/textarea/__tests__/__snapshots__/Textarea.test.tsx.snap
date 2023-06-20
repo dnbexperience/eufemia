@@ -1,99 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Textarea scss have to match default theme snapshot 1`] = `
-"/*
-* Textarea theme
-*
-*/
-/*
- * Utilities
- */
-.dnb-textarea {
-  --textarea-rows: 2;
-}
-.dnb-textarea__textarea {
-  color: var(--color-black);
-  background-color: var(--color-white);
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  --scrollbar-track-width: 0.5rem;
-  --scrollbar-thumb-width: 0.5rem;
-  --scrollbar-track-color: var(--color-black-8);
-  --scrollbar-thumb-color: var(--color-sea-green);
-  --scrollbar-thumb-hover-color: var(--color-emerald-green);
-  -webkit-overflow-scrolling: touch;
-  -ms-overflow-style: auto;
-  scrollbar-color: var(--scrollbar-thumb-color, #888) transparent;
-}
-.dnb-textarea__textarea ::selection {
-  background-color: var(--color-mint-green);
-  color: var(--color-black);
-  text-shadow: none;
-}
-html:not([data-visual-test]) .dnb-textarea__textarea {
-  scroll-behavior: smooth;
-}
-@supports not (scrollbar-color: auto) {
-  .dnb-textarea__textarea::-webkit-scrollbar {
-    border-radius: var(--scrollbar-thumb-width, 0.5rem);
-    background-color: var(--scrollbar-track-color, #eee);
-  }
-  .dnb-textarea__textarea::-webkit-scrollbar:vertical {
-    width: var(--scrollbar-track-width, 0.5rem);
-  }
-  .dnb-textarea__textarea::-webkit-scrollbar:horizontal {
-    height: var(--scrollbar-track-width, 0.5rem);
-  }
-  .dnb-textarea__textarea::-webkit-scrollbar-thumb {
-    background-color: var(--scrollbar-thumb-color, #888);
-    border-radius: var(--scrollbar-thumb-width, 0.5rem);
-  }
-  .dnb-textarea__textarea::-webkit-scrollbar-thumb:hover {
-    background-color: var(--scrollbar-thumb-hover-color, #666);
-  }
-}
-.dnb-textarea__placeholder {
-  color: var(--color-black-55);
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: var(--textarea-rows, 2);
-}
-.dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):focus ~ .dnb-textarea__state, .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):hover ~ .dnb-textarea__state {
-  box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
-}
-.dnb-textarea--disabled .dnb-textarea__textarea, .dnb-textarea__textarea[disabled] {
-  user-select: none;
-  color: var(--color-black-55);
-  background-color: var(--color-black-3);
-}
-.dnb-textarea--disabled .dnb-textarea__textarea::-webkit-scrollbar, .dnb-textarea__textarea[disabled]::-webkit-scrollbar {
-  width: 0;
-}
-.dnb-textarea--disabled .dnb-textarea__state, .dnb-textarea__textarea[disabled] ~ .dnb-textarea__state {
-  box-shadow: 0 0 0 0.0625rem var(--color-black-55);
-  background-color: var(--color-black-3);
-}
-.dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled), .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):hover {
-  color: var(--color-fire-red);
-}
-.dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled) ~ .dnb-textarea__state {
-  --border-color: var(--color-fire-red);
-  --border-width: 0.0625rem;
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):hover ~ .dnb-textarea__state {
-  --border-color: var(--color-fire-red);
-  --border-width: 0.125rem;
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-textarea--has-content .dnb-textarea__textarea ~ .dnb-textarea__placeholder, .dnb-textarea--focus .dnb-textarea__textarea:not([disabled], [readonly]) ~ .dnb-textarea__placeholder {
-  display: none;
-}"
-`;
-
-exports[`Textarea scss have to match snapshot 1`] = `
+exports[`Textarea scss has to match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *
@@ -381,5 +288,98 @@ html[data-visual-test] .dnb-textarea__textarea {
 }
 .dnb-textarea.dnb-skeleton .dnb-textarea__state, .dnb-textarea.dnb-skeleton .dnb-textarea__textarea {
   visibility: hidden;
+}"
+`;
+
+exports[`Textarea scss have to match default theme snapshot 1`] = `
+"/*
+* Textarea theme
+*
+*/
+/*
+ * Utilities
+ */
+.dnb-textarea {
+  --textarea-rows: 2;
+}
+.dnb-textarea__textarea {
+  color: var(--color-black);
+  background-color: var(--color-white);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  --scrollbar-track-width: 0.5rem;
+  --scrollbar-thumb-width: 0.5rem;
+  --scrollbar-track-color: var(--color-black-8);
+  --scrollbar-thumb-color: var(--color-sea-green);
+  --scrollbar-thumb-hover-color: var(--color-emerald-green);
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: auto;
+  scrollbar-color: var(--scrollbar-thumb-color, #888) transparent;
+}
+.dnb-textarea__textarea ::selection {
+  background-color: var(--color-mint-green);
+  color: var(--color-black);
+  text-shadow: none;
+}
+html:not([data-visual-test]) .dnb-textarea__textarea {
+  scroll-behavior: smooth;
+}
+@supports not (scrollbar-color: auto) {
+  .dnb-textarea__textarea::-webkit-scrollbar {
+    border-radius: var(--scrollbar-thumb-width, 0.5rem);
+    background-color: var(--scrollbar-track-color, #eee);
+  }
+  .dnb-textarea__textarea::-webkit-scrollbar:vertical {
+    width: var(--scrollbar-track-width, 0.5rem);
+  }
+  .dnb-textarea__textarea::-webkit-scrollbar:horizontal {
+    height: var(--scrollbar-track-width, 0.5rem);
+  }
+  .dnb-textarea__textarea::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb-color, #888);
+    border-radius: var(--scrollbar-thumb-width, 0.5rem);
+  }
+  .dnb-textarea__textarea::-webkit-scrollbar-thumb:hover {
+    background-color: var(--scrollbar-thumb-hover-color, #666);
+  }
+}
+.dnb-textarea__placeholder {
+  color: var(--color-black-55);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--textarea-rows, 2);
+}
+.dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):focus ~ .dnb-textarea__state, .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):hover ~ .dnb-textarea__state {
+  box-shadow: 0 0 0 0.125rem var(--color-emerald-green);
+}
+.dnb-textarea--disabled .dnb-textarea__textarea, .dnb-textarea__textarea[disabled] {
+  user-select: none;
+  color: var(--color-black-55);
+  background-color: var(--color-black-3);
+}
+.dnb-textarea--disabled .dnb-textarea__textarea::-webkit-scrollbar, .dnb-textarea__textarea[disabled]::-webkit-scrollbar {
+  width: 0;
+}
+.dnb-textarea--disabled .dnb-textarea__state, .dnb-textarea__textarea[disabled] ~ .dnb-textarea__state {
+  box-shadow: 0 0 0 0.0625rem var(--color-black-55);
+  background-color: var(--color-black-3);
+}
+.dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled), .dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):hover {
+  color: var(--color-fire-red);
+}
+.dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled) ~ .dnb-textarea__state {
+  --border-color: var(--color-fire-red);
+  --border-width: 0.0625rem;
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
+.dnb-textarea__status--error:not(.dnb-textarea--focus) .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):hover ~ .dnb-textarea__state {
+  --border-color: var(--color-fire-red);
+  --border-width: 0.125rem;
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
+.dnb-textarea--has-content .dnb-textarea__textarea ~ .dnb-textarea__placeholder, .dnb-textarea--focus .dnb-textarea__textarea:not([disabled], [readonly]) ~ .dnb-textarea__placeholder {
+  display: none;
 }"
 `;

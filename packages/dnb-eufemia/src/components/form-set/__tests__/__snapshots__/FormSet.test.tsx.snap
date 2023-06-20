@@ -1,13 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`FormSet scss have to match default theme snapshot 1`] = `
-"/*
- * FormSet theme
- *
- */"
-`;
-
-exports[`FormSet scss have to match snapshot 1`] = `
+exports[`FormSet scss has to match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *
@@ -17,6 +10,13 @@ exports[`FormSet scss have to match snapshot 1`] = `
  */
 /*
  * FormSet component
+ *
+ */"
+`;
+
+exports[`FormSet scss have to match default theme snapshot 1`] = `
+"/*
+ * FormSet theme
  *
  */"
 `;

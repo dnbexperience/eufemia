@@ -1,99 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Table scss have to match default theme snapshot 1`] = `
-"/*
-* Table theme
-*
-*/
-/*
- * Utilities
- */
-/*
- * Utilities
- */
-.dnb-table {
-  text-align: left;
-  /* stylelint-disable */
-  /* stylelint-enable */
-}
-.dnb-table__th, .dnb-table thead th {
-  padding: 2rem 1rem 1rem;
-  font-weight: var(--font-weight-medium);
-  color: var(--theme-color-black-80, currentColor);
-  font-size: var(--font-size-basis);
-  line-height: var(--line-height-basis);
-  vertical-align: bottom;
-  background-color: var(--color-white);
-}
-.dnb-table__size--medium .dnb-table__th, .dnb-table__size--medium .dnb-table thead th {
-  padding: 1.375rem 1rem 0.875rem;
-  font-size: var(--font-size-small);
-  line-height: var(--line-height-small);
-}
-.dnb-table__size--medium .dnb-table__th .dnb-button__text, .dnb-table__size--medium .dnb-table thead th .dnb-button__text {
-  line-height: inherit;
-}
-.dnb-table__size--small .dnb-table__th, .dnb-table__size--small .dnb-table thead th {
-  padding: 1.25rem 1rem 0.5rem;
-  font-size: var(--font-size-small);
-  line-height: var(--line-height-small);
-}
-.dnb-table__td, .dnb-table tbody .dnb-table__th, .dnb-table tbody td, .dnb-table tbody th {
-  padding: 1rem;
-  color: var(--theme-color-black-80, currentColor);
-  font-size: var(--font-size-basis);
-  line-height: var(--line-height-basis);
-  vertical-align: baseline;
-}
-.dnb-table tbody .dnb-table__th, .dnb-table tbody th {
-  padding: 1rem;
-  vertical-align: baseline;
-}
-.dnb-table__size--medium tbody .dnb-table__th, .dnb-table__size--medium tbody .dnb-table__td,
-.dnb-table__size--medium .dnb-table tbody th,
-.dnb-table__size--medium .dnb-table tbody td {
-  padding: 0.875rem 1rem;
-  font-size: var(--font-size-small);
-  line-height: var(--line-height-small);
-}
-.dnb-table__size--small tbody .dnb-table__th, .dnb-table__size--small tbody .dnb-table__td,
-.dnb-table__size--small .dnb-table tbody th,
-.dnb-table__size--small .dnb-table tbody td {
-  padding: 0.625rem 1rem;
-  font-size: var(--font-size-small);
-  line-height: var(--line-height-small);
-}
-.dnb-table:not(.dnb-table--outline) > tbody > .dnb-table__tr:last-of-type > .dnb-table__td::after, .dnb-table:not(.dnb-table--outline) > tbody > .dnb-table__tr:last-of-type > .dnb-table__th::after, .dnb-table:not(.dnb-table--outline) > tbody > .dnb-table__tr.dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) td::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1;
-  pointer-events: none;
-  border-bottom: var(--border);
-}
-
-.dnb-table__container {
-  background-color: var(--color-white);
-}
-
-.dnb-table,
-.dnb-table__container {
-  --border-width: 0.0625rem;
-  --outline-width: 0.0625rem;
-  --border: var(--border-width) solid var(--color-black-8);
-  --outline: var(--outline-width) solid var(--color-black-8);
-}
-html[data-visual-test] .dnb-table,
-html[data-visual-test] .dnb-table__container {
-  --border: 0.0625rem solid blue;
-  --outline: 0.0625rem solid red;
-}"
-`;
-
-exports[`Table scss have to match snapshot 1`] = `
+exports[`Table scss has to match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *
@@ -799,5 +706,98 @@ html:not([data-whatinput=keyboard]) .dnb-table__tr--has-accordion-content.dnb-ta
 .dnb-spacing .dnb-table pre {
   margin-top: 0;
   margin-bottom: 0;
+}"
+`;
+
+exports[`Table scss have to match default theme snapshot 1`] = `
+"/*
+* Table theme
+*
+*/
+/*
+ * Utilities
+ */
+/*
+ * Utilities
+ */
+.dnb-table {
+  text-align: left;
+  /* stylelint-disable */
+  /* stylelint-enable */
+}
+.dnb-table__th, .dnb-table thead th {
+  padding: 2rem 1rem 1rem;
+  font-weight: var(--font-weight-medium);
+  color: var(--theme-color-black-80, currentColor);
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+  vertical-align: bottom;
+  background-color: var(--color-white);
+}
+.dnb-table__size--medium .dnb-table__th, .dnb-table__size--medium .dnb-table thead th {
+  padding: 1.375rem 1rem 0.875rem;
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+.dnb-table__size--medium .dnb-table__th .dnb-button__text, .dnb-table__size--medium .dnb-table thead th .dnb-button__text {
+  line-height: inherit;
+}
+.dnb-table__size--small .dnb-table__th, .dnb-table__size--small .dnb-table thead th {
+  padding: 1.25rem 1rem 0.5rem;
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+.dnb-table__td, .dnb-table tbody .dnb-table__th, .dnb-table tbody td, .dnb-table tbody th {
+  padding: 1rem;
+  color: var(--theme-color-black-80, currentColor);
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+  vertical-align: baseline;
+}
+.dnb-table tbody .dnb-table__th, .dnb-table tbody th {
+  padding: 1rem;
+  vertical-align: baseline;
+}
+.dnb-table__size--medium tbody .dnb-table__th, .dnb-table__size--medium tbody .dnb-table__td,
+.dnb-table__size--medium .dnb-table tbody th,
+.dnb-table__size--medium .dnb-table tbody td {
+  padding: 0.875rem 1rem;
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+.dnb-table__size--small tbody .dnb-table__th, .dnb-table__size--small tbody .dnb-table__td,
+.dnb-table__size--small .dnb-table tbody th,
+.dnb-table__size--small .dnb-table tbody td {
+  padding: 0.625rem 1rem;
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+}
+.dnb-table:not(.dnb-table--outline) > tbody > .dnb-table__tr:last-of-type > .dnb-table__td::after, .dnb-table:not(.dnb-table--outline) > tbody > .dnb-table__tr:last-of-type > .dnb-table__th::after, .dnb-table:not(.dnb-table--outline) > tbody > .dnb-table__tr.dnb-table__tr--has-accordion-content:not(.dnb-table__tr--expanded):nth-last-child(2) td::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  pointer-events: none;
+  border-bottom: var(--border);
+}
+
+.dnb-table__container {
+  background-color: var(--color-white);
+}
+
+.dnb-table,
+.dnb-table__container {
+  --border-width: 0.0625rem;
+  --outline-width: 0.0625rem;
+  --border: var(--border-width) solid var(--color-black-8);
+  --outline: var(--outline-width) solid var(--color-black-8);
+}
+html[data-visual-test] .dnb-table,
+html[data-visual-test] .dnb-table__container {
+  --border: 0.0625rem solid blue;
+  --outline: 0.0625rem solid red;
 }"
 `;
