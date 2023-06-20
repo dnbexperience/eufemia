@@ -10,7 +10,6 @@ import {
   render,
   screen,
   within,
-  waitFor,
   act,
 } from '@testing-library/react'
 import StepIndicator, {

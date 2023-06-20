@@ -13,7 +13,6 @@ import Button from '../../button/Button'
 import DialogContent from '../../dialog/DialogContent'
 import Provider from '../../../shared/Provider'
 import * as helpers from '../../../shared/helpers'
-import { act } from 'react-dom/test-utils'
 
 global.userAgent = jest.spyOn(navigator, 'userAgent', 'get')
 global.appVersion = jest.spyOn(navigator, 'appVersion', 'get')
