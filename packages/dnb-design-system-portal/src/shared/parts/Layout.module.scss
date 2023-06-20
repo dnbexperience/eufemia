@@ -16,6 +16,13 @@
       }
     }
   }
+
+  .eufemia-theme {
+    --footer-bg: var(--color-emerald-green);
+  }
+  .eufemia-theme__sbanken {
+    --footer-bg: var(--sb-color-purple);
+  }
 }
 
 .portalStyle {
@@ -207,8 +214,14 @@
   padding: 1rem;
 
   border-top: 1px solid var(--color-black-border);
-  background-color: var(--color-emerald-green);
+  background-color: var(--footer-bg);
   color: var(--color-white);
+
+  :global {
+    .dnb-p {
+      color: var(--color-white);
+    }
+  }
 }
 
 .contentStyle {

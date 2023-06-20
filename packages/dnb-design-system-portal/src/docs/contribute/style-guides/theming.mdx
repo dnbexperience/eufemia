@@ -16,6 +16,7 @@ You may also check out the section about [how to use a theme in your application
   - [Main theming file](#main-theming-file)
     - [Creating a new main theme](#creating-a-new-main-theme)
     - [Run the Portal with a different theme](#run-the-portal-with-a-different-theme)
+    - [Show theme tag in Portal](#show-theme-tag-in-portal)
   - [Component theming](#component-theming)
     - [Button as an example](#button-as-an-example)
     - [CSS custom properties and :root](#css-custom-properties-and-root)
@@ -89,6 +90,21 @@ What theme gets imported is handled in the Gatsby Plugin `gatsby-plugin-eufemia-
 - You can also define a different theme in the url itself `path/?eufemia-theme=eiendom` (runtime).
 - Change the theme `defaultTheme` name in the plugin options inside `gatsby-config` (build-time).
 - Create a new `/packages/dnb-design-system-portal/.env` file that includes e.g. `GATSBY_EUFEMIA_THEME=eiendom` (build-time).
+
+### Show theme tag in Portal
+
+Add the property `theme: 'sbanken'` to the main `.mdx` file for a Portal page to show a tag next to it when that theme is selected. This is currently mainly intended for Sbanken.
+
+Example: `/docs/components/button.mdx`
+
+```mdx
+---
+title: 'Button'
+description: 'The Button component should be used as the primary call-to-action in a form, or as a user interaction mechanism.'
+showTabs: true
+theme: 'sbanken'
+---
+```
 
 ## Component theming
 

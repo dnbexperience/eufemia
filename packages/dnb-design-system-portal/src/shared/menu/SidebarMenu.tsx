@@ -11,6 +11,8 @@ import Context from '@dnb/eufemia/src/shared/Context'
 import { SidebarMenuContext } from './SidebarMenuContext'
 import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
 import { Space, Icon, Badge } from '@dnb/eufemia/src/components'
+import useTheme from '@dnb/eufemia/src/shared/useTheme'
+import type { ThemeNames } from '@dnb/eufemia/src/shared/Theme'
 import { MediaQuery } from '@dnb/eufemia/src/shared'
 import graphics from './SidebarGraphics'
 import {
@@ -59,6 +61,7 @@ export default function SidebarLayout({
               status
               icon
               showTabs
+              theme
             }
           }
         }
@@ -203,6 +206,29 @@ export default function SidebarLayout({
   }
 }
 
+const ThemeBadge = ({ theme, ...props }: { theme: ThemeNames }) => {
+  const themeTitle =
+    theme &&
+    {
+      ui: 'DNB',
+      sbanken: 'Sbanken',
+      eiendom: 'Eiendom',
+    }[theme]
+  return (
+    <span
+      className={classnames(
+        'dnb-sidebar-menu__theme-badge',
+        `dnb-sidebar-menu__theme-badge--${theme}`
+      )}
+      {...props}
+    >
+      <span className={classnames('dnb-sidebar-menu__theme-badge__title')}>
+        {themeTitle}
+      </span>
+    </span>
+  )
+}
+
 type ListItemProps = {
   title: string
   subheadings?: ListItemProps[]
@@ -211,6 +237,7 @@ type ListItemProps = {
   level?: number
   nr?: number
   status?: string
+  theme?: ThemeNames
   icon?: string
   isActive?: boolean
   isInsideActivePath?: boolean
@@ -226,10 +253,12 @@ function ListItem({
   isInsideActiveCategory = false,
   nr,
   status,
+  theme,
   icon,
   title,
   subheadings,
 }: ListItemProps) {
+  const { name: currentTheme } = useTheme()
   const { closeMenu } = useContext(SidebarMenuContext)
   const { skeleton } = useContext(Context)
   const ref = useRef(null)
@@ -294,6 +323,7 @@ function ListItem({
               {title}
             </span>
           </span>
+          {theme === currentTheme && <ThemeBadge theme={theme} />}
           {status && (
             <Badge space={{ right: 'xx-small' }} content={statusTitle} />
           )}
