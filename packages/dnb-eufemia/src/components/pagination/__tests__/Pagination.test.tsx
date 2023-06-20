@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, act } from '@testing-library/react'
 import Pagination, {
   createPagination,
   Bar,
@@ -462,7 +462,9 @@ describe('Infinity scroller', () => {
     ).toBe('page-50')
 
     localStack.current = {}
-    resetInfinityHandler()
+    act(() => {
+      resetInfinityHandler()
+    })
 
     await rerenderComponent()
 

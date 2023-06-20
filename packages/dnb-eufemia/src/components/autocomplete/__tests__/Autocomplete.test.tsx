@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import * as helpers from '../../../shared/helpers'
 import Autocomplete, { AutocompleteProps } from '../Autocomplete'
 import { SubmitButton } from '../../input/Input'
@@ -14,7 +14,13 @@ import {
   mockImplementationForDirectionObserver,
   testDirectionObserver,
 } from '../../../fragments/drawer-list/__tests__/DrawerListTestMocks'
-import { cleanup, fireEvent, render } from '@testing-library/react'
+import {
+  cleanup,
+  fireEvent,
+  render,
+  waitFor,
+  act,
+} from '@testing-library/react'
 import FormRow from '../../form-row/FormRow'
 import {
   DrawerListDataObject,
@@ -486,11 +492,13 @@ describe('Autocomplete component', () => {
       'CCcc'
     )
 
-    document.dispatchEvent(
-      new KeyboardEvent('keydown', {
-        keyCode: 13, // enter
-      })
-    )
+    act(() => {
+      document.dispatchEvent(
+        new KeyboardEvent('keydown', {
+          keyCode: 13, // enter
+        })
+      )
+    })
 
     expect(document.querySelectorAll('.dnb-sr-only')[0].textContent).toBe(
       'Valgt: CCcc'
@@ -935,7 +943,7 @@ describe('Autocomplete component', () => {
     keydown(27) // esc
     expect(on_hide).toHaveBeenCalledTimes(1)
     expect(on_hide.mock.calls[0][0].attributes).toMatchObject(params)
-    expect(on_hide.mock.calls[0][0].event).toMatchObject(
+    expect(on_hide.mock.calls[0][0].event).toEqual(
       new KeyboardEvent('keydown', {})
     )
 
@@ -971,29 +979,26 @@ describe('Autocomplete component', () => {
     expect(on_show).toHaveBeenCalledTimes(3)
   })
 
-  it('updates its input value if value and data prop changes', () => {
-    let value = 0
-    let data = mockData
+  it('updates its input value if value and data prop changes', async () => {
+    const value = 0
+    const data = mockData
 
-    const { rerender } = render(
-      <Autocomplete value={value} data={data} {...mockProps} />
-    )
-
-    fireEvent.focus(document.querySelector('input'))
+    const { rerender } = render(<Autocomplete value={value} data={data} />)
 
     expect(
       (document.querySelector('.dnb-input__input') as HTMLInputElement)
         .value
     ).toBe(data[value])
 
-    value = 1
-    data = ['New data', ...mockData]
+    const newValue = 1
+    const newData = [...mockData, 'New data']
 
-    rerender(<Autocomplete value={value} data={data} {...mockProps} />)
+    rerender(<Autocomplete value={newValue} data={newData} />)
+
     expect(
       (document.querySelector('.dnb-input__input') as HTMLInputElement)
         .value
-    ).toBe(data[value])
+    ).toBe(newData[newValue])
   })
 
   it('can be reset to null', () => {
@@ -1284,11 +1289,13 @@ describe('Autocomplete component', () => {
     const openAndSelectNext = () => {
       // then simulate changes
       keydown(40) // down
-      document.dispatchEvent(
-        new KeyboardEvent('keydown', {
-          keyCode: 13, // enter
-        })
-      )
+      act(() => {
+        document.dispatchEvent(
+          new KeyboardEvent('keydown', {
+            keyCode: 13, // enter
+          })
+        )
+      })
     }
 
     openAndSelectNext()
@@ -1740,8 +1747,10 @@ describe('Autocomplete component', () => {
         .classList.contains('dnb-autocomplete--opened')
     ).toBe(true)
 
-    // close
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+    act(() => {
+      // close
+      document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+    })
     expect(on_hide).toHaveBeenCalledTimes(1)
 
     expect(
@@ -1762,7 +1771,9 @@ describe('Autocomplete component', () => {
     preventClose = true
 
     // close again, but with false returned
-    document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+    act(() => {
+      document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
+    })
     expect(on_hide).toHaveBeenCalledTimes(2)
 
     // we are still open
@@ -1862,8 +1873,10 @@ describe('Autocomplete component', () => {
     expect(callOne.value).toBe('aa')
     expect(callOne.dataList.length).toBe(3)
 
-    // update data
-    callOne.updateData(replaceData)
+    act(() => {
+      // update data
+      callOne.updateData(replaceData)
+    })
 
     fireEvent.change(document.querySelector('.dnb-input__input'), {
       target: { value: 'a' },
@@ -2097,7 +2110,7 @@ describe('Autocomplete component', () => {
     window.requestAnimationFrame = orig
   })
 
-  it('will make anchors inside drawer-list item accessible', () => {
+  it('will make anchors inside drawer-list item accessible', async () => {
     window.requestAnimationFrame = undefined
 
     const mockData = [
@@ -2113,12 +2126,12 @@ describe('Autocomplete component', () => {
       'one more item',
     ]
 
-    render(<Autocomplete data={mockData} {...mockProps} />)
+    render(<Autocomplete data={mockData} />)
 
     // open
     keydown(40) // down
 
-    document.querySelector('input').focus()
+    fireEvent.focus(document.querySelector('input'))
 
     // focus the first item
     keydown(40) // down
@@ -2126,24 +2139,27 @@ describe('Autocomplete component', () => {
     // focus the second item
     keydown(40) // down
 
-    const runTabs = () => {
-      userEvent.tab()
+    const runTabs = async () => {
+      await userEvent.tab()
+      await waitFor(() => {
+        expect(Array.from(document.activeElement.classList)).toContain(
+          'first-anchor'
+        )
+      })
 
-      expect(Array.from(document.activeElement.classList)).toContain(
-        'first-anchor'
-      )
+      await userEvent.tab()
+      await waitFor(() => {
+        expect(Array.from(document.activeElement.classList)).toContain(
+          'second-anchor'
+        )
+      })
 
-      userEvent.tab()
-
-      expect(Array.from(document.activeElement.classList)).toContain(
-        'second-anchor'
-      )
-
-      userEvent.tab()
-
-      expect(Array.from(document.activeElement.classList)).toContain(
-        'dnb-input__input'
-      )
+      await userEvent.tab()
+      await waitFor(() => {
+        expect(Array.from(document.activeElement.classList)).toContain(
+          'dnb-input__input'
+        )
+      })
     }
 
     // run first round
@@ -2404,5 +2420,3 @@ const toggle = () => {
     )
   )
 }
-
-const wait = (t) => new Promise((r) => setTimeout(r, t))
