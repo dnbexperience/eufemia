@@ -247,5 +247,3 @@ describe('SkipContent.Return', () => {
     ).toBe('unique-id--alias')
   })
 })
-
-const wait = (t) => new Promise((r) => setTimeout(r, t))

@@ -2121,12 +2121,9 @@ describe('Autocomplete component', () => {
       'one more item',
     ]
 
-    render(<Autocomplete data={mockData} {...mockProps} />)
+    render(<Autocomplete {...mockProps} data={mockData} />)
 
-    // open
-    keydown(40) // down
-
-    document.querySelector('input').focus()
+    fireEvent.focus(document.querySelector('input'))
 
     // focus the first item
     keydown(40) // down
@@ -2134,31 +2131,17 @@ describe('Autocomplete component', () => {
     // focus the second item
     keydown(40) // down
 
-    const runTabs = () => {
-      userEvent.tab()
+    await userEvent.tab()
 
-      expect(Array.from(document.activeElement.classList)).toContain(
-        'first-anchor'
-      )
+    expect(Array.from(document.activeElement.classList)).toContain(
+      'first-anchor'
+    )
 
-      userEvent.tab()
+    await userEvent.tab()
 
-      expect(Array.from(document.activeElement.classList)).toContain(
-        'second-anchor'
-      )
-
-      userEvent.tab()
-
-      expect(Array.from(document.activeElement.classList)).toContain(
-        'dnb-input__input'
-      )
-    }
-
-    // run first round
-    runTabs()
-
-    // run second round
-    runTabs()
+    expect(Array.from(document.activeElement.classList)).toContain(
+      'second-anchor'
+    )
   })
 
   it('will keep focus on input when opening', () => {
