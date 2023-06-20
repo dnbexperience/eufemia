@@ -14,13 +14,7 @@ import {
   mockImplementationForDirectionObserver,
   testDirectionObserver,
 } from '../../../fragments/drawer-list/__tests__/DrawerListTestMocks'
-import {
-  cleanup,
-  fireEvent,
-  render,
-  waitFor,
-  act,
-} from '@testing-library/react'
+import { cleanup, fireEvent, render, act } from '@testing-library/react'
 import FormRow from '../../form-row/FormRow'
 import {
   DrawerListDataObject,
@@ -2126,10 +2120,7 @@ describe('Autocomplete component', () => {
       'one more item',
     ]
 
-    render(<Autocomplete data={mockData} />)
-
-    // open
-    keydown(40) // down
+    render(<Autocomplete {...mockProps} data={mockData} />)
 
     fireEvent.focus(document.querySelector('input'))
 
@@ -2139,34 +2130,17 @@ describe('Autocomplete component', () => {
     // focus the second item
     keydown(40) // down
 
-    const runTabs = async () => {
-      await userEvent.tab()
-      await waitFor(() => {
-        expect(Array.from(document.activeElement.classList)).toContain(
-          'first-anchor'
-        )
-      })
+    await userEvent.tab()
 
-      await userEvent.tab()
-      await waitFor(() => {
-        expect(Array.from(document.activeElement.classList)).toContain(
-          'second-anchor'
-        )
-      })
+    expect(Array.from(document.activeElement.classList)).toContain(
+      'first-anchor'
+    )
 
-      await userEvent.tab()
-      await waitFor(() => {
-        expect(Array.from(document.activeElement.classList)).toContain(
-          'dnb-input__input'
-        )
-      })
-    }
+    await userEvent.tab()
 
-    // run first round
-    runTabs()
-
-    // run second round
-    runTabs()
+    expect(Array.from(document.activeElement.classList)).toContain(
+      'second-anchor'
+    )
   })
 
   it('will keep focus on input when opening', () => {

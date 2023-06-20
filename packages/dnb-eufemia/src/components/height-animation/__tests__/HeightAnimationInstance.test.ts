@@ -4,6 +4,7 @@
  */
 
 import HeightAnimationInstance from '../HeightAnimationInstance'
+import { wait } from '../../../core/jest/jestSetup'
 
 let element: HTMLElement
 
@@ -467,8 +468,6 @@ describe('HeightAnimationInstance', () => {
     })
   })
 })
-
-const wait = (t) => new Promise((r) => setTimeout(r, t))
 
 function simulateAnimationEnd() {
   const event = new CustomEvent('transitionend')

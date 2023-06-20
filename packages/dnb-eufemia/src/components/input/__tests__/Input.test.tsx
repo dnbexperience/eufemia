@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
 import Input, { InputProps } from '../Input'
 import { format } from '../../number-format/NumberUtils'
@@ -653,5 +653,3 @@ describe('Input scss', () => {
     expect(scss).toMatchSnapshot()
   })
 })
-
-const wait = (t) => new Promise((r) => setTimeout(r, t))

@@ -4,6 +4,7 @@ import UploadDropzone from '../UploadDropzone'
 import { createMockFile } from './testHelpers'
 import { UploadContext } from '../UploadContext'
 import type { UploadAllProps, UploadContextProps } from '../types'
+import { wait } from '../../../core/jest/jestSetup'
 
 const defaultProps: Partial<UploadAllProps> = {
   id: 'unique',
@@ -181,5 +182,3 @@ describe('Upload', () => {
     })
   })
 })
-
-const wait = (t) => new Promise((r) => setTimeout(r, t))

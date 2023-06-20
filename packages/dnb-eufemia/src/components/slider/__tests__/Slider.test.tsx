@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import { fireEvent, render, act } from '@testing-library/react'
 import Slider from '../Slider'
 
@@ -775,5 +775,3 @@ const simulateMouseMove = (props) => {
     document.body.dispatchEvent(mouseMove)
   })
 }
-
-const wait = (t) => new Promise((r) => setTimeout(r, t))

@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import GlobalStatus, { GlobalStatusProps } from '../GlobalStatus'
 import { GlobalStatusInterceptor } from '../GlobalStatusController'
 import FormSet from '../../form-set/FormSet'
@@ -911,8 +911,6 @@ describe('GlobalStatus scss', () => {
     expect(scss).toMatchSnapshot()
   })
 })
-
-const wait = (t) => new Promise((r) => setTimeout(r, t))
 
 const refresh = async () => {
   await wait(1)

@@ -15,6 +15,7 @@ import {
   testSetupInit,
   simulateAnimationEnd,
 } from './HeightAnimationUtils'
+import { wait } from '../../../core/jest/jestSetup'
 
 testSetupInit()
 
@@ -434,5 +435,3 @@ describe('HeightAnimation', () => {
     })
   })
 })
-
-const wait = (t) => new Promise((r) => setTimeout(r, t))

@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import { fireEvent, render, act } from '@testing-library/react'
 import Pagination, {
   createPagination,
@@ -361,7 +361,9 @@ describe('Infinity scroller', () => {
     })
 
     const intersect = async () => {
-      callObserver([{ isIntersecting: true }])
+      act(() => {
+        callObserver([{ isIntersecting: true }])
+      })
       await rerenderComponent()
     }
 
@@ -788,5 +790,3 @@ describe('Pagination scss', () => {
     expect(scss).toMatchSnapshot()
   })
 })
-
-const wait = (t) => new Promise((r) => setTimeout(r, t))

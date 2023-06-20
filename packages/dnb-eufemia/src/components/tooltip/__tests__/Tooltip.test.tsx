@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
 import OriginalTooltip from '../Tooltip'
 import Anchor from '../../anchor/Anchor'
@@ -635,5 +635,3 @@ describe('Tooltip scss', () => {
     expect(scss).toMatchSnapshot()
   })
 })
-
-const wait = (t) => new Promise((r) => setTimeout(r, t))

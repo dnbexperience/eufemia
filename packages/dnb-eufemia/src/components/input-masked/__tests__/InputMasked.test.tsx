@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { loadScss } from '../../../core/jest/jestSetup'
+import { loadScss, wait } from '../../../core/jest/jestSetup'
 import { render, fireEvent } from '@testing-library/react'
 import InputMasked, { InputMaskedProps } from '../InputMasked'
 import Provider from '../../../shared/Provider'
@@ -1745,5 +1745,3 @@ describe('InputMasked scss', () => {
     expect(scss).toMatchSnapshot()
   })
 })
-
-const wait = (t) => new Promise((r) => setTimeout(r, t))

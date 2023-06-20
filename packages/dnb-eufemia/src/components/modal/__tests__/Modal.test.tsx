@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import Input from '../../input/Input'
 import Modal, { OriginalComponent } from '../Modal'
@@ -1468,5 +1468,3 @@ describe('Modal scss', () => {
     expect(scss).toMatchSnapshot()
   })
 })
-
-const wait = (t) => new Promise((r) => setTimeout(r, t))

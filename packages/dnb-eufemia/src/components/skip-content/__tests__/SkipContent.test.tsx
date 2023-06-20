@@ -1,5 +1,5 @@
 import React from 'react'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 import SkipContent, { SkipContentAllProps } from '../SkipContent'
 import Section from '../../Section'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
@@ -114,10 +114,10 @@ describe('SkipContent', () => {
     // 2. make focus action
     fireEvent.click(element.querySelector('.dnb-button'))
 
-    await wait(20)
-
+    await waitFor(() => {
+      expect(document.activeElement.tagName).toBe('SECTION')
+    })
     expect(element.querySelector('.dnb-button')).toBeFalsy()
-    expect(document.activeElement.tagName).toBe('SECTION')
     expect(document.activeElement.classList).toContain(
       'dnb-skip-content__focus'
     )
@@ -143,8 +143,10 @@ describe('SkipContent', () => {
       keyCode: 'Tab',
     })
 
-    await wait(20) // because of requestAnimationFrame
-    expect(document.activeElement.tagName).toBe('BUTTON')
+    await waitFor(() => {
+      // because of requestAnimationFrame
+      expect(document.activeElement.tagName).toBe('BUTTON')
+    })
 
     // 2. blur the event
     fireEvent.blur(element.querySelector('.dnb-button'))
@@ -214,10 +216,10 @@ describe('SkipContent.Return', () => {
     // 2. make focus action
     fireEvent.click(element.querySelector('.dnb-button'))
 
-    await wait(20)
-
+    await waitFor(() => {
+      expect(document.activeElement.tagName).toBe('SECTION')
+    })
     expect(element.querySelector('.dnb-button')).toBeFalsy()
-    expect(document.activeElement.tagName).toBe('SECTION')
     expect(document.activeElement.classList).toContain(
       'dnb-skip-content__focus'
     )
@@ -235,15 +237,13 @@ describe('SkipContent.Return', () => {
     // 4. make focus action
     fireEvent.click(section.querySelector('.dnb-button'))
 
-    await wait(20)
-
+    await waitFor(() => {
+      expect(document.activeElement.tagName).toBe('BUTTON')
+    })
     expect(section.querySelector('.dnb-button')).toBeFalsy()
-    expect(document.activeElement.tagName).toBe('BUTTON')
     expect(
       // First parent is HeightAnimation, second is span.dnb-skip-content
       document.activeElement.parentElement.parentElement.getAttribute('id')
     ).toBe('unique-id--alias')
   })
 })
-
-const wait = (t) => new Promise((r) => setTimeout(r, t))

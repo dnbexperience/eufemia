@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import { fireEvent, render, act } from '@testing-library/react'
 import Dropdown, { DropdownProps } from '../Dropdown'
 import {
@@ -1137,7 +1137,7 @@ describe('Dropdown component', () => {
   })
 
   beforeAll(() => {
-    ;(window as any).resizeTo = function resizeTo({
+    (window as any).resizeTo = function resizeTo({
       width = window.innerWidth,
       height = window.innerHeight,
     }: {
@@ -1240,5 +1240,3 @@ const keydown = (keyCode) => {
 const open = () => {
   fireEvent.click(document.querySelector('button.dnb-dropdown__trigger'))
 }
-
-const wait = (t) => new Promise((r) => setTimeout(r, t))

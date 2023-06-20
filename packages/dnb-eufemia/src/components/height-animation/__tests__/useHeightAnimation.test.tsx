@@ -14,6 +14,7 @@ import {
 } from '@testing-library/react'
 import ToggleButton from '../../ToggleButton'
 import { useHeightAnimation } from '../useHeightAnimation'
+import { wait } from '../../../core/jest/jestSetup'
 
 beforeEach(() => {
   global.IS_TEST = false
@@ -230,5 +231,3 @@ function simulateAnimationEnd(
   const event = new CustomEvent('transitionend')
   element.dispatchEvent(event)
 }
-
-const wait = (t) => new Promise((r) => setTimeout(r, t))
