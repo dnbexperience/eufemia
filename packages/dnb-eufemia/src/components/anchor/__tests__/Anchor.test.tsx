@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { axeComponent } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { act, fireEvent, render } from '@testing-library/react'
 import Anchor, { AnchorAllProps } from '../Anchor'
 
@@ -183,4 +183,23 @@ describe('Anchor element', () => {
     )
     expect(document.querySelector('.dnb-anchor--no-icon')).toBeTruthy()
   })
+})
+
+describe('Anchor scss', () => {
+  it('has to match style dependencies css', () => {
+    const css = loadScss(require.resolve('../style/deps.scss'))
+    expect(css).toMatchSnapshot()
+  })
+
+  it.each(['ui', 'sbanken'])(
+    'has to match theme css for %s',
+    (themeName) => {
+      const css = loadScss(
+        require.resolve(
+          `../style/themes/dnb-anchor-theme-${themeName}.scss`
+        )
+      )
+      expect(css).toMatchSnapshot()
+    }
+  )
 })
