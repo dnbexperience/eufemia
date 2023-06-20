@@ -297,10 +297,15 @@ describe('Button scss', () => {
     expect(css).toMatchSnapshot()
   })
 
-  it('have to match default theme snapshot', () => {
-    const css = loadScss(
-      require.resolve('../style/themes/dnb-button-theme-ui.scss')
-    )
-    expect(css).toMatchSnapshot()
-  })
+  it.each(['ui', 'sbanken'])(
+    'has to match theme css for %s',
+    (themeName) => {
+      const css = loadScss(
+        require.resolve(
+          `../style/themes/dnb-button-theme-${themeName}.scss`
+        )
+      )
+      expect(css).toMatchSnapshot()
+    }
+  )
 })
