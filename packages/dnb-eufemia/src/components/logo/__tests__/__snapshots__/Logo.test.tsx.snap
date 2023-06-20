@@ -151,3 +151,29 @@ exports[`Logo scss has to match style dependencies css 1`] = `
   height: inherit;
 }"
 `;
+
+exports[`Logo scss has to match theme css for sbanken 1`] = `
+"/*
+ * Logo Component
+ *
+ */
+.sbanken-logo {
+  color: var(--sb-color-purple);
+}
+.sbanken-logo--inherit-color {
+  color: currentcolor;
+}"
+`;
+
+exports[`Logo scss has to match theme css for ui 1`] = `
+"/*
+ * Logo Component
+ *
+ */
+.dnb-logo {
+  color: var(--color-sea-green);
+}
+.dnb-logo--inherit-color {
+  color: currentcolor;
+}"
+`;
