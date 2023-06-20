@@ -87,11 +87,23 @@ Add a similar code snippet to your tests for watching changes in the SCSS you ju
 
 ```js
 import { loadScss } from '../../../core/jest/jestSetup'
-describe('Breadcrumb scss', () => {
-  it('have to match snapshot', () => {
-    const scss = loadScss(require.resolve('../style/dnb-breadcrumb.scss'))
-    expect(scss).toMatchSnapshot()
+describe('Button scss', () => {
+  it('has to match style dependencies css', () => {
+    const css = loadScss(require.resolve('../style/deps.scss'))
+    expect(css).toMatchSnapshot()
   })
+
+  it.each(['ui', 'sbanken'])(
+    'has to match theme css for %s',
+    (themeName) => {
+      const css = loadScss(
+        require.resolve(
+          `../style/themes/dnb-button-theme-${themeName}.scss`
+        )
+      )
+      expect(css).toMatchSnapshot()
+    }
+  )
 })
 ```
 
