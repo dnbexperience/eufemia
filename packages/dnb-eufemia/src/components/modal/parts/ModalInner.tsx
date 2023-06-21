@@ -21,6 +21,8 @@ export default class ModalInner extends React.PureComponent<
 > {
   static contextType = ModalContext
 
+  context!: React.ContextType<typeof ModalContext>
+
   componentDidMount() {
     const { style_type = 'black-3' } = this.props
     if (style_type) {

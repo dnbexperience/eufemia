@@ -105,6 +105,8 @@ export default function Tabbar({
     location.hash,
   ].join('')
 
+  console.log('Tabbar nu grabbar!')
+
   return (
     <div className="dnb-tabbar">
       {title && (
@@ -114,7 +116,7 @@ export default function Tabbar({
       )}
       <Tabs
         id="tabbar"
-        tab_element={Link}
+        tab_element={{ ...Link }}
         data={preparedTabs}
         selected_key={selectedKey}
         on_change={({ selected_key }) => {

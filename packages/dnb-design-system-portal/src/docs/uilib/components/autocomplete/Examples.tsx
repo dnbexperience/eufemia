@@ -60,10 +60,10 @@ export const AutocompleteNumbersExample = () => (
         show_clear_button
         label="Label:"
         data={[
-          format(20001234567, { ban: true }),
-          format(22233344425, { ban: true }),
-          format(1234.5, { currency: true }),
-          format('+47116000', { phone: true }),
+          format(20001234567, { ban: true }) as string,
+          format(22233344425, { ban: true }) as string,
+          format(1234.5, { currency: true }) as string,
+          format('+47116000', { phone: true }) as string,
         ]}
         search_numbers={true}
       />
@@ -303,8 +303,11 @@ export const AutocompleteCustomWidth = () => (
 
 export const AutocompleteSuffix = () => {
   const { locale } = React.useContext(Context)
-  const ban = format(20001234567, { ban: true, locale })
-  const suffix_value = format(12345678, { currency: true, locale })
+  const ban = format(20001234567, { ban: true, locale }) as string
+  const suffix_value = format(12345678, {
+    currency: true,
+    locale,
+  }) as string
   const numbers = [
     {
       selected_value: 'Brukskonto',

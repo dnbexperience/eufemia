@@ -7,7 +7,7 @@ import React from 'react'
 import classnames from 'classnames'
 import { extendPropsWithContextInClassComponent } from '../../../shared/component-helper'
 import Button from '../../button/Button'
-import Context from '../../../shared/Context'
+import Context, { ContextProps } from '../../../shared/Context'
 import type { ButtonProps } from '../../button/Button'
 
 export type CloseButtonProps = {
@@ -19,6 +19,9 @@ export type CloseButtonProps = {
 
 export default class CloseButton extends React.PureComponent<CloseButtonProps> {
   static contextType = Context
+
+  context!: ContextProps
+
   static defaultProps = {
     close_title: null,
     size: 'default',

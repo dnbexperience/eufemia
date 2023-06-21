@@ -25,6 +25,7 @@ import {
 
 // this theme is replaced my a css one
 import prismTheme from '@dnb/eufemia/src/style/themes/theme-ui/prism/dnb-prism-theme'
+import { ContextProps } from '@dnb/eufemia/src/shared/Context'
 
 const CodeBlock = ({
   language,
@@ -110,6 +111,8 @@ class LiveCode extends React.PureComponent<
   LiveCodeDefaultState
 > {
   static contextType = Context
+
+  context!: ContextProps
 
   _editorElementRef: React.RefObject<HTMLDivElement> = null
   _id: string = null
