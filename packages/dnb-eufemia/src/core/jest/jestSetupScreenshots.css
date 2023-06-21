@@ -13,8 +13,13 @@ html {
 .dnb-live-toolbar {
   padding: 0 !important;
 }
+
 .dnb-app-content {
   margin-left: 0 !important;
+}
+
+.dnb-skip-link {
+  display: none;
 }
 
 [data-visual-test-wrapper] {
