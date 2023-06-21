@@ -36,7 +36,7 @@ import type { SkeletonProps, SkeletonShow } from '../components/Skeleton'
 import type { HelpButtonProps } from '../components/HelpButton'
 import type { TableProps } from '../components/Table'
 import type { GlobalErrorProps } from '../components/GlobalError'
-import type { ModalProps } from '../components/Modal/types'
+import type { ModalProps } from '../components/modal/types'
 
 import type { NumberFormatCurrency } from '../components/NumberFormat'
 
