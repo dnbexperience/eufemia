@@ -105,8 +105,6 @@ export default function Tabbar({
     location.hash,
   ].join('')
 
-  console.log('Tabbar nu grabbar!')
-
   return (
     <div className="dnb-tabbar">
       {title && (
