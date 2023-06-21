@@ -78,21 +78,23 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
 
   it('have to match the "hover" state', async () => {
     const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="anchor-hover"]',
+      selector: '[data-visual-test="anchor-default"]',
+      simulate: 'hover',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
   it('have to match the "active" state', async () => {
     const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="anchor-active"]',
+      selector: '[data-visual-test="anchor-default"]',
+      simulate: 'active',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
   it('have to match the "focus" state', async () => {
     const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="anchor-focus"]',
+      selector: '[data-visual-test="anchor-default"]',
       simulate: 'focus',
     })
     expect(screenshot).toMatchImageSnapshot()

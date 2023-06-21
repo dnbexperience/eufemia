@@ -21,10 +21,6 @@
   background-color: var(--sb-color-blue-light-3);
   border-radius: 0.25rem;
 
-  &:not(:active) {
-    background-color: var(--sb-color-blue-light-3);
-  }
-
   &.dnb-anchor--icon-left {
     margin-left: 0;
     .dnb-icon {
@@ -59,7 +55,7 @@
     @include anchorActive();
   }
 
-  &:focus {
+  &:focus-visible {
     @include anchorFocus();
   }
 
