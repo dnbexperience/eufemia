@@ -61,7 +61,7 @@ const numbersData = [
 
 export const AutocompleteNumbersExample = () => (
   <Wrapper>
-    <ComponentBox scope={{ format }}>
+    <ComponentBox scope={{ numbersData }}>
       <Autocomplete
         input_value="201"
         show_clear_button
