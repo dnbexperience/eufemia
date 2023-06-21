@@ -18,10 +18,6 @@ html {
   margin-left: 0 !important;
 }
 
-.dnb-skip-link {
-  display: none;
-}
-
 [data-visual-test-wrapper] {
   position: relative;
   z-index: 9999;
