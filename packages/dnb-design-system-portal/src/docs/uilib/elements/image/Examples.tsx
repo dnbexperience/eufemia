@@ -10,7 +10,7 @@ import styled from '@emotion/styled'
 
 export const ImagePlainExample = () => (
   <ComponentBox data-visual-test="image-plain" hideCode>
-    {() => {
+    {(() => {
       const StyledImg = styled(Img)`
         border-radius: 1rem;
       `
@@ -24,8 +24,8 @@ export const ImagePlainExample = () => (
           />
         )
       }
-      return <CustomImage />
-    }}
+      return CustomImage
+    })()}
   </ComponentBox>
 )
 
