@@ -17,6 +17,7 @@ import {
 import { cleanup, fireEvent, render, act } from '@testing-library/react'
 import FormRow from '../../form-row/FormRow'
 import {
+  DrawerListData,
   DrawerListDataObject,
   DrawerListDataObjectUnion,
 } from '../../../fragments/drawer-list'
@@ -598,7 +599,7 @@ describe('Autocomplete component', () => {
       format(22233344425, { ban: true }),
       format(1234.5, { currency: true }),
       format('+47116000', { phone: true }),
-    ]
+    ] as DrawerListData
 
     render(
       <Autocomplete

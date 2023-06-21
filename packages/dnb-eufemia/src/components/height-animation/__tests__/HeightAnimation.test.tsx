@@ -59,7 +59,9 @@ describe('HeightAnimation', () => {
             animate={animate} // Optional
             {...props}
           >
-            <p className="content-element">your content {children}</p>
+            <p className="content-element">
+              your content <>{children}</>
+            </p>
           </HeightAnimation>
         </section>
       </>

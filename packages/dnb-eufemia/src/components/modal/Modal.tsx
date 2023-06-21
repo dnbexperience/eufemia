@@ -40,7 +40,9 @@ interface ModalState {
   modalActive: boolean
 }
 
-export type ModalPropTypes = ModalProps & SpacingProps & ScrollViewAllProps
+export type ModalPropTypes = ModalProps &
+  SpacingProps &
+  Omit<ScrollViewAllProps, 'children'>
 
 class Modal extends React.PureComponent<
   ModalPropTypes & ToCamelCasePartial<ModalPropTypes>,
@@ -429,7 +431,7 @@ class Modal extends React.PureComponent<
       omit_trigger_button = false,
       trigger = null,
       trigger_attributes = null,
-
+      children,
       ...rest
     } = props
 

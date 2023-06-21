@@ -19,6 +19,10 @@ import { Anchor } from '../../../'
 import { Context } from '../../../shared'
 import { SubmitButton } from '../../input/Input'
 import { format } from '../../number-format/NumberUtils'
+import {
+  DrawerListData,
+  DrawerListDataObjectUnion,
+} from '../../../fragments/DrawerList'
 
 export default {
   title: 'Eufemia/Components/Autocomplete',
@@ -32,7 +36,7 @@ const numbers = [
   '100.222.333,40',
   '123456',
   '100 222 444,50',
-]
+] as DrawerListData
 
 export const SearchNumbers = () => {
   return (
@@ -852,8 +856,8 @@ const WideStyle = styled.div`
 
 export function DataSuffix() {
   const { locale } = React.useContext(Context)
-  const ban = format(21001234567, { ban: true, locale })
-  const numbers = [
+  const ban = format(21001234567, { ban: true, locale }) as string
+  const numbers: DrawerListDataObjectUnion[] = [
     {
       selected_value: `Brukskonto (${ban})`,
       suffix_value: (

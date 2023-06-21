@@ -1,13 +1,13 @@
 import React from 'react'
 import Dialog from '../Dialog'
-import { DialogProps } from '../types'
+import { DialogContentProps, DialogProps } from '../types'
 import Button from '../../button/Button'
 import Provider from '../../../shared/Provider'
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
 import * as helpers from '../../../shared/helpers'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 
-const props: DialogProps = {
+const props: DialogProps & DialogContentProps = {
   noAnimation: true,
 }
 
@@ -175,7 +175,7 @@ describe('Dialog', () => {
       ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
     )
 
-    const props: DialogProps = {
+    const props: DialogProps & DialogContentProps = {
       directDomReturn: false,
       noAnimation: true,
     }
@@ -193,7 +193,7 @@ describe('Dialog', () => {
   it('is closed by keyboardevent esc by window listener', async () => {
     const on_close = jest.fn()
 
-    const props: DialogProps = {
+    const props: DialogProps & DialogContentProps = {
       directDomReturn: false,
       noAnimation: true,
     }

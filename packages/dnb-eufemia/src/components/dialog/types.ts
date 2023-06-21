@@ -99,5 +99,5 @@ export interface DialogContentProps
   /**
    * The content of the modal.
    */
-  children?: React.ReactNode
+  children?: ReactChildType
 }

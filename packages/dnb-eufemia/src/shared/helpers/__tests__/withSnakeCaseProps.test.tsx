@@ -134,6 +134,9 @@ describe('classWithSnakeCaseProps', () => {
     OriginalState
   > {
     static contextType = Context
+
+    context!: Record<string, unknown>
+
     state = {
       someState: true,
     }
