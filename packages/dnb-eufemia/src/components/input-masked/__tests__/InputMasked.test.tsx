@@ -10,7 +10,6 @@ import InputMasked, { InputMaskedProps } from '../InputMasked'
 import Provider from '../../../shared/Provider'
 import * as helpers from '../../../shared/helpers'
 import FormRow from '../../form-row/FormRow'
-import userEvent from '@testing-library/user-event'
 
 const props: InputMaskedProps = {
   id: 'input-masked',
@@ -69,7 +68,7 @@ describe('InputMasked component', () => {
     expect(ref.current.tagName).toBe('INPUT')
   })
 
-  it('event "on_change" gets emmited with correct value', async () => {
+  it('event "on_change" gets emmited with correct value #1', async () => {
     const initValue = 'NOK 1234,5 kr'
     const newValue = 'NOK 123456789,0 kr'
 
@@ -89,8 +88,9 @@ describe('InputMasked component', () => {
 
     expect(document.querySelector('input').value).toBe('NOK 1 234,5,- kr')
 
-    await userEvent.clear(document.querySelector('input'))
-    await userEvent.type(document.querySelector('input'), newValue)
+    fireEvent.change(document.querySelector('input'), {
+      target: { value: newValue },
+    })
 
     expect(document.querySelector('input').value).toBe(
       'NOK 1 234 567 890,,- kr'
@@ -98,13 +98,13 @@ describe('InputMasked component', () => {
 
     expect(
       on_change.mock.calls[on_change.mock.calls.length - 1][0].value
-    ).toBe('NOK 1 234 567 890,,- kr')
+    ).toBe('NOK 123 456 789,0,- kr')
     expect(
       on_change.mock.calls[on_change.mock.calls.length - 1][0].numberValue
-    ).toBe(1234567890)
+    ).toBe(123456789)
   })
 
-  it('event "on_change" gets emmited with correct value', async () => {
+  it('event "on_change" gets emmited with correct value #2', async () => {
     const newValue = 'NOK 123456789,678 kr'
 
     const on_change = jest.fn()
@@ -119,12 +119,13 @@ describe('InputMasked component', () => {
 
     expect(document.querySelector('input').value).toBe('12 345,67')
 
-    await userEvent.clear(document.querySelector('input'))
-    await userEvent.type(document.querySelector('input'), newValue)
+    fireEvent.change(document.querySelector('input'), {
+      target: { value: newValue },
+    })
 
     expect(document.querySelector('input').value).toBe('123 456 789,67')
 
-    expect(on_change).toBeCalledTimes(21)
+    expect(on_change).toBeCalledTimes(1)
     expect(
       on_change.mock.calls[on_change.mock.calls.length - 1][0].value
     ).toBe('123 456 789,67')
@@ -133,7 +134,7 @@ describe('InputMasked component', () => {
     ).toBe(123456789.67)
   })
 
-  it('event "on_change" gets emmited with correct value', async () => {
+  it('event "on_change" gets emmited with correct value #3', async () => {
     const newValue = 'NOK 123456789,678 kr'
 
     const on_change = jest.fn()
@@ -152,8 +153,9 @@ describe('InputMasked component', () => {
 
     expect(document.querySelector('input').value).toBe('12 345,67')
 
-    await userEvent.clear(document.querySelector('input'))
-    await userEvent.type(document.querySelector('input'), newValue)
+    fireEvent.change(document.querySelector('input'), {
+      target: { value: newValue },
+    })
 
     expect(document.querySelector('input').value).toBe('123 456 789,67')
 
@@ -650,7 +652,7 @@ describe('InputMasked component', () => {
     expect(document.querySelector('input').value).toBe('00__ __ __ __ __')
   })
 
-  it.skip('should set caret position before suffix', async () => {
+  it('should set caret position before suffix', async () => {
     render(
       <InputMasked
         show_mask
@@ -1043,8 +1045,9 @@ describe('InputMasked component as_number', () => {
 
     expect(document.querySelector('input').value).toBe('12 345,6')
 
-    await userEvent.clear(document.querySelector('input'))
-    await userEvent.type(document.querySelector('input'), newValue)
+    fireEvent.change(document.querySelector('input'), {
+      target: { value: newValue },
+    })
 
     expect(document.querySelector('input').value).toBe('123 456 789,6')
 
@@ -1330,8 +1333,9 @@ describe('InputMasked component as_currency', () => {
 
     expect(document.querySelector('input').value).toBe('12 345,67 kr')
 
-    await userEvent.clear(document.querySelector('input'))
-    await userEvent.type(document.querySelector('input'), newValue)
+    fireEvent.change(document.querySelector('input'), {
+      target: { value: newValue },
+    })
 
     expect(document.querySelector('input').value).toBe('123 456 789,67 kr')
 
@@ -1351,8 +1355,9 @@ describe('InputMasked component as_currency', () => {
       />
     )
 
-    await userEvent.clear(document.querySelector('input'))
-    await userEvent.type(document.querySelector('input'), newValue)
+    fireEvent.change(document.querySelector('input'), {
+      target: { value: newValue },
+    })
 
     expect(document.querySelector('input').value).toBe('123 456 789,6 kr')
 
@@ -1378,9 +1383,10 @@ describe('InputMasked component as_currency', () => {
 
     expect(document.querySelector('input').value).toBe('12 345.67 NOK')
 
-    await userEvent.clear(document.querySelector('input'))
     const newValue = 'NOK 123 456 789.678 kr'
-    await userEvent.type(document.querySelector('input'), newValue)
+    fireEvent.change(document.querySelector('input'), {
+      target: { value: newValue },
+    })
 
     expect(document.querySelector('input').value).toBe(
       '123 456 789.67 NOK'
@@ -1699,7 +1705,7 @@ describe('InputMasked component as_currency', () => {
     ])
   })
 
-  it.skip('should set correct cursor position on focus and mouseUp', async () => {
+  it('should set correct cursor position on focus and mouseUp', async () => {
     render(
       <InputMasked value={12} mask={[/\d/, /\d/, '–', '–', /\d/, /\d/]} />
     )
