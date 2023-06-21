@@ -1473,5 +1473,9 @@ html:not([data-whatintent=touch]) .dnb-button--input-button.dnb-button--secondar
 html:not([data-whatintent=touch]) .dnb-button--input-button.dnb-button--secondary:not(.dnb-button--has-text)[disabled] {
   color: var(--color-black-55);
   background-color: var(--color-black-3);
+  --border-color: var(--color-black-55);
+  --border-width: var(--input-border-width);
+  box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
 }"
 `;
