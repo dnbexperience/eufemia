@@ -11,6 +11,13 @@ import {
 describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
   setupPageScreenshot({ themeName, url: '/uilib/components/anchor' })
 
+  it('have to match the state previews', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="anchor-state-preview"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match the "default" state', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-default"]',
