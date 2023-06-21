@@ -57,25 +57,27 @@ const AutoLinkHeader = ({
       className={classnames(anchorLinkStyle, className)}
       {...props}
     >
-      {clickHandler && id && (
-        <AnchorLink
-          className="anchor-hash"
-          tooltip="Click to set an Anchor URL"
-          id={id}
-          href={`#${id}`}
-          onClick={clickHandler}
-          aria-hidden
-        >
-          #
-        </AnchorLink>
-      )}
-      {typeof addToSearchIndex === 'function'
-        ? addToSearchIndex({
-            location,
-            title: React.isValidElement(children) ? title : children,
-            hash: id,
-          })
-        : children}
+      <>
+        {clickHandler && id && (
+          <AnchorLink
+            className="anchor-hash"
+            tooltip="Click to set an Anchor URL"
+            id={id}
+            href={`#${id}`}
+            onClick={clickHandler}
+            aria-hidden
+          >
+            #
+          </AnchorLink>
+        )}
+        {typeof addToSearchIndex === 'function'
+          ? addToSearchIndex({
+              location,
+              title: React.isValidElement(children) ? children : title,
+              hash: id,
+            })
+          : children}
+      </>
     </Heading>
   )
 }

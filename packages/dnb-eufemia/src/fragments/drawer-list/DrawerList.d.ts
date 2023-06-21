@@ -17,6 +17,7 @@ export type DrawerListDataObject = {
   selected_value?: string | React.ReactNode;
   suffix_value?: string | React.ReactNode;
   content?: string | React.ReactNode | string[];
+  search_content?: string | React.ReactNode | string[];
 };
 export type DrawerListDataObjectUnion =
   | string

@@ -29,7 +29,10 @@ export type TooltipProps = IncludeSnakeCase<{
   showDelay?: number
   hideDelay: number
   targetSelector?: string
-  targetElement?: React.ReactNode
+  targetElement?:
+    | React.ReactNode
+    | React.MutableRefObject<unknown>
+    | HTMLElement
   tooltip?: React.ReactNode
   className?: string
   children?: React.ReactNode

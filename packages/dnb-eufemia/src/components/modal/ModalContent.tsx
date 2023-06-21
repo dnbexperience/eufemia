@@ -31,6 +31,7 @@ import {
 } from './helpers'
 import { getThemeClasses } from '../../shared/Theme'
 import { Context } from '../../shared'
+import { ContextProps } from '../../shared/Context'
 
 interface ModalContentState {
   triggeredBy: string
@@ -65,6 +66,8 @@ export default class ModalContent extends React.PureComponent<
   _iiLocal: InteractionInvalidation
 
   static contextType = Context
+
+  context!: ContextProps
 
   constructor(props: ModalContentProps) {
     super(props)

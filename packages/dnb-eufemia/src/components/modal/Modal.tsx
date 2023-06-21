@@ -6,7 +6,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import { SuffixContext } from '../../shared/helpers/Suffix'
-import Context from '../../shared/Context'
+import Context, { ContextProps } from '../../shared/Context'
 import {
   warn,
   isTrue,
@@ -47,6 +47,8 @@ class Modal extends React.PureComponent<
   ModalState
 > {
   static contextType = Context
+
+  context!: ContextProps
 
   static Bar = ModalHeaderBar
   static Header = ModalHeader

@@ -6812,7 +6812,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^18.0.0":
+"@types/react-dom@npm:18.2.6, @types/react-dom@npm:^18.0.0":
   version: 18.2.6
   resolution: "@types/react-dom@npm:18.2.6"
   dependencies:
@@ -6821,7 +6821,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:>=16":
+"@types/react@npm:*, @types/react@npm:18.2.13, @types/react@npm:>=16":
   version: 18.2.13
   resolution: "@types/react@npm:18.2.13"
   dependencies:
@@ -12413,6 +12413,8 @@ __metadata:
     "@emotion/styled": 11.9.3
     "@mdx-js/mdx": 2.3.0
     "@mdx-js/react": 2.3.0
+    "@types/react": 18.2.13
+    "@types/react-dom": 18.2.6
     "@typescript-eslint/parser": 5.43.0
     algoliasearch: 4.12.0
     babel-jest: 29.5.0
