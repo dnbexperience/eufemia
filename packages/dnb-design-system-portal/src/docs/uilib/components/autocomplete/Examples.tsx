@@ -52,6 +52,13 @@ export const AutocompleteStatusExample = () => (
   </Wrapper>
 )
 
+const numbersData = [
+  format(20001234567, { ban: true }),
+  format(22233344425, { ban: true }),
+  format(1234.5, { currency: true }),
+  format('+47116000', { phone: true }),
+] as string[]
+
 export const AutocompleteNumbersExample = () => (
   <Wrapper>
     <ComponentBox scope={{ format }}>
@@ -59,12 +66,7 @@ export const AutocompleteNumbersExample = () => (
         input_value="201"
         show_clear_button
         label="Label:"
-        data={[
-          format(20001234567, { ban: true }) as string,
-          format(22233344425, { ban: true }) as string,
-          format(1234.5, { currency: true }) as string,
-          format('+47116000', { phone: true }) as string,
-        ]}
+        data={numbersData}
         search_numbers={true}
       />
     </ComponentBox>
