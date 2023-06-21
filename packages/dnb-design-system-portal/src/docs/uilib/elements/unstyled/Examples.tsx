@@ -15,7 +15,7 @@ import styled from '@emotion/styled'
 
 export const UnstyledExample = () => (
   <ComponentBox data-visual-test="span-skeleton">
-    {(() => {
+    {() => {
       const Box = styled.div`
         display: grid;
         place-items: center;
@@ -58,7 +58,8 @@ export const UnstyledExample = () => (
           </Skeleton>
         )
       }
-      return CustomImage
-    })()}
+
+      return <CustomImage />
+    }}
   </ComponentBox>
 )
