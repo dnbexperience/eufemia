@@ -19,7 +19,7 @@ import {
   ProgressIndicator,
   NumberFormat,
 } from '../../'
-import { OriginalComponent as Modal } from '../../modal/Modal'
+import Modal from '../../modal/Modal'
 import { ScrollView } from '../../../fragments'
 import { H2, P, Hr } from '../../..'
 

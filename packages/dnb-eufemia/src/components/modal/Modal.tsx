@@ -431,7 +431,6 @@ class Modal extends React.PureComponent<
       omit_trigger_button = false,
       trigger = null,
       trigger_attributes = null,
-      children,
       ...rest
     } = props
 
