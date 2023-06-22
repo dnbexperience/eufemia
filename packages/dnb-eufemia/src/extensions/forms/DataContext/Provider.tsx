@@ -5,7 +5,6 @@ import React, {
   useCallback,
   useState,
 } from 'react'
-import structuredClone from 'core-js-pure/actual/structured-clone'
 import pointer, { JsonObject } from 'json-pointer'
 import { JSONSchema7 } from 'json-schema'
 import ajv, { ajvErrorsToFormErrors } from '../utils/ajv'
@@ -117,7 +116,7 @@ export default function Provider<Data extends JsonObject>({
       onPathChange?.(path, value)
       // Update the data even if it contains errors. Submit/SubmitRequest will be called accordingly
       setData((existing) => {
-        const newData: Data = structuredClone(existing)
+        const newData = structuredClone(existing) as Data
         if (path) {
           pointer.set(newData, path, value)
         }
