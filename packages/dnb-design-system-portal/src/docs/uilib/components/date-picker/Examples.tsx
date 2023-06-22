@@ -244,7 +244,7 @@ export const DatePickerCalendar = () => (
   </Wrapper>
 )
 
-export const DatePickerScreenshotTests = () => {
+export const DatePickerScreenshotTestSizes = () => {
   if (!globalThis.IS_TEST) {
     return null
   }
@@ -275,6 +275,22 @@ export const DatePickerScreenshotTests = () => {
             date={new Date('2022/06/10')}
             show_input={true}
           />
+        </FormRow>
+      </ComponentBox>
+    </Wrapper>
+  )
+}
+
+export const DatePickerScreenshotTestDisabled = () => {
+  if (!globalThis.IS_TEST) {
+    return null
+  }
+  return (
+    <Wrapper>
+      <ComponentBox data-visual-test="date-picker-disabled">
+        <FormRow vertical>
+          <DatePicker disabled />
+          <DatePicker show_input={true} disabled />
         </FormRow>
       </ComponentBox>
     </Wrapper>

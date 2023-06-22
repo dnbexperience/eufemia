@@ -45,6 +45,11 @@ describe('DatePicker component', () => {
     expect(
       document.querySelectorAll('input')[0].hasAttribute('disabled')
     ).toBe(true)
+    expect(
+      document
+        .querySelector('button.dnb-input__submit-button__button')
+        .hasAttribute('disabled')
+    ).toBe(true)
   })
 
   it('has correct state after "click" trigger', () => {
