@@ -13,7 +13,6 @@
   padding: 1rem;
 
   overflow: hidden;
-  max-width: 60ch;
 
   background: var(--color-white);
 
@@ -41,6 +40,7 @@
   &__content {
     flex-direction: column;
     margin-top: 0.1875rem;
+    max-width: 70ch;
   }
 
   &--centered &__content {
