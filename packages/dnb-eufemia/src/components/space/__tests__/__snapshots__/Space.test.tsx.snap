@@ -1,13 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Space scss have to match default theme snapshot 1`] = `
-"/*
- * Np theme is provided
- *
- */"
-`;
-
-exports[`Space scss have to match snapshot 1`] = `
+exports[`Space scss has to match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *
@@ -584,4 +577,11 @@ span.dnb-space--no-collapse > span {
 }
 
 /* stylelint-enable */"
+`;
+
+exports[`Space scss have to match default theme snapshot 1`] = `
+"/*
+ * Np theme is provided
+ *
+ */"
 `;

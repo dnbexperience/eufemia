@@ -1,13 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`FormRow scss have to match default theme snapshot 1`] = `
-"/*
- * FormRow theme
- *
- */"
-`;
-
-exports[`FormRow scss have to match snapshot 1`] = `
+exports[`FormRow scss has to match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *
@@ -91,4 +84,11 @@ exports[`FormRow scss have to match snapshot 1`] = `
   border: none;
   width: 100%;
 }"
+`;
+
+exports[`FormRow scss have to match default theme snapshot 1`] = `
+"/*
+ * FormRow theme
+ *
+ */"
 `;

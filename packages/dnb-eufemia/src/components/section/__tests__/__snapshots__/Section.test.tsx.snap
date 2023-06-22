@@ -1,5 +1,80 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Section scss has to match style dependencies css 1`] = `
+"/*
+* Used for snapshot testing
+*
+*/
+/*
+ * Utilities
+ */
+/*
+ * Section component
+ *
+ */
+/*
+ * Utilities
+ */
+.dnb-section {
+  position: relative;
+  display: flow-root;
+}
+.dnb-section::after {
+  content: "";
+  position: absolute;
+  z-index: -15;
+  left: -100vw;
+  top: 0;
+  width: 100vw;
+  height: 100%;
+  color: var(--color-mint-green-12);
+  background-color: currentcolor;
+  box-shadow: 99vw 0 0 0 currentcolor, 198vw 0 0 0 currentcolor, 297vw 0 0 0 currentcolor, 396vw 0 0 0 currentcolor;
+}
+.dnb-section .dnb-section::after {
+  z-index: -14;
+}
+.dnb-section .dnb-section .dnb-section::after {
+  z-index: -13;
+}
+.dnb-section .dnb-section .dnb-section .dnb-section::after {
+  z-index: -12;
+}
+.dnb-section .dnb-section .dnb-section .dnb-section .dnb-section::after {
+  z-index: -11;
+}
+.dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section::after {
+  z-index: -10;
+}
+.dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section::after {
+  z-index: -9;
+}
+.dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section::after {
+  z-index: -8;
+}
+.dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section::after {
+  z-index: -7;
+}
+.dnb-section--spacing-x-small {
+  padding: var(--spacing-x-small) 0;
+}
+.dnb-section--spacing-small {
+  padding: var(--spacing-small) 0;
+}
+.dnb-section--spacing-medium {
+  padding: var(--spacing-medium) 0;
+}
+.dnb-section--spacing-x-large {
+  padding: var(--spacing-x-large) 0;
+}
+.dnb-section--spacing-xx-large {
+  padding: var(--spacing-xx-large) 0;
+}
+.dnb-section--spacing, .dnb-section--spacing-large {
+  padding: var(--spacing-large) 0;
+}"
+`;
+
 exports[`Section scss have to match default theme snapshot 1`] = `
 "/*
  * Section theme
@@ -134,80 +209,5 @@ html[data-whatinput=keyboard] .dnb-section--fire-red .dnb-button--tertiary:focus
 }
 .dnb-section--fire-red ::selection, .dnb-section--mint-green ::selection {
   background-color: var(--color-white);
-}"
-`;
-
-exports[`Section scss have to match snapshot 1`] = `
-"/*
-* Used for snapshot testing
-*
-*/
-/*
- * Utilities
- */
-/*
- * Section component
- *
- */
-/*
- * Utilities
- */
-.dnb-section {
-  position: relative;
-  display: flow-root;
-}
-.dnb-section::after {
-  content: "";
-  position: absolute;
-  z-index: -15;
-  left: -100vw;
-  top: 0;
-  width: 100vw;
-  height: 100%;
-  color: var(--color-mint-green-12);
-  background-color: currentcolor;
-  box-shadow: 99vw 0 0 0 currentcolor, 198vw 0 0 0 currentcolor, 297vw 0 0 0 currentcolor, 396vw 0 0 0 currentcolor;
-}
-.dnb-section .dnb-section::after {
-  z-index: -14;
-}
-.dnb-section .dnb-section .dnb-section::after {
-  z-index: -13;
-}
-.dnb-section .dnb-section .dnb-section .dnb-section::after {
-  z-index: -12;
-}
-.dnb-section .dnb-section .dnb-section .dnb-section .dnb-section::after {
-  z-index: -11;
-}
-.dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section::after {
-  z-index: -10;
-}
-.dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section::after {
-  z-index: -9;
-}
-.dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section::after {
-  z-index: -8;
-}
-.dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section .dnb-section::after {
-  z-index: -7;
-}
-.dnb-section--spacing-x-small {
-  padding: var(--spacing-x-small) 0;
-}
-.dnb-section--spacing-small {
-  padding: var(--spacing-small) 0;
-}
-.dnb-section--spacing-medium {
-  padding: var(--spacing-medium) 0;
-}
-.dnb-section--spacing-x-large {
-  padding: var(--spacing-x-large) 0;
-}
-.dnb-section--spacing-xx-large {
-  padding: var(--spacing-xx-large) 0;
-}
-.dnb-section--spacing, .dnb-section--spacing-large {
-  padding: var(--spacing-large) 0;
 }"
 `;

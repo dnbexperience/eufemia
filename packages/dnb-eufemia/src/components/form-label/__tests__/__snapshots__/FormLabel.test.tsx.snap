@@ -1,19 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`FormLabel scss have to match default theme snapshot 1`] = `
-"/*
- * FormLabel theme
- *
- */
-.dnb-form-label {
-  color: var(--color-black-80);
-}
-.dnb-form-label[for]:not([disabled]):hover {
-  color: var(--color-sea-green);
-}"
-`;
-
-exports[`FormLabel scss have to match snapshot 1`] = `
+exports[`FormLabel scss has to match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *
@@ -55,5 +42,18 @@ exports[`FormLabel scss have to match snapshot 1`] = `
 
 legend.dnb-form-label {
   display: inline-block;
+}"
+`;
+
+exports[`FormLabel scss have to match default theme snapshot 1`] = `
+"/*
+ * FormLabel theme
+ *
+ */
+.dnb-form-label {
+  color: var(--color-black-80);
+}
+.dnb-form-label[for]:not([disabled]):hover {
+  color: var(--color-sea-green);
 }"
 `;
