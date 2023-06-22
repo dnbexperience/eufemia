@@ -22,7 +22,7 @@ describe('Page Lists', () => {
 
     it('should have same amount of components', () => {
       cy.get(
-        '#portal-sidebar-menu ul li.l-2:has(> a[href*="/uilib/components"]) ~ li:has(> a:not([href*="/fragments"]))'
+        '#portal-sidebar-menu ul li:has(> a[href*="/uilib/components"]) ~ li:is(.l-3, .l-4):has(> a[href*="/components"]):has(> a:not([href*="/fragments"]))'
       )
         .its('length')
         .then((listLength) => {
@@ -51,7 +51,7 @@ describe('Page Lists', () => {
 
     it('should have same amount of extensions', () => {
       cy.get(
-        '#portal-sidebar-menu ul li.l-2:has(> a[href*="/uilib/extensions"]) ~ li:has(> a[href*="/uilib/extensions"])'
+        '#portal-sidebar-menu ul li:has(> a[href*="/uilib/extensions"]) ~ li.l-3:has(> a[href*="/uilib/extensions/"])'
       )
         .its('length')
         .then((listLength) => {
