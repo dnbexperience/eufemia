@@ -5,6 +5,7 @@
 
 import { applyPageFocus } from '@dnb/eufemia/src/shared/helpers'
 import { rootElement, pageElement } from './src/core/PortalProviders'
+import ReactDOM from 'react-dom/client'
 
 if (typeof window !== 'undefined') {
   setIsTest(window.location)
@@ -14,6 +15,13 @@ function setIsTest(location) {
   if (location && location.href.includes('data-visual-test')) {
     globalThis.IS_TEST = true
     document.documentElement.setAttribute('data-visual-test', 'true')
+  }
+}
+
+export const replaceHydrateFunction = () => {
+  return (element, container) => {
+    const root = ReactDOM.createRoot(container)
+    root.render(element)
   }
 }
 
