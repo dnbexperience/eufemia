@@ -353,14 +353,15 @@ describe('Timeline aria', () => {
 })
 
 describe('Timeline scss', () => {
-  it('have to match snapshot', () => {
-    const scss = loadScss(require.resolve('../style/deps.scss'))
-    expect(scss).toMatchSnapshot()
+  it('has to match style dependencies css', () => {
+    const css = loadScss(require.resolve('../style/deps.scss'))
+    expect(css).toMatchSnapshot()
   })
+
   it('have to match default theme snapshot', () => {
-    const scss = loadScss(
+    const css = loadScss(
       require.resolve('../style/themes/dnb-timeline-theme-ui.scss')
     )
-    expect(scss).toMatchSnapshot()
+    expect(css).toMatchSnapshot()
   })
 })

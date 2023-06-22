@@ -1,26 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Tooltip scss have to match default theme snapshot 1`] = `
-"/*
-* Tooltip theme
-*
-*/
-/*
- * Utilities
- */
-.dnb-tooltip {
-  border-radius: 1rem;
-  color: var(--color-white);
-  background-color: var(--color-black-80);
-  box-shadow: var(--shadow-default);
-}
-.dnb-tooltip__arrow::before {
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  background-color: var(--color-black-80);
-}"
-`;
-
-exports[`Tooltip scss have to match snapshot 1`] = `
+exports[`Tooltip scss has to match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *
@@ -145,5 +125,25 @@ html[data-visual-test] .dnb-tooltip--hide {
     opacity: 0;
     visibility: hidden;
   }
+}"
+`;
+
+exports[`Tooltip scss have to match default theme snapshot 1`] = `
+"/*
+* Tooltip theme
+*
+*/
+/*
+ * Utilities
+ */
+.dnb-tooltip {
+  border-radius: 1rem;
+  color: var(--color-white);
+  background-color: var(--color-black-80);
+  box-shadow: var(--shadow-default);
+}
+.dnb-tooltip__arrow::before {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: var(--color-black-80);
 }"
 `;

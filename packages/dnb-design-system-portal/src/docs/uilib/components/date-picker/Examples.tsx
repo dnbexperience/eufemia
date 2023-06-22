@@ -153,7 +153,7 @@ export const DatePickerMonthOnly = () =>
     </ComponentBox>
   )
 
-export const DatePickerDisabled = () =>
+export const DatePickerStatusMessage = () =>
   globalThis.IS_TEST ? null : (
     <ComponentBox>
       <DatePicker

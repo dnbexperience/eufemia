@@ -1,82 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`FormStatus scss have to match default theme snapshot 1`] = `
-"/*
- * FormStatus theme
- *
- */
-/*
- * Utilities
- */
-.dnb-form-status__shell {
-  color: var(--color-black-80);
-  font-size: var(--font-size-small);
-}
-.dnb-form-status--error .dnb-form-status__shell {
-  background-color: var(--color-fire-red-8);
-}
-.dnb-form-status--error .dnb-form-status__shell > .dnb-icon {
-  color: var(--color-fire-red);
-  border: none;
-}
-.dnb-form-status--warn .dnb-form-status__shell {
-  background-color: var(--color-sand-yellow);
-}
-.dnb-form-status--info .dnb-form-status__shell {
-  background-color: var(--color-pistachio);
-}
-.dnb-form-status--marketing .dnb-form-status__shell {
-  background-color: var(--color-lavender);
-}
-.dnb-form-status:not(.dnb-form-status--attention-focus).dnb-form-status__text {
-  color: var(--color-black-80);
-}
-.dnb-form-status__variant--outlined.dnb-form-status--error .dnb-form-status__shell {
-  --border-color: var(--color-fire-red);
-  --border-width: 0.0625rem;
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-form-status__variant--outlined.dnb-form-status--warn .dnb-form-status__shell {
-  --border-color: var(--color-accent-yellow);
-  --border-width: 0.0625rem;
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-form-status__variant--outlined.dnb-form-status--info .dnb-form-status__shell {
-  --border-color: var(--color-sea-green);
-  --border-width: 0.0625rem;
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-form-status__variant--outlined.dnb-form-status--marketing .dnb-form-status__shell {
-  --border-color: var(--color-black-55);
-  --border-width: 0.0625rem;
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-form-status--error.dnb-form-status--attention-focus .dnb-form-status__shell, .dnb-form-status--error.dnb-form-status:focus .dnb-form-status__shell {
-  animation: attention-focus 2s ease-in-out 1 200ms;
-}
-.dnb-form-status--error.dnb-form-status--attention-focus .dnb-form-status__shell > .dnb-icon, .dnb-form-status--error.dnb-form-status:focus .dnb-form-status__shell > .dnb-icon {
-  animation: attention-focus 2s ease-in-out 1 200ms;
-}
-
-@keyframes attention-focus {
-  0%, 100% {
-    color: var(--color-fire-red);
-    background-color: var(--color-fire-red-8);
-    border-color: var(--color-fire-red);
-  }
-  35% {
-    color: var(--color-white);
-    background-color: var(--color-fire-red);
-    border-color: var(--color-fire-red);
-  }
-}"
-`;
-
-exports[`FormStatus scss have to match snapshot 1`] = `
+exports[`FormStatus scss has to match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *
@@ -163,5 +87,81 @@ button .dnb-form-status__text {
 }
 .dnb-form-status--no-animation, html[data-visual-test] .dnb-form-status {
   transition-duration: 1ms !important;
+}"
+`;
+
+exports[`FormStatus scss have to match default theme snapshot 1`] = `
+"/*
+ * FormStatus theme
+ *
+ */
+/*
+ * Utilities
+ */
+.dnb-form-status__shell {
+  color: var(--color-black-80);
+  font-size: var(--font-size-small);
+}
+.dnb-form-status--error .dnb-form-status__shell {
+  background-color: var(--color-fire-red-8);
+}
+.dnb-form-status--error .dnb-form-status__shell > .dnb-icon {
+  color: var(--color-fire-red);
+  border: none;
+}
+.dnb-form-status--warn .dnb-form-status__shell {
+  background-color: var(--color-sand-yellow);
+}
+.dnb-form-status--info .dnb-form-status__shell {
+  background-color: var(--color-pistachio);
+}
+.dnb-form-status--marketing .dnb-form-status__shell {
+  background-color: var(--color-lavender);
+}
+.dnb-form-status:not(.dnb-form-status--attention-focus).dnb-form-status__text {
+  color: var(--color-black-80);
+}
+.dnb-form-status__variant--outlined.dnb-form-status--error .dnb-form-status__shell {
+  --border-color: var(--color-fire-red);
+  --border-width: 0.0625rem;
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
+.dnb-form-status__variant--outlined.dnb-form-status--warn .dnb-form-status__shell {
+  --border-color: var(--color-accent-yellow);
+  --border-width: 0.0625rem;
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
+.dnb-form-status__variant--outlined.dnb-form-status--info .dnb-form-status__shell {
+  --border-color: var(--color-sea-green);
+  --border-width: 0.0625rem;
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
+.dnb-form-status__variant--outlined.dnb-form-status--marketing .dnb-form-status__shell {
+  --border-color: var(--color-black-55);
+  --border-width: 0.0625rem;
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
+.dnb-form-status--error.dnb-form-status--attention-focus .dnb-form-status__shell, .dnb-form-status--error.dnb-form-status:focus .dnb-form-status__shell {
+  animation: attention-focus 2s ease-in-out 1 200ms;
+}
+.dnb-form-status--error.dnb-form-status--attention-focus .dnb-form-status__shell > .dnb-icon, .dnb-form-status--error.dnb-form-status:focus .dnb-form-status__shell > .dnb-icon {
+  animation: attention-focus 2s ease-in-out 1 200ms;
+}
+
+@keyframes attention-focus {
+  0%, 100% {
+    color: var(--color-fire-red);
+    background-color: var(--color-fire-red-8);
+    border-color: var(--color-fire-red);
+  }
+  35% {
+    color: var(--color-white);
+    background-color: var(--color-fire-red);
+    border-color: var(--color-fire-red);
+  }
 }"
 `;

@@ -1,52 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Pagination scss have to match default theme snapshot 1`] = `
-"/*
-* Pagination theme
-*
-*/
-/*
- * Utilities
- */
-.dnb-pagination__page, .dnb-pagination__loadbar {
-  min-height: 6rem;
-}
-.dnb-pagination__bar {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-}
-.dnb-pagination__indicator {
-  min-height: inherit;
-}
-.dnb-pagination__indicator__inner {
-  animation: show-page 300ms ease-out forwards;
-}
-.dnb-core-style .dnb-pagination__button.dnb-button--primary, .dnb-core-style .dnb-pagination__button.dnb-button--primary:not(:active):hover:not([disabled]), .dnb-pagination__button.dnb-button--primary, .dnb-pagination__button.dnb-button--primary:not(:active):hover:not([disabled]) {
-  background-color: var(--color-emerald-green);
-  color: var(--color-mint-green);
-}
-html[data-whatinput=keyboard] .dnb-core-style .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus {
-  color: var(--color-emerald-green);
-  background-color: var(--color-mint-green);
-}
-
-.dnb-pagination__dots {
-  color: var(--color-black-55);
-}
-
-@keyframes show-page {
-  from {
-    transform: translate3d(0, -8px, 0);
-    opacity: 0.1;
-  }
-  to {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
-  }
-}"
-`;
-
-exports[`Pagination scss have to match snapshot 1`] = `
+exports[`Pagination scss has to match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *
@@ -909,5 +863,51 @@ html[data-visual-test] .dnb-progress-indicator__bar-transition {
 }
 .dnb-pagination__bar__skip .dnb-button:first-of-type {
   margin-right: 1.5rem;
+}"
+`;
+
+exports[`Pagination scss have to match default theme snapshot 1`] = `
+"/*
+* Pagination theme
+*
+*/
+/*
+ * Utilities
+ */
+.dnb-pagination__page, .dnb-pagination__loadbar {
+  min-height: 6rem;
+}
+.dnb-pagination__bar {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.dnb-pagination__indicator {
+  min-height: inherit;
+}
+.dnb-pagination__indicator__inner {
+  animation: show-page 300ms ease-out forwards;
+}
+.dnb-core-style .dnb-pagination__button.dnb-button--primary, .dnb-core-style .dnb-pagination__button.dnb-button--primary:not(:active):hover:not([disabled]), .dnb-pagination__button.dnb-button--primary, .dnb-pagination__button.dnb-button--primary:not(:active):hover:not([disabled]) {
+  background-color: var(--color-emerald-green);
+  color: var(--color-mint-green);
+}
+html[data-whatinput=keyboard] .dnb-core-style .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus {
+  color: var(--color-emerald-green);
+  background-color: var(--color-mint-green);
+}
+
+.dnb-pagination__dots {
+  color: var(--color-black-55);
+}
+
+@keyframes show-page {
+  from {
+    transform: translate3d(0, -8px, 0);
+    opacity: 0.1;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
 }"
 `;

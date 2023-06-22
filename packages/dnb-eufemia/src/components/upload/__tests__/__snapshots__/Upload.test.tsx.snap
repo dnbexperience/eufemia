@@ -1,53 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Upload scss have to match default theme snapshot 1`] = `
-"/*
- * Upload theme
- *
- */
-.dnb-upload {
-  background-color: var(--color-white);
-  border-radius: 0.5rem;
-}
-.dnb-upload__outline {
-  stroke: var(--color-sea-green);
-  border-radius: 0.5rem;
-  stroke-width: 0.1875rem;
-}
-.dnb-upload--active .dnb-upload__outline {
-  stroke: var(--color-emerald-green);
-  inset: -1px;
-  width: calc(100% + 2px);
-  height: calc(100% + 2px);
-}
-.dnb-upload--active .dnb-upload__outline rect {
-  stroke-width: 0.25rem;
-  stroke-dasharray: 0;
-}
-.dnb-upload--active {
-  background-color: var(--color-pistachio);
-}
-.dnb-upload__file-cell {
-  /** Highlight Animation */
-  transition: background-color;
-  transition-duration: 1.5s;
-  transition-timing-function: var(--easing-default);
-}
-.dnb-upload__file-cell--warning .dnb-upload__file-cell__content__left .dnb-icon {
-  color: var(--color-fire-red);
-}
-.dnb-upload__file-cell--highlight {
-  background-color: var(--color-sand-yellow);
-}
-.dnb-upload__text.dnb-p {
-  color: var(--color-black-55);
-}
-.dnb-upload__subtitle.dnb-p {
-  color: var(--color-black-55);
-}"
-`;
-
-exports[`Upload scss have to match snapshot 1`] = `
+exports[`Upload scss has to match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *
@@ -846,5 +799,52 @@ button .dnb-form-status__text {
 }
 .dnb-upload__file-cell__text-container--loading {
   font-size: var(--font-size-basis);
+}"
+`;
+
+exports[`Upload scss have to match default theme snapshot 1`] = `
+"/*
+ * Upload theme
+ *
+ */
+.dnb-upload {
+  background-color: var(--color-white);
+  border-radius: 0.5rem;
+}
+.dnb-upload__outline {
+  stroke: var(--color-sea-green);
+  border-radius: 0.5rem;
+  stroke-width: 0.1875rem;
+}
+.dnb-upload--active .dnb-upload__outline {
+  stroke: var(--color-emerald-green);
+  inset: -1px;
+  width: calc(100% + 2px);
+  height: calc(100% + 2px);
+}
+.dnb-upload--active .dnb-upload__outline rect {
+  stroke-width: 0.25rem;
+  stroke-dasharray: 0;
+}
+.dnb-upload--active {
+  background-color: var(--color-pistachio);
+}
+.dnb-upload__file-cell {
+  /** Highlight Animation */
+  transition: background-color;
+  transition-duration: 1.5s;
+  transition-timing-function: var(--easing-default);
+}
+.dnb-upload__file-cell--warning .dnb-upload__file-cell__content__left .dnb-icon {
+  color: var(--color-fire-red);
+}
+.dnb-upload__file-cell--highlight {
+  background-color: var(--color-sand-yellow);
+}
+.dnb-upload__text.dnb-p {
+  color: var(--color-black-55);
+}
+.dnb-upload__subtitle.dnb-p {
+  color: var(--color-black-55);
 }"
 `;

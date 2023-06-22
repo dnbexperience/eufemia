@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Slider scss have to match snapshot 1`] = `
+exports[`Slider scss has to match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *
