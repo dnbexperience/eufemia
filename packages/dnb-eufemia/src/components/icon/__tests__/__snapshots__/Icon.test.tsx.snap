@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Icon scss have to match snapshot 1`] = `
+exports[`Icon scss has to match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *

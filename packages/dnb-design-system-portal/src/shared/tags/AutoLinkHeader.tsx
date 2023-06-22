@@ -1,7 +1,9 @@
 import React from 'react'
 import classnames from 'classnames'
 import AnchorLink from './Anchor'
-import Heading, { HeadingProps } from '@dnb/eufemia/src/components/Heading'
+import Heading, {
+  HeadingAllProps,
+} from '@dnb/eufemia/src/components/Heading'
 import { makeSlug } from '../../uilib/utils/slug'
 import { useLocation } from '@reach/router'
 import { anchorLinkStyle } from './AutoLinkHeader.module.scss'
@@ -18,7 +20,7 @@ type AutoLinkHeaderProps = {
     title?: string | React.ReactNode
     hash?: string
   }) => void
-} & Omit<HeadingProps, 'ref'>
+} & Omit<HeadingAllProps, 'ref'>
 
 const AutoLinkHeader = ({
   level = '1',

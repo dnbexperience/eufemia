@@ -1,13 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`HelpButton scss have to match default theme snapshot 1`] = `
-"/*
- * Np theme is provided
- *
- */"
-`;
-
-exports[`HelpButton scss have to match snapshot 1`] = `
+exports[`HelpButton scss has to match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *
@@ -566,6 +559,13 @@ button.dnb-button::-moz-focus-inner {
  * HelpButton component
  *
  * TODO: Set spacing in the theme file, as theme comes later in the stack
+ *
+ */"
+`;
+
+exports[`HelpButton scss have to match default theme snapshot 1`] = `
+"/*
+ * Np theme is provided
  *
  */"
 `;

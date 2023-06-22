@@ -1,58 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Autocomplete scss have to match default theme snapshot 1`] = `
-"/*
-* Autocomplete theme
-*
-*/
-/*
- * Utilities
- */
-.dnb-autocomplete--opened .dnb-input .dnb-input__shell .dnb-input__shell, .dnb-autocomplete:not(.dnb-autocomplete__status--error) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__shell {
-  --border-color: var(--color-sea-green);
-  --border-width: 0.125rem;
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-autocomplete--opened .dnb-input .dnb-input__shell .dnb-input__submit-button__button, .dnb-autocomplete:not(.dnb-autocomplete__status--error) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__submit-button__button {
-  border-radius: 0;
-  color: var(--color-white);
-  background-color: var(--color-sea-green);
-  box-shadow: none;
-}
-.dnb-autocomplete--show-indicator .dnb-autocomplete__input .dnb-input__icon {
-  color: transparent;
-}
-.dnb-autocomplete__shell, .dnb-autocomplete__input {
-  border-radius: var(--autocomplete-border-radius);
-}
-.dnb-autocomplete__status--error:not(.dnb-autocomplete--opened) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__shell {
-  --border-color: var(--color-fire-red);
-  --border-width: 0.125rem;
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-
-.dnb-autocomplete__root .dnb-drawer-list__option__item:nth-of-type(1) {
-  font-weight: var(--font-weight-basis);
-}
-.dnb-autocomplete__root .dnb-drawer-list__option__item:nth-of-type(n + 2) {
-  color: var(--color-black-55);
-}
-.dnb-autocomplete__root .dnb-drawer-list__option__item--highlight {
-  font-weight: var(--font-weight-bold);
-}
-
-.dnb-autocomplete__root .dnb-drawer-list__option--selected .dnb-drawer-list__option__item:nth-of-type(n + 2) {
-  color: var(--color-white);
-}
-
-.dnb-autocomplete__root .dnb-drawer-list__option--selected .dnb-anchor {
-  color: var(--color-white);
-}"
-`;
-
-exports[`Autocomplete scss have to match snapshot 1`] = `
+exports[`Autocomplete scss has to match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *
@@ -2772,5 +2720,57 @@ label + .dnb-autocomplete[class*=__form-status] .dnb-autocomplete__shell {
 }
 .dnb-autocomplete__list .dnb-drawer-list__option__item > span {
   padding-right: 0.125em;
+}"
+`;
+
+exports[`Autocomplete scss have to match default theme snapshot 1`] = `
+"/*
+* Autocomplete theme
+*
+*/
+/*
+ * Utilities
+ */
+.dnb-autocomplete--opened .dnb-input .dnb-input__shell .dnb-input__shell, .dnb-autocomplete:not(.dnb-autocomplete__status--error) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__shell {
+  --border-color: var(--color-sea-green);
+  --border-width: 0.125rem;
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
+.dnb-autocomplete--opened .dnb-input .dnb-input__shell .dnb-input__submit-button__button, .dnb-autocomplete:not(.dnb-autocomplete__status--error) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__submit-button__button {
+  border-radius: 0;
+  color: var(--color-white);
+  background-color: var(--color-sea-green);
+  box-shadow: none;
+}
+.dnb-autocomplete--show-indicator .dnb-autocomplete__input .dnb-input__icon {
+  color: transparent;
+}
+.dnb-autocomplete__shell, .dnb-autocomplete__input {
+  border-radius: var(--autocomplete-border-radius);
+}
+.dnb-autocomplete__status--error:not(.dnb-autocomplete--opened) .dnb-form-label:hover ~ .dnb-autocomplete__inner .dnb-input:not([data-input-state=disabled]) .dnb-input__shell {
+  --border-color: var(--color-fire-red);
+  --border-width: 0.125rem;
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
+
+.dnb-autocomplete__root .dnb-drawer-list__option__item:nth-of-type(1) {
+  font-weight: var(--font-weight-basis);
+}
+.dnb-autocomplete__root .dnb-drawer-list__option__item:nth-of-type(n + 2) {
+  color: var(--color-black-55);
+}
+.dnb-autocomplete__root .dnb-drawer-list__option__item--highlight {
+  font-weight: var(--font-weight-bold);
+}
+
+.dnb-autocomplete__root .dnb-drawer-list__option--selected .dnb-drawer-list__option__item:nth-of-type(n + 2) {
+  color: var(--color-white);
+}
+
+.dnb-autocomplete__root .dnb-drawer-list__option--selected .dnb-anchor {
+  color: var(--color-white);
 }"
 `;

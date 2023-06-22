@@ -748,9 +748,9 @@ describe('Slider component', () => {
 })
 
 describe('Slider scss', () => {
-  it('have to match snapshot', () => {
-    const scss = loadScss(require.resolve('../style/deps.scss'))
-    expect(scss).toMatchSnapshot()
+  it('has to match style dependencies css', () => {
+    const css = loadScss(require.resolve('../style/deps.scss'))
+    expect(css).toMatchSnapshot()
   })
 })
 
