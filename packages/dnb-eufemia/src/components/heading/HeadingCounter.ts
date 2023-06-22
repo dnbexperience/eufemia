@@ -3,17 +3,21 @@
  *
  */
 
-// import {
-//   makeUniqueId
-// } from '../../shared/component-helper'
-import {
-  globalSyncCounter,
-  globalHeadingCounter,
-  // globalNextLevel,
-  // globalResetNextTime
-} from './HeadingHelpers'
+import { HeadingAllProps, InternalHeadingLevel } from './Heading'
+import { globalSyncCounter, globalHeadingCounter } from './HeadingHelpers'
 
-export const initCounter = (props = null) => {
+export type HeadingCounter = Counter
+export type HeadingDebugCounter = boolean | (() => void)
+export type ContextCounter = {
+  level: InternalHeadingLevel
+  entry: InternalHeadingLevel
+  countHeadings: number
+  _initCount: number
+  _isReady: boolean
+  isGlobal?: boolean
+}
+
+export const initCounter = (props: CounterProps = null): Counter => {
   if (!globalHeadingCounter.current) {
     globalHeadingCounter.current = new Counter({
       group: 'global',
@@ -21,22 +25,39 @@ export const initCounter = (props = null) => {
     })
   }
 
-  return (props && props.counter) || new Counter(props)
+  if (props?.counter) {
+    return props.counter as Counter
+  }
+
+  return new Counter(props)
+}
+
+export type CounterGroup = HeadingAllProps['group']
+export type CounterChildren = HeadingAllProps['children']
+
+export type CounterProps = {
+  isGlobal?: boolean
+  group?: CounterGroup
+  children?: CounterChildren
+  counter?: CounterProps
 }
 
 export class Counter {
-  level = 0
-  entry = 0
+  level: InternalHeadingLevel = 0
+  entry: InternalHeadingLevel = 0
+  lastResetLevel: InternalHeadingLevel = null
   _isReady = false
   countHeadings = 0
   _initCount = 0
   isGlobal = false
   isHeading = false
   bypassChecks = false
-  contextCounter = null
+  contextCounter: ContextCounter = null
   reports = []
+  group: CounterGroup = null
+  children: CounterChildren = null
 
-  constructor(props = null) {
+  constructor(props: CounterProps = null) {
     props = props || {}
 
     // not required for now
@@ -85,23 +106,16 @@ export class Counter {
     return this._isReady
   }
 
-  setEntryLevel(level = null) {
-    this.entry = parseFloat(level) || 1
+  setEntryLevel(level: InternalHeadingLevel = null) {
+    this.entry = parseFloat(String(level)) || 1
   }
 
   isInContext() {
     return Boolean(this.contextCounter)
   }
 
-  setContextCounter(contextCounter) {
+  setContextCounter(contextCounter: ContextCounter) {
     this.contextCounter = contextCounter
-  }
-
-  skipMakeMeReady() {
-    this._isReady = true
-    this.entry = 1
-    this.level = 1
-    this.contextCounter.entry = 2
   }
 
   windup() {
@@ -111,13 +125,12 @@ export class Counter {
   teardown() {
     if (this.contextCounter.countHeadings > 0) {
       this.contextCounter.level = this.contextCounter.entry
-      // this.contextCounter.rerender()
     }
     this.contextCounter.countHeadings--
     this.contextCounter._initCount--
   }
 
-  makeMeReady() {
+  makeMeReady({ level }: { level?: InternalHeadingLevel } = {}) {
     if (!this.hasCorrection()) {
       if (this.contextCounter.level > 1) {
         this.level = this.contextCounter.level
@@ -127,7 +140,7 @@ export class Counter {
         }
       } else if (!this.contextCounter._isReady) {
         this.contextCounter._isReady = true
-        if (!this.bypassChecks) {
+        if (!this.bypassChecks && !level) {
           this.level = 1
         }
       }
@@ -174,48 +187,19 @@ export class Counter {
     return level
   }
 
-  setLevel(level, action = 'set') {
-    level = parseFloat(level)
+  setLevel(level: InternalHeadingLevel, action = 'set') {
+    level = parseFloat(String(level))
 
     const report = []
 
-    // skip level setting on first heading
-    if (
-      // !this.bypassChecks &&
-      !this._isReady &&
-      this.level === 1 &&
-      (!globalSyncCounter.current || globalSyncCounter.current.level < 2)
-
-      // !this.bypassChecks &&
-      // (this.contextCounter.level === 0 ||
-      //   (this.contextCounter.level < 2 &&
-      //     this.contextCounter._initCount === 1)) &&
-      // (!globalSyncCounter.current || globalSyncCounter.current.level < 2)
-    ) {
-      return // stop
-    }
-
     if (globalSyncCounter.current?.level > 0) {
       level = this.factorCheck({
-        report,
         action,
         level,
         current: globalSyncCounter.current.level,
+        report,
       })
     }
-
-    // NB: we don't need this anymore, because of the globalSyncCounter check
-    // if (
-    //   this.contextCounter._initCount === 2 &&
-    //   !this.contextCounter.isGlobal
-    // ) {
-    //   level = this.factorCheck({
-    //     action,
-    //     level,
-    //     current: this.contextCounter.level,
-    //     report
-    //   })
-    // }
 
     level = this.factorCheck({
       action,
