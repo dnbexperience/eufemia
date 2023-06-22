@@ -9,12 +9,11 @@ export default function ListComponents() {
     {
       allMdx(
         filter: {
-          frontmatter: {
-            title: { ne: null, nin: "Fragments" }
-            draft: { ne: true }
-          }
+          frontmatter: { title: { ne: null }, draft: { ne: true } }
           internal: {
-            contentFilePath: { glob: "**/uilib/components/**/*" }
+            contentFilePath: {
+              regex: "/(?!uilib/components/fragments)(uilib/components/.*)/"
+            }
           }
         }
         sort: { fields: [frontmatter___order, frontmatter___title] }
