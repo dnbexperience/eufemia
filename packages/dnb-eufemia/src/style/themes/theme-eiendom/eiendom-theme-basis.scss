@@ -17,8 +17,6 @@
   background-color: var(--color-pistachio);
 }
 
-@import './properties.scss'; // Do we ned to import this? It is already indirectly imported by '../theme-ui/ui-theme-basis.scss
-
 // import the default theme, and go from there
 // will also have all the component themes included
 @import '../theme-ui/ui-theme-basis.scss';
