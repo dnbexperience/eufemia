@@ -3,6 +3,27 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.2.0](https://github.com/dnbexperience/eufemia/compare/v10.1.0...v10.2.0) (2023-06-23)
+
+
+### :sparkles: Features
+
+* **Heading:** rewrite to TypeScript with React Hooks ([#2492](https://github.com/dnbexperience/eufemia/issues/2492)) ([3780036](https://github.com/dnbexperience/eufemia/commit/37800368179456168f397f151521cfea6584b3c2))
+
+
+### :memo: Documentation
+
+* **Accordion:** correct description ([#2484](https://github.com/dnbexperience/eufemia/issues/2484)) ([aa491ca](https://github.com/dnbexperience/eufemia/commit/aa491cad1581c5ae434218314bffdbd090c565e3))
+* add example on how to import styles from within CSS ([#2495](https://github.com/dnbexperience/eufemia/issues/2495)) ([c2a98b1](https://github.com/dnbexperience/eufemia/commit/c2a98b1cb138e10217af3b551548e0b4eedc838a))
+* **DatePicker:** removes disabled from example description ([#2491](https://github.com/dnbexperience/eufemia/issues/2491)) ([fc0b2e1](https://github.com/dnbexperience/eufemia/commit/fc0b2e1c5abb97a4ef3f843853b1b32b00b584ca))
+* **GlobalStatus:** false is not an accepted value for title prop ([#2479](https://github.com/dnbexperience/eufemia/issues/2479)) ([a71cbde](https://github.com/dnbexperience/eufemia/commit/a71cbdee4a7dc14943730c6e5df31ef81f3cc8c3))
+
+
+### :bug: Bug Fixes
+
+* **Button:** disabled DatePicker button ([#2490](https://github.com/dnbexperience/eufemia/issues/2490)) ([cd02bbf](https://github.com/dnbexperience/eufemia/commit/cd02bbf987b2342f3887fdee786ceda971d34023))
+* **InfoCard:** set max-width on text content ([#2493](https://github.com/dnbexperience/eufemia/issues/2493)) ([df0c870](https://github.com/dnbexperience/eufemia/commit/df0c870f542e9dfeefb4cc2ad94184da64933921))
+
 ## [10.1.0](https://github.com/dnbexperience/eufemia/compare/v10.0.0...v10.1.0) (2023-06-16)
 
 
