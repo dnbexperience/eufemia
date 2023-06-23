@@ -45,6 +45,11 @@ describe('DatePicker component', () => {
     expect(
       document.querySelectorAll('input')[0].hasAttribute('disabled')
     ).toBe(true)
+    expect(
+      document
+        .querySelector('button.dnb-input__submit-button__button')
+        .hasAttribute('disabled')
+    ).toBe(true)
   })
 
   it('has correct state after "click" trigger', () => {
@@ -1522,15 +1527,16 @@ describe('DatePicker calc', () => {
 })
 
 describe('DatePicker scss', () => {
-  it('have to match snapshot', () => {
-    const scss = loadScss(require.resolve('../style/deps.scss'))
-    expect(scss).toMatchSnapshot()
+  it('has to match style dependencies css', () => {
+    const css = loadScss(require.resolve('../style/deps.scss'))
+    expect(css).toMatchSnapshot()
   })
+
   it('have to match default theme snapshot', () => {
-    const scss = loadScss(
+    const css = loadScss(
       require.resolve('../style/themes/dnb-date-picker-theme-ui.scss')
     )
-    expect(scss).toMatchSnapshot()
+    expect(css).toMatchSnapshot()
   })
 })
 

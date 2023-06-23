@@ -1,34 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`GlobalStatus scss have to match default theme snapshot 1`] = `
-"/*
- * GlobalStatus theme
- *
- */
-/*
- * Utilities
- */
-.dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in.dnb-global-status.dnb-section::after {
-  box-shadow: 99vw 0 0 0 currentcolor, 198vw 0 0 0 currentcolor, 297vw 0 0 0 currentcolor, 396vw 0 0 0 currentcolor, 0 0.0625rem 0 0 var(--color-black-80), 100vw 0.0625rem 0 0 var(--color-black-80);
-}
-.dnb-global-status__icon {
-  font-size: 1rem;
-}
-.dnb-global-status__message__content {
-  color: var(--color-black-80);
-}
-.dnb-global-status__message.dnb-section--white ::selection {
-  background-color: var(--color-mint-green);
-}
-.dnb-global-status__content .dnb-hr {
-  color: var(--color-fire-red);
-}
-.dnb-global-status--info .dnb-global-status__content .dnb-hr {
-  color: var(--color-sea-green);
-}"
-`;
-
-exports[`GlobalStatus scss have to match snapshot 1`] = `
+exports[`GlobalStatus scss has to match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *
@@ -748,5 +720,33 @@ button.dnb-button::-moz-focus-inner {
 }
 .dnb-global-status__content .dnb-hr, .dnb-spacing .dnb-global-status__content .dnb-hr, .dnb-spacing .dnb-global-status__content .dnb-hr:not([class*=dnb-space]) {
   margin: 0;
+}"
+`;
+
+exports[`GlobalStatus scss have to match default theme snapshot 1`] = `
+"/*
+ * GlobalStatus theme
+ *
+ */
+/*
+ * Utilities
+ */
+.dnb-global-status:not(.dnb-global-status--no-animation).dnb-global-status--fade-in.dnb-global-status.dnb-section::after {
+  box-shadow: 99vw 0 0 0 currentcolor, 198vw 0 0 0 currentcolor, 297vw 0 0 0 currentcolor, 396vw 0 0 0 currentcolor, 0 0.0625rem 0 0 var(--color-black-80), 100vw 0.0625rem 0 0 var(--color-black-80);
+}
+.dnb-global-status__icon {
+  font-size: 1rem;
+}
+.dnb-global-status__message__content {
+  color: var(--color-black-80);
+}
+.dnb-global-status__message.dnb-section--white ::selection {
+  background-color: var(--color-mint-green);
+}
+.dnb-global-status__content .dnb-hr {
+  color: var(--color-fire-red);
+}
+.dnb-global-status--info .dnb-global-status__content .dnb-hr {
+  color: var(--color-sea-green);
 }"
 `;

@@ -21,6 +21,7 @@ describe('InfoCard', () => {
 
   it('should have a max width', async () => {
     const screenshot = await makeScreenshot({
+      style: { width: '50rem' },
       selector: '[data-visual-test="info-card-buttons"] .dnb-info-card',
     })
     expect(screenshot).toMatchImageSnapshot()

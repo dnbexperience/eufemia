@@ -3,15 +3,40 @@
  *
  */
 
-import React from 'react'
+import { HeadingAllProps, InternalHeadingLevel } from './Heading'
 import { warn, convertJsxToString } from '../../shared/component-helper'
+import { HeadingCounter } from './HeadingCounter'
 
-export const globalSyncCounter = React.createRef()
-export const globalHeadingCounter = React.createRef(null)
+type GlobalSyncCounter = { current: HeadingCounter }
+type GlobalHeadingCounter = { current: HeadingCounter }
+export const globalSyncCounter: GlobalSyncCounter = {
+  current: null,
+}
+export const globalHeadingCounter: GlobalHeadingCounter = {
+  current: null,
+}
 
-const refs = React.createRef()
+const refs: {
+  current: Array<{ ref: HeadingAllProps; counter: HeadingCounter }>
+} = {
+  current: null,
+}
 
-export const correctHeadingLevel = ({
+type CorrectInternalHeadingLevel = {
+  counter: HeadingCounter
+  level: InternalHeadingLevel
+  ref?: HeadingAllProps
+  reset?: HeadingAllProps['reset']
+  inherit?: boolean
+  increase?: boolean
+  decrease?: boolean
+  source?: HeadingAllProps['children']
+  bypassChecks?: boolean
+  isRerender?: boolean
+  debug?: HeadingAllProps['debug']
+}
+
+export const correctInternalHeadingLevel = ({
   counter,
   level,
   ref = null,
@@ -21,16 +46,13 @@ export const correctHeadingLevel = ({
   decrease = false,
   source = null,
   bypassChecks = false,
+  isRerender = false,
   debug = null,
-}) => {
+}: CorrectInternalHeadingLevel) => {
   // Do that only to make sure we run the correction only if props has changed
   if (ref && refs.current) {
     const foundRef = refs.current.find((cur) => cur.ref === ref)
     if (foundRef) {
-      // double check, if level is provided
-      // if (ref.level && ref.level !== foundRef.ref.level) {
-      // } else {
-      // }
       return foundRef.counter
     }
   }
@@ -39,8 +61,10 @@ export const correctHeadingLevel = ({
     counter.enableBypassChecks()
   }
 
-  const update = (level) => {
-    counter.makeMeReady()
+  const update = (level: InternalHeadingLevel) => {
+    if (!isRerender) {
+      counter.makeMeReady({ level })
+    }
 
     if (inherit) {
       if (globalSyncCounter.current) {
@@ -71,8 +95,8 @@ export const correctHeadingLevel = ({
     }
   }
 
-  let skipThisTime = false
-  const canBeManipulatedNextTime = (overwriteContext) => {
+  let skipUpdateFromProp = false
+  const canBeManipulatedNextTime = (overwriteContext: boolean) => {
     return (
       counter.contextCounter.isGlobal ||
       counter.contextCounter.entry === 1 ||
@@ -81,18 +105,17 @@ export const correctHeadingLevel = ({
   }
 
   if (globalResetNextTime.current) {
-    const {
-      level: resetLevel,
-      overwriteContext,
-    } = globalResetNextTime.current
+    const { level: resetLevel, overwriteContext } =
+      globalResetNextTime.current
     globalResetNextTime.current = null
+
     if (
       canBeManipulatedNextTime(overwriteContext) ||
       counter.lastResetLevel === resetLevel
     ) {
       counter.makeMeReady()
       counter.reset(resetLevel)
-      skipThisTime = true
+      skipUpdateFromProp = true
     }
   } else if (globalNextLevel.current) {
     const { level: nextLevel, overwriteContext } = globalNextLevel.current
@@ -101,12 +124,12 @@ export const correctHeadingLevel = ({
       counter.enableBypassChecks()
       update(nextLevel)
       counter.disableBypassChecks()
-      skipThisTime = true
+      skipUpdateFromProp = true
     }
   }
 
-  if (!skipThisTime) {
-    if (reset === true || reset === 'true' || parseFloat(reset) > -1) {
+  if (!skipUpdateFromProp) {
+    if (reset === true || parseFloat(String(reset)) > -1) {
       counter.reset(reset)
     } else {
       update(level)
@@ -158,12 +181,26 @@ export function resetAllLevels() {
   resetLevels(1, { overwriteContext: false })
   teardownHeadings()
 }
-export const globalResetNextTime = React.createRef(false)
-export function resetLevels(level, { overwriteContext = false } = {}) {
+export const globalResetNextTime: { current: GlobalNextLevel } = {
+  current: null,
+}
+export function resetLevels(
+  level: InternalHeadingLevel,
+  { overwriteContext = false } = {}
+) {
   globalResetNextTime.current = { level, overwriteContext }
 }
-export const globalNextLevel = React.createRef(null)
-export function setNextLevel(level, { overwriteContext = false } = {}) {
+type GlobalNextLevel = {
+  level: InternalHeadingLevel
+  overwriteContext: boolean
+}
+export const globalNextLevel: { current: GlobalNextLevel } = {
+  current: null,
+}
+export function setNextLevel(
+  level: InternalHeadingLevel,
+  { overwriteContext = false } = {}
+) {
   globalNextLevel.current = {
     level,
     overwriteContext,

@@ -1,13 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PaymentCard scss have to match default theme snapshot 1`] = `
-"/*
-* PaymentCard theme
-*
-*/"
-`;
-
-exports[`PaymentCard scss have to match snapshot 1`] = `
+exports[`PaymentCard scss has to match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *
@@ -251,4 +244,11 @@ exports[`PaymentCard scss have to match snapshot 1`] = `
   background: rgba(0, 0, 0, 0.739);
   border-radius: inherit;
 }"
+`;
+
+exports[`PaymentCard scss have to match default theme snapshot 1`] = `
+"/*
+* PaymentCard theme
+*
+*/"
 `;

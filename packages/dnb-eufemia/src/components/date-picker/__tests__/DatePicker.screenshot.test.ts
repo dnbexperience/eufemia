@@ -37,6 +37,13 @@ describe('DatePicker', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match the disabled states', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="date-picker-disabled"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match the calendar', async () => {
     const screenshot = await makeScreenshot({
       selector:

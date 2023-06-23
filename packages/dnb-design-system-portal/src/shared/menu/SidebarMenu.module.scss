@@ -6,6 +6,24 @@
   }
 
   .dnb-sidebar-menu {
+    --is-inside-bg: var(--color-mint-green-12);
+    --is-inside-active-path-color: var(--color-emerald-green);
+    --is-inside-active-path-bg: var(--color-mint-green-50);
+    --is-inside-active-path-bg-l-3: var(--color-sea-green-30);
+    --dnb-sidebar-menu-text-color: var(--color-emerald-green);
+    --dnb-sidebar-menu-hover-bg: transparent;
+    --dnb-sidebar-menu-focus-bg: var(--color-emerald-green);
+
+    :global(.eufemia-theme__sbanken) & {
+      --is-inside-bg: var(--sb-color-violet-light-4);
+      --is-inside-active-path-color: var(--sb-color-violet);
+      --is-inside-active-path-bg: var(--sb-color-violet-light-3);
+      --is-inside-active-path-bg-l-3: var(--sb-color-violet-light-2);
+      --dnb-sidebar-menu-text-color: var(--sb-color-purple-alternative);
+      --dnb-sidebar-menu-hover-bg: var(--sb-color-violet-light-3);
+      --dnb-sidebar-menu-focus-bg: var(--sb-color-purple);
+    }
+
     --level-offset: 3vw;
     @include allBelow(medium) {
       --level-offset: 2rem;
@@ -21,6 +39,9 @@
       --level: 1.3rem;
     }
 
+    background-color: var(--color-white);
+    color: var(--dnb-sidebar-menu-text-color);
+    font-weight: var(--font-weight-regular);
     list-style: none;
     margin: 0;
 
@@ -41,8 +62,8 @@
       background-color: transparent;
     }
 
-    html:not([show-dev-grid]) & {
-      background-color: var(--color-white);
+    html[show-dev-grid] :global(.dev-grid) & {
+      background-color: transparent;
     }
 
     .dnb-anchor {
@@ -55,20 +76,36 @@
       justify-content: space-between;
       align-items: center;
 
-      transform: translateY(1px);
-      color: var(--color-emerald-green);
+      color: inherit;
       background-color: inherit;
       font-size: inherit;
+      font-weight: inherit;
+      border-radius: 0;
     }
 
-    &.l-1 .dnb-anchor {
-      margin-left: var(--level-icon-adjust);
-      padding-left: calc(var(--level-offset) + var(--level) * 2);
-      height: 4rem;
-      color: var(--color-ocean-green);
-      font-weight: var(--font-weight-medium);
-      font-size: var(--font-size-large);
+    &.is-inside,
+    &.is-inside-active-path {
+      background-color: var(--is-inside-bg);
     }
+
+    &.is-active {
+      background-color: var(--is-inside-active-path-bg);
+    }
+
+    &.l-1 {
+      &.is-inside-active-path {
+        background-color: transparent;
+      }
+      .dnb-anchor {
+        margin-left: var(--level-icon-adjust);
+        padding-left: calc(var(--level-offset) + var(--level) * 2);
+        height: 4rem;
+        color: var(--color-ocean-green);
+        font-weight: var(--font-weight-medium);
+        font-size: var(--font-size-large);
+      }
+    }
+
     &.l-2 {
       .dnb-anchor {
         padding-left: calc(var(--level-offset) + var(--level) * 2);
@@ -80,29 +117,22 @@
           color: var(--color-black-80);
         }
       }
-      &.is-, &.is-inside-active-path {
-        html:not([show-dev-grid]) & {
-          background-color: var(--color-mint-green-12);
-        }
+
+      &.is-inside-active-path {
+        color: var(--is-inside-active-path-color);
         font-weight: var(--font-weight-medium);
       }
     }
 
     &.l-3 {
-      font-size: var(--font-size-small); /* small size */
       .dnb-anchor {
         padding-left: calc(var(--level-offset) + var(--level) * 3);
       }
+
       &.is-inside-active-path {
-        html:not([show-dev-grid]) & {
-          background-color: var(--color-sea-green-30);
-        }
+        background-color: var(--is-inside-active-path-bg-l-3);
+        color: var(--is-inside-active-path-color);
         font-weight: var(--font-weight-medium);
-      }
-      &.is-inside {
-        html:not([show-dev-grid]) & {
-          background-color: var(--color-mint-green-12);
-        }
       }
     }
 
@@ -116,44 +146,22 @@
       padding-left: calc(var(--level-offset) + var(--level) * 6);
     }
 
-    &.l-4,
-    &.l-5,
-    &.l-6 {
-      font-size: var(--font-size-small); /* small size */
-      &.is-inside, &.is-inside-active-path {
-        html:not([show-dev-grid]) & {
-          background-color: var(--color-mint-green-12);
-        }
-      }
-    }
-
-    &.l-1,
-    &.l-2,
-    &.l-3,
-    &.l-4,
-    &.l-5,
-    &.l-6 {
-      &.is-active {
-        html:not([show-dev-grid]) & {
-          background-color: var(--color-mint-green-50);
-        }
-      }
-    }
-
     .dnb-anchor:hover {
       color: var(--color-black);
-      span:first-child {
+      > span:first-child {
         text-decoration: underline;
       }
-      background-color: transparent;
+      background-color: var(--dnb-sidebar-menu-hover-bg);
     }
 
     .dnb-anchor:focus:not(:active) {
       color: var(--color-white);
+      background-color: var(--dnb-sidebar-menu-focus-bg);
+      box-shadow: none;
+
       svg {
         color: var(--color-white);
       }
-      background-color: var(--color-emerald-green);
     }
 
     @keyframes show-mobile-menu {
@@ -211,6 +219,39 @@
       margin-top: 1rem;
       margin-bottom: 2rem;
     }
+
+    .dnb-sidebar-menu__theme-badge {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      min-width: 1.5em;
+      height: 1.5em;
+      padding: 0.5em;
+
+      white-space: nowrap;
+
+      background-color: var(--dnb-sidebar-menu-text-color);
+      border-radius: 0.75em;
+
+      transform: translateX(calc(-100% - 0.5rem));
+
+      .dnb-sidebar-menu__theme-badge__title {
+        color: white;
+      }
+
+      &.dnb-sidebar-menu__theme-badge--sbanken {
+        padding: 0;
+        font-family: var(--sb-font-family-headings);
+        font-weight: normal;
+
+        .dnb-sidebar-menu__theme-badge__title {
+          width: 0.7em;
+          overflow: hidden;
+        }
+      }
+    }
   }
 
   #portal-sidebar-menu {
@@ -236,6 +277,11 @@
   z-index: 1;
 
   @include scrollY(auto);
+  :global(.eufemia-theme__sbanken) & {
+    --scrollbar-track-color: var(--sb-color-gray-light-2);
+    --scrollbar-thumb-color: var(--sb-color-gray-dark-3);
+    --scrollbar-thumb-hover-color: var(--sb-color-purple);
+  }
 
   @include allBelow(medium) {
     position: relative;

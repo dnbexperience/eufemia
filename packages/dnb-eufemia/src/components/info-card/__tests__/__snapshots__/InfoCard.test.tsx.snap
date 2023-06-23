@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`InfoCard InfoCard scss have to match snapshot 1`] = `
+exports[`InfoCard InfoCard scss has to match style dependencies css 1`] = `
 "/*
 * Used for snapshot testing
 *
@@ -21,7 +21,6 @@ exports[`InfoCard InfoCard scss have to match snapshot 1`] = `
   position: relative;
   padding: 1rem;
   overflow: hidden;
-  max-width: 60ch;
   background: var(--color-white);
   box-shadow: var(--shadow-default);
 }
@@ -43,6 +42,7 @@ exports[`InfoCard InfoCard scss have to match snapshot 1`] = `
 .dnb-info-card__content {
   flex-direction: column;
   margin-top: 0.1875rem;
+  max-width: 70ch;
 }
 .dnb-info-card--centered .dnb-info-card__content {
   margin-top: 0;

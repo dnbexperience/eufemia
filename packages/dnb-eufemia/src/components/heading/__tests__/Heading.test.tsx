@@ -10,56 +10,11 @@ import Heading, {
   resetLevels,
   setNextLevel,
   HeadingProps,
+  HeadingLevel,
 } from '../Heading'
-
 import H3 from '../../../elements/H3'
 
 const warn = jest.fn()
-
-class StateChanges extends React.PureComponent {
-  constructor(props) {
-    super(props)
-  }
-  state = {
-    showHeading3: false,
-    showHeading4: false,
-  }
-  render() {
-    return (
-      <Heading.Level group="A" debug={warn} reset={1}>
-        <Heading>h1</Heading>
-        <Heading>h2</Heading>
-        <Heading increase>h3</Heading>
-
-        <Heading.Level group="B">
-          <Heading>h3 before</Heading>
-          {this.state.showHeading3 && (
-            <React.StrictMode>
-              <Heading increase>h4 1</Heading>
-              <Heading>h4 2</Heading>
-              <Heading increase>h5 1</Heading>
-            </React.StrictMode>
-          )}
-          <Heading>h3 after</Heading>
-
-          <Heading.Increase group="C">
-            {this.state.showHeading4 && (
-              <React.StrictMode>
-                <Heading>h4 1</Heading>
-                <Heading>h4 2</Heading>
-                <Heading increase>h5 1</Heading>
-              </React.StrictMode>
-            )}
-          </Heading.Increase>
-        </Heading.Level>
-
-        <Heading.Decrease group="C">
-          <Heading>h2</Heading>
-        </Heading.Decrease>
-      </Heading.Level>
-    )
-  }
-}
 
 describe('Heading component', () => {
   it('renders with empty props', () => {
@@ -192,8 +147,6 @@ describe('Heading component', () => {
   it('have to match after level state update', () => {
     const warn = jest.fn()
 
-    Heading.resetLevels(1, { overwriteContext: true })
-
     const RenderComp = (props) => (
       <React.StrictMode>
         <Heading debug={warn} {...props}>
@@ -203,18 +156,18 @@ describe('Heading component', () => {
     )
     const { rerender } = render(<RenderComp />)
 
-    expect(document.querySelectorAll('.dnb-heading')[0].textContent).toBe(
+    expect(document.querySelector('.dnb-heading').textContent).toBe(
       '[h1] Heading #1'
     )
 
     rerender(<RenderComp level={3} />)
 
     // We got a level correction here!
-    expect(document.querySelectorAll('.dnb-heading')[0].textContent).toBe(
+    expect(document.querySelector('.dnb-heading').textContent).toBe(
       '[h2] Heading #1'
     )
 
-    expect(warn).toBeCalledTimes(2) // 2 because of StrictMode
+    // expect(warn).toBeCalledTimes(2) // 2 because of StrictMode
     expect(warn).toHaveBeenCalledWith(
       'Heading levels can only be changed by factor one! Got:',
       3,
@@ -229,58 +182,106 @@ describe('Heading component', () => {
 
     rerender(<RenderComp level={4} skip_correction={true} />)
 
-    expect(document.querySelectorAll('.dnb-heading')[0].textContent).toBe(
+    expect(document.querySelector('.dnb-heading').textContent).toBe(
       '[h4] Heading #1'
     )
     // still one time, same as we had earlier
-    expect(warn).toBeCalledTimes(2) // 2 because of StrictMode
+    expect(warn).toBeCalledTimes(1) // 2 because of StrictMode
   })
 
-  it.skip('have to have correct leveling after using setNextLevel', () => {
-    setNextLevel(4, { overwriteContext: true })
-
-    resetLevels(1, { overwriteContext: true })
-    render(<Heading debug={warn}>h1</Heading>)
-
-    Heading.setNextLevel(2, { overwriteContext: true })
-    render(<Heading debug={warn}>h2</Heading>)
-
-    setNextLevel(3, { overwriteContext: true })
-    const RenderComp3 = (props) => (
-      <React.StrictMode>
-        <Heading.Level debug={warn} {...props}>
-          <Heading>h3</Heading>
-        </Heading.Level>
-      </React.StrictMode>
-    )
-    render(<RenderComp3 />)
-
-    expect(document.querySelectorAll('.dnb-heading')[0].textContent).toBe(
-      '[h1] h1'
-    )
-    expect(document.querySelectorAll('.dnb-heading')[0].textContent).toBe(
-      '[h2] h2'
-    )
-    expect(document.querySelectorAll('.dnb-heading')[0].textContent).toBe(
-      '[h3] h3'
+  it('have to have correct leveling after using setNextLevel', async () => {
+    const { rerender: rerenderH1, container: h1 } = render(
+      <Heading debug={warn}>h1</Heading>
     )
 
-    // Comp2.setState({  level: 4,  })
-    expect(document.querySelectorAll('.dnb-heading')[0].textContent).toBe(
-      '[h4] h2'
+    Heading.setNextLevel(2)
+
+    const { rerender: rerenderH2, container: h2 } = render(
+      <Heading debug={warn}>h2</Heading>
     )
 
-    resetLevels(1, { overwriteContext: true })
-    // Comp2.setProps({ relevel: true })
-    expect(document.querySelectorAll('.dnb-heading')[0].textContent).toBe(
-      '[h1] h2'
+    setNextLevel(3)
+
+    const { rerender: rerenderH3, container: h3 } = render(
+      <Heading.Level debug={warn}>
+        <Heading>h3</Heading>
+      </Heading.Level>
     )
 
-    setNextLevel(2, { overwriteContext: true })
-    //Comp1.setProps({ relevel: true })
-    expect(document.querySelectorAll('.dnb-heading')[0].textContent).toBe(
-      '[h2] h1'
+    expect(h1.querySelector('.dnb-heading').textContent).toBe('[h1] h1')
+    expect(h2.querySelector('.dnb-heading').textContent).toBe('[h2] h2')
+    expect(h3.querySelector('.dnb-heading').textContent).toBe('[h3] h3')
+
+    Heading.setNextLevel(4)
+
+    rerenderH2(
+      <Heading debug={warn} level={3}>
+        h2
+      </Heading>
     )
+    expect(h2.querySelector('.dnb-heading').textContent).toBe('[h4] h2')
+
+    setNextLevel(1)
+
+    rerenderH2(
+      <Heading debug={warn} level={5}>
+        h2
+      </Heading>
+    )
+    expect(h2.querySelector('.dnb-heading').textContent).toBe('[h1] h2')
+
+    rerenderH2(
+      <Heading debug={warn} level={2}>
+        h2
+      </Heading>
+    )
+    expect(h2.querySelector('.dnb-heading').textContent).toBe('[h2] h2')
+
+    setNextLevel(2)
+
+    rerenderH1(
+      <Heading debug={warn} level={3}>
+        h1
+      </Heading>
+    )
+    expect(h1.querySelector('.dnb-heading').textContent).toBe('[h2] h1')
+
+    rerenderH3(
+      <Heading debug={warn} level={3}>
+        h1
+      </Heading>
+    )
+    expect(h3.querySelector('.dnb-heading').textContent).toBe('[h3] h1')
+  })
+
+  it('have to have correct leveling after using resetLevels', () => {
+    const { rerender, container: h2 } = render(
+      <Heading debug={warn}>h2</Heading>
+    )
+    expect(h2.querySelector('.dnb-heading').textContent).toBe('[h1] h2')
+
+    rerender(
+      <Heading debug={warn} level={3}>
+        h2
+      </Heading>
+    )
+    expect(h2.querySelector('.dnb-heading').textContent).toBe('[h2] h2')
+
+    resetLevels(1)
+
+    rerender(
+      <Heading debug={warn} level={4}>
+        h2
+      </Heading>
+    )
+    expect(h2.querySelector('.dnb-heading').textContent).toBe('[h1] h2')
+
+    rerender(
+      <Heading debug={warn} level={2}>
+        h2
+      </Heading>
+    )
+    expect(h2.querySelector('.dnb-heading').textContent).toBe('[h2] h2')
   })
 
   it('have to have aria role and level if set as span element', () => {
@@ -298,7 +299,7 @@ describe('Heading component', () => {
 
   it('have to refuse to set level below 1', () => {
     render(
-      <Heading debug={warn} level={0} reset={1}>
+      <Heading debug={warn} level={0 as HeadingLevel} reset={1}>
         Heading #1
       </Heading>
     )
@@ -339,12 +340,11 @@ describe('Heading component', () => {
   })
 
   it('should not increase level above 6', () => {
-    resetLevels(1, { overwriteContext: true })
     render(
       <React.StrictMode>
         <Heading.Level debug={warn}>
           <Heading>Heading #1</Heading>
-          <Heading.Increase skip_correction level="6">
+          <Heading.Increase skip_correction level={6}>
             <Heading>Heading #2</Heading>
             <Heading increase>Heading #3</Heading>
           </Heading.Increase>
@@ -358,8 +358,8 @@ describe('Heading component', () => {
     expect(elem[2].textContent).toBe('[h6] Heading #3')
   })
 
-  it.skip('should keep context level after state update', () => {
-    render(<StateChanges />)
+  it('should keep context level after state update', () => {
+    const { rerender } = render(<StateChanges />)
 
     let i = -1
     let elem = document.querySelectorAll('.dnb-heading')
@@ -370,7 +370,7 @@ describe('Heading component', () => {
     expect(elem[++i].textContent).toBe('[h3] h3 after')
     expect(elem[++i].textContent).toBe('[h2] h2')
 
-    // Comp.setState({ showHeading3: true, })
+    rerender(<StateChanges showHeading3={true} />)
 
     i = -1
     elem = document.querySelectorAll('.dnb-heading')
@@ -384,7 +384,7 @@ describe('Heading component', () => {
     expect(elem[++i].textContent).toBe('[h3] h3 after')
     expect(elem[++i].textContent).toBe('[h2] h2')
 
-    // Comp.setState({showHeading4: true,})
+    rerender(<StateChanges showHeading4={true} />)
 
     i = -1
     elem = document.querySelectorAll('.dnb-heading')
@@ -401,13 +401,12 @@ describe('Heading component', () => {
     expect(elem[++i].textContent).toBe('[h5] h5 1')
     expect(elem[++i].textContent).toBe('[h2] h2')
 
-    //  Comp.setState({showHeading4: false,  })
+    rerender(<StateChanges showHeading4={false} />)
 
     // also test to reset the context, as this should be truthy
-    resetLevels(1)
     setNextLevel(1)
 
-    // Comp.setState({ showHeading4: true, })
+    rerender(<StateChanges showHeading4={true} />)
 
     i = -1
     elem = document.querySelectorAll('.dnb-heading')
@@ -490,9 +489,9 @@ describe('Heading component', () => {
     expect(await axeComponent(Comp, {})).toHaveNoViolations()
   })
 
-  it('have to match snapshot', () => {
-    const scss = loadScss(require.resolve('../style/deps.scss'))
-    expect(scss).toMatchSnapshot()
+  it('has to match style dependencies css', () => {
+    const css = loadScss(require.resolve('../style/deps.scss'))
+    expect(css).toMatchSnapshot()
   })
 })
 
@@ -526,4 +525,56 @@ function makeComp() {
     )
 
   return gComp
+}
+
+function StateChanges({
+  showHeading3 = false,
+  showHeading4 = false,
+} = {}) {
+  const [state, setState] = React.useState({
+    showHeading3,
+    showHeading4,
+  })
+
+  React.useEffect(() => {
+    setState({ showHeading3, showHeading4: state.showHeading4 })
+  }, [showHeading3]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  React.useEffect(() => {
+    setState({ showHeading4, showHeading3: state.showHeading3 })
+  }, [showHeading4]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  return (
+    <Heading.Level group="A" debug={warn} reset={1}>
+      <Heading>h1</Heading>
+      <Heading>h2</Heading>
+      <Heading increase>h3</Heading>
+
+      <Heading.Level group="B">
+        <Heading>h3 before</Heading>
+        {state.showHeading3 && (
+          <React.StrictMode>
+            <Heading increase>h4 1</Heading>
+            <Heading>h4 2</Heading>
+            <Heading increase>h5 1</Heading>
+          </React.StrictMode>
+        )}
+        <Heading>h3 after</Heading>
+
+        <Heading.Increase group="C">
+          {state.showHeading4 && (
+            <React.StrictMode>
+              <Heading>h4 1</Heading>
+              <Heading>h4 2</Heading>
+              <Heading increase>h5 1</Heading>
+            </React.StrictMode>
+          )}
+        </Heading.Increase>
+      </Heading.Level>
+
+      <Heading.Decrease group="C">
+        <Heading>h2</Heading>
+      </Heading.Decrease>
+    </Heading.Level>
+  )
 }

@@ -589,6 +589,21 @@ async function handleWrapper({
 
         wrapperElement.style = style
 
+        const elRec = element.getBoundingClientRect()
+        const wrRec = wrapperElement.getBoundingClientRect()
+
+        if(wrRec.top - elRec.top  > 0){
+          throw new Error(
+            `Top of element is ${wrRec.top - elRec.top}px above the screenshot area.`
+          )
+        }
+
+        if(elRec.bottom - wrRec.bottom > 0){
+          throw new Error(
+            `Bottom of element is ${elRec.bottom - wrRec.bottom}px below the screenshot area.`
+          )
+        } 
+        
         return element
       },
       {

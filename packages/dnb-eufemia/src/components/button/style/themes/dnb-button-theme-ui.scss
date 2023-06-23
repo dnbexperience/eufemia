@@ -194,6 +194,11 @@
     &--input-button#{&}--secondary:not(&--has-text)[disabled] {
     color: var(--color-black-55);
     background-color: var(--color-black-3);
+    @include fakeBorder(
+      var(--color-black-55),
+      var(--input-border-width),
+      inset
+    );
   }
 
   // For internal usage only, we have also "unstyled"

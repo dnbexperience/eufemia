@@ -179,8 +179,8 @@ describe('SkipContent', () => {
   })
 
   it('scss has to match snapshot', () => {
-    const scss = loadScss(require.resolve('../style/deps.scss'))
-    expect(scss).toMatchSnapshot()
+    const css = loadScss(require.resolve('../style/deps.scss'))
+    expect(css).toMatchSnapshot()
   })
 })
 
