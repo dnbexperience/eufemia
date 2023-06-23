@@ -69,9 +69,6 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
   it('have to match anchor in heading', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-heading"]',
-      matchConfig: {
-        failureThreshold: 0.0016,
-      },
     })
     expect(screenshot).toMatchImageSnapshot()
   })

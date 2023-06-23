@@ -1,5 +1,26 @@
 @use '../../../style/elements/ui-spacing.scss';
 
+// includes all classes, tags, etc. needed for "global" typography rules (like css variables)
+@mixin typographySelectors() {
+  @include headingClasses() {
+    $selectors: &;
+    @at-root {
+      @include headingTags() {
+        $selectors: #{$selectors}, &;
+        @at-root {
+          @include otherSelectos() {
+            $selectors: #{$selectors}, &;
+
+            @at-root #{$selectors} {
+              @content;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 @mixin headingTags() {
   h1,
   h2,
@@ -33,6 +54,39 @@
   }
 }
 
+@mixin otherSelectos() {
+  p,
+  b,
+  small,
+  strong,
+  .dnb-p,
+  .dnb-small,
+  .dnb-table,
+  sub,
+  sup {
+    @content;
+  }
+}
+
+@mixin headingStyle(
+  $size,
+  $line,
+  $smallSize: null,
+  $smallLine: null,
+  $weight: null
+) {
+  font-size: $size;
+  line-height: $line;
+  font-weight: $weight;
+
+  & > small {
+    font-size: $smallSize;
+    line-height: $smallLine;
+  }
+
+  @content;
+}
+
 @mixin headingDefaults() {
   padding: 0;
 
@@ -40,8 +94,7 @@
     margin: 0;
   }
 
-  font-family: var(--font-family-default);
-  font-weight: var(--font-weight-medium);
+  font-family: var(--typography-h-default-font-family);
 
   // make icons inside heading responsive to the heading size
   .dnb-icon--default {
@@ -65,87 +118,105 @@
 }
 
 @mixin headingSize_xx-large() {
-  font-size: var(--font-size-xx-large);
-  line-height: var(--line-height-x-large);
-
-  & > small {
-    display: block;
-    font-size: var(--font-size-x-large);
-    line-height: var(--line-height-large);
-  }
-
-  @if mixin-exists('headingSize_xx-largeCustomisation') {
-    @include headingSize_xx-largeCustomisation();
+  @include headingStyle(
+    var(--typography-h-xx-large-font-size),
+    var(--typography-h-xx-large-line-height),
+    var(--typography-h-xx-large-small-font-size),
+    var(--typography-h-xx-large-small-line-height),
+    var(--typography-h-xx-large-weight)
+  ) {
+    & > small {
+      display: block;
+    }
+    @content;
   }
 }
 
 @mixin headingSize_x-large() {
-  font-size: var(--font-size-x-large);
-  line-height: var(--line-height-large);
-
-  & > small {
-    display: block;
-    font-size: var(--font-size-x-large);
-    line-height: var(--line-height-large);
-  }
-
-  @if mixin-exists('headingSize_x-largeCustomisation') {
-    @include headingSize_x-largeCustomisation();
+  @include headingStyle(
+    var(--typography-h-x-large-font-size),
+    var(--typography-h-x-large-line-height),
+    var(--typography-h-x-large-small-font-size),
+    var(--typography-h-x-large-small-line-height),
+    var(--typography-h-x-large-weight)
+  ) {
+    & > small {
+      display: block;
+    }
+    @content;
   }
 }
 
 @mixin headingSize_large() {
-  font-size: var(--font-size-large);
-  line-height: var(--line-height-medium);
-
-  & > small {
-    font-size: var(--font-size-medium);
-    line-height: calc(var(--line-height-medium) - 0.125rem);
-  }
-
-  @if mixin-exists('headingSize_largeCustomisation') {
-    @include headingSize_largeCustomisation();
+  @include headingStyle(
+    var(--typography-h-large-font-size),
+    var(--typography-h-large-line-height),
+    var(--typography-h-large-small-font-size),
+    var(--typography-h-large-small-line-height),
+    var(--typography-h-large-weight)
+  ) {
+    @content;
   }
 }
 
-// Like Lead / --lead
-@mixin headingSize_medium() {
-  font-size: var(--font-size-medium);
-  line-height: var(--line-height-lead);
-
-  & > small {
-    font-size: var(--font-size-basis);
-    line-height: var(--line-height-basis);
+@mixin typography_lead() {
+  @include headingStyle(
+    var(--typography-lead-font-size),
+    var(--typography-lead-line-height),
+    var(--typography-lead-small-font-size),
+    var(--typography-lead-small-line-height),
+    var(--typography-lead-weight)
+  ) {
+    @content;
   }
+}
 
-  @if mixin-exists('headingSize_mediumCustomisation') {
-    @include headingSize_mediumCustomisation();
+@mixin headingSize_medium() {
+  @include headingStyle(
+    var(--typography-h-medium-font-size),
+    var(--typography-h-medium-line-height),
+    var(--typography-h-medium-small-font-size),
+    var(--typography-h-medium-small-line-height),
+    var(--typography-h-medium-weight)
+  ) {
+    @content;
   }
 }
 
 @mixin headingSize_basis() {
-  font-size: var(--font-size-basis);
-  line-height: var(--line-height-basis);
-
-  & > small {
-    font-size: var(--font-size-small);
-    line-height: var(--line-height-small);
+  @include headingStyle(
+    var(--typography-h-basis-font-size),
+    var(--typography-h-basis-line-height),
+    var(--typography-h-basis-small-font-size),
+    var(--typography-h-basis-small-line-height),
+    var(--typography-h-basis-weight)
+  ) {
+    @content;
   }
 }
 
 @mixin headingSize_small() {
-  font-size: var(--font-size-small);
-  line-height: var(--line-height-small);
-
-  & > small {
-    font-size: var(--font-size-x-small);
-    line-height: var(--line-height-small);
+  @include headingStyle(
+    var(--typography-h-small-font-size),
+    var(--typography-h-small-line-height),
+    var(--typography-h-small-small-font-size),
+    var(--typography-h-small-small-line-height),
+    var(--typography-h-small-weight)
+  ) {
+    @content;
   }
 }
 
 @mixin headingSize_x-small() {
-  font-size: var(--font-size-x-small);
-  line-height: var(--line-height-x-small);
+  @include headingStyle(
+    var(--typography-h-x-small-font-size),
+    var(--typography-h-x-small-line-height),
+    null,
+    null,
+    var(--typography-h-x-small-weight)
+  ) {
+    @content;
+  }
 }
 
 @mixin paragraphStyle() {
@@ -162,8 +233,7 @@
   padding: 0;
 
   &--lead {
-    @include headingSize_medium();
-    font-weight: var(--font-weight-medium);
+    @include typography_lead();
   }
 
   &--medium {
@@ -181,7 +251,7 @@
 
   &__size--xx-large {
     font-size: var(--font-size-xx-large);
-    line-height: var(--line-height-x-large);
+    line-height: var(--line-height-xx-large);
   }
 
   &__size--x-large {

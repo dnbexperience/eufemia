@@ -25,7 +25,7 @@ const Example = styled.div`
     margin: 0 !important;
   }
 `
-const Contrast = styled(Example)`
+const ContrastExample = styled(Example)`
   display: inline-block;
   padding: 0.5rem;
 
@@ -87,15 +87,15 @@ export const AnchorExampleStates = () => (
 
 export const AnchorExampleHelperClasses = () => (
   <Wrapper>
-    <ComponentBox hideCode scope={{ Example, Contrast }}>
-      <Contrast data-visual-test="anchor-contrast">
+    <ComponentBox hideCode scope={{ Example, ContrastExample }}>
+      <ContrastExample data-visual-test="anchor-contrast">
         <Anchor
           href="/uilib/components/anchor"
           className="dnb-anchor--contrast"
         >
           Contrast Style
         </Anchor>
-      </Contrast>
+      </ContrastExample>
       <Example>
         <Anchor
           href="/uilib/components/anchor"
@@ -185,19 +185,21 @@ export const AnchorExampleIcons = () => (
           href="/uilib/components/anchor"
           icon={<IconPrimary icon="question" />}
         >
-          Anchor with Icon left using a react element
+          Anchor with Icon left using a html/react element
         </Anchor>
       </Example>
       <Example data-visual-test="anchor-paragraph">
         <P>
-          text{' '}
+          text
+          {' '}
           <Anchor
             href="/uilib/components/anchor"
             icon="bell"
             iconPosition="right"
           >
             Inside a Paragraph
-          </Anchor>{' '}
+          </Anchor>
+          {' '}
           text
         </P>
       </Example>
