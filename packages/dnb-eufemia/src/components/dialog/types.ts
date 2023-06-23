@@ -10,7 +10,7 @@ export interface DialogProps extends ToCamelCasePartial<ModalPropTypes> {
    * The dialog title. Displays on the very top of the content.
    */
   title?: React.ReactNode
-  // redefinig trigger property here, since ToCamelCasePartial messes up the extended trigger, causing type errors.
+  // redefining trigger property here, since ToCamelCasePartial messes up the extended trigger, causing type errors.
   trigger?: ReactChildType
 }
 
