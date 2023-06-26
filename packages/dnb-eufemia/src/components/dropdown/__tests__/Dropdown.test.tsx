@@ -1132,7 +1132,7 @@ describe('Dropdown component', () => {
   })
 
   beforeAll(() => {
-    ;(window as any).resizeTo = function resizeTo({
+    window.resizeTo = function resizeTo({
       width = window.innerWidth,
       height = window.innerHeight,
     }: {
@@ -1152,9 +1152,8 @@ describe('Dropdown component', () => {
         .spyOn(document.documentElement, 'clientHeight', 'get')
         .mockImplementation(() => height)
     }
-    ;(window as any).scrollTo = function resizeTo({
-      top = window.pageYOffset,
-    }) {
+
+    window.scrollTo = function resizeTo({ top = window.pageYOffset }) {
       Object.assign(this, {
         pageYOffset: top,
       }).dispatchEvent(new this.Event('scroll'))

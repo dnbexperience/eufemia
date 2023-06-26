@@ -235,10 +235,10 @@ export default function TooltipContainer(
       style.left = window.innerWidth - elementWidth
     }
 
-    if (style.left < 0) {
+    if (parseFloat(String(style.left)) < 0) {
       style.left = 0
     }
-    if (style.top < 0) {
+    if (parseFloat(String(style.top)) < 0) {
       style.top = 0
     }
 

@@ -30,7 +30,7 @@ export default class MediaQuery extends React.PureComponent<
     mediaQueryList: null,
   }
 
-  constructor(props: MediaQueryProps, context: ContextProps) {
+  constructor(props: MediaQueryProps, context?: ContextProps) {
     super(props)
 
     if (!isMatchMediaSupported() && isTrue(props.matchOnSSR)) {
@@ -40,7 +40,7 @@ export default class MediaQuery extends React.PureComponent<
     if (isMatchMediaSupported()) {
       this.state.mediaQueryList = makeMediaQueryList(
         props,
-        context.breakpoints
+        context?.breakpoints
       )
 
       if (this.state.mediaQueryList?.matches) {
