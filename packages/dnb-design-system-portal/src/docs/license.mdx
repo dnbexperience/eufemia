@@ -1,0 +1,26 @@
+---
+title: 'License'
+---
+
+import React from 'react'
+import license from 'raw-loader!dnb-design-system-portal/../../LICENSE'
+import { Logo, P } from '@dnb/eufemia/src'
+
+export const License = (props) => {
+  return (
+    <P
+      {...props}
+      dangerouslySetInnerHTML={{
+        __html: license?.replace(/\n|\r/g, '<br />'),
+      }}
+    />
+  )
+}
+
+<Logo top="x-large" size="100" />
+
+# Eufemia Design System License
+
+---
+
+<License top="large" bottom="xx-large" />
