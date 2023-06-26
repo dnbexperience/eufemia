@@ -461,8 +461,16 @@ async function handleSimulation({
           break
         }
 
-        case 'tabfocus': {
-          await element.click()
+        /**
+         * Usefull in situations,
+         * where a click with a focus is needed (ToggleButton).
+         */
+        case 'focusclick': {
+          delaySimulation = isCI ? 200 : 100
+          await element.click({
+            force: true,
+          })
+
           await page.keyboard.press('Tab')
           await element.focus()
           break
@@ -592,18 +600,22 @@ async function handleWrapper({
         const elRec = element.getBoundingClientRect()
         const wrRec = wrapperElement.getBoundingClientRect()
 
-        if(wrRec.top - elRec.top  > 0){
+        if (wrRec.top - elRec.top > 0) {
           throw new Error(
-            `Top of element is ${wrRec.top - elRec.top}px above the screenshot area.`
+            `Top of element is ${
+              wrRec.top - elRec.top
+            }px above the screenshot area.`
           )
         }
 
-        if(elRec.bottom - wrRec.bottom > 0){
+        if (elRec.bottom - wrRec.bottom > 0) {
           throw new Error(
-            `Bottom of element is ${elRec.bottom - wrRec.bottom}px below the screenshot area.`
+            `Bottom of element is ${
+              elRec.bottom - wrRec.bottom
+            }px below the screenshot area.`
           )
-        } 
-        
+        }
+
         return element
       },
       {
