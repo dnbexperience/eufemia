@@ -20,7 +20,7 @@ export interface SkeletonContextProps {
   };
 }
 export type SkeletonMethods = 'shape' | 'font' | 'code';
-export const createSkeletonClass: (
+export declare const createSkeletonClass: (
   method: SkeletonMethods,
   skeleton: SkeletonShow,
   context?: SkeletonContextProps
@@ -35,7 +35,7 @@ export interface skeletonDOMAttributesContext {
     };
   };
 }
-export const skeletonDOMAttributes: (
+export declare const skeletonDOMAttributes: (
   params: React.HTMLProps<HTMLElement>,
   skeleton: SkeletonShow,
   context?: SkeletonContextProps

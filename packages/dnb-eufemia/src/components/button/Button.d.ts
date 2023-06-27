@@ -43,114 +43,92 @@ export type ButtonProps = {
    * The content of the button can be a string or a React Element.
    */
   text?: ButtonText;
-
   /**
    * `button`, `reset` or `submit` for the `type` HTML attribute. Defaults to `button` for legacy reasons.
    */
   type?: string;
-
   /**
    * Title of the button. Optional, but should always be included because of accessibility.
    */
   title?: React.ReactNode;
-
   /**
    * Defines the kind of button. Possible values are `primary`, `secondary`, `tertiary` and `signal`. Defaults to `primary` (or `secondary` if icon only).
    */
   variant?: ButtonVariant;
-
   /**
    * The size of the button. For now there is "medium", "default" and "large".
    */
   size?: ButtonSize;
-
   /**
    * To be included in the button. <a href="/icons/primary">Primary Icons</a> can be set as a string (e.g. `icon="chevron_right"`), other icons should be set as React elements.
    */
   icon?: ButtonIcon;
-
   /**
    * Position of icon inside the button. Set to `left` or `right`. Tertiary button variant also supports `top`. Defaults to `right` if not set.
    */
   icon_position?: ButtonIconPositionAll;
-
   /**
    * Define icon width and height. Defaults to 16px.
    */
   icon_size?: IconSize;
-
   /**
    * Provide a string or a React Element to be shown as the tooltip content.
    */
   tooltip?: ButtonTooltip;
-
   /**
    * Set it to either `status="error"` or a text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
    */
   status?: FormStatusText;
-
   /**
    * Defines the state of the status. Currently there are two statuses `[error, info]`. Defaults to `error`.
    */
   status_state?: FormStatusState;
-
   /**
    * Use an object to define additional FormStatus properties.
    */
   status_props?: FormStatusProps;
   status_no_animation?: boolean;
-
   /**
    * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
    */
   globalStatus?: GlobalStatusConfigObject;
   id?: string;
-
   /**
    * Any extra modifying class.
    */
   class?: string;
-
   /**
    * If you want the button to behave as a link. Use with caution! A link should normally visually be a link and not a button.
    */
   href?: string;
-
   /**
    * When button behaves as a link. Used to specify where to open the linked document, specified by `href`. Possible values are `_self`, `_blank`, `_parent` and `_top`.
    */
   target?: string;
-
   /**
    * When button behaves as a link. Used to specify the relationship between a linked resource and the current document. Examples(non-exhaustive list) of values are `nofollow`, `search`, and `tag`.
    */
   rel?: string;
-
   /**
    * Use this prop only if you are using a router Link component as the `element` that uses the `to` property to declare the navigation url.
    */
   to?: ButtonTo;
-
   /**
    * If you need to inject completely custom markup (React Element) into the button component. You have then to handle alignment and styling by yourself.
    */
   custom_content?: React.ReactNode;
-
   /**
    * If set to `true` the button text will wrap in to new lines if the overflow point is reached. Defaults to `false`.
    */
   wrap?: boolean;
-
   /**
    * Set it to `true` in order to extend the bounding box (above the visual button background). You may also look into the HTML class `dnb-button__bounding` if it needs some CSS customization in order to get the particular button right for your use-case.
    */
   bounding?: boolean;
-
   /**
    * Set it to `true` in order to stretch the button to the available space. Defaults to false.
    */
   stretch?: boolean;
-
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
@@ -159,17 +137,14 @@ export type ButtonProps = {
   inner_ref?: any;
   className?: string;
   innerRef?: any;
-
   /**
    * The content of the button can be a string or a React Element.
    */
   children?: ButtonChildren;
-
   /**
    * Only meant to be used for special use cases. Defaults to `button` or `a` depending if href is set or not.
    */
   element?: ButtonElement;
-
   /**
    * Will be called on a click event. Returns an object with the native event: `{ event }`.
    */

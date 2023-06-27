@@ -6,13 +6,11 @@ export interface ProgressIndicatorCircularProps
    * Defines the size, like `small`, `default`, `medium` or `large`. Defaults to `default`.
    */
   size?: string;
-
   /**
    * Defines the visibility of the progress. Toggling the `visible` property to `false` will force a fade-out animation. Defaults to `true`.
    */
   visible?: boolean;
   complete?: boolean;
-
   /**
    * To visualize a static "percentage" (0-100) as a progress state. Defaults to `null`.
    */
@@ -20,7 +18,6 @@ export interface ProgressIndicatorCircularProps
   maxOffset?: number;
   onComplete?: (...args: any[]) => any;
   callOnCompleteHandler?: (...args: any[]) => any;
-
   /**
    * Used to set title and aria-label. Defaults to the value of progress property, formatted as a percent.
    */
