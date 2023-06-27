@@ -31,7 +31,6 @@ interface PaginationProviderProps
   /**
    * The given content can be either a function or a React node, depending on your needs. A function contains several helper functions. More details down below and have a look at the examples in the demos section.
    */
-
   children?: PaginationProviderChildren;
 }
 export default class PaginationProvider extends React.Component<

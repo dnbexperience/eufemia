@@ -777,5 +777,4 @@ const InputElement = (props) => {
   )
 }
 
-// const pad = (num, size) => ('000000000' + num).substr(-size)
 const wait = (t) => new Promise((r) => setTimeout(r, t))

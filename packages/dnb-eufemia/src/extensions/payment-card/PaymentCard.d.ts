@@ -65,38 +65,31 @@ export interface PaymentCardProps
    * <em>(required)</em> if product code matches one of the codes in the list the card will get that design, if no match is found Default design will be used.
    */
   product_code: string;
-
   /**
    * Masked card number.
    */
   card_number: string;
-
   /**
    * Use one of these: `active`, `blocked`, `expired`. Defaults to `active`.
    */
   card_status?: PaymentCardCardStatus;
-
   /**
    * Defines the appearance. Use one of these: `normal` or `compact`. Defaults to `normal`.
    */
   variant?: PaymentCardVariant;
-
   /**
    * Will use 8 digits if none are specified.
    */
   digits?: PaymentCardDigits;
-
   /**
    * Useful if you want to create custom cards. See Card data properties.
    */
   raw_data?: PaymentCardRawData;
   id?: string;
-
   /**
    * Use `nb-NO` or `en-GB`. Defaults to the Eufemia provider.
    */
   locale?: Locale;
-
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
