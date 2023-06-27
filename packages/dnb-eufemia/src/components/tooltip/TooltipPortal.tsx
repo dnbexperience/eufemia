@@ -34,7 +34,9 @@ type TooltipPortalProps = {
   children?: React.ReactNode
 }
 
-function TooltipPortal(props: TooltipProps & TooltipPortalProps) {
+function TooltipPortal(
+  props: TooltipProps & TooltipPortalProps
+): JSX.Element {
   const {
     active,
     targetElement,
