@@ -3,6 +3,25 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.3.0](https://github.com/dnbexperience/eufemia/compare/v10.2.0...v10.3.0) (2023-06-27)
+
+
+### :barber: Style Changes
+
+* **Typography:** added css variables needed for heading theming ([#2348](https://github.com/dnbexperience/eufemia/issues/2348)) ([224d8b2](https://github.com/dnbexperience/eufemia/commit/224d8b2f56691ad1832ceb2fdf9ebafc18bdb223))
+
+
+### :sparkles: Features
+
+* upgrade babel runtime to latest ([#2503](https://github.com/dnbexperience/eufemia/issues/2503)) ([d5daeb7](https://github.com/dnbexperience/eufemia/commit/d5daeb714eb8831b61100d43c3085a000f1172b5)), closes [#2481](https://github.com/dnbexperience/eufemia/issues/2481)
+
+
+### :memo: Documentation
+
+* minor improvement in intro ([c686ab5](https://github.com/dnbexperience/eufemia/commit/c686ab57f311f00ee33ab9e9e8df6d3beb8a6e77))
+* minor improvement in intro ([#2506](https://github.com/dnbexperience/eufemia/issues/2506)) ([521e89f](https://github.com/dnbexperience/eufemia/commit/521e89fae4be2b174fcfe05e5f81dd3b97221dc4))
+* show license in /license page ([#2500](https://github.com/dnbexperience/eufemia/issues/2500)) ([217bcd8](https://github.com/dnbexperience/eufemia/commit/217bcd8b8c2a955bdd755e7f54e02718950e54cd))
+
 ## [10.2.0](https://github.com/dnbexperience/eufemia/compare/v10.1.0...v10.2.0) (2023-06-23)
 
 
