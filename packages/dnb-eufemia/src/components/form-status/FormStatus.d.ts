@@ -26,47 +26,38 @@ export interface FormStatusProps
   extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,
     SpacingProps {
   id?: string;
-
   /**
    * The `title` attribute in the status.
    */
   title?: string;
-
   /**
    * Provide `false` if you want to animate the visibility. Defaults to `true`.
    */
   show?: boolean;
-
   /**
    * The `text` appears as the status message. Beside plain text, you can send in a React component as well.
    */
   text?: FormStatusText;
-
   /**
    * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
    */
   globalStatus?: GlobalStatusConfigObject;
-
   /**
    * The `icon` show before the status text. Defaults to `exclamation`.
    */
   icon?: IconIcon;
-
   /**
    * The icon size of the icon shows. Defaults to `medium`.
    */
   icon_size?: IconSize;
-
   /**
    * Defines the visual appearance of the status. These are the statuses `error`, `warn`, `info` and `marketing`. The default status is `error`.
    */
   state?: FormStatusState;
-
   /**
    * As of now, there is the `flat` and the `outlined` variant. Defaults to `flat`.
    */
   variant?: FormStatusVariant;
-
   /**
    * Defines the appearance size. There are these sizes `default`, `large`. The default status is `default`.
    */
@@ -76,28 +67,23 @@ export interface FormStatusProps
   width_selector?: string;
   width_element?: Record<string, unknown>;
   class?: string;
-
   /**
    * NB: Animation is disabled as of now. <del>use `true` to omit the animation on content visibility. Defaults to `false`.</del>
    */
   no_animation?: boolean;
-
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
   skeleton?: SkeletonShow;
-
   /**
    * If set to `true`, then the FormStatus will be 100% in available `width`. "NB:" Only use this on independent status messages.
    */
   stretch?: boolean;
-
   /**
    * The `role` attribute for accessibility, defaults to `alert`
    */
   role?: string;
   className?: string;
-
   /**
    * The `text` appears as the status message. Beside plain text, you can send in a React component as well.
    */
@@ -116,25 +102,25 @@ export interface ErrorIconProps {
    */
   title?: string;
 }
-export const ErrorIcon: React.FC<ErrorIconProps>;
+export declare const ErrorIcon: React.FC<ErrorIconProps>;
 export interface WarnIconProps {
   /**
    * The `title` attribute in the status.
    */
   title?: string;
 }
-export const WarnIcon: React.FC<WarnIconProps>;
+export declare const WarnIcon: React.FC<WarnIconProps>;
 export interface InfoIconProps {
   /**
    * The `title` attribute in the status.
    */
   title?: string;
 }
-export const InfoIcon: React.FC<InfoIconProps>;
+export declare const InfoIcon: React.FC<InfoIconProps>;
 export interface MarketingIconProps {
   /**
    * The `title` attribute in the status.
    */
   title?: string;
 }
-export const MarketingIcon: React.FC<MarketingIconProps>;
+export declare const MarketingIcon: React.FC<MarketingIconProps>;

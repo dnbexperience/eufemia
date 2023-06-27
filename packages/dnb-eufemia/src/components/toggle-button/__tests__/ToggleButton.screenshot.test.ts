@@ -26,7 +26,7 @@ describe('ToggleButton', () => {
         selector: '[data-visual-test="toggle-button-default"]',
         simulateSelector:
           '[data-visual-test="toggle-button-default"] .dnb-toggle-button__button',
-        simulate: 'focus', // should be tested first
+        simulate: 'focus',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
@@ -59,7 +59,7 @@ describe('ToggleButton', () => {
         selector: '[data-visual-test="toggle-button-checked"]',
         simulateSelector:
           '[data-visual-test="toggle-button-checked"] .dnb-toggle-button__button',
-        simulate: 'focus', // should be tested first
+        simulate: 'focus',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
@@ -79,7 +79,7 @@ describe('ToggleButton', () => {
         selector: '[data-visual-test="toggle-button-checked"]',
         simulateSelector:
           '[data-visual-test="toggle-button-checked"] .dnb-toggle-button__button',
-        simulate: 'tabfocus',
+        simulate: 'focusclick',
       })
       expect(screenshot).toMatchImageSnapshot()
     })

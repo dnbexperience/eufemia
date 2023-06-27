@@ -56,8 +56,11 @@ export const HeadingModifiersExample = () => (
       <h2 className="dnb-h--large">
         Normal dnb-h--large <small>dnb-h--medium</small>
       </h2>
-      <h3 className="dnb-lead">
+      <h3 className="dnb-h--medium">
         Normal dnb-h--medium <small>dnb-h--basis</small>
+      </h3>
+      <h3 className="dnb-lead">
+        Normal dnb-lead <small>small</small>
       </h3>
     </article>
   </ComponentBox>

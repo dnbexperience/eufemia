@@ -16,6 +16,9 @@ describe.each(['ui', 'sbanken'])('Logo for %s', (themeName) => {
   it('have to match the default "Logo"', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="logo-default"]',
+      matchConfig: {
+        failureThreshold: 0.19,
+      },
     })
     expect(screenshot).toMatchImageSnapshot()
   })

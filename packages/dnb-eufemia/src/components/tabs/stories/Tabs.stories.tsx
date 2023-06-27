@@ -12,7 +12,6 @@ import { Input, Tabs, Icon, Button, ToggleButton } from '../..'
 import { bell as Bell } from '../../../icons'
 
 import { H2 } from '../../..'
-import { TabsNavigation } from './TabsNavigation.stories'
 
 export default {
   title: 'Eufemia/Components/Tabs',
@@ -99,9 +98,6 @@ export const TabsSandbox = () => {
       </Box>
       <Box>
         <TabsAndRerender />
-      </Box>
-      <Box>
-        <TabsNavigation />
       </Box>
       <Box>
         <Tabs prevent_rerender data={tabsData}>

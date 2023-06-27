@@ -15,6 +15,11 @@
     "color-function-notation": "modern",
     "declaration-empty-line-before": null,
     "at-rule-empty-line-before": null,
+    "media-feature-range-notation": "prefix",
+    "declaration-block-no-redundant-longhand-properties": [
+      true,
+      { "ignoreShorthands": ["inset"] }
+    ],
     "rule-empty-line-before": null,
     "at-rule-no-unknown": null,
     "selector-not-notation": null,

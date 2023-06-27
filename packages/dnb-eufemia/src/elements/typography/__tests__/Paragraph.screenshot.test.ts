@@ -38,24 +38,24 @@ describe.each(['ui', 'sbanken'])('Paragraph for %s', (themeName) => {
   it('have to match the paragraph with additional elements', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="paragraph-additional"]',
+      matchConfig: {
+        failureThreshold: 0.0099, // the underlines gets blurry in the build version
+      },
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 })
 
-describe.each(['ui', 'sbanken'])(
-  'Paragraph for %s',
-  (themeName) => {
-    setupPageScreenshot({
-      themeName,
-      url: '/uilib/elements/paragraph',
-    })
+describe.each(['ui', 'sbanken'])('Paragraph for %s', (themeName) => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/elements/paragraph',
+  })
 
-    it('matches all sizes and weights', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="paragraph-sizes"]',
-      })
-      expect(screenshot).toMatchImageSnapshot()
+  it('matches all sizes and weights', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="paragraph-sizes"]',
     })
-  }
-)
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})

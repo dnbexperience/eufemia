@@ -32,8 +32,7 @@ describe.each(['ui', 'sbanken', 'eiendom'])(
   }
 )
 
-
-describe.each(['ui', 'sbanken'])(
+describe.each(['ui', 'sbanken', 'eiendom'])(
   'Heading for %s',
   (themeName) => {
     setupPageScreenshot({

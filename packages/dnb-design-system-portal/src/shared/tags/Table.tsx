@@ -92,9 +92,11 @@ function recursiveMap(
     }
 
     if (child.props.children) {
-      child = React.cloneElement(child, {
-        children: recursiveMap(child.props.children, func),
-      })
+      child = React.cloneElement(
+        child,
+        null,
+        recursiveMap(child.props.children, func)
+      )
     }
 
     return func ? func(child, true) : child

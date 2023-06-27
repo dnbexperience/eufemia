@@ -27,17 +27,14 @@ export interface RadioProps
    * Use either the `label` property or provide a custom one.
    */
   label?: RadioLabel;
-
   /**
    * Use `true` to make the label only readable by screen readers.
    */
   label_sr_only?: boolean;
-
   /**
    * Defines the position of the `label`. Use either `left` or `right`. Defaults to `right`.
    */
   label_position?: RadioLabelPosition;
-
   /**
    * Determine whether the radio is checked or not. Default will be `false`.
    */
@@ -45,39 +42,32 @@ export interface RadioProps
   disabled?: boolean;
   id?: string;
   element?: React.ReactNode;
-
   /**
    * Use a unique group identifier to define the Radio buttons that belongs together.
    */
   group?: string;
-
   /**
    * The size of the Radio button. For now there is "medium" (default) and "large".
    */
   size?: RadioSize;
-
   /**
    * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
    */
   status?: FormStatusText;
-
   /**
    * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
    */
   status_state?: FormStatusState;
-
   /**
    * Use an object to define additional FormStatus properties.
    */
   status_props?: FormStatusProps;
   status_no_animation?: RadioStatusNoAnimation;
-
   /**
    * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
    */
   globalStatus?: GlobalStatusConfigObject;
   suffix?: RadioSuffix;
-
   /**
    * <em>(required)</em> defines the `value` as a string. Use it to get the value during the `on_change` event listener callback in the "RadioGroup".
    */
@@ -88,7 +78,6 @@ export interface RadioProps
   class?: string;
   className?: string;
   children?: RadioChildren;
-
   /**
    * Will be called on state changes made by the user. Returns an object `{ checked, value, event }`.
    */

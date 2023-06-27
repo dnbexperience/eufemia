@@ -17,13 +17,7 @@
   background-color: var(--color-pistachio);
 }
 
-// change heading to not use medium
-@mixin headingDefaultsCustomisation() {
-  font-weight: var(--font-weight-basis);
-}
-
-@import './properties.scss';
-
 // import the default theme, and go from there
 // will also have all the component themes included
 @import '../theme-ui/ui-theme-basis.scss';
+@import './eiendom-theme-elements.scss';

@@ -141,7 +141,7 @@ describe('Typography for Sbanken', () => {
     cy.get('.typography-box > .dnb-h--xx-large').should(
       'have.css',
       'font-size',
-      '48px'
+      '50px'
     )
   })
 
@@ -150,7 +150,7 @@ describe('Typography for Sbanken', () => {
     cy.get('.typography-box > .dnb-h--x-large').should(
       'have.css',
       'font-size',
-      '34px'
+      '42px'
     )
   })
 
@@ -159,7 +159,7 @@ describe('Typography for Sbanken', () => {
     cy.get('.typography-box > .dnb-h--large').should(
       'have.css',
       'font-size',
-      '26px'
+      '34px'
     )
   })
 

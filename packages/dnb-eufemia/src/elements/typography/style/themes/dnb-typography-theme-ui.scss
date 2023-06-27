@@ -14,6 +14,20 @@
   color: var(--theme-color-black-80, currentColor);
 }
 
+@include typography.typographySelectors() {
+  --typography-h-xx-large-small-line-height: var(--line-height-large);
+  --typography-h-x-large-line-height: var(--line-height-large);
+  --typography-h-x-large-small-font-size: var(--font-size-x-large);
+  --typography-h-large-line-height: var(--line-height-medium);
+  --typography-h-large-small-line-height: calc(
+    var(--line-height-medium) - 0.125rem
+  );
+  --typography-lead-small-font-size: var(--font-size-basis);
+  --typography-lead-small-line-height: var(--line-height-basis);
+  --typography-h-medium-line-height: var(--line-height-lead);
+  --typography-h-small-small-line-height: var(--line-height-small);
+}
+
 $useClasses: true !default;
 @if $useClasses {
   .dnb-p {

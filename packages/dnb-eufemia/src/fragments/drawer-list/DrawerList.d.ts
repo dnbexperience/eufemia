@@ -123,4 +123,4 @@ export interface ItemContentProps {
   hash?: string;
   children?: ItemContentChildren;
 }
-export const ItemContent: React.FC<ItemContentProps>;
+export declare const ItemContent: React.FC<ItemContentProps>;

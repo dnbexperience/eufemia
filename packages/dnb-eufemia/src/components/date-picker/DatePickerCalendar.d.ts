@@ -3,7 +3,6 @@ export interface DatePickerCalendarProps
   extends React.HTMLProps<HTMLElement> {
   id?: string;
   nr?: number;
-
   /**
    * To display what month should be shown in the first calendar by default. Defaults to the `date` respective `start_date`.
    */
@@ -22,7 +21,6 @@ export interface DatePickerCalendarProps
   onSelect?: (...args: any[]) => any;
   onPrev?: (...args: any[]) => any;
   onNext?: (...args: any[]) => any;
-
   /**
    * To define the locale used in the calendar. Needs to be an `date-fns` "v2" locale object, like `import enLocale from &#39;date-fns/locale/en-GB&#39;`. Defaults to `nb-NO`.
    */

@@ -5,6 +5,7 @@ exports[`babelPluginIncludeDocs has to match code snapshot 1`] = `
  * Test mock file
  *
  */
+
 import React from 'react';
 import { PropTypes } from "react";
 import SecondaryComponent, { secondaryDefaultProps, secondaryPropTypes } from './SecondaryComponent';
@@ -26,7 +27,6 @@ export default class PrimaryComponent extends React.PureComponent {
   render() {
     return [this.props.boolean, this.props.number, this.props.spacing, this.props.top, this.props.secondary_foo, this.props.secondary_spacing, this.props.children];
   }
-
 }
 PrimaryComponent.propTypes = {
   boolean: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -61,11 +61,9 @@ PrimaryComponent.defaultProps = {
 };
 PrimaryComponent.Secondary = SecondaryComponent;
 PrimaryComponent.SecondaryDuplication = SecondaryComponent;
-
 const Element = () => {
   return null;
 };
-
 Element.propTypes = {
   boolean: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   number: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -101,6 +99,7 @@ exports[`babelPluginIncludeDocs has to match code snapshot in strict mode 1`] = 
  * Test mock file
  *
  */
+
 import React from 'react';
 import { PropTypes } from "react";
 import SecondaryComponent, { secondaryDefaultProps, secondaryPropTypes } from './SecondaryComponent';
@@ -122,7 +121,6 @@ export default class PrimaryComponent extends React.PureComponent {
   render() {
     return [this.props.boolean, this.props.number, this.props.spacing, this.props.top, this.props.secondary_foo, this.props.secondary_spacing, this.props.children];
   }
-
 }
 PrimaryComponent.propTypes = {
   boolean: PropTypes.bool,
@@ -157,11 +155,9 @@ PrimaryComponent.defaultProps = {
 };
 PrimaryComponent.Secondary = SecondaryComponent;
 PrimaryComponent.SecondaryDuplication = SecondaryComponent;
-
 const Element = () => {
   return null;
 };
-
 Element.propTypes = {
   boolean: PropTypes.bool,
   number: PropTypes.number,
@@ -197,6 +193,7 @@ exports[`babelPluginIncludeDocs has to match collectProps snapshot given by onCo
  * Test mock file
  *
  */
+
 import React from 'react';
 import { PropTypes } from "react";
 import SecondaryComponent, { secondaryDefaultProps, secondaryPropTypes } from './SecondaryComponent';
@@ -218,7 +215,6 @@ export default class PrimaryComponent extends React.PureComponent {
   render() {
     return [this.props.boolean, this.props.number, this.props.spacing, this.props.top, this.props.secondary_foo, this.props.secondary_spacing, this.props.children];
   }
-
 }
 PrimaryComponent.propTypes = {
   boolean: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -253,11 +249,9 @@ PrimaryComponent.defaultProps = {
 };
 PrimaryComponent.Secondary = SecondaryComponent;
 PrimaryComponent.SecondaryDuplication = SecondaryComponent;
-
 const Element = () => {
   return null;
 };
-
 Element.propTypes = {
   boolean: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   number: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
