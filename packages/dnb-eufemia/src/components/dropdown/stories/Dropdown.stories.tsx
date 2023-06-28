@@ -20,7 +20,7 @@ import {
   GlobalStatus,
 } from '../..'
 import { Link } from '../../..'
-import { DrawerListData } from '../../../fragments/DrawerList'
+import { DrawerListDataObjectUnion } from '../../../fragments/DrawerList'
 
 export default {
   title: 'Eufemia/Components/Dropdown',
@@ -627,7 +627,7 @@ export const DropdownSandbox = () => (
   </CustomStyle>
 )
 
-let dropdownData: DrawerListData[] = [
+let dropdownData: DrawerListDataObjectUnion[] = [
   {
     selected_value: 'Brukskonto - Kari Nordmann',
     content: (

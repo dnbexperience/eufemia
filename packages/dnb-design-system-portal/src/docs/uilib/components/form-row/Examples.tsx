@@ -28,6 +28,7 @@ import {
 } from '@dnb/eufemia/src'
 import { SpacingElementProps } from '@dnb/eufemia/src/shared/types'
 import { Provider } from '@dnb/eufemia/src/shared'
+import { SpaceAllProps } from '@dnb/eufemia/src/components/space/Space'
 
 const TestStyles = styled.div`
   /* make sure our input gets an explicit width, because of mac/linux rendering differences */
@@ -49,7 +50,7 @@ const WidthLimit = styled.div`
   width: 40rem;
 `
 
-const Box = styled(Space)`
+const Box = styled((props: SpaceAllProps) => <Space {...props} />)`
   position: relative;
 
   margin: 0;

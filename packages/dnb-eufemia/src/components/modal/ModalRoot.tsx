@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { warn, isTrue } from '../../shared/component-helper'
 import ModalContent from './ModalContent'
-import { ModalContentProps } from './types'
+import { ModalContentProps, ReactChildType } from './types'
 
 declare global {
   interface Window {
@@ -21,7 +21,7 @@ export interface ModalRootProps extends ModalContentProps {
   /**
    * The content which will appear when triggering the modal/drawer.
    */
-  children?: React.ReactNode
+  children?: ReactChildType
 }
 
 interface ModalRootState {

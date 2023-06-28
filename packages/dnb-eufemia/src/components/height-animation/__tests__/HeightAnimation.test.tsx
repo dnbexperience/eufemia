@@ -4,9 +4,8 @@
  */
 
 import React from 'react'
-import { render, act, fireEvent } from '@testing-library/react'
+import { render, act, fireEvent, waitFor } from '@testing-library/react'
 import ToggleButton from '../../ToggleButton'
-import { wait } from '@testing-library/user-event/dist/utils'
 import HeightAnimation, {
   HeightAnimationAllProps,
   HeightAnimationProps,
@@ -16,6 +15,7 @@ import {
   testSetupInit,
   simulateAnimationEnd,
 } from './HeightAnimationUtils'
+import { wait } from '../../../core/jest/jestSetup'
 
 testSetupInit()
 
@@ -59,7 +59,9 @@ describe('HeightAnimation', () => {
             animate={animate} // Optional
             {...props}
           >
-            <p className="content-element">your content {children}</p>
+            <p className="content-element">
+              your content <>{children}</>
+            </p>
           </HeightAnimation>
         </section>
       </>
@@ -135,35 +137,32 @@ describe('HeightAnimation', () => {
 
     rerender(<Component open />)
 
-    await act(async () => {
-      const element = document.querySelector('.dnb-height-animation')
-
+    const element = document.querySelector('.dnb-height-animation')
+    act(() => {
       simulateAnimationEnd()
+    })
 
-      expect(
-        document
-          .querySelector('.dnb-height-animation')
-          .getAttribute('style')
-      ).toBe('height: auto;')
+    expect(
+      document.querySelector('.dnb-height-animation').getAttribute('style')
+    ).toBe('height: auto;')
 
-      rerender(<Component open>123</Component>)
+    rerender(<Component open>123</Component>)
 
-      await wait(1)
-
+    await waitFor(() => {
       expect(
         document
           .querySelector('.dnb-height-animation')
           .getAttribute('style')
       ).toBe('height: 0px;')
+    })
 
-      jest
-        .spyOn(element, 'clientHeight', 'get')
-        .mockImplementationOnce(() => 100)
+    jest
+      .spyOn(element, 'clientHeight', 'get')
+      .mockImplementationOnce(() => 100)
 
-      rerender(<Component open>456</Component>)
+    rerender(<Component open>456</Component>)
 
-      await wait(1)
-
+    await waitFor(() => {
       expect(
         document
           .querySelector('.dnb-height-animation')

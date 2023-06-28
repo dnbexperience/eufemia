@@ -36,6 +36,7 @@ import type { SkeletonProps, SkeletonShow } from '../components/Skeleton'
 import type { HelpButtonProps } from '../components/HelpButton'
 import type { TableProps } from '../components/Table'
 import type { GlobalErrorProps } from '../components/GlobalError'
+import type { ModalProps } from '../components/modal/types'
 
 import type { NumberFormatCurrency } from '../components/NumberFormat'
 
@@ -66,6 +67,7 @@ export type ContextComponents = {
   HelpButton?: Partial<HelpButtonProps>
   Table?: Partial<TableProps>
   GlobalError?: Partial<GlobalErrorProps>
+  Modal?: Partial<ModalProps>
 
   // -- TODO: Not converted yet --
   NumberFormat?: Record<string, unknown>

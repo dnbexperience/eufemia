@@ -5,7 +5,13 @@
 
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import { fireEvent, render, screen, within } from '@testing-library/react'
+import {
+  fireEvent,
+  render,
+  screen,
+  within,
+  act,
+} from '@testing-library/react'
 import StepIndicator, {
   StepIndicatorData,
   StepIndicatorProps,
@@ -184,7 +190,7 @@ describe('StepIndicator in general', () => {
     ])
   })
 
-  it('should not add spacing props to dnb-step-indicator with no sidebar', () => {
+  it('should not add spacing props to dnb-step-indicator with no sidebar', async () => {
     render(
       <StepIndicator
         sidebar_id="unique-id-no-sidebar"
@@ -194,8 +200,9 @@ describe('StepIndicator in general', () => {
         data={stepIndicatorListData}
       />
     )
-
-    document.querySelector('button').click()
+    act(() => {
+      document.querySelector('button').click()
+    })
 
     const element = document.querySelector('.dnb-step-indicator')
 
@@ -235,8 +242,9 @@ describe('StepIndicator in general', () => {
         aria-labelledby="element"
       />
     )
-
-    document.querySelector('button').click()
+    act(() => {
+      document.querySelector('button').click()
+    })
 
     const element = document.querySelector('.dnb-step-indicator__list')
 
@@ -387,10 +395,12 @@ describe('StepIndicator in loose mode', () => {
       )
     ).toBeTruthy()
 
-    // Make state change
-    within(screen.queryAllByRole('listitem')[0])
-      .getByRole('button')
-      .click()
+    act(() => {
+      // Make state change
+      within(screen.queryAllByRole('listitem')[0])
+        .getByRole('button')
+        .click()
+    })
 
     expect(
       screen.queryAllByRole('listitem', { current: 'step' })
@@ -531,7 +541,9 @@ describe('StepIndicator in strict mode', () => {
       items[0].classList.contains('dnb-step-indicator__item--current')
     ).toBe(false)
 
-    screen.queryAllByRole('button')[0].click()
+    act(() => {
+      screen.queryAllByRole('button')[0].click()
+    })
 
     expect(on_change).toBeCalledTimes(1)
     expect(

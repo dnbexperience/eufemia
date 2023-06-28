@@ -40,6 +40,7 @@
     "node-gyp": "8.4.0"
   },
   "resolutions": {
+    "babel-plugin-lodash/@babel/types": "7.20.0",
     "gatsby/socket.io": "4.6.1",
     "gatsby/browserslist": "4.21.4"
   },

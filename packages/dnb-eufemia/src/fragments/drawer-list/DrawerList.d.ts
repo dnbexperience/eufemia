@@ -15,8 +15,10 @@ export type DrawerListDefaultValue = string | number;
 export type DrawerListValue = string | number;
 export type DrawerListDataObject = {
   selected_value?: string | React.ReactNode;
+  selected_key?: string | number | React.ReactNode;
   suffix_value?: string | React.ReactNode;
   content?: string | React.ReactNode | string[];
+  search_content?: string | React.ReactNode | string[];
 };
 export type DrawerListDataObjectUnion =
   | string

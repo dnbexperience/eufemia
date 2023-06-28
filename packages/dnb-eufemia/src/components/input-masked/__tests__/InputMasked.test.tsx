@@ -4,13 +4,12 @@
  */
 
 import React from 'react'
-import { loadScss } from '../../../core/jest/jestSetup'
+import { loadScss, wait } from '../../../core/jest/jestSetup'
 import { render, fireEvent } from '@testing-library/react'
 import InputMasked, { InputMaskedProps } from '../InputMasked'
 import Provider from '../../../shared/Provider'
 import * as helpers from '../../../shared/helpers'
 import FormRow from '../../form-row/FormRow'
-import userEvent from '@testing-library/user-event'
 
 const props: InputMaskedProps = {
   id: 'input-masked',
@@ -69,7 +68,7 @@ describe('InputMasked component', () => {
     expect(ref.current.tagName).toBe('INPUT')
   })
 
-  it('event "on_change" gets emmited with correct value', () => {
+  it('event "on_change" gets emmited with correct value #1', async () => {
     const initValue = 'NOK 1234,5 kr'
     const newValue = 'NOK 123456789,0 kr'
 
@@ -89,8 +88,9 @@ describe('InputMasked component', () => {
 
     expect(document.querySelector('input').value).toBe('NOK 1 234,5,- kr')
 
-    userEvent.clear(document.querySelector('input'))
-    userEvent.type(document.querySelector('input'), newValue)
+    fireEvent.change(document.querySelector('input'), {
+      target: { value: newValue },
+    })
 
     expect(document.querySelector('input').value).toBe(
       'NOK 1 234 567 890,,- kr'
@@ -98,13 +98,13 @@ describe('InputMasked component', () => {
 
     expect(
       on_change.mock.calls[on_change.mock.calls.length - 1][0].value
-    ).toBe('NOK 1 234 567 890,,- kr')
+    ).toBe('NOK 123 456 789,0,- kr')
     expect(
       on_change.mock.calls[on_change.mock.calls.length - 1][0].numberValue
-    ).toBe(1234567890)
+    ).toBe(123456789)
   })
 
-  it('event "on_change" gets emmited with correct value', () => {
+  it('event "on_change" gets emmited with correct value #2', async () => {
     const newValue = 'NOK 123456789,678 kr'
 
     const on_change = jest.fn()
@@ -119,12 +119,13 @@ describe('InputMasked component', () => {
 
     expect(document.querySelector('input').value).toBe('12 345,67')
 
-    userEvent.clear(document.querySelector('input'))
-    userEvent.type(document.querySelector('input'), newValue)
+    fireEvent.change(document.querySelector('input'), {
+      target: { value: newValue },
+    })
 
     expect(document.querySelector('input').value).toBe('123 456 789,67')
 
-    expect(on_change).toBeCalledTimes(21)
+    expect(on_change).toBeCalledTimes(1)
     expect(
       on_change.mock.calls[on_change.mock.calls.length - 1][0].value
     ).toBe('123 456 789,67')
@@ -133,7 +134,7 @@ describe('InputMasked component', () => {
     ).toBe(123456789.67)
   })
 
-  it('event "on_change" gets emmited with correct value', () => {
+  it('event "on_change" gets emmited with correct value #3', async () => {
     const newValue = 'NOK 123456789,678 kr'
 
     const on_change = jest.fn()
@@ -152,8 +153,9 @@ describe('InputMasked component', () => {
 
     expect(document.querySelector('input').value).toBe('12 345,67')
 
-    userEvent.clear(document.querySelector('input'))
-    userEvent.type(document.querySelector('input'), newValue)
+    fireEvent.change(document.querySelector('input'), {
+      target: { value: newValue },
+    })
 
     expect(document.querySelector('input').value).toBe('123 456 789,67')
 
@@ -1027,7 +1029,7 @@ describe('InputMasked component as_number', () => {
     expect(document.querySelector('input').value).toBe('12 345,6')
   })
 
-  it('event "on_change" gets emmited with correct value', () => {
+  it('event "on_change" gets emmited with correct value', async () => {
     const newValue = 'NOK 123456789,678 kr'
 
     const on_change = jest.fn()
@@ -1043,8 +1045,9 @@ describe('InputMasked component as_number', () => {
 
     expect(document.querySelector('input').value).toBe('12 345,6')
 
-    userEvent.clear(document.querySelector('input'))
-    userEvent.type(document.querySelector('input'), newValue)
+    fireEvent.change(document.querySelector('input'), {
+      target: { value: newValue },
+    })
 
     expect(document.querySelector('input').value).toBe('123 456 789,6')
 
@@ -1319,7 +1322,7 @@ describe('InputMasked component as_currency', () => {
     expect(onChange).toHaveBeenCalledTimes(2)
   })
 
-  it('event "on_change" gets emmited with correct value', () => {
+  it('event "on_change" gets emmited with correct value', async () => {
     const newValue = 'NOK 123456789,678 kr'
 
     const on_change = jest.fn()
@@ -1330,8 +1333,9 @@ describe('InputMasked component as_currency', () => {
 
     expect(document.querySelector('input').value).toBe('12 345,67 kr')
 
-    userEvent.clear(document.querySelector('input'))
-    userEvent.type(document.querySelector('input'), newValue)
+    fireEvent.change(document.querySelector('input'), {
+      target: { value: newValue },
+    })
 
     expect(document.querySelector('input').value).toBe('123 456 789,67 kr')
 
@@ -1351,8 +1355,9 @@ describe('InputMasked component as_currency', () => {
       />
     )
 
-    userEvent.clear(document.querySelector('input'))
-    userEvent.type(document.querySelector('input'), newValue)
+    fireEvent.change(document.querySelector('input'), {
+      target: { value: newValue },
+    })
 
     expect(document.querySelector('input').value).toBe('123 456 789,6 kr')
 
@@ -1364,7 +1369,7 @@ describe('InputMasked component as_currency', () => {
     ).toBe(123456789.6)
   })
 
-  it('event "on_change" gets emmited with correct value with en locale', () => {
+  it('event "on_change" gets emmited with correct value with en locale', async () => {
     const on_change = jest.fn()
 
     render(
@@ -1378,20 +1383,21 @@ describe('InputMasked component as_currency', () => {
 
     expect(document.querySelector('input').value).toBe('12 345.67 NOK')
 
-    userEvent.clear(document.querySelector('input'))
     const newValue = 'NOK 123 456 789.678 kr'
-    userEvent.type(document.querySelector('input'), newValue)
+    fireEvent.change(document.querySelector('input'), {
+      target: { value: newValue },
+    })
 
     expect(document.querySelector('input').value).toBe(
-      '123 456 789 678 NOK'
+      '123 456 789.67 NOK'
     )
 
     expect(
       on_change.mock.calls[on_change.mock.calls.length - 1][0].value
-    ).toBe('123 456 789 678 NOK')
+    ).toBe('123 456 789.67 NOK')
     expect(
       on_change.mock.calls[on_change.mock.calls.length - 1][0].numberValue
-    ).toBe(123456789678)
+    ).toBe(123456789.67)
   })
 
   it('should use given currency', () => {
@@ -1745,5 +1751,3 @@ describe('InputMasked scss', () => {
     expect(css).toMatchSnapshot()
   })
 })
-
-const wait = (t) => new Promise((r) => setTimeout(r, t))

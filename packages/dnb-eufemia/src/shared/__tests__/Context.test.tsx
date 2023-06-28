@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen, act } from '@testing-library/react'
 import HelpButton from '../../components/help-button/HelpButton'
 import ToggleButton from '../../components/toggle-button/ToggleButton'
 
@@ -94,13 +94,19 @@ describe('Context', () => {
     render(<MagicContext />)
     expect(screen.getByText(title_nb)).toBeTruthy()
 
-    screen.getByRole('button', { name: 'en-GB' }).click()
+    act(() => {
+      screen.getByRole('button', { name: 'en-GB' }).click()
+    })
     expect(screen.getByText(title_gb)).toBeTruthy()
 
-    screen.getByRole('button', { name: 'en-US' }).click()
+    act(() => {
+      screen.getByRole('button', { name: 'en-US' }).click()
+    })
     expect(screen.getByText(title_gb)).toBeTruthy()
 
-    screen.getByRole('button', { name: 'nb-NO' }).click()
+    act(() => {
+      screen.getByRole('button', { name: 'nb-NO' }).click()
+    })
     expect(screen.getByText(title_nb)).toBeTruthy()
   })
 

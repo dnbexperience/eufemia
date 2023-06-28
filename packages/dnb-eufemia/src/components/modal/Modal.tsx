@@ -6,7 +6,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import { SuffixContext } from '../../shared/helpers/Suffix'
-import Context from '../../shared/Context'
+import Context, { ContextProps } from '../../shared/Context'
 import {
   warn,
   isTrue,
@@ -40,13 +40,17 @@ interface ModalState {
   modalActive: boolean
 }
 
-export type ModalPropTypes = ModalProps & SpacingProps & ScrollViewAllProps
+export type ModalPropTypes = ModalProps &
+  SpacingProps &
+  Omit<ScrollViewAllProps, 'children'>
 
 class Modal extends React.PureComponent<
   ModalPropTypes & ToCamelCasePartial<ModalPropTypes>,
   ModalState
 > {
   static contextType = Context
+
+  context!: ContextProps
 
   static Bar = ModalHeaderBar
   static Header = ModalHeader
@@ -427,7 +431,6 @@ class Modal extends React.PureComponent<
       omit_trigger_button = false,
       trigger = null,
       trigger_attributes = null,
-
       ...rest
     } = props
 
