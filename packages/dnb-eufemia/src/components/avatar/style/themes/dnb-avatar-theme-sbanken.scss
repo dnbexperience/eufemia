@@ -6,8 +6,8 @@
 @import '../../../../style/core/utilities.scss';
 
 .dnb-avatar {
-  --avatar-font-size--large: var(--font-size-large);
-  --avatar-font-size--x-large: var(--font-size-large);
+  --avatar-font-size--large: var(--font-size-x-large);
+  --avatar-font-size--x-large: var(--font-size-x-large);
 
   color: var(--sb-color-white);
 
@@ -33,4 +33,10 @@
     font-weight: var(--sb-font-weight-basis);
     font-family: var(--sb-font-family-headings);
   }
+
+  &__group {
+    --avatar-font-size-left--small: var(--font-size-x-small);
+    --avatar-font-size-left--medium: var(--font-size-basis);
+    --avatar-font-size-left--large: var(--font-size-medium);
+    --avatar-font-size-left--x-large: var(--font-size-medium);}
 }
