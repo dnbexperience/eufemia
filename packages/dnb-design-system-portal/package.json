@@ -51,7 +51,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.22.5",
-    "@babel/eslint-parser": "7.18.2",
+    "@babel/eslint-parser": "7.22.5",
     "@babel/node": "7.22.5",
     "@emotion/cache": "11.9.3",
     "@typescript-eslint/parser": "5.60.0",
