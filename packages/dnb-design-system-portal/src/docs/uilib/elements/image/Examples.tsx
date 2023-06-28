@@ -24,7 +24,7 @@ export const ImagePlainExample = () => (
           />
         )
       }
-      return CustomImage
+      return <CustomImage />
     }}
   </ComponentBox>
 )

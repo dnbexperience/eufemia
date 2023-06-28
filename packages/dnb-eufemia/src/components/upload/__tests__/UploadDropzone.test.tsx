@@ -1,10 +1,10 @@
 import React from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
-import { wait } from '@testing-library/user-event/dist/utils'
 import UploadDropzone from '../UploadDropzone'
 import { createMockFile } from './testHelpers'
 import { UploadContext } from '../UploadContext'
 import type { UploadAllProps, UploadContextProps } from '../types'
+import { wait } from '../../../core/jest/jestSetup'
 
 const defaultProps: Partial<UploadAllProps> = {
   id: 'unique',

@@ -81,8 +81,7 @@ describe('useUpload', () => {
 
     const emitter = EventEmitter.createInstance(id)
     const emitterFiles = emitter.get().files
-
-    expect(emitterFiles).toMatchObject([mockFile])
+    expect(emitterFiles).toEqual([mockFile])
   })
 
   it('use the event emitter to return a file', () => {

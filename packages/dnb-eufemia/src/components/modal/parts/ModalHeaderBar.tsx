@@ -10,12 +10,14 @@ import Section from '../../section/Section'
 import ModalContext from '../ModalContext'
 import CloseButton from './CloseButton'
 import { SectionProps } from '../../Section'
+import { ReactChildType } from '../types'
 
-export interface ModalHeaderBarProps extends SectionProps {
+export interface ModalHeaderBarProps
+  extends Omit<SectionProps, 'children'> {
   /**
    * The content which will appear when triggering the modal/drawer.
    */
-  children?: React.ReactNode
+  children?: ReactChildType
 
   /**
    * Give the inner content wrapper a class name (maps to `dnb-modal__content__inner`).
@@ -30,10 +32,13 @@ interface ModalHeaderBarState {
 }
 
 export default class ModalHeaderBar extends React.PureComponent<
-  ModalHeaderBarProps & React.HTMLProps<HTMLElement>,
+  ModalHeaderBarProps & Omit<React.HTMLProps<HTMLElement>, 'children'>,
   ModalHeaderBarState
 > {
   static contextType = ModalContext
+
+  context!: React.ContextType<typeof ModalContext>
+
   _ref: React.RefObject<any>
   intersectionObserver: IntersectionObserver
 
@@ -104,7 +109,9 @@ export default class ModalHeaderBar extends React.PureComponent<
         inner_ref={this._ref}
         {...props}
       >
-        <div className="dnb-modal__header__bar__inner">{children}</div>
+        <div className="dnb-modal__header__bar__inner">
+          {children as React.ReactNode}
+        </div>
 
         {!isTrue(hide_close_button) && (
           <div className="dnb-modal__header__bar__close">

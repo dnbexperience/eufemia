@@ -103,6 +103,7 @@ describe('Table', () => {
         width: '30rem',
       },
       selector,
+      waitAfterSimulate: 200,
       executeBeforeSimulate: () => {
         document
           .querySelector(

@@ -1,6 +1,7 @@
 import { ToCamelCasePartial } from '../../shared/helpers/withCamelCaseProps'
 import { ScrollViewAllProps } from '../../fragments/ScrollView'
 import { ModalPropTypes } from '../modal/Modal'
+import { ReactChildType } from '../modal/types'
 
 export type DrawerProps = {
   /**
@@ -43,17 +44,22 @@ export type DrawerContentProps = {
   /**
    * The content which will appear in the navigation, above the header, and side-by-side the close button.
    */
-  navContent?: React.ReactNode | ((...args: any[]) => any)
+  navContent?: ReactChildType
 
   /**
    * The content which will appear in the header of the drawer.
    */
-  headerContent?: React.ReactNode | ((...args: any[]) => any)
+  headerContent?: ReactChildType
 
   /**
    * The content which will appear when triggering the drawer.
    */
-  modalContent?: React.ReactNode | ((...args: any[]) => any)
+  modalContent?: ReactChildType
+
+  /**
+   * The content which will appear when triggering the modal/drawer.
+   */
+  children?: ReactChildType
 
   /**
    * Define the inner horizontal alignment of the content. Can be set to `left`, `center`, `right` and `centered`. If `centered`, then the content will also be centered vertically. Defaults to `left`.
@@ -79,4 +85,4 @@ export type DrawerContentProps = {
    * Same as `no_animation`, but gets triggered only if the viewport width is less than `40em`. Defaults to false.
    */
   noAnimationOnMobile?: boolean
-} & ScrollViewAllProps
+} & Omit<ScrollViewAllProps, 'children'>

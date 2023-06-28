@@ -1,13 +1,13 @@
 import React from 'react'
 import Dialog from '../Dialog'
-import { DialogProps } from '../types'
+import { DialogContentProps, DialogProps } from '../types'
 import Button from '../../button/Button'
 import Provider from '../../../shared/Provider'
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
 import * as helpers from '../../../shared/helpers'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 
-const props: DialogProps = {
+const props: DialogProps & DialogContentProps = {
   noAnimation: true,
 }
 
@@ -175,7 +175,7 @@ describe('Dialog', () => {
       ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
     )
 
-    const props: DialogProps = {
+    const props: DialogProps & DialogContentProps = {
       directDomReturn: false,
       noAnimation: true,
     }
@@ -190,10 +190,10 @@ describe('Dialog', () => {
     expect(testTriggeredBy).toBe('keyboard')
   })
 
-  it('is closed by keyboardevent esc by window listener', () => {
+  it('is closed by keyboardevent esc by window listener', async () => {
     const on_close = jest.fn()
 
-    const props: DialogProps = {
+    const props: DialogProps & DialogContentProps = {
       directDomReturn: false,
       noAnimation: true,
     }
@@ -201,10 +201,12 @@ describe('Dialog', () => {
 
     fireEvent.click(document.querySelector('button#modal-dialog'))
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
-    expect(on_close).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(on_close).toHaveBeenCalledTimes(1)
+    })
   })
 
-  it('has support for nested Dialogs', () => {
+  it('has support for nested Dialogs', async () => {
     const on_open = {
       first: jest.fn(),
       second: jest.fn(),
@@ -302,9 +304,11 @@ describe('Dialog', () => {
 
     // Close the third one
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
-    expect(on_close.first).toHaveBeenCalledTimes(0)
-    expect(on_close.second).toHaveBeenCalledTimes(0)
-    expect(on_close.third).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(on_close.first).toHaveBeenCalledTimes(0)
+      expect(on_close.second).toHaveBeenCalledTimes(0)
+      expect(on_close.third).toHaveBeenCalledTimes(1)
+    })
 
     expect(
       document.documentElement.getAttribute('data-dnb-modal-active')
@@ -327,9 +331,11 @@ describe('Dialog', () => {
 
     // Close the second one
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
-    expect(on_close.first).toHaveBeenCalledTimes(0)
-    expect(on_close.second).toHaveBeenCalledTimes(1)
-    expect(on_close.third).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(on_close.first).toHaveBeenCalledTimes(0)
+      expect(on_close.second).toHaveBeenCalledTimes(1)
+      expect(on_close.third).toHaveBeenCalledTimes(1)
+    })
 
     expect(
       document.documentElement.getAttribute('data-dnb-modal-active')
@@ -347,14 +353,16 @@ describe('Dialog', () => {
 
     // Close the first one
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
-    expect(on_close.first).toHaveBeenCalledTimes(1)
-    expect(on_close.second).toHaveBeenCalledTimes(1)
-    expect(on_close.third).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(on_close.first).toHaveBeenCalledTimes(1)
+      expect(on_close.second).toHaveBeenCalledTimes(1)
+      expect(on_close.third).toHaveBeenCalledTimes(1)
 
-    expect(document.querySelector('#content-first')).toBeFalsy()
-    expect(
-      document.documentElement.hasAttribute('data-dnb-modal-active')
-    ).toBe(false)
+      expect(document.querySelector('#content-first')).toBeFalsy()
+      expect(
+        document.documentElement.hasAttribute('data-dnb-modal-active')
+      ).toBe(false)
+    })
   })
 
   it('will close dialog by using callback method', () => {
@@ -404,14 +412,16 @@ describe('Dialog', () => {
     ).toBe(1)
   })
 
-  it('does not close with click on overlay for variant confirmation', () => {
+  it('does not close with click on overlay for variant confirmation', async () => {
     render(<Dialog {...props} variant="confirmation" openState="opened" />)
 
     fireEvent.click(document.querySelector('.dnb-modal__content'))
     expect(document.querySelector('.dnb-dialog__inner')).toBeTruthy()
 
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
-    expect(document.querySelector('.dnb-dialog__inner')).toBeFalsy()
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-dialog__inner')).toBeFalsy()
+    })
   })
 })
 

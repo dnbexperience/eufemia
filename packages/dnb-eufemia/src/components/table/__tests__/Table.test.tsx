@@ -25,7 +25,7 @@ afterEach(() => {
 
 describe('Table', () => {
   it('renders with props as an object', () => {
-    const props: TableAllProps = { children: 'children' }
+    const props: TableAllProps = { children: null }
     render(<Table {...props} />)
 
     expect(document.querySelector('.dnb-table')).toBeTruthy()

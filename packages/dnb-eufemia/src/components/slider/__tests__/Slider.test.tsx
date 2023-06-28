@@ -4,13 +4,12 @@
  */
 
 import React from 'react'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import { fireEvent, render } from '@testing-library/react'
+import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
+import { fireEvent, render, act } from '@testing-library/react'
 import Slider from '../Slider'
 
 import type { SliderAllProps, onChangeEventProps } from '../Slider'
 import { format } from '../../number-format/NumberUtils'
-import { wait } from '@testing-library/user-event/dist/utils'
 import FormRow from '../../form-row/FormRow'
 
 const props: SliderAllProps = {
@@ -767,10 +766,12 @@ const resetMouseSimulation = () => {
 }
 
 const simulateMouseMove = (props) => {
-  fireEvent.mouseUp(document.querySelector('.dnb-slider__track'))
-  fireEvent.mouseDown(document.querySelector('.dnb-slider__track'))
-  const mouseMove = new CustomEvent('mousemove', {
-    detail: props,
+  act(() => {
+    fireEvent.mouseUp(document.querySelector('.dnb-slider__track'))
+    fireEvent.mouseDown(document.querySelector('.dnb-slider__track'))
+    const mouseMove = new CustomEvent('mousemove', {
+      detail: props,
+    })
+    document.body.dispatchEvent(mouseMove)
   })
-  document.body.dispatchEvent(mouseMove)
 }

@@ -3,6 +3,7 @@ import styled from '@emotion/styled'
 import { gridStyle } from './GridStyle'
 import classnames from 'classnames'
 import { Space } from '@dnb/eufemia/src/components'
+import { SpaceAllProps } from '@dnb/eufemia/src/components/Space'
 
 const MainWrapper = styled.main`
   min-height: 100vh;
@@ -47,7 +48,7 @@ interface IWrapper {
   children: React.ReactNode
 }
 
-export const Box = styled(Space)`
+export const Box = styled((props: SpaceAllProps) => <Space {...props} />)`
   position: relative;
 
   margin: 0;

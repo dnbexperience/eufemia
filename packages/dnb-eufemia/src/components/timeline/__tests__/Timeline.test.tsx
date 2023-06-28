@@ -249,7 +249,6 @@ describe('Timeline', () => {
         />
       )
 
-      expect(screen.findByAltText(iconAlt)).not.toBeNull()
       expect(screen.queryByRole('img').getAttribute('alt')).toBe(iconAlt)
     })
 

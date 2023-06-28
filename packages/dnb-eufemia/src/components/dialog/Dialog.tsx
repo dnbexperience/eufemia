@@ -19,9 +19,7 @@ const defaultProps = {
   spacing: true,
 }
 
-function Dialog(
-  localProps: DialogProps & DialogContentProps
-): JSX.Element {
+function Dialog(localProps: DialogProps & DialogContentProps) {
   const context = useContext(Context)
 
   const propsWithContext = extendPropsWithContext(

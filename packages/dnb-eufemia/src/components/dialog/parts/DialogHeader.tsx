@@ -15,7 +15,8 @@ export default function DialogHeader({
   size = 'large',
   ref, // eslint-disable-line
   ...props
-}: DialogHeaderProps & Omit<React.HTMLProps<HTMLElement>, 'size'>) {
+}: DialogHeaderProps &
+  Omit<React.HTMLProps<HTMLElement>, 'size' | 'children'>) {
   return (
     <ModalHeader
       {...props}
