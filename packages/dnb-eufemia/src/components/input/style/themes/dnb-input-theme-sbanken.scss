@@ -1,0 +1,105 @@
+/*
+* Input theme
+*
+*/
+
+@import '../../../../style/core/utilities.scss';
+
+.dnb-input {  
+  --input-height: 2.5rem;
+  --input-border-radius: 0.5rem;
+
+  &__shell {
+    transition: border-radius 0.250s ease-out;
+    border: none;
+    @include fakeBorder(
+      var(--sb-color-gray-dark-2),
+      var(--input-border-width),
+      inset
+    );
+  }
+
+  // with status_state = "error"
+  &__status--error#{&}:not([data-input-state='focus']) &__shell {
+    color: var(--sb-color-red);
+  }
+  &__status--error#{&}:not([data-input-state='focus']):not(:hover)
+    &__shell {
+    @include fakeBorder(var(--sb-color-red));
+  }
+  &__status--error#{&}:not([data-input-state='disabled']) &__shell:hover,
+  &__status--error#{&}:not([data-input-state='disabled']):hover &__shell {
+    @include fakeBorder(var(--sb-color-red), 0.125rem);
+  }
+  &__status--error#{&}[data-input-state='focus']:not([data-input-state='disabled']) &__shell {
+    @include fakeBorder(var(--sb-color-red));
+    @include focusRing(null, var(--sb-color-red), inset); 
+  }
+  
+  &__status--error &__submit-button {
+    html:not([data-whatintent='touch'])
+      &__button.dnb-button--secondary:not(&__button--has-text, [disabled]):hover,
+    html:not([data-whatintent='touch'])
+      &__button.dnb-button--secondary:not(&__button--has-text, [disabled]):focus {
+      &,
+      &::after {
+        background-color: var(--sb-color-red);
+      }
+
+      &:active {
+        color: var(--color-white);
+      }
+    }
+  }
+
+  &__status--error &__icon {
+    color: var(--sb-color-red);
+  }
+
+  &__placeholder {
+    color: var(--sb-color-gray-dark-3);
+  }
+
+  &[data-input-state='disabled'] &__shell {
+    &,
+    .dnb-icon,
+    .dnb-input__placeholder {
+      color: var(--sb-color-gray-dark-2);
+    }
+
+    -webkit-text-fill-color: currentcolor;
+
+    @include fakeBorder(
+      var(--sb-color-gray),
+      var(--input-border-width),
+      inset
+    );
+    background-color: var(--sb-color-gray-light);
+  }
+
+  &:not([data-input-state='disabled'])  {
+    // Hover
+    &:hover .dnb-input__shell, .dnb-input__shell:hover{
+      @include fakeBorder(
+        var(--sb-color-violet),
+        var(--input-border-width),
+        inset
+      );
+    }
+
+    // Focus
+    &[data-input-state='focus'] .dnb-input__shell {
+      @include fakeBorder(
+        var(--sb-color-violet),
+        var(--input-border-width),
+        inset
+      );
+      border-radius: 1.5rem;
+    }
+
+    // Focus
+    &[data-input-state='focus']:not(.dnb-input__status--error) .dnb-input__shell {
+      @include focusRing(null, null, inset); // keyboard only
+    }
+  }
+}
