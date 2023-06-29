@@ -35,4 +35,9 @@
   // Form properties
   --focus-ring-width: 0.1875rem;
   --focus-ring-color: var(--sb-color-blue-dark);
+
+  // Scrollbar
+  --scrollbar-track-color: var(--sb-color-gray-light-2);
+  --scrollbar-thumb-color: var(--sb-color-gray-dark-3);
+  --scrollbar-thumb-hover-color: var(--sb-color-purple);
 }
