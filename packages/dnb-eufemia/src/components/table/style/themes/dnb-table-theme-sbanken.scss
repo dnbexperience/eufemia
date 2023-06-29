@@ -1,0 +1,64 @@
+/*
+* Table theme
+*
+*/
+
+@import '../../../../style/core/utilities.scss';
+@import '../table-mixins.scss';
+
+.dnb-table {
+  text-align: left;
+
+  & thead {
+    border-bottom: 0.0625rem solid var(--sb-color-gray-light-2);
+  }
+
+  &__th,
+  & thead th {
+    padding: 0.5rem 1.5rem 0.25rem 1.5rem;
+  }
+
+  & &__tr--even {
+    background-color: var(--sb-color-gray-light-3);
+  }
+
+  &__td,
+  & tbody &__th,
+  & tbody td,
+  & tbody th {
+    padding: 1rem 1.5rem;
+  }
+
+  & > thead > tr > th#{&}--sortable,
+  & &__th#{&}--sortable {
+    color: var(--sb-color-gray-dark-3);
+
+    .dnb-table__sort-button.dnb-button {
+      &:not(:focus) .dnb-button__text::after {
+        color: var(--sb-color-green-dark);
+      }
+
+      @include hover() {
+        color: var(--sb-color-gray-dark-3);
+      }
+    }
+  }
+
+  & > thead > tr > th#{&}--active,
+  & &__th#{&}--active {
+    .dnb-button.dnb-table__sort-button {
+      @include active() {
+        color: var(--sb-color-green-dark);
+      }
+      @include hover() {
+        .dnb-icon {
+          color: var(--sb-color-violet);
+        }
+        .dnb-button__text::after {
+          color: var(--sb-color-green-dark) !important;
+          opacity: inherit;
+        }
+      }
+    }
+  }
+}
