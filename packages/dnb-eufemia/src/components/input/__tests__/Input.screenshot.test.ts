@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Input', () => {
+describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
   const extend = (selector) => ({
     style: {
       width: '200px', // make sure our input gets an explicit width, because of mac/linux rendering differences
@@ -16,7 +16,10 @@ describe('Input', () => {
     styleSelector: `[data-visual-test="${selector}"] .dnb-input__input`,
     simulateSelector: `[data-visual-test="${selector}"] .dnb-input__input`,
   })
-  setupPageScreenshot({ url: '/uilib/components/input/demos' })
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/input/demos',
+  })
 
   it('have to match input with placeholder', async () => {
     const screenshot = await makeScreenshot({
