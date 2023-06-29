@@ -102,4 +102,12 @@
       @include focusRing(null, null, inset); // keyboard only
     }
   }
+
+  &__submit-element {
+
+    .dnb-button--input-button {
+      box-shadow: none;
+      background-color: transparent;
+    }
+  }
 }
