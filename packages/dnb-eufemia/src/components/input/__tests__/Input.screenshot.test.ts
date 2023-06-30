@@ -58,6 +58,7 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
       ...extend('input-search'),
       selector: '[data-visual-test="input-search"]',
       simulate: 'focus', // should be tested first
+      waitAfterSimulate: 250,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
