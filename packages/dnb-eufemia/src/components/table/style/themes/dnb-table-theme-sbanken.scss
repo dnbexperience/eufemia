@@ -6,6 +6,15 @@
 @import '../../../../style/core/utilities.scss';
 @import '../table-mixins.scss';
 
+@mixin tableFocusRing() {
+  &::before {
+    top: -0.1875rem;
+    bottom: -0.0625rem;
+    left: -0.5rem;
+    right: -0.25rem;
+  }
+}
+
 .dnb-table {
   text-align: left;
 
@@ -29,35 +38,31 @@
     padding: 1rem 1.5rem;
   }
 
+  /* BUTTONS INSIDE TABLE */
+
+  // No sorting applied
   & > thead > tr > th#{&}--sortable,
   & &__th#{&}--sortable {
-    color: var(--sb-color-gray-dark-3);
-
     .dnb-table__sort-button.dnb-button {
+      color: var(--sb-color-violet);
+      & .dnb-button__text::after {
+        bottom: -0.0625rem;
+        left: 0;
+        opacity: 0;
+        color: var(--sb-color-violet);
+      }
       &:not(:focus) .dnb-button__text::after {
-        color: var(--sb-color-green-dark);
+        color: var(--sb-color-violet);
       }
-
       @include hover() {
-        color: var(--sb-color-gray-dark-3);
+        color: var(--sb-color-violet);
       }
-    }
-  }
-
-  & > thead > tr > th#{&}--active,
-  & &__th#{&}--active {
-    .dnb-button.dnb-table__sort-button {
       @include active() {
-        color: var(--sb-color-green-dark);
+        color: var(--sb-color-violet);
+        @include tableFocusRing();
       }
-      @include hover() {
-        .dnb-icon {
-          color: var(--sb-color-violet);
-        }
-        .dnb-button__text::after {
-          color: var(--sb-color-green-dark) !important;
-          opacity: inherit;
-        }
+      @include focus() {
+        @include tableFocusRing();
       }
     }
   }
