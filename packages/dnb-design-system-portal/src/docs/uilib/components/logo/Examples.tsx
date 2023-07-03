@@ -42,3 +42,15 @@ export const LogoCompactVariantExample = () => (
     <Logo height="96" variant="compact" />
   </ComponentBox>
 )
+
+export const LogoCompactHorizontalVariantExample = () => (
+  <ComponentBox data-visual-test="logo-compact-variant-horizontal">
+    <Logo height="96" variant="compactHorizontal" />
+  </ComponentBox>
+)
+
+export const LogoCompactSlimVariantExample = () => (
+  <ComponentBox data-visual-test="logo-compact-variant-slim">
+    <Logo height="96" variant="compactSlim" />
+  </ComponentBox>
+)

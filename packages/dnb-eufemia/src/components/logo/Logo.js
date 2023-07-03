@@ -64,6 +64,10 @@ export default class Logo extends React.PureComponent {
     ratio: 1.715277777777778,
   }
 
+  static sbankenCompactSlimProps = {
+    ratio: 1.34892874,
+  }
+
   render() {
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContextInClassComponent(
@@ -101,6 +105,8 @@ export default class Logo extends React.PureComponent {
         ratio = Logo.sbankenCompactProps.ratio
       } else if (variant === 'compactHorizontal') {
         ratio = Logo.sbankenCompactHorizontalProps.ratio
+      } else if (variant === 'compactSlim') {
+        ratio = Logo.sbankenCompactSlimProps.ratio
       }
     }
 
@@ -243,6 +249,12 @@ export default class Logo extends React.PureComponent {
             <path d="M452.308 279.199V218.594H472.121C478.698 218.594 483.637 219.954 486.939 222.673C490.269 225.393 491.934 229.416 491.934 234.744C491.934 237.575 491.129 240.086 489.52 242.278C487.911 244.443 485.718 246.121 482.943 247.315C486.218 248.23 488.799 249.979 490.686 252.559C492.6 255.112 493.558 258.165 493.558 261.717C493.558 267.155 491.795 271.429 488.271 274.537C484.747 277.645 479.766 279.199 473.328 279.199H452.308ZM460.3 250.853V272.664H473.495C477.213 272.664 480.141 271.706 482.277 269.792C484.442 267.849 485.524 265.185 485.524 261.8C485.524 254.502 481.556 250.853 473.62 250.853H460.3ZM460.3 244.443H472.371C475.867 244.443 478.656 243.569 480.737 241.82C482.846 240.072 483.901 237.7 483.901 234.703C483.901 231.373 482.93 228.959 480.987 227.46C479.045 225.934 476.089 225.171 472.121 225.171H460.3V244.443Z" />
           </svg>
         ),
+        compactSlim: (
+          <svg {...svgParams.sbanken.compactSlim}>
+            <title>{alt}</title>
+            <path d="M249.271 51.7618C264.189 51.7618 275.2 40.3957 275.2 25.8328C275.2 11.27 263.834 0.259033 249.271 0.259033C233.998 0.259033 222.632 11.27 222.632 25.8328C222.632 40.7509 233.998 51.7618 249.271 51.7618ZM135.61 286.898C179.654 286.898 213.397 255.286 213.397 213.019C213.397 175.368 195.637 156.188 137.741 131.325C109.681 118.893 99.7358 108.948 99.7358 93.3192C99.7358 74.1388 114.654 60.2864 135.61 60.2864C154.435 60.2864 168.288 72.3629 172.905 92.964L205.938 84.7946C198.124 50.341 170.419 27.964 135.61 27.964C95.8287 27.964 65.6374 56.3793 65.6374 93.3192C65.6374 125.286 81.9762 143.401 129.217 164.713C166.867 180.696 179.299 192.773 179.299 213.019C179.299 237.172 160.474 254.576 135.61 254.576C109.681 254.576 92.9871 239.658 87.3041 211.598L54.6265 219.767C63.8614 262.39 92.9871 286.898 135.61 286.898Z" />
+          </svg>
+        ),
       },
     }
 
@@ -256,6 +268,9 @@ export default class Logo extends React.PureComponent {
           break
         case 'compactHorizontal':
           selectedLogo = logos.sbanken.compactHorizontal
+          break
+        case 'compactSlim':
+          selectedLogo = logos.sbanken.compactSlim
           break
         default:
           selectedLogo = logos.sbanken.default
