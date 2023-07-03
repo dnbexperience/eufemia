@@ -58,7 +58,6 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
       ...extend('input-search'),
       selector: '[data-visual-test="input-search"]',
       simulate: 'hover',
-      waitAfterSimulate: 250,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -69,7 +68,6 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
       selector: '[data-visual-test="input-search"]',
       simulateSelector: `[data-visual-test="input-search"] .dnb-button`,
       simulate: 'hover',
-      waitAfterSimulate: 250,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -100,7 +98,6 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
       selector: '[data-visual-test="input-search"]',
       simulateSelector: `[data-visual-test="input-search"] .dnb-button`,
       simulate: 'focus',
-      waitAfterSimulate: 250,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -125,6 +122,35 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
     const screenshot = await makeScreenshot({
       ...extend('input-error'),
       selector: '[data-visual-test="input-error"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match error hover state', async () => {
+    const screenshot = await makeScreenshot({
+      ...extend('input-error'),
+      selector: '[data-visual-test="input-error"]',
+      simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match error mouse focus state', async () => {
+    const screenshot = await makeScreenshot({
+      ...extend('input-error'),
+      selector: '[data-visual-test="input-error"]',
+      simulate: 'click',
+      waitAfterSimulate: 250,
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match error focus state', async () => {
+    const screenshot = await makeScreenshot({
+      ...extend('input-error'),
+      selector: '[data-visual-test="input-error"]',
+      simulate: 'focus',
+      waitAfterSimulate: 250,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
