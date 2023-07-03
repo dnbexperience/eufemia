@@ -20,6 +20,19 @@
     );
   }
 
+  &__submit-element {
+    .dnb-button--input-button {
+      box-shadow: none;
+      background-color: transparent;
+    }
+  }
+
+  &__submit-button {
+    &__button {
+      color: var(--sb-color-violet);
+    }
+  }
+
   // with status_state = "error"
   &__status--error#{&}:not([data-input-state='focus']) &__shell {
     color: var(--sb-color-red);
@@ -104,13 +117,6 @@
     &[data-input-state='focus']:not(.dnb-input__status--error)
       .dnb-input__shell {
       @include focusRing(null, null, inset); // keyboard only
-    }
-  }
-
-  &__submit-element {
-    .dnb-button--input-button {
-      box-shadow: none;
-      background-color: transparent;
     }
   }
 }
