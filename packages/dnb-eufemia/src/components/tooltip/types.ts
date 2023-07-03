@@ -16,13 +16,11 @@ export type TooltipSize = 'basis' | 'large'
 
 export type TooltipProps = IncludeSnakeCase<{
   id?: string
-  group?: string
   size?: TooltipSize
   active?: boolean
   position?: TooltipPosition
   arrow?: TooltipArrow
   align?: TooltipAlign
-  animatePosition?: boolean
   fixedPosition?: boolean
   skipPortal?: boolean
   noAnimation?: boolean

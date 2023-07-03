@@ -164,7 +164,6 @@ function Thumb({ value, currentIndex }: ThumbProps) {
           <Tooltip
             key={`group-${currentIndex}`}
             targetElement={elemRef}
-            animatePosition={shouldAnimate}
             active={Boolean(showTooltip || alwaysShowTooltip)}
             showDelay={1}
             hideDelay={300}

@@ -27,9 +27,7 @@ export default function TooltipContainer(
     arrow,
     position,
     align,
-    group,
     hideDelay,
-    animatePosition,
     fixedPosition,
     noAnimation,
     skipPortal,
@@ -109,7 +107,7 @@ export default function TooltipContainer(
        * This "resets" the position between elements,
        * when not active. Else it will always first show on the older position.
        */
-      if (group && wasActive) {
+      if (wasActive) {
         clearTimeout(debounceTimeout.current)
         debounceTimeout.current = setTimeout(
           () => setStyle(null),
@@ -278,7 +276,6 @@ export default function TooltipContainer(
       {...attributes}
       className={classnames(
         attributes?.className,
-        isTrue(animatePosition) && 'dnb-tooltip--animate_position',
         isTrue(noAnimation) && 'dnb-tooltip--no-animation',
         isTrue(fixedPosition) && 'dnb-tooltip--fixed',
         isActive && 'dnb-tooltip--active',
