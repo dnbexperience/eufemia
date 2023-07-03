@@ -19,13 +19,11 @@ export function injectTooltipSemantic(params) {
 
 export const defaultProps = {
   id: null,
-  group: null,
   size: 'basis',
   active: null,
   position: 'top',
   arrow: 'center',
   align: null,
-  animatePosition: false,
   fixedPosition: false,
   skipPortal: null,
   noAnimation: false,

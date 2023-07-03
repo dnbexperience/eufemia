@@ -30,7 +30,6 @@ type TooltipPortalProps = {
   targetElement: HTMLElement
   active: boolean
   keepInDOM?: boolean
-  group?: string
   children?: React.ReactNode
 }
 
@@ -48,9 +47,8 @@ function TooltipPortal(
 
   const [isMounted, setIsMounted] = React.useState(false)
   const [isActive, setIsActive] = React.useState(active)
-  const [id] = React.useState(() => props.group || makeUniqueId())
+  const [id] = React.useState(() => makeUniqueId())
   const isInDOM = React.useRef(false)
-  const hasGroup = props.group
 
   const theme = useTheme()
 
@@ -58,9 +56,7 @@ function TooltipPortal(
     if (!tooltipPortal[id]) {
       tooltipPortal[id] = {
         count: 0,
-        node: hasGroup
-          ? createGroupElement(theme, id)
-          : createRootElement(theme),
+        node: createRootElement(theme),
       }
     }
   }
@@ -79,14 +75,6 @@ function TooltipPortal(
     if (ref?.node) {
       ref.count--
       if (ref.count <= 0) {
-        /**
-         * Only use unmountComponentAtNode when used ReactDOM.render()
-         */
-        if (hasGroup) {
-          ReactDOM.unmountComponentAtNode(ref.node)
-          createRootElement(theme).removeChild(ref.node)
-        }
-
         /**
          * Remove the referenced data
          */
@@ -109,17 +97,9 @@ function TooltipPortal(
       if (!isMounted) {
         tooltipPortal[id].count++
       }
-
-      if (hasGroup) {
-        renderPortal(true) // re-render
-      }
     } else if (!active && isMounted) {
       const delayRender = () => {
         setIsActive(false)
-
-        if (hasGroup) {
-          renderPortal(false) // re-render
-        }
       }
 
       const delayHidden = () => {
@@ -158,64 +138,27 @@ function TooltipPortal(
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const renderPortal = (isActive: boolean) => {
-    const root = tooltipPortal[id]?.node
+  const root = tooltipPortal[id]?.node
 
-    // Ensure we only render when it should (is in DOM)
-    if (root && hasGroup && isInDOM.current) {
-      ReactDOM.render(
+  if (root) {
+    return ReactDOM.createPortal(
+      isInDOM.current || keepInDOM ? (
         <TooltipContainer
           {...props}
           targetElement={targetElement}
           active={isActive}
-        />,
-        root
-      )
-    }
-
-    return null
-  }
-
-  if (!hasGroup) {
-    const root = tooltipPortal[id]?.node
-
-    if (root) {
-      return ReactDOM.createPortal(
-        isInDOM.current || keepInDOM ? (
-          <TooltipContainer
-            {...props}
-            targetElement={targetElement}
-            active={isActive}
-          >
-            {children}
-          </TooltipContainer>
-        ) : null,
-        root
-      )
-    }
+        >
+          {children}
+        </TooltipContainer>
+      ) : null,
+      root
+    )
   }
 
   return null
 }
 
 export default TooltipPortal
-
-/**
- * We creaete this custom wrapper, so ReactDOM.render has its "own" root. This is required by React.
- */
-const createGroupElement = (theme: ThemeProps, id: string) => {
-  try {
-    const elem = document.createElement('div')
-    elem.classList.add('dnb-tooltip__group')
-    elem.setAttribute('id', id)
-
-    createRootElement(theme).appendChild(elem)
-
-    return elem
-  } catch (e) {
-    warn(e)
-  }
-}
 
 const createRootElement = (theme: ThemeProps, className = null) => {
   if (!className) {

@@ -32,25 +32,6 @@ export const TooltipSandbox = () => {
         </Tooltip>
       </Box>
       <Box>
-        <Tooltip
-          animatePosition
-          group="animatePosition"
-          hideDelay={1e3}
-          targetElement={<span role="text">Top</span>}
-        >
-          Tooltip 1
-        </Tooltip>
-        <Tooltip
-          animatePosition
-          group="animatePosition"
-          position="bottom"
-          size="large"
-          targetElement={<span role="text">Bottom</span>}
-        >
-          Tooltip 2
-        </Tooltip>
-      </Box>
-      <Box>
         <button className="target-1">Show the Tooltip</button>
         <button className="target-2">Tooltip</button>
 
@@ -66,19 +47,12 @@ export const TooltipSandbox = () => {
       </Box>
       <Box>
         <Tooltip
-          group="animatePosition"
           // hideDelay={1e3}
-          animatePosition
           targetElement={<Button right>Top</Button>}
         >
           Tooltip 1
         </Tooltip>
-        <Tooltip
-          group="animatePosition"
-          position="bottom"
-          animatePosition
-          targetElement={<Button>Bottom</Button>}
-        >
+        <Tooltip position="bottom" targetElement={<Button>Bottom</Button>}>
           Tooltip 2
         </Tooltip>
       </Box>

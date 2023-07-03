@@ -28,23 +28,16 @@ export const TooltipExampleLinked = () => (
   </ComponentBox>
 )
 
-export const TooltipExampleAnimation = () => (
+export const TooltipExampleDelay = () => (
   <ComponentBox data-visual-test="tooltip-large">
     <Tooltip
-      animatePosition
-      group="animatePosition"
       hideDelay={1e3}
       size="large"
       targetElement={<Span right>Top</Span>}
     >
       Tooltip 1
     </Tooltip>
-    <Tooltip
-      animatePosition
-      group="animatePosition"
-      position="bottom"
-      targetElement={<Span>Bottom</Span>}
-    >
+    <Tooltip position="bottom" targetElement={<Span>Bottom</Span>}>
       Tooltip 2
     </Tooltip>
   </ComponentBox>

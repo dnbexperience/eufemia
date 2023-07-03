@@ -137,9 +137,6 @@ p > .dnb-icon {
 .dnb-tooltip--large {
   padding: 0.25rem 1rem;
 }
-.dnb-tooltip--animate_position {
-  transition: all 200ms var(--easing-default), opacity 200ms var(--easing-default);
-}
 .dnb-tooltip--active {
   visibility: visible;
   /*
@@ -676,9 +673,6 @@ p > .dnb-icon {
 }
 .dnb-tooltip--large {
   padding: 0.25rem 1rem;
-}
-.dnb-tooltip--animate_position {
-  transition: all 200ms var(--easing-default), opacity 200ms var(--easing-default);
 }
 .dnb-tooltip--active {
   visibility: visible;
@@ -1459,9 +1453,6 @@ p > .dnb-icon {
 }
 .dnb-tooltip--large {
   padding: 0.25rem 1rem;
-}
-.dnb-tooltip--animate_position {
-  transition: all 200ms var(--easing-default), opacity 200ms var(--easing-default);
 }
 .dnb-tooltip--active {
   visibility: visible;
