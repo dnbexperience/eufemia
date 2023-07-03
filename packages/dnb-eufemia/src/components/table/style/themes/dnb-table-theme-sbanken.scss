@@ -66,4 +66,15 @@
       }
     }
   }
+
+  & > thead > tr > th#{&}--active,
+  & &__th#{&}--active {
+    .dnb-table__sort-button.dnb-button {
+      @include hover() {
+        & .dnb-button__text::after {
+          color: var(--sb-color-violet);
+        }
+      }
+    }
+  }
 }
