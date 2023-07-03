@@ -37,9 +37,6 @@ exports[`NumberFormat scss has to match style dependencies css 1`] = `
 .dnb-tooltip--large {
   padding: 0.25rem 1rem;
 }
-.dnb-tooltip--animate_position {
-  transition: all 200ms var(--easing-default), opacity 200ms var(--easing-default);
-}
 .dnb-tooltip--active {
   visibility: visible;
   /*
