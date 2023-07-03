@@ -30,6 +30,11 @@
   --line-height-medium: var(--sb-line-height-medium);
   --line-height-large: var(--sb-line-height-large);
   --line-height-x-large: var(--sb-line-height-x-large);
+
+  // Scrollbar
+  --scrollbar-track-color: var(--sb-color-gray-light-2);
+  --scrollbar-thumb-color: var(--sb-color-gray-dark-3);
+  --scrollbar-thumb-hover-color: var(--sb-color-purple);
 }
 
 // change heading to use MaisonNeueHeadings
