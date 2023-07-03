@@ -98,6 +98,7 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
       selector: '[data-visual-test="input-search"]',
       simulateSelector: `[data-visual-test="input-search"] .dnb-button`,
       simulate: 'focus',
+      waitAfterSimulate: 250,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
