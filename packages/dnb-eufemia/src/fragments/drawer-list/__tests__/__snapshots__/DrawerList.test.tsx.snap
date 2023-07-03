@@ -97,9 +97,6 @@ html[data-visual-test] .dnb-drawer-list__portal__style {
   overscroll-behavior: contain;
   --scrollbar-track-width: 0.5rem;
   --scrollbar-thumb-width: 0.5rem;
-  --scrollbar-track-color: var(--color-black-8);
-  --scrollbar-thumb-color: var(--color-sea-green);
-  --scrollbar-thumb-hover-color: var(--color-emerald-green);
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: auto;
   scrollbar-color: var(--scrollbar-thumb-color, #888) transparent;
