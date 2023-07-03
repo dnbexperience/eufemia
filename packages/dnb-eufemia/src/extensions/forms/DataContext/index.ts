@@ -1,6 +1,6 @@
-import Context, { ContextState } from './Context';
-import Provider from './Provider';
-import SubmitButton from './SubmitButton';
+import Context, { ContextState } from './Context'
+import Provider from './Provider'
+import SubmitButton from './SubmitButton'
 
 const DataContext = {
   Context,
@@ -8,5 +8,5 @@ const DataContext = {
   SubmitButton,
 }
 
-export type { ContextState };
-export default DataContext;
+export type { ContextState }
+export default DataContext

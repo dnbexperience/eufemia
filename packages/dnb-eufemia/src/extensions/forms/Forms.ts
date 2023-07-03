@@ -1,3 +1,3 @@
-import { DataInput } from './index';
-export * from './index';
-export default DataInput;
+import { DataInput } from './index'
+export * from './index'
+export default DataInput

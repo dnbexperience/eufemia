@@ -1,4 +1,4 @@
-.dnb-forms-input-block {  
+.dnb-forms-input-block {
   &__label-block {
     display: flex;
     flex-flow: row;
@@ -11,12 +11,9 @@
     color: var(--color-black-55);
     font-size: var(--font-size-small);
   }
-  
+
   &__label-secondary {
     color: var(--color-black-55);
     font-size: var(--font-size-small);
-    font-size: var(--font-size-x-small);
   }
 }
-
-

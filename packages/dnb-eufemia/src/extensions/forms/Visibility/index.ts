@@ -1,1 +1,1 @@
-export { default } from './Visibility';
+export { default } from './Visibility'

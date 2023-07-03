@@ -1,21 +1,19 @@
 .dnb-forms-value {
   display: block;
   font-size: var(--font-size-basis);
-  
+
   &--inline {
     display: inline-block;
     font-size: inherit;
     margin-left: var(--spacing-xx-small);
     margin-right: var(--spacing-xx-small);
   }
-  
+
   &__label {
     font-weight: var(--font-weight-medium);
   }
-  
+
   &__placeholder {
     color: rgba(#000, 0.5);
   }
 }
-
-

@@ -1,11 +1,13 @@
-import React from 'react';
+import React from 'react'
 
 interface StepsContextState {
-  activeIndex: number;
-  handlePrevious: () => void;
-  handleNext: () => void;
+  activeIndex: number
+  handlePrevious: () => void
+  handleNext: () => void
 }
 
-const StepsContext = React.createContext<StepsContextState | undefined>(undefined);
+const StepsContext = React.createContext<StepsContextState | undefined>(
+  undefined
+)
 
-export default StepsContext;
+export default StepsContext

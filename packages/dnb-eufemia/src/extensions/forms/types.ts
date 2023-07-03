@@ -1,18 +1,18 @@
 interface IOptions {
-  validationRule?: string | string[];
+  validationRule?: string | string[]
 }
 
 export class FormError extends Error {
   /**
    * What validation rule did the error occur based on? (i.e: minLength, required or maximum)
    */
-  validationRule?: string | string[];
+  validationRule?: string | string[]
 
   constructor(message: string, options?: IOptions) {
-    super(message);
+    super(message)
 
     if (options) {
-      this.validationRule = options.validationRule;
+      this.validationRule = options.validationRule
     }
   }
 }

@@ -1,5 +1,5 @@
 .dnb-forms-flex-container {
-  display: flex; 
+  display: flex;
 
   &--direction {
     &-row {
@@ -81,5 +81,4 @@
   &--direction-row.dnb-forms-flex-container--spacing-medium {
     column-gap: var(--spacing-medium);
   }
-
 }

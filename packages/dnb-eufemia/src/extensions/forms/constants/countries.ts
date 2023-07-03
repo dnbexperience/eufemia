@@ -239,4 +239,4 @@ export default [
   { name: 'Yemen', code: '967', iso: 'YE' },
   { name: 'Zambia', code: '260', iso: 'ZM' },
   { name: 'Zimbabwe', code: '263', iso: 'ZW' },
-];
+]

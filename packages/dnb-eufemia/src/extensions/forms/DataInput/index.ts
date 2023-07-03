@@ -1,15 +1,15 @@
-import StringComponent from './String';
-import NumberComponent from './Number';
-import BooleanComponent from './Boolean';
-import CurrencyComponent from './Currency';
-import DateComponent from './Date';
-import EmailComponent from './Email';
-import FirstNameComponent from './FirstName';
-import LastNameComponent from './LastName';
-import NationalIdentityNumberComponent from './NationalIdentityNumber';
-import PhoneNumberComponent from './PhoneNumber';
-import SelectComponent from './Select';
-import OptionComponent from './Option';
+import StringComponent from './String'
+import NumberComponent from './Number'
+import BooleanComponent from './Boolean'
+import CurrencyComponent from './Currency'
+import DateComponent from './Date'
+import EmailComponent from './Email'
+import FirstNameComponent from './FirstName'
+import LastNameComponent from './LastName'
+import NationalIdentityNumberComponent from './NationalIdentityNumber'
+import PhoneNumberComponent from './PhoneNumber'
+import SelectComponent from './Select'
+import OptionComponent from './Option'
 
 const DataInput = {
   String: StringComponent,
@@ -26,4 +26,4 @@ const DataInput = {
   Option: OptionComponent,
 }
 
-export default DataInput;
+export default DataInput
