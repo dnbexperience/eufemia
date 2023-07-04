@@ -16,6 +16,7 @@ export const TextareaExampleRowsCols = () => (
         rows="2"
         cols="20"
         value="Textarea value\nNewline"
+        spellCheck={false}
         on_change={({ value }) => {
           console.log('on_change', value)
         }}
