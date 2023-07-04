@@ -132,9 +132,6 @@
 }
 
 @mixin scrollbarAppearance() {
-  --scrollbar-track-width: 0.5rem;
-  --scrollbar-thumb-width: 0.5rem;
-
   // older iOS safari
   -webkit-overflow-scrolling: touch;
 
