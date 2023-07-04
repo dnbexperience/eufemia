@@ -277,11 +277,6 @@
   z-index: 1;
 
   @include scrollY(auto);
-  :global(.eufemia-theme__sbanken) & {
-    --scrollbar-track-color: var(--sb-color-gray-light-2);
-    --scrollbar-thumb-color: var(--sb-color-gray-dark-3);
-    --scrollbar-thumb-hover-color: var(--sb-color-purple);
-  }
 
   @include allBelow(medium) {
     position: relative;
