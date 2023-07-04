@@ -111,8 +111,8 @@
     "what-input": "5.2.10"
   },
   "peerDependencies": {
-    "react": "^18",
-    "react-dom": "^18"
+    "react": "^17 || ^18",
+    "react-dom": "^17 || ^18"
   },
   "devDependencies": {
     "@babel/cli": "7.22.5",
