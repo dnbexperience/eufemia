@@ -29,7 +29,7 @@ const config = {
   pixelGrid: 8,
   pageViewport: {
     width: 1280,
-    height: 1024,
+    height: 2048,
   },
   matchConfig: {
     failureThreshold: 0.001, // Chromium needs 0.03, while webkit needs 0.04 or even more
