@@ -33,8 +33,6 @@ exports[`Tabs scss has to match style dependencies css 1`] = `
   flex: 0 1 auto;
   overflow-x: auto;
   overscroll-behavior: contain;
-  --scrollbar-track-width: 0.5rem;
-  --scrollbar-thumb-width: 0.5rem;
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: auto;
   scrollbar-color: var(--scrollbar-thumb-color, #888) transparent;

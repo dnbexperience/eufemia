@@ -95,8 +95,6 @@ html[data-visual-test] .dnb-drawer-list__portal__style {
   transition: max-height 300ms var(--easing-default);
   overflow-y: auto;
   overscroll-behavior: contain;
-  --scrollbar-track-width: 0.5rem;
-  --scrollbar-thumb-width: 0.5rem;
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: auto;
   scrollbar-color: var(--scrollbar-thumb-color, #888) transparent;
