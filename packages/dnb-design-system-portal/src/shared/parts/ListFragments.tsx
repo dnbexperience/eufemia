@@ -14,7 +14,10 @@ export default function ListFragments() {
             contentFilePath: { glob: "**/uilib/components/fragments/*" }
           }
         }
-        sort: { fields: [frontmatter___order, frontmatter___title] }
+        sort: [
+          { frontmatter: { order: ASC } }
+          { frontmatter: { title: ASC } }
+        ]
       ) {
         edges {
           node {
