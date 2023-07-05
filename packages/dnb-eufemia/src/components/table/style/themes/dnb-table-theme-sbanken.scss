@@ -19,12 +19,13 @@
   text-align: left;
 
   & thead {
-    border-bottom: 0.0625rem solid var(--sb-color-gray-light-2);
+    border-bottom: var(--border);
   }
 
   &__th,
   & thead th {
     padding: 0.5rem 1.5rem 0.25rem;
+    background-color: var(--sb-color-white);
   }
 
   & &__tr--even {
@@ -77,4 +78,18 @@
       }
     }
   }
+}
+
+.dnb-table,
+.dnb-table__container {
+  --border-width: 0.0625rem;
+  --outline-width: 0.0625rem;
+
+  // table border
+  --border: var(--border-width) solid var(--sb-color-gray-light-2);
+
+  // table outline
+  --outline: var(--outline-width) solid var(--sb-color-gray-light-2);
+
+  background-color: var(--sb-color-white);
 }
