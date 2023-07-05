@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom'
 import React from 'react'
-import { screen, render } from '@testing-library/react'
+import { screen, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import DataInput from '..'
 
@@ -25,7 +25,7 @@ describe('DataInput.Boolean', () => {
       ).toBeInTheDocument()
     })
 
-    it('should toggle when clicking', () => {
+    it('should toggle when clicking', async () => {
       const onChange = jest.fn()
       render(
         <DataInput.Boolean
@@ -35,13 +35,15 @@ describe('DataInput.Boolean', () => {
         />
       )
       const input = screen.getByTestId('data-input-boolean')
-      userEvent.click(input)
-      userEvent.click(input)
-      userEvent.click(input)
-      expect(onChange.mock.calls).toHaveLength(3)
-      expect(onChange.mock.calls[0][0]).toEqual(true)
-      expect(onChange.mock.calls[1][0]).toEqual(false)
-      expect(onChange.mock.calls[2][0]).toEqual(true)
+      await userEvent.click(input)
+      await userEvent.click(input)
+      await userEvent.click(input)
+      await waitFor(() => {
+        expect(onChange.mock.calls).toHaveLength(3)
+        expect(onChange.mock.calls[0][0]).toEqual(true)
+        expect(onChange.mock.calls[1][0]).toEqual(false)
+        expect(onChange.mock.calls[2][0]).toEqual(true)
+      })
     })
 
     it('should show error when no value is given', () => {

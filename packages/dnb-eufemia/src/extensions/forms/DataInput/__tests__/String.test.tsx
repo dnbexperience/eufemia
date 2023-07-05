@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom'
 import React from 'react'
-import { screen, render, waitFor } from '@testing-library/react'
+import { wait } from '../../../../core/jest/jestSetup'
+import { screen, render, waitFor, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import DataContext from '../../DataContext'
 import DataInput from '..'
@@ -32,6 +33,7 @@ describe('DataInput.String', () => {
       render(<DataInput.String value="test123" />)
       expect(screen.getByDisplayValue('test123')).toBeInTheDocument()
     })
+
     it('renders placeholder', () => {
       render(<DataInput.String placeholder="Enter something" />)
       expect(
@@ -39,6 +41,7 @@ describe('DataInput.String', () => {
         screen.getByText('Enter something')
       ).toBeInTheDocument()
     })
+
     it('does not render placeholder when value is given', () => {
       render(
         <DataInput.String
@@ -55,6 +58,7 @@ describe('DataInput.String', () => {
       render(<DataInput.String label="The label" />)
       expect(screen.getByLabelText('The label')).toBeInTheDocument()
     })
+
     it('renders error', () => {
       render(
         <DataInput.String error={new Error('This is what went wrong')} />
@@ -66,11 +70,11 @@ describe('DataInput.String', () => {
   })
 
   describe('event handlers', () => {
-    it('calls onChange for every change of the input value', () => {
+    it('calls onChange for every change of the input value', async () => {
       const onChange = jest.fn()
       render(<DataInput.String value="abc" onChange={onChange} />)
       const input = screen.getByTestId('data-input-string')
-      userEvent.type(input, 'def')
+      await userEvent.type(input, 'def')
       expect(onChange.mock.calls).toHaveLength(3)
       expect(onChange.mock.calls[0][0]).toEqual('abcd')
       expect(onChange.mock.calls[1][0]).toEqual('abcde')
@@ -81,22 +85,28 @@ describe('DataInput.String', () => {
       const onFocus = jest.fn()
       render(<DataInput.String value="blah" onFocus={onFocus} />)
       const input = screen.getByTestId('data-input-string')
-      input.focus()
+      act(() => {
+        input.focus()
+      })
       expect(onFocus.mock.calls).toHaveLength(1)
       expect(onFocus.mock.calls[0][0]).toEqual('blah')
     })
 
-    it('calls onBlur with current value', () => {
+    it('calls onBlur with current value', async () => {
       const onBlur = jest.fn()
       render(<DataInput.String value="song2" onBlur={onBlur} />)
       const input = screen.getByTestId('data-input-string')
       input.focus()
-      input.blur()
+      act(() => {
+        input.blur()
+      })
+      await wait(0)
       expect(onBlur.mock.calls).toHaveLength(1)
       expect(onBlur.mock.calls[0][0]).toEqual('song2')
-      input.focus()
-      userEvent.type(input, '345')
-      input.blur()
+      await userEvent.type(input, '345')
+      act(() => {
+        input.blur()
+      })
       expect(onBlur.mock.calls).toHaveLength(2)
       expect(onBlur.mock.calls[1][0]).toEqual('song2345')
     })
@@ -124,12 +134,13 @@ describe('DataInput.String', () => {
           )
           const input = screen.getByTestId('data-input-string')
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-          input.focus()
-          input.blur()
+          act(() => {
+            input.blur()
+          })
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
         })
 
-        it('should show error message if changing the value to an invalid one', () => {
+        it('should show error message if changing the value to an invalid one', async () => {
           render(
             <DataInput.String
               value="abc"
@@ -137,13 +148,14 @@ describe('DataInput.String', () => {
             />
           )
           const input = screen.getByTestId('data-input-string')
-          input.focus()
-          userEvent.type(input, 'd')
-          input.blur()
+          await userEvent.type(input, 'd')
+          act(() => {
+            input.blur()
+          })
           expect(screen.getByRole('alert')).toBeInTheDocument()
         })
 
-        it('should hide then error once you start typing, even if the current value is invalid', () => {
+        it('should hide then error once you start typing, even if the current value is invalid', async () => {
           render(
             <DataInput.String
               value="abc"
@@ -151,16 +163,16 @@ describe('DataInput.String', () => {
             />
           )
           const input = screen.getByTestId('data-input-string')
-          input.focus()
-          userEvent.type(input, 'd')
-          input.blur()
+          await userEvent.type(input, 'd')
+          act(() => {
+            input.blur()
+          })
           expect(screen.getByRole('alert')).toBeInTheDocument()
-          input.focus()
-          userEvent.type(input, 'e')
+          await userEvent.type(input, 'e')
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
         })
 
-        it('does not show an error for valid values', () => {
+        it('does not show an error for valid values', async () => {
           render(
             <DataInput.String
               value="abc"
@@ -168,13 +180,15 @@ describe('DataInput.String', () => {
             />
           )
           const input = screen.getByTestId('data-input-string')
-          input.focus()
-          userEvent.type(input, 'd')
-          input.blur()
+          await userEvent.type(input, 'd')
+          act(() => {
+            input.blur()
+          })
           expect(screen.getByRole('alert')).toBeInTheDocument()
-          input.focus()
-          userEvent.type(input, 'ef')
-          input.blur()
+          await userEvent.type(input, 'ef')
+          act(() => {
+            input.blur()
+          })
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
         })
       })
@@ -204,28 +218,32 @@ describe('DataInput.String', () => {
           const input = screen.getByTestId('data-input-string')
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
           input.focus()
-          input.blur()
+          act(() => {
+            input.blur()
+          })
           expect(screen.getByRole('alert')).toBeInTheDocument()
         })
       })
     })
 
     describe('validation based on required-prop', () => {
-      it('should show error for empty value', () => {
+      it('should show error for empty value', async () => {
         render(<DataInput.String value="a" required />)
         const input = screen.getByTestId('data-input-string')
-        input.focus()
-        userEvent.type(input, '{backspace}')
-        input.blur()
+        await userEvent.type(input, '{backspace}')
+        act(() => {
+          input.blur()
+        })
         expect(screen.getByRole('alert')).toBeInTheDocument()
       })
 
-      it('should not show error when value is not empty', () => {
+      it('should not show error when value is not empty', async () => {
         render(<DataInput.String value="a" required />)
         const input = screen.getByTestId('data-input-string')
-        input.focus()
-        userEvent.type(input, 'b')
-        input.blur()
+        await userEvent.type(input, 'b')
+        act(() => {
+          input.blur()
+        })
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
       })
     })
@@ -235,63 +253,69 @@ describe('DataInput.String', () => {
       // the json schema tests above, so it should be enough to test that each validation prop
       // lead to error correctly based on the given value.
 
-      it('should show error for invalid value', () => {
+      it('should show error for invalid value', async () => {
         render(<DataInput.String value="abc" minLength={5} />)
         const input = screen.getByTestId('data-input-string')
-        input.focus()
-        userEvent.type(input, 'd')
-        input.blur()
+        await userEvent.type(input, 'd')
+        act(() => {
+          input.blur()
+        })
         expect(screen.getByRole('alert')).toBeInTheDocument()
       })
 
-      it('should not show error message for valid value', () => {
+      it('should not show error message for valid value', async () => {
         render(<DataInput.String value="abc" minLength={2} />)
         const input = screen.getByTestId('data-input-string')
-        input.focus()
-        userEvent.type(input, 'd')
-        input.blur()
+        await userEvent.type(input, 'd')
+        act(() => {
+          input.blur()
+        })
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
       })
     })
 
     describe('validation based on maxLength-prop', () => {
-      it('should show error for invalid value', () => {
+      it('should show error for invalid value', async () => {
         render(<DataInput.String value="abc" maxLength={3} />)
         const input = screen.getByTestId('data-input-string')
-        input.focus()
-        userEvent.type(input, 'd')
-        input.blur()
+        await userEvent.type(input, 'd')
+        act(() => {
+          input.blur()
+        })
         expect(screen.getByRole('alert')).toBeInTheDocument()
       })
 
-      it('should not show error message for valid value', () => {
+      it('should not show error message for valid value', async () => {
         render(<DataInput.String value="abc" maxLength={4} />)
         const input = screen.getByTestId('data-input-string')
-        input.focus()
-        userEvent.type(input, 'd')
-        input.blur()
+        await userEvent.type(input, 'd')
+        act(() => {
+          input.blur()
+        })
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
       })
     })
 
     describe('validation based on pattern-prop', () => {
-      it('should show error for invalid value', () => {
+      it('should show error for invalid value', async () => {
         render(
           <DataInput.String value="abcdef" pattern="^[a-z]{2}[0-9]+" />
         )
         const input = screen.getByTestId('data-input-string')
-        input.focus()
-        userEvent.type(input, 'g')
-        input.blur()
+        await userEvent.type(input, 'g')
+        act(() => {
+          input.blur()
+        })
         expect(screen.getByRole('alert')).toBeInTheDocument()
       })
 
-      it('should not show error message for valid value', () => {
+      it('should not show error message for valid value', async () => {
         render(<DataInput.String value="ab1" pattern="^[a-z]{2}[0-9]+" />)
         const input = screen.getByTestId('data-input-string')
-        input.focus()
-        userEvent.type(input, '2')
-        input.blur()
+        await userEvent.type(input, '2')
+        act(() => {
+          input.blur()
+        })
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
       })
     })
@@ -316,9 +340,10 @@ describe('DataInput.String', () => {
         })
 
         const input = screen.getByTestId('data-input-string')
-        input.focus()
-        userEvent.type(input, 'def')
-        input.blur()
+        await userEvent.type(input, 'def')
+        act(() => {
+          input.blur()
+        })
 
         await waitFor(() => {
           expect(validator.mock.calls).toHaveLength(4)
@@ -371,23 +396,21 @@ describe('DataInput.String', () => {
         })
 
         const input = screen.getByTestId('data-input-string')
-        input.focus()
-        userEvent.type(input, 'def')
-        input.blur()
+        await userEvent.type(input, 'def')
 
-        await waitFor(() => {
-          expect(validator.mock.calls).toHaveLength(4)
-          expect((validator.mock.calls[1] as unknown[])[0]).toEqual('abcd')
-          expect((validator.mock.calls[2] as unknown[])[0]).toEqual(
-            'abcde'
-          )
-          expect((validator.mock.calls[3] as unknown[])[0]).toEqual(
-            'abcdef'
-          )
-          expect(
-            screen.getByText('Whats left when nothing is right?')
-          ).toBeInTheDocument()
+        act(() => {
+          act(() => {
+            input.blur()
+          })
         })
+
+        expect(validator.mock.calls).toHaveLength(4)
+        expect((validator.mock.calls[1] as unknown[])[0]).toEqual('abcd')
+        expect((validator.mock.calls[2] as unknown[])[0]).toEqual('abcde')
+        expect((validator.mock.calls[3] as unknown[])[0]).toEqual('abcdef')
+        expect(
+          screen.getByText('Whats left when nothing is right?')
+        ).toBeInTheDocument()
       })
 
       it('should not show error when validator returns undefined', async () => {
@@ -424,9 +447,10 @@ describe('DataInput.String', () => {
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
         })
         const input = screen.getByTestId('data-input-string')
-        input.focus()
-        userEvent.type(input, 'def')
-        input.blur()
+        await userEvent.type(input, 'def')
+        act(() => {
+          input.blur()
+        })
 
         await waitFor(() => {
           // Wait for since external validators are processed asynchronously
@@ -451,9 +475,10 @@ describe('DataInput.String', () => {
           />
         )
         const input = screen.getByTestId('data-input-string')
-        input.focus()
-        userEvent.type(input, 'd')
-        input.blur()
+        await userEvent.type(input, 'd')
+        act(() => {
+          input.blur()
+        })
         await expectNever(() => {
           // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
           expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -478,9 +503,10 @@ describe('DataInput.String', () => {
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
         })
         const input = screen.getByTestId('data-input-string')
-        input.focus()
-        userEvent.type(input, 'def')
-        input.blur()
+        await userEvent.type(input, 'def')
+        act(() => {
+          input.blur()
+        })
 
         await waitFor(() => {
           // Wait for since external validators are processed asynchronously
@@ -505,9 +531,10 @@ describe('DataInput.String', () => {
           />
         )
         const input = screen.getByTestId('data-input-string')
-        input.focus()
-        userEvent.type(input, 'd')
-        input.blur()
+        await userEvent.type(input, 'd')
+        act(() => {
+          input.blur()
+        })
         await expectNever(() => {
           // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
           expect(screen.queryByRole('alert')).toBeInTheDocument()
@@ -537,7 +564,7 @@ describe('DataInput.String', () => {
       expect(screen.getByDisplayValue('direct-prop')).toBeInTheDocument()
     })
 
-    it('calls onChange and onPathChange correctly when an input was changed', () => {
+    it('calls onChange and onPathChange correctly when an input was changed', async () => {
       const dataContextOnChange = jest.fn()
       const dataContextOnPathChange = jest.fn()
       const inputOnChange = jest.fn()
@@ -554,7 +581,7 @@ describe('DataInput.String', () => {
         </DataContext.Provider>
       )
       const input = screen.getByTestId('/foo')
-      userEvent.type(input, 'O!')
+      await userEvent.type(input, 'O!')
       expect(inputOnChange.mock.calls).toHaveLength(2)
       expect(inputOnChange.mock.calls[0][0]).toEqual('FOOO')
       expect(inputOnChange.mock.calls[1][0]).toEqual('FOOO!')

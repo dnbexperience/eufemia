@@ -19,7 +19,7 @@ describe('Select', () => {
       expect(screen.queryByText('Fooo')).not.toBeInTheDocument()
     })
 
-    it('renders given options', () => {
+    it('renders given options', async () => {
       render(
         <DataInput.Select value="bar">
           <DataInput.Option value="one">One</DataInput.Option>
@@ -32,7 +32,7 @@ describe('Select', () => {
       )
 
       const select = screen.getByTestId('data-input-select')
-      userEvent.click(select)
+      await userEvent.click(select)
 
       expect(screen.getAllByRole('option').length).toEqual(4)
       expect(screen.getByText('One')).toBeInTheDocument()
@@ -54,7 +54,7 @@ describe('Select', () => {
   })
 
   describe('event handlers', () => {
-    it('calls onChange when selecting a different options', () => {
+    it('calls onChange when selecting a different options', async () => {
       const onChange = jest.fn()
       render(
         <DataInput.Select value="bar" onChange={onChange}>
@@ -64,24 +64,24 @@ describe('Select', () => {
       )
 
       const select = screen.getByTestId('data-input-select')
-      userEvent.click(select)
+      await userEvent.click(select)
 
       const option1 = screen.getByText('Fooo')
-      userEvent.click(option1)
+      await userEvent.click(option1)
 
       expect(onChange.mock.calls).toHaveLength(1)
       expect(onChange.mock.calls[0][0]).toEqual('foo')
 
-      userEvent.click(select)
+      await userEvent.click(select)
       const option2 = screen.getByText('Baar')
-      userEvent.click(option2)
+      await userEvent.click(option2)
 
       expect(onChange.mock.calls).toHaveLength(2)
       expect(onChange.mock.calls[0][0]).toEqual('foo')
       expect(onChange.mock.calls[1][0]).toEqual('bar')
     })
 
-    it('calls onFocus when opening the dropdown with selected value as argument', () => {
+    it('calls onFocus when opening the dropdown with selected value as argument', async () => {
       const onFocus = jest.fn()
       render(
         <DataInput.Select value="bar" onFocus={onFocus}>
@@ -91,13 +91,13 @@ describe('Select', () => {
       )
 
       const select = screen.getByTestId('data-input-select')
-      userEvent.click(select)
+      await userEvent.click(select)
 
       expect(onFocus.mock.calls).toHaveLength(1)
       expect(onFocus.mock.calls[0][0]).toEqual('bar')
     })
 
-    it('calls onBlur when selecting the options so the dropdown closes with selected value as argument', () => {
+    it('calls onBlur when selecting the options so the dropdown closes with selected value as argument', async () => {
       const onBlur = jest.fn()
       render(
         <DataInput.Select value="bar" onBlur={onBlur}>
@@ -107,10 +107,10 @@ describe('Select', () => {
       )
 
       const select = screen.getByTestId('data-input-select')
-      userEvent.click(select)
+      await userEvent.click(select)
 
       const option1 = screen.getByText('Fooo')
-      userEvent.click(option1)
+      await userEvent.click(option1)
 
       expect(onBlur.mock.calls).toHaveLength(1)
       expect(onBlur.mock.calls[0][0]).toEqual('foo')
@@ -119,7 +119,7 @@ describe('Select', () => {
 
   describe('error handling', () => {
     describe('validation based on required-prop', () => {
-      it('should show error for empty value', () => {
+      it('should show error for empty value', async () => {
         render(
           <DataInput.Select required validateInitially>
             <DataInput.Option value="foo">Fooo</DataInput.Option>
@@ -127,11 +127,12 @@ describe('Select', () => {
           </DataInput.Select>
         )
         const select = screen.getByTestId('data-input-select')
-        userEvent.click(select)
+        await userEvent.click(select)
 
         expect(screen.getByRole('alert')).toBeInTheDocument()
       })
-      it('should not show error when value is not empty', () => {
+
+      it('should not show error when value is not empty', async () => {
         render(
           <DataInput.Select required>
             <DataInput.Option value="foo">Fooo</DataInput.Option>
@@ -139,9 +140,9 @@ describe('Select', () => {
           </DataInput.Select>
         )
         const select = screen.getByTestId('data-input-select')
-        userEvent.click(select)
+        await userEvent.click(select)
         const option1 = screen.getByText('Fooo')
-        userEvent.click(option1)
+        await userEvent.click(option1)
 
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
       })

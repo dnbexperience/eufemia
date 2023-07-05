@@ -3,6 +3,7 @@ import React from 'react'
 import { screen, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import DataInput from '..'
+import { wait } from '../../../../core/jest/jestSetup'
 
 describe('DataInput.Number', () => {
   describe('props', () => {
@@ -18,6 +19,7 @@ describe('DataInput.Number', () => {
         screen.getByText('Enter some number')
       ).toBeInTheDocument()
     })
+
     it('renders label', () => {
       render(<DataInput.Number label="Number label" />)
       expect(screen.getByLabelText('Number label')).toBeInTheDocument()
@@ -76,12 +78,13 @@ describe('DataInput.Number', () => {
       expect(screen.getByDisplayValue('13,57900')).toBeInTheDocument()
     })
   })
+
   describe('event handlers', () => {
-    it('calls onChange for every change of an integer input value', () => {
+    it('calls onChange for every change of an integer input value', async () => {
       const onChange = jest.fn()
       render(<DataInput.Number value={23} onChange={onChange} />)
       const input = screen.getByTestId('data-input-number')
-      userEvent.type(input, '579012')
+      await userEvent.type(input, '579012')
 
       expect(onChange.mock.calls).toHaveLength(6)
       expect(onChange.mock.calls[0][0]).toEqual(235)
@@ -92,11 +95,11 @@ describe('DataInput.Number', () => {
       expect(onChange.mock.calls[5][0]).toEqual(23579012)
     })
 
-    it('calls onChange for every change of a float input value', () => {
+    it('calls onChange for every change of a float input value', async () => {
       const onChange = jest.fn()
       render(<DataInput.Number value={24.5} onChange={onChange} />)
       const input = screen.getByTestId('data-input-number')
-      userEvent.type(input, '7621')
+      await userEvent.type(input, '7621')
 
       expect(onChange.mock.calls).toHaveLength(4)
       expect(onChange.mock.calls[0][0]).toEqual(24.57)
@@ -118,60 +121,57 @@ describe('DataInput.Number', () => {
     })
 
     describe('validation based on required-prop', () => {
-      it('should show error for empty value', () => {
+      it('should show error for empty value', async () => {
         render(<DataInput.Number value={1} required />)
         const input = screen.getByTestId('data-input-number')
-        input.focus()
-        userEvent.type(input, '{backspace}')
+        await userEvent.type(input, '{backspace}')
         input.blur()
+        await wait(0)
         expect(screen.getByRole('alert')).toBeInTheDocument()
       })
 
-      it('should not show error when value is not empty', () => {
+      it('should not show error when value is not empty', async () => {
         render(<DataInput.Number value={1} required />)
         const input = screen.getByTestId('data-input-number')
-        input.focus()
-        userEvent.type(input, '2')
+        await userEvent.type(input, '2')
         input.blur()
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
       })
     })
 
     describe('validation based on minimum-prop', () => {
-      it('should show error for invalid value', () => {
+      it('should show error for invalid value', async () => {
         render(<DataInput.Number value={50} minimum={2000} />)
         const input = screen.getByTestId('data-input-number')
-        input.focus()
-        userEvent.type(input, '1')
+        await userEvent.type(input, '1')
         input.blur()
+        await wait(0)
         expect(screen.getByRole('alert')).toBeInTheDocument()
       })
 
-      it('should not show error message for valid value', () => {
+      it('should not show error message for valid value', async () => {
         render(<DataInput.Number value={65} minimum={40} />)
         const input = screen.getByTestId('data-input-number')
-        input.focus()
-        userEvent.type(input, '5')
+        await userEvent.type(input, '5')
         input.blur()
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
       })
     })
 
     describe('validation based on maximum-prop', () => {
-      it('should show error for invalid value', () => {
+      it('should show error for invalid value', async () => {
         render(<DataInput.Number value={50} maximum={100} />)
         const input = screen.getByTestId('data-input-number')
-        input.focus()
-        userEvent.type(input, '0')
+        await userEvent.type(input, '0')
         input.blur()
+        await wait(0)
         expect(screen.getByRole('alert')).toBeInTheDocument()
       })
 
-      it('should not show error message for valid value', () => {
+      it('should not show error message for valid value', async () => {
         render(<DataInput.Number value={20} maximum={500} />)
         const input = screen.getByTestId('data-input-number')
-        input.focus()
-        userEvent.type(input, '1')
+        await userEvent.type(input, '1')
         input.blur()
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
       })
