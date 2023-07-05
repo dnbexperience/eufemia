@@ -133,6 +133,10 @@ const makeScreenshot = async ({
     screenshotSelector,
   })
 
+  if (simulate && simulate === 'active') {
+    await page.mouse.up() // reset mouse.down() for subsequent tests
+  }
+
   if (delaySimulation > 0) {
     await page.waitForTimeout(delaySimulation)
   }
@@ -477,13 +481,8 @@ async function handleSimulation({
         }
 
         case 'active': {
-          delaySimulation = isCI ? 200 : 100
-          await element.click({
-            force: true,
-            delay: delaySimulation,
-          })
-
-          await page.mouse.down() // Slider needs "mouse.down", in order to make "active" state work
+          await element.hover({ force: true }) // Slider needs "force: true", in order to ignore "pointer-events: none"
+          await page.mouse.down()
 
           break
         }

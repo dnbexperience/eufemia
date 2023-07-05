@@ -53,11 +53,11 @@ export const AnchorExampleInSection = () => (
 
 export const AnchorExampleStates = () => (
   <Wrapper>
-    <ComponentBox scope={{ Example }}>
+    <ComponentBox scope={{ Example }} data-visual-test="anchor-states">
       <Example data-visual-test="anchor-default">
         <Anchor href="/uilib/components/anchor">Default Style</Anchor>
       </Example>
-      <Example data-visual-test="anchor-hover">
+      <Example>
         <Anchor
           href="/uilib/components/anchor"
           className="dnb-anchor--hover"
@@ -65,7 +65,7 @@ export const AnchorExampleStates = () => (
           Hover Style
         </Anchor>
       </Example>
-      <Example data-visual-test="anchor-active">
+      <Example>
         <Anchor
           href="/uilib/components/anchor"
           className="dnb-anchor--active"
@@ -73,7 +73,7 @@ export const AnchorExampleStates = () => (
           Active Style
         </Anchor>
       </Example>
-      <Example data-visual-test="anchor-focus">
+      <Example>
         <Anchor
           href="/uilib/components/anchor"
           className="dnb-anchor--focus"
