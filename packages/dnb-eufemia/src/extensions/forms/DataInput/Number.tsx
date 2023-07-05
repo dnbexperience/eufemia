@@ -131,7 +131,6 @@ export default function DataInputNumber(props: Props) {
         data-testid={dataTestId ?? path ?? 'data-input-number'}
         placeholder={placeholder}
         value={value}
-        size="medium"
         suffix={suffix}
         on_focus={onFocus}
         on_blur={onBlur}

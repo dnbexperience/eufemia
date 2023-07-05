@@ -15,7 +15,6 @@ export default function SubHeading(props: Props) {
       className={classnames('dnb-forms-sub-heading', className)}
       data-testid={dataTestId ?? 'layout-sub-heading'}
       level="3"
-      size="medium"
       {...forwardSpaceProps(props)}
     >
       {children}

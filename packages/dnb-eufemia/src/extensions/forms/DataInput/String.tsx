@@ -139,7 +139,6 @@ export default function DataInputString(props: Props) {
           type={type}
           placeholder={placeholder}
           value={value ?? ''}
-          size="medium"
           icon={leftIcon ?? rightIcon}
           icon_position={rightIcon && !leftIcon ? 'right' : undefined}
           clear={clear}

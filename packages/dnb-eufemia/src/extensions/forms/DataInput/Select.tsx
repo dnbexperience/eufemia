@@ -77,7 +77,6 @@ export default function Select(props: Props) {
       default_value={String(value ?? '')}
       label={label}
       label_direction="vertical"
-      size="medium"
       status={error?.message}
       disabled={disabled}
       data={data}

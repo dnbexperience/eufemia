@@ -52,7 +52,6 @@ export default function CurrencyInput(props: Props) {
       value={value?.toString() ?? ''}
       label={label}
       label_direction="vertical"
-      size="medium"
       on_focus={onFocus}
       on_blur={onBlur}
       on_change={onChange}

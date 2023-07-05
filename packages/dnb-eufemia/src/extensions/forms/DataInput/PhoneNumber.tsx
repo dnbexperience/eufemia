@@ -100,7 +100,6 @@ export default function PhoneNumberInput(props: Props) {
         data={countriesDropdownData}
         value={countryCode}
         disabled={disabled}
-        size="medium"
         on_change={handleCountryCodeChange}
       />
       <Input
@@ -109,7 +108,6 @@ export default function PhoneNumberInput(props: Props) {
           numberInputClassName
         )}
         data-testid="data-input-phone-number-number"
-        size="medium"
         label_direction="vertical"
         label={label ?? ' '}
         placeholder={placeholder}
