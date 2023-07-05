@@ -20,7 +20,6 @@ export type Props = ComponentProps &
   InputProps<string, undefined, ErrorMessages> & {
     inputClassName?: string
     type?: EufemiaInputProps['type']
-    stretch?: boolean
     multiline?: boolean
     leftIcon?: string
     rightIcon?: string
@@ -75,7 +74,6 @@ export default function DataInputString(props: Props) {
     inputClassName,
     layout,
     type,
-    stretch = true,
     placeholder,
     label,
     labelDescription,
@@ -129,7 +127,6 @@ export default function DataInputString(props: Props) {
           autoresize={autoresize}
           autoresize_max_rows={autoresizeMaxRows}
           disabled={disabled}
-          stretch
         />
       ) : (
         <Input
@@ -146,7 +143,6 @@ export default function DataInputString(props: Props) {
           on_blur={onBlur}
           on_change={onChange}
           disabled={disabled}
-          stretch={stretch}
         />
       )}
     </InputBlock>

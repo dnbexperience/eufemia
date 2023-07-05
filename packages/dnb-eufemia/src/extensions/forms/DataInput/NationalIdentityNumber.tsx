@@ -13,7 +13,6 @@ export default function NationalIdentityNumberInput(props: Props) {
   const stringInputProps: Props = {
     ...props,
     inputClassName: 'dnb-forms-data-input-national-identity-number',
-    stretch: false,
     pattern: props.pattern ?? (validate ? '^[0-9]{11}$' : undefined),
     label:
       props.label ??

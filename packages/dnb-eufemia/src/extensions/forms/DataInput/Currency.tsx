@@ -7,7 +7,6 @@ import type { InputProps } from '../input-types'
 
 export type Props = ComponentProps &
   InputProps<number> & {
-    stretch?: boolean
     currency?: string
   }
 
@@ -32,7 +31,6 @@ export default function CurrencyInput(props: Props) {
     currency,
     path,
     'data-testid': dataTestId,
-    stretch = true,
     placeholder,
     label,
     value,
@@ -57,7 +55,6 @@ export default function CurrencyInput(props: Props) {
       on_change={onChange}
       status={error?.message}
       disabled={disabled}
-      stretch={stretch}
       {...forwardSpaceProps(props)}
     />
   )

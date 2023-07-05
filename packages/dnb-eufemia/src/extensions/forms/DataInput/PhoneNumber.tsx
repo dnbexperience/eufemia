@@ -118,7 +118,6 @@ export default function PhoneNumberInput(props: Props) {
         status={error?.message}
         disabled={disabled}
         type="tel"
-        stretch
       />
     </Div>
   )

@@ -6,10 +6,7 @@ import type { ComponentProps } from '../component-types'
 import type { InputProps } from '../input-types'
 import SharedContext from '../../../shared/Context'
 
-export type Props = ComponentProps &
-  InputProps<string> & {
-    stretch?: boolean
-  }
+export type Props = ComponentProps & InputProps<string>
 
 export default function DateInput(props: Props) {
   const sharedContext = useContext(SharedContext)
@@ -28,7 +25,6 @@ export default function DateInput(props: Props) {
     value,
     error,
     disabled,
-    stretch = false,
     onFocus,
     onBlur,
     onChange,
@@ -49,7 +45,6 @@ export default function DateInput(props: Props) {
       on_change={onChange}
       on_show={onFocus}
       on_hide={onBlur}
-      stretch={stretch}
       {...forwardSpaceProps(props)}
     />
   )

@@ -24,7 +24,6 @@ interface ErrorMessages {
 export type Props = ComponentProps &
   InputProps<number, undefined, ErrorMessages> & {
     inputClassName?: string
-    stretch?: boolean
     // Formatting
     thousandSeparator?: string
     decimalSymbol?: string
@@ -95,7 +94,6 @@ export default function DataInputNumber(props: Props) {
     'data-testid': dataTestId,
     inputClassName,
     layout,
-    stretch = true,
     placeholder,
     label,
     labelDescription,
@@ -136,7 +134,6 @@ export default function DataInputNumber(props: Props) {
         on_blur={onBlur}
         on_change={onChange}
         disabled={disabled}
-        stretch={stretch}
       />
     </InputBlock>
   )
