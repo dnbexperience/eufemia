@@ -31,7 +31,7 @@
   "peerDependencies": {
     "@dnb/eufemia": ">=9",
     "gatsby": ">=3",
-    "react": ">=17"
+    "react": ">=18"
   },
   "publishConfig": {
     "access": "public"

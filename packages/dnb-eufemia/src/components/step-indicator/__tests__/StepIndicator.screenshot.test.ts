@@ -9,7 +9,13 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('StepIndicator', () => {
-  setupPageScreenshot({ url: '/uilib/components/step-indicator/demos' })
+  setupPageScreenshot({
+    pageViewport: {
+      width: 1280,
+      height: 1024,
+    },
+    url: '/uilib/components/step-indicator/demos',
+  })
 
   it('have to match loose mode', async () => {
     const screenshot = await makeScreenshot({
