@@ -120,5 +120,5 @@
 
 // TODO: add correct contrast styling when designs are in place
 .dnb-anchor--contrast {
-  @include anchor-mixins.useAnchorContrastStyle();
+  @include anchor-mixins.useAnchorContrastStyle(var(--sb-color-text));
 }

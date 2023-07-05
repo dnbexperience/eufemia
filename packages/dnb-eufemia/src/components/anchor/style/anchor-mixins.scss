@@ -116,16 +116,15 @@
 @mixin useAnchorContrastStyle($contrastColor: var(--color-emerald-green)) {
   color: var(--color-white);
 
-  &:hover,
-  &:active {
+  &:hover {
     color: $contrastColor;
-    background-color: var(--color-white);
-    text-decoration: none;
+    @include anchorBackground(var(--color-white));
   }
 
   &:active {
-    color: $contrastColor;
-    background-color: var(--color-white);
+    color: var(--color-white);
+    background-color: transparent;
+    @include anchorBackground(transparent);
   }
 
   &:not(:disabled):focus {
