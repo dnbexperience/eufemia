@@ -14,7 +14,6 @@ const Wrapper = styled.div`
   }
 `
 const Example = styled.div`
-  display: flex;
   padding: 0.5rem 0;
 
   html[data-visual-test] & {
