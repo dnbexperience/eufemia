@@ -253,22 +253,18 @@ sup .dnb-anchor, sub .dnb-anchor {
 .dnb-p .dnb-anchor, .dnb-lead .dnb-anchor, .dnb-h--xx-large .dnb-anchor, .dnb-h--x-large .dnb-anchor, .dnb-h--large .dnb-anchor, .dnb-h--medium .dnb-anchor, .dnb-h--basis .dnb-anchor, .dnb-h--small .dnb-anchor, .dnb-h--x-small .dnb-anchor {
   font-size: inherit;
 }
-.dnb-anchor:focus {
-  outline: none;
-  border-radius: 0.25em;
-}
-.dnb-anchor:focus:not(:active) {
+.dnb-anchor:focus-visible {
   background-color: transparent;
   transition: none;
-}
-.dnb-anchor:focus:not(:active), .dnb-section .dnb-anchor:focus:not(:active).dnb-anchor {
-  text-decoration: none;
-}
-html[data-whatinput=keyboard] .dnb-anchor:focus {
+  outline: none;
   --border-color: var(--focus-ring-color);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
+  border-radius: 0.25em;
+}
+.dnb-anchor:focus-visible, .dnb-section .dnb-anchor:focus-visible.dnb-anchor {
+  text-decoration: none;
 }
 .dnb-anchor:hover, .dnb-anchor:active {
   border-radius: 0.25em;
@@ -330,6 +326,8 @@ html[data-whatinput=keyboard] .dnb-anchor:focus {
 }
 
 .dnb-anchor--focus {
+  background-color: transparent;
+  transition: none;
   outline: none;
   --border-color: var(--focus-ring-color);
   --border-width: var(--focus-ring-width);
@@ -337,11 +335,7 @@ html[data-whatinput=keyboard] .dnb-anchor:focus {
   border-color: transparent;
   border-radius: 0.25em;
 }
-.dnb-anchor--focus:not(:active) {
-  background-color: transparent;
-  transition: none;
-}
-.dnb-anchor--focus:not(:active), .dnb-section .dnb-anchor--focus:not(:active).dnb-anchor {
+.dnb-anchor--focus, .dnb-section .dnb-anchor--focus.dnb-anchor {
   text-decoration: none;
 }
 
@@ -366,7 +360,7 @@ html[data-whatinput=keyboard] .dnb-anchor:focus {
   background-color: transparent;
 }
 
-.dnb-anchor--no-radius, .dnb-anchor--no-radius:hover, .dnb-anchor--no-radius:active, .dnb-anchor--no-radius:focus {
+.dnb-anchor--no-radius, .dnb-anchor--no-radius:hover, .dnb-anchor--no-radius:active, .dnb-anchor--no-radius:focus-visible {
   border-radius: 0;
 }
 
@@ -418,24 +412,21 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
   background-color: var(--sb-color-green);
   border-radius: 0.5rem;
 }
-.dnb-anchor:focus {
+.dnb-anchor:focus-visible {
   color: var(--sb-color-blue-dark);
   background-color: var(--sb-color-blue-light-3);
   border-radius: 0.25rem;
 }
-.dnb-anchor:focus:not(:active) {
-  background-color: var(--sb-color-blue-light-3);
-}
-.dnb-anchor:focus.dnb-anchor--icon-left {
+.dnb-anchor:focus-visible.dnb-anchor--icon-left {
   margin-left: 0;
 }
-.dnb-anchor:focus.dnb-anchor--icon-left .dnb-icon {
+.dnb-anchor:focus-visible.dnb-anchor--icon-left .dnb-icon {
   margin-left: 0;
 }
-.dnb-anchor:focus.dnb-anchor--icon-right {
+.dnb-anchor:focus-visible.dnb-anchor--icon-right {
   margin-right: 0;
 }
-.dnb-anchor:focus.dnb-anchor--icon-right .dnb-icon {
+.dnb-anchor:focus-visible.dnb-anchor--icon-right .dnb-icon {
   margin-right: 0;
 }
 .dnb-anchor.dnb-anchor--icon-left {
@@ -487,9 +478,6 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
   background-color: var(--sb-color-blue-light-3);
   border-radius: 0.25rem;
 }
-.dnb-anchor--focus:not(:active) {
-  background-color: var(--sb-color-blue-light-3);
-}
 .dnb-anchor--focus.dnb-anchor--icon-left {
   margin-left: 0;
 }
@@ -503,7 +491,7 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
   margin-right: 0;
 }
 
-.dnb-anchor--no-radius, .dnb-anchor--no-radius:hover, .dnb-anchor--no-radius:active, .dnb-anchor--no-radius:focus {
+.dnb-anchor--no-radius, .dnb-anchor--no-radius:hover, .dnb-anchor--no-radius:active, .dnb-anchor--no-radius:focus-visible {
   border-radius: 0;
 }
 
@@ -519,12 +507,10 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
   background-color: transparent;
   box-shadow: inset 100vw 100vw 0 0 transparent, -0.125em 0 0 0 transparent, 0.125em 0 0 0 transparent;
 }
-.dnb-anchor--contrast:not(:disabled):focus {
+.dnb-anchor--contrast:focus-visible {
   color: var(--color-white);
   background-color: transparent;
   outline: none;
-}
-html[data-whatinput=keyboard] .dnb-anchor--contrast:not(:disabled):focus {
   --border-color: var(--color-white);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
@@ -551,7 +537,7 @@ exports[`Anchor scss has to match theme css for ui 1`] = `
   color: var(--color-mint-green);
   box-shadow: inset 100vw 100vw 0 0 var(--color-emerald-green), -0.125em 0 0 0 var(--color-emerald-green), 0.125em 0 0 0 var(--color-emerald-green);
 }
-.dnb-anchor:focus:not(:active) {
+.dnb-anchor:focus-visible {
   color: var(--color-sea-green);
 }
 
@@ -565,7 +551,7 @@ exports[`Anchor scss has to match theme css for ui 1`] = `
   box-shadow: inset 100vw 100vw 0 0 var(--color-emerald-green), -0.125em 0 0 0 var(--color-emerald-green), 0.125em 0 0 0 var(--color-emerald-green);
 }
 
-.dnb-anchor--focus:not(:active) {
+.dnb-anchor--focus {
   color: var(--color-sea-green);
 }
 
@@ -581,12 +567,10 @@ exports[`Anchor scss has to match theme css for ui 1`] = `
   background-color: transparent;
   box-shadow: inset 100vw 100vw 0 0 transparent, -0.125em 0 0 0 transparent, 0.125em 0 0 0 transparent;
 }
-.dnb-anchor--contrast:not(:disabled):focus {
+.dnb-anchor--contrast:focus-visible {
   color: var(--color-white);
   background-color: transparent;
   outline: none;
-}
-html[data-whatinput=keyboard] .dnb-anchor--contrast:not(:disabled):focus {
   --border-color: var(--color-white);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);

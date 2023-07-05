@@ -14,10 +14,8 @@
     @include anchor-mixins.anchorBackground(var(--color-emerald-green));
   }
 
-  &:focus {
-    &:not(:active) {
-      color: var(--color-sea-green);
-    }
+  &:focus-visible {
+    color: var(--color-sea-green);
   }
 }
 
@@ -38,9 +36,7 @@ $useClasses: true !default;
   }
 
   .dnb-anchor--focus {
-    &:not(:active) {
-      color: var(--color-sea-green);
-    }
+    color: var(--color-sea-green);
   }
 
   .dnb-anchor--contrast {
