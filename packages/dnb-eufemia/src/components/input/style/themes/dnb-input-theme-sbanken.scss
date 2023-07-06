@@ -8,6 +8,7 @@
 .dnb-input {
   --input-height: 2.5rem;
   --input-border-radius: 0.5rem;
+  --input-border-width-hover: 0.125rem;
 
   &__shell {
     background-color: var(--color-white);
@@ -41,14 +42,17 @@
     &__shell {
     @include fakeBorder(var(--sb-color-red));
   }
-  &__status--error#{&}:not([data-input-state='disabled']) &__shell:hover,
-  &__status--error#{&}:not([data-input-state='disabled']):hover &__shell {
-    @include fakeBorder(var(--sb-color-red), 0.125rem);
-  }
   &__status--error#{&}[data-input-state='focus']:not([data-input-state='disabled'])
     &__shell {
     @include fakeBorder(var(--sb-color-red));
     @include focusRing(null, var(--sb-color-red), inset);
+  }
+  &__status--error#{&}:not([data-input-state='disabled']) &__shell:hover,
+  &__status--error#{&}:not([data-input-state='disabled']):hover &__shell {
+    @include fakeBorder(
+      var(--sb-color-red),
+      var(--input-border-width-hover)
+    );
   }
 
   &__status--error &__submit-button {
@@ -93,16 +97,6 @@
   }
 
   &:not([data-input-state='disabled']) {
-    // Hover
-    &:hover .dnb-input__shell,
-    .dnb-input__shell:hover {
-      @include fakeBorder(
-        var(--sb-color-violet),
-        var(--input-border-width),
-        inset
-      );
-    }
-
     // Focus
     &[data-input-state='focus'] .dnb-input__shell {
       @include fakeBorder(
@@ -111,6 +105,16 @@
         inset
       );
       border-radius: 1.5rem;
+    }
+
+    // Hover
+    &:hover .dnb-input__shell,
+    .dnb-input__shell:hover {
+      @include fakeBorder(
+        var(--sb-color-violet),
+        var(--input-border-width-hover),
+        inset
+      );
     }
 
     // Focus
