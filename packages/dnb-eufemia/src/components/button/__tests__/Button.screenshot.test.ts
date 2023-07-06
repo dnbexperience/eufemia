@@ -221,6 +221,36 @@ describe.each(['ui', 'sbanken', 'eiendom'])(
   }
 )
 
+describe.each(['sbanken'])('Button for %s', (themeName) => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/button/demos',
+  })
+
+  it('have to match tertiary icon button', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="button-icon-tertiary"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match tertiary icon button hover', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="button-icon-tertiary"]',
+      simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match tertiary icon button focus', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="button-icon-tertiary"]',
+      simulate: 'focus',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})
+
 describe.each(['ui'])('Button for %s', (themeName) => {
   setupPageScreenshot({
     themeName,

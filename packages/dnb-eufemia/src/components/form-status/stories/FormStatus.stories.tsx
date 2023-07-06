@@ -25,6 +25,7 @@ import {
 } from '../..'
 import { Link } from '../../..'
 import { format } from '../../number-format/NumberUtils'
+import { DrawerListDataObject } from '../../../fragments/DrawerList'
 
 export default {
   title: 'Eufemia/Components/FormStatus',
@@ -225,9 +226,9 @@ export const GlobalStatusExample = () => {
 }
 
 export const SuffixAndStretchedStatus = () => {
-  const ban = format(21001234567, { ban: true })
+  const ban = format(21001234567, { ban: true }) as string
 
-  const numbers = [
+  const numbers: DrawerListDataObject[] = [
     {
       selected_value: `Brukskonto (${ban})`,
       suffix_value: (

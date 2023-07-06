@@ -80,6 +80,10 @@ exports[`Avatar scss has to match style dependencies css 1`] = `
   line-height: var(--avatar-line-height--x-large);
 }
 .dnb-avatar__group {
+  --avatar-font-size-left--small: var(--font-size-x-small);
+  --avatar-font-size-left--medium: var(--font-size-small);
+  --avatar-font-size-left--large: var(--font-size-large);
+  --avatar-font-size-left--x-large: var(--font-size-large);
   display: inline-flex;
   justify-content: flex;
   flex-direction: row;
@@ -113,19 +117,19 @@ exports[`Avatar scss has to match style dependencies css 1`] = `
   color: var(--color-black-55);
 }
 .dnb-avatar__group--elements-left--size-small {
-  font-size: var(--font-size-x-small);
+  font-size: var(--avatar-font-size-left--small);
   margin-left: 0.125rem;
 }
 .dnb-avatar__group--elements-left--size-medium {
-  font-size: var(--font-size-small);
+  font-size: var(--avatar-font-size-left--medium);
   margin-left: 0.125rem;
 }
 .dnb-avatar__group--elements-left--size-large {
-  font-size: var(--font-size-large);
+  font-size: var(--avatar-font-size-left--large);
   margin-left: var(--spacing-xx-small);
 }
 .dnb-avatar__group--elements-left--size-x-large {
-  font-size: var(--font-size-large);
+  font-size: var(--avatar-font-size-left--x-large);
   margin-left: var(--spacing-xx-small);
 }"
 `;

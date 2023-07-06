@@ -15,7 +15,8 @@ export default function DrawerHeader({
   size = 'x-large',
   ref, // eslint-disable-line
   ...props
-}: DrawerHeaderProps & Omit<React.HTMLProps<HTMLElement>, 'size'>) {
+}: DrawerHeaderProps &
+  Omit<React.HTMLProps<HTMLElement>, 'size' | 'children'>) {
   const contentContext = React.useContext(DrawerContentContext)
   if (contentContext?.headerElement) {
     return null

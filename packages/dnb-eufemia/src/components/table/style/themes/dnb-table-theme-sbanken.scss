@@ -1,0 +1,95 @@
+/*
+* Table theme
+*
+*/
+
+@import '../../../../style/core/utilities.scss';
+@import '../table-mixins.scss';
+
+@mixin tableFocusRing() {
+  &::before {
+    top: -0.1875rem;
+    bottom: -0.0625rem;
+    left: -0.5rem;
+    right: -0.25rem;
+  }
+}
+
+.dnb-table {
+  text-align: left;
+
+  & thead {
+    border-bottom: var(--border);
+  }
+
+  &__th,
+  & thead th {
+    padding: 0.5rem 1.5rem 0.25rem;
+    background-color: var(--sb-color-white);
+  }
+
+  & &__tr--even {
+    background-color: var(--sb-color-gray-light-3);
+  }
+
+  &__td,
+  & tbody &__th,
+  & tbody td,
+  & tbody th {
+    padding: 1rem 1.5rem;
+  }
+
+  /* BUTTONS INSIDE TABLE */
+
+  // No sorting applied
+  & > thead > tr > th#{&}--sortable,
+  & &__th#{&}--sortable {
+    .dnb-table__sort-button.dnb-button {
+      color: var(--sb-color-violet);
+      & .dnb-button__text::after {
+        bottom: -0.0625rem;
+        left: 0;
+        opacity: 0;
+        color: var(--sb-color-violet);
+      }
+      &:not(:focus) .dnb-button__text::after {
+        color: var(--sb-color-violet);
+      }
+      @include hover() {
+        color: var(--sb-color-violet);
+      }
+      @include active() {
+        color: var(--sb-color-violet);
+        @include tableFocusRing();
+      }
+      @include focus() {
+        @include tableFocusRing();
+      }
+    }
+  }
+
+  & > thead > tr > th#{&}--active,
+  & &__th#{&}--active {
+    .dnb-table__sort-button.dnb-button {
+      @include hover() {
+        & .dnb-button__text::after {
+          color: var(--sb-color-violet);
+        }
+      }
+    }
+  }
+}
+
+.dnb-table,
+.dnb-table__container {
+  --border-width: 0.0625rem;
+  --outline-width: 0.0625rem;
+
+  // table border
+  --border: var(--border-width) solid var(--sb-color-gray-light-2);
+
+  // table outline
+  --outline: var(--outline-width) solid var(--sb-color-gray-light-2);
+
+  background-color: var(--sb-color-white);
+}

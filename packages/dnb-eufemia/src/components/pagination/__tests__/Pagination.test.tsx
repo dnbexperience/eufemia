@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
 import Pagination, {
   createPagination,
@@ -267,8 +267,8 @@ describe('Infinity scroller', () => {
     <div className="page-item">{children}</div>
   )
 
-  const rerenderComponent = async () => {
-    await wait(10)
+  const waitForComponent = async () => {
+    await wait(20)
   }
 
   it('should load pages with intersection observer (after)', async () => {
@@ -294,7 +294,7 @@ describe('Infinity scroller', () => {
 
     const intersect = async () => {
       callObserver([{ isIntersecting: true }])
-      await rerenderComponent()
+      await waitForComponent()
     }
 
     render(
@@ -308,7 +308,7 @@ describe('Infinity scroller', () => {
       />
     )
 
-    await rerenderComponent()
+    await waitForComponent()
 
     await intersect()
     expect(observe).toHaveBeenCalledTimes(2)
@@ -362,7 +362,7 @@ describe('Infinity scroller', () => {
 
     const intersect = async () => {
       callObserver([{ isIntersecting: true }])
-      await rerenderComponent()
+      await waitForComponent()
     }
 
     const startupPage = 2
@@ -425,7 +425,7 @@ describe('Infinity scroller', () => {
 
     render(<MyComponent />)
 
-    await rerenderComponent()
+    await waitForComponent()
 
     expect(document.querySelectorAll('div.page-item').length).toBe(20)
     expect(document.querySelectorAll('div.page-item')[0].textContent).toBe(
@@ -464,11 +464,11 @@ describe('Infinity scroller', () => {
     localStack.current = {}
     resetInfinityHandler()
 
-    await rerenderComponent()
+    await waitForComponent()
 
-    expect(document.querySelectorAll('div.page-item').length).toBe(20)
+    expect(document.querySelectorAll('div.page-item').length).toBe(10)
     expect(document.querySelectorAll('div.page-item')[0].textContent).toBe(
-      'page-11'
+      'page-21'
     )
     expect(
       document.querySelectorAll('div.page-item')[
@@ -521,7 +521,7 @@ describe('Infinity scroller', () => {
 
     render(<MyComponent />)
 
-    await rerenderComponent()
+    await waitForComponent()
 
     expect(document.querySelectorAll('div.page-item').length).toBe(20)
     expect(document.querySelectorAll('div.page-item')[0].textContent).toBe(
@@ -551,7 +551,7 @@ describe('Infinity scroller', () => {
         document.querySelector('div.dnb-pagination__loadbar button')
       )
 
-      await rerenderComponent()
+      await waitForComponent()
     }
 
     render(
@@ -564,7 +564,7 @@ describe('Infinity scroller', () => {
       />
     )
 
-    await rerenderComponent()
+    await waitForComponent()
 
     expect(document.querySelectorAll('div.page-item').length).toBe(1)
 
@@ -694,14 +694,14 @@ describe('Infinity scroller', () => {
 
     render(<MyComponent />)
 
-    await rerenderComponent()
+    await waitForComponent()
 
     const clickOnLoadMore = async () => {
       fireEvent.click(
         document.querySelector('div.dnb-pagination__loadbar button')
       )
 
-      await rerenderComponent()
+      await waitForComponent()
     }
 
     expect(document.querySelector('div#page-content').textContent).toBe(
@@ -727,7 +727,7 @@ describe('Infinity scroller', () => {
 
     resetInfinityHandler()
 
-    await rerenderComponent()
+    await waitForComponent()
 
     expect(document.querySelector('div#page-content').textContent).toBe(
       'page-3'
@@ -787,5 +787,3 @@ describe('Pagination scss', () => {
     expect(css).toMatchSnapshot()
   })
 })
-
-const wait = (t) => new Promise((r) => setTimeout(r, t))

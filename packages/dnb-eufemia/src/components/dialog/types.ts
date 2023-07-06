@@ -2,6 +2,7 @@ import { ToCamelCasePartial } from '../../shared/helpers/withCamelCaseProps'
 import { ModalPropTypes } from '../modal/Modal'
 import { IconIcon } from '../Icon'
 import { DialogActionProps } from './parts/DialogAction'
+import { ReactChildType } from '../modal/types'
 import React from 'react'
 
 export interface DialogProps extends ToCamelCasePartial<ModalPropTypes> {
@@ -9,6 +10,8 @@ export interface DialogProps extends ToCamelCasePartial<ModalPropTypes> {
    * The dialog title. Displays on the very top of the content.
    */
   title?: React.ReactNode
+  // redefining trigger property here, since ToCamelCasePartial messes up the extended trigger, causing type errors.
+  trigger?: ReactChildType
 }
 
 export interface DialogContentProps
@@ -41,17 +44,17 @@ export interface DialogContentProps
   /**
    * The content which will appear in the navigation, above the header, and side-by-side the close button.
    */
-  navContent?: React.ReactNode | ((...args: any[]) => any)
+  navContent?: ReactChildType
 
   /**
    * The content which will appear in the header of the dialog.
    */
-  headerContent?: React.ReactNode | ((...args: any[]) => any)
+  headerContent?: ReactChildType
 
   /**
    * The content which will appear when triggering the dialog.
    */
-  modalContent?: React.ReactNode | ((...args: any[]) => any)
+  modalContent?: ReactChildType
 
   /**
    * Define the inner horizontal alignment of the content. Can be set to `left`, `center`, `right` and `centered`. If `centered`, then the content will also be centered vertically. Defaults to `left`.
@@ -96,5 +99,5 @@ export interface DialogContentProps
   /**
    * The content of the modal.
    */
-  children?: React.ReactNode
+  children?: ReactChildType
 }

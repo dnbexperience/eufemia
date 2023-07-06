@@ -12,7 +12,10 @@ export default function ListElements() {
           frontmatter: { title: { ne: "" }, draft: { ne: true } }
           internal: { contentFilePath: { glob: "**/uilib/elements/*" } }
         }
-        sort: { fields: [frontmatter___order, frontmatter___title] }
+        sort: [
+          { frontmatter: { order: ASC } }
+          { frontmatter: { title: ASC } }
+        ]
       ) {
         edges {
           node {

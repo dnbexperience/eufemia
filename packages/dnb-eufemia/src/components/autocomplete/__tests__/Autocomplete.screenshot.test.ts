@@ -12,6 +12,10 @@ describe('Autocomplete', () => {
   setupPageScreenshot({
     each: true,
     url: '/uilib/components/autocomplete/demos',
+    pageViewport: {
+      width: 1280,
+      height: 1024, // The height influences this test: data-visual-test="autocomplete-drawer-search"
+    },
   })
 
   it('have to match different sizes', async () => {

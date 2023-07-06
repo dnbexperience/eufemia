@@ -9,7 +9,7 @@ export default function DrawerNavigation({
   className,
   ref, //eslint-disable-line
   ...props
-}: ModalHeaderBarProps & React.HTMLProps<HTMLElement>) {
+}: ModalHeaderBarProps & Omit<React.HTMLProps<HTMLElement>, 'children'>) {
   const contentContext = React.useContext(DrawerContentContext)
   if (contentContext?.navigationElement) {
     return null

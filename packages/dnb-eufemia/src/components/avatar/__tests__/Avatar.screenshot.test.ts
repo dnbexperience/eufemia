@@ -8,8 +8,41 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Avatar', () => {
-  setupPageScreenshot({ url: '/uilib/components/avatar/demos' })
+describe.each(['ui', 'sbanken'])('Avatar for %s', (themeName) => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/avatar/demos',
+  })
+
+  describe('children', () => {
+    it('have to match icon of variant primary as children', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="avatar-children-icon-primary"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match icon of variant secondary as children', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="avatar-children-icon-secondary"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match icon of variant tertiary as children', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="avatar-children-icon-tertiary"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match logo as children', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="avatar-children-logo"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+  })
 
   describe('size', () => {
     it('have to match default size', async () => {
@@ -73,36 +106,6 @@ describe('Avatar', () => {
     it('have to match tertiary variant', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="avatar-variant-tertiary"]',
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-  })
-
-  describe('children', () => {
-    it('have to match icon of variant primary as children', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="avatar-children-icon-primary"]',
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-
-    it('have to match icon of variant secondary as children', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="avatar-children-icon-secondary"]',
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-
-    it('have to match icon of variant tertiary as children', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="avatar-children-icon-tertiary"]',
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-
-    it('have to match logo as children', async () => {
-      const screenshot = await makeScreenshot({
-        selector: '[data-visual-test="avatar-children-logo"]',
       })
       expect(screenshot).toMatchImageSnapshot()
     })

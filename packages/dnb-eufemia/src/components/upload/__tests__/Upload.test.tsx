@@ -1,6 +1,11 @@
 import React, { useEffect } from 'react'
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
-import { renderHook } from '@testing-library/react-hooks'
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  renderHook,
+} from '@testing-library/react'
 import Upload from '../Upload'
 import nbNO from '../../../shared/locales/nb-NO'
 import enGB from '../../../shared/locales/en-GB'

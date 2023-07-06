@@ -1,0 +1,41 @@
+/*
+* Avatar theme
+*
+*/
+
+@import '../../../../style/core/utilities.scss';
+
+.dnb-avatar {
+  --avatar-font-size--large: var(--font-size-x-large);
+  --avatar-font-size--x-large: var(--font-size-x-large);
+
+  color: var(--sb-color-white);
+
+  &--primary {
+    background-color: var(--sb-color-purple-alternative);
+  }
+
+  &--secondary {
+    background-color: var(--sb-color-violet-light);
+  }
+
+  &--tertiary {
+    background-color: var(--sb-color-violet-light-2);
+    color: var(--sb-color-purple-alternative);
+  }
+
+  &--size-large {
+    font-weight: var(--sb-font-weight-basis);
+    font-family: var(--sb-font-family-headings);
+  }
+
+  &--size-x-large {
+    font-weight: var(--sb-font-weight-basis);
+    font-family: var(--sb-font-family-headings);
+  }
+
+  &__group {
+    --avatar-font-size-left--medium: var(--font-size-basis);
+    --avatar-font-size-left--large: var(--font-size-medium);
+    --avatar-font-size-left--x-large: var(--font-size-medium);}
+}

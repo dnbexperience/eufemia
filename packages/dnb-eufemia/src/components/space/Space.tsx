@@ -12,7 +12,7 @@ import {
   processChildren,
   validateDOMAttributes,
 } from '../../shared/component-helper'
-import Context from '../../shared/Context'
+import Context, { ContextProps } from '../../shared/Context'
 import { spacingPropTypes } from './SpacingHelper'
 import {
   createSpacingClasses,
@@ -123,6 +123,8 @@ export default class Space extends React.PureComponent<
 > {
   static contextType = Context
 
+  context!: ContextProps & SpacingProps
+
   static propTypes = {
     element: PropTypes.oneOfType([
       PropTypes.string,
@@ -172,7 +174,7 @@ export default class Space extends React.PureComponent<
           this.props,
           Space.defaultProps,
           { skeleton: this.context?.skeleton },
-          this.context.space
+          { space: this.context.space }
         )
       : this.props
 

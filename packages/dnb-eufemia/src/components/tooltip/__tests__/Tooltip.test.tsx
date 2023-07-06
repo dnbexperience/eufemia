@@ -4,9 +4,8 @@
  */
 
 import React from 'react'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import { fireEvent, render } from '@testing-library/react'
-import { wait } from '@testing-library/user-event/dist/utils'
 import OriginalTooltip from '../Tooltip'
 import Anchor from '../../anchor/Anchor'
 import NumberFormat from '../../number-format/NumberFormat'
@@ -118,47 +117,6 @@ describe('Tooltip', () => {
     fireEvent.click(document.querySelector('#toggle'))
 
     expect(qS('.dnb-tooltip__portal')).toHaveLength(1)
-    expect(qS('.dnb-tooltip')).toHaveLength(0)
-  })
-
-  it('should remove unmounted group parts', () => {
-    const Component = () => {
-      const [mounted, setMounted] = React.useState(true)
-      const onClickHandler = () => {
-        setMounted(!mounted)
-      }
-
-      return (
-        <>
-          <button id="toggle" onClick={onClickHandler}>
-            Toggle
-          </button>
-          {mounted && (
-            <>
-              <Tooltip active group="unique">
-                Tooltip 1
-              </Tooltip>
-              <Tooltip active group="unique">
-                Tooltip 2
-              </Tooltip>
-            </>
-          )}
-        </>
-      )
-    }
-
-    render(<Component />)
-
-    const qS = (s: string) => document.querySelectorAll(s)
-
-    expect(qS('.dnb-tooltip__portal')).toHaveLength(1)
-    expect(qS('.dnb-tooltip__group')).toHaveLength(1)
-    expect(qS('.dnb-tooltip')).toHaveLength(1)
-
-    fireEvent.click(document.querySelector('#toggle'))
-
-    expect(qS('.dnb-tooltip__portal')).toHaveLength(1)
-    expect(qS('.dnb-tooltip__group')).toHaveLength(0)
     expect(qS('.dnb-tooltip')).toHaveLength(0)
   })
 
@@ -392,18 +350,6 @@ describe('Tooltip', () => {
       )
     })
 
-    it('should set animate_position class', () => {
-      render(<Tooltip animatePosition active />)
-
-      expect(Array.from(getMainElem().classList)).toEqual(
-        expect.arrayContaining([
-          'dnb-tooltip',
-          'dnb-tooltip--active',
-          'dnb-tooltip--animate_position',
-        ])
-      )
-    })
-
     it('should set fixed class', () => {
       render(<Tooltip fixedPosition active />)
 
@@ -414,72 +360,6 @@ describe('Tooltip', () => {
           'dnb-tooltip--fixed',
         ])
       )
-    })
-
-    describe('and group', () => {
-      const commonProps: TooltipAllProps = {
-        group: 'unique-name',
-        noAnimation: true,
-      }
-
-      const GroupTooltip = (props: TooltipAllProps) => {
-        return (
-          <>
-            <OriginalTooltip
-              targetElement={<button id="a">Button A</button>}
-              {...commonProps}
-              {...props}
-            >
-              Tooltip A
-            </OriginalTooltip>
-
-            <OriginalTooltip
-              targetElement={<button id="b">Button B</button>}
-              {...commonProps}
-              {...props}
-            >
-              Tooltip B
-            </OriginalTooltip>
-          </>
-        )
-      }
-
-      it('should only have one tooltip', async () => {
-        render(<GroupTooltip noAnimation={false} {...defaultProps} />)
-
-        const allElements = () =>
-          document.body.querySelectorAll('.dnb-tooltip')
-        const buttonA = document.querySelector('button#a')
-        const buttonB = document.querySelector('button#b')
-
-        expect(allElements()).toHaveLength(0)
-
-        fireEvent.mouseEnter(buttonA)
-
-        await wait(100)
-
-        expect(getMainElem().textContent).toBe('Tooltip A')
-        expect(
-          getMainElem().classList.contains('dnb-tooltip--active')
-        ).toBe(true)
-
-        fireEvent.mouseEnter(buttonB)
-
-        await wait(100)
-
-        expect(getMainElem().textContent).toBe('Tooltip B')
-        expect(
-          getMainElem().classList.contains('dnb-tooltip--active')
-        ).toBe(true)
-
-        fireEvent.mouseLeave(buttonB)
-
-        await wait(1)
-
-        const classList = getMainElem().classList
-        expect(classList.contains('dnb-tooltip--active')).toBe(false)
-        expect(classList.contains('dnb-tooltip--hide')).toBe(true)
-      })
     })
 
     it('should validate with ARIA rules as a tooltip', async () => {

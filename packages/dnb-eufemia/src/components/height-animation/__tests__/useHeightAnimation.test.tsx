@@ -5,11 +5,16 @@
 
 import React from 'react'
 import classnames from 'classnames'
-import { render, act, fireEvent } from '@testing-library/react'
-import { renderHook } from '@testing-library/react-hooks'
+import {
+  render,
+  act,
+  fireEvent,
+  renderHook,
+  waitFor,
+} from '@testing-library/react'
 import ToggleButton from '../../ToggleButton'
-import { wait } from '@testing-library/user-event/dist/utils'
 import { useHeightAnimation } from '../useHeightAnimation'
+import { wait } from '../../../core/jest/jestSetup'
 
 beforeEach(() => {
   global.IS_TEST = false
@@ -108,22 +113,24 @@ describe('useHeightAnimation', () => {
   it('should act with different states through the animation transition', async () => {
     render(<Component />)
 
-    await act(async () => {
-      expect(getStates()).toEqual(['wrapper-element'])
+    expect(getStates()).toEqual(['wrapper-element'])
 
+    act(() => {
       fireEvent.click(document.querySelector('button'))
-
-      await wait(1)
-
+    })
+    await waitFor(() => {
       expect(getStates()).toEqual([
         'wrapper-element',
         'is-in-dom',
         'is-visible',
         'is-in-parallax',
       ])
+    })
 
+    act(() => {
       simulateAnimationEnd()
-
+    })
+    await waitFor(() => {
       expect(getStates()).toEqual([
         'wrapper-element',
         'is-in-dom',
@@ -131,18 +138,24 @@ describe('useHeightAnimation', () => {
         'is-in-parallax',
         'is-open',
       ])
+    })
 
+    act(() => {
       fireEvent.click(document.querySelector('button'))
-
+    })
+    await waitFor(() => {
       expect(getStates()).toEqual([
         'wrapper-element',
         'is-in-dom',
         'is-visible',
         'is-open',
       ])
+    })
 
+    act(() => {
       simulateAnimationEnd()
-
+    })
+    await waitFor(() => {
       expect(getStates()).toEqual(['wrapper-element'])
     })
   })
@@ -150,17 +163,17 @@ describe('useHeightAnimation', () => {
   it('should only set isInDOM when animation is disabled', async () => {
     render(<Component animate={false} />)
 
-    await act(async () => {
+    act(() => {
       fireEvent.click(document.querySelector('button'))
-
-      await wait(1)
-
+    })
+    await waitFor(() => {
       expect(getStates()).toEqual(['wrapper-element', 'is-in-dom'])
+    })
 
+    act(() => {
       fireEvent.click(document.querySelector('button'))
-
-      await wait(1)
-
+    })
+    await waitFor(() => {
       expect(getStates()).toEqual(['wrapper-element'])
     })
   })

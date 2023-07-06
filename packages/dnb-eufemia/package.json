@@ -111,8 +111,8 @@
     "what-input": "5.2.10"
   },
   "peerDependencies": {
-    "react": "^17",
-    "react-dom": "^17"
+    "react": "^17 || ^18",
+    "react-dom": "^17 || ^18"
   },
   "devDependencies": {
     "@babel/cli": "7.22.5",
@@ -134,8 +134,8 @@
     "@babel/preset-react": "7.22.5",
     "@babel/preset-typescript": "7.22.5",
     "@babel/traverse": "7.22.5",
-    "@emotion/react": "11.9.3",
-    "@emotion/styled": "11.9.3",
+    "@emotion/react": "11.11.0",
+    "@emotion/styled": "11.11.0",
     "@rollup/plugin-babel": "6.0.3",
     "@rollup/plugin-commonjs": "24.0.1",
     "@rollup/plugin-node-resolve": "15.0.1",
@@ -154,10 +154,9 @@
     "@svgr/core": "6.5.1",
     "@svgr/plugin-jsx": "6.5.1",
     "@svgr/plugin-svgo": "6.5.1",
-    "@testing-library/dom": "8.11.0",
-    "@testing-library/react": "12.1.2",
-    "@testing-library/react-hooks": "7.0.2",
-    "@testing-library/user-event": "13.5.0",
+    "@testing-library/dom": "9.3.1",
+    "@testing-library/react": "14.0.0",
+    "@testing-library/user-event": "14.4.3",
     "@types/fs-extra": "11.0.1",
     "@types/jest": "29.2.6",
     "@types/jest-axe": "3.5.5",
@@ -227,8 +226,8 @@
     "prettier-package-json": "2.6.0",
     "process": "0.11.10",
     "prop-types": "15.7.2",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
     "react-to-typescript-definitions": "3.1.1",
     "regenerator-runtime": "0.13.9",
     "repo-utils": "workspace:*",

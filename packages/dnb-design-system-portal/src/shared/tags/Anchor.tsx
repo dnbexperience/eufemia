@@ -7,7 +7,7 @@ import React from 'react'
 import { Link } from '@dnb/eufemia/src'
 import { scrollToHashHandler } from '@dnb/eufemia/src/components/Anchor'
 
-const Anchor = ({ children, href, ...rest }) => {
+const Anchor = ({ children, href, onClick = null, ...rest }) => {
   if (/^http/.test(href) || href[0] === '!') {
     rest.target = '_blank'
     rest.rel = 'noreferrer'
@@ -16,8 +16,15 @@ const Anchor = ({ children, href, ...rest }) => {
     }
   }
 
+  function clickHandler(event: React.MouseEvent<HTMLAnchorElement>) {
+    if (onClick) {
+      onClick()
+    }
+    scrollToHashHandler(event)
+  }
+
   return (
-    <Link lang="en-GB" href={href} {...rest} onClick={scrollToHashHandler}>
+    <Link lang="en-GB" href={href} {...rest} onClick={clickHandler}>
       {children}
     </Link>
   )

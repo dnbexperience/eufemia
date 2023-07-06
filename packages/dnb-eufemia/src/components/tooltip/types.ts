@@ -16,20 +16,21 @@ export type TooltipSize = 'basis' | 'large'
 
 export type TooltipProps = IncludeSnakeCase<{
   id?: string
-  group?: string
   size?: TooltipSize
   active?: boolean
   position?: TooltipPosition
   arrow?: TooltipArrow
   align?: TooltipAlign
-  animatePosition?: boolean
   fixedPosition?: boolean
   skipPortal?: boolean
   noAnimation?: boolean
   showDelay?: number
   hideDelay: number
   targetSelector?: string
-  targetElement?: React.ReactNode
+  targetElement?:
+    | React.ReactNode
+    | React.MutableRefObject<unknown>
+    | HTMLElement
   tooltip?: React.ReactNode
   className?: string
   children?: React.ReactNode

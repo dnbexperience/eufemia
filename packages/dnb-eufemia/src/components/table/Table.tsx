@@ -82,7 +82,7 @@ export type TableProps = {
 } & StickyTableHeaderProps
 
 export type TableAllProps = TableProps &
-  React.TableHTMLAttributes<HTMLTableElement> &
+  Omit<React.TableHTMLAttributes<HTMLTableElement>, 'border'> &
   LocaleProps &
   SpacingProps
 

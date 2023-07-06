@@ -30,18 +30,7 @@ export default function VisibilityByTheme({
   visible,
   hidden,
 }: VisibilityByThemeProps) {
-  const themeOrig = useTheme()
-
-  // Deprecated (can be removed when we are full and 100% officially using React v18)
-  // When using React v17,
-  // we need to ovecome a hydration issue.
-  // Later we can change "themeOrig" to "theme" and remove these lines below:
-  const [theme, refresh] = React.useState(
-    process.env.NODE_ENV === 'production' ? {} : themeOrig
-  )
-  React.useLayoutEffect(() => {
-    refresh(themeOrig)
-  }, [themeOrig])
+  const theme = useTheme()
 
   const visibleList = Array.isArray(visible) ? visible : [visible]
   const hiddenList = Array.isArray(hidden) ? hidden : [hidden]

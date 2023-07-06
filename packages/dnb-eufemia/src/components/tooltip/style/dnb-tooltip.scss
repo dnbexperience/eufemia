@@ -25,11 +25,6 @@
 
   transition: opacity 200ms var(--easing-default);
 
-  &--animate_position {
-    transition: all 200ms var(--easing-default),
-      opacity 200ms var(--easing-default);
-  }
-
   &--active {
     visibility: visible;
 

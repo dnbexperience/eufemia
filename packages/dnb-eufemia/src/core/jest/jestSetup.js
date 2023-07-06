@@ -14,6 +14,8 @@ export { axe, toHaveNoViolations }
 expect.extend({ toBeType })
 expect.extend(toHaveNoViolations)
 
+export const wait = (t) => new Promise((r) => setTimeout(r, t))
+
 export const loadScss = (file, options = {}) => {
   try {
     const before = window.location

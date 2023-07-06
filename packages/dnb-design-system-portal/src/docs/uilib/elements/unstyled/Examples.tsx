@@ -58,7 +58,8 @@ export const UnstyledExample = () => (
           </Skeleton>
         )
       }
-      return CustomImage
+
+      return <CustomImage />
     }}
   </ComponentBox>
 )

@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import Input from '../../input/Input'
 import Modal, { OriginalComponent } from '../Modal'
@@ -399,7 +399,7 @@ describe('Modal component', () => {
     expect(elements[2].textContent).toContain('modal content')
   })
 
-  it('has support for nested modals', () => {
+  it('has support for nested modals', async () => {
     const on_open = {
       first: jest.fn(),
       second: jest.fn(),
@@ -464,30 +464,23 @@ describe('Modal component', () => {
       document.documentElement.getAttribute('data-dnb-modal-active')
     ).toBe('modal-third')
 
-    expect(on_open.first).toHaveBeenCalledTimes(1)
-    expect(on_open.second).toHaveBeenCalledTimes(1)
-    expect(on_open.third).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(on_open.first).toHaveBeenCalledTimes(1)
+      expect(on_open.second).toHaveBeenCalledTimes(1)
+      expect(on_open.third).toHaveBeenCalledTimes(1)
+    })
 
     expect(
       document.querySelectorAll('button.dnb-modal__close-button').length
     ).toBe(3)
     expect(
-      document
-        .querySelector('#content-first')
-
-        .hasAttribute('aria-hidden')
+      document.querySelector('#content-first').hasAttribute('aria-hidden')
     ).toBe(true)
     expect(
-      document
-        .querySelector('#content-second')
-
-        .hasAttribute('aria-hidden')
+      document.querySelector('#content-second').hasAttribute('aria-hidden')
     ).toBe(true)
     expect(
-      document
-        .querySelector('#content-third')
-
-        .hasAttribute('aria-hidden')
+      document.querySelector('#content-third').hasAttribute('aria-hidden')
     ).toBe(false)
     expect(
       document
@@ -507,10 +500,11 @@ describe('Modal component', () => {
 
     // Close the third one
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
-    // Comp.update()
-    expect(on_close.first).toHaveBeenCalledTimes(0)
-    expect(on_close.second).toHaveBeenCalledTimes(0)
-    expect(on_close.third).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(on_close.first).toHaveBeenCalledTimes(0)
+      expect(on_close.second).toHaveBeenCalledTimes(0)
+      expect(on_close.third).toHaveBeenCalledTimes(1)
+    })
 
     expect(
       document.documentElement.getAttribute('data-dnb-modal-active')
@@ -535,10 +529,11 @@ describe('Modal component', () => {
 
     // Close the second one
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
-    // Comp.update()
-    expect(on_close.first).toHaveBeenCalledTimes(0)
-    expect(on_close.second).toHaveBeenCalledTimes(1)
-    expect(on_close.third).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(on_close.first).toHaveBeenCalledTimes(0)
+      expect(on_close.second).toHaveBeenCalledTimes(1)
+      expect(on_close.third).toHaveBeenCalledTimes(1)
+    })
 
     expect(
       document.documentElement.getAttribute('data-dnb-modal-active')
@@ -558,10 +553,11 @@ describe('Modal component', () => {
 
     // Close the first one
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
-    // Comp.update()
-    expect(on_close.first).toHaveBeenCalledTimes(1)
-    expect(on_close.second).toHaveBeenCalledTimes(1)
-    expect(on_close.third).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(on_close.first).toHaveBeenCalledTimes(1)
+      expect(on_close.second).toHaveBeenCalledTimes(1)
+      expect(on_close.third).toHaveBeenCalledTimes(1)
+    })
 
     expect(document.querySelector('#content-first')).toBeFalsy()
     expect(
@@ -649,7 +645,7 @@ describe('Modal component', () => {
     expect(on_close).toBeCalledTimes(1)
   })
 
-  it('will prevent closing the modal on prevent_close', () => {
+  it('will prevent closing the modal on prevent_close', async () => {
     let preventClose = true
     let testTriggeredBy = null
     const on_close = jest.fn(
@@ -692,25 +688,30 @@ describe('Modal component', () => {
       })
     )
 
-    expect(on_close).not.toHaveBeenCalled()
-    expect(on_close_prevent).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(on_close).not.toHaveBeenCalled()
+      expect(on_close_prevent).toHaveBeenCalledTimes(1)
+    })
 
     // trigger the close on the overlay
     fireEvent.mouseDown(document.querySelector('div.dnb-modal__content'))
     fireEvent.click(document.querySelector('div.dnb-modal__content'))
 
-    expect(on_close_prevent).toHaveBeenCalledTimes(2)
-    expect(on_close_prevent.mock.calls[1][0].close).toBeType('function')
-    expect(on_close_prevent.mock.calls[1][0].triggeredBy).toBe('overlay')
-    expect(testTriggeredBy).toBe(null)
+    await waitFor(() => {
+      expect(on_close_prevent).toHaveBeenCalledTimes(2)
+      expect(on_close_prevent.mock.calls[1][0].close).toBeType('function')
+      expect(on_close_prevent.mock.calls[1][0].triggeredBy).toBe('overlay')
+      expect(testTriggeredBy).toBe(null)
+    })
 
     // trigger the close button
     fireEvent.click(
       document.querySelector('button.dnb-modal__close-button')
     )
-
-    expect(on_close_prevent).toHaveBeenCalledTimes(3)
-    expect(on_close_prevent.mock.calls[2][0].triggeredBy).toBe('button')
+    await waitFor(() => {
+      expect(on_close_prevent).toHaveBeenCalledTimes(3)
+      expect(on_close_prevent.mock.calls[2][0].triggeredBy).toBe('button')
+    })
 
     // trigger the esc key
     document.dispatchEvent(
@@ -720,8 +721,12 @@ describe('Modal component', () => {
       })
     )
 
-    expect(on_close_prevent).toHaveBeenCalledTimes(4)
-    expect(on_close_prevent.mock.calls[3][0].triggeredBy).toBe('keyboard')
+    await waitFor(() => {
+      expect(on_close_prevent).toHaveBeenCalledTimes(4)
+      expect(on_close_prevent.mock.calls[3][0].triggeredBy).toBe(
+        'keyboard'
+      )
+    })
 
     preventClose = false
 
@@ -1183,7 +1188,7 @@ describe('Modal component', () => {
     expect(document.querySelector('div.dnb-modal__content')).toBeTruthy()
   })
 
-  it('should open and close by using external state only', () => {
+  it('should open and close by using external state only', async () => {
     const on_open = jest.fn()
     const on_close = jest.fn()
 
@@ -1191,34 +1196,33 @@ describe('Modal component', () => {
       const [modalOpen, setModalOpen] = React.useState(false)
 
       return (
-        <React.StrictMode>
-          <Modal
-            no_animation={true}
-            open_state={modalOpen}
-            on_open={() => {
-              setModalOpen(true)
-              on_open()
-            }}
-            on_close={() => {
-              setModalOpen(false)
-              on_close()
-            }}
-          >
-            <DialogContent>
-              <Button
-                className="close-button"
-                text="Close from inside modal"
-                on_click={() => setModalOpen(false)}
-              />
-            </DialogContent>
-          </Modal>
-        </React.StrictMode>
+        <Modal
+          no_animation={true}
+          open_state={modalOpen}
+          on_open={() => {
+            setModalOpen(true)
+            on_open()
+          }}
+          on_close={() => {
+            setModalOpen(false)
+            on_close()
+          }}
+        >
+          <DialogContent>
+            <Button
+              className="close-button"
+              text="Close from inside modal"
+              on_click={() => setModalOpen(false)}
+            />
+          </DialogContent>
+        </Modal>
       )
     }
 
     render(<ModalTriggerMock />)
 
     fireEvent.click(document.querySelector('button'))
+
     expect(on_open).toHaveBeenCalledTimes(1)
     expect(on_close).toHaveBeenCalledTimes(0)
     expect(document.querySelector('div.dnb-dialog')).toBeTruthy()
@@ -1464,5 +1468,3 @@ describe('Modal scss', () => {
     expect(css).toMatchSnapshot()
   })
 })
-
-const wait = (t) => new Promise((r) => setTimeout(r, t))

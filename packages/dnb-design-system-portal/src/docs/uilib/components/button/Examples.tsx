@@ -7,6 +7,7 @@ import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { bell_medium as Bell, question } from '@dnb/eufemia/src/icons'
 import { Button, IconPrimary } from '@dnb/eufemia/src'
+import { VisibilityByTheme } from '@dnb/eufemia/src/shared'
 
 export const ButtonPrimary = () => (
   <ComponentBox>
@@ -207,7 +208,10 @@ export const ButtonSignalLarge = () => (
 )
 
 export const ButtonIcon = () => (
-  <ComponentBox scope={{ question }} data-visual-test="button-icons">
+  <ComponentBox
+    scope={{ question, VisibilityByTheme }}
+    data-visual-test="button-icons"
+  >
     <Button
       title="Disabled Icon only Button"
       icon="calendar"
@@ -232,6 +236,15 @@ export const ButtonIcon = () => (
       status="error"
       left
     />
+    <VisibilityByTheme visible="sbanken">
+      <Button
+        title="Tertiary icon button"
+        size="large"
+        icon={question}
+        variant="tertiary"
+        data-visual-test="button-icon-tertiary"
+      />
+    </VisibilityByTheme>
   </ComponentBox>
 )
 

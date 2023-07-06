@@ -42,9 +42,7 @@ function Tooltip(localProps: TooltipAllProps) {
     className,
     id, // eslint-disable-line
     tooltip, // eslint-disable-line
-    group, // eslint-disable-line
     size,
-    animatePosition, // eslint-disable-line
     fixedPosition, // eslint-disable-line
     skipPortal, // eslint-disable-line
     noAnimation, // eslint-disable-line

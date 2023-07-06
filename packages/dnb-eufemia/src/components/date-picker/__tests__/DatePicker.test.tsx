@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
+import { axeComponent, loadScss, wait } from '../../../core/jest/jestSetup'
 import DatePicker, { DatePickerProps } from '../DatePicker'
 
 jest.setTimeout(30e3)
@@ -1589,5 +1589,3 @@ describe('DatePicker ARIA', () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 })
-
-const wait = (t) => new Promise((r) => setTimeout(r, t))

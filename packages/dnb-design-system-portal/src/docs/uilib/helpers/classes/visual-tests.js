@@ -12,7 +12,7 @@ export default function VisualTests() {
   // Selects/marks some of the text in SelectionExample on second render tick
   // For comparing screenshots
   React.useEffect(() => {
-    window.requestAnimationFrame(() => {
+    setTimeout(() => {
       try {
         const range = new Range()
         const textNode = document.querySelector(
@@ -26,7 +26,7 @@ export default function VisualTests() {
       } catch (e) {
         warn(e)
       }
-    })
+    }, 10)
   }, [])
 
   return (

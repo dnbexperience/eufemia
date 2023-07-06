@@ -69,7 +69,7 @@
     .dnb-anchor {
       position: relative;
       padding: 0;
-      height: 2.5rem;
+      min-height: 40px;
 
       display: flex;
       flex-direction: row;
@@ -99,17 +99,18 @@
       .dnb-anchor {
         margin-left: var(--level-icon-adjust);
         padding-left: calc(var(--level-offset) + var(--level) * 2);
-        height: 4rem;
+        min-height: 64px;
         color: var(--color-ocean-green);
         font-weight: var(--font-weight-medium);
         font-size: var(--font-size-large);
+        line-height: var(--line-height-large) !important;
       }
     }
 
     &.l-2 {
       .dnb-anchor {
         padding-left: calc(var(--level-offset) + var(--level) * 2);
-        height: 3.5rem;
+        min-height: 56px;
 
         .dnb-icon {
           margin-right: 1rem;
@@ -277,11 +278,6 @@
   z-index: 1;
 
   @include scrollY(auto);
-  :global(.eufemia-theme__sbanken) & {
-    --scrollbar-track-color: var(--sb-color-gray-light-2);
-    --scrollbar-thumb-color: var(--sb-color-gray-dark-3);
-    --scrollbar-thumb-hover-color: var(--sb-color-purple);
-  }
 
   @include allBelow(medium) {
     position: relative;

@@ -334,7 +334,9 @@ export default class DrawerListProvider extends React.PureComponent {
         warn('List could not set onResize:', e)
       }
 
-      this.correctHiddenView()
+      // React v18 needs a delay to make the calculation during first render
+      window?.requestAnimationFrame?.(this.correctHiddenView) ||
+        this.correctHiddenView()
     }
 
     // debounce
