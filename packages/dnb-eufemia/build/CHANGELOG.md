@@ -3,6 +3,23 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.4.0](https://github.com/dnbexperience/eufemia/compare/v10.3.0...v10.4.0) (2023-07-06)
+
+
+### :bug: Bug Fixes
+
+* fix various types in tests and examples to prepare for React v18 ([#2507](https://github.com/dnbexperience/eufemia/issues/2507)) ([06c3202](https://github.com/dnbexperience/eufemia/commit/06c32026484148552c4f7f5deb42a960734a1617))
+
+
+### :sparkles: Features
+
+* add support for React v18 ([#2481](https://github.com/dnbexperience/eufemia/issues/2481)) ([31a2d2b](https://github.com/dnbexperience/eufemia/commit/31a2d2b3c0cc458d5573599ab8779c731fc6a84c)), closes [/github.com/dnbexperience/eufemia/pull/2481#issuecomment-1601630753](https://github.com/dnbexperience//github.com/dnbexperience/eufemia/pull/2481/issues/issuecomment-1601630753) [/github.com/dnbexperience/eufemia/pull/2481#issuecomment-1601606984](https://github.com/dnbexperience//github.com/dnbexperience/eufemia/pull/2481/issues/issuecomment-1601606984) [/github.com/dnbexperience/eufemia/blob/1e8021ccea7b03f9a60c78cc6760388ac36b55b1/packages/dnb-eufemia/src/components/tooltip/TooltipPortal.tsx#L8](https://github.com/dnbexperience//github.com/dnbexperience/eufemia/blob/1e8021ccea7b03f9a60c78cc6760388ac36b55b1/packages/dnb-eufemia/src/components/tooltip/TooltipPortal.tsx/issues/L8) [#2511](https://github.com/dnbexperience/eufemia/issues/2511)
+* **Avatar:** sbanken styling ([#2510](https://github.com/dnbexperience/eufemia/issues/2510)) ([389ccc0](https://github.com/dnbexperience/eufemia/commit/389ccc0ddb76d972875ce200ff98a84f17632c34))
+* **Button:** sbanken tertiary icon button hover and focus ([#2512](https://github.com/dnbexperience/eufemia/issues/2512)) ([23b3935](https://github.com/dnbexperience/eufemia/commit/23b393578c508515d3ab99802f6883c6554b22e4))
+* **ScrollView:** add sbanken styling to scrollbar ([#2514](https://github.com/dnbexperience/eufemia/issues/2514)) ([5d2011e](https://github.com/dnbexperience/eufemia/commit/5d2011ef4a2e0d4bfd29838313d85991e744cc18))
+* **Table:** Sbanken styling ([#2513](https://github.com/dnbexperience/eufemia/issues/2513)) ([bd0ae68](https://github.com/dnbexperience/eufemia/commit/bd0ae683a18e210d28882ef4b88d57b1a6d696c2))
+* **Tooltip:** remove group property to add React v18 compatibility ([#2511](https://github.com/dnbexperience/eufemia/issues/2511)) ([4e882eb](https://github.com/dnbexperience/eufemia/commit/4e882eb0634f7877272f52d355dcc44ec13a4633))
+
 ## [10.3.0](https://github.com/dnbexperience/eufemia/compare/v10.2.0...v10.3.0) (2023-06-27)
 
 
