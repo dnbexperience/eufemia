@@ -180,8 +180,7 @@
     @include anchorFocusStyle();
   }
 
-  &:hover,
-  &:active {
+  &:hover {
     @include anchorHoverStyle();
   }
 

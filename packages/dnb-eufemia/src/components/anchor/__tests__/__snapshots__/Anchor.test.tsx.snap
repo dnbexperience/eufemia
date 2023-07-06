@@ -266,10 +266,10 @@ sup .dnb-anchor, sub .dnb-anchor {
 .dnb-anchor:focus-visible, .dnb-section .dnb-anchor:focus-visible.dnb-anchor {
   text-decoration: none;
 }
-.dnb-anchor:hover, .dnb-anchor:active {
+.dnb-anchor:hover {
   border-radius: 0.25em;
 }
-.dnb-anchor:hover, .dnb-section .dnb-anchor:hover.dnb-anchor, .dnb-anchor:active, .dnb-section .dnb-anchor:active.dnb-anchor {
+.dnb-anchor:hover, .dnb-section .dnb-anchor:hover.dnb-anchor {
   text-decoration: none;
 }
 .dnb-anchor:active {
@@ -384,9 +384,6 @@ a.dnb-button {
 
 exports[`Anchor scss has to match theme css for sbanken 1`] = `
 "@charset "UTF-8";
-/*
- * Utilities
- */
 /*
  * Anchor mixins
  *
@@ -529,7 +526,7 @@ exports[`Anchor scss has to match theme css for ui 1`] = `
 .dnb-anchor {
   color: var(--color-sea-green);
 }
-.dnb-anchor:hover, .dnb-anchor:active {
+.dnb-anchor:hover {
   color: var(--color-sea-green);
   box-shadow: inset 100vw 100vw 0 0 var(--color-mint-green-50), -0.125em 0 0 0 var(--color-mint-green-50), 0.125em 0 0 0 var(--color-mint-green-50);
 }

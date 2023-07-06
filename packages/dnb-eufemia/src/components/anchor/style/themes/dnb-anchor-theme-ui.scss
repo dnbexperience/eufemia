@@ -3,8 +3,7 @@
 @mixin anchorStyle() {
   color: var(--color-sea-green);
 
-  &:hover,
-  &:active {
+  &:hover {
     color: var(--color-sea-green);
     @include anchor-mixins.anchorBackground(var(--color-mint-green-50));
   }
