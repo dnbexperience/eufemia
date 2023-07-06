@@ -106,7 +106,7 @@ describe.each(['ui', 'sbanken'])('Table for %s', (themeName) => {
         width: '30rem',
       },
       selector,
-      waitAfterSimulate: 200,
+      waitAfterSimulate: 100,
       executeBeforeSimulate: () => {
         document
           .querySelector(
@@ -115,6 +115,11 @@ describe.each(['ui', 'sbanken'])('Table for %s', (themeName) => {
           .scrollIntoView({
             behavior: 'auto',
           })
+
+        // Ensure the window.resize event gets triggered in order to force the shadow to appear (after React v18 upgrade)
+        setTimeout(() => {
+          window.dispatchEvent(new Event('resize'))
+        }, 100)
       },
     })
     expect(screenshot).toMatchImageSnapshot()
