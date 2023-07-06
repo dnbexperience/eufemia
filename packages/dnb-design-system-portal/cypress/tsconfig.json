@@ -1,9 +1,0 @@
-{
-  "compileOnSave": false,
-  "compilerOptions": {
-    "isolatedModules": false,
-    "types": ["node", "cypress"]
-  },
-  "extends": "../tsconfig.json",
-  "exclude": []
-}
