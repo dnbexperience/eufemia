@@ -10,8 +10,11 @@ import {
 
 const defaults = { wrapperStyle: { margin: '0 !important' } } // because of ScrollView overflow
 
-describe('Table', () => {
-  setupPageScreenshot({ url: '/uilib/components/table/demos', each: true })
+describe.each(['ui', 'sbanken'])('Table for %s', (themeName) => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/table/demos',
+  })
 
   it('have to match the default choice of table styles', async () => {
     const screenshot = await makeScreenshot({
@@ -103,7 +106,7 @@ describe('Table', () => {
         width: '30rem',
       },
       selector,
-      waitAfterSimulate: 200,
+      waitAfterSimulate: 100,
       executeBeforeSimulate: () => {
         document
           .querySelector(
@@ -112,6 +115,11 @@ describe('Table', () => {
           .scrollIntoView({
             behavior: 'auto',
           })
+
+        // Ensure the window.resize event gets triggered in order to force the shadow to appear (after React v18 upgrade)
+        setTimeout(() => {
+          window.dispatchEvent(new Event('resize'))
+        }, 100)
       },
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -176,110 +184,122 @@ describe('Table', () => {
   })
 })
 
-describe('Table with skeleton', () => {
-  setupPageScreenshot({ url: '/uilib/components/table/demos?skeleton' })
-
-  it('have to match default table', async () => {
-    const screenshot = await makeScreenshot({
-      ...defaults,
-      style: {
-        width: '40rem',
-      },
-      selector: '[data-visual-test="table-default"]',
+describe.each(['ui', 'sbanken'])(
+  'Table with skeleton for %s',
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/components/table/demos?skeleton',
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-})
 
-describe('Table with accordion', () => {
-  setupPageScreenshot({ url: '/uilib/components/table', each: true })
+    it('have to match default table', async () => {
+      const screenshot = await makeScreenshot({
+        ...defaults,
+        style: {
+          width: '40rem',
+        },
+        selector: '[data-visual-test="table-default"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+  }
+)
 
-  it('have to match default state', async () => {
-    const screenshot = await makeScreenshot({
-      ...defaults,
-      style: {
-        width: '35rem',
-      },
-      selector: '[data-visual-test="table-accordion"] .dnb-table',
+describe.each(['ui', 'sbanken'])(
+  'Table with accordion for %s',
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/components/table',
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match hover state on first row', async () => {
-    const screenshot = await makeScreenshot({
-      ...defaults,
-      style: {
-        width: '35rem',
-      },
-      selector:
-        '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type',
-      simulateSelector:
-        '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type tbody tr:first-of-type',
-      simulate: 'hover',
+    it('have to match default state', async () => {
+      const screenshot = await makeScreenshot({
+        ...defaults,
+        style: {
+          width: '35rem',
+        },
+        selector: '[data-visual-test="table-accordion"] .dnb-table',
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match hover state on last row', async () => {
-    const screenshot = await makeScreenshot({
-      ...defaults,
-      style: {
-        width: '35rem',
-      },
-      selector:
-        '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type',
-      simulateSelector:
-        '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type tbody tr:nth-last-child(2)',
-      simulate: 'hover',
+    it('have to match hover state on first row', async () => {
+      const screenshot = await makeScreenshot({
+        ...defaults,
+        style: {
+          width: '35rem',
+        },
+        selector:
+          '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type',
+        simulateSelector:
+          '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type tbody tr:first-of-type',
+        simulate: 'hover',
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match focus state on last row', async () => {
-    const screenshot = await makeScreenshot({
-      ...defaults,
-      style: {
-        width: '35rem',
-      },
-      selector:
-        '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type',
-      simulateSelector:
-        '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type tbody tr:nth-last-child(2)',
-      simulate: 'focus',
+    it('have to match hover state on last row', async () => {
+      const screenshot = await makeScreenshot({
+        ...defaults,
+        style: {
+          width: '35rem',
+        },
+        selector:
+          '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type',
+        simulateSelector:
+          '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type tbody tr:nth-last-child(2)',
+        simulate: 'hover',
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match active state on last row', async () => {
-    const screenshot = await makeScreenshot({
-      ...defaults,
-      style: {
-        width: '35rem',
-      },
-      selector:
-        '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type',
-      simulateSelector:
-        '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type tbody tr:nth-last-child(2)',
-      simulate: 'active',
+    it('have to match focus state on last row', async () => {
+      const screenshot = await makeScreenshot({
+        ...defaults,
+        style: {
+          width: '35rem',
+        },
+        selector:
+          '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type',
+        simulateSelector:
+          '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type tbody tr:nth-last-child(2)',
+        simulate: 'focus',
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot({
-      failureThreshold: 0.01, // locally as well
-    })
-  })
 
-  it('have to match expanded state on first row', async () => {
-    const screenshot = await makeScreenshot({
-      ...defaults,
-      style: {
-        width: '35rem',
-        height: '20rem',
-      },
-      selector:
-        '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type',
-      simulateSelector:
-        '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type tbody tr:first-of-type',
-      simulate: 'click',
+    it('have to match active state on last row', async () => {
+      const screenshot = await makeScreenshot({
+        ...defaults,
+        style: {
+          width: '35rem',
+        },
+        selector:
+          '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type',
+        simulateSelector:
+          '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type tbody tr:nth-last-child(2)',
+        simulate: 'active',
+      })
+      expect(screenshot).toMatchImageSnapshot({
+        failureThreshold: 0.01, // locally as well
+      })
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-})
+
+    it('have to match expanded state on first row', async () => {
+      const screenshot = await makeScreenshot({
+        ...defaults,
+        style: {
+          width: '35rem',
+          height: '20rem',
+        },
+        selector:
+          '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type',
+        simulateSelector:
+          '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type tbody tr:first-of-type',
+        simulate: 'click',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+  }
+)
