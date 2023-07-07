@@ -26,10 +26,15 @@ import {
   hideSidebarToggleButtonStyle,
 } from './StickyMenuBar.module.scss'
 
+type StickyMenuBarProps = {
+  hideSidebarToggleButton?: boolean
+  preventBarVisibility?: boolean
+}
+
 export default function StickyMenuBar({
   hideSidebarToggleButton,
   preventBarVisibility,
-} = {}) {
+}: StickyMenuBarProps = {}) {
   const context = React.useContext(Context)
   const { toggleMenu, isOpen } = React.useContext(SidebarMenuContext)
   const {

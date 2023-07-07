@@ -7,7 +7,7 @@
 import React from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
 import MainMenu from '../shared/menu/MainMenu'
-import { usePortalHead } from '../core/PortalHead'
+import { usePortalHead } from '../shared/core/PortalHead'
 
 export default function App() {
   const {

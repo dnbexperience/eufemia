@@ -4,7 +4,10 @@
  */
 
 import { applyPageFocus } from '@dnb/eufemia/src/shared/helpers'
-import { rootElement, pageElement } from './src/core/PortalProviders'
+import {
+  rootElement,
+  pageElement,
+} from './src/shared/core/PortalProviders'
 import ReactDOM from 'react-dom/client'
 
 if (typeof window !== 'undefined') {

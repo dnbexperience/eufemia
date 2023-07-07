@@ -3,9 +3,9 @@ import { Drawer, Space, Tooltip } from '@dnb/eufemia/src/components'
 import { H2 } from '@dnb/eufemia/src'
 import ToggleGrid from './ToggleGrid'
 import { Context } from '@dnb/eufemia/src/shared'
-import PortalSkeleton from '../../core/PortalSkeleton'
-import ChangeLocale from '../../core/ChangeLocale'
-import ChangeStyleTheme from '../../core/ChangeStyleTheme'
+import PortalSkeleton from '../core/PortalSkeleton'
+import ChangeLocale from '../core/ChangeLocale'
+import ChangeStyleTheme from '../core/ChangeStyleTheme'
 
 export default function PortalToolsMenu({
   className = null,

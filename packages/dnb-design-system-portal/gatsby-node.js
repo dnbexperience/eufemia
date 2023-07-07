@@ -7,7 +7,7 @@ const path = require('path')
 const { isCI } = require('repo-utils')
 const { init } = require('./scripts/version.js')
 const { createFilePath } = require('gatsby-source-filesystem')
-const { shouldUsePrebuild } = require('./src/core/BuildTools.cjs')
+const { shouldUsePrebuild } = require('./src/shared/core/BuildTools.cjs')
 
 const PREBUILD_EXISTS = shouldUsePrebuild()
 

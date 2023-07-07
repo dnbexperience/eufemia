@@ -6,9 +6,9 @@
 import React from 'react'
 import { MDXProvider } from '@mdx-js/react'
 import { graphql, useStaticQuery } from 'gatsby'
-import Layout from '../shared/parts/Layout'
-import Tabbar from '../shared/tags/Tabbar'
-import tags from '../shared/tags'
+import Layout from '../parts/Layout'
+import Tabbar from '../tags/Tabbar'
+import tags from '../tags'
 import { resetLevels } from '@dnb/eufemia/src/components/Heading'
 import { setPortalHeadData, usePortalHead } from './PortalHead'
 
