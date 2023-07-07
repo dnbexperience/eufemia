@@ -3,7 +3,7 @@ const config = {
   testEnvironmentOptions: {
     url: 'http://localhost',
   },
-  testRegex: '(/__tests__/\\.js|(\\.|/)(test|spec))\\.(js|jsx|ts|tsx)?$',
+  testRegex: '(/__tests__/\\.js|(\\.|/)test)\\.(js|jsx|ts|tsx)?$',
   testPathIgnorePatterns: [
     'not_in_use',
     'screenshot',

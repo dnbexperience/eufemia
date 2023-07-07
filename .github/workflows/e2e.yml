@@ -28,7 +28,6 @@ env:
   ALGOLIA_INDEX_NAME: ${{ secrets.ALGOLIA_INDEX_NAME }}
   ALGOLIA_SEARCH_KEY: ${{ secrets.ALGOLIA_SEARCH_KEY }}
   ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
-  CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
   RUN_POST_BUILD: ${{ startsWith(github.ref, 'refs/heads/main') || startsWith(github.ref, 'refs/heads/v') }}
 
 jobs:
@@ -189,9 +188,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    env:
-      CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
-
     steps:
       - uses: actions/checkout@v3
 
@@ -208,19 +204,19 @@ jobs:
           key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-
 
-      - name: Use Cypress cache
+      - name: Use Playwright cache
         uses: actions/cache@v3
-        id: cypress-binary-cache
+        id: playwright-binary-cache
         with:
-          path: ~/.cache/Cypress
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-cypress-binary-${{ hashFiles('**/yarn.lock') }}
+          path: ~/.cache/ms-playwright
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-binary-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install dependencies
         run: yarn install --immutable
 
-      - name: Install Cypress
-        if: steps.cypress-binary-cache.outputs.cache-hit != 'true'
-        run: yarn workspace dnb-design-system-portal cypress install
+      - name: Install Playwright
+        if: steps.playwright-binary-cache.outputs.cache-hit != 'true'
+        run: yarn workspace dnb-design-system-portal playwright install --with-deps firefox
 
       - name: Wait for build to succeed
         uses: fountainhead/action-wait-for-check@v1.0.0
@@ -237,15 +233,15 @@ jobs:
           name: portal-build-artifact
           path: ./packages/dnb-design-system-portal/public
 
-      - name: Run Cypress
-        run: yarn workspace dnb-design-system-portal cypress:ci
+      - name: Run Playwright
+        run: yarn workspace dnb-design-system-portal test:e2e:ci
 
-      - name: Store cypress artifacts
+      - name: Store Playwright artifacts
         uses: actions/upload-artifact@v3
         if: failure()
         with:
-          name: cypress-develop-artifact
-          path: ./packages/dnb-design-system-portal/cypress
+          name: playwright-develop-artifact
+          path: ./packages/dnb-design-system-portal/test-results
 
       - name: Slack
         uses: 8398a7/action-slack@v3
