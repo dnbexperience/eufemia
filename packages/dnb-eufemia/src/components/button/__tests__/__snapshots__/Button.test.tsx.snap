@@ -797,8 +797,8 @@ html:not([data-whatintent=touch]) .dnb-button--primary:hover[disabled] {
   cursor: not-allowed;
 }
 html:not([data-whatintent=touch]) .dnb-button--primary:hover:not([disabled]) {
-  color: var(--sb-color-green);
-  background-color: var(--sb-color-purple);
+  color: var(--sb-color-purple-alternative);
+  background-color: var(--sb-color-green);
   outline: initial;
   box-shadow: none;
 }

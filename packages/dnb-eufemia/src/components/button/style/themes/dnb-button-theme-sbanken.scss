@@ -50,8 +50,8 @@
     background-color: var(--sb-color-purple-alternative);
 
     @include hover() {
-      color: var(--sb-color-green);
-      background-color: var(--sb-color-purple);
+      color: var(--sb-color-purple-alternative);
+      background-color: var(--sb-color-green);
       @include removeFocusRing();
     }
 
