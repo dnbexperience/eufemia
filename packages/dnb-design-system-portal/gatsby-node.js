@@ -116,6 +116,31 @@ exports.createResolvers = ({ createResolvers }) => {
 
 exports.createPages = async (params) => {
   await createRedirects(params)
+
+  params.actions.createSlice({
+    id: 'StickyMenuBar',
+    component: require.resolve('./src/shared/menu/StickyMenuBar.tsx'),
+  })
+
+  params.actions.createSlice({
+    id: 'SidebarMenu',
+    component: require.resolve('./src/shared/menu/SidebarMenu.tsx'),
+  })
+
+  params.actions.createSlice({
+    id: 'ToggleGrid',
+    component: require.resolve('./src/shared/menu/ToggleGrid.tsx'),
+  })
+
+  params.actions.createSlice({
+    id: 'GridActivator',
+    component: require.resolve('./src/shared/menu/GridActivator.tsx'),
+  })
+
+  params.actions.createSlice({
+    id: 'Footer',
+    component: require.resolve('./src/shared/parts/Footer.tsx'),
+  })
 }
 
 async function createRedirects({ graphql, actions }) {

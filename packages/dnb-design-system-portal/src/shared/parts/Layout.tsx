@@ -4,30 +4,25 @@
  */
 
 import React from 'react'
-import { Link } from 'gatsby'
+import { Slice } from 'gatsby'
 import classnames from 'classnames'
-import StickyMenuBar from '../menu/StickyMenuBar'
-import packageJson from '../../../package.json' // needs resolveJsonModule in tsconfig
 import {
   SidebarMenuProvider,
   SidebarMenuContext,
 } from '../menu/SidebarMenuContext'
-import ToggleGrid, { GridActivator } from '../menu/ToggleGrid'
 import {
   setPageFocusElement,
   scrollToLocationHashId,
 } from '@dnb/eufemia/src/shared/helpers'
-import { P, Logo, GlobalStatus } from '@dnb/eufemia/src'
+import { GlobalStatus } from '@dnb/eufemia/src'
 import './PortalStyle.scss'
 import {
   portalStyle,
   mainStyle,
-  footerStyle,
   contentStyle,
   wrapperStyle,
   fullscreenStyle,
 } from './Layout.module.scss'
-import Sidebar from '../menu/SidebarMenu'
 
 export function scrollToAnimation() {
   // if url hash is defined, scroll to the id
@@ -99,11 +94,17 @@ function Layout(props: LayoutProps) {
       </a>
 
       <SidebarMenuProvider>
-        {!fs && <StickyMenuBar />}
+        {!fs && <Slice alias="StickyMenuBar" />}
 
         <div className={wrapperStyle}>
           {!fs && !hideSidebar && (
-            <Sidebar location={location} showAll={false} />
+            <Slice
+              alias="SidebarMenu"
+              showAll={false}
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              location={location}
+            />
           )}
 
           <Content key="content" fullscreen={fs}>
@@ -115,14 +116,14 @@ function Layout(props: LayoutProps) {
               </div>
             </MainContent>
 
-            <Footer />
+            <Slice alias="Footer" />
           </Content>
 
-          {fs && <ToggleGrid hidden />}
+          {fs && <Slice alias="ToggleGrid" hidden />}
         </div>
       </SidebarMenuProvider>
 
-      <GridActivator />
+      <Slice alias="GridActivator" />
     </div>
   )
 }
@@ -164,29 +165,5 @@ const MainContent = ({ mainRef, ...props }) => (
     {...props}
   />
 )
-
-const Footer = () => {
-  return (
-    <footer className={footerStyle}>
-      <P>
-        <small>
-          Package release: {packageJson.releaseVersion} <br />
-          Portal update: {packageJson.buildVersion}
-        </small>
-      </P>
-
-      <Logo height="40" color="white" />
-
-      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-      {/* @ts-ignore */}
-      <Link
-        to="/license"
-        className="dnb-anchor dnb-anchor--contrast dnb-anchor--no-underline"
-      >
-        Copyright (c) 2018-present DNB.no
-      </Link>
-    </footer>
-  )
-}
 
 export default Layout
