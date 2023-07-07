@@ -31,6 +31,23 @@ $button-shadow: var(--sb-shadow-medium);
   }
 }
 
+%error-hover {
+  color: var(--sb-color-red);
+  background-color: var(--sb-color-magenta-light-3);
+  @include fakeBorder(var(--sb-color-red), null, inset);
+}
+
+%error-primary {
+  color: var(--sb-color-white);
+  background-color: var(--sb-color-red);
+}
+
+%error-secondary {
+  color: var(--sb-color-red);
+  background-color: var(--sb-color-white);
+  @include fakeBorder(var(--sb-color-red), null, inset);
+}
+
 .dnb-button {
   border: none;
 
@@ -73,8 +90,15 @@ $button-shadow: var(--sb-shadow-medium);
     }
 
     &:not([disabled]).dnb-button__status--error {
-      color: var(--sb-color-white);
-      background-color: var(--sb-color-red);
+      @extend %error-primary;
+
+      @include hover() {
+        @extend %error-hover;
+      }
+
+      @include active() {
+        @extend %error-primary;
+      }
     }
   }
 
@@ -104,14 +128,14 @@ $button-shadow: var(--sb-shadow-medium);
     }
 
     &:not([disabled]).dnb-button__status--error {
-      color: var(--sb-color-red);
-      background-color: var(--sb-color-white);
-      @include fakeBorder(var(--sb-color-red), null, inset);
+      @extend %error-secondary;
 
       @include hover() {
-        color: var(--sb-color-red);
-        background-color: var(--sb-color-magenta-light-3);
-        @include fakeBorder(var(--sb-color-red), null, inset);
+        @extend %error-hover;
+      }
+
+      @include active() {
+        @extend %error-secondary;
       }
     }
   }
