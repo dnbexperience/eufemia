@@ -772,7 +772,7 @@ html[data-whatinput=keyboard] .dnb-button--secondary:focus:not([disabled]), html
 html[data-whatinput=keyboard] .dnb-button--secondary:focus:not([disabled]), html[data-whatinput=keyboard] .dnb-button--primary:focus:not([disabled]) {
   --border-color: var(--focus-ring-color);
   --border-width: var(--focus-ring-width);
-  box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
+  box-shadow: inset 0 0 0 var(--border-width) var(--border-color), var(--sb-shadow-medium);
   border-color: transparent;
 }
 
@@ -792,6 +792,7 @@ html[data-whatinput=keyboard] .dnb-button--secondary:focus:not([disabled]), html
 .dnb-button--primary {
   color: var(--sb-color-green);
   background-color: var(--sb-color-purple-alternative);
+  box-shadow: var(--sb-shadow-medium);
 }
 html:not([data-whatintent=touch]) .dnb-button--primary:hover[disabled] {
   cursor: not-allowed;
@@ -800,10 +801,10 @@ html:not([data-whatintent=touch]) .dnb-button--primary:hover:not([disabled]) {
   color: var(--sb-color-purple-alternative);
   background-color: var(--sb-color-green);
   outline: initial;
-  box-shadow: none;
+  box-shadow: var(--sb-shadow-medium);
 }
 html[data-whatinput=""] html:not([data-whatintent=touch]) .dnb-button--primary:hover:not([disabled]) {
-  box-shadow: none;
+  box-shadow: var(--sb-shadow-medium);
 }
 .dnb-button--primary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--primary:active[disabled] {
   cursor: not-allowed;
@@ -965,7 +966,7 @@ html[data-whatinput=keyboard] .dnb-button--tertiary:focus:not([disabled]), html[
 html[data-whatinput=keyboard] .dnb-button--tertiary:focus:not([disabled])::before, html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-button--tertiary:focus:not([disabled])::before {
   --border-color: var(--focus-ring-color);
   --border-width: var(--focus-ring-width);
-  box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
+  box-shadow: inset 0 0 0 var(--border-width) var(--border-color), var(--sb-shadow-medium);
   border-color: transparent;
 }
 .dnb-button--tertiary:focus:not([disabled]):focus-visible, html:not([data-whatintent=touch]) .dnb-button--tertiary:focus:not([disabled]):focus-visible {

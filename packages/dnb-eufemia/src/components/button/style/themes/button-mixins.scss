@@ -51,21 +51,35 @@
   }
 }
 
-@mixin buttonFocus($color, $background-color, $focus-color: null) {
+@mixin buttonFocus(
+  $color,
+  $background-color,
+  $focus-color: null,
+  $extendShadow: null
+) {
   @include focus() {
     html[data-whatinput='keyboard'] & {
       color: $color;
       background-color: $background-color;
     }
 
-    @include focusRing(null, $focus-color, inset);
+    @include focusRing(
+      null,
+      $focus-color,
+      inset,
+      $extendShadow: $extendShadow
+    );
 
     @content;
   }
 }
 
 // Used in tertiary button variant
-@mixin buttonFocusRing($whatinput: null, $inset: null) {
+@mixin buttonFocusRing(
+  $whatinput: null,
+  $inset: null,
+  $extendShadow: null
+) {
   // Create focus-ring
   &::before {
     content: '';
@@ -80,7 +94,12 @@
     height: inherit;
     border-radius: inherit;
 
-    @include focusRing($whatinput, null, $inset);
+    @include focusRing(
+      $whatinput,
+      null,
+      $inset,
+      $extendShadow: $extendShadow
+    );
   }
 }
 

@@ -10,10 +10,13 @@
 // we slice the shareable parts out in a separate file
 @import '../dnb-button--tertiary.scss';
 
+$button-shadow: var(--sb-shadow-medium);
+
 %focus {
   @include buttonFocus(
     var(--sb-color-blue-dark),
-    var(--sb-color-blue-light-3)
+    var(--sb-color-blue-light-3),
+    $extendShadow: $button-shadow
   );
 }
 
@@ -48,11 +51,12 @@
   &--primary {
     color: var(--sb-color-green);
     background-color: var(--sb-color-purple-alternative);
+    box-shadow: $button-shadow;
 
     @include hover() {
       color: var(--sb-color-purple-alternative);
       background-color: var(--sb-color-green);
-      @include removeFocusRing();
+      @include removeFocusRing($replace: $button-shadow);
     }
 
     @include active() {
@@ -205,7 +209,7 @@
 
     @include focus() {
       @include removeFocusRing('keyboard');
-      @include buttonFocusRing(null, inset);
+      @include buttonFocusRing(null, inset, $button-shadow);
       &:focus-visible {
         @include focus-tertiary();
       }

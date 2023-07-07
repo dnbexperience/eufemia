@@ -84,9 +84,9 @@ export default {
   '--sb-layout-large': '72em',
   '--sb-layout-x-large': '80em',
   '--sb-layout-xx-large': '90em',
-  '--sb-shadow-small': '0 2px 4px rbga(38, 35, 66, 0.12)',
-  '--sb-shadow-medium': '0 5px 20px rbga(38, 35, 66, 0.1)',
-  '--sb-shadow-large': '0 5px 20px rbga(38, 35, 66, 0.2)',
-  '--sb-shadow-hover': '0 20px 40px rbga(38, 35, 66, 0.2)',
+  '--sb-shadow-small': '0 2px 4px rgba(38 35 66 / 12%)',
+  '--sb-shadow-medium': '0 5px 20px rgba(38 35 66 / 10%)',
+  '--sb-shadow-large': '0 5px 20px rgba(38 35 66 / 20%)',
+  '--sb-shadow-hover': '0 20px 40px rgba(38 35 66 / 20%)',
   '--sb-easing-default': 'cubic-bezier(0.42, 0, 0, 1)'
 }; // prettier-ignore
