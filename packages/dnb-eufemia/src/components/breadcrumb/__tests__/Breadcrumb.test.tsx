@@ -32,9 +32,9 @@ describe('Breadcrumb', () => {
       />
     )
 
-    expect(screen.queryByText('Home')).toBeTruthy()
-    expect(screen.queryByText('Page 1')).toBeTruthy()
-    expect(screen.queryByText('Page 2')).toBeTruthy()
+    expect(screen.queryByText('Home')).toBeInTheDocument()
+    expect(screen.queryByText('Page 1')).toBeInTheDocument()
+    expect(screen.queryByText('Page 2')).toBeInTheDocument()
 
     expect(screen.queryAllByRole('link')).toHaveLength(2)
   })
@@ -44,7 +44,7 @@ describe('Breadcrumb', () => {
       <Breadcrumb data={[{ href: '/page1/page2', text: 'Page 2' }]} />
     )
 
-    expect(screen.queryByText('Page 2')).toBeTruthy()
+    expect(screen.queryByText('Page 2')).toBeInTheDocument()
     expect(screen.queryAllByRole('link')).toHaveLength(1)
   })
 
@@ -57,9 +57,9 @@ describe('Breadcrumb', () => {
       </Breadcrumb>
     )
 
-    expect(screen.queryByText('Home')).toBeTruthy()
-    expect(screen.queryByText('Page 1')).toBeTruthy()
-    expect(screen.queryByText('Page 2')).toBeTruthy()
+    expect(screen.queryByText('Home')).toBeInTheDocument()
+    expect(screen.queryByText('Page 1')).toBeInTheDocument()
+    expect(screen.queryByText('Page 2')).toBeInTheDocument()
 
     expect(screen.queryAllByRole('link')).toHaveLength(3)
   })
@@ -71,7 +71,7 @@ describe('Breadcrumb', () => {
       </Breadcrumb>
     )
 
-    expect(screen.queryByText('Page item #1')).toBeTruthy()
+    expect(screen.queryByText('Page item #1')).toBeInTheDocument()
     expect(screen.queryAllByRole('link')).toHaveLength(1)
   })
 
@@ -99,10 +99,10 @@ describe('Breadcrumb', () => {
       </Breadcrumb>
     )
 
-    expect(screen.queryByText('Page item #1')).toBeTruthy()
-    expect(screen.queryByText('Page item #2')).toBeTruthy()
-    expect(screen.queryByText('Page item #3')).toBeTruthy()
-    expect(screen.queryByText('Page item #4')).toBeTruthy()
+    expect(screen.queryByText('Page item #1')).toBeInTheDocument()
+    expect(screen.queryByText('Page item #2')).toBeInTheDocument()
+    expect(screen.queryByText('Page item #3')).toBeInTheDocument()
+    expect(screen.queryByText('Page item #4')).toBeInTheDocument()
 
     expect(screen.queryAllByRole('link')).toHaveLength(4)
   })
@@ -267,9 +267,9 @@ describe('Breadcrumb', () => {
       const text = 'Just text'
       render(<BreadcrumbItem text={text} />)
 
-      expect(screen.queryByRole('link')).toBeNull()
-      expect(screen.queryByRole('button')).toBeNull()
-      expect(screen.queryByText(text)).toBeTruthy()
+      expect(screen.queryByRole('link')).not.toBeInTheDocument()
+      expect(screen.queryByRole('button')).not.toBeInTheDocument()
+      expect(screen.queryByText(text)).toBeInTheDocument()
     })
 
     it('will render custom icon', () => {

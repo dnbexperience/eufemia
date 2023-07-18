@@ -45,7 +45,7 @@ describe('UploadFileInput', () => {
       }),
     })
 
-    expect(screen.queryByText(buttonText)).toBeTruthy()
+    expect(screen.queryByText(buttonText)).toBeInTheDocument()
   })
 
   it('renders the upload input', () => {
@@ -65,7 +65,7 @@ describe('UploadFileInput', () => {
 
     const element = document.querySelector('.dnb-upload__file-input')
 
-    expect(element.hasAttribute('multiple')).toBeTruthy()
+    expect(element).toHaveAttribute('multiple')
   })
 
   it('accepts ony one file when filesAmountLimit is 1', () => {
@@ -77,7 +77,7 @@ describe('UploadFileInput', () => {
 
     const element = document.querySelector('.dnb-upload__file-input')
 
-    expect(element.hasAttribute('multiple')).toBeFalsy()
+    expect(element).not.toHaveAttribute('multiple')
   })
 
   it('renders the input', () => {

@@ -44,23 +44,19 @@ describe('InteractionInvalidation', () => {
         document.querySelector(`${selector} h2`).getAttribute('tabindex')
       ).toBe('-1')
 
-      expect(
-        document
-          .querySelector(`${selector} h3`)
-          .hasAttribute('aria-hidden')
-      ).toBe(false)
-      expect(
-        document.querySelector(`${selector} h3`).hasAttribute('tabindex')
-      ).toBe(false)
+      expect(document.querySelector(`${selector} h3`)).not.toHaveAttribute(
+        'aria-hidden'
+      )
+      expect(document.querySelector(`${selector} h3`)).not.toHaveAttribute(
+        'tabindex'
+      )
 
       expect(
-        document
-          .querySelector(`${selector} path`)
-          .hasAttribute('aria-hidden')
-      ).toBe(false)
+        document.querySelector(`${selector} path`)
+      ).not.toHaveAttribute('aria-hidden')
       expect(
-        document.querySelector(`${selector} path`).hasAttribute('tabindex')
-      ).toBe(false)
+        document.querySelector(`${selector} path`)
+      ).not.toHaveAttribute('tabindex')
     }
 
     const hasInvalidatedState = (selector: string) => {
@@ -92,13 +88,11 @@ describe('InteractionInvalidation', () => {
       ).toBe('-1')
 
       expect(
-        document
-          .querySelector(`${selector} path`)
-          .hasAttribute('aria-hidden')
-      ).toBe(false)
+        document.querySelector(`${selector} path`)
+      ).not.toHaveAttribute('aria-hidden')
       expect(
-        document.querySelector(`${selector} path`).hasAttribute('tabindex')
-      ).toBe(false)
+        document.querySelector(`${selector} path`)
+      ).not.toHaveAttribute('tabindex')
     }
 
     it('be in its original state', () => {
@@ -171,23 +165,19 @@ describe('InteractionInvalidation', () => {
         document.querySelector(`${selector} h2`).getAttribute('tabindex')
       ).toBe('-1')
 
-      expect(
-        document
-          .querySelector(`${selector} h3`)
-          .hasAttribute('aria-hidden')
-      ).toBe(false)
-      expect(
-        document.querySelector(`${selector} h3`).hasAttribute('tabindex')
-      ).toBe(false)
+      expect(document.querySelector(`${selector} h3`)).not.toHaveAttribute(
+        'aria-hidden'
+      )
+      expect(document.querySelector(`${selector} h3`)).not.toHaveAttribute(
+        'tabindex'
+      )
 
       expect(
-        document
-          .querySelector(`${selector} path`)
-          .hasAttribute('aria-hidden')
-      ).toBe(false)
+        document.querySelector(`${selector} path`)
+      ).not.toHaveAttribute('aria-hidden')
       expect(
-        document.querySelector(`${selector} path`).hasAttribute('tabindex')
-      ).toBe(false)
+        document.querySelector(`${selector} path`)
+      ).not.toHaveAttribute('tabindex')
     }
 
     const hasInvalidatedState = (selector: string) => {
@@ -206,20 +196,16 @@ describe('InteractionInvalidation', () => {
         document.querySelector(`${selector} h2`).getAttribute('tabindex')
       ).toBe('-1')
 
-      expect(
-        document
-          .querySelector(`${selector} h3`)
-          .getAttribute('aria-hidden')
-      ).toBe(null)
+      expect(document.querySelector(`${selector} h3`)).not.toHaveAttribute(
+        'aria-hidden'
+      )
 
       expect(
-        document
-          .querySelector(`${selector} path`)
-          .hasAttribute('aria-hidden')
-      ).toBe(false)
+        document.querySelector(`${selector} path`)
+      ).not.toHaveAttribute('aria-hidden')
       expect(
-        document.querySelector(`${selector} path`).hasAttribute('tabindex')
-      ).toBe(false)
+        document.querySelector(`${selector} path`)
+      ).not.toHaveAttribute('tabindex')
     }
 
     it('be in its original state', () => {

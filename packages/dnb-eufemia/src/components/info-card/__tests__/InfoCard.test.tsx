@@ -281,7 +281,7 @@ describe('InfoCard', () => {
     render(<InfoCard title="heading" text="text" />)
 
     const element = document.querySelector('.dnb-info-card')
-    expect(element.querySelector('h3')).toBeFalsy()
+    expect(element.querySelector('h3')).not.toBeInTheDocument()
   })
 
   describe('InfoCard aria', () => {

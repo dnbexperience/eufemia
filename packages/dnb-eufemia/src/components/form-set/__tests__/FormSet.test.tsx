@@ -21,7 +21,7 @@ describe('FormSet component', () => {
   it('should have .dnb-form-set class', () => {
     render(<FormSet {...props} />)
 
-    expect(document.querySelector('.dnb-form-set')).toBeTruthy()
+    expect(document.querySelector('.dnb-form-set')).toBeInTheDocument()
   })
 
   it('should have working provider with vertical direction class on form-row', () => {
@@ -30,11 +30,9 @@ describe('FormSet component', () => {
         <FormRow />
       </FormSet>
     )
-    expect(
-      document
-        .querySelector('.dnb-form-row')
-        .classList.contains('dnb-form-row--vertical')
-    ).toBe(true)
+    expect(document.querySelector('.dnb-form-row').classList).toContain(
+      'dnb-form-row--vertical'
+    )
   })
 
   it('should disable nested components', () => {
@@ -47,7 +45,7 @@ describe('FormSet component', () => {
     )
     expect(
       document.querySelector('input.dnb-input__input[disabled]')
-    ).toBeTruthy()
+    ).toBeInTheDocument()
 
     rerender(
       <FormSet {...props} disabled={false}>
@@ -58,7 +56,7 @@ describe('FormSet component', () => {
     )
     expect(
       document.querySelector('input.dnb-input__input[disabled]')
-    ).toBeFalsy()
+    ).not.toBeInTheDocument()
 
     rerender(
       <FormSet {...props} disabled>
@@ -69,7 +67,7 @@ describe('FormSet component', () => {
     )
     expect(
       document.querySelector('input.dnb-input__input[disabled]')
-    ).toBeTruthy()
+    ).toBeInTheDocument()
 
     rerender(
       <FormSet {...props} disabled>
@@ -81,7 +79,7 @@ describe('FormSet component', () => {
 
     expect(
       document.querySelector('input.dnb-input__input[disabled]')
-    ).toBeFalsy()
+    ).not.toBeInTheDocument()
   })
 
   it('should support locale context forwarding', () => {

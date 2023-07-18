@@ -85,7 +85,7 @@ describe('InputPassword component', () => {
     render(<InputPassword />)
 
     const Button = document.querySelector('button')
-    expect(Button).toBeTruthy()
+    expect(Button).toBeInTheDocument()
 
     fireEvent.focus(Button)
     expect(
@@ -99,7 +99,7 @@ describe('InputPassword component', () => {
     render(<InputPassword />)
 
     const Button = document.querySelector('button')
-    expect(Button).toBeTruthy()
+    expect(Button).toBeInTheDocument()
 
     fireEvent.click(Button)
     expect(

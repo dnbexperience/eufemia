@@ -18,7 +18,7 @@ describe('IconPrimary component', () => {
     const height = '100'
     render(<IconPrimary {...props} width={width} height={height} />)
     const elem = document.querySelector('svg')
-    expect(elem).toBeTruthy()
+    expect(elem).toBeInTheDocument()
     expect(elem.getAttribute('width')).toBe(width)
     expect(elem.getAttribute('height')).toBe(height)
     expect(elem.getAttribute('viewBox')).toBe('0 0 16 16')
@@ -29,8 +29,8 @@ describe('IconPrimary component', () => {
     render(<IconPrimary {...props} icon="question_medium" size="medium" />)
     const svg = document.querySelector('svg')
     const path = svg.querySelector('path')
-    expect(svg).toBeTruthy()
-    expect(path).toBeTruthy()
+    expect(svg).toBeInTheDocument()
+    expect(path).toBeInTheDocument()
     expect(svg.getAttribute('viewBox')).toBe('0 0 24 24')
   })
 
@@ -39,8 +39,8 @@ describe('IconPrimary component', () => {
     render(<IconPrimary {...props} icon="question_medium" size="24" />)
     const svg = document.querySelector('svg')
     const path = svg.querySelector('path')
-    expect(svg).toBeTruthy()
-    expect(path).toBeTruthy()
+    expect(svg).toBeInTheDocument()
+    expect(path).toBeInTheDocument()
     expect(svg.getAttribute('viewBox')).toBe('0 0 24 24')
   })
 

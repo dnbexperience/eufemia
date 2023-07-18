@@ -21,7 +21,7 @@ describe('Heading component', () => {
     const props: HeadingProps = {}
     render(<Heading {...props} />)
 
-    expect(document.querySelector('.dnb-heading')).toBeTruthy()
+    expect(document.querySelector('.dnb-heading')).toBeInTheDocument()
   })
 
   it('have to match level correction', () => {
@@ -318,7 +318,7 @@ describe('Heading component', () => {
 
     const elem = document.querySelectorAll('.dnb-heading')
     expect(elem[0].textContent).toBe('[h1] Heading #1')
-    expect(elem[0].classList.contains('dnb-h--x-large')).toBe(true)
+    expect(elem[0].classList).toContain('dnb-h--x-large')
     expect(elem[0].getAttribute('class')).toBe(
       'dnb-heading dnb-h--x-large'
     )

@@ -118,28 +118,24 @@ describe('NumberFormat component', () => {
   it('will show copy advice', () => {
     render(<Component value={-value} currency />)
 
-    expect(
-      document
-        .querySelector('span')
-        .classList.contains('dnb-number-format--selected')
-    ).toBe(false)
+    expect(document.querySelector('span').classList).not.toContain(
+      'dnb-number-format--selected'
+    )
 
-    expect(document.querySelector('.dnb-tooltip')).toBeFalsy()
+    expect(document.querySelector('.dnb-tooltip')).not.toBeInTheDocument()
 
     fireEvent.click(document.querySelector('.dnb-number-format__visible'))
     fireEvent.copy(document.querySelector('.dnb-number-format__selection'))
 
-    expect(document.querySelector('.dnb-tooltip')).toBeTruthy()
+    expect(document.querySelector('.dnb-tooltip')).toBeInTheDocument()
   })
 
   it('has valid selected number', () => {
     const { rerender } = render(<Component value={-value} currency />)
 
-    expect(
-      document
-        .querySelector('span')
-        .classList.contains('dnb-number-format--selected')
-    ).toBe(false)
+    expect(document.querySelector('span').classList).not.toContain(
+      'dnb-number-format--selected'
+    )
 
     expect(document.activeElement).toBe(document.body)
 
@@ -424,7 +420,7 @@ describe('NumberFormat component', () => {
 
     expect(
       document.querySelector('.dnb-number-format__selection')
-    ).toBeFalsy()
+    ).not.toBeInTheDocument()
   })
 
   it('should validate with ARIA rules', async () => {

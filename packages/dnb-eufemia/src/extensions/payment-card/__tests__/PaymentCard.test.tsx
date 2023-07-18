@@ -38,51 +38,51 @@ describe('PaymentCard', () => {
   it('has to have a figcaption', () => {
     render(<PaymentCard {...defaultProps} />)
 
-    expect(screen.queryByText('DNB Kortet')).toBeTruthy()
+    expect(screen.queryByText('DNB Kortet')).toBeInTheDocument()
     expect(screen.queryByText('DNB Kortet').tagName).toEqual('FIGCAPTION')
   })
 
   it('has a valid title in SVG', () => {
     render(<PaymentCard {...defaultProps} />)
 
-    expect(screen.queryByText('DNB logo')).toBeTruthy()
+    expect(screen.queryByText('DNB logo')).toBeInTheDocument()
     expect(screen.queryByText('DNB logo').tagName).toEqual('title')
   })
 
   it('has a correct formatted card number', () => {
     render(<PaymentCard {...defaultProps} />)
 
-    expect(screen.queryByText('**** **** **** 1337')).toBeTruthy()
+    expect(screen.queryByText('**** **** **** 1337')).toBeInTheDocument()
   })
 
   it('has a correct label', () => {
     render(<PaymentCard {...defaultProps} />)
 
-    expect(screen.queryByText(nb.text_card_number)).toBeTruthy()
+    expect(screen.queryByText(nb.text_card_number)).toBeInTheDocument()
   })
 
   it('has correct expired status', () => {
     render(<PaymentCard {...defaultProps} card_status="expired" />)
 
-    expect(screen.queryByText(nb.text_expired)).toBeTruthy()
+    expect(screen.queryByText(nb.text_expired)).toBeInTheDocument()
   })
 
   it('has correct blocked status', () => {
     render(<PaymentCard {...defaultProps} card_status="blocked" />)
 
-    expect(screen.queryByText(nb.text_blocked)).toBeTruthy()
+    expect(screen.queryByText(nb.text_blocked)).toBeInTheDocument()
   })
 
   it('reacts to locale change', () => {
     const { rerender } = render(<PaymentCard {...defaultProps} />)
 
-    expect(screen.queryByText(nb.text_card_number)).toBeTruthy()
+    expect(screen.queryByText(nb.text_card_number)).toBeInTheDocument()
 
     rerender(<PaymentCard {...defaultProps} locale="en-GB" />)
-    expect(screen.queryByText(en.text_card_number)).toBeTruthy()
+    expect(screen.queryByText(en.text_card_number)).toBeInTheDocument()
 
     rerender(<PaymentCard {...defaultProps} locale="nb-NO" />)
-    expect(screen.queryByText(nb.text_card_number)).toBeTruthy()
+    expect(screen.queryByText(nb.text_card_number)).toBeInTheDocument()
   })
 
   it('reacts raw_data with correct rendering', () => {
@@ -105,13 +105,13 @@ describe('PaymentCard', () => {
       />
     )
 
-    expect(screen.queryByText(customData.productName)).toBeTruthy()
+    expect(screen.queryByText(customData.productName)).toBeInTheDocument()
     expect(screen.queryByText(customData.productName).tagName).toEqual(
       'FIGCAPTION'
     )
     expect(
       document.querySelector('div.dnb-payment-card__card--design-gold')
-    ).toBeTruthy()
+    ).toBeInTheDocument()
   })
 
   it('should validate with ARIA rules', async () => {

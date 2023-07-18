@@ -78,7 +78,7 @@ describe('"applyPageFocus" should', () => {
     applyPageFocus('.focus-button')
 
     const focusElement = document.querySelector('.focus-button')
-    expect(focusElement.hasAttribute('tabindex')).toBeFalsy()
+    expect(focusElement).not.toHaveAttribute('tabindex')
   })
 
   it('set a css class called "dnb-no-focus"', () => {

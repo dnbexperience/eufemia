@@ -843,7 +843,9 @@ describe('InputMasked component with currency_mask', () => {
       placeholderText
     )
 
-    expect(document.querySelector('.dnb-input__placeholder')).toBeFalsy()
+    expect(
+      document.querySelector('.dnb-input__placeholder')
+    ).not.toBeInTheDocument()
   })
 
   it('should change data-input-state based on focus state', () => {

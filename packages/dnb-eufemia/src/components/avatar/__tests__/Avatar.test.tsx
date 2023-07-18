@@ -38,7 +38,7 @@ describe('Avatar', () => {
       </Avatar.Group>
     )
 
-    expect(screen.queryByText('E')).toBeTruthy()
+    expect(screen.queryByText('E')).toBeInTheDocument()
   })
 
   it('renders a label for screen readers when passing children as text', () => {
@@ -49,7 +49,7 @@ describe('Avatar', () => {
       </Avatar.Group>
     )
 
-    expect(screen.queryByText(children)).toBeTruthy()
+    expect(screen.queryByText(children)).toBeInTheDocument()
   })
 
   it('renders children as Icon', () => {
@@ -195,7 +195,7 @@ describe('Avatar', () => {
         </Avatar.Group>
       )
 
-      expect(screen.queryByText(label)).toBeTruthy()
+      expect(screen.queryByText(label)).toBeInTheDocument()
     })
 
     it('renders the label as react node', () => {
@@ -222,7 +222,7 @@ describe('Avatar', () => {
       const avatarsDisplayed =
         document.getElementsByClassName('dnb-avatar')
 
-      expect(screen.queryByText('+2')).toBeTruthy()
+      expect(screen.queryByText('+2')).toBeInTheDocument()
 
       expect(avatarsDisplayed).toHaveLength(1)
     })
@@ -239,7 +239,7 @@ describe('Avatar', () => {
       const avatarsDisplayed =
         document.getElementsByClassName('dnb-avatar')
 
-      expect(screen.queryByText('+3')).toBeTruthy()
+      expect(screen.queryByText('+3')).toBeInTheDocument()
 
       expect(avatarsDisplayed).toHaveLength(0)
     })

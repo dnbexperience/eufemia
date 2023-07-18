@@ -84,37 +84,37 @@ describe('Context', () => {
 
   it('translation (getTranslation) should react on new lang prop', () => {
     const { rerender } = render(<MagicContext />)
-    expect(screen.queryByText(title_nb)).toBeTruthy()
+    expect(screen.queryByText(title_nb)).toBeInTheDocument()
 
     rerender(<MagicContext lang="en-GB" />)
-    expect(screen.queryByText(title_gb)).toBeTruthy()
+    expect(screen.queryByText(title_gb)).toBeInTheDocument()
   })
 
   it('translation (getTranslation) should react on new locale', () => {
     render(<MagicContext />)
-    expect(screen.getByText(title_nb)).toBeTruthy()
+    expect(screen.getByText(title_nb)).toBeInTheDocument()
 
     act(() => {
       screen.getByRole('button', { name: 'en-GB' }).click()
     })
-    expect(screen.getByText(title_gb)).toBeTruthy()
+    expect(screen.getByText(title_gb)).toBeInTheDocument()
 
     act(() => {
       screen.getByRole('button', { name: 'en-US' }).click()
     })
-    expect(screen.getByText(title_gb)).toBeTruthy()
+    expect(screen.getByText(title_gb)).toBeInTheDocument()
 
     act(() => {
       screen.getByRole('button', { name: 'nb-NO' }).click()
     })
-    expect(screen.getByText(title_nb)).toBeTruthy()
+    expect(screen.getByText(title_nb)).toBeInTheDocument()
   })
 
   it('translation should react on locale change', () => {
     const { rerender } = render(<HelpButton>content</HelpButton>)
-    expect(screen.queryByLabelText(title_nb)).toBeTruthy()
+    expect(screen.queryByLabelText(title_nb)).toBeInTheDocument()
 
     rerender(<HelpButton lang="en-GB">content</HelpButton>)
-    expect(screen.queryByLabelText(title_gb)).toBeTruthy()
+    expect(screen.queryByLabelText(title_gb)).toBeInTheDocument()
   })
 })

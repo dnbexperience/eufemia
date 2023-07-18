@@ -184,7 +184,7 @@ describe('Timeline', () => {
     it('renders title', () => {
       const title = 'Completed'
       render(<TimelineItem title={title} state="completed" />)
-      expect(screen.queryByText(title)).toBeTruthy()
+      expect(screen.queryByText(title)).toBeInTheDocument()
     })
 
     it('renders subtitle', () => {
@@ -196,7 +196,7 @@ describe('Timeline', () => {
           state="completed"
         />
       )
-      expect(screen.queryByText(subtitle)).toBeTruthy()
+      expect(screen.queryByText(subtitle)).toBeInTheDocument()
     })
 
     it('renders subtitles', () => {
@@ -209,8 +209,8 @@ describe('Timeline', () => {
         />
       )
 
-      expect(screen.queryByText(subtitles[0])).toBeTruthy()
-      expect(screen.queryByText(subtitles[1])).toBeTruthy()
+      expect(screen.queryByText(subtitles[0])).toBeInTheDocument()
+      expect(screen.queryByText(subtitles[1])).toBeInTheDocument()
     })
 
     it('renders info message', () => {
@@ -222,7 +222,7 @@ describe('Timeline', () => {
           state="completed"
         />
       )
-      expect(screen.queryByText(infoMessage)).toBeTruthy()
+      expect(screen.queryByText(infoMessage)).toBeInTheDocument()
     })
 
     it('renders custom icon', () => {

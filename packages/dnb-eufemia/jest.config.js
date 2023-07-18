@@ -23,5 +23,6 @@ const config = {
     '^.+\\.(jpg|jpeg|png)$': '<rootDir>/src/core/jest/fileMock.js',
     '^.+\\.(svg)$': '<rootDir>/src/core/jest/jsxMock.js',
   },
+  setupFilesAfterEnv: ['<rootDir>/src/core/jest/setupJest.js'],
 }
 module.exports = config

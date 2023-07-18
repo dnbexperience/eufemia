@@ -74,12 +74,8 @@ describe('Dropdown component', () => {
     elem = document.querySelectorAll('.dnb-drawer-list__option')[
       props.value
     ]
-    expect(elem.classList.contains('dnb-drawer-list__option--focus')).toBe(
-      true
-    )
-    expect(
-      elem.classList.contains('dnb-drawer-list__option--selected')
-    ).toBe(true)
+    expect(elem.classList).toContain('dnb-drawer-list__option--focus')
+    expect(elem.classList).toContain('dnb-drawer-list__option--selected')
 
     keydown(40) // down
     keydown(13) // enter
@@ -89,12 +85,8 @@ describe('Dropdown component', () => {
     elem = document.querySelectorAll('.dnb-drawer-list__option')[
       (props.value as number) + 1
     ]
-    expect(elem.classList.contains('dnb-drawer-list__option--focus')).toBe(
-      true
-    )
-    expect(
-      elem.classList.contains('dnb-drawer-list__option--selected')
-    ).toBe(true)
+    expect(elem.classList).toContain('dnb-drawer-list__option--focus')
+    expect(elem.classList).toContain('dnb-drawer-list__option--selected')
 
     expect(
       document.querySelector('.dnb-dropdown__text__inner').textContent
@@ -111,7 +103,7 @@ describe('Dropdown component', () => {
 
     expect(
       document.querySelector('.dnb-drawer-list__option--focus')
-    ).toBeTruthy()
+    ).toBeInTheDocument()
 
     keydown(83) // S
 
@@ -119,10 +111,8 @@ describe('Dropdown component', () => {
     rerender(<Dropdown {...props} data={mockData} />)
 
     expect(
-      document
-        .querySelectorAll('.dnb-drawer-list__option')[1]
-        .classList.contains('dnb-drawer-list__option--focus')
-    ).toBe(true)
+      document.querySelectorAll('.dnb-drawer-list__option')[1].classList
+    ).toContain('dnb-drawer-list__option--focus')
 
     keydown(70) // F
 
@@ -130,10 +120,8 @@ describe('Dropdown component', () => {
     rerender(<Dropdown {...props} data={mockData} />)
 
     expect(
-      document
-        .querySelectorAll('.dnb-drawer-list__option')[2]
-        .classList.contains('dnb-drawer-list__option--focus')
-    ).toBe(true)
+      document.querySelectorAll('.dnb-drawer-list__option')[2].classList
+    ).toContain('dnb-drawer-list__option--focus')
   })
 
   it('has correct state when opened prop is given', () => {
@@ -161,7 +149,7 @@ describe('Dropdown component', () => {
       />
     )
 
-    expect(document.querySelector('button')).toBeTruthy()
+    expect(document.querySelector('button')).toBeInTheDocument()
     expect(
       Array.from(document.querySelector('button').classList)
     ).toContain('dnb-dropdown__trigger')
@@ -216,7 +204,7 @@ describe('Dropdown component', () => {
 
     expect(
       document.querySelector('.dnb-drawer-list__option--selected')
-    ).toBeFalsy()
+    ).not.toBeInTheDocument()
 
     // then simulate changes
     keydown(40) // down
@@ -226,21 +214,17 @@ describe('Dropdown component', () => {
     expect(on_change).toHaveBeenCalledTimes(1)
     expect(
       document.querySelector('.dnb-drawer-list__option--selected')
-    ).toBeTruthy()
-    expect(
-      document
-        .querySelector('.dnb-dropdown')
-        .classList.contains('dnb-dropdown--opened')
-    ).toBe(true)
+    ).toBeInTheDocument()
+    expect(document.querySelector('.dnb-dropdown').classList).toContain(
+      'dnb-dropdown--opened'
+    )
 
     // close
     keydown(27) // esc
 
     expect(
-      document
-        .querySelector('.dnb-dropdown')
-        .classList.contains('dnb-dropdown--opened')
-    ).toBe(false)
+      document.querySelector('.dnb-dropdown').classList
+    ).not.toContain('dnb-dropdown--opened')
   })
 
   it('will stay open when prevent_close is given, regardless', async () => {
@@ -259,7 +243,7 @@ describe('Dropdown component', () => {
 
     expect(
       document.querySelector('.dnb-drawer-list__option--selected')
-    ).toBeFalsy()
+    ).not.toBeInTheDocument()
 
     // then simulate changes
     keydown(40) // down
@@ -269,21 +253,17 @@ describe('Dropdown component', () => {
     expect(on_change).toHaveBeenCalledTimes(1)
     expect(
       document.querySelector('.dnb-drawer-list__option--selected')
-    ).toBeTruthy()
-    expect(
-      document
-        .querySelector('.dnb-dropdown')
-        .classList.contains('dnb-dropdown--opened')
-    ).toBe(true)
+    ).toBeInTheDocument()
+    expect(document.querySelector('.dnb-dropdown').classList).toContain(
+      'dnb-dropdown--opened'
+    )
 
     // try to close it
     keydown(27) // esc
 
-    expect(
-      document
-        .querySelector('.dnb-dropdown')
-        .classList.contains('dnb-dropdown--opened')
-    ).toBe(true)
+    expect(document.querySelector('.dnb-dropdown').classList).toContain(
+      'dnb-dropdown--opened'
+    )
 
     expect(on_hide).toHaveBeenCalledTimes(0)
   })
@@ -331,7 +311,7 @@ describe('Dropdown component', () => {
 
     expect(
       document.querySelector('.dnb-drawer-list__option--selected')
-    ).toBeFalsy()
+    ).not.toBeInTheDocument()
 
     // then simulate changes
     keydown(40) // down
@@ -343,7 +323,7 @@ describe('Dropdown component', () => {
 
     expect(
       document.querySelector('.dnb-drawer-list__option--selected')
-    ).toBeFalsy()
+    ).not.toBeInTheDocument()
 
     rerender(
       <Dropdown
@@ -367,7 +347,7 @@ describe('Dropdown component', () => {
 
     expect(
       document.querySelector('.dnb-drawer-list__option--selected')
-    ).toBeTruthy()
+    ).toBeInTheDocument()
 
     rerender(
       <Dropdown
@@ -392,7 +372,7 @@ describe('Dropdown component', () => {
 
     expect(
       document.querySelector('.dnb-drawer-list__option--selected')
-    ).toBeFalsy()
+    ).not.toBeInTheDocument()
 
     rerender(
       <Dropdown
@@ -423,7 +403,9 @@ describe('Dropdown component', () => {
     expect(document.querySelector('.dnb-dropdown__text').textContent).toBe(
       title
     )
-    expect(document.querySelector('.dnb-dropdown--is-popup')).toBeFalsy()
+    expect(
+      document.querySelector('.dnb-dropdown--is-popup')
+    ).not.toBeInTheDocument()
 
     rerender(
       <Dropdown
@@ -437,8 +419,12 @@ describe('Dropdown component', () => {
       />
     )
 
-    expect(document.querySelector('.dnb-dropdown__text')).toBeFalsy()
-    expect(document.querySelector('.dnb-dropdown--is-popup')).toBeTruthy()
+    expect(
+      document.querySelector('.dnb-dropdown__text')
+    ).not.toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-dropdown--is-popup')
+    ).toBeInTheDocument()
   })
 
   it('can be reset to null', () => {
@@ -590,7 +576,7 @@ describe('Dropdown component', () => {
 
     expect(
       document.querySelector('.dnb-drawer-list__option--selected')
-    ).toBeFalsy()
+    ).not.toBeInTheDocument()
 
     expect(
       document
@@ -599,8 +585,12 @@ describe('Dropdown component', () => {
         .getAttribute('data-testid')
     ).toBe('more icon')
 
-    expect(document.querySelector('.dnb-dropdown__text')).toBeFalsy()
-    expect(document.querySelector('.dnb-dropdown--is-popup')).toBeTruthy()
+    expect(
+      document.querySelector('.dnb-dropdown__text')
+    ).not.toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-dropdown--is-popup')
+    ).toBeInTheDocument()
   })
 
   it('has valid on_change callback', () => {
@@ -829,11 +819,9 @@ describe('Dropdown component', () => {
     // first open
     open()
 
-    expect(
-      document
-        .querySelector('.dnb-dropdown')
-        .classList.contains('dnb-dropdown--opened')
-    ).toBe(true)
+    expect(document.querySelector('.dnb-dropdown').classList).toContain(
+      'dnb-dropdown--opened'
+    )
 
     act(() => {
       // close
@@ -843,19 +831,15 @@ describe('Dropdown component', () => {
     expect(on_hide.mock.calls.length).toBe(1)
 
     expect(
-      document
-        .querySelector('.dnb-dropdown')
-        .classList.contains('dnb-dropdown--opened')
-    ).toBe(false)
+      document.querySelector('.dnb-dropdown').classList
+    ).not.toContain('dnb-dropdown--opened')
 
     // reopen
     open()
 
-    expect(
-      document
-        .querySelector('.dnb-dropdown')
-        .classList.contains('dnb-dropdown--opened')
-    ).toBe(true)
+    expect(document.querySelector('.dnb-dropdown').classList).toContain(
+      'dnb-dropdown--opened'
+    )
 
     preventClose = true
 
@@ -867,11 +851,9 @@ describe('Dropdown component', () => {
     expect(on_hide.mock.calls.length).toBe(2)
 
     // we are still open
-    expect(
-      document
-        .querySelector('.dnb-dropdown')
-        .classList.contains('dnb-dropdown--opened')
-    ).toBe(true)
+    expect(document.querySelector('.dnb-dropdown').classList).toContain(
+      'dnb-dropdown--opened'
+    )
   })
 
   it('will set focus on options when key down/up is pressed on first item', async () => {
@@ -882,40 +864,34 @@ describe('Dropdown component', () => {
     // first open
     keydown(40) // down
 
-    expect(
-      document
-        .querySelector('.dnb-dropdown')
-        .classList.contains('dnb-dropdown--opened')
-    ).toBe(true)
+    expect(document.querySelector('.dnb-dropdown').classList).toContain(
+      'dnb-dropdown--opened'
+    )
 
-    expect(
-      document.activeElement.classList.contains('dnb-drawer-list__options')
-    ).toBe(true)
+    expect(document.activeElement.classList).toContain(
+      'dnb-drawer-list__options'
+    )
 
     keydown(40) // down
 
     // delay because we want to wait to have the DOM focus to be called
     await wait(1)
 
+    expect(document.activeElement.classList).toContain(
+      'dnb-drawer-list__option'
+    )
+    expect(document.activeElement.classList).toContain(
+      'dnb-drawer-list__option--focus'
+    )
     expect(
-      document.activeElement.classList.contains('dnb-drawer-list__option')
-    ).toBe(true)
-    expect(
-      document.activeElement.classList.contains(
-        'dnb-drawer-list__option--focus'
-      )
-    ).toBe(true)
-    expect(
-      document
-        .querySelectorAll('li.dnb-drawer-list__option')[0]
-        .classList.contains('dnb-drawer-list__option--focus')
-    ).toBe(true)
+      document.querySelectorAll('li.dnb-drawer-list__option')[0].classList
+    ).toContain('dnb-drawer-list__option--focus')
 
     keydown(38) // up
 
-    expect(
-      document.activeElement.classList.contains('dnb-drawer-list__options')
-    ).toBe(true)
+    expect(document.activeElement.classList).toContain(
+      'dnb-drawer-list__options'
+    )
 
     // then simulate changes
     keydown(38) // up
@@ -923,24 +899,20 @@ describe('Dropdown component', () => {
     // delay because we want to wait to have the DOM focus to be called
     await wait(1)
 
-    expect(
-      document.activeElement.classList.contains('dnb-drawer-list__option')
-    ).toBe(true)
+    expect(document.activeElement.classList).toContain(
+      'dnb-drawer-list__option'
+    )
     let options = document.querySelectorAll('li.dnb-drawer-list__option')
-    expect(
-      options[mockData.length - 1].classList.contains(
-        'dnb-drawer-list__option--focus'
-      )
-    ).toBe(true)
+    expect(options[mockData.length - 1].classList).toContain(
+      'dnb-drawer-list__option--focus'
+    )
 
     // then simulate changes
     keydown(40) // down
 
     expect(
-      document
-        .querySelectorAll('li.dnb-drawer-list__option')[0] // the first item
-        .classList.contains('dnb-drawer-list__option--focus')
-    ).toBe(true)
+      document.querySelectorAll('li.dnb-drawer-list__option')[0].classList // the first item
+    ).toContain('dnb-drawer-list__option--focus')
 
     rerender(
       <Dropdown
@@ -957,8 +929,7 @@ describe('Dropdown component', () => {
     options = document.querySelectorAll('li.dnb-drawer-list__option')
     expect(
       options[mockData.length - 1].classList // the last item
-        .contains('dnb-drawer-list__option--focus')
-    ).toBe(true)
+    ).toContain('dnb-drawer-list__option--focus')
 
     // delay because we want to wait to have the DOM focus to be called
     await wait(1)
@@ -966,9 +937,9 @@ describe('Dropdown component', () => {
     // then simulate changes
     keydown(40) // down
 
-    expect(
-      document.activeElement.classList.contains('dnb-drawer-list__options')
-    ).toBe(true)
+    expect(document.activeElement.classList).toContain(
+      'dnb-drawer-list__options'
+    )
 
     // then simulate changes
     keydown(38) // up
@@ -976,8 +947,7 @@ describe('Dropdown component', () => {
     options = document.querySelectorAll('li.dnb-drawer-list__option')
     expect(
       options[mockData.length - 1].classList // the last item
-        .contains('dnb-drawer-list__option--focus')
-    ).toBe(true)
+    ).toContain('dnb-drawer-list__option--focus')
 
     // then simulate changes
     keydown(38) // up
@@ -985,17 +955,14 @@ describe('Dropdown component', () => {
     options = document.querySelectorAll('li.dnb-drawer-list__option')
     expect(
       options[mockData.length - 2].classList // the second item
-        .contains('dnb-drawer-list__option--focus')
-    ).toBe(true)
+    ).toContain('dnb-drawer-list__option--focus')
 
     // then simulate changes
     keydown(33) // pageUp
 
     expect(
-      document
-        .querySelectorAll('li.dnb-drawer-list__option')[0] // the first item
-        .classList.contains('dnb-drawer-list__option--focus')
-    ).toBe(true)
+      document.querySelectorAll('li.dnb-drawer-list__option')[0].classList // the first item
+    ).toContain('dnb-drawer-list__option--focus')
 
     // then simulate changes
     keydown(38) // up
@@ -1003,8 +970,7 @@ describe('Dropdown component', () => {
     options = document.querySelectorAll('li.dnb-drawer-list__option')
     expect(
       options[mockData.length - 1].classList // the last item
-        .contains('dnb-drawer-list__option--focus')
-    ).toBe(true)
+    ).toContain('dnb-drawer-list__option--focus')
   })
 
   it('will change the selected value when StrictMode is enabled', () => {
@@ -1069,16 +1035,12 @@ describe('Dropdown component', () => {
     open()
 
     const options = document.querySelectorAll('li.dnb-drawer-list__option')
-    expect(
-      options[newValue].classList.contains(
-        'dnb-drawer-list__option--selected'
-      )
-    ).toBe(true)
-    expect(
-      options[newValue].classList.contains(
-        'dnb-drawer-list__option--focus'
-      )
-    ).toBe(true)
+    expect(options[newValue].classList).toContain(
+      'dnb-drawer-list__option--selected'
+    )
+    expect(options[newValue].classList).toContain(
+      'dnb-drawer-list__option--focus'
+    )
   })
 
   it('has a default title if no value is given', () => {
@@ -1130,10 +1092,8 @@ describe('Dropdown component', () => {
     rerender(<Dropdown data={mockData} {...mockProps} disabled={true} />)
 
     expect(
-      document
-        .querySelector('button.dnb-dropdown__trigger')
-        .hasAttribute('disabled')
-    ).toBe(true)
+      document.querySelector('button.dnb-dropdown__trigger')
+    ).toHaveAttribute('disabled')
   })
 
   beforeAll(() => {

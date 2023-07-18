@@ -13,16 +13,14 @@ const props: SpaceAllProps = {}
 describe('Space component', () => {
   it('renders with empty props', () => {
     render(<Space {...props} />)
-    expect(document.querySelector('.dnb-space')).toBeTruthy()
+    expect(document.querySelector('.dnb-space')).toBeInTheDocument()
   })
 
   it('should have correct CSS classes', () => {
     render(<Space element="span" top="large" />)
-    expect(
-      document
-        .querySelector('span.dnb-space')
-        .classList.contains('dnb-space__top--large')
-    ).toBe(true)
+    expect(document.querySelector('span.dnb-space').classList).toContain(
+      'dnb-space__top--large'
+    )
   })
 
   it('should accept space only prop', () => {
@@ -75,7 +73,9 @@ describe('Space component', () => {
 
   it('should have collapse CSS class', () => {
     render(<Space top="large" no_collapse={true} />)
-    expect(document.querySelector('.dnb-space--no-collapse')).toBeTruthy()
+    expect(
+      document.querySelector('.dnb-space--no-collapse')
+    ).toBeInTheDocument()
   })
 })
 

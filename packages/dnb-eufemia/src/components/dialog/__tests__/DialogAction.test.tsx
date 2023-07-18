@@ -17,7 +17,9 @@ describe('Dialog.Action', () => {
 
     render(<MockComponent />)
 
-    expect(document.querySelector('.dnb-dialog__actions')).toBeTruthy()
+    expect(
+      document.querySelector('.dnb-dialog__actions')
+    ).toBeInTheDocument()
   })
 
   it('supports spacing', () => {

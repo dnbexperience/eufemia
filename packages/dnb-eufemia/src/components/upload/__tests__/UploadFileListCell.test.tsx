@@ -89,7 +89,7 @@ describe('UploadFileListCell', () => {
       />
     )
 
-    expect(screen.queryByText('PNG')).toBeTruthy()
+    expect(screen.queryByText('PNG')).toBeInTheDocument()
   })
 
   it('renders the subtitle and uses the extension if mime is missing', () => {
@@ -100,7 +100,7 @@ describe('UploadFileListCell', () => {
       />
     )
 
-    expect(screen.queryByText('PNG')).toBeTruthy()
+    expect(screen.queryByText('PNG')).toBeInTheDocument()
   })
 
   it('renders the subtitle with file extension when set by acceptedFileTypes', () => {
@@ -114,7 +114,7 @@ describe('UploadFileListCell', () => {
       }
     )
 
-    expect(screen.queryByText('PNG')).toBeTruthy()
+    expect(screen.queryByText('PNG')).toBeInTheDocument()
   })
 
   it('renders the subtitle with file mime when set by acceptedFileTypes', () => {
@@ -128,7 +128,7 @@ describe('UploadFileListCell', () => {
       }
     )
 
-    expect(screen.queryByText('PNG')).toBeTruthy()
+    expect(screen.queryByText('PNG')).toBeInTheDocument()
   })
 
   it('renders the form errorMessage warning', () => {
@@ -144,7 +144,7 @@ describe('UploadFileListCell', () => {
       />
     )
 
-    expect(screen.queryByText(errorMessage)).toBeTruthy()
+    expect(screen.queryByText(errorMessage)).toBeInTheDocument()
   })
 
   describe('Icons', () => {
@@ -266,7 +266,7 @@ describe('UploadFileListCell', () => {
           uploadFile={{ file: createMockFile(fileName, 100, 'image/png') }}
         />
       )
-      expect(screen.queryByText(fileName)).toBeTruthy()
+      expect(screen.queryByText(fileName)).toBeInTheDocument()
     })
 
     it('renders the anchor href', () => {

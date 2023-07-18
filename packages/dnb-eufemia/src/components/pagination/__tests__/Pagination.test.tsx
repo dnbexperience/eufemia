@@ -46,7 +46,7 @@ describe('Pagination bar', () => {
       </Pagination>
     )
 
-    expect(document.querySelector('div#page-content')).toBeTruthy()
+    expect(document.querySelector('div#page-content')).toBeInTheDocument()
 
     rerender(
       <Pagination {...props} current_page={1}>
@@ -54,26 +54,22 @@ describe('Pagination bar', () => {
       </Pagination>
     )
 
-    expect(document.querySelector('div#page-content')).toBeTruthy()
+    expect(document.querySelector('div#page-content')).toBeInTheDocument()
 
     const buttonElements = document
       .querySelector('.dnb-pagination__bar__inner')
       .querySelectorAll('button.dnb-pagination__button')
 
     const firstButton = buttonElements[0]
-    expect(firstButton.classList.contains('dnb-button--primary')).toBe(
-      true
-    )
+    expect(firstButton.classList).toContain('dnb-button--primary')
     expect(firstButton.getAttribute('aria-current')).toBe('page')
 
     const secondButton = buttonElements[1]
-    expect(secondButton.classList.contains('dnb-button--secondary')).toBe(
-      true
-    )
-    expect(secondButton.hasAttribute('aria-current')).toBe(false)
+    expect(secondButton.classList).toContain('dnb-button--secondary')
+    expect(secondButton).not.toHaveAttribute('aria-current')
 
     const prevNavButton = document.querySelectorAll('.dnb-button')[0]
-    expect(prevNavButton.hasAttribute('disabled')).toBe(true)
+    expect(prevNavButton).toHaveAttribute('disabled')
     expect(
       prevNavButton
         .querySelector('span.dnb-icon')
@@ -534,7 +530,7 @@ describe('Infinity scroller', () => {
     ).toBe('page-20')
     expect(
       document.querySelector('div.dnb-pagination__loadbar')
-    ).toBeFalsy()
+    ).not.toBeInTheDocument()
   })
 
   it('should load pages with load more button (before)', async () => {
@@ -583,7 +579,7 @@ describe('Infinity scroller', () => {
     )
     expect(
       document.querySelector('div.dnb-pagination__loadbar')
-    ).toBeFalsy()
+    ).not.toBeInTheDocument()
 
     expect(on_startup).toHaveBeenCalledTimes(1)
     expect(on_change).toHaveBeenCalledTimes(2)
@@ -597,7 +593,7 @@ describe('Infinity scroller', () => {
       </Pagination>
     )
 
-    expect(document.querySelector('div#page-content')).toBeTruthy()
+    expect(document.querySelector('div#page-content')).toBeInTheDocument()
   })
 
   it('should support locale from provider', () => {
@@ -742,10 +738,12 @@ describe('Infinity scroller', () => {
   it('should show pagination bar using Bar component', () => {
     render(<Bar skeleton={false} />)
 
-    expect(document.querySelector('.dnb-pagination__bar')).toBeTruthy()
+    expect(
+      document.querySelector('.dnb-pagination__bar')
+    ).toBeInTheDocument()
     expect(
       document.querySelector('.dnb-pagination__indicator')
-    ).toBeFalsy()
+    ).not.toBeInTheDocument()
   })
 })
 

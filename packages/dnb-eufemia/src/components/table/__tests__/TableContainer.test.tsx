@@ -44,11 +44,11 @@ describe('TableContainer', () => {
 
     expect(
       document.querySelector('.dnb-table__container__head--empty')
-    ).toBeFalsy()
+    ).not.toBeInTheDocument()
 
     expect(
       document.querySelector('.dnb-table__container__foot--empty')
-    ).toBeFalsy()
+    ).not.toBeInTheDocument()
   })
 
   it('should include custom attributes', () => {
@@ -82,7 +82,7 @@ describe('TableContainer', () => {
 
     expect(
       document.querySelector('.dnb-table__container__head--empty')
-    ).toBeTruthy()
+    ).toBeInTheDocument()
   })
 
   it('should not return table foot if empty modifier', () => {
@@ -90,7 +90,7 @@ describe('TableContainer', () => {
 
     expect(
       document.querySelector('.dnb-table__container__foot--empty')
-    ).toBeTruthy()
+    ).toBeInTheDocument()
   })
 
   it('should handle empty/no table head and foot ', () => {
@@ -110,11 +110,11 @@ describe('TableContainer', () => {
 
     expect(
       document.querySelector('.dnb-table__container__head--empty')
-    ).toBeTruthy()
+    ).toBeInTheDocument()
 
     expect(
       document.querySelector('.dnb-table__container__foot--empty')
-    ).toBeTruthy()
+    ).toBeInTheDocument()
   })
 
   it('should include extra classes in scroll-view', () => {

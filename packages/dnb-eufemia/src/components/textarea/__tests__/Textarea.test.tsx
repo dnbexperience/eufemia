@@ -27,11 +27,9 @@ describe('Textarea component', () => {
     )
     fireEvent.focus(document.querySelector('textarea'))
 
-    expect(
-      document
-        .querySelector('.dnb-textarea')
-        .classList.contains('dnb-textarea--focus')
-    ).toBe(true)
+    expect(document.querySelector('.dnb-textarea').classList).toContain(
+      'dnb-textarea--focus'
+    )
   })
 
   it('has correct state after "change" trigger', () => {
@@ -41,10 +39,8 @@ describe('Textarea component', () => {
       </Textarea>
     )
     expect(
-      document
-        .querySelector('.dnb-textarea')
-        .classList.contains('dnb-textarea--has-content')
-    ).toBe(false)
+      document.querySelector('.dnb-textarea').classList
+    ).not.toContain('dnb-textarea--has-content')
 
     const value = 'new value'
 
@@ -52,11 +48,9 @@ describe('Textarea component', () => {
       target: { value },
     })
 
-    expect(
-      document
-        .querySelector('.dnb-textarea')
-        .classList.contains('dnb-textarea--has-content')
-    ).toBe(true)
+    expect(document.querySelector('.dnb-textarea').classList).toContain(
+      'dnb-textarea--has-content'
+    )
     expect(document.querySelector('textarea').value).toBe(value)
   })
 
@@ -188,9 +182,7 @@ describe('Textarea component', () => {
   it('has a disabled attribute, once we set disabled to true', () => {
     const { rerender } = render(<Textarea />)
     rerender(<Textarea disabled={true} />)
-    expect(
-      document.querySelector('textarea').hasAttribute('disabled')
-    ).toBe(true)
+    expect(document.querySelector('textarea')).toHaveAttribute('disabled')
   })
 
   it('will correctly auto resize if prop autoresize is used', async () => {
