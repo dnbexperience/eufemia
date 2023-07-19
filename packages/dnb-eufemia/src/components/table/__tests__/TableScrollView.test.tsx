@@ -61,6 +61,6 @@ describe('Table.ScrollView', () => {
       renderResizeObserver()
     })
 
-    expect(element.hasAttribute('tabindex')).toBeFalsy()
+    expect(element).not.toHaveAttribute('tabindex')
   })
 })

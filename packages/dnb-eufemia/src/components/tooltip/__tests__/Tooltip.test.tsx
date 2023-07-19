@@ -212,7 +212,7 @@ describe('Tooltip', () => {
 
       expect(
         document.querySelector('.dnb-tooltip').getAttribute('style')
-      ).toBeFalsy()
+      ).not.toBeInTheDocument()
     })
 
     it('creates a React Portal', () => {
@@ -238,7 +238,7 @@ describe('Tooltip', () => {
       it('will not have aria-hidden', () => {
         render(<OriginalTooltip skipPortal active />)
 
-        expect(getMainElem().getAttribute('aria-hidden')).toBeFalsy()
+        expect(getMainElem()).not.toHaveAttribute('aria-hidden')
       })
 
       it('should stay visible when mouse enters the Tooltip', async () => {
@@ -256,17 +256,15 @@ describe('Tooltip', () => {
 
         await wait(1)
 
-        expect(
-          getMainElem().classList.contains('dnb-tooltip--active')
-        ).toBe(true)
+        expect(getMainElem().classList).toContain('dnb-tooltip--active')
 
         fireEvent.mouseLeave(getMainElem())
 
         await wait(1)
 
-        expect(
-          getMainElem().classList.contains('dnb-tooltip--active')
-        ).toBe(false)
+        expect(getMainElem().classList).not.toContain(
+          'dnb-tooltip--active'
+        )
       })
     })
 
@@ -302,24 +300,20 @@ describe('Tooltip', () => {
 
       await wait(100)
 
-      expect(getMainElem().classList.contains('dnb-tooltip--active')).toBe(
-        true
-      )
+      expect(getMainElem().classList).toContain('dnb-tooltip--active')
 
       fireEvent.mouseLeave(buttonElem)
       fireEvent.mouseEnter(buttonElem)
 
-      expect(getMainElem().classList.contains('dnb-tooltip--active')).toBe(
-        true
-      )
+      expect(getMainElem().classList).toContain('dnb-tooltip--active')
 
       fireEvent.mouseLeave(buttonElem)
 
       await wait(1)
 
       const classList = getMainElem().classList
-      expect(classList.contains('dnb-tooltip--active')).toBe(false)
-      expect(classList.contains('dnb-tooltip--hide')).toBe(true)
+      expect(classList).not.toContain('dnb-tooltip--active')
+      expect(classList).toContain('dnb-tooltip--hide')
     })
 
     it('should stay visible when mouse enters the Tooltip', async () => {
@@ -337,17 +331,13 @@ describe('Tooltip', () => {
 
       await wait(1)
 
-      expect(getMainElem().classList.contains('dnb-tooltip--active')).toBe(
-        true
-      )
+      expect(getMainElem().classList).toContain('dnb-tooltip--active')
 
       fireEvent.mouseLeave(getMainElem())
 
       await wait(1)
 
-      expect(getMainElem().classList.contains('dnb-tooltip--active')).toBe(
-        false
-      )
+      expect(getMainElem().classList).not.toContain('dnb-tooltip--active')
     })
 
     it('should set fixed class', () => {
@@ -426,10 +416,8 @@ describe('Tooltip', () => {
       const id = wrapperElement.getAttribute('aria-describedby')
 
       expect(
-        document.body
-          .querySelector('#' + id)
-          .parentElement.classList.contains('dnb-tooltip--active')
-      ).toBe(true)
+        document.body.querySelector('#' + id).parentElement.classList
+      ).toContain('dnb-tooltip--active')
     })
   })
 
@@ -495,10 +483,8 @@ describe('Tooltip', () => {
 
       const id = element.getAttribute('aria-describedby')
       expect(
-        document.body
-          .querySelector('#' + id)
-          .parentElement.classList.contains('dnb-tooltip--active')
-      ).toBe(true)
+        document.body.querySelector('#' + id).parentElement.classList
+      ).toContain('dnb-tooltip--active')
     })
   })
 })

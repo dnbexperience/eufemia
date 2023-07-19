@@ -48,7 +48,7 @@ describe('MediaQuery', () => {
         medium
       </MediaQuery>
     )
-    expect(screen.queryByText('medium')).toBeTruthy()
+    expect(screen.queryByText('medium')).toBeInTheDocument()
   })
 
   it('should match for query when different breakpoints are given', () => {
@@ -77,7 +77,7 @@ describe('MediaQuery', () => {
       </Provider>
     )
 
-    expect(screen.queryByText('medium')).toBeTruthy()
+    expect(screen.queryByText('medium')).toBeInTheDocument()
   })
 
   it('should match for query when custom breakpoints are given', () => {
@@ -100,7 +100,7 @@ describe('MediaQuery', () => {
       </Provider>
     )
 
-    expect(screen.queryByText('xsmall')).toBeTruthy()
+    expect(screen.queryByText('xsmall')).toBeInTheDocument()
   })
 
   it('should match for query when breakpoint is got removed', () => {
@@ -129,7 +129,7 @@ describe('MediaQuery', () => {
       </Provider>
     )
 
-    expect(screen.queryByText('xsmall')).toBeTruthy()
+    expect(screen.queryByText('xsmall')).toBeInTheDocument()
   })
 
   it('should match for what ever query is given when matchOnSSR is true', () => {
@@ -141,7 +141,7 @@ describe('MediaQuery', () => {
       </MediaQuery>
     )
 
-    expect(screen.queryByText('medium')).toBeTruthy()
+    expect(screen.queryByText('medium')).toBeInTheDocument()
   })
 
   it('should match for query with medium and large width', () => {
@@ -159,7 +159,7 @@ describe('MediaQuery', () => {
         medium large
       </MediaQuery>
     )
-    expect(screen.queryByText('medium large')).toBeTruthy()
+    expect(screen.queryByText('medium large')).toBeInTheDocument()
   })
 
   it('should handle media query changes', () => {
@@ -200,15 +200,15 @@ describe('MediaQuery', () => {
     }
 
     render(<Playground />)
-    expect(screen.queryByText('when')).toBeTruthy()
+    expect(screen.queryByText('when')).toBeInTheDocument()
 
     act(() => {
       screen.getByRole('button').click()
     })
-    expect(screen.queryByText('not when')).toBeTruthy()
+    expect(screen.queryByText('not when')).toBeInTheDocument()
     act(() => {
       screen.getByRole('button').click()
     })
-    expect(screen.queryByText('when')).toBeTruthy()
+    expect(screen.queryByText('when')).toBeInTheDocument()
   })
 })

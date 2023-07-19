@@ -75,9 +75,9 @@ describe('HelpButton', () => {
 
     it('should have not aria-label if text is given', () => {
       render(<HelpButton {...props} icon="bell" text="button text" />)
-      expect(
-        document.querySelector('.dnb-button').hasAttribute('aria-label')
-      ).toBe(false)
+      expect(document.querySelector('.dnb-button')).not.toHaveAttribute(
+        'aria-label'
+      )
       expect(
         document.querySelector('.dnb-button').textContent.trim()
       ).toBe('‌button text')

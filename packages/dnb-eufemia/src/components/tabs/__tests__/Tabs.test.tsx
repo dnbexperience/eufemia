@@ -296,10 +296,8 @@ describe('TabList component', () => {
     fireEvent.click(document.querySelector('button[data-tab-key="third"]'))
 
     expect(
-      document
-        .querySelector('button[data-tab-key="third"]')
-        .classList.contains('selected')
-    ).toBe(true)
+      document.querySelector('button[data-tab-key="third"]').classList
+    ).toContain('selected')
 
     const content = document.querySelector('div[role="tabpanel"]')
     const { container } = render(contentWrapperData.third)
@@ -325,10 +323,8 @@ describe('A single Tab component', () => {
         .getAttribute('role')
     ).toBe('tab')
     expect(
-      document
-        .querySelector('button[data-tab-key="second"]')
-        .classList.contains('selected')
-    ).toBe(true)
+      document.querySelector('button[data-tab-key="second"]').classList
+    ).toContain('selected')
   })
 
   it('has to have the right content on a keydown "ArrowRight"', () => {
@@ -363,9 +359,8 @@ describe('A single Tab component', () => {
     expect(
       document
         .querySelectorAll('.dnb-tabs__button__snap')[0]
-        .querySelector('button')
-        .classList.contains('selected')
-    ).toBe(true)
+        .querySelector('button').classList
+    ).toContain('selected')
     expect(
       document.querySelector('div.dnb-tabs__content').textContent
     ).toBe('First')
@@ -396,7 +391,9 @@ describe('A single Tab component', () => {
       />
     )
 
-    expect(document.querySelector('div.dnb-tabs__cached')).toBeTruthy()
+    expect(
+      document.querySelector('div.dnb-tabs__cached')
+    ).toBeInTheDocument()
 
     // also check a real live rerender scenario
     const value = 'value'
@@ -451,13 +448,13 @@ describe('A single Tab component', () => {
       />
     )
 
-    expect(document.querySelector('div.dnb-tabs__cached')).toBeTruthy()
+    expect(
+      document.querySelector('div.dnb-tabs__cached')
+    ).toBeInTheDocument()
 
     expect(
-      document
-        .querySelectorAll('div.dnb-tabs__cached')[0]
-        .hasAttribute('aria-hidden')
-    ).toBe(false)
+      document.querySelectorAll('div.dnb-tabs__cached')[0]
+    ).not.toHaveAttribute('aria-hidden')
     expect(
       document
         .querySelectorAll('div.dnb-tabs__cached')[1]

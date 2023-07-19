@@ -67,11 +67,15 @@ describe('ToggleButton component', () => {
         .querySelector('.dnb-checkbox__input')
         .getAttribute('data-checked')
     ).toBe('true')
-    expect(document.querySelector('.dnb-checkbox__button')).toBeTruthy()
+    expect(
+      document.querySelector('.dnb-checkbox__button')
+    ).toBeInTheDocument()
 
     rerender(<ToggleButton variant="radio" checked={false} />)
 
-    expect(document.querySelector('.dnb-radio__button')).toBeTruthy()
+    expect(
+      document.querySelector('.dnb-radio__button')
+    ).toBeInTheDocument()
     expect(
       document
         .querySelector('.dnb-radio__input')
@@ -217,7 +221,7 @@ describe('ToggleButton component', () => {
   it('has a disabled attribute, once we set disabled to true', () => {
     const { rerender } = render(<ToggleButton />)
     rerender(<ToggleButton disabled={true} />)
-    expect(document.querySelector('button[disabled]')).toBeTruthy()
+    expect(document.querySelector('button[disabled]')).toBeInTheDocument()
   })
 
   it('should support enter key', () => {
@@ -287,7 +291,9 @@ describe('ToggleButton group component', () => {
         />
       </ToggleButton.Group>
     )
-    expect(document.querySelector('.dnb-radio__button')).toBeTruthy()
+    expect(
+      document.querySelector('.dnb-radio__button')
+    ).toBeInTheDocument()
   })
 
   it('has to have correct aria-pressed', () => {
@@ -307,10 +313,8 @@ describe('ToggleButton group component', () => {
       </ToggleButton.Group>
     )
     expect(
-      document
-        .querySelector('button#toggle-button-2')
-        .hasAttribute('aria-pressed')
-    ).toBe(true)
+      document.querySelector('button#toggle-button-2')
+    ).toHaveAttribute('aria-pressed')
   })
 
   it('has "on_change" event which will trigger on a button click', () => {
@@ -533,7 +537,7 @@ describe('ToggleButton group component', () => {
       ).toBe('false')
       expect(
         document.querySelector('.dnb-toggle-button--checked')
-      ).toBeFalsy()
+      ).not.toBeInTheDocument()
       expect(
         document
           .querySelector(sel)

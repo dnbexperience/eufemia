@@ -119,11 +119,13 @@ describe('Radio component', () => {
   it('will disable a single button', () => {
     const { rerender } = render(<Radio disabled />)
 
-    expect(document.querySelector('input[disabled]')).toBeTruthy()
+    expect(document.querySelector('input[disabled]')).toBeInTheDocument()
 
     rerender(<Radio disabled={false} />)
 
-    expect(document.querySelector('input[disabled]')).toBeFalsy()
+    expect(
+      document.querySelector('input[disabled]')
+    ).not.toBeInTheDocument()
   })
 
   it('should support spacing props', () => {
@@ -202,7 +204,7 @@ describe('Radio group component', () => {
       </Radio.Group>
     )
 
-    expect(document.querySelector('input[disabled]')).toBeTruthy()
+    expect(document.querySelector('input[disabled]')).toBeInTheDocument()
   })
 
   it('will disable a single button, defined in the group', () => {
@@ -212,7 +214,7 @@ describe('Radio group component', () => {
       </Radio.Group>
     )
 
-    expect(document.querySelector('input[disabled]')).toBeTruthy()
+    expect(document.querySelector('input[disabled]')).toBeInTheDocument()
   })
 
   it('will overwrite "disable" state, defined in the group', () => {
@@ -223,12 +225,12 @@ describe('Radio group component', () => {
       </Radio.Group>
     )
 
-    expect(
-      document.querySelectorAll('input')[0].hasAttribute('disabled')
-    ).toBe(false)
-    expect(
-      document.querySelectorAll('input')[1].hasAttribute('disabled')
-    ).toBe(true)
+    expect(document.querySelectorAll('input')[0]).not.toHaveAttribute(
+      'disabled'
+    )
+    expect(document.querySelectorAll('input')[1]).toHaveAttribute(
+      'disabled'
+    )
   })
 
   it('should support spacing props', () => {

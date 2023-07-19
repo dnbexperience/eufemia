@@ -143,7 +143,7 @@ describe('GlobalError', () => {
 
     const elem = document.querySelector('.dnb-global-error__links')
 
-    expect(elem).toBeTruthy()
+    expect(elem).toBeInTheDocument()
     expect(elem.previousSibling.textContent).toMatchInlineSnapshot(
       `"Her er noen lenker som kanskje kan hjelpe:"`
     )

@@ -206,12 +206,12 @@ describe('TableAccordion', () => {
 
     expect(
       element.querySelector('div.dnb-table__tr__accordion_content__inner')
-    ).toBeTruthy()
+    ).toBeInTheDocument()
     expect(
       element.querySelector(
         'div.dnb-table__tr__accordion_content__inner__spacing'
       )
-    ).toBeTruthy()
+    ).toBeInTheDocument()
   })
 
   it('expanded accordion content content should contain aria-live accounement', () => {
@@ -231,8 +231,8 @@ describe('TableAccordion', () => {
     const accordionElem = trElement.nextSibling as HTMLTableRowElement
     const element = accordionElem.querySelector('td')
 
-    expect(element.querySelector('span.dnb-sr-only')).toBeTruthy()
-    expect(element.querySelector('span[aria-live]')).toBeTruthy()
+    expect(element.querySelector('span.dnb-sr-only')).toBeInTheDocument()
+    expect(element.querySelector('span[aria-live]')).toBeInTheDocument()
     expect(
       element.querySelector('span[aria-live]').getAttribute('aria-live')
     ).toBe('assertive')
@@ -473,7 +473,7 @@ describe('TableAccordion', () => {
     )
 
     const divElement = trElement.querySelector('div')
-    expect(divElement).toBeTruthy()
+    expect(divElement).toBeInTheDocument()
   })
 
   it('chevron header column should contain accordionToggleButtonSR text', () => {

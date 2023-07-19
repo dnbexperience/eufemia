@@ -77,17 +77,17 @@ describe('useHeightAnimation', () => {
 
   it('should be closed by default', () => {
     render(<Component />)
-    expect(document.querySelector('.is-in-dom')).toBeFalsy()
+    expect(document.querySelector('.is-in-dom')).not.toBeInTheDocument()
   })
 
   it('should have element in DOM when open property is true', () => {
     const { rerender } = render(<Component />)
 
-    expect(document.querySelector('.is-in-dom')).toBeFalsy()
+    expect(document.querySelector('.is-in-dom')).not.toBeInTheDocument()
 
     rerender(<Component open />)
 
-    expect(document.querySelector('.is-in-dom')).toBeTruthy()
+    expect(document.querySelector('.is-in-dom')).toBeInTheDocument()
   })
 
   it('should set height style to auto', async () => {

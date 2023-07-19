@@ -98,11 +98,9 @@ describe('FormStatus component', () => {
         }}
       />
     )
-    expect(
-      document
-        .querySelector('.dnb-form-status')
-        .classList.contains('dnb-form-status__variant--outlined')
-    ).toBe(true)
+    expect(document.querySelector('.dnb-form-status').classList).toContain(
+      'dnb-form-status__variant--outlined'
+    )
   })
 
   it('should update children when they change', () => {
@@ -123,11 +121,15 @@ describe('FormStatus component', () => {
 
   it('should have correct attributes once the "hidden" prop changes', async () => {
     const { rerender } = render(<FormStatus {...props} hidden />)
-    expect(document.querySelector('.dnb-form-status[hidden]')).toBeTruthy()
+    expect(
+      document.querySelector('.dnb-form-status[hidden]')
+    ).toBeInTheDocument()
 
     rerender(<FormStatus {...props} hidden={false} />)
 
-    expect(document.querySelector('.dnb-form-status[hidden]')).toBeFalsy()
+    expect(
+      document.querySelector('.dnb-form-status[hidden]')
+    ).not.toBeInTheDocument()
   })
 
   it('has to to have a text value as defined in the prop', () => {

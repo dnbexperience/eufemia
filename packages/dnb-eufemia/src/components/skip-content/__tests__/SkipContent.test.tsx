@@ -18,7 +18,7 @@ describe('SkipContent', () => {
       </>
     )
 
-    expect(document.querySelector('.dnb-skip-content')).toBeTruthy()
+    expect(document.querySelector('.dnb-skip-content')).toBeInTheDocument()
   })
 
   it('should have one button child with dnb-sr-only class', () => {
@@ -48,11 +48,9 @@ describe('SkipContent', () => {
     )
 
     const element = document.querySelector('.dnb-skip-content')
-    expect(
-      (element.childNodes[0] as HTMLButtonElement).hasAttribute(
-        'aria-hidden'
-      )
-    ).toBeFalsy()
+    expect(element.childNodes[0] as HTMLButtonElement).not.toHaveAttribute(
+      'aria-hidden'
+    )
   })
 
   it('should have a certain amount of attributes on button', () => {
@@ -109,7 +107,9 @@ describe('SkipContent', () => {
       keyCode: 'Tab',
     })
 
-    expect(element.querySelector('button.dnb-sr-only')).toBeFalsy()
+    expect(
+      element.querySelector('button.dnb-sr-only')
+    ).not.toBeInTheDocument()
 
     // 2. make focus action
     fireEvent.click(element.querySelector('.dnb-button'))
@@ -117,7 +117,7 @@ describe('SkipContent', () => {
     await waitFor(() => {
       expect(document.activeElement.tagName).toBe('SECTION')
     })
-    expect(element.querySelector('.dnb-button')).toBeFalsy()
+    expect(element.querySelector('.dnb-button')).not.toBeInTheDocument()
     expect(document.activeElement.classList).toContain(
       'dnb-skip-content__focus'
     )
@@ -151,7 +151,7 @@ describe('SkipContent', () => {
     // 2. blur the event
     fireEvent.blur(element.querySelector('.dnb-button'))
 
-    expect(element.querySelector('.dnb-button')).toBeFalsy()
+    expect(element.querySelector('.dnb-button')).not.toBeInTheDocument()
     expect(document.activeElement.tagName).toBe('BODY')
   })
 
@@ -211,7 +211,9 @@ describe('SkipContent.Return', () => {
       keyCode: 'Tab',
     })
 
-    expect(element.querySelector('button.dnb-sr-only')).toBeFalsy()
+    expect(
+      element.querySelector('button.dnb-sr-only')
+    ).not.toBeInTheDocument()
 
     // 2. make focus action
     fireEvent.click(element.querySelector('.dnb-button'))
@@ -219,7 +221,7 @@ describe('SkipContent.Return', () => {
     await waitFor(() => {
       expect(document.activeElement.tagName).toBe('SECTION')
     })
-    expect(element.querySelector('.dnb-button')).toBeFalsy()
+    expect(element.querySelector('.dnb-button')).not.toBeInTheDocument()
     expect(document.activeElement.classList).toContain(
       'dnb-skip-content__focus'
     )
@@ -232,7 +234,9 @@ describe('SkipContent.Return', () => {
       keyCode: 'Tab',
     })
 
-    expect(section.querySelector('button.dnb-sr-only')).toBeFalsy()
+    expect(
+      section.querySelector('button.dnb-sr-only')
+    ).not.toBeInTheDocument()
 
     // 4. make focus action
     fireEvent.click(section.querySelector('.dnb-button'))
@@ -240,7 +244,7 @@ describe('SkipContent.Return', () => {
     await waitFor(() => {
       expect(document.activeElement.tagName).toBe('BUTTON')
     })
-    expect(section.querySelector('.dnb-button')).toBeFalsy()
+    expect(section.querySelector('.dnb-button')).not.toBeInTheDocument()
     expect(
       // First parent is HeightAnimation, second is span.dnb-skip-content
       document.activeElement.parentElement.parentElement.getAttribute('id')

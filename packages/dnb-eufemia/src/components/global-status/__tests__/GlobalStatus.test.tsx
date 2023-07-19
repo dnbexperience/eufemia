@@ -50,11 +50,13 @@ describe('GlobalStatus component', () => {
     const { rerender } = render(
       <GlobalStatus autoscroll={false} delay={0} />
     )
-    expect(document.querySelector('[aria-live]')).toBeTruthy()
+    expect(document.querySelector('[aria-live]')).toBeInTheDocument()
 
     rerender(<GlobalStatus autoscroll={false} delay={0} show={true} />)
 
-    expect(document.querySelector('[aria-live="assertive"]')).toBeTruthy()
+    expect(
+      document.querySelector('[aria-live="assertive"]')
+    ).toBeInTheDocument()
 
     rerender(<GlobalStatus autoscroll={false} delay={0} show={false} />)
 
@@ -178,7 +180,7 @@ describe('GlobalStatus component', () => {
 
     expect(
       document.querySelector('div.dnb-global-status__message')
-    ).toBeFalsy()
+    ).not.toBeInTheDocument()
   })
 
   it('has to have correct content after a controller remove', () => {
@@ -200,11 +202,8 @@ describe('GlobalStatus component', () => {
       document.querySelector('div.dnb-global-status__shell').innerHTML
     ).toBe('')
     expect(
-      document
-        .querySelector('div.dnb-global-status__shell')
-
-        .hasAttribute('style')
-    ).toBe(false)
+      document.querySelector('div.dnb-global-status__shell')
+    ).not.toHaveAttribute('style')
 
     render(
       <GlobalStatus.Add
@@ -226,7 +225,7 @@ describe('GlobalStatus component', () => {
     ).toBe(startupText)
     expect(
       document.querySelector('div.dnb-global-status__message')
-    ).toBeTruthy()
+    ).toBeInTheDocument()
 
     render(
       <GlobalStatus.Add
@@ -282,7 +281,7 @@ describe('GlobalStatus component', () => {
 
     expect(
       document.querySelector('div.dnb-global-status__message')
-    ).toBeFalsy()
+    ).not.toBeInTheDocument()
     expect(
       document
         .querySelector('div.dnb-global-status__shell')
@@ -399,14 +398,18 @@ describe('GlobalStatus component', () => {
     await wait(1)
     fireEvent.blur(document.querySelector('input#autocomplete-3'))
 
-    expect(document.querySelector('.dnb-form-status__text')).toBeFalsy()
+    expect(
+      document.querySelector('.dnb-form-status__text')
+    ).not.toBeInTheDocument()
 
     await refresh()
 
     expect(
       document.querySelector('.dnb-global-status__message p')
-    ).toBeFalsy()
-    expect(document.querySelector('.dnb-form-status__text')).toBeFalsy()
+    ).not.toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-form-status__text')
+    ).not.toBeInTheDocument()
     const inst = document.querySelector('div.dnb-global-status__shell')
 
     expect(inst.innerHTML).toBe('')
@@ -597,7 +600,7 @@ describe('GlobalStatus component', () => {
 
     expect(
       document.querySelector('.dnb-global-status__content')
-    ).toBeTruthy()
+    ).toBeInTheDocument()
     expect(
       document.querySelector('.dnb-global-status__message p').textContent
     ).toBe('error-message')
@@ -605,7 +608,9 @@ describe('GlobalStatus component', () => {
     fireEvent.click(document.querySelector('input#switch'))
     await refresh()
 
-    expect(document.querySelector('.dnb-form-status__text')).toBeFalsy()
+    expect(
+      document.querySelector('.dnb-form-status__text')
+    ).not.toBeInTheDocument()
     const inst = document.querySelector('div.dnb-global-status__shell')
 
     expect(inst.innerHTML).toBe('')
@@ -758,7 +763,7 @@ describe('GlobalStatus component', () => {
 
     expect(
       document.querySelector('div.dnb-global-status__message')
-    ).toBeTruthy()
+    ).toBeInTheDocument()
     expect(
       document.querySelector('div.dnb-global-status__message').textContent
     ).toBe('text only')
@@ -800,7 +805,7 @@ describe('GlobalStatus component', () => {
 
     expect(
       document.querySelector('div.dnb-global-status__message')
-    ).toBeFalsy()
+    ).not.toBeInTheDocument()
 
     render(
       <GlobalStatus.Add
@@ -832,11 +837,11 @@ describe('GlobalStatus component', () => {
 
     expect(
       document.querySelector('div.dnb-global-status__content')
-    ).toBeFalsy()
+    ).not.toBeInTheDocument()
 
     expect(
       document.querySelector('div.dnb-global-status__message__content')
-    ).toBeFalsy()
+    ).not.toBeInTheDocument()
 
     rerender(
       <GlobalStatus
@@ -850,10 +855,10 @@ describe('GlobalStatus component', () => {
 
     expect(
       document.querySelector('div.dnb-global-status__content')
-    ).toBeTruthy()
+    ).toBeInTheDocument()
     expect(
       document.querySelector('div.dnb-global-status__message__content')
-    ).toBeFalsy()
+    ).not.toBeInTheDocument()
 
     render(
       <GlobalStatus.Add
@@ -866,7 +871,7 @@ describe('GlobalStatus component', () => {
 
     expect(
       document.querySelector('div.dnb-global-status__message__content')
-    ).toBeTruthy()
+    ).toBeInTheDocument()
 
     rerender(
       <GlobalStatus
@@ -887,10 +892,10 @@ describe('GlobalStatus component', () => {
 
     expect(
       document.querySelector('div.dnb-global-status__content')
-    ).toBeFalsy()
+    ).not.toBeInTheDocument()
     expect(
       document.querySelector('div.dnb-global-status__message__content')
-    ).toBeFalsy()
+    ).not.toBeInTheDocument()
   })
 
   it('should validate with ARIA rules', async () => {

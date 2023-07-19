@@ -36,7 +36,9 @@ export function mockImplementationForDirectionObserver() {
 
 export async function testDirectionObserver() {
   // the setDirectionObserver fn is changing this
-  expect(document.querySelector('.dnb-drawer-list--bottom')).toBeTruthy()
+  expect(
+    document.querySelector('.dnb-drawer-list--bottom')
+  ).toBeInTheDocument()
   expect(
     document
       .querySelector('.dnb-drawer-list__options')
@@ -48,7 +50,9 @@ export async function testDirectionObserver() {
   })
   await wait(100)
 
-  expect(document.querySelector('.dnb-drawer-list--bottom')).toBeTruthy()
+  expect(
+    document.querySelector('.dnb-drawer-list--bottom')
+  ).toBeInTheDocument()
   expect(
     document
       .querySelector('.dnb-drawer-list__options')
@@ -60,7 +64,9 @@ export async function testDirectionObserver() {
   })
   await wait(100)
 
-  expect(document.querySelector('.dnb-drawer-list--top')).toBeTruthy()
+  expect(
+    document.querySelector('.dnb-drawer-list--top')
+  ).toBeInTheDocument()
   expect(
     document
       .querySelector('.dnb-drawer-list__options')

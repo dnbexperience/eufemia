@@ -20,7 +20,7 @@ describe('Badge', () => {
     const string = 'A'
     render(<Badge content={string} />)
 
-    expect(screen.queryByText(string)).toBeTruthy()
+    expect(screen.queryByText(string)).toBeInTheDocument()
   })
 
   it('renders content as number', () => {
@@ -28,8 +28,8 @@ describe('Badge', () => {
     const label = 'Notifications:'
     render(<Badge content={number} label={label} />)
 
-    expect(screen.queryByText(number)).toBeTruthy()
-    expect(screen.queryByText(label)).toBeTruthy()
+    expect(screen.queryByText(number)).toBeInTheDocument()
+    expect(screen.queryByText(label)).toBeInTheDocument()
   })
 
   it('renders 9+ when content is a number with value greater than 9', () => {
@@ -37,8 +37,8 @@ describe('Badge', () => {
     const label = 'Notifications:'
     render(<Badge content={number} variant="notification" label={label} />)
 
-    expect(screen.queryByText('9+')).toBeTruthy()
-    expect(screen.queryByText(label)).toBeTruthy()
+    expect(screen.queryByText('9+')).toBeInTheDocument()
+    expect(screen.queryByText(label)).toBeInTheDocument()
   })
 
   it('renders the label as string', () => {
@@ -46,8 +46,8 @@ describe('Badge', () => {
     const content = 100
     render(<Badge label={label} content={content} />)
 
-    expect(screen.queryByText(label)).toBeTruthy()
-    expect(screen.queryByText(content)).toBeTruthy()
+    expect(screen.queryByText(label)).toBeInTheDocument()
+    expect(screen.queryByText(content)).toBeInTheDocument()
   })
 
   it('renders the label as a react node', () => {
