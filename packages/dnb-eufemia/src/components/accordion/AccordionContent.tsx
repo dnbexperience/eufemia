@@ -4,7 +4,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {
   warn,
@@ -15,14 +14,19 @@ import {
 } from '../../shared/component-helper'
 import { useMediaQuery } from '../../shared'
 import AccordionContext from './AccordionContext'
-import {
-  spacingPropTypes,
-  createSpacingClasses,
-} from '../space/SpacingHelper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import HeightAnimation from '../height-animation/HeightAnimation'
+import { SpacingProps } from '../space/types'
 
-export default function AccordionContent(props) {
-  const context = React.useContext(AccordionContext)
+export type AccordionContentProps = React.HTMLProps<HTMLElement> &
+  SpacingProps & {
+    instance?: React.LegacyRef<any>
+    className?: string
+    children?: React.ReactNode | ((...args: any[]) => any)
+  }
+
+export default function AccordionContent(props: any) {
+  const context = React.useContext<any>(AccordionContext)
 
   const {
     id,
@@ -56,7 +60,7 @@ export default function AccordionContent(props) {
           const containerElement = getPreviousSibling(
             'dnb-accordion-group--single-container',
             contentElem
-          )
+          ) as HTMLElement
 
           if (no_animation) {
             containerElement.style.transitionDuration = '1ms'
@@ -157,7 +161,7 @@ export default function AccordionContent(props) {
   }
 
   if (!expanded || disabled) {
-    innerParams.disabled = true
+    innerParams['disabled'] = true
     innerParams['aria-hidden'] = true
   }
 
@@ -179,17 +183,4 @@ export default function AccordionContent(props) {
       <section {...innerParams}>{content}</section>
     </HeightAnimation>
   )
-}
-
-AccordionContent.propTypes = {
-  instance: PropTypes.object,
-  ...spacingPropTypes,
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-}
-
-AccordionContent.defaultProps = {
-  instance: null,
-  className: null,
-  children: null,
 }
