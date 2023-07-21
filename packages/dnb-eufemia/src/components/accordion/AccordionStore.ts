@@ -34,11 +34,16 @@ export type StoreOptions = {
   force?: boolean
 }
 
-export class Store {
-  id: string
-  group: string
+type StoreProps = {
+  id?: string
+  group?: string
+}
 
-  constructor({ id, group }) {
+export class Store {
+  id?: string
+  group?: string
+
+  constructor({ id, group }: StoreProps) {
     this.id = id
     this.group = group
     return this
