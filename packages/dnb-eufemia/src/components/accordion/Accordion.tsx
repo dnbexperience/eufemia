@@ -530,10 +530,6 @@ const Group = (props: GroupProps) => {
     }
   }
 
-  if (group === 'group') {
-    console.log('Group expanded', props.expanded)
-  }
-
   return (
     <AccordionGroup
       onInit={onInit}
