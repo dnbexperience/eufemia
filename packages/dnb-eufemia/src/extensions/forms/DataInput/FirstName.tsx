@@ -4,7 +4,7 @@ import SharedContext from '../../../shared/Context'
 
 export type Props = StringComponentProps
 
-export default function FirstNameInput(props: Props) {
+export default function DataInputFirstName(props: Props) {
   const sharedContext = useContext(SharedContext)
 
   const stringInputProps: Props = {

@@ -8,7 +8,7 @@ import SharedContext from '../../../shared/Context'
 
 export type Props = ComponentProps & InputProps<string>
 
-export default function DateInput(props: Props) {
+export default function DataInputDate(props: Props) {
   const sharedContext = useContext(SharedContext)
   const preparedProps: Props = {
     ...props,

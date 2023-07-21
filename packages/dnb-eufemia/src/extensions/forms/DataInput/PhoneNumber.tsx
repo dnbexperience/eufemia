@@ -13,9 +13,11 @@ export type Props = ComponentProps &
   InputProps<string> & {
     countryCodeInputClassName?: string
     numberInputClassName?: string
+    // Styling
+    width?: false | 'medium' | 'large'
   }
 
-export default function PhoneNumberInput(props: Props) {
+export default function DataInputPhoneNumber(props: Props) {
   const sharedContext = useContext(SharedContext)
   const preparedProps: Props = {
     ...props,
@@ -37,6 +39,7 @@ export default function PhoneNumberInput(props: Props) {
     emptyValue,
     error,
     disabled,
+    width = 'large',
     onFocus,
     onBlur,
     onChange,
@@ -84,6 +87,8 @@ export default function PhoneNumberInput(props: Props) {
     <Div
       className={classnames(
         'dnb-forms-data-input-phone-number',
+        width !== false &&
+          `dnb-forms-data-input-phone-number--width-${width}`,
         className
       )}
       data-testid={dataTestId ?? path ?? 'data-input-phone-number'}
@@ -101,6 +106,7 @@ export default function PhoneNumberInput(props: Props) {
         value={countryCode}
         disabled={disabled}
         on_change={handleCountryCodeChange}
+        independent_width
       />
       <Input
         className={classnames(

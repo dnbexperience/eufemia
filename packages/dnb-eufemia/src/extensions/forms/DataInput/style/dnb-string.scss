@@ -1,0 +1,13 @@
+@import '../data-inputs.scss';
+
+.dnb-forms-data-input-string {
+  &__input {
+    &--width-large {
+      width: $forms-data-input-width-large;
+    }
+
+    &--width-medium {
+      width: $forms-data-input-width-medium;
+    }
+  }
+}

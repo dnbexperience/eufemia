@@ -11,6 +11,7 @@ import { FormError } from '../../types'
 import ajv, { ajvErrorsToOneFormError } from '../../utils/ajv'
 import DataContext from '../../DataContext'
 import type { InputProps } from '../../input-types'
+import { FieldGroupContext } from '../../FieldGroup';
 import { makeUniqueId } from '../../../../shared/component-helper'
 
 interface ReturnPropOverrides {
@@ -22,7 +23,6 @@ export default function useInput<Props extends InputProps<any>>(
   props: Props
 ): Omit<Props, keyof ReturnPropOverrides> & ReturnPropOverrides {
   const {
-    id = makeUniqueId(),
     path,
     emptyValue,
     required,
@@ -39,7 +39,11 @@ export default function useInput<Props extends InputProps<any>>(
     toInput = (value) => value,
     fromInput = (value) => value,
   } = props
+  const id = useMemo(() => props.id ?? makeUniqueId(), [props.id]);
   const dataContext = useContext(DataContext.Context)
+  const fieldGroupContext = useContext(FieldGroupContext);
+  const inFieldGroup = Boolean(fieldGroupContext);
+  const { setFieldError: setFieldGroupError, setShowFieldError: setShowFieldGroupError } = fieldGroupContext ?? {};
   const {
     handlePathChange: dataContextHandlePathChange,
     setPathWithError: dataContextSetPathWithError,
@@ -95,8 +99,10 @@ export default function useInput<Props extends InputProps<any>>(
         // Tell the data context about the error, so it can stop the user from submitting the form until the error has been fixed
         dataContextSetPathWithError?.(path, Boolean(error))
       }
+
+      setFieldGroupError?.(path ?? id, error);
     },
-    [path, dataContextSetPathWithError]
+    [path, id, dataContextSetPathWithError, setFieldGroupError]
   )
 
   const validateValue = useCallback(
@@ -157,8 +163,9 @@ export default function useInput<Props extends InputProps<any>>(
       // If showError on a surrounding data context was changed and set to true, it is because the user clicked next, submit or
       // something else that should lead to showing the user all errors.
       setShowError(true)
+      setShowFieldGroupError?.(path ?? id, true);
     }
-  }, [dataContext.showAllErrors, path])
+  }, [id, path, dataContext.showAllErrors, setShowFieldGroupError])
 
   const onFocus = useCallback(
     ({ onFocusValue }) => {
@@ -190,13 +197,17 @@ export default function useInput<Props extends InputProps<any>>(
 
       // Since the user left the field, show error (if any)
       setShowError(true)
+      setShowFieldGroupError?.(path ?? id, true);
     },
     [
+      id,
+      path,
       value,
       onBlurProp,
       validateUnchanged,
       onBlurValidatorProp,
       setErrorAndUpdateDataContext,
+      setShowFieldGroupError,
     ]
   )
 
@@ -207,6 +218,7 @@ export default function useInput<Props extends InputProps<any>>(
       changedRef.current = true
       // When changing the value, hide errors to avoid annoying the user before they are finished filling in that value
       setShowError(false)
+      setShowFieldGroupError?.(path ?? id, false);
       // Always validate the value immediately when it is changed
       validateValue(newValue)
 
@@ -217,13 +229,28 @@ export default function useInput<Props extends InputProps<any>>(
       }
     },
     [
+      id,
       path,
       onChangeProp,
       validateValue,
       dataContextHandlePathChange,
+      setShowFieldGroupError,
       fromInput,
     ]
   )
+
+  const errorWithCorrectMessage = useMemo(() => 
+    (error instanceof FormError &&
+      typeof error.validationRule === 'string' &&
+      errorMessages?.[error.validationRule] !== undefined
+        ? new FormError(errorMessages[error.validationRule])
+        : error)
+  , [error, errorMessages]);
+
+  const exportError = useMemo(() =>
+    errorProp ??
+    errorWithCorrectMessage
+  , [errorProp, errorWithCorrectMessage]);
 
   useEffect(() => {
     // Mount procedure
@@ -241,19 +268,11 @@ export default function useInput<Props extends InputProps<any>>(
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Only run for mount and unmount
   }, [])
 
-  const exportError =
-    errorProp ??
-    (error instanceof FormError &&
-    typeof error.validationRule === 'string' &&
-    errorMessages?.[error.validationRule] !== undefined
-      ? new FormError(errorMessages[error.validationRule])
-      : error)
-
   return {
     ...props,
     id,
     value: toInput(value),
-    error: showError ? exportError : undefined,
+    error: inFieldGroup ? undefined : (showError ? exportError : undefined),
     onFocus,
     onBlur,
     onChange,

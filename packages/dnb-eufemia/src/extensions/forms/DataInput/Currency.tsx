@@ -1,4 +1,5 @@
 import React from 'react'
+import classnames from 'classnames'
 import { InputMasked } from '../../../components'
 import { useInput } from './hooks'
 import { forwardSpaceProps } from '../utils'
@@ -44,9 +45,9 @@ export default function CurrencyInput(props: Props) {
   return (
     <InputMasked
       as_currency={currency ?? true}
-      className={className}
+      className={classnames('dnb-forms-data-input-currency', className)}
       data-testid={dataTestId ?? path ?? 'currency-input'}
-      placeholder={placeholder}
+      placeholder={placeholder ?? 'kr'}
       value={value?.toString() ?? ''}
       label={label}
       label_direction="vertical"

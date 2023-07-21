@@ -2,10 +2,7 @@ import React from 'react'
 import classnames from 'classnames'
 import { Space } from '../../../components'
 import { Div } from '../../../elements'
-import {
-  SpaceType,
-  SpacingElementProps,
-} from '../../../components/space/types'
+import { SpaceType, SpacingProps } from '../../../components/space/types'
 import { forwardSpaceProps } from '../utils'
 import type { ComponentProps } from '../component-types'
 import MainHeading from './MainHeading'
@@ -42,12 +39,6 @@ const getSpaceBottom = (
       : undefined)
   )
 }
-
-const cloneWithSpace = (element, space: SpacingElementProps) =>
-  React.cloneElement(element, {
-    space,
-    ...space,
-  })
 
 export type Props = ComponentProps & {
   direction?: 'row' | 'column'
@@ -137,11 +128,18 @@ export default function FlexContainer(props: Props) {
               const top = getSpaceTop(child) ?? spacing
 
               return (
-                <>
+                <React.Fragment key={`element-${i}`}>
                   <Space top={spaceAboveLine} />
                   <hr className="dnb-forms-flex-container__hr" />
-                  {cloneWithSpace(child, { top, bottom })}
-                </>
+                  {React.cloneElement(
+                    child as React.ReactElement<SpacingProps>,
+                    {
+                      space: { top, bottom },
+                      top,
+                      bottom,
+                    }
+                  )}
+                </React.Fragment>
               )
             }
 
@@ -153,7 +151,15 @@ export default function FlexContainer(props: Props) {
                   getSpaceBottom(previousChild) ??
                   spacing
 
-            return cloneWithSpace(child, { top, bottom })
+            return React.cloneElement(
+              child as React.ReactElement<SpacingProps>,
+              {
+                key: `element-${i}`,
+                space: { top, bottom },
+                top,
+                bottom,
+              }
+            )
           })
         : // TODO: Consider doing the same with spacing between horizontal items (direction = row) as vertical
           children}

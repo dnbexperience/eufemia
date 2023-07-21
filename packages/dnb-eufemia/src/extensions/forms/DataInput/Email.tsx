@@ -4,7 +4,7 @@ import SharedContext from '../../../shared/Context'
 
 export type Props = StringComponentProps
 
-export default function EmailInput(props: Props) {
+export default function DataInputEmail(props: Props) {
   const sharedContext = useContext(SharedContext)
 
   const stringInputProps: Props = {

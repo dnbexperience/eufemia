@@ -37,6 +37,8 @@ export type Props = ComponentProps &
     exclusiveMinimum?: number // aka greater than
     exclusiveMaximum?: number // aka less than
     multipleOf?: number
+    // Styling
+    width?: 'mediun' | 'large'
   }
 
 export default function DataInputNumber(props: Props) {
@@ -105,6 +107,7 @@ export default function DataInputNumber(props: Props) {
     warning,
     error,
     emptyValue,
+    width,
     onFocus,
     onBlur,
     onChange,
@@ -125,7 +128,11 @@ export default function DataInputNumber(props: Props) {
     >
       <Input
         id={id}
-        className={inputClassName}
+        className={classnames(
+          'dnb-forms-data-input-number__input',
+          width && `dnb-forms-data-input-number__input--width-${width}`,
+          inputClassName
+        )}
         data-testid={dataTestId ?? path ?? 'data-input-number'}
         placeholder={placeholder}
         value={value}
@@ -134,6 +141,7 @@ export default function DataInputNumber(props: Props) {
         on_blur={onBlur}
         on_change={onChange}
         disabled={disabled}
+        stretch
       />
     </InputBlock>
   )

@@ -31,6 +31,8 @@ export type Props = ComponentProps &
     minLength?: number
     maxLength?: number
     pattern?: string
+    // Styling
+    width?: false | 'medium' | 'large'
   }
 
 export default function DataInputString(props: Props) {
@@ -65,6 +67,7 @@ export default function DataInputString(props: Props) {
       }
       return valueFromInput
     },
+    width: props.width ?? 'large',
   }
   const {
     id,
@@ -90,6 +93,7 @@ export default function DataInputString(props: Props) {
     autoresize = true,
     autoresizeMaxRows = 6,
     characterCounter,
+    width,
     onFocus,
     onBlur,
     onChange,
@@ -117,7 +121,12 @@ export default function DataInputString(props: Props) {
       {multiline ? (
         <Textarea
           id={id}
-          textarea_class={inputClassName}
+          className={classnames(
+            'dnb-forms-data-input-string__input',
+            width !== false &&
+              `dnb-forms-data-input-string__input--width-${width}`,
+            inputClassName
+          )}
           data-testid={dataTestId ?? path ?? 'data-input-string'}
           placeholder={placeholder}
           value={value}
@@ -127,11 +136,16 @@ export default function DataInputString(props: Props) {
           autoresize={autoresize}
           autoresize_max_rows={autoresizeMaxRows}
           disabled={disabled}
+          stretch
         />
       ) : (
         <Input
           id={id}
-          input_class={inputClassName}
+          className={classnames(
+            'dnb-forms-data-input-string__input',
+            width && `dnb-forms-data-input-string__input--width-${width}`,
+            inputClassName
+          )}
           data-testid={dataTestId ?? path ?? 'data-input-string'}
           type={type}
           placeholder={placeholder}
@@ -143,6 +157,7 @@ export default function DataInputString(props: Props) {
           on_blur={onBlur}
           on_change={onChange}
           disabled={disabled}
+          stretch
         />
       )}
     </InputBlock>

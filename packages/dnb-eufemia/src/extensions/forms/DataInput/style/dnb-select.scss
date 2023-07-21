@@ -1,0 +1,15 @@
+@import '../data-inputs.scss';
+
+.dnb-forms-data-input-select {
+  &--width-large {
+    .dnb-dropdown__shell {
+      width: $forms-data-input-width-large;
+    }
+  }
+
+  &--width-medium {
+    .dnb-dropdown__shell {
+      width: $forms-data-input-width-medium;
+    }
+  }
+}

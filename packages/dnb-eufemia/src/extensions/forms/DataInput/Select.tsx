@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { Dropdown } from '../../../components'
+import { Dropdown, Radio } from '../../../components'
 import classnames from 'classnames'
 import { forwardSpaceProps } from '../utils'
 import Option from './Option'
@@ -10,12 +10,16 @@ import type { InputProps } from '../input-types'
 export type Props = ComponentProps &
   InputProps<string | number> & {
     children?: React.ReactNode
+    variant?: 'dropdown' | 'radio'
+    // Styling
+    width?: false | 'medium' | 'large'
   }
 
 export default function Select(props: Props) {
   const {
     className,
     'data-testid': dataTestId,
+    variant,
     path,
     label,
     placeholder,
@@ -23,15 +27,23 @@ export default function Select(props: Props) {
     error,
     disabled,
     emptyValue,
+    width = 'large',
     onBlur,
     onFocus,
     onChange,
     children,
   } = useInput(props)
 
-  const handleChange = useCallback(
+  const handleDropdownChange = useCallback(
     ({ data: { selected_key } }) => {
       onChange?.(!selected_key ? emptyValue : selected_key)
+    },
+    [onChange, emptyValue]
+  )
+
+  const handleRadioChange = useCallback(
+    ({ value }) => {
+      onChange?.(value === undefined ? emptyValue : value)
     },
     [onChange, emptyValue]
   )
@@ -44,46 +56,83 @@ export default function Select(props: Props) {
     [onBlur]
   )
 
-  const data = React.Children.map(children, (child) => {
-    if (React.isValidElement(child) && child.type === Option) {
-      // Option components
-      return child.props.text
-        ? {
-            selected_key: String(child.props.value ?? ''),
-            content: [
-              child.props.title ?? child.props.children ?? (
-                <em>Untitled</em>
-              ),
-              child.props.text,
-            ],
-          }
-        : {
-            selected_key: child.props.value,
-            content: child.props.title ?? child.props.children,
-          }
-    }
+  switch (variant) {
+    case 'radio':
+      return (
+        <Radio.Group
+          className={classnames('dnb-forms-data-input-select', className)}
+          data-testid={dataTestId ?? path ?? 'data-input-select'}
+          label={label}
+          layout_direction="column"
+          on_change={handleRadioChange}
+          {...forwardSpaceProps(props)}
+          vertical
+        >
+          {React.Children.toArray(children)
+            .filter(
+              (child) =>
+                React.isValidElement(child) && child.type === Option
+            )
+            .map((child: React.ReactElement, i) => (
+              <Radio
+                key={child.props.value ?? `option-${i}`}
+                label={child.props.title ?? child.props.children}
+                value={String(child.props.value ?? '')}
+              />
+            ))}
+        </Radio.Group>
+      )
+    default:
+    case 'dropdown': {
+      const data = React.Children.map(children, (child) => {
+        if (React.isValidElement(child) && child.type === Option) {
+          // Option components
+          return child.props.text
+            ? {
+                selected_key: String(child.props.value ?? ''),
+                content: [
+                  child.props.title ?? child.props.children ?? (
+                    <em>Untitled</em>
+                  ),
+                  child.props.text,
+                ],
+              }
+            : {
+                selected_key: child.props.value,
+                content: child.props.title ?? child.props.children,
+              }
+        }
 
-    // For other children, just show them as content
-    return {
-      content: child,
-    }
-  })
+        // For other children, just show them as content
+        return {
+          content: child,
+        }
+      })
 
-  return (
-    <Dropdown
-      className={classnames('dnb-forms-data-input-select', className)}
-      data-testid={dataTestId ?? path ?? 'data-input-select'}
-      title={placeholder ?? ' '}
-      default_value={String(value ?? '')}
-      label={label}
-      label_direction="vertical"
-      status={error?.message}
-      disabled={disabled}
-      data={data}
-      on_change={handleChange}
-      on_show={onFocus}
-      on_hide={handleHide}
-      {...forwardSpaceProps(props)}
-    />
-  )
+      return (
+        <Dropdown
+          className={classnames(
+            'dnb-forms-data-input-select',
+            width !== false &&
+              `dnb-forms-data-input-select--width-${width}`,
+            className
+          )}
+          list_class="dnb-forms-data-input-select__list"
+          portal_class="dnb-forms-data-input-select__portal"
+          data-testid={dataTestId ?? path ?? 'data-input-select'}
+          title={placeholder}
+          default_value={String(value ?? '')}
+          label={label}
+          label_direction="vertical"
+          status={error?.message}
+          disabled={disabled}
+          data={data}
+          on_change={handleDropdownChange}
+          on_show={onFocus}
+          on_hide={handleHide}
+          {...forwardSpaceProps(props)}
+        />
+      )
+    }
+  }
 }

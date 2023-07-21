@@ -1,0 +1,98 @@
+import ComponentBox from '../../../../../../shared/tags/ComponentBox'
+import { DataInput } from '@dnb/eufemia/src/extensions/forms'
+import { FormError } from '@dnb/eufemia/src/extensions/forms/types'
+
+export const Empty = () => {
+  return (
+    <ComponentBox scope={{ DataInput }}>
+      <DataInput.SelectCountry
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
+
+export const Placeholder = () => {
+  return (
+    <ComponentBox scope={{ DataInput }}>
+      <DataInput.SelectCountry
+        placeholder="Select something...."
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
+
+export const Label = () => {
+  return (
+    <ComponentBox scope={{ DataInput }}>
+      <DataInput.SelectCountry
+        label="Label text"
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
+
+export const OptionSelected = () => {
+  return (
+    <ComponentBox scope={{ DataInput }}>
+      <DataInput.SelectCountry
+        value="bar"
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
+
+export const LabelAndOptionSelected = () => {
+  return (
+    <ComponentBox scope={{ DataInput }}>
+      <DataInput.SelectCountry
+        value="bar"
+        label="Label text"
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
+
+export const Disabled = () => {
+  return (
+    <ComponentBox scope={{ DataInput }}>
+      <DataInput.SelectCountry
+        value="bar"
+        label="Label text"
+        onChange={(value) => console.log('onChange', value)}
+        disabled
+      />
+    </ComponentBox>
+  )
+}
+
+export const Error = () => {
+  return (
+    <ComponentBox scope={{ DataInput, FormError }}>
+      <DataInput.SelectCountry
+        value="bar"
+        label="Label text"
+        onChange={(value) => console.log('onChange', value)}
+        error={new FormError('This is what is wrong...')}
+      />
+    </ComponentBox>
+  )
+}
+
+export const ValidationRequired = () => {
+  return (
+    <ComponentBox scope={{ DataInput }}>
+      <DataInput.Select
+        label="Label text"
+        onChange={(value) => console.log('onChange', value)}
+        required
+        validateInitially
+        validateUnchanged
+      />
+    </ComponentBox>
+  )
+}
