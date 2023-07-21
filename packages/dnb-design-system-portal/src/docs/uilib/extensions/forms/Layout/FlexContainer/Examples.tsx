@@ -2,12 +2,12 @@ import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import {
   Layout,
   TestElement,
-  DataInput,
+  Field,
 } from '@dnb/eufemia/src/extensions/forms'
 
 export const Default = () => {
   return (
-    <ComponentBox scope={{ Layout, TestElement, DataInput }}>
+    <ComponentBox scope={{ Layout, TestElement, Field }}>
       <Layout.Card>
         <Layout.FlexContainer>
           <Layout.FlexItem>
@@ -30,7 +30,7 @@ export const Default = () => {
 
 export const RowWithFlexItem = () => {
   return (
-    <ComponentBox scope={{ Layout, TestElement, DataInput }}>
+    <ComponentBox scope={{ Layout, TestElement, Field }}>
       <Layout.FlexContainer direction="row">
         <Layout.FlexItem>
           <TestElement>FlexItem</TestElement>
@@ -51,7 +51,7 @@ export const RowWithFlexItem = () => {
 
 export const RowWithFlexItemJustifyCenter = () => {
   return (
-    <ComponentBox scope={{ Layout, TestElement, DataInput }}>
+    <ComponentBox scope={{ Layout, TestElement, Field }}>
       <Layout.FlexContainer direction="row" justify="center">
         <Layout.FlexItem>
           <TestElement>FlexItem</TestElement>
@@ -72,7 +72,7 @@ export const RowWithFlexItemJustifyCenter = () => {
 
 export const RowWithFlexItemJustifyFlexEnd = () => {
   return (
-    <ComponentBox scope={{ Layout, TestElement, DataInput }}>
+    <ComponentBox scope={{ Layout, TestElement, Field }}>
       <Layout.FlexContainer direction="row" justify="flex-end">
         <Layout.FlexItem>
           <TestElement>FlexItem</TestElement>
@@ -93,7 +93,7 @@ export const RowWithFlexItemJustifyFlexEnd = () => {
 
 export const RowWithCard = () => {
   return (
-    <ComponentBox scope={{ Layout, TestElement, DataInput }}>
+    <ComponentBox scope={{ Layout, TestElement, Field }}>
       <Layout.FlexContainer direction="row">
         <Layout.Card>FlexItem</Layout.Card>
         <Layout.Card>FlexItem</Layout.Card>
@@ -104,14 +104,14 @@ export const RowWithCard = () => {
   )
 }
 
-export const RowWithDataInputString = () => {
+export const RowWithFieldString = () => {
   return (
-    <ComponentBox scope={{ Layout, TestElement, DataInput }}>
+    <ComponentBox scope={{ Layout, TestElement, Field }}>
       <Layout.FlexContainer direction="row">
-        <DataInput.String label="Label" value="Foo" />
-        <DataInput.String label="Label" value="Foo" />
-        <DataInput.String label="Label" value="Foo" />
-        <DataInput.String label="Label" value="Foo" />
+        <Field.String label="Label" value="Foo" />
+        <Field.String label="Label" value="Foo" />
+        <Field.String label="Label" value="Foo" />
+        <Field.String label="Label" value="Foo" />
       </Layout.FlexContainer>
     </ComponentBox>
   )
@@ -119,7 +119,7 @@ export const RowWithDataInputString = () => {
 
 export const ColumnWithFlexItem = () => {
   return (
-    <ComponentBox scope={{ Layout, TestElement, DataInput }}>
+    <ComponentBox scope={{ Layout, TestElement, Field }}>
       <Layout.FlexContainer direction="column">
         <Layout.FlexItem>
           <TestElement>FlexItem</TestElement>
@@ -140,7 +140,7 @@ export const ColumnWithFlexItem = () => {
 
 export const ColumnWithCard = () => {
   return (
-    <ComponentBox scope={{ Layout, TestElement, DataInput }}>
+    <ComponentBox scope={{ Layout, TestElement, Field }}>
       <Layout.FlexContainer direction="column">
         <Layout.Card>Card contents</Layout.Card>
         <Layout.Card>Card contents</Layout.Card>
@@ -151,15 +151,15 @@ export const ColumnWithCard = () => {
   )
 }
 
-export const ColumnWithDataInputString = () => {
+export const ColumnWithFieldString = () => {
   return (
-    <ComponentBox scope={{ Layout, TestElement, DataInput }}>
+    <ComponentBox scope={{ Layout, TestElement, Field }}>
       <Layout.Card>
         <Layout.FlexContainer direction="column">
-          <DataInput.String label="Label" value="Foo" />
-          <DataInput.String label="Label" value="Foo" />
-          <DataInput.String label="Label" value="Foo" />
-          <DataInput.String label="Label" value="Foo" />
+          <Field.String label="Label" value="Foo" />
+          <Field.String label="Label" value="Foo" />
+          <Field.String label="Label" value="Foo" />
+          <Field.String label="Label" value="Foo" />
         </Layout.FlexContainer>
       </Layout.Card>
     </ComponentBox>
@@ -168,13 +168,13 @@ export const ColumnWithDataInputString = () => {
 
 export const ColumnSpaceDivider = () => {
   return (
-    <ComponentBox scope={{ Layout, TestElement, DataInput }}>
+    <ComponentBox scope={{ Layout, TestElement, Field }}>
       <Layout.Card>
         <Layout.FlexContainer direction="column" divider="space">
-          <DataInput.String label="Label" value="Value" />
-          <DataInput.String label="Label" value="Value" />
-          <DataInput.String label="Label" value="Value" />
-          <DataInput.String label="Label" value="Value" />
+          <Field.String label="Label" value="Value" />
+          <Field.String label="Label" value="Value" />
+          <Field.String label="Label" value="Value" />
+          <Field.String label="Label" value="Value" />
         </Layout.FlexContainer>
       </Layout.Card>
     </ComponentBox>
@@ -183,13 +183,13 @@ export const ColumnSpaceDivider = () => {
 
 export const ColumnLineDivider = () => {
   return (
-    <ComponentBox scope={{ Layout, TestElement, DataInput }}>
+    <ComponentBox scope={{ Layout, TestElement, Field }}>
       <Layout.Card>
         <Layout.FlexContainer direction="column" divider="line">
-          <DataInput.String label="Label" value="Value" />
-          <DataInput.String label="Label" value="Value" />
-          <DataInput.String label="Label" value="Value" />
-          <DataInput.String label="Label" value="Value" />
+          <Field.String label="Label" value="Value" />
+          <Field.String label="Label" value="Value" />
+          <Field.String label="Label" value="Value" />
+          <Field.String label="Label" value="Value" />
         </Layout.FlexContainer>
       </Layout.Card>
     </ComponentBox>

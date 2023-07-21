@@ -1,3 +1,3 @@
-import { DataInput } from './index'
+import { Field } from './index'
 export * from './index'
-export default DataInput
+export default Field

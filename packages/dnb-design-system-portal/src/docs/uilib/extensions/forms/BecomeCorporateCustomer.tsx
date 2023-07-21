@@ -3,8 +3,8 @@ import {
   DataContext,
   Layout,
   StepsLayout,
-  DataInput,
-  DataValue,
+  Field,
+  Value,
 } from '@dnb/eufemia/src/extensions/forms'
 
 const Wrapper = ({ children }) => {
@@ -30,21 +30,21 @@ export const BecomeCorporateCustomer = () => {
         <StepsLayout.Step title="Bedriftsopplysninger">
           <Layout.MainHeading>Bedriftsopplysninger</Layout.MainHeading>
           <Layout.Card spacing="medium">
-            <DataInput.OrganizationNumber
+            <Field.OrganizationNumber
               path="/companyOrganizationNumber"
               required
             />
-            <DataInput.String
+            <Field.String
               path="/companyName"
               label="Bedriftens navn"
               required
             />
-            <DataInput.String
+            <Field.String
               path="/companyAddress"
               label="Forretningsadresse (NB! Ikke postadresse)"
               required
             />
-            <DataInput.PostalCodeAndCity
+            <Field.PostalCodeAndCity
               postalCode={{
                 path: '/companyPostalCode',
               }}
@@ -52,46 +52,46 @@ export const BecomeCorporateCustomer = () => {
                 path: '/companyCity',
               }}
             />
-            <DataInput.Select
+            <Field.Select
               variant="radio"
               path="/postalAddressSelect"
               label="Postadresse (ønsket sted for tilsendt post)"
             >
-              <DataInput.Option
+              <Field.Option
                 value="companyAddress"
                 title="Samme som forretningsadresse"
               />
-              <DataInput.Option value="other" title="Annet" />
-            </DataInput.Select>
-            <DataInput.Select
+              <Field.Option value="other" title="Annet" />
+            </Field.Select>
+            <Field.Select
               variant="radio"
               path="/hqAddress"
               label="Hovedkontoradresse"
             >
-              <DataInput.Option
+              <Field.Option
                 value="companyAddress"
                 title="Samme som forretningsadresse"
               />
-              <DataInput.Option
+              <Field.Option
                 value="postalAddress"
                 title="Samme som postadresse"
               />
-              <DataInput.Option value="other" title="Annet" />
-            </DataInput.Select>
-            <DataInput.SelectCountry
+              <Field.Option value="other" title="Annet" />
+            </Field.Select>
+            <Field.SelectCountry
               path="/countryOfEstablishment"
               label="Etableringsland og sånt som det"
               required
             />
           </Layout.Card>
           <Layout.Card spacing="medium">
-            <DataInput.PhoneNumber
+            <Field.PhoneNumber
               path="/phoneNumber"
               label="Telefon/mobilnummer"
               required
             />
-            <DataInput.Email path="/email" required />
-            <DataInput.String
+            <Field.Email path="/email" required />
+            <Field.String
               path="/website"
               label="Nettstedsadresse (valgfritt)"
             />
@@ -108,9 +108,9 @@ export const BecomeCorporateCustomer = () => {
           <Layout.Card stack>
             <Layout.SubHeading>More information</Layout.SubHeading>
 
-            <DataInput.NationalIdentityNumber path="/ssn" />
-            <DataInput.Email path="/email" />
-            <DataInput.PhoneNumber path="/phone" />
+            <Field.NationalIdentityNumber path="/ssn" />
+            <Field.Email path="/email" />
+            <Field.PhoneNumber path="/phone" />
           </Layout.Card>
 
           <Layout.ButtonRow>
@@ -146,13 +146,13 @@ export const BecomeCorporateCustomer = () => {
 
           <Layout.Card stack>
             <Layout.FlexContainer direction="row">
-              <DataValue.FirstName path="/firstName" />
-              <DataValue.LastName path="/lastName" />
+              <Value.FirstName path="/firstName" />
+              <Value.LastName path="/lastName" />
             </Layout.FlexContainer>
 
-            <DataValue.NationalIdentityNumber path="/ssn" />
-            <DataValue.Email path="/email" />
-            <DataValue.PhoneNumber path="/phone" />
+            <Value.NationalIdentityNumber path="/ssn" />
+            <Value.Email path="/email" />
+            <Value.PhoneNumber path="/phone" />
           </Layout.Card>
 
           <Layout.ButtonRow>

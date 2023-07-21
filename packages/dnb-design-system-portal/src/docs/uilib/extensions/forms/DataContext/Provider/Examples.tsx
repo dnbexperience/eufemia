@@ -3,8 +3,8 @@ import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import {
   DataContext,
   Layout,
-  DataInput,
-  DataValue,
+  Field,
+  Value,
 } from '@dnb/eufemia/src/extensions/forms'
 
 export const TestdataSchema: JSONSchema7 = {
@@ -80,8 +80,8 @@ export const Default = () => {
       scope={{
         DataContext,
         Layout,
-        DataInput,
-        DataValue,
+        Field,
+        Value,
         testdata,
         TestdataSchema,
       }}
@@ -98,38 +98,35 @@ export const Default = () => {
         <Layout.Section>
           <Layout.Card>
             <Layout.Column divider="line" spacing="small">
-              <DataInput.String
+              <Field.String
                 path="/requiredString"
                 label="Required string"
                 required
               />
-              <DataInput.String path="/hmm" label="Invalid path" />
-              <DataInput.String path="/string" label="String value" />
-              <DataInput.String
-                path="/string"
-                label="String value (copy)"
-              />
-              <DataInput.Number path="/number" label="Number value" />
-              <DataInput.String
+              <Field.String path="/hmm" label="Invalid path" />
+              <Field.String path="/string" label="String value" />
+              <Field.String path="/string" label="String value (copy)" />
+              <Field.Number path="/number" label="Number value" />
+              <Field.String
                 path="/number"
                 label="Number with StringInput"
               />
-              <DataInput.Boolean
+              <Field.Boolean
                 path="/boolean"
                 label="Boolean - Checkbox"
                 variant="checkbox"
               />
-              <DataInput.Boolean
+              <Field.Boolean
                 path="/boolean"
                 label="Boolean - Toggle"
                 variant="toggle-button"
               />
               <div>
-                <DataInput.String
+                <Field.String
                   path="/nested/nestedText"
                   label="Nested text"
                 />
-                <DataInput.Number
+                <Field.Number
                   path="/nested/nestedNumber"
                   label="Nested number (minimum 50)"
                   minimum={50}
@@ -137,21 +134,21 @@ export const Default = () => {
               </div>
               <div className="hmm">
                 <Layout.Row>
-                  <DataInput.String
+                  <Field.String
                     path="/list/0/itemText"
                     label="Item text"
                   />
-                  <DataInput.Number
+                  <Field.Number
                     path="/list/0/itemNumber"
                     label="Item number"
                   />
                 </Layout.Row>
                 <Layout.Row>
-                  <DataInput.String
+                  <Field.String
                     path="/list/1/itemText"
                     label="Item text"
                   />
-                  <DataInput.Number
+                  <Field.Number
                     path="/list/1/itemNumber"
                     label="Item number"
                   />
@@ -174,8 +171,8 @@ export const ValidationWithJsonSchema = () => {
       scope={{
         DataContext,
         Layout,
-        DataInput,
-        DataValue,
+        Field,
+        Value,
         testdata,
         TestdataSchema,
       }}
@@ -193,58 +190,55 @@ export const ValidationWithJsonSchema = () => {
         <Layout.Section>
           <Layout.Card>
             <Layout.Column divider="line" spacing="small">
-              <DataInput.String
+              <Field.String
                 path="/requiredString"
                 label="Required string"
               />
-              <DataInput.String path="/hmm" label="Invalid path" />
-              <DataInput.String path="/string" label="String value" />
-              <DataInput.String
-                path="/string"
-                label="String value (copy)"
-              />
-              <DataInput.Number path="/number" label="Number value" />
-              <DataInput.String
+              <Field.String path="/hmm" label="Invalid path" />
+              <Field.String path="/string" label="String value" />
+              <Field.String path="/string" label="String value (copy)" />
+              <Field.Number path="/number" label="Number value" />
+              <Field.String
                 path="/number"
                 label="Number with StringInput"
               />
-              <DataInput.Boolean
+              <Field.Boolean
                 path="/boolean"
                 label="Boolean - Checkbox"
                 variant="checkbox"
               />
-              <DataInput.Boolean
+              <Field.Boolean
                 path="/boolean"
                 label="Boolean - Toggle"
                 variant="toggle-button"
               />
               <div>
-                <DataInput.String
+                <Field.String
                   path="/nested/nestedText"
                   label="Nested text"
                 />
-                <DataInput.Number
+                <Field.Number
                   path="/nested/nestedNumber"
                   label="Nested number"
                 />
               </div>
               <div className="hmm">
                 <Layout.Row>
-                  <DataInput.String
+                  <Field.String
                     path="/list/0/itemText"
                     label="Item text"
                   />
-                  <DataInput.Number
+                  <Field.Number
                     path="/list/0/itemNumber"
                     label="Item number"
                   />
                 </Layout.Row>
                 <Layout.Row>
-                  <DataInput.String
+                  <Field.String
                     path="/list/1/itemText"
                     label="Item text"
                   />
-                  <DataInput.Number
+                  <Field.Number
                     path="/list/1/itemNumber"
                     label="Item number"
                   />

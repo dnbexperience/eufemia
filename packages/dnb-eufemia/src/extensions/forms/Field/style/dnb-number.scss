@@ -1,0 +1,11 @@
+@import '../fields.scss';
+
+.dnb-forms-field-number {
+  &__input {
+    width: $forms-field-width-medium;
+
+    &--width-large {
+      width: $forms-field-width-large;
+    }
+  }
+}

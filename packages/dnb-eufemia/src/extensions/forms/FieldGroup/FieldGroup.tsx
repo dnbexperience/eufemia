@@ -3,8 +3,8 @@ import classnames from 'classnames'
 import type { ComponentProps } from '../component-types'
 import { FormError } from '../types'
 import { forwardSpaceProps } from '../utils'
-import InputBlock from '../InputBlock'
-import type { InputProps } from '../input-types'
+import FieldBlock from '../FieldBlock'
+import type { FieldProps } from '../field-types'
 
 export interface FieldGroupContextState {
   setFieldError?: (id: string, error: FormError) => void
@@ -17,7 +17,7 @@ export const FieldGroupContext = React.createContext<
 
 export type Props = ComponentProps &
   Pick<
-    InputProps,
+    FieldProps,
     | 'label'
     | 'labelDescription'
     | 'labelSecondary'
@@ -93,7 +93,7 @@ export default function FieldGroup(props: Props) {
         setShowFieldError,
       }}
     >
-      <InputBlock
+      <FieldBlock
         className={classnames('dnb-forms-field-group', className)}
         data-testid={dataTestId ?? 'field-group'}
         label={label}
@@ -105,7 +105,7 @@ export default function FieldGroup(props: Props) {
         {...forwardSpaceProps(props)}
       >
         {children}
-      </InputBlock>
+      </FieldBlock>
     </FieldGroupContext.Provider>
   )
 }

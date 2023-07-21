@@ -59,7 +59,7 @@ describe('type definitions', () => {
       expect(fs.existsSync(file)).toBe(true)
 
       const content = fs.readFileSync(file, 'utf-8')
-      expect(content).toContain('export interface InputProps')
+      expect(content).toContain('export interface FieldProps')
       expect(content).toContain(
         "extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,"
       )
