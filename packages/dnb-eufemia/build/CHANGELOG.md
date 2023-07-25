@@ -3,6 +3,13 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.4.1](https://github.com/dnbexperience/eufemia/compare/v10.4.0...v10.4.1) (2023-07-25)
+
+
+### :bug: Bug Fixes
+
+* **Tabs:** fix error when using StrictMode ([7f1e807](https://github.com/dnbexperience/eufemia/commit/7f1e807fe1df00caf51f1bc59914d121f956d3c9))
+
 ## [10.4.0](https://github.com/dnbexperience/eufemia/compare/v10.3.0...v10.4.0) (2023-07-06)
 
 
