@@ -28,7 +28,7 @@ describe('Table', () => {
     const props: TableAllProps = { children: null }
     render(<Table {...props} />)
 
-    expect(document.querySelector('.dnb-table')).toBeTruthy()
+    expect(document.querySelector('.dnb-table')).toBeInTheDocument()
   })
 
   it('should contain basis HTML classes by default', () => {

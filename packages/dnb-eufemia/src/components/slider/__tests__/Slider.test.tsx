@@ -419,10 +419,8 @@ describe('Slider component', () => {
   it('should not have type=button', () => {
     render(<Slider {...props} />)
     expect(
-      document
-        .querySelector('.dnb-slider__thumb .dnb-button')
-        .hasAttribute('type')
-    ).toBe(false)
+      document.querySelector('.dnb-slider__thumb .dnb-button')
+    ).not.toHaveAttribute('type')
   })
 
   describe('multi thumb', () => {

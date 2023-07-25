@@ -57,19 +57,27 @@ const mockData: DrawerListDataObjectUnion[] = [
 describe('DrawerList component', () => {
   it('has correct state at startup', () => {
     render(<DrawerList {...props} data={mockData} />)
-    expect(document.querySelector('.dnb-drawer-list--opened')).toBeTruthy()
+    expect(
+      document.querySelector('.dnb-drawer-list--opened')
+    ).toBeInTheDocument()
   })
 
   it('has correct state after changing prop to opened', () => {
     const { rerender } = render(<DrawerList {...props} data={mockData} />)
 
-    expect(document.querySelector('.dnb-drawer-list--opened')).toBeTruthy()
+    expect(
+      document.querySelector('.dnb-drawer-list--opened')
+    ).toBeInTheDocument()
 
     rerender(<DrawerList {...props} data={mockData} opened={false} />)
-    expect(document.querySelector('.dnb-drawer-list--opened')).toBeFalsy()
+    expect(
+      document.querySelector('.dnb-drawer-list--opened')
+    ).not.toBeInTheDocument()
 
     rerender(<DrawerList {...props} data={mockData} opened={true} />)
-    expect(document.querySelector('.dnb-drawer-list--opened')).toBeTruthy()
+    expect(
+      document.querySelector('.dnb-drawer-list--opened')
+    ).toBeInTheDocument()
   })
 
   it('handles default_value correctly on forcing re-render', () => {
@@ -87,12 +95,8 @@ describe('DrawerList component', () => {
     elem = document.querySelectorAll('.dnb-drawer-list__option')[
       props.value
     ]
-    expect(elem.classList.contains('dnb-drawer-list__option--focus')).toBe(
-      true
-    )
-    expect(
-      elem.classList.contains('dnb-drawer-list__option--selected')
-    ).toBe(true)
+    expect(elem.classList).toContain('dnb-drawer-list__option--focus')
+    expect(elem.classList).toContain('dnb-drawer-list__option--selected')
 
     // force re-render by prop change
     const title = 'show this attribute now'
@@ -106,7 +110,7 @@ describe('DrawerList component', () => {
         title={title}
       />
     )
-    expect(screen.getByTitle(title)).toBeTruthy()
+    expect(screen.getByTitle(title)).toBeInTheDocument()
 
     // force re-render with null as value by prop change
     rerender(
@@ -125,17 +129,13 @@ describe('DrawerList component', () => {
     elem = document.querySelectorAll('.dnb-drawer-list__option')[
       (props.value as number) + 1
     ]
-    expect(
-      elem.classList.contains('dnb-drawer-list__option--selected')
-    ).toBe(true)
+    expect(elem.classList).toContain('dnb-drawer-list__option--selected')
 
     // as well as the focus / active state
-    expect(elem.classList.contains('dnb-drawer-list__option--focus')).toBe(
-      true
-    )
+    expect(elem.classList).toContain('dnb-drawer-list__option--focus')
 
     // and for sure, the title attribute is still the same
-    expect(screen.getByTitle(title)).toBeTruthy()
+    expect(screen.getByTitle(title)).toBeInTheDocument()
   })
 
   it('has correct value on key search', async () => {
@@ -143,7 +143,7 @@ describe('DrawerList component', () => {
 
     expect(
       document.querySelector('.dnb-drawer-list__option--focus')
-    ).toBeTruthy()
+    ).toBeInTheDocument()
 
     keydown(83) // S
 
@@ -241,9 +241,9 @@ describe('DrawerList component', () => {
 
     rerender(<DrawerList {...props} opened={false} data={mockData} />)
 
-    expect(
-      document.documentElement.hasAttribute('data-dnb-drawer-list-active')
-    ).toBe(false)
+    expect(document.documentElement).not.toHaveAttribute(
+      'data-dnb-drawer-list-active'
+    )
   })
 
   it('will unset data-dnb-drawer-list-active on unmount', () => {
@@ -259,9 +259,9 @@ describe('DrawerList component', () => {
 
     unmount()
 
-    expect(
-      document.documentElement.hasAttribute('data-dnb-drawer-list-active')
-    ).toBe(false)
+    expect(document.documentElement).not.toHaveAttribute(
+      'data-dnb-drawer-list-active'
+    )
   })
 
   it('will lock body scroll when enable_body_lock is true', () => {
@@ -348,7 +348,7 @@ describe('DrawerList component', () => {
 
     expect(
       document.querySelector(`.dnb-drawer-list--${directionTop}`)
-    ).toBeTruthy()
+    ).toBeInTheDocument()
 
     const directionBottom = 'bottom'
     rerender(
@@ -356,7 +356,7 @@ describe('DrawerList component', () => {
     )
     expect(
       document.querySelector(`.dnb-drawer-list--${directionBottom}`)
-    ).toBeTruthy()
+    ).toBeInTheDocument()
 
     expect(
       document

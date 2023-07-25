@@ -17,11 +17,5 @@
       "Pages/*": ["./src/docs/*"]
     }
   },
-  "exclude": [
-    "node_modules",
-    ".cache",
-    "public",
-    "cypress.config.ts",
-    "cypress/**/*"
-  ]
+  "exclude": ["node_modules", ".cache", "public"]
 }

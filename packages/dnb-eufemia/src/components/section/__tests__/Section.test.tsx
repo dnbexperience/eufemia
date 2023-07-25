@@ -17,19 +17,15 @@ describe('Section component', () => {
   it('should have correct styles', () => {
     render(<Section style_type="divider" />)
     expect(
-      document
-        .querySelector('section.dnb-section')
-        .classList.contains('dnb-section--divider')
-    ).toBe(true)
+      document.querySelector('section.dnb-section').classList
+    ).toContain('dnb-section--divider')
   })
 
   it('should support any string in style_type', () => {
     render(<Section style_type="cucstom" />)
     expect(
-      document
-        .querySelector('section.dnb-section')
-        .classList.contains('dnb-section--cucstom')
-    ).toBe(true)
+      document.querySelector('section.dnb-section').classList
+    ).toContain('dnb-section--cucstom')
   })
 
   it('should support spacing props', () => {
@@ -52,10 +48,8 @@ describe('Section component', () => {
     )
 
     expect(
-      document
-        .querySelector('section.dnb-section')
-        .classList.contains('dnb-section--divider')
-    ).toBe(true)
+      document.querySelector('section.dnb-section').classList
+    ).toContain('dnb-section--divider')
   })
 
   it('should have correct spacing', () => {
@@ -82,7 +76,7 @@ describe('Section component', () => {
 
   it('should have a div as the element tag', () => {
     render(<Section element="div" />)
-    expect(document.querySelector('div.dnb-section')).toBeTruthy()
+    expect(document.querySelector('div.dnb-section')).toBeInTheDocument()
   })
 
   it('should validate with ARIA rules', async () => {

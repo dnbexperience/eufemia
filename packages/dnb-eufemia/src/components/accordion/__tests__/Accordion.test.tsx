@@ -97,10 +97,8 @@ describe('Accordion component', () => {
 
     rerender(<Accordion {...props} disabled={true} />)
     expect(
-      document
-        .querySelector('.dnb-accordion__header')
-        .hasAttribute('disabled')
-    ).toBe(true)
+      document.querySelector('.dnb-accordion__header')
+    ).toHaveAttribute('disabled')
   })
 
   it('has correct classes when no_animation', () => {
@@ -142,20 +140,16 @@ describe('Accordion component', () => {
 
   it('supports default outlined variant', () => {
     render(<Accordion />)
-    expect(
-      document
-        .querySelector('.dnb-accordion')
-        .classList.contains('dnb-accordion__variant--outlined')
-    ).toBe(true)
+    expect(document.querySelector('.dnb-accordion').classList).toContain(
+      'dnb-accordion__variant--outlined'
+    )
   })
 
   it('supports plain variant', () => {
     render(<Accordion {...props} variant="plain" />)
-    expect(
-      document
-        .querySelector('.dnb-accordion')
-        .classList.contains('dnb-accordion__variant--plain')
-    ).toBe(true)
+    expect(document.querySelector('.dnb-accordion').classList).toContain(
+      'dnb-accordion__variant--plain'
+    )
   })
 
   it('should have hidden content when "prerender" is true but closed', () => {
@@ -232,7 +226,7 @@ describe('Accordion group component', () => {
 
     expect(
       document.querySelector('#accordion-1 .dnb-accordion__content')
-    ).toBeTruthy()
+    ).toBeInTheDocument()
     expect(
       document.querySelector('#accordion-2 .dnb-accordion__content')
     ).toBeFalsy()

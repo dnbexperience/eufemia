@@ -33,20 +33,18 @@ describe('Button component', () => {
     const button = document.querySelector('button')
 
     // size "medium" and has icon
-    expect(button.classList.contains('dnb-button--size-medium')).toBe(true)
+    expect(button.classList).toContain('dnb-button--size-medium')
     // has icon class, but not has text
-    expect(button.classList.contains('dnb-button--has-icon')).toBe(true)
-    expect(button.classList.contains('dnb-button--has-text')).toBe(false)
+    expect(button.classList).toContain('dnb-button--has-icon')
+    expect(button.classList).not.toContain('dnb-button--has-text')
   })
 
   it('has size set to medium when button size is default', () => {
     render(<Button icon="question" size="default" />)
     const button = document.querySelector('button')
     const icon = document.querySelector('.dnb-icon')
-    expect(button.classList.contains('dnb-button--icon-size-medium')).toBe(
-      true
-    )
-    expect(icon.classList.contains('dnb-icon--medium')).toBe(true)
+    expect(button.classList).toContain('dnb-button--icon-size-medium')
+    expect(icon.classList).toContain('dnb-icon--medium')
   })
 
   it('has medium icon if button size is large', () => {
@@ -54,26 +52,28 @@ describe('Button component', () => {
     const button = document.querySelector('button')
     const icon = document.querySelector('.dnb-icon')
     // size "large
-    expect(button.classList.contains('dnb-button--size-large')).toBe(true)
-    expect(icon.classList.contains('dnb-icon--default')).toBe(true)
+    expect(button.classList).toContain('dnb-button--size-large')
+    expect(icon.classList).toContain('dnb-icon--default')
   })
 
   it('has to have a bounding tag if property is set', () => {
     render(<Button bounding={true} />)
-    expect(document.querySelector('.dnb-button__bounding')).toBeTruthy()
+    expect(
+      document.querySelector('.dnb-button__bounding')
+    ).toBeInTheDocument()
   })
 
   it('has a anchor tag', () => {
     render(<Button {...props} href="https://url" icon={null} />)
-    expect(document.querySelector('a')).toBeTruthy()
-    expect(document.querySelector('svg')).toBeFalsy()
+    expect(document.querySelector('a')).toBeInTheDocument()
+    expect(document.querySelector('svg')).not.toBeInTheDocument()
   })
 
   it('has a anchor tag and includes a launch icon', () => {
     render(
       <Button {...props} href="https://url" target="_blank" icon={null} />
     )
-    expect(document.querySelector('svg')).toBeTruthy()
+    expect(document.querySelector('svg')).toBeInTheDocument()
   })
 
   it('supports anchor rel property', () => {
@@ -83,21 +83,18 @@ describe('Button component', () => {
 
   it('has a disabled attribute, once we set disabled to true', () => {
     const { rerender } = render(<Button />)
-    expect(document.querySelector('button').hasAttribute('disabled')).toBe(
-      false
+    expect(document.querySelector('button')).not.toHaveAttribute(
+      'disabled'
     )
     rerender(<Button disabled />)
 
-    expect(document.querySelector('button').hasAttribute('disabled')).toBe(
-      true
-    )
+    expect(document.querySelector('button')).toHaveAttribute('disabled')
   })
 
   it('should be able to omit button type', () => {
     render(<Button type="" />)
-    expect(document.querySelector('button').hasAttribute('type')).toBe(
-      false
-    )
+
+    expect(document.querySelector('button')).not.toHaveAttribute('type')
   })
 
   it('should use span element if defined', () => {
@@ -189,7 +186,9 @@ describe('Button component', () => {
         .querySelector('.dnb-button__alignment')
         .getAttribute('aria-hidden')
     ).toBe('true')
-    expect(document.querySelector('.dnb-button__text')).toBeFalsy()
+    expect(
+      document.querySelector('.dnb-button__text')
+    ).not.toBeInTheDocument()
   })
 
   it('should validate with ARIA rules as a button', async () => {
@@ -205,38 +204,38 @@ describe('Button component', () => {
   it('has variant set to primary as default', () => {
     render(<Button />)
     const button = document.querySelector('button')
-    expect(button.classList.contains('dnb-button--primary')).toBe(true)
+    expect(button.classList).toContain('dnb-button--primary')
   })
 
   it('has variant set to primary when only setting text', () => {
     render(<Button text="Button" />)
     const button = document.querySelector('button')
-    expect(button.classList.contains('dnb-button--primary')).toBe(true)
+    expect(button.classList).toContain('dnb-button--primary')
   })
 
   it('has variant set to secondary when only setting icon', () => {
     render(<Button icon="question" />)
     const button = document.querySelector('button')
-    expect(button.classList.contains('dnb-button--secondary')).toBe(true)
+    expect(button.classList).toContain('dnb-button--secondary')
   })
 
   it('has variant tertiary', () => {
     render(<Button text="Button" variant="tertiary" icon="question" />)
     const button = document.querySelector('button')
-    expect(button.classList.contains('dnb-button--tertiary')).toBe(true)
+    expect(button.classList).toContain('dnb-button--tertiary')
   })
 
   it('has variant unstyled', () => {
     render(<Button text="Button" variant="unstyled" />)
     const button = document.querySelector('button')
-    expect(button.classList.contains('dnb-button--unstyled')).toBe(true)
+    expect(button.classList).toContain('dnb-button--unstyled')
   })
 
   it('will replace icon with icon component', () => {
     const { rerender } = render(
       <Button icon={<span className="dnb-icon custom-icon">icon</span>} />
     )
-    expect(document.querySelector('.custom-icon')).toBeTruthy()
+    expect(document.querySelector('.custom-icon')).toBeInTheDocument()
 
     rerender(
       <Button
@@ -246,8 +245,10 @@ describe('Button component', () => {
       />
     )
 
-    expect(document.querySelector('.custom-icon')).toBeFalsy()
-    expect(document.querySelector('.custom-icon-component')).toBeTruthy()
+    expect(document.querySelector('.custom-icon')).not.toBeInTheDocument()
+    expect(
+      document.querySelector('.custom-icon-component')
+    ).toBeInTheDocument()
   })
 
   it('will only have attached event listener if one is given', () => {
@@ -286,8 +287,12 @@ describe('Button component', () => {
 
   it('has no size when only setting text', () => {
     render(<Button text="Button" />)
-    expect(document.querySelector('.dnb-button--size-medium')).toBeFalsy()
-    expect(document.querySelector('.dnb-button--size-large')).toBeFalsy()
+    expect(
+      document.querySelector('.dnb-button--size-medium')
+    ).not.toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-button--size-large')
+    ).not.toBeInTheDocument()
   })
 })
 

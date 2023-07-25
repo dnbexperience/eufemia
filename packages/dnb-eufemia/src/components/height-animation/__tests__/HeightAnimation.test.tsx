@@ -72,26 +72,28 @@ describe('HeightAnimation', () => {
     render(<Component />)
     expect(
       document.querySelector('.dnb-height-animation--is-visible')
-    ).toBeFalsy()
+    ).not.toBeInTheDocument()
   })
 
   it('should use given span element', () => {
     render(<Component open animate={false} element="span" />)
     expect(
       document.querySelector('span.dnb-height-animation--is-visible')
-    ).toBeFalsy()
+    ).not.toBeInTheDocument()
   })
 
   it('should have element in DOM when open property is true', () => {
     const { rerender } = render(<Component />)
 
-    expect(document.querySelector('.dnb-height-animation')).toBeFalsy()
+    expect(
+      document.querySelector('.dnb-height-animation')
+    ).not.toBeInTheDocument()
 
     rerender(<Component open />)
 
     expect(
       document.querySelector('.dnb-height-animation--is-visible')
-    ).toBeTruthy()
+    ).toBeInTheDocument()
   })
 
   it('should set duration', () => {
@@ -110,7 +112,7 @@ describe('HeightAnimation', () => {
     ).toBe('visible content')
     expect(
       document.querySelector('.dnb-height-animation--is-visible')
-    ).toBeTruthy()
+    ).toBeInTheDocument()
     expect(
       document.querySelector('.dnb-height-animation').getAttribute('style')
     ).toBe('height: auto;')
@@ -119,21 +121,25 @@ describe('HeightAnimation', () => {
   it('should have element in DOM when open property is true (using ToggleButton)', () => {
     render(<Component />)
 
-    expect(document.querySelector('.dnb-height-animation')).toBeFalsy()
+    expect(
+      document.querySelector('.dnb-height-animation')
+    ).not.toBeInTheDocument()
 
     fireEvent.click(document.querySelector('button'))
 
     act(() => {
       expect(
         document.querySelector('.dnb-height-animation--is-visible')
-      ).toBeTruthy()
+      ).toBeInTheDocument()
     })
   })
 
   it('should adjust height when content changes', async () => {
     const { rerender } = render(<Component />)
 
-    expect(document.querySelector('.dnb-height-animation')).toBeFalsy()
+    expect(
+      document.querySelector('.dnb-height-animation')
+    ).not.toBeInTheDocument()
 
     rerender(<Component open />)
 
@@ -175,7 +181,9 @@ describe('HeightAnimation', () => {
     const onOpen = jest.fn()
     const { rerender } = render(<Component onOpen={onOpen} />)
 
-    expect(document.querySelector('.dnb-height-animation')).toBeFalsy()
+    expect(
+      document.querySelector('.dnb-height-animation')
+    ).not.toBeInTheDocument()
 
     rerender(<Component open />)
 
@@ -200,7 +208,9 @@ describe('HeightAnimation', () => {
       <Component onAnimationEnd={onAnimationEnd} />
     )
 
-    expect(document.querySelector('.dnb-height-animation')).toBeFalsy()
+    expect(
+      document.querySelector('.dnb-height-animation')
+    ).not.toBeInTheDocument()
 
     rerender(<Component open />)
 
@@ -222,7 +232,9 @@ describe('HeightAnimation', () => {
     const onInit = jest.fn()
     const { rerender } = render(<Component onInit={onInit} />)
 
-    expect(document.querySelector('.dnb-height-animation')).toBeFalsy()
+    expect(
+      document.querySelector('.dnb-height-animation')
+    ).not.toBeInTheDocument()
 
     rerender(<Component open />)
 
@@ -245,16 +257,18 @@ describe('HeightAnimation', () => {
   it('should have content in DOM when keepInDOM is true', () => {
     const { rerender } = render(<Component keepInDOM />)
 
-    expect(document.querySelector('.dnb-height-animation')).toBeTruthy()
+    expect(
+      document.querySelector('.dnb-height-animation')
+    ).toBeInTheDocument()
     expect(
       document.querySelector('.dnb-height-animation--is-visible')
-    ).toBeFalsy()
+    ).not.toBeInTheDocument()
 
     rerender(<Component keepInDOM open />)
 
     expect(
       document.querySelector('.dnb-height-animation--is-visible')
-    ).toBeTruthy()
+    ).toBeInTheDocument()
 
     rerender(<Component keepInDOM open={false} />)
 

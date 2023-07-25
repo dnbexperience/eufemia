@@ -57,7 +57,7 @@ describe('StepIndicator Sidebar', () => {
 
     expect(
       document.querySelector('.dnb-step-indicator__sidebar')
-    ).toBeTruthy()
+    ).toBeInTheDocument()
   })
 
   it('has to inherit Provider data for initial SSR render', () => {
@@ -146,8 +146,9 @@ describe('StepIndicator in general', () => {
 
     expect(
       document.querySelector('.dnb-step-indicator-wrapper')
-    ).toBeTruthy()
+    ).toBeInTheDocument()
   })
+
   it('should support spacing props', () => {
     const id = 'unique-id-spacing'
     render(
@@ -274,7 +275,7 @@ describe('StepIndicator in loose mode', () => {
     simulateSmallScreen()
 
     renderComponent('unique-id-loose-mobile')
-    expect(screen.queryByRole('button')).toBeTruthy()
+    expect(screen.queryByRole('button')).toBeInTheDocument()
   })
 
   it('has to keep the current step on re-render', () => {
@@ -293,7 +294,7 @@ describe('StepIndicator in loose mode', () => {
     )
     expect(
       document.querySelector('button.dnb-step-indicator__trigger__button')
-    ).toBeFalsy()
+    ).not.toBeInTheDocument()
 
     expect(
       document.querySelectorAll('li.dnb-step-indicator__item')
@@ -328,12 +329,12 @@ describe('StepIndicator in loose mode', () => {
     const items = document.querySelectorAll('li.dnb-step-indicator__item')
 
     expect(items.length).toBe(4)
-    expect(
-      items[0].classList.contains('dnb-step-indicator__item--visited')
-    ).toBe(true)
-    expect(
-      items[1].classList.contains('dnb-step-indicator__item--current')
-    ).toBe(true)
+    expect(items[0].classList).toContain(
+      'dnb-step-indicator__item--visited'
+    )
+    expect(items[1].classList).toContain(
+      'dnb-step-indicator__item--current'
+    )
     expect(items[1].getAttribute('aria-current')).toBe('step')
     expect(screen.queryAllByRole('button')).toHaveLength(4)
   })
@@ -346,12 +347,12 @@ describe('StepIndicator in loose mode', () => {
     const items = document.querySelectorAll('li.dnb-step-indicator__item')
 
     expect(items.length).toBe(4)
-    expect(
-      items[0].classList.contains('dnb-step-indicator__item--visited')
-    ).toBe(true)
-    expect(
-      items[0].classList.contains('dnb-step-indicator__item--current')
-    ).toBe(false)
+    expect(items[0].classList).toContain(
+      'dnb-step-indicator__item--visited'
+    )
+    expect(items[0].classList).not.toContain(
+      'dnb-step-indicator__item--current'
+    )
 
     fireEvent.click(items[0].querySelector('button'))
 
@@ -360,9 +361,9 @@ describe('StepIndicator in loose mode', () => {
     expect(typeof on_change.mock.calls[0][0].event.preventDefault).toBe(
       'function'
     )
-    expect(
-      items[0].classList.contains('dnb-step-indicator__item--current')
-    ).toBe(true)
+    expect(items[0].classList).toContain(
+      'dnb-step-indicator__item--current'
+    )
     expect(
       document.querySelectorAll('li.dnb-step-indicator__item--current')
     ).toHaveLength(1)
@@ -393,7 +394,7 @@ describe('StepIndicator in loose mode', () => {
         'button',
         { name: 'Step C' }
       )
-    ).toBeTruthy()
+    ).toBeInTheDocument()
 
     act(() => {
       // Make state change
@@ -410,7 +411,7 @@ describe('StepIndicator in loose mode', () => {
         'button',
         { name: 'Step A' }
       )
-    ).toBeTruthy()
+    ).toBeInTheDocument()
   })
 
   it('should react on current_step prop change', () => {
@@ -507,7 +508,7 @@ describe('StepIndicator in strict mode', () => {
     simulateSmallScreen()
 
     renderComponent('unique-id-strict-mobile')
-    expect(screen.queryByRole('button')).toBeTruthy()
+    expect(screen.queryByRole('button')).toBeInTheDocument()
   })
 
   it('has correct states on steps', () => {
@@ -515,12 +516,12 @@ describe('StepIndicator in strict mode', () => {
     const items = document.querySelectorAll('li.dnb-step-indicator__item')
 
     expect(items.length).toBe(4)
-    expect(
-      items[0].classList.contains('dnb-step-indicator__item--visited')
-    ).toBe(true)
-    expect(
-      items[1].classList.contains('dnb-step-indicator__item--current')
-    ).toBe(true)
+    expect(items[0].classList).toContain(
+      'dnb-step-indicator__item--visited'
+    )
+    expect(items[1].classList).toContain(
+      'dnb-step-indicator__item--current'
+    )
     expect(items[1].getAttribute('aria-current')).toBe('step')
 
     expect(screen.queryAllByRole('button')).toHaveLength(2)
@@ -534,21 +535,21 @@ describe('StepIndicator in strict mode', () => {
     const items = document.querySelectorAll('li.dnb-step-indicator__item')
 
     expect(items.length).toBe(4)
-    expect(
-      items[0].classList.contains('dnb-step-indicator__item--visited')
-    ).toBe(true)
-    expect(
-      items[0].classList.contains('dnb-step-indicator__item--current')
-    ).toBe(false)
+    expect(items[0].classList).toContain(
+      'dnb-step-indicator__item--visited'
+    )
+    expect(items[0].classList).not.toContain(
+      'dnb-step-indicator__item--current'
+    )
 
     act(() => {
       screen.queryAllByRole('button')[0].click()
     })
 
     expect(on_change).toBeCalledTimes(1)
-    expect(
-      items[0].classList.contains('dnb-step-indicator__item--current')
-    ).toBe(true)
+    expect(items[0].classList).toContain(
+      'dnb-step-indicator__item--current'
+    )
     expect(
       screen.queryAllByRole('listitem', { current: 'step' })
     ).toHaveLength(1)
@@ -575,7 +576,7 @@ describe('StepIndicator in static mode', () => {
     simulateSmallScreen()
 
     renderComponent('unique-id-static-mobile')
-    expect(screen.queryByRole('button')).toBeTruthy()
+    expect(screen.queryByRole('button')).toBeInTheDocument()
   })
 
   it('has correct states on steps', () => {
@@ -583,12 +584,12 @@ describe('StepIndicator in static mode', () => {
     const items = document.querySelectorAll('li.dnb-step-indicator__item')
 
     expect(items.length).toBe(4)
-    expect(
-      items[0].classList.contains('dnb-step-indicator__item--visited')
-    ).toBe(true)
-    expect(
-      items[1].classList.contains('dnb-step-indicator__item--current')
-    ).toBe(true)
+    expect(items[0].classList).toContain(
+      'dnb-step-indicator__item--visited'
+    )
+    expect(items[1].classList).toContain(
+      'dnb-step-indicator__item--current'
+    )
     expect(items[1].getAttribute('aria-current')).toBe('step')
     expect(screen.queryAllByRole('button')).toHaveLength(0)
   })

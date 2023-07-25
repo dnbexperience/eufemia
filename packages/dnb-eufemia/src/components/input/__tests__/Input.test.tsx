@@ -267,30 +267,32 @@ describe('Input component', () => {
       />
     )
 
-    expect(document.querySelector('label')).toBeFalsy()
+    expect(document.querySelector('label')).not.toBeInTheDocument()
     expect(
       document.querySelector('input').getAttribute('aria-placeholder')
     ).toContain('Placeholder-text')
-    expect(
-      document.querySelector('input').hasAttribute('aria-labelledby')
-    ).toBe(false)
+    expect(document.querySelector('input')).not.toHaveAttribute(
+      'aria-labelledby'
+    )
 
     rerender(
       <Input id="unique" placeholder={undefined} label={undefined} />
     )
 
-    expect(document.querySelector('label')).toBeFalsy()
-    expect(
-      document.querySelector('input').hasAttribute('aria-placeholder')
-    ).toBe(false)
-    expect(
-      document.querySelector('input').hasAttribute('aria-labelledby')
-    ).toBe(false)
+    expect(document.querySelector('label')).not.toBeInTheDocument()
+    expect(document.querySelector('input')).not.toHaveAttribute(
+      'aria-placeholder'
+    )
+    expect(document.querySelector('input')).not.toHaveAttribute(
+      'aria-labelledby'
+    )
   })
 
   it('has correct medium input size', () => {
     render(<Input size="medium" />)
-    expect(document.querySelector('.dnb-input--medium')).toBeTruthy()
+    expect(
+      document.querySelector('.dnb-input--medium')
+    ).toBeInTheDocument()
   })
 
   it('will select the whole input when selectall is set', async () => {
@@ -382,9 +384,7 @@ describe('Input component', () => {
   it('has a disabled attribute, once we set disabled to true', () => {
     const { rerender } = render(<Input />)
     rerender(<Input disabled={true} />)
-    expect(document.querySelector('input').hasAttribute('disabled')).toBe(
-      true
-    )
+    expect(document.querySelector('input')).toHaveAttribute('disabled')
   })
 
   it('has a submit button on prop type="search"', () => {
@@ -401,7 +401,7 @@ describe('Input component', () => {
     ).toBe('id input-submit-button')
 
     const Button = document.querySelector('button')
-    expect(Button).toBeTruthy()
+    expect(Button).toBeInTheDocument()
 
     fireEvent.focus(Button)
     expect(
@@ -438,7 +438,7 @@ describe('Input component', () => {
 describe('Input with clear button', () => {
   it('should have the button', () => {
     render(<Input clear={true} />)
-    expect(document.querySelector('.dnb-input--clear')).toBeTruthy()
+    expect(document.querySelector('.dnb-input--clear')).toBeInTheDocument()
   })
 
   it('should clear the value on press', () => {
@@ -470,7 +470,7 @@ describe('Input with clear button', () => {
 
     expect(document.querySelector('input').getAttribute('value')).toBe('')
     expect(clearButton.getAttribute('aria-hidden')).toBe('true')
-    expect(clearButton.hasAttribute('disabled')).toBe(true)
+    expect(clearButton).toHaveAttribute('disabled')
   })
 
   it('should have a disabled clear button when initially empty value is given', () => {
@@ -484,7 +484,7 @@ describe('Input with clear button', () => {
 
     expect(document.querySelector('input').getAttribute('value')).toBe('')
     expect(clearButton.getAttribute('aria-hidden')).toBe('true')
-    expect(clearButton.hasAttribute('disabled')).toBe(true)
+    expect(clearButton).toHaveAttribute('disabled')
   })
 
   it('should clear the value on escape key press', () => {
@@ -558,33 +558,37 @@ describe('Input with clear button', () => {
     const { rerender } = render(<Input clear={true} icon="bell" />)
     expect(
       document.querySelector('.dnb-input__icon').querySelector('svg')
-    ).toBeTruthy()
-    expect(document.querySelector('.dnb-icon--default')).toBeTruthy()
+    ).toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-icon--default')
+    ).toBeInTheDocument()
     expect(
       document.querySelector('.dnb-input--icon-position-right')
-    ).toBeFalsy()
+    ).not.toBeInTheDocument()
 
     rerender(<Input clear={true} icon="bell" icon_position="right" />)
 
     expect(
       document.querySelector('.dnb-input--icon-position-right')
-    ).toBeTruthy()
+    ).toBeInTheDocument()
 
     expect(
       document
         .querySelector('.dnb-input')
         .querySelector('.dnb-input__input ~ .dnb-input__icon')
         .querySelector('svg')
-    ).toBeTruthy()
+    ).toBeInTheDocument()
   })
 
   it('should warn about clear button and right icon position', () => {
     global.console.log = jest.fn()
     render(<Input clear={true} icon="bell" icon_position="right" />)
-    expect(document.querySelector('.dnb-input--clear')).toBeFalsy()
+    expect(
+      document.querySelector('.dnb-input--clear')
+    ).not.toBeInTheDocument()
     expect(
       document.querySelector('.dnb-input__icon').querySelector('svg')
-    ).toBeTruthy()
+    ).toBeInTheDocument()
     expect(global.console.log).toHaveBeenCalledTimes(1)
     expect(global.console.log).toHaveBeenCalledWith(
       expect.stringContaining('Eufemia'),
@@ -608,7 +612,7 @@ describe('Input with clear button', () => {
         .querySelector('.dnb-input')
         .querySelector('.dnb-input__inner__element ~ .dnb-input__icon')
         .querySelector('svg')
-    ).toBeTruthy()
+    ).toBeInTheDocument()
   })
 })
 describe('Input ARIA', () => {

@@ -44,7 +44,7 @@ export default class ContentWrapper extends React.PureComponent {
   }
 
   componentDidMount() {
-    if (this.props.id) {
+    if (this.props.id && this._eventEmitter) {
       this._eventEmitter.listen((params) => {
         if (this._eventEmitter && params.key !== this.state.key) {
           this.setState(params)

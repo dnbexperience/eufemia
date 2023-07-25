@@ -39,12 +39,12 @@ describe('Circular ProgressIndicator component', () => {
     const { rerender } = render(
       <ProgressIndicator {...props} type="circular" progress={undefined} />
     )
-    expect(screen.queryByRole('alert')).toBeTruthy()
+    expect(screen.queryByRole('alert')).toBeInTheDocument()
 
     rerender(
       <ProgressIndicator {...props} type="circular" progress={80} />
     )
-    expect(screen.queryByRole('progressbar')).toBeTruthy()
+    expect(screen.queryByRole('progressbar')).toBeInTheDocument()
   })
 
   it('has to react to a progress value of 80%', () => {
@@ -181,10 +181,10 @@ describe('Linear ProgressIndicator component', () => {
     const { rerender } = render(
       <ProgressIndicator {...props} type="linear" progress={undefined} />
     )
-    expect(screen.queryByRole('alert')).toBeTruthy()
+    expect(screen.queryByRole('alert')).toBeInTheDocument()
 
     rerender(<ProgressIndicator {...props} type="linear" progress={80} />)
-    expect(screen.queryByRole('progressbar')).toBeTruthy()
+    expect(screen.queryByRole('progressbar')).toBeInTheDocument()
   })
 
   it('has to react to a progress value of 80%', () => {

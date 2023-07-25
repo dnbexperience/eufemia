@@ -48,7 +48,7 @@ describe('Upload', () => {
     it('renders the title', () => {
       render(<Upload {...defaultProps} />)
 
-      expect(screen.queryByText(nb.title)).toBeTruthy()
+      expect(screen.queryByText(nb.title)).toBeInTheDocument()
     })
 
     it('renders the custom title', () => {
@@ -56,13 +56,13 @@ describe('Upload', () => {
 
       render(<Upload {...defaultProps} title={customTitle} />)
 
-      expect(screen.queryByText(customTitle)).toBeTruthy()
+      expect(screen.queryByText(customTitle)).toBeInTheDocument()
     })
 
     it('renders the text', () => {
       render(<Upload {...defaultProps} />)
 
-      expect(screen.queryByText(nb.text)).toBeTruthy()
+      expect(screen.queryByText(nb.text)).toBeInTheDocument()
     })
 
     it('renders the custom text', () => {
@@ -70,13 +70,15 @@ describe('Upload', () => {
 
       render(<Upload {...defaultProps} text={customText} />)
 
-      expect(screen.queryByText(customText)).toBeTruthy()
+      expect(screen.queryByText(customText)).toBeInTheDocument()
     })
 
     it('renders the format description', () => {
       render(<Upload {...defaultProps} />)
 
-      expect(screen.queryByText(nb.fileTypeDescription)).toBeTruthy()
+      expect(
+        screen.queryByText(nb.fileTypeDescription)
+      ).toBeInTheDocument()
     })
 
     it('renders the custom format description', () => {
@@ -89,7 +91,9 @@ describe('Upload', () => {
         />
       )
 
-      expect(screen.queryByText(customFormatDescription)).toBeTruthy()
+      expect(
+        screen.queryByText(customFormatDescription)
+      ).toBeInTheDocument()
     })
 
     it('does not render fileTypeDescription when acceptedFileTypes is empty', () => {
@@ -99,7 +103,9 @@ describe('Upload', () => {
         <Upload {...defaultProps} acceptedFileTypes={acceptedFileTypes} />
       )
 
-      expect(screen.queryByText(nb.fileTypeDescription)).toBeFalsy()
+      expect(
+        screen.queryByText(nb.fileTypeDescription)
+      ).not.toBeInTheDocument()
     })
 
     it('renders the custom accepted format', () => {
@@ -111,13 +117,15 @@ describe('Upload', () => {
 
       const formattedFileTypes = acceptedFileTypes.join(', ').toUpperCase()
 
-      expect(screen.queryByText(formattedFileTypes)).toBeTruthy()
+      expect(screen.queryByText(formattedFileTypes)).toBeInTheDocument()
     })
 
     it('renders the file size description', () => {
       render(<Upload {...defaultProps} />)
 
-      expect(screen.queryByText(nb.fileSizeDescription)).toBeTruthy()
+      expect(
+        screen.queryByText(nb.fileSizeDescription)
+      ).toBeInTheDocument()
     })
 
     it('renders the custom file size description', () => {
@@ -130,7 +138,7 @@ describe('Upload', () => {
         />
       )
 
-      expect(screen.queryByText(fileSizeDescription)).toBeTruthy()
+      expect(screen.queryByText(fileSizeDescription)).toBeInTheDocument()
     })
 
     it('renders the file size', () => {
@@ -144,7 +152,7 @@ describe('Upload', () => {
             fileMaxSize.toString()
           )
         )
-      ).toBeTruthy()
+      ).toBeInTheDocument()
     })
 
     it('renders the custom file size', () => {
@@ -163,7 +171,7 @@ describe('Upload', () => {
         screen.queryByText(
           String(fileSizeContent).replace('%size', `${fileMaxSize}`)
         )
-      ).toBeTruthy()
+      ).toBeInTheDocument()
     })
 
     it('renders the file amount limit description', () => {
@@ -172,14 +180,18 @@ describe('Upload', () => {
         <Upload {...defaultProps} filesAmountLimit={filesAmountLimit} />
       )
 
-      expect(screen.queryByText(nb.fileAmountDescription)).toBeTruthy()
-      expect(screen.queryByText(String(filesAmountLimit))).toBeTruthy()
+      expect(
+        screen.queryByText(nb.fileAmountDescription)
+      ).toBeInTheDocument()
+      expect(
+        screen.queryByText(String(filesAmountLimit))
+      ).toBeInTheDocument()
     })
 
     it('renders the upload file input section button text', () => {
       render(<Upload {...defaultProps} />)
 
-      expect(screen.queryByText(nb.buttonText)).toBeTruthy()
+      expect(screen.queryByText(nb.buttonText)).toBeInTheDocument()
     })
 
     it('renders the upload file input section button custom text', () => {
@@ -187,17 +199,17 @@ describe('Upload', () => {
 
       render(<Upload {...defaultProps} buttonText={buttonText} />)
 
-      expect(screen.queryByText(buttonText)).toBeTruthy()
+      expect(screen.queryByText(buttonText)).toBeInTheDocument()
     })
 
     it('should support locale prop', () => {
       const { rerender } = render(<Upload {...defaultProps} />)
 
-      expect(screen.queryByText(nb.title)).toBeTruthy()
+      expect(screen.queryByText(nb.title)).toBeInTheDocument()
 
       rerender(<Upload {...defaultProps} locale="en-GB" />)
 
-      expect(screen.queryByText(en.title)).toBeTruthy()
+      expect(screen.queryByText(en.title)).toBeInTheDocument()
     })
 
     it('should support locale from provider', () => {
@@ -207,7 +219,7 @@ describe('Upload', () => {
         </Provider>
       )
 
-      expect(screen.queryByText(nb.title)).toBeTruthy()
+      expect(screen.queryByText(nb.title)).toBeInTheDocument()
 
       rerender(
         <Provider locale="en-GB">
@@ -215,7 +227,7 @@ describe('Upload', () => {
         </Provider>
       )
 
-      expect(screen.queryByText(en.title)).toBeTruthy()
+      expect(screen.queryByText(en.title)).toBeInTheDocument()
 
       rerender(
         <Provider locale="nb-NO">
@@ -223,7 +235,7 @@ describe('Upload', () => {
         </Provider>
       )
 
-      expect(screen.queryByText(nb.title)).toBeTruthy()
+      expect(screen.queryByText(nb.title)).toBeInTheDocument()
     })
 
     it('should support spacing props', () => {
@@ -272,7 +284,7 @@ describe('Upload', () => {
     ])
     expect(
       screen.queryByText(nb.errorAmountLimit.replace('%amount', '1'))
-    ).toBeTruthy()
+    ).toBeInTheDocument()
     expect(result.current.internalFiles.length).toBe(3)
 
     const deleteButton = screen.queryByRole('button', {
@@ -281,15 +293,15 @@ describe('Upload', () => {
 
     fireEvent.click(deleteButton)
 
-    expect(element.querySelector('.dnb-form-status')).toBeFalsy()
+    expect(
+      element.querySelector('.dnb-form-status')
+    ).not.toBeInTheDocument()
 
     expect(
-      screen
-        .queryByRole('button', {
-          name: nb.buttonText,
-        })
-        .hasAttribute('disabled')
-    ).toBe(false)
+      screen.queryByRole('button', {
+        name: nb.buttonText,
+      })
+    ).not.toHaveAttribute('disabled')
   })
 
   it('will accept same file only once', async () => {
@@ -568,7 +580,7 @@ describe('Upload', () => {
 
       expect(
         screen.queryByText(`error message ${fileMaxSize}`)
-      ).toBeTruthy()
+      ).toBeInTheDocument()
     })
   })
 

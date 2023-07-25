@@ -52,13 +52,15 @@ describe('Dialog', () => {
 
     expect(
       document.querySelector('button.dnb-modal__close-button')
-    ).toBeTruthy()
+    ).toBeInTheDocument()
   })
 
   it('omits trigger button once we set omitTriggerButton', () => {
     render(<Dialog {...props} omitTriggerButton />)
 
-    expect(document.querySelector('button.dnb-modal__trigger')).toBeFalsy()
+    expect(
+      document.querySelector('button.dnb-modal__trigger')
+    ).not.toBeInTheDocument()
   })
 
   it('will close by using callback method', () => {
@@ -133,7 +135,7 @@ describe('Dialog', () => {
     )
     const elem = document.querySelector('.dnb-modal__content')
     expect(elem.getAttribute('role')).toBe('dialog')
-    expect(elem.hasAttribute('aria-modal')).toBe(true)
+    expect(elem).toHaveAttribute('aria-modal')
 
     Object.defineProperty(helpers, 'IS_MAC', {
       value: true,
@@ -147,7 +149,7 @@ describe('Dialog', () => {
     )
 
     expect(elem.getAttribute('role')).toBe('region')
-    expect(elem.hasAttribute('aria-modal')).toBe(false)
+    expect(elem).not.toHaveAttribute('aria-modal')
 
     Object.defineProperty(helpers, 'IS_MAC', {
       value: false,
@@ -166,7 +168,7 @@ describe('Dialog', () => {
     )
 
     expect(elem.getAttribute('role')).toBe('alertdialog')
-    expect(elem.hasAttribute('aria-modal')).toBe(true)
+    expect(elem).toHaveAttribute('aria-modal')
   })
 
   it('is closed by keyboardevent esc', () => {
@@ -254,7 +256,9 @@ describe('Dialog', () => {
       })
     )
 
-    expect(document.querySelector('#content-third')).toBeFalsy()
+    expect(
+      document.querySelector('#content-third')
+    ).not.toBeInTheDocument()
 
     fireEvent.click(document.querySelector('button#modal-first'))
     expect(
@@ -276,31 +280,24 @@ describe('Dialog', () => {
     expect(
       document.querySelectorAll('button.dnb-modal__close-button').length
     ).toBe(3)
+    expect(document.querySelector('#content-first')).toHaveAttribute(
+      'aria-hidden'
+    )
+    expect(document.querySelector('#content-second')).toHaveAttribute(
+      'aria-hidden'
+    )
+    expect(document.querySelector('#content-third')).not.toHaveAttribute(
+      'aria-hidden'
+    )
     expect(
-      document.querySelector('#content-first').hasAttribute('aria-hidden')
-    ).toBe(true)
+      document.querySelector('button.dnb-modal__close-button')
+    ).toHaveAttribute('aria-hidden')
     expect(
-      document.querySelector('#content-second').hasAttribute('aria-hidden')
-    ).toBe(true)
+      document.querySelectorAll('button.dnb-modal__close-button')[1]
+    ).toHaveAttribute('aria-hidden')
     expect(
-      document.querySelector('#content-third').hasAttribute('aria-hidden')
-    ).toBe(false)
-    expect(
-      document
-        .querySelector('button.dnb-modal__close-button')
-
-        .hasAttribute('aria-hidden')
-    ).toBe(true)
-    expect(
-      document
-        .querySelectorAll('button.dnb-modal__close-button')[1]
-        .hasAttribute('aria-hidden')
-    ).toBe(true)
-    expect(
-      document
-        .querySelectorAll('button.dnb-modal__close-button')[2]
-        .hasAttribute('aria-hidden')
-    ).toBe(false)
+      document.querySelectorAll('button.dnb-modal__close-button')[2]
+    ).not.toHaveAttribute('aria-hidden')
 
     // Close the third one
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
@@ -313,21 +310,18 @@ describe('Dialog', () => {
     expect(
       document.documentElement.getAttribute('data-dnb-modal-active')
     ).toBe('modal-second')
-    expect(document.querySelector('#content-third')).toBeFalsy()
     expect(
-      document.querySelector('#content-second').hasAttribute('aria-hidden')
-    ).toBe(false)
+      document.querySelector('#content-third')
+    ).not.toBeInTheDocument()
+    expect(document.querySelector('#content-second')).not.toHaveAttribute(
+      'aria-hidden'
+    )
     expect(
-      document
-        .querySelector('button.dnb-modal__close-button')
-
-        .hasAttribute('aria-hidden')
-    ).toBe(true)
+      document.querySelector('button.dnb-modal__close-button')
+    ).toHaveAttribute('aria-hidden')
     expect(
-      document
-        .querySelectorAll('button.dnb-modal__close-button')[1]
-        .hasAttribute('aria-hidden')
-    ).toBe(false)
+      document.querySelectorAll('button.dnb-modal__close-button')[1]
+    ).not.toHaveAttribute('aria-hidden')
 
     // Close the second one
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
@@ -340,16 +334,15 @@ describe('Dialog', () => {
     expect(
       document.documentElement.getAttribute('data-dnb-modal-active')
     ).toBe('modal-first')
-    expect(document.querySelector('#content-second')).toBeFalsy()
     expect(
-      document.querySelector('#content-first').hasAttribute('aria-hidden')
-    ).toBe(false)
+      document.querySelector('#content-second')
+    ).not.toBeInTheDocument()
+    expect(document.querySelector('#content-first')).not.toHaveAttribute(
+      'aria-hidden'
+    )
     expect(
-      document
-        .querySelector('button.dnb-modal__close-button')
-
-        .hasAttribute('aria-hidden')
-    ).toBe(false)
+      document.querySelector('button.dnb-modal__close-button')
+    ).not.toHaveAttribute('aria-hidden')
 
     // Close the first one
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
@@ -358,10 +351,12 @@ describe('Dialog', () => {
       expect(on_close.second).toHaveBeenCalledTimes(1)
       expect(on_close.third).toHaveBeenCalledTimes(1)
 
-      expect(document.querySelector('#content-first')).toBeFalsy()
       expect(
-        document.documentElement.hasAttribute('data-dnb-modal-active')
-      ).toBe(false)
+        document.querySelector('#content-first')
+      ).not.toBeInTheDocument()
+      expect(document.documentElement).not.toHaveAttribute(
+        'data-dnb-modal-active'
+      )
     })
   })
 
@@ -416,11 +411,15 @@ describe('Dialog', () => {
     render(<Dialog {...props} variant="confirmation" openState="opened" />)
 
     fireEvent.click(document.querySelector('.dnb-modal__content'))
-    expect(document.querySelector('.dnb-dialog__inner')).toBeTruthy()
+    expect(
+      document.querySelector('.dnb-dialog__inner')
+    ).toBeInTheDocument()
 
     document.dispatchEvent(new KeyboardEvent('keydown', { keyCode: 27 }))
     await waitFor(() => {
-      expect(document.querySelector('.dnb-dialog__inner')).toBeFalsy()
+      expect(
+        document.querySelector('.dnb-dialog__inner')
+      ).not.toBeInTheDocument()
     })
   })
 })

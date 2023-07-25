@@ -16,12 +16,12 @@ const props: AnchorAllProps = {
 describe('Anchor element', () => {
   it('has dnb-a class', () => {
     render(<Anchor>text</Anchor>)
-    expect(document.querySelector('.dnb-a')).toBeTruthy()
+    expect(document.querySelector('.dnb-a')).toBeInTheDocument()
   })
 
   it('has href', () => {
     render(<Anchor href="/url">text</Anchor>)
-    expect(document.querySelector('[href]')).toBeTruthy()
+    expect(document.querySelector('[href]')).toBeInTheDocument()
   })
 
   it('should forward id', () => {
@@ -73,10 +73,9 @@ describe('Anchor element', () => {
     fireEvent.mouseEnter(element)
 
     expect(
-      document
-        .querySelector('#unique-id-tooltip.dnb-tooltip__content')
-        .parentElement.classList.contains('dnb-tooltip--active')
-    ).toBeTruthy()
+      document.querySelector('#unique-id-tooltip.dnb-tooltip__content')
+        .parentElement.classList
+    ).toContain('dnb-tooltip--active')
   })
 
   it('has no-icon class when element was given', () => {
@@ -85,7 +84,9 @@ describe('Anchor element', () => {
         <span>text</span>
       </Anchor>
     )
-    expect(document.querySelector('.dnb-anchor--no-icon')).toBeTruthy()
+    expect(
+      document.querySelector('.dnb-anchor--no-icon')
+    ).toBeInTheDocument()
   })
 
   it('should forward ref', () => {
@@ -140,7 +141,7 @@ describe('Anchor element', () => {
         text
       </Anchor>
     )
-    expect(document.querySelector('[rel="external"]')).toBeTruthy()
+    expect(document.querySelector('[rel="external"]')).toBeInTheDocument()
   })
 
   it('should validate with ARIA rules as a Anchor element', async () => {
@@ -154,7 +155,9 @@ describe('Anchor element', () => {
         text
       </Anchor>
     )
-    expect(document.querySelector('.dnb-anchor--icon-left')).toBeTruthy()
+    expect(
+      document.querySelector('.dnb-anchor--icon-left')
+    ).toBeInTheDocument()
   })
 
   it('has right icon class when using right icon prop', () => {
@@ -163,7 +166,9 @@ describe('Anchor element', () => {
         text
       </Anchor>
     )
-    expect(document.querySelector('.dnb-anchor--icon-right')).toBeTruthy()
+    expect(
+      document.querySelector('.dnb-anchor--icon-right')
+    ).toBeInTheDocument()
   })
 
   it('defaults to left icon when using icon prop', () => {
@@ -172,7 +177,9 @@ describe('Anchor element', () => {
         text
       </Anchor>
     )
-    expect(document.querySelector('.dnb-anchor--icon-left')).toBeTruthy()
+    expect(
+      document.querySelector('.dnb-anchor--icon-left')
+    ).toBeInTheDocument()
   })
 
   it('hides launch icon when given a right icon', () => {
@@ -181,7 +188,9 @@ describe('Anchor element', () => {
         text
       </Anchor>
     )
-    expect(document.querySelector('.dnb-anchor--no-icon')).toBeTruthy()
+    expect(
+      document.querySelector('.dnb-anchor--no-icon')
+    ).toBeInTheDocument()
   })
 })
 

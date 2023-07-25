@@ -42,14 +42,12 @@ describe('DatePicker component', () => {
   it('has a disabled attribute, once we set disabled to true', () => {
     const { rerender } = render(<DatePicker show_input />)
     rerender(<DatePicker show_input disabled={true} />)
+    expect(document.querySelectorAll('input')[0]).toHaveAttribute(
+      'disabled'
+    )
     expect(
-      document.querySelectorAll('input')[0].hasAttribute('disabled')
-    ).toBe(true)
-    expect(
-      document
-        .querySelector('button.dnb-input__submit-button__button')
-        .hasAttribute('disabled')
-    ).toBe(true)
+      document.querySelector('button.dnb-input__submit-button__button')
+    ).toHaveAttribute('disabled')
   })
 
   it('has correct state after "click" trigger', () => {
@@ -74,10 +72,8 @@ describe('DatePicker component', () => {
     ).toContain('dnb-date-picker--opened')
 
     expect(
-      document
-        .querySelector('.dnb-date-picker')
-        .classList.contains('dnb-date-picker--closed')
-    ).toBe(false)
+      document.querySelector('.dnb-date-picker').classList
+    ).not.toContain('dnb-date-picker--closed')
   })
 
   it('will close the picker after selection', () => {
@@ -120,10 +116,8 @@ describe('DatePicker component', () => {
     expect(on_change.mock.calls[1][0].end_date).toBe('2019-02-15')
 
     expect(
-      document
-        .querySelector('.dnb-date-picker')
-        .classList.contains('dnb-date-picker--closed')
-    ).toBe(false)
+      document.querySelector('.dnb-date-picker').classList
+    ).not.toContain('dnb-date-picker--closed')
 
     rerender(
       <DatePicker {...defaultProps} on_change={on_change} range={false} />
@@ -225,7 +219,7 @@ describe('DatePicker component', () => {
     const singleLabel = singleButton.getAttribute('aria-label')
 
     expect(singleLabel).toBe('lørdag 12. januar 2019')
-    expect(singleButton.hasAttribute('disabled')).toBe(true)
+    expect(singleButton).toHaveAttribute('disabled')
     expect(singleTd.classList).toContain(customClassName)
   })
 
@@ -254,7 +248,9 @@ describe('DatePicker component', () => {
       document.querySelector('label.dnb-date-picker__header__title')
         .textContent
     ).toBe('mai 2020')
-    expect(document.querySelector('.dnb-date-picker--opened')).toBeTruthy()
+    expect(
+      document.querySelector('.dnb-date-picker--opened')
+    ).toBeInTheDocument()
     expect(on_change).toBeCalledTimes(1)
 
     // Now, test "close_on_select"
@@ -268,7 +264,9 @@ describe('DatePicker component', () => {
       document.querySelector('label.dnb-date-picker__header__title')
         .textContent
     ).toBe('april 2020')
-    expect(document.querySelector('.dnb-date-picker--opened')).toBeFalsy()
+    expect(
+      document.querySelector('.dnb-date-picker--opened')
+    ).not.toBeInTheDocument()
     expect(on_change).toBeCalledTimes(2)
   })
 
@@ -278,7 +276,9 @@ describe('DatePicker component', () => {
     fireEvent.click(
       document.querySelector('button.dnb-input__submit-button__button')
     )
-    expect(document.querySelector('.dnb-date-picker__views')).toBeTruthy()
+    expect(
+      document.querySelector('.dnb-date-picker__views')
+    ).toBeInTheDocument()
     expect(
       document.querySelectorAll('.dnb-date-picker__calendar').length
     ).toBe(2)
@@ -387,19 +387,19 @@ describe('DatePicker component', () => {
     )
 
     const resetElem = document.querySelector('button[data-testid="reset"]')
-    expect(resetElem).toBeTruthy()
+    expect(resetElem).toBeInTheDocument()
     expect(resetElem.textContent).toMatch('Tilbakestill')
 
     const cancelElem = document.querySelector(
       'button[data-testid="cancel"]'
     )
-    expect(cancelElem).toBeTruthy()
+    expect(cancelElem).toBeInTheDocument()
     expect(cancelElem.textContent).toMatch('Avbryt')
 
     const submitElem = document.querySelector(
       'button[data-testid="submit"]'
     )
-    expect(submitElem).toBeTruthy()
+    expect(submitElem).toBeInTheDocument()
     expect(submitElem.textContent).toMatch('Ok')
 
     expect(
@@ -468,7 +468,7 @@ describe('DatePicker component', () => {
     )
 
     const resetElem = document.querySelector('button[data-testid="reset"]')
-    expect(resetElem).toBeTruthy()
+    expect(resetElem).toBeInTheDocument()
     expect(resetElem.textContent).toMatch(reset_button_text)
   })
 
@@ -478,7 +478,7 @@ describe('DatePicker component', () => {
     const datePickerFooter = document.querySelector(
       '.dnb-date-picker__footer'
     )
-    expect(datePickerFooter).toBeTruthy()
+    expect(datePickerFooter).toBeInTheDocument()
   })
 
   it('footer is rendered when show_cancel_button is provided', () => {
@@ -487,7 +487,7 @@ describe('DatePicker component', () => {
     const datePickerFooter = document.querySelector(
       '.dnb-date-picker__footer'
     )
-    expect(datePickerFooter).toBeTruthy()
+    expect(datePickerFooter).toBeInTheDocument()
   })
 
   it('footer is rendered when show_submit_button is provided', () => {
@@ -496,7 +496,7 @@ describe('DatePicker component', () => {
     const datePickerFooter = document.querySelector(
       '.dnb-date-picker__footer'
     )
-    expect(datePickerFooter).toBeTruthy()
+    expect(datePickerFooter).toBeInTheDocument()
   })
 
   it('footer is rendered when range is provided', () => {
@@ -505,7 +505,7 @@ describe('DatePicker component', () => {
     const datePickerFooter = document.querySelector(
       '.dnb-date-picker__footer'
     )
-    expect(datePickerFooter).toBeTruthy()
+    expect(datePickerFooter).toBeInTheDocument()
   })
 
   it('footer is not rendered', () => {
@@ -523,7 +523,7 @@ describe('DatePicker component', () => {
     const datePickerFooter = document.querySelector(
       '.dnb-date-picker__footer'
     )
-    expect(datePickerFooter).toBeFalsy()
+    expect(datePickerFooter).not.toBeInTheDocument()
   })
 
   it('has a working month correction', () => {
@@ -661,13 +661,11 @@ describe('DatePicker component', () => {
     expect(invalidDayElem.getAttribute('aria-label')).toBe(
       'tirsdag 1. januar 2019'
     )
-    expect(invalidDayElem).toBeTruthy()
-    expect(invalidDayElem.hasAttribute('disabled')).toBe(true)
+    expect(invalidDayElem).toBeInTheDocument()
+    expect(invalidDayElem).toHaveAttribute('disabled')
     expect(
-      document
-        .querySelectorAll('.dnb-date-picker__day button')[2]
-        .hasAttribute('disabled')
-    ).toBe(false)
+      document.querySelectorAll('.dnb-date-picker__day button')[2]
+    ).not.toHaveAttribute('disabled')
 
     expect(on_change.mock.calls[2][0].date).toBe(undefined)
     expect(on_change.mock.calls[2][0].is_valid).toBe(undefined)
@@ -842,18 +840,18 @@ describe('DatePicker component', () => {
 
     expect(
       FirstCalendar.querySelector('.dnb-date-picker__day--preview')
-    ).toBeFalsy()
+    ).not.toBeInTheDocument()
     expect(
       FirstCalendar.querySelector(
         '.dnb-date-picker__day--within-selection'
       )
-    ).toBeFalsy()
-    expect(
-      firstDayElem.classList.contains('dnb-date-picker__day--start-date')
-    ).toBe(false)
-    expect(
-      firstDayElem.classList.contains('dnb-date-picker__day--end-date')
-    ).toBe(false)
+    ).not.toBeInTheDocument()
+    expect(firstDayElem.classList).not.toContain(
+      'dnb-date-picker__day--start-date'
+    )
+    expect(firstDayElem.classList).not.toContain(
+      'dnb-date-picker__day--end-date'
+    )
 
     // 2. Click on start date
 
@@ -861,23 +859,23 @@ describe('DatePicker component', () => {
 
     // 3. Should be marked with start and end date
 
-    expect(
-      firstDayElem.classList.contains('dnb-date-picker__day--start-date')
-    ).toBe(true)
-    expect(
-      firstDayElem.classList.contains('dnb-date-picker__day--end-date')
-    ).toBe(true)
+    expect(firstDayElem.classList).toContain(
+      'dnb-date-picker__day--start-date'
+    )
+    expect(firstDayElem.classList).toContain(
+      'dnb-date-picker__day--end-date'
+    )
 
     // 4. But still no "selection"
 
     expect(
       FirstCalendar.querySelector('.dnb-date-picker__day--preview')
-    ).toBeFalsy()
+    ).not.toBeInTheDocument()
     expect(
       FirstCalendar.querySelector(
         '.dnb-date-picker__day--within-selection'
       )
-    ).toBeFalsy()
+    ).not.toBeInTheDocument()
 
     // 5. Hover on last day
 
@@ -886,14 +884,14 @@ describe('DatePicker component', () => {
     // 6. We should have all TDs in between, marked as "pewview"
     // - and we should have marked it as the end-date
 
-    expect(
-      lastDayElem.classList.contains('dnb-date-picker__day--end-date')
-    ).toBe(true)
+    expect(lastDayElem.classList).toContain(
+      'dnb-date-picker__day--end-date'
+    )
     expect(
       FirstCalendar.querySelectorAll(
         'td.dnb-date-picker__day--selectable'
-      )[1].classList.contains('dnb-date-picker__day--preview')
-    ).toBe(true)
+      )[1].classList
+    ).toContain('dnb-date-picker__day--preview')
     expect(
       SecondCalendar.querySelectorAll(
         'td.dnb-date-picker__day--selectable'
@@ -901,8 +899,8 @@ describe('DatePicker component', () => {
         SecondCalendar.querySelectorAll(
           'td.dnb-date-picker__day--selectable'
         ).length - 2
-      ].classList.contains('dnb-date-picker__day--preview')
-    ).toBe(true)
+      ].classList
+    ).toContain('dnb-date-picker__day--preview')
 
     // 7. simulate mouse leave the calendar
 
@@ -910,14 +908,14 @@ describe('DatePicker component', () => {
 
     // 8. remove the selection when mouse leaves the calendar
 
-    expect(
-      lastDayElem.classList.contains('dnb-date-picker__day--end-date')
-    ).toBe(false)
+    expect(lastDayElem.classList).not.toContain(
+      'dnb-date-picker__day--end-date'
+    )
     expect(
       FirstCalendar.querySelectorAll(
         'td.dnb-date-picker__day--selectable'
-      )[1].classList.contains('dnb-date-picker__day--preview')
-    ).toBe(false)
+      )[1].classList
+    ).not.toContain('dnb-date-picker__day--preview')
     expect(
       SecondCalendar.querySelectorAll(
         'td.dnb-date-picker__day--selectable'
@@ -925,8 +923,8 @@ describe('DatePicker component', () => {
         SecondCalendar.querySelectorAll(
           'td.dnb-date-picker__day--selectable'
         ).length - 2
-      ].classList.contains('dnb-date-picker__day--preview')
-    ).toBe(false)
+      ].classList
+    ).not.toContain('dnb-date-picker__day--preview')
 
     // 9. Now, click on the last day as well
 
@@ -937,8 +935,8 @@ describe('DatePicker component', () => {
     expect(
       FirstCalendar.querySelectorAll(
         'td.dnb-date-picker__day--selectable'
-      )[1].classList.contains('dnb-date-picker__day--within-selection')
-    ).toBe(true)
+      )[1].classList
+    ).toContain('dnb-date-picker__day--within-selection')
     expect(
       SecondCalendar.querySelectorAll(
         'td.dnb-date-picker__day--selectable'
@@ -946,8 +944,8 @@ describe('DatePicker component', () => {
         SecondCalendar.querySelectorAll(
           'td.dnb-date-picker__day--selectable'
         ).length - 2
-      ].classList.contains('dnb-date-picker__day--within-selection')
-    ).toBe(true)
+      ].classList
+    ).toContain('dnb-date-picker__day--within-selection')
   })
 
   it('resets date correctly between interactions', () => {
@@ -1254,9 +1252,7 @@ describe('DatePicker component', () => {
 
     fireEvent.click(buttonElement)
 
-    expect(
-      element.classList.contains('dnb-date-picker--opened')
-    ).toBeTruthy()
+    expect(element.classList).toContain('dnb-date-picker--opened')
 
     const tableElement = document.querySelector('table')
 
@@ -1284,9 +1280,7 @@ describe('DatePicker component', () => {
     fireEvent.click(buttonElement)
 
     expect(document.activeElement).toBe(document.body)
-    expect(
-      element.classList.contains('dnb-date-picker--opened')
-    ).toBeTruthy()
+    expect(element.classList).toContain('dnb-date-picker--opened')
   })
 
   it('has to react on keydown events', async () => {
@@ -1320,11 +1314,9 @@ describe('DatePicker component', () => {
     await wait(1)
 
     // and check the class of that element
-    expect(
-      document.activeElement.classList.contains(
-        'dnb-date-picker__input--month'
-      )
-    ).toBe(true)
+    expect(document.activeElement.classList).toContain(
+      'dnb-date-picker__input--month'
+    )
 
     // also test the key up to change the value on the month input
     expect((monthElem as HTMLInputElement).value).toBe('01')
@@ -1363,19 +1355,19 @@ describe('DatePicker component', () => {
       render(<DatePicker {...defaultProps} size="small" />)
       expect(
         document.querySelector('.dnb-date-picker--small')
-      ).toBeTruthy()
+      ).toBeInTheDocument()
     })
     it('has correct medium size', () => {
       render(<DatePicker {...defaultProps} size="medium" />)
       expect(
         document.querySelector('.dnb-date-picker--medium')
-      ).toBeTruthy()
+      ).toBeInTheDocument()
     })
     it('has correct large size', () => {
       render(<DatePicker {...defaultProps} size="large" />)
       expect(
         document.querySelector('.dnb-date-picker--large')
-      ).toBeTruthy()
+      ).toBeInTheDocument()
     })
   })
 })

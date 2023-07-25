@@ -3,7 +3,7 @@ const config = {
   testEnvironmentOptions: {
     url: 'http://localhost',
   },
-  testRegex: '(/__tests__/\\.js|(\\.|/)(test|spec))\\.(js|jsx|ts|tsx)?$',
+  testRegex: '(/__tests__/\\.js|(\\.|/)test)\\.(js|jsx|ts|tsx)?$',
   testPathIgnorePatterns: [
     'not_in_use',
     'screenshot',
@@ -23,5 +23,6 @@ const config = {
     '^.+\\.(jpg|jpeg|png)$': '<rootDir>/src/core/jest/fileMock.js',
     '^.+\\.(svg)$': '<rootDir>/src/core/jest/jsxMock.js',
   },
+  setupFilesAfterEnv: ['<rootDir>/src/core/jest/setupJest.js'],
 }
 module.exports = config

@@ -116,7 +116,7 @@ describe('Switch component', () => {
   it('has a disabled attribute, once we set disabled to true', () => {
     const { rerender } = render(<Switch />)
     rerender(<Switch disabled={true} />)
-    expect(document.querySelector('input[disabled]')).toBeTruthy()
+    expect(document.querySelector('input[disabled]')).toBeInTheDocument()
   })
 
   it('should support spacing props', () => {

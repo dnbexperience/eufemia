@@ -119,9 +119,7 @@ describe('Upload', () => {
 
       unmount()
 
-      expect(document.body.hasAttribute('data-upload-drop-zone')).toBe(
-        false
-      )
+      expect(document.body).not.toHaveAttribute('data-upload-drop-zone')
     })
 
     it('has drop event', async () => {

@@ -17,12 +17,12 @@ const props: FormLabelProps = {
 describe('FormLabel component', () => {
   it('should forward unlisted attributes like "aria-hidden"', () => {
     render(<FormLabel {...props} for_id="input" aria-hidden />)
-    expect(document.querySelector('label[aria-hidden]')).toBeTruthy()
     expect(
-      document
-        .querySelector('label[aria-hidden]')
-        .getAttribute('aria-hidden')
-    ).toBeTruthy()
+      document.querySelector('label[aria-hidden]')
+    ).toBeInTheDocument()
+    expect(document.querySelector('label[aria-hidden]')).toHaveAttribute(
+      'aria-hidden'
+    )
   })
 
   it('should support spacing props', () => {

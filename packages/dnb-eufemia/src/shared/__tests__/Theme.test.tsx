@@ -128,15 +128,19 @@ describe('Theme', () => {
   it('will omit element on false or fragment', () => {
     const { rerender } = render(<Theme element={false}>content</Theme>)
 
-    expect(document.querySelector('.eufemia-theme')).toBeFalsy()
+    expect(
+      document.querySelector('.eufemia-theme')
+    ).not.toBeInTheDocument()
 
     rerender(<Theme element={React.Fragment}>content</Theme>)
 
-    expect(document.querySelector('.eufemia-theme')).toBeFalsy()
+    expect(
+      document.querySelector('.eufemia-theme')
+    ).not.toBeInTheDocument()
 
     rerender(<Theme element="div">content</Theme>)
 
-    expect(document.querySelector('.eufemia-theme')).toBeTruthy()
+    expect(document.querySelector('.eufemia-theme')).toBeInTheDocument()
   })
 })
 

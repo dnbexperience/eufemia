@@ -18,11 +18,9 @@ const props: FormRowProps = {
 describe('FormRow component', () => {
   it('should have vertical direction class', () => {
     render(<FormRow {...props} direction="vertical" />)
-    expect(
-      document
-        .querySelector('.dnb-form-row')
-        .classList.contains('dnb-form-row--vertical')
-    ).toBe(true)
+    expect(document.querySelector('.dnb-form-row').classList).toContain(
+      'dnb-form-row--vertical'
+    )
   })
 
   it('should have an isolated state on nested FormRows', () => {
@@ -36,34 +34,28 @@ describe('FormRow component', () => {
       </FormRow>
     )
     expect(
-      document
-        .querySelectorAll('span.dnb-input')[0]
-        .classList.contains('dnb-input--vertical')
-    ).toBe(true)
+      document.querySelectorAll('span.dnb-input')[0].classList
+    ).toContain('dnb-input--vertical')
     expect(
-      document
-        .querySelectorAll('span.dnb-input')[1]
-        .classList.contains('dnb-input--horizontal')
-    ).toBe(true)
+      document.querySelectorAll('span.dnb-input')[1].classList
+    ).toContain('dnb-input--horizontal')
     expect(
-      document
-        .querySelectorAll('span.dnb-input')[2]
-        .classList.contains('dnb-input--vertical')
-    ).toBe(true)
+      document.querySelectorAll('span.dnb-input')[2].classList
+    ).toContain('dnb-input--vertical')
   })
 
   it('should using formset and legend by default', () => {
     render(<FormRow {...props} />)
 
-    expect(document.querySelector('fieldset')).toBeTruthy()
-    expect(document.querySelector('legend')).toBeTruthy()
+    expect(document.querySelector('fieldset')).toBeInTheDocument()
+    expect(document.querySelector('legend')).toBeInTheDocument()
   })
 
   it('should using formset and legend by default', () => {
     render(<FormRow {...props} no_fieldset />)
-    expect(document.querySelector('label')).toBeTruthy()
-    expect(document.querySelector('fieldset')).toBeFalsy()
-    expect(document.querySelector('legend')).toBeFalsy()
+    expect(document.querySelector('label')).toBeInTheDocument()
+    expect(document.querySelector('fieldset')).not.toBeInTheDocument()
+    expect(document.querySelector('legend')).not.toBeInTheDocument()
   })
 
   it('should support locale context forwarding', () => {
@@ -119,7 +111,7 @@ describe('FormRow component', () => {
         <Input />
       </FormRow>
     )
-    expect(document.querySelector('input[disabled]')).toBeTruthy()
+    expect(document.querySelector('input[disabled]')).toBeInTheDocument()
   })
 
   it('should validate with ARIA rules', async () => {

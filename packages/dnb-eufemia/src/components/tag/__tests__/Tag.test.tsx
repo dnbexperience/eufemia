@@ -26,7 +26,7 @@ describe('Tag Group', () => {
   it('renders the label as string', () => {
     const label = 'tags'
     render(<Tag.Group label={label} />)
-    expect(screen.queryByText(label)).toBeTruthy()
+    expect(screen.queryByText(label)).toBeInTheDocument()
   })
 
   it('renders the label as react node', () => {
@@ -127,7 +127,7 @@ describe('Tag', () => {
       </Tag.Group>
     )
 
-    expect(screen.queryByText(text)).toBeTruthy()
+    expect(screen.queryByText(text)).toBeInTheDocument()
   })
 
   it('renders a tag with content by children prop', () => {
@@ -139,7 +139,7 @@ describe('Tag', () => {
       </Tag.Group>
     )
 
-    expect(screen.queryByText(text)).toBeTruthy()
+    expect(screen.queryByText(text)).toBeInTheDocument()
   })
 
   it('renders a tag with content if both text and children prop is defined', () => {
@@ -151,7 +151,7 @@ describe('Tag', () => {
       </Tag.Group>
     )
 
-    expect(screen.queryByText(text)).toBeTruthy()
+    expect(screen.queryByText(text)).toBeInTheDocument()
   })
 
   it('renders a tag with skeleton if skeleton is true', () => {
@@ -194,7 +194,7 @@ describe('Tag', () => {
     )
 
     expect(screen.queryByRole('button')).toBeNull()
-    expect(screen.queryByText(text)).toBeTruthy()
+    expect(screen.queryByText(text)).toBeInTheDocument()
   })
 
   it('does support icon', () => {
@@ -204,7 +204,7 @@ describe('Tag', () => {
       </Tag.Group>
     )
 
-    expect(document.querySelector('.dnb-icon')).toBeTruthy()
+    expect(document.querySelector('.dnb-icon')).toBeInTheDocument()
   })
 
   it('should support spacing props', () => {
@@ -271,7 +271,7 @@ describe('Tag', () => {
         </Tag.Group>
       )
 
-      expect(document.querySelector('.dnb-icon')).toBeTruthy()
+      expect(document.querySelector('.dnb-icon')).toBeInTheDocument()
     })
   })
 
@@ -342,7 +342,7 @@ describe('Tag', () => {
         </Tag.Group>
       )
 
-      expect(document.querySelector('.dnb-icon')).toBeTruthy()
+      expect(document.querySelector('.dnb-icon')).toBeInTheDocument()
     })
 
     it('does not support icon if onDelete', () => {
@@ -352,7 +352,7 @@ describe('Tag', () => {
         </Tag.Group>
       )
 
-      expect(document.querySelector('.dnb-icon')).toBeTruthy()
+      expect(document.querySelector('.dnb-icon')).toBeInTheDocument()
       expect(document.querySelectorAll('.dnb-icon').length).toBe(1)
     })
 

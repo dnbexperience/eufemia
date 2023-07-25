@@ -31,7 +31,7 @@ describe('ScrollView', () => {
     )
 
     const element = document.querySelector('.dnb-scroll-view')
-    expect(element.hasAttribute('tabindex')).toBeFalsy()
+    expect(element).not.toHaveAttribute('tabindex')
 
     act(() => {
       jest.spyOn(ref.current, 'scrollWidth', 'get').mockReturnValue(102)
@@ -57,7 +57,7 @@ describe('ScrollView', () => {
       )
     })
 
-    expect(element.hasAttribute('tabindex')).toBeFalsy()
+    expect(element).not.toHaveAttribute('tabindex')
   })
 
   it('should set tabindex based on ResizeObserver when interactive is set to auto', () => {
@@ -77,7 +77,7 @@ describe('ScrollView', () => {
     )
 
     const element = document.querySelector('.dnb-scroll-view')
-    expect(element.hasAttribute('tabindex')).toBeFalsy()
+    expect(element).not.toHaveAttribute('tabindex')
 
     act(() => {
       jest.spyOn(ref.current, 'scrollWidth', 'get').mockReturnValue(102)
@@ -95,7 +95,7 @@ describe('ScrollView', () => {
       renderResizeObserver()
     })
 
-    expect(element.hasAttribute('tabindex')).toBeFalsy()
+    expect(element).not.toHaveAttribute('tabindex')
 
     expect(init).toHaveBeenCalledTimes(1)
     expect(observe).toHaveBeenCalledTimes(1)
