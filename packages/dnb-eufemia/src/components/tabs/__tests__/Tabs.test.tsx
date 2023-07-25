@@ -545,6 +545,35 @@ describe('A single Tab component', () => {
     ).toBe('third')
     expect(testKey).toBe('third')
   })
+
+  it('should render in StrictMode', () => {
+    render(
+      <React.StrictMode>
+        <Tabs
+          data={[
+            {
+              title: 'First',
+              key: 'first',
+            },
+            {
+              title: 'Second',
+              key: 'second',
+            },
+            {
+              title: 'Third',
+              key: 'third',
+            },
+            {
+              title: 'Fourth',
+              key: 'fourth',
+            },
+          ]}
+        />
+      </React.StrictMode>
+    )
+
+    expect(document.querySelector('.dnb-tabs')).toBeInTheDocument()
+  })
 })
 
 describe('Tabs scss', () => {
