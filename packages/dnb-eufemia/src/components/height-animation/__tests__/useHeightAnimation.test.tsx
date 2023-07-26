@@ -13,7 +13,10 @@ import {
   waitFor,
 } from '@testing-library/react'
 import ToggleButton from '../../ToggleButton'
-import { useHeightAnimation } from '../useHeightAnimation'
+import {
+  useHeightAnimation,
+  useHeightAnimationOptions,
+} from '../useHeightAnimation'
 import { wait } from '../../../core/jest/jestSetup'
 
 beforeEach(() => {
@@ -32,7 +35,10 @@ const getStates = () =>
   Array.from(document.querySelector('.wrapper-element').classList)
 
 describe('useHeightAnimation', () => {
-  const AnimatedContent = ({ open = false, animate = true }) => {
+  const AnimatedContent = ({
+    open = false,
+    animate = true,
+  }: useHeightAnimationOptions) => {
     const animationElement = React.useRef()
     const { isOpen, isVisible, isInDOM, isVisibleParallax } =
       useHeightAnimation(animationElement, {

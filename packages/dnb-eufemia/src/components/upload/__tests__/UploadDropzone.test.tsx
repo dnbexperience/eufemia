@@ -26,7 +26,7 @@ afterEach(() => {
   jest.resetAllMocks()
 })
 
-describe('Upload', () => {
+describe('UploadDropzone', () => {
   const MockComponent = (props: Partial<UploadAllProps>) => {
     return (
       <UploadContext.Provider value={defaultContext}>

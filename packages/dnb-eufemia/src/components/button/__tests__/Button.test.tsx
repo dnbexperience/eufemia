@@ -20,6 +20,13 @@ beforeAll(() => {
 })
 
 describe('Button component', () => {
+  it('renders with props as an object', () => {
+    const props: ButtonProps = {}
+
+    render(<Button {...props} />)
+    expect(document.querySelector('button')).not.toBeNull()
+  })
+
   it('has a button tag', () => {
     const title = 'title'
     render(<Button {...props} title={title} href={null} />)

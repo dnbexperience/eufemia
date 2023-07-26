@@ -8,8 +8,8 @@ import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
 import { Provider } from '../../../shared'
 
 describe('Avatar', () => {
-  const props: AvatarProps = {}
   it('renders without properties', () => {
+    const props: AvatarProps = {}
     render(
       <Avatar.Group {...props} label="label">
         <Avatar />

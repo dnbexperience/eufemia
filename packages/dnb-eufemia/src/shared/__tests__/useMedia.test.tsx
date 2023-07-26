@@ -5,7 +5,7 @@
 
 import React from 'react'
 import { render, waitFor, act, renderHook } from '@testing-library/react'
-import useMedia from '../useMedia'
+import useMedia, { UseMediaProps } from '../useMedia'
 import Provider from '../Provider'
 import 'mock-match-media/jest-setup'
 import { setMedia, matchMedia } from 'mock-match-media'
@@ -295,7 +295,7 @@ describe('useMedia', () => {
 
     it('will re-render component', async () => {
       let count = 0
-      const MockComponent = (options = null) => {
+      const MockComponent = (options: UseMediaProps = null) => {
         const props = useMedia(options)
 
         count++
@@ -577,7 +577,7 @@ describe('useMedia without window.matchMedia', () => {
     })
   })
 
-  const MockComponent = (options = null) => {
+  const MockComponent = (options: UseMediaProps = null) => {
     const props = useMedia(options)
 
     return <>{JSON.stringify(props)}</>

@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import H from '../H'
+import H, { SharedHProps } from '../H'
 import H1 from '../H1'
 import H2 from '../H2'
 import H3 from '../H3'
@@ -9,6 +9,13 @@ import H5 from '../H5'
 import H6 from '../H6'
 
 describe('Heading', () => {
+  it('renders with props as an object', () => {
+    const props: SharedHProps = {}
+
+    render(<H {...props} />)
+    expect(document.querySelector('h1')).not.toBeNull()
+  })
+
   const headings = [
     {
       selector: '.dnb-h--xx-large',

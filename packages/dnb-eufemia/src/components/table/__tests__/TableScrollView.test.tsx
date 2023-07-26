@@ -1,11 +1,26 @@
 import React from 'react'
 import { act, render } from '@testing-library/react'
 import Table from '../Table'
-import ScrollView from '../TableScrollView'
+import ScrollView, { TableScrollViewAllProps } from '../TableScrollView'
 import { BasicTable } from './TableMocks'
 import { setResizeObserver } from '../../../fragments/scroll-view/__tests__/__mocks__/ResizeObserver'
 
 describe('Table.ScrollView', () => {
+  it('renders with props as an object', () => {
+    const props: TableScrollViewAllProps = {
+      children: (
+        <Table>
+          <BasicTable />
+        </Table>
+      ),
+    }
+
+    render(<ScrollView {...props} />)
+    expect(
+      document.querySelector('.dnb-table__scroll-view')
+    ).not.toBeNull()
+  })
+
   it('should support spacing props', () => {
     render(
       <ScrollView top="large">
