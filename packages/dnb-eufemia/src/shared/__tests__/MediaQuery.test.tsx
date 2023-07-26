@@ -7,7 +7,7 @@ import React from 'react'
 import { render, screen, act } from '@testing-library/react'
 
 import MatchMediaMock from 'jest-matchmedia-mock'
-import MediaQuery from '../MediaQuery'
+import MediaQuery, { MediaQueryProps } from '../MediaQuery'
 import Provider from '../Provider'
 import { isMatchMediaSupported as _isMatchMediaSupported } from '../MediaQueryUtils'
 
@@ -38,6 +38,18 @@ describe('MediaQuery', () => {
 
   afterAll(() => {
     matchMedia?.destroy()
+  })
+
+  it('renders with props as an object', () => {
+    matchMedia.useMediaQuery('(min-width: 60em) and (max-width: 72em)')
+
+    const props: MediaQueryProps = {
+      when: { min: 'medium', max: 'large' },
+      children: 'medium',
+    }
+
+    render(<MediaQuery {...props} />)
+    expect(screen.queryByText('medium')).toBeInTheDocument()
   })
 
   it('should match for query with medium width', () => {

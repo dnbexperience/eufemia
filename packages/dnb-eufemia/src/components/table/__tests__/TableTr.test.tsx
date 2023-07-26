@@ -1,9 +1,24 @@
 import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 import Table from '../Table'
-import TableTr from '../TableTr'
+import TableTr, { TableTrProps } from '../TableTr'
 
 describe('TableTr', () => {
+  it('renders with props as an object', () => {
+    const props: TableTrProps = { children: <td>content</td> }
+
+    render(
+      <table>
+        <tbody>
+          <tr>
+            <TableTr {...props} />
+          </tr>
+        </tbody>
+      </table>
+    )
+    expect(document.querySelector('tr')).not.toBeNull()
+  })
+
   it('should work without internal context', () => {
     render(
       <table>
