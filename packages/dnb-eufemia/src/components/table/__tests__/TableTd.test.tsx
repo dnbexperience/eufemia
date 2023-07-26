@@ -16,7 +16,7 @@ describe('TableTd', () => {
         </tbody>
       </table>
     )
-    expect(document.querySelector('td')).not.toBeNull()
+    expect(document.querySelector('td')).toBeInTheDocument()
   })
 
   it('should contain children content', () => {

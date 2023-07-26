@@ -35,7 +35,9 @@ describe('UploadFileListCell', () => {
   it('renders the component', () => {
     render(<UploadFileListCell {...defaultProps} />)
 
-    expect(document.querySelector('.dnb-upload__file-cell')).not.toBeNull()
+    expect(
+      document.querySelector('.dnb-upload__file-cell')
+    ).toBeInTheDocument()
   })
 
   it('renders the error styling', () => {
@@ -161,7 +163,7 @@ describe('UploadFileListCell', () => {
 
       expect(
         screen.queryByTestId('exclamation medium icon')
-      ).not.toBeNull()
+      ).toBeInTheDocument()
     })
 
     it('renders the pdf icon', () => {
@@ -174,7 +176,9 @@ describe('UploadFileListCell', () => {
         />
       )
 
-      expect(screen.queryByTestId('file pdf medium icon')).not.toBeNull()
+      expect(
+        screen.queryByTestId('file pdf medium icon')
+      ).toBeInTheDocument()
     })
 
     it('renders the xls icon', () => {
@@ -187,7 +191,9 @@ describe('UploadFileListCell', () => {
         />
       )
 
-      expect(screen.queryByTestId('file xls medium icon')).not.toBeNull()
+      expect(
+        screen.queryByTestId('file xls medium icon')
+      ).toBeInTheDocument()
     })
 
     it('renders the ppt icon', () => {
@@ -200,7 +206,9 @@ describe('UploadFileListCell', () => {
         />
       )
 
-      expect(screen.queryByTestId('file ppt medium icon')).not.toBeNull()
+      expect(
+        screen.queryByTestId('file ppt medium icon')
+      ).toBeInTheDocument()
     })
 
     it('renders the csv icon', () => {
@@ -213,7 +221,9 @@ describe('UploadFileListCell', () => {
         />
       )
 
-      expect(screen.queryByTestId('file csv medium icon')).not.toBeNull()
+      expect(
+        screen.queryByTestId('file csv medium icon')
+      ).toBeInTheDocument()
     })
 
     it('renders the txt icon', () => {
@@ -226,7 +236,9 @@ describe('UploadFileListCell', () => {
         />
       )
 
-      expect(screen.queryByTestId('file txt medium icon')).not.toBeNull()
+      expect(
+        screen.queryByTestId('file txt medium icon')
+      ).toBeInTheDocument()
     })
 
     it('renders the xml icon', () => {
@@ -239,7 +251,9 @@ describe('UploadFileListCell', () => {
         />
       )
 
-      expect(screen.queryByTestId('file xml medium icon')).not.toBeNull()
+      expect(
+        screen.queryByTestId('file xml medium icon')
+      ).toBeInTheDocument()
     })
 
     it('renders the file icon as default', () => {
@@ -252,7 +266,7 @@ describe('UploadFileListCell', () => {
         />
       )
 
-      expect(screen.queryByTestId('file medium icon')).not.toBeNull()
+      expect(screen.queryByTestId('file medium icon')).toBeInTheDocument()
     })
   })
 
@@ -315,7 +329,7 @@ describe('UploadFileListCell', () => {
 
       const element = screen.getByRole('button')
 
-      expect(element).not.toBeNull()
+      expect(element).toBeInTheDocument()
     })
 
     it('renders the delete button text', () => {
@@ -354,7 +368,7 @@ describe('UploadFileListCell', () => {
 
       expect(
         document.querySelector('.dnb-progress-indicator')
-      ).not.toBeNull()
+      ).toBeInTheDocument()
     })
 
     it('does not render the loading state when not loading', () => {
@@ -368,7 +382,9 @@ describe('UploadFileListCell', () => {
         />
       )
 
-      expect(document.querySelector('.dnb-progress-indicator')).toBeNull()
+      expect(
+        document.querySelector('.dnb-progress-indicator')
+      ).not.toBeInTheDocument()
     })
   })
 })

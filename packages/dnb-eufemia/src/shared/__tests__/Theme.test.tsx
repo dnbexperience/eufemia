@@ -14,7 +14,7 @@ describe('Theme', () => {
     const props: ThemeAllProps = {}
 
     render(<Theme {...props} />)
-    expect(document.querySelector('.eufemia-theme')).not.toBeNull()
+    expect(document.querySelector('.eufemia-theme')).toBeInTheDocument()
   })
 
   it('sets name and variant as HTML classes', () => {

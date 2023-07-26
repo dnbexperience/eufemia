@@ -10,13 +10,11 @@ describe('TableTr', () => {
     render(
       <table>
         <tbody>
-          <tr>
-            <TableTr {...props} />
-          </tr>
+          <TableTr {...props} />
         </tbody>
       </table>
     )
-    expect(document.querySelector('tr')).not.toBeNull()
+    expect(document.querySelector('tr')).toBeInTheDocument()
   })
 
   it('should work without internal context', () => {

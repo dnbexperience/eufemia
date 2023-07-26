@@ -13,7 +13,7 @@ describe('Badge', () => {
     const props: BadgeProps = {}
     render(<Badge {...props} />)
 
-    expect(document.querySelector('.dnb-badge')).not.toBeNull()
+    expect(document.querySelector('.dnb-badge')).toBeInTheDocument()
   })
 
   it('renders content as text', () => {
@@ -54,7 +54,7 @@ describe('Badge', () => {
     const label = <span data-testid="react-node">ReactNode</span>
     render(<Badge label={label} content="something" />)
 
-    expect(screen.queryByTestId('react-node')).not.toBeNull()
+    expect(screen.queryByTestId('react-node')).toBeInTheDocument()
   })
 
   it('renders children as content', () => {
@@ -66,7 +66,7 @@ describe('Badge', () => {
       </Badge>
     )
 
-    expect(screen.queryByTestId('confetti icon')).not.toBeNull()
+    expect(screen.queryByTestId('confetti icon')).toBeInTheDocument()
   })
 
   it('warns when notification badge content is a string', () => {

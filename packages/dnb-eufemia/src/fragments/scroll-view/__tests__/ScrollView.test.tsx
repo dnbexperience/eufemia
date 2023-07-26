@@ -8,7 +8,7 @@ describe('ScrollView', () => {
     const props: ScrollViewAllProps = {}
 
     render(<ScrollView {...props} />)
-    expect(document.querySelector('.dnb-scroll-view')).not.toBeNull()
+    expect(document.querySelector('.dnb-scroll-view')).toBeInTheDocument()
   })
 
   it('should contain children content', () => {

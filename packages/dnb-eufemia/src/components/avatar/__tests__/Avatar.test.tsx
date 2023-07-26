@@ -16,7 +16,7 @@ describe('Avatar', () => {
       </Avatar.Group>
     )
 
-    expect(document.querySelector('.dnb-avatar')).not.toBeNull()
+    expect(document.querySelector('.dnb-avatar')).toBeInTheDocument()
   })
 
   it('renders children as text', () => {
@@ -27,7 +27,7 @@ describe('Avatar', () => {
       </Avatar.Group>
     )
 
-    expect(screen.queryAllByText(children)).toBeTruthy()
+    expect(screen.queryAllByText(children)[0]).toBeInTheDocument()
   })
 
   it('renders text children by first char uppercased', () => {
@@ -39,6 +39,7 @@ describe('Avatar', () => {
     )
 
     expect(screen.queryByText('E')).toBeInTheDocument()
+    expect(screen.queryByText('e')).not.toBeInTheDocument()
   })
 
   it('renders a label for screen readers when passing children as text', () => {
@@ -61,7 +62,7 @@ describe('Avatar', () => {
       </Avatar.Group>
     )
 
-    expect(screen.queryByTestId('confetti icon')).not.toBeNull()
+    expect(screen.queryByTestId('confetti icon')).toBeInTheDocument()
     expect(screen.queryByTestId('avatar-label')).toBeNull()
   })
 
@@ -84,7 +85,7 @@ describe('Avatar', () => {
       </Avatar.Group>
     )
 
-    expect(screen.findByAltText(img_alt)).not.toBeNull()
+    expect(screen.getByAltText(img_alt)).toBeInTheDocument()
     expect(screen.queryByRole('img').getAttribute('alt')).toBe(img_alt)
   })
 
@@ -207,7 +208,7 @@ describe('Avatar', () => {
           <Avatar>C</Avatar>
         </Avatar.Group>
       )
-      expect(screen.queryByTestId('react-node')).not.toBeNull()
+      expect(screen.queryByTestId('react-node')).toBeInTheDocument()
     })
 
     it('renders the "elements left"-avatar when having more avatars than maxElements', () => {
@@ -332,7 +333,7 @@ describe('Avatar', () => {
 
       expect(
         document.querySelector('.dnb-avatar__group--elements-left')
-      ).not.toBeNull()
+      ).toBeInTheDocument()
       expect(avatarsDisplayed).toHaveLength(3)
     })
   })

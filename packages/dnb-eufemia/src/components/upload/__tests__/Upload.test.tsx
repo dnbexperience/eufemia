@@ -33,7 +33,7 @@ describe('Upload', () => {
   it('renders the component', () => {
     render(<Upload {...defaultProps} />)
 
-    expect(document.querySelector('.dnb-upload')).not.toBeNull()
+    expect(document.querySelector('.dnb-upload')).toBeInTheDocument()
   })
 
   it('renders the upload file input section', () => {
@@ -41,7 +41,7 @@ describe('Upload', () => {
 
     expect(
       document.querySelector('.dnb-upload__file-input')
-    ).not.toBeNull()
+    ).toBeInTheDocument()
   })
 
   describe('Text', () => {
@@ -459,7 +459,7 @@ describe('Upload', () => {
         '.dnb-upload__file-cell'
       )
 
-      expect(emptyFileCell).toBeNull()
+      expect(emptyFileCell).not.toBeInTheDocument()
     })
 
     it('shows the file when the file is added', async () => {
@@ -483,13 +483,13 @@ describe('Upload', () => {
         '.dnb-upload__file-cell'
       )
 
-      expect(emptyFileCell).toBeNull()
+      expect(emptyFileCell).not.toBeInTheDocument()
 
       render(<MockComponent />)
 
       const fileCell = document.querySelector('.dnb-upload__file-cell')
 
-      expect(fileCell).not.toBeNull()
+      expect(fileCell).toBeInTheDocument()
     })
 
     it('removes the file from the list when clicking delete', () => {
@@ -512,7 +512,7 @@ describe('Upload', () => {
 
       const fileCell = document.querySelector('.dnb-upload__file-cell')
 
-      expect(fileCell).not.toBeNull()
+      expect(fileCell).toBeInTheDocument()
 
       const deleteButton = screen.queryByRole('button', {
         name: nb.deleteButton,
@@ -520,7 +520,9 @@ describe('Upload', () => {
 
       fireEvent.click(deleteButton)
 
-      expect(document.querySelector('.dnb-upload__file-cell')).toBeNull()
+      expect(
+        document.querySelector('.dnb-upload__file-cell')
+      ).not.toBeInTheDocument()
     })
 
     it('sets focus on choose button when clicking delete', () => {

@@ -20,7 +20,7 @@ describe('Icon component', () => {
     const props: IconProps = { icon: question }
 
     render(<Icon {...props} />)
-    expect(document.querySelector('.dnb-icon')).not.toBeNull()
+    expect(document.querySelector('.dnb-icon')).toBeInTheDocument()
   })
 
   it('has valid width and height prop', () => {
