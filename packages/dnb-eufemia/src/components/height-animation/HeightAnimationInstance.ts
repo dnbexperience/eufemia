@@ -54,11 +54,13 @@ export default class HeightAnimation {
 
   // Private methods
   _callOnStart() {
-    this.onStartStack.forEach((fn) => {
-      if (typeof fn === 'function') {
-        fn(this.state)
-      }
-    })
+    if (this.onStartStack) {
+      this.onStartStack.forEach((fn) => {
+        if (typeof fn === 'function') {
+          fn(this.state)
+        }
+      })
+    }
   }
   _callOnEnd() {
     this.isAnimating = false
@@ -69,11 +71,13 @@ export default class HeightAnimation {
 
     this._removeEndEvents()
 
-    this.onEndStack.forEach((fn) => {
-      if (typeof fn === 'function') {
-        fn(this.state)
-      }
-    })
+    if (this.onEndStack) {
+      this.onEndStack.forEach((fn) => {
+        if (typeof fn === 'function') {
+          fn(this.state)
+        }
+      })
+    }
   }
   reset() {
     this.state = 'init'
