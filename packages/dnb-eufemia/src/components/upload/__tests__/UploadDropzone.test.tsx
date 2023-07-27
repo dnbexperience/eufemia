@@ -40,7 +40,7 @@ describe('UploadDropzone', () => {
   it('renders the component', () => {
     render(<MockComponent {...defaultProps} />)
 
-    expect(getRootElement()).not.toBeNull()
+    expect(getRootElement()).toBeInTheDocument()
     expect(Array.from(getRootElement().classList)).toEqual(
       expect.arrayContaining([
         'dnb-space',

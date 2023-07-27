@@ -13,7 +13,7 @@ describe('Heading', () => {
     const props: SharedHProps = {}
 
     render(<H {...props} />)
-    expect(document.querySelector('h1')).not.toBeNull()
+    expect(document.querySelector('h1')).toBeInTheDocument()
   })
 
   const headings = [

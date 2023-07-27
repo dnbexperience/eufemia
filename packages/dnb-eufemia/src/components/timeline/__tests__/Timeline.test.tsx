@@ -17,13 +17,13 @@ describe('Timeline', () => {
 
     render(<Timeline {...props} />)
 
-    expect(document.querySelector('.dnb-timeline')).not.toBeNull()
+    expect(document.querySelector('.dnb-timeline')).toBeInTheDocument()
   })
 
   it('renders without properties', () => {
     render(<Timeline />)
 
-    expect(document.querySelector('.dnb-timeline')).not.toBeNull()
+    expect(document.querySelector('.dnb-timeline')).toBeInTheDocument()
   })
 
   it('renders a timeline with multiple items by data prop', () => {
@@ -178,7 +178,9 @@ describe('Timeline', () => {
 
       render(<TimelineItem {...props} />)
 
-      expect(document.querySelector('.dnb-timeline__item')).not.toBeNull()
+      expect(
+        document.querySelector('.dnb-timeline__item')
+      ).toBeInTheDocument()
     })
 
     it('renders title', () => {
@@ -236,7 +238,7 @@ describe('Timeline', () => {
       )
 
       const element = screen.queryByTestId('bell icon')
-      expect(element).not.toBeNull()
+      expect(element).toBeInTheDocument()
     })
 
     it('renders custom alt label', () => {

@@ -9,19 +9,25 @@ describe('VisuallyHidden', () => {
     const props: VisuallyHiddenAllProps = {}
     render(<VisuallyHidden {...props} />)
 
-    expect(document.querySelector('.dnb-visually-hidden')).not.toBeNull()
+    expect(
+      document.querySelector('.dnb-visually-hidden')
+    ).toBeInTheDocument()
   })
 
   it('renders without properties', () => {
     render(<VisuallyHidden />)
 
-    expect(document.querySelector('.dnb-visually-hidden')).not.toBeNull()
+    expect(
+      document.querySelector('.dnb-visually-hidden')
+    ).toBeInTheDocument()
   })
 
   it('renders the content by children prop', () => {
     render(<VisuallyHidden>children</VisuallyHidden>)
 
-    expect(document.querySelector('.dnb-visually-hidden')).not.toBeNull()
+    expect(
+      document.querySelector('.dnb-visually-hidden')
+    ).toBeInTheDocument()
   })
 
   it('renders the default className', () => {
@@ -74,7 +80,9 @@ describe('VisuallyHidden', () => {
       </Provider>
     )
 
-    expect(document.querySelector('.dnb-visually-hidden')).not.toBeNull()
+    expect(
+      document.querySelector('.dnb-visually-hidden')
+    ).toBeInTheDocument()
   })
 
   describe('VisuallyHidden aria', () => {

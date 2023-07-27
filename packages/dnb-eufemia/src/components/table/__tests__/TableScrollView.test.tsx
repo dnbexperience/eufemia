@@ -18,7 +18,7 @@ describe('Table.ScrollView', () => {
     render(<ScrollView {...props} />)
     expect(
       document.querySelector('.dnb-table__scroll-view')
-    ).not.toBeNull()
+    ).toBeInTheDocument()
   })
 
   it('should support spacing props', () => {

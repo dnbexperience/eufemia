@@ -34,7 +34,7 @@ describe('UploadFileInput', () => {
     render(<UploadFileInput />, {
       wrapper: makeWrapper(),
     })
-    expect(screen.getByRole('button')).not.toBeNull()
+    expect(screen.getByRole('button')).toBeInTheDocument()
   })
 
   it('renders the upload button text', () => {
@@ -55,7 +55,7 @@ describe('UploadFileInput', () => {
 
     expect(
       document.querySelector('.dnb-upload__file-input')
-    ).not.toBeNull()
+    ).toBeInTheDocument()
   })
 
   it('accepts multiple files by default', () => {
@@ -86,7 +86,7 @@ describe('UploadFileInput', () => {
     })
     const element = document.querySelector('.dnb-upload__file-input')
 
-    expect(element).not.toBeNull()
+    expect(element).toBeInTheDocument()
     expect(element.getAttribute('class')).toMatch('dnb-upload__file-input')
   })
 

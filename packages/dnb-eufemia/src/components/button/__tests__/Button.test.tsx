@@ -24,7 +24,7 @@ describe('Button component', () => {
     const props: ButtonProps = {}
 
     render(<Button {...props} />)
-    expect(document.querySelector('button')).not.toBeNull()
+    expect(document.querySelector('button')).toBeInTheDocument()
   })
 
   it('has a button tag', () => {

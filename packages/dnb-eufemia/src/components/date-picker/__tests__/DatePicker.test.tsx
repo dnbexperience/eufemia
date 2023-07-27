@@ -33,7 +33,7 @@ describe('DatePicker component', () => {
     const props: DatePickerProps = {}
 
     render(<DatePicker {...props} />)
-    expect(document.querySelector('input')).not.toBeNull()
+    expect(document.querySelector('input')).toBeInTheDocument()
   })
 
   // for the integration tests
