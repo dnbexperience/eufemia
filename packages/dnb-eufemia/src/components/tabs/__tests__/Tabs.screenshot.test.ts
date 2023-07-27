@@ -23,16 +23,14 @@ describe('Tabs', () => {
 
   it('have to match when used with a single children as react element', async () => {
     const screenshot = await makeScreenshot({
-      selector:
-        '[data-visual-test="tabs-single-children-react-element"] .dnb-tabs__tabs',
+      selector: '[data-visual-test="tabs-single-children-react-element"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
   it('have to match when used with a single element in data', async () => {
     const screenshot = await makeScreenshot({
-      selector:
-        '[data-visual-test="tabs-single-element-data"] .dnb-tabs__tabs',
+      selector: '[data-visual-test="tabs-single-element-data"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
