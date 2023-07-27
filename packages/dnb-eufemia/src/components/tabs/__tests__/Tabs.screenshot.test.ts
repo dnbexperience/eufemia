@@ -21,7 +21,7 @@ describe('Tabs', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match single single children as react element', async () => {
+  it('have to match when used with a single children as react element', async () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="tabs-single-children-react-element"] .dnb-tabs__tabs',
