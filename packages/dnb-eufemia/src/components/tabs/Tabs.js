@@ -199,54 +199,69 @@ export default class Tabs extends React.PureComponent {
   }
 
   static getData(props) {
+    const addReactElement = (list, reactElem, reactElemIndex) => {
+      if (
+        reactElem.props &&
+        reactElem.props.displayName === 'CustomContent' // we use this solution, as Component.displayName
+      ) {
+        // tabs data from main prop
+        const dataProps =
+          (props.tabs &&
+            Array.isArray(props.tabs) &&
+            props.tabs[reactElemIndex]) ||
+          {}
+
+        // props from the "CustomContent" Component
+        const componentProps = { ...reactElem.props }
+        if (componentProps.title === null) {
+          delete componentProps.title
+        }
+
+        const {
+          title,
+          key: _key,
+          hash,
+          ...rest
+        } = {
+          ...dataProps,
+          ...componentProps,
+          ...{ children: null }, // remove children, if there is some
+        }
+
+        list.push({
+          title,
+          key: (!_key && hash ? hash : _key) || slugify(title),
+          content: reactElem, // can be a Node or a Function
+          ...rest,
+        })
+      }
+    }
+
     let res = []
 
     // check if we have to use the children prop to prepare our data
     const data =
       !props.data && props.children ? props.children : props.data
 
-    // if it is a React Component - collect data from Tabs.Content component
+    // if it is a array of React Components - collect data from Tabs.Content component
     if (
       Array.isArray(props.children) &&
       (typeof props.children[0] === 'function' ||
         React.isValidElement(props.children[0]))
     ) {
-      res = props.children.reduce((acc, content, i) => {
-        if (
-          content.props &&
-          content.props.displayName === 'CustomContent' // we use this solution, as Component.displayName
-        ) {
-          // tabs data from main prop
-          const dataProps =
-            (props.tabs && Array.isArray(props.tabs) && props.tabs[i]) ||
-            {}
-
-          // props from the "CustomContent" Component
-          const componentProps = { ...content.props }
-          if (componentProps.title === null) {
-            delete componentProps.title
-          }
-
-          const {
-            title,
-            key: _key,
-            hash,
-            ...rest
-          } = {
-            ...dataProps,
-            ...componentProps,
-            ...{ children: null }, // remove children, if there is some
-          }
-
-          acc.push({
-            title,
-            key: (!_key && hash ? hash : _key) || slugify(title),
-            content, // can be a Node or a Function
-            ...rest,
-          })
-        }
-        return acc
+      res = props.children.reduce((list, reactElem, i) => {
+        addReactElement(list, reactElem, i)
+        return list
       }, [])
+    }
+
+    // if it is a single React Component - collect data from Tabs.Content component
+    if (
+      !Array.isArray(props.children) &&
+      (typeof props.children === 'function' ||
+        React.isValidElement(props.children))
+    ) {
+      addReactElement(res, props.children)
     }
 
     // continue, while the children didn't contain our data

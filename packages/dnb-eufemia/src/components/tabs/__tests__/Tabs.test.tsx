@@ -546,6 +546,42 @@ describe('A single Tab component', () => {
     expect(testKey).toBe('third')
   })
 
+  it('has to work with "Tabs.Content" as a single children', () => {
+    render(
+      <Tabs>
+        <Tabs.Content title="single title">
+          <div>single</div>
+        </Tabs.Content>
+      </Tabs>
+    )
+
+    expect(
+      document.querySelector('div.dnb-tabs__content__inner').textContent
+    ).toBe('single')
+    expect(
+      document.querySelector('button span.dnb-tabs__button__title')
+        .textContent
+    ).toBe('single title')
+  })
+
+  it('has to work with a single element for data property', () => {
+    render(
+      <Tabs
+        data={[
+          { title: 'single title', key: 1, content: <div>single</div> },
+        ]}
+      />
+    )
+
+    expect(
+      document.querySelector('div.dnb-tabs__content').textContent
+    ).toBe('single')
+    expect(
+      document.querySelector('button span.dnb-tabs__button__title')
+        .textContent
+    ).toBe('single title')
+  })
+
   it('should render in StrictMode', () => {
     render(
       <React.StrictMode>

@@ -21,6 +21,22 @@ describe('Tabs', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match single single children as react element', async () => {
+    const screenshot = await makeScreenshot({
+      selector:
+        '[data-visual-test="tabs-single-children-react-element"] .dnb-tabs__tabs',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match single single element in data', async () => {
+    const screenshot = await makeScreenshot({
+      selector:
+        '[data-visual-test="tabs-single-element-data"] .dnb-tabs__tabs',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match a tablist with a click handler', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="tabs-clickhandler"] .dnb-tabs__tabs',
