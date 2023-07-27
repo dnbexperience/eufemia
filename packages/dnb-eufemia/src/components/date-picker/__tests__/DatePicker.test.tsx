@@ -29,6 +29,13 @@ beforeEach(() => {
 })
 
 describe('DatePicker component', () => {
+  it('renders with props as an object', () => {
+    const props: DatePickerProps = {}
+
+    render(<DatePicker {...props} />)
+    expect(document.querySelector('input')).toBeInTheDocument()
+  })
+
   // for the integration tests
   const defaultProps: DatePickerProps = {
     no_animation: true,

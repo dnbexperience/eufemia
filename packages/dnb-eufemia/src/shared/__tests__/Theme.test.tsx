@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import Theme from '../Theme'
+import Theme, { ThemeAllProps } from '../Theme'
 import {
   Autocomplete,
   Dialog,
@@ -10,6 +10,13 @@ import {
 } from '../../components'
 
 describe('Theme', () => {
+  it('renders with props as an object', () => {
+    const props: ThemeAllProps = {}
+
+    render(<Theme {...props} />)
+    expect(document.querySelector('.eufemia-theme')).toBeInTheDocument()
+  })
+
   it('sets name and variant as HTML classes', () => {
     render(
       <Theme name="eiendom" variant="soft">

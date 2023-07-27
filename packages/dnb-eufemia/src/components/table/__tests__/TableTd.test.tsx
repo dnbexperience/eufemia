@@ -1,9 +1,24 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import TableTd from '../TableTd'
+import TableTd, { TableTdProps } from '../TableTd'
 import TableAccordionContent from '../TableAccordionContent'
 
 describe('TableTd', () => {
+  it('renders with props as an object', () => {
+    const props: TableTdProps = {}
+
+    render(
+      <table>
+        <tbody>
+          <tr>
+            <TableTd {...props} />
+          </tr>
+        </tbody>
+      </table>
+    )
+    expect(document.querySelector('td')).toBeInTheDocument()
+  })
+
   it('should contain children content', () => {
     render(
       <table>

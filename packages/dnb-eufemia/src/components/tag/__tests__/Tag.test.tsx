@@ -13,14 +13,14 @@ describe('Tag Group', () => {
     const props: TagGroupProps = { label: 'label' }
 
     render(<Tag.Group {...props} />)
-    expect(document.querySelector('.dnb-tag__group')).not.toBeNull()
+    expect(document.querySelector('.dnb-tag__group')).toBeInTheDocument()
   })
 
   it('renders without children', () => {
     render(<Tag.Group label="tags" />)
 
-    expect(document.querySelector('.dnb-tag__group')).not.toBeNull()
-    expect(document.querySelector('.dnb-tag')).toBeNull()
+    expect(document.querySelector('.dnb-tag__group')).toBeInTheDocument()
+    expect(document.querySelector('.dnb-tag')).not.toBeInTheDocument()
   })
 
   it('renders the label as string', () => {
@@ -33,7 +33,7 @@ describe('Tag Group', () => {
     const label = <span data-testid="react-node">ReactNode</span>
     render(<Tag.Group label={label} />)
 
-    expect(screen.queryByTestId('react-node')).not.toBeNull()
+    expect(screen.queryByTestId('react-node')).toBeInTheDocument()
   })
 
   it('renders a tag group with multiple tag elements by children', () => {
@@ -105,7 +105,7 @@ describe('Tag', () => {
         <Tag {...props} />
       </Tag.Group>
     )
-    expect(document.querySelector('.dnb-tag')).not.toBeNull()
+    expect(document.querySelector('.dnb-tag')).toBeInTheDocument()
   })
 
   it('renders without properties', () => {
@@ -115,7 +115,7 @@ describe('Tag', () => {
       </Tag.Group>
     )
 
-    expect(document.querySelector('.dnb-tag')).not.toBeNull()
+    expect(document.querySelector('.dnb-tag')).toBeInTheDocument()
   })
 
   it('renders a tag with content by text prop', () => {
@@ -193,7 +193,7 @@ describe('Tag', () => {
       </Tag.Group>
     )
 
-    expect(screen.queryByRole('button')).toBeNull()
+    expect(screen.queryByRole('button')).not.toBeInTheDocument()
     expect(screen.queryByText(text)).toBeInTheDocument()
   })
 
@@ -249,7 +249,7 @@ describe('Tag', () => {
       expect(
         document.getElementsByClassName(clickableClassName)
       ).toHaveLength(1)
-      expect(screen.queryByRole('button')).not.toBeNull()
+      expect(screen.queryByRole('button')).toBeInTheDocument()
     })
 
     it('fires onClick event if onClick is defined', () => {
@@ -298,7 +298,7 @@ describe('Tag', () => {
       expect(
         document.getElementsByClassName(clickableClassName)
       ).toHaveLength(1)
-      expect(screen.queryByRole('button')).not.toBeNull()
+      expect(screen.queryByRole('button')).toBeInTheDocument()
     })
 
     it('fires onClick event if onDelete is defined', () => {
@@ -363,7 +363,7 @@ describe('Tag', () => {
         </Tag.Group>
       )
 
-      expect(screen.getByTitle(nb.removeIconTitle)).not.toBeNull()
+      expect(screen.getByTitle(nb.removeIconTitle)).toBeInTheDocument()
     })
 
     it('fires onClick event if both onClick and onDelete are defined', () => {
@@ -442,7 +442,7 @@ describe('Tag', () => {
       </Provider>
     )
 
-    expect(document.querySelector('.dnb-button__text')).not.toBeNull()
+    expect(document.querySelector('.dnb-button__text')).toBeInTheDocument()
   })
 })
 

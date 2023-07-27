@@ -1,9 +1,16 @@
 import React from 'react'
 import { act, render } from '@testing-library/react'
-import ScrollView from '../ScrollView'
+import ScrollView, { ScrollViewAllProps } from '../ScrollView'
 import { setResizeObserver } from './__mocks__/ResizeObserver'
 
 describe('ScrollView', () => {
+  it('renders with props as an object', () => {
+    const props: ScrollViewAllProps = {}
+
+    render(<ScrollView {...props} />)
+    expect(document.querySelector('.dnb-scroll-view')).toBeInTheDocument()
+  })
+
   it('should contain children content', () => {
     render(<ScrollView>overflow content</ScrollView>)
 

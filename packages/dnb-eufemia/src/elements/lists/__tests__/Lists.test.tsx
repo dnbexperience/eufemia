@@ -15,7 +15,7 @@ describe('Dl', () => {
     const props: DlAllProps = {}
     render(<Dl {...props} />)
 
-    expect(document.querySelector('.dnb-dl')).not.toBeNull()
+    expect(document.querySelector('.dnb-dl')).toBeInTheDocument()
   })
 
   it('should support spacing props', () => {
@@ -103,7 +103,7 @@ describe('Dl', () => {
       const props: DtProps = {}
       render(<Dt {...props} />)
 
-      expect(document.querySelector('.dnb-dt')).not.toBeNull()
+      expect(document.querySelector('.dnb-dt')).toBeInTheDocument()
     })
   })
 
@@ -112,7 +112,7 @@ describe('Dl', () => {
       const props: DdProps = { children: 'children' }
       render(<Dd {...props} />)
 
-      expect(document.querySelector('.dnb-dd')).not.toBeNull()
+      expect(document.querySelector('.dnb-dd')).toBeInTheDocument()
     })
   })
 })

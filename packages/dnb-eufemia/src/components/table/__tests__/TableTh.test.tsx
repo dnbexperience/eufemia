@@ -1,10 +1,25 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import TableTh from '../TableTh'
+import TableTh, { TableThProps } from '../TableTh'
 import TableSortButton from '../TableSortButton'
 import TableHelpButton from '../TableHelpButton'
 
 describe('TableTh', () => {
+  it('renders with props as an object', () => {
+    const props: TableThProps = {}
+
+    render(
+      <table>
+        <tbody>
+          <tr>
+            <TableTh {...props} />
+          </tr>
+        </tbody>
+      </table>
+    )
+    expect(document.querySelector('th')).toBeInTheDocument()
+  })
+
   it('should contain children content', () => {
     render(
       <table>

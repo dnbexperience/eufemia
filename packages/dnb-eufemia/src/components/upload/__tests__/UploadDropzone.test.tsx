@@ -26,7 +26,7 @@ afterEach(() => {
   jest.resetAllMocks()
 })
 
-describe('Upload', () => {
+describe('UploadDropzone', () => {
   const MockComponent = (props: Partial<UploadAllProps>) => {
     return (
       <UploadContext.Provider value={defaultContext}>
@@ -40,7 +40,7 @@ describe('Upload', () => {
   it('renders the component', () => {
     render(<MockComponent {...defaultProps} />)
 
-    expect(getRootElement()).not.toBeNull()
+    expect(getRootElement()).toBeInTheDocument()
     expect(Array.from(getRootElement().classList)).toEqual(
       expect.arrayContaining([
         'dnb-space',

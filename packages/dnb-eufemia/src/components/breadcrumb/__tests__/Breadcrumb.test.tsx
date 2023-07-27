@@ -18,7 +18,7 @@ describe('Breadcrumb', () => {
     const props: BreadcrumbProps = {}
     render(<Breadcrumb {...props} />)
 
-    expect(screen.queryByRole('button')).not.toBeNull()
+    expect(screen.queryByRole('button')).toBeInTheDocument()
   })
 
   it('renders a breadcrumb with multiple items by data prop', () => {
@@ -136,11 +136,15 @@ describe('Breadcrumb', () => {
       />
     )
 
-    expect(document.querySelector('.dnb-breadcrumb__animation')).toBeNull()
+    expect(
+      document.querySelector('.dnb-breadcrumb__animation')
+    ).not.toBeInTheDocument()
 
     fireEvent.click(screen.getByRole('button'))
 
-    expect(document.querySelector('.dnb-breadcrumb__animation')).toBeNull()
+    expect(
+      document.querySelector('.dnb-breadcrumb__animation')
+    ).not.toBeInTheDocument()
   })
 
   it('will handle last item as current', () => {
@@ -239,7 +243,7 @@ describe('Breadcrumb', () => {
       const props: BreadcrumbItemProps = {}
       render(<BreadcrumbItem {...props} />)
 
-      expect(screen.queryByRole('listitem')).not.toBeNull()
+      expect(screen.queryByRole('listitem')).toBeInTheDocument()
     })
 
     it('renders breadcrumbitem as a link', () => {
@@ -277,7 +281,7 @@ describe('Breadcrumb', () => {
       render(<BreadcrumbItem text="Just text" icon={CustomIcon} />)
 
       const element = screen.queryByTestId('bell icon')
-      expect(element).not.toBeNull()
+      expect(element).toBeInTheDocument()
     })
 
     it('renders a skeleton if skeleton is true', () => {
