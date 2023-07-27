@@ -243,7 +243,7 @@ export default class Tabs extends React.PureComponent {
     const data =
       !props.data && props.children ? props.children : props.data
 
-    // if it is a array of React Components - collect data from Tabs.Content component
+    // if it is an array of React Components - collect data from Tabs.Content component
     if (
       Array.isArray(props.children) &&
       (typeof props.children[0] === 'function' ||
