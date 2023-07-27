@@ -3,6 +3,13 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.4.2](https://github.com/dnbexperience/eufemia/compare/v10.4.1...v10.4.2) (2023-07-27)
+
+
+### :bug: Bug Fixes
+
+* **Tabs:** fix error with a single Tabs.Content as children ([#2534](https://github.com/dnbexperience/eufemia/issues/2534)) ([215e52c](https://github.com/dnbexperience/eufemia/commit/215e52c7eb1e4c4cd2c2cdf5a4f1b9b8e1f2adfc))
+
 ## [10.4.1](https://github.com/dnbexperience/eufemia/compare/v10.4.0...v10.4.1) (2023-07-25)
 
 
