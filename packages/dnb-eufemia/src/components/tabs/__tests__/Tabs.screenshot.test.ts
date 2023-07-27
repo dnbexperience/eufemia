@@ -29,7 +29,7 @@ describe('Tabs', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match single single element in data', async () => {
+  it('have to match when used with a single element in data', async () => {
     const screenshot = await makeScreenshot({
       selector:
         '[data-visual-test="tabs-single-element-data"] .dnb-tabs__tabs',
