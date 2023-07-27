@@ -52,10 +52,20 @@ export const TabsSandbox = () => {
       <Box>
         <Tabs tabs_style="mint-green" content_style="black-3">
           <Tabs.Content title="First">
-            <H2>First</H2>
+            <div>hello1</div>
+          </Tabs.Content>
+        </Tabs>
+        <Tabs
+          tabs_style="mint-green"
+          content_style="black-3"
+          data={[{ title: 'First', key: 1, content: <div>hello1</div> }]}
+        />
+        <Tabs tabs_style="mint-green" content_style="black-3">
+          <Tabs.Content title="First">
+            <div>hello1</div>
           </Tabs.Content>
           <Tabs.Content title="Second">
-            <H2>Second</H2>
+            <div>hello2</div>
           </Tabs.Content>
         </Tabs>
       </Box>
