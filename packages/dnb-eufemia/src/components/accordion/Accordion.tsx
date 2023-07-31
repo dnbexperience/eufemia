@@ -30,6 +30,7 @@ import AccordionProviderContext from './AccordionProviderContext'
 import Context from '../../shared/Context'
 
 import { AccordionStore, Store, rememberWarning } from './AccordionStore'
+import { accordionDefaultProps } from './defaultProps'
 
 export type AccordionVariant = 'plain' | 'default' | 'outlined' | 'filled'
 
@@ -150,41 +151,6 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
     on_change?: (...args: any[]) => any
     on_state_update?: (...args: any[]) => any
   }
-
-export const accordionDefaultProps: AccordionProps & GroupProps = {
-  title: null,
-  expanded: null,
-  no_animation: null,
-  expanded_ssr: null,
-  prerender: null,
-  prevent_rerender: null,
-  prevent_rerender_conditional: null,
-  remember_state: null,
-  contentRef: null,
-  flush_remembered_state: null,
-  single_container: null,
-  variant: 'outlined',
-  left_component: null,
-  allow_close_all: null,
-  disabled: null,
-  skeleton: null,
-  id: null,
-  group: null,
-  element: null,
-  heading: null,
-  heading_level: null,
-  icon: null,
-  icon_position: null,
-  icon_size: 'medium',
-  attributes: null,
-  class: null,
-
-  className: null,
-  children: null,
-
-  on_change: null,
-  on_state_update: null,
-} as const
 
 function Accordion(props: AccordionProps) {
   const context = useContext(AccordionProviderContext)
