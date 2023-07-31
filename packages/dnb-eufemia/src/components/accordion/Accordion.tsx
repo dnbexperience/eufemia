@@ -343,7 +343,7 @@ function Accordion(props: AccordionProps) {
               props,
               accordionDefaultProps,
               context, // group context
-              nestedContext, // internal context
+              nestedContext as Record<string, unknown>, // internal context
               { skeleton: globalContext?.skeleton },
               globalContext.Accordion, // global context
               globalContext.translation.Accordion
