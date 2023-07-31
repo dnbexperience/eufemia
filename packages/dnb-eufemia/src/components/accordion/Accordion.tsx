@@ -545,7 +545,8 @@ Accordion.Header = AccordionHeader
 Accordion.Content = AccordionContent
 
 Accordion.Group = Group
-Accordion.Group['Store'] = (group: string, id: string = null) => {
+
+Group.Store = (group: string, id: string = null) => {
   return new Store({ group, id })
 }
 

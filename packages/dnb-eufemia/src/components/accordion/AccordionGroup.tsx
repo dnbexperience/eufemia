@@ -19,7 +19,7 @@ import Context from '../../shared/Context'
 import AccordionGroupContext from './AccordionProviderContext'
 
 import type { GroupProps } from './Accordion'
-import { accordionDefaultProps } from './AccordionPropTypes'
+import { accordionDefaultProps } from './Accordion'
 
 export type AccordionGroupProps = React.HTMLProps<HTMLElement> &
   GroupProps & {
