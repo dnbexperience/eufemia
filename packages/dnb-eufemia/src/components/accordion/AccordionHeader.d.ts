@@ -9,6 +9,7 @@ export interface AccordionHeaderTitleProps extends SpacingProps {
   children?: React.ReactNode;
 }
 declare const AccordionHeaderTitle: React.FC<AccordionHeaderTitleProps>;
+
 export interface AccordionHeaderDescriptionProps extends SpacingProps {
   children?: React.ReactNode;
 }
