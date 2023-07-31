@@ -5,7 +5,7 @@
 
 import React from 'react'
 
-type AccordionContextProps = {
+type AccordionGroupContextProps = {
   expanded?: boolean
   group?: string
   expanded_ssr?: boolean
@@ -16,8 +16,7 @@ type AccordionContextProps = {
   onInit?: (...args: any[]) => any
 }
 
-const AccordionGroupContext = React.createContext<AccordionContextProps>(
-  {}
-)
+const AccordionGroupContext =
+  React.createContext<AccordionGroupContextProps>({})
 
 export default AccordionGroupContext
