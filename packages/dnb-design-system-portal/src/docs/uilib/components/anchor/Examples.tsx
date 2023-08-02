@@ -195,6 +195,7 @@ export const AnchorExampleIcons = () => (
             href="/uilib/components/anchor"
             icon="bell"
             iconPosition="right"
+            className="dnb-anchor--inline"
           >
             Inside a Paragraph
           </Anchor>
@@ -335,6 +336,25 @@ export const AnchorSbankenGoto = () => (
         >
           Focus
         </Anchor>
+      </Example>
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const AnchorSbankenInline = () => (
+  <Wrapper>
+    <ComponentBox hideCode scope={{ Example }}>
+      <Example data-visual-test="anchor-inline">
+        <P>
+          A paragraph with an{' '}
+          <Anchor
+            href="/uilib/components/anchor"
+            className="dnb-anchor--inline"
+          >
+            inline anchor
+          </Anchor>{' '}
+          uses a different styling.
+        </P>
       </Example>
     </ComponentBox>
   </Wrapper>

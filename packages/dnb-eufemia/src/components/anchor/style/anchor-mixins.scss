@@ -103,9 +103,13 @@
   @content;
 }
 
-@mixin anchorBackground($color) {
-  box-shadow: inset 100vw 100vw 0 0 $color, -0.125em 0 0 0 $color,
-    0.125em 0 0 0 $color;
+@mixin anchorBackground($color, $overflow: 0.125em) {
+  @if $overflow {
+    box-shadow: inset 100vw 100vw 0 0 $color, -$overflow 0 0 0 $color,
+      $overflow 0 0 0 $color;
+  } @else {
+    box-shadow: inset 100vw 100vw 0 0 $color;
+  }
 }
 
 // other styles
@@ -196,7 +200,8 @@
     }
   }
 
-  transition: box-shadow 200ms ease-in-out, border-radius 200ms ease-in-out;
+  transition: box-shadow 200ms ease-in-out, border-radius 200ms ease-in-out,
+    background 200ms ease-in-out;
 
   [data-visual-test-wrapper] & {
     transition: none;
