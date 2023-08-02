@@ -1,16 +1,16 @@
 @use '../anchor-mixins.scss';
 
 @mixin anchorHover() {
-  color: var(--sb-color-text);
   --anchor-background: var(--sb-color-green-dark);
+  color: var(--sb-color-text);
 
   transition: none;
   border-radius: 0.5em;
 }
 
 @mixin anchorActive() {
-  color: var(--sb-color-text);
   --anchor-background: var(--sb-color-green);
+  color: var(--sb-color-text);
 
   transition: none;
   border-radius: 0.5em;
@@ -44,12 +44,13 @@
   font-weight: var(--sb-font-weight-bold);
   color: var(--sb-color-gray-dark-3);
   text-decoration-color: var(--sb-color-green-dark);
-  padding: 0.15625em 0.25em;
+  padding: 0.15625em 0;
   border-radius: 0.5em;
 
   $anchor-icon-gutter: 0.125em;
 
   @include anchor-mixins.anchorBackground(var(--anchor-background), null);
+
   &:hover {
     @include anchorHover();
   }
@@ -63,7 +64,6 @@
   }
 
   &.dnb-anchor--icon-left {
-    padding-left: 0;
     margin-left: 1em + $anchor-icon-gutter;
 
     .dnb-icon {
@@ -74,7 +74,6 @@
   }
 
   &.dnb-anchor--icon-right {
-    padding-right: 0;
     margin-right: 1em + $anchor-icon-gutter;
 
     .dnb-icon {
@@ -84,17 +83,38 @@
     }
   }
 
-  &:not(.dnb-anchor--no-underline):not(.dnb-anchor--has-icon):not(.anchor-hash):not(.dnb-anchor--inline) {
+  &.dnb-anchor[target='_blank']:not(:empty, .dnb-anchor--no-icon) {
+    padding-right: 0.25em;
+    &::after {
+      position: initial;
+      display: inline-block;
+      width: calc(0.9em + 0.25em + 0.125em);
+      height: 0.9em;
+      line-height: 0.9em;
+      margin-left: 0;
+      margin-right: 0;
+      background-position: right;
+      background-size: contain;
+    }
+  }
+
+  &--no-underline,
+  &--has-icon,
+  &--inline {
+    @include anchor-mixins.anchorBackground(
+      var(--anchor-background),
+      0.25em
+    );
+  }
+
+  &:not(.dnb-anchor--no-underline):not(.dnb-anchor--has-icon):not(.anchor-hash):not(.dnb-anchor--inline):not(.dnb-anchor--no-style) {
     &:not(.dnb-anchor--icon-left) {
-      padding-left: 0;
       &::before {
         text-decoration-color: var(--sb-color-green-dark);
         content: '\00a0';
       }
     }
-
-    &:not(.dnb-anchor--icon-right):not(.dnb-anchor[target='_blank']) {
-      padding-right: 0;
+    &:not(.dnb-anchor--icon-right) {
       &::after {
         text-decoration-color: var(--sb-color-green-dark);
         content: '\00a0';
@@ -121,13 +141,7 @@
 }
 
 .dnb-anchor--inline {
-  padding-left: 0;
-  padding-right: 0;
-  text-decoration-color: currentColor;
-  @include anchor-mixins.anchorBackground(
-    var(--anchor-background),
-    0.25em
-  );
+  text-decoration-color: currentcolor;
 }
 
 // TODO: add correct contrast styling when designs are in place
