@@ -10,7 +10,8 @@ import NationalIdentityNumberComponent from './NationalIdentityNumber'
 import PhoneNumberComponent from './PhoneNumber'
 import OrganizationNumberComponent from './OrganizationNumber'
 import PostalCodeAndCityComponent from './PostalCodeAndCity'
-import SelectComponent from './Select'
+import SelectionComponent from './Selection'
+import ArraySelectionComponent from './ArraySelection';
 import OptionComponent from './Option'
 import SelectCountryComponent from './SelectCountry'
 
@@ -27,7 +28,8 @@ const Field = {
   OrganizationNumber: OrganizationNumberComponent,
   PhoneNumber: PhoneNumberComponent,
   PostalCodeAndCity: PostalCodeAndCityComponent,
-  Select: SelectComponent,
+  Selection: SelectionComponent,
+  ArraySelection: ArraySelectionComponent,
   Option: OptionComponent,
   SelectCountry: SelectCountryComponent,
 }

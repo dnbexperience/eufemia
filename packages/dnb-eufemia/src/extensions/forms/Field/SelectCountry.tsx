@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
-import Select, { Props as SelectProps } from './Select'
+import Selection, { Props as SelectionProps } from './Selection'
 import Option from './Option'
 import countries from '../constants/countries'
 import SharedContext from '../../../shared/Context'
 
-export type Props = SelectProps
+export type Props = SelectionProps
 
 export default function FieldSelectCountry(props: Props) {
   const sharedContext = useContext(SharedContext)
@@ -24,7 +24,7 @@ export default function FieldSelectCountry(props: Props) {
   }
 
   return (
-    <Select {...selectComponentProps}>
+    <Selection {...selectComponentProps}>
       {countries.map((country) => (
         <Option
           key={country.iso}
@@ -32,6 +32,6 @@ export default function FieldSelectCountry(props: Props) {
           title={country.name}
         />
       ))}
-    </Select>
+    </Selection>
   )
 }

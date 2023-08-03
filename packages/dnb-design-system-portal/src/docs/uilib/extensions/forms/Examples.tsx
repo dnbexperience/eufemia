@@ -127,8 +127,8 @@ export const VisibilityBasedOnData = () => {
           <Layout.Card stack>
             <Layout.SubHeading>Name</Layout.SubHeading>
 
-            <Field.FirstName value="John" />
-            <Field.LastName value="Smith" />
+            <Field.FirstName path="/firstName" />
+            <Field.LastName path="/lastName" />
           </Layout.Card>
         </Layout.Section>
         <Field.Boolean

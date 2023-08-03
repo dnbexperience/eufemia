@@ -12,7 +12,6 @@ export default function ListFeatureComponents() {
           frontmatter: {
             title: { ne: null, nin: "Fragments" }
             draft: { ne: true }
-            baseComponent: { ne: true }
           }
           internal: {
             contentFilePath: {

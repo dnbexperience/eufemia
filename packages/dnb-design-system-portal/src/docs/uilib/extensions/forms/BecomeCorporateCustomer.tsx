@@ -52,7 +52,7 @@ export const BecomeCorporateCustomer = () => {
                 path: '/companyCity',
               }}
             />
-            <Field.Select
+            <Field.Selection
               variant="radio"
               path="/postalAddressSelect"
               label="Postadresse (ønsket sted for tilsendt post)"
@@ -62,8 +62,8 @@ export const BecomeCorporateCustomer = () => {
                 title="Samme som forretningsadresse"
               />
               <Field.Option value="other" title="Annet" />
-            </Field.Select>
-            <Field.Select
+            </Field.Selection>
+            <Field.Selection
               variant="radio"
               path="/hqAddress"
               label="Hovedkontoradresse"
@@ -77,7 +77,7 @@ export const BecomeCorporateCustomer = () => {
                 title="Samme som postadresse"
               />
               <Field.Option value="other" title="Annet" />
-            </Field.Select>
+            </Field.Selection>
             <Field.SelectCountry
               path="/countryOfEstablishment"
               label="Etableringsland og sånt som det"

@@ -8,10 +8,10 @@ describe('Select', () => {
   describe('props', () => {
     it('renders selected option', () => {
       render(
-        <Field.Select value="bar">
+        <Field.Selection value="bar">
           <Field.Option value="foo">Fooo</Field.Option>
           <Field.Option value="bar">Baar</Field.Option>
-        </Field.Select>
+        </Field.Selection>
       )
 
       expect(screen.getByText('Baar')).toBeInTheDocument()
@@ -21,12 +21,12 @@ describe('Select', () => {
 
     it('renders given options', async () => {
       render(
-        <Field.Select value="bar">
+        <Field.Selection value="bar">
           <Field.Option value="one">One</Field.Option>
           <Field.Option value="two">Two</Field.Option>
           <Field.Option value="three">Three o'clock</Field.Option>
           <Field.Option value="four">Four o'clock rock</Field.Option>
-        </Field.Select>
+        </Field.Selection>
       )
 
       const select = screen.getByTestId('field-select')
@@ -41,10 +41,10 @@ describe('Select', () => {
 
     it('renders placeholder', () => {
       render(
-        <Field.Select placeholder="Select something">
+        <Field.Selection placeholder="Select something">
           <Field.Option value="foo">Fooo</Field.Option>
           <Field.Option value="bar">Baar</Field.Option>
-        </Field.Select>
+        </Field.Selection>
       )
       // getByText instead of getByPlaceholderText since eufemia adds placeholder as tag, not placeholder-attribute
       expect(screen.getByText('Select something')).toBeInTheDocument()
@@ -55,10 +55,10 @@ describe('Select', () => {
     it('calls onChange when selecting a different options', async () => {
       const onChange = jest.fn()
       render(
-        <Field.Select value="bar" onChange={onChange}>
+        <Field.Selection value="bar" onChange={onChange}>
           <Field.Option value="foo">Fooo</Field.Option>
           <Field.Option value="bar">Baar</Field.Option>
-        </Field.Select>
+        </Field.Selection>
       )
 
       const select = screen.getByTestId('field-select')
@@ -82,10 +82,10 @@ describe('Select', () => {
     it('calls onFocus when opening the dropdown with selected value as argument', async () => {
       const onFocus = jest.fn()
       render(
-        <Field.Select value="bar" onFocus={onFocus}>
+        <Field.Selection value="bar" onFocus={onFocus}>
           <Field.Option value="foo">Fooo</Field.Option>
           <Field.Option value="bar">Baar</Field.Option>
-        </Field.Select>
+        </Field.Selection>
       )
 
       const select = screen.getByTestId('field-select')
@@ -98,10 +98,10 @@ describe('Select', () => {
     it('calls onBlur when selecting the options so the dropdown closes with selected value as argument', async () => {
       const onBlur = jest.fn()
       render(
-        <Field.Select value="bar" onBlur={onBlur}>
+        <Field.Selection value="bar" onBlur={onBlur}>
           <Field.Option value="foo">Fooo</Field.Option>
           <Field.Option value="bar">Baar</Field.Option>
-        </Field.Select>
+        </Field.Selection>
       )
 
       const select = screen.getByTestId('field-select')
@@ -119,10 +119,10 @@ describe('Select', () => {
     describe('validation based on required-prop', () => {
       it('should show error for empty value', async () => {
         render(
-          <Field.Select required validateInitially>
+          <Field.Selection required validateInitially>
             <Field.Option value="foo">Fooo</Field.Option>
             <Field.Option value="bar">Baar</Field.Option>
-          </Field.Select>
+          </Field.Selection>
         )
         const select = screen.getByTestId('field-select')
         await userEvent.click(select)
@@ -132,10 +132,10 @@ describe('Select', () => {
 
       it('should not show error when value is not empty', async () => {
         render(
-          <Field.Select required>
+          <Field.Selection required>
             <Field.Option value="foo">Fooo</Field.Option>
             <Field.Option value="bar">Baar</Field.Option>
-          </Field.Select>
+          </Field.Selection>
         )
         const select = screen.getByTestId('field-select')
         await userEvent.click(select)

@@ -6,8 +6,6 @@ showTabs: true
 
 Both the naming and the way the components work are based on being data-driven.
 
-The word "input" in an input component here, has nothing to do with whether it places an `<input>` tag or something else on the screen. It is about receiving input from the user, which will end up in the data that the components convey via callbacks.
-
 ### Standardized properties
 
 All input component has a fixed set of props that make it possible to build more complex standardized functionality around them. The most important ones here are `value` and `onChange`. Value expects values in the given data type, so for example `Field.Number` expects a `value` of the type `number`, and will give a type error in Typescript if it e.g. receives a number in a `string`. The callback function submitted to `onChange` will always receive the value of the corresponding type as the first argument.

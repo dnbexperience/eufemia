@@ -12,7 +12,6 @@ export default function ListBaseComponents() {
           frontmatter: {
             title: { ne: null, nin: "Fragments" }
             draft: { ne: true }
-            baseComponent: { eq: true }
           }
           internal: {
             contentFilePath: {
