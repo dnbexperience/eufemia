@@ -1,6 +1,6 @@
 import React from 'react'
 
-function formattTitle(title) {
+function formatTitle(title) {
   return `${title} | Eufemia`
 }
 
@@ -25,7 +25,7 @@ export const renderBody =
 export function HeadComponents({ title = null, description = null }) {
   return (
     <>
-      <title id="head-title">{title ? formattTitle(title) : ''}</title>
+      <title id="head-title">{title ? formatTitle(title) : ''}</title>
       <meta
         id="head-description"
         name="description"
@@ -47,7 +47,7 @@ export function usePortalHead({ title, description }) {
       try {
         if (title) {
           document.getElementById('head-title').textContent =
-            formattTitle(title)
+            formatTitle(title)
         }
         if (description) {
           document.getElementById('head-description').textContent =

@@ -96,7 +96,7 @@ export function useSliderEvents() {
   }
 
   const onBodyMouseMoveHandler = (event: MouseEvent) => {
-    event.preventDefault() // ensures correct cursor in Safari (dekstop)
+    event.preventDefault() // ensures correct cursor in Safari (desktop)
 
     let elem = trackRef.current
 

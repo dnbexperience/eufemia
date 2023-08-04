@@ -287,7 +287,7 @@ export const TableVariantFixed = () => (
       const FixedTable = styled(Table)`
         min-width: 70rem;
 
-        /* Define the width of the THs so they are aligned accross tables */
+        /* Define the width of the THs so they are aligned across tables */
         thead {
           th:nth-of-type(1) {
             width: 30%;
@@ -393,7 +393,7 @@ export const TableStackedContainer = () => {
       {() => {
         const StyledContainer = styled(TableContainer)`
           /* 
-            Define the width of the THs so they are aligned accross tables.
+            Define the width of the THs so they are aligned across tables.
             A "fixed" table width is needed in order to align all tables to act with the same column widths.
           */
           &,

@@ -68,7 +68,7 @@ describe('InputMasked component', () => {
     expect(ref.current.tagName).toBe('INPUT')
   })
 
-  it('event "on_change" gets emmited with correct value #1', async () => {
+  it('event "on_change" gets emitted with correct value #1', async () => {
     const initValue = 'NOK 1234,5 kr'
     const newValue = 'NOK 123456789,0 kr'
 
@@ -104,7 +104,7 @@ describe('InputMasked component', () => {
     ).toBe(123456789)
   })
 
-  it('event "on_change" gets emmited with correct value #2', async () => {
+  it('event "on_change" gets emitted with correct value #2', async () => {
     const newValue = 'NOK 123456789,678 kr'
 
     const on_change = jest.fn()
@@ -134,7 +134,7 @@ describe('InputMasked component', () => {
     ).toBe(123456789.67)
   })
 
-  it('event "on_change" gets emmited with correct value #3', async () => {
+  it('event "on_change" gets emitted with correct value #3', async () => {
     const newValue = 'NOK 123456789,678 kr'
 
     const on_change = jest.fn()
@@ -796,13 +796,13 @@ describe('InputMasked component', () => {
 })
 
 describe('InputMasked component with currency_mask', () => {
-  it('should axcept only a string', () => {
+  it('should accept only a string', () => {
     render(<InputMasked {...props} value="1234" currency_mask="NOK" />)
 
     expect(document.querySelector('input').value).toBe('1 234 NOK')
   })
 
-  it('should axcept the currency inside a objecnt property', () => {
+  it('should accept the currency inside a object property', () => {
     render(
       <InputMasked
         {...props}
@@ -1031,7 +1031,7 @@ describe('InputMasked component as_number', () => {
     expect(document.querySelector('input').value).toBe('12 345,6')
   })
 
-  it('event "on_change" gets emmited with correct value', async () => {
+  it('event "on_change" gets emitted with correct value', async () => {
     const newValue = 'NOK 123456789,678 kr'
 
     const on_change = jest.fn()
@@ -1324,7 +1324,7 @@ describe('InputMasked component as_currency', () => {
     expect(onChange).toHaveBeenCalledTimes(2)
   })
 
-  it('event "on_change" gets emmited with correct value', async () => {
+  it('event "on_change" gets emitted with correct value', async () => {
     const newValue = 'NOK 123456789,678 kr'
 
     const on_change = jest.fn()
@@ -1371,7 +1371,7 @@ describe('InputMasked component as_currency', () => {
     ).toBe(123456789.6)
   })
 
-  it('event "on_change" gets emmited with correct value with en locale', async () => {
+  it('event "on_change" gets emitted with correct value with en locale', async () => {
     const on_change = jest.fn()
 
     render(

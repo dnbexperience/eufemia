@@ -4,7 +4,7 @@ import React from 'react'
  * NB: In order to update the styles for this page,
  * run: yarn workspace dnb-design-system-portal node scripts/compile-css-packages.cjs
  *
- * This is because this package is not imported as it would interfer with the class based styles.
+ * This is because this package is not imported as it would interfere with the class based styles.
  *
  * During the visual tests, the needed styles are generated.
  */

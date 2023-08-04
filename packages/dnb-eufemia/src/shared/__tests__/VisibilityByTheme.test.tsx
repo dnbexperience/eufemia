@@ -126,7 +126,7 @@ describe('VisibilityByTheme', () => {
     expect(document.body.textContent).toBe('')
   })
 
-  it('renders content on match by several theme criterias', () => {
+  it('renders content on match by several theme criteria', () => {
     const Component = (props) => (
       <Theme name="eiendom" variant="red" {...props}>
         <VisibilityByTheme

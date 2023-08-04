@@ -61,7 +61,7 @@ const Upload = (localProps: UploadAllProps) => {
 
   const spacingClasses = createSpacingClasses(props)
 
-  const { files, setFiles, setInternalFiles, getExistsingFile } =
+  const { files, setFiles, setInternalFiles, getExistingFile } =
     useUpload(id)
 
   const filesRef = React.useRef<UploadFile[]>(files)
@@ -99,7 +99,7 @@ const Upload = (localProps: UploadAllProps) => {
       ...newFiles.map((fileItem) => {
         const { file } = fileItem
 
-        const existingFile = getExistsingFile(file, files)
+        const existingFile = getExistingFile(file, files)
 
         fileItem.exists = Boolean(existingFile)
         fileItem.id = fileItem.exists ? existingFile.id : makeUniqueId()

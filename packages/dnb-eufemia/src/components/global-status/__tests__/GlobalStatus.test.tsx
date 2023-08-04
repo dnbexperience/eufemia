@@ -711,7 +711,7 @@ describe('GlobalStatus component', () => {
           autoscroll={false}
           delay={0}
           no_animation={true}
-          status_anchor_text={<span>custon anchor text</span>}
+          status_anchor_text={<span>custom anchor text</span>}
         />
         <ToggleStatus />
       </>
@@ -729,7 +729,7 @@ describe('GlobalStatus component', () => {
       document
         .querySelectorAll('.dnb-global-status__message__content ul li')[0]
         .querySelector('a.dnb-anchor').textContent
-    ).toBe("custon anchor text 'my-label'")
+    ).toBe("custom anchor text 'my-label'")
   })
 
   it('has to have a working auto close', () => {

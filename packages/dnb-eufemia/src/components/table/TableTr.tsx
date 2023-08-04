@@ -172,7 +172,7 @@ export function useHandleOddEven({ children }) {
   const trCountRef = React.useRef({ count: 0 })
 
   // When the alias changes, all tr's will rerender and get a new even/odd color
-  // This is usefull, when one tr gets removed
+  // This is useful, when one tr gets removed
   const [rerenderAlias, setRerenderAlias] = React.useState({}) // eslint-disable-line no-unused-vars
 
   const isMounted = React.useRef(false)

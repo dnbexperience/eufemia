@@ -72,7 +72,7 @@ function Layout(props: LayoutProps) {
       const elem = mainRef.current
       elem.setAttribute('tabindex', '-1')
       elem.focus()
-      elem.removeAttribute('tabindex') // don't keep tabindex arround, Chrome fucks up the selection / focus feature
+      elem.removeAttribute('tabindex') // don't keep tabindex around, Chrome fucks up the selection / focus feature
     } catch (e) {
       console.warn(e)
     }

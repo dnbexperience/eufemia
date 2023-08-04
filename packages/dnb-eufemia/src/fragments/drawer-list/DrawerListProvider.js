@@ -521,8 +521,8 @@ export default class DrawerListProvider extends React.PureComponent {
    *
    * @param {number} active_item The item to set as active
    * @param {object} param1
-   * @property {boolean} fireSelectEvent Wheter the onSelect event should get emitted
-   * @property {boolean} scrollTo Wheter the list should scroll to the new active item nor not
+   * @property {boolean} fireSelectEvent Whether the onSelect event should get emitted
+   * @property {boolean} scrollTo Whether the list should scroll to the new active item nor not
    * @property {event} event The event object to forward to the emitted events
    */
   setActiveItemAndScrollToIt = (

@@ -462,7 +462,7 @@ async function handleSimulation({
         }
 
         /**
-         * Usefull in situations,
+         * Useful in situations,
          * where a click with a focus is needed (ToggleButton).
          */
         case 'focusclick': {
