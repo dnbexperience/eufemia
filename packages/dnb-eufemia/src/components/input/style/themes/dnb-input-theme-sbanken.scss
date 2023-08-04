@@ -8,14 +8,16 @@
 .dnb-input {
   --input-height: 2.5rem;
   --input-border-radius: 0.5rem;
-  --input-border-width-hover: 0.125rem;
+  --input-border-color: var(--sb-color-gray-dark-2);
+  --input-border-hover-active-color: var(--sb-color-violet);
+  --input-border-focus-color: var(--focus-ring-color);
 
   &__shell {
     background-color: var(--color-white);
     transition: border-radius 0.25s ease-out;
     border: none;
     @include fakeBorder(
-      var(--sb-color-gray-dark-2),
+      var(--input-border-color),
       var(--input-border-width),
       inset
     );
@@ -38,42 +40,30 @@
     color: var(--sb-color-gray-dark-3);
   }
 
-  &[data-input-state='disabled'] &__shell {
-    &,
-    .dnb-icon,
-    .dnb-input__placeholder {
-      color: var(--sb-color-gray-dark-2);
+  &[data-input-state='disabled'] {
+    --input-border-color: var(--sb-color-gray);
+
+    .dnb-input__shell {
+      &,
+      .dnb-icon,
+      .dnb-input__placeholder {
+        color: var(--sb-color-gray-dark-2);
+      }
+
+      -webkit-text-fill-color: currentcolor;
+
+      background-color: var(--sb-color-gray-light);
     }
-
-    -webkit-text-fill-color: currentcolor;
-
-    @include fakeBorder(
-      var(--sb-color-gray),
-      var(--input-border-width),
-      inset
-    );
-    background-color: var(--sb-color-gray-light);
   }
 
   &__status--error {
     &:not([data-input-state='disabled']) {
-      .dnb-input__shell {
-        @include fakeBorder(var(--sb-color-red));
-      }
+      --input-border-color: var(--sb-color-red);
+      --input-border-hover-active-color: var(--sb-color-red);
+      --input-border-focus-color: var(--sb-color-red);
+
       &:not([data-input-state='focus']) .dnb-input__shell {
         color: var(--sb-color-red);
-      }
-
-      &[data-input-state='focus'] .dnb-input__shell {
-        @include fakeBorder(var(--sb-color-red));
-        @include focusRing(null, var(--sb-color-red), inset);
-      }
-
-      .dnb-input__shell:hover {
-        @include fakeBorder(
-          var(--sb-color-red),
-          var(--input-border-width-hover)
-        );
       }
     }
 
@@ -103,26 +93,27 @@
     &[data-input-state='focus'] {
       .dnb-input__shell {
         border-radius: 1.5rem;
-      }
-      &:not(.dnb-input__status--error) .dnb-input__shell {
         @include fakeBorder(
-          var(--sb-color-violet),
+          var(--input-border-hover-active-color),
           var(--input-border-width),
           inset
         );
-        @include focusRing(null, null, inset); // keyboard only
+        @include focusRing(
+          null,
+          var(--input-border-focus-color),
+          inset
+        ); // keyboard only
       }
     }
 
     // Hover
-    &:not(.dnb-input__status--error) {
-      .dnb-input__shell:hover {
-        @include fakeBorder(
-          var(--sb-color-violet),
-          var(--input-border-width-hover),
-          inset
-        );
-      }
+    .dnb-input__shell:hover,
+    .dnb-form-label:hover + .dnb-input__inner .dnb-input__shell {
+      @include fakeBorder(
+        var(--input-border-hover-active-color),
+        0.125rem,
+        inset
+      );
     }
   }
 }
