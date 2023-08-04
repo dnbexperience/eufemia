@@ -96,7 +96,7 @@ describe('Circular ProgressIndicator component', () => {
     )
 
     const indicator = screen.getByRole('alert')
-    expect(indicator.getAttribute('aria-label')).toBeNull()
+    expect(indicator.getAttribute('aria-label')).not.toBeInTheDocument()
   })
 
   it('does not have title when progress, and title is both null', () => {
@@ -110,7 +110,7 @@ describe('Circular ProgressIndicator component', () => {
     )
 
     const indicator = screen.getByRole('alert')
-    expect(indicator.getAttribute('title')).toBeNull()
+    expect(indicator.getAttribute('title')).not.toBeInTheDocument()
   })
 
   it('has aria-label set to the value of title property', () => {
@@ -236,7 +236,7 @@ describe('Linear ProgressIndicator component', () => {
     )
 
     const indicator = screen.getByRole('alert')
-    expect(indicator.getAttribute('aria-label')).toBeNull()
+    expect(indicator.getAttribute('aria-label')).not.toBeInTheDocument()
   })
 
   it('does not have title when progress, and title is both null', () => {
@@ -250,7 +250,7 @@ describe('Linear ProgressIndicator component', () => {
     )
 
     const indicator = screen.getByRole('alert')
-    expect(indicator.getAttribute('title')).toBeNull()
+    expect(indicator.getAttribute('title')).not.toBeInTheDocument()
   })
 
   it('has aria-label set to the value of title property', () => {
