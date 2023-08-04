@@ -159,7 +159,7 @@ describe('Input component', () => {
     expect(document.querySelector('input').getAttribute('value')).toBe('')
   })
 
-  it('events gets emmited correctly: "on_change" and "onKeyDown"', () => {
+  it('events gets emitted correctly: "on_change" and "onKeyDown"', () => {
     const initValue = 'init value'
     const newValue = 'new value'
     const emptyValue = null // gets emitted also on values as null

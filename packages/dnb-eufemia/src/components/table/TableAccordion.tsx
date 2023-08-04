@@ -161,7 +161,7 @@ export function useTableAccordion({
     if (
       /**
        * Interactive elements to set activeElement on mouseDown,
-       * we we can check agains it.
+       * we we can check against it.
        */
       document.activeElement !== target &&
       /**
@@ -173,7 +173,7 @@ export function useTableAccordion({
       target.tagName !== 'INPUT' &&
       /**
        * Let the user select text,
-       * without triggering the accrodion.
+       * without triggering the accordion.
        */
       !hasSelectedText()
     ) {
