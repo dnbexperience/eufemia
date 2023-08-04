@@ -17,19 +17,19 @@ const handleChange = useCallback((path, value) => {
 
 return (
   <div id="my-form">
-    <FirstNameInput
+    <Field.FirstName
       value={data.firstName}
       onChange={(value) => handleChange('firstName', value)}
     />
-    <LastNameInput
+    <Field.LastName
       value={data.lastName}
       onChange={(value) => handleChange('lastName', value)}
     />
-    <EmailInput
+    <Field.Email
       value={data.email}
       onChange={(value) => handleChange('email', value)}
     />
-    <StringInput
+    <Field.String
       label="Special non-standardized value"
       value={data.specialValue}
       onChange={(value) => handleChange('specialValue', value)}
@@ -47,10 +47,10 @@ const handleChange = useCallback((path, value) => {
 
 return (
   <DataContext.Provider data={data} onChange={handleChange}>
-    <FirstNameInput path="/firstName" />
-    <LastNameInput path="/lastName" />
-    <EmailInput path="/email" />
-    <StringInput path="/specialValue" label="Special non-standardized value" />
+    <Field.FirstName path="/firstName" />
+    <Field.LastName path="/lastName" />
+    <Field.Email path="/email" />
+    <Field.String path="/specialValue" label="Special non-standardized value" />
   </DataContextProvider>
 )
 ```
