@@ -34,47 +34,6 @@
     }
   }
 
-  // with status_state = "error"
-  &__status--error#{&}:not([data-input-state='focus']) &__shell {
-    color: var(--sb-color-red);
-  }
-  &__status--error#{&}:not([data-input-state='focus']):not(:hover)
-    &__shell {
-    @include fakeBorder(var(--sb-color-red));
-  }
-  &__status--error#{&}[data-input-state='focus']:not([data-input-state='disabled'])
-    &__shell {
-    @include fakeBorder(var(--sb-color-red));
-    @include focusRing(null, var(--sb-color-red), inset);
-  }
-  &__status--error#{&}:not([data-input-state='disabled']) &__shell:hover,
-  &__status--error#{&}:not([data-input-state='disabled']):hover &__shell {
-    @include fakeBorder(
-      var(--sb-color-red),
-      var(--input-border-width-hover)
-    );
-  }
-
-  &__status--error &__submit-button {
-    html:not([data-whatintent='touch'])
-      &__button.dnb-button--secondary:not(&__button--has-text, [disabled]):hover,
-    html:not([data-whatintent='touch'])
-      &__button.dnb-button--secondary:not(&__button--has-text, [disabled]):focus {
-      &,
-      &::after {
-        background-color: var(--sb-color-red);
-      }
-
-      &:active {
-        color: var(--color-white);
-      }
-    }
-  }
-
-  &__status--error &__icon {
-    color: var(--sb-color-red);
-  }
-
   &__placeholder {
     color: var(--sb-color-gray-dark-3);
   }
@@ -96,31 +55,74 @@
     background-color: var(--sb-color-gray-light);
   }
 
+  &__status--error {
+    &:not([data-input-state='disabled']) {
+      .dnb-input__shell {
+        @include fakeBorder(var(--sb-color-red));
+      }
+      &:not([data-input-state='focus']) .dnb-input__shell {
+        color: var(--sb-color-red);
+      }
+
+      &[data-input-state='focus'] .dnb-input__shell {
+        @include fakeBorder(var(--sb-color-red));
+        @include focusRing(null, var(--sb-color-red), inset);
+      }
+
+      .dnb-input__shell:hover {
+        @include fakeBorder(
+          var(--sb-color-red),
+          var(--input-border-width-hover)
+        );
+      }
+    }
+
+    html:not([data-whatintent='touch']) & {
+      .dnb-input__submit-button__button.dnb-button--secondary:not(.dnb-button--has-text, [disabled]) {
+        &:hover,
+        &:focus {
+          &,
+          &::after {
+            background-color: var(--sb-color-red);
+          }
+
+          &:active {
+            color: var(--color-white);
+          }
+        }
+      }
+    }
+
+    .dnb-input__icon {
+      color: var(--sb-color-red);
+    }
+  }
+
   &:not([data-input-state='disabled']) {
     // Focus
-    &[data-input-state='focus'] .dnb-input__shell {
-      @include fakeBorder(
-        var(--sb-color-violet),
-        var(--input-border-width),
-        inset
-      );
-      border-radius: 1.5rem;
+    &[data-input-state='focus'] {
+      .dnb-input__shell {
+        border-radius: 1.5rem;
+      }
+      &:not(.dnb-input__status--error) .dnb-input__shell {
+        @include fakeBorder(
+          var(--sb-color-violet),
+          var(--input-border-width),
+          inset
+        );
+        @include focusRing(null, null, inset); // keyboard only
+      }
     }
 
     // Hover
-    &:hover .dnb-input__shell,
-    .dnb-input__shell:hover {
-      @include fakeBorder(
-        var(--sb-color-violet),
-        var(--input-border-width-hover),
-        inset
-      );
-    }
-
-    // Focus
-    &[data-input-state='focus']:not(.dnb-input__status--error)
-      .dnb-input__shell {
-      @include focusRing(null, null, inset); // keyboard only
+    &:not(.dnb-input__status--error) {
+      .dnb-input__shell:hover {
+        @include fakeBorder(
+          var(--sb-color-violet),
+          var(--input-border-width-hover),
+          inset
+        );
+      }
     }
   }
 }

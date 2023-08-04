@@ -72,6 +72,16 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match search type with button active state', async () => {
+    const screenshot = await makeScreenshot({
+      ...extend('input-search'),
+      selector: '[data-visual-test="input-search"]',
+      simulateSelector: `[data-visual-test="input-search"] .dnb-button`,
+      simulate: 'active',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match search type with mouse focus state', async () => {
     const screenshot = await makeScreenshot({
       ...extend('input-search'),
