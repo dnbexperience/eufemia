@@ -258,7 +258,7 @@ describe('Avatar', () => {
 
       expect(
         document.querySelector('.dnb-avatar__group--elements-left')
-      ).toBeNull()
+      ).not.toBeInTheDocument()
 
       expect(avatarsDisplayed).toHaveLength(3)
     })
@@ -277,7 +277,7 @@ describe('Avatar', () => {
 
       expect(
         document.querySelector('.dnb-avatar__group--elements-left')
-      ).toBeNull()
+      ).not.toBeInTheDocument()
       expect(avatarsDisplayed).toHaveLength(3)
     })
 
@@ -295,7 +295,7 @@ describe('Avatar', () => {
 
       expect(
         document.querySelector('.dnb-avatar__group--elements-left')
-      ).toBeNull()
+      ).not.toBeInTheDocument()
       expect(avatarsDisplayed).toHaveLength(3)
     })
 
@@ -312,7 +312,7 @@ describe('Avatar', () => {
 
       expect(
         document.querySelector('.dnb-avatar__group--elements-left')
-      ).toBeNull()
+      ).not.toBeInTheDocument()
       expect(avatarsDisplayed).toHaveLength(2)
     })
 
