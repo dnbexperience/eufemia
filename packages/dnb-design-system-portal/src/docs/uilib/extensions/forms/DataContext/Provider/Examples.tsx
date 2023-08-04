@@ -119,7 +119,7 @@ export const Default = () => {
               <Field.Boolean
                 path="/boolean"
                 label="Boolean - Toggle"
-                variant="toggle-button"
+                variant="button"
               />
               <div>
                 <Field.String
@@ -210,7 +210,7 @@ export const ValidationWithJsonSchema = () => {
               <Field.Boolean
                 path="/boolean"
                 label="Boolean - Toggle"
-                variant="toggle-button"
+                variant="button"
               />
               <div>
                 <Field.String

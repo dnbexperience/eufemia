@@ -32,7 +32,7 @@ describe('Field.Boolean', () => {
           onChange={onChange}
         />
       )
-      const input = screen.getByTestId('field-boolean')
+      const input = screen.getByRole('checkbox')
       await userEvent.click(input)
       await userEvent.click(input)
       await userEvent.click(input)
@@ -76,18 +76,16 @@ describe('Field.Boolean', () => {
     })
   })
 
-  describe('variant: toggle-button', () => {
+  describe('variant: button', () => {
     it('renders label', () => {
-      render(
-        <Field.Boolean variant="toggle-button" label="Boolean label" />
-      )
+      render(<Field.Boolean variant="button" label="Boolean label" />)
       expect(screen.getByText('Boolean label')).toBeInTheDocument()
     })
 
     it('renders error', () => {
       render(
         <Field.Boolean
-          variant="toggle-button"
+          variant="button"
           error={new Error('This is what went wrong')}
         />
       )
@@ -97,20 +95,14 @@ describe('Field.Boolean', () => {
     })
 
     it('should show error when no value is given', () => {
-      render(
-        <Field.Boolean
-          variant="toggle-button"
-          required
-          validateInitially
-        />
-      )
+      render(<Field.Boolean variant="button" required validateInitially />)
       expect(screen.getByRole('alert')).toBeInTheDocument()
     })
 
     it('should not show error when a true-value is given', () => {
       render(
         <Field.Boolean
-          variant="toggle-button"
+          variant="button"
           value={true}
           validateInitially
           required
@@ -122,7 +114,7 @@ describe('Field.Boolean', () => {
     it('should not show error when a false-value is given', () => {
       render(
         <Field.Boolean
-          variant="toggle-button"
+          variant="button"
           value={false}
           validateInitially
           required
@@ -132,10 +124,10 @@ describe('Field.Boolean', () => {
     })
   })
 
-  describe('variant: toggle-checkbox', () => {
+  describe('variant: checkbox-button', () => {
     it('renders label', () => {
       render(
-        <Field.Boolean variant="toggle-checkbox" label="Boolean label" />
+        <Field.Boolean variant="checkbox-button" label="Boolean label" />
       )
       expect(screen.getByText('Boolean label')).toBeInTheDocument()
     })
@@ -143,7 +135,7 @@ describe('Field.Boolean', () => {
     it('renders error', () => {
       render(
         <Field.Boolean
-          variant="toggle-checkbox"
+          variant="checkbox-button"
           error={new Error('This is what went wrong')}
         />
       )
@@ -155,7 +147,7 @@ describe('Field.Boolean', () => {
     it('should show error when no value is given', () => {
       render(
         <Field.Boolean
-          variant="toggle-checkbox"
+          variant="checkbox-button"
           required
           validateInitially
         />
@@ -166,7 +158,7 @@ describe('Field.Boolean', () => {
     it('should not show error when a true-value is given', () => {
       render(
         <Field.Boolean
-          variant="toggle-checkbox"
+          variant="checkbox-button"
           value={true}
           validateInitially
           required
@@ -178,7 +170,7 @@ describe('Field.Boolean', () => {
     it('should not show error when a false-value is given', () => {
       render(
         <Field.Boolean
-          variant="toggle-checkbox"
+          variant="checkbox-button"
           value={false}
           validateInitially
           required

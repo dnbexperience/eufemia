@@ -133,7 +133,7 @@ export const VisibilityBasedOnData = () => {
         </Layout.Section>
         <Field.Boolean
           path="/advanced"
-          variant="toggle-checkbox"
+          variant="checkbox-button"
           label="More fields"
         />
         <Visibility pathTrue="/advanced">

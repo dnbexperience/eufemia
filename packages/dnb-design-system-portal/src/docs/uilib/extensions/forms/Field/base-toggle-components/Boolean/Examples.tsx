@@ -77,11 +77,11 @@ export const CheckboxError = () => {
   )
 }
 
-export const ToggleButtonTrue = () => {
+export const ButtonTrue = () => {
   return (
     <ComponentBox scope={{ Field }}>
       <Field.Boolean
-        variant="toggle-button"
+        variant="button"
         label="Label text"
         value={true}
         onChange={(value) => console.log('onChange', value)}
@@ -90,11 +90,11 @@ export const ToggleButtonTrue = () => {
   )
 }
 
-export const ToggleButtonFalse = () => {
+export const ButtonFalse = () => {
   return (
     <ComponentBox scope={{ Field }}>
       <Field.Boolean
-        variant="toggle-button"
+        variant="button"
         label="Label text"
         value={false}
         onChange={(value) => console.log('onChange', value)}
@@ -103,11 +103,11 @@ export const ToggleButtonFalse = () => {
   )
 }
 
-export const ToggleButtonRequired = () => {
+export const ButtonRequired = () => {
   return (
     <ComponentBox scope={{ Field }}>
       <Field.Boolean
-        variant="toggle-button"
+        variant="button"
         label="Set to be required initially"
         onChange={(value) => console.log('onChange', value)}
         validateInitially
@@ -117,11 +117,11 @@ export const ToggleButtonRequired = () => {
   )
 }
 
-export const ToggleButtonDisabled = () => {
+export const ButtonDisabled = () => {
   return (
     <ComponentBox scope={{ Field }}>
       <Field.Boolean
-        variant="toggle-button"
+        variant="button"
         label="I am disabled"
         onChange={(value) => console.log('onChange', value)}
         disabled
@@ -130,11 +130,11 @@ export const ToggleButtonDisabled = () => {
   )
 }
 
-export const ToggleButtonError = () => {
+export const ButtonError = () => {
   return (
     <ComponentBox scope={{ Field }}>
       <Field.Boolean
-        variant="toggle-button"
+        variant="button"
         label="Label text"
         onChange={(value) => console.log('onChange', value)}
         error={new Error('This is what is wrong...')}
@@ -143,11 +143,11 @@ export const ToggleButtonError = () => {
   )
 }
 
-export const ToggleCheckboxTrue = () => {
+export const CheckboxButtonTrue = () => {
   return (
     <ComponentBox scope={{ Field }}>
       <Field.Boolean
-        variant="toggle-checkbox"
+        variant="checkbox-button"
         label="Label text"
         value={true}
         onChange={(value) => console.log('onChange', value)}
@@ -156,11 +156,11 @@ export const ToggleCheckboxTrue = () => {
   )
 }
 
-export const ToggleCheckboxFalse = () => {
+export const CheckboxButtonFalse = () => {
   return (
     <ComponentBox scope={{ Field }}>
       <Field.Boolean
-        variant="toggle-checkbox"
+        variant="checkbox-button"
         label="Label text"
         value={false}
         onChange={(value) => console.log('onChange', value)}
@@ -169,11 +169,11 @@ export const ToggleCheckboxFalse = () => {
   )
 }
 
-export const ToggleCheckboxRequired = () => {
+export const CheckboxButtonRequired = () => {
   return (
     <ComponentBox scope={{ Field }}>
       <Field.Boolean
-        variant="toggle-checkbox"
+        variant="checkbox-button"
         label="Set to be required initially"
         onChange={(value) => console.log('onChange', value)}
         validateInitially
@@ -183,11 +183,11 @@ export const ToggleCheckboxRequired = () => {
   )
 }
 
-export const ToggleCheckboxDisabled = () => {
+export const CheckboxButtonDisabled = () => {
   return (
     <ComponentBox scope={{ Field }}>
       <Field.Boolean
-        variant="toggle-checkbox"
+        variant="checkbox-button"
         label="I am disabled"
         onChange={(value) => console.log('onChange', value)}
         disabled
@@ -196,11 +196,11 @@ export const ToggleCheckboxDisabled = () => {
   )
 }
 
-export const ToggleCheckboxError = () => {
+export const CheckboxButtonError = () => {
   return (
     <ComponentBox scope={{ Field }}>
       <Field.Boolean
-        variant="toggle-checkbox"
+        variant="checkbox-button"
         label="Label text"
         onChange={(value) => console.log('onChange', value)}
         error={new Error('This is what is wrong...')}

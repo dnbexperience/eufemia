@@ -1,5 +1,6 @@
 import StringComponent from './String'
 import NumberComponent from './Number'
+import ToggleComponent from './Toggle'
 import BooleanComponent from './Boolean'
 import CurrencyComponent from './Currency'
 import DateComponent from './Date'
@@ -18,6 +19,7 @@ import SelectCountryComponent from './SelectCountry'
 const Field = {
   String: StringComponent,
   Number: NumberComponent,
+  Toggle: ToggleComponent,
   Boolean: BooleanComponent,
   Currency: CurrencyComponent,
   Date: DateComponent,
