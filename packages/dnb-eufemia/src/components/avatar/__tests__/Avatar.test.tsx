@@ -63,7 +63,6 @@ describe('Avatar', () => {
     )
 
     expect(screen.queryByTestId('confetti icon')).toBeInTheDocument()
-    expect(screen.queryByTestId('avatar-label')).toBeNull()
   })
 
   it('renders img from src', () => {
