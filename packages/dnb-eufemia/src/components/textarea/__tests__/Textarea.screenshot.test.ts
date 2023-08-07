@@ -8,11 +8,14 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Textarea', () => {
+describe.each(['ui', 'sbanken'])('Textarea for %s', (themeName) => {
   const style = {
     width: '14rem', // make sure our textarea gets an explicit width, because of mac/linux rendering differences
   }
-  setupPageScreenshot({ url: '/uilib/components/textarea/demos' })
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/textarea/demos',
+  })
 
   it('have to match the "default" textarea style', async () => {
     const screenshot = await makeScreenshot({
