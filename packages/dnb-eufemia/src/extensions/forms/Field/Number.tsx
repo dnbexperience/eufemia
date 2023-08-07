@@ -38,7 +38,7 @@ export type Props = ComponentProps &
     exclusiveMaximum?: number // aka less than
     multipleOf?: number
     // Styling
-    width?: 'mediun' | 'large'
+    width?: false | 'medium' | 'large' | 'stretch'
   }
 
 export default function FieldNumber(props: Props) {
@@ -88,6 +88,7 @@ export default function FieldNumber(props: Props) {
         suffix,
       })
     },
+    width: props.width ?? 'medium',
   }
 
   const {
@@ -130,7 +131,9 @@ export default function FieldNumber(props: Props) {
         id={id}
         className={classnames(
           'dnb-forms-field-number__input',
-          width && `dnb-forms-field-number__input--width-${width}`,
+          width !== false &&
+            width !== 'stretch' &&
+            `dnb-forms-field-number__input--width-${width}`,
           inputClassName
         )}
         data-testid={dataTestId ?? path ?? 'field-number'}
@@ -141,7 +144,7 @@ export default function FieldNumber(props: Props) {
         on_blur={onBlur}
         on_change={onChange}
         disabled={disabled}
-        stretch
+        stretch={width === 'stretch'}
       />
     </FieldBlock>
   )

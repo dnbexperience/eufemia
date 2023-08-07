@@ -44,22 +44,66 @@ export const LabelAndValue = () => {
   )
 }
 
-export const IconLeft = () => {
+export const HorizontalLayout = () => {
   return (
     <ComponentBox scope={{ Field }}>
       <Field.String
+        label="Label text"
         value="foo"
-        leftIcon="check"
+        layout="horizontal"
         onChange={(value) => console.log('onChange', value)}
       />
     </ComponentBox>
   )
 }
 
-export const IconRight = () => {
+export const Widths = () => {
   return (
     <ComponentBox scope={{ Field }}>
       <Field.String
+        label="Default width (property omitted)"
+        value="foo"
+        onChange={(value) => console.log('onChange', value)}
+      />
+      <Field.String
+        label="False (for browser default)"
+        value="foo"
+        width={false}
+        onChange={(value) => console.log('onChange', value)}
+      />
+      <Field.String
+        label="Medium"
+        value="foo"
+        width="medium"
+        onChange={(value) => console.log('onChange', value)}
+      />
+      <Field.String
+        label="Large"
+        value="foo"
+        width="large"
+        onChange={(value) => console.log('onChange', value)}
+      />
+      <Field.String
+        label="Stretch"
+        value="foo"
+        width="stretch"
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
+
+export const Icons = () => {
+  return (
+    <ComponentBox scope={{ Field }}>
+      <Field.String
+        label="Icon left"
+        value="foo"
+        leftIcon="check"
+        onChange={(value) => console.log('onChange', value)}
+      />
+      <Field.String
+        label="Icon right"
         value="foo"
         rightIcon="loupe"
         onChange={(value) => console.log('onChange', value)}

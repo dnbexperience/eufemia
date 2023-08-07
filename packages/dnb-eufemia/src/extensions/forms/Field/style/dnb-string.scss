@@ -10,4 +10,10 @@
       width: $forms-field-width-medium;
     }
   }
+
+  .dnb-input__inner,
+  .dnb-input__row,
+  .dnb-input__shell {
+    width: 100%;
+  }
 }

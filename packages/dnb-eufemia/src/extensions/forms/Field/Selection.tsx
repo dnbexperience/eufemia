@@ -12,9 +12,8 @@ export type Props = ComponentProps &
   FieldProps<string | number> & {
     children?: React.ReactNode
     variant?: 'dropdown' | 'radio' | 'checkbox'
-    multi?: boolean
     // Styling
-    width?: false | 'medium' | 'large'
+    width?: false | 'medium' | 'large' | 'stretch'
   }
 
 export default function Select(props: Props) {
@@ -24,6 +23,7 @@ export default function Select(props: Props) {
     variant,
     path,
     label,
+    layout = 'vertical',
     placeholder,
     value,
     error,
@@ -62,8 +62,8 @@ export default function Select(props: Props) {
     case 'checkbox':
       return (
         <Div
-          className={classnames('dnb-forms-field-select', className)}
-          data-testid={dataTestId ?? path ?? 'field-select'}
+          className={classnames('dnb-forms-field-selection', className)}
+          data-testid={dataTestId ?? path ?? 'field-selection'}
           {...forwardSpaceProps(props)}
         >
           {React.Children.toArray(children)
@@ -83,8 +83,8 @@ export default function Select(props: Props) {
     case 'radio':
       return (
         <Radio.Group
-          className={classnames('dnb-forms-field-select', className)}
-          data-testid={dataTestId ?? path ?? 'field-select'}
+          className={classnames('dnb-forms-field-selection', className)}
+          data-testid={dataTestId ?? path ?? 'field-selection'}
           label={label}
           layout_direction="column"
           on_change={handleRadioChange}
@@ -135,17 +135,19 @@ export default function Select(props: Props) {
       return (
         <Dropdown
           className={classnames(
-            'dnb-forms-field-select',
-            width !== false && `dnb-forms-field-select--width-${width}`,
+            'dnb-forms-field-selection',
+            width !== false &&
+              width !== 'stretch' &&
+              `dnb-forms-field-selection--width-${width}`,
             className
           )}
-          list_class="dnb-forms-field-select__list"
-          portal_class="dnb-forms-field-select__portal"
-          data-testid={dataTestId ?? path ?? 'field-select'}
+          list_class="dnb-forms-field-selection__list"
+          portal_class="dnb-forms-field-selection__portal"
+          data-testid={dataTestId ?? path ?? 'field-selection'}
           title={placeholder}
           default_value={String(value ?? '')}
           label={label}
-          label_direction="vertical"
+          label_direction={layout}
           status={error?.message}
           disabled={disabled}
           data={data}
@@ -153,6 +155,7 @@ export default function Select(props: Props) {
           on_show={onFocus}
           on_hide={handleHide}
           {...forwardSpaceProps(props)}
+          stretch={width === 'stretch'}
         />
       )
     }

@@ -1,13 +1,5 @@
-import React, { useCallback } from 'react'
-import { Div } from '../../../elements'
-import {
-  Dropdown,
-  Radio,
-  Checkbox,
-  FormRow,
-  FormLabel,
-  FormStatus,
-} from '../../../components'
+import React from 'react'
+import { Checkbox } from '../../../components'
 import classnames from 'classnames'
 import { forwardSpaceProps } from '../utils'
 import Option from './Option'
@@ -20,9 +12,6 @@ export type Props = ComponentProps &
   FieldProps<Array<string | number>> & {
     children?: React.ReactNode
     variant?: 'checkbox'
-    multi?: boolean
-    // Styling
-    // width?: false | 'medium' | 'large'
   }
 
 export default function ArraySelection(props: Props) {
@@ -30,20 +19,15 @@ export default function ArraySelection(props: Props) {
     className,
     variant,
     layout,
-    // path,
     label,
     labelDescription,
     labelSecondary,
-    // placeholder,
     value,
     error,
     info,
     warning,
     disabled,
     emptyValue,
-    // width = 'large',
-    // onBlur,
-    // onFocus,
     onChange,
     children,
   } = useInput(props)

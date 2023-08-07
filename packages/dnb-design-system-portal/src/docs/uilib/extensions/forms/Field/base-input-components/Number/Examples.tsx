@@ -44,6 +44,55 @@ export const LabelAndValue = () => {
   )
 }
 
+export const HorizontalLayout = () => {
+  return (
+    <ComponentBox scope={{ Field }}>
+      <Field.Number
+        value={420000}
+        label="Label text"
+        layout="horizontal"
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
+
+export const Widths = () => {
+  return (
+    <ComponentBox scope={{ Field }}>
+      <Field.Number
+        label="Default width (property omitted)"
+        value={123}
+        onChange={(value) => console.log('onChange', value)}
+      />
+      <Field.Number
+        label="False (for browser default)"
+        value={123}
+        width={false}
+        onChange={(value) => console.log('onChange', value)}
+      />
+      <Field.Number
+        label="Medium"
+        value={123}
+        width="medium"
+        onChange={(value) => console.log('onChange', value)}
+      />
+      <Field.Number
+        label="Large"
+        value={123}
+        width="large"
+        onChange={(value) => console.log('onChange', value)}
+      />
+      <Field.Number
+        label="Stretch"
+        value={123}
+        width="stretch"
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
+
 export const Disabled = () => {
   return (
     <ComponentBox scope={{ Field }}>

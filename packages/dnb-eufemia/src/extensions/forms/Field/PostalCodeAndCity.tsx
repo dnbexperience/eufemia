@@ -57,7 +57,7 @@ export default function FieldPostalCodeAndCity(props: Props) {
             city.className
           )}
           label={city.label ?? sharedContext?.translation.Forms.cityLabel}
-          width={false}
+          width="stretch"
         />
       </div>
     </FieldGroup>

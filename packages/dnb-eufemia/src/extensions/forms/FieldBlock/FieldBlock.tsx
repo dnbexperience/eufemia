@@ -27,7 +27,7 @@ export default function FieldBlock(props: Props) {
     className,
     'data-testid': dataTestId,
     forId,
-    layout,
+    layout = 'vertical',
     label,
     labelDescription,
     labelSecondary,
@@ -43,7 +43,7 @@ export default function FieldBlock(props: Props) {
       data-testid={dataTestId ?? 'field-block'}
       {...forwardSpaceProps(props)}
     >
-      {(label || labelDescription || labelSecondary) && (
+      {labelDescription || labelSecondary ? (
         <div className="dnb-forms-field-block__label-block">
           {label || labelDescription ? (
             <FormLabel
@@ -67,6 +67,16 @@ export default function FieldBlock(props: Props) {
             </Span>
           )}
         </div>
+      ) : (
+        label && (
+          <FormLabel
+            for_id={forId}
+            label_direction={layout}
+            space={{ bottom: 'x-small' }}
+          >
+            {label}
+          </FormLabel>
+        )
       )}
 
       {children}

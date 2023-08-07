@@ -32,7 +32,7 @@ export type Props = ComponentProps &
     maxLength?: number
     pattern?: string
     // Styling
-    width?: false | 'medium' | 'large'
+    width?: false | 'medium' | 'large' | 'stretch'
   }
 
 export default function FieldString(props: Props) {
@@ -124,6 +124,7 @@ export default function FieldString(props: Props) {
           className={classnames(
             'dnb-forms-field-string__input',
             width !== false &&
+              width !== 'stretch' &&
               `dnb-forms-field-string__input--width-${width}`,
             inputClassName
           )}
@@ -136,14 +137,16 @@ export default function FieldString(props: Props) {
           autoresize={autoresize}
           autoresize_max_rows={autoresizeMaxRows}
           disabled={disabled}
-          stretch
+          stretch={width === 'stretch'}
         />
       ) : (
         <Input
           id={id}
           className={classnames(
             'dnb-forms-field-string__input',
-            width && `dnb-forms-field-string__input--width-${width}`,
+            width !== false &&
+              width !== 'stretch' &&
+              `dnb-forms-field-string__input--width-${width}`,
             inputClassName
           )}
           data-testid={dataTestId ?? path ?? 'field-string'}
@@ -157,7 +160,7 @@ export default function FieldString(props: Props) {
           on_blur={onBlur}
           on_change={onChange}
           disabled={disabled}
-          stretch
+          stretch={width === 'stretch'}
         />
       )}
     </FieldBlock>

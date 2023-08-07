@@ -59,6 +59,73 @@ export const DropdownLabelAndOptionSelected = () => (
   </ComponentBox>
 )
 
+export const HorizontalLayout = () => {
+  return (
+    <ComponentBox scope={{ Field }}>
+      <Field.Selection
+        value="bar"
+        label="Label text"
+        layout="horizontal"
+        onChange={(value) => console.log('onChange', value)}
+      >
+        <Field.Option value="foo" title="Foo!" />
+        <Field.Option value="bar" title="Baar!" />
+      </Field.Selection>
+    </ComponentBox>
+  )
+}
+
+export const Widths = () => {
+  return (
+    <ComponentBox scope={{ Field }}>
+      <Field.Selection
+        label="Default width (property omitted)"
+        value="bar"
+        onChange={(value) => console.log('onChange', value)}
+      >
+        <Field.Option value="foo" title="Foo!" />
+        <Field.Option value="bar" title="Baar!" />
+      </Field.Selection>
+      <Field.Selection
+        label="False (for browser default)"
+        value="bar"
+        width={false}
+        onChange={(value) => console.log('onChange', value)}
+      >
+        <Field.Option value="foo" title="Foo!" />
+        <Field.Option value="bar" title="Baar!" />
+      </Field.Selection>
+      <Field.Selection
+        label="Medium"
+        value="bar"
+        width="medium"
+        onChange={(value) => console.log('onChange', value)}
+      >
+        <Field.Option value="foo" title="Foo!" />
+        <Field.Option value="bar" title="Baar!" />
+      </Field.Selection>
+      <Field.Selection
+        label="Large"
+        value="bar"
+        width="large"
+        onChange={(value) => console.log('onChange', value)}
+      >
+        <Field.Option value="foo" title="Foo!" />
+        <Field.Option value="bar" title="Baar!" />
+      </Field.Selection>
+      <Field.Selection
+        label="Stretch"
+        value="bar"
+        width="stretch"
+        onChange={(value) => console.log('onChange', value)}
+      >
+        <Field.Option value="foo" title="Foo!" />
+        <Field.Option value="bar" title="Baar!" />
+      </Field.Selection>
+    </ComponentBox>
+  )
+}
+
 export const DropdownDisabled = () => (
   <ComponentBox scope={{ Field }}>
     <Field.Selection
