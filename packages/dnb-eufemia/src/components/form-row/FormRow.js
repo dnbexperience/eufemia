@@ -127,7 +127,7 @@ export default class FormRow extends React.PureComponent {
     super(props)
     this._id = props.id || makeUniqueId() // cause we need an id anyway
 
-    // We may considder to use this later to check if we are inside FormSet
+    // We may consider to use this later to check if we are inside FormSet
     // this.isInsideFormSet =
     //   context.FormRow && context.FormRow.isInsideFormSet
   }

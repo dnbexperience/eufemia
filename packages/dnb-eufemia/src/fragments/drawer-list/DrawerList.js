@@ -231,7 +231,7 @@ class DrawerListInstance extends React.PureComponent {
     const listParams = {
       id: `${id}-listbox`,
       /**
-       * We may considder to use the hidden attribute in future
+       * We may consider to use the hidden attribute in future
        * Or we may add an prop to put the HTML in the DOM, if needed
        */
       // hidden: hidden !== false,

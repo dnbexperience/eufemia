@@ -97,7 +97,7 @@ export const format = (
     value = formatDecimals(value, decimals, omit_rounding, opts)
   } else if (typeof opts.maximumFractionDigits === 'undefined') {
     // if no decimals are set, opts.maximumFractionDigits is set
-    // why do we this? because the ".toLotoLocaleString" will else use 3 as the default
+    // why do we this? because the ".toLocaleString" will else use 3 as the default
     opts.maximumFractionDigits = 20
   }
 
@@ -1145,7 +1145,7 @@ function handleCompactBeforeDisplay({
       decimals = parseFloat(decimals)
     }
 
-    // This formula ensures we always get the same amount deciamls
+    // This formula ensures we always get the same amount decimals
     const ref = String(value).length % 3
     if (ref === 2) {
       decimals += 1

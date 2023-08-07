@@ -200,7 +200,7 @@ export default class Radio extends React.PureComponent {
     // delay in case we have a props group only
     if (this.isPlainGroup()) {
       // in case we have a false "hasContext" but a "group"
-      // then we have to use a delay, to overwrite the uncrontrolled state
+      // then we have to use a delay, to overwrite the uncontrolled state
       setTimeout(() => {
         this.setState({ checked, _listenForPropChanges: false }, () =>
           this.callOnChange({ value, checked, event })

@@ -189,7 +189,7 @@ export default class ToggleButton extends React.PureComponent {
               return {
                 values:
                   // in case we have set before a new context (other component)
-                  // we fill combine theese arrays
+                  // we fill combine these arrays
                   tmp && Array.isArray(tmp.values)
                     ? [...tmp.values, props.value]
                     : [props.value],

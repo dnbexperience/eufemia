@@ -188,7 +188,7 @@ export default class DatePickerCalendar extends React.PureComponent {
       if (
         // in case we don't have a start/end date, then we use the current month date
         (currentMonth && !this.context[`${type}Date`]) ||
-        // if we have a larger gap between the new date and the curent month in the calendar
+        // if we have a larger gap between the new date and the current month in the calendar
         (currentMonth &&
           Math.abs(differenceInMonths(newDate, currentMonth)) > 1)
       ) {

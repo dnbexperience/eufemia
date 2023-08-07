@@ -212,7 +212,7 @@ function createDaggy() {
     Object.defineProperty(obj, prop, desc)
   }
 
-  // optimised version of `arr.map(toString).join(', ')`
+  // optimized version of `arr.map(toString).join(', ')`
   function arrToString(arr) {
     if (arr.length === 0) return ''
     let str = '(' + String(arr[0])

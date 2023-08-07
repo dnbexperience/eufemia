@@ -406,7 +406,7 @@ export default class Textarea extends React.PureComponent {
       onKeyDown: this.onKeyDownHandler,
     }
 
-    // we may considder using: aria-details
+    // we may consider using: aria-details
     if (showStatus || suffix) {
       textareaParams['aria-describedby'] = combineDescribedBy(
         textareaParams,

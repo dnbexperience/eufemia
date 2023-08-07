@@ -24,7 +24,7 @@ class JestEnvironment extends PlaywrightEnvironment {
 
   getCurrentTestName(state) {
     const { currentlyRunningTest } = state
-    return getParrents(currentlyRunningTest).reverse().join(' ')
+    return getParents(currentlyRunningTest).reverse().join(' ')
   }
 
   reportedPageUrl = []
@@ -90,7 +90,7 @@ class JestEnvironment extends PlaywrightEnvironment {
 
 module.exports = JestEnvironment
 
-function getParrents(item) {
+function getParents(item) {
   const names = []
 
   if (item?.name) {
@@ -102,7 +102,7 @@ function getParrents(item) {
       names.push(item[key].name)
     }
     if (item[key]?.parent) {
-      names.push(...getParrents(item[key].parent))
+      names.push(...getParents(item[key].parent))
     }
   }
 

@@ -76,7 +76,7 @@ export default class TextMask extends React.PureComponent {
     // Сalculate that settings was changed:
     // - `pipe` converting to string, to compare function content
     // - `mask` converting to string, to compare values or function content
-    // - `keepCharPositions` exludes, because it affect only cursor position
+    // - `keepCharPositions` excludes, because it affect only cursor position
     const settings = { guide, placeholderChar, showMask }
     const isPipeChanged =
       typeof pipe === 'function' && typeof prevProps.pipe === 'function'

@@ -244,11 +244,11 @@ export function scrollToLocationHashId({
  * leading edge, instead of the trailing.
  *
  * @param {function} func The function to execute
- * @param {number} wait The time (milliseconds) before the first given function executres, if the retuned one, not got called
+ * @param {number} wait The time (milliseconds) before the first given function executes, if the returned one, not got called
  * @param {object} options The options object
  * @property {boolean} immediate If true, the function will execute immediately. Defaults to false
  * @property {instance} instance Defines the instance "this" to use on the executed function
- * @returns The function to invlaidate the execution
+ * @returns The function to invalidate the execution
  */
 export function debounce(
   func,

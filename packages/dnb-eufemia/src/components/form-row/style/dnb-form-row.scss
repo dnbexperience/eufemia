@@ -32,7 +32,7 @@
         display: block;
       }
 
-      // TODO: We may considder to wrap horizontal direction to vertical
+      // TODO: We may consider to wrap horizontal direction to vertical
       // overwrite display to be block on small screens
       // @media screen and (max-width: 40em) {
       //   flex-direction: column;
@@ -81,7 +81,7 @@
     flex-direction: column;
   }
 
-  // TODO: we may considder this to be included with a prop later on
+  // TODO: we may consider this to be included with a prop later on
   // default spacing
   // &:not(#{&}--nested) {
   //   margin-bottom: 1.5rem;

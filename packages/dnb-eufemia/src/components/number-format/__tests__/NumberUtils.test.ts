@@ -717,13 +717,13 @@ describe('getCurrencySymbol should', () => {
 })
 
 describe('countDecimals should', () => {
-  it('return deciamls count for string', () => {
+  it('return decimals count for string', () => {
     expect(countDecimals('1.2')).toBe(1)
     expect(countDecimals('1.23')).toBe(2)
     expect(countDecimals('1.01')).toBe(2)
     expect(countDecimals('1.00')).toBe(2)
   })
-  it('return deciamls count for float', () => {
+  it('return decimals count for float', () => {
     expect(countDecimals(1.2)).toBe(1)
     expect(countDecimals(1.23)).toBe(2)
     expect(countDecimals(1.01)).toBe(2)

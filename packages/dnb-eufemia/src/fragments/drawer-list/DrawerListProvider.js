@@ -864,7 +864,7 @@ export default class DrawerListProvider extends React.PureComponent {
               return // stop here
             }
 
-            // We may considder to close the list and set the focus it the handler
+            // We may consider to close the list and set the focus it the handler
             // but also, in portal mode, we want to prevent to start the focus from the top of the page
             else if (isTrue(this.props.prevent_close)) {
               active_item = -1
