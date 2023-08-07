@@ -182,7 +182,7 @@ const preventDefault = (event) => {
   event.preventDefault()
 }
 
-// Depreciated – this function can be removed as soon as we do not need to support iOS < 14
+// Deprecated – this function can be removed as soon as we do not need to support iOS < 14
 const handleScroll = (event, targetElement) => {
   try {
     if (targetElement) {
