@@ -1,7 +1,7 @@
 /**
  * I used this tools:
  * to convert https://svg2jsx.herokuapp.com
- * to otimize https://jakearchibald.github.io/svgomg/
+ * to optimize https://jakearchibald.github.io/svgomg/
  */
 
 import React from 'react'

@@ -124,7 +124,7 @@ export default class FormSet extends React.PureComponent {
     const providerContext = extend(this.context, {
       locale: locale ? locale : this.context.locale,
       FormRow: allowedProps,
-      // isInsideFormSet: true // We may considder to use this later to check if we are inside FormSet
+      // isInsideFormSet: true // We may consider to use this later to check if we are inside FormSet
     })
 
     const Element = isTrue(no_form) ? 'div' : element

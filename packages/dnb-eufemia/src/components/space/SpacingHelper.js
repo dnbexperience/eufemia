@@ -1,6 +1,6 @@
 /**
  * Space helper
- * NB: Because it contains "PropTypes" we keep this file as a JavaScirpt file.
+ * NB: Because it contains "PropTypes" we keep this file as a JavaScript file.
  */
 
 import PropTypes from 'prop-types'

@@ -576,8 +576,8 @@ class ScrollToElement extends React.PureComponent {
     page_element: null,
   }
   componentDidMount() {
-    // we use "findDOMNode" here, because we have situations, where we don't knwo about what the input element is,
-    // we also don't want to wrap them because of markup collitions
+    // we use "findDOMNode" here, because we have situations, where we don't know about what the input element is,
+    // we also don't want to wrap them because of markup collisions
     // therefor we use "findDOMNode" here
     // so we can scroll to that page
     // eslint-disable-next-line
