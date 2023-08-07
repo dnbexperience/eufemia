@@ -1,0 +1,111 @@
+/*
+* Textarea theme
+*
+*/
+
+@import '../../../../style/core/utilities.scss';
+
+.dnb-textarea {
+  --textarea-rows: 2;
+  --textarea-border-color: var(--sb-color-gray-dark-2);
+  --textarea-border-width: 0.0625rem;
+
+  &__state {
+    transition: border-radius 0.25s ease-out;
+    @include fakeBorder(
+      var(--textarea-border-color),
+      var(--textarea-border-width),
+      inset
+    );
+  }
+
+  &__textarea {
+    color: var(--color-black);
+    background-color: transparent;
+
+    ::selection {
+      background-color: var(--color-mint-green);
+      color: var(--color-black);
+      text-shadow: none;
+    }
+
+    @include scrollY(auto);
+  }
+
+  &__placeholder {
+    color: var(--sb-color-gray-dark-3);
+
+    // Required for line-clamp
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+
+    // Limit the text block to two lines
+    -webkit-line-clamp: var(--textarea-rows, 2);
+  }
+
+  &__textarea:not([disabled]):not(#{&}--disabled):hover ~ &__state {
+    --textarea-border-color: var(--sb-color-violet);
+    --textarea-border-width: 0.125rem;
+  }
+
+  &__textarea:not([disabled]):not(#{&}--disabled):focus ~ &__state {
+    --textarea-border-color: var(--sb-color-violet);
+    border-radius: 1.5rem;
+    @include focusRing(null, null, inset);
+  }
+
+  // We may enable this in future – right now it's unclear
+  // &__textarea:not([disabled]):not(#{&}--disabled):focus ~ &__placeholder,
+  // &__textarea:not([disabled]):not(#{&}--disabled):hover ~ &__placeholder {
+  //   color: var(--color-black);
+  // }
+
+  // disabled
+  &--disabled &__textarea,
+  &__textarea[disabled] {
+    user-select: none; // Safari / Touch fix
+    &::-webkit-scrollbar {
+      width: 0;
+    }
+
+    color: var(--sb-color-gray-dark-2);
+    background-color: var(--sb-color-gray-light);
+  }
+
+  &--disabled &__state,
+  &__textarea[disabled] ~ &__state {
+    --textarea-border-color: var(--sb-color-gray-dark-2);
+    --textarea-border-width: 0.0625rem;
+    background-color: var(--sb-color-gray-light);
+  }
+
+  // with status_state = "error"
+  &__status--error:not(#{&}--focus)
+    &__textarea:not([disabled]):not(#{&}--disabled),
+  &__status--error:not(#{&}--focus)
+    &__textarea:not([disabled]):not(#{&}--disabled):hover {
+    color: var(--color-fire-red);
+  }
+  &__status--error:not(#{&}--focus)
+    &__textarea:not([disabled]):not(#{&}--disabled)
+    ~ &__state {
+    --textarea-border-color: var(--sb-color-red);
+  }
+  &__status--error:not(#{&}--focus)
+    &__textarea:not([disabled]):not(#{&}--disabled):hover
+    ~ &__state {
+    --textarea-border-color: var(--sb-color-red);
+    --textarea-border-width: 0.125rem;
+  }
+  &__status--error
+    &__textarea:not([disabled]):not(#{&}--disabled):focus
+    ~ &__state {
+    --textarea-border-color: var(--sb-color-red);
+  }
+
+  // hide placeholder on focus
+  &--has-content &__textarea ~ &__placeholder,
+  &--focus &__textarea:not([disabled], [readonly]) ~ &__placeholder {
+    display: none;
+  }
+}

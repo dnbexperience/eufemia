@@ -61,7 +61,6 @@ describe.each(['ui', 'sbanken'])('Textarea for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  // we do not make a active state, due to the differences of font rendering
 
   it('have to match the "hover" textarea style', async () => {
     const screenshot = await makeScreenshot({
@@ -69,6 +68,18 @@ describe.each(['ui', 'sbanken'])('Textarea for %s', (themeName) => {
       selector: '[data-visual-test="textarea-default"]',
       simulateSelector: '[data-visual-test="textarea-default"] textarea',
       simulate: 'hover',
+      // Only for screenshot testing - make textarea having same width on linux chromium
+      styleSelector: '[data-visual-test="textarea-default"] textarea',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match the "active" textarea style', async () => {
+    const screenshot = await makeScreenshot({
+      style,
+      selector: '[data-visual-test="textarea-default"]',
+      simulateSelector: '[data-visual-test="textarea-default"] textarea',
+      simulate: 'active',
       // Only for screenshot testing - make textarea having same width on linux chromium
       styleSelector: '[data-visual-test="textarea-default"] textarea',
     })
