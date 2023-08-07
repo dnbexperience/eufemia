@@ -279,7 +279,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
       disabled,
       skeleton,
       setContext: (context) => {
-        // also look for a fuction, where we are able to fill old values
+        // also look for a function, where we are able to fill old values
         // this is used in the "constructor" inside the ToggleButton.js component
         if (typeof context === 'function') {
           context = context(this._tmp)
