@@ -106,12 +106,22 @@ export const InputExampleDisabled = () => (
 
 export const InputExampleFormStatus = () => (
   <Wrapper>
-    <ComponentBox data-visual-test="input-error">
-      <Input
-        label="With FormStatus:"
-        status="You have to fill in this field"
-        value="Input value with error"
-      />
+    <ComponentBox>
+      <FormRow bottom data-visual-test="input-error">
+        <Input
+          label="With FormStatus:"
+          status="You have to fill in this field"
+          value="Input value with error"
+        />
+      </FormRow>
+      <FormRow data-visual-test="input-error-button">
+        <Input
+          label="With button:"
+          status="You have to fill in this field"
+          value="Input value with error"
+          type="search"
+        />
+      </FormRow>
     </ComponentBox>
   </Wrapper>
 )

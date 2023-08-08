@@ -166,6 +166,44 @@ describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match error with button', async () => {
+    const screenshot = await makeScreenshot({
+      ...extend('input-error-button'),
+      selector: '[data-visual-test="input-error-button"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match error with button hover', async () => {
+    const screenshot = await makeScreenshot({
+      ...extend('input-error-button'),
+      selector: '[data-visual-test="input-error-button"]',
+      simulateSelector: `[data-visual-test="input-error-button"] .dnb-button`,
+      simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match error with button active', async () => {
+    const screenshot = await makeScreenshot({
+      ...extend('input-error-button'),
+      selector: '[data-visual-test="input-error-button"]',
+      simulateSelector: `[data-visual-test="input-error-button"] .dnb-button`,
+      simulate: 'active',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match error with button focus', async () => {
+    const screenshot = await makeScreenshot({
+      ...extend('input-error-button'),
+      selector: '[data-visual-test="input-error-button"]',
+      simulateSelector: `[data-visual-test="input-error-button"] .dnb-button`,
+      simulate: 'focus',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match input with clear button', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="input-clear"]',
