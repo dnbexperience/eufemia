@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { DatePicker } from '../../../components'
 import { forwardSpaceProps } from '../utils'
-import { useInput } from './hooks'
+import { useField } from './hooks'
 import type { ComponentProps } from '../component-types'
 import type { FieldProps } from '../field-types'
 import SharedContext from '../../../shared/Context'
@@ -28,7 +28,7 @@ export default function FieldDate(props: Props) {
     onFocus,
     onBlur,
     onChange,
-  } = useInput(preparedProps)
+  } = useField(preparedProps)
 
   return (
     <DatePicker

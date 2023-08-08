@@ -7,7 +7,7 @@ import {
   forwardSpaceProps,
 } from '../utils'
 import FieldBlock from '../FieldBlock'
-import { useInput } from './hooks'
+import { useField } from './hooks'
 import type { ComponentProps } from '../component-types'
 import type { FieldProps } from '../field-types'
 
@@ -112,7 +112,7 @@ export default function FieldNumber(props: Props) {
     onFocus,
     onBlur,
     onChange,
-  } = useInput(preparedProps)
+  } = useField(preparedProps)
 
   return (
     <FieldBlock

@@ -3,7 +3,7 @@ import { Checkbox, ToggleButton, Button, Space } from '../../../components'
 import classnames from 'classnames'
 import ButtonRow from '../Layout/ButtonRow'
 import FieldBlock from '../FieldBlock'
-import { useInput } from './hooks'
+import { useField } from './hooks'
 import type { ComponentProps } from '../component-types'
 import type { FieldProps } from '../field-types'
 import { forwardSpaceProps } from '../utils'
@@ -37,7 +37,7 @@ export default function ToggleField(props: Props) {
     warning,
     error,
     onChange,
-  } = useInput(props)
+  } = useField(props)
 
   const handleCheckboxChange = useCallback(
     ({ checked }) => {

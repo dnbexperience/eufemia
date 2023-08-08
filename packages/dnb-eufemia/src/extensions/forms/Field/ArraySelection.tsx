@@ -4,7 +4,7 @@ import classnames from 'classnames'
 import { forwardSpaceProps } from '../utils'
 import Option from './Option'
 import { FieldBlock } from '../Forms'
-import { useInput } from './hooks'
+import { useField } from './hooks'
 import type { ComponentProps } from '../component-types'
 import type { FieldProps } from '../field-types'
 
@@ -30,7 +30,7 @@ export default function ArraySelection(props: Props) {
     emptyValue,
     onChange,
     children,
-  } = useInput(props)
+  } = useField(props)
 
   const options = React.Children.toArray(children).filter(
     (child) => React.isValidElement(child) && child.type === Option

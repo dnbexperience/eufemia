@@ -1,4 +1,6 @@
-export { useInput } from './Field/hooks'
+export type { FieldProps } from './field-types'
+export type { ValueProps } from './value-types'
+export { useField } from './Field/hooks'
 export { default as FieldBlock } from './FieldBlock'
 export { default as Field } from './Field'
 export { useValue } from './Value/hooks'

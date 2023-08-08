@@ -5,7 +5,7 @@ import { InputProps } from '../../../components/input/Input'
 import { forwardSpaceProps } from '../utils'
 import SharedContext from '../../../shared/Context'
 import FieldBlock from '../FieldBlock'
-import { useInput } from './hooks'
+import { useField } from './hooks'
 import type { ComponentProps } from '../component-types'
 import type { FieldProps } from '../field-types'
 
@@ -97,7 +97,7 @@ export default function FieldString(props: Props) {
     onFocus,
     onBlur,
     onChange,
-  } = useInput(preparedProps)
+  } = useField(preparedProps)
 
   const characterCounterElement = characterCounter
     ? props.maxLength

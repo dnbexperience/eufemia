@@ -1,7 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import { InputMasked } from '../../../components'
-import { useInput } from './hooks'
+import { useField } from './hooks'
 import { forwardSpaceProps } from '../utils'
 import type { ComponentProps } from '../component-types'
 import type { FieldProps } from '../field-types'
@@ -40,7 +40,7 @@ export default function FieldCurrency(props: Props) {
     onFocus,
     onBlur,
     onChange,
-  } = useInput(preparedProps)
+  } = useField(preparedProps)
 
   return (
     <InputMasked

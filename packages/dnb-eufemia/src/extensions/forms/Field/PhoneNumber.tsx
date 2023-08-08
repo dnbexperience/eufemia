@@ -4,7 +4,7 @@ import { Autocomplete, Input } from '../../../components'
 import classnames from 'classnames'
 import countries from '../constants/countries'
 import { forwardSpaceProps } from '../utils'
-import { useInput } from './hooks'
+import { useField } from './hooks'
 import type { ComponentProps } from '../component-types'
 import type { FieldProps } from '../field-types'
 import SharedContext from '../../../shared/Context'
@@ -43,7 +43,7 @@ export default function FieldPhoneNumber(props: Props) {
     onFocus,
     onBlur,
     onChange,
-  } = useInput(preparedProps)
+  } = useField(preparedProps)
 
   // Split the value into country code and phone number correctly, even if one of them is not
   // filled in (avoiding number ending up in country code etc)

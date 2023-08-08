@@ -19,7 +19,7 @@ interface ReturnPropOverrides {
   onBlur: (options?: { onBlurValue: unknown }) => void
 }
 
-export default function useInput<Props extends FieldProps<any>>(
+export default function useField<Props extends FieldProps<any>>(
   props: Props
 ): Omit<Props, keyof ReturnPropOverrides> & ReturnPropOverrides {
   const {

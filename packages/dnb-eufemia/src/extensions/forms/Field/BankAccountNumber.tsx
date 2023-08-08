@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import classnames from 'classnames'
 import { InputMasked } from '../../../components'
-import { useInput } from './hooks'
+import { useField } from './hooks'
 import { forwardSpaceProps } from '../utils'
 import { Props as StringComponentProps } from './String'
 import SharedContext from '../../../shared/Context'
@@ -40,7 +40,7 @@ export default function FieldBankAccountNumber(props: Props) {
     onFocus,
     onBlur,
     onChange,
-  } = useInput(preparedProps)
+  } = useField(preparedProps)
 
   return (
     <InputMasked

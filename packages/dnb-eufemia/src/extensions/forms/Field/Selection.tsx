@@ -4,7 +4,7 @@ import { Dropdown, Radio, Checkbox } from '../../../components'
 import classnames from 'classnames'
 import { forwardSpaceProps } from '../utils'
 import Option from './Option'
-import { useInput } from './hooks'
+import { useField } from './hooks'
 import type { ComponentProps } from '../component-types'
 import type { FieldProps } from '../field-types'
 
@@ -34,7 +34,7 @@ export default function Select(props: Props) {
     onFocus,
     onChange,
     children,
-  } = useInput(props)
+  } = useField(props)
 
   const handleDropdownChange = useCallback(
     ({ data: { selected_key } }) => {
