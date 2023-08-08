@@ -4,7 +4,7 @@ import SharedContext from '../../../shared/Context'
 
 export type Props = StringComponentProps
 
-export default function LastNameValue(props: Props) {
+export default function ValueLastName(props: Props) {
   const sharedContext = useContext(SharedContext)
 
   const stringValueProps: Props = {

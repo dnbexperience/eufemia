@@ -1,25 +1,27 @@
 import StringComponent from './String'
 import NumberComponent from './Number'
 import BooleanComponent from './Boolean'
-import CurrencyComponent from './Currency'
+import Currency from './Currency'
 import DateComponent from './Date'
-import EmailComponent from './Email'
-import FirstNameComponent from './FirstName'
-import LastNameComponent from './LastName'
-import NationalIdentityNumberComponent from './NationalIdentityNumber'
-import PhoneNumberComponent from './PhoneNumber'
+import Email from './Email'
+import FirstName from './FirstName'
+import LastName from './LastName'
+import NationalIdentityNumber from './NationalIdentityNumber'
+import PhoneNumber from './PhoneNumber'
+import BankAccountNumber from './BankAccountNumber'
 
 const Value = {
   String: StringComponent,
   Number: NumberComponent,
   Boolean: BooleanComponent,
-  Currency: CurrencyComponent,
+  Currency,
   Date: DateComponent,
-  Email: EmailComponent,
-  FirstName: FirstNameComponent,
-  LastName: LastNameComponent,
-  NationalIdentityNumber: NationalIdentityNumberComponent,
-  PhoneNumber: PhoneNumberComponent,
+  Email,
+  FirstName,
+  LastName,
+  NationalIdentityNumber,
+  PhoneNumber,
+  BankAccountNumber,
 }
 
 export default Value

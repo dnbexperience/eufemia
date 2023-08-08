@@ -1,39 +1,41 @@
 import StringComponent from './String'
 import NumberComponent from './Number'
-import ToggleComponent from './Toggle'
+import Toggle from './Toggle'
 import BooleanComponent from './Boolean'
-import CurrencyComponent from './Currency'
+import Currency from './Currency'
 import DateComponent from './Date'
-import EmailComponent from './Email'
-import FirstNameComponent from './FirstName'
-import LastNameComponent from './LastName'
-import NationalIdentityNumberComponent from './NationalIdentityNumber'
-import PhoneNumberComponent from './PhoneNumber'
-import OrganizationNumberComponent from './OrganizationNumber'
-import PostalCodeAndCityComponent from './PostalCodeAndCity'
-import SelectionComponent from './Selection'
-import ArraySelectionComponent from './ArraySelection';
-import OptionComponent from './Option'
-import SelectCountryComponent from './SelectCountry'
+import Email from './Email'
+import FirstName from './FirstName'
+import LastName from './LastName'
+import NationalIdentityNumber from './NationalIdentityNumber'
+import PhoneNumber from './PhoneNumber'
+import OrganizationNumber from './OrganizationNumber'
+import PostalCodeAndCity from './PostalCodeAndCity'
+import Selection from './Selection'
+import ArraySelection from './ArraySelection';
+import Option from './Option'
+import SelectCountry from './SelectCountry'
+import BankAccountNumber from './BankAccountNumber'
 
 const Field = {
   String: StringComponent,
   Number: NumberComponent,
-  Toggle: ToggleComponent,
+  Toggle,
   Boolean: BooleanComponent,
-  Currency: CurrencyComponent,
+  Currency,
   Date: DateComponent,
-  Email: EmailComponent,
-  FirstName: FirstNameComponent,
-  LastName: LastNameComponent,
-  NationalIdentityNumber: NationalIdentityNumberComponent,
-  OrganizationNumber: OrganizationNumberComponent,
-  PhoneNumber: PhoneNumberComponent,
-  PostalCodeAndCity: PostalCodeAndCityComponent,
-  Selection: SelectionComponent,
-  ArraySelection: ArraySelectionComponent,
-  Option: OptionComponent,
-  SelectCountry: SelectCountryComponent,
+  Email,
+  FirstName,
+  LastName,
+  NationalIdentityNumber,
+  OrganizationNumber,
+  PhoneNumber,
+  PostalCodeAndCity,
+  Selection,
+  ArraySelection,
+  Option,
+  SelectCountry,
+  BankAccountNumber,
 }
 
 export default Field

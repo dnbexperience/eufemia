@@ -11,7 +11,7 @@ export type Props = ComponentProps &
     currency?: string
   }
 
-export default function CurrencyInput(props: Props) {
+export default function FieldCurrency(props: Props) {
   const preparedProps: Props = {
     ...props,
     fromInput: ({
