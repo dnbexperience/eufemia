@@ -19,6 +19,6 @@ describe('generateTypes did generate', () => {
       require.resolve('@dnb/eufemia/src/components/input/Input.d.ts'),
       'utf-8'
     )
-    expect(content).toContain('export interface FieldProps')
+    expect(content).toContain('export interface InputProps')
   })
 })

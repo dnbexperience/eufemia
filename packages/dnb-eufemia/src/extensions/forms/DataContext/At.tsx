@@ -35,26 +35,30 @@ export default function At(props: Props) {
     if (!Array.isArray(data)) {
       return null
     }
-    return data.map((element, i) => {
-      const handlePathChange = contextHandlePathChange
-        ? (changePath, value) => {
-            contextHandlePathChange(`${path}/${i}${changePath}`, value)
-          }
-        : undefined
+    return (
+      <>
+        {data.map((element, i) => {
+          const handlePathChange = contextHandlePathChange
+            ? (changePath, value) => {
+                contextHandlePathChange(`${path}/${i}${changePath}`, value)
+              }
+            : undefined
 
-      return (
-        <Context.Provider
-          key={`element${i}`}
-          value={{
-            ...dataContext,
-            data: element,
-            handlePathChange,
-          }}
-        >
-          {children}
-        </Context.Provider>
-      )
-    })
+          return (
+            <Context.Provider
+              key={`element${i}`}
+              value={{
+                ...dataContext,
+                data: element,
+                handlePathChange,
+              }}
+            >
+              {children}
+            </Context.Provider>
+          )
+        })}
+      </>
+    )
   }
 
   return (
