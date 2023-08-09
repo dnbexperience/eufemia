@@ -1,4 +1,3 @@
-@use '../../../../style/core/utilities.scss';
 @use '../anchor-mixins.scss';
 
 @mixin anchorHover() {
@@ -20,10 +19,6 @@
   color: var(--sb-color-blue-dark);
   background-color: var(--sb-color-blue-light-3);
   border-radius: 0.25rem;
-
-  &:not(:active) {
-    background-color: var(--sb-color-blue-light-3);
-  }
 
   &.dnb-anchor--icon-left {
     margin-left: 0;
@@ -59,7 +54,7 @@
     @include anchorActive();
   }
 
-  &:focus {
+  &:focus-visible {
     @include anchorFocus();
   }
 
@@ -120,5 +115,5 @@
 
 // TODO: add correct contrast styling when designs are in place
 .dnb-anchor--contrast {
-  @include anchor-mixins.useAnchorContrastStyle();
+  @include anchor-mixins.useAnchorContrastStyle(var(--sb-color-text));
 }

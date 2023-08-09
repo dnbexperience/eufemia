@@ -137,13 +137,6 @@ html[data-visual-test] .dnb-tooltip--hide {
 /*
  * Utilities
  */
-/*
- * Anchor mixins
- *
- */
-/*
- * Utilities
- */
 .dnb-number-format {
   display: inline-block;
   position: relative;

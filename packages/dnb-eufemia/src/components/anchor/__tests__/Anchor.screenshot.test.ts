@@ -11,9 +11,9 @@ import {
 describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
   setupPageScreenshot({ themeName, url: '/uilib/components/anchor' })
 
-  it('have to match the "default" state', async () => {
+  it('have to match the preview states', async () => {
     const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="anchor-default"]',
+      selector: '[data-visual-test="anchor-states"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -73,24 +73,36 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the "hover" state', async () => {
+  it('have to match the "default" state', async () => {
     const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="anchor-hover"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  it('have to match the "active" state', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="anchor-active"]',
+      selector: '[data-visual-test="anchor-default"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
 
   it('have to match the "focus" state', async () => {
     const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="anchor-focus"]',
+      selector: '[data-visual-test="anchor-default"]',
+      simulateSelector: '[data-visual-test="anchor-default"] .dnb-anchor',
       simulate: 'focus',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match the "hover" state', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="anchor-default"]',
+      simulateSelector: '[data-visual-test="anchor-default"] .dnb-anchor',
+      simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match the "active" state', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="anchor-default"]',
+      simulateSelector: '[data-visual-test="anchor-default"] .dnb-anchor',
+      simulate: 'active',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -105,6 +117,7 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
   it('have to match the anchor-contrast "focus" state', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-contrast"]',
+      simulateSelector: '[data-visual-test="anchor-contrast"] .dnb-anchor',
       simulate: 'focus',
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -113,7 +126,17 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
   it('have to match the anchor-contrast "hover" state', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="anchor-contrast"]',
+      simulateSelector: '[data-visual-test="anchor-contrast"] .dnb-anchor',
       simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match the anchor-contrast "active" state', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="anchor-contrast"]',
+      simulateSelector: '[data-visual-test="anchor-contrast"] .dnb-anchor',
+      simulate: 'active',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

@@ -52,7 +52,7 @@
   &,
   &:hover,
   &:active,
-  &:focus {
+  &:focus-visible {
     border-radius: 0;
   }
 }
@@ -91,20 +91,16 @@
   }
 }
 
-@mixin anchorFocusStyle($whatinput: null) {
-  &:not(:active) {
-    background-color: transparent;
+@mixin anchorFocusStyle() {
+  background-color: transparent;
 
-    @include resetAnimationStyle();
-    @include resetUnderlineStyle();
-  }
+  @include resetAnimationStyle();
+  @include resetUnderlineStyle();
 
-  @if $whatinput {
-    @include focusRing($whatinput);
-  } @else {
-    @include focusRing();
-  }
+  @include focusRing('always');
+
   border-radius: 0.25em;
+  @content;
 }
 
 @mixin anchorBackground($color) {
@@ -116,23 +112,22 @@
 @mixin useAnchorContrastStyle($contrastColor: var(--color-emerald-green)) {
   color: var(--color-white);
 
-  &:hover,
-  &:active {
+  &:hover {
     color: $contrastColor;
-    background-color: var(--color-white);
-    text-decoration: none;
+    @include anchorBackground(var(--color-white));
   }
 
   &:active {
-    color: $contrastColor;
-    background-color: var(--color-white);
+    color: var(--color-white);
+    background-color: transparent;
+    @include anchorBackground(transparent);
   }
 
-  &:not(:disabled):focus {
+  &:focus-visible {
     color: var(--color-white);
     background-color: transparent;
 
-    @include focusRing(null, var(--color-white));
+    @include focusRing('always', var(--color-white));
   }
 }
 
@@ -181,12 +176,11 @@
   @include anchorDefaultStyle();
 
   // have focus before :active, because of border-radius
-  &:focus {
+  &:focus-visible {
     @include anchorFocusStyle();
   }
 
-  &:hover,
-  &:active {
+  &:hover {
     @include anchorHoverStyle();
   }
 

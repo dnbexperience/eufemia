@@ -166,21 +166,19 @@ exports[`Section scss have to match default theme snapshot 1`] = `
 .dnb-section--fire-red .dnb-anchor, .dnb-section--emerald-green .dnb-anchor, .dnb-section--sea-green .dnb-anchor {
   color: var(--color-white);
 }
-.dnb-section--fire-red .dnb-anchor:hover, .dnb-section--fire-red .dnb-anchor:active, .dnb-section--emerald-green .dnb-anchor:hover, .dnb-section--emerald-green .dnb-anchor:active, .dnb-section--sea-green .dnb-anchor:hover, .dnb-section--sea-green .dnb-anchor:active {
+.dnb-section--fire-red .dnb-anchor:hover, .dnb-section--emerald-green .dnb-anchor:hover, .dnb-section--sea-green .dnb-anchor:hover {
   color: var(--color-emerald-green);
-  background-color: var(--color-white);
-  text-decoration: none;
+  box-shadow: inset 100vw 100vw 0 0 var(--color-white), -0.125em 0 0 0 var(--color-white), 0.125em 0 0 0 var(--color-white);
 }
 .dnb-section--fire-red .dnb-anchor:active, .dnb-section--emerald-green .dnb-anchor:active, .dnb-section--sea-green .dnb-anchor:active {
-  color: var(--color-emerald-green);
-  background-color: var(--color-white);
+  color: var(--color-white);
+  background-color: transparent;
+  box-shadow: inset 100vw 100vw 0 0 transparent, -0.125em 0 0 0 transparent, 0.125em 0 0 0 transparent;
 }
-.dnb-section--fire-red .dnb-anchor:not(:disabled):focus, .dnb-section--emerald-green .dnb-anchor:not(:disabled):focus, .dnb-section--sea-green .dnb-anchor:not(:disabled):focus {
+.dnb-section--fire-red .dnb-anchor:focus-visible, .dnb-section--emerald-green .dnb-anchor:focus-visible, .dnb-section--sea-green .dnb-anchor:focus-visible {
   color: var(--color-white);
   background-color: transparent;
   outline: none;
-}
-html[data-whatinput=keyboard] .dnb-section--fire-red .dnb-anchor:not(:disabled):focus, html[data-whatinput=keyboard] .dnb-section--emerald-green .dnb-anchor:not(:disabled):focus, html[data-whatinput=keyboard] .dnb-section--sea-green .dnb-anchor:not(:disabled):focus {
   --border-color: var(--color-white);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
