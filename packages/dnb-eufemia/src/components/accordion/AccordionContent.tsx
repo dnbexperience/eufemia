@@ -20,7 +20,10 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import { SpacingProps } from '../space/types'
 
-export type AccordionContentProps = React.HTMLProps<HTMLElement> &
+export type AccordionContentProps = Omit<
+  React.HTMLProps<HTMLElement>,
+  'onAnimationEnd'
+> &
   SpacingProps & {
     instance?: React.MutableRefObject<unknown>
     className?: string
