@@ -47,7 +47,6 @@
 
   &[data-input-state='disabled'] {
     --input-border-color: var(--sb-color-gray);
-    --input-border-width: 0.0625rem;
 
     .dnb-input__shell {
       &,
@@ -68,7 +67,6 @@
       --input-color: var(--input-color--active);
       --input-border-radius: 1.5rem;
       --input-border-color: var(--input-border-color--active);
-      --input-border-width: 0.0625rem;
 
       html[data-whatinput='keyboard'] & {
         --input-button-border-color: var(--input-border-color--focus);
