@@ -401,6 +401,9 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
   border-radius: 0.5em;
   box-shadow: inset 100vw 100vw 0 0 var(--anchor-background);
 }
+.dnb-anchor--no-underline, .dnb-anchor--has-icon, .dnb-anchor--inline {
+  box-shadow: inset 100vw 100vw 0 0 var(--anchor-background), -0.25em 0 0 0 var(--anchor-background), 0.25em 0 0 0 var(--anchor-background);
+}
 .dnb-anchor:hover {
   --anchor-background: var(--sb-color-green-dark);
   color: var(--sb-color-text);
@@ -430,26 +433,26 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
 .dnb-anchor:focus-visible.dnb-anchor--icon-right .dnb-icon {
   margin-right: 0;
 }
-.dnb-anchor.dnb-anchor--icon-left {
+.dnb-anchor--icon-left {
   margin-left: 1.125em;
 }
-.dnb-anchor.dnb-anchor--icon-left .dnb-icon {
+.dnb-anchor--icon-left .dnb-icon {
   font-size: 1em;
   margin-right: 0.125em;
   margin-left: -1.125em;
 }
-.dnb-anchor.dnb-anchor--icon-right {
+.dnb-anchor--icon-right {
   margin-right: 1.125em;
 }
-.dnb-anchor.dnb-anchor--icon-right .dnb-icon {
+.dnb-anchor--icon-right .dnb-icon {
   font-size: 1em;
   margin-left: 0.125em;
   margin-right: -1.125em;
 }
-.dnb-anchor.dnb-anchor[target=_blank]:not(:empty, .dnb-anchor--no-icon) {
+.dnb-anchor[target=_blank]:not(:empty, .dnb-anchor--no-icon) {
   padding-right: 0.25em;
 }
-.dnb-anchor.dnb-anchor[target=_blank]:not(:empty, .dnb-anchor--no-icon)::after {
+.dnb-anchor[target=_blank]:not(:empty, .dnb-anchor--no-icon)::after {
   position: initial;
   display: inline-block;
   width: 1.275em;
@@ -459,9 +462,6 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
   margin-right: 0;
   background-position: right;
   background-size: contain;
-}
-.dnb-anchor.dnb-anchor--no-underline, .dnb-anchor.dnb-anchor--has-icon, .dnb-anchor.dnb-anchor--inline {
-  box-shadow: inset 100vw 100vw 0 0 var(--anchor-background), -0.25em 0 0 0 var(--anchor-background), 0.25em 0 0 0 var(--anchor-background);
 }
 .dnb-anchor:not(.dnb-anchor--no-underline):not(.dnb-anchor--has-icon):not(.anchor-hash):not(.dnb-anchor--inline):not(.dnb-anchor--no-style):not(.dnb-anchor--icon-left)::before {
   text-decoration-color: var(--sb-color-green-dark);
@@ -487,6 +487,8 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
 }
 
 .dnb-anchor--focus {
+  background-color: transparent;
+  transition: none;
   outline: none;
   --border-color: var(--focus-ring-color);
   --border-width: var(--focus-ring-width);
@@ -497,11 +499,7 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
   background-color: var(--sb-color-blue-light-3);
   border-radius: 0.25em;
 }
-.dnb-anchor--focus:not(:active) {
-  background-color: transparent;
-  transition: none;
-}
-.dnb-anchor--focus:not(:active), .dnb-section .dnb-anchor--focus:not(:active).dnb-anchor {
+.dnb-anchor--focus, .dnb-section .dnb-anchor--focus.dnb-anchor {
   text-decoration: none;
 }
 .dnb-anchor--focus.dnb-anchor--icon-left {

@@ -51,6 +51,15 @@
 
   @include anchor-mixins.anchorBackground(var(--anchor-background), null);
 
+  &--no-underline,
+  &--has-icon,
+  &--inline {
+    @include anchor-mixins.anchorBackground(
+      var(--anchor-background),
+      0.25em
+    );
+  }
+
   &:hover {
     @include anchorHover();
   }
@@ -63,7 +72,7 @@
     @include anchorFocus();
   }
 
-  &.dnb-anchor--icon-left {
+  &--icon-left {
     margin-left: 1em + $anchor-icon-gutter;
 
     .dnb-icon {
@@ -73,7 +82,7 @@
     }
   }
 
-  &.dnb-anchor--icon-right {
+  &--icon-right {
     margin-right: 1em + $anchor-icon-gutter;
 
     .dnb-icon {
@@ -83,7 +92,7 @@
     }
   }
 
-  &.dnb-anchor[target='_blank']:not(:empty, .dnb-anchor--no-icon) {
+  &[target='_blank']:not(:empty, .dnb-anchor--no-icon) {
     padding-right: 0.25em;
     &::after {
       position: initial;
@@ -96,15 +105,6 @@
       background-position: right;
       background-size: contain;
     }
-  }
-
-  &--no-underline,
-  &--has-icon,
-  &--inline {
-    @include anchor-mixins.anchorBackground(
-      var(--anchor-background),
-      0.25em
-    );
   }
 
   &:not(.dnb-anchor--no-underline):not(.dnb-anchor--has-icon):not(.anchor-hash):not(.dnb-anchor--inline):not(.dnb-anchor--no-style) {
