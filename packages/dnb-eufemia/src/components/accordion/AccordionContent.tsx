@@ -22,7 +22,7 @@ import { SpacingProps } from '../space/types'
 
 export type AccordionContentProps = Omit<
   React.HTMLProps<HTMLElement>,
-  'onAnimationEnd'
+  'onAnimationEnd' | 'children'
 > &
   SpacingProps & {
     instance?: React.MutableRefObject<unknown>
