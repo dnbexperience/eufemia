@@ -37,6 +37,44 @@ describe.each(['ui', 'sbanken'])('Textarea for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match the error textarea "hover"', async () => {
+    const screenshot = await makeScreenshot({
+      style,
+      selector: '[data-visual-test="textarea-error"]',
+      simulateSelector: '[data-visual-test="textarea-error"] textarea',
+      simulate: 'hover',
+      // Only for screenshot testing - make textarea having same width on linux chromium
+      styleSelector: '[data-visual-test="textarea-error"] textarea',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match the error textarea mouse focus', async () => {
+    const screenshot = await makeScreenshot({
+      style,
+      selector: '[data-visual-test="textarea-error"]',
+      simulateSelector: '[data-visual-test="textarea-error"] textarea',
+      simulate: 'click',
+      // Only for screenshot testing - make textarea having same width on linux chromium
+      styleSelector: '[data-visual-test="textarea-error"] textarea',
+      waitAfterSimulate: 250,
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match the error textarea "focus"', async () => {
+    const screenshot = await makeScreenshot({
+      style,
+      selector: '[data-visual-test="textarea-error"]',
+      simulateSelector: '[data-visual-test="textarea-error"] textarea',
+      simulate: 'focus', // should be tested first
+      // Only for screenshot testing - make textarea having same width on linux chromium
+      styleSelector: '[data-visual-test="textarea-error"] textarea',
+      waitAfterSimulate: 250,
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match stretched textarea style', async () => {
     const screenshot = await makeScreenshot({
       style: {
@@ -45,19 +83,6 @@ describe.each(['ui', 'sbanken'])('Textarea for %s', (themeName) => {
       // Only for screenshot testing - make textarea having same width on linux chromium
       // styleSelector: '[data-visual-test="textarea-stretch"]',
       selector: '[data-visual-test="textarea-stretch"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  it('have to match the "focus" textarea style', async () => {
-    const screenshot = await makeScreenshot({
-      style,
-      selector: '[data-visual-test="textarea-default"]',
-      simulateSelector: '[data-visual-test="textarea-default"] textarea',
-      simulate: 'focus', // should be tested first
-      // Only for screenshot testing - make textarea having same width on linux chromium
-      styleSelector: '[data-visual-test="textarea-default"] textarea',
-      waitAfterSimulate: 250,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -80,6 +105,19 @@ describe.each(['ui', 'sbanken'])('Textarea for %s', (themeName) => {
       selector: '[data-visual-test="textarea-default"]',
       simulateSelector: '[data-visual-test="textarea-default"] textarea',
       simulate: 'click',
+      // Only for screenshot testing - make textarea having same width on linux chromium
+      styleSelector: '[data-visual-test="textarea-default"] textarea',
+      waitAfterSimulate: 250,
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match the "focus" textarea style', async () => {
+    const screenshot = await makeScreenshot({
+      style,
+      selector: '[data-visual-test="textarea-default"]',
+      simulateSelector: '[data-visual-test="textarea-default"] textarea',
+      simulate: 'focus', // should be tested first
       // Only for screenshot testing - make textarea having same width on linux chromium
       styleSelector: '[data-visual-test="textarea-default"] textarea',
       waitAfterSimulate: 250,
