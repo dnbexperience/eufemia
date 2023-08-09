@@ -169,7 +169,7 @@ function Accordion(props: AccordionProps) {
   }
 
   const group = props.group || context?.group
-  const id = props.id || makeUniqueId()
+  const id = useRef(props.id || makeUniqueId()).current
 
   const store = new Store({ id: props.id, group })
 
