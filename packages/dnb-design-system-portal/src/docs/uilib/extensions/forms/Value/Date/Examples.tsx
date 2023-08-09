@@ -44,23 +44,11 @@ export const LabelAndValue = () => {
 export const Inline = () => {
   return (
     <ComponentBox scope={{ Value }}>
-      <>
+      <p>
         This is before the component
         <Value.Date value="2023-01-16" inline />
         This is after the component
-      </>
-    </ComponentBox>
-  )
-}
-
-export const InlineAndLabel = () => {
-  return (
-    <ComponentBox scope={{ Value }}>
-      <>
-        This is before the component
-        <Value.Date label="Label text" value="2023-01-16" inline />
-        This is after the component
-      </>
+      </p>
     </ComponentBox>
   )
 }

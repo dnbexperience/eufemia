@@ -4,7 +4,7 @@ interface FormatNumberOptions {
   /** Character to use for separating groups of number. Like '12 345' for 12345. */
   thousandSeparator?: string
   /** Max number of decimals. For source numbers with higher number of decimals, the number will be rounded. Will not add leading zeros. */
-  decimals?: number
+  decimalLimit?: number
   /** Set a fixed number of decimals (rounding when more decimals, adding leading zeros when less). */
   fixedDecimals?: number
   /** Symbol to separate between digits and decimals. */
@@ -19,7 +19,7 @@ export function formatNumber(
 ): string {
   const {
     thousandSeparator,
-    decimals,
+    decimalLimit,
     fixedDecimals,
     decimalSymbol = ',', // Norwegian default format
     magnitude,
@@ -33,10 +33,10 @@ export function formatNumber(
   const withDecimals =
     fixedDecimals !== undefined
       ? withMagnitude.toFixed(fixedDecimals)
-      : decimals
+      : decimalLimit
       ? (
-          Math.round(withMagnitude * Math.pow(10, decimals)) /
-          Math.pow(10, decimals)
+          Math.round(withMagnitude * Math.pow(10, decimalLimit)) /
+          Math.pow(10, decimalLimit)
         ).toString()
       : withMagnitude.toString()
 

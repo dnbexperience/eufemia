@@ -36,7 +36,7 @@ export const LabelAndValue = () => {
   return (
     <ComponentBox scope={{ Field }}>
       <Field.Number
-        value={420000}
+        value={420000.25}
         label="Label text"
         onChange={(value) => console.log('onChange', value)}
       />

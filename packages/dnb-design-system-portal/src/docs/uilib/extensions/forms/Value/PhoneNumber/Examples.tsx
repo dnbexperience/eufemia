@@ -36,7 +36,7 @@ export const Label = () => {
 export const LabelAndValue = () => {
   return (
     <ComponentBox scope={{ Value }}>
-      <Value.PhoneNumber label="Label text" value="98712345" />
+      <Value.PhoneNumber label="Label text" value="+4798712345" />
     </ComponentBox>
   )
 }
@@ -44,23 +44,11 @@ export const LabelAndValue = () => {
 export const Inline = () => {
   return (
     <ComponentBox scope={{ Value }}>
-      <>
+      <p>
         This is before the component
         <Value.PhoneNumber value="98712345" inline />
         This is after the component
-      </>
-    </ComponentBox>
-  )
-}
-
-export const InlineAndLabel = () => {
-  return (
-    <ComponentBox scope={{ Value }}>
-      <>
-        This is before the component
-        <Value.PhoneNumber label="Label text" value="98712345" inline />
-        This is after the component
-      </>
+      </p>
     </ComponentBox>
   )
 }

@@ -131,14 +131,16 @@ export default function FlexContainer(props: Props) {
                 <React.Fragment key={`element-${i}`}>
                   <Space top={spaceAboveLine} />
                   <hr className="dnb-forms-flex-container__hr" />
-                  {React.cloneElement(
-                    child as React.ReactElement<SpacingProps>,
-                    {
-                      space: { top, bottom },
-                      top,
-                      bottom,
-                    }
-                  )}
+                  {typeof child.type === 'string'
+                    ? child // For tags
+                    : React.cloneElement(
+                        child as React.ReactElement<SpacingProps>,
+                        {
+                          space: { top, bottom },
+                          top,
+                          bottom,
+                        }
+                      )}
                 </React.Fragment>
               )
             }

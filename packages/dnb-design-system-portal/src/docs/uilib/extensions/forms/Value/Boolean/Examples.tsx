@@ -52,23 +52,11 @@ export const LabelAndValue = () => {
 export const Inline = () => {
   return (
     <ComponentBox scope={{ Value }}>
-      <>
+      <p>
         <span style={{ color: 'red' }}>This is before the component</span>
         <Value.Boolean value={true} inline />
         <span style={{ color: 'red' }}>This is after the component</span>
-      </>
-    </ComponentBox>
-  )
-}
-
-export const InlineAndLabel = () => {
-  return (
-    <ComponentBox scope={{ Value }}>
-      <>
-        <span style={{ color: 'red' }}>This is before the component</span>
-        <Value.Boolean label="Label text" value={true} inline />
-        <span style={{ color: 'red' }}>This is after the component</span>
-      </>
+      </p>
     </ComponentBox>
   )
 }

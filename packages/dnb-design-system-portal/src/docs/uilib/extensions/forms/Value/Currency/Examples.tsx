@@ -44,11 +44,11 @@ export const LabelAndValue = () => {
 export const Inline = () => {
   return (
     <ComponentBox scope={{ Value }}>
-      <>
+      <p>
         This is before the component
         <Value.Currency value={25000} inline />
         This is after the component
-      </>
+      </p>
     </ComponentBox>
   )
 }
@@ -56,11 +56,11 @@ export const Inline = () => {
 export const InlineAndLabel = () => {
   return (
     <ComponentBox scope={{ Value }}>
-      <>
+      <p>
         This is before the component
         <Value.Currency label="Label text" value={25000} inline />
         This is after the component
-      </>
+      </p>
     </ComponentBox>
   )
 }

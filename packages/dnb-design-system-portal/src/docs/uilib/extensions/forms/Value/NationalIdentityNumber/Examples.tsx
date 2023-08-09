@@ -47,27 +47,11 @@ export const LabelAndValue = () => {
 export const Inline = () => {
   return (
     <ComponentBox scope={{ Value }}>
-      <>
+      <p>
         This is before the component
         <Value.NationalIdentityNumber value="25017598765" inline />
         This is after the component
-      </>
-    </ComponentBox>
-  )
-}
-
-export const InlineAndLabel = () => {
-  return (
-    <ComponentBox scope={{ Value }}>
-      <>
-        This is before the component
-        <Value.NationalIdentityNumber
-          label="Label text"
-          value="25017598765"
-          inline
-        />
-        This is after the component
-      </>
+      </p>
     </ComponentBox>
   )
 }

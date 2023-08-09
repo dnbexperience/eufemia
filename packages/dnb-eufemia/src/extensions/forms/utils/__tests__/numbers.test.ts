@@ -32,11 +32,11 @@ describe('numbers util', () => {
     })
 
     it('should round correctly with decimals', () => {
-      expect(formatNumber(12.34, { decimals: 1 })).toEqual('12,3')
-      expect(formatNumber(12.34, { decimals: 2 })).toEqual('12,34')
-      expect(formatNumber(12.34, { decimals: 3 })).toEqual('12,34')
-      expect(formatNumber(12.34, { decimals: 4 })).toEqual('12,34')
-      expect(formatNumber(12.34, { decimals: 5 })).toEqual('12,34')
+      expect(formatNumber(12.34, { decimalLimit: 1 })).toEqual('12,3')
+      expect(formatNumber(12.34, { decimalLimit: 2 })).toEqual('12,34')
+      expect(formatNumber(12.34, { decimalLimit: 3 })).toEqual('12,34')
+      expect(formatNumber(12.34, { decimalLimit: 4 })).toEqual('12,34')
+      expect(formatNumber(12.34, { decimalLimit: 5 })).toEqual('12,34')
     })
 
     it('should round correctly with fixed decimals and add leading zeros', () => {
@@ -82,7 +82,7 @@ describe('numbers util', () => {
         formatNumber(12345678, {
           thousandSeparator: ' ',
           decimalSymbol: 'x',
-          decimals: 2,
+          decimalLimit: 2,
           magnitude: 3,
         })
       ).toEqual('12 345x68')

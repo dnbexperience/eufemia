@@ -8,10 +8,9 @@ import type { ValueProps } from '../value-types'
 export type Props = ComponentProps &
   ValueProps<number> & {
     // Formatting
-    thousandSeparator?: string
+    thousandSeparator?: string | true
     decimalSymbol?: string
-    decimals?: number
-    fixedDecimals?: number
+    decimalLimit?: number
     prefix?: string
     suffix?: string
   }
@@ -27,8 +26,7 @@ export default function ValueNumber(props: Props) {
     showEmpty,
     thousandSeparator,
     decimalSymbol,
-    decimals,
-    fixedDecimals,
+    decimalLimit,
     prefix,
     suffix,
   } = useValue(props)
@@ -45,10 +43,10 @@ export default function ValueNumber(props: Props) {
     >
       {value !== undefined
         ? formatNumber(value, {
-            thousandSeparator,
+            thousandSeparator:
+              thousandSeparator === true ? ' ' : thousandSeparator,
             decimalSymbol,
-            decimals,
-            fixedDecimals,
+            decimalLimit,
             prefix,
             suffix,
           })

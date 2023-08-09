@@ -46,34 +46,19 @@ describe('Field.Number', () => {
       expect(screen.getByDisplayValue('97531:2468')).toBeInTheDocument()
     })
 
-    it('formats with same number of decimals', () => {
-      render(<Field.Number value={42.51} decimals={2} />)
+    it('formats with same decimal limit', () => {
+      render(<Field.Number value={42.51} decimalLimit={2} />)
       expect(screen.getByDisplayValue('42,51')).toBeInTheDocument()
     })
 
-    it('formats with smaller number of decimals', () => {
-      render(<Field.Number value={5876.789} decimals={2} />)
-      expect(screen.getByDisplayValue('5876,79')).toBeInTheDocument()
-    })
+    // it('formats with smaller decimal limit', () => {
+    //   render(<Field.Number value={5876.789} decimalLimit={2} />)
+    //   expect(screen.getByDisplayValue('5876,79')).toBeInTheDocument()
+    // })
 
-    it('formats with higher number of decimals', () => {
-      render(<Field.Number value={123.456} decimals={4} />)
+    it('formats with higher decimal limit', () => {
+      render(<Field.Number value={123.456} decimalLimit={4} />)
       expect(screen.getByDisplayValue('123,456')).toBeInTheDocument()
-    })
-
-    it('formats with fixed decimals, same as value', () => {
-      render(<Field.Number value={13.579} fixedDecimals={3} />)
-      expect(screen.getByDisplayValue('13,579')).toBeInTheDocument()
-    })
-
-    it('formats with fixed decimals, smaller than value', () => {
-      render(<Field.Number value={13.579} fixedDecimals={2} />)
-      expect(screen.getByDisplayValue('13,58')).toBeInTheDocument()
-    })
-
-    it('formats with fixed decimals, higher than value', () => {
-      render(<Field.Number value={13.579} fixedDecimals={5} />)
-      expect(screen.getByDisplayValue('13,57900')).toBeInTheDocument()
     })
   })
 

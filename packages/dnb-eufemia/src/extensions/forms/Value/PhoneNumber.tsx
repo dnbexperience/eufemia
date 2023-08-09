@@ -1,6 +1,10 @@
 import React, { useContext } from 'react'
 import StringComponent, { Props as StringComponentProps } from './String'
 import SharedContext from '../../../shared/Context'
+import {
+  format,
+  cleanNumber,
+} from '../../../components/number-format/NumberUtils'
 
 export type Props = StringComponentProps
 
@@ -10,7 +14,13 @@ export default function ValuePhoneNumber(props: Props) {
   const stringValueProps: Props = {
     ...props,
     label:
-      props.label ?? sharedContext?.translation.Forms.phoneNumberLabel,
+      props.label ??
+      (props.inline
+        ? undefined
+        : sharedContext?.translation.Forms.phoneNumberLabel),
+    value: format(cleanNumber(props.value), {
+      phone: true,
+    }).toString(),
   }
   return <StringComponent {...stringValueProps} />
 }

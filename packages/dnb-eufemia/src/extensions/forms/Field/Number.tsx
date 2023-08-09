@@ -1,11 +1,7 @@
 import React from 'react'
-import { Input } from '../../../components'
+import { InputMasked } from '../../../components'
 import classnames from 'classnames'
-import {
-  formatNumber,
-  parseFormattedNumber,
-  forwardSpaceProps,
-} from '../utils'
+import { forwardSpaceProps } from '../utils'
 import FieldBlock from '../FieldBlock'
 import { useField } from './hooks'
 import type { ComponentProps } from '../component-types'
@@ -25,10 +21,9 @@ export type Props = ComponentProps &
   FieldProps<number, undefined, ErrorMessages> & {
     inputClassName?: string
     // Formatting
-    thousandSeparator?: string
+    thousandSeparator?: string | true
     decimalSymbol?: string
-    decimals?: number
-    fixedDecimals?: number
+    decimalLimit?: number
     prefix?: string
     suffix?: string
     // Validation
@@ -39,16 +34,17 @@ export type Props = ComponentProps &
     multipleOf?: number
     // Styling
     width?: false | 'medium' | 'large' | 'stretch'
+    rightAligned?: boolean
   }
 
 export default function FieldNumber(props: Props) {
   const {
     thousandSeparator,
-    decimalSymbol,
-    decimals,
-    fixedDecimals,
+    decimalSymbol = ',',
+    decimalLimit = 12,
     prefix,
     suffix,
+    rightAligned,
   } = props
 
   const preparedProps: Props = {
@@ -65,28 +61,19 @@ export default function FieldNumber(props: Props) {
       if (external === undefined) {
         return ''
       }
-
-      return formatNumber(external, {
-        thousandSeparator,
-        decimalSymbol,
-        decimals,
-        fixedDecimals,
-        prefix,
-        suffix,
-      })
+      return external
     },
-    fromInput: ({ value: valueFromInput }: { value: string }) => {
-      if (valueFromInput === '') {
+    fromInput: ({
+      value,
+      numberValue,
+    }: {
+      value: string
+      numberValue: number
+    }) => {
+      if (value === '') {
         return emptyValue
       }
-      return parseFormattedNumber(valueFromInput, {
-        thousandSeparator,
-        decimalSymbol,
-        decimals,
-        fixedDecimals,
-        prefix,
-        suffix,
-      })
+      return numberValue
     },
     width: props.width ?? 'medium',
   }
@@ -127,7 +114,7 @@ export default function FieldNumber(props: Props) {
       error={error}
       {...forwardSpaceProps(props)}
     >
-      <Input
+      <InputMasked
         id={id}
         className={classnames(
           'dnb-forms-field-number__input',
@@ -139,7 +126,18 @@ export default function FieldNumber(props: Props) {
         data-testid={dataTestId ?? path ?? 'field-number'}
         placeholder={placeholder}
         value={value}
-        suffix={suffix}
+        as_number
+        number_mask={{
+          decimalLimit,
+          decimalSymbol,
+          includeThousandsSeparator: thousandSeparator !== undefined,
+          thousandsSeparatorSymbol:
+            thousandSeparator === true ? ' ' : thousandSeparator,
+          prefix,
+          suffix,
+        }}
+        right={rightAligned}
+        bottom
         on_focus={onFocus}
         on_blur={onBlur}
         on_change={onChange}
