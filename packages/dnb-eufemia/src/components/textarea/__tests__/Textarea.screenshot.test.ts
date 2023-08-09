@@ -48,7 +48,6 @@ describe.each(['ui', 'sbanken'])('Textarea for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  // we do not make a active state, due to the differences of font rendering
 
   it('have to match the "focus" textarea style', async () => {
     const screenshot = await makeScreenshot({
@@ -58,6 +57,7 @@ describe.each(['ui', 'sbanken'])('Textarea for %s', (themeName) => {
       simulate: 'focus', // should be tested first
       // Only for screenshot testing - make textarea having same width on linux chromium
       styleSelector: '[data-visual-test="textarea-default"] textarea',
+      waitAfterSimulate: 250,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -74,14 +74,15 @@ describe.each(['ui', 'sbanken'])('Textarea for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the "active" textarea style', async () => {
+  it('have to match the mouse focus textarea style', async () => {
     const screenshot = await makeScreenshot({
       style,
       selector: '[data-visual-test="textarea-default"]',
       simulateSelector: '[data-visual-test="textarea-default"] textarea',
-      simulate: 'active',
+      simulate: 'click',
       // Only for screenshot testing - make textarea having same width on linux chromium
       styleSelector: '[data-visual-test="textarea-default"] textarea',
+      waitAfterSimulate: 250,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
