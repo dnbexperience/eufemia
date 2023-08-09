@@ -7,7 +7,7 @@ import React from 'react'
 import { SkeletonContextProps } from '../skeleton/SkeletonHelper'
 import { AccordionProps } from './Accordion'
 
-type AccordionContextProps = AccordionProps &
+export type AccordionContextProps = AccordionProps &
   SkeletonContextProps & {
     allow_close_all?: boolean
     callOnChange?: (parameters: {

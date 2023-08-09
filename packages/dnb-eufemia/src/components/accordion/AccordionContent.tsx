@@ -13,20 +13,22 @@ import {
   getPreviousSibling,
 } from '../../shared/component-helper'
 import { useMediaQuery } from '../../shared'
-import AccordionContext from './AccordionContext'
+import AccordionContext, {
+  AccordionContextProps,
+} from './AccordionContext'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import { SpacingProps } from '../space/types'
 
 export type AccordionContentProps = React.HTMLProps<HTMLElement> &
   SpacingProps & {
-    instance?: React.LegacyRef<any>
+    instance?: React.MutableRefObject<unknown>
     className?: string
     children?: React.ReactNode | ((...args: any[]) => any)
   }
 
-export default function AccordionContent(props: any) {
-  const context = React.useContext<any>(AccordionContext)
+export default function AccordionContent(props: AccordionContentProps) {
+  const context = React.useContext<AccordionContextProps>(AccordionContext)
 
   const {
     id,
