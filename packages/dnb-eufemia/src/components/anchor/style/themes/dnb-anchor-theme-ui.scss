@@ -3,8 +3,7 @@
 @mixin anchorStyle() {
   color: var(--color-sea-green);
 
-  &:hover,
-  &:active {
+  &:hover {
     color: var(--color-sea-green);
     @include anchor-mixins.anchorBackground(var(--color-mint-green-50));
   }
@@ -14,10 +13,8 @@
     @include anchor-mixins.anchorBackground(var(--color-emerald-green));
   }
 
-  &:focus {
-    &:not(:active) {
-      color: var(--color-sea-green);
-    }
+  &:focus-visible {
+    color: var(--color-sea-green);
   }
 }
 
@@ -38,9 +35,7 @@ $useClasses: true !default;
   }
 
   .dnb-anchor--focus {
-    &:not(:active) {
-      color: var(--color-sea-green);
-    }
+    color: var(--color-sea-green);
   }
 
   .dnb-anchor--contrast {

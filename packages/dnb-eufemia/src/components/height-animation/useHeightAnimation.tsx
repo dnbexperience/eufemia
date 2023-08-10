@@ -193,7 +193,7 @@ function useAdjust({ children, animRef, isInitialRender }) {
 
       animRef.current.adjustTo(
         fromHeight.current,
-        animRef.current.getHeight() // use getHeight instead of getUnknownHeight because of the additional, disturbing DOM manipupation
+        animRef.current.getHeight() // use getHeight instead of getUnknownHeight because of the additional, disturbing DOM manipulation
       )
     }
   }, [children]) // eslint-disable-line react-hooks/exhaustive-deps

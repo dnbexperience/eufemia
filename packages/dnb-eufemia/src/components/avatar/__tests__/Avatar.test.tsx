@@ -63,7 +63,6 @@ describe('Avatar', () => {
     )
 
     expect(screen.queryByTestId('confetti icon')).toBeInTheDocument()
-    expect(screen.queryByTestId('avatar-label')).toBeNull()
   })
 
   it('renders img from src', () => {
@@ -259,7 +258,7 @@ describe('Avatar', () => {
 
       expect(
         document.querySelector('.dnb-avatar__group--elements-left')
-      ).toBeNull()
+      ).not.toBeInTheDocument()
 
       expect(avatarsDisplayed).toHaveLength(3)
     })
@@ -278,7 +277,7 @@ describe('Avatar', () => {
 
       expect(
         document.querySelector('.dnb-avatar__group--elements-left')
-      ).toBeNull()
+      ).not.toBeInTheDocument()
       expect(avatarsDisplayed).toHaveLength(3)
     })
 
@@ -296,7 +295,7 @@ describe('Avatar', () => {
 
       expect(
         document.querySelector('.dnb-avatar__group--elements-left')
-      ).toBeNull()
+      ).not.toBeInTheDocument()
       expect(avatarsDisplayed).toHaveLength(3)
     })
 
@@ -313,7 +312,7 @@ describe('Avatar', () => {
 
       expect(
         document.querySelector('.dnb-avatar__group--elements-left')
-      ).toBeNull()
+      ).not.toBeInTheDocument()
       expect(avatarsDisplayed).toHaveLength(2)
     })
 

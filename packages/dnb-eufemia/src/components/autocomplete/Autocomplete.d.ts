@@ -77,7 +77,7 @@ export interface AutocompleteProps
    */
   show_options_sr?: string;
   /**
-   * Only for screen readers (VocieOver). The label used to announce the selected item. Defaults to `Valgt:`.
+   * Only for screen readers (VoiceOver). The label used to announce the selected item. Defaults to `Valgt:`.
    */
   selected_sr?: string;
   /**

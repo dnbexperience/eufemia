@@ -15,9 +15,9 @@ describe('Anchor with scrollToHashHandler', () => {
   })
 
   it('should call window.scroll', () => {
-    const onScoll = jest.fn()
+    const onScroll = jest.fn()
 
-    jest.spyOn(window, 'scroll').mockImplementationOnce(onScoll)
+    jest.spyOn(window, 'scroll').mockImplementationOnce(onScroll)
     jest.spyOn(window, 'location', 'get').mockReturnValueOnce({
       ...location,
       href: 'http://localhost/path',
@@ -35,14 +35,14 @@ describe('Anchor with scrollToHashHandler', () => {
     const element = document.querySelector('a')
     fireEvent.click(element)
 
-    expect(onScoll).toHaveBeenCalledTimes(1)
-    expect(onScoll).toHaveBeenCalledWith({ top: 0 })
+    expect(onScroll).toHaveBeenCalledTimes(1)
+    expect(onScroll).toHaveBeenCalledWith({ top: 0 })
   })
 
   it('should use last hash', () => {
-    const onScoll = jest.fn()
+    const onScroll = jest.fn()
 
-    jest.spyOn(window, 'scroll').mockImplementationOnce(onScoll)
+    jest.spyOn(window, 'scroll').mockImplementationOnce(onScroll)
     jest.spyOn(window, 'location', 'get').mockReturnValueOnce({
       ...location,
       href: 'http://localhost/path',
@@ -63,14 +63,14 @@ describe('Anchor with scrollToHashHandler', () => {
     const element = document.querySelector('a')
     fireEvent.click(element)
 
-    expect(onScoll).toHaveBeenCalledTimes(1)
-    expect(onScoll).toHaveBeenCalledWith({ top: 0 })
+    expect(onScroll).toHaveBeenCalledTimes(1)
+    expect(onScroll).toHaveBeenCalledWith({ top: 0 })
   })
 
   it('should not call window.scroll when no hash-id found', () => {
-    const onScoll = jest.fn()
+    const onScroll = jest.fn()
 
-    jest.spyOn(window, 'scroll').mockImplementationOnce(onScoll)
+    jest.spyOn(window, 'scroll').mockImplementationOnce(onScroll)
     jest.spyOn(window, 'location', 'get').mockReturnValueOnce({
       ...location,
       href: 'http://localhost/path',
@@ -88,13 +88,13 @@ describe('Anchor with scrollToHashHandler', () => {
     const element = document.querySelector('a')
     fireEvent.click(element)
 
-    expect(onScoll).toHaveBeenCalledTimes(0)
+    expect(onScroll).toHaveBeenCalledTimes(0)
   })
 
   it('will skip when no # exists in href', () => {
-    const onScoll = jest.fn()
+    const onScroll = jest.fn()
 
-    jest.spyOn(window, 'scroll').mockImplementationOnce(onScoll)
+    jest.spyOn(window, 'scroll').mockImplementationOnce(onScroll)
     jest.spyOn(window, 'location', 'get').mockReturnValueOnce({
       ...location,
       href: 'http://localhost/path',
@@ -109,13 +109,13 @@ describe('Anchor with scrollToHashHandler', () => {
     const element = document.querySelector('a')
     fireEvent.click(element)
 
-    expect(onScoll).toHaveBeenCalledTimes(0)
+    expect(onScroll).toHaveBeenCalledTimes(0)
   })
 
   it('should not call window.scroll when not on same page', () => {
-    const onScoll = jest.fn()
+    const onScroll = jest.fn()
 
-    jest.spyOn(window, 'scroll').mockImplementationOnce(onScoll)
+    jest.spyOn(window, 'scroll').mockImplementationOnce(onScroll)
     jest.spyOn(window, 'location', 'get').mockReturnValueOnce({
       ...location,
       href: 'http://localhost/path',
@@ -133,6 +133,6 @@ describe('Anchor with scrollToHashHandler', () => {
     const element = document.querySelector('a')
     fireEvent.click(element)
 
-    expect(onScoll).toHaveBeenCalledTimes(0)
+    expect(onScroll).toHaveBeenCalledTimes(0)
   })
 })

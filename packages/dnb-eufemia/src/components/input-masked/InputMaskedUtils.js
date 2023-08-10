@@ -160,7 +160,7 @@ export const correctNumberValue = ({
     /**
      * While typing;
      * If the local value is - or -0 we use it.
-     * Also, because of invisible whitespace we remove everyting else
+     * Also, because of invisible whitespace we remove everything else
      */
     if (/^(-|-0)$/.test(localValue.replace(/[^\d-0]/g, ''))) {
       value = localValue

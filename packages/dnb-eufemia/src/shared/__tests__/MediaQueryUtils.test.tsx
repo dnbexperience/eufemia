@@ -40,7 +40,7 @@ describe('onMediaQueryChange', () => {
     expect(callback).toHaveBeenCalledTimes(1)
   })
 
-  it('should emit callbeck on init', () => {
+  it('should emit callback on init', () => {
     const callback = jest.fn()
     onMediaQueryChange({ min: 'large' }, callback, {
       runOnInit: true,
@@ -235,7 +235,7 @@ describe('buildQuery', () => {
     ).toBe('(max-width: 40em), (min-width: 80em) and (max-width: 90em)')
   })
 
-  it('should return comma seperated query string for multiple media queries', () => {
+  it('should return comma separated query string for multiple media queries', () => {
     expect(
       buildQuery({
         when: [
@@ -361,7 +361,7 @@ describe('convertToMediaQuery', () => {
     ).toBe('(min-width: 10em) and (aspect-ratio: 3/4)')
   })
 
-  it('should return comma seperated query string for multiple media queries', () => {
+  it('should return comma separated query string for multiple media queries', () => {
     expect(
       convertToMediaQuery([
         { minWidth: 10 },

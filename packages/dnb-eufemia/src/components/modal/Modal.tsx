@@ -371,9 +371,6 @@ class Modal extends React.PureComponent<
 
     try {
       document.documentElement.removeAttribute('data-dnb-modal-active')
-
-      // Deprecated
-      document.body.setAttribute('data-dnb-modal-active', 'false')
     } catch (e) {
       warn('Modal: Error on remove "data-dnb-modal-active"', e)
     }
@@ -396,9 +393,6 @@ class Modal extends React.PureComponent<
           'data-dnb-modal-active',
           modalId
         )
-
-        // Deprecated
-        document.body.setAttribute('data-dnb-modal-active', 'true')
       } catch (e) {
         warn('Modal: Error on set "data-dnb-modal-active"', e)
       }

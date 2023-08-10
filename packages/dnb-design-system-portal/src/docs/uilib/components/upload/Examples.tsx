@@ -134,7 +134,7 @@ export const UploadRemoveFile = () => (
           }, [files])
 
           return (
-            <Section aira-label="List of choosen images">
+            <Section aira-label="List of chosen images">
               {images.map((img, i) => (
                 <Img
                   top

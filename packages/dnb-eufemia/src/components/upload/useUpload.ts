@@ -6,7 +6,7 @@ export type useUploadReturn = {
   setFiles: (files: UploadFile[]) => void
   internalFiles: UploadFile[]
   setInternalFiles: (files: UploadFile[]) => void
-  getExistsingFile: (file: File, fileItems?: UploadFile[]) => UploadFile
+  getExistingFile: (file: File, fileItems?: UploadFile[]) => UploadFile
 }
 
 /**
@@ -26,7 +26,7 @@ function useUpload(id: string): useUploadReturn {
   const files = data?.files || []
   const internalFiles = data?.internalFiles || []
 
-  const getExistsingFile = (
+  const getExistingFile = (
     file: File,
     fileItems: UploadFile[] = files
   ) => {
@@ -44,7 +44,7 @@ function useUpload(id: string): useUploadReturn {
     setFiles,
     internalFiles,
     setInternalFiles,
-    getExistsingFile,
+    getExistingFile,
   }
 }
 

@@ -11,7 +11,7 @@ import type { DynamicElement } from '../../shared/types'
 
 export type HeightAnimationProps = {
   /**
-   * Wheter the nested children content should be kept in the DOM or not.
+   * Whether the nested children content should be kept in the DOM or not.
    * Default: false
    */
   keepInDOM?: boolean

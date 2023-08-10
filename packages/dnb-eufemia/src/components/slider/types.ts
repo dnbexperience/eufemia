@@ -62,7 +62,7 @@ export type SliderProps = IncludeSnakeCase<{
   /** the maximum value. Defaults to `100`. */
   max?: number
 
-  /** the `value` of the slider as a number. If an array with numbers is provided, each number will represent a thumb button (the `+` and `-` button will be hidden on multible thumbs). */
+  /** the `value` of the slider as a number. If an array with numbers is provided, each number will represent a thumb button (the `+` and `-` button will be hidden on multiple thumbs). */
   value?: ValueTypes
 
   /** the steps the slider takes on changing the value. Defaults to `null`. */

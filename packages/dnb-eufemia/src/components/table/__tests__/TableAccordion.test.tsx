@@ -643,7 +643,7 @@ describe('TableAccordion', () => {
     )
   })
 
-  it('should have expanded accorion content when id matches locaiton hash', () => {
+  it('should have expanded accordion content when id matches locaiton hash', () => {
     global.window = Object.create(window)
     const hash = '#unique-id-1'
     const href = `https://url.tld/${hash}`

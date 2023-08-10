@@ -1631,7 +1631,7 @@ class AutocompleteInstance extends React.PureComponent {
     }
   }
 
-  getVocieOverActiveItem(selected_sr) {
+  getVoiceOverActiveItem(selected_sr) {
     // Add VoiceOver support to read the "selected" item
     if (IS_MAC) {
       const { active_item, selected_item } = this.context.drawerList
@@ -2029,7 +2029,7 @@ class AutocompleteInstance extends React.PureComponent {
         </span>
 
         {/* Add VoiceOver support to read the "selected" item */}
-        {this.getVocieOverActiveItem(selected_sr)}
+        {this.getVoiceOverActiveItem(selected_sr)}
 
         <span className="dnb-sr-only" aria-live="assertive">
           {ariaLiveUpdate}

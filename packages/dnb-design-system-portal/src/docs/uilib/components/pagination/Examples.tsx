@@ -384,7 +384,7 @@ const TableRow = styled.tr`
         height: inherit;
       }
 
-      /* If we don't wrapp with an additional inner, then we get a jump in the animation */
+      /* If we don't wrap with an additional inner, then we get a jump in the animation */
       .expanded-content__inner {
         height: inherit;
         padding: 2rem 0 2rem 3rem;

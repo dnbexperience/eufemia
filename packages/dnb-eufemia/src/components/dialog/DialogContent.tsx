@@ -40,6 +40,7 @@ export default function DialogContent({
   icon = null,
   description,
   hideDecline,
+  hideConfirm,
   onConfirm,
   onDecline,
   declineText,
@@ -104,6 +105,7 @@ export default function DialogContent({
     declineText,
     confirmText,
     hideDecline,
+    hideConfirm,
   }
 
   validateDOMAttributes({}, contentParams)

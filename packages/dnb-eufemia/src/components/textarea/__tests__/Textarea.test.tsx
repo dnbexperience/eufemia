@@ -79,7 +79,7 @@ describe('Textarea component', () => {
     expect(document.querySelector('textarea').value).toBe('')
   })
 
-  it('events gets emmited correctly: "on_change" and "on_key_down"', async () => {
+  it('events gets emitted correctly: "on_change" and "on_key_down"', async () => {
     const initValue = 'init value'
     const newValue = 'new value'
 

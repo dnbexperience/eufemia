@@ -477,7 +477,7 @@ export const IconButtonSizes = () => {
   )
 }
 
-export const TertaryButtonAlignment = () => {
+export const TertiaryButtonAlignment = () => {
   if (!globalThis.IS_TEST) {
     return null
   }

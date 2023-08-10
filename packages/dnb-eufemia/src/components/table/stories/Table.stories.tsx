@@ -97,7 +97,7 @@ export const StickyBasicTable = () => {
 
 export const ContainerTable = () => {
   const StyledContainer = styled(TableContainer)`
-    /* Define the width of the THs so they are aligned accross tables */
+    /* Define the width of the THs so they are aligned across tables */
     &,
     .dnb-table__scroll-view {
       max-width: 70rem;

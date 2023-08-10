@@ -258,7 +258,7 @@ export default function TooltipContainer(
   }
 
   /**
-   * By stopping propagation, we allow the user to select text when Toolip is used in the Slider component
+   * By stopping propagation, we allow the user to select text when Tooltip is used in the Slider component
    */
   const handlePropagation = (e: React.SyntheticEvent) =>
     e.stopPropagation()

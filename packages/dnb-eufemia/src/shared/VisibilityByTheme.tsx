@@ -12,7 +12,7 @@ type VisibilityByThemeProps = {
   /**
    * A valid theme name or object.
    * Will omit passing children on a match.
-   * NB: "visible" takes presense over "hidden"
+   * NB: "visible" takes presence over "hidden"
    */
   hidden?: ThemeParams
 

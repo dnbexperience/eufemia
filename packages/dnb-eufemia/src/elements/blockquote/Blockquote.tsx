@@ -11,7 +11,7 @@ import E from '../Element'
 type BlockquoteProps = SpacingProps &
   React.HTMLAttributes<HTMLElement> & {
     /**
-     * Hides the blockquote background by making it transperant
+     * Hides the blockquote background by making it transparent
      */
     noBackground?: boolean
     /**
