@@ -10,20 +10,10 @@
 // we slice the shareable parts out in a separate file
 @import '../dnb-button--tertiary.scss';
 
-$button-shadow: var(--sb-shadow-medium);
-
-%focus {
-  @include buttonFocus(
-    var(--sb-color-blue-dark),
-    var(--sb-color-blue-light-3),
-    $extendShadow: $button-shadow
-  );
-}
-
 @mixin focus-tertiary {
   color: var(--sb-color-blue-dark);
   &::before {
-    background-color: var(--sb-color-blue-light-3);
+    background-color: var(--button-background--focus);
   }
 
   > * {
@@ -31,24 +21,32 @@ $button-shadow: var(--sb-shadow-medium);
   }
 }
 
-%error-hover {
-  color: var(--sb-color-red);
-  background-color: var(--sb-color-magenta-light-3);
-  @include fakeBorder(var(--sb-color-red), null, inset);
-}
-
-%error-primary {
-  color: var(--sb-color-white);
-  background-color: var(--sb-color-red);
-}
-
-%error-secondary {
-  color: var(--sb-color-red);
-  background-color: var(--sb-color-white);
-  @include fakeBorder(var(--sb-color-red), null, inset);
-}
-
 .dnb-button {
+  // global
+  --button-background--focus: var(--sb-color-blue-light-3);
+
+  // primary
+  --button-primary-shadow: var(--sb-shadow-medium);
+  --button-primary-shadow--hover: var(--sb-shadow-medium);
+  --button-primary-color: var(--sb-color-green);
+  --button-primary-color--hover: var(--sb-color-purple-alternative);
+  --button-primary-color--active: var(--sb-color-green);
+  --button-primary-color--disabled: var(--sb-color-gray-dark-2);
+  --button-primary-background: var(--sb-color-purple-alternative);
+  --button-primary-background--hover: var(--sb-color-green);
+  --button-primary-background--active: var(--sb-color-purple-alternative);
+  --button-primary-background--disabled: var(--sb-color-gray-light);
+  --button-primary-border--hover: transparent;
+
+  // secondary
+  --button-secondary-color: var(--sb-color-purple-alternative);
+  --button-secondary-color--disabled: var(--sb-color-gray-dark);
+  --button-secondary-background: var(--sb-color-white);
+  --button-secondary-background--hover: var(--sb-color-green);
+  --button-secondary-background--active: var(--sb-color-white);
+  --button-secondary-border: var(--sb-color-purple-alternative);
+  --button-secondary-border--disabled: var(--sb-color-gray-light);
+
   border: none;
 
   &#{&}--has-text#{&}--size-large {
@@ -66,78 +64,80 @@ $button-shadow: var(--sb-shadow-medium);
   }
 
   &--primary {
-    color: var(--sb-color-green);
-    background-color: var(--sb-color-purple-alternative);
-    box-shadow: $button-shadow;
+    color: var(--button-primary-color);
+    background-color: var(--button-primary-background);
+    box-shadow: var(--button-primary-shadow);
 
     @include hover() {
-      color: var(--sb-color-purple-alternative);
-      background-color: var(--sb-color-green);
-      @include removeFocusRing($replace: $button-shadow);
+      color: var(--button-primary-color--hover);
+      background-color: var(--button-primary-background--hover);
+
+      @include fakeBorder(
+        $color: var(--button-primary-border--hover),
+        $inset: inset,
+        $extendShadow: var(--button-primary-shadow--hover)
+      ); // only for error button
     }
 
     @include active() {
-      color: var(--sb-color-green);
-      background-color: var(--sb-color-purple-alternative);
-    }
-
-    @extend %focus;
-
-    &[disabled] {
-      color: var(--sb-color-gray-dark-2);
-      background-color: var(--sb-color-gray-light);
-      @include removeFocusRing();
-    }
-
-    &:not([disabled]).dnb-button__status--error {
-      @extend %error-primary;
-
-      @include hover() {
-        @extend %error-hover;
-      }
-
-      @include active() {
-        @extend %error-primary;
-      }
+      color: var(--button-primary-color--active);
+      background-color: var(--button-primary-background--active);
     }
   }
 
   &--secondary {
-    color: var(--sb-color-purple-alternative);
-    background-color: var(--sb-color-white);
-    @include fakeBorder(var(--sb-color-purple-alternative), null, inset);
+    color: var(--button-secondary-color);
+    background-color: var(--button-secondary-background);
+    @include fakeBorder(var(--button-secondary-border), null, inset);
 
     @include hover() {
-      color: var(--sb-color-purple-alternative);
-      background-color: var(--sb-color-green);
-      @include fakeBorder(var(--sb-color-purple-alternative), null, inset);
+      background-color: var(--button-secondary-background--hover);
     }
 
     @include active() {
-      color: var(--sb-color-purple-alternative);
-      background-color: var(--sb-color-white);
-      @include fakeBorder(var(--sb-color-purple-alternative), null, inset);
+      background-color: var(--button-secondary-background--active);
     }
+  }
 
-    @extend %focus;
+  @include focus-visible() {
+    color: var(--sb-color-blue-dark);
+    background-color: var(--button-background--focus);
 
-    &[disabled] {
-      color: var(--sb-color-gray-dark);
-      background-color: var(--sb-color-white);
-      @include fakeBorder(var(--sb-color-gray-light), null, inset);
-    }
+    @include focusRing(
+      $whatinput: 'always',
+      $inset: inset,
+      $extendShadow: var(--sb-shadow-medium)
+    );
+  }
 
-    &:not([disabled]).dnb-button__status--error {
-      @extend %error-secondary;
+  &[disabled] {
+    // primary
+    --button-primary-shadow: 0 0 transparent;
+    --button-primary-color: var(--button-primary-color--disabled);
+    --button-primary-background: var(
+      --button-primary-background--disabled
+    );
 
-      @include hover() {
-        @extend %error-hover;
-      }
+    // secondary
+    --button-secondary-color: var(--button-secondary-color--disabled);
+    --button-secondary-border: var(--button-secondary-border--disabled);
+  }
 
-      @include active() {
-        @extend %error-secondary;
-      }
-    }
+  &:not([disabled]).dnb-button__status--error {
+    // primary
+    --button-primary-shadow--hover: 0 0 transparent;
+    --button-primary-color: var(--sb-color-white);
+    --button-primary-color--hover: var(--sb-color-red);
+    --button-primary-color--active: var(--sb-color-white);
+    --button-primary-background: var(--sb-color-red);
+    --button-primary-background--hover: var(--sb-color-magenta-light-3);
+    --button-primary-background--active: var(--sb-color-red);
+    --button-primary-border--hover: var(--sb-color-red);
+
+    // secondary
+    --button-secondary-color: var(--sb-color-red);
+    --button-secondary-background--hover: var(--sb-color-magenta-light-3);
+    --button-secondary-border: var(--sb-color-red);
   }
 
   &--tertiary {
@@ -233,7 +233,7 @@ $button-shadow: var(--sb-shadow-medium);
 
     @include focus() {
       @include removeFocusRing('keyboard');
-      @include buttonFocusRing(null, inset, $button-shadow);
+      @include buttonFocusRing(null, inset, var(--sb-shadow-medium));
       &:focus-visible {
         @include focus-tertiary();
       }

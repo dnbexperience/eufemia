@@ -31,6 +31,19 @@
     }
   }
 }
+
+@mixin focus-visible() {
+  html:not([data-whatintent='touch']) &:focus-visible {
+    &[disabled] {
+      cursor: not-allowed;
+    }
+    // stylelint-disable-next-line
+    &:not([disabled]) {
+      @content;
+    }
+  }
+}
+
 @mixin focus() {
   &:focus,
   html:not([data-whatintent='touch']) &:focus {
