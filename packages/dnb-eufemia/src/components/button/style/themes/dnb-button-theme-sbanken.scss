@@ -109,7 +109,7 @@ $button-shadow: var(--sb-shadow-medium);
 
     @include hover() {
       color: var(--sb-color-purple-alternative);
-      background-color: var(--sb-color-green-light-2);
+      background-color: var(--sb-color-green);
       @include fakeBorder(var(--sb-color-purple-alternative), null, inset);
     }
 

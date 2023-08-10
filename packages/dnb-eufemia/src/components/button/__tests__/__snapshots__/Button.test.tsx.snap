@@ -864,7 +864,7 @@ html:not([data-whatintent=touch]) .dnb-button--secondary:hover[disabled] {
 }
 html:not([data-whatintent=touch]) .dnb-button--secondary:hover:not([disabled]) {
   color: var(--sb-color-purple-alternative);
-  background-color: var(--sb-color-green-light-2);
+  background-color: var(--sb-color-green);
   --border-color: var(--sb-color-purple-alternative);
   --border-width: 0.0625rem;
   box-shadow: inset 0 0 0 var(--border-width) var(--border-color);
