@@ -77,18 +77,10 @@ export const WithDecimalSymbol = () => {
   )
 }
 
-export const WithDecimals = () => {
+export const WithDecimalLimit = () => {
   return (
     <ComponentBox scope={{ Value }}>
-      <Value.Number label="Label text" value={123.4567} decimals={2} />
-    </ComponentBox>
-  )
-}
-
-export const WithFixedDecimals = () => {
-  return (
-    <ComponentBox scope={{ Value }}>
-      <Value.Number label="Label text" value={123.4} fixedDecimals={3} />
+      <Value.Number label="Label text" value={123.4567} decimalLimit={2} />
     </ComponentBox>
   )
 }
