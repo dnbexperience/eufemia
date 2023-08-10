@@ -40,6 +40,11 @@ export type DialogActionProps = {
   hideDecline?: boolean
 
   /**
+   * For variant confirmation, hide the default confirm button and only show the decline button.
+   */
+  hideConfirm?: boolean
+
+  /**
    * Pass in custom confirm/decline buttons for action handling. Every child of type Button will be provided with a `close` function attribute.
    */
   children?: React.ReactElement | Array<React.ReactElement>
@@ -55,6 +60,7 @@ const DialogAction = ({
   declineText = null,
   confirmText = null,
   hideDecline = false,
+  hideConfirm = false,
   onConfirm = fallbackCloseAction,
   onDecline = fallbackCloseAction,
   className,
@@ -108,7 +114,7 @@ const DialogAction = ({
           size={ButtonContext?.size || 'large'}
         />
       )}
-      {!children && (
+      {!children && !hideConfirm && (
         <Button
           text={confirmText || translation?.Dialog?.confirmText}
           variant="primary"

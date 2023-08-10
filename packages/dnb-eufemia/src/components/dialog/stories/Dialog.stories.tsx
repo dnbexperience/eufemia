@@ -28,6 +28,7 @@ import {
   log_out_medium as LogOutIcon,
   edit,
   cookie_medium,
+  exclamation_triangle_medium as WarningIcon,
 } from '../../../icons'
 
 export default {
@@ -785,5 +786,22 @@ function CloseWithAnimation() {
         on_click={() => setModalOpen(false)}
       />
     </Dialog>
+  )
+}
+
+export const DialogConfirmHideConfirm = () => {
+  return (
+    <Box>
+      <Dialog
+        openState="opened"
+        variant="confirmation"
+        icon={WarningIcon}
+        title="Beholdning kan ikke flyttes"
+        description="Du kan ikke flytte beholdning fra en konto du har fått rådgivning på."
+        declineText="Lukk"
+        confirmType="warning"
+        omitTriggerButton
+      />
+    </Box>
   )
 }
