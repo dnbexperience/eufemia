@@ -188,11 +188,8 @@ function Accordion(props: AccordionProps) {
 
   // Constructor
   useEffect(() => {
-    if (
-      typeof window === 'undefined' &&
-      isTrue(props.expanded_ssr || context?.expanded_ssr)
-    ) {
-      setExpanded(true)
+    if (isTrue(props.expanded_ssr || context?.expanded_ssr)) {
+      setExpanded(typeof window === 'undefined')
     }
 
     if (group && typeof window !== 'undefined') {
@@ -207,32 +204,20 @@ function Accordion(props: AccordionProps) {
       context.onInit(thisInstance)
     }
 
-    if (
-      isTrue(props.remember_state || context.remember_state) &&
-      isTrue(props.expanded)
-    ) {
-      const expanded = store.getState()
-      if (expanded === false) {
+    if (isTrue(props.remember_state || context.remember_state)) {
+      const storedExpanded = store.getState()
+
+      if (isTrue(props.expanded) && storedExpanded === false) {
         setExpanded(false)
+      }
+
+      if (storedExpanded) {
+        setExpanded(true)
       }
     }
 
     if (context && typeof context?.onInit === 'function') {
       context.onInit(thisInstance)
-    }
-
-    if (
-      typeof window !== 'undefined' &&
-      isTrue(props.expanded_ssr || context?.expanded_ssr)
-    ) {
-      setExpanded(false)
-    }
-
-    if (isTrue(props.remember_state || context.remember_state)) {
-      const expanded = store.getState()
-      if (expanded) {
-        setExpanded(true)
-      }
     }
 
     return () => {
