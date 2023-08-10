@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Input', () => {
+describe.each(['ui', 'sbanken'])('Input for %s', (themeName) => {
   const extend = (selector) => ({
     style: {
       width: '200px', // make sure our input gets an explicit width, because of mac/linux rendering differences
@@ -16,7 +16,10 @@ describe('Input', () => {
     styleSelector: `[data-visual-test="${selector}"] .dnb-input__input`,
     simulateSelector: `[data-visual-test="${selector}"] .dnb-input__input`,
   })
-  setupPageScreenshot({ url: '/uilib/components/input/demos' })
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/input/demos',
+  })
 
   it('have to match input with placeholder', async () => {
     const screenshot = await makeScreenshot({
@@ -50,11 +53,62 @@ describe('Input', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match search type with hover state', async () => {
+    const screenshot = await makeScreenshot({
+      ...extend('input-search'),
+      selector: '[data-visual-test="input-search"]',
+      simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match search type with button hover state', async () => {
+    const screenshot = await makeScreenshot({
+      ...extend('input-search'),
+      selector: '[data-visual-test="input-search"]',
+      simulateSelector: `[data-visual-test="input-search"] .dnb-button`,
+      simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match search type with button active state', async () => {
+    const screenshot = await makeScreenshot({
+      ...extend('input-search'),
+      selector: '[data-visual-test="input-search"]',
+      simulateSelector: `[data-visual-test="input-search"] .dnb-button`,
+      simulate: 'active',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match search type with mouse focus state', async () => {
+    const screenshot = await makeScreenshot({
+      ...extend('input-search'),
+      selector: '[data-visual-test="input-search"]',
+      simulate: 'click',
+      waitAfterSimulate: 250,
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match search type with focus state', async () => {
     const screenshot = await makeScreenshot({
       ...extend('input-search'),
       selector: '[data-visual-test="input-search"]',
       simulate: 'focus', // should be tested first
+      waitAfterSimulate: 250,
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match search type with button focus state', async () => {
+    const screenshot = await makeScreenshot({
+      ...extend('input-search'),
+      selector: '[data-visual-test="input-search"]',
+      simulateSelector: `[data-visual-test="input-search"] .dnb-button`,
+      simulate: 'focus',
+      waitAfterSimulate: 250,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -79,6 +133,73 @@ describe('Input', () => {
     const screenshot = await makeScreenshot({
       ...extend('input-error'),
       selector: '[data-visual-test="input-error"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match error hover state', async () => {
+    const screenshot = await makeScreenshot({
+      ...extend('input-error'),
+      selector: '[data-visual-test="input-error"]',
+      simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match error mouse focus state', async () => {
+    const screenshot = await makeScreenshot({
+      ...extend('input-error'),
+      selector: '[data-visual-test="input-error"]',
+      simulate: 'click',
+      waitAfterSimulate: 250,
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match error focus state', async () => {
+    const screenshot = await makeScreenshot({
+      ...extend('input-error'),
+      selector: '[data-visual-test="input-error"]',
+      simulate: 'focus',
+      waitAfterSimulate: 250,
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match error with button', async () => {
+    const screenshot = await makeScreenshot({
+      ...extend('input-error-button'),
+      selector: '[data-visual-test="input-error-button"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match error with button hover', async () => {
+    const screenshot = await makeScreenshot({
+      ...extend('input-error-button'),
+      selector: '[data-visual-test="input-error-button"]',
+      simulateSelector: `[data-visual-test="input-error-button"] .dnb-button`,
+      simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match error with button active', async () => {
+    const screenshot = await makeScreenshot({
+      ...extend('input-error-button'),
+      selector: '[data-visual-test="input-error-button"]',
+      simulateSelector: `[data-visual-test="input-error-button"] .dnb-button`,
+      simulate: 'active',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match error with button focus', async () => {
+    const screenshot = await makeScreenshot({
+      ...extend('input-error-button'),
+      selector: '[data-visual-test="input-error-button"]',
+      simulateSelector: `[data-visual-test="input-error-button"] .dnb-button`,
+      simulate: 'focus',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
