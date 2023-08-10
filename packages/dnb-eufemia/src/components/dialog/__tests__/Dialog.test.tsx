@@ -5,7 +5,7 @@ import Button from '../../button/Button'
 import Provider from '../../../shared/Provider'
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
 import * as helpers from '../../../shared/helpers'
-import { fireEvent, render, waitFor } from '@testing-library/react'
+import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 
 const props: DialogProps & DialogContentProps = {
   noAnimation: true,
@@ -171,6 +171,28 @@ describe('Dialog', () => {
     expect(elem).toHaveAttribute('aria-modal')
   })
 
+  it('omits action buttons when hideDecline or hideConfirm is given', () => {
+    const props: DialogProps & DialogContentProps = {
+      noAnimation: true,
+      openState: true,
+      variant: 'confirmation',
+    }
+    const { rerender } = render(<Dialog {...props} />)
+
+    expect(screen.queryAllByText('Godta')).toHaveLength(1)
+    expect(screen.queryAllByText('Avbryt')).toHaveLength(1)
+
+    rerender(<Dialog {...props} hideDecline />)
+
+    expect(screen.queryAllByText('Godta')).toHaveLength(1)
+    expect(screen.queryAllByText('Avbryt')).toHaveLength(0)
+
+    rerender(<Dialog {...props} hideConfirm />)
+
+    expect(screen.queryAllByText('Godta')).toHaveLength(0)
+    expect(screen.queryAllByText('Avbryt')).toHaveLength(1)
+  })
+
   it('is closed by keyboardevent esc', () => {
     let testTriggeredBy = null
     const on_close = jest.fn(
@@ -209,6 +231,8 @@ describe('Dialog', () => {
   })
 
   it('has support for nested Dialogs', async () => {
+    global.console.log = jest.fn()
+
     const on_open = {
       first: jest.fn(),
       second: jest.fn(),
@@ -426,6 +450,7 @@ describe('Dialog', () => {
 
 describe('Dialog aria', () => {
   it('should validate with ARIA rules as a dialog', async () => {
+    global.console.log = jest.fn()
     const Comp = render(<Dialog {...props} openState={true} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
