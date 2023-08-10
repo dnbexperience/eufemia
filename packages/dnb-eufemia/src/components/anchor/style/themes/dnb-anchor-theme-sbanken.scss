@@ -1,24 +1,25 @@
 @use '../anchor-mixins.scss';
 
 @mixin anchorHover() {
+  --anchor-background: var(--sb-color-green-dark);
   color: var(--sb-color-text);
-  background-color: var(--sb-color-green-dark);
 
   transition: none;
-  border-radius: 0.5rem;
+  border-radius: 0.5em;
 }
 
 @mixin anchorActive() {
+  --anchor-background: var(--sb-color-green);
   color: var(--sb-color-text);
-  background-color: var(--sb-color-green);
 
-  border-radius: 0.5rem;
+  transition: none;
+  border-radius: 0.5em;
 }
 
 @mixin anchorFocus() {
   color: var(--sb-color-blue-dark);
   background-color: var(--sb-color-blue-light-3);
-  border-radius: 0.25rem;
+  border-radius: 0.25em;
 
   &.dnb-anchor--icon-left {
     margin-left: 0;
@@ -37,14 +38,27 @@
 
 .dnb-anchor {
   --anchor-underline-thickness: 0.125rem;
+  --anchor-background: transparent;
 
   // Has to use --sb-font-weight-bold to get correct weighting as --sb-font-weight-medium does nothing at the moment
   font-weight: var(--sb-font-weight-bold);
   color: var(--sb-color-gray-dark-3);
   text-decoration-color: var(--sb-color-green-dark);
-  padding: calc((var(--line-height-basis) - 1.2em) / 2) 0.25em;
+  padding: 0.15625em 0;
+  border-radius: 0.5em;
 
   $anchor-icon-gutter: 0.125em;
+
+  @include anchor-mixins.anchorBackground(var(--anchor-background), null);
+
+  &--no-underline,
+  &--has-icon,
+  &--inline {
+    @include anchor-mixins.anchorBackground(
+      var(--anchor-background),
+      0.25em
+    );
+  }
 
   &:hover {
     @include anchorHover();
@@ -58,8 +72,7 @@
     @include anchorFocus();
   }
 
-  &.dnb-anchor--icon-left {
-    padding-left: 0;
+  &--icon-left {
     margin-left: 1em + $anchor-icon-gutter;
 
     .dnb-icon {
@@ -69,8 +82,7 @@
     }
   }
 
-  &.dnb-anchor--icon-right {
-    padding-right: 0;
+  &--icon-right {
     margin-right: 1em + $anchor-icon-gutter;
 
     .dnb-icon {
@@ -80,17 +92,31 @@
     }
   }
 
-  &:not(.dnb-anchor--no-underline):not(.dnb-anchor--has-icon):not(.anchor-hash) {
+  &[target='_blank']:not(:empty, .dnb-anchor--no-icon) {
+    padding-right: 0.25em;
+    &::after {
+      position: initial;
+      display: inline-block;
+      width: calc(0.9em + 0.25em + 0.125em);
+      height: 0.9em;
+      line-height: 0.9em;
+      margin-left: 0;
+      margin-right: 0;
+      background-position: right;
+      background-size: contain;
+    }
+  }
+
+  &:not(.dnb-anchor--no-underline):not(.dnb-anchor--has-icon):not(.anchor-hash):not(.dnb-anchor--inline):not(.dnb-anchor--no-style) {
     &:not(.dnb-anchor--icon-left) {
-      padding-left: 0;
       &::before {
+        text-decoration-color: var(--sb-color-green-dark);
         content: '\00a0';
       }
     }
-
-    &:not(.dnb-anchor--icon-right):not(.dnb-anchor[target='_blank']) {
-      padding-right: 0;
+    &:not(.dnb-anchor--icon-right) {
       &::after {
+        text-decoration-color: var(--sb-color-green-dark);
         content: '\00a0';
       }
     }
@@ -106,11 +132,16 @@
 }
 
 .dnb-anchor--focus {
+  @include anchor-mixins.anchorFocusStyle();
   @include anchorFocus();
 }
 
 .dnb-anchor--no-radius {
   @include anchor-mixins.resetBorderRadius();
+}
+
+.dnb-anchor--inline {
+  text-decoration-color: currentcolor;
 }
 
 // TODO: add correct contrast styling when designs are in place
