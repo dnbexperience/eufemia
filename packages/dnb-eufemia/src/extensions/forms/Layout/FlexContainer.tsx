@@ -2,9 +2,19 @@ import React from 'react'
 import classnames from 'classnames'
 import { Space } from '../../../components'
 import { Div } from '../../../elements'
+import * as EufemiaElements from '../../../elements'
 import { SpaceType, SpacingProps } from '../../../components/space/types'
-import { forwardSpaceProps, isSpacePropsComponent } from '../utils'
+import { forwardSpaceProps } from '../utils'
 import type { ComponentProps } from '../component-types'
+import {
+  Field,
+  Value,
+  Layout,
+  FieldBlock,
+  ValueBlock,
+  StepsLayout,
+  Visibility,
+} from '../index'
 import MainHeading from './MainHeading'
 import SubHeading from './SubHeading'
 
@@ -38,6 +48,57 @@ const getSpaceBottom = (
       ? element.props.space.bottom
       : undefined)
   )
+}
+
+export const isFieldComponent = (element): boolean => {
+  return Object.values(Field).some(
+    (fieldComponent) => element?.type === fieldComponent
+  )
+}
+
+export const isValueComponent = (element): boolean => {
+  return Object.values(Value).some(
+    (valueComponent) => element?.type === valueComponent
+  )
+}
+
+export const isLayoutComponent = (element): boolean => {
+  return Object.values(Layout).some(
+    (layoutComponent) => element?.type === layoutComponent
+  )
+}
+
+export const isEufemiaFormComponent = (element): boolean => {
+  return (
+    isFieldComponent(element) ||
+    isValueComponent(element) ||
+    isLayoutComponent(element) ||
+    [
+      FieldBlock,
+      ValueBlock,
+      StepsLayout,
+      StepsLayout.Step,
+      StepsLayout.NextButton,
+      StepsLayout.PreviousButton,
+      StepsLayout.Buttons,
+      Visibility,
+    ].some((Component) => element?.type === Component)
+  )
+}
+
+export const isEufemiaElement = (element): boolean => {
+  return Object.values(EufemiaElements).some(
+    (eufemiaElement) => element?.type === eufemiaElement
+  )
+}
+
+/**
+ * Is the requested element a component that can receive Eufemia space props (space, top, bottom, left and right)?
+ */
+export const isSpacePropsComponent = (
+  element: React.ReactNode
+): boolean => {
+  return isEufemiaFormComponent(element) || isEufemiaElement(element)
 }
 
 const renderWithSpacing = (
