@@ -3,7 +3,7 @@ import classnames from 'classnames'
 import { Space } from '../../../components'
 import { Div } from '../../../elements'
 import { SpaceType, SpacingProps } from '../../../components/space/types'
-import { forwardSpaceProps } from '../utils'
+import { forwardSpaceProps, isSpacePropsComponent } from '../utils'
 import type { ComponentProps } from '../component-types'
 import MainHeading from './MainHeading'
 import SubHeading from './SubHeading'
@@ -37,6 +37,22 @@ const getSpaceBottom = (
     (typeof element.props?.space === 'object'
       ? element.props.space.bottom
       : undefined)
+  )
+}
+
+const renderWithSpacing = (
+  element: React.ReactNode,
+  spacingProps: SpacingProps
+) => {
+  const takesSpaceProps = isSpacePropsComponent(element)
+
+  return takesSpaceProps ? (
+    React.cloneElement(
+      element as React.ReactElement<SpacingProps>,
+      spacingProps
+    )
+  ) : (
+    <Div {...spacingProps}>{element}</Div>
   )
 }
 
@@ -107,10 +123,6 @@ export default function FlexContainer(props: Props) {
             const previousWasHeading =
               i > 0 && isHeadingElement(previousChild)
 
-            if (!React.isValidElement(child)) {
-              return child
-            }
-
             // Always set spacing between elements in the column layout on the top props, and 0 on bottom, to avoid
             // having to divide spacing between both with smaller values.
             const bottom = 0
@@ -131,37 +143,29 @@ export default function FlexContainer(props: Props) {
                 <React.Fragment key={`element-${i}`}>
                   <Space top={spaceAboveLine} />
                   <hr className="dnb-forms-flex-container__hr" />
-                  {typeof child.type === 'string'
-                    ? child // For tags
-                    : React.cloneElement(
-                        child as React.ReactElement<SpacingProps>,
-                        {
-                          space: { top, bottom },
-                          top,
-                          bottom,
-                        }
-                      )}
+                  {renderWithSpacing(child, {
+                    space: { top, bottom },
+                    top,
+                    bottom,
+                  })}
                 </React.Fragment>
               )
             }
 
             const top =
-              // No space above first element
+              // No space above first element.
               isFirst
                 ? 0
-                : getSpaceTop(child) ??
+                : // Since top space of current and bottom space of previous component is the same
+                  getSpaceTop(child) ??
                   getSpaceBottom(previousChild) ??
                   spacing
 
-            return React.cloneElement(
-              child as React.ReactElement<SpacingProps>,
-              {
-                key: `element-${i}`,
-                space: { top, bottom },
-                top,
-                bottom,
-              }
-            )
+            return renderWithSpacing(child, {
+              space: { top, bottom },
+              top,
+              bottom,
+            })
           })
         : // TODO: Consider doing the same with spacing between horizontal items (direction = row) as vertical
           children}
