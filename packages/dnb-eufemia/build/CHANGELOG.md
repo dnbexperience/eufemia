@@ -3,6 +3,19 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.5.0](https://github.com/dnbexperience/eufemia/compare/v10.4.2...v10.5.0) (2023-08-10)
+
+
+### :bug: Bug Fixes
+
+* **Modal:** removes attr data-dnb-modal-active from document.body ([#2547](https://github.com/dnbexperience/eufemia/issues/2547)) ([b831454](https://github.com/dnbexperience/eufemia/commit/b8314545b4fbd132d97a1c6b0a701ff1b4a5dda7))
+
+
+### :sparkles: Features
+
+* **Anchor:** focus-visible and test coverage ([#2521](https://github.com/dnbexperience/eufemia/issues/2521)) ([d07e9b0](https://github.com/dnbexperience/eufemia/commit/d07e9b04f07f00a86ec3a99b87c03499a0735c69))
+* **Dialog:** add hideConfirm-prop ([5029982](https://github.com/dnbexperience/eufemia/commit/50299824a4370243921b1cc0d3a378dea2146e54))
+
 ## [10.4.2](https://github.com/dnbexperience/eufemia/compare/v10.4.1...v10.4.2) (2023-07-27)
 
 
