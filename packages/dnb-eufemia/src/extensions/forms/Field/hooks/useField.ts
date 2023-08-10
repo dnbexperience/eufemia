@@ -93,16 +93,23 @@ export default function useField<Props extends FieldProps<any>>(
 
   const setErrorAndUpdateDataContext = useCallback(
     (error: FormError | undefined) => {
-      setError(error)
+      const errorWithCorrectMessage = 
+        (error instanceof FormError &&
+          typeof error.validationRule === 'string' &&
+          errorMessages?.[error.validationRule] !== undefined
+            ? new FormError(errorMessages[error.validationRule])
+            : error);
+      
+      setError(errorWithCorrectMessage);
 
       if (path) {
         // Tell the data context about the error, so it can stop the user from submitting the form until the error has been fixed
         dataContextSetPathWithError?.(path, Boolean(error))
       }
 
-      setFieldGroupError?.(path ?? id, error);
+      setFieldGroupError?.(path ?? id, errorWithCorrectMessage);
     },
-    [path, id, dataContextSetPathWithError, setFieldGroupError]
+    [path, id, errorMessages, dataContextSetPathWithError, setFieldGroupError]
   )
 
   const validateValue = useCallback(
@@ -239,18 +246,10 @@ export default function useField<Props extends FieldProps<any>>(
     ]
   )
 
-  const errorWithCorrectMessage = useMemo(() => 
-    (error instanceof FormError &&
-      typeof error.validationRule === 'string' &&
-      errorMessages?.[error.validationRule] !== undefined
-        ? new FormError(errorMessages[error.validationRule])
-        : error)
-  , [error, errorMessages]);
-
   const exportError = useMemo(() =>
     errorProp ??
-    errorWithCorrectMessage
-  , [errorProp, errorWithCorrectMessage]);
+    error
+  , [errorProp, error]);
 
   useEffect(() => {
     // Mount procedure

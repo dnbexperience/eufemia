@@ -46,6 +46,13 @@ export default function FieldPostalCodeAndCity(props: Props) {
             postalCode.label ??
             sharedContext?.translation.Forms.postalCodeLabel
           }
+          errorMessages={{
+            required:
+              sharedContext?.translation.Forms.postalCodeErrorRequired,
+            pattern:
+              sharedContext?.translation.Forms.postalCodeErrorPattern,
+            ...postalCode.errorMessages,
+          }}
           placeholder={postalCode.placeholder ?? '0000'}
           width={false}
           inputClassName="dnb-forms-field-postal-code-and-city__postal-code-input"
@@ -57,6 +64,10 @@ export default function FieldPostalCodeAndCity(props: Props) {
             city.className
           )}
           label={city.label ?? sharedContext?.translation.Forms.cityLabel}
+          errorMessages={{
+            required: sharedContext?.translation.Forms.cityErrorRequired,
+            ...city.errorMessages,
+          }}
           width="stretch"
         />
       </div>
