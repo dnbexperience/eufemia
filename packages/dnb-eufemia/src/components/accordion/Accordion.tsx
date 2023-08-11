@@ -3,7 +3,13 @@
  *
  */
 
-import React, { useContext, useState, useEffect, useRef } from 'react'
+import React, {
+  useContext,
+  useState,
+  useEffect,
+  useRef,
+  HTMLProps,
+} from 'react'
 
 import classnames from 'classnames'
 import {
@@ -361,10 +367,10 @@ function Accordion({
                 className,
                 _className
               ),
-            }
+            } as HTMLProps<HTMLDivElement>
 
             if (disabled) {
-              mainParams['onClick'] = handleDisabledClick
+              mainParams.onClick = handleDisabledClick
             }
 
             // to remove spacing props

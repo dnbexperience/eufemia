@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { HTMLProps } from 'react'
 import classnames from 'classnames'
 import {
   warn,
@@ -155,14 +155,14 @@ export default function AccordionContent(props: AccordionContentProps) {
       'dnb-accordion__content__inner',
       createSpacingClasses(rest)
     ),
-  }
+  } as HTMLProps<HTMLElement>
 
   if (expanded) {
     innerParams['aria-expanded'] = true
   }
 
   if (!expanded || disabled) {
-    innerParams['disabled'] = true
+    innerParams.disabled = true
     innerParams['aria-hidden'] = true
   }
 
