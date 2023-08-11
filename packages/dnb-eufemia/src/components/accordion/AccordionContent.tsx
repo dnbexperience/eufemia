@@ -7,7 +7,6 @@ import React from 'react'
 import classnames from 'classnames'
 import {
   warn,
-  isTrue,
   validateDOMAttributes,
   processChildren,
   getPreviousSibling,
@@ -97,7 +96,7 @@ export default function AccordionContent(props: AccordionContentProps) {
       content = <p className="dnb-p">{content}</p>
     }
 
-    if (isTrue(prevent_rerender)) {
+    if (prevent_rerender) {
       /**
        * Ensure we do not render, if it is not expanded
        */
@@ -106,10 +105,7 @@ export default function AccordionContent(props: AccordionContentProps) {
       }
 
       // update the cache if children is not the same anymore
-      if (
-        isTrue(prevent_rerender_conditional) &&
-        cacheRef.current !== content
-      ) {
+      if (prevent_rerender_conditional && cacheRef.current !== content) {
         cacheRef.current = content
       }
 
@@ -124,7 +120,7 @@ export default function AccordionContent(props: AccordionContentProps) {
   }
 
   React.useEffect(() => {
-    if (expanded && isTrue(single_container)) {
+    if (expanded && single_container) {
       setContainerHeight()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

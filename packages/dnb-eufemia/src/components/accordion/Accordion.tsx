@@ -7,7 +7,6 @@ import React, { useContext, useState, useEffect, useRef } from 'react'
 
 import classnames from 'classnames'
 import {
-  isTrue,
   makeUniqueId,
   findElementInChildren,
   extendPropsWithContext,
@@ -152,26 +151,31 @@ export type AccordionProps = Omit<React.HTMLProps<HTMLElement>, 'ref'> &
     on_state_update?: (...args: any[]) => any
   }
 
-function Accordion(props: AccordionProps) {
+function Accordion({
+  variant = 'outlined',
+  icon_size = 'medium',
+  ...restOfProps
+}: AccordionProps) {
+  const props = { variant, icon_size, ...restOfProps }
+
   const context = useContext(AccordionProviderContext)
-  const [previousExpanded, setpreviousExpanded] = useState(props.expanded)
-
-  const [expanded, setExpanded] = useState<boolean>(
-    props.expanded !== null
-      ? isTrue(props.expanded)
-      : isTrue(context?.expanded)
-  )
-
-  // replacement for getDerivedStateFromProps
-  if (props.expanded !== previousExpanded) {
-    setExpanded(isTrue(props.expanded))
-    setpreviousExpanded(props.expanded)
-  }
 
   const group = props.group || context?.group
   const id = useRef(props.id || makeUniqueId()).current
 
   const store = new Store({ id: props.id, group })
+
+  // States ordered last here to make sure that the getInitialExpandedState have access to the store
+  const [previousExpanded, setPreviousExpanded] = useState(props.expanded)
+  const [expanded, setExpanded] = useState<boolean>(
+    getInitialExpandedState()
+  )
+
+  // replacement for getDerivedStateFromProps
+  if (props.expanded !== previousExpanded) {
+    setExpanded(props.expanded !== undefined ? props.expanded : false)
+    setPreviousExpanded(props.expanded)
+  }
 
   const thisInstance = {
     _id: id,
@@ -188,32 +192,12 @@ function Accordion(props: AccordionProps) {
 
   // Constructor
   useEffect(() => {
-    if (isTrue(props.expanded_ssr || context?.expanded_ssr)) {
-      setExpanded(typeof window === 'undefined')
-    }
-
     if (group && typeof window !== 'undefined') {
       window['__dnbAccordion'] = window['__dnbAccordion'] || {}
       window['__dnbAccordion'][group] =
         window['__dnbAccordion'][group] || new AccordionStore(group)
 
       window['__dnbAccordion'][group].addInstance(thisInstance)
-    }
-
-    if (context && typeof context?.onInit === 'function') {
-      context.onInit(thisInstance)
-    }
-
-    if (isTrue(props.remember_state || context.remember_state)) {
-      const storedExpanded = store.getState()
-
-      if (isTrue(props.expanded) && storedExpanded === false) {
-        setExpanded(false)
-      }
-
-      if (storedExpanded) {
-        setExpanded(true)
-      }
     }
 
     if (context && typeof context?.onInit === 'function') {
@@ -229,15 +213,42 @@ function Accordion(props: AccordionProps) {
 
   // componentDidUpdate
   useEffect(() => {
-    if (isTrue(context.flush_remembered_state)) {
+    if (context.flush_remembered_state) {
       store.flush()
-      setExpanded(isTrue(props.expanded))
+      setExpanded(props.expanded)
     }
 
     if (context?.expanded_id && context.expanded_id === props.id) {
       setExpanded(true)
     }
   }, [context.flush_remembered_state, context.expanded_id])
+
+  // Gets the initial expanded sate, to prevent the opening and closing of Accordion
+  // That happens when if we put this logic in a useEffect that runs after the inital expanded state is set
+  // Since useEffect runs after every render
+  function getInitialExpandedState() {
+    if (props.expanded_ssr || context?.expanded_ssr) {
+      return typeof window === 'undefined'
+    }
+
+    if (props.remember_state || context.remember_state) {
+      const storedExpanded = store.getState()
+
+      if (props.expanded && storedExpanded === false) {
+        return false
+      }
+
+      if (storedExpanded) {
+        return true
+      }
+    }
+
+    return props.expanded !== undefined
+      ? props.expanded
+      : context?.expanded !== undefined
+      ? context.expanded
+      : false
+  }
 
   function setExpandedState(expanded: boolean) {
     setExpanded(expanded)
@@ -251,7 +262,7 @@ function Accordion(props: AccordionProps) {
     setExpanded(expanded)
 
     // check if a event exists, because, then it's a user click
-    if (isTrue(props.remember_state) || isTrue(context.remember_state)) {
+    if (props.remember_state || context.remember_state) {
       store.saveState(expanded)
     }
   }
@@ -300,9 +311,9 @@ function Accordion(props: AccordionProps) {
               globalContext.translation.Accordion
             )
 
-            if (expandedState === null && globalContext.Accordion) {
+            if (expandedState === undefined && globalContext.Accordion) {
               if (globalContext.Accordion.expanded) {
-                expandedState = isTrue(extendedProps.expanded)
+                expandedState = extendedProps.expanded
               }
             }
 
@@ -345,14 +356,14 @@ function Accordion(props: AccordionProps) {
                 'dnb-accordion',
                 expandedState && 'dnb-accordion--expanded',
                 variant && `dnb-accordion__variant--${variant}`,
-                isTrue(prerender) && 'dnb-accordion--prerender',
+                prerender && 'dnb-accordion--prerender',
                 createSpacingClasses(extendedProps),
                 className,
                 _className
               ),
             }
 
-            if (isTrue(disabled)) {
+            if (disabled) {
               mainParams['onClick'] = handleDisabledClick
             }
 
@@ -370,16 +381,14 @@ function Accordion(props: AccordionProps) {
               ...extendedPropsForContext,
               id,
               expanded: expandedState,
-              prerender: isTrue(prerender),
-              prevent_rerender: isTrue(prevent_rerender),
-              prevent_rerender_conditional: isTrue(
-                prevent_rerender_conditional
-              ),
-              single_container: isTrue(single_container),
-              remember_state: isTrue(remember_state),
-              disabled: isTrue(disabled),
-              skeleton: isTrue(skeleton),
-              no_animation: isTrue(no_animation),
+              prerender: prerender,
+              prevent_rerender: prevent_rerender,
+              prevent_rerender_conditional: prevent_rerender_conditional,
+              single_container: single_container,
+              remember_state: remember_state,
+              disabled: disabled,
+              skeleton: skeleton,
+              no_animation: no_animation,
               callOnChange: callOnChangeHandler,
             }
 
@@ -419,7 +428,7 @@ export type GroupProps = AccordionProps & {
 }
 
 const Group = (props: GroupProps) => {
-  if (isTrue(props.remember_state) && !props.id) {
+  if (props.remember_state && !props.id) {
     rememberWarning('accordion group')
   }
 

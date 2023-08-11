@@ -7,16 +7,13 @@ import React, { HTMLProps, useContext, useState } from 'react'
 import type { SpacingProps } from '../space/types'
 
 import {
-  isTrue,
   validateDOMAttributes,
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import IconPrimary from '../icon-primary/IconPrimary'
 import classnames from 'classnames'
 import AccordionContext from './AccordionContext'
-import {
-  createSpacingClasses,
-} from '../space/SpacingHelper'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import {
   skeletonDOMAttributes,
   createSkeletonClass,
@@ -88,14 +85,15 @@ function AccordionHeaderContainer({
   ) : null
 }
 
-type AccordionHeaderIconIcon = React.ReactNode
+type AccordionHeaderIconIcon =
+  | React.ReactNode
   | ((...args: any[]) => React.ReactNode)
   | {
       closed?: React.ReactNode | ((...args: any[]) => React.ReactNode)
       expanded?: React.ReactNode | ((...args: any[]) => React.ReactNode)
     }
 
-    export type AccordionHeaderIconProps = {
+export type AccordionHeaderIconProps = {
   icon?: AccordionHeaderIconIcon
   size?: IconSize
   expanded?: boolean
@@ -109,12 +107,16 @@ function AccordionHeaderIcon({
   return (
     <span className="dnb-accordion__header__icon">
       <IconPrimary
-       size={size}
+        size={size}
         // There has to be a better way than to do so much casting
         icon={
-      (icon && typeof icon === 'object' && 'expanded' in icon) && typeof icon?.expanded !== 'undefined'
+          icon &&
+          typeof icon === 'object' &&
+          'expanded' in icon &&
+          typeof icon?.expanded !== 'undefined'
             ? icon[expanded ? 'expanded' : 'closed']
-            : icon as (React.ReactNode | ((...args: any[]) => any) ) || 'chevron-down'
+            : (icon as React.ReactNode | ((...args: any[]) => any)) ||
+              'chevron-down'
         }
         aria-hidden
       />
@@ -170,7 +172,16 @@ export type AccordionHeaderProps = React.HTMLProps<HTMLElement> &
     children?: string | React.ReactNode | ((...args: any[]) => any)
   }
 
-export const AccordionHeader = (props: AccordionHeaderProps) => {
+const accordionHeaderDefaultProps = {
+  icon_size: 'medium',
+}
+
+export const AccordionHeader = ({
+  icon_size: icon_size_default = 'medium',
+  ...restOfProps
+}: AccordionHeaderProps) => {
+  const props = { icon_size: icon_size_default, ...restOfProps }
+
   const [isHoverring, setIsHovering] = useState<boolean>(false)
   const [hasClicked, setHasClicked] = useState<boolean>(false)
 
@@ -214,12 +225,12 @@ export const AccordionHeader = (props: AccordionHeaderProps) => {
 
   function canClick() {
     const { expanded, allow_close_all, group } = context
-    return !group || (group && !expanded) || isTrue(allow_close_all)
+    return !group || (group && !expanded) || allow_close_all
   }
 
   const extendedProps = extendPropsWithContext(
     props,
-    AccordionHeader.defaultProps,
+    accordionHeaderDefaultProps,
     context as Record<string, unknown>
   )
 
@@ -241,6 +252,8 @@ export const AccordionHeader = (props: AccordionHeaderProps) => {
     no_animation,
   } = extendedProps
 
+  let { icon_position } = extendedProps
+
   const {
     children,
     className,
@@ -256,8 +269,6 @@ export const AccordionHeader = (props: AccordionHeaderProps) => {
 
     ...rest
   } = props
-
-  let { icon_position } = extendedProps
 
   const defaultParts = [
     <AccordionHeaderIcon
@@ -330,7 +341,7 @@ export const AccordionHeader = (props: AccordionHeaderProps) => {
   })
 
   // position the icon to the right, if the element is not in the beginning
-  if (icon_position === null) {
+  if (icon_position === undefined) {
     const iconIndex = partsToRender.findIndex(
       (c) => c.type === AccordionHeaderIcon
     )
@@ -365,7 +376,7 @@ export const AccordionHeader = (props: AccordionHeaderProps) => {
     ...rest,
   } satisfies HTMLProps<HTMLElement>
 
-  if (disabled || isTrue(skeleton)) {
+  if (disabled || skeleton) {
     headerParams.tabIndex = -1
     headerParams.disabled = true
     headerParams['aria-disabled'] = true
@@ -381,11 +392,11 @@ export const AccordionHeader = (props: AccordionHeaderProps) => {
   validateDOMAttributes(props, headerParams)
 
   let Element = 'div'
-  if (isTrue(heading)) {
+
+  // (String(heading) === 'true' || String(heading) === '1') extracted from isTrue function
+  if (heading && (String(heading) === 'true' || String(heading) === '1')) {
     headerParams.role = 'heading'
-    headerParams['aria-level'] = heading_level
-      ? Number(heading_level)
-      : 2
+    headerParams['aria-level'] = heading_level ? Number(heading_level) : 2
   } else if (heading) {
     headerParams.role = null
     Element = heading as string
@@ -395,25 +406,6 @@ export const AccordionHeader = (props: AccordionHeaderProps) => {
   }
 
   return <Element {...headerParams}>{partsToRender}</Element>
-}
-
-AccordionHeader.defaultProps = {
-  id: null, // make sure we have id here, so it gets picked up by extendPropsWithContextInClassComponent
-  title: null,
-  description: null,
-  left_component: null,
-  element: null,
-  heading: null,
-  heading_level: null,
-  icon: null,
-  icon_position: null,
-  icon_size: 'medium',
-  disabled: null,
-  skeleton: null,
-  no_animation: null,
-
-  className: null,
-  children: null,
 }
 
 AccordionHeader.Container = AccordionHeaderContainer

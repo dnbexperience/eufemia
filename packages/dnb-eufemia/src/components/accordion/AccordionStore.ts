@@ -1,4 +1,4 @@
-import { isTrue, warn } from '../../shared/component-helper'
+import { warn } from '../../shared/component-helper'
 
 type AccordionStoreInstance = {
   _id: string
@@ -117,7 +117,7 @@ export class Store {
       if (typeof store.id !== 'undefined') {
         state = id === store.id
       } else if (typeof store.expanded !== 'undefined') {
-        state = isTrue(store.expanded)
+        state = store.expanded
       }
     }
 
