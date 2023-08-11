@@ -2,6 +2,7 @@ import React, { useContext, useState, useCallback } from 'react'
 import classnames from 'classnames'
 import { Div } from '../../../elements'
 import { StepIndicator } from '../../../components'
+import { makeUniqueId } from '../../../shared/component-helper'
 import { forwardSpaceProps } from '../utils'
 import type { ComponentProps } from '../component-types'
 import DataContext from '../DataContext/Context'
@@ -12,6 +13,7 @@ import PreviousButton from './PreviousButton'
 import Buttons from './Buttons'
 
 export type Props = ComponentProps & {
+  id?: string
   mode?: 'static' | 'strict' | 'loose'
   scrollTopOnStepChange?: boolean
   initialActiveIndex?: number
@@ -22,6 +24,7 @@ export type Props = ComponentProps & {
 function StepsLayout(props: Props) {
   const {
     className,
+    id = makeUniqueId(),
     'data-testid': dataTestId,
     mode = 'loose',
     scrollTopOnStepChange,
@@ -82,7 +85,7 @@ function StepsLayout(props: Props) {
         {...forwardSpaceProps(props)}
       >
         <aside className="dnb-forms-steps-layout__sidebar">
-          <StepIndicator.Sidebar sidebar_id="steps-sidebar" />
+          <StepIndicator.Sidebar sidebar_id={id} />
           <StepIndicator
             bottom
             current_step={activeIndex}
@@ -90,7 +93,7 @@ function StepsLayout(props: Props) {
             mode={mode}
             no_animation
             on_change={handleChange}
-            sidebar_id="steps-sidebar"
+            sidebar_id={id}
             title=""
           />
         </aside>
