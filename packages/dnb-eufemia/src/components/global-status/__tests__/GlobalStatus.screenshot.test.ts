@@ -10,8 +10,11 @@ import {
 
 const style = { width: '25rem' }
 
-describe('GlobalStatus', () => {
-  setupPageScreenshot({ url: '/uilib/components/global-status/demos' })
+describe.each(['ui', 'sbanken'])('GlobalStatus for %s', themeName => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/global-status/demos'
+  })
 
   it('have to match the default state with custom content', async () => {
     const screenshot = await makeScreenshot({
