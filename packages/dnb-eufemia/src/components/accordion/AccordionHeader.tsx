@@ -188,14 +188,9 @@ export const AccordionHeader = ({
   const context = useContext(AccordionContext)
 
   function onKeyDownHandler(event: React.KeyboardEvent<HTMLElement>) {
-    /* Could possibly be replaced with 
-   const keyPressed = event.key
+    const keyPressed = event.key
 
-   if(keyPressed === 'Enter' || keyPressed === ' ')
-   */
-    const keyPressed = event.code
-
-    if (keyPressed === 'Enter' || keyPressed === 'Space') {
+    if (keyPressed === 'Enter' || keyPressed === ' ') {
       event.preventDefault()
       onClickHandler(event)
     }
