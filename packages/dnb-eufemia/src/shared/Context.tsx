@@ -37,6 +37,7 @@ import type { HelpButtonProps } from '../components/HelpButton'
 import type { TableProps } from '../components/Table'
 import type { GlobalErrorProps } from '../components/GlobalError'
 import type { ModalProps } from '../components/modal/types'
+import type { AccordionProps } from '../components/Accordion'
 
 import type { NumberFormatCurrency } from '../components/NumberFormat'
 
@@ -68,6 +69,7 @@ export type ContextComponents = {
   Table?: Partial<TableProps>
   GlobalError?: Partial<GlobalErrorProps>
   Modal?: Partial<ModalProps>
+  Accordion?: Partial<AccordionProps>
 
   // -- TODO: Not converted yet --
   NumberFormat?: Record<string, unknown>

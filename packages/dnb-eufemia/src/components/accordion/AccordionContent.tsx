@@ -3,26 +3,34 @@
  *
  */
 
-import React from 'react'
-import PropTypes from 'prop-types'
+import React, { HTMLProps } from 'react'
 import classnames from 'classnames'
 import {
   warn,
-  isTrue,
   validateDOMAttributes,
   processChildren,
   getPreviousSibling,
 } from '../../shared/component-helper'
 import { useMediaQuery } from '../../shared'
-import AccordionContext from './AccordionContext'
-import {
-  spacingPropTypes,
-  createSpacingClasses,
-} from '../space/SpacingHelper'
+import AccordionContext, {
+  AccordionContextProps,
+} from './AccordionContext'
+import { createSpacingClasses } from '../space/SpacingHelper'
 import HeightAnimation from '../height-animation/HeightAnimation'
+import { SpacingProps } from '../space/types'
 
-export default function AccordionContent(props) {
-  const context = React.useContext(AccordionContext)
+export type AccordionContentProps = Omit<
+  React.HTMLProps<HTMLElement>,
+  'onAnimationEnd' | 'children'
+> &
+  SpacingProps & {
+    instance?: React.MutableRefObject<unknown>
+    className?: string
+    children?: React.ReactNode | ((...args: any[]) => any)
+  }
+
+export default function AccordionContent(props: AccordionContentProps) {
+  const context = React.useContext<AccordionContextProps>(AccordionContext)
 
   const {
     id,
@@ -56,7 +64,7 @@ export default function AccordionContent(props) {
           const containerElement = getPreviousSibling(
             'dnb-accordion-group--single-container',
             contentElem
-          )
+          ) as HTMLElement
 
           if (no_animation) {
             containerElement.style.transitionDuration = '1ms'
@@ -88,7 +96,7 @@ export default function AccordionContent(props) {
       content = <p className="dnb-p">{content}</p>
     }
 
-    if (isTrue(prevent_rerender)) {
+    if (prevent_rerender) {
       /**
        * Ensure we do not render, if it is not expanded
        */
@@ -97,10 +105,7 @@ export default function AccordionContent(props) {
       }
 
       // update the cache if children is not the same anymore
-      if (
-        isTrue(prevent_rerender_conditional) &&
-        cacheRef.current !== content
-      ) {
+      if (prevent_rerender_conditional && cacheRef.current !== content) {
         cacheRef.current = content
       }
 
@@ -115,7 +120,7 @@ export default function AccordionContent(props) {
   }
 
   React.useEffect(() => {
-    if (expanded && isTrue(single_container)) {
+    if (expanded && single_container) {
       setContainerHeight()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -150,7 +155,7 @@ export default function AccordionContent(props) {
       'dnb-accordion__content__inner',
       createSpacingClasses(rest)
     ),
-  }
+  } as HTMLProps<HTMLElement>
 
   if (expanded) {
     innerParams['aria-expanded'] = true
@@ -179,17 +184,4 @@ export default function AccordionContent(props) {
       <section {...innerParams}>{content}</section>
     </HeightAnimation>
   )
-}
-
-AccordionContent.propTypes = {
-  instance: PropTypes.object,
-  ...spacingPropTypes,
-  className: PropTypes.string,
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-}
-
-AccordionContent.defaultProps = {
-  instance: null,
-  className: null,
-  children: null,
 }

@@ -1,4 +1,4 @@
-import { isTrue, warn } from '../../shared/component-helper'
+import { warn } from '../../shared/component-helper'
 
 type AccordionStoreInstance = {
   _id: string
@@ -34,11 +34,16 @@ export type StoreOptions = {
   force?: boolean
 }
 
-export class Store {
-  id: string
-  group: string
+type StoreProps = {
+  id?: string
+  group?: string
+}
 
-  constructor({ id, group }) {
+export class Store {
+  id?: string
+  group?: string
+
+  constructor({ id, group }: StoreProps) {
     this.id = id
     this.group = group
     return this
@@ -112,7 +117,7 @@ export class Store {
       if (typeof store.id !== 'undefined') {
         state = id === store.id
       } else if (typeof store.expanded !== 'undefined') {
-        state = isTrue(store.expanded)
+        state = store.expanded
       }
     }
 
