@@ -137,7 +137,6 @@ export default function FieldNumber(props: Props) {
           suffix,
         }}
         right={rightAligned}
-        bottom
         on_focus={onFocus}
         on_blur={onBlur}
         on_change={onChange}
