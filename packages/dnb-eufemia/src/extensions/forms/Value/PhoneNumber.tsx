@@ -18,9 +18,10 @@ export default function ValuePhoneNumber(props: Props) {
       (props.inline
         ? undefined
         : sharedContext?.translation.Forms.phoneNumberLabel),
-    value: format(cleanNumber(props.value), {
-      phone: true,
-    }).toString(),
+    prepare: (value) =>
+      format(cleanNumber(value), {
+        phone: true,
+      }).toString(),
   }
   return <StringComponent {...stringValueProps} />
 }

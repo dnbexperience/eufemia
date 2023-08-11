@@ -109,7 +109,7 @@ export const Default = () => {
               <Field.Number path="/number" label="Number value" />
               <Field.String
                 path="/number"
-                label="Number with StringInput"
+                label="Number with Field.String"
               />
               <Field.Boolean
                 path="/boolean"
@@ -200,7 +200,7 @@ export const ValidationWithJsonSchema = () => {
               <Field.Number path="/number" label="Number value" />
               <Field.String
                 path="/number"
-                label="Number with StringInput"
+                label="Number with Field.String"
               />
               <Field.Boolean
                 path="/boolean"

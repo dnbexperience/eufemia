@@ -18,9 +18,10 @@ export default function ValueNationalIdentityNumber(props: Props) {
       (props.inline
         ? undefined
         : sharedContext?.translation.Forms.nationalIdentityNumberLabel),
-    value: format(cleanNumber(props.value), {
-      nin: true,
-    }).toString(),
+    prepare: (value) =>
+      format(cleanNumber(value), {
+        nin: true,
+      }).toString(),
   }
   return <StringComponent {...stringValueProps} />
 }

@@ -11,8 +11,8 @@ import SharedContext from '../../../shared/Context'
 
 export type Props = ComponentProps &
   FieldProps<string> & {
-    countryCodeInputClassName?: string
-    numberInputClassName?: string
+    countryCodeFieldClassName?: string
+    numberFieldClassName?: string
     // Styling
     width?: false | 'medium' | 'large'
   }
@@ -30,8 +30,8 @@ export default function FieldPhoneNumber(props: Props) {
   const {
     className,
     'data-testid': dataTestId,
-    countryCodeInputClassName,
-    numberInputClassName,
+    countryCodeFieldClassName,
+    numberFieldClassName,
     placeholder,
     label = sharedContext?.translation.Forms.phoneNumberLabel,
     path,
@@ -96,7 +96,7 @@ export default function FieldPhoneNumber(props: Props) {
       <Autocomplete
         className={classnames(
           'dnb-forms-field-phone-number__country-code',
-          countryCodeInputClassName
+          countryCodeFieldClassName
         )}
         data-testid="field-phone-number-country-code"
         label_direction="vertical"
@@ -110,7 +110,7 @@ export default function FieldPhoneNumber(props: Props) {
       <Input
         className={classnames(
           'dnb-forms-field-phone-number__number',
-          numberInputClassName
+          numberFieldClassName
         )}
         data-testid="field-phone-number-number"
         label_direction="vertical"

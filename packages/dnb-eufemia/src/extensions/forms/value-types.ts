@@ -11,4 +11,7 @@ export type ValueProps<Value> = SpacingProps & {
   value?: Value
   /** For showing the value inline (not as a block element) */
   inline?: boolean
+  // Derivatives
+  /** Prepare value for display (regardless of source like props or data context) */
+  prepare?: (external: Value | undefined) => string
 }

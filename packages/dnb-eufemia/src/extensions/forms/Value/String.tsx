@@ -16,6 +16,7 @@ export default function ValueString(props: Props) {
     value,
     inline,
     showEmpty,
+    prepare = (value) => value,
   } = useValue(props)
 
   return (
@@ -28,7 +29,7 @@ export default function ValueString(props: Props) {
       inline={inline}
       {...forwardSpaceProps(props)}
     >
-      {value}
+      {prepare(value)}
     </ValueBlock>
   )
 }

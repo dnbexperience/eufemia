@@ -18,9 +18,10 @@ export default function ValueBankAccountNumber(props: Props) {
       (props.inline
         ? undefined
         : sharedContext?.translation.Forms.bankAccountNumberLabel),
-    value: format(cleanNumber(props.value), {
-      ban: true,
-    }).toString(),
+    prepare: (value) =>
+      format(cleanNumber(value), {
+        ban: true,
+      }).toString(),
   }
   return <StringComponent {...stringValueProps} />
 }
