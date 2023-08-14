@@ -1,0 +1,77 @@
+/*
+* Dropdown theme
+*
+*/
+
+@import '../../../../style/core/utilities.scss';
+@import '../../../button/style/themes/button-mixins.scss';
+
+
+.dnb-dropdown {
+  --dropdown-border-radius: 0.5rem;
+
+  &__icon {
+    color: var(--sb-color-text);
+  }
+
+  // button
+  &__trigger:not(.dnb-button--tertiary) {
+    @include fakeBorder(var(--sb-color-gray-dark-2));
+    color: var(--sb-color-gray-dark-3);
+    
+    @include hover() {
+      @include fakeBorder(var(--sb-color-violet), 2px, inset);
+      color: var(--sb-color-gray-dark-3);
+      background-color: var(--sb-color-white);
+
+      .dnb-dropdown__icon {
+        color: var(--sb-color-violet);
+      }
+    }
+
+    @include buttonFocus(var(--sb-color-blue-dark), var(--sb-color-blue-light-3)) {
+      .dnb-dropdown__icon {
+        color: var(--sb-color-blue-dark);
+      }
+    }
+  }
+
+  &__trigger[disabled] {
+    color: var(--sb-color-gray-dark-2);
+    background-color: var(--sb-color-gray-light);
+    @include fakeBorder(var(--sb-color-gray-dark-2));
+
+    .dnb-dropdown__icon {
+      color: inherit;
+    }
+  }
+
+  // error status
+  &__status--error:not(#{&}--opened) &__trigger {
+    @include fakeBorder(var(--sb-color-red));
+
+    @include hover() {
+      color: var(--sb-color-red);
+
+      @include fakeBorder(var(--sb-color-red), 0.125rem, inset);
+
+      & .dnb-dropdown__icon .dnb-icon {
+        color: var(--sb-color-red);
+      }
+    }
+
+    @include active() {
+      color: var(--sb-color-red);
+      background-color: var(--sb-color-white);
+    }
+  }
+  &__status--error:not(#{&}--opened) &__trigger,
+  &__status--error:not(#{&}--opened) &__icon {
+    color: var(--sb-color-red);
+  }
+
+  // adjust the form-status to the inner border for 2px
+  > .dnb-form-status {
+    transform: translateY(-0.4375rem);
+  }
+}
