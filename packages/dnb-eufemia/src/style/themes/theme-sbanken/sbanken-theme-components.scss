@@ -22,7 +22,10 @@ $fonts-path: '../../../../assets/fonts/dnb' !default;
 @import '../../../components/avatar/style/themes/dnb-avatar-theme-sbanken.scss';
 @import '../../../components/breadcrumb/style/themes/dnb-breadcrumb-theme-sbanken.scss';
 @import '../../../components/button/style/themes/dnb-button-theme-sbanken.scss';
+<<<<<<< HEAD
 @import '../../../components/dialog/style/themes/dnb-dialog-theme-sbanken.scss';
+=======
+>>>>>>> 90b5272b12 (Style(Dropdown): Add theme for drawer-list)
 @import '../../../components/dropdown/style/themes/dnb-dropdown-theme-sbanken.scss';
 @import '../../../components/form-label/style/themes/dnb-form-label-theme-sbanken.scss';
 @import '../../../components/form-row/style/themes/dnb-form-row-theme-sbanken.scss';
@@ -39,7 +42,11 @@ $fonts-path: '../../../../assets/fonts/dnb' !default;
 @import '../../../components/tabs/style/themes/dnb-tabs-theme-sbanken.scss';
 @import '../../../components/textarea/style/themes/dnb-textarea-theme-sbanken.scss';
 @import '../../../components/tooltip/style/themes/dnb-tooltip-theme-sbanken.scss';
+<<<<<<< HEAD
 @import '../../../components/upload/style/themes/dnb-upload-theme-sbanken.scss';
+=======
+@import '../../../fragments/drawer-list/style/themes/dnb-drawer-list-theme-sbanken.scss';
+>>>>>>> 90b5272b12 (Style(Dropdown): Add theme for drawer-list)
 @import '../../../components/autocomplete/style/themes/dnb-autocomplete-theme-ui.scss';
 @import '../../../components/badge/style/themes/dnb-badge-theme-ui.scss';
 @import '../../../components/checkbox/style/themes/dnb-checkbox-theme-ui.scss';
@@ -56,5 +63,9 @@ $fonts-path: '../../../../assets/fonts/dnb' !default;
 @import '../../../components/switch/style/themes/dnb-switch-theme-ui.scss';
 @import '../../../components/timeline/style/themes/dnb-timeline-theme-ui.scss';
 @import '../../../components/toggle-button/style/themes/dnb-toggle-button-theme-ui.scss';
+<<<<<<< HEAD
 @import '../../../fragments/drawer-list/style/themes/dnb-drawer-list-theme-ui.scss';
+=======
+@import '../../../components/upload/style/themes/dnb-upload-theme-ui.scss';
+>>>>>>> 90b5272b12 (Style(Dropdown): Add theme for drawer-list)
 @import '../../../fragments/scroll-view/style/themes/dnb-scroll-view-theme-ui.scss';

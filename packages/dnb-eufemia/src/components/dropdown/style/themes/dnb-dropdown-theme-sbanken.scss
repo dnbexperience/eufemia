@@ -36,6 +36,10 @@
     }
   }
 
+  &__trigger.dnb-button--active {
+    border-radius: var(--dropdown-border-radius) var(--dropdown-border-radius) 0 0;
+  }
+
   &__trigger[disabled] {
     color: var(--sb-color-gray-dark-2);
     background-color: var(--sb-color-gray-light);
