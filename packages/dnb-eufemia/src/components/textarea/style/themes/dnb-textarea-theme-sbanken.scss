@@ -6,7 +6,6 @@
 @import '../../../../style/core/utilities.scss';
 
 .dnb-textarea {
-  --textarea-rows: 2;
   --textarea-border-color: var(--sb-color-gray-dark-2);
   --textarea-border-width: 0.0625rem;
 
@@ -26,19 +25,10 @@
 
     color: var(--textarea-color);
     background-color: transparent;
-
-    @include scrollY(auto);
   }
 
   &__placeholder {
     color: var(--sb-color-gray-dark-3);
-
-    // Required for line-clamp
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-
-    // Limit the text block to two lines
-    -webkit-line-clamp: var(--textarea-rows, 2);
   }
 
   // hover
@@ -61,11 +51,6 @@
   // disabled
   &--disabled &__textarea,
   &__textarea[disabled] {
-    user-select: none; // Safari / Touch fix
-    &::-webkit-scrollbar {
-      width: 0;
-    }
-
     color: var(--sb-color-gray-dark-2);
     background-color: var(--sb-color-gray-light);
 
@@ -83,11 +68,5 @@
     ~ .dnb-textarea__state {
       --textarea-border-color: var(--sb-color-red);
     }
-  }
-
-  // hide placeholder on focus
-  &--has-content &__textarea ~ &__placeholder,
-  &--focus &__textarea:not([disabled], [readonly]) ~ &__placeholder {
-    display: none;
   }
 }
