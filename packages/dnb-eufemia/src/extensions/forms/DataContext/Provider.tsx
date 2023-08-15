@@ -120,7 +120,6 @@ export default function Provider<Data extends JsonObject>({
         if (path) {
           pointer.set(newData, path, value)
         }
-        onChange?.(newData)
 
         validateBySchemaAndUpdateState(newData)
 
@@ -128,7 +127,7 @@ export default function Provider<Data extends JsonObject>({
       })
       setShowAllErrors(false)
     },
-    [onPathChange, onChange, validateBySchemaAndUpdateState]
+    [onPathChange, validateBySchemaAndUpdateState]
   )
 
   // Mounted fields
@@ -170,6 +169,18 @@ export default function Provider<Data extends JsonObject>({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Only run for mount and unmount
   }, [])
+
+  const isFirstRender = useRef<boolean>(true)
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false
+      return
+    }
+    // Run external event handlers in an effect instead of directly in the internal callback (handlePathChange) to avoid
+    // issues with race conditions on external useState or other component updates triggered by the onChange callback.
+    onChange?.(data as Data)
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Only run for mount and unmount
+  }, [data])
 
   return (
     <Context.Provider

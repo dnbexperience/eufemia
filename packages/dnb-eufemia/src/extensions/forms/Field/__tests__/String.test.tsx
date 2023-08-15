@@ -575,29 +575,32 @@ describe('Field.String', () => {
       )
       const input = screen.getByTestId('/foo')
       await userEvent.type(input, 'O!')
-      expect(inputOnChange.mock.calls).toHaveLength(2)
-      expect(inputOnChange.mock.calls[0][0]).toEqual('FOOO')
-      expect(inputOnChange.mock.calls[1][0]).toEqual('FOOO!')
 
-      expect(dataContextOnChange.mock.calls).toHaveLength(2)
-      expect(dataContextOnChange.mock.calls[0][0]).toEqual({
-        foo: 'FOOO',
-        bar: 'BAAAR',
-      })
-      expect(dataContextOnChange.mock.calls[1][0]).toEqual({
-        foo: 'FOOO!',
-        bar: 'BAAAR',
-      })
+      await waitFor(() => {
+        expect(inputOnChange.mock.calls).toHaveLength(2)
+        expect(inputOnChange.mock.calls[0][0]).toEqual('FOOO')
+        expect(inputOnChange.mock.calls[1][0]).toEqual('FOOO!')
 
-      expect(dataContextOnPathChange.mock.calls).toHaveLength(2)
-      expect(dataContextOnPathChange.mock.calls[0]).toEqual([
-        '/foo',
-        'FOOO',
-      ])
-      expect(dataContextOnPathChange.mock.calls[1]).toEqual([
-        '/foo',
-        'FOOO!',
-      ])
+        expect(dataContextOnChange.mock.calls).toHaveLength(2)
+        expect(dataContextOnChange.mock.calls[0][0]).toEqual({
+          foo: 'FOOO',
+          bar: 'BAAAR',
+        })
+        expect(dataContextOnChange.mock.calls[1][0]).toEqual({
+          foo: 'FOOO!',
+          bar: 'BAAAR',
+        })
+
+        expect(dataContextOnPathChange.mock.calls).toHaveLength(2)
+        expect(dataContextOnPathChange.mock.calls[0]).toEqual([
+          '/foo',
+          'FOOO',
+        ])
+        expect(dataContextOnPathChange.mock.calls[1]).toEqual([
+          '/foo',
+          'FOOO!',
+        ])
+      })
     })
   })
 })
