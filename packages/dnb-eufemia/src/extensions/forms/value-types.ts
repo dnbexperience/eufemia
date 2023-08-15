@@ -4,7 +4,7 @@ export type ValueProps<Value> = SpacingProps & {
   label?: string
   /** Should the component render if the value is empty? */
   showEmpty?: boolean
-  /** Text showing in place of the value if no value is given. When placeholder is given, it acts as  */
+  /** Text showing in place of the value if no value is given. */
   placeholder?: string
   /** JSON Pointer for where the data for this input is located in the source dataset */
   path?: string

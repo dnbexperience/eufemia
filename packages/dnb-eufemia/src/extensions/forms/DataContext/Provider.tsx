@@ -51,7 +51,7 @@ export default function Provider<Data extends JsonObject>({
     () => (schema ? ajv.compile(schema) : undefined),
     [schema]
   )
-  const [data, setData] = useState<Partial<Data>>(externalData)
+  const internalData = useRef<Partial<Data>>(externalData)
   const mountedFieldPathsRef = useRef<string[]>([])
 
   // Errors from provider validation (the whole data set)
@@ -74,7 +74,7 @@ export default function Provider<Data extends JsonObject>({
 
   useEffect(() => {
     // When receivint the initial data, or receiving updated data by props, update the internal data (controlled state)
-    setData(externalData)
+    internalData.current = externalData
   }, [externalData])
 
   const validateBySchema = useCallback(
@@ -115,19 +115,19 @@ export default function Provider<Data extends JsonObject>({
     (path, value) => {
       onPathChange?.(path, value)
       // Update the data even if it contains errors. Submit/SubmitRequest will be called accordingly
-      setData((existing) => {
-        const newData = structuredClone(existing) as Data
-        if (path) {
-          pointer.set(newData, path, value)
-        }
+      const newData = structuredClone(internalData.current) as Data
+      if (path) {
+        pointer.set(newData, path, value)
+      }
+      onChange?.(newData)
 
-        validateBySchemaAndUpdateState(newData)
+      validateBySchemaAndUpdateState(newData)
 
-        return newData
-      })
+      internalData.current = newData
+
       setShowAllErrors(false)
     },
-    [onPathChange, validateBySchemaAndUpdateState]
+    [onChange, onPathChange, validateBySchemaAndUpdateState]
   )
 
   // Mounted fields
@@ -150,7 +150,7 @@ export default function Provider<Data extends JsonObject>({
    */
   const handleSubmit = useCallback(() => {
     if (!hasErrors()) {
-      onSubmit?.(data as Data)
+      onSubmit?.(internalData.current as Data)
       if (scrollTopOnSubmit) {
         window && window?.scrollTo({ top: 0, behavior: 'smooth' })
       }
@@ -158,8 +158,8 @@ export default function Provider<Data extends JsonObject>({
       setShowAllErrors(true)
       onSubmitRequest?.()
     }
-    return data
-  }, [data, scrollTopOnSubmit, hasErrors, onSubmit, onSubmitRequest])
+    return internalData.current
+  }, [scrollTopOnSubmit, hasErrors, onSubmit, onSubmitRequest])
 
   useEffect(() => {
     // Mount procedure
@@ -170,22 +170,10 @@ export default function Provider<Data extends JsonObject>({
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Only run for mount and unmount
   }, [])
 
-  const isFirstRender = useRef<boolean>(true)
-  useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false
-      return
-    }
-    // Run external event handlers in an effect instead of directly in the internal callback (handlePathChange) to avoid
-    // issues with race conditions on external useState or other component updates triggered by the onChange callback.
-    onChange?.(data as Data)
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- Only run for mount and unmount
-  }, [data])
-
   return (
     <Context.Provider
       value={{
-        data,
+        data: internalData.current,
         handlePathChange,
         handleSubmit,
         errors: errorsRef.current,

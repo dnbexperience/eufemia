@@ -70,7 +70,7 @@ export const BecomeCorporateCustomer = () => {
               </Field.Selection>
               <Field.SelectCountry
                 path="/countryOfEstablishment"
-                label="Etableringsland og sånt som det"
+                label="Etableringsland"
                 required
               />
             </Layout.Card>
