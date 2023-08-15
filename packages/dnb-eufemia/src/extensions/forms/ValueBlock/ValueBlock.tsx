@@ -34,7 +34,7 @@ export default function StringValue(props: Props) {
     <Span
       className={classnames(
         'dnb-forms-value',
-        inline && 'dnb-forms-value--inline',
+        inline && 'dnb-forms-value-block--inline',
         className
       )}
       data-testid={dataTestId ?? path ?? 'value'}
@@ -42,14 +42,16 @@ export default function StringValue(props: Props) {
     >
       {label && (
         <FormLabel
-          className="dnb-forms-value__label"
+          className="dnb-forms-value-block__label"
           label_direction={inline ? 'horizontal' : 'vertical'}
         >
           {label}
         </FormLabel>
       )}
       {children ?? (
-        <span className="dnb-forms-value__placeholder">{placeholder}</span>
+        <span className="dnb-forms-value-block__placeholder">
+          {placeholder}
+        </span>
       )}
     </Span>
   )
