@@ -4,7 +4,7 @@ import { render, screen } from '@testing-library/react'
 import DataContextProvider from '../../DataContext/Provider'
 import Visibility from '../Visibility'
 
-describe('Vusibility', () => {
+describe('Visibility', () => {
   it('renders children when no props is given', () => {
     render(<Visibility>Child</Visibility>)
     expect(screen.getByText('Child')).toBeInTheDocument()
