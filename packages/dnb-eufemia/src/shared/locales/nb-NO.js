@@ -27,7 +27,7 @@ export default {
       open_picker_text: 'åpne datovelger',
       mask_order: 'dd/mm/yyyy',
       mask_placeholder: 'dd.mm.åååå', // have to be same setup as "mask" - but can be like: dd/mm/åååå
-      date_format: 'yyyy-MM-dd', // in v1 of date-fns we where more flexible in terms of the format
+      date_format: 'yyyy-MM-dd', // in v1 of date-fns we were more flexible in terms of the format
       return_format: 'yyyy-MM-dd', // used in date-fns v1: YYYY-MM-DD
       submit_button_text: 'Ok',
       cancel_button_text: 'Avbryt',
@@ -151,8 +151,10 @@ export default {
       contextSubmit: 'Send',
       inputErrorRequired: 'Dette feltet må fylles ut',
       inputErrorPattern: 'Verdien er ugyldig',
-      stringInputErrorMinLength: 'Verdien kan ikke være kortere enn {minLength} tegn',
-      stringInputErrorMaxLength: 'Verdien kan ikke være lengre enn {maxLength} tegn',
+      stringInputErrorMinLength:
+        'Verdien kan ikke være kortere enn {minLength} tegn',
+      stringInputErrorMaxLength:
+        'Verdien kan ikke være lengre enn {maxLength} tegn',
       countryCodeLabel: 'Landskode',
       dateLabel: 'Dato',
       emailErrorRequired: 'Du må fylle inn e-post',
@@ -163,14 +165,19 @@ export default {
       lastNameLabel: 'Etternavn',
       lastNameErrorRequired: 'Du må fylle inn etternavn',
       nationalIdentityNumberLabel: 'Fødselsnummer (11 siffer)',
-      nationalIdentityNumberErrorRequired: 'Du må fylle inn et fødselsnummer',
-      nationalIdentityNumberErrorPattern: 'Dette er ikke et gyldig fødselsnummer',
+      nationalIdentityNumberErrorRequired:
+        'Du må fylle inn et fødselsnummer',
+      nationalIdentityNumberErrorPattern:
+        'Dette er ikke et gyldig fødselsnummer',
       organizationNumberLabel: 'Organisasjonsnummer',
-      organizationNumberErrorRequired: 'Du må fylle inn et organisasjonsnummer',
-      organizationNumberErrorPattern: 'Dette er ikke et gyldig organisasjonsnummer',
+      organizationNumberErrorRequired:
+        'Du må fylle inn et organisasjonsnummer',
+      organizationNumberErrorPattern:
+        'Dette er ikke et gyldig organisasjonsnummer',
       bankAccountNumberLabel: 'Bankkonto',
       bankAccountNumberErrorRequired: 'Du må fylle inn et bankkontonummer',
-      bankAccountNumberErrorPattern: 'Dette er ikke et gyldig bankkontonummer',
+      bankAccountNumberErrorPattern:
+        'Dette er ikke et gyldig bankkontonummer',
       phoneNumberLabel: 'Mobilnummer',
       phoneNumberErrorRequired: 'Du må fylle inn mobilnummer',
       postalCodeLabel: 'Postnr.',
@@ -179,7 +186,7 @@ export default {
       cityLabel: 'Sted',
       cityErrorRequired: 'Du må fylle inn et sted',
       selectCountryLabel: 'Land',
-      selectCountryPlaceholder: 'Velg et lang',
+      selectCountryPlaceholder: 'Velg et land',
       selectCountryErrorRequired: 'Du må velge et land',
     },
   },
