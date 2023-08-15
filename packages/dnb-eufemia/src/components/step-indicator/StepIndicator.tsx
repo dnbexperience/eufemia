@@ -33,7 +33,7 @@ export type StepIndicatorData =
 
 export type StepIndicatorProps = Omit<
   React.HTMLProps<HTMLAnchorElement>,
-  'ref'
+  'ref' | 'data'
 > &
   SpacingProps & {
     /**
@@ -82,7 +82,27 @@ export type StepIndicatorProps = Omit<
     internalId: string
   }
 
-const StepIndicator = (props: StepIndicatorProps) => {
+const StepIndicator = ({
+  data = [],
+  skeleton = false,
+  current_step = '0',
+  hide_numbers = false,
+  no_animation = false,
+  step_title = null,
+  step_title_extended = null,
+  ...restOfProps
+}: StepIndicatorProps) => {
+  const props = {
+    data,
+    skeleton,
+    current_step,
+    hide_numbers,
+    no_animation,
+    step_title,
+    step_title_extended,
+    ...restOfProps,
+  }
+
   const sidebarId = props.internalId || props.sidebar_id || makeUniqueId()
 
   if (!props.sidebar_id && props.mode) {
@@ -98,26 +118,6 @@ const StepIndicator = (props: StepIndicatorProps) => {
       </div>
     </StepIndicatorProvider>
   )
-}
-
-StepIndicator.defaultProps = {
-  mode: null,
-  data: [],
-  overview_title: null,
-  step_title_extended: null,
-  step_title: null,
-  current_step: null,
-  hide_numbers: false,
-  on_item_render: null,
-  no_animation: null,
-  skeleton: false,
-  class: null,
-
-  className: null,
-  children: null,
-
-  on_change: null,
-  on_click: null,
 }
 
 StepIndicator.Sidebar = StepIndicatorSidebar
