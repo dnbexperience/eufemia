@@ -11,10 +11,6 @@
   .dnb-radio & {
     &[for]:not([disabled]) {
       cursor: pointer;
-
-      &:hover {
-        color: var(--sb-color-violet-light);
-      }
     }
   }
 }
