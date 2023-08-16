@@ -58,7 +58,7 @@ export type StepIndicatorProps = Omit<
     /**
      * Defines the active number marked step starting by 0. Defaults to `0`.
      */
-    current_step?: string | number
+    current_step?: number
     /**
      * Define whether to show automatically counted numbers or not. Defaults to `false`.
      */
@@ -79,17 +79,15 @@ export type StepIndicatorProps = Omit<
      * Will be called once the user visits actively a new step. Will be emitted only once. Returns an object `{ event, item, current_step }`.
      */
     on_change?: (...args: any[]) => any
-    internalId: string
+    internalId?: string
   }
 
 const StepIndicator = ({
   data = [],
   skeleton = false,
-  current_step = '0',
+  current_step = 0,
   hide_numbers = false,
   no_animation = false,
-  step_title = null,
-  step_title_extended = null,
   ...restOfProps
 }: StepIndicatorProps) => {
   const props = {
@@ -98,8 +96,6 @@ const StepIndicator = ({
     current_step,
     hide_numbers,
     no_animation,
-    step_title,
-    step_title_extended,
     ...restOfProps,
   }
 

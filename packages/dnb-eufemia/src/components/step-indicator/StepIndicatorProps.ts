@@ -42,21 +42,9 @@ export const stepIndicatorPropTypes = {
 }
 
 export const stepIndicatorDefaultProps = {
-  mode: null,
   data: [],
-  overview_title: null,
-  step_title_extended: null,
-  step_title: null,
-  current_step: null,
-  hide_numbers: false,
-  on_item_render: null,
-  no_animation: null,
   skeleton: false,
-  class: null,
-
-  className: null,
-  children: null,
-
-  on_change: null,
-  on_click: null,
+  current_step: 0,
+  hide_numbers: false,
+  no_animation: false,
 }
