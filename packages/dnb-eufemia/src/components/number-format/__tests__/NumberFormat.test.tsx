@@ -351,12 +351,12 @@ describe('NumberFormat component', () => {
 
   it('have to match organization number', () => {
     render(
-      <Component org suffix="MVA">
+      <Component org suffix=" MVA">
         123456789
       </Component>
     )
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '123 456 789 MVA'
+      '123 456 789 MVA'
     )
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
@@ -365,12 +365,15 @@ describe('NumberFormat component', () => {
 
   it('have to handle prefix and suffix', () => {
     render(
-      <Component prefix={<span>prefix</span>} suffix={<span>suffix</span>}>
+      <Component
+        prefix={<span>prefix{' '}</span>}
+        suffix={<span>{' '}suffix</span>}
+      >
         123456789.5
       </Component>
     )
     expect(document.querySelector(displaySelector).textContent).toBe(
-      'prefix 123 456 789,5 suffix'
+      'prefix 123 456 789,5 suffix'
     )
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')

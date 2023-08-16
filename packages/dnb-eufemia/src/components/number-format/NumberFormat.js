@@ -371,7 +371,8 @@ export default class NumberFormat extends React.PureComponent {
     if (prefix) {
       display = (
         <>
-          {this.runFix(prefix, 'dnb-number-format__prefix')} {display}
+          {this.runFix(prefix, 'dnb-number-format__prefix')}
+          {display}
         </>
       )
       aria = String(
@@ -383,7 +384,8 @@ export default class NumberFormat extends React.PureComponent {
     if (suffix) {
       display = (
         <>
-          {display} {this.runFix(suffix, 'dnb-number-format__suffix')}
+          {display}
+          {this.runFix(suffix, 'dnb-number-format__suffix')}
         </>
       )
       aria = `${aria} ${convertJsxToString(

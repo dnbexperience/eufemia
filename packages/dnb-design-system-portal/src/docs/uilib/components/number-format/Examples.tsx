@@ -27,7 +27,7 @@ export const NumberDefault = () => (
       <P>
         <NumberFormat value="12345" srLabel="Total:" />
         <NumberFormat>-12345678.9</NumberFormat>
-        <NumberFormat prefix={<b>prefix</b>} suffix="suffix">
+        <NumberFormat prefix={<b>prefix{' '}</b>} suffix=" suffix">
           -12345678.9
         </NumberFormat>
         <NumberFormat decimals={1}>-1234.54321</NumberFormat>
@@ -163,7 +163,7 @@ export const NumberOrganization = () => (
   <Style>
     <ComponentBox data-visual-test="number-format-org">
       <P>
-        <NumberFormat value="123456789" org suffix="MVA" />
+        <NumberFormat value="123456789" org suffix=" MVA" />
       </P>
     </ComponentBox>
   </Style>
