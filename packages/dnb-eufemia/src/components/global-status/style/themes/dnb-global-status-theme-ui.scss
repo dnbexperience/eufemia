@@ -3,7 +3,7 @@
  *
  */
 
-@import '../../../../style/core/utilities.scss';
+@import '@dnb/eufemia/src/style/core/utilities.scss';
 
 .dnb-global-status {
   &:not(#{&}--no-animation)#{&}--fade-in#{&}.dnb-section::after {

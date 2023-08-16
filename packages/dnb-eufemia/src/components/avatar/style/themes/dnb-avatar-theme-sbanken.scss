@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../../style/core/utilities.scss';
+@import '@dnb/eufemia/src/style/core/utilities.scss';
 
 .dnb-avatar {
   --avatar-font-size--large: var(--font-size-x-large);
@@ -37,5 +37,6 @@
   &__group {
     --avatar-font-size-left--medium: var(--font-size-basis);
     --avatar-font-size-left--large: var(--font-size-medium);
-    --avatar-font-size-left--x-large: var(--font-size-medium);}
+    --avatar-font-size-left--x-large: var(--font-size-medium);
+  }
 }

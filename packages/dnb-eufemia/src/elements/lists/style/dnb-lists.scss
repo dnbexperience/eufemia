@@ -5,7 +5,7 @@
 
 @use '../../../style/elements/ui-spacing.scss';
 @import './lists-mixins.scss';
-@import '../../../style/core/utilities.scss';
+@import '@dnb/eufemia/src/style/core/utilities.scss';
 
 .dnb-ul {
   @include ulStyle();

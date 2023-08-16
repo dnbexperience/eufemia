@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
+@import '@dnb/eufemia/src/style/core/utilities.scss';
 
 .dnb-height-animation {
   transition: height var(--duration, 400ms) var(--easing-default);

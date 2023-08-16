@@ -3,7 +3,7 @@
 *
 */
 
-@import '../../../style/core/utilities.scss';
+@import '@dnb/eufemia/src/style/core/utilities.scss';
 
 @mixin openDatePicker($state: 'animation') {
   z-index: 100; // make sure we are over e.g. switch

@@ -3,7 +3,7 @@
  *
  */
 
-@import '../../../style/core/utilities.scss';
+@import '@dnb/eufemia/src/style/core/utilities.scss';
 
 @mixin anchorDefaultStyle() {
   // make sure we have always `display: inline;` as inline-block is breaking the border-bottom

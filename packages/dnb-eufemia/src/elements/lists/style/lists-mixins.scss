@@ -4,7 +4,7 @@
  */
 
 @use '../../../style/elements/ui-spacing.scss';
-@import '../../../style/core/utilities.scss';
+@import '@dnb/eufemia/src/style/core/utilities.scss';
 
 @mixin listDefaults() {
   & ul,
