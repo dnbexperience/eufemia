@@ -13,8 +13,9 @@ if (isCI) {
   jest.setTimeout(20e3)
 }
 
-describe('FormRow', () => {
+describe.each(['ui', 'sbanken'])('FormRow for %s', (themeName) => {
   setupPageScreenshot({
+    themeName,
     url: '/uilib/components/form-row/demos',
   })
 
