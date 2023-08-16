@@ -80,27 +80,37 @@ export default function FieldBlock(props: Props) {
       {children}
 
       {error && (
-        <FormStatus text={error?.message} space={{ top: 'x-small' }} />
+        <FormStatus
+          state="error"
+          id={forId ? `${forId}-form-status` : undefined}
+          text={error?.message}
+          label={label}
+          space={{ top: 'x-small' }}
+        />
       )}
       {warning && (
         <FormStatus
           state="warn"
+          id={forId ? `${forId}-form-status` : undefined}
           text={
             (warning instanceof Error && warning.message) ||
             (warning instanceof FormError && warning.message) ||
             info?.toString()
           }
+          label={label}
           space={{ top: 'x-small' }}
         />
       )}
       {info && (
         <FormStatus
           state="info"
+          id={forId ? `${forId}-form-status` : undefined}
           text={
             (info instanceof Error && info.message) ||
             (info instanceof FormError && info.message) ||
             info?.toString()
           }
+          label={label}
           space={{ top: 'x-small' }}
         />
       )}
