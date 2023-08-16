@@ -242,3 +242,51 @@ export const StepIndicatorSandbox = () => {
     </Wrapper>
   )
 }
+
+const stepIndicatorListData = [
+  {
+    title: 'Step A',
+  },
+  {
+    title: 'Step B',
+  },
+  {
+    title: 'Step C',
+  },
+  {
+    title: 'Step D',
+  },
+]
+
+export const CurrentStepPropChange = () => {
+  const [current_step, setCurrentStep] = React.useState(1)
+
+  const id = 'prop-step-test'
+
+  function stepOn() {
+    if (current_step === stepIndicatorListData.length - 1) {
+      return setCurrentStep(0)
+    }
+
+    setCurrentStep((step) => step + 1)
+  }
+
+  return (
+    <Wrapper>
+      <Box>
+        <Button onClick={stepOn}>Step</Button>
+        <Button onClick={() => setCurrentStep(2)}>Go to third step</Button>
+        <Button onClick={() => setCurrentStep(0)}>Reset</Button>
+      </Box>
+      <Box>
+        <StepIndicator.Sidebar sidebar_id={id} />
+        <StepIndicator
+          current_step={current_step}
+          mode="loose"
+          sidebar_id={id}
+          data={stepIndicatorListData}
+        />
+      </Box>
+    </Wrapper>
+  )
+}
