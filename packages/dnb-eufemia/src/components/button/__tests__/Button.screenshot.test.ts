@@ -157,6 +157,67 @@ describe.each(['ui', 'sbanken', 'eiendom'])(
       })
     })
 
+    describe('error', () => {
+      it('have to match', async () => {
+        const screenshot = await makeScreenshot({
+          selector: '[data-visual-test="button-error"]',
+        })
+        expect(screenshot).toMatchImageSnapshot()
+      })
+
+      describe('primary', () => {
+        it('have to match focus state', async () => {
+          const screenshot = await makeScreenshot({
+            selector: '[data-visual-test="button-error-primary"]',
+            simulate: 'focus',
+          })
+          expect(screenshot).toMatchImageSnapshot()
+        })
+
+        it('have to match hover state', async () => {
+          const screenshot = await makeScreenshot({
+            selector: '[data-visual-test="button-error-primary"]',
+            simulate: 'hover',
+          })
+          expect(screenshot).toMatchImageSnapshot()
+        })
+
+        it('have to match active state', async () => {
+          const screenshot = await makeScreenshot({
+            selector: '[data-visual-test="button-error-primary"]',
+            simulate: 'active',
+          })
+          expect(screenshot).toMatchImageSnapshot()
+        })
+      })
+
+      describe('secondary', () => {
+        it('have to match focus state', async () => {
+          const screenshot = await makeScreenshot({
+            selector: '[data-visual-test="button-error-secondary"]',
+            simulate: 'focus',
+          })
+          expect(screenshot).toMatchImageSnapshot()
+        })
+
+        it('have to match hover state', async () => {
+          const screenshot = await makeScreenshot({
+            selector: '[data-visual-test="button-error-secondary"]',
+            simulate: 'hover',
+          })
+          expect(screenshot).toMatchImageSnapshot()
+        })
+
+        it('have to match active state', async () => {
+          const screenshot = await makeScreenshot({
+            selector: '[data-visual-test="button-error-secondary"]',
+            simulate: 'active',
+          })
+          expect(screenshot).toMatchImageSnapshot()
+        })
+      })
+    })
+
     describe('icon', () => {
       it('have to match icon buttons', async () => {
         const screenshot = await makeScreenshot({

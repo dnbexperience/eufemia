@@ -35,10 +35,8 @@
     );
   }
 
-  &__submit-button {
-    &__button {
-      color: var(--sb-color-violet);
-    }
+  &__submit-button__button {
+    --button-secondary-color: var(--sb-color-violet);
   }
 
   &__placeholder {
@@ -89,19 +87,22 @@
     }
 
     // Button
-    .dnb-input__submit-element .dnb-input__submit-button__button {
-      border-left: none;
+    .dnb-input__submit-button__button {
       transition: border-radius 0.25s ease-out;
       background-color: transparent;
       box-shadow: none;
 
       &:hover,
       &:active {
-        box-shadow: none !important;
         border: var(--input-button-border-width) solid
-          var(--input-button-border-color) !important;
-        border-left: none !important;
+          var(--input-button-border-color);
+        border-left: none;
         padding-left: var(--input-button-border-width);
+      }
+
+      &:focus-visible {
+        border: none;
+        padding-left: none;
       }
     }
 
@@ -113,14 +114,12 @@
       --input-border-color--active: var(--sb-color-red);
       --input-border-color--focus: var(--sb-color-red);
 
-      .dnb-input__icon {
-        color: var(--sb-color-red);
-      }
+      .dnb-input__submit-button__button {
+        --button-secondary-background--hover: var(--sb-color-red);
 
-      .dnb-input__submit-element
-        .dnb-input__submit-button__button:hover:not(:active) {
-        background-color: var(--sb-color-red);
-        color: var(--sb-color-white);
+        &:hover:not(:active) {
+          --button-secondary-color: var(--sb-color-white);
+        }
       }
     }
   }
