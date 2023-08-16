@@ -15,7 +15,6 @@ export default function NextStepButton(props: Props) {
   const sharedContext = useContext(SharedContext)
   const {
     className,
-    'data-testid': dataTestId,
     variant = 'primary',
     icon_position = 'right',
     icon = 'chevron_right',
@@ -27,7 +26,6 @@ export default function NextStepButton(props: Props) {
     <Button
       {...props}
       className={classnames('dnb-forms-next-button', className)}
-      data-testid={dataTestId ?? 'steps-layout-next-button'}
       onClick={stepsContext?.handleNext}
       variant={variant}
       icon_position={icon_position}

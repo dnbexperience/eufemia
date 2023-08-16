@@ -117,7 +117,6 @@ export default function ToggleField(props: Props) {
           <ButtonRow>
             <Button
               id={id}
-              data-testid="field-boolean-option-yes"
               text={textOn ?? sharedContext?.translation.Forms.booleanYes}
               on_click={setOn}
               variant={isOn ? undefined : 'secondary'}
@@ -126,7 +125,6 @@ export default function ToggleField(props: Props) {
             />
             <Button
               id={id}
-              data-testid="field-boolean-option-no"
               text={textOff ?? sharedContext?.translation.Forms.booleanNo}
               on_click={setOff}
               variant={isOn ? 'secondary' : undefined}

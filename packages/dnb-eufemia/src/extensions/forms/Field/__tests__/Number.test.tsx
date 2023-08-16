@@ -66,7 +66,7 @@ describe('Field.Number', () => {
     it('calls onChange for every change of an integer input value', async () => {
       const onChange = jest.fn()
       render(<Field.Number value={23} onChange={onChange} />)
-      const input = screen.getByTestId('field-number')
+      const input = document.querySelector('input')
       await userEvent.type(input, '579012')
 
       expect(onChange.mock.calls).toHaveLength(6)
@@ -81,7 +81,7 @@ describe('Field.Number', () => {
     it('calls onChange for every change of a float input value', async () => {
       const onChange = jest.fn()
       render(<Field.Number value={24.5} onChange={onChange} />)
-      const input = screen.getByTestId('field-number')
+      const input = document.querySelector('input')
       await userEvent.type(input, '7621')
 
       expect(onChange.mock.calls).toHaveLength(4)
@@ -106,7 +106,7 @@ describe('Field.Number', () => {
     describe('validation based on required-prop', () => {
       it('should show error for empty value', async () => {
         render(<Field.Number value={1} required />)
-        const input = screen.getByTestId('field-number')
+        const input = document.querySelector('input')
         await userEvent.type(input, '{backspace}')
         input.blur()
         await wait(0)
@@ -115,7 +115,7 @@ describe('Field.Number', () => {
 
       it('should not show error when value is not empty', async () => {
         render(<Field.Number value={1} required />)
-        const input = screen.getByTestId('field-number')
+        const input = document.querySelector('input')
         await userEvent.type(input, '2')
         input.blur()
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -125,7 +125,7 @@ describe('Field.Number', () => {
     describe('validation based on minimum-prop', () => {
       it('should show error for invalid value', async () => {
         render(<Field.Number value={50} minimum={2000} />)
-        const input = screen.getByTestId('field-number')
+        const input = document.querySelector('input')
         await userEvent.type(input, '1')
         input.blur()
         await wait(0)
@@ -134,7 +134,7 @@ describe('Field.Number', () => {
 
       it('should not show error message for valid value', async () => {
         render(<Field.Number value={65} minimum={40} />)
-        const input = screen.getByTestId('field-number')
+        const input = document.querySelector('input')
         await userEvent.type(input, '5')
         input.blur()
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -144,7 +144,7 @@ describe('Field.Number', () => {
     describe('validation based on maximum-prop', () => {
       it('should show error for invalid value', async () => {
         render(<Field.Number value={50} maximum={100} />)
-        const input = screen.getByTestId('field-number')
+        const input = document.querySelector('input')
         await userEvent.type(input, '0')
         input.blur()
         await wait(0)
@@ -153,7 +153,7 @@ describe('Field.Number', () => {
 
       it('should not show error message for valid value', async () => {
         render(<Field.Number value={20} maximum={500} />)
-        const input = screen.getByTestId('field-number')
+        const input = document.querySelector('input')
         await userEvent.type(input, '1')
         input.blur()
         expect(screen.queryByRole('alert')).not.toBeInTheDocument()

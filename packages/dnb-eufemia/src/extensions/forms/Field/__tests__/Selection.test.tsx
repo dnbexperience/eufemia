@@ -29,8 +29,8 @@ describe('Select', () => {
         </Field.Selection>
       )
 
-      const selection = screen.getByTestId('field-selection')
-      await userEvent.click(selection)
+      const selectionButton = screen.getByRole('button')
+      await userEvent.click(selectionButton)
 
       expect(screen.getAllByRole('option').length).toEqual(4)
       expect(screen.getByText('One')).toBeInTheDocument()
@@ -61,8 +61,8 @@ describe('Select', () => {
         </Field.Selection>
       )
 
-      const selection = screen.getByTestId('field-selection')
-      await userEvent.click(selection)
+      const selectionButton = screen.getByRole('button')
+      await userEvent.click(selectionButton)
 
       const option1 = screen.getByText('Fooo')
       await userEvent.click(option1)
@@ -70,7 +70,7 @@ describe('Select', () => {
       expect(onChange.mock.calls).toHaveLength(1)
       expect(onChange.mock.calls[0][0]).toEqual('foo')
 
-      await userEvent.click(selection)
+      await userEvent.click(selectionButton)
       const option2 = screen.getByText('Baar')
       await userEvent.click(option2)
 
@@ -88,8 +88,8 @@ describe('Select', () => {
         </Field.Selection>
       )
 
-      const selection = screen.getByTestId('field-selection')
-      await userEvent.click(selection)
+      const selectionButton = screen.getByRole('button')
+      await userEvent.click(selectionButton)
 
       expect(onFocus.mock.calls).toHaveLength(1)
       expect(onFocus.mock.calls[0][0]).toEqual('bar')
@@ -104,8 +104,8 @@ describe('Select', () => {
         </Field.Selection>
       )
 
-      const selection = screen.getByTestId('field-selection')
-      await userEvent.click(selection)
+      const selectionButton = screen.getByRole('button')
+      await userEvent.click(selectionButton)
 
       const option1 = screen.getByText('Fooo')
       await userEvent.click(option1)
@@ -124,8 +124,8 @@ describe('Select', () => {
             <Field.Option value="bar">Baar</Field.Option>
           </Field.Selection>
         )
-        const selection = screen.getByTestId('field-selection')
-        await userEvent.click(selection)
+        const selectionButton = screen.getByRole('button')
+        await userEvent.click(selectionButton)
 
         expect(screen.getByRole('alert')).toBeInTheDocument()
       })
@@ -137,8 +137,8 @@ describe('Select', () => {
             <Field.Option value="bar">Baar</Field.Option>
           </Field.Selection>
         )
-        const selection = screen.getByTestId('field-selection')
-        await userEvent.click(selection)
+        const selectionButton = screen.getByRole('button')
+        await userEvent.click(selectionButton)
         const option1 = screen.getByText('Fooo')
         await userEvent.click(option1)
 

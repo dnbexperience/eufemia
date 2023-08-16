@@ -18,7 +18,6 @@ export type Props = ComponentProps & {
 export default function Step(props: Props) {
   const {
     className,
-    'data-testid': dataTestId,
     index,
     direction = 'column',
     spacing = 'medium',
@@ -34,7 +33,6 @@ export default function Step(props: Props) {
   return (
     <FlexContainer
       className={classnames('dnb-forms-step', className)}
-      data-testid={dataTestId ?? 'steps-layout-step'}
       direction={direction}
       spacing={spacing}
       {...forwardSpaceProps(props)}

@@ -13,17 +13,10 @@ export type Props = ComponentProps & {
 }
 
 export default function Section(props: Props) {
-  const {
-    className,
-    'data-testid': dataTestId,
-    direction,
-    spacing,
-    children,
-  } = props
+  const { className, direction, spacing, children } = props
   return (
     <FlexContainer
       className={classnames('dnb-forms-section', className)}
-      data-testid={dataTestId ?? 'layout-section'}
       direction={direction ?? 'column'}
       spacing={spacing ?? 'small'}
       {...forwardSpaceProps(props)}

@@ -25,7 +25,6 @@ export default function FieldPostalCodeAndCity(props: Props) {
         'dnb-forms-field-postal-code-and-city',
         props.className
       )}
-      data-testid={props['data-testid'] ?? 'field-postal-code-and-city'}
       {...fieldGroupProps}
     >
       <div

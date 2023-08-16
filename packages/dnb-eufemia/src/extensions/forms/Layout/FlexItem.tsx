@@ -11,13 +11,7 @@ export type Props = ComponentProps & {
 }
 
 export default function FlexItem(props: Props) {
-  const {
-    className,
-    'data-testid': dataTestId,
-    grow,
-    shrink,
-    children,
-  } = props
+  const { className, grow, shrink, children } = props
   const cn = classnames(
     'dnb-forms-flex-item',
     grow && 'dnb-forms-flex-item--grow',
@@ -26,11 +20,7 @@ export default function FlexItem(props: Props) {
   )
 
   return (
-    <Div
-      className={cn}
-      data-testid={dataTestId}
-      {...forwardSpaceProps(props)}
-    >
+    <Div className={cn} {...forwardSpaceProps(props)}>
       {children}
     </Div>
   )

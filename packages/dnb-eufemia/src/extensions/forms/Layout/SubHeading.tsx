@@ -9,11 +9,10 @@ export type Props = ComponentProps & {
 }
 
 export default function SubHeading(props: Props) {
-  const { className, 'data-testid': dataTestId, children } = props
+  const { className, children } = props
   return (
     <Heading
       className={classnames('dnb-forms-sub-heading', className)}
-      data-testid={dataTestId ?? 'layout-sub-heading'}
       level="3"
       {...forwardSpaceProps(props)}
     >

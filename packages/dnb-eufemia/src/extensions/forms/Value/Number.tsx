@@ -18,7 +18,6 @@ export type Props = ComponentProps &
 export default function ValueNumber(props: Props) {
   const {
     className,
-    'data-testid': dataTestId,
     label,
     placeholder,
     value,
@@ -34,7 +33,6 @@ export default function ValueNumber(props: Props) {
   return (
     <ValueBlock
       className={className}
-      data-testid={dataTestId}
       label={label}
       showEmpty={showEmpty}
       placeholder={placeholder}

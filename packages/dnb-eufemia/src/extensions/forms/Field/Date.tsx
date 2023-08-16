@@ -19,8 +19,6 @@ export default function FieldDate(props: Props) {
 
   const {
     className,
-    'data-testid': dataTestId,
-    path,
     label,
     value,
     error,
@@ -33,7 +31,6 @@ export default function FieldDate(props: Props) {
   return (
     <DatePicker
       className={className}
-      data-testid={dataTestId ?? path ?? 'field-date'}
       label={label ?? sharedContext?.translation.Forms.dateLabel}
       label_direction="vertical"
       date={value}

@@ -29,12 +29,10 @@ export default function FieldPhoneNumber(props: Props) {
 
   const {
     className,
-    'data-testid': dataTestId,
     countryCodeFieldClassName,
     numberFieldClassName,
     placeholder,
     label = sharedContext?.translation.Forms.phoneNumberLabel,
-    path,
     value,
     emptyValue,
     error,
@@ -90,7 +88,6 @@ export default function FieldPhoneNumber(props: Props) {
         width !== false && `dnb-forms-field-phone-number--width-${width}`,
         className
       )}
-      data-testid={dataTestId ?? path ?? 'field-phone-number'}
       {...forwardSpaceProps(preparedProps)}
     >
       <Autocomplete
@@ -98,7 +95,6 @@ export default function FieldPhoneNumber(props: Props) {
           'dnb-forms-field-phone-number__country-code',
           countryCodeFieldClassName
         )}
-        data-testid="field-phone-number-country-code"
         label_direction="vertical"
         label={sharedContext?.translation.Forms.countryCodeLabel}
         data={countriesDropdownData}
@@ -112,7 +108,6 @@ export default function FieldPhoneNumber(props: Props) {
           'dnb-forms-field-phone-number__number',
           numberFieldClassName
         )}
-        data-testid="field-phone-number-number"
         label_direction="vertical"
         label={label ?? ' '}
         placeholder={placeholder}

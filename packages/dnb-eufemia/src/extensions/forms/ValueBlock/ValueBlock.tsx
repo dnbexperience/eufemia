@@ -12,16 +12,8 @@ export type Props = ComponentProps &
   }
 
 export default function StringValue(props: Props) {
-  const {
-    className,
-    'data-testid': dataTestId,
-    path,
-    label,
-    inline,
-    placeholder,
-    showEmpty,
-    children,
-  } = props
+  const { className, label, inline, placeholder, showEmpty, children } =
+    props
   if (
     (children === undefined || children === null || children === false) &&
     !showEmpty &&
@@ -37,7 +29,6 @@ export default function StringValue(props: Props) {
         inline && 'dnb-forms-value-block--inline',
         className
       )}
-      data-testid={dataTestId ?? path ?? 'value'}
       {...forwardSpaceProps(props)}
     >
       {label && (

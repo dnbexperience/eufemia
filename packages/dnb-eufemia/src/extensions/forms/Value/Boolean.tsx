@@ -10,20 +10,12 @@ export type Props = ComponentProps & ValueProps<boolean>
 
 export default function ValueBoolean(props: Props) {
   const sharedContext = useContext(SharedContext)
-  const {
-    className,
-    'data-testid': dataTestId,
-    label,
-    placeholder,
-    showEmpty,
-    value,
-    inline,
-  } = useValue(props)
+  const { className, label, placeholder, showEmpty, value, inline } =
+    useValue(props)
 
   return (
     <ValueBlock
       className={className}
-      data-testid={dataTestId}
       label={label}
       showEmpty={showEmpty}
       placeholder={placeholder}

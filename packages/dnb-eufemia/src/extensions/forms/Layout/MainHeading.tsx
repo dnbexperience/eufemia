@@ -9,11 +9,10 @@ export type Props = ComponentProps & {
 }
 
 export default function MainHeading(props: Props) {
-  const { className, 'data-testid': dataTestId, children } = props
+  const { className, children } = props
   return (
     <Heading
       className={classnames('dnb-forms-main-heading', className)}
-      data-testid={dataTestId ?? 'layout-main-heading'}
       level="2"
       size="large"
       {...forwardSpaceProps(props)}

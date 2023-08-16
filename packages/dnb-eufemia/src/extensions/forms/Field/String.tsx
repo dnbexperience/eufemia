@@ -72,8 +72,6 @@ export default function FieldString(props: Props) {
   const {
     id,
     className,
-    path,
-    'data-testid': dataTestId,
     inputClassName,
     layout,
     type,
@@ -128,7 +126,6 @@ export default function FieldString(props: Props) {
               `dnb-forms-field-string__input--width-${width}`,
             inputClassName
           )}
-          data-testid={dataTestId ?? path ?? 'field-string'}
           placeholder={placeholder}
           value={value}
           on_focus={onFocus}
@@ -149,7 +146,6 @@ export default function FieldString(props: Props) {
               `dnb-forms-field-string__input--width-${width}`,
             inputClassName
           )}
-          data-testid={dataTestId ?? path ?? 'field-string'}
           type={type}
           placeholder={placeholder}
           value={value ?? ''}

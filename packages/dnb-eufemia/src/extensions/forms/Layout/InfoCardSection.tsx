@@ -9,11 +9,10 @@ import Section from './Section'
 export type Props = ComponentProps & InfoCardProps
 
 export default function InfoCardSection(props: Props) {
-  const { className, 'data-testid': dataTestId } = props
+  const { className } = props
   return (
     <Section
       className={classnames('dnb-forms-info-card-section', className)}
-      data-testid={dataTestId}
       {...forwardSpaceProps(props)}
     >
       <InfoCard {...omitSpaceProps(props)} />

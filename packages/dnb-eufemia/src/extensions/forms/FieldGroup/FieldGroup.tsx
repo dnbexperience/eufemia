@@ -31,7 +31,6 @@ export type Props = ComponentProps &
 export default function FieldGroup(props: Props) {
   const {
     className,
-    'data-testid': dataTestId,
     label,
     labelDescription,
     labelSecondary,
@@ -95,7 +94,6 @@ export default function FieldGroup(props: Props) {
     >
       <FieldBlock
         className={classnames('dnb-forms-field-group', className)}
-        data-testid={dataTestId ?? 'field-group'}
         label={label}
         labelDescription={labelDescription}
         labelSecondary={labelSecondary}

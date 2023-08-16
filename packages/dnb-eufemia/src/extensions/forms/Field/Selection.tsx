@@ -19,9 +19,7 @@ export type Props = ComponentProps &
 export default function Select(props: Props) {
   const {
     className,
-    'data-testid': dataTestId,
     variant,
-    path,
     label,
     layout = 'vertical',
     placeholder,
@@ -63,7 +61,6 @@ export default function Select(props: Props) {
       return (
         <Div
           className={classnames('dnb-forms-field-selection', className)}
-          data-testid={dataTestId ?? path ?? 'field-selection'}
           {...forwardSpaceProps(props)}
         >
           {React.Children.toArray(children)
@@ -84,7 +81,6 @@ export default function Select(props: Props) {
       return (
         <Radio.Group
           className={classnames('dnb-forms-field-selection', className)}
-          data-testid={dataTestId ?? path ?? 'field-selection'}
           label={label}
           layout_direction="column"
           on_change={handleRadioChange}
@@ -143,7 +139,6 @@ export default function Select(props: Props) {
           )}
           list_class="dnb-forms-field-selection__list"
           portal_class="dnb-forms-field-selection__portal"
-          data-testid={dataTestId ?? path ?? 'field-selection'}
           title={placeholder}
           default_value={String(value ?? '')}
           label={label}

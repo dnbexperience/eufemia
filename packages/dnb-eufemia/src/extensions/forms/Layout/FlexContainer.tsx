@@ -145,7 +145,6 @@ export type Props = ComponentProps & {
 export default function FlexContainer(props: Props) {
   const {
     className,
-    'data-testid': dataTestId,
     children,
     direction = 'column',
     wrap = false,
@@ -168,11 +167,7 @@ export default function FlexContainer(props: Props) {
   const childrenArray = React.Children.toArray(children)
 
   return (
-    <Div
-      className={cn}
-      data-testid={dataTestId}
-      {...forwardSpaceProps(props)}
-    >
+    <Div className={cn} {...forwardSpaceProps(props)}>
       {direction === 'column'
         ? childrenArray.map((child, i) => {
             // Set spacing on child components by props (instead of CSS) to be able to dynamically override by props on each child. The default

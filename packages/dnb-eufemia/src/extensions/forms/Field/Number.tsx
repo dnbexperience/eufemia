@@ -81,14 +81,12 @@ export default function FieldNumber(props: Props) {
   const {
     id,
     className,
-    'data-testid': dataTestId,
     inputClassName,
     layout,
     placeholder,
     label,
     labelDescription,
     labelSecondary,
-    path,
     value,
     disabled,
     info,
@@ -123,7 +121,6 @@ export default function FieldNumber(props: Props) {
             `dnb-forms-field-number__input--width-${width}`,
           inputClassName
         )}
-        data-testid={dataTestId ?? path ?? 'field-number'}
         placeholder={placeholder}
         value={value}
         as_number

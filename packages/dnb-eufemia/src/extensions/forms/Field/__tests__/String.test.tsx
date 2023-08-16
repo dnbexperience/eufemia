@@ -68,7 +68,7 @@ describe('Field.String', () => {
     it('calls onChange for every change of the input value', async () => {
       const onChange = jest.fn()
       render(<Field.String value="abc" onChange={onChange} />)
-      const input = screen.getByTestId('field-string')
+      const input = document.querySelector('input')
       await userEvent.type(input, 'def')
       expect(onChange.mock.calls).toHaveLength(3)
       expect(onChange.mock.calls[0][0]).toEqual('abcd')
@@ -79,7 +79,7 @@ describe('Field.String', () => {
     it('calls onFocus with current value', () => {
       const onFocus = jest.fn()
       render(<Field.String value="blah" onFocus={onFocus} />)
-      const input = screen.getByTestId('field-string')
+      const input = document.querySelector('input')
       act(() => {
         input.focus()
       })
@@ -90,7 +90,7 @@ describe('Field.String', () => {
     it('calls onBlur with current value', async () => {
       const onBlur = jest.fn()
       render(<Field.String value="song2" onBlur={onBlur} />)
-      const input = screen.getByTestId('field-string')
+      const input = document.querySelector('input')
       input.focus()
       act(() => {
         input.blur()
@@ -127,7 +127,7 @@ describe('Field.String', () => {
               schema={{ type: 'string', minLength: 6 }}
             />
           )
-          const input = screen.getByTestId('field-string')
+          const input = document.querySelector('input')
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
           act(() => {
             input.blur()
@@ -142,7 +142,7 @@ describe('Field.String', () => {
               schema={{ type: 'string', minLength: 6 }}
             />
           )
-          const input = screen.getByTestId('field-string')
+          const input = document.querySelector('input')
           await userEvent.type(input, 'd')
           act(() => {
             input.blur()
@@ -157,7 +157,7 @@ describe('Field.String', () => {
               schema={{ type: 'string', minLength: 6 }}
             />
           )
-          const input = screen.getByTestId('field-string')
+          const input = document.querySelector('input')
           await userEvent.type(input, 'd')
           act(() => {
             input.blur()
@@ -174,7 +174,7 @@ describe('Field.String', () => {
               schema={{ type: 'string', minLength: 6 }}
             />
           )
-          const input = screen.getByTestId('field-string')
+          const input = document.querySelector('input')
           await userEvent.type(input, 'd')
           act(() => {
             input.blur()
@@ -210,7 +210,7 @@ describe('Field.String', () => {
               validateUnchanged
             />
           )
-          const input = screen.getByTestId('field-string')
+          const input = document.querySelector('input')
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
           input.focus()
           act(() => {
@@ -224,7 +224,7 @@ describe('Field.String', () => {
     describe('validation based on required-prop', () => {
       it('should show error for empty value', async () => {
         render(<Field.String value="a" required />)
-        const input = screen.getByTestId('field-string')
+        const input = document.querySelector('input')
         await userEvent.type(input, '{backspace}')
         act(() => {
           input.blur()
@@ -234,7 +234,7 @@ describe('Field.String', () => {
 
       it('should not show error when value is not empty', async () => {
         render(<Field.String value="a" required />)
-        const input = screen.getByTestId('field-string')
+        const input = document.querySelector('input')
         await userEvent.type(input, 'b')
         act(() => {
           input.blur()
@@ -250,7 +250,7 @@ describe('Field.String', () => {
 
       it('should show error for invalid value', async () => {
         render(<Field.String value="abc" minLength={5} />)
-        const input = screen.getByTestId('field-string')
+        const input = document.querySelector('input')
         await userEvent.type(input, 'd')
         act(() => {
           input.blur()
@@ -260,7 +260,7 @@ describe('Field.String', () => {
 
       it('should not show error message for valid value', async () => {
         render(<Field.String value="abc" minLength={2} />)
-        const input = screen.getByTestId('field-string')
+        const input = document.querySelector('input')
         await userEvent.type(input, 'd')
         act(() => {
           input.blur()
@@ -272,7 +272,7 @@ describe('Field.String', () => {
     describe('validation based on maxLength-prop', () => {
       it('should show error for invalid value', async () => {
         render(<Field.String value="abc" maxLength={3} />)
-        const input = screen.getByTestId('field-string')
+        const input = document.querySelector('input')
         await userEvent.type(input, 'd')
         act(() => {
           input.blur()
@@ -282,7 +282,7 @@ describe('Field.String', () => {
 
       it('should not show error message for valid value', async () => {
         render(<Field.String value="abc" maxLength={4} />)
-        const input = screen.getByTestId('field-string')
+        const input = document.querySelector('input')
         await userEvent.type(input, 'd')
         act(() => {
           input.blur()
@@ -294,7 +294,7 @@ describe('Field.String', () => {
     describe('validation based on pattern-prop', () => {
       it('should show error for invalid value', async () => {
         render(<Field.String value="abcdef" pattern="^[a-z]{2}[0-9]+" />)
-        const input = screen.getByTestId('field-string')
+        const input = document.querySelector('input')
         await userEvent.type(input, 'g')
         act(() => {
           input.blur()
@@ -304,7 +304,7 @@ describe('Field.String', () => {
 
       it('should not show error message for valid value', async () => {
         render(<Field.String value="ab1" pattern="^[a-z]{2}[0-9]+" />)
-        const input = screen.getByTestId('field-string')
+        const input = document.querySelector('input')
         await userEvent.type(input, '2')
         act(() => {
           input.blur()
@@ -332,7 +332,7 @@ describe('Field.String', () => {
           ).toBeInTheDocument()
         })
 
-        const input = screen.getByTestId('field-string')
+        const input = document.querySelector('input')
         await userEvent.type(input, 'def')
         act(() => {
           input.blur()
@@ -388,7 +388,7 @@ describe('Field.String', () => {
           ).toBeInTheDocument()
         })
 
-        const input = screen.getByTestId('field-string')
+        const input = document.querySelector('input')
         await userEvent.type(input, 'def')
 
         act(() => {
@@ -439,7 +439,7 @@ describe('Field.String', () => {
           expect(validator.mock.calls).toHaveLength(0)
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
         })
-        const input = screen.getByTestId('field-string')
+        const input = document.querySelector('input')
         await userEvent.type(input, 'def')
         act(() => {
           input.blur()
@@ -467,7 +467,7 @@ describe('Field.String', () => {
             validateInitially
           />
         )
-        const input = screen.getByTestId('field-string')
+        const input = document.querySelector('input')
         await userEvent.type(input, 'd')
         act(() => {
           input.blur()
@@ -495,7 +495,7 @@ describe('Field.String', () => {
           expect(validator.mock.calls).toHaveLength(0)
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
         })
-        const input = screen.getByTestId('field-string')
+        const input = document.querySelector('input')
         await userEvent.type(input, 'def')
         act(() => {
           input.blur()
@@ -523,7 +523,7 @@ describe('Field.String', () => {
             validateInitially
           />
         )
-        const input = screen.getByTestId('field-string')
+        const input = document.querySelector('input')
         await userEvent.type(input, 'd')
         act(() => {
           input.blur()
@@ -573,7 +573,7 @@ describe('Field.String', () => {
           <Field.String path="/foo" onChange={inputOnChange} />
         </DataContext.Provider>
       )
-      const input = screen.getByTestId('/foo')
+      const input = document.querySelector('input')
       await userEvent.type(input, 'O!')
 
       await waitFor(() => {

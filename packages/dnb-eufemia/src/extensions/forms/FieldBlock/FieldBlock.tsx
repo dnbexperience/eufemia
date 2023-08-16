@@ -25,7 +25,6 @@ export type Props = ComponentProps &
 export default function FieldBlock(props: Props) {
   const {
     className,
-    'data-testid': dataTestId,
     forId,
     layout = 'vertical',
     label,
@@ -40,7 +39,6 @@ export default function FieldBlock(props: Props) {
   return (
     <Div
       className={classnames('dnb-forms-field-block', className)}
-      data-testid={dataTestId ?? 'field-block'}
       {...forwardSpaceProps(props)}
     >
       {labelDescription || labelSecondary ? (

@@ -30,8 +30,6 @@ export default function FieldCurrency(props: Props) {
   const {
     className,
     currency,
-    path,
-    'data-testid': dataTestId,
     placeholder,
     label,
     value,
@@ -46,7 +44,6 @@ export default function FieldCurrency(props: Props) {
     <InputMasked
       as_currency={currency ?? true}
       className={classnames('dnb-forms-field-currency', className)}
-      data-testid={dataTestId ?? path ?? 'currency-input'}
       placeholder={placeholder ?? 'kr'}
       value={value?.toString() ?? ''}
       label={label}

@@ -25,7 +25,6 @@ function StepsLayout(props: Props) {
   const {
     className,
     id = makeUniqueId(),
-    'data-testid': dataTestId,
     mode = 'loose',
     scrollTopOnStepChange,
     initialActiveIndex = 0,
@@ -81,7 +80,6 @@ function StepsLayout(props: Props) {
     >
       <Div
         className={classnames('dnb-forms-steps-layout', className)}
-        data-testid={dataTestId ?? 'steps-layoyt'}
         {...forwardSpaceProps(props)}
       >
         <aside className="dnb-forms-steps-layout__sidebar">

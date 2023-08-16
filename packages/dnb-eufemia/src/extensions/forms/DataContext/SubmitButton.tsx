@@ -13,7 +13,6 @@ export default function SubmitDataContextButton(props: Props) {
   const sharedContext = useContext(SharedContext)
   const {
     className,
-    'data-testid': dataTestId,
     children = sharedContext?.translation.Forms.contextSubmit,
   } = props
   const dataContext = useContext(Context)
@@ -21,7 +20,6 @@ export default function SubmitDataContextButton(props: Props) {
   return (
     <Button
       className={classnames('dnb-forms-submit-button', className)}
-      data-testid={dataTestId ?? 'data-context-submit-button'}
       onClick={dataContext.handleSubmit}
     >
       {children}

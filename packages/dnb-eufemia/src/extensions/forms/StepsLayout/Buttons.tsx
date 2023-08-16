@@ -11,11 +11,10 @@ export type Props = ComponentProps & {
 }
 
 export default function Buttons(props: Props) {
-  const { className, 'data-testid': dataTestId } = props
+  const { className } = props
   return (
     <ButtonRow
       className={classnames('dnb-forms-buttons', className)}
-      data-testid={dataTestId}
       {...forwardSpaceProps(props)}
     >
       <PreviousButton />

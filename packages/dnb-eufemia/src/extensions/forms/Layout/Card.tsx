@@ -15,20 +15,12 @@ export type Props = ComponentProps & {
 }
 
 export default function Card(props: Props) {
-  const {
-    className,
-    'data-testid': dataTestId,
-    stack,
-    direction,
-    spacing,
-    children,
-  } = props
+  const { className, stack, direction, spacing, children } = props
 
   if (stack) {
     return (
       <FlexContainer
         className={classnames('dnb-forms-card', className)}
-        data-testid={dataTestId ?? 'layout-card'}
         direction="column"
         divider="line"
         spacing={spacing ?? 'medium'}
@@ -43,7 +35,6 @@ export default function Card(props: Props) {
     return (
       <FlexContainer
         className={classnames('dnb-forms-card', className)}
-        data-testid={dataTestId ?? 'layout-card'}
         direction={direction ?? 'column'}
         divider="space"
         spacing={spacing ?? 'small'}
@@ -55,10 +46,7 @@ export default function Card(props: Props) {
   }
 
   return (
-    <FlexItem
-      className={classnames('dnb-forms-card', className)}
-      data-testid={dataTestId ?? 'layout-card'}
-    >
+    <FlexItem className={classnames('dnb-forms-card', className)}>
       {children}
     </FlexItem>
   )
