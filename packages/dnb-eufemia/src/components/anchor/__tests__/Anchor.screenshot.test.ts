@@ -217,6 +217,7 @@ describe.each(['ui', 'sbanken'])(
           simulateSelector:
             '[data-visual-test="anchor-blank"] a.dnb-anchor',
           simulate: 'hover',
+          waitAfterSimulate: 200,
         })
         expect(screenshot).toMatchImageSnapshot()
       })
