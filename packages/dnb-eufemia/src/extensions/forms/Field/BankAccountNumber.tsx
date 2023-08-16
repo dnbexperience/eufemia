@@ -1,18 +1,20 @@
 import React, { useContext } from 'react'
-import classnames from 'classnames'
-import { InputMasked } from '../../../components'
-import { useField } from './hooks'
-import { forwardSpaceProps } from '../utils'
-import { Props as StringComponentProps } from './String'
+import StringComponent, { Props as StringComponentProps } from './String'
 import SharedContext from '../../../shared/Context'
 
-export type Props = StringComponentProps
+export type Props = StringComponentProps & {
+  validate?: boolean
+  omitMask?: boolean
+}
 
 export default function FieldBankAccountNumber(props: Props) {
   const sharedContext = useContext(SharedContext)
+  const { validate = true, omitMask } = props
 
-  const preparedProps: Props = {
+  const stringComponentProps: Props = {
     ...props,
+    className: 'dnb-forms-field-bank-account-number',
+    pattern: props.pattern ?? (validate ? '^[0-9]{11}$' : undefined),
     label:
       props.label ??
       sharedContext?.translation.Forms.bankAccountNumberLabel,
@@ -23,56 +25,25 @@ export default function FieldBankAccountNumber(props: Props) {
         sharedContext?.translation.Forms.bankAccountNumberErrorPattern,
       ...props.errorMessages,
     },
-    fromInput: ({ value }: { value: string }) => {
-      if (value === '') {
-        return props.emptyValue
-      }
-      return value
-    },
+    mask: omitMask
+      ? [/\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/]
+      : [
+          /\d/,
+          /\d/,
+          /\d/,
+          /\d/,
+          ' ',
+          /\d/,
+          /\d/,
+          ' ',
+          /\d/,
+          /\d/,
+          /\d/,
+          /\d/,
+          /\d/,
+        ],
+    width: props.width ?? 'medium',
   }
-  const {
-    className,
-    placeholder,
-    label,
-    value,
-    error,
-    disabled,
-    onFocus,
-    onBlur,
-    onChange,
-  } = useField(preparedProps)
 
-  return (
-    <InputMasked
-      className={classnames(
-        'dnb-forms-field-bank-account-number',
-        className
-      )}
-      mask={[
-        /\d/,
-        /\d/,
-        /\d/,
-        /\d/,
-        ' ',
-        /\d/,
-        /\d/,
-        ' ',
-        /\d/,
-        /\d/,
-        /\d/,
-        /\d/,
-        /\d/,
-      ]}
-      placeholder={placeholder}
-      value={value?.toString() ?? ''}
-      label={label}
-      label_direction="vertical"
-      on_focus={onFocus}
-      on_blur={onBlur}
-      on_change={onChange}
-      status={error?.message}
-      disabled={disabled}
-      {...forwardSpaceProps(props)}
-    />
-  )
+  return <StringComponent {...stringComponentProps} />
 }

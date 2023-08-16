@@ -12,6 +12,17 @@ export const Empty = () => {
   )
 }
 
+export const OmitMask = () => {
+  return (
+    <ComponentBox scope={{ Field }}>
+      <Field.NationalIdentityNumber
+        onChange={(value) => console.log('onChange', value)}
+        omitMask
+      />
+    </ComponentBox>
+  )
+}
+
 export const Placeholder = () => {
   return (
     <ComponentBox scope={{ Field }}>

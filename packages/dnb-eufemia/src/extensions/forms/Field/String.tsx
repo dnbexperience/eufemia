@@ -2,6 +2,9 @@ import React, { useContext } from 'react'
 import classnames from 'classnames'
 import { Input, Textarea } from '../../../components'
 import { InputProps } from '../../../components/input/Input'
+import InputMasked, {
+  InputMaskedProps,
+} from '../../../components/InputMasked'
 import { forwardSpaceProps } from '../utils'
 import SharedContext from '../../../shared/Context'
 import FieldBlock from '../FieldBlock'
@@ -27,6 +30,7 @@ export type Props = ComponentProps &
     autoresize?: boolean
     autoresizeMaxRows?: number
     characterCounter?: boolean
+    mask?: InputMaskedProps['mask']
     // Validation
     minLength?: number
     maxLength?: number
@@ -61,11 +65,18 @@ export default function FieldString(props: Props) {
       maxLength: props.maxLength,
       pattern: props.pattern,
     },
-    fromInput: ({ value: valueFromInput }: { value: string }) => {
-      if (valueFromInput === '') {
+    fromInput: ({
+      value,
+      cleanedValue,
+    }: {
+      value: string
+      cleanedValue: string
+    }) => {
+      if (value === '') {
         return props.emptyValue
       }
-      return valueFromInput
+      // Cleaned value for masked
+      return cleanedValue ?? value
     },
     width: props.width ?? 'large',
   }
@@ -91,6 +102,7 @@ export default function FieldString(props: Props) {
     autoresize = true,
     autoresizeMaxRows = 6,
     characterCounter,
+    mask,
     width,
     onFocus,
     onBlur,
@@ -102,6 +114,13 @@ export default function FieldString(props: Props) {
       ? `${value?.length ?? '0'}/${props.maxLength}`
       : `${value?.length ?? '0'}`
     : undefined
+  const cn = classnames(
+    'dnb-forms-field-string__input',
+    width !== false &&
+      width !== 'stretch' &&
+      `dnb-forms-field-string__input--width-${width}`,
+    inputClassName
+  )
 
   return (
     <FieldBlock
@@ -119,13 +138,7 @@ export default function FieldString(props: Props) {
       {multiline ? (
         <Textarea
           id={id}
-          className={classnames(
-            'dnb-forms-field-string__input',
-            width !== false &&
-              width !== 'stretch' &&
-              `dnb-forms-field-string__input--width-${width}`,
-            inputClassName
-          )}
+          className={cn}
           placeholder={placeholder}
           value={value}
           on_focus={onFocus}
@@ -136,19 +149,27 @@ export default function FieldString(props: Props) {
           disabled={disabled}
           stretch={width === 'stretch'}
         />
+      ) : mask ? (
+        <InputMasked
+          className={cn}
+          mask={mask}
+          placeholder={placeholder}
+          value={value?.toString() ?? ''}
+          icon={leftIcon ?? rightIcon}
+          icon_position={rightIcon && !leftIcon ? 'right' : undefined}
+          on_focus={onFocus}
+          on_blur={onBlur}
+          on_change={onChange}
+          disabled={disabled}
+          stretch={width === 'stretch'}
+        />
       ) : (
         <Input
           id={id}
-          className={classnames(
-            'dnb-forms-field-string__input',
-            width !== false &&
-              width !== 'stretch' &&
-              `dnb-forms-field-string__input--width-${width}`,
-            inputClassName
-          )}
+          className={cn}
           type={type}
           placeholder={placeholder}
-          value={value ?? ''}
+          value={value?.toString() ?? ''}
           icon={leftIcon ?? rightIcon}
           icon_position={rightIcon && !leftIcon ? 'right' : undefined}
           clear={clear}

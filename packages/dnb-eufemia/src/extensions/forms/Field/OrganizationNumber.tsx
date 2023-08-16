@@ -4,11 +4,12 @@ import SharedContext from '../../../shared/Context'
 
 export type Props = StringComponentProps & {
   validate?: boolean
+  omitMask?: boolean
 }
 
 export default function FieldOrganizationNumber(props: Props) {
   const sharedContext = useContext(SharedContext)
-  const { validate = true } = props
+  const { validate = true, omitMask } = props
 
   const stringComponentProps: Props = {
     ...props,
@@ -24,6 +25,9 @@ export default function FieldOrganizationNumber(props: Props) {
         sharedContext?.translation.Forms.organizationNumberErrorPattern,
       ...props.errorMessages,
     },
+    mask: omitMask
+      ? [/\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/]
+      : [/\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/, ' ', /\d/, /\d/, /\d/],
     width: props.width ?? 'medium',
   }
 

@@ -3,12 +3,13 @@ import StringComponent, { Props as StringComponentProps } from './String'
 import SharedContext from '../../../shared/Context'
 
 export type Props = StringComponentProps & {
+  omitMask?: boolean
   validate?: boolean
 }
 
 export default function FieldNationalIdentityNumber(props: Props) {
   const sharedContext = useContext(SharedContext)
-  const { validate = true } = props
+  const { validate = true, omitMask } = props
 
   const stringComponentProps: Props = {
     ...props,
@@ -25,6 +26,22 @@ export default function FieldNationalIdentityNumber(props: Props) {
           .nationalIdentityNumberErrorPattern,
       ...props.errorMessages,
     },
+    mask: omitMask
+      ? [/\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/]
+      : [
+          /\d/,
+          /\d/,
+          /\d/,
+          /\d/,
+          /\d/,
+          /\d/,
+          ' ',
+          /\d/,
+          /\d/,
+          /\d/,
+          /\d/,
+          /\d/,
+        ],
     width: props.width ?? 'medium',
   }
 

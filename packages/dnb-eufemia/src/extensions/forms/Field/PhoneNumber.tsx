@@ -1,4 +1,4 @@
-import React, { useContext, useCallback } from 'react'
+import React, { useContext, useCallback, useMemo } from 'react'
 import { Div } from '../../../elements'
 import { Autocomplete, Input } from '../../../components'
 import classnames from 'classnames'
@@ -45,26 +45,30 @@ export default function FieldPhoneNumber(props: Props) {
 
   // Split the value into country code and phone number correctly, even if one of them is not
   // filled in (avoiding number ending up in country code etc)
-  const [, countryCode = '', phoneNumber = ''] =
+  const [, countryCode = '+47', phoneNumber = ''] =
     (value ?? '')?.match(/^(\+[^ ]+)? ?(.*)$/) ?? []
 
-  const countriesDropdownData = countries.map((country) => ({
-    selected_key: `+${country.code}`,
-    selected_value: `+${country.code}`,
-    content: `+${country.code} ${country.name}`,
-  }))
+  const countriesDropdownData = useMemo(
+    () =>
+      countries.map((country) => ({
+        selected_key: `+${country.code}`,
+        selected_value: `${country.iso} (+${country.code})`,
+        content: `+${country.code} ${country.name}`,
+      })),
+    []
+  )
 
   const handleCountryCodeChange = useCallback(
-    ({ data: changedData }: { data: { selected_value: string } }) => {
+    ({ data: changedData }: { data: { selected_key: string } }) => {
       if (
-        (!changedData || !changedData.selected_value.trim()) &&
+        (!changedData || !changedData.selected_key.trim()) &&
         !phoneNumber.trim()
       ) {
         onChange?.(emptyValue)
         return
       }
 
-      onChange?.(`${changedData.selected_value || ''} ${phoneNumber}`)
+      onChange?.(`${changedData?.selected_key || ''} ${phoneNumber}`)
     },
     [phoneNumber, emptyValue, onChange]
   )
@@ -98,7 +102,7 @@ export default function FieldPhoneNumber(props: Props) {
         label_direction="vertical"
         label={sharedContext?.translation.Forms.countryCodeLabel}
         data={countriesDropdownData}
-        value={countryCode}
+        value={countryCode ?? '+47'}
         disabled={disabled}
         on_change={handleCountryCodeChange}
         independent_width
@@ -110,7 +114,7 @@ export default function FieldPhoneNumber(props: Props) {
         )}
         label_direction="vertical"
         label={label ?? ' '}
-        placeholder={placeholder}
+        placeholder={placeholder ?? '00 00 00 00'}
         on_change={handleNumberChange}
         on_focus={onFocus}
         on_blur={onBlur}
