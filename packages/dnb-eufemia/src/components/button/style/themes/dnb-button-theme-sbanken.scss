@@ -29,6 +29,8 @@
 
   // secondary
   --button-secondary-color: var(--sb-color-purple-alternative);
+  --button-secondary-color--hover: var(--sb-color-purple-alternative);
+  --button-secondary-color--active: var(--sb-color-purple-alternative);
   --button-secondary-color--disabled: var(--sb-color-gray-dark);
   --button-secondary-background: var(--sb-color-white);
   --button-secondary-background--hover: var(--sb-color-green);
@@ -88,11 +90,13 @@
 
     @include hover() {
       --button-secondary-border: var(--button-secondary-border--hover);
+      color: var(--button-secondary-color--hover);
       background-color: var(--button-secondary-background--hover);
     }
 
     @include active() {
       --button-secondary-border: var(--button-secondary-border--active);
+      color: var(--button-secondary-color--active);
       background-color: var(--button-secondary-background--active);
     }
   }
@@ -139,6 +143,8 @@
 
     // secondary
     --button-secondary-color: var(--sb-color-red);
+    --button-secondary-color--hover: var(--sb-color-red);
+    --button-secondary-color--active: var(--sb-color-red);
     --button-secondary-background--hover: var(--sb-color-magenta-light-3);
     --button-secondary-border--default: var(--sb-color-red);
   }
