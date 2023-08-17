@@ -16,6 +16,12 @@
     margin-bottom: 1rem;
   }
 
+  &__bar__skip {
+    .dnb-button--tertiary:not([disabled]) .dnb-button__text {
+      color: var(--sb-color-text);
+    }
+  }
+
   &__indicator {
     min-height: inherit;
 
@@ -23,25 +29,24 @@
       animation: show-page 300ms ease-out forwards;
     }
   }
-
   // active/checked - like toggle-button
-  @at-root .dnb-core-style &__button.dnb-button--primary,
-    &__button.dnb-button--primary {
-    &,
-    &:not(:active):hover:not([disabled]) {
-      background-color: var(--color-emerald-green);
-      color: var(--color-mint-green);
-    }
+  @at-root .dnb-core-style &__button.dnb-button,
+    &__button.dnb-button {
+    --button-primary-background: var(--sb-color-violet);
+    --button-primary-background--hover: var(--sb-color-violet-light-4);
+    --button-primary-background--active: var(--sb-color-violet);
+    --button-primary-color: var(--sb-color-white);
+    --button-primary-color--active: var(--sb-color-white);
+    --button-primary-border--hover: var(--sb-color-violet);
 
-    html[data-whatinput='keyboard']
-      &:not([disabled]):not(:active):not(:hover):focus {
-      color: var(--color-emerald-green);
-      background-color: var(--color-mint-green);
-    }
+    --button-secondary-background--hover: var(--sb-color-white);
+    --button-secondary-border--default: var(--sb-color-gray);
+    --button-secondary-border--hover: var(--sb-color-violet);
+    --button-secondary-border--active: var(--sb-color-gray);
   }
 
   &__dots {
-    color: var(--color-black-55);
+    color: var(--sb-color-text);
   }
 }
 

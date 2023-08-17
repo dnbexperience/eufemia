@@ -777,7 +777,14 @@ html[data-whatinput=keyboard] .dnb-button--tertiary:hover:focus .dnb-button__tex
   --button-secondary-background: var(--sb-color-white);
   --button-secondary-background--hover: var(--sb-color-green);
   --button-secondary-background--active: var(--sb-color-white);
-  --button-secondary-border: var(--sb-color-purple-alternative);
+  --button-secondary-border: var(--button-secondary-border--default);
+  --button-secondary-border--default: var(--sb-color-purple-alternative);
+  --button-secondary-border--hover: var(
+    --button-secondary-border--default
+  );
+  --button-secondary-border--active: var(
+    --button-secondary-border--default
+  );
   --button-secondary-border--disabled: var(--sb-color-gray-light);
   border: none;
 }
@@ -826,12 +833,14 @@ html:not([data-whatintent=touch]) .dnb-button--secondary:hover[disabled] {
   cursor: not-allowed;
 }
 html:not([data-whatintent=touch]) .dnb-button--secondary:hover:not([disabled]) {
+  --button-secondary-border: var(--button-secondary-border--hover);
   background-color: var(--button-secondary-background--hover);
 }
 .dnb-button--secondary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:active[disabled] {
   cursor: not-allowed;
 }
 .dnb-button--secondary:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:active:not([disabled]) {
+  --button-secondary-border: var(--button-secondary-border--active);
   background-color: var(--button-secondary-background--active);
 }
 html:not([data-whatintent=touch]) .dnb-button:focus-visible[disabled] {
@@ -853,7 +862,9 @@ html:not([data-whatintent=touch]) .dnb-button:focus-visible:not([disabled]) {
     --button-primary-background--disabled
   );
   --button-secondary-color: var(--button-secondary-color--disabled);
-  --button-secondary-border: var(--button-secondary-border--disabled);
+  --button-secondary-border--default: var(
+    --button-secondary-border--disabled
+  );
 }
 .dnb-button:not([disabled]).dnb-button__status--error {
   --button-primary-shadow--hover: 0 0 transparent;
@@ -866,7 +877,7 @@ html:not([data-whatintent=touch]) .dnb-button:focus-visible:not([disabled]) {
   --button-primary-border--hover: var(--sb-color-red);
   --button-secondary-color: var(--sb-color-red);
   --button-secondary-background--hover: var(--sb-color-magenta-light-3);
-  --button-secondary-border: var(--sb-color-red);
+  --button-secondary-border--default: var(--sb-color-red);
 }
 .dnb-button--tertiary {
   --button-tertiary-focus-overflow: -0.5rem;
