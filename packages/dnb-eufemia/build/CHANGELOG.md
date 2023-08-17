@@ -3,6 +3,30 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.6.0](https://github.com/dnbexperience/eufemia/compare/v10.5.0...v10.6.0) (2023-08-17)
+
+
+### :memo: Documentation
+
+* add "Messageboxes" to FormStatus for the equivalent Figma name ([#2560](https://github.com/dnbexperience/eufemia/issues/2560)) ([bf6a19f](https://github.com/dnbexperience/eufemia/commit/bf6a19f2a0c33019b50907d1d56e76868ad5e670))
+* add docs on how to link to a specific theme ([#2555](https://github.com/dnbexperience/eufemia/issues/2555)) ([54b9f1b](https://github.com/dnbexperience/eufemia/commit/54b9f1b5fe9c715d133849282bdcfd6c497d6f9e)), closes [#2374](https://github.com/dnbexperience/eufemia/issues/2374)
+* add theming link to the contribution guide ([#2558](https://github.com/dnbexperience/eufemia/issues/2558)) ([e88bd72](https://github.com/dnbexperience/eufemia/commit/e88bd72f46231fc1c7b5dc52ff6d4aa9bee05b31))
+
+
+### :sparkles: Features
+
+* **Anchor:** inline style sbanken ([#2550](https://github.com/dnbexperience/eufemia/issues/2550)) ([3511f09](https://github.com/dnbexperience/eufemia/commit/3511f093ea803d5e93ccb066ca79f9827a4b7354))
+* **Button:** sbanken hover and error ([#2523](https://github.com/dnbexperience/eufemia/issues/2523)) ([3ea2850](https://github.com/dnbexperience/eufemia/commit/3ea28508d6e6010e5b8b3aa98f8b1a9bb17e81c0))
+* **Forms:** Extension (beta) for simplified implementation of web forms through tailored functionality for layout and data handling ([#2420](https://github.com/dnbexperience/eufemia/issues/2420)) ([74700c0](https://github.com/dnbexperience/eufemia/commit/74700c00486e35ea97661f4a7013bd4f02ee504c))
+* **Input:** sbanken styling ([#2540](https://github.com/dnbexperience/eufemia/issues/2540)) ([db36f09](https://github.com/dnbexperience/eufemia/commit/db36f09b31bb559cd3b39290ac15fca8334e9353))
+* **Textarea:** sbanken theme ([#2551](https://github.com/dnbexperience/eufemia/issues/2551)) ([d8cfb1c](https://github.com/dnbexperience/eufemia/commit/d8cfb1cf48c86b845dc63d5bbd80f3bc5de61137))
+
+
+### :bug: Bug Fixes
+
+* **Forms:** fix circular imports issue ([#2566](https://github.com/dnbexperience/eufemia/issues/2566)) ([3ac4276](https://github.com/dnbexperience/eufemia/commit/3ac427679afff41ce3be183b501aa587477494a0))
+* **NumberFormat:** accept options like maximumFractionDigits ([#2557](https://github.com/dnbexperience/eufemia/issues/2557)) ([2e09e80](https://github.com/dnbexperience/eufemia/commit/2e09e8004806ff207ac6b844b787614d32ebf9fe))
+
 ## [10.5.0](https://github.com/dnbexperience/eufemia/compare/v10.4.2...v10.5.0) (2023-08-10)
 
 
