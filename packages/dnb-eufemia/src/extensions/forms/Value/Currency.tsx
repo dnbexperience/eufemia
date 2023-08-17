@@ -3,7 +3,7 @@ import NumberComponent, { Props as NumberComponentProps } from './Number'
 
 export type Props = NumberComponentProps
 
-export default function ValueCurrency(props: Props) {
+function Currency(props: Props) {
   const numberProps: Props = {
     ...props,
     label: props.label,
@@ -12,3 +12,6 @@ export default function ValueCurrency(props: Props) {
   }
   return <NumberComponent {...numberProps} />
 }
+
+Currency._supportsEufemiaSpacingProps = true
+export default Currency

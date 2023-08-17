@@ -21,7 +21,7 @@ export type Props = {
   children: React.ReactNode
 }
 
-export default function Visibility({
+function Visibility({
   visible,
   pathDefined,
   pathUndefined,
@@ -81,3 +81,6 @@ export default function Visibility({
 
   return <>{children}</>
 }
+
+Visibility._supportsEufemiaSpacingProps = true
+export default Visibility

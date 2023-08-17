@@ -4,7 +4,7 @@ import SharedContext from '../../../shared/Context'
 
 export type Props = StringComponentProps
 
-export default function FieldLastName(props: Props) {
+function LastName(props: Props) {
   const sharedContext = useContext(SharedContext)
 
   const stringComponentProps: Props = {
@@ -18,3 +18,6 @@ export default function FieldLastName(props: Props) {
 
   return <StringComponent {...stringComponentProps} />
 }
+
+LastName._supportsEufemiaSpacingProps = true
+export default LastName

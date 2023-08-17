@@ -9,7 +9,7 @@ export type Props = ComponentProps & {
   children?: string
 }
 
-export default function SubmitDataContextButton(props: Props) {
+function SubmitButton(props: Props) {
   const sharedContext = useContext(SharedContext)
   const {
     className,
@@ -26,3 +26,6 @@ export default function SubmitDataContextButton(props: Props) {
     </Button>
   )
 }
+
+SubmitButton._supportsEufemiaSpacingProps = true
+export default SubmitButton

@@ -14,7 +14,7 @@ export type Props = ComponentProps &
     variant?: 'checkbox'
   }
 
-export default function ArraySelection(props: Props) {
+function ArraySelection(props: Props) {
   const {
     className,
     variant,
@@ -81,3 +81,6 @@ export default function ArraySelection(props: Props) {
       )
   }
 }
+
+ArraySelection._supportsEufemiaSpacingProps = true
+export default ArraySelection

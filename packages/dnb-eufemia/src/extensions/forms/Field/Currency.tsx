@@ -11,7 +11,7 @@ export type Props = ComponentProps &
     currency?: string
   }
 
-export default function FieldCurrency(props: Props) {
+function Currency(props: Props) {
   const preparedProps: Props = {
     ...props,
     fromInput: ({
@@ -57,3 +57,6 @@ export default function FieldCurrency(props: Props) {
     />
   )
 }
+
+Currency._supportsEufemiaSpacingProps = true
+export default Currency

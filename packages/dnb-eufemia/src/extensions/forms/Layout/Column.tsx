@@ -5,10 +5,13 @@ import FlexContainer, {
 
 export type Props = Omit<FlexContainerProps, 'direction'>
 
-export default function Column({ children, ...props }: Props) {
+function Column({ children, ...props }: Props) {
   return (
     <FlexContainer direction="column" {...props}>
       {children}
     </FlexContainer>
   )
 }
+
+Column._supportsEufemiaSpacingProps = true
+export default Column

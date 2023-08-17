@@ -7,7 +7,7 @@ export type Props = StringComponentProps & {
   validate?: boolean
 }
 
-export default function FieldNationalIdentityNumber(props: Props) {
+function NationalIdentityNumber(props: Props) {
   const sharedContext = useContext(SharedContext)
   const { validate = true, omitMask } = props
 
@@ -47,3 +47,6 @@ export default function FieldNationalIdentityNumber(props: Props) {
 
   return <StringComponent {...stringComponentProps} />
 }
+
+NationalIdentityNumber._supportsEufemiaSpacingProps = true
+export default NationalIdentityNumber

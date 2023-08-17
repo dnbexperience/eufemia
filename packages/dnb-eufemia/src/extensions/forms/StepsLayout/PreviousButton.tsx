@@ -11,7 +11,7 @@ export type Props = ComponentProps &
     children?: string
   }
 
-export default function PreviousStepButton(props: Props) {
+function PreviousButton(props: Props) {
   const sharedContext = useContext(SharedContext)
   const {
     className,
@@ -35,3 +35,6 @@ export default function PreviousStepButton(props: Props) {
     </Button>
   )
 }
+
+PreviousButton._supportsEufemiaSpacingProps = true
+export default PreviousButton

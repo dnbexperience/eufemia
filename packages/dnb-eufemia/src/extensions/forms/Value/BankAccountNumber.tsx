@@ -8,7 +8,7 @@ import SharedContext from '../../../shared/Context'
 
 export type Props = StringComponentProps
 
-export default function ValueBankAccountNumber(props: Props) {
+function BankAccountNumber(props: Props) {
   const sharedContext = useContext(SharedContext)
 
   const stringValueProps: Props = {
@@ -25,3 +25,6 @@ export default function ValueBankAccountNumber(props: Props) {
   }
   return <StringComponent {...stringValueProps} />
 }
+
+BankAccountNumber._supportsEufemiaSpacingProps = true
+export default BankAccountNumber

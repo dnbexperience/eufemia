@@ -10,7 +10,7 @@ export type Props = ComponentProps & {
   children?: string
 }
 
-export default function Buttons(props: Props) {
+function Buttons(props: Props) {
   const { className } = props
   return (
     <ButtonRow
@@ -22,3 +22,6 @@ export default function Buttons(props: Props) {
     </ButtonRow>
   )
 }
+
+Buttons._supportsEufemiaSpacingProps = true
+export default Buttons

@@ -39,7 +39,7 @@ export type Props = ComponentProps &
     width?: false | 'medium' | 'large' | 'stretch'
   }
 
-export default function FieldString(props: Props) {
+function StringComponent(props: Props) {
   const sharedContext = useContext(SharedContext)
 
   const preparedProps: Props = {
@@ -183,3 +183,6 @@ export default function FieldString(props: Props) {
     </FieldBlock>
   )
 }
+
+StringComponent._supportsEufemiaSpacingProps = true
+export default StringComponent

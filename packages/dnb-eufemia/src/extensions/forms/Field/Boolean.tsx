@@ -10,7 +10,7 @@ export type Props = Omit<
   falseText?: string
 }
 
-export default function BooleanField(props: Props) {
+function BooleanComponent(props: Props) {
   const sharedContext = useContext(SharedContext)
   const { trueText, falseText, ...restProps } = props
   return (
@@ -23,3 +23,6 @@ export default function BooleanField(props: Props) {
     />
   )
 }
+
+BooleanComponent._supportsEufemiaSpacingProps = true
+export default BooleanComponent
