@@ -19,6 +19,7 @@
 
 .dnb-textarea {
   --textarea-padding-width: 0.5rem;
+  --textarea-rows: 2; // using variable so it can be dynamically changed by react component
 
   display: inline-flex;
 
@@ -67,6 +68,8 @@
     z-index: 2;
 
     @include textareaStyleCommon();
+
+    @include scrollY(auto);
   }
 
   &__placeholder {
@@ -80,6 +83,13 @@
     overflow: hidden;
     width: 100%; // to get overflow working properly
     height: 100%; // to get overflow working properly
+
+    // Required for line-clamp
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+
+    // Limit the text block to two lines
+    -webkit-line-clamp: var(--textarea-rows, 2);
 
     @include textareaStyleCommon();
   }
@@ -98,10 +108,19 @@
     resize: none;
   }
 
+  // disabled
+  &--disabled &__textarea,
+  &__textarea[disabled] {
+    user-select: none; // Safari / Touch fix
+    &::-webkit-scrollbar {
+      width: 0;
+    }
+  }
+
   // hide placeholder on focus
   &--has-content &__textarea ~ &__placeholder,
   &--focus &__textarea:not([disabled], [readonly]) ~ &__placeholder {
-    opacity: 0.5;
+    display: none;
   }
 
   &__inner > .dnb-form-status {

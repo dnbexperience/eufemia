@@ -8,11 +8,14 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Textarea', () => {
+describe.each(['ui', 'sbanken'])('Textarea for %s', (themeName) => {
   const style = {
     width: '14rem', // make sure our textarea gets an explicit width, because of mac/linux rendering differences
   }
-  setupPageScreenshot({ url: '/uilib/components/textarea/demos' })
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/textarea/demos',
+  })
 
   it('have to match the "default" textarea style', async () => {
     const screenshot = await makeScreenshot({
@@ -34,6 +37,44 @@ describe('Textarea', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match the error textarea "hover"', async () => {
+    const screenshot = await makeScreenshot({
+      style,
+      selector: '[data-visual-test="textarea-error"]',
+      simulateSelector: '[data-visual-test="textarea-error"] textarea',
+      simulate: 'hover',
+      // Only for screenshot testing - make textarea having same width on linux chromium
+      styleSelector: '[data-visual-test="textarea-error"] textarea',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match the error textarea mouse focus', async () => {
+    const screenshot = await makeScreenshot({
+      style,
+      selector: '[data-visual-test="textarea-error"]',
+      simulateSelector: '[data-visual-test="textarea-error"] textarea',
+      simulate: 'click',
+      // Only for screenshot testing - make textarea having same width on linux chromium
+      styleSelector: '[data-visual-test="textarea-error"] textarea',
+      waitAfterSimulate: 250,
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match the error textarea "focus"', async () => {
+    const screenshot = await makeScreenshot({
+      style,
+      selector: '[data-visual-test="textarea-error"]',
+      simulateSelector: '[data-visual-test="textarea-error"] textarea',
+      simulate: 'focus', // should be tested first
+      // Only for screenshot testing - make textarea having same width on linux chromium
+      styleSelector: '[data-visual-test="textarea-error"] textarea',
+      waitAfterSimulate: 250,
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match stretched textarea style', async () => {
     const screenshot = await makeScreenshot({
       style: {
@@ -45,20 +86,6 @@ describe('Textarea', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-  // we do not make a active state, due to the differences of font rendering
-
-  it('have to match the "focus" textarea style', async () => {
-    const screenshot = await makeScreenshot({
-      style,
-      selector: '[data-visual-test="textarea-default"]',
-      simulateSelector: '[data-visual-test="textarea-default"] textarea',
-      simulate: 'focus', // should be tested first
-      // Only for screenshot testing - make textarea having same width on linux chromium
-      styleSelector: '[data-visual-test="textarea-default"] textarea',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-  // we do not make a active state, due to the differences of font rendering
 
   it('have to match the "hover" textarea style', async () => {
     const screenshot = await makeScreenshot({
@@ -68,6 +95,32 @@ describe('Textarea', () => {
       simulate: 'hover',
       // Only for screenshot testing - make textarea having same width on linux chromium
       styleSelector: '[data-visual-test="textarea-default"] textarea',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match the mouse focus textarea style', async () => {
+    const screenshot = await makeScreenshot({
+      style,
+      selector: '[data-visual-test="textarea-default"]',
+      simulateSelector: '[data-visual-test="textarea-default"] textarea',
+      simulate: 'click',
+      // Only for screenshot testing - make textarea having same width on linux chromium
+      styleSelector: '[data-visual-test="textarea-default"] textarea',
+      waitAfterSimulate: 250,
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match the "focus" textarea style', async () => {
+    const screenshot = await makeScreenshot({
+      style,
+      selector: '[data-visual-test="textarea-default"]',
+      simulateSelector: '[data-visual-test="textarea-default"] textarea',
+      simulate: 'focus', // should be tested first
+      // Only for screenshot testing - make textarea having same width on linux chromium
+      styleSelector: '[data-visual-test="textarea-default"] textarea',
+      waitAfterSimulate: 250,
     })
     expect(screenshot).toMatchImageSnapshot()
   })
