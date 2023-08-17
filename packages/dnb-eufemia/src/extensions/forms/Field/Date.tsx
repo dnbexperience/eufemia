@@ -8,7 +8,7 @@ import SharedContext from '../../../shared/Context'
 
 export type Props = ComponentProps & FieldProps<string>
 
-export default function FieldDate(props: Props) {
+function DateComponent(props: Props) {
   const sharedContext = useContext(SharedContext)
   const preparedProps: Props = {
     ...props,
@@ -46,3 +46,6 @@ export default function FieldDate(props: Props) {
     />
   )
 }
+
+DateComponent._supportsEufemiaSpacingProps = true
+export default DateComponent

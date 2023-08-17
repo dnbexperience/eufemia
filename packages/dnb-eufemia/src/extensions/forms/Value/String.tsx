@@ -7,7 +7,7 @@ import type { ValueProps } from '../value-types'
 
 export type Props = ComponentProps & ValueProps<string>
 
-export default function ValueString(props: Props) {
+function StringComponent(props: Props) {
   const {
     className,
     label,
@@ -31,3 +31,6 @@ export default function ValueString(props: Props) {
     </ValueBlock>
   )
 }
+
+StringComponent._supportsEufemiaSpacingProps = true
+export default StringComponent

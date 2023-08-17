@@ -18,7 +18,7 @@ export type Props = ComponentProps &
     textOff?: string
   }
 
-export default function ToggleField(props: Props) {
+function Toggle(props: Props) {
   const sharedContext = useContext(SharedContext)
   const {
     id,
@@ -155,3 +155,6 @@ export default function ToggleField(props: Props) {
       )
   }
 }
+
+Toggle._supportsEufemiaSpacingProps = true
+export default Toggle

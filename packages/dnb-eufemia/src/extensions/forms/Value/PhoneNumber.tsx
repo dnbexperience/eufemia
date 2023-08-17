@@ -8,7 +8,7 @@ import {
 
 export type Props = StringComponentProps
 
-export default function ValuePhoneNumber(props: Props) {
+function PhoneNumber(props: Props) {
   const sharedContext = useContext(SharedContext)
 
   const stringValueProps: Props = {
@@ -25,3 +25,6 @@ export default function ValuePhoneNumber(props: Props) {
   }
   return <StringComponent {...stringValueProps} />
 }
+
+PhoneNumber._supportsEufemiaSpacingProps = true
+export default PhoneNumber

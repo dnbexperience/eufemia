@@ -17,7 +17,7 @@ export type Props = ComponentProps &
     width?: false | 'medium' | 'large'
   }
 
-export default function FieldPhoneNumber(props: Props) {
+function PhoneNumber(props: Props) {
   const sharedContext = useContext(SharedContext)
   const preparedProps: Props = {
     ...props,
@@ -126,3 +126,6 @@ export default function FieldPhoneNumber(props: Props) {
     </Div>
   )
 }
+
+PhoneNumber._supportsEufemiaSpacingProps = true
+export default PhoneNumber

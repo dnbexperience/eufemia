@@ -12,7 +12,7 @@ export type Props = ComponentProps & {
   children: React.ReactNode
 }
 
-export default function Section(props: Props) {
+function Section(props: Props) {
   const { className, direction, spacing, children } = props
   return (
     <FlexContainer
@@ -25,3 +25,6 @@ export default function Section(props: Props) {
     </FlexContainer>
   )
 }
+
+Section._supportsEufemiaSpacingProps = true
+export default Section

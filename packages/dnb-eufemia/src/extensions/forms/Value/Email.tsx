@@ -4,7 +4,7 @@ import SharedContext from '../../../shared/Context'
 
 export type Props = StringComponentProps
 
-export default function ValueEmail(props: Props) {
+function Email(props: Props) {
   const sharedContext = useContext(SharedContext)
 
   const stringProps: Props = {
@@ -13,3 +13,6 @@ export default function ValueEmail(props: Props) {
   }
   return <StringComponent {...stringProps} />
 }
+
+Email._supportsEufemiaSpacingProps = true
+export default Email

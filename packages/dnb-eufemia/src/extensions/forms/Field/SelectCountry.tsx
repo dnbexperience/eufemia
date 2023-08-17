@@ -6,7 +6,7 @@ import SharedContext from '../../../shared/Context'
 
 export type Props = SelectionProps
 
-export default function FieldSelectCountry(props: Props) {
+function SelectCountry(props: Props) {
   const sharedContext = useContext(SharedContext)
 
   const selectComponentProps: Props = {
@@ -35,3 +35,6 @@ export default function FieldSelectCountry(props: Props) {
     </Selection>
   )
 }
+
+SelectCountry._supportsEufemiaSpacingProps = true
+export default SelectCountry

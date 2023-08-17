@@ -10,7 +10,7 @@ export type Props = ComponentProps & {
   children: React.ReactNode
 }
 
-export default function FlexItem(props: Props) {
+function FlexItem(props: Props) {
   const { className, grow, shrink, children } = props
   const cn = classnames(
     'dnb-forms-flex-item',
@@ -25,3 +25,6 @@ export default function FlexItem(props: Props) {
     </Div>
   )
 }
+
+FlexItem._supportsEufemiaSpacingProps = true
+export default FlexItem

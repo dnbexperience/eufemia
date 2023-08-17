@@ -7,7 +7,7 @@ export type Props = StringComponentProps & {
   omitMask?: boolean
 }
 
-export default function FieldOrganizationNumber(props: Props) {
+function OrganizationNumber(props: Props) {
   const sharedContext = useContext(SharedContext)
   const { validate = true, omitMask } = props
 
@@ -33,3 +33,6 @@ export default function FieldOrganizationNumber(props: Props) {
 
   return <StringComponent {...stringComponentProps} />
 }
+
+OrganizationNumber._supportsEufemiaSpacingProps = true
+export default OrganizationNumber

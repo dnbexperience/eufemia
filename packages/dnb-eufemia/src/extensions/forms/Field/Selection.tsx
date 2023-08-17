@@ -16,7 +16,7 @@ export type Props = ComponentProps &
     width?: false | 'medium' | 'large' | 'stretch'
   }
 
-export default function Select(props: Props) {
+function Selection(props: Props) {
   const {
     className,
     variant,
@@ -156,3 +156,6 @@ export default function Select(props: Props) {
     }
   }
 }
+
+Selection._supportsEufemiaSpacingProps = true
+export default Selection

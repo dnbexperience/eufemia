@@ -10,7 +10,7 @@ export type Props = ComponentProps & {
   children?: React.ReactNode
 }
 
-export default function At(props: Props) {
+function At(props: Props) {
   const { path = '/', iterate, children } = props
   const dataContext = useContext(Context)
   const { data: contextData, handlePathChange: contextHandlePathChange } =
@@ -73,3 +73,6 @@ export default function At(props: Props) {
     </Context.Provider>
   )
 }
+
+At._supportsEufemiaSpacingProps = true
+export default At

@@ -8,7 +8,7 @@ export type Props = ComponentProps & {
   children?: React.ReactNode
 }
 
-export default function MainHeading(props: Props) {
+function MainHeading(props: Props) {
   const { className, children } = props
   return (
     <Heading
@@ -21,3 +21,6 @@ export default function MainHeading(props: Props) {
     </Heading>
   )
 }
+
+MainHeading._supportsEufemiaSpacingProps = true
+export default MainHeading
