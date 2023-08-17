@@ -24,6 +24,84 @@ describe.each(['ui', 'sbanken'])('Pagination for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
+  it('have to match the current button hover', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="pagination-default"]',
+      style: {
+        width: '50rem',
+      },
+      simulateSelector:
+        '[data-visual-test="pagination-default"] .dnb-button--primary',
+      simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match the current button active', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="pagination-default"]',
+      style: {
+        width: '50rem',
+      },
+      simulateSelector:
+        '[data-visual-test="pagination-default"] .dnb-button--primary',
+      simulate: 'active',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match the current button focus', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="pagination-default"]',
+      style: {
+        width: '50rem',
+      },
+      simulateSelector:
+        '[data-visual-test="pagination-default"] .dnb-button--primary',
+      simulate: 'focus',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match unselected button hover', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="pagination-default"]',
+      style: {
+        width: '50rem',
+      },
+      simulateSelector:
+        '[data-visual-test="pagination-default"] .dnb-button--secondary',
+      simulate: 'hover',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match unselected button active', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="pagination-default"]',
+      style: {
+        width: '50rem',
+      },
+      simulateSelector:
+        '[data-visual-test="pagination-default"] .dnb-button--secondary',
+      simulate: 'active',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match unselected button focus', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="pagination-default"]',
+      style: {
+        width: '50rem',
+      },
+      simulateSelector:
+        '[data-visual-test="pagination-default"] .dnb-button--secondary',
+      simulate: 'focus',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match pagination bar at page one', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="pagination-default"]',
