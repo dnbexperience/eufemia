@@ -1485,7 +1485,7 @@ describe('Autocomplete component', () => {
     expect(on_type).toBeCalledTimes(4)
   })
 
-  it('should only reset "active_item" on input blur and "keep_value" is true and vlaue is empty', () => {
+  it('should only reset "active_item" on input blur and "keep_value" is true and value is empty', () => {
     const on_show = jest.fn()
     const on_hide = jest.fn()
     const on_focus = jest.fn()

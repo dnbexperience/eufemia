@@ -27,7 +27,7 @@ export default {
       open_picker_text: 'Open date picker',
       mask_order: 'dd/mm/yyyy',
       mask_placeholder: 'dd/mm/yyyy', // have to be same setup as "mask" - but can be like: dd/mm/åååå
-      date_format: 'yyyy-MM-dd', // in v1 of date-fns we where more flexible in terms of the format
+      date_format: 'yyyy-MM-dd', // in v1 of date-fns we were more flexible in terms of the format
       return_format: 'yyyy-MM-dd', // used in date-fns v1: YYYY-MM-DD
       submit_button_text: 'OK',
       cancel_button_text: 'Cancel',
@@ -143,6 +143,53 @@ export default {
         'The file you are trying to upload is not supported.',
       deleteButton: 'Delete',
       fileListAriaLabel: 'uploaded files',
+    },
+    Forms: {
+      booleanYes: 'Yes',
+      booleanNo: 'No',
+      stepNext: 'Next',
+      stepPrevious: 'Back',
+      contextSubmit: 'Send',
+      inputErrorRequired: 'This field is required',
+      inputErrorPattern: 'The value is invalid',
+      stringInputErrorMinLength:
+        'The value cannot be shorter than {minLength} characters',
+      stringInputErrorMaxLength:
+        'The value cannot be longer than {maxLength} characters',
+      countryCodeLabel: 'Country code',
+      dateLabel: 'Date',
+      emailErrorRequired: 'You must enter an email',
+      emailErrorPattern: 'This is not a valid email address',
+      emailLabel: 'Email',
+      firstNameLabel: 'First name',
+      firstNameErrorRequired: 'You must enter a first name',
+      lastNameLabel: 'Surname',
+      lastNameErrorRequired: 'You must enter a surname',
+      nationalIdentityNumberLabel: 'National identity number (11 digits)',
+      nationalIdentityNumberErrorRequired:
+        'You must enter a national identity number',
+      nationalIdentityNumberErrorPattern:
+        'This is not a valid national identity number',
+      organizationNumberLabel: 'Organization number',
+      organizationNumberErrorRequired:
+        'You must enter an organization number',
+      organizationNumberErrorPattern:
+        'This is not a valid organization number',
+      bankAccountNumberLabel: 'Bank account',
+      bankAccountNumberErrorRequired:
+        'You must enter a bank account number',
+      bankAccountNumberErrorPattern:
+        'This is not a valid bank account number',
+      phoneNumberLabel: 'Mobile number',
+      phoneNumberErrorRequired: 'You must enter a mobile number',
+      postalCodeLabel: 'Postalc.',
+      postalCodeErrorRequired: 'You must enter a postal code',
+      postalCodeErrorPattern: 'This is not a valid postal code',
+      cityLabel: 'City',
+      cityErrorRequired: 'You must enter a city',
+      selectCountryLabel: 'Country',
+      selectCountryPlaceholder: 'Select a country',
+      selectCountryErrorRequired: 'You must select a country',
     },
   },
 }
