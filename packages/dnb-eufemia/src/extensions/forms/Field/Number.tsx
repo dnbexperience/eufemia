@@ -37,7 +37,7 @@ export type Props = ComponentProps &
     rightAligned?: boolean
   }
 
-export default function FieldNumber(props: Props) {
+function NumberComponent(props: Props) {
   const {
     thousandSeparator,
     decimalSymbol = ',',
@@ -143,3 +143,6 @@ export default function FieldNumber(props: Props) {
     </FieldBlock>
   )
 }
+
+NumberComponent._supportsEufemiaSpacingProps = true
+export default NumberComponent

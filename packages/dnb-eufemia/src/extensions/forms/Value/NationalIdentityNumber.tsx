@@ -8,7 +8,7 @@ import {
 
 export type Props = StringComponentProps
 
-export default function ValueNationalIdentityNumber(props: Props) {
+function NationalIdentityNumber(props: Props) {
   const sharedContext = useContext(SharedContext)
 
   const stringValueProps: Props = {
@@ -25,3 +25,6 @@ export default function ValueNationalIdentityNumber(props: Props) {
   }
   return <StringComponent {...stringValueProps} />
 }
+
+NationalIdentityNumber._supportsEufemiaSpacingProps = true
+export default NationalIdentityNumber

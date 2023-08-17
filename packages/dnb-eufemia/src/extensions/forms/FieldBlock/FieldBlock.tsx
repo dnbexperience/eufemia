@@ -22,7 +22,7 @@ export type Props = ComponentProps &
     children: React.ReactNode
   }
 
-export default function FieldBlock(props: Props) {
+function FieldBlock(props: Props) {
   const {
     className,
     forId,
@@ -117,3 +117,6 @@ export default function FieldBlock(props: Props) {
     </Div>
   )
 }
+
+FieldBlock._supportsEufemiaSpacingProps = true
+export default FieldBlock

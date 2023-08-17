@@ -2574,6 +2574,7 @@ __metadata:
     "@emotion/styled": 11.11.0
     "@rollup/plugin-babel": 6.0.3
     "@rollup/plugin-commonjs": 24.0.1
+    "@rollup/plugin-json": 6.0.0
     "@rollup/plugin-node-resolve": 15.0.1
     "@rollup/plugin-replace": 5.0.2
     "@semantic-release/changelog": 6.0.2
@@ -5150,6 +5151,20 @@ __metadata:
     rollup:
       optional: true
   checksum: ff5b09f5c350640fe6836fcc97bf5c5612bf78b26eaaad01bf1aee955f0b136135d1a8950a02f680779aec1f16f2c6b6cf89d6080e84ed09be62737abb6b3a5f
+  languageName: node
+  linkType: hard
+
+"@rollup/plugin-json@npm:6.0.0":
+  version: 6.0.0
+  resolution: "@rollup/plugin-json@npm:6.0.0"
+  dependencies:
+    "@rollup/pluginutils": ^5.0.1
+  peerDependencies:
+    rollup: ^1.20.0||^2.0.0||^3.0.0
+  peerDependenciesMeta:
+    rollup:
+      optional: true
+  checksum: 77cfc941edaf77a5307977704ffaba706d83bea66f265b2b68f14be2a0af6d08b0fb1b04fdd773146c84cc70938ff64b00ae946808fd6ac057058af824d78128
   languageName: node
   linkType: hard
 

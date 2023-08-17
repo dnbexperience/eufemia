@@ -3,18 +3,9 @@ import classnames from 'classnames'
 import { Space } from '../../../components'
 import { Div } from '../../../elements'
 import * as EufemiaElements from '../../../elements'
-import { SpaceType, SpacingProps } from '../../../components/space/types'
+import { SpaceType } from '../../../components/space/types'
 import { forwardSpaceProps } from '../utils'
 import type { ComponentProps } from '../component-types'
-import {
-  Field,
-  Value,
-  Layout,
-  FieldBlock,
-  ValueBlock,
-  StepsLayout,
-  Visibility,
-} from '../index'
 import MainHeading from './MainHeading'
 import SubHeading from './SubHeading'
 
@@ -50,42 +41,6 @@ const getSpaceBottom = (
   )
 }
 
-export const isFieldComponent = (element): boolean => {
-  return Object.values(Field).some(
-    (fieldComponent) => element?.type === fieldComponent
-  )
-}
-
-export const isValueComponent = (element): boolean => {
-  return Object.values(Value).some(
-    (valueComponent) => element?.type === valueComponent
-  )
-}
-
-export const isLayoutComponent = (element): boolean => {
-  return Object.values(Layout).some(
-    (layoutComponent) => element?.type === layoutComponent
-  )
-}
-
-export const isEufemiaFormComponent = (element): boolean => {
-  return (
-    isFieldComponent(element) ||
-    isValueComponent(element) ||
-    isLayoutComponent(element) ||
-    [
-      FieldBlock,
-      ValueBlock,
-      StepsLayout,
-      StepsLayout.Step,
-      StepsLayout.NextButton,
-      StepsLayout.PreviousButton,
-      StepsLayout.Buttons,
-      Visibility,
-    ].some((Component) => element?.type === Component)
-  )
-}
-
 export const isEufemiaElement = (element): boolean => {
   return Object.values(EufemiaElements).some(
     (eufemiaElement) => element?.type === eufemiaElement
@@ -98,22 +53,22 @@ export const isEufemiaElement = (element): boolean => {
 export const isSpacePropsComponent = (
   element: React.ReactNode
 ): boolean => {
-  return isEufemiaFormComponent(element) || isEufemiaElement(element)
+  return (
+    (React.isValidElement(element) &&
+      typeof element.type === 'object' &&
+      '_supportsEufemiaSpacingProps' in
+        (element.type as React.JSXElementConstructor<unknown>)) ||
+    isEufemiaElement(element)
+  )
 }
 
-const renderWithSpacing = (
-  element: React.ReactNode,
-  spacingProps: SpacingProps
-) => {
+const renderWithSpacing = (element: React.ReactNode, props) => {
   const takesSpaceProps = isSpacePropsComponent(element)
 
   return takesSpaceProps ? (
-    React.cloneElement(
-      element as React.ReactElement<SpacingProps>,
-      spacingProps
-    )
+    React.cloneElement(element as React.ReactElement<unknown>, props)
   ) : (
-    <Div {...spacingProps}>{element}</Div>
+    <Div {...props}>{element}</Div>
   )
 }
 
@@ -142,7 +97,7 @@ export type Props = ComponentProps & {
   children: React.ReactNode
 }
 
-export default function FlexContainer(props: Props) {
+function FlexContainer(props: Props) {
   const {
     className,
     children,
@@ -218,6 +173,7 @@ export default function FlexContainer(props: Props) {
                   spacing
 
             return renderWithSpacing(child, {
+              key: `element-${i}`,
               space: { top, bottom },
               top,
               bottom,
@@ -228,3 +184,6 @@ export default function FlexContainer(props: Props) {
     </Div>
   )
 }
+
+FlexContainer._supportsEufemiaSpacingProps = true
+export default FlexContainer

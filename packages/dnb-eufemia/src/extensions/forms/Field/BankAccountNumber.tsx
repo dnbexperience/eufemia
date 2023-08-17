@@ -7,7 +7,7 @@ export type Props = StringComponentProps & {
   omitMask?: boolean
 }
 
-export default function FieldBankAccountNumber(props: Props) {
+function BankAccountNumber(props: Props) {
   const sharedContext = useContext(SharedContext)
   const { validate = true, omitMask } = props
 
@@ -47,3 +47,6 @@ export default function FieldBankAccountNumber(props: Props) {
 
   return <StringComponent {...stringComponentProps} />
 }
+
+BankAccountNumber._supportsEufemiaSpacingProps = true
+export default BankAccountNumber

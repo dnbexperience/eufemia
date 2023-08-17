@@ -28,7 +28,7 @@ export type Props = ComponentProps &
     children: React.ReactNode
   }
 
-export default function FieldGroup(props: Props) {
+function FieldGroup(props: Props) {
   const {
     className,
     label,
@@ -107,3 +107,6 @@ export default function FieldGroup(props: Props) {
     </FieldGroupContext.Provider>
   )
 }
+
+FieldGroup._supportsEufemiaSpacingProps = true
+export default FieldGroup

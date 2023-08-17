@@ -14,7 +14,7 @@ export type Props = ComponentProps & {
   children: React.ReactNode
 }
 
-export default function Card(props: Props) {
+function Card(props: Props) {
   const { className, stack, direction, spacing, children } = props
 
   if (stack) {
@@ -51,3 +51,6 @@ export default function Card(props: Props) {
     </FlexItem>
   )
 }
+
+Card._supportsEufemiaSpacingProps = true
+export default Card

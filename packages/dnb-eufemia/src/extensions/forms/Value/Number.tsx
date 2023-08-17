@@ -15,7 +15,7 @@ export type Props = ComponentProps &
     suffix?: string
   }
 
-export default function ValueNumber(props: Props) {
+function NumberComponent(props: Props) {
   const {
     className,
     label,
@@ -52,3 +52,6 @@ export default function ValueNumber(props: Props) {
     </ValueBlock>
   )
 }
+
+NumberComponent._supportsEufemiaSpacingProps = true
+export default NumberComponent

@@ -8,7 +8,7 @@ export type Props = ComponentProps & {
   children?: React.ReactNode
 }
 
-export default function SubHeading(props: Props) {
+function SubHeading(props: Props) {
   const { className, children } = props
   return (
     <Heading
@@ -20,3 +20,6 @@ export default function SubHeading(props: Props) {
     </Heading>
   )
 }
+
+SubHeading._supportsEufemiaSpacingProps = true
+export default SubHeading

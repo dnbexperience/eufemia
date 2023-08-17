@@ -3,7 +3,7 @@ import { Checkbox } from '../../../components'
 import classnames from 'classnames'
 import { forwardSpaceProps } from '../utils'
 import Option from './Option'
-import { FieldBlock } from '../Forms'
+import FieldBlock from '../FieldBlock'
 import { useField } from './hooks'
 import type { ComponentProps } from '../component-types'
 import type { FieldProps } from '../field-types'
@@ -14,7 +14,7 @@ export type Props = ComponentProps &
     variant?: 'checkbox'
   }
 
-export default function ArraySelection(props: Props) {
+function ArraySelection(props: Props) {
   const {
     className,
     variant,
@@ -81,3 +81,6 @@ export default function ArraySelection(props: Props) {
       )
   }
 }
+
+ArraySelection._supportsEufemiaSpacingProps = true
+export default ArraySelection

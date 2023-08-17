@@ -15,7 +15,7 @@ export type Props = ComponentProps & {
   children: React.ReactNode
 }
 
-export default function Step(props: Props) {
+function Step(props: Props) {
   const {
     className,
     index,
@@ -41,3 +41,6 @@ export default function Step(props: Props) {
     </FlexContainer>
   )
 }
+
+Step._supportsEufemiaSpacingProps = true
+export default Step

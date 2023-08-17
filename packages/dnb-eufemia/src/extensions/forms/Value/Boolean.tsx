@@ -8,7 +8,7 @@ import SharedContext from '../../../shared/Context'
 
 export type Props = ComponentProps & ValueProps<boolean>
 
-export default function ValueBoolean(props: Props) {
+function BooleanComponent(props: Props) {
   const sharedContext = useContext(SharedContext)
   const { className, label, placeholder, showEmpty, value, inline } =
     useValue(props)
@@ -30,3 +30,6 @@ export default function ValueBoolean(props: Props) {
     </ValueBlock>
   )
 }
+
+BooleanComponent._supportsEufemiaSpacingProps = true
+export default BooleanComponent

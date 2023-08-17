@@ -9,7 +9,7 @@ export type Props = Omit<FieldGroupProps, 'children'> &
     width?: false | 'medium' | 'large'
   }
 
-export default function FieldPostalCodeAndCity(props: Props) {
+function PostalCodeAndCity(props: Props) {
   const sharedContext = useContext(SharedContext)
 
   const {
@@ -73,3 +73,6 @@ export default function FieldPostalCodeAndCity(props: Props) {
     </FieldGroup>
   )
 }
+
+PostalCodeAndCity._supportsEufemiaSpacingProps = true
+export default PostalCodeAndCity

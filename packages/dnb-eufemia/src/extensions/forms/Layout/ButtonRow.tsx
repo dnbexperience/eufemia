@@ -8,7 +8,7 @@ export type Props = ComponentProps & {
   children?: React.ReactNode
 }
 
-export default function ButtonRow(props: Props) {
+function ButtonRow(props: Props) {
   const { className, children } = props
   return (
     <Div
@@ -19,3 +19,6 @@ export default function ButtonRow(props: Props) {
     </Div>
   )
 }
+
+ButtonRow._supportsEufemiaSpacingProps = true
+export default ButtonRow

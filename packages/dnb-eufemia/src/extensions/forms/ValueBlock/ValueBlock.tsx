@@ -11,7 +11,7 @@ export type Props = ComponentProps &
     children?: React.ReactNode
   }
 
-export default function StringValue(props: Props) {
+function ValueBlock(props: Props) {
   const { className, label, inline, placeholder, showEmpty, children } =
     props
   if (
@@ -47,3 +47,6 @@ export default function StringValue(props: Props) {
     </Span>
   )
 }
+
+ValueBlock._supportsEufemiaSpacingProps = true
+export default ValueBlock

@@ -8,7 +8,7 @@ import Section from './Section'
 
 export type Props = ComponentProps & InfoCardProps
 
-export default function InfoCardSection(props: Props) {
+function InfoCardSection(props: Props) {
   const { className } = props
   return (
     <Section
@@ -19,3 +19,6 @@ export default function InfoCardSection(props: Props) {
     </Section>
   )
 }
+
+InfoCardSection._supportsEufemiaSpacingProps = true
+export default InfoCardSection
