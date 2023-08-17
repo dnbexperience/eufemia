@@ -82,14 +82,14 @@ export type StepIndicatorProps = Omit<
     internalId?: string
   }
 
-const StepIndicator = ({
+function StepIndicator({
   data = [],
   skeleton = false,
   current_step = 0,
   hide_numbers = false,
   no_animation = false,
   ...restOfProps
-}: StepIndicatorProps) => {
+}: StepIndicatorProps) {
   const props = {
     data,
     skeleton,

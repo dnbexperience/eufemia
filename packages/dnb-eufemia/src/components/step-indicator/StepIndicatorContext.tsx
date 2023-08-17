@@ -54,10 +54,10 @@ export type StepIndicatorProviderProps = StepIndicatorProps & {
   isSidebar?: boolean
 }
 
-export const StepIndicatorProvider = ({
+export function StepIndicatorProvider({
   isSidebar = false,
   ...restOfProps
-}: StepIndicatorProviderProps) => {
+}: StepIndicatorProviderProps) {
   const props = { isSidebar, ...restOfProps }
 
   const [hasSidebar, setHasSidebar] = useState<boolean>(true)
