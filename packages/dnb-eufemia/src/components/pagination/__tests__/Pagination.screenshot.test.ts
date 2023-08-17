@@ -8,8 +8,9 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Pagination', () => {
+describe.each(['ui', 'sbanken'])('Pagination for %s', (themeName) => {
   setupPageScreenshot({
+    themeName,
     url: '/uilib/components/pagination/demos',
   })
 
@@ -50,8 +51,9 @@ describe('Pagination', () => {
   })
 })
 
-describe('Pagination', () => {
+describe.each(['ui', 'sbanken'])('Pagination for %s', (themeName) => {
   setupPageScreenshot({
+    themeName,
     url: '/uilib/components/pagination/demos',
     pageViewport: {
       width: 500,

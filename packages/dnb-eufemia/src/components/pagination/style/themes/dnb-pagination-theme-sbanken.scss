@@ -1,0 +1,58 @@
+/*
+* Pagination theme
+*
+*/
+
+@import '../../../../style/core/utilities.scss';
+
+.dnb-pagination {
+  &__page,
+  &__loadbar {
+    min-height: 6rem;
+  }
+
+  &__bar {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  &__indicator {
+    min-height: inherit;
+
+    &__inner {
+      animation: show-page 300ms ease-out forwards;
+    }
+  }
+
+  // active/checked - like toggle-button
+  @at-root .dnb-core-style &__button.dnb-button--primary,
+    &__button.dnb-button--primary {
+    &,
+    &:not(:active):hover:not([disabled]) {
+      background-color: var(--color-emerald-green);
+      color: var(--color-mint-green);
+    }
+
+    html[data-whatinput='keyboard']
+      &:not([disabled]):not(:active):not(:hover):focus {
+      color: var(--color-emerald-green);
+      background-color: var(--color-mint-green);
+    }
+  }
+
+  &__dots {
+    color: var(--color-black-55);
+  }
+}
+
+@keyframes show-page {
+  from {
+    transform: translate3d(0, -8px, 0);
+    opacity: 0.1;
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
