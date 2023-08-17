@@ -1,0 +1,126 @@
+/*
+* Input theme
+*
+*/
+
+@import '../../../../style/core/utilities.scss';
+
+.dnb-input {
+  --input-height: 2.5rem;
+  --input-button-border-color: var(--input-border-color);
+  --input-button-border-width: var(--input-border-width);
+  --input-border-radius: 0.5rem;
+  --input-border-width: 0.0625rem;
+
+  // Text
+  --input-color: var(--input-color--default);
+  --input-color--default: var(--sb-color-text);
+  --input-color--active: var(--sb-color-text);
+
+  // Border
+  --input-border-color: var(--sb-color-gray-dark-2);
+  --input-border-color--hover: var(--sb-color-violet);
+  --input-border-color--active: var(--sb-color-violet);
+  --input-border-color--focus: var(--focus-ring-color);
+
+  &__shell {
+    background-color: var(--color-white);
+    transition: border-radius 0.25s ease-out;
+    border: none;
+    color: var(--input-color);
+    @include fakeBorder(
+      var(--input-border-color),
+      var(--input-border-width),
+      inset
+    );
+  }
+
+  &__submit-button__button {
+    --button-secondary-color: var(--sb-color-violet);
+  }
+
+  &__placeholder {
+    color: var(--sb-color-gray-dark-3);
+  }
+
+  &[data-input-state='disabled'] {
+    --input-border-color: var(--sb-color-gray);
+
+    .dnb-input__shell {
+      &,
+      .dnb-icon,
+      .dnb-input__placeholder {
+        color: var(--sb-color-gray-dark-2);
+      }
+
+      -webkit-text-fill-color: currentcolor;
+
+      background-color: var(--sb-color-gray-light);
+    }
+  }
+
+  &:not([data-input-state='disabled']) {
+    // Focus
+    &[data-input-state='focus'] {
+      --input-color: var(--input-color--active);
+      --input-border-radius: 1.5rem;
+      --input-border-color: var(--input-border-color--active);
+
+      html[data-whatinput='keyboard'] & {
+        --input-button-border-color: var(--input-border-color--focus);
+        --input-button-border-width: var(--focus-ring-width);
+      }
+      .dnb-input__shell {
+        @include focusRing(
+          null,
+          var(--input-border-color--focus),
+          inset
+        ); // keyboard only
+      }
+    }
+
+    // Hover
+    .dnb-input__shell:hover,
+    .dnb-form-label:hover + .dnb-input__inner .dnb-input__shell {
+      --input-border-color: var(--input-border-color--hover);
+      --input-border-width: 0.125rem;
+    }
+
+    // Button
+    .dnb-input__submit-button__button {
+      transition: border-radius 0.25s ease-out;
+      background-color: transparent;
+      box-shadow: none;
+
+      &:hover,
+      &:active {
+        border: var(--input-button-border-width) solid
+          var(--input-button-border-color);
+        border-left: none;
+        padding-left: var(--input-button-border-width);
+      }
+
+      &:focus-visible {
+        border: none;
+        padding-left: none;
+      }
+    }
+
+    &.dnb-input__status--error {
+      --input-border-color: var(--sb-color-red);
+      --input-color--default: var(--sb-color-red);
+      --input-color--active: var(--sb-color-text);
+      --input-border-color--hover: var(--sb-color-red);
+      --input-border-color--active: var(--sb-color-red);
+      --input-border-color--focus: var(--sb-color-red);
+
+      .dnb-input__submit-button__button {
+        --button-secondary-background--hover: var(--sb-color-red);
+
+        &:hover:not(:active) {
+          --button-secondary-color: var(--sb-color-white);
+        }
+      }
+    }
+  }
+}

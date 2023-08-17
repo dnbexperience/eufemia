@@ -31,6 +31,19 @@
     }
   }
 }
+
+@mixin focus-visible() {
+  html:not([data-whatintent='touch']) &:focus-visible {
+    &[disabled] {
+      cursor: not-allowed;
+    }
+    // stylelint-disable-next-line
+    &:not([disabled]) {
+      @content;
+    }
+  }
+}
+
 @mixin focus() {
   &:focus,
   html:not([data-whatintent='touch']) &:focus {
@@ -55,7 +68,12 @@
   }
 }
 
-@mixin focusRing($whatinput: null, $color: null, $inset: null) {
+@mixin focusRing(
+  $whatinput: null,
+  $color: null,
+  $inset: null,
+  $extendShadow: null
+) {
   outline: none;
 
   @if $whatinput == null {
@@ -66,23 +84,33 @@
   }
 
   @if $whatinput == 'always' {
-    @include fakeBorder($color, var(--focus-ring-width), $inset);
+    @include fakeBorder(
+      $color,
+      var(--focus-ring-width),
+      $inset,
+      $extendShadow: $extendShadow
+    );
   } @else {
     @include whatInput($whatinput) {
-      @include fakeBorder($color, var(--focus-ring-width), $inset);
+      @include fakeBorder(
+        $color,
+        var(--focus-ring-width),
+        $inset,
+        $extendShadow: $extendShadow
+      );
     }
   }
 }
 
-@mixin removeFocusRing($whatinput: null) {
+@mixin removeFocusRing($whatinput: null, $replace: none) {
   outline: initial;
 
   @if $whatinput == null {
-    box-shadow: none;
+    box-shadow: $replace;
   }
 
   html[data-whatinput='#{$whatinput}'] & {
-    box-shadow: none;
+    box-shadow: $replace;
   }
 }
 
@@ -90,7 +118,8 @@
   $color: null,
   $width: null /* 1px */,
   $inset: null,
-  $important: null
+  $important: null,
+  $extendShadow: null
 ) {
   @if $width == null {
     $width: 0.0625rem;
@@ -102,7 +131,10 @@
   // we use !important, cause we have no changes to select the selctor right
   // in some cases we have another state where we use box-shadow
   // but with important, we take care of that we actually can use use it
-  box-shadow: $inset 0 0 0 var(--border-width) var(--border-color)
+  box-shadow: (
+      $inset 0 0 0 var(--border-width) var(--border-color),
+      $extendShadow
+    )
     $important;
 
   @if $color != null {

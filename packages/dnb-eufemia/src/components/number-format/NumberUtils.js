@@ -95,7 +95,11 @@ export const format = (
 
   if (parseFloat(decimals) >= 0) {
     value = formatDecimals(value, decimals, omit_rounding, opts)
-  } else if (typeof opts.maximumFractionDigits === 'undefined') {
+  } else if (
+    typeof opts.maximumFractionDigits === 'undefined' &&
+    !isTrue(percent) &&
+    !isTrue(currency)
+  ) {
     // if no decimals are set, opts.maximumFractionDigits is set
     // why do we this? because the ".toLocaleString" will else use 3 as the default
     opts.maximumFractionDigits = 20
@@ -131,7 +135,9 @@ export const format = (
     aria = _aria
   } else if (isTrue(percent)) {
     if (decimals === null) {
-      decimals = countDecimals(value)
+      if (typeof opts.maximumFractionDigits === 'undefined') {
+        decimals = countDecimals(value)
+      }
       value = formatDecimals(value, decimals, omit_rounding, opts)
     }
 
@@ -312,11 +318,14 @@ export const formatDecimals = (
   if (decimals >= 0) {
     opts.minimumFractionDigits = decimals
     opts.maximumFractionDigits = decimals
+  }
 
-    const pos = String(value).indexOf('.')
-    if (pos > 0 && omit_rounding === true) {
-      value = String(value).substr(0, pos + 1 + decimals)
-    }
+  const pos = String(value).indexOf('.')
+  if (pos > 0 && omit_rounding === true) {
+    value = String(value).substring(
+      0,
+      pos + 1 + (decimals || opts.maximumFractionDigits)
+    )
   }
 
   return value

@@ -423,6 +423,171 @@ describe('NumberFormat component', () => {
     ).not.toBeInTheDocument()
   })
 
+  it('percent should respect options like maximumFractionDigits', () => {
+    const { rerender } = render(
+      <Component percent options={{ maximumFractionDigits: 2 }}>
+        12.3456
+      </Component>
+    )
+
+    expect(
+      document.querySelector('.dnb-number-format__visible').textContent
+    ).toBe('12,35 %')
+
+    rerender(
+      <Component
+        percent
+        omit_rounding
+        options={{ maximumFractionDigits: 2 }}
+      >
+        12.3456
+      </Component>
+    )
+
+    expect(
+      document.querySelector('.dnb-number-format__visible').textContent
+    ).toBe('12,34 %')
+
+    rerender(
+      <Component percent options={{ maximumFractionDigits: 2 }}>
+        12
+      </Component>
+    )
+
+    expect(
+      document.querySelector('.dnb-number-format__visible').textContent
+    ).toBe('12 %')
+
+    rerender(
+      <Component
+        percent
+        options={{ minimumFractionDigits: 1, maximumFractionDigits: 2 }}
+      >
+        12
+      </Component>
+    )
+
+    expect(
+      document.querySelector('.dnb-number-format__visible').textContent
+    ).toBe('12,0 %')
+
+    rerender(<Component percent>12</Component>)
+
+    expect(
+      document.querySelector('.dnb-number-format__visible').textContent
+    ).toBe('12 %')
+
+    expect(
+      document.querySelector('.dnb-number-format__visible').textContent
+    ).toBe('12 %')
+
+    rerender(
+      <Component percent decimals={2}>
+        12
+      </Component>
+    )
+
+    expect(
+      document.querySelector('.dnb-number-format__visible').textContent
+    ).toBe('12,00 %')
+
+    rerender(
+      <Component percent decimals={2}>
+        12.3456
+      </Component>
+    )
+
+    expect(
+      document.querySelector('.dnb-number-format__visible').textContent
+    ).toBe('12,35 %')
+
+    rerender(
+      <Component percent omit_rounding decimals={2}>
+        12.3456
+      </Component>
+    )
+
+    expect(
+      document.querySelector('.dnb-number-format__visible').textContent
+    ).toBe('12,34 %')
+  })
+
+  it('currency should respect options like maximumFractionDigits', () => {
+    const { rerender } = render(
+      <Component currency options={{ maximumFractionDigits: 2 }}>
+        12.3456
+      </Component>
+    )
+
+    expect(
+      document.querySelector('.dnb-number-format__visible').textContent
+    ).toBe('12,35 kr')
+
+    rerender(
+      <Component
+        currency
+        omit_rounding
+        options={{ maximumFractionDigits: 2 }}
+      >
+        12.3456
+      </Component>
+    )
+
+    expect(
+      document.querySelector('.dnb-number-format__visible').textContent
+    ).toBe('12,34 kr')
+
+    rerender(
+      <Component currency options={{ maximumFractionDigits: 2 }}>
+        12
+      </Component>
+    )
+
+    expect(
+      document.querySelector('.dnb-number-format__visible').textContent
+    ).toBe('12,00 kr')
+
+    rerender(<Component currency>12</Component>)
+
+    expect(
+      document.querySelector('.dnb-number-format__visible').textContent
+    ).toBe('12,00 kr')
+
+    expect(
+      document.querySelector('.dnb-number-format__visible').textContent
+    ).toBe('12,00 kr')
+
+    rerender(
+      <Component currency decimals={2}>
+        12
+      </Component>
+    )
+
+    expect(
+      document.querySelector('.dnb-number-format__visible').textContent
+    ).toBe('12,00 kr')
+
+    rerender(
+      <Component currency decimals={2}>
+        12.3456
+      </Component>
+    )
+
+    expect(
+      document.querySelector('.dnb-number-format__visible').textContent
+    ).toBe('12,35 kr')
+
+    rerender(
+      <Component currency omit_rounding decimals={2}>
+        12.3456
+      </Component>
+    )
+
+    expect(
+      document.querySelector('.dnb-number-format__visible').textContent
+    ).toBe('12,34 kr')
+  })
+
   it('should validate with ARIA rules', async () => {
     const Comp = render(
       <Component value={-value} currency srLabel="Total:" />

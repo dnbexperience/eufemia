@@ -176,6 +176,12 @@
 
     margin-left: calc(1px - 1px - var(--input-height));
     line-height: var(--line-height-basis);
+
+    .dnb-button--input-button {
+      width: var(--input-height);
+      height: var(--input-height);
+      line-height: var(--input-height);
+    }
   }
 
   &__submit-button {

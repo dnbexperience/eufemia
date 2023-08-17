@@ -1017,6 +1017,11 @@ button .dnb-form-status__text {
   margin-left: calc(0px - var(--input-height));
   line-height: var(--line-height-basis);
 }
+.dnb-input__submit-element .dnb-button--input-button {
+  width: var(--input-height);
+  height: var(--input-height);
+  line-height: var(--input-height);
+}
 .dnb-input__submit-button {
   position: relative;
   align-self: center; /* IE needs this to stay centered */

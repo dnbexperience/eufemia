@@ -147,6 +147,45 @@ describe.each(['ui', 'sbanken'])('Anchor for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  if (themeName === 'sbanken') {
+    it('have to match the dnb-anchor--inline class', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="anchor-inline"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match the dnb-anchor--inline hover', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="anchor-inline"]',
+        simulateSelector:
+          '[data-visual-test="anchor-inline"] a.dnb-anchor',
+        simulate: 'hover',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match the dnb-anchor--inline active', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="anchor-inline"]',
+        simulateSelector:
+          '[data-visual-test="anchor-inline"] a.dnb-anchor',
+        simulate: 'active',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match the dnb-anchor--inline focus', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="anchor-inline"]',
+        simulateSelector:
+          '[data-visual-test="anchor-inline"] a.dnb-anchor',
+        simulate: 'focus',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+  }
 })
 
 describe.each(['ui', 'sbanken'])(
