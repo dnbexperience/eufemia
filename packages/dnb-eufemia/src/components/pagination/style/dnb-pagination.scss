@@ -17,6 +17,16 @@
     align-items: center;
   }
 
+  &__page,
+  &__loadbar {
+    min-height: 6rem;
+  }
+
+  &__bar {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
   &--left &__bar {
     justify-content: flex-start;
   }
@@ -70,12 +80,14 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    min-height: inherit;
 
     &__inner {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      animation: show-page 300ms ease-out forwards;
     }
   }
 
@@ -110,5 +122,17 @@
 
   &__bar__skip .dnb-button:first-of-type {
     margin-right: 1.5rem;
+  }
+}
+
+@keyframes show-page {
+  from {
+    transform: translate3d(0, -8px, 0);
+    opacity: 0.1;
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
   }
 }

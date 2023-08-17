@@ -6,39 +6,23 @@
 @import '../../../../style/core/utilities.scss';
 
 .dnb-pagination {
-  &__page,
-  &__loadbar {
-    min-height: 6rem;
-  }
-
-  &__bar {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-  }
-
   &__bar__skip {
+    // button tertiary
     .dnb-button--tertiary:not([disabled]) .dnb-button__text {
       color: var(--sb-color-text);
-    }
-  }
-
-  &__indicator {
-    min-height: inherit;
-
-    &__inner {
-      animation: show-page 300ms ease-out forwards;
     }
   }
   // active/checked - like toggle-button
   @at-root .dnb-core-style &__button.dnb-button,
     &__button.dnb-button {
+    // button primary
+    --button-primary-color: var(--sb-color-white);
+    --button-primary-color--active: var(--sb-color-white);
     --button-primary-background: var(--sb-color-violet);
     --button-primary-background--hover: var(--sb-color-violet-light-4);
     --button-primary-background--active: var(--sb-color-violet);
-    --button-primary-color: var(--sb-color-white);
-    --button-primary-color--active: var(--sb-color-white);
     --button-primary-border--hover: var(--sb-color-violet);
-
+    // button secondary
     --button-secondary-background--hover: var(--sb-color-white);
     --button-secondary-border--default: var(--sb-color-gray);
     --button-secondary-border--hover: var(--sb-color-violet);
@@ -47,17 +31,5 @@
 
   &__dots {
     color: var(--sb-color-text);
-  }
-}
-
-@keyframes show-page {
-  from {
-    transform: translate3d(0, -8px, 0);
-    opacity: 0.1;
-  }
-
-  to {
-    transform: translate3d(0, 0, 0);
-    opacity: 1;
   }
 }

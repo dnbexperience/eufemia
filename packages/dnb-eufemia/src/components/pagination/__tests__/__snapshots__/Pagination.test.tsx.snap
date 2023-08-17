@@ -787,6 +787,13 @@ html[data-visual-test] .dnb-progress-indicator__bar-transition {
   flex-wrap: wrap;
   align-items: center;
 }
+.dnb-pagination__page, .dnb-pagination__loadbar {
+  min-height: 6rem;
+}
+.dnb-pagination__bar {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
 .dnb-pagination--left .dnb-pagination__bar {
   justify-content: flex-start;
 }
@@ -831,12 +838,14 @@ html[data-visual-test] .dnb-progress-indicator__bar-transition {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  min-height: inherit;
 }
 .dnb-pagination__indicator__inner {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  animation: show-page 300ms ease-out forwards;
 }
 .dnb-pagination__dots {
   align-self: flex-end;
@@ -860,41 +869,6 @@ html[data-visual-test] .dnb-progress-indicator__bar-transition {
 }
 .dnb-pagination__bar__skip .dnb-button:first-of-type {
   margin-right: 1.5rem;
-}"
-`;
-
-exports[`Pagination scss have to match default theme snapshot 1`] = `
-"/*
-* Pagination theme
-*
-*/
-/*
- * Utilities
- */
-.dnb-pagination__page, .dnb-pagination__loadbar {
-  min-height: 6rem;
-}
-.dnb-pagination__bar {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-}
-.dnb-pagination__indicator {
-  min-height: inherit;
-}
-.dnb-pagination__indicator__inner {
-  animation: show-page 300ms ease-out forwards;
-}
-.dnb-core-style .dnb-pagination__button.dnb-button--primary, .dnb-core-style .dnb-pagination__button.dnb-button--primary:not(:active):hover:not([disabled]), .dnb-pagination__button.dnb-button--primary, .dnb-pagination__button.dnb-button--primary:not(:active):hover:not([disabled]) {
-  background-color: var(--color-emerald-green);
-  color: var(--color-mint-green);
-}
-html[data-whatinput=keyboard] .dnb-core-style .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus {
-  color: var(--color-emerald-green);
-  background-color: var(--color-mint-green);
-}
-
-.dnb-pagination__dots {
-  color: var(--color-black-55);
 }
 
 @keyframes show-page {
@@ -906,5 +880,27 @@ html[data-whatinput=keyboard] .dnb-core-style .dnb-pagination__button.dnb-button
     transform: translate3d(0, 0, 0);
     opacity: 1;
   }
+}"
+`;
+
+exports[`Pagination scss have to match default theme snapshot 1`] = `
+"/*
+* Pagination theme
+*
+*/
+/*
+ * Utilities
+ */
+.dnb-core-style .dnb-pagination__button.dnb-button--primary, .dnb-core-style .dnb-pagination__button.dnb-button--primary:not(:active):hover:not([disabled]), .dnb-pagination__button.dnb-button--primary, .dnb-pagination__button.dnb-button--primary:not(:active):hover:not([disabled]) {
+  background-color: var(--color-emerald-green);
+  color: var(--color-mint-green);
+}
+html[data-whatinput=keyboard] .dnb-core-style .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus, html[data-whatinput=keyboard] .dnb-pagination__button.dnb-button--primary:not([disabled]):not(:active):not(:hover):focus {
+  color: var(--color-emerald-green);
+  background-color: var(--color-mint-green);
+}
+
+.dnb-pagination__dots {
+  color: var(--color-black-55);
 }"
 `;
