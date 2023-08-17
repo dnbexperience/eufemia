@@ -7,6 +7,7 @@ import path from 'path'
 import { nodeResolve } from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import { babel } from '@rollup/plugin-babel'
+import json from '@rollup/plugin-json'
 import replace from '@rollup/plugin-replace'
 import nodeGlobals from 'rollup-plugin-node-globals'
 import { terser } from 'rollup-plugin-terser'
@@ -221,6 +222,7 @@ function makeRollupConfig(
       nodeResolve({
         extensions,
       }),
+      json(),
       babel(babelOptions),
       commonjs(commonjsOptions),
       nodeGlobals(),
