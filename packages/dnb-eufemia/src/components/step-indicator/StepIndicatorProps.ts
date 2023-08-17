@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import { spacingPropTypes } from '../space/SpacingHelper'
+import { StepIndicatorProps } from '../StepIndicator'
 
 export const stepIndicatorPropTypes = {
   mode: PropTypes.oneOf(['static', 'strict', 'loose']),
@@ -41,7 +42,7 @@ export const stepIndicatorPropTypes = {
   on_click: PropTypes.func,
 }
 
-export const stepIndicatorDefaultProps = {
+export const stepIndicatorDefaultProps: StepIndicatorProps = {
   data: [],
   skeleton: false,
   current_step: 0,
