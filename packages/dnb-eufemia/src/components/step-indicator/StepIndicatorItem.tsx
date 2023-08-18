@@ -23,6 +23,7 @@ import Icon, { IconIcon } from '../icon/Icon'
 import { WarnIcon, InfoIcon, ErrorIcon } from '../form-status/FormStatus'
 import StepIndicatorContext from './StepIndicatorContext'
 import { StepIndicatorMode } from './StepIndicator'
+import { stepIndicatorDefaultProps } from './StepIndicatorProps'
 
 export type StepIndicatorStatusState = 'warn' | 'info' | 'error'
 export type StepIndicatorItemProps = React.HTMLProps<HTMLElement> & {
@@ -298,32 +299,23 @@ export function StepItemButton({
   inner_ref,
   ...props
 }: StepItemButtonProps) {
-  let iconElement: IconIcon
+  const icons: Record<StepIndicatorStatusState, IconIcon> = {
+    info: InfoIcon,
+    error: ErrorIcon,
+    warn: WarnIcon,
+  }
 
   if (status) {
-    let icon = null
-    switch (status_state) {
-      case 'info':
-        icon = InfoIcon
-        break
-      case 'error':
-        icon = ErrorIcon
-        break
-      case 'warn':
-      default:
-        icon = WarnIcon
-        break
-    }
-
-    iconElement = (
+    props.icon = (
       <Icon
-        icon={icon}
+        icon={icons[status_state] || icons.warn}
         className="dnb-button__icon"
         size="medium"
         inherit_color={false}
       />
     )
   }
+
   return (
     <Button
       className={classnames(
@@ -337,7 +329,6 @@ export function StepItemButton({
       icon_size="medium"
       icon_position="right"
       inner_ref={inner_ref}
-      icon={iconElement}
       {...props}
     >
       {children}
@@ -358,7 +349,7 @@ export type StepItemWrapperProps = {
 export function StepItemWrapper({
   children,
   number,
-  hide_numbers = false,
+  hide_numbers = stepIndicatorDefaultProps.hide_numbers,
   status,
 }: StepItemWrapperProps) {
   return (
