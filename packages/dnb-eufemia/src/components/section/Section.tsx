@@ -14,6 +14,12 @@ import {
 import { createSpacingClasses } from '../space/SpacingHelper'
 import type { DynamicElement, SpacingProps } from '../../shared/types'
 
+export type SectionVariants =
+  | 'error'
+  | 'info'
+  | 'warning'
+  | 'success'
+
 export type SectionStyleTypes =
   | 'divider'
   | 'white'
@@ -39,6 +45,11 @@ export type SectionSpacing =
   | 'xx-large'
 
 export type SectionProps = {
+  /**
+   * Defines the semantic purpose and subsequently the style of the visual helper. Will take precedence over the style_type prop
+   */
+  variant?: SectionVariants | string
+
   /**
    * To define the style of the visual helper. Use and `Style ID` from below. Defaults to `mint-green-12`.
    */
@@ -79,6 +90,7 @@ export default function Section(localProps: SectionAllProps) {
 
   const {
     element,
+    variant,
     style_type,
     spacing,
     inner_ref,
@@ -92,7 +104,7 @@ export default function Section(localProps: SectionAllProps) {
   const params = {
     className: classnames(
       'dnb-section',
-      `dnb-section--${style_type || 'mint-green-12'}`,
+      `dnb-section--${variant ?? (style_type  || 'default')}`,
       spacing &&
         `dnb-section--spacing-${isTrue(spacing) ? 'large' : spacing}`,
       createSpacingClasses(props),
