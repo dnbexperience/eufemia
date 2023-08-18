@@ -32,7 +32,7 @@ import GlobalStatusController, {
 } from './GlobalStatusController'
 import GlobalStatusProvider from './GlobalStatusProvider'
 import Icon from '../icon/Icon'
-import { InfoIcon, ErrorIcon } from '../form-status/FormStatus'
+import { InfoIcon, ErrorIcon, WarnIcon } from '../form-status/FormStatus'
 import Section from '../section/Section'
 import Button from '../button/Button'
 
@@ -60,7 +60,7 @@ export default class GlobalStatus extends React.PureComponent {
       PropTypes.node,
     ]),
     icon_size: PropTypes.string,
-    state: PropTypes.oneOf(['error', 'info']),
+    state: PropTypes.oneOf(['error', 'info', 'warning', 'success']),
     show: PropTypes.oneOf(['auto', true, false, 'true', 'false']),
     autoscroll: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     autoclose: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
@@ -144,7 +144,12 @@ export default class GlobalStatus extends React.PureComponent {
       switch (state) {
         case 'info':
         case 'information':
+        case 'success':
           IconToLoad = InfoIcon
+          break
+        case 'warning':
+        case 'warn':
+          IconToLoad = WarnIcon
           break
         case 'error':
         default:
@@ -700,7 +705,6 @@ export default class GlobalStatus extends React.PureComponent {
     const noAnimation = isTrue(no_animation)
     const itemsToRender = props.items || []
     const contentToRender = GlobalStatus.getContent(props)
-    const style = state === 'info' ? 'pistachio' : 'fire-red-8'
 
     /**
      * Show aria-live="assertive" when:
@@ -746,7 +750,7 @@ export default class GlobalStatus extends React.PureComponent {
     const renderedContent = (
       <div className="dnb-global-status__content">
         {title !== false && (
-          <Section element="div" style_type={style}>
+          <Section element="div" variant={state}>
             <p className="dnb-p dnb-global-status__title" lang={lang}>
               <span className="dnb-global-status__icon">
                 {iconToRender}
@@ -768,7 +772,7 @@ export default class GlobalStatus extends React.PureComponent {
             {hasContent && (
               <Section
                 element="div"
-                style_type={style}
+                variant={state}
                 className="dnb-global-status__message"
               >
                 <div className="dnb-global-status__message__content">

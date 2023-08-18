@@ -18,10 +18,6 @@
   }
 
   &__message {
-    &__content {
-      color: var(--color-black-80);
-    }
-
     &.dnb-section--white ::selection {
       background-color: var(--color-mint-green);
     }
@@ -33,5 +29,13 @@
 
   &--info &__content .dnb-hr {
     color: var(--color-sea-green);
+  }
+
+  &--warning &__content .dnb-hr {
+    color: var(--color-accent-yellow);
+  }
+
+  &--success &__content .dnb-hr {
+    color: var(--color-ocean-green);
   }
 }

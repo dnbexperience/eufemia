@@ -9,7 +9,7 @@ export type GlobalStatusText =
   | ((...args: any[]) => any)
   | React.ReactNode;
 export type GlobalStatusItem = string | ((...args: any[]) => any) | any;
-export type GlobalStatusState = 'error' | 'info';
+export type GlobalStatusState = 'error' | 'info' | 'warning' | 'success';
 export type GlobalStatusShow = 'auto' | any | any | 'true' | 'false';
 export type GlobalStatusDelay = string | number;
 export type GlobalStatusConfigObject = {

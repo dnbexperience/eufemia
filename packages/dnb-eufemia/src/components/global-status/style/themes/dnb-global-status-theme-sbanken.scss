@@ -1,0 +1,28 @@
+/*
+* GlobalStatus theme
+*
+*/
+
+@import '../../../../style/core/utilities.scss';
+
+.dnb-global-status {
+  &__close-button {
+    display: none;
+  }
+
+  &--error &__content .dnb-hr {
+    color: var(--sb-color-red);
+  }
+
+  &--info &__content .dnb-hr {
+    color: var(--sb-color-gray-dark-2);
+  }
+
+  &--warning &__content .dnb-hr {
+    color: var(--sb-color-yellow-dark);
+  }
+
+  &--success &__content .dnb-hr {
+    color: var(--sb-color-green-dark-3);
+  }
+}
