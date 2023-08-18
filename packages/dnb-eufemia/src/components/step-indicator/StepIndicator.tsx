@@ -14,6 +14,7 @@ import { StepIndicatorProvider } from './StepIndicatorContext'
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
 import type { StepIndicatorItemProps } from './StepIndicatorItem'
+import { stepIndicatorDefaultProps } from './StepIndicatorProps'
 
 export type StepIndicatorMode = 'static' | 'strict' | 'loose'
 export type StepIndicatorData =
@@ -83,11 +84,11 @@ export type StepIndicatorProps = Omit<
   }
 
 function StepIndicator({
-  data = [],
-  skeleton = false,
-  current_step = 0,
-  hide_numbers = false,
-  no_animation = false,
+  data = stepIndicatorDefaultProps.data,
+  skeleton = stepIndicatorDefaultProps.skeleton,
+  current_step = stepIndicatorDefaultProps.current_step,
+  hide_numbers = stepIndicatorDefaultProps.hide_numbers,
+  no_animation = stepIndicatorDefaultProps.no_animation,
   ...restOfProps
 }: StepIndicatorProps) {
   const props = {

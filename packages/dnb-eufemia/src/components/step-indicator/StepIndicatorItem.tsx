@@ -58,15 +58,15 @@ export type StepIndicatorItemProps = React.HTMLProps<HTMLElement> & {
 }
 
 function StepIndicatorItem({
-  step_title: step_title_prop = '%step',
-  hide_numbers: hide_numbers_prop = false,
-  status_state: status_state_prop = 'warn',
+  step_title: step_title_default = '%step',
+  hide_numbers: hide_numbers_default = false,
+  status_state: status_state_default = 'warn',
   ...restOfProps
 }: StepIndicatorItemProps) {
   const props = {
-    step_title: step_title_prop,
-    hide_numbers: hide_numbers_prop,
-    status_state: status_state_prop,
+    step_title: step_title_default,
+    hide_numbers: hide_numbers_default,
+    status_state: status_state_default,
     ...restOfProps,
   }
 
