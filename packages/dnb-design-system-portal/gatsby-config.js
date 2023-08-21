@@ -166,18 +166,18 @@ if (
   !global.pagesPath.includes('_dummy')
 ) {
   const queries = require('./src/uilib/search/searchQuery')
-  if (queries) {
-    plugins.push({
-      resolve: 'gatsby-plugin-algolia',
-      options: {
-        appId: process.env.ALGOLIA_APP_ID,
-        apiKey: process.env.ALGOLIA_API_KEY,
-        indexName: process.env.ALGOLIA_INDEX_NAME, // for all queries
-        queries,
-        chunkSize: 10000, // default: 1000
-      },
-    })
-  }
+  // if (queries) {
+  //   plugins.push({
+  //     resolve: 'gatsby-plugin-algolia',
+  //     options: {
+  //       appId: process.env.ALGOLIA_APP_ID,
+  //       apiKey: process.env.ALGOLIA_API_KEY,
+  //       indexName: process.env.ALGOLIA_INDEX_NAME, // for all queries
+  //       queries,
+  //       chunkSize: 10000, // default: 1000
+  //     },
+  //   })
+  // }
 }
 
 module.exports = {
