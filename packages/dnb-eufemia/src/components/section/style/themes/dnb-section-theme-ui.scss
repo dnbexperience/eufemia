@@ -127,7 +127,8 @@
   // Contrast styles
   &--fire-red .dnb-anchor,
   &--emerald-green .dnb-anchor,
-  &--sea-green .dnb-anchor {
+  &--sea-green .dnb-anchor,
+  &--success .dnb-anchor {
     @include useAnchorContrastStyle();
   }
 
