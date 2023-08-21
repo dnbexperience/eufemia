@@ -8,8 +8,9 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Accordion', () => {
+describe.each(['ui', 'sbanken'])('Accordion for %s', (themeName) => {
   setupPageScreenshot({
+    themeName,
     url: '/uilib/components/accordion/demos',
     each: true,
   })
@@ -128,20 +129,24 @@ describe('Accordion', () => {
   })
 })
 
-describe('Accordion container', () => {
-  setupPageScreenshot({
-    url: '/uilib/components/accordion/demos',
-    pageViewport: {
-      width: 400,
-      height: 600,
-    },
-  })
-
-  it('have to match in mobile mode', async () => {
-    const screenshot = await makeScreenshot({
-      style: { width: '22rem', 'min-height': '15rem' },
-      selector: '[data-visual-test="accordion-container"]',
+describe.each(['ui', 'sbanken'])(
+  'Accordion container for %s',
+  (themeName) => {
+    setupPageScreenshot({
+      themeName,
+      url: '/uilib/components/accordion/demos',
+      pageViewport: {
+        width: 400,
+        height: 600,
+      },
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-})
+
+    it('have to match in mobile mode', async () => {
+      const screenshot = await makeScreenshot({
+        style: { width: '22rem', 'min-height': '15rem' },
+        selector: '[data-visual-test="accordion-container"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+  }
+)
