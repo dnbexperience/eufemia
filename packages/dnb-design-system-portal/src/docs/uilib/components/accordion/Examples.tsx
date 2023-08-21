@@ -282,3 +282,27 @@ export const AccordionNestedExample = () => {
     </ComponentBox>
   )
 }
+
+export const AccordionDisabledExample = () => (
+  <ComponentBox data-visual-test="accordion-disabled">
+    <Accordion
+      expanded
+      disabled
+      remember_state
+      title="Disabled (expanded)"
+    >
+      <P>I am expanded, but disabled, so I can't be closed</P>
+    </Accordion>
+    <Accordion.Provider
+      top
+      disabled
+      remember_state
+      icon="chevron_down"
+      icon_position="right"
+    >
+      <Accordion title="Disabled (closed)">
+        <P>You can't see this text because I am disabled and closed.</P>
+      </Accordion>
+    </Accordion.Provider>
+  </ComponentBox>
+)

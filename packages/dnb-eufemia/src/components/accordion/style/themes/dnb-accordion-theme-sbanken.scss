@@ -7,101 +7,80 @@
 @import '../../../button/style/themes/button-mixins.scss';
 
 .dnb-accordion {
+  --accordion-border-width: 0;
+  --accordion-border-radius: 0;
+  --accordion-expanded-border-width: 0.1875rem;
+
+  color: var(--sb-color-text);
+
+  &__header,
+  &__content {
+    border-left: 0.1875rem solid transparent;
+  }
+
   &__header {
-    border: none;
-  }
+    @include focus-visible() {
+      @include focusRing('always');
+      z-index: 1;
+      border-radius: 0.125rem;
+      background-color: var(--sb-color-blue-light-3);
+      color: var(--border-color);
 
-  &__header__icon,
-  &__header__container {
-    color: var(--color-sea-green);
-  }
-
-  &__header__description {
-    color: var(--color-black-55);
-  }
-
-  &--expanded > &__header &__header__title {
-    font-weight: var(--font-weight-medium);
-  }
-
-  // &__variant--default {
-  // }
-
-  // Variant: outlined
-  &__variant--outlined > &__header {
-    color: var(--color-black-80);
-    background-color: var(--color-white);
-
-    @include fakeBorder(var(--color-black-8), 0.0625rem, inset);
-    @include buttonFocus(var(--color-emerald-green), var(--color-white));
-    @include buttonHover(var(--color-emerald-green), var(--color-white));
+      .dnb-accordion__header__icon {
+        color: var(--border-color);
+      }
+    }
+    @include hover() {
+      background-color: var(--sb-color-violet-light-2);
+    }
 
     @include active() {
-      color: var(--color-emerald-green);
-      background-color: var(--color-pistachio);
+      background-color: var(--sb-color-white);
+      @include fakeBorder(var(--sb-color-violet), null, inset);
+      border-left-width: 0;
+      padding-left: var(--accordion-expanded-border-width);
+    }
 
-      @include fakeBorder(var(--color-emerald-green), 0.0625rem);
+    &__icon {
+      color: var(--sb-color-violet);
+      margin: 1rem 0.5rem 1rem
+        calc(1.5rem - var(--accordion-expanded-border-width));
+    }
+
+    &__wrapper {
+      margin: 1rem 1.5rem;
+    }
+
+    &[disabled] {
+      background-color: var(--color-white);
+
+      @include fakeBorder(var(--color-sea-green-30), 0.0625rem);
+
+      * {
+        color: var(--color-sea-green-30);
+      }
     }
   }
 
-  &__variant--outlined > &__header[disabled] {
-    background-color: var(--color-white);
-
-    @include fakeBorder(var(--color-sea-green-30), 0.0625rem);
-
-    * {
-      color: var(--color-sea-green-30);
-    }
-  }
-  &__variant--outlined#{&}--expanded > &__header {
-    color: var(--color-white);
-    background-color: var(--color-sea-green);
-
-    @include fakeBorder(transparent);
-  }
-  &__variant--outlined#{&}--expanded > &__header[disabled] {
-    background-color: var(--color-sea-green-30);
-
-    * {
-      color: var(--color-white);
-    }
+  &__content__inner {
+    margin-top: 0;
+    padding-left: calc(3.5rem - var(--accordion-expanded-border-width));
+    padding-bottom: 1rem;
   }
 
-  // Additional focus handling
-  html[data-whatinput='keyboard']
-    &__variant--outlined#{&}--expanded
-    > &__header:not([disabled]):not(:active):not(:hover):focus {
-    background-color: var(--color-mint-green);
-
-    * {
-      color: var(--color-emerald-green);
-    }
-  }
-  &__variant--outlined#{&}--expanded
-    > &__header:not([disabled]):not(:active):not(:hover):focus {
-    @include focusRing(null, var(--color-emerald-green), inset);
-  }
-
-  &__variant--outlined#{&}--expanded
-    > &__header:not(:hover):not([disabled]) {
-    * {
-      color: var(--color-white);
-    }
-  }
-
-  // we have this hover variant, because of the default html focus/hover handling
-  &__variant--outlined#{&}--expanded > &__header#{&}--hover:not(:active) {
-    @include hover() {
-      color: var(--color-white);
-      background-color: var(--color-sea-green);
-
-      // NB: We may remove the border in future, but for now it gives the user a good indicator on mouse out
-      // @include fakeBorder(transparent);
-      @include fakeBorder(var(--color-sea-green));
+  &--expanded {
+    > .dnb-accordion__header,
+    > .dnb-accordion__content {
+      background-color: var(--sb-color-violet-light-4);
+      border-left-color: var(--sb-color-violet);
     }
 
-    * {
-      color: var(--color-white);
+    > .dnb-accordion__header[disabled] {
+      background-color: var(--color-sea-green-30);
+
+      * {
+        color: var(--color-white);
+      }
     }
   }
 }

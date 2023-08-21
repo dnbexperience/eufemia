@@ -127,6 +127,14 @@ describe.each(['ui', 'sbanken'])('Accordion for %s', (themeName) => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match disabled state', async () => {
+    const screenshot = await makeScreenshot({
+      style: { width: '20rem', height: '15rem' },
+      selector: '[data-visual-test="accordion-disabled"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
 
 describe.each(['ui', 'sbanken'])(

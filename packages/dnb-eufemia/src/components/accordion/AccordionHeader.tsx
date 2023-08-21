@@ -10,6 +10,7 @@ import {
   validateDOMAttributes,
   extendPropsWithContext,
 } from '../../shared/component-helper'
+import { useTheme } from '../../shared'
 import IconPrimary from '../icon-primary/IconPrimary'
 import classnames from 'classnames'
 import AccordionContext from './AccordionContext'
@@ -104,8 +105,18 @@ function AccordionHeaderIcon({
   expanded,
   size = 'medium',
 }: AccordionHeaderIconProps) {
+  const theme = useTheme()
+  let animateIcon = true;  
+  if(!icon && theme && theme.name === 'sbanken' ) {
+    animateIcon = false;
+    icon = {
+      expanded:'subtract-medium',
+      closed: 'add-medium'
+    }
+  }
+
   return (
-    <span className="dnb-accordion__header__icon">
+    <span className={`dnb-accordion__header__icon ${!animateIcon && 'dnb-accordion__header__icon--no-animation'}`}>
       <IconPrimary
         size={size}
         // There has to be a better way than to do so much casting

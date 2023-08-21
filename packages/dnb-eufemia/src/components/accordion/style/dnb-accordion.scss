@@ -113,7 +113,9 @@
     }
   }
 
-  &--expanded > &__header &__header__icon {
+  &--expanded
+    > &__header
+    &__header__icon:not(#{&}__header__icon--no-animation) {
     transform: rotate(-180deg);
   }
 
@@ -170,7 +172,10 @@
     //   }
     // }
   }
-  &-group--single-container & > &__header &__header__icon {
+  &-group--single-container
+    &
+    > &__header
+    &__header__icon:not(#{&}__header__icon--no-animation) {
     @include allAbove(small) {
       transform: rotate(-90deg);
     }
