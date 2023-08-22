@@ -61,6 +61,9 @@ export default function SidebarLayout({
               status
               icon
               showTabs
+              tabs {
+                key
+              }
               theme
             }
           }
@@ -336,6 +339,11 @@ function ListItem({
   )
 }
 
+type NavItemTabs = {
+  title: string
+  key: string
+}
+
 type NavItem = {
   id: string
   parentId?: string
@@ -351,6 +359,7 @@ type NavItem = {
   status?: string
   title?: string
   showTabs?: boolean
+  tabs?: NavItemTabs[]
   subheadings?: NavItem[]
 }
 
@@ -543,13 +552,13 @@ function groupNavItems(navItems: NavItem[], location: Location) {
 
 function getActiveStatusForItem(
   currentPath: string,
-  { path: itemPath, showTabs }: NavItem
+  { path: itemPath, showTabs, tabs }: NavItem
 ) {
   const portalSlug = itemPath.split('/').filter(Boolean)[0] ?? ''
   const categorySlug = itemPath.split('/').filter(Boolean)[1] ?? ''
   const startOfCurrentPath = `${portalSlug}/${categorySlug}`
 
-  const isActive = checkIfActiveItem(currentPath, itemPath, showTabs)
+  const isActive = checkIfActiveItem(currentPath, itemPath, showTabs, tabs)
 
   const isInsideActivePath = !isActive && currentPath.startsWith(itemPath)
 
@@ -562,7 +571,8 @@ function getActiveStatusForItem(
 function checkIfActiveItem(
   currentPath: string,
   itemPath: string,
-  showTabs?: boolean
+  showTabs?: boolean,
+  tabs?: NavItemTabs[]
 ) {
   if (!showTabs) {
     return itemPath === currentPath
@@ -580,5 +590,16 @@ function checkIfActiveItem(
   const lastSlug = slugs[slugs.length - 1]
   const currentPathWithoutTabSlug = currentPath.replace(`/${lastSlug}`, '')
 
-  return itemPath === currentPathWithoutTabSlug
+  if (itemPath === currentPathWithoutTabSlug) {
+    // In addition, because we show the info.mdx without /info
+    // we don't want the "parent" to be marked as active as well.
+    // So we get tabs and check for that state as well
+    const found = tabs?.find(({ key }) => {
+      return '/' + lastSlug === key
+    })
+
+    return found
+  }
+
+  return false
 }
