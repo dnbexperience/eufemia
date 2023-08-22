@@ -189,7 +189,7 @@ export const StepIndicatorTextOnly = () => (
     <StepIndicator
       sidebar_id="unique-id-text"
       mode="static"
-      current_step="1"
+      current_step={1}
       data={[
         'Om din nye bolig',
         'Ditt lån og egenkapital',
