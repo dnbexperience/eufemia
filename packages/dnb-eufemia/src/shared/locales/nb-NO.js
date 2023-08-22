@@ -115,6 +115,7 @@ export default {
       text_card_number: 'Kortnummer',
       text_expired: 'Utgått',
       text_blocked: 'Sperret',
+      text_not_active: 'Ikke aktivert',
     },
     Logo: {
       alt: 'DNB Logo',
