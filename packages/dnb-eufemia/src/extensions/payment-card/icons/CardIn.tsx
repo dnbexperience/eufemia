@@ -1,5 +1,5 @@
 import React from 'react'
-const CardInMedium = (props) => (
+const CardIn = (props) => (
   <svg
     width="24"
     height="24"
@@ -18,4 +18,4 @@ const CardInMedium = (props) => (
     />
   </svg>
 )
-export default CardInMedium
+export default CardIn
