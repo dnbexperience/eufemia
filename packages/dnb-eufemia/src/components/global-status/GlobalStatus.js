@@ -137,7 +137,7 @@ export default class GlobalStatus extends React.PureComponent {
     return processChildren(props)
   }
 
-  static getIcon({ state, icon, icon_size }) {
+  static getIcon({ state, icon, icon_size, theme }) {
     if (typeof icon === 'string') {
       let IconToLoad = icon
 
@@ -158,7 +158,7 @@ export default class GlobalStatus extends React.PureComponent {
 
       icon = (
         <Icon
-          icon={<IconToLoad />}
+          icon={<IconToLoad state={state} theme={theme} />}
           size={icon_size}
           inherit_color={false}
         />
@@ -699,6 +699,7 @@ export default class GlobalStatus extends React.PureComponent {
       state,
       icon: icon || fallbackProps.icon,
       icon_size: icon_size || fallbackProps.icon_size,
+      theme: this.context?.theme?.name || 'ui'
     })
     const titleToRender =
       title || fallbackProps.title || fallbackProps.default_title

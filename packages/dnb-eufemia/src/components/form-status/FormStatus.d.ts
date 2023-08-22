@@ -14,6 +14,7 @@ export type FormStatusState =
   | 'error'
   | 'warn'
   | 'info'
+  | 'success'
   | 'marketing';
 export type FormStatusVariant = 'flat' | 'outlined';
 export type FormStatusSize = 'default' | 'large';
