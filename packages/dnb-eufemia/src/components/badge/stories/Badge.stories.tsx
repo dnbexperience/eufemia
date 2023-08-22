@@ -109,15 +109,17 @@ export const BadgeSandbox = () => (
 )
 
 const Template = (props) => {
-  return <Badge {...props} />
+  return <Badge label="meaningless label" {...props} />
 }
 
 const TemplateAvatar = (props) => {
   return (
-    <Badge {...props}>
-      <Avatar variant="secondary" size="large">
-        A
-      </Avatar>
+    <Badge label="meaningless label" {...props}>
+      <Avatar.Group label="meaningless label">
+        <Avatar variant="secondary" size="large">
+          A
+        </Avatar>
+      </Avatar.Group>
     </Badge>
   )
 }
@@ -125,9 +127,10 @@ const TemplateAvatar = (props) => {
 const TemplateText = (props) => {
   return (
     <>
-      This is a text with multiple <Badge {...props} /> badges, to display
-      that <Badge {...props} /> it looks nice <Badge {...props} /> inline
-      :)
+      This is a text with multiple{' '}
+      <Badge label="meaningless label" {...props} /> badges, to display
+      that <Badge label="meaningless label" {...props} /> it looks nice{' '}
+      <Badge label="meaningless label" {...props} /> inline :)
     </>
   )
 }
