@@ -93,14 +93,6 @@ describe.each(['ui', 'sbanken'])('Accordion for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match in desktop mode', async () => {
-    const screenshot = await makeScreenshot({
-      style: { width: '40rem', 'min-height': '15rem' },
-      selector: '[data-visual-test="accordion-container"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
   it('have to match in first state', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '30rem', height: '20rem' },
@@ -136,25 +128,3 @@ describe.each(['ui', 'sbanken'])('Accordion for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 })
-
-describe.each(['ui', 'sbanken'])(
-  'Accordion container for %s',
-  (themeName) => {
-    setupPageScreenshot({
-      themeName,
-      url: '/uilib/components/accordion/demos',
-      pageViewport: {
-        width: 400,
-        height: 600,
-      },
-    })
-
-    it('have to match in mobile mode', async () => {
-      const screenshot = await makeScreenshot({
-        style: { width: '22rem', 'min-height': '15rem' },
-        selector: '[data-visual-test="accordion-container"]',
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
-  }
-)

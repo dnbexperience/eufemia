@@ -9,7 +9,7 @@ import {
   add_medium as AddIcon,
   subtract_medium as SubtractIcon,
 } from '@dnb/eufemia/src/icons'
-import { Accordion, P, IconPrimary, ToggleButton } from '@dnb/eufemia/src'
+import { Accordion, P, IconPrimary } from '@dnb/eufemia/src'
 
 export const AccordionDefaultExample = () => (
   <ComponentBox data-visual-test="accordion-default">
@@ -85,118 +85,6 @@ export const AccordionCustomisationExample = () => (
     </Accordion>
   </ComponentBox>
 )
-
-export const AccordionContainerExample = () => (
-  <ComponentBox
-    hideCode
-    data-visual-test="accordion-container"
-    scope={{ ChangingContent }}
-  >
-    {() => {
-      function AccordionWithContainer() {
-        const ref1 = React.useRef(null)
-        const ref2 = React.useRef(null)
-        const [changeHeight] = React.useState(() => ({ ref1, ref2 }))
-        return (
-          <Accordion.Group
-            prevent_rerender
-            single_container
-            remember_state
-            id="remembered-state"
-          >
-            <Accordion
-              bottom
-              id="remembered-state-1"
-              title="Title1"
-              description="Description1"
-              expanded={true}
-            >
-              <Accordion.Header title="Title2" description="Description2">
-                {/* Title 3 string */}
-                <Accordion.Header.Title key="title">
-                  Title 3
-                </Accordion.Header.Title>
-                <Accordion.Header.Description>
-                  Description 3
-                </Accordion.Header.Description>
-                {/* <Accordion.Header.Icon key="icon" /> */}
-              </Accordion.Header>
-              <Accordion.Content
-                left="xx-large"
-                top="medium"
-                instance={changeHeight.ref1}
-              >
-                <ChangingContent changeHeight={changeHeight.ref1}>
-                  <div
-                    style={{
-                      height: '10rem',
-                      background: 'var(--color-sea-green-30)',
-                    }}
-                  >
-                    <P top bottom="xx-large">
-                      Simulation of content height
-                    </P>
-                  </div>
-                </ChangingContent>
-              </Accordion.Content>
-            </Accordion>
-            <Accordion icon_position="right" id="remembered-state-2">
-              <Accordion.Header>
-                <Accordion.Header.Container>
-                  <IconPrimary icon="bell" />
-                </Accordion.Header.Container>
-                <Accordion.Header.Title>
-                  Accordion title
-                </Accordion.Header.Title>
-              </Accordion.Header>
-              <Accordion.Content
-                left="xx-large"
-                top="medium"
-                instance={changeHeight.ref2}
-              >
-                <ChangingContent changeHeight={changeHeight.ref2}>
-                  <div
-                    style={{
-                      height: '20rem',
-                      background: 'var(--color-sand-yellow)',
-                    }}
-                  >
-                    <P top bottom="xx-large">
-                      Simulation of content height
-                    </P>
-                  </div>
-                </ChangingContent>
-              </Accordion.Content>
-            </Accordion>
-          </Accordion.Group>
-        )
-      }
-
-      return <AccordionWithContainer />
-    }}
-  </ComponentBox>
-)
-
-function ChangingContent({ changeHeight, children }) {
-  const [contentSize, changeContentSize] = React.useState(false)
-  React.useEffect(() => {
-    changeHeight.current.setContainerHeight()
-  }, [changeHeight, contentSize])
-  return (
-    <>
-      <ToggleButton
-        checked={contentSize}
-        on_change={() => {
-          changeContentSize((s) => !s)
-        }}
-        bottom
-      >
-        Toggle content size
-      </ToggleButton>
-      {contentSize ? children : null}
-    </>
-  )
-}
 
 export const AccordionGroupExample = () => (
   <ComponentBox data-visual-test="accordion-group">
