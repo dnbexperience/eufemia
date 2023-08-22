@@ -12,6 +12,7 @@ import {
 } from '../../shared/component-helper'
 import { onMediaQueryChange } from '../../shared/MediaQueryUtils'
 import { StepIndicatorData, StepIndicatorProps } from './StepIndicator'
+import { StepIndicatorItemProps } from './StepIndicatorItem'
 
 // We use this array to filter out unwanted
 const filterAttributes = Object.keys(stepIndicatorDefaultProps)
@@ -41,7 +42,15 @@ const filterAttributes = Object.keys(stepIndicatorDefaultProps)
     'onChangeState',
   ])
 
-const StepIndicatorContext = React.createContext(null)
+type StepIndicatorContextValues = Omit<
+  StepIndicatorProviderProps,
+  'data'
+> &
+  StepIndicatorProviderStates &
+  ContextProps
+
+const StepIndicatorContext =
+  React.createContext<StepIndicatorContextValues>(null)
 
 export default StepIndicatorContext
 
@@ -52,6 +61,24 @@ export type StepIndicatorProviderProps = StepIndicatorProps & {
   sidebar_id: string
   children: React.ReactNode
   isSidebar?: boolean
+}
+
+export type StepIndicatorProviderStates = {
+  data: (string | StepIndicatorItemProps)[]
+  hasSidebar: boolean
+  hideSidebar: boolean
+  activeStep: number
+  openState: boolean
+  listOfReachedSteps: number[]
+  countSteps: number
+  stepsLabel: string
+  stepsLabelExtended: string
+  filterAttributes: string[]
+  setActiveStep: React.Dispatch<React.SetStateAction<number>>
+  sidebarIsVisible: boolean
+  onChangeState: () => void
+  openHandler: () => void
+  closeHandler: () => void
 }
 
 export function StepIndicatorProvider({
@@ -72,8 +99,7 @@ export function StepIndicatorProvider({
   const mediaQueryListener = useRef(null)
 
   const context = useContext(Context)
-  const contextValue = makeContextValue() as StepIndicatorProps &
-    ContextProps
+  const contextValue = makeContextValue() as StepIndicatorContextValues
 
   // Mount and dismount
   useEffect(() => {
@@ -143,7 +169,7 @@ export function StepIndicatorProvider({
     return res || []
   }
 
-  function makeContextValue(): Record<string, unknown> {
+  function makeContextValue() {
     const globalContext = extendPropsWithContext(
       props,
       stepIndicatorDefaultProps,
@@ -181,7 +207,7 @@ export function StepIndicatorProvider({
         openHandler,
         closeHandler,
       }
-    )
+    ) as StepIndicatorContextValues
 
     value.sidebarIsVisible = value.hasSidebar && !value.hideSidebar
 
