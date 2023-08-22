@@ -14,7 +14,7 @@ export type Props = ComponentProps &
     countryCodeFieldClassName?: string
     numberFieldClassName?: string
     // Styling
-    width?: false | 'medium' | 'large'
+    width?: 'medium' | 'large'
   }
 
 function PhoneNumber(props: Props) {
@@ -89,7 +89,8 @@ function PhoneNumber(props: Props) {
     <Div
       className={classnames(
         'dnb-forms-field-phone-number',
-        width !== false && `dnb-forms-field-phone-number--width-${width}`,
+        width !== undefined &&
+          `dnb-forms-field-phone-number--width-${width}`,
         className
       )}
       {...forwardSpaceProps(preparedProps)}

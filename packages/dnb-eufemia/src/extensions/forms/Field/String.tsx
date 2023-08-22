@@ -114,13 +114,7 @@ function StringComponent(props: Props) {
       ? `${value?.length ?? '0'}/${props.maxLength}`
       : `${value?.length ?? '0'}`
     : undefined
-  const cn = classnames(
-    'dnb-forms-field-string__input',
-    width !== false &&
-      width !== 'stretch' &&
-      `dnb-forms-field-string__input--width-${width}`,
-    inputClassName
-  )
+  const cn = classnames('dnb-forms-field-string__input', inputClassName)
 
   return (
     <FieldBlock
@@ -133,6 +127,7 @@ function StringComponent(props: Props) {
       info={info}
       warning={warning}
       error={error}
+      contentsWidth={width !== false ? width : undefined}
       {...forwardSpaceProps(props)}
     >
       {multiline ? (
@@ -147,7 +142,7 @@ function StringComponent(props: Props) {
           autoresize={autoresize}
           autoresize_max_rows={autoresizeMaxRows}
           disabled={disabled}
-          stretch={width === 'stretch'}
+          stretch={width !== undefined}
         />
       ) : mask ? (
         <InputMasked
@@ -161,7 +156,7 @@ function StringComponent(props: Props) {
           on_blur={onBlur}
           on_change={onChange}
           disabled={disabled}
-          stretch={width === 'stretch'}
+          stretch={width !== undefined}
         />
       ) : (
         <Input
@@ -177,7 +172,7 @@ function StringComponent(props: Props) {
           on_blur={onBlur}
           on_change={onChange}
           disabled={disabled}
-          stretch={width === 'stretch'}
+          stretch={width !== undefined}
         />
       )}
     </FieldBlock>

@@ -20,6 +20,10 @@ export type Props = ComponentProps &
   > & {
     forId?: string
     children: React.ReactNode
+    /** Width of outer block element */
+    width?: 'medium' | 'large'
+    /** Width of contents block, while label etc can be wider if space is available */
+    contentsWidth?: 'medium' | 'large' | 'stretch'
   }
 
 function FieldBlock(props: Props) {
@@ -33,14 +37,19 @@ function FieldBlock(props: Props) {
     info,
     warning,
     error,
+    width,
+    contentsWidth,
     children,
   } = props
 
+  const cn = classnames(
+    'dnb-forms-field-block',
+    width !== undefined && `dnb-forms-field-block--width-${width}`,
+    className
+  )
+
   return (
-    <Div
-      className={classnames('dnb-forms-field-block', className)}
-      {...forwardSpaceProps(props)}
-    >
+    <Div className={cn} {...forwardSpaceProps(props)}>
       {labelDescription || labelSecondary ? (
         <div className="dnb-forms-field-block__label-block">
           {label || labelDescription ? (
@@ -77,7 +86,15 @@ function FieldBlock(props: Props) {
         )
       )}
 
-      {children}
+      <div
+        className={classnames(
+          'dnb-forms-field-block__contents',
+          contentsWidth !== undefined &&
+            `dnb-forms-field-block__contents--width-${contentsWidth}`
+        )}
+      >
+        {children}
+      </div>
 
       {error && (
         <FormStatus

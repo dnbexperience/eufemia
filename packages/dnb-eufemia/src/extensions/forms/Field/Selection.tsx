@@ -13,7 +13,7 @@ export type Props = ComponentProps &
     children?: React.ReactNode
     variant?: 'dropdown' | 'radio' | 'checkbox'
     // Styling
-    width?: false | 'medium' | 'large' | 'stretch'
+    width?: 'medium' | 'large' | 'stretch'
   }
 
 function Selection(props: Props) {
@@ -132,8 +132,7 @@ function Selection(props: Props) {
         <Dropdown
           className={classnames(
             'dnb-forms-field-selection',
-            width !== false &&
-              width !== 'stretch' &&
+            width !== 'stretch' &&
               `dnb-forms-field-selection--width-${width}`,
             className
           )}
