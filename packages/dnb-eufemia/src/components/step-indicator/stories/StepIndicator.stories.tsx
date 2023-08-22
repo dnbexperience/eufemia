@@ -290,3 +290,31 @@ export const CurrentStepPropChange = () => {
     </Wrapper>
   )
 }
+
+export const OnlyOneCurrent = () => {
+  const id = 'only-one-current'
+
+  return (
+    <Wrapper>
+      <Box>
+        <StepIndicator.Sidebar sidebar_id={id} />
+        <StepIndicator
+          mode="loose"
+          sidebar_id={id}
+          data={[
+            {
+              title: 'Step A',
+            },
+            {
+              title: 'Step B',
+            },
+            {
+              title: 'Step C',
+              is_current: true,
+            },
+          ]}
+        />
+      </Box>
+    </Wrapper>
+  )
+}
