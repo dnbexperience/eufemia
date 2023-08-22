@@ -7,10 +7,20 @@ showTabs: true
 | Properties                                  | Description                                                                                                                                                                           |
 | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `style_type`                                | _(optional)_ to define the style of the visual helper. Use and `Style ID` from below. Defaults to `mint-green-12`.                                                                    |
+| `variant`                                   | _(optional)_ Defines the semantic purpose and subsequently the style of the visual helper. Will take precedence over the style_type prop                                              |
 | `spacing`                                   | _(optional)_ will add spacing around the given content. If `true`, then `large` is used. See the [available sizes](/uilib/usage/layout/spacing#spacing-helpers). Defaults to `false`. |
 | `element`                                   | _(optional)_ define what HTML element should be used. Defaults to `<section>`.                                                                                                        |
 | `inner_ref`                                 | _(optional)_ by providing a React Ref we can get the internally used element (DOM). E.g. `inner_ref={myRef}` by using `React.createRef()` or `React.useRef()`.                        |
 | [Space](/uilib/components/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                                                                 |
+
+## Variants
+
+| Variant | Description                                                                                      |
+| ------- | ------------------------------------------------------------------------------------------------ |
+| Info    | Neutral, informational.                                                                          |
+| Error   | Indicates an erroneous state.                                                                    |
+| Warning | Draws attention to a potential problem that may or may not require an action on the user's part. |
+| Success | Indicates a successful state.                                                                    |
 
 ## Styles
 
