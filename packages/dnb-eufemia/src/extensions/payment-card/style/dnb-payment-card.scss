@@ -220,8 +220,7 @@
     }
 
     &__center {
-      width: 77px;
-      height: 77px;
+      padding: 1rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -291,6 +290,7 @@
 
       height: 100%;
       width: 100%;
+      gap: var(--spacing-x-small);
 
       background: rgb(0 0 0 / 73.9%);
       border-radius: inherit;

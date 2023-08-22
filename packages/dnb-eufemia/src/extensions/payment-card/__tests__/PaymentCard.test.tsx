@@ -67,6 +67,12 @@ describe('PaymentCard', () => {
     expect(screen.queryByText(nb.text_expired)).toBeInTheDocument()
   })
 
+  it('has correct not_active status', () => {
+    render(<PaymentCard {...defaultProps} card_status="not_active" />)
+
+    expect(screen.queryByText(nb.text_not_active)).toBeInTheDocument()
+  })
+
   it('has correct blocked status', () => {
     render(<PaymentCard {...defaultProps} card_status="blocked" />)
 
