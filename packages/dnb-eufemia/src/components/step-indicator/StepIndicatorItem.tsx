@@ -150,7 +150,7 @@ function StepIndicatorItem({
     if (context.activeStep !== currentItemNum) {
       context.setActiveStep(currentItemNum)
       if (typeof context.onChangeState === 'function') {
-        context.onChangeState(currentItemNum)
+        context.onChangeState()
       }
 
       dispatchCustomElementEvent(context, 'on_change', params)
@@ -196,19 +196,20 @@ function StepIndicatorItem({
     mode === 'loose' ||
     currentItemNum <= activeStep ||
     listOfReachedSteps.includes(currentItemNum)
+
   const isNavigateable = mode === 'strict' || mode === 'loose'
+
   let isInactive =
     inactive || (mode === 'strict' && !hasPassedAndIsCurrent)
+
   const isVisited = currentItemNum < activeStep
 
   const id = `${sidebar_id || makeUniqueId()}-${currentItemNum}`
   const ariaLabel = step_title
-    ?.replace('%step', currentItemNum + 1)
-    .replace('%count', countSteps)
+    ?.replace('%step', String(currentItemNum + 1))
+    .replace('%count', String(countSteps))
 
-  const isCurrent =
-    currentItemNum === activeStep ||
-    (is_current && isNaN(parseFloat(activeStep)))
+  const isCurrent = currentItemNum === activeStep
 
   let element = (
     <StepItemWrapper

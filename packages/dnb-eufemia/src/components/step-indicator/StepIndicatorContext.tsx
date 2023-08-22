@@ -6,12 +6,9 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import Context, { ContextProps } from '../../shared/Context'
 import { stepIndicatorDefaultProps } from './StepIndicatorProps'
-import {
-  processChildren,
-  extendPropsWithContext,
-} from '../../shared/component-helper'
+import { extendPropsWithContext } from '../../shared/component-helper'
 import { onMediaQueryChange } from '../../shared/MediaQueryUtils'
-import { StepIndicatorData, StepIndicatorProps } from './StepIndicator'
+import { StepIndicatorDataItem, StepIndicatorProps } from './StepIndicator'
 import { StepIndicatorItemProps } from './StepIndicatorItem'
 
 // We use this array to filter out unwanted
@@ -87,13 +84,16 @@ export function StepIndicatorProvider({
 }: StepIndicatorProviderProps) {
   const props = { isSidebar, ...restOfProps }
 
-  const [hasSidebar, setHasSidebar] = useState<boolean>(true)
-  const [hideSidebar, setHideSidebar] = useState<boolean>(false)
-  const [activeStep, setActiveStep] = useState<number>(props.current_step)
-  const [openState, setOpenState] = useState<boolean>(false)
-
   const data = getData(props)
   const countSteps = data.length
+
+  const [hasSidebar, setHasSidebar] = useState<boolean>(true)
+  const [hideSidebar, setHideSidebar] = useState<boolean>(false)
+  const [activeStep, setActiveStep] = useState<number>(
+    getActiveStepFromProps()
+  )
+  const [openState, setOpenState] = useState<boolean>(false)
+
   const listOfReachedSteps = useRef([activeStep].filter(Boolean)).current
 
   const mediaQueryListener = useRef(null)
@@ -127,12 +127,14 @@ export function StepIndicatorProvider({
     }
   }, [])
 
-  // Keeps the activeStep state updated with changes to the current_step prop
+  // Keeps the activeStep state updated with changes to the current_step and data props
   useEffect(() => {
-    if (props.current_step !== activeStep) {
+    const currentStepFromProps = getActiveStepFromProps()
+
+    if (currentStepFromProps !== activeStep) {
       setActiveStep(props.current_step)
     }
-  }, [props.current_step])
+  }, [props.current_step, data])
 
   // Keeps the listOfReachedSteps state up to date with the activeStep state
   useEffect(() => {
@@ -153,20 +155,30 @@ export function StepIndicatorProvider({
     setOpenState(false)
   }
 
-  function getData(props: StepIndicatorProviderProps): StepIndicatorData {
-    let res: StepIndicatorData = []
-
-    if (props.data) {
-      res = props.data
-    } else {
-      res = processChildren(props)
+  function getData(
+    props: StepIndicatorProviderProps
+  ): string[] | StepIndicatorDataItem[] {
+    if (typeof props.data === 'string') {
+      return props.data[0] === '[' ? JSON.parse(props.data) : []
     }
 
-    if (typeof res === 'string') {
-      return res[0] === '[' ? JSON.parse(res) : []
+    return props.data || []
+  }
+
+  function getActiveStepFromProps() {
+    if (typeof data[0] === 'string') {
+      return props.current_step
     }
 
-    return res || []
+    const dataWithItems = data as StepIndicatorDataItem[]
+
+    const itemWithCurrentStep = dataWithItems.find(
+      (item) => item.is_current
+    )
+
+    return itemWithCurrentStep
+      ? dataWithItems.indexOf(itemWithCurrentStep)
+      : props.current_step
   }
 
   function makeContextValue() {
