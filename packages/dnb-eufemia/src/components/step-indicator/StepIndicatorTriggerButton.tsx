@@ -66,16 +66,17 @@ function StepIndicatorTriggerButton(
   const item = context.data[context.activeStep || 0]
   const label = context.stepsLabel
 
+  const { data, ...contextWithoutData } = context
+
   const triggerParams = {
-    ...context,
-    sidebar_id: null,
+    ...contextWithoutData,
     className: classnames(
       'dnb-step-indicator__trigger',
       createSkeletonClass('font', context.skeleton),
       createSpacingClasses(context)
     ),
     'aria-live': 'polite',
-  }
+  } as React.HTMLProps<HTMLElement>
 
   const buttonParams = {
     ...props,
@@ -102,7 +103,7 @@ function StepIndicatorTriggerButton(
   validateDOMAttributes(context, triggerParams)
 
   return (
-    <div {...triggerParams}>
+    <div {...(triggerParams as React.HTMLProps<HTMLDivElement>)}>
       <span className="dnb-sr-only" id={context.sidebar_id + '-overview'}>
         {context.overview_title}
       </span>

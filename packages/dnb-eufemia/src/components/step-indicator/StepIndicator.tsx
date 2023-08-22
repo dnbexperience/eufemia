@@ -17,20 +17,18 @@ import type { StepIndicatorItemProps } from './StepIndicatorItem'
 import { stepIndicatorDefaultProps } from './StepIndicatorProps'
 
 export type StepIndicatorMode = 'static' | 'strict' | 'loose'
-export type StepIndicatorData =
-  | string
-  | string[]
-  | Pick<
-      StepIndicatorItemProps,
-      | 'title'
-      | 'is_current'
-      | 'inactive'
-      | 'disabled'
-      | 'status'
-      | 'status_state'
-      | 'on_click'
-      | 'on_render'
-    >[]
+export type StepIndicatorDataItem = Pick<
+  StepIndicatorItemProps,
+  | 'title'
+  | 'is_current'
+  | 'inactive'
+  | 'disabled'
+  | 'status'
+  | 'status_state'
+  | 'on_click'
+  | 'on_render'
+>
+export type StepIndicatorData = string | string[] | StepIndicatorDataItem[]
 
 export type StepIndicatorProps = Omit<
   React.HTMLProps<HTMLAnchorElement>,

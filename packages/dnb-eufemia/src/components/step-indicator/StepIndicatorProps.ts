@@ -1,7 +1,10 @@
-import { StepIndicatorProps } from '../StepIndicator'
+import { StepIndicatorData, StepIndicatorProps } from './StepIndicator'
 
-export const stepIndicatorDefaultProps: StepIndicatorProps = {
-  data: [],
+export const stepIndicatorDefaultProps: Omit<
+  StepIndicatorProps,
+  'sidebar_id' | 'mode'
+> = {
+  data: [] as StepIndicatorData,
   skeleton: false,
   current_step: 0,
   hide_numbers: false,

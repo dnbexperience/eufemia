@@ -26,7 +26,10 @@ import { StepIndicatorMode } from './StepIndicator'
 import { stepIndicatorDefaultProps } from './StepIndicatorProps'
 
 export type StepIndicatorStatusState = 'warn' | 'info' | 'error'
-export type StepIndicatorItemProps = React.HTMLProps<HTMLElement> & {
+export type StepIndicatorItemProps = Omit<
+  React.HTMLProps<HTMLElement>,
+  'title'
+> & {
   /**
    * <em>(required)</em> defines how the StepIndicator should work. Use `static` for non-interactive steps. Use `strict` for a chronological step order, also, the user can navigate between visited steps. Use `loose` if the user should be able to navigate freely.
    */

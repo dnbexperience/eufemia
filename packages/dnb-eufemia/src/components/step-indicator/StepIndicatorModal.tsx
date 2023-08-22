@@ -25,11 +25,11 @@ function StepIndicatorModal() {
     setContainer(container)
   }, [])
 
-  function closeHandler(...args) {
+  function closeHandler() {
     if (context.hasSidebar) {
       triggerRef.current?.focus()
     }
-    context.closeHandler(...args)
+    context.closeHandler()
   }
 
   function renderPortal() {

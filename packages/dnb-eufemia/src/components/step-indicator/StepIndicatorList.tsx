@@ -45,10 +45,7 @@ function StepIndicatorList() {
     className: 'dnb-step-indicator__list',
   }
 
-  const Element =
-    mode === 'static' || !context.hasSidebar || context?.use_navigation
-      ? 'div'
-      : 'nav'
+  const Element = mode === 'static' || !context.hasSidebar ? 'div' : 'nav'
 
   const ariaLabelledbyValue = combineLabelledBy(rest, params.sidebar_id)
 
@@ -73,16 +70,11 @@ function StepIndicatorList() {
       {countSteps > 0 && (
         <ol {...listParams}>
           {data.map((itemData, i) => {
-            if (typeof itemData === 'string') {
-              itemData = { title: itemData }
-            }
+            const item =
+              typeof itemData === 'string' ? { title: itemData } : itemData
 
             return (
-              <StepIndicatorItem
-                key={i}
-                currentItemNum={i}
-                {...itemData}
-              />
+              <StepIndicatorItem key={i} currentItemNum={i} {...item} />
             )
           })}
         </ol>
