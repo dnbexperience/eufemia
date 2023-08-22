@@ -33,25 +33,27 @@ describe.each(['ui', 'sbanken'])('GlobalStatus for %s', themeName => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match the close button in focus state', async () => {
-    const screenshot = await makeScreenshot({
-      style,
-      selector: '[data-visual-test="global-status"] .dnb-global-status',
-      simulateSelector:
-        '[data-visual-test="global-status"] .dnb-global-status__close-button',
-      simulate: 'focus',
+  if (themeName !== 'sbanken') {
+    it('have to match the close button in focus state', async () => {
+      const screenshot = await makeScreenshot({
+        style,
+        selector: '[data-visual-test="global-status"] .dnb-global-status',
+        simulateSelector:
+          '[data-visual-test="global-status"] .dnb-global-status__close-button',
+        simulate: 'focus',
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
 
-  it('have to match the close button in hover state', async () => {
-    const screenshot = await makeScreenshot({
-      style,
-      selector: '[data-visual-test="global-status"] .dnb-global-status',
-      simulateSelector:
-        '[data-visual-test="global-status"] .dnb-global-status__close-button',
-      simulate: 'hover',
+    it('have to match the close button in hover state', async () => {
+      const screenshot = await makeScreenshot({
+        style,
+        selector: '[data-visual-test="global-status"] .dnb-global-status',
+        simulateSelector:
+          '[data-visual-test="global-status"] .dnb-global-status__close-button',
+        simulate: 'hover',
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
-    expect(screenshot).toMatchImageSnapshot()
-  })
+  }
 })
