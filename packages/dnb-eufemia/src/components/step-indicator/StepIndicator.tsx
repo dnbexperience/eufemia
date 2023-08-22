@@ -36,7 +36,7 @@ export type StepIndicatorProps = Omit<
 > &
   SpacingProps & {
     /**
-     * <em>(required)</em> a unique string-based ID in order to bind together the main component and the sidebar (`<StepIndicator.Sidebar />`). Both have to get the same ID.
+     * <em>(required with `<StepIndicator.Sidebar />`)</em> a unique string-based ID in order to bind together the main component and the sidebar (`<StepIndicator.Sidebar />`). Both have to get the same ID.
      */
     sidebar_id?: string
     /**
@@ -67,6 +67,11 @@ export type StepIndicatorProps = Omit<
      */
     on_item_render?: (...args: any[]) => any
     /**
+     * Will be called once the user visits actively a new step. Will be emitted only once. Returns an object `{ event, item, current_step }`.
+     */
+    on_change?: (...args: any[]) => any
+
+    /**
      * If set to `true`, the height animation on the step items and the drawer button will be omitted. Defaults to `false`.
      */
     no_animation?: boolean
@@ -74,11 +79,6 @@ export type StepIndicatorProps = Omit<
     class?: string
     className?: string
     children?: React.ReactNode | ((...args: any[]) => any)
-    /**
-     * Will be called once the user visits actively a new step. Will be emitted only once. Returns an object `{ event, item, current_step }`.
-     */
-    on_change?: (...args: any[]) => any
-    internalId?: string
   }
 
 function StepIndicator({
@@ -98,7 +98,7 @@ function StepIndicator({
     ...restOfProps,
   }
 
-  const sidebarId = props.internalId || props.sidebar_id || makeUniqueId()
+  const sidebarId = props.sidebar_id || makeUniqueId()
 
   if (!props.sidebar_id && props.mode) {
     warn(

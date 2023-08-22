@@ -175,7 +175,7 @@ export function StepIndicatorProvider({
     const itemWithCurrentStep = dataWithItems.find(
       (item) => item.is_current
     )
-
+    // Is current on data item has precedence(?) over current_step prop
     return itemWithCurrentStep
       ? dataWithItems.indexOf(itemWithCurrentStep)
       : props.current_step
