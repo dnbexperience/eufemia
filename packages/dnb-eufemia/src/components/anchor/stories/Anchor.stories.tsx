@@ -1,5 +1,5 @@
 /**
- * @dnb/eufemia Element Story
+ * Storybook stories
  *
  */
 
@@ -8,7 +8,7 @@ import { Wrapper, Box } from 'storybook-utils/helpers'
 import { IconPrimary, Anchor, H1, P } from '../../..'
 
 export default {
-  title: 'Eufemia/Elements/Anchor',
+  title: 'Eufemia/Components/Anchor',
 }
 
 export const AnchorSandbox = () => {
