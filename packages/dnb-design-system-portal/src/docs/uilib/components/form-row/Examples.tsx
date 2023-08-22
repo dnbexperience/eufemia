@@ -27,7 +27,7 @@ import {
   FormRow,
 } from '@dnb/eufemia/src'
 import { SpacingElementProps } from '@dnb/eufemia/src/shared/types'
-import { Provider, VisibilityByTheme } from '@dnb/eufemia/src/shared'
+import { Provider } from '@dnb/eufemia/src/shared'
 import { SpaceAllProps } from '@dnb/eufemia/src/components/space/Space'
 
 const TestStyles = styled.div`
@@ -167,77 +167,6 @@ export const FormRowVertical = () => (
           top="small"
         />
       </FormRow>
-    </ComponentBox>
-  </TestStyles>
-)
-
-export const FormRowVerticalDirection = () => (
-  <TestStyles>
-    <ComponentBox
-      scope={{ VisibilityByTheme }}
-      data-visual-test="form-row-vertical-label-button"
-    >
-      {() => {
-        const CustomRow = styled(FormRow)`
-          .dnb-form-row__content .dnb-button {
-            align-self: flex-end;
-            transform: translateY(0.25rem); /* 4px down */
-          }
-        `
-        const CustomRowSbanken = styled(FormRow)`
-          .dnb-form-row__content .dnb-button {
-            align-self: flex-end;
-          }
-        `
-        return (
-          <>
-            <VisibilityByTheme hidden="sbanken">
-              <CustomRow
-                label={
-                  <Space
-                    element="span"
-                    className="dnb-h--large"
-                    top="0"
-                    bottom="0"
-                  >
-                    Legend
-                  </Space>
-                }
-                label_direction="vertical"
-              >
-                <Input
-                  label="Vertical input label"
-                  value="Input"
-                  right="small"
-                />
-                <Button text="Button" />
-              </CustomRow>
-            </VisibilityByTheme>
-            <VisibilityByTheme visible="sbanken">
-              <CustomRowSbanken
-                label={
-                  <Space
-                    element="span"
-                    className="dnb-h--large"
-                    top="0"
-                    bottom="0"
-                  >
-                    Legend
-                  </Space>
-                }
-                label_direction="vertical"
-              >
-                <Input
-                  label="Vertical input label"
-                  value="Input"
-                  right="small"
-                />
-                <Button text="Button" />
-              </CustomRowSbanken>
-            </VisibilityByTheme>
-          </>
-        )
-      }}
     </ComponentBox>
   </TestStyles>
 )

@@ -33,13 +33,6 @@ describe.each(['ui', 'sbanken'])('FormRow for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match vertical form-row label with a button', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="form-row-vertical-label-button"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
   it('have to match vertical form-row', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="form-row-vertical"]',
