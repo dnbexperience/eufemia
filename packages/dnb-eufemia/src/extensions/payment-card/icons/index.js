@@ -4,6 +4,7 @@ import BankAxept from './BankAxept'
 import DNB from './DNB'
 import Expired from './Clock'
 import Blocked from './Padlock'
+import NotActive from './CardInMedium'
 import MastercardDefault from './MastercardDefault'
 import MastercardDark from './MastercardDark'
 import Pluss from './Pluss'
@@ -69,6 +70,9 @@ const StatusIcon = ({ status }) => {
     case 'expired':
       return <Expired />
 
+    case 'not_active':
+      return <NotActive />
+    
     case 'blocked':
       return <Blocked />
 

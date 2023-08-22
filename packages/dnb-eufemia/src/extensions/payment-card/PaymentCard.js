@@ -50,6 +50,7 @@ const translationDefaultPropsProps = {
   text_card_number: null,
   text_expired: null,
   text_blocked: null,
+  text_not_active: null,
 }
 
 export default class PaymentCard extends React.PureComponent {
@@ -58,7 +59,7 @@ export default class PaymentCard extends React.PureComponent {
   static propTypes = {
     product_code: PropTypes.string.isRequired,
     card_number: PropTypes.string.isRequired,
-    card_status: PropTypes.oneOf(['active', 'blocked', 'expired']),
+    card_status: PropTypes.oneOf(['active', 'blocked', 'expired', 'not_active']),
     variant: PropTypes.oneOf(['normal', 'compact']),
     digits: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     raw_data: cardDataPropTypes,
@@ -210,6 +211,20 @@ StatusOverlay.defaultProps = {
 
 function StatusOverlay({ cardStatus, translations, skeleton }) {
   switch (cardStatus) {
+    case 'not_active':
+      return (
+        <div
+          className={classnames(
+            'dnb-payment-card__blocking__overlay',
+            createSkeletonClass('font', skeleton)
+          )}
+        >
+          <div className="dnb-payment-card__blocking__center">
+            <StatusIcon status={cardStatus} />
+            <P top="xx-small">{translations.text_not_active}</P>
+          </div>
+        </div>
+      )
     case 'blocked':
       return (
         <div
