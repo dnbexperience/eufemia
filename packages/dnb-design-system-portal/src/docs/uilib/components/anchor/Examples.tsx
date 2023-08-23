@@ -38,7 +38,7 @@ const ContrastExample = styled(Example)`
 export const AnchorExampleInSection = () => (
   <Wrapper>
     <ComponentBox data-visual-test="anchor-in-section">
-      <Section spacing style_type="emerald-green">
+      <Section spacing>
         <Anchor
           className="dnb-anchor--no-underline"
           href="https://dnb.no/"
