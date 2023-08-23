@@ -104,7 +104,7 @@ export default function Section(localProps: SectionAllProps) {
   const params = {
     className: classnames(
       'dnb-section',
-      `dnb-section--${variant ?? (style_type  || 'default')}`,
+      `dnb-section--${variant ?? (style_type || 'default')}`,
       spacing &&
         `dnb-section--spacing-${isTrue(spacing) ? 'large' : spacing}`,
       createSpacingClasses(props),
