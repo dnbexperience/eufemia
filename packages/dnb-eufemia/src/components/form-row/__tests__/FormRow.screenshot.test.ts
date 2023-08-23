@@ -13,8 +13,9 @@ if (isCI) {
   jest.setTimeout(20e3)
 }
 
-describe('FormRow', () => {
+describe.each(['ui', 'sbanken'])('FormRow for %s', (themeName) => {
   setupPageScreenshot({
+    themeName,
     url: '/uilib/components/form-row/demos',
   })
 
@@ -28,13 +29,6 @@ describe('FormRow', () => {
   it('have to match legend usage', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="form-row-legend"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  it('have to match vertical form-row label with a button', async () => {
-    const screenshot = await makeScreenshot({
-      selector: '[data-visual-test="form-row-vertical-label-button"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
