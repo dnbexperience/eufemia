@@ -13,40 +13,57 @@ const sections = {
     'default',
     'white',
     'divider',
-    'mint-green',
-    'black-3',
-    'sea-green',
-    'emerald-green',
-    'lavender',
-    'sand-yellow',
-    'pistachio',
-    'fire-red',
     'z-index',
     'info',
     'error',
     'warning',
-    'success'
+    'success',
   ],
-  sbanken: [
-    'default',
-    'white',
-    'info',
-    'error',
-    'warning',
-    'success'
-  ]
+  sbanken: ['default', 'white', 'info', 'error', 'warning', 'success'],
 }
 
-describe.each(['ui', 'sbanken'])('Section for %s', themeName => {
+describe.each(['ui', 'sbanken'])('Section for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/section/demos'
+    url: '/uilib/components/section/demos',
   })
 
-  test.each(sections[themeName])("have to match %p section", async sectionName => {
-    const screenshot = await makeScreenshot({
-      selector: `[data-visual-test="section-${sectionName}"]`,
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  });
+  test.each(sections[themeName])(
+    'have to match %p section',
+    async (sectionName) => {
+      const screenshot = await makeScreenshot({
+        selector: `[data-visual-test="section-${sectionName}"]`,
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    }
+  )
+})
+
+// Should be removed in v11
+const deprecatedStyles = [
+  'mint-green',
+  'black-3',
+  'sea-green',
+  'emerald-green',
+  'lavender',
+  'sand-yellow',
+  'pistachio',
+  'fire-red',
+]
+
+describe.each(['ui'])('Section for %s', (themeName) => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/section/deprecated',
+  })
+
+  test.each(deprecatedStyles)(
+    'have to match %p section',
+    async (sectionName) => {
+      const screenshot = await makeScreenshot({
+        selector: `[data-visual-test="section-${sectionName}"]`,
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    }
+  )
 })

@@ -6,36 +6,36 @@ showTabs: true
 
 | Properties                                  | Description                                                                                                                                                                           |
 | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `style_type`                                | _(optional)_ to define the style of the visual helper. Use and `Style ID` from below. Defaults to `mint-green-12`.                                                                    |
 | `variant`                                   | _(optional)_ Defines the semantic purpose and subsequently the style of the visual helper. Will take precedence over the style_type prop                                              |
 | `spacing`                                   | _(optional)_ will add spacing around the given content. If `true`, then `large` is used. See the [available sizes](/uilib/usage/layout/spacing#spacing-helpers). Defaults to `false`. |
 | `element`                                   | _(optional)_ define what HTML element should be used. Defaults to `<section>`.                                                                                                        |
+| `style_type`                                | _(optional)_ to define the style of the visual helper. Defaults to `mint-green-12`.                                                                                                   |
 | `inner_ref`                                 | _(optional)_ by providing a React Ref we can get the internally used element (DOM). E.g. `inner_ref={myRef}` by using `React.createRef()` or `React.useRef()`.                        |
 | [Space](/uilib/components/space/properties) | _(optional)_ spacing properties like `top` or `bottom` are supported.                                                                                                                 |
 
 ## Variants
 
-| Variant | Description                                                                                      |
-| ------- | ------------------------------------------------------------------------------------------------ |
-| Info    | Neutral, informational.                                                                          |
-| Error   | Indicates an erroneous state.                                                                    |
-| Warning | Draws attention to a potential problem that may or may not require an action on the user's part. |
-| Success | Indicates a successful state.                                                                    |
+| Variant   | Description                                                                                      |
+| --------- | ------------------------------------------------------------------------------------------------ |
+| `info`    | Neutral, informational.                                                                          |
+| `error`   | Indicates an erroneous state.                                                                    |
+| `warning` | Draws attention to a potential problem that may or may not require an action on the user's part. |
+| `success` | Indicates a successful state.                                                                    |
 
 ## Styles
 
 You can easily [customize the color](/uilib/components/section#customize-color).
 
-| Style           | Description                                                                                         |
-| --------------- | --------------------------------------------------------------------------------------------------- |
-| `mint-green-12` | _(default)_ uses `--color-mint-green-12`.                                                           |
-| `white`         | uses `--color-white`.                                                                               |
-| `mint-green`    | uses `--color-mint-green`.                                                                          |
-| `lavender`      | uses `--color-lavender`.                                                                            |
-| `sand-yellow`   | uses `--color-sand-yellow`.                                                                         |
-| `pistachio`     | uses `--color-pistachio`.                                                                           |
-| `black-3`       | uses `--color-black-3`.                                                                             |
-| `emerald-green` | uses `--color-emerald-green`.                                                                       |
-| `fire-red`      | uses `--color-fire-red`. Is used by [GlobalStatus](/uilib/components/global-status)                 |
-| `divider`       | uses `--color-white` as background with a border-line on top and bottom.                            |
-| `transparent`   | CSS transparent. Used in situations where a Section is of interest, but without a color as a basis. |
+| Style               | Description                                                                                         |
+| ------------------- | --------------------------------------------------------------------------------------------------- |
+| `white`             | uses `--color-white`.                                                                               |
+| `divider`           | uses `--color-white` as background with a border-line on top and bottom.                            |
+| `transparent`       | CSS transparent. Used in situations where a Section is of interest, but without a color as a basis. |
+| ~~`mint-green-12`~~ | _(default)_ uses `--color-mint-green-12`.                                                           |
+| ~~`mint-green`~~    | uses `--color-mint-green`.                                                                          |
+| ~~`lavender`~~      | uses `--color-lavender`.                                                                            |
+| ~~`sand-yellow`~~   | uses `--color-sand-yellow`.                                                                         |
+| ~~`pistachio`~~     | uses `--color-pistachio`.                                                                           |
+| ~~`black-3`~~       | uses `--color-black-3`.                                                                             |
+| ~~`emerald-green`~~ | uses `--color-emerald-green`.                                                                       |
+| ~~`fire-red`~~      | uses `--color-fire-red`. Is used by [GlobalStatus](/uilib/components/global-status)                 |
