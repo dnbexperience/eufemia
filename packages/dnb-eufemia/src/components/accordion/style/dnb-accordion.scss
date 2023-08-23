@@ -74,24 +74,24 @@
     &--description &__icon {
       margin-top: 1rem;
     }
-    &__icon--right {
+    &--icon-right {
       justify-content: space-between;
     }
-    &__icon--right &__icon {
+    &--icon-right &__icon {
       order: 3;
     }
-    &__icon--right &__container {
+    &--icon-right &__container {
       order: 1;
     }
-    &__icon--right &__wrapper {
+    &--icon-right &__wrapper {
       order: 2;
       margin-left: 1rem;
       margin-right: 1rem;
     }
-    &__icon--right &__wrapper + &__container {
+    &--icon-right &__wrapper + &__container {
       margin-right: 0;
     }
-    &__icon--right &__container + &__wrapper {
+    &--icon-right &__container + &__wrapper {
       margin-left: 0;
     }
 

@@ -155,24 +155,24 @@ p > .dnb-icon {
 .dnb-accordion__header--description .dnb-accordion__header__icon {
   margin-top: 1rem;
 }
-.dnb-accordion__header__icon--right {
+.dnb-accordion__header--icon-right {
   justify-content: space-between;
 }
-.dnb-accordion__header__icon--right .dnb-accordion__header__icon {
+.dnb-accordion__header--icon-right .dnb-accordion__header__icon {
   order: 3;
 }
-.dnb-accordion__header__icon--right .dnb-accordion__header__container {
+.dnb-accordion__header--icon-right .dnb-accordion__header__container {
   order: 1;
 }
-.dnb-accordion__header__icon--right .dnb-accordion__header__wrapper {
+.dnb-accordion__header--icon-right .dnb-accordion__header__wrapper {
   order: 2;
   margin-left: 1rem;
   margin-right: 1rem;
 }
-.dnb-accordion__header__icon--right .dnb-accordion__header__wrapper + .dnb-accordion__header__container {
+.dnb-accordion__header--icon-right .dnb-accordion__header__wrapper + .dnb-accordion__header__container {
   margin-right: 0;
 }
-.dnb-accordion__header__icon--right .dnb-accordion__header__container + .dnb-accordion__header__wrapper {
+.dnb-accordion__header--icon-right .dnb-accordion__header__container + .dnb-accordion__header__wrapper {
   margin-left: 0;
 }
 .dnb-accordion__header__title {

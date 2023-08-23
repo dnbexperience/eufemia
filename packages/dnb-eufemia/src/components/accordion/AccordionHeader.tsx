@@ -98,12 +98,14 @@ export type AccordionHeaderIconProps = {
   icon?: AccordionHeaderIconIcon
   size?: IconSize
   expanded?: boolean
+  iconRight?: boolean
 }
 
 function AccordionHeaderIcon({
   icon,
   expanded,
   size = 'medium',
+  iconRight
 }: AccordionHeaderIconProps) {
   const theme = useTheme()
   let animateIcon = true;  
@@ -116,7 +118,7 @@ function AccordionHeaderIcon({
   }
 
   return (
-    <span className={`dnb-accordion__header__icon ${!animateIcon && 'dnb-accordion__header__icon--no-animation'}`}>
+    <span className={`dnb-accordion__header__icon ${!animateIcon && 'dnb-accordion__header__icon--no-animation'} ${iconRight && 'dnb-accordion__header__icon--right'}`}>
       <IconPrimary
         size={size}
         // There has to be a better way than to do so much casting
@@ -284,6 +286,7 @@ export const AccordionHeader = ({
       icon={icon}
       size={icon_size}
       expanded={context.expanded}
+      iconRight={icon_position === 'right'}
     />,
     <AccordionHeaderContainer key="container">
       {left_component as React.ReactNode}
@@ -371,7 +374,7 @@ export const AccordionHeader = ({
     tabIndex: 0,
     className: classnames(
       'dnb-accordion__header',
-      icon_position && `dnb-accordion__header__icon--${icon_position}`,
+      icon_position && `dnb-accordion__header--icon-${icon_position}`,
       isHoverring && hasClicked && 'dnb-accordion--hover',
       !canClick() && 'dnb-accordion__header--prevent-click',
       description && 'dnb-accordion__header--description',
