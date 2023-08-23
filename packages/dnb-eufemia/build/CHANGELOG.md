@@ -3,6 +3,25 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.7.0](https://github.com/dnbexperience/eufemia/compare/v10.6.0...v10.7.0) (2023-08-23)
+
+
+### :bug: Bug Fixes
+
+* **Forms:** Fix provider rerender issue and FlexContainer spacing issue ([#2570](https://github.com/dnbexperience/eufemia/issues/2570)) ([aafdbc1](https://github.com/dnbexperience/eufemia/commit/aafdbc1f24893861d53b359ac589314a8e262156))
+* **Forms:** sets SubHeading's size to medium ([#2581](https://github.com/dnbexperience/eufemia/issues/2581)) ([7e2ccbf](https://github.com/dnbexperience/eufemia/commit/7e2ccbfee047627e794896848c0d4f6ffe073310))
+
+
+### :sparkles: Features
+
+* **Button:** sbanken css refactoring ([#2565](https://github.com/dnbexperience/eufemia/issues/2565)) ([3b9d6b0](https://github.com/dnbexperience/eufemia/commit/3b9d6b0bbc40d3319edd372d14c55278d20f8bbd))
+* **FormLabel:** sbanken ([#2563](https://github.com/dnbexperience/eufemia/issues/2563)) ([308a0b6](https://github.com/dnbexperience/eufemia/commit/308a0b6f08a4f5e346c744b0790deb5b96f4c064))
+* **FormRow:** sbanken theme ([#2564](https://github.com/dnbexperience/eufemia/issues/2564)) ([968efdd](https://github.com/dnbexperience/eufemia/commit/968efdd12584d76b0ee83d66e47531aa33bc733b))
+* **Forms:** Field width features upgraded ([#2580](https://github.com/dnbexperience/eufemia/issues/2580)) ([73b1650](https://github.com/dnbexperience/eufemia/commit/73b1650254cc4c997ad5e81f5e8b8a1bc16b40f5))
+* **Pagination:** sbanken theme ([#2569](https://github.com/dnbexperience/eufemia/issues/2569)) ([d08a492](https://github.com/dnbexperience/eufemia/commit/d08a49241f61aa8c5b08d353881597d6f17b907d))
+* **PaymentCard:** adds card_status not_active ([#2578](https://github.com/dnbexperience/eufemia/issues/2578)) ([03469e6](https://github.com/dnbexperience/eufemia/commit/03469e6b83d9faa16b6d61e1116f7e559602891a))
+* **Section:** Sbanken styling and new variant prop ([#2582](https://github.com/dnbexperience/eufemia/issues/2582)) ([416db6d](https://github.com/dnbexperience/eufemia/commit/416db6d8d05e319f4571731696d23f3267e61457))
+
 ## [10.6.0](https://github.com/dnbexperience/eufemia/compare/v10.5.0...v10.6.0) (2023-08-17)
 
 
