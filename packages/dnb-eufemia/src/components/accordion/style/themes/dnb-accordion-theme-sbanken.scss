@@ -13,10 +13,6 @@
   --accordion-content-padding-left: calc(
     3.5rem - var(--accordion-expanded-border-width)
   );
-  --accordion-header-margin: calc(
-    1.5rem - var(--accordion-expanded-border-width)
-  );
-  --accordion-header-gutter: 0.5rem;
 
   color: var(--sb-color-text);
 
@@ -54,8 +50,8 @@
 
     &__icon {
       color: var(--sb-color-violet);
-      margin: 1rem var(--accordion-header-gutter) 1rem
-        var(--accordion-header-margin);
+      margin: 1rem 0.5rem 1rem
+        calc(1.5rem - var(--accordion-expanded-border-width));
     }
 
     &--icon-right {
@@ -92,6 +88,10 @@
   }
 
   &--expanded {
+    > .dnb-accordion__header {
+      font-weight: var(--sb-font-weight-bold);
+    }
+
     > .dnb-accordion__header,
     > .dnb-accordion__content {
       background-color: var(--sb-color-violet-light-4);
