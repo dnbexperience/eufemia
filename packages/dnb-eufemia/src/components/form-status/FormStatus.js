@@ -325,9 +325,11 @@ export default class FormStatus extends React.PureComponent {
 
   render() {
     const isReadyToGetVisible = this.isReadyToGetVisible()
+
     if (!isReadyToGetVisible && !this.state.keepContentInDom) {
       return null
     }
+
     // use only the props from context, who are available here anyway
     const props = extendPropsWithContextInClassComponent(
       this.props,
@@ -500,7 +502,6 @@ WarnIcon.defaultProps = {
 }
 
 export const InfoIcon = props => {
-  console.log(props);
   const isSbankenTheme = props && props?.theme === 'sbanken';
   let fill = isSbankenTheme ? '#000' : '#007272'
   if (props && props?.state === 'success') {
