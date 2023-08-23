@@ -21,6 +21,7 @@ import {
 } from '@dnb/eufemia/src/shared/helpers'
 import PortalToolsMenu from './PortalToolsMenu'
 import { navStyle } from './SidebarMenu.module.scss'
+import { defaultTabs } from '../tags/Tabbar'
 
 const showAlwaysMenuItems = [] // like "uilib" something like that
 
@@ -560,12 +561,38 @@ function getActiveStatusForItem(
 
   const isActive = checkIfActiveItem(currentPath, itemPath, showTabs, tabs)
 
-  const isInsideActivePath = !isActive && currentPath.startsWith(itemPath)
+  const isInsideActivePath = checkIfActivePath(
+    currentPath,
+    itemPath,
+    isActive
+  )
 
-  const isInsideActiveCategory =
-    !isInsideActivePath && currentPath.startsWith(startOfCurrentPath)
+  const isInsideActiveCategory = checkIfActiveCategory(
+    currentPath,
+    startOfCurrentPath,
+    isInsideActivePath
+  )
 
   return { isActive, isInsideActiveCategory, isInsideActivePath }
+}
+
+function checkIfActiveCategory(
+  currentPath: string,
+  startOfCurrentPath: string,
+  isInsideActivePath?: boolean
+) {
+  return (
+    !isInsideActivePath &&
+    (currentPath + '/').startsWith(startOfCurrentPath + '/')
+  )
+}
+
+function checkIfActivePath(
+  currentPath: string,
+  itemPath: string,
+  isActive?: boolean
+) {
+  return !isActive && (currentPath + '/').startsWith(itemPath + '/')
 }
 
 function checkIfActiveItem(
@@ -573,7 +600,7 @@ function checkIfActiveItem(
   itemPath: string,
   showTabs?: boolean,
   tabs?: NavItemTabs[]
-) {
+): boolean {
   if (!showTabs) {
     return itemPath === currentPath
   }
@@ -583,22 +610,29 @@ function checkIfActiveItem(
     return true
   }
 
-  // If gatsby node has showTabs active
-  // we can most likely assume that the last part of the slug is the tab path
-  // and then remove it from the currentPath to determine if this item is the active item
-  const slugs = currentPath.split('/').filter(Boolean)
-  const lastSlug = slugs[slugs.length - 1]
-  const currentPathWithoutTabSlug = currentPath.replace(`/${lastSlug}`, '')
+  if (showTabs) {
+    // If gatsby node has showTabs active
+    // we can most likely assume that the last part of the slug is the tab path
+    // and then remove it from the currentPath to determine if this item is the active item
+    const slugs = currentPath.split('/').filter(Boolean)
+    const lastSlug = slugs[slugs.length - 1]
+    const currentPathWithoutTabSlug = currentPath.replace(
+      `/${lastSlug}`,
+      ''
+    )
 
-  if (itemPath === currentPathWithoutTabSlug) {
-    // In addition, because we show the info.mdx without /info
-    // we don't want the "parent" to be marked as active as well.
-    // So we get tabs and check for that state as well
-    const found = tabs?.find(({ key }) => {
-      return '/' + lastSlug === key
-    })
+    if (itemPath === currentPathWithoutTabSlug) {
+      // In addition, because we show the info.mdx without /info
+      // we don't want the "parent" to be marked as active as well.
+      // So we get tabs and check for that state as well
+      const found = (tabs || defaultTabs).some(({ key }) => {
+        return '/' + lastSlug === key
+      })
 
-    return found
+      if (found) {
+        return true
+      }
+    }
   }
 
   return false
