@@ -113,13 +113,14 @@ export const StepIndicatorLoose = () => (
 export const StepIndicatorCustomized = () => (
   <ComponentBox>
     {() => {
-      function CustomStepIndicator({ children, ...props }) {
+      function CustomStepIndicator({ children, data, ...props }) {
         const [step, setStep] = React.useState(0)
         return (
           <>
             <StepIndicator
               sidebar_id="unique-id-customized"
               mode="loose"
+              data={data}
               current_step={step}
               on_change={({ current_step }) => setStep(current_step)}
               {...props}

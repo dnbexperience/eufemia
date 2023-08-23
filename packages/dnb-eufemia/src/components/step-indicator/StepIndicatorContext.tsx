@@ -44,10 +44,7 @@ const filterAttributes = Object.keys(stepIndicatorDefaultProps)
     'onChangeState',
   ])
 
-type StepIndicatorContextValues = Omit<
-  StepIndicatorProviderProps,
-  'data'
-> &
+type StepIndicatorContextValues = StepIndicatorProviderProps &
   StepIndicatorProviderStates &
   ContextProps
 
