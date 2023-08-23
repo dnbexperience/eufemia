@@ -51,13 +51,10 @@
       margin: 1rem 1.5rem;
     }
 
+    // disabled
     &[disabled] {
-      background-color: var(--color-white);
-
-      @include fakeBorder(var(--color-sea-green-30), 0.0625rem);
-
       * {
-        color: var(--color-sea-green-30);
+        color: var(--sb-color-gray-dark-2);
       }
     }
   }
@@ -75,12 +72,11 @@
       border-left-color: var(--sb-color-violet);
     }
 
-    > .dnb-accordion__header[disabled] {
-      background-color: var(--color-sea-green-30);
-
-      * {
-        color: var(--color-white);
-      }
+    // disabled
+    > .dnb-accordion__header[disabled],
+    > .dnb-accordion__header[disabled] + .dnb-accordion__content {
+      background-color: var(--sb-color-gray-light-2);
+      border-left-color: var(--sb-color-gray-dark-2);
     }
   }
 }
