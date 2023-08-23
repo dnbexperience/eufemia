@@ -13,11 +13,17 @@ import { stepIndicatorDefaultProps } from './StepIndicatorProps'
 import { StepIndicatorProvider } from './StepIndicatorContext'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import { SpacingProps } from '../../shared/types'
-import { StepIndicatorProps } from '../StepIndicator'
+import {
+  StepIndicatorData,
+  StepIndicatorMode,
+  StepIndicatorProps,
+} from '../StepIndicator'
 
 export type StepIndicatorSidebarProps = SpacingProps &
-  Pick<StepIndicatorProps, 'mode' | 'current_step' | 'data' | 'skeleton'> &
+  Pick<StepIndicatorProps, 'current_step' | 'skeleton'> &
   Omit<React.HTMLProps<HTMLAnchorElement>, 'ref' | 'data'> & {
+    data?: StepIndicatorData
+    mode?: StepIndicatorMode
     showInitialData?: boolean
     /**
      * <em>(required)</em> a unique string-based ID in order to bind together the main component and the sidebar (`<StepIndicator.Sidebar />`). Both have to get the same ID.

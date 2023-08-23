@@ -42,11 +42,11 @@ export type StepIndicatorProps = Omit<
     /**
      * <em>(required)</em> defines how the StepIndicator should work. Use `static` for non-interactive steps. Use `strict` for a chronological step order, also, the user can navigate between visited steps. Use `loose` if the user should be able to navigate freely.
      */
-    mode?: StepIndicatorMode
+    mode: StepIndicatorMode
     /**
      * <em>(required)</em> defines the data/steps showing up in a JavaScript Array or JSON format like `[{title,is_current}]`. See parameters and the example above.
      */
-    data?: StepIndicatorData
+    data: StepIndicatorData
     /**
      * Will be called once the user clicks on the current or another step. Will be emitted on every click. Returns an object `{ event, item, current_step }`.
      */

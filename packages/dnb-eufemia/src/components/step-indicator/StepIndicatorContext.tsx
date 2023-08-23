@@ -8,7 +8,12 @@ import Context, { ContextProps } from '../../shared/Context'
 import { stepIndicatorDefaultProps } from './StepIndicatorProps'
 import { extendPropsWithContext } from '../../shared/component-helper'
 import { onMediaQueryChange } from '../../shared/MediaQueryUtils'
-import { StepIndicatorDataItem, StepIndicatorProps } from './StepIndicator'
+import {
+  StepIndicatorData,
+  StepIndicatorDataItem,
+  StepIndicatorMode,
+  StepIndicatorProps,
+} from './StepIndicator'
 import { StepIndicatorItemProps } from './StepIndicatorItem'
 
 // We use this array to filter out unwanted
@@ -51,10 +56,15 @@ const StepIndicatorContext =
 
 export default StepIndicatorContext
 
-export type StepIndicatorProviderProps = StepIndicatorProps & {
+export type StepIndicatorProviderProps = Omit<
+  StepIndicatorProps,
+  'mode' | 'data'
+> & {
   /**
    * <em>(required)</em> a unique string-based ID in order to bind together the main component and the sidebar (`<StepIndicator.Sidebar />`). Both have to get the same ID.
    */
+  data?: StepIndicatorData
+  mode?: StepIndicatorMode
   sidebar_id: string
   children: React.ReactNode
   isSidebar?: boolean
