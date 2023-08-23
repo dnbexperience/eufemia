@@ -41,7 +41,6 @@ exports[`Switch scss has to match style dependencies css 1`] = `
 }
 .dnb-form-label[for]:not([disabled]) {
   user-select: none;
-  cursor: pointer;
 }
 .dnb-form-label[disabled] {
   cursor: not-allowed;

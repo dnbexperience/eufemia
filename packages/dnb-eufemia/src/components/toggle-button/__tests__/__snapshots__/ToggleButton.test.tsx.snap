@@ -41,7 +41,6 @@ exports[`ToggleButton scss has to match style dependencies css 1`] = `
 }
 .dnb-form-label[for]:not([disabled]) {
   user-select: none;
-  cursor: pointer;
 }
 .dnb-form-label[disabled] {
   cursor: not-allowed;
@@ -635,7 +634,6 @@ button.dnb-button::-moz-focus-inner {
 }
 .dnb-form-label[for]:not([disabled]) {
   user-select: none;
-  cursor: pointer;
 }
 .dnb-form-label[disabled] {
   cursor: not-allowed;
@@ -915,7 +913,6 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
 }
 .dnb-form-label[for]:not([disabled]) {
   user-select: none;
-  cursor: pointer;
 }
 .dnb-form-label[disabled] {
   cursor: not-allowed;
