@@ -188,3 +188,43 @@ export const SectionZIndex = () =>
       </Section>
     </ComponentBox>
   )
+
+export const SectionDemoInfo = () => (
+  <ComponentBox data-visual-test="section-info">
+    <Section spacing variant="info">
+      <P space={0}>
+        Generic info section: <Anchor href="#">info</Anchor>
+      </P>
+    </Section>
+  </ComponentBox>
+)
+
+export const SectionDemoError = () => (
+  <ComponentBox data-visual-test="section-error">
+    <Section spacing variant="error">
+      <P space={0}>
+        Error section: <Anchor href="#">error</Anchor>
+      </P>
+    </Section>
+  </ComponentBox>
+)
+
+export const SectionDemoWarning = () => (
+  <ComponentBox data-visual-test="section-warning">
+    <Section spacing variant="warning">
+      <P space={0}>
+        Warning section: <Anchor href="#">warning</Anchor>
+      </P>
+    </Section>
+  </ComponentBox>
+)
+
+export const SectionDemoSuccess = () => (
+  <ComponentBox data-visual-test="section-success">
+    <Section spacing variant="success">
+      <P space={0}>
+        Success section: <Anchor href="#">success</Anchor>
+      </P>
+    </Section>
+  </ComponentBox>
+)
