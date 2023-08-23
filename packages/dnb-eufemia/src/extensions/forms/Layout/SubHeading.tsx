@@ -14,6 +14,7 @@ function SubHeading(props: Props) {
     <Heading
       className={classnames('dnb-forms-sub-heading', className)}
       level="3"
+      size="medium"
       {...forwardSpaceProps(props)}
     >
       {children}
