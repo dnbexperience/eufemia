@@ -66,12 +66,6 @@ export const Widths = () => {
         onChange={(value) => console.log('onChange', value)}
       />
       <Field.Number
-        label="False (for browser default)"
-        value={123}
-        width={false}
-        onChange={(value) => console.log('onChange', value)}
-      />
-      <Field.Number
         label="Medium"
         value={123}
         width="medium"

@@ -1,3 +1,5 @@
+@import '../../Field/fields.scss';
+
 .dnb-forms-field-block {
   &__label-block {
     display: flex;
@@ -16,4 +18,28 @@
     color: var(--color-black-55);
     font-size: var(--font-size-small);
   }
+
+  &--width-large {
+    width: $forms-field-width-large;
+  }
+
+  &--width-medium {
+    width: $forms-field-width-medium;
+  }
+
+  &__contents {
+    &--width-stretch {
+      width: 100%;
+    }
+
+    &--width-large {
+      width: $forms-field-width-large;
+    }
+  
+    &--width-medium {
+      width: $forms-field-width-medium;
+    }
+  }
+
+  
 }
