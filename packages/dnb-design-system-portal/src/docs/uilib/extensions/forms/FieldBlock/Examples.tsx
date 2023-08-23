@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
-import { FieldBlock } from '@dnb/eufemia/src/extensions/forms'
+import { FieldBlock, TestElement } from '@dnb/eufemia/src/extensions/forms'
 
 export const Default = () => {
   return (
@@ -14,6 +14,41 @@ export const Horizontal = () => {
     <ComponentBox scope={{ FieldBlock }}>
       <FieldBlock label="Label text" layout="horizontal">
         Input features goes here
+      </FieldBlock>
+    </ComponentBox>
+  )
+}
+
+export const Widths = () => {
+  return (
+    <ComponentBox scope={{ FieldBlock, TestElement }}>
+      <FieldBlock label="Default width (no width props)">
+        <TestElement>Input feature</TestElement>
+      </FieldBlock>
+      <FieldBlock
+        label="Medium (affects outer block element)"
+        width="medium"
+      >
+        <TestElement>Input feature</TestElement>
+      </FieldBlock>
+      <FieldBlock
+        label="Large (affects outer block element)"
+        width="large"
+      >
+        <TestElement>Input feature</TestElement>
+      </FieldBlock>
+
+      <FieldBlock
+        label="Medium (affects contents only)"
+        contentsWidth="medium"
+      >
+        <TestElement>Input feature</TestElement>
+      </FieldBlock>
+      <FieldBlock
+        label="Large (affects contents only)"
+        contentsWidth="large"
+      >
+        <TestElement>Input feature</TestElement>
       </FieldBlock>
     </ComponentBox>
   )

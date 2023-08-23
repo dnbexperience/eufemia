@@ -6,7 +6,7 @@ import StringComponent, { Props as StringComponentProps } from './String'
 
 export type Props = Omit<FieldGroupProps, 'children'> &
   Record<'postalCode' | 'city', StringComponentProps> & {
-    width?: false | 'medium' | 'large'
+    width?: 'medium' | 'large'
   }
 
 function PostalCodeAndCity(props: Props) {
@@ -30,7 +30,7 @@ function PostalCodeAndCity(props: Props) {
       <div
         className={classnames(
           'dnb-forms-field-postal-code-and-city__fields',
-          width !== false &&
+          width !== undefined &&
             `dnb-forms-field-postal-code-and-city--width-${width}`
         )}
       >

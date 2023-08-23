@@ -110,15 +110,13 @@ function NumberComponent(props: Props) {
       info={info}
       warning={warning}
       error={error}
+      contentsWidth={width !== false ? width : undefined}
       {...forwardSpaceProps(props)}
     >
       <InputMasked
         id={id}
         className={classnames(
           'dnb-forms-field-number__input',
-          width !== false &&
-            width !== 'stretch' &&
-            `dnb-forms-field-number__input--width-${width}`,
           inputClassName
         )}
         placeholder={placeholder}
@@ -138,7 +136,7 @@ function NumberComponent(props: Props) {
         on_blur={onBlur}
         on_change={onChange}
         disabled={disabled}
-        stretch={width === 'stretch'}
+        stretch={width !== undefined}
       />
     </FieldBlock>
   )

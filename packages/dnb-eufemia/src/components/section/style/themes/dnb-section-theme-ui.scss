@@ -28,7 +28,7 @@
     }
   }
 
-  &--mint-green-12 {
+  &--mint-green-12, &--default {
     color: var(--color-black-80);
 
     &::after {
@@ -60,7 +60,7 @@
     }
   }
 
-  &--sand-yellow {
+  &--sand-yellow, &--warning {
     color: var(--color-black-80);
 
     &::after {
@@ -68,7 +68,7 @@
     }
   }
 
-  &--pistachio {
+  &--pistachio, &--info {
     color: var(--color-black-80);
 
     &::after {
@@ -108,7 +108,7 @@
     }
   }
 
-  &--fire-red-8 {
+  &--fire-red-8, &--error {
     color: var(--color-black-80);
 
     &::after {
@@ -116,10 +116,19 @@
     }
   }
 
+  &--success {
+    color: var(--color-white);
+
+    &::after {
+      color: var(--color-success-green);
+    }
+  }
+
   // Contrast styles
   &--fire-red .dnb-anchor,
   &--emerald-green .dnb-anchor,
-  &--sea-green .dnb-anchor {
+  &--sea-green .dnb-anchor,
+  &--success .dnb-anchor {
     @include useAnchorContrastStyle();
   }
 

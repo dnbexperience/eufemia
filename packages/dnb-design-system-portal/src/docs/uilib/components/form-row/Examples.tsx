@@ -171,43 +171,6 @@ export const FormRowVertical = () => (
   </TestStyles>
 )
 
-export const FormRowVerticalDirection = () => (
-  <TestStyles>
-    <ComponentBox data-visual-test="form-row-vertical-label-button">
-      {() => {
-        const CustomRow = styled(FormRow)`
-          .dnb-form-row__content .dnb-button {
-            align-self: flex-end;
-            transform: translateY(0.25rem); /* 4px down */
-          }
-        `
-        return (
-          <CustomRow
-            label={
-              <Space
-                element="span"
-                className="dnb-h--large"
-                top="0"
-                bottom="0"
-              >
-                Legend
-              </Space>
-            }
-            label_direction="vertical"
-          >
-            <Input
-              label="Vertical input label"
-              value="Input"
-              right="small"
-            />
-            <Button text="Button" />
-          </CustomRow>
-        )
-      }}
-    </ComponentBox>
-  </TestStyles>
-)
-
 export const FormRowNoWrap = () => (
   <TestStyles>
     <ComponentBox data-visual-test="form-row-horizontal-no_wrap">

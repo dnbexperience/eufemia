@@ -115,6 +115,7 @@ export default {
       text_card_number: 'Card number',
       text_expired: 'Expired',
       text_blocked: 'Blocked',
+      text_not_active: 'Not activated',
     },
     Logo: {
       alt: 'DNB Logo',

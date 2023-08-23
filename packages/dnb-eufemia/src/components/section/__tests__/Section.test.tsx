@@ -35,7 +35,7 @@ describe('Section component', () => {
 
     expect(Array.from(element.classList)).toEqual([
       'dnb-section',
-      'dnb-section--mint-green-12',
+      'dnb-section--default',
       'dnb-space__top--medium',
     ])
   })

@@ -51,7 +51,8 @@ export default function Provider<Data extends JsonObject>({
     () => (schema ? ajv.compile(schema) : undefined),
     [schema]
   )
-  const internalData = useRef<Partial<Data>>(externalData)
+  const [internalData, setInternalData] =
+    useState<Partial<Data>>(externalData)
   const mountedFieldPathsRef = useRef<string[]>([])
 
   // Errors from provider validation (the whole data set)
@@ -74,7 +75,7 @@ export default function Provider<Data extends JsonObject>({
 
   useEffect(() => {
     // When receivint the initial data, or receiving updated data by props, update the internal data (controlled state)
-    internalData.current = externalData
+    setInternalData(externalData)
   }, [externalData])
 
   const validateBySchema = useCallback(
@@ -115,7 +116,7 @@ export default function Provider<Data extends JsonObject>({
     (path, value) => {
       onPathChange?.(path, value)
       // Update the data even if it contains errors. Submit/SubmitRequest will be called accordingly
-      const newData = structuredClone(internalData.current) as Data
+      const newData = structuredClone(internalData) as Data
       if (path) {
         pointer.set(newData, path, value)
       }
@@ -123,11 +124,11 @@ export default function Provider<Data extends JsonObject>({
 
       validateBySchemaAndUpdateState(newData)
 
-      internalData.current = newData
+      setInternalData(newData)
 
       setShowAllErrors(false)
     },
-    [onChange, onPathChange, validateBySchemaAndUpdateState]
+    [internalData, onChange, onPathChange, validateBySchemaAndUpdateState]
   )
 
   // Mounted fields
@@ -150,7 +151,7 @@ export default function Provider<Data extends JsonObject>({
    */
   const handleSubmit = useCallback(() => {
     if (!hasErrors()) {
-      onSubmit?.(internalData.current as Data)
+      onSubmit?.(internalData as Data)
       if (scrollTopOnSubmit) {
         window && window?.scrollTo({ top: 0, behavior: 'smooth' })
       }
@@ -158,8 +159,14 @@ export default function Provider<Data extends JsonObject>({
       setShowAllErrors(true)
       onSubmitRequest?.()
     }
-    return internalData.current
-  }, [scrollTopOnSubmit, hasErrors, onSubmit, onSubmitRequest])
+    return internalData
+  }, [
+    internalData,
+    scrollTopOnSubmit,
+    hasErrors,
+    onSubmit,
+    onSubmitRequest,
+  ])
 
   useEffect(() => {
     // Mount procedure
@@ -173,7 +180,7 @@ export default function Provider<Data extends JsonObject>({
   return (
     <Context.Provider
       value={{
-        data: internalData.current,
+        data: internalData,
         handlePathChange,
         handleSubmit,
         errors: errorsRef.current,

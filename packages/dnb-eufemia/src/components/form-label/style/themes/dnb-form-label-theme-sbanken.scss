@@ -1,0 +1,16 @@
+/*
+ * FormLabel theme
+ *
+ */
+
+.dnb-form-label {
+  color: var(--sb-color-text);
+
+  .dnb-checkbox &,
+  .dnb-switch &,
+  .dnb-radio & {
+    &[for]:not([disabled]) {
+      cursor: pointer;
+    }
+  }
+}

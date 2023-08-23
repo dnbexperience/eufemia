@@ -10,7 +10,7 @@ import { fullscreen as fullscreenIcon } from '@dnb/eufemia/src/icons'
 import AutoLinkHeader from './AutoLinkHeader'
 import { tabsWrapperStyle } from './Tabbar.module.scss'
 
-const defaultTabs = [
+export const defaultTabs = [
   { title: 'Info', key: '/info' },
   { title: 'Demos', key: '/demos' },
   { title: 'Properties', key: '/properties' },
