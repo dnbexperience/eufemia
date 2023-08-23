@@ -10,17 +10,6 @@
 // we slice the shareable parts out in a separate file
 @import '../dnb-button--tertiary.scss';
 
-@mixin focus-tertiary {
-  color: var(--sb-color-blue-dark);
-  &::before {
-    background-color: var(--button-background--focus);
-  }
-
-  > * {
-    z-index: 2;
-  }
-}
-
 .dnb-button {
   // global
   --button-background--focus: var(--sb-color-blue-light-3);
@@ -40,6 +29,8 @@
 
   // secondary
   --button-secondary-color: var(--sb-color-purple-alternative);
+  --button-secondary-color--hover: var(--sb-color-purple-alternative);
+  --button-secondary-color--active: var(--sb-color-purple-alternative);
   --button-secondary-color--disabled: var(--sb-color-gray-dark);
   --button-secondary-background: var(--sb-color-white);
   --button-secondary-background--hover: var(--sb-color-green);
@@ -99,24 +90,29 @@
 
     @include hover() {
       --button-secondary-border: var(--button-secondary-border--hover);
+      color: var(--button-secondary-color--hover);
       background-color: var(--button-secondary-background--hover);
     }
 
     @include active() {
       --button-secondary-border: var(--button-secondary-border--active);
+      color: var(--button-secondary-color--active);
       background-color: var(--button-secondary-background--active);
     }
   }
 
-  @include focus-visible() {
-    color: var(--sb-color-blue-dark);
-    background-color: var(--button-background--focus);
+  &--primary,
+  &--secondary {
+    @include focus-visible() {
+      color: var(--sb-color-blue-dark);
+      background-color: var(--button-background--focus);
 
-    @include focusRing(
-      $whatinput: 'always',
-      $inset: inset,
-      $extendShadow: var(--sb-shadow-medium)
-    );
+      @include focusRing(
+        $whatinput: 'always',
+        $inset: inset,
+        $extendShadow: var(--sb-shadow-medium)
+      );
+    }
   }
 
   &[disabled] {
@@ -147,129 +143,80 @@
 
     // secondary
     --button-secondary-color: var(--sb-color-red);
+    --button-secondary-color--hover: var(--sb-color-red);
+    --button-secondary-color--active: var(--sb-color-red);
     --button-secondary-background--hover: var(--sb-color-magenta-light-3);
     --button-secondary-border--default: var(--sb-color-red);
   }
 
   &--tertiary {
-    $tertiary-padding: 0.5rem;
-    $tertiary-padding-large: 1.5rem;
-    $tertiary-icon-space: 0.5rem;
-
-    --button-tertiary-focus-overflow: -0.5rem;
+    --button-tertiary-focus-overflow--icon-top: 0;
+    --button-tertiary-underline-overflow: -0.5rem;
+    --button-tertiary-underline-overflow--icon: -1rem;
+    --button-tertiary-underline-bottom: -0.5rem;
+    --button-tertiary-text-bottom--icon: 0.5rem;
+    --button-tertiary-text-top--icon: 0;
 
     color: var(--sb-color-violet);
     background-color: transparent;
 
     .dnb-button__text::after {
       height: 0.0625rem;
-      bottom: -0.5rem;
-      left: -$tertiary-padding;
-      right: -$tertiary-padding;
-    }
-
-    &.dnb-button--size-large {
-      .dnb-button__text::after {
-        bottom: -0.75rem;
-        left: -$tertiary-padding-large;
-        right: -$tertiary-padding-large;
-      }
-    }
-
-    &.dnb-button--icon-position-top {
-      .dnb-button__text {
-        font-size: var(--font-size-x-small);
-      }
-      &.dnb-button--size-large {
-        .dnb-button__text {
-          font-size: var(--font-size-small);
-        }
-      }
+      bottom: var(--button-tertiary-underline-bottom);
     }
 
     &.dnb-button--has-text {
-      &.dnb-button--has-icon {
-        &.dnb-button--icon-position-left {
-          .dnb-button__text::after {
-            left: -($tertiary-padding + $tertiary-icon-space);
-          }
-        }
-        &.dnb-button--icon-position-right {
-          .dnb-button__text::after {
-            right: -($tertiary-padding + $tertiary-icon-space);
-          }
-        }
-        &.dnb-button--icon-position-top {
-          padding-left: $tertiary-padding;
-          padding-right: $tertiary-padding;
-          .dnb-button__text {
-            margin-bottom: 0.5rem;
-            font-size: var(--button-font-size);
-            &::after {
-              left: -$tertiary-padding;
-              right: -$tertiary-padding;
-            }
-          }
-        }
-      }
-
-      &.dnb-button--size-large {
-        &.dnb-button--has-icon {
-          &.dnb-button--icon-position-left {
-            .dnb-button__text::after {
-              left: -$tertiary-padding-large;
-            }
-          }
-          &.dnb-button--icon-position-right {
-            .dnb-button__text::after {
-              right: -$tertiary-padding-large;
-            }
-          }
-          &.dnb-button--icon-position-top {
-            padding-left: $tertiary-padding-large;
-            padding-right: $tertiary-padding-large;
-            .dnb-button__text {
-              margin-top: 0.25rem;
-              margin-bottom: 0.75rem;
-              font-size: var(--button-font-size);
-              &::after {
-                left: -$tertiary-padding-large;
-                right: -$tertiary-padding-large;
-              }
-            }
-          }
+      &.dnb-button--icon-position-top {
+        padding-left: calc(var(--button-tertiary-underline-overflow) * -1);
+        padding-right: calc(
+          var(--button-tertiary-underline-overflow) * -1
+        );
+        .dnb-button__text {
+          margin-top: var(--button-tertiary-text-top--icon);
+          margin-bottom: var(--button-tertiary-text-bottom--icon);
+          font-size: var(--button-font-size);
         }
       }
     }
 
-    @include focus() {
-      @include removeFocusRing('keyboard');
-      @include buttonFocusRing(null, inset, var(--sb-shadow-medium));
-      &:focus-visible {
-        @include focus-tertiary();
+    &.dnb-button--size-large {
+      --button-tertiary-underline-bottom: -0.75rem;
+      --button-tertiary-underline-overflow: -1.5rem;
+      --button-tertiary-underline-overflow--icon: -1.5rem;
+      --button-tertiary-text-bottom--icon: 0.75rem;
+      --button-tertiary-text-top--icon: 0.25rem;
+    }
+
+    @mixin focus-tertiary() {
+      color: var(--sb-color-blue-dark);
+      @include buttonFocusRing(
+        'always',
+        inset,
+        var(--sb-shadow-medium),
+        var(--button-tertiary-focus-left),
+        var(--button-tertiary-focus-right)
+      );
+
+      &::before {
+        background-color: var(--button-background--focus);
       }
 
-      // underline
-      .dnb-button__text::after {
-        visibility: hidden;
+      > * {
+        z-index: 2;
       }
     }
 
     @include hover() {
       // underline
-      .dnb-button__text::after {
+      &:not(:focus-visible) .dnb-button__text::after {
         color: var(--sb-color-violet);
         transition: none;
       }
-    }
 
-    &:not(.dnb-button--has-text):hover {
-      --focus-ring-width: 0.0625rem;
-      @include buttonFocusRing('always', inset);
-      @include focus-tertiary();
-      &::before {
-        left: 0;
-        right: 0;
+      &:not(.dnb-button--has-text) {
+        --focus-ring-width: 0.0625rem;
+        --sb-shadow-medium: 0 0 transparent;
+        @include focus-tertiary();
       }
     }
 
@@ -277,6 +224,14 @@
       // underline
       .dnb-button__text::after {
         color: var(--sb-color-violet);
+      }
+    }
+
+    @include focus-visible() {
+      @include focus-tertiary();
+      // underline
+      .dnb-button__text::after {
+        visibility: hidden;
       }
     }
 

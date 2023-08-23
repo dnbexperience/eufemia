@@ -74,7 +74,7 @@ export interface PaymentCardProps
    */
   card_number: string;
   /**
-   * Use one of these: `active`, `blocked`, `expired`. Defaults to `active`.
+   * Use one of these: `active`, `not_active`, `blocked`, `expired`. Defaults to `active`.
    */
   card_status?: PaymentCardCardStatus;
   /**
