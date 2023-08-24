@@ -144,17 +144,18 @@ export class DrawerListPortal extends React.PureComponent {
       // fallback for too narrow width - in case there is not width -> e.g. "--is-popup"
       if (independent_width || parseFloat(ownerWidth) < 64) {
         // get min-width from CSS property
-        const minWidth = parseFloat(
-          window
-            .getComputedStyle(document.documentElement)
-            .getPropertyValue('--drawer-list-width')
-        )
+        const minWidth =
+          parseFloat(
+            window
+              .getComputedStyle(document.documentElement)
+              .getPropertyValue('--drawer-list-width')
+          ) || 0
         width = minWidth * 16
       }
 
       // also check if root "has a custom width"
       const customWidth = rootElem.getBoundingClientRect().width
-      if (parseFloat(customWidth || 0) >= 64) {
+      if (!independent_width && parseFloat(customWidth || 0) >= 64) {
         width = customWidth
       }
 
