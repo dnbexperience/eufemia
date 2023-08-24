@@ -9,25 +9,47 @@
 .dnb-accordion {
   --accordion-border-width: 0;
   --accordion-border-radius: 0;
-  --accordion-border-color: transparent;
-  --accordion-border-color--expanded: var(--sb-color-violet);
-  --accordion-border-color--disabled: var(--sb-color-gray-dark-2);
-  --accordion-expanded-border-width: 0.1875rem;
-  --accordion-content-padding-left: calc(
-    3.5rem - var(--accordion-expanded-border-width)
+
+  // vertical spacing
+  --accordion-header-margin-v: 1rem;
+  --accordion-header-margin-v--description: 0.5rem;
+
+  // header
+  --accordion-header-wrapper-margin: 1rem;
+  --accordion-header-wrapper-margin--icon-right: calc(
+    1.5rem - var(--accordion-frame-width)
   );
+
+  // icon
+  --accordion-header-icon-gutter: 0.5rem;
+  --accordion-header-icon-margin: calc(
+    1.5rem - var(--accordion-frame-width)
+  );
+
+  // frame (left border on expand)
+  --accordion-frame-color: transparent;
+  --accordion-frame-color--expanded: var(--sb-color-violet);
+  --accordion-frame-color--disabled: var(--sb-color-gray-dark-2);
+  --accordion-frame-width: 0.1875rem;
+  --accordion-frame-width--active: 0rem;
 
   // background
   --accordion-bg: transparent;
   --accordion-bg--expanded: var(--sb-color-violet-light-4);
   --accordion-bg--disabled: var(--sb-color-gray-light-2);
 
+  // other
+  --accordion-content-padding-left: calc(
+    3.5rem - var(--accordion-frame-width)
+  );
+
   color: var(--sb-color-text);
 
   &__header,
   &__content {
     background-color: var(--accordion-bg);
-    border-left: 0.1875rem solid var(--accordion-border-color);
+    border-left: var(--accordion-frame-width) solid
+      var(--accordion-frame-color);
   }
 
   &__header {
@@ -51,35 +73,22 @@
       @include fakeBorder(null, null, inset);
       // must be set after fakeBorder()
       --border-color: var(--sb-color-violet);
-      border-left-width: 0;
-      padding-left: var(--accordion-expanded-border-width);
+      border-left-width: var(--accordion-frame-width--active);
+      padding-left: calc(
+        var(--accordion-frame-width) - var(--accordion-frame-width--active)
+      );
     }
 
-    &__wrapper {
-      margin: 1rem 1.5rem;
-    }
-
-    &__icon {
+    &__icon,
+    &__container {
       color: var(--sb-color-violet);
-      margin: 1rem 0.5rem 1rem
-        calc(1.5rem - var(--accordion-expanded-border-width));
     }
 
     &--icon-right {
-      .dnb-accordion__header__icon {
-        margin-right: calc(
-          1.5rem - var(--accordion-expanded-border-width)
-        );
-        margin-left: 0.5rem;
-      }
-
-      .dnb-accordion__header__wrapper {
-        margin-left: calc(1.5rem - var(--accordion-expanded-border-width));
-      }
-
+      --accordion-header-icon-margin: 1.5rem;
       + .dnb-accordion__content {
         --accordion-content-padding-left: calc(
-          1.5rem - var(--accordion-expanded-border-width)
+          1.5rem - var(--accordion-frame-width)
         );
       }
     }
@@ -94,27 +103,23 @@
 
   &__content__inner {
     margin-top: 0;
-    padding-left: var(--accordion-content-padding-left);
-    padding-bottom: 1rem;
+    padding: 0 1rem 1rem var(--accordion-content-padding-left);
   }
 
   &--expanded {
     --accordion-bg: var(--accordion-bg--expanded);
-    --accordion-border-color: var(--accordion-border-color--expanded);
+    --accordion-frame-color: var(--accordion-frame-color--expanded);
+    --accordion-frame-width--active: 0.125rem;
 
     > .dnb-accordion__header {
       font-weight: var(--sb-font-weight-bold);
-
-      @include active() {
-        border-left-width: 0.125rem;
-        padding-left: 0.0625rem;
-      }
     }
+
     // disabled
     > .dnb-accordion__header[disabled],
     > .dnb-accordion__header[disabled] + .dnb-accordion__content {
       --accordion-bg: var(--accordion-bg--disabled);
-      --accordion-border-color: var(--accordion-border-color--disabled);
+      --accordion-frame-color: var(--accordion-frame-color--disabled);
     }
   }
 }

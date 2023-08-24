@@ -10,6 +10,18 @@
   --accordion-border-radius: 0.25rem;
   --accordion-easing: var(--easing-default);
 
+  // vertical spacing
+  --accordion-header-margin-v: 1.5rem;
+  --accordion-header-margin-v--description: 1rem;
+
+  // wrapper
+  --accordion-header-wrapper-margin: 2rem;
+  --accordion-header-wrapper-margin--icon-right: 1rem;
+
+  // icon
+  --accordion-header-icon-gutter: 1rem;
+  --accordion-header-icon-margin: 1rem;
+
   position: relative;
 
   display: flex;
@@ -47,14 +59,13 @@
       flex-direction: column;
       width: 100%; // this pushes the &__container to the right
 
-      margin: 1.5rem 0 1.5rem 2rem;
+      margin: var(--accordion-header-margin-v)
+        var(--accordion-header-wrapper-margin)
+        var(--accordion-header-margin-v) 0;
     }
     &--description &__wrapper {
-      margin: 1rem 0 1rem 2rem;
-    }
-    &__icon + &__wrapper {
-      margin-left: 0;
-      margin-right: 2rem;
+      margin-top: var(--accordion-header-margin-v--description);
+      margin-bottom: var(--accordion-header-margin-v--description);
     }
 
     &__container {
@@ -63,7 +74,10 @@
     &__icon {
       align-self: flex-start;
 
-      margin: 1.5rem 1rem;
+      margin: var(--accordion-header-margin-v)
+        var(--accordion-header-icon-gutter)
+        var(--accordion-header-margin-v)
+        var(--accordion-header-icon-margin);
 
       font-size: var(--font-size-small);
       line-height: var(
@@ -78,6 +92,8 @@
       justify-content: space-between;
     }
     &--icon-right &__icon {
+      margin-right: var(--accordion-header-icon-margin);
+      margin-left: var(--accordion-header-icon-gutter);
       order: 3;
     }
     &--icon-right &__container {
@@ -85,8 +101,8 @@
     }
     &--icon-right &__wrapper {
       order: 2;
-      margin-left: 1rem;
-      margin-right: 1rem;
+      margin-right: 0;
+      margin-left: var(--accordion-header-wrapper-margin--icon-right);
     }
     &--icon-right &__wrapper + &__container {
       margin-right: 0;

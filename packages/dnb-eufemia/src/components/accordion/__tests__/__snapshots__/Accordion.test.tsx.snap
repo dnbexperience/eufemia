@@ -105,6 +105,12 @@ p > .dnb-icon {
   --accordion-border-width: 0.0625rem;
   --accordion-border-radius: 0.25rem;
   --accordion-easing: var(--easing-default);
+  --accordion-header-margin-v: 1.5rem;
+  --accordion-header-margin-v--description: 1rem;
+  --accordion-header-wrapper-margin: 2rem;
+  --accordion-header-wrapper-margin--icon-right: 1rem;
+  --accordion-header-icon-gutter: 1rem;
+  --accordion-header-icon-margin: 1rem;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -133,21 +139,18 @@ p > .dnb-icon {
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin: 1.5rem 0 1.5rem 2rem;
+  margin: var(--accordion-header-margin-v) var(--accordion-header-wrapper-margin) var(--accordion-header-margin-v) 0;
 }
 .dnb-accordion__header--description .dnb-accordion__header__wrapper {
-  margin: 1rem 0 1rem 2rem;
-}
-.dnb-accordion__header__icon + .dnb-accordion__header__wrapper {
-  margin-left: 0;
-  margin-right: 2rem;
+  margin-top: var(--accordion-header-margin-v--description);
+  margin-bottom: var(--accordion-header-margin-v--description);
 }
 .dnb-accordion__header__container {
   margin: 0 1rem;
 }
 .dnb-accordion__header__icon {
   align-self: flex-start;
-  margin: 1.5rem 1rem;
+  margin: var(--accordion-header-margin-v) var(--accordion-header-icon-gutter) var(--accordion-header-margin-v) var(--accordion-header-icon-margin);
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
   transition: transform 400ms var(--accordion-easing);
@@ -159,6 +162,8 @@ p > .dnb-icon {
   justify-content: space-between;
 }
 .dnb-accordion__header--icon-right .dnb-accordion__header__icon {
+  margin-right: var(--accordion-header-icon-margin);
+  margin-left: var(--accordion-header-icon-gutter);
   order: 3;
 }
 .dnb-accordion__header--icon-right .dnb-accordion__header__container {
@@ -166,8 +171,8 @@ p > .dnb-icon {
 }
 .dnb-accordion__header--icon-right .dnb-accordion__header__wrapper {
   order: 2;
-  margin-left: 1rem;
-  margin-right: 1rem;
+  margin-right: 0;
+  margin-left: var(--accordion-header-wrapper-margin--icon-right);
 }
 .dnb-accordion__header--icon-right .dnb-accordion__header__wrapper + .dnb-accordion__header__container {
   margin-right: 0;
