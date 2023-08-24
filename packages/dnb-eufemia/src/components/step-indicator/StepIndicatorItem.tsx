@@ -80,14 +80,12 @@ export type StepIndicatorItemProps = Omit<
 }
 
 function StepIndicatorItem({
-  hide_numbers: hide_numbers_default = false,
   status_state: status_state_default = 'warn',
   inactive: inactive_default = false,
   disabled: disabled_default = false,
   ...restOfProps
 }: StepIndicatorItemProps) {
   const props: StepIndicatorItemProps = {
-    hide_numbers: hide_numbers_default,
     status_state: status_state_default,
     inactive: inactive_default,
     disabled: disabled_default,
