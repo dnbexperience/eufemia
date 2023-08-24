@@ -359,9 +359,6 @@ const VisualTestHorizontalCentered = () => (
 )
 
 export default function FormRowVisualTests() {
-  if (!global.IS_TEST) {
-    return null
-  }
   return (
     <TestStyles>
       <Global

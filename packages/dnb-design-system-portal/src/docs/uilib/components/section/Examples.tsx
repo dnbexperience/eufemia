@@ -137,57 +137,53 @@ export const SectionDemoFireRed8 = () => (
   </ComponentBox>
 )
 
-export const SectionZIndex = () =>
-  !globalThis.IS_TEST ? null : (
-    <ComponentBox hideCode data-visual-test="section-z-index">
-      <Section spacing style_type="mint-green-12">
-        mint-green-12
-        <div>
-          <Section spacing style_type="mint-green">
-            mint-green
-            <div>
-              <Section spacing style_type="sea-green">
-                sea-green
-                <div>
-                  <Section spacing style_type="emerald-green">
-                    emerald-green
-                    <div>
-                      <Section spacing style_type="fire-red">
-                        fire-red
-                        <div>
-                          <Section spacing style_type="sand-yellow">
-                            sand-yellow
-                            <div>
-                              <Section spacing style_type="pistachio">
-                                pistachio
-                                <div>
-                                  <Section spacing style_type="lavender">
-                                    lavender
-                                    <div>
-                                      <Section
-                                        spacing
-                                        style_type="divider"
-                                      >
-                                        divider
-                                      </Section>
-                                    </div>
-                                  </Section>
-                                </div>
-                              </Section>
-                            </div>
-                          </Section>
-                        </div>
-                      </Section>
-                    </div>
-                  </Section>
-                </div>
-              </Section>
-            </div>
-          </Section>
-        </div>
-      </Section>
-    </ComponentBox>
-  )
+export const SectionZIndex = () => (
+  <ComponentBox hideCode data-visual-test="section-z-index">
+    <Section spacing style_type="mint-green-12">
+      mint-green-12
+      <div>
+        <Section spacing style_type="mint-green">
+          mint-green
+          <div>
+            <Section spacing style_type="sea-green">
+              sea-green
+              <div>
+                <Section spacing style_type="emerald-green">
+                  emerald-green
+                  <div>
+                    <Section spacing style_type="fire-red">
+                      fire-red
+                      <div>
+                        <Section spacing style_type="sand-yellow">
+                          sand-yellow
+                          <div>
+                            <Section spacing style_type="pistachio">
+                              pistachio
+                              <div>
+                                <Section spacing style_type="lavender">
+                                  lavender
+                                  <div>
+                                    <Section spacing style_type="divider">
+                                      divider
+                                    </Section>
+                                  </div>
+                                </Section>
+                              </div>
+                            </Section>
+                          </div>
+                        </Section>
+                      </div>
+                    </Section>
+                  </div>
+                </Section>
+              </div>
+            </Section>
+          </div>
+        </Section>
+      </div>
+    </Section>
+  </ComponentBox>
+)
 
 export const SectionDemoInfo = () => (
   <ComponentBox hideCode data-visual-test="section-info">

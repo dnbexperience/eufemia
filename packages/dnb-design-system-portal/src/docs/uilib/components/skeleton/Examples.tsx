@@ -103,9 +103,6 @@ export const SkeletonFiguresExample = () => (
 )
 
 export const SkeletonVisualTests = () => {
-  if (!globalThis.IS_TEST) {
-    return <></>
-  }
   return (
     <>
       <ComponentBox

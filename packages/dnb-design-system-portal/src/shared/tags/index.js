@@ -16,6 +16,14 @@ import VisibilityByTheme from '@dnb/eufemia/src/shared/VisibilityByTheme'
 export default {
   Copy,
   VisibilityByTheme,
+  VisualTest: ({ children, hideOnTest = false }) => {
+    if (
+      typeof window !== 'undefined' &&
+      (hideOnTest ? !window.IS_TEST : window.IS_TEST)
+    ) {
+      return children
+    }
+  },
   // img: Img, // -> <figure> cannot appear as a descendant of <p>
   h1: (props) => <Header level="1" {...props} />,
   h2: (props) => <Header level="2" {...props} />,

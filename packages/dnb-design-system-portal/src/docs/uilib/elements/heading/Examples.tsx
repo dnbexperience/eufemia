@@ -77,10 +77,6 @@ export const HeadingMarginCollapsingExample = () => (
   </ComponentBox>
 )
 export const HeadingRegressionTest = () => {
-  if (!globalThis.IS_TEST) {
-    return null
-  }
-
   const Spacer = styled.div`
     overflow: auto; // prevent margin collapse
   `

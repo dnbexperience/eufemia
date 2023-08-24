@@ -289,7 +289,7 @@ export const DialogConfirmCookies = () => (
 )
 
 export const DialogConfirmScrollableContent = () => {
-  return !globalThis.IS_TEST ? null : (
+  return (
     <ComponentBox data-visual-test="dialog-scroll-content">
       {() => {
         const MockComponent = () => {
