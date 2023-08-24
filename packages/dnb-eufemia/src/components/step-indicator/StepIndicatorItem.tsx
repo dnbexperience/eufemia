@@ -35,10 +35,6 @@ export type StepIndicatorItemProps = Omit<
 > & {
   title: string | React.ReactNode
   /**
-   * Define whether to show automatically counted numbers or not. Defaults to `false`.
-   */
-  hide_numbers?: boolean
-  /**
    * If set to true, this item step will be set as the current current selected step. This can be used instead of `current_step` on the component itself.
    */
   is_current?: boolean
@@ -53,7 +49,7 @@ export type StepIndicatorItemProps = Omit<
    */
   disabled?: boolean
   /**
-   * Used to set the status text.
+   * Is used to set the status text.
    */
   status?: string | React.ReactNode
   /**
