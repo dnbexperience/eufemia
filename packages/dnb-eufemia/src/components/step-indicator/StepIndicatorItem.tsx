@@ -357,7 +357,7 @@ export function StepItemButton({
   )
 }
 
-export type StepItemWrapperProps = {
+export type StepItemWrapperProps = React.HTMLProps<HTMLElement> & {
   children?: React.ReactNode
   number?: number
   /**

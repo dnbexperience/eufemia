@@ -18,7 +18,7 @@ import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
 import type {
   StepIndicatorItemProps,
-  StepItemWrapperProps,
+  StepItemWrapper,
 } from './StepIndicatorItem'
 import { stepIndicatorDefaultProps } from './StepIndicatorProps'
 
@@ -44,12 +44,7 @@ export type StepIndicatorMouseEvent = {
 }
 
 export type StepIndicatorRenderCallback = {
-  StepItem: ({
-    children,
-    number,
-    hide_numbers,
-    status,
-  }: StepItemWrapperProps) => React.ReactNode
+  StepItem: typeof StepItemWrapper
   element: React.ReactNode
   attributes: React.HTMLProps<HTMLElement>
   props: StepIndicatorItemProps
