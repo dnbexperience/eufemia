@@ -188,7 +188,6 @@ exports.onCreateWebpackConfig = ({
     },
     plugins: [
       plugins.define({
-        'global.isCI': JSON.stringify(isCI),
         'global.STYLE_IMPORT_PATH': JSON.stringify(
           PREBUILD_EXISTS
             ? '@dnb/eufemia/build/style/dnb-ui-core.min.css'
