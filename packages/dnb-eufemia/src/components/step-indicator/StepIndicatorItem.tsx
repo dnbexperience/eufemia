@@ -34,7 +34,6 @@ export type StepIndicatorItemProps = Omit<
   'title' | 'data'
 > & {
   title: string | React.ReactNode
-  step_title?: string
   /**
    * Define whether to show automatically counted numbers or not. Defaults to `false`.
    */
@@ -85,7 +84,6 @@ export type StepIndicatorItemProps = Omit<
 }
 
 function StepIndicatorItem({
-  step_title: step_title_default = 'Kakromark',
   hide_numbers: hide_numbers_default = false,
   status_state: status_state_default = 'warn',
   inactive: inactive_default = false,
@@ -93,7 +91,6 @@ function StepIndicatorItem({
   ...restOfProps
 }: StepIndicatorItemProps) {
   const props: StepIndicatorItemProps = {
-    step_title: step_title_default,
     hide_numbers: hide_numbers_default,
     status_state: status_state_default,
     inactive: inactive_default,
