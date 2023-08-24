@@ -107,6 +107,7 @@ function PhoneNumber(props: Props) {
         disabled={disabled}
         on_change={handleCountryCodeChange}
         independent_width
+        search_numbers
       />
       <Input
         className={classnames(
