@@ -18,11 +18,10 @@
   }
 
   &__country-code {
-    --autocomplete-width: 145px;
-    flex: 0 144px;
+    flex: 0 9rem;
 
     .dnb-autocomplete__shell {
-      width: 144px;
+      width: 9rem;
     }
   }
 

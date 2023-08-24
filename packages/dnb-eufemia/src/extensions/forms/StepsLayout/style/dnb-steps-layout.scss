@@ -13,11 +13,11 @@
 
   &__sidebar {
     flex: 0;
-    min-width: 320px;
+    min-width: 20rem;
   }
 
   &__contents {
     flex: 1;
-    min-width: 400px;
+    min-width: 25rem;
   }
 }
