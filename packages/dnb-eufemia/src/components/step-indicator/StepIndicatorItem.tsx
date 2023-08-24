@@ -22,18 +22,17 @@ import Button, { ButtonProps } from '../button/Button'
 import Icon, { IconIcon } from '../icon/Icon'
 import { WarnIcon, InfoIcon, ErrorIcon } from '../form-status/FormStatus'
 import StepIndicatorContext from './StepIndicatorContext'
-import { StepIndicatorMode } from './StepIndicator'
 import { stepIndicatorDefaultProps } from './StepIndicatorProps'
+import {
+  StepIndicatorMouseEvent,
+  StepIndicatorRenderCallback,
+} from './StepIndicator'
 
 export type StepIndicatorStatusState = 'warn' | 'info' | 'error'
 export type StepIndicatorItemProps = Omit<
   React.HTMLProps<HTMLElement>,
-  'title'
+  'title' | 'data'
 > & {
-  /**
-   * <em>(required)</em> defines how the StepIndicator should work. Use `static` for non-interactive steps. Use `strict` for a chronological step order, also, the user can navigate between visited steps. Use `loose` if the user should be able to navigate freely.
-   */
-  mode?: StepIndicatorMode
   title: string | React.ReactNode
   step_title?: string
   /**
@@ -41,36 +40,64 @@ export type StepIndicatorItemProps = Omit<
    */
   hide_numbers?: boolean
   /**
-   * Callback function to manipulate or wrap every item. Has to return a React Node. You receive an object you can use in your custom HOC `{ StepItem, element, attributes, props, context }`.
+   * If set to true, this item step will be set as the current current selected step. This can be used instead of `current_step` on the component itself.
    */
-  on_item_render?: (...args: any[]) => any
+  is_current?: boolean
   /**
-   * Will be called once the user visits actively a new step. Will be emitted only once. Returns an object `{ event, item, current_step }`.
+   * If set to true, this item step will be handled as an inactive step and will not be clickable.
+   * Defaults to `false`
    */
-  on_change?: (...args: any[]) => any
-  on_render?: (...args: any[]) => any
+  inactive?: boolean
+  /**
+   * If set to true, this item step will be visible as an disabled button and will not be clickable.
+   * Defaults to false.
+   */
+  disabled?: boolean
+  /**
+   * Used to set the status text.
+   */
+  status?: string | React.ReactNode
+  /**
+   * Used to set the status state to be either `info`, `error` or `warn`.
+   * Defaults to `warn`.
+   */
+  status_state?: StepIndicatorStatusState
+  /**
+   * Callback function to manipulate or wrap the step item. Has to return a React Node. You receive an object `{ StepItem, element, attributes, props, context }`.
+   */
+  on_render?: ({
+    StepItem,
+    element,
+    attributes,
+    props,
+    context,
+  }: StepIndicatorRenderCallback) => React.ReactNode
   /**
    * Will be called once the user clicks on the current or another step. Will be emitted on every click. Returns an object `{ event, item, current_step }`.
    */
-  on_click?: (...args: any[]) => any
-  is_current?: boolean
-  inactive?: boolean
-  disabled?: boolean
-  status?: string | React.ReactNode
-  status_state?: StepIndicatorStatusState
+  on_click?: ({
+    event,
+    item,
+    current_step,
+    currentStep,
+  }: StepIndicatorMouseEvent) => void
   currentItemNum: number
 }
 
 function StepIndicatorItem({
-  step_title: step_title_default = '%step',
+  step_title: step_title_default = 'Kakromark',
   hide_numbers: hide_numbers_default = false,
   status_state: status_state_default = 'warn',
+  inactive: inactive_default = false,
+  disabled: disabled_default = false,
   ...restOfProps
 }: StepIndicatorItemProps) {
-  const props = {
+  const props: StepIndicatorItemProps = {
     step_title: step_title_default,
     hide_numbers: hide_numbers_default,
     status_state: status_state_default,
+    inactive: inactive_default,
+    disabled: disabled_default,
     ...restOfProps,
   }
 
@@ -184,7 +211,6 @@ function StepIndicatorItem({
 
     on_render,
     on_click, // eslint-disable-line
-    on_change, // eslint-disable-line
 
     ...attributes
   } = props
@@ -222,7 +248,7 @@ function StepIndicatorItem({
     >
       {title}
     </StepItemWrapper>
-  )
+  ) as React.ReactNode
 
   const callbackProps = {
     StepItem: StepItemWrapper,

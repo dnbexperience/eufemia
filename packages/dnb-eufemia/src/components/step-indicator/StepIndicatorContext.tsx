@@ -44,7 +44,7 @@ const filterAttributes = Object.keys(stepIndicatorDefaultProps)
     'onChangeState',
   ])
 
-type StepIndicatorContextValues = StepIndicatorProviderProps &
+export type StepIndicatorContextValues = StepIndicatorProviderProps &
   StepIndicatorProviderStates &
   ContextProps
 
@@ -60,9 +60,15 @@ export type StepIndicatorProviderProps = Omit<
   /**
    * <em>(required)</em> a unique string-based ID in order to bind together the main component and the sidebar (`<StepIndicator.Sidebar />`). Both have to get the same ID.
    */
-  data?: StepIndicatorData
-  mode?: StepIndicatorMode
   sidebar_id: string
+  /**
+   * <em>(required)</em> defines the data/steps showing up in a JavaScript Array or JSON format like `[{title,is_current}]`. See parameters and the example above.
+   */
+  data?: StepIndicatorData
+  /**
+   * <em>(required)</em> defines how the StepIndicator should work. Use `static` for non-interactive steps. Use `strict` for a chronological step order, also, the user can navigate between visited steps. Use `loose` if the user should be able to navigate freely.
+   */
+  mode?: StepIndicatorMode
   children: React.ReactNode
   isSidebar?: boolean
 }

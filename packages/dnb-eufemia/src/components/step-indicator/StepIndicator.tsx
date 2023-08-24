@@ -9,11 +9,17 @@ import { makeUniqueId, warn } from '../../shared/component-helper'
 import StepIndicatorSidebar from './StepIndicatorSidebar'
 
 import StepIndicatorModal from './StepIndicatorModal'
-import { StepIndicatorProvider } from './StepIndicatorContext'
+import {
+  StepIndicatorContextValues,
+  StepIndicatorProvider,
+} from './StepIndicatorContext'
 
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
-import type { StepIndicatorItemProps } from './StepIndicatorItem'
+import type {
+  StepIndicatorItemProps,
+  StepItemWrapperProps,
+} from './StepIndicatorItem'
 import { stepIndicatorDefaultProps } from './StepIndicatorProps'
 
 export type StepIndicatorMode = 'static' | 'strict' | 'loose'
@@ -29,6 +35,26 @@ export type StepIndicatorDataItem = Pick<
   | 'on_render'
 >
 export type StepIndicatorData = string | string[] | StepIndicatorDataItem[]
+
+export type StepIndicatorMouseEvent = {
+  event: React.MouseEvent<HTMLButtonElement>
+  item: StepIndicatorItemProps
+  currentStep: number
+  current_step: number
+}
+
+export type StepIndicatorRenderCallback = {
+  StepItem: ({
+    children,
+    number,
+    hide_numbers,
+    status,
+  }: StepItemWrapperProps) => React.ReactNode
+  element: React.ReactNode
+  attributes: React.HTMLProps<HTMLElement>
+  props: StepIndicatorItemProps
+  context: StepIndicatorContextValues
+}
 
 export type StepIndicatorProps = Omit<
   React.HTMLProps<HTMLAnchorElement>,
@@ -48,12 +74,26 @@ export type StepIndicatorProps = Omit<
      */
     data: StepIndicatorData
     /**
-     * Will be called once the user clicks on the current or another step. Will be emitted on every click. Returns an object `{ event, item, current_step }`.
+     *  The title shown inside the `<StepIndicatorModal />` supplemental screen reader text for the `<StepIndicatorTriggerButton />`
+     *  Defaults to `Steps Overview`
      */
-    on_click?: (...args: any[]) => any
     overview_title?: string
-    step_title_extended?: string
+    /**
+     *  The label for `<StepIndicatorTriggerButton />` and supplemental screen reader text for `<StepIndicatorItem />`
+     *  This value need to contain `%step` and `%count` if you want to display the current step and total amount of steps
+     * `%step` is used to place the current step into the text
+     * `%count` is used to place the step total into the text
+     *  Defaults to `Step %step of %count`
+     */
     step_title?: string
+    /**
+     *  A descriptive label used in `<StepIndicatorModal />`
+     *  This value need to contain `%step` and `%count` if you want to display the current step and total amount of steps
+     * `%step` is used to place the current step into the text
+     * `%count` is used to place the step total into the text
+     *  Defaults to `You are on step %step of %count`
+     */
+    step_title_extended?: string
     /**
      * Defines the active number marked step starting by 0. Defaults to `0`.
      */
@@ -63,22 +103,41 @@ export type StepIndicatorProps = Omit<
      */
     hide_numbers?: boolean
     /**
+     * Will be called once the user clicks on the current or another step. Will be emitted on every click. Returns an object `{ event, item, current_step, currentStep }`.
+     */
+    on_click?: ({
+      event,
+      item,
+      current_step,
+      currentStep,
+    }: StepIndicatorMouseEvent) => void
+    /**
      * Callback function to manipulate or wrap every item. Has to return a React Node. You receive an object you can use in your custom HOC `{ StepItem, element, attributes, props, context }`.
      */
-    on_item_render?: (...args: any[]) => any
+    on_item_render?: ({
+      StepItem,
+      element,
+      attributes,
+      props,
+      context,
+    }: StepIndicatorRenderCallback) => React.ReactNode
     /**
-     * Will be called once the user visits actively a new step. Will be emitted only once. Returns an object `{ event, item, current_step }`.
+     * Will be called once the user visits actively a new step. Will be emitted only once. Returns an object `{ event, item, current_step, currentStep }`.
      */
-    on_change?: (...args: any[]) => any
+    on_change?: ({
+      event,
+      item,
+      current_step,
+      currentStep,
+    }: StepIndicatorMouseEvent) => void
 
     /**
      * If set to `true`, the height animation on the step items and the drawer button will be omitted. Defaults to `false`.
      */
     no_animation?: boolean
     skeleton?: SkeletonShow
-    class?: string
     className?: string
-    children?: React.ReactNode | ((...args: any[]) => any)
+    children?: React.ReactNode
   }
 
 function StepIndicator({
