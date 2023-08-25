@@ -181,6 +181,20 @@ describe('Checkbox component', () => {
     const Comp = render(<Checkbox {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
+
+  it('should forward refs', () => {
+    const ref: React.LegacyRef<Checkbox> = {
+      current: undefined,
+    }
+    const innerRef: React.MutableRefObject<HTMLInputElement> = {
+      current: undefined,
+    }
+
+    render(<Checkbox {...props} ref={ref} innerRef={innerRef} checked />)
+
+    expect(ref.current['_refInput'].current).toBeChecked()
+    expect(innerRef.current).toBeChecked()
+  })
 })
 
 describe('Checkbox scss', () => {
