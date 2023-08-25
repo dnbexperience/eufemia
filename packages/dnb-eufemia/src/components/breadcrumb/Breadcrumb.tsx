@@ -134,7 +134,7 @@ export const defaultProps = {
   backToText: 'Back to...',
   isCollapsed: true,
   styleType: 'transparent',
-  collapsedStyleType: 'pistachio',
+  collapsedStyleType: 'info',
   spacing: false,
 }
 
@@ -251,7 +251,7 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
 
       {currentVariant === 'collapse' && (
         <Section
-          style_type={collapsedStyleType}
+          variant={collapsedStyleType}
           className="dnb-breadcrumb__collapse"
         >
           <BreadcrumbMultiple
