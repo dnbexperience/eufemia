@@ -142,7 +142,8 @@ export default class Checkbox extends React.PureComponent {
 
   constructor(props) {
     super(props)
-    this._refInput = React.createRef()
+    this._refInput = props.innerRef || React.createRef()
+
     this._id = props.id || makeUniqueId() // cause we need an id anyway
     this.state = {
       _listenForPropChanges: true,
@@ -168,13 +169,6 @@ export default class Checkbox extends React.PureComponent {
     // help firefox and safari to have an correct state after a click
     if (this._refInput.current) {
       this._refInput.current.focus()
-    }
-  }
-
-  initializeRefs = (ref) => {
-    this._refInput.current = ref
-    if (this.props.innerRef) {
-      this.props.innerRef.current = ref
     }
   }
 
@@ -214,6 +208,7 @@ export default class Checkbox extends React.PureComponent {
       children, // eslint-disable-line
       on_change, // eslint-disable-line
       on_state_update, // eslint-disable-line
+      innerRef, // eslint-disable-line
 
       ...rest
     } = props
@@ -308,7 +303,7 @@ export default class Checkbox extends React.PureComponent {
                 {...inputParams}
                 onChange={this.onChangeHandler}
                 onKeyDown={this.onKeyDownHandler}
-                ref={this.initializeRefs}
+                ref={this._refInput}
               />
 
               <span

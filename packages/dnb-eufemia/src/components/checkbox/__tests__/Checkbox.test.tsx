@@ -182,18 +182,17 @@ describe('Checkbox component', () => {
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
-  it('should forward refs', () => {
-    const ref: React.LegacyRef<Checkbox> = {
-      current: undefined,
-    }
-    const innerRef: React.MutableRefObject<HTMLInputElement> = {
-      current: undefined,
+  it('gets valid ref element', () => {
+    let ref: React.RefObject<HTMLInputElement>
+
+    function MockComponent() {
+      ref = React.useRef()
+      return <Checkbox {...props} innerRef={ref} />
     }
 
-    render(<Checkbox {...props} ref={ref} innerRef={innerRef} checked />)
+    render(<MockComponent />)
 
-    expect(ref.current['_refInput'].current).toBeChecked()
-    expect(innerRef.current).toBeChecked()
+    expect(ref.current.classList).toContain('dnb-checkbox__input')
   })
 })
 
