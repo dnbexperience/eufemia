@@ -3,7 +3,7 @@
  *
  */
 
-import React, { useEffect, useRef, useState } from 'react'
+import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
