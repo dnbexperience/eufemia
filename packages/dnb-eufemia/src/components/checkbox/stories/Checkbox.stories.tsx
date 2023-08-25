@@ -156,27 +156,3 @@ export const GlobalStatusExample = () => {
     </>
   )
 }
-
-export const RefTest = () => {
-  const [checked, setChecked] = useState<boolean>(false)
-
-  const ref = useRef(null)
-  const innerRef = useRef(null)
-
-  useEffect(() => {
-    console.log('ref', ref.current)
-    console.log('innerRef', innerRef.current)
-  }, [checked])
-
-  return (
-    <Checkbox
-      label="Checkbox"
-      globalStatus={{ id: 'my-id', message: 'my message' }}
-      checked={checked}
-      onChange={() => setChecked((c) => !c)}
-      status="Message"
-      innerRef={innerRef}
-      ref={ref}
-    />
-  )
-}
