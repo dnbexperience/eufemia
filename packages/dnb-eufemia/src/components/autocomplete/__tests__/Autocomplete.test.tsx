@@ -14,7 +14,13 @@ import {
   mockImplementationForDirectionObserver,
   testDirectionObserver,
 } from '../../../fragments/drawer-list/__tests__/DrawerListTestMocks'
-import { cleanup, fireEvent, render, act } from '@testing-library/react'
+import {
+  cleanup,
+  fireEvent,
+  render,
+  act,
+  waitFor,
+} from '@testing-library/react'
 import FormRow from '../../form-row/FormRow'
 import {
   DrawerListData,
@@ -158,6 +164,41 @@ describe('Autocomplete component', () => {
       document.querySelectorAll('li.dnb-drawer-list__option')[0]
         .textContent
     ).toBe('Ingen alternativer')
+  })
+
+  it('will set correct width when independent_width is set', async () => {
+    const style = {
+      getPropertyValue: () => 20,
+    } as undefined
+
+    jest.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
+
+    const { rerender } = render(
+      <Autocomplete value={1} data={mockData} opened />
+    )
+
+    const styleElement = document.querySelector(
+      '.dnb-drawer-list__portal__style'
+    )
+
+    await waitFor(() => {
+      expect(styleElement.getAttribute('style')).toBe(
+        'width: 64px; --drawer-list-width: 4rem; top: 0px; left: 0px;'
+      )
+    })
+
+    rerender(
+      <Autocomplete value={1} data={mockData} independent_width opened />
+    )
+
+    expect(styleElement.getAttribute('style')).toBe(
+      'width: 320px; --drawer-list-width: 20rem; top: 0px; left: 0px;'
+    )
+
+    const element = document.querySelector('.dnb-drawer-list')
+    expect(Array.from(element.classList)).toContain(
+      'dnb-drawer-list--independent-width'
+    )
   })
 
   describe('suffix_value', () => {
