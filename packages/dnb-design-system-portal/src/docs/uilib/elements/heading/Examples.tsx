@@ -9,7 +9,7 @@ import { H1, H2, H3, H4, H5, H6, P } from '@dnb/eufemia/src'
 import styled from '@emotion/styled'
 
 export const HeadingBasicsExample = () => (
-  <ComponentBox>
+  <ComponentBox data-visual-test="heading-basics">
     <H1>Heading 1</H1>
     <H2>Heading 2</H2>
     <H3>Heading 3</H3>

@@ -40,6 +40,13 @@ describe.each(['ui', 'sbanken', 'eiendom'])(
       url: '/uilib/elements/heading',
     })
 
+    it('matches basic levels', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="heading-basics"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
     it('matches all sizes and variants', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="heading-sizes"]',
