@@ -16,7 +16,7 @@ import {
 } from './StepIndicator'
 import { StepIndicatorItemProps } from './StepIndicatorItem'
 
-// We use this array to filter out unwanted
+// We use this array to filter out unwanted properties
 const filterAttributes = Object.keys(stepIndicatorDefaultProps)
   .filter((item) => {
     return !['class', 'className'].includes(item)
