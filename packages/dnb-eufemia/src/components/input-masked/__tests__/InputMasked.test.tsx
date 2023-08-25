@@ -623,6 +623,34 @@ describe('InputMasked component', () => {
     expect(document.querySelector('input').value).toBe('1 2 3')
   })
 
+  it('should show placeholder with both value null and undefined', () => {
+    const { rerender } = render(
+      <InputMasked value={undefined} placeholder="AA" />
+    )
+
+    expect(
+      document.querySelector('.dnb-input__placeholder').textContent
+    ).toBe('AA')
+
+    rerender(<InputMasked placeholder="BB" value={null} />)
+
+    expect(
+      document.querySelector('.dnb-input__placeholder').textContent
+    ).toBe('BB')
+
+    rerender(<InputMasked placeholder="CC" value="" />)
+
+    expect(
+      document.querySelector('.dnb-input__placeholder').textContent
+    ).toBe('CC')
+
+    rerender(<InputMasked placeholder="CC" value="new-value" />)
+
+    expect(
+      document.querySelector('.dnb-input__placeholder')
+    ).not.toBeInTheDocument()
+  })
+
   it('should show placeholder chars when show_mask is true', () => {
     render(
       <InputMasked
