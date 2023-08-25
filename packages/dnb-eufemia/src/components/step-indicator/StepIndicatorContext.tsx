@@ -266,7 +266,6 @@ export function StepIndicatorProvider({
 /**
  * Like "Object.assign" – but safe
  * A new falsy value will not be used, if it exists already
- * Also,
  *
  * @param  {...object} objects
  * @returns object
