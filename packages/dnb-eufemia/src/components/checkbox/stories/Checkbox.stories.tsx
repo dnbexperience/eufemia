@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
@@ -154,5 +154,29 @@ export const GlobalStatusExample = () => {
         status="Message"
       />
     </>
+  )
+}
+
+export const RefTest = () => {
+  const [checked, setChecked] = useState<boolean>(false)
+
+  const ref = useRef(null)
+  const innerRef = useRef(null)
+
+  useEffect(() => {
+    console.log('ref', ref.current)
+    console.log('innerRef', innerRef.current)
+  }, [checked])
+
+  return (
+    <Checkbox
+      label="Checkbox"
+      globalStatus={{ id: 'my-id', message: 'my message' }}
+      checked={checked}
+      onChange={() => setChecked((c) => !c)}
+      status="Message"
+      innerRef={innerRef}
+      ref={ref}
+    />
   )
 }
