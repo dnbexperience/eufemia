@@ -78,6 +78,7 @@ export default class Checkbox extends React.PureComponent {
     readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     class: PropTypes.string,
+    innerRef: PropTypes.object,
 
     ...spacingPropTypes,
 
@@ -167,6 +168,13 @@ export default class Checkbox extends React.PureComponent {
     // help firefox and safari to have an correct state after a click
     if (this._refInput.current) {
       this._refInput.current.focus()
+    }
+  }
+
+  initializeRefs = (ref) => {
+    this._refInput.current = ref
+    if (this.props.innerRef) {
+      this.props.innerRef.current = ref
     }
   }
 
@@ -300,7 +308,7 @@ export default class Checkbox extends React.PureComponent {
                 {...inputParams}
                 onChange={this.onChangeHandler}
                 onKeyDown={this.onKeyDownHandler}
-                ref={this._refInput}
+                ref={this.initializeRefs}
               />
 
               <span
