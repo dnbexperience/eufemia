@@ -12,3 +12,28 @@ export const Default = () => {
     </ComponentBox>
   )
 }
+
+export const Widths = () => {
+  return (
+    <ComponentBox scope={{ Layout, TestElement, Field }}>
+      <Layout.Card>
+        <p>No width (default)</p>
+        <Layout.FlexItem>
+          <TestElement>Contents</TestElement>
+        </Layout.FlexItem>
+        <p>Small</p>
+        <Layout.FlexItem width="small">
+          <TestElement>Cont.</TestElement>
+        </Layout.FlexItem>
+        <p>Medium</p>
+        <Layout.FlexItem width="medium">
+          <TestElement>Contents</TestElement>
+        </Layout.FlexItem>
+        <p>Large</p>
+        <Layout.FlexItem width="large">
+          <TestElement>Contents</TestElement>
+        </Layout.FlexItem>
+      </Layout.Card>
+    </ComponentBox>
+  )
+}

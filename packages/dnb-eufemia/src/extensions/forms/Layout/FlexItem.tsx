@@ -7,16 +7,18 @@ import { forwardSpaceProps } from '../utils'
 export type Props = ComponentProps & {
   grow?: boolean
   shrink?: boolean
+  width?: 'small' | 'medium' | 'large'
   children: React.ReactNode
 }
 
 function FlexItem(props: Props) {
-  const { className, grow, shrink, children } = props
+  const { className, grow, shrink, width, children } = props
   const cn = classnames(
     'dnb-forms-flex-item',
     grow && 'dnb-forms-flex-item--grow',
     shrink && 'dnb-forms-flex-item--shrink',
-    className,
+    width && `dnb-forms-flex-item--width-${width}`,
+    className
   )
 
   return (

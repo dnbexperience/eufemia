@@ -28,6 +28,31 @@ export const Default = () => {
   )
 }
 
+export const Widths = () => {
+  return (
+    <ComponentBox scope={{ Layout, TestElement, Field }}>
+      <Layout.Card>
+        <p>No width (default)</p>
+        <Layout.FlexContainer>
+          <TestElement>Contents</TestElement>
+        </Layout.FlexContainer>
+        <p>Small</p>
+        <Layout.FlexContainer width="small">
+          <TestElement>Cont.</TestElement>
+        </Layout.FlexContainer>
+        <p>Medium</p>
+        <Layout.FlexContainer width="medium">
+          <TestElement>Contents</TestElement>
+        </Layout.FlexContainer>
+        <p>Large</p>
+        <Layout.FlexContainer width="large">
+          <TestElement>Contents</TestElement>
+        </Layout.FlexContainer>
+      </Layout.Card>
+    </ComponentBox>
+  )
+}
+
 export const RowWithFlexItem = () => {
   return (
     <ComponentBox scope={{ Layout, TestElement, Field }}>
