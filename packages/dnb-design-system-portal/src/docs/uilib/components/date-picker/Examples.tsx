@@ -25,81 +25,79 @@ const Wrapper = styled.div`
   }
 `
 
-export const DatePickerRange = () =>
-  globalThis.IS_TEST ? null : (
-    <ComponentBox
-      scope={{
-        addDays,
-        startOfMonth,
-        lastDayOfMonth,
-        startOfWeek,
-        lastDayOfWeek,
+export const DatePickerRange = () => (
+  <ComponentBox
+    scope={{
+      addDays,
+      startOfMonth,
+      lastDayOfMonth,
+      startOfWeek,
+      lastDayOfWeek,
+    }}
+  >
+    <DatePicker
+      label="DatePicker:"
+      start_date="2019-04-01"
+      end_date="2019-05-17"
+      range={true}
+      show_input={true}
+      on_change={({ start_date, end_date }) => {
+        console.log('on_change', start_date, end_date)
       }}
-    >
-      <DatePicker
-        label="DatePicker:"
-        start_date="2019-04-01"
-        end_date="2019-05-17"
-        range={true}
-        show_input={true}
-        on_change={({ start_date, end_date }) => {
-          console.log('on_change', start_date, end_date)
-        }}
-        on_submit={({ start_date, end_date }) => {
-          console.log('on_submit', start_date, end_date)
-        }}
-        on_cancel={({ start_date, end_date }) => {
-          console.log('on_cancel', start_date, end_date)
-        }}
-        shortcuts={[
-          {
-            title: 'Set date period',
-            start_date: '1969-07-15',
-            end_date: '1969-08-15',
-          },
-          {
-            title: 'Today',
-            start_date: new Date(),
-          },
-          {
-            title: 'This week',
-            start_date: startOfWeek(new Date()),
-            end_date: lastDayOfWeek(new Date()),
-          },
-          {
-            close_on_select: true,
-            title: 'This month',
-            start_date: startOfMonth(new Date()),
-            end_date: lastDayOfMonth(new Date()),
-          },
-          {
-            title: 'Relative +3 days',
-            start_date: ({ start_date }) => start_date || new Date(),
-            end_date: ({ end_date }) => addDays(end_date || new Date(), 3),
-          },
-        ]}
-      />
-    </ComponentBox>
-  )
+      on_submit={({ start_date, end_date }) => {
+        console.log('on_submit', start_date, end_date)
+      }}
+      on_cancel={({ start_date, end_date }) => {
+        console.log('on_cancel', start_date, end_date)
+      }}
+      shortcuts={[
+        {
+          title: 'Set date period',
+          start_date: '1969-07-15',
+          end_date: '1969-08-15',
+        },
+        {
+          title: 'Today',
+          start_date: new Date(),
+        },
+        {
+          title: 'This week',
+          start_date: startOfWeek(new Date()),
+          end_date: lastDayOfWeek(new Date()),
+        },
+        {
+          close_on_select: true,
+          title: 'This month',
+          start_date: startOfMonth(new Date()),
+          end_date: lastDayOfMonth(new Date()),
+        },
+        {
+          title: 'Relative +3 days',
+          start_date: ({ start_date }) => start_date || new Date(),
+          end_date: ({ end_date }) => addDays(end_date || new Date(), 3),
+        },
+      ]}
+    />
+  </ComponentBox>
+)
 
-export const DatePickerWithInput = () =>
-  globalThis.IS_TEST ? null : (
-    <ComponentBox>
-      <DatePicker
-        label="DatePicker:"
-        date={new Date()}
-        show_input={true}
-        show_cancel_button={true}
-        show_reset_button={true}
-        on_change={({ date }) => {
-          console.log('on_change', date)
-        }}
-        on_cancel={({ date }) => {
-          console.log('on_cancel', date)
-        }}
-      />
-    </ComponentBox>
-  )
+export const DatePickerWithInput = () => (
+  <ComponentBox>
+    <DatePicker
+      label="DatePicker:"
+      date={new Date()}
+      show_input={true}
+      show_cancel_button={true}
+      show_reset_button={true}
+      on_change={({ date }) => {
+        console.log('on_change', date)
+      }}
+      on_cancel={({ date }) => {
+        console.log('on_cancel', date)
+      }}
+    />
+  </ComponentBox>
+)
 
 export const DatePickerTrigger = () => (
   <Wrapper>
@@ -119,64 +117,60 @@ export const DatePickerTrigger = () => (
   </Wrapper>
 )
 
-export const DatePickerHiddenNav = () =>
-  globalThis.IS_TEST ? null : (
-    <ComponentBox>
-      <DatePicker
-        label="DatePicker:"
-        date="2022/05/05"
-        min_date="2022/05/01"
-        max_date="2022/05/17"
-        date_format="yyyy/MM/dd"
-        return_format="dd/MM/yyyy"
-        hide_navigation={true}
-        hide_days={true}
-        on_change={({ date }) => {
-          console.log('on_change', date)
-        }}
-        on_hide={({ date }) => {
-          console.log('on_hide', date)
-        }}
-      />
-    </ComponentBox>
-  )
+export const DatePickerHiddenNav = () => (
+  <ComponentBox>
+    <DatePicker
+      label="DatePicker:"
+      date="2022/05/05"
+      min_date="2022/05/01"
+      max_date="2022/05/17"
+      date_format="yyyy/MM/dd"
+      return_format="dd/MM/yyyy"
+      hide_navigation={true}
+      hide_days={true}
+      on_change={({ date }) => {
+        console.log('on_change', date)
+      }}
+      on_hide={({ date }) => {
+        console.log('on_hide', date)
+      }}
+    />
+  </ComponentBox>
+)
 
-export const DatePickerMonthOnly = () =>
-  globalThis.IS_TEST ? null : (
-    <ComponentBox>
-      <DatePicker
-        label="DatePicker:"
-        date="05/02/2019"
-        date_format="MM/dd/yyyy"
-        only_month={true}
-      />
-    </ComponentBox>
-  )
+export const DatePickerMonthOnly = () => (
+  <ComponentBox>
+    <DatePicker
+      label="DatePicker:"
+      date="05/02/2019"
+      date_format="MM/dd/yyyy"
+      only_month={true}
+    />
+  </ComponentBox>
+)
 
-export const DatePickerStatusMessage = () =>
-  globalThis.IS_TEST ? null : (
-    <ComponentBox>
-      <DatePicker
-        label="DatePicker:"
-        date={new Date()}
-        show_input={true}
-        status="Please select a valid date"
-        status_state="info"
-      />
-    </ComponentBox>
-  )
+export const DatePickerStatusMessage = () => (
+  <ComponentBox>
+    <DatePicker
+      label="DatePicker:"
+      date={new Date()}
+      show_input={true}
+      status="Please select a valid date"
+      status_state="info"
+    />
+  </ComponentBox>
+)
 
-export const DatePickerSuffix = () =>
-  globalThis.IS_TEST ? null : (
-    <ComponentBox>
-      <DatePicker
-        label="DatePicker:"
-        date={new Date()}
-        show_input
-        suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
-      />
-    </ComponentBox>
-  )
+export const DatePickerSuffix = () => (
+  <ComponentBox>
+    <DatePicker
+      label="DatePicker:"
+      date={new Date()}
+      show_input
+      suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
+    />
+  </ComponentBox>
+)
 
 export const DatePickerLinked = () => (
   <Wrapper>
@@ -245,9 +239,6 @@ export const DatePickerCalendar = () => (
 )
 
 export const DatePickerScreenshotTestSizes = () => {
-  if (!globalThis.IS_TEST) {
-    return null
-  }
   return (
     <Wrapper>
       <ComponentBox data-visual-test="date-picker-sizes">
@@ -282,9 +273,6 @@ export const DatePickerScreenshotTestSizes = () => {
 }
 
 export const DatePickerScreenshotTestDisabled = () => {
-  if (!globalThis.IS_TEST) {
-    return null
-  }
   return (
     <Wrapper>
       <ComponentBox data-visual-test="date-picker-disabled">
@@ -297,59 +285,56 @@ export const DatePickerScreenshotTestDisabled = () => {
   )
 }
 
-export const DatePickerDateFns = () =>
-  globalThis.IS_TEST ? null : (
-    <ComponentBox scope={{ addDays }} hidePreview hideToolbar>
-      <DatePicker
-        shortcuts={[
-          { title: 'Set date', date: '1969-07-15' },
-          {
-            title: 'Relative +3 days',
-            date: ({ date }) => date && addDays(date, 3),
-          },
-        ]}
-      />
-    </ComponentBox>
-  )
+export const DatePickerDateFns = () => (
+  <ComponentBox scope={{ addDays }} hidePreview hideToolbar>
+    <DatePicker
+      shortcuts={[
+        { title: 'Set date', date: '1969-07-15' },
+        {
+          title: 'Relative +3 days',
+          date: ({ date }) => date && addDays(date, 3),
+        },
+      ]}
+    />
+  </ComponentBox>
+)
 
-export const DatePickerDateFnsRange = () =>
-  globalThis.IS_TEST ? null : (
-    <ComponentBox
-      scope={{ startOfMonth, lastDayOfMonth }}
-      hidePreview
-      hideToolbar
-    >
-      <DatePicker
-        shortcuts={[
-          {
-            title: 'Set date period',
-            start_date: '1969-07-15',
-            end_date: '1969-07-15',
-            close_on_select: true, // will close the picker
-          },
-          {
-            title: 'This month',
-            start_date: startOfMonth(new Date()),
-            end_date: lastDayOfMonth(new Date()),
-          },
-        ]}
-      />
-    </ComponentBox>
-  )
+export const DatePickerDateFnsRange = () => (
+  <ComponentBox
+    scope={{ startOfMonth, lastDayOfMonth }}
+    hidePreview
+    hideToolbar
+  >
+    <DatePicker
+      shortcuts={[
+        {
+          title: 'Set date period',
+          start_date: '1969-07-15',
+          end_date: '1969-07-15',
+          close_on_select: true, // will close the picker
+        },
+        {
+          title: 'This month',
+          start_date: startOfMonth(new Date()),
+          end_date: lastDayOfMonth(new Date()),
+        },
+      ]}
+    />
+  </ComponentBox>
+)
 
-export const DatePickerDateFnsRangeIsWeekend = () =>
-  globalThis.IS_TEST ? null : (
-    <ComponentBox scope={{ isWeekend }} hidePreview>
-      <DatePicker
-        on_days_render={(days, calendarNumber = 0) => {
-          return days.map((dayObject) => {
-            if (isWeekend(dayObject.date)) {
-              dayObject.isInactive = true
-              dayObject.className = 'dnb-date-picker__day--weekend' // custom css
-            }
-            return dayObject
-          })
-        }}
-      />
-    </ComponentBox>
-  )
+export const DatePickerDateFnsRangeIsWeekend = () => (
+  <ComponentBox scope={{ isWeekend }} hidePreview>
+    <DatePicker
+      on_days_render={(days, calendarNumber = 0) => {
+        return days.map((dayObject) => {
+          if (isWeekend(dayObject.date)) {
+            dayObject.isInactive = true
+            dayObject.className = 'dnb-date-picker__day--weekend' // custom css
+          }
+          return dayObject
+        })
+      }}
+    />
+  </ComponentBox>
+)

@@ -18,7 +18,7 @@ import {
 
 import type { DropdownProps } from '@dnb/eufemia/src/components/dropdown/Dropdown'
 
-type VisualTestReturn = Pick<
+type VisibleWhenVisualTestReturn = Pick<
   DropdownProps,
   | 'opened'
   | 'prevent_close'
@@ -207,21 +207,22 @@ export const DropdownNoValue = () => (
   </Wrapper>
 )
 
-export const DropdownEllipsisOverflow = () =>
-  globalThis.IS_TEST ? (
-    <Wrapper>
-      <ComponentBox data-visual-test="dropdown-ellipsis">
-        <Dropdown
-          data={['Long text that will overflow with CSS ellipsis']}
-          value={0}
-          label="Label:"
-        />
-      </ComponentBox>
-    </Wrapper>
-  ) : null
+export const DropdownEllipsisOverflow = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="dropdown-ellipsis">
+      <Dropdown
+        data={['Long text that will overflow with CSS ellipsis']}
+        value={0}
+        label="Label:"
+      />
+    </ComponentBox>
+  </Wrapper>
+)
 
 export const DropdownDirections = () => {
-  const visualTestProps = (enabled: boolean): VisualTestReturn => {
+  const visualTestProps = (
+    enabled: boolean
+  ): VisibleWhenVisualTestReturn => {
     if (!enabled) {
       return {}
     }
@@ -319,7 +320,9 @@ export const DropdownTertiary = () => (
 )
 
 export const DropdownMoreMenu = () => {
-  const visualTestProps = (enabled: boolean): VisualTestReturn => {
+  const visualTestProps = (
+    enabled: boolean
+  ): VisibleWhenVisualTestReturn => {
     if (!enabled) {
       return {}
     }
@@ -430,7 +433,9 @@ export const DropdownDisabledTertiary = () => (
 )
 
 export const DropdownCustomEvent = () => {
-  const visualTestProps = (enabled: boolean): VisualTestReturn => {
+  const visualTestProps = (
+    enabled: boolean
+  ): VisibleWhenVisualTestReturn => {
     if (!enabled) {
       return {}
     }

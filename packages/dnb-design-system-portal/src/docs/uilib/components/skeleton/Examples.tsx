@@ -102,10 +102,7 @@ export const SkeletonFiguresExample = () => (
   </ComponentBox>
 )
 
-export const SkeletonVisualTests = () => {
-  if (!globalThis.IS_TEST) {
-    return <></>
-  }
+export const SkeletonVisibleWhenVisualTests = () => {
   return (
     <>
       <ComponentBox

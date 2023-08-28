@@ -225,7 +225,7 @@ export const AccordionGroupExample = () => (
 )
 
 export const AccordionPlainVariant = () => {
-  return typeof window !== 'undefined' && (window as any).IS_TEST ? (
+  return (
     <ComponentBox
       data-visual-test="accordion-variant-plain"
       scope={{ AddIcon, SubtractIcon }}
@@ -254,7 +254,7 @@ export const AccordionPlainVariant = () => {
         <P>content</P>
       </Accordion>
     </ComponentBox>
-  ) : null
+  )
 }
 
 export const AccordionNestedExample = () => {

@@ -254,9 +254,6 @@ export const ButtonIcon = () => (
 )
 
 export const TertiaryWithNoIcon = () => {
-  if (!globalThis.IS_TEST) {
-    return null
-  }
   return (
     <ComponentBox data-visual-test="button-tertiary-no-icon">
       <Button text="Tertiary button with no icon" variant="tertiary" />
@@ -265,9 +262,6 @@ export const TertiaryWithNoIcon = () => {
 }
 
 export const UnstyledVariant = () => {
-  if (!globalThis.IS_TEST) {
-    return null
-  }
   return (
     <ComponentBox data-visual-test="button-unstyled">
       <Button
@@ -280,9 +274,6 @@ export const UnstyledVariant = () => {
 }
 
 export const ButtonStretch = () => {
-  if (!globalThis.IS_TEST) {
-    return null
-  }
   return (
     <ComponentBox scope={{ Bell }}>
       <Button
@@ -483,9 +474,6 @@ export const IconButtonSizes = () => {
 }
 
 export const TertiaryButtonAlignment = () => {
-  if (!globalThis.IS_TEST) {
-    return null
-  }
   return (
     <ComponentBox data-visual-test="button-tertiary-alignment">
       <span className="dnb-p">text</span>{' '}

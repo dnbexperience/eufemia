@@ -261,9 +261,6 @@ export const InputExampleClear = () => (
 )
 
 export const InputScreenshotTests = () => {
-  if (!globalThis.IS_TEST) {
-    return null
-  }
   return (
     <Wrapper>
       <ComponentBox data-visual-test="input-align">

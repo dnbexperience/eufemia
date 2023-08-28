@@ -189,10 +189,6 @@ export function ParagraphModifiers() {
 }
 
 export function ParagraphRegressionTests() {
-  if (!globalThis.IS_TEST) {
-    return null
-  }
-
   const PWrap = ({ customSize = null, ...props }) => {
     const size = props.size || customSize
     return (

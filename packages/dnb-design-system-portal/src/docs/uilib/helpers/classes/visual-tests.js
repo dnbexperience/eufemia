@@ -8,7 +8,7 @@ import {
 } from '../Examples'
 import { warn } from '@dnb/eufemia/src/shared/component-helper'
 
-export default function VisualTests() {
+export default function VisibleWhenVisualTests() {
   // Selects/marks some of the text in SelectionExample on second render tick
   // For comparing screenshots
   React.useEffect(() => {

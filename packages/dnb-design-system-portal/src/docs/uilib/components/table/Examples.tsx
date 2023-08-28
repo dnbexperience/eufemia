@@ -799,12 +799,15 @@ export const TableSticky = () => {
   const isFullscreen = /data-visual-test|fullscreen/.test(
     globalThis?.location?.href
   )
-  const isVisualTest = globalThis.IS_TEST
+  const isVisibleWhenVisualTest = globalThis.IS_TEST
   return (
-    <ComponentBox hideCode scope={{ isFullscreen, isVisualTest }}>
+    <ComponentBox
+      hideCode
+      scope={{ isFullscreen, isVisibleWhenVisualTest }}
+    >
       <Table.ScrollView>
         <Table
-          sticky={isVisualTest ? 'css-position' : true}
+          sticky={isVisibleWhenVisualTest ? 'css-position' : true}
           stickyOffset={isFullscreen ? 0 : '3.5rem'}
         >
           <caption className="dnb-sr-only">A Table Caption</caption>
