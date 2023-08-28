@@ -18,7 +18,7 @@ import {
 
 import type { DropdownProps } from '@dnb/eufemia/src/components/dropdown/Dropdown'
 
-type VisualTestReturn = Pick<
+type VisibleWhenVisualTestReturn = Pick<
   DropdownProps,
   | 'opened'
   | 'prevent_close'
@@ -220,7 +220,9 @@ export const DropdownEllipsisOverflow = () => (
 )
 
 export const DropdownDirections = () => {
-  const visualTestProps = (enabled: boolean): VisualTestReturn => {
+  const visualTestProps = (
+    enabled: boolean
+  ): VisibleWhenVisualTestReturn => {
     if (!enabled) {
       return {}
     }
@@ -318,7 +320,9 @@ export const DropdownTertiary = () => (
 )
 
 export const DropdownMoreMenu = () => {
-  const visualTestProps = (enabled: boolean): VisualTestReturn => {
+  const visualTestProps = (
+    enabled: boolean
+  ): VisibleWhenVisualTestReturn => {
     if (!enabled) {
       return {}
     }
@@ -429,7 +433,9 @@ export const DropdownDisabledTertiary = () => (
 )
 
 export const DropdownCustomEvent = () => {
-  const visualTestProps = (enabled: boolean): VisualTestReturn => {
+  const visualTestProps = (
+    enabled: boolean
+  ): VisibleWhenVisualTestReturn => {
     if (!enabled) {
       return {}
     }

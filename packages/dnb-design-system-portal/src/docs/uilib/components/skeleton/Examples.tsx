@@ -102,7 +102,7 @@ export const SkeletonFiguresExample = () => (
   </ComponentBox>
 )
 
-export const SkeletonVisualTests = () => {
+export const SkeletonVisibleWhenVisualTests = () => {
   return (
     <>
       <ComponentBox

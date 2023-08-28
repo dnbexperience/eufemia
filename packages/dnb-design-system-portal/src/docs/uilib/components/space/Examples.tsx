@@ -93,7 +93,7 @@ export const SpaceExampleMargins = () => (
   </TestStyles>
 )
 
-export const SpaceVisualTestPatterns = () => (
+export const SpaceVisibleWhenVisualTestPatterns = () => (
   <TestStyles>
     <ComponentBox
       data-visual-test="spacing-patterns"
@@ -138,7 +138,7 @@ export const SpaceVisualTestPatterns = () => (
 /**
  * This test case exists because of the reset.css margin=0 for buttons
  */
-export const SpaceVisualTestElements = () => (
+export const SpaceVisibleWhenVisualTestElements = () => (
   <TestStyles>
     <ComponentBox
       data-visual-test="spacing-elements"
@@ -184,7 +184,7 @@ export const SpaceVisualTestElements = () => (
   </TestStyles>
 )
 
-export const SpaceVisualTestReset = () => (
+export const SpaceVisibleWhenVisualTestReset = () => (
   <ComponentBox data-visual-test="spacing-reset">
     {() => {
       const BlueBox = styled.div`

@@ -9,7 +9,7 @@ import React from 'react'
  * During the visual tests, the needed styles are generated.
  */
 
-export default function ElementsWithoutClassesVisualTest() {
+export default function ElementsWithoutClassesVisibleWhenVisualTest() {
   return (
     <div
       className="dnb-core-style"
