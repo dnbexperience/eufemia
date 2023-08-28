@@ -61,7 +61,7 @@ function StepsLayout(props: Props) {
 
   const stepIndicatorData = React.Children.map(children, (child) => {
     if (!React.isValidElement(child) || child.type !== Step) {
-      throw new Error('Only Step can be children of Steps')
+      throw new Error('Only Step can be children of StepsLayout')
     }
     return child.props.title ?? 'Title missing'
   }) as string[]
