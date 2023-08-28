@@ -8,12 +8,13 @@
 .dnb-breadcrumb {
   .dnb-button {
     &__text {
+      font-weight: var(--font-weight-medium);
       color: var(--sb-color-text);
     }
   }
   &__item:not(:last-of-type) {
     .dnb-button.dnb-button--has-text {
-      font-weight: 700;
+      font-weight: var(--font-weight-medium);
       .dnb-button__text {
         color: var(--sb-color-text);
       }
