@@ -224,6 +224,34 @@ describe('Input component', () => {
     expect(document.querySelector('input').value).toBe('')
   })
 
+  it('should show placeholder with both value null and undefined', () => {
+    const { rerender } = render(
+      <Input value={undefined} placeholder="AA" />
+    )
+
+    expect(
+      document.querySelector('.dnb-input__placeholder').textContent
+    ).toBe('AA')
+
+    rerender(<Input placeholder="BB" value={null} />)
+
+    expect(
+      document.querySelector('.dnb-input__placeholder').textContent
+    ).toBe('BB')
+
+    rerender(<Input placeholder="CC" value="" />)
+
+    expect(
+      document.querySelector('.dnb-input__placeholder').textContent
+    ).toBe('CC')
+
+    rerender(<Input placeholder="CC" value="new-value" />)
+
+    expect(
+      document.querySelector('.dnb-input__placeholder')
+    ).not.toBeInTheDocument()
+  })
+
   it('has correct state after setting "value" prop using placeholder (set by getDerivedStateFromProps)', () => {
     const { rerender } = render(<Input placeholder="Placeholder" />)
 
