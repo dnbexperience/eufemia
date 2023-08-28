@@ -14,7 +14,7 @@ export type Props = ComponentProps &
     countryCodeFieldClassName?: string
     numberFieldClassName?: string
     // Styling
-    width?: 'medium' | 'large'
+    width?: 'small' | 'medium' | 'large'
   }
 
 function PhoneNumber(props: Props) {

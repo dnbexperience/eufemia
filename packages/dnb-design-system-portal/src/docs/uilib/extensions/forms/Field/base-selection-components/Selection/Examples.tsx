@@ -87,6 +87,15 @@ export const Widths = () => {
         <Field.Option value="bar" title="Baar!" />
       </Field.Selection>
       <Field.Selection
+        label="Small"
+        value="bar"
+        width="small"
+        onChange={(value) => console.log('onChange', value)}
+      >
+        <Field.Option value="foo" title="Foo!" />
+        <Field.Option value="bar" title="Baar!" />
+      </Field.Selection>
+      <Field.Selection
         label="Medium"
         value="bar"
         width="medium"

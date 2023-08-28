@@ -66,6 +66,12 @@ export const Widths = () => {
         onChange={(value) => console.log('onChange', value)}
       />
       <Field.String
+        label="Small"
+        value="foo"
+        width="small"
+        onChange={(value) => console.log('onChange', value)}
+      />
+      <Field.String
         label="Medium"
         value="foo"
         width="medium"

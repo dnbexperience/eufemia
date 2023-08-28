@@ -7,6 +7,10 @@
     column-gap: var(--spacing-small);
   }
 
+  &--width-small {
+    width: $forms-field-width-small;
+  }
+
   &--width-medium {
     width: $forms-field-width-medium;
   }

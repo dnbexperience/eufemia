@@ -33,7 +33,7 @@ export type Props = ComponentProps &
     exclusiveMaximum?: number // aka less than
     multipleOf?: number
     // Styling
-    width?: false | 'medium' | 'large' | 'stretch'
+    width?: false | 'small' | 'medium' | 'large' | 'stretch'
     rightAligned?: boolean
   }
 

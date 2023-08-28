@@ -12,4 +12,10 @@
       width: $forms-field-width-medium;
     }
   }
+
+  &--width-small {
+    .dnb-dropdown__shell {
+      width: $forms-field-width-small;
+    }
+  }
 }

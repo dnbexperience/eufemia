@@ -26,6 +26,12 @@ export const Widths = () => {
         <TestElement>Input feature</TestElement>
       </FieldBlock>
       <FieldBlock
+        label="Small (affects outer block element)"
+        width="small"
+      >
+        <TestElement>Input</TestElement>
+      </FieldBlock>
+      <FieldBlock
         label="Medium (affects outer block element)"
         width="medium"
       >
@@ -38,6 +44,12 @@ export const Widths = () => {
         <TestElement>Input feature</TestElement>
       </FieldBlock>
 
+      <FieldBlock
+        label="Small (affects contents only)"
+        contentsWidth="small"
+      >
+        <TestElement>Input</TestElement>
+      </FieldBlock>
       <FieldBlock
         label="Medium (affects contents only)"
         contentsWidth="medium"

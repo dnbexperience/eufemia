@@ -13,7 +13,7 @@ export type Props = ComponentProps &
     children?: React.ReactNode
     variant?: 'dropdown' | 'radio' | 'checkbox'
     // Styling
-    width?: 'medium' | 'large' | 'stretch'
+    width?: 'small' | 'medium' | 'large' | 'stretch'
   }
 
 function Selection(props: Props) {

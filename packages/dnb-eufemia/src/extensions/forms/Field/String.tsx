@@ -36,7 +36,7 @@ export type Props = ComponentProps &
     maxLength?: number
     pattern?: string
     // Styling
-    width?: false | 'medium' | 'large' | 'stretch'
+    width?: false | 'small' | 'medium' | 'large' | 'stretch'
   }
 
 function StringComponent(props: Props) {

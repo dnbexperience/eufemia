@@ -21,9 +21,9 @@ export type Props = ComponentProps &
     forId?: string
     children: React.ReactNode
     /** Width of outer block element */
-    width?: 'medium' | 'large'
+    width?: 'small' | 'medium' | 'large'
     /** Width of contents block, while label etc can be wider if space is available */
-    contentsWidth?: 'medium' | 'large' | 'stretch'
+    contentsWidth?: 'small' | 'medium' | 'large' | 'stretch'
   }
 
 function FieldBlock(props: Props) {

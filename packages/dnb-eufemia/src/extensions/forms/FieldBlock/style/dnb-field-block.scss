@@ -27,6 +27,10 @@
     width: $forms-field-width-medium;
   }
 
+  &--width-small {
+    width: $forms-field-width-small;
+  }
+
   &__contents {
     &--width-stretch {
       width: 100%;
@@ -38,6 +42,10 @@
 
     &--width-medium {
       width: $forms-field-width-medium;
+    }
+
+    &--width-small {
+      width: $forms-field-width-small;
     }
   }
 }
