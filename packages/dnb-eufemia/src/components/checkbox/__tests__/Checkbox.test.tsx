@@ -181,6 +181,19 @@ describe('Checkbox component', () => {
     const Comp = render(<Checkbox {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
+
+  it('gets valid ref element', () => {
+    let ref: React.RefObject<HTMLInputElement>
+
+    function MockComponent() {
+      ref = React.useRef()
+      return <Checkbox {...props} innerRef={ref} />
+    }
+
+    render(<MockComponent />)
+
+    expect(ref.current.classList).toContain('dnb-checkbox__input')
+  })
 })
 
 describe('Checkbox scss', () => {

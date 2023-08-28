@@ -82,6 +82,10 @@ export interface CheckboxProps
    */
   on_change?: (...args: any[]) => any;
   on_state_update?: (...args: any[]) => any;
+  /**
+   * By providing a React.ref we can get the internally used input element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.
+   */
+  innerRef?: React.Ref;
 }
 export default class Checkbox extends React.Component<CheckboxProps, any> {
   static defaultProps: object;
