@@ -8,6 +8,7 @@ import { Wrapper, Box } from 'storybook-utils/helpers'
 import { StepIndicator, Button, Space } from '../../'
 import { Code } from '../../..'
 import { Provider } from '../../../shared'
+import { StepIndicatorDataItem } from '../StepIndicator'
 
 export default {
   title: 'Eufemia/Components/StepIndicator',
@@ -53,6 +54,9 @@ export function RenderDuringSSR() {
           data={data}
           // current_step={0}
           current_step={1}
+          on_click={() => {
+            console.log('')
+          }}
           on_change={({ current_step }) => {
             console.log('on_change', current_step)
           }}
@@ -240,5 +244,156 @@ export const StepIndicatorSandbox = () => {
         />
       </Box>
     </Wrapper>
+  )
+}
+
+const stepIndicatorListData = [
+  {
+    title: 'Step A',
+  },
+  {
+    title: 'Step B',
+  },
+  {
+    title: 'Step C',
+  },
+  {
+    title: 'Step D',
+  },
+]
+
+export const CurrentStepPropChange = () => {
+  const [current_step, setCurrentStep] = React.useState(1)
+
+  const id = 'prop-step-test'
+
+  function stepOn() {
+    if (current_step === stepIndicatorListData.length - 1) {
+      return setCurrentStep(0)
+    }
+
+    setCurrentStep((step) => step + 1)
+  }
+
+  return (
+    <Wrapper>
+      <Box>
+        <Button onClick={stepOn}>Step</Button>
+        <Button onClick={() => setCurrentStep(2)}>Go to third step</Button>
+        <Button onClick={() => setCurrentStep(0)}>Reset</Button>
+      </Box>
+      <Box>
+        <StepIndicator.Sidebar sidebar_id={id} />
+        <StepIndicator
+          current_step={current_step}
+          mode="loose"
+          sidebar_id={id}
+          data={stepIndicatorListData}
+        />
+      </Box>
+    </Wrapper>
+  )
+}
+
+export const OnlyOneCurrent = () => {
+  const id = 'only-one-current'
+
+  return (
+    <Wrapper>
+      <Box>
+        <StepIndicator.Sidebar sidebar_id={id} />
+        <StepIndicator
+          mode="loose"
+          sidebar_id={id}
+          data={[
+            {
+              title: 'Step A',
+            },
+            {
+              title: 'Step B',
+            },
+            {
+              title: 'Step C',
+              is_current: true,
+            },
+          ]}
+        />
+      </Box>
+    </Wrapper>
+  )
+}
+
+export const EventTests = () => {
+  const id = 'data-test'
+
+  const data: StepIndicatorDataItem[] = [
+    {
+      title: 'Step A',
+    },
+    {
+      title: 'Step B',
+      on_render: () => <p>Sep Render yall</p>,
+    },
+    {
+      title: 'Step C',
+      is_current: true,
+      on_click: (event) => {
+        console.log('Item Click', event)
+      },
+    },
+  ]
+
+  return (
+    <Wrapper>
+      <Box>
+        <StepIndicator.Sidebar sidebar_id={id} />
+        <StepIndicator
+          on_click={(event) => {
+            console.log('Stepinidcator Click', event)
+          }}
+          on_change={(event) => console.log('On Change', event)}
+          mode="loose"
+          sidebar_id={id}
+          data={data}
+        />
+      </Box>
+    </Wrapper>
+  )
+}
+
+export const TitleTests = () => {
+  const [current_step, setCurrentStep] = React.useState(0)
+
+  const data: StepIndicatorDataItem[] = [
+    {
+      title: 'Step A',
+    },
+    {
+      title: 'Step B',
+    },
+    {
+      title: 'Step C',
+    },
+  ]
+
+  return (
+    <>
+      <Box>
+        <StepIndicator.Sidebar sidebar_id="title-test" top="large" />
+      </Box>
+      <Box>
+        <StepIndicator
+          overview_title="Custom Overview Title"
+          step_title="Custom Step Title"
+          step_title_extended="Custom Step Title Extended"
+          top="large"
+          sidebar_id="second-title-test"
+          mode="loose"
+          current_step={current_step}
+          data={data}
+          on_click={({ currentStep }) => setCurrentStep(currentStep)}
+        />
+      </Box>
+    </>
   )
 }
