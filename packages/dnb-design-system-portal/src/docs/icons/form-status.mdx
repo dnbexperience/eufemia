@@ -6,11 +6,19 @@ import {
 } from '@dnb/eufemia/src/components/form-status/FormStatus'
 
 ## Use the [**FormStatus**](/uilib/components/form-status) icons only
+<VisibilityByTheme hidden="sbanken">
+  - `InfoIcon`   <InfoIcon />
+  - `WarnIcon`   <WarnIcon />
+  - `ErrorIcon` <ErrorIcon />
+  - `MarketingIcon` <MarketingIcon />
+</VisibilityByTheme>
+<VisibilityByTheme visible="sbanken">
+  - `InfoIcon`   <InfoIcon theme="sbanken" />
+  - `WarnIcon`   <WarnIcon />
+  - `ErrorIcon` <ErrorIcon />
+  - `MarketingIcon` <MarketingIcon />
+</VisibilityByTheme>
 
-- `InfoIcon`   <InfoIcon />
-- `WarnIcon`   <WarnIcon />
-- `ErrorIcon` <ErrorIcon />
-- `MarketingIcon` <MarketingIcon />
 
 ```jsx
 import { InfoIcon } from '@dnb/eufemia/components/FormStatus
