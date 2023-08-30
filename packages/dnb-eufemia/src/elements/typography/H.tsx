@@ -7,16 +7,10 @@ import React from 'react'
 import classnames from 'classnames'
 import { SpacingProps } from '../../components/space/types'
 import E from '../Element'
+import { HeadingSize } from '../../components/heading/Heading'
 import { setNextLevel } from '../../components/heading/HeadingHelpers'
 
-export type HSize =
-  | 'xx-large'
-  | 'x-large'
-  | 'large'
-  | 'medium'
-  | 'basis'
-  | 'small'
-  | 'x-small'
+export type HSize = HeadingSize
 
 type HProps = SpacingProps &
   React.HTMLAttributes<HTMLHeadingElement> & {

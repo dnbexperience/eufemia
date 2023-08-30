@@ -3,11 +3,17 @@
  *
  */
 import React from 'react'
-import H from './H'
 import type { SharedHProps } from './H'
+import H from './H'
+import { useTheme } from '../../shared'
+import { getHeadingSize } from '../../components/heading/HeadingHelpers'
 
-const H1 = ({ size = 'xx-large', ...props }: SharedHProps) => (
-  <H as="h1" size={size} {...props} />
-)
+const H1 = ({ size, ...props }: SharedHProps) => {
+  const theme = useTheme()
+
+  return (
+    <H as="h1" size={size || getHeadingSize(theme?.name)[1]} {...props} />
+  )
+}
 
 export default H1

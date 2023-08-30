@@ -25,6 +25,8 @@ import {
   windupHeadings,
   teardownHeadings,
   debugCounter,
+  getHeadingSize,
+  getHeadingElement,
 } from './HeadingHelpers'
 import {
   HeadingCounter,
@@ -33,35 +35,19 @@ import {
 } from './HeadingCounter'
 import { SpacingProps } from '../space/types'
 import { SkeletonShow } from '../Skeleton'
+import { useTheme } from '../../shared'
 import { DynamicElement } from '../../shared/types'
-import { useTheme, ThemeNames } from '../../shared'
 
-const getLevelResolution = (theme: ThemeNames) => {
-  switch (theme) {
-    case 'sbanken':
-      return {
-        1: 'xx-large',
-        2: 'x-large',
-        3: 'large',
-        4: 'medium',
-        5: 'basis',
-        6: 'small',
-      }
-    case 'ui':
-    default:
-      return {
-        1: 'xx-large',
-        2: 'large',
-        3: 'medium',
-        4: 'basis',
-        5: 'small',
-        6: 'x-small',
-      }
-  }
+export type HeadingLevelSizeResolutions = {
+  1: HeadingSize
+  3: HeadingSize
+  2: HeadingSize
+  4: HeadingSize
+  5: HeadingSize
+  6: HeadingSize
 }
 
 export type HeadingSize =
-  | 'auto'
   | 'xx-large'
   | 'x-large'
   | 'large'
@@ -171,7 +157,7 @@ export default function Heading(props: HeadingAllProps) {
     down: _down, // eslint-disable-line
     inherit: _inherit, // eslint-disable-line
     level: _level, // eslint-disable-line
-    size: _size = 'auto', // eslint-disable-line
+    size: _size, // eslint-disable-line
     skeleton: _skeleton, // eslint-disable-line
     element: _element, // eslint-disable-line
     className,
@@ -264,7 +250,7 @@ export default function Heading(props: HeadingAllProps) {
 
   const theme = useTheme()
 
-  let { size, element = 'auto', skeleton } = props as HeadingProps
+  let { size, element, skeleton } = props as HeadingProps
   const { level } = state
 
   const debug = _debug || headingContext?.heading?.debug
@@ -275,10 +261,10 @@ export default function Heading(props: HeadingAllProps) {
     ...rest,
   }
 
-  if (element === 'auto' || element === null) {
-    element = `h${level || 'x-small'}`
-    if (_size === 'auto' || _size === null) {
-      size = getLevelResolution(theme?.name)[level || 'x-small']
+  if (element == null) {
+    element = getHeadingElement(level)
+    if (size == null) {
+      size = getHeadingSize(theme?.name)[level]
     }
   } else {
     if (!attributes.role) {
@@ -295,7 +281,9 @@ export default function Heading(props: HeadingAllProps) {
     skeleton = context.skeleton
   }
 
-  const Element = element
+  const Element = element as
+    | string
+    | React.FunctionComponent<React.HTMLProps<HTMLElement>> // typecasting to avoid typescript parser error ts(2590)
 
   return (
     <Element
