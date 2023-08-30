@@ -1,8 +1,10 @@
-import React, { useCallback } from 'react'
+import React, { useMemo, useContext, useCallback } from 'react'
 import { Div } from '../../../elements'
 import { Dropdown, Radio, Checkbox } from '../../../components'
 import classnames from 'classnames'
 import { forwardSpaceProps } from '../utils'
+import { makeUniqueId } from '../../../shared/component-helper'
+import SharedContext from '../../../shared/Context'
 import Option from './Option'
 import { useField } from './hooks'
 import type { ComponentProps } from '../component-types'
@@ -12,14 +14,19 @@ export type Props = ComponentProps &
   FieldProps<string | number> & {
     children?: React.ReactNode
     variant?: 'dropdown' | 'radio' | 'checkbox'
+    clear?: boolean
     // Styling
     width?: 'small' | 'medium' | 'large' | 'stretch'
   }
 
 function Selection(props: Props) {
+  const sharedContext = useContext(SharedContext)
+  const clearValue = useMemo(() => `clear-option-${makeUniqueId()}`, [])
+
   const {
     className,
     variant,
+    clear,
     label,
     layout = 'vertical',
     placeholder,
@@ -36,9 +43,13 @@ function Selection(props: Props) {
 
   const handleDropdownChange = useCallback(
     ({ data: { selected_key } }) => {
-      onChange?.(!selected_key ? emptyValue : selected_key)
+      onChange?.(
+        !selected_key || selected_key === clearValue
+          ? emptyValue
+          : selected_key
+      )
     },
-    [onChange, emptyValue],
+    [onChange, emptyValue, clearValue]
   )
 
   const handleRadioChange = useCallback(
@@ -103,7 +114,7 @@ function Selection(props: Props) {
       )
     default:
     case 'dropdown': {
-      const data = React.Children.map(children, (child) => {
+      const optionsData = React.Children.map(children, (child) => {
         if (React.isValidElement(child) && child.type === Option) {
           // Option components
           return child.props.text
@@ -127,6 +138,19 @@ function Selection(props: Props) {
           content: child,
         }
       })
+      const data = [
+        clear
+          ? {
+              selected_key: clearValue,
+              content: (
+                <em>
+                  {sharedContext?.translation.Forms.selectionClearSelected}
+                </em>
+              ),
+            }
+          : undefined,
+        ...(optionsData ?? []),
+      ].filter(Boolean)
 
       return (
         <Dropdown
@@ -139,7 +163,7 @@ function Selection(props: Props) {
           list_class="dnb-forms-field-selection__list"
           portal_class="dnb-forms-field-selection__portal"
           title={placeholder}
-          default_value={String(value ?? '')}
+          value={String(value ?? '')}
           label={label}
           label_direction={layout}
           status={error?.message}

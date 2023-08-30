@@ -48,8 +48,8 @@ export const WithParagraphs = () => {
 export const WithMainHeading = () => {
   return (
     <ComponentBox scope={{ Layout }}>
-      <Layout.MainHeading>Heading</Layout.MainHeading>
       <Layout.Section>
+        <Layout.MainHeading>Heading</Layout.MainHeading>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
         cursus pharetra elit in bibendum. Vivamus tincidunt eleifend tellus
         at tempus. Aliquam at felis rutrum, luctus dui at, bibendum ipsum.
@@ -83,8 +83,8 @@ export const WithCard = () => {
 export const WithCardAndHeading = () => {
   return (
     <ComponentBox scope={{ Layout }}>
-      <Layout.MainHeading>Main heading</Layout.MainHeading>
       <Layout.Section>
+        <Layout.MainHeading>Main heading</Layout.MainHeading>
         <Layout.Card>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
           cursus pharetra elit in bibendum. Vivamus tincidunt eleifend
@@ -102,9 +102,9 @@ export const WithCardAndHeading = () => {
 export const WithCardAndHeadings = () => {
   return (
     <ComponentBox scope={{ Layout }}>
-      <Layout.MainHeading>Main heading</Layout.MainHeading>
-      <Layout.SubHeading>Sub heading</Layout.SubHeading>
       <Layout.Section>
+        <Layout.MainHeading>Main heading</Layout.MainHeading>
+        <Layout.SubHeading>Sub heading</Layout.SubHeading>
         <Layout.Card>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
           cursus pharetra elit in bibendum. Vivamus tincidunt eleifend

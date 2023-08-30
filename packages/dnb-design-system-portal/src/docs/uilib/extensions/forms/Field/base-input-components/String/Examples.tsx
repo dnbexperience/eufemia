@@ -5,7 +5,11 @@ import { FormError } from '@dnb/eufemia/src/extensions/forms/types'
 export const Empty = () => {
   return (
     <ComponentBox scope={{ Field }}>
-      <Field.String onChange={(value) => console.log('onChange', value)} />
+      <Field.String
+        onChange={(value) => console.log('onChange', value)}
+        onFocus={(value) => console.log('onFocus', value)}
+        onBlur={(value) => console.log('onBlur', value)}
+      />
     </ComponentBox>
   )
 }

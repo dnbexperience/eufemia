@@ -1,3 +1,4 @@
+import * as React from 'react'
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
 import { FormError } from '@dnb/eufemia/src/extensions/forms/types'
@@ -6,7 +7,11 @@ import { FormError } from '@dnb/eufemia/src/extensions/forms/types'
 
 export const DropdownEmpty = () => (
   <ComponentBox scope={{ Field }}>
-    <Field.Selection onChange={(value) => console.log('onChange', value)}>
+    <Field.Selection
+      onChange={(value) => console.log('onChange', value)}
+      onFocus={(value) => console.log('onFocus', value)}
+      onBlur={(value) => console.log('onBlur', value)}
+    >
       <Field.Option value="foo" title="Foo!" />
       <Field.Option value="bar" title="Baar!" />
     </Field.Selection>
@@ -56,6 +61,41 @@ export const DropdownLabelAndOptionSelected = () => (
       <Field.Option value="foo" title="Foo!" />
       <Field.Option value="bar" title="Baar!" />
     </Field.Selection>
+  </ComponentBox>
+)
+
+export const WithClearButton = () => (
+  <ComponentBox scope={{ Field }}>
+    {() => {
+      const Example = () => {
+        const [value, setValue] = React.useState('bar')
+        const handleChange = React.useCallback(
+          (value) => {
+            console.log('onChange', value)
+            setValue(value)
+          },
+          [setValue]
+        )
+        return (
+          <>
+            <Field.Selection
+              value={value}
+              label="Label text"
+              onChange={handleChange}
+              clear
+            >
+              <Field.Option value="foo" title="Foo!" />
+              <Field.Option value="bar" title="Baar!" />
+            </Field.Selection>
+            <pre>
+              VALUE: {value === undefined ? <em>undefined</em> : value}
+            </pre>
+          </>
+        )
+      }
+
+      return <Example />
+    }}
   </ComponentBox>
 )
 
@@ -193,11 +233,15 @@ export const DropdownHighNumberOfOptions = () => (
 export const DropdownValidationRequired = () => (
   <ComponentBox scope={{ Field }}>
     <Field.Selection
+      value="foo"
       label="Label text"
       onChange={(value) => console.log('onChange', value)}
+      onFocus={(value) => console.log('onFocus', value)}
+      onBlur={(value) => console.log('onBlur', value)}
       required
-      validateInitially
-      validateUnchanged
+      clear
+      //validateInitially
+      //validateUnchanged
     >
       <Field.Option value="foo" title="Foo!" />
       <Field.Option value="bar" title="Baar!" />
