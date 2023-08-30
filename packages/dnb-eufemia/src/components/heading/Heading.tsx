@@ -34,24 +34,30 @@ import {
 import { SpacingProps } from '../space/types'
 import { SkeletonShow } from '../Skeleton'
 import { DynamicElement } from '../../shared/types'
-import { useTheme } from '../../shared'
+import { useTheme, ThemeNames } from '../../shared'
 
-export const levelResolutionUi = {
-  1: 'xx-large',
-  2: 'large',
-  3: 'medium',
-  4: 'basis',
-  5: 'small',
-  6: 'x-small',
-}
-
-export const levelResolutionSbanken = {
-  1: 'xx-large',
-  2: 'x-large',
-  3: 'large',
-  4: 'medium',
-  5: 'basis',
-  6: 'small',
+const getLevelResolution = (theme: ThemeNames) => {
+  switch (theme) {
+    case 'sbanken':
+      return {
+        1: 'xx-large',
+        2: 'x-large',
+        3: 'large',
+        4: 'medium',
+        5: 'basis',
+        6: 'small',
+      }
+    case 'ui':
+    default:
+      return {
+        1: 'xx-large',
+        2: 'large',
+        3: 'medium',
+        4: 'basis',
+        5: 'small',
+        6: 'x-small',
+      }
+  }
 }
 
 export type HeadingSize =
@@ -272,11 +278,7 @@ export default function Heading(props: HeadingAllProps) {
   if (element === 'auto' || element === null) {
     element = `h${level || 'x-small'}`
     if (_size === 'auto' || _size === null) {
-      const levelResolution =
-        theme?.name === 'sbanken'
-          ? levelResolutionSbanken
-          : levelResolutionUi
-      size = levelResolution[level || 'x-small']
+      size = getLevelResolution(theme?.name)[level || 'x-small']
     }
   } else {
     if (!attributes.role) {

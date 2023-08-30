@@ -43,6 +43,13 @@ describe.each(['ui', 'sbanken', 'eiendom'])(
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
+    it('matches base component', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="heading-base"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
   },
 )
 
@@ -78,6 +85,13 @@ describe.each(['sbanken'])('Heading mobile for %s', (themeName) => {
   it('matches all sizes and variants', async () => {
     const screenshot = await makeScreenshot({
       selector: '[data-visual-test="heading-sizes"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('matches base component', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="heading-base"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
