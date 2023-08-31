@@ -1,4 +1,5 @@
 @use '../typography-mixins.scss' as typography;
+@use '../../../../style/core/utilities.scss' as utilities;
 
 // Paragraphs
 .dnb-p {
@@ -23,7 +24,7 @@
   --typography-lead-weight: var(--font-weight-regular);
   --typography-h-medium-weight: var(--font-weight-regular);
 
-  @media screen and (max-width: 40em) {
+  @include utilities.allBelow(small) {
     --typography-h-xx-large-font-size: var(--font-size-x-large);
     --typography-h-xx-large-line-height: var(--line-height-x-large);
     --typography-h-x-large-font-size: var(--font-size-large);
