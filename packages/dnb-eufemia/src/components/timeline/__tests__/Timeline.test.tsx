@@ -1,11 +1,12 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import Timeline, { TimelineAllProps } from '../Timeline'
 import TimelineItem, { TimelineItemAllProps } from '../TimelineItem'
 
 import IconPrimary from '../../icon-primary/IconPrimary'
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
 import { Provider } from '../../../shared'
+import Input from '../../input/Input'
 
 beforeEach(() => {
   document.body.innerHTML = ''
@@ -276,6 +277,60 @@ describe('Timeline', () => {
       expect(
         document.getElementsByClassName(skeletonClassName)
       ).toHaveLength(1)
+    })
+
+    it('should rerender sub components', () => {
+      const TimelineMock = () => {
+        const [value, setValue] = React.useState('initial state')
+        return (
+          <>
+            <Timeline>
+              <Timeline.Item
+                title="Current event"
+                state="current"
+                subtitle={
+                  <Input
+                    value={value}
+                    on_change={({ value }) => {
+                      setValue(value)
+                    }}
+                  />
+                }
+              />
+              <Timeline.Item
+                title="Upcoming event"
+                state="upcoming"
+                subtitle={<Input value={value} />}
+              />
+            </Timeline>
+          </>
+        )
+      }
+
+      const { rerender } = render(<TimelineMock />)
+
+      const inputElems = document.querySelectorAll('input')
+      const firstInputElem = inputElems[0]
+      const secondInputElem = inputElems[1]
+
+      const newValue1 = 'new vlaue 1'
+      const newValue2 = 'new vlaue 2'
+
+      fireEvent.change(firstInputElem, { target: { value: newValue1 } })
+
+      expect(firstInputElem.value).toBe(secondInputElem.value)
+      expect(firstInputElem.value).toBe(newValue1)
+      expect(secondInputElem.value).toBe(newValue1)
+
+      rerender(<TimelineMock />)
+
+      expect(firstInputElem.value).toBe(newValue1)
+
+      fireEvent.change(firstInputElem, { target: { value: newValue2 } })
+
+      expect(firstInputElem.value).toBe(secondInputElem.value)
+      expect(firstInputElem.value).toBe(newValue2)
+      expect(secondInputElem.value).toBe(newValue2)
     })
 
     describe('renders default icon based on state property', () => {

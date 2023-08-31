@@ -123,6 +123,7 @@ const TimelineItem = (localProps: TimelineItemAllProps) => {
     </li>
   )
 }
+
 // Label
 
 type TimelineItemLabelProps = TimeLineIconProps & TimelineItemTitleProps
