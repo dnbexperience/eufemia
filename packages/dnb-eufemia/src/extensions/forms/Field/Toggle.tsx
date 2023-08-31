@@ -30,6 +30,7 @@ function Toggle(props: Props) {
     disabled,
     label,
     labelDescription,
+    labelSecondary,
     textOn,
     textOff,
     value,
@@ -58,7 +59,7 @@ function Toggle(props: Props) {
     }
   }, [onChange, value, valueOff])
 
-  const cn = classnames('dnb-forms-field-boolean', className)
+  const cn = classnames('dnb-forms-field-toggle', className)
 
   const fieldBlockPropsWithoutLabel = {
     forId: id,
@@ -74,6 +75,7 @@ function Toggle(props: Props) {
     layout,
     label,
     labelDescription,
+    labelSecondary,
   }
 
   const isOn = value === valueOn

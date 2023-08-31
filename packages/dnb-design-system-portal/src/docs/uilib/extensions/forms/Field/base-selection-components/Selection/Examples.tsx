@@ -383,12 +383,12 @@ export const RadioError = () => (
   </ComponentBox>
 )
 
-// Checkbox
+// Button
 
-export const CheckboxEmpty = () => (
+export const ButtonEmpty = () => (
   <ComponentBox scope={{ Field }}>
     <Field.Selection
-      variant="radio"
+      variant="button"
       onChange={(value) => console.log('onChange', value)}
     >
       <Field.Option value="foo" title="Foo!" />
@@ -397,10 +397,10 @@ export const CheckboxEmpty = () => (
   </ComponentBox>
 )
 
-export const CheckboxLabel = () => (
+export const ButtonLabel = () => (
   <ComponentBox scope={{ Field }}>
     <Field.Selection
-      variant="radio"
+      variant="button"
       label="Label text"
       onChange={(value) => console.log('onChange', value)}
     >
@@ -410,10 +410,10 @@ export const CheckboxLabel = () => (
   </ComponentBox>
 )
 
-export const CheckboxOptionSelected = () => (
+export const ButtonOptionSelected = () => (
   <ComponentBox scope={{ Field }}>
     <Field.Selection
-      variant="radio"
+      variant="button"
       value="bar"
       onChange={(value) => console.log('onChange', value)}
     >
@@ -423,10 +423,25 @@ export const CheckboxOptionSelected = () => (
   </ComponentBox>
 )
 
-export const CheckboxDisabled = () => (
+export const ButtonHorizontalLayout = () => (
   <ComponentBox scope={{ Field }}>
     <Field.Selection
-      variant="radio"
+      variant="button"
+      label="Label text"
+      value="bar"
+      layout="horizontal"
+      onChange={(value) => console.log('onChange', value)}
+    >
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>
+  </ComponentBox>
+)
+
+export const ButtonDisabled = () => (
+  <ComponentBox scope={{ Field }}>
+    <Field.Selection
+      variant="button"
       value="bar"
       label="Label text"
       onChange={(value) => console.log('onChange', value)}
@@ -438,10 +453,10 @@ export const CheckboxDisabled = () => (
   </ComponentBox>
 )
 
-export const CheckboxError = () => (
+export const ButtonError = () => (
   <ComponentBox scope={{ Field, FormError }}>
     <Field.Selection
-      variant="radio"
+      variant="button"
       value="bar"
       label="Label text"
       onChange={(value) => console.log('onChange', value)}
@@ -452,5 +467,3 @@ export const CheckboxError = () => (
     </Field.Selection>
   </ComponentBox>
 )
-
-// Button

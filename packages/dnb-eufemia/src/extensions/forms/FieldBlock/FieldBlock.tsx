@@ -111,7 +111,7 @@ function FieldBlock(props: Props) {
             text={
               (warning instanceof Error && warning.message) ||
               (warning instanceof FormError && warning.message) ||
-              info?.toString()
+              warning?.toString()
             }
             label={label}
             space={{ top: 'x-small' }}

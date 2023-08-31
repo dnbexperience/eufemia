@@ -1,20 +1,28 @@
 import React, { useMemo, useContext, useCallback } from 'react'
-import { Div } from '../../../elements'
-import { Dropdown, Radio, Checkbox, HelpButton } from '../../../components'
+import { Button, Dropdown, Radio, HelpButton } from '../../../components'
+import ButtonRow from '../Layout/ButtonRow'
+import FieldBlock from '../FieldBlock'
 import classnames from 'classnames'
 import { forwardSpaceProps } from '../utils'
 import { makeUniqueId } from '../../../shared/component-helper'
 import SharedContext from '../../../shared/Context'
 import Option from './Option'
 import { useField } from './hooks'
+import { FormError } from '../types'
 import type { ComponentProps } from '../component-types'
 import type { FieldProps, FieldHelpProps } from '../field-types'
+
+interface IOption {
+  title: string | React.ReactNode
+  value: number | string
+  handleSelect: () => void
+}
 
 export type Props = ComponentProps &
   FieldHelpProps &
   FieldProps<string | number> & {
     children?: React.ReactNode
-    variant?: 'dropdown' | 'radio' | 'checkbox'
+    variant?: 'dropdown' | 'radio' | 'button'
     clear?: boolean
     optionsLayout?: 'horizontal' | 'vertical'
     width?: 'small' | 'medium' | 'large' | 'stretch'
@@ -25,14 +33,19 @@ function Selection(props: Props) {
   const clearValue = useMemo(() => `clear-option-${makeUniqueId()}`, [])
 
   const {
+    id,
     className,
     variant = 'dropdown',
     clear,
     label,
+    labelDescription,
+    labelSecondary,
     layout = 'vertical',
     optionsLayout = 'vertical',
     placeholder,
     value,
+    info,
+    warning,
     error,
     disabled,
     help,
@@ -70,31 +83,44 @@ function Selection(props: Props) {
     [onBlur],
   )
 
+  const cn = classnames('dnb-forms-field-selection', className)
+
+  const fieldBlockProps = {
+    forId: id,
+    className: cn,
+    ...forwardSpaceProps(props),
+    info,
+    warning,
+    error,
+    layout,
+    label,
+    labelDescription,
+    labelSecondary,
+  }
+
+  const options: IOption[] = useMemo(
+    () =>
+      React.Children.toArray(children)
+        .filter(
+          (child) => React.isValidElement(child) && child.type === Option
+        )
+        .map((option: React.ReactElement) => ({
+          title: option.props.title ?? option.props.children,
+          value: option.props.value,
+          handleSelect: () => {
+            const selected = option.props.value
+
+            onChange?.(selected === value ? emptyValue : selected)
+          },
+        })),
+    [children, value, emptyValue, onChange]
+  )
+
   switch (variant) {
-    case 'checkbox':
-      return (
-        <Div
-          className={classnames('dnb-forms-field-selection', className)}
-          {...forwardSpaceProps(props)}
-        >
-          {React.Children.toArray(children)
-            .filter(
-              (child) =>
-                React.isValidElement(child) && child.type === Option,
-            )
-            .map((child: React.ReactElement, i) => (
-              <Checkbox
-                key={child.props.value ?? `option-${i}`}
-                label={child.props.title ?? child.props.children}
-                value={String(child.props.value ?? '')}
-              />
-            ))}
-        </Div>
-      )
     case 'radio':
       return (
         <Radio.Group
-          className={classnames('dnb-forms-field-selection', className)}
+          className={cn}
           label={label}
           layout_direction={
             optionsLayout === 'horizontal' ? 'row' : 'column'
@@ -104,19 +130,32 @@ function Selection(props: Props) {
           value={String(value ?? '')}
           {...forwardSpaceProps(props)}
         >
-          {React.Children.toArray(children)
-            .filter(
-              (child) =>
-                React.isValidElement(child) && child.type === Option,
-            )
-            .map((child: React.ReactElement, i) => (
-              <Radio
-                key={child.props.value ?? `option-${i}`}
-                label={child.props.title ?? child.props.children}
-                value={String(child.props.value ?? '')}
+          {options.map((option, i) => (
+            <Radio
+              key={`option-${i}-${option.value}`}
+              label={option.title}
+              value={String(option.value ?? '')}
+            />
+          ))}
+        </Radio.Group>
+      )
+    case 'button':
+      return (
+        <FieldBlock {...fieldBlockProps}>
+          <ButtonRow>
+            {options.map((option, i) => (
+              <Button
+                key={`option-${i}-${option.value}`}
+                id={id}
+                text={option.title}
+                on_click={option.handleSelect}
+                variant={option.value === value ? undefined : 'secondary'}
+                status={error ? 'error' : undefined}
+                disabled={disabled}
               />
             ))}
-        </Radio.Group>
+          </ButtonRow>
+        </FieldBlock>
       )
     case 'dropdown': {
       const optionsData = React.Children.map(children, (child) => {
@@ -171,7 +210,12 @@ function Selection(props: Props) {
           value={String(value ?? '')}
           label={label}
           label_direction={layout}
-          status={error?.message}
+          status={
+            error?.message ??
+            ((warning instanceof Error && warning.message) ||
+              (warning instanceof FormError && warning.message) ||
+              warning?.toString())
+          }
           disabled={disabled}
           data={data}
           suffix={
