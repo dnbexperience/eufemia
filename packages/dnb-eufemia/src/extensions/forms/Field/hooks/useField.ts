@@ -228,8 +228,8 @@ export default function useField<Props extends FieldProps<any>>(
   )
 
   const onChange = useCallback(
-    (valueFromInput) => {
-      const newValue = fromInput(valueFromInput)
+    (argFromInput) => {
+      const newValue = fromInput(argFromInput)
       setValue(newValue)
       changedRef.current = true
       // When changing the value, hide errors to avoid annoying the user before they are finished filling in that value
