@@ -105,8 +105,8 @@ p > .dnb-icon {
   --accordion-border-width: 0.0625rem;
   --accordion-border-radius: 0.25rem;
   --accordion-easing: var(--easing-default);
-  --accordion-header-margin-v: 1.5rem;
-  --accordion-header-margin-v--description: 1rem;
+  --accordion-header-margin-vertical: 1.5rem;
+  --accordion-header-margin-vertical--description: 1rem;
   --accordion-header-wrapper-margin: 2rem;
   --accordion-header-wrapper-margin--icon-right: 1rem;
   --accordion-header-icon-gutter: 1rem;
@@ -139,18 +139,18 @@ p > .dnb-icon {
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin: var(--accordion-header-margin-v) var(--accordion-header-wrapper-margin) var(--accordion-header-margin-v) 0;
+  margin: var(--accordion-header-margin-vertical) var(--accordion-header-wrapper-margin) var(--accordion-header-margin-vertical) 0;
 }
 .dnb-accordion__header--description .dnb-accordion__header__wrapper {
-  margin-top: var(--accordion-header-margin-v--description);
-  margin-bottom: var(--accordion-header-margin-v--description);
+  margin-top: var(--accordion-header-margin-vertical--description);
+  margin-bottom: var(--accordion-header-margin-vertical--description);
 }
 .dnb-accordion__header__container {
   margin: 0 1rem;
 }
 .dnb-accordion__header__icon {
   align-self: flex-start;
-  margin: var(--accordion-header-margin-v) var(--accordion-header-icon-gutter) var(--accordion-header-margin-v) var(--accordion-header-icon-margin);
+  margin: var(--accordion-header-margin-vertical) var(--accordion-header-icon-gutter) var(--accordion-header-margin-vertical) var(--accordion-header-icon-margin);
   font-size: var(--font-size-small);
   line-height: var(--line-height-small);
   transition: transform 400ms var(--accordion-easing);
