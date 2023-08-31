@@ -1,13 +1,14 @@
 import React from 'react'
 import classnames from 'classnames'
-import { InputMasked } from '../../../components'
+import { InputMasked, HelpButton } from '../../../components'
 import { useField } from './hooks'
 import { forwardSpaceProps } from '../utils'
 import type { ComponentProps } from '../component-types'
-import type { FieldProps } from '../field-types'
+import type { FieldProps, FieldHelpProps } from '../field-types'
 
 export type Props = ComponentProps &
-  FieldProps<number> & {
+  FieldHelpProps &
+  FieldProps<number, undefined> & {
     currency?: string
   }
 
@@ -33,6 +34,7 @@ function Currency(props: Props) {
     placeholder,
     label,
     value,
+    help,
     error,
     disabled,
     onFocus,
@@ -53,6 +55,11 @@ function Currency(props: Props) {
       on_change={onChange}
       status={error?.message}
       disabled={disabled}
+      suffix={
+        help ? (
+          <HelpButton title={help.title}>{help.contents}</HelpButton>
+        ) : undefined
+      }
       {...forwardSpaceProps(props)}
     />
   )

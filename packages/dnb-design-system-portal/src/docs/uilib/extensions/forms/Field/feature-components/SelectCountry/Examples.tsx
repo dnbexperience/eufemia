@@ -57,6 +57,23 @@ export const LabelAndOptionSelected = () => {
   )
 }
 
+export const WithHelp = () => {
+  return (
+    <ComponentBox scope={{ Field }}>
+      <Field.SelectCountry
+        value="bar"
+        label="Label text"
+        help={{
+          title: 'Help is available',
+          contents:
+            'Helping others, encouraging others, are often acts of being kind that have more meaning that you may realize.',
+        }}
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
+
 export const Disabled = () => {
   return (
     <ComponentBox scope={{ Field }}>

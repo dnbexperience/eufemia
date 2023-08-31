@@ -58,3 +58,10 @@ export interface FieldProps<
   toInput?: (external: Value | undefined) => any
   fromInput?: (...args: any[]) => Value | undefined
 }
+
+export interface FieldHelpProps {
+  help?: {
+    title?: string;
+    contents?: string;
+  }
+}

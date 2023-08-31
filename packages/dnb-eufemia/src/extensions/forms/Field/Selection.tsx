@@ -1,6 +1,6 @@
 import React, { useMemo, useContext, useCallback } from 'react'
 import { Div } from '../../../elements'
-import { Dropdown, Radio, Checkbox } from '../../../components'
+import { Dropdown, Radio, Checkbox, HelpButton } from '../../../components'
 import classnames from 'classnames'
 import { forwardSpaceProps } from '../utils'
 import { makeUniqueId } from '../../../shared/component-helper'
@@ -8,9 +8,10 @@ import SharedContext from '../../../shared/Context'
 import Option from './Option'
 import { useField } from './hooks'
 import type { ComponentProps } from '../component-types'
-import type { FieldProps } from '../field-types'
+import type { FieldProps, FieldHelpProps } from '../field-types'
 
 export type Props = ComponentProps &
+  FieldHelpProps &
   FieldProps<string | number> & {
     children?: React.ReactNode
     variant?: 'dropdown' | 'radio' | 'checkbox'
@@ -33,6 +34,7 @@ function Selection(props: Props) {
     value,
     error,
     disabled,
+    help,
     emptyValue,
     width = 'large',
     onBlur,
@@ -169,6 +171,11 @@ function Selection(props: Props) {
           status={error?.message}
           disabled={disabled}
           data={data}
+          suffix={
+            help ? (
+              <HelpButton title={help.title}>{help.contents}</HelpButton>
+            ) : undefined
+          }
           on_change={handleDropdownChange}
           on_show={onFocus}
           on_hide={handleHide}

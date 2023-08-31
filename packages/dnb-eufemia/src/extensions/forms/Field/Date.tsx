@@ -1,12 +1,12 @@
 import React, { useContext } from 'react'
-import { DatePicker } from '../../../components'
+import { DatePicker, HelpButton } from '../../../components'
 import { forwardSpaceProps } from '../utils'
 import { useField } from './hooks'
 import type { ComponentProps } from '../component-types'
-import type { FieldProps } from '../field-types'
+import type { FieldProps, FieldHelpProps } from '../field-types'
 import SharedContext from '../../../shared/Context'
 
-export type Props = ComponentProps & FieldProps<string>
+export type Props = ComponentProps & FieldHelpProps & FieldProps<string>
 
 function DateComponent(props: Props) {
   const sharedContext = useContext(SharedContext)
@@ -21,6 +21,7 @@ function DateComponent(props: Props) {
     className,
     label,
     value,
+    help,
     error,
     disabled,
     onFocus,
@@ -39,6 +40,11 @@ function DateComponent(props: Props) {
       show_input={true}
       show_cancel_button={true}
       show_reset_button={true}
+      suffix={
+        help ? (
+          <HelpButton title={help.title}>{help.contents}</HelpButton>
+        ) : undefined
+      }
       on_change={onChange}
       on_show={onFocus}
       on_hide={onBlur}

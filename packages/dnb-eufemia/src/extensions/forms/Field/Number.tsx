@@ -1,11 +1,11 @@
 import React from 'react'
-import { InputMasked } from '../../../components'
+import { InputMasked, HelpButton } from '../../../components'
 import classnames from 'classnames'
 import { forwardSpaceProps } from '../utils'
 import FieldBlock from '../FieldBlock'
 import { useField } from './hooks'
 import type { ComponentProps } from '../component-types'
-import type { FieldProps } from '../field-types'
+import type { FieldProps, FieldHelpProps } from '../field-types'
 
 interface ErrorMessages {
   required?: string
@@ -18,6 +18,7 @@ interface ErrorMessages {
 }
 
 export type Props = ComponentProps &
+  FieldHelpProps &
   FieldProps<number, undefined, ErrorMessages> & {
     inputClassName?: string
     // Formatting
@@ -92,6 +93,7 @@ function NumberComponent(props: Props) {
     info,
     warning,
     error,
+    help,
     emptyValue,
     width,
     onFocus,
@@ -137,6 +139,11 @@ function NumberComponent(props: Props) {
         on_change={onChange}
         disabled={disabled}
         stretch={width !== undefined}
+        suffix={
+          help ? (
+            <HelpButton title={help.title}>{help.contents}</HelpButton>
+          ) : undefined
+        }
       />
     </FieldBlock>
   )

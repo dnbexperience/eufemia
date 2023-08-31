@@ -99,6 +99,26 @@ export const WithClearButton = () => (
   </ComponentBox>
 )
 
+export const WithHelp = () => {
+  return (
+    <ComponentBox scope={{ Field }}>
+      <Field.Selection
+        value="bar"
+        label="Label text"
+        help={{
+          title: 'Help is available',
+          contents:
+            'Somewhere along the way, we must learn that there is nothing greater than to do something for others.',
+        }}
+        onChange={(value) => console.log('onChange', value)}
+      >
+        <Field.Option value="foo" title="Foo!" />
+        <Field.Option value="bar" title="Baar!" />
+      </Field.Selection>
+    </ComponentBox>
+  )
+}
+
 export const HorizontalLayout = () => {
   return (
     <ComponentBox scope={{ Field }}>
@@ -240,8 +260,6 @@ export const DropdownValidationRequired = () => (
       onBlur={(value) => console.log('onBlur', value)}
       required
       clear
-      //validateInitially
-      //validateUnchanged
     >
       <Field.Option value="foo" title="Foo!" />
       <Field.Option value="bar" title="Baar!" />

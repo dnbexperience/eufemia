@@ -48,6 +48,23 @@ export const LabelAndValue = () => {
   )
 }
 
+export const WithHelp = () => {
+  return (
+    <ComponentBox scope={{ Field }}>
+      <Field.String
+        label="Label text"
+        value="foo"
+        help={{
+          title: 'Help is available',
+          contents:
+            'Take the time to help other people without expecting a reward or gratitude is definitely important in living an optimistic life.',
+        }}
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
+
 export const HorizontalLayout = () => {
   return (
     <ComponentBox scope={{ Field }}>
@@ -388,6 +405,22 @@ export const MultipleLabelAndValue = () => {
         label="Label text"
         onChange={(value) => console.log('onChange', value)}
         multiline
+      />
+    </ComponentBox>
+  )
+}
+
+export const MultipleWithHelp = () => {
+  return (
+    <ComponentBox scope={{ Field }}>
+      <Field.String
+        label="Label text"
+        help={{
+          title: 'Help is available',
+          contents: 'There is more happiness in giving than in receiving.',
+        }}
+        multiline
+        onChange={(value) => console.log('onChange', value)}
       />
     </ComponentBox>
   )

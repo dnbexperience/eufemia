@@ -44,6 +44,23 @@ export const LabelAndValue = () => {
   )
 }
 
+export const WithHelp = () => {
+  return (
+    <ComponentBox scope={{ Field }}>
+      <Field.Number
+        value={12345}
+        label="Label text"
+        help={{
+          title: 'Help is available',
+          contents:
+            'Here is what a team can do for you. . . . It allows you to help others do their best.',
+        }}
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
+
 export const HorizontalLayout = () => {
   return (
     <ComponentBox scope={{ Field }}>

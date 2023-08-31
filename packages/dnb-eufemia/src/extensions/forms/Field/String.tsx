@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import classnames from 'classnames'
-import { Input, Textarea } from '../../../components'
+import { HelpButton, Input, Textarea } from '../../../components'
 import { InputProps } from '../../../components/input/Input'
 import InputMasked, {
   InputMaskedProps,
@@ -10,7 +10,7 @@ import SharedContext from '../../../shared/Context'
 import FieldBlock from '../FieldBlock'
 import { useField } from './hooks'
 import type { ComponentProps } from '../component-types'
-import type { FieldProps } from '../field-types'
+import type { FieldProps, FieldHelpProps } from '../field-types'
 
 interface ErrorMessages {
   required?: string
@@ -20,6 +20,7 @@ interface ErrorMessages {
   pattern?: string
 }
 export type Props = ComponentProps &
+  FieldHelpProps &
   FieldProps<string, undefined, ErrorMessages> & {
     inputClassName?: string
     type?: InputProps['type']
@@ -99,6 +100,7 @@ function StringComponent(props: Props) {
     warning,
     error,
     disabled,
+    help,
     multiline,
     leftIcon,
     rightIcon,
@@ -140,6 +142,13 @@ function StringComponent(props: Props) {
           className={cn}
           placeholder={placeholder}
           value={value}
+          suffix={
+            help ? (
+              <HelpButton title={help.title} left="x-small">
+                {help.contents}
+              </HelpButton>
+            ) : undefined
+          }
           on_focus={onFocus}
           on_blur={onBlur}
           on_change={onChange}
@@ -156,6 +165,11 @@ function StringComponent(props: Props) {
           value={value?.toString() ?? ''}
           icon={leftIcon ?? rightIcon}
           icon_position={rightIcon && !leftIcon ? 'right' : undefined}
+          suffix={
+            help ? (
+              <HelpButton title={help.title}>{help.contents}</HelpButton>
+            ) : undefined
+          }
           on_focus={onFocus}
           on_blur={onBlur}
           on_change={onChange}
@@ -172,6 +186,11 @@ function StringComponent(props: Props) {
           icon={leftIcon ?? rightIcon}
           icon_position={rightIcon && !leftIcon ? 'right' : undefined}
           clear={clear}
+          suffix={
+            help ? (
+              <HelpButton title={help.title}>{help.contents}</HelpButton>
+            ) : undefined
+          }
           on_focus={onFocus}
           on_blur={onBlur}
           on_change={onChange}
