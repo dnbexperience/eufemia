@@ -121,6 +121,43 @@ describe('Selection', () => {
     })
   })
 
+  describe('variants', () => {
+    describe('radio', () => {
+      it('renders selected option', () => {
+        render(
+          <Field.Selection variant="radio" value="bar">
+            <Field.Option value="foo">Fooo</Field.Option>
+            <Field.Option value="bar">Baar</Field.Option>
+          </Field.Selection>
+        )
+        const radioButtons = screen.queryAllByRole('radio')
+        expect(radioButtons.length).toEqual(2)
+        expect(radioButtons[0]).not.toBeChecked()
+        expect(radioButtons[1]).toBeChecked()
+      })
+
+      it('renders update selected option based on external value change', () => {
+        const { rerender } = render(
+          <Field.Selection variant="radio" value="bar">
+            <Field.Option value="foo">Fooo</Field.Option>
+            <Field.Option value="bar">Baar</Field.Option>
+          </Field.Selection>
+        )
+        rerender(
+          <Field.Selection variant="radio" value="foo">
+            <Field.Option value="foo">Fooo</Field.Option>
+            <Field.Option value="bar">Baar</Field.Option>
+          </Field.Selection>
+        )
+
+        const radioButtons = screen.queryAllByRole('radio')
+        expect(radioButtons.length).toEqual(2)
+        expect(radioButtons[0]).toBeChecked()
+        expect(radioButtons[1]).not.toBeChecked()
+      })
+    })
+  })
+
   describe('event handlers', () => {
     it('calls onChange when selecting a different options', async () => {
       const onChange = jest.fn()

@@ -307,6 +307,52 @@ export const RadioOptionSelected = () => (
   </ComponentBox>
 )
 
+export const RadioHorizontalLayout = () => (
+  <ComponentBox scope={{ Field }}>
+    <Field.Selection
+      variant="radio"
+      label="Label text"
+      value="bar"
+      layout="horizontal"
+      onChange={(value) => console.log('onChange', value)}
+    >
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>
+  </ComponentBox>
+)
+
+export const RadioHorizontalOptionsLayout = () => (
+  <ComponentBox scope={{ Field }}>
+    <Field.Selection
+      variant="radio"
+      label="Label text"
+      value="bar"
+      optionsLayout="horizontal"
+      onChange={(value) => console.log('onChange', value)}
+    >
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>
+  </ComponentBox>
+)
+
+export const RadioHorizontalLayoutAndHorizontalOptionsLayout = () => (
+  <ComponentBox scope={{ Field }}>
+    <Field.Selection
+      variant="radio"
+      label="Label text"
+      value="bar"
+      layout="horizontal"
+      optionsLayout="horizontal"
+      onChange={(value) => console.log('onChange', value)}
+    >
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>
+  </ComponentBox>
+)
+
 export const RadioDisabled = () => (
   <ComponentBox scope={{ Field }}>
     <Field.Selection

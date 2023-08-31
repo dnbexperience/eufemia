@@ -12,13 +12,15 @@ export type Props = ComponentProps &
   FieldProps<Array<string | number>> & {
     children?: React.ReactNode
     variant?: 'checkbox'
+    optionsLayout?: 'horizontal' | 'vertical'
   }
 
 function ArraySelection(props: Props) {
   const {
     className,
-    variant,
-    layout,
+    variant = 'checkbox',
+    layout = 'vertical',
+    optionsLayout = 'vertical',
     label,
     labelDescription,
     labelSecondary,
@@ -37,11 +39,16 @@ function ArraySelection(props: Props) {
   ) as React.ReactElement[]
 
   switch (variant) {
-    default:
     case 'checkbox':
       return (
         <FieldBlock
-          className={classnames('dnb-forms-field-string', className)}
+          className={classnames(
+            'dnb-forms-field-array-selection',
+            `dnb-forms-field-array-selection--variant-${variant}`,
+            `dnb-forms-field-array-selection--options-layout-${optionsLayout}`,
+            className
+          )}
+          contentClassName="dnb-forms-field-array-selection__options"
           layout={layout}
           label={label}
           labelDescription={labelDescription}
@@ -52,30 +59,28 @@ function ArraySelection(props: Props) {
           {...forwardSpaceProps(props)}
         >
           {options.map((child, i) => (
-            <React.Fragment key={child.props.value ?? `option-${i}`}>
-              <Checkbox
-                label={child.props.title ?? child.props.children}
-                checked={
-                  child.props.value && value?.includes(child.props.value)
+            <Checkbox
+              key={child.props.value ?? `option-${i}`}
+              className="dnb-forms-field-array-selection__checkbox"
+              label={child.props.title ?? child.props.children}
+              checked={
+                child.props.value && value?.includes(child.props.value)
+              }
+              disabled={disabled}
+              onChange={() => {
+                const clickedValue = child.props.value
+
+                if (clickedValue === undefined) {
+                  onChange?.(emptyValue)
                 }
-                top={i > 0 ? 'x-small' : undefined}
-                disabled={disabled}
-                onChange={() => {
-                  const clickedValue = child.props.value
 
-                  if (clickedValue === undefined) {
-                    onChange?.(emptyValue)
-                  }
+                const newValue = value?.includes(clickedValue)
+                  ? value.filter((value) => value !== clickedValue)
+                  : [...(value ?? []), clickedValue]
 
-                  const newValue = value?.includes(clickedValue)
-                    ? value.filter((value) => value !== clickedValue)
-                    : [...(value ?? []), clickedValue]
-
-                  onChange?.(newValue.length === 0 ? emptyValue : newValue)
-                }}
-              />
-              <br />
-            </React.Fragment>
+                onChange?.(newValue.length === 0 ? emptyValue : newValue)
+              }}
+            />
           ))}
         </FieldBlock>
       )

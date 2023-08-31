@@ -16,7 +16,7 @@ export type Props = ComponentProps &
     children?: React.ReactNode
     variant?: 'dropdown' | 'radio' | 'checkbox'
     clear?: boolean
-    // Styling
+    optionsLayout?: 'horizontal' | 'vertical'
     width?: 'small' | 'medium' | 'large' | 'stretch'
   }
 
@@ -26,10 +26,11 @@ function Selection(props: Props) {
 
   const {
     className,
-    variant,
+    variant = 'dropdown',
     clear,
     label,
     layout = 'vertical',
+    optionsLayout = 'vertical',
     placeholder,
     value,
     error,
@@ -95,10 +96,13 @@ function Selection(props: Props) {
         <Radio.Group
           className={classnames('dnb-forms-field-selection', className)}
           label={label}
-          layout_direction="column"
+          layout_direction={
+            optionsLayout === 'horizontal' ? 'row' : 'column'
+          }
+          vertical={layout === 'vertical'}
           on_change={handleRadioChange}
+          value={String(value ?? '')}
           {...forwardSpaceProps(props)}
-          vertical
         >
           {React.Children.toArray(children)
             .filter(
@@ -114,7 +118,6 @@ function Selection(props: Props) {
             ))}
         </Radio.Group>
       )
-    default:
     case 'dropdown': {
       const optionsData = React.Children.map(children, (child) => {
         if (React.isValidElement(child) && child.type === Option) {

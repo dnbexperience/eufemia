@@ -41,6 +41,49 @@ export const CheckboxOptionSelected = () => (
   </ComponentBox>
 )
 
+export const CheckboxHorizontalLayout = () => (
+  <ComponentBox scope={{ Field }}>
+    <Field.ArraySelection
+      label="Label text"
+      value={['bar']}
+      layout="horizontal"
+      onChange={(values) => console.log('onChange', values)}
+    >
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.ArraySelection>
+  </ComponentBox>
+)
+
+export const CheckboxHorizontalOptionsLayout = () => (
+  <ComponentBox scope={{ Field }}>
+    <Field.ArraySelection
+      label="Label text"
+      value={['bar']}
+      optionsLayout="horizontal"
+      onChange={(values) => console.log('onChange', values)}
+    >
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.ArraySelection>
+  </ComponentBox>
+)
+
+export const CheckboxHorizontalLayoutAndHorizontalOptionsLayout = () => (
+  <ComponentBox scope={{ Field }}>
+    <Field.ArraySelection
+      label="Label text"
+      value={['bar']}
+      layout="horizontal"
+      optionsLayout="horizontal"
+      onChange={(values) => console.log('onChange', values)}
+    >
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.ArraySelection>
+  </ComponentBox>
+)
+
 export const CheckboxDisabled = () => (
   <ComponentBox scope={{ Field }}>
     <Field.ArraySelection

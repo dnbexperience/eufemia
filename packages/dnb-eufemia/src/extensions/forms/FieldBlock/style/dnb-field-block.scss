@@ -1,7 +1,40 @@
 @import '../../variables.scss';
 
 .dnb-forms-field-block {
-  &__label-block {
+  // Layout
+  &--layout-vertical {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-areas: 
+      "label"
+      "contents"
+      "status";
+  }
+
+  &--layout-horizontal {
+    display: grid;
+    grid-template-columns: $forms-field-width-medium auto;
+    grid-template-areas: 
+      "label contents"
+      "status status"; 
+  }
+
+  // Width
+  &--width-small {
+    width: $forms-field-width-small;
+  }
+
+  &--width-medium {
+    width: $forms-field-width-medium;
+  }
+
+  &--width-large {
+    width: $forms-field-width-large;
+  }
+
+  // Elements
+  &__label {
+    grid-area: label;
     display: flex;
     flex-flow: row;
     justify-content: space-between;
@@ -19,33 +52,28 @@
     font-size: var(--font-size-small);
   }
 
-  &--width-large {
-    width: $forms-field-width-large;
-  }
-
-  &--width-medium {
-    width: $forms-field-width-medium;
-  }
-
-  &--width-small {
-    width: $forms-field-width-small;
+  &__status {
+    grid-area: status;
   }
 
   &__contents {
+    grid-area: contents;
+
     &--width-stretch {
       width: 100%;
     }
 
-    &--width-large {
-      width: $forms-field-width-large;
+    &--width-small {
+      width: $forms-field-width-small;
     }
 
     &--width-medium {
       width: $forms-field-width-medium;
     }
 
-    &--width-small {
-      width: $forms-field-width-small;
+    &--width-large {
+      width: $forms-field-width-large;
     }
+    
   }
 }

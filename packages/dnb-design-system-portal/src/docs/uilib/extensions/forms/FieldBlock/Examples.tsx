@@ -9,10 +9,34 @@ export const Default = () => {
   )
 }
 
+export const WithInfo = () => {
+  return (
+    <ComponentBox scope={{ FieldBlock }}>
+      <FieldBlock label="Label text" info="For your information">
+        Input features goes here
+      </FieldBlock>
+    </ComponentBox>
+  )
+}
+
 export const Horizontal = () => {
   return (
     <ComponentBox scope={{ FieldBlock }}>
       <FieldBlock label="Label text" layout="horizontal">
+        Input features goes here
+      </FieldBlock>
+    </ComponentBox>
+  )
+}
+
+export const HorizontalWithInfo = () => {
+  return (
+    <ComponentBox scope={{ FieldBlock }}>
+      <FieldBlock
+        label="Label text"
+        layout="horizontal"
+        info="For your information"
+      >
         Input features goes here
       </FieldBlock>
     </ComponentBox>
