@@ -6,9 +6,9 @@ export const Empty = () => {
   return (
     <ComponentBox scope={{ Field }}>
       <Field.String
-        onChange={(value) => console.log('onChange', value)}
         onFocus={(value) => console.log('onFocus', value)}
         onBlur={(value) => console.log('onBlur', value)}
+        onChange={(value) => console.log('onChange', value)}
       />
     </ComponentBox>
   )

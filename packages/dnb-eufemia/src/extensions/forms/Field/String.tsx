@@ -21,7 +21,7 @@ interface ErrorMessages {
 }
 export type Props = ComponentProps &
   FieldHelpProps &
-  FieldProps<string, undefined, ErrorMessages> & {
+  FieldProps<string, undefined | string, ErrorMessages> & {
     inputClassName?: string
     type?: InputProps['type']
     multiline?: boolean

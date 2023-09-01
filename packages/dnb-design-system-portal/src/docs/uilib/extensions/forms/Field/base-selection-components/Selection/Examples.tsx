@@ -8,9 +8,9 @@ import { FormError } from '@dnb/eufemia/src/extensions/forms/types'
 export const DropdownEmpty = () => (
   <ComponentBox scope={{ Field }}>
     <Field.Selection
-      onChange={(value) => console.log('onChange', value)}
       onFocus={(value) => console.log('onFocus', value)}
       onBlur={(value) => console.log('onBlur', value)}
+      onChange={(value) => console.log('onChange', value)}
     >
       <Field.Option value="foo" title="Foo!" />
       <Field.Option value="bar" title="Baar!" />

@@ -1,8 +1,9 @@
-import React, { useContext, useCallback, useMemo } from 'react'
+import React, { useContext, useCallback } from 'react'
 import { Div } from '../../../elements'
-import { Autocomplete, Input } from '../../../components'
+import { InputMaskedProps } from '../../../components/InputMasked'
 import classnames from 'classnames'
-import countries from '../constants/countries'
+import CountryCode from './CountryCode'
+import StringComponent from './String'
 import { forwardSpaceProps } from '../utils'
 import { useField } from './hooks'
 import type { ComponentProps } from '../component-types'
@@ -10,11 +11,12 @@ import type { FieldProps } from '../field-types'
 import SharedContext from '../../../shared/Context'
 
 export type Props = ComponentProps &
-  FieldProps<string> & {
+  FieldProps<string, undefined> & {
     countryCodeFieldClassName?: string
     numberFieldClassName?: string
-    // Styling
-    width?: 'small' | 'medium' | 'large'
+    countryCodeLabel?: string
+    numberMask?: InputMaskedProps['mask']
+    width?: 'large' | 'stretch'
   }
 
 function PhoneNumber(props: Props) {
@@ -32,9 +34,13 @@ function PhoneNumber(props: Props) {
     countryCodeFieldClassName,
     numberFieldClassName,
     placeholder,
+    countryCodeLabel,
     label = sharedContext?.translation.Forms.phoneNumberLabel,
     value,
+    numberMask,
     emptyValue,
+    info,
+    warning,
     error,
     disabled,
     width = 'large',
@@ -43,44 +49,31 @@ function PhoneNumber(props: Props) {
     onChange,
   } = useField(preparedProps)
 
-  // Split the value into country code and phone number correctly, even if one of them is not
-  // filled in (avoiding number ending up in country code etc)
-  const [, countryCode = '+47', phoneNumber = ''] =
-    (value ?? '')?.match(/^(\+[^ ]+)? ?(.*)$/) ?? []
-
-  const countriesDropdownData = useMemo(
-    () =>
-      countries.map((country) => ({
-        selected_key: `+${country.code}`,
-        selected_value: `${country.iso} (+${country.code})`,
-        content: `+${country.code} ${country.name}`,
-      })),
-    [],
-  )
+  const [, countryCode, phoneNumber] =
+    value === undefined
+      ? [undefined, '+47', '']
+      : value?.match(/^(\+[^ ]+)? ?(.*)$/) ?? []
 
   const handleCountryCodeChange = useCallback(
-    ({ data: changedData }: { data: { selected_key: string } }) => {
-      if (
-        (!changedData || !changedData.selected_key.trim()) &&
-        !phoneNumber.trim()
-      ) {
+    (countryCode: string) => {
+      if (!countryCode && !phoneNumber) {
         onChange?.(emptyValue)
         return
       }
 
-      onChange?.(`${changedData?.selected_key || ''} ${phoneNumber}`)
+      onChange?.([countryCode, phoneNumber].filter(Boolean).join(' '))
     },
     [phoneNumber, emptyValue, onChange],
   )
 
   const handleNumberChange = useCallback(
-    ({ value }: { value: string }) => {
-      if (!value.trim() && !countryCode.trim()) {
+    (phoneNumber: string) => {
+      if (!countryCode && !phoneNumber) {
         onChange?.(emptyValue)
         return
       }
 
-      onChange?.([countryCode, value].filter(Boolean).join(' '))
+      onChange?.([countryCode, phoneNumber].filter(Boolean).join(' '))
     },
     [countryCode, emptyValue, onChange],
   )
@@ -95,35 +88,51 @@ function PhoneNumber(props: Props) {
       )}
       {...forwardSpaceProps(preparedProps)}
     >
-      <Autocomplete
+      <CountryCode
         className={classnames(
           'dnb-forms-field-phone-number__country-code',
           countryCodeFieldClassName,
         )}
-        label_direction="vertical"
-        label={sharedContext?.translation.Forms.countryCodeLabel}
-        data={countriesDropdownData}
+        label={countryCodeLabel}
         value={countryCode ?? '+47'}
         disabled={disabled}
-        on_change={handleCountryCodeChange}
-        independent_width
-        search_numbers
+        onChange={handleCountryCodeChange}
       />
-      <Input
+
+      <StringComponent
         className={classnames(
           'dnb-forms-field-phone-number__number',
           numberFieldClassName,
         )}
-        label_direction="vertical"
+        type="tel"
+        emptyValue=""
+        layout="vertical"
         label={label ?? ' '}
         placeholder={placeholder ?? '00 00 00 00'}
-        on_change={handleNumberChange}
-        on_focus={onFocus}
-        on_blur={onBlur}
+        mask={
+          numberMask ?? [
+            /\d/,
+            /\d/,
+            ' ',
+            /\d/,
+            /\d/,
+            ' ',
+            /\d/,
+            /\d/,
+            ' ',
+            /\d/,
+            /\d/,
+          ]
+        }
+        onFocus={onFocus}
+        onBlur={onBlur}
+        onChange={handleNumberChange}
         value={phoneNumber}
-        status={error?.message}
+        info={info}
+        warning={warning}
+        error={error}
         disabled={disabled}
-        type="tel"
+        width="stretch"
       />
     </Div>
   )

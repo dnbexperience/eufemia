@@ -14,14 +14,13 @@ import type { FieldProps } from '../../field-types'
 import { FieldGroupContext } from '../../FieldGroup'
 import { makeUniqueId } from '../../../../shared/component-helper'
 
-interface ReturnPropOverrides {
-  onFocus: (options?: { onFocusValue: unknown }) => void
-  onBlur: (options?: { onBlurValue: unknown }) => void
-}
+interface ReturnAdditional {
+  setHasFocus: (hasFocus: boolean, valueOverride?: unknown) => void;
+} 
 
 export default function useField<Props extends FieldProps<any>>(
-  props: Props,
-): Omit<Props, keyof ReturnPropOverrides> & ReturnPropOverrides {
+  props: Props
+): Props & ReturnAdditional {
   const {
     path,
     emptyValue,
@@ -182,17 +181,14 @@ export default function useField<Props extends FieldProps<any>>(
       setShowFieldGroupError?.(path ?? id, true)
     }
   }, [id, path, dataContext.showAllErrors, setShowFieldGroupError])
-
-  const onFocus = useCallback(
-    ({ onFocusValue }) => {
-      onFocusProp?.(onFocusValue ?? value)
-    },
-    [value, onFocusProp],
-  )
-
-  const onBlur = useCallback(
-    ({ onBlurValue }) => {
-      onBlurProp?.(onBlurValue ?? value)
+  
+  const setHasFocus = useCallback((hasFocus: boolean, valueOverride?: unknown) => {
+    if (hasFocus) {
+      // Field was put in focus (like when clicking in a text field or opening a dropdown menu)
+      onFocusProp?.(valueOverride ?? value)
+    } else {
+      // Field was removed from focus (like when tabbing out of a text field or closing a dropdown menu)
+      onBlurProp?.(valueOverride ?? value)
 
       if (!changedRef.current && !validateUnchanged) {
         // Avoid showing errors when blurring without havinc hanged the value, so tabbing through several
@@ -204,7 +200,7 @@ export default function useField<Props extends FieldProps<any>>(
       // expensive validation calling external services etc.
       if (typeof onBlurValidatorProp === 'function') {
         // Since the validator can return either a synchronous result or an asynchronous
-        Promise.resolve(onBlurValidatorProp(onBlurValue ?? value))
+        Promise.resolve(onBlurValidatorProp(valueOverride ?? value))
           // This is a validator, so it is expected to resolve with an error when the value is invalid. If it
           // throws an error, it is not caught here as that will cause programmatic errors to show inside the form
           // as if they where operational errors.
@@ -213,23 +209,21 @@ export default function useField<Props extends FieldProps<any>>(
 
       // Since the user left the field, show error (if any)
       setShowError(true)
-      setShowFieldGroupError?.(path ?? id, true)
-    },
-    [
-      id,
-      path,
-      value,
-      onBlurProp,
-      validateUnchanged,
-      onBlurValidatorProp,
-      setErrorAndUpdateDataContext,
-      setShowFieldGroupError,
-    ],
-  )
+      setShowFieldGroupError?.(path ?? id, true);
+    }
+  }, [id, path, value, validateUnchanged, onFocusProp, onBlurProp, onBlurValidatorProp, setErrorAndUpdateDataContext, setShowFieldGroupError]);
+
+  const onFocus = useCallback(() => setHasFocus(true), [setHasFocus]);
+  const onBlur = useCallback(() => setHasFocus(false), [setHasFocus]);
 
   const onChange = useCallback(
     (argFromInput) => {
       const newValue = fromInput(argFromInput)
+      if (newValue === value) {
+        // Avoid triggering a change if the value was not actually changed. This may be caused by rendering components
+        // calling onChange even if the actual value did not change.
+        return;
+      }
       setValue(newValue)
       changedRef.current = true
       // When changing the value, hide errors to avoid annoying the user before they are finished filling in that value
@@ -247,6 +241,7 @@ export default function useField<Props extends FieldProps<any>>(
     [
       id,
       path,
+      value,
       onChangeProp,
       validateValue,
       dataContextHandlePathChange,
@@ -277,7 +272,8 @@ export default function useField<Props extends FieldProps<any>>(
     ...props,
     id,
     value: toInput(value),
-    error: inFieldGroup ? undefined : showError ? exportError : undefined,
+    error: inFieldGroup ? undefined : (showError ? exportError : undefined),
+    setHasFocus,
     onFocus,
     onBlur,
     onChange,

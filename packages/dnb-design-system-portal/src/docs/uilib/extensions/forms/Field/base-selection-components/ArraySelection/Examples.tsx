@@ -7,6 +7,8 @@ import { FormError } from '@dnb/eufemia/src/extensions/forms/types'
 export const CheckboxEmpty = () => (
   <ComponentBox scope={{ Field }}>
     <Field.ArraySelection
+      onFocus={(value) => console.log('onFocus', value)}
+      onBlur={(value) => console.log('onBlur', value)}
       onChange={(value) => console.log('onChange', value)}
     >
       <Field.Option value="foo" title="Fooo!" />

@@ -51,8 +51,7 @@ function Selection(props: Props) {
     help,
     emptyValue,
     width = 'large',
-    onBlur,
-    onFocus,
+    setHasFocus,
     onChange,
     children,
   } = useField(props)
@@ -75,12 +74,21 @@ function Selection(props: Props) {
     [onChange, emptyValue],
   )
 
+  // Specific handleShow and handleHide because Dropdown preserve the initially received callbacks, so changes
+  // due to `useCallback` usage will have no effect, leading to useFields onFocus and onBlur sending out old
+  // copies of value as arguments.
+  const handleShow = useCallback(
+    ({ data }) => {
+      setHasFocus(true, data?.selected_key)
+    },
+    [setHasFocus]
+  )
+
   const handleHide = useCallback(
     ({ data }) => {
-      // Provide a value because selecting an option will lead to onChange and onBlur called in parallel, so onBlur might receive the old value
-      onBlur?.({ onBlurValue: data?.selected_key })
+      setHasFocus(false, data?.selected_key)
     },
-    [onBlur],
+    [setHasFocus]
   )
 
   const cn = classnames('dnb-forms-field-selection', className)
@@ -214,7 +222,10 @@ function Selection(props: Props) {
             error?.message ??
             ((warning instanceof Error && warning.message) ||
               (warning instanceof FormError && warning.message) ||
-              warning?.toString())
+              warning?.toString() ||
+              (info instanceof Error && info.message) ||
+              (info instanceof FormError && info.message) ||
+              info?.toString())
           }
           disabled={disabled}
           data={data}
@@ -224,7 +235,7 @@ function Selection(props: Props) {
             ) : undefined
           }
           on_change={handleDropdownChange}
-          on_show={onFocus}
+          on_show={handleShow}
           on_hide={handleHide}
           {...forwardSpaceProps(props)}
           stretch={width === 'stretch'}
