@@ -57,6 +57,10 @@ function CountryCode(props: Props) {
     [emptyValue, onChange]
   )
 
+  const valueIndex = autocompleteData.findIndex(
+    (item) => item.selected_key === value
+  )
+
   return (
     <Autocomplete
       className={classnames(
@@ -69,7 +73,7 @@ function CountryCode(props: Props) {
       label_direction={layout}
       label={label}
       data={autocompleteData}
-      value={value}
+      value={valueIndex}
       disabled={disabled}
       on_focus={onFocus}
       on_blur={onBlur}

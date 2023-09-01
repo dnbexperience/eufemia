@@ -23,6 +23,9 @@ function PhoneNumber(props: Props) {
   const sharedContext = useContext(SharedContext)
   const preparedProps: Props = {
     ...props,
+    // Important for the default value to be defined here, and not after the useField call, to avoid the UI jumping
+    // back to +47 once the user empty the field so onChange send out undefined.
+    value: '+47',
     errorMessages: {
       required: sharedContext?.translation.Forms.phoneNumberErrorRequired,
       ...props?.errorMessages,
@@ -50,9 +53,9 @@ function PhoneNumber(props: Props) {
   } = useField(preparedProps)
 
   const [, countryCode, phoneNumber] =
-    value === undefined
-      ? [undefined, '+47', '']
-      : value?.match(/^(\+[^ ]+)? ?(.*)$/) ?? []
+    value !== undefined
+      ? value.match(/^(\+[^ ]+)? ?(.*)$/)
+      : [undefined, '', '']
 
   const handleCountryCodeChange = useCallback(
     (countryCode: string) => {
