@@ -6,7 +6,15 @@ export const Empty = () => {
   return (
     <ComponentBox scope={{ Field }}>
       <Field.PhoneNumber
+        onFocus={(value) => console.log('onFocus', value)}
+        onBlur={(value) => console.log('onBlur', value)}
         onChange={(value) => console.log('onChange', value)}
+        onCountryCodeChange={(countryCode) =>
+          console.log('onCountryCodeChange', countryCode)
+        }
+        onNumberChange={(phoneNumber) =>
+          console.log('onNumberChange', phoneNumber)
+        }
       />
     </ComponentBox>
   )

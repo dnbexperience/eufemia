@@ -17,6 +17,8 @@ export type Props = ComponentProps &
     countryCodeLabel?: string
     numberMask?: InputMaskedProps['mask']
     width?: 'large' | 'stretch'
+    onCountryCodeChange?: (value: string | undefined) => void
+    onNumberChange?: (value: string | undefined) => void
   }
 
 function PhoneNumber(props: Props) {
@@ -50,6 +52,8 @@ function PhoneNumber(props: Props) {
     onFocus,
     onBlur,
     onChange,
+    onCountryCodeChange,
+    onNumberChange,
   } = useField(preparedProps)
 
   const [, countryCode, phoneNumber] =
@@ -61,24 +65,28 @@ function PhoneNumber(props: Props) {
     (countryCode: string) => {
       if (!countryCode && !phoneNumber) {
         onChange?.(emptyValue)
+        onCountryCodeChange?.(emptyValue)
         return
       }
 
       onChange?.([countryCode, phoneNumber].filter(Boolean).join(' '))
+      onCountryCodeChange?.(countryCode)
     },
-    [phoneNumber, emptyValue, onChange],
+    [phoneNumber, emptyValue, onChange, onCountryCodeChange]
   )
 
   const handleNumberChange = useCallback(
     (phoneNumber: string) => {
       if (!countryCode && !phoneNumber) {
         onChange?.(emptyValue)
+        onNumberChange?.(emptyValue)
         return
       }
 
       onChange?.([countryCode, phoneNumber].filter(Boolean).join(' '))
+      onNumberChange?.(phoneNumber)
     },
-    [countryCode, emptyValue, onChange],
+    [countryCode, emptyValue, onChange, onNumberChange]
   )
 
   return (
