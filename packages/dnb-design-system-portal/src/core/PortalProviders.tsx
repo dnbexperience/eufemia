@@ -13,7 +13,7 @@ import { Provider, Context, Theme } from '@dnb/eufemia/src/shared'
 import enUS from '@dnb/eufemia/src/shared/locales/en-US'
 import { isTrue } from '@dnb/eufemia/src/shared/component-helper'
 
-import { useTheme } from 'gatsby-plugin-eufemia-theme-handler/themeHandler'
+import { useTheme } from 'gatsby-plugin-eufemia-theme-handler'
 import { importStyles } from './StyleImporter.cjs'
 
 import PortalLayout, { PortalLayoutProps } from './PortalLayout'
