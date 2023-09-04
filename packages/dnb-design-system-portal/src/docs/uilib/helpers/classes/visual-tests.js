@@ -16,7 +16,7 @@ export default function VisibleWhenVisualTests() {
       try {
         const range = new Range()
         const textNode = document.querySelector(
-          '[data-visual-test="helper-selection"] p'
+          '[data-visual-test="helper-selection"] p',
         ).childNodes[0]
         range.setStart(textNode, 0)
         range.setEnd(textNode, Math.floor(textNode.length / 2))

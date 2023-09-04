@@ -57,7 +57,10 @@ describe.each(['ui', 'sbanken'])('Logo for %s', (themeName) => {
 describe('png image', () => {
   it('have to match image snapshot', async () => {
     const image = await loadImage(
-      path.resolve(__dirname, '../../../../assets/images/dnb/dnb-logo.png')
+      path.resolve(
+        __dirname,
+        '../../../../assets/images/dnb/dnb-logo.png',
+      ),
     )
     expect(image).toMatchImageSnapshot()
   })

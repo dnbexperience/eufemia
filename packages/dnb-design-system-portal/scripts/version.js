@@ -13,7 +13,7 @@ const {
 const init = async () => {
   if (!isCI) {
     console.log(
-      'You may only set a new deploy version on a CI environment!'
+      'You may only set a new deploy version on a CI environment!',
     )
     return false
   }
@@ -73,7 +73,7 @@ async function createNewChangelogVersion() {
     const packageJson = await fs.readJson(file)
     const changelogFilePath = path.resolve(
       __dirname,
-      '../src/docs/EUFEMIA_CHANGELOG.mdx'
+      '../src/docs/EUFEMIA_CHANGELOG.mdx',
     )
     const content = await fs.readFile(changelogFilePath, 'utf-8')
 
@@ -87,7 +87,7 @@ async function createNewChangelogVersion() {
     await fs.writeFile(file, JSON.stringify(packageJson, null, 2))
   } catch (e) {
     console.warn(
-      `Failed to create new static version file! \n${e.message}`
+      `Failed to create new static version file! \n${e.message}`,
     )
   }
 }

@@ -20,7 +20,9 @@
     &::after {
       content: '';
       position: absolute;
-      transition: transform 0.3s ease-out, position 0.3s ease-out;
+      transition:
+        transform 0.3s ease-out,
+        position 0.3s ease-out;
     }
   }
 

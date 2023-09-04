@@ -23,7 +23,10 @@ type FallbackFilesParams = {
 }
 
 const prettierrc = JSON.parse(
-  fs.readFileSync(path.resolve(__dirname, '../../../.prettierrc'), 'utf-8')
+  fs.readFileSync(
+    path.resolve(__dirname, '../../../.prettierrc'),
+    'utf-8',
+  ),
 )
 
 const runThemeFactory = async () => {
@@ -43,7 +46,7 @@ const runThemeFactory = async () => {
     filesToFindGlob: [
       path.resolve(
         __dirname,
-        '../../../src/{components,fragments}/**/style/themes/**/*-theme-*.scss'
+        '../../../src/{components,fragments}/**/style/themes/**/*-theme-*.scss',
       ),
       ...processToNamesIgnoreList,
     ],
@@ -53,7 +56,7 @@ const runThemeFactory = async () => {
   }).then(() => {
     if (require.main === module) {
       log.succeed(
-        '> PrePublish: "themeFactory" Created the themes files with all the components, elements, fragments and extensions'
+        '> PrePublish: "themeFactory" Created the themes files with all the components, elements, fragments and extensions',
       )
     }
   })
@@ -63,7 +66,7 @@ const runThemeFactory = async () => {
     filesToFindGlob: [
       path.resolve(
         __dirname,
-        '../../../src/elements/**/style/themes/**/*-theme-*.scss'
+        '../../../src/elements/**/style/themes/**/*-theme-*.scss',
       ),
       ...processToNamesIgnoreList,
     ],
@@ -73,7 +76,7 @@ const runThemeFactory = async () => {
   }).then(() => {
     if (require.main === module) {
       log.succeed(
-        '> PrePublish: "themeFactory" Created the themes files with all the components, elements, fragments and extensions'
+        '> PrePublish: "themeFactory" Created the themes files with all the components, elements, fragments and extensions',
       )
     }
   })
@@ -83,7 +86,7 @@ const runThemeFactory = async () => {
     filesToFindGlob: [
       path.resolve(
         __dirname,
-        '../../../src/extensions/**/style/themes/**/*-theme-*.scss'
+        '../../../src/extensions/**/style/themes/**/*-theme-*.scss',
       ),
       ...processToNamesIgnoreList,
     ],
@@ -93,7 +96,7 @@ const runThemeFactory = async () => {
   }).then(() => {
     if (require.main === module) {
       log.succeed(
-        '> PrePublish: "themeFactory" Created the themes files with all the components, elements, fragments and extensions'
+        '> PrePublish: "themeFactory" Created the themes files with all the components, elements, fragments and extensions',
       )
     }
   })
@@ -130,9 +133,8 @@ export const runFactory = async ({
   returnResult = false,
 }) => {
   const themeSources = await getThemeSources(filesToFindGlob)
-  const themesWithRelatedFiles = await collecetRelatedThemeFiles(
-    themeSources
-  )
+  const themesWithRelatedFiles =
+    await collecetRelatedThemeFiles(themeSources)
 
   const collectedOutput = {}
 
@@ -146,7 +148,7 @@ export const runFactory = async ({
         await prettier.format(fileContent, {
           ...prettierrc,
           filepath: file,
-        })
+        }),
       )
     }
 
@@ -158,9 +160,9 @@ export const runFactory = async ({
       if (!fs.existsSync(file)) {
         fileContent = `${editAdvice.replace(
           '<file>',
-          targetFile
+          targetFile,
         )}\n\n${customContent}\n\n${insertBelowAdvice}\n\n${files.join(
-          ''
+          '',
         )}`
 
         await write(file, fileContent)
@@ -177,7 +179,7 @@ export const runFactory = async ({
 
       fileContent = fileContent.replace(
         new RegExp(`(\\/\\*\\*[^]*${insertBelowTitle}[^]*\\*\\/)([^]*)`),
-        `$1\n\n${updatedFiles.join('')}\n`
+        `$1\n\n${updatedFiles.join('')}\n`,
       )
 
       if (returnResult) {
@@ -214,14 +216,14 @@ function getFallbackFiles({
 
   if (fallbackThemeName) {
     const fallbackIndex = themesWithRelatedFiles.findIndex(
-      ({ name }) => fallbackThemeName === name
+      ({ name }) => fallbackThemeName === name,
     )
     if (fallbackIndex >= 0) {
       files = [
         ...files,
         ...themesWithRelatedFiles[fallbackIndex].files.filter((file) => {
           return !files.includes(
-            file.replace(`-${fallbackThemeName}`, `-${currentThemeName}`)
+            file.replace(`-${fallbackThemeName}`, `-${currentThemeName}`),
           )
         }),
       ]
@@ -289,8 +291,8 @@ async function collecetRelatedThemeFiles(themeSources: ThemeSources) {
       acc.push(
         `\n@import '${source.replace(
           new RegExp(`${path}/src/`, 'g'),
-          '../../../'
-        )}';`
+          '../../../',
+        )}';`,
       )
       return acc
     }, [])

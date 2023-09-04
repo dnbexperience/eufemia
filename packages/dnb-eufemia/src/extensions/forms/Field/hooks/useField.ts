@@ -11,7 +11,7 @@ import { FormError } from '../../types'
 import ajv, { ajvErrorsToOneFormError } from '../../utils/ajv'
 import DataContext from '../../DataContext'
 import type { FieldProps } from '../../field-types'
-import { FieldGroupContext } from '../../FieldGroup';
+import { FieldGroupContext } from '../../FieldGroup'
 import { makeUniqueId } from '../../../../shared/component-helper'
 
 interface ReturnPropOverrides {
@@ -20,7 +20,7 @@ interface ReturnPropOverrides {
 }
 
 export default function useField<Props extends FieldProps<any>>(
-  props: Props
+  props: Props,
 ): Omit<Props, keyof ReturnPropOverrides> & ReturnPropOverrides {
   const {
     path,
@@ -39,11 +39,14 @@ export default function useField<Props extends FieldProps<any>>(
     toInput = (value) => value,
     fromInput = (value) => value,
   } = props
-  const id = useMemo(() => props.id ?? makeUniqueId(), [props.id]);
+  const id = useMemo(() => props.id ?? makeUniqueId(), [props.id])
   const dataContext = useContext(DataContext.Context)
-  const fieldGroupContext = useContext(FieldGroupContext);
-  const inFieldGroup = Boolean(fieldGroupContext);
-  const { setFieldError: setFieldGroupError, setShowFieldError: setShowFieldGroupError } = fieldGroupContext ?? {};
+  const fieldGroupContext = useContext(FieldGroupContext)
+  const inFieldGroup = Boolean(fieldGroupContext)
+  const {
+    setFieldError: setFieldGroupError,
+    setShowFieldError: setShowFieldGroupError,
+  } = fieldGroupContext ?? {}
   const {
     handlePathChange: dataContextHandlePathChange,
     setPathWithError: dataContextSetPathWithError,
@@ -52,7 +55,7 @@ export default function useField<Props extends FieldProps<any>>(
 
   if (path && path.substring(0, 1) !== '/') {
     throw new Error(
-      'Invalid path. Input path JSON Pointers  must be from root (starting with a /).'
+      'Invalid path. Input path JSON Pointers  must be from root (starting with a /).',
     )
   }
 
@@ -81,35 +84,41 @@ export default function useField<Props extends FieldProps<any>>(
   // Error handling
   const [error, setError] = useState<Error | FormError | undefined>()
   const [showError, setShowError] = useState<boolean>(
-    Boolean(validateInitially || errorProp)
+    Boolean(validateInitially || errorProp),
   )
   const schemaValidator = useMemo(
     () =>
       schema && Object.keys(schema).length > 0
         ? ajv.compile(schema)
         : undefined,
-    [schema]
+    [schema],
   )
 
   const setErrorAndUpdateDataContext = useCallback(
     (error: FormError | undefined) => {
-      const errorWithCorrectMessage = 
-        (error instanceof FormError &&
-          typeof error.validationRule === 'string' &&
-          errorMessages?.[error.validationRule] !== undefined
-            ? new FormError(errorMessages[error.validationRule])
-            : error);
-      
-      setError(errorWithCorrectMessage);
+      const errorWithCorrectMessage =
+        error instanceof FormError &&
+        typeof error.validationRule === 'string' &&
+        errorMessages?.[error.validationRule] !== undefined
+          ? new FormError(errorMessages[error.validationRule])
+          : error
+
+      setError(errorWithCorrectMessage)
 
       if (path) {
         // Tell the data context about the error, so it can stop the user from submitting the form until the error has been fixed
         dataContextSetPathWithError?.(path, Boolean(error))
       }
 
-      setFieldGroupError?.(path ?? id, errorWithCorrectMessage);
+      setFieldGroupError?.(path ?? id, errorWithCorrectMessage)
     },
-    [path, id, errorMessages, dataContextSetPathWithError, setFieldGroupError]
+    [
+      path,
+      id,
+      errorMessages,
+      dataContextSetPathWithError,
+      setFieldGroupError,
+    ],
   )
 
   const validateValue = useCallback(
@@ -155,7 +164,7 @@ export default function useField<Props extends FieldProps<any>>(
       required,
       setErrorAndUpdateDataContext,
       validatorProp,
-    ]
+    ],
   )
 
   useEffect(() => {
@@ -170,7 +179,7 @@ export default function useField<Props extends FieldProps<any>>(
       // If showError on a surrounding data context was changed and set to true, it is because the user clicked next, submit or
       // something else that should lead to showing the user all errors.
       setShowError(true)
-      setShowFieldGroupError?.(path ?? id, true);
+      setShowFieldGroupError?.(path ?? id, true)
     }
   }, [id, path, dataContext.showAllErrors, setShowFieldGroupError])
 
@@ -178,7 +187,7 @@ export default function useField<Props extends FieldProps<any>>(
     ({ onFocusValue }) => {
       onFocusProp?.(onFocusValue ?? value)
     },
-    [value, onFocusProp]
+    [value, onFocusProp],
   )
 
   const onBlur = useCallback(
@@ -204,7 +213,7 @@ export default function useField<Props extends FieldProps<any>>(
 
       // Since the user left the field, show error (if any)
       setShowError(true)
-      setShowFieldGroupError?.(path ?? id, true);
+      setShowFieldGroupError?.(path ?? id, true)
     },
     [
       id,
@@ -215,7 +224,7 @@ export default function useField<Props extends FieldProps<any>>(
       onBlurValidatorProp,
       setErrorAndUpdateDataContext,
       setShowFieldGroupError,
-    ]
+    ],
   )
 
   const onChange = useCallback(
@@ -225,7 +234,7 @@ export default function useField<Props extends FieldProps<any>>(
       changedRef.current = true
       // When changing the value, hide errors to avoid annoying the user before they are finished filling in that value
       setShowError(false)
-      setShowFieldGroupError?.(path ?? id, false);
+      setShowFieldGroupError?.(path ?? id, false)
       // Always validate the value immediately when it is changed
       validateValue(newValue)
 
@@ -243,13 +252,10 @@ export default function useField<Props extends FieldProps<any>>(
       dataContextHandlePathChange,
       setShowFieldGroupError,
       fromInput,
-    ]
+    ],
   )
 
-  const exportError = useMemo(() =>
-    errorProp ??
-    error
-  , [errorProp, error]);
+  const exportError = useMemo(() => errorProp ?? error, [errorProp, error])
 
   useEffect(() => {
     // Mount procedure
@@ -271,7 +277,7 @@ export default function useField<Props extends FieldProps<any>>(
     ...props,
     id,
     value: toInput(value),
-    error: inFieldGroup ? undefined : (showError ? exportError : undefined),
+    error: inFieldGroup ? undefined : showError ? exportError : undefined,
     onFocus,
     onBlur,
     onChange,

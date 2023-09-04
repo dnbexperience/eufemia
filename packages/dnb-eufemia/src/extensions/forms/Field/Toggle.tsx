@@ -43,7 +43,7 @@ function Toggle(props: Props) {
     ({ checked }) => {
       onChange?.(checked ? valueOn : valueOff)
     },
-    [onChange, valueOn, valueOff]
+    [onChange, valueOn, valueOff],
   )
 
   const setOn = useCallback(() => {

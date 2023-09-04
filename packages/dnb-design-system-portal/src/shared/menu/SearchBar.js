@@ -40,7 +40,7 @@ export const SearchBarInput = () => {
           ?.search(value)
           .then(({ hits }) => {
             updateData(
-              makeHitsHumanFriendly({ hits, setHidden, emptyData })
+              makeHitsHumanFriendly({ hits, setHidden, emptyData }),
             )
             hideIndicator()
           })
@@ -49,7 +49,7 @@ export const SearchBarInput = () => {
             hideIndicator()
           })
       },
-      { value }
+      { value },
     )
     showIndicator()
   }
@@ -155,7 +155,7 @@ const makeHitsHumanFriendly = ({ hits, setHidden }) => {
             }}
           >
             {value}
-          </Anchor>
+          </Anchor>,
         )
       }
     })

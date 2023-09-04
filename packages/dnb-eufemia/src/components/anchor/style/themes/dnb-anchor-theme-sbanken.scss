@@ -107,7 +107,9 @@
     }
   }
 
-  &:not(.dnb-anchor--no-underline):not(.dnb-anchor--has-icon):not(.anchor-hash):not(.dnb-anchor--inline):not(.dnb-anchor--no-style) {
+  &:not(.dnb-anchor--no-underline):not(.dnb-anchor--has-icon):not(
+      .anchor-hash
+    ):not(.dnb-anchor--inline):not(.dnb-anchor--no-style) {
     &:not(.dnb-anchor--icon-left) {
       &::before {
         text-decoration-color: var(--sb-color-green-dark);

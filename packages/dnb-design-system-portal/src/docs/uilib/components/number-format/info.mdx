@@ -49,7 +49,7 @@ render(
     <MyApp>
       text <NumberFormat>123</NumberFormat> table etc.
     </MyApp>
-  </Provider>
+  </Provider>,
 )
 ```
 
@@ -79,7 +79,7 @@ function Component() {
 render(
   <Provider locale="en-GB" NumberFormat={{ currency: 'EUR' }}>
     <Component />
-  </Provider>
+  </Provider>,
 )
 ```
 
@@ -136,7 +136,7 @@ import { Provider } from '@dnb/eufemia/shared'
 render(
   <Provider value={{ NumberFormat: { clean_copy_value: true } }}>
     <YourApp />
-  </Provider>
+  </Provider>,
 )
 ```
 

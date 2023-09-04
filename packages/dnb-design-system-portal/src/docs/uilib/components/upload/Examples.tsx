@@ -126,7 +126,7 @@ export const UploadRemoveFile = () => (
                   setImages([...images])
                   reader = null
                 },
-                false
+                false,
               )
 
               reader.readAsDataURL(file)
@@ -178,7 +178,7 @@ export const UploadIsLoading = () => (
                 setFiles(
                   files.map((fileItem) => {
                     return { ...fileItem, isLoading: checked }
-                  })
+                  }),
                 )
               }
             >
@@ -198,7 +198,7 @@ export const UploadErrorMessage = () => (
     {() => {
       const Component = () => {
         const { files, setFiles } = Upload.useUpload(
-          'upload-error-message'
+          'upload-error-message',
         )
 
         return (
@@ -219,7 +219,7 @@ export const UploadErrorMessage = () => (
                         ? 'custom error message'
                         : null,
                     }
-                  })
+                  }),
                 )
               }}
             >
@@ -239,7 +239,7 @@ export const UploadAcceptedFormats = () => (
     {() => {
       const Component = () => {
         const { files, setFiles } = Upload.useUpload(
-          'upload-accepted-formats'
+          'upload-accepted-formats',
         )
 
         if (files.length) {

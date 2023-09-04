@@ -73,7 +73,7 @@ export const TagMultipleRemovable = () => (
 
         const handleDelete = (tagToDelete) => () => {
           setTagData((tags) =>
-            tags.filter((tag) => tag.key !== tagToDelete.key)
+            tags.filter((tag) => tag.key !== tagToDelete.key),
           )
         }
 

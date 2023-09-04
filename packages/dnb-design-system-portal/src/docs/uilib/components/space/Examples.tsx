@@ -376,7 +376,7 @@ const VisualSpace = ({ label = null, children, ...rest }) => {
             const style = window.getComputedStyle(elem.children[0])
             const top = parseFloat(style.getPropertyValue('margin-top'))
             const bottom = parseFloat(
-              style.getPropertyValue('margin-bottom')
+              style.getPropertyValue('margin-bottom'),
             )
             let spaceInPixels = top
 

@@ -6,9 +6,11 @@
     $selectors: &;
     @at-root {
       @include headingTags() {
+        // prettier-ignore
         $selectors: #{$selectors}, &;
         @at-root {
           @include otherSelectos() {
+            // prettier-ignore
             $selectors: #{$selectors}, &;
 
             @at-root #{$selectors} {

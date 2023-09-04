@@ -93,8 +93,12 @@
       background-color: transparent;
     }
 
-    &--preview:not(#{&}--inactive):not(#{&}--start-date):not(#{&}--end-date),
-    &--within-selection:not(#{&}--inactive):not(#{&}--start-date):not(#{&}--end-date) {
+    &--preview:not(#{&}--inactive):not(#{&}--start-date):not(
+        #{&}--end-date
+      ),
+    &--within-selection:not(#{&}--inactive):not(#{&}--start-date):not(
+        #{&}--end-date
+      ) {
       background-color: var(--color-mint-green-50);
     }
 

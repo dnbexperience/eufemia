@@ -105,7 +105,9 @@
 
 @mixin anchorBackground($color, $overflow: 0.125em) {
   @if $overflow {
-    box-shadow: inset 100vw 100vw 0 0 $color, -$overflow 0 0 0 $color,
+    box-shadow:
+      inset 100vw 100vw 0 0 $color,
+      -$overflow 0 0 0 $color,
       $overflow 0 0 0 $color;
   } @else {
     box-shadow: inset 100vw 100vw 0 0 $color;
@@ -164,7 +166,9 @@
 
     background-image: inherit;
 
-    transition: transform 0.3s ease-out, filter 1s ease-in-out;
+    transition:
+      transform 0.3s ease-out,
+      filter 1s ease-in-out;
     transform-origin: bottom;
   }
 
@@ -200,7 +204,9 @@
     }
   }
 
-  transition: box-shadow 200ms ease-in-out, border-radius 200ms ease-in-out,
+  transition:
+    box-shadow 200ms ease-in-out,
+    border-radius 200ms ease-in-out,
     background 200ms ease-in-out;
 
   [data-visual-test-wrapper] & {

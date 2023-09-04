@@ -135,7 +135,9 @@
 
   &--outline
     tbody
-    &__tr--has-accordion-content:not(#{&}__tr--expanded):not(:nth-last-child(2))
+    &__tr--has-accordion-content:not(#{&}__tr--expanded):not(
+      :nth-last-child(2)
+    )
     &__td::before {
     bottom: -0.0625rem;
   }
@@ -145,7 +147,9 @@
     background-color: var(--color-white);
   }
 
-  &__tr--has-accordion-content#{&}__tr:not(&__tr--disabled):not(:active):not(:hover):focus {
+  &__tr--has-accordion-content#{&}__tr:not(&__tr--disabled):not(
+      :active
+    ):not(:hover):focus {
     td::before {
       @include whatInput(keyboard) {
         top: 0;
@@ -175,7 +179,9 @@
     @include tableAccordionActiveColor();
   }
 
-  &__tr--has-accordion-content#{&}__tr--expanded:not(&__tr--disabled)#{&}__tr--hover:not(:active):hover
+  &__tr--has-accordion-content#{&}__tr--expanded:not(
+      &__tr--disabled
+    )#{&}__tr--hover:not(:active):hover
     &__td {
     background-color: var(--accordion-background);
 
@@ -185,7 +191,9 @@
     }
   }
 
-  &__tr--has-accordion-content#{&}__tr#{&}__tr--expanded:not(&__tr--disabled):not(:active):not(:hover) {
+  &__tr--has-accordion-content#{&}__tr#{&}__tr--expanded:not(
+      &__tr--disabled
+    ):not(:active):not(:hover) {
     @include whatInputNot('keyboard') {
       background-color: var(--accordion-background);
 
@@ -294,7 +302,9 @@
 
   &--outline
     tbody
-    &__tr#{&}__tr--has-accordion-content:not(#{&}__tr--expanded):nth-last-child(2)
+    &__tr#{&}__tr--has-accordion-content:not(
+      #{&}__tr--expanded
+    ):nth-last-child(2)
     &__td:first-of-type {
     &,
     &::before,
@@ -305,7 +315,9 @@
   &--outline tbody &__tr:last-of-type &__td:last-of-type,
   &--outline
     tbody
-    &__tr#{&}__tr--has-accordion-content:not(#{&}__tr--expanded):nth-last-child(2)
+    &__tr#{&}__tr--has-accordion-content:not(
+      #{&}__tr--expanded
+    ):nth-last-child(2)
     &__td:last-of-type {
     &,
     &::before,

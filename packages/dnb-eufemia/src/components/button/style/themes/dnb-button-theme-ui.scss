@@ -77,7 +77,9 @@
       var(--color-mint-green-50)
     );
   }
-  &--secondary:not(#{&}--has-text):not(#{&}--input-button)#{&}--size-large {
+  &--secondary:not(#{&}--has-text):not(
+      #{&}--input-button
+    )#{&}--size-large {
     // Make exception for icon button as it should be smaller than the original large button
     width: calc(var(--button-width--large) - 0.5rem);
     line-height: calc(var(--button-height--large) - 0.5rem);

@@ -382,7 +382,7 @@ export const TableVariantFixed = () => (
 
 export const TableStackedContainer = () => {
   const isFullscreen = /data-visual-test|fullscreen/.test(
-    globalThis?.location?.href
+    globalThis?.location?.href,
   )
   return (
     <ComponentBox
@@ -797,7 +797,7 @@ export const TableAccordion = () => (
 
 export const TableSticky = () => {
   const isFullscreen = /data-visual-test|fullscreen/.test(
-    globalThis?.location?.href
+    globalThis?.location?.href,
   )
   const isVisibleWhenVisualTest = globalThis.IS_TEST
   return (

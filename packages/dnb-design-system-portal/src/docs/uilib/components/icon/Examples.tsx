@@ -133,7 +133,7 @@ export const AllPrimaryIcons = () => {
                     bottom="small"
                   />
                 )
-              }
+              },
             )}
           </>
         )
@@ -170,7 +170,7 @@ export const AllSecondaryIcons = () => {
                     bottom="small"
                   />
                 )
-              }
+              },
             )}
           </>
         )

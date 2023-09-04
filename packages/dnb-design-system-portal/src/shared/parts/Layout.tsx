@@ -148,7 +148,7 @@ const Content = ({
         contentStyle,
         'dnb-app-content',
         fullscreen && 'fullscreen-page',
-        className
+        className,
       )}
     >
       {children}

@@ -293,10 +293,10 @@ export const AsynchronousExternalValidator = () => {
                 resolve(
                   value.length < 5
                     ? new FormError('At least 5 characters')
-                    : undefined
+                    : undefined,
                 ),
-              1500
-            )
+              1500,
+            ),
           )
         }
         onChange={(value) => console.log('onChange', value)}
@@ -335,10 +335,10 @@ export const AsynchronousExternalBlurValidator = () => {
                 resolve(
                   value.length < 5
                     ? new FormError('At least 5 characters')
-                    : undefined
+                    : undefined,
                 ),
-              1500
-            )
+              1500,
+            ),
           )
         }
         onChange={(value) => console.log('onChange', value)}

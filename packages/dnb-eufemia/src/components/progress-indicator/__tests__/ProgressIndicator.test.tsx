@@ -20,7 +20,7 @@ describe('Circular ProgressIndicator component', () => {
   it('has to have a stroke-dashoffset of 44 on 50%', () => {
     render(<ProgressIndicator {...props} type="circular" progress={50} />)
     expect(
-      document.querySelector(mainLineSelector).getAttribute('style')
+      document.querySelector(mainLineSelector).getAttribute('style'),
     ).toBe('stroke-dashoffset: 44;')
   })
 
@@ -31,18 +31,22 @@ describe('Circular ProgressIndicator component', () => {
       format(50, {
         decimals: 2,
         percent: true,
-      })
+      }),
     )
   })
 
   it('has role of alert or progressbar depending if progress has a value', () => {
     const { rerender } = render(
-      <ProgressIndicator {...props} type="circular" progress={undefined} />
+      <ProgressIndicator
+        {...props}
+        type="circular"
+        progress={undefined}
+      />,
     )
     expect(screen.queryByRole('alert')).toBeInTheDocument()
 
     rerender(
-      <ProgressIndicator {...props} type="circular" progress={80} />
+      <ProgressIndicator {...props} type="circular" progress={80} />,
     )
     expect(screen.queryByRole('progressbar')).toBeInTheDocument()
   })
@@ -54,10 +58,10 @@ describe('Circular ProgressIndicator component', () => {
       format(80, {
         decimals: 2,
         percent: true,
-      })
+      }),
     )
     expect(
-      document.querySelector(mainLineSelector).getAttribute('style')
+      document.querySelector(mainLineSelector).getAttribute('style'),
     ).toBe('stroke-dashoffset: 17.599999999999994;')
   })
 
@@ -69,7 +73,7 @@ describe('Circular ProgressIndicator component', () => {
       format(1, {
         decimals: 2,
         percent: true,
-      })
+      }),
     )
   })
 
@@ -81,7 +85,7 @@ describe('Circular ProgressIndicator component', () => {
       format(1, {
         decimals: 2,
         percent: true,
-      })
+      }),
     )
   })
 
@@ -92,7 +96,7 @@ describe('Circular ProgressIndicator component', () => {
         type="circular"
         progress={null}
         title={null}
-      />
+      />,
     )
 
     const indicator = screen.getByRole('alert')
@@ -106,7 +110,7 @@ describe('Circular ProgressIndicator component', () => {
         type="circular"
         progress={null}
         title={null}
-      />
+      />,
     )
 
     const indicator = screen.getByRole('alert')
@@ -121,7 +125,7 @@ describe('Circular ProgressIndicator component', () => {
         type="circular"
         progress={1}
         title={title}
-      />
+      />,
     )
 
     const indicator = screen.getByRole('progressbar')
@@ -136,7 +140,7 @@ describe('Circular ProgressIndicator component', () => {
         type="circular"
         progress={1}
         title={title}
-      />
+      />,
     )
 
     const indicator = screen.getByRole('progressbar')
@@ -150,7 +154,7 @@ describe('Linear ProgressIndicator component', () => {
   it('has to have a transform of translateX(-50%) on 50%', () => {
     render(<ProgressIndicator {...props} type="linear" progress={50} />)
     expect(
-      document.querySelector(mainLineSelector).getAttribute('style')
+      document.querySelector(mainLineSelector).getAttribute('style'),
     ).toBe('transform: translateX(-50%);')
   })
 
@@ -161,7 +165,7 @@ describe('Linear ProgressIndicator component', () => {
       format(50, {
         decimals: 2,
         percent: true,
-      })
+      }),
     )
   })
 
@@ -173,13 +177,13 @@ describe('Linear ProgressIndicator component', () => {
       format(50, {
         decimals: 2,
         percent: true,
-      })
+      }),
     )
   })
 
   it('has role of alert or progressbar depending if progress has a value', () => {
     const { rerender } = render(
-      <ProgressIndicator {...props} type="linear" progress={undefined} />
+      <ProgressIndicator {...props} type="linear" progress={undefined} />,
     )
     expect(screen.queryByRole('alert')).toBeInTheDocument()
 
@@ -194,10 +198,10 @@ describe('Linear ProgressIndicator component', () => {
       format(80, {
         decimals: 2,
         percent: true,
-      })
+      }),
     )
     expect(
-      document.querySelector(mainLineSelector).getAttribute('style')
+      document.querySelector(mainLineSelector).getAttribute('style'),
     ).toBe('transform: translateX(-20%);')
   })
 
@@ -209,7 +213,7 @@ describe('Linear ProgressIndicator component', () => {
       format(1, {
         decimals: 2,
         percent: true,
-      })
+      }),
     )
   })
 
@@ -221,7 +225,7 @@ describe('Linear ProgressIndicator component', () => {
       format(1, {
         decimals: 2,
         percent: true,
-      })
+      }),
     )
   })
 
@@ -232,7 +236,7 @@ describe('Linear ProgressIndicator component', () => {
         type="linear"
         progress={null}
         title={null}
-      />
+      />,
     )
 
     const indicator = screen.getByRole('alert')
@@ -246,7 +250,7 @@ describe('Linear ProgressIndicator component', () => {
         type="linear"
         progress={null}
         title={null}
-      />
+      />,
     )
 
     const indicator = screen.getByRole('alert')
@@ -261,7 +265,7 @@ describe('Linear ProgressIndicator component', () => {
         type="linear"
         progress={1}
         title={title}
-      />
+      />,
     )
 
     const indicator = screen.getByRole('progressbar')
@@ -276,7 +280,7 @@ describe('Linear ProgressIndicator component', () => {
         type="linear"
         progress={1}
         title={title}
-      />
+      />,
     )
 
     const indicator = screen.getByRole('progressbar')
@@ -287,14 +291,14 @@ describe('Linear ProgressIndicator component', () => {
 describe('ProgressIndicator ARIA', () => {
   it('should validate with ARIA rules', async () => {
     const Comp = render(
-      <ProgressIndicator {...props} type="circular" progress={50} />
+      <ProgressIndicator {...props} type="circular" progress={50} />,
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
   it('should validate with ARIA rules', async () => {
     const Comp = render(
-      <ProgressIndicator {...props} type="linear" progress={50} />
+      <ProgressIndicator {...props} type="linear" progress={50} />,
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
@@ -309,8 +313,8 @@ describe('ProgressIndicator scss', () => {
   it('have to match default theme snapshot', () => {
     const css = loadScss(
       require.resolve(
-        '../style/themes/dnb-progress-indicator-theme-ui.scss'
-      )
+        '../style/themes/dnb-progress-indicator-theme-ui.scss',
+      ),
     )
     expect(css).toMatchSnapshot()
   })

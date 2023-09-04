@@ -1,1 +1,1 @@
-export { default  } from './ValueBlock';
+export { default } from './ValueBlock'

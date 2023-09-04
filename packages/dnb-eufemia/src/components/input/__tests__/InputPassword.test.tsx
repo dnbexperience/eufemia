@@ -21,7 +21,7 @@ describe('InputPassword component', () => {
     render(<InputPassword {...props} id="input" />)
 
     expect(
-      document.querySelector('.dnb-input__input').getAttribute('type')
+      document.querySelector('.dnb-input__input').getAttribute('type'),
     ).toBe('password')
   })
 
@@ -31,7 +31,9 @@ describe('InputPassword component', () => {
     fireEvent.focus(document.querySelector('input'))
 
     expect(
-      document.querySelector('.dnb-input').getAttribute('data-input-state')
+      document
+        .querySelector('.dnb-input')
+        .getAttribute('data-input-state'),
     ).toBe('focus')
   })
 
@@ -39,17 +41,17 @@ describe('InputPassword component', () => {
     const { rerender } = render(<InputPassword id="input" />)
 
     expect(
-      document.querySelector('button').getAttribute('aria-label')
+      document.querySelector('button').getAttribute('aria-label'),
     ).toBe(nb.show_password)
 
     rerender(<InputPassword id="input" lang="en-GB" />)
 
     expect(
-      document.querySelector('button').getAttribute('aria-label')
+      document.querySelector('button').getAttribute('aria-label'),
     ).toBe(en.show_password)
 
     expect(
-      document.querySelector('button').getAttribute('aria-label')
+      document.querySelector('button').getAttribute('aria-label'),
     ).toBe(en.show_password)
   })
 
@@ -60,12 +62,12 @@ describe('InputPassword component', () => {
     expect(
       document
         .querySelector('.dnb-input__input')
-        .getAttribute('aria-describedby')
+        .getAttribute('aria-describedby'),
     ).toBe('input-submit-button')
     expect(
       document
         .querySelector('button#input-submit-button')
-        .getAttribute('aria-controls')
+        .getAttribute('aria-controls'),
     ).toBe('input')
   })
 
@@ -73,11 +75,11 @@ describe('InputPassword component', () => {
     render(<InputPassword id="input" />)
 
     expect(
-      document.querySelector('.dnb-input__input').getAttribute('id')
+      document.querySelector('.dnb-input__input').getAttribute('id'),
     ).toBe(
       document
         .querySelector('button.dnb-button--input-button')
-        .getAttribute('aria-controls')
+        .getAttribute('aria-controls'),
     )
   })
 
@@ -91,7 +93,7 @@ describe('InputPassword component', () => {
     expect(
       document
         .querySelector('.dnb-input__submit-button')
-        .getAttribute('data-input-state')
+        .getAttribute('data-input-state'),
     ).toBe('focus')
   })
 
@@ -103,18 +105,18 @@ describe('InputPassword component', () => {
 
     fireEvent.click(Button)
     expect(
-      document.querySelector('.dnb-input__input').getAttribute('type')
+      document.querySelector('.dnb-input__input').getAttribute('type'),
     ).toBe('text')
 
     fireEvent.click(Button)
     expect(
-      document.querySelector('.dnb-input__input').getAttribute('type')
+      document.querySelector('.dnb-input__input').getAttribute('type'),
     ).toBe('password')
 
     expect(
       document
         .querySelector('.dnb-input__submit-button')
-        .getAttribute('data-input-state')
+        .getAttribute('data-input-state'),
     ).not.toBe('focus')
   })
 
@@ -125,7 +127,7 @@ describe('InputPassword component', () => {
       <InputPassword
         on_show_password={on_show_password}
         on_hide_password={on_hide_password}
-      />
+      />,
     )
 
     const Button = document.querySelector('button')
@@ -161,12 +163,12 @@ describe('InputPassword component', () => {
     render(
       <FormRow vertical>
         <InputPassword label="Label" />
-      </FormRow>
+      </FormRow>,
     )
 
     const element = document.querySelector('.dnb-input')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name
+      (attr) => attr.name,
     )
 
     expect(attributes).toEqual([
@@ -185,7 +187,7 @@ describe('InputPassword component', () => {
 
   it('should validate with ARIA rules as a input with a label', async () => {
     const InputPasswordComp = render(
-      <InputPassword id="input" label="label" value="some value" />
+      <InputPassword id="input" label="label" value="some value" />,
     )
     expect(await axeComponent(InputPasswordComp)).toHaveNoViolations()
   })

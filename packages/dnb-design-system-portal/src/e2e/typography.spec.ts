@@ -12,7 +12,7 @@ test.afterEach(async ({ page }) => {
 test.describe('Typography for UI', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(
-      '/quickguide-designer/fonts?data-visual-test&eufemia-theme=ui'
+      '/quickguide-designer/fonts?data-visual-test&eufemia-theme=ui',
     )
 
     // Check if app is mounted
@@ -99,7 +99,7 @@ test.describe('Typography for UI', () => {
 test.describe('Typography for Sbanken', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(
-      '/quickguide-designer/fonts?data-visual-test&eufemia-theme=sbanken'
+      '/quickguide-designer/fonts?data-visual-test&eufemia-theme=sbanken',
     )
 
     // Check if app is mounted

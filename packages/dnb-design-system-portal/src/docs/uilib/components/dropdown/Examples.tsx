@@ -32,7 +32,9 @@ const Wrapper = styled.div`
     margin-right: 1rem;
   }
   [data-visual-test] {
-    > :not(.dnb-dropdown--is-popup):not(.dnb-dropdown--independent-width):not(.dnb-dropdown--stretch)
+    > :not(.dnb-dropdown--is-popup):not(
+        .dnb-dropdown--independent-width
+      ):not(.dnb-dropdown--stretch)
       .dnb-dropdown__shell {
       width: var(--dropdown-width);
     }
@@ -221,7 +223,7 @@ export const DropdownEllipsisOverflow = () => (
 
 export const DropdownDirections = () => {
   const visualTestProps = (
-    enabled: boolean
+    enabled: boolean,
   ): VisibleWhenVisualTestReturn => {
     if (!enabled) {
       return {}
@@ -255,7 +257,7 @@ export const DropdownDirections = () => {
           ]}
           {...visualTestProps(
             globalThis.IS_TEST &&
-              window.location.search.includes('item-directions')
+              window.location.search.includes('item-directions'),
           )}
         />
       </ComponentBox>
@@ -321,7 +323,7 @@ export const DropdownTertiary = () => (
 
 export const DropdownMoreMenu = () => {
   const visualTestProps = (
-    enabled: boolean
+    enabled: boolean,
   ): VisibleWhenVisualTestReturn => {
     if (!enabled) {
       return {}
@@ -353,7 +355,7 @@ export const DropdownMoreMenu = () => {
           right="small"
           {...visualTestProps(
             globalThis.IS_TEST &&
-              window.location.search.includes('left-side')
+              window.location.search.includes('left-side'),
           )}
         />
         <Dropdown
@@ -372,7 +374,7 @@ export const DropdownMoreMenu = () => {
           right="small"
           {...visualTestProps(
             globalThis.IS_TEST &&
-              window.location.search.includes('right-side')
+              window.location.search.includes('right-side'),
           )}
         />
         <Dropdown
@@ -434,7 +436,7 @@ export const DropdownDisabledTertiary = () => (
 
 export const DropdownCustomEvent = () => {
   const visualTestProps = (
-    enabled: boolean
+    enabled: boolean,
   ): VisibleWhenVisualTestReturn => {
     if (!enabled) {
       return {}
@@ -497,7 +499,7 @@ export const DropdownCustomEvent = () => {
               }
               {...visualTestProps(
                 globalThis.IS_TEST &&
-                  window.location.search.includes('action_menu-custom')
+                  window.location.search.includes('action_menu-custom'),
               )}
             />
           )

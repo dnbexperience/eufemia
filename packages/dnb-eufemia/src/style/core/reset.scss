@@ -16,9 +16,19 @@
 
   html {
     cursor: default; /* 1 */
-    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Ubuntu,
-      Cantarell, 'Noto Sans', sans-serif, 'Apple Color Emoji',
-      'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; /* 2 */
+    font-family:
+      system-ui,
+      -apple-system,
+      'Segoe UI',
+      Roboto,
+      Ubuntu,
+      Cantarell,
+      'Noto Sans',
+      sans-serif,
+      'Apple Color Emoji',
+      'Segoe UI Emoji',
+      'Segoe UI Symbol',
+      'Noto Color Emoji'; /* 2 */
 
     line-height: var(--line-height-basis); /* 3 */ /* 4 */
     tab-size: 4; /* 4 */ /* 5 */

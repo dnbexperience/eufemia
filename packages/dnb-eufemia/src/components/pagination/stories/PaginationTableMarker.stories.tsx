@@ -94,7 +94,7 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
   // set the startup height
   const onMounted = (items) => {
     items.forEach(({ element: { current: element }, expanded }) =>
-      setHeight({ element, expanded, animation: false })
+      setHeight({ element, expanded, animation: false }),
     )
   }
 
@@ -171,10 +171,13 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
             } else {
               // simulate server delay
               clearTimeout(serverDelayTimeout)
-              serverDelayTimeout = setTimeout(() => {
-                // once we set current page, we force a rerender, and sync of data
-                setCurrentPage(pageNumber)
-              }, Math.ceil(Math.random() * 1e3)) // simulate random delay
+              serverDelayTimeout = setTimeout(
+                () => {
+                  // once we set current page, we force a rerender, and sync of data
+                  setCurrentPage(pageNumber)
+                },
+                Math.ceil(Math.random() * 1e3),
+              ) // simulate random delay
             }
           }}
           on_startup={({ pageNumber }) => {
@@ -288,7 +291,9 @@ const TableData = styled.td`
   .dnb-p {
     cursor: text;
 
-    font-feature-settings: 'pnum' on, 'lnum' on;
+    font-feature-settings:
+      'pnum' on,
+      'lnum' on;
     font-weight: var(--font-weight-bold);
     font-size: var(--font-size-large);
 
@@ -328,7 +333,7 @@ const setHeight = ({
         element.style.height = '1px'
       }
       window.requestAnimationFrame(
-        () => (element.style.height = newHeight)
+        () => (element.style.height = newHeight),
       )
     })
   }
