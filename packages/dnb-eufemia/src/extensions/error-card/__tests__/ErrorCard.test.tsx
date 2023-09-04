@@ -38,7 +38,7 @@ describe('ErrorCard', () => {
         {...defaultProps}
         message={message}
         onTryAgainClick={jest.fn()}
-      />
+      />,
     )
 
     expect(screen.queryByText(message)).not.toBeNull()
@@ -49,7 +49,7 @@ describe('ErrorCard', () => {
       render(<ErrorCard {...defaultProps} onTryAgainClick={jest.fn()} />)
 
       expect(
-        document.querySelector('.dnb-error-card__buttons-container')
+        document.querySelector('.dnb-error-card__buttons-container'),
       ).toBeInTheDocument()
     })
 
@@ -59,7 +59,7 @@ describe('ErrorCard', () => {
           {...defaultProps}
           locale="nb-NO"
           onTryAgainClick={jest.fn()}
-        />
+        />,
       )
 
       expect(screen.queryByText(nb.tryAgainButtonText)).toBeInTheDocument()
@@ -71,11 +71,12 @@ describe('ErrorCard', () => {
           {...defaultProps}
           locale="en-GB"
           onTryAgainClick={jest.fn()}
-        />
+        />,
       )
 
       expect(screen.queryByText(en.tryAgainButtonText)).toBeInTheDocument()
     })
+
     it('calls onTryAgainClick when clicking the button', () => {
       const mockOnClick = jest.fn()
 
@@ -96,7 +97,7 @@ describe('ErrorCard', () => {
           {...defaultProps}
           onTryAgainClick={jest.fn()}
           customActions={customAction}
-        />
+        />,
       )
 
       expect(screen.queryByTestId('custom-action')).not.toBeNull()
@@ -107,7 +108,7 @@ describe('ErrorCard', () => {
     const { rerender } = render(
       <Provider>
         <ErrorCard {...defaultProps} onTryAgainClick={jest.fn()} />
-      </Provider>
+      </Provider>,
     )
 
     expect(screen.queryByText(nb.tryAgainButtonText)).toBeInTheDocument()
@@ -115,7 +116,7 @@ describe('ErrorCard', () => {
     rerender(
       <Provider locale="en-GB">
         <ErrorCard {...defaultProps} onTryAgainClick={jest.fn()} />
-      </Provider>
+      </Provider>,
     )
 
     expect(screen.queryByText(en.tryAgainButtonText)).toBeInTheDocument()
@@ -123,7 +124,7 @@ describe('ErrorCard', () => {
     rerender(
       <Provider locale="nb-NO">
         <ErrorCard {...defaultProps} onTryAgainClick={jest.fn()} />
-      </Provider>
+      </Provider>,
     )
 
     expect(screen.queryByText(nb.tryAgainButtonText)).toBeInTheDocument()
@@ -137,7 +138,7 @@ describe('ErrorCard aria', () => {
         title={'title'}
         message={'message'}
         onTryAgainClick={jest.fn()}
-      />
+      />,
     )
     expect(await axeComponent(Component)).toHaveNoViolations()
   })

@@ -10,7 +10,6 @@ import classnames from 'classnames'
 import P from '../../elements/P'
 import Lead from '../../elements/Lead'
 import Div from '../../elements/Div'
-import Img from '../../elements/Img'
 import Button from '../../components/Button'
 import { createSpacingClasses } from '../../components/space/SpacingHelper'
 import Context from '../../shared/Context'
@@ -31,7 +30,7 @@ const ErrorCard = (localProps: ErrorCardAllProps) => {
   const extendedProps = extendPropsWithContext(
     localProps,
     defaultProps,
-    context.getTranslation(localProps).ErrorCard
+    context.getTranslation(localProps).ErrorCard,
   )
 
   const {
@@ -56,7 +55,7 @@ const ErrorCard = (localProps: ErrorCardAllProps) => {
         isCentered && 'dnb-error-card--centered',
         variant == 'slim' && 'dnb-error-card--slim',
         spacingClasses,
-        className
+        className,
       )}
     >
       {variant != 'slim' && (
@@ -84,7 +83,7 @@ const ErrorCard = (localProps: ErrorCardAllProps) => {
           <Div
             className={classnames(
               'dnb-error-card__buttons-container',
-              isCentered && 'dnb-error-card__buttons-container--centered'
+              isCentered && 'dnb-error-card__buttons-container--centered',
             )}
           >
             <Button
@@ -102,6 +101,7 @@ const ErrorCard = (localProps: ErrorCardAllProps) => {
     </Div>
   )
 
+  // eslint-disable-next-line no-unused-vars
   function LostConnectionImage() {
     return (
       <svg
