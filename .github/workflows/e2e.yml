@@ -39,13 +39,13 @@ jobs:
     steps:
       - name: Git checkout
         if: env.RUN_POST_BUILD == 'false'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
 
       - name: Git checkout (with fetch-depth)
         if: env.RUN_POST_BUILD == 'true'
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
           fetch-depth: 20 # The "postbuild:ci" method "getCommittedFiles" needs all history
@@ -105,7 +105,7 @@ jobs:
 
     steps:
       - name: Git checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
 
@@ -189,7 +189,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Use Node.js
         uses: actions/setup-node@v3
