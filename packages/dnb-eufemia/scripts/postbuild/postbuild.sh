@@ -5,7 +5,7 @@ set -e # Exit immediately if a command exits with a non-zero status.
 echo 'Postbuild started ...'
 
 yarn build:types:generate
-yarn prettier:other
+yarn prettier:other:write
 yarn build:cjs
 yarn build:es
 yarn build:esm
