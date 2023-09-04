@@ -244,7 +244,7 @@ export function debugCounter(counter) {
 }
 
 export const getHeadingSize = (
-  theme: ThemeNames
+  theme: ThemeNames,
 ): HeadingLevelSizeResolutions => {
   switch (theme) {
     case 'sbanken':
@@ -270,7 +270,7 @@ export const getHeadingSize = (
 }
 
 export const getHeadingElement = (
-  level: InternalHeadingLevel
+  level: InternalHeadingLevel,
 ): DynamicElement => {
   switch (level) {
     case 1:
