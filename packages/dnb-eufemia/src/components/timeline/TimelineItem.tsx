@@ -17,6 +17,8 @@ import Context from '../../shared/Context'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import { extendPropsWithContext } from '../../shared/component-helper'
 
+export type TimeLineItemStates = 'completed' | 'current' | 'upcoming'
+
 export type TimelineItemProps = {
   /**
    * Icon displaying on the left side.
@@ -46,10 +48,10 @@ export type TimelineItemProps = {
   infoMessage?: React.ReactNode
 
   /**
-   * The component state. State 'completed' or 'current' or 'upcoming'.
+   * The component state. State 'completed', 'current' or 'upcoming'.
    * Default: null
    */
-  state: 'completed' | 'current' | 'upcoming'
+  state: TimeLineItemStates
 
   /**
    * Skeleton should be applied when loading content
@@ -74,15 +76,6 @@ const defaultProps = {
 const TimelineItem = (localProps: TimelineItemAllProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
-  const {
-    translation: {
-      TimelineItem: {
-        alt_label_completed,
-        alt_label_current,
-        alt_label_upcoming,
-      },
-    },
-  } = context
 
   // Extract additional props from global context
   const allProps = extendPropsWithContext(
@@ -103,10 +96,6 @@ const TimelineItem = (localProps: TimelineItemAllProps) => {
     ...props
   } = allProps
 
-  const stateIsCompleted = state === 'completed'
-  const stateIsCurrent = state === 'current'
-  const stateIsUpcoming = state === 'upcoming'
-
   const skeletonClasses = createSkeletonClass('font', skeleton, context)
   const classes = classnames(
     'dnb-timeline__item',
@@ -114,60 +103,113 @@ const TimelineItem = (localProps: TimelineItemAllProps) => {
     `dnb-timeline__item--${state}`
   )
 
-  const TimelineItemIcon = () => {
-    const currentIcon =
-      icon ||
-      (stateIsCompleted && checkIcon) ||
-      (stateIsCurrent && pinIcon) ||
-      (stateIsUpcoming && calendarIcon)
+  return (
+    <li
+      className={classes}
+      aria-current={state === 'current' ? 'step' : undefined}
+      {...props}
+    >
+      <TimelineItemLabel
+        state={state}
+        title={title}
+        icon={icon}
+        iconAlt={iconAlt}
+        skeleton={skeleton}
+        translations={
+          context.translation.TimelineItem as TimeLineIconAltTranslations
+        }
+      />
+      <TimelineItemContent subtitle={subtitle} infoMessage={infoMessage} />
+    </li>
+  )
+}
 
-    const currentAltLabel =
-      iconAlt ||
-      (stateIsCompleted && alt_label_completed) ||
-      (stateIsCurrent && alt_label_current) ||
-      (stateIsUpcoming && alt_label_upcoming)
-    return (
-      <span className="dnb-timeline__item__label__icon">
-        <span key="icon-alignment" aria-hidden>
-          &zwnj;
-        </span>
-        {!skeleton && currentIcon && (
-          <IconPrimary
-            icon={currentIcon}
-            alt={currentAltLabel}
-            size={stateIsCurrent ? undefined : 'small'}
-          />
-        )}
+// Label
+
+type TimelineItemLabelProps = TimeLineIconProps & TimelineItemTitleProps
+
+const TimelineItemLabel = ({
+  title,
+  ...iconProps
+}: TimelineItemLabelProps) => {
+  return (
+    <span className="dnb-timeline__item__label">
+      <TimelineItemIcon {...iconProps} />
+      <TimelineItemTitle title={title} />
+    </span>
+  )
+}
+
+type TimeLineIconProps = Pick<
+  TimelineItemProps,
+  'icon' | 'iconAlt' | 'state' | 'skeleton'
+> & { translations: TimeLineIconAltTranslations }
+
+type TimeLineIconAltTranslations = {
+  alt_label_completed: string
+  alt_label_current: string
+  alt_label_upcoming: string
+}
+
+const TimelineItemIcon = ({
+  icon,
+  state,
+  iconAlt,
+  skeleton,
+  translations,
+}: TimeLineIconProps) => {
+  const { alt_label_completed, alt_label_current, alt_label_upcoming } =
+    translations
+
+  const icons: Record<TimeLineItemStates, IconIcon> = {
+    completed: checkIcon,
+    current: pinIcon,
+    upcoming: calendarIcon,
+  }
+
+  const labels: Record<TimeLineItemStates, string> = {
+    completed: alt_label_completed,
+    current: alt_label_current,
+    upcoming: alt_label_upcoming,
+  }
+
+  const currentIcon = icon || icons[state]
+  const currentAltLabel = iconAlt || labels[state]
+
+  return (
+    <span className="dnb-timeline__item__label__icon">
+      <span key="icon-alignment" aria-hidden>
+        &zwnj;
       </span>
-    )
-  }
+      {!skeleton && currentIcon && (
+        <IconPrimary
+          icon={currentIcon}
+          alt={currentAltLabel}
+          size={state === 'current' ? undefined : 'small'}
+        />
+      )}
+    </span>
+  )
+}
 
-  const TimelineItemTitle = () => {
-    return (
-      <span className="dnb-timeline__item__label__title">{title}</span>
-    )
-  }
+type TimelineItemTitleProps = Pick<TimelineItemProps, 'title'>
 
-  const TimelineItemLabel = () => {
-    return (
-      <span className="dnb-timeline__item__label">
-        <TimelineItemIcon />
-        <TimelineItemTitle />
-      </span>
-    )
-  }
+const TimelineItemTitle = ({ title }: TimelineItemTitleProps) => {
+  return <span className="dnb-timeline__item__label__title">{title}</span>
+}
 
-  const getSubtitle = () => {
-    const TimelineItemSubtitle = ({
-      subtitle,
-    }: {
-      subtitle: React.ReactNode
-    }) => (
-      <div className="dnb-timeline__item__content__subtitle">
-        {subtitle}
-      </div>
-    )
+// Content
 
+type TimeLineItemContentProps = Pick<
+  TimelineItemProps,
+  'subtitle' | 'infoMessage'
+>
+
+const TimelineItemContent = ({
+  subtitle,
+  infoMessage,
+}: TimeLineItemContentProps) => {
+  const renderSubtitles = () => {
     if (!subtitle) {
       return null
     }
@@ -180,32 +222,27 @@ const TimelineItem = (localProps: TimelineItemAllProps) => {
     return <TimelineItemSubtitle subtitle={subtitle} />
   }
 
-  const TimelineItemContent = () => {
-    return (
-      <div className="dnb-timeline__item__content">
-        {getSubtitle()}
-        {infoMessage && (
-          <FormStatus
-            text={infoMessage}
-            state="info"
-            className="dnb-timeline__item__content__info"
-            stretch
-          />
-        )}
-      </div>
-    )
-  }
-
   return (
-    <li
-      className={classes}
-      aria-current={stateIsCurrent ? 'step' : undefined}
-      {...props}
-    >
-      <TimelineItemLabel />
-      <TimelineItemContent />
-    </li>
+    <div className="dnb-timeline__item__content">
+      {renderSubtitles()}
+      {infoMessage && (
+        <FormStatus
+          text={infoMessage}
+          state="info"
+          className="dnb-timeline__item__content__info"
+          stretch
+        />
+      )}
+    </div>
   )
 }
+
+type TimelineItemSubtitleProps = {
+  subtitle: React.ReactNode
+}
+
+const TimelineItemSubtitle = ({ subtitle }: TimelineItemSubtitleProps) => (
+  <div className="dnb-timeline__item__content__subtitle">{subtitle}</div>
+)
 
 export default TimelineItem
