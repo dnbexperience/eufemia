@@ -121,7 +121,7 @@ function AccordionHeaderIcon({
       className={classnames(
         'dnb-accordion__header__icon',
         !animateIcon && 'dnb-accordion__header__icon--no-animation',
-        icon_position && `dnb-accordion__header__icon--${icon_position}`
+        icon_position && `dnb-accordion__header__icon--${icon_position}`,
       )}
     >
       <IconPrimary
