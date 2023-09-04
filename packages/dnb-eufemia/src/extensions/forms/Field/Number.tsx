@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { InputMasked, HelpButton } from '../../../components'
+import { InputMaskedProps } from '../../../components/InputMasked'
 import classnames from 'classnames'
 import { forwardSpaceProps } from '../utils'
 import FieldBlock from '../FieldBlock'
@@ -21,6 +22,9 @@ export type Props = ComponentProps &
   FieldHelpProps &
   FieldProps<number, undefined, ErrorMessages> & {
     inputClassName?: string
+    currency?: InputMaskedProps['as_currency']
+    percent?: InputMaskedProps['as_percent']
+    mask?: InputMaskedProps['mask']
     // Formatting
     thousandSeparator?: string | true
     decimalSymbol?: string
@@ -40,6 +44,9 @@ export type Props = ComponentProps &
 
 function NumberComponent(props: Props) {
   const {
+    currency,
+    percent,
+    mask,
     thousandSeparator,
     decimalSymbol = ',',
     decimalLimit = 12,
@@ -47,6 +54,42 @@ function NumberComponent(props: Props) {
     suffix,
     rightAligned,
   } = props
+
+  const maskProps: Partial<InputMaskedProps> = useMemo(() => {
+    if (currency) {
+      return {
+        as_currency: currency,
+      }
+    }
+    if (percent) {
+      return {
+        as_percent: percent,
+      }
+    }
+    // Custom mask based on props
+    return {
+      as_number: true,
+      mask,
+      number_mask: {
+        decimalLimit,
+        decimalSymbol,
+        includeThousandsSeparator: thousandSeparator !== undefined,
+        thousandsSeparatorSymbol:
+          thousandSeparator === true ? ' ' : thousandSeparator,
+        prefix,
+        suffix,
+      },
+    }
+  }, [
+    currency,
+    percent,
+    mask,
+    decimalLimit,
+    decimalSymbol,
+    thousandSeparator,
+    prefix,
+    suffix,
+  ])
 
   const preparedProps: Props = {
     ...props,
@@ -123,16 +166,7 @@ function NumberComponent(props: Props) {
         )}
         placeholder={placeholder}
         value={value}
-        as_number
-        number_mask={{
-          decimalLimit,
-          decimalSymbol,
-          includeThousandsSeparator: thousandSeparator !== undefined,
-          thousandsSeparatorSymbol:
-            thousandSeparator === true ? ' ' : thousandSeparator,
-          prefix,
-          suffix,
-        }}
+        {...maskProps}
         right={rightAligned}
         on_focus={onFocus}
         on_blur={onBlur}
