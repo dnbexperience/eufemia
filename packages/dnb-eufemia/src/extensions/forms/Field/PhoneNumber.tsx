@@ -26,7 +26,7 @@ function PhoneNumber(props: Props) {
   const preparedProps: Props = {
     ...props,
     // Important for the default value to be defined here, and not after the useField call, to avoid the UI jumping
-    // back to +47 once the user empty the field so onChange send out undefined.
+    // back to +47 once the user empty the field so handleChange send out undefined.
     value: '+47',
     errorMessages: {
       required: sharedContext?.translation.Forms.phoneNumberErrorRequired,
@@ -49,9 +49,9 @@ function PhoneNumber(props: Props) {
     error,
     disabled,
     width = 'large',
-    onFocus,
-    onBlur,
-    onChange,
+    handleFocus,
+    handleBlur,
+    handleChange,
     onCountryCodeChange,
     onNumberChange,
   } = useField(preparedProps)
@@ -64,29 +64,29 @@ function PhoneNumber(props: Props) {
   const handleCountryCodeChange = useCallback(
     (countryCode: string) => {
       if (!countryCode && !phoneNumber) {
-        onChange?.(emptyValue)
+        handleChange?.(emptyValue)
         onCountryCodeChange?.(emptyValue)
         return
       }
 
-      onChange?.([countryCode, phoneNumber].filter(Boolean).join(' '))
+      handleChange?.([countryCode, phoneNumber].filter(Boolean).join(' '))
       onCountryCodeChange?.(countryCode)
     },
-    [phoneNumber, emptyValue, onChange, onCountryCodeChange]
+    [phoneNumber, emptyValue, handleChange, onCountryCodeChange]
   )
 
   const handleNumberChange = useCallback(
     (phoneNumber: string) => {
       if (!countryCode && !phoneNumber) {
-        onChange?.(emptyValue)
+        handleChange?.(emptyValue)
         onNumberChange?.(emptyValue)
         return
       }
 
-      onChange?.([countryCode, phoneNumber].filter(Boolean).join(' '))
+      handleChange?.([countryCode, phoneNumber].filter(Boolean).join(' '))
       onNumberChange?.(phoneNumber)
     },
-    [countryCode, emptyValue, onChange, onNumberChange]
+    [countryCode, emptyValue, handleChange, onNumberChange]
   )
 
   return (
@@ -135,8 +135,8 @@ function PhoneNumber(props: Props) {
             /\d/,
           ]
         }
-        onFocus={onFocus}
-        onBlur={onBlur}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
         onChange={handleNumberChange}
         value={phoneNumber}
         info={info}

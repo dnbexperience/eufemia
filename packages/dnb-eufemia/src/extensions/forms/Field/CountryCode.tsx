@@ -30,9 +30,9 @@ function CountryCode(props: Props) {
     disabled,
     help,
     width,
-    onFocus,
-    onBlur,
-    onChange,
+    handleFocus,
+    handleBlur,
+    handleChange,
   } = useField(props)
 
   const autocompleteData = useMemo(
@@ -45,16 +45,16 @@ function CountryCode(props: Props) {
     []
   )
 
-  const handleChange = useCallback(
+  const forwardHandleChange = useCallback(
     ({ data: changedData }: { data: { selected_key: string } }) => {
       if (!changedData || !changedData.selected_key.trim()) {
-        onChange?.(emptyValue)
+        handleChange?.(emptyValue)
         return
       }
 
-      onChange?.(changedData?.selected_key)
+      handleChange?.(changedData?.selected_key)
     },
-    [emptyValue, onChange]
+    [emptyValue, handleChange]
   )
 
   const valueIndex = autocompleteData.findIndex(
@@ -75,9 +75,9 @@ function CountryCode(props: Props) {
       data={autocompleteData}
       value={valueIndex}
       disabled={disabled}
-      on_focus={onFocus}
-      on_blur={onBlur}
-      on_change={handleChange}
+      on_focus={handleFocus}
+      on_blur={handleBlur}
+      on_change={forwardHandleChange}
       status={
         error?.message ??
         ((warning instanceof Error && warning.message) ||

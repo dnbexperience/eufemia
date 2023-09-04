@@ -110,9 +110,9 @@ function StringComponent(props: Props) {
     characterCounter,
     mask,
     width,
-    onFocus,
-    onBlur,
-    onChange,
+    handleFocus,
+    handleBlur,
+    handleChange,
   } = useField(preparedProps)
 
   const characterCounterElement = characterCounter
@@ -149,9 +149,9 @@ function StringComponent(props: Props) {
               </HelpButton>
             ) : undefined
           }
-          on_focus={onFocus}
-          on_blur={onBlur}
-          on_change={onChange}
+          on_focus={handleFocus}
+          on_blur={handleBlur}
+          on_change={handleChange}
           autoresize={autoresize}
           autoresize_max_rows={autoresizeMaxRows}
           disabled={disabled}
@@ -170,9 +170,9 @@ function StringComponent(props: Props) {
               <HelpButton title={help.title}>{help.contents}</HelpButton>
             ) : undefined
           }
-          on_focus={onFocus}
-          on_blur={onBlur}
-          on_change={onChange}
+          on_focus={handleFocus}
+          on_blur={handleBlur}
+          on_change={handleChange}
           disabled={disabled}
           stretch={width !== undefined}
         />
@@ -191,9 +191,9 @@ function StringComponent(props: Props) {
               <HelpButton title={help.title}>{help.contents}</HelpButton>
             ) : undefined
           }
-          on_focus={onFocus}
-          on_blur={onBlur}
-          on_change={onChange}
+          on_focus={handleFocus}
+          on_blur={handleBlur}
+          on_change={handleChange}
           disabled={disabled}
           stretch={width !== undefined}
         />

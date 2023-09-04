@@ -38,7 +38,7 @@ function ArraySelection(props: Props) {
     warning,
     disabled,
     emptyValue,
-    onChange,
+    handleChange,
     children,
   } = useField(props)
 
@@ -76,10 +76,10 @@ function ArraySelection(props: Props) {
               ? value.filter((value) => value !== selected)
               : [...(value ?? []), selected]
 
-            onChange?.(newValue.length === 0 ? emptyValue : newValue)
+            handleChange?.(newValue.length === 0 ? emptyValue : newValue)
           },
         })),
-    [children, value, emptyValue, onChange]
+    [children, value, emptyValue, handleChange]
   )
 
   switch (variant) {

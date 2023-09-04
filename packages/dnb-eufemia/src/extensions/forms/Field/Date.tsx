@@ -24,9 +24,9 @@ function DateComponent(props: Props) {
     help,
     error,
     disabled,
-    onFocus,
-    onBlur,
-    onChange,
+    handleFocus,
+    handleBlur,
+    handleChange,
   } = useField(preparedProps)
 
   return (
@@ -45,9 +45,9 @@ function DateComponent(props: Props) {
           <HelpButton title={help.title}>{help.contents}</HelpButton>
         ) : undefined
       }
-      on_change={onChange}
-      on_show={onFocus}
-      on_hide={onBlur}
+      on_change={handleChange}
+      on_show={handleFocus}
+      on_hide={handleBlur}
       {...forwardSpaceProps(props)}
     />
   )

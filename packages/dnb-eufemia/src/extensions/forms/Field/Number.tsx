@@ -139,9 +139,9 @@ function NumberComponent(props: Props) {
     help,
     emptyValue,
     width,
-    onFocus,
-    onBlur,
-    onChange,
+    handleFocus,
+    handleBlur,
+    handleChange,
   } = useField(preparedProps)
 
   return (
@@ -168,9 +168,9 @@ function NumberComponent(props: Props) {
         value={value}
         {...maskProps}
         right={rightAligned}
-        on_focus={onFocus}
-        on_blur={onBlur}
-        on_change={onChange}
+        on_focus={handleFocus}
+        on_blur={handleBlur}
+        on_change={handleChange}
         disabled={disabled}
         stretch={width !== undefined}
         suffix={

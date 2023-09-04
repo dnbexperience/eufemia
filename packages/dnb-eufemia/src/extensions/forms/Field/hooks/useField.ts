@@ -16,9 +16,12 @@ import { makeUniqueId } from '../../../../shared/component-helper'
 
 interface ReturnAdditional {
   setHasFocus: (hasFocus: boolean, valueOverride?: unknown) => void;
+  handleFocus: FieldProps<unknown>['onFocus'];
+  handleBlur: FieldProps<unknown>['onBlur'];
+  handleChange: FieldProps<unknown>['onChange'];
 } 
 
-export default function useField<Props extends FieldProps<any>>(
+export default function useField<Props extends FieldProps<unknown>>(
   props: Props
 ): Props & ReturnAdditional {
   const {
@@ -26,11 +29,11 @@ export default function useField<Props extends FieldProps<any>>(
     emptyValue,
     required,
     error: errorProp,
-    onFocus: onFocusProp,
-    onBlur: onBlurProp,
-    onChange: onChangeProp,
-    validator: validatorProp,
-    onBlurValidator: onBlurValidatorProp,
+    onFocus,
+    onBlur,
+    onChange,
+    validator,
+    onBlurValidator,
     schema,
     errorMessages,
     validateInitially,
@@ -124,9 +127,9 @@ export default function useField<Props extends FieldProps<any>>(
     (valueToValidate): FormError | undefined => {
       // Prioritize received validator functions first
       // Possible future change: Merge errors if multiple, like one message with each message concatinated.
-      if (typeof validatorProp === 'function') {
+      if (typeof validator === 'function') {
         // Since the validator can return either a synchronous result or an asynchronous
-        Promise.resolve(validatorProp(valueToValidate))
+        Promise.resolve(validator(valueToValidate))
           // This is a validator, so it is expected to resolve with an error when the value is invalid. If it
           // throws an error, it is not caught here as that will cause programmatic errors to show inside the form
           // as if they where operational errors.
@@ -162,8 +165,8 @@ export default function useField<Props extends FieldProps<any>>(
       emptyValue,
       required,
       setErrorAndUpdateDataContext,
-      validatorProp,
-    ],
+      validator,
+    ]
   )
 
   useEffect(() => {
@@ -185,10 +188,10 @@ export default function useField<Props extends FieldProps<any>>(
   const setHasFocus = useCallback((hasFocus: boolean, valueOverride?: unknown) => {
     if (hasFocus) {
       // Field was put in focus (like when clicking in a text field or opening a dropdown menu)
-      onFocusProp?.(valueOverride ?? value)
+      onFocus?.(valueOverride ?? value)
     } else {
       // Field was removed from focus (like when tabbing out of a text field or closing a dropdown menu)
-      onBlurProp?.(valueOverride ?? value)
+      onBlur?.(valueOverride ?? value)
 
       if (!changedRef.current && !validateUnchanged) {
         // Avoid showing errors when blurring without havinc hanged the value, so tabbing through several
@@ -198,9 +201,9 @@ export default function useField<Props extends FieldProps<any>>(
 
       // External blur validators makes it possible to validate values but not on every character change in case of
       // expensive validation calling external services etc.
-      if (typeof onBlurValidatorProp === 'function') {
+      if (typeof onBlurValidator === 'function') {
         // Since the validator can return either a synchronous result or an asynchronous
-        Promise.resolve(onBlurValidatorProp(valueOverride ?? value))
+        Promise.resolve(onBlurValidator(valueOverride ?? value))
           // This is a validator, so it is expected to resolve with an error when the value is invalid. If it
           // throws an error, it is not caught here as that will cause programmatic errors to show inside the form
           // as if they where operational errors.
@@ -211,12 +214,12 @@ export default function useField<Props extends FieldProps<any>>(
       setShowError(true)
       setShowFieldGroupError?.(path ?? id, true);
     }
-  }, [id, path, value, validateUnchanged, onFocusProp, onBlurProp, onBlurValidatorProp, setErrorAndUpdateDataContext, setShowFieldGroupError]);
+  }, [id, path, value, validateUnchanged, onFocus, onBlur, onBlurValidator, setErrorAndUpdateDataContext, setShowFieldGroupError]);
 
-  const onFocus = useCallback(() => setHasFocus(true), [setHasFocus]);
-  const onBlur = useCallback(() => setHasFocus(false), [setHasFocus]);
+  const handleFocus = useCallback(() => setHasFocus(true), [setHasFocus]);
+  const handleBlur = useCallback(() => setHasFocus(false), [setHasFocus]);
 
-  const onChange = useCallback(
+  const handleChange = useCallback(
     (argFromInput) => {
       const newValue = fromInput(argFromInput)
       if (newValue === value) {
@@ -233,7 +236,7 @@ export default function useField<Props extends FieldProps<any>>(
       validateValue(newValue)
 
       // Tell any parent data context about the error, so they can take it into consideration when a submit button is clicked for instance
-      onChangeProp?.(newValue)
+      onChange?.(newValue)
       if (path) {
         dataContextHandlePathChange?.(path, newValue)
       }
@@ -242,7 +245,7 @@ export default function useField<Props extends FieldProps<any>>(
       id,
       path,
       value,
-      onChangeProp,
+      onChange,
       validateValue,
       dataContextHandlePathChange,
       setShowFieldGroupError,
@@ -274,8 +277,8 @@ export default function useField<Props extends FieldProps<any>>(
     value: toInput(value),
     error: inFieldGroup ? undefined : (showError ? exportError : undefined),
     setHasFocus,
-    onFocus,
-    onBlur,
-    onChange,
+    handleFocus,
+    handleBlur,
+    handleChange,
   }
 }

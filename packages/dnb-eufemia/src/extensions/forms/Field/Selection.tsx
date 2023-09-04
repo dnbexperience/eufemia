@@ -52,30 +52,30 @@ function Selection(props: Props) {
     emptyValue,
     width = 'large',
     setHasFocus,
-    onChange,
+    handleChange,
     children,
   } = useField(props)
 
   const handleDropdownChange = useCallback(
     ({ data: { selected_key } }) => {
-      onChange?.(
+      handleChange?.(
         !selected_key || selected_key === clearValue
           ? emptyValue
           : selected_key
       )
     },
-    [onChange, emptyValue, clearValue]
+    [handleChange, emptyValue, clearValue]
   )
 
   const handleRadioChange = useCallback(
     ({ value }) => {
-      onChange?.(value === undefined ? emptyValue : value)
+      handleChange?.(value === undefined ? emptyValue : value)
     },
-    [onChange, emptyValue],
+    [handleChange, emptyValue]
   )
 
   // Specific handleShow and handleHide because Dropdown preserve the initially received callbacks, so changes
-  // due to `useCallback` usage will have no effect, leading to useFields onFocus and onBlur sending out old
+  // due to `useCallback` usage will have no effect, leading to useFields handleFocus and handleBlur sending out old
   // copies of value as arguments.
   const handleShow = useCallback(
     ({ data }) => {
@@ -118,10 +118,10 @@ function Selection(props: Props) {
           handleSelect: () => {
             const selected = option.props.value
 
-            onChange?.(selected === value ? emptyValue : selected)
+            handleChange?.(selected === value ? emptyValue : selected)
           },
         })),
-    [children, value, emptyValue, onChange]
+    [children, value, emptyValue, handleChange]
   )
 
   switch (variant) {
