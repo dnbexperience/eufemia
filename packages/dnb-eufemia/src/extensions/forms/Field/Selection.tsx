@@ -38,14 +38,14 @@ function Selection(props: Props) {
     ({ data: { selected_key } }) => {
       onChange?.(!selected_key ? emptyValue : selected_key)
     },
-    [onChange, emptyValue]
+    [onChange, emptyValue],
   )
 
   const handleRadioChange = useCallback(
     ({ value }) => {
       onChange?.(value === undefined ? emptyValue : value)
     },
-    [onChange, emptyValue]
+    [onChange, emptyValue],
   )
 
   const handleHide = useCallback(
@@ -53,7 +53,7 @@ function Selection(props: Props) {
       // Provide a value because selecting an option will lead to onChange and onBlur called in parallel, so onBlur might receive the old value
       onBlur?.({ onBlurValue: data?.selected_key })
     },
-    [onBlur]
+    [onBlur],
   )
 
   switch (variant) {
@@ -66,7 +66,7 @@ function Selection(props: Props) {
           {React.Children.toArray(children)
             .filter(
               (child) =>
-                React.isValidElement(child) && child.type === Option
+                React.isValidElement(child) && child.type === Option,
             )
             .map((child: React.ReactElement, i) => (
               <Checkbox
@@ -90,7 +90,7 @@ function Selection(props: Props) {
           {React.Children.toArray(children)
             .filter(
               (child) =>
-                React.isValidElement(child) && child.type === Option
+                React.isValidElement(child) && child.type === Option,
             )
             .map((child: React.ReactElement, i) => (
               <Radio
@@ -134,7 +134,7 @@ function Selection(props: Props) {
             'dnb-forms-field-selection',
             width !== 'stretch' &&
               `dnb-forms-field-selection--width-${width}`,
-            className
+            className,
           )}
           list_class="dnb-forms-field-selection__list"
           portal_class="dnb-forms-field-selection__portal"

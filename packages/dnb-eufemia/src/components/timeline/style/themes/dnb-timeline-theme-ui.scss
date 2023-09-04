@@ -27,8 +27,9 @@
   );
   --timeline-icon-width-diff: calc(
     (
-        var(--timeline-icon-width--medium) -
-          var(--timeline-icon-width--small)
+        var(--timeline-icon-width--medium) - var(
+            --timeline-icon-width--small
+          )
       ) / 2
   );
   --timeline-border-spacing: var(--spacing-small);

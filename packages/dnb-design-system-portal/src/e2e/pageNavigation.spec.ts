@@ -12,7 +12,7 @@ test.describe('Page Navigation', () => {
     test('noscript element should be visible', async ({ page }) => {
       await expect(page.locator('noscript').first()).toHaveCSS(
         'display',
-        'block'
+        'block',
       )
     })
 
@@ -51,7 +51,7 @@ test.describe('Page Navigation', () => {
       expect(heading).toContain('Components')
 
       const accordionLinkText = await page.textContent(
-        'a[href="/uilib/components/accordion"]'
+        'a[href="/uilib/components/accordion"]',
       )
       expect(accordionLinkText).toContain('Accordion')
     })
@@ -107,7 +107,7 @@ test.describe('Page Navigation', () => {
       await element?.click()
       await page.click('nav a[href="/uilib/components/button/"]')
       await page.click(
-        'main a[href="/uilib/components/button/properties/"]'
+        'main a[href="/uilib/components/button/properties/"]',
       )
       await page.waitForURL('**/uilib/components/button/properties/')
       await page.waitForSelector('#dnb-drawer-list__portal', {
@@ -136,7 +136,7 @@ test.describe('Page Navigation', () => {
       expect(heading).toContain('Components')
 
       const accordionLinkText = await page.textContent(
-        'a[href="/uilib/components/accordion"]'
+        'a[href="/uilib/components/accordion"]',
       )
       expect(accordionLinkText).toContain('Accordion')
     })

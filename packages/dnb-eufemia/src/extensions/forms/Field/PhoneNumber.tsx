@@ -55,7 +55,7 @@ function PhoneNumber(props: Props) {
         selected_value: `${country.iso} (+${country.code})`,
         content: `+${country.code} ${country.name}`,
       })),
-    []
+    [],
   )
 
   const handleCountryCodeChange = useCallback(
@@ -70,7 +70,7 @@ function PhoneNumber(props: Props) {
 
       onChange?.(`${changedData?.selected_key || ''} ${phoneNumber}`)
     },
-    [phoneNumber, emptyValue, onChange]
+    [phoneNumber, emptyValue, onChange],
   )
 
   const handleNumberChange = useCallback(
@@ -82,7 +82,7 @@ function PhoneNumber(props: Props) {
 
       onChange?.([countryCode, value].filter(Boolean).join(' '))
     },
-    [countryCode, emptyValue, onChange]
+    [countryCode, emptyValue, onChange],
   )
 
   return (
@@ -91,14 +91,14 @@ function PhoneNumber(props: Props) {
         'dnb-forms-field-phone-number',
         width !== undefined &&
           `dnb-forms-field-phone-number--width-${width}`,
-        className
+        className,
       )}
       {...forwardSpaceProps(preparedProps)}
     >
       <Autocomplete
         className={classnames(
           'dnb-forms-field-phone-number__country-code',
-          countryCodeFieldClassName
+          countryCodeFieldClassName,
         )}
         label_direction="vertical"
         label={sharedContext?.translation.Forms.countryCodeLabel}
@@ -112,7 +112,7 @@ function PhoneNumber(props: Props) {
       <Input
         className={classnames(
           'dnb-forms-field-phone-number__number',
-          numberFieldClassName
+          numberFieldClassName,
         )}
         label_direction="vertical"
         label={label ?? ' '}

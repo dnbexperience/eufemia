@@ -1,2 +1,2 @@
-export { default } from './FieldGroup';
-export * from './FieldGroup';
+export { default } from './FieldGroup'
+export * from './FieldGroup'

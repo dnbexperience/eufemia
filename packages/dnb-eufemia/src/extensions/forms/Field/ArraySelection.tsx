@@ -33,7 +33,7 @@ function ArraySelection(props: Props) {
   } = useField(props)
 
   const options = React.Children.toArray(children).filter(
-    (child) => React.isValidElement(child) && child.type === Option
+    (child) => React.isValidElement(child) && child.type === Option,
   ) as React.ReactElement[]
 
   switch (variant) {

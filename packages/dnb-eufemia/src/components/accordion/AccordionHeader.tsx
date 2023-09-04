@@ -37,7 +37,7 @@ function AccordionHeaderTitle({
     <span
       className={classnames(
         'dnb-accordion__header__title',
-        createSpacingClasses(rest)
+        createSpacingClasses(rest),
       )}
     >
       {children}
@@ -57,7 +57,7 @@ function AccordionHeaderDescription({
     <span
       className={classnames(
         'dnb-accordion__header__description',
-        createSpacingClasses(rest)
+        createSpacingClasses(rest),
       )}
     >
       {children}
@@ -77,7 +77,7 @@ function AccordionHeaderContainer({
     <span
       className={classnames(
         'dnb-accordion__header__container',
-        createSpacingClasses(rest)
+        createSpacingClasses(rest),
       )}
     >
       {children}
@@ -197,7 +197,9 @@ export const AccordionHeader = ({
   }
 
   function onClickHandler(
-    event: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>
+    event:
+      | React.MouseEvent<HTMLElement>
+      | React.KeyboardEvent<HTMLElement>,
   ) {
     const { id, group } = context
 
@@ -226,7 +228,7 @@ export const AccordionHeader = ({
   const extendedProps = extendPropsWithContext(
     props,
     accordionHeaderDefaultProps,
-    context as Record<string, unknown>
+    context as Record<string, unknown>,
   )
 
   const {
@@ -338,7 +340,7 @@ export const AccordionHeader = ({
   // position the icon to the right, if the element is not in the beginning
   if (icon_position === undefined) {
     const iconIndex = partsToRender.findIndex(
-      (c) => c.type === AccordionHeaderIcon
+      (c) => c.type === AccordionHeaderIcon,
     )
     // because of the container at the beginning, we use 1
     if (iconIndex > 1) {
@@ -365,7 +367,7 @@ export const AccordionHeader = ({
       no_animation && 'dnb-accordion__header--no-animation',
       createSkeletonClass('font', skeleton, context),
       createSpacingClasses(rest),
-      className
+      className,
     ),
     disabled,
     ...rest,

@@ -12,7 +12,7 @@ test.afterEach(async ({ page }) => {
 test.describe('Colors for UI', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(
-      '/quickguide-designer/colors?data-visual-test&eufemia-theme=ui'
+      '/quickguide-designer/colors?data-visual-test&eufemia-theme=ui',
     )
 
     // Check if app is mounted
@@ -23,11 +23,11 @@ test.describe('Colors for UI', () => {
 
   test('table should have correct color', async ({ page }) => {
     await expect(
-      page.locator('.dnb-table__scroll-view table tbody tr td').first()
+      page.locator('.dnb-table__scroll-view table tbody tr td').first(),
     ).toHaveCSS('color', 'rgb(0, 52, 62)')
 
     const lastCellText = await page.textContent(
-      '.dnb-table__scroll-view table tbody tr td:last-of-type'
+      '.dnb-table__scroll-view table tbody tr td:last-of-type',
     )
     expect(lastCellText).toContain('--color-ocean-green')
   })
@@ -36,7 +36,7 @@ test.describe('Colors for UI', () => {
 test.describe('Colors for Sbanken', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(
-      '/quickguide-designer/colors?data-visual-test&eufemia-theme=sbanken'
+      '/quickguide-designer/colors?data-visual-test&eufemia-theme=sbanken',
     )
 
     // Check if app is mounted
@@ -47,11 +47,11 @@ test.describe('Colors for Sbanken', () => {
 
   test('table should have correct color', async ({ page }) => {
     await expect(
-      page.locator('.dnb-table__scroll-view table tbody tr td').first()
+      page.locator('.dnb-table__scroll-view table tbody tr td').first(),
     ).toHaveCSS('color', 'rgb(28, 27, 78)')
 
     const lastCellText = await page.textContent(
-      '.dnb-table__scroll-view table tbody tr td:last-of-type'
+      '.dnb-table__scroll-view table tbody tr td:last-of-type',
     )
     expect(lastCellText).toContain('--sb-color-purple')
   })

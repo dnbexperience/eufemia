@@ -195,7 +195,7 @@ export default class FormStatus extends React.PureComponent {
             },
           })
         }
-      }
+      },
     )
 
     this._ref = React.createRef()
@@ -283,7 +283,7 @@ export default class FormStatus extends React.PureComponent {
             },
             {
               preventRestack: true, // because of the internal "close"
-            }
+            },
           )
         } else if (!FormStatus.getContent(this.props)) {
           const status_id = this.getStatusId()
@@ -336,7 +336,7 @@ export default class FormStatus extends React.PureComponent {
       FormStatus.defaultProps,
       { skeleton: this.context && this.context.skeleton },
       includeValidProps(this.context.FormRow),
-      this.context.FormStatus
+      this.context.FormStatus,
     )
 
     const {
@@ -370,7 +370,7 @@ export default class FormStatus extends React.PureComponent {
       state,
       icon,
       icon_size,
-      theme: this.context?.theme?.name
+      theme: this.context?.theme?.name,
     })
 
     const contentToRender =
@@ -404,7 +404,7 @@ export default class FormStatus extends React.PureComponent {
         hasStringContent ? 'dnb-form-status--has-content' : null,
         createSpacingClasses(props),
         className,
-        _className
+        _className,
       ),
       id: !String(id).startsWith('null') ? this.state.id : null,
       title,
@@ -425,7 +425,7 @@ export default class FormStatus extends React.PureComponent {
     const textParams = {
       className: classnames(
         'dnb-form-status__text',
-        createSkeletonClass('font', skeleton, this.context)
+        createSkeletonClass('font', skeleton, this.context),
       ),
       id: !String(text_id).startsWith('null') ? text_id : null,
     }
@@ -501,8 +501,8 @@ WarnIcon.defaultProps = {
   title: 'error',
 }
 
-export const InfoIcon = props => {
-  const isSbankenTheme = props && props?.theme === 'sbanken';
+export const InfoIcon = (props) => {
+  const isSbankenTheme = props && props?.theme === 'sbanken'
   let fill = isSbankenTheme ? '#000' : '#007272'
   if (props && props?.state === 'success') {
     fill = isSbankenTheme ? '#02A56A' : '#28B482'
@@ -536,7 +536,7 @@ InfoIcon.propTypes = {
 InfoIcon.defaultProps = {
   title: 'info',
   state: 'info',
-  theme: 'ui'
+  theme: 'ui',
 }
 
 export const MarketingIcon = (props) => (

@@ -12,7 +12,7 @@ import { toSnakeCase } from '../component-helper'
  * @returns extended function or class
  */
 export function withCamelCaseProps<TBase, P>(
-  Base: React.FunctionComponent<P> & TBase
+  Base: React.FunctionComponent<P> & TBase,
 ): typeof Base {
   const Component: React.ComponentType = Base
 
@@ -44,7 +44,7 @@ export function withCamelCaseProps<TBase, P>(
  * @returns extended function or class
  */
 export function classWithCamelCaseProps<
-  TBase extends React.ComponentClass
+  TBase extends React.ComponentClass,
 >(Base: TBase): typeof Base {
   const Component: React.ComponentClass = Base
 

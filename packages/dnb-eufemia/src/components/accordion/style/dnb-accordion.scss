@@ -122,7 +122,8 @@
     width: 100%;
 
     will-change: height;
-    transition: height 400ms var(--accordion-easing),
+    transition:
+      height 400ms var(--accordion-easing),
       opacity 600ms var(--accordion-easing);
 
     &__inner {

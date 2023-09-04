@@ -115,9 +115,8 @@ export class createShortcut {
       shortcut = shortcut.toLowerCase()
 
       if (this.eventTracker[shortcut]) {
-        const { timeout, element, keyDown, keyUp } = this.eventTracker[
-          shortcut
-        ]
+        const { timeout, element, keyDown, keyUp } =
+          this.eventTracker[shortcut]
 
         element.removeEventListener('keydown', keyDown, false)
         element.removeEventListener('keyup', keyUp, false)

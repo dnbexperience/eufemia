@@ -7,7 +7,7 @@ interface DefaultErrorMessages {
 export interface FieldProps<
   Value = unknown,
   EmptyValue = undefined,
-  ErrorMessages extends { required?: string } = DefaultErrorMessages
+  ErrorMessages extends { required?: string } = DefaultErrorMessages,
 > {
   /** ID added to the actual field component, and linked to the label via for-attribute */
   id?: string
@@ -35,10 +35,10 @@ export interface FieldProps<
   required?: boolean
   schema?: JSONSchema7
   validator?: (
-    value: Value | EmptyValue
+    value: Value | EmptyValue,
   ) => Error | undefined | Promise<Error | undefined>
   onBlurValidator?: (
-    value: Value | EmptyValue
+    value: Value | EmptyValue,
   ) => Error | undefined | Promise<Error | undefined>
   /**
    * Should error messages based on validation be shown initially (from given value-prop or source data)

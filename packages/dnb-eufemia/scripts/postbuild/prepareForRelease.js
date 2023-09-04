@@ -49,11 +49,11 @@ export async function cleanupPackage({ packageString, filepath }) {
   const prettierrc = JSON.parse(
     await fs.readFile(
       path.resolve(packpath.self(), '.prettierrc'),
-      'utf-8'
-    )
+      'utf-8',
+    ),
   )
 
-  return prettier.format(JSON.stringify(packageJson), {
+  return await prettier.format(JSON.stringify(packageJson), {
     ...prettierrc,
     filepath,
   })
@@ -94,7 +94,7 @@ if(typeof window !== 'undefined'){
 
     if (require.main === module) {
       console.info(
-        `prepareForRelease: Has written version ${version} to files`
+        `prepareForRelease: Has written version ${version} to files`,
       )
     }
   } catch (e) {

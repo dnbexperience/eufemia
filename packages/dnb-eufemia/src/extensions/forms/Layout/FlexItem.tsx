@@ -16,7 +16,7 @@ function FlexItem(props: Props) {
     'dnb-forms-flex-item',
     grow && 'dnb-forms-flex-item--grow',
     shrink && 'dnb-forms-flex-item--shrink',
-    className
+    className,
   )
 
   return (

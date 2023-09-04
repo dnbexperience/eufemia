@@ -231,7 +231,7 @@ class Modal extends React.PureComponent<
           () => {
             this.isInTransition = false
             this.handleSideEffects()
-          }
+          },
         )
       }
 
@@ -296,10 +296,13 @@ class Modal extends React.PureComponent<
         elem.focus({ preventScroll: true })
 
         return new Promise<void>((resolve) => {
-          setTimeout(() => {
-            elem?.removeAttribute('data-autofocus')
-            resolve()
-          }, parseFloat(String(animation_duration)) / 3)
+          setTimeout(
+            () => {
+              elem?.removeAttribute('data-autofocus')
+              resolve()
+            },
+            parseFloat(String(animation_duration)) / 3,
+          )
         })
       }
 
@@ -331,7 +334,7 @@ class Modal extends React.PureComponent<
 
   close = (
     event: Event,
-    { ifIsLatest, triggeredBy = null } = { ifIsLatest: true }
+    { ifIsLatest, triggeredBy = null } = { ifIsLatest: true },
   ) => {
     const { prevent_close = false } = this.props
 
@@ -391,7 +394,7 @@ class Modal extends React.PureComponent<
       try {
         document.documentElement.setAttribute(
           'data-dnb-modal-active',
-          modalId
+          modalId,
         )
       } catch (e) {
         warn('Modal: Error on set "data-dnb-modal-active"', e)
@@ -405,7 +408,7 @@ class Modal extends React.PureComponent<
       this.props,
       Modal.defaultProps,
       this.context.getTranslation(this.props).Modal,
-      this.context.Modal
+      this.context.Modal,
     )
 
     const {
@@ -432,7 +435,7 @@ class Modal extends React.PureComponent<
     const modal_content = Modal.getContent(
       typeof this.props.children === 'function'
         ? Object.freeze({ ...this.props, close: this.close })
-        : this.props
+        : this.props,
     )
 
     const render = (suffixProps) => {
@@ -482,7 +485,7 @@ class Modal extends React.PureComponent<
                 'dnb-modal__trigger',
                 createSpacingClasses(props),
                 triggerAttributes.class,
-                triggerAttributes.className
+                triggerAttributes.className,
               )}
             />
           )}

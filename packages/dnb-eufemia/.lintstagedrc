@@ -1,6 +1,5 @@
 {
-  "*.js": [
-    "yarn prettier:js:staged",
+  "*.{js,ts,tsx}": [
     "yarn lint:js:staged"
   ],
   "*.scss": [
@@ -10,7 +9,7 @@
     "yarn lint:styles:staged",
     "yarn test:staged"
   ],
-  "*.{json,md}": [
+  "*.{json,md,mdx}": [
     "yarn prettier:other"
   ]
 }

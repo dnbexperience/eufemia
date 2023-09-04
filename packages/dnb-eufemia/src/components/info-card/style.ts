@@ -3,4 +3,4 @@
  *
  */
 
- import './style/dnb-info-card.scss'
+import './style/dnb-info-card.scss'

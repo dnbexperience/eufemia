@@ -101,7 +101,9 @@
   &:not(&--outline) > tbody > &__tr:last-of-type > &__th::after,
   &:not(&--outline)
     > tbody
-    > &__tr#{&}__tr--has-accordion-content:not(#{&}__tr--expanded):nth-last-child(2)
+    > &__tr#{&}__tr--has-accordion-content:not(
+      #{&}__tr--expanded
+    ):nth-last-child(2)
     td::after {
     @include tableBorder();
 
