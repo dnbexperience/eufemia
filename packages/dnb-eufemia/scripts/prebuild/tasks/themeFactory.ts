@@ -143,7 +143,7 @@ export const runFactory = async ({
       }
       await fs.writeFile(
         file,
-        prettier.format(fileContent, {
+        await prettier.format(fileContent, {
           ...prettierrc,
           filepath: file,
         })

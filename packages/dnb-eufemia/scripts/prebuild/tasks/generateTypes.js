@@ -222,7 +222,7 @@ export const createTypes = async (
           definitionContent = codeWithTransformedTypes
         }
 
-        definitionContent = prettier.format(definitionContent, {
+        definitionContent = await prettier.format(definitionContent, {
           ...prettierrc,
           filepath: 'file.d.ts',
         })
