@@ -8,10 +8,10 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe.each(['ui', 'sbanken'])('Breadcrumb for %s', themeName => {
+describe.each(['ui', 'sbanken'])('Breadcrumb for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/breadcrumb/demos'
+    url: '/uilib/components/breadcrumb/demos',
   })
 
   it('have to match Breadcrumb single', async () => {

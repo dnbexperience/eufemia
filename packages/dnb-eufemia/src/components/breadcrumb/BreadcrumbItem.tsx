@@ -67,10 +67,13 @@ const defaultProps = {
   skeleton: null,
 }
 
-const determineSbankenIcon: IconIcon = (variant: string, isSmallScreen: boolean) => {
+const determineSbankenIcon: IconIcon = (
+  variant: string,
+  isSmallScreen: boolean,
+) => {
   switch (variant) {
     case 'home':
-      return homeIcon;
+      return homeIcon
     case 'single':
     case 'collapse':
       return 'chevron_left'
@@ -104,13 +107,14 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
     context?.BreadcrumbItem,
   )
 
-  const theme = useTheme();
+  const theme = useTheme()
   const isSmallScreen = useMediaQuery({
     matchOnSSR: true,
     when: { max: 'medium' },
   })
 
-  let currentIcon = icon || (variant === 'home' && homeIcon) || 'chevron_left'
+  let currentIcon =
+    icon || (variant === 'home' && homeIcon) || 'chevron_left'
   if (theme?.name === 'sbanken') {
     currentIcon = icon || determineSbankenIcon(variant, isSmallScreen)
   }
