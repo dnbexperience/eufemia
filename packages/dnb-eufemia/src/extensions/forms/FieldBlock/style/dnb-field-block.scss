@@ -5,18 +5,18 @@
   &--layout-vertical {
     display: grid;
     grid-template-columns: auto;
-    grid-template-areas: 
-      "label"
-      "contents"
-      "status";
+    grid-template-areas:
+      'label'
+      'contents'
+      'status';
   }
 
   &--layout-horizontal {
     display: grid;
     grid-template-columns: $forms-field-width-medium auto;
-    grid-template-areas: 
-      "label contents"
-      "status status"; 
+    grid-template-areas:
+      'label contents'
+      'status status';
   }
 
   // Width
@@ -74,6 +74,5 @@
     &--width-large {
       width: $forms-field-width-large;
     }
-    
   }
 }

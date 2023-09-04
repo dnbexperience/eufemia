@@ -72,7 +72,7 @@ function PhoneNumber(props: Props) {
       handleChange?.([countryCode, phoneNumber].filter(Boolean).join(' '))
       onCountryCodeChange?.(countryCode)
     },
-    [phoneNumber, emptyValue, handleChange, onCountryCodeChange]
+    [phoneNumber, emptyValue, handleChange, onCountryCodeChange],
   )
 
   const handleNumberChange = useCallback(
@@ -86,7 +86,7 @@ function PhoneNumber(props: Props) {
       handleChange?.([countryCode, phoneNumber].filter(Boolean).join(' '))
       onNumberChange?.(phoneNumber)
     },
-    [countryCode, emptyValue, handleChange, onNumberChange]
+    [countryCode, emptyValue, handleChange, onNumberChange],
   )
 
   return (

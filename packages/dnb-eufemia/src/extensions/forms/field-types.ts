@@ -7,7 +7,7 @@ interface DefaultErrorMessages {
 export interface FieldProps<
   Value = unknown,
   EmptyValue = undefined | string | number,
-  ErrorMessages extends { required?: string } = DefaultErrorMessages
+  ErrorMessages extends { required?: string } = DefaultErrorMessages,
 > {
   /** ID added to the actual field component, and linked to the label via for-attribute */
   id?: string
@@ -61,7 +61,7 @@ export interface FieldProps<
 
 export interface FieldHelpProps {
   help?: {
-    title?: string;
-    contents?: string;
+    title?: string
+    contents?: string
   }
 }

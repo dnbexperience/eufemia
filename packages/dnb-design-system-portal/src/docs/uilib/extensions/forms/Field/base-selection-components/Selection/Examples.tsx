@@ -74,7 +74,7 @@ export const WithClearButton = () => (
             console.log('onChange', value)
             setValue(value)
           },
-          [setValue]
+          [setValue],
         )
         return (
           <>

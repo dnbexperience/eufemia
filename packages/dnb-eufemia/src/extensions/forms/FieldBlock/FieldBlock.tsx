@@ -86,7 +86,7 @@ function FieldBlock(props: Props) {
           'dnb-forms-field-block__contents',
           contentsWidth !== undefined &&
             `dnb-forms-field-block__contents--width-${contentsWidth}`,
-          contentClassName
+          contentClassName,
         )}
       >
         {children}

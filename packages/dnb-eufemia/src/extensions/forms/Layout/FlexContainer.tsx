@@ -118,7 +118,7 @@ function FlexContainer(props: Props) {
     divider && `dnb-forms-flex-container--divider-${divider}`,
     spacing && `dnb-forms-flex-container--spacing-${spacing}`,
     width && `dnb-forms-flex-container--width-${width}`,
-    className
+    className,
   )
   const childrenArray = React.Children.toArray(children)
 

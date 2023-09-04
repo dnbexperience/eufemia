@@ -24,7 +24,7 @@ describe('Selection', () => {
         <Field.Selection value="bar">
           <Field.Option value="foo">Fooo</Field.Option>
           <Field.Option value="bar">Baar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       const btn1 = screen.getByRole('button')
@@ -36,7 +36,7 @@ describe('Selection', () => {
         <Field.Selection value="foo">
           <Field.Option value="foo">Fooo</Field.Option>
           <Field.Option value="bar">Baar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
 
       // The selected button should now show the other option based on the value-prop change
@@ -82,7 +82,7 @@ describe('Selection', () => {
         <Field.Selection onChange={onChange} clear>
           <Field.Option value="foo">Fooo</Field.Option>
           <Field.Option value="bar">Baar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
       // Open the menu
       const selectionButton = screen.getByRole('button')
@@ -108,7 +108,7 @@ describe('Selection', () => {
         <Field.Selection onChange={onChange} emptyValue="nothing" clear>
           <Field.Option value="foo">Fooo</Field.Option>
           <Field.Option value="bar">Baar</Field.Option>
-        </Field.Selection>
+        </Field.Selection>,
       )
       // Open the menu
       const selectionButton = screen.getByRole('button')
@@ -128,7 +128,7 @@ describe('Selection', () => {
           <Field.Selection variant="radio" value="bar">
             <Field.Option value="foo">Fooo</Field.Option>
             <Field.Option value="bar">Baar</Field.Option>
-          </Field.Selection>
+          </Field.Selection>,
         )
         const radioButtons = screen.queryAllByRole('radio')
         expect(radioButtons.length).toEqual(2)
@@ -141,13 +141,13 @@ describe('Selection', () => {
           <Field.Selection variant="radio" value="bar">
             <Field.Option value="foo">Fooo</Field.Option>
             <Field.Option value="bar">Baar</Field.Option>
-          </Field.Selection>
+          </Field.Selection>,
         )
         rerender(
           <Field.Selection variant="radio" value="foo">
             <Field.Option value="foo">Fooo</Field.Option>
             <Field.Option value="bar">Baar</Field.Option>
-          </Field.Selection>
+          </Field.Selection>,
         )
 
         const radioButtons = screen.queryAllByRole('radio')
@@ -230,7 +230,7 @@ describe('Selection', () => {
             <Field.Selection required validateInitially>
               <Field.Option value="foo">Fooo</Field.Option>
               <Field.Option value="bar">Baar</Field.Option>
-            </Field.Selection>
+            </Field.Selection>,
           )
           const selectionButton = screen.getByRole('button')
           await userEvent.click(selectionButton)
@@ -243,7 +243,7 @@ describe('Selection', () => {
             <Field.Selection required>
               <Field.Option value="foo">Fooo</Field.Option>
               <Field.Option value="bar">Baar</Field.Option>
-            </Field.Selection>
+            </Field.Selection>,
           )
           const selectionButton = screen.getByRole('button')
           await userEvent.click(selectionButton)

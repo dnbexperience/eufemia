@@ -42,7 +42,7 @@ function CountryCode(props: Props) {
         selected_value: `${country.iso} (+${country.code})`,
         content: `+${country.code} ${country.name}`,
       })),
-    []
+    [],
   )
 
   const forwardHandleChange = useCallback(
@@ -54,11 +54,11 @@ function CountryCode(props: Props) {
 
       handleChange?.(changedData?.selected_key)
     },
-    [emptyValue, handleChange]
+    [emptyValue, handleChange],
   )
 
   const valueIndex = autocompleteData.findIndex(
-    (item) => item.selected_key === value
+    (item) => item.selected_key === value,
   )
 
   return (
@@ -67,7 +67,7 @@ function CountryCode(props: Props) {
         'dnb-forms-field-country-code',
         width !== undefined &&
           `dnb-forms-field-country-code--width-${width}`,
-        className
+        className,
       )}
       placeholder={placeholder ?? ' '}
       label_direction={layout}

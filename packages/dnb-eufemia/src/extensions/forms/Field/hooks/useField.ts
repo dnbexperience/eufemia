@@ -15,14 +15,14 @@ import { FieldGroupContext } from '../../FieldGroup'
 import { makeUniqueId } from '../../../../shared/component-helper'
 
 interface ReturnAdditional {
-  setHasFocus: (hasFocus: boolean, valueOverride?: unknown) => void;
-  handleFocus: FieldProps<unknown>['onFocus'];
-  handleBlur: FieldProps<unknown>['onBlur'];
-  handleChange: FieldProps<unknown>['onChange'];
-} 
+  setHasFocus: (hasFocus: boolean, valueOverride?: unknown) => void
+  handleFocus: FieldProps<unknown>['onFocus']
+  handleBlur: FieldProps<unknown>['onBlur']
+  handleChange: FieldProps<unknown>['onChange']
+}
 
 export default function useField<Props extends FieldProps<unknown>>(
-  props: Props
+  props: Props,
 ): Props & ReturnAdditional {
   const {
     path,
@@ -166,7 +166,7 @@ export default function useField<Props extends FieldProps<unknown>>(
       required,
       setErrorAndUpdateDataContext,
       validator,
-    ]
+    ],
   )
 
   useEffect(() => {
@@ -184,40 +184,53 @@ export default function useField<Props extends FieldProps<unknown>>(
       setShowFieldGroupError?.(path ?? id, true)
     }
   }, [id, path, dataContext.showAllErrors, setShowFieldGroupError])
-  
-  const setHasFocus = useCallback((hasFocus: boolean, valueOverride?: unknown) => {
-    if (hasFocus) {
-      // Field was put in focus (like when clicking in a text field or opening a dropdown menu)
-      onFocus?.(valueOverride ?? value)
-    } else {
-      // Field was removed from focus (like when tabbing out of a text field or closing a dropdown menu)
-      onBlur?.(valueOverride ?? value)
 
-      if (!changedRef.current && !validateUnchanged) {
-        // Avoid showing errors when blurring without havinc hanged the value, so tabbing through several
-        // fields does not make errors pop up all over the place
-        return
+  const setHasFocus = useCallback(
+    (hasFocus: boolean, valueOverride?: unknown) => {
+      if (hasFocus) {
+        // Field was put in focus (like when clicking in a text field or opening a dropdown menu)
+        onFocus?.(valueOverride ?? value)
+      } else {
+        // Field was removed from focus (like when tabbing out of a text field or closing a dropdown menu)
+        onBlur?.(valueOverride ?? value)
+
+        if (!changedRef.current && !validateUnchanged) {
+          // Avoid showing errors when blurring without havinc hanged the value, so tabbing through several
+          // fields does not make errors pop up all over the place
+          return
+        }
+
+        // External blur validators makes it possible to validate values but not on every character change in case of
+        // expensive validation calling external services etc.
+        if (typeof onBlurValidator === 'function') {
+          // Since the validator can return either a synchronous result or an asynchronous
+          Promise.resolve(onBlurValidator(valueOverride ?? value))
+            // This is a validator, so it is expected to resolve with an error when the value is invalid. If it
+            // throws an error, it is not caught here as that will cause programmatic errors to show inside the form
+            // as if they where operational errors.
+            .then(setErrorAndUpdateDataContext)
+        }
+
+        // Since the user left the field, show error (if any)
+        setShowError(true)
+        setShowFieldGroupError?.(path ?? id, true)
       }
+    },
+    [
+      id,
+      path,
+      value,
+      validateUnchanged,
+      onFocus,
+      onBlur,
+      onBlurValidator,
+      setErrorAndUpdateDataContext,
+      setShowFieldGroupError,
+    ],
+  )
 
-      // External blur validators makes it possible to validate values but not on every character change in case of
-      // expensive validation calling external services etc.
-      if (typeof onBlurValidator === 'function') {
-        // Since the validator can return either a synchronous result or an asynchronous
-        Promise.resolve(onBlurValidator(valueOverride ?? value))
-          // This is a validator, so it is expected to resolve with an error when the value is invalid. If it
-          // throws an error, it is not caught here as that will cause programmatic errors to show inside the form
-          // as if they where operational errors.
-          .then(setErrorAndUpdateDataContext)
-      }
-
-      // Since the user left the field, show error (if any)
-      setShowError(true)
-      setShowFieldGroupError?.(path ?? id, true);
-    }
-  }, [id, path, value, validateUnchanged, onFocus, onBlur, onBlurValidator, setErrorAndUpdateDataContext, setShowFieldGroupError]);
-
-  const handleFocus = useCallback(() => setHasFocus(true), [setHasFocus]);
-  const handleBlur = useCallback(() => setHasFocus(false), [setHasFocus]);
+  const handleFocus = useCallback(() => setHasFocus(true), [setHasFocus])
+  const handleBlur = useCallback(() => setHasFocus(false), [setHasFocus])
 
   const handleChange = useCallback(
     (argFromInput) => {
@@ -225,7 +238,7 @@ export default function useField<Props extends FieldProps<unknown>>(
       if (newValue === value) {
         // Avoid triggering a change if the value was not actually changed. This may be caused by rendering components
         // calling onChange even if the actual value did not change.
-        return;
+        return
       }
       setValue(newValue)
       changedRef.current = true
@@ -275,7 +288,7 @@ export default function useField<Props extends FieldProps<unknown>>(
     ...props,
     id,
     value: toInput(value),
-    error: inFieldGroup ? undefined : (showError ? exportError : undefined),
+    error: inFieldGroup ? undefined : showError ? exportError : undefined,
     setHasFocus,
     handleFocus,
     handleBlur,
