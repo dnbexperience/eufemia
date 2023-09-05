@@ -3,11 +3,11 @@
  *
  */
 import React from 'react'
-import H from './H'
 import type { SharedHProps } from './H'
+import H from './H'
 
-const H1 = ({ size = 'xx-large', ...props }: SharedHProps) => (
-  <H as="h1" size={size} {...props} />
+const H1 = ({ size, ...props }: SharedHProps) => (
+  <H as="h1" size={size || 'auto'} {...props} />
 )
 
 export default H1
