@@ -12,6 +12,7 @@ import P from '../../elements/P'
 import homeIcon from '../../icons/home'
 
 // Shared
+import { useTheme, useMediaQuery } from '../../shared'
 import Context from '../../shared/Context'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import { extendPropsWithContext } from '../../shared/component-helper'
@@ -66,6 +67,21 @@ const defaultProps = {
   skeleton: null,
 }
 
+const determineSbankenIcon: IconIcon = (
+  variant: string,
+  isSmallScreen: boolean,
+) => {
+  switch (variant) {
+    case 'home':
+      return homeIcon
+    case 'single':
+    case 'collapse':
+      return 'chevron_left'
+    default:
+      return isSmallScreen ? 'chevron_left' : 'chevron_right'
+  }
+}
+
 const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
   // Every component should have a context
   const context = React.useContext(Context)
@@ -91,8 +107,17 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
     context?.BreadcrumbItem,
   )
 
-  const currentIcon: IconIcon =
+  const theme = useTheme()
+  const isSmallScreen = useMediaQuery({
+    matchOnSSR: true,
+    when: { max: 'medium' },
+  })
+
+  let currentIcon =
     icon || (variant === 'home' && homeIcon) || 'chevron_left'
+  if (theme?.name === 'sbanken') {
+    currentIcon = icon || determineSbankenIcon(variant, isSmallScreen)
+  }
   const currentText = text || (variant === 'home' && homeText) || ''
   const isInteractive = (href || onClick) && variant !== 'current'
   const style = { '--delay': String(itemNr) } as React.CSSProperties

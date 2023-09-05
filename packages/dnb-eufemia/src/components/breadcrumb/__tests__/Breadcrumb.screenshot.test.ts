@@ -8,8 +8,11 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Breadcrumb', () => {
-  setupPageScreenshot({ url: '/uilib/components/breadcrumb/demos' })
+describe.each(['ui', 'sbanken'])('Breadcrumb for %s', (themeName) => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/breadcrumb/demos',
+  })
 
   it('have to match Breadcrumb single', async () => {
     const screenshot = await makeScreenshot({
