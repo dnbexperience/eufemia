@@ -48,7 +48,7 @@ export default function createTextMaskInputElement(config) {
         placeholderChar = defaultPlaceholderChar,
         keepCharPositions = false,
         showMask = false,
-      } = config,
+      } = config
     ) {
       // if `rawValue` is `undefined`, read from the `inputElement`
       if (typeof rawValue === 'undefined') {
@@ -86,7 +86,7 @@ export default function createTextMaskInputElement(config) {
       if (providedMask instanceof Array) {
         placeholder = convertMaskToPlaceholder(
           providedMask,
-          placeholderChar,
+          placeholderChar
         )
       }
 
@@ -152,7 +152,7 @@ export default function createTextMaskInputElement(config) {
       const { conformedValue } = conformToMask(
         safeRawValue,
         mask,
-        conformToMaskConfig,
+        conformToMaskConfig
       )
 
       // The following few lines are to support the `pipe` feature.
@@ -233,7 +233,7 @@ export function safeSetSelection(element, selectionPosition) {
       defer(
         () =>
           element.setSelectionRange(selectionPosition, selectionPosition),
-        0,
+        0
       )
     } else {
       element.setSelectionRange(selectionPosition, selectionPosition)
@@ -251,7 +251,7 @@ function getSafeRawValue(inputValue) {
   } else {
     throw new Error(
       "The 'value' provided to Text Mask needs to be a string or a number. The value " +
-        `received was:\n\n ${JSON.stringify(inputValue)}`,
+        `received was:\n\n ${JSON.stringify(inputValue)}`
     )
   }
 }

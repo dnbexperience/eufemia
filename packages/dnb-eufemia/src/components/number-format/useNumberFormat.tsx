@@ -6,13 +6,13 @@ import type { formatOptionParams, formatValue } from './NumberUtils'
 
 function useNumberFormat(
   value: formatValue,
-  options: formatOptionParams = {},
+  options: formatOptionParams = {}
 ) {
   const context = useContext(Context)
   const params = extendPropsWithContext(
     options,
     { locale: context.locale },
-    context.NumberFormat,
+    context.NumberFormat
   )
 
   return format(value, params)

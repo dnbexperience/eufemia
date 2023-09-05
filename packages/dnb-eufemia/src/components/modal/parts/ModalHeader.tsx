@@ -81,7 +81,7 @@ export default class ModalHeader extends React.PureComponent<
               'dnb-space__top--zero',
               'dnb-space__bottom--small',
               `dnb-h--${fontSize}`,
-              title_class,
+              title_class
             )}
           >
             {usedTitle}

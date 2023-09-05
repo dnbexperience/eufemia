@@ -206,12 +206,12 @@ describe('"validateDOMAttributes" should', () => {
     const props = {}
     const res1 = validateDOMAttributes(
       props,
-      Object.assign({}, { disabled: 'false' }),
+      Object.assign({}, { disabled: 'false' })
     )
     expect(res1).not.toHaveProperty('disabled')
     const res2 = validateDOMAttributes(
       props,
-      Object.assign({}, { disabled: 'disabled' }),
+      Object.assign({}, { disabled: 'disabled' })
     )
     expect(res2).toHaveProperty('disabled')
   })
@@ -299,20 +299,20 @@ describe('"extend" should', () => {
   })
   it('extend an object recursively and have correct object shape', () => {
     expect(
-      extend({ key1: { key2: null } }, { key1: { key2: 'value' } }),
+      extend({ key1: { key2: null } }, { key1: { key2: 'value' } })
     ).toEqual({
       key1: { key2: 'value' },
     })
     expect(
-      extend({ key1: { key2: 'value' } }, { key1: { key2: null } }),
+      extend({ key1: { key2: 'value' } }, { key1: { key2: null } })
     ).toEqual({
       key1: { key2: 'value' },
     })
     expect(
       extend(
         { key1: { key2: 'value' } },
-        { key1: { key2: null, foo: 'bar' } },
-      ),
+        { key1: { key2: null, foo: 'bar' } }
+      )
     ).toEqual({
       key1: { key2: 'value', foo: 'bar' },
     })
@@ -413,7 +413,7 @@ describe('"dispatchCustomElementEvent" should', () => {
       expect.objectContaining({
         attr: 'value',
         prop: 'value',
-      }),
+      })
     )
   })
 })
@@ -429,8 +429,8 @@ describe('"findElementInChildren" should', () => {
       React.createElement(
         'span',
         null,
-        React.createElement('h2', null, 'and this'),
-      ),
+        React.createElement('h2', null, 'and this')
+      )
     )
 
     const HeadingElement = findElementInChildren(children, (cur) => {
@@ -498,7 +498,7 @@ describe('"filterProps" should', () => {
 describe('"makeUniqueId" should', () => {
   it('have prepended "id-" by default', () => {
     expect(makeUniqueId()).toEqual(
-      expect.stringMatching(/^id-[a-z0-9]{8}/g),
+      expect.stringMatching(/^id-[a-z0-9]{8}/g)
     )
   })
 
@@ -515,7 +515,7 @@ describe('"makeUniqueId" should', () => {
 
   it('have a prepended string', () => {
     expect(makeUniqueId('string-', 10)).toEqual(
-      expect.stringMatching(/^string-[a-z0-9]{10}/g),
+      expect.stringMatching(/^string-[a-z0-9]{10}/g)
     )
   })
 })
@@ -563,7 +563,7 @@ describe('"matchAll" should', () => {
       expect.arrayContaining([
         expect.arrayContaining(['var(--color-one)', '--color-one']),
         expect.arrayContaining(['var(--color-two)', '--color-two']),
-      ]),
+      ])
     )
   })
 })
@@ -577,7 +577,7 @@ describe('"convertJsxToString" should', () => {
       <div key="b">reachable B</div>,
     ]
     expect(convertJsxToString(Content, '|')).toBe(
-      'reachable A|reachable B',
+      'reachable A|reachable B'
     )
   })
 
@@ -590,7 +590,7 @@ describe('"convertJsxToString" should', () => {
       <div key="c"> reachable B</div>,
     ]
     expect(convertJsxToString(Content, ' ')).toBe(
-      'reachable A reachable B',
+      'reachable A reachable B'
     )
   })
 })
@@ -600,7 +600,7 @@ describe('"escapeRegexChars" should', () => {
 
   it('escape regex chars', () => {
     expect(escapeRegexChars(text)).toBe(
-      '\\-\\\\\\{\\}\\(\\)\\*\\+\\?\\.\\,\\^\\$\\|\\#',
+      '\\-\\\\\\{\\}\\(\\)\\*\\+\\?\\.\\,\\^\\$\\|\\#'
     )
   })
 })

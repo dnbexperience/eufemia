@@ -25,11 +25,11 @@ describe('Skeleton component', () => {
   it('has to use the provider to enable a skeleton in a component', () => {
     const { rerender } = render(<Skeleton {...props} />)
     expect(
-      document.querySelector('.dnb-input .dnb-skeleton'),
+      document.querySelector('.dnb-input .dnb-skeleton')
     ).not.toBeInTheDocument()
     rerender(<Skeleton {...props} show={true} />)
     expect(
-      document.querySelector('.dnb-input .dnb-skeleton'),
+      document.querySelector('.dnb-input .dnb-skeleton')
     ).toBeInTheDocument()
   })
 

@@ -37,7 +37,7 @@ const Ol = ({ nested, inside, outside, ...p }: OlAllProps = {}) => {
         p.className,
         nested && 'dnb-ol--nested',
         inside && 'dnb-ol--inside',
-        outside && 'dnb-ol--outside',
+        outside && 'dnb-ol--outside'
       )}
       skeleton={false}
     />

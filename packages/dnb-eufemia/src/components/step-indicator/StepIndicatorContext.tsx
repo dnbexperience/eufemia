@@ -103,7 +103,7 @@ export function StepIndicatorProvider({
   const [hasSidebar, setHasSidebar] = useState<boolean>(true)
   const [hideSidebar, setHideSidebar] = useState<boolean>(false)
   const [activeStep, setActiveStep] = useState<number>(
-    getActiveStepFromProps(),
+    getActiveStepFromProps()
   )
   const [openState, setOpenState] = useState<boolean>(false)
 
@@ -117,7 +117,7 @@ export function StepIndicatorProvider({
   // Mount and dismount
   useEffect(() => {
     const container = document?.getElementById(
-      'sidebar__' + props.sidebar_id,
+      'sidebar__' + props.sidebar_id
     )
 
     setHasSidebar(Boolean(container))
@@ -130,7 +130,7 @@ export function StepIndicatorProvider({
       (hideSidebar) => {
         setHideSidebar(hideSidebar)
       },
-      { runOnInit: true },
+      { runOnInit: true }
     )
 
     return () => {
@@ -169,7 +169,7 @@ export function StepIndicatorProvider({
   }
 
   function getData(
-    props: StepIndicatorProviderProps,
+    props: StepIndicatorProviderProps
   ): string[] | StepIndicatorDataItem[] {
     if (typeof props.data === 'string') {
       return props.data[0] === '[' ? JSON.parse(props.data) : []
@@ -186,7 +186,7 @@ export function StepIndicatorProvider({
     const dataWithItems = data as StepIndicatorDataItem[]
 
     const itemWithCurrentStep = dataWithItems.find(
-      (item) => item.is_current,
+      (item) => item.is_current
     )
     // Is current on data item has precedence(?) over current_step prop
     return itemWithCurrentStep
@@ -200,7 +200,7 @@ export function StepIndicatorProvider({
       stepIndicatorDefaultProps,
       { skeleton: context?.skeleton },
       context.getTranslation(context).StepIndicator,
-      context.StepIndicator,
+      context.StepIndicator
     )
 
     const value = extendSafe(
@@ -222,7 +222,7 @@ export function StepIndicatorProvider({
         countSteps,
         stepsLabel: updateStepTitle(globalContext.step_title),
         stepsLabelExtended: updateStepTitle(
-          globalContext.step_title_extended,
+          globalContext.step_title_extended
         ),
       },
       // Functions
@@ -231,7 +231,7 @@ export function StepIndicatorProvider({
         onChangeState,
         openHandler,
         closeHandler,
-      },
+      }
     ) as StepIndicatorContextValues
 
     value.sidebarIsVisible = value.hasSidebar && !value.hideSidebar

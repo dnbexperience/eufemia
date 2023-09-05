@@ -94,7 +94,7 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
   // set the startup height
   const onMounted = (items) => {
     items.forEach(({ element: { current: element }, expanded }) =>
-      setHeight({ element, expanded, animation: false }),
+      setHeight({ element, expanded, animation: false })
     )
   }
 
@@ -176,7 +176,7 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
                   // once we set current page, we force a rerender, and sync of data
                   setCurrentPage(pageNumber)
                 },
-                Math.ceil(Math.random() * 1e3),
+                Math.ceil(Math.random() * 1e3)
               ) // simulate random delay
             }
           }}
@@ -333,7 +333,7 @@ const setHeight = ({
         element.style.height = '1px'
       }
       window.requestAnimationFrame(
-        () => (element.style.height = newHeight),
+        () => (element.style.height = newHeight)
       )
     })
   }

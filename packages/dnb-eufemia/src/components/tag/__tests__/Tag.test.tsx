@@ -43,7 +43,7 @@ describe('Tag Group', () => {
         <Tag text="Horse" />
         <Tag text="Dog" />
         <Tag text="Cow" />
-      </Tag.Group>,
+      </Tag.Group>
     )
 
     expect(document.querySelectorAll('.dnb-tag')).toHaveLength(4)
@@ -55,10 +55,10 @@ describe('Tag Group', () => {
     render(
       <Tag.Group label="aria" className={customClassName}>
         ClassName
-      </Tag.Group>,
+      </Tag.Group>
     )
     expect(document.getElementsByClassName(customClassName)).toHaveLength(
-      1,
+      1
     )
   })
 
@@ -68,11 +68,11 @@ describe('Tag Group', () => {
     render(
       <Tag.Group skeleton label="tags">
         <Tag>skeleton</Tag>
-      </Tag.Group>,
+      </Tag.Group>
     )
 
     expect(
-      document.getElementsByClassName(skeletonClassName),
+      document.getElementsByClassName(skeletonClassName)
     ).toHaveLength(1)
   })
 
@@ -80,12 +80,12 @@ describe('Tag Group', () => {
     render(
       <Tag.Group label="tags" top="2rem">
         <Tag>Tag</Tag>
-      </Tag.Group>,
+      </Tag.Group>
     )
 
     const element = document.querySelector('.dnb-tag__group')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name,
+      (attr) => attr.name
     )
 
     expect(attributes).toEqual(['class'])
@@ -103,7 +103,7 @@ describe('Tag', () => {
     render(
       <Tag.Group label="tags">
         <Tag {...props} />
-      </Tag.Group>,
+      </Tag.Group>
     )
     expect(document.querySelector('.dnb-tag')).toBeInTheDocument()
   })
@@ -112,7 +112,7 @@ describe('Tag', () => {
     render(
       <Tag.Group label="tags">
         <Tag />
-      </Tag.Group>,
+      </Tag.Group>
     )
 
     expect(document.querySelector('.dnb-tag')).toBeInTheDocument()
@@ -124,7 +124,7 @@ describe('Tag', () => {
     render(
       <Tag.Group label="tags">
         <Tag text="This is a tag" />
-      </Tag.Group>,
+      </Tag.Group>
     )
 
     expect(screen.queryByText(text)).toBeInTheDocument()
@@ -136,7 +136,7 @@ describe('Tag', () => {
     render(
       <Tag.Group label="tags">
         <Tag>{text}</Tag>
-      </Tag.Group>,
+      </Tag.Group>
     )
 
     expect(screen.queryByText(text)).toBeInTheDocument()
@@ -148,7 +148,7 @@ describe('Tag', () => {
     render(
       <Tag.Group label="tags">
         <Tag text={text}>{text}</Tag>
-      </Tag.Group>,
+      </Tag.Group>
     )
 
     expect(screen.queryByText(text)).toBeInTheDocument()
@@ -160,11 +160,11 @@ describe('Tag', () => {
     render(
       <Tag.Group label="tags">
         <Tag skeleton>skeleton</Tag>
-      </Tag.Group>,
+      </Tag.Group>
     )
 
     expect(
-      document.getElementsByClassName(skeletonClassName),
+      document.getElementsByClassName(skeletonClassName)
     ).toHaveLength(1)
   })
 
@@ -176,11 +176,11 @@ describe('Tag', () => {
         <Tag.Group label="tags">
           <Tag>skeleton</Tag>
         </Tag.Group>
-      </Provider>,
+      </Provider>
     )
 
     expect(
-      document.getElementsByClassName(skeletonClassName),
+      document.getElementsByClassName(skeletonClassName)
     ).toHaveLength(1)
   })
 
@@ -190,7 +190,7 @@ describe('Tag', () => {
     render(
       <Tag.Group label="tags">
         <Tag text={text} />
-      </Tag.Group>,
+      </Tag.Group>
     )
 
     expect(screen.queryByRole('button')).not.toBeInTheDocument()
@@ -201,7 +201,7 @@ describe('Tag', () => {
     render(
       <Tag.Group label="tags">
         <Tag text="Tag with icon" icon="bell" />
-      </Tag.Group>,
+      </Tag.Group>
     )
 
     expect(document.querySelector('.dnb-icon')).toBeInTheDocument()
@@ -211,12 +211,12 @@ describe('Tag', () => {
     render(
       <Tag.Group label="tags">
         <Tag left="2rem">Tag</Tag>
-      </Tag.Group>,
+      </Tag.Group>
     )
 
     const element = document.querySelector('.dnb-tag')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name,
+      (attr) => attr.name
     )
 
     expect(attributes).toEqual(['class'])
@@ -243,11 +243,11 @@ describe('Tag', () => {
           >
             Clickable
           </Tag>
-        </Tag.Group>,
+        </Tag.Group>
       )
 
       expect(
-        document.getElementsByClassName(clickableClassName),
+        document.getElementsByClassName(clickableClassName)
       ).toHaveLength(1)
       expect(screen.queryByRole('button')).toBeInTheDocument()
     })
@@ -257,7 +257,7 @@ describe('Tag', () => {
       render(
         <Tag.Group label="tags">
           <Tag onClick={onClick}>onClick</Tag>
-        </Tag.Group>,
+        </Tag.Group>
       )
 
       fireEvent.click(screen.getByRole('button'))
@@ -268,7 +268,7 @@ describe('Tag', () => {
       render(
         <Tag.Group label="tags">
           <Tag text="Tag with icon" icon="bell" onClick={jest.fn()} />
-        </Tag.Group>,
+        </Tag.Group>
       )
 
       expect(document.querySelector('.dnb-icon')).toBeInTheDocument()
@@ -289,14 +289,14 @@ describe('Tag', () => {
           >
             Removable
           </Tag>
-        </Tag.Group>,
+        </Tag.Group>
       )
 
       expect(
-        document.getElementsByClassName(removableClassName),
+        document.getElementsByClassName(removableClassName)
       ).toHaveLength(1)
       expect(
-        document.getElementsByClassName(clickableClassName),
+        document.getElementsByClassName(clickableClassName)
       ).toHaveLength(1)
       expect(screen.queryByRole('button')).toBeInTheDocument()
     })
@@ -306,7 +306,7 @@ describe('Tag', () => {
       render(
         <Tag.Group label="onDelete">
           <Tag onDelete={onClick}>onDelete</Tag>
-        </Tag.Group>,
+        </Tag.Group>
       )
 
       fireEvent.click(screen.getByRole('button'))
@@ -317,21 +317,21 @@ describe('Tag', () => {
       const { container, rerender } = render(
         <Tag.Group label="Space" space={{ top: true }}>
           <Tag>Tag</Tag>
-        </Tag.Group>,
+        </Tag.Group>
       )
 
       expect(
-        container.querySelectorAll('.dnb-space__top--small').length,
+        container.querySelectorAll('.dnb-space__top--small').length
       ).toBe(1)
 
       rerender(
         <Tag.Group label="Space" space={{ top: true }}>
           <Tag top={true}>Tag</Tag>
-        </Tag.Group>,
+        </Tag.Group>
       )
 
       expect(
-        container.querySelectorAll('.dnb-space__top--small').length,
+        container.querySelectorAll('.dnb-space__top--small').length
       ).toBe(2)
     })
 
@@ -339,7 +339,7 @@ describe('Tag', () => {
       render(
         <Tag.Group label="onDelete">
           <Tag text="Delete" onDelete={jest.fn()} />
-        </Tag.Group>,
+        </Tag.Group>
       )
 
       expect(document.querySelector('.dnb-icon')).toBeInTheDocument()
@@ -349,7 +349,7 @@ describe('Tag', () => {
       render(
         <Tag.Group label="onDelete">
           <Tag text="Tag with icon" icon="bell" onDelete={jest.fn()} />
-        </Tag.Group>,
+        </Tag.Group>
       )
 
       expect(document.querySelector('.dnb-icon')).toBeInTheDocument()
@@ -360,7 +360,7 @@ describe('Tag', () => {
       render(
         <Tag.Group label="onDelete">
           <Tag text="Deletable" onDelete={jest.fn()} />
-        </Tag.Group>,
+        </Tag.Group>
       )
 
       expect(screen.getByTitle(nb.removeIconTitle)).toBeInTheDocument()
@@ -375,7 +375,7 @@ describe('Tag', () => {
           <Tag onClick={onClick} onDelete={onDelete}>
             onClick
           </Tag>
-        </Tag.Group>,
+        </Tag.Group>
       )
 
       fireEvent.click(screen.getByRole('button'))
@@ -389,7 +389,7 @@ describe('Tag', () => {
       render(
         <Tag.Group label="onDelete">
           <Tag onDelete={onClick}>Keyboard</Tag>
-        </Tag.Group>,
+        </Tag.Group>
       )
 
       fireEvent.keyUp(screen.getByRole('button'), {
@@ -426,10 +426,10 @@ describe('Tag', () => {
     render(
       <Tag.Group label="tags">
         <Tag className={customClassName}>ClassName</Tag>
-      </Tag.Group>,
+      </Tag.Group>
     )
     expect(document.getElementsByClassName(customClassName)).toHaveLength(
-      1,
+      1
     )
   })
 
@@ -439,7 +439,7 @@ describe('Tag', () => {
         <Tag.Group label="tags">
           <Tag text="With provider" />
         </Tag.Group>
-      </Provider>,
+      </Provider>
     )
 
     expect(document.querySelector('.dnb-button__text')).toBeInTheDocument()
@@ -451,7 +451,7 @@ describe('Tag aria', () => {
     const Component = render(
       <Tag.Group label="tags">
         <Tag text="Tag aria" />
-      </Tag.Group>,
+      </Tag.Group>
     )
     expect(await axeComponent(Component)).toHaveNoViolations()
   })

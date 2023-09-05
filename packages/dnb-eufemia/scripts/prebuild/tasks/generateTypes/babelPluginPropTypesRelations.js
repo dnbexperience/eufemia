@@ -168,7 +168,7 @@ export function babelPluginPropTypesRelations(babel, { sourceDir }) {
 
             const code = fs.readFileSync(
               nodePath.resolve(sourceDir, sourceFile + '.js'),
-              'utf-8',
+              'utf-8'
             )
             ast = parse(code, babylonConfigDefaults)
 

@@ -88,7 +88,7 @@ export const DatePickerSandbox = () => (
             console.log('on_show', props)
           }}
           on_days_render={(
-            days,
+            days
             // , nr
           ) => {
             // console.log('on_days_render', nr, days)
@@ -211,21 +211,21 @@ export const DatePickerSandbox = () => (
             console.log(
               'on_show',
               // props,
-              props.event,
+              props.event
             )
           }}
           on_hide={(props) => {
             console.log(
               'on_hide',
               // props,
-              props.event,
+              props.event
             )
           }}
           on_change={(props) => {
             console.log(
               'on_change',
               // props,
-              props.event,
+              props.event
             )
           }}
         />

@@ -137,7 +137,7 @@ export default class FormRow extends React.PureComponent {
     const props = extendPropsWithContextInClassComponent(
       this.props,
       FormRow.defaultProps,
-      this.context.FormRow, // nested FormRow
+      this.context.FormRow // nested FormRow
     )
 
     const {
@@ -197,7 +197,7 @@ export default class FormRow extends React.PureComponent {
         isNested && 'dnb-form-row--nested',
         createSpacingClasses(props),
         className,
-        _className,
+        _className
       ),
       ...attributes,
     }
@@ -270,7 +270,7 @@ export default class FormRow extends React.PureComponent {
                   'dnb-form-row__content',
                   isTrue(wrap) && 'dnb-form-row__content--wrap',
                   label && !isTrue(vertical) && direction !== 'vertical',
-                  responsive && 'dnb-responsive-component',
+                  responsive && 'dnb-responsive-component'
                 )}
               >
                 {children}

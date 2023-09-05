@@ -219,12 +219,12 @@ async function handleElement({
   const countSelectorElements = await page.evaluate(
     ({ selector }) => {
       const mainSelector = selector.match(
-        /(data-visual-test="([^"]*)")/,
+        /(data-visual-test="([^"]*)")/
       )?.[0]
 
       try {
         return document.querySelectorAll(
-          mainSelector ? `[${mainSelector}]` : selector,
+          mainSelector ? `[${mainSelector}]` : selector
         ).length
       } catch (e) {
         console.error(e)
@@ -232,12 +232,12 @@ async function handleElement({
     },
     {
       selector,
-    },
+    }
   )
 
   if (countSelectorElements > 1) {
     throw new Error(
-      `Ensure the selector '${selector}' exists only once! Found ${countSelectorElements}.`,
+      `Ensure the selector '${selector}' exists only once! Found ${countSelectorElements}.`
     )
   } else if (isNaN(parseFloat(countSelectorElements))) {
     log.warn(`Count not extract main selector from '${selector}'!`)
@@ -254,7 +254,7 @@ async function handleElement({
         node.setAttribute('style', style)
         return node
       },
-      makeStyles(style),
+      makeStyles(style)
     )
   }
 
@@ -340,7 +340,7 @@ async function handleRootClassName({ page, rootClassName }) {
       },
       {
         rootClassName: global.rootClassName,
-      },
+      }
     )
     global.rootClassName = null
   }
@@ -359,7 +359,7 @@ async function handleRootClassName({ page, rootClassName }) {
           }
         })
       },
-      { rootClassName },
+      { rootClassName }
     )
     global.rootClassName = rootClassName
   }
@@ -378,7 +378,7 @@ async function handleMeasureOfElement({ page, measureElement, selector }) {
       },
       {
         measureElement,
-      },
+      }
     )
     const heightInPixelsFloat = parseFloat(heightInPixels)
     const isInEightSeries = (num) => num % pixelGrid
@@ -392,7 +392,7 @@ async function handleMeasureOfElement({ page, measureElement, selector }) {
       log.warn(
         `"${measureElement}" is <${off}px off to ${
           heightInPixelsFloat + off
-        }rem (${heightInPixels}) which corresponds to a rem value of ${inRem}rem.`,
+        }rem (${heightInPixels}) which corresponds to a rem value of ${inRem}rem.`
       )
     }
   }
@@ -517,7 +517,7 @@ async function wrapperCleanup({ page, selector, addWrapper }) {
       ({ selector }) => {
         const element = document.querySelector(selector)
         const wrapperElement = element.closest(
-          '[data-visual-test-wrapper]',
+          '[data-visual-test-wrapper]'
         )
 
         if (wrapperElement) {
@@ -528,7 +528,7 @@ async function wrapperCleanup({ page, selector, addWrapper }) {
       },
       {
         selector,
-      },
+      }
     )
   }
 }
@@ -568,7 +568,7 @@ async function handleWrapper({
       },
       {
         selector,
-      },
+      }
     )
 
     // get the height we want to have on the wrapper
@@ -603,7 +603,7 @@ async function handleWrapper({
           throw new Error(
             `Top of element is ${
               wrRec.top - elRec.top
-            }px above the screenshot area.`,
+            }px above the screenshot area.`
           )
         }
 
@@ -611,7 +611,7 @@ async function handleWrapper({
           throw new Error(
             `Bottom of element is ${
               elRec.bottom - wrRec.bottom
-            }px below the screenshot area.`,
+            }px below the screenshot area.`
           )
         }
 
@@ -620,7 +620,7 @@ async function handleWrapper({
       {
         id: wrapperId,
         style,
-      },
+      }
     )
 
     await page.waitForSelector(`[data-visual-test-id="${wrapperId}"]`)
@@ -637,7 +637,7 @@ module.exports.loadImage = async (imagePath) =>
 const createUrl = (url, fullscreen = true, themeName = null) => {
   const newURL = new URL(
     url,
-    `http://${config.testScreenshotOnHost}:${config.testScreenshotOnPort}`,
+    `http://${config.testScreenshotOnHost}:${config.testScreenshotOnPort}`
   )
 
   newURL.searchParams.append('data-visual-test', 'true')

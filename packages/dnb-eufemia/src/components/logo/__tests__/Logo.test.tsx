@@ -20,14 +20,14 @@ describe('Logo component', () => {
   it('should set correct class when inherit_color is set', () => {
     render(<Logo inherit_color />)
     expect(document.querySelector('.dnb-logo').classList).toContain(
-      'dnb-logo--inherit-color',
+      'dnb-logo--inherit-color'
     )
   })
 
   it('should set correct class when size="inherit" is set', () => {
     render(<Logo size="inherit" />)
     expect(document.querySelector('.dnb-logo').classList).toContain(
-      'dnb-logo--inherit-size',
+      'dnb-logo--inherit-size'
     )
   })
 
@@ -45,17 +45,17 @@ describe('Logo component', () => {
     render(<Logo />)
     expect(document.querySelector('title').textContent).toBe('DNB Logo')
     expect(document.querySelector('.dnb-logo').getAttribute('alt')).toBe(
-      'DNB Logo',
+      'DNB Logo'
     )
   })
 
   it('should have Sbanken title inside SVG', () => {
     render(<Logo brand="sbanken" />)
     expect(document.querySelector('title').textContent).toBe(
-      'Sbanken - et konsept fra DNB logo',
+      'Sbanken - et konsept fra DNB logo'
     )
     expect(
-      document.querySelector('.sbanken-logo').getAttribute('alt'),
+      document.querySelector('.sbanken-logo').getAttribute('alt')
     ).toBe('Sbanken - et konsept fra DNB logo')
   })
 
@@ -67,14 +67,14 @@ describe('Logo component', () => {
   it('should set role="img"', () => {
     render(<Logo />)
     expect(document.querySelector('.dnb-logo').getAttribute('role')).toBe(
-      'img',
+      'img'
     )
   })
 
   it('should set custom class', () => {
     render(<Logo className="custom-selector" />)
     expect(document.querySelector('[role="img"]').classList).toContain(
-      'custom-selector',
+      'custom-selector'
     )
   })
 
@@ -91,7 +91,7 @@ describe('Logo component', () => {
         }}
       >
         <Logo />
-      </Provider>,
+      </Provider>
     )
 
     const html = document.querySelector('svg').outerHTML
@@ -106,7 +106,7 @@ describe('Logo component', () => {
     render(
       <Theme name="sbanken">
         <Logo variant="compact" />
-      </Theme>,
+      </Theme>
     )
 
     const html = document.querySelector('svg').outerHTML
@@ -118,7 +118,7 @@ describe('Logo component', () => {
 
     const element = document.querySelector('.dnb-logo')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name,
+      (attr) => attr.name
     )
 
     expect(attributes).not.toContain('top')
@@ -147,7 +147,7 @@ describe('Logo component', () => {
 
     const element = document.querySelector('.dnb-logo')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name,
+      (attr) => attr.name
     )
 
     expect(attributes).toEqual([
@@ -171,11 +171,9 @@ describe('Logo scss', () => {
     'has to match theme css for %s',
     (themeName) => {
       const css = loadScss(
-        require.resolve(
-          `../style/themes/dnb-logo-theme-${themeName}.scss`,
-        ),
+        require.resolve(`../style/themes/dnb-logo-theme-${themeName}.scss`)
       )
       expect(css).toMatchSnapshot()
-    },
+    }
   )
 })

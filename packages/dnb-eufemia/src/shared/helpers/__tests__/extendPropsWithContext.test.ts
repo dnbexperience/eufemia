@@ -81,7 +81,7 @@ describe('extendPropsWithContext', () => {
       props,
       defaultProps,
       context1,
-      context2,
+      context2
     )
 
     expect(result).toEqual({
@@ -113,7 +113,7 @@ describe('extendPropsWithContextInClassComponent', () => {
     const result = extendPropsWithContextInClassComponent(
       props,
       defaultProps,
-      context1,
+      context1
     )
 
     expect(result).toEqual({
@@ -129,7 +129,7 @@ describe('extendPropsWithContextInClassComponent', () => {
     const result = extendPropsWithContextInClassComponent(
       props,
       defaultProps,
-      context1,
+      context1
     )
 
     expect(result).toEqual({
@@ -145,7 +145,7 @@ describe('extendPropsWithContextInClassComponent', () => {
     const result = extendPropsWithContextInClassComponent(
       props,
       defaultProps,
-      context1,
+      context1
     )
 
     expect(result).toEqual({

@@ -29,7 +29,7 @@ const Hr = ({
         className,
         light && 'dnb-hr--light',
         medium && 'dnb-hr--medium',
-        fullscreen && 'dnb-hr--fullscreen',
+        fullscreen && 'dnb-hr--fullscreen'
       )}
       {...props}
     />

@@ -34,7 +34,7 @@ export const makeScssFromFigmaDoc = (
     prependKey = null,
     subkeyToFind = null,
     doReturnExpression = false,
-  } = {},
+  } = {}
 ) => {
   if (!value) return null
 
@@ -121,7 +121,7 @@ const findexistingSassVars = ({
   const index = entries.find(
     ([key]) =>
       key === `${prependKey}-${keyToFind}` ||
-      key === `${prependKey}-${subkeyToFind}-${keyToFind}`,
+      key === `${prependKey}-${subkeyToFind}-${keyToFind}`
   )
   let res = index && index.length > 0 ? index[1] : null
   if (typeof res === 'string') {

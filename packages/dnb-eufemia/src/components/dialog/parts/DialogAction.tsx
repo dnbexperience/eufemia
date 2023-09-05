@@ -85,7 +85,7 @@ const DialogAction = ({
               })
             },
           },
-          child.props.children,
+          child.props.children
         )
       } else {
         return child

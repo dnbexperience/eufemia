@@ -53,11 +53,11 @@ describe('Tooltip', () => {
     render(
       <Tooltip skipPortal active>
         With snake_case props
-      </Tooltip>,
+      </Tooltip>
     )
 
     expect(document.body.querySelector('.dnb-tooltip').textContent).toBe(
-      'With snake_case props',
+      'With snake_case props'
     )
   })
 
@@ -77,11 +77,11 @@ describe('Tooltip', () => {
     render(
       <Tooltip active size="large">
         Tooltip
-      </Tooltip>,
+      </Tooltip>
     )
 
     expect(
-      Array.from(document.querySelector('.dnb-tooltip').classList),
+      Array.from(document.querySelector('.dnb-tooltip').classList)
     ).toEqual(expect.arrayContaining(['dnb-tooltip--large']))
   })
 
@@ -124,11 +124,11 @@ describe('Tooltip', () => {
     render(
       <Tooltip active fixedPosition>
         Tooltip
-      </Tooltip>,
+      </Tooltip>
     )
 
     expect(
-      Array.from(document.querySelector('.dnb-tooltip').classList),
+      Array.from(document.querySelector('.dnb-tooltip').classList)
     ).toEqual(expect.arrayContaining(['dnb-tooltip--fixed']))
   })
 
@@ -136,16 +136,16 @@ describe('Tooltip', () => {
     render(
       <Tooltip active position="right">
         Tooltip
-      </Tooltip>,
+      </Tooltip>
     )
 
     expect(
-      Array.from(document.querySelector('.dnb-tooltip__arrow').classList),
+      Array.from(document.querySelector('.dnb-tooltip__arrow').classList)
     ).toEqual(
       expect.arrayContaining([
         'dnb-tooltip__arrow__arrow--center',
         'dnb-tooltip__arrow__position--right',
-      ]),
+      ])
     )
   })
 
@@ -153,16 +153,16 @@ describe('Tooltip', () => {
     render(
       <Tooltip active arrow="right">
         Tooltip
-      </Tooltip>,
+      </Tooltip>
     )
 
     expect(
-      Array.from(document.querySelector('.dnb-tooltip__arrow').classList),
+      Array.from(document.querySelector('.dnb-tooltip__arrow').classList)
     ).toEqual(
       expect.arrayContaining([
         'dnb-tooltip__arrow__arrow--right',
         'dnb-tooltip__arrow__position--top',
-      ]),
+      ])
     )
   })
 
@@ -188,11 +188,11 @@ describe('Tooltip', () => {
       render(
         <Tooltip active style={{ zIndex: 10 }}>
           Tooltip
-        </Tooltip>,
+        </Tooltip>
       )
 
       expect(
-        document.querySelector('.dnb-tooltip').getAttribute('style'),
+        document.querySelector('.dnb-tooltip').getAttribute('style')
       ).toBe('z-index: 10; left: 0px; top: 0px;')
     })
   })
@@ -211,7 +211,7 @@ describe('Tooltip', () => {
       render(<Tooltip />)
 
       expect(
-        document.querySelector('.dnb-tooltip').getAttribute('style'),
+        document.querySelector('.dnb-tooltip').getAttribute('style')
       ).not.toBeInTheDocument()
     })
 
@@ -219,10 +219,10 @@ describe('Tooltip', () => {
       render(<Tooltip active />)
 
       expect(
-        document.body.querySelectorAll('.dnb-tooltip__portal'),
+        document.body.querySelectorAll('.dnb-tooltip__portal')
       ).toHaveLength(1)
       expect(document.body.querySelectorAll('.dnb-tooltip')).toHaveLength(
-        1,
+        1
       )
     })
 
@@ -231,7 +231,7 @@ describe('Tooltip', () => {
         render(<Tooltip skipPortal active />)
 
         expect(
-          document.body.querySelectorAll('.dnb-tooltip__portal'),
+          document.body.querySelectorAll('.dnb-tooltip__portal')
         ).toHaveLength(0)
       })
 
@@ -263,7 +263,7 @@ describe('Tooltip', () => {
         await wait(1)
 
         expect(getMainElem().classList).not.toContain(
-          'dnb-tooltip--active',
+          'dnb-tooltip--active'
         )
       })
     })
@@ -348,7 +348,7 @@ describe('Tooltip', () => {
           'dnb-tooltip',
           'dnb-tooltip--active',
           'dnb-tooltip--fixed',
-        ]),
+        ])
       )
     })
 
@@ -369,15 +369,15 @@ describe('Tooltip', () => {
           }
         >
           5678
-        </NumberFormat>,
+        </NumberFormat>
       )
 
       const wrapperElement = document.querySelector(
-        '.dnb-tooltip__wrapper',
+        '.dnb-tooltip__wrapper'
       )
       const tooltipElement = document.querySelector('.dnb-tooltip')
       const numberFormatElement = wrapperElement.querySelector(
-        '.dnb-number-format__visible',
+        '.dnb-number-format__visible'
       )
       const id = numberFormatElement.getAttribute('aria-describedby')
 
@@ -403,7 +403,7 @@ describe('Tooltip', () => {
           }
         >
           1234
-        </NumberFormat>,
+        </NumberFormat>
       )
 
       fireEvent.focus(document.querySelector('.dnb-tooltip__wrapper'))
@@ -411,12 +411,12 @@ describe('Tooltip', () => {
       await wait(200) // because of visibility delay
 
       const wrapperElement = document.querySelector(
-        '.dnb-tooltip__wrapper',
+        '.dnb-tooltip__wrapper'
       )
       const id = wrapperElement.getAttribute('aria-describedby')
 
       expect(
-        document.body.querySelector('#' + id).parentElement.classList,
+        document.body.querySelector('#' + id).parentElement.classList
       ).toContain('dnb-tooltip--active')
     })
   })
@@ -426,7 +426,7 @@ describe('Tooltip', () => {
       render(
         <Anchor href="/url" target="_blank" lang="en-GB">
           text
-        </Anchor>,
+        </Anchor>
       )
 
       const id = document
@@ -439,7 +439,7 @@ describe('Tooltip', () => {
       render(
         <Anchor href="/url" target="_blank" lang="en-GB">
           text
-        </Anchor>,
+        </Anchor>
       )
 
       const getContentElement = () => {
@@ -473,7 +473,7 @@ describe('Tooltip', () => {
       render(
         <Anchor href="/url" target="_blank" lang="en-GB">
           text
-        </Anchor>,
+        </Anchor>
       )
 
       const element = document.querySelector('a')
@@ -483,7 +483,7 @@ describe('Tooltip', () => {
 
       const id = element.getAttribute('aria-describedby')
       expect(
-        document.body.querySelector('#' + id).parentElement.classList,
+        document.body.querySelector('#' + id).parentElement.classList
       ).toContain('dnb-tooltip--active')
     })
   })
@@ -497,7 +497,7 @@ describe('Tooltip scss', () => {
 
   it('have to match default theme snapshot', () => {
     const css = loadScss(
-      require.resolve('../style/themes/dnb-tooltip-theme-ui.scss'),
+      require.resolve('../style/themes/dnb-tooltip-theme-ui.scss')
     )
     expect(css).toMatchSnapshot()
   })

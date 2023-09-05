@@ -51,7 +51,7 @@ export const InfinitySandbox = () => {
     setTimeout(() => {
       setContent(
         pageNumber,
-        <LargePage color="lightgreen">{pageNumber}</LargePage>,
+        <LargePage color="lightgreen">{pageNumber}</LargePage>
       )
     }, 100)
   }
@@ -137,7 +137,7 @@ export const PaginationSandbox = () => (
             () => {
               setContent(pageNumber, <LargePage>{pageNumber}</LargePage>)
             },
-            Math.ceil(Math.random() * 500),
+            Math.ceil(Math.random() * 500)
           )
 
           return () => clearTimeout(timeout)
@@ -221,7 +221,7 @@ export const PaginationSandbox = () => (
             console.log('on_end: ', pageNumber)
             setContent(
               pageNumber,
-              <LargePage color="lightgreen">End</LargePage>,
+              <LargePage color="lightgreen">End</LargePage>
             )
           }}
         />
@@ -290,7 +290,7 @@ const InfinityPagination = ({ children, ...props }) => {
           () => {
             setContent(pageNumber, children(pageNumber))
           },
-          Math.ceil(Math.random() * 1e3),
+          Math.ceil(Math.random() * 1e3)
         )
       }}
       on_end={({ pageNumber, setContent }) => {

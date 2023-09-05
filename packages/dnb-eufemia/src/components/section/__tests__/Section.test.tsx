@@ -17,14 +17,14 @@ describe('Section component', () => {
   it('should have correct styles', () => {
     render(<Section style_type="divider" />)
     expect(
-      document.querySelector('section.dnb-section').classList,
+      document.querySelector('section.dnb-section').classList
     ).toContain('dnb-section--divider')
   })
 
   it('should support any string in style_type', () => {
     render(<Section style_type="cucstom" />)
     expect(
-      document.querySelector('section.dnb-section').classList,
+      document.querySelector('section.dnb-section').classList
     ).toContain('dnb-section--cucstom')
   })
 
@@ -44,11 +44,11 @@ describe('Section component', () => {
     render(
       <Provider Section={{ style_type: 'divider' }}>
         <Section />
-      </Provider>,
+      </Provider>
     )
 
     expect(
-      document.querySelector('section.dnb-section').classList,
+      document.querySelector('section.dnb-section').classList
     ).toContain('dnb-section--divider')
   })
 
@@ -93,7 +93,7 @@ describe('Section scss', () => {
 
   it('have to match default theme snapshot', () => {
     const css = loadScss(
-      require.resolve('../style/themes/dnb-section-theme-ui.scss'),
+      require.resolve('../style/themes/dnb-section-theme-ui.scss')
     )
     expect(css).toMatchSnapshot()
   })

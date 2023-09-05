@@ -66,7 +66,7 @@ export default class ModalHeaderBar extends React.PureComponent<
         {
           rootMargin: `${marginTop}px 0px 0px 0px`,
           threshold: 0.001,
-        },
+        }
       )
 
       this.intersectionObserver.observe(this._ref.current)
@@ -104,7 +104,7 @@ export default class ModalHeaderBar extends React.PureComponent<
         className={classnames(
           'dnb-modal__header__bar',
           showShadow && shadow_class,
-          className,
+          className
         )}
         inner_ref={this._ref}
         {...props}

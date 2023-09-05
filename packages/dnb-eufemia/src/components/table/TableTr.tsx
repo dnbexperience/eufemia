@@ -65,7 +65,7 @@ export type TableTrProps = {
 
 export default function Tr(
   componentProps: TableTrProps &
-    React.TableHTMLAttributes<HTMLTableRowElement>,
+    React.TableHTMLAttributes<HTMLTableRowElement>
 ) {
   const {
     variant,
@@ -87,7 +87,7 @@ export default function Tr(
     'dnb-table__tr',
     currentVariant && `dnb-table__tr--${currentVariant}`,
     noWrap && 'dnb-table--no-wrap',
-    _className,
+    _className
   )
 
   const accordionTr = useTableAccordion({

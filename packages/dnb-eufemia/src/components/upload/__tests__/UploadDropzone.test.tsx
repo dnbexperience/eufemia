@@ -48,7 +48,7 @@ describe('UploadDropzone', () => {
         'upload-drop-zone',
         'dnb-height-animation--is-in-dom',
         'dnb-height-animation--parallax',
-      ]),
+      ])
     )
   })
 
@@ -77,7 +77,7 @@ describe('UploadDropzone', () => {
     fireEvent.dragOver(dropZone)
 
     expect(Array.from(getRootElement().classList)).toEqual(
-      expect.arrayContaining(['dnb-upload--active']),
+      expect.arrayContaining(['dnb-upload--active'])
     )
   })
 
@@ -89,15 +89,15 @@ describe('UploadDropzone', () => {
     fireEvent.dragOver(dropZone)
 
     expect(Array.from(getRootElement().classList)).toEqual(
-      expect.arrayContaining(['dnb-upload--active']),
+      expect.arrayContaining(['dnb-upload--active'])
     )
 
     fireEvent.dragLeave(dropZone)
 
     await waitFor(() =>
       expect(Array.from(getRootElement().classList)).not.toContain(
-        'dnb-upload--active',
-      ),
+        'dnb-upload--active'
+      )
     )
   })
 
@@ -113,8 +113,8 @@ describe('UploadDropzone', () => {
 
       await waitFor(() =>
         expect(document.body.getAttribute('data-upload-drop-zone')).toBe(
-          'unique-id',
-        ),
+          'unique-id'
+        )
       )
 
       unmount()
@@ -153,7 +153,7 @@ describe('UploadDropzone', () => {
       fireEvent.dragOver(bodyDropZone)
 
       expect(Array.from(getRootElement().classList)).toEqual(
-        expect.arrayContaining(['dnb-upload--active']),
+        expect.arrayContaining(['dnb-upload--active'])
       )
     })
 
@@ -167,15 +167,15 @@ describe('UploadDropzone', () => {
       fireEvent.dragOver(bodyDropZone)
 
       expect(Array.from(getRootElement().classList)).toEqual(
-        expect.arrayContaining(['dnb-upload--active']),
+        expect.arrayContaining(['dnb-upload--active'])
       )
 
       fireEvent.dragLeave(bodyDropZone)
 
       await waitFor(() =>
         expect(Array.from(getRootElement().classList)).not.toContain(
-          'dnb-upload--active',
-        ),
+          'dnb-upload--active'
+        )
       )
     })
   })

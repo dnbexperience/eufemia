@@ -129,7 +129,7 @@ export default class Dropdown extends React.PureComponent {
               PropTypes.arrayOf(PropTypes.string),
             ]),
           }),
-        ]),
+        ])
       ),
     ]),
     default_value: PropTypes.oneOfType([
@@ -389,7 +389,7 @@ class DropdownInstance extends React.PureComponent {
     if (data && data.length > 0) {
       const currentOptionData = getCurrentData(
         this.context.drawerList.selected_item,
-        data,
+        data
       )
       if (currentOptionData) {
         title =
@@ -408,7 +408,7 @@ class DropdownInstance extends React.PureComponent {
       { skeleton: this.context?.skeleton },
       this.context.getTranslation(this.props).Dropdown,
       includeValidProps(this.context.FormRow),
-      this.context.Dropdown,
+      this.context.Dropdown
     )
 
     const {
@@ -485,7 +485,7 @@ class DropdownInstance extends React.PureComponent {
     // make it possible to grab the rest attributes and return it with all events
     Object.assign(
       this.context.drawerList.attributes,
-      validateDOMAttributes(null, attributes),
+      validateDOMAttributes(null, attributes)
     )
 
     const mainParams = {
@@ -507,14 +507,14 @@ class DropdownInstance extends React.PureComponent {
         'dnb-form-component',
         createSpacingClasses(props),
         _className,
-        className,
+        className
       ),
     }
 
     const triggerParams = {
       className: classnames(
         'dnb-dropdown__trigger',
-        opened && 'dnb-button--active',
+        opened && 'dnb-button--active'
       ),
       id,
       disabled,
@@ -536,7 +536,7 @@ class DropdownInstance extends React.PureComponent {
       triggerParams['aria-describedby'] = combineDescribedBy(
         triggerParams,
         showStatus ? id + '-status' : null,
-        suffix ? id + '-suffix' : null,
+        suffix ? id + '-suffix' : null
       )
     }
 
@@ -544,7 +544,7 @@ class DropdownInstance extends React.PureComponent {
       triggerParams['aria-labelledby'] = combineLabelledBy(
         triggerParams,
         id + '-label',
-        id, // used to read the current value
+        id // used to read the current value
       )
     }
 
@@ -610,7 +610,7 @@ class DropdownInstance extends React.PureComponent {
                         className={classnames(
                           'dnb-dropdown__icon',
                           parseFloat(selected_item) === 0 &&
-                            'dnb-dropdown__icon--first',
+                            'dnb-dropdown__icon--first'
                         )}
                       >
                         {icon !== false && (

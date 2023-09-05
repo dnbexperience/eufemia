@@ -195,7 +195,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
       ToggleButtonGroup.defaultProps,
       this.context.getTranslation(this.props).ToggleButton,
       includeValidProps(this.context.FormRow),
-      this.context.ToggleButtonGroup,
+      this.context.ToggleButtonGroup
     )
 
     const {
@@ -248,7 +248,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
       'dnb-form-component',
       createSpacingClasses(props),
       className,
-      _className,
+      _className
     )
 
     const params = {
@@ -259,7 +259,7 @@ export default class ToggleButtonGroup extends React.PureComponent {
       params['aria-describedby'] = combineDescribedBy(
         params,
         showStatus ? id + '-status' : null,
-        suffix ? id + '-suffix' : null,
+        suffix ? id + '-suffix' : null
       )
     }
     if (label) {

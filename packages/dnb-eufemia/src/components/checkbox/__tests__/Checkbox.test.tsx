@@ -19,29 +19,29 @@ describe('Checkbox component', () => {
 
     // default checked value has to be false
     expect(
-      (screen.getByRole('checkbox') as HTMLInputElement).checked,
+      (screen.getByRole('checkbox') as HTMLInputElement).checked
     ).toBe(false)
 
     screen.getByRole('checkbox').click()
     expect(
-      (screen.getByRole('checkbox') as HTMLInputElement).checked,
+      (screen.getByRole('checkbox') as HTMLInputElement).checked
     ).toBe(true)
 
     screen.getByRole('checkbox').click()
     expect(
-      (screen.getByRole('checkbox') as HTMLInputElement).checked,
+      (screen.getByRole('checkbox') as HTMLInputElement).checked
     ).toBe(false)
 
     // also check if getDerivedStateFromProps sets the state as expected
     rerender(<Checkbox {...props} checked={true} />)
     expect(
-      (screen.getByRole('checkbox') as HTMLInputElement).checked,
+      (screen.getByRole('checkbox') as HTMLInputElement).checked
     ).toBe(true)
 
     const value = 'new value'
     rerender(<Checkbox {...props} checked={true} value={value} />)
     expect((screen.getByRole('checkbox') as HTMLInputElement).value).toBe(
-      value,
+      value
     )
   })
 
@@ -49,7 +49,7 @@ describe('Checkbox component', () => {
     const my_event = jest.fn()
     const myEvent = jest.fn()
     render(
-      <Checkbox on_change={my_event} onChange={myEvent} checked={false} />,
+      <Checkbox on_change={my_event} onChange={myEvent} checked={false} />
     )
     screen.getByRole('checkbox').click()
     expect(my_event.mock.calls.length).toBe(1)
@@ -117,7 +117,7 @@ describe('Checkbox component', () => {
     TestStates(
       <React.StrictMode>
         <ControlledVsUncontrolled />
-      </React.StrictMode>,
+      </React.StrictMode>
     )
   })
 
@@ -125,7 +125,7 @@ describe('Checkbox component', () => {
     render(<Checkbox disabled={true} />)
 
     expect(
-      (screen.getByRole('checkbox') as HTMLInputElement).disabled,
+      (screen.getByRole('checkbox') as HTMLInputElement).disabled
     ).toBe(true)
   })
 
@@ -145,16 +145,16 @@ describe('Checkbox component', () => {
     render(
       <FormRow vertical disabled>
         <Checkbox label="Label" />
-      </FormRow>,
+      </FormRow>
     )
 
     const element = document.querySelector('.dnb-checkbox')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name,
+      (attr) => attr.name
     )
     const inputElement = document.querySelector('.dnb-checkbox input')
     const inputAttributes = Array.from(inputElement.attributes).map(
-      (attr) => attr.name,
+      (attr) => attr.name
     )
 
     expect(attributes).toEqual(['class'])
@@ -204,7 +204,7 @@ describe('Checkbox scss', () => {
 
   it('have to match default theme snapshot', () => {
     const css = loadScss(
-      require.resolve('../style/themes/dnb-checkbox-theme-ui.scss'),
+      require.resolve('../style/themes/dnb-checkbox-theme-ui.scss')
     )
     expect(css).toMatchSnapshot()
   })

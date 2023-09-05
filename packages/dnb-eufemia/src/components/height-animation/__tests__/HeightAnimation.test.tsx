@@ -70,14 +70,14 @@ describe('HeightAnimation', () => {
   it('should be closed by default', () => {
     render(<Component />)
     expect(
-      document.querySelector('.dnb-height-animation--is-visible'),
+      document.querySelector('.dnb-height-animation--is-visible')
     ).not.toBeInTheDocument()
   })
 
   it('should use given span element', () => {
     render(<Component open animate={false} element="span" />)
     expect(
-      document.querySelector('span.dnb-height-animation--is-visible'),
+      document.querySelector('span.dnb-height-animation--is-visible')
     ).not.toBeInTheDocument()
   })
 
@@ -85,13 +85,13 @@ describe('HeightAnimation', () => {
     const { rerender } = render(<Component />)
 
     expect(
-      document.querySelector('.dnb-height-animation'),
+      document.querySelector('.dnb-height-animation')
     ).not.toBeInTheDocument()
 
     rerender(<Component open />)
 
     expect(
-      document.querySelector('.dnb-height-animation--is-visible'),
+      document.querySelector('.dnb-height-animation--is-visible')
     ).toBeInTheDocument()
   })
 
@@ -99,9 +99,7 @@ describe('HeightAnimation', () => {
     render(<Component open duration={1000} />)
 
     expect(
-      document
-        .querySelector('.dnb-height-animation')
-        .getAttribute('style'),
+      document.querySelector('.dnb-height-animation').getAttribute('style')
     ).toBe('--duration: 1000ms; height: auto;')
   })
 
@@ -109,15 +107,13 @@ describe('HeightAnimation', () => {
     render(<HeightAnimation>visible content</HeightAnimation>)
 
     expect(
-      document.querySelector('.dnb-height-animation').textContent,
+      document.querySelector('.dnb-height-animation').textContent
     ).toBe('visible content')
     expect(
-      document.querySelector('.dnb-height-animation--is-visible'),
+      document.querySelector('.dnb-height-animation--is-visible')
     ).toBeInTheDocument()
     expect(
-      document
-        .querySelector('.dnb-height-animation')
-        .getAttribute('style'),
+      document.querySelector('.dnb-height-animation').getAttribute('style')
     ).toBe('height: auto;')
   })
 
@@ -125,14 +121,14 @@ describe('HeightAnimation', () => {
     render(<Component />)
 
     expect(
-      document.querySelector('.dnb-height-animation'),
+      document.querySelector('.dnb-height-animation')
     ).not.toBeInTheDocument()
 
     fireEvent.click(document.querySelector('button'))
 
     act(() => {
       expect(
-        document.querySelector('.dnb-height-animation--is-visible'),
+        document.querySelector('.dnb-height-animation--is-visible')
       ).toBeInTheDocument()
     })
   })
@@ -141,7 +137,7 @@ describe('HeightAnimation', () => {
     const { rerender } = render(<Component />)
 
     expect(
-      document.querySelector('.dnb-height-animation'),
+      document.querySelector('.dnb-height-animation')
     ).not.toBeInTheDocument()
 
     rerender(<Component open />)
@@ -152,9 +148,7 @@ describe('HeightAnimation', () => {
     })
 
     expect(
-      document
-        .querySelector('.dnb-height-animation')
-        .getAttribute('style'),
+      document.querySelector('.dnb-height-animation').getAttribute('style')
     ).toBe('height: auto;')
 
     rerender(<Component open>123</Component>)
@@ -163,7 +157,7 @@ describe('HeightAnimation', () => {
       expect(
         document
           .querySelector('.dnb-height-animation')
-          .getAttribute('style'),
+          .getAttribute('style')
       ).toBe('height: 0px;')
     })
 
@@ -177,7 +171,7 @@ describe('HeightAnimation', () => {
       expect(
         document
           .querySelector('.dnb-height-animation')
-          .getAttribute('style'),
+          .getAttribute('style')
       ).toBe('height: 100px;')
     })
   })
@@ -187,7 +181,7 @@ describe('HeightAnimation', () => {
     const { rerender } = render(<Component onOpen={onOpen} />)
 
     expect(
-      document.querySelector('.dnb-height-animation'),
+      document.querySelector('.dnb-height-animation')
     ).not.toBeInTheDocument()
 
     rerender(<Component open />)
@@ -210,11 +204,11 @@ describe('HeightAnimation', () => {
   it('should call onAnimationEnd', () => {
     const onAnimationEnd = jest.fn()
     const { rerender } = render(
-      <Component onAnimationEnd={onAnimationEnd} />,
+      <Component onAnimationEnd={onAnimationEnd} />
     )
 
     expect(
-      document.querySelector('.dnb-height-animation'),
+      document.querySelector('.dnb-height-animation')
     ).not.toBeInTheDocument()
 
     rerender(<Component open />)
@@ -238,7 +232,7 @@ describe('HeightAnimation', () => {
     const { rerender } = render(<Component onInit={onInit} />)
 
     expect(
-      document.querySelector('.dnb-height-animation'),
+      document.querySelector('.dnb-height-animation')
     ).not.toBeInTheDocument()
 
     rerender(<Component open />)
@@ -247,7 +241,7 @@ describe('HeightAnimation', () => {
       simulateAnimationEnd()
       expect(onInit).toHaveBeenCalledTimes(1)
       expect(onInit).toHaveBeenCalledWith(
-        expect.any(HeightAnimationInstance),
+        expect.any(HeightAnimationInstance)
       )
     })
 
@@ -263,16 +257,16 @@ describe('HeightAnimation', () => {
     const { rerender } = render(<Component keepInDOM />)
 
     expect(
-      document.querySelector('.dnb-height-animation'),
+      document.querySelector('.dnb-height-animation')
     ).toBeInTheDocument()
     expect(
-      document.querySelector('.dnb-height-animation--is-visible'),
+      document.querySelector('.dnb-height-animation--is-visible')
     ).not.toBeInTheDocument()
 
     rerender(<Component keepInDOM open />)
 
     expect(
-      document.querySelector('.dnb-height-animation--is-visible'),
+      document.querySelector('.dnb-height-animation--is-visible')
     ).toBeInTheDocument()
 
     rerender(<Component keepInDOM open={false} />)
@@ -330,7 +324,7 @@ describe('HeightAnimation', () => {
 
       expect(getElem().getAttribute('aria-hidden')).toBe('true')
       expect(getElem().getAttribute('style')).toBe(
-        'height: auto; visibility: hidden;',
+        'height: auto; visibility: hidden;'
       )
     })
 
@@ -348,7 +342,7 @@ describe('HeightAnimation', () => {
 
     const getClasses = () =>
       Array.from(
-        document.querySelector('.dnb-height-animation')?.classList || [],
+        document.querySelector('.dnb-height-animation')?.classList || []
       )
 
     expect(getClasses()).toEqual([
@@ -366,7 +360,7 @@ describe('HeightAnimation', () => {
         expect.arrayContaining([
           'dnb-height-animation--is-in-dom',
           'dnb-height-animation--is-visible',
-        ]),
+        ])
       )
     })
 
@@ -376,7 +370,7 @@ describe('HeightAnimation', () => {
 
     act(() => {
       expect(getClasses()).toEqual(
-        expect.arrayContaining(['dnb-height-animation--hidden']),
+        expect.arrayContaining(['dnb-height-animation--hidden'])
       )
     })
   })

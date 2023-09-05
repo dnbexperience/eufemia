@@ -25,13 +25,13 @@ if (isCI) {
         './src/components/button/style/dnb-button.scss',
         {
           returnResult: true,
-        },
+        }
       )
       global.files = await runFactory(
         './src/components/button/style/dnb-button.scss',
         {
           returnFiles: true,
-        },
+        }
       )
     })
 
@@ -55,10 +55,10 @@ if (isCI) {
     it('includes correct files', () => {
       expect(global.files).toHaveLength(2)
       expect(global.files[0]).toContain(
-        '/components/button/style/dnb-button.css',
+        '/components/button/style/dnb-button.css'
       )
       expect(global.files[1]).toContain(
-        '/components/button/style/dnb-button.min.css',
+        '/components/button/style/dnb-button.min.css'
       )
     })
   })

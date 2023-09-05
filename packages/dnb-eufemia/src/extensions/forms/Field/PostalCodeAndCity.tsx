@@ -23,7 +23,7 @@ function PostalCodeAndCity(props: Props) {
     <FieldGroup
       className={classnames(
         'dnb-forms-field-postal-code-and-city',
-        props.className,
+        props.className
       )}
       {...fieldGroupProps}
     >
@@ -31,7 +31,7 @@ function PostalCodeAndCity(props: Props) {
         className={classnames(
           'dnb-forms-field-postal-code-and-city__fields',
           width !== undefined &&
-            `dnb-forms-field-postal-code-and-city--width-${width}`,
+            `dnb-forms-field-postal-code-and-city--width-${width}`
         )}
       >
         <StringComponent
@@ -39,7 +39,7 @@ function PostalCodeAndCity(props: Props) {
           pattern={postalCode.pattern ?? '^[0-9]{4}$'}
           className={classnames(
             'dnb-forms-field-postal-code-and-city__postal-code',
-            postalCode.className,
+            postalCode.className
           )}
           label={
             postalCode.label ??
@@ -60,7 +60,7 @@ function PostalCodeAndCity(props: Props) {
           {...city}
           className={classnames(
             'dnb-forms-field-postal-code-and-city__city',
-            city.className,
+            city.className
           )}
           label={city.label ?? sharedContext?.translation.Forms.cityLabel}
           errorMessages={{

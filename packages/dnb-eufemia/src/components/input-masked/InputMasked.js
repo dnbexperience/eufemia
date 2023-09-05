@@ -29,9 +29,9 @@ const InputMasked = (props) => {
     extendPropsWithContext(
       props,
       InputMasked.defaultProps,
-      context?.InputMasked,
+      context?.InputMasked
     ),
-    [props, InputMasked.defaultProps, context?.InputMasked],
+    [props, InputMasked.defaultProps, context?.InputMasked]
   )
 
   return (

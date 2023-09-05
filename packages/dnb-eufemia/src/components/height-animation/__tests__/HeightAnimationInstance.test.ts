@@ -105,7 +105,7 @@ describe('HeightAnimationInstance', () => {
     element.style.width = '200px'
 
     expect(element.getAttribute('style')).toBe(
-      'position: absolute; visibility: hidden; height: 100px; width: 200px;',
+      'position: absolute; visibility: hidden; height: 100px; width: 200px;'
     )
 
     inst._restore()
@@ -234,11 +234,11 @@ describe('HeightAnimationInstance', () => {
       expect(window.cancelAnimationFrame).toHaveBeenCalledTimes(2)
       expect(window.cancelAnimationFrame).toHaveBeenNthCalledWith(
         1,
-        undefined,
+        undefined
       )
       expect(window.cancelAnimationFrame).toHaveBeenNthCalledWith(
         2,
-        undefined,
+        undefined
       )
 
       expect(window.requestAnimationFrame).toHaveBeenCalledTimes(1)
@@ -282,11 +282,11 @@ describe('HeightAnimationInstance', () => {
       expect(window.cancelAnimationFrame).toHaveBeenCalledTimes(2)
       expect(window.cancelAnimationFrame).toHaveBeenNthCalledWith(
         1,
-        undefined,
+        undefined
       )
       expect(window.cancelAnimationFrame).toHaveBeenNthCalledWith(
         2,
-        undefined,
+        undefined
       )
 
       expect(window.requestAnimationFrame).toHaveBeenCalledTimes(1)
@@ -418,11 +418,11 @@ describe('HeightAnimationInstance', () => {
       await wait(1)
 
       expect(element.getAttribute('style')).toBe(
-        'height: 0px; visibility: hidden;',
+        'height: 0px; visibility: hidden;'
       )
 
       expect(element.getAttribute('style')).toBe(
-        'height: 0px; visibility: hidden;',
+        'height: 0px; visibility: hidden;'
       )
 
       expect(window.requestAnimationFrame).toHaveBeenCalledTimes(0)
@@ -460,7 +460,7 @@ describe('HeightAnimationInstance', () => {
       simulateAnimationEnd()
 
       expect(element.getAttribute('style')).toBe(
-        'height: 0px; visibility: hidden;',
+        'height: 0px; visibility: hidden;'
       )
 
       expect(onStart).toHaveBeenCalledTimes(1)

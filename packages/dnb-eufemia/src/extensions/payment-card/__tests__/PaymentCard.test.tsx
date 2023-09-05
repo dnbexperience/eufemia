@@ -108,15 +108,15 @@ describe('PaymentCard', () => {
         raw_data={customData}
         variant="compact"
         card_number="************1337"
-      />,
+      />
     )
 
     expect(screen.queryByText(customData.productName)).toBeInTheDocument()
     expect(screen.queryByText(customData.productName).tagName).toEqual(
-      'FIGCAPTION',
+      'FIGCAPTION'
     )
     expect(
-      document.querySelector('div.dnb-payment-card__card--design-gold'),
+      document.querySelector('div.dnb-payment-card__card--design-gold')
     ).toBeInTheDocument()
   })
 
@@ -134,7 +134,7 @@ describe('PaymentCard scss', () => {
 
   it('have to match default theme snapshot', () => {
     const css = loadScss(
-      require.resolve('../style/themes/dnb-payment-card-theme-ui.scss'),
+      require.resolve('../style/themes/dnb-payment-card-theme-ui.scss')
     )
     expect(css).toMatchSnapshot()
   })

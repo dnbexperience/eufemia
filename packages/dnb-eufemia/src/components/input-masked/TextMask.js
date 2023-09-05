@@ -86,7 +86,7 @@ export default class TextMask extends React.PureComponent {
     const isMaskChanged = mask.toString() !== prevProps.mask.toString()
     const isSettingChanged =
       Object.keys(settings).some(
-        (prop) => settings[prop] !== prevProps[prop],
+        (prop) => settings[prop] !== prevProps[prop]
       ) ||
       isMaskChanged ||
       isPipeChanged

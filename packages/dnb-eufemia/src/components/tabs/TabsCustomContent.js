@@ -65,7 +65,7 @@ export default class CustomContent extends React.PureComponent {
           'dnb-tabs__content__inner',
           createSpacingClasses(rest),
           className,
-          _className,
+          _className
         )}
       >
         {this.props.children}

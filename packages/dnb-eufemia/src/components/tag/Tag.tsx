@@ -98,7 +98,7 @@ const Tag = (localProps: TagProps & SpacingProps) => {
     defaultProps,
     context?.translation?.Tag,
     context?.Tag,
-    tagGroupContext,
+    tagGroupContext
   )
 
   const {
@@ -124,7 +124,7 @@ const Tag = (localProps: TagProps & SpacingProps) => {
     className,
     spacingClasses,
     isInteractive && 'dnb-tag--interactive',
-    isRemovable && 'dnb-tag--removable',
+    isRemovable && 'dnb-tag--removable'
   )
   const buttonAttr: typeof props & Pick<ButtonProps, 'element' | 'type'> =
     props
@@ -152,7 +152,7 @@ const Tag = (localProps: TagProps & SpacingProps) => {
 
   if (!tagGroupContext && !hasLabel) {
     warn(
-      `Tag group required: A Tag requires a Tag.Group with label description as a parent component. This is to ensure correct semantic and accessibility.`,
+      `Tag group required: A Tag requires a Tag.Group with label description as a parent component. This is to ensure correct semantic and accessibility.`
     )
   }
 

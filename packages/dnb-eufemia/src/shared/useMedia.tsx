@@ -56,7 +56,7 @@ type UseMediaQueryProps = {
 }
 
 export default function useMedia(
-  props: UseMediaProps = {},
+  props: UseMediaProps = {}
 ): UseMediaResult {
   const { disabled, log } = props
 
@@ -83,7 +83,7 @@ export default function useMedia(
 
         return acc
       },
-      { isSSR: !isMatchMediaSupported() },
+      { isSSR: !isMatchMediaSupported() }
     ) as UseMediaResult
   }
 
@@ -99,7 +99,7 @@ export default function useMedia(
         log,
       },
 
-      context.breakpoints,
+      context.breakpoints
     )
 
     const event = createMediaQueryListener(mediaQueryList, (match) => {
@@ -135,7 +135,7 @@ export default function useMedia(
     React.useState<UseMediaResult>(makeResult)
   const removeListeners = () => {
     Object.values(refs.current).forEach(
-      (item: UseMediaItem) => item?.event && item.event(),
+      (item: UseMediaItem) => item?.event && item.event()
     )
   }
 

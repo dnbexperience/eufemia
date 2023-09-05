@@ -18,7 +18,7 @@ type TooltipContainerProps = {
 }
 
 export default function TooltipContainer(
-  props: TooltipProps & TooltipContainerProps,
+  props: TooltipProps & TooltipContainerProps
 ) {
   const {
     internalId,
@@ -72,7 +72,7 @@ export default function TooltipContainer(
           clearTimers()
           debounceTimeout.current = setTimeout(
             () => forceRerender(getBodySize()),
-            100,
+            100
           )
         })
 
@@ -111,7 +111,7 @@ export default function TooltipContainer(
         clearTimeout(debounceTimeout.current)
         debounceTimeout.current = setTimeout(
           () => setStyle(null),
-          hideDelay,
+          hideDelay
         )
       }
       return // stop here
@@ -279,7 +279,7 @@ export default function TooltipContainer(
         isTrue(noAnimation) && 'dnb-tooltip--no-animation',
         isTrue(fixedPosition) && 'dnb-tooltip--fixed',
         isActive && 'dnb-tooltip--active',
-        !isActive && wasActive && 'dnb-tooltip--hide',
+        !isActive && wasActive && 'dnb-tooltip--hide'
       )}
       style={{ ...style, ...attributes.style }}
     >
@@ -288,7 +288,7 @@ export default function TooltipContainer(
           className={classnames(
             'dnb-tooltip__arrow',
             `dnb-tooltip__arrow__arrow--${arrow}`,
-            `dnb-tooltip__arrow__position--${position}`,
+            `dnb-tooltip__arrow__position--${position}`
           )}
         />
       )}

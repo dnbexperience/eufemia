@@ -15,7 +15,7 @@ describe('SkipContent', () => {
       <>
         <SkipContent {...props} />
         <Section id="unique-id">content</Section>
-      </>,
+      </>
     )
 
     expect(document.querySelector('.dnb-skip-content')).toBeInTheDocument()
@@ -26,16 +26,16 @@ describe('SkipContent', () => {
       <>
         <SkipContent selector="#unique-id" text="Text" />
         <Section id="unique-id">content</Section>
-      </>,
+      </>
     )
 
     const element = document.querySelector('.dnb-skip-content')
     expect(element.childNodes).toHaveLength(1)
     expect((element.childNodes[0] as HTMLButtonElement).className).toBe(
-      'dnb-sr-only',
+      'dnb-sr-only'
     )
     expect((element.childNodes[0] as HTMLButtonElement).tagName).toBe(
-      'BUTTON',
+      'BUTTON'
     )
   })
 
@@ -44,12 +44,12 @@ describe('SkipContent', () => {
       <>
         <SkipContent selector="#unique-id" text="Text" />
         <Section id="unique-id">content</Section>
-      </>,
+      </>
     )
 
     const element = document.querySelector('.dnb-skip-content')
     expect(element.childNodes[0] as HTMLButtonElement).not.toHaveAttribute(
-      'aria-hidden',
+      'aria-hidden'
     )
   })
 
@@ -58,7 +58,7 @@ describe('SkipContent', () => {
       <>
         <SkipContent selector="#unique-id" text="Text" />
         <Section id="unique-id">content</Section>
-      </>,
+      </>
     )
 
     const element = document.querySelector('.dnb-skip-content')
@@ -78,12 +78,12 @@ describe('SkipContent', () => {
           text="Skip table with enter key – or continue tabbing"
         />
         <Section id="unique-id">content</Section>
-      </>,
+      </>
     )
 
     const element = document.querySelector('.dnb-skip-content')
     expect(element.textContent).toBe(
-      'Skip table with enter key – or continue tabbing',
+      'Skip table with enter key – or continue tabbing'
     )
   })
 
@@ -94,7 +94,7 @@ describe('SkipContent', () => {
           Aria
         </SkipContent>
         <Section id="unique-id">content</Section>
-      </>,
+      </>
     )
 
     expect(document.activeElement.tagName).toBe('BODY')
@@ -108,7 +108,7 @@ describe('SkipContent', () => {
     })
 
     expect(
-      element.querySelector('button.dnb-sr-only'),
+      element.querySelector('button.dnb-sr-only')
     ).not.toBeInTheDocument()
 
     // 2. make focus action
@@ -119,7 +119,7 @@ describe('SkipContent', () => {
     })
     expect(element.querySelector('.dnb-button')).not.toBeInTheDocument()
     expect(document.activeElement.classList).toContain(
-      'dnb-skip-content__focus',
+      'dnb-skip-content__focus'
     )
   })
 
@@ -130,7 +130,7 @@ describe('SkipContent', () => {
           Aria
         </SkipContent>
         <Section id="unique-id">content</Section>
-      </>,
+      </>
     )
 
     expect(document.activeElement.tagName).toBe('BODY')
@@ -165,7 +165,7 @@ describe('SkipContent', () => {
           </SkipContent.Return>
           content
         </Section>
-      </>,
+      </>
     )
 
     const element = document.querySelector('.dnb-skip-content')
@@ -198,7 +198,7 @@ describe('SkipContent.Return', () => {
           </SkipContent.Return>
           content
         </Section>
-      </>,
+      </>
     )
 
     expect(document.activeElement.tagName).toBe('BODY')
@@ -212,7 +212,7 @@ describe('SkipContent.Return', () => {
     })
 
     expect(
-      element.querySelector('button.dnb-sr-only'),
+      element.querySelector('button.dnb-sr-only')
     ).not.toBeInTheDocument()
 
     // 2. make focus action
@@ -223,7 +223,7 @@ describe('SkipContent.Return', () => {
     })
     expect(element.querySelector('.dnb-button')).not.toBeInTheDocument()
     expect(document.activeElement.classList).toContain(
-      'dnb-skip-content__focus',
+      'dnb-skip-content__focus'
     )
 
     const section = document.querySelector('#unique-id')
@@ -235,7 +235,7 @@ describe('SkipContent.Return', () => {
     })
 
     expect(
-      section.querySelector('button.dnb-sr-only'),
+      section.querySelector('button.dnb-sr-only')
     ).not.toBeInTheDocument()
 
     // 4. make focus action
@@ -247,9 +247,7 @@ describe('SkipContent.Return', () => {
     expect(section.querySelector('.dnb-button')).not.toBeInTheDocument()
     expect(
       // First parent is HeightAnimation, second is span.dnb-skip-content
-      document.activeElement.parentElement.parentElement.getAttribute(
-        'id',
-      ),
+      document.activeElement.parentElement.parentElement.getAttribute('id')
     ).toBe('unique-id--alias')
   })
 })

@@ -68,7 +68,7 @@ export default class ProgressIndicatorCircular extends React.PureComponent {
         this.animate(
           this._refDark.current,
           true,
-          this.props.callOnCompleteHandler,
+          this.props.callOnCompleteHandler
         )
       }
       if (this._refLight.current) {
@@ -179,7 +179,7 @@ export default class ProgressIndicatorCircular extends React.PureComponent {
           'dnb-progress-indicator__circular',
           size && `dnb-progress-indicator__circular--${size}`,
           hasProgressValue &&
-            'dnb-progress-indicator__circular--has-progress-value',
+            'dnb-progress-indicator__circular--has-progress-value'
         )}
         {...params}
       >
@@ -188,7 +188,7 @@ export default class ProgressIndicatorCircular extends React.PureComponent {
           className={classnames(
             'dnb-progress-indicator__circular__line',
             'light',
-            'paused',
+            'paused'
           )}
         />
         <Circle
@@ -196,7 +196,7 @@ export default class ProgressIndicatorCircular extends React.PureComponent {
             'dnb-progress-indicator__circular__line',
             'dark',
             'dark',
-            hasProgressValue || this.useAnimationFrame ? 'paused' : null,
+            hasProgressValue || this.useAnimationFrame ? 'paused' : null
           )}
           style={hasProgressValue ? { strokeDashoffset } : {}}
           ref={this._refDark}
@@ -206,7 +206,7 @@ export default class ProgressIndicatorCircular extends React.PureComponent {
             className={classnames(
               'dnb-progress-indicator__circular__line',
               'light',
-              this.useAnimationFrame ? 'paused' : null,
+              this.useAnimationFrame ? 'paused' : null
             )}
             ref={this._refLight}
           />

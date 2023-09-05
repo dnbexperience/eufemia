@@ -145,7 +145,7 @@ export function babelPluginExtendTypes(babel, { file } = {}) {
                   }
                 },
               })
-            },
+            }
           )
         }
       },
@@ -163,8 +163,8 @@ function inertClassProperty({ t, path, property, value, type }) {
         : null,
       null,
       false,
-      true,
-    ),
+      true
+    )
   )
 }
 

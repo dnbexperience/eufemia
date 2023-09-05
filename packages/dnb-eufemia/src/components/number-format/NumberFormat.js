@@ -200,7 +200,7 @@ export default class NumberFormat extends React.PureComponent {
       if (!isTrue(this.props.copy_selection)) {
         this.outsideClick = detectOutsideClick(
           this._ref.current,
-          this.onBlurHandler,
+          this.onBlurHandler
         )
       }
     })
@@ -239,7 +239,7 @@ export default class NumberFormat extends React.PureComponent {
       this.props,
       NumberFormat.defaultProps,
       this.context.getTranslation(this.props).NumberFormat,
-      this.context.NumberFormat,
+      this.context.NumberFormat
     )
 
     const {
@@ -307,7 +307,7 @@ export default class NumberFormat extends React.PureComponent {
     const useContext = extend(
       true,
       { locale: null, currency: null },
-      this.context,
+      this.context
     )
 
     if (useContext) {
@@ -347,7 +347,7 @@ export default class NumberFormat extends React.PureComponent {
         isTrue(selectall) && 'dnb-number-format--selectall',
         this.state.selected && 'dnb-number-format--selected',
         link && 'dnb-anchor',
-        createSpacingClasses(this.props),
+        createSpacingClasses(this.props)
       ),
       ...rest,
     }
@@ -376,8 +376,8 @@ export default class NumberFormat extends React.PureComponent {
       )
       aria = String(
         `${convertJsxToString(
-          this.runFix(prefix, 'dnb-number-format__prefix'),
-        )} ${aria}`,
+          this.runFix(prefix, 'dnb-number-format__prefix')
+        )} ${aria}`
       )
     }
     if (suffix) {
@@ -387,7 +387,7 @@ export default class NumberFormat extends React.PureComponent {
         </>
       )
       aria = `${aria} ${convertJsxToString(
-        this.runFix(suffix, 'dnb-number-format__suffix'),
+        this.runFix(suffix, 'dnb-number-format__suffix')
       )}`
     }
 
@@ -417,7 +417,7 @@ export default class NumberFormat extends React.PureComponent {
         <span
           className={classnames(
             'dnb-number-format__visible',
-            createSkeletonClass('font', skeleton, this.context),
+            createSkeletonClass('font', skeleton, this.context)
           )}
           aria-describedby={this._id}
           aria-hidden

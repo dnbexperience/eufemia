@@ -72,7 +72,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
   const handleSemanticElement = () => {
     try {
       const targetElement = document.querySelector(
-        `*[aria-describedby*="${internalId}"]`,
+        `*[aria-describedby*="${internalId}"]`
       )
       if (targetElement) {
         const role = targetElement.getAttribute('role')
@@ -150,7 +150,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
       clearTimers()
       delayTimeout.current = setTimeout(
         run,
-        parseFloat(String(showDelay)) || 1,
+        parseFloat(String(showDelay)) || 1
       ) // have min 1 to make sure we are after onMouseLeave
     }
   }

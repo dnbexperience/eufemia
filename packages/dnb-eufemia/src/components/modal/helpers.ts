@@ -54,7 +54,7 @@ export function removeFromIndex(elem) {
         window.__modalStack = []
       }
       window.__modalStack = window.__modalStack.filter(
-        (cur) => cur !== elem,
+        (cur) => cur !== elem
       )
     } catch (e) {
       warn(e)

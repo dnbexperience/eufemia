@@ -222,7 +222,7 @@ describe.each(['ui', 'sbanken'])(
         expect(screenshot).toMatchImageSnapshot()
       })
     }
-  },
+  }
 )
 
 describe.each(['ui', 'sbanken'])(
@@ -250,5 +250,5 @@ describe.each(['ui', 'sbanken'])(
       })
       expect(screenshot).toMatchImageSnapshot()
     })
-  },
+  }
 )

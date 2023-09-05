@@ -274,7 +274,7 @@ const RadioGroupsWithStatus = () => {
         <Button
           on_click={() => {
             setValueForGroupB(
-              shuffleArray(['first', 'second', 'third'])[0],
+              shuffleArray(['first', 'second', 'third'])[0]
             )
           }}
           text="Set New State"

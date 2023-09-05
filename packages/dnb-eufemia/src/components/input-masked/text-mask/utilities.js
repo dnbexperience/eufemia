@@ -4,11 +4,11 @@ const emptyArray = []
 
 export function convertMaskToPlaceholder(
   mask = emptyArray,
-  placeholderChar = defaultPlaceholderChar,
+  placeholderChar = defaultPlaceholderChar
 ) {
   if (!isArray(mask)) {
     throw new Error(
-      'Text-mask:convertMaskToPlaceholder; The mask property must be an array.',
+      'Text-mask:convertMaskToPlaceholder; The mask property must be an array.'
     )
   }
 
@@ -17,9 +17,9 @@ export function convertMaskToPlaceholder(
       'Placeholder character must not be used as part of the mask. Please specify a character ' +
         'that is not present in your mask as your placeholder character.\n\n' +
         `The placeholder character that was received is: ${JSON.stringify(
-          placeholderChar,
+          placeholderChar
         )}\n\n` +
-        `The mask that was received is: ${JSON.stringify(mask)}`,
+        `The mask that was received is: ${JSON.stringify(mask)}`
     )
   }
 

@@ -63,7 +63,7 @@ export default function AccordionContent(props: AccordionContentProps) {
 
           const containerElement = getPreviousSibling(
             'dnb-accordion-group--single-container',
-            contentElem,
+            contentElem
           ) as HTMLElement
 
           if (no_animation) {
@@ -153,7 +153,7 @@ export default function AccordionContent(props: AccordionContentProps) {
     'aria-labelledby': `${id}-header`,
     className: classnames(
       'dnb-accordion__content__inner',
-      createSpacingClasses(rest),
+      createSpacingClasses(rest)
     ),
   } as HTMLProps<HTMLElement>
 

@@ -132,7 +132,7 @@ function createDaggy() {
       tag = tags[idx]
       if (!fs[tag]) {
         throw new TypeError(
-          "Constructors given to cata didn't include: " + tag,
+          "Constructors given to cata didn't include: " + tag
         )
       }
     }
@@ -187,7 +187,7 @@ function createDaggy() {
   function makeValue(fields, proto, values, argumentsLength) {
     if (argumentsLength !== fields.length) {
       throw new TypeError(
-        'Expected ' + fields.length + ' arguments, got ' + argumentsLength,
+        'Expected ' + fields.length + ' arguments, got ' + argumentsLength
       )
     }
     const obj = Object.create(proto)
@@ -247,7 +247,7 @@ function createDaggy() {
             fields,
             proto,
             [a, b, c, d, e],
-            arguments.length,
+            arguments.length
           )
         }
       case 6:
@@ -256,7 +256,7 @@ function createDaggy() {
             fields,
             proto,
             [a, b, c, d, e, f],
-            arguments.length,
+            arguments.length
           )
         }
       case 7:
@@ -265,7 +265,7 @@ function createDaggy() {
             fields,
             proto,
             [a, b, c, d, e, f, g],
-            arguments.length,
+            arguments.length
           )
         }
       case 8:
@@ -274,7 +274,7 @@ function createDaggy() {
             fields,
             proto,
             [a, b, c, d, e, f, g, h],
-            arguments.length,
+            arguments.length
           )
         }
       case 9:
@@ -283,7 +283,7 @@ function createDaggy() {
             fields,
             proto,
             [a, b, c, d, e, f, g, h, i],
-            arguments.length,
+            arguments.length
           )
         }
       case 10:
@@ -292,7 +292,7 @@ function createDaggy() {
             fields,
             proto,
             [a, b, c, d, e, f, g, h, i, j],
-            arguments.length,
+            arguments.length
           )
         }
       /* eslint-enable max-len */
@@ -302,7 +302,7 @@ function createDaggy() {
             return makeValue(fields, proto, arguments, arguments.length)
           },
           'length',
-          { value: fields.length },
+          { value: fields.length }
         )
     }
   }

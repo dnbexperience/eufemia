@@ -47,7 +47,7 @@ function ajvErrorToFormError(ajvError: ErrorObject): FormError {
  * Transform errors from ajv-validation into one error object (i.e for validating a flat value)
  */
 export function ajvErrorsToOneFormError(
-  errors?: ErrorObject[] | null,
+  errors?: ErrorObject[] | null
 ): FormError | undefined {
   if (!errors || errors.length === 0) {
     return
@@ -68,7 +68,7 @@ export function ajvErrorsToOneFormError(
  * @returns
  */
 export const ajvErrorsToFormErrors = (
-  errors?: ErrorObject[] | null,
+  errors?: ErrorObject[] | null
 ): Record<string, FormError> =>
   (errors ?? []).reduce((errors, ajvError) => {
     return {

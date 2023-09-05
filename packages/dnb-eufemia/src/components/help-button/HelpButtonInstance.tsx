@@ -25,7 +25,7 @@ export default function HelpButtonInstance(localProps: ButtonProps) {
   const props = extendPropsWithContext(
     localProps,
     defaultProps,
-    context.HelpButton,
+    context.HelpButton
   )
 
   const {
@@ -42,7 +42,7 @@ export default function HelpButtonInstance(localProps: ButtonProps) {
       'dnb-help-button',
       createSpacingClasses(props),
       className,
-      _className,
+      _className
     ),
     size,
     icon,

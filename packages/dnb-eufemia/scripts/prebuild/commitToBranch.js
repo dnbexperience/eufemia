@@ -60,13 +60,13 @@ const getRequiredBranchName = async ({
   if (
     requiredBranch &&
     !requiredBranch.some((name) =>
-      (name instanceof RegExp ? name : new RegExp(name)).test(branchName),
+      (name instanceof RegExp ? name : new RegExp(name)).test(branchName)
     )
   ) {
     log.fail(
       `The current branch (${branchName}) was not the required one: ${requiredBranch.join(
-        ' or ',
-      )}`,
+        ' or '
+      )}`
     )
     return false
   }
@@ -106,8 +106,8 @@ const commitToBranch = async ({
           Array.isArray(filePathsIncludelist)
             ? filePathsIncludelist.join('|')
             : filePathsIncludelist,
-          'g',
-        ).test(f),
+          'g'
+        ).test(f)
     )
 
     // check if the changes where in the files directories
@@ -116,7 +116,7 @@ const commitToBranch = async ({
     if (hasChanges) {
       if (config.user && config.user.name && config.user.email) {
         log.info(
-          `Commit: Add Git user: ${config.user.name}, ${config.user.email}`,
+          `Commit: Add Git user: ${config.user.name}, ${config.user.email}`
         )
         await repo.addConfig('user.name', config.user.name)
         await repo.addConfig('user.email', config.user.email)
@@ -140,7 +140,7 @@ const commitToBranch = async ({
           isFeature ? 'feat:' : 'chore:'
         } some ${what} got added/changed during CI | ${files.join(', ')}${
           skipCI ? ' [skip ci]' : ''
-        }`,
+        }`
       ).trim()
       log.info(`Commit: ${commitMessage}`)
 
@@ -158,7 +158,7 @@ const commitToBranch = async ({
       await repo.push('origin', branchName, force ? ['--force'] : null)
 
       log.succeed(
-        `Commit: These ${what} were successfully updated/added: ${files}`,
+        `Commit: These ${what} were successfully updated/added: ${files}`
       )
 
       return files

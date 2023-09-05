@@ -45,7 +45,7 @@ if(typeof window !== 'undefined'){
   window.Eufemia = window.Eufemia || {};
   window.Eufemia.version = '0.0.0-development';
 }
-`),
+`)
     )
   })
 })
@@ -53,7 +53,7 @@ if(typeof window !== 'undefined'){
 describe('package.json', () => {
   const packageJsonFile = path.resolve(
     packpath.self(),
-    'build/package.json',
+    'build/package.json'
   )
 
   let packageJson = {}
@@ -86,7 +86,7 @@ describe('package.json', () => {
         'style/**/*',
         'es/style/**/*',
         'esm/style/**/*',
-      ]),
+      ])
     )
   })
 
@@ -95,7 +95,7 @@ describe('package.json', () => {
       expect.objectContaining({
         react: expect.anything(),
         'react-dom': expect.anything(),
-      }),
+      })
     )
   })
 
@@ -107,7 +107,7 @@ describe('package.json', () => {
 
   it('has publishConfig', () => {
     expect(packageJson.publishConfig).toEqual(
-      expect.objectContaining({ access: 'public' }),
+      expect.objectContaining({ access: 'public' })
     )
   })
 })

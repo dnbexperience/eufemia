@@ -69,7 +69,7 @@ export default class FormSet extends React.PureComponent {
     const props = extendPropsWithContextInClassComponent(
       this.props,
       FormSet.defaultProps,
-      this.context.FormSet,
+      this.context.FormSet
     )
 
     const {
@@ -107,7 +107,7 @@ export default class FormSet extends React.PureComponent {
         'dnb-form-set',
         createSpacingClasses(this.props),
         className,
-        _className,
+        _className
       ),
       ...attributes,
     }

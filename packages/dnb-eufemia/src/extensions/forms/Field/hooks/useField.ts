@@ -22,7 +22,7 @@ interface ReturnAdditional {
 }
 
 export default function useField<Props extends FieldProps<unknown>>(
-  props: Props,
+  props: Props
 ): Props & ReturnAdditional {
   const {
     path,
@@ -57,7 +57,7 @@ export default function useField<Props extends FieldProps<unknown>>(
 
   if (path && path.substring(0, 1) !== '/') {
     throw new Error(
-      'Invalid path. Input path JSON Pointers  must be from root (starting with a /).',
+      'Invalid path. Input path JSON Pointers  must be from root (starting with a /).'
     )
   }
 
@@ -86,14 +86,14 @@ export default function useField<Props extends FieldProps<unknown>>(
   // Error handling
   const [error, setError] = useState<Error | FormError | undefined>()
   const [showError, setShowError] = useState<boolean>(
-    Boolean(validateInitially || errorProp),
+    Boolean(validateInitially || errorProp)
   )
   const schemaValidator = useMemo(
     () =>
       schema && Object.keys(schema).length > 0
         ? ajv.compile(schema)
         : undefined,
-    [schema],
+    [schema]
   )
 
   const setErrorAndUpdateDataContext = useCallback(
@@ -120,7 +120,7 @@ export default function useField<Props extends FieldProps<unknown>>(
       errorMessages,
       dataContextSetPathWithError,
       setFieldGroupError,
-    ],
+    ]
   )
 
   const validateValue = useCallback(
@@ -166,7 +166,7 @@ export default function useField<Props extends FieldProps<unknown>>(
       required,
       setErrorAndUpdateDataContext,
       validator,
-    ],
+    ]
   )
 
   useEffect(() => {
@@ -226,7 +226,7 @@ export default function useField<Props extends FieldProps<unknown>>(
       onBlurValidator,
       setErrorAndUpdateDataContext,
       setShowFieldGroupError,
-    ],
+    ]
   )
 
   const handleFocus = useCallback(() => setHasFocus(true), [setHasFocus])
@@ -263,7 +263,7 @@ export default function useField<Props extends FieldProps<unknown>>(
       dataContextHandlePathChange,
       setShowFieldGroupError,
       fromInput,
-    ],
+    ]
   )
 
   const exportError = useMemo(() => errorProp ?? error, [errorProp, error])

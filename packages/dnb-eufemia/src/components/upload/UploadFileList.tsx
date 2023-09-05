@@ -31,7 +31,7 @@ function UploadFileList() {
           }
 
           const cleanedFiles = files.filter(
-            (fileListElement) => fileListElement.file != uploadFile.file,
+            (fileListElement) => fileListElement.file != uploadFile.file
           )
 
           setFiles(cleanedFiles)

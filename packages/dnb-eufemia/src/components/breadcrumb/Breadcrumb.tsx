@@ -148,7 +148,7 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
     defaultProps,
     context?.translation?.Breadcrumb,
     context?.Breadcrumb,
-    { skeleton: context?.skeleton },
+    { skeleton: context?.skeleton }
   )
 
   const {
@@ -203,7 +203,7 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
         'dnb-breadcrumb',
         skeletonClasses,
         spacingClasses,
-        className,
+        className
       )}
       {...props}
     >

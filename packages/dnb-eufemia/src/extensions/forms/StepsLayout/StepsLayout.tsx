@@ -102,7 +102,7 @@ function StepsLayout(props: Props) {
                 child as React.ReactElement<StepProps>,
                 {
                   index: i,
-                },
+                }
               )
             }
             return child

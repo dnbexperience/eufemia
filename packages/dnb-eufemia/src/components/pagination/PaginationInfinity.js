@@ -60,7 +60,7 @@ export default class InfinityScroller extends React.PureComponent {
           position: 'after',
           skipObserver,
         },
-        { callStartupEvent, preventWaitForDelay },
+        { callStartupEvent, preventWaitForDelay }
       )
     }
   }
@@ -68,7 +68,7 @@ export default class InfinityScroller extends React.PureComponent {
   getNewContent = (
     newPageNo,
     props = {},
-    { callStartupEvent = false, preventWaitForDelay = false } = {},
+    { callStartupEvent = false, preventWaitForDelay = false } = {}
   ) => {
     const { pageCount, endInfinity } = this.context.pagination
 
@@ -141,7 +141,7 @@ export default class InfinityScroller extends React.PureComponent {
       preventWaitForDelay = false,
       callOnEnd = false,
       onDispatch = null,
-    } = {},
+    } = {}
   ) {
     this.waitForReachedTime(
       ({ pageNumber, callStartupEvent }) => {
@@ -176,7 +176,7 @@ export default class InfinityScroller extends React.PureComponent {
           createEvent('on_load')
         }
       },
-      { pageNumber, callStartupEvent, preventWaitForDelay },
+      { pageNumber, callStartupEvent, preventWaitForDelay }
     )
   }
 
@@ -306,7 +306,7 @@ export default class InfinityScroller extends React.PureComponent {
           skipObserver,
           ScrollElement,
         },
-        idx,
+        idx
       ) => {
         const isLastItem = idx === items.length - 1
 
@@ -397,7 +397,7 @@ export default class InfinityScroller extends React.PureComponent {
               )}
           </Elem>
         )
-      },
+      }
     )
   }
 }
@@ -423,7 +423,7 @@ class InteractionMarker extends React.PureComponent {
 
     if (typeof props.markerElement === 'function') {
       warn(
-        'Pagination: Please use a string or React element e.g. marker_element="tr"',
+        'Pagination: Please use a string or React element e.g. marker_element="tr"'
       )
     }
 
@@ -474,7 +474,7 @@ class InteractionMarker extends React.PureComponent {
     try {
       const sibling = getPreviousSibling('dnb-table', this._ref.current)
       height = parseFloat(
-        window.getComputedStyle(sibling.querySelector('tbody')).height,
+        window.getComputedStyle(sibling.querySelector('tbody')).height
       )
     } catch (e) {
       //

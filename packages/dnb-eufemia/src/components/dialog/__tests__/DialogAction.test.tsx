@@ -18,7 +18,7 @@ describe('Dialog.Action', () => {
     render(<MockComponent />)
 
     expect(
-      document.querySelector('.dnb-dialog__actions'),
+      document.querySelector('.dnb-dialog__actions')
     ).toBeInTheDocument()
   })
 
@@ -50,7 +50,7 @@ describe('Dialog.Action', () => {
         <Dialog.Action>
           <Button>Button</Button>
         </Dialog.Action>
-      </Dialog>,
+      </Dialog>
     )
 
     const element = document.querySelector('.dnb-dialog__actions')

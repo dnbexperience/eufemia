@@ -65,7 +65,7 @@ function StepIndicatorSidebar({
       stepIndicatorDefaultProps,
       { skeleton: context?.skeleton },
       context.getTranslation(context).StepIndicator,
-      context?.StepIndicator,
+      context?.StepIndicator
     )
 
     if (!(providerProps.data?.length > 0)) {
@@ -89,7 +89,7 @@ function StepIndicatorSidebar({
         hasSkeletonData.current &&
           providerProps?.skeleton &&
           'dnb-step-indicator__sidebar--ssr-skeleton',
-        createSpacingClasses(props),
+        createSpacingClasses(props)
       )}
     >
       {providerProps && (

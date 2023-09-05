@@ -28,10 +28,10 @@ describe('FormSet component', () => {
     render(
       <FormSet {...props} direction="vertical">
         <FormRow />
-      </FormSet>,
+      </FormSet>
     )
     expect(document.querySelector('.dnb-form-row').classList).toContain(
-      'dnb-form-row--vertical',
+      'dnb-form-row--vertical'
     )
   })
 
@@ -41,10 +41,10 @@ describe('FormSet component', () => {
         <FormRow>
           <Input />
         </FormRow>
-      </FormSet>,
+      </FormSet>
     )
     expect(
-      document.querySelector('input.dnb-input__input[disabled]'),
+      document.querySelector('input.dnb-input__input[disabled]')
     ).toBeInTheDocument()
 
     rerender(
@@ -52,10 +52,10 @@ describe('FormSet component', () => {
         <FormRow>
           <Input />
         </FormRow>
-      </FormSet>,
+      </FormSet>
     )
     expect(
-      document.querySelector('input.dnb-input__input[disabled]'),
+      document.querySelector('input.dnb-input__input[disabled]')
     ).not.toBeInTheDocument()
 
     rerender(
@@ -63,10 +63,10 @@ describe('FormSet component', () => {
         <FormRow>
           <Input />
         </FormRow>
-      </FormSet>,
+      </FormSet>
     )
     expect(
-      document.querySelector('input.dnb-input__input[disabled]'),
+      document.querySelector('input.dnb-input__input[disabled]')
     ).toBeInTheDocument()
 
     rerender(
@@ -74,11 +74,11 @@ describe('FormSet component', () => {
         <FormRow disabled={false}>
           <Input />
         </FormRow>
-      </FormSet>,
+      </FormSet>
     )
 
     expect(
-      document.querySelector('input.dnb-input__input[disabled]'),
+      document.querySelector('input.dnb-input__input[disabled]')
     ).not.toBeInTheDocument()
   })
 
@@ -86,25 +86,25 @@ describe('FormSet component', () => {
     const { rerender } = render(
       <FormSet>
         <NumberFormat currency>1234</NumberFormat>
-      </FormSet>,
+      </FormSet>
     )
 
     expect(
       document
         .querySelector('.dnb-number-format')
-        .querySelector('.dnb-number-format__visible').textContent,
+        .querySelector('.dnb-number-format__visible').textContent
     ).toBe('1 234,00 kr')
 
     rerender(
       <FormSet locale="en-GB">
         <NumberFormat currency>1234</NumberFormat>
-      </FormSet>,
+      </FormSet>
     )
 
     expect(
       document
         .querySelector('.dnb-number-format')
-        .querySelector('.dnb-number-format__visible').textContent,
+        .querySelector('.dnb-number-format__visible').textContent
     ).toBe('NOK 1 234.00')
   })
 
@@ -114,13 +114,13 @@ describe('FormSet component', () => {
         <FormSet>
           <NumberFormat currency>1234</NumberFormat>
         </FormSet>
-      </Provider>,
+      </Provider>
     )
 
     expect(
       document
         .querySelector('.dnb-number-format')
-        .querySelector('.dnb-number-format__visible').textContent,
+        .querySelector('.dnb-number-format__visible').textContent
     ).toBe('NOK 1 234.00')
   })
 
@@ -138,7 +138,7 @@ describe('FormSet scss', () => {
 
   it('have to match default theme snapshot', () => {
     const css = loadScss(
-      require.resolve('../style/themes/dnb-form-set-theme-ui.scss'),
+      require.resolve('../style/themes/dnb-form-set-theme-ui.scss')
     )
     expect(css).toMatchSnapshot()
   })

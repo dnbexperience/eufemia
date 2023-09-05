@@ -6,7 +6,7 @@
 export const calculatePagination = (
   pageCount: number,
   currentPage: number,
-  isSmallScreen?: boolean,
+  isSmallScreen?: boolean
 ): Array<Array<number>> => {
   if (pageCount === 1) return [[1]]
   // Number of buttons on each side of the current button when it's not at the start nor at the end of the pagination

@@ -156,7 +156,7 @@ function StepIndicator({
 
   if (!props.sidebar_id && props.mode) {
     warn(
-      'StepIndicator needs an unique "sidebar_id" property, also on the <StepIndicator.Sidebar... />',
+      'StepIndicator needs an unique "sidebar_id" property, also on the <StepIndicator.Sidebar... />'
     )
   }
 

@@ -97,7 +97,7 @@ export default function HeightAnimation({
           !open &&
           'dnb-height-animation--hidden',
         showOverflow && 'dnb-height-animation--show-overflow',
-        className,
+        className
       )}
       style={style}
       aria-hidden={keepInDOM ? !open : undefined}

@@ -279,7 +279,7 @@ describe.each(['ui', 'sbanken', 'eiendom'])(
         expect(screenshot).toMatchImageSnapshot()
       })
     })
-  },
+  }
 )
 
 describe.each(['sbanken'])('Button for %s', (themeName) => {

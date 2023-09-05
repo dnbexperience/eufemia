@@ -31,7 +31,7 @@ const Upload = (localProps: UploadAllProps) => {
     defaultProps,
     { skeleton: context?.skeleton },
     context.getTranslation(localProps).Upload,
-    context.Upload,
+    context.Upload
   )
 
   const {
@@ -115,7 +115,7 @@ const Upload = (localProps: UploadAllProps) => {
         acceptedFileTypes,
         errorUnsupportedFile,
         errorLargeFile,
-      },
+      }
     )
 
     const validFiles = [...verifiedFiles].slice(0, filesAmountLimit)

@@ -80,7 +80,7 @@ const P = ({
         'dnb-p',
         modifierString,
         className,
-        size && `dnb-p__size--${size}`,
+        size && `dnb-p__size--${size}`
       )}
     />
   )

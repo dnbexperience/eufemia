@@ -33,7 +33,7 @@ const Suffix = ({
         'dnb-suffix',
         !React.isValidElement(children) &&
           createSkeletonClass('font', skeleton, context),
-        className,
+        className
       )}
       {...props}
     >

@@ -66,7 +66,7 @@ describe('Button component', () => {
   it('has to have a bounding tag if property is set', () => {
     render(<Button bounding={true} />)
     expect(
-      document.querySelector('.dnb-button__bounding'),
+      document.querySelector('.dnb-button__bounding')
     ).toBeInTheDocument()
   })
 
@@ -78,7 +78,7 @@ describe('Button component', () => {
 
   it('has a anchor tag and includes a launch icon', () => {
     render(
-      <Button {...props} href="https://url" target="_blank" icon={null} />,
+      <Button {...props} href="https://url" target="_blank" icon={null} />
     )
     expect(document.querySelector('svg')).toBeInTheDocument()
   })
@@ -91,7 +91,7 @@ describe('Button component', () => {
   it('has a disabled attribute, once we set disabled to true', () => {
     const { rerender } = render(<Button />)
     expect(document.querySelector('button')).not.toHaveAttribute(
-      'disabled',
+      'disabled'
     )
     rerender(<Button disabled />)
 
@@ -108,7 +108,7 @@ describe('Button component', () => {
     render(<Button element="span" />)
     expect(document.querySelector('.dnb-button').tagName).toBe('SPAN')
     expect(
-      document.querySelector('.dnb-button').getAttribute('type'),
+      document.querySelector('.dnb-button').getAttribute('type')
     ).toBe('button')
   })
 
@@ -128,12 +128,12 @@ describe('Button component', () => {
     render(
       <FormRow vertical disabled>
         <Button text="Button" />
-      </FormRow>,
+      </FormRow>
     )
 
     const element = document.querySelector('.dnb-button')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name,
+      (attr) => attr.name
     )
 
     expect(attributes).toEqual([
@@ -180,10 +180,10 @@ describe('Button component', () => {
     expect(
       document
         .querySelector('.dnb-button__alignment')
-        .getAttribute('aria-hidden'),
+        .getAttribute('aria-hidden')
     ).toBe('true')
     expect(document.querySelector('.dnb-button__text').textContent).toBe(
-      text,
+      text
     )
 
     rerender(<Button icon="bell" />)
@@ -191,10 +191,10 @@ describe('Button component', () => {
     expect(
       document
         .querySelector('.dnb-button__alignment')
-        .getAttribute('aria-hidden'),
+        .getAttribute('aria-hidden')
     ).toBe('true')
     expect(
-      document.querySelector('.dnb-button__text'),
+      document.querySelector('.dnb-button__text')
     ).not.toBeInTheDocument()
   })
 
@@ -240,7 +240,7 @@ describe('Button component', () => {
 
   it('will replace icon with icon component', () => {
     const { rerender } = render(
-      <Button icon={<span className="dnb-icon custom-icon">icon</span>} />,
+      <Button icon={<span className="dnb-icon custom-icon">icon</span>} />
     )
     expect(document.querySelector('.custom-icon')).toBeInTheDocument()
 
@@ -249,19 +249,19 @@ describe('Button component', () => {
         icon={
           <IconPrimary icon="bell" className="custom-icon-component" />
         }
-      />,
+      />
     )
 
     expect(document.querySelector('.custom-icon')).not.toBeInTheDocument()
     expect(
-      document.querySelector('.custom-icon-component'),
+      document.querySelector('.custom-icon-component')
     ).toBeInTheDocument()
   })
 
   it('will only have attached event listener if one is given', () => {
     const on_click = jest.fn()
     const { rerender } = render(
-      <Button text="Button" on_click={on_click} />,
+      <Button text="Button" on_click={on_click} />
     )
 
     type Button = HTMLButtonElement & { onClickHandler: ButtonOnClick }
@@ -295,10 +295,10 @@ describe('Button component', () => {
   it('has no size when only setting text', () => {
     render(<Button text="Button" />)
     expect(
-      document.querySelector('.dnb-button--size-medium'),
+      document.querySelector('.dnb-button--size-medium')
     ).not.toBeInTheDocument()
     expect(
-      document.querySelector('.dnb-button--size-large'),
+      document.querySelector('.dnb-button--size-large')
     ).not.toBeInTheDocument()
   })
 })
@@ -314,10 +314,10 @@ describe('Button scss', () => {
     (themeName) => {
       const css = loadScss(
         require.resolve(
-          `../style/themes/dnb-button-theme-${themeName}.scss`,
-        ),
+          `../style/themes/dnb-button-theme-${themeName}.scss`
+        )
       )
       expect(css).toMatchSnapshot()
-    },
+    }
   )
 })

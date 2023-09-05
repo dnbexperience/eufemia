@@ -78,7 +78,7 @@ export const createSpacingClasses = (
      * To support typical not defined props form components
      */
     | SpacingUnknownProps,
-  Element = null,
+  Element = null
 ) => {
   const p = Object.isFrozen(props) ? { ...props } : props
 
@@ -112,8 +112,8 @@ export const createSpacingClasses = (
         if (sum > 10) {
           warn(
             `Spacing of more than 10rem is not supported! You used ${sum} / (${typeModifiers.join(
-              ',',
-            )})`,
+              ','
+            )})`
           )
         } else {
           // auto combine classes
@@ -122,7 +122,7 @@ export const createSpacingClasses = (
           acc = [
             ...acc,
             ...nearestTypes.map(
-              (type) => `dnb-space__${direction}--${type}`,
+              (type) => `dnb-space__${direction}--${type}`
             ),
           ]
         }
@@ -179,7 +179,7 @@ export const sumTypes = (types: SpaceType | Array<SpaceType>) =>
 
 // @internal Returns an array with modifiers e.g. ["large", "x-small"]
 export const createTypeModifiers = (
-  types: SpaceType,
+  types: SpaceType
 ): Array<SpaceType> => {
   return (splitTypes(types) || []).reduce((acc, type) => {
     if (type) {
@@ -230,7 +230,7 @@ export const findType = (num: SpaceNumber): SpaceType => {
 
 // @internal Finds from "2.0" the equivalent type "large" and returns all results
 export const findTypeAll = (
-  num: SpaceNumber,
+  num: SpaceNumber
 ): Array<
   SpaceTypesPositiveValuesType | SpaceTypesPositiveRemValuesType
 > => {
@@ -279,7 +279,7 @@ export const isValidSpaceProp = (propName: string) =>
   propName && ['top', 'right', 'bottom', 'left'].includes(propName)
 
 export const removeSpaceProps = (
-  props: SpacingProps | SpacingUnknownProps,
+  props: SpacingProps | SpacingUnknownProps
 ) => {
   const p = Object.isFrozen(props) ? { ...props } : props
   for (const i in p) {

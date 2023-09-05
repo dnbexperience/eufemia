@@ -76,42 +76,42 @@ describe('prepareTemplates', () => {
     expect(writeFile).toHaveBeenNthCalledWith(
       9,
       dest9,
-      expect.stringContaining(`export default {}`),
+      expect.stringContaining(`export default {}`)
     )
     expect(writeFile).toHaveBeenNthCalledWith(
       9,
       dest9,
       expect.stringContaining(
-        `export { ComponentA, ComponentB, ElementA, ElementB }`,
-      ),
+        `export { ComponentA, ComponentB, ElementA, ElementB }`
+      )
     )
     expect(writeFile).toHaveBeenNthCalledWith(
       9,
       dest9,
       expect.stringContaining(
-        `import ElementB from './elements/element-b'`,
-      ),
+        `import ElementB from './elements/element-b'`
+      )
     )
     expect(writeFile).toHaveBeenNthCalledWith(
       9,
       dest9,
       expect.stringContaining(
-        `import ElementA from './elements/element-a'`,
-      ),
+        `import ElementA from './elements/element-a'`
+      )
     )
     expect(writeFile).toHaveBeenNthCalledWith(
       9,
       dest9,
       expect.stringContaining(
-        `import ComponentB from './components/component-b/ComponentB'`,
-      ),
+        `import ComponentB from './components/component-b/ComponentB'`
+      )
     )
     expect(writeFile).toHaveBeenNthCalledWith(
       9,
       dest9,
       expect.stringContaining(
-        `import ComponentA from './components/component-a/ComponentA'`,
-      ),
+        `import ComponentA from './components/component-a/ComponentA'`
+      )
     )
   })
 
@@ -128,20 +128,20 @@ describe('prepareTemplates', () => {
       1,
       dest1,
       expect.stringContaining(
-        `import ComponentA from './component-a/ComponentA'`,
-      ),
+        `import ComponentA from './component-a/ComponentA'`
+      )
     )
     expect(writeFile).toHaveBeenNthCalledWith(
       1,
       dest1,
       expect.stringContaining(
-        `import ComponentB from './component-b/ComponentB'`,
-      ),
+        `import ComponentB from './component-b/ComponentB'`
+      )
     )
     expect(writeFile).toHaveBeenNthCalledWith(
       1,
       dest1,
-      expect.stringContaining(`export { ComponentA, ComponentB }`),
+      expect.stringContaining(`export { ComponentA, ComponentB }`)
     )
 
     const dest2 = expect.stringContaining('/src/components/lib.ts')
@@ -149,25 +149,25 @@ describe('prepareTemplates', () => {
       2,
       dest2,
       expect.stringContaining(
-        `import ComponentA from './component-a/ComponentA'`,
-      ),
+        `import ComponentA from './component-a/ComponentA'`
+      )
     )
     expect(writeFile).toHaveBeenNthCalledWith(
       2,
       dest2,
       expect.stringContaining(
-        `import ComponentB from './component-b/ComponentB'`,
-      ),
+        `import ComponentB from './component-b/ComponentB'`
+      )
     )
     expect(writeFile).toHaveBeenNthCalledWith(
       2,
       dest2,
-      expect.stringContaining(`export { ComponentA, ComponentB }`),
+      expect.stringContaining(`export { ComponentA, ComponentB }`)
     )
     expect(writeFile).toHaveBeenNthCalledWith(
       2,
       dest2,
-      expect.stringContaining(`return { ComponentA, ComponentB }`),
+      expect.stringContaining(`return { ComponentA, ComponentB }`)
     )
 
     const dest3 = expect.stringContaining('/src/components/ComponentA.ts')
@@ -175,18 +175,18 @@ describe('prepareTemplates', () => {
       3,
       dest3,
       expect.stringContaining(
-        `import ComponentA from './component-a/ComponentA'`,
-      ),
+        `import ComponentA from './component-a/ComponentA'`
+      )
     )
     expect(writeFile).toHaveBeenNthCalledWith(
       3,
       dest3,
-      expect.stringContaining(`export * from './component-a/ComponentA'`),
+      expect.stringContaining(`export * from './component-a/ComponentA'`)
     )
     expect(writeFile).toHaveBeenNthCalledWith(
       3,
       dest3,
-      expect.stringContaining(`export default ComponentA`),
+      expect.stringContaining(`export default ComponentA`)
     )
 
     const dest4 = expect.stringContaining('/src/components/ComponentB.ts')
@@ -194,18 +194,18 @@ describe('prepareTemplates', () => {
       4,
       dest4,
       expect.stringContaining(
-        `import ComponentB from './component-b/ComponentB'`,
-      ),
+        `import ComponentB from './component-b/ComponentB'`
+      )
     )
     expect(writeFile).toHaveBeenNthCalledWith(
       4,
       dest4,
-      expect.stringContaining(`export * from './component-b/ComponentB'`),
+      expect.stringContaining(`export * from './component-b/ComponentB'`)
     )
     expect(writeFile).toHaveBeenNthCalledWith(
       4,
       dest4,
-      expect.stringContaining(`export default ComponentB`),
+      expect.stringContaining(`export default ComponentB`)
     )
   })
 
@@ -221,14 +221,14 @@ describe('prepareTemplates', () => {
     expect(writeFile).toHaveBeenNthCalledWith(
       1,
       dest1,
-      expect.stringContaining(`export { FragmentA, FragmentB }`),
+      expect.stringContaining(`export { FragmentA, FragmentB }`)
     )
 
     const dest2 = expect.stringContaining('/src/fragments/lib.ts')
     expect(writeFile).toHaveBeenNthCalledWith(
       2,
       dest2,
-      expect.stringContaining(`return { FragmentA, FragmentB }`),
+      expect.stringContaining(`return { FragmentA, FragmentB }`)
     )
 
     const dest3 = expect.stringContaining('/fragments/FragmentA.ts')
@@ -236,15 +236,15 @@ describe('prepareTemplates', () => {
       3,
       dest3,
       expect.stringContaining(
-        `import FragmentA from './fragment-a/FragmentA'`,
-      ),
+        `import FragmentA from './fragment-a/FragmentA'`
+      )
     )
 
     const dest4 = expect.stringContaining('/fragments/FragmentB.ts')
     expect(writeFile).toHaveBeenNthCalledWith(
       4,
       dest4,
-      expect.stringContaining(`export * from './fragment-b/FragmentB'`),
+      expect.stringContaining(`export * from './fragment-b/FragmentB'`)
     )
   })
 
@@ -260,14 +260,14 @@ describe('prepareTemplates', () => {
     expect(writeFile).toHaveBeenNthCalledWith(
       1,
       dest1,
-      expect.stringContaining(`export { ElementA, ElementB }`),
+      expect.stringContaining(`export { ElementA, ElementB }`)
     )
 
     const dest2 = expect.stringContaining('/src/elements/lib.ts')
     expect(writeFile).toHaveBeenNthCalledWith(
       2,
       dest2,
-      expect.stringContaining(`return { ElementA, ElementB }`),
+      expect.stringContaining(`return { ElementA, ElementB }`)
     )
   })
 
@@ -283,14 +283,14 @@ describe('prepareTemplates', () => {
     expect(writeFile).toHaveBeenNthCalledWith(
       1,
       dest1,
-      expect.stringContaining(`export { ExtensionA, ExtensionB }`),
+      expect.stringContaining(`export { ExtensionA, ExtensionB }`)
     )
 
     const dest2 = expect.stringContaining('/src/extensions/lib.ts')
     expect(writeFile).toHaveBeenNthCalledWith(
       2,
       dest2,
-      expect.stringContaining(`return { ExtensionA, ExtensionB }`),
+      expect.stringContaining(`return { ExtensionA, ExtensionB }`)
     )
   })
 })

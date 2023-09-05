@@ -53,7 +53,7 @@ describe('useHeightAnimation', () => {
           isInDOM && 'is-in-dom',
           isVisible && 'is-visible',
           isVisibleParallax && 'is-in-parallax',
-          isOpen && 'is-open',
+          isOpen && 'is-open'
         )}
       >
         <div ref={animationElement} className="animation-element">
@@ -217,7 +217,7 @@ describe('useHeightAnimation', () => {
     const ref: React.RefObject<HTMLDivElement> = { current }
 
     const { result } = renderHook(() =>
-      useHeightAnimation(ref, { open: false }),
+      useHeightAnimation(ref, { open: false })
     )
 
     expect(result.current).toEqual({
@@ -232,7 +232,7 @@ describe('useHeightAnimation', () => {
 })
 
 function simulateAnimationEnd(
-  element: Element = document.querySelector('.animation-element'),
+  element: Element = document.querySelector('.animation-element')
 ) {
   const event = new CustomEvent('transitionend')
   element.dispatchEvent(event)

@@ -84,7 +84,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
   const props = extendPropsWithContext(
     localProps,
     defaultProps,
-    context.pagination,
+    context.pagination
   ) as PaginationBarProps & PaginationBarContext
 
   const { currentPage, pageCount, disabled, skeleton } = props
@@ -159,7 +159,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
     extendPropsWithContext(
       props,
       defaultProps,
-      getTranslation(props as LocaleProps).Pagination,
+      getTranslation(props as LocaleProps).Pagination
     )
 
   const prevIsDisabled = currentPage > -1 ? currentPage === 1 : true
@@ -172,7 +172,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
   const pageNumberGroups = calculatePagination(
     pageCount,
     currentPage,
-    currentScreenSize === 'small',
+    currentScreenSize === 'small'
   )
 
   return (
@@ -180,7 +180,7 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
       ref={paginationBarRef}
       className={classnames(
         'dnb-pagination__bar',
-        pageCount >= 8 && 'dnb-pagination--many-pages',
+        pageCount >= 8 && 'dnb-pagination--many-pages'
       )}
     >
       <div className="dnb-pagination__bar__wrapper">
@@ -251,12 +251,12 @@ const PaginationBar = (localProps: PaginationBarAllProps) => {
                       'dnb-pagination__button',
                       String(pageNumber).length > 3
                         ? 'dnb-pagination__button--large-number'
-                        : null,
+                        : null
                     )}
                     text={String(pageNumber)}
                     aria-label={button_title.replace(
                       '%s',
-                      String(pageNumber),
+                      String(pageNumber)
                     )}
                     variant={
                       pageNumber === currentPage ? 'primary' : 'secondary'

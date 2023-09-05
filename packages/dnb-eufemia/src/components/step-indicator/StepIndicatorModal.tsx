@@ -19,7 +19,7 @@ function StepIndicatorModal() {
 
   useEffect(() => {
     const container = document.getElementById(
-      'sidebar__' + context.sidebar_id,
+      'sidebar__' + context.sidebar_id
     )
 
     setContainer(container)

@@ -29,7 +29,7 @@ describe('Breadcrumb', () => {
           { href: '/page1', text: 'Page 1' },
           { href: '/page1/page2', text: 'Page 2' },
         ]}
-      />,
+      />
     )
 
     expect(screen.queryByText('Home')).toBeInTheDocument()
@@ -41,7 +41,7 @@ describe('Breadcrumb', () => {
 
   it('renders a breadcrumb with a single item by data prop', () => {
     render(
-      <Breadcrumb data={[{ href: '/page1/page2', text: 'Page 2' }]} />,
+      <Breadcrumb data={[{ href: '/page1/page2', text: 'Page 2' }]} />
     )
 
     expect(screen.queryByText('Page 2')).toBeInTheDocument()
@@ -54,7 +54,7 @@ describe('Breadcrumb', () => {
         <Breadcrumb.Item href="/" text="Home" />
         <Breadcrumb.Item href="/page1" text="Page 1" />
         <Breadcrumb.Item href="/page1/page2" text="Page 2" />
-      </Breadcrumb>,
+      </Breadcrumb>
     )
 
     expect(screen.queryByText('Home')).toBeInTheDocument()
@@ -68,7 +68,7 @@ describe('Breadcrumb', () => {
     render(
       <Breadcrumb>
         <Breadcrumb.Item text="Page item #1" href="/page1" />
-      </Breadcrumb>,
+      </Breadcrumb>
     )
 
     expect(screen.queryByText('Page item #1')).toBeInTheDocument()
@@ -96,7 +96,7 @@ describe('Breadcrumb', () => {
         {null}
         {null}
         <Breadcrumb.Item text="Page item #4" href="/page4" />
-      </Breadcrumb>,
+      </Breadcrumb>
     )
 
     expect(screen.queryByText('Page item #1')).toBeInTheDocument()
@@ -111,7 +111,7 @@ describe('Breadcrumb', () => {
     render(
       <Provider locale="en-GB">
         <Breadcrumb href="/url" />
-      </Provider>,
+      </Provider>
     )
 
     expect(screen.queryAllByRole('link')).toHaveLength(1)
@@ -133,17 +133,17 @@ describe('Breadcrumb', () => {
         variant="collapse"
         isCollapsed={overrideCollapse}
         onClick={jest.fn()}
-      />,
+      />
     )
 
     expect(
-      document.querySelector('.dnb-breadcrumb__animation'),
+      document.querySelector('.dnb-breadcrumb__animation')
     ).not.toBeInTheDocument()
 
     fireEvent.click(screen.getByRole('button'))
 
     expect(
-      document.querySelector('.dnb-breadcrumb__animation'),
+      document.querySelector('.dnb-breadcrumb__animation')
     ).not.toBeInTheDocument()
   })
 
@@ -155,12 +155,12 @@ describe('Breadcrumb', () => {
           { href: '/page1', text: 'Page 1' },
           { href: '/page1/page2', text: 'Last Item' },
         ]}
-      />,
+      />
     )
 
     const lastElem = screen.getByText('Last Item')
     expect(
-      lastElem.parentElement.parentElement.getAttribute('aria-current'),
+      lastElem.parentElement.parentElement.getAttribute('aria-current')
     ).toBe('page')
   })
 
@@ -172,13 +172,13 @@ describe('Breadcrumb', () => {
           { href: '/page1', text: 'Current Item', variant: 'current' },
           { href: '/page1/page2', text: 'Page 2' },
         ]}
-      />,
+      />
     )
 
     const currentItem = screen.getByText('Current Item')
 
     expect(
-      currentItem.parentElement.parentElement.getAttribute('aria-current'),
+      currentItem.parentElement.parentElement.getAttribute('aria-current')
     ).toBe('page')
   })
 
@@ -192,13 +192,13 @@ describe('Breadcrumb', () => {
           { href: '/page1', text: 'Page 1' },
           { href: '/page1/page2', text: 'Page 2' },
         ]}
-      />,
+      />
     )
 
     fireEvent.click(screen.getByRole('button'))
 
     expect(
-      document.querySelector('.dnb-breadcrumb__animation'),
+      document.querySelector('.dnb-breadcrumb__animation')
     ).toBeDefined()
   })
 
@@ -208,7 +208,7 @@ describe('Breadcrumb', () => {
     render(
       <Provider skeleton>
         <Breadcrumb data={[{ onClick: jest.fn(), text: 'Page 1' }]} />
-      </Provider>,
+      </Provider>
     )
 
     expect(screen.getByRole('button').className).toMatch(skeletonClassName)
@@ -223,12 +223,12 @@ describe('Breadcrumb', () => {
           { href: '/page1/page2', text: 'Page 2' },
         ]}
         top="2rem"
-      />,
+      />
     )
 
     const element = document.querySelector('.dnb-breadcrumb')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name,
+      (attr) => attr.name
     )
 
     expect(attributes).toEqual(['aria-label', 'class'])
@@ -288,11 +288,11 @@ describe('Breadcrumb', () => {
       const skeletonClassName = 'dnb-skeleton'
 
       render(
-        <BreadcrumbItem skeleton onClick={jest.fn()} text="skeleton" />,
+        <BreadcrumbItem skeleton onClick={jest.fn()} text="skeleton" />
       )
 
       expect(screen.getByRole('button').className).toMatch(
-        skeletonClassName,
+        skeletonClassName
       )
     })
 
@@ -302,11 +302,11 @@ describe('Breadcrumb', () => {
       render(
         <Provider skeleton>
           <BreadcrumbItem onClick={jest.fn()} text="skeleton" />
-        </Provider>,
+        </Provider>
       )
 
       expect(screen.getByRole('button').className).toMatch(
-        skeletonClassName,
+        skeletonClassName
       )
     })
 
@@ -320,7 +320,7 @@ describe('Breadcrumb', () => {
           ]}
           variant="collapse"
           isCollapsed={false}
-        />,
+        />
       )
 
       const items = document.querySelectorAll('.dnb-breadcrumb__item')
@@ -343,7 +343,7 @@ describe('Breadcrumb aria', () => {
         ]}
         variant="collapse"
         isCollapsed={false}
-      />,
+      />
     )
     expect(await axeComponent(Component)).toHaveNoViolations()
   })

@@ -35,27 +35,27 @@ describe('GlobalStatus component', () => {
     expect(
       document
         .querySelector('div.dnb-global-status__message')
-        .querySelectorAll('.dnb-p')[0].textContent,
+        .querySelectorAll('.dnb-p')[0].textContent
     ).toBe(props.text)
   })
 
   it('has to have list items as defined in the prop', () => {
     render(<GlobalStatus {...props} />)
     expect(document.querySelector('.dnb-ul').textContent).toBe(
-      props.items.map(({ text }) => text).join(''),
+      props.items.map(({ text }) => text).join('')
     )
   })
 
   it('should have correct attributes like "aria-live"', async () => {
     const { rerender } = render(
-      <GlobalStatus autoscroll={false} delay={0} />,
+      <GlobalStatus autoscroll={false} delay={0} />
     )
     expect(document.querySelector('[aria-live]')).toBeInTheDocument()
 
     rerender(<GlobalStatus autoscroll={false} delay={0} show={true} />)
 
     expect(
-      document.querySelector('[aria-live="assertive"]'),
+      document.querySelector('[aria-live="assertive"]')
     ).toBeInTheDocument()
 
     rerender(<GlobalStatus autoscroll={false} delay={0} show={false} />)
@@ -63,7 +63,7 @@ describe('GlobalStatus component', () => {
     expect(
       document
         .querySelector('.dnb-global-status__wrapper')
-        .getAttribute('aria-live'),
+        .getAttribute('aria-live')
     ).toBe('off')
   })
 
@@ -95,25 +95,25 @@ describe('GlobalStatus component', () => {
           item={{ text: 'item#3' }}
           on_close={jest.fn()}
         />
-      </>,
+      </>
     )
 
     expect(
       document.querySelector(
-        'div.dnb-global-status__message__content > .dnb-p',
-      ).textContent,
+        'div.dnb-global-status__message__content > .dnb-p'
+      ).textContent
     ).toBe(newText)
 
     expect(
       document.querySelector(
-        'div.dnb-global-status__message__content > .dnb-ul',
-      ).textContent,
+        'div.dnb-global-status__message__content > .dnb-ul'
+      ).textContent
     ).toBe('item#1item#3')
 
     expect(
       document.querySelectorAll(
-        'div.dnb-global-status__message p.dnb-p',
-      )[0].textContent,
+        'div.dnb-global-status__message p.dnb-p'
+      )[0].textContent
     ).toBe(newText)
   })
 
@@ -129,7 +129,7 @@ describe('GlobalStatus component', () => {
         delay={0}
         no_animation={true}
         id="custom-status-update"
-      />,
+      />
     )
 
     render(
@@ -139,7 +139,7 @@ describe('GlobalStatus component', () => {
         text={startupText}
         items={startupItems}
         on_close={jest.fn()}
-      />,
+      />
     )
 
     const ulItems = document.querySelectorAll('ul.dnb-ul li')
@@ -147,8 +147,8 @@ describe('GlobalStatus component', () => {
     expect(ulItems[1].textContent).toBe('Item2')
     expect(
       document.querySelectorAll(
-        'div.dnb-global-status__message p.dnb-p',
-      )[0].textContent,
+        'div.dnb-global-status__message p.dnb-p'
+      )[0].textContent
     ).toBe(startupText)
 
     render(
@@ -158,7 +158,7 @@ describe('GlobalStatus component', () => {
         text={newText}
         items={newItems}
         on_close={jest.fn()}
-      />,
+      />
     )
 
     const newUlItems = document.querySelectorAll('ul.dnb-ul li')
@@ -166,8 +166,8 @@ describe('GlobalStatus component', () => {
     expect(newUlItems[1].textContent).toBe('Item4')
     expect(
       document.querySelectorAll(
-        'div.dnb-global-status__message p.dnb-p',
-      )[0].textContent,
+        'div.dnb-global-status__message p.dnb-p'
+      )[0].textContent
     ).toBe(newText)
 
     render(
@@ -175,11 +175,11 @@ describe('GlobalStatus component', () => {
         id="custom-status-update"
         status_id="status-update-1"
         buffer_delay={0}
-      />,
+      />
     )
 
     expect(
-      document.querySelector('div.dnb-global-status__message'),
+      document.querySelector('div.dnb-global-status__message')
     ).not.toBeInTheDocument()
   })
 
@@ -195,14 +195,14 @@ describe('GlobalStatus component', () => {
         delay={0}
         no_animation={true}
         id="custom-status-remove"
-      />,
+      />
     )
 
     expect(
-      document.querySelector('div.dnb-global-status__shell').innerHTML,
+      document.querySelector('div.dnb-global-status__shell').innerHTML
     ).toBe('')
     expect(
-      document.querySelector('div.dnb-global-status__shell'),
+      document.querySelector('div.dnb-global-status__shell')
     ).not.toHaveAttribute('style')
 
     render(
@@ -212,7 +212,7 @@ describe('GlobalStatus component', () => {
         text={startupText}
         items={startupItems}
         on_close={jest.fn()}
-      />,
+      />
     )
 
     const ulItems = document.querySelectorAll('ul.dnb-ul li')
@@ -220,11 +220,11 @@ describe('GlobalStatus component', () => {
     expect(ulItems[1].textContent).toBe('Item2')
     expect(
       document.querySelectorAll(
-        'div.dnb-global-status__message p.dnb-p',
-      )[0].textContent,
+        'div.dnb-global-status__message p.dnb-p'
+      )[0].textContent
     ).toBe(startupText)
     expect(
-      document.querySelector('div.dnb-global-status__message'),
+      document.querySelector('div.dnb-global-status__message')
     ).toBeInTheDocument()
 
     render(
@@ -234,7 +234,7 @@ describe('GlobalStatus component', () => {
         text={newText}
         items={newItems}
         on_close={jest.fn()}
-      />,
+      />
     )
 
     const newUlItems = document.querySelectorAll('ul.dnb-ul li')
@@ -242,11 +242,11 @@ describe('GlobalStatus component', () => {
     expect(newUlItems[3].textContent).toBe('Item4')
     expect(
       document.querySelectorAll(
-        'div.dnb-global-status__message p.dnb-p',
-      )[0].textContent,
+        'div.dnb-global-status__message p.dnb-p'
+      )[0].textContent
     ).toBe(newText)
     expect(
-      document.querySelectorAll('div.dnb-global-status__message p.dnb-p'),
+      document.querySelectorAll('div.dnb-global-status__message p.dnb-p')
     ).toHaveLength(5)
 
     render(
@@ -254,7 +254,7 @@ describe('GlobalStatus component', () => {
         id="custom-status-remove"
         status_id="status-remove-1"
         buffer_delay={0}
-      />,
+      />
     )
 
     const removedUlItems = document.querySelectorAll('ul.dnb-ul li')
@@ -264,11 +264,11 @@ describe('GlobalStatus component', () => {
     expect(removedUlItems[3]).toBeFalsy()
     expect(
       document.querySelectorAll(
-        'div.dnb-global-status__message p.dnb-p',
-      )[0].textContent,
+        'div.dnb-global-status__message p.dnb-p'
+      )[0].textContent
     ).toBe(newText)
     expect(
-      document.querySelectorAll('div.dnb-global-status__message p.dnb-p'),
+      document.querySelectorAll('div.dnb-global-status__message p.dnb-p')
     ).toHaveLength(3)
 
     render(
@@ -276,16 +276,16 @@ describe('GlobalStatus component', () => {
         id="custom-status-remove"
         status_id="status-remove-2"
         buffer_delay={0}
-      />,
+      />
     )
 
     expect(
-      document.querySelector('div.dnb-global-status__message'),
+      document.querySelector('div.dnb-global-status__message')
     ).not.toBeInTheDocument()
     expect(
       document
         .querySelector('div.dnb-global-status__shell')
-        .getAttribute('style'),
+        .getAttribute('style')
     ).toBe('height: 0px; visibility: hidden;')
   })
 
@@ -348,7 +348,7 @@ describe('GlobalStatus component', () => {
           <FormField2 />
           <FormField3 />
         </FormSet>
-      </>,
+      </>
     )
 
     await wait(1)
@@ -362,15 +362,15 @@ describe('GlobalStatus component', () => {
 
     // FormStatus content
     expect(
-      document.querySelectorAll('.dnb-form-status__text')[0].textContent,
+      document.querySelectorAll('.dnb-form-status__text')[0].textContent
     ).toBe('error-message-1')
     expect(
-      document.querySelectorAll('.dnb-form-status__text')[1].textContent,
+      document.querySelectorAll('.dnb-form-status__text')[1].textContent
     ).toBe('error-message-2')
     expect(
       document
         .querySelectorAll('.dnb-autocomplete')[0]
-        .querySelector('.dnb-form-status__text').textContent,
+        .querySelector('.dnb-form-status__text').textContent
     ).toBe('error-message-3')
 
     await refresh()
@@ -378,15 +378,15 @@ describe('GlobalStatus component', () => {
     // GlobalStatus content
     expect(
       document.querySelectorAll('.dnb-global-status__message p')[0]
-        .textContent,
+        .textContent
     ).toBe('error-message-1')
     expect(
       document.querySelectorAll('.dnb-global-status__message p')[1]
-        .textContent,
+        .textContent
     ).toBe('error-message-2')
     expect(
       document.querySelectorAll('.dnb-global-status__message p')[2]
-        .textContent,
+        .textContent
     ).toBe('error-message-3')
 
     await wait(1)
@@ -399,22 +399,22 @@ describe('GlobalStatus component', () => {
     fireEvent.blur(document.querySelector('input#autocomplete-3'))
 
     expect(
-      document.querySelector('.dnb-form-status__text'),
+      document.querySelector('.dnb-form-status__text')
     ).not.toBeInTheDocument()
 
     await refresh()
 
     expect(
-      document.querySelector('.dnb-global-status__message p'),
+      document.querySelector('.dnb-global-status__message p')
     ).not.toBeInTheDocument()
     expect(
-      document.querySelector('.dnb-form-status__text'),
+      document.querySelector('.dnb-form-status__text')
     ).not.toBeInTheDocument()
     const inst = document.querySelector('div.dnb-global-status__shell')
 
     expect(inst.innerHTML).toBe('')
     expect(inst.getAttribute('style')).toBe(
-      'height: 0px; visibility: hidden;',
+      'height: 0px; visibility: hidden;'
     )
   })
 
@@ -442,7 +442,7 @@ describe('GlobalStatus component', () => {
       <>
         <GlobalStatus id="scroll-to-test" delay={0} no_animation={true} />
         <ToggleStatus />
-      </>,
+      </>
     )
 
     // Open
@@ -459,10 +459,10 @@ describe('GlobalStatus component', () => {
     jest
       .spyOn(
         document.querySelector(
-          '.dnb-global-status__wrapper',
+          '.dnb-global-status__wrapper'
         ) as HTMLElement,
         'offsetTop',
-        'get',
+        'get'
       )
       .mockImplementation(() => offsetTop)
 
@@ -513,7 +513,7 @@ describe('GlobalStatus component', () => {
           on_close={on_close}
         />
         <ToggleStatus />
-      </>,
+      </>
     )
 
     // Open
@@ -550,7 +550,7 @@ describe('GlobalStatus component', () => {
       <>
         <GlobalStatus id="height-test" delay={0} no_animation={true} />
         <ToggleStatus />
-      </>,
+      </>
     )
 
     fireEvent.click(document.querySelector('input#switch'))
@@ -559,7 +559,7 @@ describe('GlobalStatus component', () => {
     expect(
       document
         .querySelector('div.dnb-global-status__shell')
-        .getAttribute('style'),
+        .getAttribute('style')
     ).toBe('height: auto;')
   })
 
@@ -588,34 +588,34 @@ describe('GlobalStatus component', () => {
           no_animation={true}
         />
         <ToggleStatus />
-      </>,
+      </>
     )
 
     fireEvent.click(document.querySelector('input#switch'))
     await refresh()
 
     expect(
-      document.querySelector('.dnb-form-status__text').textContent,
+      document.querySelector('.dnb-form-status__text').textContent
     ).toBe('error-message')
 
     expect(
-      document.querySelector('.dnb-global-status__content'),
+      document.querySelector('.dnb-global-status__content')
     ).toBeInTheDocument()
     expect(
-      document.querySelector('.dnb-global-status__message p').textContent,
+      document.querySelector('.dnb-global-status__message p').textContent
     ).toBe('error-message')
 
     fireEvent.click(document.querySelector('input#switch'))
     await refresh()
 
     expect(
-      document.querySelector('.dnb-form-status__text'),
+      document.querySelector('.dnb-form-status__text')
     ).not.toBeInTheDocument()
     const inst = document.querySelector('div.dnb-global-status__shell')
 
     expect(inst.innerHTML).toBe('')
     expect(inst.getAttribute('style')).toBe(
-      'height: 0px; visibility: hidden;',
+      'height: 0px; visibility: hidden;'
     )
   })
 
@@ -633,7 +633,7 @@ describe('GlobalStatus component', () => {
     const StatusAsComponent = React.forwardRef(
       (props: { children: React.ReactNode }, ref) => {
         return <StatusComponent {...props} inner_ref={ref} />
-      },
+      }
     )
 
     render(
@@ -642,7 +642,7 @@ describe('GlobalStatus component', () => {
         autoscroll={false}
         delay={0}
         id="custom-status-element"
-      />,
+      />
     )
 
     const provider = new GlobalStatusInterceptor({
@@ -673,9 +673,9 @@ describe('GlobalStatus component', () => {
     await waitFor(() => {
       expect(
         document.querySelector('div.dnb-global-status__message')
-          .textContent,
+          .textContent
       ).toBe(
-        'error-message--aGå til label--aerror-message--bGå til label--b',
+        'error-message--aGå til label--aerror-message--bGå til label--b'
       )
     })
   })
@@ -714,7 +714,7 @@ describe('GlobalStatus component', () => {
           status_anchor_text={<span>custom anchor text</span>}
         />
         <ToggleStatus />
-      </>,
+      </>
     )
 
     fireEvent.click(document.querySelector('input#switch'))
@@ -723,12 +723,12 @@ describe('GlobalStatus component', () => {
 
     expect(
       document.querySelectorAll('.dnb-global-status__message p')[0]
-        .textContent,
+        .textContent
     ).toBe("'error-message'")
     expect(
       document
         .querySelectorAll('.dnb-global-status__message__content ul li')[0]
-        .querySelector('a.dnb-anchor').textContent,
+        .querySelector('a.dnb-anchor').textContent
     ).toBe("custom anchor text 'my-label'")
   })
 
@@ -747,7 +747,7 @@ describe('GlobalStatus component', () => {
         on_open={on_open}
         on_close={on_close}
         on_hide={on_hide}
-      />,
+      />
     )
 
     render(
@@ -756,16 +756,16 @@ describe('GlobalStatus component', () => {
         status_id="status-autoclose-1"
         text="text only"
         on_close={jest.fn()}
-      />,
+      />
     )
 
     expect(on_open.mock.calls.length).toBe(1)
 
     expect(
-      document.querySelector('div.dnb-global-status__message'),
+      document.querySelector('div.dnb-global-status__message')
     ).toBeInTheDocument()
     expect(
-      document.querySelector('div.dnb-global-status__message').textContent,
+      document.querySelector('div.dnb-global-status__message').textContent
     ).toBe('text only')
 
     render(
@@ -775,11 +775,11 @@ describe('GlobalStatus component', () => {
         text="text only"
         items={['foo']}
         on_close={jest.fn()}
-      />,
+      />
     )
 
     expect(
-      document.querySelector('div.dnb-global-status__message').textContent,
+      document.querySelector('div.dnb-global-status__message').textContent
     ).toBe('text onlyfoo')
 
     render(
@@ -787,7 +787,7 @@ describe('GlobalStatus component', () => {
         id="custom-status-autoclose"
         status_id="status-autoclose-1"
         buffer_delay={0}
-      />,
+      />
     )
 
     expect(on_close.mock.calls.length).toBe(0)
@@ -797,14 +797,14 @@ describe('GlobalStatus component', () => {
         id="custom-status-autoclose"
         status_id="status-autoclose-2"
         buffer_delay={0}
-      />,
+      />
     )
 
     expect(on_close.mock.calls.length).toBe(1)
     expect(on_hide.mock.calls.length).toBe(0)
 
     expect(
-      document.querySelector('div.dnb-global-status__message'),
+      document.querySelector('div.dnb-global-status__message')
     ).not.toBeInTheDocument()
 
     render(
@@ -814,11 +814,11 @@ describe('GlobalStatus component', () => {
         items={['foo']}
         on_close={jest.fn()}
         text="text"
-      />,
+      />
     )
 
     fireEvent.click(
-      document.querySelector('button.dnb-global-status__close-button'),
+      document.querySelector('button.dnb-global-status__close-button')
     )
 
     expect(on_hide.mock.calls.length).toBe(1)
@@ -832,15 +832,15 @@ describe('GlobalStatus component', () => {
         autoscroll={false}
         delay={0}
         id="custom-status-show"
-      />,
+      />
     )
 
     expect(
-      document.querySelector('div.dnb-global-status__content'),
+      document.querySelector('div.dnb-global-status__content')
     ).not.toBeInTheDocument()
 
     expect(
-      document.querySelector('div.dnb-global-status__message__content'),
+      document.querySelector('div.dnb-global-status__message__content')
     ).not.toBeInTheDocument()
 
     rerender(
@@ -850,14 +850,14 @@ describe('GlobalStatus component', () => {
         autoscroll={false}
         delay={0}
         id="custom-status-show"
-      />,
+      />
     )
 
     expect(
-      document.querySelector('div.dnb-global-status__content'),
+      document.querySelector('div.dnb-global-status__content')
     ).toBeInTheDocument()
     expect(
-      document.querySelector('div.dnb-global-status__message__content'),
+      document.querySelector('div.dnb-global-status__message__content')
     ).not.toBeInTheDocument()
 
     render(
@@ -866,11 +866,11 @@ describe('GlobalStatus component', () => {
         status_id="status-show-1"
         text="text only"
         on_close={jest.fn()}
-      />,
+      />
     )
 
     expect(
-      document.querySelector('div.dnb-global-status__message__content'),
+      document.querySelector('div.dnb-global-status__message__content')
     ).toBeInTheDocument()
 
     rerender(
@@ -880,21 +880,21 @@ describe('GlobalStatus component', () => {
         autoscroll={false}
         delay={0}
         id="custom-status-show"
-      />,
+      />
     )
 
     render(
       <GlobalStatus.Remove
         id="custom-status-show"
         status_id="status-show-1"
-      />,
+      />
     )
 
     expect(
-      document.querySelector('div.dnb-global-status__content'),
+      document.querySelector('div.dnb-global-status__content')
     ).not.toBeInTheDocument()
     expect(
-      document.querySelector('div.dnb-global-status__message__content'),
+      document.querySelector('div.dnb-global-status__message__content')
     ).not.toBeInTheDocument()
   })
 
@@ -912,7 +912,7 @@ describe('GlobalStatus scss', () => {
 
   it('have to match default theme snapshot', () => {
     const css = loadScss(
-      require.resolve('../style/themes/dnb-global-status-theme-ui.scss'),
+      require.resolve('../style/themes/dnb-global-status-theme-ui.scss')
     )
     expect(css).toMatchSnapshot()
   })
@@ -929,6 +929,6 @@ const keydown = (keyCode) => {
     document.querySelector('.dnb-global-status__wrapper'),
     {
       keyCode,
-    },
+    }
   )
 }

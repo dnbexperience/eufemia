@@ -69,7 +69,7 @@ const defaultProps = {
 
 const determineSbankenIcon: IconIcon = (
   variant: string,
-  isSmallScreen: boolean,
+  isSmallScreen: boolean
 ) => {
   switch (variant) {
     case 'home':
@@ -104,7 +104,7 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
   } = extendPropsWithContext(
     localProps,
     defaultProps,
-    context?.BreadcrumbItem,
+    context?.BreadcrumbItem
   )
 
   const theme = useTheme()

@@ -45,13 +45,13 @@ if (isCI) {
         './src/style/themes/theme-ui/ui-theme-components.scss',
         {
           returnResult: true,
-        },
+        }
       )
       global.files = await runFactory(
         './src/style/themes/theme-ui/ui-theme-components.scss',
         {
           returnFiles: true,
-        },
+        }
       )
     })
 
@@ -70,7 +70,7 @@ if (isCI) {
 
     it('should contain a non minified and a minified content', () => {
       expect(global.components[0]).toContain(
-        'ATTENTION: This file is auto generated',
+        'ATTENTION: This file is auto generated'
       )
       expect(global.components[1]).toMatch(/^:root{--/)
     })
@@ -78,10 +78,10 @@ if (isCI) {
     it('includes correct files', () => {
       expect(global.files).toHaveLength(2)
       expect(global.files[0]).toContain(
-        '/style/themes/theme-ui/ui-theme-components.css',
+        '/style/themes/theme-ui/ui-theme-components.css'
       )
       expect(global.files[1]).toContain(
-        '/style/themes/theme-ui/ui-theme-components.min.css',
+        '/style/themes/theme-ui/ui-theme-components.min.css'
       )
     })
   })
@@ -92,7 +92,7 @@ if (isCI) {
         './src/style/dnb-ui-elements.scss',
         {
           returnResult: true,
-        },
+        }
       )
     })
 
@@ -108,7 +108,7 @@ if (isCI) {
         './src/style/themes/theme-ui/ui-theme-basis.scss',
         {
           returnResult: true,
-        },
+        }
       )
     })
 
@@ -119,10 +119,10 @@ if (isCI) {
 
     it('has to have correct custom properties', () => {
       expect(global.theme[0]).toMatch(
-        new RegExp('--color-sea-green:\\s?#007272;'),
+        new RegExp('--color-sea-green:\\s?#007272;')
       )
       expect(global.theme[0]).toMatch(
-        new RegExp('color:\\s?var\\(--color-sea-green\\);'),
+        new RegExp('color:\\s?var\\(--color-sea-green\\);')
       )
       expect(global.theme[0]).not.toMatch(new RegExp('color:\\s?#007272;'))
       expect(global.theme[0]).not.toContain('fuchsia')
@@ -130,7 +130,7 @@ if (isCI) {
 
     it('has to have correct core path to fonts', () => {
       expect(global.theme[0]).toMatch(
-        new RegExp('("|\\()../../../assets/fonts/dnb/'),
+        new RegExp('("|\\()../../../assets/fonts/dnb/')
       )
     })
   })

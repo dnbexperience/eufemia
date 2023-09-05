@@ -21,7 +21,7 @@ export type ProviderProps = {
 } & ContextProps
 
 export default function Provider<Props>(
-  localProps: ProviderProps & Props,
+  localProps: ProviderProps & Props
 ) {
   const { children, ...props } = localProps
 
@@ -72,7 +72,7 @@ type MergeContextProps = {
 
 function mergeContext<ContextT, PropsT>(
   context: ContextT & ContextProps,
-  props: PropsT & MergeContextProps,
+  props: PropsT & MergeContextProps
 ) {
   // When value is given as so: <Provider value={{}} />
   const { value, ...rest } = props

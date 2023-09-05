@@ -77,12 +77,12 @@ export default function createNumberMask({
     if (hasDecimal && (allowDecimal || requireDecimal)) {
       integer = rawValue.slice(
         rawValue.slice(0, prefixLength) === prefix ? prefixLength : 0,
-        indexOfLastDecimal,
+        indexOfLastDecimal
       )
 
       fraction = rawValue.slice(indexOfLastDecimal + 1, rawValueLength)
       fraction = convertToMask(
-        fraction.replace(nonDigitsRegExp, emptyString),
+        fraction.replace(nonDigitsRegExp, emptyString)
       )
     } else {
       if (rawValue.slice(0, prefixLength) === prefix) {

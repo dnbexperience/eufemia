@@ -146,7 +146,7 @@ export const getViews = (state, isRange) => {
       : Array(
           isRange
             ? 2 // set default range calendars
-            : state.views,
+            : state.views
         ).fill(1)
   ).map((view, nr) => ({
     ...view,

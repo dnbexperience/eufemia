@@ -110,7 +110,7 @@ describe.each(['ui', 'sbanken'])('Table for %s', (themeName) => {
       executeBeforeSimulate: () => {
         document
           .querySelector(
-            '[data-visual-test="table-sticky"] table tbody tr:nth-of-type(5)',
+            '[data-visual-test="table-sticky"] table tbody tr:nth-of-type(5)'
           )
           .scrollIntoView({
             behavior: 'auto',
@@ -202,7 +202,7 @@ describe.each(['ui', 'sbanken'])(
       })
       expect(screenshot).toMatchImageSnapshot()
     })
-  },
+  }
 )
 
 describe.each(['ui', 'sbanken'])(
@@ -301,5 +301,5 @@ describe.each(['ui', 'sbanken'])(
       })
       expect(screenshot).toMatchImageSnapshot()
     })
-  },
+  }
 )

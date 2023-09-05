@@ -13,7 +13,7 @@ jest.setTimeout(
     ? config.delayDuringNonheadless
     : config.timeout > 0
     ? config.timeout
-    : 30e3,
+    : 30e3
 )
 
 setMatchConfig(config.matchConfig)

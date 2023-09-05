@@ -60,7 +60,7 @@ function foldValue(input, value, key, seen, deep) {
     } catch (err) {
       return fold(
         objHash,
-        '[valueOf exception]' + (err.stack || err.message),
+        '[valueOf exception]' + (err.stack || err.message)
       )
     }
   }

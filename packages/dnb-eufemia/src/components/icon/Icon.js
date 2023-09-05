@@ -115,12 +115,12 @@ export default class Icon extends React.PureComponent {
       this.props,
       Icon.defaultProps,
       { skeleton: this.context?.skeleton },
-      this.context.Icon,
+      this.context.Icon
     )
 
     const { icon, size, wrapperParams, iconParams, alt } = prepareIcon(
       props,
-      this.context,
+      this.context
     )
 
     if (!icon) {
@@ -167,7 +167,7 @@ export const calcSize = (props) => {
     if (nameParts.length > 1) {
       const lastPartOfIconName = nameParts.reverse()[0]
       const potentialSize = ListDefaultIconSizes.filter(
-        ([key]) => key === lastPartOfIconName,
+        ([key]) => key === lastPartOfIconName
       ).reduce((acc, [key, value]) => {
         return key && value
       }, null)
@@ -187,7 +187,7 @@ export const calcSize = (props) => {
           }
           if (!potentialSize && elem.props.viewBox) {
             potentialSize = /[0-9]+ [0-9]+ ([0-9]+)/.exec(
-              elem.props.viewBox,
+              elem.props.viewBox
             )[1] // get the width
           }
           if (potentialSize) {
@@ -201,7 +201,7 @@ export const calcSize = (props) => {
   // if size is defined as a string, find the size number
   else if (typeof size === 'string' && !(parseFloat(size) > 0)) {
     sizeAsInt = ListDefaultIconSizes.filter(
-      ([key]) => key === size,
+      ([key]) => key === size
     ).reduce((acc, [key, value]) => {
       return key && value
     }, -1)
@@ -215,7 +215,7 @@ export const calcSize = (props) => {
   // check if the size is given as a number, and if is a default size
   else if (parseFloat(size) > 0) {
     sizeAsInt = ListDefaultIconSizes.filter(
-      ([key, value]) => key && value === parseFloat(size),
+      ([key, value]) => key && value === parseFloat(size)
     ).reduce((acc, [key, value]) => {
       if (key && value) return value
       return acc
@@ -237,7 +237,7 @@ export const calcSize = (props) => {
         }
         return acc
       },
-      null,
+      null
     )
 
     if (potentialSizeAsString) {
@@ -364,7 +364,7 @@ export const prepareIcon = (props, context) => {
     createSkeletonClass(null, skeleton, context),
     createSpacingClasses(props),
     _className,
-    className,
+    className
   )
 
   let iconToRender = Icon.getIcon(props)
@@ -380,8 +380,8 @@ export const prepareIcon = (props, context) => {
           size,
           width,
           height,
-        },
-      ),
+        }
+      )
     )
   }
 

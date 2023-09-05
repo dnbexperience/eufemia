@@ -94,7 +94,7 @@ export default class PaginationProvider extends React.PureComponent {
     state.parallelLoadCount = parseFloat(props.parallel_load_count) || 1
     state.minTime = parseFloat(props.min_wait_time) || 0
     state.placeMakerBeforeContent = isTrue(
-      props.place_maker_before_content,
+      props.place_maker_before_content
     )
 
     // reset pagination, like the resetInfinity method
@@ -150,7 +150,7 @@ export default class PaginationProvider extends React.PureComponent {
           // because we have a set state inside setContent and render at the same time
           this.rerenderTimeout = setTimeout(
             () => this.setContent(store.pageNumber, store.content),
-            1,
+            1
           )
         }
       }
@@ -188,7 +188,7 @@ export default class PaginationProvider extends React.PureComponent {
     this._isMounted = true
 
     this.updatePageContent(
-      this.state.startupPage || this.state.currentPage,
+      this.state.startupPage || this.state.currentPage
     )
   }
 
@@ -227,7 +227,7 @@ export default class PaginationProvider extends React.PureComponent {
 
     if (content) {
       let itemToPrepare = this.state.items.find(
-        ({ pageNumber: p }) => p === pageNumber,
+        ({ pageNumber: p }) => p === pageNumber
       )
       let items = null
 
@@ -250,7 +250,7 @@ export default class PaginationProvider extends React.PureComponent {
           items: [...(items || this.state.items)], // we make a copy, only to rerender
           currentPage: pageNumber, // update the currentPage
         },
-        this.callOnPageUpdate,
+        this.callOnPageUpdate
       )
     }
   }
@@ -299,7 +299,7 @@ export default class PaginationProvider extends React.PureComponent {
           pageNumber,
           ...this,
         })
-      },
+      }
     )
   }
 
@@ -308,7 +308,7 @@ export default class PaginationProvider extends React.PureComponent {
       {
         items,
       },
-      cb,
+      cb
     )
   }
 

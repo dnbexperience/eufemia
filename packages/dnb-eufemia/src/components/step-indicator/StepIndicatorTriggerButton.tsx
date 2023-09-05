@@ -35,7 +35,7 @@ export type StepIndicatorTriggerButtonProps = ButtonProps & {
   inner_ref?: React.RefObject<HTMLElement>
 }
 function StepIndicatorTriggerButton(
-  props: StepIndicatorTriggerButtonProps,
+  props: StepIndicatorTriggerButtonProps
 ) {
   const context = useContext(StepIndicatorContext)
 
@@ -44,7 +44,7 @@ function StepIndicatorTriggerButton(
   const heightAnim = useRef(
     new HeightAnimationInstance({
       animate: !context?.no_animation,
-    }),
+    })
   ).current
 
   useEffect(() => {
@@ -73,7 +73,7 @@ function StepIndicatorTriggerButton(
     className: classnames(
       'dnb-step-indicator__trigger',
       createSkeletonClass('font', context.skeleton),
-      createSpacingClasses(context),
+      createSpacingClasses(context)
     ),
     'aria-live': 'polite',
   } as React.HTMLProps<HTMLElement>
@@ -82,13 +82,13 @@ function StepIndicatorTriggerButton(
     ...props,
     className: classnames(
       'dnb-step-indicator__trigger__button',
-      props.className,
+      props.className
     ),
   }
 
   buttonParams['aria-describedby'] = combineDescribedBy(
     buttonParams,
-    context.sidebar_id + '-overview',
+    context.sidebar_id + '-overview'
   )
 
   Object.keys(triggerParams).forEach((key) => {

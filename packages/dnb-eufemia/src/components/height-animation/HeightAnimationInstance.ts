@@ -13,10 +13,10 @@ export type HeightAnimationOptions = {
   animate?: boolean
 }
 export type HeightAnimationOnStartCallback = (
-  state: HeightAnimationStates,
+  state: HeightAnimationStates
 ) => void
 export type HeightAnimationOnEndCallback = (
-  state: HeightAnimationStates,
+  state: HeightAnimationStates
 ) => void
 export type HeightAnimationOnStartStack =
   Array<HeightAnimationOnStartCallback>
@@ -188,7 +188,7 @@ export default class HeightAnimation {
   start(
     fromHeight: HeightAnimationFromHeight,
     toHeight: HeightAnimationToHeight,
-    { animate = true }: HeightAnimationOptions = {},
+    { animate = true }: HeightAnimationOptions = {}
   ) {
     if (window?.location?.href?.includes('data-visual-test')) {
       animate = false
@@ -259,7 +259,7 @@ export default class HeightAnimation {
   adjustTo(
     fromHeight: HeightAnimationFromHeight = null,
     toHeight: HeightAnimationToHeight = null,
-    { animate = true }: HeightAnimationOptions = {},
+    { animate = true }: HeightAnimationOptions = {}
   ) {
     if (!this.elem) {
       return

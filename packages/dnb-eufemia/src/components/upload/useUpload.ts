@@ -28,7 +28,7 @@ function useUpload(id: string): useUploadReturn {
 
   const getExistingFile = (
     file: File,
-    fileItems: UploadFile[] = files,
+    fileItems: UploadFile[] = files
   ) => {
     return fileItems.find(({ file: f }) => {
       return (

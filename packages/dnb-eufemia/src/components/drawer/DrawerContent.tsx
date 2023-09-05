@@ -44,7 +44,7 @@ export default function DrawerContent({
     getContent(
       typeof rest.children === 'function'
         ? Object.freeze({ ...rest, close: context?.close })
-        : rest,
+        : rest
     )
 
   const innerParams = {
@@ -62,7 +62,7 @@ export default function DrawerContent({
       isTrue(noAnimationOnMobile) && `dnb-drawer--no-animation-on-mobile`,
 
       `dnb-drawer--${containerPlacement || 'right'}`,
-      className,
+      className
     ),
     style: (minWidth || maxWidth) && { minWidth, maxWidth },
     onClick: context?.preventClick,
@@ -79,7 +79,7 @@ export default function DrawerContent({
       const height = getOffsetTop(context?.contentRef.current) / 16
       context?.contentRef.current.style.setProperty(
         '--header-height',
-        `${height}rem`,
+        `${height}rem`
       )
     } catch (e) {
       warn(e)
@@ -89,12 +89,12 @@ export default function DrawerContent({
   const navigationElement = findElementInChildren(
     content,
     (cur: React.ReactElement) =>
-      cur.type === DrawerNavigation || cur.type === ModalHeaderBar,
+      cur.type === DrawerNavigation || cur.type === ModalHeaderBar
   )
   const headerElement = findElementInChildren(
     content,
     (cur: React.ReactElement) =>
-      cur.type === DrawerHeader || cur.type === ModalHeader,
+      cur.type === DrawerHeader || cur.type === ModalHeader
   )
 
   return (

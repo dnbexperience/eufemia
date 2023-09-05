@@ -13,7 +13,7 @@ export function testSetupInit() {
 }
 
 export function simulateAnimationEnd(
-  element: Element = document.querySelector('.dnb-height-animation'),
+  element: Element = document.querySelector('.dnb-height-animation')
 ) {
   const event = new CustomEvent('transitionend')
   element.dispatchEvent(event)

@@ -56,7 +56,7 @@ describe('withCamelCaseProps', () => {
 
   it('will render', () => {
     const { rerender, asFragment } = render(
-      <Component snake_case={false} camelCase={1} />,
+      <Component snake_case={false} camelCase={1} />
     )
 
     rerender(
@@ -65,11 +65,11 @@ describe('withCamelCaseProps', () => {
         camelCase={2}
         custom_type={{ foo_bar: 1 }}
         customType={{ fooBar: 1 }}
-      />,
+      />
     )
 
     expect(screen.queryByTestId('props').textContent).toMatch(
-      '{"snake_case":false,"custom_type":{"fooBar":1},"camel_case":2}',
+      '{"snake_case":false,"custom_type":{"fooBar":1},"camel_case":2}'
     )
     expect(asFragment()).toMatchInlineSnapshot(`
       <DocumentFragment>
@@ -98,13 +98,13 @@ describe('withCamelCaseProps', () => {
     const Component = withCamelCaseProps(
       (props: IncludeCamelCase<OriginalProps> & ExtraTypes) => {
         return <Original {...props} />
-      },
+      }
     )
 
     const { asFragment } = render(<Component className="value" />)
 
     expect(screen.queryByTestId('props').textContent).toMatch(
-      '{"className":"value"}',
+      '{"className":"value"}'
     )
     expect(asFragment()).toMatchInlineSnapshot(`
       <DocumentFragment>
@@ -130,11 +130,11 @@ describe('withCamelCaseProps', () => {
     const { asFragment } = render(
       <Context.Provider value={{ contextProp: 'context value' }}>
         <Component snake_case={false} camelCase={1} />
-      </Context.Provider>,
+      </Context.Provider>
     )
 
     expect(screen.queryByTestId('context').textContent).toMatch(
-      '{"contextProp":"context value"}',
+      '{"contextProp":"context value"}'
     )
 
     expect(asFragment()).toMatchInlineSnapshot(`
@@ -235,13 +235,13 @@ describe('classWithCamelCaseProps', () => {
     const Component = classWithCamelCaseProps(Original)
 
     const { rerender, asFragment } = render(
-      <Component snake_case={false} camelCase={1} />,
+      <Component snake_case={false} camelCase={1} />
     )
 
     rerender(<Component snake_case={false} camelCase={2} />)
 
     expect(screen.queryByTestId('props').textContent).toMatch(
-      '{"snake_case":false,"camel_case":2}',
+      '{"snake_case":false,"camel_case":2}'
     )
     expect(asFragment()).toMatchInlineSnapshot(`
               <DocumentFragment>
@@ -280,7 +280,7 @@ describe('classWithCamelCaseProps', () => {
     const Component = classWithCamelCaseProps(CopyOfOriginal)
 
     const { rerender } = render(
-      <Component snake_case={false} camelCase={1} />,
+      <Component snake_case={false} camelCase={1} />
     )
 
     rerender(<Component snake_case={false} camelCase={2} />)
@@ -294,11 +294,11 @@ describe('classWithCamelCaseProps', () => {
     const { asFragment } = render(
       <Context.Provider value={{ contextProp: 'context value' }}>
         <Component snake_case={false} camelCase={1} />
-      </Context.Provider>,
+      </Context.Provider>
     )
 
     expect(screen.queryByTestId('context').textContent).toMatch(
-      '{"contextProp":"context value"}',
+      '{"contextProp":"context value"}'
     )
 
     expect(asFragment()).toMatchInlineSnapshot(`
@@ -335,7 +335,7 @@ describe('classWithCamelCaseProps', () => {
     rerender(<Component newProp="hello" />)
 
     expect(
-      document.querySelector('[data-testid="props"]').textContent,
+      document.querySelector('[data-testid="props"]').textContent
     ).toBe('{"new_prop":"hello"}')
   })
 
@@ -349,7 +349,7 @@ describe('classWithCamelCaseProps', () => {
         snake_case={false}
         camelCase={1}
         update_comp={on_update}
-      />,
+      />
     )
 
     rerender(
@@ -357,16 +357,12 @@ describe('classWithCamelCaseProps', () => {
         snake_case={false}
         camelCase={1}
         update_comp={on_update}
-      />,
+      />
     )
     expect(on_update).toHaveBeenCalledTimes(0)
 
     rerender(
-      <Component
-        snake_case={true}
-        camelCase={1}
-        update_comp={on_update}
-      />,
+      <Component snake_case={true} camelCase={1} update_comp={on_update} />
     )
     expect(on_update).toHaveBeenCalledTimes(2)
   })

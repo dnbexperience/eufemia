@@ -82,7 +82,7 @@ export default class FormLabel extends React.PureComponent {
       FormLabel.defaultProps,
       { skeleton: this.context?.skeleton },
       includeValidProps(this.context.FormRow),
-      this.context.FormLabel,
+      this.context.FormLabel
     )
 
     const {
@@ -113,7 +113,7 @@ export default class FormLabel extends React.PureComponent {
         createSkeletonClass('font', skeleton, this.context),
         createSpacingClasses(props),
         className,
-        _className,
+        _className
       ),
       htmlFor: for_id,
       id,

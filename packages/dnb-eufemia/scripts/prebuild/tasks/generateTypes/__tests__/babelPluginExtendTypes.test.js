@@ -12,11 +12,11 @@ describe('babelPluginExtendTypes', () => {
   it('has to match snapshot', async () => {
     const targetFile = nodePath.resolve(
       __dirname,
-      '__mocks__/PrimaryComponent.d.ts',
+      '__mocks__/PrimaryComponent.d.ts'
     )
     const file = nodePath.resolve(
       __dirname,
-      '__mocks__/PrimaryComponent.js',
+      '__mocks__/PrimaryComponent.js'
     )
 
     const { code } = await transformFileAsync(targetFile, {

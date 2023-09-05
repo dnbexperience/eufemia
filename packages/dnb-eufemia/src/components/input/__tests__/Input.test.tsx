@@ -27,15 +27,13 @@ describe('Input component', () => {
     render(
       <Input {...props} value={null}>
         {null}
-      </Input>,
+      </Input>
     )
 
     fireEvent.focus(document.querySelector('input'))
 
     expect(
-      document
-        .querySelector('.dnb-input')
-        .getAttribute('data-input-state'),
+      document.querySelector('.dnb-input').getAttribute('data-input-state')
     ).toBe('focus')
   })
 
@@ -43,13 +41,11 @@ describe('Input component', () => {
     render(
       <Input {...props} value={null}>
         {null}
-      </Input>,
+      </Input>
     )
 
     expect(
-      document
-        .querySelector('.dnb-input')
-        .getAttribute('data-has-content'),
+      document.querySelector('.dnb-input').getAttribute('data-has-content')
     ).toBe('false')
 
     const newValue = 'new value'
@@ -58,13 +54,11 @@ describe('Input component', () => {
     })
 
     expect(
-      document
-        .querySelector('.dnb-input')
-        .getAttribute('data-has-content'),
+      document.querySelector('.dnb-input').getAttribute('data-has-content')
     ).toBe('true')
 
     expect(document.querySelector('input').getAttribute('value')).toBe(
-      newValue,
+      newValue
     )
   })
 
@@ -116,7 +110,7 @@ describe('Input component', () => {
     render(<Controlled />)
 
     expect(document.querySelector('input').getAttribute('value')).toBe(
-      format(initialValue),
+      format(initialValue)
     )
 
     const newValue = '12345678'
@@ -125,7 +119,7 @@ describe('Input component', () => {
     })
 
     expect(document.querySelector('input').getAttribute('value')).toBe(
-      format(newValue),
+      format(newValue)
     )
   })
 
@@ -135,7 +129,7 @@ describe('Input component', () => {
         on_change={({ value }) => {
           return String(value).toUpperCase()
         }}
-      />,
+      />
     )
 
     const newValue = 'new value'
@@ -144,7 +138,7 @@ describe('Input component', () => {
     })
 
     expect(document.querySelector('input').getAttribute('value')).toBe(
-      'NEW VALUE',
+      'NEW VALUE'
     )
   })
 
@@ -154,7 +148,7 @@ describe('Input component', () => {
         on_change={() => {
           return false
         }}
-      />,
+      />
     )
 
     const newValue = 'new value'
@@ -179,7 +173,7 @@ describe('Input component', () => {
         value={initValue}
         on_change={on_change}
         onKeyDown={onKeyDown} // additional native event test
-      />,
+      />
     )
 
     expect(document.querySelector('input').value).toBe(initValue)
@@ -209,7 +203,7 @@ describe('Input component', () => {
     const { rerender } = render(
       <Input {...props} value={null}>
         {null}
-      </Input>,
+      </Input>
     )
 
     const initValue = 'new prop value'
@@ -218,43 +212,43 @@ describe('Input component', () => {
     rerender(
       <Input {...props} value={initValue}>
         {null}
-      </Input>,
+      </Input>
     )
     expect(document.querySelector('input').value).toBe(initValue)
 
     rerender(
       <Input {...props} value={emptyValue}>
         {null}
-      </Input>,
+      </Input>
     )
     expect(document.querySelector('input').value).toBe('')
   })
 
   it('should show placeholder with both value null and undefined', () => {
     const { rerender } = render(
-      <Input value={undefined} placeholder="AA" />,
+      <Input value={undefined} placeholder="AA" />
     )
 
     expect(
-      document.querySelector('.dnb-input__placeholder').textContent,
+      document.querySelector('.dnb-input__placeholder').textContent
     ).toBe('AA')
 
     rerender(<Input placeholder="BB" value={null} />)
 
     expect(
-      document.querySelector('.dnb-input__placeholder').textContent,
+      document.querySelector('.dnb-input__placeholder').textContent
     ).toBe('BB')
 
     rerender(<Input placeholder="CC" value="" />)
 
     expect(
-      document.querySelector('.dnb-input__placeholder').textContent,
+      document.querySelector('.dnb-input__placeholder').textContent
     ).toBe('CC')
 
     rerender(<Input placeholder="CC" value="new-value" />)
 
     expect(
-      document.querySelector('.dnb-input__placeholder'),
+      document.querySelector('.dnb-input__placeholder')
     ).not.toBeInTheDocument()
   })
 
@@ -273,7 +267,7 @@ describe('Input component', () => {
 
     rerender(<Input placeholder="Placeholder" value={zeroValue} />)
     expect(document.querySelector('input').getAttribute('value')).toBe(
-      String(zeroValue),
+      String(zeroValue)
     )
   })
 
@@ -283,14 +277,14 @@ describe('Input component', () => {
         id="unique"
         placeholder="Placeholder-text"
         label="Label-text"
-      />,
+      />
     )
 
     expect(document.querySelector('label').getAttribute('for')).toContain(
-      'unique',
+      'unique'
     )
     expect(
-      document.querySelector('input').getAttribute('aria-placeholder'),
+      document.querySelector('input').getAttribute('aria-placeholder')
     ).toContain('Placeholder-text')
 
     rerender(
@@ -298,34 +292,34 @@ describe('Input component', () => {
         id="unique"
         placeholder="Placeholder-text"
         label={undefined}
-      />,
+      />
     )
 
     expect(document.querySelector('label')).not.toBeInTheDocument()
     expect(
-      document.querySelector('input').getAttribute('aria-placeholder'),
+      document.querySelector('input').getAttribute('aria-placeholder')
     ).toContain('Placeholder-text')
     expect(document.querySelector('input')).not.toHaveAttribute(
-      'aria-labelledby',
+      'aria-labelledby'
     )
 
     rerender(
-      <Input id="unique" placeholder={undefined} label={undefined} />,
+      <Input id="unique" placeholder={undefined} label={undefined} />
     )
 
     expect(document.querySelector('label')).not.toBeInTheDocument()
     expect(document.querySelector('input')).not.toHaveAttribute(
-      'aria-placeholder',
+      'aria-placeholder'
     )
     expect(document.querySelector('input')).not.toHaveAttribute(
-      'aria-labelledby',
+      'aria-labelledby'
     )
   })
 
   it('has correct medium input size', () => {
     render(<Input size="medium" />)
     expect(
-      document.querySelector('.dnb-input--medium'),
+      document.querySelector('.dnb-input--medium')
     ).toBeInTheDocument()
   })
 
@@ -347,7 +341,7 @@ describe('Input component', () => {
   it('uses children as the value', () => {
     render(<Input>children</Input>)
     expect(document.querySelector('input').getAttribute('value')).toBe(
-      'children',
+      'children'
     )
   })
 
@@ -370,14 +364,14 @@ describe('Input component', () => {
     const { rerender } = render(
       <Input {...props} value={null}>
         {null}
-      </Input>,
+      </Input>
     )
 
     const value = 'new value'
     rerender(
       <Input {...props} value={value}>
         {null}
-      </Input>,
+      </Input>
     )
     expect(document.querySelector('input').value).toBe(value)
   })
@@ -390,7 +384,7 @@ describe('Input component', () => {
   it('has to to have a status value as defined in the prop', () => {
     render(<Input {...props} status="status" status_state="error" />)
     expect(
-      document.querySelector('.dnb-form-status__text').textContent,
+      document.querySelector('.dnb-form-status__text').textContent
     ).toBe('status')
   })
 
@@ -401,11 +395,11 @@ describe('Input component', () => {
         status="status text"
         status_state="warn"
         status_props={{ stretch: true }}
-      />,
+      />
     )
 
     expect(
-      Array.from(document.querySelector('.dnb-form-status').classList),
+      Array.from(document.querySelector('.dnb-form-status').classList)
     ).toEqual([
       'dnb-form-status',
       'dnb-form-status--warn',
@@ -425,13 +419,13 @@ describe('Input component', () => {
     render(
       <Input {...props} type="search" value={null} aria-describedby="id">
         {null}
-      </Input>,
+      </Input>
     )
 
     expect(
       document
         .querySelector('.dnb-input__input')
-        .getAttribute('aria-describedby'),
+        .getAttribute('aria-describedby')
     ).toBe('id input-submit-button')
 
     const Button = document.querySelector('button')
@@ -441,7 +435,7 @@ describe('Input component', () => {
     expect(
       document
         .querySelector('.dnb-input__submit-button')
-        .getAttribute('data-input-state'),
+        .getAttribute('data-input-state')
     ).toBe('focus')
   })
 
@@ -453,11 +447,11 @@ describe('Input component', () => {
         value="value"
         type="search"
         on_submit={on_submit}
-      />,
+      />
     )
 
     expect(document.querySelector('input').getAttribute('value')).toBe(
-      'value',
+      'value'
     )
 
     fireEvent.keyDown(document.querySelector('input'), {
@@ -479,11 +473,11 @@ describe('Input with clear button', () => {
     render(<Input id="input-id" clear={true} value="value" />)
 
     expect(document.querySelector('input').getAttribute('value')).toBe(
-      'value',
+      'value'
     )
 
     const clearButton = document.querySelector(
-      'button#input-id-clear-button',
+      'button#input-id-clear-button'
     )
     fireEvent.click(clearButton)
 
@@ -494,11 +488,11 @@ describe('Input with clear button', () => {
     render(<Input id="input-id" clear={true} value="value" />)
 
     expect(document.querySelector('input').getAttribute('value')).toBe(
-      'value',
+      'value'
     )
 
     const clearButton = document.querySelector(
-      'button#input-id-clear-button',
+      'button#input-id-clear-button'
     )
     fireEvent.click(clearButton)
 
@@ -513,7 +507,7 @@ describe('Input with clear button', () => {
     expect(document.querySelector('input').getAttribute('value')).toBe('')
 
     const clearButton = document.querySelector(
-      'button#input-id-clear-button',
+      'button#input-id-clear-button'
     )
 
     expect(document.querySelector('input').getAttribute('value')).toBe('')
@@ -525,7 +519,7 @@ describe('Input with clear button', () => {
     render(<Input clear={true} value="value" />)
 
     expect(document.querySelector('input').getAttribute('value')).toBe(
-      'value',
+      'value'
     )
 
     fireEvent.keyDown(document.querySelector('input'), {
@@ -540,15 +534,13 @@ describe('Input with clear button', () => {
     render(<Input id="input-id" clear={true} value="value" />)
 
     const clearButton = document.querySelector(
-      'button#input-id-clear-button',
+      'button#input-id-clear-button'
     )
     fireEvent.click(clearButton)
 
     fireEvent.focus(document.querySelector('input'))
     expect(
-      document
-        .querySelector('.dnb-input')
-        .getAttribute('data-input-state'),
+      document.querySelector('.dnb-input').getAttribute('data-input-state')
     ).toBe('focus')
   })
 
@@ -569,12 +561,12 @@ describe('Input with clear button', () => {
     render(
       <FormRow vertical>
         <Input label="Label" />
-      </FormRow>,
+      </FormRow>
     )
 
     const element = document.querySelector('.dnb-input')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name,
+      (attr) => attr.name
     )
 
     expect(attributes).toEqual([
@@ -593,26 +585,26 @@ describe('Input with clear button', () => {
   it('should support icon', () => {
     const { rerender } = render(<Input clear={true} icon="bell" />)
     expect(
-      document.querySelector('.dnb-input__icon').querySelector('svg'),
+      document.querySelector('.dnb-input__icon').querySelector('svg')
     ).toBeInTheDocument()
     expect(
-      document.querySelector('.dnb-icon--default'),
+      document.querySelector('.dnb-icon--default')
     ).toBeInTheDocument()
     expect(
-      document.querySelector('.dnb-input--icon-position-right'),
+      document.querySelector('.dnb-input--icon-position-right')
     ).not.toBeInTheDocument()
 
     rerender(<Input clear={true} icon="bell" icon_position="right" />)
 
     expect(
-      document.querySelector('.dnb-input--icon-position-right'),
+      document.querySelector('.dnb-input--icon-position-right')
     ).toBeInTheDocument()
 
     expect(
       document
         .querySelector('.dnb-input')
         .querySelector('.dnb-input__input ~ .dnb-input__icon')
-        .querySelector('svg'),
+        .querySelector('svg')
     ).toBeInTheDocument()
   })
 
@@ -620,15 +612,15 @@ describe('Input with clear button', () => {
     global.console.log = jest.fn()
     render(<Input clear={true} icon="bell" icon_position="right" />)
     expect(
-      document.querySelector('.dnb-input--clear'),
+      document.querySelector('.dnb-input--clear')
     ).not.toBeInTheDocument()
     expect(
-      document.querySelector('.dnb-input__icon').querySelector('svg'),
+      document.querySelector('.dnb-input__icon').querySelector('svg')
     ).toBeInTheDocument()
     expect(global.console.log).toHaveBeenCalledTimes(1)
     expect(global.console.log).toHaveBeenCalledWith(
       expect.stringContaining('Eufemia'),
-      `You can not have a clear button and icon_position="right"`,
+      `You can not have a clear button and icon_position="right"`
     )
   })
 
@@ -640,14 +632,14 @@ describe('Input with clear button', () => {
       document
         .querySelector('.dnb-input')
         .querySelector('.dnb-input__input ~ .dnb-input__inner__element')
-        .textContent,
+        .textContent
     ).toBe('custom element')
 
     expect(
       document
         .querySelector('.dnb-input')
         .querySelector('.dnb-input__inner__element ~ .dnb-input__icon')
-        .querySelector('svg'),
+        .querySelector('svg')
     ).toBeInTheDocument()
   })
 })
@@ -663,7 +655,7 @@ describe('Input ARIA', () => {
           autocomplete="off"
           value="some value"
         />
-      </>,
+      </>
     )
 
     expect(await axeComponent(Comp)).toHaveNoViolations()
@@ -674,7 +666,7 @@ describe('Input ARIA', () => {
       <>
         <label htmlFor="input">text</label>
         <Input {...props} id="input" value="some value" />
-      </>,
+      </>
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
@@ -688,7 +680,7 @@ describe('Input scss', () => {
 
   it('have to match default theme snapshot', () => {
     const css = loadScss(
-      require.resolve('../style/themes/dnb-input-theme-ui.scss'),
+      require.resolve('../style/themes/dnb-input-theme-ui.scss')
     )
     expect(css).toMatchSnapshot()
   })

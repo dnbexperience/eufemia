@@ -19,14 +19,14 @@ export const runFigmaReset = async () => {
     }
     const svgLockFile = path.resolve(
       __dirname,
-      '../../src/icons/icons-svg.lock',
+      '../../src/icons/icons-svg.lock'
     )
     if (fs.existsSync(svgLockFile)) {
       await fs.unlink(svgLockFile)
     }
     const pdfLockFile = path.resolve(
       __dirname,
-      '../../src/icons/icons-pdf.lock',
+      '../../src/icons/icons-pdf.lock'
     )
     if (fs.existsSync(pdfLockFile)) {
       await fs.unlink(pdfLockFile)
@@ -44,5 +44,5 @@ runFigmaReset().then(() =>
     ignoreBranchCheck: true,
   }).then(() => {
     log.succeed('Resetting Figma is done')
-  }),
+  })
 )

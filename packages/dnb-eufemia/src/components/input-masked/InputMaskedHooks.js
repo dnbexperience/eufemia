@@ -100,7 +100,7 @@ export const useLocalValue = () => {
       locale,
       props,
       maskParams,
-    }),
+    })
   )
 
   /**
@@ -251,7 +251,7 @@ export const useInputElement = () => {
             showGuide &&
             placeholderChar &&
             placeholderChar !== invisibleSpace &&
-            'dnb-input-masked--guide', // will use --font-family-monospace
+            'dnb-input-masked--guide' // will use --font-family-monospace
         )}
       />
     )
@@ -492,7 +492,7 @@ const useNumberMaskParams = () => {
         thousandsSeparatorSymbol,
         currency: getCurrencySymbol(
           locale,
-          typeof as_currency === 'string' ? as_currency : null,
+          typeof as_currency === 'string' ? as_currency : null
         ),
         ...currency_mask,
       }

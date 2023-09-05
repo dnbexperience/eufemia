@@ -29,13 +29,13 @@ describe('Pagination bar', () => {
     const innerElem = document.querySelector('.dnb-pagination__bar__inner')
 
     expect(
-      innerElem.querySelectorAll('button.dnb-pagination__button').length,
+      innerElem.querySelectorAll('button.dnb-pagination__button').length
     ).toBe(9)
     expect(
-      innerElem.querySelectorAll('button.dnb-button--secondary').length,
+      innerElem.querySelectorAll('button.dnb-button--secondary').length
     ).toBe(8)
     expect(
-      innerElem.querySelectorAll('button.dnb-button--primary').length,
+      innerElem.querySelectorAll('button.dnb-button--primary').length
     ).toBe(1)
   })
 
@@ -43,7 +43,7 @@ describe('Pagination bar', () => {
     const { rerender } = render(
       <Pagination {...props}>
         <div id="page-content">content</div>
-      </Pagination>,
+      </Pagination>
     )
 
     expect(document.querySelector('div#page-content')).toBeInTheDocument()
@@ -51,7 +51,7 @@ describe('Pagination bar', () => {
     rerender(
       <Pagination {...props} current_page={1}>
         <div id="page-content">content</div>
-      </Pagination>,
+      </Pagination>
     )
 
     expect(document.querySelector('div#page-content')).toBeInTheDocument()
@@ -74,7 +74,7 @@ describe('Pagination bar', () => {
       prevNavButton
         .querySelector('span.dnb-icon')
 
-        .getAttribute('data-testid'),
+        .getAttribute('data-testid')
     ).toBe('chevron left icon')
   })
 
@@ -90,7 +90,7 @@ describe('Pagination bar', () => {
 
           return <div id="page-no">{pageNumber}</div>
         }}
-      </Pagination>,
+      </Pagination>
     )
 
     expect(document.querySelector('div#page-no').textContent).toBe('15')
@@ -115,7 +115,7 @@ describe('Pagination bar', () => {
 
           return <div id="page-no">{pageNumber}</div>
         }}
-      </Pagination>,
+      </Pagination>
     )
     expect(currentPage).toBe(5)
     expect(document.querySelector('div#page-no').textContent).toBe('5')
@@ -128,7 +128,7 @@ describe('Pagination bar', () => {
 
           return <div id="page-no">{pageNumber}</div>
         }}
-      </Pagination>,
+      </Pagination>
     )
     expect(currentPage).toBe(3)
     expect(document.querySelector('div#page-no').textContent).toBe('3')
@@ -138,10 +138,10 @@ describe('Pagination bar', () => {
     render(
       <Pagination page_count={3} startup_page={2}>
         {({ pageNumber }) => <div>{pageNumber}</div>}
-      </Pagination>,
+      </Pagination>
     )
     expect(
-      document.querySelector('.dnb-pagination__content').textContent,
+      document.querySelector('.dnb-pagination__content').textContent
     ).toBe('2')
   })
 
@@ -151,10 +151,10 @@ describe('Pagination bar', () => {
         {({ pageNumber, setContent }) => {
           setContent(pageNumber, <div>{pageNumber}</div>)
         }}
-      </Pagination>,
+      </Pagination>
     )
     expect(
-      document.querySelector('.dnb-pagination__content').textContent,
+      document.querySelector('.dnb-pagination__content').textContent
     ).toBe('2')
 
     const nextButton = document
@@ -167,7 +167,7 @@ describe('Pagination bar', () => {
     fireEvent.click(nextButton)
 
     expect(
-      document.querySelector('.dnb-pagination__content').textContent,
+      document.querySelector('.dnb-pagination__content').textContent
     ).toBe('3')
   })
 
@@ -186,7 +186,7 @@ describe('Pagination bar', () => {
             {({ pageNumber, setContent }) => {
               setContent(
                 pageNumber,
-                <code>{JSON.stringify({ pageNumber, count })}</code>,
+                <code>{JSON.stringify({ pageNumber, count })}</code>
               )
             }}
           </Pagination>
@@ -197,14 +197,14 @@ describe('Pagination bar', () => {
 
     expect(document.querySelector('#button').textContent).toBe('1')
     expect(
-      document.querySelector('.dnb-pagination__content').textContent,
+      document.querySelector('.dnb-pagination__content').textContent
     ).toBe('{"pageNumber":2,"count":1}')
 
     fireEvent.click(document.querySelector('#button'))
 
     expect(document.querySelector('#button').textContent).toBe('2')
     expect(
-      document.querySelector('.dnb-pagination__content').textContent,
+      document.querySelector('.dnb-pagination__content').textContent
     ).toBe('{"pageNumber":2,"count":2}')
 
     const nextButton = document
@@ -214,12 +214,12 @@ describe('Pagination bar', () => {
 
     fireEvent.click(nextButton)
     expect(
-      document.querySelector('.dnb-pagination__content').textContent,
+      document.querySelector('.dnb-pagination__content').textContent
     ).toBe('{"pageNumber":3,"count":2}')
 
     fireEvent.click(document.querySelector('#button'))
     expect(
-      document.querySelector('.dnb-pagination__content').textContent,
+      document.querySelector('.dnb-pagination__content').textContent
     ).toBe('{"pageNumber":3,"count":3}')
   })
 
@@ -301,7 +301,7 @@ describe('Infinity scroller', () => {
         on_change={on_change}
         on_load={on_load}
         on_end={on_end}
-      />,
+      />
     )
 
     await waitForComponent()
@@ -311,10 +311,10 @@ describe('Infinity scroller', () => {
 
     expect(document.querySelectorAll('div.page-item').length).toBe(2)
     expect(document.querySelectorAll('div.page-item')[0].textContent).toBe(
-      '3',
+      '3'
     )
     expect(document.querySelectorAll('div.page-item')[1].textContent).toBe(
-      '4',
+      '4'
     )
 
     await intersect()
@@ -322,13 +322,13 @@ describe('Infinity scroller', () => {
 
     expect(document.querySelectorAll('div.page-item').length).toBe(3)
     expect(document.querySelectorAll('div.page-item')[0].textContent).toBe(
-      '3',
+      '3'
     )
     expect(document.querySelectorAll('div.page-item')[1].textContent).toBe(
-      '4',
+      '4'
     )
     expect(document.querySelectorAll('div.page-item')[2].textContent).toBe(
-      '5',
+      '5'
     )
 
     expect(disconnect).toHaveBeenCalledTimes(2)
@@ -425,36 +425,36 @@ describe('Infinity scroller', () => {
 
     expect(document.querySelectorAll('div.page-item').length).toBe(20)
     expect(document.querySelectorAll('div.page-item')[0].textContent).toBe(
-      'page-11',
+      'page-11'
     )
     expect(
       document.querySelectorAll('div.page-item')[
         document.querySelectorAll('div.page-item').length - 1
-      ].textContent,
+      ].textContent
     ).toBe('page-30')
 
     await intersect()
 
     expect(document.querySelectorAll('div.page-item').length).toBe(30)
     expect(document.querySelectorAll('div.page-item')[0].textContent).toBe(
-      'page-11',
+      'page-11'
     )
     expect(
       document.querySelectorAll('div.page-item')[
         document.querySelectorAll('div.page-item').length - 1
-      ].textContent,
+      ].textContent
     ).toBe('page-40')
 
     await intersect()
 
     expect(document.querySelectorAll('div.page-item').length).toBe(40)
     expect(document.querySelectorAll('div.page-item')[0].textContent).toBe(
-      'page-11',
+      'page-11'
     )
     expect(
       document.querySelectorAll('div.page-item')[
         document.querySelectorAll('div.page-item').length - 1
-      ].textContent,
+      ].textContent
     ).toBe('page-50')
 
     localStack.current = {}
@@ -464,12 +464,12 @@ describe('Infinity scroller', () => {
 
     expect(document.querySelectorAll('div.page-item').length).toBe(10)
     expect(document.querySelectorAll('div.page-item')[0].textContent).toBe(
-      'page-21',
+      'page-21'
     )
     expect(
       document.querySelectorAll('div.page-item')[
         document.querySelectorAll('div.page-item').length - 1
-      ].textContent,
+      ].textContent
     ).toBe('page-30')
   })
 
@@ -521,15 +521,15 @@ describe('Infinity scroller', () => {
 
     expect(document.querySelectorAll('div.page-item').length).toBe(20)
     expect(document.querySelectorAll('div.page-item')[0].textContent).toBe(
-      'page-1',
+      'page-1'
     )
     expect(
       document.querySelectorAll('div.page-item')[
         document.querySelectorAll('div.page-item').length - 1
-      ].textContent,
+      ].textContent
     ).toBe('page-20')
     expect(
-      document.querySelector('div.dnb-pagination__loadbar'),
+      document.querySelector('div.dnb-pagination__loadbar')
     ).not.toBeInTheDocument()
   })
 
@@ -544,7 +544,7 @@ describe('Infinity scroller', () => {
 
     const clickOnLoadMore = async () => {
       fireEvent.click(
-        document.querySelector('div.dnb-pagination__loadbar button'),
+        document.querySelector('div.dnb-pagination__loadbar button')
       )
 
       await waitForComponent()
@@ -557,7 +557,7 @@ describe('Infinity scroller', () => {
         on_startup={on_startup}
         on_change={on_change}
         on_load={on_load}
-      />,
+      />
     )
 
     await waitForComponent()
@@ -568,17 +568,17 @@ describe('Infinity scroller', () => {
 
     expect(document.querySelectorAll('div.page-item').length).toBe(2)
     expect(document.querySelectorAll('div.page-item')[0].textContent).toBe(
-      '2',
+      '2'
     )
 
     await clickOnLoadMore()
 
     expect(document.querySelectorAll('div.page-item').length).toBe(3)
     expect(document.querySelectorAll('div.page-item')[0].textContent).toBe(
-      '1',
+      '1'
     )
     expect(
-      document.querySelector('div.dnb-pagination__loadbar'),
+      document.querySelector('div.dnb-pagination__loadbar')
     ).not.toBeInTheDocument()
 
     expect(on_startup).toHaveBeenCalledTimes(1)
@@ -590,7 +590,7 @@ describe('Infinity scroller', () => {
     render(
       <Pagination mode="infinity" {...props}>
         <div id="page-content">content</div>
-      </Pagination>,
+      </Pagination>
     )
 
     expect(document.querySelector('div#page-content')).toBeInTheDocument()
@@ -600,11 +600,11 @@ describe('Infinity scroller', () => {
     const { rerender } = render(
       <Provider>
         <Pagination {...props} />
-      </Provider>,
+      </Provider>
     )
 
     const element = document.querySelector(
-      '.dnb-pagination__bar__skip button',
+      '.dnb-pagination__bar__skip button'
     )
 
     expect(element.textContent).toContain(nb.prev_title)
@@ -612,7 +612,7 @@ describe('Infinity scroller', () => {
     rerender(
       <Provider locale="en-GB">
         <Pagination {...props} />
-      </Provider>,
+      </Provider>
     )
 
     expect(element.textContent).toContain(en.prev_title)
@@ -620,7 +620,7 @@ describe('Infinity scroller', () => {
     rerender(
       <Provider locale="nb-NO">
         <Pagination {...props} />
-      </Provider>,
+      </Provider>
     )
 
     expect(element.textContent).toContain(nb.prev_title)
@@ -631,7 +631,7 @@ describe('Infinity scroller', () => {
 
     const element = document.querySelector('.dnb-pagination')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name,
+      (attr) => attr.name
     )
 
     expect(attributes).toEqual(['class'])
@@ -640,7 +640,7 @@ describe('Infinity scroller', () => {
         'dnb-pagination',
         'dnb-space__top--large',
         'dnb-pagination--left',
-      ]),
+      ])
     )
   })
 
@@ -694,26 +694,26 @@ describe('Infinity scroller', () => {
 
     const clickOnLoadMore = async () => {
       fireEvent.click(
-        document.querySelector('div.dnb-pagination__loadbar button'),
+        document.querySelector('div.dnb-pagination__loadbar button')
       )
 
       await waitForComponent()
     }
 
     expect(document.querySelector('div#page-content').textContent).toBe(
-      'page-3',
+      'page-3'
     )
 
     await clickOnLoadMore()
 
     expect(document.querySelector('div#page-content').textContent).toBe(
-      'page-2',
+      'page-2'
     )
 
     await clickOnLoadMore()
 
     expect(document.querySelector('div#page-content').textContent).toBe(
-      'page-1',
+      'page-1'
     )
 
     expect(on_startup).toHaveBeenCalledTimes(1)
@@ -726,7 +726,7 @@ describe('Infinity scroller', () => {
     await waitForComponent()
 
     expect(document.querySelector('div#page-content').textContent).toBe(
-      'page-3',
+      'page-3'
     )
 
     expect(on_startup).toHaveBeenCalledTimes(2)
@@ -739,10 +739,10 @@ describe('Infinity scroller', () => {
     render(<Bar skeleton={false} />)
 
     expect(
-      document.querySelector('.dnb-pagination__bar'),
+      document.querySelector('.dnb-pagination__bar')
     ).toBeInTheDocument()
     expect(
-      document.querySelector('.dnb-pagination__indicator'),
+      document.querySelector('.dnb-pagination__indicator')
     ).not.toBeInTheDocument()
   })
 })
@@ -765,7 +765,7 @@ describe('Pagination ARIA', () => {
         page_count={5}
         current_page={3}
         min_wait_time={0}
-      />,
+      />
     )
     await wait(1)
     expect(await axeComponent(CheckComponent)).toHaveNoViolations()
@@ -780,7 +780,7 @@ describe('Pagination scss', () => {
 
   it('have to match default theme snapshot', () => {
     const css = loadScss(
-      require.resolve('../style/themes/dnb-pagination-theme-ui.scss'),
+      require.resolve('../style/themes/dnb-pagination-theme-ui.scss')
     )
     expect(css).toMatchSnapshot()
   })

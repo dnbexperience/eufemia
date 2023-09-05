@@ -34,9 +34,9 @@ describe('type definitions', () => {
         fs.existsSync(
           path.resolve(
             packpath.self(),
-            `build${stage}/components/Input.d.ts`,
-          ),
-        ),
+            `build${stage}/components/Input.d.ts`
+          )
+        )
       ).toBe(true)
 
       // To ensure babel did not compile the d.ts file
@@ -44,16 +44,16 @@ describe('type definitions', () => {
         fs.readFileSync(
           path.resolve(
             packpath.self(),
-            `build${stage}/components/input/Input.d.ts`,
+            `build${stage}/components/input/Input.d.ts`
           ),
-          'utf-8',
-        ),
+          'utf-8'
+        )
       ).toMatch(/export interface/g)
 
       // Test the output of js files
       const file = path.resolve(
         packpath.self(),
-        `build${stage}/components/input/Input.d.ts`,
+        `build${stage}/components/input/Input.d.ts`
       )
 
       expect(fs.existsSync(file)).toBe(true)
@@ -61,10 +61,10 @@ describe('type definitions', () => {
       const content = fs.readFileSync(file, 'utf-8')
       expect(content).toContain('export interface InputProps')
       expect(content).toContain(
-        "extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,",
+        "extends Omit<React.HTMLProps<HTMLElement>, 'ref'>,"
       )
       expect(content).toContain('SpacingProps')
-    },
+    }
   )
 
   it.each(buildStages)(
@@ -75,11 +75,11 @@ describe('type definitions', () => {
       // Test the output of tsx files
       const tsxFile = path.resolve(
         packpath.self(),
-        `build${stage}/components/breadcrumb/Breadcrumb.tsx`,
+        `build${stage}/components/breadcrumb/Breadcrumb.tsx`
       )
       const dtsFile = path.resolve(
         packpath.self(),
-        `build${stage}/components/breadcrumb/Breadcrumb.d.ts`,
+        `build${stage}/components/breadcrumb/Breadcrumb.d.ts`
       )
 
       expect(fs.existsSync(tsxFile)).toBe(false)
@@ -87,7 +87,7 @@ describe('type definitions', () => {
 
       const content = fs.readFileSync(dtsFile, 'utf-8')
       expect(content).toContain('export interface BreadcrumbProps')
-    },
+    }
   )
 })
 
@@ -122,7 +122,7 @@ describe('babel build', () => {
       // In case the git CLI command fails, we do not want to break the run
       console.error(
         'Could not run the CLI command to get the commited files (getCommittedFiles)',
-        error,
+        error
       )
     }
   })
@@ -134,25 +134,22 @@ describe('babel build', () => {
           {
             const content = fs.readFileSync(
               path.resolve(packpath.self(), `build${stage}/index.js`),
-              'utf-8',
+              'utf-8'
             )
             expect(content).toContain(
-              'Object.defineProperty(exports, "__esModule", {',
+              'Object.defineProperty(exports, "__esModule", {'
             )
             expect(content).toContain(`var _default = {};`)
 
             // Has extra cjs package
             expect(
               fs.existsSync(
-                path.resolve(
-                  packpath.self(),
-                  `build${stage}/package.json`,
-                ),
-              ),
+                path.resolve(packpath.self(), `build${stage}/package.json`)
+              )
             ).toBe(true)
 
             const packageJson = fs.readJsonSync(
-              path.resolve(packpath.self(), `build${stage}/package.json`),
+              path.resolve(packpath.self(), `build${stage}/package.json`)
             )
 
             expect(packageJson.type).toBe('commonjs')
@@ -162,9 +159,9 @@ describe('babel build', () => {
             const content = fs.readFileSync(
               path.resolve(
                 packpath.self(),
-                `build${stage}/components/input/Input.js`,
+                `build${stage}/components/input/Input.js`
               ),
-              'utf-8',
+              'utf-8'
             )
             expect(content).toContain('class Input extends')
             expect(content).toMatch(/^"use strict";/g)
@@ -174,9 +171,9 @@ describe('babel build', () => {
             const content = fs.readFileSync(
               path.resolve(
                 packpath.self(),
-                `build${stage}/components/breadcrumb/Breadcrumb.js`,
+                `build${stage}/components/breadcrumb/Breadcrumb.js`
               ),
-              'utf-8',
+              'utf-8'
             )
             expect(content).toContain('var _default = Breadcrumb')
             expect(content).toMatch(/^"use strict";/g)
@@ -191,7 +188,7 @@ describe('babel build', () => {
           {
             const content = fs.readFileSync(
               path.resolve(packpath.self(), `build${stage}/index.js`),
-              'utf-8',
+              'utf-8'
             )
             expect(content).toContain('export default {};')
           }
@@ -200,14 +197,14 @@ describe('babel build', () => {
             const content = fs.readFileSync(
               path.resolve(
                 packpath.self(),
-                `build${stage}/components/input/Input.js`,
+                `build${stage}/components/input/Input.js`
               ),
-              'utf-8',
+              'utf-8'
             )
             expect(content).toContain('export default class Input extends')
             expect(content).not.toContain('core-js/modules/es')
             expect(content).toContain(
-              'import _extends from "@babel/runtime/helpers/esm/extends";',
+              'import _extends from "@babel/runtime/helpers/esm/extends";'
             )
           }
 
@@ -215,13 +212,13 @@ describe('babel build', () => {
             const content = fs.readFileSync(
               path.resolve(
                 packpath.self(),
-                `build${stage}/components/breadcrumb/Breadcrumb.js`,
+                `build${stage}/components/breadcrumb/Breadcrumb.js`
               ),
-              'utf-8',
+              'utf-8'
             )
             expect(content).toContain('export default Breadcrumb;')
             expect(content).toContain(
-              'import _extends from "@babel/runtime/helpers/esm/extends";',
+              'import _extends from "@babel/runtime/helpers/esm/extends";'
             )
           }
         }
@@ -232,7 +229,7 @@ describe('babel build', () => {
           {
             const content = fs.readFileSync(
               path.resolve(packpath.self(), `build${stage}/index.js`),
-              'utf-8',
+              'utf-8'
             )
             expect(content).toContain('export default {};')
           }
@@ -241,14 +238,14 @@ describe('babel build', () => {
             const content = fs.readFileSync(
               path.resolve(
                 packpath.self(),
-                `build${stage}/components/input/Input.js`,
+                `build${stage}/components/input/Input.js`
               ),
-              'utf-8',
+              'utf-8'
             )
             expect(content).toMatch(/export default class Input extends/g)
             expect(content).not.toContain('core-js/modules/es')
             expect(content).toContain(
-              'import _extends from "@babel/runtime/helpers/esm/extends";',
+              'import _extends from "@babel/runtime/helpers/esm/extends";'
             )
           }
 
@@ -256,14 +253,14 @@ describe('babel build', () => {
             const content = fs.readFileSync(
               path.resolve(
                 packpath.self(),
-                `build${stage}/components/breadcrumb/Breadcrumb.js`,
+                `build${stage}/components/breadcrumb/Breadcrumb.js`
               ),
-              'utf-8',
+              'utf-8'
             )
             expect(content).toContain('export default Breadcrumb;')
             expect(content).not.toContain('core-js/modules/es')
             expect(content).toContain(
-              'import _extends from "@babel/runtime/helpers/esm/extends";',
+              'import _extends from "@babel/runtime/helpers/esm/extends";'
             )
           }
         }
@@ -274,8 +271,8 @@ describe('babel build', () => {
 
     expect(
       fs.existsSync(
-        path.resolve(packpath.self(), `build${stage}/components/Input.js`),
-      ),
+        path.resolve(packpath.self(), `build${stage}/components/Input.js`)
+      )
     ).toBe(true)
   })
 })
@@ -291,9 +288,9 @@ describe('rollup build', () => {
             const content = fs.readFileSync(
               path.resolve(
                 packpath.self(),
-                `build${stage}/dnb-ui-lib.min.mjs`,
+                `build${stage}/dnb-ui-lib.min.mjs`
               ),
-              'utf-8',
+              'utf-8'
             )
             expect(content).toContain(`import*as `)
             expect(content).toContain(` from"react-dom";`)
@@ -308,9 +305,9 @@ describe('rollup build', () => {
             const content = fs.readFileSync(
               path.resolve(
                 packpath.self(),
-                `build${stage}/dnb-ui-lib.min.js`,
+                `build${stage}/dnb-ui-lib.min.js`
               ),
-              'utf-8',
+              'utf-8'
             )
             expect(content).toContain('require("react")')
             expect(content).toContain('require("react-dom")')
@@ -329,9 +326,9 @@ describe('style build', () => {
       const content = fs.readFileSync(
         path.resolve(
           packpath.self(),
-          `build${stage}/style/dnb-ui-basis.scss`,
+          `build${stage}/style/dnb-ui-basis.scss`
         ),
-        'utf-8',
+        'utf-8'
       )
       expect(content).toContain(`@import './core/scopes.scss';`)
       expect(content).toContain(`
@@ -339,7 +336,7 @@ describe('style build', () => {
   @include bodyDefault();
 }`)
       expect(content).toContain(
-        `@import './core/helper-classes/helper-classes.scss';`,
+        `@import './core/helper-classes/helper-classes.scss';`
       )
     }
 
@@ -347,15 +344,15 @@ describe('style build', () => {
       const content = fs.readFileSync(
         path.resolve(
           packpath.self(),
-          `build${stage}/style/themes/theme-ui/ui-theme-basis.scss`,
+          `build${stage}/style/themes/theme-ui/ui-theme-basis.scss`
         ),
-        'utf-8',
+        'utf-8'
       )
       expect(content).toContain(`@import './properties.scss';`)
       expect(content).toContain(`@import './fonts.scss';`)
       expect(content).toContain(`@import './ui-theme-elements.scss';`)
       expect(content).not.toContain(
-        `@import '../../dnb-ui-elements.scss';`,
+        `@import '../../dnb-ui-elements.scss';`
       )
     }
 
@@ -363,15 +360,15 @@ describe('style build', () => {
       const content = fs.readFileSync(
         path.resolve(
           packpath.self(),
-          `build${stage}/style/themes/theme-sbanken/sbanken-theme-basis.scss`,
+          `build${stage}/style/themes/theme-sbanken/sbanken-theme-basis.scss`
         ),
-        'utf-8',
+        'utf-8'
       )
       expect(content).toContain(`@import './properties.scss';`)
       expect(content).toContain(`@import './fonts.scss';`)
       expect(content).toContain(`@import './sbanken-theme-elements.scss';`)
       expect(content).not.toContain(
-        `@import '../../dnb-ui-elements.scss';`,
+        `@import '../../dnb-ui-elements.scss';`
       )
     }
 
@@ -379,15 +376,15 @@ describe('style build', () => {
       const content = fs.readFileSync(
         path.resolve(
           packpath.self(),
-          `build${stage}/style/dnb-ui-core.css`,
+          `build${stage}/style/dnb-ui-core.css`
         ),
-        'utf-8',
+        'utf-8'
       )
       expect(content).toMatch(
-        /\.dnb-core-style {([\r\n][^}]*)+font-family: var\(--font-family-default\);/,
+        /\.dnb-core-style {([\r\n][^}]*)+font-family: var\(--font-family-default\);/
       )
       expect(content).toMatch(
-        /html {([\r\n][^}]*)+line-height: var\(--line-height-basis\);/,
+        /html {([\r\n][^}]*)+line-height: var\(--line-height-basis\);/
       )
     }
 
@@ -395,15 +392,15 @@ describe('style build', () => {
       const content = fs.readFileSync(
         path.resolve(
           packpath.self(),
-          `build${stage}/style/dnb-ui-basis.css`,
+          `build${stage}/style/dnb-ui-basis.css`
         ),
-        'utf-8',
+        'utf-8'
       )
       expect(content).toMatch(
-        /\.dnb-core-style {([\r\n][^}]*)+font-family: var\(--font-family-default\);/,
+        /\.dnb-core-style {([\r\n][^}]*)+font-family: var\(--font-family-default\);/
       )
       expect(content).not.toMatch(
-        /html {([\r\n][^}]*)+line-height: var\(--line-height-basis\);/,
+        /html {([\r\n][^}]*)+line-height: var\(--line-height-basis\);/
       )
     }
 
@@ -411,17 +408,17 @@ describe('style build', () => {
       const content = fs.readFileSync(
         path.resolve(
           packpath.self(),
-          `build${stage}/style/themes/theme-ui/ui-theme-basis.css`,
+          `build${stage}/style/themes/theme-ui/ui-theme-basis.css`
         ),
-        'utf-8',
+        'utf-8'
       )
       expect(content).toContain(
-        `--font-family-default: "DNB", sans-serif;`,
+        `--font-family-default: "DNB", sans-serif;`
       )
       expect(content).toContain(`.dnb-typo-regular`)
       expect(content).toContain(`@font-face`)
       expect(content).toContain(
-        `src: url("../../../assets/fonts/dnb/DNB-Regular.woff2") format("woff2"),`,
+        `src: url("../../../assets/fonts/dnb/DNB-Regular.woff2") format("woff2"),`
       )
       expect(content).toContain(`
 .dnb-p {
@@ -441,9 +438,9 @@ describe('style build', () => {
       const content = fs.readFileSync(
         path.resolve(
           packpath.self(),
-          `build${stage}/style/themes/theme-sbanken/sbanken-theme-basis.css`,
+          `build${stage}/style/themes/theme-sbanken/sbanken-theme-basis.css`
         ),
-        'utf-8',
+        'utf-8'
       )
       expect(content).toContain(`font-family: MaisonNeueHeadings;`)
       expect(content).toContain(`
@@ -464,9 +461,9 @@ describe('style build', () => {
       const content = fs.readFileSync(
         path.resolve(
           packpath.self(),
-          `build${stage}/style/themes/theme-sbanken/sbanken-theme-components.css`,
+          `build${stage}/style/themes/theme-sbanken/sbanken-theme-components.css`
         ),
-        'utf-8',
+        'utf-8'
       )
       expect(content).toContain(`.dnb-button {`)
     }

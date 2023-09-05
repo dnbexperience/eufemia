@@ -25,9 +25,9 @@ describe('GlobalError', () => {
 
     expect(
       document.querySelector('.dnb-global-error__inner__content')
-        .textContent,
+        .textContent
     ).toMatchInlineSnapshot(
-      `"Vi finner ikke siden du leter etter …Sikker på at du har skrevet riktig adresse? Eller har vi rotet med lenkene?Feilmeldings-kode: 404"`,
+      `"Vi finner ikke siden du leter etter …Sikker på at du har skrevet riktig adresse? Eller har vi rotet med lenkene?Feilmeldings-kode: 404"`
     )
   })
 
@@ -36,9 +36,9 @@ describe('GlobalError', () => {
 
     expect(
       document.querySelector('.dnb-global-error__inner__content')
-        .textContent,
+        .textContent
     ).toMatchInlineSnapshot(
-      `"Beklager, her skjedde det noe feil!Tjenesten fungerer ikke slik den skal for øyeblikket, men prøv igjen senere.Feilmeldings-kode: 500"`,
+      `"Beklager, her skjedde det noe feil!Tjenesten fungerer ikke slik den skal for øyeblikket, men prøv igjen senere.Feilmeldings-kode: 500"`
     )
   })
 
@@ -47,9 +47,9 @@ describe('GlobalError', () => {
 
     expect(
       document.querySelector('.dnb-global-error__inner__content')
-        .textContent,
+        .textContent
     ).toMatchInlineSnapshot(
-      `"We can't find the page you're looking for …Are you sure you have entered the correct address? Or have we messed with the links?Error code: 404"`,
+      `"We can't find the page you're looking for …Are you sure you have entered the correct address? Or have we messed with the links?Error code: 404"`
     )
   })
 
@@ -57,14 +57,14 @@ describe('GlobalError', () => {
     render(
       <Provider locale="en-GB">
         <GlobalStatus status="500" />
-      </Provider>,
+      </Provider>
     )
 
     expect(
       document.querySelector('.dnb-global-error__inner__content')
-        .textContent,
+        .textContent
     ).toMatchInlineSnapshot(
-      `"Sorry, a technical error happened!The service is not working properly at the moment. Try again later.Error code: 500"`,
+      `"Sorry, a technical error happened!The service is not working properly at the moment. Try again later.Error code: 500"`
     )
   })
 
@@ -73,11 +73,11 @@ describe('GlobalError', () => {
 
     expect(
       document.querySelector('.dnb-global-error__inner__content h1')
-        .textContent,
+        .textContent
     ).toBe('title')
     expect(
       document.querySelector('.dnb-global-error__inner__content .dnb-p')
-        .textContent,
+        .textContent
     ).toBe('text')
   })
 
@@ -86,7 +86,7 @@ describe('GlobalError', () => {
 
     const elem = document.querySelector('.dnb-global-error__status')
     expect(elem.textContent).toMatchInlineSnapshot(
-      `"Feilmeldings-kode: 404"`,
+      `"Feilmeldings-kode: 404"`
     )
     expect(elem.querySelector('code').textContent).toBe('404')
   })
@@ -97,11 +97,11 @@ describe('GlobalError', () => {
     render(
       <Provider skeleton>
         <GlobalStatus {...props} />
-      </Provider>,
+      </Provider>
     )
 
     expect(document.querySelector('.dnb-p').className).toMatch(
-      skeletonClassName,
+      skeletonClassName
     )
   })
 
@@ -124,7 +124,7 @@ describe('GlobalError', () => {
 
     const element = document.querySelector('.dnb-global-error')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name,
+      (attr) => attr.name
     )
 
     expect(attributes).toEqual(['class', 'aria-label', 'lang'])
@@ -138,14 +138,14 @@ describe('GlobalError', () => {
           { text: 'Anchor 1', url: 'http://' },
           { text: 'Anchor 2', url: 'http://' },
         ]}
-      />,
+      />
     )
 
     const elem = document.querySelector('.dnb-global-error__links')
 
     expect(elem).toBeInTheDocument()
     expect(elem.previousSibling.textContent).toMatchInlineSnapshot(
-      `"Her er noen lenker som kanskje kan hjelpe:"`,
+      `"Her er noen lenker som kanskje kan hjelpe:"`
     )
     expect(elem.textContent).toMatchInlineSnapshot(`"Anchor 1Anchor 2"`)
     expect(elem.querySelectorAll('a.dnb-anchor')).toHaveLength(2)
@@ -165,7 +165,7 @@ describe('GlobalError scss', () => {
 
   it('have to match default theme snapshot', () => {
     const css = loadScss(
-      require.resolve('../style/themes/dnb-global-error-theme-ui.scss'),
+      require.resolve('../style/themes/dnb-global-error-theme-ui.scss')
     )
     expect(css).toMatchSnapshot()
   })

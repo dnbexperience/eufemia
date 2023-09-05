@@ -11,7 +11,7 @@ import Provider from '../../../shared/Provider'
 describe('useNumberFormat', () => {
   it('will render without provider', () => {
     const { result } = renderHook(() =>
-      useNumberFormat(1234, { currency: true }),
+      useNumberFormat(1234, { currency: true })
     )
 
     expect(result.current).toBe('1 234,00 kr')
@@ -19,7 +19,7 @@ describe('useNumberFormat', () => {
 
   it('will return object when returnAria is true', () => {
     const { result } = renderHook(() =>
-      useNumberFormat(1234, { currency: true, returnAria: true }),
+      useNumberFormat(1234, { currency: true, returnAria: true })
     )
 
     expect(result.current).toEqual(
@@ -30,7 +30,7 @@ describe('useNumberFormat', () => {
         number: '1 234,00 kr',
         type: 'currency',
         value: 1234,
-      }),
+      })
     )
   })
 

@@ -190,7 +190,7 @@ export default class Autocomplete extends React.PureComponent {
               PropTypes.arrayOf(PropTypes.string),
             ]),
           }),
-        ]),
+        ])
       ),
     ]),
     search_in_word_index: PropTypes.oneOfType([
@@ -365,7 +365,7 @@ class AutocompleteInstance extends React.PureComponent {
       dataItem.search_content || dataItem,
       {
         separator: ' ',
-      },
+      }
     )
     if (typeof searchWord !== 'string' && Array.isArray(searchWord)) {
       return AutocompleteInstance.parseDataItem(searchWord)
@@ -452,7 +452,7 @@ class AutocompleteInstance extends React.PureComponent {
       this.setState({}, () => {
         const inputValue = AutocompleteInstance.getCurrentDataTitle(
           this.context.drawerList.selected_item,
-          this.context.drawerList.original_data,
+          this.context.drawerList.original_data
         )
         this.setState({
           inputValue,
@@ -587,12 +587,12 @@ class AutocompleteInstance extends React.PureComponent {
 
   runFilterToHighlight = (
     { fillDataIfEmpty = false, ...options } = {},
-    value = this.state.inputValue,
+    value = this.state.inputValue
   ) => {
     // do not filter or highlight if the current selected item is the same as the input value
     const possibleTitle = AutocompleteInstance.getCurrentDataTitle(
       this.context.drawerList.selected_item,
-      this.context.drawerList.original_data,
+      this.context.drawerList.original_data
     )
 
     if (value === possibleTitle) {
@@ -678,7 +678,7 @@ class AutocompleteInstance extends React.PureComponent {
       },
       {
         overwriteOriginalData: true,
-      },
+      }
     )
   }
 
@@ -759,7 +759,7 @@ class AutocompleteInstance extends React.PureComponent {
             this.resetSelectionItem()
           }
         }
-      },
+      }
     )
 
     this.context.drawerList.setData(
@@ -783,12 +783,12 @@ class AutocompleteInstance extends React.PureComponent {
                 this.showAllItems()
               }
             }
-          },
+          }
         )
       },
       {
         overwriteOriginalData: true,
-      },
+      }
     )
 
     return this
@@ -907,7 +907,7 @@ class AutocompleteInstance extends React.PureComponent {
           clearTimeout(this._blurTimeout)
           this._blurTimeout = setTimeout(
             resetAfterClose,
-            DrawerList.blurDelay,
+            DrawerList.blurDelay
           ) // only to let the animation pass, before we make the effect. Else this would be a visible change
         }
       }
@@ -1065,7 +1065,7 @@ class AutocompleteInstance extends React.PureComponent {
       overwriteSearchIndex = false,
       data = this.context.drawerList.original_data,
     } = {},
-    cb,
+    cb
   ) {
     this._cacheMemory = {}
 
@@ -1080,7 +1080,7 @@ class AutocompleteInstance extends React.PureComponent {
         searchIndex,
         _listenForPropChanges: false,
       },
-      cb,
+      cb
     )
 
     return searchIndex
@@ -1101,7 +1101,7 @@ class AutocompleteInstance extends React.PureComponent {
               ignore_events: false, // we also have to reset this one
             })
         }, 10) // make sure we reset once the rerender of DrawerList is done, because then we keep the active_item at it's position by using key="down"
-      },
+      }
     )
   }
 
@@ -1124,7 +1124,7 @@ class AutocompleteInstance extends React.PureComponent {
       this.context.drawerList.selected_item,
       {
         scrollTo: false,
-      },
+      }
     )
   }
 
@@ -1163,7 +1163,7 @@ class AutocompleteInstance extends React.PureComponent {
             ...this.getEventObjects('on_change'),
           })
         }
-      },
+      }
     )
   }
 
@@ -1172,7 +1172,7 @@ class AutocompleteInstance extends React.PureComponent {
 
     const inputValue = AutocompleteInstance.getCurrentDataTitle(
       this.context.drawerList.selected_item,
-      this.context.drawerList.original_data,
+      this.context.drawerList.original_data
     )
 
     clearTimeout(this._selectTimeout)
@@ -1208,7 +1208,7 @@ class AutocompleteInstance extends React.PureComponent {
       disableHighlighting = false,
       skipFilter = false,
       skipReorder = false,
-    } = {},
+    } = {}
   ) => {
     if (data) {
       searchIndex = this.setSearchIndex({ data })
@@ -1250,7 +1250,7 @@ class AutocompleteInstance extends React.PureComponent {
           // if the uses reached word 3, then we go inside words as well
           const regexWord = new RegExp(
             wordIndex > inWordIndex ? `${word}` : `(${wordCond})${word}`,
-            'i',
+            'i'
           )
 
           if (regexWord.test(contentChunk)) {
@@ -1274,7 +1274,7 @@ class AutocompleteInstance extends React.PureComponent {
           // and give a score for each one
           wordScore += (
             contentChunk.match(
-              new RegExp(`(${wordCond})${escapeRegexChars(word)}`, 'ig'),
+              new RegExp(`(${wordCond})${escapeRegexChars(word)}`, 'ig')
             ) || []
           ).length
 
@@ -1283,7 +1283,7 @@ class AutocompleteInstance extends React.PureComponent {
             // Check if the first chunk starts the first written word
             const isFirstWord = new RegExp(
               `^${escapeRegexChars(searchWords[0])}`,
-              'i',
+              'i'
             ).test(contentChunk.split(' ')[0])
 
             // If yes, add the amount of possible words + 1
@@ -1360,7 +1360,7 @@ class AutocompleteInstance extends React.PureComponent {
                   if (/[\d\w]/.test(char)) {
                     segment = segment.replace(
                       new RegExp(`(${char})`, 'gi'),
-                      `${strS}$1${strE}`,
+                      `${strS}$1${strE}`
                     )
                   }
                 })
@@ -1368,12 +1368,12 @@ class AutocompleteInstance extends React.PureComponent {
                 if (wordIndex > inWordIndex) {
                   segment = segment.replace(
                     new RegExp(`(${word})`, 'gi'),
-                    `${strS}$1${strE}`,
+                    `${strS}$1${strE}`
                   )
                 } else {
                   segment = segment.replace(
                     new RegExp(`(${wordCond})(${word})`, 'gi'),
-                    `$1${strS}$2${strE}`,
+                    `$1${strS}$2${strE}`
                   )
                 }
               }
@@ -1421,7 +1421,7 @@ class AutocompleteInstance extends React.PureComponent {
               result = React.cloneElement(
                 originalChild,
                 { key: 'clone' + cacheHash + idx },
-                result,
+                result
               )
             }
           }
@@ -1457,7 +1457,7 @@ class AutocompleteInstance extends React.PureComponent {
 
       if (!this.skipReorder && !skipReorder) {
         searchIndex = searchIndex.sort(
-          ({ totalScore: a }, { totalScore: b }) => b - a,
+          ({ totalScore: a }, { totalScore: b }) => b - a
         )
       }
 
@@ -1506,7 +1506,7 @@ class AutocompleteInstance extends React.PureComponent {
             hasFocus: false,
           })
         }, 1) // we have to wait in order to make sure the focus situation is cleared up
-      },
+      }
     )
   }
 
@@ -1565,18 +1565,18 @@ class AutocompleteInstance extends React.PureComponent {
           {
             inputValue: AutocompleteInstance.getCurrentDataTitle(
               selected_item,
-              this.context.drawerList.data,
+              this.context.drawerList.data
             ),
             skipFocusDuringChange: false,
             _listenForPropChanges: false,
           },
-          () => this.setFocusOnInput(),
+          () => this.setFocusOnInput()
         )
       } else {
         this.setState({
           inputValue: AutocompleteInstance.getCurrentDataTitle(
             selected_item,
-            this.context.drawerList.data,
+            this.context.drawerList.data
           ),
           _listenForPropChanges: false,
         })
@@ -1637,7 +1637,7 @@ class AutocompleteInstance extends React.PureComponent {
       const { active_item, selected_item } = this.context.drawerList
       const currentDataItem = getCurrentData(
         active_item,
-        this.context.drawerList.data,
+        this.context.drawerList.data
       )
 
       return (
@@ -1662,7 +1662,7 @@ class AutocompleteInstance extends React.PureComponent {
       Autocomplete.defaultProps,
       this.context.getTranslation(this.props).Autocomplete,
       includeValidProps(this.context.FormRow),
-      this.context.Autocomplete,
+      this.context.Autocomplete
     ))
 
     const {
@@ -1774,7 +1774,7 @@ class AutocompleteInstance extends React.PureComponent {
         'dnb-form-component',
         createSpacingClasses(props),
         _className,
-        className,
+        className
       ),
     }
 
@@ -1840,7 +1840,7 @@ class AutocompleteInstance extends React.PureComponent {
       inputParams['aria-describedby'] = combineDescribedBy(
         inputParams,
         showStatus ? id + '-status' : null,
-        suffix ? id + '-suffix' : null,
+        suffix ? id + '-suffix' : null
       )
     }
 
@@ -1880,7 +1880,7 @@ class AutocompleteInstance extends React.PureComponent {
 
     const suffixValue = getCurrentData(
       selected_item,
-      this.context.drawerList.original_data,
+      this.context.drawerList.original_data
     )?.suffix_value
 
     const innerId = suffixValue && showStatus ? `${id}-inner` : null
@@ -1986,7 +1986,7 @@ class AutocompleteInstance extends React.PureComponent {
                 id={id}
                 className={classnames(
                   'dnb-autocomplete__root',
-                  drawer_class,
+                  drawer_class
                 )}
                 portal_class={portal_class}
                 list_class="dnb-autocomplete__list"

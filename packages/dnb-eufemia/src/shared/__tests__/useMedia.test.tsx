@@ -39,7 +39,7 @@ describe('useMedia', () => {
           isSmall: false,
           isMedium: false,
           isLarge: false,
-        }),
+        })
       )
     })
 
@@ -53,7 +53,7 @@ describe('useMedia', () => {
           isSmall: true,
           isMedium: false,
           isLarge: false,
-        }),
+        })
       )
 
       act(() => {
@@ -66,7 +66,7 @@ describe('useMedia', () => {
             isSmall: false,
             isMedium: false,
             isLarge: true,
-          }),
+          })
         )
       })
     })
@@ -81,7 +81,7 @@ describe('useMedia', () => {
           isSmall: false,
           isMedium: true,
           isLarge: false,
-        }),
+        })
       )
 
       act(() => {
@@ -94,7 +94,7 @@ describe('useMedia', () => {
             isSmall: false,
             isMedium: false,
             isLarge: true,
-          }),
+          })
         )
       })
     })
@@ -109,7 +109,7 @@ describe('useMedia', () => {
           isSmall: false,
           isMedium: false,
           isLarge: true,
-        }),
+        })
       )
 
       act(() => {
@@ -122,7 +122,7 @@ describe('useMedia', () => {
             isSmall: true,
             isMedium: false,
             isLarge: false,
-          }),
+          })
         )
       })
     })
@@ -137,7 +137,7 @@ describe('useMedia', () => {
           isSmall: false,
           isMedium: false,
           isLarge: true,
-        }),
+        })
       )
 
       const queries = [
@@ -213,7 +213,7 @@ describe('useMedia', () => {
           isSmall: false,
           isMedium: false,
           isLarge: true,
-        }),
+        })
       )
 
       rerender({ disabled: true })
@@ -231,7 +231,7 @@ describe('useMedia', () => {
             isSmall: false,
             isMedium: false,
             isLarge: true,
-          }),
+          })
         )
       })
 
@@ -247,7 +247,7 @@ describe('useMedia', () => {
             isSmall: true,
             isMedium: false,
             isLarge: false,
-          }),
+          })
         )
 
         /**
@@ -271,7 +271,7 @@ describe('useMedia', () => {
             isSmall: false,
             isMedium: false,
             isLarge: true,
-          }),
+          })
         )
       })
     })
@@ -289,7 +289,7 @@ describe('useMedia', () => {
           isMedium: false,
           isLarge: false,
           isSSR: true,
-        }),
+        })
       )
     })
 
@@ -325,7 +325,7 @@ describe('useMedia', () => {
           isMedium: true,
           isLarge: false,
           isSSR: false,
-        }),
+        })
       )
 
       act(() => {
@@ -400,7 +400,7 @@ describe('useMedia', () => {
           isMedium: true,
           isLarge: false,
           isSSR: false,
-        }),
+        })
       )
 
       act(() => {
@@ -412,7 +412,7 @@ describe('useMedia', () => {
           isMedium: false,
           isLarge: true,
           isSSR: false,
-        }),
+        })
       )
 
       expect(count).toBe(10)
@@ -445,7 +445,7 @@ describe('useMedia', () => {
             isSmall: false,
             isMedium: false,
             isLarge: true,
-          }),
+          })
         )
 
         const queries = [
@@ -533,7 +533,7 @@ describe('useMedia', () => {
           isSmall: true,
           isMedium: false,
           isLarge: false,
-        }),
+        })
       )
     })
 
@@ -548,7 +548,7 @@ describe('useMedia', () => {
           isSmall: false,
           isMedium: true,
           isLarge: false,
-        }),
+        })
       )
     })
 
@@ -563,7 +563,7 @@ describe('useMedia', () => {
           isSmall: false,
           isMedium: false,
           isLarge: true,
-        }),
+        })
       )
     })
   })

@@ -121,7 +121,7 @@ export function useTableAccordion({
           trIsOpen && 'dnb-table__tr--expanded',
           disabled && 'dnb-table__tr--disabled',
           noAnimation && 'dnb-table__tr--no-animation',
-          trIsHover && trHadClick && 'dnb-table__tr--hover',
+          trIsHover && trHadClick && 'dnb-table__tr--hover'
         )}
         {...trParams}
         {...props}

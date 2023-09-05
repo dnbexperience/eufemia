@@ -69,7 +69,7 @@ const UploadFileInput = () => {
     onInputUpload(
       Array.from(files).map((file) => {
         return { file }
-      }),
+      })
     )
   }
 

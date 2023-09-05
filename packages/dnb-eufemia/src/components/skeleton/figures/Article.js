@@ -52,7 +52,7 @@ export default class SkeletonArticle extends React.PureComponent {
       <div
         className={classnames(
           'dnb-skeleton__figure',
-          'dnb-skeleton__figure--show',
+          'dnb-skeleton__figure--show'
         )}
         aria-busy
         {...rest}
@@ -62,7 +62,7 @@ export default class SkeletonArticle extends React.PureComponent {
             'dnb-h--xx-large',
             'dnb-skeleton',
             'dnb-skeleton--shape',
-            'dnb-space__bottom--large',
+            'dnb-space__bottom--large'
           )}
           aria-hidden
           style={{
@@ -79,7 +79,7 @@ export default class SkeletonArticle extends React.PureComponent {
               'dnb-p',
               'dnb-skeleton',
               'dnb-skeleton--shape',
-              'dnb-space__top--x-small',
+              'dnb-space__top--x-small'
             )}
             style={{
               width: `${p}%`,

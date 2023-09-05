@@ -13,7 +13,7 @@ describe('generateTypes', () => {
     const docsDir = nodePath.resolve(
       __dirname,
       '../generateTypes/__tests__',
-      '__mocks__',
+      '__mocks__'
     )
     const file = nodePath.resolve(docsDir, 'PrimaryComponent.js')
     const [{ destFile, definitionContent }] = await createTypes([file], {
@@ -30,7 +30,7 @@ describe('generateTypes', () => {
     const docsDir = nodePath.resolve(
       __dirname,
       '../generateTypes/__tests__',
-      '__mocks__',
+      '__mocks__'
     )
     const file = nodePath.resolve(docsDir, 'SecondaryComponent.js')
     const [{ destFile, definitionContent }] = await createTypes([file], {

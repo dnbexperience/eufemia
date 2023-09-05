@@ -29,7 +29,7 @@ const getCommittedFiles = async (countCommits = 10) => {
   try {
     const files = (
       await runCommand(
-        `git config diff.renames 0 && git show --pretty="format:" --name-only HEAD...HEAD~${countCommits}`,
+        `git config diff.renames 0 && git show --pretty="format:" --name-only HEAD...HEAD~${countCommits}`
       )
     )
       .split('\n')

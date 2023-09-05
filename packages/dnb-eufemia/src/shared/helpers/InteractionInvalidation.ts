@@ -38,7 +38,7 @@ export class InteractionInvalidation {
   }
 
   setBypassSelector(
-    bypassSelector: TargetSelector | Array<TargetSelector>,
+    bypassSelector: TargetSelector | Array<TargetSelector>
   ) {
     if (!Array.isArray(bypassSelector)) {
       bypassSelector = [bypassSelector]
@@ -125,7 +125,7 @@ export class InteractionInvalidation {
   }
 
   getNodesToInvalidate(
-    targetElement: TargetElement | TargetSelector = null,
+    targetElement: TargetElement | TargetSelector = null
   ): Array<HTMLElementNode> {
     if (typeof document === 'undefined') {
       return [] // stop here
@@ -133,7 +133,7 @@ export class InteractionInvalidation {
 
     if (typeof targetElement === 'string') {
       targetElement = document.querySelector(
-        targetElement,
+        targetElement
       ) as TargetElement
     }
 
@@ -162,8 +162,8 @@ export class InteractionInvalidation {
                 (
                   (targetElement as TargetElement) ||
                   document.documentElement
-                ).querySelectorAll(localSel.match(/\(([^)]*)\)/)[1]),
-              ),
+                ).querySelectorAll(localSel.match(/\(([^)]*)\)/)[1])
+              )
             )
             localSel = localSel.replace(' *', '')
           }
@@ -174,17 +174,17 @@ export class InteractionInvalidation {
 
       return Array.from(
         (targetElement || document.documentElement).querySelectorAll(
-          testSelector,
-        ),
+          testSelector
+        )
       ).filter(
-        (node) => !excludeSelectors.includes(node),
+        (node) => !excludeSelectors.includes(node)
       ) as Array<HTMLElementNode>
     }
 
     return Array.from(
       (targetElement || document.documentElement).querySelectorAll(
-        selector,
-      ),
+        selector
+      )
     )
   }
 }

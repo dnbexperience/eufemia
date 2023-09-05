@@ -61,7 +61,7 @@ type IconsConfig = {
 export function IconsConfig(overwrite: IconsConfig = {}) {
   if (overwrite?.assetsDir && /^\//.test(overwrite.assetsDir)) {
     log.fail(
-      ErrorHandler('assetsDir should not start with a slash (/dir)'),
+      ErrorHandler('assetsDir should not start with a slash (/dir)')
     )
   }
 
@@ -77,13 +77,13 @@ export function IconsConfig(overwrite: IconsConfig = {}) {
   const destDir = path.resolve(
     __dirname,
     '../../../assets/icons',
-    overwrite?.assetsDir || '',
+    overwrite?.assetsDir || ''
   )
   const iconsLockFile = path.resolve(
     __dirname,
     '../../../src/icons',
     overwrite?.assetsDir || '',
-    'icons-svg.lock',
+    'icons-svg.lock'
   )
 
   return {
@@ -102,10 +102,7 @@ export function IconsConfig(overwrite: IconsConfig = {}) {
 }
 
 const prettierrc = JSON.parse(
-  fs.readFileSync(
-    path.resolve(__dirname, '../../../.prettierrc'),
-    'utf-8',
-  ),
+  fs.readFileSync(path.resolve(__dirname, '../../../.prettierrc'), 'utf-8')
 )
 
 export const extractIcons = async ({
@@ -131,7 +128,7 @@ export const extractIcons = async ({
     })
 
     log.start(
-      '> Figma: started to fetch SVGs icons by using frameIconsFactory',
+      '> Figma: started to fetch SVGs icons by using frameIconsFactory'
     )
 
     const { listOfProcessedFiles, listWithNewFiles } =
@@ -145,7 +142,7 @@ export const extractIcons = async ({
       })
 
     log.info(
-      `> Figma: finished fetching SVGs icons by using frameIconsFactory. Processed ${listOfProcessedFiles.length} files along with ${listWithNewFiles.length} new files.`,
+      `> Figma: finished fetching SVGs icons by using frameIconsFactory. Processed ${listOfProcessedFiles.length} files along with ${listWithNewFiles.length} new files.`
     )
 
     if (listWithNewFiles.length > 0) {
@@ -219,7 +216,7 @@ async function collectIconsFromFigmaDoc({
       listWithNewFiles.push(...newFiles)
 
       return files
-    },
+    }
   )
 
   runDiffControll({ controllStorageLists })
@@ -238,7 +235,7 @@ const runDiffControll = ({ controllStorageLists }) => {
   const getDiff = (a, b) =>
     a.filter(
       ({ name }) =>
-        !b.some(({ name: n }) => removeSizes(n) === removeSizes(name)),
+        !b.some(({ name: n }) => removeSizes(n) === removeSizes(name))
     )
 
   controllStorageLists.forEach((cur, i, arr) => {
@@ -257,8 +254,8 @@ const runDiffControll = ({ controllStorageLists }) => {
       `> Figma: Detected a difference between the frames!. Here are the differences:\n ${JSON.stringify(
         collectDiff,
         null,
-        4,
-      )}`,
+        4
+      )}`
     )
   }
 }
@@ -306,7 +303,7 @@ const frameIconsFactory = async ({
       const underlineLimit = 4
       if (iconName.split(/_/g).length > underlineLimit) {
         log.fail(
-          `${iconName} was skipped, cause it had more than ${underlineLimit} parts on name split by _`,
+          `${iconName} was skipped, cause it had more than ${underlineLimit} parts on name split by _`
         )
         return acc
       }
@@ -323,7 +320,7 @@ const frameIconsFactory = async ({
 
       return acc
     },
-    [],
+    []
   )
 
   // check if lock file exists
@@ -338,7 +335,7 @@ const frameIconsFactory = async ({
   const listOfCachedIconUrls = Object.entries(oldLockFileContent)
     .filter(
       ([file, { id, url, slug }]) =>
-        file && id && url && slug === md5(figmaFile + frameId),
+        file && id && url && slug === md5(figmaFile + frameId)
     )
     // define the same format as we get from "getFigmaUrlByImageIds"
     .map(([file, { id, url, updated }]) => ({
@@ -355,7 +352,7 @@ const frameIconsFactory = async ({
     if (found) {
       // Check if created has passed 30 days
       const countDays = Math.ceil(
-        (Date.now() - found.updated) / (1e3 * 60 * 60 * 24),
+        (Date.now() - found.updated) / (1e3 * 60 * 60 * 24)
       )
       const outdated = countDays > imageUrlExpireAfterDays
 
@@ -368,7 +365,7 @@ const frameIconsFactory = async ({
   })
 
   log.start(
-    `> Figma: Starting to fetch ${iconIdsToFetchFrom.length} icons from the "${originalFrameName}" Canvas`,
+    `> Figma: Starting to fetch ${iconIdsToFetchFrom.length} icons from the "${originalFrameName}" Canvas`
   )
 
   // go and load additional images
@@ -377,7 +374,7 @@ const frameIconsFactory = async ({
       figmaFile,
       ids: iconIdsToFetchFrom.map(({ id }) => id),
       params: { format },
-    }),
+    })
   ).map(([id, url]) => ({
     id,
     url,
@@ -400,7 +397,7 @@ const frameIconsFactory = async ({
     // clean the list of icons we will process
     .map(({ id, url }) => {
       const existingObject = listOfIconObjectsFromDoc.find(
-        ({ id: i }) => i === id,
+        ({ id: i }) => i === id
       )
 
       return {
@@ -424,11 +421,11 @@ const frameIconsFactory = async ({
 
       return acc
     },
-    rawListOfIconsToProcess,
+    rawListOfIconsToProcess
   )
 
   log.start(
-    `> Figma: Starting to fetch process ${listOfIconsToProcess.length} icons`,
+    `> Figma: Starting to fetch process ${listOfIconsToProcess.length} icons`
   )
 
   const listOfProcessedFiles = (
@@ -483,7 +480,7 @@ const frameIconsFactory = async ({
           // Check if created has passed 30 days
           const countDays = Math.ceil(
             (Date.now() - lockFileFrameContent?.updated) /
-              (1e3 * 60 * 60 * 24),
+              (1e3 * 60 * 60 * 24)
           )
           if (countDays > imageUrlExpireAfterDays) {
             existsAndIsValid = false
@@ -494,7 +491,7 @@ const frameIconsFactory = async ({
             ret.updated = lockFileFrameContent?.updated
 
             log.info(
-              `> Figma: File already exists: ${iconFile} (ID=${id}, CREATED=${ret.created})`,
+              `> Figma: File already exists: ${iconFile} (ID=${id}, CREATED=${ret.created})`
             )
 
             existingFiles.push(ret)
@@ -506,7 +503,7 @@ const frameIconsFactory = async ({
               },
               {
                 errorExceptionType: ERROR_HARMLESS,
-              },
+              }
             )
 
             let streamResult = null
@@ -522,8 +519,8 @@ const frameIconsFactory = async ({
             if (streamResult === 'ACCESS_DENIED') {
               log.fail(
                 ErrorHandler(
-                  `> Figma: Failed to stream content of (${iconName}): ${content}`,
-                ),
+                  `> Figma: Failed to stream content of (${iconName}): ${content}`
+                )
               )
             }
 
@@ -542,7 +539,7 @@ const frameIconsFactory = async ({
               newFiles.push(ret)
 
               log.info(
-                `> Figma: Saved file ${iconFile} (ID=${id}, CREATED=${ret.created})`,
+                `> Figma: Saved file ${iconFile} (ID=${id}, CREATED=${ret.created})`
               )
             }
           }
@@ -551,7 +548,7 @@ const frameIconsFactory = async ({
         } catch (e) {
           log.fail(ErrorHandler('Failed to process new icons', e))
         }
-      },
+      }
     )
   ).filter(Boolean)
 
@@ -580,15 +577,15 @@ const prerenderIconName = (name, size = null) => {
 
   iconName = iconRenameList.reduce(
     (acc, cur) => (cur.from === acc ? cur.to : acc),
-    iconName,
+    iconName
   )
 
   const isReservedWord = reservedJavaScriptWords.some(
-    (name) => name === iconName,
+    (name) => name === iconName
   )
   if (isReservedWord) {
     log.fail(
-      `\nReserved name found for icon "${iconName}" – it got renamed to "${iconName}_1".\n\n\n`,
+      `\nReserved name found for icon "${iconName}" – it got renamed to "${iconName}_1".\n\n\n`
     )
     iconName = `${iconName}_1`
   }
@@ -648,7 +645,7 @@ const makeMetaFile = async ({
           suffix
             ? iconName.replace(NAME_SEPARATOR + suffix, '')
             : iconName,
-        iconName,
+        iconName
       )
       tags = tags.filter((item, index) => {
         if (item === cleanedName) {
@@ -679,7 +676,7 @@ const makeMetaFile = async ({
       }
       return acc
     },
-    {},
+    {}
   )
 
   await saveToFile(iconsMetaFile, await formatIconsMetaFile(data))
@@ -723,7 +720,7 @@ const createXMLTarBundles = async ({
     ({ iconFile, ...rest }) => {
       const iconFileXML = iconFile.replace(/\.svg$/, '.xml')
       return { iconFile, iconFileXML, ...rest }
-    },
+    }
   )
 
   await convertSvgToXml()
@@ -744,7 +741,7 @@ const createXMLTarBundles = async ({
       await runCommand(`yarn vd-tool -c -in ${destDir}`)
     } catch (error) {
       log.fail(
-        `> Figma: failed to convert SVG to XML in ${destDir}\n\n${error}`,
+        `> Figma: failed to convert SVG to XML in ${destDir}\n\n${error}`
       )
     }
   }
@@ -760,7 +757,7 @@ const createXMLTarBundles = async ({
 
   async function hasSizeChanged() {
     const fileList = listOfProcessedFiles.map(
-      ({ iconFileXML }) => iconFileXML,
+      ({ iconFileXML }) => iconFileXML
     )
 
     const tmp = path.resolve(destDir, 'tmp.tgz')
@@ -770,7 +767,7 @@ const createXMLTarBundles = async ({
         cwd: destDir,
         file: tmp,
       },
-      fileList,
+      fileList
     )
     const tmpSize = (await fs.stat(tmp)).size
 
@@ -781,7 +778,7 @@ const createXMLTarBundles = async ({
 
   async function createTarWithoutCategories() {
     const fileList = listOfProcessedFiles.map(
-      ({ iconFileXML }) => iconFileXML,
+      ({ iconFileXML }) => iconFileXML
     )
 
     await create(
@@ -790,7 +787,7 @@ const createXMLTarBundles = async ({
         cwd: destDir,
         file: tarFile,
       },
-      fileList,
+      fileList
     )
   }
 
@@ -804,11 +801,11 @@ const createXMLTarBundles = async ({
         if (fs.existsSync(source)) {
           await fs.move(source, dest)
         }
-      },
+      }
     )
 
     const fileList = listOfProcessedFiles.map(
-      ({ category, iconFileXML }) => `${category}/${iconFileXML}`,
+      ({ category, iconFileXML }) => `${category}/${iconFileXML}`
     )
 
     const tarFile = path.resolve(destDir, outputNameCategorized)
@@ -818,7 +815,7 @@ const createXMLTarBundles = async ({
         cwd: destDir,
         file: tarFile,
       },
-      fileList,
+      fileList
     )
 
     // Empty category dir
@@ -896,7 +893,7 @@ const insertInlineStylesToSVG = (svg) => {
       if (acc.includes(val)) {
         acc = acc.replace(
           /(fill|stroke)="([^"]*)"/g,
-          `style="$1:var(${key})" $1="$2"`,
+          `style="$1:var(${key})" $1="$2"`
         )
       }
       return acc
@@ -932,7 +929,7 @@ export const readIconsLockFile = async ({ file }) => {
   if (fs.existsSync(file)) {
     try {
       return JSON.parse(
-        (await fs.readFile(file, 'utf-8')) || '{}',
+        (await fs.readFile(file, 'utf-8')) || '{}'
       ) as IconsLockFileMap
     } catch (e) {
       log.fail('Failed to read the lock file and parse the result')
@@ -950,7 +947,7 @@ export const saveIconsLockFile = async ({ file, data }) => {
 
 const iconsMetaFile = path.resolve(
   __dirname,
-  '../../../src/icons/icons-meta.json',
+  '../../../src/icons/icons-meta.json'
 )
 export const formatIconsMetaFile = async (data) => {
   return await prettier.format(JSON.stringify(data), {

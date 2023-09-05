@@ -57,7 +57,7 @@ describe('withSnakeCaseProps', () => {
 
   it('will render', () => {
     const { rerender, asFragment } = render(
-      <Component snake_case={1} camelCase={false} />,
+      <Component snake_case={1} camelCase={false} />
     )
 
     rerender(
@@ -66,11 +66,11 @@ describe('withSnakeCaseProps', () => {
         snake_case={2}
         customType={{ fooBar: 1 }}
         custom_type={{ foo_bar: 1 }}
-      />,
+      />
     )
 
     expect(screen.queryByTestId('props').textContent).toMatch(
-      '{"camelCase":false,"customType":{"foo_bar":1},"snakeCase":2}',
+      '{"camelCase":false,"customType":{"foo_bar":1},"snakeCase":2}'
     )
     expect(asFragment()).toMatchInlineSnapshot(`
       <DocumentFragment>
@@ -96,11 +96,11 @@ describe('withSnakeCaseProps', () => {
     const { asFragment } = render(
       <Context.Provider value={{ contextProp: 'context value' }}>
         <Component camelCase={false} snake_case={1} />
-      </Context.Provider>,
+      </Context.Provider>
     )
 
     expect(screen.queryByTestId('context').textContent).toMatch(
-      '{"contextProp":"context value"}',
+      '{"contextProp":"context value"}'
     )
 
     expect(asFragment()).toMatchInlineSnapshot(`
@@ -201,13 +201,13 @@ describe('classWithSnakeCaseProps', () => {
     const Component = classWithSnakeCaseProps(Original)
 
     const { rerender, asFragment } = render(
-      <Component camelCase={false} snake_case={1} />,
+      <Component camelCase={false} snake_case={1} />
     )
 
     rerender(<Component camelCase={false} snake_case={2} />)
 
     expect(screen.queryByTestId('props').textContent).toMatch(
-      '{"camelCase":false,"snakeCase":2}',
+      '{"camelCase":false,"snakeCase":2}'
     )
     expect(asFragment()).toMatchInlineSnapshot(`
       <DocumentFragment>
@@ -246,7 +246,7 @@ describe('classWithSnakeCaseProps', () => {
     const Component = classWithSnakeCaseProps(CopyOfOriginal)
 
     const { rerender } = render(
-      <Component camelCase={false} snake_case={1} />,
+      <Component camelCase={false} snake_case={1} />
     )
 
     rerender(<Component camelCase={false} snake_case={2} />)
@@ -260,11 +260,11 @@ describe('classWithSnakeCaseProps', () => {
     const { asFragment } = render(
       <Context.Provider value={{ contextProp: 'context value' }}>
         <Component camelCase={false} snake_case={1} />
-      </Context.Provider>,
+      </Context.Provider>
     )
 
     expect(screen.queryByTestId('context').textContent).toMatch(
-      '{"contextProp":"context value"}',
+      '{"contextProp":"context value"}'
     )
     expect(asFragment()).toMatchInlineSnapshot(`
       <DocumentFragment>
@@ -300,7 +300,7 @@ describe('classWithSnakeCaseProps', () => {
     rerender(<Component new_prop="hello" />)
 
     expect(
-      document.querySelector('[data-testid="props"]').textContent,
+      document.querySelector('[data-testid="props"]').textContent
     ).toBe('{"newProp":"hello"}')
   })
 
@@ -310,16 +310,16 @@ describe('classWithSnakeCaseProps', () => {
     const onUpdate = jest.fn()
 
     const { rerender } = render(
-      <Component camelCase={false} snake_case={1} updateComp={onUpdate} />,
+      <Component camelCase={false} snake_case={1} updateComp={onUpdate} />
     )
 
     rerender(
-      <Component camelCase={false} snake_case={1} updateComp={onUpdate} />,
+      <Component camelCase={false} snake_case={1} updateComp={onUpdate} />
     )
     expect(onUpdate).toHaveBeenCalledTimes(0)
 
     rerender(
-      <Component camelCase={true} snake_case={1} updateComp={onUpdate} />,
+      <Component camelCase={true} snake_case={1} updateComp={onUpdate} />
     )
     expect(onUpdate).toHaveBeenCalledTimes(2)
   })

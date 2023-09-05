@@ -542,7 +542,7 @@ const LargeListOfTrs = (): Array<React.ReactNode> => {
         <td>Row {i} Column 2</td>
         <td>Row {i} Column 3</td>
         <td align="right">Row {i} Column 4</td>
-      </tr>,
+      </tr>
     )
   }
 

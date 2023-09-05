@@ -47,7 +47,7 @@ function ArraySelection(props: Props) {
     className: classnames(
       'dnb-forms-field-array-selection',
       `dnb-forms-field-array-selection--options-layout-${optionsLayout}`,
-      className,
+      className
     ),
     contentClassName: 'dnb-forms-field-array-selection__options',
     info,
@@ -64,7 +64,7 @@ function ArraySelection(props: Props) {
     () =>
       React.Children.toArray(children)
         .filter(
-          (child) => React.isValidElement(child) && child.type === Option,
+          (child) => React.isValidElement(child) && child.type === Option
         )
         .map((option: React.ReactElement) => ({
           title: option.props.title ?? option.props.children,
@@ -79,7 +79,7 @@ function ArraySelection(props: Props) {
             handleChange?.(newValue.length === 0 ? emptyValue : newValue)
           },
         })),
-    [children, value, emptyValue, handleChange],
+    [children, value, emptyValue, handleChange]
   )
 
   switch (variant) {

@@ -37,7 +37,7 @@ describe('Properties for sbanken', () => {
   it('has to validate', () => {
     expect(global.sbanken).toMatchSnapshot()
     expect(global.sbanken).toContain(
-      `'--sb-font-family-default': '"Roboto", "Helvetica", "Arial", sans-serif'`,
+      `'--sb-font-family-default': '"Roboto", "Helvetica", "Arial", sans-serif'`
     )
   })
 })

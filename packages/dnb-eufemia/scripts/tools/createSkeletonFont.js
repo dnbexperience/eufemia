@@ -29,7 +29,7 @@ asyncForEach(
     const sourcePath = path.resolve(
       __dirname,
       '../../assets/fonts/dnb/',
-      soruceFile,
+      soruceFile
     )
 
     const familyName = `${fontName}Skeleton`
@@ -67,7 +67,7 @@ asyncForEach(
       log.fail(`Failed: ${fileName}-${styleName}`)
       console.error(e)
     }
-  },
+  }
 )
 
 const createChar = (s) => s.charCodeAt(0)
@@ -134,7 +134,7 @@ async function minifyFonts() {
     const fontmin = new Fontmin()
 
     fontmin.src(
-      path.resolve(__dirname, '../../assets/fonts/dnb/skeleton/*.otf'),
+      path.resolve(__dirname, '../../assets/fonts/dnb/skeleton/*.otf')
     )
 
     fontmin.use(Fontmin.otf2ttf())
@@ -142,7 +142,7 @@ async function minifyFonts() {
     fontmin.use(Fontmin.ttf2woff2())
 
     fontmin.dest(
-      path.resolve(__dirname, '../../assets/fonts/dnb/skeleton/'),
+      path.resolve(__dirname, '../../assets/fonts/dnb/skeleton/')
     )
 
     fontmin.run(function (err) {

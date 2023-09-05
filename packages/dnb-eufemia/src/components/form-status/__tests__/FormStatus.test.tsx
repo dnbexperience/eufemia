@@ -19,24 +19,24 @@ describe('FormStatus component', () => {
       <Input
         style={{ width: '10rem' }}
         status="Long status pulvinar per ad varius nostra faucibus enim ante posuere in"
-      />,
+      />
     )
 
     expect(
-      document.querySelector('.dnb-input__input').getAttribute('style'),
+      document.querySelector('.dnb-input__input').getAttribute('style')
     ).toBe('width: 10rem;')
     expect(
-      document.querySelector('.dnb-form-status').getAttribute('style'),
+      document.querySelector('.dnb-form-status').getAttribute('style')
     ).toContain('max-width: 30rem;')
   })
 
   it('should re-calculate max-width', () => {
     const { rerender } = render(
-      <Input style={{ width: '10rem' }} status="status message" />,
+      <Input style={{ width: '10rem' }} status="status message" />
     )
 
     expect(
-      document.querySelector('.dnb-form-status').getAttribute('style'),
+      document.querySelector('.dnb-form-status').getAttribute('style')
     ).toBe('max-width: 30rem;')
 
     rerender(
@@ -44,11 +44,11 @@ describe('FormStatus component', () => {
         status="status message"
         status_props={{ text: 'change width to 35rem' }}
         style={{ width: '35rem' }}
-      />,
+      />
     )
 
     expect(
-      document.querySelector('.dnb-form-status').getAttribute('style'),
+      document.querySelector('.dnb-form-status').getAttribute('style')
     ).toBe('max-width: 35rem; height: auto;')
 
     rerender(
@@ -56,11 +56,11 @@ describe('FormStatus component', () => {
         status="status message"
         status_props={{ text: 'change width to 40rem' }}
         style={{ width: '40rem' }}
-      />,
+      />
     )
 
     expect(
-      document.querySelector('.dnb-form-status').getAttribute('style'),
+      document.querySelector('.dnb-form-status').getAttribute('style')
     ).toBe('max-width: 40rem; height: auto;')
 
     rerender(
@@ -68,13 +68,13 @@ describe('FormStatus component', () => {
         status="status message"
         status_props={{ text: 'change width to 10rem' }}
         style={{ width: '10rem' }}
-      />,
+      />
     )
 
     window.dispatchEvent(new Event('resize'))
 
     expect(
-      document.querySelector('.dnb-form-status').getAttribute('style'),
+      document.querySelector('.dnb-form-status').getAttribute('style')
     ).toBe('max-width: 30rem; height: auto;')
   })
 
@@ -82,10 +82,10 @@ describe('FormStatus component', () => {
     render(<Input id="custom-id" status="status text" />)
 
     expect(
-      document.querySelector('.dnb-form-status').getAttribute('id'),
+      document.querySelector('.dnb-form-status').getAttribute('id')
     ).toBe('custom-id-form-status')
     expect(
-      document.querySelector('.dnb-form-status__text').getAttribute('id'),
+      document.querySelector('.dnb-form-status__text').getAttribute('id')
     ).toBe('custom-id-status')
   })
 
@@ -96,10 +96,10 @@ describe('FormStatus component', () => {
         status_props={{
           variant: 'outlined',
         }}
-      />,
+      />
     )
     expect(document.querySelector('.dnb-form-status').classList).toContain(
-      'dnb-form-status__variant--outlined',
+      'dnb-form-status__variant--outlined'
     )
   })
 
@@ -109,26 +109,26 @@ describe('FormStatus component', () => {
     rerender(<FormStatus>content-a</FormStatus>)
 
     expect(document.querySelector('.dnb-form-status').textContent).toBe(
-      'content-a',
+      'content-a'
     )
 
     rerender(<FormStatus>content-b</FormStatus>)
 
     expect(document.querySelector('.dnb-form-status').textContent).toBe(
-      'content-b',
+      'content-b'
     )
   })
 
   it('should have correct attributes once the "hidden" prop changes', async () => {
     const { rerender } = render(<FormStatus {...props} hidden />)
     expect(
-      document.querySelector('.dnb-form-status[hidden]'),
+      document.querySelector('.dnb-form-status[hidden]')
     ).toBeInTheDocument()
 
     rerender(<FormStatus {...props} hidden={false} />)
 
     expect(
-      document.querySelector('.dnb-form-status[hidden]'),
+      document.querySelector('.dnb-form-status[hidden]')
     ).not.toBeInTheDocument()
   })
 
@@ -136,7 +136,7 @@ describe('FormStatus component', () => {
     render(<FormStatus {...props} />)
 
     expect(
-      document.querySelector('.dnb-form-status__text').textContent,
+      document.querySelector('.dnb-form-status__text').textContent
     ).toBe(props.text)
   })
 
@@ -163,7 +163,7 @@ describe('FormStatus scss', () => {
 
   it('have to match default theme snapshot', () => {
     const css = loadScss(
-      require.resolve('../style/themes/dnb-form-status-theme-ui.scss'),
+      require.resolve('../style/themes/dnb-form-status-theme-ui.scss')
     )
     expect(css).toMatchSnapshot()
   })
@@ -174,7 +174,7 @@ describe('FormStatus role', () => {
     render(<FormStatus text="status text" />)
 
     expect(
-      document.querySelector('.dnb-form-status').getAttribute('role'),
+      document.querySelector('.dnb-form-status').getAttribute('role')
     ).toBe('alert')
   })
 
@@ -182,7 +182,7 @@ describe('FormStatus role', () => {
     render(<FormStatus text="status text" state="info" />)
 
     expect(
-      document.querySelector('.dnb-form-status').getAttribute('role'),
+      document.querySelector('.dnb-form-status').getAttribute('role')
     ).toBe('status')
   })
 
@@ -190,10 +190,10 @@ describe('FormStatus role', () => {
     render(<FormStatus role="none" text="status text" />)
 
     expect(
-      document.querySelector('.dnb-form-status').getAttribute('role'),
+      document.querySelector('.dnb-form-status').getAttribute('role')
     ).not.toBe('alert')
     expect(
-      document.querySelector('.dnb-form-status').getAttribute('role'),
+      document.querySelector('.dnb-form-status').getAttribute('role')
     ).toBe('none')
   })
 

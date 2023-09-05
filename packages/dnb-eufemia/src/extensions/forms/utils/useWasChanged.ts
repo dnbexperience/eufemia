@@ -7,19 +7,19 @@ import { useRef } from 'react'
 export default function useWasChanged<Subject extends object>(
   subject: Subject,
   title?: string,
-  debug?: boolean,
+  debug?: boolean
 ): void {
   const previous = useRef<Subject>(subject)
   if (!previous.current && !subject) {
     console.log(
-      'useWasChanged() - No subject was provided, while previous render had a subject. Was the whole object deleted?',
+      'useWasChanged() - No subject was provided, while previous render had a subject. Was the whole object deleted?'
     )
   }
 
   const { changed, unchanged } = [
     ...Object.entries(subject),
     ...Object.entries(previous.current ?? {}).filter(
-      ([key]) => subject[key] === undefined,
+      ([key]) => subject[key] === undefined
     ),
   ].reduce(
     ({ changed, unchanged }, [key, value]) => {
@@ -35,7 +35,7 @@ export default function useWasChanged<Subject extends object>(
         }
       }
     },
-    { changed: [], unchanged: [] },
+    { changed: [], unchanged: [] }
   )
 
   if (changed.length === 0 && !debug) {
@@ -43,7 +43,7 @@ export default function useWasChanged<Subject extends object>(
   }
 
   console.groupCollapsed(
-    `${title ?? 'object'} -- ${changed.length} members was changed`,
+    `${title ?? 'object'} -- ${changed.length} members was changed`
   )
 
   Object.values(changed).map((key) => {

@@ -80,37 +80,37 @@ describe('calc', () => {
 
   it('should output calc based on string types', () => {
     expect(calc('large x-small')).toEqual(
-      'calc(var(--spacing-large) + var(--spacing-x-small))',
+      'calc(var(--spacing-large) + var(--spacing-x-small))'
     )
   })
 
   it('should output calc based on argument types', () => {
     expect(calc('large', 'x-small')).toEqual(
-      'calc(var(--spacing-large) + var(--spacing-x-small))',
+      'calc(var(--spacing-large) + var(--spacing-x-small))'
     )
   })
 
   it('should output calc based on rem numbers', () => {
     expect(calc(2, 0.5)).toEqual(
-      'calc(var(--spacing-large) + var(--spacing-x-small))',
+      'calc(var(--spacing-large) + var(--spacing-x-small))'
     )
   })
 
   it('should output calc based on rem strings', () => {
     expect(calc('2rem', '0.5rem')).toEqual(
-      'calc(var(--spacing-large) + var(--spacing-x-small))',
+      'calc(var(--spacing-large) + var(--spacing-x-small))'
     )
   })
 
   it('should output calc based on pixel values', () => {
     expect(calc('32px', '8px')).toEqual(
-      'calc(var(--spacing-large) + var(--spacing-x-small))',
+      'calc(var(--spacing-large) + var(--spacing-x-small))'
     )
   })
 
   it('should output calc with mixed spacing types', () => {
     expect(calc('32px', 'x-small', 1)).toEqual(
-      'calc(var(--spacing-large) + var(--spacing-x-small) + var(--spacing-small))',
+      'calc(var(--spacing-large) + var(--spacing-x-small) + var(--spacing-small))'
     )
   })
 
@@ -118,28 +118,28 @@ describe('calc', () => {
     expect(calc('17px')).toEqual('calc(var(--spacing-small))')
     expect(calc('33px')).toEqual('calc(var(--spacing-large))')
     expect(calc('43px')).toEqual(
-      'calc(var(--spacing-large) + var(--spacing-x-small))',
+      'calc(var(--spacing-large) + var(--spacing-x-small))'
     )
   })
 
   it('should sum all types', () => {
     expect(calc('800px')).toEqual(
-      'calc(var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-small))',
+      'calc(var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-xx-large) + var(--spacing-small))'
     )
   })
 
   it('should calc documented examples', () => {
     expect(calc('medium large')).toEqual(
-      'calc(var(--spacing-medium) + var(--spacing-large))',
+      'calc(var(--spacing-medium) + var(--spacing-large))'
     )
     expect(calc('medium', 'large')).toEqual(
-      'calc(var(--spacing-medium) + var(--spacing-large))',
+      'calc(var(--spacing-medium) + var(--spacing-large))'
     )
     expect(calc('1.5rem', '2rem')).toEqual(
-      'calc(var(--spacing-medium) + var(--spacing-large))',
+      'calc(var(--spacing-medium) + var(--spacing-large))'
     )
     expect(calc('24px', '32px')).toEqual(
-      'calc(var(--spacing-medium) + var(--spacing-large))',
+      'calc(var(--spacing-medium) + var(--spacing-large))'
     )
   })
 
