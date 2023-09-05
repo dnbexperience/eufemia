@@ -8,7 +8,11 @@ import classnames from 'classnames'
 import { SpacingProps } from '../../components/space/types'
 import E from '../Element'
 import { HeadingSize } from '../../components/heading/Heading'
-import { setNextLevel } from '../../components/heading/HeadingHelpers'
+import {
+  setNextLevel,
+  getHeadingSize,
+} from '../../components/heading/HeadingHelpers'
+import { useTheme } from '../../shared'
 
 export type HSize = HeadingSize
 
@@ -27,7 +31,7 @@ type HProps = SpacingProps &
      * Sets the font size based on headingSize_#{HEADING_SIZE} mixins found in typography-mixins.scss. For more detailed information go here: https://eufemia.dnb.no/uilib/typography/font-size/
      * Default: xx-large
      */
-    size?: HSize
+    size?: HSize | 'auto'
   }
 
 export type SharedHProps = Omit<HProps, 'as'>
@@ -36,18 +40,29 @@ const H = ({
   as = 'h1',
   is,
   level,
-  size = 'xx-large',
+  size,
   className,
   ...props
 }: HProps) => {
+  const numSiz = parseFloat(String(as || is).substring(1))
+
   if (level === 'use') {
-    setNextLevel(parseFloat(String(as || is).substring(1)))
+    setNextLevel(numSiz)
   }
+
+  const theme = useTheme()
+  const targetSize =
+    (size === 'auto' && getHeadingSize(theme?.name)[numSiz]) ||
+    size ||
+    'xx-large'
 
   return (
     <E
       as={as || is}
-      internalClass={classnames(size && `dnb-h--${size}`, className)}
+      internalClass={classnames(
+        targetSize && `dnb-h--${targetSize}`,
+        className,
+      )}
       {...props}
     />
   )
