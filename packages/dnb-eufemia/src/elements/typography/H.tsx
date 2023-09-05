@@ -28,7 +28,8 @@ type HProps = SpacingProps &
      */
     level?: 'use'
     /**
-     * Sets the font size based on headingSize_#{HEADING_SIZE} mixins found in typography-mixins.scss. For more detailed information go here: https://eufemia.dnb.no/uilib/typography/font-size/
+     * Sets the font size based on headingSize_#{HEADING_SIZE} mixins found in typography-mixins.scss. For more detailed information go here: https://eufemia.dnb.no/uilib/typography/font-size/.
+     * Use value 'auto' to base size on heading level
      * Default: xx-large
      */
     size?: HSize | 'auto'
