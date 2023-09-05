@@ -14,24 +14,26 @@ import type { FieldProps } from '../../field-types'
 import { FieldGroupContext } from '../../FieldGroup'
 import { makeUniqueId } from '../../../../shared/component-helper'
 
-interface ReturnPropOverrides {
-  onFocus: (options?: { onFocusValue: unknown }) => void
-  onBlur: (options?: { onBlurValue: unknown }) => void
+interface ReturnAdditional {
+  setHasFocus: (hasFocus: boolean, valueOverride?: unknown) => void
+  handleFocus: FieldProps<unknown>['onFocus']
+  handleBlur: FieldProps<unknown>['onBlur']
+  handleChange: FieldProps<unknown>['onChange']
 }
 
-export default function useField<Props extends FieldProps<any>>(
+export default function useField<Props extends FieldProps<unknown>>(
   props: Props,
-): Omit<Props, keyof ReturnPropOverrides> & ReturnPropOverrides {
+): Props & ReturnAdditional {
   const {
     path,
     emptyValue,
     required,
     error: errorProp,
-    onFocus: onFocusProp,
-    onBlur: onBlurProp,
-    onChange: onChangeProp,
-    validator: validatorProp,
-    onBlurValidator: onBlurValidatorProp,
+    onFocus,
+    onBlur,
+    onChange,
+    validator,
+    onBlurValidator,
     schema,
     errorMessages,
     validateInitially,
@@ -125,9 +127,9 @@ export default function useField<Props extends FieldProps<any>>(
     (valueToValidate): FormError | undefined => {
       // Prioritize received validator functions first
       // Possible future change: Merge errors if multiple, like one message with each message concatinated.
-      if (typeof validatorProp === 'function') {
+      if (typeof validator === 'function') {
         // Since the validator can return either a synchronous result or an asynchronous
-        Promise.resolve(validatorProp(valueToValidate))
+        Promise.resolve(validator(valueToValidate))
           // This is a validator, so it is expected to resolve with an error when the value is invalid. If it
           // throws an error, it is not caught here as that will cause programmatic errors to show inside the form
           // as if they where operational errors.
@@ -163,7 +165,7 @@ export default function useField<Props extends FieldProps<any>>(
       emptyValue,
       required,
       setErrorAndUpdateDataContext,
-      validatorProp,
+      validator,
     ],
   )
 
@@ -183,53 +185,61 @@ export default function useField<Props extends FieldProps<any>>(
     }
   }, [id, path, dataContext.showAllErrors, setShowFieldGroupError])
 
-  const onFocus = useCallback(
-    ({ onFocusValue }) => {
-      onFocusProp?.(onFocusValue ?? value)
-    },
-    [value, onFocusProp],
-  )
+  const setHasFocus = useCallback(
+    (hasFocus: boolean, valueOverride?: unknown) => {
+      if (hasFocus) {
+        // Field was put in focus (like when clicking in a text field or opening a dropdown menu)
+        onFocus?.(valueOverride ?? value)
+      } else {
+        // Field was removed from focus (like when tabbing out of a text field or closing a dropdown menu)
+        onBlur?.(valueOverride ?? value)
 
-  const onBlur = useCallback(
-    ({ onBlurValue }) => {
-      onBlurProp?.(onBlurValue ?? value)
+        if (!changedRef.current && !validateUnchanged) {
+          // Avoid showing errors when blurring without havinc hanged the value, so tabbing through several
+          // fields does not make errors pop up all over the place
+          return
+        }
 
-      if (!changedRef.current && !validateUnchanged) {
-        // Avoid showing errors when blurring without havinc hanged the value, so tabbing through several
-        // fields does not make errors pop up all over the place
-        return
+        // External blur validators makes it possible to validate values but not on every character change in case of
+        // expensive validation calling external services etc.
+        if (typeof onBlurValidator === 'function') {
+          // Since the validator can return either a synchronous result or an asynchronous
+          Promise.resolve(onBlurValidator(valueOverride ?? value))
+            // This is a validator, so it is expected to resolve with an error when the value is invalid. If it
+            // throws an error, it is not caught here as that will cause programmatic errors to show inside the form
+            // as if they where operational errors.
+            .then(setErrorAndUpdateDataContext)
+        }
+
+        // Since the user left the field, show error (if any)
+        setShowError(true)
+        setShowFieldGroupError?.(path ?? id, true)
       }
-
-      // External blur validators makes it possible to validate values but not on every character change in case of
-      // expensive validation calling external services etc.
-      if (typeof onBlurValidatorProp === 'function') {
-        // Since the validator can return either a synchronous result or an asynchronous
-        Promise.resolve(onBlurValidatorProp(onBlurValue ?? value))
-          // This is a validator, so it is expected to resolve with an error when the value is invalid. If it
-          // throws an error, it is not caught here as that will cause programmatic errors to show inside the form
-          // as if they where operational errors.
-          .then(setErrorAndUpdateDataContext)
-      }
-
-      // Since the user left the field, show error (if any)
-      setShowError(true)
-      setShowFieldGroupError?.(path ?? id, true)
     },
     [
       id,
       path,
       value,
-      onBlurProp,
       validateUnchanged,
-      onBlurValidatorProp,
+      onFocus,
+      onBlur,
+      onBlurValidator,
       setErrorAndUpdateDataContext,
       setShowFieldGroupError,
     ],
   )
 
-  const onChange = useCallback(
-    (valueFromInput) => {
-      const newValue = fromInput(valueFromInput)
+  const handleFocus = useCallback(() => setHasFocus(true), [setHasFocus])
+  const handleBlur = useCallback(() => setHasFocus(false), [setHasFocus])
+
+  const handleChange = useCallback(
+    (argFromInput) => {
+      const newValue = fromInput(argFromInput)
+      if (newValue === value) {
+        // Avoid triggering a change if the value was not actually changed. This may be caused by rendering components
+        // calling onChange even if the actual value did not change.
+        return
+      }
       setValue(newValue)
       changedRef.current = true
       // When changing the value, hide errors to avoid annoying the user before they are finished filling in that value
@@ -239,7 +249,7 @@ export default function useField<Props extends FieldProps<any>>(
       validateValue(newValue)
 
       // Tell any parent data context about the error, so they can take it into consideration when a submit button is clicked for instance
-      onChangeProp?.(newValue)
+      onChange?.(newValue)
       if (path) {
         dataContextHandlePathChange?.(path, newValue)
       }
@@ -247,7 +257,8 @@ export default function useField<Props extends FieldProps<any>>(
     [
       id,
       path,
-      onChangeProp,
+      value,
+      onChange,
       validateValue,
       dataContextHandlePathChange,
       setShowFieldGroupError,
@@ -278,8 +289,9 @@ export default function useField<Props extends FieldProps<any>>(
     id,
     value: toInput(value),
     error: inFieldGroup ? undefined : showError ? exportError : undefined,
-    onFocus,
-    onBlur,
-    onChange,
+    setHasFocus,
+    handleFocus,
+    handleBlur,
+    handleChange,
   }
 }

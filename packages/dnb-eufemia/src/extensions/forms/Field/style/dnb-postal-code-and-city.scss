@@ -1,10 +1,14 @@
-@import '../fields.scss';
+@import '../../variables.scss';
 
 .dnb-forms-field-postal-code-and-city {
   &__fields {
     display: flex;
     flex-flow: row;
     column-gap: var(--spacing-small);
+  }
+
+  &--width-small {
+    width: $forms-field-width-small;
   }
 
   &--width-medium {

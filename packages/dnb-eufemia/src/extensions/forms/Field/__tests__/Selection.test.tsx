@@ -1,10 +1,10 @@
 import '@testing-library/jest-dom'
 import React from 'react'
-import { screen, render } from '@testing-library/react'
+import { screen, render, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Field from '..'
 
-describe('Select', () => {
+describe('Selection', () => {
   describe('props', () => {
     it('renders selected option', () => {
       render(
@@ -13,10 +13,36 @@ describe('Select', () => {
           <Field.Option value="bar">Baar</Field.Option>
         </Field.Selection>,
       )
-
+      expect(screen.queryAllByRole('button').length).toEqual(1)
       expect(screen.getByText('Baar')).toBeInTheDocument()
       expect(screen.queryAllByRole('option').length).toEqual(0)
       expect(screen.queryByText('Fooo')).not.toBeInTheDocument()
+    })
+
+    it('should change option based on external value change', async () => {
+      const { rerender } = render(
+        <Field.Selection value="bar">
+          <Field.Option value="foo">Fooo</Field.Option>
+          <Field.Option value="bar">Baar</Field.Option>
+        </Field.Selection>,
+      )
+
+      const btn1 = screen.getByRole('button')
+      expect(within(btn1).getByText('Baar')).toBeInTheDocument()
+      expect(within(btn1).queryByText('Fooo')).not.toBeInTheDocument()
+
+      // This should re-render the mounted Selection-component with a new value-prop
+      rerender(
+        <Field.Selection value="foo">
+          <Field.Option value="foo">Fooo</Field.Option>
+          <Field.Option value="bar">Baar</Field.Option>
+        </Field.Selection>,
+      )
+
+      // The selected button should now show the other option based on the value-prop change
+      const btn2 = screen.getByRole('button')
+      expect(within(btn2).getByText('Fooo')).toBeInTheDocument()
+      expect(within(btn2).queryByText('Baar')).not.toBeInTheDocument()
     })
 
     it('renders given options', async () => {
@@ -48,6 +74,87 @@ describe('Select', () => {
       )
       // getByText instead of getByPlaceholderText since eufemia adds placeholder as tag, not placeholder-attribute
       expect(screen.getByText('Select something')).toBeInTheDocument()
+    })
+
+    it('sends undefined out when selecting the clear-option', async () => {
+      const onChange = jest.fn()
+      render(
+        <Field.Selection onChange={onChange} clear>
+          <Field.Option value="foo">Fooo</Field.Option>
+          <Field.Option value="bar">Baar</Field.Option>
+        </Field.Selection>,
+      )
+      // Open the menu
+      const selectionButton = screen.getByRole('button')
+      await userEvent.click(selectionButton)
+      // Click the second option, which should be the "foo" option if the clear-option is the first one
+      const options1 = screen.queryAllByRole('option')
+      await userEvent.click(options1[1])
+
+      expect(onChange.mock.calls).toHaveLength(1)
+      expect(onChange.mock.calls[0][0]).toEqual('foo')
+
+      // Then reopen the menu and click the first option, which should be the clear-option, providing undefined
+      await userEvent.click(selectionButton)
+      const options2 = screen.queryAllByRole('option')
+      await userEvent.click(options2[0])
+
+      expect(onChange.mock.calls).toHaveLength(2)
+      expect(onChange.mock.calls[1][0]).toEqual(undefined)
+    })
+    it('should send the provided emptyValue when clicking the clear option', async () => {
+      const onChange = jest.fn()
+      render(
+        <Field.Selection onChange={onChange} emptyValue="nothing" clear>
+          <Field.Option value="foo">Fooo</Field.Option>
+          <Field.Option value="bar">Baar</Field.Option>
+        </Field.Selection>,
+      )
+      // Open the menu
+      const selectionButton = screen.getByRole('button')
+      await userEvent.click(selectionButton)
+      const options = screen.queryAllByRole('option')
+      await userEvent.click(options[0])
+
+      expect(onChange.mock.calls).toHaveLength(1)
+      expect(onChange.mock.calls[0][0]).toEqual('nothing')
+    })
+  })
+
+  describe('variants', () => {
+    describe('radio', () => {
+      it('renders selected option', () => {
+        render(
+          <Field.Selection variant="radio" value="bar">
+            <Field.Option value="foo">Fooo</Field.Option>
+            <Field.Option value="bar">Baar</Field.Option>
+          </Field.Selection>,
+        )
+        const radioButtons = screen.queryAllByRole('radio')
+        expect(radioButtons.length).toEqual(2)
+        expect(radioButtons[0]).not.toBeChecked()
+        expect(radioButtons[1]).toBeChecked()
+      })
+
+      it('renders update selected option based on external value change', () => {
+        const { rerender } = render(
+          <Field.Selection variant="radio" value="bar">
+            <Field.Option value="foo">Fooo</Field.Option>
+            <Field.Option value="bar">Baar</Field.Option>
+          </Field.Selection>,
+        )
+        rerender(
+          <Field.Selection variant="radio" value="foo">
+            <Field.Option value="foo">Fooo</Field.Option>
+            <Field.Option value="bar">Baar</Field.Option>
+          </Field.Selection>,
+        )
+
+        const radioButtons = screen.queryAllByRole('radio')
+        expect(radioButtons.length).toEqual(2)
+        expect(radioButtons[0]).toBeChecked()
+        expect(radioButtons[1]).not.toBeChecked()
+      })
     })
   })
 
@@ -115,34 +222,36 @@ describe('Select', () => {
     })
   })
 
-  describe('error handling', () => {
-    describe('validation based on required-prop', () => {
-      it('should show error for empty value', async () => {
-        render(
-          <Field.Selection required validateInitially>
-            <Field.Option value="foo">Fooo</Field.Option>
-            <Field.Option value="bar">Baar</Field.Option>
-          </Field.Selection>,
-        )
-        const selectionButton = screen.getByRole('button')
-        await userEvent.click(selectionButton)
+  describe('validation and error handling', () => {
+    describe('required', () => {
+      describe('validation based on required-prop', () => {
+        it('should show error for empty value', async () => {
+          render(
+            <Field.Selection required validateInitially>
+              <Field.Option value="foo">Fooo</Field.Option>
+              <Field.Option value="bar">Baar</Field.Option>
+            </Field.Selection>,
+          )
+          const selectionButton = screen.getByRole('button')
+          await userEvent.click(selectionButton)
 
-        expect(screen.getByRole('alert')).toBeInTheDocument()
-      })
+          expect(screen.getByRole('alert')).toBeInTheDocument()
+        })
 
-      it('should not show error when value is not empty', async () => {
-        render(
-          <Field.Selection required>
-            <Field.Option value="foo">Fooo</Field.Option>
-            <Field.Option value="bar">Baar</Field.Option>
-          </Field.Selection>,
-        )
-        const selectionButton = screen.getByRole('button')
-        await userEvent.click(selectionButton)
-        const option1 = screen.getByText('Fooo')
-        await userEvent.click(option1)
+        it('should not show error when value is not empty', async () => {
+          render(
+            <Field.Selection required>
+              <Field.Option value="foo">Fooo</Field.Option>
+              <Field.Option value="bar">Baar</Field.Option>
+            </Field.Selection>,
+          )
+          const selectionButton = screen.getByRole('button')
+          await userEvent.click(selectionButton)
+          const option1 = screen.getByText('Fooo')
+          await userEvent.click(option1)
 
-        expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        })
       })
     })
   })

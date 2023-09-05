@@ -1,11 +1,12 @@
-import React from 'react'
-import { InputMasked } from '../../../components'
+import React, { useMemo } from 'react'
+import { InputMasked, HelpButton } from '../../../components'
+import { InputMaskedProps } from '../../../components/InputMasked'
 import classnames from 'classnames'
 import { forwardSpaceProps } from '../utils'
 import FieldBlock from '../FieldBlock'
 import { useField } from './hooks'
 import type { ComponentProps } from '../component-types'
-import type { FieldProps } from '../field-types'
+import type { FieldProps, FieldHelpProps } from '../field-types'
 
 interface ErrorMessages {
   required?: string
@@ -18,8 +19,12 @@ interface ErrorMessages {
 }
 
 export type Props = ComponentProps &
+  FieldHelpProps &
   FieldProps<number, undefined, ErrorMessages> & {
     inputClassName?: string
+    currency?: InputMaskedProps['as_currency']
+    percent?: InputMaskedProps['as_percent']
+    mask?: InputMaskedProps['mask']
     // Formatting
     thousandSeparator?: string | true
     decimalSymbol?: string
@@ -33,12 +38,15 @@ export type Props = ComponentProps &
     exclusiveMaximum?: number // aka less than
     multipleOf?: number
     // Styling
-    width?: false | 'medium' | 'large' | 'stretch'
+    width?: false | 'small' | 'medium' | 'large' | 'stretch'
     rightAligned?: boolean
   }
 
 function NumberComponent(props: Props) {
   const {
+    currency,
+    percent,
+    mask,
     thousandSeparator,
     decimalSymbol = ',',
     decimalLimit = 12,
@@ -46,6 +54,42 @@ function NumberComponent(props: Props) {
     suffix,
     rightAligned,
   } = props
+
+  const maskProps: Partial<InputMaskedProps> = useMemo(() => {
+    if (currency) {
+      return {
+        as_currency: currency,
+      }
+    }
+    if (percent) {
+      return {
+        as_percent: percent,
+      }
+    }
+    // Custom mask based on props
+    return {
+      as_number: true,
+      mask,
+      number_mask: {
+        decimalLimit,
+        decimalSymbol,
+        includeThousandsSeparator: thousandSeparator !== undefined,
+        thousandsSeparatorSymbol:
+          thousandSeparator === true ? ' ' : thousandSeparator,
+        prefix,
+        suffix,
+      },
+    }
+  }, [
+    currency,
+    percent,
+    mask,
+    decimalLimit,
+    decimalSymbol,
+    thousandSeparator,
+    prefix,
+    suffix,
+  ])
 
   const preparedProps: Props = {
     ...props,
@@ -92,11 +136,12 @@ function NumberComponent(props: Props) {
     info,
     warning,
     error,
+    help,
     emptyValue,
     width,
-    onFocus,
-    onBlur,
-    onChange,
+    handleFocus,
+    handleBlur,
+    handleChange,
   } = useField(preparedProps)
 
   return (
@@ -121,22 +166,18 @@ function NumberComponent(props: Props) {
         )}
         placeholder={placeholder}
         value={value}
-        as_number
-        number_mask={{
-          decimalLimit,
-          decimalSymbol,
-          includeThousandsSeparator: thousandSeparator !== undefined,
-          thousandsSeparatorSymbol:
-            thousandSeparator === true ? ' ' : thousandSeparator,
-          prefix,
-          suffix,
-        }}
+        {...maskProps}
         right={rightAligned}
-        on_focus={onFocus}
-        on_blur={onBlur}
-        on_change={onChange}
+        on_focus={handleFocus}
+        on_blur={handleBlur}
+        on_change={handleChange}
         disabled={disabled}
         stretch={width !== undefined}
+        suffix={
+          help ? (
+            <HelpButton title={help.title}>{help.contents}</HelpButton>
+          ) : undefined
+        }
       />
     </FieldBlock>
   )

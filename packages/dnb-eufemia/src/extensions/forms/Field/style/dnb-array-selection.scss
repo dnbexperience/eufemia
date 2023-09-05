@@ -1,0 +1,15 @@
+@import '../../variables.scss';
+
+.dnb-forms-field-array-selection {
+  &--options-layout-vertical &__options {
+    display: flex;
+    flex-flow: column;
+    row-gap: var(--spacing-x-small);
+  }
+
+  &--options-layout-horizontal &__options {
+    display: flex;
+    flex-flow: row wrap;
+    column-gap: var(--spacing-small);
+  }
+}

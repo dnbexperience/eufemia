@@ -44,6 +44,23 @@ export const LabelAndValue = () => {
   )
 }
 
+export const WithHelp = () => {
+  return (
+    <ComponentBox scope={{ Field }}>
+      <Field.Email
+        label="Label text"
+        value="my-m@il.com"
+        help={{
+          title: 'Help is available',
+          contents:
+            'Use your gifts to teach and help others. Acknowledge them as gifts (even if only in your mind). Take some time to list your strengths as well as the ways in which you could share them with the world around you and how that truly is a gift to others.',
+        }}
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
+
 export const Disabled = () => {
   return (
     <ComponentBox scope={{ Field }}>

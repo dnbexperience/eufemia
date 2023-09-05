@@ -92,6 +92,7 @@ export type Props = ComponentProps & {
     | 'large'
     | 'x-large'
     | 'xx-large'
+  width?: 'small' | 'medium' | 'large'
   children: React.ReactNode
 }
 
@@ -105,6 +106,7 @@ function FlexContainer(props: Props) {
     align = 'stretch',
     divider = 'space',
     spacing = 'small',
+    width,
   } = props
 
   const cn = classnames(
@@ -115,6 +117,7 @@ function FlexContainer(props: Props) {
     wrap && `dnb-forms-flex-container--wrap`,
     divider && `dnb-forms-flex-container--divider-${divider}`,
     spacing && `dnb-forms-flex-container--spacing-${spacing}`,
+    width && `dnb-forms-flex-container--width-${width}`,
     className,
   )
   const childrenArray = React.Children.toArray(children)

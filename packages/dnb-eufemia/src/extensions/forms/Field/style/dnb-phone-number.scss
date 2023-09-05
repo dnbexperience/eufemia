@@ -1,4 +1,4 @@
-@import '../fields.scss';
+@import '../../variables.scss';
 
 .dnb-forms-field-phone-number {
   display: flex;
@@ -11,10 +11,6 @@
 
   &--width-large {
     width: $forms-field-width-large;
-  }
-
-  &--width-medium {
-    width: $forms-field-width-medium;
   }
 
   &__country-code {

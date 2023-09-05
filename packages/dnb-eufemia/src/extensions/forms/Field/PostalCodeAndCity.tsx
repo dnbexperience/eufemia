@@ -6,7 +6,7 @@ import StringComponent, { Props as StringComponentProps } from './String'
 
 export type Props = Omit<FieldGroupProps, 'children'> &
   Record<'postalCode' | 'city', StringComponentProps> & {
-    width?: 'medium' | 'large'
+    width?: 'small' | 'medium' | 'large'
   }
 
 function PostalCodeAndCity(props: Props) {
