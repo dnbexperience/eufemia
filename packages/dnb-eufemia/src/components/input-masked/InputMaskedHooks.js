@@ -414,7 +414,7 @@ const useCallEvent = ({ setLocalValue }) => {
       num = -0
     }
 
-    const numberValue = Number(num)
+    const numberValue = num.startsWith(0) ? num : Number(num)
 
     // We may have to check against a negative value: && 1 / +0 === 1 / numberValue
     const cleanedValue = numberValue === 0 ? '' : num
