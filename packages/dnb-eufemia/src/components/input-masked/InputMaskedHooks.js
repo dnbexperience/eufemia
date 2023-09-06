@@ -414,7 +414,10 @@ const useCallEvent = ({ setLocalValue }) => {
       num = -0
     }
 
-    const numberValue = num.startsWith(0) ? num : Number(num)
+    const isNumberWithLeadingZero =
+      isNaN(num) && num.length > 0 && num.startsWith(0)
+
+    const numberValue = isNumberWithLeadingZero ? num : Number(num)
 
     // We may have to check against a negative value: && 1 / +0 === 1 / numberValue
     const cleanedValue = numberValue === 0 ? '' : num
