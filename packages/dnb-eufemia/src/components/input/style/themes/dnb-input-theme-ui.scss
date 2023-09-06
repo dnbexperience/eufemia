@@ -107,7 +107,7 @@
     display: none;
   }
 
-  &--keep-placeholder &[data-input-state='focus'] &__placeholder {
+  &--keep-placeholder[data-input-state='focus'] &__placeholder {
     display: block;
     color: var(--color-black-20);
   }
