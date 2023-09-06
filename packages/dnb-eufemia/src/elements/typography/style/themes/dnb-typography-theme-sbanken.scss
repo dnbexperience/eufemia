@@ -14,6 +14,7 @@
 // Headings
 @include typography.headingClasses() {
   color: var(--sb-color-text);
+  font-variant-ligatures: none;
 }
 
 @include typography.typographySelectors() {
