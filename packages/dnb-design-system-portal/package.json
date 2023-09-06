@@ -110,6 +110,7 @@
     "prop-types": "15.7.2",
     "raw-loader": "4.0.2",
     "react-live": "3.1.1",
+    "react-markdown": "8.0.7",
     "remark-gfm": "1.0.0",
     "repo-utils": "workspace:*",
     "sass": "1.43.4",

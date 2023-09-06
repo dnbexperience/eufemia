@@ -1,7 +1,9 @@
 import React from 'react'
-import { P, Anchor, Ul, Li } from '@dnb/eufemia/src'
+import { Anchor, Ul, Li } from '@dnb/eufemia/src'
 import AutoLinkHeader from '../tags/AutoLinkHeader'
 import { resetLevels } from '@dnb/eufemia/src/components/Heading'
+import ReactMarkdown from 'react-markdown'
+import { basicComponents } from '../../shared/tags'
 
 type ListEdge = {
   node: {
@@ -60,7 +62,11 @@ export default function ListSummaryFromEdges({
             <AutoLinkHeader level="2" useSlug={'/' + slug} title={title}>
               <Anchor href={'/' + slug}>{title}</Anchor>
             </AutoLinkHeader>
-            {description && <P>{description}</P>}
+            {description && (
+              <ReactMarkdown components={basicComponents}>
+                {description}
+              </ReactMarkdown>
+            )}
           </>
         )
       }
