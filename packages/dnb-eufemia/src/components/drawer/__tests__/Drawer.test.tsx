@@ -65,6 +65,7 @@ describe('Drawer', () => {
   it('will close by using callback method', async () => {
     const on_close = jest.fn()
     const on_open = jest.fn()
+
     render(
       <Drawer
         noAnimation={true}
@@ -82,6 +83,62 @@ describe('Drawer', () => {
     await waitFor(() => {
       expect(on_open).toHaveBeenCalledTimes(1)
     })
+
+    fireEvent.click(document.querySelector('button#close-me'))
+    await waitFor(() => {
+      expect(on_close).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  it('will render Navigation, Header and Body even when hideCloseButton is true', async () => {
+    const on_close = jest.fn()
+    const on_open = jest.fn()
+
+    render(
+      <Drawer
+        noAnimation={true}
+        onOpen={on_open}
+        onClose={on_close}
+        hideCloseButton
+      >
+        {({ close }) => (
+          <>
+            <Drawer.Navigation>Drawer.Navigation</Drawer.Navigation>
+            <Drawer.Header>
+              Drawer.Header
+              <Button id="close-me" on_click={close} />
+            </Drawer.Header>
+            <Drawer.Body>Drawer.Body</Drawer.Body>
+          </>
+        )}
+      </Drawer>
+    )
+
+    fireEvent.click(document.querySelector('button'))
+    await waitFor(() => {
+      expect(on_open).toHaveBeenCalledTimes(1)
+    })
+
+    expect(document.querySelectorAll('.dnb-drawer button')).toHaveLength(1)
+
+    expect(
+      document.querySelector('.dnb-drawer__header')
+    ).toBeInTheDocument()
+    expect(document.querySelector('.dnb-drawer__header').textContent).toBe(
+      'Drawer.Header'
+    )
+
+    expect(document.querySelector('.dnb-drawer__body')).toBeInTheDocument()
+    expect(document.querySelector('.dnb-drawer__body').textContent).toBe(
+      'Drawer.Body'
+    )
+
+    expect(
+      document.querySelector('.dnb-drawer__navigation')
+    ).toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-drawer__navigation').textContent
+    ).toBe('Drawer.Navigation')
 
     fireEvent.click(document.querySelector('button#close-me'))
     await waitFor(() => {
