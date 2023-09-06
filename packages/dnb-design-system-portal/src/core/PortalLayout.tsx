@@ -11,6 +11,7 @@ import Tabbar from '../shared/tags/Tabbar'
 import tags from '../shared/tags'
 import { resetLevels } from '@dnb/eufemia/src/components/Heading'
 import { setPortalHeadData, usePortalHead } from './PortalHead'
+import { Breadcrumb } from '@dnb/eufemia/src'
 
 const ContentWrapper = Tabbar.ContentWrapper
 
@@ -47,6 +48,10 @@ export default function PortalLayout(props: PortalLayoutProps) {
               description
               fullscreen
               showTabs
+              breadcrumb {
+                text
+                href
+              }
               hideTabs {
                 title
               }
@@ -61,10 +66,15 @@ export default function PortalLayout(props: PortalLayoutProps) {
               }
               frontmatter {
                 menuTitle
+                hideInMenu
                 title
                 description
                 fullscreen
                 showTabs
+                breadcrumb {
+                  text
+                  href
+                }
                 hideTabs {
                   title
                 }
@@ -125,6 +135,14 @@ export default function PortalLayout(props: PortalLayoutProps) {
 
   return (
     <Layout key="layout" location={location} fullscreen={fullscreen}>
+      {fmData.breadcrumb && (
+        <Breadcrumb
+          key="breadcrumb"
+          top="large"
+          data={fmData.breadcrumb}
+        />
+      )}
+
       {currentFm.showTabs && (
         <Tabbar
           key="tabbar"
