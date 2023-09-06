@@ -3,6 +3,42 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.8.0](https://github.com/dnbexperience/eufemia/compare/v10.7.0...v10.8.0) (2023-09-06)
+
+
+### :memo: Documentation
+
+* **NumberFormat:** add source for number formatting in documentation ([#2596](https://github.com/dnbexperience/eufemia/issues/2596)) ([74415a9](https://github.com/dnbexperience/eufemia/commit/74415a948afbafb7eda749bc3c8db5ee3287ee4d))
+* **Section:** move deprecated styles into a seperate docs page ([#2585](https://github.com/dnbexperience/eufemia/issues/2585)) ([d36a4fb](https://github.com/dnbexperience/eufemia/commit/d36a4fb9476ee5865512f4f3dd45ebe88a1a3941)), closes [#2582](https://github.com/dnbexperience/eufemia/issues/2582)
+* **StepIndicator:** fix link to drawer docs ([#2593](https://github.com/dnbexperience/eufemia/issues/2593)) ([31c17eb](https://github.com/dnbexperience/eufemia/commit/31c17eb6908dfd886e4689f1b35fdca871fd3a30))
+
+
+### :sparkles: Features
+
+* **Accordion:** sbanken theme ([#2586](https://github.com/dnbexperience/eufemia/issues/2586)) ([90cc4ac](https://github.com/dnbexperience/eufemia/commit/90cc4acfa4c489d7325c137034b8c2a6da70bd2c))
+* **Breadcrumb:** Add Sbanken style ([#2601](https://github.com/dnbexperience/eufemia/issues/2601)) ([8efbf4a](https://github.com/dnbexperience/eufemia/commit/8efbf4a74420bfc4bf7f7bff2fa4cd5d23a0bc9e))
+* **Checkbox:** add innerRef prop to link a React Ref to the input element ([#2595](https://github.com/dnbexperience/eufemia/issues/2595)) ([095ee6d](https://github.com/dnbexperience/eufemia/commit/095ee6d450ab1019c02e8539cca7d6965d9569d4))
+* **Forms:** improvements ([#2603](https://github.com/dnbexperience/eufemia/issues/2603)) ([2a86a4a](https://github.com/dnbexperience/eufemia/commit/2a86a4adfccf520d71cf5a225a7fb763b0faec34))
+* **FormStatus:** Add Sbanken styles ([#2605](https://github.com/dnbexperience/eufemia/issues/2605)) ([79dfaee](https://github.com/dnbexperience/eufemia/commit/79dfaee03282af010c0698c301cd208131543d4b))
+* **GlobalStatus:** Add warning and success states and Sbanken style ([#2584](https://github.com/dnbexperience/eufemia/issues/2584)) ([33ba995](https://github.com/dnbexperience/eufemia/commit/33ba995a251bd679a09780cbd2cfca9706c79fc4))
+* **Radio:** add innerRef prop to link a React Ref to the input element ([#2598](https://github.com/dnbexperience/eufemia/issues/2598)) ([348ad80](https://github.com/dnbexperience/eufemia/commit/348ad8062776e1f89a48f41139ba1cd5682a3688))
+* **Switch:** add innerRef prop to link a React Ref to the input element ([#2597](https://github.com/dnbexperience/eufemia/issues/2597)) ([efa7733](https://github.com/dnbexperience/eufemia/commit/efa77330040cbb7281b8e6552efe559f45d5dd3c))
+* **Typography, Heading:** change font sizes and added small screen sizes for sbanken ([#2599](https://github.com/dnbexperience/eufemia/issues/2599)) ([96974ab](https://github.com/dnbexperience/eufemia/commit/96974ab1c23c5b6e2066ed4d95135611433faa79))
+
+
+### :bug: Bug Fixes
+
+* add external link icon to anchor with element as children ([#2520](https://github.com/dnbexperience/eufemia/issues/2520)) ([2566dae](https://github.com/dnbexperience/eufemia/commit/2566dae67e203b0b624a89891d95638dac02dc0a))
+* **Autocomplete:** make independent_width work properly ([#2589](https://github.com/dnbexperience/eufemia/issues/2589)) ([90cfc58](https://github.com/dnbexperience/eufemia/commit/90cfc58efe39e4aae20bc6cbb84735427d3eab7c))
+* **Drawer:** add support for closeButtonAttributes ([#2616](https://github.com/dnbexperience/eufemia/issues/2616)) ([d01d2fe](https://github.com/dnbexperience/eufemia/commit/d01d2fe618c109632523c8db00432db94fbbd1ca))
+* **Drawer:** render Drawer.Navigation when hideCloseButton is true ([#2613](https://github.com/dnbexperience/eufemia/issues/2613)) ([fb8b031](https://github.com/dnbexperience/eufemia/commit/fb8b0318930d285e5c71c149b7491bd9db4e5e8a))
+* **Forms:** align card border ([#2588](https://github.com/dnbexperience/eufemia/issues/2588)) ([cd5f695](https://github.com/dnbexperience/eufemia/commit/cd5f6956ffa21d4abfd79a9da7dff11436960a23)), closes [#2587](https://github.com/dnbexperience/eufemia/issues/2587)
+* **Forms:** make PhoneNumber country code searchable by numbers ([#2590](https://github.com/dnbexperience/eufemia/issues/2590)) ([6bdb62f](https://github.com/dnbexperience/eufemia/commit/6bdb62fe95eb9fb43095c0bad9fbb2ffd23761bd))
+* **Forms:** use rem unit over px ([#2587](https://github.com/dnbexperience/eufemia/issues/2587)) ([fe9aee4](https://github.com/dnbexperience/eufemia/commit/fe9aee41a7f4ec249a5bb4961185c46f54ac5972))
+* **InputMasked:** ensure a value with null does not remove the placeholder ([#2594](https://github.com/dnbexperience/eufemia/issues/2594)) ([3d13453](https://github.com/dnbexperience/eufemia/commit/3d1345306e290a88afb8ba208484f5e04bbf063c))
+* **MaskedInput:** correct keep_placeholder css selector ([#2608](https://github.com/dnbexperience/eufemia/issues/2608)) ([509c740](https://github.com/dnbexperience/eufemia/commit/509c740408fd8f6d45922a4b3f96bf60e6a8396f))
+* **TimeLine:** make it possible to update state of subtitle from another subtitle ([#2600](https://github.com/dnbexperience/eufemia/issues/2600)) ([50302dd](https://github.com/dnbexperience/eufemia/commit/50302dd077254d26da00a4a96c57e38c48cc069d))
+
 ## [10.7.0](https://github.com/dnbexperience/eufemia/compare/v10.6.0...v10.7.0) (2023-08-23)
 
 
