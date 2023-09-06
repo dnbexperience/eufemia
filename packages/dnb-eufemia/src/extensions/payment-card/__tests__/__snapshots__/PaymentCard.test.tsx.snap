@@ -64,9 +64,9 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
 }
 .dnb-payment-card__card {
   position: relative;
-  width: 85.6mm;
-  height: 53.98mm;
-  padding: 4mm;
+  width: 90.753mm;
+  height: 57.15mm;
+  padding: 4.23mm;
   border-radius: 3.48mm;
   border: 1px solid;
   border-color: rgba(255, 255, 255, 0.1) transparent rgba(0, 0, 0, 0.2) transparent;
@@ -229,7 +229,7 @@ exports[`PaymentCard scss has to match style dependencies css 1`] = `
   font-size: var(--font-size-basis);
 }
 .dnb-payment-card--compact .dnb-payment-card__card__credit-type {
-  top: 8px;
+  top: 10px;
   right: 4px;
   bottom: auto;
 }

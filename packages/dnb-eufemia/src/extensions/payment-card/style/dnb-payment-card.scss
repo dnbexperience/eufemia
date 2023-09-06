@@ -55,9 +55,9 @@
 
   &__card {
     position: relative;
-    width: 85.6mm;
-    height: 53.98mm;
-    padding: 4mm;
+    width: 90.753mm; // 343px
+    height: 57.15mm; // 216px
+    padding: 4.23mm; // 16px
 
     border-radius: 3.48mm;
 
@@ -275,7 +275,7 @@
     }
 
     &__credit-type {
-      top: 8px;
+      top: 10px;
       right: 4px;
       bottom: auto;
     }
