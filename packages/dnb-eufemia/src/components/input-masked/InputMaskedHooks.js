@@ -414,13 +414,13 @@ const useCallEvent = ({ setLocalValue }) => {
       num = -0
     }
 
-    const isNumberWithLeadingZero =
-      isNaN(num) && num.length > 0 && num.startsWith(0)
+    const numberValue = Number(num)
 
-    const numberValue = isNumberWithLeadingZero ? num : Number(num)
-
-    // We may have to check against a negative value: && 1 / +0 === 1 / numberValue
-    const cleanedValue = numberValue === 0 ? '' : num
+    // Return '0' when the user enters a zero,
+    // else return empty string (something invalid was entered)
+    // or return the num, which went thought cleanNumber.
+    const cleanedValue =
+      numberValue === 0 ? (String(num).charAt(0) === '0' ? '0' : '') : num
 
     if (name === 'on_change' && numberValue === 0) {
       correctCaretPosition(event.target, maskParams, props)
