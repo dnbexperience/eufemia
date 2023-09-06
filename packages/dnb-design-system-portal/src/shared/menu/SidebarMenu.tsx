@@ -218,15 +218,21 @@ const ThemeBadge = ({ theme, ...props }: { theme: ThemeNames }) => {
       sbanken: 'Sbanken',
       eiendom: 'Eiendom',
     }[theme]
+  const themeTitleTitle =
+    theme && `This component is ready for use with the ${themeTitle} theme`
   return (
     <span
+      title={themeTitleTitle}
       className={classnames(
         'dnb-sidebar-menu__theme-badge',
         `dnb-sidebar-menu__theme-badge--${theme}`,
       )}
       {...props}
     >
-      <span className={classnames('dnb-sidebar-menu__theme-badge__title')}>
+      <span
+        title={themeTitleTitle}
+        className={classnames('dnb-sidebar-menu__theme-badge__title')}
+      >
         {themeTitle}
       </span>
     </span>
