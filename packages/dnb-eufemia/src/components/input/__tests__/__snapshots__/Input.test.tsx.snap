@@ -1322,7 +1322,7 @@ html:not([data-whatintent=touch]) .dnb-input__status--error .dnb-input__submit-b
 .dnb-input[data-input-state=focus] .dnb-input__placeholder {
   display: none;
 }
-.dnb-input--keep-placeholder .dnb-input[data-input-state=focus] .dnb-input__placeholder {
+.dnb-input--keep-placeholder[data-input-state=focus] .dnb-input__placeholder {
   display: block;
   color: var(--color-black-20);
 }"
