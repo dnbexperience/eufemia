@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkdnb_design_system_portal=self.webpackChunkdnb_design_system_portal||[]).push([[180],{97533:function(n,s,e){e.r(s);var t=e(52322),r=e(45392),c=e(95992);function a(n){return(0,t.jsxs)(t.Fragment,{children:[(0,t.jsx)(c.Io,{}),"\n",(0,t.jsx)(c.u2,{})]})}s.default=function(n){void 0===n&&(n={});const{wrapper:s}=Object.assign({},(0,r.ah)(),n.components);return s?(0,t.jsx)(s,Object.assign({},n,{children:(0,t.jsx)(a,n)})):a()}}}]);
-//# sourceMappingURL=component---src-docs-uilib-components-autocomplete-visual-tests-mdx-775224f8b7e56a038aea.js.map
