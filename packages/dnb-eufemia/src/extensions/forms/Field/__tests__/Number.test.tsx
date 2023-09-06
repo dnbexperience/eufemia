@@ -16,7 +16,7 @@ describe('Field.Number', () => {
       render(<Field.Number placeholder="Enter some number" />)
       expect(
         // getByText instead of getByPlaceholderText since eufemia adds placeholder as tag, not placeholder-attribute
-        screen.getByText('Enter some number'),
+        screen.getByText('Enter some number')
       ).toBeInTheDocument()
     })
 
@@ -28,13 +28,13 @@ describe('Field.Number', () => {
     it('renders error', () => {
       render(<Field.Number error={new Error('This is what went wrong')} />)
       expect(
-        screen.getByText('This is what went wrong'),
+        screen.getByText('This is what went wrong')
       ).toBeInTheDocument()
     })
 
     it('formats with given thousandSeparator', () => {
       const { rerender } = render(
-        <Field.Number value={12345} thousandSeparator=" " />,
+        <Field.Number value={12345} thousandSeparator=" " />
       )
       expect(screen.getByDisplayValue('12 345')).toBeInTheDocument()
       rerender(<Field.Number value={12345} thousandSeparator="x" />)

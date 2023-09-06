@@ -181,7 +181,7 @@ export default class Switch extends React.PureComponent {
             checked,
             event,
           }),
-        500,
+        500
       )
     }
 
@@ -199,7 +199,7 @@ export default class Switch extends React.PureComponent {
       { skeleton: this.context?.skeleton },
       this.context.getTranslation(this.props).Switch,
       includeValidProps(this.context.FormRow),
-      this.context.Switch,
+      this.context.Switch
     )
 
     const {
@@ -246,7 +246,7 @@ export default class Switch extends React.PureComponent {
         createSkeletonClass(null, skeleton),
         createSpacingClasses(props),
         className,
-        _className,
+        _className
       ),
     }
 
@@ -262,7 +262,7 @@ export default class Switch extends React.PureComponent {
       inputParams['aria-describedby'] = combineDescribedBy(
         inputParams,
         showStatus ? id + '-status' : null,
-        suffix ? id + '-suffix' : null,
+        suffix ? id + '-suffix' : null
       )
     }
     if (readOnly) {
@@ -334,7 +334,7 @@ export default class Switch extends React.PureComponent {
                 <span
                   className={classnames(
                     'dnb-switch__button',
-                    createSkeletonClass('shape', skeleton, this.context),
+                    createSkeletonClass('shape', skeleton, this.context)
                   )}
                   aria-hidden
                 >

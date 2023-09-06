@@ -52,11 +52,11 @@ describe('StepIndicator Sidebar', () => {
     render(
       <Provider StepIndicator={{ data: ['one', 'two', 'three'] }}>
         <StepIndicator.Sidebar {...props} />
-      </Provider>,
+      </Provider>
     )
 
     expect(
-      document.querySelector('.dnb-step-indicator__sidebar'),
+      document.querySelector('.dnb-step-indicator__sidebar')
     ).toBeInTheDocument()
   })
 
@@ -67,7 +67,7 @@ describe('StepIndicator Sidebar', () => {
           sidebar_id="unique-id-initial"
           showInitialData
         />
-      </Provider>,
+      </Provider>
     )
 
     expect(screen.queryAllByRole('listitem')).toHaveLength(3)
@@ -79,7 +79,7 @@ describe('StepIndicator Sidebar', () => {
         sidebar_id="unique-id-initial"
         data={['one', 'two', 'three']}
         showInitialData
-      />,
+      />
     )
     expect(screen.queryAllByRole('listitem')).toHaveLength(3)
   })
@@ -89,7 +89,7 @@ describe('StepIndicator Sidebar', () => {
       <StepIndicator.Sidebar
         sidebar_id="unique-id-initial"
         data={['one', 'two', 'three']}
-      />,
+      />
     )
     expect(screen.queryAllByRole('listitem')).toHaveLength(0)
   })
@@ -99,14 +99,14 @@ describe('StepIndicator Sidebar', () => {
       <StepIndicator.Sidebar
         sidebar_id="unique-id-initial"
         showInitialData
-      />,
+      />
     )
     expect(screen.queryAllByRole('listitem')).toHaveLength(4)
 
     const element = document.querySelector('.dnb-button__text')
 
     expect(Array.from(element.classList)).toEqual(
-      expect.arrayContaining(['dnb-skeleton--show-font']),
+      expect.arrayContaining(['dnb-skeleton--show-font'])
     )
   })
 
@@ -117,7 +117,7 @@ describe('StepIndicator Sidebar', () => {
         data={['one', 'two', 'three']}
         showInitialData
         top="large"
-      />,
+      />
     )
 
     const element = document.querySelector('.dnb-step-indicator__sidebar')
@@ -126,7 +126,7 @@ describe('StepIndicator Sidebar', () => {
       expect.arrayContaining([
         'dnb-step-indicator__sidebar',
         'dnb-space__top--large',
-      ]),
+      ])
     )
   })
 })
@@ -141,11 +141,11 @@ describe('StepIndicator in general', () => {
       <>
         <StepIndicator.Sidebar {...sidebarProps} />
         <StepIndicator {...stepIndicatorProps} />
-      </>,
+      </>
     )
 
     expect(
-      document.querySelector('.dnb-step-indicator-wrapper'),
+      document.querySelector('.dnb-step-indicator-wrapper')
     ).toBeInTheDocument()
   })
 
@@ -161,7 +161,7 @@ describe('StepIndicator in general', () => {
           sidebar_id={id}
           data={stepIndicatorListData}
         />
-      </>,
+      </>
     )
 
     const element = document.querySelector('.dnb-step-indicator')
@@ -180,7 +180,7 @@ describe('StepIndicator in general', () => {
         mode="static"
         current_step={1}
         data={stepIndicatorListData}
-      />,
+      />
     )
 
     const element = document.querySelector('.dnb-step-indicator__trigger')
@@ -199,7 +199,7 @@ describe('StepIndicator in general', () => {
         mode="static"
         current_step={1}
         data={stepIndicatorListData}
-      />,
+      />
     )
     act(() => {
       document.querySelector('button').click()
@@ -222,13 +222,13 @@ describe('StepIndicator in general', () => {
           data={stepIndicatorListData}
           aria-labelledby="element"
         />
-      </>,
+      </>
     )
 
     const element = document.querySelector('.dnb-step-indicator')
 
     expect(element.getAttribute('aria-labelledby')).toBe(
-      'element unique-id-aria-labelledby',
+      'element unique-id-aria-labelledby'
     )
   })
 
@@ -241,7 +241,7 @@ describe('StepIndicator in general', () => {
         current_step={1}
         data={stepIndicatorListData}
         aria-labelledby="element"
-      />,
+      />
     )
     act(() => {
       document.querySelector('button').click()
@@ -250,7 +250,7 @@ describe('StepIndicator in general', () => {
     const element = document.querySelector('.dnb-step-indicator__list')
 
     expect(element.getAttribute('aria-labelledby')).toBe(
-      'element unique-id-aria-labelledby-no-sidebar',
+      'element unique-id-aria-labelledby-no-sidebar'
     )
   })
 })
@@ -267,7 +267,7 @@ describe('StepIndicator in loose mode', () => {
           data={stepIndicatorListData}
           {...props}
         />
-      </>,
+      </>
     )
   }
 
@@ -290,18 +290,18 @@ describe('StepIndicator in loose mode', () => {
           sidebar_id={id}
           data={stepIndicatorListData}
         />
-      </>,
+      </>
     )
     expect(
-      document.querySelector('button.dnb-step-indicator__trigger__button'),
+      document.querySelector('button.dnb-step-indicator__trigger__button')
     ).not.toBeInTheDocument()
 
     expect(
-      document.querySelectorAll('li.dnb-step-indicator__item'),
+      document.querySelectorAll('li.dnb-step-indicator__item')
     ).toHaveLength(4)
     expect(
       document.querySelector('li.dnb-step-indicator__item--current')
-        .textContent,
+        .textContent
     ).toContain('2.Step BSteg 2 av 4')
 
     simulateSmallScreen()
@@ -315,12 +315,12 @@ describe('StepIndicator in loose mode', () => {
           sidebar_id={id}
           data={stepIndicatorListData}
         />
-      </>,
+      </>
     )
 
     expect(
       document.querySelector('button.dnb-step-indicator__trigger__button')
-        .textContent,
+        .textContent
     ).toContain('‌2.Step B')
   })
 
@@ -330,10 +330,10 @@ describe('StepIndicator in loose mode', () => {
 
     expect(items.length).toBe(4)
     expect(items[0].classList).toContain(
-      'dnb-step-indicator__item--visited',
+      'dnb-step-indicator__item--visited'
     )
     expect(items[1].classList).toContain(
-      'dnb-step-indicator__item--current',
+      'dnb-step-indicator__item--current'
     )
     expect(items[1].getAttribute('aria-current')).toBe('step')
     expect(screen.queryAllByRole('button')).toHaveLength(4)
@@ -348,10 +348,10 @@ describe('StepIndicator in loose mode', () => {
 
     expect(items.length).toBe(4)
     expect(items[0].classList).toContain(
-      'dnb-step-indicator__item--visited',
+      'dnb-step-indicator__item--visited'
     )
     expect(items[0].classList).not.toContain(
-      'dnb-step-indicator__item--current',
+      'dnb-step-indicator__item--current'
     )
 
     fireEvent.click(items[0].querySelector('button'))
@@ -359,13 +359,13 @@ describe('StepIndicator in loose mode', () => {
     expect(on_change).toBeCalledTimes(1)
     expect(on_change.mock.calls[0][0].currentStep).toBe(0)
     expect(typeof on_change.mock.calls[0][0].event.preventDefault).toBe(
-      'function',
+      'function'
     )
     expect(items[0].classList).toContain(
-      'dnb-step-indicator__item--current',
+      'dnb-step-indicator__item--current'
     )
     expect(
-      document.querySelectorAll('li.dnb-step-indicator__item--current'),
+      document.querySelectorAll('li.dnb-step-indicator__item--current')
     ).toHaveLength(1)
   })
 
@@ -387,13 +387,13 @@ describe('StepIndicator in loose mode', () => {
     })
 
     expect(
-      screen.queryAllByRole('listitem', { current: 'step' }),
+      screen.queryAllByRole('listitem', { current: 'step' })
     ).toHaveLength(1)
     expect(
       within(screen.getByRole('listitem', { current: 'step' })).getByRole(
         'button',
-        { name: 'Step C' },
-      ),
+        { name: 'Step C' }
+      )
     ).toBeInTheDocument()
 
     act(() => {
@@ -404,13 +404,13 @@ describe('StepIndicator in loose mode', () => {
     })
 
     expect(
-      screen.queryAllByRole('listitem', { current: 'step' }),
+      screen.queryAllByRole('listitem', { current: 'step' })
     ).toHaveLength(1)
     expect(
       within(screen.getByRole('listitem', { current: 'step' })).getByRole(
         'button',
-        { name: 'Step A' },
-      ),
+        { name: 'Step A' }
+      )
     ).toBeInTheDocument()
   })
 
@@ -436,7 +436,7 @@ describe('StepIndicator in loose mode', () => {
 
     expect(
       document.querySelector('li.dnb-step-indicator__item--current')
-        .textContent,
+        .textContent
     ).toContain('3.Step CSteg 3 av 4')
   })
 
@@ -447,12 +447,12 @@ describe('StepIndicator in loose mode', () => {
         mode="loose"
         sidebar_id="unique-id-loose-simulate"
         data={stepIndicatorListData}
-      />,
+      />
     )
 
     expect(
       document.querySelector('button.dnb-step-indicator__trigger__button')
-        .textContent,
+        .textContent
     ).toContain('‌2.Step B')
 
     simulateSmallScreen()
@@ -463,12 +463,12 @@ describe('StepIndicator in loose mode', () => {
         mode="loose"
         sidebar_id="unique-id-loose-simulate"
         data={stepIndicatorListData}
-      />,
+      />
     )
 
     expect(
       document.querySelector('button.dnb-step-indicator__trigger__button')
-        .textContent,
+        .textContent
     ).toContain('‌2.Step B')
   })
 
@@ -478,7 +478,7 @@ describe('StepIndicator in loose mode', () => {
     })
 
     expect(
-      screen.queryAllByRole('listitem', { current: 'step' }),
+      screen.queryAllByRole('listitem', { current: 'step' })
     ).toHaveLength(0)
   })
 
@@ -500,7 +500,7 @@ describe('StepIndicator in strict mode', () => {
           data={stepIndicatorListData}
           {...props}
         />
-      </>,
+      </>
     )
   }
 
@@ -517,10 +517,10 @@ describe('StepIndicator in strict mode', () => {
 
     expect(items.length).toBe(4)
     expect(items[0].classList).toContain(
-      'dnb-step-indicator__item--visited',
+      'dnb-step-indicator__item--visited'
     )
     expect(items[1].classList).toContain(
-      'dnb-step-indicator__item--current',
+      'dnb-step-indicator__item--current'
     )
     expect(items[1].getAttribute('aria-current')).toBe('step')
 
@@ -536,10 +536,10 @@ describe('StepIndicator in strict mode', () => {
 
     expect(items.length).toBe(4)
     expect(items[0].classList).toContain(
-      'dnb-step-indicator__item--visited',
+      'dnb-step-indicator__item--visited'
     )
     expect(items[0].classList).not.toContain(
-      'dnb-step-indicator__item--current',
+      'dnb-step-indicator__item--current'
     )
 
     act(() => {
@@ -548,10 +548,10 @@ describe('StepIndicator in strict mode', () => {
 
     expect(on_change).toBeCalledTimes(1)
     expect(items[0].classList).toContain(
-      'dnb-step-indicator__item--current',
+      'dnb-step-indicator__item--current'
     )
     expect(
-      screen.queryAllByRole('listitem', { current: 'step' }),
+      screen.queryAllByRole('listitem', { current: 'step' })
     ).toHaveLength(1)
   })
 })
@@ -568,7 +568,7 @@ describe('StepIndicator in static mode', () => {
           data={stepIndicatorListData}
           {...props}
         />
-      </>,
+      </>
     )
   }
 
@@ -585,10 +585,10 @@ describe('StepIndicator in static mode', () => {
 
     expect(items.length).toBe(4)
     expect(items[0].classList).toContain(
-      'dnb-step-indicator__item--visited',
+      'dnb-step-indicator__item--visited'
     )
     expect(items[1].classList).toContain(
-      'dnb-step-indicator__item--current',
+      'dnb-step-indicator__item--current'
     )
     expect(items[1].getAttribute('aria-current')).toBe('step')
     expect(screen.queryAllByRole('button')).toHaveLength(0)
@@ -611,7 +611,7 @@ describe('StepIndicator ARIA', () => {
           sidebar_id="unique-id-strict-aria"
           data={stepIndicatorListData}
         />
-      </>,
+      </>
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
@@ -625,7 +625,7 @@ describe('StepIndicator scss', () => {
 
   it('have to match default theme snapshot', () => {
     const css = loadScss(
-      require.resolve('../style/themes/dnb-step-indicator-theme-ui.scss'),
+      require.resolve('../style/themes/dnb-step-indicator-theme-ui.scss')
     )
     expect(css).toMatchSnapshot()
   })

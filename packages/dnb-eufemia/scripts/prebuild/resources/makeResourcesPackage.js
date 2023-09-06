@@ -30,7 +30,7 @@ export default async function makeResourcesPackage() {
 
 const copyStylePackages = (
   src = './build/style/**/*.css',
-  { returnResult = false } = {},
+  { returnResult = false } = {}
 ) =>
   new Promise((resolve, reject) => {
     log.start('> PrePublish: copy style resources')
@@ -45,7 +45,7 @@ const copyStylePackages = (
             ? transform('utf8', (result) => resolve(result))
             : gulp.dest('./dnb-ui-resources/style', {
                 cwd: ROOT_DIR,
-              }),
+              })
         )
         .on('end', resolve)
         .on('error', reject)
@@ -55,7 +55,7 @@ const copyStylePackages = (
   })
 
 const copyFonts = (
-  src = ['./assets/fonts/dnb/*', '!./assets/fonts/dnb/*.zip'],
+  src = ['./assets/fonts/dnb/*', '!./assets/fonts/dnb/*.zip']
 ) =>
   new Promise((resolve, reject) => {
     log.start('> PrePublish: copy fonts resources')
@@ -67,7 +67,7 @@ const copyFonts = (
         .pipe(
           gulp.dest('./dnb-ui-resources/resources/fonts', {
             cwd: ROOT_DIR,
-          }),
+          })
         )
         .on('end', resolve)
         .on('error', reject)
@@ -77,7 +77,7 @@ const copyFonts = (
   })
 
 const copyBrowser = (
-  src = ['./assets/browser/*', '!./assets/browser/*.zip'],
+  src = ['./assets/browser/*', '!./assets/browser/*.zip']
 ) =>
   new Promise((resolve, reject) => {
     log.start('> PrePublish: copy browser resources')
@@ -89,7 +89,7 @@ const copyBrowser = (
         .pipe(
           gulp.dest('./dnb-ui-resources/resources/browser', {
             cwd: ROOT_DIR,
-          }),
+          })
         )
         .on('end', resolve)
         .on('error', reject)
@@ -99,7 +99,7 @@ const copyBrowser = (
   })
 
 const copyUMD = (
-  src = ['./build/umd/*', '../../node_modules/react/umd/*'],
+  src = ['./build/umd/*', '../../node_modules/react/umd/*']
 ) =>
   new Promise((resolve, reject) => {
     log.start('> PrePublish: copy UMD resources')
@@ -111,7 +111,7 @@ const copyUMD = (
         .pipe(
           gulp.dest('./dnb-ui-resources/umd', {
             cwd: ROOT_DIR,
-          }),
+          })
         )
         .on('end', resolve)
         .on('error', reject)
@@ -134,7 +134,7 @@ To make usage of the content, copy the \`style\`, \`umd\` and \`resources\` fold
 For documentation, visit: https://eufemia.dnb.no/
 
 License: Apache 2.0 with Commons Clause
-`,
+`
   )
 }
 
@@ -151,7 +151,7 @@ const createTar = async () => {
       gzip: true,
       file: path.resolve(distPath, 'dnb-ui-resources.tgz'),
     },
-    ['./dnb-ui-resources'],
+    ['./dnb-ui-resources']
   )
 }
 

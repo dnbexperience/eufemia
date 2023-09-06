@@ -148,7 +148,7 @@ export class DrawerListPortal extends React.PureComponent {
           parseFloat(
             window
               .getComputedStyle(document.documentElement)
-              .getPropertyValue('--drawer-list-width'),
+              .getPropertyValue('--drawer-list-width')
           ) || 0
         width = minWidth * 16
       }
@@ -265,14 +265,14 @@ export class DrawerListPortal extends React.PureComponent {
           className={classnames(
             'dnb-drawer-list__portal__style',
             fixed_position && 'dnb-drawer-list__portal__style--fixed',
-            className,
+            className
           )}
           style={style}
           ref={this.ref}
         >
           {children}
         </span>,
-        this.portalElem,
+        this.portalElem
       )
     }
 

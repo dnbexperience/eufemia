@@ -6,7 +6,7 @@
   "useTabs": false,
   "semi": false,
   "bracketSameLine": false,
-  "trailingComma": "all",
+  "trailingComma": "es5",
   "overrides": [
     {
       "files": ".yarnrc.yml",

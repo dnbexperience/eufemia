@@ -29,7 +29,7 @@ export class GlobalStatusProviderItem {
   forceRerender(
     globalStatus,
     props,
-    { buffer_delay = 0, isEmpty = false } = {},
+    { buffer_delay = 0, isEmpty = false } = {}
   ) {
     const run = () => {
       this._onUpdateEvents.forEach((event) => {
@@ -75,7 +75,7 @@ export class GlobalStatusProviderItem {
 
     // replace the props if exists
     const stackIndex = this.stack.findIndex(
-      (cur) => cur.status_id === newProps.status_id,
+      (cur) => cur.status_id === newProps.status_id
     )
     if (stackIndex > -1) {
       this.stack[stackIndex] = newProps
@@ -183,7 +183,7 @@ export class GlobalStatusProviderItem {
         }
         this._onReadyEvents[i] = null
         return false
-      },
+      }
     )
 
     return true
@@ -291,7 +291,7 @@ class GlobalStatusProvider {
           item = GlobalStatusProvider.prepareItemWithStatusId(item)
 
           const foundAtIndex = _acc.findIndex(
-            ({ item_id }) => item_id === item.item_id,
+            ({ item_id }) => item_id === item.item_id
           )
           if (foundAtIndex > -1) {
             _acc[foundAtIndex] = item

@@ -174,7 +174,7 @@ class PaginationInstance extends React.PureComponent {
       this.props,
       paginationDefaultProps,
       this.context.getTranslation(this.props).Pagination,
-      this.context.Pagination,
+      this.context.Pagination
     )
 
     const {
@@ -209,7 +209,7 @@ class PaginationInstance extends React.PureComponent {
           align && `dnb-pagination--${align}`,
           createSpacingClasses(props),
           className,
-          _className,
+          _className
         ),
         ...attributes,
       }
@@ -217,7 +217,7 @@ class PaginationInstance extends React.PureComponent {
       validateDOMAttributes(props, mainParams)
 
       const content = items.find(
-        ({ pageNumber }) => pageNumber === currentPage,
+        ({ pageNumber }) => pageNumber === currentPage
       )?.content
 
       return (
@@ -273,7 +273,7 @@ const PaginationContent = React.forwardRef(
         {children}
       </div>
     )
-  },
+  }
 )
 PaginationContent.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func])

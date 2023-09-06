@@ -52,7 +52,7 @@ const UploadInfo = () => {
           <Dd>
             {String(fileSizeContent).replace(
               '%size',
-              format(fileMaxSize).toString(),
+              format(fileMaxSize).toString()
             )}
           </Dd>
         </Dl.Item>

@@ -84,7 +84,7 @@ export default function adjustCaretPosition({
     // Now we find all the characters in the left half that exist in the conformed input
     // This step ensures that we don't look for a character that was filtered out or rejected by `conformToMask`.
     const intersection = leftHalfChars.filter(
-      (char) => normalizedConformedValue.indexOf(char) !== -1,
+      (char) => normalizedConformedValue.indexOf(char) !== -1
     )
 
     // The last character in the intersection is the character we want to look for in the conformed
@@ -141,17 +141,17 @@ export default function adjustCaretPosition({
     // If the `conformedValue` got piped, we need to know which characters were piped in so that when we look for
     // our `targetChar`, we don't select a piped char by mistake
     const pipedChars = indexesOfPipedChars.map(
-      (index) => normalizedConformedValue[index],
+      (index) => normalizedConformedValue[index]
     )
 
     // We need to know how many times the `targetChar` occurs in the piped characters.
     const countTargetCharInPipedChars = pipedChars.filter(
-      (char) => char === targetChar,
+      (char) => char === targetChar
     ).length
 
     // We need to know how many times it occurs in the intersection
     const countTargetCharInIntersection = intersection.filter(
-      (char) => char === targetChar,
+      (char) => char === targetChar
     ).length
 
     // We need to know if the placeholder contains characters that look like
@@ -166,7 +166,7 @@ export default function adjustCaretPosition({
           // but also make sure that both the `rawValue` and placeholder don't have the same character at the same
           // index because if they are equal, that means we are already counting those characters in
           // `countTargetCharInIntersection`
-          rawValue[index] !== char,
+          rawValue[index] !== char
       ).length
 
     // The number of times we need to see occurrences of the `targetChar` before we know it is the one we're looking

@@ -18,10 +18,10 @@ describe('FormLabel component', () => {
   it('should forward unlisted attributes like "aria-hidden"', () => {
     render(<FormLabel {...props} for_id="input" aria-hidden />)
     expect(
-      document.querySelector('label[aria-hidden]'),
+      document.querySelector('label[aria-hidden]')
     ).toBeInTheDocument()
     expect(document.querySelector('label[aria-hidden]')).toHaveAttribute(
-      'aria-hidden',
+      'aria-hidden'
     )
   })
 
@@ -51,12 +51,12 @@ describe('FormLabel component', () => {
     render(
       <FormRow vertical>
         <FormLabel label="Label" />
-      </FormRow>,
+      </FormRow>
     )
 
     const element = document.querySelector('.dnb-form-label')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name,
+      (attr) => attr.name
     )
 
     expect(attributes).toEqual(['class', 'label'])
@@ -86,7 +86,7 @@ describe('FormLabel scss', () => {
 
   it('have to match default theme snapshot', () => {
     const css = loadScss(
-      require.resolve('../style/themes/dnb-form-label-theme-ui.scss'),
+      require.resolve('../style/themes/dnb-form-label-theme-ui.scss')
     )
     expect(css).toMatchSnapshot()
   })

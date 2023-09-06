@@ -77,7 +77,7 @@ describe('makeReleaseVersion', () => {
     expect(fs.writeFile).toHaveBeenCalledTimes(1)
     expect(fs.writeFile).toHaveBeenLastCalledWith(
       expect.stringContaining('src/shared/Eufemia.js'),
-      expect.stringContaining(`return '123456789'`),
+      expect.stringContaining(`return '123456789'`)
     )
   })
 
@@ -94,11 +94,11 @@ describe('makeReleaseVersion', () => {
     expect(fs.writeFile).toHaveBeenCalledTimes(1)
     expect(fs.writeFile).toHaveBeenLastCalledWith(
       expect.stringContaining('src/shared/Eufemia.js'),
-      expect.stringContaining(`return 'release'`),
+      expect.stringContaining(`return 'release'`)
     )
     expect(fs.writeFile).toHaveBeenLastCalledWith(
       expect.stringContaining('src/shared/Eufemia.js'),
-      expect.stringContaining(`export const version = 'release'`),
+      expect.stringContaining(`export const version = 'release'`)
     )
   })
 })

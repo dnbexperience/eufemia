@@ -10,16 +10,16 @@ describe('numbers util', () => {
 
     it('should format correctly with thousandSeparator', () => {
       expect(formatNumber(5432, { thousandSeparator: ' ' })).toEqual(
-        '5 432',
+        '5 432'
       )
       expect(formatNumber(64976, { thousandSeparator: "'" })).toEqual(
-        "64'976",
+        "64'976"
       )
       expect(formatNumber(836512, { thousandSeparator: '--' })).toEqual(
-        '836--512',
+        '836--512'
       )
       expect(formatNumber(1234567890, { thousandSeparator: '.' })).toEqual(
-        '1.234.567.890',
+        '1.234.567.890'
       )
     })
 
@@ -27,7 +27,7 @@ describe('numbers util', () => {
       expect(formatNumber(75, { decimalSymbol: '.' })).toEqual('75')
       expect(formatNumber(32.56, { decimalSymbol: '.' })).toEqual('32.56')
       expect(formatNumber(12345.6789, { decimalSymbol: '?' })).toEqual(
-        '12345?6789',
+        '12345?6789'
       )
     })
 
@@ -44,13 +44,13 @@ describe('numbers util', () => {
       expect(formatNumber(87.6543, { fixedDecimals: 2 })).toEqual('87,65')
       expect(formatNumber(87.6543, { fixedDecimals: 3 })).toEqual('87,654')
       expect(formatNumber(87.6543, { fixedDecimals: 4 })).toEqual(
-        '87,6543',
+        '87,6543'
       )
       expect(formatNumber(87.6543, { fixedDecimals: 5 })).toEqual(
-        '87,65430',
+        '87,65430'
       )
       expect(formatNumber(87.6543, { fixedDecimals: 6 })).toEqual(
-        '87,654300',
+        '87,654300'
       )
     })
 
@@ -76,7 +76,7 @@ describe('numbers util', () => {
           magnitude: 6,
           fixedDecimals: 0,
           prefix: 'the answer is ',
-        }),
+        })
       ).toEqual('the answer is 42')
       expect(
         formatNumber(12345678, {
@@ -84,10 +84,10 @@ describe('numbers util', () => {
           decimalSymbol: 'x',
           decimalLimit: 2,
           magnitude: 3,
-        }),
+        })
       ).toEqual('12 345x68')
       expect(
-        formatNumber(120000000, { magnitude: 6, suffix: ' MNOK' }),
+        formatNumber(120000000, { magnitude: 6, suffix: ' MNOK' })
       ).toEqual('120 MNOK')
     })
   })
@@ -101,50 +101,50 @@ describe('numbers util', () => {
 
     it('should parse based on thousandSeparator', () => {
       expect(
-        parseFormattedNumber('1 234', { thousandSeparator: ' ' }),
+        parseFormattedNumber('1 234', { thousandSeparator: ' ' })
       ).toEqual(1234)
       expect(
-        parseFormattedNumber('12 345', { thousandSeparator: ' ' }),
+        parseFormattedNumber('12 345', { thousandSeparator: ' ' })
       ).toEqual(12345)
       expect(
-        parseFormattedNumber('123 456', { thousandSeparator: ' ' }),
+        parseFormattedNumber('123 456', { thousandSeparator: ' ' })
       ).toEqual(123456)
       expect(
         parseFormattedNumber("123'456'789'101'112", {
           thousandSeparator: "'",
-        }),
+        })
       ).toEqual(123456789101112)
     })
 
     it('should parse based on decimalSymbol', () => {
       expect(parseFormattedNumber('99', { decimalSymbol: '.' })).toEqual(
-        99,
+        99
       )
       expect(
-        parseFormattedNumber('45.44', { decimalSymbol: '.' }),
+        parseFormattedNumber('45.44', { decimalSymbol: '.' })
       ).toEqual(45.44)
       expect(
-        parseFormattedNumber('9876x5432', { decimalSymbol: 'x' }),
+        parseFormattedNumber('9876x5432', { decimalSymbol: 'x' })
       ).toEqual(9876.5432)
     })
 
     it('should recalculate correctly based on magnitude', () => {
       expect(parseFormattedNumber('85,3', { magnitude: 3 })).toEqual(85300)
       expect(parseFormattedNumber('123,4', { magnitude: 6 })).toEqual(
-        123400000,
+        123400000
       )
     })
 
     it('should parse formatted values with prefix', () => {
       expect(parseFormattedNumber('Kr 200', { prefix: 'Kr ' })).toEqual(
-        200,
+        200
       )
       expect(parseFormattedNumber('€5000', { prefix: '€' })).toEqual(5000)
     })
 
     it('should parse formatted values with suffix', () => {
       expect(parseFormattedNumber('2500 NOK', { suffix: ' NOK' })).toEqual(
-        2500,
+        2500
       )
       expect(parseFormattedNumber('300kg', { suffix: 'kg' })).toEqual(300)
     })
@@ -154,7 +154,7 @@ describe('numbers util', () => {
         parseFormattedNumber('This is a number: 35.8', {
           prefix: 'This is a number: ',
           magnitude: 2,
-        }),
+        })
       ).toEqual(3580)
       expect(
         parseFormattedNumber('1 350.00MRD', {
@@ -162,7 +162,7 @@ describe('numbers util', () => {
           decimalSymbol: '.',
           thousandSeparator: ' ',
           magnitude: 1,
-        }),
+        })
       ).toEqual(13500)
     })
   })

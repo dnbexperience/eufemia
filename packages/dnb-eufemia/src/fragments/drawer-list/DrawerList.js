@@ -95,7 +95,7 @@ class DrawerListInstance extends React.PureComponent {
           acc[key] = props[key]
         }
         return acc
-      }, {}),
+      }, {})
     )
 
     context.drawerList.setState({
@@ -126,7 +126,7 @@ class DrawerListInstance extends React.PureComponent {
     //   return // stop
     // }
     const selected_item = parseFloat(
-      event.currentTarget.getAttribute('data-item'),
+      event.currentTarget.getAttribute('data-item')
     )
     if (selected_item > -1) {
       this.context.drawerList.selectItemAndClose(selected_item, {
@@ -141,7 +141,7 @@ class DrawerListInstance extends React.PureComponent {
     const props = extendPropsWithContextInClassComponent(
       this.props,
       DrawerList.defaultProps,
-      this.context.getTranslation(this.props).DrawerList,
+      this.context.getTranslation(this.props).DrawerList
     )
 
     const {
@@ -223,7 +223,7 @@ class DrawerListInstance extends React.PureComponent {
           'dnb-drawer-list--no-scroll-animation',
         createSpacingClasses(props),
         _className,
-        className,
+        className
       ),
       ...attributes,
     }
@@ -238,7 +238,7 @@ class DrawerListInstance extends React.PureComponent {
       className: classnames(
         'dnb-drawer-list__list',
         isTrue(no_animation) && 'dnb-drawer-list__list--no-animation',
-        list_class,
+        list_class
       ),
     }
 
@@ -283,7 +283,7 @@ class DrawerListInstance extends React.PureComponent {
     // make it possible to grab the rest attributes and return it with all events
     Object.assign(
       this.context.drawerList.attributes,
-      validateDOMAttributes(null, attributes),
+      validateDOMAttributes(null, attributes)
     )
 
     const ignoreEvents = isTrue(ignore_events)
@@ -304,7 +304,7 @@ class DrawerListInstance extends React.PureComponent {
             i === 0 && 'first-of-type', // because of the triangle element
             i === data.length - 1 && 'last-of-type', // because of the triangle element
             ignoreEvents || (dataItem.ignore_events && 'ignore-events'),
-            dataItem.class_name,
+            dataItem.class_name
           ),
           active: _id == active_item,
           selected: !dataItem.ignore_events && _id == selected_item,
@@ -319,7 +319,7 @@ class DrawerListInstance extends React.PureComponent {
           liParams.onKeyDown = null
           liParams.className = classnames(
             liParams.className,
-            'dnb-drawer-list__option--ignore',
+            'dnb-drawer-list__option--ignore'
           )
         }
 
@@ -379,7 +379,7 @@ class DrawerListInstance extends React.PureComponent {
       <span
         className={classnames(
           'dnb-drawer-list__root',
-          usePortal && 'dnb-drawer-list__root--portal',
+          usePortal && 'dnb-drawer-list__root--portal'
         )}
         ref={_refRoot}
       >
@@ -422,7 +422,7 @@ DrawerList.Options = React.memo(
           'dnb-drawer-list__options',
           showFocusRing && 'dnb-drawer-list__options--focusring',
           className,
-          _className,
+          _className
         )}
         {...rest}
         ref={ref}
@@ -441,7 +441,7 @@ DrawerList.Options = React.memo(
       return null
     }
     return prevProps.cache_hash === nextProps.cache_hash
-  },
+  }
 )
 DrawerList.Options.displayName = 'DrawerList.Options'
 DrawerList.Options.propTypes = {
@@ -482,7 +482,7 @@ DrawerList.Item = React.forwardRef((props, ref) => {
       _className,
       'dnb-drawer-list__option',
       selected && 'dnb-drawer-list__option--selected',
-      active && 'dnb-drawer-list__option--focus',
+      active && 'dnb-drawer-list__option--focus'
     ),
     role,
     tabIndex: selected ? '0' : '-1',
@@ -503,7 +503,7 @@ DrawerList.Item = React.forwardRef((props, ref) => {
           selected,
           value,
           ...rest,
-        },
+        }
       )
   }
 

@@ -204,7 +204,7 @@ export default class Radio extends React.PureComponent {
       // then we have to use a delay, to overwrite the uncontrolled state
       setTimeout(() => {
         this.setState({ checked, _listenForPropChanges: false }, () =>
-          this.callOnChange({ value, checked, event }),
+          this.callOnChange({ value, checked, event })
         )
       }, 1)
     } else {
@@ -264,7 +264,7 @@ export default class Radio extends React.PureComponent {
           const contextProps = extendPropsWithContextInClassComponent(
             this.props,
             Radio.defaultProps,
-            this.context,
+            this.context
           )
 
           // use only the props from context, who are available here anyway
@@ -274,7 +274,7 @@ export default class Radio extends React.PureComponent {
             contextProps,
             { skeleton: context?.skeleton },
             includeValidProps(context.FormRow),
-            context.Radio,
+            context.Radio
           )
 
           const {
@@ -335,7 +335,7 @@ export default class Radio extends React.PureComponent {
                 `dnb-radio--label-position-${label_position || 'right'}`,
               createSpacingClasses(props),
               className,
-              _className,
+              _className
             ),
           }
 
@@ -353,7 +353,7 @@ export default class Radio extends React.PureComponent {
             inputParams['aria-describedby'] = combineDescribedBy(
               inputParams,
               showStatus ? id + '-status' : null,
-              suffix ? id + '-suffix' : null,
+              suffix ? id + '-suffix' : null
             )
           }
           if (readOnly) {
@@ -428,8 +428,8 @@ export default class Radio extends React.PureComponent {
                           createSkeletonClass(
                             'shape',
                             skeleton,
-                            this.context,
-                          ),
+                            this.context
+                          )
                         )}
                         aria-hidden
                       />

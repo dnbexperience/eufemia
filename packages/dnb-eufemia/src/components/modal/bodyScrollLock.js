@@ -49,7 +49,7 @@ const setOverflowHidden = () => {
     htmlElement.style.height = '100%'
     htmlElement.style.setProperty(
       '--scrollbar-width',
-      `${scrollBarWidth}px`,
+      `${scrollBarWidth}px`
     )
 
     bodyElement.style.overflow = 'hidden'
@@ -102,7 +102,7 @@ const setOverflowHiddenIOS = (targetElement) => {
     document.addEventListener(
       'touchmove',
       preventDefault,
-      eventListenerOptions,
+      eventListenerOptions
     )
     documentListenerAdded = true
   }
@@ -126,7 +126,7 @@ const setOverflowHiddenIOS = (targetElement) => {
       document.removeEventListener(
         'touchmove',
         preventDefault,
-        eventListenerOptions,
+        eventListenerOptions
       )
       documentListenerAdded = false
     }
@@ -210,7 +210,7 @@ const handleScroll = (event, targetElement) => {
         const hasScrollbar = isChildOfElement(
           event.target,
           targetElement,
-          checkIfHasScrollbar,
+          checkIfHasScrollbar
         )
 
         if (hasScrollbar && hasScrollbar !== targetElement) {
@@ -234,7 +234,7 @@ const checkTargetElement = (targetElement) => {
   if (targetElement === null) return
   warn(
     `If scrolling is also required in the floating layer, ` +
-      `the target element must be provided.`,
+      `the target element must be provided.`
   )
 }
 

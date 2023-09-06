@@ -16,10 +16,10 @@ describe('Field.Boolean', () => {
         <Field.Boolean
           variant="checkbox"
           error={new Error('This is what went wrong')}
-        />,
+        />
       )
       expect(
-        screen.getByText('This is what went wrong'),
+        screen.getByText('This is what went wrong')
       ).toBeInTheDocument()
     })
 
@@ -30,7 +30,7 @@ describe('Field.Boolean', () => {
           variant="checkbox"
           value={false}
           onChange={onChange}
-        />,
+        />
       )
       const input = screen.getByRole('checkbox')
       await userEvent.click(input)
@@ -46,7 +46,7 @@ describe('Field.Boolean', () => {
 
     it('should show error when no value is given', () => {
       render(
-        <Field.Boolean variant="checkbox" required validateInitially />,
+        <Field.Boolean variant="checkbox" required validateInitially />
       )
       expect(screen.getByRole('alert')).toBeInTheDocument()
     })
@@ -58,7 +58,7 @@ describe('Field.Boolean', () => {
           value={true}
           validateInitially
           required
-        />,
+        />
       )
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     })
@@ -70,7 +70,7 @@ describe('Field.Boolean', () => {
           value={false}
           validateInitially
           required
-        />,
+        />
       )
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     })
@@ -87,10 +87,10 @@ describe('Field.Boolean', () => {
         <Field.Boolean
           variant="button"
           error={new Error('This is what went wrong')}
-        />,
+        />
       )
       expect(
-        screen.getByText('This is what went wrong'),
+        screen.getByText('This is what went wrong')
       ).toBeInTheDocument()
     })
 
@@ -106,7 +106,7 @@ describe('Field.Boolean', () => {
           value={true}
           validateInitially
           required
-        />,
+        />
       )
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     })
@@ -118,7 +118,7 @@ describe('Field.Boolean', () => {
           value={false}
           validateInitially
           required
-        />,
+        />
       )
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     })
@@ -127,7 +127,7 @@ describe('Field.Boolean', () => {
   describe('variant: checkbox-button', () => {
     it('renders label', () => {
       render(
-        <Field.Boolean variant="checkbox-button" label="Boolean label" />,
+        <Field.Boolean variant="checkbox-button" label="Boolean label" />
       )
       expect(screen.getByText('Boolean label')).toBeInTheDocument()
     })
@@ -137,10 +137,10 @@ describe('Field.Boolean', () => {
         <Field.Boolean
           variant="checkbox-button"
           error={new Error('This is what went wrong')}
-        />,
+        />
       )
       expect(
-        screen.getByText('This is what went wrong'),
+        screen.getByText('This is what went wrong')
       ).toBeInTheDocument()
     })
 
@@ -150,7 +150,7 @@ describe('Field.Boolean', () => {
           variant="checkbox-button"
           required
           validateInitially
-        />,
+        />
       )
       expect(screen.getByRole('alert')).toBeInTheDocument()
     })
@@ -162,7 +162,7 @@ describe('Field.Boolean', () => {
           value={true}
           validateInitially
           required
-        />,
+        />
       )
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     })
@@ -174,7 +174,7 @@ describe('Field.Boolean', () => {
           value={false}
           validateInitially
           required
-        />,
+        />
       )
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     })
@@ -191,16 +191,16 @@ describe('Field.Boolean', () => {
         <Field.Boolean
           variant="buttons"
           error={new Error('This is what went wrong')}
-        />,
+        />
       )
       expect(
-        screen.getByText('This is what went wrong'),
+        screen.getByText('This is what went wrong')
       ).toBeInTheDocument()
     })
 
     it('should show error when no value is given', () => {
       render(
-        <Field.Boolean variant="buttons" required validateInitially />,
+        <Field.Boolean variant="buttons" required validateInitially />
       )
       expect(screen.getByRole('alert')).toBeInTheDocument()
     })
@@ -212,7 +212,7 @@ describe('Field.Boolean', () => {
           value={true}
           validateInitially
           required
-        />,
+        />
       )
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     })
@@ -224,7 +224,7 @@ describe('Field.Boolean', () => {
           value={false}
           validateInitially
           required
-        />,
+        />
       )
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     })

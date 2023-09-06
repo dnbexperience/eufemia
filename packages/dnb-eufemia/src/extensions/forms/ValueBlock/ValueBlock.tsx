@@ -27,7 +27,7 @@ function ValueBlock(props: Props) {
       className={classnames(
         'dnb-forms-value',
         inline && 'dnb-forms-value-block--inline',
-        className,
+        className
       )}
       {...forwardSpaceProps(props)}
     >

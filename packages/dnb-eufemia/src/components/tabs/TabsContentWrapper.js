@@ -79,7 +79,7 @@ export default class ContentWrapper extends React.PureComponent {
     if (key) {
       params['aria-labelledby'] = combineLabelledBy(
         params,
-        `${id}-tab-${key}`,
+        `${id}-tab-${key}`
       )
     }
 
@@ -107,7 +107,7 @@ export default class ContentWrapper extends React.PureComponent {
                 isTrue(content_spacing) ? 'large' : content_spacing
               }`
             : null,
-          createSpacingClasses(rest),
+          createSpacingClasses(rest)
         )}
         {...params}
       >

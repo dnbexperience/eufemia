@@ -63,7 +63,7 @@ describe('Badge', () => {
         <Avatar.Group label="children:">
           <Avatar>A</Avatar>
         </Avatar.Group>
-      </Badge>,
+      </Badge>
     )
 
     expect(screen.queryByTestId('confetti icon')).toBeInTheDocument()
@@ -80,7 +80,7 @@ describe('Badge', () => {
     process.env.NODE_ENV = 'development'
     global.console.log = jest.fn()
     render(
-      <Badge variant="notification" content={1} label="Notifications:" />,
+      <Badge variant="notification" content={1} label="Notifications:" />
     )
     expect(global.console.log).not.toBeCalled()
   })
@@ -112,12 +112,12 @@ describe('Badge', () => {
         top="2rem"
         aria-label="Info about the badge"
         content="content"
-      />,
+      />
     )
 
     const element = document.querySelector('.dnb-badge')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name,
+      (attr) => attr.name
     )
 
     expect(attributes).toEqual(['role', 'class', 'aria-label'])
@@ -140,7 +140,7 @@ describe('Badge', () => {
     render(
       <Provider skeleton>
         <Badge content="content" />
-      </Provider>,
+      </Provider>
     )
 
     const element = document.querySelector('.dnb-badge')
@@ -158,7 +158,7 @@ describe('Badge', () => {
       render(<Badge />)
 
       expect(
-        document.getElementsByClassName('dnb-badge--variant-information'),
+        document.getElementsByClassName('dnb-badge--variant-information')
       ).toHaveLength(1)
     })
   })
@@ -179,7 +179,7 @@ describe('Badge scss', () => {
 
   it('have to match default theme snapshot', () => {
     const css = loadScss(
-      require.resolve('../style/themes/dnb-badge-theme-ui.scss'),
+      require.resolve('../style/themes/dnb-badge-theme-ui.scss')
     )
     expect(css).toMatchSnapshot()
   })

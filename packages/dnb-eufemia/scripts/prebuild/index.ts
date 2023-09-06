@@ -91,7 +91,7 @@ export const cleanupLib = async ({ preventDelete = false } = {}) => {
       ],
       {
         force: true,
-      },
+      }
     )
   }
 }

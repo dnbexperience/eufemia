@@ -78,8 +78,8 @@ function ElementInstance(localProps: ElementAllProps) {
     createSkeletonClass(skeletonMethod, skeleton, context),
     createSpacingClasses(
       attributes,
-      typeof Tag === 'string' ? `dnb-${Tag}` : null,
-    ),
+      typeof Tag === 'string' ? `dnb-${Tag}` : null
+    )
   )
 
   validateDOMAttributes(null, attributes)

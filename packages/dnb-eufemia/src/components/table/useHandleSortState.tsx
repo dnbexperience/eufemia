@@ -60,7 +60,7 @@ export function useHandleSortState(
   defaults: useHandleSortStateOptions = {
     direction: 'off',
     modes: ['asc', 'desc', 'off'],
-  },
+  }
 ) {
   const initialState = React.useMemo(() => {
     return Object.entries(config).reduce((acc, [name, opts]) => {
@@ -127,7 +127,7 @@ export function useHandleSortState(
 
       return acc
     },
-    {},
+    {}
   )
 
   return { sortState, sortHandler, activeSortName }

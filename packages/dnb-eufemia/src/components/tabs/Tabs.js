@@ -51,14 +51,14 @@ export default class Tabs extends React.PureComponent {
             .isRequired,
           selected: PropTypes.bool,
           disabled: PropTypes.bool,
-        }),
+        })
       ),
       PropTypes.objectOf(
         PropTypes.shape({
           title: PropTypes.string.isRequired,
           selected: PropTypes.bool,
           disabled: PropTypes.bool,
-        }),
+        })
       ),
     ]),
     content: PropTypes.oneOfType([
@@ -157,7 +157,7 @@ export default class Tabs extends React.PureComponent {
       useKey =
         data.reduce(
           (acc, { selected, key }) => (selected ? key : acc),
-          null,
+          null
         ) ||
         (data[0] && data[0].key)
     } else {
@@ -299,7 +299,7 @@ export default class Tabs extends React.PureComponent {
 
     let selected_key = Tabs.getSelectedKeyOrFallback(
       props.selected_key,
-      data,
+      data
     )
 
     // check if we have to open a different tab
@@ -415,7 +415,7 @@ export default class Tabs extends React.PureComponent {
     if (typeof window !== 'undefined') {
       try {
         const pos = parseFloat(
-          window.localStorage.getItem(`tabs-pos-${this._id}`),
+          window.localStorage.getItem(`tabs-pos-${this._id}`)
         )
         window.localStorage.removeItem(`tabs-pos-${this._id}`)
         return isNaN(pos) ? -1 : pos
@@ -445,7 +445,7 @@ export default class Tabs extends React.PureComponent {
       try {
         window.localStorage.setItem(
           `tabs-last-${this._id}`,
-          this.state.selected_key,
+          this.state.selected_key
         ) // gets removed right afterwards
       } catch (e) {
         warn(e)
@@ -599,15 +599,15 @@ export default class Tabs extends React.PureComponent {
       try {
         if (this.state.hasScrollbar && this._tablistRef.current) {
           const first = this._tablistRef.current.querySelector(
-            '.dnb-tabs__button__snap:first-of-type',
+            '.dnb-tabs__button__snap:first-of-type'
           )
           const isFirst = first.classList.contains(type)
           const last = this._tablistRef.current.querySelector(
-            '.dnb-tabs__button__snap:last-of-type',
+            '.dnb-tabs__button__snap:last-of-type'
           )
           const isLast = last.classList.contains(type)
           const elem = this._tablistRef.current.querySelector(
-            `.dnb-tabs__button.${type}`,
+            `.dnb-tabs__button.${type}`
           )
 
           const style = window.getComputedStyle(this._tabsRef.current)
@@ -617,7 +617,7 @@ export default class Tabs extends React.PureComponent {
           // Add the extra padding when we go from 1 to 2 tab so the nav button
           if (!isFirst && !isLast && parseFloat(style.paddingLeft) < 16) {
             const navButton = this._tabsRef.current.querySelector(
-              '.dnb-tabs__scroll-nav-button:first-of-type',
+              '.dnb-tabs__scroll-nav-button:first-of-type'
             )
             const additionalSpace =
               parseFloat(window.getComputedStyle(navButton).width) * 1.5
@@ -689,7 +689,7 @@ export default class Tabs extends React.PureComponent {
       dispatchCustomElementEvent(
         this,
         'on_mouse_enter',
-        this.getEventArgs({ event, selected_key }),
+        this.getEventArgs({ event, selected_key })
       )
     }
   }
@@ -700,7 +700,7 @@ export default class Tabs extends React.PureComponent {
       const ret = dispatchCustomElementEvent(
         this,
         'on_click',
-        this.getEventArgs({ event, selected_key }),
+        this.getEventArgs({ event, selected_key })
       )
 
       if (ret !== false) {
@@ -727,7 +727,7 @@ export default class Tabs extends React.PureComponent {
 
   getCurrentTitle = (selected_key = this.state.selected_key) => {
     const current = this.state.data.filter(
-      ({ key }) => key == selected_key,
+      ({ key }) => key == selected_key
     )[0]
     return (current && current.title) || null
   }
@@ -736,7 +736,7 @@ export default class Tabs extends React.PureComponent {
     const currentData = this.state.data.filter(({ disabled }) => !disabled)
     const currentIndex = currentData.reduce(
       (acc, { key }, i) => (key == stateKey ? i : acc),
-      -1,
+      -1
     )
     let nextIndex = currentIndex + useKey
     if (nextIndex < 0) {
@@ -747,7 +747,7 @@ export default class Tabs extends React.PureComponent {
     }
     return currentData.reduce(
       (acc, { key }, i) => (i === nextIndex ? key : acc),
-      null,
+      null
     )
   }
 
@@ -762,13 +762,13 @@ export default class Tabs extends React.PureComponent {
         focus_key,
         _listenForPropChanges: false,
       },
-      this.setFocusOnTabButton,
+      this.setFocusOnTabButton
     )
 
     dispatchCustomElementEvent(
       this,
       'on_focus',
-      this.getEventArgs({ event, focus_key }),
+      this.getEventArgs({ event, focus_key })
     )
 
     this.setWhatInput()
@@ -785,7 +785,7 @@ export default class Tabs extends React.PureComponent {
   setFocusOnTabButton = () => {
     try {
       const elem = this._tablistRef.current.querySelector(
-        '.dnb-tabs__button.focus',
+        '.dnb-tabs__button.focus'
       )
       elem.focus({ preventScroll: true })
 
@@ -803,7 +803,7 @@ export default class Tabs extends React.PureComponent {
 
   warnAboutMissingContainer() {
     warn(
-      `Could not find the required <Tabs.Content id="${this._id}-content" ... /> that provides role="tabpanel"`,
+      `Could not find the required <Tabs.Content id="${this._id}-content" ... /> that provides role="tabpanel"`
     )
   }
 
@@ -825,14 +825,14 @@ export default class Tabs extends React.PureComponent {
           focus_key: selected_key,
           _listenForPropChanges: false,
         },
-        this.handleVerticalScroll,
+        this.handleVerticalScroll
       )
     }
 
     dispatchCustomElementEvent(
       this,
       'on_change',
-      this.getEventArgs({ event, selected_key }),
+      this.getEventArgs({ event, selected_key })
     )
 
     if (this.props.use_hash && typeof window !== 'undefined') {
@@ -840,7 +840,7 @@ export default class Tabs extends React.PureComponent {
         window.history.replaceState(
           undefined,
           undefined,
-          `#${selected_key}`,
+          `#${selected_key}`
         )
       } catch (e) {
         warn('Tabs Error:', e)
@@ -889,7 +889,7 @@ export default class Tabs extends React.PureComponent {
           }
           return acc
         },
-        {},
+        {}
       )
     } else if (isTrue(prevent_rerender)) {
       this._cache = {
@@ -907,13 +907,13 @@ export default class Tabs extends React.PureComponent {
             aria-hidden={hide ? true : undefined}
             className={classnames(
               'dnb-tabs__cached',
-              hide && 'dnb-tabs__cached--hidden',
+              hide && 'dnb-tabs__cached--hidden'
             )}
           >
             {content}
           </div>
         )
-      },
+      }
     )
 
     return cachedContent
@@ -988,7 +988,7 @@ export default class Tabs extends React.PureComponent {
         'dnb-tabs',
         createSpacingClasses(this.props),
         className,
-        _className,
+        _className
       ),
     }
 
@@ -1021,7 +1021,7 @@ export default class Tabs extends React.PureComponent {
           hasScrollbar && 'dnb-tabs--has-scrollbar',
           nav_button_edge && 'dnb-tabs--at-edge',
           no_border && 'dnb-tabs__tabs--no-border',
-          className,
+          className
         )}
         ref={this._tabsRef}
         {...rest}
@@ -1034,7 +1034,7 @@ export default class Tabs extends React.PureComponent {
               (typeof this.state.isFirst !== 'undefined' ||
                 this.hasLastPosition()) &&
               'dnb-tabs__scroll-nav-button--visible',
-            this.state.isFirst && 'dnb-tabs__scroll-nav-button--hide',
+            this.state.isFirst && 'dnb-tabs__scroll-nav-button--hide'
           )}
         />
 
@@ -1048,7 +1048,7 @@ export default class Tabs extends React.PureComponent {
               (typeof this.state.isLast !== 'undefined' ||
                 this.hasLastPosition()) &&
               'dnb-tabs__scroll-nav-button--visible',
-            this.state.isLast && 'dnb-tabs__scroll-nav-button--hide',
+            this.state.isLast && 'dnb-tabs__scroll-nav-button--hide'
           )}
         />
       </div>
@@ -1112,7 +1112,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
             className={classnames(
               'dnb-tabs__button__snap',
               isFocus && 'focus',
-              isSelected && 'selected',
+              isSelected && 'selected'
             )}
             key={`tab-${key}`}
           >
@@ -1124,7 +1124,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
               className={classnames(
                 'dnb-tabs__button',
                 isFocus && 'focus',
-                isSelected && 'selected',
+                isSelected && 'selected'
               )}
               onMouseEnter={this.onMouseEnterHandler}
               onClick={this.onClickHandler}
@@ -1136,7 +1136,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
               <span
                 className={classnames(
                   'dnb-tabs__button__title',
-                  createSkeletonClass('font', skeleton, this.context),
+                  createSkeletonClass('font', skeleton, this.context)
                 )}
               >
                 {title}
@@ -1145,7 +1145,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
             </TabElement>
           </div>
         )
-      },
+      }
     )
 
     const params = {}
@@ -1155,7 +1155,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
     if (selected_key) {
       params['aria-labelledby'] = combineLabelledBy(
         params,
-        `${this._id}-tab-${selected_key}`,
+        `${this._id}-tab-${selected_key}`
       )
     }
     return (
@@ -1176,7 +1176,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
     const props = (this._props = extendPropsWithContextInClassComponent(
       this.props,
       Tabs.defaultProps,
-      { skeleton: this.context?.skeleton },
+      { skeleton: this.context?.skeleton }
     ))
 
     const { render: customRenderer } = props
@@ -1247,7 +1247,7 @@ const ScrollNavButton = (props) => {
       {...props}
       className={classnames(
         'dnb-tabs__scroll-nav-button',
-        props.className,
+        props.className
       )}
     />
   )

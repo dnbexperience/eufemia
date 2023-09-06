@@ -80,7 +80,7 @@ export const correctInternalHeadingLevel = ({
         report(
           debug,
           source,
-          'Heading got inherit, but there was noting to inherit.',
+          'Heading got inherit, but there was noting to inherit.'
         )
       }
     }
@@ -164,13 +164,13 @@ function report(debug, source, ...reports) {
   if (source) {
     const props = source.props || {}
     const identifiers = [props.id, props['class'], props.className].filter(
-      Boolean,
+      Boolean
     )
 
     reports.push(
       '\nNB: This warning was triggered by:',
       identifiers.length > 0 ? identifiers.join(', ') : '',
-      convertJsxToString(source),
+      convertJsxToString(source)
     )
   }
 
@@ -192,7 +192,7 @@ export const globalResetNextTime: { current: GlobalNextLevel } = {
 }
 export function resetLevels(
   level: InternalHeadingLevel,
-  { overwriteContext = false } = {},
+  { overwriteContext = false } = {}
 ) {
   globalResetNextTime.current = { level, overwriteContext }
 }
@@ -205,7 +205,7 @@ export const globalNextLevel: { current: GlobalNextLevel } = {
 }
 export function setNextLevel(
   level: InternalHeadingLevel,
-  { overwriteContext = false } = {},
+  { overwriteContext = false } = {}
 ) {
   globalNextLevel.current = {
     level,
@@ -239,12 +239,12 @@ export function debugCounter(counter) {
       contextLEntry: counter.contextCounter.entry,
     },
     null,
-    2,
+    2
   )
 }
 
 export const getHeadingSize = (
-  theme: ThemeNames,
+  theme: ThemeNames
 ): HeadingLevelSizeResolutions => {
   switch (theme) {
     case 'sbanken':
@@ -270,7 +270,7 @@ export const getHeadingSize = (
 }
 
 export const getHeadingElement = (
-  level: InternalHeadingLevel,
+  level: InternalHeadingLevel
 ): DynamicElement => {
   switch (level) {
     case 1:

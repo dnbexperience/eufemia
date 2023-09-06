@@ -220,7 +220,7 @@ export default class GlobalStatus extends React.PureComponent {
         dispatchCustomElementEvent(
           this._globalStatus,
           'on_show',
-          this._globalStatus,
+          this._globalStatus
         )
 
         if (state === 'opened') {
@@ -229,7 +229,7 @@ export default class GlobalStatus extends React.PureComponent {
           dispatchCustomElementEvent(
             this._globalStatus,
             'on_open',
-            this._globalStatus,
+            this._globalStatus
           )
         }
 
@@ -241,7 +241,7 @@ export default class GlobalStatus extends React.PureComponent {
           dispatchCustomElementEvent(
             this._globalStatus,
             'on_adjust',
-            this._globalStatus,
+            this._globalStatus
           )
         }
       } else {
@@ -251,7 +251,7 @@ export default class GlobalStatus extends React.PureComponent {
         dispatchCustomElementEvent(
           this._globalStatus,
           'on_close',
-          this._globalStatus,
+          this._globalStatus
         )
       }
     })
@@ -352,7 +352,7 @@ export default class GlobalStatus extends React.PureComponent {
       const globalStatus = extendPropsWithContextInClassComponent(
         this.props,
         GlobalStatus.defaultProps,
-        this.state.globalStatus,
+        this.state.globalStatus
       )
       this.setState({
         globalStatus,
@@ -397,7 +397,7 @@ export default class GlobalStatus extends React.PureComponent {
         },
         () => {
           this.anim.open()
-        },
+        }
       )
     }
 
@@ -428,7 +428,7 @@ export default class GlobalStatus extends React.PureComponent {
           isClosing: false,
           isActive: false,
         },
-        () => this.anim.close(),
+        () => this.anim.close()
       )
     }
 
@@ -481,7 +481,7 @@ export default class GlobalStatus extends React.PureComponent {
     dispatchCustomElementEvent(
       this._globalStatus,
       'on_hide',
-      this._globalStatus,
+      this._globalStatus
     )
   }
 
@@ -637,7 +637,7 @@ export default class GlobalStatus extends React.PureComponent {
     const fallbackProps = extendPropsWithContextInClassComponent(
       this.props,
       GlobalStatus.defaultProps,
-      this.context.getTranslation(this.props).GlobalStatus,
+      this.context.getTranslation(this.props).GlobalStatus
     )
 
     const props = extendPropsWithContextInClassComponent(
@@ -646,7 +646,7 @@ export default class GlobalStatus extends React.PureComponent {
         this.state.globalStatus,
       ]),
       GlobalStatus.defaultProps,
-      fallbackProps,
+      fallbackProps
     )
 
     const lang = this.context.locale
@@ -687,7 +687,7 @@ export default class GlobalStatus extends React.PureComponent {
         createSkeletonClass('font', skeleton, this.context),
         createSpacingClasses(props),
         className,
-        _className,
+        _className
       ),
       'aria-live': isActive ? 'assertive' : 'off',
       onKeyDown: this.onKeyDownHandler,
@@ -728,7 +728,7 @@ export default class GlobalStatus extends React.PureComponent {
         !isActive && 'dnb-global-status--hidden',
         isActive && keepContentVisible && 'dnb-global-status--visible',
         isAnimating && 'dnb-global-status--is-animating',
-        noAnimation && 'dnb-global-status--no-animation',
+        noAnimation && 'dnb-global-status--no-animation'
       ),
       ...attributes,
     }
@@ -741,7 +741,7 @@ export default class GlobalStatus extends React.PureComponent {
     const renderedItems = itemsToRender.length > 0 && (
       <ul className="dnb-ul">
         {itemsToRender.map(
-          this.itemsRenderHandler({ status_anchor_text, lang }),
+          this.itemsRenderHandler({ status_anchor_text, lang })
         )}
       </ul>
     )

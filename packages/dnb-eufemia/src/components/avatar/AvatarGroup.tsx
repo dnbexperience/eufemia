@@ -88,7 +88,7 @@ const AvatarGroup = (localProps: AvatarGroupProps & SpacingProps) => {
     context?.AvatarGroup,
     {
       skeleton: context?.skeleton,
-    },
+    }
   )
 
   const maxElements =
@@ -132,7 +132,7 @@ const AvatarGroup = (localProps: AvatarGroupProps & SpacingProps) => {
         className={classnames(
           'dnb-avatar__group',
           spacingClasses,
-          className,
+          className
         )}
         {...attributes}
       >
@@ -170,7 +170,7 @@ function ElementsHidden(props: ElementsHiddenProps) {
     <span
       className={classnames(
         'dnb-avatar__group--elements-left',
-        `dnb-avatar__group--elements-left--size-${size || 'medium'}`,
+        `dnb-avatar__group--elements-left--size-${size || 'medium'}`
       )}
     >
       {children}

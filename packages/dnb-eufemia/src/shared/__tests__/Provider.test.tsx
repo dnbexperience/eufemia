@@ -90,35 +90,35 @@ describe('Provider', () => {
     const { rerender } = render(
       <LocalProvider>
         <HelpButton>content</HelpButton>
-      </LocalProvider>,
+      </LocalProvider>
     )
 
     expect(
       document
         .querySelector('button.dnb-help-button')
-        .getAttribute('aria-label'),
+        .getAttribute('aria-label')
     ).toBe(title_nb)
     expect(
       document
         .querySelector('button.dnb-help-button')
-        .getAttribute('aria-roledescription'),
+        .getAttribute('aria-roledescription')
     ).toBe('Hjelp-knapp')
 
     rerender(
       <LocalProvider locale="en-GB">
         <HelpButton>content</HelpButton>
-      </LocalProvider>,
+      </LocalProvider>
     )
 
     expect(
       document
         .querySelector('button.dnb-help-button')
-        .getAttribute('aria-label'),
+        .getAttribute('aria-label')
     ).toBe(title_gb)
     expect(
       document
         .querySelector('button.dnb-help-button')
-        .getAttribute('aria-roledescription'),
+        .getAttribute('aria-roledescription')
     ).toBe('Help button')
   })
 
@@ -154,7 +154,7 @@ describe('Provider', () => {
     render(
       <MagicProvider locale="nb-NO">
         <MagicProvider locale="en-GB" />
-      </MagicProvider>,
+      </MagicProvider>
     )
 
     const getRootElement = () => document.querySelectorAll('p')[0]
@@ -175,7 +175,7 @@ describe('Provider', () => {
     expect(
       document
         .querySelectorAll('.nb-NO button')[1]
-        .getAttribute('aria-pressed'),
+        .getAttribute('aria-pressed')
     ).toBe('true')
 
     // should not have changed
@@ -186,7 +186,7 @@ describe('Provider', () => {
     expect(
       document
         .querySelectorAll('.en-GB button')[0]
-        .getAttribute('aria-pressed'),
+        .getAttribute('aria-pressed')
     ).toBe('true')
     expect(getRootElement().textContent).toBe(title_gb)
 
@@ -195,7 +195,7 @@ describe('Provider', () => {
     expect(
       document
         .querySelectorAll('.en-US button')[0]
-        .getAttribute('aria-pressed'),
+        .getAttribute('aria-pressed')
     ).toBe('true')
     expect(getRootElement().textContent).toBe(title_gb)
 
@@ -217,7 +217,7 @@ describe('Provider', () => {
         <MagicProvider>
           <Consumer />
         </MagicProvider>
-      </MagicProvider>,
+      </MagicProvider>
     )
 
     expect(receivedLocale).toBe(locale)
@@ -257,7 +257,7 @@ describe('Provider', () => {
         <Provider>
           <NestedConsumer />
         </Provider>
-      </Provider>,
+      </Provider>
     )
 
     const getRootLocale = () =>
@@ -312,7 +312,7 @@ describe('Provider', () => {
         <Provider>
           <NestedConsumer />
         </Provider>
-      </Provider>,
+      </Provider>
     )
 
     const getRootLocale = () =>
@@ -366,7 +366,7 @@ describe('Provider', () => {
         <Provider>
           <NestedConsumer />
         </Provider>
-      </Provider>,
+      </Provider>
     )
 
     const getRootLocale = () =>
@@ -385,7 +385,7 @@ describe('Provider', () => {
         <Provider>
           <NestedConsumer />
         </Provider>
-      </Provider>,
+      </Provider>
     )
 
     expect(getRootLocale()).toBe('changed')
@@ -396,7 +396,7 @@ describe('Provider', () => {
     render(
       <MagicProvider locale="en-GB">
         <MagicProvider locale="nb-NO" />
-      </MagicProvider>,
+      </MagicProvider>
     )
 
     const getRootElement = () => document.querySelectorAll('p')[0]
@@ -412,13 +412,13 @@ describe('Provider', () => {
     expect(
       document
         .querySelectorAll('.en-GB button')[0]
-        .getAttribute('aria-pressed'),
+        .getAttribute('aria-pressed')
     ).toBe('true')
     expect(getNestedElement().textContent).toBe(title_nb)
     expect(
       document
         .querySelectorAll('.nb-NO button')[1]
-        .getAttribute('aria-pressed'),
+        .getAttribute('aria-pressed')
     ).toBe('true')
 
     // First, let's change the inner
@@ -428,13 +428,13 @@ describe('Provider', () => {
     expect(
       document
         .querySelectorAll('.en-GB button')[0]
-        .getAttribute('aria-pressed'),
+        .getAttribute('aria-pressed')
     ).toBe('true')
     expect(getNestedElement().textContent).toBe(title_nb)
     expect(
       document
         .querySelectorAll('.nb-NO button')[1]
-        .getAttribute('aria-pressed'),
+        .getAttribute('aria-pressed')
     ).toBe('true')
 
     switchNestedTo('en-GB')
@@ -443,13 +443,13 @@ describe('Provider', () => {
     expect(
       document
         .querySelectorAll('.en-GB button')[0]
-        .getAttribute('aria-pressed'),
+        .getAttribute('aria-pressed')
     ).toBe('true')
     expect(getNestedElement().textContent).toBe(title_gb)
     expect(
       document
         .querySelectorAll('.en-GB button')[1]
-        .getAttribute('aria-pressed'),
+        .getAttribute('aria-pressed')
     ).toBe('true')
 
     switchNestedTo('nb-NO')
@@ -458,13 +458,13 @@ describe('Provider', () => {
     expect(
       document
         .querySelectorAll('.nb-NO button')[0]
-        .getAttribute('aria-pressed'),
+        .getAttribute('aria-pressed')
     ).toBe('true')
     expect(getNestedElement().textContent).toBe(title_nb)
     expect(
       document
         .querySelectorAll('.nb-NO button')[1]
-        .getAttribute('aria-pressed'),
+        .getAttribute('aria-pressed')
     ).toBe('true')
 
     // Now, let's change the outer
@@ -474,13 +474,13 @@ describe('Provider', () => {
     expect(
       document
         .querySelectorAll('.en-GB button')[0]
-        .getAttribute('aria-pressed'),
+        .getAttribute('aria-pressed')
     ).toBe('true')
     expect(getNestedElement().textContent).toBe(title_nb)
     expect(
       document
         .querySelectorAll('.nb-NO button')[1]
-        .getAttribute('aria-pressed'),
+        .getAttribute('aria-pressed')
     ).toBe('true')
   })
 })

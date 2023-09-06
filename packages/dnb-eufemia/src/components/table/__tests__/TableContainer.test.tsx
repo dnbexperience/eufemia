@@ -43,11 +43,11 @@ describe('TableContainer', () => {
     expect(element.textContent).toBe('HeaderTexttable 1table 2text')
 
     expect(
-      document.querySelector('.dnb-table__container__head--empty'),
+      document.querySelector('.dnb-table__container__head--empty')
     ).not.toBeInTheDocument()
 
     expect(
-      document.querySelector('.dnb-table__container__foot--empty'),
+      document.querySelector('.dnb-table__container__foot--empty')
     ).not.toBeInTheDocument()
   })
 
@@ -56,7 +56,7 @@ describe('TableContainer', () => {
 
     const element = document.querySelector('.dnb-table__container')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name,
+      (attr) => attr.name
     )
 
     expect(attributes).toEqual(['class', 'aria-label'])
@@ -81,7 +81,7 @@ describe('TableContainer', () => {
     render(<TableContainer.Head />)
 
     expect(
-      document.querySelector('.dnb-table__container__head--empty'),
+      document.querySelector('.dnb-table__container__head--empty')
     ).toBeInTheDocument()
   })
 
@@ -89,7 +89,7 @@ describe('TableContainer', () => {
     render(<TableContainer.Foot />)
 
     expect(
-      document.querySelector('.dnb-table__container__foot--empty'),
+      document.querySelector('.dnb-table__container__foot--empty')
     ).toBeInTheDocument()
   })
 
@@ -105,15 +105,15 @@ describe('TableContainer', () => {
             </tbody>
           </Table>
         </TableContainer.Body>
-      </TableContainer>,
+      </TableContainer>
     )
 
     expect(
-      document.querySelector('.dnb-table__container__head--empty'),
+      document.querySelector('.dnb-table__container__head--empty')
     ).toBeInTheDocument()
 
     expect(
-      document.querySelector('.dnb-table__container__foot--empty'),
+      document.querySelector('.dnb-table__container__foot--empty')
     ).toBeInTheDocument()
   })
 
@@ -122,7 +122,7 @@ describe('TableContainer', () => {
 
     const element = document.querySelector('.dnb-scroll-view')
     expect(Array.from(element.classList)).toContain(
-      'dnb-table__scroll-view',
+      'dnb-table__scroll-view'
     )
   })
 
@@ -131,7 +131,7 @@ describe('TableContainer', () => {
 
     const element = document.querySelector('.dnb-table__container')
     expect(Array.from(element.classList)).toContain(
-      'dnb-space__top--large',
+      'dnb-space__top--large'
     )
   })
 })

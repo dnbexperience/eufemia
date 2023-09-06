@@ -29,7 +29,7 @@ describe('TableAccordion', () => {
             <td>content</td>
           </tr>
         </tbody>
-      </Table>,
+      </Table>
     )
 
     const element = document.querySelector('table')
@@ -46,13 +46,13 @@ describe('TableAccordion', () => {
             <Td.AccordionContent>accordion content</Td.AccordionContent>
           </Tr>
         </tbody>
-      </Table>,
+      </Table>
     )
 
     const element = document.querySelector('tr')
 
     expect(Array.from(element.classList)).toContain(
-      'dnb-table__tr--has-accordion-content',
+      'dnb-table__tr--has-accordion-content'
     )
   })
 
@@ -65,14 +65,14 @@ describe('TableAccordion', () => {
             <Td.AccordionContent>accordion content</Td.AccordionContent>
           </Tr>
         </tbody>
-      </Table>,
+      </Table>
     )
 
     const element = document.querySelector('tr')
       .nextSibling as HTMLTableRowElement
 
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name,
+      (attr) => attr.name
     )
 
     expect(attributes).toEqual(['aria-hidden', 'hidden', 'class'])
@@ -92,14 +92,14 @@ describe('TableAccordion', () => {
             <Td.AccordionContent>accordion content</Td.AccordionContent>
           </Tr>
         </tbody>
-      </Table>,
+      </Table>
     )
 
     const trElement = document.querySelector('tr')
     const accordionElem = trElement.nextSibling as HTMLTableRowElement
 
     const attributes = Array.from(accordionElem.attributes).map(
-      (attr) => attr.name,
+      (attr) => attr.name
     )
 
     expect(attributes).toEqual(['aria-hidden', 'role', 'class'])
@@ -122,7 +122,7 @@ describe('TableAccordion', () => {
             <Td.AccordionContent>accordion content</Td.AccordionContent>
           </Tr>
         </tbody>
-      </Table>,
+      </Table>
     )
 
     const element = document.querySelector('tr') as HTMLTableRowElement
@@ -144,7 +144,7 @@ describe('TableAccordion', () => {
             <Td.AccordionContent>accordion content</Td.AccordionContent>
           </Tr>
         </tbody>
-      </Table>,
+      </Table>
     )
 
     const trElement = document.querySelector('tr')
@@ -152,7 +152,7 @@ describe('TableAccordion', () => {
     const element = accordionElem.querySelector('td')
 
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name,
+      (attr) => attr.name
     )
 
     expect(attributes).toEqual(['colspan', 'class'])
@@ -170,7 +170,7 @@ describe('TableAccordion', () => {
             <Td.AccordionContent>accordion content</Td.AccordionContent>
           </Tr>
         </tbody>
-      </Table>,
+      </Table>
     )
 
     const trElement = document.querySelector('tr')
@@ -178,7 +178,7 @@ describe('TableAccordion', () => {
     const element = accordionElem.querySelector('td')
 
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name,
+      (attr) => attr.name
     )
 
     expect(attributes).toEqual(['role', 'colspan', 'class', 'style'])
@@ -197,7 +197,7 @@ describe('TableAccordion', () => {
             <Td.AccordionContent>accordion content</Td.AccordionContent>
           </Tr>
         </tbody>
-      </Table>,
+      </Table>
     )
 
     const trElement = document.querySelector('tr')
@@ -205,12 +205,12 @@ describe('TableAccordion', () => {
     const element = accordionElem.querySelector('td')
 
     expect(
-      element.querySelector('div.dnb-table__tr__accordion_content__inner'),
+      element.querySelector('div.dnb-table__tr__accordion_content__inner')
     ).toBeInTheDocument()
     expect(
       element.querySelector(
-        'div.dnb-table__tr__accordion_content__inner__spacing',
-      ),
+        'div.dnb-table__tr__accordion_content__inner__spacing'
+      )
     ).toBeInTheDocument()
   })
 
@@ -224,7 +224,7 @@ describe('TableAccordion', () => {
             <Td.AccordionContent>accordion content</Td.AccordionContent>
           </Tr>
         </tbody>
-      </Table>,
+      </Table>
     )
 
     const trElement = document.querySelector('tr')
@@ -234,7 +234,7 @@ describe('TableAccordion', () => {
     expect(element.querySelector('span.dnb-sr-only')).toBeInTheDocument()
     expect(element.querySelector('span[aria-live]')).toBeInTheDocument()
     expect(
-      element.querySelector('span[aria-live]').getAttribute('aria-live'),
+      element.querySelector('span[aria-live]').getAttribute('aria-live')
     ).toBe('assertive')
   })
 
@@ -248,7 +248,7 @@ describe('TableAccordion', () => {
             <Td.AccordionContent>accordion content</Td.AccordionContent>
           </Tr>
         </tbody>
-      </Table>,
+      </Table>
     )
 
     const trElement = document.querySelector('tr')
@@ -270,7 +270,7 @@ describe('TableAccordion', () => {
             <Td.AccordionContent>accordion content</Td.AccordionContent>
           </Tr>
         </tbody>
-      </Table>,
+      </Table>
     )
 
     expect(liveElement.textContent).toBe(en.accordionMoreContentSR)
@@ -285,7 +285,7 @@ describe('TableAccordion', () => {
             <Td.AccordionContent>accordion content</Td.AccordionContent>
           </Tr>
         </tbody>
-      </Table>,
+      </Table>
     )
 
     const trElement = document.querySelector('tr')
@@ -298,10 +298,10 @@ describe('TableAccordion', () => {
     fireEvent.click(trElement)
 
     expect(Array.from(trElement.classList)).toContain(
-      'dnb-table__tr--expanded',
+      'dnb-table__tr--expanded'
     )
     expect(Array.from(accordionElem.classList)).toContain(
-      'dnb-table__tr__accordion_content--expanded',
+      'dnb-table__tr__accordion_content--expanded'
     )
   })
 
@@ -317,7 +317,7 @@ describe('TableAccordion', () => {
             <Td.AccordionContent>accordion content</Td.AccordionContent>
           </Tr>
         </tbody>
-      </Table>,
+      </Table>
     )
 
     const trElement = document.querySelector('tr')
@@ -329,7 +329,7 @@ describe('TableAccordion', () => {
     fireEvent.click(inputElem)
 
     expect(Array.from(trElement.classList)).not.toContain(
-      'dnb-table__tr--expanded',
+      'dnb-table__tr--expanded'
     )
 
     jest
@@ -339,7 +339,7 @@ describe('TableAccordion', () => {
     fireEvent.click(buttonElem)
 
     expect(Array.from(trElement.classList)).not.toContain(
-      'dnb-table__tr--expanded',
+      'dnb-table__tr--expanded'
     )
 
     jest.spyOn(document, 'activeElement', 'get').mockReturnValue(null)
@@ -347,20 +347,20 @@ describe('TableAccordion', () => {
     fireEvent.click(inputElem)
 
     expect(Array.from(trElement.classList)).not.toContain(
-      'dnb-table__tr--expanded',
+      'dnb-table__tr--expanded'
     )
 
     fireEvent.click(buttonElem)
 
     expect(Array.from(trElement.classList)).toContain(
-      'dnb-table__tr--expanded',
+      'dnb-table__tr--expanded'
     )
 
     // Close again
     fireEvent.click(trElement)
 
     expect(Array.from(trElement.classList)).not.toContain(
-      'dnb-table__tr--expanded',
+      'dnb-table__tr--expanded'
     )
 
     const getSelection = jest.fn(() => ({
@@ -372,7 +372,7 @@ describe('TableAccordion', () => {
     fireEvent.click(trElement)
 
     expect(Array.from(trElement.classList)).not.toContain(
-      'dnb-table__tr--expanded',
+      'dnb-table__tr--expanded'
     )
 
     // Simulate keyboard usage
@@ -381,13 +381,13 @@ describe('TableAccordion', () => {
     fireEvent.keyDown(inputElem, { keyCode: 13 }) // enter
 
     expect(Array.from(trElement.classList)).not.toContain(
-      'dnb-table__tr--expanded',
+      'dnb-table__tr--expanded'
     )
 
     fireEvent.keyDown(inputElem, { keyCode: 32 }) // space
 
     expect(Array.from(trElement.classList)).not.toContain(
-      'dnb-table__tr--expanded',
+      'dnb-table__tr--expanded'
     )
 
     jest.spyOn(document, 'activeElement', 'get').mockReturnValue(null)
@@ -407,7 +407,7 @@ describe('TableAccordion', () => {
             <Td.AccordionContent>accordion content</Td.AccordionContent>
           </Tr>
         </tbody>
-      </Table>,
+      </Table>
     )
 
     const select = (i: number, list: NodeListOf<HTMLTableCellElement>) =>
@@ -415,21 +415,21 @@ describe('TableAccordion', () => {
     const getTh = (i: number) => {
       return select(
         i,
-        document.querySelector('thead tr').querySelectorAll('th'),
+        document.querySelector('thead tr').querySelectorAll('th')
       )
     }
     const getTd = (i: number) => {
       return select(
         i,
-        document.querySelector('tbody tr').querySelectorAll('td'),
+        document.querySelector('tbody tr').querySelectorAll('td')
       )
     }
 
     expect(Array.from(getTh(0).classList)).toContain(
-      'dnb-table__th__accordion-icon',
+      'dnb-table__th__accordion-icon'
     )
     expect(Array.from(getTd(0).classList)).toContain(
-      'dnb-table__td__accordion-icon',
+      'dnb-table__td__accordion-icon'
     )
 
     rerender(
@@ -445,14 +445,14 @@ describe('TableAccordion', () => {
             <Td.AccordionContent>accordion content</Td.AccordionContent>
           </Tr>
         </tbody>
-      </Table>,
+      </Table>
     )
 
     expect(Array.from(getTh(-1).classList)).toContain(
-      'dnb-table__th__accordion-icon',
+      'dnb-table__th__accordion-icon'
     )
     expect(Array.from(getTd(-1).classList)).toContain(
-      'dnb-table__td__accordion-icon',
+      'dnb-table__td__accordion-icon'
     )
   })
 
@@ -464,12 +464,12 @@ describe('TableAccordion', () => {
             <Th>heading</Th>
           </Tr>
         </thead>
-      </Table>,
+      </Table>
     )
 
     const trElement = document.querySelector('thead tr th')
     expect(Array.from(trElement.classList)).toContain(
-      'dnb-table__th__accordion-icon',
+      'dnb-table__th__accordion-icon'
     )
 
     const divElement = trElement.querySelector('div')
@@ -484,12 +484,12 @@ describe('TableAccordion', () => {
             <Th>heading</Th>
           </Tr>
         </thead>
-      </Table>,
+      </Table>
     )
 
     const thElement = document.querySelector('thead tr th')
     expect(Array.from(thElement.classList)).toContain(
-      'dnb-table__th__accordion-icon',
+      'dnb-table__th__accordion-icon'
     )
 
     expect(thElement.textContent).toBe(nb.accordionToggleButtonSR)
@@ -507,12 +507,12 @@ describe('TableAccordion', () => {
     const { rerender } = render(
       <Provider>
         <Table accordion>{content}</Table>
-      </Provider>,
+      </Provider>
     )
 
     const thElement = document.querySelector('thead tr th')
     expect(Array.from(thElement.classList)).toContain(
-      'dnb-table__th__accordion-icon',
+      'dnb-table__th__accordion-icon'
     )
 
     expect(thElement.textContent).toBe(nb.accordionToggleButtonSR)
@@ -522,7 +522,7 @@ describe('TableAccordion', () => {
         <Table accordion locale="en-GB">
           {content}
         </Table>
-      </Provider>,
+      </Provider>
     )
 
     expect(thElement.textContent).toBe(en.accordionToggleButtonSR)
@@ -530,7 +530,7 @@ describe('TableAccordion', () => {
     rerender(
       <Provider locale="nb-NO">
         <Table accordion>{content}</Table>
-      </Provider>,
+      </Provider>
     )
 
     expect(thElement.textContent).toBe(nb.accordionToggleButtonSR)
@@ -540,7 +540,7 @@ describe('TableAccordion', () => {
         <Table accordion lang="en-GB">
           {content}
         </Table>
-      </Provider>,
+      </Provider>
     )
 
     expect(thElement.textContent).toBe(en.accordionToggleButtonSR)
@@ -560,7 +560,7 @@ describe('TableAccordion', () => {
             <Td.AccordionContent>accordion content</Td.AccordionContent>
           </Tr>
         </tbody>
-      </Table>,
+      </Table>
     )
 
     const trElement = document.querySelector('tbody tr')
@@ -569,7 +569,7 @@ describe('TableAccordion', () => {
     jest.spyOn(document, 'activeElement', 'get').mockReturnValue(trElement)
 
     expect(Array.from(trElement.classList)).not.toContain(
-      'dnb-table__tr--expanded',
+      'dnb-table__tr--expanded'
     )
 
     // open
@@ -581,10 +581,10 @@ describe('TableAccordion', () => {
 
     expect(enterKey.preventDefault).toHaveBeenCalledTimes(1)
     expect(Array.from(trElement.classList)).toContain(
-      'dnb-table__tr--expanded',
+      'dnb-table__tr--expanded'
     )
     expect(Array.from(accordionElem.classList)).toContain(
-      'dnb-table__tr__accordion_content--expanded',
+      'dnb-table__tr__accordion_content--expanded'
     )
 
     // close
@@ -596,10 +596,10 @@ describe('TableAccordion', () => {
 
     expect(spaceKey.preventDefault).toHaveBeenCalledTimes(1)
     expect(Array.from(trElement.classList)).not.toContain(
-      'dnb-table__tr--expanded',
+      'dnb-table__tr--expanded'
     )
     expect(Array.from(accordionElem.classList)).not.toContain(
-      'dnb-table__tr__accordion_content--expanded',
+      'dnb-table__tr__accordion_content--expanded'
     )
   })
 
@@ -612,7 +612,7 @@ describe('TableAccordion', () => {
             <Td.AccordionContent>accordion content</Td.AccordionContent>
           </Tr>
         </tbody>
-      </Table>,
+      </Table>
     )
 
     const trElement = document.querySelector('tr')
@@ -626,20 +626,20 @@ describe('TableAccordion', () => {
     fireEvent.mouseEnter(trElement)
 
     expect(Array.from(trElement.classList)).not.toContain(
-      'dnb-table__tr--hover',
+      'dnb-table__tr--hover'
     )
 
     fireEvent.click(trElement)
     fireEvent.mouseEnter(trElement)
 
     expect(Array.from(trElement.classList)).toContain(
-      'dnb-table__tr--hover',
+      'dnb-table__tr--hover'
     )
 
     fireEvent.mouseLeave(trElement)
 
     expect(Array.from(trElement.classList)).not.toContain(
-      'dnb-table__tr--hover',
+      'dnb-table__tr--hover'
     )
   })
 
@@ -667,27 +667,27 @@ describe('TableAccordion', () => {
             <Td.AccordionContent>accordion content 2</Td.AccordionContent>
           </Tr>
         </tbody>
-      </Table>,
+      </Table>
     )
 
     const trElement1 = document.querySelector('tr')
     expect(Array.from(trElement1.classList)).toContain(
-      'dnb-table__tr--expanded',
+      'dnb-table__tr--expanded'
     )
 
     const accordionElem1 = trElement1.nextSibling as HTMLTableRowElement
     expect(Array.from(accordionElem1.classList)).toContain(
-      'dnb-table__tr__accordion_content--expanded',
+      'dnb-table__tr__accordion_content--expanded'
     )
 
     const trElement2 = document.querySelectorAll('tr')[1]
     expect(Array.from(trElement2.classList)).not.toContain(
-      'dnb-table__tr--expanded',
+      'dnb-table__tr--expanded'
     )
 
     const accordionElem2 = trElement2.nextSibling as HTMLTableRowElement
     expect(Array.from(accordionElem2.classList)).not.toContain(
-      'dnb-table__tr__accordion_content--expanded',
+      'dnb-table__tr__accordion_content--expanded'
     )
   })
 
@@ -707,7 +707,7 @@ describe('TableAccordion', () => {
               <Td.AccordionContent>accordion content</Td.AccordionContent>
             </Tr>
           </tbody>
-        </Table>,
+        </Table>
       )
 
       const trElement = document.querySelector('tr')
@@ -732,7 +732,7 @@ describe('TableAccordion', () => {
               <Td.AccordionContent>accordion content</Td.AccordionContent>
             </Tr>
           </tbody>
-        </Table>,
+        </Table>
       )
 
       const trElement = document.querySelector('tr')
@@ -742,8 +742,8 @@ describe('TableAccordion', () => {
       act(() => {
         simulateAnimationEnd(
           document.querySelector(
-            '.dnb-table__tr__accordion_content__inner',
-          ),
+            '.dnb-table__tr__accordion_content__inner'
+          )
         )
 
         expect(onOpened).toHaveBeenCalledTimes(1)
@@ -764,7 +764,7 @@ describe('TableAccordion', () => {
               <Td.AccordionContent>accordion content</Td.AccordionContent>
             </Tr>
           </tbody>
-        </Table>,
+        </Table>
       )
 
       const trElement = document.querySelector('tr')
@@ -775,8 +775,8 @@ describe('TableAccordion', () => {
       act(() => {
         simulateAnimationEnd(
           document.querySelector(
-            '.dnb-table__tr__accordion_content__inner',
-          ),
+            '.dnb-table__tr__accordion_content__inner'
+          )
         )
 
         expect(onClosed).toHaveBeenCalledTimes(1)

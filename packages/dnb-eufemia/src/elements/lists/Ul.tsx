@@ -37,7 +37,7 @@ const Ul = ({ nested, inside, outside, ...p }: UlAllProps = {}) => {
         p.className,
         nested && 'dnb-ol--nested',
         inside && 'dnb-ol--inside',
-        outside && 'dnb-ol--outside',
+        outside && 'dnb-ol--outside'
       )}
       skeleton={false}
     />

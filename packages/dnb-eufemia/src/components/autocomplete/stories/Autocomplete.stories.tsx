@@ -91,7 +91,7 @@ export function UpdateEachOther() {
           setSelectedAccountsB(
             accounts.filter(({ selected_id }) => {
               return selected_id !== account?.selected_id
-            }),
+            })
           )
         }}
       />
@@ -105,7 +105,7 @@ export function UpdateEachOther() {
           setSelectedAccountsA(
             accounts.filter(({ selected_id }) => {
               return selected_id !== account?.selected_id
-            }),
+            })
           )
         }}
       />
@@ -204,7 +204,7 @@ const AutocompleteWithState = () => {
             return () => clearTimeout(timeout)
           },
           { value, results },
-          1e3,
+          1e3
         )
       }}
     />
@@ -787,7 +787,7 @@ function UpdateDataExample() {
             size="small"
             on_click={() => {
               const updatedSelectedData = selectedData.filter(
-                (data) => item.selected_value !== data.selected_value,
+                (data) => item.selected_value !== data.selected_value
               )
               setSelectedData(updatedSelectedData)
               setChoiceData(
@@ -795,9 +795,9 @@ function UpdateDataExample() {
                   (data) =>
                     updatedSelectedData.findIndex(
                       ({ selected_value: updatedValue }) =>
-                        updatedValue === data?.selected_value,
-                    ) === -1,
-                ),
+                        updatedValue === data?.selected_value
+                    ) === -1
+                )
               )
             }}
           >
@@ -819,8 +819,8 @@ function UpdateDataExample() {
           // update our choices
           setChoiceData(
             choiceData.filter(
-              (item) => item.selected_value !== data.selected_value,
-            ),
+              (item) => item.selected_value !== data.selected_value
+            )
           )
 
           // we could have used updateData
@@ -830,7 +830,7 @@ function UpdateDataExample() {
           if (
             selectedData.findIndex(
               ({ selected_value }) =>
-                selected_value === data.selected_value,
+                selected_value === data.selected_value
             ) === -1
           ) {
             setSelectedData([...selectedData, data])

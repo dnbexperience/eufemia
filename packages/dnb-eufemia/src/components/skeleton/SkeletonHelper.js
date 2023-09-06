@@ -11,7 +11,7 @@ import classnames from 'classnames'
 export const skeletonDOMAttributes = (
   params,
   skeleton,
-  context = null,
+  context = null
 ) => {
   if (isTrue(skeleton) || (skeleton !== false && context?.skeleton)) {
     params.disabled = true
@@ -26,7 +26,7 @@ export const createSkeletonClass = (
   method,
   skeleton,
   context = null,
-  className = null,
+  className = null
 ) => {
   // We could extend this like so:
   // if (method === 'auto' && typeof skeleton === 'string') {
@@ -37,7 +37,7 @@ export const createSkeletonClass = (
     return classnames(
       className,
       'dnb-skeleton',
-      method && `dnb-skeleton--${method}`,
+      method && `dnb-skeleton--${method}`
     )
   }
 
@@ -79,7 +79,7 @@ export class AutoSize extends React.PureComponent {
             className: classnames(
               className,
               'dnb-skeleton',
-              'dnb-skeleton--font',
+              'dnb-skeleton--font'
             ),
             'data-skeleton-chars': String(countChars),
             style: {
@@ -88,7 +88,7 @@ export class AutoSize extends React.PureComponent {
             },
             ...props,
           },
-          children,
+          children
         )
       }
     }

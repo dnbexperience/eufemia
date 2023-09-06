@@ -50,12 +50,12 @@ function StringComponent(props: Props) {
       minLength:
         sharedContext?.translation.Forms.stringInputErrorMinLength.replace(
           '{minLength}',
-          props.minLength?.toString(),
+          props.minLength?.toString()
         ),
       maxLength:
         sharedContext?.translation.Forms.stringInputErrorMaxLength.replace(
           '{maxLength}',
-          props.maxLength?.toString(),
+          props.maxLength?.toString()
         ),
       pattern: sharedContext?.translation.Forms.inputErrorPattern,
       ...props.errorMessages,

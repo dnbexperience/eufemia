@@ -95,14 +95,14 @@ function StepIndicatorItem({
   const context = useContext(StepIndicatorContext)
 
   const [previousStep, setPreviousStep] = useState<number>(
-    context.activeStep,
+    context.activeStep
   )
 
   const heightAnim = useRef(
     new HeightAnimationInstance({
       animate:
         context?.no_animation !== undefined ? context.no_animation : false,
-    }),
+    })
   ).current
 
   const ref = useRef(null)
@@ -155,13 +155,13 @@ function StepIndicatorItem({
     const onClickItem = dispatchCustomElementEvent(
       thisReference,
       'on_click',
-      params,
+      params
     )
 
     const onClickGlobal = dispatchCustomElementEvent(
       context,
       'on_click',
-      params,
+      params
     )
 
     if (onClickItem === false || onClickGlobal === false) {
@@ -295,7 +295,7 @@ function StepIndicatorItem({
         isCurrent && 'dnb-step-indicator__item--current',
         isInactive && 'dnb-step-indicator__item--inactive',
         isVisited && 'dnb-step-indicator__item--visited',
-        itemParams.className,
+        itemParams.className
       )}
     >
       <StepItemButton {...buttonParams} inner_ref={ref}>
@@ -342,7 +342,7 @@ export function StepItemButton({
       className={classnames(
         className,
         status && 'dnb-step-indicator__button__status',
-        status && `dnb-step-indicator__button__status--${status_state}`,
+        status && `dnb-step-indicator__button__status--${status_state}`
       )}
       wrap
       stretch

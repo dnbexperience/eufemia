@@ -177,7 +177,7 @@ export default class DatePickerInput extends React.PureComponent {
           }
           this.context.callOnChangeHandler({ startDate, endDate, event })
         }
-      },
+      }
     )
   }
 
@@ -364,7 +364,7 @@ export default class DatePickerInput extends React.PureComponent {
     const secondSelectionStart = target.selectionStart
     const isValid = /[0-9]/.test(keyCode)
     const index = this.refList.findIndex(
-      ({ current }) => current === target,
+      ({ current }) => current === target
     )
 
     if (
@@ -455,7 +455,7 @@ export default class DatePickerInput extends React.PureComponent {
     const date = new Date(
       parseFloat(year),
       parseFloat(month) - 1,
-      parseFloat(day),
+      parseFloat(day)
     )
 
     const isValidDate =
@@ -559,7 +559,7 @@ export default class DatePickerInput extends React.PureComponent {
                     params.className,
                     'dnb-date-picker__input',
                     'dnb-date-picker__input--day',
-                    inputSizeClassName,
+                    inputSizeClassName
                   )}
                   size="2"
                   mask={[/[0-3]/, /[0-9]/]}
@@ -590,7 +590,7 @@ export default class DatePickerInput extends React.PureComponent {
                     params.className,
                     'dnb-date-picker__input',
                     'dnb-date-picker__input--month',
-                    inputSizeClassName,
+                    inputSizeClassName
                   )}
                   size="2"
                   mask={[/[0-1]/, /[0-9]/]}
@@ -621,7 +621,7 @@ export default class DatePickerInput extends React.PureComponent {
                     params.className,
                     'dnb-date-picker__input',
                     'dnb-date-picker__input--year',
-                    inputSizeClassName,
+                    inputSizeClassName
                   )}
                   size="4"
                   mask={[/[1-2]/, /[0-9]/, /[0-9]/, /[0-9]/]}
@@ -733,7 +733,7 @@ export default class DatePickerInput extends React.PureComponent {
               skeleton={skeleton}
               className={classnames(
                 showInput && 'dnb-button--input-button',
-                opened ? 'dnb-button--active' : null,
+                opened ? 'dnb-button--active' : null
               )}
               aria-label={this.formatDate()}
               title={title}

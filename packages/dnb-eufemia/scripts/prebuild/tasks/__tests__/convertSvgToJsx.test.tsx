@@ -24,7 +24,7 @@ beforeAll(async () => {
     destPath: path.resolve(__dirname, './test-files/dist'),
     customIconsLockFilePath: path.resolve(
       __dirname,
-      './test-files/dnb/icons-svg.lock',
+      './test-files/dnb/icons-svg.lock'
     ),
   })
   jest.useFakeTimers()
@@ -61,7 +61,7 @@ describe('run convertSvgToJsx to convert ES6 to ES5', () => {
     const index = await import(
       path.resolve(
         __dirname,
-        'test-files/dist/dnb/primary_icons_medium.ts',
+        'test-files/dist/dnb/primary_icons_medium.ts'
       )
     )
     expect(index).toMatchSnapshot()

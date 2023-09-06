@@ -70,7 +70,7 @@ export default class Logo extends React.PureComponent {
       this.props,
       Logo.defaultProps,
       this.context.getTranslation(this.props).Logo,
-      this.context.Logo,
+      this.context.Logo
     )
 
     let {
@@ -122,7 +122,7 @@ export default class Logo extends React.PureComponent {
           createSpacingClasses(props),
           (width > 0 || height > 0) && 'dnb-logo--has-size',
           size === 'inherit' && 'dnb-logo--inherit-size',
-          inherit_color && 'dnb-logo--inherit-color',
+          inherit_color && 'dnb-logo--inherit-color'
         ),
         role: 'img',
         alt,
@@ -138,7 +138,7 @@ export default class Logo extends React.PureComponent {
           createSpacingClasses(props),
           (width > 0 || height > 0) && 'sbanken-logo--has-size',
           size === 'inherit' && 'sbanken-logo--inherit-size',
-          inherit_color && 'sbanken-logo--inherit-color',
+          inherit_color && 'sbanken-logo--inherit-color'
         ),
         role: 'img',
         alt,

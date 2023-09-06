@@ -188,7 +188,7 @@ export function scrollToLocationHashId({
                         onCompletion(elem)
                       }
                     }
-                  },
+                  }
                 )
                 // start observing
                 intersectionObserver.observe(elem)
@@ -218,7 +218,7 @@ export function scrollToLocationHashId({
         const elem = document.getElementById(id)
         if (elem instanceof HTMLElement) {
           window.addEventListener('beforeunload', () =>
-            clearTimeout(_timeout),
+            clearTimeout(_timeout)
           )
           if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', handleScroll)
@@ -253,7 +253,7 @@ export function scrollToLocationHashId({
 export function debounce(
   func,
   wait = 250,
-  { immediate = false, instance = null } = {},
+  { immediate = false, instance = null } = {}
 ) {
   let timeout
   let recall
@@ -482,7 +482,7 @@ export const warn = (...params) => {
       console.log(
         // How to generate it: JSON.stringify(chalk.reset.bold.hex('#00343E').bgHex('#A5E1D2')('Eufemia'))
         '\u001b[0m\u001b[1m\u001b[38;5;23m\u001b[48;5;152mEufemia\u001b[49m\u001b[39m\u001b[22m\u001b[0m',
-        ...params,
+        ...params
       )
     }
   }

@@ -40,7 +40,7 @@ export default class MediaQuery extends React.PureComponent<
     if (isMatchMediaSupported()) {
       this.state.mediaQueryList = makeMediaQueryList(
         props,
-        context?.breakpoints,
+        context?.breakpoints
       )
 
       if (this.state.mediaQueryList?.matches) {
@@ -70,14 +70,14 @@ export default class MediaQuery extends React.PureComponent<
     ) {
       const mediaQueryList = makeMediaQueryList(
         this.props,
-        this.context.breakpoints,
+        this.context.breakpoints
       )
       this.setState(
         {
           match: mediaQueryList?.matches,
           mediaQueryList,
         },
-        this.bindListener,
+        this.bindListener
       )
     }
   }
@@ -89,7 +89,7 @@ export default class MediaQuery extends React.PureComponent<
         this.state.mediaQueryList,
         (match) => {
           this.setState({ match })
-        },
+        }
       )
     }
   }

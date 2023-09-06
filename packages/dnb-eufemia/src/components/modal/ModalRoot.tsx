@@ -57,7 +57,7 @@ export default class ModalRoot extends React.PureComponent<
         window.__modalRoot.setAttribute('id', id)
         document.body.insertBefore(
           window.__modalRoot,
-          document.body.firstChild,
+          document.body.firstChild
         )
       }
     } catch (e) {
@@ -122,7 +122,7 @@ export default class ModalRoot extends React.PureComponent<
     ) {
       return ReactDOM.createPortal(
         <ModalContent {...props}>{children}</ModalContent>,
-        this.portalElem,
+        this.portalElem
       )
     }
 

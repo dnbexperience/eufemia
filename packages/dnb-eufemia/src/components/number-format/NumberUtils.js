@@ -67,7 +67,7 @@ export const format = (
     omit_rounding = null,
     options = null,
     returnAria = false,
-  } = {},
+  } = {}
 ) => {
   let display = value
   let aria = null
@@ -170,7 +170,7 @@ export const format = (
     opts.style = 'currency'
     opts.currencyDisplay = getFallbackCurrencyDisplay(
       locale,
-      opts.currencyDisplay || currency_display,
+      opts.currencyDisplay || currency_display
     )
 
     // if currency has no decimal, then go ahead and remove it
@@ -213,7 +213,7 @@ export const format = (
       formatter = currencyPositionFormatter(
         formatter,
         ({ value }) => (currencySuffix = value.trim()),
-        currency_position,
+        currency_position
       )
     }
 
@@ -280,13 +280,13 @@ export const format = (
             default:
               return item
           }
-        },
+        }
       )
     } else {
       const thousandsSeparator = getThousandsSeparator(locale)
       cleanedValue = String(display).replace(
         new RegExp(`${thousandsSeparator}(?=\\d{3})`, 'g'),
-        '',
+        ''
       )
     }
 
@@ -311,7 +311,7 @@ export const formatDecimals = (
   value,
   decimals,
   omit_rounding = false,
-  opts = {},
+  opts = {}
 ) => {
   decimals = parseFloat(decimals)
 
@@ -324,7 +324,7 @@ export const formatDecimals = (
   if (pos > 0 && omit_rounding === true) {
     value = String(value).substring(
       0,
-      pos + 1 + (decimals || opts.maximumFractionDigits),
+      pos + 1 + (decimals || opts.maximumFractionDigits)
     )
   }
 
@@ -358,7 +358,7 @@ export const countDecimals = (value, decimalSeparator = '.') => {
 const currencyPositionFormatter = (
   existingFormatter,
   callback,
-  position = null,
+  position = null
 ) => {
   let count = 0
   let countCurrency = -1
@@ -477,13 +477,13 @@ export const formatNumber = (
   number,
   locale,
   options = {},
-  formatter = null,
+  formatter = null
 ) => {
   try {
     if (options.currencyDisplay) {
       options.currencyDisplay = getFallbackCurrencyDisplay(
         locale,
-        options.currencyDisplay,
+        options.currencyDisplay
       )
     }
 
@@ -511,7 +511,7 @@ export const formatNumber = (
         locale,
         options,
       ])}`,
-      e,
+      e
     )
   }
   return number
@@ -568,7 +568,7 @@ export const formatPhone = (number, locale = null) => {
               .split(
                 length === 6
                   ? /^(\+[0-9]{2})|([0-9]{3})/
-                  : /^(\+[0-9]{2})|([0-9]{2})/,
+                  : /^(\+[0-9]{2})|([0-9]{2})/
               )
               .filter((s) => s)
               .join(' ')
@@ -688,7 +688,7 @@ export const formatNIN = (number, locale = null) => {
       // correct nin for screen readers
       aria = display
         .split(
-          /([0-9]{2})([0-9]{2})([0-9]{2}) ([0-9]{1})([0-9]{1})([0-9]{1})([0-9]{1})([0-9]{1})/,
+          /([0-9]{2})([0-9]{2})([0-9]{2}) ([0-9]{1})([0-9]{1})([0-9]{1})([0-9]{1})([0-9]{1})/
         )
         .filter((s) => s)
         .join(IS_WIN ? '. ' : ' ') // NVDA fix with a dot to not read date on FF
@@ -716,7 +716,7 @@ export function cleanNumber(
     thousandsSeparator = null,
     prefix = null,
     suffix = null,
-  } = {},
+  } = {}
 ) {
   if (typeof num === 'number') {
     return num
@@ -773,7 +773,7 @@ export function cleanNumber(
   const thousandReg = thousandsSeparator
     ? new RegExp(
         `([0-9]|)(${escapeRegexChars(thousandsSeparator)})([0-9]{3})`,
-        'g',
+        'g'
       )
     : new RegExp(`([0-9]|)(${thousands})([0-9]{3})`, 'g')
   if (thousandReg.test(num)) {
@@ -834,7 +834,7 @@ export function runIOSSelectionFix() {
 export async function copyWithEffect(
   value,
   label,
-  positionElement = null,
+  positionElement = null
 ) {
   let success = null
 
@@ -883,7 +883,7 @@ export function showSelectionNotice({ value, label, timeout = 3e3 }) {
     const arrow = document.createElement('span')
     arrow.setAttribute(
       'class',
-      'dnb-tooltip__arrow dnb-tooltip__arrow__position--top',
+      'dnb-tooltip__arrow dnb-tooltip__arrow__position--top'
     )
     content = document.createElement('span')
     content.setAttribute('class', 'dnb-tooltip__content')
@@ -979,7 +979,7 @@ export function useCopyWithNotice() {
  */
 export function getFallbackCurrencyDisplay(
   locale = null,
-  currency_display = null,
+  currency_display = null
 ) {
   // If currencyDisplay is not defined and locale is "no", use narrowSymbol
   if (!currency_display && (!locale || /(no|nb|nn)$/i.test(locale))) {
@@ -1035,7 +1035,7 @@ export function getThousandsSeparator(locale = null) {
 export function getCurrencySymbol(
   locale = null,
   currency = null,
-  currencyDisplay = null,
+  currencyDisplay = null
 ) {
   if (!currency) {
     currency = CURRENCY
@@ -1049,7 +1049,7 @@ export function getCurrencySymbol(
         currency,
         currencyDisplay: getFallbackCurrencyDisplay(
           locale,
-          currencyDisplay,
+          currencyDisplay
         ),
       },
     }).find(({ type }) => type === 'currency')?.value || currency
@@ -1059,7 +1059,7 @@ export function getCurrencySymbol(
 function getGroupFormatter(
   locale = null,
   separatorSymbol = null,
-  existingFormatter = null,
+  existingFormatter = null
 ) {
   /**
    * We change the thousand separator to be a non-breaking space

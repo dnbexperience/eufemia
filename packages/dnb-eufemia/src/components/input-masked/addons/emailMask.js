@@ -26,30 +26,30 @@ function emailMask(rawValue, config) {
   let localPartToDomainConnector = getConnector(
     rawValue,
     indexOfFirstAtSymbol + 1,
-    atSymbol,
+    atSymbol
   )
   let domainNameToTopLevelDomainConnector = getConnector(
     rawValue,
     indexOfTopLevelDomainDot - 1,
-    dot,
+    dot
   )
 
   let localPart = getLocalPart(
     rawValue,
     indexOfFirstAtSymbol,
-    placeholderChar,
+    placeholderChar
   )
   let domainName = getDomainName(
     rawValue,
     indexOfFirstAtSymbol,
     indexOfTopLevelDomainDot,
-    placeholderChar,
+    placeholderChar
   )
   let topLevelDomain = getTopLevelDomain(
     rawValue,
     indexOfTopLevelDomainDot,
     placeholderChar,
-    currentCaretPosition,
+    currentCaretPosition
   )
 
   localPart = convertToMask(localPart)
@@ -91,7 +91,7 @@ function getDomainName(
   rawValue,
   indexOfFirstAtSymbol,
   indexOfTopLevelDomainDot,
-  placeholderChar,
+  placeholderChar
 ) {
   let domainName = emptyString
 
@@ -99,19 +99,19 @@ function getDomainName(
     if (indexOfTopLevelDomainDot === -1) {
       domainName = rawValue.slice(
         indexOfFirstAtSymbol + 1,
-        rawValue.length,
+        rawValue.length
       )
     } else {
       domainName = rawValue.slice(
         indexOfFirstAtSymbol + 1,
-        indexOfTopLevelDomainDot,
+        indexOfTopLevelDomainDot
       )
     }
   }
 
   domainName = domainName.replace(
     new RegExp(`[\\s${placeholderChar}]`, g),
-    emptyString,
+    emptyString
   )
 
   if (domainName === atSymbol) {
@@ -129,20 +129,20 @@ function getTopLevelDomain(
   rawValue,
   indexOfTopLevelDomainDot,
   placeholderChar,
-  currentCaretPosition,
+  currentCaretPosition
 ) {
   let topLevelDomain = emptyString
 
   if (indexOfTopLevelDomainDot !== -1) {
     topLevelDomain = rawValue.slice(
       indexOfTopLevelDomainDot + 1,
-      rawValue.length,
+      rawValue.length
     )
   }
 
   topLevelDomain = topLevelDomain.replace(
     new RegExp(`[\\s${placeholderChar}.]`, g),
-    emptyString,
+    emptyString
   )
 
   if (topLevelDomain.length === 0) {
@@ -163,7 +163,7 @@ function convertToMask(str, noDots) {
         ? char
         : noDots
         ? anyNonDotOrWhitespaceRegExp
-        : anyNonWhitespaceRegExp,
+        : anyNonWhitespaceRegExp
     )
 }
 

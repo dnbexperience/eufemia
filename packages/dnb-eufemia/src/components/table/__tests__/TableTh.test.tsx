@@ -15,7 +15,7 @@ describe('TableTh', () => {
             <TableTh {...props} />
           </tr>
         </tbody>
-      </table>,
+      </table>
     )
     expect(document.querySelector('th')).toBeInTheDocument()
   })
@@ -28,7 +28,7 @@ describe('TableTh', () => {
             <TableTh>th content</TableTh>
           </tr>
         </thead>
-      </table>,
+      </table>
     )
 
     const element = document.querySelector('th')
@@ -44,12 +44,12 @@ describe('TableTh', () => {
             <TableTh align="right">th content</TableTh>
           </tr>
         </thead>
-      </table>,
+      </table>
     )
 
     const element = document.querySelector('th')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name,
+      (attr) => attr.name
     )
 
     expect(attributes).toEqual(['role', 'scope', 'class', 'align'])
@@ -63,7 +63,7 @@ describe('TableTh', () => {
             <TableTh noWrap>th content</TableTh>
           </tr>
         </thead>
-      </table>,
+      </table>
     )
 
     const element = document.querySelector('th')
@@ -79,7 +79,7 @@ describe('TableTh', () => {
             <TableTh>th content</TableTh>
           </tr>
         </thead>
-      </table>,
+      </table>
     )
 
     const element = document.querySelector('th')
@@ -96,7 +96,7 @@ describe('TableTh', () => {
             <TableTh scope="row">th content</TableTh>
           </tr>
         </tbody>
-      </table>,
+      </table>
     )
 
     const element = document.querySelector('th')
@@ -113,7 +113,7 @@ describe('TableTh', () => {
             <TableTh scope="rowgroup">th content</TableTh>
           </tr>
         </tbody>
-      </table>,
+      </table>
     )
 
     const element = document.querySelector('th')
@@ -130,7 +130,7 @@ describe('TableTh', () => {
             <TableTh sortable>th content</TableTh>
           </tr>
         </thead>
-      </table>,
+      </table>
     )
 
     const element = document.querySelector('th')
@@ -148,7 +148,7 @@ describe('TableTh', () => {
             </TableTh>
           </tr>
         </thead>
-      </table>,
+      </table>
     )
 
     const element = document.querySelector('th')
@@ -166,7 +166,7 @@ describe('TableTh', () => {
             </TableTh>
           </tr>
         </thead>
-      </table>,
+      </table>
     )
 
     const element = document.querySelector('th')
@@ -182,7 +182,7 @@ describe('TableTh', () => {
             <TableTh noWrap>th content</TableTh>
           </tr>
         </thead>
-      </table>,
+      </table>
     )
 
     const element = document.querySelector('th')
@@ -197,7 +197,7 @@ describe('TableTh', () => {
             <TableTh className="custom-class">th content</TableTh>
           </tr>
         </thead>
-      </table>,
+      </table>
     )
 
     const element = document.querySelector('th')

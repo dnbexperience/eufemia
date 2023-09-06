@@ -58,14 +58,14 @@ describe('MediaQuery', () => {
     render(
       <MediaQuery when={{ min: 'medium', max: 'large' }}>
         medium
-      </MediaQuery>,
+      </MediaQuery>
     )
     expect(screen.queryByText('medium')).toBeInTheDocument()
   })
 
   it('should match for query when different breakpoints are given', () => {
     matchMedia.useMediaQuery(
-      '(min-width: 40em) and (max-width: 80em), (min-width: 0) and (max-width: 30rem), (max-width: 90em)',
+      '(min-width: 40em) and (max-width: 80em), (min-width: 0) and (max-width: 30rem), (max-width: 90em)'
     )
 
     render(
@@ -86,7 +86,7 @@ describe('MediaQuery', () => {
         >
           medium
         </MediaQuery>
-      </Provider>,
+      </Provider>
     )
 
     expect(screen.queryByText('medium')).toBeInTheDocument()
@@ -94,7 +94,7 @@ describe('MediaQuery', () => {
 
   it('should match for query when custom breakpoints are given', () => {
     matchMedia.useMediaQuery(
-      '(min-width: 0) and (max-width: 20rem), (max-width: 90rem)',
+      '(min-width: 0) and (max-width: 20rem), (max-width: 90rem)'
     )
 
     render(
@@ -109,7 +109,7 @@ describe('MediaQuery', () => {
         <MediaQuery when={[{ min: '0', max: 'xsmall' }, { max: 'wide' }]}>
           xsmall
         </MediaQuery>
-      </Provider>,
+      </Provider>
     )
 
     expect(screen.queryByText('xsmall')).toBeInTheDocument()
@@ -117,7 +117,7 @@ describe('MediaQuery', () => {
 
   it('should match for query when breakpoint is got removed', () => {
     matchMedia.useMediaQuery(
-      '(min-width: 0) and (max-width: 20rem), (min-width: 71rem)',
+      '(min-width: 0) and (max-width: 20rem), (min-width: 71rem)'
     )
 
     render(
@@ -138,7 +138,7 @@ describe('MediaQuery', () => {
         >
           xsmall
         </MediaQuery>
-      </Provider>,
+      </Provider>
     )
 
     expect(screen.queryByText('xsmall')).toBeInTheDocument()
@@ -150,7 +150,7 @@ describe('MediaQuery', () => {
     render(
       <MediaQuery matchOnSSR when={{ min: 'what-every' }}>
         medium
-      </MediaQuery>,
+      </MediaQuery>
     )
 
     expect(screen.queryByText('medium')).toBeInTheDocument()
@@ -158,7 +158,7 @@ describe('MediaQuery', () => {
 
   it('should match for query with medium and large width', () => {
     matchMedia.useMediaQuery(
-      '(min-width: 60em) and (max-width: 72em), (min-width: 72em) and (max-width: 80em)',
+      '(min-width: 60em) and (max-width: 72em), (min-width: 72em) and (max-width: 80em)'
     )
 
     render(
@@ -169,14 +169,14 @@ describe('MediaQuery', () => {
         ]}
       >
         medium large
-      </MediaQuery>,
+      </MediaQuery>
     )
     expect(screen.queryByText('medium large')).toBeInTheDocument()
   })
 
   it('should handle media query changes', () => {
     matchMedia.useMediaQuery(
-      'not screen and (min-width: 0) and (max-width: 72em)',
+      'not screen and (min-width: 0) and (max-width: 72em)'
     )
 
     const Playground = () => {

@@ -29,7 +29,7 @@ export default async function makeLibStyles() {
     await runFactory('./src/components/**/style/**/dnb-*.scss')
     await runFactory('./src/extensions/**/style/**/dnb-*.scss')
     log.succeed(
-      `> PrePublish: "makeLibStyles" converting sass to css done`,
+      `> PrePublish: "makeLibStyles" converting sass to css done`
     )
   } catch (e) {
     throw new Error(e)
@@ -38,7 +38,7 @@ export default async function makeLibStyles() {
 
 export const runFactory = (
   src,
-  { returnResult = false, returnFiles = false } = {},
+  { returnResult = false, returnFiles = false } = {}
 ) =>
   new Promise((resolve, reject) => {
     log.start(`> PrePublish: converting sass to css | ${src}`)
@@ -62,13 +62,13 @@ export const runFactory = (
         .pipe(
           rename({
             extname: '.css',
-          }),
+          })
         )
         .pipe(
           transform(
             'utf8',
-            transformPaths('../../../../assets/', '../../../assets/'),
-          ),
+            transformPaths('../../../../assets/', '../../../assets/')
+          )
         )
         .pipe(transform('utf8', transformPostcss(postcssConfig({ sass }))))
         .pipe(cloneSink)
@@ -80,14 +80,14 @@ export const runFactory = (
         stream.pipe(
           gulp.dest(`./build/${dest}/`, {
             cwd: ROOT_DIR,
-          }),
+          })
         )
       }
 
       // so tests can test the minified code
       if (returnResult) {
         stream.pipe(
-          transform('utf8', transformCssnano({ reduceIdents: false })),
+          transform('utf8', transformCssnano({ reduceIdents: false }))
         )
       }
 
@@ -98,8 +98,8 @@ export const runFactory = (
         .pipe(
           transform(
             'utf8',
-            transformPaths('../../../../assets/', '../../../assets/'),
-          ),
+            transformPaths('../../../../assets/', '../../../assets/')
+          )
         )
         .pipe(
           returnResult || returnFiles
@@ -115,7 +115,7 @@ export const runFactory = (
               })
             : gulp.dest(`./build/${dest}/`, {
                 cwd: ROOT_DIR,
-              }),
+              })
         )
         .on('end', resolve)
         .on('error', reject)

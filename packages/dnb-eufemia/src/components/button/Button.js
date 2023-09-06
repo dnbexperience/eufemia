@@ -93,7 +93,7 @@ export default class Button extends React.PureComponent {
       Button.defaultProps,
       { skeleton: this.context?.skeleton },
       includeValidProps(this.context.FormRow),
-      this.context.Button,
+      this.context.Button
     )
 
     const {
@@ -141,7 +141,7 @@ export default class Button extends React.PureComponent {
     ) {
       warn(
         `Icon required: A Tertiary Button requires an icon to be WCAG compliant in most cases, because variant tertiary has no underline.
-(Override this warning using icon={false}, or consider using one of the other variants)`,
+(Override this warning using icon={false}, or consider using one of the other variants)`
       )
     }
 
@@ -200,12 +200,12 @@ export default class Button extends React.PureComponent {
       createSkeletonClass(
         variant === 'tertiary' ? 'font' : 'shape',
         skeleton,
-        this.context,
+        this.context
       ),
       createSpacingClasses(props),
       class_name,
       className,
-      props.href || props.to ? '' : null, // dnb-anchor--no-underline dnb-anchor--no-hover
+      props.href || props.to ? '' : null // dnb-anchor--no-underline dnb-anchor--no-hover
     )
 
     const params = {
@@ -439,7 +439,7 @@ function Content({
             key: 'button-icon-clone',
             className: classnames(
               icon.props?.className,
-              'dnb-button__icon',
+              'dnb-button__icon'
             ),
           })
         ) : (

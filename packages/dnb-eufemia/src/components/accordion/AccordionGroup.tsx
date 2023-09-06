@@ -50,7 +50,7 @@ const AccordionGroup = (props: AccordionGroupProps) => {
     props,
     accordionDefaultProps,
     context.Accordion,
-    context.getTranslation(props).Accordion,
+    context.getTranslation(props).Accordion
   )
 
   const {
@@ -80,7 +80,7 @@ const AccordionGroup = (props: AccordionGroupProps) => {
     isTrue(single_container) && 'dnb-accordion-group--single-container',
     createSpacingClasses(extendedProps),
     className,
-    _className,
+    _className
   )
 
   const params = {

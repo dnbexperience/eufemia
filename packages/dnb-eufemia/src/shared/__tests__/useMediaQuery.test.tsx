@@ -55,7 +55,7 @@ describe('useMediaQuery', () => {
     const { rerender } = render(
       <RenderMediaQueryHook when={{ min: 'medium', max: 'large' }}>
         medium
-      </RenderMediaQueryHook>,
+      </RenderMediaQueryHook>
     )
 
     expect(document.getElementById('mq-mock').textContent).toBe('medium')
@@ -63,7 +63,7 @@ describe('useMediaQuery', () => {
     rerender(
       <RenderMediaQueryHook when={'medium large'}>
         medium
-      </RenderMediaQueryHook>,
+      </RenderMediaQueryHook>
     )
 
     expect(document.getElementById('mq-mock').textContent).toBe('')
@@ -84,7 +84,7 @@ describe('useMediaQuery', () => {
         <RenderMediaQueryHook when={{ min: 'medium', max: 'large' }}>
           medium
         </RenderMediaQueryHook>
-      </Provider>,
+      </Provider>
     )
 
     expect(document.getElementById('mq-mock').textContent).toBe('medium')
@@ -96,7 +96,7 @@ describe('useMediaQuery', () => {
     render(
       <RenderMediaQueryHook when={{ min: '0', max: 'x-large' }}>
         matches
-      </RenderMediaQueryHook>,
+      </RenderMediaQueryHook>
     )
 
     expect(document.getElementById('mq-mock').textContent).toBe('matches')
@@ -104,7 +104,7 @@ describe('useMediaQuery', () => {
 
   it('should handle media query changes', () => {
     matchMedia.useMediaQuery(
-      'not screen and (min-width: 40em) and (max-width: 72em)',
+      'not screen and (min-width: 40em) and (max-width: 72em)'
     )
 
     const match1Handler = jest.fn()
@@ -173,7 +173,7 @@ describe('useMediaQuery', () => {
     const { result: resultA } = renderHook(() =>
       useMediaQuery({
         when,
-      }),
+      })
     )
 
     expect(window.matchMedia).toBeCalledTimes(2)
@@ -187,7 +187,7 @@ describe('useMediaQuery', () => {
       useMediaQuery({
         disabled: true,
         when,
-      }),
+      })
     )
 
     expect(window.matchMedia).toBeCalledTimes(2)

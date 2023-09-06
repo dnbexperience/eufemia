@@ -82,7 +82,7 @@ export default class Skeleton extends React.PureComponent {
         skeleton: context.Skeleton || context.skeleton,
         no_animation: context.skeleton_no_animation,
       },
-      context.getTranslation(props).Skeleton,
+      context.getTranslation(props).Skeleton
     )
   }
 
@@ -145,7 +145,7 @@ export default class Skeleton extends React.PureComponent {
         isTrue(no_animation) && 'dnb-skeleton--no-animation',
         createSpacingClasses(props),
         className,
-        _className,
+        _className
       ),
       // role: 'status',// is not needed as for now
       'aria-busy': showSkeleton,

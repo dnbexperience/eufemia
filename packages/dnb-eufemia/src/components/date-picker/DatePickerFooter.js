@@ -69,7 +69,7 @@ export default class DatePickerFooter extends React.PureComponent {
         if (onCancel) {
           onCancel(args)
         }
-      },
+      }
     )
   }
 
@@ -89,7 +89,7 @@ export default class DatePickerFooter extends React.PureComponent {
         if (onReset) {
           onReset(args)
         }
-      },
+      }
     )
   }
 

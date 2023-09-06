@@ -137,7 +137,7 @@ export default class ModalContent extends React.PureComponent<
           // '.dnb-modal--bypass_invalidation_deep *',
 
           ...(this.props?.bypass_invalidation_selectors || []),
-        ].filter(Boolean),
+        ].filter(Boolean)
       )
       this._ii.activate()
     } else {
@@ -262,7 +262,7 @@ export default class ModalContent extends React.PureComponent<
             warn(e)
           }
         },
-        isTrue(no_animation) ? 0 : timeoutDuration || 0,
+        isTrue(no_animation) ? 0 : timeoutDuration || 0
       ) // with this delay, the user can press esc without an focus action first
     }
   }
@@ -400,11 +400,11 @@ export default class ModalContent extends React.PureComponent<
       'aria-labelledby': combineLabelledBy(
         this.props,
         title ? contentId + '-title' : null,
-        labelled_by,
+        labelled_by
       ),
       'aria-describedby': combineDescribedBy(
         this.props,
-        contentId + '-content',
+        contentId + '-content'
       ),
 
       /**
@@ -422,7 +422,7 @@ export default class ModalContent extends React.PureComponent<
           ? `dnb-modal__content--${container_placement || 'right'}`
           : null,
         getThemeClasses(this.context?.theme),
-        content_class,
+        content_class
       ),
       onMouseDown: this.onContentMouseDownHandler,
       onClick: this.onContentClickHandler,
@@ -472,7 +472,7 @@ export default class ModalContent extends React.PureComponent<
             isTrue(no_animation) && 'dnb-modal__overlay--no-animation',
             isTrue(no_animation_on_mobile) &&
               'dnb-modal__overlay--no-animation-on-mobile',
-            overlay_class,
+            overlay_class
           )}
           aria-hidden={true}
         />

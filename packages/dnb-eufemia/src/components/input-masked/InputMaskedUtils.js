@@ -31,7 +31,7 @@ export const invisibleSpace = '\u200B'
  */
 export const isRequestingLocaleSupport = (props) => {
   return Object.entries(props).some(
-    ([k, v]) => v && enableLocaleSupportWhen.includes(k),
+    ([k, v]) => v && enableLocaleSupportWhen.includes(k)
   )
 }
 
@@ -43,7 +43,7 @@ export const isRequestingLocaleSupport = (props) => {
  */
 export const isRequestingNumberMask = (props) => {
   return Object.entries(props).some(
-    ([k, v]) => v && enableNumberMaskWhen.includes(k),
+    ([k, v]) => v && enableNumberMaskWhen.includes(k)
   )
 }
 
@@ -120,7 +120,7 @@ export const correctNumberValue = ({
 
     const endsWithDecimal = localNumberValue.endsWith(decimalSymbol)
     const endsWithZeroAndDecimal = localNumberValue.endsWith(
-      `${decimalSymbol}0`,
+      `${decimalSymbol}0`
     )
 
     if (endsWithDecimal) {

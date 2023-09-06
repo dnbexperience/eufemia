@@ -37,13 +37,13 @@ const VisuallyHidden = (localProps: VisuallyHiddenAllProps) => {
     extendPropsWithContext(
       localProps,
       defaultProps,
-      context?.VisuallyHidden,
+      context?.VisuallyHidden
     )
 
   const visuallyHiddenClassNames = classnames(
     'dnb-visually-hidden',
     focusable ? 'dnb-visually-hidden--focusable' : 'dnb-sr-only',
-    className,
+    className
   )
   const Element = element || 'span'
 

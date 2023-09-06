@@ -27,7 +27,7 @@ import { warn } from '../../shared/component-helper'
 // Is used as DatePickerCalc
 export const makeDayObject = (
   date,
-  { startDate, endDate, hoverDate, minDate, maxDate, month },
+  { startDate, endDate, hoverDate, minDate, maxDate, month }
 ) => {
   const range = getRange(startDate, endDate, hoverDate)
   const isLastMonth = isSameMonth(subMonths(date, 1), month)
@@ -57,7 +57,7 @@ export const makeDayObject = (
 export const getCalendar = (
   month,
   weekStartsOn = 0,
-  { onlyMonth = false, hideNextMonthWeek = false } = {},
+  { onlyMonth = false, hideNextMonthWeek = false } = {}
 ) => {
   // Get the main month
   const thisMonth = getMonth(month)
@@ -74,7 +74,7 @@ export const getCalendar = (
   const firstDay = (7 + getDay(startOfMonth(month)) - weekStartsOn) % 7
   const lastMonth = getMonth(
     subMonths(month, 1),
-    getDaysInMonth(subMonths(month, 1)) - firstDay,
+    getDaysInMonth(subMonths(month, 1)) - firstDay
   )
   let fillCount = -1
   if (hideNextMonthWeek) {
@@ -87,7 +87,7 @@ export const getCalendar = (
   const nextMonth = getMonth(
     addMonths(month, 1),
     0,
-    fillCount > -1 ? fillCount : 0,
+    fillCount > -1 ? fillCount : 0
   )
   return (calendarCache[month] = [
     ...lastMonth,
@@ -210,7 +210,7 @@ export const correctV1Format = (date) => {
   // TODO: Remove this in next major version
   if (/YYYY/.test(date) && /DD/.test(date)) {
     warn(
-      'You are using "YYYY-MM-DD" as the date_format or return_format? Please use "yyyy-MM-dd" instead!',
+      'You are using "YYYY-MM-DD" as the date_format or return_format? Please use "yyyy-MM-dd" instead!'
     )
     date = date.replace(/DD/, 'dd').replace(/YYYY/, 'yyyy')
   }

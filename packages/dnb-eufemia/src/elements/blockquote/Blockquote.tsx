@@ -29,7 +29,7 @@ const Blockquote = React.forwardRef(
       className,
       ...props
     }: BlockquoteProps,
-    ref,
+    ref
   ) => (
     <E
       as="blockquote"
@@ -38,11 +38,11 @@ const Blockquote = React.forwardRef(
       className={classnames(
         className,
         noBackground && 'dnb-blockquote--no-background',
-        direction === 'vertical' && 'dnb-blockquote--top',
+        direction === 'vertical' && 'dnb-blockquote--top'
       )}
       {...props}
     />
-  ),
+  )
 )
 
 export default Blockquote

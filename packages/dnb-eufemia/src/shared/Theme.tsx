@@ -54,7 +54,7 @@ export default function Theme(themeProps: ThemeAllProps) {
       darkMode,
     },
     null,
-    context?.theme,
+    context?.theme
   )
 
   return (
@@ -114,6 +114,6 @@ export function getThemeClasses(theme: ThemeProps, className = null) {
     propMapping && `eufemia-theme__prop-mapping--${propMapping}`,
     contrastMode && 'eufemia-theme__contrast-mode',
     darkMode && 'eufemia-theme__dark-mode',
-    size && `eufemia-theme__size--${size}`,
+    size && `eufemia-theme__size--${size}`
   )
 }

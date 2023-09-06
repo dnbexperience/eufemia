@@ -27,7 +27,7 @@ describe('Visibility', () => {
       render(
         <DataContextProvider data={{ isDefined: 'foo' }}>
           <Visibility pathDefined="/isDefined">Child</Visibility>
-        </DataContextProvider>,
+        </DataContextProvider>
       )
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
@@ -36,7 +36,7 @@ describe('Visibility', () => {
       render(
         <DataContextProvider data={{ isDefined: 'foo' }}>
           <Visibility pathDefined="/notDefined">Child</Visibility>
-        </DataContextProvider>,
+        </DataContextProvider>
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
@@ -47,7 +47,7 @@ describe('Visibility', () => {
       render(
         <DataContextProvider data={{ isDefined: 'foo' }}>
           <Visibility pathUndefined="/isDefined">Child</Visibility>
-        </DataContextProvider>,
+        </DataContextProvider>
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
@@ -56,7 +56,7 @@ describe('Visibility', () => {
       render(
         <DataContextProvider data={{ isDefined: 'foo' }}>
           <Visibility pathUndefined="/notDefined">Child</Visibility>
-        </DataContextProvider>,
+        </DataContextProvider>
       )
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
@@ -67,7 +67,7 @@ describe('Visibility', () => {
       render(
         <DataContextProvider data={{ isTrue: true }}>
           <Visibility pathTruthy="/isTrue">Child</Visibility>
-        </DataContextProvider>,
+        </DataContextProvider>
       )
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
@@ -76,7 +76,7 @@ describe('Visibility', () => {
       render(
         <DataContextProvider data={{ isFalse: false }}>
           <Visibility pathTruthy="/isFalse">Child</Visibility>
-        </DataContextProvider>,
+        </DataContextProvider>
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
@@ -85,7 +85,7 @@ describe('Visibility', () => {
       render(
         <DataContextProvider data={{ isFalse: false }}>
           <Visibility pathTruthy="/isNotDefined">Child</Visibility>
-        </DataContextProvider>,
+        </DataContextProvider>
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
@@ -96,7 +96,7 @@ describe('Visibility', () => {
       render(
         <DataContextProvider data={{ isFalse: false }}>
           <Visibility pathFalsy="/isFalse">Child</Visibility>
-        </DataContextProvider>,
+        </DataContextProvider>
       )
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
@@ -105,7 +105,7 @@ describe('Visibility', () => {
       render(
         <DataContextProvider data={{ isFalse: false }}>
           <Visibility pathFalsy="/isNotDefined">Child</Visibility>
-        </DataContextProvider>,
+        </DataContextProvider>
       )
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
@@ -114,7 +114,7 @@ describe('Visibility', () => {
       render(
         <DataContextProvider data={{ isTrue: true }}>
           <Visibility pathFalsy="/isTrue">Child</Visibility>
-        </DataContextProvider>,
+        </DataContextProvider>
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
     })
@@ -127,7 +127,7 @@ describe('Visibility', () => {
       render(
         <DataContextProvider data={{ foo: 'bar' }}>
           <Visibility inferData={inferData}>Child</Visibility>
-        </DataContextProvider>,
+        </DataContextProvider>
       )
       expect(screen.getByText('Child')).toBeInTheDocument()
     })
@@ -138,7 +138,7 @@ describe('Visibility', () => {
       render(
         <DataContextProvider data={{ foo: 'bar' }}>
           <Visibility inferData={inferData}>Child</Visibility>
-        </DataContextProvider>,
+        </DataContextProvider>
       )
       expect(screen.queryByText('Child')).not.toBeInTheDocument()
       expect(inferData.mock.calls).toHaveLength(1)

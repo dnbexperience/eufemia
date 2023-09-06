@@ -66,7 +66,7 @@ function Element({
       <R
         className={classnames(
           'dnb-space--no-collapse',
-          isInline(element as string) && 'dnb-space--inline',
+          isInline(element as string) && 'dnb-space--inline'
         )}
       >
         {component}
@@ -174,7 +174,7 @@ export default class Space extends React.PureComponent<
           this.props,
           Space.defaultProps,
           { skeleton: this.context?.skeleton },
-          { space: this.context.space },
+          { space: this.context.space }
         )
       : this.props
 
@@ -205,7 +205,7 @@ export default class Space extends React.PureComponent<
         isTrue(inline) && 'dnb-space--inline',
         createSkeletonClass(null, skeleton), // do not send along this.context
         createSpacingClasses({ top, right, bottom, left, space }),
-        className,
+        className
       ),
       ...attributes,
     }

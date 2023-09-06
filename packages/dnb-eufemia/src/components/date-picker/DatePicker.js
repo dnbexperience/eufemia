@@ -277,7 +277,7 @@ export default class DatePicker extends React.PureComponent {
 
     if (props.end_date && !isTrue(props.range)) {
       warn(
-        `The DatePicker got a "end_date". You have to set range={true} as well!.`,
+        `The DatePicker got a "end_date". You have to set range={true} as well!.`
       )
     }
 
@@ -350,7 +350,7 @@ export default class DatePicker extends React.PureComponent {
     dispatchCustomElementEvent(
       this,
       'on_submit',
-      this.getReturnObject(args),
+      this.getReturnObject(args)
     )
   }
 
@@ -359,7 +359,7 @@ export default class DatePicker extends React.PureComponent {
     dispatchCustomElementEvent(
       this,
       'on_cancel',
-      this.getReturnObject(args),
+      this.getReturnObject(args)
     )
   }
 
@@ -368,7 +368,7 @@ export default class DatePicker extends React.PureComponent {
     dispatchCustomElementEvent(
       this,
       'on_reset',
-      this.getReturnObject(args),
+      this.getReturnObject(args)
     )
   }
 
@@ -409,9 +409,9 @@ export default class DatePicker extends React.PureComponent {
         dispatchCustomElementEvent(
           this,
           'on_hide',
-          this.getReturnObject(args),
+          this.getReturnObject(args)
         )
-      },
+      }
     )
 
     this._hideTimeout = setTimeout(
@@ -431,10 +431,10 @@ export default class DatePicker extends React.PureComponent {
                 warn(e)
               }
             }
-          },
+          }
         )
       },
-      isTrue(this.props.no_animation) ? 1 : DatePicker.blurDelay,
+      isTrue(this.props.no_animation) ? 1 : DatePicker.blurDelay
     ) // wait until animation is over
 
     this.removeOutsideClickHandler()
@@ -450,7 +450,7 @@ export default class DatePicker extends React.PureComponent {
     const { range } = this.props
     const { startDate, endDate } = this.state
     const { selected_date, start, end } = this.context.getTranslation(
-      this.props,
+      this.props
     ).DatePicker
 
     let currentDate = startDate ? format(startDate, 'PPPP') : null
@@ -458,7 +458,7 @@ export default class DatePicker extends React.PureComponent {
     if (isTrue(range) && startDate && endDate) {
       currentDate = `${start} ${currentDate} - ${end} ${format(
         endDate,
-        'PPPP',
+        'PPPP'
       )}`
     }
 
@@ -473,7 +473,7 @@ export default class DatePicker extends React.PureComponent {
       { skeleton: this.context?.skeleton },
       this.context.getTranslation(this.props).DatePicker,
       includeValidProps(this.context.FormRow),
-      this.context.DatePicker,
+      this.context.DatePicker
     )
 
     if (props.locale !== enLocale && /en-/.test(this.context.locale)) {
@@ -558,7 +558,7 @@ export default class DatePicker extends React.PureComponent {
       pickerParams['aria-describedby'] = combineDescribedBy(
         pickerParams,
         showStatus ? id + '-status' : null,
-        suffix ? id + '-suffix' : null,
+        suffix ? id + '-suffix' : null
       )
     }
 
@@ -587,7 +587,7 @@ export default class DatePicker extends React.PureComponent {
         size && `dnb-date-picker--${size}`,
         createSpacingClasses(props),
         _className,
-        className,
+        className
       ),
     }
 

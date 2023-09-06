@@ -48,7 +48,7 @@ function FieldBlock(props: Props) {
     'dnb-forms-field-block',
     `dnb-forms-field-block--layout-${layout}`,
     width !== undefined && `dnb-forms-field-block--width-${width}`,
-    className,
+    className
   )
 
   return (
@@ -86,7 +86,7 @@ function FieldBlock(props: Props) {
           'dnb-forms-field-block__contents',
           contentsWidth !== undefined &&
             `dnb-forms-field-block__contents--width-${contentsWidth}`,
-          contentClassName,
+          contentClassName
         )}
       >
         {children}

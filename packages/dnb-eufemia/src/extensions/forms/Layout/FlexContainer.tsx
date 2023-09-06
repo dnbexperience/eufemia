@@ -14,7 +14,7 @@ export function isHeadingElement(element): boolean {
 }
 
 const getSpaceTop = (
-  element: React.ReactChild | React.ReactFragment | React.ReactPortal,
+  element: React.ReactChild | React.ReactFragment | React.ReactPortal
 ): SpaceType | undefined => {
   if (!React.isValidElement(element)) {
     return
@@ -28,7 +28,7 @@ const getSpaceTop = (
 }
 
 const getSpaceBottom = (
-  element: React.ReactChild | React.ReactFragment | React.ReactPortal,
+  element: React.ReactChild | React.ReactFragment | React.ReactPortal
 ): SpaceType | undefined => {
   if (!React.isValidElement(element)) {
     return
@@ -43,7 +43,7 @@ const getSpaceBottom = (
 
 export const isEufemiaElement = (element): boolean => {
   return Object.values(EufemiaElements).some(
-    (eufemiaElement) => element?.type === eufemiaElement,
+    (eufemiaElement) => element?.type === eufemiaElement
   )
 }
 
@@ -51,7 +51,7 @@ export const isEufemiaElement = (element): boolean => {
  * Is the requested element a component that can receive Eufemia space props (space, top, bottom, left and right)?
  */
 export const isSpacePropsComponent = (
-  element: React.ReactNode,
+  element: React.ReactNode
 ): boolean => {
   return (
     (React.isValidElement(element) &&
@@ -118,7 +118,7 @@ function FlexContainer(props: Props) {
     divider && `dnb-forms-flex-container--divider-${divider}`,
     spacing && `dnb-forms-flex-container--spacing-${spacing}`,
     width && `dnb-forms-flex-container--width-${width}`,
-    className,
+    className
   )
   const childrenArray = React.Children.toArray(children)
 

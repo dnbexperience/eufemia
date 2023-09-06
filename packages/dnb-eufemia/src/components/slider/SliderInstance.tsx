@@ -70,7 +70,7 @@ export function SliderInstance() {
       'dnb-form-component',
       createSkeletonClass(null, skeleton),
       createSpacingClasses(allProps),
-      className,
+      className
     ),
   }
 
@@ -173,7 +173,7 @@ function SubtractButton() {
       size="small"
       aria-label={subtractTitle?.replace(
         '%s',
-        humanNumber.aria || String(value),
+        humanNumber.aria || String(value)
       )}
       on_click={onSubtractClickHandler}
       disabled={disabled}
@@ -208,7 +208,7 @@ function AddButton() {
       size="small"
       aria-label={addTitle?.replace(
         '%s',
-        humanNumber.aria || String(value),
+        humanNumber.aria || String(value)
       )}
       on_click={onAddClickHandler}
       disabled={disabled}

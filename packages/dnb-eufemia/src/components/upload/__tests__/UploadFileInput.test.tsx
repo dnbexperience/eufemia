@@ -54,7 +54,7 @@ describe('UploadFileInput', () => {
     })
 
     expect(
-      document.querySelector('.dnb-upload__file-input'),
+      document.querySelector('.dnb-upload__file-input')
     ).toBeInTheDocument()
   })
 
@@ -121,7 +121,7 @@ describe('UploadFileInput', () => {
     await waitFor(() =>
       fireEvent.change(inputElement, {
         target: { files: [file] },
-      }),
+      })
     )
 
     expect(onInputUpload).toHaveBeenCalledWith([{ file }])
@@ -137,7 +137,7 @@ describe('UploadFileInput', () => {
     })
 
     const inputElement = document.querySelector(
-      '.dnb-upload__file-input',
+      '.dnb-upload__file-input'
     ) as HTMLInputElement
 
     Object.defineProperty(inputElement, 'value', {
@@ -154,7 +154,7 @@ describe('UploadFileInput', () => {
     await waitFor(() =>
       fireEvent.change(inputElement, {
         target: { files: [file] },
-      }),
+      })
     )
     expect(onInputUpload).toHaveBeenCalledWith([{ file }])
   })
@@ -167,7 +167,7 @@ describe('UploadFileInput', () => {
     })
 
     const inputElement = document.querySelector(
-      '.dnb-upload__file-input',
+      '.dnb-upload__file-input'
     ) as HTMLInputElement
 
     expect(inputElement.accept).toBe('.png,.pdf')
@@ -181,7 +181,7 @@ describe('UploadFileInput', () => {
     })
 
     const inputElement = document.querySelector(
-      '.dnb-upload__file-input',
+      '.dnb-upload__file-input'
     ) as HTMLInputElement
 
     expect(inputElement.accept).toBe('.png,.jpg,.jpeg')
@@ -202,7 +202,7 @@ describe('UploadFileInput', () => {
     await waitFor(() =>
       fireEvent.change(inputElement, {
         target: { files: [file1, file2] },
-      }),
+      })
     )
 
     expect(onInputUpload).toHaveBeenCalledWith([

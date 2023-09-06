@@ -12,7 +12,7 @@ export function injectTooltipSemantic(params) {
   params.className = classnames(
     'dnb-tooltip__wrapper',
     'dnb-tab-focus',
-    params.className,
+    params.className
   )
   return params
 }
@@ -47,7 +47,7 @@ export function getTargetElement(target: HTMLElement) {
 
 export function useHandleAria(
   targetElement: HTMLElement,
-  internalId: string,
+  internalId: string
 ) {
   React.useEffect(() => {
     try {
@@ -57,7 +57,7 @@ export function useHandleAria(
       }
       targetElement.setAttribute(
         'aria-describedby',
-        combineDescribedBy(existing, internalId),
+        combineDescribedBy(existing, internalId)
       )
     } catch (e) {
       //

@@ -23,7 +23,7 @@ const Dl = ({ direction, ...props }: DlAllProps) => {
   if (direction) {
     props.className = classnames(
       props.className,
-      `dnb-dl__direction--${direction}`,
+      `dnb-dl__direction--${direction}`
     )
   }
   return <E as="dl" {...props} skeleton={false} />

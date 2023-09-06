@@ -10,7 +10,7 @@
 function filterValidProps<Props>(
   props: Props,
   validKeys?: Record<string, unknown>,
-  excludeKeys?: Record<string, unknown>,
+  excludeKeys?: Record<string, unknown>
 ) {
   const res = {} as Props,
     o = Object.prototype.hasOwnProperty

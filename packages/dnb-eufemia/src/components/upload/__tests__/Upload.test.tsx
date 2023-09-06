@@ -40,7 +40,7 @@ describe('Upload', () => {
     render(<Upload {...defaultProps} />)
 
     expect(
-      document.querySelector('.dnb-upload__file-input'),
+      document.querySelector('.dnb-upload__file-input')
     ).toBeInTheDocument()
   })
 
@@ -77,7 +77,7 @@ describe('Upload', () => {
       render(<Upload {...defaultProps} />)
 
       expect(
-        screen.queryByText(nb.fileTypeDescription),
+        screen.queryByText(nb.fileTypeDescription)
       ).toBeInTheDocument()
     })
 
@@ -88,11 +88,11 @@ describe('Upload', () => {
         <Upload
           {...defaultProps}
           fileTypeDescription={customFormatDescription}
-        />,
+        />
       )
 
       expect(
-        screen.queryByText(customFormatDescription),
+        screen.queryByText(customFormatDescription)
       ).toBeInTheDocument()
     })
 
@@ -100,11 +100,11 @@ describe('Upload', () => {
       const acceptedFileTypes = []
 
       render(
-        <Upload {...defaultProps} acceptedFileTypes={acceptedFileTypes} />,
+        <Upload {...defaultProps} acceptedFileTypes={acceptedFileTypes} />
       )
 
       expect(
-        screen.queryByText(nb.fileTypeDescription),
+        screen.queryByText(nb.fileTypeDescription)
       ).not.toBeInTheDocument()
     })
 
@@ -112,7 +112,7 @@ describe('Upload', () => {
       const acceptedFileTypes = ['png', 'jpg']
 
       render(
-        <Upload {...defaultProps} acceptedFileTypes={acceptedFileTypes} />,
+        <Upload {...defaultProps} acceptedFileTypes={acceptedFileTypes} />
       )
 
       const formattedFileTypes = acceptedFileTypes.join(', ').toUpperCase()
@@ -124,7 +124,7 @@ describe('Upload', () => {
       render(<Upload {...defaultProps} />)
 
       expect(
-        screen.queryByText(nb.fileSizeDescription),
+        screen.queryByText(nb.fileSizeDescription)
       ).toBeInTheDocument()
     })
 
@@ -135,7 +135,7 @@ describe('Upload', () => {
         <Upload
           {...defaultProps}
           fileSizeDescription={fileSizeDescription}
-        />,
+        />
       )
 
       expect(screen.queryByText(fileSizeDescription)).toBeInTheDocument()
@@ -149,9 +149,9 @@ describe('Upload', () => {
         screen.queryByText(
           String(nb.fileSizeContent).replace(
             '%size',
-            fileMaxSize.toString(),
-          ),
-        ),
+            fileMaxSize.toString()
+          )
+        )
       ).toBeInTheDocument()
     })
 
@@ -164,27 +164,27 @@ describe('Upload', () => {
           {...defaultProps}
           fileMaxSize={fileMaxSize}
           fileSizeContent={fileSizeContent}
-        />,
+        />
       )
 
       expect(
         screen.queryByText(
-          String(fileSizeContent).replace('%size', `${fileMaxSize}`),
-        ),
+          String(fileSizeContent).replace('%size', `${fileMaxSize}`)
+        )
       ).toBeInTheDocument()
     })
 
     it('renders the file amount limit description', () => {
       const filesAmountLimit = 2
       render(
-        <Upload {...defaultProps} filesAmountLimit={filesAmountLimit} />,
+        <Upload {...defaultProps} filesAmountLimit={filesAmountLimit} />
       )
 
       expect(
-        screen.queryByText(nb.fileAmountDescription),
+        screen.queryByText(nb.fileAmountDescription)
       ).toBeInTheDocument()
       expect(
-        screen.queryByText(String(filesAmountLimit)),
+        screen.queryByText(String(filesAmountLimit))
       ).toBeInTheDocument()
     })
 
@@ -216,7 +216,7 @@ describe('Upload', () => {
       const { rerender } = render(
         <Provider>
           <Upload {...defaultProps} />
-        </Provider>,
+        </Provider>
       )
 
       expect(screen.queryByText(nb.title)).toBeInTheDocument()
@@ -224,7 +224,7 @@ describe('Upload', () => {
       rerender(
         <Provider locale="en-GB">
           <Upload {...defaultProps} />
-        </Provider>,
+        </Provider>
       )
 
       expect(screen.queryByText(en.title)).toBeInTheDocument()
@@ -232,7 +232,7 @@ describe('Upload', () => {
       rerender(
         <Provider locale="nb-NO">
           <Upload {...defaultProps} />
-        </Provider>,
+        </Provider>
       )
 
       expect(screen.queryByText(nb.title)).toBeInTheDocument()
@@ -243,12 +243,12 @@ describe('Upload', () => {
 
       const element = document.querySelector('.dnb-upload')
       const attributes = Array.from(element.attributes).map(
-        (attr) => attr.name,
+        (attr) => attr.name
       )
 
       expect(attributes).toEqual(['class', 'style'])
       expect(Array.from(element.classList)).toEqual(
-        expect.arrayContaining(['dnb-space', 'dnb-space__top--large']),
+        expect.arrayContaining(['dnb-space', 'dnb-space__top--large'])
       )
     })
   })
@@ -269,13 +269,13 @@ describe('Upload', () => {
     await waitFor(() =>
       fireEvent.drop(element, {
         dataTransfer: { files: [file1, file2] },
-      }),
+      })
     )
 
     await waitFor(() =>
       fireEvent.drop(element, {
         dataTransfer: { files: [file2, file2] },
-      }),
+      })
     )
 
     expect(result.current.files.length).toBe(1)
@@ -283,7 +283,7 @@ describe('Upload', () => {
       { file: file1, id: expect.any(String), exists: false },
     ])
     expect(
-      screen.queryByText(nb.errorAmountLimit.replace('%amount', '1')),
+      screen.queryByText(nb.errorAmountLimit.replace('%amount', '1'))
     ).toBeInTheDocument()
     expect(result.current.internalFiles.length).toBe(3)
 
@@ -294,13 +294,13 @@ describe('Upload', () => {
     fireEvent.click(deleteButton)
 
     expect(
-      element.querySelector('.dnb-form-status'),
+      element.querySelector('.dnb-form-status')
     ).not.toBeInTheDocument()
 
     expect(
       screen.queryByRole('button', {
         name: nb.buttonText,
-      }),
+      })
     ).not.toHaveAttribute('disabled')
   })
 
@@ -320,13 +320,13 @@ describe('Upload', () => {
     await waitFor(() =>
       fireEvent.drop(element, {
         dataTransfer: { files: [file1] },
-      }),
+      })
     )
 
     await waitFor(() =>
       fireEvent.drop(element, {
         dataTransfer: { files: [file1, file2] },
-      }),
+      })
     )
 
     expect(result.current.files.length).toBe(2)
@@ -358,22 +358,22 @@ describe('Upload', () => {
     await waitFor(() =>
       fireEvent.drop(element, {
         dataTransfer: { files: [file1] },
-      }),
+      })
     )
 
     await waitFor(() =>
       fireEvent.drop(element, {
         dataTransfer: { files: [file1, file2] },
-      }),
+      })
     )
 
     expect(
-      element.querySelectorAll('.dnb-upload__file-cell--highlight'),
+      element.querySelectorAll('.dnb-upload__file-cell--highlight')
     ).toHaveLength(1)
     expect(
       Array.from(
-        element.querySelectorAll('.dnb-upload__file-cell')[0].classList,
-      ),
+        element.querySelectorAll('.dnb-upload__file-cell')[0].classList
+      )
     ).toEqual(expect.arrayContaining(['dnb-upload__file-cell--highlight']))
   })
 
@@ -392,13 +392,13 @@ describe('Upload', () => {
       render(<Upload {...defaultProps} id={id} />)
 
       const inputElement = document.querySelector(
-        '.dnb-upload__file-input',
+        '.dnb-upload__file-input'
       )
 
       await waitFor(() =>
         fireEvent.change(inputElement, {
           target: { files: [file] },
-        }),
+        })
       )
 
       const MockComponent = () => {
@@ -456,7 +456,7 @@ describe('Upload', () => {
       render(<MockComponent />)
 
       const emptyFileCell = document.querySelector(
-        '.dnb-upload__file-cell',
+        '.dnb-upload__file-cell'
       )
 
       expect(emptyFileCell).not.toBeInTheDocument()
@@ -480,7 +480,7 @@ describe('Upload', () => {
       }
 
       const emptyFileCell = document.querySelector(
-        '.dnb-upload__file-cell',
+        '.dnb-upload__file-cell'
       )
 
       expect(emptyFileCell).not.toBeInTheDocument()
@@ -521,7 +521,7 @@ describe('Upload', () => {
       fireEvent.click(deleteButton)
 
       expect(
-        document.querySelector('.dnb-upload__file-cell'),
+        document.querySelector('.dnb-upload__file-cell')
       ).not.toBeInTheDocument()
     })
 
@@ -552,7 +552,7 @@ describe('Upload', () => {
       expect(document.activeElement).toBe(
         screen.queryByRole('button', {
           name: nb.buttonText,
-        }),
+        })
       )
     })
 
@@ -567,21 +567,21 @@ describe('Upload', () => {
           {...defaultProps}
           fileMaxSize={fileMaxSize}
           errorLargeFile={errorMessage}
-        />,
+        />
       )
 
       const inputElement = document.querySelector(
-        '.dnb-upload__file-input',
+        '.dnb-upload__file-input'
       )
 
       await waitFor(() =>
         fireEvent.change(inputElement, {
           target: { files: [file1] },
-        }),
+        })
       )
 
       expect(
-        screen.queryByText(`error message ${fileMaxSize}`),
+        screen.queryByText(`error message ${fileMaxSize}`)
       ).toBeInTheDocument()
     })
   })
@@ -594,14 +594,14 @@ describe('Upload', () => {
       render(<Upload {...defaultProps} id={id} onChange={onChange} />)
 
       const inputElement = document.querySelector(
-        '.dnb-upload__file-input',
+        '.dnb-upload__file-input'
       )
       const file1 = createMockFile('fileName-1.png', 100, 'image/png')
 
       await waitFor(() =>
         fireEvent.change(inputElement, {
           target: { files: [file1] },
-        }),
+        })
       )
 
       expect(onChange).toHaveBeenCalledTimes(1)
@@ -624,18 +624,18 @@ describe('Upload', () => {
       const onFileDelete = jest.fn()
 
       render(
-        <Upload {...defaultProps} id={id} onFileDelete={onFileDelete} />,
+        <Upload {...defaultProps} id={id} onFileDelete={onFileDelete} />
       )
 
       const inputElement = document.querySelector(
-        '.dnb-upload__file-input',
+        '.dnb-upload__file-input'
       )
       const file1 = createMockFile('fileName-1.png', 100, 'image/png')
 
       await waitFor(() =>
         fireEvent.change(inputElement, {
           target: { files: [file1] },
-        }),
+        })
       )
 
       const deleteButton = screen.queryByRole('button', {
@@ -667,7 +667,7 @@ describe('Upload scss', () => {
 
   it('have to match default theme snapshot', () => {
     const css = loadScss(
-      require.resolve('../style/themes/dnb-upload-theme-ui.scss'),
+      require.resolve('../style/themes/dnb-upload-theme-ui.scss')
     )
     expect(css).toMatchSnapshot()
   })

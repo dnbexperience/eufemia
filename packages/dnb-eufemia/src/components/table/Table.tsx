@@ -100,7 +100,7 @@ const Table = (componentProps: TableAllProps) => {
     context?.Table,
     {
       skeleton: context?.skeleton,
-    },
+    }
   )
 
   const {
@@ -151,7 +151,7 @@ const Table = (componentProps: TableAllProps) => {
             accordion && 'dnb-table--accordion',
             spacingClasses,
             skeletonClasses,
-            className,
+            className
           )}
           ref={elementRef}
           {...props}

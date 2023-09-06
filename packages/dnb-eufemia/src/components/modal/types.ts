@@ -107,7 +107,7 @@ export interface ModalProps extends ModalRootProps {
    */
   close_modal?: (
     close?: (...args: any[]) => void,
-    elem?: any,
+    elem?: any
   ) => () => void | void
 
   /**

@@ -58,7 +58,7 @@ export const fetchColors = (fills) => {
     })
     .reduce((acc, c) => {
       acc.push(
-        Color([c.r * 255, c.g * 255, c.b * 255, c.a]).hex(),
+        Color([c.r * 255, c.g * 255, c.b * 255, c.a]).hex()
         // .rgb()
         // .string()
       )
@@ -80,7 +80,7 @@ export const findAll = (
   childrenKey,
   objToFindBy,
   objToIgnoreBy = null,
-  findFirst = false,
+  findFirst = false
 ) => {
   const objToReturn = []
   if (!tree) return objToReturn
@@ -100,12 +100,12 @@ export const findAll = (
     // )
     // make sure we match all
     const findSuccess = findKeys.every((key) =>
-      isEqualWith(tree[key], objToFindBy[key], customizer),
+      isEqualWith(tree[key], objToFindBy[key], customizer)
     )
     if (objToIgnoreBy) {
       const ignoreKeys = Object.keys(objToIgnoreBy)
       ignoreSuccess = ignoreKeys.some((key) =>
-        isEqualWith(tree[key], objToIgnoreBy[key], customizer),
+        isEqualWith(tree[key], objToIgnoreBy[key], customizer)
       )
     }
     if (findSuccess && !ignoreSuccess) {
@@ -165,7 +165,7 @@ const saveLiveVersionOfFigmaDoc = async ({ figmaFile, version }) => {
       JSON.stringify({
         ...existingLockFileContent,
         ...newLockFileContent,
-      }),
+      })
     )
   } catch (e) {
     log.fail('Could not create a new "version.lock" file', e)
@@ -196,7 +196,7 @@ export const getFigmaDoc = async ({
     !localFile
   ) {
     ErrorHandler(
-      'No Figma file defined. Make sure there is a .env file with a valid "figmaFile" defined!',
+      'No Figma file defined. Make sure there is a .env file with a valid "figmaFile" defined!'
     )
   }
 
@@ -229,17 +229,17 @@ export const getFigmaDoc = async ({
       const localVersion = await getLocalVersionFromLockFile({ figmaFile })
 
       log.info(
-        `> Figma: Comparing old vs new version. (local version is ${localVersion})`,
+        `> Figma: Comparing old vs new version. (local version is ${localVersion})`
       )
 
       if (localVersion === liveVersion) {
         log.succeed(
-          `> Figma: No newer version available. Both the local and online versions are ${liveVersion}`,
+          `> Figma: No newer version available. Both the local and online versions are ${liveVersion}`
         )
         return false
       } else {
         log.succeed(
-          `> Figma: There is a new version available: ${liveVersion}`,
+          `> Figma: There is a new version available: ${liveVersion}`
         )
         await saveLiveVersionOfFigmaDoc({
           figmaFile,
@@ -270,7 +270,7 @@ export const getFigmaDoc = async ({
       ErrorHandler(
         'Failed to client.file(figmaFile) and write the result with writeFile',
         e,
-        ERROR_HARMLESS,
+        ERROR_HARMLESS
       )
     }
   } else {
@@ -312,7 +312,7 @@ export const getFigmaUrlByImageIds = async ({
 
 export const streamToDisk = (
   { file = '.tmp/file.json', url },
-  { errorExceptionType = ERROR_HARMLESS },
+  { errorExceptionType = ERROR_HARMLESS }
 ) =>
   new Promise((resolve, reject) => {
     const streamHandler = ({ localFile, oldContent = null }) => {
@@ -325,8 +325,8 @@ export const streamToDisk = (
             ErrorHandler(
               'Failed on createWriteStream',
               err,
-              errorExceptionType,
-            ),
+              errorExceptionType
+            )
           )
         })
         .on('finish', async () => {
@@ -337,7 +337,7 @@ export const streamToDisk = (
 
           if (isEmpty) {
             ErrorHandler(
-              `streamToDisk failed because the stream did not end with content by using the url: ${url}`,
+              `streamToDisk failed because the stream did not end with content by using the url: ${url}`
             )
           }
 
@@ -362,16 +362,12 @@ export const streamToDisk = (
             await fs.unlink(localFile)
           } catch (err) {
             reject(
-              ErrorHandler('Failed on unlink', err, errorExceptionType),
+              ErrorHandler('Failed on unlink', err, errorExceptionType)
             )
           }
 
           reject(
-            ErrorHandler(
-              'Failed on streamToDisk',
-              err,
-              errorExceptionType,
-            ),
+            ErrorHandler('Failed on streamToDisk', err, errorExceptionType)
           )
         })
     }
@@ -385,7 +381,7 @@ export const streamToDisk = (
       ? fs.readFile(localFile, 'utf-8', (err, oldContent) => {
           if (err) {
             reject(
-              ErrorHandler('Failed on readFile', err, errorExceptionType),
+              ErrorHandler('Failed on readFile', err, errorExceptionType)
             )
           }
 

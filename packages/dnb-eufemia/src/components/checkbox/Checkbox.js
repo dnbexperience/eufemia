@@ -180,7 +180,7 @@ export default class Checkbox extends React.PureComponent {
       { skeleton: this.context && this.context.skeleton },
       this.context.getTranslation(this.props).Checkbox,
       includeValidProps(this.context.FormRow),
-      this.context.Checkbox,
+      this.context.Checkbox
     )
 
     const {
@@ -229,7 +229,7 @@ export default class Checkbox extends React.PureComponent {
         createSkeletonClass(null, skeleton),
         createSpacingClasses(props),
         className,
-        _className,
+        _className
       ),
     }
 
@@ -243,7 +243,7 @@ export default class Checkbox extends React.PureComponent {
       inputParams['aria-describedby'] = combineDescribedBy(
         inputParams,
         showStatus ? id + '-status' : null,
-        suffix ? id + '-suffix' : null,
+        suffix ? id + '-suffix' : null
       )
     }
     if (readOnly) {
@@ -309,7 +309,7 @@ export default class Checkbox extends React.PureComponent {
               <span
                 className={classnames(
                   'dnb-checkbox__button',
-                  createSkeletonClass('shape', skeleton, this.context),
+                  createSkeletonClass('shape', skeleton, this.context)
                 )}
                 aria-hidden
               >

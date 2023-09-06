@@ -40,7 +40,7 @@ export default class CloseButton extends React.PureComponent<CloseButtonProps> {
     } = extendPropsWithContextInClassComponent(
       this.props,
       CloseButton.defaultProps,
-      this.context.getTranslation(this.props).Modal,
+      this.context.getTranslation(this.props).Modal
     )
 
     return (

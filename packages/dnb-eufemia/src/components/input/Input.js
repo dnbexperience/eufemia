@@ -328,7 +328,7 @@ export default class Input extends React.PureComponent {
       { skeleton: this.context?.skeleton },
       this.context.getTranslation(this.props).Input,
       includeValidProps(this.context.FormRow),
-      this.context.Input,
+      this.context.Input
     )
 
     const {
@@ -414,7 +414,7 @@ export default class Input extends React.PureComponent {
         'dnb-form-component',
         createSpacingClasses(props),
         _className,
-        className,
+        className
       ),
       'data-input-state': inputState,
       'data-has-content': hasValue ? 'true' : 'false',
@@ -460,7 +460,7 @@ export default class Input extends React.PureComponent {
         inputParams,
         hasSubmitButton && !submit_element ? id + '-submit-button' : null,
         showStatus ? id + '-status' : null,
-        suffix ? id + '-suffix' : null,
+        suffix ? id + '-suffix' : null
       )
     }
     if (readOnly) {
@@ -470,7 +470,7 @@ export default class Input extends React.PureComponent {
     const shellParams = {
       className: classnames(
         'dnb-input__shell',
-        createSkeletonClass('shape', skeleton, this.context),
+        createSkeletonClass('shape', skeleton, this.context)
       ),
     }
 
@@ -539,7 +539,7 @@ export default class Input extends React.PureComponent {
                   id={id + '-placeholder'}
                   className={classnames(
                     'dnb-input__placeholder',
-                    align ? `dnb-input__align--${align}` : null,
+                    align ? `dnb-input__align--${align}` : null
                   )}
                   role="presentation"
                   aria-hidden
@@ -580,7 +580,7 @@ export default class Input extends React.PureComponent {
                     icon={submit_button_icon}
                     status={convertStatusToStateOnly(
                       submit_button_status || status,
-                      status_state,
+                      status_state
                     )}
                     status_state={status_state}
                     icon_size={
@@ -721,7 +721,7 @@ class InputSubmitButton extends React.PureComponent {
           className={classnames(
             'dnb-input__submit-button__button',
             'dnb-button--input-button',
-            className,
+            className
           )}
           variant={variant}
           icon={icon}
@@ -753,7 +753,7 @@ const InputIcon = React.memo(
       return false
     }
     return typeof prev === typeof next
-  },
+  }
 )
 InputIcon.propTypes = {
   icon: PropTypes.oneOfType([

@@ -295,7 +295,7 @@ export default class DatePickerCalendar extends React.PureComponent {
 
       if (Array.isArray(this._days[month])) {
         const foundDate = this._days[month].find((cur) =>
-          isSameDay(cur.date, date),
+          isSameDay(cur.date, date)
         )
 
         if (
@@ -333,7 +333,7 @@ export default class DatePickerCalendar extends React.PureComponent {
         'dnb-date-picker__day--disabled': day.isDisabled,
         'dnb-date-picker__day--today': day.isToday,
       },
-      day.className,
+      day.className
     )
 
   getCacheKey() {
@@ -375,7 +375,7 @@ export default class DatePickerCalendar extends React.PureComponent {
             count++
           }
           return acc
-        }, {}),
+        }, {})
       ))
     }
   }
@@ -392,7 +392,7 @@ export default class DatePickerCalendar extends React.PureComponent {
       {
         onlyMonth,
         hideNextMonthWeek,
-      },
+      }
     ).map((date) =>
       makeDayObject(date, {
         startDate,
@@ -401,7 +401,7 @@ export default class DatePickerCalendar extends React.PureComponent {
         minDate,
         maxDate,
         month,
-      }),
+      })
     )
 
     if (this.context.props.on_days_render) {
@@ -476,7 +476,7 @@ export default class DatePickerCalendar extends React.PureComponent {
                 /%s/,
                 format(month, titleFormat, {
                   locale,
-                }),
+                })
               )}
               tabIndex="-1"
               ref={this._labelRef}
@@ -519,7 +519,7 @@ export default class DatePickerCalendar extends React.PureComponent {
                       'dnb-date-picker__labels__day',
                       `dnb-date-picker__labels__day--${format(day, 'i', {
                         locale,
-                      })}`,
+                      })}`
                     )}
                     aria-label={format(day, 'EEEE', {
                       locale,
@@ -574,7 +574,7 @@ export default class DatePickerCalendar extends React.PureComponent {
                         className={classnames(
                           'dnb-date-picker__day',
                           'dnb-no-focus',
-                          this.buildClassNames(day),
+                          this.buildClassNames(day)
                         )}
                         onFocus={this.onKeyDownHandler}
                         {...paramsCell}
@@ -606,7 +606,7 @@ export default class DatePickerCalendar extends React.PureComponent {
                                           event,
                                           nr,
                                           hidePicker: !isRange,
-                                        }),
+                                        })
                                       ),
                                   })
                           }
@@ -661,7 +661,7 @@ const PrevButton = ({
     /%s/,
     format(subMonths(month, 1), 'MMMM yyyy', {
       locale,
-    }),
+    })
   )
 
   return (
@@ -715,7 +715,7 @@ const NextButton = ({
     /%s/,
     format(addMonths(month, 1), 'MMMM yyyy', {
       locale,
-    }),
+    })
   )
 
   return (
@@ -777,10 +777,10 @@ const onSelectRange = ({
     const hasEndDate = endDate
     // set either startDate or endDate
     const daysToStartDate = Math.abs(
-      differenceInCalendarDays(startDate, day.date),
+      differenceInCalendarDays(startDate, day.date)
     )
     const daysToEndDate = Math.abs(
-      differenceInCalendarDays(endDate, day.date),
+      differenceInCalendarDays(endDate, day.date)
     )
 
     let range = toRange(startDate, day.date)

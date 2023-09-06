@@ -48,7 +48,7 @@ export function AnchorInstance(localProps: AnchorAllProps) {
     defaultProps,
     { skeleton: context?.skeleton },
     context?.getTranslation(localProps as AnchorAllProps).Anchor,
-    context?.Anchor,
+    context?.Anchor
   )
 
   // deprecated: inner_ref is still needed to support Button's usage of Anchor
@@ -113,7 +113,7 @@ export function AnchorInstance(localProps: AnchorAllProps) {
             'dnb-anchor--no-icon',
           typeof children !== 'string' && 'dnb-anchor--has-icon',
           prefix && 'dnb-anchor--icon-left',
-          suffix && 'dnb-anchor--icon-right',
+          suffix && 'dnb-anchor--icon-right'
         )}
         {...attributes}
         innerRef={innerRef}
@@ -140,13 +140,13 @@ export function AnchorInstance(localProps: AnchorAllProps) {
 const Anchor = React.forwardRef(
   (props: AnchorAllProps, ref: React.RefObject<HTMLAnchorElement>) => {
     return <AnchorInstance innerRef={ref} {...props} />
-  },
+  }
 )
 
 export default Anchor
 
 export function scrollToHashHandler(
-  e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+  e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
 ) {
   const element = e.currentTarget as HTMLAnchorElement
   const href = element.getAttribute('href')
@@ -176,7 +176,7 @@ export function scrollToHashHandler(
       e.preventDefault()
 
       const scrollPadding = parseFloat(
-        window.getComputedStyle(document.documentElement).scrollPaddingTop,
+        window.getComputedStyle(document.documentElement).scrollPaddingTop
       )
       const top = getOffsetTop(anchorElem) - scrollPadding || 0
 

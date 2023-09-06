@@ -19,7 +19,7 @@ describe('FormRow component', () => {
   it('should have vertical direction class', () => {
     render(<FormRow {...props} direction="vertical" />)
     expect(document.querySelector('.dnb-form-row').classList).toContain(
-      'dnb-form-row--vertical',
+      'dnb-form-row--vertical'
     )
   })
 
@@ -31,16 +31,16 @@ describe('FormRow component', () => {
           <Input label="Horizontal" />
         </FormRow>
         <Input label="Vertical" />
-      </FormRow>,
+      </FormRow>
     )
     expect(
-      document.querySelectorAll('span.dnb-input')[0].classList,
+      document.querySelectorAll('span.dnb-input')[0].classList
     ).toContain('dnb-input--vertical')
     expect(
-      document.querySelectorAll('span.dnb-input')[1].classList,
+      document.querySelectorAll('span.dnb-input')[1].classList
     ).toContain('dnb-input--horizontal')
     expect(
-      document.querySelectorAll('span.dnb-input')[2].classList,
+      document.querySelectorAll('span.dnb-input')[2].classList
     ).toContain('dnb-input--vertical')
   })
 
@@ -62,25 +62,25 @@ describe('FormRow component', () => {
     const { rerender } = render(
       <FormRow>
         <NumberFormat currency>1234</NumberFormat>
-      </FormRow>,
+      </FormRow>
     )
 
     expect(
       document
         .querySelector('.dnb-number-format')
-        .querySelector('.dnb-number-format__visible').textContent,
+        .querySelector('.dnb-number-format__visible').textContent
     ).toBe('1 234,00 kr')
 
     rerender(
       <FormRow locale="en-GB">
         <NumberFormat currency>1234</NumberFormat>
-      </FormRow>,
+      </FormRow>
     )
 
     expect(
       document
         .querySelector('.dnb-number-format')
-        .querySelector('.dnb-number-format__visible').textContent,
+        .querySelector('.dnb-number-format__visible').textContent
     ).toBe('NOK 1 234.00')
   })
 
@@ -90,13 +90,13 @@ describe('FormRow component', () => {
         <FormRow>
           <NumberFormat currency>1234</NumberFormat>
         </FormRow>
-      </Provider>,
+      </Provider>
     )
 
     expect(
       document
         .querySelector('.dnb-number-format')
-        .querySelector('.dnb-number-format__visible').textContent,
+        .querySelector('.dnb-number-format__visible').textContent
     ).toBe('NOK 1 234.00')
   })
 
@@ -104,12 +104,12 @@ describe('FormRow component', () => {
     const { rerender } = render(
       <FormRow {...props} disabled={false}>
         <Input />
-      </FormRow>,
+      </FormRow>
     )
     rerender(
       <FormRow {...props} disabled={true}>
         <Input />
-      </FormRow>,
+      </FormRow>
     )
     expect(document.querySelector('input[disabled]')).toBeInTheDocument()
   })
@@ -128,7 +128,7 @@ describe('FormRow scss', () => {
 
   it('have to match default theme snapshot', () => {
     const css = loadScss(
-      require.resolve('../style/themes/dnb-form-row-theme-ui.scss'),
+      require.resolve('../style/themes/dnb-form-row-theme-ui.scss')
     )
     expect(css).toMatchSnapshot()
   })

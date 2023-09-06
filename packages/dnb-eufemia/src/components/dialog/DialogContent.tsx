@@ -54,7 +54,7 @@ export default function DialogContent({
     getContent(
       typeof rest.children === 'function'
         ? Object.freeze({ ...rest, close: context?.close })
-        : rest,
+        : rest
     )
 
   if (alignContent === null) {
@@ -75,7 +75,7 @@ export default function DialogContent({
       isTrue(context?.hide) && `dnb-dialog--hide`,
       isTrue(noAnimation) && `dnb-dialog--no-animation`,
       isTrue(noAnimationOnMobile) && `dnb-dialog--no-animation-on-mobile`,
-      className,
+      className
     ),
     style: (minWidth || maxWidth) && { minWidth, maxWidth },
     onClick: context?.preventClick,
@@ -86,17 +86,17 @@ export default function DialogContent({
 
   const navExists = findElementInChildren(
     content,
-    (cur) => cur.type === DialogNavigation || cur.type === ModalHeaderBar,
+    (cur) => cur.type === DialogNavigation || cur.type === ModalHeaderBar
   )
 
   const headerExists = findElementInChildren(
     content,
-    (cur) => cur.type === DialogHeader || cur.type === ModalHeader,
+    (cur) => cur.type === DialogHeader || cur.type === ModalHeader
   )
 
   const actionExists = findElementInChildren(
     content,
-    (cur) => cur.type === DialogAction,
+    (cur) => cur.type === DialogAction
   )
 
   const dialogActionProps = {
@@ -129,7 +129,7 @@ export default function DialogContent({
                 aria-hidden
                 className={classnames(
                   'dnb-dialog__icon__primary',
-                  'dnb-dialog__icon--' + confirmType,
+                  'dnb-dialog__icon--' + confirmType
                 )}
               />
             </div>

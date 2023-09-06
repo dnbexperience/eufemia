@@ -401,7 +401,7 @@ const DropdownStory = () => {
               console.log(
                 'on_change',
                 // event.currentTarget.dataset,
-                attributes,
+                attributes
               )
             }}
             data-attr={123}
@@ -864,7 +864,7 @@ function UpdateDataExample() {
               size="small"
               on_click={() => {
                 const updatedSelectedData = selectedData.filter(
-                  (data) => item?.selected_value !== data?.selected_value,
+                  (data) => item?.selected_value !== data?.selected_value
                 )
                 setSelectedData(updatedSelectedData)
                 setChoiceData(
@@ -872,9 +872,9 @@ function UpdateDataExample() {
                     (data) =>
                       updatedSelectedData.findIndex(
                         ({ selected_value: updatedValue }) =>
-                          updatedValue === data?.selected_value,
-                      ) === -1,
-                  ),
+                          updatedValue === data?.selected_value
+                      ) === -1
+                  )
                 )
               }}
             >
@@ -897,12 +897,12 @@ function UpdateDataExample() {
                 return (
                   data && item?.selected_value !== data?.selected_value
                 )
-              }),
+              })
             )
             if (
               selectedData.findIndex(
                 ({ selected_value }) =>
-                  selected_value === data.selected_value,
+                  selected_value === data.selected_value
               ) === -1
             ) {
               setSelectedData([...selectedData, data])

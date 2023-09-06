@@ -294,7 +294,7 @@ export default function Heading(props: HeadingAllProps) {
         `dnb-h--${size}`,
         createSkeletonClass('font', skeleton, headingContext),
         className,
-        createSpacingClasses(props),
+        createSpacingClasses(props)
       )}
     >
       {debug && (

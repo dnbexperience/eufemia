@@ -55,7 +55,7 @@ export function useHeightAnimation(
     onInit = null,
     onOpen = null,
     onAnimationEnd = null,
-  }: useHeightAnimationOptions = {},
+  }: useHeightAnimationOptions = {}
 ) {
   const animRef = React.useRef<HeightAnimationInstance>(null)
   const [isOpen, setIsOpen] = React.useState(open)
@@ -193,7 +193,7 @@ function useAdjust({ children, animRef, isInitialRender }) {
 
       animRef.current.adjustTo(
         fromHeight.current,
-        animRef.current.getHeight(), // use getHeight instead of getUnknownHeight because of the additional, disturbing DOM manipulation
+        animRef.current.getHeight() // use getHeight instead of getUnknownHeight because of the additional, disturbing DOM manipulation
       )
     }
   }, [children]) // eslint-disable-line react-hooks/exhaustive-deps

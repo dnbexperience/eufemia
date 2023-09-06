@@ -19,7 +19,7 @@ jest.mock('fs-extra', () => {
           jest.requireActual('../themeFactory')
         return `${editAdvice.replace(
           '<file>',
-          'components',
+          'components'
         )}${insertBelowAdvice}`
       }
 
@@ -162,12 +162,12 @@ describe('runFactory', () => {
     expect(fs.writeFile).toHaveBeenNthCalledWith(
       1,
       './theme-sbanken/sbanken-theme-components.scss',
-      expect.any(String),
+      expect.any(String)
     )
     expect(fs.writeFile).toHaveBeenNthCalledWith(
       2,
       './theme-ui/ui-theme-components.scss',
-      expect.any(String),
+      expect.any(String)
     )
     expect(result).toMatchInlineSnapshot(`
       "
@@ -204,7 +204,7 @@ const make = async ({ scssOutputPath, targetFile }) => {
     filesToFindGlob: [
       path.resolve(
         __dirname,
-        '../../../../src/{components,fragments}/**/style/themes/**/*-theme-*.scss',
+        '../../../../src/{components,fragments}/**/style/themes/**/*-theme-*.scss'
       ),
     ],
     returnResult: true,

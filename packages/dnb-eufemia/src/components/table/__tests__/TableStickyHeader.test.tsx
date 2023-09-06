@@ -18,7 +18,7 @@ describe('useStickyHeader', () => {
 
   const simulateScroll = (
     y: number,
-    scrollElement: HTMLElement = null,
+    scrollElement: HTMLElement = null
   ) => {
     if (scrollElement) {
       jest.spyOn(scrollElement, 'scrollTop', 'get').mockReturnValue(y)
@@ -41,7 +41,7 @@ describe('useStickyHeader', () => {
     render(
       <Table sticky>
         <BasicTable />
-      </Table>,
+      </Table>
     )
 
     expect(Array.from(screen.queryByRole('table').classList)).toEqual([
@@ -56,7 +56,7 @@ describe('useStickyHeader', () => {
     render(
       <Table sticky>
         <BasicTable />
-      </Table>,
+      </Table>
     )
 
     expect(Array.from(screen.queryByRole('table').classList)).toEqual([
@@ -71,7 +71,7 @@ describe('useStickyHeader', () => {
     render(
       <Table sticky="css-position">
         <BasicTable />
-      </Table>,
+      </Table>
     )
 
     setSizes()
@@ -82,7 +82,7 @@ describe('useStickyHeader', () => {
         'dnb-table__tr--odd',
         'sticky',
         'css-position',
-      ]),
+      ])
     )
   })
 
@@ -93,13 +93,13 @@ describe('useStickyHeader', () => {
     render(
       <Table sticky>
         <BasicTable />
-      </Table>,
+      </Table>
     )
 
     setSizes()
 
     expect(Array.from(screen.queryByRole('table').classList)).toContain(
-      'dnb-table--sticky',
+      'dnb-table--sticky'
     )
 
     simulateScroll(200)
@@ -115,7 +115,7 @@ describe('useStickyHeader', () => {
     const { rerender } = render(
       <Table sticky="css-position" stickyOffset="4rem">
         <BasicTable />
-      </Table>,
+      </Table>
     )
 
     const thElement = document.querySelector('th')
@@ -131,7 +131,7 @@ describe('useStickyHeader', () => {
     rerender(
       <Table sticky stickyOffset={64}>
         <BasicTable />
-      </Table>,
+      </Table>
     )
 
     setSizes()
@@ -143,7 +143,7 @@ describe('useStickyHeader', () => {
     const { rerender } = render(
       <Table sticky stickyOffset="4rem">
         <BasicTable />
-      </Table>,
+      </Table>
     )
 
     const tableElement = document.querySelector('table')
@@ -159,7 +159,7 @@ describe('useStickyHeader', () => {
     // Should set correct value (320-(160-64)=224)
     simulateScroll(320)
     expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
-      '224px',
+      '224px'
     )
 
     simulateScroll(0)
@@ -168,13 +168,13 @@ describe('useStickyHeader', () => {
     // Should set correct value (300-(160-64)=204)
     simulateScroll(300)
     expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
-      '204px',
+      '204px'
     )
 
     // Should keep the previous value (300-(160-64)=204)
     simulateScroll(3000)
     expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
-      '204px',
+      '204px'
     )
 
     // change the table offset
@@ -184,13 +184,13 @@ describe('useStickyHeader', () => {
     // Should set correct value (320-(80-64)=304)
     simulateScroll(320)
     expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
-      '304px',
+      '304px'
     )
 
     rerender(
       <Table sticky>
         <BasicTable />
-      </Table>,
+      </Table>
     )
 
     setSizes()
@@ -198,7 +198,7 @@ describe('useStickyHeader', () => {
     // Should set correct value (320-160=160)
     simulateScroll(320)
     expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
-      '160px',
+      '160px'
     )
   })
 
@@ -208,7 +208,7 @@ describe('useStickyHeader', () => {
         <Table sticky="css-position" stickyOffset="1rem">
           <BasicTable />
         </Table>
-      </Table.ScrollView>,
+      </Table.ScrollView>
     )
 
     const trElem = document.querySelector('tr')
@@ -237,7 +237,7 @@ describe('useStickyHeader', () => {
         <Table sticky="css-position">
           <BasicTable />
         </Table>
-      </Table.ScrollView>,
+      </Table.ScrollView>
     )
 
     simulateScroll(46, scrollElem)
@@ -255,13 +255,13 @@ describe('useStickyHeader', () => {
             <BasicTable />
           </Table>
         </div>
-      </div>,
+      </div>
     )
 
     const tableElement = document.querySelector('table')
     const trElem = document.querySelector('tr')
     const barElem: HTMLElement = document.querySelector(
-      '.dnb-modal__header__bar',
+      '.dnb-modal__header__bar'
     )
     const scrollElem: HTMLElement =
       document.querySelector('.dnb-scroll-view')
@@ -278,7 +278,7 @@ describe('useStickyHeader', () => {
     // Should set correct value (320-(160-40)=200)
     simulateScroll(320, scrollElem)
     expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
-      '200px',
+      '200px'
     )
 
     simulateScroll(0, scrollElem)
@@ -287,13 +287,13 @@ describe('useStickyHeader', () => {
     // Should set correct value (300-(160-40)=180)
     simulateScroll(300, scrollElem)
     expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
-      '180px',
+      '180px'
     )
 
     // Should keep the previous value (300-(160-40)=180)
     simulateScroll(3000, scrollElem)
     expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
-      '180px',
+      '180px'
     )
 
     // change the table offset
@@ -303,7 +303,7 @@ describe('useStickyHeader', () => {
     // Should set correct value (320-(80-40)=280)
     simulateScroll(320, scrollElem)
     expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
-      '280px',
+      '280px'
     )
 
     rerender(
@@ -314,7 +314,7 @@ describe('useStickyHeader', () => {
             <BasicTable />
           </Table>
         </div>
-      </div>,
+      </div>
     )
 
     setSizes()
@@ -322,7 +322,7 @@ describe('useStickyHeader', () => {
     // Should set correct value (320-(160-64)=224)
     simulateScroll(320, scrollElem)
     expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
-      '224px',
+      '224px'
     )
 
     rerender(
@@ -333,7 +333,7 @@ describe('useStickyHeader', () => {
             <BasicTable />
           </Table>
         </div>
-      </div>,
+      </div>
     )
 
     setSizes()
@@ -341,7 +341,7 @@ describe('useStickyHeader', () => {
     // Should set correct value (320-(160-40)=200)
     simulateScroll(320, scrollElem)
     expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
-      '200px',
+      '200px'
     )
   })
 })
@@ -351,7 +351,7 @@ describe('Table aria', () => {
     const Component = render(
       <Table sticky="css-position">
         <BasicTable />
-      </Table>,
+      </Table>
     )
     expect(await axeComponent(Component)).toHaveNoViolations()
   })

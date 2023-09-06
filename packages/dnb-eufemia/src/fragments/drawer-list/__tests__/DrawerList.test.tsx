@@ -58,7 +58,7 @@ describe('DrawerList component', () => {
   it('has correct state at startup', () => {
     render(<DrawerList {...props} data={mockData} />)
     expect(
-      document.querySelector('.dnb-drawer-list--opened'),
+      document.querySelector('.dnb-drawer-list--opened')
     ).toBeInTheDocument()
   })
 
@@ -66,17 +66,17 @@ describe('DrawerList component', () => {
     const { rerender } = render(<DrawerList {...props} data={mockData} />)
 
     expect(
-      document.querySelector('.dnb-drawer-list--opened'),
+      document.querySelector('.dnb-drawer-list--opened')
     ).toBeInTheDocument()
 
     rerender(<DrawerList {...props} data={mockData} opened={false} />)
     expect(
-      document.querySelector('.dnb-drawer-list--opened'),
+      document.querySelector('.dnb-drawer-list--opened')
     ).not.toBeInTheDocument()
 
     rerender(<DrawerList {...props} data={mockData} opened={true} />)
     expect(
-      document.querySelector('.dnb-drawer-list--opened'),
+      document.querySelector('.dnb-drawer-list--opened')
     ).toBeInTheDocument()
   })
 
@@ -88,7 +88,7 @@ describe('DrawerList component', () => {
         data={mockData}
         default_value={props.value}
         {...mockProps}
-      />,
+      />
     )
     let elem
 
@@ -108,7 +108,7 @@ describe('DrawerList component', () => {
         default_value={props.value}
         {...mockProps}
         title={title}
-      />,
+      />
     )
     expect(screen.getByTitle(title)).toBeInTheDocument()
 
@@ -122,7 +122,7 @@ describe('DrawerList component', () => {
         {...mockProps}
         title={title}
         value={(props.value as number) + 1}
-      />,
+      />
     )
 
     // the selected option got a new position
@@ -142,7 +142,7 @@ describe('DrawerList component', () => {
     const { rerender } = render(<DrawerList {...props} data={mockData} />)
 
     expect(
-      document.querySelector('.dnb-drawer-list__option--focus'),
+      document.querySelector('.dnb-drawer-list__option--focus')
     ).toBeInTheDocument()
 
     keydown(83) // S
@@ -151,8 +151,8 @@ describe('DrawerList component', () => {
       expect(
         Array.from(
           document.querySelectorAll('.dnb-drawer-list__option')[1]
-            .classList,
-        ),
+            .classList
+        )
       ).toEqual([
         'dnb-drawer-list__option',
         'dnb-drawer-list__option--focus',
@@ -168,8 +168,8 @@ describe('DrawerList component', () => {
       expect(
         Array.from(
           document.querySelectorAll('.dnb-drawer-list__option')[2]
-            .classList,
-        ),
+            .classList
+        )
       ).toEqual([
         'dnb-drawer-list__option',
         'dnb-drawer-list__option--selected',
@@ -186,7 +186,7 @@ describe('DrawerList component', () => {
         {...props}
         data={Object.freeze(mockData) as DrawerListDataObjectUnion}
         on_select={on_select}
-      />,
+      />
     )
 
     // select the current
@@ -206,7 +206,7 @@ describe('DrawerList component', () => {
         data={Object.freeze(mockData) as DrawerListDataObjectUnion}
         on_select={on_select}
         opened={null}
-      />,
+      />
     )
 
     // then open again
@@ -216,7 +216,7 @@ describe('DrawerList component', () => {
         data={Object.freeze(mockData) as DrawerListDataObjectUnion}
         on_select={on_select}
         opened={true}
-      />,
+      />
     )
     keydown(40) // down
     await waitFor(() => {
@@ -230,37 +230,37 @@ describe('DrawerList component', () => {
 
   it('will set data-dnb-drawer-list-active with id', () => {
     const { rerender } = render(
-      <DrawerList {...props} opened={false} data={mockData} />,
+      <DrawerList {...props} opened={false} data={mockData} />
     )
 
     rerender(<DrawerList {...props} opened={true} data={mockData} />)
 
     expect(
-      document.documentElement.getAttribute('data-dnb-drawer-list-active'),
+      document.documentElement.getAttribute('data-dnb-drawer-list-active')
     ).toBe(props.id)
 
     rerender(<DrawerList {...props} opened={false} data={mockData} />)
 
     expect(document.documentElement).not.toHaveAttribute(
-      'data-dnb-drawer-list-active',
+      'data-dnb-drawer-list-active'
     )
   })
 
   it('will unset data-dnb-drawer-list-active on unmount', () => {
     const { rerender, unmount } = render(
-      <DrawerList {...props} data={mockData} opened={false} />,
+      <DrawerList {...props} data={mockData} opened={false} />
     )
 
     rerender(<DrawerList {...props} data={mockData} opened={true} />)
 
     expect(
-      document.documentElement.getAttribute('data-dnb-drawer-list-active'),
+      document.documentElement.getAttribute('data-dnb-drawer-list-active')
     ).toBe(props.id)
 
     unmount()
 
     expect(document.documentElement).not.toHaveAttribute(
-      'data-dnb-drawer-list-active',
+      'data-dnb-drawer-list-active'
     )
   })
 
@@ -276,7 +276,7 @@ describe('DrawerList component', () => {
     rerender(<MockComponent opened />)
 
     expect(document.body.getAttribute('style')).toBe(
-      'overflow: hidden; height: auto; box-sizing: border-box; margin-right: 0px;',
+      'overflow: hidden; height: auto; box-sizing: border-box; margin-right: 0px;'
     )
 
     rerender(<MockComponent opened={false} />)
@@ -294,7 +294,7 @@ describe('DrawerList component', () => {
         data={mockData}
         on_change={on_change}
         on_select={on_select}
-      />,
+      />
     )
 
     // then simulate changes
@@ -314,7 +314,7 @@ describe('DrawerList component', () => {
         on_change={on_change}
         on_select={on_select}
         opened={null}
-      />,
+      />
     )
 
     // then open again
@@ -325,7 +325,7 @@ describe('DrawerList component', () => {
         on_change={on_change}
         on_select={on_select}
         opened={true}
-      />,
+      />
     )
 
     // then simulate changes
@@ -343,29 +343,25 @@ describe('DrawerList component', () => {
     const directionTop = 'top'
 
     const { rerender } = render(
-      <DrawerList {...props} data={mockData} direction={directionTop} />,
+      <DrawerList {...props} data={mockData} direction={directionTop} />
     )
 
     expect(
-      document.querySelector(`.dnb-drawer-list--${directionTop}`),
+      document.querySelector(`.dnb-drawer-list--${directionTop}`)
     ).toBeInTheDocument()
 
     const directionBottom = 'bottom'
     rerender(
-      <DrawerList
-        {...props}
-        data={mockData}
-        direction={directionBottom}
-      />,
+      <DrawerList {...props} data={mockData} direction={directionBottom} />
     )
     expect(
-      document.querySelector(`.dnb-drawer-list--${directionBottom}`),
+      document.querySelector(`.dnb-drawer-list--${directionBottom}`)
     ).toBeInTheDocument()
 
     expect(
       document
         .querySelector('.dnb-drawer-list__options')
-        .getAttribute('style'),
+        .getAttribute('style')
     ).toBe('max-height: 33.5rem;')
   })
 
@@ -380,7 +376,7 @@ describe('DrawerList component', () => {
     render(<DrawerList {...props} data={mockData} on_hide={on_hide} />)
 
     expect(
-      Array.from(document.querySelector('span.dnb-drawer-list').classList),
+      Array.from(document.querySelector('span.dnb-drawer-list').classList)
     ).toEqual([
       'dnb-drawer-list',
       'dnb-drawer-list--top',
@@ -397,8 +393,8 @@ describe('DrawerList component', () => {
     await waitFor(() => {
       expect(
         Array.from(
-          document.querySelector('span.dnb-drawer-list').classList,
-        ),
+          document.querySelector('span.dnb-drawer-list').classList
+        )
       ).toEqual([
         'dnb-drawer-list',
         'dnb-drawer-list--top',
@@ -424,7 +420,7 @@ describe('DrawerList component', () => {
     render(<DrawerList {...props} data={mockData} />)
 
     expect(
-      document.querySelectorAll('li.dnb-drawer-list__option').length,
+      document.querySelectorAll('li.dnb-drawer-list__option').length
     ).toBe(mockData.length)
   })
 
@@ -440,7 +436,7 @@ describe('DrawerList component', () => {
         on_select={on_select}
         data={() => ({ a: 'A', b: 'B', c: 'C' })}
         {...mockProps}
-      />,
+      />
     )
 
     // then simulate changes
@@ -474,7 +470,7 @@ describe('DrawerList component', () => {
         on_hide={on_hide}
         {...params}
         data={mockData}
-      />,
+      />
     )
 
     expect(on_show.mock.calls.length).toBe(1)
@@ -499,7 +495,7 @@ describe('DrawerList markup', () => {
     }
 
     const CheckComponent = render(
-      <DrawerList {...snapshotProps} data={mockData} />,
+      <DrawerList {...snapshotProps} data={mockData} />
     )
     expect(
       await axeComponent(CheckComponent, {
@@ -507,7 +503,7 @@ describe('DrawerList markup', () => {
           'aria-input-field-name': { enabled: false },
           'aria-required-children': { enabled: false },
         },
-      }),
+      })
     ).toHaveNoViolations()
   })
 })
@@ -520,7 +516,7 @@ describe('DrawerList scss', () => {
 
   it('have to match default theme snapshot', () => {
     const css = loadScss(
-      require.resolve('../style/themes/dnb-drawer-list-theme-ui.scss'),
+      require.resolve('../style/themes/dnb-drawer-list-theme-ui.scss')
     )
     expect(css).toMatchSnapshot()
   })

@@ -28,7 +28,7 @@ async function getNextReleaseVersion() {
     try {
       const log = await runCommand(command)
       const nextVersion = log.match(
-        /The next release version is ([^\n]*)/,
+        /The next release version is ([^\n]*)/
       )?.[1]
 
       if (nextVersion) {
@@ -40,8 +40,8 @@ async function getNextReleaseVersion() {
   } else {
     console.warn(
       `The current git branch ${branchName} is not one of the release branches ${releaseBranches.join(
-        ',',
-      )}`,
+        ','
+      )}`
     )
   }
 

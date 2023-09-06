@@ -34,7 +34,7 @@ export function useSliderEvents() {
   }
 
   const onThumbMouseDownHandler = (
-    event: MouseEvent | TouchEvent | React.SyntheticEvent,
+    event: MouseEvent | TouchEvent | React.SyntheticEvent
   ) => {
     const target = event.target as HTMLButtonElement
 
@@ -68,12 +68,12 @@ export function useSliderEvents() {
       try {
         document.body.removeEventListener(
           'touchmove',
-          onBodyMouseMoveHandler,
+          onBodyMouseMoveHandler
         )
         document.body.removeEventListener('touchend', onBodyMouseUpHandler)
         document.body.removeEventListener(
           'mousemove',
-          onBodyMouseMoveHandler,
+          onBodyMouseMoveHandler
         )
         document.body.removeEventListener('mouseup', onBodyMouseUpHandler)
       } catch (e) {
@@ -117,17 +117,17 @@ export function useSliderEvents() {
   }
 
   const onHelperChangeHandler = (
-    event: React.FormEvent<HTMLInputElement>,
+    event: React.FormEvent<HTMLInputElement>
   ) => {
     const emitEvent = event as unknown
     emitChange(
       emitEvent as MouseEvent,
-      parseFloat(event.currentTarget.value),
+      parseFloat(event.currentTarget.value)
     )
   }
 
   const onHelperFocusHandler = (
-    event: React.FormEvent<HTMLInputElement>,
+    event: React.FormEvent<HTMLInputElement>
   ) => {
     const target = event.target as HTMLInputElement
     setThumbIndex(parseFloat(target.dataset.index))

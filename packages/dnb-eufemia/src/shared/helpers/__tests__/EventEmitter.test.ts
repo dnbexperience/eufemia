@@ -38,18 +38,18 @@ describe('EventEmitter', () => {
   it('should merge data at once dimention', () => {
     instanceA.set({ foo: 'bar' })
     expect(instanceA.get()).toMatchObject(
-      expect.objectContaining({ foo: 'bar' }),
+      expect.objectContaining({ foo: 'bar' })
     )
     expect(instanceB.get()).toMatchObject(
-      expect.objectContaining({ foo: 'bar' }),
+      expect.objectContaining({ foo: 'bar' })
     )
 
     instanceA.set({ foo: 'z' })
     expect(instanceA.get()).toMatchObject(
-      expect.objectContaining({ foo: 'z' }),
+      expect.objectContaining({ foo: 'z' })
     )
     expect(instanceB.get()).toMatchObject(
-      expect.objectContaining({ foo: 'z' }),
+      expect.objectContaining({ foo: 'z' })
     )
   })
 

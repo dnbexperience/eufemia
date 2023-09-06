@@ -17,14 +17,14 @@ const syncValidatorReturningError = () =>
 
 const asyncValidatorResolvingWithUndefined = () =>
   new Promise<Error | undefined>((resolve) =>
-    setTimeout(() => resolve(undefined), 1),
+    setTimeout(() => resolve(undefined), 1)
   )
 const asyncValidatorResolvingWithError = () =>
   new Promise<Error | undefined>((resolve) =>
     setTimeout(
       () => resolve(new Error('Whats left when nothing is right?')),
-      1,
-    ),
+      1
+    )
   )
 
 describe('Field.String', () => {
@@ -38,16 +38,16 @@ describe('Field.String', () => {
       render(<Field.String placeholder="Enter something" />)
       expect(
         // getByText instead of getByPlaceholderText since eufemia adds placeholder as tag, not placeholder-attribute
-        screen.getByText('Enter something'),
+        screen.getByText('Enter something')
       ).toBeInTheDocument()
     })
 
     it('does not render placeholder when value is given', () => {
       render(
-        <Field.String value="value-text" placeholder="placeholder-text" />,
+        <Field.String value="value-text" placeholder="placeholder-text" />
       )
       expect(
-        screen.queryByText('placeholder-text'),
+        screen.queryByText('placeholder-text')
       ).not.toBeInTheDocument()
     })
 
@@ -59,7 +59,7 @@ describe('Field.String', () => {
     it('renders error', () => {
       render(<Field.String error={new Error('This is what went wrong')} />)
       expect(
-        screen.getByText('This is what went wrong'),
+        screen.getByText('This is what went wrong')
       ).toBeInTheDocument()
     })
   })
@@ -115,7 +115,7 @@ describe('Field.String', () => {
             <Field.String
               value="abc"
               schema={{ type: 'string', minLength: 6 }}
-            />,
+            />
           )
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
         })
@@ -125,7 +125,7 @@ describe('Field.String', () => {
             <Field.String
               value="abc"
               schema={{ type: 'string', minLength: 6 }}
-            />,
+            />
           )
           const input = document.querySelector('input')
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -140,7 +140,7 @@ describe('Field.String', () => {
             <Field.String
               value="abc"
               schema={{ type: 'string', minLength: 6 }}
-            />,
+            />
           )
           const input = document.querySelector('input')
           await userEvent.type(input, 'd')
@@ -155,7 +155,7 @@ describe('Field.String', () => {
             <Field.String
               value="abc"
               schema={{ type: 'string', minLength: 6 }}
-            />,
+            />
           )
           const input = document.querySelector('input')
           await userEvent.type(input, 'd')
@@ -172,7 +172,7 @@ describe('Field.String', () => {
             <Field.String
               value="abc"
               schema={{ type: 'string', minLength: 6 }}
-            />,
+            />
           )
           const input = document.querySelector('input')
           await userEvent.type(input, 'd')
@@ -195,7 +195,7 @@ describe('Field.String', () => {
               value="abc"
               schema={{ type: 'string', minLength: 6 }}
               validateInitially
-            />,
+            />
           )
           expect(screen.getByRole('alert')).toBeInTheDocument()
         })
@@ -208,7 +208,7 @@ describe('Field.String', () => {
               value="abc"
               schema={{ type: 'string', minLength: 6 }}
               validateUnchanged
-            />,
+            />
           )
           const input = document.querySelector('input')
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
@@ -321,14 +321,14 @@ describe('Field.String', () => {
             value="abc"
             validator={validator}
             validateInitially
-          />,
+          />
         )
         await waitFor(() => {
           // Wait for since external validators are processed asynchronously
           expect(validator.mock.calls).toHaveLength(1)
           expect((validator.mock.calls[0] as unknown[])[0]).toEqual('abc')
           expect(
-            screen.getByText('I think this is wrong'),
+            screen.getByText('I think this is wrong')
           ).toBeInTheDocument()
         })
 
@@ -342,13 +342,13 @@ describe('Field.String', () => {
           expect(validator.mock.calls).toHaveLength(4)
           expect((validator.mock.calls[1] as unknown[])[0]).toEqual('abcd')
           expect((validator.mock.calls[2] as unknown[])[0]).toEqual(
-            'abcde',
+            'abcde'
           )
           expect((validator.mock.calls[3] as unknown[])[0]).toEqual(
-            'abcdef',
+            'abcdef'
           )
           expect(
-            screen.getByText('I think this is wrong'),
+            screen.getByText('I think this is wrong')
           ).toBeInTheDocument()
         })
       })
@@ -360,7 +360,7 @@ describe('Field.String', () => {
             value="abc"
             validator={validator}
             validateInitially
-          />,
+          />
         )
         await expectNever(() => {
           // Can't just waitFor and expect not to be in the document, it would approve the first render before the error might appear async.
@@ -377,14 +377,14 @@ describe('Field.String', () => {
             value="abc"
             validator={validator}
             validateInitially
-          />,
+          />
         )
         await waitFor(() => {
           // Wait for since external validators are processed asynchronously
           expect(validator.mock.calls).toHaveLength(1)
           expect((validator.mock.calls[0] as unknown[])[0]).toEqual('abc')
           expect(
-            screen.getByText('Whats left when nothing is right?'),
+            screen.getByText('Whats left when nothing is right?')
           ).toBeInTheDocument()
         })
 
@@ -402,7 +402,7 @@ describe('Field.String', () => {
         expect((validator.mock.calls[2] as unknown[])[0]).toEqual('abcde')
         expect((validator.mock.calls[3] as unknown[])[0]).toEqual('abcdef')
         expect(
-          screen.getByText('Whats left when nothing is right?'),
+          screen.getByText('Whats left when nothing is right?')
         ).toBeInTheDocument()
       })
 
@@ -413,7 +413,7 @@ describe('Field.String', () => {
             value="foo"
             validator={validator}
             validateInitially
-          />,
+          />
         )
 
         await expectNever(() => {
@@ -431,7 +431,7 @@ describe('Field.String', () => {
             value="abc"
             onBlurValidator={validator}
             validateInitially
-          />,
+          />
         )
 
         await waitFor(() => {
@@ -449,11 +449,11 @@ describe('Field.String', () => {
           // Wait for since external validators are processed asynchronously
           expect(validator.mock.calls).toHaveLength(1)
           expect((validator.mock.calls[0] as unknown[])[0]).toEqual(
-            'abcdef',
+            'abcdef'
           )
 
           expect(
-            screen.getByText('I think this is wrong'),
+            screen.getByText('I think this is wrong')
           ).toBeInTheDocument()
         })
       })
@@ -465,7 +465,7 @@ describe('Field.String', () => {
             value="abc"
             onBlurValidator={validator}
             validateInitially
-          />,
+          />
         )
         const input = document.querySelector('input')
         await userEvent.type(input, 'd')
@@ -487,7 +487,7 @@ describe('Field.String', () => {
             value="abc"
             onBlurValidator={validator}
             validateInitially
-          />,
+          />
         )
 
         await waitFor(() => {
@@ -505,11 +505,11 @@ describe('Field.String', () => {
           // Wait for since external validators are processed asynchronously
           expect(validator.mock.calls).toHaveLength(1)
           expect((validator.mock.calls[0] as unknown[])[0]).toEqual(
-            'abcdef',
+            'abcdef'
           )
 
           expect(
-            screen.getByText('Whats left when nothing is right?'),
+            screen.getByText('Whats left when nothing is right?')
           ).toBeInTheDocument()
         })
       })
@@ -521,7 +521,7 @@ describe('Field.String', () => {
             value="abc"
             onBlurValidator={validator}
             validateInitially
-          />,
+          />
         )
         const input = document.querySelector('input')
         await userEvent.type(input, 'd')
@@ -541,10 +541,10 @@ describe('Field.String', () => {
       render(
         <DataContext.Provider data={{ foo: 'data-context-value' }}>
           <Field.String path="/foo" />
-        </DataContext.Provider>,
+        </DataContext.Provider>
       )
       expect(
-        screen.getByDisplayValue('data-context-value'),
+        screen.getByDisplayValue('data-context-value')
       ).toBeInTheDocument()
     })
 
@@ -552,7 +552,7 @@ describe('Field.String', () => {
       render(
         <DataContext.Provider data={{ foo: 'data-context-value' }}>
           <Field.String path="/foo" value="direct-prop" />
-        </DataContext.Provider>,
+        </DataContext.Provider>
       )
       expect(screen.getByDisplayValue('direct-prop')).toBeInTheDocument()
     })
@@ -571,7 +571,7 @@ describe('Field.String', () => {
           onPathChange={dataContextOnPathChange}
         >
           <Field.String path="/foo" onChange={inputOnChange} />
-        </DataContext.Provider>,
+        </DataContext.Provider>
       )
       const input = document.querySelector('input')
       await userEvent.type(input, 'O!')

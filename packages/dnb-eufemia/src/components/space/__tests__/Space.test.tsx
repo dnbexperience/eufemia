@@ -19,14 +19,14 @@ describe('Space component', () => {
   it('should have correct CSS classes', () => {
     render(<Space element="span" top="large" />)
     expect(document.querySelector('span.dnb-space').classList).toContain(
-      'dnb-space__top--large',
+      'dnb-space__top--large'
     )
   })
 
   it('should accept space only prop', () => {
     render(<Space element="span" space="large" />)
     expect(
-      Object.values(document.querySelector('span.dnb-space').classList),
+      Object.values(document.querySelector('span.dnb-space').classList)
     ).toEqual([
       'dnb-space',
       'dnb-space__top--large',
@@ -46,10 +46,10 @@ describe('Space component', () => {
           bottom: 'small small',
           left: 'x-small x-small small',
         }}
-      />,
+      />
     )
     expect(
-      Object.values(document.querySelector('span.dnb-space').classList),
+      Object.values(document.querySelector('span.dnb-space').classList)
     ).toEqual([
       'dnb-space',
       'dnb-space__top--x-large',
@@ -64,7 +64,7 @@ describe('Space component', () => {
 
     const element = document.querySelector('div.dnb-space')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name,
+      (attr) => attr.name
     )
 
     expect(attributes).toEqual(['class', 'id'])
@@ -74,7 +74,7 @@ describe('Space component', () => {
   it('should have collapse CSS class', () => {
     render(<Space top="large" no_collapse={true} />)
     expect(
-      document.querySelector('.dnb-space--no-collapse'),
+      document.querySelector('.dnb-space--no-collapse')
     ).toBeInTheDocument()
   })
 })
@@ -87,7 +87,7 @@ describe('Space scss', () => {
 
   it('have to match default theme snapshot', () => {
     const css = loadScss(
-      require.resolve('../style/themes/dnb-space-theme-ui.scss'),
+      require.resolve('../style/themes/dnb-space-theme-ui.scss')
     )
     expect(css).toMatchSnapshot()
   })

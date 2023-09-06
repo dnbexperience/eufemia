@@ -18,7 +18,7 @@ const defaultProps = {
 export type HelpButtonProps = {
   render?: (
     children: React.ReactNode,
-    props: ButtonProps,
+    props: ButtonProps
   ) => React.ReactElement
 } & ButtonProps
 

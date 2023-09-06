@@ -91,7 +91,7 @@ export type MediaQueryState = {
 export function onMediaQueryChange(
   property: MediaQueryProperties | string,
   callback?: (matches: boolean, mediaQueryList: MediaQueryList) => void,
-  { runOnInit = false } = {},
+  { runOnInit = false } = {}
 ): MediaQueryListener {
   let query = property
   let when = null
@@ -140,7 +140,7 @@ export function makeMediaQueryList(
     log = false,
     disabled = false,
   }: MediaQueryProperties = {},
-  breakpoints: MediaQueryBreakpoints = null,
+  breakpoints: MediaQueryBreakpoints = null
 ): MediaQueryList {
   const isSupported = isMatchMediaSupported()
 
@@ -171,10 +171,7 @@ export function makeMediaQueryList(
  */
 export function createMediaQueryListener(
   mediaQueryList: MediaQueryList,
-  callback: (
-    matches: boolean,
-    event: Partial<MediaQueryListEvent>,
-  ) => void,
+  callback: (matches: boolean, event: Partial<MediaQueryListEvent>) => void
 ): MediaQueryListener {
   if (!mediaQueryList) {
     return () => null
@@ -207,7 +204,7 @@ export function createMediaQueryListener(
  */
 export function buildQuery(
   { query = null, when = null, not = null }: MediaQueryProperties = {},
-  breakpoints?: MediaQueryBreakpoints,
+  breakpoints?: MediaQueryBreakpoints
 ) {
   if (when) {
     if (typeof when === 'string') {
@@ -218,7 +215,7 @@ export function buildQuery(
 
     if (Array.isArray(when)) {
       listOfQueries = listOfQueries.concat(
-        combineQueries(when, breakpoints),
+        combineQueries(when, breakpoints)
       )
     } else if (when && typeof when === 'object') {
       const query = convertToMediaQuery(when, breakpoints)
@@ -266,7 +263,7 @@ function reverseQuery(query: string) {
  */
 function combineQueries(
   queries: Array<MediaQueryCondition>,
-  breakpoints: MediaQueryBreakpoints = null,
+  breakpoints: MediaQueryBreakpoints = null
 ) {
   return queries
     .reduce((listOfQueries, when, i, arr) => {
@@ -322,7 +319,7 @@ function mergeBreakpoints(breakpoints: MediaQueryBreakpoints) {
  */
 export function convertToMediaQuery(
   query: MediaQueryCondition | Array<MediaQueryCondition>,
-  breakpoints: MediaQueryBreakpoints = null,
+  breakpoints: MediaQueryBreakpoints = null
 ): string {
   if (typeof query === 'string') {
     return query
@@ -351,7 +348,7 @@ export function convertToMediaQuery(
  */
 function objToMediaQuery(
   obj: MediaQueryCondition,
-  breakpoints: MediaQueryBreakpoints = null,
+  breakpoints: MediaQueryBreakpoints = null
 ): string {
   let hasNot = false
   let query: string | Array<null> = Object.keys(obj).reduce(
@@ -386,7 +383,7 @@ function objToMediaQuery(
 
       return acc
     },
-    [],
+    []
   )
 
   if (Array.isArray(query)) {
@@ -409,7 +406,7 @@ function objToMediaQuery(
  */
 function getValueByFeature(
   value: string,
-  types: MediaQueryBreakpoints = null,
+  types: MediaQueryBreakpoints = null
 ) {
   types = types || defaultBreakpoints
   if (Object.prototype.hasOwnProperty.call(types, value)) {

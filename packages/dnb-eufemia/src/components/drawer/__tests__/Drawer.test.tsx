@@ -28,7 +28,7 @@ describe('Drawer', () => {
     render(
       <Drawer {...props}>
         <button>button</button>
-      </Drawer>,
+      </Drawer>
     )
 
     expect(document.body.getAttribute('style')).toBe(null)
@@ -36,7 +36,7 @@ describe('Drawer', () => {
     fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
 
     expect(document.body.getAttribute('style')).toContain(
-      'overflow: hidden;',
+      'overflow: hidden;'
     )
   })
 
@@ -44,13 +44,13 @@ describe('Drawer', () => {
     render(
       <Drawer {...props}>
         <button>button</button>
-      </Drawer>,
+      </Drawer>
     )
 
     fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
 
     expect(
-      document.querySelector('button.dnb-modal__close-button'),
+      document.querySelector('button.dnb-modal__close-button')
     ).toBeInTheDocument()
   })
 
@@ -58,7 +58,7 @@ describe('Drawer', () => {
     render(<Drawer {...props} omitTriggerButton />)
 
     expect(
-      document.querySelector('button.dnb-modal__trigger'),
+      document.querySelector('button.dnb-modal__trigger')
     ).not.toBeInTheDocument()
   })
 
@@ -75,7 +75,7 @@ describe('Drawer', () => {
         {({ close }) => (
           <Button id="close-me" text="close" on_click={close} />
         )}
-      </Drawer>,
+      </Drawer>
     )
 
     fireEvent.click(document.querySelector('button'))
@@ -98,20 +98,20 @@ describe('Drawer', () => {
         }}
       >
         <Drawer />
-      </Provider>,
+      </Provider>
     )
 
     fireEvent.click(document.querySelector('button'))
 
     expect(document.querySelector('.dnb-drawer__title').textContent).toBe(
-      contextTitle,
+      contextTitle
     )
   })
 
   it('is closed by keyboardevent esc', () => {
     let testTriggeredBy = null
     const on_close = jest.fn(
-      ({ triggeredBy }) => (testTriggeredBy = triggeredBy),
+      ({ triggeredBy }) => (testTriggeredBy = triggeredBy)
     )
 
     const props: DrawerAllProps = {
@@ -187,24 +187,24 @@ describe('Drawer', () => {
             <button id="content-third">third</button>
           </Drawer>
         </Drawer>
-      </Drawer>,
+      </Drawer>
     )
 
     expect(
-      document.querySelector('#content-third'),
+      document.querySelector('#content-third')
     ).not.toBeInTheDocument()
 
     fireEvent.click(document.querySelector('button#modal-first'))
     expect(
-      document.documentElement.getAttribute('data-dnb-modal-active'),
+      document.documentElement.getAttribute('data-dnb-modal-active')
     ).toBe('modal-first')
     fireEvent.click(document.querySelector('button#modal-second'))
     expect(
-      document.documentElement.getAttribute('data-dnb-modal-active'),
+      document.documentElement.getAttribute('data-dnb-modal-active')
     ).toBe('modal-second')
     fireEvent.click(document.querySelector('button#modal-third'))
     expect(
-      document.documentElement.getAttribute('data-dnb-modal-active'),
+      document.documentElement.getAttribute('data-dnb-modal-active')
     ).toBe('modal-third')
 
     expect(on_open.first).toHaveBeenCalledTimes(1)
@@ -212,29 +212,29 @@ describe('Drawer', () => {
     expect(on_open.third).toHaveBeenCalledTimes(1)
 
     expect(
-      document.querySelectorAll('button.dnb-modal__close-button').length,
+      document.querySelectorAll('button.dnb-modal__close-button').length
     ).toBe(3)
     expect(document.querySelector('#content-first')).toHaveAttribute(
-      'aria-hidden',
+      'aria-hidden'
     )
     expect(document.querySelector('#content-second')).toHaveAttribute(
-      'aria-hidden',
+      'aria-hidden'
     )
     expect(document.querySelector('#content-third')).not.toHaveAttribute(
-      'aria-hidden',
+      'aria-hidden'
     )
 
     expect(
-      document.querySelectorAll('button.dnb-modal__close-button')[0],
+      document.querySelectorAll('button.dnb-modal__close-button')[0]
     ).toHaveAttribute('aria-hidden')
     expect(
-      document.querySelectorAll('button.dnb-modal__close-button')[0],
+      document.querySelectorAll('button.dnb-modal__close-button')[0]
     ).toHaveAttribute('aria-hidden')
     expect(
-      document.querySelectorAll('button.dnb-modal__close-button')[1],
+      document.querySelectorAll('button.dnb-modal__close-button')[1]
     ).toHaveAttribute('aria-hidden')
     expect(
-      document.querySelectorAll('button.dnb-modal__close-button')[2],
+      document.querySelectorAll('button.dnb-modal__close-button')[2]
     ).not.toHaveAttribute('aria-hidden')
 
     // Close the third one
@@ -246,19 +246,19 @@ describe('Drawer', () => {
     })
 
     expect(
-      document.documentElement.getAttribute('data-dnb-modal-active'),
+      document.documentElement.getAttribute('data-dnb-modal-active')
     ).toBe('modal-second')
     expect(
-      document.querySelector('#content-third'),
+      document.querySelector('#content-third')
     ).not.toBeInTheDocument()
     expect(document.querySelector('#content-second')).not.toHaveAttribute(
-      'aria-hidden',
+      'aria-hidden'
     )
     expect(
-      document.querySelectorAll('button.dnb-modal__close-button')[0],
+      document.querySelectorAll('button.dnb-modal__close-button')[0]
     ).toHaveAttribute('aria-hidden')
     expect(
-      document.querySelectorAll('button.dnb-modal__close-button')[1],
+      document.querySelectorAll('button.dnb-modal__close-button')[1]
     ).not.toHaveAttribute('aria-hidden')
 
     // Close the second one
@@ -270,16 +270,16 @@ describe('Drawer', () => {
     })
 
     expect(
-      document.documentElement.getAttribute('data-dnb-modal-active'),
+      document.documentElement.getAttribute('data-dnb-modal-active')
     ).toBe('modal-first')
     expect(
-      document.querySelector('#content-second'),
+      document.querySelector('#content-second')
     ).not.toBeInTheDocument()
     expect(document.querySelector('#content-first')).not.toHaveAttribute(
-      'aria-hidden',
+      'aria-hidden'
     )
     expect(
-      document.querySelectorAll('button.dnb-modal__close-button')[0],
+      document.querySelectorAll('button.dnb-modal__close-button')[0]
     ).not.toHaveAttribute('aria-hidden')
 
     // Close the first one
@@ -291,10 +291,10 @@ describe('Drawer', () => {
     })
 
     expect(
-      document.querySelector('#content-first'),
+      document.querySelector('#content-first')
     ).not.toBeInTheDocument()
     expect(document.documentElement).not.toHaveAttribute(
-      'data-dnb-modal-active',
+      'data-dnb-modal-active'
     )
   })
 
@@ -335,7 +335,7 @@ describe('Drawer', () => {
         {({ close }) => (
           <Button id="close-button" text="close" on_click={close} />
         )}
-      </Drawer>,
+      </Drawer>
     )
 
     fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
@@ -351,14 +351,14 @@ describe('Drawer', () => {
         <Drawer.Navigation>navigation</Drawer.Navigation>
         <Drawer.Header>header</Drawer.Header>
         <Drawer.Body>body</Drawer.Body>
-      </Drawer>,
+      </Drawer>
     )
 
     fireEvent.click(document.querySelector('button'))
 
     {
       const elements = document.querySelectorAll(
-        '.dnb-drawer.dnb-scroll-view > .dnb-section',
+        '.dnb-drawer.dnb-scroll-view > .dnb-section'
       )
       expect(elements[0].textContent).toContain('navigation')
       expect(elements[1].textContent).toContain('header')
@@ -366,13 +366,13 @@ describe('Drawer', () => {
 
     {
       const elements = document.querySelectorAll(
-        '.dnb-drawer__content > .dnb-section',
+        '.dnb-drawer__content > .dnb-section'
       )
       expect(elements[0].textContent).toContain('body')
     }
 
     expect(
-      document.querySelectorAll('button.dnb-modal__close-button').length,
+      document.querySelectorAll('button.dnb-modal__close-button').length
     ).toBe(1)
   })
 })

@@ -274,7 +274,7 @@ export const extend = (...objects) => {
             }
           }
           return acc2
-        }, {}),
+        }, {})
       )
     }
     return acc1
@@ -296,7 +296,7 @@ export const isTrue = (value) => {
 export const dispatchCustomElementEvent = (
   src,
   eventName,
-  eventObjectOrig,
+  eventObjectOrig
 ) => {
   let ret = undefined
 
@@ -390,9 +390,9 @@ export const toCamelCase = (s) =>
           ? cur
           : cur.replace(
               /(\w)(\w*)/g,
-              (g0, g1, g2) => g1.toUpperCase() + g2.toLowerCase(),
+              (g0, g1, g2) => g1.toUpperCase() + g2.toLowerCase()
             )),
-      '',
+      ''
     )
 
 // TODO: Test if this solution is faster
@@ -410,9 +410,9 @@ export const toPascalCase = (s) =>
         acc +
         cur.replace(
           /(\w)(\w*)/g,
-          (g0, g1, g2) => g1.toUpperCase() + g2.toLowerCase(),
+          (g0, g1, g2) => g1.toUpperCase() + g2.toLowerCase()
         ),
-      '',
+      ''
     )
 
 // transform MyComponent to my_component
@@ -449,7 +449,7 @@ export class DetectOutsideClickClass {
             event,
             ignoreElements,
           },
-          () => typeof onSuccess === 'function' && onSuccess({ event }),
+          () => typeof onSuccess === 'function' && onSuccess({ event })
         )
       }
       document.addEventListener('mousedown', this.handleClickOutside)
@@ -556,7 +556,7 @@ const overflowIsScrollable = (elem) => {
   return /scroll|auto/i.test(
     (style.overflow || '') +
       (style.overflowX || '') +
-      (style.overflowY || ''),
+      (style.overflowY || '')
   )
 }
 
@@ -587,7 +587,7 @@ export const filterProps = (props, remove = null, allowed = null) => {
 export const makeUniqueId = (prefix = 'id-', length = 8) =>
   prefix +
   String(
-    Math.random().toString(36).substr(2, length) + idIncrement++,
+    Math.random().toString(36).substr(2, length) + idIncrement++
   ).slice(-length)
 let idIncrement = 0
 

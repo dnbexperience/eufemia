@@ -17,7 +17,7 @@ export default async function makePropertiesFile() {
   await runFactory()
 
   log.succeed(
-    '> PrePublish: "makePropertiesFile" creating properties file done',
+    '> PrePublish: "makePropertiesFile" creating properties file done'
   )
 }
 
@@ -46,8 +46,8 @@ export default ${JSON.stringify(variables, null, 2)}`,
           semi: true,
           trailingComma: 'none',
           singleQuote: true,
-        },
-      ),
+        }
+      )
     ).trim() + ' // prettier-ignore\n' // so manual changes not removes the semi
   )
 }
@@ -68,7 +68,7 @@ export const runFactory = ({
         .pipe(
           rename({
             extname: '.js',
-          }),
+          })
         )
         .pipe(
           returnResult
@@ -76,7 +76,7 @@ export const runFactory = ({
             : gulp.dest('./src/style/themes/', {
                 overwrite: true,
                 cwd: ROOT_DIR,
-              }),
+              })
         )
         .on('end', resolve)
         .on('error', reject)

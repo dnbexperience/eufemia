@@ -7,7 +7,7 @@ interface StepsContextState {
 }
 
 const StepsContext = React.createContext<StepsContextState | undefined>(
-  undefined,
+  undefined
 )
 
 export default StepsContext

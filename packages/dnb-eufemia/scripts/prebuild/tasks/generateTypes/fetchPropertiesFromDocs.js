@@ -16,7 +16,7 @@ import {
 
 const ROOT_DIR = path.resolve(
   path.dirname(require.resolve('dnb-design-system-portal/package.json')),
-  'src/docs/uilib',
+  'src/docs/uilib'
 )
 
 /**
@@ -30,20 +30,20 @@ const ROOT_DIR = path.resolve(
 function extractPathParts({ file }) {
   const basename = path.basename(file)
   const componentName = toPascalCase(
-    toSnakeCase(basename.replace(path.extname(file), '')),
+    toSnakeCase(basename.replace(path.extname(file), ''))
   )
   const tmpComponentName = toKebabCase(componentName)
   const firstPartOfFilename = tmpComponentName.split('-')[0]
   const parts = file
     .split('/')
     .map((name) =>
-      toKebabCase(path.basename(name).replace(path.extname(file), '')),
+      toKebabCase(path.basename(name).replace(path.extname(file), ''))
     )
   const componentDir =
     parts.find((path) =>
       new RegExp(
-        `(${firstPartOfFilename}-|^${firstPartOfFilename}$)`,
-      ).test(path),
+        `(${firstPartOfFilename}-|^${firstPartOfFilename}$)`
+      ).test(path)
     ) || ''
   const index = parts.findIndex((part) => part === componentDir)
   const groupDir = parts[index - 1] || ''
@@ -209,13 +209,13 @@ async function extractorFactory({
 
           let cleanedKey = propName.replace(
             /<[^<]*>([^<]*)<\/[^<]*>/g,
-            '$1',
+            '$1'
           ) // removes e.g. <strong> defined as **
 
           // Drop empty types
           if (cleanedKey.trim() === '') {
             log.fail(
-              `This file below has an empty prop-type entry!\n${file}\n\n`,
+              `This file below has an empty prop-type entry!\n${file}\n\n`
             )
             return // skip here
           }
@@ -236,7 +236,7 @@ async function extractorFactory({
           if (description) {
             collection[cleanedKey] = description
           }
-        },
+        }
       )
 
       if (process.env.NODE_ENV !== 'test') {
@@ -244,7 +244,7 @@ async function extractorFactory({
       }
 
       return collection
-    },
+    }
   )
 
   const docs = collections

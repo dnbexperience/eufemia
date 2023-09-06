@@ -29,7 +29,7 @@ export default async function makeMainStyle() {
   // this way we avoid cross "includePaths" and the result is:
   // Now a custom theme can overwrite existing CSS Custom Properties
   const listWithThemesToProcess = await globby(
-    './src/style/themes/theme-*/*-theme-*.scss',
+    './src/style/themes/theme-*/*-theme-*.scss'
   )
   await asyncForEach(listWithThemesToProcess, async (themeFile) => {
     // in order to keep the folder structure, we have to add these asterisks
@@ -38,7 +38,7 @@ export default async function makeMainStyle() {
   })
 
   const listWithPackagesToProcess = await globby(
-    './src/style/**/*-ui-*.scss',
+    './src/style/**/*-ui-*.scss'
   )
   await asyncForEach(listWithPackagesToProcess, async (packageFile) => {
     // in order to keep the folder structure, we have to add these asterisks
@@ -47,13 +47,13 @@ export default async function makeMainStyle() {
   })
 
   log.succeed(
-    '> PrePublish: "makeMainStyle" transforming style modules done',
+    '> PrePublish: "makeMainStyle" transforming style modules done'
   )
 }
 
 export const runFactory = (
   src,
-  { returnResult = false, returnFiles = false } = {},
+  { returnResult = false, returnFiles = false } = {}
 ) =>
   new Promise((resolve, reject) => {
     log.start('> PrePublish: transforming main style')
@@ -69,7 +69,7 @@ export const runFactory = (
         .pipe(
           rename({
             extname: '.css',
-          }),
+          })
         )
         .pipe(transform('utf8', transformPostcss(postcssConfig({ sass }))))
         .pipe(cloneSink)
@@ -81,14 +81,14 @@ export const runFactory = (
         stream.pipe(
           gulp.dest('./build/style', {
             cwd: ROOT_DIR,
-          }),
+          })
         )
       }
 
       // so tests can test the minified code
       if (returnResult) {
         stream.pipe(
-          transform('utf8', transformCssnano({ reduceIdents: false })),
+          transform('utf8', transformCssnano({ reduceIdents: false }))
         )
       }
 
@@ -97,7 +97,7 @@ export const runFactory = (
 
       stream
         .pipe(
-          transform('utf8', transformPaths('../../assets/', '../assets/')),
+          transform('utf8', transformPaths('../../assets/', '../assets/'))
         )
         .pipe(
           returnResult || returnFiles
@@ -113,7 +113,7 @@ export const runFactory = (
               })
             : gulp.dest('./build/style', {
                 cwd: ROOT_DIR,
-              }),
+              })
         )
         .on('end', resolve)
         .on('error', reject)

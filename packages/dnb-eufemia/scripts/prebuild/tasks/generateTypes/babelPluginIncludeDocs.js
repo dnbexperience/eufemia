@@ -1,6 +1,6 @@
 export function babelPluginIncludeDocs(
   plugin,
-  { docs, onComplete = null, insertLeadingComment = null },
+  { docs, onComplete = null, insertLeadingComment = null }
 ) {
   if (!docs) {
     return {} // stop here
@@ -30,8 +30,8 @@ export function babelPluginIncludeDocs(
                     'leading',
                     insertLeadingComment === true
                       ? `*\n * NB: Do not change the docs (comments) in here. The docs are updated during build time by "generateTypes.js" and "fetchPropertiesFromDocs.js".\n `
-                      : insertLeadingComment,
-                  ),
+                      : insertLeadingComment
+                  )
                 )
               }
             }

@@ -58,7 +58,7 @@ describe('Heading', () => {
         'custom-class',
         selector.replace(/^\./, ''),
       ])
-    },
+    }
   )
 
   it.each(headings)(
@@ -69,9 +69,9 @@ describe('Heading', () => {
       const element = document.querySelector(selector)
 
       expect(Array.from(element.classList)).toContain(
-        'dnb-space__top--large',
+        'dnb-space__top--large'
       )
-    },
+    }
   )
 
   it.each(headings)(
@@ -88,7 +88,7 @@ describe('Heading', () => {
       } else {
         expect(element.tagName).toEqual(Component.name)
       }
-    },
+    }
   )
 
   it.each(headings)(
@@ -98,10 +98,10 @@ describe('Heading', () => {
 
       const element = document.querySelector(selector)
       const attributes = Array.from(element.attributes).map(
-        (attr) => attr.name,
+        (attr) => attr.name
       )
 
       expect(attributes).toEqual(['class', 'aria-label'])
-    },
+    }
   )
 })

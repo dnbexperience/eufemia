@@ -11,7 +11,7 @@ describe('Selection', () => {
         <Field.Selection value="bar">
           <Field.Option value="foo">Fooo</Field.Option>
           <Field.Option value="bar">Baar</Field.Option>
-        </Field.Selection>,
+        </Field.Selection>
       )
       expect(screen.queryAllByRole('button').length).toEqual(1)
       expect(screen.getByText('Baar')).toBeInTheDocument()
@@ -24,7 +24,7 @@ describe('Selection', () => {
         <Field.Selection value="bar">
           <Field.Option value="foo">Fooo</Field.Option>
           <Field.Option value="bar">Baar</Field.Option>
-        </Field.Selection>,
+        </Field.Selection>
       )
 
       const btn1 = screen.getByRole('button')
@@ -36,7 +36,7 @@ describe('Selection', () => {
         <Field.Selection value="foo">
           <Field.Option value="foo">Fooo</Field.Option>
           <Field.Option value="bar">Baar</Field.Option>
-        </Field.Selection>,
+        </Field.Selection>
       )
 
       // The selected button should now show the other option based on the value-prop change
@@ -52,7 +52,7 @@ describe('Selection', () => {
           <Field.Option value="two">Two</Field.Option>
           <Field.Option value="three">Three o'clock</Field.Option>
           <Field.Option value="four">Four o'clock rock</Field.Option>
-        </Field.Selection>,
+        </Field.Selection>
       )
 
       const selectionButton = screen.getByRole('button')
@@ -70,7 +70,7 @@ describe('Selection', () => {
         <Field.Selection placeholder="Select something">
           <Field.Option value="foo">Fooo</Field.Option>
           <Field.Option value="bar">Baar</Field.Option>
-        </Field.Selection>,
+        </Field.Selection>
       )
       // getByText instead of getByPlaceholderText since eufemia adds placeholder as tag, not placeholder-attribute
       expect(screen.getByText('Select something')).toBeInTheDocument()
@@ -82,7 +82,7 @@ describe('Selection', () => {
         <Field.Selection onChange={onChange} clear>
           <Field.Option value="foo">Fooo</Field.Option>
           <Field.Option value="bar">Baar</Field.Option>
-        </Field.Selection>,
+        </Field.Selection>
       )
       // Open the menu
       const selectionButton = screen.getByRole('button')
@@ -108,7 +108,7 @@ describe('Selection', () => {
         <Field.Selection onChange={onChange} emptyValue="nothing" clear>
           <Field.Option value="foo">Fooo</Field.Option>
           <Field.Option value="bar">Baar</Field.Option>
-        </Field.Selection>,
+        </Field.Selection>
       )
       // Open the menu
       const selectionButton = screen.getByRole('button')
@@ -128,7 +128,7 @@ describe('Selection', () => {
           <Field.Selection variant="radio" value="bar">
             <Field.Option value="foo">Fooo</Field.Option>
             <Field.Option value="bar">Baar</Field.Option>
-          </Field.Selection>,
+          </Field.Selection>
         )
         const radioButtons = screen.queryAllByRole('radio')
         expect(radioButtons.length).toEqual(2)
@@ -141,13 +141,13 @@ describe('Selection', () => {
           <Field.Selection variant="radio" value="bar">
             <Field.Option value="foo">Fooo</Field.Option>
             <Field.Option value="bar">Baar</Field.Option>
-          </Field.Selection>,
+          </Field.Selection>
         )
         rerender(
           <Field.Selection variant="radio" value="foo">
             <Field.Option value="foo">Fooo</Field.Option>
             <Field.Option value="bar">Baar</Field.Option>
-          </Field.Selection>,
+          </Field.Selection>
         )
 
         const radioButtons = screen.queryAllByRole('radio')
@@ -165,7 +165,7 @@ describe('Selection', () => {
         <Field.Selection value="bar" onChange={onChange}>
           <Field.Option value="foo">Fooo</Field.Option>
           <Field.Option value="bar">Baar</Field.Option>
-        </Field.Selection>,
+        </Field.Selection>
       )
 
       const selectionButton = screen.getByRole('button')
@@ -192,7 +192,7 @@ describe('Selection', () => {
         <Field.Selection value="bar" onFocus={onFocus}>
           <Field.Option value="foo">Fooo</Field.Option>
           <Field.Option value="bar">Baar</Field.Option>
-        </Field.Selection>,
+        </Field.Selection>
       )
 
       const selectionButton = screen.getByRole('button')
@@ -208,7 +208,7 @@ describe('Selection', () => {
         <Field.Selection value="bar" onBlur={onBlur}>
           <Field.Option value="foo">Fooo</Field.Option>
           <Field.Option value="bar">Baar</Field.Option>
-        </Field.Selection>,
+        </Field.Selection>
       )
 
       const selectionButton = screen.getByRole('button')
@@ -230,7 +230,7 @@ describe('Selection', () => {
             <Field.Selection required validateInitially>
               <Field.Option value="foo">Fooo</Field.Option>
               <Field.Option value="bar">Baar</Field.Option>
-            </Field.Selection>,
+            </Field.Selection>
           )
           const selectionButton = screen.getByRole('button')
           await userEvent.click(selectionButton)
@@ -243,7 +243,7 @@ describe('Selection', () => {
             <Field.Selection required>
               <Field.Option value="foo">Fooo</Field.Option>
               <Field.Option value="bar">Baar</Field.Option>
-            </Field.Selection>,
+            </Field.Selection>
           )
           const selectionButton = screen.getByRole('button')
           await userEvent.click(selectionButton)

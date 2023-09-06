@@ -22,7 +22,7 @@ describe.each(['ui', 'sbanken', 'eiendom'])(
       })
       expect(screenshot).toMatchImageSnapshot()
     })
-  },
+  }
 )
 describe.each(['sbanken'])('Typography mobile for %s', (themeName) => {
   setupPageScreenshot({

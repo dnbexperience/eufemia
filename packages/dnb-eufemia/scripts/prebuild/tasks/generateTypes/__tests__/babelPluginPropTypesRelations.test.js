@@ -12,7 +12,7 @@ describe('babelPluginPropTypesRelations', () => {
   it('has to match snapshot', async () => {
     const file = nodePath.resolve(
       __dirname,
-      '__mocks__/PrimaryComponent.js',
+      '__mocks__/PrimaryComponent.js'
     )
     const sourceDir = nodePath.dirname(file)
 

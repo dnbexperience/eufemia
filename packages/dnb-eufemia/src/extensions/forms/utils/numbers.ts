@@ -15,7 +15,7 @@ interface FormatNumberOptions {
 
 export function formatNumber(
   value: number,
-  options?: FormatNumberOptions,
+  options?: FormatNumberOptions
 ): string {
   const {
     thousandSeparator,
@@ -49,7 +49,7 @@ export function formatNumber(
     thousandSeparator !== undefined
       ? withDecimalSymbol.replace(
           /\B(?=(\d{3})+(?!\d))/g,
-          thousandSeparator,
+          thousandSeparator
         )
       : withDecimalSymbol
 
@@ -66,7 +66,7 @@ export function formatNumber(
 
 export function parseFormattedNumber(
   formattedValue: string,
-  options?: FormatNumberOptions,
+  options?: FormatNumberOptions
 ): number {
   const {
     thousandSeparator,

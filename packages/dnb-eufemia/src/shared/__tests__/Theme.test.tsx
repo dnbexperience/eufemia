@@ -21,7 +21,7 @@ describe('Theme', () => {
     render(
       <Theme name="eiendom" variant="soft">
         content
-      </Theme>,
+      </Theme>
     )
 
     const element = document.querySelector('.eufemia-theme')
@@ -38,7 +38,7 @@ describe('Theme', () => {
         <Theme id="theme-2" variant="soft">
           content
         </Theme>
-      </Theme>,
+      </Theme>
     )
 
     const element1 = document.querySelector('#theme-1')
@@ -98,12 +98,12 @@ describe('Theme', () => {
     render(
       <Theme aria-label="custom label" element="section">
         content
-      </Theme>,
+      </Theme>
     )
 
     const element = document.querySelector('.eufemia-theme')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name,
+      (attr) => attr.name
     )
     expect(attributes).toEqual(['class', 'aria-label'])
   })
@@ -119,12 +119,12 @@ describe('Theme', () => {
     const Component = React.forwardRef(
       (
         { children, ...rest }: { children: React.ReactNode },
-        ref: React.LegacyRef<HTMLElement>,
+        ref: React.LegacyRef<HTMLElement>
       ) => (
         <section {...rest} ref={ref}>
           {children}
         </section>
-      ),
+      )
     )
     render(<Theme element={Component}>content</Theme>)
 
@@ -136,13 +136,13 @@ describe('Theme', () => {
     const { rerender } = render(<Theme element={false}>content</Theme>)
 
     expect(
-      document.querySelector('.eufemia-theme'),
+      document.querySelector('.eufemia-theme')
     ).not.toBeInTheDocument()
 
     rerender(<Theme element={React.Fragment}>content</Theme>)
 
     expect(
-      document.querySelector('.eufemia-theme'),
+      document.querySelector('.eufemia-theme')
     ).not.toBeInTheDocument()
 
     rerender(<Theme element="div">content</Theme>)
@@ -158,7 +158,7 @@ describe('Portals', () => {
         <Dialog noAnimation openState="opened">
           content
         </Dialog>
-      </Theme>,
+      </Theme>
     )
 
     const element = document.querySelector('.eufemia-theme')
@@ -169,7 +169,7 @@ describe('Portals', () => {
         'eufemia-theme',
         'eufemia-theme__eiendom',
         'eufemia-theme__eiendom--soft',
-      ]),
+      ])
     )
     expect(document.querySelectorAll('.eufemia-theme')).toHaveLength(1)
   })
@@ -180,7 +180,7 @@ describe('Portals', () => {
         <Drawer noAnimation openState="opened">
           content
         </Drawer>
-      </Theme>,
+      </Theme>
     )
 
     const element = document.querySelector('.eufemia-theme')
@@ -192,7 +192,7 @@ describe('Portals', () => {
         'eufemia-theme',
         'eufemia-theme__eiendom',
         'eufemia-theme__eiendom--soft',
-      ]),
+      ])
     )
     expect(document.querySelectorAll('.eufemia-theme')).toHaveLength(1)
   })
@@ -201,7 +201,7 @@ describe('Portals', () => {
     render(
       <Theme name="eiendom" variant="soft" element={false}>
         <Dropdown open no_animation data={['A', 'B']} />
-      </Theme>,
+      </Theme>
     )
 
     const element = document.querySelector('.eufemia-theme')
@@ -211,7 +211,7 @@ describe('Portals', () => {
         'eufemia-theme',
         'eufemia-theme__eiendom',
         'eufemia-theme__eiendom--soft',
-      ]),
+      ])
     )
     expect(document.querySelectorAll('.eufemia-theme')).toHaveLength(1)
   })
@@ -220,7 +220,7 @@ describe('Portals', () => {
     render(
       <Theme name="eiendom" variant="soft" element={false}>
         <Autocomplete open no_animation data={['A', 'B']} />
-      </Theme>,
+      </Theme>
     )
 
     const element = document.querySelector('.eufemia-theme')
@@ -230,7 +230,7 @@ describe('Portals', () => {
         'eufemia-theme',
         'eufemia-theme__eiendom',
         'eufemia-theme__eiendom--soft',
-      ]),
+      ])
     )
     expect(document.querySelectorAll('.eufemia-theme')).toHaveLength(1)
   })
@@ -239,7 +239,7 @@ describe('Portals', () => {
     render(
       <Theme name="eiendom" variant="soft" element={false}>
         <Tooltip open no_animation />
-      </Theme>,
+      </Theme>
     )
 
     const element = document.querySelector('.eufemia-theme')
@@ -249,7 +249,7 @@ describe('Portals', () => {
         'eufemia-theme',
         'eufemia-theme__eiendom',
         'eufemia-theme__eiendom--soft',
-      ]),
+      ])
     )
     expect(document.querySelectorAll('.eufemia-theme')).toHaveLength(1)
   })

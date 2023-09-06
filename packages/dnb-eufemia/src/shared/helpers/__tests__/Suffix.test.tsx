@@ -29,13 +29,13 @@ describe('Suffix', () => {
             </Input>
           )
         }}
-      </Context.Consumer>,
+      </Context.Consumer>
     )
 
     expect(
       document
         .querySelector('button.dnb-modal__trigger')
-        .getAttribute('aria-label'),
+        .getAttribute('aria-label')
     ).toBe(more_info)
   })
 
@@ -45,14 +45,14 @@ describe('Suffix', () => {
     render(
       <Input suffix={suffixContent} skeleton>
         Input Value
-      </Input>,
+      </Input>
     )
 
     expect(document.querySelector('.dnb-suffix').textContent).toBe(
-      suffixContent,
+      suffixContent
     )
     expect(
-      Array.from(document.querySelector('.dnb-suffix').classList),
+      Array.from(document.querySelector('.dnb-suffix').classList)
     ).toEqual([
       'dnb-suffix',
       'dnb-input__suffix',
@@ -65,14 +65,14 @@ describe('Suffix', () => {
     render(
       <Input suffix={<HelpButton skeleton />} skeleton>
         Input Value
-      </Input>,
+      </Input>
     )
 
     expect(
-      Array.from(document.querySelector('.dnb-suffix').classList),
+      Array.from(document.querySelector('.dnb-suffix').classList)
     ).toEqual(['dnb-suffix', 'dnb-input__suffix'])
     expect(
-      Array.from(document.querySelector('.dnb-help-button').classList),
+      Array.from(document.querySelector('.dnb-help-button').classList)
     ).toEqual(
       expect.arrayContaining([
         'dnb-button',
@@ -80,7 +80,7 @@ describe('Suffix', () => {
         'dnb-skeleton',
         'dnb-skeleton--shape',
         'dnb-help-button',
-      ]),
+      ])
     )
   })
 })

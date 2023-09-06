@@ -30,11 +30,11 @@ describe('FigmaDoc', () => {
 
     expect(start).toHaveBeenCalledTimes(1)
     expect(start).toHaveBeenCalledWith(
-      expect.stringContaining('Fetching the figma doc'),
+      expect.stringContaining('Fetching the figma doc')
     )
     expect(succeed).toHaveBeenCalledTimes(1)
     expect(succeed).toHaveBeenCalledWith(
-      expect.stringContaining('Using old Figma document'),
+      expect.stringContaining('Using old Figma document')
     )
   })
 })

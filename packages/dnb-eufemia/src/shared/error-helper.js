@@ -9,7 +9,7 @@ export const ERROR_FATAL = 500
 export function ErrorHandler(
   error,
   { message } = { message: null },
-  code = ERROR_HARMLESS,
+  code = ERROR_HARMLESS
 ) {
   if (typeof error === 'object') {
     message = error.message

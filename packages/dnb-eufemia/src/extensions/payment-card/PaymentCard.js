@@ -107,7 +107,7 @@ export default class PaymentCard extends React.PureComponent {
       this.props,
       PaymentCard.defaultProps,
       { locale: this.context.locale },
-      { skeleton: this.context?.skeleton },
+      { skeleton: this.context?.skeleton }
     )
 
     const {
@@ -135,7 +135,7 @@ export default class PaymentCard extends React.PureComponent {
         createSkeletonClass(null, skeleton, this.context),
         createSpacingClasses(props),
         className,
-        _className,
+        _className
       ),
       ...attributes,
     }
@@ -152,7 +152,7 @@ export default class PaymentCard extends React.PureComponent {
             const translations = extendPropsWithContextInClassComponent(
               this.props,
               translationDefaultPropsProps,
-              translation.PaymentCard,
+              translation.PaymentCard
             )
             return (
               <figure {...params}>
@@ -166,7 +166,7 @@ export default class PaymentCard extends React.PureComponent {
                   cardStatus={card_status}
                   cardNumber={formatCardNumber(
                     card_number,
-                    parseFloat(digits),
+                    parseFloat(digits)
                   )}
                   translations={translations}
                 />
@@ -190,7 +190,7 @@ export const formatCardNumber = (cardNumber, digits) =>
 
 export const getCardData = (productCode) => {
   const card = cardProducts.find(
-    (item) => item.productCode === productCode,
+    (item) => item.productCode === productCode
   )
   return card || defaultCard(productCode)
 }
@@ -221,7 +221,7 @@ function StatusOverlay({ cardStatus, translations, skeleton }) {
         <div
           className={classnames(
             'dnb-payment-card__blocking__overlay',
-            createSkeletonClass('font', skeleton),
+            createSkeletonClass('font', skeleton)
           )}
         >
           <div className="dnb-payment-card__blocking__center">
@@ -235,7 +235,7 @@ function StatusOverlay({ cardStatus, translations, skeleton }) {
         <div
           className={classnames(
             'dnb-payment-card__blocking__overlay',
-            createSkeletonClass('font', skeleton),
+            createSkeletonClass('font', skeleton)
           )}
         >
           <div className="dnb-payment-card__blocking__center">
@@ -250,7 +250,7 @@ function StatusOverlay({ cardStatus, translations, skeleton }) {
         <div
           className={classnames(
             'dnb-payment-card__blocking__overlay',
-            createSkeletonClass('font', skeleton),
+            createSkeletonClass('font', skeleton)
           )}
         >
           <div className="dnb-payment-card__blocking__center">
@@ -277,7 +277,7 @@ function CardText({ cardNumber, translations, skeleton }) {
     <span
       className={classnames(
         'dnb-payment-card__card__wrapper',
-        createSkeletonClass('font', skeleton),
+        createSkeletonClass('font', skeleton)
       )}
     >
       <P
@@ -317,7 +317,7 @@ function NormalCard({
       id={id}
       className={classnames(
         'dnb-payment-card__card',
-        `dnb-payment-card__${data.cardDesign.cardStyle}`,
+        `dnb-payment-card__${data.cardDesign.cardStyle}`
       )}
       {...(data.cardDesign?.backgroundImage
         ? {

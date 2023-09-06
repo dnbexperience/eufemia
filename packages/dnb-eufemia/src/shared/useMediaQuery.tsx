@@ -26,7 +26,7 @@ export default function useMediaQuery(props: MediaQueryProps) {
   }, [disabled, matchOnSSR])
 
   const mediaQueryList = React.useRef(
-    makeMediaQueryList(props, context.breakpoints),
+    makeMediaQueryList(props, context.breakpoints)
   )
   if (mediaQueryList.current?.matches) {
     matches = true
@@ -45,14 +45,14 @@ export default function useMediaQuery(props: MediaQueryProps) {
 
       mediaQueryList.current = makeMediaQueryList(
         props,
-        context.breakpoints,
+        context.breakpoints
       )
       matchUpdate(mediaQueryList.current?.matches)
     }
 
     listenerRef.current = createMediaQueryListener(
       mediaQueryList.current,
-      (match) => matchUpdate(match),
+      (match) => matchUpdate(match)
     )
 
     return listenerRef.current

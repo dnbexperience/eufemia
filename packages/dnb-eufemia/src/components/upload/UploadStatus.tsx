@@ -16,7 +16,7 @@ const UploadStatus = () => {
       <FormStatus top stretch>
         {String(errorAmountLimit).replace(
           '%amount',
-          String(filesAmountLimit),
+          String(filesAmountLimit)
         )}
       </FormStatus>
     </HeightAnimation>

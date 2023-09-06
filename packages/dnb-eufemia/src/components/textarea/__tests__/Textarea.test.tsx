@@ -23,12 +23,12 @@ describe('Textarea component', () => {
     render(
       <Textarea {...props} value={null}>
         {null}
-      </Textarea>,
+      </Textarea>
     )
     fireEvent.focus(document.querySelector('textarea'))
 
     expect(document.querySelector('.dnb-textarea').classList).toContain(
-      'dnb-textarea--focus',
+      'dnb-textarea--focus'
     )
   })
 
@@ -36,10 +36,10 @@ describe('Textarea component', () => {
     render(
       <Textarea {...props} value={null}>
         {null}
-      </Textarea>,
+      </Textarea>
     )
     expect(
-      document.querySelector('.dnb-textarea').classList,
+      document.querySelector('.dnb-textarea').classList
     ).not.toContain('dnb-textarea--has-content')
 
     const value = 'new value'
@@ -49,7 +49,7 @@ describe('Textarea component', () => {
     })
 
     expect(document.querySelector('.dnb-textarea').classList).toContain(
-      'dnb-textarea--has-content',
+      'dnb-textarea--has-content'
     )
     expect(document.querySelector('textarea').value).toBe(value)
   })
@@ -59,7 +59,7 @@ describe('Textarea component', () => {
     const { rerender } = render(
       <Textarea {...props} value={null}>
         {null}
-      </Textarea>,
+      </Textarea>
     )
     const initValue = 'new prop value'
     const emptyValue = null
@@ -67,14 +67,14 @@ describe('Textarea component', () => {
     rerender(
       <Textarea {...props} value={initValue}>
         {null}
-      </Textarea>,
+      </Textarea>
     )
     expect(document.querySelector('textarea').value).toBe(initValue)
 
     rerender(
       <Textarea {...props} value={emptyValue}>
         {null}
-      </Textarea>,
+      </Textarea>
     )
     expect(document.querySelector('textarea').value).toBe('')
   })
@@ -92,7 +92,7 @@ describe('Textarea component', () => {
         value={initValue}
         on_change={on_change}
         on_key_down={on_key_down} // additional native event test
-      />,
+      />
     )
 
     expect(document.querySelector('textarea').value).toBe(initValue)
@@ -100,7 +100,7 @@ describe('Textarea component', () => {
     await waitFor(() => {
       expect(on_change.mock.calls.length).toBe(9)
       expect(document.querySelector('textarea').value).toBe(
-        initValue + newValue,
+        initValue + newValue
       )
     })
 
@@ -136,7 +136,7 @@ describe('Textarea component', () => {
 
     rerender(<Textarea value={zeroValue} />)
     expect(document.querySelector('textarea').value).toBe(
-      String(zeroValue),
+      String(zeroValue)
     )
   })
 
@@ -148,7 +148,7 @@ describe('Textarea component', () => {
   it('has correct size attribute (chars length) on textarea by using textarea_attributes', () => {
     render(<Textarea textarea_attributes={{ size: 2 }} />)
     expect(document.querySelector('textarea').getAttribute('size')).toBe(
-      '2',
+      '2'
     )
   })
 
@@ -156,13 +156,13 @@ describe('Textarea component', () => {
     const { rerender } = render(
       <Textarea {...props} value={null}>
         {null}
-      </Textarea>,
+      </Textarea>
     )
     const value = 'new value'
     rerender(
       <Textarea {...props} value={value}>
         {null}
-      </Textarea>,
+      </Textarea>
     )
     expect(document.querySelector('textarea').value).toBe(value)
   })
@@ -175,7 +175,7 @@ describe('Textarea component', () => {
   it('has to to have a status value as defined in the prop', () => {
     render(<Textarea {...props} status="status" status_state="error" />)
     expect(
-      document.querySelector('.dnb-form-status__text').textContent,
+      document.querySelector('.dnb-form-status__text').textContent
     ).toBe('status')
   })
 
@@ -238,12 +238,12 @@ describe('Textarea component', () => {
     render(
       <FormRow vertical>
         <Textarea label="Label" />
-      </FormRow>,
+      </FormRow>
     )
 
     const element = document.querySelector('.dnb-textarea')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name,
+      (attr) => attr.name
     )
 
     expect(attributes).toEqual(['class'])
@@ -260,7 +260,7 @@ describe('Textarea component', () => {
       <>
         <label htmlFor="textarea">text</label>
         <Textarea {...props} id="textarea" value="some value" />
-      </>,
+      </>
     )
 
     expect(await axeComponent(Comp)).toHaveNoViolations()
@@ -275,7 +275,7 @@ describe('Textarea scss', () => {
 
   it('have to match default theme snapshot', () => {
     const css = loadScss(
-      require.resolve('../style/themes/dnb-textarea-theme-ui.scss'),
+      require.resolve('../style/themes/dnb-textarea-theme-ui.scss')
     )
     expect(css).toMatchSnapshot()
   })

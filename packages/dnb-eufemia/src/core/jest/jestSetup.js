@@ -128,7 +128,7 @@ export const axeComponent = async (...components) => {
 
   return await axe(
     `<main>${html}</main>`,
-    typeof components[1] === 'object' ? components[1] : null,
+    typeof components[1] === 'object' ? components[1] : null
   )
 }
 

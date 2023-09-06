@@ -34,7 +34,7 @@ type TooltipPortalProps = {
 }
 
 function TooltipPortal(
-  props: TooltipProps & TooltipPortalProps,
+  props: TooltipProps & TooltipPortalProps
 ): JSX.Element {
   const {
     active,
@@ -115,7 +115,7 @@ function TooltipPortal(
         tooltipPortal[id].delayTimeout = setTimeout(delayRender, delay)
         tooltipPortal[id].hiddenTimeout = setTimeout(
           delayHidden,
-          delay + 300,
+          delay + 300
         )
       }
     }
@@ -151,7 +151,7 @@ function TooltipPortal(
           {children}
         </TooltipContainer>
       ) : null,
-      root,
+      root
     )
   }
 
@@ -178,7 +178,7 @@ const createRootElement = (theme: ThemeProps, className = null) => {
     if (theme) {
       elem.classList.add.call(
         elem.classList,
-        ...getThemeClasses(theme).split(' '),
+        ...getThemeClasses(theme).split(' ')
       )
     }
 

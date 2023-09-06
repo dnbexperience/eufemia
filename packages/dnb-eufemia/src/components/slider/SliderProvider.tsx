@@ -53,10 +53,10 @@ export function SliderProvider(localProps: SliderAllProps) {
          */
         {
           vertical: null,
-        },
+        }
       ),
-      context?.Slider,
-    ),
+      context?.Slider
+    )
   )
 
   const [_id] = React.useState(makeUniqueId)
@@ -112,7 +112,7 @@ export function SliderProvider(localProps: SliderAllProps) {
     React.useState<boolean>(false)
   const [isVertical] = React.useState(isTrue(_vertical))
   const [isReverse] = React.useState(
-    isVertical ? !isTrue(_reverse) : isTrue(_reverse),
+    isVertical ? !isTrue(_reverse) : isTrue(_reverse)
   )
   const isMulti = Array.isArray(value)
   const setThumbIndex = (index: number) => {
@@ -141,7 +141,7 @@ export function SliderProvider(localProps: SliderAllProps) {
 
   const emitChange = (
     event: MouseEvent | TouchEvent,
-    rawValue: number,
+    rawValue: number
   ) => {
     if (disabled || isTrue(skeleton)) {
       return
@@ -170,7 +170,7 @@ export function SliderProvider(localProps: SliderAllProps) {
             ? (realtimeValue.current as Array<number>)
             : value,
           currentIndex,
-          numberValue,
+          numberValue
         )
 
         if (multiThumbBehavior === 'push') {
@@ -235,7 +235,7 @@ export function SliderProvider(localProps: SliderAllProps) {
     if (state) {
       animationTimeout.current = setTimeout(
         () => updateAnimateState(false),
-        250,
+        250
       )
     }
   }

@@ -71,14 +71,14 @@ describe('Context', () => {
     const helpButtonNb = screen.getByLabelText(title_nb)
     expect(helpButtonNb.getAttribute('aria-label')).toBe(title_nb)
     expect(helpButtonNb.getAttribute('aria-roledescription')).toBe(
-      'Hjelp-knapp',
+      'Hjelp-knapp'
     )
 
     render(<HelpButton lang="en-GB">content</HelpButton>)
     const helpButtonGb = screen.getByLabelText(title_gb)
     expect(helpButtonGb.getAttribute('aria-label')).toBe(title_gb)
     expect(helpButtonGb.getAttribute('aria-roledescription')).toBe(
-      'Help button',
+      'Help button'
     )
   })
 

@@ -24,7 +24,7 @@ export const fetchFigmaIcons = async ({
 }: FetchFigmaIconsOptions = {}) => {
   if (!figmaFile) {
     return log.info(
-      '> Figma: No "FIGMA_ICONS_FILE" defined, skipped to run fetchFigmaIcons',
+      '> Figma: No "FIGMA_ICONS_FILE" defined, skipped to run fetchFigmaIcons'
     )
   }
 

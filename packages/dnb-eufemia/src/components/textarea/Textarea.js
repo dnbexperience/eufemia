@@ -340,7 +340,7 @@ export default class Textarea extends React.PureComponent {
       { skeleton: this.context?.skeleton },
       this.context.getTranslation(this.props).Textarea,
       includeValidProps(this.context.FormRow),
-      this.context.Textarea,
+      this.context.Textarea
     )
 
     const {
@@ -411,7 +411,7 @@ export default class Textarea extends React.PureComponent {
       textareaParams['aria-describedby'] = combineDescribedBy(
         textareaParams,
         showStatus ? id + '-status' : null,
-        suffix ? id + '-suffix' : null,
+        suffix ? id + '-suffix' : null
       )
     }
     if (readOnly) {
@@ -432,14 +432,14 @@ export default class Textarea extends React.PureComponent {
         createSkeletonClass(null, skeleton),
         createSpacingClasses(props),
         _className,
-        className,
+        className
       ),
     }
 
     const innerParams = {
       className: classnames(
         'dnb-textarea__inner',
-        createSkeletonClass('shape', skeleton, this.context),
+        createSkeletonClass('shape', skeleton, this.context)
       ),
     }
 
@@ -514,7 +514,7 @@ export default class Textarea extends React.PureComponent {
                   aria-hidden
                   className={classnames(
                     'dnb-textarea__placeholder',
-                    align ? `dnb-textarea__align--${align}` : null,
+                    align ? `dnb-textarea__align--${align}` : null
                   )}
                   style={placeholderStyle}
                 >

@@ -38,7 +38,7 @@ export const useStickyHeader = ({
         const tableElem = elementRef.current
 
         const trElem: HTMLTableRowElement = tableElem.querySelector(
-          'thead > tr:first-of-type, thead > .dnb-table__tr:first-of-type',
+          'thead > tr:first-of-type, thead > .dnb-table__tr:first-of-type'
         )
         const thElem = getThElement(tableElem)
 
@@ -52,7 +52,7 @@ export const useStickyHeader = ({
 
           const modalElem = getPreviousSibling(
             '.dnb-modal__content',
-            tableElem,
+            tableElem
           )
 
           if (modalElem) {
@@ -62,14 +62,14 @@ export const useStickyHeader = ({
               offsetTopPx =
                 (
                   modalElem.querySelector(
-                    '.dnb-modal__header__bar',
+                    '.dnb-modal__header__bar'
                   ) as HTMLElement
                 ).offsetHeight || 0
             }
           } else {
             const scrollElem = getPreviousSibling(
               '.dnb-scroll-view',
-              tableElem,
+              tableElem
             ) as HTMLElement
 
             if (scrollElem) {
@@ -90,7 +90,7 @@ export const useStickyHeader = ({
           if (sticky === 'css-position') {
             trElem.style.setProperty(
               '--table-top',
-              `${offsetTopPx / 16}rem`,
+              `${offsetTopPx / 16}rem`
             )
           }
         }
@@ -110,7 +110,7 @@ export const useStickyHeader = ({
             if (sticky !== 'css-position') {
               trElem.style.setProperty(
                 '--table-offset',
-                String(offset) + 'px',
+                String(offset) + 'px'
               )
             }
 
@@ -177,6 +177,6 @@ const stickyWarning = (message = '') => {
 }
 const getThElement = (element: HTMLTableElement): HTMLTableCellElement => {
   return element.querySelector(
-    'thead > tr:first-of-type > th:first-of-type, thead > .dnb-table__tr:first-of-type > .dnb-table__th:first-of-type',
+    'thead > tr:first-of-type > th:first-of-type, thead > .dnb-table__tr:first-of-type > .dnb-table__th:first-of-type'
   )
 }

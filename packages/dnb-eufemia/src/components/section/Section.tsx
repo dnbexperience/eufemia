@@ -92,7 +92,7 @@ export default function Section(localProps: SectionAllProps) {
   const props = extendPropsWithContext(
     localProps,
     defaultProps,
-    context.Section,
+    context.Section
   )
 
   const {
@@ -115,7 +115,7 @@ export default function Section(localProps: SectionAllProps) {
       spacing &&
         `dnb-section--spacing-${isTrue(spacing) ? 'large' : spacing}`,
       createSpacingClasses(props),
-      className,
+      className
     ),
     ...(attributes as Record<string, unknown>),
   }

@@ -72,7 +72,7 @@ function PhoneNumber(props: Props) {
       handleChange?.([countryCode, phoneNumber].filter(Boolean).join(' '))
       onCountryCodeChange?.(countryCode)
     },
-    [phoneNumber, emptyValue, handleChange, onCountryCodeChange],
+    [phoneNumber, emptyValue, handleChange, onCountryCodeChange]
   )
 
   const handleNumberChange = useCallback(
@@ -86,7 +86,7 @@ function PhoneNumber(props: Props) {
       handleChange?.([countryCode, phoneNumber].filter(Boolean).join(' '))
       onNumberChange?.(phoneNumber)
     },
-    [countryCode, emptyValue, handleChange, onNumberChange],
+    [countryCode, emptyValue, handleChange, onNumberChange]
   )
 
   return (
@@ -95,14 +95,14 @@ function PhoneNumber(props: Props) {
         'dnb-forms-field-phone-number',
         width !== undefined &&
           `dnb-forms-field-phone-number--width-${width}`,
-        className,
+        className
       )}
       {...forwardSpaceProps(preparedProps)}
     >
       <CountryCode
         className={classnames(
           'dnb-forms-field-phone-number__country-code',
-          countryCodeFieldClassName,
+          countryCodeFieldClassName
         )}
         label={countryCodeLabel}
         value={countryCode ?? '+47'}
@@ -113,7 +113,7 @@ function PhoneNumber(props: Props) {
       <StringComponent
         className={classnames(
           'dnb-forms-field-phone-number__number',
-          numberFieldClassName,
+          numberFieldClassName
         )}
         type="tel"
         emptyValue=""

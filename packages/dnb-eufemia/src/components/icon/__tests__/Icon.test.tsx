@@ -36,11 +36,11 @@ describe('Icon component', () => {
   it('should work with medium size', () => {
     const { rerender } = render(<Icon {...props} size="24" />)
     expect(document.querySelector('span.dnb-icon').classList).toContain(
-      'dnb-icon--medium',
+      'dnb-icon--medium'
     )
     rerender(<Icon {...props} size={16} />)
     expect(document.querySelector('span.dnb-icon').classList).toContain(
-      'dnb-icon--default',
+      'dnb-icon--default'
     )
   })
 
@@ -61,51 +61,51 @@ describe('Icon component', () => {
   it('should have border class', () => {
     render(<Icon {...props} border={true} />)
     expect(document.querySelector('span.dnb-icon').classList).toContain(
-      'dnb-icon--border',
+      'dnb-icon--border'
     )
   })
 
   it('should inherit color and vice versa when inherit_color is false', () => {
     const { rerender } = render(<Icon icon={question} />)
     expect(document.querySelector('span.dnb-icon').classList).toContain(
-      'dnb-icon--inherit-color',
+      'dnb-icon--inherit-color'
     )
 
     rerender(<Icon icon={question} inherit_color={true} />)
 
     expect(document.querySelector('span.dnb-icon').classList).toContain(
-      'dnb-icon--inherit-color',
+      'dnb-icon--inherit-color'
     )
 
     rerender(<Icon icon={question} inherit_color={false} />)
 
     expect(
-      document.querySelector('span.dnb-icon').classList,
+      document.querySelector('span.dnb-icon').classList
     ).not.toContain('dnb-icon--inherit-color')
   })
 
   it('should not be hidden, given aria-hidden={false}', () => {
     render(<Icon {...props} aria-hidden={false} />)
     expect(
-      document.querySelector('span.dnb-icon').getAttribute('aria-hidden'),
+      document.querySelector('span.dnb-icon').getAttribute('aria-hidden')
     ).toBe('false')
   })
 
   it('should work with custom size', () => {
     const { rerender } = render(<Icon {...props} size="100" />)
     expect(document.querySelector('span.dnb-icon').classList).toContain(
-      'dnb-icon--custom-size',
+      'dnb-icon--custom-size'
     )
     rerender(<Icon {...props} size={16} />)
     expect(
-      document.querySelector('span.dnb-icon').classList,
+      document.querySelector('span.dnb-icon').classList
     ).not.toContain('dnb-icon--custom-size')
   })
 
   it('should set data-testid property based on the aria-label', () => {
     render(<Icon icon={question} aria-label="question icon" />)
     expect(
-      document.querySelector('span.dnb-icon').getAttribute('data-testid'),
+      document.querySelector('span.dnb-icon').getAttribute('data-testid')
     ).toBe('question icon')
   })
 
@@ -115,10 +115,10 @@ describe('Icon component', () => {
         icon={question}
         aria-label="question icon"
         data-testid="custom-data-testid-value"
-      />,
+      />
     )
     expect(
-      document.querySelector('span.dnb-icon').getAttribute('data-testid'),
+      document.querySelector('span.dnb-icon').getAttribute('data-testid')
     ).toBe('custom-data-testid-value')
   })
 

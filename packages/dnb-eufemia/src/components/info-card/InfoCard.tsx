@@ -147,7 +147,7 @@ const InfoCard = (localProps: InfoCardAllProps) => {
         'dnb-info-card',
         centered && 'dnb-info-card--centered',
         spacingClasses,
-        className,
+        className
       )}
       {...props}
     >

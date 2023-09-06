@@ -172,7 +172,7 @@ export type TranslationConsumer = Record<
 >
 
 export function prepareContext<Props>(
-  props: ContextProps = {},
+  props: ContextProps = {}
 ): Props & ContextProps {
   const locales: Locales = props.locales
     ? extend(defaultLocales, props.locales)
@@ -242,14 +242,14 @@ const Context = React.createContext<ContextProps>(
     locale: LOCALE,
     currency: CURRENCY,
     currency_display: CURRENCY_DISPLAY,
-  }),
+  })
 )
 
 export default Context
 
 function destruct(
   source: TranslationConsumer,
-  validKeys: Record<string, unknown>,
+  validKeys: Record<string, unknown>
 ): TranslationConsumer {
   for (const k in source) {
     if (String(k).includes('.')) {

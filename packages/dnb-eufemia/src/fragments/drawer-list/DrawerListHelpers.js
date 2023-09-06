@@ -86,7 +86,7 @@ export const drawerListPropTypes = {
             PropTypes.arrayOf(PropTypes.string),
           ]),
         }),
-      ]),
+      ])
     ),
   ]),
   prepared_data: PropTypes.array,
@@ -190,7 +190,7 @@ export const parseContentTitle = (
     separator = '\n',
     removeNumericOnlyValues = false,
     preferSelectedValue = false,
-  } = {},
+  } = {}
 ) => {
   let ret = ''
   const onlyNumericRegex = /[0-9.,-\s]+/
@@ -224,7 +224,7 @@ export const parseContentTitle = (
   } else {
     ret = convertJsxToString(
       (dataItem && dataItem.content) || dataItem,
-      ' ',
+      ' '
     )
   }
 
@@ -323,7 +323,7 @@ export const getCurrentIndex = (value, data) => {
 export const getSelectedItemValue = (value, state) => {
   if (hasObjectKeyAsValue(state)) {
     return parseCurrentValue(
-      state.data.filter((_, i) => i === parseFloat(value))[0],
+      state.data.filter((_, i) => i === parseFloat(value))[0]
     )
   }
 
@@ -370,7 +370,7 @@ export const getCurrentData = (item_index, data) => {
 export const prepareStartupState = (props) => {
   const selected_item = null
   const raw_data = preSelectData(
-    props.raw_data || props.data || props.children,
+    props.raw_data || props.data || props.children
   )
   const data = getData(props)
   const opened = props.opened !== null ? isTrue(props.opened) : null
@@ -397,12 +397,12 @@ export const prepareStartupState = (props) => {
   ) {
     state.selected_item = state.active_item = getCurrentIndex(
       props.value,
-      data,
+      data
     )
   } else if (props.default_value !== null) {
     state.selected_item = state.active_item = getCurrentIndex(
       props.default_value,
-      data,
+      data
     )
     state._value = props.value
   }
@@ -471,7 +471,7 @@ export const prepareDerivedState = (props, state) => {
   if (parseFloat(state.selected_item) > -1) {
     state.current_title = getCurrentDataTitle(
       state.selected_item,
-      state.data,
+      state.data
     )
   }
 
@@ -492,5 +492,5 @@ export const getCurrentDataTitle = (selected_item, data) => {
 export const findClosest = (arr, val) =>
   Math.max.apply(
     null,
-    arr.filter((v) => v <= val),
+    arr.filter((v) => v <= val)
   )

@@ -7,7 +7,7 @@ export const percentToValue = (
   percent: number,
   min: number,
   max: number,
-  isReverse: boolean,
+  isReverse: boolean
 ) => {
   let num = ((max - min) * percent) / 100 + min
 
@@ -51,7 +51,7 @@ export const getMousePosition = (event: MouseEvent & TouchEvent) => {
 export const calculatePercent = (
   node: HTMLElement,
   event: MouseEvent | TouchEvent,
-  isVertical: boolean,
+  isVertical: boolean
 ) => {
   const { width, height } = node.getBoundingClientRect()
   const { top, left } = getOffset(node)
@@ -93,7 +93,7 @@ export const createMockDiv = ({ width, height }) => {
 export const getUpdatedValues = (
   value: Array<number>,
   index: number,
-  newValue: number,
+  newValue: number
 ): ValueTypes => {
   return value.map((val, i) => {
     if (i === index) {
@@ -105,14 +105,14 @@ export const getUpdatedValues = (
 
 export const closestIndex = (goal: number, array: Array<number>) => {
   const res = [...array].sort(
-    (a, b) => Math.abs(goal - a) - Math.abs(goal - b),
+    (a, b) => Math.abs(goal - a) - Math.abs(goal - b)
   )[0]
   return array.findIndex((num) => num === res)
 }
 
 export const getFormattedNumber = (
   value: number,
-  numberFormat: NumberFormatTypes,
+  numberFormat: NumberFormatTypes
 ) => {
   if (numberFormat) {
     if (typeof numberFormat === 'function') {

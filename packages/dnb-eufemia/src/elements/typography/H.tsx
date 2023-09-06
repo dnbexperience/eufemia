@@ -62,7 +62,7 @@ const H = ({
       as={as || is}
       internalClass={classnames(
         targetSize && `dnb-h--${targetSize}`,
-        className,
+        className
       )}
       {...props}
     />

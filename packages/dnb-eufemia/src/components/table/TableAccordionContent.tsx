@@ -25,7 +25,7 @@ export type TableAccordionContentProps = {
 
 export default function TableAccordionContent(
   componentProps: TableAccordionContentProps &
-    React.TableHTMLAttributes<HTMLTableRowElement>,
+    React.TableHTMLAttributes<HTMLTableRowElement>
 ) {
   const {
     expanded = null,
@@ -62,7 +62,7 @@ export default function TableAccordionContent(
             break
         }
       },
-    },
+    }
   )
 
   const countTds = trContext?.countTds || colSpan
@@ -85,7 +85,7 @@ export default function TableAccordionContent(
         isInDOM && 'dnb-table__tr__accordion_content--expanded',
         isAnimating && 'dnb-table__tr__accordion_content--animating',
         isVisibleParallax && 'dnb-table__tr__accordion_content--parallax',
-        className,
+        className
       )}
       ref={trRef}
       {...props}

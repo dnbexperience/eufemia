@@ -87,7 +87,7 @@ function Badge(localProps: BadgeAndSpacingProps) {
     localProps,
     defaultProps,
     context?.Badge,
-    { skeleton: context?.skeleton },
+    { skeleton: context?.skeleton }
   )
 
   const {
@@ -132,12 +132,12 @@ function Badge(localProps: BadgeAndSpacingProps) {
 
     if (variantIsNotification && !contentIsNum) {
       warn(
-        `Type of content should be a number: A notification badge is best suited to display content of type number.`,
+        `Type of content should be a number: A notification badge is best suited to display content of type number.`
       )
     }
     if (!label && contentIsNum) {
       warn(
-        `Label required: A Badge with a number as content requires a label describing the content of the badge. This is to ensure correct semantic and accessibility.`,
+        `Label required: A Badge with a number as content requires a label describing the content of the badge. This is to ensure correct semantic and accessibility.`
       )
     }
 
@@ -151,7 +151,7 @@ function Badge(localProps: BadgeAndSpacingProps) {
           vertical && `dnb-badge--vertical-${vertical}`,
           skeletonClasses,
           spacingClasses,
-          className,
+          className
         )}
         {...props}
       >

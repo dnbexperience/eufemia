@@ -48,7 +48,7 @@ function reduceContextWithValue<Props>(
   props: Props,
   defaults: DefaultsProps,
   contexts: Contexts,
-  { checkPropKey = false } = {},
+  { checkPropKey = false } = {}
 ) {
   const context = reduceContext(contexts)
   return Object.entries(context).reduce((acc, [key, value]) => {

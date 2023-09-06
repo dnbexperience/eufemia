@@ -61,17 +61,17 @@ function Selection(props: Props) {
       handleChange?.(
         !selected_key || selected_key === clearValue
           ? emptyValue
-          : selected_key,
+          : selected_key
       )
     },
-    [handleChange, emptyValue, clearValue],
+    [handleChange, emptyValue, clearValue]
   )
 
   const handleRadioChange = useCallback(
     ({ value }) => {
       handleChange?.(value === undefined ? emptyValue : value)
     },
-    [handleChange, emptyValue],
+    [handleChange, emptyValue]
   )
 
   // Specific handleShow and handleHide because Dropdown preserve the initially received callbacks, so changes
@@ -81,14 +81,14 @@ function Selection(props: Props) {
     ({ data }) => {
       setHasFocus(true, data?.selected_key)
     },
-    [setHasFocus],
+    [setHasFocus]
   )
 
   const handleHide = useCallback(
     ({ data }) => {
       setHasFocus(false, data?.selected_key)
     },
-    [setHasFocus],
+    [setHasFocus]
   )
 
   const cn = classnames('dnb-forms-field-selection', className)
@@ -110,7 +110,7 @@ function Selection(props: Props) {
     () =>
       React.Children.toArray(children)
         .filter(
-          (child) => React.isValidElement(child) && child.type === Option,
+          (child) => React.isValidElement(child) && child.type === Option
         )
         .map((option: React.ReactElement) => ({
           title: option.props.title ?? option.props.children,
@@ -121,7 +121,7 @@ function Selection(props: Props) {
             handleChange?.(selected === value ? emptyValue : selected)
           },
         })),
-    [children, value, emptyValue, handleChange],
+    [children, value, emptyValue, handleChange]
   )
 
   switch (variant) {
@@ -210,7 +210,7 @@ function Selection(props: Props) {
             'dnb-forms-field-selection',
             width !== 'stretch' &&
               `dnb-forms-field-selection--width-${width}`,
-            className,
+            className
           )}
           list_class="dnb-forms-field-selection__list"
           portal_class="dnb-forms-field-selection__portal"

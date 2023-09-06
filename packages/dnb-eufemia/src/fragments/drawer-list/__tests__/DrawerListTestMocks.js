@@ -37,12 +37,12 @@ export function mockImplementationForDirectionObserver() {
 export async function testDirectionObserver() {
   // the setDirectionObserver fn is changing this
   expect(
-    document.querySelector('.dnb-drawer-list--bottom'),
+    document.querySelector('.dnb-drawer-list--bottom')
   ).toBeInTheDocument()
   expect(
     document
       .querySelector('.dnb-drawer-list__options')
-      .getAttribute('style'),
+      .getAttribute('style')
   ).toBe('max-height: 33.5rem;') // jsdom default is 768 innerHeight
 
   window.resizeTo({
@@ -51,12 +51,12 @@ export async function testDirectionObserver() {
   await wait(100)
 
   expect(
-    document.querySelector('.dnb-drawer-list--bottom'),
+    document.querySelector('.dnb-drawer-list--bottom')
   ).toBeInTheDocument()
   expect(
     document
       .querySelector('.dnb-drawer-list__options')
-      .getAttribute('style'),
+      .getAttribute('style')
   ).toBe('max-height: 28rem;')
 
   window.scrollTo({
@@ -65,12 +65,12 @@ export async function testDirectionObserver() {
   await wait(100)
 
   expect(
-    document.querySelector('.dnb-drawer-list--top'),
+    document.querySelector('.dnb-drawer-list--top')
   ).toBeInTheDocument()
   expect(
     document
       .querySelector('.dnb-drawer-list__options')
-      .getAttribute('style'),
+      .getAttribute('style')
   ).toBe('max-height: 28rem;') // is now min_height
 }
 

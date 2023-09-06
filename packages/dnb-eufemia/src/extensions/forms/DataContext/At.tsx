@@ -28,7 +28,7 @@ function At(props: Props) {
             contextHandlePathChange(`${path}${changePath}`, value)
           }
         : undefined,
-    [contextHandlePathChange, path],
+    [contextHandlePathChange, path]
   )
 
   if (iterate) {

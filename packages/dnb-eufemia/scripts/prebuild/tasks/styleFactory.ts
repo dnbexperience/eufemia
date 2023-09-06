@@ -10,10 +10,7 @@ import prettier from 'prettier'
 import { ErrorHandler, log } from '../../lib'
 
 const prettierrc = JSON.parse(
-  fs.readFileSync(
-    path.resolve(__dirname, '../../../.prettierrc'),
-    'utf-8',
-  ),
+  fs.readFileSync(path.resolve(__dirname, '../../../.prettierrc'), 'utf-8')
 )
 
 const fallbackPrefix = 'dnb'
@@ -33,7 +30,7 @@ const runStyleFactory = async () => {
   await runFactory({
     scssOutputFile: path.resolve(
       __dirname,
-      `../../../src/style/${fallbackPrefix}-ui-components.scss`,
+      `../../../src/style/${fallbackPrefix}-ui-components.scss`
     ),
     customContent: `
 @import './core/utilities.scss';
@@ -49,7 +46,7 @@ const runStyleFactory = async () => {
   }).then(() => {
     if (require.main === module) {
       log.succeed(
-        '> PrePublish: "styleFactory" Created the style file with all the components',
+        '> PrePublish: "styleFactory" Created the style file with all the components'
       )
     }
   })
@@ -58,7 +55,7 @@ const runStyleFactory = async () => {
   await runFactory({
     scssOutputFile: path.resolve(
       __dirname,
-      `../../../src/style/${fallbackPrefix}-ui-elements.scss`,
+      `../../../src/style/${fallbackPrefix}-ui-elements.scss`
     ),
     customContent: `
 @import './core/utilities.scss';`,
@@ -72,7 +69,7 @@ const runStyleFactory = async () => {
   }).then(() => {
     if (require.main === module) {
       log.succeed(
-        '> PrePublish: "styleFactory" Created the style file with all the elements',
+        '> PrePublish: "styleFactory" Created the style file with all the elements'
       )
     }
   })
@@ -81,7 +78,7 @@ const runStyleFactory = async () => {
   await runFactory({
     scssOutputFile: path.resolve(
       __dirname,
-      `../../../src/style/${fallbackPrefix}-ui-fragments.scss`,
+      `../../../src/style/${fallbackPrefix}-ui-fragments.scss`
     ),
     customContent: `
 @import './core/utilities.scss';
@@ -96,7 +93,7 @@ const runStyleFactory = async () => {
   }).then(() => {
     if (require.main === module) {
       log.succeed(
-        '> PrePublish: "styleFactory" Created the style file with all the fragments',
+        '> PrePublish: "styleFactory" Created the style file with all the fragments'
       )
     }
   })
@@ -105,7 +102,7 @@ const runStyleFactory = async () => {
   await runFactory({
     scssOutputFile: path.resolve(
       __dirname,
-      `../../../src/style/${fallbackPrefix}-ui-extensions.scss`,
+      `../../../src/style/${fallbackPrefix}-ui-extensions.scss`
     ),
     customContent: `
 @import './core/utilities.scss';
@@ -143,7 +140,7 @@ const runFactory = async ({
     if (processOnlyList) {
       const processedList = await globby(processOnlyList)
       filesToFindGlob = filesToFindGlob.filter((source) =>
-        processedList.some((file) => file.indexOf(source) !== -1),
+        processedList.some((file) => file.indexOf(source) !== -1)
       )
     }
   } catch (e) {
@@ -169,7 +166,7 @@ const runFactory = async ({
       await prettier.format(`${autoAdvice}${customContent}${content}\n`, {
         ...prettierrc,
         filepath: scssOutputFile,
-      }),
+      })
     )
   } catch (e) {
     log.fail(`There was an error on creating ${scssOutputFile}!`)

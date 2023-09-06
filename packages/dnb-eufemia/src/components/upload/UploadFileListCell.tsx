@@ -79,9 +79,9 @@ const UploadFileListCell = ({
       const cellElement = cellRef.current
       const focusElement = getPreviousSibling(
         '.dnb-upload',
-        cellElement,
+        cellElement
       ).querySelector(
-        '.dnb-upload__file-input-button',
+        '.dnb-upload__file-input-button'
       ) as HTMLButtonElement
       focusElement.focus()
     } catch (e) {
@@ -100,7 +100,7 @@ const UploadFileListCell = ({
       className={classnames(
         'dnb-upload__file-cell',
         hasWarning && 'dnb-upload__file-cell--warning',
-        exists && 'dnb-upload__file-cell--highlight',
+        exists && 'dnb-upload__file-cell--highlight'
       )}
       ref={cellRef}
     >
@@ -151,7 +151,7 @@ const UploadFileListCell = ({
       <div
         className={classnames(
           'dnb-upload__file-cell__text-container',
-          'dnb-upload__file-cell__text-container--loading',
+          'dnb-upload__file-cell__text-container--loading'
         )}
       >
         {loadingText}
@@ -163,7 +163,7 @@ const UploadFileListCell = ({
           href={imageUrl}
           className={classnames(
             'dnb-anchor',
-            'dnb-upload__file-cell__title',
+            'dnb-upload__file-cell__title'
           )}
           rel="noopener noreferrer"
         >

@@ -29,7 +29,7 @@ describe('Anchor with scrollToHashHandler', () => {
           text
         </Anchor>
         <span id="hash-id" />
-      </>,
+      </>
     )
 
     const element = document.querySelector('a')
@@ -57,7 +57,7 @@ describe('Anchor with scrollToHashHandler', () => {
           text
         </Anchor>
         <span id="hash-id" />
-      </>,
+      </>
     )
 
     const element = document.querySelector('a')
@@ -82,7 +82,7 @@ describe('Anchor with scrollToHashHandler', () => {
           text
         </Anchor>
         <span id="other-id" />
-      </>,
+      </>
     )
 
     const element = document.querySelector('a')
@@ -103,7 +103,7 @@ describe('Anchor with scrollToHashHandler', () => {
     render(
       <Anchor onClick={scrollToHashHandler} href="/path">
         text
-      </Anchor>,
+      </Anchor>
     )
 
     const element = document.querySelector('a')
@@ -127,7 +127,7 @@ describe('Anchor with scrollToHashHandler', () => {
           text
         </Anchor>
         <span id="hash-id" />
-      </>,
+      </>
     )
 
     const element = document.querySelector('a')

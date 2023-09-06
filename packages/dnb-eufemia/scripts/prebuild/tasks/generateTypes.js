@@ -54,12 +54,12 @@ export default async function generateTypes({
 
 export const createTypes = async (
   listOfAllFiles,
-  { isTest = false, ...opts } = {},
+  { isTest = false, ...opts } = {}
 ) => {
   try {
     const prettierrc = await fs.readJSON(
       nodePath.resolve('./.prettierrc'),
-      'utf-8',
+      'utf-8'
     )
 
     // "prettier.format" does not handle "overwrites", so we merge it manually
@@ -109,7 +109,7 @@ export const createTypes = async (
                 if (collectProps.findIndex((k) => k === key) === -1) {
                   if (!sharedProps.includes(key)) {
                     log.fail(
-                      `The property "${key}" is not defined in PropTypes!\nComponent: ${componentName}\nFile: ${file}\n\n`,
+                      `The property "${key}" is not defined in PropTypes!\nComponent: ${componentName}\nFile: ${file}\n\n`
                     )
                   }
                 }
@@ -216,7 +216,7 @@ export const createTypes = async (
                 ],
               ],
               ...babelPluginConfigDefaults,
-            },
+            }
           )
 
           definitionContent = codeWithTransformedTypes
@@ -246,7 +246,7 @@ function existsInGit(destFile) {
   return new Promise((resolve, reject) => {
     try {
       exec(`git show HEAD~1:${destFile}`, (error, stdout, stderr) =>
-        resolve(!(error || stderr)),
+        resolve(!(error || stderr))
       )
     } catch (e) {
       log.fail(e)

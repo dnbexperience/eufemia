@@ -42,7 +42,7 @@ function ScrollView(localProps: ScrollViewAllProps) {
   const props = extendPropsWithContext(
     localProps,
     defaultProps,
-    context.ScrollView,
+    context.ScrollView
   )
 
   const {
@@ -60,7 +60,7 @@ function ScrollView(localProps: ScrollViewAllProps) {
     className: classnames(
       'dnb-scroll-view',
       createSpacingClasses(props),
-      className,
+      className
     ),
     ...(attributes as React.HTMLAttributes<unknown>),
   }
@@ -83,7 +83,7 @@ function ScrollView(localProps: ScrollViewAllProps) {
 
 function useInteractive({ interactive, children, ref }) {
   const [isInteractive, setAsInteractive] = React.useState(
-    Boolean(interactive),
+    Boolean(interactive)
   )
 
   useLayoutEffect(() => {

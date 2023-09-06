@@ -158,7 +158,7 @@ export default class RadioGroup extends React.PureComponent {
       this.props,
       RadioGroup.defaultProps,
       includeValidProps(this.context.FormRow),
-      this.context.RadioGroup,
+      this.context.RadioGroup
     )
 
     const {
@@ -202,7 +202,7 @@ export default class RadioGroup extends React.PureComponent {
       'dnb-form-component',
       createSpacingClasses(props),
       className,
-      _className,
+      _className
     )
 
     const params = {
@@ -213,7 +213,7 @@ export default class RadioGroup extends React.PureComponent {
       params['aria-describedby'] = combineDescribedBy(
         params,
         showStatus ? id + '-status' : null,
-        suffix ? id + '-suffix' : null,
+        suffix ? id + '-suffix' : null
       )
     }
     if (label) {

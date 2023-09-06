@@ -60,7 +60,7 @@ const Timeline = (localProps: TimelineAllProps) => {
     context?.Timeline,
     {
       skeleton: context?.skeleton,
-    },
+    }
   )
   const {
     className,
@@ -91,7 +91,7 @@ const Timeline = (localProps: TimelineAllProps) => {
         'dnb-timeline',
         'dnb-space__reset',
         spacingClasses,
-        className,
+        className
       )}
       {...props}
     >

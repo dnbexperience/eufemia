@@ -41,7 +41,7 @@ describe('Switch component', () => {
     const my_event = jest.fn()
     const myEvent = jest.fn()
     render(
-      <Switch on_change={my_event} onChange={myEvent} checked={false} />,
+      <Switch on_change={my_event} onChange={myEvent} checked={false} />
     )
     fireEvent.click(document.querySelector('input'))
     expect(my_event.mock.calls.length).toBe(1)
@@ -109,7 +109,7 @@ describe('Switch component', () => {
     TestStates(
       <React.StrictMode>
         <ControlledVsUncontrolled />
-      </React.StrictMode>,
+      </React.StrictMode>
     )
   })
 
@@ -136,16 +136,16 @@ describe('Switch component', () => {
     render(
       <FormRow vertical>
         <Switch label="Label" />
-      </FormRow>,
+      </FormRow>
     )
 
     const element = document.querySelector('.dnb-switch')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name,
+      (attr) => attr.name
     )
     const inputElement = document.querySelector('.dnb-switch input')
     const inputAttributes = Array.from(inputElement.attributes).map(
-      (attr) => attr.name,
+      (attr) => attr.name
     )
 
     expect(attributes).toEqual(['class'])
@@ -195,7 +195,7 @@ describe('Switch scss', () => {
 
   it('have to match default theme snapshot', () => {
     const css = loadScss(
-      require.resolve('../style/themes/dnb-switch-theme-ui.scss'),
+      require.resolve('../style/themes/dnb-switch-theme-ui.scss')
     )
     expect(css).toMatchSnapshot()
   })

@@ -41,7 +41,7 @@ export type TableThProps = {
 
 export default function Th(
   componentProps: TableThProps &
-    React.ThHTMLAttributes<HTMLTableCellElement>,
+    React.ThHTMLAttributes<HTMLTableCellElement>
 ) {
   const {
     className,
@@ -75,7 +75,7 @@ export default function Th(
         active && 'dnb-table--active',
         reversed && 'dnb-table--reversed',
         noWrap && 'dnb-table--no-wrap',
-        className,
+        className
       )}
       {...props}
     >

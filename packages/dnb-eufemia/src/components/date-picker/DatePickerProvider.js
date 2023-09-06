@@ -258,7 +258,7 @@ export default class DatePickerProvider extends React.PureComponent {
     dispatchCustomElementEvent(
       this,
       'on_change',
-      this.getReturnObject(args),
+      this.getReturnObject(args)
     )
 
     const lastEventCallCache = {

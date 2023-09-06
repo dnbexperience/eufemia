@@ -100,7 +100,7 @@ const Avatar = (localProps: AvatarProps & SpacingProps) => {
     defaultProps,
     context?.Avatar,
     { skeleton: context?.skeleton },
-    avatarGroupContext,
+    avatarGroupContext
   )
 
   const {
@@ -135,7 +135,7 @@ const Avatar = (localProps: AvatarProps & SpacingProps) => {
 
   if (!avatarGroupContext && !hasLabel) {
     warn(
-      `Avatar group required: An Avatar requires an Avatar.Group with label description as a parent component. This is to ensure correct semantic and accessibility.`,
+      `Avatar group required: An Avatar requires an Avatar.Group with label description as a parent component. This is to ensure correct semantic and accessibility.`
     )
   }
 
@@ -149,7 +149,7 @@ const Avatar = (localProps: AvatarProps & SpacingProps) => {
         `dnb-avatar--size-${size || 'medium'}`,
         skeletonClasses,
         spacingClasses,
-        className,
+        className
       )}
       {...props}
     >

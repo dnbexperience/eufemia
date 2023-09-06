@@ -35,7 +35,7 @@ describe('Table', () => {
     render(
       <Table>
         <BasicTable />
-      </Table>,
+      </Table>
     )
 
     expect(Array.from(screen.queryByRole('table').classList)).toEqual([
@@ -49,7 +49,7 @@ describe('Table', () => {
     render(
       <Table variant="generic">
         <BasicTable />
-      </Table>,
+      </Table>
     )
 
     expect(Array.from(screen.queryByRole('table').classList)).toEqual([
@@ -63,7 +63,7 @@ describe('Table', () => {
     render(
       <Table size="medium">
         <BasicTable />
-      </Table>,
+      </Table>
     )
 
     expect(Array.from(screen.queryByRole('table').classList)).toEqual([
@@ -77,7 +77,7 @@ describe('Table', () => {
     render(
       <Table className="custom-class" aria-label="custom-label">
         <BasicTable />
-      </Table>,
+      </Table>
     )
 
     expect(Array.from(screen.queryByRole('table').classList)).toEqual(
@@ -86,7 +86,7 @@ describe('Table', () => {
         'dnb-table__variant--generic',
         'dnb-table__size--large',
         'custom-class',
-      ]),
+      ])
     )
   })
 
@@ -94,11 +94,11 @@ describe('Table', () => {
     render(
       <Table aria-label="custom-label">
         <BasicTable />
-      </Table>,
+      </Table>
     )
 
     expect(screen.queryByRole('table').getAttribute('aria-label')).toEqual(
-      'custom-label',
+      'custom-label'
     )
   })
 
@@ -106,7 +106,7 @@ describe('Table', () => {
     render(
       <Table fixed>
         <BasicTable />
-      </Table>,
+      </Table>
     )
 
     expect(Array.from(screen.queryByRole('table').classList)).toEqual(
@@ -115,7 +115,7 @@ describe('Table', () => {
         'dnb-table__variant--generic',
         'dnb-table__size--large',
         'dnb-table--fixed',
-      ]),
+      ])
     )
   })
 
@@ -123,11 +123,11 @@ describe('Table', () => {
     render(
       <Table border>
         <BasicTable />
-      </Table>,
+      </Table>
     )
 
     expect(Array.from(screen.queryByRole('table').classList)).toContain(
-      'dnb-table--border',
+      'dnb-table--border'
     )
   })
 
@@ -135,11 +135,11 @@ describe('Table', () => {
     render(
       <Table outline>
         <BasicTable />
-      </Table>,
+      </Table>
     )
 
     expect(Array.from(screen.queryByRole('table').classList)).toContain(
-      'dnb-table--outline',
+      'dnb-table--outline'
     )
   })
 
@@ -147,12 +147,12 @@ describe('Table', () => {
     render(
       <Table top="2rem">
         <BasicTable />
-      </Table>,
+      </Table>
     )
 
     const element = screen.queryByRole('table')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name,
+      (attr) => attr.name
     )
 
     expect(attributes).toEqual(['class'])
@@ -162,7 +162,7 @@ describe('Table', () => {
         'dnb-table__variant--generic',
         'dnb-table__size--large',
         'dnb-space__top--large',
-      ]),
+      ])
     )
   })
 
@@ -170,12 +170,12 @@ describe('Table', () => {
     render(
       <Table skeleton>
         <BasicTable />
-      </Table>,
+      </Table>
     )
 
     const element = screen.queryByRole('table')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name,
+      (attr) => attr.name
     )
 
     expect(attributes).toEqual(['class'])
@@ -186,7 +186,7 @@ describe('Table', () => {
         'dnb-table__size--large',
         'dnb-skeleton',
         'dnb-skeleton--font',
-      ]),
+      ])
     )
   })
 })
@@ -196,7 +196,7 @@ describe('Table aria', () => {
     const Component = render(
       <Table>
         <BasicTable />
-      </Table>,
+      </Table>
     )
     expect(await axeComponent(Component)).toHaveNoViolations()
   })
@@ -210,7 +210,7 @@ describe('Table scss', () => {
 
   it('have to match default theme snapshot', () => {
     const css = loadScss(
-      require.resolve('../style/themes/dnb-table-theme-ui.scss'),
+      require.resolve('../style/themes/dnb-table-theme-ui.scss')
     )
     expect(css).toMatchSnapshot()
   })

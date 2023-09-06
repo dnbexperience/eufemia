@@ -14,7 +14,7 @@ const emptyString = ''
 export default function conformToMask(
   rawValue = emptyString,
   mask = emptyArray,
-  config = {},
+  config = {}
 ) {
   if (!isArray(mask)) {
     // If someone passes a function as the mask property, we should call the
@@ -30,7 +30,7 @@ export default function conformToMask(
       mask = processCaretTraps(mask).maskWithoutCaretTraps
     } else {
       throw new Error(
-        'Text-mask:conformToMask; The mask property must be an array.',
+        'Text-mask:conformToMask; The mask property must be an array.'
       )
     }
   }
@@ -257,7 +257,7 @@ export default function conformToMask(
       // We substring from the beginning until the position after the last filled placeholder char.
       conformedValue = conformedValue.substr(
         0,
-        indexOfLastFilledPlaceholderChar + 1,
+        indexOfLastFilledPlaceholderChar + 1
       )
     } else {
       // If we couldn't find `indexOfLastFilledPlaceholderChar` that means the user deleted

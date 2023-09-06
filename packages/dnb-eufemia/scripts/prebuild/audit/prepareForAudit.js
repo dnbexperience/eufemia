@@ -20,7 +20,7 @@ function renameDependencies(direction = 'auto') {
   return async () => {
     const filepath = path.resolve(packpath.self(), './package.json')
     const packageJson = JSON.parse(
-      (await fs.readFile(filepath)).toString(),
+      (await fs.readFile(filepath)).toString()
     )
 
     if (direction === 'auto' && packageJson.devDependencies) {
@@ -37,7 +37,7 @@ function renameDependencies(direction = 'auto') {
               delete packageJson.devDependencies
             } else
               throw new Error(
-                'Could not rename pkg key! There has to exist: devDependencies',
+                'Could not rename pkg key! There has to exist: devDependencies'
               )
           }
           break
@@ -50,7 +50,7 @@ function renameDependencies(direction = 'auto') {
               delete packageJson.optionalDependencies
             } else
               throw new Error(
-                'Could not rename pkg key! There has to exist: optionalDependencies',
+                'Could not rename pkg key! There has to exist: optionalDependencies'
               )
           }
           break
@@ -62,8 +62,8 @@ function renameDependencies(direction = 'auto') {
     const prettierrc = JSON.parse(
       await fs.readFile(
         path.resolve(packpath.self(), '.prettierrc'),
-        'utf-8',
-      ),
+        'utf-8'
+      )
     )
 
     const newPackageJson = JSON.stringify(packageJson, null, 2)

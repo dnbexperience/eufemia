@@ -28,10 +28,10 @@ describe('Anchor element', () => {
     render(
       <Anchor href="/url" id="unique-id">
         text
-      </Anchor>,
+      </Anchor>
     )
     expect(document.querySelector('a').getAttribute('id')).toBe(
-      'unique-id',
+      'unique-id'
     )
   })
 
@@ -39,12 +39,12 @@ describe('Anchor element', () => {
     render(
       <Anchor href="/url" id="unique-id" tooltip="Tooltip">
         text
-      </Anchor>,
+      </Anchor>
     )
 
     expect(
       document.querySelector('#unique-id-tooltip.dnb-tooltip__content')
-        .textContent,
+        .textContent
     ).toBe('Tooltip')
   })
 
@@ -52,13 +52,13 @@ describe('Anchor element', () => {
     render(
       <Anchor href="/url" id="unique-id" tooltip="Tooltip">
         text
-      </Anchor>,
+      </Anchor>
     )
 
     const element = document.getElementById('unique-id')
 
     expect(element.getAttribute('aria-describedby')).toBe(
-      'unique-id-tooltip',
+      'unique-id-tooltip'
     )
   })
 
@@ -66,7 +66,7 @@ describe('Anchor element', () => {
     render(
       <Anchor href="/url" id="unique-id" tooltip="Tooltip">
         text
-      </Anchor>,
+      </Anchor>
     )
 
     const element = document.getElementById('unique-id')
@@ -74,7 +74,7 @@ describe('Anchor element', () => {
 
     expect(
       document.querySelector('#unique-id-tooltip.dnb-tooltip__content')
-        .parentElement.classList,
+        .parentElement.classList
     ).toContain('dnb-tooltip--active')
   })
 
@@ -82,10 +82,10 @@ describe('Anchor element', () => {
     render(
       <Anchor href="/url" target="_blank">
         <span>text</span>
-      </Anchor>,
+      </Anchor>
     )
     expect(
-      document.querySelector('.dnb-anchor--no-icon'),
+      document.querySelector('.dnb-anchor--no-icon')
     ).toBeInTheDocument()
   })
 
@@ -95,7 +95,7 @@ describe('Anchor element', () => {
     render(
       <Anchor ref={ref} to="/url">
         text
-      </Anchor>,
+      </Anchor>
     )
 
     act(() => {
@@ -108,7 +108,7 @@ describe('Anchor element', () => {
     const { rerender } = render(
       <Anchor href="/url" target="_blank" lang="en-GB">
         text
-      </Anchor>,
+      </Anchor>
     )
 
     const id = (
@@ -116,7 +116,7 @@ describe('Anchor element', () => {
     ).getAttribute('aria-describedby')
     expect(
       (document.body.querySelector('#' + id) as HTMLAnchorElement)
-        .textContent,
+        .textContent
     ).toBe('Opens a new Window')
 
     const title = 'External site'
@@ -124,13 +124,13 @@ describe('Anchor element', () => {
     rerender(
       <Anchor href="/url" target="_blank" lang="en-GB" title={title}>
         text
-      </Anchor>,
+      </Anchor>
     )
 
     expect(
       (document.querySelector('a') as HTMLAnchorElement).getAttribute(
-        'title',
-      ),
+        'title'
+      )
     ).toBe(title)
     expect(document.body.querySelector('#' + id)).toBe(null)
   })
@@ -139,7 +139,7 @@ describe('Anchor element', () => {
     render(
       <Anchor rel="external" href="http://www.externallink.com/">
         text
-      </Anchor>,
+      </Anchor>
     )
     expect(document.querySelector('[rel="external"]')).toBeInTheDocument()
   })
@@ -153,10 +153,10 @@ describe('Anchor element', () => {
     render(
       <Anchor href="/url" icon="bell" iconPosition="left">
         text
-      </Anchor>,
+      </Anchor>
     )
     expect(
-      document.querySelector('.dnb-anchor--icon-left'),
+      document.querySelector('.dnb-anchor--icon-left')
     ).toBeInTheDocument()
   })
 
@@ -164,10 +164,10 @@ describe('Anchor element', () => {
     render(
       <Anchor href="/url" icon="bell" iconPosition="right">
         text
-      </Anchor>,
+      </Anchor>
     )
     expect(
-      document.querySelector('.dnb-anchor--icon-right'),
+      document.querySelector('.dnb-anchor--icon-right')
     ).toBeInTheDocument()
   })
 
@@ -175,10 +175,10 @@ describe('Anchor element', () => {
     render(
       <Anchor href="/url" icon="bell">
         text
-      </Anchor>,
+      </Anchor>
     )
     expect(
-      document.querySelector('.dnb-anchor--icon-left'),
+      document.querySelector('.dnb-anchor--icon-left')
     ).toBeInTheDocument()
   })
 
@@ -186,10 +186,10 @@ describe('Anchor element', () => {
     render(
       <Anchor href="/url" target="_blank" icon="bell" iconPosition="right">
         text
-      </Anchor>,
+      </Anchor>
     )
     expect(
-      document.querySelector('.dnb-anchor--no-icon'),
+      document.querySelector('.dnb-anchor--no-icon')
     ).toBeInTheDocument()
   })
 })
@@ -205,10 +205,10 @@ describe('Anchor scss', () => {
     (themeName) => {
       const css = loadScss(
         require.resolve(
-          `../style/themes/dnb-anchor-theme-${themeName}.scss`,
-        ),
+          `../style/themes/dnb-anchor-theme-${themeName}.scss`
+        )
       )
       expect(css).toMatchSnapshot()
-    },
+    }
   )
 })

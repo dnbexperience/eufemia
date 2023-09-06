@@ -162,7 +162,7 @@ function NumberComponent(props: Props) {
         id={id}
         className={classnames(
           'dnb-forms-field-number__input',
-          inputClassName,
+          inputClassName
         )}
         placeholder={placeholder}
         value={value}

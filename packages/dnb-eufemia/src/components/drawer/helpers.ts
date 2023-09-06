@@ -2,7 +2,7 @@ import { processChildren } from '../../shared/component-helper'
 
 export const checkMinMaxWidth = (
   min: number | string,
-  max: number | string,
+  max: number | string
 ) => {
   // ensure the min/max don't conflict
   let maxWidth = max

@@ -51,7 +51,7 @@ class JestEnvironment extends PlaywrightEnvironment {
         : ''
       console.log(
         `${cliColors.yellow}URL:`,
-        `${cliColors.reset}${themeName}${this.global.pageUrl}`,
+        `${cliColors.reset}${themeName}${this.global.pageUrl}`
       )
     }
 
@@ -71,8 +71,8 @@ class JestEnvironment extends PlaywrightEnvironment {
         const retryAttempt = state.currentlyRunningTest.invocations
         console.log(
           chalk.yellow(
-            `Retry attempt #${retryAttempt}: ${currentTestName}`,
-          ),
+            `Retry attempt #${retryAttempt}: ${currentTestName}`
+          )
         )
       }
 
@@ -107,6 +107,6 @@ function getParents(item) {
   }
 
   return names.filter(
-    (name) => name !== 'ROOT_DESCRIBE_BLOCK' && name !== 'Error',
+    (name) => name !== 'ROOT_DESCRIBE_BLOCK' && name !== 'Error'
   )
 }

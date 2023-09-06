@@ -58,13 +58,13 @@ export default class InputPassword extends React.PureComponent {
         if (this._ref.current) {
           this._ref.current.focus()
         }
-      },
+      }
     )
 
     dispatchCustomElementEvent(
       this,
       hidden ? 'on_show_password' : 'on_hide_password',
-      { event },
+      { event }
     )
   }
 
@@ -77,14 +77,14 @@ export default class InputPassword extends React.PureComponent {
       this.context.getTranslation(this.props).Input,
       includeValidProps(this.context.FormRow),
       this.context.Input,
-      this.context.InputPassword,
+      this.context.InputPassword
     )
 
     const id = this._id
     const params = { id }
     params['aria-describedby'] = combineDescribedBy(
       this.props,
-      id + '-submit-button',
+      id + '-submit-button'
     )
 
     return (
@@ -115,7 +115,7 @@ export default class InputPassword extends React.PureComponent {
             skeleton={props.skeleton}
             status={convertStatusToStateOnly(
               props.status,
-              props.status_state,
+              props.status_state
             )}
             status_state={props.status_state}
             onClick={this.toggleVisibility}

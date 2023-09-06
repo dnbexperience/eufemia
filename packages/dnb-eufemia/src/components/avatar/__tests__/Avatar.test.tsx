@@ -13,7 +13,7 @@ describe('Avatar', () => {
     render(
       <Avatar.Group {...props} label="label">
         <Avatar />
-      </Avatar.Group>,
+      </Avatar.Group>
     )
 
     expect(document.querySelector('.dnb-avatar')).toBeInTheDocument()
@@ -24,7 +24,7 @@ describe('Avatar', () => {
     render(
       <Avatar.Group label="label">
         <Avatar>{children}</Avatar>
-      </Avatar.Group>,
+      </Avatar.Group>
     )
 
     expect(screen.queryAllByText(children)[0]).toBeInTheDocument()
@@ -35,7 +35,7 @@ describe('Avatar', () => {
     render(
       <Avatar.Group label="label">
         <Avatar>{children}</Avatar>
-      </Avatar.Group>,
+      </Avatar.Group>
     )
 
     expect(screen.queryByText('E')).toBeInTheDocument()
@@ -47,7 +47,7 @@ describe('Avatar', () => {
     render(
       <Avatar.Group label="label">
         <Avatar>{children}</Avatar>
-      </Avatar.Group>,
+      </Avatar.Group>
     )
 
     expect(screen.queryByText(children)).toBeInTheDocument()
@@ -59,7 +59,7 @@ describe('Avatar', () => {
         <Avatar>
           <Icon icon={Confetti} />
         </Avatar>
-      </Avatar.Group>,
+      </Avatar.Group>
     )
 
     expect(screen.queryByTestId('confetti icon')).toBeInTheDocument()
@@ -70,7 +70,7 @@ describe('Avatar', () => {
     render(
       <Avatar.Group label="label">
         <Avatar src={img_src} alt="custom_alt_label" />
-      </Avatar.Group>,
+      </Avatar.Group>
     )
 
     expect(screen.queryByRole('img').getAttribute('src')).toBe(img_src)
@@ -81,7 +81,7 @@ describe('Avatar', () => {
     render(
       <Avatar.Group label="label">
         <Avatar alt={img_alt} src="/dnb/android-chrome-192x192.png" />
-      </Avatar.Group>,
+      </Avatar.Group>
     )
 
     expect(screen.getByAltText(img_alt)).toBeInTheDocument()
@@ -103,7 +103,7 @@ describe('Avatar', () => {
     render(
       <Avatar.Group label="label">
         <Avatar imgProps={imgProps} />
-      </Avatar.Group>,
+      </Avatar.Group>
     )
 
     const image = screen.queryByRole('img')
@@ -134,10 +134,10 @@ describe('Avatar', () => {
     render(
       <Avatar.Group skeleton label="label">
         <Avatar>A</Avatar>
-      </Avatar.Group>,
+      </Avatar.Group>
     )
     expect(
-      document.getElementsByClassName(skeletonClassName),
+      document.getElementsByClassName(skeletonClassName)
     ).toHaveLength(1)
   })
 
@@ -149,11 +149,11 @@ describe('Avatar', () => {
         <Avatar.Group label="label">
           <Avatar>A</Avatar>
         </Avatar.Group>
-      </Provider>,
+      </Provider>
     )
 
     expect(
-      document.getElementsByClassName(skeletonClassName),
+      document.getElementsByClassName(skeletonClassName)
     ).toHaveLength(1)
   })
 
@@ -167,12 +167,12 @@ describe('Avatar', () => {
           alt={img_alt}
           src="/dnb/android-chrome-192x192.png"
         />
-      </Avatar.Group>,
+      </Avatar.Group>
     )
 
     const element = document.querySelector('.dnb-avatar')
     const attributes = Array.from(element.attributes).map(
-      (attr) => attr.name,
+      (attr) => attr.name
     )
 
     expect(attributes).toEqual(['class'])
@@ -192,7 +192,7 @@ describe('Avatar', () => {
           <Avatar>A</Avatar>
           <Avatar>B</Avatar>
           <Avatar>C</Avatar>
-        </Avatar.Group>,
+        </Avatar.Group>
       )
 
       expect(screen.queryByText(label)).toBeInTheDocument()
@@ -205,7 +205,7 @@ describe('Avatar', () => {
           <Avatar>A</Avatar>
           <Avatar>B</Avatar>
           <Avatar>C</Avatar>
-        </Avatar.Group>,
+        </Avatar.Group>
       )
       expect(screen.queryByTestId('react-node')).toBeInTheDocument()
     })
@@ -216,7 +216,7 @@ describe('Avatar', () => {
           <Avatar>A</Avatar>
           <Avatar>B</Avatar>
           <Avatar>C</Avatar>
-        </Avatar.Group>,
+        </Avatar.Group>
       )
 
       const avatarsDisplayed =
@@ -233,7 +233,7 @@ describe('Avatar', () => {
           <Avatar>A</Avatar>
           <Avatar>B</Avatar>
           <Avatar>C</Avatar>
-        </Avatar.Group>,
+        </Avatar.Group>
       )
 
       const avatarsDisplayed =
@@ -250,14 +250,14 @@ describe('Avatar', () => {
           <Avatar>A</Avatar>
           <Avatar>B</Avatar>
           <Avatar>C</Avatar>
-        </Avatar.Group>,
+        </Avatar.Group>
       )
 
       const avatarsDisplayed =
         document.getElementsByClassName('dnb-avatar')
 
       expect(
-        document.querySelector('.dnb-avatar__group--elements-left'),
+        document.querySelector('.dnb-avatar__group--elements-left')
       ).not.toBeInTheDocument()
 
       expect(avatarsDisplayed).toHaveLength(3)
@@ -269,14 +269,14 @@ describe('Avatar', () => {
           <Avatar>A</Avatar>
           <Avatar>B</Avatar>
           <Avatar>C</Avatar>
-        </Avatar.Group>,
+        </Avatar.Group>
       )
 
       const avatarsDisplayed =
         document.getElementsByClassName('dnb-avatar')
 
       expect(
-        document.querySelector('.dnb-avatar__group--elements-left'),
+        document.querySelector('.dnb-avatar__group--elements-left')
       ).not.toBeInTheDocument()
       expect(avatarsDisplayed).toHaveLength(3)
     })
@@ -287,14 +287,14 @@ describe('Avatar', () => {
           <Avatar>A</Avatar>
           <Avatar>B</Avatar>
           <Avatar>C</Avatar>
-        </Avatar.Group>,
+        </Avatar.Group>
       )
 
       const avatarsDisplayed =
         document.getElementsByClassName('dnb-avatar')
 
       expect(
-        document.querySelector('.dnb-avatar__group--elements-left'),
+        document.querySelector('.dnb-avatar__group--elements-left')
       ).not.toBeInTheDocument()
       expect(avatarsDisplayed).toHaveLength(3)
     })
@@ -304,14 +304,14 @@ describe('Avatar', () => {
         <Avatar.Group maxElements={null} label="label">
           <Avatar>A</Avatar>
           <Avatar>B</Avatar>
-        </Avatar.Group>,
+        </Avatar.Group>
       )
 
       const avatarsDisplayed =
         document.getElementsByClassName('dnb-avatar')
 
       expect(
-        document.querySelector('.dnb-avatar__group--elements-left'),
+        document.querySelector('.dnb-avatar__group--elements-left')
       ).not.toBeInTheDocument()
       expect(avatarsDisplayed).toHaveLength(2)
     })
@@ -324,14 +324,14 @@ describe('Avatar', () => {
           <Avatar>C</Avatar>
           <Avatar>D</Avatar>
           <Avatar>E</Avatar>
-        </Avatar.Group>,
+        </Avatar.Group>
       )
 
       const avatarsDisplayed =
         document.getElementsByClassName('dnb-avatar')
 
       expect(
-        document.querySelector('.dnb-avatar__group--elements-left'),
+        document.querySelector('.dnb-avatar__group--elements-left')
       ).toBeInTheDocument()
       expect(avatarsDisplayed).toHaveLength(3)
     })
@@ -353,7 +353,7 @@ describe('Avatar scss', () => {
 
   it('have to match default theme snapshot', () => {
     const css = loadScss(
-      require.resolve('../style/themes/dnb-avatar-theme-ui.scss'),
+      require.resolve('../style/themes/dnb-avatar-theme-ui.scss')
     )
     expect(css).toMatchSnapshot()
   })

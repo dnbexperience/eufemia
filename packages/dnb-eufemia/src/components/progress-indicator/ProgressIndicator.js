@@ -108,7 +108,7 @@ export default class ProgressIndicator extends React.PureComponent {
       this.props,
       ProgressIndicator.defaultProps,
       this.context.getTranslation(this.props).ProgressIndicator,
-      this.context.ProgressIndicator,
+      this.context.ProgressIndicator
     )
 
     const {
@@ -152,7 +152,7 @@ export default class ProgressIndicator extends React.PureComponent {
           isTrue(no_animation) && 'dnb-progress-indicator--no-animation',
           createSpacingClasses(props),
           className,
-          _className,
+          _className
         )}
         {...params}
       >

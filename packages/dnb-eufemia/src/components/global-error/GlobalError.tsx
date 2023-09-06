@@ -104,7 +104,7 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
     context?.GlobalError,
     translation,
     translation[localProps.status || defaultProps.status],
-    { skeleton: context?.skeleton },
+    { skeleton: context?.skeleton }
   )
 
   const {
@@ -138,7 +138,7 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
       center && 'dnb-global-error--center',
       createSpacingClasses(attributes),
       className,
-      spacingClasses,
+      spacingClasses
     ),
     ...attributes,
   } as Record<string, unknown>

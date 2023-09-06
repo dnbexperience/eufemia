@@ -49,7 +49,7 @@ export default function Provider<Data extends JsonObject>({
 }: Props<Data>) {
   const ajvSchemaValidator = useMemo(
     () => (schema ? ajv.compile(schema) : undefined),
-    [schema],
+    [schema]
   )
   const [internalData, setInternalData] =
     useState<Partial<Data>>(externalData)
@@ -67,10 +67,10 @@ export default function Provider<Data extends JsonObject>({
         mountedFieldPathsRef.current.find(
           (mountedFieldPath) =>
             errorsRef.current[mountedFieldPath] !== undefined ||
-            pathsWithErrorRef.current.includes(mountedFieldPath),
-        ),
+            pathsWithErrorRef.current.includes(mountedFieldPath)
+        )
       ),
-    [],
+    []
   )
 
   useEffect(() => {
@@ -93,14 +93,14 @@ export default function Provider<Data extends JsonObject>({
         return
       }
     },
-    [ajvSchemaValidator],
+    [ajvSchemaValidator]
   )
 
   const validateBySchemaAndUpdateState = useCallback(
     (data: Partial<Data>) => {
       errorsRef.current = validateBySchema(data) ?? {}
     },
-    [validateBySchema],
+    [validateBySchema]
   )
 
   const setPathWithError = useCallback(
@@ -109,7 +109,7 @@ export default function Provider<Data extends JsonObject>({
         ? addListPath(pathsWithErrorRef.current, path)
         : removeListPath(pathsWithErrorRef.current, path)
     },
-    [],
+    []
   )
 
   const handlePathChange = useCallback(
@@ -128,21 +128,21 @@ export default function Provider<Data extends JsonObject>({
 
       setShowAllErrors(false)
     },
-    [internalData, onChange, onPathChange, validateBySchemaAndUpdateState],
+    [internalData, onChange, onPathChange, validateBySchemaAndUpdateState]
   )
 
   // Mounted fields
   const handleMountField = useCallback((path: string) => {
     mountedFieldPathsRef.current = addListPath(
       mountedFieldPathsRef.current,
-      path,
+      path
     )
   }, [])
 
   const handleUnMountField = useCallback((path: string) => {
     mountedFieldPathsRef.current = removeListPath(
       mountedFieldPathsRef.current,
-      path,
+      path
     )
   }, [])
 

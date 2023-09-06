@@ -24,7 +24,7 @@ export type TableTdProps = {
 
 export default function Td(
   componentProps: TableTdProps &
-    React.TdHTMLAttributes<HTMLTableCellElement>,
+    React.TdHTMLAttributes<HTMLTableCellElement>
 ) {
   const { className, children, noSpacing, spacing, ...props } =
     componentProps
@@ -36,7 +36,7 @@ export default function Td(
         'dnb-table__td',
         noSpacing && 'dnb-table__td--no-spacing',
         spacing && `dnb-table__td--spacing-${spacing}`,
-        className,
+        className
       )}
       {...props}
     >

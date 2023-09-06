@@ -72,7 +72,7 @@ function Tooltip(localProps: TooltipAllProps) {
     'dnb-tooltip',
     size === 'large' && 'dnb-tooltip--large',
     createSpacingClasses(props),
-    className,
+    className
   )
 
   const attributes = {

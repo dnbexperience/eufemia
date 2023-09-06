@@ -36,7 +36,7 @@ describe('UploadFileListCell', () => {
     render(<UploadFileListCell {...defaultProps} />)
 
     expect(
-      document.querySelector('.dnb-upload__file-cell'),
+      document.querySelector('.dnb-upload__file-cell')
     ).toBeInTheDocument()
   })
 
@@ -48,7 +48,7 @@ describe('UploadFileListCell', () => {
           file: createMockFile('file.png', 100, 'image/png'),
           errorMessage: 'error message',
         }}
-      />,
+      />
     )
 
     const element = document.querySelector('.dnb-upload__file-cell')
@@ -61,7 +61,7 @@ describe('UploadFileListCell', () => {
       <UploadFileListCell
         {...defaultProps}
         uploadFile={{ file: createMockFile('file.dat', 100, 'dat') }}
-      />,
+      />
     )
 
     const element = document.querySelector('.dnb-upload__file-cell__title')
@@ -74,7 +74,7 @@ describe('UploadFileListCell', () => {
       <UploadFileListCell
         {...defaultProps}
         uploadFile={{ file: createMockFile('file.png', 100, 'image/png') }}
-      />,
+      />
     )
 
     const element = document.querySelector('.dnb-upload__file-cell')
@@ -88,7 +88,7 @@ describe('UploadFileListCell', () => {
       <UploadFileListCell
         {...defaultProps}
         uploadFile={{ file: createMockFile('file.png', 100, 'image/png') }}
-      />,
+      />
     )
 
     expect(screen.queryByText('PNG')).toBeInTheDocument()
@@ -99,7 +99,7 @@ describe('UploadFileListCell', () => {
       <UploadFileListCell
         {...defaultProps}
         uploadFile={{ file: createMockFile('file.png', 100, '') }}
-      />,
+      />
     )
 
     expect(screen.queryByText('PNG')).toBeInTheDocument()
@@ -113,7 +113,7 @@ describe('UploadFileListCell', () => {
       />,
       {
         wrapper: makeWrapper({ acceptedFileTypes: ['png'] }),
-      },
+      }
     )
 
     expect(screen.queryByText('PNG')).toBeInTheDocument()
@@ -127,7 +127,7 @@ describe('UploadFileListCell', () => {
       />,
       {
         wrapper: makeWrapper({ acceptedFileTypes: ['image/png'] }),
-      },
+      }
     )
 
     expect(screen.queryByText('PNG')).toBeInTheDocument()
@@ -143,7 +143,7 @@ describe('UploadFileListCell', () => {
           file: createMockFile('file.png', 100, 'image/png'),
           errorMessage: errorMessage,
         }}
-      />,
+      />
     )
 
     expect(screen.queryByText(errorMessage)).toBeInTheDocument()
@@ -158,11 +158,11 @@ describe('UploadFileListCell', () => {
             file: createMockFile('file.png', 100, 'image/png'),
             errorMessage: 'error message',
           }}
-        />,
+        />
       )
 
       expect(
-        screen.queryByTestId('exclamation medium icon'),
+        screen.queryByTestId('exclamation medium icon')
       ).toBeInTheDocument()
     })
 
@@ -173,11 +173,11 @@ describe('UploadFileListCell', () => {
           uploadFile={{
             file: createMockFile('file.pdf', 100, 'application/pdf'),
           }}
-        />,
+        />
       )
 
       expect(
-        screen.queryByTestId('file pdf medium icon'),
+        screen.queryByTestId('file pdf medium icon')
       ).toBeInTheDocument()
     })
 
@@ -188,11 +188,11 @@ describe('UploadFileListCell', () => {
           uploadFile={{
             file: createMockFile('file.xls', 100, 'application/xls'),
           }}
-        />,
+        />
       )
 
       expect(
-        screen.queryByTestId('file xls medium icon'),
+        screen.queryByTestId('file xls medium icon')
       ).toBeInTheDocument()
     })
 
@@ -203,11 +203,11 @@ describe('UploadFileListCell', () => {
           uploadFile={{
             file: createMockFile('file.ppt', 100, 'application/ppt'),
           }}
-        />,
+        />
       )
 
       expect(
-        screen.queryByTestId('file ppt medium icon'),
+        screen.queryByTestId('file ppt medium icon')
       ).toBeInTheDocument()
     })
 
@@ -218,11 +218,11 @@ describe('UploadFileListCell', () => {
           uploadFile={{
             file: createMockFile('file.csv', 100, 'image/csv'),
           }}
-        />,
+        />
       )
 
       expect(
-        screen.queryByTestId('file csv medium icon'),
+        screen.queryByTestId('file csv medium icon')
       ).toBeInTheDocument()
     })
 
@@ -233,11 +233,11 @@ describe('UploadFileListCell', () => {
           uploadFile={{
             file: createMockFile('file.txt', 100, 'text/txt'),
           }}
-        />,
+        />
       )
 
       expect(
-        screen.queryByTestId('file txt medium icon'),
+        screen.queryByTestId('file txt medium icon')
       ).toBeInTheDocument()
     })
 
@@ -248,11 +248,11 @@ describe('UploadFileListCell', () => {
           uploadFile={{
             file: createMockFile('file.xml', 100, 'application/xml'),
           }}
-        />,
+        />
       )
 
       expect(
-        screen.queryByTestId('file xml medium icon'),
+        screen.queryByTestId('file xml medium icon')
       ).toBeInTheDocument()
     })
 
@@ -263,7 +263,7 @@ describe('UploadFileListCell', () => {
           uploadFile={{
             file: createMockFile('file.custom', 100, 'application/custom'),
           }}
-        />,
+        />
       )
 
       expect(screen.queryByTestId('file medium icon')).toBeInTheDocument()
@@ -278,7 +278,7 @@ describe('UploadFileListCell', () => {
         <UploadFileListCell
           {...defaultProps}
           uploadFile={{ file: createMockFile(fileName, 100, 'image/png') }}
-        />,
+        />
       )
       expect(screen.queryByText(fileName)).toBeInTheDocument()
     })
@@ -295,10 +295,10 @@ describe('UploadFileListCell', () => {
           uploadFile={{
             file: createMockFile(fileName, 100, 'image/png'),
           }}
-        />,
+        />
       )
       const anchorElement = screen.queryByText(
-        fileName,
+        fileName
       ) as HTMLAnchorElement
       expect(anchorElement.href).toMatch(mockUrl)
     })
@@ -312,13 +312,13 @@ describe('UploadFileListCell', () => {
           uploadFile={{
             file: createMockFile(fileName, 100, 'image/png'),
           }}
-        />,
+        />
       )
 
       const anchorElement = screen.queryByText(fileName)
 
       expect(anchorElement.className).not.toMatch(
-        'dnb-upload__file-cell--error',
+        'dnb-upload__file-cell--error'
       )
     })
   })
@@ -339,7 +339,7 @@ describe('UploadFileListCell', () => {
         <UploadFileListCell
           deleteButtonText={deleteButtonText}
           {...defaultProps}
-        />,
+        />
       )
 
       const element = screen.getByRole('button')
@@ -363,11 +363,11 @@ describe('UploadFileListCell', () => {
             file: createMockFile('file.png', 100, 'image/png'),
             isLoading: true,
           }}
-        />,
+        />
       )
 
       expect(
-        document.querySelector('.dnb-progress-indicator'),
+        document.querySelector('.dnb-progress-indicator')
       ).toBeInTheDocument()
     })
 
@@ -379,11 +379,11 @@ describe('UploadFileListCell', () => {
             file: createMockFile('file.png', 100, 'image/png'),
             isLoading: false,
           }}
-        />,
+        />
       )
 
       expect(
-        document.querySelector('.dnb-progress-indicator'),
+        document.querySelector('.dnb-progress-indicator')
       ).not.toBeInTheDocument()
     })
   })

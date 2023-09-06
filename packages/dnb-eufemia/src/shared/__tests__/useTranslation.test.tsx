@@ -93,11 +93,11 @@ describe('Translation', () => {
             max: 'max',
           })}
         </span>
-      </Provider>,
+      </Provider>
     )
 
     expect(document.querySelector('span.getTranslation').textContent).toBe(
-      expected_nbNO,
+      expected_nbNO
     )
   })
 
@@ -113,14 +113,14 @@ describe('Translation', () => {
             other.string
           </Translation>
         </span>
-      </Provider>,
+      </Provider>
     )
 
     expect(document.querySelector('span.Translation').textContent).toBe(
-      expected_nbNO,
+      expected_nbNO
     )
     expect(
-      document.querySelector('span.TranslationIdAsChildren').textContent,
+      document.querySelector('span.TranslationIdAsChildren').textContent
     ).toBe(expected_nbNO)
   })
 
@@ -130,11 +130,11 @@ describe('Translation', () => {
         <span className="useTranslation">
           <RenderGetTranslation />
         </span>
-      </Provider>,
+      </Provider>
     )
 
     expect(document.querySelector('span.useTranslation').textContent).toBe(
-      expected_nbNO,
+      expected_nbNO
     )
   })
 
@@ -145,17 +145,17 @@ describe('Translation', () => {
           <RenderGetTranslation />
         </span>
         <ChangeLocale />
-      </Provider>,
+      </Provider>
     )
 
     expect(document.querySelector('span.useTranslation').textContent).toBe(
-      expected_nbNO,
+      expected_nbNO
     )
 
     fireEvent.click(document.querySelector('button.en-GB'))
 
     expect(document.querySelector('span.useTranslation').textContent).toBe(
-      expected_enGB,
+      expected_enGB
     )
   })
 
@@ -175,32 +175,32 @@ describe('Translation', () => {
         </Provider>
 
         <ChangeLocale className="root" />
-      </Provider>,
+      </Provider>
     )
 
     expect(document.querySelector('span.root').textContent).toBe(
-      expected_nbNO,
+      expected_nbNO
     )
     expect(document.querySelector('span.nested').textContent).toBe(
-      expected_nbNO_nested,
+      expected_nbNO_nested
     )
 
     fireEvent.click(document.querySelector('div.root button.en-GB'))
 
     expect(document.querySelector('span.root').textContent).toBe(
-      expected_enGB,
+      expected_enGB
     )
     expect(document.querySelector('span.nested').textContent).toBe(
-      expected_enGB_nested,
+      expected_enGB_nested
     )
 
     fireEvent.click(document.querySelector('div.nested button.en-GB'))
 
     expect(document.querySelector('span.root').textContent).toBe(
-      expected_enGB,
+      expected_enGB
     )
     expect(document.querySelector('span.nested').textContent).toBe(
-      expected_enGB_nested,
+      expected_enGB_nested
     )
 
     // if we change the nested locale ...
@@ -208,10 +208,10 @@ describe('Translation', () => {
 
     // ... we also change the root
     expect(document.querySelector('span.root').textContent).toBe(
-      expected_nbNO,
+      expected_nbNO
     )
     expect(document.querySelector('span.nested').textContent).toBe(
-      expected_nbNO_nested,
+      expected_nbNO_nested
     )
   })
 })
@@ -249,19 +249,19 @@ describe('Context.getTranslation', () => {
     const { rerender } = render(<MagicContext />)
 
     expect(document.querySelector('p.title').textContent).toBe(
-      nbNO['nb-NO'].HelpButton.title,
+      nbNO['nb-NO'].HelpButton.title
     )
     expect(document.querySelector('p.locale').textContent).toBe('nb-NO')
 
     rerender(<MagicContext lang="en-GB" />)
 
     expect(document.querySelector('p.title').textContent).toBe(
-      enGB['en-GB'].HelpButton.title,
+      enGB['en-GB'].HelpButton.title
     )
 
     // locale should not be changed
     expect(document.querySelector('p.locale').textContent).not.toBe(
-      'en-GB',
+      'en-GB'
     )
     expect(document.querySelector('p.locale').textContent).toBe('nb-NO')
   })
@@ -270,13 +270,13 @@ describe('Context.getTranslation', () => {
     const { rerender } = render(<MagicContext />)
 
     expect(document.querySelector('p.other-string').textContent).toBe(
-      given_nbNO,
+      given_nbNO
     )
 
     rerender(<MagicContext lang="en-GB" />)
 
     expect(document.querySelector('p.other-string').textContent).toBe(
-      given_enGB,
+      given_enGB
     )
   })
 })

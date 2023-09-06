@@ -195,7 +195,7 @@ export default class FormStatus extends React.PureComponent {
             },
           })
         }
-      },
+      }
     )
 
     this._ref = React.createRef()
@@ -283,7 +283,7 @@ export default class FormStatus extends React.PureComponent {
             },
             {
               preventRestack: true, // because of the internal "close"
-            },
+            }
           )
         } else if (!FormStatus.getContent(this.props)) {
           const status_id = this.getStatusId()
@@ -336,7 +336,7 @@ export default class FormStatus extends React.PureComponent {
       FormStatus.defaultProps,
       { skeleton: this.context && this.context.skeleton },
       includeValidProps(this.context.FormRow),
-      this.context.FormStatus,
+      this.context.FormStatus
     )
 
     const {
@@ -404,7 +404,7 @@ export default class FormStatus extends React.PureComponent {
         hasStringContent ? 'dnb-form-status--has-content' : null,
         createSpacingClasses(props),
         className,
-        _className,
+        _className
       ),
       id: !String(id).startsWith('null') ? this.state.id : null,
       title,
@@ -425,7 +425,7 @@ export default class FormStatus extends React.PureComponent {
     const textParams = {
       className: classnames(
         'dnb-form-status__text',
-        createSkeletonClass('font', skeleton, this.context),
+        createSkeletonClass('font', skeleton, this.context)
       ),
       id: !String(text_id).startsWith('null') ? text_id : null,
     }

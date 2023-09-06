@@ -277,7 +277,7 @@ export default class ToggleButton extends React.PureComponent {
           const contextProps = extendPropsWithContextInClassComponent(
             this.props,
             ToggleButton.defaultProps,
-            this.context,
+            this.context
           )
 
           // use only the props from context, who are available here anyway
@@ -287,7 +287,7 @@ export default class ToggleButton extends React.PureComponent {
             contextProps,
             context.translation.ToggleButton,
             includeValidProps(context.FormRow),
-            context.ToggleButton,
+            context.ToggleButton
           )
 
           const {
@@ -361,7 +361,7 @@ export default class ToggleButton extends React.PureComponent {
               label_direction && `dnb-toggle-button--${label_direction}`,
               createSpacingClasses(props),
               className,
-              _className,
+              _className
             ),
           }
 
@@ -406,7 +406,7 @@ export default class ToggleButton extends React.PureComponent {
             buttonParams['aria-describedby'] = combineDescribedBy(
               buttonParams,
               showStatus ? id + '-status' : null,
-              suffix ? id + '-suffix' : null,
+              suffix ? id + '-suffix' : null
             )
           }
           if (readOnly) {
