@@ -146,6 +146,23 @@ describe('Drawer', () => {
     })
   })
 
+  it('sends along closeButtonAttributes to close button', () => {
+    render(
+      <Drawer
+        openState
+        noAnimation
+        closeButtonAttributes={{ text: 'Custom text' }}
+      >
+        Content
+      </Drawer>
+    )
+
+    expect(document.querySelectorAll('.dnb-drawer button')).toHaveLength(1)
+    expect(document.querySelector('.dnb-drawer button').textContent).toBe(
+      '‌Custom text'
+    )
+  })
+
   it('will use props from global context', () => {
     const contextTitle = 'Custom title'
     render(
