@@ -7,7 +7,9 @@
 
 .dnb-checkbox {
   &__gfx {
-    transition: opacity 200ms ease-out, transform 200ms ease-out;
+    transition:
+      opacity 200ms ease-out,
+      transform 200ms ease-out;
   }
 
   // When checkbox is ON

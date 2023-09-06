@@ -8,8 +8,12 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('FormStatus', () => {
-  setupPageScreenshot({ url: '/uilib/components/form-status/demos' })
+describe.each(['ui', 'sbanken'])('FormStatus for %s', (themeName) => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/form-status/demos',
+  })
+
   const style = {
     'max-width': '60rem', // make sure our input gets an explicit width, because of mac/linux rendering differences
   }

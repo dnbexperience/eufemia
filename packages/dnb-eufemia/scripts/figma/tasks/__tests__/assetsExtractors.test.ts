@@ -422,7 +422,7 @@ describe('assetsExtractors', () => {
       3,
       expect.stringContaining('/dnb-eufemia/src/icons/dnb/icons-svg.lock'),
       expect.stringContaining(
-        formatIconsMetaFile({
+        await formatIconsMetaFile({
           'bell_medium.svg': {
             iconName: 'bell_medium',
             name: 'bell',
@@ -456,7 +456,7 @@ describe('assetsExtractors', () => {
       4,
       expect.stringContaining('/dnb-eufemia/src/icons/icons-meta.json'),
       expect.stringContaining(
-        formatIconsMetaFile({
+        await formatIconsMetaFile({
           bell_medium: {
             tags: [
               'component-tag-24',

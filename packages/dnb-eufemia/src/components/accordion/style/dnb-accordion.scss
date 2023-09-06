@@ -10,6 +10,18 @@
   --accordion-border-radius: 0.25rem;
   --accordion-easing: var(--easing-default);
 
+  // vertical spacing
+  --accordion-header-margin-vertical: 1.5rem;
+  --accordion-header-margin-vertical--description: 1rem;
+
+  // wrapper
+  --accordion-header-wrapper-margin: 2rem;
+  --accordion-header-wrapper-margin--icon-right: 1rem;
+
+  // icon
+  --accordion-header-icon-gutter: 1rem;
+  --accordion-header-icon-margin: 1rem;
+
   position: relative;
 
   display: flex;
@@ -47,14 +59,13 @@
       flex-direction: column;
       width: 100%; // this pushes the &__container to the right
 
-      margin: 1.5rem 0 1.5rem 2rem;
+      margin: var(--accordion-header-margin-vertical)
+        var(--accordion-header-wrapper-margin)
+        var(--accordion-header-margin-vertical) 0;
     }
     &--description &__wrapper {
-      margin: 1rem 0 1rem 2rem;
-    }
-    &__icon + &__wrapper {
-      margin-left: 0;
-      margin-right: 2rem;
+      margin-top: var(--accordion-header-margin-vertical--description);
+      margin-bottom: var(--accordion-header-margin-vertical--description);
     }
 
     &__container {
@@ -63,7 +74,10 @@
     &__icon {
       align-self: flex-start;
 
-      margin: 1.5rem 1rem;
+      margin: var(--accordion-header-margin-vertical)
+        var(--accordion-header-icon-gutter)
+        var(--accordion-header-margin-vertical)
+        var(--accordion-header-icon-margin);
 
       font-size: var(--font-size-small);
       line-height: var(
@@ -74,24 +88,26 @@
     &--description &__icon {
       margin-top: 1rem;
     }
-    &__icon--right {
+    &--icon-right {
       justify-content: space-between;
     }
-    &__icon--right &__icon {
+    &--icon-right &__icon {
+      margin-right: var(--accordion-header-icon-margin);
+      margin-left: var(--accordion-header-icon-gutter);
       order: 3;
     }
-    &__icon--right &__container {
+    &--icon-right &__container {
       order: 1;
     }
-    &__icon--right &__wrapper {
+    &--icon-right &__wrapper {
       order: 2;
-      margin-left: 1rem;
-      margin-right: 1rem;
+      margin-right: 0;
+      margin-left: var(--accordion-header-wrapper-margin--icon-right);
     }
-    &__icon--right &__wrapper + &__container {
+    &--icon-right &__wrapper + &__container {
       margin-right: 0;
     }
-    &__icon--right &__container + &__wrapper {
+    &--icon-right &__container + &__wrapper {
       margin-left: 0;
     }
 
@@ -113,7 +129,9 @@
     }
   }
 
-  &--expanded > &__header &__header__icon {
+  &--expanded
+    > &__header
+    &__header__icon:not(#{&}__header__icon--no-animation) {
     transform: rotate(-180deg);
   }
 
@@ -122,7 +140,8 @@
     width: 100%;
 
     will-change: height;
-    transition: height 400ms var(--accordion-easing),
+    transition:
+      height 400ms var(--accordion-easing),
       opacity 600ms var(--accordion-easing);
 
     &__inner {
@@ -169,7 +188,10 @@
     //   }
     // }
   }
-  &-group--single-container & > &__header &__header__icon {
+  &-group--single-container
+    &
+    > &__header
+    &__header__icon:not(#{&}__header__icon--no-animation) {
     @include allAbove(small) {
       transform: rotate(-90deg);
     }

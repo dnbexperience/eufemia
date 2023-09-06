@@ -93,7 +93,7 @@ export const SpaceExampleMargins = () => (
   </TestStyles>
 )
 
-export const SpaceVisualTestPatterns = () => (
+export const SpaceVisibleWhenVisualTestPatterns = () => (
   <TestStyles>
     <ComponentBox
       data-visual-test="spacing-patterns"
@@ -138,75 +138,73 @@ export const SpaceVisualTestPatterns = () => (
 /**
  * This test case exists because of the reset.css margin=0 for buttons
  */
-export const SpaceVisualTestElements = () =>
-  !globalThis.IS_TEST ? null : (
-    <TestStyles>
-      <ComponentBox
-        data-visual-test="spacing-elements"
-        scope={{ MagicBox, CustomStyle }}
-        hideCode
-      >
-        {() => {
-          const listOfBoxes = []
-          for (let i = 0, c = 0, l = 10; i <= l; i++) {
-            listOfBoxes.push(String(c))
-            c += 1
-          }
-          const TestCase = (props) => {
-            return (
-              <CustomStyle {...props}>
-                {listOfBoxes.map((v) => (
-                  <Button
-                    key={v}
-                    left="x-small"
-                    top={v}
-                    size="small"
-                    custom_content={<MagicBox />}
-                  />
-                ))}
-              </CustomStyle>
-            )
-          }
-          return (
-            <div className="spacing-elements">
-              <P bottom>
-                With <Code>dnb-core-style</Code>
-              </P>
-              <TestCase className="dnb-core-style" />
-
-              <P top bottom>
-                Without
-              </P>
-              <TestCase />
-            </div>
-          )
-        }}
-      </ComponentBox>
-    </TestStyles>
-  )
-
-export const SpaceVisualTestReset = () =>
-  !globalThis.IS_TEST ? null : (
-    <ComponentBox data-visual-test="spacing-reset">
+export const SpaceVisibleWhenVisualTestElements = () => (
+  <TestStyles>
+    <ComponentBox
+      data-visual-test="spacing-elements"
+      scope={{ MagicBox, CustomStyle }}
+      hideCode
+    >
       {() => {
-        const BlueBox = styled.div`
-          display: inline-block;
-          padding: 0.5rem;
-          background: blue;
-          ul {
-            background: white;
-          }
-        `
+        const listOfBoxes = []
+        for (let i = 0, c = 0, l = 10; i <= l; i++) {
+          listOfBoxes.push(String(c))
+          c += 1
+        }
+        const TestCase = (props) => {
+          return (
+            <CustomStyle {...props}>
+              {listOfBoxes.map((v) => (
+                <Button
+                  key={v}
+                  left="x-small"
+                  top={v}
+                  size="small"
+                  custom_content={<MagicBox />}
+                />
+              ))}
+            </CustomStyle>
+          )
+        }
         return (
-          <BlueBox>
-            <ul className="dnb-space__reset dnb-space__top--small dnb-space__right--small dnb-space__bottom--small dnb-space__left--small">
-              <li> </li>
-            </ul>
-          </BlueBox>
+          <div className="spacing-elements">
+            <P bottom>
+              With <Code>dnb-core-style</Code>
+            </P>
+            <TestCase className="dnb-core-style" />
+
+            <P top bottom>
+              Without
+            </P>
+            <TestCase />
+          </div>
         )
       }}
     </ComponentBox>
-  )
+  </TestStyles>
+)
+
+export const SpaceVisibleWhenVisualTestReset = () => (
+  <ComponentBox data-visual-test="spacing-reset">
+    {() => {
+      const BlueBox = styled.div`
+        display: inline-block;
+        padding: 0.5rem;
+        background: blue;
+        ul {
+          background: white;
+        }
+      `
+      return (
+        <BlueBox>
+          <ul className="dnb-space__reset dnb-space__top--small dnb-space__right--small dnb-space__bottom--small dnb-space__left--small">
+            <li> </li>
+          </ul>
+        </BlueBox>
+      )
+    }}
+  </ComponentBox>
+)
 
 const TestStyles = styled.div`
   /* make sure our input gets an explicit width, because of mac/linux rendering differences */
@@ -378,7 +376,7 @@ const VisualSpace = ({ label = null, children, ...rest }) => {
             const style = window.getComputedStyle(elem.children[0])
             const top = parseFloat(style.getPropertyValue('margin-top'))
             const bottom = parseFloat(
-              style.getPropertyValue('margin-bottom')
+              style.getPropertyValue('margin-bottom'),
             )
             let spaceInPixels = top
 

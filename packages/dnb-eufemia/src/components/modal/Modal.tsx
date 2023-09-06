@@ -296,10 +296,13 @@ class Modal extends React.PureComponent<
         elem.focus({ preventScroll: true })
 
         return new Promise<void>((resolve) => {
-          setTimeout(() => {
-            elem?.removeAttribute('data-autofocus')
-            resolve()
-          }, parseFloat(String(animation_duration)) / 3)
+          setTimeout(
+            () => {
+              elem?.removeAttribute('data-autofocus')
+              resolve()
+            },
+            parseFloat(String(animation_duration)) / 3
+          )
         })
       }
 

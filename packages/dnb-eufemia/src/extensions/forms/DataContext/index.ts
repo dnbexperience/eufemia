@@ -12,4 +12,3 @@ const DataContext = {
 
 export type { ContextState }
 export default DataContext
-

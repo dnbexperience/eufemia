@@ -125,7 +125,8 @@ $fonts-path: '../../assets/fonts/dnb' !default;
 // Skeleton-Regular
 @font-face {
   font-family: DNBSkeleton;
-  src: url('#{$fonts-path}/skeleton/DNB-Skeleton-Regular.woff2')
+  src:
+    url('#{$fonts-path}/skeleton/DNB-Skeleton-Regular.woff2')
       format('woff2'),
     url('#{$fonts-path}/skeleton/DNB-Skeleton-Regular.woff') format('woff'),
     url('#{$fonts-path}/skeleton/DNB-Skeleton-Regular.ttf')
@@ -138,7 +139,8 @@ $fonts-path: '../../assets/fonts/dnb' !default;
 // Skeleton-Medium
 @font-face {
   font-family: DNBSkeleton;
-  src: url('#{$fonts-path}/skeleton/DNB-Skeleton-Medium.woff2')
+  src:
+    url('#{$fonts-path}/skeleton/DNB-Skeleton-Medium.woff2')
       format('woff2'),
     url('#{$fonts-path}/skeleton/DNB-Skeleton-Medium.woff') format('woff'),
     url('#{$fonts-path}/skeleton/DNB-Skeleton-Medium.ttf')
@@ -151,8 +153,8 @@ $fonts-path: '../../assets/fonts/dnb' !default;
 // Skeleton-Bold
 @font-face {
   font-family: DNBSkeleton;
-  src: url('#{$fonts-path}/skeleton/DNB-Skeleton-Bold.woff2')
-      format('woff2'),
+  src:
+    url('#{$fonts-path}/skeleton/DNB-Skeleton-Bold.woff2') format('woff2'),
     url('#{$fonts-path}/skeleton/DNB-Skeleton-Bold.woff') format('woff'),
     url('#{$fonts-path}/skeleton/DNB-Skeleton-Bold.ttf') format('truetype');
   font-weight: 600;
@@ -163,7 +165,8 @@ $fonts-path: '../../assets/fonts/dnb' !default;
 // Mono-Skeleton
 @font-face {
   font-family: DNBMonoSkeleton;
-  src: url('#{$fonts-path}/skeleton/DNBMono-Skeleton-Regular.woff2')
+  src:
+    url('#{$fonts-path}/skeleton/DNBMono-Skeleton-Regular.woff2')
       format('woff2'),
     url('#{$fonts-path}/skeleton/DNBMono-Skeleton-Regular.woff')
       format('woff'),

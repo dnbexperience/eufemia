@@ -163,7 +163,7 @@ const runFactory = async ({
     // make sure we have newline at the end - because of StyleLint "no-missing-end-of-source-newline"
     await fs.writeFile(
       scssOutputFile,
-      prettier.format(`${autoAdvice}${customContent}${content}\n`, {
+      await prettier.format(`${autoAdvice}${customContent}${content}\n`, {
         ...prettierrc,
         filepath: scssOutputFile,
       })

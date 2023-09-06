@@ -61,7 +61,9 @@
         border-color: transparent transparent #222;
 
         opacity: 1;
-        transition: opacity 0.2s ease-out, border-width 0.2s ease-out;
+        transition:
+          opacity 0.2s ease-out,
+          border-width 0.2s ease-out;
       }
 
       &.dnb-pre--focus {

@@ -5,7 +5,11 @@ import { FormError } from '@dnb/eufemia/src/extensions/forms/types'
 export const Empty = () => {
   return (
     <ComponentBox scope={{ Field }}>
-      <Field.Number onChange={(value) => console.log('onChange', value)} />
+      <Field.Number
+        onFocus={(value) => console.log('onFocus', value)}
+        onBlur={(value) => console.log('onBlur', value)}
+        onChange={(value) => console.log('onChange', value)}
+      />
     </ComponentBox>
   )
 }
@@ -44,6 +48,23 @@ export const LabelAndValue = () => {
   )
 }
 
+export const WithHelp = () => {
+  return (
+    <ComponentBox scope={{ Field }}>
+      <Field.Number
+        value={12345}
+        label="Label text"
+        help={{
+          title: 'Help is available',
+          contents:
+            'Here is what a team can do for you. . . . It allows you to help others do their best.',
+        }}
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
+
 export const HorizontalLayout = () => {
   return (
     <ComponentBox scope={{ Field }}>
@@ -63,6 +84,12 @@ export const Widths = () => {
       <Field.Number
         label="Default width (property omitted)"
         value={123}
+        onChange={(value) => console.log('onChange', value)}
+      />
+      <Field.Number
+        label="Small"
+        value={123}
+        width="small"
         onChange={(value) => console.log('onChange', value)}
       />
       <Field.Number

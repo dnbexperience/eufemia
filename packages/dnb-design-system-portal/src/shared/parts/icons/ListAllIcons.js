@@ -116,9 +116,7 @@ export default class ListAllIcons extends React.PureComponent {
               element="figcaption"
               useSlug={iconName}
             >
-              <Copy>
-                  {iconName}
-              </Copy>
+              <Copy>{iconName}</Copy>
             </AutoLinkHeader>
 
             <P>{tags.length > 0 ? tags.join(', ') : '(no tags)'}</P>
@@ -142,7 +140,7 @@ export default class ListAllIcons extends React.PureComponent {
             </AutoLinkHeader>
             <ul className={listStyle}>{this.renderListItem(icons)}</ul>
           </React.Fragment>
-        )
+        ),
       )
     } else {
       return (

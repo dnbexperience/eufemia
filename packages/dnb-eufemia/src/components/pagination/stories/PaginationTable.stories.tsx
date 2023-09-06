@@ -120,15 +120,18 @@ const InfinityPaginationTable = ({ tableItems, ...props }) => {
 
     // simulate server delay
     clearTimeout(serverDelayTimeout)
-    serverDelayTimeout = setTimeout(() => {
-      if (pageNumber === currentPage) {
-        // once we set current page, we force a re-render, and sync of data
-        // but only if we are on the same page
-        forceRerender(new Date().getTime())
-      } else {
-        setLocalPage(pageNumber)
-      }
-    }, Math.ceil(Math.random() * 1e3)) // simulate random delay
+    serverDelayTimeout = setTimeout(
+      () => {
+        if (pageNumber === currentPage) {
+          // once we set current page, we force a re-render, and sync of data
+          // but only if we are on the same page
+          forceRerender(new Date().getTime())
+        } else {
+          setLocalPage(pageNumber)
+        }
+      },
+      Math.ceil(Math.random() * 1e3)
+    ) // simulate random delay
   }
 
   return (
@@ -333,7 +336,9 @@ const TableRow = styled.tr`
     transform: translateY(-10px);
     opacity: 0;
 
-    transition: height 400ms ease-out, opacity 600ms ease-out,
+    transition:
+      height 400ms ease-out,
+      opacity 600ms ease-out,
       transform 400ms ease-out;
 
     td {
@@ -372,7 +377,9 @@ const TableData = styled.td`
   .dnb-p {
     cursor: text;
 
-    font-feature-settings: 'pnum' on, 'lnum' on;
+    font-feature-settings:
+      'pnum' on,
+      'lnum' on;
     font-weight: var(--font-weight-bold);
     font-size: var(--font-size-large);
 

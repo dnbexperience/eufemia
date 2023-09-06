@@ -107,7 +107,7 @@ function MyComponent(props: ComponentAllProps) {
   const { myString } = extendPropsWithContext(
     props,
     defaultProps,
-    context.getTranslation(props).MyComponent // details below 👇
+    context.getTranslation(props).MyComponent, // details below 👇
     // ...
   )
 
@@ -140,7 +140,7 @@ function MyComponent(props: ComponentAllProps) {
   const { myParam, ...rest } = extendPropsWithContext(
     props,
     defaultProps,
-    context.MyComponent
+    context.MyComponent,
     // ...
   )
 
@@ -204,7 +204,7 @@ function MyComponent(props: ComponentAllProps) {
 
   const { myParam, className, ...rest } = extendPropsWithContext(
     props,
-    defaultProps
+    defaultProps,
     // ...
   )
 
@@ -215,7 +215,7 @@ function MyComponent(props: ComponentAllProps) {
   rest.className = classnames(
     'dnb-my-component',
     createSpacingClasses(props),
-    className
+    className,
   )
 
   // Spread the ...rest on your root element
@@ -254,7 +254,7 @@ function MyComponent(props: ComponentAllProps) {
   const { skeleton, className, ...rest } = extendPropsWithContext(
     props,
     defaultProps,
-    { skeleton: context?.skeleton }
+    { skeleton: context?.skeleton },
     // ...
   )
 
@@ -266,7 +266,7 @@ function MyComponent(props: ComponentAllProps) {
     'shape',
     skeleton,
     context,
-    className
+    className,
   )
 
   // Use skeleton and spread the ...rest

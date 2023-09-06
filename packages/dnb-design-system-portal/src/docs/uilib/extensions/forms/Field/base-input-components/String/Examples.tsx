@@ -5,7 +5,11 @@ import { FormError } from '@dnb/eufemia/src/extensions/forms/types'
 export const Empty = () => {
   return (
     <ComponentBox scope={{ Field }}>
-      <Field.String onChange={(value) => console.log('onChange', value)} />
+      <Field.String
+        onFocus={(value) => console.log('onFocus', value)}
+        onBlur={(value) => console.log('onBlur', value)}
+        onChange={(value) => console.log('onChange', value)}
+      />
     </ComponentBox>
   )
 }
@@ -44,6 +48,23 @@ export const LabelAndValue = () => {
   )
 }
 
+export const WithHelp = () => {
+  return (
+    <ComponentBox scope={{ Field }}>
+      <Field.String
+        label="Label text"
+        value="foo"
+        help={{
+          title: 'Help is available',
+          contents:
+            'Take the time to help other people without expecting a reward or gratitude is definitely important in living an optimistic life.',
+        }}
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
+
 export const HorizontalLayout = () => {
   return (
     <ComponentBox scope={{ Field }}>
@@ -63,6 +84,12 @@ export const Widths = () => {
       <Field.String
         label="Default width (property omitted)"
         value="foo"
+        onChange={(value) => console.log('onChange', value)}
+      />
+      <Field.String
+        label="Small"
+        value="foo"
+        width="small"
         onChange={(value) => console.log('onChange', value)}
       />
       <Field.String
@@ -293,10 +320,10 @@ export const AsynchronousExternalValidator = () => {
                 resolve(
                   value.length < 5
                     ? new FormError('At least 5 characters')
-                    : undefined
+                    : undefined,
                 ),
-              1500
-            )
+              1500,
+            ),
           )
         }
         onChange={(value) => console.log('onChange', value)}
@@ -335,10 +362,10 @@ export const AsynchronousExternalBlurValidator = () => {
                 resolve(
                   value.length < 5
                     ? new FormError('At least 5 characters')
-                    : undefined
+                    : undefined,
                 ),
-              1500
-            )
+              1500,
+            ),
           )
         }
         onChange={(value) => console.log('onChange', value)}
@@ -378,6 +405,22 @@ export const MultipleLabelAndValue = () => {
         label="Label text"
         onChange={(value) => console.log('onChange', value)}
         multiline
+      />
+    </ComponentBox>
+  )
+}
+
+export const MultipleWithHelp = () => {
+  return (
+    <ComponentBox scope={{ Field }}>
+      <Field.String
+        label="Label text"
+        help={{
+          title: 'Help is available',
+          contents: 'There is more happiness in giving than in receiving.',
+        }}
+        multiline
+        onChange={(value) => console.log('onChange', value)}
       />
     </ComponentBox>
   )

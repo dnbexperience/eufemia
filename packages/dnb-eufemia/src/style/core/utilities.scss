@@ -148,7 +148,9 @@
   $width: 0.0625rem /*1px*/
 ) {
   $second: 0 0 0 calc(var(--focus-ring-width) + #{$width}) $second-color;
-  box-shadow: 0 0 0 $width $first-color, $second;
+  box-shadow:
+    0 0 0 $width $first-color,
+    $second;
 }
 
 @mixin dummySpacing() {

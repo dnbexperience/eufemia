@@ -20,7 +20,7 @@ function makeGridVisible(showGrid = true) {
 function isGridVisible() {
   return Boolean(
     typeof window !== 'undefined' &&
-      parseFloat(window.localStorage.getItem('showGrid'))
+      parseFloat(window.localStorage.getItem('showGrid')),
   )
 }
 

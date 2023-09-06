@@ -20,7 +20,9 @@
     .dnb-table__sort-button.dnb-button {
       > .dnb-icon {
         opacity: 0;
-        transition: opacity 200ms ease-out, transform 500ms ease-out;
+        transition:
+          opacity 200ms ease-out,
+          transform 500ms ease-out;
 
         html[data-visual-test] & {
           transition: none;

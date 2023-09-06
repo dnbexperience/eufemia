@@ -115,3 +115,52 @@ export const AnchorSandbox = () => {
     </Wrapper>
   )
 }
+
+const TextComponent = ({ children }) => <span>{children}</span>
+
+export const AnchorTargetBlank = () => {
+  return (
+    <section
+      style={{
+        display: 'flex',
+        flexFlow: 'column',
+        justifyContent: 'flex-start',
+      }}
+    >
+      <Box>
+        <Anchor href="http://dnb.no" target="_blank">
+          Text as string
+        </Anchor>
+      </Box>
+
+      <Box>
+        <Anchor
+          href="http://dnb.no"
+          target="_blank"
+          icon="chevron_right"
+          iconPosition="right"
+        >
+          Text as string icon
+        </Anchor>
+      </Box>
+
+      <Box>
+        <Anchor href="http://dnb.no" target="_blank">
+          <TextComponent>Text as component</TextComponent>
+        </Anchor>
+      </Box>
+
+      <Box>
+        <Anchor href="http://dnb.no" target="_blank">
+          <span>Text as element</span>
+        </Anchor>
+      </Box>
+
+      <Box>
+        <Anchor href="http://dnb.no">
+          <span>Text as element and no target</span>
+        </Anchor>
+      </Box>
+    </section>
+  )
+}

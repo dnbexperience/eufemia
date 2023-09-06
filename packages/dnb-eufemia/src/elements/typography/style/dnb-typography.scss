@@ -51,6 +51,7 @@
   --typography-h-basis-small-font-size: var(--font-size-small);
   --typography-h-basis-small-line-height: var(--line-height-small);
   --typography-h-basis-weight: var(--font-weight-medium);
+  --typography-h-basis-font-family: var(--font-family-default);
 
   // Heading small
   --typography-h-small-font-size: var(--font-size-small);
@@ -58,11 +59,13 @@
   --typography-h-small-small-font-size: var(--font-size-x-small);
   --typography-h-small-small-line-height: var(--line-height-x-small);
   --typography-h-small-weight: var(--font-weight-medium);
+  --typography-h-small-font-family: var(--font-family-default);
 
   // Heading x-small
   --typography-h-x-small-font-size: var(--font-size-x-small);
   --typography-h-x-small-line-height: var(--line-height-x-small);
   --typography-h-x-small-weight: var(--font-weight-medium);
+  --typography-h-x-small-font-family: var(--font-family-default);
 }
 
 @include headingClasses() {

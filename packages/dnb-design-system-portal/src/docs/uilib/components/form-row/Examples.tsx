@@ -278,7 +278,7 @@ export const FormRowDifferentDirections = () => (
   </TestStyles>
 )
 
-const VisualTestHorizontalDirection = () => (
+const VisibleWhenVisualTestHorizontalDirection = () => (
   <ComponentBox
     scope={{ AllComponents }}
     data-visual-test="form-row-all-horizontal-direction"
@@ -289,7 +289,7 @@ const VisualTestHorizontalDirection = () => (
   </ComponentBox>
 )
 
-const VisualTestVerticalDirection = () => (
+const VisibleWhenVisualTestVerticalDirection = () => (
   <ComponentBox
     scope={{ AllComponents, WidthLimit }}
     data-visual-test="form-row-all-vertical-direction"
@@ -302,7 +302,7 @@ const VisualTestVerticalDirection = () => (
   </ComponentBox>
 )
 
-const VisualTestVerticalEverything = () => (
+const VisibleWhenVisualTestVerticalEverything = () => (
   <ComponentBox
     scope={{ AllComponents, WidthLimit }}
     data-visual-test="form-row-all-vertical-everything"
@@ -315,7 +315,7 @@ const VisualTestVerticalEverything = () => (
   </ComponentBox>
 )
 
-const VisualTestLabelDirection = () => (
+const VisibleWhenVisualTestLabelDirection = () => (
   <ComponentBox
     scope={{ AllComponents }}
     data-visual-test="form-row-all-vertical-label-direction"
@@ -326,7 +326,7 @@ const VisualTestLabelDirection = () => (
   </ComponentBox>
 )
 
-const VisualTestVerticalLabelDirectionNoLabels = () => (
+const VisibleWhenVisualTestVerticalLabelDirectionNoLabels = () => (
   <ComponentBox
     scope={{ AllComponents }}
     data-visual-test="form-row-all-vertical-label-direction-no-label"
@@ -340,7 +340,7 @@ const VisualTestVerticalLabelDirectionNoLabels = () => (
   </ComponentBox>
 )
 
-const VisualTestAllStretch = () => (
+const VisibleWhenVisualTestAllStretch = () => (
   <ComponentBox
     scope={{ AllStretchComponents }}
     data-visual-test="form-row-all-stretch-components"
@@ -349,7 +349,7 @@ const VisualTestAllStretch = () => (
   </ComponentBox>
 )
 
-const VisualTestHorizontalCentered = () => (
+const VisibleWhenVisualTestHorizontalCentered = () => (
   <ComponentBox data-visual-test="form-row-centered">
     <FormRow centered>
       <div className="box1" />
@@ -358,10 +358,7 @@ const VisualTestHorizontalCentered = () => (
   </ComponentBox>
 )
 
-export default function FormRowVisualTests() {
-  if (!global.IS_TEST) {
-    return null
-  }
+export default function FormRowVisibleWhenVisualTests() {
   return (
     <TestStyles>
       <Global
@@ -374,13 +371,13 @@ export default function FormRowVisualTests() {
           }
         `}
       />
-      <VisualTestHorizontalDirection />
-      <VisualTestVerticalDirection />
-      <VisualTestVerticalEverything />
-      <VisualTestLabelDirection />
-      <VisualTestVerticalLabelDirectionNoLabels />
-      <VisualTestAllStretch />
-      <VisualTestHorizontalCentered />
+      <VisibleWhenVisualTestHorizontalDirection />
+      <VisibleWhenVisualTestVerticalDirection />
+      <VisibleWhenVisualTestVerticalEverything />
+      <VisibleWhenVisualTestLabelDirection />
+      <VisibleWhenVisualTestVerticalLabelDirectionNoLabels />
+      <VisibleWhenVisualTestAllStretch />
+      <VisibleWhenVisualTestHorizontalCentered />
     </TestStyles>
   )
 }

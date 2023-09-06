@@ -1,8 +1,9 @@
-import React, { useContext, useCallback, useMemo } from 'react'
+import React, { useContext, useCallback } from 'react'
 import { Div } from '../../../elements'
-import { Autocomplete, Input } from '../../../components'
+import { InputMaskedProps } from '../../../components/InputMasked'
 import classnames from 'classnames'
-import countries from '../constants/countries'
+import CountryCode from './CountryCode'
+import StringComponent from './String'
 import { forwardSpaceProps } from '../utils'
 import { useField } from './hooks'
 import type { ComponentProps } from '../component-types'
@@ -10,17 +11,23 @@ import type { FieldProps } from '../field-types'
 import SharedContext from '../../../shared/Context'
 
 export type Props = ComponentProps &
-  FieldProps<string> & {
+  FieldProps<string, undefined> & {
     countryCodeFieldClassName?: string
     numberFieldClassName?: string
-    // Styling
-    width?: 'medium' | 'large'
+    countryCodeLabel?: string
+    numberMask?: InputMaskedProps['mask']
+    width?: 'large' | 'stretch'
+    onCountryCodeChange?: (value: string | undefined) => void
+    onNumberChange?: (value: string | undefined) => void
   }
 
 function PhoneNumber(props: Props) {
   const sharedContext = useContext(SharedContext)
   const preparedProps: Props = {
     ...props,
+    // Important for the default value to be defined here, and not after the useField call, to avoid the UI jumping
+    // back to +47 once the user empty the field so handleChange send out undefined.
+    value: '+47',
     errorMessages: {
       required: sharedContext?.translation.Forms.phoneNumberErrorRequired,
       ...props?.errorMessages,
@@ -32,57 +39,54 @@ function PhoneNumber(props: Props) {
     countryCodeFieldClassName,
     numberFieldClassName,
     placeholder,
+    countryCodeLabel,
     label = sharedContext?.translation.Forms.phoneNumberLabel,
     value,
+    numberMask,
     emptyValue,
+    info,
+    warning,
     error,
     disabled,
     width = 'large',
-    onFocus,
-    onBlur,
-    onChange,
+    handleFocus,
+    handleBlur,
+    handleChange,
+    onCountryCodeChange,
+    onNumberChange,
   } = useField(preparedProps)
 
-  // Split the value into country code and phone number correctly, even if one of them is not
-  // filled in (avoiding number ending up in country code etc)
-  const [, countryCode = '+47', phoneNumber = ''] =
-    (value ?? '')?.match(/^(\+[^ ]+)? ?(.*)$/) ?? []
-
-  const countriesDropdownData = useMemo(
-    () =>
-      countries.map((country) => ({
-        selected_key: `+${country.code}`,
-        selected_value: `${country.iso} (+${country.code})`,
-        content: `+${country.code} ${country.name}`,
-      })),
-    []
-  )
+  const [, countryCode, phoneNumber] =
+    value !== undefined
+      ? value.match(/^(\+[^ ]+)? ?(.*)$/)
+      : [undefined, '', '']
 
   const handleCountryCodeChange = useCallback(
-    ({ data: changedData }: { data: { selected_key: string } }) => {
-      if (
-        (!changedData || !changedData.selected_key.trim()) &&
-        !phoneNumber.trim()
-      ) {
-        onChange?.(emptyValue)
+    (countryCode: string) => {
+      if (!countryCode && !phoneNumber) {
+        handleChange?.(emptyValue)
+        onCountryCodeChange?.(emptyValue)
         return
       }
 
-      onChange?.(`${changedData?.selected_key || ''} ${phoneNumber}`)
+      handleChange?.([countryCode, phoneNumber].filter(Boolean).join(' '))
+      onCountryCodeChange?.(countryCode)
     },
-    [phoneNumber, emptyValue, onChange]
+    [phoneNumber, emptyValue, handleChange, onCountryCodeChange]
   )
 
   const handleNumberChange = useCallback(
-    ({ value }: { value: string }) => {
-      if (!value.trim() && !countryCode.trim()) {
-        onChange?.(emptyValue)
+    (phoneNumber: string) => {
+      if (!countryCode && !phoneNumber) {
+        handleChange?.(emptyValue)
+        onNumberChange?.(emptyValue)
         return
       }
 
-      onChange?.([countryCode, value].filter(Boolean).join(' '))
+      handleChange?.([countryCode, phoneNumber].filter(Boolean).join(' '))
+      onNumberChange?.(phoneNumber)
     },
-    [countryCode, emptyValue, onChange]
+    [countryCode, emptyValue, handleChange, onNumberChange]
   )
 
   return (
@@ -95,34 +99,51 @@ function PhoneNumber(props: Props) {
       )}
       {...forwardSpaceProps(preparedProps)}
     >
-      <Autocomplete
+      <CountryCode
         className={classnames(
           'dnb-forms-field-phone-number__country-code',
           countryCodeFieldClassName
         )}
-        label_direction="vertical"
-        label={sharedContext?.translation.Forms.countryCodeLabel}
-        data={countriesDropdownData}
+        label={countryCodeLabel}
         value={countryCode ?? '+47'}
         disabled={disabled}
-        on_change={handleCountryCodeChange}
-        independent_width
+        onChange={handleCountryCodeChange}
       />
-      <Input
+
+      <StringComponent
         className={classnames(
           'dnb-forms-field-phone-number__number',
           numberFieldClassName
         )}
-        label_direction="vertical"
+        type="tel"
+        emptyValue=""
+        layout="vertical"
         label={label ?? ' '}
         placeholder={placeholder ?? '00 00 00 00'}
-        on_change={handleNumberChange}
-        on_focus={onFocus}
-        on_blur={onBlur}
+        mask={
+          numberMask ?? [
+            /\d/,
+            /\d/,
+            ' ',
+            /\d/,
+            /\d/,
+            ' ',
+            /\d/,
+            /\d/,
+            ' ',
+            /\d/,
+            /\d/,
+          ]
+        }
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        onChange={handleNumberChange}
         value={phoneNumber}
-        status={error?.message}
+        info={info}
+        warning={warning}
+        error={error}
         disabled={disabled}
-        type="tel"
+        width="stretch"
       />
     </Div>
   )

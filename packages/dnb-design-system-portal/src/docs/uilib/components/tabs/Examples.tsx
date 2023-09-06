@@ -339,26 +339,24 @@ export const TabsNoBorder = () => (
   </Wrapper>
 )
 
-export const TabsSingleChildrenReactElement = () =>
-  !globalThis.IS_TEST ? null : (
-    <Wrapper>
-      <ComponentBox data-visual-test="tabs-single-children-react-element">
-        <Tabs>
-          <Tabs.Content title="First">
-            <div>hello1</div>
-          </Tabs.Content>
-        </Tabs>
-      </ComponentBox>
-    </Wrapper>
-  )
+export const TabsSingleChildrenReactElement = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="tabs-single-children-react-element">
+      <Tabs>
+        <Tabs.Content title="First">
+          <div>hello1</div>
+        </Tabs.Content>
+      </Tabs>
+    </ComponentBox>
+  </Wrapper>
+)
 
-export const TabsSingleElementData = () =>
-  !globalThis.IS_TEST ? null : (
-    <Wrapper>
-      <ComponentBox data-visual-test="tabs-single-element-data">
-        <Tabs
-          data={[{ title: 'First', key: 1, content: <div>hello1</div> }]}
-        />
-      </ComponentBox>
-    </Wrapper>
-  )
+export const TabsSingleElementData = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="tabs-single-element-data">
+      <Tabs
+        data={[{ title: 'First', key: 1, content: <div>hello1</div> }]}
+      />
+    </ComponentBox>
+  </Wrapper>
+)

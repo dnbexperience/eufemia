@@ -44,7 +44,7 @@ export function withCamelCaseProps<TBase, P>(
  * @returns extended function or class
  */
 export function classWithCamelCaseProps<
-  TBase extends React.ComponentClass
+  TBase extends React.ComponentClass,
 >(Base: TBase): typeof Base {
   const Component: React.ComponentClass = Base
 

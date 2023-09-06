@@ -361,9 +361,6 @@ export const AnchorSbankenInline = () => (
 )
 
 export const AnchorLegacyUsage = () => {
-  if (!globalThis.IS_TEST) {
-    return null
-  }
   return (
     <Wrapper>
       <ComponentBox hideCode scope={{ Example }}>

@@ -22,7 +22,8 @@
     opacity: 1;
 
     will-change: height;
-    transition: height 800ms var(--global-status-easing),
+    transition:
+      height 800ms var(--global-status-easing),
       opacity 600ms var(--global-status-easing);
   }
 

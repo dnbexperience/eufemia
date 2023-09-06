@@ -3,7 +3,7 @@
 .dnb-forms-steps-layout {
   display: flex;
   flex-flow: row wrap;
-  column-gap: 3rem;
+  column-gap: var(--spacing-medium);
 
   @media (max-width: map-get($breakpoints, 'medium')) {
     flex-direction: column;
@@ -13,11 +13,18 @@
 
   &__sidebar {
     flex: 0;
-    min-width: 320px;
+    min-width: 21rem;
+
+    .dnb-step-indicator__sidebar {
+      max-width: 21rem;
+    }
+    .dnb-step-indicator__sidebar .dnb-step-indicator__item {
+      min-width: 336px;
+    }
   }
 
   &__contents {
     flex: 1;
-    min-width: 400px;
+    min-width: 25rem;
   }
 }

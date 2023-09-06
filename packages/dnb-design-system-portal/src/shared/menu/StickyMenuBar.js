@@ -56,7 +56,7 @@ export default function StickyMenuBar({
         headerStyle,
         hideSidebarToggleButton && hideSidebarToggleButtonStyle,
         'sticky-menu',
-        'dev-grid'
+        'dev-grid',
       )}
     >
       <div className={portalHeaderWrapperStyle}>
@@ -80,7 +80,7 @@ export default function StickyMenuBar({
           <span
             className={classnames(
               sloganStyle,
-              createSkeletonClass('font', context.skeleton)
+              createSkeletonClass('font', context.skeleton),
             )}
           >
             {slogan}

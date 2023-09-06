@@ -51,7 +51,7 @@ const flatten = (arr) =>
           fields: { slug },
           frontmatter: { skipSearch },
         },
-      }) => !slug.includes('not_in_use') && skipSearch !== true
+      }) => !slug.includes('not_in_use') && skipSearch !== true,
     )
     .map(
       ({
@@ -91,7 +91,7 @@ const flatten = (arr) =>
               const category = siblings
                 .reverse()
                 .find(({ fields: { slug: _slug } }) =>
-                  slug.includes(_slug)
+                  slug.includes(_slug),
                 )
 
               let newTitle = null
@@ -149,7 +149,7 @@ const flatten = (arr) =>
         }
 
         return result
-      }
+      },
     )
     .filter(Boolean)
 

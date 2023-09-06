@@ -27,7 +27,7 @@ exports[`Section scss has to match style dependencies css 1`] = `
   top: 0;
   width: 100vw;
   height: 100%;
-  color: var(--color-mint-green-12);
+  color: var(--color-mint-green-12); /** deprecated: should be white in v11 */
   background-color: currentcolor;
   box-shadow: 99vw 0 0 0 currentcolor, 198vw 0 0 0 currentcolor, 297vw 0 0 0 currentcolor, 396vw 0 0 0 currentcolor;
 }
@@ -87,6 +87,15 @@ exports[`Section scss have to match default theme snapshot 1`] = `
 /*
  * Utilities
  */
+.dnb-section {
+  /** deprecated: default should be white in v11 */
+  /** deprecated */
+  /** deprecated */
+  /** deprecated */
+  /** deprecated */
+  /** deprecated */
+  /** deprecated */
+}
 .dnb-section--divider {
   color: var(--color-black-80);
 }

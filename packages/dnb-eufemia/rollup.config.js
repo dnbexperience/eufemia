@@ -27,7 +27,9 @@ const excludes = [
 ]
 
 const currentBranch = branchName()
-export default !/^(release|beta|alpha|next|main)$/.test(currentBranch)
+export default !/^(release|beta|alpha|next|portal|main)$/.test(
+  currentBranch
+)
   ? [
       // NB: rollup needs at least one config
       makeRollupConfig(

@@ -47,7 +47,7 @@ const LegacyCodeStyling = () => (
       className={classnames(
         CoreStyleExample,
         'dnb-core-style',
-        'dnb-dev-grid'
+        'dnb-dev-grid',
       )}
     >
       <Code>{'<div class="dnb-core-style">'}</Code>
@@ -71,7 +71,7 @@ const LegacyCodeStyling = () => (
         SpacingExample,
         'dnb-core-style',
         'dnb-spacing',
-        'dnb-dev-grid'
+        'dnb-dev-grid',
       )}
     >
       <Code>{'<div class="dnb-core-style dnb-spacing">'}</Code>

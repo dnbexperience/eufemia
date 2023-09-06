@@ -47,6 +47,24 @@ export const LabelAndValue = () => {
   )
 }
 
+export const WithHelp = () => {
+  return (
+    <ComponentBox scope={{ Field }}>
+      <Field.Currency
+        value={150000}
+        currency="NOK"
+        label="Amount"
+        help={{
+          title: 'Help is available',
+          contents:
+            'Helping others, without expecting anything in return is what true self-worth is all about.',
+        }}
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
+
 export const Disabled = () => {
   return (
     <ComponentBox scope={{ Field }}>

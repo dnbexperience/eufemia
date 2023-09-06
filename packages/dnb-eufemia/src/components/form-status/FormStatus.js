@@ -125,35 +125,36 @@ export default class FormStatus extends React.PureComponent {
     return state
   }
 
-  static getIcon({ state, icon, icon_size }) {
-    if (typeof icon === 'string') {
-      let IconToLoad = icon
-
-      switch (FormStatus.correctStatus(state)) {
-        case 'info':
-          IconToLoad = InfoIcon
-          break
-        case 'warn':
-          IconToLoad = WarnIcon
-          break
-        case 'marketing':
-          IconToLoad = MarketingIcon
-          break
-        case 'error':
-        default:
-          IconToLoad = ErrorIcon
-      }
-
-      icon = (
-        <Icon
-          icon={<IconToLoad title={null} />}
-          size={icon_size}
-          inherit_color={false}
-        />
-      )
+  static getIcon({ state, icon, icon_size, theme }) {
+    if (typeof icon !== 'string') {
+      return icon
     }
 
-    return icon
+    let IconToLoad = icon
+
+    switch (FormStatus.correctStatus(state)) {
+      case 'info':
+      case 'success':
+        IconToLoad = InfoIcon
+        break
+      case 'warn':
+        IconToLoad = WarnIcon
+        break
+      case 'marketing':
+        IconToLoad = MarketingIcon
+        break
+      case 'error':
+      default:
+        IconToLoad = ErrorIcon
+    }
+
+    return (
+      <Icon
+        icon={<IconToLoad title={null} state={state} theme={theme} />}
+        size={icon_size}
+        inherit_color={false}
+      />
+    )
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -369,6 +370,7 @@ export default class FormStatus extends React.PureComponent {
       state,
       icon,
       icon_size,
+      theme: this.context?.theme?.name,
     })
 
     const contentToRender =
@@ -499,30 +501,42 @@ WarnIcon.defaultProps = {
   title: 'error',
 }
 
-export const InfoIcon = (props) => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
-    {props && props.title && <title>{props.title}</title>}
-    <path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M11.268 0a11.25 11.25 0 105.566 21.017l6.112 2.91a.75.75 0 001-1l-2.911-6.112A11.234 11.234 0 0011.268 0z"
-      fill="#007272"
-    />
-    <circle cx="11" cy="6.5" r=".5" fill="#fff" stroke="#fff" />
-    <path
-      d="M13.75 16H13a1.5 1.5 0 01-1.5-1.5v-3.75a.75.75 0 00-.75-.75H10"
-      stroke="#fff"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-)
+export const InfoIcon = (props) => {
+  const isSbankenTheme = props && props?.theme === 'sbanken'
+  let fill = isSbankenTheme ? '#000' : '#007272'
+  if (props && props?.state === 'success') {
+    fill = isSbankenTheme ? '#02A56A' : '#28B482'
+  }
+
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
+      {props && props.title && <title>{props.title}</title>}
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M11.268 0a11.25 11.25 0 105.566 21.017l6.112 2.91a.75.75 0 001-1l-2.911-6.112A11.234 11.234 0 0011.268 0z"
+        fill={fill}
+      />
+      <circle cx="11" cy="6.5" r=".5" fill="#fff" stroke="#fff" />
+      <path
+        d="M13.75 16H13a1.5 1.5 0 01-1.5-1.5v-3.75a.75.75 0 00-.75-.75H10"
+        stroke="#fff"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
 InfoIcon.propTypes = {
   title: PropTypes.string,
+  state: PropTypes.string,
+  theme: PropTypes.string,
 }
 InfoIcon.defaultProps = {
   title: 'info',
+  state: 'info',
+  theme: 'ui',
 }
 
 export const MarketingIcon = (props) => (

@@ -155,8 +155,8 @@ export const RadioExampleSuffix = () => (
   </ComponentBox>
 )
 
-export function RadioVisualTests() {
-  return !global.IS_TEST ? null : (
+export function RadioVisibleWhenVisualTests() {
+  return (
     <>
       <ComponentBox data-visual-test="radio-default">
         <Radio label="Single Radio" />

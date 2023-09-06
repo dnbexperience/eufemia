@@ -1,3 +1,4 @@
+import * as React from 'react'
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
 import { FormError } from '@dnb/eufemia/src/extensions/forms/types'
@@ -6,7 +7,11 @@ import { FormError } from '@dnb/eufemia/src/extensions/forms/types'
 
 export const DropdownEmpty = () => (
   <ComponentBox scope={{ Field }}>
-    <Field.Selection onChange={(value) => console.log('onChange', value)}>
+    <Field.Selection
+      onFocus={(value) => console.log('onFocus', value)}
+      onBlur={(value) => console.log('onBlur', value)}
+      onChange={(value) => console.log('onChange', value)}
+    >
       <Field.Option value="foo" title="Foo!" />
       <Field.Option value="bar" title="Baar!" />
     </Field.Selection>
@@ -59,6 +64,61 @@ export const DropdownLabelAndOptionSelected = () => (
   </ComponentBox>
 )
 
+export const WithClearButton = () => (
+  <ComponentBox scope={{ Field }}>
+    {() => {
+      const Example = () => {
+        const [value, setValue] = React.useState('bar')
+        const handleChange = React.useCallback(
+          (value) => {
+            console.log('onChange', value)
+            setValue(value)
+          },
+          [setValue],
+        )
+        return (
+          <>
+            <Field.Selection
+              value={value}
+              label="Label text"
+              onChange={handleChange}
+              clear
+            >
+              <Field.Option value="foo" title="Foo!" />
+              <Field.Option value="bar" title="Baar!" />
+            </Field.Selection>
+            <pre>
+              VALUE: {value === undefined ? <em>undefined</em> : value}
+            </pre>
+          </>
+        )
+      }
+
+      return <Example />
+    }}
+  </ComponentBox>
+)
+
+export const WithHelp = () => {
+  return (
+    <ComponentBox scope={{ Field }}>
+      <Field.Selection
+        value="bar"
+        label="Label text"
+        help={{
+          title: 'Help is available',
+          contents:
+            'Somewhere along the way, we must learn that there is nothing greater than to do something for others.',
+        }}
+        onChange={(value) => console.log('onChange', value)}
+      >
+        <Field.Option value="foo" title="Foo!" />
+        <Field.Option value="bar" title="Baar!" />
+      </Field.Selection>
+    </ComponentBox>
+  )
+}
+
 export const HorizontalLayout = () => {
   return (
     <ComponentBox scope={{ Field }}>
@@ -81,6 +141,15 @@ export const Widths = () => {
       <Field.Selection
         label="Default width (property omitted)"
         value="bar"
+        onChange={(value) => console.log('onChange', value)}
+      >
+        <Field.Option value="foo" title="Foo!" />
+        <Field.Option value="bar" title="Baar!" />
+      </Field.Selection>
+      <Field.Selection
+        label="Small"
+        value="bar"
+        width="small"
         onChange={(value) => console.log('onChange', value)}
       >
         <Field.Option value="foo" title="Foo!" />
@@ -184,11 +253,13 @@ export const DropdownHighNumberOfOptions = () => (
 export const DropdownValidationRequired = () => (
   <ComponentBox scope={{ Field }}>
     <Field.Selection
+      value="foo"
       label="Label text"
       onChange={(value) => console.log('onChange', value)}
+      onFocus={(value) => console.log('onFocus', value)}
+      onBlur={(value) => console.log('onBlur', value)}
       required
-      validateInitially
-      validateUnchanged
+      clear
     >
       <Field.Option value="foo" title="Foo!" />
       <Field.Option value="bar" title="Baar!" />
@@ -236,6 +307,52 @@ export const RadioOptionSelected = () => (
   </ComponentBox>
 )
 
+export const RadioHorizontalLayout = () => (
+  <ComponentBox scope={{ Field }}>
+    <Field.Selection
+      variant="radio"
+      label="Label text"
+      value="bar"
+      layout="horizontal"
+      onChange={(value) => console.log('onChange', value)}
+    >
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>
+  </ComponentBox>
+)
+
+export const RadioHorizontalOptionsLayout = () => (
+  <ComponentBox scope={{ Field }}>
+    <Field.Selection
+      variant="radio"
+      label="Label text"
+      value="bar"
+      optionsLayout="horizontal"
+      onChange={(value) => console.log('onChange', value)}
+    >
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>
+  </ComponentBox>
+)
+
+export const RadioHorizontalLayoutAndHorizontalOptionsLayout = () => (
+  <ComponentBox scope={{ Field }}>
+    <Field.Selection
+      variant="radio"
+      label="Label text"
+      value="bar"
+      layout="horizontal"
+      optionsLayout="horizontal"
+      onChange={(value) => console.log('onChange', value)}
+    >
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>
+  </ComponentBox>
+)
+
 export const RadioDisabled = () => (
   <ComponentBox scope={{ Field }}>
     <Field.Selection
@@ -266,12 +383,12 @@ export const RadioError = () => (
   </ComponentBox>
 )
 
-// Checkbox
+// Button
 
-export const CheckboxEmpty = () => (
+export const ButtonEmpty = () => (
   <ComponentBox scope={{ Field }}>
     <Field.Selection
-      variant="radio"
+      variant="button"
       onChange={(value) => console.log('onChange', value)}
     >
       <Field.Option value="foo" title="Foo!" />
@@ -280,10 +397,10 @@ export const CheckboxEmpty = () => (
   </ComponentBox>
 )
 
-export const CheckboxLabel = () => (
+export const ButtonLabel = () => (
   <ComponentBox scope={{ Field }}>
     <Field.Selection
-      variant="radio"
+      variant="button"
       label="Label text"
       onChange={(value) => console.log('onChange', value)}
     >
@@ -293,10 +410,10 @@ export const CheckboxLabel = () => (
   </ComponentBox>
 )
 
-export const CheckboxOptionSelected = () => (
+export const ButtonOptionSelected = () => (
   <ComponentBox scope={{ Field }}>
     <Field.Selection
-      variant="radio"
+      variant="button"
       value="bar"
       onChange={(value) => console.log('onChange', value)}
     >
@@ -306,10 +423,25 @@ export const CheckboxOptionSelected = () => (
   </ComponentBox>
 )
 
-export const CheckboxDisabled = () => (
+export const ButtonHorizontalLayout = () => (
   <ComponentBox scope={{ Field }}>
     <Field.Selection
-      variant="radio"
+      variant="button"
+      label="Label text"
+      value="bar"
+      layout="horizontal"
+      onChange={(value) => console.log('onChange', value)}
+    >
+      <Field.Option value="foo" title="Foo!" />
+      <Field.Option value="bar" title="Baar!" />
+    </Field.Selection>
+  </ComponentBox>
+)
+
+export const ButtonDisabled = () => (
+  <ComponentBox scope={{ Field }}>
+    <Field.Selection
+      variant="button"
       value="bar"
       label="Label text"
       onChange={(value) => console.log('onChange', value)}
@@ -321,10 +453,10 @@ export const CheckboxDisabled = () => (
   </ComponentBox>
 )
 
-export const CheckboxError = () => (
+export const ButtonError = () => (
   <ComponentBox scope={{ Field, FormError }}>
     <Field.Selection
-      variant="radio"
+      variant="button"
       value="bar"
       label="Label text"
       onChange={(value) => console.log('onChange', value)}
@@ -335,5 +467,3 @@ export const CheckboxError = () => (
     </Field.Selection>
   </ComponentBox>
 )
-
-// Button

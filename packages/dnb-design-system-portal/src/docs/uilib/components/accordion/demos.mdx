@@ -10,6 +10,7 @@ import {
   AccordionGroupExample,
   AccordionNestedExample,
   AccordionPlainVariant,
+  AccordionDisabledExample,
 } from 'Docs/uilib/components/accordion/Examples'
 
 ## Demos
@@ -36,10 +37,12 @@ import {
 
 <AccordionNestedExample />
 
-### Accordion with a single container
+<VisibleWhenVisualTest>
+  <AccordionPlainVariant />
+</VisibleWhenVisualTest>
 
-A single container is only used for wider screens (desktop). When the users' screen is narrower (mobile), it will change to a normal accordion. The change happens with CSS only, so it will not interrupt any React render.
+### Disabled
 
-<AccordionContainerExample />
+Accordion can be disabled, though is not exactly defined what the use case is.
 
-<AccordionPlainVariant />
+<AccordionDisabledExample />

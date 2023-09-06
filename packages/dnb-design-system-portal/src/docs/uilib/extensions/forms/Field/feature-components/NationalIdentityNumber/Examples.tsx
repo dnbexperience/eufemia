@@ -57,6 +57,23 @@ export const LabelAndValue = () => {
   )
 }
 
+export const WithHelp = () => {
+  return (
+    <ComponentBox scope={{ Field }}>
+      <Field.NationalIdentityNumber
+        label="Label text"
+        value="01017501234"
+        help={{
+          title: 'Help is available',
+          contents:
+            'The more I help others to succeed, the more I succeed.',
+        }}
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
+
 export const Disabled = () => {
   return (
     <ComponentBox scope={{ Field }}>

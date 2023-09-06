@@ -16,18 +16,18 @@ test.describe('Responsiveness', () => {
   }) => {
     await expect(page.locator('nav#portal-sidebar-menu')).toHaveCSS(
       'display',
-      'block'
+      'block',
     )
     await page.setViewportSize({ width: 375, height: 667 }) // Set viewport size to iPhone 6 dimensions
 
     await expect(page.locator('nav#portal-sidebar-menu')).toHaveCSS(
       'display',
-      'none'
+      'none',
     )
     await page.click('#toggle-sidebar-menu')
 
     await page.click(
-      'nav#portal-sidebar-menu a[href="/uilib/about-the-lib/"]'
+      'nav#portal-sidebar-menu a[href="/uilib/about-the-lib/"]',
     )
 
     // Check if app is mounted

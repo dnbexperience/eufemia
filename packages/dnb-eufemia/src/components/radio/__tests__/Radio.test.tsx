@@ -332,6 +332,19 @@ describe('Radio ARIA', () => {
       })
     ).toHaveNoViolations()
   })
+
+  it('gets valid ref element', () => {
+    let ref: React.RefObject<HTMLInputElement>
+
+    function MockComponent() {
+      ref = React.useRef()
+      return <Radio {...props} innerRef={ref} />
+    }
+
+    render(<MockComponent />)
+
+    expect(ref.current.classList).toContain('dnb-radio__input')
+  })
 })
 
 describe('Radio scss', () => {

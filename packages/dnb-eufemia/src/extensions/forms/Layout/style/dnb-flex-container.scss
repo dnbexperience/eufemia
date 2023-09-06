@@ -1,3 +1,5 @@
+@import '../../variables.scss';
+
 .dnb-forms-flex-container {
   display: flex;
 
@@ -80,5 +82,17 @@
 
   &--direction-row.dnb-forms-flex-container--spacing-medium {
     column-gap: var(--spacing-medium);
+  }
+
+  &--width-small {
+    width: $forms-field-width-small;
+  }
+
+  &--width-medium {
+    width: $forms-field-width-medium;
+  }
+
+  &--width-large {
+    width: $forms-field-width-large;
   }
 }

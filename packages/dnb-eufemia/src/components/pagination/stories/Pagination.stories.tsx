@@ -25,7 +25,9 @@ const LargePage = styled.div`
   background-color: ${(props) => props.color || 'hotpink'};
   font-size: 15vw;
   font-weight: var(--font-weight-bold);
-  font-feature-settings: 'pnum' on, 'lnum' on;
+  font-feature-settings:
+    'pnum' on,
+    'lnum' on;
 
   color: var(--color-white);
 `
@@ -131,9 +133,12 @@ export const PaginationSandbox = () => (
       <Pagination page_count={2}>
         {({ pageNumber, setContent }) => {
           // simulate server communication delay
-          const timeout = setTimeout(() => {
-            setContent(pageNumber, <LargePage>{pageNumber}</LargePage>)
-          }, Math.ceil(Math.random() * 500))
+          const timeout = setTimeout(
+            () => {
+              setContent(pageNumber, <LargePage>{pageNumber}</LargePage>)
+            },
+            Math.ceil(Math.random() * 500)
+          )
 
           return () => clearTimeout(timeout)
         }}
@@ -281,9 +286,12 @@ const InfinityPagination = ({ children, ...props }) => {
       on_load={({ pageNumber, setContent }) => {
         console.log('InfinityPagination on_load:', pageNumber)
 
-        setTimeout(() => {
-          setContent(pageNumber, children(pageNumber))
-        }, Math.ceil(Math.random() * 1e3))
+        setTimeout(
+          () => {
+            setContent(pageNumber, children(pageNumber))
+          },
+          Math.ceil(Math.random() * 1e3)
+        )
       }}
       on_end={({ pageNumber, setContent }) => {
         console.log('InfinityPagination on_end:', pageNumber)

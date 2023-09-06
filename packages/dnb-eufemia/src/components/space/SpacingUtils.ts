@@ -236,7 +236,7 @@ export const findTypeAll = (
 > => {
   const listOfSpacePatterns = Object.entries(spacePatterns) as [
     SpaceTypesPositiveValuesType,
-    SpaceTypesPositiveRemValuesType
+    SpaceTypesPositiveRemValuesType,
   ][]
   const found =
     listOfSpacePatterns.find(([k, v]) => k && v === num) || null

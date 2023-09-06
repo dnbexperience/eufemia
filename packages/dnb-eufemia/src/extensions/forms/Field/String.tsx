@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import classnames from 'classnames'
-import { Input, Textarea } from '../../../components'
+import { HelpButton, Input, Textarea } from '../../../components'
 import { InputProps } from '../../../components/input/Input'
 import InputMasked, {
   InputMaskedProps,
@@ -10,7 +10,7 @@ import SharedContext from '../../../shared/Context'
 import FieldBlock from '../FieldBlock'
 import { useField } from './hooks'
 import type { ComponentProps } from '../component-types'
-import type { FieldProps } from '../field-types'
+import type { FieldProps, FieldHelpProps } from '../field-types'
 
 interface ErrorMessages {
   required?: string
@@ -20,7 +20,8 @@ interface ErrorMessages {
   pattern?: string
 }
 export type Props = ComponentProps &
-  FieldProps<string, undefined, ErrorMessages> & {
+  FieldHelpProps &
+  FieldProps<string, undefined | string, ErrorMessages> & {
     inputClassName?: string
     type?: InputProps['type']
     multiline?: boolean
@@ -36,7 +37,7 @@ export type Props = ComponentProps &
     maxLength?: number
     pattern?: string
     // Styling
-    width?: false | 'medium' | 'large' | 'stretch'
+    width?: false | 'small' | 'medium' | 'large' | 'stretch'
   }
 
 function StringComponent(props: Props) {
@@ -75,7 +76,11 @@ function StringComponent(props: Props) {
       if (value === '') {
         return props.emptyValue
       }
-      // Cleaned value for masked
+      if (value.charAt(0) === '0' && cleanedValue === '') {
+        // Special case - Since InputMasked sends out empty string when entering the digit 0 as first character (possibly changing in the future)
+        return '0'
+      }
+
       return cleanedValue ?? value
     },
     width: props.width ?? 'large',
@@ -95,6 +100,7 @@ function StringComponent(props: Props) {
     warning,
     error,
     disabled,
+    help,
     multiline,
     leftIcon,
     rightIcon,
@@ -104,9 +110,9 @@ function StringComponent(props: Props) {
     characterCounter,
     mask,
     width,
-    onFocus,
-    onBlur,
-    onChange,
+    handleFocus,
+    handleBlur,
+    handleChange,
   } = useField(preparedProps)
 
   const characterCounterElement = characterCounter
@@ -136,9 +142,16 @@ function StringComponent(props: Props) {
           className={cn}
           placeholder={placeholder}
           value={value}
-          on_focus={onFocus}
-          on_blur={onBlur}
-          on_change={onChange}
+          suffix={
+            help ? (
+              <HelpButton title={help.title} left="x-small">
+                {help.contents}
+              </HelpButton>
+            ) : undefined
+          }
+          on_focus={handleFocus}
+          on_blur={handleBlur}
+          on_change={handleChange}
           autoresize={autoresize}
           autoresize_max_rows={autoresizeMaxRows}
           disabled={disabled}
@@ -152,9 +165,14 @@ function StringComponent(props: Props) {
           value={value?.toString() ?? ''}
           icon={leftIcon ?? rightIcon}
           icon_position={rightIcon && !leftIcon ? 'right' : undefined}
-          on_focus={onFocus}
-          on_blur={onBlur}
-          on_change={onChange}
+          suffix={
+            help ? (
+              <HelpButton title={help.title}>{help.contents}</HelpButton>
+            ) : undefined
+          }
+          on_focus={handleFocus}
+          on_blur={handleBlur}
+          on_change={handleChange}
           disabled={disabled}
           stretch={width !== undefined}
         />
@@ -168,9 +186,14 @@ function StringComponent(props: Props) {
           icon={leftIcon ?? rightIcon}
           icon_position={rightIcon && !leftIcon ? 'right' : undefined}
           clear={clear}
-          on_focus={onFocus}
-          on_blur={onBlur}
-          on_change={onChange}
+          suffix={
+            help ? (
+              <HelpButton title={help.title}>{help.contents}</HelpButton>
+            ) : undefined
+          }
+          on_focus={handleFocus}
+          on_blur={handleBlur}
+          on_change={handleChange}
           disabled={disabled}
           stretch={width !== undefined}
         />

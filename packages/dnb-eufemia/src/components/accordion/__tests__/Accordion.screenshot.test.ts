@@ -8,8 +8,9 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Accordion', () => {
+describe.each(['ui', 'sbanken'])('Accordion for %s', (themeName) => {
   setupPageScreenshot({
+    themeName,
     url: '/uilib/components/accordion/demos',
     each: true,
   })
@@ -92,14 +93,6 @@ describe('Accordion', () => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match in desktop mode', async () => {
-    const screenshot = await makeScreenshot({
-      style: { width: '40rem', 'min-height': '15rem' },
-      selector: '[data-visual-test="accordion-container"]',
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
   it('have to match in first state', async () => {
     const screenshot = await makeScreenshot({
       style: { width: '30rem', height: '20rem' },
@@ -126,21 +119,11 @@ describe('Accordion', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
-})
 
-describe('Accordion container', () => {
-  setupPageScreenshot({
-    url: '/uilib/components/accordion/demos',
-    pageViewport: {
-      width: 400,
-      height: 600,
-    },
-  })
-
-  it('have to match in mobile mode', async () => {
+  it('have to match disabled state', async () => {
     const screenshot = await makeScreenshot({
-      style: { width: '22rem', 'min-height': '15rem' },
-      selector: '[data-visual-test="accordion-container"]',
+      style: { width: '20rem', height: '15rem' },
+      selector: '[data-visual-test="accordion-disabled"]',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

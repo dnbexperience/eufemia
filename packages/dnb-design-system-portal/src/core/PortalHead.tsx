@@ -18,7 +18,7 @@ export const renderBody =
       <HeadComponents
         key="portal-head-components"
         {...pageContext?.headData}
-      />
+      />,
     )
   }
 

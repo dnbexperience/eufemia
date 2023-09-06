@@ -6,9 +6,11 @@
     $selectors: &;
     @at-root {
       @include headingTags() {
+        // prettier-ignore
         $selectors: #{$selectors}, &;
         @at-root {
           @include otherSelectos() {
+            // prettier-ignore
             $selectors: #{$selectors}, &;
 
             @at-root #{$selectors} {
@@ -191,6 +193,7 @@
     var(--typography-h-basis-small-line-height),
     var(--typography-h-basis-weight)
   ) {
+    font-family: var(--typography-h-basis-font-family);
     @content;
   }
 }
@@ -203,6 +206,7 @@
     var(--typography-h-small-small-line-height),
     var(--typography-h-small-weight)
   ) {
+    font-family: var(--typography-h-small-font-family);
     @content;
   }
 }
@@ -215,6 +219,7 @@
     null,
     var(--typography-h-x-small-weight)
   ) {
+    font-family: var(--typography-h-x-small-font-family);
     @content;
   }
 }

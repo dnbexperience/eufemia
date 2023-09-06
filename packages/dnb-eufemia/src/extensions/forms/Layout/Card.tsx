@@ -46,7 +46,10 @@ function Card(props: Props) {
   }
 
   return (
-    <FlexItem className={classnames('dnb-forms-card', className)}>
+    <FlexItem
+      className={classnames('dnb-forms-card', className)}
+      {...forwardSpaceProps(props)}
+    >
       {children}
     </FlexItem>
   )

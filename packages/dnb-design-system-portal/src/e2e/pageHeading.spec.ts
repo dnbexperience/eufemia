@@ -16,30 +16,30 @@ test.describe('Page Heading', () => {
 
     const firstElementTagName = await page.$eval(
       '#tabbar-content > *',
-      (element) => element.tagName
+      (element) => element.tagName,
     )
     expect(firstElementTagName).toBe('H1')
 
     const secondElementTagName = await page.$eval(
       '#tabbar-content > h1 ~ p ~ *',
-      (element) => element.tagName
+      (element) => element.tagName,
     )
     expect(secondElementTagName).toBe('H2')
 
     const thirdElementTagName = await page.$eval(
       '#tabbar-content > h1 ~ p ~ *',
-      (element) => element.tagName
+      (element) => element.tagName,
     )
     expect(thirdElementTagName).toBe('H2')
 
     // App should re-render
     await page.click(
-      '#portal-sidebar-menu ul li a[href*="/uilib/components/"]:first-child'
+      '#portal-sidebar-menu ul li a[href*="/uilib/components/"]:first-child',
     )
 
     const reRenderedElementTagName = await page.$eval(
       '#tabbar-content > h1 ~ p ~ *',
-      (element) => element.tagName
+      (element) => element.tagName,
     )
     expect(reRenderedElementTagName).toBe('H2')
   })

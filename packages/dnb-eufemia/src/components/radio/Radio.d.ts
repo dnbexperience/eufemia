@@ -83,6 +83,10 @@ export interface RadioProps
    */
   on_change?: (...args: any[]) => any;
   on_state_update?: (...args: any[]) => any;
+  /**
+   * By providing a React.ref we can get the internally used input element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.
+   */
+  innerRef?: React.Ref;
 }
 export default class Radio extends React.Component<RadioProps, any> {
   static defaultProps: object;

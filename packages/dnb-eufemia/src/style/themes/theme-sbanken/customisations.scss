@@ -38,11 +38,3 @@
   --scrollbar-thumb-color: var(--sb-color-gray-dark-3);
   --scrollbar-thumb-hover-color: var(--sb-color-purple);
 }
-
-// change heading to use MaisonNeueHeadings
-@mixin headingDefaultsCustomisation() {
-  // WIP – should "probably" be moved inside an typography theme
-  .eufemia-theme__sbanken & {
-    --font-family-default: var(--sb-font-family-headings);
-  }
-}

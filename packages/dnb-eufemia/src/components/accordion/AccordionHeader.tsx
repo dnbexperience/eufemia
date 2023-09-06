@@ -10,6 +10,7 @@ import {
   validateDOMAttributes,
   extendPropsWithContext,
 } from '../../shared/component-helper'
+import { useTheme } from '../../shared'
 import IconPrimary from '../icon-primary/IconPrimary'
 import classnames from 'classnames'
 import AccordionContext from './AccordionContext'
@@ -19,11 +20,10 @@ import {
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 
-import type { ButtonIconPosition } from '../Button'
 import type { HeadingLevel } from '../Heading'
 import type { IconSize } from '../Icon'
 import type { SkeletonShow } from '../Skeleton'
-import type { AccordionIcon } from './Accordion'
+import type { AccordionIcon, AccordionIconPosition } from './Accordion'
 
 export type AccordionHeaderTitleProps = SpacingProps & {
   children?: React.ReactNode
@@ -97,15 +97,33 @@ export type AccordionHeaderIconProps = {
   icon?: AccordionHeaderIconIcon
   size?: IconSize
   expanded?: boolean
+  icon_position?: AccordionIconPosition
 }
 
 function AccordionHeaderIcon({
   icon,
   expanded,
   size = 'medium',
+  icon_position,
 }: AccordionHeaderIconProps) {
+  const theme = useTheme()
+  let animateIcon = true
+  if (!icon && theme?.name === 'sbanken') {
+    animateIcon = false
+    icon = {
+      expanded: 'subtract-medium',
+      closed: 'add-medium',
+    }
+  }
+
   return (
-    <span className="dnb-accordion__header__icon">
+    <span
+      className={classnames(
+        'dnb-accordion__header__icon',
+        !animateIcon && 'dnb-accordion__header__icon--no-animation',
+        icon_position && `dnb-accordion__header__icon--${icon_position}`
+      )}
+    >
       <IconPrimary
         size={size}
         // There has to be a better way than to do so much casting
@@ -163,7 +181,7 @@ export type AccordionHeaderProps = React.HTMLProps<HTMLElement> &
     heading?: AccordionHeaderHeading
     heading_level?: HeadingLevel
     icon?: AccordionIcon
-    icon_position?: ButtonIconPosition
+    icon_position?: AccordionIconPosition
     icon_size?: IconSize
     disabled?: boolean
     skeleton?: SkeletonShow
@@ -271,6 +289,7 @@ export const AccordionHeader = ({
       icon={icon}
       size={icon_size}
       expanded={context.expanded}
+      icon_position={icon_position}
     />,
     <AccordionHeaderContainer key="container">
       {left_component as React.ReactNode}
@@ -358,7 +377,7 @@ export const AccordionHeader = ({
     tabIndex: 0,
     className: classnames(
       'dnb-accordion__header',
-      icon_position && `dnb-accordion__header__icon--${icon_position}`,
+      icon_position && `dnb-accordion__header--icon-${icon_position}`,
       isHoverring && hasClicked && 'dnb-accordion--hover',
       !canClick() && 'dnb-accordion__header--prevent-click',
       description && 'dnb-accordion__header--description',

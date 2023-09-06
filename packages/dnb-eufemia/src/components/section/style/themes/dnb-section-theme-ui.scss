@@ -11,8 +11,11 @@
 
     &::after {
       color: var(--color-white);
-      box-shadow: 99vw 0 0 0 currentcolor, 198vw 0 0 0 currentcolor,
-        297vw 0 0 0 currentcolor, 396vw 0 0 0 currentcolor,
+      box-shadow:
+        99vw 0 0 0 currentcolor,
+        198vw 0 0 0 currentcolor,
+        297vw 0 0 0 currentcolor,
+        396vw 0 0 0 currentcolor,
         0 0.0625rem 0 0 var(--color-mint-green-50),
         99vw 0.0625rem 0 0 var(--color-mint-green-50),
         0 -0.0625rem 0 0 var(--color-mint-green-50),
@@ -28,7 +31,9 @@
     }
   }
 
-  &--mint-green-12, &--default {
+  /** deprecated: default should be white in v11 */
+  &--mint-green-12,
+  &--default {
     color: var(--color-black-80);
 
     &::after {
@@ -44,6 +49,7 @@
     }
   }
 
+  /** deprecated */
   &--mint-green {
     color: var(--color-black-80);
 
@@ -52,6 +58,7 @@
     }
   }
 
+  /** deprecated */
   &--lavender {
     color: var(--color-black-80);
 
@@ -60,7 +67,8 @@
     }
   }
 
-  &--sand-yellow, &--warning {
+  &--sand-yellow,/** deprecated */
+  &--warning {
     color: var(--color-black-80);
 
     &::after {
@@ -68,7 +76,8 @@
     }
   }
 
-  &--pistachio, &--info {
+  &--pistachio,/** deprecated */
+  &--info {
     color: var(--color-black-80);
 
     &::after {
@@ -76,6 +85,7 @@
     }
   }
 
+  /** deprecated */
   &--black-3 {
     color: var(--color-black-80);
 
@@ -84,6 +94,7 @@
     }
   }
 
+  /** deprecated */
   &--emerald-green {
     color: var(--color-mint-green);
 
@@ -92,6 +103,7 @@
     }
   }
 
+  /** deprecated */
   &--sea-green {
     color: var(--color-white);
 
@@ -100,6 +112,7 @@
     }
   }
 
+  /** deprecated */
   &--fire-red {
     color: var(--color-white);
 
@@ -108,7 +121,8 @@
     }
   }
 
-  &--fire-red-8, &--error {
+  &--fire-red-8,/** deprecated */
+  &--error {
     color: var(--color-black-80);
 
     &::after {
@@ -125,16 +139,16 @@
   }
 
   // Contrast styles
-  &--fire-red .dnb-anchor,
-  &--emerald-green .dnb-anchor,
-  &--sea-green .dnb-anchor,
+  &--fire-red .dnb-anchor,/** deprecated */
+  &--emerald-green .dnb-anchor,/** deprecated */
+  &--sea-green .dnb-anchor,/** deprecated */
   &--success .dnb-anchor {
     @include useAnchorContrastStyle();
   }
 
-  &--fire-red .dnb-button--tertiary,
-  &--emerald-green .dnb-button--tertiary,
-  &--sea-green .dnb-button--tertiary {
+  &--fire-red .dnb-button--tertiary,/** deprecated */
+  &--emerald-green .dnb-button--tertiary,/** deprecated */
+  &--sea-green .dnb-button--tertiary /** deprecated */ {
     color: var(--color-white);
 
     &:hover {
@@ -155,8 +169,8 @@
   }
 
   // contrast color
-  &--fire-red,
-  &--mint-green {
+  &--fire-red,/** deprecated */
+  &--mint-green /** deprecated */ {
     ::selection {
       background-color: var(--color-white);
     }

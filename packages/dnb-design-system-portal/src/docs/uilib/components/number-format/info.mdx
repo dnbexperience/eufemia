@@ -49,7 +49,7 @@ render(
     <MyApp>
       text <NumberFormat>123</NumberFormat> table etc.
     </MyApp>
-  </Provider>
+  </Provider>,
 )
 ```
 
@@ -79,7 +79,7 @@ function Component() {
 render(
   <Provider locale="en-GB" NumberFormat={{ currency: 'EUR' }}>
     <Component />
-  </Provider>
+  </Provider>,
 )
 ```
 
@@ -136,7 +136,7 @@ import { Provider } from '@dnb/eufemia/shared'
 render(
   <Provider value={{ NumberFormat: { clean_copy_value: true } }}>
     <YourApp />
-  </Provider>
+  </Provider>,
 )
 ```
 
@@ -148,7 +148,7 @@ So, numbers are formatted differently for screen readers than the visual number.
 
 ### Sources
 
-Eufemia is basing their number formats on both the [Norwegian authority](https://lovdata.no/forskrift/2004-02-16-426/§16) and [Språkradet](https://www.sprakradet.no/sprakhjelp/Skriveregler/Dato). Wikipedia has more info on world wide [decimal separator](https://en.wikipedia.org/wiki/Decimal_separator) usage.
+Eufemia is basing their number formats on both the [Norwegian authority](https://lovdata.no/forskrift/2004-02-16-426/§16) and [Språkradet](https://www.sprakradet.no/sprakhjelp/Skriveregler/Dato), and currency is based on [guidelines](https://www.sprakradet.no/svardatabase/sporsmal-og-svar/kronebelop-rekkjefolgje-komma-og-strek/) from Språkrådet. Wikipedia has more info on world wide [decimal separator](https://en.wikipedia.org/wiki/Decimal_separator) usage.
 
 For international number formatting, we use the [EU Style Guide](https://ec.europa.eu/info/sites/default/files/styleguide_english_dgt_en.pdf).
 

@@ -14,25 +14,32 @@ import {
 import { createSpacingClasses } from '../space/SpacingHelper'
 import type { DynamicElement, SpacingProps } from '../../shared/types'
 
-export type SectionVariants =
-  | 'error'
-  | 'info'
-  | 'warning'
-  | 'success'
+export type SectionVariants = 'error' | 'info' | 'warning' | 'success'
 
 export type SectionStyleTypes =
   | 'divider'
   | 'white'
   | 'transparent'
+
+  /** @deprecated in v11 use "variant" prop instead */
   | 'lavender'
+  /** @deprecated in v11 use "variant" prop instead */
   | 'pistachio'
+  /** @deprecated in v11 use "variant" prop instead */
   | 'emerald-green'
+  /** @deprecated in v11 use "variant" prop instead */
   | 'sea-green'
+  /** @deprecated in v11 use "variant" prop instead */
   | 'fire-red'
+  /** @deprecated in v11 use "variant" prop instead */
   | 'fire-red-8'
+  /** @deprecated in v11 use "variant" prop instead */
   | 'sand-yellow'
+  /** @deprecated in v11 use "variant" prop instead */
   | 'black-3'
+  /** @deprecated in v11 use "variant" prop instead */
   | 'mint-green'
+  /** @deprecated in v11 use "variant" prop instead */
   | 'mint-green-12'
 
 export type SectionSpacing =

@@ -30,35 +30,36 @@ function Toggle(props: Props) {
     disabled,
     label,
     labelDescription,
+    labelSecondary,
     textOn,
     textOff,
     value,
     info,
     warning,
     error,
-    onChange,
+    handleChange,
   } = useField(props)
 
   const handleCheckboxChange = useCallback(
     ({ checked }) => {
-      onChange?.(checked ? valueOn : valueOff)
+      handleChange?.(checked ? valueOn : valueOff)
     },
-    [onChange, valueOn, valueOff]
+    [handleChange, valueOn, valueOff]
   )
 
   const setOn = useCallback(() => {
     if (value !== valueOn) {
-      onChange?.(valueOn)
+      handleChange?.(valueOn)
     }
-  }, [onChange, value, valueOn])
+  }, [handleChange, value, valueOn])
 
   const setOff = useCallback(() => {
     if (value !== valueOff) {
-      onChange?.(valueOff)
+      handleChange?.(valueOff)
     }
-  }, [onChange, value, valueOff])
+  }, [handleChange, value, valueOff])
 
-  const cn = classnames('dnb-forms-field-boolean', className)
+  const cn = classnames('dnb-forms-field-toggle', className)
 
   const fieldBlockPropsWithoutLabel = {
     forId: id,
@@ -74,6 +75,7 @@ function Toggle(props: Props) {
     layout,
     label,
     labelDescription,
+    labelSecondary,
   }
 
   const isOn = value === valueOn

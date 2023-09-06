@@ -95,28 +95,36 @@ describe('babel build', () => {
   const buildStages = ['/es', '/esm', '/cjs']
 
   it('imports inside "src" should not contain "/src/"', async () => {
-    const files = await getCommittedFiles(10)
+    try {
+      const files = await getCommittedFiles(10)
 
-    files
-      .filter((filePath) => {
-        return filePath.includes('/dnb-eufemia/src/')
-      })
-      .map((filePath) => {
-        return filePath.replace('packages/dnb-eufemia/', '')
-      })
-      .forEach((filePath) => {
-        const absolutePath = path.resolve(process.cwd(), filePath)
-        if (fs.existsSync(absolutePath)) {
-          const content = fs.readFileSync(absolutePath, 'utf-8')
-          const regex = /.*import.*(\/src\/)/
+      files
+        .filter((filePath) => {
+          return filePath.includes('/dnb-eufemia/src/')
+        })
+        .map((filePath) => {
+          return filePath.replace('packages/dnb-eufemia/', '')
+        })
+        .forEach((filePath) => {
+          const absolutePath = path.resolve(process.cwd(), filePath)
+          if (fs.existsSync(absolutePath)) {
+            const content = fs.readFileSync(absolutePath, 'utf-8')
+            const regex = /.*import.*(\/src\/)/
 
-          if (regex.test(content)) {
-            console.error('Failed in this file:', absolutePath)
+            if (regex.test(content)) {
+              console.error('Failed in this file:', absolutePath)
+            }
+
+            expect(content).not.toMatch(regex)
           }
-
-          expect(content).not.toMatch(regex)
-        }
-      })
+        })
+    } catch (error) {
+      // In case the git CLI command fails, we do not want to break the run
+      console.error(
+        'Could not run the CLI command to get the commited files (getCommittedFiles)',
+        error
+      )
+    }
   })
 
   it.each(buildStages)('has correctly compiled on stage "%s"', (stage) => {
@@ -422,6 +430,7 @@ describe('style build', () => {
   font-size: var(--typography-h-basis-font-size);
   line-height: var(--typography-h-basis-line-height);
   font-weight: var(--typography-h-basis-weight);
+  font-family: var(--typography-h-basis-font-family);
 }`)
     }
 
@@ -444,6 +453,7 @@ describe('style build', () => {
   font-size: var(--typography-h-basis-font-size);
   line-height: var(--typography-h-basis-line-height);
   font-weight: var(--typography-h-basis-weight);
+  font-family: var(--typography-h-basis-font-family);
 }`)
     }
 

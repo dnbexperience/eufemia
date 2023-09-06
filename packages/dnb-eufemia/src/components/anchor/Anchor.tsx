@@ -108,9 +108,7 @@ export function AnchorInstance(localProps: AnchorAllProps) {
 
           // because we then don't want to distract the link out
           // we make sure we hide the icon
-          allProps.target === '_blank' &&
-            (typeof children !== 'string' || suffix) &&
-            'dnb-anchor--no-icon',
+          allProps.target === '_blank' && suffix && 'dnb-anchor--no-icon',
           typeof children !== 'string' && 'dnb-anchor--has-icon',
           prefix && 'dnb-anchor--icon-left',
           suffix && 'dnb-anchor--icon-right'

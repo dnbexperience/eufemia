@@ -44,7 +44,7 @@ export function withSnakeCaseProps<TBase, P>(
  * @returns extended function or class
  */
 export function classWithSnakeCaseProps<
-  TBase extends React.ComponentClass
+  TBase extends React.ComponentClass,
 >(Base: TBase): typeof Base {
   const Component: React.ComponentClass = Base
 

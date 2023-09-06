@@ -1,4 +1,4 @@
-@import '../fields.scss';
+@import '../../variables.scss';
 
 .dnb-forms-field-selection {
   &--width-large {
@@ -10,6 +10,12 @@
   &--width-medium {
     .dnb-dropdown__shell {
       width: $forms-field-width-medium;
+    }
+  }
+
+  &--width-small {
+    .dnb-dropdown__shell {
+      width: $forms-field-width-small;
     }
   }
 }

@@ -7,8 +7,11 @@
 
 .dnb-global-status {
   &:not(#{&}--no-animation)#{&}--fade-in#{&}.dnb-section::after {
-    box-shadow: 99vw 0 0 0 currentcolor, 198vw 0 0 0 currentcolor,
-      297vw 0 0 0 currentcolor, 396vw 0 0 0 currentcolor,
+    box-shadow:
+      99vw 0 0 0 currentcolor,
+      198vw 0 0 0 currentcolor,
+      297vw 0 0 0 currentcolor,
+      396vw 0 0 0 currentcolor,
       0 0.0625rem 0 0 var(--color-black-80),
       100vw 0.0625rem 0 0 var(--color-black-80);
   }
@@ -18,10 +21,6 @@
   }
 
   &__message {
-    &__content {
-      color: var(--color-black-80);
-    }
-
     &.dnb-section--white ::selection {
       background-color: var(--color-mint-green);
     }
@@ -33,5 +32,13 @@
 
   &--info &__content .dnb-hr {
     color: var(--color-sea-green);
+  }
+
+  &--warning &__content .dnb-hr {
+    color: var(--color-accent-yellow);
+  }
+
+  &--success &__content .dnb-hr {
+    color: var(--color-ocean-green);
   }
 }

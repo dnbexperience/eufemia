@@ -123,7 +123,7 @@ export const AutocompleteDynamicallyUpdatedData = () => (
               return () => clearTimeout(timeout)
             },
             { value },
-            250
+            250,
           )
         }
         return (
@@ -363,9 +363,6 @@ export const AutocompleteSuffix = () => {
 }
 
 export const AutocompleteOpened = () => {
-  if (!(typeof window !== 'undefined' && (window as any).IS_TEST)) {
-    return <></>
-  }
   return (
     <Wrapper>
       <ComponentBox
@@ -532,34 +529,33 @@ const topMovies = [
   { content: 'Monty Python and the Holy Grail', year: 1975 },
 ]
 
-export const AutocompleteDisabledExample = () =>
-  !globalThis.IS_TEST ? null : (
-    <Wrapper>
-      <ComponentBox
-        scope={{ topMovies }}
-        data-visual-test="autocomplete-disabled"
-      >
-        <Autocomplete
-          disabled
-          show_submit_button
-          data={topMovies}
-          value={1}
-          label="Label:"
-          bottom
-        />
-        <br />
-        <Autocomplete
-          disabled
-          show_submit_button
-          data={topMovies}
-          value={1}
-          label="Label:"
-          suffix="Suffix"
-          size="large"
-        />
-      </ComponentBox>
-    </Wrapper>
-  )
+export const AutocompleteDisabledExample = () => (
+  <Wrapper>
+    <ComponentBox
+      scope={{ topMovies }}
+      data-visual-test="autocomplete-disabled"
+    >
+      <Autocomplete
+        disabled
+        show_submit_button
+        data={topMovies}
+        value={1}
+        label="Label:"
+        bottom
+      />
+      <br />
+      <Autocomplete
+        disabled
+        show_submit_button
+        data={topMovies}
+        value={1}
+        label="Label:"
+        suffix="Suffix"
+        size="large"
+      />
+    </ComponentBox>
+  </Wrapper>
+)
 
 export const AutocompleteContentAsArrayExample = () => (
   <Wrapper>

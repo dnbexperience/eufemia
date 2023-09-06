@@ -172,6 +172,19 @@ describe('Switch component', () => {
     const Comp = render(<Switch {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
+
+  it('gets valid ref element', () => {
+    let ref: React.RefObject<HTMLInputElement>
+
+    function MockComponent() {
+      ref = React.useRef()
+      return <Switch {...props} innerRef={ref} />
+    }
+
+    render(<MockComponent />)
+
+    expect(ref.current.classList).toContain('dnb-switch__input')
+  })
 })
 
 describe('Switch scss', () => {

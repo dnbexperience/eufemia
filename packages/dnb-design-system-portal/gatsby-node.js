@@ -188,11 +188,10 @@ exports.onCreateWebpackConfig = ({
     },
     plugins: [
       plugins.define({
-        'global.isCI': JSON.stringify(isCI),
         'global.STYLE_IMPORT_PATH': JSON.stringify(
           PREBUILD_EXISTS
             ? '@dnb/eufemia/build/style/dnb-ui-core.min.css'
-            : '@dnb/eufemia/src/style/core'
+            : '@dnb/eufemia/src/style/core',
         ),
       }),
 
@@ -204,7 +203,7 @@ exports.onCreateWebpackConfig = ({
   if (PREBUILD_EXISTS && stage === 'build-javascript') {
     if (PREBUILD_EXISTS && !isCI) {
       reporter.warn(
-        '😱 There is a "dnb-eufemia/build" in your local repo. It is used durnig your local Portal build! \nKeep in mind, the code from "dnb-eufemia/build" may be outdated. \n\n👉 You can remove the build with: "yarn build:clean"\n\n'
+        '😱 There is a "dnb-eufemia/build" in your local repo. It is used durnig your local Portal build! \nKeep in mind, the code from "dnb-eufemia/build" may be outdated. \n\n👉 You can remove the build with: "yarn build:clean"\n\n',
       )
     }
 
@@ -212,9 +211,9 @@ exports.onCreateWebpackConfig = ({
       plugins.normalModuleReplacement(/@dnb\/eufemia\/src/, (resource) => {
         resource.request = resource.request.replace(
           /@dnb\/eufemia\/src(.*)/,
-          '@dnb/eufemia/build$1'
+          '@dnb/eufemia/build$1',
         )
-      })
+      }),
     )
   }
 

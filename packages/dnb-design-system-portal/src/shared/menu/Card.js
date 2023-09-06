@@ -39,14 +39,14 @@ export default class Card extends React.PureComponent {
       <li
         className={classnames(
           liItemStyle,
-          this.isSelected() && 'is-selected'
+          this.isSelected() && 'is-selected',
         )}
       >
         <Link
           className={classnames(
             linkStyle,
             'dnb-anchor--no-style',
-            this.isSelected() && 'current-card'
+            this.isSelected() && 'current-card',
           )}
           to={url}
           aria-current={this.isSelected()}

@@ -79,6 +79,7 @@ export default class Radio extends React.PureComponent {
     attributes: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     readOnly: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    innerRef: PropTypes.object,
 
     ...spacingPropTypes,
 
@@ -145,7 +146,7 @@ export default class Radio extends React.PureComponent {
 
   constructor(props) {
     super(props)
-    this._refInput = React.createRef()
+    this._refInput = props.innerRef || React.createRef()
     this._id = props.id || makeUniqueId() // cause we need an id anyway
     this.state = {
       _listenForPropChanges: true,
@@ -300,6 +301,7 @@ export default class Radio extends React.PureComponent {
             children, // eslint-disable-line
             on_change, // eslint-disable-line
             on_state_update, // eslint-disable-line
+            innerRef, // eslint-disable-line
 
             ...rest
           } = props

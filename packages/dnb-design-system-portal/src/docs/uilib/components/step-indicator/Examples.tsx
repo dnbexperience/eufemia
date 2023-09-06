@@ -113,13 +113,14 @@ export const StepIndicatorLoose = () => (
 export const StepIndicatorCustomized = () => (
   <ComponentBox>
     {() => {
-      function CustomStepIndicator({ children, ...props }) {
+      function CustomStepIndicator({ children, data, ...props }) {
         const [step, setStep] = React.useState(0)
         return (
           <>
             <StepIndicator
               sidebar_id="unique-id-customized"
               mode="loose"
+              data={data}
               current_step={step}
               on_change={({ current_step }) => setStep(current_step)}
               {...props}
@@ -189,7 +190,7 @@ export const StepIndicatorTextOnly = () => (
     <StepIndicator
       sidebar_id="unique-id-text"
       mode="static"
-      current_step="1"
+      current_step={1}
       data={[
         'Om din nye bolig',
         'Ditt lån og egenkapital',
@@ -218,7 +219,7 @@ export const StepIndicatorCustomRenderer = () => (
         {
           title: 'Ditt lån og egenkapital',
           on_click: ({ current_step }) => console.log(current_step),
-          on_render: ({ StepItem, props, params }) => (
+          on_render: ({ StepItem }) => (
             <StepItem onClick={(e) => console.log(e)} />
           ),
         },

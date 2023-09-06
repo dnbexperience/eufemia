@@ -61,10 +61,6 @@ export const IconInheritSized = () => (
 )
 
 export const IconMedium = () => {
-  if (!globalThis.IS_TEST) {
-    return null
-  }
-
   return (
     <ComponentBox
       data-visual-test="icon-medium"
@@ -80,10 +76,6 @@ export const IconMedium = () => {
 }
 
 export const IconAlignment = () => {
-  if (!globalThis.IS_TEST) {
-    return null
-  }
-
   return (
     <ComponentBox
       data-visual-test="icon-alignment"
@@ -121,10 +113,6 @@ export const IconAlignment = () => {
 }
 
 export const AllPrimaryIcons = () => {
-  if (!globalThis.IS_TEST) {
-    return null
-  }
-
   return (
     <ComponentBox
       data-visual-test="icon-all-primary"
@@ -145,7 +133,7 @@ export const AllPrimaryIcons = () => {
                     bottom="small"
                   />
                 )
-              }
+              },
             )}
           </>
         )
@@ -156,10 +144,6 @@ export const AllPrimaryIcons = () => {
 }
 
 export const AllSecondaryIcons = () => {
-  if (!globalThis.IS_TEST) {
-    return null
-  }
-
   return (
     <ComponentBox
       data-visual-test="icon-all-secondary"
@@ -186,7 +170,7 @@ export const AllSecondaryIcons = () => {
                     bottom="small"
                   />
                 )
-              }
+              },
             )}
           </>
         )

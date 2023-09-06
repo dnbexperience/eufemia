@@ -1,3 +1,5 @@
+@import '../../variables.scss';
+
 .dnb-forms-flex-item {
   &--grow {
     flex-grow: 1;
@@ -5,5 +7,17 @@
 
   &--shrink {
     flex-shrink: 1;
+  }
+
+  &--width-small {
+    width: $forms-field-width-small;
+  }
+
+  &--width-medium {
+    width: $forms-field-width-medium;
+  }
+
+  &--width-large {
+    width: $forms-field-width-large;
   }
 }

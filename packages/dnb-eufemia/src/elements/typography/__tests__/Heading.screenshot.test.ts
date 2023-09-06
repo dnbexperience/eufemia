@@ -29,15 +29,12 @@ describe.each(['ui', 'sbanken', 'eiendom'])(
       })
       expect(screenshot).toMatchImageSnapshot()
     })
-  }
-)
 
-describe.each(['ui', 'sbanken', 'eiendom'])(
-  'Heading for %s',
-  (themeName) => {
-    setupPageScreenshot({
-      themeName,
-      url: '/uilib/elements/heading',
+    it('matches basic levels', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="heading-basics"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
     })
 
     it('matches all sizes and variants', async () => {
@@ -46,5 +43,56 @@ describe.each(['ui', 'sbanken', 'eiendom'])(
       })
       expect(screenshot).toMatchImageSnapshot()
     })
+
+    it('matches base component', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="heading-base"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
   }
 )
+
+describe.each(['sbanken'])('Heading mobile for %s', (themeName) => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/elements/heading',
+    pageViewport: {
+      width: 400,
+    },
+  })
+  it('have to match the default heading examples', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="heading-default"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('have to match the additional heading examples', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="heading-additional"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('matches basic levels', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="heading-basics"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('matches all sizes and variants', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="heading-sizes"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
+  it('matches base component', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="heading-base"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+})

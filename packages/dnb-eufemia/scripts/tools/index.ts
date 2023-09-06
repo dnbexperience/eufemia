@@ -16,7 +16,11 @@ export async function asyncForEach<TBase>(
 ) {
   let res = []
   for (let i = 0, l = array.length; i < l; ++i) {
-    const cur = await callback(array[i] as typeof array[number], i, array)
+    const cur = await callback(
+      array[i] as (typeof array)[number],
+      i,
+      array
+    )
     if (typeof cur !== 'undefined') {
       res = res.concat(cur)
     }

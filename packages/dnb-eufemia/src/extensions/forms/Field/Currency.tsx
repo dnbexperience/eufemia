@@ -1,59 +1,26 @@
 import React from 'react'
 import classnames from 'classnames'
-import { InputMasked } from '../../../components'
-import { useField } from './hooks'
-import { forwardSpaceProps } from '../utils'
+import NumberComponent from './Number'
 import type { ComponentProps } from '../component-types'
-import type { FieldProps } from '../field-types'
+import type { FieldProps, FieldHelpProps } from '../field-types'
 
 export type Props = ComponentProps &
-  FieldProps<number> & {
+  FieldHelpProps &
+  FieldProps<number, undefined> & {
     currency?: string
   }
 
 function Currency(props: Props) {
-  const preparedProps: Props = {
+  const preparedProps = {
     ...props,
-    fromInput: ({
-      value,
-      numberValue,
-    }: {
-      value: string
-      numberValue: number
-    }) => {
-      if (value === '') {
-        return props.emptyValue
-      }
-      return numberValue
-    },
+    currency: props.currency ?? 'NOK',
+    placeholder: props.placeholder ?? 'kr',
   }
-  const {
-    className,
-    currency,
-    placeholder,
-    label,
-    value,
-    error,
-    disabled,
-    onFocus,
-    onBlur,
-    onChange,
-  } = useField(preparedProps)
 
   return (
-    <InputMasked
-      as_currency={currency ?? true}
-      className={classnames('dnb-forms-field-currency', className)}
-      placeholder={placeholder ?? 'kr'}
-      value={value?.toString() ?? ''}
-      label={label}
-      label_direction="vertical"
-      on_focus={onFocus}
-      on_blur={onBlur}
-      on_change={onChange}
-      status={error?.message}
-      disabled={disabled}
-      {...forwardSpaceProps(props)}
+    <NumberComponent
+      {...preparedProps}
+      className={classnames('dnb-forms-field-currency', props.className)}
     />
   )
 }

@@ -46,7 +46,7 @@ const CodeBlock = ({
       <div
         className={classnames(
           codeBlockStyle,
-          createSkeletonClass('code', context.skeleton)
+          createSkeletonClass('code', context.skeleton),
         )}
       >
         <LiveCode code={exampleCode} {...props} />
@@ -68,7 +68,7 @@ const CodeBlock = ({
           <div
             className={classnames(
               codeBlockStyle,
-              createSkeletonClass('code', context.skeleton)
+              createSkeletonClass('code', context.skeleton),
             )}
           >
             <Tag as="pre" className={className} css={style}>
@@ -211,7 +211,7 @@ class LiveCode extends React.PureComponent<
             <div
               className={classnames(
                 'dnb-live-editor',
-                createSkeletonClass('code', this.context.skeleton)
+                createSkeletonClass('code', this.context.skeleton),
               )}
               ref={this._editorElementRef}
             >
@@ -227,14 +227,14 @@ class LiveCode extends React.PureComponent<
                 onFocus={() => {
                   if (this._editorElementRef.current) {
                     this._editorElementRef.current.classList.add(
-                      'dnb-pre--focus'
+                      'dnb-pre--focus',
                     )
                   }
                 }}
                 onBlur={() => {
                   if (this._editorElementRef.current) {
                     this._editorElementRef.current.classList.remove(
-                      'dnb-pre--focus'
+                      'dnb-pre--focus',
                     )
                   }
                 }}

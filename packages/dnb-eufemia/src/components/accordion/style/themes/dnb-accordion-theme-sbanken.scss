@@ -1,0 +1,125 @@
+/*
+* Accordion theme
+*
+*/
+
+@import '../../../../style/core/utilities.scss';
+@import '../../../button/style/themes/button-mixins.scss';
+
+.dnb-accordion {
+  --accordion-border-width: 0;
+  --accordion-border-radius: 0;
+
+  // vertical spacing
+  --accordion-header-margin-vertical: 1rem;
+  --accordion-header-margin-vertical--description: 0.5rem;
+
+  // header
+  --accordion-header-wrapper-margin: 1rem;
+  --accordion-header-wrapper-margin--icon-right: calc(
+    1.5rem - var(--accordion-frame-width)
+  );
+
+  // icon
+  --accordion-header-icon-gutter: 0.5rem;
+  --accordion-header-icon-margin: calc(
+    1.5rem - var(--accordion-frame-width)
+  );
+
+  // frame (left border on expand)
+  --accordion-frame-color: transparent;
+  --accordion-frame-color--expanded: var(--sb-color-violet);
+  --accordion-frame-color--disabled: var(--sb-color-gray-dark-2);
+  --accordion-frame-width: 0.1875rem;
+  --accordion-frame-width--active: 0rem;
+
+  // background
+  --accordion-bg: transparent;
+  --accordion-bg--expanded: var(--sb-color-violet-light-4);
+  --accordion-bg--disabled: var(--sb-color-gray-light-2);
+
+  // other
+  --accordion-content-padding-left: calc(
+    3.5rem - var(--accordion-frame-width)
+  );
+
+  color: var(--sb-color-text);
+
+  &__header,
+  &__content {
+    background-color: var(--accordion-bg);
+    border-left: var(--accordion-frame-width) solid
+      var(--accordion-frame-color);
+  }
+
+  &__header {
+    @include focus-visible() {
+      @include focusRing('always');
+      z-index: 1;
+      border-radius: 0.125rem;
+      background-color: var(--sb-color-blue-light-3);
+      color: var(--border-color);
+
+      .dnb-accordion__header__icon {
+        color: var(--border-color);
+      }
+    }
+    @include hover() {
+      background-color: var(--sb-color-violet-light-2);
+    }
+
+    @include active() {
+      background-color: var(--sb-color-white);
+      @include fakeBorder(null, null, inset);
+      // must be set after fakeBorder()
+      --border-color: var(--sb-color-violet);
+      border-left-width: var(--accordion-frame-width--active);
+      padding-left: calc(
+        var(--accordion-frame-width) - var(--accordion-frame-width--active)
+      );
+    }
+
+    &__icon,
+    &__container {
+      color: var(--sb-color-violet);
+    }
+
+    &--icon-right {
+      --accordion-header-icon-margin: 1.5rem;
+      + .dnb-accordion__content {
+        --accordion-content-padding-left: calc(
+          1.5rem - var(--accordion-frame-width)
+        );
+      }
+    }
+
+    // disabled
+    &[disabled] {
+      * {
+        color: var(--sb-color-gray-dark-2);
+      }
+    }
+  }
+
+  &__content__inner {
+    margin-top: 0;
+    padding: 0 1rem 1rem var(--accordion-content-padding-left);
+  }
+
+  &--expanded {
+    --accordion-bg: var(--accordion-bg--expanded);
+    --accordion-frame-color: var(--accordion-frame-color--expanded);
+    --accordion-frame-width--active: 0.125rem;
+
+    > .dnb-accordion__header {
+      font-weight: var(--sb-font-weight-bold);
+    }
+
+    // disabled
+    > .dnb-accordion__header[disabled],
+    > .dnb-accordion__header[disabled] + .dnb-accordion__content {
+      --accordion-bg: var(--accordion-bg--disabled);
+      --accordion-frame-color: var(--accordion-frame-color--disabled);
+    }
+  }
+}

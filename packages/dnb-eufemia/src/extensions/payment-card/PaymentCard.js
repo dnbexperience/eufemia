@@ -59,7 +59,12 @@ export default class PaymentCard extends React.PureComponent {
   static propTypes = {
     product_code: PropTypes.string.isRequired,
     card_number: PropTypes.string.isRequired,
-    card_status: PropTypes.oneOf(['active', 'blocked', 'expired', 'not_active']),
+    card_status: PropTypes.oneOf([
+      'active',
+      'blocked',
+      'expired',
+      'not_active',
+    ]),
     variant: PropTypes.oneOf(['normal', 'compact']),
     digits: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     raw_data: cardDataPropTypes,

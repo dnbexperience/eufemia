@@ -5,11 +5,11 @@
 
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { H1, H2, H3, H4, H5, H6, P } from '@dnb/eufemia/src'
+import { H, H1, H2, H3, H4, H5, H6, P } from '@dnb/eufemia/src'
 import styled from '@emotion/styled'
 
 export const HeadingBasicsExample = () => (
-  <ComponentBox>
+  <ComponentBox data-visual-test="heading-basics">
     <H1>Heading 1</H1>
     <H2>Heading 2</H2>
     <H3>Heading 3</H3>
@@ -77,10 +77,6 @@ export const HeadingMarginCollapsingExample = () => (
   </ComponentBox>
 )
 export const HeadingRegressionTest = () => {
-  if (!globalThis.IS_TEST) {
-    return null
-  }
-
   const Spacer = styled.div`
     overflow: auto; // prevent margin collapse
   `
@@ -110,14 +106,24 @@ export const HeadingRegressionTest = () => {
   )
 
   return (
-    <ComponentBox scope={{ HWrap }} data-visual-test="heading-sizes">
-      <HWrap size="xx-large" />
-      <HWrap size="x-large" />
-      <HWrap size="large" />
-      <HWrap size="medium" />
-      <HWrap size="basis" />
-      <HWrap size="small" />
-      <HWrap size="x-small" />
-    </ComponentBox>
+    <>
+      <ComponentBox scope={{ HWrap }} data-visual-test="heading-sizes">
+        <HWrap size="xx-large" />
+        <HWrap size="x-large" />
+        <HWrap size="large" />
+        <HWrap size="medium" />
+        <HWrap size="basis" />
+        <HWrap size="small" />
+        <HWrap size="x-small" />
+      </ComponentBox>
+      <ComponentBox scope={{ HWrap }} data-visual-test="heading-base">
+        <H>default (h1 - xx-large)</H>
+        <H as="h2">custom level (h2 - xx-large)</H>
+        <H size="small">custom size (h1 - small)</H>
+        <H as="h2" size="small">
+          custom level and size (h2 - small)
+        </H>
+      </ComponentBox>
+    </>
   )
 }

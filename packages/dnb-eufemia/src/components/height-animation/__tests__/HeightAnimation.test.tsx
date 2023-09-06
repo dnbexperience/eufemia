@@ -20,9 +20,8 @@ import { wait } from '../../../core/jest/jestSetup'
 testSetupInit()
 
 const getStates = () => {
-  const classes = document.querySelector(
-    '.dnb-height-animation'
-  )?.classList
+  const classes = document.querySelector('.dnb-height-animation')
+    ?.classList
   return classes ? Array.from(classes) : []
 }
 

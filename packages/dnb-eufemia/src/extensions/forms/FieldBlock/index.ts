@@ -1,1 +1,1 @@
-export { default  } from './FieldBlock';
+export { default } from './FieldBlock'

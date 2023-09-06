@@ -78,7 +78,7 @@ describe('Anchor element', () => {
     ).toContain('dnb-tooltip--active')
   })
 
-  it('has no-icon class when element was given', () => {
+  it('has no "no-icon" class when element was given', () => {
     render(
       <Anchor href="/url" target="_blank">
         <span>text</span>
@@ -86,7 +86,7 @@ describe('Anchor element', () => {
     )
     expect(
       document.querySelector('.dnb-anchor--no-icon')
-    ).toBeInTheDocument()
+    ).not.toBeInTheDocument()
   })
 
   it('should forward ref', () => {

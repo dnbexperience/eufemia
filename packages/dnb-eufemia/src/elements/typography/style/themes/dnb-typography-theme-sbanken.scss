@@ -1,4 +1,5 @@
 @use '../typography-mixins.scss' as typography;
+@use '../../../../style/core/utilities.scss' as utilities;
 
 // Paragraphs
 .dnb-p {
@@ -22,6 +23,15 @@
   --typography-h-large-weight: var(--font-weight-regular);
   --typography-lead-weight: var(--font-weight-regular);
   --typography-h-medium-weight: var(--font-weight-regular);
-  --typography-h-basis-weight: var(--font-weight-regular);
-  --typography-h-small-weight: var(--font-weight-regular);
+
+  @include utilities.allBelow(small) {
+    --typography-h-xx-large-font-size: var(--font-size-x-large);
+    --typography-h-xx-large-line-height: var(--line-height-x-large);
+    --typography-h-x-large-font-size: var(--font-size-large);
+    --typography-h-x-large-line-height: var(--line-height-large);
+    --typography-h-large-font-size: var(--font-size-medium);
+    --typography-h-large-line-height: var(--line-height-medium);
+    --typography-h-medium-font-size: var(--font-size-lead);
+    --typography-h-medium-line-height: var(--line-height-lead);
+  }
 }

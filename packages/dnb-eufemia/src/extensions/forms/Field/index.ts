@@ -12,10 +12,11 @@ import PhoneNumber from './PhoneNumber'
 import OrganizationNumber from './OrganizationNumber'
 import PostalCodeAndCity from './PostalCodeAndCity'
 import Selection from './Selection'
-import ArraySelection from './ArraySelection';
+import ArraySelection from './ArraySelection'
 import Option from './Option'
 import SelectCountry from './SelectCountry'
 import BankAccountNumber from './BankAccountNumber'
+import CountryCode from './CountryCode'
 
 const Field = {
   String: StringComponent,
@@ -36,6 +37,7 @@ const Field = {
   Option,
   SelectCountry,
   BankAccountNumber,
+  CountryCode,
 }
 
 export default Field
