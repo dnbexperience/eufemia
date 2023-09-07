@@ -881,8 +881,9 @@ html[data-visual-test] .dnb-modal__overlay, .dnb-modal__overlay--no-animation {
   --dialog-confirm-max-width: 40rem;
   --dialog-spacing: 2rem;
   --dialog-spacing-minus: -2rem;
+  --dialog-radius: 0.5rem;
   position: relative;
-  border-radius: 0.5rem;
+  border-radius: var(--dialog-radius);
   box-shadow: var(--shadow-default);
   user-select: text;
   border: none;

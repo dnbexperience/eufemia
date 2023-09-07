@@ -8,6 +8,7 @@
 .dnb-dialog {
   --dialog-background: var(--sb-color-white);
   --dialog-icon-positioning: -0.5rem;
+  --dialog-radius: 0.25rem;
 
   // icon color
   --dialog-icon-color--info: var(--sb-color-green-dark-3);
@@ -16,4 +17,9 @@
   // icon background
   --dialog-icon-background--info: var(--sb-color-green-light);
   --dialog-icon-background--warning: var(--sb-color-magenta-light-2);
+
+  &__icon {
+    margin-top: calc(var(--dialog-icon-positioning) * -1);
+    margin-bottom: calc(var(--dialog-icon-positioning) * -1);
+  }
 }

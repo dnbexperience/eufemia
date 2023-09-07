@@ -14,9 +14,10 @@
   --dialog-confirm-max-width: 40rem;
   --dialog-spacing: 2rem; // should reflect --spacing-large
   --dialog-spacing-minus: -2rem; // should reflect --spacing-large
+  --dialog-radius: 0.5rem;
 
   position: relative;
-  border-radius: 0.5rem;
+  border-radius: var(--dialog-radius);
 
   @include defaultDropShadow();
   user-select: text; // Safari / Touch fix
