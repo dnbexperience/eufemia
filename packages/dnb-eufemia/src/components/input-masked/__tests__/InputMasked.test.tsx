@@ -6,6 +6,7 @@
 import React from 'react'
 import { loadScss, wait } from '../../../core/jest/jestSetup'
 import { render, fireEvent } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import InputMasked, { InputMaskedProps } from '../InputMasked'
 import Provider from '../../../shared/Provider'
 import * as helpers from '../../../shared/helpers'
@@ -649,35 +650,6 @@ describe('InputMasked component', () => {
     expect(
       document.querySelector('.dnb-input__placeholder')
     ).not.toBeInTheDocument()
-  })
-
-  it('should show placeholder chars when show_mask is true', () => {
-    render(
-      <InputMasked
-        show_mask
-        placeholder_char="_"
-        mask={[
-          '0',
-          '0',
-          /[4]/, // have to start with 4
-          /[5-7]/, // can be 5,6 or 7
-          ' ',
-          /[49]/, // have to start with 4 or 9
-          /\d/,
-          ' ',
-          /\d/,
-          /\d/,
-          ' ',
-          /\d/,
-          /\d/,
-          ' ',
-          /\d/,
-          /\d/,
-        ]}
-      />
-    )
-
-    expect(document.querySelector('input').value).toBe('00__ __ __ __ __')
   })
 
   it('should set caret position before suffix', async () => {
@@ -1734,7 +1706,9 @@ describe('InputMasked component as_currency', () => {
       'dnb-input--vertical',
     ])
   })
+})
 
+describe('InputMasked with custom mask', () => {
   it('should set correct cursor position on focus and mouseUp', async () => {
     render(
       <InputMasked value={12} mask={[/\d/, /\d/, '–', '–', /\d/, /\d/]} />
@@ -1772,6 +1746,126 @@ describe('InputMasked component as_currency', () => {
     expect(element.setSelectionRange).toHaveBeenNthCalledWith(2, 4, 4)
 
     expect(element.value).toBe('12––​​')
+  })
+
+  it('should show placeholder chars when show_mask is true', () => {
+    render(
+      <InputMasked
+        show_mask
+        placeholder_char="_"
+        mask={[
+          '0',
+          '0',
+          /[4]/, // have to start with 4
+          /[5-7]/, // can be 5,6 or 7
+          ' ',
+          /[49]/, // have to start with 4 or 9
+          /\d/,
+          ' ',
+          /\d/,
+          /\d/,
+          ' ',
+          /\d/,
+          /\d/,
+          ' ',
+          /\d/,
+          /\d/,
+        ]}
+      />
+    )
+
+    expect(document.querySelector('input').value).toBe('00__ __ __ __ __')
+  })
+
+  it('should handle leading zeros gracefully', async () => {
+    const onChange = jest.fn()
+
+    render(
+      <InputMasked
+        mask={[/\d/, ' ', /\d/, ' ', /\d/, ',', /\d/, /\d/]}
+        on_change={onChange}
+      />
+    )
+
+    const input = document.querySelector('input')
+
+    {
+      await userEvent.type(input, '123,56')
+      const last = onChange.mock.calls.length - 1
+      expect(onChange.mock.calls[last][0].value).toBe('1 2 3,56')
+      expect(onChange.mock.calls[last][0].cleanedValue).toBe('123.56')
+      expect(onChange.mock.calls[last][0].numberValue).toBe(123.56)
+    }
+
+    {
+      await userEvent.type(
+        input,
+        '{backspace}{backspace}{backspace}{backspace}'
+      )
+      const last = onChange.mock.calls.length - 1
+      expect(onChange.mock.calls[last][0].value).toBe('1 ​ ​,​​')
+      expect(onChange.mock.calls[last][0].cleanedValue).toBe('1.')
+      expect(onChange.mock.calls[last][0].numberValue).toBe(1)
+    }
+
+    {
+      await userEvent.type(
+        input,
+        '{backspace}{backspace}{backspace}{backspace}{backspace}'
+      )
+      const last = onChange.mock.calls.length - 1
+      expect(onChange.mock.calls[last][0].value).toBe('')
+      expect(onChange.mock.calls[last][0].cleanedValue).toBe('')
+      expect(onChange.mock.calls[last][0].numberValue).toBe(0)
+    }
+
+    {
+      await userEvent.type(input, '0')
+      const last = onChange.mock.calls.length - 1
+      expect(onChange.mock.calls[last][0].value).toBe('0 ​ ​,​​')
+      expect(onChange.mock.calls[last][0].cleanedValue).toBe('0.')
+      expect(onChange.mock.calls[last][0].numberValue).toBe(0)
+    }
+
+    {
+      await userEvent.clear(input)
+      await userEvent.type(input, '00000')
+      const last = onChange.mock.calls.length - 1
+      expect(onChange.mock.calls[last][0].value).toBe('0 0 0,00')
+      expect(onChange.mock.calls[last][0].cleanedValue).toBe('000.00')
+      expect(onChange.mock.calls[last][0].numberValue).toBe(0)
+    }
+
+    {
+      await userEvent.clear(input)
+      await userEvent.type(input, '000')
+      const last = onChange.mock.calls.length - 1
+      expect(onChange.mock.calls[last][0].value).toBe('0 0 0,​​')
+      expect(onChange.mock.calls[last][0].cleanedValue).toBe('000.')
+      expect(onChange.mock.calls[last][0].numberValue).toBe(0)
+    }
+
+    {
+      await userEvent.clear(input)
+      await userEvent.type(input, '045,67')
+      const last = onChange.mock.calls.length - 1
+      expect(onChange.mock.calls[last][0].value).toBe('0 4 5,67')
+      expect(onChange.mock.calls[last][0].cleanedValue).toBe('045.67')
+      expect(onChange.mock.calls[last][0].numberValue).toBe(45.67)
+    }
+
+    {
+      await userEvent.clear(input)
+      await userEvent.type(input, 'abc')
+      const last = onChange.mock.calls.length - 1
+      expect(onChange.mock.calls[last][0].value).toBe('')
+      expect(onChange.mock.calls[last][0].cleanedValue).toBe('')
+      expect(onChange.mock.calls[last][0].numberValue).toBe(0)
+    }
+
+    expect(onChange).toHaveBeenCalledTimes(34)
+
+    await userEvent.clear(input)
   })
 })
 

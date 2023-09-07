@@ -76,11 +76,7 @@ function StringComponent(props: Props) {
       if (value === '') {
         return props.emptyValue
       }
-      if (value.charAt(0) === '0' && cleanedValue === '') {
-        // Special case - Since InputMasked sends out empty string when entering the digit 0 as first character (possibly changing in the future)
-        return '0'
-      }
-
+      // Cleaned value for masked
       return cleanedValue ?? value
     },
     width: props.width ?? 'large',
