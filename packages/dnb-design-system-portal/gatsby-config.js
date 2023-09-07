@@ -186,11 +186,6 @@ module.exports = {
     PARALLEL_SOURCING: true,
     FAST_DEV: true,
     DEV_SSR: false,
-
-    /**
-     * FAST_DEV=true or DEV_SSR=true can be interesting when we use React v18 and the Hook useId.
-     * Because Gatsby then runs a page call as SSR, and warns when the VDOM do not match on the client.
-     */
   },
   pathPrefix,
   siteMetadata,
