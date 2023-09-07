@@ -1,16 +1,22 @@
 ---
 title: 'Layout'
-order: 7
-showTabs: true
-tabs:
-  - title: Info
-    key: '/info'
-  - title: Components
-    key: '/components'
+order: 3
+breadcrumb:
+  - text: Forms
+    href: /uilib/extensions/forms/
+  - text: Layout
+    href: /uilib/extensions/forms/Layout/
 ---
 
-import Info from 'Docs/uilib/extensions/forms/Layout/info'
-import Components from 'Docs/uilib/extensions/forms/Layout/components'
+import ListLayoutComponents from './Layout/ListLayoutComponents'
 
-<Info />
-<Components />
+# Layout
+
+To make it easier to build form views in line with defined design sketches, there are a number of components for layout.
+
+```jsx
+import { Layout } from '@dnb/eufemia/extensions/forms'
+render(<Layout.Card />)
+```
+
+<ListLayoutComponents />

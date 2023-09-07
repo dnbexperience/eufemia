@@ -1,0 +1,29 @@
+---
+showTabs: true
+---
+
+import StandardProperties from 'Docs/uilib/extensions/forms/create-component/Field/shared/input-properties.mdx'
+
+## Properties
+
+<StandardProperties type="string" />
+
+### Component-specific props
+
+| Property            | Type                                        | Description                                                                                                                                               |
+| ------------------- | ------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `inputClassName`    | `string`                                    | _(optional)_ Class name set on the &lt;input&gt; DOM element                                                                                              |
+| `type`              | `string`                                    | _(optional)_ Input DOM element type                                                                                                                       |
+| `multiline`         | `boolean`                                   | _(optional)_ True to be able to write in multiple lines (switching from input-element to textarea-element)                                                |
+| `leftIcon`          | `string`                                    | _(optional)_ For icon at the left side of the text input                                                                                                  |
+| `rightIcon`         | `string`                                    | _(optional)_ For icon at the right side of the text input                                                                                                 |
+| `clear`             | `boolean`                                   | _(optional)_ True to have a clickable clear-icon for removing the active value                                                                            |
+| `autoresize`        | `boolean`                                   | _(optional)_ For `multiline`, set true to expand when writing longer texts.                                                                               |
+| `autoresizeMaxRows` | `boolean`                                   | _(optional)_ For `multiline`, set how many rows of text can be shown at max.                                                                              |
+| `characterCounter`  | `boolean`                                   | _(optional)_ True to show a character counter.                                                                                                            |
+| `minLength`         | `boolean`                                   | _(optional)_ Validation for minimum length of the text (number of characters)                                                                             |
+| `maxLength`         | `boolean`                                   | _(optional)_ Validation for maximum length of the text (number of characters)                                                                             |
+| `pattern`           | `boolean`                                   | _(optional)_ Validation based on regex pattern                                                                                                            |
+| `width`             | `string` or `false`                         | _(optional)_ `false` for no width (use browser default), `small`, `medium` or `large` for predefined standard widths, `stretch` for fill available width. |
+| `help`              | `object`                                    | _(optional)_ Provide a help button. Object consisting of `title` and `contents`                                                                           |
+| `space`             | [Space](/uilib/components/space/properties) | _(optional)_ Spacing object with keys `top`, `right`, `bottom` and `left`                                                                                 |

@@ -1,4 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
+import { P } from '@dnb/eufemia/src'
 import {
   Layout,
   TestElement,
@@ -32,19 +33,19 @@ export const Widths = () => {
   return (
     <ComponentBox scope={{ Layout, TestElement, Field }}>
       <Layout.Card>
-        <p>No width (default)</p>
+        <P>No width (default)</P>
         <Layout.FlexContainer>
           <TestElement>Contents</TestElement>
         </Layout.FlexContainer>
-        <p>Small</p>
+        <P>Small</P>
         <Layout.FlexContainer width="small">
           <TestElement>Cont.</TestElement>
         </Layout.FlexContainer>
-        <p>Medium</p>
+        <P>Medium</P>
         <Layout.FlexContainer width="medium">
           <TestElement>Contents</TestElement>
         </Layout.FlexContainer>
-        <p>Large</p>
+        <P>Large</P>
         <Layout.FlexContainer width="large">
           <TestElement>Contents</TestElement>
         </Layout.FlexContainer>

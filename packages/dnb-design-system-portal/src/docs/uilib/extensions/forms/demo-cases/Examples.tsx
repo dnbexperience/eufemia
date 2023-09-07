@@ -159,8 +159,8 @@ export const BecomeCorporateCustomer = () => {
 
                     <Layout.Card stack>
                       <Layout.FlexContainer direction="row">
-                        <Value.FirstName path="/firstName" />
-                        <Value.LastName path="/lastName" />
+                        <Value.String path="/firstName" />
+                        <Value.String path="/lastName" />
                       </Layout.FlexContainer>
 
                       <Value.NationalIdentityNumber path="/ssn" />

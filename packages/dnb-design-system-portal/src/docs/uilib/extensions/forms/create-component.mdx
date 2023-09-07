@@ -1,0 +1,50 @@
+---
+title: 'Create your own component'
+order: 3
+breadcrumb:
+  - text: Forms
+    href: /uilib/extensions/forms/
+  - text: Create your component
+    href: /uilib/extensions/forms/create-component/
+---
+
+import ListBasisAPIs from './create-component/ListBasisAPIs'
+import { FirstExampleDemo } from './Examples'
+
+# Create your own component
+
+Eufemia Forms contains of helper fields and tools so you can declaratively create interactive form components that flawlessly integrates between existing data and your custom form components.
+
+```jsx
+import {
+  DataContext,
+  Field,
+  FieldBlock,
+  FieldGroup,
+  Value,
+  ValueBlock,
+  Visibility,
+  useField,
+  useValue,
+} from '@dnb/eufemia/extensions/forms'
+```
+
+Here is a first example on how to compose your own component:
+
+<FirstExampleDemo />
+
+## Components
+
+<ListBasisAPIs />
+
+---
+
+## Hooks
+
+### useField
+
+The `useField` hook standardize handling of the value flow for a single field. It holds error state, hides it while the field is in focus, connects to surrounding `DataContext` (if present) and other things that all field components needs to do. By implementing custom field components and passing the received props (extending `FieldProps`) through `useField`, all these features work the same way as other field components, and you only need to implement the specific unique features of that field.
+
+### useValue
+
+The `useValue` hook standardize handling of the value flow for a single value. It connects to surrounding `DataContext` (if present) and other things that all value components needs to do. By implementing custom value components and passing the received props (extending `ValueProps`) through `useValue`, all these features work the same way as other value components, and you only need to implement the specific unique features of that component.
