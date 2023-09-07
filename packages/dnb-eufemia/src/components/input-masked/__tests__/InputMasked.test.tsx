@@ -1777,7 +1777,7 @@ describe('InputMasked with custom mask', () => {
     expect(document.querySelector('input').value).toBe('00__ __ __ __ __')
   })
 
-  it('should include leading zero', async () => {
+  it('should handle leading zeros gracefully', async () => {
     const onChange = jest.fn()
 
     render(
@@ -1823,7 +1823,25 @@ describe('InputMasked with custom mask', () => {
       await userEvent.type(input, '0')
       const last = onChange.mock.calls.length - 1
       expect(onChange.mock.calls[last][0].value).toBe('0 ​ ​,​​')
-      expect(onChange.mock.calls[last][0].cleanedValue).toBe('0')
+      expect(onChange.mock.calls[last][0].cleanedValue).toBe('0.')
+      expect(onChange.mock.calls[last][0].numberValue).toBe(0)
+    }
+
+    {
+      await userEvent.clear(input)
+      await userEvent.type(input, '00000')
+      const last = onChange.mock.calls.length - 1
+      expect(onChange.mock.calls[last][0].value).toBe('0 0 0,00')
+      expect(onChange.mock.calls[last][0].cleanedValue).toBe('000.00')
+      expect(onChange.mock.calls[last][0].numberValue).toBe(0)
+    }
+
+    {
+      await userEvent.clear(input)
+      await userEvent.type(input, '000')
+      const last = onChange.mock.calls.length - 1
+      expect(onChange.mock.calls[last][0].value).toBe('0 0 0,​​')
+      expect(onChange.mock.calls[last][0].cleanedValue).toBe('000.')
       expect(onChange.mock.calls[last][0].numberValue).toBe(0)
     }
 
@@ -1836,7 +1854,16 @@ describe('InputMasked with custom mask', () => {
       expect(onChange.mock.calls[last][0].numberValue).toBe(45.67)
     }
 
-    expect(onChange).toHaveBeenCalledTimes(20)
+    {
+      await userEvent.clear(input)
+      await userEvent.type(input, 'abc')
+      const last = onChange.mock.calls.length - 1
+      expect(onChange.mock.calls[last][0].value).toBe('')
+      expect(onChange.mock.calls[last][0].cleanedValue).toBe('')
+      expect(onChange.mock.calls[last][0].numberValue).toBe(0)
+    }
+
+    expect(onChange).toHaveBeenCalledTimes(34)
 
     await userEvent.clear(input)
   })
