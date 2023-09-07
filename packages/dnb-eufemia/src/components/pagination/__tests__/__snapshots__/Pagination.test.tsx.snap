@@ -606,6 +606,7 @@ button.dnb-button::-moz-focus-inner {
 }
 .dnb-progress-indicator__circular svg {
   position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
 }
