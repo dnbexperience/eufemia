@@ -92,7 +92,6 @@ exports[`Skeleton scss has to match style dependencies css 1`] = `
   background-repeat: no-repeat !important;
   background-size: 30rem 100% !important;
   -webkit-text-fill-color: transparent !important;
-  -webkit-background-clip: text !important;
   background-clip: text !important;
   background-image: repeating-linear-gradient(-45deg, var(--skeleton-color--contrast) 1px 2px, transparent 0 6px) !important;
   --border-color: var(--skeleton-color);
