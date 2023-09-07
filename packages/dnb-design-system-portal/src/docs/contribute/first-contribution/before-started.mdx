@@ -238,9 +238,9 @@ Add new pages to the storybook by adding a new directory `/stories` and a new fi
 
 ### Eufemia portal
 
-The portal is currently handled by [Gatsby](https://www.gatsbyjs.com/), a framework for building static websites.
+The portal is currently handled by [Gatsby](https://www.gatsbyjs.com/), a framework for building pre-rendered SSR websites.
 
-Run the Portal locally
+Run the Portal locally:
 
 ```bash
 $ yarn start
@@ -248,7 +248,17 @@ $ yarn start
 
 This will start the Portal. You can view the portal website by visiting [localhost:8000](http://localhost:8000/).
 
-Content changes to both Markdown files and styles (SCSS) and code changes will be reflected immediately.
+Content changes to both Markdown (MDX) files and styles (SCSS) and code changes will be reflected immediately.
+
+For a faster startup-time, you can decide what pages you need by using the environment variable `filter` e.g.:
+
+```bash
+$ filter=button yarn start
+# - or –
+$ filter="/button /input/" yarn start
+```
+
+And visit e.g. this page: [http://localhost:8000/uilib/components/button/](http://http://localhost:8000/uilib/components/button/)
 
 #### Local build
 

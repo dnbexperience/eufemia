@@ -32,14 +32,14 @@ test.describe('Page Navigation', () => {
       expect(heading).toContain('Button')
     })
 
-    test('should contain button properties page', async ({ page }) => {
-      await page.goto('/uilib/components/button/properties')
+    test('should contain button demos page', async ({ page }) => {
+      await page.goto('/uilib/components/button/demos')
 
       const title = await page.title()
       expect(title).toContain('Button | Eufemia')
 
       const heading = await page.textContent('h2')
-      expect(heading).toContain('Properties')
+      expect(heading).toContain('Demos')
     })
 
     test('components page should include summary list of components', async ({
@@ -100,16 +100,14 @@ test.describe('Page Navigation', () => {
       expect(heading).toContain('Button')
     })
 
-    test('click on properties tab should open /uilib/components/button/properties', async ({
+    test('click on demos tab should open /uilib/components/button/demos', async ({
       page,
     }) => {
       const element = (await page.locator('main nav a').all()).at(1)
       await element?.click()
       await page.click('nav a[href="/uilib/components/button/"]')
-      await page.click(
-        'main a[href="/uilib/components/button/properties/"]',
-      )
-      await page.waitForURL('**/uilib/components/button/properties/')
+      await page.click('main a[href="/uilib/components/button/demos/"]')
+      await page.waitForURL('**/uilib/components/button/demos/')
       await page.waitForSelector('#dnb-drawer-list__portal', {
         state: 'attached',
       })
@@ -118,7 +116,7 @@ test.describe('Page Navigation', () => {
       expect(title).toContain('Button | Eufemia')
 
       const heading = await page.textContent('h2')
-      expect(heading).toContain('Properties')
+      expect(heading).toContain('Demos')
     })
 
     test('components page should include summary list of components', async ({
