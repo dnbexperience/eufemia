@@ -55,6 +55,7 @@ exports[`ProgressIndicator scss has to match style dependencies css 1`] = `
 }
 .dnb-progress-indicator__circular svg {
   position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
 }
