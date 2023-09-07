@@ -55,6 +55,7 @@
 
   &__card {
     position: relative;
+    // Payment card uses absolute unit mm to correctly match the size of the real physical card.
     width: 85.6mm;
     height: 53.98mm;
     padding: 4mm;
