@@ -12,7 +12,7 @@
     "build:version": "node ./scripts/version.js --new-version",
     "build:visual-test": "SKIP_IMAGE_PROCESSING=1 IS_VISUAL_TEST=1 NODE_OPTIONS=--max-old-space-size=8192 gatsby build --no-uglify",
     "clean": "gatsby clean",
-    "lint": "eslint --quiet ./src",
+    "lint": "eslint --quiet .",
     "lint:ci": "NODE_ENV=test yarn lint:js && yarn lint:styles && yarn prettier:diff && yarn prettier:package",
     "lint:js": "yarn lint --fix",
     "lint:js:staged": "eslint --quiet --fix",
