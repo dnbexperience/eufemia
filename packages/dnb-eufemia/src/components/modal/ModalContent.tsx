@@ -252,7 +252,9 @@ export default class ModalContent extends React.PureComponent<
               focusElement = elem.querySelector(focus_selector)
             }
 
-            focusElement.focus()
+            if (focusElement?.focus) {
+              focusElement.focus()
+            }
 
             const noH1Elem = elem.querySelector('h1, h2, h3')
             if (noH1Elem?.tagName !== 'H1') {
