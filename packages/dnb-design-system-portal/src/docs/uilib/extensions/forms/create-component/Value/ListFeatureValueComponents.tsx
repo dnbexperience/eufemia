@@ -12,7 +12,7 @@ export default function ListFeatureValueComponents() {
           frontmatter: {
             title: { ne: null }
             draft: { ne: true }
-            # componentType: { ne: true }
+            componentType: { regex: "/feature/" }
           }
           internal: {
             contentFilePath: {

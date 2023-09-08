@@ -12,7 +12,7 @@ export default function ListBaseFieldComponents() {
           frontmatter: {
             title: { ne: null }
             draft: { ne: true }
-            componentType: { ne: null }
+            componentType: { regex: "/base/" }
           }
           internal: {
             contentFilePath: {
