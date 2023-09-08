@@ -1,6 +1,5 @@
 import React from 'react'
 import classnames from 'classnames'
-import { forwardSpaceProps } from '../../extensions/forms/utils'
 import FlexContainer, {
   Props as FlexContainerProps,
 } from './FlexContainer'
@@ -15,7 +14,7 @@ export type Props = ComponentProps & {
 }
 
 function Card(props: Props) {
-  const { className, stack, direction, spacing, children } = props
+  const { className, stack, direction, spacing, children, ...rest } = props
 
   if (stack) {
     return (
@@ -24,7 +23,7 @@ function Card(props: Props) {
         direction="column"
         divider="line"
         spacing={spacing ?? 'medium'}
-        {...forwardSpaceProps(props)}
+        {...rest}
       >
         {children}
       </FlexContainer>
@@ -38,7 +37,7 @@ function Card(props: Props) {
         direction={direction ?? 'column'}
         divider="space"
         spacing={spacing ?? 'small'}
-        {...forwardSpaceProps(props)}
+        {...rest}
       >
         {children}
       </FlexContainer>
@@ -48,7 +47,7 @@ function Card(props: Props) {
   return (
     <FlexItem
       className={classnames('dnb-layout__card', className)}
-      {...forwardSpaceProps(props)}
+      {...rest}
     >
       {children}
     </FlexItem>

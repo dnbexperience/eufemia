@@ -3,7 +3,6 @@ import classnames from 'classnames'
 import { Space } from '../'
 import * as EufemiaElements from '../../elements'
 import { SpaceType } from '../space/types'
-import { forwardSpaceProps } from '../../extensions/forms/utils'
 import MainHeading from './MainHeading'
 import SubHeading from './SubHeading'
 import type { ComponentProps } from '../../extensions/forms/component-types'
@@ -109,6 +108,7 @@ function FlexContainer(props: Props) {
     divider = 'space',
     spacing = 'small',
     width,
+    ...rest
   } = props
 
   const cn = classnames(
@@ -125,7 +125,7 @@ function FlexContainer(props: Props) {
   const childrenArray = React.Children.toArray(children)
 
   return (
-    <Space element={element} className={cn} {...forwardSpaceProps(props)}>
+    <Space element={element} className={cn} {...rest}>
       {direction === 'column'
         ? childrenArray.map((child, i) => {
             // Set spacing on child components by props (instead of CSS) to be able to dynamically override by props on each child. The default

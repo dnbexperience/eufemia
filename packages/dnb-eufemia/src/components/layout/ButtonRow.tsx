@@ -1,7 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
 import { Div } from '../../elements'
-import { forwardSpaceProps } from '../../extensions/forms/utils'
 import type { ComponentProps } from '../../extensions/forms/component-types'
 
 export type Props = ComponentProps & {
@@ -9,11 +8,11 @@ export type Props = ComponentProps & {
 }
 
 function ButtonRow(props: Props) {
-  const { className, children } = props
+  const { className, children, ...rest } = props
   return (
     <Div
       className={classnames('dnb-layout__button-row', className)}
-      {...forwardSpaceProps(props)}
+      {...rest}
     >
       {children}
     </Div>
