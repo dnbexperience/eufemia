@@ -10,7 +10,7 @@ import {
 } from './Heading'
 import { ThemeNames } from '../../shared'
 import { warn, convertJsxToString } from '../../shared/component-helper'
-import { DynamicElement } from '../../shared/types'
+import type { DynamicElement } from '../../shared/types'
 import { HeadingCounter } from './HeadingCounter'
 
 type GlobalSyncCounter = { current: HeadingCounter }

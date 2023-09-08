@@ -16,6 +16,7 @@ function Section(props: Props) {
   const { className, direction, spacing, children } = props
   return (
     <FlexContainer
+      element="section"
       className={classnames('dnb-layout__section', className)}
       direction={direction ?? 'column'}
       spacing={spacing ?? 'small'}
