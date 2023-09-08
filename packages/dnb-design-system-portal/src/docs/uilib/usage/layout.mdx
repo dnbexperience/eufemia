@@ -5,7 +5,17 @@ order: 3
 
 # Layout
 
-To not overcomplicate the Eufemia - and limit the creativity and possibilities, the DNB UX team has decided to not force the usage of a dedicated layout system. This opens up for more freedom in designing and building interface layouts.
+You may use the Eufemia [Layout](/uilib/components/layout/) component for your application layouts and [form](/uilib/extensions/forms)-views.
+
+Or you may just use **CSS Flexbox** or **CSS Grid**. But please, do not use third-party layout libraries.
+
+It is your responsibility to ensure 100% consistency and compatibility.
+
+## Grid
+
+UX designers are using a 12 column system, along with a 4 and 6 column system, during their design processes.
+
+There are plans to implement support for this in the future.
 
 ## Responsiveness
 
@@ -23,7 +33,3 @@ Sometimes you may need a compensation of only a few pixels. Heres how to calcula
 - 1px = `1/16x1` = **0.0625rem**
 - 2px = `1/16x2` = **0.125rem**
 - And so on ...
-
-## Layout system
-
-If you are working together with an DNB UX Designer, you can decide freely what layout mechanism you want to use. For web applications use **CSS Flexbox** or **CSS Grid**. But it is your responsibility to ensure 100% consistency and compatibility.
