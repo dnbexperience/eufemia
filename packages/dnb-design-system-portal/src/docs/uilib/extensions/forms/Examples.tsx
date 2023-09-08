@@ -6,7 +6,52 @@ import {
   Field,
   Value,
   Visibility,
+  FieldGroup,
+  useField,
 } from '@dnb/eufemia/src/extensions/forms'
+
+export const FirstExampleDemo = () => {
+  return (
+    <ComponentBox
+      scope={{
+        DataContext,
+        Layout,
+        Field,
+        FieldGroup,
+        useField,
+      }}
+    >
+      {() => {
+        const MyComponent = (props) => {
+          const { value } = useField(props)
+
+          return (
+            <FieldGroup warning={value.warning}>
+              <Layout.Row>
+                <Field.String {...value.text} />
+                <Field.Number {...value.number} />
+              </Layout.Row>
+            </FieldGroup>
+          )
+        }
+
+        return (
+          <DataContext.Provider
+            data={{
+              myComponent: {
+                warning: 'Show one warning',
+                text: { label: 'String field', value: 'Some value' },
+                number: { label: 'Number field', value: '123' },
+              },
+            }}
+          >
+            <MyComponent path="/myComponent" />
+          </DataContext.Provider>
+        )
+      }}
+    </ComponentBox>
+  )
+}
 
 export const BaseFieldComponents = () => {
   return (
@@ -20,21 +65,23 @@ export const BaseFieldComponents = () => {
         Visibility,
       }}
     >
-      <Field.String
-        label="Text field"
-        value="Lorem Ipsum"
-        onChange={(value) => console.log('onChange', value)}
-      />
-      <Field.Number
-        label="Number Field"
-        value={789}
-        onChange={(value) => console.log('onChange', value)}
-      />
-      <Field.Boolean
-        label="Boolean Field"
-        value={true}
-        onChange={(value) => console.log('onChange', value)}
-      />
+      <Layout.Card stack>
+        <Field.String
+          label="Text field"
+          value="Lorem Ipsum"
+          onChange={(value) => console.log('onChange', value)}
+        />
+        <Field.Number
+          label="Number Field"
+          value={789}
+          onChange={(value) => console.log('onChange', value)}
+        />
+        <Field.Boolean
+          label="Boolean Field"
+          value={true}
+          onChange={(value) => console.log('onChange', value)}
+        />
+      </Layout.Card>
     </ComponentBox>
   )
 }
@@ -51,11 +98,13 @@ export const FeatureFields = () => {
         Visibility,
       }}
     >
-      <Field.FirstName value="John" />
-      <Field.LastName value="Smith" />
-      <Field.NationalIdentityNumber value="20058512345" />
-      <Field.Email value="john@smith.email" />
-      <Field.PhoneNumber value="+47 98765432" />
+      <Layout.Card stack>
+        <Field.String label="Fornavn" value="John" />
+        <Field.String label="Etternavn" value="Smith" />
+        <Field.NationalIdentityNumber value="20058512345" />
+        <Field.Email value="john@smith.email" />
+        <Field.PhoneNumber value="+47 98765432" />
+      </Layout.Card>
     </ComponentBox>
   )
 }
@@ -78,8 +127,8 @@ export const LayoutComponents = () => {
         <Layout.Card stack>
           <Layout.SubHeading>Name</Layout.SubHeading>
 
-          <Field.FirstName value="John" />
-          <Field.LastName value="Smith" />
+          <Field.String label="Fornavn" value="John" />
+          <Field.String label="Etternavn" value="Smith" />
         </Layout.Card>
 
         <Layout.Card stack>
@@ -127,8 +176,8 @@ export const VisibilityBasedOnData = () => {
           <Layout.Card stack>
             <Layout.SubHeading>Name</Layout.SubHeading>
 
-            <Field.FirstName path="/firstName" />
-            <Field.LastName path="/lastName" />
+            <Field.String path="/firstName" label="Fornavn" />
+            <Field.String path="/lastName" label="Etternavn" />
           </Layout.Card>
         </Layout.Section>
         <Field.Boolean
@@ -181,8 +230,8 @@ export const UsingDataContextProvider = () => {
         <Layout.MainHeading>Profile</Layout.MainHeading>
 
         <Layout.Card stack>
-          <Field.FirstName path="/firstName" />
-          <Field.LastName path="/lastName" />
+          <Field.String path="/firstName" label="Fornavn" />
+          <Field.String path="/lastName" label="Etternavn" />
           <Field.NationalIdentityNumber path="/ssn" />
           <Field.Email path="/email" />
           <Field.PhoneNumber path="/phone" />
@@ -225,8 +274,8 @@ export const Validation = () => {
         <Layout.MainHeading>Profile</Layout.MainHeading>
 
         <Layout.Card stack>
-          <Field.FirstName path="/firstName" required />
-          <Field.LastName path="/lastName" required />
+          <Field.String path="/firstName" label="Fornavn" required />
+          <Field.String path="/lastName" label="Etternavn" required />
           <Field.NationalIdentityNumber path="/ssn" validateInitially />
           <Field.Email path="/email" validateInitially />
           <Field.PhoneNumber path="/phone" validateInitially />
@@ -270,8 +319,8 @@ export const WithSteps = () => {
             <Layout.Card stack>
               <Layout.SubHeading>Name</Layout.SubHeading>
 
-              <Field.FirstName path="/firstName" required />
-              <Field.LastName path="/lastName" required />
+              <Field.String path="/firstName" label="Fornavn" required />
+              <Field.String path="/lastName" label="Etternavn" required />
             </Layout.Card>
 
             <Layout.ButtonRow>
@@ -301,8 +350,8 @@ export const WithSteps = () => {
 
             <Layout.Card stack>
               <Layout.FlexContainer direction="row">
-                <Value.FirstName path="/firstName" />
-                <Value.LastName path="/lastName" />
+                <Value.String path="/firstName" label="Fornavn" />
+                <Value.String path="/lastName" label="Etternavn" />
               </Layout.FlexContainer>
 
               <Value.NationalIdentityNumber path="/ssn" />

@@ -1,4 +1,5 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
+import { P } from '@dnb/eufemia/src'
 import { Layout } from '@dnb/eufemia/src/extensions/forms'
 
 export const Default = () => {
@@ -21,7 +22,7 @@ export const WithParagraphs = () => {
   return (
     <ComponentBox scope={{ Layout }}>
       <Layout.Section>
-        <p>
+        <P>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
           cursus pharetra elit in bibendum. Vivamus tincidunt eleifend
           tellus at tempus. Aliquam at felis rutrum, luctus dui at,
@@ -29,8 +30,8 @@ export const WithParagraphs = () => {
           nec enim posuere commodo. Vestibulum tempus suscipit ullamcorper.
           Maecenas ac lobortis nibh, vitae gravida neque. Fusce imperdiet
           rhoncus diam, in tincidunt dolor consectetur ut.
-        </p>
-        <p>
+        </P>
+        <P>
           Praesent nunc ipsum, convallis eget convallis gravida, vehicula
           vitae metus. Fusce volutpat risus vitae lectus elementum, sed
           facilisis augue dignissim. Donec accumsan, purus commodo bibendum
@@ -39,7 +40,7 @@ export const WithParagraphs = () => {
           Suspendisse facilisis mi eu sem eleifend, eu eleifend nulla
           mattis. Sed iaculis, erat at posuere scelerisque, sapien metus
           ullamcorper tortor, et interdum augue tortor id eros.
-        </p>
+        </P>
       </Layout.Section>
     </ComponentBox>
   )

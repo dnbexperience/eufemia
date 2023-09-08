@@ -145,7 +145,7 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
             icon={currentIcon}
             className="dnb-breadcrumb__item__span__icon"
           />
-          <P left="0">{currentText}</P>
+          <P space="0">{currentText}</P>
         </span>
       )}
     </li>

@@ -58,6 +58,7 @@ export default function SidebarLayout({
             frontmatter {
               title
               menuTitle
+              hideInMenu
               order
               status
               icon
@@ -250,6 +251,7 @@ type ListItemProps = {
   theme?: ThemeNames
   icon?: string
   isActive?: boolean
+  hideInMenu?: boolean
   isInsideActivePath?: boolean
   isInsideActiveCategory?: boolean
 }
@@ -267,11 +269,16 @@ function ListItem({
   icon,
   title,
   subheadings,
+  hideInMenu,
 }: ListItemProps) {
   const { name: currentTheme } = useTheme()
   const { closeMenu } = useContext(SidebarMenuContext)
   const { skeleton } = useContext(Context)
   const ref = useRef(null)
+
+  if (hideInMenu) {
+    return null
+  }
 
   const statusTitle =
     status &&
@@ -360,6 +367,7 @@ type NavItem = {
   icon?: string
   level?: number
   menuTitle?: string
+  hideInMenu?: boolean
   order?: number
   _order?: string
   path?: string
