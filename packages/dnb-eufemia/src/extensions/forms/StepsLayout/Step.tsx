@@ -2,10 +2,10 @@ import React, { useContext } from 'react'
 import classnames from 'classnames'
 import { forwardSpaceProps } from '../utils'
 import type { ComponentProps } from '../component-types'
+import StepsContext from './StepsContext'
 import FlexContainer, {
   Props as FlexContainerProps,
-} from '../Layout/FlexContainer'
-import StepsContext from './StepsContext'
+} from '../../../components/layout/FlexContainer'
 
 export type Props = ComponentProps & {
   index?: number

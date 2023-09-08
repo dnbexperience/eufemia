@@ -116,10 +116,6 @@ export interface InfoIconProps {
    * The `title` attribute in the status.
    */
   title?: string;
-
-  /**
-   * Theme name. If provided, will ensure correct theming of icon
-   */
   theme?: string;
 }
 export declare const InfoIcon: React.FC<InfoIconProps>;

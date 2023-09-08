@@ -1,9 +1,6 @@
+import { Layout } from '@dnb/eufemia/src'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import {
-  Layout,
-  Field,
-  FieldGroup,
-} from '@dnb/eufemia/src/extensions/forms'
+import { Field, FieldGroup } from '@dnb/eufemia/src/extensions/forms'
 
 export const Default = () => {
   return (
@@ -15,7 +12,7 @@ export const Default = () => {
 
 export const WithInfo = () => {
   return (
-    <ComponentBox scope={{ Layout, Field, FieldGroup }}>
+    <ComponentBox scope={{ Field, FieldGroup }}>
       <FieldGroup label="Label text" info="For your information">
         <Layout.Row>
           <Field.String />

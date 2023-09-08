@@ -1,10 +1,10 @@
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
-import { P } from '@dnb/eufemia/src'
-import { Layout, StepsLayout } from '@dnb/eufemia/src/extensions/forms'
+import { Layout, P } from '@dnb/eufemia/src'
+import { StepsLayout } from '@dnb/eufemia/src/extensions/forms'
 
 export const Default = () => {
   return (
-    <ComponentBox scope={{ Layout, StepsLayout }}>
+    <ComponentBox scope={{ StepsLayout }}>
       <StepsLayout>
         <StepsLayout.Step title="Step 1">
           <>

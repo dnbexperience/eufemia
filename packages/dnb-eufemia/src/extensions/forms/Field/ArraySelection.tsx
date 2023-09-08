@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react'
 import { Checkbox, Button } from '../../../components'
-import ButtonRow from '../Layout/ButtonRow'
 import classnames from 'classnames'
 import { forwardSpaceProps } from '../utils'
 import Option from './Option'
@@ -8,6 +7,7 @@ import FieldBlock from '../FieldBlock'
 import { useField } from './hooks'
 import type { ComponentProps } from '../component-types'
 import type { FieldProps } from '../field-types'
+import ButtonRow from '../../../components/layout/ButtonRow'
 
 interface IOption {
   title: string

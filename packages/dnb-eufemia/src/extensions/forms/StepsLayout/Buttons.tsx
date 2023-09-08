@@ -1,10 +1,10 @@
 import React from 'react'
 import classnames from 'classnames'
 import type { ComponentProps } from '../component-types'
-import ButtonRow from '../Layout/ButtonRow'
 import NextButton from './NextButton'
 import PreviousButton from './PreviousButton'
 import { forwardSpaceProps } from '../utils'
+import ButtonRow from '../../../components/layout/ButtonRow'
 
 export type Props = ComponentProps & {
   children?: string
