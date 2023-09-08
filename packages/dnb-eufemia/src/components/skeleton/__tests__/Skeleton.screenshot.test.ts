@@ -8,8 +8,11 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Skeleton', () => {
-  setupPageScreenshot({ url: '/uilib/components/skeleton/demos' })
+describe.each(['ui', 'sbanken'])('Skeleton for %s', (themeName) => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/skeleton/demos',
+  })
 
   it('have to match skeleton article figure', async () => {
     const screenshot = await makeScreenshot({
