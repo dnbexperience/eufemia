@@ -1,13 +1,13 @@
 import React from 'react'
 import classnames from 'classnames'
 import { Space } from '../'
-import { Div } from '../../elements'
 import * as EufemiaElements from '../../elements'
 import { SpaceType } from '../space/types'
 import { forwardSpaceProps } from '../../extensions/forms/utils'
 import MainHeading from './MainHeading'
 import SubHeading from './SubHeading'
 import type { ComponentProps } from '../../extensions/forms/component-types'
+import { DynamicElement } from '../../shared/types'
 
 export function isHeadingElement(element): boolean {
   return element.type === MainHeading || element.type === SubHeading
@@ -66,7 +66,7 @@ const renderWithSpacing = (element: React.ReactNode, props) => {
   return takesSpaceProps ? (
     React.cloneElement(element as React.ReactElement<unknown>, props)
   ) : (
-    <Div {...props}>{element}</Div>
+    <Space {...props}>{element}</Space>
   )
 }
 
@@ -93,6 +93,7 @@ export type Props = ComponentProps & {
     | 'x-large'
     | 'xx-large'
   width?: 'small' | 'medium' | 'large'
+  element?: DynamicElement
   children: React.ReactNode
 }
 
@@ -100,6 +101,7 @@ function FlexContainer(props: Props) {
   const {
     className,
     children,
+    element = 'div',
     direction = 'column',
     wrap = false,
     justify = 'flex-start',
@@ -123,7 +125,7 @@ function FlexContainer(props: Props) {
   const childrenArray = React.Children.toArray(children)
 
   return (
-    <Div className={cn} {...forwardSpaceProps(props)}>
+    <Space element={element} className={cn} {...forwardSpaceProps(props)}>
       {direction === 'column'
         ? childrenArray.map((child, i) => {
             // Set spacing on child components by props (instead of CSS) to be able to dynamically override by props on each child. The default
@@ -182,7 +184,7 @@ function FlexContainer(props: Props) {
           })
         : // TODO: Consider doing the same with spacing between horizontal items (direction = row) as vertical
           children}
-    </Div>
+    </Space>
   )
 }
 
