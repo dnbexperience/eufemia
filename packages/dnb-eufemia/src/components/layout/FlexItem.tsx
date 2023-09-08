@@ -1,6 +1,5 @@
 import React from 'react'
 import classnames from 'classnames'
-import { forwardSpaceProps } from '../../extensions/forms/utils'
 import { Space } from '../lib'
 import type { DynamicElement } from '../../shared/types'
 import type { ComponentProps } from '../../extensions/forms/types'
@@ -21,6 +20,7 @@ function FlexItem(props: Props) {
     shrink,
     width,
     children,
+    ...rest
   } = props
   const cn = classnames(
     'dnb-layout__flex-item',
@@ -31,7 +31,7 @@ function FlexItem(props: Props) {
   )
 
   return (
-    <Space element={element} className={cn} {...forwardSpaceProps(props)}>
+    <Space element={element} className={cn} {...rest}>
       {children}
     </Space>
   )

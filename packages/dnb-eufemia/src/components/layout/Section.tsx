@@ -1,6 +1,5 @@
 import React from 'react'
 import classnames from 'classnames'
-import { forwardSpaceProps } from '../../extensions/forms/utils'
 import FlexContainer, {
   Props as FlexContainerProps,
 } from './FlexContainer'
@@ -13,14 +12,14 @@ export type Props = ComponentProps & {
 }
 
 function Section(props: Props) {
-  const { className, direction, spacing, children } = props
+  const { className, direction, spacing, children, ...rest } = props
   return (
     <FlexContainer
       element="section"
       className={classnames('dnb-layout__section', className)}
       direction={direction ?? 'column'}
       spacing={spacing ?? 'small'}
-      {...forwardSpaceProps(props)}
+      {...rest}
     >
       {children}
     </FlexContainer>
