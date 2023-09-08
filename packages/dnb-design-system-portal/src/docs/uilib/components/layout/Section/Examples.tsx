@@ -5,13 +5,15 @@ export const Default = () => {
   return (
     <ComponentBox>
       <Layout.Section>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-        cursus pharetra elit in bibendum. Vivamus tincidunt eleifend tellus
-        at tempus. Aliquam at felis rutrum, luctus dui at, bibendum ipsum.
-        Quisque vitae justo magna. Fusce hendrerit risus nec enim posuere
-        commodo. Vestibulum tempus suscipit ullamcorper. Maecenas ac
-        lobortis nibh, vitae gravida neque. Fusce imperdiet rhoncus diam,
-        in tincidunt dolor consectetur ut.
+        <P>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
+          cursus pharetra elit in bibendum. Vivamus tincidunt eleifend
+          tellus at tempus. Aliquam at felis rutrum, luctus dui at,
+          bibendum ipsum. Quisque vitae justo magna. Fusce hendrerit risus
+          nec enim posuere commodo. Vestibulum tempus suscipit ullamcorper.
+          Maecenas ac lobortis nibh, vitae gravida neque. Fusce imperdiet
+          rhoncus diam, in tincidunt dolor consectetur ut.
+        </P>
       </Layout.Section>
     </ComponentBox>
   )
@@ -50,13 +52,15 @@ export const WithMainHeading = () => {
     <ComponentBox>
       <Layout.Section>
         <Layout.MainHeading>Heading</Layout.MainHeading>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-        cursus pharetra elit in bibendum. Vivamus tincidunt eleifend tellus
-        at tempus. Aliquam at felis rutrum, luctus dui at, bibendum ipsum.
-        Quisque vitae justo magna. Fusce hendrerit risus nec enim posuere
-        commodo. Vestibulum tempus suscipit ullamcorper. Maecenas ac
-        lobortis nibh, vitae gravida neque. Fusce imperdiet rhoncus diam,
-        in tincidunt dolor consectetur ut.
+        <P>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
+          cursus pharetra elit in bibendum. Vivamus tincidunt eleifend
+          tellus at tempus. Aliquam at felis rutrum, luctus dui at,
+          bibendum ipsum. Quisque vitae justo magna. Fusce hendrerit risus
+          nec enim posuere commodo. Vestibulum tempus suscipit ullamcorper.
+          Maecenas ac lobortis nibh, vitae gravida neque. Fusce imperdiet
+          rhoncus diam, in tincidunt dolor consectetur ut.
+        </P>
       </Layout.Section>
     </ComponentBox>
   )
@@ -67,13 +71,16 @@ export const WithCard = () => {
     <ComponentBox>
       <Layout.Section>
         <Layout.Card>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-          cursus pharetra elit in bibendum. Vivamus tincidunt eleifend
-          tellus at tempus. Aliquam at felis rutrum, luctus dui at,
-          bibendum ipsum. Quisque vitae justo magna. Fusce hendrerit risus
-          nec enim posuere commodo. Vestibulum tempus suscipit ullamcorper.
-          Maecenas ac lobortis nibh, vitae gravida neque. Fusce imperdiet
-          rhoncus diam, in tincidunt dolor consectetur ut.
+          <P>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
+            cursus pharetra elit in bibendum. Vivamus tincidunt eleifend
+            tellus at tempus. Aliquam at felis rutrum, luctus dui at,
+            bibendum ipsum. Quisque vitae justo magna. Fusce hendrerit
+            risus nec enim posuere commodo. Vestibulum tempus suscipit
+            ullamcorper. Maecenas ac lobortis nibh, vitae gravida neque.
+            Fusce imperdiet rhoncus diam, in tincidunt dolor consectetur
+            ut.
+          </P>
         </Layout.Card>
       </Layout.Section>
     </ComponentBox>
@@ -86,13 +93,16 @@ export const WithCardAndHeading = () => {
       <Layout.Section>
         <Layout.MainHeading>Main heading</Layout.MainHeading>
         <Layout.Card>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-          cursus pharetra elit in bibendum. Vivamus tincidunt eleifend
-          tellus at tempus. Aliquam at felis rutrum, luctus dui at,
-          bibendum ipsum. Quisque vitae justo magna. Fusce hendrerit risus
-          nec enim posuere commodo. Vestibulum tempus suscipit ullamcorper.
-          Maecenas ac lobortis nibh, vitae gravida neque. Fusce imperdiet
-          rhoncus diam, in tincidunt dolor consectetur ut.
+          <P>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
+            cursus pharetra elit in bibendum. Vivamus tincidunt eleifend
+            tellus at tempus. Aliquam at felis rutrum, luctus dui at,
+            bibendum ipsum. Quisque vitae justo magna. Fusce hendrerit
+            risus nec enim posuere commodo. Vestibulum tempus suscipit
+            ullamcorper. Maecenas ac lobortis nibh, vitae gravida neque.
+            Fusce imperdiet rhoncus diam, in tincidunt dolor consectetur
+            ut.
+          </P>
         </Layout.Card>
       </Layout.Section>
     </ComponentBox>
@@ -106,13 +116,16 @@ export const WithCardAndHeadings = () => {
         <Layout.MainHeading>Main heading</Layout.MainHeading>
         <Layout.SubHeading>Sub heading</Layout.SubHeading>
         <Layout.Card>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-          cursus pharetra elit in bibendum. Vivamus tincidunt eleifend
-          tellus at tempus. Aliquam at felis rutrum, luctus dui at,
-          bibendum ipsum. Quisque vitae justo magna. Fusce hendrerit risus
-          nec enim posuere commodo. Vestibulum tempus suscipit ullamcorper.
-          Maecenas ac lobortis nibh, vitae gravida neque. Fusce imperdiet
-          rhoncus diam, in tincidunt dolor consectetur ut.
+          <P>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
+            cursus pharetra elit in bibendum. Vivamus tincidunt eleifend
+            tellus at tempus. Aliquam at felis rutrum, luctus dui at,
+            bibendum ipsum. Quisque vitae justo magna. Fusce hendrerit
+            risus nec enim posuere commodo. Vestibulum tempus suscipit
+            ullamcorper. Maecenas ac lobortis nibh, vitae gravida neque.
+            Fusce imperdiet rhoncus diam, in tincidunt dolor consectetur
+            ut.
+          </P>
         </Layout.Card>
       </Layout.Section>
     </ComponentBox>
