@@ -1,7 +1,7 @@
+import { Layout } from '@dnb/eufemia/src'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
   DataContext,
-  Layout,
   StepsLayout,
   Field,
   Value,
@@ -15,7 +15,6 @@ export const FirstExampleDemo = () => {
     <ComponentBox
       scope={{
         DataContext,
-        Layout,
         Field,
         FieldGroup,
         useDataValue,
@@ -58,7 +57,6 @@ export const BaseFieldComponents = () => {
     <ComponentBox
       scope={{
         DataContext,
-        Layout,
         StepsLayout,
         Field,
         Value,
@@ -91,7 +89,6 @@ export const FeatureFields = () => {
     <ComponentBox
       scope={{
         DataContext,
-        Layout,
         StepsLayout,
         Field,
         Value,
@@ -114,7 +111,6 @@ export const LayoutComponents = () => {
     <ComponentBox
       scope={{
         DataContext,
-        Layout,
         StepsLayout,
         Field,
         Value,
@@ -148,7 +144,6 @@ export const VisibilityBasedOnData = () => {
     <ComponentBox
       scope={{
         DataContext,
-        Layout,
         StepsLayout,
         Field,
         Value,
@@ -206,7 +201,6 @@ export const UsingDataContextProvider = () => {
     <ComponentBox
       scope={{
         DataContext,
-        Layout,
         StepsLayout,
         Field,
         Value,
@@ -250,7 +244,6 @@ export const Validation = () => {
     <ComponentBox
       scope={{
         DataContext,
-        Layout,
         StepsLayout,
         Field,
         Value,
@@ -290,7 +283,6 @@ export const WithSteps = () => {
     <ComponentBox
       scope={{
         DataContext,
-        Layout,
         StepsLayout,
         Field,
         Value,

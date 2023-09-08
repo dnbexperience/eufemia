@@ -1,6 +1,5 @@
 import React, { useMemo, useContext, useCallback } from 'react'
 import { Button, Dropdown, Radio, HelpButton } from '../../../components'
-import ButtonRow from '../Layout/ButtonRow'
 import FieldBlock from '../FieldBlock'
 import classnames from 'classnames'
 import { forwardSpaceProps } from '../utils'
@@ -8,7 +7,9 @@ import { makeUniqueId } from '../../../shared/component-helper'
 import SharedContext from '../../../shared/Context'
 import Option from './Option'
 import { useDataValue } from '../hooks'
-import { FormError, FieldProps, FieldHelpProps } from '../types'
+import { FormError } from '../types'
+import type { FieldProps, FieldHelpProps } from '../types'
+import ButtonRow from '../../../components/layout/ButtonRow'
 
 interface IOption {
   title: string | React.ReactNode

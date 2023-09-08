@@ -1,9 +1,8 @@
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
-import { GlobalStatus, Section, Code } from '@dnb/eufemia/src'
+import { GlobalStatus, Section, Code, Layout } from '@dnb/eufemia/src'
 import * as React from 'react'
 import {
   DataContext,
-  Layout,
   StepsLayout,
   Field,
   Value,
@@ -15,7 +14,7 @@ export const BecomeCorporateCustomer = () => {
       scope={{
         Code,
         DataContext,
-        Layout,
+
         StepsLayout,
         Field,
         Value,

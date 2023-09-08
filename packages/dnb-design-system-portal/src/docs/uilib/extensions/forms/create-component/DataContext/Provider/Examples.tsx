@@ -2,10 +2,10 @@ import { JSONSchema7 } from 'json-schema'
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
 import {
   DataContext,
-  Layout,
   Field,
   Value,
 } from '@dnb/eufemia/src/extensions/forms'
+import { Layout } from '@dnb/eufemia/src'
 
 export const TestdataSchema: JSONSchema7 = {
   type: 'object',
@@ -79,7 +79,6 @@ export const Default = () => {
     <ComponentBox
       scope={{
         DataContext,
-        Layout,
         Field,
         Value,
         testdata,
@@ -170,7 +169,6 @@ export const ValidationWithJsonSchema = () => {
     <ComponentBox
       scope={{
         DataContext,
-        Layout,
         Field,
         Value,
         testdata,

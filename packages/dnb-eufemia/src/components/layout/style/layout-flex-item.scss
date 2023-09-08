@@ -1,0 +1,23 @@
+@import '../../../extensions/forms/variables.scss';
+
+.dnb-layout-flex-item {
+  &--grow {
+    flex-grow: 1;
+  }
+
+  &--shrink {
+    flex-shrink: 1;
+  }
+
+  &--width-small {
+    width: $forms-field-width-small;
+  }
+
+  &--width-medium {
+    width: $forms-field-width-medium;
+  }
+
+  &--width-large {
+    width: $forms-field-width-large;
+  }
+}
