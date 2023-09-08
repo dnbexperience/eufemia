@@ -12,7 +12,7 @@ function ButtonRow(props: Props) {
   const { className, children } = props
   return (
     <Div
-      className={classnames('dnb-layout-button-row', className)}
+      className={classnames('dnb-layout__button-row', className)}
       {...forwardSpaceProps(props)}
     >
       {children}

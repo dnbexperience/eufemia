@@ -20,7 +20,7 @@ function Card(props: Props) {
   if (stack) {
     return (
       <FlexContainer
-        className={classnames('dnb-layout-card', className)}
+        className={classnames('dnb-layout__card', className)}
         direction="column"
         divider="line"
         spacing={spacing ?? 'medium'}
@@ -34,7 +34,7 @@ function Card(props: Props) {
   if (direction || spacing) {
     return (
       <FlexContainer
-        className={classnames('dnb-layout-card', className)}
+        className={classnames('dnb-layout__card', className)}
         direction={direction ?? 'column'}
         divider="space"
         spacing={spacing ?? 'small'}
@@ -47,7 +47,7 @@ function Card(props: Props) {
 
   return (
     <FlexItem
-      className={classnames('dnb-layout-card', className)}
+      className={classnames('dnb-layout__card', className)}
       {...forwardSpaceProps(props)}
     >
       {children}

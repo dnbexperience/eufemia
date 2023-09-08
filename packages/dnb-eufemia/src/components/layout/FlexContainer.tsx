@@ -110,14 +110,14 @@ function FlexContainer(props: Props) {
   } = props
 
   const cn = classnames(
-    'dnb-layout-flex-container',
-    direction && `dnb-layout-flex-container--direction-${direction}`,
-    justify && `dnb-layout-flex-container--justify-${justify}`,
-    align && `dnb-layout-flex-container--align-${align}`,
-    wrap && `dnb-layout-flex-container--wrap`,
-    divider && `dnb-layout-flex-container--divider-${divider}`,
-    spacing && `dnb-layout-flex-container--spacing-${spacing}`,
-    width && `dnb-layout-flex-container--width-${width}`,
+    'dnb-layout__flex-container',
+    direction && `dnb-layout__flex-container--direction-${direction}`,
+    justify && `dnb-layout__flex-container--justify-${justify}`,
+    align && `dnb-layout__flex-container--align-${align}`,
+    wrap && `dnb-layout__flex-container--wrap`,
+    divider && `dnb-layout__flex-container--divider-${divider}`,
+    spacing && `dnb-layout__flex-container--spacing-${spacing}`,
+    width && `dnb-layout__flex-container--width-${width}`,
     className
   )
   const childrenArray = React.Children.toArray(children)
@@ -154,7 +154,7 @@ function FlexContainer(props: Props) {
               return (
                 <React.Fragment key={`element-${i}`}>
                   <Space top={spaceAboveLine} />
-                  <hr className="dnb-layout-flex-container__hr" />
+                  <hr className="dnb-layout__flex-container__hr" />
                   {renderWithSpacing(child, {
                     space: { top, bottom },
                     top,

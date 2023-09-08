@@ -1,6 +1,6 @@
 @import '../../../extensions/forms/variables.scss';
 
-.dnb-layout-flex-container {
+.dnb-layout__flex-container {
   display: flex;
 
   &--direction {
@@ -76,11 +76,11 @@
 
   // Row
 
-  &--direction-row.dnb-layout-flex-container--spacing-small {
+  &--direction-row.dnb-layout__flex-container--spacing-small {
     column-gap: var(--spacing-small);
   }
 
-  &--direction-row.dnb-layout-flex-container--spacing-medium {
+  &--direction-row.dnb-layout__flex-container--spacing-medium {
     column-gap: var(--spacing-medium);
   }
 

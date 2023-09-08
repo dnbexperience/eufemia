@@ -14,10 +14,10 @@ export type Props = ComponentProps & {
 function FlexItem(props: Props) {
   const { className, grow, shrink, width, children } = props
   const cn = classnames(
-    'dnb-layout-flex-item',
-    grow && 'dnb-layout-flex-item--grow',
-    shrink && 'dnb-layout-flex-item--shrink',
-    width && `dnb-layout-flex-item--width-${width}`,
+    'dnb-layout__flex-item',
+    grow && 'dnb-layout__flex-item--grow',
+    shrink && 'dnb-layout__flex-item--shrink',
+    width && `dnb-layout__flex-item--width-${width}`,
     className
   )
 

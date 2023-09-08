@@ -14,7 +14,7 @@ function SubHeading({ level, ...props }: Props) {
   const { className, children } = props
   return (
     <Heading
-      className={classnames('dnb-layout-sub-heading', className)}
+      className={classnames('dnb-layout__sub-heading', className)}
       level={level || 3}
       size="medium"
       {...forwardSpaceProps(props)}
