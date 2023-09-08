@@ -11,6 +11,10 @@ import 'mock-match-media/jest-setup'
 import { setMedia, matchMedia } from 'mock-match-media'
 import { mockMediaQuery } from './helpers/MediaQueryMocker'
 
+const wrapper = ({ children }) => (
+  <React.StrictMode>{children}</React.StrictMode>
+)
+
 describe('useMedia', () => {
   describe('using mock-match-media mocker', () => {
     const BELOW = '10em'
@@ -32,7 +36,7 @@ describe('useMedia', () => {
     it('will return object with ', () => {
       setMedia({ type: 'print' })
 
-      const { result } = renderHook(useMedia)
+      const { result } = renderHook(useMedia, { wrapper })
 
       expect(result.current).toEqual(
         expect.objectContaining({
@@ -46,7 +50,7 @@ describe('useMedia', () => {
     it('will return positive isSmall', async () => {
       setMedia({ width: SMALL })
 
-      const { result } = renderHook(useMedia)
+      const { result } = renderHook(useMedia, { wrapper })
 
       expect(result.current).toEqual(
         expect.objectContaining({
@@ -74,7 +78,7 @@ describe('useMedia', () => {
     it('will return positive isMedium', async () => {
       setMedia({ width: MEDIUM })
 
-      const { result } = renderHook(useMedia)
+      const { result } = renderHook(useMedia, { wrapper })
 
       expect(result.current).toEqual(
         expect.objectContaining({
@@ -102,7 +106,7 @@ describe('useMedia', () => {
     it('will return positive isLarge', async () => {
       setMedia({ width: LARGE })
 
-      const { result } = renderHook(useMedia)
+      const { result } = renderHook(useMedia, { wrapper })
 
       expect(result.current).toEqual(
         expect.objectContaining({
@@ -130,7 +134,7 @@ describe('useMedia', () => {
     it('will react to all possible sizes', async () => {
       setMedia({ width: ABOVE })
 
-      const { result } = renderHook(useMedia)
+      const { result } = renderHook(useMedia, { wrapper })
 
       expect(result.current).toEqual(
         expect.objectContaining({
@@ -281,7 +285,7 @@ describe('useMedia', () => {
 
       window.matchMedia = undefined
 
-      const { result } = renderHook(useMedia)
+      const { result } = renderHook(useMedia, { wrapper })
 
       expect(result.current).toEqual(
         expect.objectContaining({
@@ -307,7 +311,7 @@ describe('useMedia', () => {
 
       setMedia({ width: SMALL })
 
-      const { rerender } = render(<MockComponent />)
+      const { rerender } = render(<MockComponent />, { wrapper })
 
       expect(getContent()).toEqual({
         isSmall: true,
@@ -415,7 +419,7 @@ describe('useMedia', () => {
         })
       )
 
-      expect(count).toBe(10)
+      expect(count).toBe(24)
     })
 
     describe('breakpoints', () => {
@@ -526,7 +530,7 @@ describe('useMedia', () => {
       const query = `(min-width: 0em) and (max-width: ${SMALL})`
       matchMedia.useMediaQuery(query)
 
-      const { result } = renderHook(useMedia)
+      const { result } = renderHook(useMedia, { wrapper })
 
       expect(result.current).toEqual(
         expect.objectContaining({
@@ -541,7 +545,7 @@ describe('useMedia', () => {
       const query = `(min-width: ${SMALL}) and (max-width: ${MEDIUM})`
       matchMedia.useMediaQuery(query)
 
-      const { result } = renderHook(useMedia)
+      const { result } = renderHook(useMedia, { wrapper })
 
       expect(result.current).toEqual(
         expect.objectContaining({
@@ -556,7 +560,7 @@ describe('useMedia', () => {
       const query = `(min-width: ${MEDIUM})`
       matchMedia.useMediaQuery(query)
 
-      const { result } = renderHook(useMedia)
+      const { result } = renderHook(useMedia, { wrapper })
 
       expect(result.current).toEqual(
         expect.objectContaining({

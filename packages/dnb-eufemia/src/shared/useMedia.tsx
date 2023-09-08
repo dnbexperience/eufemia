@@ -60,7 +60,44 @@ export default function useMedia(
 ): UseMediaResult {
   const { disabled, log } = props
 
-  const makeResult = () => {
+  const context = React.useContext(Context)
+
+  const refs = React.useRef({})
+  const defaults = React.useRef({})
+  const disabledRef = React.useRef(disabled)
+  const [result, updateRerender] =
+    React.useState<UseMediaResult>(makeResult)
+
+  React.useEffect(() => {
+    // In StrictMode, the keys got empty,
+    // so we make the result again
+    if (Object.keys(refs.current).length) {
+      makeResult()
+    }
+
+    return removeListeners
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  React.useEffect(() => {
+    // If it was disabled before
+    if (disabledRef.current && !disabled) {
+      updateRerender(makeResult())
+    }
+    disabledRef.current = disabled
+  }, [disabled]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  return result
+
+  function removeListeners() {
+    Object.entries(refs.current).forEach(
+      ([key, item]: [string, UseMediaItem]) => {
+        item?.event?.()
+        delete refs.current[key]
+      }
+    )
+  }
+
+  function makeResult() {
     return Object.entries(queries).reduce(
       (acc, [key, when]) => {
         const name = `is${toPascalCase(key)}`
@@ -87,7 +124,7 @@ export default function useMedia(
     ) as UseMediaResult
   }
 
-  const runQuery = ({ when, name }: UseMediaQueryProps): UseMediaItem => {
+  function runQuery({ when, name }: UseMediaQueryProps): UseMediaItem {
     if (!isMatchMediaSupported()) {
       return // do nothing
     }
@@ -115,29 +152,4 @@ export default function useMedia(
 
     return { event, mediaQueryList }
   }
-
-  React.useEffect(() => {
-    // If it was disabled before
-    if (disabledRef.current && !disabled) {
-      updateRerender(makeResult())
-    }
-    disabledRef.current = disabled
-  }, [disabled]) // eslint-disable-line react-hooks/exhaustive-deps
-
-  React.useEffect(() => removeListeners, []) // eslint-disable-line react-hooks/exhaustive-deps
-
-  const context = React.useContext(Context)
-
-  const refs = React.useRef({})
-  const defaults = React.useRef({})
-  const disabledRef = React.useRef(disabled)
-  const [result, updateRerender] =
-    React.useState<UseMediaResult>(makeResult)
-  const removeListeners = () => {
-    Object.values(refs.current).forEach(
-      (item: UseMediaItem) => item?.event && item.event()
-    )
-  }
-
-  return result
 }
