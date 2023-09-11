@@ -1,7 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
-import { Heading } from '../'
-import type { HeadingLevel } from '..//Heading'
+import Heading from '../heading/Heading'
+import type { HeadingLevel } from '../heading/Heading'
 import type { ComponentProps } from '../../extensions/forms/types'
 
 export type Props = ComponentProps & {

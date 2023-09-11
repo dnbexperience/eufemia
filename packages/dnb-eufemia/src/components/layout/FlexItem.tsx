@@ -1,6 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
-import { Space } from '../lib'
+import Space from '../space/Space'
 import type { DynamicElement } from '../../shared/types'
 import type { ComponentProps } from '../../extensions/forms/types'
 
