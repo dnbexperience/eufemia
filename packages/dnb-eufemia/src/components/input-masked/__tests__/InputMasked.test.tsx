@@ -194,7 +194,7 @@ describe('InputMasked component', () => {
       keyCode: 48, // zero
       target: {
         value: newValue,
-        selectionStart: 5, // can be where ever, but not 4
+        selectionStart: 5, // can be wherever, but not 4
       },
       preventDefault,
     })

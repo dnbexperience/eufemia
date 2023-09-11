@@ -132,7 +132,7 @@ export default function useField<Props extends FieldProps<unknown>>(
         Promise.resolve(validator(valueToValidate))
           // This is a validator, so it is expected to resolve with an error when the value is invalid. If it
           // throws an error, it is not caught here as that will cause programmatic errors to show inside the form
-          // as if they where operational errors.
+          // as if they were operational errors.
           .then(setErrorAndUpdateDataContext)
       }
 
@@ -207,7 +207,7 @@ export default function useField<Props extends FieldProps<unknown>>(
           Promise.resolve(onBlurValidator(valueOverride ?? value))
             // This is a validator, so it is expected to resolve with an error when the value is invalid. If it
             // throws an error, it is not caught here as that will cause programmatic errors to show inside the form
-            // as if they where operational errors.
+            // as if they were operational errors.
             .then(setErrorAndUpdateDataContext)
         }
 

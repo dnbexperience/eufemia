@@ -220,7 +220,7 @@ export default class DatePickerInput extends React.PureComponent {
     startDate = parseISO(startDate)
     endDate = parseISO(endDate)
 
-    // ... check if they where valid
+    // ... check if they were valid
     if (!isValid(startDate)) {
       startDate = null
     }
