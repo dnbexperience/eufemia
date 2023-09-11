@@ -155,6 +155,7 @@ function StringComponent(props: Props) {
         />
       ) : mask ? (
         <InputMasked
+          id={id}
           className={cn}
           mask={mask}
           placeholder={placeholder}
