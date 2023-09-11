@@ -30,10 +30,14 @@ You may consider to install plugins for your editor of choice - to visualize and
 Either include the plugins in your code editor, or run the following command after you made changes:
 
 ```bash
-yarn workspace dnb-design-system-portal lint:js && yarn workspace @dnb/eufemia lint:styles
+yarn workspace dnb/eufemia lint:js && yarn workspace @dnb/eufemia lint:styles
 ```
 
+For only checking valid formatting, you can run `yarn workspace @dnb/eufemia prettier:check`. You may want to run `yarn workspace @dnb/eufemia prettier:write` to formatt all relevant files.
+
 Fix the resulted warnings and error before you commit and merge.
+
+The same commands as above applies to the workspace: `yarn worksapce dnb-design-system-portal ...`.
 
 ## TypeScript and type checking
 
