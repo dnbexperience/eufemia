@@ -46,7 +46,7 @@ function ArrayPushButton(props: Props) {
     <Button
       className={classnames(
         'dnb-forms-array-push-button',
-        props.className,
+        props.className
       )}
       text={text}
       on_click={handleClick}

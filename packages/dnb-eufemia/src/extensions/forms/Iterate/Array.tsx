@@ -73,7 +73,7 @@ function ArrayComponent(props: Props) {
     (element: unknown) => {
       handleChange([...(arrayValue ?? []), element])
     },
-    [arrayValue, handleChange],
+    [arrayValue, handleChange]
   )
 
   return (
@@ -100,7 +100,7 @@ function ArrayComponent(props: Props) {
           elementData.map(
             (
               { elementValue, handleElementChange, handleRemoveElement },
-              elementIndex,
+              elementIndex
             ) => {
               return (
                 <IterateElementContext.Provider
@@ -118,14 +118,14 @@ function ArrayComponent(props: Props) {
                     ? children.map((childElement) =>
                         typeof childElement === 'function'
                           ? childElement(elementValue, elementIndex)
-                          : childElement,
+                          : childElement
                       )
                     : typeof children === 'function'
                     ? children(elementValue, elementIndex)
                     : children}
                 </IterateElementContext.Provider>
               )
-            },
+            }
           )
         )}
       </FlexContainer>

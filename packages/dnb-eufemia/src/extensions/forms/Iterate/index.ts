@@ -1,7 +1,7 @@
-import ArrayComponent from './Array';
-import ArrayPushButton from './ArrayPushButton';
-import ArrayRemoveElementButton from './ArrayRemoveElementButton';
-import IterateElementContext from './IterateElementContext';
+import ArrayComponent from './Array'
+import ArrayPushButton from './ArrayPushButton'
+import ArrayRemoveElementButton from './ArrayRemoveElementButton'
+import IterateElementContext from './IterateElementContext'
 
 const Iterate = {
   Array: ArrayComponent,
@@ -11,6 +11,4 @@ const Iterate = {
 
 export default Iterate
 
-export {
-  IterateElementContext
-};
+export { IterateElementContext }

@@ -13,7 +13,7 @@ describe('Iterate.Array', () => {
       render(
         <Iterate.Array value={['one', 'two', 'three']} onChange={onChange}>
           <Field.String elementPath="/" />
-        </Iterate.Array>,
+        </Iterate.Array>
       )
       const fields = document.querySelectorAll('input')
       expect(fields).toHaveLength(3)
@@ -74,7 +74,7 @@ describe('Iterate.Array', () => {
         >
           <Field.String elementPath="/foo" />
           <Field.String elementPath="/bar" />
-        </Iterate.Array>,
+        </Iterate.Array>
       )
       const fields = document.querySelectorAll('input')
       expect(fields).toHaveLength(6)
@@ -121,7 +121,7 @@ describe('Iterate.Array', () => {
         render(
           <Iterate.Array value={['first', 'second', 'third']}>
             {renderProp}
-          </Iterate.Array>,
+          </Iterate.Array>
         )
 
         expect(renderProp).toHaveBeenCalledTimes(3)
@@ -146,7 +146,7 @@ describe('Iterate.Array', () => {
             <Field.String elementPath="/" />
             {renderProp1}
             {renderProp2}
-          </Iterate.Array>,
+          </Iterate.Array>
         )
 
         expect(renderProp1).toHaveBeenCalledTimes(4)
@@ -156,7 +156,7 @@ describe('Iterate.Array', () => {
         expect(renderProp1).toHaveBeenNthCalledWith(
           4,
           { mem: 'D', second: '2nd' },
-          3,
+          3
         )
 
         expect(renderProp2).toHaveBeenCalledTimes(4)
@@ -166,7 +166,7 @@ describe('Iterate.Array', () => {
         expect(renderProp2).toHaveBeenNthCalledWith(
           4,
           { mem: 'D', second: '2nd' },
-          3,
+          3
         )
       })
     })
@@ -190,7 +190,7 @@ describe('Iterate.Array', () => {
                 <Field.String elementPath="/" />
                 <Field.String path="/otherValue" />
               </Iterate.Array>
-            </DataContext.Provider>,
+            </DataContext.Provider>
           )
 
           const fields = document.querySelectorAll('input')

@@ -21,9 +21,9 @@ interface ReturnAdditional {
   handleChange: FieldProps<unknown>['onChange']
 }
 
-export default function useDataValue<Props extends Partial<FieldProps<unknown>>>(
-  props: Props,
-): Props & ReturnAdditional {
+export default function useDataValue<
+  Props extends Partial<FieldProps<unknown>>,
+>(props: Props): Props & ReturnAdditional {
   const {
     path,
     elementPath,
@@ -45,8 +45,8 @@ export default function useDataValue<Props extends Partial<FieldProps<unknown>>>
   const id = useMemo(() => props.id ?? makeUniqueId(), [props.id])
   const dataContext = useContext(DataContext.Context)
   const fieldGroupContext = useContext(FieldGroupContext)
-  const iterateElementContext = useContext(IterateElementContext);
-  
+  const iterateElementContext = useContext(IterateElementContext)
+
   const {
     handlePathChange: dataContextHandlePathChange,
     setPathWithError: dataContextSetPathWithError,
@@ -65,45 +65,58 @@ export default function useDataValue<Props extends Partial<FieldProps<unknown>>>
   } = iterateElementContext ?? {}
 
   if (path && path.substring(0, 1) !== '/') {
-    throw new Error('Invalid path. Data value path JSON Pointers must be from root (starting with a /).')
+    throw new Error(
+      'Invalid path. Data value path JSON Pointers must be from root (starting with a /).'
+    )
   }
   if (elementPath && elementPath.substring(0, 1) !== '/') {
-    throw new Error('Invalid elementPath. Element pathJSON Pointers must be from root of iterate element (starting with a /).')
+    throw new Error(
+      'Invalid elementPath. Element pathJSON Pointers must be from root of iterate element (starting with a /).'
+    )
   }
   if (elementPath && !iterateElementContext) {
-    throw new Error('elementPath cannot be used when not inside an iterate element context. Wrap the component in an Iterate.Loop.')
+    throw new Error(
+      'elementPath cannot be used when not inside an iterate element context. Wrap the component in an Iterate.Loop.'
+    )
   }
 
   const externalValue = useMemo(() => {
     if (props.value !== undefined) {
       // Value-prop sent directly to the field has highest priority, overriding any surrounding source
-      return props.value;
+      return props.value
     }
 
     if (inIterate && elementPath) {
       // This field is inside an iterate, and has a pointer from the base of the element being iterated
       if (elementPath === '/') {
-        return iterateElementValue;
+        return iterateElementValue
       }
-      
+
       return pointer.has(iterateElementValue, elementPath)
         ? pointer.get(iterateElementValue, elementPath)
-        : undefined;
+        : undefined
     }
 
     if (dataContext.data && path) {
       // There is a surrounding data context and a path for where in the source to find the data
       if (path === '/') {
-        return dataContext.data;
+        return dataContext.data
       }
 
       return pointer.has(dataContext.data, path)
         ? pointer.get(dataContext.data, path)
-        : undefined;
+        : undefined
     }
-    return undefined;
-  }, [path, elementPath, inIterate, iterateElementValue, props.value, dataContext.data])
-  
+    return undefined
+  }, [
+    path,
+    elementPath,
+    inIterate,
+    iterateElementValue,
+    props.value,
+    dataContext.data,
+  ])
+
   // Hold an internal copy of the input value in case the input component is used uncontrolled,
   // and to handle errors in Eufemia on components that does not take updated callback functions into account.
   const [value, setValue] = useState(externalValue)
@@ -267,7 +280,7 @@ export default function useDataValue<Props extends Partial<FieldProps<unknown>>>
   const handleChange = useCallback(
     (argFromInput) => {
       const newValue = fromInput(argFromInput)
-      
+
       if (newValue === value) {
         // Avoid triggering a change if the value was not actually changed. This may be caused by rendering components
         // calling onChange even if the actual value did not change.
@@ -287,8 +300,10 @@ export default function useDataValue<Props extends Partial<FieldProps<unknown>>>
         dataContextHandlePathChange?.(path, newValue)
       }
       if (elementPath) {
-        const iteratValuePath = `/${iterateElementIndex}${(elementPath && elementPath !== '/') ? elementPath : ''}`;
-        handleIterateElementChange?.(iteratValuePath, newValue);
+        const iteratValuePath = `/${iterateElementIndex}${
+          elementPath && elementPath !== '/' ? elementPath : ''
+        }`
+        handleIterateElementChange?.(iteratValuePath, newValue)
       }
     },
     [

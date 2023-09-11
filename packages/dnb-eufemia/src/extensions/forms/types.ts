@@ -27,19 +27,17 @@ interface DefaultErrorMessages {
   required?: string
 }
 
-export interface DataValueReadProps<
-  Value = unknown,
-> {
+export interface DataValueReadProps<Value = unknown> {
   /** JSON Pointer for where the data for this field is located in the source dataset */
   path?: string
   /** JSON Pointer for where the data for this field is located in the source iterate loop element */
-  elementPath?: string;
+  elementPath?: string
   value?: Value
 }
 
 export interface DataValueWriteProps<
   Value = unknown,
-  EmptyValue = undefined | string | number
+  EmptyValue = undefined | string | number,
 > {
   emptyValue?: EmptyValue
   onFocus?: (value: Value | EmptyValue) => void
@@ -55,7 +53,9 @@ export interface FieldProps<
   Value = unknown,
   EmptyValue = undefined | string | number,
   ErrorMessages extends { required?: string } = DefaultErrorMessages,
-> extends ComponentProps, DataValueReadProps<Value>, DataValueWriteProps<Value, EmptyValue> {
+> extends ComponentProps,
+    DataValueReadProps<Value>,
+    DataValueWriteProps<Value, EmptyValue> {
   /** ID added to the actual field component, and linked to the label via for-attribute */
   id?: string
   layout?: 'horizontal' | 'vertical'
@@ -75,10 +75,10 @@ export interface FieldProps<
   required?: boolean
   schema?: JSONSchema7
   validator?: (
-    value: Value | EmptyValue,
+    value: Value | EmptyValue
   ) => Error | undefined | Promise<Error | undefined>
   onBlurValidator?: (
-    value: Value | EmptyValue,
+    value: Value | EmptyValue
   ) => Error | undefined | Promise<Error | undefined>
   /**
    * Should error messages based on validation be shown initially (from given value-prop or source data)
@@ -106,14 +106,16 @@ export interface FieldHelpProps {
   }
 }
 
-export interface ValueProps<Value> extends ComponentProps, DataValueReadProps<Value> {
+export interface ValueProps<Value>
+  extends ComponentProps,
+    DataValueReadProps<Value> {
   label?: string
   /** Should the component render if the value is empty? */
   showEmpty?: boolean
   /** Text showing in place of the value if no value is given. */
   placeholder?: string
   /** JSON Pointer for where the data for this field is located in the source iterate loop element */
-  elementPath?: string;
+  elementPath?: string
   /** For showing the value inline (not as a block element) */
   inline?: boolean
   // Derivatives

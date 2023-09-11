@@ -31,7 +31,7 @@ function ArrayRemoveElementButton(props: Props) {
 
   if (!iterateElementContext) {
     throw new Error(
-      'ArrayRemoveElementButton must be inside an Iterate.Array component.',
+      'ArrayRemoveElementButton must be inside an Iterate.Array component.'
     )
   }
 
@@ -54,7 +54,7 @@ function ArrayRemoveElementButton(props: Props) {
     <Button
       className={classnames(
         'dnb-forms-array-remove-element-button',
-        props.className,
+        props.className
       )}
       variant={variant}
       size={size}
