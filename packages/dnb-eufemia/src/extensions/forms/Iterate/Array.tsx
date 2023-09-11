@@ -21,10 +21,10 @@ export type Props = FieldHelpProps &
     spacing?: FlexContainerProps['spacing']
     children:
       | React.ReactNode
-      | ((value: unknown, index: number) => React.ReactNode)
+      | ((value: any, index: number) => React.ReactNode)
       | Array<
           | React.ReactNode
-          | ((value: unknown, index: number) => React.ReactNode)
+          | ((value: any, index: number) => React.ReactNode)
         >
   }
 
