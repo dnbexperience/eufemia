@@ -123,6 +123,10 @@ p > .dnb-icon {
  * Utilities
  */
 .dnb-tooltip {
+  --tooltip-color: white;
+  --tooltip-background-color: black;
+  --tooltip-border-color: 1px solid black;
+  --tooltip-border-radius: 1rem;
   position: absolute;
   z-index: 3100;
   display: flex;
@@ -130,6 +134,10 @@ p > .dnb-icon {
   justify-content: center;
   align-items: center;
   padding: 0 1rem;
+  color: var(--tooltip-color);
+  background-color: var(--tooltip-background-color);
+  border-radius: var(--tooltip-border-radius);
+  box-shadow: var(--shadow-default);
   opacity: 0;
   visibility: hidden;
   transition: opacity 200ms var(--easing-default);
@@ -187,6 +195,8 @@ html[data-visual-test] .dnb-tooltip--hide {
   left: 0;
   width: 1rem;
   height: 1rem;
+  background-color: var(--tooltip-background-color);
+  border: var(--tooltip-border-color);
   transform: translateY(70%) rotate(45deg);
 }
 .dnb-tooltip__arrow__position--bottom {
@@ -660,6 +670,10 @@ p > .dnb-icon {
  * Utilities
  */
 .dnb-tooltip {
+  --tooltip-color: white;
+  --tooltip-background-color: black;
+  --tooltip-border-color: 1px solid black;
+  --tooltip-border-radius: 1rem;
   position: absolute;
   z-index: 3100;
   display: flex;
@@ -667,6 +681,10 @@ p > .dnb-icon {
   justify-content: center;
   align-items: center;
   padding: 0 1rem;
+  color: var(--tooltip-color);
+  background-color: var(--tooltip-background-color);
+  border-radius: var(--tooltip-border-radius);
+  box-shadow: var(--shadow-default);
   opacity: 0;
   visibility: hidden;
   transition: opacity 200ms var(--easing-default);
@@ -724,6 +742,8 @@ html[data-visual-test] .dnb-tooltip--hide {
   left: 0;
   width: 1rem;
   height: 1rem;
+  background-color: var(--tooltip-background-color);
+  border: var(--tooltip-border-color);
   transform: translateY(70%) rotate(45deg);
 }
 .dnb-tooltip__arrow__position--bottom {
@@ -1444,6 +1464,10 @@ p > .dnb-icon {
  * Utilities
  */
 .dnb-tooltip {
+  --tooltip-color: white;
+  --tooltip-background-color: black;
+  --tooltip-border-color: 1px solid black;
+  --tooltip-border-radius: 1rem;
   position: absolute;
   z-index: 3100;
   display: flex;
@@ -1451,6 +1475,10 @@ p > .dnb-icon {
   justify-content: center;
   align-items: center;
   padding: 0 1rem;
+  color: var(--tooltip-color);
+  background-color: var(--tooltip-background-color);
+  border-radius: var(--tooltip-border-radius);
+  box-shadow: var(--shadow-default);
   opacity: 0;
   visibility: hidden;
   transition: opacity 200ms var(--easing-default);
@@ -1508,6 +1536,8 @@ html[data-visual-test] .dnb-tooltip--hide {
   left: 0;
   width: 1rem;
   height: 1rem;
+  background-color: var(--tooltip-background-color);
+  border: var(--tooltip-border-color);
   transform: translateY(70%) rotate(45deg);
 }
 .dnb-tooltip__arrow__position--bottom {
