@@ -3,7 +3,7 @@ import {
   Iterate,
   Layout,
   Field,
-  DataContext,
+  Form,
 } from '@dnb/eufemia/src/extensions/forms'
 import { trash as TrashIcon } from '@dnb/eufemia/src/icons'
 
@@ -28,8 +28,8 @@ export const PrimitiveElements = () => {
 
 export const ObjectElements = () => {
   return (
-    <ComponentBox scope={{ Iterate, Layout, DataContext, Field }}>
-      <DataContext.Provider
+    <ComponentBox scope={{ Iterate, Layout, Form, Field }}>
+      <Form.Handler
         data={[
           { name: 'Iron Man' },
           { name: 'Captain America' },
@@ -43,7 +43,7 @@ export const ObjectElements = () => {
             <Iterate.ArrayRemoveElementButton text="Remove avenger" />
           </Layout.Row>
         </Iterate.Array>
-      </DataContext.Provider>
+      </Form.Handler>
     </ComponentBox>
   )
 }

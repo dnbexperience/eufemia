@@ -75,9 +75,9 @@ Or save time and code when handling your forms:
 
 ```jsx
 import '@dnb/eufemia/extensions/forms/style'
-import { DataContext, Field } from '@dnb/eufemia/extensions/forms'
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
 render(
-  <DataContext.Provider
+  <Form.Handler
     data={existingData}
     onChange={...}
     onSubmit={...}
@@ -100,7 +100,7 @@ render(
         <Field.Option value="other" title="Annet" />
       </Field.Selection>
     </Layout.Card>
-  </DataContext.Provider>,
+  </Form.Handler>,
 )
 ```
 
@@ -108,13 +108,13 @@ But the real strong parts about Eufemia Forms is the composability when you crea
 
 ```jsx
 import '@dnb/eufemia/extensions/forms/style'
-import { DataContext, Field } from '@dnb/eufemia/extensions/forms'
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
 render(
-  <DataContext.Provider data={existingData} onSubmit={...}>
+  <Form.Handler data={existingData} onSubmit={...}>
     <Layout.Card spacing="medium">
       <MyCustomComponent path="/companyName" required />
     </Layout.Card>
-  </DataContext.Provider>,
+  </Form.Handler>,
 )
 ```
 

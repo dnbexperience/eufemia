@@ -1,7 +1,6 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { P } from '@dnb/eufemia/src'
-import { DataContext, Visibility } from '@dnb/eufemia/src/extensions/forms'
-import { defaultContextState } from '@dnb/eufemia/src/extensions/forms/DataContext/Context'
+import { Form, Visibility } from '@dnb/eufemia/src/extensions/forms'
 
 export const BasedOnBooleanTrue = () => {
   return (
@@ -33,15 +32,14 @@ export const BasedOnContext = () => {
   return (
     <ComponentBox
       scope={{
-        DataContext,
+        Form,
         Visibility,
-        defaultContextState,
       }}
     >
-      <DataContext.Context.Provider
-        value={{
-          ...defaultContextState,
-          data: { toBe: true, notToBe: false },
+      <Form.Handler
+        data={{
+          toBe: true,
+          notToBe: false,
         }}
       >
         <Visibility pathTrue="/toBe">
@@ -50,7 +48,7 @@ export const BasedOnContext = () => {
         <Visibility pathTrue="/notToBe">
           <P>This will not show until `notToBe` is true.</P>
         </Visibility>
-      </DataContext.Context.Provider>
+      </Form.Handler>
     </ComponentBox>
   )
 }

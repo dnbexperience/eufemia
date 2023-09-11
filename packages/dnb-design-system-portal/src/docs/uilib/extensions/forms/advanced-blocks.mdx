@@ -12,6 +12,21 @@ import ListAdvancedAPIs from './advanced-blocks/ListAdvancedAPIs'
 
 # Advanced blocks
 
+Example using the [Form.Handler](/uilib/extensions/forms/advanced-blocks/Form/Handler) collecting data with `onSubmit`:
+
+```jsx
+import { Form, Field, Value } from '@dnb/eufemia/extensions/forms'
+render(
+  <Form.Handler data={existingData} onSubmit={submitHandler}>
+    <Field.Email path="/dataPath" />
+    <Value.Date value="2023-01-16" />
+    <Form.SubmitButton />
+  </Form.Handler>,
+)
+```
+
+Example using the [StepsLayout](/uilib/extensions/forms/advanced-blocks/StepsLayout) for handling stepped layouts:
+
 ```jsx
 import { StepsLayout } from '@dnb/eufemia/extensions/forms'
 render(

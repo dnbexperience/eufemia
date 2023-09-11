@@ -16,6 +16,7 @@ export interface ContextState {
   handleUnMountField: (path: string) => void
   setPathWithError: (path: string, hasError: boolean) => void
   hasErrors: () => boolean
+  _isInsideFormElement?: boolean
 }
 
 export const defaultContextState: ContextState = {
@@ -29,6 +30,7 @@ export const defaultContextState: ContextState = {
   handleUnMountField: () => null,
   hasErrors: () => false,
   setPathWithError: () => null,
+  _isInsideFormElement: false,
 }
 
 const Context = React.createContext<ContextState>(defaultContextState)

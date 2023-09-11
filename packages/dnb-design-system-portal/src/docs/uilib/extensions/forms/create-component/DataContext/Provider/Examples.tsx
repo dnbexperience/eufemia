@@ -1,6 +1,7 @@
 import { JSONSchema7 } from 'json-schema'
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
 import {
+  Form,
   DataContext,
   Layout,
   Field,
@@ -78,6 +79,7 @@ export const Default = () => {
   return (
     <ComponentBox
       scope={{
+        Form,
         DataContext,
         Layout,
         Field,
@@ -155,7 +157,7 @@ export const Default = () => {
                 </Layout.Row>
               </div>
               <Layout.ButtonRow>
-                <DataContext.SubmitButton />
+                <Form.SubmitButton />
               </Layout.ButtonRow>
             </Layout.Column>
           </Layout.Card>
@@ -169,6 +171,7 @@ export const ValidationWithJsonSchema = () => {
   return (
     <ComponentBox
       scope={{
+        Form,
         DataContext,
         Layout,
         Field,
@@ -245,7 +248,7 @@ export const ValidationWithJsonSchema = () => {
                 </Layout.Row>
               </div>
               <Layout.ButtonRow>
-                <DataContext.SubmitButton />
+                <Form.SubmitButton />
               </Layout.ButtonRow>
             </Layout.Column>
           </Layout.Card>

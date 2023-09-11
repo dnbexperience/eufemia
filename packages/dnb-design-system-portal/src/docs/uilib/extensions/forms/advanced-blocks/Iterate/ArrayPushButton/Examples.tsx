@@ -1,9 +1,5 @@
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
-import {
-  Iterate,
-  Field,
-  DataContext,
-} from '@dnb/eufemia/src/extensions/forms'
+import { Iterate, Field, Form } from '@dnb/eufemia/src/extensions/forms'
 
 export const PrimitiveElements = () => {
   return (
@@ -20,8 +16,8 @@ export const PrimitiveElements = () => {
 
 export const ObjectElements = () => {
   return (
-    <ComponentBox scope={{ Iterate, DataContext, Field }}>
-      <DataContext.Provider
+    <ComponentBox scope={{ Iterate, Form, Field }}>
+      <Form.Handler
         data={[
           { name: 'Iron Man' },
           { name: 'Captain America' },
@@ -39,7 +35,7 @@ export const ObjectElements = () => {
           path="/"
           pushValue={{}}
         />
-      </DataContext.Provider>
+      </Form.Handler>
     </ComponentBox>
   )
 }

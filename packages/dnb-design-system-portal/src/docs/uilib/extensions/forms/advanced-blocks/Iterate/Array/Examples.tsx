@@ -4,7 +4,7 @@ import {
   Layout,
   Field,
   Value,
-  DataContext,
+  Form,
 } from '@dnb/eufemia/src/extensions/forms'
 import { trash as TrashIcon } from '@dnb/eufemia/src/icons'
 
@@ -89,12 +89,12 @@ export const RenderPropsObjectElements = () => {
   )
 }
 
-export const ArrayFromDataContext = () => {
+export const ArrayFromFormHandler = () => {
   return (
     <ComponentBox
-      scope={{ Iterate, Layout, Field, Value, DataContext, TrashIcon }}
+      scope={{ Iterate, Layout, Field, Value, Form, TrashIcon }}
     >
-      <DataContext.Provider
+      <Form.Handler
         data={{
           avengers: [
             {
@@ -152,7 +152,7 @@ export const ArrayFromDataContext = () => {
           path="/avengers"
           pushValue={{}}
         />
-      </DataContext.Provider>
+      </Form.Handler>
     </ComponentBox>
   )
 }
