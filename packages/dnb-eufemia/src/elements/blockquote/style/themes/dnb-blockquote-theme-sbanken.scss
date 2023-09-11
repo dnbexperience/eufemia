@@ -1,8 +1,27 @@
+@use '../../../../style/core/utilities.scss';
+
 .dnb-blockquote {
-  color: var(--sb-color-text);
+  --blockquote-padding-top: 1.5rem;
+  --blockquote-quote-padding: 5.5rem;
+  --blockquote-cite-style: normal;
+
   background-color: var(--sb-color-violet-light-4);
 
   border-radius: 1.125rem;
+
+  @include utilities.allBelow('small') {
+    --blockquote-padding-bottom: 1.5rem;
+    --blockquote-quote-size: 2rem;
+    --blockquote-quote-padding: 4rem;
+
+    &.dnb-blockquote--top {
+      --blockquote-padding-top: 1rem;
+    }
+
+    &:not(.dnb-blockquote--top) {
+      --blockquote-padding-left: 1rem;
+    }
+  }
 
   &::before {
     filter: brightness(0) saturate(100%) invert(20%) sepia(99%)
@@ -15,15 +34,5 @@
       filter: brightness(0) saturate(100%) invert(12%) sepia(4%)
         saturate(6079%) hue-rotate(204deg) brightness(78%) contrast(99%);
     }
-  }
-
-  h1,
-  h2,
-  h3,
-  .dnb-h--xx-large,
-  .dnb-h--large,
-  .dnb-h--medium,
-  .dnb-lead {
-    color: var(--sb-color-text);
   }
 }
