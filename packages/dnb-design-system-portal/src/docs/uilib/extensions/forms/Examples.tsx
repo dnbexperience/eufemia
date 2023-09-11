@@ -7,7 +7,7 @@ import {
   Value,
   Visibility,
   FieldGroup,
-  useField,
+  useDataValue,
 } from '@dnb/eufemia/src/extensions/forms'
 
 export const FirstExampleDemo = () => {
@@ -18,12 +18,12 @@ export const FirstExampleDemo = () => {
         Layout,
         Field,
         FieldGroup,
-        useField,
+        useDataValue,
       }}
     >
       {() => {
         const MyComponent = (props) => {
-          const { value } = useField(props)
+          const { value } = useDataValue(props)
 
           return (
             <FieldGroup warning={value.warning}>
