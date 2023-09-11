@@ -8,9 +8,8 @@ import InputMasked, {
 import { forwardSpaceProps } from '../utils'
 import SharedContext from '../../../shared/Context'
 import FieldBlock from '../FieldBlock'
-import { useField } from './hooks'
-import type { ComponentProps } from '../component-types'
-import type { FieldProps, FieldHelpProps } from '../field-types'
+import { useDataValue } from '../hooks'
+import type { FieldProps, FieldHelpProps } from '../types'
 
 interface ErrorMessages {
   required?: string
@@ -19,8 +18,7 @@ interface ErrorMessages {
   maxLength?: string
   pattern?: string
 }
-export type Props = ComponentProps &
-  FieldHelpProps &
+export type Props = FieldHelpProps &
   FieldProps<string, undefined | string, ErrorMessages> & {
     inputClassName?: string
     type?: InputProps['type']
@@ -109,7 +107,7 @@ function StringComponent(props: Props) {
     handleFocus,
     handleBlur,
     handleChange,
-  } = useField(preparedProps)
+  } = useDataValue(preparedProps)
 
   const characterCounterElement = characterCounter
     ? props.maxLength

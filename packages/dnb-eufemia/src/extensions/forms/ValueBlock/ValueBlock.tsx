@@ -3,13 +3,11 @@ import { Span } from '../../../elements'
 import { FormLabel } from '../../../components'
 import { forwardSpaceProps } from '../utils'
 import classnames from 'classnames'
-import type { ComponentProps } from '../component-types'
-import type { ValueProps } from '../value-types'
+import type { ValueProps } from '../types'
 
-export type Props = ComponentProps &
-  Omit<ValueProps<unknown>, 'value'> & {
-    children?: React.ReactNode
-  }
+export type Props = Omit<ValueProps<unknown>, 'value'> & {
+  children?: React.ReactNode
+}
 
 function ValueBlock(props: Props) {
   const { className, label, inline, placeholder, showEmpty, children } =

@@ -7,10 +7,8 @@ import { forwardSpaceProps } from '../utils'
 import { makeUniqueId } from '../../../shared/component-helper'
 import SharedContext from '../../../shared/Context'
 import Option from './Option'
-import { useField } from './hooks'
-import { FormError } from '../types'
-import type { ComponentProps } from '../component-types'
-import type { FieldProps, FieldHelpProps } from '../field-types'
+import { useDataValue } from '../hooks'
+import { FormError, FieldProps, FieldHelpProps } from '../types'
 
 interface IOption {
   title: string | React.ReactNode
@@ -18,8 +16,7 @@ interface IOption {
   handleSelect: () => void
 }
 
-export type Props = ComponentProps &
-  FieldHelpProps &
+export type Props = FieldHelpProps &
   FieldProps<string | number> & {
     children?: React.ReactNode
     variant?: 'dropdown' | 'radio' | 'button'
@@ -54,7 +51,7 @@ function Selection(props: Props) {
     setHasFocus,
     handleChange,
     children,
-  } = useField(props)
+  } = useDataValue(props)
 
   const handleDropdownChange = useCallback(
     ({ data: { selected_key } }) => {
@@ -75,7 +72,7 @@ function Selection(props: Props) {
   )
 
   // Specific handleShow and handleHide because Dropdown preserve the initially received callbacks, so changes
-  // due to `useCallback` usage will have no effect, leading to useFields handleFocus and handleBlur sending out old
+  // due to `useCallback` usage will have no effect, leading to useDataValues handleFocus and handleBlur sending out old
   // copies of value as arguments.
   const handleShow = useCallback(
     ({ data }) => {

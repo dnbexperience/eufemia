@@ -114,12 +114,17 @@ export default function Provider<Data extends JsonObject>({
 
   const handlePathChange = useCallback(
     (path, value) => {
-      onPathChange?.(path, value)
-      // Update the data even if it contains errors. Submit/SubmitRequest will be called accordingly
-      const newData = structuredClone(internalData) as Data
-      if (path) {
-        pointer.set(newData, path, value)
+      if (!path) {
+        return
       }
+      onPathChange?.(path, value)
+
+      // Update the data even if it contains errors. Submit/SubmitRequest will be called accordingly
+      const newData = structuredClone(path === '/' ? value : internalData)
+      if (path !== '/') {
+        pointer.set(newData as Data, path, value)
+      }
+
       onChange?.(newData)
 
       validateBySchemaAndUpdateState(newData)

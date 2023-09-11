@@ -1,7 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import { forwardSpaceProps } from '../utils'
-import type { ComponentProps } from '../component-types'
+import type { ComponentProps } from '../types'
 import FlexContainer, {
   Props as FlexContainerProps,
 } from './FlexContainer'

@@ -5,7 +5,7 @@ import { Div } from '../../../elements'
 import * as EufemiaElements from '../../../elements'
 import { SpaceType } from '../../../components/space/types'
 import { forwardSpaceProps } from '../utils'
-import type { ComponentProps } from '../component-types'
+import type { ComponentProps } from '../types'
 import MainHeading from './MainHeading'
 import SubHeading from './SubHeading'
 
@@ -103,7 +103,7 @@ function FlexContainer(props: Props) {
     direction = 'column',
     wrap = false,
     justify = 'flex-start',
-    align = 'stretch',
+    align = 'flex-start',
     divider = 'space',
     spacing = 'small',
     width,

@@ -1,10 +1,8 @@
 import React, { useState, useCallback, useMemo } from 'react'
 import classnames from 'classnames'
-import type { ComponentProps } from '../component-types'
-import { FormError } from '../types'
+import { FormError, ComponentProps, FieldProps } from '../types'
 import { forwardSpaceProps } from '../utils'
 import FieldBlock from '../FieldBlock'
-import type { FieldProps } from '../field-types'
 
 export interface FieldGroupContextState {
   setFieldError?: (id: string, error: FormError) => void
@@ -15,18 +13,18 @@ export const FieldGroupContext = React.createContext<
   FieldGroupContextState | undefined
 >(undefined)
 
-export type Props = ComponentProps &
-  Pick<
-    FieldProps,
-    | 'label'
-    | 'labelDescription'
-    | 'labelSecondary'
-    | 'info'
-    | 'warning'
-    | 'error'
-  > & {
-    children: React.ReactNode
-  }
+export type Props = Pick<
+  FieldProps,
+  | keyof ComponentProps
+  | 'label'
+  | 'labelDescription'
+  | 'labelSecondary'
+  | 'info'
+  | 'warning'
+  | 'error'
+> & {
+  children: React.ReactNode
+}
 
 function FieldGroup(props: Props) {
   const {

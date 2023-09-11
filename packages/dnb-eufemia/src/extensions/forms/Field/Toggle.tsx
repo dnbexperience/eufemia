@@ -3,20 +3,18 @@ import { Checkbox, ToggleButton, Button, Space } from '../../../components'
 import classnames from 'classnames'
 import ButtonRow from '../Layout/ButtonRow'
 import FieldBlock from '../FieldBlock'
-import { useField } from './hooks'
-import type { ComponentProps } from '../component-types'
-import type { FieldProps } from '../field-types'
+import { useDataValue } from '../hooks'
+import type { FieldProps } from '../types'
 import { forwardSpaceProps } from '../utils'
 import SharedContext from '../../../shared/Context'
 
-export type Props = ComponentProps &
-  FieldProps<unknown> & {
-    valueOn: unknown
-    valueOff: unknown
-    variant?: 'checkbox' | 'checkbox-button' | 'button' | 'buttons'
-    textOn?: string
-    textOff?: string
-  }
+export type Props = FieldProps<unknown> & {
+  valueOn: unknown
+  valueOff: unknown
+  variant?: 'checkbox' | 'checkbox-button' | 'button' | 'buttons'
+  textOn?: string
+  textOff?: string
+}
 
 function Toggle(props: Props) {
   const sharedContext = useContext(SharedContext)
@@ -38,7 +36,7 @@ function Toggle(props: Props) {
     warning,
     error,
     handleChange,
-  } = useField(props)
+  } = useDataValue(props)
 
   const handleCheckboxChange = useCallback(
     ({ checked }) => {
