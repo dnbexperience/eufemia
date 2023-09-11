@@ -11,6 +11,12 @@ import ajv, { ajvErrorsToFormErrors } from '../utils/ajv'
 import { FormError } from '../types'
 import Context from './Context'
 
+/**
+ * Deprecated, as it is supported my all mihor browsers and Node.js >=v18
+ * So its a question of time, when we will remove this polyfill
+ */
+import structuredClone from '@ungap/structured-clone'
+
 export interface Props<Data extends JsonObject> {
   data: Partial<Data>
   /** JSON Schema for validating the data, like during input or after attempting submit */
@@ -153,7 +159,8 @@ export default function Provider<Data extends JsonObject>({
     if (!hasErrors()) {
       onSubmit?.(internalData as Data)
       if (scrollTopOnSubmit) {
-        window && window?.scrollTo({ top: 0, behavior: 'smooth' })
+        typeof window !== 'undefined' &&
+          window?.scrollTo({ top: 0, behavior: 'smooth' })
       }
     } else {
       setShowAllErrors(true)
