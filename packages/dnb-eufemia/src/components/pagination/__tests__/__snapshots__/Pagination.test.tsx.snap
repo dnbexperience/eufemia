@@ -571,6 +571,10 @@ button.dnb-button::-moz-focus-inner {
   --progress-indicator-circular-circle: 88;
   --progress-indicator-circular-circle-offset--min: 88;
   --progress-indicator-circular-circle-offset--max: 1;
+  --progress-indicator-circular-background-color: grey;
+  --progress-indicator-circular-bar-color: var(--color-black);
+  --progress-indicator-linear-background-color: grey;
+  --progress-indicator-linear-bar-color: var(--color-black);
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -638,12 +642,44 @@ button.dnb-button::-moz-focus-inner {
   stroke-linecap: round;
 }
 .dnb-progress-indicator__circular__line.light .dnb-progress-indicator__circular__circle {
-  stroke: grey;
+  stroke: var(--progress-indicator-circular-background-color);
 }
 .dnb-progress-indicator__circular__line.dark .dnb-progress-indicator__circular__circle {
-  stroke: var(--color-black);
+  stroke: var(--progress-indicator-circular-bar-color);
+}
+.dnb-progress-indicator__circular--small {
+  width: 1rem;
+  height: 1rem;
+}
+.dnb-progress-indicator__circular--medium {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.dnb-progress-indicator__circular--large {
+  width: 3.5rem;
+  height: 3.5rem;
+}
+.dnb-progress-indicator__circular--huge {
+  width: 20rem;
+  height: 20rem;
+}
+.dnb-progress-indicator__circular--small .dnb-progress-indicator__circular__line.dark .dnb-progress-indicator__circular__circle {
+  stroke-width: 3.1;
+}
+.dnb-progress-indicator__circular--medium .dnb-progress-indicator__circular__line.dark .dnb-progress-indicator__circular__circle {
+  stroke-width: 3.3;
+}
+.dnb-progress-indicator__circular--default .dnb-progress-indicator__circular__line.dark .dnb-progress-indicator__circular__circle {
+  stroke-width: 3.5;
+}
+.dnb-progress-indicator__circular--large .dnb-progress-indicator__circular__line.dark .dnb-progress-indicator__circular__circle {
+  stroke-width: 3.7;
+}
+.dnb-progress-indicator__circular--huge .dnb-progress-indicator__circular__line.dark .dnb-progress-indicator__circular__circle {
+  stroke-width: 3.9;
 }
 .dnb-progress-indicator__linear {
+  background-color: var(--progress-indicator-linear-background-color);
   position: relative;
   overflow: hidden;
   width: 100%;
@@ -652,6 +688,7 @@ button.dnb-button::-moz-focus-inner {
   border-radius: 0.25rem;
 }
 .dnb-progress-indicator__linear__bar {
+  background-color: var(--progress-indicator-linear-bar-color);
   width: 100%;
   position: absolute;
   left: 0;
@@ -670,6 +707,22 @@ button.dnb-button::-moz-focus-inner {
 .dnb-progress-indicator__linear__bar2-animation {
   width: auto;
   animation: progress-indicator-linear-bar-2 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) 1.15s infinite;
+}
+.dnb-progress-indicator__linear--small {
+  height: 0.25rem;
+  border-radius: 0.125rem;
+}
+.dnb-progress-indicator__linear--medium {
+  height: 1rem;
+  border-radius: 0.5rem;
+}
+.dnb-progress-indicator__linear--large {
+  height: 1.5rem;
+  border-radius: 0.75rem;
+}
+.dnb-progress-indicator__linear--huge {
+  height: 2rem;
+  border-radius: 1rem;
 }
 html[data-visual-test] .dnb-progress-indicator__linear__bar1-animation {
   left: -35%;
