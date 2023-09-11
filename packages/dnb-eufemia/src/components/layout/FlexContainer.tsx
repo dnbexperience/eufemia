@@ -1,12 +1,12 @@
 import React from 'react'
 import classnames from 'classnames'
-import { Space } from '../'
+import Space from '../space/Space'
 import * as EufemiaElements from '../../elements'
-import { SpaceType } from '../space/types'
 import MainHeading from './MainHeading'
 import SubHeading from './SubHeading'
+import type { DynamicElement } from '../../shared/types'
+import type { SpaceType } from '../space/types'
 import type { ComponentProps } from '../../extensions/forms/component-types'
-import { DynamicElement } from '../../shared/types'
 
 export function isHeadingElement(element): boolean {
   return element.type === MainHeading || element.type === SubHeading

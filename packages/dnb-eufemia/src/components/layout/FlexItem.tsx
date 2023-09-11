@@ -1,7 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import type { ComponentProps } from '../../extensions/forms/component-types'
-import { Space } from '../lib'
+import Space from '../space/Space'
 import { DynamicElement } from '../../shared/types'
 
 export type Props = ComponentProps & {
