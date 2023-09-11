@@ -215,9 +215,7 @@ class LiveCode extends React.PureComponent<
               )}
               ref={this._editorElementRef}
             >
-              <label className="dnb-sr-only" htmlFor={this._id}>
-                Code Editor
-              </label>
+              <span className="dnb-sr-only">Code Editor</span>
               <LiveEditor
                 id={this._id}
                 className="dnb-live-editor__editable dnb-pre"
