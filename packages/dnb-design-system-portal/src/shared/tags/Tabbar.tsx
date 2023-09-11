@@ -77,8 +77,6 @@ export default function Tabbar({
           ({ title }) => !hideTabs?.find(({ title: t }) => t === title),
         )
         .map(({ key, ...rest }) => {
-          console.log('-------------------')
-          console.log('key', key)
           const search = cleanFullscreen(location.search)
           key = [
             rootPath,
@@ -87,10 +85,6 @@ export default function Tabbar({
             wasFullscreen ? (search ? '&' : '?') + 'fullscreen' : '',
             location.hash,
           ].join('')
-
-          // console.log('to', to)
-          console.log('rootPath', rootPath)
-          console.log('to', key)
 
           return { ...rest, key, to: key }
         })
