@@ -1,7 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import { Div } from '../../../elements'
-import type { ComponentProps } from '../component-types'
+import type { ComponentProps } from '../types'
 import { forwardSpaceProps } from '../utils'
 
 export type Props = ComponentProps & {

@@ -5,27 +5,25 @@ import classnames from 'classnames'
 import CountryCode from './CountryCode'
 import StringComponent from './String'
 import { forwardSpaceProps } from '../utils'
-import { useField } from './hooks'
-import type { ComponentProps } from '../component-types'
-import type { FieldProps } from '../field-types'
+import { useDataValue } from '../hooks'
+import type { FieldProps } from '../types'
 import SharedContext from '../../../shared/Context'
 
-export type Props = ComponentProps &
-  FieldProps<string, undefined> & {
-    countryCodeFieldClassName?: string
-    numberFieldClassName?: string
-    countryCodeLabel?: string
-    numberMask?: InputMaskedProps['mask']
-    width?: 'large' | 'stretch'
-    onCountryCodeChange?: (value: string | undefined) => void
-    onNumberChange?: (value: string | undefined) => void
-  }
+export type Props = FieldProps<string, undefined> & {
+  countryCodeFieldClassName?: string
+  numberFieldClassName?: string
+  countryCodeLabel?: string
+  numberMask?: InputMaskedProps['mask']
+  width?: 'large' | 'stretch'
+  onCountryCodeChange?: (value: string | undefined) => void
+  onNumberChange?: (value: string | undefined) => void
+}
 
 function PhoneNumber(props: Props) {
   const sharedContext = useContext(SharedContext)
   const preparedProps: Props = {
     ...props,
-    // Important for the default value to be defined here, and not after the useField call, to avoid the UI jumping
+    // Important for the default value to be defined here, and not after the useDataValue call, to avoid the UI jumping
     // back to +47 once the user empty the field so handleChange send out undefined.
     value: '+47',
     errorMessages: {
@@ -54,7 +52,7 @@ function PhoneNumber(props: Props) {
     handleChange,
     onCountryCodeChange,
     onNumberChange,
-  } = useField(preparedProps)
+  } = useDataValue(preparedProps)
 
   const [, countryCode, phoneNumber] =
     value !== undefined

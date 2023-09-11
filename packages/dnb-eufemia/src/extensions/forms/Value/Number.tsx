@@ -1,19 +1,17 @@
 import React from 'react'
 import { formatNumber, forwardSpaceProps } from '../utils'
 import ValueBlock from '../ValueBlock'
-import { useValue } from './hooks'
-import type { ComponentProps } from '../component-types'
-import type { ValueProps } from '../value-types'
+import { useDataValue } from '../hooks'
+import type { ValueProps } from '../types'
 
-export type Props = ComponentProps &
-  ValueProps<number> & {
-    // Formatting
-    thousandSeparator?: string | true
-    decimalSymbol?: string
-    decimalLimit?: number
-    prefix?: string
-    suffix?: string
-  }
+export type Props = ValueProps<number> & {
+  // Formatting
+  thousandSeparator?: string | true
+  decimalSymbol?: string
+  decimalLimit?: number
+  prefix?: string
+  suffix?: string
+}
 
 function NumberComponent(props: Props) {
   const {
@@ -28,7 +26,7 @@ function NumberComponent(props: Props) {
     decimalLimit,
     prefix,
     suffix,
-  } = useValue(props)
+  } = useDataValue(props)
 
   return (
     <ValueBlock

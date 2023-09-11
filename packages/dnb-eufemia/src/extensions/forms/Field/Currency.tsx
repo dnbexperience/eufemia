@@ -1,11 +1,9 @@
 import React from 'react'
 import classnames from 'classnames'
 import NumberComponent from './Number'
-import type { ComponentProps } from '../component-types'
-import type { FieldProps, FieldHelpProps } from '../field-types'
+import type { FieldProps, FieldHelpProps } from '../types'
 
-export type Props = ComponentProps &
-  FieldHelpProps &
+export type Props = FieldHelpProps &
   FieldProps<number, undefined> & {
     currency?: string
   }

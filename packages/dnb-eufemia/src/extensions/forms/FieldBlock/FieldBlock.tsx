@@ -3,29 +3,27 @@ import classnames from 'classnames'
 import { Div, Span } from '../../../elements'
 import { FormLabel, FormStatus } from '../../../components'
 import { forwardSpaceProps } from '../utils'
-import type { ComponentProps } from '../component-types'
-import { FormError } from '../types'
-import type { FieldProps } from '../field-types'
+import { FormError, ComponentProps, FieldProps } from '../types'
 
-export type Props = ComponentProps &
-  Pick<
-    FieldProps,
-    | 'layout'
-    | 'label'
-    | 'labelDescription'
-    | 'labelSecondary'
-    | 'info'
-    | 'warning'
-    | 'error'
-  > & {
-    forId?: string
-    contentClassName?: string
-    children: React.ReactNode
-    /** Width of outer block element */
-    width?: 'small' | 'medium' | 'large'
-    /** Width of contents block, while label etc can be wider if space is available */
-    contentsWidth?: 'small' | 'medium' | 'large' | 'stretch'
-  }
+export type Props = Pick<
+  FieldProps,
+  | keyof ComponentProps
+  | 'layout'
+  | 'label'
+  | 'labelDescription'
+  | 'labelSecondary'
+  | 'info'
+  | 'warning'
+  | 'error'
+> & {
+  forId?: string
+  contentClassName?: string
+  children: React.ReactNode
+  /** Width of outer block element */
+  width?: 'small' | 'medium' | 'large'
+  /** Width of contents block, while label etc can be wider if space is available */
+  contentsWidth?: 'small' | 'medium' | 'large' | 'stretch'
+}
 
 function FieldBlock(props: Props) {
   const {

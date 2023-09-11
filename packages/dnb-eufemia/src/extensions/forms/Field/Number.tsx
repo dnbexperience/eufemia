@@ -4,9 +4,8 @@ import { InputMaskedProps } from '../../../components/InputMasked'
 import classnames from 'classnames'
 import { forwardSpaceProps } from '../utils'
 import FieldBlock from '../FieldBlock'
-import { useField } from './hooks'
-import type { ComponentProps } from '../component-types'
-import type { FieldProps, FieldHelpProps } from '../field-types'
+import { useDataValue } from '../hooks'
+import type { FieldProps, FieldHelpProps } from '../types'
 
 interface ErrorMessages {
   required?: string
@@ -18,8 +17,7 @@ interface ErrorMessages {
   multipleOf?: string
 }
 
-export type Props = ComponentProps &
-  FieldHelpProps &
+export type Props = FieldHelpProps &
   FieldProps<number, undefined, ErrorMessages> & {
     inputClassName?: string
     currency?: InputMaskedProps['as_currency']
@@ -142,7 +140,7 @@ function NumberComponent(props: Props) {
     handleFocus,
     handleBlur,
     handleChange,
-  } = useField(preparedProps)
+  } = useDataValue(preparedProps)
 
   return (
     <FieldBlock

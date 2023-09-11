@@ -41,10 +41,6 @@ Here is a first example on how to compose your own component:
 
 ## Hooks
 
-### useField
+### useDataValue
 
-The `useField` hook standardize handling of the value flow for a single field. It holds error state, hides it while the field is in focus, connects to surrounding `DataContext` (if present) and other things that all field components needs to do. By implementing custom field components and passing the received props (extending `FieldProps`) through `useField`, all these features work the same way as other field components, and you only need to implement the specific unique features of that field.
-
-### useValue
-
-The `useValue` hook standardize handling of the value flow for a single value. It connects to surrounding `DataContext` (if present) and other things that all value components needs to do. By implementing custom value components and passing the received props (extending `ValueProps`) through `useValue`, all these features work the same way as other value components, and you only need to implement the specific unique features of that component.
+The `useDataValue` hook standardize handling of the value flow for a single consumer component representing one data point. It holds error state, hides it while the field is in focus, connects to surrounding `DataContext` (if present) and other things that all field or value components needs to do. By implementing custom field or value components and passing the received props through `useDataValue`, all these features work the same way as other field or value components, and you only need to implement the specific unique features of that component.

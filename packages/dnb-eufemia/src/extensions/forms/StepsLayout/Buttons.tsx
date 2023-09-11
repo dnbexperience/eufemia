@@ -1,6 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
-import type { ComponentProps } from '../component-types'
+import type { ComponentProps } from '../types'
 import ButtonRow from '../Layout/ButtonRow'
 import NextButton from './NextButton'
 import PreviousButton from './PreviousButton'
