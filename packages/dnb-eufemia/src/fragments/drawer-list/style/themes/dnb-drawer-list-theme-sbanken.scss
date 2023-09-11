@@ -7,133 +7,106 @@
 
 .dnb-drawer-list {
   --drawer-list-options-border-radius: 0 0 0.5rem 0.5rem;
-  --drawer-list-option-border-width: 0.0625rem;
-
-  color: var(--color-emerald-green);
+  --drawer-list-options-border-radius-reversed: 0.5rem 0.5rem 0 0;
+  --drawer-list-option-border-width: 0.125rem;
 
   &__list {
-    @include defaultDropShadow();
-    background-color: var(--color-white);
-    border-radius: calc(
-      var(--drawer-list-options-border-radius) + 0.15rem
-    );
-  }
+    background: var(--sb-color-white);
+    margin-top: calc(-1 * var(--drawer-list-option-border-width)); // Switch border width to a negative number
+    border-radius: var(--drawer-list-options-border-radius);
 
-  // ul element
-  &__options {
-    border: none;
-    background-color: var(--color-white);
-    border-radius: calc(
-      var(--drawer-list-options-border-radius) + 0.15rem
-    );
-
-    &:focus {
-      @include focusRing();
-    }
-
-    &--focusring {
-      @include focusRing('mouse');
+    &:focus-visible {
+      outline: var(--sb-color-blue-dark) solid var(--drawer-list-option-border-width);
     }
   }
 
-  // li element inner
-  &__option {
-    position: relative;
-    color: var(--color-black-80);
-    background-color: var(--color-white);
+  &__option__inner {
+    overflow:visible;
 
-    &.ignore-events {
-      pointer-events: none;
-    }
-
-    // This is our border (separator line) instead of border-bottom: var(--drawer-list-option-border-width) solid
-    &__inner::before {
-      pointer-events: none;
-
+    &::before {
       content: '';
+      display: block;
       position: absolute;
-      z-index: 2;
-      top: auto;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      bottom:-3px;
+      left: .5rem;
+      width: calc(100% - 1rem);
+      height: 1px;
+      @include fakeBorder(var(--sb-color-gray-dark), 0.125rem, inset);
+    } 
+  }
 
-      // width: 100%; // 100% width would result in no margin right
-      height: var(--drawer-list-option-border-width);
+  &__options {
+    @include fakeBorder(var(--sb-color-gray-dark-2), var(--drawer-list-option-border-width), inset);
+    border-radius: var(--drawer-list-options-border-radius);
+  }
 
-      background-color: var(--color-mint-green-25);
-    }
-
-    &__item.item-nr-1 {
-      font-weight: var(--font-weight-medium);
-    }
-
-    &__inner {
-      background-color: var(--color-white);
-    }
+  &__option {
+    border: var(--drawer-list-option-border-width) solid var(--sb-color-gray-dark-2);
+    border-bottom-color: transparent;
+    border-top-color: transparent;
+    border-right-color: transparent; // Fix ugly border when scrollbar showing
+    z-index: 0;
+    
 
     @include hover() {
-      background-color: var(--color-mint-green-12);
+      border-color: var(--sb-color-violet);
+      z-index: 1;
 
-      .dnb-drawer-list__option__inner {
-        color: var(--color-sea-green);
-        background-color: var(--color-mint-green-12);
+      .dnb-drawer-list__option__inner::before {
+        display: none;
       }
     }
 
     @include active() {
-      .dnb-drawer-list__option__inner {
-        color: var(--color-black);
+      border-color: var(--sb-color-violet);
+      z-index: 1;
+
+      .dnb-drawer-list__option__inner::before {
+        display: none;
       }
     }
 
-    // Focus ring around item. Only for keyboard usage
-    &--focus &__inner {
-      // we use the border/line and change it to a fake focus
-      &::before {
-        z-index: 3;
+    &:focus-visible {
+      border-color: var(--sb-color-blue-dark);
+      background-color: var(--sb-color-blue-light-3);
+      color: var(--sb-color-blue-dark);
+      font-weight: var(--sb-font-weight-medium);
+      z-index: 1;
 
-        top: var(--drawer-list-focus-border-width);
-        left: var(--drawer-list-focus-border-width);
-        right: var(--drawer-list-focus-border-width);
-        bottom: var(--drawer-list-focus-border-width);
+      .dnb-drawer-list__option__inner::before {
+        display: none;
+      }
 
-        height: auto;
-        background-color: transparent;
-
-        @include fakeBorder(
-          var(--color-emerald-green),
-          var(--drawer-list-focus-border-width)
-        );
+      .dnb-drawer-list__option__inner::after {
+        // Selected checkmark icon
+        background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUuOTk5OTYgMTEuMDU3M0wxNC42NjY2IDIuMzkwNjdMMTUuNjA5MyAzLjMzMzM0TDUuOTk5OTYgMTIuOTQyN0wwLjM5MDYyNSA3LjMzMzM0TDEuMzMzMjkgNi4zOTA2N0w1Ljk5OTk2IDExLjA1NzNaIiBmaWxsPSIjMDA1Q0ZGIi8+Cjwvc3ZnPgo=");
       }
     }
 
-    &--ignore &__inner {
-      color: var(--color-black-80);
-      background-color: var(--color-white);
+    &.last-of-type {
+      border-radius: var(--drawer-list-options-border-radius); 
+
+      .dnb-drawer-list__option__inner::before {
+        display: none;
+      }
     }
 
-    &--selected &__inner {
-      color: var(--color-white);
-      background-color: var(--color-emerald-green);
+    &--selected {
+      background-color: var(--sb-color-violet);
+      color: var(--sb-color-white);
+      border-right-color: var(--sb-color-gray-dark-2); // Compensate for transparent right border
 
-      .dnb-drawer-list__option__inner {
-        color: inherit;
-        background-color: inherit;
+      &.last-of-type {
+        border-bottom-color: var(--sb-color-gray-dark-2);
       }
 
-      @include hover() {
-        color: var(--color-white);
-        background-color: var(--color-emerald-green);
-
-        .dnb-drawer-list__option__inner {
-          color: inherit;
-          background-color: inherit;
-        }
+      .dnb-drawer-list__option__inner::before {
+        display: none;
       }
 
       // check icon
-      &::after {
+      .dnb-drawer-list__option__inner::after {
+        
         content: '';
 
         grid-column: 2;
@@ -146,148 +119,42 @@
         height: 1rem;
 
         background-size: cover;
-
-        // This SVG gfx is generated by using /assets/elements/drawer-list/check-gfx.svg
-        background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0ibm9uZSI+ICA8cGF0aCAgICBmaWxsPSIjRTlGOEY0IiAgICBkPSJNMyA4LjhhLjc1Ljc1IDAgMSAwLTEuMjIuODZMMyA4Ljc5em0xLjg0IDMuOWwuNjMtLjQxdi0uMDFoLS4wMWwtLjYyLjQyem0xLjcxLjA1bC0uNTktLjQ2di4wMWwuNTkuNDV6bTguNDMtOS40NWEuNzUuNzUgMCAwIDAtMS4xOC0uOTNsMS4xOC45M3pNMS43OCA5LjY2bDIuNDUgMy40OCAxLjIzLS44N0wzIDguOGwtMS4yMy44N3ptMi40NCAzLjQ2Yy4zMi40OC44Ni43OCAxLjQ0LjhsLjA1LTEuNWEuMy4zIDAgMCAxLS4yNC0uMTNsLTEuMjUuODN6bTEuNDQuOGExLjggMS44IDAgMCAwIDEuNDktLjcxbC0xLjItLjlhLjMuMyAwIDAgMS0uMjQuMWwtLjA1IDEuNXptMS40OC0uN2w3Ljg0LTkuOTItMS4xOC0uOTMtNy44NCA5LjkyIDEuMTguOTN6Ii8+PC9zdmc+');
-      }
-
-      // Remove separator line on selected items
-      &::before {
-        visibility: hidden;
-      }
-    }
-
-    // TODO: Use CSS Container Queries when available
-    @include allAbove(small) {
-      &--selected &__suffix {
-        z-index: 2; // over check icon
-        background-color: inherit; // to "hide" the check icon
-      }
-      &:not(#{&}--selected) &__suffix#{&}__item:nth-of-type(n + 2) {
-        color: var(--color-black-80);
-      }
-    }
-
-    // show focus border when using keyboard
-    html[data-whatinput='keyboard']
-      &--selected#{&}--focus
-      &__inner::before {
-      visibility: visible;
-
-      @include fakeBorder(
-        var(--color-mint-green),
-        var(--drawer-list-focus-border-width)
-      );
-    }
-
-    // Focus ring around item. Only for keyboard usage
-    &--focus:not(#{&}--selected) &__inner {
-      color: var(--color-sea-green);
-      background-color: var(--color-mint-green-12);
-    }
-
-    &--focus.first-of-type &__inner,
-    &--focus.first-of-type &__inner::before {
-      border-radius: var(--drawer-list-options-border-radius)
-        var(--drawer-list-options-border-radius) 0 0;
-    }
-
-    &.last-of-type,/* only for the visual demo */
-    &--focus.last-of-type &__inner,
-    &--focus.last-of-type &__inner::before {
-      border-radius: 0 0 var(--drawer-list-options-border-radius)
-        var(--drawer-list-options-border-radius);
-    }
-
-    // remove last bottom border
-    &.last-of-type:not(#{&}--focus) &__inner::before {
-      content: none;
-    }
-
-    &--selected &__item {
-      .dnb-anchor:focus {
-        @include focusRing(null, var(--color-white));
+        background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUuOTk5OTYgMTEuMDU3M0wxNC42NjY2IDIuMzkwNjdMMTUuNjA5MyAzLjMzMzM0TDUuOTk5OTYgMTIuOTQyN0wwLjM5MDYyNSA3LjMzMzM0TDEuMzMzMjkgNi4zOTA2N0w1Ljk5OTk2IDExLjA1NzNaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K');
       }
     }
   }
 
-  // make sure we have a spacing on the right side if we have a scrollbar
-  &--scroll &__option:not(#{&}__option--focus) &__option__inner::before {
-    left: 0.5rem;
-    right: 0.5rem;
+  &__triangle {
+    display: none;
   }
 
-  &--bottom &__option--focus.closest-to-top &__option__inner::before {
-    border-radius: var(--drawer-list-options-border-radius)
-      var(--drawer-list-options-border-radius) 0 0;
-  }
 
-  &--bottom &__option--focus.closest-to-bottom &__option__inner::before {
-    border-radius: 0 0 var(--drawer-list-options-border-radius)
-      var(--drawer-list-options-border-radius);
-  }
+  // When it opens upwards
+  &--top {
+    .dnb-drawer-list__list {
+      border-radius: var(--drawer-list-options-border-radius-reversed);
+      margin-top: 0;
+      margin-bottom: calc(-1 * var(--drawer-list-option-border-width)); // Switch border width to a negative number
+    }
 
-  &--top &__option--focus.closest-to-bottom &__option__inner::before {
-    border-radius: 0 0 var(--drawer-list-options-border-radius)
-      var(--drawer-list-options-border-radius);
-  }
+    .dnb-drawer-list__options {
+      border-radius: var(--drawer-list-options-border-radius-reversed);
+    }
 
-  &--top &__option--focus.closest-to-top &__option__inner::before {
-    border-radius: var(--drawer-list-options-border-radius)
-      var(--drawer-list-options-border-radius) 0 0;
-  }
+    .dnb-drawer-list__option {
+      &.last-of-type {
+        border-radius: 0; 
+      }
+  
+      &.first-of-type {
+        border-radius: var(--drawer-list-options-border-radius-reversed);
+      }
+    }
 
-  // error status
-  &__status--error:not(#{&}--opened) &__icon {
-    color: var(--color-fire-red);
-  }
-
-  &__triangle::before {
-    border: none;
-    background-color: var(--color-white);
-
-    @include defaultDropShadow();
-  }
-
-  // hover
-  &--top &__option.last-of-type:hover ~ &__triangle::before,/* only for the visual demo */
-  &--bottom &__option.first-of-type:hover ~ &__triangle::before,/* only for the visual demo */
-  &--bottom &__option.closest-to-top:hover ~ &__triangle::before,
-  &--top &__option.closest-to-bottom:hover ~ &__triangle::before,
-    &--bottom
-    &__option.closest-to-top#{&}__option--focus
-    ~ &__triangle::before,
-  &--top
-    &__option.closest-to-bottom#{&}__option--focus
-    ~ &__triangle::before {
-    background-color: var(--color-mint-green-12);
-  }
-
-  // selected
-  // The code below makes the triangle on focus only, because of the focus ring, it can make sence
-  // &--bottom
-  //   &__option.closest-to-top#{&}__option--focus
-  //   ~ &__triangle::before,
-  // &--top
-  //   &__option.closest-to-bottom#{&}__option--focus
-  //   ~ &__triangle::before,
-  &--bottom
-    &__option.first-of-type#{&}__option--selected
-    ~ &__triangle::before,
-  &--top
-    &__option.last-of-type#{&}__option--selected
-    ~ &__triangle::before,
-  &--bottom
-    &__option.closest-to-top#{&}__option--selected
-    ~ &__triangle::before,
-  &--top
-    &__option.closest-to-bottom#{&}__option--selected
-    ~ &__triangle::before {
-    background-color: var(--color-emerald-green);
-  }
-
-  // ajust the form-status to the inner border for 2px
-  > .dnb-form-status {
-    transform: translateY(-0.4375rem);
+    .dnb-drawer-list__option--selected {
+      &.first-of-type {
+        border-top-color: var(--sb-color-gray-dark-2);
+      }
+    }
   }
 }

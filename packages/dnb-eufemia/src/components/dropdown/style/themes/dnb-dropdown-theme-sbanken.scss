@@ -37,6 +37,7 @@
   }
 
   &__trigger.dnb-button--active {
+    @include fakeBorder(var(--sb-color-gray-dark-2), 0.125rem, inset);
     border-radius: var(--dropdown-border-radius) var(--dropdown-border-radius) 0 0;
   }
 
@@ -77,5 +78,12 @@
   // adjust the form-status to the inner border for 2px
   > .dnb-form-status {
     transform: translateY(-0.4375rem);
+  }
+
+  // When it opens upwards
+  &--top {
+    .dnb-dropdown__trigger.dnb-button--active {
+      border-radius: 0 0 var(--dropdown-border-radius) var(--dropdown-border-radius);
+    }
   }
 }
