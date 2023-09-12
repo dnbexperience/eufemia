@@ -11,7 +11,7 @@ import { FormError, FieldProps } from '../types'
 import ajv, { ajvErrorsToOneFormError } from '../utils/ajv'
 import DataContext from '../DataContext'
 import { FieldGroupContext } from '../FieldGroup'
-import { IterateElementContext } from '../Iterate'
+import IterateElementContext from '../Iterate/IterateElementContext'
 import { makeUniqueId } from '../../../shared/component-helper'
 
 interface ReturnAdditional {
