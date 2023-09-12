@@ -1,6 +1,17 @@
 @use '../../../style/elements/ui-spacing.scss';
 
 @mixin blockquoteStyle() {
+  --blockquote-padding-top: 2rem;
+  --blockquote-padding-left: 1.5rem;
+  --blockquote-padding-bottom: 3rem;
+
+  // quote
+  --blockquote-quote-size: 3rem;
+  --blockquote-quote-padding: 6rem;
+
+  // font
+  --blockquote-cite-style: italic;
+
   display: inline-block;
   width: auto;
 
@@ -19,10 +30,10 @@
   &::before {
     content: '';
     position: absolute;
-    top: 2rem;
-    left: 1.5rem;
-    width: 3em;
-    height: 3em;
+    top: var(--blockquote-padding-top);
+    left: var(--blockquote-padding-left);
+    width: var(--blockquote-quote-size);
+    height: var(--blockquote-quote-size);
 
     background-size: cover;
 
@@ -33,15 +44,15 @@
   // stylelint-disable-next-line
   &,
   &.dnb-blockquote--left {
-    padding-left: 6rem;
-    padding-top: 2rem;
-    padding-bottom: 3rem;
+    padding-left: var(--blockquote-quote-padding);
+    padding-top: var(--blockquote-padding-top);
+    padding-bottom: var(--blockquote-padding-bottom);
   }
 
   &.dnb-blockquote--top {
-    padding-left: 1.5rem;
-    padding-top: 6rem;
-    padding-bottom: 3rem;
+    padding-left: var(--blockquote-padding-left);
+    padding-top: var(--blockquote-quote-padding);
+    padding-bottom: var(--blockquote-padding-bottom);
   }
 
   &.dnb-blockquote--no-background {
@@ -59,7 +70,7 @@
 
     font-weight: var(--font-weight-medium);
     line-height: var(--line-height-basis);
-    font-style: italic; // to have / or avoid italic on cite
+    font-style: var(--blockquote-cite-style);
 
     &::before {
       content: '—';
