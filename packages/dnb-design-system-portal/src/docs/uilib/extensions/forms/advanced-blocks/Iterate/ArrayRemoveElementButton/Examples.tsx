@@ -14,7 +14,7 @@ export const PrimitiveElements = () => {
         value={['One', 'Two', 'Three', 'Four', 'Five']}
         onChange={(value) => console.log('onChange', value)}
       >
-        <Layout.Row>
+        <Layout.Row align="center">
           <Field.String elementPath="/" />
           <Iterate.ArrayRemoveElementButton
             icon={TrashIcon}
@@ -38,7 +38,7 @@ export const ObjectElements = () => {
         onChange={(value) => console.log('onChange', value)}
       >
         <Iterate.Array path="/">
-          <Layout.Row>
+          <Layout.Row align="center">
             <Field.String elementPath="/name" />
             <Iterate.ArrayRemoveElementButton text="Remove avenger" />
           </Layout.Row>

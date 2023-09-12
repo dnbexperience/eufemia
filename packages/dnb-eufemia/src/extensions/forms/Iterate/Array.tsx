@@ -29,7 +29,6 @@ export type Props = FieldHelpProps &
 
 function ArrayComponent(props: Props) {
   const {
-    id,
     className,
     layout = 'vertical',
     placeholder,
@@ -78,7 +77,6 @@ function ArrayComponent(props: Props) {
   return (
     <FieldBlock
       className={classnames('dnb-forms-field-number', className)}
-      forId={id}
       layout={layout}
       label={label}
       labelDescription={labelDescription}
