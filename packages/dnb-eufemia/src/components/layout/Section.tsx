@@ -5,20 +5,25 @@ import FlexContainer, {
 } from './FlexContainer'
 import type { ComponentProps } from '../../extensions/forms/component-types'
 
-export type Props = ComponentProps & {
+export type LayoutSectionProps = ComponentProps & {
   direction?: FlexContainerProps['direction']
   spacing?: FlexContainerProps['spacing']
   children: React.ReactNode
 }
 
-function Section(props: Props) {
-  const { className, direction, spacing, children, ...rest } = props
+function Section({
+  className,
+  direction = 'column',
+  spacing = 'small',
+  children,
+  ...rest
+}: LayoutSectionProps) {
   return (
     <FlexContainer
       element="section"
       className={classnames('dnb-layout__section', className)}
-      direction={direction ?? 'column'}
-      spacing={spacing ?? 'small'}
+      direction={direction}
+      spacing={spacing}
       {...rest}
     >
       {children}

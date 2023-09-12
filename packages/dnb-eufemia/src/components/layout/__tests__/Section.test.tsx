@@ -4,7 +4,11 @@ import Section from '../Section'
 
 describe('Layout.Section', () => {
   it('should forward HTML attributes', () => {
-    render(<Section aria-label="Aria Label">content</Section>)
+    render(
+      <Section id="forwarded-id" aria-label="Aria Label">
+        content
+      </Section>
+    )
 
     const element = document.querySelector('.dnb-layout__section')
     const attributes = Array.from(element.attributes).map(
@@ -65,6 +69,40 @@ describe('Layout.Section', () => {
 
     expect(Array.from(element.classList).join(' ')).not.toContain(
       'spacing'
+    )
+  })
+
+  it('should default to section element', () => {
+    render(<Section>content</Section>)
+
+    const element = document.querySelector('.dnb-layout__section')
+
+    expect(element.tagName).toBe('SECTION')
+  })
+
+  it('should default direction to column', () => {
+    render(<Section>content</Section>)
+
+    const element = document.querySelector('.dnb-layout__section')
+
+    expect(element.classList).toContain(
+      'dnb-layout__flex-container--direction-column'
+    )
+  })
+
+  it('should change direction based on prop', () => {
+    const { rerender } = render(<Section>content</Section>)
+
+    const element = document.querySelector('.dnb-layout__section')
+
+    expect(element.classList).toContain(
+      'dnb-layout__flex-container--direction-column'
+    )
+
+    rerender(<Section direction="row">content</Section>)
+
+    expect(element.classList).toContain(
+      'dnb-layout__flex-container--direction-row'
     )
   })
 })
