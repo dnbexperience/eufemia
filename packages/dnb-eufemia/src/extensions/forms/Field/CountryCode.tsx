@@ -2,15 +2,16 @@ import React, { useContext, useCallback, useMemo } from 'react'
 import { Autocomplete, HelpButton } from '../../../components'
 import classnames from 'classnames'
 import countries from '../constants/countries'
-import { forwardSpaceProps } from '../utils'
-import { useField } from './hooks'
-import type { ComponentProps } from '../component-types'
-import { FormError } from '../types'
-import type { FieldProps, FieldHelpProps } from '../field-types'
+import { useDataValue } from '../hooks'
+import {
+  FormError,
+  FieldProps,
+  FieldHelpProps,
+  pickSpacingProps,
+} from '../types'
 import SharedContext from '../../../shared/Context'
 
-export type Props = ComponentProps &
-  FieldHelpProps &
+export type Props = FieldHelpProps &
   FieldProps<string> & {
     width?: false | 'small' | 'medium' | 'large' | 'stretch'
   }
@@ -33,7 +34,7 @@ function CountryCode(props: Props) {
     handleFocus,
     handleBlur,
     handleChange,
-  } = useField(props)
+  } = useDataValue(props)
 
   const autocompleteData = useMemo(
     () =>
@@ -94,7 +95,7 @@ function CountryCode(props: Props) {
       }
       independent_width
       search_numbers
-      {...forwardSpaceProps(props)}
+      {...pickSpacingProps(props)}
       stretch={width === 'stretch'}
     />
   )

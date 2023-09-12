@@ -7,12 +7,12 @@ import {
   useState,
 } from 'react'
 import pointer from 'json-pointer'
-import { FormError } from '../../types'
-import ajv, { ajvErrorsToOneFormError } from '../../utils/ajv'
-import DataContext from '../../DataContext'
-import type { FieldProps } from '../../field-types'
-import { FieldGroupContext } from '../../FieldGroup'
-import { makeUniqueId } from '../../../../shared/component-helper'
+import { FormError, FieldProps } from '../types'
+import ajv, { ajvErrorsToOneFormError } from '../utils/ajv'
+import DataContext from '../DataContext'
+import { FieldGroupContext } from '../FieldGroup'
+import { IterateElementContext } from '../Iterate'
+import { makeUniqueId } from '../../../shared/component-helper'
 
 interface ReturnAdditional {
   setHasFocus: (hasFocus: boolean, valueOverride?: unknown) => void
@@ -21,11 +21,12 @@ interface ReturnAdditional {
   handleChange: FieldProps<unknown>['onChange']
 }
 
-export default function useField<Props extends FieldProps<unknown>>(
-  props: Props
-): Props & ReturnAdditional {
+export default function useDataValue<
+  Props extends Partial<FieldProps<unknown>>,
+>(props: Props): Props & ReturnAdditional {
   const {
     path,
+    elementPath,
     emptyValue,
     required,
     error: errorProp,
@@ -44,33 +45,77 @@ export default function useField<Props extends FieldProps<unknown>>(
   const id = useMemo(() => props.id ?? makeUniqueId(), [props.id])
   const dataContext = useContext(DataContext.Context)
   const fieldGroupContext = useContext(FieldGroupContext)
-  const inFieldGroup = Boolean(fieldGroupContext)
-  const {
-    setFieldError: setFieldGroupError,
-    setShowFieldError: setShowFieldGroupError,
-  } = fieldGroupContext ?? {}
+  const iterateElementContext = useContext(IterateElementContext)
+
   const {
     handlePathChange: dataContextHandlePathChange,
     setPathWithError: dataContextSetPathWithError,
     errors: dataContextErrors,
   } = dataContext ?? {}
+  const inFieldGroup = Boolean(fieldGroupContext)
+  const {
+    setFieldError: setFieldGroupError,
+    setShowFieldError: setShowFieldGroupError,
+  } = fieldGroupContext ?? {}
+  const inIterate = Boolean(iterateElementContext)
+  const {
+    index: iterateElementIndex,
+    value: iterateElementValue,
+    handleChange: handleIterateElementChange,
+  } = iterateElementContext ?? {}
 
   if (path && path.substring(0, 1) !== '/') {
     throw new Error(
-      'Invalid path. Input path JSON Pointers  must be from root (starting with a /).'
+      'Invalid path. Data value path JSON Pointers must be from root (starting with a /).'
+    )
+  }
+  if (elementPath && elementPath.substring(0, 1) !== '/') {
+    throw new Error(
+      'Invalid elementPath. Element pathJSON Pointers must be from root of iterate element (starting with a /).'
+    )
+  }
+  if (elementPath && !iterateElementContext) {
+    throw new Error(
+      'elementPath cannot be used when not inside an iterate element context. Wrap the component in an Iterate.Loop.'
     )
   }
 
   const externalValue = useMemo(() => {
-    return (
-      props.value ??
-      (dataContext.data &&
-      path !== undefined &&
-      pointer.has(dataContext.data, path)
+    if (props.value !== undefined) {
+      // Value-prop sent directly to the field has highest priority, overriding any surrounding source
+      return props.value
+    }
+
+    if (inIterate && elementPath) {
+      // This field is inside an iterate, and has a pointer from the base of the element being iterated
+      if (elementPath === '/') {
+        return iterateElementValue
+      }
+
+      return pointer.has(iterateElementValue, elementPath)
+        ? pointer.get(iterateElementValue, elementPath)
+        : undefined
+    }
+
+    if (dataContext.data && path) {
+      // There is a surrounding data context and a path for where in the source to find the data
+      if (path === '/') {
+        return dataContext.data
+      }
+
+      return pointer.has(dataContext.data, path)
         ? pointer.get(dataContext.data, path)
-        : undefined)
-    )
-  }, [path, props.value, dataContext.data])
+        : undefined
+    }
+    return undefined
+  }, [
+    path,
+    elementPath,
+    inIterate,
+    iterateElementValue,
+    props.value,
+    dataContext.data,
+  ])
 
   // Hold an internal copy of the input value in case the input component is used uncontrolled,
   // and to handle errors in Eufemia on components that does not take updated callback functions into account.
@@ -139,7 +184,7 @@ export default function useField<Props extends FieldProps<unknown>>(
       if (valueToValidate === emptyValue && required) {
         const error = new FormError('The value is required', {
           validationRule: 'required',
-        }) // TO DO: Lib-specific translations
+        })
         setErrorAndUpdateDataContext(error)
         return error
       } else if (schemaValidator) {
@@ -235,6 +280,7 @@ export default function useField<Props extends FieldProps<unknown>>(
   const handleChange = useCallback(
     (argFromInput) => {
       const newValue = fromInput(argFromInput)
+
       if (newValue === value) {
         // Avoid triggering a change if the value was not actually changed. This may be caused by rendering components
         // calling onChange even if the actual value did not change.
@@ -253,15 +299,24 @@ export default function useField<Props extends FieldProps<unknown>>(
       if (path) {
         dataContextHandlePathChange?.(path, newValue)
       }
+      if (elementPath) {
+        const iteratValuePath = `/${iterateElementIndex}${
+          elementPath && elementPath !== '/' ? elementPath : ''
+        }`
+        handleIterateElementChange?.(iteratValuePath, newValue)
+      }
     },
     [
       id,
       path,
+      elementPath,
+      iterateElementIndex,
       value,
       onChange,
       validateValue,
       dataContextHandlePathChange,
       setShowFieldGroupError,
+      handleIterateElementChange,
       fromInput,
     ]
   )

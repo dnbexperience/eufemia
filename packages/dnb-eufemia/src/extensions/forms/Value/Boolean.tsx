@@ -1,17 +1,15 @@
 import React, { useContext } from 'react'
 import ValueBlock from '../ValueBlock'
-import { useValue } from './hooks'
-import { forwardSpaceProps } from '../utils'
-import type { ComponentProps } from '../component-types'
-import type { ValueProps } from '../value-types'
+import { useDataValue } from '../hooks'
+import { ValueProps, pickSpacingProps } from '../types'
 import SharedContext from '../../../shared/Context'
 
-export type Props = ComponentProps & ValueProps<boolean>
+export type Props = ValueProps<boolean>
 
 function BooleanComponent(props: Props) {
   const sharedContext = useContext(SharedContext)
   const { className, label, placeholder, showEmpty, value, inline } =
-    useValue(props)
+    useDataValue(props)
 
   return (
     <ValueBlock
@@ -20,7 +18,7 @@ function BooleanComponent(props: Props) {
       showEmpty={showEmpty}
       placeholder={placeholder}
       inline={inline}
-      {...forwardSpaceProps(props)}
+      {...pickSpacingProps(props)}
     >
       {value === true || value === false
         ? value === true

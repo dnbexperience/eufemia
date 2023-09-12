@@ -2,12 +2,10 @@ import React, { useMemo } from 'react'
 import { Checkbox, Button } from '../../../components'
 import ButtonRow from '../Layout/ButtonRow'
 import classnames from 'classnames'
-import { forwardSpaceProps } from '../utils'
 import Option from './Option'
 import FieldBlock from '../FieldBlock'
-import { useField } from './hooks'
-import type { ComponentProps } from '../component-types'
-import type { FieldProps } from '../field-types'
+import { useDataValue } from '../hooks'
+import { FieldProps, pickSpacingProps } from '../types'
 
 interface IOption {
   title: string
@@ -15,12 +13,11 @@ interface IOption {
   handleSelect: () => void
 }
 
-export type Props = ComponentProps &
-  FieldProps<Array<string | number>> & {
-    children?: React.ReactNode
-    variant?: 'checkbox' | 'button'
-    optionsLayout?: 'horizontal' | 'vertical'
-  }
+export type Props = FieldProps<Array<string | number>> & {
+  children?: React.ReactNode
+  variant?: 'checkbox' | 'button'
+  optionsLayout?: 'horizontal' | 'vertical'
+}
 
 function ArraySelection(props: Props) {
   const {
@@ -40,7 +37,7 @@ function ArraySelection(props: Props) {
     emptyValue,
     handleChange,
     children,
-  } = useField(props)
+  } = useDataValue(props)
 
   const fieldBlockProps = {
     forId: id,
@@ -57,7 +54,7 @@ function ArraySelection(props: Props) {
     label,
     labelDescription,
     labelSecondary,
-    ...forwardSpaceProps(props),
+    ...pickSpacingProps(props),
   }
 
   const options: IOption[] = useMemo(

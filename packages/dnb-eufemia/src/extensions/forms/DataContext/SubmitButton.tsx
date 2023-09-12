@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import classnames from 'classnames'
-import type { ComponentProps } from '../component-types'
+import type { ComponentProps } from '../types'
 import { Button } from '../../../components'
 import SharedContext from '../../../shared/Context'
 import Context from './Context'
