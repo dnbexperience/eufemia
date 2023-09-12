@@ -1,8 +1,7 @@
 import React, { useContext } from 'react'
 import { DatePicker, HelpButton } from '../../../components'
-import { forwardSpaceProps } from '../utils'
 import { useDataValue } from '../hooks'
-import type { FieldProps, FieldHelpProps } from '../types'
+import { FieldProps, FieldHelpProps, pickSpacingProps } from '../types'
 import SharedContext from '../../../shared/Context'
 
 export type Props = FieldHelpProps & FieldProps<string>
@@ -47,7 +46,7 @@ function DateComponent(props: Props) {
       on_change={handleChange}
       on_show={handleFocus}
       on_hide={handleBlur}
-      {...forwardSpaceProps(props)}
+      {...pickSpacingProps(props)}
     />
   )
 }

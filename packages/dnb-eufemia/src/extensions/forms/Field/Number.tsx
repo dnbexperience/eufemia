@@ -2,10 +2,9 @@ import React, { useMemo } from 'react'
 import { InputMasked, HelpButton } from '../../../components'
 import { InputMaskedProps } from '../../../components/InputMasked'
 import classnames from 'classnames'
-import { forwardSpaceProps } from '../utils'
 import FieldBlock from '../FieldBlock'
 import { useDataValue } from '../hooks'
-import type { FieldProps, FieldHelpProps } from '../types'
+import { FieldProps, FieldHelpProps, pickSpacingProps } from '../types'
 
 interface ErrorMessages {
   required?: string
@@ -154,7 +153,7 @@ function NumberComponent(props: Props) {
       warning={warning}
       error={error}
       contentsWidth={width !== false ? width : undefined}
-      {...forwardSpaceProps(props)}
+      {...pickSpacingProps(props)}
     >
       <InputMasked
         id={id}

@@ -1,7 +1,6 @@
 import React, { useContext } from 'react'
 import classnames from 'classnames'
-import { forwardSpaceProps } from '../utils'
-import type { ComponentProps } from '../types'
+import { ComponentProps, pickSpacingProps } from '../types'
 import FlexContainer, {
   Props as FlexContainerProps,
 } from '../Layout/FlexContainer'
@@ -35,7 +34,7 @@ function Step(props: Props) {
       className={classnames('dnb-forms-step', className)}
       direction={direction}
       spacing={spacing}
-      {...forwardSpaceProps(props)}
+      {...pickSpacingProps(props)}
     >
       {children}
     </FlexContainer>

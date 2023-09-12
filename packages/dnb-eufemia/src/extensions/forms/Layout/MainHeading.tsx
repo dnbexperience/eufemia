@@ -1,8 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import { Heading } from '../../../components'
-import { forwardSpaceProps } from '../utils'
-import type { ComponentProps } from '../types'
+import { ComponentProps, pickSpacingProps } from '../types'
 import type { HeadingLevel } from '../../../components/Heading'
 
 export type Props = ComponentProps & {
@@ -17,7 +16,7 @@ function MainHeading({ level, ...props }: Props) {
       className={classnames('dnb-forms-main-heading', className)}
       level={level || 2}
       size="large"
-      {...forwardSpaceProps(props)}
+      {...pickSpacingProps(props)}
     >
       {children}
     </Heading>

@@ -1,8 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import { Div } from '../../../elements'
-import type { ComponentProps } from '../types'
-import { forwardSpaceProps } from '../utils'
+import { ComponentProps, pickSpacingProps } from '../types'
 
 export type Props = ComponentProps & {
   grow?: boolean
@@ -22,7 +21,7 @@ function FlexItem(props: Props) {
   )
 
   return (
-    <Div className={cn} {...forwardSpaceProps(props)}>
+    <Div className={cn} {...pickSpacingProps(props)}>
       {children}
     </Div>
   )

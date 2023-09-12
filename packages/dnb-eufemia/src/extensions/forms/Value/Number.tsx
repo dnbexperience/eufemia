@@ -1,8 +1,8 @@
 import React from 'react'
-import { formatNumber, forwardSpaceProps } from '../utils'
+import { formatNumber } from '../utils'
 import ValueBlock from '../ValueBlock'
 import { useDataValue } from '../hooks'
-import type { ValueProps } from '../types'
+import { ValueProps, pickSpacingProps } from '../types'
 
 export type Props = ValueProps<number> & {
   // Formatting
@@ -35,7 +35,7 @@ function NumberComponent(props: Props) {
       showEmpty={showEmpty}
       placeholder={placeholder}
       inline={inline}
-      {...forwardSpaceProps(props)}
+      {...pickSpacingProps(props)}
     >
       {value !== undefined
         ? formatNumber(value, {

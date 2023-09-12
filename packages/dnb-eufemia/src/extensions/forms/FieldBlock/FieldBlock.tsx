@@ -2,8 +2,12 @@ import React from 'react'
 import classnames from 'classnames'
 import { Div, Span } from '../../../elements'
 import { FormLabel, FormStatus } from '../../../components'
-import { forwardSpaceProps } from '../utils'
-import { FormError, ComponentProps, FieldProps } from '../types'
+import {
+  FormError,
+  ComponentProps,
+  FieldProps,
+  pickSpacingProps,
+} from '../types'
 
 export type Props = Pick<
   FieldProps,
@@ -50,7 +54,7 @@ function FieldBlock(props: Props) {
   )
 
   return (
-    <Div className={cn} {...forwardSpaceProps(props)}>
+    <Div className={cn} {...pickSpacingProps(props)}>
       {labelDescription || labelSecondary ? (
         <div className={classnames('dnb-forms-field-block__label')}>
           {label || labelDescription ? (

@@ -4,11 +4,10 @@ import FlexContainer, {
 } from '../Layout/FlexContainer'
 import classnames from 'classnames'
 import pointer from 'json-pointer'
-import { forwardSpaceProps } from '../utils'
 import IterateElementContext from './IterateElementContext'
 import FieldBlock from '../FieldBlock'
 import { useDataValue } from '../hooks'
-import type { FieldProps, FieldHelpProps } from '../types'
+import { FieldProps, FieldHelpProps, pickSpacingProps } from '../types'
 
 interface ErrorMessages {
   required?: string
@@ -88,7 +87,7 @@ function ArrayComponent(props: Props) {
       warning={warning}
       error={error}
       contentsWidth={width !== false ? width : undefined}
-      {...forwardSpaceProps(props)}
+      {...pickSpacingProps(props)}
     >
       <FlexContainer
         direction={layout === 'horizontal' ? 'row' : 'column'}

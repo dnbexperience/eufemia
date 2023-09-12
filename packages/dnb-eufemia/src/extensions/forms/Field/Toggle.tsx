@@ -4,8 +4,7 @@ import classnames from 'classnames'
 import ButtonRow from '../Layout/ButtonRow'
 import FieldBlock from '../FieldBlock'
 import { useDataValue } from '../hooks'
-import type { FieldProps } from '../types'
-import { forwardSpaceProps } from '../utils'
+import { FieldProps, pickSpacingProps } from '../types'
 import SharedContext from '../../../shared/Context'
 
 export type Props = FieldProps<unknown> & {
@@ -62,7 +61,7 @@ function Toggle(props: Props) {
   const fieldBlockPropsWithoutLabel = {
     forId: id,
     className: cn,
-    ...forwardSpaceProps(props),
+    ...pickSpacingProps(props),
     info,
     warning,
     error,
@@ -90,7 +89,7 @@ function Toggle(props: Props) {
             checked={isOn}
             disabled={disabled}
             on_change={handleCheckboxChange}
-            {...forwardSpaceProps(props)}
+            {...pickSpacingProps(props)}
           />
         </FieldBlock>
       )

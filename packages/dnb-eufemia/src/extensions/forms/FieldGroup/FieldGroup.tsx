@@ -1,7 +1,11 @@
 import React, { useState, useCallback, useMemo } from 'react'
 import classnames from 'classnames'
-import { FormError, ComponentProps, FieldProps } from '../types'
-import { forwardSpaceProps } from '../utils'
+import {
+  FormError,
+  ComponentProps,
+  FieldProps,
+  pickSpacingProps,
+} from '../types'
 import FieldBlock from '../FieldBlock'
 
 export interface FieldGroupContextState {
@@ -98,7 +102,7 @@ function FieldGroup(props: Props) {
         info={info}
         warning={warning}
         error={error ?? blockError}
-        {...forwardSpaceProps(props)}
+        {...pickSpacingProps(props)}
       >
         {children}
       </FieldBlock>

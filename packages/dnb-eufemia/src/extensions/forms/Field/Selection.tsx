@@ -3,12 +3,16 @@ import { Button, Dropdown, Radio, HelpButton } from '../../../components'
 import ButtonRow from '../Layout/ButtonRow'
 import FieldBlock from '../FieldBlock'
 import classnames from 'classnames'
-import { forwardSpaceProps } from '../utils'
 import { makeUniqueId } from '../../../shared/component-helper'
 import SharedContext from '../../../shared/Context'
 import Option from './Option'
 import { useDataValue } from '../hooks'
-import { FormError, FieldProps, FieldHelpProps } from '../types'
+import {
+  FormError,
+  FieldProps,
+  FieldHelpProps,
+  pickSpacingProps,
+} from '../types'
 
 interface IOption {
   title: string | React.ReactNode
@@ -93,7 +97,7 @@ function Selection(props: Props) {
   const fieldBlockProps = {
     forId: id,
     className: cn,
-    ...forwardSpaceProps(props),
+    ...pickSpacingProps(props),
     info,
     warning,
     error,
@@ -133,7 +137,7 @@ function Selection(props: Props) {
           vertical={layout === 'vertical'}
           on_change={handleRadioChange}
           value={String(value ?? '')}
-          {...forwardSpaceProps(props)}
+          {...pickSpacingProps(props)}
         >
           {options.map((option, i) => (
             <Radio
@@ -234,7 +238,7 @@ function Selection(props: Props) {
           on_change={handleDropdownChange}
           on_show={handleShow}
           on_hide={handleHide}
-          {...forwardSpaceProps(props)}
+          {...pickSpacingProps(props)}
           stretch={width === 'stretch'}
         />
       )

@@ -1,8 +1,7 @@
 import React, { useContext } from 'react'
 import ValueBlock from '../ValueBlock'
 import { useDataValue } from '../hooks'
-import { forwardSpaceProps } from '../utils'
-import type { ValueProps } from '../types'
+import { ValueProps, pickSpacingProps } from '../types'
 import SharedContext from '../../../shared/Context'
 
 export type Props = ValueProps<boolean>
@@ -19,7 +18,7 @@ function BooleanComponent(props: Props) {
       showEmpty={showEmpty}
       placeholder={placeholder}
       inline={inline}
-      {...forwardSpaceProps(props)}
+      {...pickSpacingProps(props)}
     >
       {value === true || value === false
         ? value === true

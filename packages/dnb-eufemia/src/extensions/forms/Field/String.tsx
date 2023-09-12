@@ -5,11 +5,10 @@ import { InputProps } from '../../../components/input/Input'
 import InputMasked, {
   InputMaskedProps,
 } from '../../../components/InputMasked'
-import { forwardSpaceProps } from '../utils'
 import SharedContext from '../../../shared/Context'
 import FieldBlock from '../FieldBlock'
 import { useDataValue } from '../hooks'
-import type { FieldProps, FieldHelpProps } from '../types'
+import { FieldProps, FieldHelpProps, pickSpacingProps } from '../types'
 
 interface ErrorMessages {
   required?: string
@@ -128,7 +127,7 @@ function StringComponent(props: Props) {
       warning={warning}
       error={error}
       contentsWidth={width !== false ? width : undefined}
-      {...forwardSpaceProps(props)}
+      {...pickSpacingProps(props)}
     >
       {multiline ? (
         <Textarea

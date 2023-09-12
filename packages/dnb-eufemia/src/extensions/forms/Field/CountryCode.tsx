@@ -2,9 +2,13 @@ import React, { useContext, useCallback, useMemo } from 'react'
 import { Autocomplete, HelpButton } from '../../../components'
 import classnames from 'classnames'
 import countries from '../constants/countries'
-import { forwardSpaceProps } from '../utils'
 import { useDataValue } from '../hooks'
-import { FormError, FieldProps, FieldHelpProps } from '../types'
+import {
+  FormError,
+  FieldProps,
+  FieldHelpProps,
+  pickSpacingProps,
+} from '../types'
 import SharedContext from '../../../shared/Context'
 
 export type Props = FieldHelpProps &
@@ -91,7 +95,7 @@ function CountryCode(props: Props) {
       }
       independent_width
       search_numbers
-      {...forwardSpaceProps(props)}
+      {...pickSpacingProps(props)}
       stretch={width === 'stretch'}
     />
   )

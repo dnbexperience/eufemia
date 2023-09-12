@@ -4,9 +4,8 @@ import { InputMaskedProps } from '../../../components/InputMasked'
 import classnames from 'classnames'
 import CountryCode from './CountryCode'
 import StringComponent from './String'
-import { forwardSpaceProps } from '../utils'
 import { useDataValue } from '../hooks'
-import type { FieldProps } from '../types'
+import { FieldProps, pickSpacingProps } from '../types'
 import SharedContext from '../../../shared/Context'
 
 export type Props = FieldProps<string, undefined> & {
@@ -95,7 +94,7 @@ function PhoneNumber(props: Props) {
           `dnb-forms-field-phone-number--width-${width}`,
         className
       )}
-      {...forwardSpaceProps(preparedProps)}
+      {...pickSpacingProps(preparedProps)}
     >
       <CountryCode
         className={classnames(

@@ -1,7 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
-import { forwardSpaceProps } from '../utils'
-import type { ComponentProps } from '../types'
+import { ComponentProps, pickSpacingProps } from '../types'
 import FlexContainer, {
   Props as FlexContainerProps,
 } from './FlexContainer'
@@ -19,7 +18,7 @@ function Section(props: Props) {
       className={classnames('dnb-forms-section', className)}
       direction={direction ?? 'column'}
       spacing={spacing ?? 'small'}
-      {...forwardSpaceProps(props)}
+      {...pickSpacingProps(props)}
     >
       {children}
     </FlexContainer>

@@ -2,29 +2,25 @@ import React, { useCallback, useContext } from 'react'
 import classnames from 'classnames'
 import { Button } from '../../../components'
 import { ButtonProps } from '../../../components/Button'
-import { forwardSpaceProps } from '../utils'
 import IterateElementContext from './IterateElementContext'
 import { useDataValue } from '../hooks'
 import {
-  ComponentProps,
-  DataValueReadProps,
-  DataValueWriteProps,
+  DataValueReadWriteComponentProps,
+  omitDataValueReadWriteProps,
 } from '../types'
 
-export type Props = ComponentProps &
-  DataValueReadProps<unknown[]> &
-  DataValueWriteProps<unknown[]> & {
-    text?: ButtonProps['text']
+export type Props = ButtonProps &
+  DataValueReadWriteComponentProps<unknown[]> & {
     pushValue: unknown
-    children?: ButtonProps['children']
   }
 
 function ArrayPushButton(props: Props) {
   const iterateElementContext = useContext(IterateElementContext)
   const { handlePush } = iterateElementContext ?? {}
 
-  const { text, value, pushValue, handleChange, children } =
-    useDataValue(props)
+  const { pushValue, ...restProps } = props
+  const buttonProps = omitDataValueReadWriteProps(restProps)
+  const { value, handleChange, children } = useDataValue(restProps)
 
   if (value !== undefined && !Array.isArray(value)) {
     throw new Error('ArrayPushButton received a non-array value.')
@@ -38,7 +34,6 @@ function ArrayPushButton(props: Props) {
     }
 
     // If not inside an iterate, it could still manipulate a source data set through useDataValue
-    console.log('TO ADD', value)
     handleChange([...(value ?? []), pushValue])
   }, [value, pushValue, handlePush, handleChange])
 
@@ -48,9 +43,8 @@ function ArrayPushButton(props: Props) {
         'dnb-forms-array-push-button',
         props.className
       )}
-      text={text}
       on_click={handleClick}
-      {...forwardSpaceProps(props)}
+      {...buttonProps}
     >
       {children}
     </Button>

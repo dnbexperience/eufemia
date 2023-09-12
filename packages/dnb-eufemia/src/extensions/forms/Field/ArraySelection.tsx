@@ -2,11 +2,10 @@ import React, { useMemo } from 'react'
 import { Checkbox, Button } from '../../../components'
 import ButtonRow from '../Layout/ButtonRow'
 import classnames from 'classnames'
-import { forwardSpaceProps } from '../utils'
 import Option from './Option'
 import FieldBlock from '../FieldBlock'
 import { useDataValue } from '../hooks'
-import type { FieldProps } from '../types'
+import { FieldProps, pickSpacingProps } from '../types'
 
 interface IOption {
   title: string
@@ -55,7 +54,7 @@ function ArraySelection(props: Props) {
     label,
     labelDescription,
     labelSecondary,
-    ...forwardSpaceProps(props),
+    ...pickSpacingProps(props),
   }
 
   const options: IOption[] = useMemo(

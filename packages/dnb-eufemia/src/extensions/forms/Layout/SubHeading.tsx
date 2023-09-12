@@ -1,8 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import { Heading } from '../../../components'
-import { forwardSpaceProps } from '../utils'
-import type { ComponentProps } from '../types'
+import { ComponentProps, pickSpacingProps } from '../types'
 import type { HeadingLevel } from '../../../components/Heading'
 
 export type Props = ComponentProps & {
@@ -17,7 +16,7 @@ function SubHeading({ level, ...props }: Props) {
       className={classnames('dnb-forms-sub-heading', className)}
       level={level || 3}
       size="medium"
-      {...forwardSpaceProps(props)}
+      {...pickSpacingProps(props)}
     >
       {children}
     </Heading>

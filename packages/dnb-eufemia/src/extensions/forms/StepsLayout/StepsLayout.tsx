@@ -3,8 +3,7 @@ import classnames from 'classnames'
 import { Div } from '../../../elements'
 import { StepIndicator } from '../../../components'
 import { makeUniqueId } from '../../../shared/component-helper'
-import { forwardSpaceProps } from '../utils'
-import type { ComponentProps } from '../types'
+import { ComponentProps, pickSpacingProps } from '../types'
 import DataContext from '../DataContext/Context'
 import Step, { Props as StepProps } from './Step'
 import StepsContext from './StepsContext'
@@ -80,7 +79,7 @@ function StepsLayout(props: Props) {
     >
       <Div
         className={classnames('dnb-forms-steps-layout', className)}
-        {...forwardSpaceProps(props)}
+        {...pickSpacingProps(props)}
       >
         <aside className="dnb-forms-steps-layout__sidebar">
           <StepIndicator.Sidebar sidebar_id={id} />

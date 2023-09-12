@@ -1,9 +1,8 @@
 import React from 'react'
 import { Span } from '../../../elements'
 import { FormLabel } from '../../../components'
-import { forwardSpaceProps } from '../utils'
 import classnames from 'classnames'
-import type { ValueProps } from '../types'
+import { ValueProps, pickSpacingProps } from '../types'
 
 export type Props = Omit<ValueProps<unknown>, 'value'> & {
   children?: React.ReactNode
@@ -27,7 +26,7 @@ function ValueBlock(props: Props) {
         inline && 'dnb-forms-value-block--inline',
         className
       )}
-      {...forwardSpaceProps(props)}
+      {...pickSpacingProps(props)}
     >
       {label && (
         <FormLabel

@@ -23,6 +23,30 @@ export class FormError extends Error {
   }
 }
 
+// Spacing
+
+export const pickSpacingProps = <Props extends SpacingProps>(
+  props: Props
+): SpacingProps => {
+  return {
+    space: props?.space,
+    top: props?.top,
+    bottom: props?.bottom,
+    left: props?.left,
+    right: props?.right,
+  }
+}
+
+export const omitSpacingProps = <Props extends SpacingProps>(
+  props: Props
+): Omit<Props, keyof SpacingProps> => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { space, top, bottom, left, right, ...restProps } = props
+  return restProps
+}
+
+// Data value
+
 interface DefaultErrorMessages {
   required?: string
 }
@@ -35,9 +59,19 @@ export interface DataValueReadProps<Value = unknown> {
   value?: Value
 }
 
+const dataValueReadProps = ['path', 'elementPath', 'value'];
+
+export function pickDataValueReadProps<Props extends DataValueReadProps>(props: Props): DataValueReadProps {
+  return Object.fromEntries(Object.entries(props ?? {}).filter(([key]) => dataValueReadProps.includes(key)));
+}
+
+export function omitDataValueReadProps<Props extends DataValueReadProps>(props: Props): Omit<DataValueReadProps, keyof DataValueReadProps> {
+  return Object.fromEntries(Object.entries(props ?? {}).filter(([key]) => !dataValueReadProps.includes(key)));
+}
+
 export interface DataValueWriteProps<
   Value = unknown,
-  EmptyValue = undefined | string | number,
+  EmptyValue = undefined | string | number
 > {
   emptyValue?: EmptyValue
   onFocus?: (value: Value | EmptyValue) => void
@@ -45,17 +79,42 @@ export interface DataValueWriteProps<
   onChange?: (value: Value | EmptyValue) => void
 }
 
+const dataValueWriteProps = ['emptyValue', 'onFocus', 'onBlur', 'onChange'];
+
+export function pickDataValueWriteProps<Props extends DataValueWriteProps>(props: Props): DataValueWriteProps {
+  return Object.fromEntries(Object.entries(props ?? {}).filter(([key]) => dataValueWriteProps.includes(key)));
+}
+
+export function omitDataValueWriteProps<Props extends DataValueWriteProps>(props: Props): Omit<DataValueWriteProps, keyof DataValueWriteProps> {
+  return Object.fromEntries(Object.entries(props ?? {}).filter(([key]) => !dataValueWriteProps.includes(key)));
+}
+
+export type DataValueReadWriteProps<Value = unknown, EmptyValue = undefined | string | number> = DataValueReadProps<Value> & DataValueWriteProps<Value, EmptyValue>;
+
+export function pickDataValueReadWriteProps<Props extends DataValueReadWriteProps>(props: Props): DataValueReadWriteProps {
+  return Object.fromEntries(Object.entries(props ?? {}).filter(([key]) => dataValueReadProps.includes(key) || dataValueWriteProps.includes(key)));
+}
+
+export function omitDataValueReadWriteProps<Props extends DataValueReadWriteProps>(props: Props): Omit<DataValueReadWriteProps, keyof DataValueReadWriteProps> {
+  return Object.fromEntries(Object.entries(props ?? {}).filter(([key]) => !dataValueReadProps.includes(key) && !dataValueWriteProps.includes(key)));
+}
+
 export type ComponentProps = SpacingProps & {
   className?: string
 }
+
+export type DataValueReadComponentProps<Value = unknown> = ComponentProps & DataValueReadProps<Value>;
+
+export type DataValueReadWriteComponentProps<
+  Value = unknown,
+  EmptyValue = undefined | string | number
+> = ComponentProps & DataValueReadProps<Value> & DataValueWriteProps<Value, EmptyValue>;
 
 export interface FieldProps<
   Value = unknown,
   EmptyValue = undefined | string | number,
   ErrorMessages extends { required?: string } = DefaultErrorMessages,
-> extends ComponentProps,
-    DataValueReadProps<Value>,
-    DataValueWriteProps<Value, EmptyValue> {
+> extends DataValueReadWriteComponentProps<Value, EmptyValue> {
   /** ID added to the actual field component, and linked to the label via for-attribute */
   id?: string
   layout?: 'horizontal' | 'vertical'
@@ -107,8 +166,7 @@ export interface FieldHelpProps {
 }
 
 export interface ValueProps<Value>
-  extends ComponentProps,
-    DataValueReadProps<Value> {
+  extends DataValueReadComponentProps<Value> {
   label?: string
   /** Should the component render if the value is empty? */
   showEmpty?: boolean
