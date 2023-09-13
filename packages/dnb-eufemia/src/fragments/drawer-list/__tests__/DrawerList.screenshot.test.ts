@@ -10,7 +10,8 @@ import {
 
 describe.each(['ui', 'sbanken'])('DrawerList for %s', (themeName) => {
   setupPageScreenshot({
-    themeName, url: '/uilib/components/fragments/drawer-list/demos',
+    themeName,
+    url: '/uilib/components/fragments/drawer-list/demos',
   })
 
   it('have to match the default drawer-list', async () => {
@@ -29,7 +30,8 @@ describe.each(['ui', 'sbanken'])('DrawerList for %s', (themeName) => {
         style: {
           width: '14rem',
         },
-        selector: '[data-visual-test="drawer-list"] .dnb-drawer-list__list',
+        selector:
+          '[data-visual-test="drawer-list"] .dnb-drawer-list__list',
       })
       expect(screenshot).toMatchImageSnapshot()
     })

@@ -68,31 +68,6 @@
       }
     }
 
-    &:focus-visible {
-      border-color: var(--sb-color-blue-dark);
-      background-color: var(--sb-color-blue-light-3);
-      color: var(--sb-color-blue-dark);
-      font-weight: var(--sb-font-weight-medium);
-      z-index: 1;
-
-      .dnb-drawer-list__option__inner::before {
-        display: none;
-      }
-
-      .dnb-drawer-list__option__inner::after {
-        // Selected checkmark icon
-        background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUuOTk5OTYgMTEuMDU3M0wxNC42NjY2IDIuMzkwNjdMMTUuNjA5MyAzLjMzMzM0TDUuOTk5OTYgMTIuOTQyN0wwLjM5MDYyNSA3LjMzMzM0TDEuMzMzMjkgNi4zOTA2N0w1Ljk5OTk2IDExLjA1NzNaIiBmaWxsPSIjMDA1Q0ZGIi8+Cjwvc3ZnPgo=");
-      }
-    }
-
-    &.last-of-type {
-      border-radius: var(--drawer-list-options-border-radius); 
-
-      .dnb-drawer-list__option__inner::before {
-        display: none;
-      }
-    }
-
     &--selected {
       background-color: var(--sb-color-violet);
       color: var(--sb-color-white);
@@ -122,6 +97,31 @@
 
         background-size: cover;
         background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUuOTk5OTYgMTEuMDU3M0wxNC42NjY2IDIuMzkwNjdMMTUuNjA5MyAzLjMzMzM0TDUuOTk5OTYgMTIuOTQyN0wwLjM5MDYyNSA3LjMzMzM0TDEuMzMzMjkgNi4zOTA2N0w1Ljk5OTk2IDExLjA1NzNaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K');
+      }
+    }
+
+    &.last-of-type {
+      border-radius: var(--drawer-list-options-border-radius); 
+
+      .dnb-drawer-list__option__inner::before {
+        display: none;
+      }
+    }
+
+    &:focus-visible {
+      border-color: var(--sb-color-blue-dark);
+      background-color: var(--sb-color-blue-light-3);
+      color: var(--sb-color-blue-dark);
+      font-weight: var(--sb-font-weight-medium);
+      z-index: 1;
+
+      .dnb-drawer-list__option__inner::before {
+        display: none;
+      }
+
+      .dnb-drawer-list__option__inner::after {
+        // Selected checkmark icon
+        background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTUuOTk5OTYgMTEuMDU3M0wxNC42NjY2IDIuMzkwNjdMMTUuNjA5MyAzLjMzMzM0TDUuOTk5OTYgMTIuOTQyN0wwLjM5MDYyNSA3LjMzMzM0TDEuMzMzMjkgNi4zOTA2N0w1Ljk5OTk2IDExLjA1NzNaIiBmaWxsPSIjMDA1Q0ZGIi8+Cjwvc3ZnPgo=");
       }
     }
   }

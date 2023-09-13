@@ -130,7 +130,7 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  if(themeName === 'sbanken') {
+  if (themeName === 'sbanken') {
     it('have to match the closed dropdown', async () => {
       const screenshot = await makeScreenshot({
         selector:
@@ -138,35 +138,35 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
-  
+
     it('have to match different sizes', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="dropdown-sizes"]',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
-  
+
     it('have to match disabled state', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="dropdown-disabled"]',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
-  
+
     it('have to match tertiary variant disabled state', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="dropdown-disabled-tertiary"]',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
-  
+
     it('have to match the dropdown with icon on left side', async () => {
       const screenshot = await makeScreenshot({
         selector: '[data-visual-test="dropdown-left-icon"]',
       })
       expect(screenshot).toMatchImageSnapshot()
     })
-  
+
     it('have to match the dropdown with status: error', async () => {
       const screenshot = await makeScreenshot({
         selector:
@@ -174,7 +174,7 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
-  
+
     it('have to match the dropdown with tertiary button', async () => {
       const screenshot = await makeScreenshot({
         selector:
@@ -182,7 +182,7 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
-  
+
     it('have to match the dropdown as action menu', async () => {
       const screenshot = await makeScreenshot({
         selector:
@@ -190,7 +190,7 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
-  
+
     it('have to match the closed dropdown with focus', async () => {
       const screenshot = await makeScreenshot({
         selector:
@@ -201,7 +201,7 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
-  
+
     it('have to match the closed dropdown with hover', async () => {
       const screenshot = await makeScreenshot({
         selector:
@@ -212,7 +212,7 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
-  
+
     it('have to match the dropdown items', async () => {
       const screenshot = await makeScreenshot({
         style: {
@@ -226,7 +226,7 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
-  
+
     it('have to match the dropdown button with ellipsis overflow', async () => {
       const screenshot = await makeScreenshot({
         selector:
@@ -234,7 +234,7 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
-  
+
     it('have to match the dropdown button in active state', async () => {
       const screenshot = await makeScreenshot({
         selector:
