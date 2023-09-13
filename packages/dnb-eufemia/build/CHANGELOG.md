@@ -3,6 +3,42 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [10.9.0](https://github.com/dnbexperience/eufemia/compare/v10.8.0...v10.9.0) (2023-09-13)
+
+
+### :memo: Documentation
+
+* **Dialog:** Dialog.Actions to Dialog.Action ([#2621](https://github.com/dnbexperience/eufemia/issues/2621)) ([9292305](https://github.com/dnbexperience/eufemia/commit/9292305260ee0a4771fc11ee3cbf77b2d2be5f67))
+* **Forms:** restructure docs ([#2615](https://github.com/dnbexperience/eufemia/issues/2615)) ([ee24eba](https://github.com/dnbexperience/eufemia/commit/ee24ebaa73fd544e647b19413c1022bcf0a8256c))
+* **Modal:** updates components that inherits ModalPropTypes as camel case ([#2618](https://github.com/dnbexperience/eufemia/issues/2618)) ([beacaba](https://github.com/dnbexperience/eufemia/commit/beacaba96257f8469e94a437c48ce2b15bb0eb29))
+* **PaymentCard:** removes unused maker docs ([#2619](https://github.com/dnbexperience/eufemia/issues/2619)) ([dfeb6d5](https://github.com/dnbexperience/eufemia/commit/dfeb6d52e7547c4e77c795c410528b5621467c51))
+* **v10:** changes to PaymentCard's height & width ([#2643](https://github.com/dnbexperience/eufemia/issues/2643)) ([6985287](https://github.com/dnbexperience/eufemia/commit/69852877a0ace540969ff15ea9b41a1f416c87ad))
+
+
+### :sparkles: Features
+
+* **Blockquote:** fix sbanken styling, added small screen version ([#2639](https://github.com/dnbexperience/eufemia/issues/2639)) ([d63d30d](https://github.com/dnbexperience/eufemia/commit/d63d30d6f584788c7ce9fb16ccad5f9bcc7558ed))
+* **Forms:** add `Form.Handler` component ([#2644](https://github.com/dnbexperience/eufemia/issues/2644)) ([82873c7](https://github.com/dnbexperience/eufemia/commit/82873c7881023327287dd59d3540b23aa7d94649))
+* **Forms:** add Iterate.Array feature and merge useField and useValue to one hook useDataValue ([#2635](https://github.com/dnbexperience/eufemia/issues/2635)) ([b056994](https://github.com/dnbexperience/eufemia/commit/b056994251e0925d852e6d50fa3c9cbb90f2ec4e))
+* **Forms:** merge FieldGroup into FieldBlock ([#2645](https://github.com/dnbexperience/eufemia/issues/2645)) ([56a1867](https://github.com/dnbexperience/eufemia/commit/56a18673e626bd893cf81da14347cab97d2ee10d))
+* **Heading:** remove font ligatures for sbanken headings ([#2614](https://github.com/dnbexperience/eufemia/issues/2614)) ([06c126f](https://github.com/dnbexperience/eufemia/commit/06c126f144766a89a691c563075bb34d6eb91998))
+* **PaymentCard:** updates height and weight to reflect Figma sketches ([#2617](https://github.com/dnbexperience/eufemia/issues/2617)) ([418fd2e](https://github.com/dnbexperience/eufemia/commit/418fd2ec927152d3b61e95d9ed0312eabb3f3080))
+* **ProgressIndicator:** Sbanken styling ([#2631](https://github.com/dnbexperience/eufemia/issues/2631)) ([03de0e3](https://github.com/dnbexperience/eufemia/commit/03de0e3f9d1b4d24e044566883bb49529c61988b))
+* **Skeleton:** Sbanken styling ([#2622](https://github.com/dnbexperience/eufemia/issues/2622)) ([fbc0083](https://github.com/dnbexperience/eufemia/commit/fbc0083783abc4baf69db86bf67696dad0f81c12))
+* **Tooltip:** Sbanken styling ([#2640](https://github.com/dnbexperience/eufemia/issues/2640)) ([f358b0a](https://github.com/dnbexperience/eufemia/commit/f358b0a2239e0109145d514571e6d85a9001d76b)), closes [#2622](https://github.com/dnbexperience/eufemia/issues/2622) [#2631](https://github.com/dnbexperience/eufemia/issues/2631)
+
+
+### :bug: Bug Fixes
+
+* **Dialog:** select whole input on focus given by focusSelector ([#2655](https://github.com/dnbexperience/eufemia/issues/2655)) ([a04f99a](https://github.com/dnbexperience/eufemia/commit/a04f99a033f13deeafe259104acfa41bf1b96e23)), closes [#2652](https://github.com/dnbexperience/eufemia/issues/2652)
+* **Forms:** add polyfill for structuredClone ([#2636](https://github.com/dnbexperience/eufemia/issues/2636)) ([f00da48](https://github.com/dnbexperience/eufemia/commit/f00da4879ee9df40fb32ac8d14768e98b7833472))
+* **Forms:** focus InputMasked when clicking label ([#2632](https://github.com/dnbexperience/eufemia/issues/2632)) ([3233326](https://github.com/dnbexperience/eufemia/commit/323332643b3899c43bb03b21662c012295c75c61))
+* **Forms:** remove FirstName, LastName and InfoCardSection ([#2627](https://github.com/dnbexperience/eufemia/issues/2627)) ([a2106cc](https://github.com/dnbexperience/eufemia/commit/a2106cc8e7a7c242a5fcff77aa03372da3d45755))
+* **MaskedInput:** make cleanedValue contain leading zeroes ([#2610](https://github.com/dnbexperience/eufemia/issues/2610)) ([86ad122](https://github.com/dnbexperience/eufemia/commit/86ad122eabac2e7d58fa04a43e622e162a5baae1))
+* **ProgressIndicator:** ensure correct positioning inside its boundary ([#2623](https://github.com/dnbexperience/eufemia/issues/2623)) ([0592961](https://github.com/dnbexperience/eufemia/commit/05929618640f27b0a253bdaffd853acb154a09a5))
+* **Section:** omit usage of nullish operator (??) to still support Storybook v4 ([#2646](https://github.com/dnbexperience/eufemia/issues/2646)) ([9a2e52f](https://github.com/dnbexperience/eufemia/commit/9a2e52fcf6d2a0c76a8a06cceb99524e16c2beb9))
+* **useMedia:** ensure this hook works in StrictMode ([#2630](https://github.com/dnbexperience/eufemia/issues/2630)) ([74ebed9](https://github.com/dnbexperience/eufemia/commit/74ebed91690a8305854916ee8adccc69b2bd7e02))
+
 ## [10.8.0](https://github.com/dnbexperience/eufemia/compare/v10.7.0...v10.8.0) (2023-09-06)
 
 
