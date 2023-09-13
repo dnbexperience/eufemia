@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { useCallback } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { Input, Slider } from '@dnb/eufemia/src'
@@ -120,6 +121,7 @@ export const CreateComposedFieldComponent = () => {
                     step={1}
                     label="Birth year"
                     label_direction="vertical"
+                    // @ts-ignore
                     value={birthYear.value}
                     on_change={handleBirthYearChange}
                     on_drag_start={birthYear.handleFocus}
