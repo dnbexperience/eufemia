@@ -66,7 +66,7 @@ describe('Layout.Section', () => {
     )
 
     const element = document.querySelector('.dnb-layout__button-row')
-    const children = element.childNodes
+    const children = element.children
     const childredTextContents = Array.from(children).map((child) =>
       child.textContent.replace(/[\u200C]/g, '')
     )

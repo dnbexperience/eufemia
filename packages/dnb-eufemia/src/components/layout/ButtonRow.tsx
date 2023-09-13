@@ -3,12 +3,11 @@ import classnames from 'classnames'
 import { Div } from '../../elements'
 import type { ComponentProps } from '../../extensions/forms/component-types'
 
-export type Props = ComponentProps & {
+export type ButtonRowProps = ComponentProps & {
   children?: React.ReactNode
 }
 
-function ButtonRow(props: Props) {
-  const { className, children, ...rest } = props
+function ButtonRow({ className, children, ...rest }: ButtonRowProps) {
   return (
     <Div
       className={classnames('dnb-layout__button-row', className)}
