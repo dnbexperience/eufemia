@@ -3,9 +3,9 @@ import FlexContainer, {
   Props as FlexContainerProps,
 } from './FlexContainer'
 
-export type Props = Omit<FlexContainerProps, 'direction'>
+export type ColumnProps = Omit<FlexContainerProps, 'direction'>
 
-function Column({ children, ...props }: Props) {
+function Column({ children, ...props }: ColumnProps) {
   return (
     <FlexContainer direction="column" {...props}>
       {children}
