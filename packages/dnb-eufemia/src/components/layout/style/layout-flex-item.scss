@@ -1,4 +1,5 @@
-@import '../../../extensions/forms/variables.scss';
+@use '../../../style/core/utilities.scss';
+@use '../../../extensions/forms/variables.scss';
 
 .dnb-layout__flex-item {
   &--grow {
@@ -19,5 +20,39 @@
 
   &--width-large {
     width: $forms-field-width-large;
+  }
+
+  // Handle column sizes
+
+  $columns: 12;
+
+  --columns: #{$columns};
+
+  flex-grow: 0;
+
+  @for $i from 1 through $columns {
+    --s#{$i}: calc(100% / var(--columns) * #{$i});
+
+    &--small-#{$i} {
+      flex-basis: var(--s#{$i});
+      max-width: var(--s#{$i});
+      background-color: green;
+    }
+
+    @include allAbove(medium) {
+      &--medium-#{$i} {
+        flex-basis: var(--s#{$i});
+        max-width: var(--s#{$i});
+        background-color: red;
+      }
+    }
+
+    @include allAbove(large) {
+      &--large-#{$i} {
+        flex-basis: var(--s#{$i});
+        max-width: var(--s#{$i});
+        background-color: blue;
+      }
+    }
   }
 }

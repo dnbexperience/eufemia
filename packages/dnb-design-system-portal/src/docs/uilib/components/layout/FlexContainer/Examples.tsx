@@ -57,7 +57,7 @@ export const RowWithFlexItem = () => {
         <Layout.FlexItem>
           <TestElement>FlexItem</TestElement>
         </Layout.FlexItem>
-        <Layout.FlexItem>
+        <Layout.FlexItem small={3} medium={6} large={12}>
           <TestElement>FlexItem</TestElement>
         </Layout.FlexItem>
         <Layout.FlexItem>
@@ -130,8 +130,6 @@ export const RowWithFieldString = () => {
   return (
     <ComponentBox scope={{ TestElement, Field }}>
       <Layout.FlexContainer direction="row">
-        <Field.String label="Label" value="Foo" />
-        <Field.String label="Label" value="Foo" />
         <Field.String label="Label" value="Foo" />
         <Field.String label="Label" value="Foo" />
       </Layout.FlexContainer>
