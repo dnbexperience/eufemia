@@ -41,7 +41,11 @@ When you call these three functions from your own implementation of the user exp
 
 In the example above, you see how you can create your own user input functionality in a standardized context using `FieldBlock`. This allows you to display labels, error messages and other surrounding elements in a consistent manner with the ready-made fields found in Eufemia Forms.
 
-Remember that everything that happens by itself using `useDataValue` and the rest of the available helper functionality, you can override individually to make the component work exactly as you want. If, for example, you need to carry out your own custom validation and cannot use the built-in validation with JSON Schema or by sending in a derivative validator as is done in the example above, you can write your own logic for this, and send the result in as props to `FieldBlock` in the form of `error`. All direct props override standard handling, so you have full control over your component. If you need something that looks even more different than the usual fields, you can drop `FieldBlock` and display surrounding elements in other ways if your project requires it, but still get all the help of data flow logic like `useDataValue` and other help functions in Eufemia Forms offer.
+Remember that everything that happens by using `useDataValue` and the rest of the available helper functionality, you can override the behaviour individually to make the component work exactly as you want. 
+
+If – for example; you need to carry out your own custom validation and cannot use the built-in validation with a JSON Schema or by sending in a derivative validator (as is done in the example above), you can write your own logic for it, and send the result in as props to `FieldBlock` in the form of `error`. All direct props override standard handling, so you have full control over your component. 
+
+If you need something that looks even more different than the usual fields, you can drop `FieldBlock` and display surrounding elements in other ways – but still get all the help of a data flow logic, such as `useDataValue` offers.
 
 Here follows an example that retrieves data from a surrounding DataContext, and creates a composite field based on other components from Eufemia:
 
