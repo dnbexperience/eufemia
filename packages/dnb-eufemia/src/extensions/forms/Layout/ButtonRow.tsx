@@ -1,8 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import { Div } from '../../../elements'
-import { forwardSpaceProps } from '../utils'
-import type { ComponentProps } from '../component-types'
+import { ComponentProps, pickSpacingProps } from '../types'
 
 export type Props = ComponentProps & {
   children?: React.ReactNode
@@ -13,7 +12,7 @@ function ButtonRow(props: Props) {
   return (
     <Div
       className={classnames('dnb-forms-button-row', className)}
-      {...forwardSpaceProps(props)}
+      {...pickSpacingProps(props)}
     >
       {children}
     </Div>

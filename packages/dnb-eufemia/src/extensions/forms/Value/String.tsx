@@ -1,11 +1,9 @@
 import React from 'react'
 import ValueBlock from '../ValueBlock'
-import { forwardSpaceProps } from '../utils'
-import { useValue } from './hooks'
-import type { ComponentProps } from '../component-types'
-import type { ValueProps } from '../value-types'
+import { useDataValue } from '../hooks'
+import { ValueProps, pickSpacingProps } from '../types'
 
-export type Props = ComponentProps & ValueProps<string>
+export type Props = ValueProps<string>
 
 function StringComponent(props: Props) {
   const {
@@ -16,7 +14,7 @@ function StringComponent(props: Props) {
     inline,
     showEmpty,
     prepare = (value) => value,
-  } = useValue(props)
+  } = useDataValue(props)
 
   return (
     <ValueBlock
@@ -25,7 +23,7 @@ function StringComponent(props: Props) {
       showEmpty={showEmpty}
       placeholder={placeholder}
       inline={inline}
-      {...forwardSpaceProps(props)}
+      {...pickSpacingProps(props)}
     >
       {prepare(value)}
     </ValueBlock>

@@ -1,0 +1,80 @@
+---
+title: 'Field'
+description: '`Field` for interactive data driven components.'
+componentType: 'basis-api'
+hideInMenu: true
+showTabs: false
+breadcrumb:
+  - text: Forms
+    href: /uilib/extensions/forms/
+  - text: Create your component
+    href: /uilib/extensions/forms/create-component/
+  - text: Field
+    href: /uilib/extensions/forms/create-component/Field/
+---
+
+import ListBaseFieldComponents from '../base-fields/ListBaseFieldComponents'
+import ListFeatureFieldComponents from '../feature-fields/ListFeatureFieldComponents'
+
+import ListBaseInputComponents from './Field/ListBaseInputComponents'
+import ListBaseSelectionComponents from './Field/ListBaseSelectionComponents'
+import ListBaseToggleComponents from './Field/ListBaseToggleComponents'
+
+# Field
+
+Both the naming and the way the components work are based on being data-driven.
+
+```jsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+```
+
+**Table of Contents**
+
+- [Categorized base components](#categorized-base-components)
+- [All base components](#all-base-components)
+- [Feature fields](#feature-fields)
+- [More info](#more-info)
+  - [Standardized properties](#standardized-properties)
+  - [Controlled \& Uncontrolled](#controlled--uncontrolled)
+  - [Creating custom field components](#creating-custom-field-components)
+
+## Categorized base components
+
+The base components exists of several kinds, such as the:
+
+- **input category** – witch contains of field types that accept and produce values based on input from the user, such as text and numbers.
+  <ListBaseInputComponents />
+- **selection category** – witch contains of field types that allow the user to choose between a fixed set of values (options) represented by different UI components:
+  <ListBaseSelectionComponents />
+- **toggle category** – witch contains of field types that allow the user to toggle between two values, such as `true` and `false`:
+  <ListBaseToggleComponents />
+
+## All base components
+
+<ListBaseFieldComponents />
+
+## Feature fields
+
+<ListFeatureFieldComponents />
+
+## More info
+
+### Standardized properties
+
+All input component has a fixed set of props that make it possible to build more complex standardized functionality around them. The most important ones here are `value` and `onChange`. Value expects values in the given data type, so for example `Field.Number` expects a `value` of the type `number`, and will give a type error in Typescript if it e.g. receives a number in a `string`. The callback function submitted to `onChange` will always receive the value of the corresponding type as the first argument.
+
+It is deliberate that `onChange` sends out the value from the field, and not the event object that comes from the actual HTML tag into which the user enters data. This is to create a less tight coupling between application code that uses the components, and the internal implementation in the field components. In addition, this makes the surrounding logic simpler by not having to extract, for example, `e.target.value` everywhere.
+
+The basic components have a number of properties that make it possible to control how they function in the interface, such as `multiline` on `Field.String`, which chooses whether to get one line of text (input tag) or several lines (textarea tag) . In addition, they have a number of validation props, such as `minLength` and `required`.
+
+### Controlled & Uncontrolled
+
+In React, it's important to be aware of where the states of a given set of data "lives". This can be an entire object that represents an entity the user is going to make changes to (e.g. a user or a bank account), but it also applies to the individual value a form makes changes to. A form field can be [controlled](https://reactjs.org/docs/forms.html#controlled-components) or [uncontrolled](https://reactjs.org/docs/uncontrolled-components.html). The components in this package make it possible to work in both ways.
+
+If the functionality is designed so that the state of the data will live outside the form components, you give the components a `value` and an `onChange`, and ensure that all changes that are sent out via `onChange` are fed back via `value` so that it functions as a controlled component. The internal logic in the components will then ensure that the value is kept the same via the changes it receives from the outside.
+
+If you want the state of the value to live inside the input component, do not send the updated value in via `value`. The logic will then keep the internal value with the changes continuously, and still send the latest version with all the changes the user has made, even if they are not received continuously via `value`, as a basic `<input>` tag in React expects.
+
+### Creating custom field components
+
+The `useDataValue` hook that is used in all existing field components is exported to make it possible to create custom field components that have the same properties and follow the same flow as the standard components, without the need to recreate all the basic state handling features.

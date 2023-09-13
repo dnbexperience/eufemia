@@ -5,12 +5,10 @@ import { InputProps } from '../../../components/input/Input'
 import InputMasked, {
   InputMaskedProps,
 } from '../../../components/InputMasked'
-import { forwardSpaceProps } from '../utils'
 import SharedContext from '../../../shared/Context'
 import FieldBlock from '../FieldBlock'
-import { useField } from './hooks'
-import type { ComponentProps } from '../component-types'
-import type { FieldProps, FieldHelpProps } from '../field-types'
+import { useDataValue } from '../hooks'
+import { FieldProps, FieldHelpProps, pickSpacingProps } from '../types'
 
 interface ErrorMessages {
   required?: string
@@ -19,8 +17,7 @@ interface ErrorMessages {
   maxLength?: string
   pattern?: string
 }
-export type Props = ComponentProps &
-  FieldHelpProps &
+export type Props = FieldHelpProps &
   FieldProps<string, undefined | string, ErrorMessages> & {
     inputClassName?: string
     type?: InputProps['type']
@@ -76,11 +73,7 @@ function StringComponent(props: Props) {
       if (value === '') {
         return props.emptyValue
       }
-      if (value.charAt(0) === '0' && cleanedValue === '') {
-        // Special case - Since InputMasked sends out empty string when entering the digit 0 as first character (possibly changing in the future)
-        return '0'
-      }
-
+      // Cleaned value for masked
       return cleanedValue ?? value
     },
     width: props.width ?? 'large',
@@ -113,7 +106,7 @@ function StringComponent(props: Props) {
     handleFocus,
     handleBlur,
     handleChange,
-  } = useField(preparedProps)
+  } = useDataValue(preparedProps)
 
   const characterCounterElement = characterCounter
     ? props.maxLength
@@ -134,7 +127,7 @@ function StringComponent(props: Props) {
       warning={warning}
       error={error}
       contentsWidth={width !== false ? width : undefined}
-      {...forwardSpaceProps(props)}
+      {...pickSpacingProps(props)}
     >
       {multiline ? (
         <Textarea
@@ -159,6 +152,7 @@ function StringComponent(props: Props) {
         />
       ) : mask ? (
         <InputMasked
+          id={id}
           className={cn}
           mask={mask}
           placeholder={placeholder}

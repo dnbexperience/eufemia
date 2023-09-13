@@ -7,7 +7,6 @@ import MainHeading from './MainHeading'
 import SubHeading from './SubHeading'
 import Row from './Row'
 import Column from './Column'
-import InfoCardSection from './InfoCardSection'
 
 const Layout = {
   ButtonRow,
@@ -19,7 +18,6 @@ const Layout = {
   SubHeading,
   Row,
   Column,
-  InfoCardSection,
 }
 
 export default Layout

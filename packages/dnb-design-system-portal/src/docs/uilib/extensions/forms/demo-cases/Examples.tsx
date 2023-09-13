@@ -2,7 +2,7 @@ import ComponentBox from '../../../../../shared/tags/ComponentBox'
 import { GlobalStatus, Section, Code } from '@dnb/eufemia/src'
 import * as React from 'react'
 import {
-  DataContext,
+  Form,
   Layout,
   StepsLayout,
   Field,
@@ -13,8 +13,8 @@ export const BecomeCorporateCustomer = () => {
   return (
     <ComponentBox
       scope={{
+        Form,
         Code,
-        DataContext,
         Layout,
         StepsLayout,
         Field,
@@ -28,7 +28,7 @@ export const BecomeCorporateCustomer = () => {
           return (
             <>
               <GlobalStatus />
-              <DataContext.Provider
+              <Form.Handler
                 data={data}
                 onChange={setData}
                 onSubmit={(data) => console.log('onSubmit', data)}
@@ -159,8 +159,8 @@ export const BecomeCorporateCustomer = () => {
 
                     <Layout.Card stack>
                       <Layout.FlexContainer direction="row">
-                        <Value.FirstName path="/firstName" />
-                        <Value.LastName path="/lastName" />
+                        <Value.String path="/firstName" />
+                        <Value.String path="/lastName" />
                       </Layout.FlexContainer>
 
                       <Value.NationalIdentityNumber path="/ssn" />
@@ -170,7 +170,7 @@ export const BecomeCorporateCustomer = () => {
 
                     <Layout.ButtonRow>
                       <StepsLayout.PreviousButton />
-                      <DataContext.SubmitButton />
+                      <Form.SubmitButton />
                     </Layout.ButtonRow>
                   </StepsLayout.Step>
 
@@ -178,7 +178,7 @@ export const BecomeCorporateCustomer = () => {
                     Kvittering...
                   </StepsLayout.Step>
                 </StepsLayout>
-              </DataContext.Provider>
+              </Form.Handler>
 
               <Section
                 element="output"

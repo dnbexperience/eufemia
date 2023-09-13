@@ -118,6 +118,69 @@ exports.createPages = async (params) => {
   await createRedirects(params)
 }
 
+exports.onPostBuild = async (params) => {
+  await createRedirects(params)
+
+  if (deletedPages.length) {
+    params.reporter.warn(
+      `❗️ These pages where deleted:\n${deletedPages
+        .map((page) => `├ ${page}`)
+        .join('\n')}\n\n`,
+    )
+  }
+}
+
+const deletedPages = []
+const createdPages = []
+
+exports.onCreatePage = ({ page, actions }) => {
+  const { deletePage } = actions
+
+  // Only build pages without "'/uilib'" when building for visual tests
+  if (process.env.IS_VISUAL_TEST === '1') {
+    if (
+      (page.path !== '/' &&
+        !existsInPages(page.path, [
+          '/404',
+          '/500',
+          '/uilib',
+          '/quickguide-designer/colors',
+          '/quickguide-designer/fonts',
+          '/contribute/getting-started',
+        ])) ||
+      existsInPages(page.path, ['/forms/']) ||
+      existsInPages(page.componentPath, [
+        'properties.mdx',
+        'events.mdx',
+        'info.mdx',
+      ])
+    ) {
+      deletedPages.push(page.path)
+      deletePage(page)
+    }
+  }
+
+  const filter = process.env.filter
+
+  if (!(filter?.length > 0)) {
+    return // stop here
+  }
+
+  const pages = filter.split(' ')
+
+  if (!existsInPages(page.path, pages)) {
+    deletePage(page)
+  } else {
+    createdPages.push(page.path)
+  }
+}
+
+function existsInPages(path, pages) {
+  return pages.some((p) => {
+    return path.includes(p)
+  })
+}
+
 async function createRedirects({ graphql, actions }) {
   const mdxResult = await graphql(/* GraphQL */ `
     {
@@ -220,7 +283,7 @@ exports.onCreateWebpackConfig = ({
   actions.setWebpackConfig(config)
 }
 
-exports.onCreateDevServer = () => {
+exports.onCreateDevServer = (params) => {
   // We call the "onPostBuild" because we want it to run during development
   // Source https://github.com/NekR/self-destroying-sw/tree/master/packages/gatsby-plugin-remove-serviceworker
   const {
@@ -228,4 +291,12 @@ exports.onCreateDevServer = () => {
   } = require('gatsby-plugin-remove-serviceworker/gatsby-node.js')
 
   onPostBuild()
+
+  if (createdPages.length) {
+    params.reporter.info(
+      `🚀 You can only visit these pages:\n\n${createdPages
+        .map((page) => `├ http://localhost:8000${page}`)
+        .join('\n')}\n`,
+    )
+  }
 }

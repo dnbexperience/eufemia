@@ -1,0 +1,64 @@
+---
+title: 'Create your own component'
+order: 4
+breadcrumb:
+  - text: Forms
+    href: /uilib/extensions/forms/
+  - text: Create your component
+    href: /uilib/extensions/forms/create-component/
+---
+
+import ListBasisAPIs from './create-component/ListBasisAPIs'
+import {
+  CreateBasicFieldComponent,
+  CreateComposedFieldComponent,
+} from './Examples'
+
+# Create your own component
+
+Eufemia Forms contains helper fields and tools so you can declaratively create interactive form components that flawlessly integrates between existing data and your custom form components.
+
+By using the building blocks for field components, you save development time, and at the same time ensure that local, custom components work similarly, and fit into the setup with [the standardized field components](/uilib/extensions/forms/base-fields/).
+
+```jsx
+import {
+  DataContext,
+  Field,
+  FieldBlock,
+  Iterate,
+  Value,
+  ValueBlock,
+  Visibility,
+  useDataValue,
+} from '@dnb/eufemia/extensions/forms'
+```
+
+Here is an example of a custom component. Notice how the props received by your field component are passed through the `useDataValue` hook. This hook does not change the API of the props, so the props returned by the hook share the same typescript type with which it was called. However, it adds a few additional properties to simplify the standardization of field behavior. This in the form of the handler functions `handleFocus`, `handleChange` and `handleBlur`. Even if field components externally have these callback functions named with "on" (eg "onChange"), these will remain untouched, while the "handle" variants add handling that saves you a lot of extra work.
+
+When you call these three functions from your own implementation of the user experience for the field component, as shown below, a lot will happen in the background. All available validation functions will be called at the right time, changes in value will be synchronized with any surrounding `DataContext`, co-operation between several fields that should display error messages collectively instead of individually, and not least it ensures that error messages are not displayed on unnecessary times such as while the user is making changes to the field.
+
+<CreateBasicFieldComponent />
+
+In the example above, you see how you can create your own user input functionality in a standardized context using `FieldBlock`. This allows you to display labels, error messages and other surrounding elements in a consistent manner with the ready-made fields found in Eufemia Forms.
+
+Remember that everything that happens by using `useDataValue` and the rest of the available helper functionality, you can override the behaviour individually to make the component work exactly as you want.
+
+If – for example; you need to carry out your own custom validation and cannot use the built-in validation with a JSON Schema or by sending in a derivative validator (as is done in the example above), you can write your own logic for it, and send the result in as props to `FieldBlock` in the form of `error`. All direct props override standard handling, so you have full control over your component.
+
+If you need something that looks even more different than the usual fields, you can drop `FieldBlock` and display surrounding elements in other ways – but still get all the help of a data flow logic, such as `useDataValue` offers.
+
+Here follows an example that retrieves data from a surrounding DataContext, and creates a composite field based on other components from Eufemia:
+
+<CreateComposedFieldComponent />
+
+## Components
+
+<ListBasisAPIs />
+
+---
+
+## Hooks
+
+### useDataValue
+
+The `useDataValue` hook standardize handling of the value flow for a single consumer component representing one data point. It holds error state, hides it while the field is in focus, connects to surrounding `DataContext` (if present) and other things that all field or value components needs to do. By implementing custom field or value components and passing the received props through `useDataValue`, all these features work the same way as other field or value components, and you only need to implement the specific unique features of that component.

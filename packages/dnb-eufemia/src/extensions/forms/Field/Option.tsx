@@ -1,14 +1,12 @@
 import React from 'react'
 import classnames from 'classnames'
-import type { ComponentProps } from '../component-types'
-import type { FieldProps } from '../field-types'
+import type { FieldProps } from '../types'
 
-export type Props = ComponentProps &
-  FieldProps<number | string> & {
-    title?: string
-    text?: string
-    children?: React.ReactNode
-  }
+export type Props = FieldProps<number | string> & {
+  title?: string
+  text?: string
+  children?: React.ReactNode
+}
 
 export default function Option({
   className,

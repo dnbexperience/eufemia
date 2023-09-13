@@ -5,8 +5,6 @@ import BooleanComponent from './Boolean'
 import Currency from './Currency'
 import DateComponent from './Date'
 import Email from './Email'
-import FirstName from './FirstName'
-import LastName from './LastName'
 import NationalIdentityNumber from './NationalIdentityNumber'
 import PhoneNumber from './PhoneNumber'
 import OrganizationNumber from './OrganizationNumber'
@@ -26,8 +24,6 @@ const Field = {
   Currency,
   Date: DateComponent,
   Email,
-  FirstName,
-  LastName,
   NationalIdentityNumber,
   OrganizationNumber,
   PhoneNumber,

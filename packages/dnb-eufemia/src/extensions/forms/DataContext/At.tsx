@@ -1,6 +1,6 @@
 import React, { useContext, useMemo } from 'react'
 import pointer from 'json-pointer'
-import type { ComponentProps } from '../component-types'
+import type { ComponentProps } from '../types'
 import Context from './Context'
 
 export type Props = ComponentProps & {

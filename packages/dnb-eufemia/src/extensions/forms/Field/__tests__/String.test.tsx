@@ -56,6 +56,26 @@ describe('Field.String', () => {
       expect(screen.getByLabelText('The label')).toBeInTheDocument()
     })
 
+    it('input is connected to label', () => {
+      const { rerender } = render(<Field.String label="Label" />)
+
+      expect(document.querySelector('input').getAttribute('id')).toBe(
+        document.querySelector('label').getAttribute('for')
+      )
+
+      rerender(<Field.String label="Label" multiline />)
+
+      expect(document.querySelector('textarea').getAttribute('id')).toBe(
+        document.querySelector('label').getAttribute('for')
+      )
+
+      rerender(<Field.String label="Label" mask={[/\/d/]} />)
+
+      expect(document.querySelector('input').getAttribute('id')).toBe(
+        document.querySelector('label').getAttribute('for')
+      )
+    })
+
     it('renders error', () => {
       render(<Field.String error={new Error('This is what went wrong')} />)
       expect(
