@@ -310,6 +310,27 @@ sup .dnb-anchor, sub .dnb-anchor {
   display: inline-block;
   transform: translateY(-0.0625em);
 }
+.dnb-anchor.dnb-anchor--contrast {
+  color: var(--color-white);
+}
+.dnb-anchor.dnb-anchor--contrast:hover {
+  color: var(--anchor-color--contrast);
+  box-shadow: inset 100vw 100vw 0 0 var(--color-white), -0.125em 0 0 0 var(--color-white), 0.125em 0 0 0 var(--color-white);
+}
+.dnb-anchor.dnb-anchor--contrast:active {
+  color: var(--color-white);
+  background-color: transparent;
+  box-shadow: inset 100vw 100vw 0 0 transparent, -0.125em 0 0 0 transparent, 0.125em 0 0 0 transparent;
+}
+.dnb-anchor.dnb-anchor--contrast:focus-visible {
+  color: var(--color-white);
+  background-color: transparent;
+  outline: none;
+  --border-color: var(--color-white);
+  --border-width: var(--focus-ring-width);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
 
 .dnb-anchor--hover {
   border-radius: 0.25em;
@@ -398,6 +419,7 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
 .dnb-anchor {
   --anchor-underline-thickness: 0.125rem;
   --anchor-background: transparent;
+  --anchor-color--contrast: var(--sb-color-text);
   font-weight: var(--sb-font-weight-bold);
   color: var(--sb-color-gray-dark-3);
   text-decoration-color: var(--sb-color-green-dark);
@@ -525,28 +547,6 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
 
 .dnb-anchor--inline {
   text-decoration-color: currentcolor;
-}
-
-.dnb-anchor--contrast {
-  color: var(--color-white);
-}
-.dnb-anchor--contrast:hover {
-  color: var(--sb-color-text);
-  box-shadow: inset 100vw 100vw 0 0 var(--color-white), -0.125em 0 0 0 var(--color-white), 0.125em 0 0 0 var(--color-white);
-}
-.dnb-anchor--contrast:active {
-  color: var(--color-white);
-  background-color: transparent;
-  box-shadow: inset 100vw 100vw 0 0 transparent, -0.125em 0 0 0 transparent, 0.125em 0 0 0 transparent;
-}
-.dnb-anchor--contrast:focus-visible {
-  color: var(--color-white);
-  background-color: transparent;
-  outline: none;
-  --border-color: var(--color-white);
-  --border-width: var(--focus-ring-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
 }"
 `;
 
@@ -563,53 +563,36 @@ exports[`Anchor scss has to match theme css for ui 1`] = `
  *
  */
 .dnb-anchor {
-  color: var(--color-sea-green);
+  --anchor-color: var(--anchor-color--default, var(--color-sea-green));
+  --anchor-color--active: var(--color-mint-green);
+  --anchor-color--contrast: var(--color-emerald-green);
+  --anchor-background--hover: var(--color-mint-green-50);
+  --anchor-background--active: var(--color-emerald-green);
+  color: var(--anchor-color);
 }
 .dnb-anchor:hover {
-  color: var(--color-sea-green);
-  box-shadow: inset 100vw 100vw 0 0 var(--color-mint-green-50), -0.125em 0 0 0 var(--color-mint-green-50), 0.125em 0 0 0 var(--color-mint-green-50);
+  --anchor-color: var(--color-sea-green);
+  box-shadow: inset 100vw 100vw 0 0 var(--anchor-background--hover), -0.125em 0 0 0 var(--anchor-background--hover), 0.125em 0 0 0 var(--anchor-background--hover);
 }
 .dnb-anchor:active {
-  color: var(--color-mint-green);
-  box-shadow: inset 100vw 100vw 0 0 var(--color-emerald-green), -0.125em 0 0 0 var(--color-emerald-green), 0.125em 0 0 0 var(--color-emerald-green);
+  --anchor-color: var(--anchor-color--active);
+  box-shadow: inset 100vw 100vw 0 0 var(--anchor-background--active), -0.125em 0 0 0 var(--anchor-background--active), 0.125em 0 0 0 var(--anchor-background--active);
 }
 .dnb-anchor:focus-visible {
-  color: var(--color-sea-green);
+  --anchor-color: var(--color-sea-green);
 }
 
 .dnb-anchor--hover {
-  color: var(--color-sea-green);
-  box-shadow: inset 100vw 100vw 0 0 var(--color-mint-green-50), -0.125em 0 0 0 var(--color-mint-green-50), 0.125em 0 0 0 var(--color-mint-green-50);
+  --anchor-color: var(--color-sea-green);
+  box-shadow: inset 100vw 100vw 0 0 var(--anchor-background--hover), -0.125em 0 0 0 var(--anchor-background--hover), 0.125em 0 0 0 var(--anchor-background--hover);
 }
 
 .dnb-anchor--active {
-  color: var(--color-mint-green);
-  box-shadow: inset 100vw 100vw 0 0 var(--color-emerald-green), -0.125em 0 0 0 var(--color-emerald-green), 0.125em 0 0 0 var(--color-emerald-green);
+  --anchor-color: var(--anchor-color--active);
+  box-shadow: inset 100vw 100vw 0 0 var(--anchor-background--active), -0.125em 0 0 0 var(--anchor-background--active), 0.125em 0 0 0 var(--anchor-background--active);
 }
 
 .dnb-anchor--focus {
-  color: var(--color-sea-green);
-}
-
-.dnb-anchor--contrast {
-  color: var(--color-white);
-}
-.dnb-anchor--contrast:hover {
-  color: var(--color-emerald-green);
-  box-shadow: inset 100vw 100vw 0 0 var(--color-white), -0.125em 0 0 0 var(--color-white), 0.125em 0 0 0 var(--color-white);
-}
-.dnb-anchor--contrast:active {
-  color: var(--color-white);
-  background-color: transparent;
-  box-shadow: inset 100vw 100vw 0 0 transparent, -0.125em 0 0 0 transparent, 0.125em 0 0 0 transparent;
-}
-.dnb-anchor--contrast:focus-visible {
-  color: var(--color-white);
-  background-color: transparent;
-  outline: none;
-  --border-color: var(--color-white);
-  --border-width: var(--focus-ring-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
+  --anchor-color: var(--color-sea-green);
 }"
 `;

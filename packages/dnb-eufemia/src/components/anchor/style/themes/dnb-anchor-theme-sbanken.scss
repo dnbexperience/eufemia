@@ -44,6 +44,7 @@
 .dnb-anchor {
   --anchor-underline-thickness: 0.125rem;
   --anchor-background: transparent;
+  --anchor-color--contrast: var(--sb-color-text);
 
   // Has to use --sb-font-weight-bold to get correct weighting as --sb-font-weight-medium does nothing at the moment
   font-weight: var(--sb-font-weight-bold);
@@ -149,9 +150,4 @@
 
 .dnb-anchor--inline {
   text-decoration-color: currentcolor;
-}
-
-// TODO: add correct contrast styling when designs are in place
-.dnb-anchor--contrast {
-  @include anchor-mixins.useAnchorContrastStyle(var(--sb-color-text));
 }

@@ -7,20 +7,9 @@
 @use '../anchor-mixins.scss';
 
 .dnb-anchor {
-  color: var(--color-emerald-green);
-
-  &:hover,
-  &.dnb-anchor--hover {
-    box-shadow: none;
-  }
-
-  &:active,
-  &.dnb-anchor--active {
-    color: var(--color-sea-green);
-    @include anchor-mixins.anchorBackground(var(--color-pistachio));
-  }
-}
-
-.dnb-anchor--contrast {
-  @include anchor-mixins.useAnchorContrastStyle(var(--color-sea-green));
+  --anchor-color--default: var(--color-emerald-green);
+  --anchor-color--contrast: var(--color-sea-green);
+  --anchor-color--active: var(--color-sea-green);
+  --anchor-background--hover: transparent;
+  --anchor-background--active: var(--color-pistachio);
 }

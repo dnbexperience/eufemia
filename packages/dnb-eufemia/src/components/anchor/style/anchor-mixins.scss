@@ -103,11 +103,11 @@
 }
 
 // other styles
-@mixin useAnchorContrastStyle($contrastColor: var(--color-emerald-green)) {
+@mixin useAnchorContrastStyle {
   color: var(--color-white);
 
   &:hover {
-    color: $contrastColor;
+    color: var(--anchor-color--contrast);
     @include anchorBackground(var(--color-white));
   }
 

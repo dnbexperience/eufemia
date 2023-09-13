@@ -5,21 +5,41 @@
 
 @use '../anchor-mixins.scss';
 
+@mixin anchorHover {
+  --anchor-color: var(--color-sea-green);
+  @include anchor-mixins.anchorBackground(var(--anchor-background--hover));
+}
+
+@mixin anchorActive {
+  --anchor-color: var(--anchor-color--active);
+  @include anchor-mixins.anchorBackground(
+    var(--anchor-background--active)
+  );
+}
+
+@mixin anchorFocus {
+  --anchor-color: var(--color-sea-green);
+}
+
 @mixin anchorStyle() {
-  color: var(--color-sea-green);
+  --anchor-color: var(--anchor-color--default, var(--color-sea-green));
+  --anchor-color--active: var(--color-mint-green);
+  --anchor-color--contrast: var(--color-emerald-green);
+  --anchor-background--hover: var(--color-mint-green-50);
+  --anchor-background--active: var(--color-emerald-green);
+
+  color: var(--anchor-color);
 
   &:hover {
-    color: var(--color-sea-green);
-    @include anchor-mixins.anchorBackground(var(--color-mint-green-50));
+    @include anchorHover();
   }
 
   &:active {
-    color: var(--color-mint-green);
-    @include anchor-mixins.anchorBackground(var(--color-emerald-green));
+    @include anchorActive();
   }
 
   &:focus-visible {
-    color: var(--color-sea-green);
+    @include anchorFocus();
   }
 }
 
@@ -30,21 +50,15 @@ $useClasses: true !default;
   }
 
   .dnb-anchor--hover {
-    color: var(--color-sea-green);
-    @include anchor-mixins.anchorBackground(var(--color-mint-green-50));
+    @include anchorHover();
   }
 
   .dnb-anchor--active {
-    color: var(--color-mint-green);
-    @include anchor-mixins.anchorBackground(var(--color-emerald-green));
+    @include anchorActive();
   }
 
   .dnb-anchor--focus {
-    color: var(--color-sea-green);
-  }
-
-  .dnb-anchor--contrast {
-    @include anchor-mixins.useAnchorContrastStyle();
+    @include anchorFocus();
   }
 }
 

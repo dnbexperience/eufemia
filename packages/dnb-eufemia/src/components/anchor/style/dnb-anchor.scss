@@ -19,6 +19,10 @@ button.dnb-anchor {
 .dnb-anchor {
   --anchor-underline-thickness: 0.0938rem;
   @include anchorStyle();
+
+  &.dnb-anchor--contrast {
+    @include useAnchorContrastStyle();
+  }
 }
 
 .dnb-anchor--hover {
