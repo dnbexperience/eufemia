@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkdnb_design_system_portal=self.webpackChunkdnb_design_system_portal||[]).push([[7195],{43679:function(e,s,n){n.r(s),n.d(s,{default:function(){return d}});var t=n(68270),u=n(75440),r=n(52322);function d(){const{allMdx:{edges:e}}=(0,t.useStaticQuery)("185127791");return(0,r.jsx)(u.Z,{edges:e})}}}]);
+//# sourceMappingURL=component---src-docs-uilib-extensions-forms-create-component-value-list-base-value-components-tsx-a7d6cd094eb8f3ef7df4.js.map
