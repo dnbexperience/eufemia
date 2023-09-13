@@ -54,14 +54,10 @@ const CodeBlock = ({
     )
   } else {
     return (
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       <Highlight
         {...defaultProps}
         code={String(exampleCode).trim()}
         language={language}
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         theme={prismTheme}
       >
         {({ className, style, tokens, getLineProps, getTokenProps }) => (
@@ -188,7 +184,6 @@ class LiveCode extends React.PureComponent<
     return (
       <div className={liveCodeEditorStyle}>
         <LiveProvider
-          Prism={Prism}
           theme={prismTheme}
           code={codeToUse}
           scope={scope}
@@ -217,6 +212,7 @@ class LiveCode extends React.PureComponent<
             >
               <span className="dnb-sr-only">Code Editor</span>
               <LiveEditor
+                prism={Prism}
                 id={this._id}
                 className="dnb-live-editor__editable dnb-pre"
                 onChange={(code) => {
