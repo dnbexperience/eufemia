@@ -1,0 +1,10 @@
+/*
+* Tooltip theme for Sbanken
+*
+*/
+
+.dnb-tooltip {
+  --tooltip-color: var(--sb-color-white);
+  --tooltip-background-color: var(--sb-color-gray-dark-3);
+  --tooltip-border-color: 1px solid var(--sb-color-gray-dark-3);
+}
