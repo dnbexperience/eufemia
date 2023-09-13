@@ -281,9 +281,6 @@ exports[`ProgressIndicator scss have to match default theme snapshot 1`] = `
 * ProgressIndicator theme
 *
 */
-/*
- * Utilities
- */
 .dnb-progress-indicator {
   --progress-indicator-circular-background-color: var(--color-mint-green);
   --progress-indicator-circular-bar-color: var(--color-emerald-green);
