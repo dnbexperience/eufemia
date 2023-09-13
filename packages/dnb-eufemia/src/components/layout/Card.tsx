@@ -6,16 +6,21 @@ import FlexContainer, {
 import FlexItem from './FlexItem'
 import type { ComponentProps } from '../../extensions/forms/component-types'
 
-export type Props = ComponentProps & {
+export type CardProps = ComponentProps & {
   stack?: boolean
   direction?: FlexContainerProps['direction']
   spacing?: FlexContainerProps['spacing']
   children: React.ReactNode
 }
 
-function Card(props: Props) {
-  const { className, stack, direction, spacing, children, ...rest } = props
-
+function Card({
+  className,
+  stack,
+  direction,
+  spacing,
+  children,
+  ...rest
+}: CardProps) {
   if (stack) {
     return (
       <FlexContainer
