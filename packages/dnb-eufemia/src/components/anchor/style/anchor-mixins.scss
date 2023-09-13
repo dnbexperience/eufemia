@@ -34,10 +34,6 @@
   .dnb-h--x-small & {
     font-size: inherit;
   }
-
-  @if mixin-exists('anchorDefaultStyleCustomisation') {
-    @include anchorDefaultStyleCustomisation();
-  }
 }
 
 // reset methods
@@ -75,20 +71,12 @@
   border-radius: 0.25em;
 
   @include resetUnderlineStyle();
-
-  @if mixin-exists('anchorHoverStyleCustomisation') {
-    @include anchorHoverStyleCustomisation();
-  }
 }
 
 @mixin anchorActiveStyle() {
   border-radius: 0.25em;
 
   @include resetUnderlineStyle();
-
-  @if mixin-exists('anchorActiveStyleCustomisation') {
-    @include anchorActiveStyleCustomisation();
-  }
 }
 
 @mixin anchorFocusStyle() {

@@ -3,20 +3,6 @@
  *
  */
 
-@mixin anchorDefaultStyleCustomisation() {
-  color: var(--color-emerald-green);
-}
-
-@mixin anchorHoverStyleCustomisation() {
-  color: var(--color-sea-green);
-  background-color: transparent;
-}
-
-@mixin anchorActiveStyleCustomisation() {
-  color: var(--color-sea-green);
-  background-color: var(--color-pistachio);
-}
-
 // import the default theme, and go from there
 // will also have all the component themes included
 @import '../theme-ui/ui-theme-basis.scss';
