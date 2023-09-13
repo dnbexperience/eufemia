@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
 import classnames from 'classnames'
 import SharedContext from '../../../shared/Context'
-import FieldGroup, { Props as FieldGroupProps } from '../FieldGroup'
+import FieldBlock, { Props as FieldBlockProps } from '../FieldBlock'
 import StringComponent, { Props as StringComponentProps } from './String'
 
-export type Props = Omit<FieldGroupProps, 'children'> &
+export type Props = Omit<FieldBlockProps, 'children'> &
   Record<'postalCode' | 'city', StringComponentProps> & {
     width?: 'small' | 'medium' | 'large'
   }
@@ -16,16 +16,16 @@ function PostalCodeAndCity(props: Props) {
     postalCode = {},
     city = {},
     width = 'large',
-    ...fieldGroupProps
+    ...fieldBlockProps
   } = props
 
   return (
-    <FieldGroup
+    <FieldBlock
       className={classnames(
         'dnb-forms-field-postal-code-and-city',
         props.className
       )}
-      {...fieldGroupProps}
+      {...fieldBlockProps}
     >
       <div
         className={classnames(
@@ -70,7 +70,7 @@ function PostalCodeAndCity(props: Props) {
           width="stretch"
         />
       </div>
-    </FieldGroup>
+    </FieldBlock>
   )
 }
 
