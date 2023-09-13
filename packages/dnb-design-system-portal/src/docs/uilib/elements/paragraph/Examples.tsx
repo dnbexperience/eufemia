@@ -4,50 +4,64 @@
  */
 
 import React from 'react'
-import styled from '@emotion/styled'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import Anchor from '@dnb/eufemia/src/components/Anchor'
 import P from '@dnb/eufemia/src/elements/P'
 
-const Case = styled.span`
-  display: block;
-  padding: 0.25rem 0;
-`
-
 export function ParagraphDefault() {
   return (
-    <ComponentBox
-      scope={{ Case }}
-      hideCode
-      data-visual-test="paragraph-default"
-    >
+    <ComponentBox hideCode data-visual-test="paragraph-default">
       <P>
-        <Case>Here is a paragraph text</Case>
-        <Case>
-          <Anchor href="/">Anchor / Text Link</Anchor>
-        </Case>
-        <Case>
-          <b>Bold paragraph (medium weight)</b>
-        </Case>
-        <Case>
-          <strong>Strong paragraph (medium weight)</strong>
-        </Case>
+        Here is a paragraph text
+        <Anchor href="/">Anchor / Text Link</Anchor>
+        <b>Bold paragraph (medium weight)</b>
+        <strong>Strong paragraph (medium weight)</strong>
         {/* <i>Italic paragraph (Currently not supported by DNB UX)</i> */}
         {/* <u>Underline paragraph (Currently not supported by DNB UX)</u> */}
-        <Case>Numbers 0123456789</Case>
-        <Case>
+        Numbers 0123456789
+        <code className="dnb-code">Code paragraph</code>
+        <cite>Cite paragraph</cite>
+        Text <sup>1</sup>{' '}
+        <b>
+          Text <sup>1</sup>
+        </b>{' '}
+        Text{' '}
+        <sup>
+          <Anchor href="/">1</Anchor>
+        </sup>{' '}
+        <b>
+          Text{' '}
+          <sup>
+            <Anchor href="/">1</Anchor>
+          </sup>
+        </b>{' '}
+        Text <sub>1</sub>{' '}
+        <b>
+          Text <sub>1</sub>
+        </b>{' '}
+      </P>
+    </ComponentBox>
+  )
+}
+
+export function ParagraphSmall() {
+  return (
+    <ComponentBox hideCode data-visual-test="paragraph-small">
+      <div>
+        <P size="small">
+          Here is a small paragraph text
+          <Anchor href="/">Anchor / Text Link</Anchor>
+          <b>Bold paragraph (medium weight)</b>
+          <strong>Strong paragraph (medium weight)</strong>
+          {/* <i>Italic paragraph</i> */}
+          {/* <u>Underline paragraph</u> */}
+          Numbers 0123456789
           <code className="dnb-code">Code paragraph</code>
-        </Case>
-        <Case>
           <cite>Cite paragraph</cite>
-        </Case>
-        <Case>
           Text <sup>1</sup>{' '}
           <b>
             Text <sup>1</sup>
           </b>{' '}
-        </Case>
-        <Case>
           Text{' '}
           <sup>
             <Anchor href="/">1</Anchor>
@@ -58,77 +72,15 @@ export function ParagraphDefault() {
               <Anchor href="/">1</Anchor>
             </sup>
           </b>{' '}
-        </Case>
-        <Case>
           Text <sub>1</sub>{' '}
           <b>
             Text <sub>1</sub>
           </b>{' '}
-        </Case>
-      </P>
-    </ComponentBox>
-  )
-}
-
-export function ParagraphSmall() {
-  return (
-    <ComponentBox
-      scope={{ Case }}
-      hideCode
-      data-visual-test="paragraph-small"
-    >
-      <div>
-        <P size="small">
-          <Case>Here is a small paragraph text</Case>
-          <Case>
-            <Anchor href="/">Anchor / Text Link</Anchor>
-          </Case>
-          <Case>
-            <b>Bold paragraph (medium weight)</b>
-          </Case>
-          <Case>
-            <strong>Strong paragraph (medium weight)</strong>
-          </Case>
-          {/* <i>Italic paragraph</i> */}
-          {/* <u>Underline paragraph</u> */}
-          <Case>Numbers 0123456789</Case>
-          <Case>
-            <code className="dnb-code">Code paragraph</code>
-          </Case>
-          <Case>
-            <cite>Cite paragraph</cite>
-          </Case>
-          <Case>
-            Text <sup>1</sup>{' '}
-            <b>
-              Text <sup>1</sup>
-            </b>{' '}
-          </Case>
-          <Case>
-            Text{' '}
-            <sup>
-              <Anchor href="/">1</Anchor>
-            </sup>{' '}
-            <b>
-              Text{' '}
-              <sup>
-                <Anchor href="/">1</Anchor>
-              </sup>
-            </b>{' '}
-          </Case>
-          <Case>
-            Text <sub>1</sub>{' '}
-            <b>
-              Text <sub>1</sub>
-            </b>{' '}
-          </Case>
         </P>
         <P size="x-small">
-          <Case>
-            Here is a x-small paragraph text
-            <br />
-            with a new line.
-          </Case>
+          Here is a x-small paragraph text
+          <br />
+          with a new line.
         </P>
       </div>
     </ComponentBox>
@@ -137,36 +89,16 @@ export function ParagraphSmall() {
 
 export function ParagraphAdditional() {
   return (
-    <ComponentBox
-      scope={{ Case }}
-      hideCode
-      data-visual-test="paragraph-additional"
-    >
+    <ComponentBox hideCode data-visual-test="paragraph-additional">
       <P>
-        <Case>
-          <i>Italic paragraph</i>
-        </Case>
-        <Case>
-          <u>Underline paragraph</u>
-        </Case>
-        <Case>
-          <Anchor title="User Experience">UX</Anchor>
-        </Case>
-        <Case>
-          <del>Deleted paragraph</del>
-        </Case>
-        <Case>
-          <mark>Marked paragraph</mark>
-        </Case>
-        <Case>
-          <ins>Inserted paragraph</ins>
-        </Case>
-        <Case>
-          Text <sup>Superscript</sup>
-        </Case>
-        <Case>
-          Text <sub>Subscript</sub>
-        </Case>
+        <i>Italic paragraph</i>
+        <u>Underline paragraph</u>
+        <Anchor title="User Experience">UX</Anchor>
+        <del>Deleted paragraph</del>
+        <mark>Marked paragraph</mark>
+        <ins>Inserted paragraph</ins>
+        Text <sup>Superscript</sup>
+        Text <sub>Subscript</sub>
       </P>
     </ComponentBox>
   )
@@ -193,14 +125,12 @@ export function ParagraphRegressionTests() {
     const size = props.size || customSize
     return (
       <>
-        <P {...props}>
-          <Case>{size}</Case>
-        </P>
+        <P {...props}>{size}</P>
         <P medium {...props}>
-          <Case>{size} - Weight medium</Case>
+          {size} - Weight medium
         </P>
         <P bold {...props}>
-          <Case>{size} - Weight bold</Case>
+          {size} - Weight bold
         </P>
       </>
     )
