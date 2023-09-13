@@ -245,16 +245,15 @@ export default class ModalContent extends React.PureComponent<
       this._focusTimeout = setTimeout(
         () => {
           try {
-            let focusElement = elem
+            let focusElement = elem as HTMLInputElement
 
             // Try to use the "first-focus" method first
             if (typeof focus_selector === 'string') {
               focusElement = elem.querySelector(focus_selector)
             }
 
-            if (focusElement?.focus) {
-              focusElement.focus()
-            }
+            focusElement?.focus?.()
+            focusElement?.select?.()
 
             const noH1Elem = elem.querySelector('h1, h2, h3')
             if (noH1Elem?.tagName !== 'H1') {
