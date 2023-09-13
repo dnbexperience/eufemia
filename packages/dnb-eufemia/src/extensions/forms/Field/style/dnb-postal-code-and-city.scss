@@ -1,4 +1,4 @@
-@import '../../variables.scss';
+@import '../../../../components/layout/style/layout-sizes.scss';
 
 .dnb-forms-field-postal-code-and-city {
   &__fields {
@@ -8,15 +8,15 @@
   }
 
   &--width-small {
-    width: $forms-field-width-small;
+    width: var(--layout-field-width--small);
   }
 
   &--width-medium {
-    width: $forms-field-width-medium;
+    width: var(--layout-field-width--medium);
   }
 
   &--width-large {
-    width: $forms-field-width-large;
+    width: var(--layout-field-width--large);
   }
 
   &__postal-code {

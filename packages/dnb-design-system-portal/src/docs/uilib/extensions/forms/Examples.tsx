@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { useCallback } from 'react'
+import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { Input, Slider } from '@dnb/eufemia/src'
+import { Layout, Input, Slider } from '@dnb/eufemia/src'
 import {
   Form,
-  Layout,
   StepsLayout,
   Field,
   Value,
@@ -79,12 +78,10 @@ export const CreateComposedFieldComponent = () => {
     <ComponentBox
       scope={{
         DataContext,
-        Layout,
         Field,
         FieldBlock,
         Slider,
         useDataValue,
-        useCallback,
       }}
     >
       {() => {
@@ -93,7 +90,7 @@ export const CreateComposedFieldComponent = () => {
             path: '/birthYear',
           })
 
-          const handleBirthYearChange = useCallback(
+          const handleBirthYearChange = React.useCallback(
             (sliderData) => {
               birthYear.handleChange(sliderData.value)
             },
@@ -102,7 +99,7 @@ export const CreateComposedFieldComponent = () => {
 
           return (
             <FieldBlock label={props.label ?? 'Name and age'}>
-              <Layout.Row>
+              <Layout.Horizontal>
                 <Field.String
                   path="/firstName"
                   label="First name"
@@ -132,7 +129,7 @@ export const CreateComposedFieldComponent = () => {
                     alwaysShowTooltip
                   />
                 </Layout.FlexItem>
-              </Layout.Row>
+              </Layout.Horizontal>
             </FieldBlock>
           )
         }
@@ -160,7 +157,6 @@ export const BaseFieldComponents = () => {
     <ComponentBox
       scope={{
         Form,
-        Layout,
         StepsLayout,
         Field,
         Value,
@@ -193,7 +189,6 @@ export const FeatureFields = () => {
     <ComponentBox
       scope={{
         Form,
-        Layout,
         StepsLayout,
         Field,
         Value,
@@ -216,14 +211,13 @@ export const LayoutComponents = () => {
     <ComponentBox
       scope={{
         Form,
-        Layout,
         StepsLayout,
         Field,
         Value,
         Visibility,
       }}
     >
-      <Layout.Section>
+      <Layout.Stack>
         <Layout.MainHeading>Profile</Layout.MainHeading>
 
         <Layout.Card stack>
@@ -240,7 +234,7 @@ export const LayoutComponents = () => {
           <Field.Email value="john@smith.email" />
           <Field.PhoneNumber value="+47 98765432" />
         </Layout.Card>
-      </Layout.Section>
+      </Layout.Stack>
     </ComponentBox>
   )
 }
@@ -250,7 +244,6 @@ export const VisibilityBasedOnData = () => {
     <ComponentBox
       scope={{
         Form,
-        Layout,
         StepsLayout,
         Field,
         Value,
@@ -272,7 +265,7 @@ export const VisibilityBasedOnData = () => {
         }
         onSubmit={(data) => console.log('onSubmit', data)}
       >
-        <Layout.Section>
+        <Layout.Stack>
           <Layout.MainHeading>Profile</Layout.MainHeading>
 
           <Layout.Card stack>
@@ -281,14 +274,14 @@ export const VisibilityBasedOnData = () => {
             <Field.String path="/firstName" label="Fornavn" />
             <Field.String path="/lastName" label="Etternavn" />
           </Layout.Card>
-        </Layout.Section>
+        </Layout.Stack>
         <Field.Boolean
           path="/advanced"
           variant="checkbox-button"
           label="More fields"
         />
         <Visibility pathTrue="/advanced">
-          <Layout.Section>
+          <Layout.Stack>
             <Layout.Card stack>
               <Layout.SubHeading>More information</Layout.SubHeading>
 
@@ -296,7 +289,7 @@ export const VisibilityBasedOnData = () => {
               <Field.Email value="john@smith.email" />
               <Field.PhoneNumber value="+47 98765432" />
             </Layout.Card>
-          </Layout.Section>
+          </Layout.Stack>
         </Visibility>
       </Form.Handler>
     </ComponentBox>
@@ -308,7 +301,6 @@ export const UsingFormHandler = () => {
     <ComponentBox
       scope={{
         Form,
-        Layout,
         StepsLayout,
         Field,
         Value,
@@ -338,9 +330,9 @@ export const UsingFormHandler = () => {
           <Field.Email path="/email" />
           <Field.PhoneNumber path="/phone" />
 
-          <Layout.ButtonRow>
+          <Form.ButtonRow>
             <Form.SubmitButton />
-          </Layout.ButtonRow>
+          </Form.ButtonRow>
         </Layout.Card>
       </Form.Handler>
     </ComponentBox>
@@ -352,7 +344,6 @@ export const Validation = () => {
     <ComponentBox
       scope={{
         Form,
-        Layout,
         StepsLayout,
         Field,
         Value,
@@ -392,7 +383,6 @@ export const WithSteps = () => {
     <ComponentBox
       scope={{
         Form,
-        Layout,
         StepsLayout,
         Field,
         Value,
@@ -425,9 +415,9 @@ export const WithSteps = () => {
               <Field.String path="/lastName" label="Etternavn" required />
             </Layout.Card>
 
-            <Layout.ButtonRow>
+            <Form.ButtonRow>
               <StepsLayout.NextButton />
-            </Layout.ButtonRow>
+            </Form.ButtonRow>
           </StepsLayout.Step>
 
           <StepsLayout.Step title="More information">
@@ -441,17 +431,17 @@ export const WithSteps = () => {
               <Field.PhoneNumber path="/phone" />
             </Layout.Card>
 
-            <Layout.ButtonRow>
+            <Form.ButtonRow>
               <StepsLayout.PreviousButton />
               <StepsLayout.NextButton />
-            </Layout.ButtonRow>
+            </Form.ButtonRow>
           </StepsLayout.Step>
 
           <StepsLayout.Step title="Summary">
             <Layout.MainHeading>Profile</Layout.MainHeading>
 
             <Layout.Card stack>
-              <Layout.FlexContainer direction="row">
+              <Layout.FlexContainer direction="horizontal">
                 <Value.String path="/firstName" label="Fornavn" />
                 <Value.String path="/lastName" label="Etternavn" />
               </Layout.FlexContainer>
@@ -461,10 +451,10 @@ export const WithSteps = () => {
               <Value.PhoneNumber path="/phone" />
             </Layout.Card>
 
-            <Layout.ButtonRow>
+            <Form.ButtonRow>
               <StepsLayout.PreviousButton />
               <Form.SubmitButton />
-            </Layout.ButtonRow>
+            </Form.ButtonRow>
           </StepsLayout.Step>
         </StepsLayout>
       </Form.Handler>

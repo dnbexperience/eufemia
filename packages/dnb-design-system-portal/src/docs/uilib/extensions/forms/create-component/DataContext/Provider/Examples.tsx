@@ -3,10 +3,10 @@ import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
 import {
   Form,
   DataContext,
-  Layout,
   Field,
   Value,
 } from '@dnb/eufemia/src/extensions/forms'
+import { Layout } from '@dnb/eufemia/src'
 
 export const TestdataSchema: JSONSchema7 = {
   type: 'object',
@@ -81,7 +81,6 @@ export const Default = () => {
       scope={{
         Form,
         DataContext,
-        Layout,
         Field,
         Value,
         testdata,
@@ -97,9 +96,9 @@ export const Default = () => {
         onSubmit={(data) => console.log('onSubmit', data)}
         onSubmitRequest={() => console.log('onSubmitRequest')}
       >
-        <Layout.Section>
+        <Layout.Stack>
           <Layout.Card>
-            <Layout.Column divider="line" spacing="small">
+            <Layout.Vertical divider="line" spacing="small">
               <Field.String
                 path="/requiredString"
                 label="Required string"
@@ -135,7 +134,7 @@ export const Default = () => {
                 />
               </div>
               <div className="hmm">
-                <Layout.Row>
+                <Layout.Horizontal>
                   <Field.String
                     path="/list/0/itemText"
                     label="Item text"
@@ -144,8 +143,8 @@ export const Default = () => {
                     path="/list/0/itemNumber"
                     label="Item number"
                   />
-                </Layout.Row>
-                <Layout.Row>
+                </Layout.Horizontal>
+                <Layout.Horizontal>
                   <Field.String
                     path="/list/1/itemText"
                     label="Item text"
@@ -154,14 +153,14 @@ export const Default = () => {
                     path="/list/1/itemNumber"
                     label="Item number"
                   />
-                </Layout.Row>
+                </Layout.Horizontal>
               </div>
-              <Layout.ButtonRow>
+              <Form.ButtonRow>
                 <Form.SubmitButton />
-              </Layout.ButtonRow>
-            </Layout.Column>
+              </Form.ButtonRow>
+            </Layout.Vertical>
           </Layout.Card>
-        </Layout.Section>
+        </Layout.Stack>
       </DataContext.Provider>
     </ComponentBox>
   )
@@ -173,7 +172,6 @@ export const ValidationWithJsonSchema = () => {
       scope={{
         Form,
         DataContext,
-        Layout,
         Field,
         Value,
         testdata,
@@ -190,9 +188,9 @@ export const ValidationWithJsonSchema = () => {
         onSubmit={(data) => console.log('onSubmit', data)}
         onSubmitRequest={() => console.log('onSubmitRequest')}
       >
-        <Layout.Section>
+        <Layout.Stack>
           <Layout.Card>
-            <Layout.Column divider="line" spacing="small">
+            <Layout.Vertical divider="line" spacing="small">
               <Field.String
                 path="/requiredString"
                 label="Required string"
@@ -226,7 +224,7 @@ export const ValidationWithJsonSchema = () => {
                 />
               </div>
               <div className="hmm">
-                <Layout.Row>
+                <Layout.Horizontal>
                   <Field.String
                     path="/list/0/itemText"
                     label="Item text"
@@ -235,8 +233,8 @@ export const ValidationWithJsonSchema = () => {
                     path="/list/0/itemNumber"
                     label="Item number"
                   />
-                </Layout.Row>
-                <Layout.Row>
+                </Layout.Horizontal>
+                <Layout.Horizontal>
                   <Field.String
                     path="/list/1/itemText"
                     label="Item text"
@@ -245,14 +243,14 @@ export const ValidationWithJsonSchema = () => {
                     path="/list/1/itemNumber"
                     label="Item number"
                   />
-                </Layout.Row>
+                </Layout.Horizontal>
               </div>
-              <Layout.ButtonRow>
+              <Form.ButtonRow>
                 <Form.SubmitButton />
-              </Layout.ButtonRow>
-            </Layout.Column>
+              </Form.ButtonRow>
+            </Layout.Vertical>
           </Layout.Card>
-        </Layout.Section>
+        </Layout.Stack>
       </DataContext.Provider>
     </ComponentBox>
   )

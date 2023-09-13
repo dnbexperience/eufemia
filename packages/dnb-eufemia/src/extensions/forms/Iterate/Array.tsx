@@ -1,14 +1,14 @@
 import React, { useMemo, useCallback } from 'react'
-import FlexContainer, {
-  Props as FlexContainerProps,
-  pickFlexContainerProps,
-} from '../Layout/FlexContainer'
 import classnames from 'classnames'
 import pointer from 'json-pointer'
 import IterateElementContext from './IterateElementContext'
 import FieldBlock from '../FieldBlock'
 import { useDataValue } from '../hooks'
 import { FieldProps, FieldHelpProps, pickSpacingProps } from '../types'
+import FlexContainer, {
+  Props as FlexContainerProps,
+  pickFlexContainerProps,
+} from '../../../components/layout/FlexContainer'
 
 interface ErrorMessages {
   required?: string

@@ -1,21 +1,21 @@
-@import '../../variables.scss';
+@import '../../../../components/layout/style/layout-sizes.scss';
 
 .dnb-forms-field-selection {
   &--width-large {
     .dnb-dropdown__shell {
-      width: $forms-field-width-large;
+      width: var(--layout-field-width--large);
     }
   }
 
   &--width-medium {
     .dnb-dropdown__shell {
-      width: $forms-field-width-medium;
+      width: var(--layout-field-width--medium);
     }
   }
 
   &--width-small {
     .dnb-dropdown__shell {
-      width: $forms-field-width-small;
+      width: var(--layout-field-width--small);
     }
   }
 }

@@ -4,7 +4,7 @@ import { ComponentProps } from '../types'
 import FlexContainer, {
   Props as FlexContainerProps,
   pickFlexContainerProps,
-} from '../Layout/FlexContainer'
+} from '../../../components/layout/FlexContainer'
 import StepsContext from './StepsContext'
 
 export type Props = ComponentProps &

@@ -1,10 +1,10 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import {
   FieldBlock,
-  Layout,
   Field,
   TestElement,
 } from '@dnb/eufemia/src/extensions/forms'
+import { Layout } from '@dnb/eufemia/src'
 
 export const Default = () => {
   return (
@@ -131,12 +131,12 @@ export const WithDescriptionAndSecondary = () => {
 
 export const GroupMultipleFields = () => {
   return (
-    <ComponentBox scope={{ FieldBlock, Layout, Field }}>
+    <ComponentBox scope={{ FieldBlock, Field }}>
       <FieldBlock label="Label text" info="For your information">
-        <Layout.Row>
+        <Layout.Horizontal>
           <Field.String width="small" minLength={3} />
           <Field.Number minimum={10} />
-        </Layout.Row>
+        </Layout.Horizontal>
       </FieldBlock>
     </ComponentBox>
   )
