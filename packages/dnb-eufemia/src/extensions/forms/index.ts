@@ -1,7 +1,6 @@
 export type { FieldProps, ValueProps } from './types'
 export { useDataValue } from './hooks'
 export { default as FieldBlock } from './FieldBlock'
-export { default as FieldGroup } from './FieldGroup'
 export { default as Field } from './Field'
 export { default as Iterate } from './Iterate'
 export { default as ValueBlock } from './ValueBlock'

@@ -1,4 +1,6 @@
+import { useCallback } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
+import { Input, Slider } from '@dnb/eufemia/src'
 import {
   DataContext,
   Layout,
@@ -6,46 +8,143 @@ import {
   Field,
   Value,
   Visibility,
-  FieldGroup,
+  FieldBlock,
   useDataValue,
 } from '@dnb/eufemia/src/extensions/forms'
 
-export const FirstExampleDemo = () => {
+export const CreateBasicFieldComponent = () => {
   return (
     <ComponentBox
       scope={{
         DataContext,
         Layout,
         Field,
-        FieldGroup,
+        FieldBlock,
         useDataValue,
       }}
     >
       {() => {
-        const MyComponent = (props) => {
-          const { value } = useDataValue(props)
+        const MyCustomField = (props) => {
+          const preparedProps = {
+            ...props,
+            validator: (value) => {
+              return value === 'secret'
+                ? new Error('Do not reveal the secret!')
+                : undefined
+            },
+          }
+
+          const {
+            info,
+            warning,
+            error,
+            value,
+            handleChange,
+            handleFocus,
+            handleBlur,
+          } = useDataValue(preparedProps)
 
           return (
-            <FieldGroup warning={value.warning}>
-              <Layout.Row>
-                <Field.String {...value.text} />
-                <Field.Number {...value.number} />
-              </Layout.Row>
-            </FieldGroup>
+            <FieldBlock
+              label="What is the secret of the custom field?"
+              info={info}
+              warning={warning}
+              error={error}
+            >
+              <Input
+                value={value}
+                on_change={({ value }) => handleChange(value)}
+                on_focus={handleFocus}
+                on_blur={handleBlur}
+              />
+            </FieldBlock>
           )
         }
 
         return (
+          <MyCustomField
+            value="Nothing to see here"
+            onChange={(value) => console.log('onChange', value)}
+          />
+        )
+      }}
+    </ComponentBox>
+  )
+}
+
+export const CreateComposedFieldComponent = () => {
+  return (
+    <ComponentBox
+      scope={{
+        DataContext,
+        Layout,
+        Field,
+        FieldBlock,
+        Slider,
+        useDataValue,
+        useCallback,
+      }}
+    >
+      {() => {
+        const MyComposedField = (props) => {
+          const birthYear = useDataValue({
+            path: '/birthYear',
+          })
+
+          const handleBirthYearChange = useCallback(
+            (sliderData) => {
+              birthYear.handleChange(sliderData.value)
+            },
+            [birthYear],
+          )
+
+          return (
+            <FieldBlock label={props.label ?? 'Name and age'}>
+              <Layout.Row>
+                <Field.String
+                  path="/firstName"
+                  label="First name"
+                  width="medium"
+                  minLength={2}
+                />
+                <Field.String
+                  path="/lastName"
+                  label="Last name"
+                  width="medium"
+                  required
+                />
+                <Layout.FlexItem width="large">
+                  <Slider
+                    min={1900}
+                    max={new Date().getFullYear()}
+                    step={1}
+                    label="Birth year"
+                    label_direction="vertical"
+                    value={birthYear.value}
+                    on_change={handleBirthYearChange}
+                    on_drag_start={birthYear.handleFocus}
+                    on_drag_end={birthYear.handleBlur}
+                    status={birthYear.error?.message}
+                    tooltip
+                    alwaysShowTooltip
+                  />
+                </Layout.FlexItem>
+              </Layout.Row>
+            </FieldBlock>
+          )
+        }
+
+        const data = {
+          firstName: 'John',
+          birthYear: 2000,
+        }
+
+        return (
           <DataContext.Provider
-            data={{
-              myComponent: {
-                warning: 'Show one warning',
-                text: { label: 'String field', value: 'Some value' },
-                number: { label: 'Number field', value: '123' },
-              },
-            }}
+            data={data}
+            onChange={(data) => console.log('onChange', data)}
           >
-            <MyComponent path="/myComponent" />
+            <MyComposedField label="My custom label" />
           </DataContext.Provider>
         )
       }}

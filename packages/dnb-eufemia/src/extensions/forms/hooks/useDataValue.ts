@@ -10,11 +10,14 @@ import pointer from 'json-pointer'
 import { FormError, FieldProps } from '../types'
 import ajv, { ajvErrorsToOneFormError } from '../utils/ajv'
 import DataContext from '../DataContext'
-import { FieldGroupContext } from '../FieldGroup'
+import FieldBlockContext from '../FieldBlock/FieldBlockContext'
 import IterateElementContext from '../Iterate/IterateElementContext'
 import { makeUniqueId } from '../../../shared/component-helper'
 
-interface ReturnAdditional {
+interface ReturnAdditional<Value> {
+  id: string
+  value: Value
+  error: Error | FormError | undefined
   setHasFocus: (hasFocus: boolean, valueOverride?: unknown) => void
   handleFocus: FieldProps<unknown>['onFocus']
   handleBlur: FieldProps<unknown>['onBlur']
@@ -22,8 +25,9 @@ interface ReturnAdditional {
 }
 
 export default function useDataValue<
-  Props extends Partial<FieldProps<unknown>>,
->(props: Props): Props & ReturnAdditional {
+  Value = unknown,
+  Props extends FieldProps<Value> = FieldProps<Value>,
+>(props: Props): Props & ReturnAdditional<Value> {
   const {
     path,
     elementPath,
@@ -44,7 +48,7 @@ export default function useDataValue<
   } = props
   const id = useMemo(() => props.id ?? makeUniqueId(), [props.id])
   const dataContext = useContext(DataContext.Context)
-  const fieldGroupContext = useContext(FieldGroupContext)
+  const fieldBlockContext = useContext(FieldBlockContext)
   const iterateElementContext = useContext(IterateElementContext)
 
   const {
@@ -52,11 +56,11 @@ export default function useDataValue<
     setPathWithError: dataContextSetPathWithError,
     errors: dataContextErrors,
   } = dataContext ?? {}
-  const inFieldGroup = Boolean(fieldGroupContext)
+  const inFieldBlock = Boolean(fieldBlockContext)
   const {
-    setFieldError: setFieldGroupError,
-    setShowFieldError: setShowFieldGroupError,
-  } = fieldGroupContext ?? {}
+    setError: setFieldBlockError,
+    setShowError: setShowFieldBlockError,
+  } = fieldBlockContext ?? {}
   const inIterate = Boolean(iterateElementContext)
   const {
     index: iterateElementIndex,
@@ -157,14 +161,14 @@ export default function useDataValue<
         dataContextSetPathWithError?.(path, Boolean(error))
       }
 
-      setFieldGroupError?.(path ?? id, errorWithCorrectMessage)
+      setFieldBlockError?.(path ?? id, errorWithCorrectMessage)
     },
     [
       path,
       id,
       errorMessages,
       dataContextSetPathWithError,
-      setFieldGroupError,
+      setFieldBlockError,
     ]
   )
 
@@ -226,9 +230,9 @@ export default function useDataValue<
       // If showError on a surrounding data context was changed and set to true, it is because the user clicked next, submit or
       // something else that should lead to showing the user all errors.
       setShowError(true)
-      setShowFieldGroupError?.(path ?? id, true)
+      setShowFieldBlockError?.(path ?? id, true)
     }
-  }, [id, path, dataContext.showAllErrors, setShowFieldGroupError])
+  }, [id, path, dataContext.showAllErrors, setShowFieldBlockError])
 
   const setHasFocus = useCallback(
     (hasFocus: boolean, valueOverride?: unknown) => {
@@ -258,7 +262,7 @@ export default function useDataValue<
 
         // Since the user left the field, show error (if any)
         setShowError(true)
-        setShowFieldGroupError?.(path ?? id, true)
+        setShowFieldBlockError?.(path ?? id, true)
       }
     },
     [
@@ -270,7 +274,7 @@ export default function useDataValue<
       onBlur,
       onBlurValidator,
       setErrorAndUpdateDataContext,
-      setShowFieldGroupError,
+      setShowFieldBlockError,
     ]
   )
 
@@ -290,7 +294,7 @@ export default function useDataValue<
       changedRef.current = true
       // When changing the value, hide errors to avoid annoying the user before they are finished filling in that value
       setShowError(false)
-      setShowFieldGroupError?.(path ?? id, false)
+      setShowFieldBlockError?.(path ?? id, false)
       // Always validate the value immediately when it is changed
       validateValue(newValue)
 
@@ -315,7 +319,7 @@ export default function useDataValue<
       onChange,
       validateValue,
       dataContextHandlePathChange,
-      setShowFieldGroupError,
+      setShowFieldBlockError,
       handleIterateElementChange,
       fromInput,
     ]
@@ -343,7 +347,7 @@ export default function useDataValue<
     ...props,
     id,
     value: toInput(value),
-    error: inFieldGroup ? undefined : showError ? exportError : undefined,
+    error: inFieldBlock ? undefined : showError ? exportError : undefined,
     setHasFocus,
     handleFocus,
     handleBlur,

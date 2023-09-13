@@ -1,5 +1,10 @@
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
-import { FieldBlock, TestElement } from '@dnb/eufemia/src/extensions/forms'
+import {
+  FieldBlock,
+  Layout,
+  Field,
+  TestElement,
+} from '@dnb/eufemia/src/extensions/forms'
 
 export const Default = () => {
   return (
@@ -119,6 +124,19 @@ export const WithDescriptionAndSecondary = () => {
         labelSecondary="42"
       >
         Input features goes here
+      </FieldBlock>
+    </ComponentBox>
+  )
+}
+
+export const GroupMultipleFields = () => {
+  return (
+    <ComponentBox scope={{ FieldBlock, Layout, Field }}>
+      <FieldBlock label="Label text" info="For your information">
+        <Layout.Row>
+          <Field.String width="small" minLength={3} />
+          <Field.Number minimum={10} />
+        </Layout.Row>
       </FieldBlock>
     </ComponentBox>
   )
