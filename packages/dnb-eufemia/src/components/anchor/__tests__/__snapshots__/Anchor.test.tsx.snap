@@ -391,6 +391,10 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
 /*
  * Utilities
  */
+/*
+ * Anchor theme
+ *
+ */
 .dnb-anchor {
   --anchor-underline-thickness: 0.125rem;
   --anchor-background: transparent;
@@ -553,6 +557,10 @@ exports[`Anchor scss has to match theme css for ui 1`] = `
  */
 /*
  * Utilities
+ */
+/*
+ * Anchor theme
+ *
  */
 .dnb-anchor {
   color: var(--color-sea-green);

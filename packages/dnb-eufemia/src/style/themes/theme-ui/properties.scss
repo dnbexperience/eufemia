@@ -1,9 +1,9 @@
 /*
- * CSS Properties
+ * CSS Properties Ui
  *
  */
 
-@mixin getDefaultProperties() {
+:root {
   // Typography Family
   --font-family-default: 'DNB', sans-serif;
   --font-family-monospace: 'DNBMono', 'Menlo', 'Consolas', 'Roboto Mono',
@@ -110,12 +110,4 @@
 
   // Easing
   --easing-default: cubic-bezier(0.42, 0, 0, 1);
-
-  @if mixin-exists('propertiesCustomisation') {
-    @include propertiesCustomisation();
-  }
-}
-
-:root {
-  @include getDefaultProperties();
 }
