@@ -3,15 +3,9 @@
  *
  */
 
-// change some properties
-@mixin propertiesCustomisation() {
+:root {
   // eiendom colors
   --color-emerald-green-50: #89aaac;
   --color-emerald-green-25: #c4d4d6;
   --color-emerald-green-10: #e8eeef;
-
-  // Overwriting UX colors, defined in properties.scss
-  --color-mint-green-12: #f4fbf9;
 }
-
-@import '../theme-ui/properties.scss';

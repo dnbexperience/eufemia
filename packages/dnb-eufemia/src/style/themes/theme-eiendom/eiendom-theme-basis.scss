@@ -20,4 +20,7 @@
 // import the default theme, and go from there
 // will also have all the component themes included
 @import '../theme-ui/ui-theme-basis.scss';
+
+@import './properties.scss';
+@import './theme-mapping.scss'; // after "properties"
 @import './eiendom-theme-elements.scss';

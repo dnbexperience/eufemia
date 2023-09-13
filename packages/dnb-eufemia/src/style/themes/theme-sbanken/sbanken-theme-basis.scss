@@ -3,18 +3,26 @@
  *
  */
 
-// WIP: Remove this import as soon as we have a mapping for all existing properties
-@import '../theme-ui/properties.scss';
-
-@import './customisations.scss'; // WIP: remove when styles are removed
-@import './fonts.scss';
 @import './properties.scss';
 @import './theme-mapping.scss'; // after "properties"
-
+@import './fonts.scss';
 @import './sbanken-theme-elements.scss';
 
 :root {
-  --theme-color-body: var(--sb-color-text);
+  // Focus Ring
+  --focus-ring-width: 0.1875rem;
+  --focus-ring-color: var(--sb-color-blue-dark);
+
+  // Scrollbar
+  --scrollbar-track-width: 0.5rem;
+  --scrollbar-thumb-width: 0.5rem;
+  --scrollbar-track-color: var(--sb-color-gray-light-2);
+  --scrollbar-thumb-color: var(--sb-color-gray-dark-3);
+  --scrollbar-thumb-hover-color: var(--sb-color-purple);
+
+  // Skeleton
+  --skeleton-color: var(--sb-color-gray-light-2);
+  --skeleton-color--contrast: var(--sb-color-white);
 }
 
 // ::selection appearance helper
