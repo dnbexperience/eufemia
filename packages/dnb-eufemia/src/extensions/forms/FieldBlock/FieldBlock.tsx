@@ -1,13 +1,7 @@
 import React, { useMemo, useContext, useState, useCallback } from 'react'
 import classnames from 'classnames'
-import { Div, Span } from '../../../elements'
-import { FormLabel, FormStatus } from '../../../components'
-import {
-  FormError,
-  ComponentProps,
-  FieldProps,
-  pickSpacingProps,
-} from '../types'
+import { Space, FormLabel, FormStatus } from '../../../components'
+import { FormError, ComponentProps, FieldProps } from '../types'
 import FieldBlockContext from './FieldBlockContext'
 
 export type Props = Pick<
@@ -28,7 +22,7 @@ export type Props = Pick<
   width?: 'small' | 'medium' | 'large'
   /** Width of contents block, while label etc can be wider if space is available */
   contentsWidth?: 'small' | 'medium' | 'large' | 'stretch'
-}
+} & React.HTMLAttributes<HTMLDivElement>
 
 function FieldBlock(props: Props) {
   const nestedFieldBlockContext = useContext(FieldBlockContext)
@@ -47,6 +41,7 @@ function FieldBlock(props: Props) {
     contentsWidth,
     contentClassName,
     children,
+    ...rest
   } = props
 
   const [fieldErrorRecord, setFieldErrorRecord] = useState<
@@ -116,9 +111,9 @@ function FieldBlock(props: Props) {
   }, [errorProp, fieldErrorRecord, showFieldErrorRecord])
 
   const cn = classnames(
-    'dnb-forms-field-block',
-    `dnb-forms-field-block--layout-${layout}`,
-    width !== undefined && `dnb-forms-field-block--width-${width}`,
+    'dnb-forms__field-block',
+    `dnb-forms__field-block--layout-${layout}`,
+    width !== undefined && `dnb-forms__field-block--width-${width}`,
     className
   )
 
@@ -129,14 +124,14 @@ function FieldBlock(props: Props) {
         setShowError,
       }}
     >
-      <Div className={cn} {...pickSpacingProps(props)}>
+      <Space className={cn} {...rest}>
         {labelDescription || labelSecondary ? (
-          <div className={classnames('dnb-forms-field-block__label')}>
+          <div className="dnb-forms__field-block__label">
             {label || labelDescription ? (
               <FormLabel for_id={forId} space={{ bottom: 'x-small' }}>
                 {label}
                 {labelDescription && (
-                  <span className="dnb-forms-field-block__label-description">
+                  <span className="dnb-forms__field-block__label-description">
                     {labelDescription}
                   </span>
                 )}
@@ -145,9 +140,9 @@ function FieldBlock(props: Props) {
               <>&nbsp;</>
             )}
             {labelSecondary && (
-              <Span className="dnb-forms-field-block__label-secondary">
+              <span className="dnb-forms__field-block__label-secondary">
                 {labelSecondary}
-              </Span>
+              </span>
             )}
           </div>
         ) : (
@@ -160,9 +155,9 @@ function FieldBlock(props: Props) {
 
         <div
           className={classnames(
-            'dnb-forms-field-block__contents',
+            'dnb-forms__field-block__contents',
             contentsWidth !== undefined &&
-              `dnb-forms-field-block__contents--width-${contentsWidth}`,
+              `dnb-forms__field-block__contents--width-${contentsWidth}`,
             contentClassName
           )}
         >
@@ -170,7 +165,7 @@ function FieldBlock(props: Props) {
         </div>
 
         {(error && (
-          <div className="dnb-forms-field-block__status">
+          <div className="dnb-forms__field-block__status">
             <FormStatus
               state="error"
               id={forId ? `${forId}-form-status` : undefined}
@@ -181,7 +176,7 @@ function FieldBlock(props: Props) {
           </div>
         )) ||
           (warning && (
-            <div className="dnb-forms-field-block__status">
+            <div className="dnb-forms__field-block__status">
               <FormStatus
                 state="warn"
                 id={forId ? `${forId}-form-status` : undefined}
@@ -196,7 +191,7 @@ function FieldBlock(props: Props) {
             </div>
           )) ||
           (info && (
-            <div className="dnb-forms-field-block__status">
+            <div className="dnb-forms__field-block__status">
               <FormStatus
                 state="info"
                 id={forId ? `${forId}-form-status` : undefined}
@@ -210,7 +205,7 @@ function FieldBlock(props: Props) {
               />
             </div>
           ))}
-      </Div>
+      </Space>
     </FieldBlockContext.Provider>
   )
 }
