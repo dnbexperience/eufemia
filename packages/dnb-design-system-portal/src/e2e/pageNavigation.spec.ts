@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test'
+import isDev from './shared/isDev'
 
 test.describe('Page Navigation', () => {
   test.describe('without JavaScript', () => {
@@ -10,6 +11,10 @@ test.describe('Page Navigation', () => {
     })
 
     test('noscript element should be visible', async ({ page }) => {
+      if (await isDev(page)) {
+        return // stop here
+      }
+
       await expect(page.locator('noscript').first()).toHaveCSS(
         'display',
         'block',
@@ -17,12 +22,20 @@ test.describe('Page Navigation', () => {
     })
 
     test('should not be able to open portal tools', async ({ page }) => {
+      if (await isDev(page)) {
+        return // stop here
+      }
+
       await page.goto('/uilib')
       await page.click('#portal-tools')
       expect(await page.locator('#switch-grid').count()).toBe(0)
     })
 
     test('should contain page title and heading', async ({ page }) => {
+      if (await isDev(page)) {
+        return // stop here
+      }
+
       await page.goto('/uilib/components/button')
 
       const title = await page.title()
@@ -33,6 +46,10 @@ test.describe('Page Navigation', () => {
     })
 
     test('should contain button demos page', async ({ page }) => {
+      if (await isDev(page)) {
+        return // stop here
+      }
+
       await page.goto('/uilib/components/button/demos')
 
       const title = await page.title()
@@ -45,6 +62,10 @@ test.describe('Page Navigation', () => {
     test('components page should include summary list of components', async ({
       page,
     }) => {
+      if (await isDev(page)) {
+        return // stop here
+      }
+
       await page.goto('/uilib/components')
 
       const heading = await page.textContent('h1')

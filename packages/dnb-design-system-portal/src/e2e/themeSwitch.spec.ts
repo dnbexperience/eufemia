@@ -1,4 +1,5 @@
 import { test, expect, Page } from '@playwright/test'
+import isDev from './shared/isDev'
 
 async function clearStorage(page: Page) {
   await page.evaluate(() => window.localStorage.clear())
@@ -20,12 +21,20 @@ test.describe('Theme', () => {
   })
 
   test('should have no preload link', async ({ page }) => {
+    if (await isDev(page)) {
+      return // stop here
+    }
+
     expect(
       await page.locator('link[href^="/ui."][rel="preload"]').count(),
     ).toEqual(0)
   })
 
   test('should have one default theme loaded', async ({ page }) => {
+    if (await isDev(page)) {
+      return // stop here
+    }
+
     expect(await page.locator('style[data-href^="/ui."]').count()).toEqual(
       1,
     )
