@@ -22,9 +22,9 @@ export default function FormHandler<Data extends JsonObject>({
     schema,
     onChange,
     onPathChange,
-    onSubmit: (event: Data) => {
+    onSubmit: (data: Data) => {
       if (typeof onSubmit === 'function') {
-        onSubmit(event)
+        onSubmit(data)
       }
     },
     onSubmitRequest,
