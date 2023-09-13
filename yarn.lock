@@ -7088,6 +7088,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/prismjs@npm:^1.26.0":
+  version: 1.26.0
+  resolution: "@types/prismjs@npm:1.26.0"
+  checksum: cd5e7a6214c1f4213ec512a5fcf6d8fe37a56b813fc57ac95b5ff5ee074742bfdbd2f2730d9fd985205bf4586728e09baa97023f739e5aa1c9735a7c1ecbd11a
+  languageName: node
+  linkType: hard
+
 "@types/prop-types@npm:*, @types/prop-types@npm:^15.0.0":
   version: 15.7.5
   resolution: "@types/prop-types@npm:15.7.5"
@@ -10820,6 +10827,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"clsx@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "clsx@npm:1.2.1"
+  checksum: 30befca8019b2eb7dbad38cff6266cf543091dae2825c856a62a8ccf2c3ab9c2907c4d12b288b73101196767f66812365400a227581484a05f968b0307cfaf12
+  languageName: node
+  linkType: hard
+
 "cmd-shim@npm:^5.0.0":
   version: 5.0.0
   resolution: "cmd-shim@npm:5.0.0"
@@ -12627,7 +12641,7 @@ __metadata:
     raw-loader: 4.0.2
     react: 18.2.0
     react-dom: 18.2.0
-    react-live: 3.1.1
+    react-live: 4.1.3
     react-live-ssr: "workspace:*"
     react-markdown: 8.0.7
     remark-gfm: 1.0.0
@@ -26037,12 +26051,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prism-react-renderer@npm:^1.3.1":
-  version: 1.3.5
-  resolution: "prism-react-renderer@npm:1.3.5"
+"prism-react-renderer@npm:2.0.5":
+  version: 2.0.5
+  resolution: "prism-react-renderer@npm:2.0.5"
+  dependencies:
+    "@types/prismjs": ^1.26.0
+    clsx: ^1.2.1
   peerDependencies:
-    react: ">=0.14.9"
-  checksum: c18806dcbc4c0b4fd6fd15bd06b4f7c0a6da98d93af235c3e970854994eb9b59e23315abb6cfc29e69da26d36709a47e25da85ab27fed81b6812f0a52caf6dfa
+    react: ">=16.0.0"
+  checksum: 9cd7e1fcf1e758e230f46af2f069a47bbfe55d0209312b329aba40e7e9b18f6763352bf08fc9d89ab7622f1d7a4663e01d2ff964f721ea734e8f901e4f0cd87e
   languageName: node
   linkType: hard
 
@@ -26615,19 +26632,23 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "react-live-ssr@workspace:tools/react-live-ssr"
   dependencies:
-    prism-react-renderer: 1.3.3
-    sucrase: 3.21.0
+    prism-react-renderer: 2.0.5
+    sucrase: 3.31.0
+    use-editable: 2.3.3
   languageName: unknown
   linkType: soft
 
-"react-live@npm:3.1.1":
-  version: 3.1.1
-  resolution: "react-live@npm:3.1.1"
+"react-live@npm:4.1.3":
+  version: 4.1.3
+  resolution: "react-live@npm:4.1.3"
   dependencies:
-    prism-react-renderer: ^1.3.1
-    sucrase: ^3.21.0
+    prism-react-renderer: 2.0.5
+    sucrase: ^3.31.0
     use-editable: ^2.3.3
-  checksum: 90ab7c328d7698f2314e16b0e8f82f7a50ff3f9d027af85198f0b9e464c40cd7c26328ad0736d915760e2a7d236da978b56d5bbff727bc51472a90fae575aec5
+  peerDependencies:
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  checksum: 60faeda713be91e008a08d7eb14bbdc9eaa649bed2fa67cac4b2249d2e5ddc0d2e2333b57b8be5a20e59174c4c0507ab38a1075bfa2422c584d2d867d147ced7
   languageName: node
   linkType: hard
 
@@ -29652,9 +29673,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sucrase@npm:3.21.0":
-  version: 3.21.0
-  resolution: "sucrase@npm:3.21.0"
+"sucrase@npm:3.31.0":
+  version: 3.31.0
+  resolution: "sucrase@npm:3.31.0"
   dependencies:
     commander: ^4.0.0
     glob: 7.1.6
@@ -29665,13 +29686,13 @@ __metadata:
   bin:
     sucrase: bin/sucrase
     sucrase-node: bin/sucrase-node
-  checksum: d686f255af65bab2cb4e685287a7a4fe00f241a891a2ddea8c6218ff8f412780339d4d544e4a582e93e3994d1ebbe2fbce6a555474e80641958319a2b249e836
+  checksum: 333990b1bca57acc010ae07c763dddfd34f01fd38afe9e53cf43f4a5096bd7a66f924fed65770288fba475f914f3aa5277cc4490ed9e74c50b4cea7f147e9e63
   languageName: node
   linkType: hard
 
-"sucrase@npm:^3.21.0":
-  version: 3.32.0
-  resolution: "sucrase@npm:3.32.0"
+"sucrase@npm:^3.31.0":
+  version: 3.34.0
+  resolution: "sucrase@npm:3.34.0"
   dependencies:
     "@jridgewell/gen-mapping": ^0.3.2
     commander: ^4.0.0
@@ -29683,7 +29704,7 @@ __metadata:
   bin:
     sucrase: bin/sucrase
     sucrase-node: bin/sucrase-node
-  checksum: 79f760aef513adcf22b882d43100296a8afa7f307acef3e8803304b763484cf138a3e2cebc498a6791110ab20c7b8deba097f6ce82f812ca8f1723e3440e5c95
+  checksum: 61860063bdf6103413698e13247a3074d25843e91170825a9752e4af7668ffadd331b6e99e92fc32ee5b3c484ee134936f926fa9039d5711fafff29d017a2110
   languageName: node
   linkType: hard
 
@@ -31242,7 +31263,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"use-editable@npm:^2.3.3":
+"use-editable@npm:2.3.3, use-editable@npm:^2.3.3":
   version: 2.3.3
   resolution: "use-editable@npm:2.3.3"
   peerDependencies:
