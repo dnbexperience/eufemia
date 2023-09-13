@@ -12,7 +12,7 @@ export default function ListComponents() {
           frontmatter: { title: { ne: null }, draft: { ne: true } }
           internal: {
             contentFilePath: {
-              regex: "/(?!uilib/components/fragments)(uilib/components/.*)/"
+              regex: "/(?!uilib/components/fragments|uilib/components/layout/.*)(uilib/components/.*)/"
             }
           }
         }

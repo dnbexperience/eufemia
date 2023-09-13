@@ -1,0 +1,51 @@
+---
+showTabs: true
+---
+
+## Description
+
+To make it easier to build application layout and [form](/uilib/extensions/forms)-views in line with defined design sketches, there are a number of components for layout.
+
+```jsx
+import { Layout } from '@dnb/eufemia'
+render(
+  <Layout.FlexContainer direction="horizontal">
+    <Layout.FlexItem>content</Layout.FlexItem>
+    <Layout.FlexItem>content</Layout.FlexItem>
+  </Layout.FlexContainer>,
+)
+```
+
+## Layout helpers
+
+### Flex layout
+
+- [Layout.FlexContainer](/uilib/components/layout/FlexContainer) is a building block for CSS flexbox based layout of contents and components.
+
+- [Layout.FlexItem](/uilib/components/layout/FlexItem) is a building block for CSS flexbox based layout of contents and components.
+
+### Wrappers
+
+- [Layout.Card](/uilib/components/layout/Card) is a block section element showing the white box with rounded gray borders, adding spacing automatically.
+
+- [Layout.Stack](/uilib/components/layout/Stack) is an outer block element for wrapping content to get the correct layout and spacing between region and region headings.
+
+### Headings
+
+- [Layout.MainHeading](/uilib/components/layout/MainHeading) is a standardized main heading for sections, ensuring default layout, spacing etc.
+
+- [Layout.SubHeading](/uilib/components/layout/SubHeading) is a standardized sub heading for sections, ensuring default layout, spacing etc.
+
+## Width definitions
+
+These are the official sizes you can use when [creating your own form fields](/uilib/extensions/forms/create-component/).
+
+```css
+:root {
+  --layout-field-width--small: 5rem;
+  --layout-field-width--medium: 11rem;
+  --layout-field-width--large: 21rem;
+}
+```
+
+You can also use a [Layout.FlexItem](/uilib/components/layout/FlexItem) and provide a `width="small"` prop and use it as a sized wrapper.

@@ -1,0 +1,31 @@
+---
+showTabs: true
+---
+
+## Description
+
+`Layout.FlexContainer` is a building block for [CSS flexbox](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout) based layout of contents and components.
+
+Ideally, use [Layout.FlexItem](/uilib/components/layout/FlexItem) or [Layout.Card](/uilib/components/layout/Card) for you inner wrappers.
+
+### Horizontal and Vertical aliases
+
+For shortening the usage of `direction="..."`, you can use:
+
+- `<Layout.Vertical>` instead of `<Layout.FlexContainer direction="vertical">`
+
+```jsx
+<Layout.Vertical>
+  <Layout.FlexItem>part of vertical alignment</Layout.FlexItem>
+  <Layout.FlexItem>part of vertical alignment</Layout.FlexItem>
+</Layout.Vertical>
+```
+
+- `<Layout.Horizontal>` instead of `<Layout.FlexContainer direction="horizontal">`
+
+```jsx
+<Layout.Horizontal>
+  <Layout.FlexItem>part of horizontal alignment</Layout.FlexItem>
+  <Layout.FlexItem>part of horizontal alignment</Layout.FlexItem>
+</Layout.Horizontal>
+```
