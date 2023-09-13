@@ -22,6 +22,7 @@
 
   &__option__inner {
     overflow:visible;
+    background-color: transparent;
 
     &::before {
       content: '';
@@ -44,7 +45,8 @@
     border: var(--drawer-list-option-border-width) solid var(--sb-color-gray-dark-2);
     border-bottom-color: transparent;
     border-top-color: transparent;
-    border-right-color: transparent; // Fix ugly border when scrollbar showing
+    border-right-color: transparent; // Fix ugly border with scrollbar
+    background-color: transparent;
     z-index: 0;
     
 

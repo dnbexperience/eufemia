@@ -173,6 +173,8 @@
 
     outline: none;
 
+    background-color: var(--color-white);
+
     &__inner {
       position: relative;
       z-index: 1; // only to go over &__triangle
@@ -191,6 +193,8 @@
       padding: 1rem;
 
       color: inherit;
+      background-color: var(--color-white);
+
       // So e.g. an anchor gets aligned to left
       > * {
         align-self: self-start;
