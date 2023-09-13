@@ -3,7 +3,7 @@ import classnames from 'classnames'
 import { ComponentProps, pickSpacingProps } from '../types'
 import FlexContainer, {
   Props as FlexContainerProps,
-} from '../Layout/FlexContainer'
+} from '../../../components/layout/FlexContainer'
 import StepsContext from './StepsContext'
 
 export type Props = ComponentProps & {

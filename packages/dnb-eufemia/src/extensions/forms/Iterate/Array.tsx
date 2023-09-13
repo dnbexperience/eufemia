@@ -1,7 +1,7 @@
 import React, { useMemo, useCallback } from 'react'
 import FlexContainer, {
   Props as FlexContainerProps,
-} from '../Layout/FlexContainer'
+} from '../../../components/layout/FlexContainer'
 import classnames from 'classnames'
 import pointer from 'json-pointer'
 import IterateElementContext from './IterateElementContext'

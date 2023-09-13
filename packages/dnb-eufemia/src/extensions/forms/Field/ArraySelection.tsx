@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { Checkbox, Button } from '../../../components'
-import ButtonRow from '../Layout/ButtonRow'
+import ButtonRow from '../../../components/layout/ButtonRow'
 import classnames from 'classnames'
 import Option from './Option'
 import FieldBlock from '../FieldBlock'

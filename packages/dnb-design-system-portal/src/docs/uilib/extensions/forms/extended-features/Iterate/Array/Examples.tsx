@@ -1,7 +1,7 @@
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
+import { Layout } from '@dnb/eufemia/src'
 import {
   Iterate,
-  Layout,
   Field,
   Value,
   Form,

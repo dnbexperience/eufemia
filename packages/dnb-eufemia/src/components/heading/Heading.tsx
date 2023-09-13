@@ -36,7 +36,7 @@ import {
 import { SpacingProps } from '../space/types'
 import { SkeletonShow } from '../Skeleton'
 import { useTheme } from '../../shared'
-import { DynamicElement } from '../../shared/types'
+import type { DynamicElement } from '../../shared/types'
 
 export type HeadingLevelSizeResolutions = {
   1: HeadingSize

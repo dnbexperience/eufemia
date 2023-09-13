@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { useCallback } from 'react'
+import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { Input, Slider } from '@dnb/eufemia/src'
+import { Layout, Input, Slider } from '@dnb/eufemia/src'
 import {
   Form,
-  Layout,
   StepsLayout,
   Field,
   Value,
@@ -79,12 +78,10 @@ export const CreateComposedFieldComponent = () => {
     <ComponentBox
       scope={{
         DataContext,
-        Layout,
         Field,
         FieldBlock,
         Slider,
         useDataValue,
-        useCallback,
       }}
     >
       {() => {
@@ -93,7 +90,7 @@ export const CreateComposedFieldComponent = () => {
             path: '/birthYear',
           })
 
-          const handleBirthYearChange = useCallback(
+          const handleBirthYearChange = React.useCallback(
             (sliderData) => {
               birthYear.handleChange(sliderData.value)
             },
@@ -160,7 +157,6 @@ export const BaseFieldComponents = () => {
     <ComponentBox
       scope={{
         Form,
-        Layout,
         StepsLayout,
         Field,
         Value,
@@ -193,7 +189,6 @@ export const FeatureFields = () => {
     <ComponentBox
       scope={{
         Form,
-        Layout,
         StepsLayout,
         Field,
         Value,
@@ -216,7 +211,6 @@ export const LayoutComponents = () => {
     <ComponentBox
       scope={{
         Form,
-        Layout,
         StepsLayout,
         Field,
         Value,
@@ -250,7 +244,6 @@ export const VisibilityBasedOnData = () => {
     <ComponentBox
       scope={{
         Form,
-        Layout,
         StepsLayout,
         Field,
         Value,
@@ -308,7 +301,6 @@ export const UsingFormHandler = () => {
     <ComponentBox
       scope={{
         Form,
-        Layout,
         StepsLayout,
         Field,
         Value,
@@ -352,7 +344,6 @@ export const Validation = () => {
     <ComponentBox
       scope={{
         Form,
-        Layout,
         StepsLayout,
         Field,
         Value,
@@ -392,7 +383,6 @@ export const WithSteps = () => {
     <ComponentBox
       scope={{
         Form,
-        Layout,
         StepsLayout,
         Field,
         Value,

@@ -1,7 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import { ComponentProps, pickSpacingProps } from '../types'
-import ButtonRow from '../Layout/ButtonRow'
+import ButtonRow from '../../../components/layout/ButtonRow'
 import NextButton from './NextButton'
 import PreviousButton from './PreviousButton'
 

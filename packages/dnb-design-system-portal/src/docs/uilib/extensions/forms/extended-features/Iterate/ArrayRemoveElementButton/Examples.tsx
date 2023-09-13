@@ -1,10 +1,6 @@
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
-import {
-  Iterate,
-  Layout,
-  Field,
-  Form,
-} from '@dnb/eufemia/src/extensions/forms'
+import { Iterate, Field, Form } from '@dnb/eufemia/src/extensions/forms'
+import { Layout } from '@dnb/eufemia/src'
 import { trash as TrashIcon } from '@dnb/eufemia/src/icons'
 
 export const PrimitiveElements = () => {
