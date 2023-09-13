@@ -1,7 +1,6 @@
 import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
-import { Field } from '../../'
-import DataContext from '../'
+import { Form, DataContext, Field } from '../../'
 import { JSONSchema7 } from 'json-schema'
 
 describe('DataContext.Provider', () => {
@@ -136,7 +135,7 @@ describe('DataContext.Provider', () => {
         onSubmit={onSubmit}
       >
         <Field.String path="/foo" value="Value" />
-        <DataContext.SubmitButton>Submit</DataContext.SubmitButton>
+        <Form.SubmitButton>Submit</Form.SubmitButton>
       </DataContext.Provider>
     )
 
@@ -157,7 +156,7 @@ describe('DataContext.Provider', () => {
         onSubmit={onSubmit}
       >
         <Field.String path="/fooBar" value="Rerendered Value" />
-        <DataContext.SubmitButton>Submit</DataContext.SubmitButton>
+        <Form.SubmitButton>Submit</Form.SubmitButton>
       </DataContext.Provider>
     )
 
@@ -179,7 +178,7 @@ describe('DataContext.Provider', () => {
         onSubmitRequest={onSubmitRequest}
       >
         <Field.Number path="/foo" minimum={3} />
-        <DataContext.SubmitButton>Submit</DataContext.SubmitButton>
+        <Form.SubmitButton>Submit</Form.SubmitButton>
       </DataContext.Provider>
     )
 
@@ -200,7 +199,7 @@ describe('DataContext.Provider', () => {
         onSubmitRequest={onSubmitRequest}
       >
         <Field.Number path="/fooBar" minimum={3} />
-        <DataContext.SubmitButton>Submit</DataContext.SubmitButton>
+        <Form.SubmitButton>Submit</Form.SubmitButton>
       </DataContext.Provider>
     )
 
@@ -230,7 +229,7 @@ describe('DataContext.Provider', () => {
         schema={TestdataSchema}
       >
         <Field.Number path="/foo" />
-        <DataContext.SubmitButton>Submit</DataContext.SubmitButton>
+        <Form.SubmitButton>Submit</Form.SubmitButton>
       </DataContext.Provider>
     )
 
@@ -252,7 +251,7 @@ describe('DataContext.Provider', () => {
         schema={TestdataSchema}
       >
         <Field.Number path="/fooBar" required />
-        <DataContext.SubmitButton>Submit</DataContext.SubmitButton>
+        <Form.SubmitButton>Submit</Form.SubmitButton>
       </DataContext.Provider>
     )
 
@@ -278,7 +277,7 @@ describe('DataContext.Provider', () => {
         scrollTopOnSubmit
       >
         <Field.String path="/foo" value="Value" />
-        <DataContext.SubmitButton>Submit</DataContext.SubmitButton>
+        <Form.SubmitButton>Submit</Form.SubmitButton>
       </DataContext.Provider>
     )
 
@@ -301,7 +300,7 @@ describe('DataContext.Provider', () => {
         scrollTopOnSubmit
       >
         <Field.String path="/fooBar" value="Rerendered Value" />
-        <DataContext.SubmitButton>Submit</DataContext.SubmitButton>
+        <Form.SubmitButton>Submit</Form.SubmitButton>
       </DataContext.Provider>
     )
 

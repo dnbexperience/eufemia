@@ -1,0 +1,43 @@
+---
+title: 'Extended features'
+order: 3
+breadcrumb:
+  - text: Forms
+    href: /uilib/extensions/forms/
+  - text: Extended features
+    href: /uilib/extensions/forms/extended-features/
+---
+
+import ListAdvancedAPIs from './extended-features/ListAdvancedAPIs'
+
+# Extended features
+
+Example using the [Form.Handler](/uilib/extensions/forms/extended-features/Form/Handler) collecting data with `onSubmit`:
+
+```jsx
+import { Form, Field, Value } from '@dnb/eufemia/extensions/forms'
+render(
+  <Form.Handler data={existingData} onSubmit={submitHandler}>
+    <Field.Email path="/dataPath" />
+    <Value.Date value="2023-01-16" />
+    <Form.SubmitButton />
+  </Form.Handler>,
+)
+```
+
+Example using the [StepsLayout](/uilib/extensions/forms/extended-features/StepsLayout) for handling stepped layouts:
+
+```jsx
+import { StepsLayout } from '@dnb/eufemia/extensions/forms'
+render(
+  <StepsLayout>
+    <StepsLayout.Step title="Name">
+      <Layout.MainHeading>Profile</Layout.MainHeading>
+    </StepsLayout.Step>
+  </StepsLayout>,
+)
+```
+
+## Components
+
+<ListAdvancedAPIs />

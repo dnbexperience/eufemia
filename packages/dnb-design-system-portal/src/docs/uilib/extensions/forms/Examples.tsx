@@ -3,7 +3,7 @@ import { useCallback } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { Input, Slider } from '@dnb/eufemia/src'
 import {
-  DataContext,
+  Form,
   Layout,
   StepsLayout,
   Field,
@@ -11,13 +11,14 @@ import {
   Visibility,
   FieldBlock,
   useDataValue,
+  DataContext,
 } from '@dnb/eufemia/src/extensions/forms'
 
 export const CreateBasicFieldComponent = () => {
   return (
     <ComponentBox
       scope={{
-        DataContext,
+        Form,
         Layout,
         Field,
         FieldBlock,
@@ -158,7 +159,7 @@ export const BaseFieldComponents = () => {
   return (
     <ComponentBox
       scope={{
-        DataContext,
+        Form,
         Layout,
         StepsLayout,
         Field,
@@ -191,7 +192,7 @@ export const FeatureFields = () => {
   return (
     <ComponentBox
       scope={{
-        DataContext,
+        Form,
         Layout,
         StepsLayout,
         Field,
@@ -214,7 +215,7 @@ export const LayoutComponents = () => {
   return (
     <ComponentBox
       scope={{
-        DataContext,
+        Form,
         Layout,
         StepsLayout,
         Field,
@@ -248,7 +249,7 @@ export const VisibilityBasedOnData = () => {
   return (
     <ComponentBox
       scope={{
-        DataContext,
+        Form,
         Layout,
         StepsLayout,
         Field,
@@ -256,7 +257,7 @@ export const VisibilityBasedOnData = () => {
         Visibility,
       }}
     >
-      <DataContext.Provider
+      <Form.Handler
         data={{
           firstName: undefined,
           lastName: 'Smith',
@@ -297,16 +298,16 @@ export const VisibilityBasedOnData = () => {
             </Layout.Card>
           </Layout.Section>
         </Visibility>
-      </DataContext.Provider>
+      </Form.Handler>
     </ComponentBox>
   )
 }
 
-export const UsingDataContextProvider = () => {
+export const UsingFormHandler = () => {
   return (
     <ComponentBox
       scope={{
-        DataContext,
+        Form,
         Layout,
         StepsLayout,
         Field,
@@ -314,7 +315,7 @@ export const UsingDataContextProvider = () => {
         Visibility,
       }}
     >
-      <DataContext.Provider
+      <Form.Handler
         data={{
           firstName: 'John',
           lastName: 'Smith',
@@ -338,10 +339,10 @@ export const UsingDataContextProvider = () => {
           <Field.PhoneNumber path="/phone" />
 
           <Layout.ButtonRow>
-            <DataContext.SubmitButton />
+            <Form.SubmitButton />
           </Layout.ButtonRow>
         </Layout.Card>
-      </DataContext.Provider>
+      </Form.Handler>
     </ComponentBox>
   )
 }
@@ -350,7 +351,7 @@ export const Validation = () => {
   return (
     <ComponentBox
       scope={{
-        DataContext,
+        Form,
         Layout,
         StepsLayout,
         Field,
@@ -358,7 +359,7 @@ export const Validation = () => {
         Visibility,
       }}
     >
-      <DataContext.Provider
+      <Form.Handler
         data={{
           firstName: undefined,
           lastName: 'Smith',
@@ -381,7 +382,7 @@ export const Validation = () => {
           <Field.Email path="/email" validateInitially />
           <Field.PhoneNumber path="/phone" validateInitially />
         </Layout.Card>
-      </DataContext.Provider>
+      </Form.Handler>
     </ComponentBox>
   )
 }
@@ -390,7 +391,7 @@ export const WithSteps = () => {
   return (
     <ComponentBox
       scope={{
-        DataContext,
+        Form,
         Layout,
         StepsLayout,
         Field,
@@ -398,7 +399,7 @@ export const WithSteps = () => {
         Visibility,
       }}
     >
-      <DataContext.Provider
+      <Form.Handler
         data={{
           firstName: undefined,
           lastName: 'Smith',
@@ -462,11 +463,11 @@ export const WithSteps = () => {
 
             <Layout.ButtonRow>
               <StepsLayout.PreviousButton />
-              <DataContext.SubmitButton />
+              <Form.SubmitButton />
             </Layout.ButtonRow>
           </StepsLayout.Step>
         </StepsLayout>
-      </DataContext.Provider>
+      </Form.Handler>
     </ComponentBox>
   )
 }

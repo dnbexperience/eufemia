@@ -1,14 +1,15 @@
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
 import {
-  DataContext,
+  Form,
   Field,
   Value,
+  DataContext,
 } from '@dnb/eufemia/src/extensions/forms'
 
 export const Path = () => {
   return (
-    <ComponentBox scope={{ DataContext, Field }}>
-      <DataContext.Provider
+    <ComponentBox scope={{ Form, Field, DataContext }}>
+      <Form.Handler
         data={{
           foo: {
             one: 1,
@@ -21,15 +22,15 @@ export const Path = () => {
           <Field.Number path="/one" label="One" />
           <Field.Number path="/two" label="Two" />
         </DataContext.At>
-      </DataContext.Provider>
+      </Form.Handler>
     </ComponentBox>
   )
 }
 
 export const IteratePath = () => {
   return (
-    <ComponentBox scope={{ DataContext, Field, Value }}>
-      <DataContext.Provider
+    <ComponentBox scope={{ Form, Field, Value, DataContext }}>
+      <Form.Handler
         data={{
           list: [
             {
@@ -50,7 +51,7 @@ export const IteratePath = () => {
           <Value.String path="/title" label="Title" />
           <Field.String path="/title" label="Title" />
         </DataContext.At>
-      </DataContext.Provider>
+      </Form.Handler>
     </ComponentBox>
   )
 }
