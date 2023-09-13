@@ -95,6 +95,7 @@ export type LiveCodeProps = {
   hideCode?: boolean
   hidePreview?: boolean
   language?: string
+  tabMode?: 'focus' | 'indentation'
   'data-visual-test'?: string
 }
 
@@ -122,6 +123,7 @@ class LiveCode extends React.PureComponent<
       hideToolbar,
       hideCode,
       hidePreview,
+      tabMode: 'focus',
     }
 
     this._editorElementRef = React.createRef()
@@ -154,6 +156,10 @@ class LiveCode extends React.PureComponent<
       code = code.replace(/ +{\.+visualTestProp.*}\n/g, '') // remove test data
     }
     return code
+  }
+
+  setIndentation(tabMode: LiveCodeProps['tabMode']) {
+    this.setState({ tabMode })
   }
 
   render() {
@@ -214,6 +220,7 @@ class LiveCode extends React.PureComponent<
               <LiveEditor
                 prism={Prism}
                 id={this._id}
+                tabMode={this.state.tabMode}
                 className="dnb-live-editor__editable dnb-pre"
                 onChange={(code) => {
                   this.setState({ code })
@@ -230,6 +237,21 @@ class LiveCode extends React.PureComponent<
                     this._editorElementRef.current.classList.remove(
                       'dnb-pre--focus',
                     )
+                  }
+                }}
+                onMouseDown={(e) => {
+                  const focusMode =
+                    document.documentElement.getAttribute('data-whatinput')
+                  this.setIndentation(
+                    focusMode === 'mouse' ? 'indentation' : 'focus',
+                  )
+                }}
+                onBlurCapture={() => {
+                  this.setIndentation('focus')
+                }}
+                onKeyDown={({ code }) => {
+                  if (code !== 'Tab' && code !== 'ShiftLeft') {
+                    this.setIndentation('indentation')
                   }
                 }}
               />
