@@ -1,0 +1,15 @@
+/*
+ * Anchor theme
+ *
+ */
+
+@use './dnb-anchor-theme-ui.scss';
+@use '../anchor-mixins.scss';
+
+.dnb-anchor {
+  --anchor-color--default: var(--color-emerald-green);
+  --anchor-color--contrast: var(--color-sea-green);
+  --anchor-color--active: var(--color-sea-green);
+  --anchor-background--hover: transparent;
+  --anchor-background--active: var(--color-pistachio);
+}

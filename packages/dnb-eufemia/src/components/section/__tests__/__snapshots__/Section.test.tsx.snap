@@ -182,7 +182,7 @@ exports[`Section scss have to match default theme snapshot 1`] = `
   color: var(--color-white);
 }
 .dnb-section--fire-red .dnb-anchor:hover, .dnb-section--emerald-green .dnb-anchor:hover, .dnb-section--sea-green .dnb-anchor:hover, .dnb-section--success .dnb-anchor:hover {
-  color: var(--color-emerald-green);
+  color: var(--anchor-color--contrast);
   box-shadow: inset 100vw 100vw 0 0 var(--color-white), -0.125em 0 0 0 var(--color-white), 0.125em 0 0 0 var(--color-white);
 }
 .dnb-section--fire-red .dnb-anchor:active, .dnb-section--emerald-green .dnb-anchor:active, .dnb-section--sea-green .dnb-anchor:active, .dnb-section--success .dnb-anchor:active {
