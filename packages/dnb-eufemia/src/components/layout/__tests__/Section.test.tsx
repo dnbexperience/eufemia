@@ -4,11 +4,7 @@ import Section from '../Section'
 
 describe('Layout.Section', () => {
   it('should forward HTML attributes', () => {
-    render(
-      <Section id="forwarded-id" aria-label="Aria Label">
-        content
-      </Section>
-    )
+    render(<Section aria-label="Aria Label">content</Section>)
 
     const element = document.querySelector('.dnb-layout__section')
     const attributes = Array.from(element.attributes).map(
