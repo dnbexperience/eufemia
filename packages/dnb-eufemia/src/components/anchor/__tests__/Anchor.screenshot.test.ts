@@ -156,6 +156,26 @@ describe.each(['ui', 'sbanken', 'eiendom'])(
       expect(screenshot).toMatchImageSnapshot()
     })
 
+    it('have to match the "hover" state for modifier no-style', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="anchor-no-style"]',
+        simulateSelector:
+          '[data-visual-test="anchor-no-style"] .dnb-anchor',
+        simulate: 'hover',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
+    it('have to match the "hover" state for modifier no-hover', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="anchor-no-hover"]',
+        simulateSelector:
+          '[data-visual-test="anchor-no-hover"] .dnb-anchor',
+        simulate: 'hover',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
     if (themeName === 'sbanken') {
       it('have to match the dnb-anchor--inline class', async () => {
         const screenshot = await makeScreenshot({
