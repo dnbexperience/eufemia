@@ -112,7 +112,7 @@ export const AnchorExampleHelperClasses = () => (
           Blank target without launch icon
         </Anchor>
       </Example>
-      <Example>
+      <Example data-visual-test="anchor-no-hover">
         <Anchor
           href="/uilib/components/anchor"
           className="dnb-anchor--no-hover"
@@ -136,7 +136,7 @@ export const AnchorExampleHelperClasses = () => (
           No animation
         </Anchor>
       </Example>
-      <Example>
+      <Example data-visual-test="anchor-no-style">
         <Anchor
           href="/uilib/components/anchor"
           className="dnb-anchor--no-style"
