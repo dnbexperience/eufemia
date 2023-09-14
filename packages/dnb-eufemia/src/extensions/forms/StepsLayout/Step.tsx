@@ -4,7 +4,7 @@ import { forwardSpaceProps } from '../utils'
 import type { ComponentProps } from '../component-types'
 import StepsContext from './StepsContext'
 import FlexContainer, {
-  Props as FlexContainerProps,
+  FlexContainerProps,
 } from '../../../components/layout/FlexContainer'
 
 export type Props = ComponentProps & {

@@ -2,7 +2,6 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import Row from '../Row'
 import Card from '../Card'
-import { el } from 'date-fns/locale'
 
 describe('Layout.Row', () => {
   it('should forward HTML attributes', () => {

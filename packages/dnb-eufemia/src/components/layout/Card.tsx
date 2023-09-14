@@ -1,8 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
-import FlexContainer, {
-  Props as FlexContainerProps,
-} from './FlexContainer'
+import FlexContainer, { FlexContainerProps } from './FlexContainer'
 import FlexItem from './FlexItem'
 import type { ComponentProps } from '../../extensions/forms/component-types'
 
