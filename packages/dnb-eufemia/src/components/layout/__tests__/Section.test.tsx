@@ -63,8 +63,40 @@ describe('Layout.Section', () => {
 
     const element = document.querySelector('.dnb-layout__section')
 
-    expect(Array.from(element.classList).join(' ')).not.toContain(
-      'spacing'
+    expect(element.className).not.toContain('spacing')
+  })
+
+  it('should default to section element', () => {
+    render(<Section>content</Section>)
+
+    const element = document.querySelector('.dnb-layout__section')
+
+    expect(element.tagName).toBe('SECTION')
+  })
+
+  it('should default direction to column', () => {
+    render(<Section>content</Section>)
+
+    const element = document.querySelector('.dnb-layout__section')
+
+    expect(element.classList).toContain(
+      'dnb-layout__flex-container--direction-column'
+    )
+  })
+
+  it('should set flow direction of content', () => {
+    const { rerender } = render(<Section>content</Section>)
+
+    const element = document.querySelector('.dnb-layout__section')
+
+    expect(element.classList).toContain(
+      'dnb-layout__flex-container--direction-column'
+    )
+
+    rerender(<Section direction="row">content</Section>)
+
+    expect(element.classList).toContain(
+      'dnb-layout__flex-container--direction-row'
     )
   })
 })
