@@ -3,7 +3,7 @@ import { render } from '@testing-library/react'
 import Card from '../Card'
 import { P } from '../../../elements'
 
-describe('Layout.Section', () => {
+describe('Layout.Card', () => {
   it('should forward HTML attributes', () => {
     render(
       <Card aria-label="Aria Label">

@@ -3,7 +3,7 @@ import { render } from '@testing-library/react'
 import ButtonRow from '../ButtonRow'
 import Button from '../../Button'
 
-describe('Layout.Section', () => {
+describe('Layout.ButtonRow', () => {
   it('should forward HTML attributes', () => {
     render(
       <ButtonRow aria-label="Aria Label">
