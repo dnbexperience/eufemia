@@ -3,7 +3,7 @@ import { render } from '@testing-library/react'
 import Column from '../Column'
 import Card from '../Card'
 
-describe('Layout.Section', () => {
+describe('Layout.Column', () => {
   it('should forward HTML attributes', () => {
     render(<Column aria-label="Aria Label">content</Column>)
 
@@ -19,35 +19,20 @@ describe('Layout.Section', () => {
   })
 
   it('should support spacing props', () => {
-    const { rerender } = render(
-      <Column top="large">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-        cursus pharetra elit in bibendum.
-      </Column>
-    )
+    const { rerender } = render(<Column top="large">content</Column>)
     const element = document.querySelector(
       '.dnb-layout__flex-container--direction-column'
     )
 
     expect(element.classList).toContain('dnb-space__top--large')
 
-    rerender(
-      <Column top="x-large">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-        cursus pharetra elit in bibendum.
-      </Column>
-    )
+    rerender(<Column top="x-large">content</Column>)
 
     expect(element.classList).toContain('dnb-space__top--x-large')
   })
 
   it('should contain given classes', () => {
-    render(
-      <Column className="custom-class">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-        cursus pharetra elit in bibendum.
-      </Column>
-    )
+    render(<Column className="custom-class">content</Column>)
 
     const element = document.querySelector(
       '.dnb-layout__flex-container--direction-column'
@@ -104,8 +89,16 @@ describe('Layout.Section', () => {
     )
     const children = element.children
 
-    expect(children[0].className).toMatch(
-      /(dnb-space__top--zero|dnb-space__bottom--zero|dnb-layout__flex-item)/g
-    )
+    expect(children[0].className).toContain('dnb-space__top--zero')
+    expect(children[0].className).toContain('dnb-space__bottom--zero')
+    expect(children[0].className).toContain('dnb-layout__flex-item')
+
+    expect(children[1].className).toContain('dnb-space__top--small')
+    expect(children[1].className).toContain('dnb-space__bottom--zero')
+    expect(children[1].className).toContain('dnb-layout__flex-item')
+
+    expect(children[2].className).toContain('dnb-space__top--small')
+    expect(children[2].className).toContain('dnb-space__bottom--zero')
+    expect(children[2].className).toContain('dnb-layout__flex-item')
   })
 })
