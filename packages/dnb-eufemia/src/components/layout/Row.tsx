@@ -1,11 +1,9 @@
 import React from 'react'
-import FlexContainer, {
-  Props as FlexContainerProps,
-} from './FlexContainer'
+import FlexContainer, { FlexContainerProps } from './FlexContainer'
 
-export type Props = Omit<FlexContainerProps, 'direction'>
+export type RowProps = Omit<FlexContainerProps, 'direction'>
 
-function Row({ children, ...props }: Props) {
+function Row({ children, ...props }: RowProps) {
   return (
     <FlexContainer direction="row" {...props}>
       {children}

@@ -69,7 +69,7 @@ const renderWithSpacing = (element: React.ReactNode, props) => {
   )
 }
 
-export type Props = ComponentProps & {
+export type FlexContainerProps = ComponentProps & {
   direction?: 'row' | 'column'
   wrap?: boolean
   justify?:
@@ -96,21 +96,19 @@ export type Props = ComponentProps & {
   children: React.ReactNode
 }
 
-function FlexContainer(props: Props) {
-  const {
-    className,
-    children,
-    element = 'div',
-    direction = 'column',
-    wrap = false,
-    justify = 'flex-start',
-    align = 'stretch',
-    divider = 'space',
-    spacing = 'small',
-    width,
-    ...rest
-  } = props
-
+function FlexContainer({
+  className,
+  children,
+  element = 'div',
+  direction = 'column',
+  wrap = false,
+  justify = 'flex-start',
+  align = 'stretch',
+  divider = 'space',
+  spacing = 'small',
+  width,
+  ...rest
+}: FlexContainerProps) {
   const cn = classnames(
     'dnb-layout__flex-container',
     direction && `dnb-layout__flex-container--direction-${direction}`,

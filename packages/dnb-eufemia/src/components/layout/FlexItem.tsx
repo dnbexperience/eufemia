@@ -4,7 +4,7 @@ import type { ComponentProps } from '../../extensions/forms/component-types'
 import Space from '../space/Space'
 import { DynamicElement } from '../../shared/types'
 
-export type Props = ComponentProps & {
+export type FlexItemProps = ComponentProps & {
   element?: DynamicElement
   grow?: boolean
   shrink?: boolean
@@ -12,16 +12,15 @@ export type Props = ComponentProps & {
   children: React.ReactNode
 }
 
-function FlexItem(props: Props) {
-  const {
-    element = 'div',
-    className,
-    grow,
-    shrink,
-    width,
-    children,
-    ...rest
-  } = props
+function FlexItem({
+  element = 'div',
+  className,
+  grow,
+  shrink,
+  width,
+  children,
+  ...rest
+}: FlexItemProps) {
   const cn = classnames(
     'dnb-layout__flex-item',
     grow && 'dnb-layout__flex-item--grow',
