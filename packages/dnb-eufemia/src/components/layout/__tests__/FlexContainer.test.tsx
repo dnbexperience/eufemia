@@ -344,4 +344,12 @@ describe('Layout.FlexContainer', () => {
     expect(children[2].className).toContain('dnb-space__top--zero')
     expect(children[2].className).toContain('dnb-space__bottom--zero')
   })
+
+  it('should set element', () => {
+    render(<FlexContainer element="section">content</FlexContainer>)
+
+    const element = document.querySelector('.dnb-layout__flex-container')
+
+    expect(element.tagName).toBe('SECTION')
+  })
 })
