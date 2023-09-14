@@ -4,17 +4,21 @@ import Heading from '../heading/Heading'
 import type { HeadingLevel } from '../heading/Heading'
 import type { ComponentProps } from '../../extensions/forms/component-types'
 
-export type Props = ComponentProps & {
+export type SubHeadingProps = ComponentProps & {
   level?: HeadingLevel
   children?: React.ReactNode
 } & Omit<React.HTMLProps<HTMLElement>, 'size'>
 
-function SubHeading({ level, ...props }: Props) {
-  const { className, children, ...rest } = props
+function SubHeading({
+  level = 3,
+  className,
+  children,
+  ...rest
+}: SubHeadingProps) {
   return (
     <Heading
       className={classnames('dnb-layout__sub-heading', className)}
-      level={level || 3}
+      level={level}
       size="medium"
       {...rest}
     >
