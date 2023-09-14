@@ -1,7 +1,5 @@
 import React from 'react'
-import FlexContainer, {
-  Props as FlexContainerProps,
-} from './FlexContainer'
+import FlexContainer, { FlexContainerProps } from './FlexContainer'
 
 export type ColumnProps = Omit<FlexContainerProps, 'direction'>
 
