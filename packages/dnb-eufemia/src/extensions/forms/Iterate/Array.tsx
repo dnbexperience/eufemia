@@ -17,7 +17,7 @@ interface ErrorMessages {
 
 export type Props = FieldHelpProps &
   FieldProps<unknown[], undefined, ErrorMessages> &
-  FlexContainerProps & {
+  Omit<FlexContainerProps, 'children'> & {
     children:
       | React.ReactNode
       | ((value: any, index: number) => React.ReactNode)
@@ -87,7 +87,11 @@ function ArrayComponent(props: Props) {
       {...pickSpacingProps(props)}
     >
       <FlexContainer
-        {...pickFlexContainerProps(props, { spacing: 'small' }, ['width'])}
+        {...pickFlexContainerProps(
+          props as Props & { children: React.ReactNode },
+          { spacing: 'small' },
+          ['width']
+        )}
       >
         {arrayValue === emptyValue ? (
           <em>{placeholder}</em>
