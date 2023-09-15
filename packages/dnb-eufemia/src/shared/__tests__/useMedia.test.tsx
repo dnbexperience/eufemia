@@ -43,6 +43,7 @@ describe('useMedia', () => {
           isSmall: false,
           isMedium: false,
           isLarge: false,
+          key: null,
         })
       )
     })
@@ -57,6 +58,7 @@ describe('useMedia', () => {
           isSmall: true,
           isMedium: false,
           isLarge: false,
+          key: 'small',
         })
       )
 
@@ -70,6 +72,7 @@ describe('useMedia', () => {
             isSmall: false,
             isMedium: false,
             isLarge: true,
+            key: 'large',
           })
         )
       })
@@ -85,6 +88,7 @@ describe('useMedia', () => {
           isSmall: false,
           isMedium: true,
           isLarge: false,
+          key: 'medium',
         })
       )
 
@@ -98,6 +102,7 @@ describe('useMedia', () => {
             isSmall: false,
             isMedium: false,
             isLarge: true,
+            key: 'large',
           })
         )
       })
@@ -113,6 +118,7 @@ describe('useMedia', () => {
           isSmall: false,
           isMedium: false,
           isLarge: true,
+          key: 'large',
         })
       )
 
@@ -126,6 +132,7 @@ describe('useMedia', () => {
             isSmall: true,
             isMedium: false,
             isLarge: false,
+            key: 'small',
           })
         )
       })
@@ -141,6 +148,7 @@ describe('useMedia', () => {
           isSmall: false,
           isMedium: false,
           isLarge: true,
+          key: 'large',
         })
       )
 
@@ -151,6 +159,7 @@ describe('useMedia', () => {
             isSmall: true,
             isMedium: false,
             isLarge: false,
+            key: 'small',
           }),
         },
         {
@@ -159,6 +168,7 @@ describe('useMedia', () => {
             isSmall: false,
             isMedium: false,
             isLarge: true,
+            key: 'large',
           }),
         },
         {
@@ -167,6 +177,7 @@ describe('useMedia', () => {
             isSmall: false,
             isMedium: true,
             isLarge: false,
+            key: 'medium',
           }),
         },
         {
@@ -175,6 +186,7 @@ describe('useMedia', () => {
             isSmall: false,
             isMedium: false,
             isLarge: true,
+            key: 'large',
           }),
         },
         {
@@ -183,6 +195,7 @@ describe('useMedia', () => {
             isSmall: true,
             isMedium: false,
             isLarge: false,
+            key: 'small',
           }),
         },
         {
@@ -191,6 +204,7 @@ describe('useMedia', () => {
             isSmall: true,
             isMedium: false,
             isLarge: false,
+            key: 'small',
           }),
         },
       ]
@@ -217,6 +231,7 @@ describe('useMedia', () => {
           isSmall: false,
           isMedium: false,
           isLarge: true,
+          key: 'large',
         })
       )
 
@@ -235,6 +250,7 @@ describe('useMedia', () => {
             isSmall: false,
             isMedium: false,
             isLarge: true,
+            key: 'large',
           })
         )
       })
@@ -251,6 +267,7 @@ describe('useMedia', () => {
             isSmall: true,
             isMedium: false,
             isLarge: false,
+            key: 'small',
           })
         )
 
@@ -275,6 +292,7 @@ describe('useMedia', () => {
             isSmall: false,
             isMedium: false,
             isLarge: true,
+            key: 'large',
           })
         )
       })
@@ -293,6 +311,7 @@ describe('useMedia', () => {
           isMedium: false,
           isLarge: false,
           isSSR: true,
+          key: null,
         })
       )
     })
@@ -318,6 +337,7 @@ describe('useMedia', () => {
         isMedium: false,
         isLarge: false,
         isSSR: false,
+        key: 'small',
       })
 
       act(() => {
@@ -329,6 +349,7 @@ describe('useMedia', () => {
           isMedium: true,
           isLarge: false,
           isSSR: false,
+          key: 'medium',
         })
       )
 
@@ -341,6 +362,7 @@ describe('useMedia', () => {
           isMedium: false,
           isLarge: true,
           isSSR: false,
+          key: 'large',
         })
       })
 
@@ -353,6 +375,7 @@ describe('useMedia', () => {
           isMedium: false,
           isLarge: false,
           isSSR: false,
+          key: 'small',
         })
       })
 
@@ -365,6 +388,7 @@ describe('useMedia', () => {
           isMedium: false,
           isLarge: true,
           isSSR: false,
+          key: 'large',
         })
       })
 
@@ -382,6 +406,7 @@ describe('useMedia', () => {
         isMedium: false,
         isLarge: false,
         isSSR: false,
+        key: 'small',
       }
       act(() => {
         setMedia({ width: MEDIUM })
@@ -404,6 +429,7 @@ describe('useMedia', () => {
           isMedium: true,
           isLarge: false,
           isSSR: false,
+          key: 'medium',
         })
       )
 
@@ -416,6 +442,7 @@ describe('useMedia', () => {
           isMedium: false,
           isLarge: true,
           isSSR: false,
+          key: 'large',
         })
       )
 
@@ -449,6 +476,7 @@ describe('useMedia', () => {
             isSmall: false,
             isMedium: false,
             isLarge: true,
+            key: 'large',
           })
         )
 
@@ -459,6 +487,7 @@ describe('useMedia', () => {
               isSmall: true,
               isMedium: false,
               isLarge: false,
+              key: 'small',
             }),
           },
           {
@@ -467,6 +496,7 @@ describe('useMedia', () => {
               isSmall: false,
               isMedium: false,
               isLarge: true,
+              key: 'large',
             }),
           },
           {
@@ -475,6 +505,7 @@ describe('useMedia', () => {
               isSmall: false,
               isMedium: true,
               isLarge: false,
+              key: 'medium',
             }),
           },
           {
@@ -483,6 +514,7 @@ describe('useMedia', () => {
               isSmall: false,
               isMedium: false,
               isLarge: true,
+              key: 'large',
             }),
           },
           {
@@ -491,6 +523,7 @@ describe('useMedia', () => {
               isSmall: true,
               isMedium: false,
               isLarge: false,
+              key: 'small',
             }),
           },
           {
@@ -499,6 +532,7 @@ describe('useMedia', () => {
               isSmall: true,
               isMedium: false,
               isLarge: false,
+              key: 'small',
             }),
           },
         ]
@@ -537,6 +571,7 @@ describe('useMedia', () => {
           isSmall: true,
           isMedium: false,
           isLarge: false,
+          key: 'small',
         })
       )
     })
@@ -552,6 +587,7 @@ describe('useMedia', () => {
           isSmall: false,
           isMedium: true,
           isLarge: false,
+          key: 'medium',
         })
       )
     })
@@ -567,6 +603,7 @@ describe('useMedia', () => {
           isSmall: false,
           isMedium: false,
           isLarge: true,
+          key: 'large',
         })
       )
     })
@@ -598,6 +635,7 @@ describe('useMedia without window.matchMedia', () => {
       isMedium: false,
       isLarge: false,
       isSSR: true,
+      key: null,
     })
   })
 })
