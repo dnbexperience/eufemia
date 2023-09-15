@@ -30,7 +30,8 @@
 
   color: var(--anchor-color);
 
-  &:hover {
+  &:hover:not(.dnb-anchor--no-hover),
+  &:hover:not(.dnb-anchor--no-style) {
     @include anchorHover();
   }
 

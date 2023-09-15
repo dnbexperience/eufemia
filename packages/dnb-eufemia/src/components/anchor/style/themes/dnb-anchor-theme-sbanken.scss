@@ -66,7 +66,8 @@
     );
   }
 
-  &:hover {
+  &:hover:not(.dnb-anchor--no-hover),
+  &:hover:not(.dnb-anchor--no-style) {
     @include anchorHover();
   }
 

@@ -276,10 +276,10 @@ sup .dnb-anchor, sub .dnb-anchor {
 .dnb-anchor:focus-visible, .dnb-section .dnb-anchor:focus-visible.dnb-anchor {
   text-decoration: none;
 }
-.dnb-anchor:hover {
+.dnb-anchor:hover:not(.dnb-anchor--no-hover), .dnb-anchor:hover:not(.dnb-anchor--no-style) {
   border-radius: 0.25em;
 }
-.dnb-anchor:hover, .dnb-section .dnb-anchor:hover.dnb-anchor {
+.dnb-anchor:hover:not(.dnb-anchor--no-hover), .dnb-section .dnb-anchor:hover:not(.dnb-anchor--no-hover).dnb-anchor, .dnb-anchor:hover:not(.dnb-anchor--no-style), .dnb-section .dnb-anchor:hover:not(.dnb-anchor--no-style).dnb-anchor {
   text-decoration: none;
 }
 .dnb-anchor:active {
@@ -323,7 +323,7 @@ sup .dnb-anchor, sub .dnb-anchor {
 .dnb-anchor.dnb-anchor--contrast {
   color: var(--color-white);
 }
-.dnb-anchor.dnb-anchor--contrast:hover {
+.dnb-anchor.dnb-anchor--contrast:hover:not(.dnb-anchor--no-hover), .dnb-anchor.dnb-anchor--contrast:hover:not(.dnb-anchor--no-style) {
   color: var(--anchor-color--contrast);
   box-shadow: inset 100vw 100vw 0 0 var(--color-white), -0.125em 0 0 0 var(--color-white), 0.125em 0 0 0 var(--color-white);
 }
@@ -377,18 +377,9 @@ sup .dnb-anchor, sub .dnb-anchor {
 .dnb-anchor--no-style, .dnb-section .dnb-anchor--no-style.dnb-anchor {
   text-decoration: none;
 }
-.dnb-anchor--no-style:hover {
-  color: inherit;
-  background-color: transparent;
-}
 
 .dnb-anchor--no-underline, .dnb-section .dnb-anchor--no-underline.dnb-anchor {
   text-decoration: none;
-}
-
-.dnb-anchor--no-hover:hover {
-  color: inherit;
-  background-color: transparent;
 }
 
 .dnb-anchor--no-radius, .dnb-anchor--no-radius:hover, .dnb-anchor--no-radius:active, .dnb-anchor--no-radius:focus-visible {
@@ -440,7 +431,7 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
 .dnb-anchor--no-underline, .dnb-anchor--has-icon, .dnb-anchor--inline {
   box-shadow: inset 100vw 100vw 0 0 var(--anchor-background), -0.25em 0 0 0 var(--anchor-background), 0.25em 0 0 0 var(--anchor-background);
 }
-.dnb-anchor:hover {
+.dnb-anchor:hover:not(.dnb-anchor--no-hover), .dnb-anchor:hover:not(.dnb-anchor--no-style) {
   --anchor-background: var(--sb-color-green-dark);
   color: var(--sb-color-text);
   transition: none;
@@ -580,7 +571,7 @@ exports[`Anchor scss has to match theme css for ui 1`] = `
   --anchor-background--active: var(--color-emerald-green);
   color: var(--anchor-color);
 }
-.dnb-anchor:hover {
+.dnb-anchor:hover:not(.dnb-anchor--no-hover), .dnb-anchor:hover:not(.dnb-anchor--no-style) {
   --anchor-color: var(--color-sea-green);
   box-shadow: inset 100vw 100vw 0 0 var(--anchor-background--hover), -0.125em 0 0 0 var(--anchor-background--hover), 0.125em 0 0 0 var(--anchor-background--hover);
 }

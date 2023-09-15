@@ -46,16 +46,11 @@ button.dnb-anchor {
   color: inherit;
 
   @include resetUnderlineStyle();
-  @include resetAnchorHoverStyle();
   @include resetAnimationStyle();
 }
 
 .dnb-anchor--no-underline {
   @include resetUnderlineStyle();
-}
-
-.dnb-anchor--no-hover {
-  @include resetAnchorHoverStyle();
 }
 
 .dnb-anchor--no-radius {
