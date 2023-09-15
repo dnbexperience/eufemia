@@ -627,6 +627,101 @@ describe('useMedia', () => {
           })
         }
       })
+
+      it('will use custom breakpoints', async () => {
+        setMedia({ width: ABOVE })
+
+        const SMALL = '29em' // 40em
+        const MEDIUM = '39em' // 72em
+        const LARGE = '59em' // 80em
+
+        const customBreakpoints = {
+          small: '30em',
+          medium: '40em',
+          large: '60em',
+        }
+
+        const { result } = renderHook(() =>
+          useMedia({
+            breakpoints: customBreakpoints,
+          })
+        )
+
+        expect(result.current).toEqual(
+          expect.objectContaining({
+            isSmall: false,
+            isMedium: false,
+            isLarge: true,
+            key: 'large',
+          })
+        )
+
+        const queries = [
+          {
+            width: BELOW,
+            expectResult: expect.objectContaining({
+              isSmall: true,
+              isMedium: false,
+              isLarge: false,
+              key: 'small',
+            }),
+          },
+          {
+            width: ABOVE,
+            expectResult: expect.objectContaining({
+              isSmall: false,
+              isMedium: false,
+              isLarge: true,
+              key: 'large',
+            }),
+          },
+          {
+            width: MEDIUM,
+            expectResult: expect.objectContaining({
+              isSmall: false,
+              isMedium: true,
+              isLarge: false,
+              key: 'medium',
+            }),
+          },
+          {
+            width: LARGE,
+            expectResult: expect.objectContaining({
+              isSmall: false,
+              isMedium: false,
+              isLarge: true,
+              key: 'large',
+            }),
+          },
+          {
+            width: SMALL,
+            expectResult: expect.objectContaining({
+              isSmall: true,
+              isMedium: false,
+              isLarge: false,
+              key: 'small',
+            }),
+          },
+          {
+            width: BELOW,
+            expectResult: expect.objectContaining({
+              isSmall: true,
+              isMedium: false,
+              isLarge: false,
+              key: 'small',
+            }),
+          },
+        ]
+
+        for await (const { width, expectResult } of queries) {
+          act(() => {
+            setMedia({ width })
+          })
+          await waitFor(() => {
+            expect(result.current).toEqual(expectResult)
+          })
+        }
+      })
     })
   })
 
