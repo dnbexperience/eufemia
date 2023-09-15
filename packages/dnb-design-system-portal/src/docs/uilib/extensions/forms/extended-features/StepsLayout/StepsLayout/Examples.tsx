@@ -7,25 +7,22 @@ export const Default = () => {
     <ComponentBox scope={{ Layout, StepsLayout }}>
       <StepsLayout>
         <StepsLayout.Step title="Step 1">
-          <div>
+          <Layout.MainHeading>Step 1</Layout.MainHeading>
+          <Layout.Card>
             <P>Step 1 contents</P>
-            <StepsLayout.NextButton />
-          </div>
+          </Layout.Card>
+          <StepsLayout.NextButton />
         </StepsLayout.Step>
-        <StepsLayout.Step>
-          <div>
-            <P>Step 2 contents</P>
-            <Layout.ButtonRow>
-              <StepsLayout.PreviousButton />
-              <StepsLayout.NextButton />
-            </Layout.ButtonRow>
-          </div>
-        </StepsLayout.Step>
-        <StepsLayout.Step>
-          <div>
-            <P>Step 3 contents</P>
+        <StepsLayout.Step title="Step 2">
+          <P>Step 2 contents</P>
+          <Layout.ButtonRow>
             <StepsLayout.PreviousButton />
-          </div>
+            <StepsLayout.NextButton />
+          </Layout.ButtonRow>
+        </StepsLayout.Step>
+        <StepsLayout.Step>
+          <P>Step 3 contents</P>
+          <StepsLayout.PreviousButton />
         </StepsLayout.Step>
       </StepsLayout>
     </ComponentBox>

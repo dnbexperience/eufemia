@@ -1,6 +1,7 @@
 import React, { useMemo, useCallback } from 'react'
 import FlexContainer, {
   Props as FlexContainerProps,
+  pickFlexContainerProps,
 } from '../Layout/FlexContainer'
 import classnames from 'classnames'
 import pointer from 'json-pointer'
@@ -15,9 +16,8 @@ interface ErrorMessages {
 }
 
 export type Props = FieldHelpProps &
-  FieldProps<unknown[], undefined, ErrorMessages> & {
-    width?: false | 'small' | 'medium' | 'large' | 'stretch'
-    spacing?: FlexContainerProps['spacing']
+  FieldProps<unknown[], undefined, ErrorMessages> &
+  FlexContainerProps & {
     children:
       | React.ReactNode
       | ((value: any, index: number) => React.ReactNode)
@@ -42,7 +42,6 @@ function ArrayComponent(props: Props) {
     error,
     emptyValue,
     width,
-    spacing = 'small',
     handleChange,
     children,
   } = useDataValue(props)
@@ -88,8 +87,7 @@ function ArrayComponent(props: Props) {
       {...pickSpacingProps(props)}
     >
       <FlexContainer
-        direction={layout === 'horizontal' ? 'row' : 'column'}
-        spacing={spacing}
+        {...pickFlexContainerProps(props, { spacing: 'small' }, ['width'])}
       >
         {arrayValue === emptyValue ? (
           <em>{placeholder}</em>

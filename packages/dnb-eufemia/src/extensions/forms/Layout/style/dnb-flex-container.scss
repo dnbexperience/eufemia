@@ -65,6 +65,29 @@
     flex-wrap: wrap;
   }
 
+  &--align-self {
+    // For when used as a flex item in addition to being container
+    &-flex-start {
+      align-self: flex-start;
+    }
+
+    &-flex-end {
+      align-self: flex-end;
+    }
+
+    &-center {
+      align-self: center;
+    }
+
+    &-baseline {
+      align-self: baseline;
+    }
+
+    &-stretch {
+      align-self: stretch;
+    }
+  }
+
   &__hr {
     border: none;
     border-top: 1px solid var(--color-black-8);

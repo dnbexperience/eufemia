@@ -9,15 +9,39 @@
     flex-shrink: 1;
   }
 
-  &--width-small {
-    width: $forms-field-width-small;
+  &--width {
+    &-small {
+      width: $forms-field-width-small;
+    }
+
+    &-medium {
+      width: $forms-field-width-medium;
+    }
+
+    &-large {
+      width: $forms-field-width-large;
+    }
   }
 
-  &--width-medium {
-    width: $forms-field-width-medium;
-  }
+  &--align-self {
+    &-flex-start {
+      align-self: flex-start;
+    }
 
-  &--width-large {
-    width: $forms-field-width-large;
+    &-flex-end {
+      align-self: flex-end;
+    }
+
+    &-center {
+      align-self: center;
+    }
+
+    &-baseline {
+      align-self: baseline;
+    }
+
+    &-stretch {
+      align-self: stretch;
+    }
   }
 }

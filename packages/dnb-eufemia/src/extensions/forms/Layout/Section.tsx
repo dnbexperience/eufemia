@@ -8,16 +8,24 @@ import FlexContainer, {
 export type Props = ComponentProps & {
   direction?: FlexContainerProps['direction']
   spacing?: FlexContainerProps['spacing']
+  alignSelf?: FlexContainerProps['alignSelf']
   children: React.ReactNode
 }
 
 function Section(props: Props) {
-  const { className, direction, spacing, children } = props
+  const {
+    className,
+    direction,
+    spacing,
+    alignSelf = 'stretch',
+    children,
+  } = props
   return (
     <FlexContainer
       className={classnames('dnb-forms-section', className)}
       direction={direction ?? 'column'}
       spacing={spacing ?? 'small'}
+      alignSelf={alignSelf}
       {...pickSpacingProps(props)}
     >
       {children}
