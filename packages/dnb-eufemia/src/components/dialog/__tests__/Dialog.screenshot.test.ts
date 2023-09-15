@@ -8,8 +8,9 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Dialog', () => {
+describe.each(['ui', 'sbanken'])('Dialog for %s', (themeName) => {
   setupPageScreenshot({
+    themeName,
     url: '/uilib/components/dialog/demos',
     pageViewport: {
       width: 700,
@@ -162,6 +163,7 @@ describe('Dialog', () => {
 
   describe('scrollable content', () => {
     setupPageScreenshot({
+      themeName,
       url: '/uilib/components/dialog/demos',
       pageViewport: {
         width: 400,
