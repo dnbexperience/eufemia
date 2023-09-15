@@ -717,6 +717,108 @@ describe('useMedia', () => {
         }
       })
     })
+
+    describe('queries', () => {
+      it.only('should use custom queries', async () => {
+        const CUSTOM_SMALL = '10em'
+        const CUSTOM_LARGE = '30em'
+
+        setMedia({ width: ABOVE })
+
+        const { result } = renderHook(() =>
+          useMedia({
+            queries: {
+              customSmall: { max: CUSTOM_SMALL },
+              customMedium: { min: CUSTOM_SMALL, max: CUSTOM_LARGE },
+              customLarge: { min: CUSTOM_LARGE },
+            },
+          })
+        )
+
+        expect(result.current).toEqual({
+          isCustomsmall: false,
+          isCustommedium: false,
+          isCustomlarge: true,
+          isSSR: false,
+          key: 'customLarge',
+        })
+
+        const queries = [
+          {
+            width: '9em',
+            expectResult: expect.objectContaining({
+              isCustomsmall: true,
+              isCustommedium: false,
+              isCustomlarge: false,
+              key: 'customSmall',
+            }),
+          },
+          {
+            width: '15em',
+            expectResult: expect.objectContaining({
+              isCustomsmall: false,
+              isCustommedium: true,
+              isCustomlarge: false,
+              key: 'customMedium',
+            }),
+          },
+          {
+            width: '29em',
+            expectResult: expect.objectContaining({
+              isCustomsmall: false,
+              isCustommedium: true,
+              isCustomlarge: false,
+              key: 'customMedium',
+            }),
+          },
+          {
+            width: '31em',
+            expectResult: expect.objectContaining({
+              isCustomsmall: false,
+              isCustommedium: false,
+              isCustomlarge: true,
+              key: 'customLarge',
+            }),
+          },
+          {
+            width: '5em',
+            expectResult: expect.objectContaining({
+              isCustomsmall: true,
+              isCustommedium: false,
+              isCustomlarge: false,
+              key: 'customSmall',
+            }),
+          },
+          {
+            width: '45em',
+            expectResult: expect.objectContaining({
+              isCustomsmall: false,
+              isCustommedium: false,
+              isCustomlarge: true,
+              key: 'customLarge',
+            }),
+          },
+          {
+            width: '25em',
+            expectResult: expect.objectContaining({
+              isCustomsmall: false,
+              isCustommedium: true,
+              isCustomlarge: false,
+              key: 'customMedium',
+            }),
+          },
+        ]
+
+        for await (const { width, expectResult } of queries) {
+          act(() => {
+            setMedia({ width })
+          })
+          await waitFor(() => {
+            expect(result.current).toEqual(expectResult)
+          })
+        }
+      })
+    })
   })
 
   describe('using jest-matchmedia-mock mocker', () => {
