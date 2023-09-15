@@ -719,7 +719,7 @@ describe('useMedia', () => {
     })
 
     describe('queries', () => {
-      it.only('should use custom queries', async () => {
+      it('should use custom queries', async () => {
         const CUSTOM_SMALL = '10em'
         const CUSTOM_LARGE = '30em'
 
