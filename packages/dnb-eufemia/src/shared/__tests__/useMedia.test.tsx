@@ -449,6 +449,87 @@ describe('useMedia', () => {
       expect(count).toBe(24)
     })
 
+    it('will return correct key based on size', async () => {
+      setMedia({ width: ABOVE })
+
+      const { result } = renderHook(useMedia, { wrapper })
+
+      expect(result.current).toEqual(
+        expect.objectContaining({
+          isSmall: false,
+          isMedium: false,
+          isLarge: true,
+          key: 'large',
+        })
+      )
+
+      const queries = [
+        {
+          width: BELOW,
+          expectResult: expect.objectContaining({
+            isSmall: true,
+            isMedium: false,
+            isLarge: false,
+            key: 'small',
+          }),
+        },
+        {
+          width: ABOVE,
+          expectResult: expect.objectContaining({
+            isSmall: false,
+            isMedium: false,
+            isLarge: true,
+            key: 'large',
+          }),
+        },
+        {
+          width: MEDIUM,
+          expectResult: expect.objectContaining({
+            isSmall: false,
+            isMedium: true,
+            isLarge: false,
+            key: 'medium',
+          }),
+        },
+        {
+          width: LARGE,
+          expectResult: expect.objectContaining({
+            isSmall: false,
+            isMedium: false,
+            isLarge: true,
+            key: 'large',
+          }),
+        },
+        {
+          width: SMALL,
+          expectResult: expect.objectContaining({
+            isSmall: true,
+            isMedium: false,
+            isLarge: false,
+            key: 'small',
+          }),
+        },
+        {
+          width: BELOW,
+          expectResult: expect.objectContaining({
+            isSmall: true,
+            isMedium: false,
+            isLarge: false,
+            key: 'small',
+          }),
+        },
+      ]
+
+      for await (const { width, expectResult } of queries) {
+        act(() => {
+          setMedia({ width })
+        })
+        await waitFor(() => {
+          expect(result.current).toEqual(expectResult)
+        })
+      }
+    })
+
     describe('breakpoints', () => {
       it('will react to all possible sizes', async () => {
         setMedia({ width: ABOVE })
