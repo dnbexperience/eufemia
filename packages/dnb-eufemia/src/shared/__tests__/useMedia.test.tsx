@@ -635,15 +635,9 @@ describe('useMedia', () => {
         const MEDIUM = '39em' // 72em
         const LARGE = '59em' // 80em
 
-        const customBreakpoints = {
-          small: '30em',
-          medium: '40em',
-          large: '60em',
-        }
-
         const { result } = renderHook(() =>
           useMedia({
-            breakpoints: customBreakpoints,
+            breakpoints: { small: '30em', medium: '40em', large: '60em' },
           })
         )
 
