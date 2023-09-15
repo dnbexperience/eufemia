@@ -4,9 +4,12 @@ import {
   makeMediaQueryList,
   createMediaQueryListener,
   isMatchMediaSupported,
-  MediaQueryCondition,
 } from './MediaQueryUtils'
-import type { MediaQueryListener } from './MediaQueryUtils'
+import type {
+  MediaQueryListener,
+  MediaQueryCondition,
+  MediaQueryBreakpoints,
+} from './MediaQueryUtils'
 import { toPascalCase } from './component-helper'
 
 export type UseMediaProps = {
@@ -15,6 +18,18 @@ export type UseMediaProps = {
    * Default: false
    */
   disabled?: boolean
+
+  /**
+   * Provide a custom breakpoint
+   * Default: defaultBreakpoints
+   */
+  breakpoints?: MediaQueryBreakpoints
+
+  /**
+   * Provide a custom query
+   * Default: defaultQueries
+   */
+  queries?: Record<string, MediaQueryCondition>
 
   /**
    * For debugging
@@ -28,7 +43,7 @@ export type UseMediaQueries = {
   large: MediaQueryCondition
 }
 
-export const queries: UseMediaQueries = {
+export const defaultQueries: UseMediaQueries = {
   small: { min: 0, max: 'small' },
   medium: { min: 'small', max: 'medium' },
   large: { min: 'medium' },
@@ -39,11 +54,15 @@ export type UseMediaResult = {
   isMedium: boolean
   isLarge: boolean
   isSSR: boolean
+  key: Keys
 }
 
 /**
  * Internal stuff
  */
+
+type Keys = keyof UseMediaQueries
+type Names = 'isSmall' | 'isMedium' | 'isLarge'
 
 type UseMediaItem = {
   event: MediaQueryListener
@@ -51,14 +70,15 @@ type UseMediaItem = {
 }
 
 type UseMediaQueryProps = {
-  name: string
   when: MediaQueryCondition
+  name: Names
+  key: Keys
 }
 
 export default function useMedia(
   props: UseMediaProps = {}
 ): UseMediaResult {
-  const { disabled, log } = props
+  const { disabled, breakpoints, queries = defaultQueries, log } = props
 
   const context = React.useContext(Context)
 
@@ -90,7 +110,7 @@ export default function useMedia(
 
   function removeListeners() {
     Object.entries(refs.current).forEach(
-      ([key, item]: [string, UseMediaItem]) => {
+      ([key, item]: [Keys, UseMediaItem]) => {
         item?.event?.()
         delete refs.current[key]
       }
@@ -99,8 +119,9 @@ export default function useMedia(
 
   function makeResult() {
     return Object.entries(queries).reduce(
-      (acc, [key, when]) => {
-        const name = `is${toPascalCase(key)}`
+      (acc, [k, when]) => {
+        const key = k as Keys
+        const name = `is${toPascalCase(key)}` as Names
 
         if (disabled) {
           acc[name] = false
@@ -110,21 +131,30 @@ export default function useMedia(
         defaults.current[name] = false
 
         const item = runQuery({
-          name,
           when,
+          name,
+          key,
         })
 
-        acc[name] = item?.mediaQueryList?.matches || false
+        const hasMatch = item?.mediaQueryList?.matches || false
+        acc[name] = hasMatch
+        if (hasMatch) {
+          acc.key = key
+        }
 
         refs.current[key] = item
 
         return acc
       },
-      { isSSR: !isMatchMediaSupported() }
+      { isSSR: !isMatchMediaSupported(), key: null } as UseMediaResult
     ) as UseMediaResult
   }
 
-  function runQuery({ when, name }: UseMediaQueryProps): UseMediaItem {
+  function runQuery({
+    when,
+    name,
+    key,
+  }: UseMediaQueryProps): UseMediaItem {
     if (!isMatchMediaSupported()) {
       return // do nothing
     }
@@ -136,13 +166,14 @@ export default function useMedia(
         log,
       },
 
-      context.breakpoints
+      breakpoints || context.breakpoints
     )
 
     const event = createMediaQueryListener(mediaQueryList, (match) => {
       if (!disabledRef.current && match) {
         const state = {
           ...defaults.current,
+          key,
           isSSR: result.isSSR,
         } as UseMediaResult
         state[name] = match
