@@ -23,6 +23,7 @@ export const ExpiryTest = () => {
         <Expiry placeholder="dashes" value={value} onChange={onChange} />
         <Expiry placeholder="letters" value={value} onChange={onChange} />
         <Expiry placeholder="spaces" value={value} onChange={onChange} />
+        <Expiry placeholder="none" value={value} onChange={onChange} />
         <p>{value}</p>
       </Box>
     </Wrapper>

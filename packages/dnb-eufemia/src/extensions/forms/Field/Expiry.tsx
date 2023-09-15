@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import StringComponent, { Props as StringComponentProps } from './String'
 
-type ExpiryPlaceholderType = 'dashes' | 'spaces' | 'letters'
+type ExpiryPlaceholderType = 'dashes' | 'spaces' | 'letters' | 'none'
 
 export type ExpiryValue = {
   month: string
@@ -18,10 +18,11 @@ type ExpiryProps = Omit<
   onChange?: ({ month, year, raw, formatted }: ExpiryValue) => void
 }
 
-const placeholders: Record<ExpiryPlaceholderType, string> = {
+const placeholders: Record<ExpiryPlaceholderType, string | boolean> = {
   dashes: '-- / --',
   spaces: '   /   ',
   letters: 'mm / yy',
+  none: '',
 }
 
 function Expiry({
