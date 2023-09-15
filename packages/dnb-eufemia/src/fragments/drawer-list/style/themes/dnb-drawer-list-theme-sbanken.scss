@@ -5,6 +5,10 @@
 
 @import '../../../../style/core/utilities.scss';
 
+:root {
+  --drawer-list-height: 2.5rem;
+}
+
 .dnb-drawer-list {
   --drawer-list-options-border-radius: 0 0 0.5rem 0.5rem;
   --drawer-list-options-border-radius-reversed: 0.5rem 0.5rem 0 0;
@@ -14,6 +18,7 @@
     background: var(--sb-color-white);
     margin-top: calc(-1 * var(--drawer-list-option-border-width)); // Switch border width to a negative number
     border-radius: var(--drawer-list-options-border-radius);
+    line-height: 1.5rem;
 
     &:focus-visible {
       outline: var(--sb-color-blue-dark) solid var(--drawer-list-option-border-width);
@@ -23,6 +28,7 @@
   &__option__inner {
     overflow:visible;
     background-color: transparent;
+    padding: 1rem 0.75rem;
 
     &::before {
       content: '';
@@ -110,6 +116,7 @@
 
     &:focus-visible {
       border-color: var(--sb-color-blue-dark);
+      outline: 0.0625rem solid var(--sb-color-blue-dark);
       background-color: var(--sb-color-blue-light-3);
       color: var(--sb-color-blue-dark);
       font-weight: var(--sb-font-weight-medium);

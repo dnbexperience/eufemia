@@ -9,6 +9,7 @@
 
 .dnb-dropdown {
   --dropdown-border-radius: 0.5rem;
+  --dropdown-height: 2.5rem;
 
   &__icon {
     color: var(--sb-color-text);
@@ -18,6 +19,7 @@
   &__trigger:not(.dnb-button--tertiary) {
     @include fakeBorder(var(--sb-color-gray-dark-2));
     color: var(--sb-color-gray-dark-3);
+    line-height: var(--dropdown-height);
     
     @include hover() {
       @include fakeBorder(var(--sb-color-violet), 2px, inset);
