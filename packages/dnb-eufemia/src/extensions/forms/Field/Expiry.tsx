@@ -18,7 +18,7 @@ type ExpiryProps = Omit<
   onChange?: ({ month, year, raw, formatted }: ExpiryValue) => void
 }
 
-const placeholders: Record<ExpiryPlaceholderType, string | boolean> = {
+const placeholders: Record<ExpiryPlaceholderType, string> = {
   dashes: '-- / --',
   spaces: '   /   ',
   letters: 'mm / yy',
