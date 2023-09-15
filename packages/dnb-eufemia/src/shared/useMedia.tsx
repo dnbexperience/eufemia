@@ -29,7 +29,7 @@ export type UseMediaProps = {
    * Provide a custom query
    * Default: defaultQueries
    */
-  queries?: MediaQueryCondition | Array<MediaQueryCondition>
+  queries?: Record<string, MediaQueryCondition>
 
   /**
    * For debugging
