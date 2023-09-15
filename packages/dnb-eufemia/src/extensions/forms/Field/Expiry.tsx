@@ -100,7 +100,7 @@ function Expiry({
     <StringComponent
       {...props}
       width="stretch"
-      mask={[/[0-1]/, /[1-2]/, ' ', '/', ' ', /\d/, /\d/]}
+      mask={[/[0-1]/, /[1-9]/, ' ', '/', ' ', /\d/, /\d/]}
       placeholder={placeholders[placeholder]}
       keep_placeholder={keep_placeholder}
       onChange={onChange}
