@@ -150,6 +150,54 @@ describe('Layout.FlexItem', () => {
       )
     })
 
+    it('should set style attribute based on sizes', () => {
+      const { rerender } = render(
+        <FlexContainer direction="horizontal">
+          <FlexItem size={4}>FlexItem</FlexItem>
+          <FlexItem size={6}>FlexItem</FlexItem>
+        </FlexContainer>
+      )
+
+      expect(getFlexItem(0).getAttribute('style')).toBe(
+        '--size--default: 4;'
+      )
+      expect(getFlexItem(1).getAttribute('style')).toBe(
+        '--size--default: 6;'
+      )
+
+      rerender(
+        <FlexContainer direction="horizontal">
+          <FlexItem size={2}>FlexItem</FlexItem>
+          <FlexItem size={10}>FlexItem</FlexItem>
+        </FlexContainer>
+      )
+
+      expect(getFlexItem(0).getAttribute('style')).toBe(
+        '--size--default: 2;'
+      )
+      expect(getFlexItem(1).getAttribute('style')).toBe(
+        '--size--default: 10;'
+      )
+
+      rerender(
+        <FlexContainer direction="horizontal">
+          <FlexItem style={{ background: 'blue' }} size={7}>
+            FlexItem
+          </FlexItem>
+          <FlexItem style={{ background: 'red' }} size={5}>
+            FlexItem
+          </FlexItem>
+        </FlexContainer>
+      )
+
+      expect(getFlexItem(0).getAttribute('style')).toBe(
+        '--size--default: 7; background: blue;'
+      )
+      expect(getFlexItem(1).getAttribute('style')).toBe(
+        '--size--default: 5; background: red;'
+      )
+    })
+
     it('should set data-media-key', () => {
       setMedia({ width: SMALL })
 
@@ -436,3 +484,6 @@ function getSpacingClasses() {
 
   return collection
 }
+
+const getFlexItem = (item: number) =>
+  document.querySelectorAll('.dnb-layout__flex-item')[item] as HTMLElement
