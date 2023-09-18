@@ -805,3 +805,13 @@ export const DialogConfirmHideConfirm = () => {
     </Box>
   )
 }
+
+export const DialogOnClose = () => {
+  return (
+    <React.StrictMode>
+      <Box>
+        <Dialog onClose={(e) => console.log('on_close', e)} />
+      </Box>
+    </React.StrictMode>
+  )
+}

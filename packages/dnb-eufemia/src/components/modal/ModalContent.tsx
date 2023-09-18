@@ -184,6 +184,9 @@ export default class ModalContent extends React.PureComponent<
 
     const id = this.props.id
     const { triggeredBy, triggeredByEvent } = this.state
+
+    console.log(this._contentRef)
+
     dispatchCustomElementEvent(this, 'on_close', {
       id,
       event: triggeredByEvent,
