@@ -19,7 +19,7 @@ export type Props = Pick<
   contentClassName?: string
   children: React.ReactNode
   /** Width of outer block element */
-  width?: 'small' | 'medium' | 'large'
+  width?: false | 'small' | 'medium' | 'large'
   /** Width of contents block, while label etc can be wider if space is available */
   contentsWidth?: 'small' | 'medium' | 'large' | 'stretch'
 } & React.HTMLAttributes<HTMLDivElement>

@@ -68,7 +68,7 @@ export const RenderPropsPrimitiveElements = () => {
 
 export const RenderPropsObjectElements = () => {
   return (
-    <ComponentBox scope={{ Iterate, Layout, Field }}>
+    <ComponentBox scope={{ Iterate, Layout, Field, FieldBlock }}>
       <Iterate.Array
         label="Array label"
         value={[
