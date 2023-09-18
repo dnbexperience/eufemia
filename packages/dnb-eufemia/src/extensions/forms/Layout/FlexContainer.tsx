@@ -91,8 +91,37 @@ export type Props = ComponentProps & {
     | 'large'
     | 'x-large'
     | 'xx-large'
-  width?: 'small' | 'medium' | 'large'
+  width?: false | 'small' | 'medium' | 'large'
+  // For when used as a flex item in an outer container in addition to being a container:
+  alignSelf?: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch'
   children: React.ReactNode
+}
+
+const propNames: Array<keyof Props> = [
+  'direction',
+  'wrap',
+  'justify',
+  'align',
+  'divider',
+  'spacing',
+  'width',
+]
+
+export function pickFlexContainerProps<T extends Props>(
+  props: T,
+  defaults: Partial<Props> = {},
+  skip: Array<keyof Props> = []
+): Omit<Props, 'children'> {
+  return {
+    ...defaults,
+    ...Object.fromEntries(
+      Object.entries(props ?? {}).filter(
+        ([key]) =>
+          propNames.includes(key as keyof Props) &&
+          !skip.includes(key as keyof Props)
+      )
+    ),
+  }
 }
 
 function FlexContainer(props: Props) {
@@ -106,6 +135,7 @@ function FlexContainer(props: Props) {
     divider = 'space',
     spacing = 'small',
     width,
+    alignSelf,
   } = props
 
   const cn = classnames(
@@ -117,6 +147,7 @@ function FlexContainer(props: Props) {
     divider && `dnb-forms-flex-container--divider-${divider}`,
     spacing && `dnb-forms-flex-container--spacing-${spacing}`,
     width && `dnb-forms-flex-container--width-${width}`,
+    alignSelf && `dnb-forms-flex-container--align-self-${alignSelf}`,
     className
   )
   const childrenArray = React.Children.toArray(children)

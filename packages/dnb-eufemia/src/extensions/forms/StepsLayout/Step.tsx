@@ -1,27 +1,20 @@
 import React, { useContext } from 'react'
 import classnames from 'classnames'
-import { ComponentProps, pickSpacingProps } from '../types'
+import { ComponentProps } from '../types'
 import FlexContainer, {
   Props as FlexContainerProps,
+  pickFlexContainerProps,
 } from '../Layout/FlexContainer'
 import StepsContext from './StepsContext'
 
-export type Props = ComponentProps & {
-  index?: number
-  title?: string
-  direction?: FlexContainerProps['direction']
-  spacing?: FlexContainerProps['spacing']
-  children: React.ReactNode
-}
+export type Props = ComponentProps &
+  FlexContainerProps & {
+    index?: number
+    title?: string
+  }
 
 function Step(props: Props) {
-  const {
-    className,
-    index,
-    direction = 'column',
-    spacing = 'medium',
-    children,
-  } = props
+  const { className, index, children } = props
   const stepsContext = useContext(StepsContext)
 
   if (stepsContext?.activeIndex !== index) {
@@ -32,9 +25,7 @@ function Step(props: Props) {
   return (
     <FlexContainer
       className={classnames('dnb-forms-step', className)}
-      direction={direction}
-      spacing={spacing}
-      {...pickSpacingProps(props)}
+      {...pickFlexContainerProps(props)}
     >
       {children}
     </FlexContainer>
