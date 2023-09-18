@@ -112,7 +112,7 @@ export const CreateComposedFieldComponent = () => {
                   width="medium"
                   required
                 />
-                <Layout.FlexItem width="large">
+                <FieldBlock width="large">
                   <Slider
                     min={1900}
                     max={new Date().getFullYear()}
@@ -128,7 +128,7 @@ export const CreateComposedFieldComponent = () => {
                     tooltip
                     alwaysShowTooltip
                   />
-                </Layout.FlexItem>
+                </FieldBlock>
               </Layout.Horizontal>
             </FieldBlock>
           )

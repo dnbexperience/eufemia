@@ -5,6 +5,7 @@ import {
   Field,
   Value,
   Form,
+  FieldBlock,
 } from '@dnb/eufemia/src/extensions/forms'
 import { trash as TrashIcon } from '@dnb/eufemia/src/icons'
 
@@ -79,10 +80,10 @@ export const RenderPropsObjectElements = () => {
         onChange={(value) => console.log('onChange', value)}
       >
         {({ num, txt }) => (
-          <Layout.Horizontal width="large">
+          <FieldBlock width="large">
             <Field.Number value={num} width="small" />
             <Field.String value={txt} width={false} />
-          </Layout.Horizontal>
+          </FieldBlock>
         )}
       </Iterate.Array>
     </ComponentBox>
