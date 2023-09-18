@@ -47,8 +47,7 @@
     --anchor-background: transparent;
     --anchor-color--contrast: var(--sb-color-text);
 
-    // Has to use --sb-font-weight-bold to get correct weighting as --sb-font-weight-medium does nothing at the moment
-    font-weight: var(--sb-font-weight-bold);
+    font-weight: var(--font-weight-medium);
     color: var(--sb-color-gray-dark-3);
     text-decoration-color: var(--sb-color-green-dark);
     padding: 0.15625em 0;
