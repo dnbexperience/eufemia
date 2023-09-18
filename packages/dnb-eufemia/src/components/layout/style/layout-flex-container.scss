@@ -84,12 +84,14 @@
 
   &--wrap {
     flex-wrap: wrap;
+  }
+  &--wrap#{&}--has-size {
     row-gap: var(--spacing-small);
   }
-  &--wrap#{&}--spacing-medium {
+  &--wrap#{&}--has-size#{&}--spacing-medium {
     row-gap: var(--spacing-medium);
   }
-  &--wrap#{&}--spacing-large {
+  &--wrap#{&}--has-size#{&}--spacing-large {
     row-gap: var(--spacing-large);
   }
 

@@ -1,5 +1,7 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { act, render } from '@testing-library/react'
+import 'mock-match-media/jest-setup'
+import { setMedia, matchMedia } from 'mock-match-media'
 import FlexContainer from '../FlexContainer'
 import FlexItem from '../FlexItem'
 
@@ -319,5 +321,82 @@ describe('Layout.FlexContainer', () => {
     const element = document.querySelector('.dnb-layout__flex-container')
 
     expect(element.tagName).toBe('SECTION')
+  })
+
+  describe('size', () => {
+    beforeEach(() => {
+      jest.spyOn(window, 'matchMedia').mockImplementation(matchMedia)
+    })
+
+    const matchMediaOriginal = window.matchMedia
+    afterEach(() => {
+      window.matchMedia = matchMediaOriginal
+    })
+
+    const SMALL = '39em' // 40em
+    const MEDIUM = '59em' // 60em
+    const LARGE = '79em' // 80em
+
+    it('should set default columns of 12', () => {
+      render(
+        <FlexContainer direction="horizontal">
+          <FlexItem size={6}>FlexItem</FlexItem>
+        </FlexContainer>
+      )
+
+      const element = document.querySelector('.dnb-layout__flex-container')
+
+      expect(element.getAttribute('style')).toBe('--columns: 12;')
+    })
+
+    it('should set --has-size class', () => {
+      render(
+        <FlexContainer direction="horizontal">
+          <FlexItem size={6}>FlexItem</FlexItem>
+        </FlexContainer>
+      )
+
+      const element = document.querySelector('.dnb-layout__flex-container')
+
+      expect(element.className).toContain(
+        'dnb-layout__flex-container--has-size'
+      )
+    })
+
+    it('should set data-media-key', () => {
+      setMedia({ width: SMALL })
+
+      const { rerender } = render(
+        <FlexContainer direction="horizontal">
+          <FlexItem size={6}>FlexItem</FlexItem>
+        </FlexContainer>
+      )
+
+      const element = document.querySelector('.dnb-layout__flex-container')
+
+      act(() => {
+        setMedia({ width: MEDIUM })
+      })
+
+      rerender(
+        <FlexContainer direction="horizontal">
+          <FlexItem size={6}>FlexItem</FlexItem>
+        </FlexContainer>
+      )
+
+      expect(element.getAttribute('data-media-key')).toBe('medium')
+
+      act(() => {
+        setMedia({ width: LARGE })
+      })
+
+      rerender(
+        <FlexContainer direction="horizontal">
+          <FlexItem size={6}>FlexItem</FlexItem>
+        </FlexContainer>
+      )
+
+      expect(element.getAttribute('data-media-key')).toBe('large')
+    })
   })
 })
