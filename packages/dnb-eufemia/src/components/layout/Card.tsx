@@ -26,32 +26,15 @@ function Card(props: Props) {
     ...rest
   } = props
 
-  if (stack) {
-    return (
-      <FlexContainer
-        className={classnames('dnb-layout__card', className)}
-        direction="vertical"
-        divider="line"
-        element="section"
-        wrap={false}
-        spacing={spacing ?? 'medium'}
-        alignSelf={alignSelf}
-        {...rest}
-      >
-        {children}
-      </FlexContainer>
-    )
-  }
-
-  if (direction || spacing) {
+  if (direction || spacing || stack) {
     return (
       <FlexContainer
         className={classnames('dnb-layout__card', className)}
         direction={direction ?? 'vertical'}
-        divider="space"
+        divider={stack ? 'line' : 'space'}
         element="section"
         wrap={false}
-        spacing={spacing ?? 'small'}
+        spacing={spacing ?? (stack ? 'medium' : 'small')}
         alignSelf={alignSelf}
         {...rest}
       >
