@@ -1,5 +1,4 @@
 @import '../../../style/core/utilities.scss';
-@import './layout-sizes.scss';
 
 .dnb-layout__flex-item {
   &--grow {
@@ -8,20 +7,6 @@
 
   &--shrink {
     flex-shrink: 1;
-  }
-
-  &--width {
-    &-small {
-      width: var(--layout-field-width--small);
-    }
-
-    &-medium {
-      width: var(--layout-field-width--medium);
-    }
-
-    &-large {
-      width: var(--layout-field-width--large);
-    }
   }
 
   &--align-self {

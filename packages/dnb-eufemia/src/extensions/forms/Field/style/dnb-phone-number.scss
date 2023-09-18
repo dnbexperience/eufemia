@@ -1,4 +1,4 @@
-@import '../../../../components/layout/style/layout-sizes.scss';
+@import './field-sizes.scss';
 
 .dnb-forms-field-phone-number {
   display: flex;
@@ -10,7 +10,7 @@
   }
 
   &--width-large {
-    width: var(--layout-field-width--large);
+    width: var(--forms-field-width--large);
   }
 
   &__country-code {
