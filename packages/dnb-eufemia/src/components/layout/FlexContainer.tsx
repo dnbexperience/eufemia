@@ -92,7 +92,6 @@ export type Props = ComponentProps & {
     | 'large'
     | 'x-large'
     | 'xx-large'
-  width?: false | 'small' | 'medium' | 'large'
   element?: DynamicElement
   style?: React.CSSProperties
   breakpoints?: MediaQueryBreakpoints
@@ -107,7 +106,6 @@ const propNames: Array<keyof Props> = [
   'align',
   'divider',
   'spacing',
-  'width',
 ]
 
 export function pickFlexContainerProps<T extends Props>(
@@ -143,7 +141,6 @@ function FlexContainer(props: Props) {
     spacing = 'small',
     breakpoints,
     queries,
-    width,
     ...rest
   } = props
 
@@ -156,7 +153,6 @@ function FlexContainer(props: Props) {
     spacing && `dnb-layout__flex-container--spacing-${spacing}`,
     wrap && `dnb-layout__flex-container--wrap`,
     divider && `dnb-layout__flex-container--divider-${divider}`,
-    width && `dnb-layout__flex-container--width-${width}`,
     className
   )
   const childrenArray = React.Children.toArray(children)

@@ -23,7 +23,6 @@ export type Props = ComponentProps & {
   grow?: boolean
   shrink?: boolean
   alignSelf?: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch'
-  width?: 'small' | 'medium' | 'large'
   size?: Sizes
   style?: React.CSSProperties
   children: React.ReactNode
@@ -36,7 +35,6 @@ function FlexItem(props: Props) {
     grow,
     shrink,
     alignSelf,
-    width,
     size,
     style,
     children,
@@ -48,7 +46,6 @@ function FlexItem(props: Props) {
     grow && 'dnb-layout__flex-item--grow',
     shrink && 'dnb-layout__flex-item--shrink',
     alignSelf && `dnb-layout__flex-item--align-self-${alignSelf}`,
-    width && `dnb-layout__flex-item--width-${width}`,
     size && 'dnb-layout__flex-item--responsive',
     className
   )

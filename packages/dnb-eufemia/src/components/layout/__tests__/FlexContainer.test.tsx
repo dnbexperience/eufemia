@@ -91,50 +91,6 @@ describe('Layout.FlexContainer', () => {
     expect(childredTextContents).toEqual(['Flex 1', 'Flex 2', 'Flex 3'])
   })
 
-  it('should apply specified width', () => {
-    const { rerender } = render(
-      <FlexContainer>
-        <FlexItem>Flex</FlexItem>
-      </FlexContainer>
-    )
-
-    const element = document.querySelector('.dnb-layout__flex-container')
-
-    expect(element.className).not.toContain(
-      'dnb-layout__flex-container--width-'
-    )
-
-    rerender(
-      <FlexContainer width="small">
-        <FlexItem>Flex</FlexItem>
-      </FlexContainer>
-    )
-
-    expect(element.className).toContain(
-      'dnb-layout__flex-container--width-small'
-    )
-
-    rerender(
-      <FlexContainer width="medium">
-        <FlexItem>Flex</FlexItem>
-      </FlexContainer>
-    )
-
-    expect(element.className).toContain(
-      'dnb-layout__flex-container--width-medium'
-    )
-
-    rerender(
-      <FlexContainer width="large">
-        <FlexItem>Flex</FlexItem>
-      </FlexContainer>
-    )
-
-    expect(element.className).toContain(
-      'dnb-layout__flex-container--width-large'
-    )
-  })
-
   it('should set flow direction of children', () => {
     const { rerender } = render(
       <FlexContainer direction="vertical">

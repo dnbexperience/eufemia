@@ -56,28 +56,6 @@ describe('Layout.FlexItem', () => {
     expect(children[0].textContent).toEqual('Flex')
   })
 
-  it('should set width', () => {
-    const { rerender } = render(<FlexItem>Flex</FlexItem>)
-
-    const element = document.querySelector('.dnb-layout__flex-item')
-
-    expect(element.className).not.toContain(
-      'dnb-layout__flex-item--width-'
-    )
-
-    rerender(<FlexItem width="large">Flex</FlexItem>)
-
-    expect(element.className).toContain(
-      'dnb-layout__flex-item--width-large'
-    )
-
-    rerender(<FlexItem width="small">Flex</FlexItem>)
-
-    expect(element.className).toContain(
-      'dnb-layout__flex-item--width-small'
-    )
-  })
-
   it('should grow and shrink', () => {
     const { rerender } = render(<FlexItem grow>Flex</FlexItem>)
 
