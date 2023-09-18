@@ -161,24 +161,12 @@ export const VerticalWithFieldString = () => {
 
 export const VerticalSpaceDivider = () => {
   return (
-    <ComponentBox scope={{ TestElement, Field }}>
+    <ComponentBox
+      scope={{ TestElement, Field }}
+      data-visual-test="layout-flex-container-divider"
+    >
       <Layout.Card>
         <Layout.FlexContainer direction="vertical" divider="space">
-          <Field.String label="Label" value="Value" />
-          <Field.String label="Label" value="Value" />
-          <Field.String label="Label" value="Value" />
-          <Field.String label="Label" value="Value" />
-        </Layout.FlexContainer>
-      </Layout.Card>
-    </ComponentBox>
-  )
-}
-
-export const VerticalLineDivider = () => {
-  return (
-    <ComponentBox scope={{ TestElement, Field }}>
-      <Layout.Card>
-        <Layout.FlexContainer direction="vertical" divider="line">
           <Field.String label="Label" value="Value" />
           <Field.String label="Label" value="Value" />
           <Field.String label="Label" value="Value" />

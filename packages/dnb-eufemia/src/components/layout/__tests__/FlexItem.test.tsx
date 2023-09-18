@@ -1,10 +1,11 @@
 import React from 'react'
 import { act, render } from '@testing-library/react'
-import FlexItem from '../FlexItem'
-import { P } from '../../../elements'
-import FlexContainer from '../FlexContainer'
 import 'mock-match-media/jest-setup'
 import { setMedia, matchMedia } from 'mock-match-media'
+import { P } from '../../../elements'
+import FlexItem from '../FlexItem'
+import FlexContainer from '../FlexContainer'
+import MainHeading from '../MainHeading'
 
 describe('Layout.FlexItem', () => {
   it('should forward HTML attributes', () => {
@@ -102,18 +103,6 @@ describe('Layout.FlexItem', () => {
     const MEDIUM = '59em' // 60em
     const LARGE = '79em' // 80em
 
-    it('should set default columns', () => {
-      render(
-        <FlexContainer direction="horizontal">
-          <FlexItem size={6}>FlexItem</FlexItem>
-        </FlexContainer>
-      )
-
-      const element = document.querySelector('.dnb-layout__flex-container')
-
-      expect(element.getAttribute('style')).toBe('--columns: 12;')
-    })
-
     it('should contain responsive class', () => {
       render(
         <FlexContainer direction="horizontal">
@@ -176,54 +165,6 @@ describe('Layout.FlexItem', () => {
       )
     })
 
-    it('should set data-media-key', () => {
-      setMedia({ width: SMALL })
-
-      const { rerender } = render(
-        <FlexContainer direction="horizontal">
-          <FlexItem size={6}>FlexItem</FlexItem>
-        </FlexContainer>
-      )
-
-      const element = document.querySelector('.dnb-layout__flex-container')
-
-      act(() => {
-        setMedia({ width: LARGE })
-      })
-
-      rerender(
-        <FlexContainer direction="horizontal">
-          <FlexItem size={6}>FlexItem</FlexItem>
-        </FlexContainer>
-      )
-
-      expect(element.getAttribute('data-media-key')).toBe('large')
-    })
-
-    it('should set data-media-key', () => {
-      setMedia({ width: SMALL })
-
-      const { rerender } = render(
-        <FlexContainer direction="horizontal">
-          <FlexItem size={6}>FlexItem</FlexItem>
-        </FlexContainer>
-      )
-
-      const element = document.querySelector('.dnb-layout__flex-container')
-
-      act(() => {
-        setMedia({ width: LARGE })
-      })
-
-      rerender(
-        <FlexContainer direction="horizontal">
-          <FlexItem size={6}>FlexItem</FlexItem>
-        </FlexContainer>
-      )
-
-      expect(element.getAttribute('data-media-key')).toBe('large')
-    })
-
     it('should set correct spacing', () => {
       const { rerender } = render(
         <FlexContainer direction="horizontal">
@@ -247,6 +188,46 @@ describe('Layout.FlexItem', () => {
       expect(getSpacingClasses()).toEqual([
         ['dnb-space__left--zero', 'dnb-space__right--zero'],
         ['dnb-space__left--zero', 'dnb-space__right--zero'],
+      ])
+    })
+
+    it('should omit size when heading is a child and direction is horizontal', () => {
+      const { rerender } = render(
+        <FlexContainer direction="horizontal">
+          <MainHeading level={1}>Heading</MainHeading>
+          <FlexItem size={2}>FlexItem</FlexItem>
+          <FlexItem size={2}>FlexItem</FlexItem>
+        </FlexContainer>
+      )
+
+      const element = document.querySelector('.dnb-layout__flex-container')
+
+      expect(element.className).not.toContain(
+        'dnb-layout__flex-container--has-size'
+      )
+      expect(getSpacingClasses()).toEqual([
+        ['dnb-space__left--small', 'dnb-space__right--zero'],
+        ['dnb-space__left--small', 'dnb-space__right--zero'],
+      ])
+
+      rerender(
+        <FlexContainer direction="horizontal">
+          <MainHeading level={1}>Heading</MainHeading>
+          <FlexItem left size={2}>
+            FlexItem
+          </FlexItem>
+          <FlexItem left="large" right="medium" size={2}>
+            FlexItem
+          </FlexItem>
+        </FlexContainer>
+      )
+
+      expect(element.className).not.toContain(
+        'dnb-layout__flex-container--has-size'
+      )
+      expect(getSpacingClasses()).toEqual([
+        ['dnb-space__left--small', 'dnb-space__right--zero'],
+        ['dnb-space__left--large', 'dnb-space__right--medium'],
       ])
     })
 

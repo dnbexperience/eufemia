@@ -144,19 +144,15 @@ function FlexContainer(props: Props) {
     ...rest
   } = props
 
-  const cn = classnames(
-    'dnb-layout__flex-container',
-    direction && `dnb-layout__flex-container--direction-${direction}`,
-    justify && `dnb-layout__flex-container--justify-${justify}`,
-    align && `dnb-layout__flex-container--align-${align}`,
-    alignSelf && `dnb-layout__flex-container--align-self-${alignSelf}`,
-    spacing && `dnb-layout__flex-container--spacing-${spacing}`,
-    wrap && `dnb-layout__flex-container--wrap`,
-    divider && `dnb-layout__flex-container--divider-${divider}`,
-    className
-  )
   const childrenArray = React.Children.toArray(children)
+  const hasHeading = childrenArray.some((child, i) => {
+    const previousChild = childrenArray?.[i - 1]
+    return (
+      isHeadingElement(child) || (i > 0 && isHeadingElement(previousChild))
+    )
+  })
   const hasSizeProp =
+    !hasHeading &&
     direction === 'horizontal' &&
     childrenArray.some((child) => child['props']?.size)
 
@@ -173,8 +169,6 @@ function FlexContainer(props: Props) {
     // and bottom when th
     let isFirst = i === 0
     const previousChild = childrenArray?.[i - 1]
-    const currentIsHeading = isHeadingElement(child)
-    const previousWasHeading = i > 0 && isHeadingElement(previousChild)
 
     // Always set spacing between elements in the vertical layout on the top props, and 0 on bottom, to avoid
     // having to divide spacing between both with smaller values.
@@ -188,8 +182,7 @@ function FlexContainer(props: Props) {
       // No line above first element
       !isFirst &&
       // No line above/below headings
-      !previousWasHeading &&
-      !currentIsHeading
+      !hasHeading
     ) {
       const spaceAboveLine = (getSpaceValue(end, previousChild) ??
         spacing) as SpaceType
@@ -237,6 +230,19 @@ function FlexContainer(props: Props) {
       space: { [start]: startSpacing, [end]: endSpacing },
     })
   })
+
+  const cn = classnames(
+    'dnb-layout__flex-container',
+    direction && `dnb-layout__flex-container--direction-${direction}`,
+    justify && `dnb-layout__flex-container--justify-${justify}`,
+    align && `dnb-layout__flex-container--align-${align}`,
+    alignSelf && `dnb-layout__flex-container--align-self-${alignSelf}`,
+    spacing && `dnb-layout__flex-container--spacing-${spacing}`,
+    wrap && `dnb-layout__flex-container--wrap`,
+    hasSizeProp && `dnb-layout__flex-container--has-size`,
+    divider && `dnb-layout__flex-container--divider-${divider}`,
+    className
+  )
 
   return (
     <Space
