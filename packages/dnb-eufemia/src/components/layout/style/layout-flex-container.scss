@@ -1,5 +1,3 @@
-@import './layout-sizes.scss';
-
 .dnb-layout__flex-container {
   display: flex;
 
@@ -93,18 +91,6 @@
   }
   &--wrap#{&}--spacing-large {
     row-gap: var(--spacing-large);
-  }
-
-  &--width-small {
-    width: var(--layout-field-width--small);
-  }
-
-  &--width-medium {
-    width: var(--layout-field-width--medium);
-  }
-
-  &--width-large {
-    width: var(--layout-field-width--large);
   }
 
   .dnb-hr {

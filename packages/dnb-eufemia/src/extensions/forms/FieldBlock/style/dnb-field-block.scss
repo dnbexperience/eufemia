@@ -1,4 +1,4 @@
-@import '../../../../components/layout/style/layout-sizes.scss';
+@import '../../Field/style/field-sizes.scss';
 
 .dnb-forms-field-block {
   // Layout
@@ -13,7 +13,7 @@
 
   &--layout-horizontal {
     display: grid;
-    grid-template-columns: var(--layout-field-width--medium) auto;
+    grid-template-columns: var(--forms-field-width--medium) auto;
     grid-template-areas:
       'label contents'
       'status status';
@@ -21,15 +21,15 @@
 
   // Width
   &--width-small {
-    width: var(--layout-field-width--small);
+    width: var(--forms-field-width--small);
   }
 
   &--width-medium {
-    width: var(--layout-field-width--medium);
+    width: var(--forms-field-width--medium);
   }
 
   &--width-large {
-    width: var(--layout-field-width--large);
+    width: var(--forms-field-width--large);
   }
 
   // Elements
@@ -64,15 +64,15 @@
     }
 
     &--width-small {
-      width: var(--layout-field-width--small);
+      width: var(--forms-field-width--small);
     }
 
     &--width-medium {
-      width: var(--layout-field-width--medium);
+      width: var(--forms-field-width--medium);
     }
 
     &--width-large {
-      width: var(--layout-field-width--large);
+      width: var(--forms-field-width--large);
     }
   }
 }

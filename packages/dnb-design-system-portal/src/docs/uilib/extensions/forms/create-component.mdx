@@ -63,7 +63,19 @@ Here follows an example that retrieves data from a surrounding DataContext, and 
 
 When building your custom form components, preferably use the [Layout](/uilib/components/layout) component.
 
-Read more about the [available sizes](/uilib/components/layout/#width-definitions) (`width`) you can use in your custom form components.
+### Width definitions
+
+These are the official sizes you can use when [creating your own form fields](/uilib/extensions/forms/create-component/).
+
+```css
+:root {
+  --forms-field-width--small: 5rem;
+  --forms-field-width--medium: 11rem;
+  --forms-field-width--large: 21rem;
+}
+```
+
+You can also use a [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/) and provide a `width` prop with a value of either `small`, `medium` or `large` and use it as a sized wrapper.
 
 ## Components
 
