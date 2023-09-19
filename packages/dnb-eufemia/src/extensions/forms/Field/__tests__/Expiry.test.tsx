@@ -45,11 +45,6 @@ describe('Field.Expiry', () => {
     expect(input).toHaveAttribute('aria-placeholder', '   /   ')
     expect(input.nextSibling.textContent).toEqual('   /   ')
 
-    rerender(<Field.Expiry placeholder="none" />)
-
-    expect(input).toHaveAttribute('aria-placeholder', '')
-    expect(input.nextSibling).not.toBeInTheDocument()
-
     rerender(<Field.Expiry placeholder="dashes" />)
 
     expect(input.getAttribute('aria-placeholder')).toEqual('-- / --')

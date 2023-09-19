@@ -32,7 +32,7 @@ type ExpiryProps = Omit<
   'placeholder' | 'onChange'
 > & {
   /**
-   * The placeholder which shows up once the field is empty. Can be set to `dashes`, `spaces`, `letters` or `none`
+   * The placeholder which shows up once the field is empty. Can be set to `dashes`, `spaces` or `letters`
    * Default: `dashes`
    */
   placeholder?: ExpiryPlaceholderType
@@ -51,7 +51,6 @@ const placeholders: Record<ExpiryPlaceholderType, string> = {
   dashes: '-- / --',
   spaces: '   /   ',
   letters: 'mm / yy',
-  none: '',
 }
 
 function Expiry({
