@@ -39,7 +39,7 @@ function CountryCode(props: Props) {
   const autocompleteData = useMemo(
     () =>
       countries.map((country) => ({
-        selected_key: `+${country.code}`,
+        selectedKey: `+${country.code}`,
         selected_value: `${country.iso} (+${country.code})`,
         content: `+${country.code} ${country.name}`,
       })),
@@ -47,19 +47,19 @@ function CountryCode(props: Props) {
   )
 
   const forwardHandleChange = useCallback(
-    ({ data: changedData }: { data: { selected_key: string } }) => {
-      if (!changedData || !changedData.selected_key.trim()) {
+    ({ data: changedData }: { data: { selectedKey: string } }) => {
+      if (!changedData || !changedData.selectedKey.trim()) {
         handleChange?.(emptyValue)
         return
       }
 
-      handleChange?.(changedData?.selected_key)
+      handleChange?.(changedData?.selectedKey)
     },
     [emptyValue, handleChange]
   )
 
   const valueIndex = autocompleteData.findIndex(
-    (item) => item.selected_key === value
+    (item) => item.selectedKey === value
   )
 
   return (

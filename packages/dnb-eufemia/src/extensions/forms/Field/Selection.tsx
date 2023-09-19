@@ -58,11 +58,11 @@ function Selection(props: Props) {
   } = useDataValue(props)
 
   const handleDropdownChange = useCallback(
-    ({ data: { selected_key } }) => {
+    ({ data: { selectedKey } }) => {
       handleChange?.(
-        !selected_key || selected_key === clearValue
+        !selectedKey || selectedKey === clearValue
           ? emptyValue
-          : selected_key
+          : selectedKey
       )
     },
     [handleChange, emptyValue, clearValue]
@@ -80,14 +80,14 @@ function Selection(props: Props) {
   // copies of value as arguments.
   const handleShow = useCallback(
     ({ data }) => {
-      setHasFocus(true, data?.selected_key)
+      setHasFocus(true, data?.selectedKey)
     },
     [setHasFocus]
   )
 
   const handleHide = useCallback(
     ({ data }) => {
-      setHasFocus(false, data?.selected_key)
+      setHasFocus(false, data?.selectedKey)
     },
     [setHasFocus]
   )
@@ -172,7 +172,7 @@ function Selection(props: Props) {
           // Option components
           return child.props.text
             ? {
-                selected_key: String(child.props.value ?? ''),
+                selectedKey: String(child.props.value ?? ''),
                 content: [
                   child.props.children ?? child.props.title ?? (
                     <em>Untitled</em>
@@ -181,7 +181,7 @@ function Selection(props: Props) {
                 ],
               }
             : {
-                selected_key: child.props.value,
+                selectedKey: child.props.value,
                 content: child.props.children ?? child.props.title,
               }
         }
@@ -194,7 +194,7 @@ function Selection(props: Props) {
       const data = [
         clear
           ? {
-              selected_key: clearValue,
+              selectedKey: clearValue,
               content: (
                 <em>
                   {sharedContext?.translation.Forms.selectionClearSelected}
