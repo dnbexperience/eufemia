@@ -111,9 +111,9 @@ function FieldBlock(props: Props) {
   }, [errorProp, fieldErrorRecord, showFieldErrorRecord])
 
   const cn = classnames(
-    'dnb-forms__field-block',
-    `dnb-forms__field-block--layout-${layout}`,
-    width !== undefined && `dnb-forms__field-block--width-${width}`,
+    'dnb-forms-field-block',
+    `dnb-forms-field-block--layout-${layout}`,
+    width !== undefined && `dnb-forms-field-block--width-${width}`,
     className
   )
 
@@ -126,12 +126,12 @@ function FieldBlock(props: Props) {
     >
       <Space className={cn} {...rest}>
         {labelDescription || labelSecondary ? (
-          <div className="dnb-forms__field-block__label">
+          <div className="dnb-forms-field-block__label">
             {label || labelDescription ? (
               <FormLabel for_id={forId} space={{ bottom: 'x-small' }}>
                 {label}
                 {labelDescription && (
-                  <span className="dnb-forms__field-block__label-description">
+                  <span className="dnb-forms-field-block__label-description">
                     {labelDescription}
                   </span>
                 )}
@@ -140,7 +140,7 @@ function FieldBlock(props: Props) {
               <>&nbsp;</>
             )}
             {labelSecondary && (
-              <span className="dnb-forms__field-block__label-secondary">
+              <span className="dnb-forms-field-block__label-secondary">
                 {labelSecondary}
               </span>
             )}
@@ -155,9 +155,9 @@ function FieldBlock(props: Props) {
 
         <div
           className={classnames(
-            'dnb-forms__field-block__contents',
+            'dnb-forms-field-block__contents',
             contentsWidth !== undefined &&
-              `dnb-forms__field-block__contents--width-${contentsWidth}`,
+              `dnb-forms-field-block__contents--width-${contentsWidth}`,
             contentClassName
           )}
         >
@@ -165,7 +165,7 @@ function FieldBlock(props: Props) {
         </div>
 
         {(error && (
-          <div className="dnb-forms__field-block__status">
+          <div className="dnb-forms-field-block__status">
             <FormStatus
               state="error"
               id={forId ? `${forId}-form-status` : undefined}
@@ -176,7 +176,7 @@ function FieldBlock(props: Props) {
           </div>
         )) ||
           (warning && (
-            <div className="dnb-forms__field-block__status">
+            <div className="dnb-forms-field-block__status">
               <FormStatus
                 state="warn"
                 id={forId ? `${forId}-form-status` : undefined}
@@ -191,7 +191,7 @@ function FieldBlock(props: Props) {
             </div>
           )) ||
           (info && (
-            <div className="dnb-forms__field-block__status">
+            <div className="dnb-forms-field-block__status">
               <FormStatus
                 state="info"
                 id={forId ? `${forId}-form-status` : undefined}

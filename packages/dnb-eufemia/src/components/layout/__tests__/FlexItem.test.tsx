@@ -11,7 +11,7 @@ describe('Layout.FlexItem', () => {
   it('should forward HTML attributes', () => {
     render(<FlexItem aria-label="Aria Label">Flex</FlexItem>)
 
-    const element = document.querySelector('.dnb-layout__flex-item')
+    const element = document.querySelector('.dnb-layout-flex-item')
     const attributes = Array.from(element.attributes).map(
       (attr) => attr.name
     )
@@ -22,7 +22,7 @@ describe('Layout.FlexItem', () => {
 
   it('should support spacing props', () => {
     const { rerender } = render(<FlexItem top="large">Flex</FlexItem>)
-    const element = document.querySelector('.dnb-layout__flex-item')
+    const element = document.querySelector('.dnb-layout-flex-item')
 
     expect(element.classList).toContain('dnb-space__top--large')
 
@@ -34,11 +34,11 @@ describe('Layout.FlexItem', () => {
   it('should contain given classes', () => {
     render(<FlexItem className="custom-class">Flex</FlexItem>)
 
-    const element = document.querySelector('.dnb-layout__flex-item')
+    const element = document.querySelector('.dnb-layout-flex-item')
 
     expect(Array.from(element.classList)).toEqual([
       'dnb-space',
-      'dnb-layout__flex-item',
+      'dnb-layout-flex-item',
       'custom-class',
     ])
   })
@@ -50,7 +50,7 @@ describe('Layout.FlexItem', () => {
       </FlexItem>
     )
 
-    const element = document.querySelector('.dnb-layout__flex-item')
+    const element = document.querySelector('.dnb-layout-flex-item')
     const children = element.children
 
     expect(children.length).toEqual(1)
@@ -60,23 +60,21 @@ describe('Layout.FlexItem', () => {
   it('should grow and shrink', () => {
     const { rerender } = render(<FlexItem grow>Flex</FlexItem>)
 
-    const element = document.querySelector('.dnb-layout__flex-item')
+    const element = document.querySelector('.dnb-layout-flex-item')
 
-    expect(element.className).toContain('dnb-layout__flex-item--grow')
-    expect(element.className).not.toContain(
-      'dnb-layout__flex-item--shrink'
-    )
+    expect(element.className).toContain('dnb-layout-flex-item--grow')
+    expect(element.className).not.toContain('dnb-layout-flex-item--shrink')
 
     rerender(<FlexItem shrink>Flex</FlexItem>)
 
-    expect(element.className).toContain('dnb-layout__flex-item--shrink')
-    expect(element.className).not.toContain('dnb-layout__flex-item--grow')
+    expect(element.className).toContain('dnb-layout-flex-item--shrink')
+    expect(element.className).not.toContain('dnb-layout-flex-item--grow')
   })
 
   it('should use div as default element', () => {
     render(<FlexItem>Flex</FlexItem>)
 
-    const element = document.querySelector('.dnb-layout__flex-item')
+    const element = document.querySelector('.dnb-layout-flex-item')
 
     expect(element.tagName).toBe('DIV')
   })
@@ -84,7 +82,7 @@ describe('Layout.FlexItem', () => {
   it('should set element', () => {
     render(<FlexItem element="div">Flex</FlexItem>)
 
-    const element = document.querySelector('.dnb-layout__flex-item')
+    const element = document.querySelector('.dnb-layout-flex-item')
 
     expect(element.tagName).toBe('DIV')
   })
@@ -110,10 +108,10 @@ describe('Layout.FlexItem', () => {
         </FlexContainer>
       )
 
-      const element = document.querySelector('.dnb-layout__flex-item')
+      const element = document.querySelector('.dnb-layout-flex-item')
 
       expect(element.classList).toContain(
-        'dnb-layout__flex-item--responsive'
+        'dnb-layout-flex-item--responsive'
       )
     })
 
@@ -200,10 +198,10 @@ describe('Layout.FlexItem', () => {
         </FlexContainer>
       )
 
-      const element = document.querySelector('.dnb-layout__flex-container')
+      const element = document.querySelector('.dnb-layout-flex-container')
 
       expect(element.className).not.toContain(
-        'dnb-layout__flex-container--has-size'
+        'dnb-layout-flex-container--has-size'
       )
       expect(getSpacingClasses()).toEqual([
         ['dnb-space__left--small', 'dnb-space__right--zero'],
@@ -223,7 +221,7 @@ describe('Layout.FlexItem', () => {
       )
 
       expect(element.className).not.toContain(
-        'dnb-layout__flex-container--has-size'
+        'dnb-layout-flex-container--has-size'
       )
       expect(getSpacingClasses()).toEqual([
         ['dnb-space__left--small', 'dnb-space__right--zero'],
@@ -423,10 +421,10 @@ describe('Layout.FlexItem', () => {
 
 function getSpacingClasses() {
   const collection = []
-  const elements = document.querySelectorAll('.dnb-layout__flex-item')
+  const elements = document.querySelectorAll('.dnb-layout-flex-item')
 
   elements.forEach((node) => {
-    const element = node.querySelector('.dnb-layout__flex-item__spacer')
+    const element = node.querySelector('.dnb-layout-flex-item__spacer')
 
     const item = []
 
@@ -445,4 +443,4 @@ function getSpacingClasses() {
 }
 
 const getFlexItem = (item: number) =>
-  document.querySelectorAll('.dnb-layout__flex-item')[item] as HTMLElement
+  document.querySelectorAll('.dnb-layout-flex-item')[item] as HTMLElement

@@ -11,7 +11,7 @@ function ButtonRow(props: Props) {
   const { className, children, ...rest } = props
   return (
     <Space
-      className={classnames('dnb-forms__button-row', className)}
+      className={classnames('dnb-forms-button-row', className)}
       {...rest}
     >
       {children}

@@ -96,8 +96,8 @@ export const HorizontalFlexItemResponsiveSizeCustomColumns = () => {
         const CustomMediaQuery = styled.div`
           display: flex;
           flex-direction: column;
-          .dnb-layout__flex-container[data-media-key='xsmall']
-            .dnb-layout__flex-item--responsive {
+          .dnb-layout-flex-container[data-media-key='xsmall']
+            .dnb-layout-flex-item--responsive {
             --size: var(--xsmall);
           }
         `

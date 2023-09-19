@@ -10,7 +10,7 @@ describe('Layout.MainHeading', () => {
   it('should forward HTML attributes', () => {
     render(<MainHeading aria-label="Aria Label">Aria Heading</MainHeading>)
 
-    const element = document.querySelector('.dnb-layout__main-heading')
+    const element = document.querySelector('.dnb-layout-main-heading')
     const attributes = Array.from(element.attributes).map(
       (attr) => attr.name
     )
@@ -23,7 +23,7 @@ describe('Layout.MainHeading', () => {
     const { rerender } = render(
       <MainHeading top="large">Space Heading</MainHeading>
     )
-    const element = document.querySelector('.dnb-layout__main-heading')
+    const element = document.querySelector('.dnb-layout-main-heading')
 
     expect(element.classList).toContain('dnb-space__top--large')
 
@@ -37,12 +37,12 @@ describe('Layout.MainHeading', () => {
       <MainHeading className="custom-class">Class Heading</MainHeading>
     )
 
-    const element = document.querySelector('.dnb-layout__main-heading')
+    const element = document.querySelector('.dnb-layout-main-heading')
 
     expect(Array.from(element.classList)).toEqual([
       'dnb-heading',
       'dnb-h--large',
-      'dnb-layout__main-heading',
+      'dnb-layout-main-heading',
       'custom-class',
     ])
   })
@@ -50,7 +50,7 @@ describe('Layout.MainHeading', () => {
   it('should render children', () => {
     render(<MainHeading>Children Heading</MainHeading>)
 
-    const element = document.querySelector('.dnb-layout__main-heading')
+    const element = document.querySelector('.dnb-layout-main-heading')
     const children = element.childNodes
 
     expect(children.length).toEqual(1)
@@ -60,10 +60,10 @@ describe('Layout.MainHeading', () => {
   it('should default to large heading', () => {
     render(<MainHeading>Heading</MainHeading>)
 
-    const element = document.querySelector('.dnb-layout__main-heading')
+    const element = document.querySelector('.dnb-layout-main-heading')
 
     expect(element.className).toBe(
-      'dnb-heading dnb-h--large dnb-layout__main-heading'
+      'dnb-heading dnb-h--large dnb-layout-main-heading'
     )
   })
 })

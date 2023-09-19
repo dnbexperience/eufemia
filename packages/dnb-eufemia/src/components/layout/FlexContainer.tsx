@@ -232,15 +232,15 @@ function FlexContainer(props: Props) {
   })
 
   const cn = classnames(
-    'dnb-layout__flex-container',
-    direction && `dnb-layout__flex-container--direction-${direction}`,
-    justify && `dnb-layout__flex-container--justify-${justify}`,
-    align && `dnb-layout__flex-container--align-${align}`,
-    alignSelf && `dnb-layout__flex-container--align-self-${alignSelf}`,
-    spacing && `dnb-layout__flex-container--spacing-${spacing}`,
-    wrap && `dnb-layout__flex-container--wrap`,
-    hasSizeProp && `dnb-layout__flex-container--has-size`,
-    divider && `dnb-layout__flex-container--divider-${divider}`,
+    'dnb-layout-flex-container',
+    direction && `dnb-layout-flex-container--direction-${direction}`,
+    justify && `dnb-layout-flex-container--justify-${justify}`,
+    align && `dnb-layout-flex-container--align-${align}`,
+    alignSelf && `dnb-layout-flex-container--align-self-${alignSelf}`,
+    spacing && `dnb-layout-flex-container--spacing-${spacing}`,
+    wrap && `dnb-layout-flex-container--wrap`,
+    hasSizeProp && `dnb-layout-flex-container--has-size`,
+    divider && `dnb-layout-flex-container--divider-${divider}`,
     className
   )
 

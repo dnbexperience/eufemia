@@ -7,7 +7,7 @@ describe('FieldBlock', () => {
   it('should forward HTML attributes', () => {
     render(<FieldBlock id="custom-id">content</FieldBlock>)
 
-    const element = document.querySelector('.dnb-forms__field-block')
+    const element = document.querySelector('.dnb-forms-field-block')
     const attributes = Array.from(element.attributes).map(
       (attr) => attr.name
     )
@@ -21,7 +21,7 @@ describe('FieldBlock', () => {
       <FieldBlock top="large">content</FieldBlock>
     )
 
-    const element = document.querySelector('.dnb-forms__field-block')
+    const element = document.querySelector('.dnb-forms-field-block')
 
     expect(element.classList).toContain('dnb-space__top--large')
 
@@ -33,12 +33,12 @@ describe('FieldBlock', () => {
   it('should contain given classes', () => {
     render(<FieldBlock className="custom-class">content</FieldBlock>)
 
-    const element = document.querySelector('.dnb-forms__field-block')
+    const element = document.querySelector('.dnb-forms-field-block')
 
     expect(Array.from(element.classList)).toEqual([
       'dnb-space',
-      'dnb-forms__field-block',
-      'dnb-forms__field-block--layout-vertical',
+      'dnb-forms-field-block',
+      'dnb-forms-field-block--layout-vertical',
       'custom-class',
     ])
   })
@@ -50,7 +50,7 @@ describe('FieldBlock', () => {
       </FieldBlock>
     )
 
-    const element = document.querySelector('.dnb-forms__field-block')
+    const element = document.querySelector('.dnb-forms-field-block')
     const labelElement = element.querySelector('label')
     const inputElement = element.querySelector('input')
 
@@ -142,13 +142,13 @@ describe('FieldBlock', () => {
   it('should support "layout" property', () => {
     render(<FieldBlock layout="horizontal">content</FieldBlock>)
 
-    const element = document.querySelector('.dnb-forms__field-block')
+    const element = document.querySelector('.dnb-forms-field-block')
 
     expect(element.classList).toContain(
-      'dnb-forms__field-block--layout-horizontal'
+      'dnb-forms-field-block--layout-horizontal'
     )
     expect(element.classList).not.toContain(
-      'dnb-forms__field-block--layout-vertical'
+      'dnb-forms-field-block--layout-vertical'
     )
   })
 
@@ -157,16 +157,16 @@ describe('FieldBlock', () => {
       <FieldBlock width="medium">content</FieldBlock>
     )
 
-    const element = document.querySelector('.dnb-forms__field-block')
+    const element = document.querySelector('.dnb-forms-field-block')
 
     expect(element.classList).toContain(
-      'dnb-forms__field-block--width-medium'
+      'dnb-forms-field-block--width-medium'
     )
 
     rerender(<FieldBlock width="large">content</FieldBlock>)
 
     expect(element.classList).toContain(
-      'dnb-forms__field-block--width-large'
+      'dnb-forms-field-block--width-large'
     )
   })
 
@@ -176,17 +176,17 @@ describe('FieldBlock', () => {
     )
 
     const element = document.querySelector(
-      '.dnb-forms__field-block__contents'
+      '.dnb-forms-field-block__contents'
     )
 
     expect(element.classList).toContain(
-      'dnb-forms__field-block__contents--width-medium'
+      'dnb-forms-field-block__contents--width-medium'
     )
 
     rerender(<FieldBlock contentsWidth="large">content</FieldBlock>)
 
     expect(element.classList).toContain(
-      'dnb-forms__field-block__contents--width-large'
+      'dnb-forms-field-block__contents--width-large'
     )
   })
 
@@ -196,7 +196,7 @@ describe('FieldBlock', () => {
     )
 
     const element = document.querySelector(
-      '.dnb-forms__field-block__contents'
+      '.dnb-forms-field-block__contents'
     )
 
     expect(element.classList).toContain('custom-class')

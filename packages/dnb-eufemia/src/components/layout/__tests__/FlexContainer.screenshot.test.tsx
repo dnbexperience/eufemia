@@ -16,7 +16,7 @@ describe('Layout.FlexContainer', () => {
   it('have to match divider', async () => {
     const screenshot = await makeScreenshot({
       selector:
-        '[data-visual-test="layout-flex-container-divider"] .dnb-layout__flex-container',
+        '[data-visual-test="layout-flex-container-divider"] .dnb-layout-flex-container',
     })
     expect(screenshot).toMatchImageSnapshot()
   })

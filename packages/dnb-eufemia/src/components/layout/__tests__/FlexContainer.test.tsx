@@ -13,7 +13,7 @@ describe('Layout.FlexContainer', () => {
       </FlexContainer>
     )
 
-    const element = document.querySelector('.dnb-layout__flex-container')
+    const element = document.querySelector('.dnb-layout-flex-container')
     const attributes = Array.from(element.attributes).map(
       (attr) => attr.name
     )
@@ -28,7 +28,7 @@ describe('Layout.FlexContainer', () => {
         <FlexItem>Flex</FlexItem>
       </FlexContainer>
     )
-    const element = document.querySelector('.dnb-layout__flex-container ')
+    const element = document.querySelector('.dnb-layout-flex-container ')
 
     expect(element.classList).toContain('dnb-space__top--large')
 
@@ -48,8 +48,8 @@ describe('Layout.FlexContainer', () => {
       </FlexContainer>
     )
 
-    const element = document.querySelector('.dnb-layout__flex-container')
-    expect(element.className).toContain('dnb-layout__flex-container--wrap')
+    const element = document.querySelector('.dnb-layout-flex-container')
+    expect(element.className).toContain('dnb-layout-flex-container--wrap')
   })
 
   it('should contain given classes', () => {
@@ -59,18 +59,18 @@ describe('Layout.FlexContainer', () => {
       </FlexContainer>
     )
 
-    const element = document.querySelector('.dnb-layout__flex-container')
+    const element = document.querySelector('.dnb-layout-flex-container')
 
     expect(Array.from(element.classList)).toEqual([
       'dnb-space',
-      'dnb-layout__flex-container',
+      'dnb-layout-flex-container',
       'custom-class',
-      'dnb-layout__flex-container--direction-vertical',
-      'dnb-layout__flex-container--justify-flex-start',
-      'dnb-layout__flex-container--align-flex-start',
-      'dnb-layout__flex-container--spacing-small',
-      'dnb-layout__flex-container--wrap',
-      'dnb-layout__flex-container--divider-space',
+      'dnb-layout-flex-container--direction-vertical',
+      'dnb-layout-flex-container--justify-flex-start',
+      'dnb-layout-flex-container--align-flex-start',
+      'dnb-layout-flex-container--spacing-small',
+      'dnb-layout-flex-container--wrap',
+      'dnb-layout-flex-container--divider-space',
     ])
   })
 
@@ -83,7 +83,7 @@ describe('Layout.FlexContainer', () => {
       </FlexContainer>
     )
 
-    const element = document.querySelector('.dnb-layout__flex-container')
+    const element = document.querySelector('.dnb-layout-flex-container')
     const children = element.children
     const childredTextContents = Array.from(children).map((child) =>
       child.textContent.replace(/[\u200C]/g, '')
@@ -100,10 +100,10 @@ describe('Layout.FlexContainer', () => {
       </FlexContainer>
     )
 
-    const element = document.querySelector('.dnb-layout__flex-container')
+    const element = document.querySelector('.dnb-layout-flex-container')
 
     expect(element.className).toContain(
-      'dnb-layout__flex-container--direction-vertical'
+      'dnb-layout-flex-container--direction-vertical'
     )
 
     rerender(
@@ -113,7 +113,7 @@ describe('Layout.FlexContainer', () => {
     )
 
     expect(element.className).toContain(
-      'dnb-layout__flex-container--direction-horizontal'
+      'dnb-layout-flex-container--direction-horizontal'
     )
   })
 
@@ -136,10 +136,10 @@ describe('Layout.FlexContainer', () => {
       </FlexContainer>
     )
 
-    const element = document.querySelector('.dnb-layout__flex-container')
+    const element = document.querySelector('.dnb-layout-flex-container')
 
     expect(element.className).toContain(
-      'dnb-layout__flex-container--align-center'
+      'dnb-layout-flex-container--align-center'
     )
 
     rerender(
@@ -151,7 +151,7 @@ describe('Layout.FlexContainer', () => {
     )
 
     expect(element.className).toContain(
-      'dnb-layout__flex-container--align-flex-end'
+      'dnb-layout-flex-container--align-flex-end'
     )
   })
 
@@ -164,12 +164,12 @@ describe('Layout.FlexContainer', () => {
       </FlexContainer>
     )
 
-    const element = document.querySelector('.dnb-layout__flex-container')
+    const element = document.querySelector('.dnb-layout-flex-container')
     const children = element.children
 
     expect(children.length).toBe(3)
     expect(element.className).toContain(
-      'dnb-layout__flex-container--divider-space'
+      'dnb-layout-flex-container--divider-space'
     )
 
     expect(children[0].className).toContain('dnb-space__top--zero')
@@ -191,12 +191,12 @@ describe('Layout.FlexContainer', () => {
 
     expect(children.length).toBe(7)
     expect(element.className).toContain(
-      'dnb-layout__flex-container--divider-line'
+      'dnb-layout-flex-container--divider-line'
     )
 
     expect(children[0].className).toContain('dnb-space__top--zero')
     expect(children[0].className).toContain('dnb-space__bottom--zero')
-    expect(children[0].className).toContain('dnb-layout__flex-item')
+    expect(children[0].className).toContain('dnb-layout-flex-item')
 
     expect(children[1].tagName).toContain('DIV')
     expect(children[1].className).toContain('dnb-space')
@@ -209,7 +209,7 @@ describe('Layout.FlexContainer', () => {
 
     expect(children[3].className).toContain('dnb-space__top--small')
     expect(children[3].className).toContain('dnb-space__bottom--zero')
-    expect(children[3].className).toContain('dnb-layout__flex-item')
+    expect(children[3].className).toContain('dnb-layout-flex-item')
 
     expect(children[4].tagName).toContain('DIV')
     expect(children[4].className).toContain('dnb-space')
@@ -222,7 +222,7 @@ describe('Layout.FlexContainer', () => {
 
     expect(children[6].className).toContain('dnb-space__top--small')
     expect(children[6].className).toContain('dnb-space__bottom--zero')
-    expect(children[6].className).toContain('dnb-layout__flex-item')
+    expect(children[6].className).toContain('dnb-layout-flex-item')
   })
 
   it('should set spacing between children', () => {
@@ -234,12 +234,12 @@ describe('Layout.FlexContainer', () => {
       </FlexContainer>
     )
 
-    const element = document.querySelector('.dnb-layout__flex-container')
+    const element = document.querySelector('.dnb-layout-flex-container')
     const children = element.children
 
     expect(children.length).toBe(3)
     expect(element.className).toContain(
-      'dnb-layout__flex-container--divider-space'
+      'dnb-layout-flex-container--divider-space'
     )
 
     expect(children[0].className).toContain('dnb-space__top--zero')
@@ -295,12 +295,12 @@ describe('Layout.FlexContainer', () => {
       </FlexContainer>
     )
 
-    const element = document.querySelector('.dnb-layout__flex-container')
+    const element = document.querySelector('.dnb-layout-flex-container')
     const children = element.children
 
     expect(children.length).toBe(3)
     expect(element.className).toContain(
-      'dnb-layout__flex-container--divider-space'
+      'dnb-layout-flex-container--divider-space'
     )
 
     expect(children[0].className).toContain('dnb-space__top--zero')
@@ -318,7 +318,7 @@ describe('Layout.FlexContainer', () => {
   it('should set element', () => {
     render(<FlexContainer element="section">content</FlexContainer>)
 
-    const element = document.querySelector('.dnb-layout__flex-container')
+    const element = document.querySelector('.dnb-layout-flex-container')
 
     expect(element.tagName).toBe('SECTION')
   })
@@ -344,7 +344,7 @@ describe('Layout.FlexContainer', () => {
         </FlexContainer>
       )
 
-      const element = document.querySelector('.dnb-layout__flex-container')
+      const element = document.querySelector('.dnb-layout-flex-container')
 
       expect(element.getAttribute('style')).toBe('--columns: 12;')
 
@@ -372,10 +372,10 @@ describe('Layout.FlexContainer', () => {
         </FlexContainer>
       )
 
-      const element = document.querySelector('.dnb-layout__flex-container')
+      const element = document.querySelector('.dnb-layout-flex-container')
 
       expect(element.className).toContain(
-        'dnb-layout__flex-container--has-size'
+        'dnb-layout-flex-container--has-size'
       )
     })
 
@@ -388,7 +388,7 @@ describe('Layout.FlexContainer', () => {
         </FlexContainer>
       )
 
-      const element = document.querySelector('.dnb-layout__flex-container')
+      const element = document.querySelector('.dnb-layout-flex-container')
 
       act(() => {
         setMedia({ width: MEDIUM })

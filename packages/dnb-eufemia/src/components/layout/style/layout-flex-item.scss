@@ -1,6 +1,6 @@
 @import '../../../style/core/utilities.scss';
 
-.dnb-layout__flex-item {
+.dnb-layout-flex-item {
   &--grow {
     flex-grow: 1;
   }
@@ -36,13 +36,13 @@
     --columns--default: 12;
     --size--default: var(--small);
 
-    .dnb-layout__flex-container[data-media-key='small'] & {
+    .dnb-layout-flex-container[data-media-key='small'] & {
       --size: var(--small, var(--medium));
     }
-    .dnb-layout__flex-container[data-media-key='medium'] & {
+    .dnb-layout-flex-container[data-media-key='medium'] & {
       --size: var(--medium, var(--large));
     }
-    .dnb-layout__flex-container[data-media-key='large'] & {
+    .dnb-layout-flex-container[data-media-key='large'] & {
       --size: var(--large, var(--medium));
     }
 

@@ -8,7 +8,7 @@ describe('Layout.Horizontal', () => {
     render(<Horizontal aria-label="Aria Label">content</Horizontal>)
 
     const element = document.querySelector(
-      '.dnb-layout__flex-container--direction-horizontal'
+      '.dnb-layout-flex-container--direction-horizontal'
     )
     const attributes = Array.from(element.attributes).map(
       (attr) => attr.name
@@ -23,7 +23,7 @@ describe('Layout.Horizontal', () => {
       <Horizontal top="large">content</Horizontal>
     )
     const element = document.querySelector(
-      '.dnb-layout__flex-container--direction-horizontal'
+      '.dnb-layout-flex-container--direction-horizontal'
     )
 
     expect(element.classList).toContain('dnb-space__top--large')
@@ -37,19 +37,19 @@ describe('Layout.Horizontal', () => {
     render(<Horizontal className="custom-class">content</Horizontal>)
 
     const element = document.querySelector(
-      '.dnb-layout__flex-container--direction-horizontal'
+      '.dnb-layout-flex-container--direction-horizontal'
     )
 
     expect(Array.from(element.classList)).toEqual([
       'dnb-space',
-      'dnb-layout__flex-container',
+      'dnb-layout-flex-container',
       'custom-class',
-      'dnb-layout__flex-container--direction-horizontal',
-      'dnb-layout__flex-container--justify-flex-start',
-      'dnb-layout__flex-container--align-flex-start',
-      'dnb-layout__flex-container--spacing-small',
-      'dnb-layout__flex-container--wrap',
-      'dnb-layout__flex-container--divider-space',
+      'dnb-layout-flex-container--direction-horizontal',
+      'dnb-layout-flex-container--justify-flex-start',
+      'dnb-layout-flex-container--align-flex-start',
+      'dnb-layout-flex-container--spacing-small',
+      'dnb-layout-flex-container--wrap',
+      'dnb-layout-flex-container--divider-space',
     ])
   })
 
@@ -63,7 +63,7 @@ describe('Layout.Horizontal', () => {
     )
 
     const element = document.querySelector(
-      '.dnb-layout__flex-container--direction-horizontal'
+      '.dnb-layout-flex-container--direction-horizontal'
     )
     const children = element.children
     const childredTextContents = Array.from(children).map((child) =>
@@ -88,11 +88,11 @@ describe('Layout.Horizontal', () => {
     )
 
     const element = document.querySelector(
-      '.dnb-layout__flex-container--direction-horizontal'
+      '.dnb-layout-flex-container--direction-horizontal'
     )
 
     expect(element.className).toContain(
-      'dnb-layout__flex-container--spacing-small'
+      'dnb-layout-flex-container--spacing-small'
     )
   })
 })

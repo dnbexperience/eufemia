@@ -29,7 +29,7 @@ function Card(props: Props) {
   if (direction || spacing || stack) {
     return (
       <FlexContainer
-        className={classnames('dnb-layout__card', className)}
+        className={classnames('dnb-layout-card', className)}
         direction={direction ?? 'vertical'}
         divider={stack ? 'line' : 'space'}
         element="section"
@@ -45,7 +45,7 @@ function Card(props: Props) {
 
   return (
     <FlexItem
-      className={classnames('dnb-layout__card', className)}
+      className={classnames('dnb-layout-card', className)}
       alignSelf={alignSelf}
       element="section"
       {...rest}

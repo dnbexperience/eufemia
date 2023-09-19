@@ -42,11 +42,11 @@ function FlexItem(props: Props) {
   } = props
 
   const cn = classnames(
-    'dnb-layout__flex-item',
-    grow && 'dnb-layout__flex-item--grow',
-    shrink && 'dnb-layout__flex-item--shrink',
-    alignSelf && `dnb-layout__flex-item--align-self-${alignSelf}`,
-    size && 'dnb-layout__flex-item--responsive',
+    'dnb-layout-flex-item',
+    grow && 'dnb-layout-flex-item--grow',
+    shrink && 'dnb-layout-flex-item--shrink',
+    alignSelf && `dnb-layout-flex-item--align-self-${alignSelf}`,
+    size && 'dnb-layout-flex-item--responsive',
     className
   )
 
@@ -68,7 +68,7 @@ function FlexItem(props: Props) {
         {...omitSpacingProps(rest)}
       >
         <Space
-          className="dnb-layout__flex-item__spacer"
+          className="dnb-layout-flex-item__spacer"
           {...pickSpacingProps(rest)}
         >
           {children}
