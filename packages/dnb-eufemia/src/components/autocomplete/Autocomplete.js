@@ -176,6 +176,14 @@ export default class Autocomplete extends React.PureComponent {
         PropTypes.oneOfType([
           PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
           PropTypes.shape({
+            selectedKey: PropTypes.oneOfType([
+              PropTypes.string,
+              PropTypes.number,
+            ]),
+            selected_key: PropTypes.oneOfType([
+              PropTypes.string,
+              PropTypes.number,
+            ]),
             selected_value: PropTypes.oneOfType([
               PropTypes.string,
               PropTypes.node,
