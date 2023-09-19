@@ -21,7 +21,7 @@ type ExpiryProps = Omit<
 
 const placeholders: Record<ExpiryPlaceholderType, string> = {
   dashes: '-- / --',
-  spaces: '   /   ',
+  spaces: '   /   ',
   letters: 'mm / yy',
   none: '',
 }
