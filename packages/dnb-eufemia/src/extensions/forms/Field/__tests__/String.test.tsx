@@ -1,4 +1,3 @@
-import '@testing-library/jest-dom'
 import React from 'react'
 import { wait } from '../../../../core/jest/jestSetup'
 import { screen, render, waitFor, act } from '@testing-library/react'
