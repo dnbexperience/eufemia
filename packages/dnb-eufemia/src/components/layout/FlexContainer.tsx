@@ -131,7 +131,7 @@ function FlexContainer(props: Props) {
     style,
     children,
     element = 'div',
-    direction = 'vertical',
+    direction = 'horizontal',
     wrap = true,
     columns = 12,
     justify = 'flex-start',

@@ -103,7 +103,7 @@ describe('Layout.FlexItem', () => {
 
     it('should contain responsive class', () => {
       render(
-        <FlexContainer direction="horizontal">
+        <FlexContainer>
           <FlexItem size={6}>FlexItem</FlexItem>
         </FlexContainer>
       )
@@ -117,7 +117,7 @@ describe('Layout.FlexItem', () => {
 
     it('should set style attribute based on sizes', () => {
       const { rerender } = render(
-        <FlexContainer direction="horizontal">
+        <FlexContainer>
           <FlexItem size={4}>FlexItem</FlexItem>
           <FlexItem size={6}>FlexItem</FlexItem>
         </FlexContainer>
@@ -131,7 +131,7 @@ describe('Layout.FlexItem', () => {
       )
 
       rerender(
-        <FlexContainer direction="horizontal">
+        <FlexContainer>
           <FlexItem size={2}>FlexItem</FlexItem>
           <FlexItem size={10}>FlexItem</FlexItem>
         </FlexContainer>
@@ -145,7 +145,7 @@ describe('Layout.FlexItem', () => {
       )
 
       rerender(
-        <FlexContainer direction="horizontal">
+        <FlexContainer>
           <FlexItem style={{ background: 'blue' }} size={7}>
             FlexItem
           </FlexItem>
@@ -165,7 +165,7 @@ describe('Layout.FlexItem', () => {
 
     it('should set correct spacing', () => {
       const { rerender } = render(
-        <FlexContainer direction="horizontal">
+        <FlexContainer>
           <FlexItem size={2}>FlexItem</FlexItem>
           <FlexItem size={2}>FlexItem</FlexItem>
         </FlexContainer>
@@ -177,7 +177,7 @@ describe('Layout.FlexItem', () => {
       ])
 
       rerender(
-        <FlexContainer direction="horizontal">
+        <FlexContainer>
           <FlexItem size={12}>FlexItem</FlexItem>
           <FlexItem size={12}>FlexItem</FlexItem>
         </FlexContainer>
@@ -191,7 +191,7 @@ describe('Layout.FlexItem', () => {
 
     it('should omit size when heading is a child and direction is horizontal', () => {
       const { rerender } = render(
-        <FlexContainer direction="horizontal">
+        <FlexContainer>
           <MainHeading level={1}>Heading</MainHeading>
           <FlexItem size={2}>FlexItem</FlexItem>
           <FlexItem size={2}>FlexItem</FlexItem>
@@ -209,7 +209,7 @@ describe('Layout.FlexItem', () => {
       ])
 
       rerender(
-        <FlexContainer direction="horizontal">
+        <FlexContainer>
           <MainHeading level={1}>Heading</MainHeading>
           <FlexItem left size={2}>
             FlexItem
@@ -257,7 +257,7 @@ describe('Layout.FlexItem', () => {
 
     it('should allow custom spacing on item', () => {
       const { rerender } = render(
-        <FlexContainer direction="horizontal">
+        <FlexContainer>
           <FlexItem right="large" size={2}>
             FlexItem
           </FlexItem>
@@ -275,7 +275,7 @@ describe('Layout.FlexItem', () => {
       ])
 
       rerender(
-        <FlexContainer direction="horizontal">
+        <FlexContainer>
           <FlexItem right="large" size={6}>
             FlexItem
           </FlexItem>
@@ -297,7 +297,7 @@ describe('Layout.FlexItem', () => {
 
     it('should omit size prop logic when FlexContainer "divider" is line', () => {
       const { rerender } = render(
-        <FlexContainer divider="line" direction="horizontal">
+        <FlexContainer divider="line">
           <FlexItem right="large" size={2}>
             FlexItem
           </FlexItem>
@@ -315,7 +315,7 @@ describe('Layout.FlexItem', () => {
       ])
 
       rerender(
-        <FlexContainer divider="space" direction="horizontal">
+        <FlexContainer divider="space">
           <FlexItem right="large" size={6}>
             FlexItem
           </FlexItem>
@@ -337,7 +337,7 @@ describe('Layout.FlexItem', () => {
 
     it('should use given "spacing" size from FlexContainer', () => {
       const { rerender } = render(
-        <FlexContainer direction="horizontal" spacing="large">
+        <FlexContainer spacing="large">
           <FlexItem size={2}>FlexItem</FlexItem>
           <FlexItem size={2}>FlexItem</FlexItem>
         </FlexContainer>
@@ -349,7 +349,7 @@ describe('Layout.FlexItem', () => {
       ])
 
       rerender(
-        <FlexContainer direction="horizontal">
+        <FlexContainer>
           <FlexItem size={12}>FlexItem</FlexItem>
           <FlexItem size={12}>FlexItem</FlexItem>
         </FlexContainer>
@@ -365,7 +365,7 @@ describe('Layout.FlexItem', () => {
       setMedia({ width: SMALL })
 
       render(
-        <FlexContainer direction="horizontal">
+        <FlexContainer>
           <FlexItem size={{ small: 4, large: 12 }}>FlexItem</FlexItem>
           <FlexItem size={{ small: 6, large: 4 }}>FlexItem</FlexItem>
           <FlexItem size={{ small: 12, large: 6 }}>FlexItem</FlexItem>
@@ -393,7 +393,7 @@ describe('Layout.FlexItem', () => {
       setMedia({ width: SMALL })
 
       render(
-        <FlexContainer direction="horizontal">
+        <FlexContainer>
           <FlexItem size={{ small: 4, large: 12 }}>FlexItem</FlexItem>
           <FlexItem size={{ small: 6, large: 4 }}>FlexItem</FlexItem>
           <FlexItem size={{ small: 12, large: 6 }}>FlexItem</FlexItem>
