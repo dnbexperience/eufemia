@@ -134,9 +134,9 @@ function getSelectionRange({
     hasPressedShiftKey,
   })
   const selectedValue = value.substring(start, end)
-  const hasSelectedDivider = checkIfDividerIsSelected(selectedValue)
+  const hasSelectedDelimiter = checkIfDelimiterIsSelected(selectedValue)
 
-  if (hasSelectedDivider) {
+  if (hasSelectedDelimiter) {
     return skipDivider({
       value,
       selectionStart,
@@ -164,7 +164,7 @@ function updateSelectionRange({
   return { start: selectionStart + 1, end: selectionStart + 2 }
 }
 
-function checkIfDividerIsSelected(selectedValue: string): boolean {
+function checkIfDelimiterIsSelected(selectedValue: string): boolean {
   return selectedValue === ' ' || selectedValue === '/'
 }
 
@@ -176,9 +176,9 @@ function skipDivider({
 }: ExpirySelectionRangeParams) {
   let start = selectionStart
   let end = selectionEnd
-  let hasStillSelectedDivider = true
+  let isDelimiterSelected = true
 
-  while (hasStillSelectedDivider) {
+  while (isDelimiterSelected) {
     const newRange = updateSelectionRange({
       selectionStart: start,
       selectionEnd: end,
@@ -190,7 +190,7 @@ function skipDivider({
     start = newRange.start
     end = newRange.end
 
-    hasStillSelectedDivider = checkIfDividerIsSelected(newSelectedValue)
+    isDelimiterSelected = checkIfDelimiterIsSelected(newSelectedValue)
   }
 
   return { start, end }
