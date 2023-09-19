@@ -174,7 +174,7 @@ function Selection(props: Props) {
             ? {
                 selected_key: String(child.props.value ?? ''),
                 content: [
-                  child.props.title ?? child.props.children ?? (
+                  child.props.children ?? child.props.title ?? (
                     <em>Untitled</em>
                   ),
                   child.props.text,
@@ -182,7 +182,7 @@ function Selection(props: Props) {
               }
             : {
                 selected_key: child.props.value,
-                content: child.props.title ?? child.props.children,
+                content: child.props.children ?? child.props.title,
               }
         }
 
