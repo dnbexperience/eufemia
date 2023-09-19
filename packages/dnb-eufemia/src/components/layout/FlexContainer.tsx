@@ -249,7 +249,11 @@ function FlexContainer(props: Props) {
       element={element}
       className={cn}
       data-media-key={mediaKey}
-      style={{ '--columns': columns, ...style } as React.CSSProperties}
+      style={
+        hasSizeProp
+          ? ({ '--columns': columns, ...style } as React.CSSProperties)
+          : style
+      }
       {...rest}
     >
       {content}

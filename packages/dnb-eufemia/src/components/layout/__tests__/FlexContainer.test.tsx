@@ -338,7 +338,7 @@ describe('Layout.FlexContainer', () => {
     const LARGE = '79em' // 80em
 
     it('should set default columns of 12', () => {
-      render(
+      const { rerender } = render(
         <FlexContainer direction="horizontal">
           <FlexItem size={6}>FlexItem</FlexItem>
         </FlexContainer>
@@ -347,6 +347,22 @@ describe('Layout.FlexContainer', () => {
       const element = document.querySelector('.dnb-layout__flex-container')
 
       expect(element.getAttribute('style')).toBe('--columns: 12;')
+
+      rerender(
+        <FlexContainer direction="horizontal" columns={6}>
+          <FlexItem size={6}>FlexItem</FlexItem>
+        </FlexContainer>
+      )
+
+      expect(element.getAttribute('style')).toBe('--columns: 6;')
+
+      rerender(
+        <FlexContainer direction="horizontal">
+          <FlexItem>FlexItem</FlexItem>
+        </FlexContainer>
+      )
+
+      expect(element.getAttribute('style')).toBe('')
     })
 
     it('should set --has-size class', () => {
