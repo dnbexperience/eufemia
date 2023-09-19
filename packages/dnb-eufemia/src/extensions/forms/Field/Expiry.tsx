@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import StringComponent, { Props as StringComponentProps } from './String'
+import classnames from 'classnames'
 
 type ExpiryPlaceholderType = 'dashes' | 'spaces' | 'letters' | 'none'
 
@@ -76,7 +77,9 @@ function Expiry({
   }, [])
 
   function onChange(value: string) {
-    if (value.length < 4) return
+    if (!value || value.length < 4) {
+      return
+    }
 
     const month = `${value.charAt(0)}${value.charAt(1)}`
     const year = `${value.charAt(2)}${value.charAt(3)}`
@@ -128,6 +131,7 @@ function Expiry({
   return (
     <StringComponent
       {...props}
+      className={classnames('dnb-forms-field-expiry', props.className)}
       width="stretch"
       mask={[/[0-1]/, /[1-9]/, ' ', '/', ' ', /\d/, /\d/]}
       placeholder={placeholders[placeholder]}
