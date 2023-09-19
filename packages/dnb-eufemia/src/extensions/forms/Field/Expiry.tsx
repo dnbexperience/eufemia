@@ -41,7 +41,7 @@ type ExpiryProps = Omit<
    */
   keep_placeholder?: boolean
   /**
-   * Fires when input is filled out with four numbers. Has an object as parameter, consisting of `month`, `year`, `raw` and `formatted` values.
+   * Fires when input is fully filled out. Has an object as parameter, consisting of `month`, `year`, `raw` and `formatted` values.
    */
   onChange?: ({ month, year, raw, formatted }: ExpiryValue) => void
 }
