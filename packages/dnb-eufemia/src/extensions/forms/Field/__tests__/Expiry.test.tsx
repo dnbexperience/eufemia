@@ -21,4 +21,38 @@ describe('Field.Expiry', () => {
       year: '25',
     })
   })
+
+  it('should default to "dashes" placeholder', () => {
+    render(<Field.Expiry />)
+
+    const input = document.querySelector('input')
+    const placeholder = document.querySelector('.dnb-input__placeholder')
+
+    expect(input.getAttribute('aria-placeholder')).toEqual('-- / --')
+    expect(placeholder.textContent).toEqual('-- / --')
+  })
+
+  it('should be able to change placeholders', async () => {
+    const { rerender } = render(<Field.Expiry placeholder="letters" />)
+
+    const input = document.querySelector('input')
+
+    expect(input).toHaveAttribute('aria-placeholder', 'mm / yy')
+    expect(input.nextSibling).toHaveTextContent('mm / yy')
+
+    rerender(<Field.Expiry placeholder="spaces" />)
+
+    expect(input).toHaveAttribute('aria-placeholder', '   /   ')
+    expect(input.nextSibling.textContent).toEqual('   /   ')
+
+    rerender(<Field.Expiry placeholder="none" />)
+
+    expect(input).toHaveAttribute('aria-placeholder', '')
+    expect(input.nextSibling).not.toBeInTheDocument()
+
+    rerender(<Field.Expiry placeholder="dashes" />)
+
+    expect(input.getAttribute('aria-placeholder')).toEqual('-- / --')
+    expect(input.nextSibling).toHaveTextContent('-- / --')
+  })
 })
