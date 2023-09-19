@@ -26,9 +26,9 @@ export const Default = () => {
 export const HorizontalWithFieldString = () => {
   return (
     <ComponentBox scope={{ TestElement, Field }}>
-      <Layout.FlexContainer direction="horizontal">
+      <Layout.FlexContainer direction="horizontal" wrap={false}>
         <Field.String label="Label" value="Foo" />
-        <Field.String label="Label" value="Foo" />
+        <Field.String label="Label" value="Foo" width="medium" />
       </Layout.FlexContainer>
     </ComponentBox>
   )
@@ -97,19 +97,6 @@ export const HorizontalWithFlexItemJustifyFlexEnd = () => {
   )
 }
 
-export const HorizontalWithCard = () => {
-  return (
-    <ComponentBox scope={{ TestElement, Field }}>
-      <Layout.FlexContainer direction="horizontal">
-        <Layout.Card>FlexItem</Layout.Card>
-        <Layout.Card>FlexItem</Layout.Card>
-        <Layout.Card>FlexItem</Layout.Card>
-        <Layout.Card>FlexItem</Layout.Card>
-      </Layout.FlexContainer>
-    </ComponentBox>
-  )
-}
-
 export const VerticalWithFlexItem = () => {
   return (
     <ComponentBox scope={{ TestElement, Field }}>
@@ -138,7 +125,6 @@ export const VerticalWithCard = () => {
         <Layout.Card>Card contents</Layout.Card>
         <Layout.Card>Card contents</Layout.Card>
         <Layout.Card>Card contents</Layout.Card>
-        <Layout.Card>Card contents</Layout.Card>
       </Layout.FlexContainer>
     </ComponentBox>
   )
@@ -149,8 +135,6 @@ export const VerticalWithFieldString = () => {
     <ComponentBox scope={{ TestElement, Field }}>
       <Layout.Card>
         <Layout.FlexContainer direction="vertical">
-          <Field.String label="Label" value="Foo" />
-          <Field.String label="Label" value="Foo" />
           <Field.String label="Label" value="Foo" />
           <Field.String label="Label" value="Foo" />
         </Layout.FlexContainer>
@@ -169,34 +153,8 @@ export const VerticalSpaceDivider = () => {
         <Layout.FlexContainer direction="vertical" divider="space">
           <Field.String label="Label" value="Value" />
           <Field.String label="Label" value="Value" />
-          <Field.String label="Label" value="Value" />
-          <Field.String label="Label" value="Value" />
         </Layout.FlexContainer>
       </Layout.Card>
-    </ComponentBox>
-  )
-}
-
-export const LayoutVerticalDefault = () => {
-  return (
-    <ComponentBox>
-      <Layout.Vertical>
-        <Layout.Card>Card contents</Layout.Card>
-        <Layout.Card>Card contents</Layout.Card>
-        <Layout.Card>Card contents</Layout.Card>
-      </Layout.Vertical>
-    </ComponentBox>
-  )
-}
-
-export const LayoutHorizontalDefault = () => {
-  return (
-    <ComponentBox>
-      <Layout.Horizontal>
-        <Layout.Card>Card contents</Layout.Card>
-        <Layout.Card>Card contents</Layout.Card>
-        <Layout.Card>Card contents</Layout.Card>
-      </Layout.Horizontal>
     </ComponentBox>
   )
 }
@@ -205,15 +163,6 @@ export const LayoutHorizontalFlexGrowItems = () => {
   return (
     <ComponentBox>
       <Layout.Horizontal>
-        <Layout.FlexItem grow>
-          <Layout.Card>Card contents</Layout.Card>
-        </Layout.FlexItem>
-        <Layout.FlexItem grow>
-          <Layout.Card>Card contents</Layout.Card>
-        </Layout.FlexItem>
-        <Layout.FlexItem grow>
-          <Layout.Card>Card contents</Layout.Card>
-        </Layout.FlexItem>
         <Layout.FlexItem size={3}>
           <Layout.Card>Card contents</Layout.Card>
         </Layout.FlexItem>
@@ -221,6 +170,15 @@ export const LayoutHorizontalFlexGrowItems = () => {
           <Layout.Card>Card contents</Layout.Card>
         </Layout.FlexItem>
         <Layout.FlexItem size={5}>
+          <Layout.Card>Card contents</Layout.Card>
+        </Layout.FlexItem>
+        <Layout.FlexItem grow>
+          <Layout.Card>Card contents</Layout.Card>
+        </Layout.FlexItem>
+        <Layout.FlexItem grow>
+          <Layout.Card>Card contents</Layout.Card>
+        </Layout.FlexItem>
+        <Layout.FlexItem grow>
           <Layout.Card>Card contents</Layout.Card>
         </Layout.FlexItem>
       </Layout.Horizontal>
