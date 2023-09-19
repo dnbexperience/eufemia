@@ -4,9 +4,25 @@ import StringComponent, { Props as StringComponentProps } from './String'
 type ExpiryPlaceholderType = 'dashes' | 'spaces' | 'letters' | 'none'
 
 export type ExpiryValue = {
+  /**
+   * Month value from input
+   * Example: 08
+   */
   month: string
+  /**
+   * Year value from input
+   * Example: 24
+   */
   year: string
+  /**
+   * The raw unchanged input value
+   * Example: 0824
+   */
   raw: string
+  /**
+   * Formatted input value that includes delimiter shown in placeholder
+   * Example: 08/24
+   */
   formatted: string
 }
 
@@ -14,8 +30,19 @@ type ExpiryProps = Omit<
   StringComponentProps,
   'placeholder' | 'onChange'
 > & {
+  /**
+   * The placeholder which shows up once the field is empty. Can be set to `dashes`, `spaces`, `letters` or `none`
+   * Default: `dashes`
+   */
   placeholder?: ExpiryPlaceholderType
+  /**
+   * Set to `true` in case the `placeholder` has to be kept during focus.
+   * Default: `true`.
+   */
   keep_placeholder?: boolean
+  /**
+   * Fires when input is filled out with four numbers. Has an object as parameter, consisting of `month`, `year`, `raw` and `formatted` values.
+   */
   onChange?: ({ month, year, raw, formatted }: ExpiryValue) => void
 }
 
