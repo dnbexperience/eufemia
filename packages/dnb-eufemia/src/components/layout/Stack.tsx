@@ -25,7 +25,7 @@ function Stack(props: Props) {
   return (
     <FlexContainer
       element="section"
-      className={classnames('dnb-layout__stack', className)}
+      className={classnames('dnb-layout-stack', className)}
       direction={direction ?? 'vertical'}
       spacing={spacing ?? 'small'}
       alignSelf={alignSelf}

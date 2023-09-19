@@ -7,7 +7,7 @@ import { makeScreenshot } from '../../../core/jest/jestSetupScreenshots'
 
 describe('Layout.FlexItem', () => {
   const selector =
-    '[data-visual-test="layout-flex-item-custom-size"] .dnb-layout__flex-container'
+    '[data-visual-test="layout-flex-item-custom-size"] .dnb-layout-flex-container'
 
   it('have to match responsive size on large viewport', async () => {
     const screenshot = await makeScreenshot({

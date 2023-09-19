@@ -20,7 +20,7 @@ function SubmitButton(props: Props) {
 
   return (
     <Button
-      className={classnames('dnb-forms__submit-button', className)}
+      className={classnames('dnb-forms-submit-button', className)}
       onClick={
         dataContext._isInsideFormElement ? null : dataContext.handleSubmit
       }

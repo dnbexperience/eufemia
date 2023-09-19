@@ -11,7 +11,7 @@ describe('Form.ButtonRow', () => {
       </ButtonRow>
     )
 
-    const element = document.querySelector('.dnb-forms__button-row')
+    const element = document.querySelector('.dnb-forms-button-row')
     const attributes = Array.from(element.attributes).map(
       (attr) => attr.name
     )
@@ -27,7 +27,7 @@ describe('Form.ButtonRow', () => {
       </ButtonRow>
     )
 
-    const element = document.querySelector('.dnb-forms__button-row')
+    const element = document.querySelector('.dnb-forms-button-row')
 
     expect(element.classList).toContain('dnb-space__top--large')
 
@@ -47,11 +47,11 @@ describe('Form.ButtonRow', () => {
       </ButtonRow>
     )
 
-    const element = document.querySelector('.dnb-forms__button-row')
+    const element = document.querySelector('.dnb-forms-button-row')
 
     expect(Array.from(element.classList)).toEqual([
       'dnb-space',
-      'dnb-forms__button-row',
+      'dnb-forms-button-row',
       'custom-class',
     ])
   })
@@ -65,7 +65,7 @@ describe('Form.ButtonRow', () => {
       </ButtonRow>
     )
 
-    const element = document.querySelector('.dnb-forms__button-row')
+    const element = document.querySelector('.dnb-forms-button-row')
     const children = element.children
     const childredTextContents = Array.from(children).map((child) =>
       child.textContent.replace(/[\u200C]/g, '')

@@ -8,7 +8,7 @@ describe('Layout.Vertical', () => {
     render(<Vertical aria-label="Aria Label">content</Vertical>)
 
     const element = document.querySelector(
-      '.dnb-layout__flex-container--direction-vertical'
+      '.dnb-layout-flex-container--direction-vertical'
     )
     const attributes = Array.from(element.attributes).map(
       (attr) => attr.name
@@ -21,7 +21,7 @@ describe('Layout.Vertical', () => {
   it('should support spacing props', () => {
     const { rerender } = render(<Vertical top="large">content</Vertical>)
     const element = document.querySelector(
-      '.dnb-layout__flex-container--direction-vertical'
+      '.dnb-layout-flex-container--direction-vertical'
     )
 
     expect(element.classList).toContain('dnb-space__top--large')
@@ -35,19 +35,19 @@ describe('Layout.Vertical', () => {
     render(<Vertical className="custom-class">content</Vertical>)
 
     const element = document.querySelector(
-      '.dnb-layout__flex-container--direction-vertical'
+      '.dnb-layout-flex-container--direction-vertical'
     )
 
     expect(Array.from(element.classList)).toEqual([
       'dnb-space',
-      'dnb-layout__flex-container',
+      'dnb-layout-flex-container',
       'custom-class',
-      'dnb-layout__flex-container--direction-vertical',
-      'dnb-layout__flex-container--justify-flex-start',
-      'dnb-layout__flex-container--align-flex-start',
-      'dnb-layout__flex-container--spacing-small',
-      'dnb-layout__flex-container--wrap',
-      'dnb-layout__flex-container--divider-space',
+      'dnb-layout-flex-container--direction-vertical',
+      'dnb-layout-flex-container--justify-flex-start',
+      'dnb-layout-flex-container--align-flex-start',
+      'dnb-layout-flex-container--spacing-small',
+      'dnb-layout-flex-container--wrap',
+      'dnb-layout-flex-container--divider-space',
     ])
   })
 
@@ -61,7 +61,7 @@ describe('Layout.Vertical', () => {
     )
 
     const element = document.querySelector(
-      '.dnb-layout__flex-container--direction-vertical'
+      '.dnb-layout-flex-container--direction-vertical'
     )
     const children = element.children
     const childredTextContents = Array.from(children).map((child) =>
@@ -86,20 +86,20 @@ describe('Layout.Vertical', () => {
     )
 
     const element = document.querySelector(
-      '.dnb-layout__flex-container--direction-vertical'
+      '.dnb-layout-flex-container--direction-vertical'
     )
     const children = element.children
 
     expect(children[0].className).toContain('dnb-space__top--zero')
     expect(children[0].className).toContain('dnb-space__bottom--zero')
-    expect(children[0].className).toContain('dnb-layout__flex-item')
+    expect(children[0].className).toContain('dnb-layout-flex-item')
 
     expect(children[1].className).toContain('dnb-space__top--small')
     expect(children[1].className).toContain('dnb-space__bottom--zero')
-    expect(children[1].className).toContain('dnb-layout__flex-item')
+    expect(children[1].className).toContain('dnb-layout-flex-item')
 
     expect(children[2].className).toContain('dnb-space__top--small')
     expect(children[2].className).toContain('dnb-space__bottom--zero')
-    expect(children[2].className).toContain('dnb-layout__flex-item')
+    expect(children[2].className).toContain('dnb-layout-flex-item')
   })
 })
