@@ -33,7 +33,7 @@
 
   // Handle column sizes
   &--responsive {
-    --columns--default: 12;
+    --sizeCount--default: 12;
     --size--default: var(--small);
 
     .dnb-layout-flex-container[data-media-key='small'] & {
@@ -47,7 +47,7 @@
     }
 
     --flex-basis: calc(
-      100% / var(--columns, var(--columns--default)) *
+      100% / var(--sizeCount, var(--sizeCount--default)) *
         var(--size, var(--size--default))
     );
 
