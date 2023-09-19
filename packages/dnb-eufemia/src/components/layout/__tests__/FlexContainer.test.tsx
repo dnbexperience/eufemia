@@ -337,7 +337,7 @@ describe('Layout.FlexContainer', () => {
     const MEDIUM = '59em' // 60em
     const LARGE = '79em' // 80em
 
-    it('should set default columns of 12', () => {
+    it('should set default "sizeCount" of 12', () => {
       const { rerender } = render(
         <FlexContainer>
           <FlexItem size={6}>FlexItem</FlexItem>
@@ -346,15 +346,15 @@ describe('Layout.FlexContainer', () => {
 
       const element = document.querySelector('.dnb-layout-flex-container')
 
-      expect(element.getAttribute('style')).toBe('--columns: 12;')
+      expect(element.getAttribute('style')).toBe('--sizeCount: 12;')
 
       rerender(
-        <FlexContainer columns={6}>
+        <FlexContainer sizeCount={6}>
           <FlexItem size={6}>FlexItem</FlexItem>
         </FlexContainer>
       )
 
-      expect(element.getAttribute('style')).toBe('--columns: 6;')
+      expect(element.getAttribute('style')).toBe('--sizeCount: 6;')
 
       rerender(
         <FlexContainer>

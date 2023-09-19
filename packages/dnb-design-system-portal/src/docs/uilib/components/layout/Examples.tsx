@@ -106,7 +106,7 @@ export const HorizontalFlexItemResponsiveSizeCustomColumns = () => {
           <CustomMediaQuery>
             <Layout.FlexContainer
               direction="horizontal"
-              columns={4}
+              sizeCount={4}
               breakpoints={breakpoints}
               queries={queries}
             >

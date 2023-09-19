@@ -70,7 +70,7 @@ const renderWithSpacing = (
 export type Props = ComponentProps & {
   direction?: 'horizontal' | 'vertical'
   wrap?: boolean
-  columns?: number
+  sizeCount?: number
   justify?:
     | 'flex-start'
     | 'flex-end'
@@ -133,7 +133,7 @@ function FlexContainer(props: Props) {
     element = 'div',
     direction = 'horizontal',
     wrap = true,
-    columns = 12,
+    sizeCount = 12,
     justify = 'flex-start',
     align = 'flex-start',
     alignSelf,
@@ -205,11 +205,11 @@ function FlexContainer(props: Props) {
           : // The fallbacks should be in line with the "--size:" fallbacks in the CSS
             p?.[mediaKey] || p?.large || p?.medium || p?.small
 
-      if (sizeSum >= columns) {
+      if (sizeSum >= sizeCount) {
         sizeSum = 0
         isFirst = true
       } else {
-        if (mediaSize >= columns) {
+        if (mediaSize >= sizeCount) {
           isFirst = true
         }
         sizeSum += mediaSize
@@ -251,7 +251,7 @@ function FlexContainer(props: Props) {
       data-media-key={mediaKey}
       style={
         hasSizeProp
-          ? ({ '--columns': columns, ...style } as React.CSSProperties)
+          ? ({ '--sizeCount': sizeCount, ...style } as React.CSSProperties)
           : style
       }
       {...rest}
