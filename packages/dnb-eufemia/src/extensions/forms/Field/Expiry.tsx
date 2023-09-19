@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import StringComponent, { Props as StringComponentProps } from './String'
 
 type ExpiryPlaceholderType = 'dashes' | 'spaces' | 'letters' | 'none'
@@ -15,6 +15,7 @@ type ExpiryProps = Omit<
   'placeholder' | 'onChange'
 > & {
   placeholder?: ExpiryPlaceholderType
+  keep_placeholder?: boolean
   onChange?: ({ month, year, raw, formatted }: ExpiryValue) => void
 }
 
@@ -52,7 +53,7 @@ function Expiry({
 
     const month = `${value.charAt(0)}${value.charAt(1)}`
     const year = `${value.charAt(2)}${value.charAt(3)}`
-    const formatted = `${month} / ${year}`
+    const formatted = `${month}/${year}`
 
     if (props?.onChange) {
       props.onChange({ month, year, raw: value, formatted })
