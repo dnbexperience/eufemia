@@ -404,7 +404,7 @@ export const WithSteps = () => {
         }
         onSubmit={(data) => console.log('onSubmit', data)}
       >
-        <StepsLayout>
+        <StepsLayout mode="loose">
           <StepsLayout.Step title="Name">
             <Layout.MainHeading>Profile</Layout.MainHeading>
 
