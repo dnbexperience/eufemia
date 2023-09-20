@@ -54,7 +54,7 @@ export default ${JSON.stringify(variables, null, 2)}`,
 
 export const runFactory = ({
   returnResult = false,
-  glob = './src/style/themes/**/properties.scss',
+  glob = './src/style/themes/*/properties-js.scss',
 } = {}) =>
   new Promise((resolve, reject) => {
     log.start('> PrePublish: transforming style modules')
@@ -67,6 +67,7 @@ export const runFactory = ({
         .pipe(transform('utf8', transformModulesContent))
         .pipe(
           rename({
+            basename: 'properties',
             extname: '.js',
           })
         )
