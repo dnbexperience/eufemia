@@ -42,3 +42,16 @@ export const VerticalFields = () => {
     </ComponentBox>
   )
 }
+
+export const WithHeadingsAndAriaLabel = () => {
+  return (
+    <ComponentBox hidePreview>
+      <Layout.Card aria-labelledby="unique-id">
+        <Layout.SubHeading id="unique-id" space={0}>
+          Heading
+        </Layout.SubHeading>
+        <P>Content inside a landmark ...</P>
+      </Layout.Card>
+    </ComponentBox>
+  )
+}

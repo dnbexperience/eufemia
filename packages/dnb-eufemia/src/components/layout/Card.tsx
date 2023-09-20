@@ -6,14 +6,11 @@ import FlexContainer, {
 import FlexItem, { Props as FlexItemProps } from './FlexItem'
 import type { ComponentProps } from '../../extensions/forms/types'
 
-export type Props = ComponentProps & {
-  stack?: boolean
-  direction?: FlexContainerProps['direction']
-  spacing?: FlexContainerProps['spacing']
-  alignSelf?: FlexItemProps['alignSelf']
-  element?: FlexItemProps['element']
-  children: React.ReactNode
-}
+export type Props = ComponentProps &
+  FlexContainerProps &
+  FlexItemProps & {
+    stack?: boolean
+  }
 
 function Card(props: Props) {
   const {
@@ -26,7 +23,7 @@ function Card(props: Props) {
     ...rest
   } = props
 
-  if (direction || spacing || stack) {
+  if (stack || direction || spacing) {
     return (
       <FlexContainer
         className={classnames('dnb-layout-card', className)}

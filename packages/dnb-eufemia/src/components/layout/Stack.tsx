@@ -5,18 +5,12 @@ import FlexContainer, {
 } from './FlexContainer'
 import type { ComponentProps } from '../../extensions/forms/types'
 
-export type Props = ComponentProps & {
-  direction?: FlexContainerProps['direction']
-  spacing?: FlexContainerProps['spacing']
-  alignSelf?: FlexContainerProps['alignSelf']
-  children: React.ReactNode
-}
+export type Props = ComponentProps & FlexContainerProps
 
 function Stack(props: Props) {
   const {
     className,
-    direction,
-    spacing,
+    direction = 'vertical',
     alignSelf = 'stretch',
     children,
     ...rest
@@ -26,8 +20,7 @@ function Stack(props: Props) {
     <FlexContainer
       element="section"
       className={classnames('dnb-layout-stack', className)}
-      direction={direction ?? 'vertical'}
-      spacing={spacing ?? 'small'}
+      direction={direction}
       alignSelf={alignSelf}
       align="stretch"
       {...rest}

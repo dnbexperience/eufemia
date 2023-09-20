@@ -107,11 +107,9 @@ export const WithCardAndHeadings = () => {
 
 export const WithHeadingsAndAriaLabel = () => {
   return (
-    <ComponentBox>
+    <ComponentBox hidePreview>
       <Layout.Stack aria-labelledby="unique-id">
-        <Layout.MainHeading id="unique-id">
-          Main heading
-        </Layout.MainHeading>
+        <Layout.SubHeading id="unique-id">Heading</Layout.SubHeading>
         <Layout.Card>
           <P>Content inside a landmark ...</P>
         </Layout.Card>
