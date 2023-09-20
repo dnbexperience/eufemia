@@ -71,7 +71,13 @@ export interface DropdownProps
    * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
    */
   globalStatus?: GlobalStatusConfigObject;
+  /**
+   * By providing a React.ref you can get the internally used main element (DOM). E.g. `innerRef={myRef}` by using `React.createRef()` or `React.useRef()`.
+   */
   innerRef?: React.Ref;
+  /**
+   * By providing a React.ref you can get the internally used button element (DOM). E.g. `buttonRef={myRef}` by using `React.createRef()` or `React.useRef()`.
+   */
   buttonRef?: React.Ref;
   /**
    * Same as `prevent_selection`, but the "selection area" (given title) will not be visible and the icon `more` (three dots) is used. Defaults to `false`.
