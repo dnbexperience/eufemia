@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import StringComponent, { Props as StringComponentProps } from './String'
 import classnames from 'classnames'
 
-type ExpiryPlaceholderType = 'dashes' | 'spaces' | 'letters' | 'none'
+type ExpiryPlaceholderType = 'dashes' | 'spaces' | 'letters'
 
 export type ExpiryValue = {
   /**
@@ -98,33 +98,63 @@ function Expiry({
     const hasPressedShiftKey = event.shiftKey
     const { value, selectionStart, selectionEnd } = input
 
-    const isFocusingOnPreviousElement =
-      selectionStart === 0 && selectionEnd === 0
-    const isFocusingOnNextElement =
+    const isCaretAtStart = selectionStart === 0 && selectionEnd === 0
+
+    const isCaretAtEnd =
       selectionStart === value.length && selectionEnd === value.length
-    const fullTextSelected =
+
+    const hasSelectedFullValue =
       selectionStart === 0 && selectionEnd === value.length
 
+    // Month is the first two characters of the value
+    const monthRange = { start: 0, end: 2 }
+    // Year is the last two characters of the value
+    const yearRange = { start: value.length - 2, end: value.length }
+
+    const hasSelectedMonth =
+      selectionStart === monthRange.start &&
+      selectionEnd === monthRange.end
+
+    const hasSelectedYear =
+      selectionStart === yearRange.start && selectionEnd === yearRange.end
+
+    const isTabbingForward =
+      !hasPressedShiftKey && (isCaretAtEnd || hasSelectedYear)
+    const isTabbingBackwards =
+      hasPressedShiftKey && (isCaretAtStart || hasSelectedMonth)
+
     // Fire default tab behaviour if user is tabbing forwards or backwards at the start or end of text in input field
-    if (
-      fullTextSelected ||
-      (hasPressedShiftKey && isFocusingOnPreviousElement) ||
-      (!hasPressedShiftKey && isFocusingOnNextElement)
-    ) {
+    if (isTabbingForward || isTabbingBackwards) {
       return
     }
 
     // Preventing default here to make it possible to focus move between the numbers inside input
     event.preventDefault()
 
-    const { start, end } = getSelectionRange({
-      value,
-      selectionStart,
-      selectionEnd,
-      hasPressedShiftKey,
-    })
+    // Select the month value if user is tabbing while full value is selected
+    if (hasSelectedFullValue) {
+      return input.setSelectionRange(monthRange.start, monthRange.end)
+    }
 
-    input.setSelectionRange(start, end)
+    // Select year value if user is tabbing backwards while caret is at the end of input
+    if (hasPressedShiftKey && isCaretAtEnd) {
+      return input.setSelectionRange(yearRange.start, yearRange.end)
+    }
+
+    // Select month value if user is tabbing backwards while year value is selected
+    if (hasPressedShiftKey && hasSelectedYear) {
+      return input.setSelectionRange(monthRange.start, monthRange.end)
+    }
+
+    // Select year value if user is tabbing forward while month value is selected
+    if (hasSelectedMonth) {
+      return input.setSelectionRange(yearRange.start, yearRange.end)
+    }
+
+    // Select month value if user is tabbing forward while caret is at the start of input
+    if (isCaretAtStart) {
+      return input.setSelectionRange(monthRange.start, monthRange.end)
+    }
   }
 
   return (
@@ -139,92 +169,6 @@ function Expiry({
       innerRef={inputRef}
     />
   )
-}
-
-type ExpirySelectionRangeParams = {
-  value?: string
-  selectionStart: number
-  selectionEnd: number
-  hasPressedShiftKey: boolean
-}
-
-type ExpirySelectionRange = {
-  start: number
-  end: number
-}
-
-function getSelectionRange({
-  value,
-  selectionStart,
-  selectionEnd,
-  hasPressedShiftKey,
-}: ExpirySelectionRangeParams): ExpirySelectionRange {
-  const { start, end } = updateSelectionRange({
-    selectionStart,
-    selectionEnd,
-    hasPressedShiftKey,
-  })
-  const selectedValue = value.substring(start, end)
-  const hasSelectedDelimiter = checkIfDelimiterIsSelected(selectedValue)
-
-  if (hasSelectedDelimiter) {
-    return skipDivider({
-      value,
-      selectionStart,
-      selectionEnd,
-      hasPressedShiftKey,
-    })
-  }
-
-  return { start, end }
-}
-
-function updateSelectionRange({
-  selectionStart,
-  selectionEnd,
-  hasPressedShiftKey,
-}: ExpirySelectionRangeParams): ExpirySelectionRange {
-  if (hasPressedShiftKey) {
-    return { start: selectionStart - 1, end: selectionStart }
-  }
-
-  if (selectionStart === 0 && selectionEnd === 0) {
-    return { start: selectionStart, end: selectionStart + 1 }
-  }
-
-  return { start: selectionStart + 1, end: selectionStart + 2 }
-}
-
-function checkIfDelimiterIsSelected(selectedValue: string): boolean {
-  return selectedValue === ' ' || selectedValue === '/'
-}
-
-function skipDivider({
-  value,
-  selectionStart,
-  selectionEnd,
-  hasPressedShiftKey,
-}: ExpirySelectionRangeParams) {
-  let start = selectionStart
-  let end = selectionEnd
-  let isDelimiterSelected = true
-
-  while (isDelimiterSelected) {
-    const newRange = updateSelectionRange({
-      selectionStart: start,
-      selectionEnd: end,
-      hasPressedShiftKey,
-    })
-
-    const newSelectedValue = value.substring(newRange.start, newRange.end)
-
-    start = newRange.start
-    end = newRange.end
-
-    isDelimiterSelected = checkIfDelimiterIsSelected(newSelectedValue)
-  }
-
-  return { start, end }
 }
 
 export default Expiry
