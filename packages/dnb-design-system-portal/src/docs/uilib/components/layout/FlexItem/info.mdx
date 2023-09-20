@@ -12,7 +12,7 @@ import * as Examples from './Examples'
 
 You can provide a `size` prop with a number from 1 to 12 (can be changed in [FlexContainer](/uilib/components/layout/FlexContainer/) with the `sizeCount` property).
 
-The number will be used to calculate a percentage unit and applied to the item via CSS.
+The number will be used to set the item size (a part of the container). It set a percentage unit and apply it on the item via CSS. When the container is tilled to 100%, the remaining items will wrap to a new row.
 
 The number 6 results in 50%, while 12 results in 100%.
 
@@ -22,8 +22,8 @@ The number 6 results in 50%, while 12 results in 100%.
 
 You can also make sizes respond to media queries.
 
-You can provide a `size` prop with an object containing [Media Query](/uilib/usage/layout/media-queries/) types. Each size can contain a column number.
+For doing so, provide a `size` prop with an object containing [Media Query](/uilib/usage/layout/media-queries/) types. Each media size should contain number, like mentioned above.
 
 <Examples.ResponsiveSize />
 
-You need to ensure that `flex-wrap: wrap` is set, so the items wrap to a new line when needed. This is enabled by default in the [FlexContainer](/uilib/components/layout/FlexContainer/).
+You need to ensure that `flex-wrap: wrap` is set, so the remaining items wrap to a new row when needed. This is enabled by default in the [FlexContainer](/uilib/components/layout/FlexContainer/).

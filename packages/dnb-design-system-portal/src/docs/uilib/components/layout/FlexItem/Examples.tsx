@@ -1,19 +1,29 @@
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
 import { Layout } from '@dnb/eufemia/src'
 import { TestElement, Field } from '@dnb/eufemia/src/extensions/forms'
-import { HorizontalFlexItemResponsiveSizeCustomColumns } from '../Examples'
+import {
+  HorizontalFlexItemResponsiveSize,
+  HorizontalFlexItemResponsiveSizeCustomColumns,
+} from '../Examples'
 
 export const Default = () => {
   return (
     <ComponentBox scope={{ TestElement, Field }}>
-      <Layout.FlexItem>Contents</Layout.FlexItem>
+      <Layout.FlexContainer>
+        <Layout.FlexItem>
+          <TestElement>FlexItem</TestElement>
+        </Layout.FlexItem>
+        <Layout.FlexItem>
+          <TestElement>FlexItem</TestElement>
+        </Layout.FlexItem>
+      </Layout.FlexContainer>
     </ComponentBox>
   )
 }
 
 export const BasicSize = () => {
   return (
-    <ComponentBox hidePreview>
+    <ComponentBox>
       <Layout.FlexContainer>
         <Layout.FlexItem size={6}>uses 50% in width</Layout.FlexItem>
         <Layout.FlexItem size={6}>uses 50% in width</Layout.FlexItem>
@@ -37,5 +47,7 @@ export const ResponsiveSize = () => {
   )
 }
 
-export const AdvancedExample =
+export const BasicSizeExample = HorizontalFlexItemResponsiveSize
+
+export const AdvancedSizeExample =
   HorizontalFlexItemResponsiveSizeCustomColumns
