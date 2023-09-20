@@ -85,12 +85,15 @@
   &--wrap {
     flex-wrap: wrap;
   }
+  &--row-gap-small,
   &--wrap#{&}--has-size {
     row-gap: var(--spacing-small);
   }
+  &--row-gap-medium,
   &--wrap#{&}--has-size#{&}--spacing-medium {
     row-gap: var(--spacing-medium);
   }
+  &--row-gap-large,
   &--wrap#{&}--has-size#{&}--spacing-large {
     row-gap: var(--spacing-large);
   }

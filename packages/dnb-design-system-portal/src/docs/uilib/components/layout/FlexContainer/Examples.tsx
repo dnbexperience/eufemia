@@ -26,7 +26,7 @@ export const Default = () => {
 export const HorizontalWithFieldString = () => {
   return (
     <ComponentBox scope={{ TestElement, Field }}>
-      <Layout.FlexContainer wrap={false}>
+      <Layout.FlexContainer rowGap>
         <Field.String label="Label" value="Foo" />
         <Field.String label="Label" value="Foo" width="medium" />
       </Layout.FlexContainer>

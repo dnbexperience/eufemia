@@ -70,6 +70,7 @@ const renderWithSpacing = (
 export type Props = ComponentProps & {
   direction?: 'horizontal' | 'vertical'
   wrap?: boolean
+  rowGap?: 'small' | 'medium' | 'large' | true
   sizeCount?: number
   justify?:
     | 'flex-start'
@@ -134,6 +135,7 @@ function FlexContainer(props: Props) {
     direction = 'horizontal',
     wrap = true,
     sizeCount = 12,
+    rowGap,
     justify = 'flex-start',
     align = 'flex-start',
     alignSelf,
@@ -163,24 +165,28 @@ function FlexContainer(props: Props) {
   })
 
   let sizeSum = 0
+  const total = childrenArray.length - 1
   const content = childrenArray.map((child, i) => {
     // Set spacing on child components by props (instead of CSS) to be able to dynamically override by props on each child. The default
     // is the spacing-props that controls space between children. Then override with props sent to the children, including both top
     // and bottom when th
-    let isFirst = i === 0
+    let omitSpace = direction === 'horizontal' ? i === total : i === 0
+    // let isLast = i === total
     const previousChild = childrenArray?.[i - 1]
 
     // Always set spacing between elements in the vertical layout on the top props, and 0 on bottom, to avoid
     // having to divide spacing between both with smaller values.
     const start: Start = direction === 'horizontal' ? 'left' : 'top'
     const end: End = direction === 'horizontal' ? 'right' : 'bottom'
+    // const start: Start | End = direction === 'horizontal' ? 'right' : 'top'
+    // const end: Start | End = direction === 'horizontal' ? 'left' : 'bottom'
     const endSpacing = 0
     let startSpacing = null
 
     if (
       divider === 'line' &&
       // No line above first element
-      !isFirst &&
+      !omitSpace &&
       // No line above/below headings
       !hasHeading
     ) {
@@ -202,45 +208,50 @@ function FlexContainer(props: Props) {
       const mediaSize =
         typeof p === 'number'
           ? p
-          : // The fallbacks should be in line with the "--size:" fallbacks in the CSS
-            p?.[mediaKey] || p?.large || p?.medium || p?.small
+          : p?.[mediaKey] ||
+            (mediaKey?.includes('small') // for e.g. "xsmall" usage
+              ? p?.small || p?.medium || p?.large
+              : p?.large || p?.medium || p?.small) // <== The fallbacks should be in line with the "--size:" fallbacks in the CSS
 
+      sizeSum += mediaSize
       if (sizeSum >= sizeCount) {
         sizeSum = 0
-        isFirst = true
-      } else {
-        if (mediaSize >= sizeCount) {
-          isFirst = true
-        }
-        sizeSum += mediaSize
+        omitSpace = true
       }
     }
 
     startSpacing =
       // No space above first element.
-      isFirst
+      omitSpace
         ? 0
         : // Since top space of current and bottom space of previous component is the same
           getSpaceValue(start, child) ??
           getSpaceValue(end, previousChild) ??
           spacing
 
+    const space =
+      direction === 'horizontal'
+        ? { [start]: endSpacing, [end]: startSpacing }
+        : { [start]: startSpacing, [end]: endSpacing }
+
     return renderWithSpacing(child, {
       key: `element-${i}`,
-      space: { [start]: startSpacing, [end]: endSpacing },
+      space,
     })
   })
 
+  const n = 'dnb-layout-flex-container'
   const cn = classnames(
     'dnb-layout-flex-container',
-    direction && `dnb-layout-flex-container--direction-${direction}`,
-    justify && `dnb-layout-flex-container--justify-${justify}`,
-    align && `dnb-layout-flex-container--align-${align}`,
-    alignSelf && `dnb-layout-flex-container--align-self-${alignSelf}`,
-    spacing && `dnb-layout-flex-container--spacing-${spacing}`,
-    wrap && `dnb-layout-flex-container--wrap`,
-    hasSizeProp && `dnb-layout-flex-container--has-size`,
-    divider && `dnb-layout-flex-container--divider-${divider}`,
+    direction && `${n}--direction-${direction}`,
+    justify && `${n}--justify-${justify}`,
+    align && `${n}--align-${align}`,
+    alignSelf && `${n}--align-self-${alignSelf}`,
+    spacing && `${n}--spacing-${spacing}`,
+    wrap && `${n}--wrap`,
+    rowGap && `${n}--row-gap-${rowGap === true ? 'small' : rowGap}`,
+    hasSizeProp && `${n}--has-size`,
+    divider && `${n}--divider-${divider}`,
     className
   )
 

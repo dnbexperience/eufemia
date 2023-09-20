@@ -99,6 +99,16 @@ describe('FieldBlock', () => {
     expect(labelElement.textContent).toBe('A Secondary Label')
   })
 
+  it('should not use fieldset when legend is given', () => {
+    render(<FieldBlock legend="Legend">content</FieldBlock>)
+
+    const element = document.querySelector('.dnb-forms-field-block')
+    expect(element.tagName).toBe('FIELDSET')
+
+    const elementLegend = document.querySelector('.dnb-form-label')
+    expect(elementLegend.tagName).toBe('LEGEND')
+  })
+
   it('should render a FormStatus when "info" is given', () => {
     render(<FieldBlock info="Info">content</FieldBlock>)
 

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { Layout, Input, Slider } from '@dnb/eufemia/src'
@@ -18,7 +17,6 @@ export const CreateBasicFieldComponent = () => {
     <ComponentBox
       scope={{
         Form,
-        Layout,
         Field,
         FieldBlock,
         useDataValue,
@@ -80,7 +78,6 @@ export const CreateComposedFieldComponent = () => {
         DataContext,
         Field,
         FieldBlock,
-        Slider,
         useDataValue,
       }}
     >
@@ -98,8 +95,8 @@ export const CreateComposedFieldComponent = () => {
           )
 
           return (
-            <FieldBlock label={props.label ?? 'Name and age'}>
-              <Layout.Horizontal>
+            <FieldBlock legend={props.label ?? 'Name and age'}>
+              <Layout.Horizontal rowGap>
                 <Field.String
                   path="/firstName"
                   label="First name"
@@ -119,14 +116,12 @@ export const CreateComposedFieldComponent = () => {
                     step={1}
                     label="Birth year"
                     label_direction="vertical"
-                    // @ts-ignore
-                    value={birthYear.value}
+                    value={parseFloat(String(birthYear.value))}
                     on_change={handleBirthYearChange}
                     on_drag_start={birthYear.handleFocus}
                     on_drag_end={birthYear.handleBlur}
                     status={birthYear.error?.message}
                     tooltip
-                    alwaysShowTooltip
                   />
                 </FieldBlock>
               </Layout.Horizontal>

@@ -8,22 +8,35 @@ import {
   pickSpacingProps,
 } from '../../extensions/forms/types'
 
-export type Columns = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12
 export type Sizes =
+  | 1
+  | 2
+  | 3
+  | 4
+  | 5
+  | 6
+  | 7
+  | 8
+  | 9
+  | 10
+  | 11
+  | 12
+  | 'auto'
+export type Size =
   | {
-      xsmall?: Columns
-      small?: Columns
-      medium?: Columns
-      large?: Columns
+      xsmall?: Sizes
+      small?: Sizes
+      medium?: Sizes
+      large?: Sizes
     }
-  | number
+  | Sizes
 
 export type Props = ComponentProps & {
   element?: DynamicElement
   grow?: boolean
   shrink?: boolean
   alignSelf?: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch'
-  size?: Sizes
+  size?: Size
   style?: React.CSSProperties
   children: React.ReactNode
 }
@@ -52,7 +65,7 @@ function FlexItem(props: Props) {
 
   const styleObj = { ...style } as React.CSSProperties
   if (size) {
-    if (typeof size === 'number') {
+    if (typeof size === 'number' || size === 'auto') {
       styleObj['--size--default'] = size
     } else {
       for (const key in size) {
