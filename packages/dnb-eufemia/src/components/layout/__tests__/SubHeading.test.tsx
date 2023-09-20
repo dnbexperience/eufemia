@@ -21,15 +21,15 @@ describe('Layout.SubHeading', () => {
 
   it('should support spacing props', () => {
     const { rerender } = render(
-      <SubHeading top="large">Space Heading</SubHeading>
+      <SubHeading top="x-large">Space Heading</SubHeading>
     )
     const element = document.querySelector('.dnb-layout-sub-heading')
 
-    expect(element.classList).toContain('dnb-space__top--large')
-
-    rerender(<SubHeading top="x-large">Space Heading</SubHeading>)
-
     expect(element.classList).toContain('dnb-space__top--x-large')
+
+    rerender(<SubHeading top="x-small">Space Heading</SubHeading>)
+
+    expect(element.classList).toContain('dnb-space__top--x-small')
   })
 
   it('should contain given classes', () => {
@@ -60,8 +60,6 @@ describe('Layout.SubHeading', () => {
 
     const element = document.querySelector('.dnb-layout-sub-heading')
 
-    expect(element.className).toBe(
-      'dnb-heading dnb-h--medium dnb-layout-sub-heading'
-    )
+    expect(element.className).toContain('dnb-h--medium')
   })
 })

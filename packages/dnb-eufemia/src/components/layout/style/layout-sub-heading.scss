@@ -1,0 +1,14 @@
+.dnb-layout-sub-heading {
+  // Reset inherited spacing
+  .dnb-spacing & {
+    &.dnb-h--medium:not([class*='space__']) {
+      margin: 0;
+    }
+  }
+
+  &:has(+ .dnb-layout-stack > .dnb-layout-card, + .dnb-layout-card) {
+    &:not([class*='space__bottom']) {
+      margin-bottom: var(--spacing-small);
+    }
+  }
+}

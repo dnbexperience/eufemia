@@ -11,7 +11,7 @@ export const Default = () => {
 
 export const OverStack = () => {
   return (
-    <ComponentBox>
+    <ComponentBox data-visual-test="layout-main-heading-over-stack">
       <Layout.MainHeading>This is a main heading</Layout.MainHeading>
       <Layout.Stack>
         <P>Stack contents</P>
@@ -22,7 +22,7 @@ export const OverStack = () => {
 
 export const OverStackWithCard = () => {
   return (
-    <ComponentBox>
+    <ComponentBox data-visual-test="layout-main-heading-over-card">
       <Layout.MainHeading>This is a main heading</Layout.MainHeading>
       <Layout.Stack>
         <Layout.Card>
