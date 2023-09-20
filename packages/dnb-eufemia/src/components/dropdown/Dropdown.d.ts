@@ -71,6 +71,8 @@ export interface DropdownProps
    * The <a href="/uilib/components/global-status/properties/#configuration-object">configuration</a> used for the target <a href="/uilib/components/global-status">GlobalStatus</a>.
    */
   globalStatus?: GlobalStatusConfigObject;
+  innerRef?: React.Ref;
+  buttonRef?: React.Ref;
   /**
    * Same as `prevent_selection`, but the "selection area" (given title) will not be visible and the icon `more` (three dots) is used. Defaults to `false`.
    */

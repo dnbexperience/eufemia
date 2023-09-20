@@ -1096,6 +1096,36 @@ describe('Dropdown component', () => {
     ).toHaveAttribute('disabled')
   })
 
+  it('gets valid buttonRef element', () => {
+    let ref: React.RefObject<HTMLButtonElement>
+
+    function MockComponent() {
+      ref = React.useRef()
+      return <Dropdown {...props} buttonRef={ref} />
+    }
+
+    render(<MockComponent />)
+
+    expect(ref.current.id).toBe(props.id)
+    expect(ref.current.tagName).toBe('BUTTON')
+    expect(ref.current instanceof HTMLButtonElement).toBe(true)
+  })
+
+  it('gets valid innerRef element', () => {
+    let ref: React.RefObject<HTMLButtonElement>
+
+    function MockComponent() {
+      ref = React.useRef()
+      return <Dropdown {...props} innerRef={ref} />
+    }
+
+    render(<MockComponent />)
+
+    expect(ref.current.className).toContain('dnb-dropdown')
+    expect(ref.current.tagName).toBe('SPAN')
+    expect(ref.current instanceof HTMLSpanElement).toBe(true)
+  })
+
   beforeAll(() => {
     window.resizeTo = function resizeTo({
       width = window.innerWidth,
