@@ -156,7 +156,7 @@ export const BecomeCorporateCustomer = () => {
                     <Layout.MainHeading>Profile</Layout.MainHeading>
 
                     <Layout.Card stack>
-                      <Layout.FlexContainer direction="horizontal">
+                      <Layout.FlexContainer>
                         <Value.String path="/firstName" />
                         <Value.String path="/lastName" />
                       </Layout.FlexContainer>

@@ -26,7 +26,7 @@ export const Default = () => {
 export const HorizontalWithFieldString = () => {
   return (
     <ComponentBox scope={{ TestElement, Field }}>
-      <Layout.FlexContainer direction="horizontal" wrap={false}>
+      <Layout.FlexContainer wrap={false}>
         <Field.String label="Label" value="Foo" />
         <Field.String label="Label" value="Foo" width="medium" />
       </Layout.FlexContainer>
@@ -37,7 +37,7 @@ export const HorizontalWithFieldString = () => {
 export const HorizontalWithFlexItem = () => {
   return (
     <ComponentBox scope={{ TestElement, Field }}>
-      <Layout.FlexContainer direction="horizontal">
+      <Layout.FlexContainer>
         <Layout.FlexItem>
           <TestElement>FlexItem</TestElement>
         </Layout.FlexItem>
@@ -58,7 +58,7 @@ export const HorizontalWithFlexItem = () => {
 export const HorizontalWithFlexItemJustifyCenter = () => {
   return (
     <ComponentBox scope={{ TestElement, Field }}>
-      <Layout.FlexContainer direction="horizontal" justify="center">
+      <Layout.FlexContainer justify="center">
         <Layout.FlexItem>
           <TestElement>FlexItem</TestElement>
         </Layout.FlexItem>
@@ -79,7 +79,7 @@ export const HorizontalWithFlexItemJustifyCenter = () => {
 export const HorizontalWithFlexItemJustifyFlexEnd = () => {
   return (
     <ComponentBox scope={{ TestElement, Field }}>
-      <Layout.FlexContainer direction="horizontal" justify="flex-end">
+      <Layout.FlexContainer justify="flex-end">
         <Layout.FlexItem>
           <TestElement>FlexItem</TestElement>
         </Layout.FlexItem>

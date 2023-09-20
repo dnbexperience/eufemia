@@ -14,7 +14,7 @@ export const Default = () => {
 export const BasicSize = () => {
   return (
     <ComponentBox hidePreview>
-      <Layout.FlexContainer direction="horizontal">
+      <Layout.FlexContainer>
         <Layout.FlexItem size={6}>uses 50% in width</Layout.FlexItem>
         <Layout.FlexItem size={6}>uses 50% in width</Layout.FlexItem>
       </Layout.FlexContainer>
@@ -25,7 +25,7 @@ export const BasicSize = () => {
 export const ResponsiveSize = () => {
   return (
     <ComponentBox hidePreview>
-      <Layout.FlexContainer direction="horizontal">
+      <Layout.FlexContainer>
         <Layout.FlexItem size={{ small: 12, large: 6 }}>
           uses 50% or 100% based on the screen size
         </Layout.FlexItem>

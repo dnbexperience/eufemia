@@ -107,7 +107,7 @@ describe('Layout.FlexContainer', () => {
     )
 
     rerender(
-      <FlexContainer direction="horizontal">
+      <FlexContainer>
         <FlexItem>Flex</FlexItem>
       </FlexContainer>
     )
