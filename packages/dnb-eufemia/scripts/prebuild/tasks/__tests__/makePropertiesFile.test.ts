@@ -17,11 +17,11 @@ jest.mock('ora', () => {
 
 beforeAll(async () => {
   global.ui = await runFactory({
-    glob: './src/style/themes/theme-ui/properties-js.scss',
+    glob: './src/style/themes/theme-ui/_properties-js.scss',
     returnResult: true,
   })
   global.sbanken = await runFactory({
-    glob: './src/style/themes/theme-sbanken/properties-js.scss',
+    glob: './src/style/themes/theme-sbanken/_properties-js.scss',
     returnResult: true,
   })
 })

@@ -54,7 +54,7 @@ export default ${JSON.stringify(variables, null, 2)}`,
 
 export const runFactory = ({
   returnResult = false,
-  glob = './src/style/themes/*/properties-js.scss',
+  glob = './src/style/themes/*/_properties-js.scss',
 } = {}) =>
   new Promise((resolve, reject) => {
     log.start('> PrePublish: transforming style modules')

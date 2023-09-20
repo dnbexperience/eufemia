@@ -1,14 +1,7 @@
-/**
- * Sbanken UI Theme
- * Overrides css variables from the ui theme
- */
+@use '../base/tokens';
 
-// WIP: Remove this import as soon as we have a mapping for all existing properties
-@import '../theme-ui/properties.scss';
-
-.eufemia-theme__sbanken,
 :root {
-  --theme-color-body: var(--sb-color-text);
+  --g-text-color: var(--sb-color-text);
 
   // font-family
   --font-family-default: var(--sb-font-family-default);

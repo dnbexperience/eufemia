@@ -216,14 +216,25 @@ function getFallbackFiles({
       ({ name }) => fallbackThemeName === name
     )
     if (fallbackIndex >= 0) {
+      let useFallback = false
       files = [
         ...files,
         ...themesWithRelatedFiles[fallbackIndex].files.filter((file) => {
-          return !files.includes(
-            file.replace(`-${fallbackThemeName}`, `-${currentThemeName}`)
-          )
+          if (
+            !files.includes(
+              file.replace(`-${fallbackThemeName}`, `-${currentThemeName}`)
+            )
+          ) {
+            useFallback = true
+            return true
+          }
         }),
       ]
+
+      if (useFallback) {
+        const fallbackVariablesImport = `@import '../theme-${fallbackThemeName}/variables.scss';`
+        files.unshift(fallbackVariablesImport)
+      }
     }
   }
 

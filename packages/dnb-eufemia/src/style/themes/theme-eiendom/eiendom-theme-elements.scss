@@ -14,6 +14,7 @@ $THEME_FALLBACK: 'ui';
  * You may want to update it by running "yarn build" locally.
  */
 
+@import '../theme-ui/variables.scss';
 @import '../../../elements/typography/style/themes/dnb-typography-theme-eiendom.scss';
 @import '../../../elements/blockquote/style/themes/dnb-blockquote-theme-ui.scss';
 @import '../../../elements/code/style/themes/dnb-code-theme-ui.scss';

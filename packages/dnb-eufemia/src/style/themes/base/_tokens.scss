@@ -1,0 +1,49 @@
+/* ----------- *\
+   BASE TOKENS  
+\* ----------- */
+
+/*
+ * These css variables are used by all components and themes.
+ * Variable names should be theme independant, do not name colors or percentages
+ * Individual themes can customize them in 
+ * 'themes/theme-{name}/design-tokens.scss' 
+ */
+
+:root {
+  --g-text-color: var(--color-black-80);
+  // Typography Family
+  --font-family-default: 'DNB', sans-serif;
+  --font-family-monospace: 'DNBMono', 'Menlo', 'Consolas', 'Roboto Mono',
+    'Ubuntu Monospace', 'Noto Mono', 'Oxygen Mono', 'Liberation Mono',
+    monospace;
+
+  // Typography Weights
+  --font-weight-default: normal;
+  --font-weight-basis: normal;
+  --font-weight-regular: normal;
+  --font-weight-medium: 500;
+  --font-weight-bold: 600;
+
+  // Typography Sizes
+  --font-size-x-small: 0.875rem; // 14px
+  --font-size-small: 1rem; // 16px
+  --font-size-basis: 1.125rem; // 18px
+  --font-size-basis--em: 1em; // 16px
+  --font-size-lead: var(--font-size-medium); // 20px
+  --font-size-medium: 1.25rem; // 20px
+  --font-size-large: 1.625rem; // 26px
+  --font-size-x-large: 2.125rem; // 34px
+  --font-size-xx-large: 3rem; // 48px
+
+  // Typography Line heights
+  --line-height-xx-small--em: 1em; // 16px
+  --line-height-x-small: 1.125rem; // 18px
+  --line-height-small: 1.25rem; // 20px
+  --line-height-basis: 1.5rem; // 24px
+  --line-height-basis--em: 1.333em; // 1.33333333333*18 = 24
+  --line-height-lead: 1.75rem; // 28px
+  --line-height-medium: 2rem; // 32px
+  --line-height-large: 2.5rem; // 40px
+  --line-height-x-large: 3.5rem; // 56px
+  --line-height-xx-large: var(--line-height-x-large); // 56px
+}

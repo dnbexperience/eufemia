@@ -89,9 +89,7 @@ export default {
   '--sb-shadow-large': '0 5px 20px rgba(38 35 66 / 20%)',
   '--sb-shadow-hover': '0 20px 40px rgba(38 35 66 / 20%)',
   '--sb-easing-default': 'cubic-bezier(0.42, 0, 0, 1)',
-  '--color-emerald-green-50': '#89aaac',
-  '--color-emerald-green-25': '#c4d4d6',
-  '--color-emerald-green-10': '#e8eeef',
+  '--g-text-color': 'var(--sb-color-text)',
   '--font-family-default': 'var(--sb-font-family-default)',
   '--font-family-monospace': '"DNBMono", "Menlo", "Consolas", "Roboto Mono",',
   '--font-weight-default': 'normal',
@@ -118,6 +116,9 @@ export default {
   '--line-height-large': 'var(--sb-line-height-large)',
   '--line-height-x-large': 'var(--sb-line-height-x-large)',
   '--line-height-xx-large': 'var(--sb-line-height-xx-large)',
+  '--color-emerald-green-50': '#89aaac',
+  '--color-emerald-green-25': '#c4d4d6',
+  '--color-emerald-green-10': '#e8eeef',
   '--color-mint-green-50': '#d2f0e9',
   '--color-mint-green-25': '#e9f8f4',
   '--color-mint-green-12': '#f4fbf9',
@@ -172,6 +173,5 @@ export default {
   '--shadow-default-y': '8px',
   '--shadow-default-blur-radius': '16px',
   '--shadow-default-color': 'rgb(51 51 51 / 8%)',
-  '--easing-default': 'cubic-bezier(0.42, 0, 0, 1)',
-  '--theme-color-body': 'var(--sb-color-text)'
+  '--easing-default': 'cubic-bezier(0.42, 0, 0, 1)'
 }; // prettier-ignore
