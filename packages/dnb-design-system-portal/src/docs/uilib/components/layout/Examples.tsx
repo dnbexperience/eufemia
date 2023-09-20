@@ -47,7 +47,7 @@ export const HorizontalFlexItemResponsiveSize = () => {
       scope={{ colors, TestElement, Field }}
       data-visual-test="layout-flex-item-size"
     >
-      <Layout.FlexContainer direction="horizontal">
+      <Layout.FlexContainer>
         <Layout.FlexItem size={8}>
           <TestElement style={colors[0]}>FlexItem (8)</TestElement>
         </Layout.FlexItem>

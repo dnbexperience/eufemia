@@ -441,7 +441,7 @@ export const WithSteps = () => {
             <Layout.MainHeading>Profile</Layout.MainHeading>
 
             <Layout.Card stack>
-              <Layout.FlexContainer direction="horizontal">
+              <Layout.FlexContainer>
                 <Value.String path="/firstName" label="Fornavn" />
                 <Value.String path="/lastName" label="Etternavn" />
               </Layout.FlexContainer>
