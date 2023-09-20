@@ -53,15 +53,6 @@
   }
 }
 
-@mixin resetAnchorHoverStyle() {
-  &:hover {
-    color: inherit;
-
-    // in case we don't want to change the color to the body color
-    background-color: transparent;
-  }
-}
-
 @mixin resetAnimationStyle() {
   transition: none;
 }
@@ -106,7 +97,8 @@
 @mixin useAnchorContrastStyle {
   color: var(--color-white);
 
-  &:hover {
+  &:hover:not(.dnb-anchor--no-hover),
+  &:hover:not(.dnb-anchor--no-style) {
     color: var(--anchor-color--contrast);
     @include anchorBackground(var(--color-white));
   }
@@ -176,7 +168,8 @@
     @include anchorFocusStyle();
   }
 
-  &:hover {
+  &:hover:not(.dnb-anchor--no-hover),
+  &:hover:not(.dnb-anchor--no-style) {
     @include anchorHoverStyle();
   }
 
