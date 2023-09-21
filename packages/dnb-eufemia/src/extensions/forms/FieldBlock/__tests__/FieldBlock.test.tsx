@@ -106,17 +106,30 @@ describe('FieldBlock', () => {
         <div>
           <span>no label</span>
           <Input label="Label" />
+          <FieldBlock label="Legend">
+            <div>
+              <span>no label</span>
+              <Input label="Label" />
+              <span>no label</span>
+            </div>
+          </FieldBlock>
           <span>no label</span>
         </div>
       </FieldBlock>
     )
 
-    const element = document.querySelector('.dnb-forms-field-block')
-    expect(element.tagName).toBe('FIELDSET')
+    expect(document.querySelectorAll('fieldset')).toHaveLength(1)
+    expect(document.querySelectorAll('legend')).toHaveLength(1)
+    expect(document.querySelector('.dnb-forms-field-block').tagName).toBe(
+      'FIELDSET'
+    )
 
     const labelElements = document.querySelectorAll('.dnb-form-label')
     expect(labelElements[0].tagName).toBe('LEGEND')
     expect(labelElements[1].tagName).toBe('LABEL')
+    expect(labelElements[2].tagName).toBe('LABEL')
+    expect(labelElements[3].tagName).toBe('LABEL')
+    expect(labelElements[4]).toBe(undefined)
   })
 
   it('should render a FormStatus when "info" is given', () => {
