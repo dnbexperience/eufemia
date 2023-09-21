@@ -106,7 +106,7 @@ export default function Tabbar({
   ].join('')
 
   return (
-    <div className="dnb-tabbar">
+    <div className="dnb-tabbar dnb-tabs">
       {title && (
         <AutoLinkHeader className="dnb-no-focus" level={1} skip_correction>
           {title}
