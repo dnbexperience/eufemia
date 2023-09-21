@@ -1,5 +1,6 @@
 import React from 'react'
 import { render } from '@testing-library/react'
+import { Input } from '../../../../components'
 import FieldBlock from '../FieldBlock'
 import { FormError } from '../../types'
 
@@ -99,14 +100,23 @@ describe('FieldBlock', () => {
     expect(labelElement.textContent).toBe('A Secondary Label')
   })
 
-  it('should not use fieldset when legend is given', () => {
-    render(<FieldBlock legend="Legend">content</FieldBlock>)
+  it('should use fieldset/legend elements when nested component has a label property', () => {
+    render(
+      <FieldBlock label="Legend">
+        <div>
+          <span>no label</span>
+          <Input label="Label" />
+          <span>no label</span>
+        </div>
+      </FieldBlock>
+    )
 
     const element = document.querySelector('.dnb-forms-field-block')
     expect(element.tagName).toBe('FIELDSET')
 
-    const elementLegend = document.querySelector('.dnb-form-label')
-    expect(elementLegend.tagName).toBe('LEGEND')
+    const labelElements = document.querySelectorAll('.dnb-form-label')
+    expect(labelElements[0].tagName).toBe('LEGEND')
+    expect(labelElements[1].tagName).toBe('LABEL')
   })
 
   it('should render a FormStatus when "info" is given', () => {

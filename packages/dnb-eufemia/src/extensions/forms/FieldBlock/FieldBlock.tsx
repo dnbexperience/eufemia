@@ -3,6 +3,7 @@ import classnames from 'classnames'
 import { Space, FormLabel, FormStatus } from '../../../components'
 import { FormError, ComponentProps, FieldProps } from '../types'
 import FieldBlockContext from './FieldBlockContext'
+import { findElementInChildren } from '../../../shared/component-helper'
 
 export type Props = Pick<
   FieldProps,
@@ -15,7 +16,6 @@ export type Props = Pick<
   | 'warning'
   | 'error'
 > & {
-  legend?: React.ReactNode
   forId?: string
   contentClassName?: string
   children: React.ReactNode
@@ -32,7 +32,6 @@ function FieldBlock(props: Props) {
     className,
     forId,
     layout = 'vertical',
-    legend,
     label,
     labelDescription,
     labelSecondary,
@@ -119,7 +118,12 @@ function FieldBlock(props: Props) {
     className
   )
 
-  const enableFieldset = legend
+  // A child component with a label was found, use fieldset/legend instead of div/label
+  const enableFieldset = findElementInChildren(
+    children,
+    (child: React.ReactElement) => child.props.label
+  )
+
   const state = error || warning || info
   const stateStatus = error
     ? 'error'
@@ -143,13 +147,13 @@ function FieldBlock(props: Props) {
       >
         {labelDescription || labelSecondary ? (
           <div className="dnb-forms-field-block__label">
-            {legend || label || labelDescription ? (
+            {label || labelDescription ? (
               <FormLabel
                 element={enableFieldset ? 'legend' : 'label'}
                 for_id={forId}
                 space={{ bottom: 'x-small' }}
               >
-                {legend || label}
+                {label}
                 {labelDescription && (
                   <span className="dnb-forms-field-block__label-description">
                     {labelDescription}
@@ -166,13 +170,13 @@ function FieldBlock(props: Props) {
             )}
           </div>
         ) : (
-          (legend || label) && (
+          label && (
             <FormLabel
               element={enableFieldset ? 'legend' : 'label'}
               for_id={forId}
               space={{ bottom: 'x-small' }}
             >
-              {legend || label}
+              {label}
             </FormLabel>
           )
         )}
@@ -199,7 +203,7 @@ function FieldBlock(props: Props) {
                 (state instanceof FormError && state.message) ||
                 state?.toString()
               }
-              label={(legend || label) as string}
+              label={label as string}
               space={{ top: 'x-small' }}
             />
           </div>

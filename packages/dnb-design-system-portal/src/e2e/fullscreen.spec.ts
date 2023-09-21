@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 
 test.describe('Fullscreen', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/uilib/components/button')
+    await page.goto('/uilib/components/button/demos')
   })
 
   test('click on fullscreen button should navigate to the fullscreen page', async ({
@@ -17,6 +17,8 @@ test.describe('Fullscreen', () => {
     })
 
     const currentURL = page.url()
-    expect(currentURL).toContain('/uilib/components/button/?fullscreen')
+    expect(currentURL).toContain(
+      '/uilib/components/button/demos/?fullscreen',
+    )
   })
 })
