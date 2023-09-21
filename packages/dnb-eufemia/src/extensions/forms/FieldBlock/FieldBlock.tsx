@@ -1,13 +1,7 @@
 import React, { useMemo, useContext, useState, useCallback } from 'react'
 import classnames from 'classnames'
-import { Div, Span } from '../../../elements'
-import { FormLabel, FormStatus } from '../../../components'
-import {
-  FormError,
-  ComponentProps,
-  FieldProps,
-  pickSpacingProps,
-} from '../types'
+import { Space, FormLabel, FormStatus } from '../../../components'
+import { FormError, ComponentProps, FieldProps } from '../types'
 import FieldBlockContext from './FieldBlockContext'
 
 export type Props = Pick<
@@ -21,14 +15,15 @@ export type Props = Pick<
   | 'warning'
   | 'error'
 > & {
+  legend?: React.ReactNode
   forId?: string
   contentClassName?: string
   children: React.ReactNode
   /** Width of outer block element */
-  width?: 'small' | 'medium' | 'large'
+  width?: false | 'small' | 'medium' | 'large'
   /** Width of contents block, while label etc can be wider if space is available */
   contentsWidth?: 'small' | 'medium' | 'large' | 'stretch'
-}
+} & React.HTMLAttributes<HTMLDivElement>
 
 function FieldBlock(props: Props) {
   const nestedFieldBlockContext = useContext(FieldBlockContext)
@@ -37,6 +32,7 @@ function FieldBlock(props: Props) {
     className,
     forId,
     layout = 'vertical',
+    legend,
     label,
     labelDescription,
     labelSecondary,
@@ -47,6 +43,7 @@ function FieldBlock(props: Props) {
     contentsWidth,
     contentClassName,
     children,
+    ...rest
   } = props
 
   const [fieldErrorRecord, setFieldErrorRecord] = useState<
@@ -122,6 +119,16 @@ function FieldBlock(props: Props) {
     className
   )
 
+  const enableFieldset = legend
+  const state = error || warning || info
+  const stateStatus = error
+    ? 'error'
+    : warning
+    ? 'warn'
+    : info
+    ? 'info'
+    : null
+
   return (
     <FieldBlockContext.Provider
       value={{
@@ -129,12 +136,20 @@ function FieldBlock(props: Props) {
         setShowError,
       }}
     >
-      <Div className={cn} {...pickSpacingProps(props)}>
+      <Space
+        element={enableFieldset ? 'fieldset' : 'div'} // use fieldset and legend to enhance a11y
+        className={cn}
+        {...rest}
+      >
         {labelDescription || labelSecondary ? (
-          <div className={classnames('dnb-forms-field-block__label')}>
-            {label || labelDescription ? (
-              <FormLabel for_id={forId} space={{ bottom: 'x-small' }}>
-                {label}
+          <div className="dnb-forms-field-block__label">
+            {legend || label || labelDescription ? (
+              <FormLabel
+                element={enableFieldset ? 'legend' : 'label'}
+                for_id={forId}
+                space={{ bottom: 'x-small' }}
+              >
+                {legend || label}
                 {labelDescription && (
                   <span className="dnb-forms-field-block__label-description">
                     {labelDescription}
@@ -145,15 +160,19 @@ function FieldBlock(props: Props) {
               <>&nbsp;</>
             )}
             {labelSecondary && (
-              <Span className="dnb-forms-field-block__label-secondary">
+              <span className="dnb-forms-field-block__label-secondary">
                 {labelSecondary}
-              </Span>
+              </span>
             )}
           </div>
         ) : (
-          label && (
-            <FormLabel for_id={forId} space={{ bottom: 'x-small' }}>
-              {label}
+          (legend || label) && (
+            <FormLabel
+              element={enableFieldset ? 'legend' : 'label'}
+              for_id={forId}
+              space={{ bottom: 'x-small' }}
+            >
+              {legend || label}
             </FormLabel>
           )
         )}
@@ -169,48 +188,23 @@ function FieldBlock(props: Props) {
           {children}
         </div>
 
-        {(error && (
+        {stateStatus && (
           <div className="dnb-forms-field-block__status">
             <FormStatus
-              state="error"
+              state={stateStatus}
               id={forId ? `${forId}-form-status` : undefined}
-              text={error?.message}
-              label={label}
+              text={
+                error?.message ||
+                (state instanceof Error && state.message) ||
+                (state instanceof FormError && state.message) ||
+                state?.toString()
+              }
+              label={(legend || label) as string}
               space={{ top: 'x-small' }}
             />
           </div>
-        )) ||
-          (warning && (
-            <div className="dnb-forms-field-block__status">
-              <FormStatus
-                state="warn"
-                id={forId ? `${forId}-form-status` : undefined}
-                text={
-                  (warning instanceof Error && warning.message) ||
-                  (warning instanceof FormError && warning.message) ||
-                  warning?.toString()
-                }
-                label={label}
-                space={{ top: 'x-small' }}
-              />
-            </div>
-          )) ||
-          (info && (
-            <div className="dnb-forms-field-block__status">
-              <FormStatus
-                state="info"
-                id={forId ? `${forId}-form-status` : undefined}
-                text={
-                  (info instanceof Error && info.message) ||
-                  (info instanceof FormError && info.message) ||
-                  info?.toString()
-                }
-                label={label}
-                space={{ top: 'x-small' }}
-              />
-            </div>
-          ))}
-      </Div>
+        )}
+      </Space>
     </FieldBlockContext.Provider>
   )
 }

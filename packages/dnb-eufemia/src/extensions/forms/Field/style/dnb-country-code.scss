@@ -1,4 +1,4 @@
-@import '../../variables.scss';
+@import './field-sizes.scss';
 
 .dnb-forms-field-country-code {
   .dnb-autocomplete__inner {
@@ -6,14 +6,14 @@
   }
 
   &--width-small .dnb-autocomplete__inner {
-    --autocomplete-width: #{$forms-field-width-small};
+    --autocomplete-width: #{var(--forms-field-width--small)};
   }
 
   &--width-medium .dnb-autocomplete__inner {
-    --autocomplete-width: #{$forms-field-width-medium};
+    --autocomplete-width: #{var(--forms-field-width--medium)};
   }
 
   &--width-large .dnb-autocomplete__inner {
-    --autocomplete-width: #{$forms-field-width-large};
+    --autocomplete-width: #{var(--forms-field-width--large)};
   }
 }

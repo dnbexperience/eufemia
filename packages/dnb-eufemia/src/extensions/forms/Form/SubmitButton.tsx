@@ -1,11 +1,12 @@
 import React, { useContext } from 'react'
 import classnames from 'classnames'
 import type { ComponentProps } from '../types'
-import { Button } from '../../../components'
 import SharedContext from '../../../shared/Context'
 import Context from '../DataContext/Context'
+import Button, { ButtonProps } from '../../../components/button/Button'
 
 export type Props = ComponentProps &
+  ButtonProps &
   Partial<React.HTMLAttributes<HTMLButtonElement | HTMLAnchorElement>>
 
 function SubmitButton(props: Props) {
@@ -19,10 +20,11 @@ function SubmitButton(props: Props) {
 
   return (
     <Button
-      className={classnames('dnb-forms__submit-button', className)}
+      className={classnames('dnb-forms-submit-button', className)}
       onClick={
         dataContext._isInsideFormElement ? null : dataContext.handleSubmit
       }
+      icon_position="left"
       type="submit"
       {...rest}
     >

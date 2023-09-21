@@ -23,7 +23,7 @@ export default function FormElement({
   return (
     <Space
       element="form"
-      className={classnames('dnb-forms__form', className)}
+      className={classnames('dnb-forms-form', className)}
       onSubmit={onSubmitHandler}
       {...rest}
     >

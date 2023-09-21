@@ -160,7 +160,11 @@ const MainContent = ({ mainRef, ...props }) => (
   <main
     ref={mainRef}
     id="dnb-app-content"
-    className={classnames(mainStyle, 'dnb-no-focus', 'dnb-spacing')}
+    className={classnames(
+      mainStyle,
+      'dnb-no-focus',
+      'dnb-spacing', // used so the portal elements uses their default space
+    )}
     {...props}
   />
 )

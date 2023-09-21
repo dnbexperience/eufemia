@@ -97,7 +97,7 @@ describe('Form.Element', () => {
       </Form.Element>
     )
 
-    const formElement = document.querySelector('.dnb-forms__form')
+    const formElement = document.querySelector('.dnb-forms-form')
 
     expect(formElement.tagName).toBe('FORM')
   })
@@ -113,7 +113,7 @@ describe('Form.Element', () => {
 
     expect(Array.from(formElement.classList)).toEqual([
       'dnb-space',
-      'dnb-forms__form',
+      'dnb-forms-form',
       'custom-class',
     ])
   })

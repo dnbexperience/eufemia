@@ -14,8 +14,9 @@ breadcrumb:
 
 - [Examples](#examples)
 - [Intro](#intro)
+  - [Layout](#layout)
   - [Additional features](#additional-features)
-  - [Value Components](#value-components)
+  - [Value components](#value-components)
   - [Good to know](#good-to-know)
 - [Getting started](#getting-started)
   - [Create your own component – APIs](#create-your-own-component--apis)
@@ -35,11 +36,17 @@ The components constitute flexible building blocks that can be used individually
 
 The goal of the Forms extension is to make it easy to build forms and other data input features in DNB applications built with React.
 
+### Layout
+
+When building your application forms, preferably use the [Layout](/uilib/components/layout) component. It seamlessly places all the fields and components of Eufemia Forms correctly into place.
+
+- [Layout](/uilib/components/layout) for easy to outline and consistent application forms.
+
 ### Additional features
 
 - [Feature fields](/uilib/extensions/forms/feature-fields) such as Email and PhoneNumber.
 - [Extended features](/uilib/extensions/forms/extended-features) such as the main [Form.Handler](/uilib/extensions/forms/extended-features/Form/Handler) and [StepsLayout](/uilib/extensions/forms/extended-features/StepsLayout) for creating stepped forms.
-- [Layout](/uilib/extensions/forms/Layout) to apply default styles for application forms.
+- [Layout](/uilib/components/layout) to apply default styles for application forms.
 
 ### Value components
 
@@ -61,14 +68,6 @@ You can simply use e.g. `Field.Email` without anything more than that:
 import '@dnb/eufemia/extensions/forms/style'
 import { Field } from '@dnb/eufemia/extensions/forms'
 render(<Field.Email />)
-```
-
-Or you may want to just use e.g. `Layout.Row` for your application:
-
-```jsx
-import '@dnb/eufemia/extensions/forms/style'
-import { Layout } from '@dnb/eufemia/extensions/forms'
-render(<Layout.Row>...</Layout.Row>)
 ```
 
 Or save time and code when handling your forms:

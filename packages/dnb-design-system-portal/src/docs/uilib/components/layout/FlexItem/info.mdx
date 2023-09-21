@@ -1,0 +1,29 @@
+---
+showTabs: true
+---
+
+import * as Examples from './Examples'
+
+## Description
+
+`Layout.FlexItem` is a building block for [CSS flexbox](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout) based layout of contents and components. Should be used in combination with [FlexContainer](/uilib/components/layout/FlexContainer/).
+
+### Size adjustment
+
+You can provide a `size` prop with a number from 1 to 12 (can be changed in [FlexContainer](/uilib/components/layout/FlexContainer/) with the `sizeCount` property).
+
+The number will be used to set the item size (a part of the container). It set a percentage unit and apply it on the item via CSS. When the container is tilled to 100%, the remaining items will wrap to a new row.
+
+The number 6 results in 50%, while 12 results in 100%.
+
+<Examples.BasicSize />
+
+### Responsive size
+
+You can also make sizes respond to media queries.
+
+For doing so, provide a `size` prop with an object containing [Media Query](/uilib/usage/layout/media-queries/) types. Each media size should contain number, like mentioned above.
+
+<Examples.ResponsiveSize />
+
+You need to ensure that `flex-wrap: wrap` is set, so the remaining items wrap to a new row when needed. This is enabled by default in the [FlexContainer](/uilib/components/layout/FlexContainer/).

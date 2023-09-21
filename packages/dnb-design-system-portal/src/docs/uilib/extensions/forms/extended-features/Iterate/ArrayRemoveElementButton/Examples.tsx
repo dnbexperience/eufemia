@@ -1,10 +1,6 @@
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
-import {
-  Iterate,
-  Layout,
-  Field,
-  Form,
-} from '@dnb/eufemia/src/extensions/forms'
+import { Iterate, Field, Form } from '@dnb/eufemia/src/extensions/forms'
+import { Layout } from '@dnb/eufemia/src'
 import { trash as TrashIcon } from '@dnb/eufemia/src/icons'
 
 export const PrimitiveElements = () => {
@@ -14,13 +10,13 @@ export const PrimitiveElements = () => {
         value={['One', 'Two', 'Three', 'Four', 'Five']}
         onChange={(value) => console.log('onChange', value)}
       >
-        <Layout.Row align="center">
+        <Layout.Horizontal align="center">
           <Field.String elementPath="/" />
           <Iterate.ArrayRemoveElementButton
             icon={TrashIcon}
             onChange={(value) => console.log('onChange', value)}
           />
-        </Layout.Row>
+        </Layout.Horizontal>
       </Iterate.Array>
     </ComponentBox>
   )
@@ -38,10 +34,10 @@ export const ObjectElements = () => {
         onChange={(value) => console.log('onChange', value)}
       >
         <Iterate.Array path="/">
-          <Layout.Row align="center">
+          <Layout.Horizontal align="center">
             <Field.String elementPath="/name" />
             <Iterate.ArrayRemoveElementButton text="Remove avenger" />
-          </Layout.Row>
+          </Layout.Horizontal>
         </Iterate.Array>
       </Form.Handler>
     </ComponentBox>

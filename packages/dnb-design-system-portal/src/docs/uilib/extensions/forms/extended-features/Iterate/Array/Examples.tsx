@@ -1,10 +1,11 @@
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
+import { Layout } from '@dnb/eufemia/src'
 import {
   Iterate,
-  Layout,
   Field,
   Value,
   Form,
+  FieldBlock,
 } from '@dnb/eufemia/src/extensions/forms'
 import { trash as TrashIcon } from '@dnb/eufemia/src/icons'
 
@@ -42,10 +43,10 @@ export const ObjectElements = () => {
         <h3>
           <Value.String elementPath="/nickname" />
         </h3>
-        <Layout.Row>
+        <Layout.Horizontal>
           <Field.BankAccountNumber elementPath="/accountNumber" />
           <Field.String label="Account name" elementPath="/accountName" />
-        </Layout.Row>
+        </Layout.Horizontal>
       </Iterate.Array>
     </ComponentBox>
   )
@@ -67,7 +68,7 @@ export const RenderPropsPrimitiveElements = () => {
 
 export const RenderPropsObjectElements = () => {
   return (
-    <ComponentBox scope={{ Iterate, Layout, Field }}>
+    <ComponentBox scope={{ Iterate, Layout, Field, FieldBlock }}>
       <Iterate.Array
         label="Array label"
         value={[
@@ -79,10 +80,10 @@ export const RenderPropsObjectElements = () => {
         onChange={(value) => console.log('onChange', value)}
       >
         {({ num, txt }) => (
-          <Layout.Row width="large">
+          <FieldBlock width="large">
             <Field.Number value={num} width="small" />
             <Field.String value={txt} width={false} />
-          </Layout.Row>
+          </FieldBlock>
         )}
       </Iterate.Array>
     </ComponentBox>
@@ -124,7 +125,7 @@ export const ArrayFromFormHandler = () => {
             <Value.String elementPath="/nickname" />
           </Layout.SubHeading>
 
-          <Layout.Row align="center">
+          <Layout.Horizontal align="center">
             <Field.String
               elementPath="/firstName"
               width="medium"
@@ -141,7 +142,7 @@ export const ArrayFromFormHandler = () => {
               width="small"
             />
             <Iterate.ArrayRemoveElementButton icon={TrashIcon} />
-          </Layout.Row>
+          </Layout.Horizontal>
 
           <Field.String path="/alwaysThere" top="x-small" />
         </Iterate.Array>

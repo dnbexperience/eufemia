@@ -12,7 +12,7 @@ import {
 import { SpacingProps } from '../../components/space/types'
 import { SkeletonShow } from '../../components/skeleton/Skeleton'
 import classnames from 'classnames'
-import { DynamicElement } from '../../shared/types'
+import type { DynamicElement } from '../../shared/types'
 
 export type ImgProps = SpacingProps &
   React.HTMLProps<HTMLImageElement> & {

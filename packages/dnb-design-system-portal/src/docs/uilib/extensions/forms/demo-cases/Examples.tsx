@@ -1,9 +1,8 @@
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
-import { GlobalStatus, Section, Code } from '@dnb/eufemia/src'
+import { GlobalStatus, Section, Code, Layout } from '@dnb/eufemia/src'
 import * as React from 'react'
 import {
   Form,
-  Layout,
   StepsLayout,
   Field,
   Value,
@@ -15,7 +14,6 @@ export const BecomeCorporateCustomer = () => {
       scope={{
         Form,
         Code,
-        Layout,
         StepsLayout,
         Field,
         Value,
@@ -33,7 +31,7 @@ export const BecomeCorporateCustomer = () => {
                 onChange={setData}
                 onSubmit={(data) => console.log('onSubmit', data)}
               >
-                <StepsLayout top>
+                <StepsLayout top scrollTopOnStepChange>
                   <StepsLayout.Step title="Bedriftsopplysninger">
                     <Layout.MainHeading>
                       Bedriftsopplysninger
@@ -106,9 +104,9 @@ export const BecomeCorporateCustomer = () => {
                       />
                     </Layout.Card>
 
-                    <Layout.ButtonRow>
+                    <Form.ButtonRow>
                       <StepsLayout.NextButton />
-                    </Layout.ButtonRow>
+                    </Form.ButtonRow>
                   </StepsLayout.Step>
 
                   <StepsLayout.Step title="Kontaktperson">
@@ -124,10 +122,10 @@ export const BecomeCorporateCustomer = () => {
                       <Field.PhoneNumber path="/phone" />
                     </Layout.Card>
 
-                    <Layout.ButtonRow>
+                    <Form.ButtonRow>
                       <StepsLayout.PreviousButton />
                       <StepsLayout.NextButton />
-                    </Layout.ButtonRow>
+                    </Form.ButtonRow>
                   </StepsLayout.Step>
 
                   <StepsLayout.Step title="Bedriftens virksomhet">
@@ -158,7 +156,7 @@ export const BecomeCorporateCustomer = () => {
                     <Layout.MainHeading>Profile</Layout.MainHeading>
 
                     <Layout.Card stack>
-                      <Layout.FlexContainer direction="row">
+                      <Layout.FlexContainer>
                         <Value.String path="/firstName" />
                         <Value.String path="/lastName" />
                       </Layout.FlexContainer>
@@ -168,10 +166,10 @@ export const BecomeCorporateCustomer = () => {
                       <Value.PhoneNumber path="/phone" />
                     </Layout.Card>
 
-                    <Layout.ButtonRow>
+                    <Form.ButtonRow>
                       <StepsLayout.PreviousButton />
                       <Form.SubmitButton />
-                    </Layout.ButtonRow>
+                    </Form.ButtonRow>
                   </StepsLayout.Step>
 
                   <StepsLayout.Step title="Kvittering">

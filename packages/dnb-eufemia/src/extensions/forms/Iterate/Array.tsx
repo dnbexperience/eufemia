@@ -1,14 +1,14 @@
 import React, { useMemo, useCallback } from 'react'
-import FlexContainer, {
-  Props as FlexContainerProps,
-  pickFlexContainerProps,
-} from '../Layout/FlexContainer'
 import classnames from 'classnames'
 import pointer from 'json-pointer'
 import IterateElementContext from './IterateElementContext'
-import FieldBlock from '../FieldBlock'
+import FieldBlock, { Props as FieldBlockProps } from '../FieldBlock'
 import { useDataValue } from '../hooks'
 import { FieldProps, FieldHelpProps, pickSpacingProps } from '../types'
+import FlexContainer, {
+  Props as FlexContainerProps,
+  pickFlexContainerProps,
+} from '../../../components/layout/FlexContainer'
 
 interface ErrorMessages {
   required?: string
@@ -17,6 +17,7 @@ interface ErrorMessages {
 
 export type Props = FieldHelpProps &
   FieldProps<unknown[], undefined, ErrorMessages> &
+  Omit<FieldBlockProps, 'children'> &
   Omit<FlexContainerProps, 'children'> & {
     children:
       | React.ReactNode
@@ -83,14 +84,14 @@ function ArrayComponent(props: Props) {
       info={info}
       warning={warning}
       error={error}
+      width={width}
       contentsWidth={width !== false ? width : undefined}
       {...pickSpacingProps(props)}
     >
       <FlexContainer
         {...pickFlexContainerProps(
           props as Props & { children: React.ReactNode },
-          { spacing: 'small' },
-          ['width']
+          { spacing: 'small' }
         )}
       >
         {arrayValue === emptyValue ? (

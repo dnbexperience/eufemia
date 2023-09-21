@@ -1,7 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
-import { ComponentProps, pickSpacingProps } from '../types'
-import ButtonRow from '../Layout/ButtonRow'
+import { ComponentProps } from '../types'
+import ButtonRow from '../Form/ButtonRow'
 import NextButton from './NextButton'
 import PreviousButton from './PreviousButton'
 
@@ -14,7 +14,7 @@ function Buttons(props: Props) {
   return (
     <ButtonRow
       className={classnames('dnb-forms-buttons', className)}
-      {...pickSpacingProps(props)}
+      {...props}
     >
       <PreviousButton />
       <NextButton />

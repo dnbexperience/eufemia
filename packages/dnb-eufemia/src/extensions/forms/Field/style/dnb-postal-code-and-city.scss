@@ -1,4 +1,4 @@
-@import '../../variables.scss';
+@import './field-sizes.scss';
 
 .dnb-forms-field-postal-code-and-city {
   &__fields {
@@ -7,16 +7,16 @@
     column-gap: var(--spacing-small);
   }
 
-  &--width-small {
-    width: $forms-field-width-small;
-  }
-
-  &--width-medium {
-    width: $forms-field-width-medium;
-  }
-
-  &--width-large {
-    width: $forms-field-width-large;
+  &--width {
+    &-small {
+      width: var(--forms-field-width--small);
+    }
+    &-medium {
+      width: var(--forms-field-width--medium);
+    }
+    &-large {
+      width: var(--forms-field-width--large);
+    }
   }
 
   &__postal-code {
