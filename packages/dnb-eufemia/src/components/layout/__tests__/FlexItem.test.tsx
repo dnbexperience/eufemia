@@ -115,6 +115,28 @@ describe('Layout.FlexItem', () => {
       )
     })
 
+    it('should unset size when null is given', () => {
+      render(
+        <FlexContainer>
+          <FlexItem size="auto">FlexItem</FlexItem>
+          <FlexItem size={{ small: 4, large: 'auto' }}>FlexItem</FlexItem>
+        </FlexContainer>
+      )
+
+      expect(getFlexItem(0).getAttribute('style')).toBe(
+        '--size--default: auto;'
+      )
+      expect(getFlexItem(1).getAttribute('style')).toBe(
+        '--small: 4; --large: auto;'
+      )
+
+      const element = document.querySelector('.dnb-layout-flex-item')
+
+      expect(element.classList).toContain(
+        'dnb-layout-flex-item--responsive'
+      )
+    })
+
     it('should set style attribute based on sizes', () => {
       const { rerender } = render(
         <FlexContainer>
@@ -172,8 +194,8 @@ describe('Layout.FlexItem', () => {
       )
 
       expect(getSpacingClasses()).toEqual([
-        ['dnb-space__left--zero', 'dnb-space__right--zero'],
-        ['dnb-space__left--small', 'dnb-space__right--zero'],
+        ['dnb-space__left--zero', 'dnb-space__right--small'],
+        ['dnb-space__left--zero', 'dnb-space__right--small'],
       ])
 
       rerender(
@@ -184,8 +206,8 @@ describe('Layout.FlexItem', () => {
       )
 
       expect(getSpacingClasses()).toEqual([
-        ['dnb-space__left--zero', 'dnb-space__right--zero'],
-        ['dnb-space__left--zero', 'dnb-space__right--zero'],
+        ['dnb-space__left--zero', 'dnb-space__right--small'],
+        ['dnb-space__left--zero', 'dnb-space__right--small'],
       ])
     })
 
@@ -204,8 +226,8 @@ describe('Layout.FlexItem', () => {
         'dnb-layout-flex-container--has-size'
       )
       expect(getSpacingClasses()).toEqual([
-        ['dnb-space__left--small', 'dnb-space__right--zero'],
-        ['dnb-space__left--small', 'dnb-space__right--zero'],
+        ['dnb-space__left--zero', 'dnb-space__right--small'],
+        ['dnb-space__left--zero', 'dnb-space__right--small'],
       ])
 
       rerender(
@@ -224,7 +246,7 @@ describe('Layout.FlexItem', () => {
         'dnb-layout-flex-container--has-size'
       )
       expect(getSpacingClasses()).toEqual([
-        ['dnb-space__left--small', 'dnb-space__right--zero'],
+        ['dnb-space__left--small', 'dnb-space__right--small'],
         ['dnb-space__left--large', 'dnb-space__right--medium'],
       ])
     })
@@ -271,7 +293,7 @@ describe('Layout.FlexItem', () => {
       expect(getSpacingClasses()).toEqual([
         ['dnb-space__left--zero', 'dnb-space__right--large'],
         ['dnb-space__left--x-large', 'dnb-space__right--large'],
-        ['dnb-space__left--large', 'dnb-space__right--zero'],
+        ['dnb-space__left--zero', 'dnb-space__right--large'],
       ])
 
       rerender(
@@ -344,8 +366,8 @@ describe('Layout.FlexItem', () => {
       )
 
       expect(getSpacingClasses()).toEqual([
-        ['dnb-space__left--zero', 'dnb-space__right--zero'],
-        ['dnb-space__left--large', 'dnb-space__right--zero'],
+        ['dnb-space__left--zero', 'dnb-space__right--large'],
+        ['dnb-space__left--zero', 'dnb-space__right--large'],
       ])
 
       rerender(
@@ -356,8 +378,8 @@ describe('Layout.FlexItem', () => {
       )
 
       expect(getSpacingClasses()).toEqual([
-        ['dnb-space__left--zero', 'dnb-space__right--zero'],
-        ['dnb-space__left--zero', 'dnb-space__right--zero'],
+        ['dnb-space__left--zero', 'dnb-space__right--small'],
+        ['dnb-space__left--zero', 'dnb-space__right--small'],
       ])
     })
 
@@ -373,9 +395,9 @@ describe('Layout.FlexItem', () => {
       )
 
       expect(getSpacingClasses()).toEqual([
-        ['dnb-space__left--zero', 'dnb-space__right--zero'],
-        ['dnb-space__left--small', 'dnb-space__right--zero'],
-        ['dnb-space__left--zero', 'dnb-space__right--zero'],
+        ['dnb-space__left--zero', 'dnb-space__right--small'],
+        ['dnb-space__left--zero', 'dnb-space__right--small'],
+        ['dnb-space__left--zero', 'dnb-space__right--small'],
       ])
 
       act(() => {
@@ -383,9 +405,9 @@ describe('Layout.FlexItem', () => {
       })
 
       expect(getSpacingClasses()).toEqual([
-        ['dnb-space__left--zero', 'dnb-space__right--zero'],
-        ['dnb-space__left--zero', 'dnb-space__right--zero'],
-        ['dnb-space__left--small', 'dnb-space__right--zero'],
+        ['dnb-space__left--zero', 'dnb-space__right--small'],
+        ['dnb-space__left--zero', 'dnb-space__right--small'],
+        ['dnb-space__left--zero', 'dnb-space__right--small'],
       ])
     })
 
@@ -401,9 +423,9 @@ describe('Layout.FlexItem', () => {
       )
 
       expect(getSpacingClasses()).toEqual([
-        ['dnb-space__left--zero', 'dnb-space__right--zero'],
-        ['dnb-space__left--small', 'dnb-space__right--zero'],
-        ['dnb-space__left--zero', 'dnb-space__right--zero'],
+        ['dnb-space__left--zero', 'dnb-space__right--small'],
+        ['dnb-space__left--zero', 'dnb-space__right--small'],
+        ['dnb-space__left--zero', 'dnb-space__right--small'],
       ])
 
       act(() => {
@@ -411,9 +433,9 @@ describe('Layout.FlexItem', () => {
       })
 
       expect(getSpacingClasses()).toEqual([
-        ['dnb-space__left--zero', 'dnb-space__right--zero'],
-        ['dnb-space__left--zero', 'dnb-space__right--zero'],
-        ['dnb-space__left--small', 'dnb-space__right--zero'],
+        ['dnb-space__left--zero', 'dnb-space__right--small'],
+        ['dnb-space__left--zero', 'dnb-space__right--small'],
+        ['dnb-space__left--zero', 'dnb-space__right--small'],
       ])
     })
   })

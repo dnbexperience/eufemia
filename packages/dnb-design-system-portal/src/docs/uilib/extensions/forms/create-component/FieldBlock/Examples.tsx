@@ -50,7 +50,10 @@ export const HorizontalWithInfo = () => {
 
 export const Widths = () => {
   return (
-    <ComponentBox scope={{ FieldBlock, TestElement }}>
+    <ComponentBox
+      scope={{ FieldBlock, TestElement }}
+      data-visual-test="forms-field-block-widths"
+    >
       <FieldBlock label="Default width (no width props)">
         <TestElement>Input feature</TestElement>
       </FieldBlock>

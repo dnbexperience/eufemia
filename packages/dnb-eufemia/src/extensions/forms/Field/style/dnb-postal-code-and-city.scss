@@ -7,16 +7,16 @@
     column-gap: var(--spacing-small);
   }
 
-  &--width-small {
-    width: var(--forms-field-width--small);
-  }
-
-  &--width-medium {
-    width: var(--forms-field-width--medium);
-  }
-
-  &--width-large {
-    width: var(--forms-field-width--large);
+  &--width {
+    &-small {
+      width: var(--forms-field-width--small);
+    }
+    &-medium {
+      width: var(--forms-field-width--medium);
+    }
+    &-large {
+      width: var(--forms-field-width--large);
+    }
   }
 
   &__postal-code {

@@ -1,9 +1,11 @@
+import React from 'react'
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
 import { Layout } from '@dnb/eufemia/src'
 import { TestElement, Field } from '@dnb/eufemia/src/extensions/forms'
 import {
   HorizontalFlexItemResponsiveSize,
   HorizontalFlexItemResponsiveSizeCustomColumns,
+  HorizontalAutoSize,
 } from '../Examples'
 
 export const Default = () => {
@@ -47,7 +49,7 @@ export const ResponsiveSize = () => {
   )
 }
 
+export const AutoSize = HorizontalAutoSize
 export const BasicSizeExample = HorizontalFlexItemResponsiveSize
-
 export const AdvancedSizeExample =
   HorizontalFlexItemResponsiveSizeCustomColumns

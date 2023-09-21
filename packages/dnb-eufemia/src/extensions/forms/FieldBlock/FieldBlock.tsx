@@ -15,6 +15,7 @@ export type Props = Pick<
   | 'warning'
   | 'error'
 > & {
+  legend?: React.ReactNode
   forId?: string
   contentClassName?: string
   children: React.ReactNode
@@ -31,6 +32,7 @@ function FieldBlock(props: Props) {
     className,
     forId,
     layout = 'vertical',
+    legend,
     label,
     labelDescription,
     labelSecondary,
@@ -117,6 +119,16 @@ function FieldBlock(props: Props) {
     className
   )
 
+  const enableFieldset = legend
+  const state = error || warning || info
+  const stateStatus = error
+    ? 'error'
+    : warning
+    ? 'warn'
+    : info
+    ? 'info'
+    : null
+
   return (
     <FieldBlockContext.Provider
       value={{
@@ -124,12 +136,20 @@ function FieldBlock(props: Props) {
         setShowError,
       }}
     >
-      <Space className={cn} {...rest}>
+      <Space
+        element={enableFieldset ? 'fieldset' : 'div'} // use fieldset and legend to enhance a11y
+        className={cn}
+        {...rest}
+      >
         {labelDescription || labelSecondary ? (
           <div className="dnb-forms-field-block__label">
-            {label || labelDescription ? (
-              <FormLabel for_id={forId} space={{ bottom: 'x-small' }}>
-                {label}
+            {legend || label || labelDescription ? (
+              <FormLabel
+                element={enableFieldset ? 'legend' : 'label'}
+                for_id={forId}
+                space={{ bottom: 'x-small' }}
+              >
+                {legend || label}
                 {labelDescription && (
                   <span className="dnb-forms-field-block__label-description">
                     {labelDescription}
@@ -146,9 +166,13 @@ function FieldBlock(props: Props) {
             )}
           </div>
         ) : (
-          label && (
-            <FormLabel for_id={forId} space={{ bottom: 'x-small' }}>
-              {label}
+          (legend || label) && (
+            <FormLabel
+              element={enableFieldset ? 'legend' : 'label'}
+              for_id={forId}
+              space={{ bottom: 'x-small' }}
+            >
+              {legend || label}
             </FormLabel>
           )
         )}
@@ -164,47 +188,22 @@ function FieldBlock(props: Props) {
           {children}
         </div>
 
-        {(error && (
+        {stateStatus && (
           <div className="dnb-forms-field-block__status">
             <FormStatus
-              state="error"
+              state={stateStatus}
               id={forId ? `${forId}-form-status` : undefined}
-              text={error?.message}
-              label={label}
+              text={
+                error?.message ||
+                (state instanceof Error && state.message) ||
+                (state instanceof FormError && state.message) ||
+                state?.toString()
+              }
+              label={(legend || label) as string}
               space={{ top: 'x-small' }}
             />
           </div>
-        )) ||
-          (warning && (
-            <div className="dnb-forms-field-block__status">
-              <FormStatus
-                state="warn"
-                id={forId ? `${forId}-form-status` : undefined}
-                text={
-                  (warning instanceof Error && warning.message) ||
-                  (warning instanceof FormError && warning.message) ||
-                  warning?.toString()
-                }
-                label={label}
-                space={{ top: 'x-small' }}
-              />
-            </div>
-          )) ||
-          (info && (
-            <div className="dnb-forms-field-block__status">
-              <FormStatus
-                state="info"
-                id={forId ? `${forId}-form-status` : undefined}
-                text={
-                  (info instanceof Error && info.message) ||
-                  (info instanceof FormError && info.message) ||
-                  info?.toString()
-                }
-                label={label}
-                space={{ top: 'x-small' }}
-              />
-            </div>
-          ))}
+        )}
       </Space>
     </FieldBlockContext.Provider>
   )

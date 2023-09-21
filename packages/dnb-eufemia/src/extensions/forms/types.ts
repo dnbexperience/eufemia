@@ -167,11 +167,11 @@ export interface FieldProps<
   id?: string
   layout?: 'horizontal' | 'vertical'
   /** Main label text */
-  label?: string
+  label?: React.ReactNode
   /** A more discreet text displayed beside the label (i.e for "(optional)") */
-  labelDescription?: string
+  labelDescription?: React.ReactNode
   /** Secondary information displayed at the end of the label line (i.e character counter) */
-  labelSecondary?: string
+  labelSecondary?: React.ReactNode
   /** Text showing in place of the value if no value is given */
   placeholder?: string
   info?: Error | FormError | string

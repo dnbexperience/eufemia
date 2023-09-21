@@ -31,7 +31,7 @@ export const BecomeCorporateCustomer = () => {
                 onChange={setData}
                 onSubmit={(data) => console.log('onSubmit', data)}
               >
-                <StepsLayout top>
+                <StepsLayout top scrollTopOnStepChange>
                   <StepsLayout.Step title="Bedriftsopplysninger">
                     <Layout.MainHeading>
                       Bedriftsopplysninger

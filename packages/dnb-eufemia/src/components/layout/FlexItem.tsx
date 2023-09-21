@@ -8,22 +8,34 @@ import {
   pickSpacingProps,
 } from '../../extensions/forms/types'
 
-export type Columns = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12
 export type Sizes =
-  | {
-      xsmall?: Columns
-      small?: Columns
-      medium?: Columns
-      large?: Columns
-    }
-  | number
+  | 1
+  | 2
+  | 3
+  | 4
+  | 5
+  | 6
+  | 7
+  | 8
+  | 9
+  | 10
+  | 11
+  | 12
+  | 'auto'
+type MediaSizes = {
+  xsmall?: Sizes
+  small?: Sizes
+  medium?: Sizes
+  large?: Sizes
+}
+export type Size = MediaSizes | Sizes
 
 export type Props = ComponentProps & {
   element?: DynamicElement
   grow?: boolean
   shrink?: boolean
   alignSelf?: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch'
-  size?: Sizes
+  size?: Size
   style?: React.CSSProperties
   children: React.ReactNode
 }
@@ -50,21 +62,27 @@ function FlexItem(props: Props) {
     className
   )
 
-  const styleObj = { ...style } as React.CSSProperties
+  const spaceStyles = {} as React.CSSProperties
+
   if (size) {
-    if (typeof size === 'number') {
-      styleObj['--size--default'] = size
+    if (isValidSize(size as Sizes)) {
+      spaceStyles['--size--default'] = size
     } else {
-      for (const key in size) {
-        styleObj[`--${key}`] = size[key]
+      const sizes = size as MediaSizes
+      for (const key in sizes) {
+        if (isValidSize(size[key])) {
+          spaceStyles[`--${key}`] = size[key]
+        }
       }
     }
+  }
 
+  if (Object.keys(spaceStyles).length) {
     return (
       <Space
         element={element}
         className={cn}
-        style={styleObj}
+        style={{ ...spaceStyles, ...style }}
         {...omitSpacingProps(rest)}
       >
         <Space
@@ -78,10 +96,14 @@ function FlexItem(props: Props) {
   }
 
   return (
-    <Space element={element} className={cn} style={styleObj} {...rest}>
+    <Space element={element} className={cn} {...rest}>
       {children}
     </Space>
   )
+
+  function isValidSize(size: Sizes) {
+    return typeof size === 'number' || size === 'auto'
+  }
 }
 
 FlexItem._supportsEufemiaSpacingProps = true

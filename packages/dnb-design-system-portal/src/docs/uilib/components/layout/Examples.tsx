@@ -1,6 +1,10 @@
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { Layout } from '@dnb/eufemia/src'
-import { TestElement, Field } from '@dnb/eufemia/src/extensions/forms'
+import { Layout, Slider } from '@dnb/eufemia/src'
+import {
+  TestElement,
+  Field,
+  FieldBlock,
+} from '@dnb/eufemia/src/extensions/forms'
 import { defaultBreakpoints } from '@dnb/eufemia/src/shared/MediaQueryUtils'
 import { defaultQueries } from '@dnb/eufemia/src/shared/useMedia'
 import styled from '@emotion/styled'
@@ -130,6 +134,53 @@ export const HorizontalFlexItemResponsiveSizeCustomColumns = () => {
           </CustomMediaQuery>
         )
       }}
+    </ComponentBox>
+  )
+}
+
+export const HorizontalAutoSize = () => {
+  return (
+    <ComponentBox
+      scope={{
+        Field,
+        FieldBlock,
+      }}
+      hideCode
+    >
+      <FieldBlock label="Label">
+        <Layout.FlexContainer>
+          <Layout.FlexItem size={{ small: 12, large: 'auto' }}>
+            <Field.String
+              path="/firstName"
+              label="First name"
+              width="medium"
+              minLength={2}
+            />
+          </Layout.FlexItem>
+          <Layout.FlexItem size={{ small: 12, large: 'auto' }}>
+            <Field.String
+              path="/lastName"
+              label="Last name"
+              width="medium"
+              required
+            />
+          </Layout.FlexItem>
+          <Layout.FlexItem size={{ small: 12, large: 'auto' }}>
+            <FieldBlock width="large">
+              <Slider
+                min={1900}
+                max={new Date().getFullYear()}
+                step={1}
+                value={2010}
+                label="Birth year"
+                label_direction="vertical"
+                tooltip
+                alwaysShowTooltip
+              />
+            </FieldBlock>
+          </Layout.FlexItem>
+        </Layout.FlexContainer>
+      </FieldBlock>
     </ComponentBox>
   )
 }

@@ -1,9 +1,11 @@
 .dnb-layout-flex-container {
   display: flex;
+  row-gap: var(--gap, 0);
 
   &--direction {
     &-horizontal {
       flex-direction: row;
+      margin-right: calc(var(--gap) * -1);
     }
 
     &-vertical {
@@ -85,14 +87,19 @@
   &--wrap {
     flex-wrap: wrap;
   }
-  &--wrap#{&}--has-size {
-    row-gap: var(--spacing-small);
+
+  &--row-gap-small,
+  &--has-size#{&}--spacing-small,
+  &--wrap#{&}--direction-horizontal {
+    --gap: var(--spacing-small);
   }
-  &--wrap#{&}--has-size#{&}--spacing-medium {
-    row-gap: var(--spacing-medium);
+  &--row-gap-medium,
+  &--has-size#{&}--spacing-medium {
+    --gap: var(--spacing-medium);
   }
-  &--wrap#{&}--has-size#{&}--spacing-large {
-    row-gap: var(--spacing-large);
+  &--row-gap-large,
+  &--has-size#{&}--spacing-large {
+    --gap: var(--spacing-large);
   }
 
   .dnb-hr {
