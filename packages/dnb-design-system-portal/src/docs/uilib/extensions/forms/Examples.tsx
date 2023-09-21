@@ -97,7 +97,7 @@ export const CreateComposedFieldComponent = () => {
           )
 
           return (
-            <FieldBlock legend={props.label ?? 'Name and age'}>
+            <FieldBlock label={props.label ?? 'Name and age'}>
               <Layout.Horizontal>
                 <Field.String
                   path="/firstName"
