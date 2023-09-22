@@ -27,6 +27,8 @@ on:
   pull_request:
     branches:
       - 'dependabot/**'
+      - 'main'
+    types: [opened]
   schedule:
     - cron: '44 3 * * 5'
 

@@ -12,6 +12,10 @@ on:
       - '!portal'
       - '!beta'
       - '!alpha'
+  pull_request:
+    branches:
+      - 'main'
+    types: [opened]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
