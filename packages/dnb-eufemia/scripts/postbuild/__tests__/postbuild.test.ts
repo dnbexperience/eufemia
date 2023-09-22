@@ -86,7 +86,7 @@ describe('type definitions', () => {
       expect(fs.existsSync(dtsFile)).toBe(true)
 
       const content = fs.readFileSync(dtsFile, 'utf-8')
-      expect(content).toContain('export interface BreadcrumbProps')
+      expect(content).toContain('export type BreadcrumbProps')
     }
   )
 })

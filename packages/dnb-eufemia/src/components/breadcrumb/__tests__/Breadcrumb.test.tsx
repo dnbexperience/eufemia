@@ -259,6 +259,26 @@ describe('Breadcrumb', () => {
       expect(screen.queryByRole('button')).toBeDefined()
     })
 
+    it('will use given element', () => {
+      const CustomElement = React.forwardRef((props, ref) => {
+        return (
+          <span
+            {...props}
+            ref={ref as React.RefObject<HTMLAnchorElement>}
+            className="custom-element"
+          />
+        )
+      })
+
+      render(
+        <BreadcrumbItem element={CustomElement} text="Page" href="/" />
+      )
+
+      expect(
+        document.querySelector('span.custom-element')
+      ).toBeInTheDocument()
+    })
+
     it('fires onClick event', () => {
       const onClick = jest.fn()
       render(<BreadcrumbItem onClick={onClick} text="Page" />)

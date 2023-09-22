@@ -26,7 +26,7 @@ import {
 } from '../../shared/component-helper'
 import { BreadcrumbMultiple } from './BreadcrumbMultiple'
 
-export interface BreadcrumbProps {
+export type BreadcrumbProps = {
   /**
    * Custom className on the component root
    * Default: null
