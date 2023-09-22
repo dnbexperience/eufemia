@@ -11,6 +11,7 @@ import {
 } from '@dnb/eufemia/src/components/Anchor'
 import { GatsbyLinkProps, Link as GatsbyLink } from 'gatsby'
 import { ElementIsType } from '@dnb/eufemia/src/elements/Element'
+import { startPageTransition } from './Transition'
 
 export type AnchorProps = Props &
   Omit<
@@ -22,7 +23,7 @@ export type AnchorProps = Props &
   >
 
 const PortalLink = React.forwardRef(function Link<TState>(
-  { href, ...props }: AnchorProps,
+  { href, onClick = null, ...props }: AnchorProps,
   ref,
 ) {
   return (
@@ -30,8 +31,16 @@ const PortalLink = React.forwardRef(function Link<TState>(
       to={href}
       ref={ref}
       {...(props as Omit<GatsbyLinkProps<TState>, 'ref' | 'onClick'>)}
+      onClick={clickHandler}
     />
   )
+
+  function clickHandler(event: React.MouseEvent<HTMLAnchorElement>) {
+    startPageTransition()
+    if (onClick) {
+      onClick(event)
+    }
+  }
 })
 
 export { PortalLink as Link }

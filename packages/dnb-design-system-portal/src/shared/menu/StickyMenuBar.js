@@ -25,6 +25,7 @@ import {
   portalHeaderWrapperStyle,
   hideSidebarToggleButtonStyle,
 } from './StickyMenuBar.module.scss'
+import { Link } from '../tags/Anchor'
 
 export default function StickyMenuBar({
   hideSidebarToggleButton,
@@ -66,6 +67,7 @@ export default function StickyMenuBar({
           text="Home"
           title="Eufemia main sections"
           href="/"
+          element={Link}
           icon="chevron_left"
           icon_position="left"
         />

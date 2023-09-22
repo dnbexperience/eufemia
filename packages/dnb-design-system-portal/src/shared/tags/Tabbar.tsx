@@ -4,7 +4,6 @@
  */
 
 import React from 'react'
-import { navigate } from 'gatsby'
 import { Button, Tabs } from '@dnb/eufemia/src/components'
 import { fullscreen as fullscreenIcon } from '@dnb/eufemia/src/icons'
 import AutoLinkHeader from './AutoLinkHeader'
@@ -42,33 +41,29 @@ export default function Tabbar({
     /fullscreen/.test(location.search),
   )
 
-  const openFullscreen = () => {
-    setFullscreen(true)
-
-    const path = [
-      location.pathname,
-      location.search ? location.search + '&' : '?',
-      'fullscreen',
-      location.hash,
-    ].join('')
-
-    navigate(path)
-  }
-
   const cleanFullscreen = (s) =>
     s.replace(/\?fullscreen$|&fullscreen|fullscreen|\?$/, '')
 
+  const openFullscreen = () => {
+    setFullscreen(true)
+  }
+
   const quitFullscreen = () => {
     setFullscreen(false)
-
-    const path = [
-      location.pathname,
-      cleanFullscreen(location.search),
-      location.hash,
-    ].join('')
-
-    navigate(path)
   }
+
+  const fullscreenPath = [
+    location.pathname,
+    location.search ? location.search + '&' : '?',
+    'fullscreen',
+    location.hash,
+  ].join('')
+
+  const quitFullscreenPath = [
+    location.pathname,
+    cleanFullscreen(location.search),
+    location.hash,
+  ].join('')
 
   const preparedTabs = React.useMemo(() => {
     return (
@@ -118,9 +113,6 @@ export default function Tabbar({
         tab_element={Link}
         data={preparedTabs}
         selected_key={selectedKey}
-        on_change={({ selected_key }) => {
-          navigate(selected_key)
-        }}
         render={({ Wrapper, Content, TabsList, Tabs }) => {
           return (
             <Wrapper className={tabsWrapperStyle}>
@@ -129,6 +121,8 @@ export default function Tabbar({
                 {wasFullscreen ? (
                   <Button
                     on_click={quitFullscreen}
+                    href={quitFullscreenPath}
+                    element={Link}
                     variant="secondary"
                     title="Quit Fullscreen"
                     icon="close"
@@ -137,6 +131,8 @@ export default function Tabbar({
                 ) : (
                   <Button
                     on_click={openFullscreen}
+                    href={fullscreenPath}
+                    element={Link}
                     variant="secondary"
                     title="Fullscreen"
                     icon={fullscreenIcon}
