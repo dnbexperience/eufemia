@@ -72,6 +72,14 @@ export const drawerListPropTypes = {
       PropTypes.oneOfType([
         PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
         PropTypes.shape({
+          selectedKey: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number,
+          ]),
+          selected_key: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number,
+          ]),
           selected_value: PropTypes.oneOfType([
             PropTypes.string,
             PropTypes.node,
@@ -274,11 +282,11 @@ export const normalizeData = (props) => {
 
   if (data && typeof data === 'object' && !Array.isArray(data)) {
     const list = []
-    for (let i in data) {
+    for (const key in data) {
       list.push({
-        selected_key: i,
-        value: i,
-        content: data[i],
+        selected_key: key,
+        value: key,
+        content: data[key],
         type: 'object',
       })
     }
@@ -308,16 +316,36 @@ export const getData = (props) => {
 }
 
 export const getCurrentIndex = (value, data) => {
-  // if a key is given as a not numeric value
+  // 1. if a non-numeric value is given
   if (/[^0-9]/.test(String(value))) {
     return data?.findIndex((cur) => parseCurrentValue(cur) === value)
   }
-  // is numeric
-  else if (parseFloat(value) > -1) {
+  // 2. if "selectedKey" is given in data, we now handle it as a value, and not an index.
+  else if (selectedKeyExists()) {
+    return data?.findIndex(
+      (cur) => String(parseCurrentValue(cur)) === String(value)
+    )
+  }
+  // 3. if is numeric, handle it as a index.
+  else if (!isNaN(parseFloat(value))) {
     return value
   }
 
   return null
+
+  function selectedKeyExists() {
+    for (let i = 0, l = data?.length; i < l; i++) {
+      if (i > 10) {
+        return false
+      }
+      if (
+        typeof data[i]?.selectedKey !== 'undefined' ||
+        data[i]?.type === 'object'
+      ) {
+        return true
+      }
+    }
+  }
 }
 
 export const getSelectedItemValue = (value, state) => {
@@ -331,6 +359,9 @@ export const getSelectedItemValue = (value, state) => {
 }
 
 export const parseCurrentValue = (current) => {
+  if (typeof current?.selectedKey !== 'undefined') {
+    return current?.selectedKey
+  }
   if (typeof current?.selected_key !== 'undefined') {
     return current?.selected_key
   }

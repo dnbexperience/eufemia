@@ -18,6 +18,19 @@ describe('Selection', () => {
       expect(screen.queryByText('Fooo')).not.toBeInTheDocument()
     })
 
+    it('renders selected option', () => {
+      render(
+        <Field.Selection value="20">
+          <Field.Option value="10" title="Ten" />
+          <Field.Option value="20" title="Twenty" />
+          <Field.Option value="30" title="Thirty" />
+        </Field.Selection>
+      )
+      expect(screen.getByText('Twenty')).toBeInTheDocument()
+      expect(screen.queryByText('Ten')).not.toBeInTheDocument()
+      expect(screen.queryByText('Thirty')).not.toBeInTheDocument()
+    })
+
     it('should change option based on external value change', async () => {
       const { rerender } = render(
         <Field.Selection value="bar">
