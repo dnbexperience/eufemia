@@ -101,6 +101,7 @@ describe('Selection', () => {
       expect(onChange.mock.calls).toHaveLength(2)
       expect(onChange.mock.calls[1][0]).toEqual(undefined)
     })
+
     it('should send the provided emptyValue when clicking the clear option', async () => {
       const onChange = jest.fn()
       render(
@@ -117,6 +118,26 @@ describe('Selection', () => {
 
       expect(onChange.mock.calls).toHaveLength(1)
       expect(onChange.mock.calls[0][0]).toEqual('nothing')
+    })
+
+    it('precede option children over title', async () => {
+      render(
+        <Field.Selection>
+          <Field.Option value="foo" title="title a">
+            child a
+          </Field.Option>
+          <Field.Option value="bar" title="title a">
+            child b
+          </Field.Option>
+        </Field.Selection>
+      )
+
+      const selectionButton = document.querySelector('button')
+      await userEvent.click(selectionButton)
+      const options = document.querySelectorAll('.dnb-drawer-list__option')
+
+      expect(options[0].textContent).toBe('child a')
+      expect(options[1].textContent).toBe('child b')
     })
   })
 
