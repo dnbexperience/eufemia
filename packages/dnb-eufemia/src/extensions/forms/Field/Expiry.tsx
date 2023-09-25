@@ -106,8 +106,6 @@ function Expiry({
     const pressedKey = event.key
     const hasPressedShiftKey = event.shiftKey
     const hasPressedTab = pressedKey === 'Tab'
-    const hasPressedUp = pressedKey === 'ArrowUp'
-    const hasPressedDown = pressedKey === 'ArrowDown'
 
     const endPosition = Number(input.getAttribute('size'))
     const startPosition = 0
@@ -115,61 +113,32 @@ function Expiry({
     const selectionStart = input.selectionStart
     const selectionEnd = input.selectionEnd
 
-    // Month
+    const isAtFirstCaretPosition =
+      selectionStart === startPosition && selectionEnd === startPosition
+
+    const isAtLastCaretPosition =
+      selectionStart === endPosition && selectionEnd === endPosition
+
     const monthInput = monthRef.current
     const isMonthInputInFocus = monthInput === document.activeElement
 
-    const isAtMonthLastCaretPosition =
-      selectionStart === endPosition && selectionEnd === endPosition
-
-    const isAtMonthFirstCaretPosition =
-      selectionStart === startPosition && selectionEnd === startPosition
-
-    // Year
     const yearInput = yearRef.current
     const isYearInputInFocus = yearInput === document.activeElement
 
-    const isAtYearFirstCaretPosition =
-      selectionStart === startPosition && selectionEnd === startPosition
-
-    const isAtYearLastCaretPosition =
-      selectionStart === endPosition && selectionEnd === endPosition
-
-    // If user is at the start or end of month input, and presses either tab or shift + tab, then the whole month input should be selected
+    // If user is at end or start of input and presses either tab or shift + tab, then the whole input should be selected
     if (
-      (hasPressedTab &&
-        isMonthInputInFocus &&
-        isAtMonthFirstCaretPosition) ||
-      (hasPressedShiftKey &&
-        hasPressedTab &&
-        isAtMonthLastCaretPosition &&
-        isMonthInputInFocus)
+      (hasPressedTab && !hasPressedShiftKey && isAtFirstCaretPosition) ||
+      (hasPressedShiftKey && hasPressedTab && isAtLastCaretPosition)
     ) {
       event.preventDefault()
       input.setSelectionRange(startPosition, endPosition)
-      return
-    }
-
-    // If user is at the start or end of month input, and presses tab or shift + tab, then the whole year input should be selected
-    if (
-      (hasPressedTab &&
-        isAtYearFirstCaretPosition &&
-        isYearInputInFocus) ||
-      (hasPressedTab &&
-        hasPressedShiftKey &&
-        isAtYearLastCaretPosition &&
-        isYearInputInFocus)
-    ) {
-      event.preventDefault()
-      input.setSelectionRange(startPosition, endPosition)
-      return
     }
 
     // If user is at the end of month input, and presses either a number key or ArrowRight, then year input should be in focus
     if (
-      (pressedKey === 'ArrowRight' || NUMBER_KEYS.includes(pressedKey)) &&
-      isAtMonthLastCaretPosition &&
-      isMonthInputInFocus
+      isMonthInputInFocus &&
+      isAtLastCaretPosition &&
+      (pressedKey === 'ArrowRight' || NUMBER_KEYS.includes(pressedKey))
     ) {
       await wait(1)
       yearInput.focus()
@@ -179,9 +148,9 @@ function Expiry({
 
     // If user is at the end of year input, and presses either Backspace or ArrowLeft, then month input should be in focus
     if (
-      (pressedKey == 'ArrowLeft' || pressedKey === 'Backspace') &&
-      isAtYearFirstCaretPosition &&
-      isYearInputInFocus
+      isYearInputInFocus &&
+      isAtFirstCaretPosition &&
+      (pressedKey == 'ArrowLeft' || pressedKey === 'Backspace')
     ) {
       await wait(1)
       monthInput.focus()
