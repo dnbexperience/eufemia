@@ -149,41 +149,6 @@ html:not([data-visual-test]) .dnb-tabs__tabs__tablist {
 .dnb-tabs--at-edge .dnb-tabs__tabs__tablist:focus {
   border-radius: 0;
 }
-.dnb-tabs:focus {
-  overflow: visible;
-}
-.dnb-tabs:focus::before {
-  content: "";
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  left: -0.5rem;
-  bottom: 0;
-  right: -0.5rem;
-  height: inherit;
-  border-radius: inherit;
-  outline: none;
-}
-html[data-whatinput=keyboard] .dnb-tabs:focus::before {
-  --border-color: var(--focus-ring-color);
-  --border-width: var(--focus-ring-width);
-  box-shadow: 0 0 0 var(--border-width) var(--border-color);
-  border-color: transparent;
-}
-.dnb-tabs:focus::before {
-  top: 0.5rem;
-  left: -0.375rem;
-  right: -0.375rem;
-  bottom: 0.5rem;
-  border-radius: 1.5rem;
-  background-color: var(--sb-color-blue-light-3);
-}
-.dnb-tabs:not([disabled]):active .dnb-tabs__title, .dnb-tabs:not([disabled]).selected .dnb-tabs__title {
-  color: var(--tab-title-color--active-selected);
-}
-.dnb-tabs:not([disabled]).selected .dnb-tabs__title {
-  font-weight: var(--tab-title-font-weight--selected);
-}
 .dnb-tabs__button, .dnb-core-style .dnb-tabs .dnb-tabs__button {
   position: relative;
   z-index: 1;
@@ -202,6 +167,8 @@ html[data-whatinput=keyboard] .dnb-tabs:focus::before {
   text-decoration: none;
   white-space: nowrap;
   transition: margin 400ms ease-out;
+  /* stylelint-disable no-descending-specificity */
+  /* stylelint-enable no-descending-specificity */
 }
 .dnb-tabs__button__title, .dnb-core-style .dnb-tabs .dnb-tabs__button__title {
   font-weight: var(--tab-title-font-weight);
@@ -258,12 +225,47 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled])::after
 .dnb-tabs__button[disabled] .dnb-tabs__button__title, .dnb-tabs__button[disabled] .dnb-core-style .dnb-tabs .dnb-tabs__button__title, .dnb-core-style .dnb-tabs .dnb-tabs__button[disabled] .dnb-tabs__button__title, .dnb-core-style .dnb-tabs .dnb-tabs__button[disabled] .dnb-core-style .dnb-tabs .dnb-tabs__button__title {
   color: var(--tab-title-color--disabled);
 }
+.dnb-tabs__button span[hidden], .dnb-core-style .dnb-tabs .dnb-tabs__button span[hidden] {
+  font-weight: var(--tab-title-font-weight--selected);
+}
+.dnb-tabs__button:focus, .dnb-core-style .dnb-tabs .dnb-tabs__button:focus {
+  overflow: visible;
+}
+.dnb-tabs__button:focus::before, .dnb-core-style .dnb-tabs .dnb-tabs__button:focus::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: -0.5rem;
+  bottom: 0;
+  right: -0.5rem;
+  height: inherit;
+  border-radius: inherit;
+  outline: none;
+}
+html[data-whatinput=keyboard] .dnb-tabs__button:focus::before, html[data-whatinput=keyboard] .dnb-core-style .dnb-tabs .dnb-tabs__button:focus::before {
+  --border-color: var(--focus-ring-color);
+  --border-width: var(--focus-ring-width);
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
+.dnb-tabs__button:focus::before, .dnb-core-style .dnb-tabs .dnb-tabs__button:focus::before {
+  top: 0.5rem;
+  left: -0.375rem;
+  right: -0.375rem;
+  bottom: 0.5rem;
+  border-radius: 1.5rem;
+  background-color: var(--sb-color-blue-light-3);
+}
 .dnb-tabs__button:not([disabled]):active::after, .dnb-tabs__button:not([disabled]).selected::after, .dnb-core-style .dnb-tabs .dnb-tabs__button:not([disabled]):active::after, .dnb-core-style .dnb-tabs .dnb-tabs__button:not([disabled]).selected::after {
   height: 2px;
   border-radius: 2px;
   background-color: var(--tab-title-border--active-selected);
 }
-.dnb-tabs__button span[hidden], .dnb-core-style .dnb-tabs .dnb-tabs__button span[hidden] {
+.dnb-tabs__button:not([disabled]):active .dnb-tabs__button__title, .dnb-tabs__button:not([disabled]).selected .dnb-tabs__button__title, .dnb-tabs__button:not([disabled]):active .dnb-core-style .dnb-tabs .dnb-tabs__button__title, .dnb-tabs__button:not([disabled]).selected .dnb-core-style .dnb-tabs .dnb-tabs__button__title, .dnb-core-style .dnb-tabs .dnb-tabs__button:not([disabled]):active .dnb-tabs__button__title, .dnb-core-style .dnb-tabs .dnb-tabs__button:not([disabled]).selected .dnb-tabs__button__title, .dnb-core-style .dnb-tabs .dnb-tabs__button:not([disabled]):active .dnb-core-style .dnb-tabs .dnb-tabs__button__title, .dnb-core-style .dnb-tabs .dnb-tabs__button:not([disabled]).selected .dnb-core-style .dnb-tabs .dnb-tabs__button__title {
+  color: var(--tab-title-color--active-selected);
+}
+.dnb-tabs__button:not([disabled]).selected .dnb-tabs__button__title, .dnb-tabs__button:not([disabled]).selected .dnb-core-style .dnb-tabs .dnb-tabs__button__title, .dnb-core-style .dnb-tabs .dnb-tabs__button:not([disabled]).selected .dnb-tabs__button__title, .dnb-core-style .dnb-tabs .dnb-tabs__button:not([disabled]).selected .dnb-core-style .dnb-tabs .dnb-tabs__button__title {
   font-weight: var(--tab-title-font-weight--selected);
 }
 .dnb-tabs__button__snap {
