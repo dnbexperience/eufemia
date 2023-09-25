@@ -19,11 +19,12 @@ interface ErrorMessages {
 }
 export type Props = FieldHelpProps &
   FieldProps<string, undefined | string, ErrorMessages> & {
-    inputClassName?: string
     type?: InputProps['type']
     multiline?: boolean
     leftIcon?: string
     rightIcon?: string
+    inputClassName?: string
+    innerRef?: React.RefObject<HTMLInputElement | HTMLTextAreaElement>
     clear?: boolean
     autoresize?: boolean
     autoresizeMaxRows?: number
@@ -81,6 +82,7 @@ function StringComponent(props: Props) {
   const {
     id,
     className,
+    innerRef,
     inputClassName,
     layout,
     type,
@@ -149,6 +151,7 @@ function StringComponent(props: Props) {
           autoresize_max_rows={autoresizeMaxRows}
           disabled={disabled}
           stretch={width !== undefined}
+          inner_ref={innerRef}
         />
       ) : mask ? (
         <InputMasked
@@ -169,6 +172,7 @@ function StringComponent(props: Props) {
           on_change={handleChange}
           disabled={disabled}
           stretch={width !== undefined}
+          inner_ref={innerRef}
         />
       ) : (
         <Input
@@ -190,6 +194,7 @@ function StringComponent(props: Props) {
           on_change={handleChange}
           disabled={disabled}
           stretch={width !== undefined}
+          inner_ref={innerRef}
         />
       )}
     </FieldBlock>

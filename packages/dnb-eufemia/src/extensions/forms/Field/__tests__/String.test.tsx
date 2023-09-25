@@ -622,4 +622,20 @@ describe('Field.String', () => {
       })
     })
   })
+
+  it('gets valid ref element', () => {
+    const id = 'unique'
+    let ref: React.RefObject<HTMLInputElement>
+
+    const MockComponent = () => {
+      ref = React.useRef()
+      return <Field.String id={id} innerRef={ref} />
+    }
+
+    render(<MockComponent />)
+
+    expect(ref.current instanceof HTMLInputElement).toBe(true)
+    expect(ref.current.id).toBe(id)
+    expect(ref.current.tagName).toBe('INPUT')
+  })
 })
