@@ -1,7 +1,7 @@
 import React from 'react'
 
 // Components
-import Button from '../button/Button'
+import Button, { ButtonProps } from '../button/Button'
 import IconPrimary from '../icon-primary/IconPrimary'
 import type { IconIcon } from '../icon/Icon'
 
@@ -17,7 +17,7 @@ import Context from '../../shared/Context'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import { extendPropsWithContext } from '../../shared/component-helper'
 
-export interface BreadcrumbItemProps {
+export type BreadcrumbItemProps = {
   /**
    * Text displaying the title of the item's corresponding page
    * Default: If variant='home', default is "Home". Otherwise it is required.
@@ -56,7 +56,7 @@ export interface BreadcrumbItemProps {
 
   /** Internal */
   itemNr?: number
-}
+} & Omit<ButtonProps, 'variant'>
 
 const defaultProps = {
   text: null,
@@ -140,7 +140,7 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
           {...props}
         />
       ) : (
-        <span className="dnb-breadcrumb__item__span" {...props}>
+        <span className="dnb-breadcrumb__item__span">
           <IconPrimary
             icon={currentIcon}
             className="dnb-breadcrumb__item__span__icon"
