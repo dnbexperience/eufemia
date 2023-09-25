@@ -8,20 +8,16 @@
 
 .dnb-tabs {
   --tablist-border-color--default: grey;
-
   --tab-title-font-weight: var(--font-weight-regular);
   --tab-title-font-size: var(--font-size-basis);
-  --tab-title-font-color: rgb(37, 37, 37);
-
+  --tab-title-font-color: #0c1115;
   --tab-title-background--hover: darkgrey;
   --tab-title-color--hover: inherit;
   --tab-title-border--hover: black;
   --tab-title-background--disabled: inherit;
   --tab-title-color--disabled: lightgrey;
-
   --tab-title-border--active-selected: black;
   --tab-title-color--active-selected: black;
-
   --tab-title-font-weight--selected: var(--font-weight-medium);
 
   &__tabs {
@@ -85,20 +81,6 @@
     }
   }
 
-  &--at-edge &__scroll-nav-button {
-    &:first-of-type {
-      border-radius: 0 50% 50% 0;
-    }
-
-    &:last-of-type {
-      border-radius: 50% 0 0 50%;
-    }
-  }
-
-  &--at-edge &__tabs__tablist:focus {
-    border-radius: 0;
-  }
-
   &__scroll-nav-button {
     position: absolute;
     z-index: 2;
@@ -124,6 +106,44 @@
       pointer-events: none;
       opacity: 0 !important;
     }
+  }
+
+  &--at-edge &__scroll-nav-button {
+    &:first-of-type {
+      border-radius: 0 50% 50% 0;
+    }
+
+    &:last-of-type {
+      border-radius: 50% 0 0 50%;
+    }
+  }
+
+  &--at-edge &__tabs__tablist:focus {
+    border-radius: 0;
+  }
+
+  &:focus {
+    @include buttonFocusRing();
+    overflow: visible;
+
+    &::before {
+      top: 0.5rem;
+      left: -0.375rem; // For overflow purposes
+      right: -0.375rem; // For overflow purposes
+      bottom: 0.5rem;
+      border-radius: 1.5rem;
+      background-color: var(--sb-color-blue-light-3);
+    }
+  }
+
+  &:not([disabled]):active &__title,
+  &:not([disabled]).selected &__title {
+    color: var(--tab-title-color--active-selected);
+  }
+
+  // selected only
+  &:not([disabled]).selected &__title {
+    font-weight: var(--tab-title-font-weight--selected);
   }
 
   // Tab Button
@@ -190,20 +210,6 @@
       }
     }
 
-    &:focus {
-      @include buttonFocusRing();
-      overflow: visible;
-
-      &::before {
-        top: 0.5rem;
-        left: -0.375rem; // For overflow purposes
-        right: -0.375rem; // For overflow purposes
-        bottom: 0.5rem;
-        border-radius: 1.5rem;
-        background-color: var(--sb-color-blue-light-3);
-      }
-    }
-
     @include dummySpacing();
 
     & .dnb-dummy {
@@ -237,16 +243,6 @@
         border-radius: 2px;
         background-color: var(--tab-title-border--active-selected);
       }
-    }
-
-    &:not([disabled]):active &__title,
-    &:not([disabled]).selected &__title {
-      color: var(--tab-title-color--active-selected);
-    }
-
-    // selected only
-    &:not([disabled]).selected &__title {
-      font-weight: var(--tab-title-font-weight--selected);
     }
 
     // To make sure we have the wider width on every item

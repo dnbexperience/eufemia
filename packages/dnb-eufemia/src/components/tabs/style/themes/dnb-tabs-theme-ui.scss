@@ -8,16 +8,13 @@
 
 .dnb-tabs {
   --tablist-border-color--default: var(--color-black-8);
-
   --tab-title-font-color: var(--color-sea-green);
   --tab-title-font-weight: var(--font-weight-regular);
   --tab-title-font-size: var(--font-size-basis);
-
   --tab-title-background--hover: var(--color-mint-green-50);
   --tab-title-color--hover: var(--color-sea-green);
   --tab-title-border--hover: var(--color-sea-green);
   --tab-title-color--disabled: var(--color-sea-green-30);
-
   --tab-title-border--active-selected: var(--color-sea-green);
   --tab-title-color--active-selected: var(--color-emerald-green);
 
