@@ -331,7 +331,7 @@ describe('Dropdown component', () => {
         {...props}
         value={30}
         data={{
-          10: 'Then',
+          10: 'Ten',
           20: 'Twenty',
           30: 'Thirty',
         }}
