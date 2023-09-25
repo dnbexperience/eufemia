@@ -1,6 +1,7 @@
-import React, { useEffect, useRef } from 'react'
-import StringComponent, { Props as StringComponentProps } from './String'
-import classnames from 'classnames'
+import React, { useEffect, useRef, useState } from 'react'
+import { Props as StringComponentProps } from './String'
+import TextMask from '../../../components/input-masked/TextMask'
+import Input from '../../../components/Input'
 
 type ExpiryPlaceholderType = 'dashes' | 'spaces' | 'letters'
 
@@ -53,122 +54,237 @@ const placeholders: Record<ExpiryPlaceholderType, string> = {
   letters: 'mm / yy',
 }
 
+const KEYS_TO_HANDLE = [
+  'ArrowLeft',
+  'ArrowRight',
+  'Backspace',
+  'Tab',
+  '1',
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+  '9',
+]
+
 function Expiry({
   placeholder = 'dashes',
   keep_placeholder = true,
   ...props
 }: ExpiryProps) {
-  const inputRef = useRef(null)
+  const [month, setMonth] = useState<string>('')
+  const [year, setYear] = useState<string>('')
 
-  // Probably better to replace this with an onKey prop for StringComponent?
+  const monthRef = useRef<HTMLInputElement>(null)
+  const yearRef = useRef<HTMLInputElement>(null)
+
   useEffect(() => {
-    const inputElement = inputRef.current as HTMLInputElement
+    const monthInput = monthRef.current
+    const yearInput = yearRef.current
 
-    if (!inputElement) {
-      return
-    }
-
-    inputElement.addEventListener('keydown', onTab)
+    monthInput.addEventListener('keydown', onKeydown)
+    yearInput.addEventListener('keydown', onKeydown)
 
     return () => {
-      inputElement.removeEventListener('keydown', onTab)
+      monthInput.removeEventListener('keydown', onKeydown)
+      yearInput.removeEventListener('keydown', onKeydown)
     }
   }, [])
 
-  function onChange(value: string) {
-    if (!value || value.length < 4) {
+  // Use effect to synchronise the two value states, instead of firing with an onChange bound to both inputs.
+  // Not sure of this is a better solution though
+  useEffect(() => {
+    if ((!month || month.length > 2) && (year || year.length > 2)) {
       return
     }
-
-    const month = `${value.charAt(0)}${value.charAt(1)}`
-    const year = `${value.charAt(2)}${value.charAt(3)}`
-    const formatted = `${month}/${year}`
 
     if (props?.onChange) {
-      props.onChange({ month, year, raw: value, formatted })
+      props.onChange({
+        month,
+        year,
+        raw: `${month}${year}`,
+        formatted: `${month}/${year}`,
+      })
     }
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [month, year])
 
-  function onTab(event: KeyboardEvent) {
-    if (event.key !== 'Tab') {
-      return
-    }
-
-    const input = event.target as HTMLInputElement
+  async function onKeydown(event: KeyboardEvent) {
+    const pressedKey = event.key
     const hasPressedShiftKey = event.shiftKey
-    const { value, selectionStart, selectionEnd } = input
+    const input = event.currentTarget as HTMLInputElement
+    const endPosition = Number(input.getAttribute('size'))
+    const startPosition = 0
 
-    const isCaretAtStart = selectionStart === 0 && selectionEnd === 0
+    const monthInput = monthRef.current
+    const yearInput = yearRef.current
 
-    const isCaretAtEnd =
-      selectionStart === value.length && selectionEnd === value.length
+    const selectionStartOriginal = input.selectionStart
 
-    const hasSelectedFullValue =
-      selectionStart === 0 && selectionEnd === value.length
+    await wait(1) // to get the correct caret position
 
-    // Month is the first two characters of the value
-    const monthRange = { start: 0, end: 2 }
-    // Year is the last two characters of the value
-    const yearRange = { start: value.length - 2, end: value.length }
+    const selectionStartCorrected = input.selectionStart
 
-    const hasSelectedMonth =
-      selectionStart === monthRange.start &&
-      selectionEnd === monthRange.end
+    const selectionEnd = input.selectionEnd
 
-    const hasSelectedYear =
-      selectionStart === yearRange.start && selectionEnd === yearRange.end
+    const isAtMonthLastCaretPosition =
+      selectionStartOriginal === endPosition &&
+      selectionStartCorrected === endPosition &&
+      selectionEnd === endPosition
 
-    const isTabbingForward =
-      !hasPressedShiftKey && (isCaretAtEnd || hasSelectedYear)
-    const isTabbingBackwards =
-      hasPressedShiftKey && (isCaretAtStart || hasSelectedMonth)
+    const isAtMonthFirstCaretPosition =
+      selectionStartOriginal === startPosition &&
+      selectionStartCorrected === startPosition &&
+      selectionEnd === startPosition
 
-    // Fire default tab behaviour if user is tabbing forwards or backwards at the start or end of text in input field
-    if (isTabbingForward || isTabbingBackwards) {
+    const isMonthInputInFocus = monthInput === document.activeElement
+
+    const isAtYearFirstCaretPosition =
+      selectionStartOriginal === startPosition &&
+      selectionStartCorrected == startPosition &&
+      selectionEnd === startPosition
+
+    const isAtYearLastCaretPosition =
+      selectionStartOriginal === endPosition &&
+      selectionStartCorrected === endPosition &&
+      selectionEnd === endPosition
+
+    const isYearInputInFocus = yearInput === document.activeElement
+
+    const hasPressedTab = pressedKey === 'Tab'
+
+    // If user is at the start of month input, and presses tab, then the whole month input should be selected
+    if (
+      hasPressedTab &&
+      isMonthInputInFocus &&
+      isAtMonthFirstCaretPosition
+    ) {
+      event.preventDefault()
+      input.setSelectionRange(startPosition, endPosition)
       return
     }
 
-    // Preventing default here to make it possible to focus move between the numbers inside input
-    event.preventDefault()
-
-    // Select the month value if user is tabbing while full value is selected
-    if (hasSelectedFullValue) {
-      return input.setSelectionRange(monthRange.start, monthRange.end)
+    // If user is at the start of month input, and presses shift tab, then the whole year input should be selected
+    if (
+      hasPressedTab &&
+      hasPressedShiftKey &&
+      isAtYearLastCaretPosition &&
+      isYearInputInFocus
+    ) {
+      event.preventDefault()
+      input.setSelectionRange(startPosition, endPosition)
+      return
     }
 
-    // Select year value if user is tabbing backwards while caret is at the end of input
-    if (hasPressedShiftKey && isCaretAtEnd) {
-      return input.setSelectionRange(yearRange.start, yearRange.end)
+    // If user is at the end of month input, and presses either a number key or ArrowRight, then year input should be in focus
+    if (
+      pressedKey !== 'Backspace' &&
+      pressedKey !== 'ArrowLeft' &&
+      KEYS_TO_HANDLE.includes(pressedKey) &&
+      isAtMonthLastCaretPosition &&
+      isMonthInputInFocus
+    ) {
+      yearInput.focus()
+      yearInput.setSelectionRange(startPosition, startPosition)
+      return
     }
 
-    // Select month value if user is tabbing backwards while year value is selected
-    if (hasPressedShiftKey && hasSelectedYear) {
-      return input.setSelectionRange(monthRange.start, monthRange.end)
-    }
-
-    // Select year value if user is tabbing forward while month value is selected
-    if (hasSelectedMonth) {
-      return input.setSelectionRange(yearRange.start, yearRange.end)
-    }
-
-    // Select month value if user is tabbing forward while caret is at the start of input
-    if (isCaretAtStart) {
-      return input.setSelectionRange(monthRange.start, monthRange.end)
+    // If user is at the end of month input, and presses either a number key, Backspace or ArrowLeft, then month input should be in focus
+    if (
+      KEYS_TO_HANDLE.includes(pressedKey) &&
+      isAtYearFirstCaretPosition &&
+      isYearInputInFocus
+    ) {
+      monthInput.focus()
+      monthInput.setSelectionRange(endPosition, endPosition)
+      return
     }
   }
 
   return (
-    <StringComponent
-      {...props}
-      className={classnames('dnb-forms-field-expiry', props.className)}
-      width="stretch"
-      mask={[/[0-1]/, /[1-9]/, ' ', '/', ' ', /\d/, /\d/]}
-      placeholder={placeholders[placeholder]}
-      keep_placeholder={keep_placeholder}
+    <Input
+      className="dnb-date-picker dnb-date-picker--show-input dnb-forms-field-expiry"
+      input_element={
+        <span className="dnb-date-picker__input__wrapper">
+          <ExpiryDateField
+            type="month"
+            value={month}
+            onChange={(e) => setMonth(e.currentTarget.value)}
+            innerRef={monthRef}
+          />
+          <span className="dnb-date-picker--separator" aria-hidden>
+            {' / '}
+          </span>
+          <ExpiryDateField
+            type="year"
+            value={year}
+            onChange={(e) => setYear(e.currentTarget.value)}
+            innerRef={yearRef}
+          />
+        </span>
+      }
+    />
+  )
+}
+
+type ExpiryDateFieldProps = {
+  type: 'month' | 'year'
+  value: string
+  onChange: (event: React.KeyboardEvent<HTMLInputElement>) => void
+  innerRef: React.MutableRefObject<HTMLInputElement>
+}
+
+type ExpiryDateFieldConfig = {
+  placeholder: string
+  mask: RegExp[]
+}
+
+const dateFields: Record<
+  ExpiryDateFieldProps['type'],
+  ExpiryDateFieldConfig
+> = {
+  month: {
+    placeholder: 'm',
+    mask: [/[0-1]/, /[0-9]/],
+  },
+  year: {
+    placeholder: 'y',
+    mask: [/[0-9]/, /[0-9]/],
+  },
+}
+
+function ExpiryDateField({
+  type,
+  value,
+  onChange,
+  innerRef,
+}: ExpiryDateFieldProps) {
+  return (
+    <TextMask
+      className="dnb-date-picker__input"
+      value={value}
       onChange={onChange}
-      innerRef={inputRef}
+      mask={dateFields[type].mask}
+      placeholderChar={dateFields[type].placeholder}
+      guide={true}
+      showMask={true}
+      keepCharPositions={false} // so we can overwrite next value, if it already exists
+      autoComplete="off"
+      autoCapitalize="none"
+      spellCheck={false}
+      autoCorrect="off"
+      size={2}
+      // Icky casting hack
+      inputRef={innerRef as unknown as Record<string, unknown>}
     />
   )
 }
 
 export default Expiry
+
+function wait(t) {
+  return new Promise((r) => setTimeout(r, t))
+}
