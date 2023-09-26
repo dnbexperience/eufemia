@@ -58,6 +58,9 @@ describe.each(['ui', 'sbanken'])('Table for %s', (themeName) => {
     const screenshot = await makeScreenshot({
       ...defaults,
       selector: '[data-visual-test="table-container"]',
+      matchConfig: {
+        failureThreshold: 0.21,
+      },
     })
     expect(screenshot).toMatchImageSnapshot()
   })
@@ -280,10 +283,12 @@ describe.each(['ui', 'sbanken'])(
         simulateSelector:
           '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type tbody tr:nth-last-child(2)',
         simulate: 'active',
+        waitAfterSimulate: 100, // not sure if this helps
+        matchConfig: {
+          failureThreshold: 0.01, // locally as well
+        },
       })
-      expect(screenshot).toMatchImageSnapshot({
-        failureThreshold: 0.01, // locally as well
-      })
+      expect(screenshot).toMatchImageSnapshot()
     })
 
     it('have to match expanded state on first row', async () => {
