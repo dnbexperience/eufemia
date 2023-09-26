@@ -103,6 +103,7 @@ jobs:
           path: ./packages/dnb-design-system-portal/public
 
   visual-test:
+    needs: portal-build
     name: Run visual e2e-tests
 
     runs-on: macos-latest
@@ -139,15 +140,6 @@ jobs:
 
       - name: Install dependencies
         run: yarn install --immutable
-
-      - name: Wait for build to succeed
-        uses: fountainhead/action-wait-for-check@v1.0.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          checkName: Run portal build
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          intervalSeconds: 10
-          timeoutSeconds: 2400
 
       - name: Re-store portal artifacts
         uses: actions/download-artifact@v3
@@ -188,6 +180,7 @@ jobs:
         continue-on-error: true
 
   portal-test:
+    needs: portal-build
     name: Run portal e2e-tests
 
     runs-on: ubuntu-latest
@@ -221,15 +214,6 @@ jobs:
       - name: Install Playwright
         if: steps.playwright-binary-cache.outputs.cache-hit != 'true'
         run: yarn workspace dnb-design-system-portal playwright install --with-deps firefox
-
-      - name: Wait for build to succeed
-        uses: fountainhead/action-wait-for-check@v1.0.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          checkName: Run portal build
-          ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          intervalSeconds: 10
-          timeoutSeconds: 2400
 
       - name: Re-store portal artifacts
         uses: actions/download-artifact@v3
