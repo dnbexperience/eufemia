@@ -23,7 +23,7 @@ exports[`Tabs scss has to match style dependencies css 1`] = `
   --tablist-border-color--default: grey;
   --tab-title-font-weight: var(--font-weight-regular);
   --tab-title-font-size: var(--font-size-basis);
-  --tab-title-font-color: #0c1115;
+  --tab-title-font-color: dimgray;
   --tab-title-background--hover: darkgrey;
   --tab-title-color--hover: inherit;
   --tab-title-border--hover: black;
