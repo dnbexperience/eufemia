@@ -72,7 +72,7 @@ test.describe('Page Navigation', () => {
       expect(heading).toContain('Components')
 
       const accordionLinkText = await page.textContent(
-        'a[href="/uilib/components/accordion"]',
+        'a[href="/uilib/components/accordion/"]',
       )
       expect(accordionLinkText).toContain('Accordion')
     })
@@ -155,7 +155,7 @@ test.describe('Page Navigation', () => {
       expect(heading).toContain('Components')
 
       const accordionLinkText = await page.textContent(
-        'a[href="/uilib/components/accordion"]',
+        'a[href="/uilib/components/accordion/"]',
       )
       expect(accordionLinkText).toContain('Accordion')
     })

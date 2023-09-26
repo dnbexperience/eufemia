@@ -4,6 +4,9 @@ import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
 import ContentWrapper from './TabsContentWrapper';
 import CustomContent from './TabsCustomContent';
+import { DynamicElement } from '../../shared/types';
+import { ButtonProps } from '../Button';
+import { AnchorAllProps } from '../Anchor';
 export type TabsData =
   | string
   | {
@@ -17,10 +20,7 @@ export type TabsContent =
   | Record<string, unknown>
   | React.ReactNode
   | ((...args: any[]) => any);
-export type TabsTabElement =
-  | Record<string, unknown>
-  | React.ReactNode
-  | ((...args: any[]) => any);
+export type TabsTabElement = DynamicElement<ButtonProps | AnchorAllProps>;
 export type TabsSelectedKey = string | number;
 export type TabsAlign = 'left' | 'center' | 'right';
 export type TabsChildren =

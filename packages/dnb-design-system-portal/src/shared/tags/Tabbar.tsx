@@ -4,11 +4,12 @@
  */
 
 import React from 'react'
-import { Link, navigate } from 'gatsby'
+import { navigate } from 'gatsby'
 import { Button, Tabs } from '@dnb/eufemia/src/components'
 import { fullscreen as fullscreenIcon } from '@dnb/eufemia/src/icons'
 import AutoLinkHeader from './AutoLinkHeader'
 import { tabsWrapperStyle } from './Tabbar.module.scss'
+import { Link } from './Anchor'
 
 export const defaultTabs = [
   { title: 'Info', key: '/info' },
@@ -114,7 +115,7 @@ export default function Tabbar({
       )}
       <Tabs
         id="tabbar"
-        tab_element={{ ...Link }}
+        tab_element={Link}
         data={preparedTabs}
         selected_key={selectedKey}
         on_change={({ selected_key }) => {

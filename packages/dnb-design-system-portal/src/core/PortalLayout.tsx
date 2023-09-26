@@ -8,6 +8,7 @@ import { MDXProvider } from '@mdx-js/react'
 import { graphql, useStaticQuery } from 'gatsby'
 import Layout from '../shared/parts/Layout'
 import Tabbar from '../shared/tags/Tabbar'
+import { Link } from '../shared/tags/Anchor'
 import tags from '../shared/tags'
 import { resetLevels } from '@dnb/eufemia/src/components/Heading'
 import { setPortalHeadData, usePortalHead } from './PortalHead'
@@ -136,11 +137,23 @@ export default function PortalLayout(props: PortalLayoutProps) {
   return (
     <Layout key="layout" location={location} fullscreen={fullscreen}>
       {fmData.breadcrumb && (
-        <Breadcrumb
-          key="breadcrumb"
-          top="large"
-          data={fmData.breadcrumb}
-        />
+        <Breadcrumb key="breadcrumb" top="large">
+          {fmData.breadcrumb.map((item, i, a) => {
+            return (
+              <Breadcrumb.Item
+                key={item.text}
+                variant={
+                  (i == 0 && 'home') ||
+                  (i == a.length - 1 && 'current') ||
+                  null
+                }
+                element={Link}
+                text={item.text}
+                href={item.href}
+              />
+            )
+          })}
+        </Breadcrumb>
       )}
 
       {currentFm.showTabs && (

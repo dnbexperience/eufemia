@@ -1,13 +1,18 @@
 import * as React from 'react';
 import type { SkeletonShow } from '../skeleton/Skeleton';
 import type { IconIcon, IconSize } from '../icon/Icon';
-import type { DataAttributeTypes, SpacingProps } from '../../shared/types';
+import type {
+  DataAttributeTypes,
+  DynamicElement,
+  SpacingProps
+} from '../../shared/types';
 import type {
   FormStatusProps,
   FormStatusState,
   FormStatusText
 } from '../FormStatus';
 import type { GlobalStatusConfigObject } from '../GlobalStatus';
+import { AnchorProps } from '../Anchor';
 export type ButtonText = string | React.ReactNode;
 export type ButtonVariant =
   | 'primary'
@@ -33,10 +38,9 @@ export type ButtonChildren =
   | string
   | ((...args: any[]) => any)
   | React.ReactNode;
-export type ButtonElement =
-  | ((...args: any[]) => any)
-  | any
-  | React.ReactNode;
+export type ButtonElement = DynamicElement<
+  HTMLButtonElement | HTMLAnchorElement | AnchorProps
+>;
 export type ButtonOnClick = string | ((...args: any[]) => any);
 export type ButtonProps = {
   /**

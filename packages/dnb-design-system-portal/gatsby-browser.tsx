@@ -30,17 +30,8 @@ export const replaceHydrateFunction = () => {
 export const wrapRootElement = rootElement('browser')
 export const wrapPageElement = pageElement()
 
-// This was used before during visual testing
-// but it looks like they do not safe us any time
-// export const disableCorePrefetching = () => {
-//   return window.IS_TEST
-// }
-// export const registerServiceWorker = () => {
-//   return !window.IS_TEST
-// }
-
 // scroll to top on route change
-export const shouldUpdateScroll = () => true
+export const shouldUpdateScroll = () => false
 
 export const onRouteUpdate = ({ location, prevLocation }) => {
   try {
@@ -62,5 +53,15 @@ export const onRouteUpdate = ({ location, prevLocation }) => {
   //  then we apply the page content focus for accessibility
   if (prevLocation && prevLocation?.pathname !== location?.pathname) {
     applyPageFocus('content')
+  }
+}
+
+export const onPreRouteUpdate = ({ prevLocation }) => {
+  if (prevLocation && !globalThis.IS_TEST) {
+    // Opmit scrolling on page changes
+    document.documentElement.style.scrollBehavior = 'auto'
+    setTimeout(() => {
+      document.documentElement.style.scrollBehavior = ''
+    }, 800)
   }
 }

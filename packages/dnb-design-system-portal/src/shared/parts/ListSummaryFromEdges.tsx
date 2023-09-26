@@ -1,6 +1,7 @@
 import React from 'react'
-import { Anchor, Ul, Li } from '@dnb/eufemia/src'
+import { Ul, Li } from '@dnb/eufemia/src'
 import AutoLinkHeader from '../tags/AutoLinkHeader'
+import Anchor from '../tags/Anchor'
 import { resetLevels } from '@dnb/eufemia/src/components/Heading'
 import ReactMarkdown from 'react-markdown'
 import { basicComponents } from '../../shared/tags'
