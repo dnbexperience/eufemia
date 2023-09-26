@@ -98,7 +98,7 @@ jobs:
         run: yarn install --immutable
 
       - name: Wait for build to succeed
-        uses: fountainhead/action-wait-for-check@v1.0.0
+        uses: fountainhead/action-wait-for-check@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           checkName: Fetch and Build Icons # Has to be the action name
