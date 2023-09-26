@@ -9,7 +9,7 @@ import {
 import pointer from 'json-pointer'
 import { FormError, FieldProps } from '../types'
 import ajv, { ajvErrorsToOneFormError } from '../utils/ajv'
-import DataContext from '../DataContext'
+import { Context } from '../DataContext'
 import FieldBlockContext from '../FieldBlock/FieldBlockContext'
 import IterateElementContext from '../Iterate/IterateElementContext'
 import { makeUniqueId } from '../../../shared/component-helper'
@@ -47,7 +47,7 @@ export default function useDataValue<
     fromInput = (value) => value,
   } = props
   const id = useMemo(() => props.id ?? makeUniqueId(), [props.id])
-  const dataContext = useContext(DataContext.Context)
+  const dataContext = useContext(Context)
   const fieldBlockContext = useContext(FieldBlockContext)
   const iterateElementContext = useContext(IterateElementContext)
 

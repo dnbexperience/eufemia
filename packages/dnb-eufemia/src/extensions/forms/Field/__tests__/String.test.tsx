@@ -2,8 +2,8 @@ import React from 'react'
 import { wait } from '../../../../core/jest/jestSetup'
 import { screen, render, waitFor, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import DataContext from '../../DataContext'
-import Field from '..'
+import * as DataContext from '../../DataContext'
+import * as Field from '../'
 
 export async function expectNever(callable: () => unknown): Promise<void> {
   await expect(() => waitFor(callable)).rejects.toEqual(expect.anything())

@@ -1,9 +1,9 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import Iterate from '..'
-import Field from '../../Field'
-import DataContext from '../../DataContext'
+import * as Iterate from '../'
+import * as Field from '../../Field'
+import * as DataContext from '../../DataContext'
 
 describe('Iterate.Array', () => {
   describe('with primitive elements', () => {

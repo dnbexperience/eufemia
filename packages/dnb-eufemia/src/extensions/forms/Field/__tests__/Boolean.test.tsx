@@ -1,7 +1,7 @@
 import React from 'react'
 import { screen, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import Field from '..'
+import * as Field from '../'
 
 describe('Field.Boolean', () => {
   describe('variant: checkbox', () => {

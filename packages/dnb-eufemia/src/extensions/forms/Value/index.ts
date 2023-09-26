@@ -1,23 +1,9 @@
-import StringComponent from './String'
-import NumberComponent from './Number'
-import BooleanComponent from './Boolean'
-import Currency from './Currency'
-import DateComponent from './Date'
-import Email from './Email'
-import NationalIdentityNumber from './NationalIdentityNumber'
-import PhoneNumber from './PhoneNumber'
-import BankAccountNumber from './BankAccountNumber'
-
-const Value = {
-  String: StringComponent,
-  Number: NumberComponent,
-  Boolean: BooleanComponent,
-  Currency,
-  Date: DateComponent,
-  Email,
-  NationalIdentityNumber,
-  PhoneNumber,
-  BankAccountNumber,
-}
-
-export default Value
+export { default as String } from './String'
+export { default as Number } from './Number'
+export { default as Boolean } from './Boolean'
+export { default as Currency } from './Currency'
+export { default as Date } from './Date'
+export { default as Email } from './Email'
+export { default as NationalIdentityNumber } from './NationalIdentityNumber'
+export { default as PhoneNumber } from './PhoneNumber'
+export { default as BankAccountNumber } from './BankAccountNumber'
