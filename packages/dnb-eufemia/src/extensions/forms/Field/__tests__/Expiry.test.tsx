@@ -15,39 +15,153 @@ describe('Field.Expiry', () => {
 
     expect(onChange).toBeCalledTimes(1)
     expect(onChange.mock.calls[0][0]).toEqual({
-      formatted: '11/25',
       month: '11',
-      raw: '1125',
       year: '25',
     })
   })
 
-  it('should default to "dashes" placeholder', () => {
-    render(<Field.Expiry />)
+  describe.only('keydown', () => {
+    beforeEach(() => {
+      window.requestAnimationFrame = jest.fn((callback) => {
+        return setTimeout(callback, 0)
+      })
+      window.cancelAnimationFrame = jest.fn((id) => {
+        clearTimeout(id)
+        return id
+      })
+    })
 
-    const input = document.querySelector('input')
-    const placeholder = document.querySelector('.dnb-input__placeholder')
+    it('should not change cursor position when a letter is typed', async () => {
+      render(<Field.Expiry />)
 
-    expect(input.getAttribute('aria-placeholder')).toEqual('-- / --')
-    expect(placeholder.textContent).toEqual('-- / --')
+      const monthInput = document.querySelectorAll('input')[0]
+      const yearInput = document.querySelectorAll('input')[1]
+
+      await userEvent.type(monthInput, '12')
+
+      expect(yearInput.selectionStart).toBe(0)
+      expect(yearInput.selectionEnd).toBe(0)
+
+      await userEvent.type(monthInput, '12A')
+
+      expect(yearInput.selectionStart).toBe(0)
+      expect(yearInput.selectionEnd).toBe(0)
+
+      expect(document.activeElement).toBe(yearInput)
+    })
+
+    it('should change cursor position to year when month is filled out', async () => {
+      render(<Field.Expiry />)
+
+      const monthInput = document.querySelectorAll('input')[0]
+      const yearInput = document.querySelectorAll('input')[1]
+
+      await userEvent.type(monthInput, '12')
+
+      expect(yearInput.selectionStart).toBe(0)
+      expect(yearInput.selectionEnd).toBe(0)
+      expect(document.activeElement).toBe(yearInput)
+    })
+
+    it('should change cursor position to year after backspace through year', async () => {
+      render(<Field.Expiry />)
+
+      const monthInput = document.querySelectorAll('input')[0]
+      const yearInput = document.querySelectorAll('input')[1]
+
+      await userEvent.type(monthInput, '1212')
+
+      expect(yearInput.selectionStart).toBe(2)
+      expect(yearInput.selectionEnd).toBe(2)
+      expect(document.activeElement).toBe(yearInput)
+
+      await userEvent.type(yearInput, '{Backspace}{Backspace}{Backspace}')
+
+      expect(monthInput.selectionStart).toBe(2)
+      expect(monthInput.selectionEnd).toBe(2)
+      expect(document.activeElement).toBe(monthInput)
+    })
+
+    it('should be able to navigate between inputs using arrow keys', async () => {
+      render(<Field.Expiry />)
+
+      const monthInput = document.querySelectorAll('input')[0]
+      const yearInput = document.querySelectorAll('input')[1]
+
+      monthInput.focus()
+      monthInput.setSelectionRange(0, 0)
+
+      await userEvent.keyboard('{ArrowRight}{ArrowRight}')
+
+      expect(document.activeElement).toBe(monthInput)
+
+      await userEvent.keyboard('{ArrowRight}')
+
+      expect(document.activeElement).toBe(yearInput)
+
+      await userEvent.keyboard('{ArrowLeft}')
+
+      expect(document.activeElement).toBe(monthInput)
+
+      await userEvent.keyboard('{ArrowLeft}{ArrowLeft}')
+
+      expect(document.activeElement).toBe(monthInput)
+
+      await userEvent.keyboard('{ArrowRight}{ArrowRight}{ArrowRight}')
+
+      expect(document.activeElement).toBe(yearInput)
+    })
+
+    it('should be able to tab between month and year', async () => {
+      render(<Field.Expiry />)
+
+      const monthInput = document.querySelectorAll('input')[0]
+      const yearInput = document.querySelectorAll('input')[1]
+
+      monthInput.focus()
+
+      expect(document.activeElement).toBe(monthInput)
+
+      await userEvent.keyboard('{Tab}')
+      expect(document.activeElement).toBe(yearInput)
+
+      await userEvent.keyboard('{Shift>}{Tab}{/Shift}')
+      expect(document.activeElement).toBe(monthInput)
+
+      await userEvent.keyboard('{Tab}')
+      expect(document.activeElement).toBe(yearInput)
+
+      await userEvent.keyboard('{Shift>}{Tab}{/Shift}')
+      expect(document.activeElement).toBe(monthInput)
+    })
   })
 
-  it('should be able to change placeholders', async () => {
-    const { rerender } = render(<Field.Expiry placeholder="letters" />)
+  describe('click', () => {
+    it('should select whole input value on click', async () => {
+      render(<Field.Expiry />)
 
-    const input = document.querySelector('input')
+      const monthInput = document.querySelectorAll('input')[0]
+      const yearInput = document.querySelectorAll('input')[1]
 
-    expect(input).toHaveAttribute('aria-placeholder', 'mm / yy')
-    expect(input.nextSibling).toHaveTextContent('mm / yy')
+      await userEvent.click(monthInput)
 
-    rerender(<Field.Expiry placeholder="spaces" />)
+      expect(monthInput.selectionStart).toBe(0)
+      expect(monthInput.selectionEnd).toBe(2)
 
-    expect(input).toHaveAttribute('aria-placeholder', '   /   ')
-    expect(input.nextSibling.textContent).toEqual('   /   ')
+      await userEvent.click(yearInput)
 
-    rerender(<Field.Expiry placeholder="dashes" />)
+      expect(yearInput.selectionStart).toBe(0)
+      expect(yearInput.selectionEnd).toBe(2)
 
-    expect(input.getAttribute('aria-placeholder')).toEqual('-- / --')
-    expect(input.nextSibling).toHaveTextContent('-- / --')
+      await userEvent.click(monthInput)
+
+      expect(monthInput.selectionStart).toBe(0)
+      expect(monthInput.selectionEnd).toBe(2)
+
+      await userEvent.click(yearInput)
+
+      expect(yearInput.selectionStart).toBe(0)
+      expect(yearInput.selectionEnd).toBe(2)
+    })
   })
 })
