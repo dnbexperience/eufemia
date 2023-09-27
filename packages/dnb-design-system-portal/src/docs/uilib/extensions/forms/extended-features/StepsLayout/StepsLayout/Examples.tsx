@@ -4,7 +4,10 @@ import { StepsLayout, Form } from '@dnb/eufemia/src/extensions/forms'
 
 export const Default = () => {
   return (
-    <ComponentBox scope={{ StepsLayout, Form }}>
+    <ComponentBox
+      scope={{ StepsLayout, Form }}
+      data-visual-test="steps-layout-card-border"
+    >
       <StepsLayout>
         <StepsLayout.Step title="Step 1">
           <Layout.MainHeading>Step 1</Layout.MainHeading>
