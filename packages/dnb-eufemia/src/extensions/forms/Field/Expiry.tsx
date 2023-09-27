@@ -9,6 +9,7 @@ import SharedContext from '../../../shared/Context'
 import { FieldHelpProps, FieldProps } from '../types'
 import { useDataValue } from '../hooks'
 import classnames from 'classnames'
+import { HelpButton } from '../../../components'
 
 export type ExpiryValue = {
   /**
@@ -22,7 +23,7 @@ export type ExpiryValue = {
 }
 
 type ExpiryProps = FieldHelpProps &
-  FieldProps<string> & {
+  Omit<FieldProps<string>, 'onChange'> & {
     /**
      * Fires when input is fully filled out. Has an object as parameter, consisting of `month` and `year` values.
      */
@@ -45,6 +46,7 @@ function Expiry({ ...props }: ExpiryProps) {
     className,
     label,
     error,
+    help,
     disabled,
     handleFocus,
     handleBlur,
@@ -86,6 +88,11 @@ function Expiry({ ...props }: ExpiryProps) {
       status={error?.message}
       on_blur={handleBlur}
       on_focus={handleFocus}
+      suffix={
+        help ? (
+          <HelpButton title={help.title}>{help.contents}</HelpButton>
+        ) : undefined
+      }
       input_element={
         <span className="dnb-date-picker__input__wrapper">
           <ExpiryDateField

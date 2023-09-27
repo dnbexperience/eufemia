@@ -2,10 +2,48 @@
 showTabs: true
 ---
 
+import ChangeLocale from 'dnb-design-system-portal/src/core/ChangeLocale'
 import * as Examples from './Examples'
+
+The locale is what determines the components `placeholder` format .e.g. `mm/yy` in norwegian and `yy/mm` in english.
+
+<ChangeLocale bottom label="Locale used in the demos:" showUS={true} />
+
+English (US) is not included in Eufemia by default. You can include it like:
+
+```jsx
+import enUS from '@dnb/eufemia/shared/locales/en-US'
+<EufemiaProvider locale={enUS} ...>
+	App
+</EufemiaProvider>
+```
 
 ## Demos
 
 ### Empty
 
 <Examples.Empty />
+
+### Placeholder
+
+<Examples.Placeholder />
+
+### Label
+
+<Examples.Label />
+
+### With help
+
+<Examples.WithHelp />
+
+### Disabled
+
+<Examples.Disabled />
+
+### Error
+
+<Examples.Error />
+
+### Validation - Required
+
+<Examples.ValidationRequired />
