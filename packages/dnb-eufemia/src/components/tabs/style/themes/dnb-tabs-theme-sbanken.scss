@@ -1,0 +1,42 @@
+/*
+* Tabs theme for Sbanken
+*
+*/
+
+.dnb-tabs {
+  --tablist-border-color--default: var(--sb-color-gray-light-2);
+  --tab-title-font-color: var(--sb-color-gray-dark-3);
+  --tab-title-font-weight: var(--font-weight-regular);
+  --tab-title-font-size: var(--font-size-basis);
+  --tab-title-background--hover: var(--sb-color-violet-light-4);
+  --tab-title-color--hover: var(--sb-color-violet);
+  --tab-title-border--hover: var(--sb-color-violet-light-4);
+  --tab-title-background--disabled: var(--sb-color-gray-light-2);
+  --tab-title-color--disabled: var(--sb-color-gray-dark-2);
+  --tab-title-border--active-selected: var(--sb-color-violet);
+  --tab-title-color--active-selected: var(--sb-color-violet);
+
+  &__button,
+  .dnb-core-style & &__button {
+    padding: 0 0.5rem;
+
+    &:focus::before {
+      z-index: -1;
+    }
+
+    /* stylelint-disable no-descending-specificity */
+    &:focus {
+      .dnb-tabs__button__title {
+        color: var(--sb-color-blue-dark);
+      }
+    }
+
+    &:not([disabled]).selected {
+      &:focus {
+        .dnb-tabs__button__title {
+          color: var(--sb-color-blue-dark);
+        }
+      }
+    }
+  }
+}
