@@ -32,7 +32,7 @@ export const BreadcrumbMultiple = ({
         {data?.map((breadcrumbItem, i) => {
           return (
             <BreadcrumbItem
-              key={`${breadcrumbItem.text}`}
+              key={i}
               variant={
                 (i == 0 && 'home') ||
                 (i == data.length - 1 && 'current') ||
