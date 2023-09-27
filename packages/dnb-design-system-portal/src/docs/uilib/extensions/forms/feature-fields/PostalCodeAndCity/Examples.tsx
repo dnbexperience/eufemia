@@ -69,6 +69,26 @@ export const LabelAndValue = () => {
   )
 }
 
+export const WithHelp = () => {
+  return (
+    <ComponentBox scope={{ Field }}>
+      <Field.PostalCodeAndCity
+        postalCode={{
+          onChange: (value) => console.log('postalCode onChange', value),
+        }}
+        city={{
+          onChange: (value) => console.log('city onChange', value),
+        }}
+        help={{
+          title: 'Help is available',
+          contents:
+            'Helping others, encouraging others, are often acts of being kind that have more meaning that you may realize.',
+        }}
+      />
+    </ComponentBox>
+  )
+}
+
 export const Disabled = () => {
   return (
     <ComponentBox scope={{ Field }}>

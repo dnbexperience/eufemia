@@ -3,8 +3,10 @@ import classnames from 'classnames'
 import SharedContext from '../../../shared/Context'
 import FieldBlock, { Props as FieldBlockProps } from '../FieldBlock'
 import StringComponent, { Props as StringComponentProps } from './String'
+import { FieldHelpProps } from '../types'
 
-export type Props = Omit<FieldBlockProps, 'children'> &
+export type Props = FieldHelpProps &
+  Omit<FieldBlockProps, 'children'> &
   Record<'postalCode' | 'city', StringComponentProps> & {
     width?: 'small' | 'medium' | 'large'
   }
@@ -16,6 +18,7 @@ function PostalCodeAndCity(props: Props) {
     postalCode = {},
     city = {},
     width = 'large',
+    help,
     ...fieldBlockProps
   } = props
 
@@ -68,6 +71,7 @@ function PostalCodeAndCity(props: Props) {
             ...city.errorMessages,
           }}
           width="stretch"
+          help={help}
         />
       </div>
     </FieldBlock>
