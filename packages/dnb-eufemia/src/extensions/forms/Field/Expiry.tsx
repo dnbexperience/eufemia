@@ -116,25 +116,6 @@ type ExpiryDateFieldProps = {
   innerRef: React.MutableRefObject<HTMLInputElement>
 } & Partial<Omit<TextMaskProps, 'ref'>>
 
-type ExpiryDateFieldConfig = {
-  placeholder: string
-  mask: RegExp[]
-}
-
-const dateFields: Record<
-  ExpiryDateFieldProps['type'],
-  ExpiryDateFieldConfig
-> = {
-  month: {
-    placeholder: 'm',
-    mask: [/[0-1]/, /[0-9]/],
-  },
-  year: {
-    placeholder: 'y',
-    mask: [/[0-9]/, /[0-9]/],
-  },
-}
-
 function ExpiryDateField({
   id,
   type,
@@ -144,6 +125,17 @@ function ExpiryDateField({
   ...rest
 }: ExpiryDateFieldProps) {
   const sharedContext = useContext(SharedContext)
+  const maskPlaceholder =
+    sharedContext?.translation.DatePicker.mask_placeholder
+
+  const masks: Record<ExpiryDateFieldProps['type'], RegExp[]> = {
+    month: [/[0-1]/, /[0-9]/],
+    year: [/[0-9]/, /[0-9]/],
+  }
+
+  const placeholderCharacter = maskPlaceholder.substring(
+    type === 'month' ? 3 : 6
+  )
 
   return (
     <>
@@ -152,8 +144,8 @@ function ExpiryDateField({
         className="dnb-date-picker__input"
         value={value}
         onChange={onChange}
-        mask={dateFields[type].mask}
-        placeholderChar={dateFields[type].placeholder}
+        mask={masks[type]}
+        placeholderChar={placeholderCharacter}
         guide={true}
         showMask={true}
         keepCharPositions={false} // so we can overwrite next value, if it already exists
