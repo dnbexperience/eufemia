@@ -1,6 +1,4 @@
-import React, { useState } from 'react'
-import { Wrapper, Box } from 'storybook-utils/helpers'
-import Expiry, { ExpiryValue } from '../Expiry'
+import Expiry from '../Expiry'
 
 import '../style'
 
