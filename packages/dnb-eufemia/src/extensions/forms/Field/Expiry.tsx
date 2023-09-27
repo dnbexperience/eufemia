@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Props as StringComponentProps } from './String'
+
 import TextMask, {
   TextMaskProps,
 } from '../../../components/input-masked/TextMask'
 import Input from '../../../components/Input'
 import { makeUniqueId } from '../../../shared/component-helper'
-import DatePickerContext from '../../../components/date-picker/DatePickerContext'
-import Context from '../../../shared/Context'
+import SharedContext from '../../../shared/Context'
+import { FieldHelpProps, FieldProps } from '../types'
+import { useDataValue } from '../hooks'
 
 type ExpiryPlaceholderType = 'dashes' | 'spaces' | 'letters'
 
@@ -23,42 +24,19 @@ export type ExpiryValue = {
   year: string
 }
 
-type ExpiryProps = Omit<
-  StringComponentProps,
-  'placeholder' | 'onChange'
-> & {
-  id?: string
-  /**
-   * The placeholder which shows up once the field is empty. Can be set to `dashes`, `spaces` or `letters`
-   * Default: `dashes`
-   */
-  placeholder?: ExpiryPlaceholderType
-  /**
-   * Set to `true` in case the `placeholder` has to be kept during focus.
-   * Default: `true`.
-   */
-  keep_placeholder?: boolean
-  /**
-   * Fires when input is fully filled out. Has an object as parameter, consisting of `month`, `year`, `raw` and `formatted` values.
-   */
-  onChange?: ({ month, year, raw, formatted }: ExpiryValue) => void
-}
+type ExpiryProps = FieldHelpProps &
+  FieldProps<string> & {
+    /**
+     * Fires when input is fully filled out. Has an object as parameter, consisting of `month`, `year`, `raw` and `formatted` values.
+     */
+    onChange?: ({ month, year }: ExpiryValue) => void
+  }
 
-const placeholders: Record<ExpiryPlaceholderType, string> = {
-  dashes: '-- / --',
-  spaces: '   /   ',
-  letters: 'mm / yy',
-}
-
-function Expiry({
-  placeholder = 'dashes',
-  keep_placeholder = true,
-  ...props
-}: ExpiryProps) {
+function Expiry({ ...props }: ExpiryProps) {
   const [month, setMonth] = useState<string>('')
   const [year, setYear] = useState<string>('')
 
-  const context = useContext(DatePickerContext) as any
+  const sharedContext = useContext(SharedContext)
 
   const id = useRef(props.id || makeUniqueId()).current
   const monthRef = useRef<HTMLInputElement>(null)
@@ -85,7 +63,7 @@ function Expiry({
   return (
     <Input
       id={`${id}__input`}
-      className="dnb-date-picker dnb-date-picker--show-input dnb-forms-field-expiry"
+      className={`dnb-date-picker dnb-date-picker--show-input dnb-forms-field-expiry`}
       input_element={
         <span className="dnb-date-picker__input__wrapper">
           <ExpiryDateField
@@ -148,8 +126,6 @@ function ExpiryDateField({
   innerRef,
   ...rest
 }: ExpiryDateFieldProps) {
-  // const context = useContext(Context) as any
-
   return (
     <>
       <TextMask
@@ -173,7 +149,7 @@ function ExpiryDateField({
         {...rest}
       />
       <label id={`${id}-month-label`} htmlFor={`${id}-${type}`} hidden>
-        {/* {context.translation.DatePicker[type]} */}
+        {/* {sharedContext?.translation.DatePicker[type]} */}
       </label>
     </>
   )
@@ -211,6 +187,7 @@ function useHandleCursorPosition({ monthRef, yearRef }) {
       const isMonthInputInFocus = input === monthRef.current
       const isYearInputInFocus = input === yearRef.current
 
+      // Return if user has pressed any key that does require special handling
       if (
         !(
           hasPressedNumberKey ||
