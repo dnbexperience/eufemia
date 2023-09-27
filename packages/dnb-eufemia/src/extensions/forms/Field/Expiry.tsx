@@ -8,8 +8,7 @@ import { makeUniqueId } from '../../../shared/component-helper'
 import SharedContext from '../../../shared/Context'
 import { FieldHelpProps, FieldProps } from '../types'
 import { useDataValue } from '../hooks'
-
-type ExpiryPlaceholderType = 'dashes' | 'spaces' | 'letters'
+import classnames from 'classnames'
 
 export type ExpiryValue = {
   /**
@@ -29,20 +28,28 @@ type ExpiryProps = FieldHelpProps &
     /**
      * Fires when input is fully filled out. Has an object as parameter, consisting of `month`, `year`, `raw` and `formatted` values.
      */
-    onChange?: ({ month, year }: ExpiryValue) => void
+    handleChange?: ({ month, year }: ExpiryValue) => void
   }
 
 function Expiry({ ...props }: ExpiryProps) {
   const [month, setMonth] = useState<string>('')
   const [year, setYear] = useState<string>('')
 
-  const sharedContext = useContext(SharedContext)
-
   const id = useRef(props.id || makeUniqueId()).current
   const monthRef = useRef<HTMLInputElement>(null)
   const yearRef = useRef<HTMLInputElement>(null)
 
   const { handleKeydown } = useHandleCursorPosition({ monthRef, yearRef })
+
+  const {
+    className,
+    label,
+    error,
+    disabled,
+    handleFocus,
+    handleBlur,
+    handleChange,
+  } = useDataValue(props)
 
   // Use effect to synchronise the two value states, instead of firing with an onChange bound to both inputs.
   // Not sure of this is a better solution though
@@ -51,8 +58,8 @@ function Expiry({ ...props }: ExpiryProps) {
       return
     }
 
-    if (props?.onChange) {
-      props.onChange({
+    if (handleChange) {
+      handleChange({
         month,
         year,
       })
@@ -63,7 +70,17 @@ function Expiry({ ...props }: ExpiryProps) {
   return (
     <Input
       id={`${id}__input`}
-      className={`dnb-date-picker dnb-date-picker--show-input dnb-forms-field-expiry`}
+      className={classnames(
+        'dnb-date-picker',
+        'dnb-date-picker--show-input',
+        'dnb-forms-field-expiry',
+        className
+      )}
+      label={label}
+      disabled={disabled}
+      status={error?.message}
+      on_blur={handleBlur}
+      on_focus={handleFocus}
       input_element={
         <span className="dnb-date-picker__input__wrapper">
           <ExpiryDateField
@@ -126,6 +143,8 @@ function ExpiryDateField({
   innerRef,
   ...rest
 }: ExpiryDateFieldProps) {
+  const sharedContext = useContext(SharedContext)
+
   return (
     <>
       <TextMask
@@ -149,7 +168,7 @@ function ExpiryDateField({
         {...rest}
       />
       <label id={`${id}-month-label`} htmlFor={`${id}-${type}`} hidden>
-        {/* {sharedContext?.translation.DatePicker[type]} */}
+        {sharedContext?.translation.DatePicker[type]}
       </label>
     </>
   )
@@ -159,8 +178,6 @@ function ExpiryDateField({
     target.select()
   }
 }
-
-export default Expiry
 
 function useHandleCursorPosition({ monthRef, yearRef }) {
   function handleKeydown(event: React.KeyboardEvent) {
@@ -230,3 +247,6 @@ function useHandleCursorPosition({ monthRef, yearRef }) {
 
   return { handleKeydown }
 }
+
+Expiry._supportsEufemiaSpacingProps = true
+export default Expiry
