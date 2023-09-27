@@ -4,54 +4,14 @@
  */
 
 .dnb-upload {
-  background-color: var(--color-white);
-
-  border-radius: 0.5rem;
-
-  // svg element
-  &__outline {
-    stroke: var(--color-sea-green);
-    border-radius: 0.5rem;
-    stroke-width: 0.1875rem;
-  }
-
-  &--active &__outline {
-    stroke: var(--color-emerald-green);
-
-    inset: -1px;
-    width: calc(100% + 2px);
-    height: calc(100% + 2px);
-
-    rect {
-      stroke-width: 0.25rem;
-      stroke-dasharray: 0;
-    }
-  }
-
-  &--active {
-    background-color: var(--color-pistachio);
-  }
-
-  &__file-cell {
-    &--warning &__content__left .dnb-icon {
-      color: var(--color-fire-red);
-    }
-
-    /** Highlight Animation */
-    transition: background-color;
-    transition-duration: 1.5s;
-    transition-timing-function: var(--easing-default);
-
-    &--highlight {
-      background-color: var(--color-sand-yellow);
-    }
-  }
-
-  &__text.dnb-p {
-    color: var(--color-black-55);
-  }
-
-  &__subtitle.dnb-p {
-    color: var(--color-black-55);
-  }
+  --upload-background: var(--color-white);
+  --upload-background--active: var(--color-pistachio);
+  --upload-border: var(--color-sea-green);
+  --upload-border--active: var(--color-emerald-green);
+  --upload-list-border: var(--color-black-8);
+  --upload-icon--default: var(--color-black-80);
+  --upload-icon--warning: var(--color-fire-red);
+  --upload-highlight: var(--color-sand-yellow);
+  --upload-text--primary: var(--color-black-55);
+  --upload-text--secondary: var(--color-black-55);
 }

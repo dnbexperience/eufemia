@@ -6,6 +6,19 @@
 @import '../../../style/core/utilities.scss';
 
 .dnb-upload {
+  --upload-background: white;
+  --upload-background--active: lightgray;
+  --upload-border: gray;
+  --upload-border--active: black;
+  --upload-list-border: black;
+  --upload-icon--default: black;
+  --upload-icon--warning: red;
+  --upload-highlight: lightyellow;
+  --upload-text--primary: black;
+  --upload-text--secondary: black;
+
+  border-radius: 0.5rem;
+
   display: flex;
   flex-direction: column;
 
@@ -16,9 +29,9 @@
     padding: var(--spacing-medium) var(--spacing-small);
   }
 
-  background-color: var(--color-white);
+  background-color: var(--upload-background);
 
-  // svg element
+  // svg border element
   &__outline {
     content: '';
 
@@ -29,6 +42,27 @@
 
     height: 100%;
     width: 100%;
+
+    stroke: var(--upload-border);
+    border-radius: 0.5rem;
+    stroke-width: 0.1875rem;
+  }
+
+  &--active &__outline {
+    stroke: var(--upload-border--active);
+
+    inset: -1px;
+    width: calc(100% + 2px);
+    height: calc(100% + 2px);
+
+    rect {
+      stroke-width: 0.25rem;
+      stroke-dasharray: 0;
+    }
+  }
+
+  &--active {
+    background-color: var(--upload-background--active);
   }
 
   &__file-input {
@@ -53,12 +87,17 @@
     position: absolute;
     inset: 0;
     height: 1px;
-    background-color: var(--color-black-8);
+    background-color: var(--upload-list-border);
   }
 
   &__file-cell {
     position: relative;
     padding: var(--spacing-small) 0;
+
+    /** Highlight Animation */
+    transition: background-color;
+    transition-duration: 1.5s;
+    transition-timing-function: var(--easing-default);
 
     // Align border to bottom
     &::after {
@@ -76,7 +115,19 @@
         display: flex;
         flex-direction: row;
         align-items: center;
+
+        .dnb-icon {
+          color: var(--upload-icon--default);
+        }
       }
+    }
+
+    &--warning &__content__left .dnb-icon {
+      color: var(--upload-icon--warning);
+    }
+
+    &--highlight {
+      background-color: var(--upload-highlight);
     }
 
     &__text-container {
@@ -89,5 +140,13 @@
         font-size: var(--font-size-basis);
       }
     }
+  }
+
+  &__text.dnb-p {
+    color: var(--upload-text--secondary);
+  }
+
+  &__subtitle.dnb-p {
+    color: var(--upload-text--secondary);
   }
 }
