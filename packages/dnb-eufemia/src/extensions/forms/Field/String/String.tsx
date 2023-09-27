@@ -1,4 +1,4 @@
-import React, { MutableRefObject, useContext } from 'react'
+import React, { useContext } from 'react'
 import classnames from 'classnames'
 import { HelpButton, Input, Textarea } from '../../../../components'
 import { InputProps } from '../../../../components/input/Input'
@@ -38,9 +38,6 @@ export type Props = FieldHelpProps &
     pattern?: string
     // Styling
     width?: false | 'small' | 'medium' | 'large' | 'stretch'
-    innerRef?: React.Ref<
-      MutableRefObject<HTMLInputElement | HTMLTextAreaElement>
-    >
   }
 
 function StringComponent(props: Props) {
@@ -113,11 +110,9 @@ function StringComponent(props: Props) {
     characterCounter,
     mask,
     width,
-    keep_placeholder,
     handleFocus,
     handleBlur,
     handleChange,
-    innerRef,
   } = useDataValue(preparedProps)
 
   const characterCounterElement = characterCounter
