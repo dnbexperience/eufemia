@@ -28,7 +28,7 @@ type ExpiryProps = FieldHelpProps &
     /**
      * Fires when input is fully filled out. Has an object as parameter, consisting of `month`, `year`, `raw` and `formatted` values.
      */
-    handleChange?: ({ month, year }: ExpiryValue) => void
+    onChange?: ({ month, year }: ExpiryValue) => void
   }
 
 function Expiry({ ...props }: ExpiryProps) {
