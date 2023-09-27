@@ -4,14 +4,26 @@ import userEvent from '@testing-library/user-event'
 import Field from '../'
 
 describe('Field.Expiry', () => {
-  it('should return month, date raw and formatted values', async () => {
+  beforeEach(() => {
+    window.requestAnimationFrame = jest.fn((callback) => {
+      return setTimeout(callback, 0)
+    })
+    window.cancelAnimationFrame = jest.fn((id) => {
+      clearTimeout(id)
+      return id
+    })
+  })
+
+  it('should return month and year value when input is fully filled out', async () => {
     const onChange = jest.fn()
 
     render(<Field.Expiry onChange={onChange} />)
 
     const input = document.querySelector('input')
 
-    await userEvent.type(input, '1125')
+    input.focus()
+
+    await userEvent.keyboard('1125')
 
     expect(onChange).toBeCalledTimes(1)
     expect(onChange.mock.calls[0][0]).toEqual({
@@ -20,7 +32,7 @@ describe('Field.Expiry', () => {
     })
   })
 
-  describe.only('keydown', () => {
+  describe('keydown', () => {
     beforeEach(() => {
       window.requestAnimationFrame = jest.fn((callback) => {
         return setTimeout(callback, 0)

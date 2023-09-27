@@ -13,12 +13,10 @@ import classnames from 'classnames'
 export type ExpiryValue = {
   /**
    * Month value from input
-   * Example: 08
    */
   month: string
   /**
    * Year value from input
-   * Example: 24
    */
   year: string
 }
@@ -26,7 +24,7 @@ export type ExpiryValue = {
 type ExpiryProps = FieldHelpProps &
   FieldProps<string> & {
     /**
-     * Fires when input is fully filled out. Has an object as parameter, consisting of `month`, `year`, `raw` and `formatted` values.
+     * Fires when input is fully filled out. Has an object as parameter, consisting of `month` and `year` values.
      */
     onChange?: ({ month, year }: ExpiryValue) => void
   }
@@ -35,13 +33,15 @@ function Expiry({ ...props }: ExpiryProps) {
   const [month, setMonth] = useState<string>('')
   const [year, setYear] = useState<string>('')
 
-  const id = useRef(props.id || makeUniqueId()).current
+  const sharedContext = useContext(SharedContext)
+
   const monthRef = useRef<HTMLInputElement>(null)
   const yearRef = useRef<HTMLInputElement>(null)
 
   const { handleKeydown } = useHandleCursorPosition({ monthRef, yearRef })
 
   const {
+    id: propsId,
     className,
     label,
     error,
@@ -51,10 +51,15 @@ function Expiry({ ...props }: ExpiryProps) {
     handleChange,
   } = useDataValue(props)
 
+  const id = useRef(propsId || makeUniqueId()).current
+
   // Use effect to synchronise the two value states, instead of firing with an onChange bound to both inputs.
   // Not sure of this is a better solution though
   useEffect(() => {
-    if (!(month?.length === 2 && year?.length === 2)) {
+    const isMonthValid = month?.length === 2 && !isNaN(Number(month))
+    const isYearValid = year?.length === 2 && !isNaN(Number(year))
+
+    if (!isMonthValid || !isYearValid) {
       return
     }
 
@@ -76,7 +81,7 @@ function Expiry({ ...props }: ExpiryProps) {
         'dnb-forms-field-expiry',
         className
       )}
-      label={label}
+      label={label ?? sharedContext?.translation.Forms.dateLabel}
       disabled={disabled}
       status={error?.message}
       on_blur={handleBlur}
@@ -88,7 +93,7 @@ function Expiry({ ...props }: ExpiryProps) {
             type="month"
             value={month}
             innerRef={monthRef}
-            onChange={(event) => setMonth(event.currentTarget.value)}
+            onChange={(event) => setMonth(event.target.value)}
             onKeyDown={handleKeydown}
           />
           <span className="dnb-date-picker--separator" aria-hidden>
@@ -99,7 +104,7 @@ function Expiry({ ...props }: ExpiryProps) {
             type="year"
             value={year}
             innerRef={yearRef}
-            onChange={(event) => setYear(event.currentTarget.value)}
+            onChange={(event) => setYear(event.target.value)}
             onKeyDown={handleKeydown}
           />
         </span>
@@ -133,7 +138,7 @@ function ExpiryDateField({
     year: [/[0-9]/, /[0-9]/],
   }
 
-  const placeholderCharacter = maskPlaceholder.substring(
+  const placeholderCharacter = maskPlaceholder.charAt(
     type === 'month' ? 3 : 6
   )
 
