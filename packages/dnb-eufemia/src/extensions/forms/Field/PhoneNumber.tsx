@@ -5,18 +5,19 @@ import classnames from 'classnames'
 import CountryCode from './CountryCode'
 import StringComponent from './String'
 import { useDataValue } from '../hooks'
-import { FieldProps, pickSpacingProps } from '../types'
+import { FieldHelpProps, FieldProps, pickSpacingProps } from '../types'
 import SharedContext from '../../../shared/Context'
 
-export type Props = FieldProps<string, undefined> & {
-  countryCodeFieldClassName?: string
-  numberFieldClassName?: string
-  countryCodeLabel?: string
-  numberMask?: InputMaskedProps['mask']
-  width?: 'large' | 'stretch'
-  onCountryCodeChange?: (value: string | undefined) => void
-  onNumberChange?: (value: string | undefined) => void
-}
+export type Props = FieldHelpProps &
+  FieldProps<string, undefined> & {
+    countryCodeFieldClassName?: string
+    numberFieldClassName?: string
+    countryCodeLabel?: string
+    numberMask?: InputMaskedProps['mask']
+    width?: 'large' | 'stretch'
+    onCountryCodeChange?: (value: string | undefined) => void
+    onNumberChange?: (value: string | undefined) => void
+  }
 
 function PhoneNumber(props: Props) {
   const sharedContext = useContext(SharedContext)
@@ -46,6 +47,7 @@ function PhoneNumber(props: Props) {
     error,
     disabled,
     width = 'large',
+    help,
     handleFocus,
     handleBlur,
     handleChange,
@@ -141,6 +143,7 @@ function PhoneNumber(props: Props) {
         error={error}
         disabled={disabled}
         width="stretch"
+        help={help}
       />
     </Div>
   )
