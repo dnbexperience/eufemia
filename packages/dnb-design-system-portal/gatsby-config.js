@@ -138,9 +138,16 @@ const plugins = [
         eiendom: { name: 'DNB Eiendom' },
         sbanken: { name: 'Sbanken (WIP)' },
       },
-      filesGlob: shouldUsePrebuild()
-        ? '**/build/style/themes/**/*-theme-*.min.css'
-        : '**/src/style/themes/**/*-theme-*.scss', // also load the extensions CSS package
+      filesGlobs: shouldUsePrebuild()
+        ? [
+            '**/build/style/dnb-ui-core.min.css',
+            '**/build/style/themes/**/*-theme-*.min.css',
+          ]
+        : [
+            '**/src/style/dnb-ui-core.scss',
+            '**/src/style/themes/**/*-theme-*.scss',
+          ],
+      // also load the extensions CSS package
       defaultTheme,
     },
   },
