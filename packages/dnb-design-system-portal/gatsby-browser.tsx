@@ -58,7 +58,7 @@ export const onRouteUpdate = ({ location, prevLocation }) => {
 
 export const onPreRouteUpdate = ({ prevLocation }) => {
   if (prevLocation && !globalThis.IS_TEST) {
-    // Opmit scrolling on page changes
+    // Omit scrolling on page changes
     document.documentElement.style.scrollBehavior = 'auto'
     setTimeout(() => {
       document.documentElement.style.scrollBehavior = ''
