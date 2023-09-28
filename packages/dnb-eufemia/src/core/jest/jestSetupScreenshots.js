@@ -457,14 +457,6 @@ async function handleSimulation({
           break
         }
 
-        case 'longclick': {
-          delaySimulation = isCI ? 600 : 400
-
-          // No await
-          element.click({ delay: delaySimulation })
-          break
-        }
-
         /**
          * Useful in situations,
          * where a click with a focus is needed (ToggleButton).
