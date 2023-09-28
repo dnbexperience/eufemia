@@ -46,7 +46,7 @@ function Expiry({ ...props }: ExpiryProps) {
   const { handleKeydown } = useHandleCursorPosition({ monthRef, yearRef })
 
   const id = useRef(propsId || makeUniqueId()).current
-  console.log('value', value)
+
   return (
     <Input
       id={`${id}__input`}

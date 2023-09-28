@@ -2,6 +2,9 @@ import React from 'react'
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Field from '../'
+import { ExpiryValue } from '../Expiry'
+
+const initialValue: ExpiryValue = { month: '', year: '' }
 
 describe('Field.Expiry', () => {
   beforeEach(() => {
@@ -17,18 +20,30 @@ describe('Field.Expiry', () => {
   it('should return month and year value when input is fully filled out', async () => {
     const onChange = jest.fn()
 
-    render(<Field.Expiry onChange={onChange} />)
+    render(<Field.Expiry value={initialValue} onChange={onChange} />)
 
     const input = document.querySelector('input')
 
     input.focus()
 
-    await userEvent.keyboard('1125')
+    await userEvent.keyboard('1235')
 
-    expect(onChange).toBeCalledTimes(1)
+    expect(onChange).toBeCalledTimes(4)
     expect(onChange.mock.calls[0][0]).toEqual({
-      month: '11',
-      year: '25',
+      month: '1m',
+      year: '',
+    })
+    expect(onChange.mock.calls[1][0]).toEqual({
+      month: '12',
+      year: '',
+    })
+    expect(onChange.mock.calls[2][0]).toEqual({
+      month: '12',
+      year: '3å',
+    })
+    expect(onChange.mock.calls[3][0]).toEqual({
+      month: '12',
+      year: '35',
     })
   })
 
@@ -44,7 +59,7 @@ describe('Field.Expiry', () => {
     })
 
     it('should not change cursor position when a letter is typed', async () => {
-      render(<Field.Expiry />)
+      render(<Field.Expiry value={initialValue} />)
 
       const monthInput = document.querySelectorAll('input')[0]
       const yearInput = document.querySelectorAll('input')[1]
@@ -63,7 +78,7 @@ describe('Field.Expiry', () => {
     })
 
     it('should change cursor position to year when month is filled out', async () => {
-      render(<Field.Expiry />)
+      render(<Field.Expiry value={initialValue} />)
 
       const monthInput = document.querySelectorAll('input')[0]
       const yearInput = document.querySelectorAll('input')[1]
@@ -76,7 +91,7 @@ describe('Field.Expiry', () => {
     })
 
     it('should change cursor position to year after backspace through year', async () => {
-      render(<Field.Expiry />)
+      render(<Field.Expiry value={initialValue} />)
 
       const monthInput = document.querySelectorAll('input')[0]
       const yearInput = document.querySelectorAll('input')[1]
@@ -95,7 +110,7 @@ describe('Field.Expiry', () => {
     })
 
     it('should be able to navigate between inputs using arrow keys', async () => {
-      render(<Field.Expiry />)
+      render(<Field.Expiry value={initialValue} />)
 
       const monthInput = document.querySelectorAll('input')[0]
       const yearInput = document.querySelectorAll('input')[1]
@@ -125,7 +140,7 @@ describe('Field.Expiry', () => {
     })
 
     it('should be able to tab between month and year', async () => {
-      render(<Field.Expiry />)
+      render(<Field.Expiry value={initialValue} />)
 
       const monthInput = document.querySelectorAll('input')[0]
       const yearInput = document.querySelectorAll('input')[1]
@@ -150,7 +165,7 @@ describe('Field.Expiry', () => {
 
   describe('click', () => {
     it('should select whole input value on click', async () => {
-      render(<Field.Expiry />)
+      render(<Field.Expiry value={initialValue} />)
 
       const monthInput = document.querySelectorAll('input')[0]
       const yearInput = document.querySelectorAll('input')[1]
