@@ -754,12 +754,12 @@ button .dnb-form-status__text {
   --upload-highlight: lightyellow;
   --upload-text--primary: black;
   --upload-text--secondary: black;
-  border-radius: 0.5rem;
+  position: relative;
   display: flex;
   flex-direction: column;
-  position: relative;
   padding: var(--spacing-medium);
   background-color: var(--upload-background);
+  border-radius: 0.5rem;
 }
 @media screen and (max-width: 40em) {
   .dnb-upload {
@@ -773,15 +773,15 @@ button .dnb-form-status__text {
   inset: 0;
   height: 100%;
   width: 100%;
-  stroke: var(--upload-border);
   border-radius: 0.5rem;
+  stroke: var(--upload-border);
   stroke-width: 0.1875rem;
 }
 .dnb-upload--active .dnb-upload__outline {
-  stroke: var(--upload-border--active);
   inset: -1px;
   width: calc(100% + 2px);
   height: calc(100% + 2px);
+  stroke: var(--upload-border--active);
 }
 .dnb-upload--active .dnb-upload__outline rect {
   stroke-width: 0.25rem;
