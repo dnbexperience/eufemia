@@ -55,7 +55,7 @@ export default function Anchor({
   if (isAbsoluteUrl) {
     rest.target = '_blank'
     rest.rel = 'noreferrer'
-  } else if (!/^\//.test(href)) {
+  } else if (!/^(\/|#)/.test(href)) {
     href = `/${href}`
   }
 
@@ -74,6 +74,15 @@ export default function Anchor({
     if (onClick) {
       onClick(event)
     }
-    scrollToHashHandler(event)
+    try {
+      const element = scrollToHashHandler(event).element?.parentElement
+
+      if (element) {
+        element.classList.add('focus')
+        setTimeout(() => element.classList.remove('focus'), 3000)
+      }
+    } catch (error) {
+      console.error(error)
+    }
   }
 }
