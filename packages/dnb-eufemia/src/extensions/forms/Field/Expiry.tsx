@@ -22,17 +22,21 @@ export type ExpiryValue = {
   year: string
 }
 
-type ExpiryProps = FieldHelpProps &
-  Omit<FieldProps<string>, 'onChange'> & {
-    /**
-     * Fires when input is fully filled out. Has an object as parameter, consisting of `month` and `year` values.
-     */
-    onChange?: ({ month, year }: ExpiryValue) => void
-  }
+type ExpiryProps = FieldHelpProps & FieldProps<ExpiryValue>
 
 function Expiry({ ...props }: ExpiryProps) {
-  const [month, setMonth] = useState<string>('')
-  const [year, setYear] = useState<string>('')
+  const {
+    id: propsId,
+    className,
+    label,
+    error,
+    help,
+    disabled,
+    value,
+    handleFocus,
+    handleBlur,
+    handleChange,
+  } = useDataValue(props)
 
   const sharedContext = useContext(SharedContext)
 
@@ -41,39 +45,8 @@ function Expiry({ ...props }: ExpiryProps) {
 
   const { handleKeydown } = useHandleCursorPosition({ monthRef, yearRef })
 
-  const {
-    id: propsId,
-    className,
-    label,
-    error,
-    help,
-    disabled,
-    handleFocus,
-    handleBlur,
-    handleChange,
-  } = useDataValue(props)
-
   const id = useRef(propsId || makeUniqueId()).current
-
-  // Use effect to synchronise the two value states, instead of firing with an onChange bound to both inputs.
-  // Not sure of this is a better solution though
-  useEffect(() => {
-    const isMonthValid = month?.length === 2 && !isNaN(Number(month))
-    const isYearValid = year?.length === 2 && !isNaN(Number(year))
-
-    if (!isMonthValid || !isYearValid) {
-      return
-    }
-
-    if (handleChange) {
-      handleChange({
-        month,
-        year,
-      })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [month, year])
-
+  console.log('value', value)
   return (
     <Input
       id={`${id}__input`}
@@ -98,9 +71,14 @@ function Expiry({ ...props }: ExpiryProps) {
           <ExpiryDateField
             id={id}
             type="month"
-            value={month}
+            value={value?.month}
             innerRef={monthRef}
-            onChange={(event) => setMonth(event.target.value)}
+            onChange={(event) =>
+              handleChange({
+                month: event.target.value,
+                year: value.year,
+              })
+            }
             onKeyDown={handleKeydown}
           />
           <span className="dnb-date-picker--separator" aria-hidden>
@@ -109,9 +87,14 @@ function Expiry({ ...props }: ExpiryProps) {
           <ExpiryDateField
             id={id}
             type="year"
-            value={year}
+            value={value?.year}
             innerRef={yearRef}
-            onChange={(event) => setYear(event.target.value)}
+            onChange={(event) =>
+              handleChange({
+                month: value.month,
+                year: event.target.value,
+              })
+            }
             onKeyDown={handleKeydown}
           />
         </span>
