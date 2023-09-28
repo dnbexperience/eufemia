@@ -17,12 +17,10 @@
   --upload-text--primary: black;
   --upload-text--secondary: black;
 
-  border-radius: 0.5rem;
-
+  position: relative;
   display: flex;
   flex-direction: column;
 
-  position: relative;
   padding: var(--spacing-medium);
 
   @include allBelow(small) {
@@ -30,6 +28,7 @@
   }
 
   background-color: var(--upload-background);
+  border-radius: 0.5rem;
 
   // svg border element
   &__outline {
@@ -43,17 +42,17 @@
     height: 100%;
     width: 100%;
 
-    stroke: var(--upload-border);
     border-radius: 0.5rem;
+    stroke: var(--upload-border);
     stroke-width: 0.1875rem;
   }
 
   &--active &__outline {
-    stroke: var(--upload-border--active);
-
     inset: -1px;
     width: calc(100% + 2px);
     height: calc(100% + 2px);
+
+    stroke: var(--upload-border--active);
 
     rect {
       stroke-width: 0.25rem;
