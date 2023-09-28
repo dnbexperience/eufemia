@@ -11,7 +11,7 @@ export const ExpiryTest = () => {
 
   return (
     <Expiry
-      onChange={setValue}
+      onChange={(value: ExpiryValue) => setValue(value)}
       value={{ month: value.month, year: value.year }}
     />
   )
