@@ -1,24 +1,15 @@
-/* eslint-disable react/prop-types */
 /**
- * Global Portal ThemeProvider
+ * Global Portal Providers
  *
  */
 
 import React from 'react'
-
 import { CacheProvider } from '@emotion/react'
 import createEmotionCache from '@emotion/cache'
-
-import { Provider, Context, Theme } from '@dnb/eufemia/src/shared'
+import { Provider, Context } from '@dnb/eufemia/src/shared'
 import enUS from '@dnb/eufemia/src/shared/locales/en-US'
 import { isTrue } from '@dnb/eufemia/src/shared/component-helper'
-
-import { useTheme } from 'gatsby-plugin-eufemia-theme-handler'
-import { importStyles } from './StyleImporter.cjs'
-
 import PortalLayout, { PortalLayoutProps } from './PortalLayout'
-
-importStyles()
 
 // This ensures we processes also the css prop during build
 // More into in the docs: https://emotion.sh/docs/ssr#gatsby
@@ -51,19 +42,11 @@ export const rootElement =
           locale={getLang()}
           locales={enUS} // extend the available locales
         >
-          <SkeletonEnabled>
-            <ThemeProvider>{element}</ThemeProvider>
-          </SkeletonEnabled>
+          <SkeletonEnabled>{element}</SkeletonEnabled>
         </Provider>
       </CacheProvider>
     )
   }
-
-function ThemeProvider({ children }) {
-  const theme = useTheme()
-
-  return <Theme {...theme}>{children}</Theme>
-}
 
 // This ensures we actually will get skeletons enabled when defined in the url
 function SkeletonEnabled({ children }) {

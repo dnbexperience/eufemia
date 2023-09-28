@@ -256,14 +256,6 @@ exports.onCreateWebpackConfig = ({
       },
     },
     plugins: [
-      plugins.define({
-        'global.STYLE_IMPORT_PATH': JSON.stringify(
-          PREBUILD_EXISTS
-            ? '@dnb/eufemia/build/style/dnb-ui-core.min.css'
-            : '@dnb/eufemia/src/style/core',
-        ),
-      }),
-
       // Webpack 4 to 5 migration
       plugins.provide({ process: 'process/browser' }),
     ],
