@@ -127,19 +127,22 @@ jobs:
           key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-deps-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-deps-
 
+      - name: Install dependencies
+        run: yarn install --immutable
+
       - name: Use Playwright cache
         uses: actions/cache@v3
         id: playwright-cache
         with:
-          path: ~/Library/Caches/ms-playwright
+          path: |
+            ~/Library/Caches/ms-playwright
+            ~/.cache/ms-playwright
+            %USERPROFILE%\AppData\Local\ms-playwright
           key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-${{ hashFiles('**/yarn.lock') }}
-      - run: npx playwright-firefox install --with-deps firefox
+      - run: yarn dlx playwright install --with-deps firefox
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-      - run: npx playwright-firefox install-deps firefox
+      - run: yarn dlx playwright install-deps firefox
         if: steps.playwright-cache.outputs.cache-hit == 'true'
-
-      - name: Install dependencies
-        run: yarn install --immutable
 
       - name: Re-store portal artifacts
         uses: actions/download-artifact@v3
@@ -201,19 +204,22 @@ jobs:
           key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-modules-
 
-      - name: Use Playwright cache
-        uses: actions/cache@v3
-        id: playwright-binary-cache
-        with:
-          path: ~/.cache/ms-playwright
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-binary-${{ hashFiles('**/yarn.lock') }}
-
       - name: Install dependencies
         run: yarn install --immutable
 
-      - name: Install Playwright
-        if: steps.playwright-binary-cache.outputs.cache-hit != 'true'
-        run: yarn workspace dnb-design-system-portal playwright install --with-deps firefox
+      - name: Use Playwright cache
+        uses: actions/cache@v3
+        id: playwright-cache
+        with:
+          path: |
+            ~/Library/Caches/ms-playwright
+            ~/.cache/ms-playwright
+            %USERPROFILE%\AppData\Local\ms-playwright
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-${{ hashFiles('**/yarn.lock') }}
+      - run: yarn dlx playwright install --with-deps firefox
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+      - run: yarn dlx playwright install-deps firefox
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
 
       - name: Re-store portal artifacts
         uses: actions/download-artifact@v3
