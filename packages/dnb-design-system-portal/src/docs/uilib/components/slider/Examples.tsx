@@ -68,7 +68,8 @@ export const SliderExampleMultiButtonsThumbBehavior = () => (
       />
       <Slider
         multiThumbBehavior="push"
-        value={[10, 50, 70]}
+        min={-40}
+        value={[-10, 50, 70]}
         step={1}
         label="Push behavior:"
         numberFormat={{ currency: true }}

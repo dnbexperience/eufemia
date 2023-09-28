@@ -150,7 +150,7 @@ export function SliderProvider(localProps: SliderAllProps) {
     let numberValue = roundValue(rawValue, step)
     let multiValues: ValueTypes = numberValue
 
-    if (numberValue > -1) {
+    if (numberValue >= min) {
       if (isMulti) {
         const currentIndex = getAndUpdateCurrentIndex(numberValue)
         const lower = realtimeValue.current[currentIndex - 1]
