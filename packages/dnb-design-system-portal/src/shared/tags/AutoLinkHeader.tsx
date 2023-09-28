@@ -1,6 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
-import AnchorLink from './Anchor'
+import Anchor from './Anchor'
 import Heading, {
   HeadingAllProps,
 } from '@dnb/eufemia/src/components/Heading'
@@ -61,7 +61,7 @@ const AutoLinkHeader = ({
     >
       <>
         {clickHandler && id && (
-          <AnchorLink
+          <Anchor
             className="anchor-hash"
             tooltip="Click to set an Anchor URL"
             id={id}
@@ -70,7 +70,7 @@ const AutoLinkHeader = ({
             aria-hidden
           >
             #
-          </AnchorLink>
+          </Anchor>
         )}
         {typeof addToSearchIndex === 'function'
           ? addToSearchIndex({

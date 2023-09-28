@@ -5,7 +5,7 @@
 
 import React, { useContext, useEffect, useRef } from 'react'
 import classnames from 'classnames'
-import Link from '../parts/Link'
+import Anchor from '../tags/Anchor'
 import { useStaticQuery, graphql } from 'gatsby'
 import Context from '@dnb/eufemia/src/shared/Context'
 import { SidebarMenuContext } from './SidebarMenuContext'
@@ -318,8 +318,8 @@ function ListItem({
           } as React.CSSProperties /* Casting to allow css variable in JSX inline styling */
         }
       >
-        <Link
-          to={path}
+        <Anchor
+          href={path}
           onClick={closeMenu}
           className={classnames(
             'dnb-anchor',
@@ -344,7 +344,7 @@ function ListItem({
           {status && (
             <Badge space={{ right: 'xx-small' }} content={statusTitle} />
           )}
-        </Link>
+        </Anchor>
       </li>
       {/* Currently not nesting list items with an <ul/> inside <li/> as it breaks the styling for the time being */}
       {subheadings &&

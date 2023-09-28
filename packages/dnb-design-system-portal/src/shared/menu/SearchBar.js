@@ -8,7 +8,8 @@ import classnames from 'classnames'
 import algoliasearch from 'algoliasearch/lite'
 import { Autocomplete } from '@dnb/eufemia/src/components'
 import { Anchor } from '@dnb/eufemia/src'
-import { Link, navigate } from 'gatsby'
+import { navigate } from 'gatsby'
+import { Link } from '../tags/Anchor'
 import {
   autocompleteStyle,
   portalClassStyle,
@@ -144,12 +145,11 @@ const makeHitsHumanFriendly = ({ hits, setHidden }) => {
           <Anchor
             element={Link}
             key={slug + hash + i}
-            to={`/${slug}#${hash}`}
+            href={`/${slug}#${hash}`}
             onClick={(e) => {
               e.preventDefault()
               e.stopPropagation()
               setHidden()
-              // emptyData()
               navigate(`/${slug}#${hash}`)
               scrollToAnimation()
             }}

@@ -4,30 +4,76 @@
  */
 
 import React from 'react'
-import { Link } from '@dnb/eufemia/src'
-import { scrollToHashHandler } from '@dnb/eufemia/src/components/Anchor'
+import { Anchor as EufemiaAnchor } from '@dnb/eufemia/src'
+import {
+  AnchorAllProps as Props,
+  scrollToHashHandler,
+} from '@dnb/eufemia/src/components/Anchor'
+import { GatsbyLinkProps, Link as GatsbyLink } from 'gatsby'
+import { ElementIsType } from '@dnb/eufemia/src/elements/Element'
 
-const Anchor = ({ children, href, onClick = null, ...rest }) => {
-  if (/^http/.test(href) || href[0] === '!') {
+export type AnchorProps = Props &
+  Omit<
+    React.DetailedHTMLProps<
+      React.LinkHTMLAttributes<HTMLLinkElement>,
+      HTMLLinkElement
+    >,
+    'ref'
+  >
+
+const PortalLink = React.forwardRef(function Link<TState>(
+  { href, ...props }: AnchorProps,
+  ref,
+) {
+  return (
+    <GatsbyLink
+      to={href}
+      ref={ref}
+      {...(props as Omit<GatsbyLinkProps<TState>, 'ref' | 'onClick'>)}
+    />
+  )
+})
+
+export { PortalLink as Link }
+
+export default function Anchor({
+  href,
+  to = null,
+  onClick = null,
+  ...rest
+}: AnchorProps) {
+  if (to) {
+    href = to
+  }
+
+  if (href.startsWith('!')) {
+    href = href.substr(1)
+  }
+
+  const isAbsoluteUrl = href.startsWith('http')
+
+  if (isAbsoluteUrl) {
     rest.target = '_blank'
     rest.rel = 'noreferrer'
-    if (href[0] === '!') {
-      href = href.substr(1)
-    }
+  } else if (!/^\//.test(href)) {
+    href = `/${href}`
   }
+
+  const element = (isAbsoluteUrl ? 'a' : PortalLink) as ElementIsType
+
+  return (
+    <EufemiaAnchor
+      href={href}
+      element={element}
+      {...rest}
+      onClick={clickHandler}
+    />
+  )
 
   function clickHandler(event: React.MouseEvent<HTMLAnchorElement>) {
     if (onClick) {
-      onClick()
+      onClick(event)
     }
     scrollToHashHandler(event)
   }
-
-  return (
-    <Link lang="en-GB" href={href} {...rest} onClick={clickHandler}>
-      {children}
-    </Link>
-  )
 }
-
-export default Anchor

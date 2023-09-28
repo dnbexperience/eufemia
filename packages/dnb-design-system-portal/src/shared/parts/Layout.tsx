@@ -4,7 +4,7 @@
  */
 
 import React from 'react'
-import { Link } from 'gatsby'
+import Anchor from '../tags/Anchor'
 import classnames from 'classnames'
 import StickyMenuBar from '../menu/StickyMenuBar'
 import packageJson from '../../../package.json' // needs resolveJsonModule in tsconfig
@@ -181,14 +181,12 @@ const Footer = () => {
 
       <Logo height="40" color="white" />
 
-      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-      {/* @ts-ignore */}
-      <Link
+      <Anchor
         to="/license"
-        className="dnb-anchor dnb-anchor--contrast dnb-anchor--no-underline"
+        className="dnb-anchor--contrast dnb-anchor--no-underline"
       >
         Copyright (c) 2018-present DNB.no
-      </Link>
+      </Anchor>
     </footer>
   )
 }

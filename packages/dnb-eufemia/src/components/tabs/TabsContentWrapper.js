@@ -110,6 +110,7 @@ export default class ContentWrapper extends React.PureComponent {
           createSpacingClasses(rest)
         )}
         {...params}
+        animate={false}
       >
         {content}
       </HeightAnimation>
