@@ -120,17 +120,14 @@ function ExpiryDateField({
   ...rest
 }: ExpiryDateFieldProps) {
   const sharedContext = useContext(SharedContext)
-  const maskPlaceholder =
-    sharedContext?.translation.DatePicker.mask_placeholder
+
+  const placeholderCharacter =
+    sharedContext?.translation.DatePicker.placeholder_characters[type]
 
   const masks: Record<ExpiryDateFieldProps['type'], RegExp[]> = {
     month: [/[0-1]/, /[0-9]/],
     year: [/[0-9]/, /[0-9]/],
   }
-
-  const placeholderCharacter = maskPlaceholder.charAt(
-    type === 'month' ? 3 : 6
-  )
 
   return (
     <>

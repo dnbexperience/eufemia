@@ -32,6 +32,11 @@ export default {
       submit_button_text: 'Ok',
       cancel_button_text: 'Avbryt',
       reset_button_text: 'Tilbakestill',
+      placeholder_characters: {
+        day: 'd',
+        month: 'm',
+        year: 'å',
+      },
     },
     Anchor: {
       targetBlankTitle: 'Åpner et nytt vindu',
