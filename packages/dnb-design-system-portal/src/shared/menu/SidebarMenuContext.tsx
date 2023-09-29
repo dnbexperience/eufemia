@@ -4,7 +4,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 
 export const SidebarMenuContext = React.createContext({
   // just to have some default values (to avoid destructuring error later)
@@ -15,18 +14,18 @@ export const SidebarMenuContext = React.createContext({
   isClosing: null,
 })
 
-export class SidebarMenuProvider extends React.PureComponent {
-  static propTypes = {
-    children: PropTypes.node.isRequired,
-  }
-  constructor(props) {
-    super(props)
+type Props = {
+  children: React.ReactNode
+}
 
-    this.state = {
-      isOpen: false,
-      isClosing: false,
-    }
+export class SidebarMenuProvider extends React.PureComponent<Props> {
+  state = {
+    isOpen: false,
+    isClosing: false,
   }
+
+  timeout: NodeJS.Timeout
+  lastScrollPosition: number
 
   toggleMenu = () => {
     clearTimeout(this.timeout)
@@ -50,14 +49,10 @@ export class SidebarMenuProvider extends React.PureComponent {
           try {
             if (!isOpen && typeof window !== 'undefined') {
               const top = this.lastScrollPosition
-              if (window.scrollTo) {
-                window.scrollTo({
-                  top,
-                  behavior: 'smooth',
-                })
-              } else {
-                window.scrollTop = top
-              }
+              window.scrollTo({
+                top,
+                behavior: 'smooth',
+              })
             }
           } catch (e) {
             console.log('Could not run scrollTo', e)
@@ -71,17 +66,9 @@ export class SidebarMenuProvider extends React.PureComponent {
         isClosing: true,
       })
     } else if (typeof window !== 'undefined') {
-      try {
-        if (window.scrollTo) {
-          window.scrollTo({
-            top: 0,
-          })
-        } else {
-          window.scrollTop = 0
-        }
-      } catch (e) {
-        console.log('Could not run scrollTo', e)
-      }
+      window.scrollTo({
+        top: 0,
+      })
     }
   }
 
@@ -108,7 +95,6 @@ export class SidebarMenuProvider extends React.PureComponent {
       <SidebarMenuContext.Provider
         value={{
           toggleMenu: this.toggleMenu,
-          _scrollRef: this._scrollRef,
           openMenu: this.openMenu,
           closeMenu: this.closeMenu,
           ...this.state,
