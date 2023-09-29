@@ -53,6 +53,8 @@ function Expiry({ ...props }: ExpiryProps) {
 
   const id = useRef(propsId || makeUniqueId()).current
 
+  const status = error ? 'error' : warning ? 'warn' : info ? 'info' : null
+
   return (
     <FieldBlock
       className={classnames('dnb-forms-field-expiry', className)}
@@ -70,8 +72,10 @@ function Expiry({ ...props }: ExpiryProps) {
         id={`${id}__input`}
         className={classnames(
           'dnb-date-picker',
-          'dnb-date-picker--show-input'
+          'dnb-date-picker--show-input',
+          status && `dnb-date-picker__status--${status}`
         )}
+        status={status}
         disabled={disabled}
         on_blur={handleBlur}
         on_focus={handleFocus}
@@ -148,7 +152,11 @@ function ExpiryDateField({
     <>
       <TextMask
         id={`${id}-${type}`}
-        className="dnb-date-picker__input"
+        className={classnames(
+          'dnb-input__input',
+          'dnb-date-picker__input',
+          `dnb-date-picker__input--${type}`
+        )}
         value={value}
         onChange={onChange}
         mask={masks[type]}

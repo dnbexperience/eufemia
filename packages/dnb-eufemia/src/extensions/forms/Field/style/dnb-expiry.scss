@@ -1,5 +1,6 @@
 .dnb-forms-field-expiry {
-  .dnb-date-picker__input:last-of-type {
+  // Need to clean up this specificity war at a later point
+  .dnb-input__input.dnb-date-picker__input.dnb-date-picker__input--year:last-of-type {
     margin-right: 0.8rem;
   }
 }
