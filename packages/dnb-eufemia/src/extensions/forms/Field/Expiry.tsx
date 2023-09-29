@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useContext, useRef } from 'react'
 
 import TextMask, {
   TextMaskProps,
@@ -6,10 +6,11 @@ import TextMask, {
 import Input from '../../../components/Input'
 import { makeUniqueId } from '../../../shared/component-helper'
 import SharedContext from '../../../shared/Context'
-import { FieldHelpProps, FieldProps } from '../types'
+import { FieldHelpProps, FieldProps, pickSpacingProps } from '../types'
 import { useDataValue } from '../hooks'
 import classnames from 'classnames'
 import { HelpButton } from '../../../components'
+import { FieldBlock } from '../Forms'
 
 export type ExpiryValue = {
   /**
@@ -25,20 +26,25 @@ export type ExpiryValue = {
 type ExpiryProps = FieldHelpProps & FieldProps<ExpiryValue>
 
 function Expiry({ ...props }: ExpiryProps) {
+  const sharedContext = useContext(SharedContext)
+
   const {
     id: propsId,
     className,
-    label,
+    label = sharedContext?.translation.Forms.dateLabel,
     error,
+    info,
+    warning,
     help,
     disabled,
     value,
+    labelDescription,
+    labelSecondary,
+    layout,
     handleFocus,
     handleBlur,
     handleChange,
   } = useDataValue(props)
-
-  const sharedContext = useContext(SharedContext)
 
   const monthRef = useRef<HTMLInputElement>(null)
   const yearRef = useRef<HTMLInputElement>(null)
@@ -47,59 +53,77 @@ function Expiry({ ...props }: ExpiryProps) {
 
   const id = useRef(propsId || makeUniqueId()).current
 
+  const stateStatus = error
+    ? 'error'
+    : warning
+    ? 'warn'
+    : info
+    ? 'info'
+    : null
+
   return (
-    <Input
-      id={`${id}__input`}
-      className={classnames(
-        'dnb-date-picker',
-        'dnb-date-picker--show-input',
-        'dnb-forms-field-expiry',
-        className
-      )}
-      label={label ?? sharedContext?.translation.Forms.dateLabel}
-      disabled={disabled}
-      status={error?.message}
-      on_blur={handleBlur}
-      on_focus={handleFocus}
-      suffix={
-        help ? (
-          <HelpButton title={help.title}>{help.contents}</HelpButton>
-        ) : undefined
-      }
-      input_element={
-        <span className="dnb-date-picker__input__wrapper">
-          <ExpiryDateField
-            id={id}
-            type="month"
-            value={value?.month}
-            innerRef={monthRef}
-            onChange={(event) =>
-              handleChange({
-                month: event.target.value,
-                year: value.year,
-              })
-            }
-            onKeyDown={handleKeydown}
-          />
-          <span className="dnb-date-picker--separator" aria-hidden>
-            {' / '}
+    <FieldBlock
+      className={classnames('dnb-forms-field-expiry', className)}
+      forId={id}
+      layout={layout}
+      label={label}
+      labelSecondary={labelSecondary}
+      labelDescription={labelDescription}
+      info={info}
+      warning={warning}
+      error={error}
+      {...pickSpacingProps(props)}
+    >
+      <Input
+        id={`${id}__input`}
+        className={classnames(
+          'dnb-date-picker',
+          'dnb-date-picker--show-input'
+        )}
+        status_state="error"
+        disabled={disabled}
+        on_blur={handleBlur}
+        on_focus={handleFocus}
+        suffix={
+          help ? (
+            <HelpButton title={help.title}>{help.contents}</HelpButton>
+          ) : undefined
+        }
+        input_element={
+          <span className="dnb-date-picker__input__wrapper">
+            <ExpiryDateField
+              id={id}
+              type="month"
+              value={value?.month}
+              innerRef={monthRef}
+              onChange={(event) =>
+                handleChange({
+                  month: event.target.value,
+                  year: value.year,
+                })
+              }
+              onKeyDown={handleKeydown}
+            />
+            <span className="dnb-date-picker--separator" aria-hidden>
+              {' / '}
+            </span>
+            <ExpiryDateField
+              id={id}
+              type="year"
+              value={value?.year}
+              innerRef={yearRef}
+              onChange={(event) =>
+                handleChange({
+                  month: value.month,
+                  year: event.target.value,
+                })
+              }
+              onKeyDown={handleKeydown}
+            />
           </span>
-          <ExpiryDateField
-            id={id}
-            type="year"
-            value={value?.year}
-            innerRef={yearRef}
-            onChange={(event) =>
-              handleChange({
-                month: value.month,
-                year: event.target.value,
-              })
-            }
-            onKeyDown={handleKeydown}
-          />
-        </span>
-      }
-    />
+        }
+      />
+    </FieldBlock>
   )
 }
 
