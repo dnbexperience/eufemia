@@ -109,7 +109,6 @@ describe.each(['ui', 'sbanken'])('Table for %s', (themeName) => {
         width: '30rem',
       },
       selector,
-      waitAfterSimulate: 100,
       executeBeforeSimulate: () => {
         document
           .querySelector(
@@ -120,9 +119,7 @@ describe.each(['ui', 'sbanken'])('Table for %s', (themeName) => {
           })
 
         // Ensure the window.resize event gets triggered in order to force the shadow to appear (after React v18 upgrade)
-        setTimeout(() => {
-          window.dispatchEvent(new Event('resize'))
-        }, 100)
+        window.dispatchEvent(new Event('resize'))
       },
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -283,7 +280,6 @@ describe.each(['ui', 'sbanken'])(
         simulateSelector:
           '[data-visual-test="table-accordion"] .dnb-scroll-view:last-of-type tbody tr:nth-last-child(2)',
         simulate: 'active',
-        waitAfterSimulate: 100, // not sure if this helps
         matchConfig: {
           failureThreshold: 0.01, // locally as well
         },
