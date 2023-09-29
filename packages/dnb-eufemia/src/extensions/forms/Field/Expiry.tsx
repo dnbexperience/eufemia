@@ -31,7 +31,7 @@ function Expiry({ ...props }: ExpiryProps) {
   const {
     id: propsId,
     className,
-    label = sharedContext?.translation.Forms.dateLabel,
+    label = sharedContext?.translation.Forms.expiryLabel,
     error,
     info,
     warning,
@@ -53,14 +53,6 @@ function Expiry({ ...props }: ExpiryProps) {
 
   const id = useRef(propsId || makeUniqueId()).current
 
-  const stateStatus = error
-    ? 'error'
-    : warning
-    ? 'warn'
-    : info
-    ? 'info'
-    : null
-
   return (
     <FieldBlock
       className={classnames('dnb-forms-field-expiry', className)}
@@ -80,7 +72,6 @@ function Expiry({ ...props }: ExpiryProps) {
           'dnb-date-picker',
           'dnb-date-picker--show-input'
         )}
-        status_state="error"
         disabled={disabled}
         on_blur={handleBlur}
         on_focus={handleFocus}
