@@ -41,6 +41,7 @@ function Expiry({ ...props }: ExpiryProps) {
     labelDescription,
     labelSecondary,
     layout,
+    required,
     handleFocus,
     handleBlur,
     handleChange,
@@ -79,6 +80,7 @@ function Expiry({ ...props }: ExpiryProps) {
         disabled={disabled}
         on_blur={handleBlur}
         on_focus={handleFocus}
+        required={required}
         suffix={
           help ? (
             <HelpButton title={help.title}>{help.contents}</HelpButton>
