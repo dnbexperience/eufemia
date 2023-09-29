@@ -77,6 +77,7 @@ function Expiry({ ...props }: ExpiryProps) {
           status && `dnb-date-picker__status--${status}`
         )}
         status={status}
+        input_state={disabled ? 'disabled' : undefined}
         disabled={disabled}
         on_blur={handleBlur}
         on_focus={handleFocus}
@@ -100,6 +101,7 @@ function Expiry({ ...props }: ExpiryProps) {
                 })
               }
               onKeyDown={handleKeydown}
+              disabled={disabled}
             />
             <span className="dnb-date-picker--separator" aria-hidden>
               {' / '}
@@ -116,6 +118,7 @@ function Expiry({ ...props }: ExpiryProps) {
                 })
               }
               onKeyDown={handleKeydown}
+              disabled={disabled}
             />
           </span>
         }
