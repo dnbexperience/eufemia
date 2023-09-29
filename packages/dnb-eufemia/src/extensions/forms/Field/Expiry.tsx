@@ -10,7 +10,7 @@ import { FieldHelpProps, FieldProps, pickSpacingProps } from '../types'
 import { useDataValue } from '../hooks'
 import classnames from 'classnames'
 import { HelpButton } from '../../../components'
-import { FieldBlock } from '../Forms'
+import FieldBlock from '../FieldBlock'
 
 export type ExpiryValue = {
   /**
