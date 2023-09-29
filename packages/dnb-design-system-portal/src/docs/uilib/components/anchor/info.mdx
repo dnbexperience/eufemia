@@ -11,6 +11,45 @@ import { Link, Anchor } from '@dnb/eufemia'
 render(<Anchor href="/uilib/components/anchor">Accessible text</Anchor>)
 ```
 
+### Combine a Link with an Anchor
+
+You can combine a meta framework link, with the Anchor. This way, all the framework provided features will still work, as well as the behavior of the Eufemia Anchor.
+
+```jsx
+import Anchor from '@dnb/eufemia/components/Anchor'
+import { Link } from 'gatsby'
+
+render(
+  <App>
+    <Anchor element={Link} to="/path">
+      Link
+    </Anchor>
+  </App>,
+)
+```
+
+### Anchor hash
+
+Some browser like Chrome (behind a flag) does still not support animated anchor hash clicks when CSS `scroll-behavior: smooth;` is set. To make it work, you can provide the `scrollToHashHandler` helper function to the Anchor:
+
+```jsx
+import Anchor, {
+  scrollToHashHandler,
+} from '@dnb/eufemia/components/Anchor'
+
+render(
+  <App>
+    <Anchor href="/path#hash-id" onClick={scrollToHashHandler}>
+      Link
+    </Anchor>
+
+    <div id="hash-id">element to scroll to</div>
+  </App>,
+)
+```
+
+## Blank target
+
 **NB:** If you only use a vanilla HTML anchor element including `target="_blank"` then you have to ensure you add a `title` attribute that includes `Opens a new Window` or as a part of the text:
 
 ```html
@@ -24,7 +63,7 @@ render(<Anchor href="/uilib/components/anchor">Accessible text</Anchor>)
 </a>
 ```
 
-## Customize blank target graphic
+### Customize blank target graphic
 
 You may use a [tool like this url-encoder](https://yoksel.github.io/url-encoder/) to **url-encode** your SVG.
 
