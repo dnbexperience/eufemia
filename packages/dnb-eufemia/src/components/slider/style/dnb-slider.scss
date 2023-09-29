@@ -10,6 +10,10 @@
   --slider-thumb-size: 2rem;
   --slider-button-size: 1.5rem;
   --slider-space: 1rem;
+  --slider-line-before: black;
+  --slider-line-after: gray;
+  --slider-line-before--disabled: dimgray;
+  --slider-line-after--disabled: lightgray;
 
   user-select: none; // Safari / Touch fix
   -webkit-touch-callout: none; // Safari / Touch fix
@@ -117,8 +121,18 @@
     height: var(--slider-track-height);
     transform: translate3d(0, -50%, 0);
 
-    background-color: grey;
+    background-color: var(--slider-line-before);
     border-radius: var(--slider-track-height);
+
+    &__before {
+      z-index: 2;
+    }
+
+    &__after {
+      z-index: 1;
+      right: 0;
+      background-color: var(--slider-line-after);
+    }
   }
 
   &--vertical &__line {
@@ -131,16 +145,6 @@
     margin: calc(1px - 1px - var(--slider-space)) 0;
 
     transform: translate3d(-50%, 0, 0);
-  }
-
-  &__line__before {
-    z-index: 2;
-  }
-
-  &__line__after {
-    z-index: 1;
-    right: 0;
-    background-color: #ddd;
   }
 
   &--vertical &__line__before {
