@@ -23,7 +23,7 @@ export type ExpiryValue = {
   year: string
 }
 
-type ExpiryProps = FieldHelpProps & FieldProps<ExpiryValue>
+type ExpiryProps = FieldProps<ExpiryValue, undefined> & FieldHelpProps
 
 function Expiry({ ...props }: ExpiryProps) {
   const sharedContext = useContext(SharedContext)
