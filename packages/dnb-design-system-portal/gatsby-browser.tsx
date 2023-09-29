@@ -55,13 +55,3 @@ export const onRouteUpdate = ({ location, prevLocation }) => {
     applyPageFocus('content')
   }
 }
-
-export const onPreRouteUpdate = ({ prevLocation }) => {
-  if (prevLocation && !globalThis.IS_TEST) {
-    // Omit scrolling on page changes
-    document.documentElement.style.scrollBehavior = 'auto'
-    setTimeout(() => {
-      document.documentElement.style.scrollBehavior = ''
-    }, 800)
-  }
-}
