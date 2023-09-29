@@ -14,19 +14,6 @@ export const Empty = () => {
   )
 }
 
-export const Placeholder = () => {
-  return (
-    <ComponentBox scope={{ Field }}>
-      <Field.Expiry
-        placeholder="Enter a date"
-        onChange={({ month, year }) =>
-          console.log('onChange', { month, year })
-        }
-      />
-    </ComponentBox>
-  )
-}
-
 export const Label = () => {
   return (
     <ComponentBox scope={{ Field }}>
@@ -62,7 +49,7 @@ export const Disabled = () => {
   return (
     <ComponentBox scope={{ Field }}>
       <Field.Expiry
-        value="2023-01-16"
+        value={{ month: '08', year: '26' }}
         label="Label text"
         onChange={({ month, year }) =>
           console.log('onChange', { month, year })
@@ -77,7 +64,7 @@ export const Error = () => {
   return (
     <ComponentBox scope={{ Field, FormError }}>
       <Field.Expiry
-        value="2023-01-16"
+        value={{ month: '00', year: '26' }}
         label="Label text"
         onChange={({ month, year }) =>
           console.log('onChange', { month, year })
@@ -92,7 +79,7 @@ export const ValidationRequired = () => {
   return (
     <ComponentBox scope={{ Field }}>
       <Field.Expiry
-        value="2023-01-16"
+        value={{ month: '08', year: '26' }}
         label="Label text"
         onChange={({ month, year }) =>
           console.log('onChange', { month, year })
