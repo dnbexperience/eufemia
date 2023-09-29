@@ -74,6 +74,14 @@ export const DrawerListExampleOnlyToVisualize = () => (
               <span className="dnb-drawer-list__option__item item-nr-1">
                 <NumberFormat ban>11345678962</NumberFormat>
               </span>
+              <span className="dnb-drawer-list__option__item item-nr-2">
+                <a
+                  className="dnb-anchor dnb-anchor--has-icon"
+                  href="/uilib/components/fragments/drawer-list/"
+                >
+                  Long link that will wrap over several lines
+                </a>
+              </span>
               <span className="dnb-drawer-list__option__item">
                 Feriekonto - Kari Nordmann med et kjempelangt etternavnsen
               </span>
