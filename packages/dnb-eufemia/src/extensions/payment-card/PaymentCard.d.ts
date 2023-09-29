@@ -58,6 +58,18 @@ export interface PaymentCardRawData {
   productType: ProductType;
   bankAxept: BankAxeptType;
 }
+
+export interface CardDesign {
+  name: string;
+  cardStyle: string;
+  bankLogo: any;
+  visa: any;
+  mastercard: any;
+  bankAxept: any;
+  saga: any;
+  privateBanking: any;
+}
+
 export type PaymentCardChildren =
   | string
   | React.ReactNode
@@ -109,6 +121,8 @@ export default class PaymentCard extends React.Component<
   static defaultProps: object;
   render(): JSX.Element;
 }
-export const getCardData = (product_code: string) => PaymentCardRawData;
+export const getCardData: (
+  product_code: string
+) => Omit<PaymentCardRawData, 'cardDesign'> & { cardDesign: CardDesign };
 export const formatCardNumber = (cardNumber: string, digits?: number) =>
   string;
