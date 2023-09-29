@@ -8,8 +8,11 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Slider', () => {
-  setupPageScreenshot({ url: '/uilib/components/slider/demos' })
+describe.each(['ui', 'sbanken'])('Slider for %s', (themeName) => {
+  setupPageScreenshot({
+    themeName,
+    url: '/uilib/components/slider/demos',
+  })
 
   it('have to match default slider', async () => {
     const screenshot = await makeScreenshot({
