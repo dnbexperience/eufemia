@@ -84,7 +84,7 @@ export default function Anchor({
       onClick(event)
     }
     try {
-      const element = scrollToHashHandler(event).element?.parentElement
+      const element = scrollToHashHandler(event)?.element?.parentElement
 
       if (element) {
         element.classList.add('focus')
