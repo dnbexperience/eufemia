@@ -32,7 +32,7 @@ const config = {
     height: 2048,
   },
   matchConfig: {
-    failureThreshold: 0.001, // Chromium needs 0.03, while webkit needs 0.04 or even more
+    failureThreshold: isCI ? 0.001 : 0, // Chromium needs 0.03, while webkit needs 0.04 or even more
     failureThresholdType: 'percent',
     comparisonMethod: 'pixelmatch',
     customSnapshotIdentifier: ({ currentTestName }) => {
@@ -294,7 +294,7 @@ async function makePageReady({
 
     global.themeName = themeName
     global.pageUrl = createUrl(url, fullscreen, themeName)
-    process.env.pageUrl = global.pageUrl
+
     await page.goto(global.pageUrl, {
       waitUntil: config.waitUntil,
       timeout: config.timeout,
@@ -304,6 +304,10 @@ async function makePageReady({
       // Remove all stored
       window.localStorage.clear()
     })
+  }
+
+  if (global.retryAttempt) {
+    await page.reload()
   }
 
   global.IS_TEST = true
