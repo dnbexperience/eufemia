@@ -27,7 +27,7 @@ import {
   wrapperStyle,
   fullscreenStyle,
 } from './Layout.module.scss'
-import Sidebar from '../menu/SidebarMenu'
+import SidebarMenu from '../menu/SidebarMenu'
 
 export function scrollToAnimation() {
   // if url hash is defined, scroll to the id
@@ -103,7 +103,7 @@ function Layout(props: LayoutProps) {
 
         <div className={wrapperStyle}>
           {!fs && !hideSidebar && (
-            <Sidebar location={location} showAll={false} />
+            <SidebarMenu location={location} showAll={false} />
           )}
 
           <Content key="content" fullscreen={fs}>

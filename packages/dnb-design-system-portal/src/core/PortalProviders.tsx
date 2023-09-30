@@ -6,10 +6,11 @@
 import React from 'react'
 import { CacheProvider } from '@emotion/react'
 import createEmotionCache from '@emotion/cache'
-import { Provider, Context } from '@dnb/eufemia/src/shared'
+import { Provider, Context, Theme } from '@dnb/eufemia/src/shared'
 import enUS from '@dnb/eufemia/src/shared/locales/en-US'
 import { isTrue } from '@dnb/eufemia/src/shared/component-helper'
 import PortalLayout, { PortalLayoutProps } from './PortalLayout'
+import { useThemeHandler } from 'gatsby-plugin-eufemia-theme-handler'
 
 // This ensures we processes also the css prop during build
 // More into in the docs: https://emotion.sh/docs/ssr#gatsby
@@ -42,11 +43,30 @@ export const rootElement =
           locale={getLang()}
           locales={enUS} // extend the available locales
         >
-          <SkeletonEnabled>{element}</SkeletonEnabled>
+          <SkeletonEnabled>
+            <ThemeProvider>{element}</ThemeProvider>
+          </SkeletonEnabled>
         </Provider>
       </CacheProvider>
     )
   }
+
+/**
+ * Because we do rewrite the import path many places from
+ * "/src" to "/build" on CI, some parts miss out,
+ * and we end up with two different React Context's,
+ * which does not work.
+ * Therefore, we wrap the Portal with our own Theme wrapper.
+ */
+function ThemeProvider({ children }) {
+  const theme = useThemeHandler()
+
+  return (
+    <Theme {...theme} darkMode>
+      {children}
+    </Theme>
+  )
+}
 
 // This ensures we actually will get skeletons enabled when defined in the url
 function SkeletonEnabled({ children }) {
