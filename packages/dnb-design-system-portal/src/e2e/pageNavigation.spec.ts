@@ -5,7 +5,7 @@ test.describe('Page Navigation', () => {
   test.describe('without JavaScript', () => {
     test.use({ javaScriptEnabled: false })
 
-    test.beforeEach(async ({ page, browser }) => {
+    test.beforeEach(async ({ page }) => {
       await page.goto('/')
       await page.waitForURL('**/')
     })

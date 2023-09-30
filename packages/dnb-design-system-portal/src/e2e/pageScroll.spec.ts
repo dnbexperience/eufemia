@@ -18,12 +18,26 @@ test.describe('Page Scroll', () => {
   test('click on a table of content anchor should scroll the page to element', async ({
     page,
   }) => {
-    const element = await (
+    const anchorElement = (
       await page.locator('main .dnb-ul li a').all()
     ).at(7)
-    await element?.click()
+    await anchorElement?.click()
 
     const scrollY = await page.evaluate(() => window.scrollY)
     expect(scrollY).toBeGreaterThanOrEqual(2000)
+  })
+
+  test('should highlight a linked hash element', async ({ page }) => {
+    const anchorElement = (
+      await page.locator('main .dnb-ul li a').all()
+    ).at(7)
+    await anchorElement?.click()
+
+    expect(page.url()).toContain(
+      '/contribute/getting-started/#style-dependencies',
+    )
+
+    const headingElement = page.locator('.dnb-heading.focus')
+    await expect(headingElement).toHaveText('#Style dependencies')
   })
 })

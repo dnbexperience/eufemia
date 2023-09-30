@@ -144,9 +144,9 @@ const Anchor = React.forwardRef(
 export default Anchor
 
 export function scrollToHashHandler(
-  e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
 ) {
-  const element = e.currentTarget as HTMLAnchorElement
+  const element = event.currentTarget as HTMLAnchorElement
   const href = element.getAttribute('href')
 
   if (typeof document === 'undefined' || !href.includes('#')) {
@@ -171,14 +171,19 @@ export function scrollToHashHandler(
     const anchorElem = document.getElementById(id)
 
     if (anchorElem instanceof HTMLElement) {
-      e.preventDefault()
+      try {
+        const scrollPadding = parseFloat(
+          window.getComputedStyle(document.documentElement)
+            .scrollPaddingTop
+        )
+        const top = getOffsetTop(anchorElem) - scrollPadding || 0
 
-      const scrollPadding = parseFloat(
-        window.getComputedStyle(document.documentElement).scrollPaddingTop
-      )
-      const top = getOffsetTop(anchorElem) - scrollPadding || 0
+        window.scroll({ top })
 
-      window.scroll({ top })
+        return { element: anchorElem }
+      } catch (error) {
+        console.error(error)
+      }
     }
   }
 }

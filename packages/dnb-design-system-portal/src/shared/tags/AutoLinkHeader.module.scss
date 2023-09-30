@@ -16,42 +16,14 @@
       opacity: 0;
     }
 
-    @keyframes link-attention-focus {
-      0%,
-      100% {
-        visibility: visible;
-        color: var(--color-sea-green);
-        background-color: transparent;
-      }
-
-      35% {
-        color: var(--color-white);
-        background-color: var(--color-sea-green);
-      }
-
-      // stylelint-disable-next-line
-      0%,
-      80% {
-        opacity: 1;
-      }
-
-      // stylelint-disable-next-line
-      100% {
-        opacity: 0;
-      }
-    }
-
     .anchor-hash.focus {
-      animation: link-attention-focus 2.2s ease-in-out 1 10ms;
-    }
+      animation: link-attention-focus 2.2s var(--easing-default) 1 10ms;
 
-    .focus {
-      display: inline-block;
-
-      @keyframes parent-attention-focus {
+      @keyframes link-attention-focus {
         0%,
         100% {
-          color: currentcolor;
+          visibility: visible;
+          color: var(--color-sea-green);
           background-color: transparent;
         }
 
@@ -59,12 +31,17 @@
           color: var(--color-white);
           background-color: var(--color-sea-green);
         }
-      }
 
-      animation: parent-attention-focus 2.2s ease-in-out 1 10ms;
+        // stylelint-disable-next-line
+        0%,
+        80% {
+          opacity: 1;
+        }
 
-      * {
-        animation: parent-attention-focus 3s ease-in-out 1 150ms;
+        // stylelint-disable-next-line
+        100% {
+          opacity: 0;
+        }
       }
     }
   }
@@ -73,5 +50,28 @@
   &:hover :global(.anchor-hash) {
     visibility: visible;
     opacity: 1;
+  }
+
+  &:global(.focus) {
+    display: inline-block;
+
+    @keyframes parent-attention-focus {
+      0%,
+      100% {
+        color: initial;
+        background-color: initial;
+      }
+
+      35% {
+        color: var(--color-white);
+        background-color: var(--color-sea-green);
+      }
+    }
+
+    animation: parent-attention-focus 2.2s var(--easing-default) 1 10ms;
+
+    * {
+      animation: parent-attention-focus 3s var(--easing-default) 1 150ms;
+    }
   }
 }
