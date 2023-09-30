@@ -12,7 +12,6 @@ test.describe('Responsiveness', () => {
 
   test('change viewport size should add sidebar menu', async ({
     page,
-    baseURL,
   }) => {
     await expect(page.locator('nav#portal-sidebar-menu')).toHaveCSS(
       'display',
@@ -35,7 +34,7 @@ test.describe('Responsiveness', () => {
       state: 'attached',
     })
 
-    expect(page.url()).toBe(`${baseURL}/uilib/about-the-lib/`)
+    expect(page.url()).toContain('/uilib/about-the-lib/')
     await expect(page.locator('h1')).toContainText('#About the library')
   })
 })

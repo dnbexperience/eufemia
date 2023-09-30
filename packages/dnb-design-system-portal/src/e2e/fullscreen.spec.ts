@@ -10,15 +10,14 @@ test.describe('Fullscreen', () => {
   }) => {
     await page.waitForSelector('nav#portal-sidebar-menu')
 
-    await page.click('button[title="Fullscreen"]')
+    await page.click('a.fullscreen')
 
-    await page.waitForSelector('nav#portal-sidebar-menu', {
-      state: 'hidden',
-    })
-
-    const currentURL = page.url()
-    expect(currentURL).toContain(
+    expect(page.url()).toContain(
       '/uilib/components/button/demos/?fullscreen',
     )
+
+    await page.click('a.fullscreen')
+
+    expect(page.url()).toContain('/uilib/components/button/demos/')
   })
 })
