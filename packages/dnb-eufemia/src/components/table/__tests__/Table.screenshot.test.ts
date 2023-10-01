@@ -16,6 +16,31 @@ describe.each(['ui', 'sbanken'])('Table for %s', (themeName) => {
     url: '/uilib/components/table/demos',
   })
 
+  // This test is fragile and should be run first as other simulations do influence this one
+  it('have to match sticky header', async () => {
+    const selector = '[data-visual-test="table-sticky"]'
+    const screenshot = await makeScreenshot({
+      ...defaults,
+      style: {
+        width: '30rem',
+      },
+      selector,
+      waitAfterSimulate: 100, // same delay as the resize dispatch
+      executeBeforeSimulate: () => {
+        const element = document.querySelector(
+          '[data-visual-test="table-sticky"] table tbody tr:nth-of-type(5)'
+        )
+        element.scrollIntoView({
+          behavior: 'auto',
+        })
+
+        // Ensure the window.resize event gets triggered in order to force the shadow to appear (after React v18 upgrade)
+        setTimeout(() => window.dispatchEvent(new Event('resize')), 100) // A needed delay in order to activate the resize simulation
+      },
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
+
   it('have to match the default choice of table styles', async () => {
     const screenshot = await makeScreenshot({
       ...defaults,
@@ -101,31 +126,7 @@ describe.each(['ui', 'sbanken'])('Table for %s', (themeName) => {
     expect(screenshot).toMatchImageSnapshot()
   })
 
-  it('have to match sticky header', async () => {
-    const selector = '[data-visual-test="table-sticky"]'
-    const screenshot = await makeScreenshot({
-      ...defaults,
-      style: {
-        width: '30rem',
-      },
-      selector,
-      executeBeforeSimulate: () => {
-        document
-          .querySelector(
-            '[data-visual-test="table-sticky"] table tbody tr:nth-of-type(5)'
-          )
-          .scrollIntoView({
-            behavior: 'auto',
-          })
-
-        // Ensure the window.resize event gets triggered in order to force the shadow to appear (after React v18 upgrade)
-        window.dispatchEvent(new Event('resize'))
-      },
-    })
-    expect(screenshot).toMatchImageSnapshot()
-  })
-
-  // should be tested first
+  // should be tested first from the other "simulate" tests
   it('have to match a sortable table header on focus', async () => {
     const selector =
       '[data-visual-test="table-classes"] th.dnb-table--sortable.dnb-table--reversed'

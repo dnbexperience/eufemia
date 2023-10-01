@@ -149,6 +149,7 @@ const plugins = [
           ],
       // also load the extensions CSS package
       defaultTheme,
+      wrapWithThemeProvider: false, // The portal uses its own wrapper: ThemeProvider
     },
   },
 ].filter(Boolean)

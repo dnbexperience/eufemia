@@ -168,11 +168,9 @@ jobs:
         if: steps.playwright-cache.outputs.cache-hit == 'true'
 
       - name: Prebuild Library
-        if: env.RUN_POST_BUILD == 'true'
         run: yarn workspace @dnb/eufemia prebuild:ci
 
       - name: Postbuild Library
-        if: env.RUN_POST_BUILD == 'true'
         run: yarn workspace @dnb/eufemia postbuild:ci
 
       - name: Get current date
