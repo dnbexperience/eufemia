@@ -156,6 +156,10 @@
     bottom: 0;
   }
 
+  &__thumb {
+    @include defaultDropShadow();
+  }
+
   &__button-helper,
   &__thumb {
     position: absolute;
