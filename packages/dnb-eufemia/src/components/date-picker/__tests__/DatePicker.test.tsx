@@ -1575,11 +1575,25 @@ describe('Custom text for buttons', () => {
 })
 
 describe('DatePicker ARIA', () => {
-  it('should validate with ARIA rules', async () => {
+  it('should validate', async () => {
     const Comp = render(
       <DatePicker
         range={true}
         opened={true}
+        disable_autofocus={true}
+        start_date="2019-05-05"
+        end_date="2019-06-05"
+      />
+    )
+    expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+
+  it('should validate with input', async () => {
+    const Comp = render(
+      <DatePicker
+        range={true}
+        opened={true}
+        show_input={true}
         disable_autofocus={true}
         start_date="2019-05-05"
         end_date="2019-06-05"
