@@ -572,7 +572,7 @@ export default class DatePickerInput extends React.PureComponent {
                   key={'dl' + i}
                   hidden
                   id={`${this.props.id}-${mode}-day-label`}
-                  for={`${this.props.id}-${mode}-day`}
+                  htmlFor={`${this.props.id}-${mode}-day`}
                 >
                   {isRangeLabel + day}
                 </label>
@@ -604,7 +604,7 @@ export default class DatePickerInput extends React.PureComponent {
                   key={'ml' + i}
                   hidden
                   id={`${this.props.id}-${mode}-month-label`}
-                  for={`${this.props.id}-${mode}-month`}
+                  htmlFor={`${this.props.id}-${mode}-month`}
                 >
                   {isRangeLabel + month}
                 </label>
@@ -636,7 +636,7 @@ export default class DatePickerInput extends React.PureComponent {
                   key={'yl' + i}
                   hidden
                   id={`${this.props.id}-${mode}-year-label`}
-                  for={`${this.props.id}-${mode}-year`}
+                  htmlFor={`${this.props.id}-${mode}-year`}
                 >
                   {isRangeLabel + year}
                 </label>
