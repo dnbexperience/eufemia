@@ -1,7 +1,7 @@
 import React from 'react'
 import { screen, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import Field from '..'
+import * as Field from '../'
 import { wait } from '../../../../core/jest/jestSetup'
 
 describe('Field.Number', () => {

@@ -1,39 +1,17 @@
-import StringComponent from './String'
-import NumberComponent from './Number'
-import Toggle from './Toggle'
-import BooleanComponent from './Boolean'
-import Currency from './Currency'
-import DateComponent from './Date'
-import Email from './Email'
-import NationalIdentityNumber from './NationalIdentityNumber'
-import PhoneNumber from './PhoneNumber'
-import OrganizationNumber from './OrganizationNumber'
-import PostalCodeAndCity from './PostalCodeAndCity'
-import Selection from './Selection'
-import ArraySelection from './ArraySelection'
-import Option from './Option'
-import SelectCountry from './SelectCountry'
-import BankAccountNumber from './BankAccountNumber'
-import CountryCode from './CountryCode'
-
-const Field = {
-  String: StringComponent,
-  Number: NumberComponent,
-  Toggle,
-  Boolean: BooleanComponent,
-  Currency,
-  Date: DateComponent,
-  Email,
-  NationalIdentityNumber,
-  OrganizationNumber,
-  PhoneNumber,
-  PostalCodeAndCity,
-  Selection,
-  ArraySelection,
-  Option,
-  SelectCountry,
-  BankAccountNumber,
-  CountryCode,
-}
-
-export default Field
+export { default as String } from './String'
+export { default as Number } from './Number'
+export { default as Toggle } from './Toggle'
+export { default as Boolean } from './Boolean'
+export { default as Currency } from './Currency'
+export { default as Date } from './Date'
+export { default as Email } from './Email'
+export { default as NationalIdentityNumber } from './NationalIdentityNumber'
+export { default as PhoneNumber } from './PhoneNumber'
+export { default as OrganizationNumber } from './OrganizationNumber'
+export { default as PostalCodeAndCity } from './PostalCodeAndCity'
+export { default as Selection } from './Selection'
+export { default as ArraySelection } from './ArraySelection'
+export { default as Option } from './Option'
+export { default as SelectCountry } from './SelectCountry'
+export { default as BankAccountNumber } from './BankAccountNumber'
+export { default as CountryCode } from './CountryCode'

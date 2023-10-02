@@ -1,14 +1,4 @@
-import ArrayComponent from './Array'
-import ArrayPushButton from './ArrayPushButton'
-import ArrayRemoveElementButton from './ArrayRemoveElementButton'
-import IterateElementContext from './IterateElementContext'
-
-const Iterate = {
-  Array: ArrayComponent,
-  ArrayPushButton,
-  ArrayRemoveElementButton,
-}
-
-export default Iterate
-
-export { IterateElementContext }
+export { default as Array } from './Array'
+export { default as ArrayPushButton } from './ArrayPushButton'
+export { default as ArrayRemoveElementButton } from './ArrayRemoveElementButton'
+export { default as IterateElementContext } from './IterateElementContext'
