@@ -937,6 +937,9 @@ button .dnb-form-status__text {
 .dnb-slider--vertical .dnb-slider__line__after {
   bottom: 0;
 }
+.dnb-slider__thumb {
+  box-shadow: var(--shadow-default);
+}
 .dnb-slider__button-helper, .dnb-slider__thumb {
   position: absolute;
   left: 0;
