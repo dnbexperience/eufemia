@@ -188,7 +188,7 @@ jobs:
           restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-gatsby-
 
       - name: Build portal
-        run: yarn workspace dnb-design-system-portal build:visual-test
+        run: yarn workspace dnb-design-system-portal build
 
       - name: Run Playwright
         run: yarn workspace dnb-design-system-portal test:e2e:ci
