@@ -124,5 +124,7 @@ export default class PaymentCard extends React.Component<
 export const getCardData: (
   product_code: string
 ) => Omit<PaymentCardRawData, 'cardDesign'> & { cardDesign: CardDesign };
-export const formatCardNumber = (cardNumber: string, digits?: number) =>
-  string;
+export const formatCardNumber: (
+  cardNumber: string,
+  digits?: number
+) => string;
