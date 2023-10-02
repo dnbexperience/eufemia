@@ -36,6 +36,36 @@ const FixedSizeWrapper = styled.div`
   margin-bottom: 1rem;
 `
 
+export function NegativeValues() {
+  const [value, setValue] = React.useState<Array<number>>([-20, 50])
+
+  return (
+    <FixedSizeWrapper>
+      <Slider
+        top="x-large"
+        label="Label with some text"
+        labelDirection="vertical"
+        multiThumbBehavior="push"
+        // multiThumbBehavior="omit"
+        // vertical
+        // reverse
+        // step={10}
+        value={value}
+        min={-40}
+        max={100}
+        stretch
+        numberFormat={(value) => format(value, { currency: 'USD' })}
+        tooltip
+        onChange={({ value, number }) => {
+          console.log('onChange:', value, number)
+          setValue(value as Array<number>)
+        }}
+      />
+      <code>{value.join(' | ')}</code>
+    </FixedSizeWrapper>
+  )
+}
+
 export function MultiButtons() {
   const [value, setValue] = React.useState<Array<number>>([100, 400, 800])
   const [valueSecond, setValueSecond] = React.useState<number>(800)
