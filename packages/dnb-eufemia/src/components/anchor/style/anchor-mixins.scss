@@ -93,10 +93,11 @@
 
 @mixin anchorBackground($color, $overflow: 0.125em) {
   @if $overflow {
+    --anchor-background-gutter: #{$overflow};
     box-shadow:
       inset 100vw 100vw 0 0 $color,
-      -$overflow 0 0 0 $color,
-      $overflow 0 0 0 $color;
+      calc(var(--anchor-background-gutter) * -1) 0 0 0 $color,
+      var(--anchor-background-gutter) 0 0 0 $color;
   } @else {
     box-shadow: inset 100vw 100vw 0 0 $color;
   }
