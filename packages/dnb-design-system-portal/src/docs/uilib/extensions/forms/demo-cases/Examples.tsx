@@ -33,9 +33,9 @@ export const BecomeCorporateCustomer = () => {
               >
                 <StepsLayout top scrollTopOnStepChange>
                   <StepsLayout.Step title="Bedriftsopplysninger">
-                    <Layout.MainHeading>
+                    <Form.MainHeading>
                       Bedriftsopplysninger
-                    </Layout.MainHeading>
+                    </Form.MainHeading>
                     <Layout.Card spacing="medium">
                       <Field.OrganizationNumber
                         path="/companyOrganizationNumber"
@@ -110,12 +110,10 @@ export const BecomeCorporateCustomer = () => {
                   </StepsLayout.Step>
 
                   <StepsLayout.Step title="Kontaktperson">
-                    <Layout.MainHeading>Profile</Layout.MainHeading>
+                    <Form.MainHeading>Profile</Form.MainHeading>
 
                     <Layout.Card stack>
-                      <Layout.SubHeading>
-                        More information
-                      </Layout.SubHeading>
+                      <Form.SubHeading>More information</Form.SubHeading>
 
                       <Field.NationalIdentityNumber path="/ssn" />
                       <Field.Email path="/email" />
@@ -153,7 +151,7 @@ export const BecomeCorporateCustomer = () => {
                   </StepsLayout.Step>
 
                   <StepsLayout.Step title="Oppsummering">
-                    <Layout.MainHeading>Profile</Layout.MainHeading>
+                    <Form.MainHeading>Profile</Form.MainHeading>
 
                     <Layout.Card stack>
                       <Layout.FlexContainer>

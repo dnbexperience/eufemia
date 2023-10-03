@@ -10,7 +10,7 @@ export const Default = () => {
     >
       <StepsLayout>
         <StepsLayout.Step title="Step 1">
-          <Layout.MainHeading>Step 1</Layout.MainHeading>
+          <Form.MainHeading>Step 1</Form.MainHeading>
           <Layout.Card>
             <P>Step 1 contents</P>
           </Layout.Card>

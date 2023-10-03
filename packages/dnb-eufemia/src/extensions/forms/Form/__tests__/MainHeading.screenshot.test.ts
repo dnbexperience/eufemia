@@ -1,16 +1,11 @@
-/**
- * Screenshot Test
- * This file will not run on "test:staged" because we don't require any related files
- */
-
 import {
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/jest/jestSetupScreenshots'
+} from '../../../../core/jest/jestSetupScreenshots'
 
-describe('Layout.MainHeading', () => {
+describe('Form.MainHeading', () => {
   setupPageScreenshot({
-    url: '/uilib/components/layout/MainHeading/demos',
+    url: '/uilib/extensions/forms/extended-features/Form/MainHeading/demos',
   })
 
   it('have to match over stack', async () => {

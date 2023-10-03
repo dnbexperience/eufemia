@@ -6,7 +6,7 @@ beforeEach(() => {
   global.console.log = jest.fn()
 })
 
-describe('Layout.MainHeading', () => {
+describe('Form.MainHeading', () => {
   it('should forward HTML attributes', () => {
     render(<MainHeading aria-label="Aria Label">Aria Heading</MainHeading>)
 

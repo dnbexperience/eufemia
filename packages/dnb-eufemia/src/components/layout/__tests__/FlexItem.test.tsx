@@ -5,7 +5,7 @@ import { setMedia, matchMedia } from 'mock-match-media'
 import { P } from '../../../elements'
 import FlexItem from '../FlexItem'
 import FlexContainer from '../FlexContainer'
-import MainHeading from '../MainHeading'
+import MainHeading from '../../../extensions/forms/Form/MainHeading'
 
 describe('Layout.FlexItem', () => {
   it('should forward HTML attributes', () => {

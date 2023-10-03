@@ -1,16 +1,11 @@
-/**
- * Screenshot Test
- * This file will not run on "test:staged" because we don't require any related files
- */
-
 import {
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../core/jest/jestSetupScreenshots'
+} from '../../../../core/jest/jestSetupScreenshots'
 
-describe('Layout.SubHeading', () => {
+describe('Form.SubHeading', () => {
   setupPageScreenshot({
-    url: '/uilib/components/layout/SubHeading/demos',
+    url: '/uilib/extensions/forms/extended-features/Form/SubHeading/demos',
   })
 
   it('have to match over card', async () => {
