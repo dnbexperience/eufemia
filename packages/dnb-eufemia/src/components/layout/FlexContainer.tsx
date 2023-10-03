@@ -6,7 +6,6 @@ import MainHeading from './MainHeading'
 import SubHeading from './SubHeading'
 import type { DynamicElement } from '../../shared/types'
 import type { SpaceType, SpacingProps } from '../space/types'
-import type { ComponentProps } from '../../extensions/forms/types'
 import { Hr } from '../../elements'
 import useMedia from '../../shared/useMedia'
 import type { UseMediaQueries } from '../../shared/useMedia'
@@ -67,7 +66,7 @@ const renderWithSpacing = (
   )
 }
 
-export type Props = ComponentProps & {
+export type BasicProps = {
   direction?: 'horizontal' | 'vertical'
   wrap?: boolean
   rowGap?: 'small' | 'medium' | 'large' | true
@@ -94,11 +93,13 @@ export type Props = ComponentProps & {
     | 'x-large'
     | 'xx-large'
   element?: DynamicElement
-  style?: React.CSSProperties
   breakpoints?: MediaQueryBreakpoints
   queries?: UseMediaQueries
-  children: React.ReactNode
 }
+
+export type Props = BasicProps &
+  SpacingProps &
+  Omit<React.HTMLProps<HTMLElement>, 'ref' | 'wrap'>
 
 const propNames: Array<keyof Props> = [
   'direction',

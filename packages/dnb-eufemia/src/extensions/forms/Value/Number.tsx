@@ -2,7 +2,8 @@ import React from 'react'
 import { formatNumber } from '../utils'
 import ValueBlock from '../ValueBlock'
 import { useDataValue } from '../hooks'
-import { ValueProps, pickSpacingProps } from '../types'
+import { ValueProps } from '../types'
+import { pickSpacingProps } from '../../../components/layout/utils'
 
 export type Props = ValueProps<number> & {
   // Formatting

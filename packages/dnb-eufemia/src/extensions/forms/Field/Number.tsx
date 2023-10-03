@@ -4,7 +4,8 @@ import { InputMaskedProps } from '../../../components/InputMasked'
 import classnames from 'classnames'
 import FieldBlock from '../FieldBlock'
 import { useDataValue } from '../hooks'
-import { FieldProps, FieldHelpProps, pickSpacingProps } from '../types'
+import { FieldProps, FieldHelpProps } from '../types'
+import { pickSpacingProps } from '../../../components/layout/utils'
 
 interface ErrorMessages {
   required?: string

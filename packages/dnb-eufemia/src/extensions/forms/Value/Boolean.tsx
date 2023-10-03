@@ -1,8 +1,9 @@
 import React, { useContext } from 'react'
 import ValueBlock from '../ValueBlock'
 import { useDataValue } from '../hooks'
-import { ValueProps, pickSpacingProps } from '../types'
+import { ValueProps } from '../types'
 import SharedContext from '../../../shared/Context'
+import { pickSpacingProps } from '../../../components/layout/utils'
 
 export type Props = ValueProps<boolean>
 

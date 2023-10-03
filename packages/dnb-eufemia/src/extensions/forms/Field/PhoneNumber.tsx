@@ -5,8 +5,9 @@ import classnames from 'classnames'
 import CountryCode from './CountryCode'
 import StringComponent from './String'
 import { useDataValue } from '../hooks'
-import { FieldHelpProps, FieldProps, pickSpacingProps } from '../types'
+import { FieldHelpProps, FieldProps } from '../types'
 import SharedContext from '../../../shared/Context'
+import { pickSpacingProps } from '../../../components/layout/utils'
 
 export type Props = FieldHelpProps &
   FieldProps<string, undefined> & {

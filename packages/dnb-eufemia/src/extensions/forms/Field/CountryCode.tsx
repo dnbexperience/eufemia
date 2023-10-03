@@ -3,13 +3,9 @@ import { Autocomplete, HelpButton } from '../../../components'
 import classnames from 'classnames'
 import countries from '../constants/countries'
 import { useDataValue } from '../hooks'
-import {
-  FormError,
-  FieldProps,
-  FieldHelpProps,
-  pickSpacingProps,
-} from '../types'
+import { FormError, FieldProps, FieldHelpProps } from '../types'
 import SharedContext from '../../../shared/Context'
+import { pickSpacingProps } from '../../../components/layout/utils'
 
 export type Props = FieldHelpProps &
   FieldProps<string> & {

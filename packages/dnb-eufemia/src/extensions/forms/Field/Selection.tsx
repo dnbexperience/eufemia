@@ -7,12 +7,8 @@ import { makeUniqueId } from '../../../shared/component-helper'
 import SharedContext from '../../../shared/Context'
 import Option from './Option'
 import { useDataValue } from '../hooks'
-import {
-  FormError,
-  FieldProps,
-  FieldHelpProps,
-  pickSpacingProps,
-} from '../types'
+import { FormError, FieldProps, FieldHelpProps } from '../types'
+import { pickSpacingProps } from '../../../components/layout/utils'
 
 interface IOption {
   title: string | React.ReactNode
