@@ -9,8 +9,12 @@ import SharedContext from '../../../shared/Context'
 import { FieldHelpProps, FieldProps, pickSpacingProps } from '../types'
 import { useDataValue } from '../hooks'
 import classnames from 'classnames'
-import { HelpButton } from '../../../components'
+import { HelpButton, InputMasked } from '../../../components'
 import FieldBlock from '../FieldBlock'
+import {
+  InputMaskedMask,
+  InputMaskedProps,
+} from '../../../components/InputMasked'
 
 export type ExpiryValue = {
   /**
@@ -71,11 +75,6 @@ function Expiry({ ...props }: ExpiryProps) {
     >
       <Input
         id={`${id}__input`}
-        className={classnames(
-          'dnb-date-picker',
-          'dnb-date-picker--show-input',
-          status && `dnb-date-picker__status--${status}`
-        )}
         status={status}
         input_state={disabled ? 'disabled' : undefined}
         disabled={disabled}
@@ -133,7 +132,7 @@ type ExpiryDateFieldProps = {
   value: string
   onChange: (event: React.KeyboardEvent<HTMLInputElement>) => void
   innerRef: React.MutableRefObject<HTMLInputElement>
-} & Partial<Omit<TextMaskProps, 'ref'>>
+} & Partial<InputMaskedProps>
 
 function ExpiryDateField({
   id,
@@ -155,28 +154,22 @@ function ExpiryDateField({
 
   return (
     <>
-      <TextMask
+      <InputMasked
         id={`${id}-${type}`}
-        className={classnames(
-          'dnb-input__input',
-          'dnb-date-picker__input',
-          `dnb-date-picker__input--${type}`
-        )}
         value={value}
         onChange={onChange}
         mask={masks[type]}
-        placeholderChar={placeholderCharacter}
-        guide={true}
-        showMask={true}
-        keepCharPositions={false} // so we can overwrite next value, if it already exists
+        placeholder_char={placeholderCharacter}
+        show_guide={true}
+        show_mask={true}
+        keep_char_positions={false} // so we can overwrite next value, if it already exists
         autoComplete="off"
         autoCapitalize="none"
         spellCheck={false}
         autoCorrect="off"
         size={2}
         onFocus={handleFocus}
-        // Icky casting hack
-        inputRef={innerRef as unknown as Record<string, unknown>}
+        inner_ref={innerRef}
         {...rest}
       />
       <label id={`${id}-month-label`} htmlFor={`${id}-${type}`} hidden>
