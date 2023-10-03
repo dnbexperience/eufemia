@@ -1641,7 +1641,7 @@ class AutocompleteInstance extends React.PureComponent {
 
   getVoiceOverActiveItem(selected_sr) {
     // Add VoiceOver support to read the "selected" item
-    if (IS_MAC) {
+    if (IS_MAC && this._ref.current) {
       const { active_item, selected_item } = this.context.drawerList
       const currentDataItem = getCurrentData(
         active_item,
