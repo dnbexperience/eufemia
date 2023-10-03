@@ -1,8 +1,5 @@
 import React, { useContext, useRef } from 'react'
 
-import TextMask, {
-  TextMaskProps,
-} from '../../../components/input-masked/TextMask'
 import Input from '../../../components/Input'
 import { makeUniqueId } from '../../../shared/component-helper'
 import SharedContext from '../../../shared/Context'
@@ -11,10 +8,7 @@ import { useDataValue } from '../hooks'
 import classnames from 'classnames'
 import { HelpButton, InputMasked } from '../../../components'
 import FieldBlock from '../FieldBlock'
-import {
-  InputMaskedMask,
-  InputMaskedProps,
-} from '../../../components/InputMasked'
+import { InputMaskedProps } from '../../../components/InputMasked'
 
 export type ExpiryValue = {
   /**
@@ -96,7 +90,7 @@ function Expiry({ ...props }: ExpiryProps) {
               onChange={(event) =>
                 handleChange({
                   month: event.target.value,
-                  year: value.year,
+                  year: value?.year,
                 })
               }
               onKeyDown={handleKeydown}
@@ -112,7 +106,7 @@ function Expiry({ ...props }: ExpiryProps) {
               innerRef={yearRef}
               onChange={(event) =>
                 handleChange({
-                  month: value.month,
+                  month: value?.month,
                   year: event.target.value,
                 })
               }
