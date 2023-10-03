@@ -80,11 +80,15 @@
     &--current .dnb-button {
       font-weight: var(--font-weight-medium);
 
-      @include fakeBorder(var(--color-sea-green), 0.125rem, inset);
+      @include fakeBorder(
+        var(--step-indicator-border-color),
+        0.125rem,
+        inset
+      );
     }
 
     &--visited .dnb-button {
-      background-color: var(--color-pistachio);
+      background-color: var(--step-indicator-button-background-color);
     }
 
     &--inactive .dnb-button {
@@ -96,10 +100,16 @@
       &.dnb-button--secondary:hover,
       &.dnb-button--secondary:focus,
       &.dnb-button--secondary:active {
-        color: var(--color-black-80);
-        background-color: var(--color-white);
+        color: var(--step-indicator-button-color--inactive);
+        background-color: var(
+          --step-indicator-button-background-color--inactive
+        );
 
-        @include fakeBorder(var(--color-black-20), 0.0625rem, inset);
+        @include fakeBorder(
+          var(--step-indicator-button-border-color--inactive),
+          0.0625rem,
+          inset
+        );
       }
     }
 
@@ -109,7 +119,11 @@
         &.dnb-button--secondary:hover,
         &.dnb-button--secondary:focus,
         &.dnb-button--secondary:active {
-          @include fakeBorder(var(--color-black-80), 0.125rem, inset);
+          @include fakeBorder(
+            var(--step-indicator-current-item-button-color--inactive),
+            0.125rem,
+            inset
+          );
         }
       }
     }
@@ -117,8 +131,10 @@
     html[data-whatinput='keyboard']
       &__item--current
       .dnb-button:not([disabled], :active, :hover):focus {
-      color: var(--color-emerald-green);
-      background-color: var(--color-mint-green);
+      color: var(--step-indicator-current-item-button-color);
+      background-color: var(
+        --step-indicator-current-item-button-background-color
+      );
     }
 
     .dnb-button__icon {
@@ -162,15 +178,17 @@
 
   &__button__status {
     &.dnb-button--secondary {
-      background-color: var(--color-sand-yellow);
+      background-color: var(--step-indicator-status-background-color);
     }
 
     &--error.dnb-button--secondary {
-      background-color: var(--color-fire-red-8);
+      background-color: var(
+        -step-indicator-status-background-color--error
+      );
     }
 
     &--info.dnb-button--secondary {
-      background-color: var(--color-pistachio);
+      background-color: var(-step-indicator-status-background-color--info);
     }
 
     .dnb-button__icon {
@@ -190,7 +208,7 @@
 
         font-size: var(--font-size-x-small);
         line-height: var(--font-size-basis);
-        color: var(--color-black-80);
+        color: var(--step-indicator-status-color);
       }
     }
   }

@@ -6,4 +6,27 @@
 @import '../../../../style/core/utilities.scss';
 
 .dnb-step-indicator-wrapper .dnb-step-indicator {
+  //Item
+  --step-indicator-border-color: var(--color-sea-green);
+
+  // Button
+  --step-indicator-button-background-color: var(--color-pistachio);
+
+  --step-indicator-button-background-color--inactive: var(--color-white);
+  --step-indicator-button-color--inactive: var(--color-black-80);
+  --step-indicator-button-border-color--inactive: var(--color-black-20);
+
+  --step-indicator-current-item-button-color: var(--color-emerald-green);
+  --step-indicator-current-item-button-backgrround-color: var(
+    --color-mint-green
+  );
+  --step-indicator-current-item-button-color--inactive: var(
+    --color-black-80
+  );
+
+  //Status
+  --step-indicator-status-color: var(--color-black-80);
+  --step-indicator-status-background-color: var(--color-sand-yellow);
+  --step-indicator-status-background-color--error: var(--color-fire-red-8);
+  --step-indicator-status-background-color--info: var(--color-pistachio);
 }
