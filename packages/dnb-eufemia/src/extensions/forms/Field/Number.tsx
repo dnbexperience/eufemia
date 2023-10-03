@@ -169,6 +169,7 @@ function NumberComponent(props: Props) {
         on_blur={handleBlur}
         on_change={handleChange}
         disabled={disabled}
+        status={error ? 'error' : undefined}
         stretch={width !== undefined}
         suffix={
           help ? (
