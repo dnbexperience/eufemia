@@ -152,6 +152,7 @@ function StringComponent(props: Props) {
           disabled={disabled}
           stretch={width !== undefined}
           inner_ref={innerRef}
+          status={error ? 'error' : undefined}
         />
       ) : mask ? (
         <InputMasked
@@ -173,6 +174,7 @@ function StringComponent(props: Props) {
           disabled={disabled}
           stretch={width !== undefined}
           inner_ref={innerRef}
+          status={error ? 'error' : undefined}
         />
       ) : (
         <Input
@@ -195,6 +197,7 @@ function StringComponent(props: Props) {
           disabled={disabled}
           stretch={width !== undefined}
           inner_ref={innerRef}
+          status={error ? 'error' : undefined}
         />
       )}
     </FieldBlock>

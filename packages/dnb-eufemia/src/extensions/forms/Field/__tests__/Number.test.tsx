@@ -31,6 +31,12 @@ describe('Field.Number', () => {
       ).toBeInTheDocument()
     })
 
+    it('shows error border', () => {
+      render(<Field.Number error={new Error('This is what went wrong')} />)
+      const element = document.querySelector('.dnb-input')
+      expect(element.className).toContain('dnb-input__status--error')
+    })
+
     it('formats with given thousandSeparator', () => {
       const { rerender } = render(
         <Field.Number value={12345} thousandSeparator=" " />

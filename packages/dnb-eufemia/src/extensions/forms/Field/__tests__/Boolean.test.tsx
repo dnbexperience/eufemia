@@ -22,6 +22,17 @@ describe('Field.Boolean', () => {
       ).toBeInTheDocument()
     })
 
+    it('shows error border', () => {
+      render(
+        <Field.Boolean
+          variant="checkbox"
+          error={new Error('This is what went wrong')}
+        />
+      )
+      const element = document.querySelector('.dnb-checkbox')
+      expect(element.className).toContain('dnb-checkbox__status--error')
+    })
+
     it('should toggle when clicking', async () => {
       const onChange = jest.fn()
       render(
@@ -93,6 +104,19 @@ describe('Field.Boolean', () => {
       ).toBeInTheDocument()
     })
 
+    it('shows error border', () => {
+      render(
+        <Field.Boolean
+          variant="button"
+          error={new Error('This is what went wrong')}
+        />
+      )
+      const element = document.querySelector('.dnb-toggle-button')
+      expect(element.className).toContain(
+        'dnb-toggle-button__status--error'
+      )
+    })
+
     it('should show error when no value is given', () => {
       render(<Field.Boolean variant="button" required validateInitially />)
       expect(screen.getByRole('alert')).toBeInTheDocument()
@@ -141,6 +165,19 @@ describe('Field.Boolean', () => {
       expect(
         screen.getByText('This is what went wrong')
       ).toBeInTheDocument()
+    })
+
+    it('shows error border', () => {
+      render(
+        <Field.Boolean
+          variant="checkbox-button"
+          error={new Error('This is what went wrong')}
+        />
+      )
+      const element = document.querySelector('.dnb-toggle-button')
+      expect(element.className).toContain(
+        'dnb-toggle-button__status--error'
+      )
     })
 
     it('should show error when no value is given', () => {
@@ -195,6 +232,17 @@ describe('Field.Boolean', () => {
       expect(
         screen.getByText('This is what went wrong')
       ).toBeInTheDocument()
+    })
+
+    it('shows error border', () => {
+      render(
+        <Field.Boolean
+          variant="buttons"
+          error={new Error('This is what went wrong')}
+        />
+      )
+      const element = document.querySelector('.dnb-button')
+      expect(element.className).toContain('dnb-button__status--error')
     })
 
     it('should show error when no value is given', () => {

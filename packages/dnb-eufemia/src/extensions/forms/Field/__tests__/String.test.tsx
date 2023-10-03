@@ -81,6 +81,38 @@ describe('Field.String', () => {
         screen.getByText('This is what went wrong')
       ).toBeInTheDocument()
     })
+
+    describe('shows error border', () => {
+      it('for basis input', () => {
+        render(
+          <Field.String error={new Error('This is what went wrong')} />
+        )
+        const element = document.querySelector('.dnb-input')
+        expect(element.className).toContain('dnb-input__status--error')
+      })
+
+      it('for masked input', () => {
+        render(
+          <Field.String
+            mask={[/\/d/]}
+            error={new Error('This is what went wrong')}
+          />
+        )
+        const element = document.querySelector('.dnb-input-masked')
+        expect(element.className).toContain('dnb-input__status--error')
+      })
+
+      it('for multiline input', () => {
+        render(
+          <Field.String
+            multiline
+            error={new Error('This is what went wrong')}
+          />
+        )
+        const element = document.querySelector('.dnb-textarea')
+        expect(element.className).toContain('dnb-textarea__status--error')
+      })
+    })
   })
 
   describe('event handlers', () => {

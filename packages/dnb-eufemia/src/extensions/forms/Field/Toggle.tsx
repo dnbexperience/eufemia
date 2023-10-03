@@ -88,6 +88,7 @@ function Toggle(props: Props) {
             label={label}
             checked={isOn}
             disabled={disabled}
+            status={error ? 'error' : undefined}
             on_change={handleCheckboxChange}
             {...pickSpacingProps(props)}
           />
@@ -105,6 +106,7 @@ function Toggle(props: Props) {
             }
             checked={isOn}
             disabled={disabled}
+            status={error ? 'error' : undefined}
             value={value ? 'true' : 'false'}
             on_change={handleCheckboxChange}
           />
@@ -127,8 +129,8 @@ function Toggle(props: Props) {
               text={textOff ?? sharedContext?.translation.Forms.booleanNo}
               on_click={setOff}
               variant={isOn ? 'secondary' : undefined}
-              status={error ? 'error' : undefined}
               disabled={disabled}
+              status={error ? 'error' : undefined}
             />
           </ButtonRow>
           <Space bottom="x-small" />
@@ -147,6 +149,7 @@ function Toggle(props: Props) {
             }
             checked={isOn}
             disabled={disabled}
+            status={error ? 'error' : undefined}
             value={value ? 'true' : 'false'}
             on_change={handleCheckboxChange}
           />

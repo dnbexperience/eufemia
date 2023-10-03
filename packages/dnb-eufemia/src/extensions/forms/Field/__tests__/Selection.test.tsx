@@ -288,4 +288,15 @@ describe('Selection', () => {
       })
     })
   })
+
+  it('shows error border', () => {
+    render(
+      <Field.Selection error={new Error('This is what went wrong')}>
+        <Field.Option value="foo">Fooo</Field.Option>
+        <Field.Option value="bar">Baar</Field.Option>
+      </Field.Selection>
+    )
+    const element = document.querySelector('.dnb-dropdown')
+    expect(element.className).toContain('dnb-dropdown__status--error')
+  })
 })
