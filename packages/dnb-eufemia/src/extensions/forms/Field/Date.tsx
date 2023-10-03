@@ -1,8 +1,9 @@
 import React, { useContext } from 'react'
 import { DatePicker, HelpButton } from '../../../components'
 import { useDataValue } from '../hooks'
-import { FieldProps, FieldHelpProps, pickSpacingProps } from '../types'
+import { FieldProps, FieldHelpProps } from '../types'
 import SharedContext from '../../../shared/Context'
+import { pickSpacingProps } from '../../../components/layout/utils'
 
 export type Props = FieldHelpProps & FieldProps<string>
 

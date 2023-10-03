@@ -3,9 +3,8 @@ import classnames from 'classnames'
 import FlexContainer, {
   Props as FlexContainerProps,
 } from './FlexContainer'
-import type { ComponentProps } from '../../extensions/forms/types'
 
-export type Props = ComponentProps & FlexContainerProps
+export type Props = FlexContainerProps
 
 function Stack(props: Props) {
   const {

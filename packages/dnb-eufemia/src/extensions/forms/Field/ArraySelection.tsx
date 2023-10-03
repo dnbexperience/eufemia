@@ -5,7 +5,8 @@ import classnames from 'classnames'
 import Option from './Option'
 import FieldBlock from '../FieldBlock'
 import { useDataValue } from '../hooks'
-import { FieldProps, pickSpacingProps } from '../types'
+import { FieldProps } from '../types'
+import { pickSpacingProps } from '../../../components/layout/utils'
 
 interface IOption {
   title: string

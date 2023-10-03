@@ -2,7 +2,8 @@ import React from 'react'
 import { Span } from '../../../elements'
 import { FormLabel } from '../../../components'
 import classnames from 'classnames'
-import { ValueProps, pickSpacingProps } from '../types'
+import { ValueProps } from '../types'
+import { pickSpacingProps } from '../../../components/layout/utils'
 
 export type Props = Omit<ValueProps<unknown>, 'value'> & {
   children?: React.ReactNode

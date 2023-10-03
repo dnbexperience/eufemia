@@ -1,12 +1,8 @@
 import React from 'react'
 import classnames from 'classnames'
 import Space from '../space/Space'
-import type { DynamicElement } from '../../shared/types'
-import {
-  ComponentProps,
-  omitSpacingProps,
-  pickSpacingProps,
-} from '../../extensions/forms/types'
+import type { DynamicElement, SpacingProps } from '../../shared/types'
+import { omitSpacingProps, pickSpacingProps } from './utils'
 
 export type Sizes =
   | 1
@@ -30,15 +26,17 @@ type MediaSizes = {
 }
 export type Size = MediaSizes | Sizes
 
-export type Props = ComponentProps & {
+export type BasicProps = {
   element?: DynamicElement
   grow?: boolean
   shrink?: boolean
   alignSelf?: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch'
   size?: Size
-  style?: React.CSSProperties
-  children: React.ReactNode
 }
+
+export type Props = BasicProps &
+  SpacingProps &
+  Omit<React.HTMLProps<HTMLElement>, 'ref' | 'wrap' | 'size'>
 
 function FlexItem(props: Props) {
   const {

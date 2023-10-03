@@ -4,10 +4,8 @@ import FlexContainer, {
   Props as FlexContainerProps,
 } from './FlexContainer'
 import FlexItem, { Props as FlexItemProps } from './FlexItem'
-import type { ComponentProps } from '../../extensions/forms/types'
 
-export type Props = ComponentProps &
-  FlexContainerProps &
+export type Props = FlexContainerProps &
   FlexItemProps & {
     stack?: boolean
   }

@@ -4,8 +4,9 @@ import classnames from 'classnames'
 import ButtonRow from '../Form/ButtonRow'
 import FieldBlock from '../FieldBlock'
 import { useDataValue } from '../hooks'
-import { FieldProps, pickSpacingProps } from '../types'
+import { FieldProps } from '../types'
 import SharedContext from '../../../shared/Context'
+import { pickSpacingProps } from '../../../components/layout/utils'
 
 export type Props = FieldProps<unknown> & {
   valueOn: unknown
