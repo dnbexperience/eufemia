@@ -325,12 +325,14 @@ sup .dnb-anchor, sub .dnb-anchor {
 }
 .dnb-anchor.dnb-anchor--contrast:hover {
   color: var(--anchor-color--contrast);
-  box-shadow: inset 100vw 100vw 0 0 var(--color-white), -0.125em 0 0 0 var(--color-white), 0.125em 0 0 0 var(--color-white);
+  --anchor-background-gutter: 0.125em;
+  box-shadow: inset 100vw 100vw 0 0 var(--color-white), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--color-white), var(--anchor-background-gutter) 0 0 0 var(--color-white);
 }
 .dnb-anchor.dnb-anchor--contrast:active {
   color: var(--color-white);
   background-color: transparent;
-  box-shadow: inset 100vw 100vw 0 0 transparent, -0.125em 0 0 0 transparent, 0.125em 0 0 0 transparent;
+  --anchor-background-gutter: 0.125em;
+  box-shadow: inset 100vw 100vw 0 0 transparent, calc(var(--anchor-background-gutter) * -1) 0 0 0 transparent, var(--anchor-background-gutter) 0 0 0 transparent;
 }
 .dnb-anchor.dnb-anchor--contrast:focus-visible {
   color: var(--color-white);
@@ -438,7 +440,8 @@ exports[`Anchor scss has to match theme css for sbanken 1`] = `
   box-shadow: inset 100vw 100vw 0 0 var(--anchor-background);
 }
 .dnb-anchor--no-underline, .dnb-anchor--has-icon, .dnb-anchor--inline {
-  box-shadow: inset 100vw 100vw 0 0 var(--anchor-background), -0.25em 0 0 0 var(--anchor-background), 0.25em 0 0 0 var(--anchor-background);
+  --anchor-background-gutter: 0.25em;
+  box-shadow: inset 100vw 100vw 0 0 var(--anchor-background), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--anchor-background), var(--anchor-background-gutter) 0 0 0 var(--anchor-background);
 }
 .dnb-anchor:hover {
   --anchor-background: var(--sb-color-green-dark);
@@ -582,11 +585,13 @@ exports[`Anchor scss has to match theme css for ui 1`] = `
 }
 .dnb-anchor:hover {
   --anchor-color: var(--color-sea-green);
-  box-shadow: inset 100vw 100vw 0 0 var(--anchor-background--hover), -0.125em 0 0 0 var(--anchor-background--hover), 0.125em 0 0 0 var(--anchor-background--hover);
+  --anchor-background-gutter: 0.125em;
+  box-shadow: inset 100vw 100vw 0 0 var(--anchor-background--hover), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--anchor-background--hover), var(--anchor-background-gutter) 0 0 0 var(--anchor-background--hover);
 }
 .dnb-anchor:active {
   --anchor-color: var(--anchor-color--active);
-  box-shadow: inset 100vw 100vw 0 0 var(--anchor-background--active), -0.125em 0 0 0 var(--anchor-background--active), 0.125em 0 0 0 var(--anchor-background--active);
+  --anchor-background-gutter: 0.125em;
+  box-shadow: inset 100vw 100vw 0 0 var(--anchor-background--active), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--anchor-background--active), var(--anchor-background-gutter) 0 0 0 var(--anchor-background--active);
 }
 .dnb-anchor:focus-visible {
   --anchor-color: var(--color-sea-green);
@@ -594,12 +599,14 @@ exports[`Anchor scss has to match theme css for ui 1`] = `
 
 .dnb-anchor--hover {
   --anchor-color: var(--color-sea-green);
-  box-shadow: inset 100vw 100vw 0 0 var(--anchor-background--hover), -0.125em 0 0 0 var(--anchor-background--hover), 0.125em 0 0 0 var(--anchor-background--hover);
+  --anchor-background-gutter: 0.125em;
+  box-shadow: inset 100vw 100vw 0 0 var(--anchor-background--hover), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--anchor-background--hover), var(--anchor-background-gutter) 0 0 0 var(--anchor-background--hover);
 }
 
 .dnb-anchor--active {
   --anchor-color: var(--anchor-color--active);
-  box-shadow: inset 100vw 100vw 0 0 var(--anchor-background--active), -0.125em 0 0 0 var(--anchor-background--active), 0.125em 0 0 0 var(--anchor-background--active);
+  --anchor-background-gutter: 0.125em;
+  box-shadow: inset 100vw 100vw 0 0 var(--anchor-background--active), calc(var(--anchor-background-gutter) * -1) 0 0 0 var(--anchor-background--active), var(--anchor-background-gutter) 0 0 0 var(--anchor-background--active);
 }
 
 .dnb-anchor--focus {
