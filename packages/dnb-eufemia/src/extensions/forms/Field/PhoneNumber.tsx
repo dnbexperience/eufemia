@@ -23,9 +23,6 @@ function PhoneNumber(props: Props) {
   const sharedContext = useContext(SharedContext)
   const preparedProps: Props = {
     ...props,
-    // Important for the default value to be defined here, and not after the useDataValue call, to avoid the UI jumping
-    // back to +47 once the user empty the field so handleChange send out undefined.
-    value: '+47',
     errorMessages: {
       required: sharedContext?.translation.Forms.phoneNumberErrorRequired,
       ...props?.errorMessages,
@@ -104,7 +101,7 @@ function PhoneNumber(props: Props) {
           countryCodeFieldClassName
         )}
         label={countryCodeLabel}
-        value={countryCode ?? '+47'}
+        value={countryCode}
         disabled={disabled}
         onChange={handleCountryCodeChange}
       />
