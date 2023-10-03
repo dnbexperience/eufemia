@@ -4,6 +4,7 @@ import {
   TestElement,
   Field,
   FieldBlock,
+  Form,
 } from '@dnb/eufemia/src/extensions/forms'
 import { defaultBreakpoints } from '@dnb/eufemia/src/shared/MediaQueryUtils'
 import { defaultQueries } from '@dnb/eufemia/src/shared/useMedia'
@@ -14,20 +15,21 @@ export const LayoutComponents = () => {
     <ComponentBox
       scope={{
         Field,
+        Form,
       }}
     >
       <Layout.Stack>
-        <Layout.MainHeading>Profile</Layout.MainHeading>
+        <Form.MainHeading>Profile</Form.MainHeading>
 
         <Layout.Card stack>
-          <Layout.SubHeading>Name</Layout.SubHeading>
+          <Form.SubHeading>Name</Form.SubHeading>
 
           <Field.String label="Fornavn" value="John" />
           <Field.String label="Etternavn" value="Smith" />
         </Layout.Card>
 
         <Layout.Card stack>
-          <Layout.SubHeading>More information</Layout.SubHeading>
+          <Form.SubHeading>More information</Form.SubHeading>
 
           <Field.NationalIdentityNumber value="20058512345" />
           <Field.Email value="john@smith.email" />

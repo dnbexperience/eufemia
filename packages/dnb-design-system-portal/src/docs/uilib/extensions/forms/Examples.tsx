@@ -215,17 +215,17 @@ export const LayoutComponents = () => {
       }}
     >
       <Layout.Stack>
-        <Layout.MainHeading>Profile</Layout.MainHeading>
+        <Form.MainHeading>Profile</Form.MainHeading>
 
         <Layout.Card stack>
-          <Layout.SubHeading>Name</Layout.SubHeading>
+          <Form.SubHeading>Name</Form.SubHeading>
 
           <Field.String label="Fornavn" value="John" />
           <Field.String label="Etternavn" value="Smith" />
         </Layout.Card>
 
         <Layout.Card stack>
-          <Layout.SubHeading>More information</Layout.SubHeading>
+          <Form.SubHeading>More information</Form.SubHeading>
 
           <Field.NationalIdentityNumber value="20058512345" />
           <Field.Email value="john@smith.email" />
@@ -263,10 +263,10 @@ export const VisibilityBasedOnData = () => {
         onSubmit={(data) => console.log('onSubmit', data)}
       >
         <Layout.Stack>
-          <Layout.MainHeading>Profile</Layout.MainHeading>
+          <Form.MainHeading>Profile</Form.MainHeading>
 
           <Layout.Card stack>
-            <Layout.SubHeading>Name</Layout.SubHeading>
+            <Form.SubHeading>Name</Form.SubHeading>
 
             <Field.String path="/firstName" label="Fornavn" />
             <Field.String path="/lastName" label="Etternavn" />
@@ -280,7 +280,7 @@ export const VisibilityBasedOnData = () => {
         <Visibility pathTrue="/advanced">
           <Layout.Stack>
             <Layout.Card stack>
-              <Layout.SubHeading>More information</Layout.SubHeading>
+              <Form.SubHeading>More information</Form.SubHeading>
 
               <Field.NationalIdentityNumber value="20058512345" />
               <Field.Email value="john@smith.email" />
@@ -318,7 +318,7 @@ export const UsingFormHandler = () => {
         }
         onSubmit={(data) => console.log('onSubmit', data)}
       >
-        <Layout.MainHeading>Profile</Layout.MainHeading>
+        <Form.MainHeading>Profile</Form.MainHeading>
 
         <Layout.Card stack>
           <Field.String path="/firstName" label="Fornavn" />
@@ -361,7 +361,7 @@ export const Validation = () => {
         }
         onSubmit={(data) => console.log('onSubmit', data)}
       >
-        <Layout.MainHeading>Profile</Layout.MainHeading>
+        <Form.MainHeading>Profile</Form.MainHeading>
 
         <Layout.Card stack>
           <Field.String path="/firstName" label="Fornavn" required />
@@ -403,10 +403,10 @@ export const WithSteps = () => {
       >
         <StepsLayout mode="loose">
           <StepsLayout.Step title="Name">
-            <Layout.MainHeading>Profile</Layout.MainHeading>
+            <Form.MainHeading>Profile</Form.MainHeading>
 
             <Layout.Card stack>
-              <Layout.SubHeading>Name</Layout.SubHeading>
+              <Form.SubHeading>Name</Form.SubHeading>
 
               <Field.String path="/firstName" label="Fornavn" required />
               <Field.String path="/lastName" label="Etternavn" required />
@@ -418,10 +418,10 @@ export const WithSteps = () => {
           </StepsLayout.Step>
 
           <StepsLayout.Step title="More information">
-            <Layout.MainHeading>Profile</Layout.MainHeading>
+            <Form.MainHeading>Profile</Form.MainHeading>
 
             <Layout.Card stack>
-              <Layout.SubHeading>More information</Layout.SubHeading>
+              <Form.SubHeading>More information</Form.SubHeading>
 
               <Field.NationalIdentityNumber path="/ssn" />
               <Field.Email path="/email" />
@@ -435,7 +435,7 @@ export const WithSteps = () => {
           </StepsLayout.Step>
 
           <StepsLayout.Step title="Summary">
-            <Layout.MainHeading>Profile</Layout.MainHeading>
+            <Form.MainHeading>Profile</Form.MainHeading>
 
             <Layout.Card stack>
               <Layout.FlexContainer>

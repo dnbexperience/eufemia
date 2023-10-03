@@ -115,15 +115,15 @@ export const ArrayFromFormHandler = () => {
         }}
         onChange={(data) => console.log('Source onChange', data)}
       >
-        <Layout.MainHeading>Avengers</Layout.MainHeading>
+        <Form.MainHeading>Avengers</Form.MainHeading>
 
         <Iterate.Array
           path="/avengers"
           onChange={(value) => console.log('Iterate onChange', value)}
         >
-          <Layout.SubHeading>
+          <Form.SubHeading>
             <Value.String elementPath="/nickname" />
-          </Layout.SubHeading>
+          </Form.SubHeading>
 
           <Layout.Horizontal align="center">
             <Field.String

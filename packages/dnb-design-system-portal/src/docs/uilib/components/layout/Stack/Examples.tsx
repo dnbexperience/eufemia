@@ -1,3 +1,4 @@
+import { Form } from '@dnb/eufemia/src/extensions/forms'
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
 import { Layout, P } from '@dnb/eufemia/src'
 
@@ -40,7 +41,7 @@ export const WithMainHeading = () => {
   return (
     <ComponentBox>
       <Layout.Stack>
-        <Layout.MainHeading>Heading</Layout.MainHeading>
+        <Form.MainHeading>Heading</Form.MainHeading>
         <P>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
           cursus pharetra elit in bibendum. Vivamus tincidunt eleifend
@@ -70,9 +71,9 @@ export const WithCard = () => {
 
 export const WithCardAndHeading = () => {
   return (
-    <ComponentBox>
+    <ComponentBox scope={{ Form }}>
       <Layout.Stack>
-        <Layout.MainHeading>Main heading</Layout.MainHeading>
+        <Form.MainHeading>Main heading</Form.MainHeading>
         <Layout.Card>
           <P>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
@@ -90,8 +91,8 @@ export const WithCardAndHeadings = () => {
   return (
     <ComponentBox>
       <Layout.Stack>
-        <Layout.MainHeading>Main heading</Layout.MainHeading>
-        <Layout.SubHeading>Sub heading</Layout.SubHeading>
+        <Form.MainHeading>Main heading</Form.MainHeading>
+        <Form.SubHeading>Sub heading</Form.SubHeading>
         <Layout.Card>
           <P>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
@@ -109,7 +110,7 @@ export const WithHeadingsAndAriaLabel = () => {
   return (
     <ComponentBox hidePreview>
       <Layout.Stack aria-labelledby="unique-id">
-        <Layout.SubHeading id="unique-id">Heading</Layout.SubHeading>
+        <Form.SubHeading id="unique-id">Heading</Form.SubHeading>
         <Layout.Card>
           <P>Content inside a landmark ...</P>
         </Layout.Card>

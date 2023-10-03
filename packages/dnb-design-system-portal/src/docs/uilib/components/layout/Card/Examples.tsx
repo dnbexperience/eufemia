@@ -1,6 +1,6 @@
 import { Layout, P } from '@dnb/eufemia/src'
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
-import { Field } from '@dnb/eufemia/src/extensions/forms'
+import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 
 export const Default = () => {
   return (
@@ -45,11 +45,11 @@ export const VerticalFields = () => {
 
 export const WithHeadingsAndAriaLabel = () => {
   return (
-    <ComponentBox hidePreview>
+    <ComponentBox scope={{ Form }} hidePreview>
       <Layout.Card aria-labelledby="unique-id">
-        <Layout.SubHeading id="unique-id" space={0}>
+        <Form.SubHeading id="unique-id" space={0}>
           Heading
-        </Layout.SubHeading>
+        </Form.SubHeading>
         <P>Content inside a landmark ...</P>
       </Layout.Card>
     </ComponentBox>
