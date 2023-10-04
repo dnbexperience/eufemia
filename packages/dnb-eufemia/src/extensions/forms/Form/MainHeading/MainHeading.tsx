@@ -1,8 +1,8 @@
 import React from 'react'
 import classnames from 'classnames'
-import Heading from '../../../components/heading/Heading'
-import type { HeadingLevel } from '../../../components/heading/Heading'
-import type { ComponentProps } from '../types'
+import Heading from '../../../../components/heading/Heading'
+import type { HeadingLevel } from '../../../../components/heading/Heading'
+import type { ComponentProps } from '../../types'
 
 export type Props = ComponentProps & {
   level?: HeadingLevel

@@ -1,7 +1,7 @@
 import {
   makeScreenshot,
   setupPageScreenshot,
-} from '../../../../core/jest/jestSetupScreenshots'
+} from '../../../../../core/jest/jestSetupScreenshots'
 
 describe('Form.SubHeading', () => {
   setupPageScreenshot({
