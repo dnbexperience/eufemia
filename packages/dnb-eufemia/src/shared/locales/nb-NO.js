@@ -158,6 +158,7 @@ export default {
         'Verdien kan ikke være lengre enn {maxLength} tegn',
       selectionClearSelected: 'Fjern valgt verdi',
       countryCodeLabel: 'Landskode',
+      countryCodePlaceholder: 'Velg en landskode',
       dateLabel: 'Dato',
       emailErrorRequired: 'Du må fylle inn e-post',
       emailErrorPattern: 'Dette er ikke en gyldig e-postadresse',

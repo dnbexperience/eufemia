@@ -17,7 +17,7 @@ function CountryCode(props: Props) {
   const {
     className,
     layout = 'vertical',
-    placeholder,
+    placeholder = sharedContext?.translation.Forms.countryCodePlaceholder,
     label = sharedContext?.translation.Forms.countryCodeLabel,
     value,
     emptyValue,

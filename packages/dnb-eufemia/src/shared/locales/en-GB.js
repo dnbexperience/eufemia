@@ -159,6 +159,7 @@ export default {
         'The value cannot be longer than {maxLength} characters',
       selectionClearSelected: 'Clear the selected value',
       countryCodeLabel: 'Country code',
+      countryCodePlaceholder: 'Select a country code',
       dateLabel: 'Date',
       emailErrorRequired: 'You must enter an email',
       emailErrorPattern: 'This is not a valid email address',
