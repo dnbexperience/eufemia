@@ -69,4 +69,6 @@ const H = ({
   )
 }
 
+H._isHeadingElement = true
+
 export default H
