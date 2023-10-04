@@ -3,4 +3,4 @@
  *
  */
 
-import './index.scss'
+import './dnb-forms-field.scss'
