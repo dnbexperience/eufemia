@@ -54,6 +54,27 @@ function Expiry({ ...props }: ExpiryProps) {
 
   const status = error ? 'error' : warning ? 'warn' : info ? 'info' : null
 
+  function onChange(
+    type: ExpiryDateFieldProps['type'],
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) {
+    const placeholderCharacter =
+      sharedContext?.translation.DatePicker.placeholder_characters[type]
+
+    const inputValue = event.currentTarget.value
+
+    const firstDigit = inputValue.charAt(0)
+    const lastDigit = inputValue.charAt(1)
+
+    const sanitizedValue =
+      firstDigit === placeholderCharacter &&
+      lastDigit === placeholderCharacter
+        ? ''
+        : inputValue
+
+    return handleChange({ ...value, [type]: sanitizedValue })
+  }
+
   return (
     <FieldBlock
       className={classnames('dnb-forms-field-expiry', className)}
@@ -69,6 +90,7 @@ function Expiry({ ...props }: ExpiryProps) {
     >
       <Input
         id={`${id}__input`}
+        className="dnb-forms-field-expiry__input"
         status={status}
         input_state={disabled ? 'disabled' : undefined}
         disabled={disabled}
@@ -81,22 +103,24 @@ function Expiry({ ...props }: ExpiryProps) {
           ) : undefined
         }
         input_element={
-          <span className="dnb-date-picker__input__wrapper">
+          <span className="dnb-forms-field-expiry__input--wrapper">
             <ExpiryDateField
               id={id}
               type="month"
               value={value?.month}
               innerRef={monthRef}
-              onChange={(event) =>
-                handleChange({
-                  month: event.target.value,
-                  year: value?.year,
-                })
-              }
+              onChange={(event) => onChange('month', event)}
               onKeyDown={handleKeydown}
               disabled={disabled}
             />
-            <span className="dnb-date-picker--separator" aria-hidden>
+            <span
+              className={classnames(
+                'dnb-forms-field-expiry__seperator',
+                (!value || (!value?.month && !value?.year)) &&
+                  'dnb-forms-field-expiry__seperator--no-highlight'
+              )}
+              aria-hidden
+            >
               {' / '}
             </span>
             <ExpiryDateField
@@ -104,12 +128,7 @@ function Expiry({ ...props }: ExpiryProps) {
               type="year"
               value={value?.year}
               innerRef={yearRef}
-              onChange={(event) =>
-                handleChange({
-                  month: value?.month,
-                  year: event.target.value,
-                })
-              }
+              onChange={(event) => onChange('year', event)}
               onKeyDown={handleKeydown}
               disabled={disabled}
             />
@@ -150,6 +169,11 @@ function ExpiryDateField({
     <>
       <InputMasked
         id={`${id}-${type}`}
+        className={classnames(
+          'dnb-forms-field-expiry__date-field',
+          value && 'dnb-forms-field-expiry__date-field--has-value'
+        )}
+        input_class="dnb-forms-field-expiry__date-input"
         value={value}
         onChange={onChange}
         mask={masks[type]}
