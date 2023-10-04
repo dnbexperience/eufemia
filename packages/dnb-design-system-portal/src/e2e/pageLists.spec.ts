@@ -20,7 +20,9 @@ test.describe('Page Lists', () => {
     test('should have same amount of components', async ({ page }) => {
       const listLength = await page
         .locator(
-          '#portal-sidebar-menu ul li:has(> a[href*="/uilib/components"]) ~ li:is(.l-3, .l-4):has(> a[href*="/components"]):has(> a:not([href*="/fragments"]))',
+          // make exception with:
+          // - "infinity-scroller"
+          '#portal-sidebar-menu ul li:has(> a[href*="/uilib/components"]) ~ li:is(.l-3:has(> a[href*="/components"]):has(> a:not([href*="/fragments"])), .l-4:has(a[href*="/infinity"]))',
         )
         .count()
 
