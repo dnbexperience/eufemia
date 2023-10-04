@@ -8,6 +8,16 @@ showTabs: true
 
 Ideally, use [Layout.FlexItem](/uilib/components/layout/FlexItem) or [Layout.Card](/uilib/components/layout/Card) for you inner wrappers.
 
+## How spacing is applied
+
+Nested components should preferable support [spacing properties](/uilib/components/space/).
+
+When a element or component was given, that does not support it, it will still work out of the box as it gets wrapped in a spacing block.
+
+You may else warp your custom component in a `FlexItem` – this way, you still can change the spacing per component basis.
+
+Technically, `FlexContainer` checks if a nested component has a property called `_supportsEufemiaSpacingProps`. So if you have a component that supports the [spacing properties](/uilib/components/space/), you can add this property `ComponentName._supportsEufemiaSpacingProps = true`.
+
 ### Horizontal and Vertical aliases
 
 For shortening the usage of `direction="..."`, you can use:
