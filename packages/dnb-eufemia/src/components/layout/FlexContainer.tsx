@@ -1,70 +1,19 @@
 import React from 'react'
 import classnames from 'classnames'
 import Space from '../space/Space'
-import * as EufemiaElements from '../../elements'
-import MainHeading from '../../extensions/forms/Form/MainHeading'
-import SubHeading from '../../extensions/forms/Form/SubHeading'
-import type { DynamicElement } from '../../shared/types'
-import type { SpaceType, SpacingProps } from '../space/types'
 import { Hr } from '../../elements'
 import useMedia from '../../shared/useMedia'
-import type { UseMediaQueries } from '../../shared/useMedia'
+import {
+  getSpaceValue,
+  isHeadingElement,
+  renderWithSpacing,
+} from './utils'
+
 import type { MediaQueryBreakpoints } from '../../shared/MediaQueryUtils'
-
-export function isHeadingElement(element): boolean {
-  return element.type === MainHeading || element.type === SubHeading
-}
-
-type End = 'right' | 'bottom'
-type Start = 'left' | 'top'
-
-const getSpaceValue = (
-  type: Start | End,
-  element: React.ReactChild | React.ReactFragment | React.ReactPortal
-): SpaceType | undefined => {
-  if (!React.isValidElement(element)) {
-    return
-  }
-
-  return (
-    element.props?.[type] ??
-    (typeof element.props?.space === 'object'
-      ? element.props.space[type]
-      : undefined)
-  )
-}
-
-export const isEufemiaElement = (element): boolean => {
-  return Object.values(EufemiaElements).some(
-    (eufemiaElement) => element?.type === eufemiaElement
-  )
-}
-
-/**
- * Is the requested element a component that can receive Eufemia space props (space, top, bottom, left and right)?
- */
-export const isSpacePropsComponent = (
-  element: React.ReactNode
-): boolean => {
-  return (
-    (React.isValidElement(element) &&
-      element?.type?.['_supportsEufemiaSpacingProps'] === true) ||
-    isEufemiaElement(element)
-  )
-}
-
-const renderWithSpacing = (
-  element: React.ReactNode,
-  props: SpacingProps & { key?: string; className?: string }
-) => {
-  const takesSpaceProps = isSpacePropsComponent(element)
-
-  return takesSpaceProps ? (
-    React.cloneElement(element as React.ReactElement<unknown>, props)
-  ) : (
-    <Space {...props}>{element}</Space>
-  )
-}
+import type { DynamicElement } from '../../shared/types'
+import type { SpaceType, SpacingProps } from '../space/types'
+import type { UseMediaQueries } from '../../shared/useMedia'
+import type { End, Start } from './types'
 
 export type BasicProps = {
   direction?: 'horizontal' | 'vertical'

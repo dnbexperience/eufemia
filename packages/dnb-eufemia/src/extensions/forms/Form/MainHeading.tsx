@@ -24,4 +24,6 @@ function MainHeading({ level, ...props }: Props) {
 }
 
 MainHeading._supportsEufemiaSpacingProps = true
+MainHeading._isHeadingElement = true
+
 export default MainHeading

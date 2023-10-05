@@ -10,4 +10,6 @@ const H3 = ({ size, ...props }: SharedHProps) => (
   <H as="h3" size={size || 'auto'} {...props} />
 )
 
+H3._isHeadingElement = true
+
 export default H3

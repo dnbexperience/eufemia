@@ -336,5 +336,8 @@ Heading.Reset = (props: HeadingStaticProps) => {
 Heading.resetLevels = resetLevels
 Heading.setNextLevel = setNextLevel
 
+Heading._isHeadingElement = true
+Heading._supportsEufemiaSpacingProps = true
+
 // Interceptor to reset leveling
 export { resetAllLevels, resetLevels, setNextLevel }
