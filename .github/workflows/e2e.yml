@@ -190,8 +190,11 @@ jobs:
       - name: Build portal
         run: yarn workspace dnb-design-system-portal build
 
-      - name: Run Playwright
-        run: yarn workspace dnb-design-system-portal test:e2e:ci
+      - name: Run Playwright on Portal
+        run: yarn workspace dnb-design-system-portal test:e2e:portal:ci
+
+      - name: Run Playwright on Eufemia Components
+        run: yarn workspace @dnb/eufemia test:e2e:ci
 
       - name: Store Playwright artifacts
         uses: actions/upload-artifact@v3

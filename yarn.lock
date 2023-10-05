@@ -2572,6 +2572,7 @@ __metadata:
     "@babel/traverse": 7.22.5
     "@emotion/react": 11.11.0
     "@emotion/styled": 11.11.0
+    "@playwright/test": 1.38.1
     "@rollup/plugin-babel": 6.0.3
     "@rollup/plugin-commonjs": 24.0.1
     "@rollup/plugin-json": 6.0.0
@@ -2665,7 +2666,6 @@ __metadata:
     opentype.js: 1.3.4
     ora: 5.4.1
     packpath: 0.1.0
-    playwright-firefox: 1.38.1
     postcss: 8.4.31
     postcss-calc: 8.0.0
     postcss-preset-env: 6.7.0
@@ -2685,6 +2685,7 @@ __metadata:
     sass-loader: 13.2.0
     semantic-release: 20.1.0
     simple-git: 3.16.0
+    start-server-and-test: 2.0.1
     storybook: 7.0.21
     storybook-utils: "workspace:*"
     style-loader: 3.3.1
@@ -12641,7 +12642,7 @@ __metadata:
     remark-gfm: 1.0.0
     repo-utils: "workspace:*"
     sass: 1.43.4
-    start-server-and-test: 1.15.4
+    start-server-and-test: 2.0.1
     storybook-utils: "workspace:*"
     stylelint: 15.9.0
     stylelint-config-recommended: 12.0.0
@@ -24985,17 +24986,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"playwright-firefox@npm:1.38.1":
-  version: 1.38.1
-  resolution: "playwright-firefox@npm:1.38.1"
-  dependencies:
-    playwright-core: 1.38.1
-  bin:
-    playwright: cli.js
-  checksum: 43574c7f5d326f4c3a844d2896cc2bd21984e06976ec15342cef89838a08e2930f55b8ce3235ac91099578385ebe97313e41719597e59ef5c5be8fa8576e0f1d
-  languageName: node
-  linkType: hard
-
 "playwright@npm:1.38.1":
   version: 1.38.1
   resolution: "playwright@npm:1.38.1"
@@ -28974,9 +28964,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"start-server-and-test@npm:1.15.4":
-  version: 1.15.4
-  resolution: "start-server-and-test@npm:1.15.4"
+"start-server-and-test@npm:2.0.1":
+  version: 2.0.1
+  resolution: "start-server-and-test@npm:2.0.1"
   dependencies:
     arg: ^5.0.2
     bluebird: 3.7.2
@@ -28990,7 +28980,7 @@ __metadata:
     server-test: src/bin/start.js
     start-server-and-test: src/bin/start.js
     start-test: src/bin/start.js
-  checksum: 0df9a4710ea45ddb1a9f719e0865faa8e26a973beff693dfe244ae2d914bfc6eed4d2db8529cdcad3d53658c4655356e5aca3520485a3ef4d9d9f320956b0e7d
+  checksum: d423e0950815d29180177c6c53d6fddcb13b64ca69ea9735b82db264ad57229f9bc9ceb5fd5623f23331dad2d5fa5a895988e84b77e1a0e37797803bcca8f7d2
   languageName: node
   linkType: hard
 
