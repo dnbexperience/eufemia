@@ -229,7 +229,7 @@
     "ora": "5.4.1",
     "packpath": "0.1.0",
     "playwright-firefox": "1.38.1",
-    "postcss": "8.3.11",
+    "postcss": "8.4.31",
     "postcss-calc": "8.0.0",
     "postcss-preset-env": "6.7.0",
     "prettier": "3.0.3",
