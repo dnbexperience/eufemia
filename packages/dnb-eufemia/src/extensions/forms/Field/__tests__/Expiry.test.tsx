@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { act, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as Field from '../'
 import { ExpiryValue } from '../Expiry'
@@ -24,7 +24,9 @@ describe('Field.Expiry', () => {
 
     const input = document.querySelector('input')
 
-    input.focus()
+    act(() => {
+      input.focus()
+    })
 
     await userEvent.keyboard('1235')
 
@@ -115,7 +117,10 @@ describe('Field.Expiry', () => {
       const monthInput = document.querySelectorAll('input')[0]
       const yearInput = document.querySelectorAll('input')[1]
 
-      monthInput.focus()
+      act(() => {
+        monthInput.focus()
+      })
+
       monthInput.setSelectionRange(0, 0)
 
       await userEvent.keyboard('{ArrowRight}{ArrowRight}')
@@ -145,7 +150,9 @@ describe('Field.Expiry', () => {
       const monthInput = document.querySelectorAll('input')[0]
       const yearInput = document.querySelectorAll('input')[1]
 
-      monthInput.focus()
+      act(() => {
+        monthInput.focus()
+      })
 
       expect(document.activeElement).toBe(monthInput)
 

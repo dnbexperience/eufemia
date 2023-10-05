@@ -8,10 +8,15 @@ export default {
 }
 export const ExpiryTest = () => {
   const [value, setValue] = useState<ExpiryValue>({ month: '', year: '' })
+  console.log(value)
+
+  function onChange(value: ExpiryValue) {
+    setValue(value)
+  }
 
   return (
     <Expiry
-      onChange={(value: ExpiryValue) => setValue(value)}
+      onChange={onChange}
       value={{ month: value.month, year: value.year }}
     />
   )
