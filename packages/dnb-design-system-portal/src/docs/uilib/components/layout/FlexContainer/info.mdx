@@ -14,7 +14,7 @@ Nested components should preferably support [spacing properties](/uilib/componen
 
 When a element or component was given, that does not support spacing, it will still work out of the box as it gets wrapped in a spacing block.
 
-You may else warp your custom component in a `FlexItem` – this way, you still can change the spacing per component basis.
+You may else wrap your custom component in a `FlexItem` – this way, you still can change the spacing per component basis.
 
 Technically, `FlexContainer` checks if a nested component has a property called `_supportsEufemiaSpacingProps`. So if you have a component that supports the [spacing properties](/uilib/components/space/), you can add this property `ComponentName._supportsEufemiaSpacingProps = true`.
 
