@@ -9,6 +9,7 @@ import classnames from 'classnames'
 import { HelpButton, InputMasked } from '../../../components'
 import FieldBlock from '../FieldBlock'
 import { InputMaskedProps } from '../../../components/InputMasked'
+import useHandleCursorPosition from '../../../components/input-masked/hooks/useHandleCursorPosition'
 
 export type ExpiryValue = {
   /**
@@ -48,7 +49,9 @@ function Expiry({ ...props }: ExpiryProps) {
   const monthRef = useRef<HTMLInputElement>(null)
   const yearRef = useRef<HTMLInputElement>(null)
 
-  const { handleKeydown } = useHandleCursorPosition({ monthRef, yearRef })
+  const { handleKeydown } = useHandleCursorPosition({
+    inputRefs: [monthRef, yearRef],
+  })
 
   const id = useRef(propsId || makeUniqueId()).current
 
@@ -200,75 +203,6 @@ function ExpiryDateField({
     target.focus()
     target.select()
   }
-}
-
-function useHandleCursorPosition({ monthRef, yearRef }) {
-  function handleKeydown(event: React.KeyboardEvent) {
-    const input = event.currentTarget as HTMLInputElement
-
-    const pressedKey = event.key
-    const hasPressedNumberKey = /[0-9]/.test(pressedKey)
-
-    const startPosition = 0
-    const endPosition = Number(input.size)
-
-    const currentSelectionStart = input.selectionStart
-
-    window.requestAnimationFrame(() => {
-      const selectionStart = input.selectionStart
-      const selectionEnd = input.selectionEnd
-
-      const isAtFirstCaretPosition =
-        selectionStart === startPosition && selectionEnd === startPosition
-
-      const isAtLastCaretPosition =
-        selectionStart === endPosition && selectionEnd === endPosition
-
-      const isMonthInputInFocus = input === monthRef.current
-      const isYearInputInFocus = input === yearRef.current
-
-      // Return if user has pressed any key that does require special handling
-      if (
-        !(
-          hasPressedNumberKey ||
-          pressedKey === 'ArrowRight' ||
-          pressedKey === 'ArrowLeft' ||
-          pressedKey === 'Backspace'
-        )
-      ) {
-        return // stop here
-      }
-
-      // If user is at the end of month input, and presses either a number key or ArrowRight, then year input should be in focus
-      if (
-        isMonthInputInFocus &&
-        isAtLastCaretPosition &&
-        !(currentSelectionStart === 1 && pressedKey === 'ArrowRight')
-      ) {
-        yearRef.current.focus()
-        yearRef.current.setSelectionRange(startPosition, startPosition)
-
-        return // stop here
-      }
-
-      // If user is at the end of year input, and presses either Backspace or ArrowLeft, then month input should be in focus
-      if (
-        isYearInputInFocus &&
-        isAtFirstCaretPosition &&
-        !(
-          currentSelectionStart === 1 &&
-          (pressedKey == 'ArrowLeft' || pressedKey === 'Backspace')
-        )
-      ) {
-        monthRef.current.focus()
-        monthRef.current.setSelectionRange(endPosition, endPosition)
-
-        return // stop here
-      }
-    })
-  }
-
-  return { handleKeydown }
 }
 
 Expiry._supportsEufemiaSpacingProps = true
