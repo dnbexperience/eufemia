@@ -3,9 +3,9 @@
 .dnb-forms-field-expiry {
   // Hiding borders on sub inputs created by dnb-input__shell added by MaskedInput
   .dnb-forms-field-expiry__input,
-  .dnb-input.dnb-input__status--error.dnb-forms-field-expiry__input,
   .dnb-forms-field-expiry__input:not([data-input-state='disabled']),
-  .dnb-forms-field-expiry__input:not([data-input-state='disabled']):hover {
+  .dnb-forms-field-expiry__input:not([data-input-state='disabled']):hover,
+  .dnb-input.dnb-input__status--error.dnb-forms-field-expiry__input {
     .dnb-forms-field-expiry__input--wrapper {
       .dnb-input__shell {
         --border-width: 0;
