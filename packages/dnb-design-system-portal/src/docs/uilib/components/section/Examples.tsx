@@ -5,7 +5,7 @@
 
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { Section, P, Anchor } from '@dnb/eufemia/src'
+import { Section, Heading, P, Anchor } from '@dnb/eufemia/src'
 
 export const SectionDemo = () => (
   <ComponentBox hideCode data-visual-test="section-default">
@@ -20,6 +20,26 @@ export const SectionDemo = () => (
 export const SectionDemoSpacing = () => (
   <ComponentBox hideCode data-visual-test="section-spacing">
     <Section spacing>
+      <P space={0}>
+        Visual DNB Section: <Anchor href="#">default with spacing</Anchor>
+      </P>
+    </Section>
+  </ComponentBox>
+)
+
+export const SectionDemoBlock = () => (
+  <ComponentBox hideCode data-visual-test="section-default">
+    <Section layout="block">
+      <P space={0}>
+        Visual DNB Section: <Anchor href="#">default</Anchor>
+      </P>
+    </Section>
+  </ComponentBox>
+)
+
+export const SectionDemoBlockSpacing = () => (
+  <ComponentBox hideCode data-visual-test="section-spacing">
+    <Section layout="block" spacing>
       <P space={0}>
         Visual DNB Section: <Anchor href="#">default with spacing</Anchor>
       </P>
@@ -187,7 +207,17 @@ export const SectionZIndex = () => (
 
 export const SectionDemoInfo = () => (
   <ComponentBox hideCode data-visual-test="section-info">
-    <Section spacing variant="info">
+    <Section spacing variant="info" layout="full-width">
+      <P space={0}>
+        Generic info section: <Anchor href="#">info</Anchor>
+      </P>
+    </Section>
+  </ComponentBox>
+)
+
+export const SectionDemoInfoBlock = () => (
+  <ComponentBox hideCode data-visual-test="section-info">
+    <Section spacing variant="info" layout="block">
       <P space={0}>
         Generic info section: <Anchor href="#">info</Anchor>
       </P>
@@ -197,7 +227,17 @@ export const SectionDemoInfo = () => (
 
 export const SectionDemoError = () => (
   <ComponentBox hideCode data-visual-test="section-error">
-    <Section spacing variant="error">
+    <Section spacing variant="error" layout="full-width">
+      <P space={0}>
+        Error section: <Anchor href="#">error</Anchor>
+      </P>
+    </Section>
+  </ComponentBox>
+)
+
+export const SectionDemoErrorBlock = () => (
+  <ComponentBox hideCode data-visual-test="section-error">
+    <Section spacing variant="error" layout="block">
       <P space={0}>
         Error section: <Anchor href="#">error</Anchor>
       </P>
@@ -207,7 +247,17 @@ export const SectionDemoError = () => (
 
 export const SectionDemoWarning = () => (
   <ComponentBox hideCode data-visual-test="section-warning">
-    <Section spacing variant="warning">
+    <Section spacing variant="warning" layout="full-width">
+      <P space={0}>
+        Warning section: <Anchor href="#">warning</Anchor>
+      </P>
+    </Section>
+  </ComponentBox>
+)
+
+export const SectionDemoWarningBlock = () => (
+  <ComponentBox hideCode data-visual-test="section-warning">
+    <Section spacing variant="warning" layout="block">
       <P space={0}>
         Warning section: <Anchor href="#">warning</Anchor>
       </P>
@@ -217,10 +267,115 @@ export const SectionDemoWarning = () => (
 
 export const SectionDemoSuccess = () => (
   <ComponentBox hideCode data-visual-test="section-success">
-    <Section spacing variant="success">
+    <Section spacing variant="success" layout="full-width">
       <P space={0}>
         Success section: <Anchor href="#">success</Anchor>
       </P>
     </Section>
+  </ComponentBox>
+)
+
+export const SectionDemoSuccessBlock = () => (
+  <ComponentBox hideCode data-visual-test="section-success">
+    <Section spacing variant="success" layout="block">
+      <P space={0}>
+        Success section: <Anchor href="#">success</Anchor>
+      </P>
+    </Section>
+  </ComponentBox>
+)
+
+export const SectionDemoDynamicSpacing = () => (
+  <ComponentBox hideCode data-visual-test="section-success">
+    <Section layout="block" variant="info" dynamic_spacing>
+      <P space={0}>
+        Success section: <Anchor href="#">success</Anchor>
+      </P>
+    </Section>
+  </ComponentBox>
+)
+
+export const SectionDemoMediumDynamicSpacing = () => (
+  <ComponentBox hideCode data-visual-test="section-success">
+    <Section layout="block" variant="info" dynamic_spacing="medium">
+      <P space={0}>
+        Success section: <Anchor href="#">success</Anchor>
+      </P>
+    </Section>
+  </ComponentBox>
+)
+
+export const SectionDemoCustomDynamicSpacing = () => (
+  <ComponentBox hideCode data-visual-test="section-success">
+    <Section
+      layout="block"
+      variant="info"
+      //spacing_large="xx-large"
+      //spacing_medium="small"
+      //spacing_small="x-small"
+      spacing={{
+        small: 'x-small',
+        medium: 'small',
+        large: 'xx-large',
+      }}
+    >
+      <P space={0}>
+        Success section: <Anchor href="#">success</Anchor>
+      </P>
+    </Section>
+  </ComponentBox>
+)
+
+export const SectionDemoResponsiveAlignment = () => (
+  <ComponentBox hideCode data-visual-test="section-success">
+    <em>Outer content edge</em>
+    <div style={{ border: '1px dashed rgba(128, 0, 0, 0.3)' }}>
+      <Section
+        layout="block"
+        variant="transparent"
+        spacing={{
+          small: 'small',
+          medium: 'medium',
+          large: 'large',
+        }}
+      >
+        <Heading level={3} size="medium">
+          Lorem Ipsum
+        </Heading>
+        <P space={0}>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
+          viverra sit amet nunc pellentesque cursus. Fusce mollis
+          vestibulum sagittis. Nullam volutpat ac diam a posuere. Proin
+          dignissim tortor lectus, eu pretium purus lobortis eu. Maecenas
+          ut augue sapien. Vivamus posuere molestie dapibus. Duis vel odio
+          lorem. Vestibulum enim sem, posuere quis facilisis vel, feugiat
+          placerat turpis. Nullam ac est ac massa auctor convallis.
+        </P>
+      </Section>
+      <Section
+        layout="block"
+        variant="transparent"
+        spacing={{
+          medium: 'medium',
+          large: 'large',
+        }}
+      >
+        <Section layout="block" variant="success">
+          <Heading level={4} size="small">
+            Lorem Ipsum
+          </Heading>
+          <P space={0}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc
+            viverra sit amet nunc pellentesque cursus. Fusce mollis
+            vestibulum sagittis. Nullam volutpat ac diam a posuere. Proin
+            dignissim tortor lectus, eu pretium purus lobortis eu. Maecenas
+            ut augue sapien. Vivamus posuere molestie dapibus. Duis vel
+            odio lorem. Vestibulum enim sem, posuere quis facilisis vel,
+            feugiat placerat turpis. Nullam ac est ac massa auctor
+            convallis.
+          </P>
+        </Section>
+      </Section>
+    </div>
   </ComponentBox>
 )

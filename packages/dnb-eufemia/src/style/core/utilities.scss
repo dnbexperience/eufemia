@@ -301,6 +301,11 @@ $breakpoint-offset: 0;
     @content;
   }
 }
+@mixin allBetween($minSize, $maxSize) {
+  @media screen and (min-width: if(map-has-key($breakpoints, $minSize), map-get($breakpoints, $minSize), #{$minSize})) and (max-width: if(map-has-key($breakpoints, $maxSize), map-get($breakpoints, $maxSize), #{$maxSize})) {
+    @content;
+  }
+}
 
 // Vertical alignment helper
 @mixin alignmentHelper() {

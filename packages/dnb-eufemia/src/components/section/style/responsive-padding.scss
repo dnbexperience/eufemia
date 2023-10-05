@@ -1,0 +1,203 @@
+@import '../../../style/core/utilities.scss';
+
+@mixin responsive-padding() {
+  //border: 1px solid red;
+  // container-type: inline-size;
+
+  &--padding-left-large {
+    border: 1px solid yellow;
+  }
+
+  &--padding-x-small {
+    padding: var(--spacing-x-small);
+  }
+
+  &--padding-small {
+    padding: var(--spacing-small);
+  }
+
+  &--padding-medium {
+    padding: var(--spacing-medium);
+  }
+
+  &--padding-large {
+    padding: var(--spacing-large);
+  }
+
+  &--padding-x-large {
+    padding: var(--spacing-x-large);
+  }
+
+  &--padding-xx-large {
+    padding: var(--spacing-xx-large);
+  }
+
+  //@media screen and (min-width: if(map-has-key($breakpoints, $size), map-get($breakpoints, $size), #{$size})) {
+  //@media screen and &--padding-small;
+
+  //@media screen and (min-width: $breakpoints['small']) {
+
+  // | 'x-small'
+  // | 'small'
+  // | 'medium'
+  // | 'large'
+  // | 'x-large'
+  // | 'xx-large'
+
+  // Above....
+
+  @include allAbove(large) {
+    border: 2px solid purple;
+    &--padding-above-x-small {
+      padding: var(--spacing-x-small);
+    }
+
+    &--padding-above-small {
+      padding: var(--spacing-small);
+    }
+
+    &--padding-above-medium {
+      padding: var(--spacing-medium);
+    }
+
+    &--padding-above-large {
+      padding: var(--spacing-large);
+    }
+
+    &--padding-above-x-large {
+      padding: var(--spacing-x-large);
+    }
+
+    &--padding-above-xx-large {
+      padding: var(--spacing-xx-large);
+    }
+  }
+
+  @include allBelow(large) {
+    border: 2px solid red;
+    &--padding-large-x-small {
+      padding: var(--spacing-x-small);
+    }
+
+    &--padding-large-small {
+      padding: var(--spacing-small);
+    }
+
+    &--padding-large-medium {
+      padding: var(--spacing-medium);
+    }
+
+    &--padding-large-large {
+      padding: var(--spacing-large);
+    }
+
+    &--padding-large-x-large {
+      padding: var(--spacing-x-large);
+    }
+
+    &--padding-large-xx-large {
+      padding: var(--spacing-xx-large);
+    }
+  }
+
+  @include allBelow(medium) {
+    border: 2px solid green;
+    // Override so padding from large does not count for below medium
+    padding: 0;
+
+    &--padding-medium-x-small {
+      padding: var(--spacing-x-small);
+    }
+
+    &--padding-medium-small {
+      padding: var(--spacing-small);
+    }
+
+    &--padding-medium-medium {
+      padding: var(--spacing-medium);
+    }
+
+    &--padding-medium-large {
+      padding: var(--spacing-large);
+    }
+
+    &--padding-medium-x-large {
+      padding: var(--spacing-x-large);
+    }
+
+    &--padding-medium-xx-large {
+      padding: var(--spacing-xx-large);
+    }
+  }
+
+  @include allBelow(small) {
+    border: 2px solid blue;
+    // Override so padding from large/medium does not count for below medium
+    padding: 0;
+
+    &--padding-small-x-small {
+      padding: var(--spacing-x-small);
+    }
+
+    &--padding-small-small {
+      padding: var(--spacing-small);
+    }
+
+    &--padding-small-medium {
+      padding: var(--spacing-medium);
+    }
+
+    &--padding-small-large {
+      padding: var(--spacing-large);
+    }
+
+    &--padding-small-x-large {
+      padding: var(--spacing-x-large);
+    }
+
+    &--padding-small-xx-large {
+      padding: var(--spacing-xx-large);
+    }
+  }
+
+  //@container (min-width: 700px) {
+  //@media screen and (min-width: if(map-has-key($breakpoints, $size), map-get($breakpoints, $size), #{$size})) {
+  //@container (max-width: map-get($breakpoints, 'large')) {
+  // @container (max-width: 1000px) {
+  //   border: 4px solid yellow;
+  // }
+
+  // allAbove('small')
+  // allBelow('small')
+
+  // $breakpoints: (
+  //   'x-small': 30em /* not documented yet */,
+  //   'small': 40em,
+  //   'medium': 60em,
+  //   'large': 72em,
+  //   'x-large': 80em /* not documented yet */,
+  //   'xx-large': 90em /* not documented yet */,
+  // );
+}
+
+// .responsive-padding {
+//   border: 1x solid red;
+// }
+
+// @mixin reset-list {
+//   margin: 0;
+//   padding: 0;
+//   list-style: none;
+// }
+
+// @mixin horizontal-list {
+//   @include reset-list;
+
+//   li {
+//     display: inline-block;
+//     margin: {
+//       left: -2px;
+//       right: 2em;
+//     }
+//   }
+// }
