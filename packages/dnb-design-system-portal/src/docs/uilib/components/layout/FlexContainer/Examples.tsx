@@ -4,7 +4,7 @@ import { TestElement, Field } from '@dnb/eufemia/src/extensions/forms'
 
 export const Default = () => {
   return (
-    <ComponentBox scope={{ TestElement, Field }}>
+    <ComponentBox scope={{ TestElement }}>
       <Layout.FlexContainer>
         <Layout.FlexItem>
           <TestElement>FlexItem</TestElement>
@@ -39,7 +39,7 @@ export const HorizontalWithFieldString = () => {
 
 export const HorizontalWithFlexItem = () => {
   return (
-    <ComponentBox scope={{ TestElement, Field }}>
+    <ComponentBox scope={{ TestElement }}>
       <Layout.FlexContainer>
         <Layout.FlexItem>
           <TestElement>FlexItem</TestElement>
@@ -60,7 +60,7 @@ export const HorizontalWithFlexItem = () => {
 
 export const HorizontalWithFlexItemJustifyCenter = () => {
   return (
-    <ComponentBox scope={{ TestElement, Field }}>
+    <ComponentBox scope={{ TestElement }}>
       <Layout.FlexContainer justify="center">
         <Layout.FlexItem>
           <TestElement>FlexItem</TestElement>
@@ -81,7 +81,7 @@ export const HorizontalWithFlexItemJustifyCenter = () => {
 
 export const HorizontalWithFlexItemJustifyFlexEnd = () => {
   return (
-    <ComponentBox scope={{ TestElement, Field }}>
+    <ComponentBox scope={{ TestElement }}>
       <Layout.FlexContainer justify="flex-end">
         <Layout.FlexItem>
           <TestElement>FlexItem</TestElement>
@@ -102,7 +102,7 @@ export const HorizontalWithFlexItemJustifyFlexEnd = () => {
 
 export const VerticalWithFlexItem = () => {
   return (
-    <ComponentBox scope={{ TestElement, Field }}>
+    <ComponentBox scope={{ TestElement }}>
       <Layout.FlexContainer direction="vertical">
         <Layout.FlexItem>
           <TestElement>FlexItem</TestElement>
@@ -123,7 +123,7 @@ export const VerticalWithFlexItem = () => {
 
 export const VerticalWithCard = () => {
   return (
-    <ComponentBox scope={{ TestElement, Field }}>
+    <ComponentBox scope={{ TestElement }}>
       <Layout.FlexContainer direction="vertical">
         <Layout.Card>Card contents</Layout.Card>
         <Layout.Card>Card contents</Layout.Card>

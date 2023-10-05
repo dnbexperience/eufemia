@@ -1,0 +1,52 @@
+---
+showTabs: true
+---
+
+## Description
+
+`Layout.GridContainer` is a building block for [CSS grid](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout) based layouts.
+
+Use [Layout.GridItem](/uilib/components/layout/GridItem) for you inner wrappers so you can apply a `span` to them.
+
+The columns do change based on what [breakpoint](/uilib/usage/layout/media-queries/) the browser is in:
+
+- 4 columns when `small`
+- 6 columns when `medium`
+- 12 columns when `large`
+
+### Gap
+
+By default is no gap given.
+
+### Imports and aliases
+
+```jsx
+import { Layout } from '@dnb/eufemia'
+
+render(
+  <Layout.GridContainer>
+    <Layout.GridItem span={[1, 6]}>Item A</Layout.GridItem>
+    <Layout.GridItem span={[7, 12]}>Item B</Layout.GridItem>
+  </Layout.GridContainer>,
+)
+```
+
+For shortening the import name, you can use:
+
+```jsx
+import { Layout } from '@dnb/eufemia'
+
+// Method 1
+const Grid = Layout.Grid
+const Item = Layout.Grid.Item
+
+// Method 2
+const { GridContainer: Grid, GridItem: Item } = Layout
+
+render(
+  <Grid>
+    <Item span={[1, 6]}>Item A</Item>
+    <Item span={[7, 12]}>Item B</Item>
+  </Grid>,
+)
+```
