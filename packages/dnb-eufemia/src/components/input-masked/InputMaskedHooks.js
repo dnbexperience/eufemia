@@ -207,7 +207,7 @@ export const useMaskParams = () => {
  */
 export const useInputElement = () => {
   const { props } = React.useContext(InputMaskedContext)
-  const { pipe, inner_ref } = props
+  const { pipe, inner_ref, stepped_mask } = props
 
   const mask = useMask()
   const { showMask, showGuide, placeholderChar, keepCharPositions } =
@@ -233,6 +233,34 @@ export const useInputElement = () => {
     // Set "inputMode"
     if (!params.inputMode) {
       params.inputMode = getInputModeFromMask(mask)
+    }
+    console.log('stepped_mask', stepped_mask)
+
+    if (stepped_mask) {
+      return stepped_mask.map(
+        ({ id, label, mask, placeholderCharacter, delimiter }) => (
+          <>
+            <TextMask
+              id={id}
+              mask={mask}
+              placeholder_char={placeholderCharacter}
+              show_guide={true}
+              show_mask={true}
+              keep_char_positions={false} // so we can overwrite next value, if it already exists
+              autoComplete="off"
+              autoCapitalize="none"
+              spellCheck={false}
+              autoCorrect="off"
+              size={2}
+              inner_ref={innerRef}
+              {...params}
+            />
+            <label id={`${id}-month-label`} htmlFor={id} hidden>
+              {label}
+            </label>
+          </>
+        )
+      )
     }
 
     return (

@@ -194,3 +194,34 @@ function ShowMask() {
     />
   )
 }
+
+export function SteppedMask() {
+  return (
+    <InputMasked
+      label="Stepped"
+      stepped_mask={[
+        {
+          id: 'day',
+          delimiter: '.',
+          label: 'dagen',
+          placeholderCharacter: 'd',
+          mask: [/d/, /d/],
+        },
+        {
+          id: 'month',
+          delimiter: '.',
+          label: 'måneden',
+          placeholderCharacter: 'm',
+          mask: [/d/, /d/],
+        },
+        {
+          id: 'year',
+          delimiter: '.',
+          label: 'året',
+          placeholderCharacter: 'å',
+          mask: [/d/, /d/, /d/, /d/],
+        },
+      ]}
+    />
+  )
+}

@@ -29,6 +29,14 @@ export type InputMaskedCurrencyMask =
   | string
   | boolean
   | Record<string, unknown>;
+export type InputMaskedSteppedMasked = Array<InputMaskedSteppedInput>;
+export type InputMaskedSteppedInput = {
+  id: string;
+  mask: RegExp[];
+  label: string;
+  placeholderCharacter: string;
+  delimiter: string;
+};
 export type InputMaskedMaskOptions = string | Record<string, unknown>;
 export type InputMaskedAsCurrency = string | boolean;
 export type InputMaskedValue = string | number;
@@ -63,9 +71,14 @@ export interface InputMaskedProps
    */
   currency_mask?: InputMaskedCurrencyMask;
   /**
+   * Use it to make a stepped mask like in DatePicker
+   */
+  stepped_mask?: InputMaskedSteppedMasked;
+  /**
    * Use it to manipulate internal masks. You can use it instead of e.g. `number_mask` or `curreny_mask`. All options are listed below.
    */
   mask_options?: InputMaskedMaskOptions;
+
   /**
    * Use an object with <a href="/uilib/components/number-format/properties">NumberFormat</a> e.g. `{ omit_rounding: false }`.
    */
