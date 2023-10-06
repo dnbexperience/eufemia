@@ -1,6 +1,7 @@
 import React from 'react'
 import { fireEvent, render } from '@testing-library/react'
 import { Form, Field } from '../../..'
+import type { Props as StringProps } from '../../../Field/String'
 
 describe('Form.Handler', () => {
   it('should call "onSubmit"', () => {
@@ -146,5 +147,34 @@ describe('Form.Handler', () => {
 
     expect(attributes).toEqual(['class', 'aria-label'])
     expect(formElement.getAttribute('aria-label')).toBe('Aria Label')
+  })
+
+  it('should call HTMLFormElement.reset on submit', () => {
+    const onSubmit = jest.fn()
+    const reset = jest.fn()
+
+    const MockComponent = (props: StringProps) => {
+      return <Field.String {...props} />
+    }
+
+    render(
+      <Form.Handler data={{}} onSubmit={onSubmit}>
+        <MockComponent path="/foo" />
+        <Form.SubmitButton>Submit</Form.SubmitButton>
+      </Form.Handler>
+    )
+
+    const formElement = document.querySelector('form')
+    const inpuptElement = document.querySelector('input')
+    const submitElement = document.querySelector('button')
+
+    jest.spyOn(formElement, 'reset').mockImplementationOnce(reset)
+
+    fireEvent.change(inpuptElement, { target: { value: 'New Value' } })
+    fireEvent.click(submitElement)
+
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(onSubmit).toHaveBeenCalledWith({ foo: 'New Value' })
+    expect(reset).toHaveBeenCalledTimes(1)
   })
 })

@@ -34,7 +34,8 @@ export default function FormElement({
   function onSubmitHandler(event: React.SyntheticEvent<HTMLFormElement>) {
     event?.preventDefault()
 
-    dataContext?.handleSubmit?.()
+    const formElement = event.target as HTMLFormElement
+    dataContext?.handleSubmit?.({ formElement })
 
     if (typeof onSubmit === 'function') {
       onSubmit(event)

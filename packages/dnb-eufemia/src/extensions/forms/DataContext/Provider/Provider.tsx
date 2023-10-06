@@ -9,7 +9,7 @@ import pointer, { JsonObject } from 'json-pointer'
 import { JSONSchema7 } from 'json-schema'
 import ajv, { ajvErrorsToFormErrors } from '../../utils/ajv'
 import { FormError } from '../../types'
-import Context from '../Context'
+import Context, { ContextState } from '../Context'
 
 /**
  * Deprecated, as it is supported my all mihor browsers and Node.js >=v18
@@ -205,25 +205,23 @@ export default function Provider<Data extends JsonObject>({
   /**
    * Request to submit the whole form
    */
-  const handleSubmit = useCallback(() => {
-    if (!hasErrors()) {
-      onSubmit?.(internalData as Data)
-      if (scrollTopOnSubmit) {
-        typeof window !== 'undefined' &&
-          window?.scrollTo({ top: 0, behavior: 'smooth' })
+  const handleSubmit = useCallback<ContextState['handleSubmit']>(
+    ({ formElement = null } = {}) => {
+      if (!hasErrors()) {
+        onSubmit?.(internalData as Data)
+        formElement?.reset?.()
+        if (scrollTopOnSubmit) {
+          typeof window !== 'undefined' &&
+            window?.scrollTo({ top: 0, behavior: 'smooth' })
+        }
+      } else {
+        setShowAllErrors(true)
+        onSubmitRequest?.()
       }
-    } else {
-      setShowAllErrors(true)
-      onSubmitRequest?.()
-    }
-    return internalData
-  }, [
-    internalData,
-    scrollTopOnSubmit,
-    hasErrors,
-    onSubmit,
-    onSubmitRequest,
-  ])
+      return internalData
+    },
+    [internalData, scrollTopOnSubmit, hasErrors, onSubmit, onSubmitRequest]
+  )
 
   useEffect(() => {
     // Mount procedure

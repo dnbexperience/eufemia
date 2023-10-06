@@ -1,12 +1,16 @@
 import React from 'react'
 
+type HandleSubmitProps = {
+  formElement?: HTMLFormElement
+}
+
 export interface ContextState {
   /** The dataset for the form / form steps */
   data: any
   /** Should the form validate data before submitting? */
   errors?: Record<string, Error>
   handlePathChange: (path: string, value: any) => void
-  handleSubmit: () => any
+  handleSubmit: (props?: HandleSubmitProps) => any
   // Error status
   showAllErrors: boolean
   setShowAllErrors: (showAllErrors: boolean) => void
