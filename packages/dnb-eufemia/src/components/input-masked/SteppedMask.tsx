@@ -61,9 +61,12 @@ function SteppedMask({ steps }: SteppedMaskProps) {
               }
               ref={getInputRef}
             />
-            <label hidden>{label}</label>
+            <label htmlFor={id} hidden>
+              {label}
+            </label>
             {delimiter && (
               <span
+                aria-hidden
                 className={classnames(
                   'dnb-input-masked__stepped-mask-delimiter',
                   values[id] &&
