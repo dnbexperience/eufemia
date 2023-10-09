@@ -1,4 +1,4 @@
-import { Fragment, MutableRefObject, useRef, useState } from 'react'
+import { Fragment, MutableRefObject, useRef } from 'react'
 import Input from '../Input'
 
 import TextMask from './TextMask'
@@ -13,13 +13,15 @@ type SteppedMaskInput = {
   delimiter?: string
 }
 
+type SteppedMaskValue = Record<SteppedMaskInput['id'], string>
+
 type SteppedMaskProps = {
   steps: Array<SteppedMaskInput>
+  values: SteppedMaskValue
+  onChange?: (values: SteppedMaskValue) => void
 }
 
-function SteppedMask({ steps }: SteppedMaskProps) {
-  const [values, setValues] = useState<Record<string, string>>({})
-
+function SteppedMask({ steps, values, onChange }: SteppedMaskProps) {
   const inputRefs = useRef<MutableRefObject<HTMLInputElement>[]>([])
 
   const { handleKeydown } = useHandleCursorPosition(inputRefs.current)
@@ -28,7 +30,7 @@ function SteppedMask({ steps }: SteppedMaskProps) {
     <Input
       className="dnb-input-masked__stepped-mask"
       input_element={steps.map(
-        ({ id, label, mask, placeholderCharacter, delimiter }, i) => (
+        ({ id, label, mask, placeholderCharacter, delimiter }) => (
           <Fragment key={id}>
             <TextMask
               id={id}
@@ -51,13 +53,13 @@ function SteppedMask({ steps }: SteppedMaskProps) {
               autoCorrect="off"
               size={mask.length}
               onChange={(event) =>
-                setValues((currentValues) => ({
-                  ...currentValues,
+                onChange({
+                  ...values,
                   [id]: removePlaceholder(
                     event.target.value,
                     placeholderCharacter
                   ),
-                }))
+                })
               }
               ref={getInputRef}
             />

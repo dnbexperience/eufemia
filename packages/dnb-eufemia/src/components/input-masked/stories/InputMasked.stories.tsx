@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { useState } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import emailMask from '../addons/emailMask'
 import { InputMasked, FormSet, ToggleButton } from '../..'
@@ -197,8 +197,14 @@ function ShowMask() {
 }
 
 export function SteppedMaskTest() {
+  const [values, setValues] = useState<Record<string, string>>({})
+
+  console.log('values', values)
+
   return (
     <SteppedMask
+      values={values}
+      onChange={(v) => setValues(v)}
       steps={[
         {
           id: 'day',
