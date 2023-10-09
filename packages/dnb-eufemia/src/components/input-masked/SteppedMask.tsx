@@ -5,7 +5,7 @@ import TextMask from './TextMask'
 import useHandleCursorPosition from './hooks/useHandleCursorPosition'
 import classnames from 'classnames'
 
-type InputMaskedSteppedInput = {
+type SteppedMaskInput = {
   id: string
   mask: RegExp[]
   label: string
@@ -13,10 +13,8 @@ type InputMaskedSteppedInput = {
   delimiter?: string
 }
 
-type InputMaskedSteppedMasked = Array<InputMaskedSteppedInput>
-
 type SteppedMaskProps = {
-  steps: InputMaskedSteppedMasked
+  steps: Array<SteppedMaskInput>
 }
 
 function SteppedMask({ steps }: SteppedMaskProps) {
@@ -31,7 +29,7 @@ function SteppedMask({ steps }: SteppedMaskProps) {
       className="dnb-input-masked__stepped-mask"
       input_element={steps.map(
         ({ id, label, mask, placeholderCharacter, delimiter }, i) => (
-          <Fragment key={`${i}-${id}-${label}`}>
+          <Fragment key={id}>
             <TextMask
               id={id}
               className={classnames(
@@ -41,6 +39,8 @@ function SteppedMask({ steps }: SteppedMaskProps) {
                   'dnb-input-masked__stepped-mask-input--highlight'
               )}
               mask={mask}
+              value={values[id]}
+              onKeyDown={handleKeydown}
               placeholderChar={placeholderCharacter}
               guide={true}
               showMask={true}
@@ -50,9 +50,6 @@ function SteppedMask({ steps }: SteppedMaskProps) {
               spellCheck={false}
               autoCorrect="off"
               size={mask.length}
-              ref={getInputRef}
-              onKeyDown={handleKeydown}
-              value={values[id]}
               onChange={(event) =>
                 setValues((currentValues) => ({
                   ...currentValues,
@@ -62,6 +59,7 @@ function SteppedMask({ steps }: SteppedMaskProps) {
                   ),
                 }))
               }
+              ref={getInputRef}
             />
             <label hidden>{label}</label>
             {delimiter && (
@@ -81,7 +79,7 @@ function SteppedMask({ steps }: SteppedMaskProps) {
     />
   )
 
-  function getInputRef(ref) {
+  function getInputRef(ref: any) {
     const inputRef = ref?.inputRef || undefined
 
     if (inputRef && !inputRefs.current.includes(inputRef)) {
@@ -89,7 +87,7 @@ function SteppedMask({ steps }: SteppedMaskProps) {
     }
   }
 
-  function removePlaceholder(value, placeholder) {
+  function removePlaceholder(value: string, placeholder: string) {
     return value.replace(RegExp(placeholder, 'gm'), '')
   }
 }
