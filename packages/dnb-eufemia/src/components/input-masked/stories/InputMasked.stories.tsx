@@ -10,6 +10,7 @@ import { InputMasked, FormSet, ToggleButton } from '../..'
 import { Hr } from '../../..'
 import styled from '@emotion/styled'
 import { Provider } from '../../../shared'
+import SteppedMask from '../SteppedMask'
 
 const Pre = styled.pre`
   margin-top: 0;
@@ -197,9 +198,8 @@ function ShowMask() {
 
 export function SteppedMaskTest() {
   return (
-    <InputMasked
-      label="Stepped"
-      stepped_mask={[
+    <SteppedMask
+      steps={[
         {
           id: 'day',
           delimiter: '/',
