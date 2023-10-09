@@ -186,51 +186,25 @@ describe('Field.String', () => {
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
         })
 
-        it('should show error message if changing the value to an invalid one', async () => {
+        it('should show error only after changing when the value is still invalid', async () => {
           render(
             <Field.String
               value="abc"
               schema={{ type: 'string', minLength: 6 }}
             />
           )
-          const input = document.querySelector('input')
-          await userEvent.type(input, 'd')
-          act(() => {
-            input.blur()
-          })
-          expect(screen.getByRole('alert')).toBeInTheDocument()
-        })
-
-        it('should hide then error once you start typing, even if the current value is invalid', async () => {
-          render(
-            <Field.String
-              value="abc"
-              schema={{ type: 'string', minLength: 6 }}
-            />
-          )
-          const input = document.querySelector('input')
-          await userEvent.type(input, 'd')
-          act(() => {
-            input.blur()
-          })
-          expect(screen.getByRole('alert')).toBeInTheDocument()
-          await userEvent.type(input, 'e')
+          // Do not show error initially when validateInitially is not enabled, to avoid initial error messages all over empty forms
           expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-        })
-
-        it('does not show an error for valid values', async () => {
-          render(
-            <Field.String
-              value="abc"
-              schema={{ type: 'string', minLength: 6 }}
-            />
-          )
           const input = document.querySelector('input')
+          // Errors should be hidden while typing (field is in focus)
           await userEvent.type(input, 'd')
+          expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+          // Error should be visible after blurring the field
           act(() => {
             input.blur()
           })
           expect(screen.getByRole('alert')).toBeInTheDocument()
+          // But remain gone when it becomes valid before blurring
           await userEvent.type(input, 'ef')
           act(() => {
             input.blur()
@@ -272,6 +246,10 @@ describe('Field.String', () => {
       })
     })
 
+    // Assumption: When error messages should be shown or hidden is controlled by the same logic as
+    // the json schema tests above, so it should be enough to test that each validation prop
+    // lead to error correctly based on the given value.
+
     describe('validation based on required-prop', () => {
       it('should show error for empty value', async () => {
         render(<Field.String value="a" required />)
@@ -295,10 +273,6 @@ describe('Field.String', () => {
     })
 
     describe('validation based on minLength-prop', () => {
-      // Assumption: When error messages should be shown or hidden is controlled by the same logic as
-      // the json schema tests above, so it should be enough to test that each validation prop
-      // lead to error correctly based on the given value.
-
       it('should show error for invalid value', async () => {
         render(<Field.String value="abc" minLength={5} />)
         const input = document.querySelector('input')
