@@ -205,17 +205,16 @@ export function SteppedMaskTest() {
     <SteppedMask
       values={values}
       onChange={(v) => setValues(v)}
+      delimiter="/"
       steps={[
         {
           id: 'day',
-          delimiter: '/',
           label: 'dagen',
           placeholderCharacter: 'd',
           mask: [/[0-9]/, /[0-9]/],
         },
         {
           id: 'month',
-          delimiter: '/',
           label: 'måneden',
           placeholderCharacter: 'm',
           mask: [/[0-9]/, /[0-9]/],

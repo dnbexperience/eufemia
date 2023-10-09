@@ -7,10 +7,9 @@ import classnames from 'classnames'
 
 type SteppedMaskInput = {
   id: string
-  mask: RegExp[]
   label: string
+  mask: RegExp[]
   placeholderCharacter: string
-  delimiter?: string
 }
 
 type SteppedMaskValue = Record<SteppedMaskInput['id'], string>
@@ -18,10 +17,16 @@ type SteppedMaskValue = Record<SteppedMaskInput['id'], string>
 type SteppedMaskProps = {
   steps: Array<SteppedMaskInput>
   values: SteppedMaskValue
+  delimiter?: string
   onChange?: (values: SteppedMaskValue) => void
 }
 
-function SteppedMask({ steps, values, onChange }: SteppedMaskProps) {
+function SteppedMask({
+  steps,
+  values,
+  onChange,
+  delimiter,
+}: SteppedMaskProps) {
   const inputRefs = useRef<MutableRefObject<HTMLInputElement>[]>([])
 
   const { handleKeydown } = useHandleCursorPosition(inputRefs.current)
@@ -30,7 +35,7 @@ function SteppedMask({ steps, values, onChange }: SteppedMaskProps) {
     <Input
       className="dnb-input-masked__stepped-mask"
       input_element={steps.map(
-        ({ id, label, mask, placeholderCharacter, delimiter }) => (
+        ({ id, label, mask, placeholderCharacter }, index) => (
           <Fragment key={id}>
             <TextMask
               id={id}
@@ -66,7 +71,7 @@ function SteppedMask({ steps, values, onChange }: SteppedMaskProps) {
             <label htmlFor={id} hidden>
               {label}
             </label>
-            {delimiter && (
+            {index !== steps.length - 1 && delimiter && (
               <span
                 aria-hidden
                 className={classnames(
