@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import Input from '../../../components/Input'
 import { makeUniqueId } from '../../../shared/component-helper'
@@ -26,6 +26,8 @@ type ExpiryProps = FieldProps<ExpiryValue, undefined> & FieldHelpProps
 
 function Expiry({ ...props }: ExpiryProps) {
   const sharedContext = useContext(SharedContext)
+  const placeholders =
+    sharedContext?.translation.DatePicker.placeholder_characters
 
   const {
     id: propsId,
@@ -45,6 +47,10 @@ function Expiry({ ...props }: ExpiryProps) {
     handleBlur,
     handleChange,
   } = useDataValue(props)
+  const [internalValue, setInternalValue] = useState<ExpiryValue>({
+    month: value.month ?? '',
+    year: value.year ?? '',
+  })
 
   const monthRef = useRef<HTMLInputElement>(null)
   const yearRef = useRef<HTMLInputElement>(null)
@@ -57,26 +63,19 @@ function Expiry({ ...props }: ExpiryProps) {
 
   const status = error ? 'error' : warning ? 'warn' : info ? 'info' : null
 
-  function onChange(
-    type: ExpiryDateFieldProps['type'],
-    event: React.KeyboardEvent<HTMLInputElement>
-  ) {
-    const placeholderCharacter =
-      sharedContext?.translation.DatePicker.placeholder_characters[type]
+  useEffect(() => {
+    const { month, year } = internalValue
 
-    const inputValue = event.currentTarget.value
+    const isInputEmpty = month == '' && year === ''
+    const isMonthFilledOut =
+      !month.includes(placeholders['month']) && month !== ''
+    const isYearFilledOut =
+      !year.includes(placeholders['year']) && year !== ''
 
-    const firstDigit = inputValue.charAt(0)
-    const lastDigit = inputValue.charAt(1)
-
-    const sanitizedValue =
-      firstDigit === placeholderCharacter &&
-      lastDigit === placeholderCharacter
-        ? ''
-        : inputValue
-
-    return handleChange({ ...value, [type]: sanitizedValue })
-  }
+    if (isInputEmpty || (isMonthFilledOut && isYearFilledOut)) {
+      return handleChange(internalValue)
+    }
+  }, [internalValue, handleChange, placeholders])
 
   return (
     <FieldBlock
@@ -110,16 +109,22 @@ function Expiry({ ...props }: ExpiryProps) {
             <ExpiryDateField
               id={id}
               type="month"
-              value={value?.month}
+              value={internalValue.month}
               innerRef={monthRef}
-              onChange={(event) => onChange('month', event)}
+              onChange={(event) =>
+                setInternalValue((currentValue) => ({
+                  ...currentValue,
+                  month: sanitizeInput('month', event.target.value),
+                }))
+              }
               onKeyDown={handleKeydown}
               disabled={disabled}
             />
             <span
               className={classnames(
                 'dnb-forms-field-expiry__seperator',
-                (!value || (!value?.month && !value?.year)) &&
+                (!internalValue ||
+                  (!internalValue?.month && !internalValue?.year)) &&
                   'dnb-forms-field-expiry__seperator--no-highlight'
               )}
               aria-hidden
@@ -129,9 +134,14 @@ function Expiry({ ...props }: ExpiryProps) {
             <ExpiryDateField
               id={id}
               type="year"
-              value={value?.year}
+              value={internalValue.year}
               innerRef={yearRef}
-              onChange={(event) => onChange('year', event)}
+              onChange={(event) =>
+                setInternalValue((currentValue) => ({
+                  ...currentValue,
+                  year: sanitizeInput('year', event.target.value),
+                }))
+              }
               onKeyDown={handleKeydown}
               disabled={disabled}
             />
@@ -140,6 +150,25 @@ function Expiry({ ...props }: ExpiryProps) {
       />
     </FieldBlock>
   )
+
+  function sanitizeInput(
+    type: ExpiryDateFieldProps['type'],
+    inputValue: string
+  ) {
+    const placeholderCharacter =
+      sharedContext?.translation.DatePicker.placeholder_characters[type]
+
+    const firstDigit = inputValue.charAt(0)
+    const lastDigit = inputValue.charAt(1)
+
+    const sanitizedValue =
+      firstDigit === placeholderCharacter &&
+      lastDigit === placeholderCharacter
+        ? ''
+        : inputValue
+
+    return sanitizedValue
+  }
 }
 
 type ExpiryDateFieldProps = {
