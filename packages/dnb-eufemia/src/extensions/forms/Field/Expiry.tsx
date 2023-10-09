@@ -67,10 +67,8 @@ function Expiry({ ...props }: ExpiryProps) {
     const { month, year } = internalValue
 
     const isInputEmpty = month == '' && year === ''
-    const isMonthFilledOut =
-      !month.includes(placeholders['month']) && month !== ''
-    const isYearFilledOut =
-      !year.includes(placeholders['year']) && year !== ''
+    const isMonthFilledOut = month.length === monthRef.current.size
+    const isYearFilledOut = year.length === yearRef.current.size
 
     if (isInputEmpty || (isMonthFilledOut && isYearFilledOut)) {
       return handleChange(internalValue)
@@ -114,7 +112,10 @@ function Expiry({ ...props }: ExpiryProps) {
               onChange={(event) =>
                 setInternalValue((currentValue) => ({
                   ...currentValue,
-                  month: sanitizeInput('month', event.target.value),
+                  month: removePlaceholder(
+                    event.target.value,
+                    placeholders['month']
+                  ),
                 }))
               }
               onKeyDown={handleKeydown}
@@ -139,7 +140,10 @@ function Expiry({ ...props }: ExpiryProps) {
               onChange={(event) =>
                 setInternalValue((currentValue) => ({
                   ...currentValue,
-                  year: sanitizeInput('year', event.target.value),
+                  year: removePlaceholder(
+                    event.target.value,
+                    placeholders['year']
+                  ),
                 }))
               }
               onKeyDown={handleKeydown}
@@ -151,23 +155,8 @@ function Expiry({ ...props }: ExpiryProps) {
     </FieldBlock>
   )
 
-  function sanitizeInput(
-    type: ExpiryDateFieldProps['type'],
-    inputValue: string
-  ) {
-    const placeholderCharacter =
-      sharedContext?.translation.DatePicker.placeholder_characters[type]
-
-    const firstDigit = inputValue.charAt(0)
-    const lastDigit = inputValue.charAt(1)
-
-    const sanitizedValue =
-      firstDigit === placeholderCharacter &&
-      lastDigit === placeholderCharacter
-        ? ''
-        : inputValue
-
-    return sanitizedValue
+  function removePlaceholder(value: string, placeholder: string) {
+    return value.replace(RegExp(placeholder, 'gm'), '')
   }
 }
 
