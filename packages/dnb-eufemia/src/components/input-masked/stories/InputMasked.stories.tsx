@@ -195,7 +195,7 @@ function ShowMask() {
   )
 }
 
-export function SteppedMask() {
+export function SteppedMaskTest() {
   return (
     <InputMasked
       label="Stepped"
@@ -205,21 +205,21 @@ export function SteppedMask() {
           delimiter: '.',
           label: 'dagen',
           placeholderCharacter: 'd',
-          mask: [/d/, /d/],
+          mask: [/[0-9]/, /[0-9]/],
         },
         {
           id: 'month',
           delimiter: '.',
           label: 'måneden',
           placeholderCharacter: 'm',
-          mask: [/d/, /d/],
+          mask: [/[0-9]/, /[0-9]/],
         },
         {
           id: 'year',
           delimiter: '.',
           label: 'året',
           placeholderCharacter: 'å',
-          mask: [/d/, /d/, /d/, /d/],
+          mask: [/[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/],
         },
       ]}
     />

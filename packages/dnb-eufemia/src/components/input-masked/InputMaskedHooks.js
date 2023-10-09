@@ -35,6 +35,7 @@ import {
   fromJSON,
   invisibleSpace,
 } from './InputMaskedUtils'
+import SteppedMask from './SteppedMask'
 
 /**
  * Takes all component properties and filters out all internal used properties
@@ -237,30 +238,7 @@ export const useInputElement = () => {
     console.log('stepped_mask', stepped_mask)
 
     if (stepped_mask) {
-      return stepped_mask.map(
-        ({ id, label, mask, placeholderCharacter, delimiter }) => (
-          <>
-            <TextMask
-              id={id}
-              mask={mask}
-              placeholder_char={placeholderCharacter}
-              show_guide={true}
-              show_mask={true}
-              keep_char_positions={false} // so we can overwrite next value, if it already exists
-              autoComplete="off"
-              autoCapitalize="none"
-              spellCheck={false}
-              autoCorrect="off"
-              size={2}
-              inner_ref={innerRef}
-              {...params}
-            />
-            <label id={`${id}-month-label`} htmlFor={id} hidden>
-              {label}
-            </label>
-          </>
-        )
-      )
+      return <SteppedMask steps={stepped_mask} />
     }
 
     return (
