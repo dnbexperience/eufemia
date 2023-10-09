@@ -29,14 +29,12 @@ function SteppedMask({ steps }: SteppedMaskProps) {
               autoCapitalize="none"
               spellCheck={false}
               autoCorrect="off"
-              size={2}
+              size={mask.length}
               ref={(ref) => inputRefs.current.push(ref.inputRef)}
               onKeyDown={handleKeydown}
             />
-            <label>{label}</label>
-            {i !== steps.length - 1 && delimiter && (
-              <span>{delimiter}</span>
-            )}
+            <label hidden>{label}</label>
+            {delimiter && <span>{delimiter}</span>}
           </Fragment>
         )
       )}
