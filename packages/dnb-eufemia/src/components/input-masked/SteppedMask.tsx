@@ -5,17 +5,18 @@ import TextMask from './TextMask'
 import useHandleCursorPosition from './hooks/useHandleCursorPosition'
 import classnames from 'classnames'
 
-type SteppedMaskProps = {
-  steps: InputMaskedSteppedMasked
-}
-
-export type InputMaskedSteppedMasked = Array<InputMaskedSteppedInput>
-export type InputMaskedSteppedInput = {
+type InputMaskedSteppedInput = {
   id: string
   mask: RegExp[]
   label: string
   placeholderCharacter: string
   delimiter?: string
+}
+
+type InputMaskedSteppedMasked = Array<InputMaskedSteppedInput>
+
+type SteppedMaskProps = {
+  steps: InputMaskedSteppedMasked
 }
 
 function SteppedMask({ steps }: SteppedMaskProps) {
@@ -27,7 +28,7 @@ function SteppedMask({ steps }: SteppedMaskProps) {
 
   return (
     <Input
-      input_class="dnb-input-masked__stepped-mask"
+      className="dnb-input-masked__stepped-mask"
       input_element={steps.map(
         ({ id, label, mask, placeholderCharacter, delimiter }, i) => (
           <Fragment key={`${i}-${id}-${label}`}>
@@ -35,9 +36,9 @@ function SteppedMask({ steps }: SteppedMaskProps) {
               id={id}
               className={classnames(
                 'dnb-input__input',
-                'dnb-input-masked__stepped-mask-input ',
+                'dnb-input-masked__stepped-mask-input',
                 values[id] &&
-                  'dnb-input-masked__stepped-input--no-highlight'
+                  'dnb-input-masked__stepped-mask-input--highlight'
               )}
               mask={mask}
               placeholderChar={placeholderCharacter}
@@ -67,8 +68,8 @@ function SteppedMask({ steps }: SteppedMaskProps) {
               <span
                 className={classnames(
                   'dnb-input-masked__stepped-mask-delimiter',
-                  !values[id] &&
-                    'dnb-input-masked__stepped-input-delimiter--no-highlight'
+                  values[id] &&
+                    'dnb-input-masked__stepped-mask-delimiter--highlight'
                 )}
               >
                 {delimiter}
