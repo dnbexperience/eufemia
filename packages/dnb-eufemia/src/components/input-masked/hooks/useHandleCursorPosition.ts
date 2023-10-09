@@ -1,6 +1,8 @@
 import { MutableRefObject, useEffect, useRef } from 'react'
 
-function useHandleCursorPosition({ inputRefs }) {
+function useHandleCursorPosition(
+  inputRefs: MutableRefObject<HTMLInputElement>[]
+) {
   const inputList = useRef(refsToInputList(inputRefs))
 
   // To keep the refs.current in synch with component of use, or else it wont be possible to navigate to the next input, without triggering a re-render first.
