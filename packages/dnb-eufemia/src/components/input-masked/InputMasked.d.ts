@@ -29,14 +29,7 @@ export type InputMaskedCurrencyMask =
   | string
   | boolean
   | Record<string, unknown>;
-export type InputMaskedSteppedMasked = Array<InputMaskedSteppedInput>;
-export type InputMaskedSteppedInput = {
-  id: string;
-  mask: RegExp[];
-  label: string;
-  placeholderCharacter: string;
-  delimiter: string;
-};
+
 export type InputMaskedMaskOptions = string | Record<string, unknown>;
 export type InputMaskedAsCurrency = string | boolean;
 export type InputMaskedValue = string | number;
@@ -70,10 +63,6 @@ export interface InputMaskedProps
    * Set to `true` or set the <em>valuta</em> (currency_mask="kr") to enable a custom currency mask – or give an `object` containing the number mask properties. More details below. Can be a JSON string as well, containing the number mask properties. Is disabled by default. Defaults to `kr`.
    */
   currency_mask?: InputMaskedCurrencyMask;
-  /**
-   * Use it to make a stepped mask like in DatePicker
-   */
-  stepped_mask?: InputMaskedSteppedMasked;
   /**
    * Use it to manipulate internal masks. You can use it instead of e.g. `number_mask` or `curreny_mask`. All options are listed below.
    */

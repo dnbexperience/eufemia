@@ -35,7 +35,6 @@ import {
   fromJSON,
   invisibleSpace,
 } from './InputMaskedUtils'
-import SteppedMask from './SteppedMask'
 
 /**
  * Takes all component properties and filters out all internal used properties
@@ -208,7 +207,7 @@ export const useMaskParams = () => {
  */
 export const useInputElement = () => {
   const { props } = React.useContext(InputMaskedContext)
-  const { pipe, inner_ref, stepped_mask } = props
+  const { pipe, inner_ref } = props
 
   const mask = useMask()
   const { showMask, showGuide, placeholderChar, keepCharPositions } =
@@ -234,11 +233,6 @@ export const useInputElement = () => {
     // Set "inputMode"
     if (!params.inputMode) {
       params.inputMode = getInputModeFromMask(mask)
-    }
-    console.log('stepped_mask', stepped_mask)
-
-    if (stepped_mask) {
-      return <SteppedMask steps={stepped_mask} />
     }
 
     return (

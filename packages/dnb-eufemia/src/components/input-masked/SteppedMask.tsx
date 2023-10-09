@@ -1,11 +1,21 @@
 import { Fragment, MutableRefObject, useRef, useState } from 'react'
 import Input from '../Input'
-import type { InputMaskedSteppedMasked } from './InputMasked'
+
 import TextMask from './TextMask'
 import useHandleCursorPosition from './hooks/useHandleCursorPosition'
+import classnames from 'classnames'
 
 type SteppedMaskProps = {
   steps: InputMaskedSteppedMasked
+}
+
+export type InputMaskedSteppedMasked = Array<InputMaskedSteppedInput>
+export type InputMaskedSteppedInput = {
+  id: string
+  mask: RegExp[]
+  label: string
+  placeholderCharacter: string
+  delimiter?: string
 }
 
 function SteppedMask({ steps }: SteppedMaskProps) {
@@ -17,12 +27,18 @@ function SteppedMask({ steps }: SteppedMaskProps) {
 
   return (
     <Input
+      input_class="dnb-input-masked__stepped-mask"
       input_element={steps.map(
         ({ id, label, mask, placeholderCharacter, delimiter }, i) => (
           <Fragment key={`${i}-${id}-${label}`}>
             <TextMask
               id={id}
-              className="dnb-input-masked__stepped-input dnb-input__input"
+              className={classnames(
+                'dnb-input__input',
+                'dnb-input-masked__stepped-mask-input ',
+                values[id] &&
+                  'dnb-input-masked__stepped-input--no-highlight'
+              )}
               mask={mask}
               placeholderChar={placeholderCharacter}
               guide={true}
@@ -47,7 +63,17 @@ function SteppedMask({ steps }: SteppedMaskProps) {
               }
             />
             <label hidden>{label}</label>
-            {delimiter && <span>{delimiter}</span>}
+            {delimiter && (
+              <span
+                className={classnames(
+                  'dnb-input-masked__stepped-mask-delimiter',
+                  !values[id] &&
+                    'dnb-input-masked__stepped-input-delimiter--no-highlight'
+                )}
+              >
+                {delimiter}
+              </span>
+            )}
           </Fragment>
         )
       )}

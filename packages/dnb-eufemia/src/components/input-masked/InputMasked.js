@@ -11,6 +11,7 @@ import InputMaskedContext from './InputMaskedContext'
 import InputMaskedElement from './InputMaskedElement'
 import Input, { inputPropTypes } from '../input/Input'
 import Context from '../../shared/Context'
+import SteppedMask from './SteppedMask'
 
 const InputMasked = (props) => {
   const context = React.useContext(Context)
@@ -66,7 +67,6 @@ InputMasked.propTypes = {
     PropTypes.bool,
     PropTypes.object,
   ]),
-  stepped_mask: PropTypes.oneOfType([PropTypes.object]),
   mask_options: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   number_format: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
   locale: PropTypes.string,
@@ -99,7 +99,6 @@ InputMasked.defaultProps = {
   mask: null,
   number_mask: null,
   currency_mask: null,
-  stepped_mask: null,
   mask_options: null,
   number_format: null,
   as_currency: null,
@@ -120,3 +119,5 @@ InputMasked.defaultProps = {
   on_submit_focus: null,
   on_submit_blur: null,
 }
+
+InputMasked.Stepped = SteppedMask
