@@ -202,21 +202,20 @@ export function SteppedMaskTest() {
       stepped_mask={[
         {
           id: 'day',
-          delimiter: '.',
+          delimiter: '/',
           label: 'dagen',
           placeholderCharacter: 'd',
           mask: [/[0-9]/, /[0-9]/],
         },
         {
           id: 'month',
-          delimiter: '.',
+          delimiter: '/',
           label: 'måneden',
           placeholderCharacter: 'm',
           mask: [/[0-9]/, /[0-9]/],
         },
         {
           id: 'year',
-          delimiter: '.',
           label: 'året',
           placeholderCharacter: 'å',
           mask: [/[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/],
