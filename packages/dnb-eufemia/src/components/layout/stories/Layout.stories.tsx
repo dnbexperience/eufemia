@@ -33,7 +33,7 @@ export const GridLayout = () => {
     >
       <Item
         span={{
-          small: [1, 6],
+          small: 'full',
           medium: [1, 2],
           large: [1, 12],
         }}
@@ -44,8 +44,8 @@ export const GridLayout = () => {
 
       <Item
         span={{
-          small: [7, 12],
-          medium: [3, 4],
+          small: [2, 4],
+          medium: 'full',
           large: [1, 4],
         }}
         style={colors[1]}
@@ -55,8 +55,8 @@ export const GridLayout = () => {
 
       <Item
         span={{
-          small: [2, 11],
-          medium: [3, 4],
+          small: [3, 4],
+          medium: [3, 6],
           large: [5, 8],
         }}
         style={colors[2]}
@@ -66,8 +66,8 @@ export const GridLayout = () => {
 
       <Item
         span={{
-          small: [1, 12],
-          medium: [3, 4],
+          small: [4, 'end'],
+          medium: [3, 6],
           large: [9, 12],
         }}
         style={colors[3]}

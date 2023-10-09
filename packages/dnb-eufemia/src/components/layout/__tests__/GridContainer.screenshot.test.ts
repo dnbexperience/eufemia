@@ -15,6 +15,9 @@ describe('Layout.GridContainer', () => {
       pageViewport: {
         width: 1000,
       },
+      style: {
+        'white-space': 'nowrap',
+      },
       selector,
     })
     expect(screenshot).toMatchImageSnapshot()

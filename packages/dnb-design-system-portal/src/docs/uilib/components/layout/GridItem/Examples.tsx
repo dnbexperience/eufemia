@@ -42,8 +42,8 @@ export const ResponsiveAdvanced = () => {
       <Layout.GridContainer rowGap columnGap>
         <Layout.GridItem
           span={{
-            small: [1, 6],
-            medium: [1, 2],
+            small: [1, 2],
+            medium: [1, 3],
             large: [1, 12],
           }}
           style={colors[0]}
@@ -54,8 +54,8 @@ export const ResponsiveAdvanced = () => {
 
         <Layout.GridItem
           span={{
-            small: [7, 12],
-            medium: [3, 4],
+            small: [3, 4],
+            medium: [4, 6],
             large: [1, 4],
           }}
           style={colors[1]}
@@ -66,8 +66,8 @@ export const ResponsiveAdvanced = () => {
 
         <Layout.GridItem
           span={{
-            small: [2, 11],
-            medium: [3, 4],
+            small: [2, 3],
+            medium: [4, 6],
             large: [5, 8],
           }}
           style={colors[2]}
@@ -78,8 +78,8 @@ export const ResponsiveAdvanced = () => {
 
         <Layout.GridItem
           span={{
-            small: [1, 12],
-            medium: [3, 4],
+            small: [1, 4],
+            medium: [4, 6],
             large: [9, 12],
           }}
           style={colors[3]}
@@ -94,15 +94,19 @@ export const ResponsiveAdvanced = () => {
 
 export const OrderHorizontal = () => {
   const Item = ({ children }) => {
-    return <Input>{children}</Input>
+    return (
+      <Input stretch selectall>
+        {children}
+      </Input>
+    )
   }
   return (
     <ComponentBox scope={{ Item }}>
-      <Layout.GridContainer rowGap columnGap>
+      <Layout.GridContainer rowGap columnGap columns={12}>
         <Layout.GridItem span={[1, 6]}>
           <Item>Left top</Item>
         </Layout.GridItem>
-        <Layout.GridItem span={[7, 6]}>
+        <Layout.GridItem span={[7, 12]}>
           <Item>Right top</Item>
         </Layout.GridItem>
         <Layout.GridItem span={[1, 6]}>
@@ -118,18 +122,22 @@ export const OrderHorizontal = () => {
 
 export const OrderVertical = () => {
   const Item = ({ children }) => {
-    return <Input>{children}</Input>
+    return (
+      <Input stretch selectall>
+        {children}
+      </Input>
+    )
   }
   return (
     <ComponentBox scope={{ Item }}>
-      <Layout.GridContainer rowGap columnGap>
+      <Layout.GridContainer rowGap columnGap columns={12}>
         <Layout.GridItem span={[1, 6]}>
           <Item>Left top</Item>
         </Layout.GridItem>
         <Layout.GridItem span={[1, 6]}>
           <Item>Left bottom</Item>
         </Layout.GridItem>
-        <Layout.GridItem span={[7, 6]}>
+        <Layout.GridItem span={[7, 12]}>
           <Item>Right top</Item>
         </Layout.GridItem>
         <Layout.GridItem span={[7, 12]}>

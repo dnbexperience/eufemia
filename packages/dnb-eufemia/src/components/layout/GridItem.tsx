@@ -61,6 +61,9 @@ function compute(span, modifier) {
       if (i === 1 && value > 0) {
         value += 1
       }
+      if (value === 'end') {
+        value = '-1'
+      }
       result[makeStyle(media, pos)] = value
     })
   }
@@ -75,7 +78,7 @@ function compute(span, modifier) {
 
       if (values === 'full') {
         result[makeStyle(media, 's')] = '1'
-        result[makeStyle(media, 'e')] = 'end'
+        result[makeStyle(media, 'e')] = '-1'
       } else if (Array.isArray(values)) {
         collect(media, values)
       }

@@ -288,8 +288,8 @@ export const ResponsiveGridContainer = () => {
       <Layout.GridContainer rowGap columnGap>
         <Layout.GridItem
           span={{
-            small: [1, 6],
-            medium: [1, 2],
+            small: [1, 2],
+            medium: [1, 3],
             large: [1, 12],
           }}
           style={colors[0]}
@@ -300,8 +300,8 @@ export const ResponsiveGridContainer = () => {
 
         <Layout.GridItem
           span={{
-            small: [7, 12],
-            medium: [3, 4],
+            small: [3, 4],
+            medium: [4, 6],
             large: [1, 4],
           }}
           style={colors[1]}
@@ -312,8 +312,8 @@ export const ResponsiveGridContainer = () => {
 
         <Layout.GridItem
           span={{
-            small: [2, 11],
-            medium: [3, 4],
+            small: [2, 3],
+            medium: [4, 6],
             large: [5, 8],
           }}
           style={colors[2]}
@@ -324,8 +324,8 @@ export const ResponsiveGridContainer = () => {
 
         <Layout.GridItem
           span={{
-            small: [1, 12],
-            medium: [3, 4],
+            small: [1, 4],
+            medium: [4, 6],
             large: [9, 12],
           }}
           style={colors[3]}

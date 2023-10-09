@@ -61,7 +61,7 @@ describe('Layout.GridItem', () => {
       <GridContainer>
         <GridItem
           span={{
-            small: [1, 6],
+            small: 'full',
             medium: [1, 2],
             large: [1, 12],
           }}
@@ -71,7 +71,7 @@ describe('Layout.GridItem', () => {
 
         <GridItem
           span={{
-            small: [7, 12],
+            small: [1, 'end'],
             medium: [3, 4],
             large: [1, 4],
           }}
@@ -81,7 +81,7 @@ describe('Layout.GridItem', () => {
 
         <GridItem
           span={{
-            small: [2, 11],
+            small: [1, 2],
             medium: [3, 4],
             large: [5, 8],
           }}
@@ -91,7 +91,7 @@ describe('Layout.GridItem', () => {
 
         <GridItem
           span={{
-            small: [1, 12],
+            small: [3, 4],
             medium: [3, 4],
             large: [9, 12],
           }}
@@ -111,31 +111,114 @@ describe('Layout.GridItem', () => {
       '--medium-c-s': '1',
       '--medium-c-e': '3',
       '--small-c-s': '1',
-      '--small-c-e': '7',
+      '--small-c-e': '-1',
     })
     expect(elements[1].style['_values']).toEqual({
       '--large-c-e': '5',
       '--large-c-s': '1',
       '--medium-c-e': '5',
       '--medium-c-s': '3',
-      '--small-c-e': '13',
-      '--small-c-s': '7',
+      '--small-c-e': '-1',
+      '--small-c-s': '1',
     })
     expect(elements[2].style['_values']).toEqual({
       '--large-c-e': '9',
       '--large-c-s': '5',
       '--medium-c-e': '5',
       '--medium-c-s': '3',
-      '--small-c-e': '12',
-      '--small-c-s': '2',
+      '--small-c-e': '3',
+      '--small-c-s': '1',
     })
     expect(elements[3].style['_values']).toEqual({
       '--large-c-e': '13',
       '--large-c-s': '9',
       '--medium-c-e': '5',
       '--medium-c-s': '3',
-      '--small-c-e': '13',
+      '--small-c-e': '5',
+      '--small-c-s': '3',
+    })
+  })
+
+  it('should support "end" and "full"', () => {
+    render(
+      <GridContainer>
+        <GridItem
+          span={{
+            small: 'full',
+            medium: [1, 2],
+            large: [1, 12],
+          }}
+        >
+          Item A
+        </GridItem>
+
+        <GridItem
+          span={{
+            small: [2, 4],
+            medium: 'full',
+            large: [1, 4],
+          }}
+        >
+          Item B
+        </GridItem>
+
+        <GridItem
+          span={{
+            small: [3, 4],
+            medium: [3, 6],
+            large: [5, 8],
+          }}
+        >
+          Item C
+        </GridItem>
+
+        <GridItem
+          span={{
+            small: [4, 'end'],
+            medium: [3, 6],
+            large: [9, 12],
+          }}
+        >
+          Item D
+        </GridItem>
+      </GridContainer>
+    )
+
+    const elements: NodeListOf<HTMLElement> = document.querySelectorAll(
+      '.dnb-layout-grid-item'
+    )
+
+    expect(elements[0].style['_values']).toEqual({
+      '--large-c-e': '13',
+      '--large-c-s': '1',
+      '--medium-c-e': '3',
+      '--medium-c-s': '1',
+      '--small-c-e': '-1',
       '--small-c-s': '1',
+    })
+    expect(elements[1].style['_values']).toEqual({
+      '--large-c-e': '5',
+      '--large-c-s': '1',
+      '--medium-c-e': '-1',
+      '--medium-c-s': '1',
+      '--small-c-e': '5',
+      '--small-c-s': '2',
+    })
+    expect(elements[2].style['_values']).toEqual({
+      '--large-c-e': '9',
+      '--large-c-s': '5',
+      '--medium-c-e': '7',
+      '--medium-c-s': '3',
+      '--small-c-e': '5',
+      '--small-c-s': '3',
+    })
+    expect(elements[3].style['_values']).toEqual({
+      '--large-c-e': '13',
+      '--large-c-s': '9',
+      '--medium-c-e': '7',
+      '--medium-c-s': '3',
+      '--small-c-e': '-1',
+      '--small-c-s': '4',
     })
   })
 
