@@ -11,7 +11,6 @@ import InputMaskedContext from './InputMaskedContext'
 import InputMaskedElement from './InputMaskedElement'
 import Input, { inputPropTypes } from '../input/Input'
 import Context from '../../shared/Context'
-import SteppedMask from './SteppedMask'
 
 const InputMasked = (props) => {
   const context = React.useContext(Context)
@@ -119,5 +118,3 @@ InputMasked.defaultProps = {
   on_submit_focus: null,
   on_submit_blur: null,
 }
-
-InputMasked.Stepped = SteppedMask
