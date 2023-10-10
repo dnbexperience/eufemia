@@ -10,7 +10,7 @@ import { InputMasked, FormSet, ToggleButton } from '../..'
 import { Hr } from '../../..'
 import styled from '@emotion/styled'
 import { Provider } from '../../../shared'
-import SteppedMask from '../SteppedMask'
+import SteppedMask, { SteppedMaskValue } from '../SteppedMask'
 
 const Pre = styled.pre`
   margin-top: 0;
@@ -197,14 +197,20 @@ function ShowMask() {
 }
 
 export function SteppedMaskTest() {
-  const [values, setValues] = useState<Record<string, string>>({})
+  const [values, setValues] = useState<
+    SteppedMaskValue<'day' | 'month' | 'year'>
+  >({
+    day: '',
+    month: '',
+    year: '',
+  })
 
   console.log('values', values)
 
   return (
     <SteppedMask
       values={values}
-      onChange={(v) => setValues(v)}
+      onChange={({ day, month, year }) => setValues({ day, month, year })}
       delimiter="/"
       steps={[
         {

@@ -6,28 +6,31 @@ import useHandleCursorPosition from './hooks/useHandleCursorPosition'
 import classnames from 'classnames'
 import FormLabel from '../FormLabel'
 
-type SteppedMaskInput = {
-  id: string
+type SteppedMaskInput<T extends string> = {
+  id: T
   label: string
   mask: RegExp[]
   placeholderCharacter: string
 }
 
-type SteppedMaskValue = { [id: string]: string }
-
-type SteppedMaskProps = {
-  steps: SteppedMaskInput[]
-  values: SteppedMaskValue
-  delimiter?: string
-  onChange?: (values: SteppedMaskValue) => void
+export type SteppedMaskValue<T extends string> = {
+  // eslint-disable-next-line no-unused-vars
+  [K in T]: string
 }
 
-function SteppedMask({
+type SteppedMaskProps<T extends string> = {
+  steps: SteppedMaskInput<T>[]
+  values: SteppedMaskValue<T>
+  delimiter?: string
+  onChange?: (values: SteppedMaskValue<T>) => void
+}
+
+function SteppedMask<T extends string>({
   steps,
   values,
   onChange,
   delimiter,
-}: SteppedMaskProps) {
+}: SteppedMaskProps<T>) {
   const inputRefs = useRef<MutableRefObject<HTMLInputElement>[]>([])
 
   const { handleKeydown } = useHandleCursorPosition(inputRefs.current)
