@@ -59,7 +59,7 @@ export default function Provider<Data extends JsonObject>({
   const wasMounted = useRef(false)
   const initialData = useMemo(() => {
     if (sessionId) {
-      const sessionDataJSON = sessionStorage?.getItem(sessionId)
+      const sessionDataJSON = window.sessionStorage?.getItem(sessionId)
       if (sessionDataJSON) {
         return JSON.parse(sessionDataJSON)
       }
@@ -151,7 +151,7 @@ export default function Provider<Data extends JsonObject>({
       onChange?.(newData)
 
       if (sessionId) {
-        sessionStorage?.setItem(sessionId, JSON.stringify(newData))
+        window.sessionStorage?.setItem(sessionId, JSON.stringify(newData))
       }
 
       validateBySchemaAndUpdateState(newData)
