@@ -4,6 +4,7 @@ import Input from '../Input'
 import TextMask from './TextMask'
 import useHandleCursorPosition from './hooks/useHandleCursorPosition'
 import classnames from 'classnames'
+import FormLabel from '../FormLabel'
 
 type SteppedMaskInput = {
   id: string
@@ -12,10 +13,10 @@ type SteppedMaskInput = {
   placeholderCharacter: string
 }
 
-type SteppedMaskValue = Record<SteppedMaskInput['id'], string>
+type SteppedMaskValue = { [id: string]: string }
 
 type SteppedMaskProps = {
-  steps: Array<SteppedMaskInput>
+  steps: SteppedMaskInput[]
   values: SteppedMaskValue
   delimiter?: string
   onChange?: (values: SteppedMaskValue) => void
@@ -32,61 +33,65 @@ function SteppedMask({
   const { handleKeydown } = useHandleCursorPosition(inputRefs.current)
 
   return (
-    <Input
-      className="dnb-input-masked__stepped-mask"
-      input_element={steps.map(
-        ({ id, label, mask, placeholderCharacter }, index) => (
-          <Fragment key={id}>
-            <TextMask
-              id={id}
-              className={classnames(
-                'dnb-input__input',
-                'dnb-input-masked__stepped-mask-input',
-                values[id] &&
-                  'dnb-input-masked__stepped-mask-input--highlight'
-              )}
-              mask={mask}
-              value={values[id]}
-              onKeyDown={handleKeydown}
-              placeholderChar={placeholderCharacter}
-              guide={true}
-              showMask={true}
-              keepCharPositions={false} // so we can overwrite next value, if it already exists
-              autoComplete="off"
-              autoCapitalize="none"
-              spellCheck={false}
-              autoCorrect="off"
-              size={mask.length}
-              onChange={(event) =>
-                onChange({
-                  ...values,
-                  [id]: removePlaceholder(
-                    event.target.value,
-                    placeholderCharacter
-                  ),
-                })
-              }
-              ref={getInputRef}
-            />
-            <label htmlFor={id} hidden>
-              {label}
-            </label>
-            {index !== steps.length - 1 && delimiter && (
-              <span
-                aria-hidden
+    <fieldset className="dnb-input-masked__fieldset">
+      <FormLabel element="legend">label</FormLabel>
+      <Input
+        className="dnb-input-masked__stepped-mask"
+        input_element={steps.map(
+          ({ id, label, mask, placeholderCharacter }, index) => (
+            <Fragment key={id}>
+              <TextMask
+                id={`${id}__input`}
                 className={classnames(
-                  'dnb-input-masked__stepped-mask-delimiter',
+                  'dnb-input__input',
+                  'dnb-input-masked__stepped-mask-input',
                   values[id] &&
-                    'dnb-input-masked__stepped-mask-delimiter--highlight'
+                    'dnb-input-masked__stepped-mask-input--highlight'
                 )}
-              >
-                {delimiter}
-              </span>
-            )}
-          </Fragment>
-        )
-      )}
-    />
+                mask={mask}
+                value={values[id]}
+                onKeyDown={handleKeydown}
+                placeholderChar={placeholderCharacter}
+                guide={true}
+                showMask={true}
+                keepCharPositions={false} // so we can overwrite next value, if it already exists
+                autoComplete="off"
+                autoCapitalize="none"
+                spellCheck={false}
+                autoCorrect="off"
+                size={mask.length}
+                onChange={(event) =>
+                  onChange({
+                    ...values,
+                    [id]: removePlaceholder(
+                      event.target.value,
+                      placeholderCharacter
+                    ),
+                  })
+                }
+                ref={getInputRef}
+                aria-labelledby={`${id}__label`}
+              />
+              <label id={`${id}__label`} htmlFor={`${id}__input`} hidden>
+                {label}
+              </label>
+              {index !== steps.length - 1 && delimiter && (
+                <span
+                  aria-hidden
+                  className={classnames(
+                    'dnb-input-masked__stepped-mask-delimiter',
+                    values[id] &&
+                      'dnb-input-masked__stepped-mask-delimiter--highlight'
+                  )}
+                >
+                  {delimiter}
+                </span>
+              )}
+            </Fragment>
+          )
+        )}
+      />
+    </fieldset>
   )
 
   function getInputRef(ref: any) {
