@@ -19,6 +19,7 @@ export type SteppedMaskValue<T extends string> = {
 }
 
 type SteppedMaskProps<T extends string> = {
+  label: string
   steps: SteppedMaskInput<T>[]
   values: SteppedMaskValue<T>
   delimiter?: string
@@ -26,6 +27,7 @@ type SteppedMaskProps<T extends string> = {
 }
 
 function SteppedMask<T extends string>({
+  label,
   steps,
   values,
   onChange,
@@ -36,10 +38,16 @@ function SteppedMask<T extends string>({
   const { handleKeydown } = useHandleCursorPosition(inputRefs.current)
 
   return (
-    <fieldset className="dnb-input-masked__fieldset">
-      <FormLabel element="legend">label</FormLabel>
+    <fieldset className="dnb-stepped-mask__fieldset">
+      <FormLabel
+        className="dnb-stepped-mask__legend"
+        element="legend"
+        onClick={onLegendClick}
+      >
+        {label}
+      </FormLabel>
       <Input
-        className="dnb-input-masked__stepped-mask"
+        className="dnb-stepped-mask"
         input_element={steps.map(
           ({ id, label, mask, placeholderCharacter }, index) => (
             <Fragment key={id}>
@@ -47,9 +55,8 @@ function SteppedMask<T extends string>({
                 id={`${id}__input`}
                 className={classnames(
                   'dnb-input__input',
-                  'dnb-input-masked__stepped-mask-input',
-                  values[id] &&
-                    'dnb-input-masked__stepped-mask-input--highlight'
+                  'dnb-stepped-mask__input',
+                  values[id] && 'dnb-stepped-mask__input--highlight'
                 )}
                 mask={mask}
                 value={values[id]}
@@ -82,9 +89,8 @@ function SteppedMask<T extends string>({
                 <span
                   aria-hidden
                   className={classnames(
-                    'dnb-input-masked__stepped-mask-delimiter',
-                    values[id] &&
-                      'dnb-input-masked__stepped-mask-delimiter--highlight'
+                    'dnb-stepped-mask__delimiter',
+                    values[id] && 'dnb-stepped-mask__delimiter--highlight'
                   )}
                 >
                   {delimiter}
@@ -97,8 +103,15 @@ function SteppedMask<T extends string>({
     </fieldset>
   )
 
+  function onLegendClick() {
+    const firstInput = inputRefs.current[0].current
+
+    firstInput.focus()
+    firstInput.setSelectionRange(0, 0)
+  }
+
   function getInputRef(ref: any) {
-    const inputRef = ref?.inputRef || undefined
+    const inputRef = ref?.inputRef
 
     if (inputRef && !inputRefs.current.includes(inputRef)) {
       inputRefs.current.push(inputRef)
