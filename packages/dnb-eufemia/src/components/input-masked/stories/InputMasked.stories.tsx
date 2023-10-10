@@ -12,6 +12,8 @@ import styled from '@emotion/styled'
 import { Provider } from '../../../shared'
 import SteppedMask, { SteppedMaskValue } from '../SteppedMask'
 
+import '../style/deps.scss'
+
 const Pre = styled.pre`
   margin-top: 0;
   margin-bottom: 0;
@@ -209,6 +211,7 @@ export function SteppedMaskTest() {
 
   return (
     <SteppedMask
+      label="Datogreier"
       values={values}
       onChange={({ day, month, year }) => setValues({ day, month, year })}
       delimiter="/"

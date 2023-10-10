@@ -1,0 +1,36 @@
+@import '../../../style/core/utilities.scss';
+
+.dnb-stepped-mask__fieldset {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.dnb-stepped-mask__input {
+  display: inline-block;
+  width: auto;
+
+  margin: 0;
+  padding: 0 0.125rem;
+
+  // reset vertical alignment
+  transform: translateY(0);
+
+  outline: none;
+
+  font-family: var(--font-family-monospace);
+  text-align: center;
+  border: none;
+  background: transparent;
+
+  overflow: visible;
+  white-space: nowrap;
+
+  &:first-of-type {
+    padding-left: 0.5rem;
+  }
+
+  &:last-of-type {
+    padding-right: 0.5rem;
+  }
+}
