@@ -65,11 +65,8 @@ function SteppedMask<T extends string>({
                 guide={true}
                 showMask={true}
                 keepCharPositions={false} // so we can overwrite next value, if it already exists
-                autoComplete="off"
-                autoCapitalize="none"
-                spellCheck={false}
-                autoCorrect="off"
                 size={mask.length}
+                onFocus={onInputFocus}
                 onChange={(event) =>
                   onChange({
                     ...values,
@@ -120,6 +117,11 @@ function SteppedMask<T extends string>({
 
   function removePlaceholder(value: string, placeholder: string) {
     return value.replace(RegExp(placeholder, 'gm'), '')
+  }
+
+  function onInputFocus({ target }: React.FocusEvent<HTMLInputElement>) {
+    target.focus()
+    target.select()
   }
 }
 
