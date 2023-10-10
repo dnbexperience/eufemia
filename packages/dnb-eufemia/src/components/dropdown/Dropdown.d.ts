@@ -104,6 +104,14 @@ export interface DropdownProps
    * If set to `true`, an overlaying skeleton with animation will be shown.
    */
   skeleton?: SkeletonShow;
+  /**
+   * If set to `true`, dropdown will have a clear-option to remove selected option as value.
+   */
+  clear?: boolean;
+  /**
+   * The value to use when clearing/emptying the field. Makes it possible for instance to provide any value when clearing the content.
+   */
+  clearValue?: any;
   on_show_focus?: (...args: any[]) => any;
   on_hide_focus?: (...args: any[]) => any;
 }

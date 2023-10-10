@@ -8,8 +8,6 @@ import {
 import ButtonRow from '../../Form/ButtonRow'
 import FieldBlock from '../../FieldBlock'
 import classnames from 'classnames'
-import { makeUniqueId } from '../../../../shared/component-helper'
-import SharedContext from '../../../../shared/Context'
 import Option from '../Option'
 import { useDataValue } from '../../hooks'
 import { FormError, FieldProps, FieldHelpProps } from '../../types'
@@ -31,9 +29,6 @@ export type Props = FieldHelpProps &
   }
 
 function Selection(props: Props) {
-  const sharedContext = useContext(SharedContext)
-  const clearValue = useMemo(() => `clear-option-${makeUniqueId()}`, [])
-
   const {
     id,
     className,
@@ -60,13 +55,10 @@ function Selection(props: Props) {
 
   const handleDropdownChange = useCallback(
     ({ data: { selectedKey } }) => {
-      handleChange?.(
-        !selectedKey || selectedKey === clearValue
-          ? emptyValue
-          : selectedKey
-      )
+      console.log(selectedKey)
+      handleChange?.(selectedKey)
     },
-    [handleChange, emptyValue, clearValue]
+    [handleChange, emptyValue]
   )
 
   const handleRadioChange = useCallback(
@@ -192,19 +184,7 @@ function Selection(props: Props) {
           content: child,
         }
       })
-      const data = [
-        clear
-          ? {
-              selectedKey: clearValue,
-              content: (
-                <em>
-                  {sharedContext?.translation.Forms.selectionClearSelected}
-                </em>
-              ),
-            }
-          : undefined,
-        ...(optionsData ?? []),
-      ].filter(Boolean)
+      const data = [...(optionsData ?? [])]
 
       return (
         <Dropdown
@@ -214,6 +194,8 @@ function Selection(props: Props) {
               `dnb-forms-field-selection--width-${width}`,
             className
           )}
+          clear={clear}
+          clearValue={emptyValue}
           list_class="dnb-forms-field-selection__list"
           portal_class="dnb-forms-field-selection__portal"
           title={placeholder}

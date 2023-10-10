@@ -178,7 +178,7 @@ class DrawerListInstance extends React.PureComponent {
 
       ...attributes
     } = props
-
+    console.log(_value)
     const id = this._id
 
     const {

@@ -87,9 +87,7 @@ export const WithClearButton = () => (
               <Field.Option value="foo" title="Foo!" />
               <Field.Option value="bar" title="Baar!" />
             </Field.Selection>
-            <pre>
-              VALUE: {value === undefined ? <em>undefined</em> : value}
-            </pre>
+            <pre>VALUE: {value === null ? <em>null</em> : value}</pre>
           </>
         )
       }

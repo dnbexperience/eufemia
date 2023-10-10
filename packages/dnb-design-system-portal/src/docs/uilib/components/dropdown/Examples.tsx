@@ -196,6 +196,7 @@ export const DropdownNoValue = () => (
 
         return (
           <Dropdown
+            clear
             data={data}
             label="Label:"
             title="Please select a value"

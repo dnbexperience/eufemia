@@ -155,6 +155,8 @@ export default class Dropdown extends React.PureComponent {
     stretch: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     class: PropTypes.string,
+    clear: PropTypes.bool,
+    clearValue: PropTypes.any,
 
     className: PropTypes.string,
     children: PropTypes.oneOfType([
@@ -217,6 +219,8 @@ export default class Dropdown extends React.PureComponent {
     stretch: null,
     skeleton: null,
     class: null,
+    clear: false,
+    clearValue: null,
 
     className: null,
     children: null,
@@ -232,14 +236,42 @@ export default class Dropdown extends React.PureComponent {
   render() {
     // generate ID here, so we can send it along the provider
     const id = this.props.id || makeUniqueId()
-    const { more_menu, action_menu, prevent_selection, children, data } =
-      this.props
+    const {
+      more_menu,
+      action_menu,
+      prevent_selection,
+      children,
+      data,
+      clear,
+      clearValue,
+    } = this.props
+
+    let usedData = data
+
+    if (typeof data !== 'function') {
+      usedData = [
+        clear
+          ? {
+              selected_key: `clear-option-${makeUniqueId()}`,
+              selected_value: null,
+              content: (
+                <em>
+                  {
+                    'sharedContext?.translation.Forms.selectionClearSelected'
+                  }
+                </em>
+              ),
+            }
+          : undefined,
+        ...(data ?? []),
+      ].filter(Boolean)
+    }
 
     return (
       <DrawerListProvider
         {...this.props}
         id={id}
-        data={data || children}
+        data={usedData || children}
         opened={null}
         tagName="dnb-dropdown"
         ignore_events={false}
@@ -459,6 +491,7 @@ class DropdownInstance extends React.PureComponent {
       stretch,
       skeleton,
       variant,
+      clear,
 
       title: _title,
       icon: _icon, // eslint-disable-line
@@ -501,6 +534,8 @@ class DropdownInstance extends React.PureComponent {
       this.context.drawerList.attributes,
       validateDOMAttributes(null, attributes)
     )
+
+    const usedSelectedItem = selected_item === 0 ? null : selected_item
 
     const mainParams = {
       className: classnames(
@@ -648,7 +683,7 @@ class DropdownInstance extends React.PureComponent {
                 role={handleAsMenu ? 'menu' : 'listbox'}
                 portal_class={portal_class}
                 list_class="dnb-dropdown__list"
-                value={selected_item}
+                value={usedSelectedItem}
                 default_value={default_value}
                 scrollable={scrollable}
                 focusable={focusable}

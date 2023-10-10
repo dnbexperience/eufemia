@@ -58,6 +58,7 @@ export default {
     },
     Dropdown: {
       title: 'Valgmeny',
+      clearSelection: 'Fjern valgt verdi',
     },
     Autocomplete: {
       title: 'Skriv og velg',
@@ -156,7 +157,6 @@ export default {
         'Verdien kan ikke være kortere enn {minLength} tegn',
       stringInputErrorMaxLength:
         'Verdien kan ikke være lengre enn {maxLength} tegn',
-      selectionClearSelected: 'Fjern valgt verdi',
       countryCodeLabel: 'Landskode',
       dateLabel: 'Dato',
       emailErrorRequired: 'Du må fylle inn e-post',
