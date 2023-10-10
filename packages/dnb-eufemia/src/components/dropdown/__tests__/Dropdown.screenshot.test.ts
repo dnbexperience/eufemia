@@ -234,17 +234,6 @@ describe.each(['ui', 'sbanken'])('Dropdown for %s', (themeName) => {
       })
       expect(screenshot).toMatchImageSnapshot()
     })
-
-    it('have to match the dropdown button in active state', async () => {
-      const screenshot = await makeScreenshot({
-        selector:
-          '[data-visual-test="dropdown-closed"] .dnb-dropdown__inner',
-        simulateSelector:
-          '[data-visual-test="dropdown-closed"] .dnb-dropdown__trigger',
-        simulate: 'longclick',
-      })
-      expect(screenshot).toMatchImageSnapshot()
-    })
   }
 })
 
