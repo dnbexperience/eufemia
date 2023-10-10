@@ -58,7 +58,7 @@ export default function Provider<Data extends JsonObject>({
 }: Props<Data>) {
   const wasMounted = useRef(false)
   const initialData = useMemo(() => {
-    if (sessionId) {
+    if (sessionId && typeof window !== 'undefined') {
       const sessionDataJSON = window.sessionStorage?.getItem(sessionId)
       if (sessionDataJSON) {
         return JSON.parse(sessionDataJSON)
@@ -150,7 +150,7 @@ export default function Provider<Data extends JsonObject>({
 
       onChange?.(newData)
 
-      if (sessionId) {
+      if (sessionId && typeof window !== 'undefined') {
         window.sessionStorage?.setItem(sessionId, JSON.stringify(newData))
       }
 
