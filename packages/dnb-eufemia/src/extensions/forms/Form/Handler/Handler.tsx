@@ -17,6 +17,7 @@ export default function FormHandler<Data extends JsonObject>({
   onSubmit,
   onSubmitRequest,
   scrollTopOnSubmit,
+  sessionId,
   ...rest
 }: ProviderProps<Data> & Props) {
   const ProviderProps = {
@@ -31,6 +32,7 @@ export default function FormHandler<Data extends JsonObject>({
     },
     onSubmitRequest,
     scrollTopOnSubmit,
+    sessionId,
   }
 
   return (

@@ -30,6 +30,8 @@ export interface Props<Data extends JsonObject> {
   /** Submit was requested, but data was invalid */
   onSubmitRequest?: () => void
   scrollTopOnSubmit?: boolean
+  /** For session storage */
+  sessionId?: string
   children: React.ReactNode
 }
 
@@ -51,14 +53,25 @@ export default function Provider<Data extends JsonObject>({
   onSubmit,
   onSubmitRequest,
   scrollTopOnSubmit,
+  sessionId,
   children,
 }: Props<Data>) {
+  const wasMounted = useRef(false)
+  const initialData = useMemo(() => {
+    if (sessionId) {
+      const sessionDataJSON = sessionStorage?.getItem(sessionId)
+      if (sessionDataJSON) {
+        return JSON.parse(sessionDataJSON)
+      }
+    }
+    return externalData
+  }, [externalData, sessionId])
   const ajvSchemaValidator = useMemo(
     () => (schema ? ajv.compile(schema) : undefined),
     [schema]
   )
   const [internalData, setInternalData] =
-    useState<Partial<Data>>(externalData)
+    useState<Partial<Data>>(initialData)
   const mountedFieldPathsRef = useRef<string[]>([])
 
   // Errors from provider validation (the whole data set)
@@ -80,6 +93,10 @@ export default function Provider<Data extends JsonObject>({
   )
 
   useEffect(() => {
+    if (!wasMounted.current) {
+      wasMounted.current = true
+      return
+    }
     // When receivint the initial data, or receiving updated data by props, update the internal data (controlled state)
     setInternalData(externalData)
   }, [externalData])
@@ -133,6 +150,10 @@ export default function Provider<Data extends JsonObject>({
 
       onChange?.(newData)
 
+      if (sessionId) {
+        sessionStorage?.setItem(sessionId, JSON.stringify(newData))
+      }
+
       validateBySchemaAndUpdateState(newData)
 
       setInternalData(newData)
@@ -182,9 +203,9 @@ export default function Provider<Data extends JsonObject>({
 
   useEffect(() => {
     // Mount procedure
-    if (externalData) {
+    if (initialData) {
       // Validate the initial data to know if the user can submit, and to show errors if inputs are requested to with props
-      validateBySchemaAndUpdateState(externalData)
+      validateBySchemaAndUpdateState(initialData)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps -- Only run for mount and unmount
   }, [])
