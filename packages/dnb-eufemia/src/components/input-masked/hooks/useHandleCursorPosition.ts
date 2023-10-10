@@ -1,7 +1,8 @@
 import { MutableRefObject, useEffect, useRef } from 'react'
 
 function useHandleCursorPosition(
-  inputRefs: MutableRefObject<HTMLInputElement>[]
+  inputRefs: MutableRefObject<HTMLInputElement>[],
+  keysToHandle?: RegExp
 ) {
   const inputList = useRef(refsToInputList(inputRefs))
 
@@ -15,8 +16,9 @@ function useHandleCursorPosition(
     const input = event.target as HTMLInputElement
 
     const pressedKey = event.key
+
     const hasPressedKeysToHandle =
-      /[0-9]/.test(pressedKey) ||
+      keysToHandle?.test(pressedKey) ||
       /(ArrowRight|ArrowLeft|Backspace)/.test(pressedKey)
 
     const initialSelectionStart = input.selectionStart
@@ -54,11 +56,10 @@ function useHandleCursorPosition(
   return { handleKeydown }
 }
 
+// Helpers
 function refsToInputList(inputRefs: MutableRefObject<HTMLInputElement>[]) {
   return inputRefs.map((ref) => ref.current).filter(Boolean)
 }
-
-// Helpers
 
 function getInputPosition(
   input: HTMLInputElement,
@@ -114,10 +115,6 @@ function goToInput(
       : 0
 
   const siblingInput = inputs[siblingIndex]
-
-  if (!siblingInput) {
-    return
-  }
 
   const { start, end } = getSelectionPositions(siblingInput)
 

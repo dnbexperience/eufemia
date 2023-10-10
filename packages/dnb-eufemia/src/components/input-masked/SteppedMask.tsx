@@ -35,7 +35,12 @@ function SteppedMask<T extends string>({
 }: SteppedMaskProps<T>) {
   const inputRefs = useRef<MutableRefObject<HTMLInputElement>[]>([])
 
-  const { handleKeydown } = useHandleCursorPosition(inputRefs.current)
+  const masks = new RegExp(`(${getUniqueMasks().join('|')})`)
+
+  const { handleKeydown } = useHandleCursorPosition(
+    inputRefs.current,
+    masks
+  )
 
   return (
     <fieldset className="dnb-stepped-mask__fieldset">
@@ -58,14 +63,14 @@ function SteppedMask<T extends string>({
                   'dnb-stepped-mask__input',
                   values[id] && 'dnb-stepped-mask__input--highlight'
                 )}
+                size={mask.length}
                 mask={mask}
                 value={values[id]}
-                onKeyDown={handleKeydown}
                 placeholderChar={placeholderCharacter}
                 guide={true}
                 showMask={true}
                 keepCharPositions={false} // so we can overwrite next value, if it already exists
-                size={mask.length}
+                onKeyDown={handleKeydown}
                 onFocus={onInputFocus}
                 onChange={(event) =>
                   onChange({
@@ -100,13 +105,7 @@ function SteppedMask<T extends string>({
     </fieldset>
   )
 
-  function onLegendClick() {
-    const firstInput = inputRefs.current[0].current
-
-    firstInput.focus()
-    firstInput.setSelectionRange(0, 0)
-  }
-
+  // Utilities
   function getInputRef(ref: any) {
     const inputRef = ref?.inputRef
 
@@ -119,9 +118,33 @@ function SteppedMask<T extends string>({
     return value.replace(RegExp(placeholder, 'gm'), '')
   }
 
+  function onLegendClick() {
+    const firstInput = inputRefs.current[0].current
+
+    firstInput.focus()
+    firstInput.setSelectionRange(0, 0)
+  }
+
   function onInputFocus({ target }: React.FocusEvent<HTMLInputElement>) {
     target.focus()
     target.select()
+  }
+
+  function getUniqueMasks() {
+    return (
+      steps
+        // Merge and flatten mask arrays from steps
+        .reduce((masks, { mask }) => {
+          // Convert to string to be able to filter out unique patterns later
+          const patterns = mask.map((pattern) =>
+            String(pattern).replace(/\//gm, '')
+          )
+
+          return [...masks, ...patterns]
+        }, [] as string[])
+        // Filter out unique patterns
+        .filter((pattern, index, arr) => arr.indexOf(pattern) === index)
+    )
   }
 }
 
