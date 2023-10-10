@@ -281,3 +281,59 @@ export const MediaQueryLiveExample = () => (
     }}
   </ComponentBox>
 )
+
+export const ResponsiveGridContainer = () => {
+  return (
+    <ComponentBox scope={{ TestElement, colors }}>
+      <Layout.GridContainer rowGap columnGap>
+        <Layout.GridItem
+          span={{
+            small: [1, 2],
+            medium: [1, 3],
+            large: [1, 12],
+          }}
+          style={colors[0]}
+          element={TestElement}
+        >
+          Item A
+        </Layout.GridItem>
+
+        <Layout.GridItem
+          span={{
+            small: [3, 4],
+            medium: [4, 6],
+            large: [1, 4],
+          }}
+          style={colors[1]}
+          element={TestElement}
+        >
+          Item B
+        </Layout.GridItem>
+
+        <Layout.GridItem
+          span={{
+            small: [2, 3],
+            medium: [4, 6],
+            large: [5, 8],
+          }}
+          style={colors[2]}
+          element={TestElement}
+        >
+          Item C
+        </Layout.GridItem>
+
+        <Layout.GridItem
+          span={{
+            small: [1, 4],
+            medium: [4, 6],
+            large: [9, 12],
+          }}
+          style={colors[3]}
+          element={TestElement}
+        >
+          Item D
+        </Layout.GridItem>
+      </Layout.GridContainer>
+    </ComponentBox>
+  )
+}

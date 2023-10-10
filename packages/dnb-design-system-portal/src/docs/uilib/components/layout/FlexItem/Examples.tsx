@@ -1,7 +1,7 @@
 import React from 'react'
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
 import { Layout } from '@dnb/eufemia/src'
-import { TestElement, Field } from '@dnb/eufemia/src/extensions/forms'
+import { TestElement } from '@dnb/eufemia/src/extensions/forms'
 import {
   HorizontalFlexItemResponsiveSize,
   HorizontalFlexItemResponsiveSizeCustomColumns,
@@ -10,7 +10,7 @@ import {
 
 export const Default = () => {
   return (
-    <ComponentBox scope={{ TestElement, Field }}>
+    <ComponentBox scope={{ TestElement }}>
       <Layout.FlexContainer>
         <Layout.FlexItem>
           <TestElement>FlexItem</TestElement>

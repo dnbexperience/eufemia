@@ -1,0 +1,58 @@
+@import '../../../style/core/utilities.scss';
+
+.dnb-layout-grid-container {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+  grid-auto-flow: dense;
+  row-gap: var(--row-gap, 0);
+  column-gap: var(--column-gap, 0);
+
+  &--row-gap-small {
+    --row-gap: var(--spacing-small);
+  }
+  &--row-gap-medium {
+    --row-gap: var(--spacing-medium);
+  }
+  &--row-gap-large {
+    --row-gap: var(--spacing-large);
+  }
+
+  &--column-gap-small {
+    --column-gap: var(--spacing-small);
+  }
+  &--column-gap-medium {
+    --column-gap: var(--spacing-medium);
+  }
+  &--column-gap-large {
+    --column-gap: var(--spacing-large);
+  }
+
+  // set columns
+  --grid-columns: var(--small-columns, 4);
+  @include allAbove(small) {
+    --grid-columns: var(--medium-columns, 6);
+  }
+  @include allAbove(medium) {
+    --grid-columns: var(--large-columns, 12);
+  }
+
+  // disable
+  @include allBelow(medium) {
+    &__disabled--small {
+      display: unset;
+    }
+  }
+  @include allAbove(small) {
+    @include allBelow(medium) {
+      &__disabled--medium {
+        display: unset;
+      }
+    }
+  }
+  @include allAbove(large) {
+    --grid-columns: var(--large-columns, 12);
+    &__disabled--large {
+      display: unset;
+    }
+  }
+}

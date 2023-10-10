@@ -6,17 +6,11 @@ showTabs: true
 
 To make it easier to build application layout and [form](/uilib/extensions/forms)-views in line with defined design sketches, there are a number of components for layout.
 
-```jsx
-import { Layout } from '@dnb/eufemia'
-render(
-  <Layout.FlexContainer>
-    <Layout.FlexItem>content</Layout.FlexItem>
-    <Layout.FlexItem>content</Layout.FlexItem>
-  </Layout.FlexContainer>,
-)
-```
+### Wrappers
 
-## Layout helpers
+- **[Card](/uilib/components/layout/Card)** is a block section element showing the white box with rounded gray borders, adding spacing automatically.
+
+- **[Stack](/uilib/components/layout/Stack)** is an outer block element for wrapping content to get the correct layout and spacing between region and region headings.
 
 ### Flex layout
 
@@ -27,38 +21,74 @@ render(
 
 - **[FlexItem](/uilib/components/layout/FlexItem)** is a building block for CSS flexbox based layout of contents and components.
 
-### Wrappers
+### Grid layout
 
-- **[Card](/uilib/components/layout/Card)** is a block section element showing the white box with rounded gray borders, adding spacing automatically.
+- **[GridContainer](/uilib/components/layout/GridContainer)** is a layout system for CSS grid based layout of contents.
 
-- **[Stack](/uilib/components/layout/Stack)** is an outer block element for wrapping content to get the correct layout and spacing between region and region headings.
+- **[GridItem](/uilib/components/layout/GridItem)** is a layout system for CSS grid based layout of contents.
 
-### Headings
-
-- **[MainHeading](/uilib/extensions/forms/extended-features/Form/MainHeading)** is a standardized main heading for sections, ensuring default layout, spacing etc.
-
-- **[SubHeading](/uilib/extensions/forms/extended-features/Form/SubHeading)** is a standardized sub heading for sections, ensuring default layout, spacing etc.
-
-You may use the Eufemia [Layout](/uilib/components/layout/) component for your application layouts and [form](/uilib/extensions/forms)-views.
-
-Or you may just use **CSS Flexbox** or **CSS Grid**. But please, do not use third-party layout libraries.
-
-It is your responsibility to ensure 100% consistency and compatibility.
-
-## Grid
+## Columns
 
 UX designers are using a 12 column system, along with a 4 and 6 column system, during their design processes.
 
-There are plans to implement support for this in the future.
+### What are the differences between Flex and Grid?
 
-## Responsiveness
+Both to support different sizing of items on different media breakpoints.
 
-In short, only use `rem` for layouts and spacing and make sure ...
+**Flex**
+
+Uses CSS `flexbox`.
+
+- Best suited for Forms layout.
+- Can either stack vertically or horizontally.
+- Can be used with any kind of children.
+- Even distribution of space.
+- Keeps order of items like they where given in the DOM structure.
+- Items can be sized in percentage.
+- When a size (percentage) is given, they stack horizontally.
+
+```jsx
+import { Layout } from '@dnb/eufemia'
+render(
+  <Layout.FlexContainer>
+    <Layout.FlexItem>content</Layout.FlexItem>
+    <OtherComponent>content</OtherComponent>
+  </Layout.FlexContainer>,
+)
+```
+
+**Grid**
+
+Uses CSS `grid`.
+
+- Best suited for applications with a column based layout.
+- Columns do change between 4, 6 and 12 on the given size (media query) of the browser or screen size.
+- GridContainer depends on GridItem (Item).
+- Items do span from column a to b.
+- Items can have different order in opposition from what's given in the DOM structure.
+
+```jsx
+import { Layout } from '@dnb/eufemia'
+render(
+  <Layout.GridContainer>
+    <Layout.GridItem>content</Layout.GridItem>
+    <Layout.GridItem>content</Layout.GridItem>
+  </Layout.GridContainer>,
+)
+```
+
+## Units and responsiveness
+
+Please – use `rem` instead of `px` for all of your custom CSS, and make sure;
 
 - you always use the nearest half `rem` value, like _0.5rem_, _1rem_ or _1.5rem_ and so forth.
 - you always get a **total computed height** within the grid.
 
 This results in maintaining the integrity of the **8px** base grid.
+
+### Exceptions
+
+There are exceptions for when you define a "minimum" of an area, such as `min-width`. Because it will increase in size when a larger browser font-size is used. In that case, user `px` as your sizing unit.
 
 ### Smaller Units
 
