@@ -30,20 +30,12 @@ describe('Field.Expiry', () => {
 
     await userEvent.keyboard('1235')
 
-    expect(onChange).toBeCalledTimes(4)
+    expect(onChange).toBeCalledTimes(2)
     expect(onChange.mock.calls[0][0]).toEqual({
-      month: '1m',
+      month: '',
       year: '',
     })
     expect(onChange.mock.calls[1][0]).toEqual({
-      month: '12',
-      year: '',
-    })
-    expect(onChange.mock.calls[2][0]).toEqual({
-      month: '12',
-      year: '3å',
-    })
-    expect(onChange.mock.calls[3][0]).toEqual({
       month: '12',
       year: '35',
     })
