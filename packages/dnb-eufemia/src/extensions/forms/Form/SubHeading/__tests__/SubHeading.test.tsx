@@ -10,7 +10,7 @@ describe('Form.SubHeading', () => {
   it('should forward HTML attributes', () => {
     render(<SubHeading aria-label="Aria Label">Aria Heading</SubHeading>)
 
-    const element = document.querySelector('.dnb-layout-sub-heading')
+    const element = document.querySelector('.dnb-form-sub-heading')
     const attributes = Array.from(element.attributes).map(
       (attr) => attr.name
     )
@@ -23,7 +23,7 @@ describe('Form.SubHeading', () => {
     const { rerender } = render(
       <SubHeading top="x-large">Space Heading</SubHeading>
     )
-    const element = document.querySelector('.dnb-layout-sub-heading')
+    const element = document.querySelector('.dnb-form-sub-heading')
 
     expect(element.classList).toContain('dnb-space__top--x-large')
 
@@ -35,12 +35,12 @@ describe('Form.SubHeading', () => {
   it('should contain given classes', () => {
     render(<SubHeading className="custom-class">Class Heading</SubHeading>)
 
-    const element = document.querySelector('.dnb-layout-sub-heading')
+    const element = document.querySelector('.dnb-form-sub-heading')
 
     expect(Array.from(element.classList)).toEqual([
       'dnb-heading',
       'dnb-h--medium',
-      'dnb-layout-sub-heading',
+      'dnb-form-sub-heading',
       'custom-class',
     ])
   })
@@ -48,7 +48,7 @@ describe('Form.SubHeading', () => {
   it('should render children', () => {
     render(<SubHeading>Children Heading</SubHeading>)
 
-    const element = document.querySelector('.dnb-layout-sub-heading')
+    const element = document.querySelector('.dnb-form-sub-heading')
     const children = element.childNodes
 
     expect(children.length).toEqual(1)
@@ -58,7 +58,7 @@ describe('Form.SubHeading', () => {
   it('should default to medium heading', () => {
     render(<SubHeading>Heading</SubHeading>)
 
-    const element = document.querySelector('.dnb-layout-sub-heading')
+    const element = document.querySelector('.dnb-form-sub-heading')
 
     expect(element.className).toContain('dnb-h--medium')
   })
