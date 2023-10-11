@@ -4,6 +4,9 @@
  */
 import React from 'react'
 import P, { PProps } from './P'
+import classnames from 'classnames'
 
-const Lead = (props: PProps) => <P className="dnb-p--lead" {...props} />
+const Lead = ({ className, ...rest }: PProps) => (
+  <P className={classnames('dnb-p--lead', className)} {...rest} />
+)
 export default Lead
