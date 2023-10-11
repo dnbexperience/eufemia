@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import ValueBlock from '../../ValueBlock'
 import { useDataValue } from '../../hooks'
 import { ValueProps } from '../../types'
-import { pickSpacingProps } from '../../../../components/layout/utils'
+import { pickSpacingProps } from '../../../../components/flex/utils'
 import SharedContext from '../../../../shared/Context'
 
 export type Props = ValueProps<boolean>

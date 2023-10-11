@@ -4,7 +4,7 @@ import classnames from 'classnames'
 import countries from '../../constants/countries'
 import { useDataValue } from '../../hooks'
 import { FormError, FieldProps, FieldHelpProps } from '../../types'
-import { pickSpacingProps } from '../../../../components/layout/utils'
+import { pickSpacingProps } from '../../../../components/flex/utils'
 import SharedContext from '../../../../shared/Context'
 
 export type Props = FieldHelpProps &

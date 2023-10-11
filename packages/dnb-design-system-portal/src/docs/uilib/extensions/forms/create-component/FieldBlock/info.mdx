@@ -8,7 +8,7 @@ import Demos from 'Docs/uilib/extensions/forms/create-component/FieldBlock/demos
 
 `FieldBlock` is a reusable wrapper for building [Field](/uilib/extensions/forms/create-component/Field) or [Value](/uilib/extensions/forms/create-component/Value) components.
 
-It shows surrounding elements through properties from `FieldProps` like `label` and `error`, and ensure that spacing between different fields work as required when put into surrounding components like [FlexContainer](/uilib//components/layout/FlexContainer/) or [Card](/uilib/components/card/).
+It shows surrounding elements through properties from `FieldProps` like `label` and `error`, and ensure that spacing between different fields work as required when put into surrounding components like [Flex.Container](/uilib/components/flex/container/) or [Card](/uilib/components/card/).
 
 It can also be used to group multiple inner FieldBlock components, composing status (error) messages together as one component.
 
@@ -18,10 +18,10 @@ import { FieldBlock } from '@dnb/eufemia/extensions/forms'
 const YourFieldComponent = () => {
   return (
     <FieldBlock label="Legend" info="Info at the bottom">
-      <Layout.FlexContainer>
+      <Flex.Container>
         <FieldBlock label="Field A">...</FieldBlock>
         <FieldBlock label="Field B">...</FieldBlock>
-      </Layout.FlexContainer>
+      </Flex.Container>
     </FieldBlock>
   )
 }

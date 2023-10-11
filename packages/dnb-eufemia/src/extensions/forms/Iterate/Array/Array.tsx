@@ -5,11 +5,12 @@ import IterateElementContext from '../IterateElementContext'
 import FieldBlock, { Props as FieldBlockProps } from '../../FieldBlock'
 import { useDataValue } from '../../hooks'
 import { FieldProps, FieldHelpProps } from '../../types'
-import { pickSpacingProps } from '../../../../components/layout/utils'
-import FlexContainer, {
+import { pickSpacingProps } from '../../../../components/flex/utils'
+import {
   BasicProps as FlexContainerProps,
   pickFlexContainerProps,
-} from '../../../../components/layout/FlexContainer'
+} from '../../../../components/flex/Container'
+import Flex from '../../../../components/flex/Flex'
 
 interface ErrorMessages {
   required?: string
@@ -89,7 +90,7 @@ function ArrayComponent(props: Props) {
       contentsWidth={width !== false ? width : undefined}
       {...pickSpacingProps(props)}
     >
-      <FlexContainer
+      <Flex.Container
         {...pickFlexContainerProps(props as FlexContainerProps, {
           spacing: 'small',
         })}
@@ -128,7 +129,7 @@ function ArrayComponent(props: Props) {
             }
           )
         )}
-      </FlexContainer>
+      </Flex.Container>
     </FieldBlock>
   )
 }

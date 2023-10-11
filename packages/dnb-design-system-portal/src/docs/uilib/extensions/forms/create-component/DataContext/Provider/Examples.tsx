@@ -6,7 +6,7 @@ import {
   Field,
   Value,
 } from '@dnb/eufemia/src/extensions/forms'
-import { Card, Layout } from '@dnb/eufemia/src'
+import { Card, Flex } from '@dnb/eufemia/src'
 
 export const TestdataSchema: JSONSchema7 = {
   type: 'object',
@@ -97,9 +97,9 @@ export const Default = () => {
         onSubmitRequest={() => console.log('onSubmitRequest')}
         sessionStorageId="provider-example-1"
       >
-        <Layout.Stack>
+        <Flex.Stack>
           <Card>
-            <Layout.Vertical divider="line" spacing="small">
+            <Flex.Vertical divider="line" spacing="small">
               <Field.String
                 path="/requiredString"
                 label="Required string"
@@ -135,7 +135,7 @@ export const Default = () => {
                 />
               </div>
               <div className="hmm">
-                <Layout.Horizontal>
+                <Flex.Horizontal>
                   <Field.String
                     path="/list/0/itemText"
                     label="Item text"
@@ -144,8 +144,8 @@ export const Default = () => {
                     path="/list/0/itemNumber"
                     label="Item number"
                   />
-                </Layout.Horizontal>
-                <Layout.Horizontal>
+                </Flex.Horizontal>
+                <Flex.Horizontal>
                   <Field.String
                     path="/list/1/itemText"
                     label="Item text"
@@ -154,14 +154,14 @@ export const Default = () => {
                     path="/list/1/itemNumber"
                     label="Item number"
                   />
-                </Layout.Horizontal>
+                </Flex.Horizontal>
               </div>
               <Form.ButtonRow>
                 <Form.SubmitButton />
               </Form.ButtonRow>
-            </Layout.Vertical>
+            </Flex.Vertical>
           </Card>
-        </Layout.Stack>
+        </Flex.Stack>
       </DataContext.Provider>
     </ComponentBox>
   )
@@ -189,9 +189,9 @@ export const ValidationWithJsonSchema = () => {
         onSubmit={(data) => console.log('onSubmit', data)}
         onSubmitRequest={() => console.log('onSubmitRequest')}
       >
-        <Layout.Stack>
+        <Flex.Stack>
           <Card>
-            <Layout.Vertical divider="line" spacing="small">
+            <Flex.Vertical divider="line" spacing="small">
               <Field.String
                 path="/requiredString"
                 label="Required string"
@@ -225,7 +225,7 @@ export const ValidationWithJsonSchema = () => {
                 />
               </div>
               <div className="hmm">
-                <Layout.Horizontal>
+                <Flex.Horizontal>
                   <Field.String
                     path="/list/0/itemText"
                     label="Item text"
@@ -234,8 +234,8 @@ export const ValidationWithJsonSchema = () => {
                     path="/list/0/itemNumber"
                     label="Item number"
                   />
-                </Layout.Horizontal>
-                <Layout.Horizontal>
+                </Flex.Horizontal>
+                <Flex.Horizontal>
                   <Field.String
                     path="/list/1/itemText"
                     label="Item text"
@@ -244,14 +244,14 @@ export const ValidationWithJsonSchema = () => {
                     path="/list/1/itemNumber"
                     label="Item number"
                   />
-                </Layout.Horizontal>
+                </Flex.Horizontal>
               </div>
               <Form.ButtonRow>
                 <Form.SubmitButton />
               </Form.ButtonRow>
-            </Layout.Vertical>
+            </Flex.Vertical>
           </Card>
-        </Layout.Stack>
+        </Flex.Stack>
       </DataContext.Provider>
     </ComponentBox>
   )

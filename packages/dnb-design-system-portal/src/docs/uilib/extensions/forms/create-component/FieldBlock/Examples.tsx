@@ -4,7 +4,7 @@ import {
   Field,
   TestElement,
 } from '@dnb/eufemia/src/extensions/forms'
-import { Layout } from '@dnb/eufemia/src'
+import { Flex } from '@dnb/eufemia/src'
 
 export const Default = () => {
   return (
@@ -136,10 +136,10 @@ export const GroupMultipleFields = () => {
   return (
     <ComponentBox scope={{ FieldBlock, Field }}>
       <FieldBlock label="Label text" info="For your information">
-        <Layout.Horizontal>
+        <Flex.Horizontal>
           <Field.String width="small" minLength={3} />
           <Field.Number minimum={10} />
-        </Layout.Horizontal>
+        </Flex.Horizontal>
       </FieldBlock>
     </ComponentBox>
   )

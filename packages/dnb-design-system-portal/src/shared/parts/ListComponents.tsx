@@ -9,7 +9,11 @@ export default function ListComponents() {
     {
       allMdx(
         filter: {
-          frontmatter: { title: { ne: null }, draft: { ne: true } }
+          frontmatter: {
+            title: { ne: null }
+            draft: { ne: true }
+            hideInMenu: { ne: true }
+          }
           internal: {
             contentFilePath: {
               regex: "/(?!uilib/components/fragments|uilib/components/layout/.*)(uilib/components/.*)/"

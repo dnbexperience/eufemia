@@ -2,7 +2,7 @@ import React from 'react'
 import styled from '@emotion/styled'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import MediaQuery from '@dnb/eufemia/src/shared/MediaQuery'
-import { Layout, Slider, Code, Button, Card } from '@dnb/eufemia/src'
+import { Layout, Slider, Code, Button, Card, Flex } from '@dnb/eufemia/src'
 import {
   TestElement,
   Field,
@@ -21,7 +21,7 @@ export const LayoutComponents = () => {
         Form,
       }}
     >
-      <Layout.Stack>
+      <Flex.Stack>
         <Form.MainHeading>Profile</Form.MainHeading>
 
         <Card stack>
@@ -38,7 +38,7 @@ export const LayoutComponents = () => {
           <Field.Email value="john@smith.email" />
           <Field.PhoneNumber value="+47 98765432" />
         </Card>
-      </Layout.Stack>
+      </Flex.Stack>
     </ComponentBox>
   )
 }
@@ -54,26 +54,26 @@ export const HorizontalFlexItemResponsiveSize = () => {
   return (
     <ComponentBox
       scope={{ colors, TestElement, Field }}
-      data-visual-test="layout-flex-item-size"
+      data-visual-test="flex-item-size"
     >
-      <Layout.FlexContainer>
-        <Layout.FlexItem size={8}>
+      <Flex.Container>
+        <Flex.Item size={8}>
           <TestElement style={colors[0]}>FlexItem (8)</TestElement>
-        </Layout.FlexItem>
-        <Layout.FlexItem size={4}>
+        </Flex.Item>
+        <Flex.Item size={4}>
           <TestElement style={colors[1]}>FlexItem (4)</TestElement>
-        </Layout.FlexItem>
-        <Layout.FlexItem size={{ small: 12, medium: 4 }}>
+        </Flex.Item>
+        <Flex.Item size={{ small: 12, medium: 4 }}>
           <TestElement style={colors[2]}>
             FlexItem (small: 8, medium: 4)
           </TestElement>
-        </Layout.FlexItem>
-        <Layout.FlexItem size={{ small: 12, medium: 8 }}>
+        </Flex.Item>
+        <Flex.Item size={{ small: 12, medium: 8 }}>
           <TestElement style={colors[3]}>
             FlexItem (small: 4, medium: 8)
           </TestElement>
-        </Layout.FlexItem>
-      </Layout.FlexContainer>
+        </Flex.Item>
+      </Flex.Container>
     </ComponentBox>
   )
 }
@@ -88,7 +88,7 @@ export const HorizontalFlexItemResponsiveSizeCustomColumns = () => {
         defaultBreakpoints,
         defaultQueries,
       }}
-      data-visual-test="layout-flex-item-custom-size"
+      data-visual-test="flex-item-custom-size"
     >
       {() => {
         const breakpoints = {
@@ -105,37 +105,37 @@ export const HorizontalFlexItemResponsiveSizeCustomColumns = () => {
         const CustomMediaQuery = styled.div`
           display: flex;
           flex-direction: column;
-          .dnb-layout-flex-container[data-media-key='xsmall']
-            .dnb-layout-flex-item--responsive {
+          .dnb-flex-container[data-media-key='xsmall']
+            .dnb-flex-item--responsive {
             --size: var(--xsmall);
           }
         `
 
         return (
           <CustomMediaQuery>
-            <Layout.FlexContainer
+            <Flex.Container
               direction="horizontal"
               sizeCount={4}
               breakpoints={breakpoints}
               queries={queries}
             >
-              <Layout.FlexItem size={{ small: 2, medium: 3, large: 1 }}>
+              <Flex.Item size={{ small: 2, medium: 3, large: 1 }}>
                 <TestElement style={colors[0]}>FlexItem</TestElement>
-              </Layout.FlexItem>
-              <Layout.FlexItem size={{ small: 2, medium: 1, large: 2 }}>
+              </Flex.Item>
+              <Flex.Item size={{ small: 2, medium: 1, large: 2 }}>
                 <TestElement style={colors[1]}>FlexItem</TestElement>
-              </Layout.FlexItem>
-              <Layout.FlexItem
+              </Flex.Item>
+              <Flex.Item
                 size={{ xsmall: 4, small: 2, medium: 1, large: 1 }}
               >
                 <TestElement style={colors[2]}>FlexItem</TestElement>
-              </Layout.FlexItem>
-              <Layout.FlexItem
+              </Flex.Item>
+              <Flex.Item
                 size={{ xsmall: 4, small: 2, medium: 3, large: 4 }}
               >
                 <TestElement style={colors[3]}>FlexItem</TestElement>
-              </Layout.FlexItem>
-            </Layout.FlexContainer>
+              </Flex.Item>
+            </Flex.Container>
           </CustomMediaQuery>
         )
       }}
@@ -153,24 +153,24 @@ export const HorizontalAutoSize = () => {
       hideCode
     >
       <FieldBlock label="Label">
-        <Layout.FlexContainer>
-          <Layout.FlexItem size={{ small: 12, large: 'auto' }}>
+        <Flex.Container>
+          <Flex.Item size={{ small: 12, large: 'auto' }}>
             <Field.String
               path="/firstName"
               label="First name"
               width="medium"
               minLength={2}
             />
-          </Layout.FlexItem>
-          <Layout.FlexItem size={{ small: 12, large: 'auto' }}>
+          </Flex.Item>
+          <Flex.Item size={{ small: 12, large: 'auto' }}>
             <Field.String
               path="/lastName"
               label="Last name"
               width="medium"
               required
             />
-          </Layout.FlexItem>
-          <Layout.FlexItem size={{ small: 12, large: 'auto' }}>
+          </Flex.Item>
+          <Flex.Item size={{ small: 12, large: 'auto' }}>
             <FieldBlock width="large">
               <Slider
                 min={1900}
@@ -183,8 +183,8 @@ export const HorizontalAutoSize = () => {
                 alwaysShowTooltip
               />
             </FieldBlock>
-          </Layout.FlexItem>
-        </Layout.FlexContainer>
+          </Flex.Item>
+        </Flex.Container>
       </FieldBlock>
     </ComponentBox>
   )

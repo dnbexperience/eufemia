@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
-import { Card, Layout, P } from '@dnb/eufemia/src'
+import { Card, Flex, P } from '@dnb/eufemia/src'
 import { Form } from '@dnb/eufemia/src/extensions/forms'
 
 export const Default = () => {
@@ -17,9 +17,9 @@ export const OverStack = () => {
       data-visual-test="layout-main-heading-over-stack"
     >
       <Form.MainHeading>This is a main heading</Form.MainHeading>
-      <Layout.Stack>
+      <Flex.Stack>
         <P>Stack contents</P>
-      </Layout.Stack>
+      </Flex.Stack>
     </ComponentBox>
   )
 }
@@ -31,11 +31,11 @@ export const OverStackWithCard = () => {
       data-visual-test="layout-main-heading-over-card"
     >
       <Form.MainHeading>This is a main heading</Form.MainHeading>
-      <Layout.Stack>
+      <Flex.Stack>
         <Card>
           <P>Card contents</P>
         </Card>
-      </Layout.Stack>
+      </Flex.Stack>
     </ComponentBox>
   )
 }

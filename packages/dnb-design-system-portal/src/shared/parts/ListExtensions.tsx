@@ -9,7 +9,11 @@ export default function ListExtensions() {
     {
       allMdx(
         filter: {
-          frontmatter: { title: { ne: "" }, draft: { ne: true } }
+          frontmatter: {
+            title: { ne: "" }
+            draft: { ne: true }
+            hideInMenu: { ne: true }
+          }
           internal: { contentFilePath: { glob: "**/uilib/extensions/*" } }
         }
       ) {
