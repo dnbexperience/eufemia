@@ -12606,7 +12606,7 @@ __metadata:
     gatsby-plugin-babel-react-live: 1.4.2
     gatsby-plugin-catch-links: 5.12.0
     gatsby-plugin-emotion: 8.12.0
-    gatsby-plugin-eufemia-theme-handler: 1.5.1
+    gatsby-plugin-eufemia-theme-handler: 1.6.4
     gatsby-plugin-gatsby-cloud: 5.12.0
     gatsby-plugin-manifest: 5.12.0
     gatsby-plugin-mdx: 5.12.0
@@ -15765,9 +15765,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gatsby-plugin-eufemia-theme-handler@npm:1.5.1":
-  version: 1.5.1
-  resolution: "gatsby-plugin-eufemia-theme-handler@npm:1.5.1"
+"gatsby-plugin-eufemia-theme-handler@npm:1.6.4":
+  version: 1.6.4
+  resolution: "gatsby-plugin-eufemia-theme-handler@npm:1.6.4"
   dependencies:
     gatsby-core-utils: 4.12.0
     globby: 11.0.4
@@ -15778,7 +15778,7 @@ __metadata:
     "@dnb/eufemia": ">=10"
     gatsby: ">=4"
     react: ">=17"
-  checksum: 6b72b1ed191ef565cd0e100055445346225ff457f52fc5f60a409719ad311219cf5b27a3e105d09d06695a22841ca5af211583dec1c6b54b037d40d051ff7fb5
+  checksum: 2f5f9739e1456737a0c2ca2fff6527df233a1f39fa1ea70f3a288a70b0a9db81000d5b6e7b1e91fd38833a58f1b092de3746ea17859dc236fb04c1fa93daad95
   languageName: node
   linkType: hard
 
