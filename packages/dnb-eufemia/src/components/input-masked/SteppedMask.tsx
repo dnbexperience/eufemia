@@ -5,6 +5,8 @@ import TextMask from './TextMask'
 import useHandleCursorPosition from './hooks/useHandleCursorPosition'
 import classnames from 'classnames'
 import FormLabel from '../FormLabel'
+import { SpacingProps } from '../space/types'
+import { createSpacingClasses } from '../space/SpacingHelper'
 
 export type SteppedMaskInput<T extends string> = {
   id: T
@@ -24,29 +26,39 @@ export type SteppedMaskProps<T extends string> = {
   values?: SteppedMaskValue<T>
   delimiter?: string
   onChange?: (values: SteppedMaskValue<T>) => void
-}
+} & Omit<React.HTMLProps<HTMLInputElement>, 'onChange' | 'ref' | 'value'> &
+  SpacingProps
 
 function SteppedMask<T extends string>({
   label,
   steps,
   delimiter,
+  onChange: onChangeExternal,
+  values: defaultValues,
   ...props
 }: SteppedMaskProps<T>) {
   const [values, setValues] = useState<SteppedMaskValue<T>>(
-    props.values ?? ({} as SteppedMaskValue<T>)
+    defaultValues ?? ({} as SteppedMaskValue<T>)
   )
 
   const inputRefs = useRef<MutableRefObject<HTMLInputElement>[]>([])
-
   const masks = new RegExp(`(${getUniqueMasks().join('|')})`)
+  const WrapperElement = label ? 'fieldset' : 'div'
 
   const { handleKeydown } = useHandleCursorPosition(
     inputRefs.current,
     masks
   )
 
+  const { className, ...restOfProps } = props
+
   return (
-    <fieldset className="dnb-stepped-mask__fieldset">
+    <WrapperElement
+      className={classnames(
+        'dnb-stepped-mask__fieldset',
+        createSpacingClasses(props)
+      )}
+    >
       {label && (
         <FormLabel
           className="dnb-stepped-mask__legend"
@@ -57,7 +69,8 @@ function SteppedMask<T extends string>({
         </FormLabel>
       )}
       <Input
-        className="dnb-stepped-mask"
+        {...restOfProps}
+        className={classnames('dnb-stepped-mask', className)}
         input_element={steps.map(
           ({ id, label, mask, placeholderCharacter }, index) => (
             <Fragment key={id}>
@@ -107,7 +120,7 @@ function SteppedMask<T extends string>({
           )
         )}
       />
-    </fieldset>
+    </WrapperElement>
   )
 
   // Event handlers
@@ -127,8 +140,8 @@ function SteppedMask<T extends string>({
     const updatedValues = { ...values, [id]: value }
 
     setValues(updatedValues)
-    if (props.onChange) {
-      props.onChange(updatedValues)
+    if (onChangeExternal) {
+      onChangeExternal(updatedValues)
     }
   }
 
