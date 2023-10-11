@@ -39,7 +39,7 @@ export const WithParagraphs = () => {
 
 export const WithMainHeading = () => {
   return (
-    <ComponentBox>
+    <ComponentBox scope={{ Form }}>
       <Layout.Stack>
         <Form.MainHeading>Heading</Form.MainHeading>
         <P>
@@ -89,7 +89,7 @@ export const WithCardAndHeading = () => {
 
 export const WithCardAndHeadings = () => {
   return (
-    <ComponentBox>
+    <ComponentBox scope={{ Form }}>
       <Layout.Stack>
         <Form.MainHeading>Main heading</Form.MainHeading>
         <Form.SubHeading>Sub heading</Form.SubHeading>
@@ -108,7 +108,7 @@ export const WithCardAndHeadings = () => {
 
 export const WithHeadingsAndAriaLabel = () => {
   return (
-    <ComponentBox hidePreview>
+    <ComponentBox hidePreview scope={{ Form }}>
       <Layout.Stack aria-labelledby="unique-id">
         <Form.SubHeading id="unique-id">Heading</Form.SubHeading>
         <Layout.Card>
