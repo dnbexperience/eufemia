@@ -295,3 +295,37 @@ export const InputMaskedInfoRemoveDecimalLimit = () => (
     </ComponentBox>
   </Wrapper>
 )
+
+export const InputMaskedExampleStepped = () => (
+  <Wrapper>
+    <ComponentBox>
+      <InputMasked.Stepped
+        label="Date"
+        delimiter="/"
+        onChange={({ month, year, suffix }) =>
+          console.log({ month, year, suffix })
+        }
+        steps={[
+          {
+            id: 'month',
+            label: 'the day',
+            placeholderCharacter: 'd',
+            mask: [/[0-9]/, /[0-2]/],
+          },
+          {
+            id: 'year',
+            label: 'the month',
+            placeholderCharacter: 'm',
+            mask: [/[0-9]/, /[0-9]/],
+          },
+          {
+            id: 'text',
+            label: 'suffix text',
+            placeholderCharacter: '-',
+            mask: [/[a-zA-Z]/, /[a-zA-Z]/, /[a-zA-Z]/],
+          },
+        ]}
+      />
+    </ComponentBox>
+  </Wrapper>
+)
