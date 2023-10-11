@@ -44,6 +44,7 @@ function SteppedMask<T extends string>({
   delimiter,
   onChange: onChangeExternal,
   values: defaultValues = {} as SteppedMaskValue<T>,
+  disabled,
   ...props
 }: SteppedMaskProps<T>) {
   const [values, setValues] = useState<SteppedMaskValue<T>>(defaultValues)
@@ -78,6 +79,7 @@ function SteppedMask<T extends string>({
       <Input
         {...restOfProps}
         className={classnames('dnb-stepped-mask', className)}
+        disabled={disabled}
         input_element={steps.map(
           ({ id, label, mask, placeholderCharacter }, index) => (
             <Fragment key={id}>
@@ -88,6 +90,7 @@ function SteppedMask<T extends string>({
                   'dnb-stepped-mask__input',
                   values[id] && 'dnb-stepped-mask__input--highlight'
                 )}
+                disabled={disabled}
                 size={mask.length}
                 mask={mask}
                 value={values[id] ?? ''}
