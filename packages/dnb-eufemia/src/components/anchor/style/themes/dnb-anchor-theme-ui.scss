@@ -30,7 +30,7 @@
 
   color: var(--anchor-color);
 
-  &:hover {
+  &:hover:where(:not(.dnb-anchor--no-hover)) {
     @include anchorHover();
   }
 
@@ -45,8 +45,10 @@
 
 $useClasses: true !default;
 @if $useClasses {
-  .dnb-anchor {
-    @include anchorStyle();
+  :where(:not(.dnb-anchor--no-style)) {
+    &.dnb-anchor {
+      @include anchorStyle();
+    }
   }
 
   .dnb-anchor--hover {

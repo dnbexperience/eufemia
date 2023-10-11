@@ -41,97 +41,102 @@
   }
 }
 
-.dnb-anchor {
-  --anchor-underline-thickness: 0.125rem;
-  --anchor-background: transparent;
-  --anchor-color--contrast: var(--sb-color-text);
+:where(:not(.dnb-anchor--no-style)) {
+  &.dnb-anchor {
+    --anchor-underline-thickness: 0.125rem;
+    --anchor-background: transparent;
+    --anchor-color--contrast: var(--sb-color-text);
 
-  // Has to use --sb-font-weight-bold to get correct weighting as --sb-font-weight-medium does nothing at the moment
-  font-weight: var(--sb-font-weight-bold);
-  color: var(--sb-color-gray-dark-3);
-  text-decoration-color: var(--sb-color-green-dark);
-  padding: 0.15625em 0;
-  border-radius: 0.5em;
+    // Has to use --sb-font-weight-bold to get correct weighting as --sb-font-weight-medium does nothing at the moment
+    font-weight: var(--sb-font-weight-bold);
+    color: var(--sb-color-gray-dark-3);
+    text-decoration-color: var(--sb-color-green-dark);
+    padding: 0.15625em 0;
+    border-radius: 0.5em;
 
-  $anchor-icon-gutter: 0.125em;
+    $anchor-icon-gutter: 0.125em;
 
-  @include anchor-mixins.anchorBackground(var(--anchor-background), null);
-
-  &--no-underline,
-  &--has-icon,
-  &--inline {
     @include anchor-mixins.anchorBackground(
       var(--anchor-background),
-      0.25em
+      null
     );
-  }
 
-  &:hover {
-    @include anchorHover();
-  }
-
-  &:active {
-    @include anchorActive();
-  }
-
-  &:focus-visible {
-    @include anchorFocus();
-  }
-
-  &--icon-left {
-    margin-left: 1em + $anchor-icon-gutter;
-
-    .dnb-icon {
-      font-size: 1em;
-      margin-right: $anchor-icon-gutter;
-      margin-left: -1em - $anchor-icon-gutter;
+    &--no-underline,
+    &--has-icon,
+    &--inline {
+      @include anchor-mixins.anchorBackground(
+        var(--anchor-background),
+        0.25em
+      );
     }
-  }
 
-  &--icon-right {
-    margin-right: 1em + $anchor-icon-gutter;
-
-    .dnb-icon {
-      font-size: 1em;
-      margin-left: $anchor-icon-gutter;
-      margin-right: -1em - $anchor-icon-gutter;
+    &:hover:where(:not(.dnb-anchor--no-hover)) {
+      @include anchorHover();
     }
-  }
 
-  &[target='_blank']:not(
-      :empty,
-      .dnb-anchor--no-icon,
-      [href^='mailto:'],
-      [href^='tel:'],
-      [href^='sms:']
-    ) {
-    padding-right: 0.25em;
-    &::after {
-      position: initial;
-      display: inline-block;
-      width: calc(0.9em + 0.25em + 0.125em);
-      height: 0.9em;
-      line-height: 0.9em;
-      margin-left: 0;
-      margin-right: 0;
-      background-position: right;
-      background-size: contain;
+    &:active {
+      @include anchorActive();
     }
-  }
 
-  &:not(.dnb-anchor--no-underline):not(.dnb-anchor--has-icon):not(
-      .anchor-hash
-    ):not(.dnb-anchor--inline):not(.dnb-anchor--no-style) {
-    &:not(.dnb-anchor--icon-left) {
-      &::before {
-        text-decoration-color: var(--sb-color-green-dark);
-        content: '\00a0';
+    &:focus-visible {
+      @include anchorFocus();
+    }
+
+    &--icon-left {
+      margin-left: 1em + $anchor-icon-gutter;
+
+      .dnb-icon {
+        font-size: 1em;
+        margin-right: $anchor-icon-gutter;
+        margin-left: -1em - $anchor-icon-gutter;
       }
     }
-    &:not(.dnb-anchor--icon-right) {
+
+    &--icon-right {
+      margin-right: 1em + $anchor-icon-gutter;
+
+      .dnb-icon {
+        font-size: 1em;
+        margin-left: $anchor-icon-gutter;
+        margin-right: -1em - $anchor-icon-gutter;
+      }
+    }
+
+    &[target='_blank']:not(
+        :empty,
+        .dnb-anchor--no-icon,
+        [href^='mailto:'],
+        [href^='tel:'],
+        [href^='sms:']
+      ) {
+      padding-right: 0.25em;
       &::after {
-        text-decoration-color: var(--sb-color-green-dark);
-        content: '\00a0';
+        position: initial;
+        display: inline-block;
+        width: calc(0.9em + 0.25em + 0.125em);
+        height: 0.9em;
+        line-height: 0.9em;
+        margin-left: 0;
+        margin-right: 0;
+        background-position: right;
+        background-size: contain;
+      }
+    }
+
+    &:not(.dnb-anchor--no-underline):not(.dnb-anchor--has-icon):not(
+        .anchor-hash
+      ):not(.dnb-anchor--inline):not(.dnb-anchor--no-style) {
+      &:not(.dnb-anchor--icon-left) {
+        &::before {
+          text-decoration-color: var(--sb-color-green-dark);
+          content: '\00a0';
+        }
+      }
+      &:not(.dnb-anchor--icon-right) {
+        &::after {
+          text-decoration-color: var(--sb-color-green-dark);
+          content: '\00a0';
+        }
       }
     }
   }
