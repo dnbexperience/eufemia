@@ -6,10 +6,29 @@ export const Default = () => {
   return (
     <ComponentBox scope={{ Form, Field }}>
       <Form.Handler
-        data={{ email: null }}
+        defaultData={{ email: null }}
         onSubmit={(event) => console.log('onSubmit', event)}
       >
         <Layout.Card spacing="medium">
+          <Field.Email path="/email" />
+          <Form.ButtonRow>
+            <Form.SubmitButton />
+          </Form.ButtonRow>
+        </Layout.Card>
+      </Form.Handler>
+    </ComponentBox>
+  )
+}
+
+export const SessionStorage = () => {
+  return (
+    <ComponentBox scope={{ Form, Field }}>
+      <Form.Handler
+        onSubmit={(event) => console.log('onSubmit', event)}
+        sessionStorageId="session-key"
+      >
+        <Layout.Card spacing="medium">
+          <Field.String label="Name" path="/name" />
           <Field.Email path="/email" />
           <Form.ButtonRow>
             <Form.SubmitButton />

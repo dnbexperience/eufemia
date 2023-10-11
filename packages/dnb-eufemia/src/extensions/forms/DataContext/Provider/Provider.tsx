@@ -18,7 +18,10 @@ import Context from '../Context'
 import structuredClone from '@ungap/structured-clone'
 
 export interface Props<Data extends JsonObject> {
-  data: Partial<Data>
+  /** Default source data, only used if no other source is available, and not leading to updates if changed after mount */
+  defaultData?: Partial<Data>
+  /** Dynamic source data used as both initial data, and updates internal data if changed after mount */
+  data?: Partial<Data>
   /** JSON Schema for validating the data, like during input or after attempting submit */
   schema?: JSONSchema7
   /** Change handler for the whole data set */
@@ -30,8 +33,8 @@ export interface Props<Data extends JsonObject> {
   /** Submit was requested, but data was invalid */
   onSubmitRequest?: () => void
   scrollTopOnSubmit?: boolean
-  /** For session storage */
-  sessionId?: string
+  /** Key for caching the data in session storage */
+  sessionStorageId?: string
   children: React.ReactNode
 }
 
@@ -45,27 +48,39 @@ function removeListPath(paths: PathList, path: string): PathList {
   return paths.filter((thisPath) => thisPath !== path)
 }
 
+const isArrayJsonPointer = /^\/\d+(\/|$)/
+
 export default function Provider<Data extends JsonObject>({
-  data: externalData,
+  defaultData,
+  data,
   schema,
   onChange,
   onPathChange,
   onSubmit,
   onSubmitRequest,
   scrollTopOnSubmit,
-  sessionId,
+  sessionStorageId,
   children,
 }: Props<Data>) {
+  // Prop error handling
+  if (data !== undefined && sessionStorageId !== undefined) {
+    console.error(
+      'Providing both data and sessionStorageId could lead to competing data sources. To provide default data to use only before anything is changed in the interface, use defaultData.'
+    )
+  }
+
+  // State
   const wasMounted = useRef(false)
   const initialData = useMemo(() => {
-    if (sessionId && typeof window !== 'undefined') {
-      const sessionDataJSON = window.sessionStorage?.getItem(sessionId)
+    if (sessionStorageId && typeof window !== 'undefined') {
+      const sessionDataJSON =
+        window.sessionStorage?.getItem(sessionStorageId)
       if (sessionDataJSON) {
         return JSON.parse(sessionDataJSON)
       }
     }
-    return externalData
-  }, [externalData, sessionId])
+    return data ?? defaultData
+  }, [data, defaultData, sessionStorageId])
   const ajvSchemaValidator = useMemo(
     () => (schema ? ajv.compile(schema) : undefined),
     [schema]
@@ -98,8 +113,8 @@ export default function Provider<Data extends JsonObject>({
       return
     }
     // When receivint the initial data, or receiving updated data by props, update the internal data (controlled state)
-    setInternalData(externalData)
-  }, [externalData])
+    setInternalData(data)
+  }, [data])
 
   const validateBySchema = useCallback(
     (data: Partial<Data>): Record<string, Error> | undefined => {
@@ -143,15 +158,24 @@ export default function Provider<Data extends JsonObject>({
       onPathChange?.(path, value)
 
       // Update the data even if it contains errors. Submit/SubmitRequest will be called accordingly
-      const newData = structuredClone(path === '/' ? value : internalData)
+      const newData = structuredClone(
+        path === '/'
+          ? // When setting the root of the data, the whole data set should be the new value
+            value
+          : // For sub paths, use the the existing data set (or empty array/object), but modify it below (since pointer.set is not immutable)
+            internalData ?? (path.match(isArrayJsonPointer) ? [] : {})
+      )
       if (path !== '/') {
         pointer.set(newData as Data, path, value)
       }
 
       onChange?.(newData)
 
-      if (sessionId && typeof window !== 'undefined') {
-        window.sessionStorage?.setItem(sessionId, JSON.stringify(newData))
+      if (sessionStorageId && typeof window !== 'undefined') {
+        window.sessionStorage?.setItem(
+          sessionStorageId,
+          JSON.stringify(newData)
+        )
       }
 
       validateBySchemaAndUpdateState(newData)

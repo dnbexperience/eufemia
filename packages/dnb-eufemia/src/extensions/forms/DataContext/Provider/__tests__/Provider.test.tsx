@@ -1,63 +1,71 @@
 import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
-import { Form, DataContext, Field } from '../../'
+import userEvent from '@testing-library/user-event'
+import { Form, DataContext, Field } from '../../../'
 import { JSONSchema7 } from 'json-schema'
 
 describe('DataContext.Provider', () => {
-  it('should provide value with data', () => {
+  it('should provide value from defaultData but ignore changes', () => {
     const { rerender } = render(
-      <DataContext.Provider data={{ foo: 'data-context-value' }}>
+      <DataContext.Provider defaultData={{ foo: 'original' }}>
         <Field.String path="/foo" />
       </DataContext.Provider>
     )
 
-    expect(
-      screen.getByDisplayValue('data-context-value')
-    ).toBeInTheDocument()
+    expect(screen.getByDisplayValue('original')).toBeInTheDocument()
 
     rerender(
-      <DataContext.Provider data={{ foo: 'data-context-changed-value' }}>
+      <DataContext.Provider defaultData={{ foo: 'changed' }}>
         <Field.String path="/foo" />
       </DataContext.Provider>
     )
 
-    expect(
-      screen.getByDisplayValue('data-context-changed-value')
-    ).toBeInTheDocument()
+    expect(screen.queryByDisplayValue('original')).toBeInTheDocument()
+    expect(screen.queryByDisplayValue('changed')).not.toBeInTheDocument()
+  })
+
+  it('should provide value from data and update based on changes', () => {
+    const { rerender } = render(
+      <DataContext.Provider data={{ foo: 'original' }}>
+        <Field.String path="/foo" />
+      </DataContext.Provider>
+    )
+
+    expect(screen.getByDisplayValue('original')).toBeInTheDocument()
+
+    rerender(
+      <DataContext.Provider data={{ foo: 'changed' }}>
+        <Field.String path="/foo" />
+      </DataContext.Provider>
+    )
+
+    expect(screen.queryByDisplayValue('changed')).toBeInTheDocument()
+    expect(screen.queryByDisplayValue('original')).not.toBeInTheDocument()
   })
 
   it('should handle path change', () => {
     const { rerender } = render(
-      <DataContext.Provider data={{ foo: 'data-context-value' }}>
+      <DataContext.Provider data={{ foo: 'original' }}>
         <Field.String path="/foo" />
       </DataContext.Provider>
     )
 
-    expect(
-      screen.getByDisplayValue('data-context-value')
-    ).toBeInTheDocument()
+    expect(screen.getByDisplayValue('original')).toBeInTheDocument()
 
     rerender(
-      <DataContext.Provider
-        data={{ fooBar: 'data-context-changed-value' }}
-      >
+      <DataContext.Provider data={{ fooBar: 'changed' }}>
         <Field.String path="/fooBar" />
       </DataContext.Provider>
     )
 
-    expect(
-      screen.getByDisplayValue('data-context-changed-value')
-    ).toBeInTheDocument()
+    expect(screen.getByDisplayValue('changed')).toBeInTheDocument()
   })
 
-  it('should call "onChange" on value change', () => {
+  it('should call "onChange" on internal value change', () => {
     const onChange = jest.fn()
 
     const { rerender } = render(
-      <DataContext.Provider
-        data={{ foo: 'data-context-value' }}
-        onChange={onChange}
-      >
+      <DataContext.Provider data={{ foo: 'original' }} onChange={onChange}>
         <Field.String path="/foo" value="Value" />
       </DataContext.Provider>
     )
@@ -73,7 +81,7 @@ describe('DataContext.Provider', () => {
 
     rerender(
       <DataContext.Provider
-        data={{ fooBar: 'data-context-changed-value' }}
+        data={{ fooBar: 'changed-value' }}
         onChange={onChange}
       >
         <Field.String path="/fooBar" value="Rerendered Value" />
@@ -88,12 +96,50 @@ describe('DataContext.Provider', () => {
     expect(onChange).toHaveBeenCalledWith({ fooBar: 'Second Value' })
   })
 
+  it('should work without any data provided, using an empty object as default when pointing to an objec subkey', () => {
+    const onChange = jest.fn()
+
+    render(
+      <DataContext.Provider onChange={onChange}>
+        <Field.String path="/foo" value="Value" />
+      </DataContext.Provider>
+    )
+
+    const element = document.querySelector('input')
+
+    fireEvent.change(element, {
+      target: { value: 'New Value' },
+    })
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith({ foo: 'New Value' })
+  })
+
+  it('should work without any data provided, using an empty array as default when pointing to an array index subkey', () => {
+    const onChange = jest.fn()
+
+    render(
+      <DataContext.Provider onChange={onChange}>
+        <Field.String path="/0/foo" value="Value" />
+      </DataContext.Provider>
+    )
+
+    const element = document.querySelector('input')
+
+    fireEvent.change(element, {
+      target: { value: 'New Value' },
+    })
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledWith([{ foo: 'New Value' }])
+  })
+
   it('should call "onPathChange" on path change', () => {
     const onPathChange = jest.fn()
 
     const { rerender } = render(
       <DataContext.Provider
-        data={{ foo: 'data-context-value' }}
+        data={{ foo: 'original' }}
         onPathChange={onPathChange}
       >
         <Field.String path="/foo" value="Value" />
@@ -111,7 +157,7 @@ describe('DataContext.Provider', () => {
 
     rerender(
       <DataContext.Provider
-        data={{ fooBar: 'data-context-changed-value' }}
+        data={{ fooBar: 'changed' }}
         onPathChange={onPathChange}
       >
         <Field.String path="/fooBar" value="Rerendered Value" />
@@ -130,19 +176,16 @@ describe('DataContext.Provider', () => {
     const onSubmit = jest.fn()
 
     const { rerender } = render(
-      <DataContext.Provider
-        data={{ foo: 'data-context-value' }}
-        onSubmit={onSubmit}
-      >
+      <DataContext.Provider data={{ foo: 'original' }} onSubmit={onSubmit}>
         <Field.String path="/foo" value="Value" />
         <Form.SubmitButton>Submit</Form.SubmitButton>
       </DataContext.Provider>
     )
 
-    const inpuptElement = document.querySelector('input')
+    const inputElement = document.querySelector('input')
     const submitElement = document.querySelector('button')
 
-    fireEvent.change(inpuptElement, {
+    fireEvent.change(inputElement, {
       target: { value: 'New Value' },
     })
     fireEvent.click(submitElement)
@@ -152,7 +195,7 @@ describe('DataContext.Provider', () => {
 
     rerender(
       <DataContext.Provider
-        data={{ fooBar: 'data-context-changed-value' }}
+        data={{ fooBar: 'changed' }}
         onSubmit={onSubmit}
       >
         <Field.String path="/fooBar" value="Rerendered Value" />
@@ -160,7 +203,7 @@ describe('DataContext.Provider', () => {
       </DataContext.Provider>
     )
 
-    fireEvent.change(inpuptElement, {
+    fireEvent.change(inputElement, {
       target: { value: 'Second Value' },
     })
     fireEvent.click(submitElement)
@@ -174,7 +217,7 @@ describe('DataContext.Provider', () => {
 
     const { rerender } = render(
       <DataContext.Provider
-        data={{ foo: 'data-context-value' }}
+        data={{ foo: 'original' }}
         onSubmitRequest={onSubmitRequest}
       >
         <Field.Number path="/foo" minimum={3} />
@@ -182,10 +225,10 @@ describe('DataContext.Provider', () => {
       </DataContext.Provider>
     )
 
-    const inpuptElement = document.querySelector('input')
+    const inputElement = document.querySelector('input')
     const submitElement = document.querySelector('button')
 
-    fireEvent.change(inpuptElement, {
+    fireEvent.change(inputElement, {
       target: { value: '1' },
     })
     fireEvent.click(submitElement)
@@ -195,7 +238,7 @@ describe('DataContext.Provider', () => {
 
     rerender(
       <DataContext.Provider
-        data={{ fooBar: 'data-context-changed-value' }}
+        data={{ fooBar: 'changed' }}
         onSubmitRequest={onSubmitRequest}
       >
         <Field.Number path="/fooBar" minimum={3} />
@@ -203,7 +246,7 @@ describe('DataContext.Provider', () => {
       </DataContext.Provider>
     )
 
-    fireEvent.change(inpuptElement, {
+    fireEvent.change(inputElement, {
       target: { value: '2' },
     })
     fireEvent.click(submitElement)
@@ -224,7 +267,7 @@ describe('DataContext.Provider', () => {
 
     const { rerender } = render(
       <DataContext.Provider
-        data={{ foo: 'data-context-value' }}
+        data={{ foo: 'original' }}
         onSubmitRequest={onSubmitRequest}
         schema={TestdataSchema}
       >
@@ -233,10 +276,10 @@ describe('DataContext.Provider', () => {
       </DataContext.Provider>
     )
 
-    const inpuptElement = document.querySelector('input')
+    const inputElement = document.querySelector('input')
     const submitElement = document.querySelector('button')
 
-    fireEvent.change(inpuptElement, {
+    fireEvent.change(inputElement, {
       target: { value: '1' },
     })
     fireEvent.click(submitElement)
@@ -246,7 +289,7 @@ describe('DataContext.Provider', () => {
 
     rerender(
       <DataContext.Provider
-        data={{ fooBar: 'data-context-changed-value' }}
+        data={{ fooBar: 'changed' }}
         onSubmitRequest={onSubmitRequest}
         schema={TestdataSchema}
       >
@@ -255,7 +298,7 @@ describe('DataContext.Provider', () => {
       </DataContext.Provider>
     )
 
-    fireEvent.change(inpuptElement, {
+    fireEvent.change(inputElement, {
       target: { value: '2' },
     })
     fireEvent.click(submitElement)
@@ -272,7 +315,7 @@ describe('DataContext.Provider', () => {
 
     const { rerender } = render(
       <DataContext.Provider
-        data={{ foo: 'data-context-value' }}
+        data={{ foo: 'original' }}
         onSubmit={onSubmit}
         scrollTopOnSubmit
       >
@@ -281,10 +324,10 @@ describe('DataContext.Provider', () => {
       </DataContext.Provider>
     )
 
-    const inpuptElement = document.querySelector('input')
+    const inputElement = document.querySelector('input')
     const submitElement = document.querySelector('button')
 
-    fireEvent.change(inpuptElement, {
+    fireEvent.change(inputElement, {
       target: { value: 'New Value' },
     })
     fireEvent.click(submitElement)
@@ -295,7 +338,7 @@ describe('DataContext.Provider', () => {
 
     rerender(
       <DataContext.Provider
-        data={{ fooBar: 'data-context-changed-value' }}
+        data={{ fooBar: 'changed' }}
         onSubmit={onSubmit}
         scrollTopOnSubmit
       >
@@ -304,7 +347,7 @@ describe('DataContext.Provider', () => {
       </DataContext.Provider>
     )
 
-    fireEvent.change(inpuptElement, {
+    fireEvent.change(inputElement, {
       target: { value: 'Second Value' },
     })
     fireEvent.click(submitElement)
@@ -316,5 +359,87 @@ describe('DataContext.Provider', () => {
       behavior: 'smooth',
       top: 0,
     })
+  })
+
+  it('should store data to session storage when sessionStorageId is provided, but only after changes', async () => {
+    const setItem = jest.spyOn(
+      Object.getPrototypeOf(window.sessionStorage),
+      'setItem'
+    )
+
+    render(
+      <DataContext.Provider
+        defaultData={{ foo: 'original' }}
+        sessionStorageId="test-data"
+      >
+        <Field.String path="/foo" />
+      </DataContext.Provider>
+    )
+
+    expect(setItem).not.toHaveBeenCalledWith(
+      'test-data',
+      JSON.stringify({
+        foo: 'original123',
+      })
+    )
+
+    const inputElement = document.querySelector('input')
+    await userEvent.type(inputElement, '123')
+
+    expect(setItem).toHaveBeenCalledWith(
+      'test-data',
+      JSON.stringify({
+        foo: 'original1',
+      })
+    )
+    expect(setItem).toHaveBeenCalledWith(
+      'test-data',
+      JSON.stringify({
+        foo: 'original12',
+      })
+    )
+    expect(setItem).toHaveBeenCalledWith(
+      'test-data',
+      JSON.stringify({
+        foo: 'original123',
+      })
+    )
+
+    setItem.mockRestore()
+  })
+
+  it('should set initial data to data from session storage when sessionStorageId is provided', () => {
+    window.sessionStorage.setItem(
+      'sourcedata',
+      JSON.stringify({
+        lorem: 'Ipsum',
+      })
+    )
+
+    render(
+      <DataContext.Provider sessionStorageId="sourcedata">
+        <Field.String path="/lorem" />
+      </DataContext.Provider>
+    )
+
+    expect(screen.getByDisplayValue('Ipsum')).toBeInTheDocument()
+  })
+
+  it('should throw error if both data and sessionStorageId is provided', () => {
+    const errorSpy = jest
+      .spyOn(global.console, 'error')
+      .mockImplementation()
+
+    render(
+      <DataContext.Provider
+        data={{ foo: 'bar' }}
+        sessionStorageId="sourcedata"
+      >
+        <Field.String path="/foo" />
+      </DataContext.Provider>
+    )
+
+    expect(errorSpy).toHaveBeenCalled()
+    errorSpy.mockRestore()
   })
 })
