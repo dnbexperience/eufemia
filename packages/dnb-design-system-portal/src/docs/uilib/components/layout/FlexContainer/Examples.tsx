@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
-import { Layout } from '@dnb/eufemia/src'
+import { Card, Layout } from '@dnb/eufemia/src'
 import { TestElement, Field } from '@dnb/eufemia/src/extensions/forms'
 
 export const Default = () => {
@@ -125,9 +125,9 @@ export const VerticalWithCard = () => {
   return (
     <ComponentBox scope={{ TestElement }}>
       <Layout.FlexContainer direction="vertical">
-        <Layout.Card>Card contents</Layout.Card>
-        <Layout.Card>Card contents</Layout.Card>
-        <Layout.Card>Card contents</Layout.Card>
+        <Card>Card contents</Card>
+        <Card>Card contents</Card>
+        <Card>Card contents</Card>
       </Layout.FlexContainer>
     </ComponentBox>
   )
@@ -136,12 +136,12 @@ export const VerticalWithCard = () => {
 export const VerticalWithFieldString = () => {
   return (
     <ComponentBox scope={{ TestElement, Field }}>
-      <Layout.Card>
+      <Card>
         <Layout.FlexContainer direction="vertical">
           <Field.String label="Label" value="Foo" />
           <Field.String label="Label" value="Foo" />
         </Layout.FlexContainer>
-      </Layout.Card>
+      </Card>
     </ComponentBox>
   )
 }
@@ -152,12 +152,12 @@ export const VerticalSpaceDivider = () => {
       scope={{ TestElement, Field }}
       data-visual-test="layout-flex-container-divider"
     >
-      <Layout.Card>
+      <Card>
         <Layout.FlexContainer direction="vertical" divider="space">
           <Field.String label="Label" value="Value" />
           <Field.String label="Label" value="Value" />
         </Layout.FlexContainer>
-      </Layout.Card>
+      </Card>
     </ComponentBox>
   )
 }
@@ -167,22 +167,22 @@ export const LayoutHorizontalFlexGrowItems = () => {
     <ComponentBox>
       <Layout.Horizontal>
         <Layout.FlexItem size={3}>
-          <Layout.Card>Card contents</Layout.Card>
+          <Card>Card contents</Card>
         </Layout.FlexItem>
         <Layout.FlexItem size={4}>
-          <Layout.Card>Card contents</Layout.Card>
+          <Card>Card contents</Card>
         </Layout.FlexItem>
         <Layout.FlexItem size={5}>
-          <Layout.Card>Card contents</Layout.Card>
+          <Card>Card contents</Card>
         </Layout.FlexItem>
         <Layout.FlexItem grow>
-          <Layout.Card>Card contents</Layout.Card>
+          <Card>Card contents</Card>
         </Layout.FlexItem>
         <Layout.FlexItem grow>
-          <Layout.Card>Card contents</Layout.Card>
+          <Card>Card contents</Card>
         </Layout.FlexItem>
         <Layout.FlexItem grow>
-          <Layout.Card>Card contents</Layout.Card>
+          <Card>Card contents</Card>
         </Layout.FlexItem>
       </Layout.Horizontal>
     </ComponentBox>

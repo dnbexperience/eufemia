@@ -1,6 +1,6 @@
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { Layout, Input, Slider } from '@dnb/eufemia/src'
+import { Layout, Input, Slider, Card } from '@dnb/eufemia/src'
 import {
   Form,
   StepsLayout,
@@ -160,7 +160,7 @@ export const BaseFieldComponents = () => {
         Visibility,
       }}
     >
-      <Layout.Card stack>
+      <Card stack>
         <Field.String
           label="Text field"
           value="Lorem Ipsum"
@@ -176,7 +176,7 @@ export const BaseFieldComponents = () => {
           value={true}
           onChange={(value) => console.log('onChange', value)}
         />
-      </Layout.Card>
+      </Card>
     </ComponentBox>
   )
 }
@@ -192,13 +192,13 @@ export const FeatureFields = () => {
         Visibility,
       }}
     >
-      <Layout.Card stack>
+      <Card stack>
         <Field.String label="Fornavn" value="John" />
         <Field.String label="Etternavn" value="Smith" />
         <Field.NationalIdentityNumber value="20058512345" />
         <Field.Email value="john@smith.email" />
         <Field.PhoneNumber value="+47 98765432" />
-      </Layout.Card>
+      </Card>
     </ComponentBox>
   )
 }
@@ -217,20 +217,20 @@ export const LayoutComponents = () => {
       <Layout.Stack>
         <Form.MainHeading>Profile</Form.MainHeading>
 
-        <Layout.Card stack>
+        <Card stack>
           <Form.SubHeading>Name</Form.SubHeading>
 
           <Field.String label="Fornavn" value="John" />
           <Field.String label="Etternavn" value="Smith" />
-        </Layout.Card>
+        </Card>
 
-        <Layout.Card stack>
+        <Card stack>
           <Form.SubHeading>More information</Form.SubHeading>
 
           <Field.NationalIdentityNumber value="20058512345" />
           <Field.Email value="john@smith.email" />
           <Field.PhoneNumber value="+47 98765432" />
-        </Layout.Card>
+        </Card>
       </Layout.Stack>
     </ComponentBox>
   )
@@ -265,12 +265,12 @@ export const VisibilityBasedOnData = () => {
         <Layout.Stack>
           <Form.MainHeading>Profile</Form.MainHeading>
 
-          <Layout.Card stack>
+          <Card stack>
             <Form.SubHeading>Name</Form.SubHeading>
 
             <Field.String path="/firstName" label="Fornavn" />
             <Field.String path="/lastName" label="Etternavn" />
-          </Layout.Card>
+          </Card>
         </Layout.Stack>
         <Field.Boolean
           path="/advanced"
@@ -279,13 +279,13 @@ export const VisibilityBasedOnData = () => {
         />
         <Visibility pathTrue="/advanced">
           <Layout.Stack>
-            <Layout.Card stack>
+            <Card stack>
               <Form.SubHeading>More information</Form.SubHeading>
 
               <Field.NationalIdentityNumber value="20058512345" />
               <Field.Email value="john@smith.email" />
               <Field.PhoneNumber value="+47 98765432" />
-            </Layout.Card>
+            </Card>
           </Layout.Stack>
         </Visibility>
       </Form.Handler>
@@ -320,7 +320,7 @@ export const UsingFormHandler = () => {
       >
         <Form.MainHeading>Profile</Form.MainHeading>
 
-        <Layout.Card stack>
+        <Card stack>
           <Field.String path="/firstName" label="Fornavn" />
           <Field.String path="/lastName" label="Etternavn" />
           <Field.NationalIdentityNumber path="/ssn" />
@@ -330,7 +330,7 @@ export const UsingFormHandler = () => {
           <Form.ButtonRow>
             <Form.SubmitButton />
           </Form.ButtonRow>
-        </Layout.Card>
+        </Card>
       </Form.Handler>
     </ComponentBox>
   )
@@ -363,13 +363,13 @@ export const Validation = () => {
       >
         <Form.MainHeading>Profile</Form.MainHeading>
 
-        <Layout.Card stack>
+        <Card stack>
           <Field.String path="/firstName" label="Fornavn" required />
           <Field.String path="/lastName" label="Etternavn" required />
           <Field.NationalIdentityNumber path="/ssn" validateInitially />
           <Field.Email path="/email" validateInitially />
           <Field.PhoneNumber path="/phone" validateInitially />
-        </Layout.Card>
+        </Card>
       </Form.Handler>
     </ComponentBox>
   )
@@ -405,12 +405,12 @@ export const WithSteps = () => {
           <StepsLayout.Step title="Name">
             <Form.MainHeading>Profile</Form.MainHeading>
 
-            <Layout.Card stack>
+            <Card stack>
               <Form.SubHeading>Name</Form.SubHeading>
 
               <Field.String path="/firstName" label="Fornavn" required />
               <Field.String path="/lastName" label="Etternavn" required />
-            </Layout.Card>
+            </Card>
 
             <Form.ButtonRow>
               <StepsLayout.NextButton />
@@ -420,13 +420,13 @@ export const WithSteps = () => {
           <StepsLayout.Step title="More information">
             <Form.MainHeading>Profile</Form.MainHeading>
 
-            <Layout.Card stack>
+            <Card stack>
               <Form.SubHeading>More information</Form.SubHeading>
 
               <Field.NationalIdentityNumber path="/ssn" />
               <Field.Email path="/email" />
               <Field.PhoneNumber path="/phone" />
-            </Layout.Card>
+            </Card>
 
             <Form.ButtonRow>
               <StepsLayout.PreviousButton />
@@ -437,7 +437,7 @@ export const WithSteps = () => {
           <StepsLayout.Step title="Summary">
             <Form.MainHeading>Profile</Form.MainHeading>
 
-            <Layout.Card stack>
+            <Card stack>
               <Layout.FlexContainer>
                 <Value.String path="/firstName" label="Fornavn" />
                 <Value.String path="/lastName" label="Etternavn" />
@@ -446,7 +446,7 @@ export const WithSteps = () => {
               <Value.NationalIdentityNumber path="/ssn" />
               <Value.Email path="/email" />
               <Value.PhoneNumber path="/phone" />
-            </Layout.Card>
+            </Card>
 
             <Form.ButtonRow>
               <StepsLayout.PreviousButton />

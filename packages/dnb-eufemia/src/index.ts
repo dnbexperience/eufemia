@@ -44,6 +44,7 @@ import Avatar from './components/avatar/Avatar'
 import Badge from './components/badge/Badge'
 import Breadcrumb from './components/breadcrumb/Breadcrumb'
 import Button from './components/button/Button'
+import Card from './components/card/Card'
 import Checkbox from './components/checkbox/Checkbox'
 import DatePicker from './components/date-picker/DatePicker'
 import Dialog from './components/dialog/Dialog'
@@ -123,6 +124,7 @@ export {
   Badge,
   Breadcrumb,
   Button,
+  Card,
   Checkbox,
   DatePicker,
   Dialog,

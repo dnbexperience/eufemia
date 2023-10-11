@@ -2,8 +2,8 @@ import React from 'react'
 import classnames from 'classnames'
 import FlexContainer, {
   Props as FlexContainerProps,
-} from './FlexContainer'
-import FlexItem, { Props as FlexItemProps } from './FlexItem'
+} from '../layout/FlexContainer'
+import FlexItem, { Props as FlexItemProps } from '../layout/FlexItem'
 
 export type Props = FlexContainerProps &
   FlexItemProps & {
@@ -24,7 +24,7 @@ function Card(props: Props) {
   if (stack || direction || spacing) {
     return (
       <FlexContainer
-        className={classnames('dnb-layout-card', className)}
+        className={classnames('dnb-card', className)}
         direction={direction ?? 'vertical'}
         divider={stack ? 'line' : 'space'}
         element="section"
@@ -40,7 +40,7 @@ function Card(props: Props) {
 
   return (
     <FlexItem
-      className={classnames('dnb-layout-card', className)}
+      className={classnames('dnb-card', className)}
       alignSelf={alignSelf}
       element="section"
       {...rest}

@@ -1,6 +1,6 @@
 import { Form } from '@dnb/eufemia/src/extensions/forms'
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
-import { Layout, P } from '@dnb/eufemia/src'
+import { Card, Layout, P } from '@dnb/eufemia/src'
 
 export const Default = () => {
   return (
@@ -56,14 +56,14 @@ export const WithCard = () => {
   return (
     <ComponentBox>
       <Layout.Stack>
-        <Layout.Card>
+        <Card>
           <P>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
             cursus pharetra elit in bibendum. Vivamus tincidunt eleifend
             tellus at tempus. Aliquam at felis rutrum, luctus dui at,
             bibendum ipsum.
           </P>
-        </Layout.Card>
+        </Card>
       </Layout.Stack>
     </ComponentBox>
   )
@@ -74,14 +74,14 @@ export const WithCardAndHeading = () => {
     <ComponentBox scope={{ Form }}>
       <Layout.Stack>
         <Form.MainHeading>Main heading</Form.MainHeading>
-        <Layout.Card>
+        <Card>
           <P>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
             cursus pharetra elit in bibendum. Vivamus tincidunt eleifend
             tellus at tempus. Aliquam at felis rutrum, luctus dui at,
             bibendum ipsum.
           </P>
-        </Layout.Card>
+        </Card>
       </Layout.Stack>
     </ComponentBox>
   )
@@ -93,14 +93,14 @@ export const WithCardAndHeadings = () => {
       <Layout.Stack>
         <Form.MainHeading>Main heading</Form.MainHeading>
         <Form.SubHeading>Sub heading</Form.SubHeading>
-        <Layout.Card>
+        <Card>
           <P>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
             cursus pharetra elit in bibendum. Vivamus tincidunt eleifend
             tellus at tempus. Aliquam at felis rutrum, luctus dui at,
             bibendum ipsum.
           </P>
-        </Layout.Card>
+        </Card>
       </Layout.Stack>
     </ComponentBox>
   )
@@ -111,9 +111,9 @@ export const WithHeadingsAndAriaLabel = () => {
     <ComponentBox hidePreview>
       <Layout.Stack aria-labelledby="unique-id">
         <Form.SubHeading id="unique-id">Heading</Form.SubHeading>
-        <Layout.Card>
+        <Card>
           <P>Content inside a landmark ...</P>
-        </Layout.Card>
+        </Card>
       </Layout.Stack>
     </ComponentBox>
   )

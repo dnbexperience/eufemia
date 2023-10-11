@@ -1,4 +1,4 @@
-export { default as Card } from './Card'
+export { default as Card } from '../card/Card'
 export { default as FlexContainer } from './FlexContainer'
 export { default as FlexItem } from './FlexItem'
 export { default as GridContainer } from './GridContainer'

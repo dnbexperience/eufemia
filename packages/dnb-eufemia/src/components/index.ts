@@ -17,6 +17,7 @@ import Avatar from './avatar/Avatar'
 import Badge from './badge/Badge'
 import Breadcrumb from './breadcrumb/Breadcrumb'
 import Button from './button/Button'
+import Card from './card/Card'
 import Checkbox from './checkbox/Checkbox'
 import DatePicker from './date-picker/DatePicker'
 import Dialog from './dialog/Dialog'
@@ -69,6 +70,7 @@ export {
   Badge,
   Breadcrumb,
   Button,
+  Card,
   Checkbox,
   DatePicker,
   Dialog,

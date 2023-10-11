@@ -1,5 +1,11 @@
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
-import { GlobalStatus, Section, Code, Layout } from '@dnb/eufemia/src'
+import {
+  GlobalStatus,
+  Section,
+  Code,
+  Layout,
+  Card,
+} from '@dnb/eufemia/src'
 import * as React from 'react'
 import {
   Form,
@@ -36,7 +42,7 @@ export const BecomeCorporateCustomer = () => {
                     <Form.MainHeading>
                       Bedriftsopplysninger
                     </Form.MainHeading>
-                    <Layout.Card spacing="medium">
+                    <Card spacing="medium">
                       <Field.OrganizationNumber
                         path="/companyOrganizationNumber"
                         required
@@ -90,8 +96,8 @@ export const BecomeCorporateCustomer = () => {
                         label="Etableringsland"
                         required
                       />
-                    </Layout.Card>
-                    <Layout.Card spacing="medium">
+                    </Card>
+                    <Card spacing="medium">
                       <Field.PhoneNumber
                         path="/phoneNumber"
                         label="Telefon/mobilnummer"
@@ -102,7 +108,7 @@ export const BecomeCorporateCustomer = () => {
                         path="/website"
                         label="Nettstedsadresse (valgfritt)"
                       />
-                    </Layout.Card>
+                    </Card>
 
                     <Form.ButtonRow>
                       <StepsLayout.NextButton />
@@ -112,13 +118,13 @@ export const BecomeCorporateCustomer = () => {
                   <StepsLayout.Step title="Kontaktperson">
                     <Form.MainHeading>Profile</Form.MainHeading>
 
-                    <Layout.Card stack>
+                    <Card stack>
                       <Form.SubHeading>More information</Form.SubHeading>
 
                       <Field.NationalIdentityNumber path="/ssn" />
                       <Field.Email path="/email" />
                       <Field.PhoneNumber path="/phone" />
-                    </Layout.Card>
+                    </Card>
 
                     <Form.ButtonRow>
                       <StepsLayout.PreviousButton />
@@ -153,7 +159,7 @@ export const BecomeCorporateCustomer = () => {
                   <StepsLayout.Step title="Oppsummering">
                     <Form.MainHeading>Profile</Form.MainHeading>
 
-                    <Layout.Card stack>
+                    <Card stack>
                       <Layout.FlexContainer>
                         <Value.String path="/firstName" />
                         <Value.String path="/lastName" />
@@ -162,7 +168,7 @@ export const BecomeCorporateCustomer = () => {
                       <Value.NationalIdentityNumber path="/ssn" />
                       <Value.Email path="/email" />
                       <Value.PhoneNumber path="/phone" />
-                    </Layout.Card>
+                    </Card>
 
                     <Form.ButtonRow>
                       <StepsLayout.PreviousButton />

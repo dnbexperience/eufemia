@@ -2,7 +2,7 @@ import React from 'react'
 import styled from '@emotion/styled'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import MediaQuery from '@dnb/eufemia/src/shared/MediaQuery'
-import { Layout, Slider, Code, Button } from '@dnb/eufemia/src'
+import { Layout, Slider, Code, Button, Card } from '@dnb/eufemia/src'
 import {
   TestElement,
   Field,
@@ -24,20 +24,20 @@ export const LayoutComponents = () => {
       <Layout.Stack>
         <Form.MainHeading>Profile</Form.MainHeading>
 
-        <Layout.Card stack>
+        <Card stack>
           <Form.SubHeading>Name</Form.SubHeading>
 
           <Field.String label="Fornavn" value="John" />
           <Field.String label="Etternavn" value="Smith" />
-        </Layout.Card>
+        </Card>
 
-        <Layout.Card stack>
+        <Card stack>
           <Form.SubHeading>More information</Form.SubHeading>
 
           <Field.NationalIdentityNumber value="20058512345" />
           <Field.Email value="john@smith.email" />
           <Field.PhoneNumber value="+47 98765432" />
-        </Layout.Card>
+        </Card>
       </Layout.Stack>
     </ComponentBox>
   )

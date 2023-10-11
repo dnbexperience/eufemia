@@ -8,9 +8,9 @@ import {
   setupPageScreenshot,
 } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Layout.Card', () => {
+describe('Card', () => {
   setupPageScreenshot({
-    url: '/uilib/components/layout/Card/demos',
+    url: '/uilib/components/card/demos',
   })
 
   it('have to match border', async () => {

@@ -11,12 +11,12 @@ import { Layout } from '@dnb/eufemia'
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
 render(
   <Form.Handler data={existingData} onSubmit={submitHandler}>
-    <Layout.Card>
+    <Card>
       <Field.Email path="/dataPath" />
       <Form.ButtonRow>
         <Form.SubmitButton />
       </Form.ButtonRow>
-    </Layout.Card>
+    </Card>
   </Form.Handler>,
 )
 ```

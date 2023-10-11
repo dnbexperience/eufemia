@@ -38,15 +38,15 @@ The goal of the Forms extension is to make it easy to build forms and other data
 
 ### Layout
 
-When building your application forms, preferably use the [Layout](/uilib/components/layout) component. It seamlessly places all the fields and components of Eufemia Forms correctly into place.
+When building your application forms, preferably use the following layout components. They seamlessly places all the fields and components of Eufemia Forms correctly into place.
 
-- [Layout](/uilib/components/layout) for easy to outline and consistent application forms.
+- [Layout](/uilib/components/layout) for easy and consistent application forms.
+- [Card](/uilib/components/card) for the default card outline of forms.
 
 ### Additional features
 
 - [Feature fields](/uilib/extensions/forms/feature-fields) such as Email and PhoneNumber.
 - [Extended features](/uilib/extensions/forms/extended-features) such as the main [Form.Handler](/uilib/extensions/forms/extended-features/Form/Handler) and [StepsLayout](/uilib/extensions/forms/extended-features/StepsLayout) for creating stepped forms.
-- [Layout](/uilib/components/layout) to apply default styles for application forms.
 
 ### Value components
 
@@ -81,7 +81,7 @@ render(
     onChange={...}
     onSubmit={...}
   >
-    <Layout.Card spacing="medium">
+    <Card spacing="medium">
       <Field.OrganizationNumber
         path="/companyOrganizationNumber"
         required
@@ -98,7 +98,7 @@ render(
         />
         <Field.Option value="other" title="Annet" />
       </Field.Selection>
-    </Layout.Card>
+    </Card>
   </Form.Handler>,
 )
 ```
@@ -110,9 +110,9 @@ import '@dnb/eufemia/extensions/forms/style'
 import { Form, Field } from '@dnb/eufemia/extensions/forms'
 render(
   <Form.Handler data={existingData} onSubmit={...}>
-    <Layout.Card spacing="medium">
+    <Card spacing="medium">
       <MyCustomComponent path="/companyName" required />
-    </Layout.Card>
+    </Card>
   </Form.Handler>,
 )
 ```

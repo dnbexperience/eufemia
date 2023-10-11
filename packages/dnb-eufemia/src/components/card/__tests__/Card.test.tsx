@@ -1,9 +1,9 @@
 import React from 'react'
 import { render } from '@testing-library/react'
-import Card from '../Card'
+import Card from '../../card/Card'
 import { P } from '../../../elements'
 
-describe('Layout.Card', () => {
+describe('Card', () => {
   it('should forward HTML attributes', () => {
     render(
       <Card aria-label="Aria Label">
@@ -12,7 +12,7 @@ describe('Layout.Card', () => {
       </Card>
     )
 
-    const element = document.querySelector('.dnb-layout-card')
+    const element = document.querySelector('.dnb-card')
     const attributes = Array.from(element.attributes).map(
       (attr) => attr.name
     )
@@ -29,7 +29,7 @@ describe('Layout.Card', () => {
       </Card>
     )
 
-    const element = document.querySelector('.dnb-layout-card')
+    const element = document.querySelector('.dnb-card')
 
     expect(element.classList).toContain('dnb-space__top--large')
 
@@ -51,12 +51,12 @@ describe('Layout.Card', () => {
       </Card>
     )
 
-    const element = document.querySelector('.dnb-layout-card')
+    const element = document.querySelector('.dnb-card')
 
     expect(Array.from(element.classList)).toEqual([
       'dnb-space',
       'dnb-layout-flex-item',
-      'dnb-layout-card',
+      'dnb-card',
       'custom-class',
       'dnb-layout-flex-item--align-self-stretch',
     ])
@@ -70,7 +70,7 @@ describe('Layout.Card', () => {
       </Card>
     )
 
-    const element = document.querySelector('.dnb-layout-card')
+    const element = document.querySelector('.dnb-card')
 
     expect(element.childNodes).toHaveLength(2)
     expect(element.textContent).toBe('ParagraphParagraph')
@@ -98,7 +98,7 @@ describe('Layout.Card', () => {
       </Card>
     )
 
-    const element = document.querySelector('.dnb-layout-card')
+    const element = document.querySelector('.dnb-card')
     const children = element.children
 
     expect(element.className).toContain(
@@ -132,7 +132,7 @@ describe('Layout.Card', () => {
       </Card>
     )
 
-    const element = document.querySelector('.dnb-layout-card')
+    const element = document.querySelector('.dnb-card')
 
     expect(element.className).toContain(
       'dnb-layout-flex-container--direction-vertical'
@@ -156,7 +156,7 @@ describe('Layout.Card', () => {
       </Card>
     )
 
-    const element = document.querySelector('.dnb-layout-card')
+    const element = document.querySelector('.dnb-card')
 
     expect(element.tagName).toBe('SECTION')
   })
@@ -168,7 +168,7 @@ describe('Layout.Card', () => {
       </Card>
     )
 
-    const element = document.querySelector('.dnb-layout-card')
+    const element = document.querySelector('.dnb-card')
 
     expect(element.tagName).toBe('ARTICLE')
   })
@@ -182,7 +182,7 @@ describe('Layout.Card', () => {
       </Card>
     )
 
-    const element = document.querySelector('.dnb-layout-card')
+    const element = document.querySelector('.dnb-card')
     const children = element.children
 
     expect(element.className).toContain(

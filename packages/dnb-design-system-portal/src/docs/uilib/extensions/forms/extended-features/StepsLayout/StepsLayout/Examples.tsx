@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
-import { Layout, P } from '@dnb/eufemia/src'
+import { Card, P } from '@dnb/eufemia/src'
 import { StepsLayout, Form } from '@dnb/eufemia/src/extensions/forms'
 
 export const Default = () => {
@@ -11,9 +11,9 @@ export const Default = () => {
       <StepsLayout>
         <StepsLayout.Step title="Step 1">
           <Form.MainHeading>Step 1</Form.MainHeading>
-          <Layout.Card>
+          <Card>
             <P>Step 1 contents</P>
-          </Layout.Card>
+          </Card>
           <StepsLayout.NextButton />
         </StepsLayout.Step>
         <StepsLayout.Step title="Step 2">

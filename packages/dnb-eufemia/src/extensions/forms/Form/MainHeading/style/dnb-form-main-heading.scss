@@ -6,7 +6,7 @@
     }
   }
 
-  &:has(+ .dnb-layout-stack > .dnb-layout-card, + .dnb-layout-card) {
+  &:has(+ .dnb-layout-stack > .dnb-card, + .dnb-card) {
     &:not([class*='space__left']) {
       margin-left: var(--spacing-medium);
     }
