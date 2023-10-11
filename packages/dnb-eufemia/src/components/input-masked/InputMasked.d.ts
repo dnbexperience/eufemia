@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { SteppedMaskProps } from './SteppedMask';
 import type { Locale } from '../../shared/Context';
 import type { ButtonIconPosition } from '../Button';
 import type { FormLabelLabelDirection, FormLabelText } from '../FormLabel';
@@ -256,5 +257,8 @@ export interface InputMaskedProps
   children?: InputMaskedChildren;
   on_state_update?: (...args: any[]) => any;
 }
-declare const InputMasked: React.FC<InputMaskedProps>;
+declare const InputMasked: React.FC<InputMaskedProps> & {
+  Stepped: React.Fc<SteppedMaskProps>;
+};
+
 export default InputMasked;

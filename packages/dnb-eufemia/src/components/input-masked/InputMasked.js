@@ -11,6 +11,7 @@ import InputMaskedContext from './InputMaskedContext'
 import InputMaskedElement from './InputMaskedElement'
 import Input, { inputPropTypes } from '../input/Input'
 import Context from '../../shared/Context'
+import SteppedMask from './SteppedMask'
 
 const InputMasked = (props) => {
   const context = React.useContext(Context)
@@ -45,10 +46,6 @@ const InputMasked = (props) => {
     </InputMaskedContext.Provider>
   )
 }
-
-InputMasked._supportsSpacingProps = true
-
-export default InputMasked
 
 InputMasked.propTypes = {
   mask: PropTypes.oneOfType([
@@ -118,3 +115,7 @@ InputMasked.defaultProps = {
   on_submit_focus: null,
   on_submit_blur: null,
 }
+
+InputMasked.Stepped = SteppedMask
+
+export default InputMasked

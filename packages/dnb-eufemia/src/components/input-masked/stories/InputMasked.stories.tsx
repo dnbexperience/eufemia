@@ -10,7 +10,7 @@ import { InputMasked, FormSet, ToggleButton } from '../..'
 import { Hr } from '../../..'
 import styled from '@emotion/styled'
 import { Provider } from '../../../shared'
-import SteppedMask, { SteppedMaskValue } from '../SteppedMask'
+import type { SteppedMaskValue } from '../SteppedMask'
 
 import '../style/deps.scss'
 
@@ -210,9 +210,8 @@ export function SteppedMaskTest() {
   console.log('values', values)
 
   return (
-    <SteppedMask
+    <InputMasked.Stepped
       label="Datogreier"
-      values={values}
       onChange={({ day, month, year }) => setValues({ day, month, year })}
       delimiter="/"
       steps={[
