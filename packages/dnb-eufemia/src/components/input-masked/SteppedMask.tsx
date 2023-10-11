@@ -1,4 +1,4 @@
-import { Fragment, MutableRefObject, useRef } from 'react'
+import React, { Fragment, MutableRefObject, useRef, useState } from 'react'
 import Input from '../Input'
 
 import TextMask from './TextMask'
@@ -6,7 +6,7 @@ import useHandleCursorPosition from './hooks/useHandleCursorPosition'
 import classnames from 'classnames'
 import FormLabel from '../FormLabel'
 
-type SteppedMaskInput<T extends string> = {
+export type SteppedMaskInput<T extends string> = {
   id: T
   label: string
   mask: RegExp[]
@@ -18,10 +18,10 @@ export type SteppedMaskValue<T extends string> = {
   [K in T]: string
 }
 
-type SteppedMaskProps<T extends string> = {
-  label: string
+export type SteppedMaskProps<T extends string> = {
+  label?: string
   steps: SteppedMaskInput<T>[]
-  values: SteppedMaskValue<T>
+  values?: SteppedMaskValue<T>
   delimiter?: string
   onChange?: (values: SteppedMaskValue<T>) => void
 }
@@ -29,10 +29,13 @@ type SteppedMaskProps<T extends string> = {
 function SteppedMask<T extends string>({
   label,
   steps,
-  values,
-  onChange,
   delimiter,
+  ...props
 }: SteppedMaskProps<T>) {
+  const [values, setValues] = useState<SteppedMaskValue<T>>(
+    props.values ?? ({} as SteppedMaskValue<T>)
+  )
+
   const inputRefs = useRef<MutableRefObject<HTMLInputElement>[]>([])
 
   const masks = new RegExp(`(${getUniqueMasks().join('|')})`)
@@ -44,13 +47,15 @@ function SteppedMask<T extends string>({
 
   return (
     <fieldset className="dnb-stepped-mask__fieldset">
-      <FormLabel
-        className="dnb-stepped-mask__legend"
-        element="legend"
-        onClick={onLegendClick}
-      >
-        {label}
-      </FormLabel>
+      {label && (
+        <FormLabel
+          className="dnb-stepped-mask__legend"
+          element="legend"
+          onClick={onLegendClick}
+        >
+          {label}
+        </FormLabel>
+      )}
       <Input
         className="dnb-stepped-mask"
         input_element={steps.map(
@@ -65,22 +70,22 @@ function SteppedMask<T extends string>({
                 )}
                 size={mask.length}
                 mask={mask}
-                value={values[id]}
+                value={values[id] ?? ''}
                 placeholderChar={placeholderCharacter}
                 guide={true}
                 showMask={true}
                 keepCharPositions={false} // so we can overwrite next value, if it already exists
                 onKeyDown={handleKeydown}
                 onFocus={onInputFocus}
-                onChange={(event) =>
-                  onChange({
-                    ...values,
-                    [id]: removePlaceholder(
+                onChange={(event) => {
+                  onChange(
+                    id,
+                    removePlaceholder(
                       event.target.value,
                       placeholderCharacter
-                    ),
-                  })
-                }
+                    )
+                  )
+                }}
                 ref={getInputRef}
                 aria-labelledby={`${id}__label`}
               />
@@ -105,19 +110,7 @@ function SteppedMask<T extends string>({
     </fieldset>
   )
 
-  // Utilities
-  function getInputRef(ref: any) {
-    const inputRef = ref?.inputRef
-
-    if (inputRef && !inputRefs.current.includes(inputRef)) {
-      inputRefs.current.push(inputRef)
-    }
-  }
-
-  function removePlaceholder(value: string, placeholder: string) {
-    return value.replace(RegExp(placeholder, 'gm'), '')
-  }
-
+  // Event handlers
   function onLegendClick() {
     const firstInput = inputRefs.current[0].current
 
@@ -128,6 +121,28 @@ function SteppedMask<T extends string>({
   function onInputFocus({ target }: React.FocusEvent<HTMLInputElement>) {
     target.focus()
     target.select()
+  }
+
+  function onChange(id: string, value: string) {
+    const updatedValues = { ...values, [id]: value }
+
+    setValues(updatedValues)
+    if (props.onChange) {
+      props.onChange(updatedValues)
+    }
+  }
+
+  // Utilites
+  function getInputRef(ref: any) {
+    const inputRef = ref?.inputRef
+
+    if (inputRef && !inputRefs.current.includes(inputRef)) {
+      inputRefs.current.push(inputRef)
+    }
+  }
+
+  function removePlaceholder(value: string, placeholder: string) {
+    return value.replace(RegExp(placeholder, 'gm'), '')
   }
 
   function getUniqueMasks() {

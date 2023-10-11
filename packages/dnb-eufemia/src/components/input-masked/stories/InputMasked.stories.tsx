@@ -207,7 +207,7 @@ export function SteppedMaskTest() {
     year: '',
   })
 
-  console.log('values', values)
+  console.log('stories', values)
 
   return (
     <InputMasked.Stepped
