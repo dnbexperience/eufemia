@@ -7,6 +7,7 @@ import classnames from 'classnames'
 import FormLabel from '../FormLabel'
 import { SpacingProps } from '../space/types'
 import { createSpacingClasses } from '../space/SpacingHelper'
+import { FormStatusState, FormStatusText } from '../FormStatus'
 
 export type SteppedMaskInput<T extends string> = {
   id: T
@@ -26,6 +27,14 @@ export type SteppedMaskProps<T extends string> = {
   values?: SteppedMaskValue<T>
   delimiter?: string
   onChange?: (values: SteppedMaskValue<T>) => void
+  /**
+   * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
+   */
+  status?: FormStatusText
+  /**
+   * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
+   */
+  status_state?: FormStatusState
 } & Omit<React.HTMLProps<HTMLInputElement>, 'onChange' | 'ref' | 'value'> &
   SpacingProps
 
@@ -34,12 +43,10 @@ function SteppedMask<T extends string>({
   steps,
   delimiter,
   onChange: onChangeExternal,
-  values: defaultValues,
+  values: defaultValues = {} as SteppedMaskValue<T>,
   ...props
 }: SteppedMaskProps<T>) {
-  const [values, setValues] = useState<SteppedMaskValue<T>>(
-    defaultValues ?? ({} as SteppedMaskValue<T>)
-  )
+  const [values, setValues] = useState<SteppedMaskValue<T>>(defaultValues)
 
   const inputRefs = useRef<MutableRefObject<HTMLInputElement>[]>([])
   const masks = new RegExp(`(${getUniqueMasks().join('|')})`)
