@@ -95,6 +95,7 @@ export const Default = () => {
         }
         onSubmit={(data) => console.log('onSubmit', data)}
         onSubmitRequest={() => console.log('onSubmitRequest')}
+        sessionStorageId="provider-example-1"
       >
         <Layout.Stack>
           <Layout.Card>

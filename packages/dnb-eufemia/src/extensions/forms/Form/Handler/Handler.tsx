@@ -10,6 +10,7 @@ export type Props = React.HTMLAttributes<HTMLFormElement> & SpacingProps
 
 export default function FormHandler<Data extends JsonObject>({
   children,
+  defaultData,
   data,
   schema,
   onChange,
@@ -17,9 +18,11 @@ export default function FormHandler<Data extends JsonObject>({
   onSubmit,
   onSubmitRequest,
   scrollTopOnSubmit,
+  sessionStorageId,
   ...rest
 }: ProviderProps<Data> & Props) {
   const ProviderProps = {
+    defaultData,
     data,
     schema,
     onChange,
@@ -31,6 +34,7 @@ export default function FormHandler<Data extends JsonObject>({
     },
     onSubmitRequest,
     scrollTopOnSubmit,
+    sessionStorageId,
   }
 
   return (
