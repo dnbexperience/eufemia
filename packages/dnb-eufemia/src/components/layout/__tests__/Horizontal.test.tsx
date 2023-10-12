@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import Horizontal from '../Horizontal'
-import Card from '../Card'
+import Card from '../../card/Card'
 
 describe('Layout.Horizontal', () => {
   it('should forward HTML attributes', () => {

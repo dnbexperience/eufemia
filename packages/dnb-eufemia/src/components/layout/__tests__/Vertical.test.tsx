@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import Vertical from '../Vertical'
-import Card from '../Card'
+import Card from '../../card/Card'
 
 describe('Layout.Vertical', () => {
   it('should forward HTML attributes', () => {

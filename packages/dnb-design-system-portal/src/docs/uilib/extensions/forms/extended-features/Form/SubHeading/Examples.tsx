@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
-import { Layout, P } from '@dnb/eufemia/src'
+import { Card, Layout, P } from '@dnb/eufemia/src'
 import { Form } from '@dnb/eufemia/src/extensions/forms'
 
 export const TextOnly = () => {
@@ -39,12 +39,12 @@ export const InsideCard = () => {
       scope={{ Form }}
       data-visual-test="layout-sub-heading-inside-card"
     >
-      <Layout.Card>
+      <Card>
         <Layout.Stack>
           <Form.SubHeading>This is a sub heading</Form.SubHeading>
           <P>Card contents</P>
         </Layout.Stack>
-      </Layout.Card>
+      </Card>
     </ComponentBox>
   )
 }
@@ -57,9 +57,9 @@ export const OverStackWithCard = () => {
     >
       <Form.SubHeading>This is a sub heading</Form.SubHeading>
       <Layout.Stack>
-        <Layout.Card>
+        <Card>
           <P>Card contents</P>
-        </Layout.Card>
+        </Card>
       </Layout.Stack>
     </ComponentBox>
   )

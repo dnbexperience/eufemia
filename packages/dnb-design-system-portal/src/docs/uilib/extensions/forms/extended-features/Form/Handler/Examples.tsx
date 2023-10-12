@@ -1,6 +1,6 @@
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
 import { Form, Field } from '@dnb/eufemia/src/extensions/forms'
-import { Layout } from '@dnb/eufemia/src'
+import { Card } from '@dnb/eufemia/src'
 
 export const Default = () => {
   return (
@@ -9,12 +9,12 @@ export const Default = () => {
         defaultData={{ email: null }}
         onSubmit={(event) => console.log('onSubmit', event)}
       >
-        <Layout.Card spacing="medium">
+        <Card spacing="medium">
           <Field.Email path="/email" />
           <Form.ButtonRow>
             <Form.SubmitButton />
           </Form.ButtonRow>
-        </Layout.Card>
+        </Card>
       </Form.Handler>
     </ComponentBox>
   )
@@ -27,13 +27,13 @@ export const SessionStorage = () => {
         onSubmit={(event) => console.log('onSubmit', event)}
         sessionStorageId="session-key"
       >
-        <Layout.Card spacing="medium">
+        <Card spacing="medium">
           <Field.String label="Name" path="/name" />
           <Field.Email path="/email" />
           <Form.ButtonRow>
             <Form.SubmitButton />
           </Form.ButtonRow>
-        </Layout.Card>
+        </Card>
       </Form.Handler>
     </ComponentBox>
   )
