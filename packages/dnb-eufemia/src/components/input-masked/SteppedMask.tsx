@@ -73,13 +73,14 @@ function SteppedMask<T extends string>({
   steps,
   delimiter,
   onChange: onChangeExternal,
-  values: defaultValues = {} as SteppedMaskValue<T>,
   disabled,
   status,
   statusState,
   ...props
 }: SteppedMaskProps<T>) {
-  const [values, setValues] = useState<SteppedMaskValue<T>>(defaultValues)
+  const [values, setValues] = useState<SteppedMaskValue<T>>(
+    getDefaultValues()
+  )
 
   const inputRefs = useRef<MutableRefObject<HTMLInputElement>[]>([])
   const masks = new RegExp(`(${getUniqueMasks().join('|')})`)
@@ -196,6 +197,18 @@ function SteppedMask<T extends string>({
   }
 
   // Utilites
+  function getDefaultValues() {
+    if (props.values) {
+      return props.values
+    }
+
+    return steps.reduce((values, step) => {
+      values[step.id] = ''
+
+      return values
+    }, {} as SteppedMaskValue<T>)
+  }
+
   function getInputRef(ref: any) {
     const inputRef = ref?.inputRef
 
