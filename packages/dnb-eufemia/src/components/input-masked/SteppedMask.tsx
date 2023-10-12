@@ -104,6 +104,7 @@ function SteppedMask<T extends string>({
           className="dnb-stepped-mask__legend"
           element="legend"
           onClick={onLegendClick}
+          disabled={disabled}
           vertical
         >
           {label}
@@ -170,6 +171,10 @@ function SteppedMask<T extends string>({
 
   // Event handlers
   function onLegendClick() {
+    if (disabled) {
+      return
+    }
+
     const firstInput = inputRefs.current[0].current
 
     firstInput.focus()
