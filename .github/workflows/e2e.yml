@@ -71,9 +71,9 @@ jobs:
             ~/.cache/ms-playwright
             %USERPROFILE%\AppData\Local\ms-playwright
           key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-${{ hashFiles('**/yarn.lock') }}
-      - run: yarn dlx playwright install --with-deps firefox
+      - run: yarn workspace @dnb/eufemia playwright install --with-deps firefox
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-      - run: yarn dlx playwright install-deps firefox
+      - run: yarn workspace @dnb/eufemia playwright install-deps firefox
         if: steps.playwright-cache.outputs.cache-hit == 'true'
 
       - name: Prebuild Library
@@ -162,9 +162,9 @@ jobs:
             ~/.cache/ms-playwright
             %USERPROFILE%\AppData\Local\ms-playwright
           key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-${{ hashFiles('**/yarn.lock') }}
-      - run: yarn dlx playwright install --with-deps firefox
+      - run: yarn workspace dnb-design-system-portal playwright install --with-deps firefox
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-      - run: yarn dlx playwright install-deps firefox
+      - run: yarn workspace dnb-design-system-portal playwright install-deps firefox
         if: steps.playwright-cache.outputs.cache-hit == 'true'
 
       - name: Prebuild Library
