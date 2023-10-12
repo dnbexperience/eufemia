@@ -12,8 +12,6 @@ import styled from '@emotion/styled'
 import { Provider } from '../../../shared'
 import type { SteppedMaskValue } from '../SteppedMask'
 
-import '../style/deps.scss'
-
 const Pre = styled.pre`
   margin-top: 0;
   margin-bottom: 0;

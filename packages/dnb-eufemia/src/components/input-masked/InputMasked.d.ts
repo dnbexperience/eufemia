@@ -258,7 +258,7 @@ export interface InputMaskedProps
   on_state_update?: (...args: any[]) => any;
 }
 declare const InputMasked: React.FC<InputMaskedProps> & {
-  Stepped: React.Fc<SteppedMaskProps>;
+  Stepped: <T extends string>(props: SteppedMaskProps<T>) => JSX.Element;
 };
 
 export default InputMasked;

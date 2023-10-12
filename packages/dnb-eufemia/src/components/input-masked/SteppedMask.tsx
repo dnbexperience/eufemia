@@ -62,7 +62,10 @@ export type SteppedMaskProps<T extends string> = {
    * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
    */
   statusState?: FormStatusState
-} & Omit<React.HTMLProps<HTMLInputElement>, 'onChange' | 'ref' | 'value'> &
+} & Omit<
+  React.HTMLProps<HTMLInputElement>,
+  'onChange' | 'ref' | 'value' | 'label'
+> &
   SpacingProps
 
 function SteppedMask<T extends string>({
