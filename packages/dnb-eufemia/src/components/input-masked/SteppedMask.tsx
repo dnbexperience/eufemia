@@ -10,9 +10,21 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import { FormStatusState, FormStatusText } from '../FormStatus'
 
 export type SteppedMaskInput<T extends string> = {
+  /**
+   * Defines the id for the input. This id is also used to map the input value to the correct property on the objects used for `values` and `onChange` paramaters.
+   */
   id: T
+  /**
+   * Label used by the input. The label itself is hidden, but required to uphold accesability standards for screen readers.
+   */
   label: string
+  /**
+   * Each RegExp item in the array defines what the mask should be for each subsequent character in the input. The length sets the size of the input, so an array of two items would produce an input of two characters
+   */
   mask: RegExp[]
+  /**
+   * Sets the placeholder character used for the input.
+   */
   placeholderCharacter: string
 }
 
@@ -22,10 +34,25 @@ export type SteppedMaskValue<T extends string> = {
 }
 
 export type SteppedMaskProps<T extends string> = {
+  /**
+   * The label describing the group of inputs inside the components.
+   */
   label?: string
+  /**
+   * Used to define the different inputs representing the steps in the component. The id's defined here is used to map input value to correct property in `values` parameters used in `onChange`
+   */
   steps: SteppedMaskInput<T>[]
+  /**
+   * Values used for the inputs inside the component. Expects an object with keys matching the id's defined in `steps`
+   */
   values?: SteppedMaskValue<T>
+  /**
+   * Defines the delimiter used to seperate the inputs inside the component.
+   */
   delimiter?: string
+  /**
+   * Runs when the input value changes. Has an object parameter with keys matching the id's defined in `steps`. i.e. `{month: string, year: string}`
+   */
   onChange?: (values: SteppedMaskValue<T>) => void
   /**
    * Text with a status message. The style defaults to an error message. You can use `true` to only get the status color, without a message.
