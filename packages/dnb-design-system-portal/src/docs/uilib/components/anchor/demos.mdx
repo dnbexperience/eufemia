@@ -8,6 +8,7 @@ import {
   AnchorExampleHelperClasses,
   AnchorExampleIcons,
   AnchorTargetBlank,
+  AnchorProtocol,
   AnchorExampleHeadings,
   AnchorSbankenRegular,
   AnchorSbankenGoto,
@@ -65,6 +66,10 @@ Icons can be added with the `icon` and `iconPosition` props. Normally by sending
 If the link opens a new window it will automatically get an icon to indicate this.
 
 <AnchorTargetBlank />
+
+Unless the href contains `:mailto`, `:tel` or `:sms`.
+
+<AnchorProtocol />
 
 ### Anchor in headings
 

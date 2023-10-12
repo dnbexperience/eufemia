@@ -229,6 +229,32 @@ export const AnchorTargetBlank = () => (
   </Wrapper>
 )
 
+export const AnchorProtocol = () => (
+  <Wrapper>
+    <ComponentBox
+      hideCode
+      scope={{ Example }}
+      data-visual-test="anchor-protocol"
+    >
+      <Example>
+        <Anchor target="_blank" href="mailto:john.doe@email.com">
+          Send a mail to: john.doe@email.com
+        </Anchor>
+      </Example>
+      <Example>
+        <Anchor target="_blank" href="tel:12345678">
+          Make a phone call to: 12345678
+        </Anchor>
+      </Example>
+      <Example>
+        <Anchor target="_blank" href="sms:12345678">
+          Send an SMS to: 12345678
+        </Anchor>
+      </Example>
+    </ComponentBox>
+  </Wrapper>
+)
+
 export const AnchorExampleHeadings = () => (
   <Wrapper>
     <ComponentBox hideCode scope={{ Example }}>

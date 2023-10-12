@@ -236,6 +236,13 @@ describe.each(['ui', 'sbanken', 'eiendom'])(
       expect(screenshot).toMatchImageSnapshot()
     })
 
+    it('have to match the target blank with href protocol', async () => {
+      const screenshot = await makeScreenshot({
+        selector: '[data-visual-test="anchor-protocol"]',
+      })
+      expect(screenshot).toMatchImageSnapshot()
+    })
+
     if (themeName === 'ui') {
       it('have to match the target blank with tooltip', async () => {
         const screenshot = await makeScreenshot({
