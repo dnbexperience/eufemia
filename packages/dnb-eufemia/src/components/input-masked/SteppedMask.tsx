@@ -61,7 +61,7 @@ export type SteppedMaskProps<T extends string> = {
   /**
    * Defines the state of the status. Currently, there are two statuses `[error, info]`. Defaults to `error`.
    */
-  status_state?: FormStatusState
+  statusState?: FormStatusState
 } & Omit<React.HTMLProps<HTMLInputElement>, 'onChange' | 'ref' | 'value'> &
   SpacingProps
 
@@ -72,6 +72,8 @@ function SteppedMask<T extends string>({
   onChange: onChangeExternal,
   values: defaultValues = {} as SteppedMaskValue<T>,
   disabled,
+  status,
+  statusState,
   ...props
 }: SteppedMaskProps<T>) {
   const [values, setValues] = useState<SteppedMaskValue<T>>(defaultValues)
@@ -107,6 +109,8 @@ function SteppedMask<T extends string>({
         {...restOfProps}
         className={classnames('dnb-stepped-mask', className)}
         disabled={disabled}
+        status={status}
+        status_state={statusState}
         input_element={steps.map(
           ({ id, label, mask, placeholderCharacter }, index) => (
             <Fragment key={id}>
