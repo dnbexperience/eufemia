@@ -104,6 +104,7 @@ function SteppedMask<T extends string>({
           className="dnb-stepped-mask__legend"
           element="legend"
           onClick={onLegendClick}
+          vertical
         >
           {label}
         </FormLabel>
