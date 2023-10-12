@@ -101,3 +101,24 @@ render(
 ```
 
 Read more about other addons [on the open-source project](https://github.com/text-mask/text-mask)
+
+## Stepped mask
+
+| Properties    | Description                                                                                                                                                                                                                                       |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `label`       | _(optional)_ `legend` element describing the group of inputs inside the components.                                                                                                                                                               |
+| `steps`       | array of [SteppedMaskInput](/uilib/components/input-masked/properties/#steppedmaskinput) that defines the inputs in the component. The id's defined here is used to map input value to correct property in `values` parameters used in `onChange` |
+| `values`      | _(optional)_ values used for the inputs in the component. Expects an object with keys matching the id's defined in `steps`                                                                                                                        |
+| `delimiter`   | _(optional)_ character that seperates the input steps.                                                                                                                                                                                            |
+| `onChange`    | _(optional)_ runs an input value changes. Has an object parameter with keys matching the id's defined in `steps`, and values of string. E.g: `{month: string, year: string}`                                                                      |
+| `status`      | _(optional)_ text with a status message. The style defaults to an error message. You can use true to only get the status color, without a message.`.                                                                                              |
+| `statusState` | _(optional)_ defines the state of the status. Currently, there are two statuses [error, info]. Defaults to error.                                                                                                                                 |
+
+### SteppedMaskInput
+
+| Properties             | Description                                                                                                                                                              |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `id`                   | (string) Defines input id. This id is also used to map the input value to the correct property on the objects used for `values` and `onChange` paramaters.               |
+| `label`                | (string) Label used by the input. The label itself is hidden, but required to uphold accesability standards for screen readers.                                          |
+| `mask`                 | (array) Each RegExp item in the array defines what the mask should be for each subsequent character in the input. The array length sets the inputs size/character limit. |
+| `placeholderCharacter` | (string) Sets the placeholder character used for the input.                                                                                                              |
