@@ -8,7 +8,7 @@ import {
   setupPageScreenshot,
 } from '../../../../core/jest/jestSetupScreenshots'
 
-describe('Layout.FieldBlock', () => {
+describe('FieldBlock', () => {
   setupPageScreenshot({
     url: '/uilib/extensions/forms/create-component/FieldBlock/demos/',
   })

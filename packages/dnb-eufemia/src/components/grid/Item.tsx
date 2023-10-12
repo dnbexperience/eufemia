@@ -35,7 +35,7 @@ function GridItem(props: AllProps) {
     ...style,
   }
 
-  const cn = classnames('dnb-layout-grid-item', className)
+  const cn = classnames('dnb-grid-item', className)
 
   return (
     <Space element={element} className={cn} style={styleObj} {...rest}>

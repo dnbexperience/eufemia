@@ -2,7 +2,7 @@ import React from 'react'
 import styled from '@emotion/styled'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import MediaQuery from '@dnb/eufemia/src/shared/MediaQuery'
-import { Layout, Slider, Code, Button, Card, Flex } from '@dnb/eufemia/src'
+import { Grid, Slider, Code, Button, Card, Flex } from '@dnb/eufemia/src'
 import {
   TestElement,
   Field,
@@ -285,8 +285,8 @@ export const MediaQueryLiveExample = () => (
 export const ResponsiveGridContainer = () => {
   return (
     <ComponentBox scope={{ TestElement, colors }}>
-      <Layout.GridContainer rowGap columnGap>
-        <Layout.GridItem
+      <Grid.Container rowGap columnGap>
+        <Grid.Item
           span={{
             small: [1, 2],
             medium: [1, 3],
@@ -296,9 +296,9 @@ export const ResponsiveGridContainer = () => {
           element={TestElement}
         >
           Item A
-        </Layout.GridItem>
+        </Grid.Item>
 
-        <Layout.GridItem
+        <Grid.Item
           span={{
             small: [3, 4],
             medium: [4, 6],
@@ -308,9 +308,9 @@ export const ResponsiveGridContainer = () => {
           element={TestElement}
         >
           Item B
-        </Layout.GridItem>
+        </Grid.Item>
 
-        <Layout.GridItem
+        <Grid.Item
           span={{
             small: [2, 3],
             medium: [4, 6],
@@ -320,9 +320,9 @@ export const ResponsiveGridContainer = () => {
           element={TestElement}
         >
           Item C
-        </Layout.GridItem>
+        </Grid.Item>
 
-        <Layout.GridItem
+        <Grid.Item
           span={{
             small: [1, 4],
             medium: [4, 6],
@@ -332,8 +332,8 @@ export const ResponsiveGridContainer = () => {
           element={TestElement}
         >
           Item D
-        </Layout.GridItem>
-      </Layout.GridContainer>
+        </Grid.Item>
+      </Grid.Container>
     </ComponentBox>
   )
 }

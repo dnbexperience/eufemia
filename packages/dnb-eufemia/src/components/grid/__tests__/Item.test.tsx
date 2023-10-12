@@ -1,18 +1,17 @@
 import React from 'react'
 import { render } from '@testing-library/react'
 import 'mock-match-media/jest-setup'
-import GridContainer from '../GridContainer'
-import GridItem from '../GridItem'
+import Grid from '../Grid'
 
-describe('Layout.GridItem', () => {
+describe('Grid.Item', () => {
   it('should forward HTML attributes', () => {
     render(
-      <GridContainer>
-        <GridItem aria-label="Aria Label">Item</GridItem>
-      </GridContainer>
+      <Grid.Container>
+        <Grid.Item aria-label="Aria Label">Item</Grid.Item>
+      </Grid.Container>
     )
 
-    const element = document.querySelector('.dnb-layout-grid-item')
+    const element = document.querySelector('.dnb-grid-item')
     const attributes = Array.from(element.attributes).map(
       (attr) => attr.name
     )
@@ -23,18 +22,18 @@ describe('Layout.GridItem', () => {
 
   it('should support spacing props', () => {
     const { rerender } = render(
-      <GridContainer>
-        <GridItem top="large">Item</GridItem>
-      </GridContainer>
+      <Grid.Container>
+        <Grid.Item top="large">Item</Grid.Item>
+      </Grid.Container>
     )
-    const element = document.querySelector('.dnb-layout-grid-item ')
+    const element = document.querySelector('.dnb-grid-item ')
 
     expect(element.classList).toContain('dnb-space__top--large')
 
     rerender(
-      <GridContainer>
-        <GridItem top="x-large">Item</GridItem>
-      </GridContainer>
+      <Grid.Container>
+        <Grid.Item top="x-large">Item</Grid.Item>
+      </Grid.Container>
     )
 
     expect(element.classList).toContain('dnb-space__top--x-large')
@@ -42,24 +41,24 @@ describe('Layout.GridItem', () => {
 
   it('should contain given classes', () => {
     render(
-      <GridContainer>
-        <GridItem className="custom-class">Item</GridItem>
-      </GridContainer>
+      <Grid.Container>
+        <Grid.Item className="custom-class">Item</Grid.Item>
+      </Grid.Container>
     )
 
-    const element = document.querySelector('.dnb-layout-grid-item')
+    const element = document.querySelector('.dnb-grid-item')
 
     expect(Array.from(element.classList)).toEqual([
       'dnb-space',
-      'dnb-layout-grid-item',
+      'dnb-grid-item',
       'custom-class',
     ])
   })
 
   it('should set given span with media', () => {
     render(
-      <GridContainer>
-        <GridItem
+      <Grid.Container>
+        <Grid.Item
           span={{
             small: 'full',
             medium: [1, 2],
@@ -67,9 +66,9 @@ describe('Layout.GridItem', () => {
           }}
         >
           Item A
-        </GridItem>
+        </Grid.Item>
 
-        <GridItem
+        <Grid.Item
           span={{
             small: [1, 'end'],
             medium: [3, 4],
@@ -77,9 +76,9 @@ describe('Layout.GridItem', () => {
           }}
         >
           Item B
-        </GridItem>
+        </Grid.Item>
 
-        <GridItem
+        <Grid.Item
           span={{
             small: [1, 2],
             medium: [3, 4],
@@ -87,9 +86,9 @@ describe('Layout.GridItem', () => {
           }}
         >
           Item C
-        </GridItem>
+        </Grid.Item>
 
-        <GridItem
+        <Grid.Item
           span={{
             small: [3, 4],
             medium: [3, 4],
@@ -97,13 +96,12 @@ describe('Layout.GridItem', () => {
           }}
         >
           Item D
-        </GridItem>
-      </GridContainer>
+        </Grid.Item>
+      </Grid.Container>
     )
 
-    const elements: NodeListOf<HTMLElement> = document.querySelectorAll(
-      '.dnb-layout-grid-item'
-    )
+    const elements: NodeListOf<HTMLElement> =
+      document.querySelectorAll('.dnb-grid-item')
 
     expect(elements[0].style['_values']).toEqual({
       '--large-c-s': '1',
@@ -141,8 +139,8 @@ describe('Layout.GridItem', () => {
 
   it('should support "end" and "full"', () => {
     render(
-      <GridContainer>
-        <GridItem
+      <Grid.Container>
+        <Grid.Item
           span={{
             small: 'full',
             medium: [1, 2],
@@ -150,9 +148,9 @@ describe('Layout.GridItem', () => {
           }}
         >
           Item A
-        </GridItem>
+        </Grid.Item>
 
-        <GridItem
+        <Grid.Item
           span={{
             small: [2, 4],
             medium: 'full',
@@ -160,9 +158,9 @@ describe('Layout.GridItem', () => {
           }}
         >
           Item B
-        </GridItem>
+        </Grid.Item>
 
-        <GridItem
+        <Grid.Item
           span={{
             small: [3, 4],
             medium: [3, 6],
@@ -170,9 +168,9 @@ describe('Layout.GridItem', () => {
           }}
         >
           Item C
-        </GridItem>
+        </Grid.Item>
 
-        <GridItem
+        <Grid.Item
           span={{
             small: [4, 'end'],
             medium: [3, 6],
@@ -180,13 +178,12 @@ describe('Layout.GridItem', () => {
           }}
         >
           Item D
-        </GridItem>
-      </GridContainer>
+        </Grid.Item>
+      </Grid.Container>
     )
 
-    const elements: NodeListOf<HTMLElement> = document.querySelectorAll(
-      '.dnb-layout-grid-item'
-    )
+    const elements: NodeListOf<HTMLElement> =
+      document.querySelectorAll('.dnb-grid-item')
 
     expect(elements[0].style['_values']).toEqual({
       '--large-c-e': '13',
@@ -224,16 +221,15 @@ describe('Layout.GridItem', () => {
 
   it('should set given span', () => {
     render(
-      <GridContainer>
-        <GridItem span={[1, 6]}>Item A</GridItem>
+      <Grid.Container>
+        <Grid.Item span={[1, 6]}>Item A</Grid.Item>
 
-        <GridItem span={[7, 12]}>Item B</GridItem>
-      </GridContainer>
+        <Grid.Item span={[7, 12]}>Item B</Grid.Item>
+      </Grid.Container>
     )
 
-    const elements: NodeListOf<HTMLElement> = document.querySelectorAll(
-      '.dnb-layout-grid-item'
-    )
+    const elements: NodeListOf<HTMLElement> =
+      document.querySelectorAll('.dnb-grid-item')
 
     expect(elements[0].style['_values']).toEqual({
       '--small-c-s': '1',
@@ -254,9 +250,9 @@ describe('Layout.GridItem', () => {
   })
 
   it('should set element', () => {
-    render(<GridItem element="section">content</GridItem>)
+    render(<Grid.Item element="section">content</Grid.Item>)
 
-    const element = document.querySelector('.dnb-layout-grid-item')
+    const element = document.querySelector('.dnb-grid-item')
 
     expect(element.tagName).toBe('SECTION')
   })

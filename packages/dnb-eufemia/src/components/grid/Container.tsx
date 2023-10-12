@@ -35,7 +35,7 @@ function GridContainer(props: AllProps) {
     ...style,
   }
 
-  const n = 'dnb-layout-grid-container'
+  const n = 'dnb-grid-container'
 
   const unsetClasses = []
   for (const prop in styleObj) {

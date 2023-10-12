@@ -1,0 +1,34 @@
+---
+showTabs: true
+---
+
+import * as Examples from '../item/Examples'
+
+## Description
+
+`Grid.Container` is a building block for [CSS grid](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_grid_layout) based layouts.
+
+Use [Grid.Item](/uilib/components/grid/item) for you inner wrappers so you can apply a `span` to them.
+
+```jsx
+import { Grid } from '@dnb/eufemia'
+
+render(
+  <Grid.Container>
+    <Grid.Item span={[1, 6]}>Item A</Grid.Item>
+    <Grid.Item span={[7, 12]}>Item B</Grid.Item>
+  </Grid.Container>,
+)
+```
+
+The columns do change based on what [breakpoint](/uilib/usage/layout/media-queries/) the browser is in:
+
+- 4 columns when `small`
+- 6 columns when `medium`
+- 12 columns when `large`
+
+<Examples.BasicSpan />
+
+### Gap
+
+By default is no gap given.

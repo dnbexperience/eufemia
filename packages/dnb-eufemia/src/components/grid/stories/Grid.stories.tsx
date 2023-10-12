@@ -5,16 +5,12 @@
 
 import React from 'react'
 
-import { Layout } from '../..'
+import { Grid } from '../..'
 import '../style'
 
 export default {
   title: 'Eufemia/Components/Layout',
 }
-
-const Grid = Layout.Grid
-const Item = Layout.Grid.Item
-// const { GridContainer: Grid, GridItem: Item } = Layout
 
 export const colors = [
   { background: '#babeee' } as React.CSSProperties,
@@ -25,13 +21,13 @@ export const colors = [
 
 export const GridLayout = () => {
   return (
-    <Grid
+    <Grid.Container
       // columns={12}
       // columns={{ small: 4, medium: false }}
       rowGap
       columnGap
     >
-      <Item
+      <Grid.Item
         span={{
           small: 'full',
           medium: [1, 2],
@@ -40,9 +36,9 @@ export const GridLayout = () => {
         style={colors[0]}
       >
         Item A
-      </Item>
+      </Grid.Item>
 
-      <Item
+      <Grid.Item
         span={{
           small: [2, 4],
           medium: 'full',
@@ -51,9 +47,9 @@ export const GridLayout = () => {
         style={colors[1]}
       >
         Item B
-      </Item>
+      </Grid.Item>
 
-      <Item
+      <Grid.Item
         span={{
           small: [3, 4],
           medium: [3, 6],
@@ -62,9 +58,9 @@ export const GridLayout = () => {
         style={colors[2]}
       >
         Item C
-      </Item>
+      </Grid.Item>
 
-      <Item
+      <Grid.Item
         span={{
           small: [4, 'end'],
           medium: [3, 6],
@@ -73,7 +69,7 @@ export const GridLayout = () => {
         style={colors[3]}
       >
         Item D
-      </Item>
-    </Grid>
+      </Grid.Item>
+    </Grid.Container>
   )
 }

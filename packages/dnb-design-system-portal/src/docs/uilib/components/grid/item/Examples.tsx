@@ -1,15 +1,15 @@
 import React from 'react'
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
 import { TestElement } from '@dnb/eufemia/src/extensions/forms'
-import { Input, Layout } from '@dnb/eufemia/src'
+import { Input, Grid } from '@dnb/eufemia/src'
 
 export const BasicSpan = () => {
   return (
     <ComponentBox>
-      <Layout.GridContainer>
-        <Layout.GridItem span={[1, 6]}>uses 50% in width</Layout.GridItem>
-        <Layout.GridItem span={[7, 12]}>uses 50% in width</Layout.GridItem>
-      </Layout.GridContainer>
+      <Grid.Container>
+        <Grid.Item span={[1, 6]}>uses 50% in width</Grid.Item>
+        <Grid.Item span={[7, 12]}>uses 50% in width</Grid.Item>
+      </Grid.Container>
     </ComponentBox>
   )
 }
@@ -17,14 +17,14 @@ export const BasicSpan = () => {
 export const ResponsiveSpan = () => {
   return (
     <ComponentBox>
-      <Layout.GridContainer>
-        <Layout.GridItem span={{ small: [1, 12], large: [1, 6] }}>
+      <Grid.Container>
+        <Grid.Item span={{ small: [1, 12], large: [1, 6] }}>
           uses 50% or 100% based on the screen size
-        </Layout.GridItem>
-        <Layout.GridItem span={{ small: [1, 12], large: [7, 12] }}>
+        </Grid.Item>
+        <Grid.Item span={{ small: [1, 12], large: [7, 12] }}>
           uses 50% or 100% based on the screen size
-        </Layout.GridItem>
-      </Layout.GridContainer>
+        </Grid.Item>
+      </Grid.Container>
     </ComponentBox>
   )
 }
@@ -39,8 +39,8 @@ const colors = [
 export const ResponsiveAdvanced = () => {
   return (
     <ComponentBox scope={{ TestElement, colors }}>
-      <Layout.GridContainer rowGap columnGap>
-        <Layout.GridItem
+      <Grid.Container rowGap columnGap>
+        <Grid.Item
           span={{
             small: [1, 2],
             medium: [1, 3],
@@ -50,9 +50,9 @@ export const ResponsiveAdvanced = () => {
           element={TestElement}
         >
           Item A
-        </Layout.GridItem>
+        </Grid.Item>
 
-        <Layout.GridItem
+        <Grid.Item
           span={{
             small: [3, 4],
             medium: [4, 6],
@@ -62,9 +62,9 @@ export const ResponsiveAdvanced = () => {
           element={TestElement}
         >
           Item B
-        </Layout.GridItem>
+        </Grid.Item>
 
-        <Layout.GridItem
+        <Grid.Item
           span={{
             small: [2, 3],
             medium: [4, 6],
@@ -74,9 +74,9 @@ export const ResponsiveAdvanced = () => {
           element={TestElement}
         >
           Item C
-        </Layout.GridItem>
+        </Grid.Item>
 
-        <Layout.GridItem
+        <Grid.Item
           span={{
             small: [1, 4],
             medium: [4, 6],
@@ -86,8 +86,8 @@ export const ResponsiveAdvanced = () => {
           element={TestElement}
         >
           Item D
-        </Layout.GridItem>
-      </Layout.GridContainer>
+        </Grid.Item>
+      </Grid.Container>
     </ComponentBox>
   )
 }
@@ -102,20 +102,20 @@ export const OrderHorizontal = () => {
   }
   return (
     <ComponentBox scope={{ Item }}>
-      <Layout.GridContainer rowGap columnGap columns={12}>
-        <Layout.GridItem span={[1, 6]}>
+      <Grid.Container rowGap columnGap columns={12}>
+        <Grid.Item span={[1, 6]}>
           <Item>Left top</Item>
-        </Layout.GridItem>
-        <Layout.GridItem span={[7, 12]}>
+        </Grid.Item>
+        <Grid.Item span={[7, 12]}>
           <Item>Right top</Item>
-        </Layout.GridItem>
-        <Layout.GridItem span={[1, 6]}>
+        </Grid.Item>
+        <Grid.Item span={[1, 6]}>
           <Item>Left bottom</Item>
-        </Layout.GridItem>
-        <Layout.GridItem span={[7, 12]}>
+        </Grid.Item>
+        <Grid.Item span={[7, 12]}>
           <Item>Right bottom</Item>
-        </Layout.GridItem>
-      </Layout.GridContainer>
+        </Grid.Item>
+      </Grid.Container>
     </ComponentBox>
   )
 }
@@ -130,20 +130,20 @@ export const OrderVertical = () => {
   }
   return (
     <ComponentBox scope={{ Item }}>
-      <Layout.GridContainer rowGap columnGap columns={12}>
-        <Layout.GridItem span={[1, 6]}>
+      <Grid.Container rowGap columnGap columns={12}>
+        <Grid.Item span={[1, 6]}>
           <Item>Left top</Item>
-        </Layout.GridItem>
-        <Layout.GridItem span={[1, 6]}>
+        </Grid.Item>
+        <Grid.Item span={[1, 6]}>
           <Item>Left bottom</Item>
-        </Layout.GridItem>
-        <Layout.GridItem span={[7, 12]}>
+        </Grid.Item>
+        <Grid.Item span={[7, 12]}>
           <Item>Right top</Item>
-        </Layout.GridItem>
-        <Layout.GridItem span={[7, 12]}>
+        </Grid.Item>
+        <Grid.Item span={[7, 12]}>
           <Item>Right bottom</Item>
-        </Layout.GridItem>
-      </Layout.GridContainer>
+        </Grid.Item>
+      </Grid.Container>
     </ComponentBox>
   )
 }

@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
-import { Flex, Layout } from '@dnb/eufemia/src'
+import { Flex } from '@dnb/eufemia/src'
 import {
   Iterate,
   Field,
@@ -25,7 +25,7 @@ export const PrimitiveElements = () => {
 
 export const ObjectElements = () => {
   return (
-    <ComponentBox scope={{ Iterate, Layout, Field, Value }}>
+    <ComponentBox scope={{ Iterate, Field, Value }}>
       <Iterate.Array
         label="Accounts"
         value={[
@@ -68,7 +68,7 @@ export const RenderPropsPrimitiveElements = () => {
 
 export const RenderPropsObjectElements = () => {
   return (
-    <ComponentBox scope={{ Iterate, Layout, Field, FieldBlock }}>
+    <ComponentBox scope={{ Iterate, Field, FieldBlock }}>
       <Iterate.Array
         label="Array label"
         value={[
@@ -92,9 +92,7 @@ export const RenderPropsObjectElements = () => {
 
 export const ArrayFromFormHandler = () => {
   return (
-    <ComponentBox
-      scope={{ Iterate, Layout, Field, Value, Form, TrashIcon }}
-    >
+    <ComponentBox scope={{ Iterate, Field, Value, Form, TrashIcon }}>
       <Form.Handler
         data={{
           avengers: [

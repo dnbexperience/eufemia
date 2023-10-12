@@ -3,4 +3,4 @@
  *
  */
 
-import './dnb-layout.scss'
+import './dnb-grid.scss'
