@@ -1,0 +1,97 @@
+---
+showTabs: true
+---
+
+import * as Examples from './Examples'
+
+## Description
+
+To make it easier to build application layout and [form](/uilib/extensions/forms)-views in line with defined design sketches, there are a number of components for layout.
+
+- **[Spacing](/uilib/layout/spacing)** table and information.
+
+- **[Media Queries](/uilib/layout/media-queries)** table and information.
+
+- **[Flex](/uilib/layout/flex)** is a building block for CSS flexbox based layout of contents, components and [forms](/uilib/extensions/forms).
+
+- **[Grid](/uilib/layout/grid)** is a layout system for CSS grid based layout of contents.
+
+- **[Space](/uilib/layout/space)** is a component that provides `margins` within the [provided spacing patterns](/uilib/usage/layout/spacing#spacing-helpers).
+
+## Deprecated layout components
+
+- **[FormSet](/uilib/layout/form-set)** is deprecated. Use [Flex](/uilib/layout/flex), the [Forms](/uilib/extensions/forms) extension and the Eufemia [Provider](/uilib/usage/customisation/provider-info) as an replacement.
+
+- **[FormRow](/uilib/layout/form-row)** is deprecated. Use [Flex](/uilib/layout/flex) and the [Forms](/uilib/extensions/forms) extension as an replacement.
+
+## Units and responsiveness
+
+Please – use `rem` instead of `px` for all of your custom CSS, and make sure;
+
+- you always use the nearest half `rem` value, like _0.5rem_, _1rem_ or _1.5rem_ and so forth.
+- you always get a **total computed height** within the grid.
+
+This results in maintaining the integrity of the **8px** base grid.
+
+### Exceptions
+
+There are exceptions for when you define a "minimum" of an area, such as `min-width`. Because it will increase in size when a larger browser font-size is used. In that case, user `px` as your sizing unit.
+
+### Smaller Units
+
+Sometimes you may need a compensation of only a few pixels. Heres how to calculate the correct _rem_ values:
+
+- 1px = `1/16x1` = **0.0625rem**
+- 2px = `1/16x2` = **0.125rem**
+- And so on ...
+
+## Columns
+
+UX designers are using a 12 column system, along with a 4 and 6 column system, during their design processes.
+
+### What are the differences between Flex and Grid?
+
+Both to support different sizing of items on different media breakpoints.
+
+**Flex**
+
+Uses CSS `flexbox`.
+
+- Best suited for Forms layout.
+- Can either stack vertically or horizontally.
+- Can be used with any kind of children.
+- Even distribution of space.
+- Keeps order of items like they where given in the DOM structure.
+- Items can be sized in percentage.
+- When a size (percentage) is given, they stack horizontally.
+
+```jsx
+import { Flex } from '@dnb/eufemia'
+render(
+  <Flex.Container>
+    <Flex.Item>content</Flex.Item>
+    <OtherComponent>content</OtherComponent>
+  </Flex.Container>,
+)
+```
+
+**Grid**
+
+Uses CSS `grid`.
+
+- Best suited for applications with a column based layout.
+- Columns do change between 4, 6 and 12 on the given size (media query) of the browser or screen size.
+- The Grid.Container depends on Grid.Item.
+- Items do span from column "a" to "b".
+- Items can have different order in opposition from what's given in the DOM structure.
+
+```jsx
+import { Grid } from '@dnb/eufemia'
+
+render(
+  <Grid.Container>
+    <Grid.Item>content</Grid.Item>
+    <Grid.Item>content</Grid.Item>
+  </Grid.Container>,
+)
+```

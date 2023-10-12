@@ -17,7 +17,7 @@ import {
   FormRow,
   Div,
 } from '@dnb/eufemia/src'
-import { AllComponents } from '../form-row/Examples'
+import { AllComponents } from '../../layout/form-row/Examples'
 import Provider from '@dnb/eufemia/src/shared/Provider'
 import { Article } from '@dnb/eufemia/src/components/skeleton/figures'
 import {

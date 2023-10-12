@@ -11,7 +11,7 @@ describe('Grid.Container', () => {
 
   it('have to match responsive size on large viewport', async () => {
     const screenshot = await makeScreenshot({
-      url: '/uilib/components/grid/container/demos',
+      url: '/uilib/layout/grid/container/demos',
       pageViewport: {
         width: 1000,
       },
@@ -25,7 +25,7 @@ describe('Grid.Container', () => {
 
   it('have to match responsive size on medium viewport', async () => {
     const screenshot = await makeScreenshot({
-      url: '/uilib/components/grid/container/demos',
+      url: '/uilib/layout/grid/container/demos',
       pageViewport: {
         width: 800,
       },
@@ -36,7 +36,7 @@ describe('Grid.Container', () => {
 
   it('have to match responsive size on small viewport', async () => {
     const screenshot = await makeScreenshot({
-      url: '/uilib/components/grid/container/demos',
+      url: '/uilib/layout/grid/container/demos',
       pageViewport: {
         width: 600,
       },

@@ -1,0 +1,67 @@
+---
+showTabs: true
+---
+
+import FormRowVisibleWhenVisualTests, {
+  FormRowVerticalAlignedLabels,
+  FormRowSectionStyle,
+  FormRowCombineVerticalAndHorizontal,
+  FormRowDefault,
+  FormRowVertical,
+  FormRowVerticalDirection,
+  FormRowNoWrap,
+  FormRowWrap,
+  FormRowLegendUsage,
+  FormRowInheritContext,
+  FormRowDifferentDirections,
+} from 'Docs/uilib/layout/form-row/Examples'
+
+## Demos
+
+### Basic FormRow
+
+<FormRowDefault />
+
+### Vertical FormRow
+
+<FormRowVertical />
+
+### Vertical aligned labels
+
+Only the labels are vertically aligned - while the input labels are still horizontal.
+
+<FormRowVerticalAlignedLabels />
+
+### Combine both vertical and horizontal FormRow's
+
+<FormRowCombineVerticalAndHorizontal />
+
+### Several components inside a horizontal FormRow - not wrapping
+
+<FormRowNoWrap />
+
+### Several components inside a wrapping (`wrap`) horizontal FormRow
+
+<FormRowWrap />
+
+### Legend usage
+
+<FormRowLegendUsage />
+
+### Inherit context
+
+<FormRowInheritContext />
+
+### Combining different components and directions
+
+<FormRowDifferentDirections />
+
+### Section style
+
+The `label` property can be used to set a row label as well as the `section_style` is supported
+
+<FormRowSectionStyle />
+
+<VisibleWhenVisualTest>
+  <FormRowVisibleWhenVisualTests />
+</VisibleWhenVisualTest>
