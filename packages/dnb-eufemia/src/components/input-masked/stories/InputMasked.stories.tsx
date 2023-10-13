@@ -196,7 +196,23 @@ function ShowMask() {
   )
 }
 
-export function SteppedMaskTest() {
+export function SteppedMaskPlayground() {
+  return (
+    <>
+      <Box>
+        <SteppedMaskDate />
+      </Box>
+      <Box>
+        <SteppedMaskMix />
+      </Box>
+      <Box>
+        <SteppedMaskStuses />
+      </Box>
+    </>
+  )
+}
+
+function SteppedMaskDate() {
   const [values, setValues] = useState<
     SteppedMaskValue<'day' | 'month' | 'year'>
   >({
@@ -205,12 +221,11 @@ export function SteppedMaskTest() {
     year: '',
   })
 
-  console.log('stories', values)
-
   return (
     <InputMasked.Stepped
       label="Datogreier"
       onChange={({ day, month, year }) => setValues({ day, month, year })}
+      values={values}
       delimiter="/"
       steps={[
         {
@@ -233,5 +248,78 @@ export function SteppedMaskTest() {
         },
       ]}
     />
+  )
+}
+
+function SteppedMaskMix() {
+  const [values, setValues] = useState<
+    SteppedMaskValue<'numbers' | 'letters' | 'mix'>
+  >({
+    letters: '',
+    numbers: '',
+    mix: '',
+  })
+
+  return (
+    <InputMasked.Stepped
+      label="Mix"
+      onChange={({ letters, numbers, mix }) =>
+        setValues({ letters, numbers, mix })
+      }
+      delimiter="/"
+      values={values}
+      steps={[
+        {
+          id: 'numbers',
+          label: 'just numbers',
+          placeholderCharacter: 'n',
+          mask: [/[0-9]/, /[0-9]/],
+        },
+        {
+          id: 'letters',
+          label: 'just letters',
+          placeholderCharacter: 'l',
+          mask: [/[a-zA-Z]/, /[a-zA-Z]/],
+        },
+        {
+          id: 'mix',
+          label: 'numbers and letters',
+          placeholderCharacter: 'm',
+          mask: [/[0-9]/, /[0-9]/, /[a-zA-Z]/, /[a-zA-Z]/],
+        },
+      ]}
+    />
+  )
+}
+
+function SteppedMaskStuses() {
+  return (
+    <>
+      <InputMasked.Stepped
+        label="Statuses"
+        status="error"
+        statusState="error"
+        steps={[
+          {
+            id: 'error',
+            label: 'error',
+            placeholderCharacter: 'e',
+            mask: [/[0-9]/, /[0-9]/],
+          },
+        ]}
+      />
+      <InputMasked.Stepped
+        label="Statuses"
+        disabled
+        steps={[
+          {
+            id: 'disabled',
+            label: 'disabled',
+            placeholderCharacter: 'd',
+            mask: [/[0-9]/, /[0-9]/],
+          },
+        ]}
+      />
+    </>
   )
 }
