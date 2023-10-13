@@ -256,61 +256,90 @@ describe('SteppedInput', () => {
     expect(third?._valueTracker.getValue()).toBe('yyyy')
   })
 
-  // it('inputs should only allow values defined by mask', async () => {
-  //   const steps = [
-  //     {
-  //       id: 'numbers',
-  //       label: 'just numbers',
-  //       placeholderCharacter: 'n',
-  //       mask: [/[0-9]/, /[0-9]/],
-  //     },
-  //     {
-  //       id: 'letters',
-  //       label: 'just letters',
-  //       placeholderCharacter: 'l',
-  //       mask: [/[a-zA-Z]/, /[a-zA-Z]/],
-  //     },
-  //     {
-  //       id: 'mix',
-  //       label: 'numbers and letters',
-  //       placeholderCharacter: 'm',
-  //       mask: [/[0-9]/, /[0-9]/, /[a-zA-Z]/, /[a-zA-Z]/],
-  //     },
-  //   ]
+  it('inputs should only allow values defined by mask', async () => {
+    const steps = [
+      {
+        id: 'numbers',
+        label: 'just numbers',
+        placeholderCharacter: 'n',
+        mask: [/[0-9]/, /[0-9]/],
+      },
+      {
+        id: 'letters',
+        label: 'just letters',
+        placeholderCharacter: 'l',
+        mask: [/[a-zA-Z]/, /[a-zA-Z]/],
+      },
+      {
+        id: 'mix',
+        label: 'numbers and letters',
+        placeholderCharacter: 'm',
+        mask: [/[0-9]/, /[0-9]/, /[a-zA-Z]/, /[a-zA-Z]/],
+      },
+    ]
 
-  //   render(<SteppedMask steps={steps} />)
+    render(<SteppedMask steps={steps} />)
 
-  //   const [first, second, third] = Array.from(
-  //     document.querySelectorAll('.dnb-stepped-mask__input')
-  //   ) as HTMLInputElement[]
+    const [first, second, third] = Array.from(
+      document.querySelectorAll('.dnb-stepped-mask__input')
+    ) as HTMLInputElement[]
 
-  //   act(() => {
-  //     first.focus()
-  //     first.setSelectionRange(0, 0)
-  //   })
+    act(() => {
+      first.focus()
+      first.setSelectionRange(0, 0)
+    })
 
-  //   expect(first.selectionStart).toBe(0)
-  //   expect(first.selectionEnd).toBe(0)
-  //   expect(document.activeElement).toBe(first)
+    expect(first.selectionStart).toBe(0)
+    expect(first.selectionEnd).toBe(0)
+    expect(document.activeElement).toBe(first)
 
-  //   await userEvent.keyboard('1a')
+    await userEvent.keyboard('1a')
 
-  //   expect(first.selectionStart).toBe(1)
-  //   expect(first.selectionEnd).toBe(1)
-  //   expect(document.activeElement).toBe(first)
+    expect(first.selectionStart).toBe(1)
+    expect(first.selectionEnd).toBe(1)
+    expect(document.activeElement).toBe(first)
 
-  //   await userEvent.keyboard('bc')
+    await userEvent.keyboard('bc')
 
-  //   expect(first.selectionStart).toBe(1)
-  //   expect(first.selectionEnd).toBe(1)
-  //   expect(document.activeElement).toBe(first)
+    expect(first.selectionStart).toBe(1)
+    expect(first.selectionEnd).toBe(1)
+    expect(document.activeElement).toBe(first)
 
-  //   await userEvent.keyboard('2a')
+    await userEvent.keyboard('2a')
 
-  //   expect(second.selectionStart).toBe(1)
-  //   expect(second.selectionEnd).toBe(1)
-  //   expect(document.activeElement).toBe(second)
-  // })
+    expect(second.selectionStart).toBe(1)
+    expect(second.selectionEnd).toBe(1)
+    expect(document.activeElement).toBe(second)
+
+    await userEvent.keyboard('bc')
+
+    expect(third.selectionStart).toBe(0)
+    expect(third.selectionEnd).toBe(0)
+    expect(document.activeElement).toBe(third)
+
+    await userEvent.keyboard('123')
+
+    expect(third.selectionStart).toBe(2)
+    expect(third.selectionEnd).toBe(2)
+    expect(document.activeElement).toBe(third)
+
+    await userEvent.keyboard('ab')
+
+    expect(third.selectionStart).toBe(4)
+    expect(third.selectionEnd).toBe(4)
+    expect(document.activeElement).toBe(third)
+    await userEvent.keyboard(
+      '{Backspace}{Backspace}{Backspace}{Backspace}{Backspace}{Backspace}{Backspace}{Backspace}'
+    )
+
+    expect(document.activeElement).toBe(first)
+
+    await userEvent.keyboard('12ab34cd')
+
+    expect(third.selectionStart).toBe(4)
+    expect(third.selectionEnd).toBe(4)
+    expect(document.activeElement).toBe(third)
+  })
 
   it('inputs size should match mask length', () => {
     const steps: SteppedMaskInput<string>[] = [

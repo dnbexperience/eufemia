@@ -2,7 +2,7 @@ import { MutableRefObject, useEffect, useRef } from 'react'
 
 function useHandleCursorPosition(
   inputRefs: MutableRefObject<HTMLInputElement>[],
-  keysToHandle?: RegExp
+  keysToHandle?: RegExp | { [inputId: string]: RegExp[] }
 ) {
   const inputList = useRef(refsToInputList(inputRefs))
 
@@ -18,7 +18,7 @@ function useHandleCursorPosition(
     const pressedKey = event.key
 
     const hasPressedKeysToHandle =
-      keysToHandle?.test(pressedKey) ||
+      getKeysToHandle({ keysToHandle, input })?.test(pressedKey) ||
       /(ArrowRight|ArrowLeft|Backspace)/.test(pressedKey)
 
     const initialSelectionStart = input.selectionStart
@@ -59,6 +59,36 @@ function useHandleCursorPosition(
 // Helpers
 function refsToInputList(inputRefs: MutableRefObject<HTMLInputElement>[]) {
   return inputRefs.map((ref) => ref.current).filter(Boolean)
+}
+
+type GetKeysToHandleParams = {
+  keysToHandle: RegExp | { [inputId: string]: RegExp[] }
+  input: HTMLInputElement
+}
+
+function getKeysToHandle({ keysToHandle, input }: GetKeysToHandleParams) {
+  if (!keysToHandle) {
+    return undefined
+  }
+
+  if (keysToHandle instanceof RegExp) {
+    return keysToHandle
+  }
+
+  const masks = keysToHandle[input.id]
+
+  const selection =
+    input.selectionStart === input.selectionEnd
+      ? input.selectionStart
+      : undefined
+
+  if (!selection) {
+    return undefined
+  }
+
+  const maskIndex = selection === input.size ? masks.length - 1 : selection
+
+  return masks[maskIndex]
 }
 
 function getInputPosition(

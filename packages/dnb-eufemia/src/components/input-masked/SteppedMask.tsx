@@ -83,12 +83,12 @@ function SteppedMask<T extends string>({
   )
 
   const inputRefs = useRef<MutableRefObject<HTMLInputElement>[]>([])
-  const masks = new RegExp(`(${getUniqueMasks().join('|')})`)
+
   const WrapperElement = label ? 'fieldset' : 'div'
 
   const { handleKeydown } = useHandleCursorPosition(
     inputRefs.current,
-    masks
+    getKeysToHandle()
   )
 
   const { className, ...restOfProps } = props
@@ -221,21 +221,35 @@ function SteppedMask<T extends string>({
     return value.replace(RegExp(placeholder, 'gm'), '')
   }
 
-  function getUniqueMasks() {
-    return (
-      steps
-        // Merge and flatten mask arrays from steps
-        .reduce((masks, { mask }) => {
-          // Convert to string to be able to filter out unique patterns later
-          const patterns = mask.map((pattern) =>
-            String(pattern).replace(/\//gm, '')
-          )
+  function getKeysToHandle() {
+    const uniqueMasks = getUniqueMasks()
 
-          return [...masks, ...patterns]
-        }, [] as string[])
-        // Filter out unique patterns
-        .filter((pattern, index, arr) => arr.indexOf(pattern) === index)
+    // Return the only one RegExp since all the inputs are using the same mask
+    if (uniqueMasks.size === 1) {
+      const pattern = uniqueMasks.values().next().value.replace(/\//g, '')
+      return new RegExp(pattern)
+    }
+
+    // If there are multiple types of masks used, then map the maps to an object based on input ids
+    // So that useHandleCursorPosition can do a per character test to see if the pressed key should be handeled or not
+    return steps.reduce(
+      (keys, { id, mask }) => {
+        keys[`${id}__input`] = mask
+
+        return keys
+      },
+      {} as Record<`${T}__input`, RegExp[]>
     )
+  }
+
+  function getUniqueMasks() {
+    const masks = new Set()
+
+    steps.forEach((step) => {
+      step.mask.forEach((pattern) => masks.add(String(pattern)))
+    })
+
+    return masks
   }
 }
 
