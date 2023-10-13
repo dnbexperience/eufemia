@@ -1,6 +1,6 @@
 @import '../../../style/core/utilities.scss';
 
-.dnb-layout-grid-container {
+.dnb-grid-container {
   display: grid;
   grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
   grid-auto-flow: dense;

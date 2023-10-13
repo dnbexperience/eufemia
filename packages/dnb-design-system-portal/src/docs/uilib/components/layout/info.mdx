@@ -6,13 +6,7 @@ showTabs: true
 
 To make it easier to build application layout and [form](/uilib/extensions/forms)-views in line with defined design sketches, there are a number of components for layout.
 
-### Wrappers
-
-- **[Card](/uilib/components/card)** is a block section element showing the white box with rounded gray borders, adding spacing automatically.
-
-- **[Stack](/uilib/components/flex/stack)** is an outer block element for wrapping content to get the correct layout and spacing between region and region headings.
-
-### Flex layout
+## Flex layout
 
 - **[Flex.Container](/uilib/components/flex/container)** is a building block for CSS flexbox based layout of contents and components.
 
@@ -21,11 +15,13 @@ To make it easier to build application layout and [form](/uilib/extensions/forms
 
 - **[Flex.Item](/uilib/components/flex/item)** is a building block for CSS flexbox based layout of contents and components.
 
-### Grid layout
+- **[Stack](/uilib/components/flex/stack)** is an outer block element for wrapping content to get the correct layout and spacing between region and region headings.
 
-- **[GridContainer](/uilib/components/layout/GridContainer)** is a layout system for CSS grid based layout of contents.
+## Grid layout
 
-- **[GridItem](/uilib/components/layout/GridItem)** is a layout system for CSS grid based layout of contents.
+- **[Grid.Container](/uilib/components/grid/container)** is a layout system for CSS grid based layout of contents.
+
+- **[Grid.Item](/uilib/components/grid/item)** is a layout system for CSS grid based layout of contents.
 
 ## Columns
 
@@ -68,12 +64,13 @@ Uses CSS `grid`.
 - Items can have different order in opposition from what's given in the DOM structure.
 
 ```jsx
-import { Layout } from '@dnb/eufemia'
+import { Grid } from '@dnb/eufemia'
+
 render(
-  <Layout.GridContainer>
-    <Layout.GridItem>content</Layout.GridItem>
-    <Layout.GridItem>content</Layout.GridItem>
-  </Layout.GridContainer>,
+  <Grid.Container>
+    <Grid.Item>content</Grid.Item>
+    <Grid.Item>content</Grid.Item>
+  </Grid.Container>,
 )
 ```
 

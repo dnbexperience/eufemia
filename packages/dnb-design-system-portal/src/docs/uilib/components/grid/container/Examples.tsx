@@ -1,9 +1,7 @@
 import { TestElement } from '@dnb/eufemia/src/extensions/forms'
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
-import { Layout } from '@dnb/eufemia/src'
+import { Grid } from '@dnb/eufemia/src'
 
-const Grid = Layout.Grid
-const Item = Layout.Grid.Item
 const colors = [
   { background: '#babeee' } as React.CSSProperties,
   { background: '#dfe0ee' } as React.CSSProperties,
@@ -14,11 +12,11 @@ const colors = [
 export const ResponsiveUsage = () => {
   return (
     <ComponentBox
-      scope={{ Grid, Item, TestElement, colors }}
-      data-visual-test="layout-grid-container-responsive"
+      scope={{ TestElement, colors }}
+      data-visual-test="grid-container-responsive"
     >
-      <Grid rowGap columnGap>
-        <Item
+      <Grid.Container rowGap columnGap>
+        <Grid.Item
           span={{
             small: [1, 2],
             medium: [1, 3],
@@ -28,9 +26,9 @@ export const ResponsiveUsage = () => {
           element={TestElement}
         >
           Item A
-        </Item>
+        </Grid.Item>
 
-        <Item
+        <Grid.Item
           span={{
             small: [3, 4],
             medium: [4, 6],
@@ -40,9 +38,9 @@ export const ResponsiveUsage = () => {
           element={TestElement}
         >
           Item B
-        </Item>
+        </Grid.Item>
 
-        <Item
+        <Grid.Item
           span={{
             small: [2, 3],
             medium: [4, 6],
@@ -52,9 +50,9 @@ export const ResponsiveUsage = () => {
           element={TestElement}
         >
           Item C
-        </Item>
+        </Grid.Item>
 
-        <Item
+        <Grid.Item
           span={{
             small: [1, 4],
             medium: [4, 6],
@@ -64,22 +62,22 @@ export const ResponsiveUsage = () => {
           element={TestElement}
         >
           Item D
-        </Item>
-      </Grid>
+        </Grid.Item>
+      </Grid.Container>
     </ComponentBox>
   )
 }
 
 export const CustomColumns = () => {
   return (
-    <ComponentBox scope={{ Grid, Item, TestElement, colors }}>
-      <Grid
+    <ComponentBox scope={{ Grid, TestElement, colors }}>
+      <Grid.Container
         columns={{ small: 4, medium: false }}
         // columns={12} // only 12
         rowGap
         columnGap
       >
-        <Item
+        <Grid.Item
           span={{
             small: 'full',
             large: [1, 12],
@@ -88,9 +86,9 @@ export const CustomColumns = () => {
           element={TestElement}
         >
           Item A
-        </Item>
+        </Grid.Item>
 
-        <Item
+        <Grid.Item
           span={{
             small: [1, 'end'],
             large: [1, 6],
@@ -99,9 +97,9 @@ export const CustomColumns = () => {
           element={TestElement}
         >
           Item B
-        </Item>
+        </Grid.Item>
 
-        <Item
+        <Grid.Item
           span={{
             small: [1, 2],
             large: [7, 'end'],
@@ -110,9 +108,9 @@ export const CustomColumns = () => {
           element={TestElement}
         >
           Item C
-        </Item>
+        </Grid.Item>
 
-        <Item
+        <Grid.Item
           span={{
             small: [3, 4],
             large: 'full',
@@ -121,8 +119,8 @@ export const CustomColumns = () => {
           element={TestElement}
         >
           Item D
-        </Item>
-      </Grid>
+        </Grid.Item>
+      </Grid.Container>
     </ComponentBox>
   )
 }

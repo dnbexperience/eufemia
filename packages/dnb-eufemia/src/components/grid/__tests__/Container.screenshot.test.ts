@@ -5,13 +5,13 @@
 
 import { makeScreenshot } from '../../../core/jest/jestSetupScreenshots'
 
-describe('Layout.GridContainer', () => {
+describe('Grid.Container', () => {
   const selector =
-    '[data-visual-test="layout-grid-container-responsive"] .dnb-layout-grid-container'
+    '[data-visual-test="grid-container-responsive"] .dnb-grid-container'
 
   it('have to match responsive size on large viewport', async () => {
     const screenshot = await makeScreenshot({
-      url: '/uilib/components/layout/GridContainer/demos',
+      url: '/uilib/components/grid/container/demos',
       pageViewport: {
         width: 1000,
       },
@@ -25,7 +25,7 @@ describe('Layout.GridContainer', () => {
 
   it('have to match responsive size on medium viewport', async () => {
     const screenshot = await makeScreenshot({
-      url: '/uilib/components/layout/GridContainer/demos',
+      url: '/uilib/components/grid/container/demos',
       pageViewport: {
         width: 800,
       },
@@ -36,7 +36,7 @@ describe('Layout.GridContainer', () => {
 
   it('have to match responsive size on small viewport', async () => {
     const screenshot = await makeScreenshot({
-      url: '/uilib/components/layout/GridContainer/demos',
+      url: '/uilib/components/grid/container/demos',
       pageViewport: {
         width: 600,
       },

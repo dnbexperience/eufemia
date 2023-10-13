@@ -30,6 +30,7 @@ import FormSet from './form-set/FormSet'
 import FormStatus from './form-status/FormStatus'
 import GlobalError from './global-error/GlobalError'
 import GlobalStatus from './global-status/GlobalStatus'
+import Grid from './grid/Grid'
 import Heading from './heading/Heading'
 import HeightAnimation from './height-animation/HeightAnimation'
 import HelpButton from './help-button/HelpButton'
@@ -38,7 +39,6 @@ import IconPrimary from './icon-primary/IconPrimary'
 import InfoCard from './info-card/InfoCard'
 import Input from './input/Input'
 import InputMasked from './input-masked/InputMasked'
-import Layout from './layout/Layout'
 import Logo from './logo/Logo'
 import Modal from './modal/Modal'
 import NumberFormat from './number-format/NumberFormat'
@@ -84,6 +84,7 @@ export {
   FormStatus,
   GlobalError,
   GlobalStatus,
+  Grid,
   Heading,
   HeightAnimation,
   HelpButton,
@@ -92,7 +93,6 @@ export {
   InfoCard,
   Input,
   InputMasked,
-  Layout,
   Logo,
   Modal,
   NumberFormat,
@@ -139,6 +139,7 @@ export const getComponents = () => {
     FormStatus,
     GlobalError,
     GlobalStatus,
+    Grid,
     Heading,
     HeightAnimation,
     HelpButton,
@@ -147,7 +148,6 @@ export const getComponents = () => {
     InfoCard,
     Input,
     InputMasked,
-    Layout,
     Logo,
     Modal,
     NumberFormat,

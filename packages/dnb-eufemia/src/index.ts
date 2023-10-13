@@ -57,6 +57,7 @@ import FormSet from './components/form-set/FormSet'
 import FormStatus from './components/form-status/FormStatus'
 import GlobalError from './components/global-error/GlobalError'
 import GlobalStatus from './components/global-status/GlobalStatus'
+import Grid from './components/grid/Grid'
 import Heading from './components/heading/Heading'
 import HeightAnimation from './components/height-animation/HeightAnimation'
 import HelpButton from './components/help-button/HelpButton'
@@ -65,7 +66,6 @@ import IconPrimary from './components/icon-primary/IconPrimary'
 import InfoCard from './components/info-card/InfoCard'
 import Input from './components/input/Input'
 import InputMasked from './components/input-masked/InputMasked'
-import Layout from './components/layout/Layout'
 import Logo from './components/logo/Logo'
 import Modal from './components/modal/Modal'
 import NumberFormat from './components/number-format/NumberFormat'
@@ -138,6 +138,7 @@ export {
   FormStatus,
   GlobalError,
   GlobalStatus,
+  Grid,
   Heading,
   HeightAnimation,
   HelpButton,
@@ -146,7 +147,6 @@ export {
   InfoCard,
   Input,
   InputMasked,
-  Layout,
   Logo,
   Modal,
   NumberFormat,
