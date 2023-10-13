@@ -4,7 +4,7 @@ import {
   Field,
   TestElement,
 } from '@dnb/eufemia/src/extensions/forms'
-import { Flex } from '@dnb/eufemia/src'
+import { Flex, Slider } from '@dnb/eufemia/src'
 
 export const Default = () => {
   return (
@@ -140,6 +140,52 @@ export const GroupMultipleFields = () => {
           <Field.String width="small" minLength={3} />
           <Field.Number minimum={10} />
         </Flex.Horizontal>
+      </FieldBlock>
+    </ComponentBox>
+  )
+}
+
+export const HorizontalAutoSize = () => {
+  return (
+    <ComponentBox
+      scope={{
+        Field,
+        FieldBlock,
+      }}
+    >
+      <FieldBlock label="Label">
+        <Flex.Container>
+          <Flex.Item size={{ small: 12, large: 'auto' }}>
+            <Field.String
+              path="/firstName"
+              label="First name"
+              width="medium"
+              minLength={2}
+            />
+          </Flex.Item>
+          <Flex.Item size={{ small: 12, large: 'auto' }}>
+            <Field.String
+              path="/lastName"
+              label="Last name"
+              width="medium"
+              required
+            />
+          </Flex.Item>
+          <Flex.Item size={{ small: 12, large: 'auto' }}>
+            <FieldBlock width="large">
+              <Slider
+                min={1900}
+                max={new Date().getFullYear()}
+                step={1}
+                value={2010}
+                label="Birth year"
+                label_direction="vertical"
+                tooltip
+                alwaysShowTooltip
+              />
+            </FieldBlock>
+          </Flex.Item>
+        </Flex.Container>
       </FieldBlock>
     </ComponentBox>
   )

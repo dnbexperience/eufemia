@@ -16,7 +16,7 @@ export default function ListComponents() {
           }
           internal: {
             contentFilePath: {
-              regex: "/(?!uilib/components/fragments|uilib/components/layout/.*)(uilib/components/.*)/"
+              regex: "/(?!uilib/components/fragments)(uilib/components/.*)/"
             }
           }
         }

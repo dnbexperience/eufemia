@@ -9,7 +9,7 @@ import {
 } from '../../../core/jest/jestSetupScreenshots'
 
 describe('FormSet', () => {
-  setupPageScreenshot({ url: '/uilib/components/form-set/demos' })
+  setupPageScreenshot({ url: '/uilib/layout/form-set/demos' })
 
   it('have to match default form-set', async () => {
     const screenshot = await makeScreenshot({

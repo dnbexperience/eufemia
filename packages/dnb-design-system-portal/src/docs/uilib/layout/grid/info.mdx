@@ -1,0 +1,28 @@
+---
+showTabs: true
+---
+
+## Description
+
+To make it easier to build responsive application layouts in line with defined design sketches, there are a number of components for layout.
+
+- **[Grid.Container](/uilib/layout/grid/container)** is a layout system for CSS grid based layout of contents.
+
+- **[Grid.Item](/uilib/layout/grid/item)** is a layout system for CSS grid based layout of contents.
+
+```jsx
+import { Grid } from '@dnb/eufemia'
+
+render(
+  <Grid.Container>
+    <Grid.Item span={[1, 6]}>Item A</Grid.Item>
+    <Grid.Item span={[7, 12]}>Item B</Grid.Item>
+  </Grid.Container>,
+)
+```
+
+You find more related information in the [Layout](/uilib/layout) pages.
+
+## Columns
+
+UX designers are using a 12 column system, along with a 4 and 6 column system, during their design processes.

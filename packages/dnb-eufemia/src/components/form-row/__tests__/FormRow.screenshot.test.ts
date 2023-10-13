@@ -16,7 +16,7 @@ if (isCI) {
 describe.each(['ui', 'sbanken'])('FormRow for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/form-row/demos',
+    url: '/uilib/layout/form-row/demos',
   })
 
   it('have to match vertical form-row label', async () => {
