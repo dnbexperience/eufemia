@@ -7,7 +7,10 @@ import React from 'react'
 
 import { act, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import SteppedMask, { SteppedMaskProps } from '../SteppedMask'
+import SteppedMask, {
+  SteppedMaskInput,
+  SteppedMaskProps,
+} from '../SteppedMask'
 
 const defaultProps: SteppedMaskProps<'day' | 'month' | 'year'> = {
   steps: [
@@ -26,7 +29,7 @@ const defaultProps: SteppedMaskProps<'day' | 'month' | 'year'> = {
     {
       id: 'year',
       label: 'the year',
-      placeholderCharacter: 'å',
+      placeholderCharacter: 'y',
       mask: [/[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/],
     },
   ],
@@ -131,15 +134,15 @@ describe('SteppedInput', () => {
     ) as HTMLInputElement[]
 
     expect(first.nextElementSibling).toHaveTextContent('the day')
-    expect(first.nextElementSibling.id).toBe('day__label')
+    expect(first.labels[0].id).toBe('day__label')
     expect(first.nextElementSibling.tagName).toBe('LABEL')
 
     expect(second.nextElementSibling).toHaveTextContent('the month')
-    expect(second.nextElementSibling.id).toBe('month__label')
+    expect(second.labels[0].id).toBe('month__label')
     expect(second.nextElementSibling.tagName).toBe('LABEL')
 
     expect(third.nextElementSibling).toHaveTextContent('the year')
-    expect(third.nextElementSibling.id).toBe('year__label')
+    expect(third.labels[0].id).toBe('year__label')
     expect(third.nextElementSibling.tagName).toBe('LABEL')
   })
 
@@ -178,6 +181,236 @@ describe('SteppedInput', () => {
       'month',
       'year',
     ])
+  })
+
+  it('step id, value and onChange param properties should all match', async () => {
+    const onChange = jest.fn()
+
+    const steps: SteppedMaskInput<'first' | 'second' | 'third'>[] = [
+      {
+        id: 'first',
+        label: 'first',
+        mask: [/f/],
+        placeholderCharacter: 'f',
+      },
+      {
+        id: 'second',
+        label: 'second',
+        mask: [/s/],
+        placeholderCharacter: 's',
+      },
+      {
+        id: 'third',
+        label: 'third',
+        mask: [/t/],
+        placeholderCharacter: 't',
+      },
+    ]
+
+    const values = {
+      first: '',
+      second: '',
+      third: '',
+    }
+
+    render(
+      <SteppedMask steps={steps} values={values} onChange={onChange} />
+    )
+
+    const [first] = Array.from(
+      document.querySelectorAll('.dnb-stepped-mask__input')
+    ) as HTMLInputElement[]
+
+    act(() => {
+      first.focus()
+      first.setSelectionRange(0, 0)
+    })
+
+    await userEvent.keyboard('fst')
+
+    expect(onChange).toBeCalledTimes(3)
+
+    const onChangeParamKeys = Object.keys(onChange.mock.calls[2][0])
+    const valueKeys = Object.keys(values)
+
+    expect(onChangeParamKeys[0]).toEqual(valueKeys[0])
+    expect(onChangeParamKeys[0]).toEqual(steps[0].id)
+
+    expect(onChangeParamKeys[1]).toEqual(valueKeys[1])
+    expect(onChangeParamKeys[1]).toEqual(steps[1].id)
+
+    expect(onChangeParamKeys[2]).toEqual(valueKeys[2])
+    expect(onChangeParamKeys[2]).toEqual(steps[2].id)
+  })
+
+  it('should show placeholder character', () => {
+    render(<SteppedMask {...defaultProps} />)
+
+    const [first, second, third] = Array.from(
+      document.querySelectorAll('.dnb-stepped-mask__input')
+      // _valueTracker is whats controlling the placeholder, no idea where this property comes form though, can't find it when searching for it
+    ) as (HTMLInputElement & { _valueTracker: Record<string, any> })[]
+
+    expect(first?._valueTracker.getValue()).toBe('dd')
+    expect(second?._valueTracker.getValue()).toBe('mm')
+    expect(third?._valueTracker.getValue()).toBe('yyyy')
+  })
+
+  // it('inputs should only allow values defined by mask', async () => {
+  //   const steps = [
+  //     {
+  //       id: 'numbers',
+  //       label: 'just numbers',
+  //       placeholderCharacter: 'n',
+  //       mask: [/[0-9]/, /[0-9]/],
+  //     },
+  //     {
+  //       id: 'letters',
+  //       label: 'just letters',
+  //       placeholderCharacter: 'l',
+  //       mask: [/[a-zA-Z]/, /[a-zA-Z]/],
+  //     },
+  //     {
+  //       id: 'mix',
+  //       label: 'numbers and letters',
+  //       placeholderCharacter: 'm',
+  //       mask: [/[0-9]/, /[0-9]/, /[a-zA-Z]/, /[a-zA-Z]/],
+  //     },
+  //   ]
+
+  //   render(<SteppedMask steps={steps} />)
+
+  //   const [first, second, third] = Array.from(
+  //     document.querySelectorAll('.dnb-stepped-mask__input')
+  //   ) as HTMLInputElement[]
+
+  //   act(() => {
+  //     first.focus()
+  //     first.setSelectionRange(0, 0)
+  //   })
+
+  //   expect(first.selectionStart).toBe(0)
+  //   expect(first.selectionEnd).toBe(0)
+  //   expect(document.activeElement).toBe(first)
+
+  //   await userEvent.keyboard('1a')
+
+  //   expect(first.selectionStart).toBe(1)
+  //   expect(first.selectionEnd).toBe(1)
+  //   expect(document.activeElement).toBe(first)
+
+  //   await userEvent.keyboard('bc')
+
+  //   expect(first.selectionStart).toBe(1)
+  //   expect(first.selectionEnd).toBe(1)
+  //   expect(document.activeElement).toBe(first)
+
+  //   await userEvent.keyboard('2a')
+
+  //   expect(second.selectionStart).toBe(1)
+  //   expect(second.selectionEnd).toBe(1)
+  //   expect(document.activeElement).toBe(second)
+  // })
+
+  it('inputs size should match mask length', () => {
+    const steps: SteppedMaskInput<string>[] = [
+      {
+        id: 'short',
+        label: 'long',
+        placeholderCharacter: 's',
+        mask: [/[0-9]/, /[0-9]/],
+      },
+      {
+        id: 'medium',
+        label: 'long',
+        placeholderCharacter: 'm',
+        mask: [/[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/],
+      },
+      {
+        id: 'long',
+        label: 'long',
+        placeholderCharacter: 'l',
+        mask: [/[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/],
+      },
+    ]
+
+    render(<SteppedMask steps={steps} />)
+
+    const [first, second, third] = Array.from(
+      document.querySelectorAll('.dnb-stepped-mask__input')
+    ) as HTMLInputElement[]
+
+    expect(first.size).toBe(2)
+    expect(second.size).toBe(4)
+    expect(third.size).toBe(6)
+  })
+
+  it('should display delimiter when given', () => {
+    const { rerender } = render(
+      <SteppedMask {...defaultProps} delimiter="/" />
+    )
+
+    const [first, second, third] = Array.from(
+      document.querySelectorAll('.dnb-stepped-mask__input')
+    ) as HTMLInputElement[]
+
+    expect(first.labels[0].nextElementSibling).toHaveTextContent('/')
+    expect(second.labels[0].nextElementSibling).toHaveTextContent('/')
+    expect(third.labels[0].nextElementSibling).not.toBeInTheDocument()
+
+    rerender(<SteppedMask {...defaultProps} delimiter="-" />)
+
+    expect(first.labels[0].nextElementSibling).toHaveTextContent('-')
+    expect(second.labels[0].nextElementSibling).toHaveTextContent('-')
+    expect(third.labels[0].nextElementSibling).not.toBeInTheDocument()
+
+    rerender(<SteppedMask {...defaultProps} delimiter="." />)
+
+    expect(first.labels[0].nextElementSibling).toHaveTextContent('.')
+    expect(second.labels[0].nextElementSibling).toHaveTextContent('.')
+    expect(third.labels[0].nextElementSibling).not.toBeInTheDocument()
+
+    rerender(<SteppedMask {...defaultProps} />)
+
+    expect(first.labels[0].nextElementSibling).toBe(second)
+    expect(second.labels[0].nextElementSibling).toBe(third)
+    expect(third.labels[0].nextElementSibling).not.toBeInTheDocument()
+  })
+
+  it('should show error state', () => {
+    render(
+      <SteppedMask {...defaultProps} status="error" statusState="error" />
+    )
+
+    const errorInput = document.querySelector('.dnb-input__status--error')
+
+    expect(errorInput).toBeInTheDocument()
+  })
+
+  it('should be disabled based on prop', () => {
+    render(<SteppedMask {...defaultProps} label="disabled" disabled />)
+
+    const inputWrapper = document.querySelector('.dnb-stepped-mask')
+    const label = document.querySelector('.dnb-stepped-mask__legend')
+
+    const [first, second, third] = Array.from(
+      document.querySelectorAll('.dnb-stepped-mask__input')
+    ) as HTMLInputElement[]
+
+    expect(inputWrapper.getAttribute('data-input-state')).toBe('disabled')
+    expect(label.getAttribute('aria-disabled')).toBe('true')
+
+    expect(first.disabled).toBe(true)
+    expect(second.disabled).toBe(true)
+    expect(third.disabled).toBe(true)
+  })
+
+  it('should support spacing props', () => {
+    render(<SteppedMask {...defaultProps} top="2rem" />)
+
+    const fieldset = document.querySelector('.dnb-stepped-mask__fieldset')
+
+    expect(fieldset.classList).toContain('dnb-space__top--large')
   })
 
   it('should change caret position when one input is filled out', async () => {
