@@ -98,7 +98,13 @@
     }
   }
 
-  &[target='_blank']:not(:empty, .dnb-anchor--no-icon) {
+  &[target='_blank']:not(
+      :empty,
+      .dnb-anchor--no-icon,
+      [href^='mailto:'],
+      [href^='tel:'],
+      [href^='sms:']
+    ) {
     padding-right: 0.25em;
     &::after {
       position: initial;
