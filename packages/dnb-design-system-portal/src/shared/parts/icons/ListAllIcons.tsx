@@ -3,7 +3,6 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Icon } from '@dnb/eufemia/src/components'
 import { P } from '@dnb/eufemia/src'
 import * as PrimaryIcons from '@dnb/eufemia/src/icons/dnb/primary_icons'
@@ -57,16 +56,14 @@ const grabCategory = (name) => {
   return String(name).split(/\//)[0]
 }
 
-export default class ListAllIcons extends React.PureComponent {
+type Props = {
+  groupBy: string
+  variant: string
+}
+
+export default class ListAllIcons extends React.PureComponent<Props> {
   state = { iconsToRender: [] }
-  static propTypes = {
-    groupBy: PropTypes.string,
-    variant: PropTypes.string,
-  }
-  static defaultProps = {
-    groupBy: null,
-    variant: null,
-  }
+
   constructor(props) {
     super(props)
 
