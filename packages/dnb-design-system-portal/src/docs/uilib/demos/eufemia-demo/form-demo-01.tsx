@@ -15,7 +15,7 @@ import React from 'react'
 import styled from '@emotion/styled'
 
 // App layout wrapper
-import Layout from '../layout/Layout'
+import Layout from '../layout/DemoLayout'
 
 // Get Eufemia in
 import { P } from '@dnb/eufemia/src'
@@ -304,11 +304,14 @@ const Ingress = (props) => (
 )
 
 // Attachment area
-const Attachment = styled(P)`
-  .dnb-button {
-    margin-left: 1rem;
-  }
-`
+const Attachment = (props) => {
+  const Component = styled(P)`
+    .dnb-button {
+      margin-left: 1rem;
+    }
+  `
+  return <Component {...props} />
+}
 Attachment.FileRow = styled.span`
   margin-right: 0.75rem;
   .dnb-icon {
@@ -355,7 +358,7 @@ const defaultErrors = {
 }
 
 // Form Logic and Event handling
-const FormContext = React.createContext({})
+const FormContext = React.createContext(null)
 const FormLogic = (props) => {
   const [currentValues, updateValues] = React.useState(defaultValues)
   const [currentErrors, updateErrors] = React.useState({})
