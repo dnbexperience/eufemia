@@ -40,6 +40,8 @@ jobs:
 
     runs-on: macos-latest
 
+    timeout-minutes: 40
+
     steps:
       - name: Git checkout
         uses: actions/checkout@v4
@@ -71,9 +73,9 @@ jobs:
             ~/.cache/ms-playwright
             %USERPROFILE%\AppData\Local\ms-playwright
           key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-${{ hashFiles('**/yarn.lock') }}
-      - run: yarn dlx playwright install --with-deps firefox
+      - run: yarn workspace @dnb/eufemia playwright install --with-deps firefox
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-      - run: yarn dlx playwright install-deps firefox
+      - run: yarn workspace @dnb/eufemia playwright install-deps firefox
         if: steps.playwright-cache.outputs.cache-hit == 'true'
 
       - name: Prebuild Library
@@ -116,6 +118,12 @@ jobs:
         if: failure()
         run: echo '\n\n👉 Download the diff files as a ZIP file. \nIt is called "visual-test-artifact" and you find it in the test "Summary" under "Artifacts".\n\n\n'
 
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: portal-artifact
+          path: ./packages/dnb-design-system-portal/public
+
       - name: Slack
         uses: 8398a7/action-slack@v3
         with:
@@ -133,6 +141,8 @@ jobs:
     name: Run portal e2e-tests
 
     runs-on: ubuntu-latest
+
+    timeout-minutes: 40
 
     steps:
       - uses: actions/checkout@v4
@@ -162,9 +172,9 @@ jobs:
             ~/.cache/ms-playwright
             %USERPROFILE%\AppData\Local\ms-playwright
           key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-${{ hashFiles('**/yarn.lock') }}
-      - run: yarn dlx playwright install --with-deps firefox
+      - run: yarn workspace dnb-design-system-portal playwright install --with-deps firefox
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-      - run: yarn dlx playwright install-deps firefox
+      - run: yarn workspace dnb-design-system-portal playwright install-deps firefox
         if: steps.playwright-cache.outputs.cache-hit == 'true'
 
       - name: Prebuild Library
@@ -201,7 +211,9 @@ jobs:
         if: failure()
         with:
           name: playwright-develop-artifact
-          path: ./packages/dnb-design-system-portal/test-results
+          path: |
+            ./packages/dnb-design-system-portal/test-results
+            ./packages/dnb-design-system-portal/playwright-report
 
       - name: Slack
         uses: 8398a7/action-slack@v3
