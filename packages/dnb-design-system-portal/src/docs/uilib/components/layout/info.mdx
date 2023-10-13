@@ -10,16 +10,16 @@ To make it easier to build application layout and [form](/uilib/extensions/forms
 
 - **[Card](/uilib/components/card)** is a block section element showing the white box with rounded gray borders, adding spacing automatically.
 
-- **[Stack](/uilib/components/layout/Stack)** is an outer block element for wrapping content to get the correct layout and spacing between region and region headings.
+- **[Stack](/uilib/components/flex/stack)** is an outer block element for wrapping content to get the correct layout and spacing between region and region headings.
 
 ### Flex layout
 
-- **[FlexContainer](/uilib/components/layout/FlexContainer)** is a building block for CSS flexbox based layout of contents and components.
+- **[Flex.Container](/uilib/components/flex/container)** is a building block for CSS flexbox based layout of contents and components.
 
-  - **`<Layout.Vertical>`** can be used as an alias instead of the property `direction="vertical"`.
-  - **`<Layout.Horizontal>`** can be used as an alias instead of the property `direction="horizontal"`.
+  - **`<Flex.Vertical>`** can be used as an alias instead of the property `direction="vertical"`.
+  - **`<Flex.Horizontal>`** can be used as an alias instead of the property `direction="horizontal"`.
 
-- **[FlexItem](/uilib/components/layout/FlexItem)** is a building block for CSS flexbox based layout of contents and components.
+- **[Flex.Item](/uilib/components/flex/item)** is a building block for CSS flexbox based layout of contents and components.
 
 ### Grid layout
 
@@ -48,12 +48,12 @@ Uses CSS `flexbox`.
 - When a size (percentage) is given, they stack horizontally.
 
 ```jsx
-import { Layout } from '@dnb/eufemia'
+import { Flex } from '@dnb/eufemia'
 render(
-  <Layout.FlexContainer>
-    <Layout.FlexItem>content</Layout.FlexItem>
+  <Flex.Container>
+    <Flex.Item>content</Flex.Item>
     <OtherComponent>content</OtherComponent>
-  </Layout.FlexContainer>,
+  </Flex.Container>,
 )
 ```
 

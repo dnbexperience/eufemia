@@ -1,6 +1,6 @@
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { Layout, Input, Slider, Card } from '@dnb/eufemia/src'
+import { Input, Slider, Card, Flex } from '@dnb/eufemia/src'
 import {
   Form,
   StepsLayout,
@@ -98,7 +98,7 @@ export const CreateComposedFieldComponent = () => {
 
           return (
             <FieldBlock label={props.label ?? 'Name and age'}>
-              <Layout.Horizontal>
+              <Flex.Horizontal>
                 <Field.String
                   path="/firstName"
                   label="First name"
@@ -126,7 +126,7 @@ export const CreateComposedFieldComponent = () => {
                     tooltip
                   />
                 </FieldBlock>
-              </Layout.Horizontal>
+              </Flex.Horizontal>
             </FieldBlock>
           )
         }
@@ -214,7 +214,7 @@ export const LayoutComponents = () => {
         Visibility,
       }}
     >
-      <Layout.Stack>
+      <Flex.Stack>
         <Form.MainHeading>Profile</Form.MainHeading>
 
         <Card stack>
@@ -231,7 +231,7 @@ export const LayoutComponents = () => {
           <Field.Email value="john@smith.email" />
           <Field.PhoneNumber value="+47 98765432" />
         </Card>
-      </Layout.Stack>
+      </Flex.Stack>
     </ComponentBox>
   )
 }
@@ -262,7 +262,7 @@ export const VisibilityBasedOnData = () => {
         }
         onSubmit={(data) => console.log('onSubmit', data)}
       >
-        <Layout.Stack>
+        <Flex.Stack>
           <Form.MainHeading>Profile</Form.MainHeading>
 
           <Card stack>
@@ -271,14 +271,14 @@ export const VisibilityBasedOnData = () => {
             <Field.String path="/firstName" label="Fornavn" />
             <Field.String path="/lastName" label="Etternavn" />
           </Card>
-        </Layout.Stack>
+        </Flex.Stack>
         <Field.Boolean
           path="/advanced"
           variant="checkbox-button"
           label="More fields"
         />
         <Visibility pathTrue="/advanced">
-          <Layout.Stack>
+          <Flex.Stack>
             <Card stack>
               <Form.SubHeading>More information</Form.SubHeading>
 
@@ -286,7 +286,7 @@ export const VisibilityBasedOnData = () => {
               <Field.Email value="john@smith.email" />
               <Field.PhoneNumber value="+47 98765432" />
             </Card>
-          </Layout.Stack>
+          </Flex.Stack>
         </Visibility>
       </Form.Handler>
     </ComponentBox>
@@ -438,10 +438,10 @@ export const WithSteps = () => {
             <Form.MainHeading>Profile</Form.MainHeading>
 
             <Card stack>
-              <Layout.FlexContainer>
+              <Flex.Container>
                 <Value.String path="/firstName" label="Fornavn" />
                 <Value.String path="/lastName" label="Etternavn" />
-              </Layout.FlexContainer>
+              </Flex.Container>
 
               <Value.NationalIdentityNumber path="/ssn" />
               <Value.Email path="/email" />

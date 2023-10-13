@@ -9,7 +9,7 @@ import SharedContext from '../../../../shared/Context'
 import FieldBlock from '../../FieldBlock'
 import { useDataValue } from '../../hooks'
 import { FieldProps, FieldHelpProps } from '../../types'
-import { pickSpacingProps } from '../../../../components/layout/utils'
+import { pickSpacingProps } from '../../../../components/flex/utils'
 
 interface ErrorMessages {
   required?: string

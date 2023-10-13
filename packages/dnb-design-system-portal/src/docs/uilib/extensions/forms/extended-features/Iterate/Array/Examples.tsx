@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../../../shared/tags/ComponentBox'
-import { Layout } from '@dnb/eufemia/src'
+import { Flex, Layout } from '@dnb/eufemia/src'
 import {
   Iterate,
   Field,
@@ -43,10 +43,10 @@ export const ObjectElements = () => {
         <h3>
           <Value.String elementPath="/nickname" />
         </h3>
-        <Layout.Horizontal>
+        <Flex.Horizontal>
           <Field.BankAccountNumber elementPath="/accountNumber" />
           <Field.String label="Account name" elementPath="/accountName" />
-        </Layout.Horizontal>
+        </Flex.Horizontal>
       </Iterate.Array>
     </ComponentBox>
   )
@@ -125,7 +125,7 @@ export const ArrayFromFormHandler = () => {
             <Value.String elementPath="/nickname" />
           </Form.SubHeading>
 
-          <Layout.Horizontal align="center">
+          <Flex.Horizontal align="center">
             <Field.String
               elementPath="/firstName"
               width="medium"
@@ -142,7 +142,7 @@ export const ArrayFromFormHandler = () => {
               width="small"
             />
             <Iterate.ArrayRemoveElementButton icon={TrashIcon} />
-          </Layout.Horizontal>
+          </Flex.Horizontal>
 
           <Field.String path="/alwaysThere" top="x-small" />
         </Iterate.Array>

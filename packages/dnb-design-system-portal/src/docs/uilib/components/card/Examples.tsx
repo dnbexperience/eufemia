@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { Card, Layout, P } from '@dnb/eufemia/src'
+import { Card, Flex, P } from '@dnb/eufemia/src'
 import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 
 export const Default = () => {
@@ -34,10 +34,10 @@ export const VerticalFields = () => {
   return (
     <ComponentBox scope={{ Field }}>
       <Card>
-        <Layout.Vertical>
+        <Flex.Vertical>
           <Field.String label="Label" value="Value" />
           <Field.String label="Label" value="Value" />
-        </Layout.Vertical>
+        </Flex.Vertical>
       </Card>
     </ComponentBox>
   )

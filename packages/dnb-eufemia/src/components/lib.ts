@@ -23,6 +23,7 @@ import DatePicker from './date-picker/DatePicker'
 import Dialog from './dialog/Dialog'
 import Drawer from './drawer/Drawer'
 import Dropdown from './dropdown/Dropdown'
+import Flex from './flex/Flex'
 import FormLabel from './form-label/FormLabel'
 import FormRow from './form-row/FormRow'
 import FormSet from './form-set/FormSet'
@@ -76,6 +77,7 @@ export {
   Dialog,
   Drawer,
   Dropdown,
+  Flex,
   FormLabel,
   FormRow,
   FormSet,
@@ -130,6 +132,7 @@ export const getComponents = () => {
     Dialog,
     Drawer,
     Dropdown,
+    Flex,
     FormLabel,
     FormRow,
     FormSet,

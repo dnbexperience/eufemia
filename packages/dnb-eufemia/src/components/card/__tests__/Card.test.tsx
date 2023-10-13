@@ -55,10 +55,10 @@ describe('Card', () => {
 
     expect(Array.from(element.classList)).toEqual([
       'dnb-space',
-      'dnb-layout-flex-item',
+      'dnb-flex-item',
       'dnb-card',
       'custom-class',
-      'dnb-layout-flex-item--align-self-stretch',
+      'dnb-flex-item--align-self-stretch',
     ])
   })
 
@@ -84,10 +84,8 @@ describe('Card', () => {
       </Card>
     )
 
-    const element = document.querySelector('.dnb-layout-flex-container')
-    expect(element.className).not.toContain(
-      'dnb-layout-flex-container--wrap'
-    )
+    const element = document.querySelector('.dnb-flex-container')
+    expect(element.className).not.toContain('dnb-flex-container--wrap')
   })
 
   it('should stack children divided by lines', () => {
@@ -101,9 +99,7 @@ describe('Card', () => {
     const element = document.querySelector('.dnb-card')
     const children = element.children
 
-    expect(element.className).toContain(
-      'dnb-layout-flex-container--divider-line'
-    )
+    expect(element.className).toContain('dnb-flex-container--divider-line')
 
     expect(children.length).toBe(4)
 
@@ -135,7 +131,7 @@ describe('Card', () => {
     const element = document.querySelector('.dnb-card')
 
     expect(element.className).toContain(
-      'dnb-layout-flex-container--direction-vertical'
+      'dnb-flex-container--direction-vertical'
     )
 
     rerender(
@@ -145,7 +141,7 @@ describe('Card', () => {
     )
 
     expect(element.className).toContain(
-      'dnb-layout-flex-container--direction-horizontal'
+      'dnb-flex-container--direction-horizontal'
     )
   })
 
@@ -186,7 +182,7 @@ describe('Card', () => {
     const children = element.children
 
     expect(element.className).toContain(
-      'dnb-layout-flex-container--spacing-small'
+      'dnb-flex-container--spacing-small'
     )
 
     expect(children.length).toBe(3)
@@ -209,7 +205,7 @@ describe('Card', () => {
     )
 
     expect(element.className).toContain(
-      'dnb-layout-flex-container--spacing-large'
+      'dnb-flex-container--spacing-large'
     )
 
     expect(children[0].className).toContain('dnb-space__top--zero')

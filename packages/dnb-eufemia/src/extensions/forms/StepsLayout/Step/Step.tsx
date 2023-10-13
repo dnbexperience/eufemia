@@ -1,11 +1,12 @@
 import React, { useContext } from 'react'
 import classnames from 'classnames'
 import { ComponentProps } from '../../types'
-import FlexContainer, {
+import {
   Props as FlexContainerProps,
   pickFlexContainerProps,
-} from '../../../../components/layout/FlexContainer'
+} from '../../../../components/flex/Container'
 import StepsContext from '../StepsContext'
+import Flex from '../../../../components/flex/Flex'
 
 export type Props = ComponentProps &
   FlexContainerProps & {
@@ -23,13 +24,13 @@ function Step(props: Props) {
   }
 
   return (
-    <FlexContainer
+    <Flex.Container
       className={classnames('dnb-forms-step', className)}
       direction="vertical"
       {...pickFlexContainerProps(props)}
     >
       {children}
-    </FlexContainer>
+    </Flex.Container>
   )
 }
 

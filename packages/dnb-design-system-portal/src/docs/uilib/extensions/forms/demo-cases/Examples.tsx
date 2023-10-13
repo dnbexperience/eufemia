@@ -1,11 +1,5 @@
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
-import {
-  GlobalStatus,
-  Section,
-  Code,
-  Layout,
-  Card,
-} from '@dnb/eufemia/src'
+import { GlobalStatus, Section, Code, Card, Flex } from '@dnb/eufemia/src'
 import * as React from 'react'
 import {
   Form,
@@ -160,10 +154,10 @@ export const BecomeCorporateCustomer = () => {
                     <Form.MainHeading>Profile</Form.MainHeading>
 
                     <Card stack>
-                      <Layout.FlexContainer>
+                      <Flex.Container>
                         <Value.String path="/firstName" />
                         <Value.String path="/lastName" />
-                      </Layout.FlexContainer>
+                      </Flex.Container>
 
                       <Value.NationalIdentityNumber path="/ssn" />
                       <Value.Email path="/email" />

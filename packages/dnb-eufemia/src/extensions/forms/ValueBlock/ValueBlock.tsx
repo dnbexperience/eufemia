@@ -3,7 +3,7 @@ import { Span } from '../../../elements'
 import { FormLabel } from '../../../components'
 import classnames from 'classnames'
 import { ValueProps } from '../types'
-import { pickSpacingProps } from '../../../components/layout/utils'
+import { pickSpacingProps } from '../../../components/flex/utils'
 
 export type Props = Omit<ValueProps<unknown>, 'value'> & {
   children?: React.ReactNode

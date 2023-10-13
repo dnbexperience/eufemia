@@ -1,0 +1,109 @@
+.dnb-flex-container {
+  display: flex;
+  row-gap: var(--gap, 0);
+
+  &--direction {
+    &-horizontal {
+      flex-direction: row;
+      margin-right: calc(var(--gap) * -1);
+    }
+
+    &-vertical {
+      flex-direction: column;
+    }
+  }
+
+  &--justify {
+    &-flex-start {
+      justify-content: flex-start;
+    }
+
+    &-flex-end {
+      justify-content: flex-end;
+    }
+
+    &-center {
+      justify-content: center;
+    }
+
+    &-space-between {
+      justify-content: space-between;
+    }
+
+    &-space-around {
+      justify-content: space-around;
+    }
+
+    &-space-evenly {
+      justify-content: space-evenly;
+    }
+  }
+
+  &--align {
+    &-flex-start {
+      align-items: flex-start;
+    }
+
+    &-flex-end {
+      align-items: flex-end;
+    }
+
+    &-center {
+      align-items: center;
+    }
+
+    &-stretch {
+      align-items: stretch;
+    }
+
+    &-baseline {
+      align-items: baseline;
+    }
+  }
+
+  &--align-self {
+    // For when used as a flex item in addition to being container
+    &-flex-start {
+      align-self: flex-start;
+    }
+
+    &-flex-end {
+      align-self: flex-end;
+    }
+
+    &-center {
+      align-self: center;
+    }
+
+    &-baseline {
+      align-self: baseline;
+    }
+
+    &-stretch {
+      align-self: stretch;
+    }
+  }
+
+  &--wrap {
+    flex-wrap: wrap;
+  }
+
+  &--row-gap-small,
+  &--has-size#{&}--spacing-small,
+  &--wrap#{&}--direction-horizontal {
+    --gap: var(--spacing-small);
+  }
+  &--row-gap-medium,
+  &--has-size#{&}--spacing-medium {
+    --gap: var(--spacing-medium);
+  }
+  &--row-gap-large,
+  &--has-size#{&}--spacing-large {
+    --gap: var(--spacing-large);
+  }
+
+  .dnb-hr {
+    width: 100%;
+    color: var(--color-black-8);
+  }
+}

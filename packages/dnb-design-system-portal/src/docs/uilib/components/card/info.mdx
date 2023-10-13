@@ -8,9 +8,25 @@ import * as Examples from './Examples'
 
 `Card` is a block section element showing the white box with rounded gray borders, adding spacing automatically.
 
-It uses [Layout.FlexItem](/uilib/components/layout/FlexItem) under the hood. When one of these props where given, `stack`, `direction` or `spacing` – the [Layout.FlexContainer](/uilib/components/layout/FlexContainer) will be used.
+It uses [Flex.Item](/uilib/components/flex/item) under the hood. When one of these props where given, `stack`, `direction` or `spacing` – the [Flex.Container](/uilib/components/flex/container) will be used.
 
 **BETA:** The design is not 100% finalised and may change to be officially approved by UX through an RFC.
+
+```jsx
+import { Card } from '@dnb/eufemia'
+import { Form, Field } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Form.Handler data={existingData} onSubmit={submitHandler}>
+    <Card>
+      <Field.Email path="/dataPath" />
+      <Form.ButtonRow>
+        <Form.SubmitButton />
+      </Form.ButtonRow>
+    </Card>
+  </Form.Handler>,
+)
+```
 
 ## Accessibility
 

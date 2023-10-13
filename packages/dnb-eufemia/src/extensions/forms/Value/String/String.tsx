@@ -2,7 +2,7 @@ import React from 'react'
 import ValueBlock from '../../ValueBlock'
 import { useDataValue } from '../../hooks'
 import { ValueProps } from '../../types'
-import { pickSpacingProps } from '../../../../components/layout/utils'
+import { pickSpacingProps } from '../../../../components/flex/utils'
 
 export type Props = ValueProps<string>
 
