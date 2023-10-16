@@ -117,55 +117,21 @@ function SteppedMask<T extends string>({
         disabled={disabled}
         status={status}
         status_state={statusState}
-        input_element={steps.map(
-          ({ id, label, mask, placeholderCharacter }, index) => (
-            <Fragment key={id}>
-              <TextMask
-                id={`${id}__input`}
-                className={classnames(
-                  'dnb-input__input',
-                  'dnb-stepped-mask__input',
-                  values[id] && 'dnb-stepped-mask__input--highlight'
-                )}
-                disabled={disabled}
-                size={mask.length}
-                mask={mask}
-                value={values[id] ?? ''}
-                placeholderChar={placeholderCharacter}
-                guide={true}
-                showMask={true}
-                keepCharPositions={false} // so we can overwrite next value, if it already exists
-                onKeyDown={handleKeydown}
-                onFocus={onInputFocus}
-                onChange={(event) => {
-                  onChange(
-                    id,
-                    removePlaceholder(
-                      event.target.value,
-                      placeholderCharacter
-                    )
-                  )
-                }}
-                ref={getInputRef}
-                aria-labelledby={`${id}__label`}
-              />
-              <label id={`${id}__label`} htmlFor={`${id}__input`} hidden>
-                {label}
-              </label>
-              {index !== steps.length - 1 && delimiter && (
-                <span
-                  aria-hidden
-                  className={classnames(
-                    'dnb-stepped-mask__delimiter',
-                    values[id] && 'dnb-stepped-mask__delimiter--highlight'
-                  )}
-                >
-                  {delimiter}
-                </span>
-              )}
-            </Fragment>
-          )
-        )}
+        input_element={steps.map((step, index) => (
+          <Fragment key={step.id}>
+            <SteppedMaskInput
+              {...step}
+              value={values[step.id]}
+              delimiter={
+                index !== steps.length - 1 ? delimiter : undefined
+              }
+              onKeyDown={handleKeydown}
+              onChange={onChange}
+              disabled={disabled}
+              inputRef={getInputRef}
+            />
+          </Fragment>
+        ))}
       />
     </WrapperElement>
   )
@@ -180,11 +146,6 @@ function SteppedMask<T extends string>({
 
     firstInput.focus()
     firstInput.setSelectionRange(0, 0)
-  }
-
-  function onInputFocus({ target }: React.FocusEvent<HTMLInputElement>) {
-    target.focus()
-    target.select()
   }
 
   function onChange(id: string, value: string) {
@@ -217,10 +178,6 @@ function SteppedMask<T extends string>({
     }
   }
 
-  function removePlaceholder(value: string, placeholder: string) {
-    return value.replace(RegExp(placeholder, 'gm'), '')
-  }
-
   function getKeysToHandle() {
     const uniqueMasks = getUniqueMasks()
 
@@ -250,6 +207,89 @@ function SteppedMask<T extends string>({
     })
 
     return masks
+  }
+}
+
+type SteppdMaskInputProps<T extends string> = SteppedMaskInput<T> & {
+  id: SteppedMaskInput<T>['id']
+  label: SteppedMaskInput<T>['label']
+  value: string
+  mask: SteppedMaskInput<T>['mask']
+  placeholderCharacter: SteppedMaskInput<T>['placeholderCharacter']
+  delimiter?: SteppedMaskProps<T>['delimiter']
+  disabled: boolean
+  onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void
+  onChange: (
+    id: string,
+    placeholderCharacter: SteppedMaskInput<T>['placeholderCharacter']
+  ) => void
+  inputRef: any
+}
+
+function SteppedMaskInput<T extends string>({
+  id,
+  label,
+  value,
+  mask,
+  placeholderCharacter,
+  delimiter,
+  disabled,
+  inputRef,
+  onKeyDown,
+  onChange,
+}: SteppdMaskInputProps<T>) {
+  return (
+    <>
+      <TextMask
+        id={`${id}__input`}
+        className={classnames(
+          'dnb-input__input',
+          'dnb-stepped-mask__input',
+          value && 'dnb-stepped-mask__input--highlight'
+        )}
+        disabled={disabled}
+        size={mask.length}
+        mask={mask}
+        value={value ?? ''}
+        placeholderChar={placeholderCharacter}
+        guide={true}
+        showMask={true}
+        keepCharPositions={false} // so we can overwrite next value, if it already exists
+        aria-labelledby={`${id}__label`}
+        ref={inputRef}
+        onKeyDown={onKeyDown}
+        onFocus={onFocus}
+        onChange={(event) => {
+          onChange(
+            id,
+            removePlaceholder(event.target.value, placeholderCharacter)
+          )
+        }}
+      />
+      <label id={`${id}__label`} htmlFor={`${id}__input`} hidden>
+        {label}
+      </label>
+      {delimiter && (
+        <span
+          aria-hidden
+          className={classnames(
+            'dnb-stepped-mask__delimiter',
+            value && 'dnb-stepped-mask__delimiter--highlight'
+          )}
+        >
+          {delimiter}
+        </span>
+      )}
+    </>
+  )
+
+  function removePlaceholder(value: string, placeholder: string) {
+    return value.replace(RegExp(placeholder, 'gm'), '')
+  }
+
+  function onFocus({ target }: React.FocusEvent<HTMLInputElement>) {
+    target.focus()
+    target.select()
   }
 }
 
