@@ -3,6 +3,7 @@ import {
   FieldBlock,
   Field,
   TestElement,
+  Form,
 } from '@dnb/eufemia/src/extensions/forms'
 import { Flex, Slider } from '@dnb/eufemia/src'
 
@@ -190,3 +191,22 @@ export const HorizontalAutoSize = () => {
     </ComponentBox>
   )
 }
+
+export const LabelSize = () => (
+  <ComponentBox
+    scope={{ Form, Field, FieldBlock }}
+    data-visual-test="forms-field-block-label-size"
+  >
+    <Form.Handler>
+      <Flex.Stack>
+        <Form.MainHeading>Heading</Form.MainHeading>
+        <FieldBlock label="Legend with medium heading size" size="medium">
+          <Flex.Horizontal>
+            <Field.String label="Label A" width="medium" />
+            <Field.String label="Label B" width="medium" />
+          </Flex.Horizontal>
+        </FieldBlock>
+      </Flex.Stack>
+    </Form.Handler>
+  </ComponentBox>
+)

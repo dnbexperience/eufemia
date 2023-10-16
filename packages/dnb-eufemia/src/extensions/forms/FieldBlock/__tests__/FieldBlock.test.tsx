@@ -31,6 +31,28 @@ describe('FieldBlock', () => {
     expect(element.classList).toContain('dnb-space__top--x-large')
   })
 
+  it('should support heading size prop', () => {
+    const { rerender } = render(
+      <FieldBlock label="Label" size="medium">
+        content
+      </FieldBlock>
+    )
+
+    expect(document.querySelector('.dnb-form-label').classList).toContain(
+      'dnb-h--medium'
+    )
+
+    rerender(
+      <FieldBlock label="Label" size="large">
+        content
+      </FieldBlock>
+    )
+
+    expect(document.querySelector('.dnb-form-label').classList).toContain(
+      'dnb-h--large'
+    )
+  })
+
   it('should contain given classes', () => {
     render(<FieldBlock className="custom-class">content</FieldBlock>)
 
@@ -81,7 +103,7 @@ describe('FieldBlock', () => {
 
     expect(labelElement).toBeInTheDocument()
     expect(labelElement.className).toBe(
-      'dnb-form-label dnb-space__bottom--x-small'
+      'dnb-form-label dnb-space__top--zero dnb-space__bottom--x-small'
     )
     expect(labelElement.textContent).toBe('A Label Description')
   })
@@ -95,7 +117,7 @@ describe('FieldBlock', () => {
 
     expect(labelElement).toBeInTheDocument()
     expect(labelElement.className).toBe(
-      'dnb-form-label dnb-space__bottom--x-small'
+      'dnb-form-label dnb-space__top--zero dnb-space__bottom--x-small'
     )
     expect(labelElement.textContent).toBe('A Secondary Label')
   })

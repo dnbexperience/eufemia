@@ -16,7 +16,6 @@ export type DrawerListValue = string | number;
 export type DrawerListDataObject = {
   selected_value?: string | React.ReactNode;
   selectedKey?: string | number;
-  /** @deprecated Use "selectedKey" instead */
   selected_key?: string | number;
   suffix_value?: string | React.ReactNode;
   content?: string | React.ReactNode | string[];

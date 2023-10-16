@@ -19,4 +19,11 @@ describe('FieldBlock', () => {
     })
     expect(screenshot).toMatchImageSnapshot()
   })
+
+  it('have to match label size', async () => {
+    const screenshot = await makeScreenshot({
+      selector: '[data-visual-test="forms-field-block-label-size"]',
+    })
+    expect(screenshot).toMatchImageSnapshot()
+  })
 })
