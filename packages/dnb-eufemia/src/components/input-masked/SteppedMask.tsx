@@ -1,4 +1,4 @@
-import React, { Fragment, MutableRefObject, useRef, useState } from 'react'
+import React, { Fragment, MutableRefObject, useRef } from 'react'
 import Input from '../Input'
 
 import TextMask from './TextMask'
@@ -8,6 +8,7 @@ import FormLabel from '../FormLabel'
 import { SpacingProps } from '../space/types'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import { FormStatusState, FormStatusText } from '../FormStatus'
+import { useSteppedValues } from './hooks/useSteppedValues'
 
 export type SteppedMaskInput<T extends string> = {
   /**
@@ -76,20 +77,23 @@ function SteppedMask<T extends string>({
   disabled,
   status,
   statusState,
+  values: defaultValues,
   ...props
 }: SteppedMaskProps<T>) {
-  const [values, setValues] = useState<SteppedMaskValue<T>>(
-    getDefaultValues()
-  )
+  const [values, onChange] = useSteppedValues({
+    steps,
+    defaultValues,
+    callback: onChangeExternal,
+  })
 
   const inputRefs = useRef<MutableRefObject<HTMLInputElement>[]>([])
-
-  const WrapperElement = label ? 'fieldset' : 'div'
 
   const { handleKeydown } = useHandleCursorPosition(
     inputRefs.current,
     getKeysToHandle()
   )
+
+  const WrapperElement = label ? 'fieldset' : 'div'
 
   const { className, ...restOfProps } = props
 
@@ -148,28 +152,7 @@ function SteppedMask<T extends string>({
     firstInput.setSelectionRange(0, 0)
   }
 
-  function onChange(id: string, value: string) {
-    const updatedValues = { ...values, [id]: value }
-
-    setValues(updatedValues)
-    if (onChangeExternal) {
-      onChangeExternal(updatedValues)
-    }
-  }
-
   // Utilites
-  function getDefaultValues() {
-    if (props.values) {
-      return props.values
-    }
-
-    return steps.reduce((values, step) => {
-      values[step.id] = ''
-
-      return values
-    }, {} as SteppedMaskValue<T>)
-  }
-
   function getInputRef(ref: any) {
     const inputRef = ref?.inputRef
 
