@@ -319,7 +319,7 @@ export const InputMaskedExampleStepped = () => (
             mask: [/[0-9]/, /[0-9]/],
           },
           {
-            id: 'text',
+            id: 'suffix',
             label: 'suffix text',
             placeholderCharacter: '-',
             mask: [/[a-zA-Z]/, /[a-zA-Z]/, /[a-zA-Z]/],
