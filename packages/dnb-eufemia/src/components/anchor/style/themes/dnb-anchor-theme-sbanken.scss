@@ -41,7 +41,7 @@
   }
 }
 
-:where(:not(.dnb-anchor--no-style)) {
+@include anchor-mixins.notNoStyle() {
   &.dnb-anchor {
     --anchor-underline-thickness: 0.125rem;
     --anchor-background: transparent;
@@ -70,8 +70,10 @@
       );
     }
 
-    &:hover:where(:not(.dnb-anchor--no-hover)) {
-      @include anchorHover();
+    &:hover {
+      @include anchor-mixins.notNoHover() {
+        @include anchorHover();
+      }
     }
 
     &:active {
@@ -125,7 +127,7 @@
 
     &:not(.dnb-anchor--no-underline):not(.dnb-anchor--has-icon):not(
         .anchor-hash
-      ):not(.dnb-anchor--inline):not(.dnb-anchor--no-style) {
+      ):not(.dnb-anchor--inline) {
       &:not(.dnb-anchor--icon-left) {
         &::before {
           text-decoration-color: var(--sb-color-green-dark);

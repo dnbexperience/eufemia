@@ -168,8 +168,10 @@
     @include anchorFocusStyle();
   }
 
-  &:hover:where(:not(.dnb-anchor--no-hover)) {
-    @include anchorHoverStyle();
+  &:hover {
+    @include notNoHover() {
+      @include anchorHoverStyle();
+    }
   }
 
   &:active {
@@ -211,5 +213,34 @@
 @mixin anchorTag() {
   a {
     @include anchorStyle();
+  }
+}
+
+@mixin notNoStyle() {
+  :where(:not(.dnb-anchor--no-style)) {
+    @content;
+  }
+  :not(.dnb-anchor--no-style) {
+    @include whereFallback() {
+      @content;
+    }
+  }
+}
+
+@mixin notNoHover() {
+  &:where(:not(.dnb-anchor--no-hover)) {
+    @content;
+  }
+  &:not(.dnb-anchor--no-hover) {
+    @include whereFallback() {
+      @content;
+    }
+  }
+}
+
+@mixin whereFallback() {
+  /* stylelint-disable-next-line scss/operator-no-unspaced */
+  @supports not (selector(*:where(*))) {
+    @content;
   }
 }

@@ -16,7 +16,7 @@ button.dnb-anchor {
   appearance: none; // and use prefix to make sure webkit does  a good job
 }
 
-:where(:not(.dnb-anchor--no-style)) {
+@include notNoStyle() {
   &.dnb-anchor {
     --anchor-underline-thickness: 0.0938rem;
     @include anchorStyle();

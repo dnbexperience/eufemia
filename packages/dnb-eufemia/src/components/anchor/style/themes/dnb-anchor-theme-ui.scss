@@ -30,8 +30,10 @@
 
   color: var(--anchor-color);
 
-  &:hover:where(:not(.dnb-anchor--no-hover)) {
-    @include anchorHover();
+  &:hover {
+    @include anchor-mixins.notNoHover() {
+      @include anchorHover();
+    }
   }
 
   &:active {
@@ -45,7 +47,7 @@
 
 $useClasses: true !default;
 @if $useClasses {
-  :where(:not(.dnb-anchor--no-style)) {
+  @include anchor-mixins.notNoStyle() {
     &.dnb-anchor {
       @include anchorStyle();
     }
