@@ -18,40 +18,6 @@
   border: none;
 }
 
-.dnb-stepped-mask {
-  width: fit-content;
-}
-
-.dnb-stepped-mask__legend {
-  &:not([disabled]) {
-    cursor: pointer;
-
-    &:hover {
-      color: var(--color-sea-green);
-      ~ .dnb-stepped-mask .dnb-input__shell {
-        @include fakeBorder(var(--color-sea-green), 0.125rem);
-      }
-    }
-  }
-}
-
-.dnb-stepped-mask {
-  &:not(.dnb-input__status--error) {
-    .dnb-stepped-mask__input,
-    .dnb-stepped-mask__delimiter {
-      color: var(--color-black-55);
-
-      &--highlight {
-        color: var(--color-black);
-      }
-    }
-  }
-
-  .dnb-input__shell:focus-within {
-    @include fakeBorder(var(--color-sea-green), 0.125rem);
-  }
-}
-
 .dnb-stepped-mask__input {
   display: inline-block;
   width: auto;
@@ -78,5 +44,37 @@
 
   &:last-of-type {
     padding-right: 0.5rem;
+  }
+}
+
+.dnb-stepped-mask {
+  width: fit-content;
+
+  &:not(.dnb-input__status--error) {
+    .dnb-stepped-mask__input,
+    .dnb-stepped-mask__delimiter {
+      color: var(--color-black-55);
+
+      &--highlight {
+        color: var(--color-black);
+      }
+    }
+  }
+
+  .dnb-input__shell:focus-within {
+    @include fakeBorder(var(--color-sea-green), 0.125rem);
+  }
+}
+
+.dnb-stepped-mask__legend {
+  &:not([disabled]) {
+    cursor: pointer;
+
+    &:hover {
+      color: var(--color-sea-green);
+      ~ .dnb-stepped-mask .dnb-input__shell {
+        @include fakeBorder(var(--color-sea-green), 0.125rem);
+      }
+    }
   }
 }
