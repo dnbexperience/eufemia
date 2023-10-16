@@ -937,7 +937,8 @@ button .dnb-form-status__text {
   --input-height--small: 1.5rem;
   --input-height--medium: 2.5rem;
   --input-height--large: 3rem;
-  --input-background-color: var(--color-white);
+  --input-border-width: 0.0625rem;
+  --input-border-radius: 0.25rem;
   display: inline-flex;
   align-items: center;
   font-size: var(--input-font-small);
@@ -1002,9 +1003,6 @@ button .dnb-form-status__text {
 }
 .dnb-input__input::-ms-clear {
   display: none;
-}
-.dnb-input__input:autofill {
-  box-shadow: 0 0 0 var(--input-border-width) var(--input-border-color), 0 0 0 10em var(--input-background-color) inset;
 }
 .dnb-input ::-webkit-file-upload-button {
   cursor: pointer;
@@ -1274,5 +1272,63 @@ html[data-visual-test] .dnb-input__input {
  */
 .dnb-input-masked--guide {
   font-family: var(--font-family-monospace);
+}
+
+.dnb-stepped-mask__fieldset {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.dnb-stepped-mask__input {
+  display: inline-block;
+  width: auto;
+  margin: 0;
+  padding: 0 0.125rem;
+  transform: translateY(0);
+  outline: none;
+  font-family: var(--font-family-monospace);
+  text-align: center;
+  border: none;
+  background: transparent;
+  overflow: visible;
+  white-space: nowrap;
+}
+.dnb-stepped-mask__input:first-of-type {
+  padding-left: 0.5rem;
+}
+.dnb-stepped-mask__input:last-of-type {
+  padding-right: 0.5rem;
+}
+
+.dnb-stepped-mask {
+  width: fit-content;
+}
+.dnb-stepped-mask:not(.dnb-input__status--error) .dnb-stepped-mask__input,
+.dnb-stepped-mask:not(.dnb-input__status--error) .dnb-stepped-mask__delimiter {
+  color: var(--color-black-55);
+}
+.dnb-stepped-mask:not(.dnb-input__status--error) .dnb-stepped-mask__input--highlight,
+.dnb-stepped-mask:not(.dnb-input__status--error) .dnb-stepped-mask__delimiter--highlight {
+  color: var(--color-black);
+}
+.dnb-stepped-mask .dnb-input__shell:focus-within {
+  --border-color: var(--color-sea-green);
+  --border-width: 0.125rem;
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
+}
+
+.dnb-stepped-mask__legend:not([disabled]) {
+  cursor: pointer;
+}
+.dnb-stepped-mask__legend:not([disabled]):hover {
+  color: var(--color-sea-green);
+}
+.dnb-stepped-mask__legend:not([disabled]):hover ~ .dnb-stepped-mask .dnb-input__shell {
+  --border-color: var(--color-sea-green);
+  --border-width: 0.125rem;
+  box-shadow: 0 0 0 var(--border-width) var(--border-color);
+  border-color: transparent;
 }"
 `;
