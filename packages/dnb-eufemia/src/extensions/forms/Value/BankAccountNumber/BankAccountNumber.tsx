@@ -26,5 +26,5 @@ function BankAccountNumber(props: Props) {
   return <StringComponent {...stringValueProps} />
 }
 
-BankAccountNumber._supportsEufemiaSpacingProps = true
+BankAccountNumber._supportsSpacingProps = true
 export default BankAccountNumber

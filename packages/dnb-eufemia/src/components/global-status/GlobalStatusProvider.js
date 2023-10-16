@@ -318,4 +318,6 @@ if (typeof window !== 'undefined') {
   window.GlobalStatusProvider = GlobalStatusProvider
 }
 
+GlobalStatusProvider._supportsSpacingProps = true
+
 export default GlobalStatusProvider

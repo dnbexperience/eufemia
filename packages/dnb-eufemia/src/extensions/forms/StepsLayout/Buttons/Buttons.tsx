@@ -22,5 +22,5 @@ function Buttons(props: Props) {
   )
 }
 
-Buttons._supportsEufemiaSpacingProps = true
+Buttons._supportsSpacingProps = true
 export default Buttons

@@ -289,3 +289,5 @@ export default class RadioGroup extends React.PureComponent {
     )
   }
 }
+
+RadioGroup._supportsSpacingProps = true

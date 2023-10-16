@@ -152,4 +152,6 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
   )
 }
 
+BreadcrumbItem._supportsSpacingProps = true
+
 export default BreadcrumbItem

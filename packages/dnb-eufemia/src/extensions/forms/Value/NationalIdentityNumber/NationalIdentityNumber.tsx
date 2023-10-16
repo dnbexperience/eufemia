@@ -26,5 +26,5 @@ function NationalIdentityNumber(props: Props) {
   return <StringComponent {...stringValueProps} />
 }
 
-NationalIdentityNumber._supportsEufemiaSpacingProps = true
+NationalIdentityNumber._supportsSpacingProps = true
 export default NationalIdentityNumber

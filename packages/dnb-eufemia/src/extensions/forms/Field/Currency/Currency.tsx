@@ -23,5 +23,5 @@ function Currency(props: Props) {
   )
 }
 
-Currency._supportsEufemiaSpacingProps = true
+Currency._supportsSpacingProps = true
 export default Currency

@@ -97,5 +97,5 @@ function CountryCode(props: Props) {
   )
 }
 
-CountryCode._supportsEufemiaSpacingProps = true
+CountryCode._supportsSpacingProps = true
 export default CountryCode

@@ -144,3 +144,5 @@ export default class FormLabel extends React.PureComponent {
     return <Element {...params} />
   }
 }
+
+FormLabel._supportsSpacingProps = true

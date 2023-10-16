@@ -104,5 +104,6 @@ function FlexItem(props: Props) {
   }
 }
 
-FlexItem._supportsEufemiaSpacingProps = true
+FlexItem._supportsSpacingProps = true
+
 export default FlexItem

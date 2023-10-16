@@ -831,3 +831,5 @@ const isElementVisible = (elem, callback, delayFallback = 1e3) => {
   }
   return null
 }
+
+GlobalStatus._supportsSpacingProps = true

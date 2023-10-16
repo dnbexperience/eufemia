@@ -70,5 +70,6 @@ const H = ({
 }
 
 H._isHeadingElement = true
+H._supportsSpacingProps = true
 
 export default H

@@ -247,5 +247,5 @@ function Selection(props: Props) {
   }
 }
 
-Selection._supportsEufemiaSpacingProps = true
+Selection._supportsSpacingProps = true
 export default Selection

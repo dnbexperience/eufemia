@@ -34,5 +34,5 @@ function OrganizationNumber(props: Props) {
   return <StringComponent {...stringComponentProps} />
 }
 
-OrganizationNumber._supportsEufemiaSpacingProps = true
+OrganizationNumber._supportsSpacingProps = true
 export default OrganizationNumber

@@ -540,3 +540,5 @@ export default class Textarea extends React.PureComponent {
     )
   }
 }
+
+Textarea._supportsSpacingProps = true

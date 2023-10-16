@@ -36,5 +36,5 @@ function NextButton(props: Props) {
   )
 }
 
-NextButton._supportsEufemiaSpacingProps = true
+NextButton._supportsSpacingProps = true
 export default NextButton

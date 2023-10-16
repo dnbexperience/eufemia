@@ -369,3 +369,5 @@ CheckIcon.propTypes = {
 CheckIcon.defaultProps = {
   size: 'default',
 }
+
+CheckIcon._supportsSpacingProps = true

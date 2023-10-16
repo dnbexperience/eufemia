@@ -57,4 +57,6 @@ const Img = ({
   )
 }
 
+Img._supportsSpacingProps = true
+
 export default Img

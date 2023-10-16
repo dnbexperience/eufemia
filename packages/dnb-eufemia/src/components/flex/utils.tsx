@@ -62,7 +62,7 @@ export const isSpacePropsComponent = (
 ): boolean => {
   return (
     (React.isValidElement(element) &&
-      element?.type?.['_supportsEufemiaSpacingProps'] === true) ||
+      element?.type?.['_supportsSpacingProps'] === true) ||
     isEufemiaElement(element)
   )
 }

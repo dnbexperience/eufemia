@@ -205,5 +205,6 @@ function FlexContainer(props: Props) {
   )
 }
 
-FlexContainer._supportsEufemiaSpacingProps = true
+FlexContainer._supportsSpacingProps = true
+
 export default FlexContainer

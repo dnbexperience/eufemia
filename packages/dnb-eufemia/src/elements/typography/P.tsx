@@ -86,4 +86,6 @@ const P = ({
   )
 }
 
+P._supportsSpacingProps = true
+
 export default P

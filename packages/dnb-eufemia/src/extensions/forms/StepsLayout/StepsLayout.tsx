@@ -112,7 +112,7 @@ function StepsLayout(props: Props) {
   )
 }
 
-StepsLayout._supportsEufemiaSpacingProps = true
+StepsLayout._supportsSpacingProps = true
 
 StepsLayout.Step = Step
 StepsLayout.NextButton = NextButton

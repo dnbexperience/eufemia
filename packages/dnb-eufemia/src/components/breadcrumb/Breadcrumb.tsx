@@ -270,4 +270,6 @@ Breadcrumb.Item = BreadcrumbItem
 
 export { BreadcrumbItem }
 
+Breadcrumb._supportsSpacingProps = true
+
 export default Breadcrumb

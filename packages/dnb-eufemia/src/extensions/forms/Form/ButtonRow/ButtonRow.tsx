@@ -19,5 +19,5 @@ function ButtonRow(props: Props) {
   )
 }
 
-ButtonRow._supportsEufemiaSpacingProps = true
+ButtonRow._supportsSpacingProps = true
 export default ButtonRow

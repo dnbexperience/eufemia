@@ -12,5 +12,6 @@ function Vertical({ children, ...props }: Props) {
   )
 }
 
-Vertical._supportsEufemiaSpacingProps = true
+Vertical._supportsSpacingProps = true
+
 export default Vertical

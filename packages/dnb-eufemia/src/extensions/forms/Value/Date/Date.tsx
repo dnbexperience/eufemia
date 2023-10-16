@@ -14,5 +14,5 @@ function DateComponent(props: Props) {
   return <StringComponent {...stringProps} />
 }
 
-DateComponent._supportsEufemiaSpacingProps = true
+DateComponent._supportsSpacingProps = true
 export default DateComponent

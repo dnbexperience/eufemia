@@ -218,5 +218,5 @@ function FieldBlock(props: Props) {
   )
 }
 
-FieldBlock._supportsEufemiaSpacingProps = true
+FieldBlock._supportsSpacingProps = true
 export default FieldBlock

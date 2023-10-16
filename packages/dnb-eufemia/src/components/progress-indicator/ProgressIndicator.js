@@ -197,3 +197,5 @@ function formatProgress(progress) {
   }
   return null
 }
+
+ProgressIndicator._supportsSpacingProps = true

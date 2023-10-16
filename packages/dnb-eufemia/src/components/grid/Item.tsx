@@ -44,7 +44,7 @@ function GridItem(props: AllProps) {
   )
 }
 
-GridItem._supportsEufemiaSpacingProps = true
+GridItem._supportsSpacingProps = true
 
 export default GridItem
 

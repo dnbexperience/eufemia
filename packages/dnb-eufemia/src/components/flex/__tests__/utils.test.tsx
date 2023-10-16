@@ -35,5 +35,6 @@ describe('isSpacePropsComponent', () => {
     expect(isSpacePropsComponent(<H5>Heading</H5>)).toBeTruthy()
     expect(isSpacePropsComponent(<H6>Heading</H6>)).toBeTruthy()
     expect(isSpacePropsComponent(<Heading>Heading</Heading>)).toBeTruthy()
+    expect(isSpacePropsComponent(<div>div</div>)).toBeFalsy()
   })
 })

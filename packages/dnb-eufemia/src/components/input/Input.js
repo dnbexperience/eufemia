@@ -762,3 +762,5 @@ InputIcon.propTypes = {
     PropTypes.func,
   ]).isRequired,
 }
+
+Input._supportsSpacingProps = true

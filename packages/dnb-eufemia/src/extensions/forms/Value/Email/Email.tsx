@@ -14,5 +14,5 @@ function Email(props: Props) {
   return <StringComponent {...stringProps} />
 }
 
-Email._supportsEufemiaSpacingProps = true
+Email._supportsSpacingProps = true
 export default Email

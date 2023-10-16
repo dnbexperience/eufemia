@@ -44,5 +44,5 @@ function ArrayRemoveElementButton(props: Props) {
   )
 }
 
-ArrayRemoveElementButton._supportsEufemiaSpacingProps = true
+ArrayRemoveElementButton._supportsSpacingProps = true
 export default ArrayRemoveElementButton

@@ -26,5 +26,5 @@ function PhoneNumber(props: Props) {
   return <StringComponent {...stringValueProps} />
 }
 
-PhoneNumber._supportsEufemiaSpacingProps = true
+PhoneNumber._supportsSpacingProps = true
 export default PhoneNumber

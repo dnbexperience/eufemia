@@ -180,3 +180,5 @@ export default function GlobalError(localProps: GlobalErrorAllProps) {
     </Skeleton>
   )
 }
+
+GlobalError._supportsSpacingProps = true

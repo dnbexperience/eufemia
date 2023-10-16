@@ -36,4 +36,6 @@ const Hr = ({
   )
 }
 
+Hr._supportsSpacingProps = true
+
 export default Hr

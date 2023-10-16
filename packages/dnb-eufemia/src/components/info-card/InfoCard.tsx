@@ -230,4 +230,6 @@ const InfoCard = (localProps: InfoCardAllProps) => {
   }
 }
 
+InfoCard._supportsSpacingProps = true
+
 export default InfoCard

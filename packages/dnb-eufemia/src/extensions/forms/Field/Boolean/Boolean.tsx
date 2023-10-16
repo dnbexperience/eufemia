@@ -24,5 +24,5 @@ function BooleanComponent(props: Props) {
   )
 }
 
-BooleanComponent._supportsEufemiaSpacingProps = true
+BooleanComponent._supportsSpacingProps = true
 export default BooleanComponent

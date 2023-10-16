@@ -23,7 +23,7 @@ function SubHeading({ level, ...props }: Props) {
   )
 }
 
-SubHeading._supportsEufemiaSpacingProps = true
+SubHeading._supportsSpacingProps = true
 SubHeading._isHeadingElement = true
 
 export default SubHeading
