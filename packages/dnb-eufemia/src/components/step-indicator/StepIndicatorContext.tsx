@@ -145,7 +145,7 @@ export function StepIndicatorProvider({
     const currentStepFromProps = getActiveStepFromProps()
 
     if (currentStepFromProps !== activeStep) {
-      setActiveStep(props.current_step)
+      setActiveStep(currentStepFromProps)
     }
   }, [props.current_step, data])
 

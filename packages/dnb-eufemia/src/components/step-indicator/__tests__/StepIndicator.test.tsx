@@ -414,6 +414,60 @@ describe('StepIndicator in loose mode', () => {
     ).toBeInTheDocument()
   })
 
+  it('should react on is_current data prop change', () => {
+    const TestComp = (props) => {
+      return (
+        <>
+          <StepIndicator.Sidebar sidebar_id="unique-id-loose-simulate" />
+          <StepIndicator
+            mode="loose"
+            sidebar_id="unique-id-loose-simulate"
+            {...props}
+          />
+        </>
+      )
+    }
+
+    const data1 = [
+      {
+        title: 'Step A',
+      },
+      {
+        title: 'Step B',
+      },
+      {
+        title: 'Step C',
+        is_current: true,
+      },
+    ]
+
+    const { rerender } = render(<TestComp data={data1} />)
+    expect(
+      document.querySelector('li.dnb-step-indicator__item--current')
+        .textContent
+    ).toContain('3.Step CSteg 3 av 3')
+
+    const data2 = [
+      {
+        title: 'Step A',
+      },
+      {
+        title: 'Step B',
+        is_current: true,
+      },
+      {
+        title: 'Step C',
+      },
+    ]
+
+    rerender(<TestComp data={data2} />)
+
+    expect(
+      document.querySelector('li.dnb-step-indicator__item--current')
+        .textContent
+    ).toContain('2.Step BSteg 2 av 3')
+  })
+
   it('should react on current_step prop change', () => {
     const TestComp = ({ id, ...props }) => {
       return (
