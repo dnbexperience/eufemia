@@ -22,7 +22,7 @@ import {
   makeDayObject,
 } from '../DatePickerCalc'
 import { fireEvent, render } from '@testing-library/react'
-import FormRow from '../../form-row/FormRow'
+import { Provider } from '../../../shared'
 
 beforeEach(() => {
   document.body.innerHTML = ''
@@ -1502,11 +1502,11 @@ describe('DatePicker calc', () => {
     ])
   })
 
-  it('should inherit FormRow vertical label', () => {
+  it('should inherit formElement vertical label', () => {
     render(
-      <FormRow vertical>
+      <Provider formElement={{ label_direction: 'vertical' }}>
         <DatePicker label="Label" show_input />
-      </FormRow>
+      </Provider>
     )
 
     const element = document.querySelector('.dnb-date-picker')

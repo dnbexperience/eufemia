@@ -16,9 +16,6 @@ export const CreateBasicFieldComponent = () => {
   return (
     <ComponentBox
       scope={{
-        Form,
-        Field,
-        FieldBlock,
         useDataValue,
       }}
       hideCode
@@ -77,8 +74,6 @@ export const CreateComposedFieldComponent = () => {
     <ComponentBox
       scope={{
         DataContext,
-        Field,
-        FieldBlock,
         useDataValue,
       }}
       hideCode
@@ -153,9 +148,7 @@ export const BaseFieldComponents = () => {
   return (
     <ComponentBox
       scope={{
-        Form,
         StepsLayout,
-        Field,
         Value,
         Visibility,
       }}
@@ -185,9 +178,7 @@ export const FeatureFields = () => {
   return (
     <ComponentBox
       scope={{
-        Form,
         StepsLayout,
-        Field,
         Value,
         Visibility,
       }}
@@ -207,9 +198,7 @@ export const LayoutComponents = () => {
   return (
     <ComponentBox
       scope={{
-        Form,
         StepsLayout,
-        Field,
         Value,
         Visibility,
       }}
@@ -240,9 +229,7 @@ export const VisibilityBasedOnData = () => {
   return (
     <ComponentBox
       scope={{
-        Form,
         StepsLayout,
-        Field,
         Value,
         Visibility,
       }}
@@ -297,9 +284,7 @@ export const UsingFormHandler = () => {
   return (
     <ComponentBox
       scope={{
-        Form,
         StepsLayout,
-        Field,
         Value,
         Visibility,
       }}
@@ -340,9 +325,7 @@ export const Validation = () => {
   return (
     <ComponentBox
       scope={{
-        Form,
         StepsLayout,
-        Field,
         Value,
         Visibility,
       }}
@@ -379,9 +362,7 @@ export const WithSteps = () => {
   return (
     <ComponentBox
       scope={{
-        Form,
         StepsLayout,
-        Field,
         Value,
         Visibility,
       }}

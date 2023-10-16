@@ -4,7 +4,7 @@ import { FormError } from '@dnb/eufemia/src/extensions/forms/types'
 
 export const Empty = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.PostalCodeAndCity
         postalCode={{
           onChange: (value) => console.log('postalCode onChange', value),
@@ -19,7 +19,7 @@ export const Empty = () => {
 
 export const Placeholder = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.PostalCodeAndCity
         postalCode={{
           placeholder: '????',
@@ -36,7 +36,7 @@ export const Placeholder = () => {
 
 export const Label = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.PostalCodeAndCity
         postalCode={{
           label: 'PNR',
@@ -53,7 +53,7 @@ export const Label = () => {
 
 export const LabelAndValue = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.PostalCodeAndCity
         postalCode={{
           label: 'Pnr.',
@@ -71,7 +71,7 @@ export const LabelAndValue = () => {
 
 export const WithHelp = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.PostalCodeAndCity
         postalCode={{
           onChange: (value) => console.log('postalCode onChange', value),
@@ -91,7 +91,7 @@ export const WithHelp = () => {
 
 export const Disabled = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.PostalCodeAndCity
         postalCode={{
           value: '1234',
@@ -110,7 +110,7 @@ export const Disabled = () => {
 
 export const Error = () => {
   return (
-    <ComponentBox scope={{ Field, FormError }}>
+    <ComponentBox scope={{ FormError }}>
       <Field.PostalCodeAndCity
         postalCode={{}}
         city={{}}
@@ -122,7 +122,7 @@ export const Error = () => {
 
 export const ValidationRequired = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.PostalCodeAndCity
         postalCode={{
           required: true,

@@ -21,7 +21,7 @@ export const Default = () => {
 
 export const WithLayout = () => {
   return (
-    <ComponentBox scope={{ Form, Field, sendIcon }}>
+    <ComponentBox scope={{ sendIcon }}>
       <Form.Element onSubmit={(event) => console.log('onSubmit', event)}>
         <Card spacing="medium">
           <Field.Email />

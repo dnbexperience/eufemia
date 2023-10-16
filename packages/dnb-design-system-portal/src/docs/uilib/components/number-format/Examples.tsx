@@ -81,7 +81,7 @@ export const NumberCurrency = () => (
 
 export const NumberProvider = () => (
   <Style>
-    <ComponentBox scope={{ Provider }}>
+    <ComponentBox>
       <Provider
         value={{
           NumberFormat: {

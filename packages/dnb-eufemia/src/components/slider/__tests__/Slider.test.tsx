@@ -10,7 +10,7 @@ import Slider from '../Slider'
 
 import type { SliderAllProps, onChangeEventProps } from '../Slider'
 import { format } from '../../number-format/NumberUtils'
-import FormRow from '../../form-row/FormRow'
+import { Provider } from '../../../shared'
 
 const props: SliderAllProps = {
   id: 'slider',
@@ -761,11 +761,11 @@ describe('Slider component', () => {
       resetMouseSimulation()
     })
 
-    it('should inherit FormRow vertical label', () => {
+    it('should inherit formElement vertical label', () => {
       render(
-        <FormRow vertical>
+        <Provider formElement={{ label_direction: 'vertical' }}>
           <SliderWithStateUpdate label="Label" />
-        </FormRow>
+        </Provider>
       )
 
       const element = document.querySelector('.dnb-slider')

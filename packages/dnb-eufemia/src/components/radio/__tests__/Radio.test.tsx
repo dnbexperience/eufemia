@@ -6,8 +6,8 @@
 import { fireEvent, render, cleanup } from '@testing-library/react'
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import FormRow from '../../form-row/FormRow'
 import Radio, { RadioProps } from '../Radio'
+import { Provider } from '../../../shared'
 
 const props: RadioProps = {
   label: 'label',
@@ -139,11 +139,11 @@ describe('Radio component', () => {
     ])
   })
 
-  it('should inherit FormRow vertical label', () => {
+  it('should inherit formElement vertical label', () => {
     render(
-      <FormRow vertical disabled>
+      <Provider formElement={{ vertical: true, disabled: true }}>
         <Radio label="Label" aria-label="Aria Label" />
-      </FormRow>
+      </Provider>
     )
 
     const element = document.querySelector('.dnb-radio')
@@ -251,14 +251,14 @@ describe('Radio group component', () => {
     ])
   })
 
-  it('should inherit FormRow vertical label', () => {
+  it('should inherit formElement vertical label', () => {
     render(
-      <FormRow vertical>
+      <Provider formElement={{ label_direction: 'vertical' }}>
         <Radio.Group label="Label" name="group" id="group">
           <Radio id="radio-1" label="Radio 1" value="first" />
           <Radio id="radio-2" label="Radio 2" value="second" checked />
         </Radio.Group>
-      </FormRow>
+      </Provider>
     )
 
     const element = document.querySelector('.dnb-radio-group')
@@ -282,7 +282,6 @@ describe('Radio group component', () => {
       'dnb-form-row',
       'dnb-form-row--vertical',
       'dnb-form-row--vertical-label',
-      'dnb-form-row--nested',
     ])
     expect(
       Array.from(document.querySelector('.dnb-form-row').classList)

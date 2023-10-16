@@ -5,7 +5,8 @@
 
 import React from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { Radio, HelpButton, FormRow } from '@dnb/eufemia/src'
+import { Radio, HelpButton } from '@dnb/eufemia/src'
+import { FieldBlock } from '@dnb/eufemia/src/extensions/forms'
 
 export const RadioExampleDefault = () => (
   <ComponentBox data-visual-test="radio-group">
@@ -80,7 +81,7 @@ export const RadioExampleGroupStatus = () => (
 
 export const RadioExampleWithoutGroup = () => (
   <ComponentBox data-visual-test="radio-group-plain">
-    <FormRow label="Plain Radio group:">
+    <FieldBlock label="Plain Radio group:">
       <Radio
         value="first"
         label="First"
@@ -109,7 +110,7 @@ export const RadioExampleWithoutGroup = () => (
         }}
         right
       />
-    </FormRow>
+    </FieldBlock>
   </ComponentBox>
 )
 

@@ -25,7 +25,7 @@ import {
   skeletonDOMAttributes,
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
-import { includeValidProps } from '../form-row/FormRowHelpers'
+import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import IconPrimary from '../icon-primary/IconPrimary'
 import { launch, launch_medium } from '../../icons'
 import FormStatus from '../form-status/FormStatus'
@@ -92,7 +92,9 @@ export default class Button extends React.PureComponent {
       this.props,
       Button.defaultProps,
       { skeleton: this.context?.skeleton },
-      includeValidProps(this.context.FormRow),
+      // Deprecated – can be removed in v11
+      pickFormElementProps(this.context?.FormRow),
+      pickFormElementProps(this.context?.formElement),
       this.context.Button
     )
 

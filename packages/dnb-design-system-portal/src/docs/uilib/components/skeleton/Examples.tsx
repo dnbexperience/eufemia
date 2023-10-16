@@ -14,8 +14,8 @@ import {
   Button,
   Skeleton,
   ToggleButton,
-  FormRow,
   Div,
+  Flex,
 } from '@dnb/eufemia/src'
 import { AllComponents } from '../../layout/form-row/Examples'
 import Provider from '@dnb/eufemia/src/shared/Provider'
@@ -78,7 +78,7 @@ export const SkeletonWrapperExample = () => (
 )
 
 export const SkeletonEufemiaProviderExample = () => (
-  <ComponentBox scope={{ Provider }}>
+  <ComponentBox>
     <Provider skeleton={true}>
       <H2 top bottom>
         Heading
@@ -109,21 +109,23 @@ export const SkeletonVisibleWhenVisualTests = () => {
         data-visual-test="skeleton-all-horizontal"
         scope={{ AllComponents }}
       >
-        <FormRow>
+        <Flex.Horizontal align="baseline">
           <Skeleton show no_animation>
             <AllComponents />
           </Skeleton>
-        </FormRow>
+        </Flex.Horizontal>
       </ComponentBox>
       <ComponentBox
         data-visual-test="skeleton-all-vertical"
         scope={{ AllComponents }}
       >
-        <FormRow vertical={true}>
+        <Provider formElement={{ label_direction: 'vertical' }}>
           <Skeleton show no_animation>
-            <AllComponents />
+            <Flex.Vertical>
+              <AllComponents />
+            </Flex.Vertical>
           </Skeleton>
-        </FormRow>
+        </Provider>
       </ComponentBox>
     </>
   )
@@ -141,7 +143,7 @@ export const SkeletonInfoProvider = () => (
 )
 
 export const SkeletonInfoGlobalProvider = () => (
-  <ComponentBox scope={{ Provider }} hidePreview>
+  <ComponentBox hidePreview>
     <Provider locale="nb-NO">
       <Div id="your-app">
         <Provider skeleton={true}>

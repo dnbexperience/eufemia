@@ -39,7 +39,7 @@ export const WithParagraphs = () => {
 
 export const WithMainHeading = () => {
   return (
-    <ComponentBox scope={{ Form }}>
+    <ComponentBox>
       <Flex.Stack>
         <Form.MainHeading>Heading</Form.MainHeading>
         <P>
@@ -71,7 +71,7 @@ export const WithCard = () => {
 
 export const WithCardAndHeading = () => {
   return (
-    <ComponentBox scope={{ Form }}>
+    <ComponentBox>
       <Flex.Stack>
         <Form.MainHeading>Main heading</Form.MainHeading>
         <Card>
@@ -89,7 +89,7 @@ export const WithCardAndHeading = () => {
 
 export const WithCardAndHeadings = () => {
   return (
-    <ComponentBox scope={{ Form }}>
+    <ComponentBox>
       <Flex.Stack>
         <Form.MainHeading>Main heading</Form.MainHeading>
         <Form.SubHeading>Sub heading</Form.SubHeading>
@@ -108,7 +108,7 @@ export const WithCardAndHeadings = () => {
 
 export const WithHeadingsAndAriaLabel = () => {
   return (
-    <ComponentBox hidePreview scope={{ Form }}>
+    <ComponentBox hidePreview>
       <Flex.Stack aria-labelledby="unique-id">
         <Form.SubHeading id="unique-id">Heading</Form.SubHeading>
         <Card>

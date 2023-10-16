@@ -8,7 +8,7 @@ import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import Button, { ButtonOnClick, ButtonProps } from '../Button'
 import IconPrimary from '../../IconPrimary'
 import { fireEvent, render } from '@testing-library/react'
-import FormRow from '../../form-row/FormRow'
+import { Provider } from '../../../shared'
 
 const props: ButtonProps = {
   href: 'href',
@@ -124,11 +124,11 @@ describe('Button component', () => {
     ])
   })
 
-  it('should inherit disabled from FormRow', () => {
+  it('should inherit disabled from formElement', () => {
     render(
-      <FormRow vertical disabled>
+      <Provider formElement={{ vertical: true, disabled: true }}>
         <Button text="Button" />
-      </FormRow>
+      </Provider>
     )
 
     const element = document.querySelector('.dnb-button')

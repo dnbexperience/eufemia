@@ -21,8 +21,6 @@ import Layout from '../layout/DemoLayout'
 import { P } from '@dnb/eufemia/src'
 import {
   Heading,
-  FormSet,
-  FormRow,
   Input,
   Textarea,
   Section,
@@ -39,6 +37,8 @@ import {
   trash as TrashIcon,
   attachment as AttachmentIcon,
 } from '@dnb/eufemia/src/icons'
+import { Provider } from '@dnb/eufemia/src/shared'
+import { FieldBlock, Form } from '@dnb/eufemia/src/extensions/forms'
 
 /** -- 1. Markup -- */
 
@@ -91,63 +91,63 @@ const MainForm = () => {
   } = React.useContext(FormContext)
 
   return (
-    <FormSet vertical prevent_submit on_submit={submitHandler}>
-      <WidthLimit>
-        <Section top="medium" spacing="x-large" style_type="white">
-          <Heading>What has happened?</Heading>
-          <Ingress>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-            enim ad minim veniam, quis nostrud exercitation.
-          </Ingress>
+    <Provider formElement={{ label_direction: 'vertical' }}>
+      <Form.Handler onSubmit={submitHandler}>
+        <WidthLimit>
+          <Section top="medium" spacing="x-large" style_type="white">
+            <Heading>What has happened?</Heading>
+            <Ingress>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+              do eiusmod tempor incididunt ut labore et dolore magna
+              aliqua. Ut enim ad minim veniam, quis nostrud exercitation.
+            </Ingress>
 
-          <ToggleButton.Group
-            value={currentValues.toggleButtonOptionsValue}
-            on_change={({ value: toggleButtonOptionsValue }) =>
-              setValues({
-                toggleButtonOptionsValue,
-              })
-            }
-          >
-            <ToggleButton text="Unknown transaction" value="first" />
-            <ToggleButton
-              text="I did not receive money from the ATM"
-              value="second"
-            />
-            <ToggleButton text="Goods not received" value="third" />
-            <ToggleButton text="Wrong goods received" value="fourth" />
-            <ToggleButton text="Fake goods received" value="fifth" />
-            <ToggleButton text="Double charged" value="sixth" />
-            <ToggleButton text="Wrong amount charged" value="seventh" />
-            <ToggleButton text="I am after charged" value="eighth" />
-          </ToggleButton.Group>
-        </Section>
+            <ToggleButton.Group
+              value={currentValues.toggleButtonOptionsValue}
+              on_change={({ value: toggleButtonOptionsValue }) =>
+                setValues({
+                  toggleButtonOptionsValue,
+                })
+              }
+            >
+              <ToggleButton text="Unknown transaction" value="first" />
+              <ToggleButton
+                text="I did not receive money from the ATM"
+                value="second"
+              />
+              <ToggleButton text="Goods not received" value="third" />
+              <ToggleButton text="Wrong goods received" value="fourth" />
+              <ToggleButton text="Fake goods received" value="fifth" />
+              <ToggleButton text="Double charged" value="sixth" />
+              <ToggleButton text="Wrong amount charged" value="seventh" />
+              <ToggleButton text="I am after charged" value="eighth" />
+            </ToggleButton.Group>
+          </Section>
 
-        <Section spacing="x-large">
-          <Heading>Lorem ipsum</Heading>
-          <Ingress>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore.
-          </Ingress>
+          <Section spacing="x-large">
+            <Heading>Lorem ipsum</Heading>
+            <Ingress>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+              do eiusmod tempor incididunt ut labore.
+            </Ingress>
 
-          <Space top="small">
-            <FormRow label="Did you receive some money from the ATM?">
-              <ToggleButton.Group
-                value={currentValues.yesNoQuestionValue}
-                on_change={({ value: yesNoQuestionValue }) =>
-                  setValues({
-                    yesNoQuestionValue,
-                  })
-                }
-              >
-                <ToggleButton text="Yes" value="yes" />
-                <ToggleButton text="No" value="no" />
-              </ToggleButton.Group>
-            </FormRow>
-          </Space>
+            <Space top="small">
+              <FieldBlock label="Did you receive some money from the ATM?">
+                <ToggleButton.Group
+                  value={currentValues.yesNoQuestionValue}
+                  on_change={({ value: yesNoQuestionValue }) =>
+                    setValues({
+                      yesNoQuestionValue,
+                    })
+                  }
+                >
+                  <ToggleButton text="Yes" value="yes" />
+                  <ToggleButton text="No" value="no" />
+                </ToggleButton.Group>
+              </FieldBlock>
+            </Space>
 
-          <Space top="medium">
-            <FormRow>
+            <Space top="medium">
               <Input
                 label="How much money did you withdraw?"
                 suffix="Kr"
@@ -158,11 +158,9 @@ const MainForm = () => {
                   })
                 }
               />
-            </FormRow>
-          </Space>
+            </Space>
 
-          <Space top="medium">
-            <FormRow>
+            <Space top="medium">
               <Input
                 label="How much money did you receive?"
                 suffix="Kr"
@@ -173,11 +171,9 @@ const MainForm = () => {
                   })
                 }
               />
-            </FormRow>
-          </Space>
+            </Space>
 
-          <Space top="medium">
-            <FormRow>
+            <Space top="medium">
               <Textarea
                 rows="6"
                 cols="40"
@@ -189,78 +185,78 @@ const MainForm = () => {
                   })
                 }
               />
-            </FormRow>
-          </Space>
+            </Space>
+          </Section>
+
+          <Section spacing="x-large" style_type="white">
+            <Heading>Attachment</Heading>
+
+            <Ingress bottom="x-small">
+              If you have a receipt of the ATM transaction showing that
+              money was not dispensed, then please upload the copy as this
+              would strengthen your case.
+            </Ingress>
+
+            <Attachment>
+              <Attachment.FileRow>
+                <Icon icon={AttachmentIcon} />
+                filename_01.jpg
+              </Attachment.FileRow>
+              <Button
+                text="Delete"
+                variant="tertiary"
+                icon={TrashIcon}
+                icon_position="left"
+              />
+            </Attachment>
+
+            <Attachment.Add>
+              <Button
+                text="Upload attachment"
+                variant="tertiary"
+                icon={AttachmentIcon}
+                icon_position="left"
+              />
+            </Attachment.Add>
+          </Section>
+        </WidthLimit>
+
+        <Section top="medium" spacing="medium">
+          <Switch
+            label="I hereby declare that all information given is correct and to the best of my knowledge."
+            label_position="right"
+            checked={currentValues.switchIsChecked}
+            on_change={({ checked: switchIsChecked }) =>
+              setValues({
+                switchIsChecked,
+              })
+            }
+            on_change_end={({ checked }) => checked && resetErrors()}
+            status={currentErrors.switchErrorMessage}
+          />
         </Section>
 
-        <Section spacing="x-large" style_type="white">
-          <Heading>Attachment</Heading>
-
-          <Ingress bottom="x-small">
-            If you have a receipt of the ATM transaction showing that money
-            was not dispensed, then please upload the copy as this would
-            strengthen your case.
-          </Ingress>
-
-          <Attachment>
-            <Attachment.FileRow>
-              <Icon icon={AttachmentIcon} />
-              filename_01.jpg
-            </Attachment.FileRow>
+        <DividerSection spacing="small" style_type="divider">
+          <Button type="submit" text="Next" icon="chevron_right" />
+          <div>
             <Button
-              text="Delete"
-              variant="tertiary"
-              icon={TrashIcon}
+              text="Save"
+              type="submit" // This button is the required submit
+              variant="secondary"
+              icon={SaveIcon}
               icon_position="left"
             />
-          </Attachment>
-
-          <Attachment.Add>
             <Button
-              text="Upload attachment"
-              variant="tertiary"
-              icon={AttachmentIcon}
+              text="Cancel"
+              variant="secondary"
+              icon="close"
               icon_position="left"
+              on_click={cancelHandler}
             />
-          </Attachment.Add>
-        </Section>
-      </WidthLimit>
-
-      <Section top="medium" spacing="medium">
-        <Switch
-          label="I hereby declare that all information given is correct and to the best of my knowledge."
-          label_position="right"
-          checked={currentValues.switchIsChecked}
-          on_change={({ checked: switchIsChecked }) =>
-            setValues({
-              switchIsChecked,
-            })
-          }
-          on_change_end={({ checked }) => checked && resetErrors()}
-          status={currentErrors.switchErrorMessage}
-        />
-      </Section>
-
-      <DividerSection spacing="small" style_type="divider">
-        <Button type="submit" text="Next" icon="chevron_right" />
-        <div>
-          <Button
-            text="Save"
-            type="submit" // This button is the required submit
-            variant="secondary"
-            icon={SaveIcon}
-            icon_position="left"
-          />
-          <Button
-            text="Cancel"
-            variant="secondary"
-            icon="close"
-            icon_position="left"
-            on_click={cancelHandler}
-          />
-        </div>
-      </DividerSection>
-    </FormSet>
+          </div>
+        </DividerSection>
+      </Form.Handler>
+    </Provider>
   )
 }
 

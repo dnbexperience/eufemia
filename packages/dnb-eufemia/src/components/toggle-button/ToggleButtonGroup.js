@@ -26,7 +26,7 @@ import FormStatus from '../form-status/FormStatus'
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import ToggleButtonGroupContext from './ToggleButtonGroupContext'
-import { includeValidProps } from '../form-row/FormRowHelpers'
+import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
 export default class ToggleButtonGroup extends React.PureComponent {
   static contextType = Context
@@ -194,7 +194,9 @@ export default class ToggleButtonGroup extends React.PureComponent {
       this.props,
       ToggleButtonGroup.defaultProps,
       this.context.getTranslation(this.props).ToggleButton,
-      includeValidProps(this.context.FormRow),
+      // Deprecated – can be removed in v11
+      pickFormElementProps(this.context?.FormRow),
+      pickFormElementProps(this.context?.formElement),
       this.context.ToggleButtonGroup
     )
 

@@ -10,10 +10,10 @@ import {
   Dropdown,
   NumberFormat,
   IconPrimary,
-  FormRow,
   Link,
   HelpButton,
   P,
+  Flex,
 } from '@dnb/eufemia/src'
 
 import type { DropdownProps } from '@dnb/eufemia/src/components/dropdown/Dropdown'
@@ -512,11 +512,11 @@ export const DropdownCustomEvent = () => {
 export const DropdownSizes = () => (
   <Wrapper>
     <ComponentBox data-visual-test="dropdown-sizes" scope={{ data }}>
-      <FormRow direction="vertical">
-        <Dropdown label="Label:" size="default" bottom data={() => data} />
-        <Dropdown label="Label:" size="medium" bottom data={() => data} />
-        <Dropdown label="Label:" size="large" bottom data={() => data} />
-      </FormRow>
+      <Flex.Vertical>
+        <Dropdown label="Label:" size="default" data={() => data} />
+        <Dropdown label="Label:" size="medium" data={() => data} />
+        <Dropdown label="Label:" size="large" data={() => data} />
+      </Flex.Vertical>
     </ComponentBox>
   </Wrapper>
 )
@@ -558,35 +558,31 @@ export const DropdownCustomWidth = () => (
         `
 
         return (
-          <FormRow direction="vertical">
+          <Flex.Vertical>
             <CustomWidthOne
               label="Label:"
               size="default"
               icon_position="left"
-              bottom
               data={data}
             />
             <CustomWidthTwo
               label="Label:"
               size="small"
               more_menu
-              bottom
               data={data}
             />
             <CustomWidthThree
               label="Label:"
               size="large"
               align_dropdown="right"
-              bottom
               data={data}
             />
             <CustomWidthFour
               title="Min and max width"
               stretch={true}
-              bottom
               data={data}
             />
-          </FormRow>
+          </Flex.Vertical>
         )
       }}
     </ComponentBox>

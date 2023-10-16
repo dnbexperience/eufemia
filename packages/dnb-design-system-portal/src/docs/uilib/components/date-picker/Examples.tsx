@@ -12,7 +12,8 @@ import lastDayOfMonth from 'date-fns/lastDayOfMonth'
 import startOfWeek from 'date-fns/startOfWeek'
 import lastDayOfWeek from 'date-fns/lastDayOfWeek'
 import isWeekend from 'date-fns/isWeekend'
-import { DatePicker, FormRow, HelpButton } from '@dnb/eufemia/src'
+import { DatePicker, Flex, HelpButton } from '@dnb/eufemia/src'
+import { Provider } from '@dnb/eufemia/src/shared'
 
 const Wrapper = styled.div`
   [data-visual-test='date-picker-calendar'] .dnb-date-picker__container {
@@ -242,31 +243,33 @@ export const DatePickerScreenshotTestSizes = () => {
   return (
     <Wrapper>
       <ComponentBox data-visual-test="date-picker-sizes">
-        <FormRow vertical>
-          <DatePicker
-            label="DatePicker:"
-            date={new Date('2022/06/10')}
-            show_input={true}
-          />
-          <DatePicker
-            size="small"
-            label="DatePicker:"
-            date={new Date('2022/06/10')}
-            show_input={true}
-          />
-          <DatePicker
-            size="medium"
-            label="DatePicker:"
-            date={new Date('2022/06/10')}
-            show_input={true}
-          />
-          <DatePicker
-            size="large"
-            label="DatePicker:"
-            date={new Date('2022/06/10')}
-            show_input={true}
-          />
-        </FormRow>
+        <Provider formElement={{ label_direction: 'vertical' }}>
+          <Flex.Vertical>
+            <DatePicker
+              label="DatePicker:"
+              date={new Date('2022/06/10')}
+              show_input={true}
+            />
+            <DatePicker
+              size="small"
+              label="DatePicker:"
+              date={new Date('2022/06/10')}
+              show_input={true}
+            />
+            <DatePicker
+              size="medium"
+              label="DatePicker:"
+              date={new Date('2022/06/10')}
+              show_input={true}
+            />
+            <DatePicker
+              size="large"
+              label="DatePicker:"
+              date={new Date('2022/06/10')}
+              show_input={true}
+            />
+          </Flex.Vertical>
+        </Provider>
       </ComponentBox>
     </Wrapper>
   )
@@ -276,10 +279,12 @@ export const DatePickerScreenshotTestDisabled = () => {
   return (
     <Wrapper>
       <ComponentBox data-visual-test="date-picker-disabled">
-        <FormRow vertical>
-          <DatePicker disabled />
-          <DatePicker show_input={true} disabled />
-        </FormRow>
+        <Provider formElement={{ label_direction: 'vertical' }}>
+          <Flex.Vertical>
+            <DatePicker disabled />
+            <DatePicker show_input={true} disabled />
+          </Flex.Vertical>
+        </Provider>
       </ComponentBox>
     </Wrapper>
   )

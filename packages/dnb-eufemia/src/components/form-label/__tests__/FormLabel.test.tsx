@@ -8,7 +8,7 @@ import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
 import { render } from '@testing-library/react'
 import FormLabel, { FormLabelProps } from '../FormLabel'
 import Input from '../../input/Input'
-import FormRow from '../../form-row/FormRow'
+import { Provider } from '../../../shared'
 
 const props: FormLabelProps = {
   title: 'title',
@@ -47,11 +47,11 @@ describe('FormLabel component', () => {
     ])
   })
 
-  it('should inherit FormRow vertical label', () => {
+  it('should inherit formElement vertical label', () => {
     render(
-      <FormRow vertical>
+      <Provider formElement={{ label_direction: 'vertical' }}>
         <FormLabel label="Label" />
-      </FormRow>
+      </Provider>
     )
 
     const element = document.querySelector('.dnb-form-label')

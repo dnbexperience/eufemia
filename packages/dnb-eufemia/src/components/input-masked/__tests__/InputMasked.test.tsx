@@ -10,7 +10,6 @@ import userEvent from '@testing-library/user-event'
 import InputMasked, { InputMaskedProps } from '../InputMasked'
 import Provider from '../../../shared/Provider'
 import * as helpers from '../../../shared/helpers'
-import FormRow from '../../form-row/FormRow'
 
 const props: InputMaskedProps = {
   id: 'input-masked',
@@ -1681,11 +1680,11 @@ describe('InputMasked component as_currency', () => {
     ])
   })
 
-  it('should inherit FormRow vertical label', () => {
+  it('should inherit formElement vertical label', () => {
     render(
-      <FormRow vertical>
+      <Provider formElement={{ label_direction: 'vertical' }}>
         <InputMasked label="Label" />
-      </FormRow>
+      </Provider>
     )
 
     const element = document.querySelector('.dnb-input')

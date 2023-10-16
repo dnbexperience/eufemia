@@ -14,14 +14,13 @@ import {
   Dropdown,
   Section,
   DatePicker,
-  FormSet,
-  FormRow,
   ProgressIndicator,
   NumberFormat,
 } from '../../'
 import Modal from '../../modal/Modal'
 import { ScrollView } from '../../../fragments'
-import { H2, P, Hr } from '../../..'
+import { H2, P, Hr, Flex } from '../../..'
+import { Form } from '../../../extensions/forms'
 
 export default {
   title: 'Eufemia/Components/Modal',
@@ -411,8 +410,8 @@ const ModalTriggerExample = () => {
   const [count, setCount] = React.useState(0)
 
   return (
-    <FormSet>
-      <FormRow>
+    <Form.Element>
+      <Flex.Horizontal align="baseline">
         <Button
           variant="secondary"
           text="Count"
@@ -439,8 +438,8 @@ const ModalTriggerExample = () => {
           }}
         />
         {count}
-      </FormRow>
-    </FormSet>
+      </Flex.Horizontal>
+    </Form.Element>
   )
 }
 

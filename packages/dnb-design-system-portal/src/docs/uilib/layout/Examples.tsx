@@ -308,7 +308,7 @@ export const FormSetAlternativeBefore = () => (
   <ComponentBox>
     <FormSet label_direction="vertical">
       <H2 top={0}>Heading</H2>
-      <FormRow label="Legend">
+      <FormRow label={<span className="dnb-h--medium">Legend</span>}>
         <Input label="Label A" right />
         <Input label="Label B" />
       </FormRow>
@@ -317,32 +317,30 @@ export const FormSetAlternativeBefore = () => (
 )
 
 export const FormSetAlternativeAfter = () => (
-  <ComponentBox scope={{ Provider, Form, FieldBlock }}>
-    <Provider Input={{ label_direction: 'vertical' }}>
+  <ComponentBox>
+    <Provider formElement={{ label_direction: 'vertical' }}>
       <Form.Handler>
-        <Flex.Stack>
-          <H2>Heading</H2>
-          <FieldBlock label="Legend">
-            <Flex.Horizontal>
-              <Input label="Label A" />
-              <Input label="Label B" />
-            </Flex.Horizontal>
-          </FieldBlock>
-        </Flex.Stack>
+        <H2 top={0}>Heading</H2>
+        <FieldBlock label={<span className="dnb-h--medium">Legend</span>}>
+          <Flex.Horizontal>
+            <Input label="Label A" />
+            <Input label="Label B" />
+          </Flex.Horizontal>
+        </FieldBlock>
       </Form.Handler>
     </Provider>
   </ComponentBox>
 )
 
 export const FormSetAlternativeForms = () => (
-  <ComponentBox scope={{ Form, Field, FieldBlock }}>
+  <ComponentBox>
     <Form.Handler>
       <Flex.Stack>
         <Form.MainHeading>Heading</Form.MainHeading>
-        <FieldBlock label="Legend">
+        <FieldBlock label={<span className="dnb-h--medium">Legend</span>}>
           <Flex.Horizontal>
             <Field.String label="Label A" width="medium" />
-            <Field.String label="Label B" width="medium" />
+            <Field.String label="Label B" width="large" />
           </Flex.Horizontal>
         </FieldBlock>
       </Flex.Stack>

@@ -6,8 +6,8 @@
 import { fireEvent, render, cleanup } from '@testing-library/react'
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import FormRow from '../../form-row/FormRow'
 import ToggleButton, { ToggleButtonProps } from '../ToggleButton'
+import { Provider } from '../../../shared'
 
 const props: ToggleButtonProps = {
   variant: 'checkbox',
@@ -248,11 +248,11 @@ describe('ToggleButton component', () => {
     ])
   })
 
-  it('should inherit FormRow vertical label', () => {
+  it('should inherit formElement vertical label', () => {
     render(
-      <FormRow vertical>
+      <Provider formElement={{ label_direction: 'vertical' }}>
         <ToggleButton label="Label" />
-      </FormRow>
+      </Provider>
     )
 
     const element = document.querySelector('.dnb-toggle-button')
@@ -590,9 +590,9 @@ describe('ToggleButton group component', () => {
     ])
   })
 
-  it('should inherit FormRow vertical label', () => {
+  it('should inherit formElement vertical label', () => {
     render(
-      <FormRow vertical>
+      <Provider formElement={{ label_direction: 'vertical' }}>
         <ToggleButton.Group id="group" label="Label">
           <ToggleButton
             variant="checkbox"
@@ -607,7 +607,7 @@ describe('ToggleButton group component', () => {
             value="second"
           />
         </ToggleButton.Group>
-      </FormRow>
+      </Provider>
     )
 
     const element = document.querySelector('.dnb-toggle-button-group')
@@ -633,7 +633,6 @@ describe('ToggleButton group component', () => {
       'dnb-form-row',
       'dnb-form-row--vertical',
       'dnb-form-row--vertical-label',
-      'dnb-form-row--nested',
     ])
     expect(
       Array.from(document.querySelector('.dnb-form-row').classList)

@@ -11,7 +11,7 @@ import { trash as TrashIcon } from '@dnb/eufemia/src/icons'
 
 export const PrimitiveElements = () => {
   return (
-    <ComponentBox scope={{ Iterate, Field }}>
+    <ComponentBox scope={{ Iterate }}>
       <Iterate.Array
         label="Array label"
         value={['Iron Man', 'Captain America', 'The Hulk']}
@@ -25,7 +25,7 @@ export const PrimitiveElements = () => {
 
 export const ObjectElements = () => {
   return (
-    <ComponentBox scope={{ Iterate, Field, Value }}>
+    <ComponentBox scope={{ Iterate, Value }}>
       <Iterate.Array
         label="Accounts"
         value={[
@@ -54,7 +54,7 @@ export const ObjectElements = () => {
 
 export const RenderPropsPrimitiveElements = () => {
   return (
-    <ComponentBox scope={{ Iterate, Field }}>
+    <ComponentBox scope={{ Iterate }}>
       <Iterate.Array
         label="Array label"
         value={['foo', 'bar', 'baz']}
@@ -68,7 +68,7 @@ export const RenderPropsPrimitiveElements = () => {
 
 export const RenderPropsObjectElements = () => {
   return (
-    <ComponentBox scope={{ Iterate, Field, FieldBlock }}>
+    <ComponentBox scope={{ Iterate }}>
       <Iterate.Array
         label="Array label"
         value={[
@@ -92,7 +92,7 @@ export const RenderPropsObjectElements = () => {
 
 export const ArrayFromFormHandler = () => {
   return (
-    <ComponentBox scope={{ Iterate, Field, Value, Form, TrashIcon }}>
+    <ComponentBox scope={{ Iterate, Value, TrashIcon }}>
       <Form.Handler
         data={{
           avengers: [

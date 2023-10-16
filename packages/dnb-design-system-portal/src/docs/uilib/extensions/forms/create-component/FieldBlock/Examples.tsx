@@ -9,7 +9,7 @@ import { Flex, Slider } from '@dnb/eufemia/src'
 
 export const Default = () => {
   return (
-    <ComponentBox scope={{ FieldBlock }}>
+    <ComponentBox>
       <FieldBlock label="Label text">Input features goes here</FieldBlock>
     </ComponentBox>
   )
@@ -17,7 +17,7 @@ export const Default = () => {
 
 export const WithInfo = () => {
   return (
-    <ComponentBox scope={{ FieldBlock }}>
+    <ComponentBox>
       <FieldBlock label="Label text" info="For your information">
         Input features goes here
       </FieldBlock>
@@ -27,7 +27,7 @@ export const WithInfo = () => {
 
 export const Horizontal = () => {
   return (
-    <ComponentBox scope={{ FieldBlock }}>
+    <ComponentBox>
       <FieldBlock label="Label text" layout="horizontal">
         Input features goes here
       </FieldBlock>
@@ -37,7 +37,7 @@ export const Horizontal = () => {
 
 export const HorizontalWithInfo = () => {
   return (
-    <ComponentBox scope={{ FieldBlock }}>
+    <ComponentBox>
       <FieldBlock
         label="Label text"
         layout="horizontal"
@@ -52,7 +52,7 @@ export const HorizontalWithInfo = () => {
 export const Widths = () => {
   return (
     <ComponentBox
-      scope={{ FieldBlock, TestElement }}
+      scope={{ TestElement }}
       data-visual-test="forms-field-block-widths"
     >
       <FieldBlock label="Default width (no width props)">
@@ -101,7 +101,7 @@ export const Widths = () => {
 
 export const WithDescription = () => {
   return (
-    <ComponentBox scope={{ FieldBlock }}>
+    <ComponentBox>
       <FieldBlock label="Label text" labelDescription="Description text">
         Input features goes here
       </FieldBlock>
@@ -111,7 +111,7 @@ export const WithDescription = () => {
 
 export const WithSecondary = () => {
   return (
-    <ComponentBox scope={{ FieldBlock }}>
+    <ComponentBox>
       <FieldBlock label="Label text" labelSecondary="Secondary text">
         Input features goes here
       </FieldBlock>
@@ -121,7 +121,7 @@ export const WithSecondary = () => {
 
 export const WithDescriptionAndSecondary = () => {
   return (
-    <ComponentBox scope={{ FieldBlock }}>
+    <ComponentBox>
       <FieldBlock
         label="Label text"
         labelDescription="Description text"
@@ -135,7 +135,7 @@ export const WithDescriptionAndSecondary = () => {
 
 export const GroupMultipleFields = () => {
   return (
-    <ComponentBox scope={{ FieldBlock, Field }}>
+    <ComponentBox>
       <FieldBlock label="Label text" info="For your information">
         <Flex.Horizontal>
           <Field.String width="small" minLength={3} />
@@ -148,12 +148,7 @@ export const GroupMultipleFields = () => {
 
 export const HorizontalAutoSize = () => {
   return (
-    <ComponentBox
-      scope={{
-        Field,
-        FieldBlock,
-      }}
-    >
+    <ComponentBox>
       <FieldBlock label="Label">
         <Flex.Container>
           <Flex.Item size={{ small: 12, large: 'auto' }}>

@@ -4,7 +4,7 @@ import { Form } from '@dnb/eufemia/src/extensions/forms'
 
 export const TextOnly = () => {
   return (
-    <ComponentBox scope={{ Form }}>
+    <ComponentBox>
       <Form.SubHeading>This is a sub heading</Form.SubHeading>
     </ComponentBox>
   )
@@ -12,10 +12,7 @@ export const TextOnly = () => {
 
 export const BelowMainHeading = () => {
   return (
-    <ComponentBox
-      scope={{ Form }}
-      data-visual-test="layout-sub-heading-below-main"
-    >
+    <ComponentBox data-visual-test="layout-sub-heading-below-main">
       <Form.MainHeading>This is a main heading</Form.MainHeading>
       <Form.SubHeading>This is a sub heading</Form.SubHeading>
     </ComponentBox>
@@ -24,7 +21,7 @@ export const BelowMainHeading = () => {
 
 export const OverStack = () => {
   return (
-    <ComponentBox scope={{ Form }}>
+    <ComponentBox>
       <Form.SubHeading>This is a sub heading</Form.SubHeading>
       <Flex.Stack>
         <P>Stack contents</P>
@@ -35,10 +32,7 @@ export const OverStack = () => {
 
 export const InsideCard = () => {
   return (
-    <ComponentBox
-      scope={{ Form }}
-      data-visual-test="layout-sub-heading-inside-card"
-    >
+    <ComponentBox data-visual-test="layout-sub-heading-inside-card">
       <Card>
         <Flex.Stack>
           <Form.SubHeading>This is a sub heading</Form.SubHeading>
@@ -51,10 +45,7 @@ export const InsideCard = () => {
 
 export const OverStackWithCard = () => {
   return (
-    <ComponentBox
-      scope={{ Form }}
-      data-visual-test="layout-sub-heading-over-card"
-    >
+    <ComponentBox data-visual-test="layout-sub-heading-over-card">
       <Form.SubHeading>This is a sub heading</Form.SubHeading>
       <Flex.Stack>
         <Card>
@@ -67,7 +58,7 @@ export const OverStackWithCard = () => {
 
 export const TwoSubHeadings = () => {
   return (
-    <ComponentBox scope={{ Form }}>
+    <ComponentBox>
       <Form.SubHeading>This is sub heading 1</Form.SubHeading>
       <Form.SubHeading>This is sub heading 2</Form.SubHeading>
       Other contents

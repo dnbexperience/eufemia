@@ -12,11 +12,10 @@ import {
   NumberFormat,
   IconPrimary,
   Button,
-  FormRow,
   GlobalStatus,
 } from '../..'
 import { Anchor } from '../../../'
-import { Context } from '../../../shared'
+import { Context, Provider } from '../../../shared'
 import { SubmitButton } from '../../input/Input'
 import { format } from '../../number-format/NumberUtils'
 import {
@@ -898,7 +897,7 @@ export function DataSuffix() {
 
   return (
     <WideStyle>
-      <FormRow vertical>
+      <Provider formElement={{ label_direction: 'vertical' }}>
         <Autocomplete
           lang="nb"
           value={0}
@@ -909,7 +908,7 @@ export function DataSuffix() {
           label="From account"
           label_direction="vertical"
         />
-      </FormRow>
+      </Provider>
     </WideStyle>
   )
 }

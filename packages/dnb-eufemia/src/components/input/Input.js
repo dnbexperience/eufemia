@@ -27,7 +27,7 @@ import {
   skeletonDOMAttributes,
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
-import { includeValidProps } from '../form-row/FormRowHelpers'
+import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import Button, { buttonVariantPropType } from '../button/Button'
 import FormLabel from '../form-label/FormLabel'
 import FormStatus from '../form-status/FormStatus'
@@ -240,9 +240,13 @@ export default class Input extends React.PureComponent {
 
     this._id =
       props.id ||
+      // Deprecated – can be removed in v11
       (context.FormRow &&
         typeof context.FormRow.useId === 'function' &&
         context.FormRow.useId()) ||
+      (context.formElement &&
+        typeof context.formElement.useId === 'function' &&
+        context.formElement.useId()) ||
       makeUniqueId() // cause we need an id anyway
 
     if (isTrue(props.clear) && props.icon_position === 'right') {
@@ -327,7 +331,9 @@ export default class Input extends React.PureComponent {
       Input.defaultProps,
       { skeleton: this.context?.skeleton },
       this.context.getTranslation(this.props).Input,
-      includeValidProps(this.context.FormRow),
+      // Deprecated – can be removed in v11
+      pickFormElementProps(this.context?.FormRow),
+      pickFormElementProps(this.context?.formElement),
       this.context.Input
     )
 

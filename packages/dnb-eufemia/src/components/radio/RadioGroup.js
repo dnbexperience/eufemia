@@ -15,7 +15,7 @@ import {
   combineLabelledBy,
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
-import { includeValidProps } from '../form-row/FormRowHelpers'
+import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import {
   spacingPropTypes,
   createSpacingClasses,
@@ -157,7 +157,9 @@ export default class RadioGroup extends React.PureComponent {
     const props = extendPropsWithContextInClassComponent(
       this.props,
       RadioGroup.defaultProps,
-      includeValidProps(this.context.FormRow),
+      // Deprecated – can be removed in v11
+      pickFormElementProps(this.context?.FormRow),
+      pickFormElementProps(this.context?.formElement),
       this.context.RadioGroup
     )
 
