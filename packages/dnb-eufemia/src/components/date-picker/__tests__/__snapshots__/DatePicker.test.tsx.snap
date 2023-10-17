@@ -2993,6 +2993,12 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
   display: inline-flex;
   flex-direction: row;
 }
+.dnb-radio-group fieldset {
+  margin: 0;
+  padding: 0;
+  border: none;
+  line-height: var(--font-size-basis--em);
+}
 .dnb-radio-group .dnb-radio {
   margin-right: var(--radio-group-margin-right);
   margin-bottom: var(--radio-group-margin-bottom);
@@ -3014,11 +3020,10 @@ html[data-whatinput=keyboard] .dnb-radio__focus {
 .dnb-radio-group--column .dnb-radio-group__shell {
   flex-direction: column;
 }
-.dnb-radio-group .dnb-form-row {
-  align-items: flex-start;
+.dnb-radio-group .dnb-flex-container {
   margin-bottom: calc(0px - var(--radio-group-margin-bottom));
 }
-.dnb-radio-group .dnb-form-row::before {
+.dnb-radio-group .dnb-flex-container::before {
   font-size: var(--font-size-basis);
 }
 .dnb-skeleton .dnb-radio__input[disabled] ~ .dnb-radio__button {
@@ -3207,6 +3212,12 @@ button .dnb-form-status__text {
   --toggle-button-group-margin-bottom: 1rem;
   display: inline-flex;
 }
+.dnb-toggle-button-group fieldset {
+  margin: 0;
+  padding: 0;
+  border: none;
+  line-height: var(--font-size-basis--em);
+}
 .dnb-toggle-button-group .dnb-toggle-button {
   margin-right: var(--toggle-button-group-margin-right);
   margin-bottom: var(--toggle-button-group-margin-bottom);
@@ -3229,20 +3240,16 @@ button .dnb-form-status__text {
   order: 2;
   transform: translateY(-0.5rem);
 }
-.dnb-toggle-button-group .dnb-form-row {
-  align-items: baseline;
+.dnb-toggle-button-group .dnb-flex-container {
   margin-bottom: calc(0px - var(--toggle-button-group-margin-bottom));
 }
-.dnb-toggle-button-group .dnb-form-row--vertical-label {
+.dnb-toggle-button-group .dnb-flex-container--vertical-label {
   align-items: flex-start;
 }
-.dnb-toggle-button-group .dnb-form-row::before {
+.dnb-toggle-button-group .dnb-flex-container::before {
   font-size: var(--font-size-basis);
 }
-.dnb-toggle-button-group--no-label > .dnb-alignment-helper {
-  line-height: 2.5rem;
-}
-.dnb-toggle-button-group--row.dnb-toggle-button-group:not(.dnb-form-row--vertical-label) > .dnb-alignment-helper {
+.dnb-toggle-button-group .dnb-alignment-helper {
   line-height: 2.5rem;
 }
 @media screen and (min-width: 40em) {
@@ -3794,6 +3801,7 @@ html[data-whatinput=keyboard] .dnb-date-picker table.dnb-no-focus:focus {
   margin: 0;
   padding: 0;
   border: none;
+  line-height: var(--font-size-basis--em);
 }
 
 @keyframes date-picker-slide-down {

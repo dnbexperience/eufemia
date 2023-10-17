@@ -21,8 +21,9 @@ import {
   createSpacingClasses,
 } from '../space/SpacingHelper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import FormRow from '../form-row/FormRow'
-import FormStatus from '../form-status/FormStatus'
+import FormLabel from '../FormLabel'
+import FormStatus from '../FormStatus'
+import Flex from '../Flex'
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import ToggleButtonGroupContext from './ToggleButtonGroupContext'
@@ -43,7 +44,6 @@ export default class ToggleButtonGroup extends React.PureComponent {
     multiselect: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     variant: PropTypes.oneOf(['default', 'checkbox', 'radio']),
     left_component: PropTypes.node,
-    no_fieldset: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     disabled: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     skeleton: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
     id: PropTypes.string,
@@ -101,7 +101,6 @@ export default class ToggleButtonGroup extends React.PureComponent {
     multiselect: null,
     variant: null,
     left_component: null,
-    no_fieldset: null,
     disabled: null,
     skeleton: null,
     id: null,
@@ -214,7 +213,6 @@ export default class ToggleButtonGroup extends React.PureComponent {
       label,
       variant,
       left_component,
-      no_fieldset,
       disabled,
       skeleton,
       className,
@@ -241,12 +239,6 @@ export default class ToggleButtonGroup extends React.PureComponent {
       status && `dnb-toggle-button-group__status--${status_state}`,
       !label && 'dnb-toggle-button-group--no-label',
       `dnb-toggle-button-group--${layout_direction}`,
-      // (isTrue(vertical) || label_direction === 'vertical') &&
-      //   `dnb-toggle-button-group--vertical`,
-      (isTrue(vertical) || label_direction) &&
-        `dnb-form-row--${
-          isTrue(vertical) ? 'vertical' : label_direction
-        }-label`, // <-- has label
       'dnb-form-component',
       createSpacingClasses(props),
       className,
@@ -295,61 +287,60 @@ export default class ToggleButtonGroup extends React.PureComponent {
       onChange: this.onChangeHandler,
     }
 
-    const formRowParams = {
-      id,
-      label,
-      label_id: id + '-label', // send the id along, so the FormRow component can use it
-      label_direction,
-      label_sr_only,
-      direction: label_direction,
-      vertical,
-      disabled,
-      skeleton,
-      no_fieldset,
-      skipContentWrapperIfNested: true,
-      // status,
-      // status_state
-    }
-
     return (
       <ToggleButtonGroupContext.Provider value={context}>
         <div className={classes}>
           <AlignmentHelper />
-          <FormRow {...formRowParams}>
-            <span
-              id={id}
-              className="dnb-toggle-button-group__shell"
-              role="group"
-              {...params}
+          <fieldset>
+            <Flex.Container
+              align="baseline"
+              direction={vertical ? 'vertical' : 'horizontal'}
+              spacing={vertical ? 'x-small' : undefined}
             >
-              <FormStatus
-                show={showStatus}
-                id={id + '-form-status'}
-                globalStatus={globalStatus}
-                label={label}
-                text_id={id + '-status'} // used for "aria-describedby"
-                text={status}
-                state={status_state}
-                no_animation={status_no_animation}
-                skeleton={skeleton}
-                {...status_props}
-              />
+              <FormLabel
+                element="legend"
+                label_id={id + '-label'}
+                label_direction={label_direction}
+                label_sr_only={label_sr_only}
+              >
+                {label}
+              </FormLabel>
 
-              <span className="dnb-toggle-button-group__children">
-                {children}
+              <span
+                id={id}
+                className="dnb-toggle-button-group__shell"
+                role="group"
+                {...params}
+              >
+                <FormStatus
+                  show={showStatus}
+                  id={id + '-form-status'}
+                  globalStatus={globalStatus}
+                  label={label}
+                  text_id={id + '-status'} // used for "aria-describedby"
+                  text={status}
+                  state={status_state}
+                  no_animation={status_no_animation}
+                  skeleton={skeleton}
+                  {...status_props}
+                />
 
-                {suffix && (
-                  <Suffix
-                    className="dnb-toggle-button-group__suffix"
-                    id={id + '-suffix'} // used for "aria-describedby"
-                    context={props}
-                  >
-                    {suffix}
-                  </Suffix>
-                )}
+                <span className="dnb-toggle-button-group__children">
+                  {children}
+
+                  {suffix && (
+                    <Suffix
+                      className="dnb-toggle-button-group__suffix"
+                      id={id + '-suffix'} // used for "aria-describedby"
+                      context={props}
+                    >
+                      {suffix}
+                    </Suffix>
+                  )}
+                </span>
               </span>
-            </span>
-          </FormRow>
+            </Flex.Container>
+          </fieldset>
         </div>
       </ToggleButtonGroupContext.Provider>
     )
