@@ -3,20 +3,7 @@
 
 // Reset the fieldset
 fieldset.dnb-forms-field-block {
-  &:not([class*='space__top']) {
-    margin-top: 0;
-  }
-  &:not([class*='space__right']) {
-    margin-right: 0;
-  }
-  &:not([class*='space__bottom']) {
-    margin-bottom: 0;
-  }
-  &:not([class*='space__left']) {
-    margin-left: 0;
-  }
-  padding: 0;
-  border: none;
+  @include fieldsetReset(true);
 }
 
 .dnb-forms-field-block {
