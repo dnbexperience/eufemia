@@ -4,7 +4,7 @@ import Input from '../Input'
 import TextMask from './TextMask'
 import useHandleCursorPosition from './hooks/useHandleCursorPosition'
 import classnames from 'classnames'
-import FormLabel from '../FormLabel'
+import FormLabel, { FormLabelLabelDirection } from '../FormLabel'
 import { SpacingProps } from '../space/types'
 import { createSpacingClasses } from '../space/SpacingHelper'
 import { FormStatusState, FormStatusText } from '../FormStatus'
@@ -40,6 +40,10 @@ export type SteppedMaskProps<T extends string> = {
    */
   label?: string
   /**
+   * Use to change the label layout direction. Defaults to `horizontal`.
+   */
+  labelDirection?: FormLabelLabelDirection
+  /**
    * Used to define the different inputs representing the steps in the component. The id's defined here is used to map input value to correct property in `values` parameters used in `onChange`
    */
   steps: SteppedMaskStep<T>[]
@@ -71,6 +75,7 @@ export type SteppedMaskProps<T extends string> = {
 
 function SteppedMask<T extends string>({
   label,
+  labelDirection = 'horizontal',
   steps,
   delimiter,
   onChange: onChangeExternal,
@@ -101,16 +106,22 @@ function SteppedMask<T extends string>({
     <WrapperElement
       className={classnames(
         'dnb-stepped-mask__fieldset',
+        labelDirection === 'horizontal' &&
+          'dnb-stepped-mask__fieldset--horizontal',
         createSpacingClasses(props)
       )}
     >
       {label && (
         <FormLabel
-          className="dnb-stepped-mask__legend"
+          className={classnames(
+            'dnb-stepped-mask__legend',
+            labelDirection === 'horizontal' &&
+              'dnb-stepped-mask__legend--horizontal'
+          )}
           element="legend"
           onClick={onLegendClick}
           disabled={disabled}
-          vertical
+          vertical={labelDirection === 'vertical'}
         >
           {label}
         </FormLabel>

@@ -16,6 +16,12 @@
   margin: 0;
   padding: 0;
   border: none;
+
+  &--horizontal {
+    display: inline-flex;
+    flex-flow: row wrap;
+    align-items: baseline;
+  }
 }
 
 .dnb-stepped-mask__input {
@@ -67,6 +73,12 @@
 }
 
 .dnb-stepped-mask__legend {
+  &--horizontal {
+    float: left;
+
+    transform: translateY(0);
+  }
+
   &:not([disabled]) {
     cursor: pointer;
 

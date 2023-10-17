@@ -160,6 +160,43 @@ describe('SteppedInput', () => {
     expect(label).toHaveTextContent('New label')
   })
 
+  it('should change label layout direction', () => {
+    const { rerender } = render(
+      <SteppedMask {...defaultProps} label="Directions" />
+    )
+
+    const label = document.querySelector('.dnb-stepped-mask__legend')
+    const fieldset = document.querySelector('.dnb-stepped-mask__fieldset')
+
+    expect(label).toHaveTextContent('Directions')
+
+    expect(label.classList).toContain(
+      'dnb-stepped-mask__legend--horizontal'
+    )
+    expect(label.classList).not.toContain('dnb-form-label--vertical')
+    expect(fieldset.classList).toContain(
+      'dnb-stepped-mask__fieldset--horizontal'
+    )
+
+    rerender(
+      <SteppedMask
+        {...defaultProps}
+        label="Directions"
+        labelDirection="vertical"
+      />
+    )
+
+    expect(label).toHaveTextContent('Directions')
+
+    expect(label.classList).not.toContain(
+      'dnb-stepped-mask__legend--horizontal'
+    )
+    expect(label.classList).toContain('dnb-form-label--vertical')
+    expect(fieldset.classList).not.toContain(
+      'dnb-stepped-mask__fieldset--horizontal'
+    )
+  })
+
   it('onChange should have object params based on step ids', async () => {
     const onChange = jest.fn()
 
