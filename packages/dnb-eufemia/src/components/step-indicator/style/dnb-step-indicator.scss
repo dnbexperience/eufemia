@@ -78,7 +78,7 @@
     margin-bottom: 1rem;
 
     &--current .dnb-button {
-      font-weight: var(--font-weight-medium);
+      font-weight: var(--step-indicator-button-font-weight);
 
       @include fakeBorder(
         var(--step-indicator-border-color),
@@ -172,7 +172,7 @@
 
   &__label,
   &__label.dnb-p {
-    font-size: var(--font-size-small);
+    font-size: var(--step-indicator-label-font-size);
     margin-bottom: 0.5rem;
   }
 
@@ -200,14 +200,14 @@
     .dnb-step-indicator__item-content {
       &__number,
       &__status {
-        font-weight: var(--font-weight-basis);
+        font-weight: var(--step-indicator-status-font-weight);
       }
 
       &__status {
         margin-top: 0.5rem;
 
-        font-size: var(--font-size-x-small);
-        line-height: var(--font-size-basis);
+        font-size: var(--step-indicator-status-font-size);
+        line-height: var(--step-indicator-status-line-height);
         color: var(--step-indicator-status-color);
       }
     }

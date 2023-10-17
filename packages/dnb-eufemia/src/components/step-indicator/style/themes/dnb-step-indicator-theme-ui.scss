@@ -24,9 +24,18 @@
     --color-black-80
   );
 
-  //Status
+  --step-indicator-button-font-weight: var(--font-weight-medium);
+
+  // Status
   --step-indicator-status-color: var(--color-black-80);
   --step-indicator-status-background-color: var(--color-sand-yellow);
   --step-indicator-status-background-color--error: var(--color-fire-red-8);
   --step-indicator-status-background-color--info: var(--color-pistachio);
+
+  --step-indicator-status-font-weight: var(--font-weight-basis);
+  --step-indicator-status-font-size: var(--font-size-x-small);
+  --step-indicator-status-line-height: var(--font-size-basis);
+
+  // Label
+  --step-indicator-label-font-size: var(--font-size-small);
 }
