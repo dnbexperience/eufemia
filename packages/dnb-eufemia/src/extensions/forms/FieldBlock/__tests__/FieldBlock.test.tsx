@@ -56,13 +56,19 @@ describe('FieldBlock', () => {
   it('should contain given classes', () => {
     render(<FieldBlock className="custom-class">content</FieldBlock>)
 
-    const element = document.querySelector('.dnb-forms-field-block')
+    expect(
+      Array.from(
+        document.querySelector('.dnb-forms-field-block').classList
+      )
+    ).toEqual(['dnb-space', 'dnb-forms-field-block', 'custom-class'])
 
-    expect(Array.from(element.classList)).toEqual([
-      'dnb-space',
-      'dnb-forms-field-block',
+    expect(
+      Array.from(
+        document.querySelector('.dnb-forms-field-block__grid').classList
+      )
+    ).toEqual([
+      'dnb-forms-field-block__grid',
       'dnb-forms-field-block--layout-vertical',
-      'custom-class',
     ])
   })
 
@@ -197,7 +203,7 @@ describe('FieldBlock', () => {
   it('should support "layout" property', () => {
     render(<FieldBlock layout="horizontal">content</FieldBlock>)
 
-    const element = document.querySelector('.dnb-forms-field-block')
+    const element = document.querySelector('.dnb-forms-field-block__grid')
 
     expect(element.classList).toContain(
       'dnb-forms-field-block--layout-horizontal'

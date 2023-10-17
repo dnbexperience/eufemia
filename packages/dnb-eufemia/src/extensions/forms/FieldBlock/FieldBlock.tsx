@@ -114,11 +114,14 @@ function FieldBlock(props: Props) {
       : undefined
   }, [errorProp, fieldErrorRecord, showFieldErrorRecord])
 
-  const cn = classnames(
+  const mainClasses = classnames(
     'dnb-forms-field-block',
-    `dnb-forms-field-block--layout-${layout}`,
     width !== undefined && `dnb-forms-field-block--width-${width}`,
     className
+  )
+  const gridClasses = classnames(
+    'dnb-forms-field-block__grid',
+    `dnb-forms-field-block--layout-${layout}`
   )
 
   // A child component with a label was found, use fieldset/legend instead of div/label
@@ -163,60 +166,62 @@ function FieldBlock(props: Props) {
     >
       <Space
         element={enableFieldset ? 'fieldset' : 'div'} // use fieldset and legend to enhance a11y
-        className={cn}
+        className={mainClasses}
         {...rest}
       >
-        {labelDescription || labelSecondary ? (
-          <div className="dnb-forms-field-block__label">
-            {label || labelDescription ? (
-              <Label>
-                {label}
-                {labelDescription && (
-                  <span className="dnb-forms-field-block__label-description">
-                    {labelDescription}
-                  </span>
-                )}
-              </Label>
-            ) : (
-              <>&nbsp;</>
-            )}
-            {labelSecondary && (
-              <span className="dnb-forms-field-block__label-secondary">
-                {labelSecondary}
-              </span>
-            )}
-          </div>
-        ) : (
-          label && <Label>{label}</Label>
-        )}
-
-        <div
-          className={classnames(
-            'dnb-forms-field-block__contents',
-            contentsWidth !== undefined &&
-              `dnb-forms-field-block__contents--width-${contentsWidth}`,
-            contentClassName
+        <div className={gridClasses}>
+          {labelDescription || labelSecondary ? (
+            <div className="dnb-forms-field-block__label">
+              {label || labelDescription ? (
+                <Label>
+                  {label}
+                  {labelDescription && (
+                    <span className="dnb-forms-field-block__label-description">
+                      {labelDescription}
+                    </span>
+                  )}
+                </Label>
+              ) : (
+                <>&nbsp;</>
+              )}
+              {labelSecondary && (
+                <span className="dnb-forms-field-block__label-secondary">
+                  {labelSecondary}
+                </span>
+              )}
+            </div>
+          ) : (
+            label && <Label>{label}</Label>
           )}
-        >
-          {children}
-        </div>
 
-        {stateStatus && (
-          <div className="dnb-forms-field-block__status">
-            <FormStatus
-              state={stateStatus}
-              id={forId ? `${forId}-form-status` : undefined}
-              text={
-                error?.message ||
-                (state instanceof Error && state.message) ||
-                (state instanceof FormError && state.message) ||
-                state?.toString()
-              }
-              label={label as string}
-              space={{ top: 'x-small' }}
-            />
+          <div
+            className={classnames(
+              'dnb-forms-field-block__contents',
+              contentsWidth !== undefined &&
+                `dnb-forms-field-block__contents--width-${contentsWidth}`,
+              contentClassName
+            )}
+          >
+            {children}
           </div>
-        )}
+
+          {stateStatus && (
+            <div className="dnb-forms-field-block__status">
+              <FormStatus
+                state={stateStatus}
+                id={forId ? `${forId}-form-status` : undefined}
+                text={
+                  error?.message ||
+                  (state instanceof Error && state.message) ||
+                  (state instanceof FormError && state.message) ||
+                  state?.toString()
+                }
+                label={label as string}
+                space={{ top: 'x-small' }}
+              />
+            </div>
+          )}
+        </div>
       </Space>
     </FieldBlockContext.Provider>
   )
