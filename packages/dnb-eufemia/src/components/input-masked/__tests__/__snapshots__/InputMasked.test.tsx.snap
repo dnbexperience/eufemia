@@ -1279,6 +1279,11 @@ html[data-visual-test] .dnb-input__input {
   padding: 0;
   border: none;
 }
+.dnb-stepped-mask__fieldset--horizontal {
+  display: inline-flex;
+  flex-flow: row wrap;
+  align-items: baseline;
+}
 
 .dnb-stepped-mask__input {
   display: inline-block;
@@ -1319,6 +1324,10 @@ html[data-visual-test] .dnb-input__input {
   border-color: transparent;
 }
 
+.dnb-stepped-mask__legend--horizontal {
+  float: left;
+  transform: translateY(0);
+}
 .dnb-stepped-mask__legend:not([disabled]) {
   cursor: pointer;
 }
