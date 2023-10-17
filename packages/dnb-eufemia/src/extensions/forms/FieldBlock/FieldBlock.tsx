@@ -23,6 +23,8 @@ export type Props = Pick<
   width?: false | 'small' | 'medium' | 'large'
   /** Width of contents block, while label etc can be wider if space is available */
   contentsWidth?: 'small' | 'medium' | 'large' | 'stretch'
+  /** Typography size */
+  size?: 'medium' | 'large'
 } & React.HTMLAttributes<HTMLDivElement>
 
 function FieldBlock(props: Props) {
@@ -40,6 +42,7 @@ function FieldBlock(props: Props) {
     error: errorProp,
     width,
     contentsWidth,
+    size,
     contentClassName,
     children,
     ...rest
@@ -138,6 +141,19 @@ function FieldBlock(props: Props) {
     ? 'info'
     : null
 
+  const Label = ({ children }) => {
+    return (
+      <FormLabel
+        element={enableFieldset ? 'legend' : 'label'}
+        for_id={forId}
+        space={{ top: 0, bottom: 'x-small' }}
+        size={size}
+      >
+        {children}
+      </FormLabel>
+    )
+  }
+
   return (
     <FieldBlockContext.Provider
       value={{
@@ -153,18 +169,14 @@ function FieldBlock(props: Props) {
         {labelDescription || labelSecondary ? (
           <div className="dnb-forms-field-block__label">
             {label || labelDescription ? (
-              <FormLabel
-                element={enableFieldset ? 'legend' : 'label'}
-                for_id={forId}
-                space={{ bottom: 'x-small' }}
-              >
+              <Label>
                 {label}
                 {labelDescription && (
                   <span className="dnb-forms-field-block__label-description">
                     {labelDescription}
                   </span>
                 )}
-              </FormLabel>
+              </Label>
             ) : (
               <>&nbsp;</>
             )}
@@ -175,15 +187,7 @@ function FieldBlock(props: Props) {
             )}
           </div>
         ) : (
-          label && (
-            <FormLabel
-              element={enableFieldset ? 'legend' : 'label'}
-              for_id={forId}
-              space={{ bottom: 'x-small' }}
-            >
-              {label}
-            </FormLabel>
-          )
+          label && <Label>{label}</Label>
         )}
 
         <div

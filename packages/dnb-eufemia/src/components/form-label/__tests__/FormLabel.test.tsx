@@ -66,6 +66,28 @@ describe('FormLabel component', () => {
     ])
   })
 
+  it('should support heading size prop', () => {
+    const { rerender } = render(
+      <FormLabel label="Label" size="medium">
+        content
+      </FormLabel>
+    )
+
+    expect(document.querySelector('.dnb-form-label').classList).toContain(
+      'dnb-h--medium'
+    )
+
+    rerender(
+      <FormLabel label="Label" size="large">
+        content
+      </FormLabel>
+    )
+
+    expect(document.querySelector('.dnb-form-label').classList).toContain(
+      'dnb-h--large'
+    )
+  })
+
   it('should validate with ARIA rules', async () => {
     const Comp = render(<FormLabel {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()

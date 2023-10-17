@@ -1,6 +1,7 @@
 import * as React from 'react';
 import type { SkeletonShow } from '../Skeleton';
 import type { SpacingProps } from '../space/types';
+export type FormLabelSize = 'medium' | 'large';
 export type FormLabelText =
   | string
   | ((...args: any[]) => any)
@@ -29,6 +30,7 @@ export interface FormLabelProps
    * The `text` of the label.
    */
   text?: FormLabelText;
+  size?: FormLabelSize;
   id?: string;
   class?: string;
   disabled?: boolean;
