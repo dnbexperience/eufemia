@@ -46,5 +46,5 @@ function ValueBlock(props: Props) {
   )
 }
 
-ValueBlock._supportsEufemiaSpacingProps = true
+ValueBlock._supportsSpacingProps = true
 export default ValueBlock

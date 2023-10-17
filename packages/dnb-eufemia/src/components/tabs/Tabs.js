@@ -1255,3 +1255,5 @@ const ScrollNavButton = (props) => {
 ScrollNavButton.propTypes = {
   className: PropTypes.node.isRequired,
 }
+
+Tabs._supportsSpacingProps = true

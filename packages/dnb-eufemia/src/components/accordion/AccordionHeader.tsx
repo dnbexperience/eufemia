@@ -427,4 +427,6 @@ AccordionHeader.Icon = AccordionHeaderIcon
 AccordionHeader.Title = AccordionHeaderTitle
 AccordionHeader.Description = AccordionHeaderDescription
 
+AccordionHeader._supportsSpacingProps = true
+
 export default AccordionHeader

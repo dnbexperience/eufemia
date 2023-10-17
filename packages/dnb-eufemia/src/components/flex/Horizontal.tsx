@@ -12,5 +12,6 @@ function Horizontal({ children, ...props }: Props) {
   )
 }
 
-Horizontal._supportsEufemiaSpacingProps = true
+Horizontal._supportsSpacingProps = true
+
 export default Horizontal

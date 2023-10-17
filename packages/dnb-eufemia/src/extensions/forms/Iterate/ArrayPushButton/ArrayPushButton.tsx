@@ -51,5 +51,5 @@ function ArrayPushButton(props: Props) {
   )
 }
 
-ArrayPushButton._supportsEufemiaSpacingProps = true
+ArrayPushButton._supportsSpacingProps = true
 export default ArrayPushButton

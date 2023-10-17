@@ -36,5 +36,5 @@ function SelectCountry(props: Props) {
   )
 }
 
-SelectCountry._supportsEufemiaSpacingProps = true
+SelectCountry._supportsSpacingProps = true
 export default SelectCountry

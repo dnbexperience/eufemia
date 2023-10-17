@@ -130,3 +130,5 @@ export default function Section(localProps: SectionAllProps) {
 
   return <Element {...params}>{children}</Element>
 }
+
+Section._supportsSpacingProps = true

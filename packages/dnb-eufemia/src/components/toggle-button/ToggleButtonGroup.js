@@ -353,3 +353,5 @@ export default class ToggleButtonGroup extends React.PureComponent {
     )
   }
 }
+
+ToggleButtonGroup._supportsSpacingProps = true

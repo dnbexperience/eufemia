@@ -320,3 +320,5 @@ Fieldset.defaultProps = {
   useFieldset: false,
   className: null,
 }
+
+FormRow._supportsSpacingProps = true

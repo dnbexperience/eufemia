@@ -125,7 +125,7 @@ export default function Space(localProps: SpaceAllProps) {
   )
 }
 
-Space._supportsEufemiaSpacingProps = true
+Space._supportsSpacingProps = true
 
 function Element({
   element,

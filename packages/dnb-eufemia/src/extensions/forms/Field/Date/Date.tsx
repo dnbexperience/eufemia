@@ -52,5 +52,5 @@ function DateComponent(props: Props) {
   )
 }
 
-DateComponent._supportsEufemiaSpacingProps = true
+DateComponent._supportsSpacingProps = true
 export default DateComponent

@@ -164,5 +164,5 @@ function Toggle(props: Props) {
   }
 }
 
-Toggle._supportsEufemiaSpacingProps = true
+Toggle._supportsSpacingProps = true
 export default Toggle

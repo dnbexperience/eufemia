@@ -134,5 +134,5 @@ function ArrayComponent(props: Props) {
   )
 }
 
-ArrayComponent._supportsEufemiaSpacingProps = true
+ArrayComponent._supportsSpacingProps = true
 export default ArrayComponent

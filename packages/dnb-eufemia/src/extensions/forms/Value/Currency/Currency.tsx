@@ -13,5 +13,5 @@ function Currency(props: Props) {
   return <NumberComponent {...numberProps} />
 }
 
-Currency._supportsEufemiaSpacingProps = true
+Currency._supportsSpacingProps = true
 export default Currency

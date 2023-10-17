@@ -171,4 +171,6 @@ function StepIndicator({
 
 StepIndicator.Sidebar = StepIndicatorSidebar
 
+StepIndicator._supportsSpacingProps = true
+
 export default StepIndicator

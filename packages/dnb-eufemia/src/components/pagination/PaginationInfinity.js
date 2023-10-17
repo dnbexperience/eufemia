@@ -598,3 +598,5 @@ class ScrollToElement extends React.PureComponent {
     return <Element {...props} />
   }
 }
+
+InfinityScroller._supportsSpacingProps = true

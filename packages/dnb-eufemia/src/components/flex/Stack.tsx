@@ -28,5 +28,6 @@ function Stack(props: Props) {
   )
 }
 
-Stack._supportsEufemiaSpacingProps = true
+Stack._supportsSpacingProps = true
+
 export default Stack

@@ -3,6 +3,8 @@ import { act, render } from '@testing-library/react'
 import 'mock-match-media/jest-setup'
 import { setMedia, matchMedia } from 'mock-match-media'
 import Flex from '../Flex'
+import { createSpacingClasses } from '../../space/SpacingUtils'
+import { SpaceProps } from '../../Space'
 
 describe('Flex.Container', () => {
   it('should forward HTML attributes', () => {
@@ -316,6 +318,69 @@ describe('Flex.Container', () => {
     const element = document.querySelector('.dnb-flex-container')
 
     expect(element.tagName).toBe('SECTION')
+  })
+
+  it('should not add a wrapper when _supportsSpacingProps is given', () => {
+    const { rerender } = render(
+      <Flex.Vertical>
+        <Flex.Item>content</Flex.Item>
+        <Flex.Item>content</Flex.Item>
+      </Flex.Vertical>
+    )
+
+    const TestComponent = (props: SpaceProps) => {
+      const cn = createSpacingClasses(props)
+      cn.push('test-item')
+      return <div className={cn.join(' ')}>content</div>
+    }
+
+    {
+      rerender(
+        <Flex.Vertical>
+          <TestComponent />
+          <TestComponent bottom="large" />
+        </Flex.Vertical>
+      )
+
+      const elements = document.querySelectorAll(
+        '.dnb-flex-container > div'
+      )
+      expect(elements[0].className).toBe(
+        'dnb-space dnb-space__top--zero dnb-space__bottom--zero'
+      )
+      expect(elements[1].className).toBe(
+        'dnb-space dnb-space__top--small dnb-space__bottom--zero'
+      )
+      expect((elements[0].firstChild as HTMLElement).className).toBe(
+        'test-item'
+      )
+      expect((elements[1].firstChild as HTMLElement).className).toBe(
+        'dnb-space__bottom--large test-item'
+      )
+    }
+
+    {
+      TestComponent._supportsSpacingProps = true
+
+      rerender(
+        <Flex.Vertical>
+          <TestComponent />
+          <TestComponent bottom="x-large" />
+        </Flex.Vertical>
+      )
+
+      const elements = document.querySelectorAll(
+        '.dnb-flex-container > div'
+      )
+      expect(elements[0].className).toBe(
+        'dnb-space__top--zero dnb-space__bottom--zero test-item'
+      )
+      expect(elements[1].className).toBe(
+        'dnb-space__bottom--x-large dnb-space__top--small test-item'
+      )
+      expect((elements[0].firstChild as HTMLElement).className).toBeFalsy()
+      expect((elements[1].firstChild as HTMLElement).className).toBeFalsy()
+    }
   })
 
   describe('size', () => {

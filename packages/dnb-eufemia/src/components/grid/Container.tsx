@@ -64,7 +64,7 @@ function GridContainer(props: AllProps) {
   )
 }
 
-GridContainer._supportsEufemiaSpacingProps = true
+GridContainer._supportsSpacingProps = true
 
 export default GridContainer
 

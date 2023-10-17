@@ -74,5 +74,5 @@ function At(props: Props) {
   )
 }
 
-At._supportsEufemiaSpacingProps = true
+At._supportsSpacingProps = true
 export default At

@@ -150,5 +150,5 @@ function PhoneNumber(props: Props) {
   )
 }
 
-PhoneNumber._supportsEufemiaSpacingProps = true
+PhoneNumber._supportsSpacingProps = true
 export default PhoneNumber

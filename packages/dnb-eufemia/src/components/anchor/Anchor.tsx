@@ -141,6 +141,10 @@ const Anchor = React.forwardRef(
   }
 )
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+Anchor._supportsSpacingProps = true
+
 export default Anchor
 
 export function scrollToHashHandler(

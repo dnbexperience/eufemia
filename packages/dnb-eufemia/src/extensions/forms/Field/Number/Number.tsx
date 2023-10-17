@@ -182,5 +182,5 @@ function NumberComponent(props: Props) {
   )
 }
 
-NumberComponent._supportsEufemiaSpacingProps = true
+NumberComponent._supportsSpacingProps = true
 export default NumberComponent

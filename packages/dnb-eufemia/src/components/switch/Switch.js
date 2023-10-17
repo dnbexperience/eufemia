@@ -360,3 +360,5 @@ export default class Switch extends React.PureComponent {
     )
   }
 }
+
+Switch._supportsSpacingProps = true

@@ -34,5 +34,5 @@ function Step(props: Props) {
   )
 }
 
-Step._supportsEufemiaSpacingProps = true
+Step._supportsSpacingProps = true
 export default Step

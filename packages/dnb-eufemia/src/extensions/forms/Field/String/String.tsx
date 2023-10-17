@@ -205,5 +205,5 @@ function StringComponent(props: Props) {
   )
 }
 
-StringComponent._supportsEufemiaSpacingProps = true
+StringComponent._supportsSpacingProps = true
 export default StringComponent

@@ -119,5 +119,5 @@ function ArraySelection(props: Props) {
   }
 }
 
-ArraySelection._supportsEufemiaSpacingProps = true
+ArraySelection._supportsSpacingProps = true
 export default ArraySelection

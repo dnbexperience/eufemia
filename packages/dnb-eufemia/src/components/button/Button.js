@@ -485,3 +485,5 @@ Content.defaultProps = {
   skeleton: null,
   isIconOnly: null,
 }
+
+Button._supportsSpacingProps = true

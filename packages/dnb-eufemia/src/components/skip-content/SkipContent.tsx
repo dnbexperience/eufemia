@@ -160,4 +160,6 @@ const SkipContentReturn = (localProps: SkipContentReturnProps) => {
 
 SkipContent.Return = SkipContentReturn
 
+SkipContent._supportsSpacingProps = true
+
 export default SkipContent

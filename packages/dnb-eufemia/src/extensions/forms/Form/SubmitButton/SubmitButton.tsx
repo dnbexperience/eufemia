@@ -33,5 +33,5 @@ function SubmitButton(props: Props) {
   )
 }
 
-SubmitButton._supportsEufemiaSpacingProps = true
+SubmitButton._supportsSpacingProps = true
 export default SubmitButton

@@ -337,7 +337,7 @@ Heading.resetLevels = resetLevels
 Heading.setNextLevel = setNextLevel
 
 Heading._isHeadingElement = true
-Heading._supportsEufemiaSpacingProps = true
+Heading._supportsSpacingProps = true
 
 // Interceptor to reset leveling
 export { resetAllLevels, resetLevels, setNextLevel }

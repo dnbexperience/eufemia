@@ -45,4 +45,8 @@ const Blockquote = React.forwardRef(
   )
 )
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+Blockquote._supportsSpacingProps = true
+
 export default Blockquote

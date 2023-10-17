@@ -49,5 +49,6 @@ function Card(props: Props) {
   )
 }
 
-Card._supportsEufemiaSpacingProps = true
+Card._supportsSpacingProps = true
+
 export default Card

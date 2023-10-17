@@ -15,7 +15,7 @@ import {
   validateDOMAttributes,
 } from '../../shared/component-helper'
 
-export interface BadgeProps {
+export type BadgeProps = {
   /**
    * Aria label to describe the badge
    * Default: null
@@ -161,5 +161,7 @@ function Badge(localProps: BadgeAndSpacingProps) {
     )
   }
 }
+
+Badge._supportsSpacingProps = true
 
 export default Badge

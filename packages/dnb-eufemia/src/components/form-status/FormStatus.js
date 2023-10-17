@@ -647,3 +647,5 @@ function sumElementWidth({ widthElement, widthSelector }) {
 
   return width
 }
+
+FormStatus._supportsSpacingProps = true

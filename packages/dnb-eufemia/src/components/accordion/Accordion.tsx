@@ -520,4 +520,6 @@ Accordion.Store = (id: string) => {
   return new Store({ id })
 }
 
+Accordion._supportsSpacingProps = true
+
 export default Accordion

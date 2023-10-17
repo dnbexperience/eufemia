@@ -78,5 +78,5 @@ function PostalCodeAndCity(props: Props) {
   )
 }
 
-PostalCodeAndCity._supportsEufemiaSpacingProps = true
+PostalCodeAndCity._supportsSpacingProps = true
 export default PostalCodeAndCity
