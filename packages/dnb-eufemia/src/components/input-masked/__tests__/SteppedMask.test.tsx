@@ -8,7 +8,7 @@ import React from 'react'
 import { act, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import SteppedMask, {
-  SteppedMaskInput,
+  SteppedMaskStep,
   SteppedMaskProps,
 } from '../SteppedMask'
 
@@ -186,7 +186,7 @@ describe('SteppedInput', () => {
   it('step id, value and onChange param properties should all match', async () => {
     const onChange = jest.fn()
 
-    const steps: SteppedMaskInput<'first' | 'second' | 'third'>[] = [
+    const steps: SteppedMaskStep<'first' | 'second' | 'third'>[] = [
       {
         id: 'first',
         label: 'first',
@@ -342,7 +342,7 @@ describe('SteppedInput', () => {
   })
 
   it('inputs size should match mask length', () => {
-    const steps: SteppedMaskInput<string>[] = [
+    const steps: SteppedMaskStep<string>[] = [
       {
         id: 'short',
         label: 'long',

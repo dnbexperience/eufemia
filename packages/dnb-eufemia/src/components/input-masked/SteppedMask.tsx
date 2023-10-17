@@ -10,7 +10,7 @@ import { createSpacingClasses } from '../space/SpacingHelper'
 import { FormStatusState, FormStatusText } from '../FormStatus'
 import { useSteppedValues } from './hooks/useSteppedValues'
 
-export type SteppedMaskInput<T extends string> = {
+export type SteppedMaskStep<T extends string> = {
   /**
    * Defines the id for the input. This id is also used to map the input value to the correct property on the objects used for `values` and `onChange` paramaters.
    */
@@ -42,7 +42,7 @@ export type SteppedMaskProps<T extends string> = {
   /**
    * Used to define the different inputs representing the steps in the component. The id's defined here is used to map input value to correct property in `values` parameters used in `onChange`
    */
-  steps: SteppedMaskInput<T>[]
+  steps: SteppedMaskStep<T>[]
   /**
    * Values used for the inputs inside the component. Expects an object with keys matching the id's defined in `steps`
    */
@@ -193,18 +193,18 @@ function SteppedMask<T extends string>({
   }
 }
 
-type SteppdMaskInputProps<T extends string> = SteppedMaskInput<T> & {
-  id: SteppedMaskInput<T>['id']
-  label: SteppedMaskInput<T>['label']
+type SteppdMaskInputProps<T extends string> = SteppedMaskStep<T> & {
+  id: SteppedMaskStep<T>['id']
+  label: SteppedMaskStep<T>['label']
   value: string
-  mask: SteppedMaskInput<T>['mask']
-  placeholderCharacter: SteppedMaskInput<T>['placeholderCharacter']
+  mask: SteppedMaskStep<T>['mask']
+  placeholderCharacter: SteppedMaskStep<T>['placeholderCharacter']
   delimiter?: SteppedMaskProps<T>['delimiter']
   disabled: boolean
   onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void
   onChange: (
     id: string,
-    placeholderCharacter: SteppedMaskInput<T>['placeholderCharacter']
+    placeholderCharacter: SteppedMaskStep<T>['placeholderCharacter']
   ) => void
   inputRef: any
 }
