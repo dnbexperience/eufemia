@@ -181,7 +181,6 @@ describe('Radio group component', () => {
         label="Label"
         name="group"
         id="group"
-        no_fieldset
         on_change={my_event}
       >
         <Radio id="radio-1" label="Radio 1" value="first" />
@@ -274,23 +273,30 @@ describe('Radio group component', () => {
     ])
     expect(
       Array.from(
-        document.querySelector('.dnb-radio-group .dnb-form-row').classList
+        document.querySelector('.dnb-radio-group .dnb-flex-container')
+          .classList
       )
     ).toEqual([
-      'dnb-section',
-      'dnb-section--transparent',
-      'dnb-form-row',
-      'dnb-form-row--vertical',
-      'dnb-form-row--vertical-label',
+      'dnb-space',
+      'dnb-flex-container',
+      'dnb-flex-container--direction-horizontal',
+      'dnb-flex-container--justify-flex-start',
+      'dnb-flex-container--align-baseline',
+      'dnb-flex-container--spacing-small',
+      'dnb-flex-container--wrap',
+      'dnb-flex-container--divider-space',
     ])
     expect(
-      Array.from(document.querySelector('.dnb-form-row').classList)
+      Array.from(document.querySelector('.dnb-flex-container').classList)
     ).toEqual([
-      'dnb-section',
-      'dnb-section--transparent',
-      'dnb-form-row',
-      'dnb-form-row--vertical',
-      'dnb-form-row--vertical-label',
+      'dnb-space',
+      'dnb-flex-container',
+      'dnb-flex-container--direction-horizontal',
+      'dnb-flex-container--justify-flex-start',
+      'dnb-flex-container--align-baseline',
+      'dnb-flex-container--spacing-small',
+      'dnb-flex-container--wrap',
+      'dnb-flex-container--divider-space',
     ])
   })
 })
@@ -314,7 +320,6 @@ describe('Radio ARIA', () => {
         label="Label"
         name="group"
         id="group"
-        no_fieldset
         on_change={jest.fn()}
       >
         <Radio id="radio-1" label="Radio 1" value="first" />

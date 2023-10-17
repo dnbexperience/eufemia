@@ -37,7 +37,6 @@ export interface RadioGroupProps
    */
   label_position?: RadioGroupLabelPosition;
   title?: string;
-  no_fieldset?: boolean;
   disabled?: boolean;
   skeleton?: SkeletonShow;
   id?: string;
