@@ -14,7 +14,7 @@ export type Props = FieldHelpProps &
   FieldProps<string, undefined> & {
     countryCodeFieldClassName?: string
     numberFieldClassName?: string
-    counttryCodePlaceholder?: string
+    countryCodePlaceholder?: string
     countryCodeLabel?: string
     numberMask?: InputMaskedProps['mask']
     width?: 'large' | 'stretch'
@@ -43,7 +43,7 @@ function PhoneNumber(props: Props) {
     countryCodeFieldClassName,
     numberFieldClassName,
     layout = 'vertical',
-    counttryCodePlaceholder,
+    countryCodePlaceholder,
     placeholder,
     countryCodeLabel,
     label = sharedContext?.translation.Forms.phoneNumberLabel,
@@ -122,7 +122,7 @@ function PhoneNumber(props: Props) {
             'dnb-forms-field-phone-number__country-code',
             countryCodeFieldClassName
           )}
-          placeholder={counttryCodePlaceholder ?? ' '}
+          placeholder={countryCodePlaceholder ?? ' '}
           label_direction={layout}
           label={
             countryCodeLabel ??
