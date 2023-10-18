@@ -2,13 +2,10 @@ import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 import Breadcrumb, { BreadcrumbItem, BreadcrumbProps } from '../Breadcrumb'
 import { Provider } from '../../../shared'
-import MatchMediaMock from 'jest-matchmedia-mock'
 import IconPrimary from '../../icon-primary/IconPrimary'
 import { loadScss, axeComponent } from '../../../core/jest/jestSetup'
 import { BreadcrumbItemProps } from '../BreadcrumbItem'
 import { AnchorAllProps } from '../../Anchor'
-
-const matchMedia = new MatchMediaMock()
 
 beforeEach(() => {
   document.body.innerHTML = ''
@@ -138,13 +135,13 @@ describe('Breadcrumb', () => {
     )
 
     expect(
-      document.querySelector('.dnb-breadcrumb__animation')
+      document.querySelector('.dnb-breadcrumb__multible')
     ).not.toBeInTheDocument()
 
     fireEvent.click(screen.getByRole('button'))
 
     expect(
-      document.querySelector('.dnb-breadcrumb__animation')
+      document.querySelector('.dnb-breadcrumb__multible')
     ).not.toBeInTheDocument()
   })
 
@@ -184,8 +181,6 @@ describe('Breadcrumb', () => {
   })
 
   it('variant collapse opens the collapsed content on click', () => {
-    matchMedia.useMediaQuery('(max-width: 60em)')
-
     render(
       <Breadcrumb
         data={[
@@ -199,20 +194,20 @@ describe('Breadcrumb', () => {
     fireEvent.click(screen.getByRole('button'))
 
     expect(
-      document.querySelector('.dnb-breadcrumb__animation')
+      document.querySelector('.dnb-breadcrumb__multible')
     ).toBeDefined()
   })
 
   it('inherits skeleton prop from provider', () => {
-    const skeletonClassName = 'dnb-skeleton'
-
     render(
       <Provider skeleton>
         <Breadcrumb data={[{ onClick: jest.fn(), text: 'Page 1' }]} />
       </Provider>
     )
 
-    expect(screen.getByRole('button').className).toMatch(skeletonClassName)
+    expect(screen.getAllByRole('button')[0].className).toMatch(
+      'dnb-skeleton'
+    )
   })
 
   it('should support spacing props', () => {
@@ -308,29 +303,21 @@ describe('Breadcrumb', () => {
     })
 
     it('renders a skeleton if skeleton is true', () => {
-      const skeletonClassName = 'dnb-skeleton'
-
       render(
         <BreadcrumbItem skeleton onClick={jest.fn()} text="skeleton" />
       )
 
-      expect(screen.getByRole('button').className).toMatch(
-        skeletonClassName
-      )
+      expect(screen.getByRole('button').className).toMatch('dnb-skeleton')
     })
 
     it('inherits skeleton prop from provider', () => {
-      const skeletonClassName = 'dnb-skeleton'
-
       render(
         <Provider skeleton>
           <BreadcrumbItem onClick={jest.fn()} text="skeleton" />
         </Provider>
       )
 
-      expect(screen.getByRole('button').className).toMatch(
-        skeletonClassName
-      )
+      expect(screen.getByRole('button').className).toMatch('dnb-skeleton')
     })
 
     describe('will set animation style', () => {

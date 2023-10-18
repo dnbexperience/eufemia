@@ -11,7 +11,6 @@ import Section, {
 import Button from '../button/Button'
 
 // Shared
-import { useMediaQuery } from '../../shared'
 import Context from '../../shared/Context'
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../skeleton/Skeleton'
@@ -174,15 +173,11 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
   const spacingClasses = createSpacingClasses(props)
 
   const [isCollapsed, setCollapse] = useState(overrideIsCollapsed)
-  const isSmallScreen = useMediaQuery({
-    matchOnSSR: true,
-    when: { max: 'medium' },
-  })
 
   let currentVariant = variant
   if (!variant) {
     if (items || data) {
-      currentVariant = isSmallScreen ? 'collapse' : 'multiple'
+      currentVariant = 'multiple'
     } else {
       currentVariant = 'single'
     }
@@ -212,23 +207,7 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
         style_type={styleType || 'transparent'}
         spacing={innerSpacing}
       >
-        {currentVariant === 'collapse' && (
-          <Button
-            text={backToText}
-            variant="tertiary"
-            icon="chevron_left"
-            icon_position="left"
-            onClick={
-              onClick ||
-              (() => {
-                setCollapse(!isCollapsed)
-              })
-            }
-            aria-expanded={!isCollapsed}
-          />
-        )}
-
-        {currentVariant === 'single' && (
+        {currentVariant === 'single' ? (
           <Button
             text={goBackText}
             variant="tertiary"
@@ -237,31 +216,46 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
             onClick={onClick}
             href={href}
           />
-        )}
+        ) : (
+          <>
+            <Button
+              className="dnb-breadcrumb__toggle"
+              text={backToText}
+              variant="tertiary"
+              icon="chevron_left"
+              icon_position="left"
+              onClick={
+                onClick ||
+                (() => {
+                  setCollapse(!isCollapsed)
+                })
+              }
+              aria-expanded={!isCollapsed}
+            />
 
-        {currentVariant === 'multiple' && (
-          <BreadcrumbMultiple
-            data={data}
-            items={items}
-            isCollapsed={false}
-            noAnimation={noAnimation}
-          />
+            {currentVariant !== 'collapse' && (
+              <BreadcrumbMultiple
+                data={data}
+                items={items}
+                isCollapsed={false}
+                noAnimation={noAnimation}
+              />
+            )}
+          </>
         )}
       </Section>
 
-      {currentVariant === 'collapse' && (
-        <Section
-          variant={collapsedStyleType}
-          className="dnb-breadcrumb__collapse"
-        >
-          <BreadcrumbMultiple
-            data={data}
-            items={items}
-            isCollapsed={isCollapsed}
-            noAnimation={noAnimation}
-          />
-        </Section>
-      )}
+      <Section
+        variant={collapsedStyleType}
+        className="dnb-breadcrumb__collapse"
+      >
+        <BreadcrumbMultiple
+          data={data}
+          items={items}
+          isCollapsed={isCollapsed}
+          noAnimation={noAnimation}
+        />
+      </Section>
     </nav>
   )
 }

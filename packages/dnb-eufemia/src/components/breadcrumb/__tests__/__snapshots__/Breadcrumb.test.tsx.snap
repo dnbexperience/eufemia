@@ -672,17 +672,27 @@ button.dnb-button::-moz-focus-inner {
 .dnb-breadcrumb__item:not(:first-of-type) .dnb-button.dnb-button--has-text {
   padding-left: 0.5rem;
 }
-.dnb-breadcrumb__animation {
+.dnb-breadcrumb__multible {
   display: flex;
   flex-direction: column;
   transition: height 400ms var(--easing-default);
 }
-.dnb-breadcrumb__animation .dnb-breadcrumb__item {
+.dnb-breadcrumb__multible .dnb-breadcrumb__item {
   transition: transform 400ms var(--easing-default) calc(var(--delay) * 50ms);
   transform: translateX(-1rem);
 }
-.dnb-breadcrumb__animation.dnb-height-animation--parallax .dnb-breadcrumb__item {
+.dnb-breadcrumb__multible.dnb-height-animation--parallax .dnb-breadcrumb__item {
   transform: translateX(0);
+}
+@media screen and (max-width: 60em) {
+  .dnb-breadcrumb__bar .dnb-breadcrumb__multible {
+    display: none;
+  }
+}
+@media screen and (min-width: 60em) {
+  .dnb-breadcrumb__toggle {
+    display: none !important;
+  }
 }
 .dnb-breadcrumb__collapse {
   display: flex;

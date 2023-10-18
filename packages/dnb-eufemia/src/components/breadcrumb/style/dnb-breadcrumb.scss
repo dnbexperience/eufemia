@@ -48,21 +48,33 @@
     }
   }
 
-  &__animation {
+  &__multible {
     display: flex;
     flex-direction: column;
 
     transition: height 400ms var(--easing-default);
   }
 
-  &__animation &__item {
+  &__multible &__item {
     transition: transform 400ms var(--easing-default)
       calc(var(--delay) * 50ms);
     transform: translateX(-1rem);
   }
 
-  &__animation.dnb-height-animation--parallax &__item {
+  &__multible.dnb-height-animation--parallax &__item {
     transform: translateX(0);
+  }
+
+  &__bar &__multible {
+    @include allBelow(medium) {
+      display: none;
+    }
+  }
+
+  &__toggle {
+    @include allAbove(medium) {
+      display: none !important;
+    }
   }
 
   &__collapse {
