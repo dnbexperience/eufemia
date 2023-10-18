@@ -16,7 +16,7 @@ import {
 } from '@dnb/eufemia/src'
 
 export const FormSetDefault = () => (
-  <ComponentBox data-visual-test="form-set-default">
+  <ComponentBox>
     <FormSet vertical>
       <FormRow no_label>
         <H2>A semantic h2 in a FormRow without a label</H2>
@@ -37,7 +37,7 @@ export const FormSetDefault = () => (
 )
 
 export const FormSetVertical = () => (
-  <ComponentBox data-visual-test="form-set-vertical">
+  <ComponentBox>
     <FormSet direction="vertical">
       <FormRow
         label={
@@ -54,7 +54,7 @@ export const FormSetVertical = () => (
 )
 
 export const FormSetSubmit = () => (
-  <ComponentBox data-visual-test="form-set-submit">
+  <ComponentBox>
     <FormSet
       direction="horizontal"
       on_submit={({ event }) => console.log('on_submit', event)}
