@@ -352,7 +352,7 @@ export default class GlobalStatus extends React.PureComponent {
       const globalStatus = extendPropsWithContextInClassComponent(
         this.props,
         GlobalStatus.defaultProps,
-        this.state.globalStatus
+        this.context.globalStatus
       )
       this.setState({
         globalStatus,
