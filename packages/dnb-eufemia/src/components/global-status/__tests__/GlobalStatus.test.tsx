@@ -898,6 +898,26 @@ describe('GlobalStatus component', () => {
     ).not.toBeInTheDocument()
   })
 
+  it('should display correct state based on prop', () => {
+    const { rerender } = render(<GlobalStatus state="warning" />)
+
+    const element = document.querySelector('.dnb-global-status')
+
+    expect(element.classList).toContain('dnb-global-status--warning')
+
+    rerender(<GlobalStatus state="info" />)
+    expect(element.classList).toContain('dnb-global-status--info')
+
+    rerender(<GlobalStatus state="success" />)
+    expect(element.classList).toContain('dnb-global-status--success')
+
+    rerender(<GlobalStatus state="error" />)
+    expect(element.classList).toContain('dnb-global-status--error')
+
+    rerender(<GlobalStatus state="warning" />)
+    expect(element.classList).toContain('dnb-global-status--warning')
+  })
+
   it('should validate with ARIA rules', async () => {
     const Comp = render(<GlobalStatus {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
