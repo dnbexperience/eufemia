@@ -4,9 +4,9 @@ import Provider, {
   Props as ProviderProps,
 } from '../../DataContext/Provider'
 import FormElement from '../Element'
-import type { SpacingProps } from '../../../../shared/types'
+import type { ElementAllProps } from '../../../../elements/Element'
 
-export type Props = React.HTMLAttributes<HTMLFormElement> & SpacingProps
+export type Props = Omit<ElementAllProps, 'data' | 'as'>
 
 export default function FormHandler<Data extends JsonObject>({
   children,
@@ -21,7 +21,7 @@ export default function FormHandler<Data extends JsonObject>({
   sessionStorageId,
   ...rest
 }: ProviderProps<Data> & Props) {
-  const ProviderProps = {
+  const providerProps = {
     defaultData,
     data,
     schema,
@@ -35,10 +35,10 @@ export default function FormHandler<Data extends JsonObject>({
     onSubmitRequest,
     scrollTopOnSubmit,
     sessionStorageId,
-  }
+  } as Omit<ProviderProps<Data>, 'children'>
 
   return (
-    <Provider {...ProviderProps}>
+    <Provider {...providerProps}>
       <FormElement {...rest}>{children}</FormElement>
     </Provider>
   )
