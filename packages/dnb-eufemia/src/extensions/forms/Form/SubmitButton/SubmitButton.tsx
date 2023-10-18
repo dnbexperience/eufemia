@@ -21,9 +21,7 @@ function SubmitButton(props: Props) {
   return (
     <Button
       className={classnames('dnb-forms-submit-button', className)}
-      onClick={
-        dataContext._isInsideFormElement ? null : dataContext.handleSubmit
-      }
+      onClick={onClickHandler}
       icon_position="left"
       type="submit"
       {...rest}
@@ -31,6 +29,12 @@ function SubmitButton(props: Props) {
       {children}
     </Button>
   )
+
+  function onClickHandler() {
+    if (!dataContext._isInsideFormElement) {
+      dataContext.handleSubmit()
+    }
+  }
 }
 
 SubmitButton._supportsSpacingProps = true
