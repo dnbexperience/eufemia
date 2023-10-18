@@ -7,8 +7,9 @@ import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
-import { Slider, ToggleButton, Input, FormRow, FormLabel } from '../../'
+import { Slider, ToggleButton, Input, FormLabel, Flex } from '../../'
 import { format } from '../../number-format/NumberUtils'
+import { Provider } from '../../../shared'
 
 export default {
   title: 'Eufemia/Components/Slider',
@@ -181,14 +182,14 @@ const SliderStory = () => {
         <Slider label="Disabled:" value={20} reverse disabled={true} />
       </Box>
       <Box>
-        <FormRow>
+        <Flex.Horizontal align="baseline">
           <FormLabel
             id="range-slider-label"
             for_id="range-slider"
             text="Native Range Slider"
           />
           <Slider label="Label" value={5} />
-        </FormRow>
+        </Flex.Horizontal>
       </Box>
     </Wrapper>
   )
@@ -197,7 +198,7 @@ const SliderStory = () => {
 const DisabledState = () => {
   const [isDisabled, setDisabled] = React.useState(false)
   return (
-    <FormRow direction="horizontal" centered>
+    <Provider formElement={{ direction: 'horizontal' }}>
       <ToggleButton
         checked={isDisabled}
         right
@@ -212,7 +213,7 @@ const DisabledState = () => {
         label="Default Slider:"
         disabled={isDisabled}
       />
-    </FormRow>
+    </Provider>
   )
 }
 

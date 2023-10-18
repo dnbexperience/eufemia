@@ -22,7 +22,7 @@ import {
   spacingPropTypes,
   createSpacingClasses,
 } from '../space/SpacingHelper'
-import { includeValidProps } from '../form-row/FormRowHelpers'
+import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
 import Suffix from '../../shared/helpers/Suffix'
 import Icon from '../icon-primary/IconPrimary'
@@ -419,7 +419,9 @@ class DropdownInstance extends React.PureComponent {
       Dropdown.defaultProps,
       { skeleton: this.context?.skeleton },
       this.context.getTranslation(this.props).Dropdown,
-      includeValidProps(this.context.FormRow),
+      // Deprecated – can be removed in v11
+      pickFormElementProps(this.context?.FormRow),
+      pickFormElementProps(this.context?.formElement),
       this.context.Dropdown
     )
 

@@ -20,7 +20,7 @@ import {
   createSkeletonClass,
   skeletonDOMAttributes,
 } from '../skeleton/SkeletonHelper'
-import { includeValidProps } from '../form-row/FormRowHelpers'
+import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import Context from '../../shared/Context'
 
 export default class FormLabel extends React.PureComponent {
@@ -83,7 +83,9 @@ export default class FormLabel extends React.PureComponent {
       this.props,
       FormLabel.defaultProps,
       { skeleton: this.context?.skeleton },
-      includeValidProps(this.context.FormRow),
+      // Deprecated – can be removed in v11
+      pickFormElementProps(this.context?.FormRow),
+      pickFormElementProps(this.context?.formElement),
       this.context.FormLabel
     )
 

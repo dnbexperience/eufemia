@@ -6,7 +6,7 @@ import { FormError } from '@dnb/eufemia/src/extensions/forms/types'
 // Dropdown
 
 export const DropdownEmpty = () => (
-  <ComponentBox scope={{ Field }}>
+  <ComponentBox>
     <Field.Selection
       onFocus={(value) => console.log('onFocus', value)}
       onBlur={(value) => console.log('onBlur', value)}
@@ -19,7 +19,7 @@ export const DropdownEmpty = () => (
 )
 
 export const DropdownPlaceholder = () => (
-  <ComponentBox scope={{ Field }}>
+  <ComponentBox>
     <Field.Selection
       placeholder="Select something...."
       onChange={(value) => console.log('onChange', value)}
@@ -31,7 +31,7 @@ export const DropdownPlaceholder = () => (
 )
 
 export const DropdownLabel = () => (
-  <ComponentBox scope={{ Field }}>
+  <ComponentBox>
     <Field.Selection
       label="Label text"
       onChange={(value) => console.log('onChange', value)}
@@ -40,7 +40,7 @@ export const DropdownLabel = () => (
 )
 
 export const DropdownOptionSelected = () => (
-  <ComponentBox scope={{ Field }}>
+  <ComponentBox>
     <Field.Selection
       value="bar"
       onChange={(value) => console.log('onChange', value)}
@@ -52,7 +52,7 @@ export const DropdownOptionSelected = () => (
 )
 
 export const DropdownLabelAndOptionSelected = () => (
-  <ComponentBox scope={{ Field }}>
+  <ComponentBox>
     <Field.Selection
       value="bar"
       label="Label text"
@@ -65,7 +65,7 @@ export const DropdownLabelAndOptionSelected = () => (
 )
 
 export const WithClearButton = () => (
-  <ComponentBox scope={{ Field }}>
+  <ComponentBox>
     {() => {
       const Example = () => {
         const [value, setValue] = React.useState('bar')
@@ -101,7 +101,7 @@ export const WithClearButton = () => (
 
 export const WithHelp = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Selection
         value="bar"
         label="Label text"
@@ -121,7 +121,7 @@ export const WithHelp = () => {
 
 export const HorizontalLayout = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Selection
         value="bar"
         label="Label text"
@@ -137,7 +137,7 @@ export const HorizontalLayout = () => {
 
 export const Widths = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Selection
         label="Default width (property omitted)"
         value="bar"
@@ -187,7 +187,7 @@ export const Widths = () => {
 }
 
 export const DropdownDisabled = () => (
-  <ComponentBox scope={{ Field }}>
+  <ComponentBox>
     <Field.Selection
       value="bar"
       label="Label text"
@@ -201,7 +201,7 @@ export const DropdownDisabled = () => (
 )
 
 export const DropdownError = () => (
-  <ComponentBox scope={{ Field, FormError }}>
+  <ComponentBox scope={{ FormError }}>
     <Field.Selection
       value="bar"
       label="Label text"
@@ -215,7 +215,7 @@ export const DropdownError = () => (
 )
 
 export const DropdownHighNumberOfOptions = () => (
-  <ComponentBox scope={{ Field }}>
+  <ComponentBox>
     <Field.Selection
       value="option-15"
       label="Label text"
@@ -251,7 +251,7 @@ export const DropdownHighNumberOfOptions = () => (
 )
 
 export const DropdownValidationRequired = () => (
-  <ComponentBox scope={{ Field }}>
+  <ComponentBox>
     <Field.Selection
       value="foo"
       label="Label text"
@@ -270,7 +270,7 @@ export const DropdownValidationRequired = () => (
 // Radio
 
 export const RadioEmpty = () => (
-  <ComponentBox scope={{ Field }}>
+  <ComponentBox>
     <Field.Selection
       variant="radio"
       onChange={(value) => console.log('onChange', value)}
@@ -282,7 +282,7 @@ export const RadioEmpty = () => (
 )
 
 export const RadioLabel = () => (
-  <ComponentBox scope={{ Field }}>
+  <ComponentBox>
     <Field.Selection
       variant="radio"
       label="Label text"
@@ -295,7 +295,7 @@ export const RadioLabel = () => (
 )
 
 export const RadioOptionSelected = () => (
-  <ComponentBox scope={{ Field }}>
+  <ComponentBox>
     <Field.Selection
       variant="radio"
       value="bar"
@@ -308,7 +308,7 @@ export const RadioOptionSelected = () => (
 )
 
 export const RadioHorizontalLayout = () => (
-  <ComponentBox scope={{ Field }}>
+  <ComponentBox>
     <Field.Selection
       variant="radio"
       label="Label text"
@@ -323,7 +323,7 @@ export const RadioHorizontalLayout = () => (
 )
 
 export const RadioHorizontalOptionsLayout = () => (
-  <ComponentBox scope={{ Field }}>
+  <ComponentBox>
     <Field.Selection
       variant="radio"
       label="Label text"
@@ -338,7 +338,7 @@ export const RadioHorizontalOptionsLayout = () => (
 )
 
 export const RadioHorizontalLayoutAndHorizontalOptionsLayout = () => (
-  <ComponentBox scope={{ Field }}>
+  <ComponentBox>
     <Field.Selection
       variant="radio"
       label="Label text"
@@ -354,7 +354,7 @@ export const RadioHorizontalLayoutAndHorizontalOptionsLayout = () => (
 )
 
 export const RadioDisabled = () => (
-  <ComponentBox scope={{ Field }}>
+  <ComponentBox>
     <Field.Selection
       variant="radio"
       value="bar"
@@ -369,7 +369,7 @@ export const RadioDisabled = () => (
 )
 
 export const RadioError = () => (
-  <ComponentBox scope={{ Field, FormError }}>
+  <ComponentBox scope={{ FormError }}>
     <Field.Selection
       variant="radio"
       value="bar"
@@ -386,7 +386,7 @@ export const RadioError = () => (
 // Button
 
 export const ButtonEmpty = () => (
-  <ComponentBox scope={{ Field }}>
+  <ComponentBox>
     <Field.Selection
       variant="button"
       onChange={(value) => console.log('onChange', value)}
@@ -398,7 +398,7 @@ export const ButtonEmpty = () => (
 )
 
 export const ButtonLabel = () => (
-  <ComponentBox scope={{ Field }}>
+  <ComponentBox>
     <Field.Selection
       variant="button"
       label="Label text"
@@ -411,7 +411,7 @@ export const ButtonLabel = () => (
 )
 
 export const ButtonOptionSelected = () => (
-  <ComponentBox scope={{ Field }}>
+  <ComponentBox>
     <Field.Selection
       variant="button"
       value="bar"
@@ -424,7 +424,7 @@ export const ButtonOptionSelected = () => (
 )
 
 export const ButtonHorizontalLayout = () => (
-  <ComponentBox scope={{ Field }}>
+  <ComponentBox>
     <Field.Selection
       variant="button"
       label="Label text"
@@ -439,7 +439,7 @@ export const ButtonHorizontalLayout = () => (
 )
 
 export const ButtonDisabled = () => (
-  <ComponentBox scope={{ Field }}>
+  <ComponentBox>
     <Field.Selection
       variant="button"
       value="bar"
@@ -454,7 +454,7 @@ export const ButtonDisabled = () => (
 )
 
 export const ButtonError = () => (
-  <ComponentBox scope={{ Field, FormError }}>
+  <ComponentBox scope={{ FormError }}>
     <Field.Selection
       variant="button"
       value="bar"

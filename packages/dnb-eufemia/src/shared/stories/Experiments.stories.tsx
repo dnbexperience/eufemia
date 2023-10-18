@@ -8,7 +8,8 @@ import { Wrapper, Box } from 'storybook-utils/helpers'
 import styled from '@emotion/styled'
 
 import Provider from '../Provider'
-import { Input, Dropdown, FormRow } from '../../components'
+import { Input, Dropdown, Flex } from '../../components'
+import { FieldBlock } from '../../extensions/forms'
 
 export default {
   title: 'Eufemia/Components/Experiments',
@@ -21,7 +22,7 @@ const Center = styled.div`
     max-width: 60rem;
   }
 `
-const PhoneRow = styled(FormRow)`
+const PhoneRow = styled(FieldBlock)`
   .dnb-dropdown__shell {
     width: 6rem; /* custom width */
   }
@@ -34,23 +35,26 @@ export const ExperimentsSandbox = () => (
   <Center>
     <Wrapper>
       <Box>
-        <PhoneRow
-          label="Phone number"
-          label_direction="vertical"
-          vertical={false}
+        <Provider
+          formElement={{
+            label_direction: 'vertical',
+          }}
         >
-          <Dropdown
-            right="small"
-            title="Country code"
-            value={0}
-            data={['+47', '+48', '+49']}
-          />
-          <Input placeholder="Your phone number" />
-        </PhoneRow>
+          <PhoneRow label="Phone number">
+            <Flex.Horizontal>
+              <Dropdown
+                title="Country code"
+                value={0}
+                data={['+47', '+48', '+49']}
+              />
+              <Input placeholder="Your phone number" />
+            </Flex.Horizontal>
+          </PhoneRow>
+        </Provider>
       </Box>
       <Box>
         <Provider
-          FormRow={{
+          formElement={{
             vertical: true,
             label: 'Vertical input B',
           }}

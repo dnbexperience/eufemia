@@ -4,7 +4,7 @@ import { FormError } from '@dnb/eufemia/src/extensions/forms/types'
 
 export const Empty = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.SelectCountry
         onChange={(value) => console.log('onChange', value)}
       />
@@ -14,7 +14,7 @@ export const Empty = () => {
 
 export const Placeholder = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.SelectCountry
         placeholder="Select something...."
         onChange={(value) => console.log('onChange', value)}
@@ -25,7 +25,7 @@ export const Placeholder = () => {
 
 export const Label = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.SelectCountry
         label="Label text"
         onChange={(value) => console.log('onChange', value)}
@@ -36,7 +36,7 @@ export const Label = () => {
 
 export const OptionSelected = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.SelectCountry
         value="bar"
         onChange={(value) => console.log('onChange', value)}
@@ -47,7 +47,7 @@ export const OptionSelected = () => {
 
 export const LabelAndOptionSelected = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.SelectCountry
         value="bar"
         label="Label text"
@@ -59,7 +59,7 @@ export const LabelAndOptionSelected = () => {
 
 export const WithHelp = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.SelectCountry
         value="bar"
         label="Label text"
@@ -76,7 +76,7 @@ export const WithHelp = () => {
 
 export const Disabled = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.SelectCountry
         value="bar"
         label="Label text"
@@ -89,7 +89,7 @@ export const Disabled = () => {
 
 export const Error = () => {
   return (
-    <ComponentBox scope={{ Field, FormError }}>
+    <ComponentBox scope={{ FormError }}>
       <Field.SelectCountry
         value="bar"
         label="Label text"
@@ -102,7 +102,7 @@ export const Error = () => {
 
 export const ValidationRequired = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.SelectCountry
         label="Label text"
         onChange={(value) => console.log('onChange', value)}

@@ -497,7 +497,7 @@ export const SpaceExamplesFourDirections = () => (
 )
 
 export const SpaceExampleProvider = () => (
-  <ComponentBox scope={{ Provider }} hidePreview>
+  <ComponentBox hidePreview>
     <Provider space={{ no_collapse: true }}>
       <Space>I do not collapse</Space>
       <Space>I do not collapse</Space>

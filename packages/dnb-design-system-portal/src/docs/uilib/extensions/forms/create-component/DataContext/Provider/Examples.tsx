@@ -79,9 +79,7 @@ export const Default = () => {
   return (
     <ComponentBox
       scope={{
-        Form,
         DataContext,
-        Field,
         Value,
         testdata,
         TestdataSchema,
@@ -171,9 +169,7 @@ export const ValidationWithJsonSchema = () => {
   return (
     <ComponentBox
       scope={{
-        Form,
         DataContext,
-        Field,
         Value,
         testdata,
         TestdataSchema,

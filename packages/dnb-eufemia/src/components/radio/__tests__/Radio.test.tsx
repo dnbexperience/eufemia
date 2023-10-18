@@ -6,8 +6,8 @@
 import { fireEvent, render, cleanup } from '@testing-library/react'
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import FormRow from '../../form-row/FormRow'
 import Radio, { RadioProps } from '../Radio'
+import { Provider } from '../../../shared'
 
 const props: RadioProps = {
   label: 'label',
@@ -139,11 +139,11 @@ describe('Radio component', () => {
     ])
   })
 
-  it('should inherit FormRow vertical label', () => {
+  it('should inherit formElement vertical label', () => {
     render(
-      <FormRow vertical disabled>
+      <Provider formElement={{ vertical: true, disabled: true }}>
         <Radio label="Label" aria-label="Aria Label" />
-      </FormRow>
+      </Provider>
     )
 
     const element = document.querySelector('.dnb-radio')
@@ -181,7 +181,6 @@ describe('Radio group component', () => {
         label="Label"
         name="group"
         id="group"
-        no_fieldset
         on_change={my_event}
       >
         <Radio id="radio-1" label="Radio 1" value="first" />
@@ -251,14 +250,14 @@ describe('Radio group component', () => {
     ])
   })
 
-  it('should inherit FormRow vertical label', () => {
+  it('should inherit formElement vertical label', () => {
     render(
-      <FormRow vertical>
+      <Provider formElement={{ label_direction: 'vertical' }}>
         <Radio.Group label="Label" name="group" id="group">
           <Radio id="radio-1" label="Radio 1" value="first" />
           <Radio id="radio-2" label="Radio 2" value="second" checked />
         </Radio.Group>
-      </FormRow>
+      </Provider>
     )
 
     const element = document.querySelector('.dnb-radio-group')
@@ -274,24 +273,30 @@ describe('Radio group component', () => {
     ])
     expect(
       Array.from(
-        document.querySelector('.dnb-radio-group .dnb-form-row').classList
+        document.querySelector('.dnb-radio-group .dnb-flex-container')
+          .classList
       )
     ).toEqual([
-      'dnb-section',
-      'dnb-section--transparent',
-      'dnb-form-row',
-      'dnb-form-row--vertical',
-      'dnb-form-row--vertical-label',
-      'dnb-form-row--nested',
+      'dnb-space',
+      'dnb-flex-container',
+      'dnb-flex-container--direction-horizontal',
+      'dnb-flex-container--justify-flex-start',
+      'dnb-flex-container--align-baseline',
+      'dnb-flex-container--spacing-small',
+      'dnb-flex-container--wrap',
+      'dnb-flex-container--divider-space',
     ])
     expect(
-      Array.from(document.querySelector('.dnb-form-row').classList)
+      Array.from(document.querySelector('.dnb-flex-container').classList)
     ).toEqual([
-      'dnb-section',
-      'dnb-section--transparent',
-      'dnb-form-row',
-      'dnb-form-row--vertical',
-      'dnb-form-row--vertical-label',
+      'dnb-space',
+      'dnb-flex-container',
+      'dnb-flex-container--direction-horizontal',
+      'dnb-flex-container--justify-flex-start',
+      'dnb-flex-container--align-baseline',
+      'dnb-flex-container--spacing-small',
+      'dnb-flex-container--wrap',
+      'dnb-flex-container--divider-space',
     ])
   })
 })
@@ -315,7 +320,6 @@ describe('Radio ARIA', () => {
         label="Label"
         name="group"
         id="group"
-        no_fieldset
         on_change={jest.fn()}
       >
         <Radio id="radio-1" label="Radio 1" value="first" />

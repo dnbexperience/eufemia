@@ -4,29 +4,21 @@
  */
 
 import React from 'react'
-import PropTypes from 'prop-types'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { Global, css } from '@emotion/react'
 import styled from '@emotion/styled'
 import {
   Ingress,
   Space,
-  Button,
-  IconPrimary,
   DatePicker,
   Textarea,
   Autocomplete,
   Dropdown,
   Slider,
   Checkbox,
-  Radio,
-  ToggleButton,
-  Switch,
   Input,
   FormSet,
   FormRow,
 } from '@dnb/eufemia/src'
-import { SpacingElementProps } from '@dnb/eufemia/src/shared/types'
 import { Provider } from '@dnb/eufemia/src/shared'
 import { SpaceAllProps } from '@dnb/eufemia/src/components/space/Space'
 
@@ -45,9 +37,6 @@ const TestStyles = styled.div`
     height: 2rem;
     background: var(--color-summer-green);
   }
-`
-const WidthLimit = styled.div`
-  width: 40rem;
 `
 
 const Box = styled((props: SpaceAllProps) => <Space {...props} />)`
@@ -73,7 +62,7 @@ const Box = styled((props: SpaceAllProps) => <Space {...props} />)`
 
 export const FormRowVerticalAlignedLabels = () => (
   <TestStyles>
-    <ComponentBox data-visual-test="form-row-vertical-label">
+    <ComponentBox>
       <FormRow
         label={
           <Ingress top="0" bottom="small">
@@ -106,7 +95,7 @@ export const FormRowSectionStyle = () => (
 
 export const FormRowCombineVerticalAndHorizontal = () => (
   <TestStyles>
-    <ComponentBox data-visual-test="form-row-combined">
+    <ComponentBox>
       {() => {
         // 1. In the nested FormRow we reset the layout to not be vertical
         // 2. So we can use a different direction ("label_direction")
@@ -158,7 +147,7 @@ export const FormRowDefault = () => (
 
 export const FormRowVertical = () => (
   <TestStyles>
-    <ComponentBox data-visual-test="form-row-vertical">
+    <ComponentBox>
       <FormRow direction="vertical" label="Label legend for the inputs:">
         <Input label="Vertical direction:" placeholder="Input A ..." />
         <Input
@@ -173,7 +162,7 @@ export const FormRowVertical = () => (
 
 export const FormRowNoWrap = () => (
   <TestStyles>
-    <ComponentBox data-visual-test="form-row-horizontal-no_wrap">
+    <ComponentBox>
       <FormRow
         label="A long horizontal legend (FormLabel) with a lot of informative text:"
         direction="horizontal"
@@ -187,7 +176,7 @@ export const FormRowNoWrap = () => (
 
 export const FormRowWrap = () => (
   <TestStyles>
-    <ComponentBox data-visual-test="form-row-horizontal-wrap">
+    <ComponentBox>
       <FormRow
         label="Long label labwl Adipiscing mauris dis proin nec Condimentum egestas class blandit netus non a suscipit id urna:"
         direction="horizontal"
@@ -203,7 +192,7 @@ export const FormRowWrap = () => (
 
 export const FormRowLegendUsage = () => (
   <TestStyles>
-    <ComponentBox data-visual-test="form-row-legend">
+    <ComponentBox>
       <FormSet label_direction="vertical">
         <FormRow label="Label legend for the inputs:">
           <Input
@@ -277,214 +266,6 @@ export const FormRowDifferentDirections = () => (
     </ComponentBox>
   </TestStyles>
 )
-
-const VisibleWhenVisualTestHorizontalDirection = () => (
-  <ComponentBox
-    scope={{ AllComponents }}
-    data-visual-test="form-row-all-horizontal-direction"
-  >
-    <FormRow direction="horizontal">
-      <AllComponents horizontal />
-    </FormRow>
-  </ComponentBox>
-)
-
-const VisibleWhenVisualTestVerticalDirection = () => (
-  <ComponentBox
-    scope={{ AllComponents, WidthLimit }}
-    data-visual-test="form-row-all-vertical-direction"
-  >
-    <WidthLimit>
-      <FormRow label="Vertical direction:" direction="vertical">
-        <AllComponents />
-      </FormRow>
-    </WidthLimit>
-  </ComponentBox>
-)
-
-const VisibleWhenVisualTestVerticalEverything = () => (
-  <ComponentBox
-    scope={{ AllComponents, WidthLimit }}
-    data-visual-test="form-row-all-vertical-everything"
-  >
-    <WidthLimit>
-      <FormRow label="Vertical everything:" vertical={true}>
-        <AllComponents />
-      </FormRow>
-    </WidthLimit>
-  </ComponentBox>
-)
-
-const VisibleWhenVisualTestLabelDirection = () => (
-  <ComponentBox
-    scope={{ AllComponents }}
-    data-visual-test="form-row-all-vertical-label-direction"
-  >
-    <FormRow label="Vertical label direction:" label_direction="vertical">
-      <AllComponents horizontal />
-    </FormRow>
-  </ComponentBox>
-)
-
-const VisibleWhenVisualTestVerticalLabelDirectionNoLabels = () => (
-  <ComponentBox
-    scope={{ AllComponents }}
-    data-visual-test="form-row-all-vertical-label-direction-no-label"
-  >
-    <FormRow
-      label="Vertical label direction, no labels:"
-      label_direction="vertical"
-    >
-      <AllComponents horizontal hideLabel />
-    </FormRow>
-  </ComponentBox>
-)
-
-const VisibleWhenVisualTestAllStretch = () => (
-  <ComponentBox
-    scope={{ AllStretchComponents }}
-    data-visual-test="form-row-all-stretch-components"
-  >
-    <AllStretchComponents />
-  </ComponentBox>
-)
-
-const VisibleWhenVisualTestHorizontalCentered = () => (
-  <ComponentBox data-visual-test="form-row-centered">
-    <FormRow centered>
-      <div className="box1" />
-      <div className="box2" />
-    </FormRow>
-  </ComponentBox>
-)
-
-export default function FormRowVisibleWhenVisualTests() {
-  return (
-    <TestStyles>
-      <Global
-        styles={css`
-          #___gatsby {
-            display: flex;
-          }
-          .dnb-app-content {
-            overflow: visible;
-          }
-        `}
-      />
-      <VisibleWhenVisualTestHorizontalDirection />
-      <VisibleWhenVisualTestVerticalDirection />
-      <VisibleWhenVisualTestVerticalEverything />
-      <VisibleWhenVisualTestLabelDirection />
-      <VisibleWhenVisualTestVerticalLabelDirectionNoLabels />
-      <VisibleWhenVisualTestAllStretch />
-      <VisibleWhenVisualTestHorizontalCentered />
-    </TestStyles>
-  )
-}
-
-export const AllComponents = ({
-  horizontal,
-  vertical,
-  showText,
-  hideLabel,
-}) => {
-  const params: SpacingElementProps = {
-    left: horizontal ? 'small' : null,
-    top: !horizontal || vertical ? 'small' : null,
-  }
-  let labels: Record<string, string> = {
-    datePicker: 'DatePicker:',
-    dropdown: 'Dropdown:',
-    autocomplete: 'Autocomplete:',
-    checkbox: 'Checkbox',
-    radio: 'Radio',
-    radioGroup: 'Radio Group:',
-    toggleButton: 'Toggle:',
-    toggleButtonGroup: 'Toggle Group:',
-    switch: 'Switch',
-    input: 'Input:',
-    textarea: 'Textarea:',
-    slider: 'Slider:',
-  }
-  if (hideLabel) {
-    labels = Object.entries(labels).reduce((acc, [k]) => {
-      acc[k] = ''
-      return acc
-    }, {})
-  }
-  return (
-    <>
-      {showText && (
-        <>
-          <Space {...params} inline>
-            <p className="dnb-p">
-              paragraph{' '}
-              <IconPrimary
-                icon="bell"
-                size="medium"
-                {...params}
-                style={{ margin: 0 }} // since this is not a block element
-              />
-            </p>
-          </Space>
-          text
-        </>
-      )}
-      <Button text="Button" {...params} />
-      <Button icon="add" {...params} />
-      <Input label={labels.input} {...params} />
-      <Input label={labels.input} {...params} />
-      <Dropdown
-        label={labels.dropdown}
-        data={['Item A', 'Item B', 'Item C']}
-        {...params}
-      />
-      <Autocomplete
-        label={labels.autocomplete}
-        data={['Item A', 'Item B', 'Item C']}
-        {...params}
-      />
-      <DatePicker label={labels.datePicker} {...params} />
-      <IconPrimary
-        icon="bell"
-        size="medium"
-        {...params}
-        style={{ marginTop: 0 }} // since this is not a block element
-      />
-      <Checkbox label={labels.checkbox} {...params} />
-      <Radio label={labels.radio} {...params} />
-      <Radio.Group label={labels.radioGroup} {...params}>
-        <Radio label={labels.radio} value="a" />
-        <Radio label={labels.radio} value="b" />
-      </Radio.Group>
-      <ToggleButton
-        label={labels.toggleButton}
-        text="Toggle"
-        {...params}
-      />
-      <ToggleButton.Group label={labels.toggleButtonGroup} {...params}>
-        <ToggleButton text="Toggle A" value="a" />
-        <ToggleButton text="Toggle B" value="b" />
-      </ToggleButton.Group>
-      <Switch label={labels.switch} {...params} />
-      <Textarea label={labels.textarea} rows="5" {...params} />
-      <Textarea label={labels.textarea} rows="5" {...params} />
-      <Slider label={labels.slider} value={50} {...params} />
-    </>
-  )
-}
-AllComponents.propTypes = {
-  horizontal: PropTypes.bool,
-  vertical: PropTypes.bool,
-  showText: PropTypes.bool,
-  hideLabel: PropTypes.bool,
-}
-AllComponents.defaultProps = {
-  horizontal: null,
-  vertical: null,
-  showText: null,
-  hideLabel: null,
-}
 
 export function AllStretchComponents() {
   return (

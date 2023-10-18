@@ -25,7 +25,7 @@ import {
   skeletonDOMAttributes,
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
-import { includeValidProps } from '../form-row/FormRowHelpers'
+import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
 export default class FormStatus extends React.PureComponent {
   static contextType = Context
@@ -179,6 +179,7 @@ export default class FormStatus extends React.PureComponent {
       props?.globalStatus?.id ||
         context?.FormStatus?.globalStatus?.id ||
         context?.FormRow?.globalStatus?.id ||
+        context?.formElement?.globalStatus?.id ||
         'main',
       (provider) => {
         // gets called once ready
@@ -335,7 +336,9 @@ export default class FormStatus extends React.PureComponent {
       this.props,
       FormStatus.defaultProps,
       { skeleton: this.context && this.context.skeleton },
-      includeValidProps(this.context.FormRow),
+      // Deprecated – can be removed in v11
+      pickFormElementProps(this.context?.FormRow),
+      pickFormElementProps(this.context?.formElement),
       this.context.FormStatus
     )
 

@@ -4,7 +4,7 @@ import { Card } from '@dnb/eufemia/src'
 
 export const Default = () => {
   return (
-    <ComponentBox scope={{ Form, Field }}>
+    <ComponentBox>
       <Form.Handler
         defaultData={{ email: null }}
         onSubmit={(event) => console.log('onSubmit', event)}
@@ -22,7 +22,7 @@ export const Default = () => {
 
 export const SessionStorage = () => {
   return (
-    <ComponentBox scope={{ Form, Field }}>
+    <ComponentBox>
       <Form.Handler
         onSubmit={(event) => console.log('onSubmit', event)}
         sessionStorageId="session-key"

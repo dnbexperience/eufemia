@@ -4,7 +4,7 @@ import { Card } from '@dnb/eufemia/src'
 
 export const DefaultElement = () => {
   return (
-    <ComponentBox scope={{ Form, Field }}>
+    <ComponentBox>
       <Form.Element onSubmit={(event) => console.log('onSubmit', event)}>
         <Card spacing="medium">
           <Field.Email />

@@ -1,15 +1,17 @@
 @import '../../Field/style/field-sizes.scss';
 @import '../../../../style/core/utilities.scss';
 
-// Reset the fieldset
 fieldset.dnb-forms-field-block {
   @include fieldsetReset(true);
 }
 
 .dnb-forms-field-block {
+  &__grid {
+    display: grid;
+  }
+
   &--layout {
     &-vertical {
-      display: grid;
       grid-template-columns: auto;
       grid-template-areas:
         'label'
@@ -17,7 +19,6 @@ fieldset.dnb-forms-field-block {
         'status';
     }
     &-horizontal {
-      display: grid;
       grid-template-columns: var(--forms-field-width--medium) auto;
       grid-template-areas:
         'label contents'

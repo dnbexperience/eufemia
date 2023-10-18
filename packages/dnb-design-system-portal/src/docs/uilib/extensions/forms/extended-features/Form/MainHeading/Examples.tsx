@@ -4,7 +4,7 @@ import { Form } from '@dnb/eufemia/src/extensions/forms'
 
 export const Default = () => {
   return (
-    <ComponentBox scope={{ Form }}>
+    <ComponentBox>
       <Form.MainHeading>This is a main heading</Form.MainHeading>
     </ComponentBox>
   )
@@ -12,10 +12,7 @@ export const Default = () => {
 
 export const OverStack = () => {
   return (
-    <ComponentBox
-      scope={{ Form }}
-      data-visual-test="layout-main-heading-over-stack"
-    >
+    <ComponentBox data-visual-test="layout-main-heading-over-stack">
       <Form.MainHeading>This is a main heading</Form.MainHeading>
       <Flex.Stack>
         <P>Stack contents</P>
@@ -26,10 +23,7 @@ export const OverStack = () => {
 
 export const OverStackWithCard = () => {
   return (
-    <ComponentBox
-      scope={{ Form }}
-      data-visual-test="layout-main-heading-over-card"
-    >
+    <ComponentBox data-visual-test="layout-main-heading-over-card">
       <Form.MainHeading>This is a main heading</Form.MainHeading>
       <Flex.Stack>
         <Card>

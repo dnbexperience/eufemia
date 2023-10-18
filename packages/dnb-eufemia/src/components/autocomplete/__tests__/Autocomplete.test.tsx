@@ -21,12 +21,12 @@ import {
   act,
   waitFor,
 } from '@testing-library/react'
-import FormRow from '../../form-row/FormRow'
 import {
   DrawerListData,
   DrawerListDataObject,
   DrawerListDataObjectUnion,
 } from '../../../fragments/drawer-list'
+import { Provider } from '../../../shared'
 
 const mockProps: AutocompleteProps = {
   id: 'autocomplete-id',
@@ -2293,11 +2293,11 @@ describe('Autocomplete component', () => {
     expect(element.classList).toContain('dnb-space__top--large')
   })
 
-  it('should inherit FormRow vertical label', () => {
+  it('should inherit formElement vertical label', () => {
     render(
-      <FormRow vertical>
+      <Provider formElement={{ label_direction: 'vertical' }}>
         <Autocomplete label="Label" />
-      </FormRow>
+      </Provider>
     )
 
     const element = document.querySelector('.dnb-autocomplete')

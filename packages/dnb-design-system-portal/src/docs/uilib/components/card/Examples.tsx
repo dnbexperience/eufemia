@@ -21,7 +21,7 @@ export const Default = () => {
 
 export const Stack = () => {
   return (
-    <ComponentBox scope={{ Field }} data-visual-test="layout-card-stack">
+    <ComponentBox data-visual-test="layout-card-stack">
       <Card stack>
         <Field.String label="Label" value="Value" />
         <Field.String label="Label" value="Value" />
@@ -32,7 +32,7 @@ export const Stack = () => {
 
 export const VerticalFields = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Card>
         <Flex.Vertical>
           <Field.String label="Label" value="Value" />
@@ -45,7 +45,7 @@ export const VerticalFields = () => {
 
 export const WithHeadingsAndAriaLabel = () => {
   return (
-    <ComponentBox scope={{ Form }} hidePreview>
+    <ComponentBox hidePreview>
       <Card aria-labelledby="unique-id">
         <Form.SubHeading id="unique-id" space={0}>
           Heading

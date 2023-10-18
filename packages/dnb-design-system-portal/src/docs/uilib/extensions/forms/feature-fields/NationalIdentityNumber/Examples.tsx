@@ -4,7 +4,7 @@ import { FormError } from '@dnb/eufemia/src/extensions/forms/types'
 
 export const Empty = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.NationalIdentityNumber
         onChange={(value) => console.log('onChange', value)}
       />
@@ -14,7 +14,7 @@ export const Empty = () => {
 
 export const OmitMask = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.NationalIdentityNumber
         onChange={(value) => console.log('onChange', value)}
         omitMask
@@ -25,7 +25,7 @@ export const OmitMask = () => {
 
 export const Placeholder = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.NationalIdentityNumber
         placeholder="Enter 11 digits..."
         onChange={(value) => console.log('onChange', value)}
@@ -36,7 +36,7 @@ export const Placeholder = () => {
 
 export const Label = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.NationalIdentityNumber
         label="Label text"
         onChange={(value) => console.log('onChange', value)}
@@ -47,7 +47,7 @@ export const Label = () => {
 
 export const LabelAndValue = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.NationalIdentityNumber
         label="Label text"
         value="01017501234"
@@ -59,7 +59,7 @@ export const LabelAndValue = () => {
 
 export const WithHelp = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.NationalIdentityNumber
         label="Label text"
         value="01017501234"
@@ -76,7 +76,7 @@ export const WithHelp = () => {
 
 export const Disabled = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.NationalIdentityNumber
         value="01010101010"
         label="Label text"
@@ -89,7 +89,7 @@ export const Disabled = () => {
 
 export const Error = () => {
   return (
-    <ComponentBox scope={{ Field, FormError }}>
+    <ComponentBox scope={{ FormError }}>
       <Field.NationalIdentityNumber
         value="007"
         label="Label text"
@@ -102,7 +102,7 @@ export const Error = () => {
 
 export const ValidationRequired = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.NationalIdentityNumber
         value="12345678901"
         label="Label text"

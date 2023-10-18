@@ -7,7 +7,6 @@ import React from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 import {
   Radio,
-  FormSet,
   FormRow,
   FormLabel,
   Button,
@@ -16,6 +15,8 @@ import {
 } from '../..'
 
 import { H2 } from '../../..'
+import { Provider } from '../../../shared'
+import { Form } from '../../../extensions/forms'
 
 export default {
   title: 'Eufemia/Components/Radio',
@@ -188,13 +189,13 @@ export const RadioButtonSandbox = () => (
       </Radio.Group>
     </Box>
     <Box>
-      <FormRow vertical>
+      <Provider formElement={{ label_direction: 'vertical' }}>
         <Radio.Group label="Vertical with FormRow:">
           <Radio label="First" value="first" />
           <Radio label="Second" value="second" />
           <Radio label="Third" value="third" checked />
         </Radio.Group>
-      </FormRow>
+      </Provider>
     </Box>
     <Box>
       <Radio.Group label="Vertical label:" label_direction="vertical">
@@ -244,8 +245,8 @@ const RadioGroupsWithStatus = () => {
     React.useState('second')
 
   return (
-    <FormSet>
-      <FormRow vertical>
+    <Form.Element>
+      <Provider formElement={{ label_direction: 'vertical' }}>
         <Radio.Group
           label="Group A label:"
           // label_direction="vertical"
@@ -279,8 +280,8 @@ const RadioGroupsWithStatus = () => {
           }}
           text="Set New State"
         />
-      </FormRow>
-    </FormSet>
+      </Provider>
+    </Form.Element>
   )
 }
 const shuffleArray = (arr) =>

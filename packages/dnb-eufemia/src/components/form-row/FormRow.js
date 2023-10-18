@@ -137,7 +137,8 @@ export default class FormRow extends React.PureComponent {
     const props = extendPropsWithContextInClassComponent(
       this.props,
       FormRow.defaultProps,
-      this.context.FormRow // nested FormRow
+      this.context?.FormRow, // nested FormRow
+      this.context?.formElement // nested formElement
     )
 
     const {
@@ -171,7 +172,8 @@ export default class FormRow extends React.PureComponent {
     let { label } = props
 
     const isNested =
-      this.context.FormRow && this.context.FormRow.itsMeAgain
+      this.context?.FormRow?.itsMeAgain ||
+      this.context?.formElement?.itsMeAgain
 
     // in case we have a label already, we split this out and use this one instead
     const { label: nestedLabel, children } = FormRow.getContent(this.props)
@@ -205,27 +207,30 @@ export default class FormRow extends React.PureComponent {
     // also used for code markup simulation
     validateDOMAttributes(this.props, params)
 
+    const formElement = {
+      useId: () => {
+        if (this.isIsUsed) {
+          // make a new ID, as we used one
+          return makeUniqueId() // cause we need an id anyway
+        }
+        this.isIsUsed = true
+        return id
+      },
+      itsMeAgain: true,
+      hasLabel,
+      globalStatus,
+      direction,
+      vertical,
+      label_direction: isTrue(vertical) ? 'vertical' : label_direction,
+      responsive,
+      disabled,
+      skeleton,
+    }
+
     const providerContext = extend(this.context, {
       locale: locale ? locale : this.context.locale,
-      FormRow: {
-        useId: () => {
-          if (this.isIsUsed) {
-            // make a new ID, as we used one
-            return makeUniqueId() // cause we need an id anyway
-          }
-          this.isIsUsed = true
-          return id
-        },
-        itsMeAgain: true,
-        hasLabel,
-        globalStatus,
-        direction,
-        vertical,
-        label_direction: isTrue(vertical) ? 'vertical' : label_direction,
-        responsive,
-        disabled,
-        skeleton,
-      },
+      formElement,
+      FormRow: formElement,
     })
 
     const useFieldset = !isTrue(no_fieldset) && hasLabel

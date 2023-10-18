@@ -6,8 +6,8 @@
 import { render, screen, cleanup, fireEvent } from '@testing-library/react'
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import FormRow from '../../form-row/FormRow'
 import Checkbox, { CheckboxProps } from '../Checkbox'
+import { Provider } from '../../../shared'
 
 const props: CheckboxProps = {
   label: 'checkbox',
@@ -141,11 +141,13 @@ describe('Checkbox component', () => {
     ])
   })
 
-  it('should inherit FormRow vertical label', () => {
+  it('should inherit formElement vertical label', () => {
     render(
-      <FormRow vertical disabled>
+      <Provider
+        formElement={{ label_direction: 'vertical', disabled: true }}
+      >
         <Checkbox label="Label" />
-      </FormRow>
+      </Provider>
     )
 
     const element = document.querySelector('.dnb-checkbox')

@@ -4,7 +4,7 @@ import { FormError } from '@dnb/eufemia/src/extensions/forms/types'
 
 export const Empty = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Number
         onFocus={(value) => console.log('onFocus', value)}
         onBlur={(value) => console.log('onBlur', value)}
@@ -16,7 +16,7 @@ export const Empty = () => {
 
 export const Placeholder = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Number
         placeholder="Enter a number"
         onChange={(value) => console.log('onChange', value)}
@@ -27,7 +27,7 @@ export const Placeholder = () => {
 
 export const Label = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Number
         label="Label text"
         onChange={(value) => console.log('onChange', value)}
@@ -38,7 +38,7 @@ export const Label = () => {
 
 export const LabelAndValue = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Number
         value={420000.25}
         label="Label text"
@@ -50,7 +50,7 @@ export const LabelAndValue = () => {
 
 export const WithHelp = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Number
         value={12345}
         label="Label text"
@@ -67,7 +67,7 @@ export const WithHelp = () => {
 
 export const HorizontalLayout = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Number
         value={420000}
         label="Label text"
@@ -80,7 +80,7 @@ export const HorizontalLayout = () => {
 
 export const Widths = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Number
         label="Default width (property omitted)"
         value={123}
@@ -116,7 +116,7 @@ export const Widths = () => {
 
 export const Disabled = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Number
         value={135}
         label="Label text"
@@ -129,7 +129,7 @@ export const Disabled = () => {
 
 export const Info = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Number
         value={135}
         label="Label text"
@@ -142,7 +142,7 @@ export const Info = () => {
 
 export const Warning = () => {
   return (
-    <ComponentBox scope={{ Field, FormError }}>
+    <ComponentBox scope={{ FormError }}>
       <Field.Number
         value={135}
         label="Label text"
@@ -155,7 +155,7 @@ export const Warning = () => {
 
 export const Error = () => {
   return (
-    <ComponentBox scope={{ Field, FormError }}>
+    <ComponentBox scope={{ FormError }}>
       <Field.Number
         value={135}
         label="Label text"
@@ -168,7 +168,7 @@ export const Error = () => {
 
 export const ValidateRequired = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Number
         value={123}
         label="Remove and blur field"
@@ -181,7 +181,7 @@ export const ValidateRequired = () => {
 
 export const ValidateMinimum = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Number
         value={300}
         label="Enter a number below 250 and blur to trigger error"
@@ -194,7 +194,7 @@ export const ValidateMinimum = () => {
 
 export const ValidateMaximumCustomError = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.Number
         value={200}
         label="Enter a number above 250 and blur to trigger error"

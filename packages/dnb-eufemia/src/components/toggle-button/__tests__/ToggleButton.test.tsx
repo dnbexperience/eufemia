@@ -6,8 +6,8 @@
 import { fireEvent, render, cleanup } from '@testing-library/react'
 import React from 'react'
 import { axeComponent, loadScss } from '../../../core/jest/jestSetup'
-import FormRow from '../../form-row/FormRow'
 import ToggleButton, { ToggleButtonProps } from '../ToggleButton'
+import { Provider } from '../../../shared'
 
 const props: ToggleButtonProps = {
   variant: 'checkbox',
@@ -248,11 +248,11 @@ describe('ToggleButton component', () => {
     ])
   })
 
-  it('should inherit FormRow vertical label', () => {
+  it('should inherit formElement vertical label', () => {
     render(
-      <FormRow vertical>
+      <Provider formElement={{ label_direction: 'vertical' }}>
         <ToggleButton label="Label" />
-      </FormRow>
+      </Provider>
     )
 
     const element = document.querySelector('.dnb-toggle-button')
@@ -590,9 +590,9 @@ describe('ToggleButton group component', () => {
     ])
   })
 
-  it('should inherit FormRow vertical label', () => {
+  it('should inherit formElement vertical label', () => {
     render(
-      <FormRow vertical>
+      <Provider formElement={{ label_direction: 'vertical' }}>
         <ToggleButton.Group id="group" label="Label">
           <ToggleButton
             variant="checkbox"
@@ -607,7 +607,7 @@ describe('ToggleButton group component', () => {
             value="second"
           />
         </ToggleButton.Group>
-      </FormRow>
+      </Provider>
     )
 
     const element = document.querySelector('.dnb-toggle-button-group')
@@ -620,29 +620,34 @@ describe('ToggleButton group component', () => {
       'dnb-toggle-button-group',
       'dnb-toggle-button-group--row',
       'dnb-form-component',
-      'dnb-form-row--vertical-label',
     ])
     expect(
       Array.from(
-        document.querySelector('.dnb-toggle-button-group .dnb-form-row')
-          .classList
+        document.querySelector(
+          '.dnb-toggle-button-group .dnb-flex-container'
+        ).classList
       )
     ).toEqual([
-      'dnb-section',
-      'dnb-section--transparent',
-      'dnb-form-row',
-      'dnb-form-row--vertical',
-      'dnb-form-row--vertical-label',
-      'dnb-form-row--nested',
+      'dnb-space',
+      'dnb-flex-container',
+      'dnb-flex-container--direction-horizontal',
+      'dnb-flex-container--justify-flex-start',
+      'dnb-flex-container--align-baseline',
+      'dnb-flex-container--spacing-small',
+      'dnb-flex-container--wrap',
+      'dnb-flex-container--divider-space',
     ])
     expect(
-      Array.from(document.querySelector('.dnb-form-row').classList)
+      Array.from(document.querySelector('.dnb-flex-container').classList)
     ).toEqual([
-      'dnb-section',
-      'dnb-section--transparent',
-      'dnb-form-row',
-      'dnb-form-row--vertical',
-      'dnb-form-row--vertical-label',
+      'dnb-space',
+      'dnb-flex-container',
+      'dnb-flex-container--direction-horizontal',
+      'dnb-flex-container--justify-flex-start',
+      'dnb-flex-container--align-baseline',
+      'dnb-flex-container--spacing-small',
+      'dnb-flex-container--wrap',
+      'dnb-flex-container--divider-space',
     ])
   })
 

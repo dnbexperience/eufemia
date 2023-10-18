@@ -11,13 +11,13 @@ import {
   ToggleButton,
   Button,
   Space,
-  // FormSet,
-  FormRow,
   FormLabel,
   GlobalStatus,
+  Flex,
 } from '../..'
 
 import { H2 } from '../../..'
+import { FieldBlock } from '../../../extensions/forms'
 
 export default {
   title: 'Eufemia/Components/ToggleButton',
@@ -96,57 +96,59 @@ export const ToggleButtonSandbox = () => (
     </Box>
 
     <Box>
-      <Provider FormRow={{ vertical: true }}>
-        <FormRow disabled>
-          <ToggleButton.Group>
-            <ToggleButton
-              text="First"
-              value="first"
-              suffix="123"
-              status="error message"
-              disabled={false}
-            />
-            <ToggleButton text="Second" value="second" disabled={false} />
-            <ToggleButton text="Third A" value="thirdA" />
-            <ToggleButton text="Third B" value="thirdB" />
-            <ToggleButton text="Third C" value="thirdC" />
-            <ToggleButton text="Third D" value="thirdD" />
-            <ToggleButton text="Third E" value="thirdE" />
-            <ToggleButton text="Third F" value="thirdF" />
-            <ToggleButton text="Third G" value="thirdG" />
-            <ToggleButton text="Third H" value="thirdH" />
-            <ToggleButton text="Third I" value="thirdI" />
-            <ToggleButton text="Third J" value="thirdJ" />
-            <ToggleButton text="Third K" value="thirdK" />
-            <ToggleButton text="Third L" value="thirdL" />
-            <ToggleButton text="Third M" value="thirdM" />
-            <ToggleButton text="Third N" value="thirdN" />
-            <ToggleButton text="Last" value="last" />
-          </ToggleButton.Group>
-        </FormRow>
+      <Provider
+        formElement={{ label_direction: 'vertical', disabled: true }}
+      >
+        <ToggleButton.Group>
+          <ToggleButton
+            text="First"
+            value="first"
+            suffix="123"
+            status="error message"
+            disabled={false}
+          />
+          <ToggleButton text="Second" value="second" disabled={false} />
+          <ToggleButton text="Third A" value="thirdA" />
+          <ToggleButton text="Third B" value="thirdB" />
+          <ToggleButton text="Third C" value="thirdC" />
+          <ToggleButton text="Third D" value="thirdD" />
+          <ToggleButton text="Third E" value="thirdE" />
+          <ToggleButton text="Third F" value="thirdF" />
+          <ToggleButton text="Third G" value="thirdG" />
+          <ToggleButton text="Third H" value="thirdH" />
+          <ToggleButton text="Third I" value="thirdI" />
+          <ToggleButton text="Third J" value="thirdJ" />
+          <ToggleButton text="Third K" value="thirdK" />
+          <ToggleButton text="Third L" value="thirdL" />
+          <ToggleButton text="Third M" value="thirdM" />
+          <ToggleButton text="Third N" value="thirdN" />
+          <ToggleButton text="Last" value="last" />
+        </ToggleButton.Group>
       </Provider>
     </Box>
     <Box>
-      <FormRow label="Horizontal Legend Aptent maecenas non pharetra libero massa auctor pretium vulputate vivamus:">
-        <ToggleButton.Group label="Group A label:">
-          <ToggleButton text="First" value="first" />
-          <ToggleButton text="Second" value="second" />
-          <ToggleButton text="Third" value="third" />
-          <ToggleButton text="Third" value="third" />
-          <ToggleButton text="Third" value="third" />
-          <ToggleButton text="Third" value="third" />
-          <ToggleButton text="Third" value="third" />
-        </ToggleButton.Group>
-        <ToggleButton.Group label="Group B label:">
-          <ToggleButton text="First" value="first" />
-          <ToggleButton text="Second" value="second" />
-          <ToggleButton text="Third" value="third" />
-          <ToggleButton text="Third" value="third" />
-          <ToggleButton text="Third" value="third" />
-          <ToggleButton text="Third" value="third" />
-          <ToggleButton text="Third" value="third" />
-        </ToggleButton.Group>
-      </FormRow>
+      <FieldBlock label="Horizontal Legend Aptent maecenas non pharetra libero massa auctor pretium vulputate vivamus:">
+        <Flex.Vertical>
+          <ToggleButton.Group label="Group A label:">
+            <ToggleButton text="First" value="first" />
+            <ToggleButton text="Second" value="second" />
+            <ToggleButton text="Third" value="third" />
+            <ToggleButton text="Third" value="third" />
+            <ToggleButton text="Third" value="third" />
+            <ToggleButton text="Third" value="third" />
+            <ToggleButton text="Third" value="third" />
+          </ToggleButton.Group>
+          <ToggleButton.Group label="Group B label:">
+            <ToggleButton text="First" value="first" />
+            <ToggleButton text="Second" value="second" />
+            <ToggleButton text="Third" value="third" />
+            <ToggleButton text="Third" value="third" />
+            <ToggleButton text="Third" value="third" />
+            <ToggleButton text="Third" value="third" />
+            <ToggleButton text="Third" value="third" />
+          </ToggleButton.Group>
+        </Flex.Vertical>
+      </FieldBlock>
     </Box>
     <Box>
       <p className="dnb-p">
@@ -221,28 +223,28 @@ export const ToggleButtonSandbox = () => (
       </p>
     </Box>
     <Box>
-      <FormRow no_label>
+      <Flex.Vertical>
         <H2>A h2 in a FormRow without a label</H2>
-      </FormRow>
-      <FormRow label="Long Group name with on_change dapibus eros viverra torquent euismod at dignissim vel mattis:">
-        <ToggleButton.Group
-          on_change={({ value, values, event }) => {
-            console.log('on_change', value, values, event)
-          }}
-          status="Error message"
-          multiselect={true}
-        >
-          <ToggleButton text="First" value="first" />
-          <ToggleButton text="Second" value="second" checked />
-          <ToggleButton text="Third" value="third" checked />
-          <ToggleButton text="Third" value="third" checked />
-          <ToggleButton text="Third" value="third" checked />
-          <ToggleButton text="Third" value="third" checked />
-        </ToggleButton.Group>
-      </FormRow>
+        <FieldBlock label="Long Group name with on_change dapibus eros viverra torquent euismod at dignissim vel mattis:">
+          <ToggleButton.Group
+            on_change={({ value, values, event }) => {
+              console.log('on_change', value, values, event)
+            }}
+            status="Error message"
+            multiselect={true}
+          >
+            <ToggleButton text="First" value="first" />
+            <ToggleButton text="Second" value="second" checked />
+            <ToggleButton text="Third" value="third" checked />
+            <ToggleButton text="Third" value="third" checked />
+            <ToggleButton text="Third" value="third" checked />
+            <ToggleButton text="Third" value="third" checked />
+          </ToggleButton.Group>
+        </FieldBlock>
+      </Flex.Vertical>
     </Box>
     <Box>
-      <FormRow label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:">
+      <FieldBlock label="Long Group name Vitae dapibus eros viverra torquent euismod at dignissim vel mattis:">
         <ToggleButton.Group
           on_change={({ value }) => {
             console.log('on_change', value)
@@ -262,7 +264,7 @@ export const ToggleButtonSandbox = () => (
             status_state="info"
           />
         </ToggleButton.Group>
-      </FormRow>
+      </FieldBlock>
     </Box>
     <Box>
       <ToggleButton.Group label="Column group:" layout_direction="column">

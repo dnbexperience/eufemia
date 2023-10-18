@@ -4,7 +4,7 @@ import { FormError } from '@dnb/eufemia/src/extensions/forms/types'
 
 export const Empty = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.PhoneNumber
         onFocus={(value) => console.log('onFocus', value)}
         onBlur={(value) => console.log('onBlur', value)}
@@ -22,7 +22,7 @@ export const Empty = () => {
 
 export const Placeholder = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.PhoneNumber
         placeholder="Call this number"
         onChange={(value) => console.log('onChange', value)}
@@ -33,7 +33,7 @@ export const Placeholder = () => {
 
 export const Label = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.PhoneNumber
         label="Label text"
         onChange={(value) => console.log('onChange', value)}
@@ -44,7 +44,7 @@ export const Label = () => {
 
 export const LabelAndValue = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.PhoneNumber
         label="Label text"
         value="+47 98765432"
@@ -56,7 +56,7 @@ export const LabelAndValue = () => {
 
 export const WithHelp = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.PhoneNumber
         onChange={(value) => console.log('onChange', value)}
         help={{
@@ -71,7 +71,7 @@ export const WithHelp = () => {
 
 export const Disabled = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.PhoneNumber
         value="+47 12345678"
         label="Label text"
@@ -84,7 +84,7 @@ export const Disabled = () => {
 
 export const Error = () => {
   return (
-    <ComponentBox scope={{ Field, FormError }}>
+    <ComponentBox scope={{ FormError }}>
       <Field.PhoneNumber
         value="007"
         label="Label text"
@@ -97,7 +97,7 @@ export const Error = () => {
 
 export const ValidationRequired = () => {
   return (
-    <ComponentBox scope={{ Field }}>
+    <ComponentBox>
       <Field.PhoneNumber
         value="+47 888"
         label="Label text"

@@ -199,6 +199,10 @@
     display: inline-flex;
     flex-direction: row;
 
+    fieldset {
+      @include fieldsetReset();
+    }
+
     // default spacing
     .dnb-radio {
       margin-right: var(--radio-group-margin-right);
@@ -230,9 +234,7 @@
       flex-direction: column;
     }
 
-    .dnb-form-row {
-      align-items: flex-start;
-
+    .dnb-flex-container {
       // because of our bottom margins we have on the components
       margin-bottom: calc(1px - 1px - var(--radio-group-margin-bottom));
 
