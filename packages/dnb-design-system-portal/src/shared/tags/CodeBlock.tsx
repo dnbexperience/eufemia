@@ -208,84 +208,85 @@ class LiveCode extends React.PureComponent<
               />
             </div>
           )}
-          {!global.IS_TEST && !hideCode && (
-            <div
-              className={classnames(
-                'dnb-live-editor',
-                createSkeletonClass('code', this.context.skeleton),
-              )}
-              ref={this._editorElementRef}
-            >
-              <span className="dnb-sr-only">Code Editor</span>
-              <LiveEditor
-                prism={Prism}
-                id={this._id}
-                tabMode={this.state.tabMode}
-                className="dnb-live-editor__editable dnb-pre"
-                onChange={(code) => {
-                  this.setState({ code })
-                }}
-                onFocus={() => {
-                  if (this._editorElementRef.current) {
-                    this._editorElementRef.current.classList.add(
-                      'dnb-pre--focus',
-                    )
-                  }
-                }}
-                onBlur={() => {
-                  if (this._editorElementRef.current) {
-                    this._editorElementRef.current.classList.remove(
-                      'dnb-pre--focus',
-                    )
-                  }
-                }}
-                onMouseDown={(e) => {
-                  const focusMode =
-                    document.documentElement.getAttribute('data-whatinput')
-                  this.setIndentation(
-                    focusMode === 'mouse' ? 'indentation' : 'focus',
+
+          <div
+            hidden={global.IS_TEST || hideCode}
+            className={classnames(
+              'dnb-live-editor',
+              createSkeletonClass('code', this.context.skeleton),
+            )}
+            ref={this._editorElementRef}
+          >
+            <span className="dnb-sr-only">Code Editor</span>
+            <LiveEditor
+              prism={Prism}
+              id={this._id}
+              tabMode={this.state.tabMode}
+              className="dnb-live-editor__editable dnb-pre"
+              onChange={(code) => {
+                this.setState({ code })
+              }}
+              onFocus={() => {
+                if (this._editorElementRef.current) {
+                  this._editorElementRef.current.classList.add(
+                    'dnb-pre--focus',
                   )
-                }}
-                onBlurCapture={() => {
-                  this.setIndentation('focus')
-                }}
-                onKeyDown={({ code }) => {
-                  if (code !== 'Tab' && code !== 'ShiftLeft') {
-                    this.setIndentation('indentation')
-                  }
-                }}
-              />
-            </div>
-          )}
+                }
+              }}
+              onBlur={() => {
+                if (this._editorElementRef.current) {
+                  this._editorElementRef.current.classList.remove(
+                    'dnb-pre--focus',
+                  )
+                }
+              }}
+              onMouseDown={(e) => {
+                const focusMode =
+                  document.documentElement.getAttribute('data-whatinput')
+                this.setIndentation(
+                  focusMode === 'mouse' ? 'indentation' : 'focus',
+                )
+              }}
+              onBlurCapture={() => {
+                this.setIndentation('focus')
+              }}
+              onKeyDown={({ code }) => {
+                if (code !== 'Tab' && code !== 'ShiftLeft') {
+                  this.setIndentation('indentation')
+                }
+              }}
+            />
+          </div>
 
           <LiveError className="dnb-form-status dnb-form-status__text dnb-form-status--error" />
 
-          {!global.IS_TEST && !hideToolbar && (
-            <div className={classnames(toolbarStyle, 'dnb-live-toolbar')}>
-              {this.props.hideCode && (
-                <Button
-                  className="toggle-button"
-                  on_click={this.toggleCode}
-                  variant="secondary"
-                  text="Code"
-                  title="Toggle Code Snippet"
-                  icon={`arrow-${hideCode ? 'down' : 'up'}`}
-                  size="medium"
-                />
-              )}
-              {this.props.hidePreview && (
-                <Button
-                  className="toggle-button"
-                  on_click={this.togglePreview}
-                  variant="secondary"
-                  text="Preview"
-                  title="Toggle Preview"
-                  icon={`arrow-${!hidePreview ? 'down' : 'up'}`}
-                  size="medium"
-                />
-              )}
-            </div>
-          )}
+          <div
+            hidden={global.IS_TEST || hideToolbar}
+            className={classnames(toolbarStyle, 'dnb-live-toolbar')}
+          >
+            {this.props.hideCode && (
+              <Button
+                className="toggle-button"
+                on_click={this.toggleCode}
+                variant="secondary"
+                text="Code"
+                title="Toggle Code Snippet"
+                icon={`arrow-${hideCode ? 'down' : 'up'}`}
+                size="medium"
+              />
+            )}
+            {this.props.hidePreview && (
+              <Button
+                className="toggle-button"
+                on_click={this.togglePreview}
+                variant="secondary"
+                text="Preview"
+                title="Toggle Preview"
+                icon={`arrow-${!hidePreview ? 'down' : 'up'}`}
+                size="medium"
+              />
+            )}
+          </div>
         </LiveProvider>
       </div>
     )
