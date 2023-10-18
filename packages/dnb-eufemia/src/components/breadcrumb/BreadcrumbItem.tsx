@@ -115,8 +115,8 @@ const BreadcrumbItem = (localProps: BreadcrumbItemProps) => {
 
   let currentIcon =
     icon || (variant === 'home' && homeIcon) || 'chevron_left'
-  if (theme?.name === 'sbanken') {
-    currentIcon = icon || determineSbankenIcon(variant, isSmallScreen)
+  if (!icon && theme?.name === 'sbanken') {
+    currentIcon = determineSbankenIcon(variant, isSmallScreen)
   }
   const currentText = text || (variant === 'home' && homeText) || ''
   const isInteractive = (href || onClick) && variant !== 'current'
