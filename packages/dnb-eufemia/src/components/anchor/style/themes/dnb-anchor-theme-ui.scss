@@ -31,7 +31,9 @@
   color: var(--anchor-color);
 
   &:hover {
-    @include anchorHover();
+    @include anchor-mixins.notNoHover() {
+      @include anchorHover();
+    }
   }
 
   &:active {
@@ -45,8 +47,10 @@
 
 $useClasses: true !default;
 @if $useClasses {
-  .dnb-anchor {
-    @include anchorStyle();
+  @include anchor-mixins.notNoStyle() {
+    &.dnb-anchor {
+      @include anchorStyle();
+    }
   }
 
   .dnb-anchor--hover {

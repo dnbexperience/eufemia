@@ -53,15 +53,6 @@
   }
 }
 
-@mixin resetAnchorHoverStyle() {
-  &:hover {
-    color: inherit;
-
-    // in case we don't want to change the color to the body color
-    background-color: transparent;
-  }
-}
-
 @mixin resetAnimationStyle() {
   transition: none;
 }
@@ -178,7 +169,9 @@
   }
 
   &:hover {
-    @include anchorHoverStyle();
+    @include notNoHover() {
+      @include anchorHoverStyle();
+    }
   }
 
   &:active {
@@ -220,5 +213,34 @@
 @mixin anchorTag() {
   a {
     @include anchorStyle();
+  }
+}
+
+@mixin notNoStyle() {
+  :where(:not(.dnb-anchor--no-style)) {
+    @content;
+  }
+  :not(.dnb-anchor--no-style) {
+    @include whereFallback() {
+      @content;
+    }
+  }
+}
+
+@mixin notNoHover() {
+  &:where(:not(.dnb-anchor--no-hover)) {
+    @content;
+  }
+  &:not(.dnb-anchor--no-hover) {
+    @include whereFallback() {
+      @content;
+    }
+  }
+}
+
+@mixin whereFallback() {
+  /* stylelint-disable-next-line scss/operator-no-unspaced */
+  @supports not (selector(*:where(*))) {
+    @content;
   }
 }
