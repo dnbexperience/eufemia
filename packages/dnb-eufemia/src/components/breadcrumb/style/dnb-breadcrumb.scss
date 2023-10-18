@@ -72,8 +72,10 @@
   }
 
   &__toggle {
-    @include allAbove(medium) {
-      display: none !important;
+    &--hide-above-medium {
+      @include allAbove(medium) {
+        display: none !important;
+      }
     }
   }
 

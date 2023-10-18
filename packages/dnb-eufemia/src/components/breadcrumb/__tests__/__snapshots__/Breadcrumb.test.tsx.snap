@@ -690,7 +690,7 @@ button.dnb-button::-moz-focus-inner {
   }
 }
 @media screen and (min-width: 60em) {
-  .dnb-breadcrumb__toggle {
+  .dnb-breadcrumb__toggle--hide-above-medium {
     display: none !important;
   }
 }

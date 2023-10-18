@@ -219,7 +219,11 @@ const Breadcrumb = (localProps: BreadcrumbProps & SpacingProps) => {
         ) : (
           <>
             <Button
-              className="dnb-breadcrumb__toggle"
+              className={classnames(
+                'dnb-breadcrumb__toggle',
+                currentVariant !== 'collapse' &&
+                  'dnb-breadcrumb__toggle--hide-above-medium'
+              )}
               text={backToText}
               variant="tertiary"
               icon="chevron_left"
