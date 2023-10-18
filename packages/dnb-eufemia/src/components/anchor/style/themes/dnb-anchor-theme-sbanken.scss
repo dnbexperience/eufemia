@@ -62,7 +62,7 @@
     );
 
     &--no-underline,
-    &--has-icon,
+    &--was-node,
     &--inline {
       @include anchor-mixins.anchorBackground(
         var(--anchor-background),
@@ -104,28 +104,7 @@
       }
     }
 
-    &[target='_blank']:not(
-        :empty,
-        .dnb-anchor--no-icon,
-        [href^='mailto:'],
-        [href^='tel:'],
-        [href^='sms:']
-      ) {
-      padding-right: 0.25em;
-      &::after {
-        position: initial;
-        display: inline-block;
-        width: calc(0.9em + 0.25em + 0.125em);
-        height: 0.9em;
-        line-height: 0.9em;
-        margin-left: 0;
-        margin-right: 0;
-        background-position: right;
-        background-size: contain;
-      }
-    }
-
-    &:not(.dnb-anchor--no-underline):not(.dnb-anchor--has-icon):not(
+    &:not(.dnb-anchor--no-underline):not(.dnb-anchor--was-node):not(
         .anchor-hash
       ):not(.dnb-anchor--inline) {
       &:not(.dnb-anchor--icon-left) {

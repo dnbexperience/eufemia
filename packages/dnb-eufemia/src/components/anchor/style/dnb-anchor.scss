@@ -39,11 +39,6 @@ button.dnb-anchor {
   @include anchorFocusStyle();
 }
 
-// no use case for that yet
-// .dnb-anchor--style {
-//   @include anchorDefaultStyle();
-// }
-
 .dnb-anchor--no-underline {
   @include resetUnderlineStyle();
 }
@@ -67,7 +62,7 @@ a.dnb-button {
 .dnb-anchor.dnb-skeleton {
   text-decoration: none;
 
-  &::after {
+  .dnb-icon {
     filter: grayscale(100%) opacity(0.3);
   }
 }
