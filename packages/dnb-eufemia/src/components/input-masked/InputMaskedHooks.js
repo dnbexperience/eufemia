@@ -40,6 +40,11 @@ import {
  *
  * @returns object {props, htmlAttributes}
  */
+
+// SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
+const useLayoutEffect =
+  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
+
 export const useFilteredProps = () => {
   const { props } = React.useContext(InputMaskedContext)
 
@@ -216,7 +221,7 @@ export const useInputElement = () => {
   const refHook = React.useRef()
   const ref = (!isFn && inner_ref) || refHook
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (isFn) {
       inner_ref?.(ref.current)
     }

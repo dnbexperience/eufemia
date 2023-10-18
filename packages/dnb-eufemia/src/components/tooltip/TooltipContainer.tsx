@@ -9,6 +9,10 @@ import { getOffsetLeft, getOffsetTop } from '../../shared/helpers'
 import classnames from 'classnames'
 import { TooltipProps } from './types'
 
+// SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
+const useLayoutEffect =
+  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
+
 type TooltipContainerProps = {
   targetElement: HTMLElement
   style?: React.CSSProperties
@@ -61,7 +65,7 @@ export default function TooltipContainer(
     clearTimeout(debounceTimeout.current)
   }
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     const addPositionObserver = () => {
       if (resizeObserver.current || typeof document === 'undefined') {
         return // stop here
@@ -101,7 +105,7 @@ export default function TooltipContainer(
   const offsetLeft = React.useRef(0)
   const offsetTop = React.useRef(0)
 
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (!isActive) {
       /**
        * This "resets" the position between elements,

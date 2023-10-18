@@ -8,14 +8,7 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 
 import Input from '@dnb/eufemia/src/components/input/Input'
 import styled from '@emotion/styled'
-import {
-  useLocation,
-  Router as ReachRouter,
-  navigate,
-} from '@reach/router'
 import { Tabs, Section, H2, P, ToggleButton } from '@dnb/eufemia/src'
-
-const Router = ReachRouter as any
 
 export const TabsExampleContentOutside = () => (
   <Wrapper>
@@ -244,46 +237,6 @@ export const TabsExampleMaxWidth = () => (
     }}
   </ComponentBox>
 )
-
-export const TabsExampleReachRouterNavigation = () =>
-  typeof window === 'undefined' ? null : (
-    <Wrapper>
-      <ComponentBox scope={{ useLocation, Router, navigate }}>
-        {() => {
-          const Home = ({ path, default: d }) => <H2>Home</H2>
-          const About = ({ path }) => <H2>About</H2>
-          const Topics = ({ path }) => <H2>Topics</H2>
-
-          const Component = () => {
-            const { pathname } = useLocation()
-
-            return (
-              <Tabs
-                data={[
-                  { title: 'Home', key: '/' },
-                  { title: 'About', key: '/about' },
-                  { title: 'Topics', key: '/topics' },
-                ]}
-                selected_key={pathname}
-                on_change={({ key }) => navigate(key)}
-                tabs_style="info"
-              >
-                <React.Suspense fallback={<em>Loading ...</em>}>
-                  <Router>
-                    <Home path="/" default />
-                    <About path="/about" />
-                    <Topics path="/topics" />
-                  </Router>
-                </React.Suspense>
-              </Tabs>
-            )
-          }
-
-          return <Component />
-        }}
-      </ComponentBox>
-    </Wrapper>
-  )
 
 const exampleContent = {
   first: () => <h2 className="dnb-h--large">First</h2>,

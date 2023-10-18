@@ -13,6 +13,10 @@ import type {
 
 export type { MediaQueryProps }
 
+// SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
+const useLayoutEffect =
+  typeof window === 'undefined' ? React.useEffect : React.useLayoutEffect
+
 export default function useMediaQuery(props: MediaQueryProps) {
   const context = React.useContext(Context)
   const { query, when, not, matchOnSSR, disabled } = props
@@ -35,7 +39,7 @@ export default function useMediaQuery(props: MediaQueryProps) {
   const [match, matchUpdate] = React.useState(matches)
 
   const listenerRef = React.useRef<MediaQueryListener>()
-  React.useLayoutEffect(() => {
+  useLayoutEffect(() => {
     if (disabled) {
       return // stop here
     }
