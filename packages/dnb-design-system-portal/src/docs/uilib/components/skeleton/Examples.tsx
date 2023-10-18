@@ -15,9 +15,11 @@ import {
   Skeleton,
   ToggleButton,
   Div,
-  Flex,
 } from '@dnb/eufemia/src'
-import { AllComponents } from '../../layout/form-row/Examples'
+import {
+  AllComponentsHorizontalTestCase,
+  AllComponentsVerticalLabelsTestCase,
+} from '../../layout/Examples'
 import Provider from '@dnb/eufemia/src/shared/Provider'
 import { Article } from '@dnb/eufemia/src/components/skeleton/figures'
 import {
@@ -105,28 +107,12 @@ export const SkeletonFiguresExample = () => (
 export const SkeletonVisibleWhenVisualTests = () => {
   return (
     <>
-      <ComponentBox
-        data-visual-test="skeleton-all-horizontal"
-        scope={{ AllComponents }}
-      >
-        <Flex.Horizontal align="baseline">
-          <Skeleton show no_animation>
-            <AllComponents />
-          </Skeleton>
-        </Flex.Horizontal>
-      </ComponentBox>
-      <ComponentBox
-        data-visual-test="skeleton-all-vertical"
-        scope={{ AllComponents }}
-      >
-        <Provider formElement={{ label_direction: 'vertical' }}>
-          <Skeleton show no_animation>
-            <Flex.Vertical>
-              <AllComponents />
-            </Flex.Vertical>
-          </Skeleton>
-        </Provider>
-      </ComponentBox>
+      <Skeleton show no_animation>
+        <AllComponentsHorizontalTestCase data-visual-test="skeleton-all-horizontal" />
+      </Skeleton>
+      <Skeleton show no_animation>
+        <AllComponentsVerticalLabelsTestCase data-visual-test="skeleton-all-vertical" />
+      </Skeleton>
     </>
   )
 }

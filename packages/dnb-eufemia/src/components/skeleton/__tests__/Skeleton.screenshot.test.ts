@@ -43,7 +43,6 @@ describe.each(['ui', 'sbanken'])('Skeleton for %s', (themeName) => {
 
   it('have to match all components - vertical', async () => {
     const screenshot = await makeScreenshot({
-      style: { width: '60rem' },
       selector: '[data-visual-test="skeleton-all-vertical"]',
     })
     expect(screenshot).toMatchImageSnapshot()
@@ -51,8 +50,10 @@ describe.each(['ui', 'sbanken'])('Skeleton for %s', (themeName) => {
 
   it('have to match all components - horizontal', async () => {
     const screenshot = await makeScreenshot({
-      style: { width: '60rem' },
-      selector: '[data-visual-test="skeleton-all-horizontal"]',
+      addWrapper: false,
+      style: { width: '60rem', overflow: 'visible' },
+      selector:
+        '[data-visual-test="skeleton-all-horizontal"] .dnb-flex-container',
     })
     expect(screenshot).toMatchImageSnapshot()
   })
