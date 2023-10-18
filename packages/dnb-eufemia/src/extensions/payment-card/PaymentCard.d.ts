@@ -58,7 +58,6 @@ export interface PaymentCardRawData {
   productType: ProductType;
   bankAxept: BankAxeptType;
 }
-
 export interface CardDesign {
   name: string;
   cardStyle: string;
@@ -69,7 +68,6 @@ export interface CardDesign {
   saga: any;
   privateBanking: any;
 }
-
 export type PaymentCardChildren =
   | string
   | React.ReactNode
@@ -121,10 +119,11 @@ export default class PaymentCard extends React.Component<
   static defaultProps: object;
   render(): JSX.Element;
 }
-export const getCardData: (
-  product_code: string
-) => Omit<PaymentCardRawData, 'cardDesign'> & { cardDesign: CardDesign };
-export const formatCardNumber: (
+type CardDataReturn = Omit<PaymentCardRawData, 'cardDesign'> & {
+  cardDesign: CardDesign;
+};
+export const getCardData = (product_code: string): CardDataReturn => null;
+export const formatCardNumber = (
   cardNumber: string,
   digits?: number
-) => string;
+): string => null;

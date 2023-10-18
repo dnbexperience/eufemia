@@ -30,6 +30,9 @@ export interface FormLabelProps
    * The `text` of the label.
    */
   text?: FormLabelText;
+  /**
+   * Define one of the following <a href="/uilib/elements/heading/">heading size</a>: `medium` or `large`.
+   */
   size?: FormLabelSize;
   id?: string;
   class?: string;
