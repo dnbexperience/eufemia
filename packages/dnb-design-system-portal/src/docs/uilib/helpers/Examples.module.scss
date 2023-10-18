@@ -1,0 +1,7 @@
+@import '@dnb/eufemia/src/style/core/utilities.scss';
+
+.fieldsetReset {
+  :global(fieldset) {
+    @include fieldsetReset();
+  }
+}
