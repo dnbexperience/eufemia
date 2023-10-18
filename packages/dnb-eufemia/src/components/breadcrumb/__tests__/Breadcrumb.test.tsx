@@ -135,13 +135,13 @@ describe('Breadcrumb', () => {
     )
 
     expect(
-      document.querySelector('.dnb-breadcrumb__multible')
+      document.querySelector('.dnb-breadcrumb__multiple')
     ).not.toBeInTheDocument()
 
     fireEvent.click(screen.getByRole('button'))
 
     expect(
-      document.querySelector('.dnb-breadcrumb__multible')
+      document.querySelector('.dnb-breadcrumb__multiple')
     ).not.toBeInTheDocument()
   })
 
@@ -194,7 +194,7 @@ describe('Breadcrumb', () => {
     fireEvent.click(screen.getByRole('button'))
 
     expect(
-      document.querySelector('.dnb-breadcrumb__multible')
+      document.querySelector('.dnb-breadcrumb__multiple')
     ).toBeDefined()
   })
 
