@@ -1,4 +1,5 @@
 import React from 'react'
+import classnames from 'classnames'
 import { Drawer, Space, Tooltip } from '@dnb/eufemia/src/components'
 import { H2 } from '@dnb/eufemia/src'
 import ToggleGrid from './ToggleGrid'
@@ -6,23 +7,30 @@ import { Context } from '@dnb/eufemia/src/shared'
 import PortalSkeleton from '../../core/PortalSkeleton'
 import ChangeLocale from '../../core/ChangeLocale'
 import ChangeStyleTheme from '../../core/ChangeStyleTheme'
+import { buttonStyle } from './PortalToolsMenu.module.scss'
 
 export default function PortalToolsMenu({
   className = null,
   tooltipPosition = 'left',
+  triggerAttributes = null,
+  hideWhenMediaLarge = false,
   ...props
 }) {
   const { skeleton, theme } = React.useContext(Context)
+
   return (
     <Drawer
       id="portal-tools"
       title="Portal Tools"
       triggerAttributes={{
+        className: classnames(
+          className,
+          buttonStyle,
+          hideWhenMediaLarge && 'hideWhenMediaLarge',
+        ),
         size: 'default',
         icon: 'more',
         icon_size: 'medium',
-        class: className,
-        title: 'Portal Tools',
         skeleton: false,
         left: 'x-small',
         tooltip: (
@@ -35,6 +43,7 @@ export default function PortalToolsMenu({
             Open the portal tools
           </Tooltip>
         ),
+        ...triggerAttributes,
       }}
       {...props}
     >
