@@ -16,7 +16,6 @@ import PortalToolsMenu from './PortalToolsMenu'
 import { SearchBarInput } from './SearchBar'
 import { Context } from '@dnb/eufemia/src/shared'
 import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
-import { MediaQuery } from '@dnb/eufemia/src/shared'
 import {
   headerStyle,
   centerWrapperStyle,
@@ -28,8 +27,8 @@ import {
 import { Link } from '../tags/Anchor'
 
 export default function StickyMenuBar({
-  hideSidebarToggleButton,
-  preventBarVisibility,
+  hideSidebarToggleButton = false,
+  preventBarVisibility = false,
 } = {}) {
   const context = React.useContext(Context)
   const { toggleMenu, isOpen } = React.useContext(SidebarMenuContext)
@@ -107,9 +106,7 @@ export default function StickyMenuBar({
                 : 'Show section content menu'
             }
           />
-          <MediaQuery when={{ min: 'medium' }} matchOnSSR>
-            <PortalToolsMenu />
-          </MediaQuery>
+          <PortalToolsMenu />
         </span>
       </div>
     </header>

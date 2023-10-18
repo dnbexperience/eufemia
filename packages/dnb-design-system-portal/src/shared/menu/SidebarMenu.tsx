@@ -9,9 +9,9 @@ import Anchor from '../tags/Anchor'
 import { useStaticQuery, graphql } from 'gatsby'
 import { SidebarMenuContext } from './SidebarMenuContext'
 import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
-import { Space, Icon, Badge } from '@dnb/eufemia/src/components'
+import { Icon, Badge } from '@dnb/eufemia/src/components'
 import type { ThemeNames } from '@dnb/eufemia/src/shared/Theme'
-import { MediaQuery, Context, useTheme } from '@dnb/eufemia/src/shared'
+import { Context, useTheme } from '@dnb/eufemia/src/shared'
 import graphics from './SidebarGraphics'
 import {
   setPageFocusElement,
@@ -152,18 +152,17 @@ export default function SidebarLayout({
       )}
       ref={scrollRef}
     >
-      <MediaQuery when={{ min: 0, max: 'medium' }}>
-        <Space left="large" top="large">
-          <PortalToolsMenu
-            triggerAttributes={{
-              text: 'Portal Tools',
-              icon: 'chevron_right',
-              icon_position: 'right',
-            }}
-            tooltipPosition="bottom"
-          />
-        </Space>
-      </MediaQuery>
+      <PortalToolsMenu
+        triggerAttributes={{
+          left: 'large',
+          top: 'large',
+          text: 'Portal Tools',
+          icon: 'chevron_right',
+          icon_position: 'right',
+        }}
+        tooltipPosition="bottom"
+        hideWhenMediaLarge
+      />
       <ul className="dev-grid">{navItems}</ul>
     </nav>
   )
