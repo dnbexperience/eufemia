@@ -201,7 +201,14 @@ export default function SidebarLayout({
   }
 }
 
-const ThemeBadge = ({ theme, ...props }: { theme: ThemeNames }) => {
+const ThemeBadge = ({
+  theme,
+  currentTheme,
+  ...props
+}: {
+  theme: ThemeNames
+  currentTheme: ThemeNames
+}) => {
   const themeTitle =
     theme &&
     {
@@ -217,6 +224,7 @@ const ThemeBadge = ({ theme, ...props }: { theme: ThemeNames }) => {
       className={classnames(
         'dnb-sidebar-menu__theme-badge',
         `dnb-sidebar-menu__theme-badge--${theme}`,
+        theme !== currentTheme && 'dnb-sidebar-menu__theme-badge--hidden',
       )}
       {...props}
     >
@@ -330,7 +338,7 @@ function ListItem({
               {title}
             </span>
           </span>
-          {theme === currentTheme && <ThemeBadge theme={theme} />}
+          {<ThemeBadge theme={theme} currentTheme={currentTheme} />}
           {status && (
             <Badge space={{ right: 'xx-small' }} content={statusTitle} />
           )}

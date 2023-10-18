@@ -243,6 +243,10 @@
         color: white;
       }
 
+      &.dnb-sidebar-menu__theme-badge--hidden {
+        display: none;
+      }
+
       &.dnb-sidebar-menu__theme-badge--sbanken {
         padding: 0;
         font-family: var(--sb-font-family-headings);
