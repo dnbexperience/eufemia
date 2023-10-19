@@ -27,6 +27,7 @@ import {
 } from '../../..'
 import { Provider } from '../../../shared'
 import { FieldBlock, Form } from '../../../extensions/forms'
+import type { GlobalStatusState } from '../GlobalStatus'
 // import { GlobalStatusProvider } from '../../global-status/GlobalStatusContext'
 
 export default {
