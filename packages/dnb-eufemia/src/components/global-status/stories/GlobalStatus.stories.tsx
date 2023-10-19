@@ -3,7 +3,7 @@
  *
  */
 
-import React from 'react'
+import React, { useState } from 'react'
 import { Wrapper, Box } from 'storybook-utils/helpers'
 
 import {
@@ -16,6 +16,8 @@ import {
   Button,
   Autocomplete,
   DatePicker,
+  Space,
+  Radio,
 } from '../..'
 import {
   Flex,
@@ -25,6 +27,7 @@ import {
 } from '../../..'
 import { Provider } from '../../../shared'
 import { FieldBlock, Form } from '../../../extensions/forms'
+import type { GlobalStatusState } from '../GlobalStatus'
 // import { GlobalStatusProvider } from '../../global-status/GlobalStatusContext'
 
 export default {
@@ -738,4 +741,45 @@ export const AsFigmaGlobalStatus = () => {
       </Box>
     </Wrapper>
   )
+}
+
+export function GlobalStatusSelector() {
+  const [pickerState, setPickerState] =
+    useState<GlobalStatusState>('warning')
+
+  return (
+    <Section spacing>
+      <Space left>
+        <GlobalStatus
+          show={true}
+          state={pickerState}
+          title={pickerState}
+          text={`You have chosen: ${pickerState}`}
+        />
+      </Space>
+      <Space top="large" left>
+        <Radio.Group label="Status states">
+          <Radio
+            label="warning"
+            value="warning"
+            onChange={setGlobalStatus}
+          />
+          <Radio label="info" value="info" onChange={setGlobalStatus} />
+          <Radio
+            label="success"
+            value="success"
+            onChange={setGlobalStatus}
+          />
+          <Radio label="error" value="error" onChange={setGlobalStatus} />
+        </Radio.Group>
+      </Space>
+    </Section>
+  )
+
+  function setGlobalStatus(event) {
+    const input = event.target as HTMLInputElement
+    const value = input.value as GlobalStatusState
+
+    setPickerState(value)
+  }
 }
