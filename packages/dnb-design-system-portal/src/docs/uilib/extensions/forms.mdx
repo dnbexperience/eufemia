@@ -86,13 +86,14 @@ An important point is that the components are data-driven. They are built on the
 
 Eufemia Forms consists of reusable components for data input, data display and surrounding layout for simplified user interface creation in React, built on top of base Eufemia components.
 
-The goal of the Forms extension is to make it easy to build forms and other data input features in DNB applications built with React.
-
 In summary:
 
 - Ready to use data driven form components.
-- Validation handling and [Ajv JSON schema validator](https://ajv.js.org/) support.
-- State management though a declarative `path="/firstName"` directive.
+- All functionality in all components can be controlled and overridden via props.
+- State management using the declarative [JSON Pointer](https://datatracker.ietf.org/doc/html/draft-ietf-appsawg-json-pointer-03) directive (i.e `path="/firstName"`).
+- Simple validation (like `minLength` on text fields) as well as [Ajv JSON schema validator](https://ajv.js.org/) support on both single fields and the whole data set.
+- Building blocks for [creating custom field components](/uilib/extensions/forms/create-component).
+- Static [value components](/uilib/extensions/forms/create-component/Value/) for displaying data with proper formatting.
 
 ### Basic field usage
 
