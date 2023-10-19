@@ -5,7 +5,7 @@ order: 2
 
 import * as Examples from 'Docs/uilib/helpers/Examples'
 
-## SASS and mixins
+# SASS and mixins
 
 All CSS helper classes are to be found in `src/style/core/helper-classes/helper-classes.scss`
 Most helper classes are SCSS _mixins_ which are then applied to the class when invoked.
@@ -23,7 +23,10 @@ You can import Eufemia _mixins_ directly into your SCSS styles:
 @include active {
 }
 
-/** Media Queries and Breakpoints */
+/** 
+ * Media Queries and Breakpoints 
+ * More info can be found in the sections below
+ */
 @include allBelow(large) {
 }
 @include allAbove(small) {
@@ -69,38 +72,58 @@ You can import Eufemia _mixins_ directly into your SCSS styles:
 @include fieldsetReset();
 ```
 
-### Media query mixin
+## Media queries and Breakpoints
 
-You can add an offset to the media query mixins, or customize the different sizes directly:
-
-**Add offset to all media queries**:
+Use the `allAbove` or `allBelow` mixins to add media queries to your css.
 
 ```scss
 @import '@dnb/eufemia/style/core/utilities.scss';
 
-// Will add the offset to each use of "allBelow" or "allAbove" (default: 0)
-$breakpoint-offset: -10em;
-```
-
-**Add offset to single media query:**
-
-```scss
-@import '@dnb/eufemia/style/core/utilities.scss';
-
-@include allBelow(large, 10em) {
-  // Adds 10em to this media query
+@include allBelow(large) {
 }
-@include allAbove(small, -5em) {
-  // Subtracts 5em from this media query
+
+@include allAbove(small) {
 }
 ```
 
-**Change value of each size:**
+`$breakpoints` is a key-value map containing all the available sizes for media queries
 
 ```scss
 @import '@dnb/eufemia/style/core/utilities.scss';
 
-// Changes the "medium" and "large" breakpoints
+// getting a size from $breakpoints
+div {
+  max-width: map-get($breakpoints, medium);
+}
+```
+
+### Custom offset
+
+You can either change the default value `$breakpoint-offset` (default: 0) from `utilities.scss`, or send in a custom offset to the mixin.
+
+```scss
+@import '@dnb/eufemia/style/core/utilities.scss';
+
+// Change the default offset (default: 0)
+$breakpoint-offset: 10em;
+
+// Will use the new default offset, adding 10em to the size
+@include allBelow(large) {
+}
+
+// You can also simply send in a custom offset
+@include allBelow(large, -5em) {
+}
+```
+
+### Custom size
+
+You can either change the default values in the `$breakpoints` array from `utilities.scss`, or send in a custom size to the mixin.
+
+```scss
+@import '@dnb/eufemia/style/core/utilities.scss';
+
+// Change default sizes
 $breakpoints: map-merge(
   $breakpints,
   (
@@ -108,21 +131,17 @@ $breakpoints: map-merge(
     'large': 90em,
   )
 );
-```
 
-**Use custom value:**
-
-```scss
-@import '@dnb/eufemia/style/core/utilities.scss';
-
-// You can also simply send in a custom value
-@include allBelow(10em) {
+// Will use the new default 'large' size of 90em
+@include allBelow(large) {
 }
-@include allAbove(5em) {
+
+// You can also simply send in a custom size
+@include allBelow(90em) {
 }
 ```
 
-### Formset reset
+## Formset reset
 
 Removes default styling on a `fieldset` element.
 
